@@ -35785,3 +35785,61 @@ Decision: DU9IJ prep is accepted as planning telemetry.  As with DU9II, do not
 attempt the monolithic batch route.  Emit and guard the ranks one at a time
 with split trace/selected-impact components, then assemble a shallow DU9IJ
 split batch root only after all four rank roots pass.
+
+### Phase 6Z6K8AP16DU9IJ - rank 503 split cover accepted
+
+The first DU9IJ proof-producing rank was emitted from the prepared batch using
+the smallest validated cover:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ij_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ij_compact_hcover_batch_source.json \
+  --rank 503 \
+  --tag DU9IJ \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IJ' \
+  --report scripts/generated/phase6z6k8ap16du9ij_split_cover_rank503_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 7 \
+  --component-selected-impact 10
+```
+
+Generated topology:
+
+- selected word impacts: `[0, 1, 3, 5, 6, 7, 10]`;
+- selected subcubes: `15`;
+- guarded targets: `55`;
+- selected-impact normal component targets:
+  - `rank503_impact6_x`, `rank503_impact6_y`, `rank503_impact6_z`;
+  - `rank503_impact7_x`, `rank503_impact7_y`, `rank503_impact7_z`;
+  - `rank503_impact10_x`, `rank503_impact10_y`, `rank503_impact10_z`.
+
+The emitted rank was then checked with the same strict serial guard:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ij_split_cover_rank503_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ij_split_cover_rank503_guard_4200.json \
+  --out-dir /tmp/ap16du9ij_split_cover_rank503_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `55`;
+- peak tree RSS: `4160.63 MiB`;
+- peak target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank503SplitFinalXSmoke`;
+- minimum available memory observed: `45865.71 MiB`;
+- summed target elapsed time: `188.25s`;
+- killed targets: `0`.
+
+Decision: rank `503` is accepted.  Continue DU9IJ one rank at a time under
+the same serial guard before creating the shallow DU9IJ split batch root.
