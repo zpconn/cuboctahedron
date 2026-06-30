@@ -34093,3 +34093,98 @@ The next implementation step is DU9IG batch preparation for those five ranks.
 Use the split-cover topology by default, keep monolithic cover modules out of
 the accepted path, and continue checking all generated Lean under the
 `4200 MiB` process-tree RSS guard with a `12000 MiB` available-memory floor.
+
+### Phase 6Z6K8AP16DU9IG - compact h-cover batch prep accepted
+
+DU9IG prepares the next bounded compact h-cover batch for ranks:
+
+```text
+261, 263, 269, 315, 317
+```
+
+The positive-survivor profile was run on `[256,320)`:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_positive_survivor_membership_256_320.json
+scripts/generated/phase6z6k8ap16du9ig_positive_survivor_membership_256_320.md
+```
+
+Summary:
+
+- ranks with GoodDirection survivors: `5`;
+- GoodDirection cases: `41`;
+- positive candidate groups: `12`;
+- positive survivor signatures: `5`;
+- ambiguous memberships: `0`;
+- bad-direction evidence emitted: `0`;
+- wall time: `0.45s`;
+- max RSS: `26.9 MiB`.
+
+The compact Walsh cover sampler was updated so it accepts either `ranks` or
+`sample_ranks` in survivor-signature rows.  This compatibility fix is needed
+because the bounded positive-survivor profile exposes `sample_ranks` in the
+top-signature table and `ranks` in the full catalog.
+
+The compact Walsh cover scaling profile then covered all five signatures:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_compact_walsh_cover_scaling.json
+scripts/generated/phase6z6k8ap16du9ig_compact_walsh_cover_scaling.md
+```
+
+Summary:
+
+- sampled signatures: `5`;
+- uncovered signatures: `0`;
+- selected subcubes total: `86`;
+- selected subcubes max: `21`;
+- selected word-impact union: `[0, 1, 3, 5, 6, 7, 9, 10, 11]`;
+- wall time: `8.04s`;
+- max RSS: `26.8 MiB`.
+
+Per-rank cover profiles were materialized for the batch:
+
+| Rank | Anchor mask | Good masks | Selected subcubes | Uncovered |
+| ---: | ---: | ---: | ---: | ---: |
+| `261` | `13` | `7` | `19` | `0` |
+| `263` | `7` | `8` | `16` | `0` |
+| `269` | `7` | `11` | `16` | `0` |
+| `315` | `9` | `7` | `21` | `0` |
+| `317` | `7` | `8` | `14` | `0` |
+
+The DU9IG batch plan/source was prepared here:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_compact_hcover_batch_plan.json
+scripts/generated/phase6z6k8ap16du9ig_compact_hcover_batch_source.json
+scripts/generated/phase6z6k8ap16du9ig_compact_hcover_batch_prep.json
+scripts/generated/phase6z6k8ap16du9ig_compact_hcover_batch_prep.md
+```
+
+The dry-run batch generator was checked with trace step `12` and final-vector
+component splitting enabled:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --plan scripts/generated/phase6z6k8ap16du9ig_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ig_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9ig_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IGBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IGBatchSmoke \
+  --component-trace-step 12 \
+  --component-trace-final
+```
+
+Dry-run result:
+
+- status: `dry_run`;
+- signatures: `5`;
+- planned targets: `156`;
+- trace step `12`: split into `x/y/z` components;
+- final vector: split into `x/y/z` components;
+- wall time: `0.06s`;
+- max RSS: `27.3 MiB`.
+
+Decision: DU9IG prep is accepted.  Next, emit split-cover modules rank by rank
+with `--component-trace-step 12 --component-trace-final`, guard each rank under
+the `4200 MiB` RSS cap, and only then add a shallow DU9IG split batch root.

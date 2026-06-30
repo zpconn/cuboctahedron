@@ -30,13 +30,21 @@ DEFAULT_OUTPUT = Path(
 )
 
 
+def signature_ranks(signature: dict[str, Any]) -> list[int]:
+    """Return representative ranks from either compact or full catalog rows."""
+    return [
+        int(rank)
+        for rank in signature.get("ranks", signature.get("sample_ranks", []))
+    ]
+
+
 def select_signatures(profile: dict[str, Any], limit: int) -> list[dict[str, Any]]:
     signatures = profile.get("top_positive_survivor_signatures", [])
     if not signatures:
         signatures = profile.get("positive_survivor_signature_catalog", [])
     selected = []
     for signature in signatures:
-        ranks = [int(rank) for rank in signature.get("ranks", [])]
+        ranks = signature_ranks(signature)
         good_masks = [int(mask) for mask in signature.get("good_masks", [])]
         if ranks and good_masks:
             selected.append(signature)
@@ -133,7 +141,7 @@ def main() -> None:
     signatures = select_signatures(source_profile, args.limit)
     results = []
     for index, signature in enumerate(signatures):
-        rank = int(signature["ranks"][0])
+        rank = signature_ranks(signature)[0]
         anchor_mask = int(signature["good_masks"][0])
         cover = profile_walsh_cover(args.profile, rank, anchor_mask)
         cover["sample_index"] = index
