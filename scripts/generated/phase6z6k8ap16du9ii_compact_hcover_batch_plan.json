@@ -1,0 +1,205 @@
+{
+  "entries": [
+    {
+      "anchor_mask": 7,
+      "bad_mask_count": 56,
+      "candidate_subcube_count": 270,
+      "good_mask_count": 8,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank384",
+      "rank": 384,
+      "selected_subcube_count": 15,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        9
+      ],
+      "signature_key_prefix": "du9ii_rank384"
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 53,
+      "candidate_subcube_count": 212,
+      "good_mask_count": 11,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank387",
+      "rank": 387,
+      "selected_subcube_count": 16,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        11
+      ],
+      "signature_key_prefix": "du9ii_rank387"
+    },
+    {
+      "anchor_mask": 7,
+      "bad_mask_count": 51,
+      "candidate_subcube_count": 232,
+      "good_mask_count": 13,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank389",
+      "rank": 389,
+      "selected_subcube_count": 13,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        10
+      ],
+      "signature_key_prefix": "du9ii_rank389"
+    },
+    {
+      "anchor_mask": 5,
+      "bad_mask_count": 57,
+      "candidate_subcube_count": 238,
+      "good_mask_count": 7,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank413",
+      "rank": 413,
+      "selected_subcube_count": 19,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "signature_key_prefix": "du9ii_rank413"
+    },
+    {
+      "anchor_mask": 7,
+      "bad_mask_count": 53,
+      "candidate_subcube_count": 226,
+      "good_mask_count": 11,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank444",
+      "rank": 444,
+      "selected_subcube_count": 17,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        7,
+        9
+      ],
+      "signature_key_prefix": "du9ii_rank444"
+    },
+    {
+      "anchor_mask": 13,
+      "bad_mask_count": 57,
+      "candidate_subcube_count": 227,
+      "good_mask_count": 7,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank447",
+      "rank": 447,
+      "selected_subcube_count": 18,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        7,
+        11
+      ],
+      "signature_key_prefix": "du9ii_rank447"
+    }
+  ],
+  "gate": {
+    "accepted": true,
+    "lake_jobs": 1,
+    "lean_num_threads": 1,
+    "max_tree_rss_mib": 5000,
+    "min_available_mib": 12000,
+    "reason": "compact hcover batch profiles are Walsh-validated with zero uncovered masks; Lean emission still requires guarded builds"
+  },
+  "phase": "Phase 6Z.6K.8AP.16DU.9II",
+  "schema_version": 1,
+  "source_profiles": [
+    "scripts/generated/phase6z6k8ap16du9ii_rank384_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ii_rank387_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ii_rank389_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ii_rank413_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ii_rank444_walsh_subcube_cover.json",
+    "scripts/generated/phase6z6k8ap16du9ii_rank447_walsh_subcube_cover.json"
+  ],
+  "summary": {
+    "planned_serial_lean_targets": 61,
+    "rank_count": 6,
+    "selected_subcube_total": 98,
+    "selected_word_impact_union_count": 10,
+    "selected_word_impacts_union": [
+      0,
+      1,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "signature_count": 6
+  },
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}

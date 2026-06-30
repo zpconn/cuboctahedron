@@ -1,0 +1,176 @@
+{
+  "entries": [
+    {
+      "anchor_mask": 7,
+      "bad_mask_count": 56,
+      "candidate_subcube_count": 270,
+      "good_mask_count": 8,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank384",
+      "rank": 384,
+      "selected_subcube_count": 15,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        9
+      ],
+      "signature_key_prefix": "du9ii_rank384"
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 53,
+      "candidate_subcube_count": 212,
+      "good_mask_count": 11,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank387",
+      "rank": 387,
+      "selected_subcube_count": 16,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        11
+      ],
+      "signature_key_prefix": "du9ii_rank387"
+    },
+    {
+      "anchor_mask": 7,
+      "bad_mask_count": 51,
+      "candidate_subcube_count": 232,
+      "good_mask_count": 13,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank389",
+      "rank": 389,
+      "selected_subcube_count": 13,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        10
+      ],
+      "signature_key_prefix": "du9ii_rank389"
+    },
+    {
+      "anchor_mask": 5,
+      "bad_mask_count": 57,
+      "candidate_subcube_count": 238,
+      "good_mask_count": 7,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank413",
+      "rank": 413,
+      "selected_subcube_count": 19,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "signature_key_prefix": "du9ii_rank413"
+    },
+    {
+      "anchor_mask": 7,
+      "bad_mask_count": 53,
+      "candidate_subcube_count": 226,
+      "good_mask_count": 11,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank444",
+      "rank": 444,
+      "selected_subcube_count": 17,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        7,
+        9
+      ],
+      "signature_key_prefix": "du9ii_rank444"
+    },
+    {
+      "anchor_mask": 13,
+      "bad_mask_count": 57,
+      "candidate_subcube_count": 227,
+      "good_mask_count": 7,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank447",
+      "rank": 447,
+      "selected_subcube_count": 18,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        7,
+        11
+      ],
+      "signature_key_prefix": "du9ii_rank447"
+    }
+  ],
+  "generation_report": "scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_generation.json",
+  "next_command": "python3 scripts/generate_ap16dj_compact_walsh_batch.py --plan scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_plan.json --source scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_source.json --report scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_generation.json --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IIBatchSmoke.lean --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IIBatchSmoke",
+  "next_emit_command": "python3 scripts/generate_ap16dj_compact_walsh_batch.py --emit --plan scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_plan.json --source scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_source.json --report scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_generation.json --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IIBatchSmoke.lean --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IIBatchSmoke",
+  "phase": "Phase 6Z.6K.8AP.16DU.9II",
+  "plan": "scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_plan.json",
+  "root_lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IIBatchSmoke.lean",
+  "root_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IIBatchSmoke",
+  "schema_version": 1,
+  "source": "scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_source.json",
+  "trusted_as_proof": false
+}

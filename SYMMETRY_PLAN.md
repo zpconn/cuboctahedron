@@ -35139,3 +35139,131 @@ Decision: DU9IH is accepted as a bounded split-cover batch.  The next compact
 h-cover window should continue the same operational pattern: pick the next
 bounded rank batch, emit/check each split rank root serially under the RSS
 guard, and only then add a shallow batch root over the accepted rank roots.
+
+### Phase 6Z6K8AP16DU9II - next compact window and batch prep accepted
+
+The next bounded frontier diagnostic was run on `[384,448)` with Python-only
+parallelism.  No Lean modules were emitted or built in this checkpoint:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 384 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 8 \
+  --json scripts/generated/phase6z6k8ap16du9ii_next_compact_hcover_ranks_384_448.json \
+  --md scripts/generated/phase6z6k8ap16du9ii_next_compact_hcover_ranks_384_448.md
+```
+
+Result: accepted in `0.47s` wall time with `25.3 MiB` maximum RSS.  The
+frontier pass recommended six ranks:
+
+```text
+384, 387, 389, 413, 444, 447
+```
+
+The positive-survivor membership pass was then run on the same bounded window:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_ap16i_positive_survivor_membership.py \
+  --ranges 384:448 \
+  --jobs 4 \
+  --sample-limit 16 \
+  --signature-gate 16 \
+  --candidate-gate 32 \
+  --json scripts/generated/phase6z6k8ap16du9ii_positive_survivor_membership_384_448.json \
+  --md scripts/generated/phase6z6k8ap16du9ii_positive_survivor_membership_384_448.md
+```
+
+Summary:
+
+- ranks with GoodDirection survivors: `6`;
+- GoodDirection cases: `57`;
+- positive candidate groups: `14`;
+- positive survivor signatures: `6`;
+- bad-direction evidence emitted: `0`;
+- duplicate rank/mask memberships: `0`;
+- ambiguous GoodDirection memberships: `0`;
+- wall time: `0.48s`;
+- max RSS: `26.9 MiB`.
+
+The compact Walsh cover scaling pass found exact subcube covers for all six
+survivor signatures:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_ap16dd_compact_walsh_cover_scaling.py \
+  --profile scripts/generated/phase6z6k8ap16du9ii_positive_survivor_membership_384_448.json \
+  --output scripts/generated/phase6z6k8ap16du9ii_compact_walsh_cover_scaling.json \
+  --limit 16
+```
+
+Summary:
+
+- sampled signatures: `6`;
+- uncovered signatures: `0`;
+- selected subcubes total: `98`;
+- selected subcubes max: `19`;
+- selected word-impact union:
+  `[0, 1, 3, 5, 6, 7, 8, 9, 10, 11]`;
+- wall time: `9.15s`;
+- max RSS: `27.2 MiB`.
+
+Per-rank Walsh cover profiles were then materialized explicitly for batch prep:
+
+| Rank | Anchor mask | Selected subcubes | Uncovered |
+| ---: | ---: | ---: | ---: |
+| `384` | `7` | `15` | `0` |
+| `387` | `8` | `16` | `0` |
+| `389` | `7` | `13` | `0` |
+| `413` | `5` | `19` | `0` |
+| `444` | `7` | `17` | `0` |
+| `447` | `13` | `18` | `0` |
+
+The DU9II plan/source pair was prepared from those six validated rank profiles:
+
+```bash
+/usr/bin/time -v python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile-glob 'scripts/generated/phase6z6k8ap16du9ii_rank*_walsh_subcube_cover.json' \
+  --output-prefix scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IIBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IIBatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9II' \
+  --signature-key-prefix du9ii
+```
+
+Result: passed in `0.02s` with `14.4 MiB` maximum RSS, writing:
+
+```text
+scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_plan.json
+scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_source.json
+scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_prep.{json,md}
+```
+
+The split-policy dry-run used the same component splitting that kept DU9IH
+under the `4200 MiB` serial guard:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --plan scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IIBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IIBatchSmoke \
+  --component-trace-step 12 \
+  --component-trace-final
+```
+
+Dry-run result:
+
+- status: `dry_run`;
+- signatures/ranks: `6`;
+- planned targets: `187`;
+- wall time: `0.06s`;
+- max RSS: `27.3 MiB`.
+
+Decision: DU9II prep is accepted as planning telemetry.  The next
+proof-producing step should emit and check the six split rank roots one at a
+time with `generate_ap16du_split_compact_cover.py`, keeping the strict serial
+`4200 MiB` process-tree RSS guard and adding selected-impact component splits
+if any target approaches the cap.  Do not attach these files to a broad root
+until every per-rank guard report has passed.
