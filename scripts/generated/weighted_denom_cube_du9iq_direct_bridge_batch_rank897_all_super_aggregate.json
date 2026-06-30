@@ -1,0 +1,13 @@
+{
+  "batch_count": 3,
+  "batch_modules": [
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank897Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank897Idx20To25Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank897Idx26To27Smoke"
+  ],
+  "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank897AllSmoke",
+  "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeBatchRank897AllSmoke.lean",
+  "phase": "Phase 6Z6K8AP16DU9IQ traced direct bridge super-aggregate",
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}

@@ -41466,3 +41466,75 @@ through two batch roots and one combined super-root.  The next step should plan
 another rank-`897` frontier with `--skip-existing-bridges` and continue the
 same bounded pattern; do not import this combined root into broad generated
 coverage yet.
+
+### Phase 6Z6K8AP16DU9IQ - rank-897 traced bridge frontier exhausted
+
+A final rank-`897` `--skip-existing-bridges` plan selected the remaining two
+bridge leaves, summaries `26` and `27`:
+
+- plan JSON:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank897_next2.json`;
+- plan Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank897_next2.md`.
+
+No new normal traces were required; indices `7`, `9`, and `10` were already
+available from the accepted rank-`897` trace prerequisites.
+
+Generated final bridge leaves:
+
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx26Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx27Smoke`.
+
+Generated final batch root:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank897Idx26To27Smoke
+```
+
+Generated all-root over the three rank-`897` batch roots:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank897AllSmoke
+```
+
+The final two bridge leaves passed under the `12 GiB` guard:
+
+- bridge count: `2`;
+- total serial elapsed time: `7.51s`;
+- worst bridge target:
+  `weighted_denom_cube_du9iq_direct_bridge_generated_idx27_guard.json`;
+- worst bridge elapsed time: `2.50s`;
+- worst bridge peak tree RSS: `4120 MiB`;
+- lowest available memory seen during bridge builds: `45943 MiB`.
+
+The final batch root passed:
+
+- elapsed time: `3.00s`;
+- peak tree RSS: `4032 MiB`;
+- minimum available memory seen: `46039 MiB`.
+
+The rank-`897` all-root passed:
+
+- elapsed time: `3.00s`;
+- peak tree RSS: `3715 MiB`;
+- minimum available memory seen: `46162 MiB`.
+
+A follow-up exhausted plan was written:
+
+- JSON:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank897_exhausted.json`;
+- Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank897_exhausted.md`.
+
+It reports:
+
+- selected cubes: `0`;
+- skipped existing bridge leaves: `14`;
+- unique normal traces: `0`.
+
+Decision: accepted.  Rank `897` is now exhausted for the current DU9IQ
+traced-direct-bridge profile slice: all fourteen reduced-bound bridge leaves
+exist, all were checked serially under guard, and an all-root composes the three
+rank-local batch roots.  The next scaling step is to run the same plan-first
+process for the next candidate rank or profile slice, keeping vector traces,
+normal traces, bridge leaves, and aggregates checkpointed separately.

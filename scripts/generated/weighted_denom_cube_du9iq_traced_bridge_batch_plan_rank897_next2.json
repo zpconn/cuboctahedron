@@ -1,0 +1,104 @@
+{
+  "bridge_task_count": 2,
+  "bridge_tasks": [
+    {
+      "emit_command": "python3 scripts/emit_du9iq_traced_direct_bridge.py --summary-index 26 --stem WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx26 --standalone-reduced --vector-trace-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank897ChainSmoke --normal-trace-stem WeightedDenomCubeDU9IQNormalTraceRank897 --report scripts/generated/weighted_denom_cube_du9iq_direct_bridge_generated_idx26.json",
+      "exists": false,
+      "guard_command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_generated_idx26_guard.json -- env LAKE_JOBS=1 lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx26Smoke",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx26Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx26Smoke.lean",
+      "pattern": "*0*111",
+      "rank": 897,
+      "required_normal_indices": [
+        7,
+        9
+      ],
+      "summary_index": 26,
+      "support": [
+        8,
+        10
+      ],
+      "weights": [
+        "1",
+        "1"
+      ]
+    },
+    {
+      "emit_command": "python3 scripts/emit_du9iq_traced_direct_bridge.py --summary-index 27 --stem WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx27 --standalone-reduced --vector-trace-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank897ChainSmoke --normal-trace-stem WeightedDenomCubeDU9IQNormalTraceRank897 --report scripts/generated/weighted_denom_cube_du9iq_direct_bridge_generated_idx27.json",
+      "exists": false,
+      "guard_command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_generated_idx27_guard.json -- env LAKE_JOBS=1 lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx27Smoke",
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx27Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx27Smoke.lean",
+      "pattern": "001*10",
+      "rank": 897,
+      "required_normal_indices": [
+        10
+      ],
+      "summary_index": 27,
+      "support": [
+        11
+      ],
+      "weights": [
+        "1"
+      ]
+    }
+  ],
+  "limit": 6,
+  "memory_policy": "serial Lean builds only; do not run this batch through a cold broad lake build",
+  "normal_indices": [
+    7,
+    9,
+    10
+  ],
+  "normal_task_count": 3,
+  "normal_tasks": [
+    {
+      "emit_command": "python3 scripts/emit_ap16du9ce_trace_cert_normal_trace_micro_smoke.py --rank 897 --index 7 --stem WeightedDenomCubeDU9IQNormalTraceRank897 --trace-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank897ChainSmoke --report scripts/generated/weighted_denom_cube_du9iq_normal_trace_rank897_idx07_generation.json",
+      "exists": true,
+      "guard_command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_normal_trace_rank897_idx07_guard.json -- env LAKE_JOBS=1 lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank897Idx07Smoke",
+      "index": 7,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank897Idx07Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQNormalTraceRank897Idx07Smoke.lean"
+    },
+    {
+      "emit_command": "python3 scripts/emit_ap16du9ce_trace_cert_normal_trace_micro_smoke.py --rank 897 --index 9 --stem WeightedDenomCubeDU9IQNormalTraceRank897 --trace-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank897ChainSmoke --report scripts/generated/weighted_denom_cube_du9iq_normal_trace_rank897_idx09_generation.json",
+      "exists": true,
+      "guard_command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_normal_trace_rank897_idx09_guard.json -- env LAKE_JOBS=1 lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank897Idx09Smoke",
+      "index": 9,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank897Idx09Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQNormalTraceRank897Idx09Smoke.lean"
+    },
+    {
+      "emit_command": "python3 scripts/emit_ap16du9ce_trace_cert_normal_trace_micro_smoke.py --rank 897 --index 10 --stem WeightedDenomCubeDU9IQNormalTraceRank897 --trace-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank897ChainSmoke --report scripts/generated/weighted_denom_cube_du9iq_normal_trace_rank897_idx10_generation.json",
+      "exists": true,
+      "guard_command": "python3 scripts/run_memory_guarded.py --max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5 --json scripts/generated/weighted_denom_cube_du9iq_normal_trace_rank897_idx10_guard.json -- env LAKE_JOBS=1 lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank897Idx10Smoke",
+      "index": 10,
+      "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQNormalTraceRank897Idx10Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQNormalTraceRank897Idx10Smoke.lean"
+    }
+  ],
+  "normal_trace_stem": "WeightedDenomCubeDU9IQNormalTraceRank897",
+  "phase": "Phase 6Z6K8AP16DU9IQ traced direct bridge batch plan",
+  "profile": "scripts/generated/phase6z6k8ap16du9iq_weighted_reduced_quadratic_bounds_profile.json",
+  "rank": 897,
+  "selected_count": 2,
+  "skip_existing_bridges": true,
+  "skipped_existing_bridge_count": 12,
+  "skipped_existing_bridge_summaries": [
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25
+  ],
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false,
+  "vector_trace_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank897ChainSmoke"
+}
