@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 20000.0,
+  "command": [
+    "bash",
+    "-lc",
+    "export LEAN_NUM_THREADS=1; timeout 300s lake env lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshVectorTraceRank714SplitDataSmoke.lean"
+  ],
+  "elapsed_seconds": 6.259061472985195,
+  "exit_code": -15,
+  "killed_reason": "process-tree RSS 3088 MiB exceeded 3000 MiB cap",
+  "max_tree_rss_kib": 3162636,
+  "max_tree_rss_mib": 3088.51171875,
+  "min_available_seen_kib": 47393812,
+  "min_available_seen_mib": 46283.01953125,
+  "rss_cap_mib": 3000.0
+}

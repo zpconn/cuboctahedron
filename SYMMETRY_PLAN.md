@@ -37941,3 +37941,56 @@ guarded, or wait for a smaller theorem surface that avoids loading transitive
 rank/subcube artifacts.  The current safe rule is: pair roots may use a
 `4400 MiB` RSS cap with a `12000 MiB` available-memory floor; anything wider
 must be treated as experimental and killed on first guard breach.
+
+### Phase 6Z6K8AP16DU9IN - rank 714 split cover accepted
+
+The next compact h-cover frontier scan covered ranks `[704,768)` and selected
+four identity ranks for the DU9IN batch:
+
+```text
+714, 716, 724, 748
+```
+
+Rank `714` was emitted first with the same theorem-only split-cover topology
+used for the accepted DU9IM ranks.  Before allowing the full serial lane, two
+low-cap probes were run in response to an OOM warning:
+
+- a `3000 MiB` `lake build` probe on the first trace-data target stopped at
+  `3036.47 MiB`;
+- a direct `lake env lean` probe on the same file stopped at `3088.51 MiB`.
+
+Both stops were clean memory-guard terminations, not host OOM events.  They
+showed that this proof surface has a roughly `3 GiB` dependency-load baseline,
+so `3000 MiB` is too low for meaningful theorem-only checking.  The host still
+had more than `46 GiB` available during both probes.
+
+The accepted guarded rank pass was then run serially:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9in_split_cover_rank714_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9in_split_cover_rank714_guard_4200.json \
+  --out-dir /tmp/ap16du9in_split_cover_rank714_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Full guarded pass summary:
+
+- status: `passed`;
+- target count: `59`;
+- guard cap: `4200 MiB`;
+- maximum process-tree RSS: `4167.59 MiB`;
+- peak target:
+  `ImpactSubcubeWalshVectorTraceRank714SplitFinalZSmoke`;
+- split-cover root RSS: `4117.47 MiB`;
+- minimum available memory seen: `45922.66 MiB`.
+
+Decision: rank `714` is accepted under the theorem-only split-cover topology.
+The low-cap probe confirmed that future DU9IN ranks should not use a `3000 MiB`
+cap, and parallel Lean checking is still disallowed for this lane.  Continue
+with ranks `716`, `724`, and `748`, one rank at a time, under the serial
+`4200 MiB` process-tree guard and `12000 MiB` available-memory floor.  Python
+profiling/generation may remain parallel where workers are memory-light.
