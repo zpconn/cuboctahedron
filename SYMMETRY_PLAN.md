@@ -32232,3 +32232,68 @@ works.  Continue with the remaining DU9HN ranks using the same operational
 policy: ordinary targets at `4300 MiB`, isolated `trace_step_12` and
 `trace_final` at `4400 MiB` only if the `4300 MiB` guard stops them by a small
 margin, and no broad package builds.
+
+### Phase 6Z.6K.8AP.16DU.9HP checkpoint: rank89 trace prerequisites partially accepted
+
+Phase 6Z.6K.8AP.16DU.9HP starts the same DU9HN split-cover verification for
+rank `89`, but records a safety checkpoint before attempting the known
+higher-memory prerequisite outliers.
+
+Emission command:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_source.json \
+  --rank 89 \
+  --tag DU9HN \
+  --phase 'Phase 6Z.6K.8AP.16DU.9HN' \
+  --report scripts/generated/phase6z6k8ap16du9hn_split_cover_rank89_generation.json
+```
+
+The emitted rank89 report contains `42` guarded targets:
+
+- `24` prerequisite targets;
+- `17` split subcube targets;
+- `1` split rank root.
+
+The first guarded prerequisite slice built only the trace data and
+`trace_step_00` through `trace_step_11`:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9hn_split_cover_rank89_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9hn_rank89_trace_00_11_guard_4300.json \
+  --out-dir /tmp/ap16du9hn_rank89_trace_00_11_guard_4300 \
+  --target-kind trace_data \
+  --target-kind trace_step_00 \
+  --target-kind trace_step_01 \
+  --target-kind trace_step_02 \
+  --target-kind trace_step_03 \
+  --target-kind trace_step_04 \
+  --target-kind trace_step_05 \
+  --target-kind trace_step_06 \
+  --target-kind trace_step_07 \
+  --target-kind trace_step_08 \
+  --target-kind trace_step_09 \
+  --target-kind trace_step_10 \
+  --target-kind trace_step_11 \
+  --rss-cap-mib 4300 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed.  The slice built `13` targets in `37.91s` wall time.  Peak
+tree RSS was `4171.59 MiB`; minimum available memory observed was
+`45909.91 MiB`.
+
+Safety decision: accepted only as a partial prerequisite checkpoint.  No
+`trace_step_12`, `trace_final`, selected-impact, subcube, or split-root targets
+were run in this checkpoint.  After an OOM-risk warning, a host process audit
+confirmed no active Lean/Lake/project generator process.  The next rank89 step
+must avoid assuming the rank87 outlier envelope automatically transfers: probe
+`trace_step_12` and `trace_final` separately, stop on the first guard failure,
+and consider splitting or postponing the outlier targets rather than raising the
+cap above `4400 MiB`.

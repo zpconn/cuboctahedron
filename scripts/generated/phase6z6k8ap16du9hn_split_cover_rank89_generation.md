@@ -1,6 +1,6 @@
 # Phase 6Z.6K.8AP.16DU.9HN Split Compact Cover
 
-Status: `dry_run`.
+Status: `emitted_pending_guarded_build`.
 
 - rank: `89`
 - selected subcubes: `17`
