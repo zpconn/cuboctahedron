@@ -8,7 +8,7 @@ Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8AP.16DU.9EV.
+semantic classifier surface for Phase 6Z.6K.8AP.16DU.9EX.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -4036,6 +4036,24 @@ theorem sourceIndexFactsCatalog_of_classifierKey_source_row_bool
       hcomplete hlt hlo hhi hM
         (goodDirectionAtRankBool_eq_true_of_goodDirection hgood))
 
+theorem classifierTemplateLanguageMemberBridge_of_key_source_row
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                    SourceIndexStateRowFacts
+                      key.toSourceIndexStateKey rank mask) :
+    TemplateLanguageMemberBridgeOnRange 0 5000 := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcomplete hlt hlo hhi hM hgood with ⟨key, hsource, hrows⟩
+  exact TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows
+
 theorem classifierDescriptorCoverage_of_sourceIndexFactsCatalog
     (hcomplete :
       SourceRowFactsGoodCatalogOnRange classifierSourceIndexKeyAt 0 5000) :
@@ -4074,8 +4092,8 @@ theorem classifierTemplateLanguageCoverage_of_key_source_row
                     SourceIndexStateRowFacts
                       key.toSourceIndexStateKey rank mask) :
     TemplateLanguageCoverageOnIdentityRange 0 5000 :=
-  classifierTemplateLanguageCoverage_of_sourceIndexFactsCatalog
-    (sourceIndexFactsCatalog_of_classifierKey_source_row hcomplete)
+  TemplateLanguageMemberBridgeOnRange.to_coverage
+    (classifierTemplateLanguageMemberBridge_of_key_source_row hcomplete)
 
 theorem classifierDescriptorBoolCoverage_of_key_source_row_bool
     (hcomplete :

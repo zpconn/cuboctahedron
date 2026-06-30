@@ -28777,3 +28777,63 @@ translation state-language work.  A production module can now prove
 support/source details if needed, and erase it to coverage using one tiny
 theorem.  This further demotes finite source-index catalogs to compatibility
 adapters rather than production targets.
+
+### Phase 6Z.6K.8AP.16DU.9EX checkpoint: generator emits member bridge
+
+Phase 6Z.6K.8AP.16DU.9EX updates the bounded classifier smoke generator to
+emit the new direct membership bridge before erasing to coverage:
+
+```lean
+theorem classifierTemplateLanguageMemberBridge_of_key_source_row
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                    SourceIndexStateRowFacts
+                      key.toSourceIndexStateKey rank mask) :
+    TemplateLanguageMemberBridgeOnRange 0 5000
+```
+
+The generated `classifierTemplateLanguageCoverage_of_key_source_row` now
+factors through `TemplateLanguageMemberBridgeOnRange.to_coverage` instead of
+building a finite catalog first.
+
+Regeneration command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 240s \
+  python3 scripts/generate_source_index_state_classifier_smoke.py \
+    --jobs 1 --family-count 125 --phase 6Z.6K.8AP.16DU.9EX
+```
+
+Result: emitted the bounded smoke in `elapsed=1:03.59`,
+`max_rss_kb=37660`, selected all `125` bounded families covering `4693`
+bounded cases.
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
+```
+
+Result: passed in `elapsed=0:02.58`, `max_rss_kb=3321436`.
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean
+```
+
+Result: passed in `elapsed=0:03.75`, `max_rss_kb=3503412`.
+
+Decision: generated bounded smokes now expose the same direct member-bridge
+surface that the production route should use.  This removes one more catalog
+dependency from the theorem path, but it does not solve the central remaining
+problem: proving `TemplateLanguageMemberBridgeOnRange` for large compressed
+state/algebraic languages without enumerating rank/mask cases.
