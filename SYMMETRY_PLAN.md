@@ -43728,3 +43728,66 @@ portfolio profiling.  Next step: generate a source-row module using the
 generated positive bridge module name, so the entire rank-`896`
 GoodDirection-to-coverage path is generated end-to-end rather than mixed
 generated/manual.
+
+### Phase 6Z6K8AP16DU9IQ21 - generated rank-896 weighted source-row path accepted
+
+A fresh rank-`896` source-row signature module was generated using the generated
+positive-mask bridge module from Phase 6Z6K8AP16DU9IQ20:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896PositiveGeneratedPrecomputedSignatureSmoke
+```
+
+Generation command:
+
+```bash
+python3 scripts/generate_ap16t_precomputed_signature_smoke.py \
+  --rank 896 \
+  --mask 9 \
+  --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank896PositiveGeneratedPrecomputedSignatureSmoke.lean \
+  --weighted-positive-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksGeneratedSmoke
+```
+
+This generated module imports the generated positive bridge and exports:
+
+```lean
+generatedSingletonSignatureWeightedClosedSemanticAllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 896 897
+```
+
+The resulting path is now generated end-to-end for the bounded rank-`896`
+slice:
+
+```text
+direct traced weighted leaves
+  -> generated weighted cover root
+  -> generated positive-mask bridge
+  -> generated source-row signature module
+  -> AllTranslationGoodCoverageOnRange 896 897
+```
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank896_positive_generated_signature_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896PositiveGeneratedPrecomputedSignatureSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `62.17s` | `7934 MiB` | `39961 MiB` | `0` |
+
+Decision: accepted as the first fully generated bounded pipeline from traced
+weighted denominator evidence to semantic translation good-case coverage.  This
+is still only a single rank/signature slice, and the source-row module remains
+the dominant cost.  The next scaling question is not proof shape but batching:
+profile whether several rank/signature slices can share one source-row module
+or whether each slice must remain around this `~8 GiB`, `~1 minute` build
+profile.
