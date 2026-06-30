@@ -40316,3 +40316,56 @@ producer for the weighted cube nonpositivity premise.  The old
 references, but the production producer must avoid compact-Walsh roots,
 `pairPrefixLinearNat` replay, `fin_cases mask`, rank-local Boolean reduction,
 and large public generated arrays.
+
+### Phase 6Z6K8AP16DU9IQ - weighted Walsh quadratic obstruction adapter accepted
+
+The DU9IQ weighted-cover producer surface was narrowed one step further.  A new
+hand-written module was added:
+
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedWalshQuadraticObstruction.lean`.
+
+It defines:
+
+- `DenominatorCube.WeightedWalshQuadraticObstruction`;
+- `DenominatorCube.WeightedWalshQuadraticObstruction.nonpos`;
+- `DenominatorCube.WeightedWalshQuadraticObstruction.toWeightedDenomCubeObstruction`.
+
+The adapter says that a generated leaf may prove two local facts:
+
+1. the weighted direct Walsh dot for a rank/mask/cube equals a compact
+   `WalshQuadratic.coeffEval`;
+2. a `WalshQuadraticSubcubeUpperBound` proves that compact quadratic is
+   nonpositive on the cube.
+
+The adapter then rewrites through
+`weightedDenomAtRank_eq_weightedDirectWalshDotAtRank` and erases the result to
+`WeightedDenomCubeObstruction`.  This keeps the next generated task at the
+coefficient/subcube-bound level and avoids replaying a full
+`WeightedWalshQuadraticTraceCertificate`.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 5500 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_walsh_quadratic_obstruction_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadraticObstruction
+```
+
+Result:
+
+- exit: `0`;
+- elapsed: `7.01s`;
+- peak tree RSS: `3999 MiB`;
+- minimum available memory seen: `45951 MiB`;
+- the new adapter itself built in about `1.2s`.
+
+Decision: the producer-facing weighted-Walsh adapter is accepted.  The next
+DU9IQ step is to emit one tiny rank-`896` support-2 weighted cube through this
+adapter, using generated coefficient equality and subcube upper-bound facts.
+That smoke should still be rejected if it needs compact-Walsh roots,
+`pairPrefixLinearNat` replay, `fin_cases mask`, rank-local Boolean reduction,
+or large arrays.
