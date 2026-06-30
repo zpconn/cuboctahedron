@@ -43329,3 +43329,67 @@ rank-local because the GoodDirection-to-positive-mask evidence comes from the
 rank-specific bad-mask cover roots.  The next strategic step is to generalize
 that input: a reusable semantic/signature family should produce the same
 selector-catalog facts for many ranks without per-rank mask splits.
+
+### Phase 6Z6K8AP16DU9IQ15 - traced bridge weighted-cover surface accepted
+
+The DU9IQ traced direct bridge leaves previously proved real
+`weightedDenom_nonpos` theorems, but their shallow batch roots mostly exported
+`True` build markers.  The next checkpoint verifies that those checked
+nonpositivity theorems can feed the erased hmask cover API directly.
+
+New module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896Smoke
+```
+
+It imports the first six checked rank-`896` direct-bridge leaves:
+
+```text
+WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx00Smoke
+...
+WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx05Smoke
+```
+
+and defines a six-family `WeightedDenomCubeCover` whose good-mask predicate is
+"outside all six selected weighted cubes."  The exported semantic theorem is:
+
+```lean
+goodDirection_outside_weighted_batch :
+  GoodDirectionAtRank (⟨896, hlt⟩ : Fin numPairWords) mask ->
+    OutsideBatchGoodMaskMember mask
+```
+
+Each family obstruction is built from the already checked
+`weightedDenom_nonpos` theorem in its direct-bridge leaf plus the reusable
+`WeightedDenomCubeObstruction.ofNonnegative` positivity argument.  This file
+does not replay the traced vector/normal arithmetic and does not import the old
+compact-Walsh membership route.
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank896_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896Smoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `10.01s` | `3906 MiB` | `46004 MiB` | `0` |
+
+Decision: accepted as the first theorem-valued hmask aggregate over traced
+direct-bridge leaves.  It is intentionally partial: it covers only the first
+six selected rank-`896` weighted cubes, not the entire rank-`896` hmask
+complement.  The next scaling step is to generate the same cover surface for
+complete bounded batches, so `GoodDirectionAtRank` can imply the positive
+survivor predicate through weighted denominator cubes rather than through
+rank-local compact-Walsh/finite-mask roots.  Keep the same rule: serial guarded
+leaf builds, shallow theorem-valued cover roots, and no cold broad `lake build`
+over uncached trace trees.
