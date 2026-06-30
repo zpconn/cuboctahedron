@@ -35450,3 +35450,62 @@ Guard result:
 Decision: rank `387` is accepted.  Unlike ranks `389` and `384`, the final
 split-cover root was the peak target, but it still stayed below the cap.  Keep
 the same serial workflow for the remaining DU9II ranks; no broad root yet.
+
+### Phase 6Z6K8AP16DU9II - rank 444 split cover accepted
+
+The fourth DU9II proof-producing rank was generated from the prepared batch
+plan/source pair:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_source.json \
+  --rank 444 \
+  --tag DU9II \
+  --phase 'Phase 6Z.6K.8AP.16DU.9II' \
+  --report scripts/generated/phase6z6k8ap16du9ii_split_cover_rank444_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 7 \
+  --component-selected-impact 9
+```
+
+Generated shape:
+
+- selected impacts: `[0, 1, 3, 5, 6, 7, 9]`;
+- selected subcubes: `17`;
+- guarded targets: `57`;
+- selected-impact normal component targets:
+  `rank444_impact6_x/y/z`, `rank444_impact7_x/y/z`, and
+  `rank444_impact9_x/y/z`.
+
+The rank was checked serially under the `4200 MiB` process-tree cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ii_split_cover_rank444_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ii_split_cover_rank444_guard_4200.json \
+  --out-dir /tmp/ap16du9ii_split_cover_rank444_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `57`;
+- maximum process-tree RSS: `4162.45 MiB`;
+- peak target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IISplitCoverRank444Smoke`;
+- minimum observed available memory: `45883.97 MiB`;
+- total guarded elapsed time across targets: `191.75s`;
+- killed targets: none.
+
+Decision: rank `444` is accepted.  The final split-cover root was again the
+peak target, but it remained below the memory cap with a wide machine-level
+available-memory margin.  Continue DU9II with rank-level serial guards before
+attempting any shallow batch root.
