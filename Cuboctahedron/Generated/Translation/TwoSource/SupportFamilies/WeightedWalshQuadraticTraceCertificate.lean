@@ -275,6 +275,22 @@ theorem coeffEval_eq_weightedDirect_of_affineData
   rw [← hq]
   exact weightedDirectWalshQuadraticAtRank_coeffEval r mask weights
 
+theorem coeffEval_eq_weightedDirect_of_wordQuadratic
+    {r : Fin numPairWords}
+    {w : PairWord}
+    {weights : InternalImpactWeights}
+    {poly : WalshQuadratic}
+    (hrank : unrankPairWord r = w)
+    (hPoly : weightedDirectWalshQuadraticAtWord w weights = poly)
+    (mask : SignMask) :
+    poly.coeffEval mask = weightedDirectWalshDotAtRank r mask weights := by
+  have hq : weightedDirectWalshQuadraticAtRank r weights = poly := by
+    unfold weightedDirectWalshQuadraticAtRank
+    rw [hrank]
+    exact hPoly
+  rw [← hq]
+  exact weightedDirectWalshQuadraticAtRank_coeffEval r mask weights
+
 theorem WeightedWalshQuadraticTraceCertificate.weightedDirect_nonpos_of_coeffEval_nonpos
     {r : Fin numPairWords}
     {weights : InternalImpactWeights}

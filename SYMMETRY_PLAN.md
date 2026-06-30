@@ -40598,6 +40598,11 @@ Accepted:
   `DenominatorCube.coeffEval_eq_weightedDirect_of_affineData`, a non-trace
   bridge theorem that connects a compact affine-data polynomial equality to
   `weightedDirectWalshDotAtRank`.
+- added
+  `DenominatorCube.coeffEval_eq_weightedDirect_of_wordQuadratic`, an even
+  thinner bridge theorem that accepts a preproved
+  `weightedDirectWalshQuadraticAtWord w weights = poly`, so generated leaves
+  can bypass affine-data construction entirely.
 
 Focused guarded build:
 
@@ -40614,9 +40619,9 @@ python3 scripts/run_memory_guarded.py \
 Result:
 
 - exit: `0`;
-- elapsed: `19.53s`;
-- peak tree RSS: `10243 MiB`;
-- minimum available memory seen: `45026 MiB`.
+- elapsed: `5.01s`;
+- peak tree RSS: `4073 MiB`;
+- minimum available memory seen: `45727 MiB`.
 
 Rejected:
 
@@ -40626,16 +40631,25 @@ Rejected:
   `impactNormalWalshAt generatedWord` still expanded the rank-local reflection
   product and caused Lean to balloon;
 - the memory guard killed it before system pressure became dangerous.
+- a second support-only attempt moved the main equality to
+  `weightedDirectWalshQuadraticAtWord` and rewrote only rows `1` and `5`, but
+  still required local `generatedNormal*_eq` proofs; those normal-equality
+  proofs alone were enough to re-expand the rank-local reflection product.
 
 Guard result:
 
-- exit: `-15`;
+- affine-data attempt exit: `-15`;
 - killed reason: `process-tree RSS 41156 MiB exceeded 8000 MiB cap`;
 - elapsed before kill: `22.04s`;
 - minimum available memory seen: `42635 MiB`.
+- word-quadratic attempt exit: `-15`;
+- killed reason: `process-tree RSS 36168 MiB exceeded 12000 MiB cap`;
+- elapsed before kill: `9.52s`;
+- minimum available memory seen: `42471 MiB`.
 
 Decision: do not pursue in-file unfolding for DU9IQ coefficient equality, even
-on two-row supports.  The next bridge must emit coefficient/dot facts as
-already-checked generated theorem inputs, or use an integer/projective
-coefficient producer that never unfolds rank-level normal recurrences inside
-the obstruction leaf.
+on two-row supports and even at the word-quadratic surface.  The next bridge
+must emit coefficient/dot facts as already-checked generated theorem inputs
+without local `impactNormalWalshAt` equality proofs, or use an
+integer/projective coefficient producer that never unfolds rank-level normal
+recurrences inside the obstruction leaf.
