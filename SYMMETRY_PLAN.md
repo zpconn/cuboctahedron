@@ -40488,3 +40488,47 @@ substitution/equality proof, and either a direct absolute-value bound or a
 one-level split tree.  This still does not solve the coefficient-equality link
 to the actual rank denominator; that link must be emitted as small dot-data or
 coefficient facts rather than by unfolding `weightedDirectWalshQuadraticAtRank`.
+
+### Phase 6Z6K8AP16DU9IQ - reduced Walsh quadratic bound core accepted
+
+The reusable Lean proof layer for the reduced weighted-quadratic profile has
+now been added:
+
+- `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ReducedWalshQuadraticBound.lean`.
+
+The module provides:
+
+- `MaskSubcube.withFixed` and its membership transport lemma;
+- `WalshQuadratic.absBoundSum`;
+- coefficient-wise absolute-value bounds for all linear and quadratic Walsh
+  terms;
+- `WalshQuadraticReducedAbsBound`, proving that a reduced quadratic with
+  `constant + sum(abs(nonconstant coefficients)) <= 0` is nonpositive on the
+  original cube whenever it agrees there;
+- `WalshQuadraticCubeBound`, a tiny split tree that applies either a direct
+  reduced bound or recursively fixes one more sign bit.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 5500 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/reduced_walsh_quadratic_bound_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ReducedWalshQuadraticBound
+```
+
+Result:
+
+- exit: `0`;
+- elapsed: `10.51s`;
+- peak tree RSS: `4024.82 MiB`;
+- minimum available memory seen: `46073.66 MiB`.
+
+Decision: the local reduced-polynomial nonpositivity core is accepted.  The
+next DU9IQ step is a generated-style smoke that uses this reduced-bound surface
+for selected weighted cubes while keeping the coefficient-equality link small:
+emit local coefficient/dot facts rather than unfolding
+`weightedDirectWalshQuadraticAtRank`.
