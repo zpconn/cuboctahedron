@@ -39102,3 +39102,87 @@ Decision: rank `837` is accepted.  Continue DU9IP with ranks `839` and `840`,
 one at a time under the same serial memory guard.  Keep the narrowed trace
 component emitter for subsequent ranks; it is a reusable memory-safety
 improvement, not a rank-specific hand edit.
+
+### Phase 6Z6K8AP16DU9IP - rank 839 split cover accepted
+
+Rank `839` was emitted from the DU9IP compact h-cover batch.  Its compact
+Walsh profile contains `16` selected subcubes.  The selected word-impact set is
+`[0, 1, 3, 5, 7, 8, 10]`; the selected normal-component splits were impacts
+`7`, `8`, and `10`.  The vector trace split kept step `12` and the final trace
+explicit, using the narrowed component normalizer introduced during rank `837`.
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ip_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ip_compact_hcover_batch_source.json \
+  --rank 839 \
+  --tag DU9IP \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IP' \
+  --report scripts/generated/phase6z6k8ap16du9ip_split_cover_rank839_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 7 \
+  --component-selected-impact 8 \
+  --component-selected-impact 10
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected rank: `839`;
+- selected subcubes: `16`;
+- planned guarded targets: `56`.
+
+A plan-only pass confirmed the target list:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --plan-only \
+  --generation-report scripts/generated/phase6z6k8ap16du9ip_split_cover_rank839_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ip_split_cover_rank839_plan.json \
+  --out-dir /tmp/ap16du9ip_split_cover_rank839_plan \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+The full guarded serial Lean pass was then run:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ip_split_cover_rank839_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ip_split_cover_rank839_guard_4200_floor30000.json \
+  --out-dir /tmp/ap16du9ip_split_cover_rank839_guard_4200_floor30000 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- completed targets: `56 / 56`;
+- maximum target RSS:
+  `4193.77 MiB`
+  (`ImpactSubcubeWalshVectorTraceRank839SplitStep12YSmoke`);
+- minimum available memory seen:
+  `45549.51 MiB`
+  (`ImpactSubcubeWalshVectorTraceRank839SplitStep12YSmoke`);
+- root target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IPSplitCoverRank839Smoke`;
+- root target RSS:
+  `4134.59 MiB`;
+- root target minimum available memory:
+  `45610.09 MiB`.
+
+The generated rank `839` Lean files were scanned for forbidden proof shortcuts
+(`sorry`, `admit`, `axiom`, `native_decide`, and `unsafe`), with no matches.
+
+Decision: rank `839` is accepted.  Continue DU9IP with rank `840`, one at a
+time under the same serial memory guard.  Rank `839` came within about
+`6.24 MiB` of the `4200 MiB` cap, so do not add Lean parallelism or broaden the
+target set for rank `840`; if rank `840` touches the cap, split the offending
+trace/normal target further rather than raising the cap.
