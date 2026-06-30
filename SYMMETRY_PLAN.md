@@ -31572,3 +31572,59 @@ of the older DU9P root for ranks `0`, `2`, and `3`, plus guarded compact
 hcover batches for all remaining identity ranks.  Next step: choose the next
 bounded scaling window; keep Python discovery parallel when cheap, and keep
 Lean cover roots serial under the `4500 MiB` guard.
+
+### Phase 6Z.6K.8AP.16DU.9HD checkpoint: next bounded hcover window selected
+
+Phase 6Z.6K.8AP.16DU.9HD starts scaling past the closed `[0,64)` smoke window
+by profiling the next bounded window `[64,128)`.
+
+Command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 64 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 6 \
+  --covered-batch-generation-report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --covered-batch-guard-summary scripts/generated/phase6z6k8ap16du9gh_serial_guard_batch_root.json \
+  --covered-batch-generation-report scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_generation.json \
+  --covered-batch-guard-summary scripts/generated/phase6z6k8ap16du9go_serial_guard_batch_root.json \
+  --covered-batch-generation-report scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_generation.json \
+  --covered-batch-guard-summary scripts/generated/phase6z6k8ap16du9gu_serial_guard_batch_root.json \
+  --covered-batch-generation-report scripts/generated/phase6z6k8ap16du9ha_compact_hcover_batch_generation.json \
+  --covered-batch-guard-summary scripts/generated/phase6z6k8ap16du9ha_serial_guard_batch_root.json \
+  --json scripts/generated/phase6z6k8ap16du9hd_next_compact_hcover_ranks_64_128.json \
+  --md scripts/generated/phase6z6k8ap16du9hd_next_compact_hcover_ranks_64_128.md
+```
+
+Result: passed in `elapsed=0.86s`, `max_rss_kb=25304`.
+
+Window status:
+
+- rank range: `[64,128)`;
+- identity ranks: `12`;
+- identity ranks with GoodDirection masks: `12`;
+- GoodDirection cases: `138`;
+- not-GoodDirection masks: `630`;
+- uncovered masks: `0`;
+- non-two-source masks: `0`.
+
+Recommended target ranks:
+
+| Rank | Good masks | Not-GoodDirection masks |
+| ---: | ---: | ---: |
+| `65` | `7` | `57` |
+| `72` | `7` | `57` |
+| `78` | `11` | `53` |
+| `80` | `13` | `51` |
+| `84` | `16` | `48` |
+| `86` | `13` | `51` |
+
+The markdown artifact again has the older static heading
+`Phase 6Z.6K.8AP.16DU.9GF Next Compact Hcover Ranks`; the file path and
+command above are the authoritative 9HD provenance.
+
+Decision: accepted.  Continue with low-memory parallel compact Walsh subcube
+profiles for ranks `65`, `72`, `78`, `80`, `84`, and `86`; do not emit Lean
+until every profile has `uncovered = 0`.
