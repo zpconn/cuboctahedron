@@ -40208,3 +40208,48 @@ cube.  Do not emit Lean from this route yet.  The next safe options are:
 All three options remain diagnostic-only until a small cover is found.  No
 future hmask step should revive compact-Walsh roots, `fin_cases mask`,
 rank-local Boolean reduction, or `pairPrefixLinearNat` replay.
+
+### Phase 6Z6K8AP16DU9IQ - optimized weighted hmask cover accepted
+
+Before increasing arithmetic support size, the weighted profiler was upgraded
+with an optional branch-and-bound set-cover optimizer.  This does not search
+for new denominator witnesses; it only selects a smaller cover from the same
+support-2, max-weight-8 candidate pool.  Each rank is capped by a strict
+timeout.
+
+```bash
+/usr/bin/time -v python3 scripts/profile_du9iq_weighted_denominator_cube_cover.py \
+  --rank-start 896 \
+  --limit 64 \
+  --max-support 2 \
+  --max-weight 8 \
+  --exact-cover \
+  --seconds-per-rank 5 \
+  --max-total-cubes-gate 96 \
+  --max-rank-cubes-gate 24 \
+  --json scripts/generated/phase6z6k8ap16du9iq_weighted_denominator_cube_cover_exact_profile.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_weighted_denominator_cube_cover_exact_profile.md
+```
+
+Result:
+
+- status: `accepted-weighted-denominator-cube-profile`;
+- next step: `implement-lean-weighted-denominator-cube-bound-smoke`;
+- candidate weighted cubes: `2042`;
+- greedy cubes: `99`;
+- optimized selected cubes: `91`;
+- largest per-rank cover: `14`;
+- largest selected cube: `16`;
+- exact-cover timeouts: `0`;
+- elapsed time: `33.23s`;
+- peak RSS: `27864 KiB`.
+
+Decision: the DU9IQ `hmask` cover now passes the bounded gate.  The accepted
+next step is not production emission; it is a small Lean weighted
+denominator-cube bound smoke that instantiates `WeightedDenomCubeCover` for a
+representative subset of these optimized cubes, proves the selected weighted
+sum is nonpositive on each cube without enumerating every bad mask, and then
+erases to `BadMaskCover.goodMaskMember_of_goodDirection`.  The smoke must keep
+the same forbidden-route constraints: no compact-Walsh roots, no `fin_cases
+mask`, no rank-local Boolean reduction, no `pairPrefixLinearNat` replay, and no
+large generated arrays.

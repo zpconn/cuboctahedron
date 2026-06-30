@@ -16,6 +16,7 @@ import argparse
 import itertools
 import json
 import math
+import time
 from dataclasses import dataclass
 from fractions import Fraction
 from pathlib import Path
@@ -173,6 +174,108 @@ def greedy_cover(bad_masks: set[int], candidates: list[WeightedCube]) -> list[We
     return selected
 
 
+def mask_bitset(masks: set[int] | tuple[int, ...]) -> int:
+    bits = 0
+    for mask in masks:
+        bits |= 1 << mask
+    return bits
+
+
+def dedupe_cover_candidates(candidates: list[WeightedCube]) -> list[tuple[int, WeightedCube]]:
+    best_by_bits: dict[int, WeightedCube] = {}
+    for cube in candidates:
+        bits = mask_bitset(cube.members)
+        old = best_by_bits.get(bits)
+        if old is None:
+            best_by_bits[bits] = cube
+            continue
+        old_key = (len(old.witness.support), old.fixed_count, old.label)
+        new_key = (len(cube.witness.support), cube.fixed_count, cube.label)
+        if new_key < old_key:
+            best_by_bits[bits] = cube
+
+    bit_items = sorted(best_by_bits.items(), key=lambda item: (-item[0].bit_count(), item[1].label))
+    undominated: list[tuple[int, WeightedCube]] = []
+    for bits, cube in bit_items:
+        if any(bits != other_bits and (bits | other_bits) == other_bits
+               for other_bits, _other in undominated):
+            continue
+        undominated.append((bits, cube))
+    return undominated
+
+
+def exact_cover_branch_and_bound(
+    bad_masks: set[int],
+    candidates: list[WeightedCube],
+    greedy: list[WeightedCube],
+    *,
+    seconds: float,
+) -> tuple[list[WeightedCube] | None, bool]:
+    """Return an exact-or-improved cover and whether the search timed out."""
+    deadline = time.monotonic() + seconds
+    universe = mask_bitset(bad_masks)
+    items = dedupe_cover_candidates(candidates)
+    if not items:
+        return None, False
+
+    by_mask: dict[int, list[tuple[int, WeightedCube]]] = {}
+    for mask in bad_masks:
+        mask_bit = 1 << mask
+        covering = [(bits, cube) for bits, cube in items if bits & mask_bit]
+        covering.sort(key=lambda item: (-(item[0] & universe).bit_count(), item[1].label))
+        by_mask[mask] = covering
+
+    best = list(greedy)
+    best_count = len(best)
+    max_size = max((bits & universe).bit_count() for bits, _cube in items)
+    seen: dict[int, int] = {}
+
+    def lower_bound(uncovered: int) -> int:
+        remaining = uncovered.bit_count()
+        return (remaining + max_size - 1) // max_size
+
+    def choose_mask(uncovered: int) -> int:
+        masks = [mask for mask in bad_masks if uncovered & (1 << mask)]
+        return min(
+            masks,
+            key=lambda mask: sum(1 for bits, _cube in by_mask[mask] if bits & uncovered),
+        )
+
+    timed_out = False
+
+    def go(uncovered: int, chosen: list[WeightedCube]) -> None:
+        nonlocal best, best_count, timed_out
+        if time.monotonic() > deadline:
+            timed_out = True
+            return
+        if not uncovered:
+            if len(chosen) < best_count:
+                best = list(chosen)
+                best_count = len(best)
+            return
+        if len(chosen) + lower_bound(uncovered) >= best_count:
+            return
+        old_depth = seen.get(uncovered)
+        if old_depth is not None and old_depth <= len(chosen):
+            return
+        seen[uncovered] = len(chosen)
+        mask = choose_mask(uncovered)
+        branches = [
+            (bits, cube) for bits, cube in by_mask[mask]
+            if bits & uncovered
+        ]
+        branches.sort(key=lambda item: (-(item[0] & uncovered).bit_count(), item[1].label))
+        for bits, cube in branches:
+            chosen.append(cube)
+            go(uncovered & ~bits, chosen)
+            chosen.pop()
+            if timed_out:
+                return
+
+    go(universe, [])
+    return best, timed_out
+
+
 def cube_json(cube: WeightedCube) -> dict[str, Any]:
     return {
         "pattern": cube.label,
@@ -193,6 +296,8 @@ def profile(
     max_weight: int,
     max_total_cubes_gate: int,
     max_rank_cubes_gate: int,
+    exact_cover: bool,
+    seconds_per_rank: float,
 ) -> dict[str, Any]:
     window = collect_window(rank_start=rank_start, limit=limit)
 
@@ -206,6 +311,7 @@ def profile(
 
     rank_rows: list[dict[str, Any]] = []
     total_selected = 0
+    total_greedy = 0
     total_candidates = 0
     largest_rank_cover = 0
     largest_cube = 0
@@ -222,7 +328,19 @@ def profile(
             max_support=max_support,
             max_weight=max_weight,
         )
-        selected = greedy_cover(bad_masks, candidates)
+        greedy_selected = greedy_cover(bad_masks, candidates)
+        total_greedy += len(greedy_selected)
+        exact_timed_out = False
+        selected = greedy_selected
+        if exact_cover:
+            optimized, exact_timed_out = exact_cover_branch_and_bound(
+                bad_masks,
+                candidates,
+                greedy_selected,
+                seconds=seconds_per_rank,
+            )
+            if optimized is not None:
+                selected = optimized
         total_candidates += len(candidates)
         total_selected += len(selected)
         largest_rank_cover = max(largest_rank_cover, len(selected))
@@ -239,7 +357,10 @@ def profile(
             "good_masks": sorted(good_masks),
             "bad_mask_count": len(bad_masks),
             "candidate_cube_count": len(candidates),
+            "greedy_cube_count": len(greedy_selected),
             "selected_cube_count": len(selected),
+            "exact_cover_enabled": exact_cover,
+            "exact_cover_timed_out": exact_timed_out,
             "selected_mask_total": sum(len(cube.members) for cube in selected),
             "largest_selected_cube": (
                 0 if not selected else max(len(cube.members) for cube in selected)
@@ -275,11 +396,17 @@ def profile(
         "max_support": max_support,
         "max_weight": max_weight,
         "total_candidate_cubes": total_candidates,
+        "total_greedy_cubes": total_greedy,
         "total_selected_cubes": total_selected,
         "largest_rank_cover": largest_rank_cover,
         "largest_selected_cube": largest_cube,
         "max_total_cubes_gate": max_total_cubes_gate,
         "max_rank_cubes_gate": max_rank_cubes_gate,
+        "exact_cover_enabled": exact_cover,
+        "seconds_per_rank": seconds_per_rank,
+        "exact_cover_timeout_count": sum(
+            1 for row in rank_rows if row["exact_cover_timed_out"]
+        ),
         "selected_support_histogram": dict(sorted(
             support_hist.items(),
             key=lambda item: (-item[1], item[0]),
@@ -292,6 +419,7 @@ def profile(
                 "selected cubes contain no positive-survivor masks",
                 "each selected cube has a small nonnegative integer denominator combination nonpositive on every member mask",
                 "acceptance only authorizes a small Lean bound-smoke, not final production emission",
+                "exact-cover mode optimizes candidate selection only; it does not search new arithmetic witnesses",
             ],
         },
         "rank_summaries": rank_rows,
@@ -318,7 +446,11 @@ def markdown(data: dict[str, Any]) -> str:
         f"- Max support: `{data['max_support']}`",
         f"- Max weight: `{data['max_weight']}`",
         f"- Candidate weighted cubes: `{data['total_candidate_cubes']}`",
-        f"- Selected greedy cubes: `{data['total_selected_cubes']}`",
+        f"- Exact cover enabled: `{data['exact_cover_enabled']}`",
+        f"- Seconds per rank: `{data['seconds_per_rank']}`",
+        f"- Exact-cover timeouts: `{data['exact_cover_timeout_count']}`",
+        f"- Greedy cubes: `{data['total_greedy_cubes']}`",
+        f"- Selected cubes: `{data['total_selected_cubes']}`",
         f"- Largest per-rank cover: `{data['largest_rank_cover']}`",
         f"- Largest selected cube: `{data['largest_selected_cube']}`",
         f"- Total-cube gate: `{data['max_total_cubes_gate']}`",
@@ -326,14 +458,15 @@ def markdown(data: dict[str, Any]) -> str:
         "",
         "## Rank Summary",
         "",
-        "| Rank | Good masks | Bad masks | Candidates | Selected | Largest selected |",
-        "| ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Rank | Good masks | Bad masks | Candidates | Greedy | Selected | Timeout | Largest selected |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in data["rank_summaries"]:
         lines.append(
             f"| {row['rank']} | {len(row['good_masks'])} | "
             f"{row['bad_mask_count']} | {row['candidate_cube_count']} | "
-            f"{row['selected_cube_count']} | {row['largest_selected_cube']} |"
+            f"{row['greedy_cube_count']} | {row['selected_cube_count']} | "
+            f"{row['exact_cover_timed_out']} | {row['largest_selected_cube']} |"
         )
     lines.extend([
         "",
@@ -378,6 +511,8 @@ def main() -> None:
     parser.add_argument("--max-weight", type=int, default=8)
     parser.add_argument("--max-total-cubes-gate", type=int, default=96)
     parser.add_argument("--max-rank-cubes-gate", type=int, default=24)
+    parser.add_argument("--exact-cover", action="store_true")
+    parser.add_argument("--seconds-per-rank", type=float, default=5.0)
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--md", type=Path, default=DEFAULT_MD)
     args = parser.parse_args()
@@ -389,6 +524,8 @@ def main() -> None:
         max_weight=args.max_weight,
         max_total_cubes_gate=args.max_total_cubes_gate,
         max_rank_cubes_gate=args.max_rank_cubes_gate,
+        exact_cover=args.exact_cover,
+        seconds_per_rank=args.seconds_per_rank,
     )
     write_json(args.json, data)
     write_text(args.md, markdown(data))
