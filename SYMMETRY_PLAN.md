@@ -34266,3 +34266,43 @@ Decision: rank `263` is accepted under the DU9IG split-cover path.  Continue
 with rank `269` next, still serial and guarded under the `4200 MiB` cap.  The
 peak remains close enough to the cap that this path should not be parallelized
 until the per-rank topology is made lighter or the cap is reduced per worker.
+
+### Phase 6Z6K8AP16DU9IG - rank 269 split cover accepted
+
+The third DU9IG proof-producing rank, `269`, was emitted with the same
+split-cover topology and with trace step `12` plus final-vector component
+splitting:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank269_generation.json
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank269_generation.md
+```
+
+Generation summary:
+
+- rank: `269`;
+- good masks: `11`;
+- selected subcubes: `16`;
+- selected word impacts: `[0, 1, 3, 5, 6, 7, 9]`;
+- generated guarded targets: `47`.
+
+The serial guarded build passed:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank269_guard_4200.json
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `47`;
+- maximum process-tree RSS: `4165.02 MiB`;
+- peak target:
+  `ImpactSubcubeWalshVectorTraceRank269SplitStep12ZSmoke`;
+- minimum observed available memory: `45943.90 MiB`;
+- summed guarded target elapsed time: `167.23s`.
+
+Decision: rank `269` is accepted under the DU9IG split-cover path.  Continue
+with rank `315` next.  Because the peak remains within roughly `35 MiB` of the
+current cap, this branch remains serial-only unless a lower-memory proof shape
+is introduced.
