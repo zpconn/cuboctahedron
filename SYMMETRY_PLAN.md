@@ -39916,9 +39916,11 @@ Generated module properties:
 
 - file:
   `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSplitFactsDU9IQSmoke.lean`;
-- size: `699` Lean lines;
+- size: `718` Lean lines after adding the range-erasure adapter;
 - selected families: `19`;
 - selected cases: `75`;
+- exported adapter theorem:
+  `splitFactAllGoodCoverage_of_existsSourceRow`;
 - no `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
   `fin_cases mask`, `classifierAppliesBool`, `CompactWalsh`, or
   `pairPrefixLinearNat` occurrences.
@@ -39937,16 +39939,34 @@ python3 scripts/run_memory_guarded.py \
 Guard result:
 
 - exit code: `0`;
-- elapsed: `11.51s`;
-- peak process-tree RSS: `3925.45 MiB`;
-- minimum available memory seen: `46035.13 MiB`.
+- elapsed before the adapter: `11.51s`;
+- elapsed after the adapter: `5.51s`;
+- peak process-tree RSS after the adapter: `3909 MiB`;
+- minimum available memory seen after the adapter: `45967 MiB`.
 
 Decision: the DU9IQ semantic split-facts route is accepted as the next safe
 proof surface for this window.  It is not global coverage yet, but it proves
 that the DU9IQ GoodDirection survivors can be represented at the source/row
 fact layer without rank-local Boolean membership, compact-Walsh membership
 roots, or replaying rational prefix-linear traces in generated leaves.  The
-next step is to convert this split-facts smoke into the actual
-GoodDirection-to-source-index/state-domain membership theorem required by the
-semantic coverage contract, then scale that theorem surface over additional
-frontier windows under the same guarded, non-rank-local rules.
+new adapter theorem also proves that any existential source/row fact bridge
+for a range immediately erases to `AllTranslationGoodCoverageOnRange`, so the
+remaining live obligation is now precisely the membership/fact-production
+theorem:
+
+```lean
+forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+  lo <= rank ->
+    rank < hi ->
+      totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+          (matId : Mat3 Rat) ->
+        GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+          exists key : SourceIndexStateKey,
+            SourceIndexStateSourceFacts key rank mask /\
+              SourceIndexStateRowFacts key rank mask
+```
+
+The next step is to prove that membership theorem for DU9IQ without
+`fin_cases mask`, compact-Walsh membership roots, rank-local Boolean
+reduction, or replaying `pairPrefixLinearNat`, then scale that theorem surface
+over additional frontier windows under the same guarded rules.

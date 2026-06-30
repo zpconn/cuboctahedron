@@ -6,12 +6,12 @@
     "lean",
     "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSplitFactsDU9IQSmoke.lean"
   ],
-  "elapsed_seconds": 11.510884469986195,
+  "elapsed_seconds": 5.505452708021039,
   "exit_code": 0,
   "killed_reason": null,
-  "max_tree_rss_kib": 4019656,
-  "max_tree_rss_mib": 3925.4453125,
-  "min_available_seen_kib": 47139972,
-  "min_available_seen_mib": 46035.12890625,
+  "max_tree_rss_kib": 4003376,
+  "max_tree_rss_mib": 3909.546875,
+  "min_available_seen_kib": 47070384,
+  "min_available_seen_mib": 45967.171875,
   "rss_cap_mib": 5500.0
 }

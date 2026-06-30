@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyAllGoodBridge
 
 /-!
 Generated split source/row facts smoke.
@@ -13,6 +14,8 @@ namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIn
 
 open Cuboctahedron.Generated.Coverage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyAllGoodBridge
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 
 set_option linter.unusedVariables false
@@ -692,6 +695,22 @@ theorem fam_018_splitFactsGoodKilled
     (hrows : SourceIndexStateRowFacts fam_018_key r mask) :
     TranslationGoodCaseKilled (Fin.mk r hlt) mask :=
   splitFactClassifierKillsOn r hlt mask (fam_018_splitFactsImplyClassifier hsource hrows)
+
+theorem splitFactAllGoodCoverage_of_existsSourceRow
+    {lo hi : Nat}
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        lo <= rank ->
+          rank < hi ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : SourceIndexStateKey,
+                  SourceIndexStateSourceFacts key rank mask /\
+                    SourceIndexStateRowFacts key rank mask) :
+    AllTranslationGoodCoverageOnRange lo hi :=
+  RowPropertyParametricCoverageOnIdentityRange.to_allGoodCoverage
+    (RowPropertyParametricCoverageOnIdentityRange.of_exists_source_row hcomplete)
 
 theorem sourceIndexStateSplitFactsSmoke_builds : True := by
   trivial

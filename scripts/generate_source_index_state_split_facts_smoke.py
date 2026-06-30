@@ -132,6 +132,7 @@ def classifier_lines(selected: list[Any]) -> list[str]:
 def module_lines(namespace: str, selected: list[Any], *, phase: str) -> list[str]:
     lines = [
         "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyAllGoodBridge",
         "",
         "/-!",
         "Generated split source/row facts smoke.",
@@ -146,6 +147,8 @@ def module_lines(namespace: str, selected: list[Any], *, phase: str) -> list[str
         "",
         "open Cuboctahedron.Generated.Coverage",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.MembershipBridge",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertyAllGoodBridge",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
         "",
         "set_option linter.unusedVariables false",
@@ -155,6 +158,22 @@ def module_lines(namespace: str, selected: list[Any], *, phase: str) -> list[str
         lines.extend(key_lines(index, family))
     lines.extend(classifier_lines(selected))
     lines.extend([
+        "theorem splitFactAllGoodCoverage_of_existsSourceRow",
+        "    {lo hi : Nat}",
+        "    (hcomplete :",
+        "      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),",
+        "        lo <= rank ->",
+        "          rank < hi ->",
+        "            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =",
+        "                (matId : Mat3 Rat) ->",
+        "              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->",
+        "                exists key : SourceIndexStateKey,",
+        "                  SourceIndexStateSourceFacts key rank mask /\\",
+        "                    SourceIndexStateRowFacts key rank mask) :",
+        "    AllTranslationGoodCoverageOnRange lo hi :=",
+        "  RowPropertyParametricCoverageOnIdentityRange.to_allGoodCoverage",
+        "    (RowPropertyParametricCoverageOnIdentityRange.of_exists_source_row hcomplete)",
+        "",
         "theorem sourceIndexStateSplitFactsSmoke_builds : True := by",
         "  trivial",
         "",
@@ -171,10 +190,13 @@ def markdown(payload: dict[str, Any]) -> str:
         "This generated smoke is not global coverage. It packages selected",
         "source-index/state keys and proves that separately supplied source facts",
         "and row facts imply key facts without concrete rank/mask replay.",
+        "It also exports a range-erasure theorem from an existential source/row",
+        "fact bridge to `AllTranslationGoodCoverageOnRange`.",
         "",
         f"- Selected families: `{payload['selected_family_count']}`",
         f"- Rank window used for selection: `[{payload['rank_start']}, {payload['rank_end']})`",
         f"- Lean module: `{payload['lean_module']}`",
+        "- Exported adapter theorem: `splitFactAllGoodCoverage_of_existsSourceRow`",
         "",
     ]
     return "\n".join(lines)
@@ -208,6 +230,7 @@ def build_payload(
             "notes": [
                 "no concrete rank/mask examples are emitted",
                 "source facts and row facts are separate theorem premises",
+                "exports an erasure theorem from existential source/row facts to AllTranslationGoodCoverageOnRange",
                 "the module is a membership-obligation smoke, not global coverage",
             ],
         },

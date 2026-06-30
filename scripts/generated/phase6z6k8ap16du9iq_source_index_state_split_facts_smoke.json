@@ -4,6 +4,7 @@
     "notes": [
       "no concrete rank/mask examples are emitted",
       "source facts and row facts are separate theorem premises",
+      "exports an erasure theorem from existential source/row facts to AllTranslationGoodCoverageOnRange",
       "the module is a membership-obligation smoke, not global coverage"
     ],
     "status": "split-facts-smoke-emitted"
