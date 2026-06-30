@@ -42788,3 +42788,89 @@ Decision: accepted.  Two 13-survivor singleton leaves now build below `8 GiB`
 RSS.  Continue with rank `899`, the remaining and largest `[896,960)`
 singleton with `16` survivor masks.  Keep the same guard; if it fails, do not
 raise the cap as the first response, split the proof surface instead.
+
+### Phase 6Z6K8AP16DU9IQ7 - rank 899 singleton integrated and bounded root complete
+
+Rank `899` was selected as the largest remaining `[896,960)` singleton:
+
+- rank: `899`;
+- GoodDirection survivor masks:
+  `[8, 9, 13, 16, 18, 22, 24, 28, 29, 30, 31, 45, 47, 54, 55, 63]`;
+- candidate source-position groups: `10`;
+- bad-direction witnesses kept local to the signature: `48`.
+
+The rank-local positive precomputed-signature module was generated:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank899PositivePrecomputedSignatureSmoke
+```
+
+Guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank899_positive_precomputed_signature_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank899PositivePrecomputedSignatureSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `55.14s` | `7478 MiB` | `39273 MiB` | `0` |
+
+A stable wrapper was added:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank899ClosedSemanticSmoke
+```
+
+It exposes:
+
+```lean
+rank899AllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 899 900
+
+rank899AllGoodRankKilled :
+  AllTranslationGoodRankKilled 899
+```
+
+The sparse root now covers all seven GoodDirection singleton ranks from the
+bounded `[896,960)` profile:
+
+```lean
+acceptedSingletonRanks : List Nat := [896, 897, 899, 903, 905, 911, 955]
+
+acceptedSingletonAllGoodCoverage :
+  CoversRanks AllTranslationGoodRankKilled acceptedSingletonRanks
+```
+
+Guarded sparse-root rebuild:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_accepted_singletons_root_rank899_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `3.50s` | `4081 MiB` | `45902 MiB` | `0` |
+
+Decision: accepted for the bounded singleton smoke.  The largest singleton
+leaf was the lightest of the set, and all seven rank-local positive
+precomputed-signature leaves remained below `8.2 GiB` peak tree RSS when built
+individually.  The root import path is stable as long as invalidated heavy
+leaves are prebuilt one at a time.  The next strategic step is not to keep
+adding isolated singleton ranks by hand; it is to turn this rank-local namespace
+and sparse-root pattern into a small emitter that can generate bounded batches
+of singleton-signature modules plus an aggregate root, while preserving the
+same guarded build order.
