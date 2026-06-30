@@ -34369,3 +34369,53 @@ Guard summary:
 Decision: rank `315` is accepted under the DU9IG split-cover path only with
 `--component-selected-impact 11`.  Future high-memory selected-impact failures
 should use this component split before considering any RSS-cap increase.
+
+### Phase 6Z6K8AP16DU9IG - rank 317 split cover accepted
+
+Rank `317` was emitted with the standard DU9IG split-cover topology:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ig_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ig_compact_hcover_batch_source.json \
+  --rank 317 \
+  --tag DU9IG \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IG' \
+  --report scripts/generated/phase6z6k8ap16du9ig_split_cover_rank317_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final
+```
+
+Generation summary:
+
+- rank: `317`;
+- good masks: `8`;
+- selected subcubes: `14`;
+- selected word impacts: `[0, 1, 3, 5, 6, 7, 10]`;
+- generated guarded targets: `45`.
+
+The serial guarded build passed:
+
+```text
+scripts/generated/phase6z6k8ap16du9ig_split_cover_rank317_guard_4200.json
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `45`;
+- maximum process-tree RSS: `4167.06 MiB`;
+- peak target:
+  `ImpactSubcubeWalshVectorTraceRank317SplitFinalXSmoke`;
+- minimum observed available memory: `45922.88 MiB`;
+- summed guarded target elapsed time: `162.22s`;
+- target mix: `22` trace targets, `7` selected-impact targets, `1`
+  selected-impact root, `14` split-cover subcube targets, and `1`
+  split-cover root.
+
+Decision: rank `317` is accepted under the DU9IG split-cover path.  All five
+DU9IG proof-producing rank roots (`261`, `263`, `269`, `315`, `317`) now have
+individual serial guarded acceptance records.  The next step is to add only the
+shallow DU9IG split batch root, without rebuilding the heavy leaves in a broad
+package import.
