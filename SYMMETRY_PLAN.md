@@ -29067,3 +29067,57 @@ is:
 Decision: accepted as a proof-neutral guardrail.  It does not certify any
 geometry or coverage.  It prevents future diagnostics from drifting back to
 older source-position/descriptor/catalog surfaces as the primary target.
+
+### Phase 6Z.6K.8AP.16DU.9FC checkpoint: guarded source-language profile
+
+Phase 6Z.6K.8AP.16DU.9FC reruns the source-index/state language profiler on
+the current theorem surface for the bounded `[0,5000)` smoke.  This diagnostic
+asks whether the source side of the member-domain proof decomposes into
+semantic obligations rather than concrete rank/mask replay.
+
+Guarded command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 2048 \
+  --min-available-mib 40960 \
+  --poll-seconds 2 \
+  --json scripts/generated/phase6z6k8ap16du9fc_source_language_profile_guard.json \
+  -- \
+  python3 scripts/profile_source_index_state_language.py \
+    --rank-start 0 \
+    --limit 5000 \
+    --jobs 4 \
+    --sample-limit 12 \
+    --json scripts/generated/phase6z6k8ap16du9fc_source_language_profile.json \
+    --md scripts/generated/phase6z6k8ap16du9fc_source_language_profile.md
+```
+
+Result:
+
+- Exit code: `0`
+- Elapsed: `24.01s`
+- Peak process-tree RSS: `124.56 MiB`
+- Minimum available memory observed: `46580.90 MiB`
+- Source-index/state families: `125`
+- Source groups: `122`
+- Source occurrences: `244`
+- Source-language obligations: `68`
+- Static obligations: `13`
+- Dynamic interior obligations: `55`
+- Validation failures: `0`
+- Profiler status: `accepted-next-lean-smoke`
+
+The largest obligations in the bounded smoke are static `xpStart` facts and
+interior face-position obligations, for example:
+
+- `xpStart:0`, `2784` bounded cases
+- `interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm`, `1237` bounded cases
+- `xpStart:1`, `1181` bounded cases
+
+Decision: accepted as memory-safe diagnostic guidance for the next Lean slice,
+not as proof evidence.  The result suggests the next production-relevant Lean
+step should define theorem-valued source-language obligations for static
+`xpStart`/`ordering` and dynamic interior face-position facts, then connect
+those obligations to `TemplateLanguageMemberBridgeOnDomain`.  The diagnostic
+does not prove global coverage and should not be used as a certificate.

@@ -1,0 +1,27 @@
+{
+  "available_floor_mib": 40960.0,
+  "command": [
+    "python3",
+    "scripts/profile_source_index_state_language.py",
+    "--rank-start",
+    "0",
+    "--limit",
+    "5000",
+    "--jobs",
+    "4",
+    "--sample-limit",
+    "12",
+    "--json",
+    "scripts/generated/phase6z6k8ap16du9fc_source_language_profile.json",
+    "--md",
+    "scripts/generated/phase6z6k8ap16du9fc_source_language_profile.md"
+  ],
+  "elapsed_seconds": 24.008838223002385,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 127552,
+  "max_tree_rss_mib": 124.5625,
+  "min_available_seen_kib": 47698844,
+  "min_available_seen_mib": 46580.90234375,
+  "rss_cap_mib": 2048.0
+}
