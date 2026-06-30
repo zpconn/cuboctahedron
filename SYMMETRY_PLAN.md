@@ -29023,3 +29023,47 @@ bounded source-row facts and is not production coverage.  The next production
 step must replace this domain with a genuinely compressed algebraic or
 state-language domain whose coverage proof is not equivalent to enumerating
 rank/mask witnesses.
+
+### Phase 6Z.6K.8AP.16DU.9FB checkpoint: semantic contract audit updated
+
+Phase 6Z.6K.8AP.16DU.9FB updates
+`scripts/audit_ap16du9dc_semantic_coverage_contract.py` so the diagnostic
+contract points at the current accepted translation target:
+
+```text
+TemplateLanguageMemberBridgeOnRange lo hi,
+preferably obtained from TemplateLanguageMemberBridgeOnDomain
+for a compressed state/algebraic domain.
+```
+
+New contract checks include:
+
+- `template_member_bridge_exists`
+- `template_member_bridge_to_coverage_exists`
+- `template_domain_bridge_exists`
+- `template_domain_to_range_exists`
+- `du3_domain_bridge_smoke_exists`
+
+Audit command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.03`, `max_rss_kb=12672`, with
+`all_required_surfaces_present = true`.
+
+The audit's current status remains
+`contract-present-generator-obligation-open`.  Its recorded missing obligation
+is:
+
+> For each nonempty range/family, prove that every identity-linear
+> GoodDirection survivor belongs to a compressed semantic domain, and prove
+> `TemplateLanguageMemberBridgeOnDomain` for that domain, without finite
+> selector catalogs, `classifierAppliesBool`, compact-Walsh membership imports,
+> or rank-local Boolean reduction.
+
+Decision: accepted as a proof-neutral guardrail.  It does not certify any
+geometry or coverage.  It prevents future diagnostics from drifting back to
+older source-position/descriptor/catalog surfaces as the primary target.

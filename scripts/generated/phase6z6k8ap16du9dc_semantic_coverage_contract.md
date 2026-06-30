@@ -14,6 +14,11 @@ it is a contract for the next proof-producing generator.
 | `generated_smoke_hclass_is_hypothesis` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean` |
 | `du3_prop_first_source_row_adapter_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean` |
 | `descriptor_to_all_good_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean` |
+| `template_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
+| `template_member_bridge_to_coverage_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
+| `template_domain_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
+| `template_domain_to_range_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean` |
+| `du3_domain_bridge_smoke_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean` |
 
 ## Conclusion
 
@@ -21,11 +26,11 @@ Status: `contract-present-generator-obligation-open`.
 
 Accepted production target:
 
-> SourcePositionRowProducerGoodCoverageOnRange lo hi, or the equivalent SourceIndexStateDescriptorGoodCoverageOnRange lo hi
+> TemplateLanguageMemberBridgeOnRange lo hi, preferably obtained from TemplateLanguageMemberBridgeOnDomain for a compressed state/algebraic domain
 
 Missing generated obligation:
 
-> For each nonempty range/family, prove hclass: every identity-linear GoodDirection survivor belongs to the semantic candidate/source-position row-producer predicate, without classifierAppliesBool, compact-Walsh membership imports, or rank-local Boolean reduction.
+> For each nonempty range/family, prove that every identity-linear GoodDirection survivor belongs to a compressed semantic domain, and prove TemplateLanguageMemberBridgeOnDomain for that domain, without finite selector catalogs, classifierAppliesBool, compact-Walsh membership imports, or rank-local Boolean reduction.
 
 Rejected surfaces:
 
@@ -33,3 +38,4 @@ Rejected surfaces:
 - goodDirectionAtRankBool -> classifierAppliesBool singleton reduction
 - rank-family-map membership tables
 - compact-Walsh membership roots as the production bridge
+- finite source-index/selector catalogs as the production coordinate

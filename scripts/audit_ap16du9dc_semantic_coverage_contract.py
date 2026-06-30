@@ -29,6 +29,8 @@ FILES = {
     / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
     "source_index_state_descriptor_language": ROOT
     / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateDescriptorLanguage.lean",
+    "template_language": ROOT
+    / "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
 }
 
 
@@ -57,6 +59,26 @@ CHECKS = {
         "source_index_state_descriptor_language",
         "theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage",
     ),
+    "template_member_bridge_exists": (
+        "template_language",
+        "abbrev TemplateLanguageMemberBridgeOnRange",
+    ),
+    "template_member_bridge_to_coverage_exists": (
+        "template_language",
+        "theorem TemplateLanguageMemberBridgeOnRange.to_coverage",
+    ),
+    "template_domain_bridge_exists": (
+        "template_language",
+        "abbrev TemplateLanguageMemberBridgeOnDomain",
+    ),
+    "template_domain_to_range_exists": (
+        "template_language",
+        "theorem TemplateLanguageMemberBridgeOnDomain.to_range",
+    ),
+    "du3_domain_bridge_smoke_exists": (
+        "source_index_state_classifier_du3",
+        "theorem classifierSourceRowDomainMemberBridge",
+    ),
 }
 
 
@@ -81,21 +103,23 @@ def main() -> None:
         if all_present
         else "contract-surface-missing",
         "accepted_production_target": (
-            "SourcePositionRowProducerGoodCoverageOnRange lo hi, or the "
-            "equivalent SourceIndexStateDescriptorGoodCoverageOnRange lo hi"
+            "TemplateLanguageMemberBridgeOnRange lo hi, preferably obtained "
+            "from TemplateLanguageMemberBridgeOnDomain for a compressed "
+            "state/algebraic domain"
         ),
         "missing_generated_obligation": (
-            "For each nonempty range/family, prove hclass: every "
-            "identity-linear GoodDirection survivor belongs to the semantic "
-            "candidate/source-position row-producer predicate, without "
-            "classifierAppliesBool, compact-Walsh membership imports, or "
-            "rank-local Boolean reduction."
+            "For each nonempty range/family, prove that every identity-linear "
+            "GoodDirection survivor belongs to a compressed semantic domain, "
+            "and prove TemplateLanguageMemberBridgeOnDomain for that domain, "
+            "without finite selector catalogs, classifierAppliesBool, "
+            "compact-Walsh membership imports, or rank-local Boolean reduction."
         ),
         "rejected_surfaces": [
             "classifierAppliesBool membership proved by decide",
             "goodDirectionAtRankBool -> classifierAppliesBool singleton reduction",
             "rank-family-map membership tables",
             "compact-Walsh membership roots as the production bridge",
+            "finite source-index/selector catalogs as the production coordinate",
         ],
     }
 

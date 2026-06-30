@@ -6,6 +6,11 @@
       "needle": "theorem SourceIndexStateDescriptorGoodCoverageOnRange.to_allGoodCoverage",
       "present": true
     },
+    "du3_domain_bridge_smoke_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
+      "needle": "theorem classifierSourceRowDomainMemberBridge",
+      "present": true
+    },
     "du3_prop_first_source_row_adapter_exists": {
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean",
       "needle": "theorem sourceIndexFactsCatalog_of_classifierKey_source_row",
@@ -30,16 +35,37 @@
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguage.lean",
       "needle": "theorem SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage",
       "present": true
+    },
+    "template_domain_bridge_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
+      "needle": "abbrev TemplateLanguageMemberBridgeOnDomain",
+      "present": true
+    },
+    "template_domain_to_range_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
+      "needle": "theorem TemplateLanguageMemberBridgeOnDomain.to_range",
+      "present": true
+    },
+    "template_member_bridge_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
+      "needle": "abbrev TemplateLanguageMemberBridgeOnRange",
+      "present": true
+    },
+    "template_member_bridge_to_coverage_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean",
+      "needle": "theorem TemplateLanguageMemberBridgeOnRange.to_coverage",
+      "present": true
     }
   },
   "conclusion": {
-    "accepted_production_target": "SourcePositionRowProducerGoodCoverageOnRange lo hi, or the equivalent SourceIndexStateDescriptorGoodCoverageOnRange lo hi",
-    "missing_generated_obligation": "For each nonempty range/family, prove hclass: every identity-linear GoodDirection survivor belongs to the semantic candidate/source-position row-producer predicate, without classifierAppliesBool, compact-Walsh membership imports, or rank-local Boolean reduction.",
+    "accepted_production_target": "TemplateLanguageMemberBridgeOnRange lo hi, preferably obtained from TemplateLanguageMemberBridgeOnDomain for a compressed state/algebraic domain",
+    "missing_generated_obligation": "For each nonempty range/family, prove that every identity-linear GoodDirection survivor belongs to a compressed semantic domain, and prove TemplateLanguageMemberBridgeOnDomain for that domain, without finite selector catalogs, classifierAppliesBool, compact-Walsh membership imports, or rank-local Boolean reduction.",
     "rejected_surfaces": [
       "classifierAppliesBool membership proved by decide",
       "goodDirectionAtRankBool -> classifierAppliesBool singleton reduction",
       "rank-family-map membership tables",
-      "compact-Walsh membership roots as the production bridge"
+      "compact-Walsh membership roots as the production bridge",
+      "finite source-index/selector catalogs as the production coordinate"
     ],
     "status": "contract-present-generator-obligation-open"
   }
