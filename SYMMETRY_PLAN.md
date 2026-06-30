@@ -38772,3 +38772,145 @@ memory-safe batch root.  The next frontier should use the same process:
 profile the next bounded rank window with memory-light Python parallelism,
 select a small set of ranks, then emit/check each rank serially before any
 batch-root composition.
+
+### Phase 6Z6K8AP16DU9IP - next frontier selected
+
+The next compact h-cover frontier after DU9IO was scanned over `[832,896)`
+with bounded Python parallelism under a small memory guard:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ip_next_compact_hcover_ranks_832_896_guard.json \
+  -- \
+  python3 scripts/profile_next_compact_hcover_ranks.py \
+    --rank-start 832 \
+    --limit 64 \
+    --jobs 4 \
+    --target-missing 4 \
+    --json scripts/generated/phase6z6k8ap16du9ip_next_compact_hcover_ranks_832_896.json \
+    --md scripts/generated/phase6z6k8ap16du9ip_next_compact_hcover_ranks_832_896.md
+```
+
+Diagnostic summary:
+
+- status: `accepted-next-targets`;
+- rank range: `[832,896)`;
+- jobs: `4`;
+- identity ranks: `20`;
+- identity ranks with GoodDirection masks: `20`;
+- GoodDirection cases: `229`;
+- Not-GoodDirection masks: `1051`;
+- uncovered masks: `0`;
+- non-two-source masks: `0`;
+- recommended next DU9IP targets:
+  `834`, `837`, `839`, and `840`;
+- guard peak RSS: `103 MiB`;
+- minimum available memory seen: `46483 MiB`.
+
+Decision: start DU9IP with the four recommended ranks.  Continue using
+bounded Python parallelism for profiling and serial guarded Lean checking for
+generated proof modules.
+
+### Phase 6Z6K8AP16DU9IP - batch inputs prepared
+
+The positive-survivor membership profile was run over `[832,896)` under a
+`1000 MiB` process-tree cap and `30000 MiB` available-memory floor:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ip_positive_survivor_membership_832_896_guard.json \
+  -- \
+  python3 scripts/profile_ap16i_positive_survivor_membership.py \
+    --ranges 832:896 \
+    --jobs 4 \
+    --sample-limit 64 \
+    --signature-gate 64 \
+    --candidate-gate 64 \
+    --json scripts/generated/phase6z6k8ap16du9ip_positive_survivor_membership_832_896.json \
+    --md scripts/generated/phase6z6k8ap16du9ip_positive_survivor_membership_832_896.md
+```
+
+Result:
+
+- status: `accepted-positive-survivor-membership-profile`;
+- ranks with GoodDirection survivors: `20`;
+- GoodDirection cases: `229`;
+- positive candidate groups: `31`;
+- positive survivor signatures: `20`;
+- bad-direction evidence emitted: `0`;
+- duplicate rank/mask memberships: `0`;
+- ambiguous GoodDirection memberships: `0`;
+- guard peak RSS: `109 MiB`;
+- minimum available memory seen: `46466 MiB`.
+
+The compact Walsh cover scaling pass covered all `20` signatures:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ip_compact_walsh_cover_scaling_guard.json \
+  -- \
+  python3 scripts/profile_ap16dd_compact_walsh_cover_scaling.py \
+    --profile scripts/generated/phase6z6k8ap16du9ip_positive_survivor_membership_832_896.json \
+    --output scripts/generated/phase6z6k8ap16du9ip_compact_walsh_cover_scaling.json \
+    --limit 64
+```
+
+Result:
+
+- sampled signatures: `20`;
+- uncovered signatures: `0`;
+- selected subcubes total: `362`;
+- selected subcubes min/max/mean: `16 / 22 / 18.10`;
+- selected word-impact union:
+  `[0, 1, 3, 5, 7, 8, 9, 10, 11]`;
+- guard peak RSS: `27 MiB`;
+- minimum available memory seen: `46483 MiB`.
+
+The four recommended DU9IP ranks were materialized as standalone compact Walsh
+cover profiles:
+
+| Rank | Anchor mask | Good masks | Selected subcubes | Uncovered | Selected word impacts |
+| ---: | ----------: | ---------: | ----------------: | --------: | --- |
+| `834` | `8` | `7` | `16` | `0` | `[0, 1, 3, 5, 7, 8, 9]` |
+| `837` | `8` | `13` | `16` | `0` | `[0, 1, 3, 5, 7, 8, 11]` |
+| `839` | `8` | `11` | `16` | `0` | `[0, 1, 3, 5, 7, 8, 10]` |
+| `840` | `8` | `13` | `19` | `0` | `[0, 1, 3, 5, 7, 8, 11]` |
+
+The DU9IP plan/source pair was prepared from those four validated rank
+profiles:
+
+```bash
+python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile-glob 'scripts/generated/phase6z6k8ap16du9ip_rank*_walsh_subcube_cover.json' \
+  --output-prefix scripts/generated/phase6z6k8ap16du9ip_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IPBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IPBatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IP' \
+  --signature-key-prefix du9ip
+```
+
+Result:
+
+- prepared ranks: `834`, `837`, `839`, and `840`;
+- planned serial Lean targets before split-cover emission: `41`;
+- selected subcubes across prepared ranks: `67`;
+- selected word-impact union:
+  `[0, 1, 3, 5, 7, 8, 9, 10, 11]`;
+- plan:
+  `scripts/generated/phase6z6k8ap16du9ip_compact_hcover_batch_plan.json`;
+- source:
+  `scripts/generated/phase6z6k8ap16du9ip_compact_hcover_batch_source.json`.
+
+Decision: DU9IP is ready for rank-by-rank split-cover emission.  Start with
+rank `834`, split trace step `12` and the final trace, and use
+selected-impact component splits on the later selected word impacts for that
+rank.  Keep Lean checking serial under the `4200 MiB` / `30000 MiB` guard.

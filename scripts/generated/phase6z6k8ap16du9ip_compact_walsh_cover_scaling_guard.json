@@ -1,0 +1,21 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "python3",
+    "scripts/profile_ap16dd_compact_walsh_cover_scaling.py",
+    "--profile",
+    "scripts/generated/phase6z6k8ap16du9ip_positive_survivor_membership_832_896.json",
+    "--output",
+    "scripts/generated/phase6z6k8ap16du9ip_compact_walsh_cover_scaling.json",
+    "--limit",
+    "64"
+  ],
+  "elapsed_seconds": 29.022022911987733,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 28112,
+  "max_tree_rss_mib": 27.453125,
+  "min_available_seen_kib": 47598700,
+  "min_available_seen_mib": 46483.10546875,
+  "rss_cap_mib": 1000.0
+}
