@@ -38097,7 +38097,7 @@ Decision: rank `724` is accepted under the serial theorem-only split-cover
 topology.  Continue with rank `748` under the same serial `4200 MiB`
 process-tree cap and `12000 MiB` available-memory floor.
 
-### Phase 6Z6K8AP16DU9IN - rank 748 split cover interrupted before acceptance
+### Phase 6Z6K8AP16DU9IN - rank 748 split cover accepted via root-only completion
 
 Rank `748` was emitted with theorem-only split-cover modules using selected
 normal-component split impacts `6`, `7`, and `8`, plus trace step `12` and the
@@ -38147,10 +38147,40 @@ left running after interruption.  The partial guard report recorded:
 - remaining unchecked target:
   `ImpactSubcubeWalshSymbolicCompactDenomDU9INSplitCoverRank748Smoke`.
 
-Decision: rank `748` is **not accepted yet**.  The next safe step is not to
-restart the whole 57-target lane.  Instead, check only the remaining split-cover
-root under a guarded serial command, preferably with an even more conservative
-available-memory floor and no parallel Lean workers.  If that root approaches
-the `4200 MiB` cap again, split the DU9IN rank `748` root or add a thinner root
-surface before acceptance.  Do not compose a DU9IN batch root until rank `748`
-has a complete guard report with status `passed`.
+Rather than restarting the whole 57-target lane, the single remaining
+split-cover root was checked by itself under a stricter available-memory floor:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9in_split_cover_rank748_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9in_split_cover_rank748_root_only_guard_4200_floor30000.json \
+  --out-dir /tmp/ap16du9in_split_cover_rank748_root_only_guard_4200_floor30000 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5 \
+  --module-contains ImpactSubcubeWalshSymbolicCompactDenomDU9INSplitCoverRank748Smoke
+```
+
+Root-only guarded pass summary:
+
+- status: `passed`;
+- target count: `1`;
+- guard cap: `4200 MiB`;
+- maximum process-tree RSS:
+  `4143.08 MiB`;
+- root target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9INSplitCoverRank748Smoke`;
+- minimum available memory seen: `45893.78 MiB`.
+
+The generated rank-`748` files were also scanned for forbidden proof shortcuts
+(`sorry`, `admit`, `axiom`, `native_decide`, and `unsafe`), with no matches.
+
+Decision: rank `748` is accepted under the serial theorem-only split-cover
+topology.  The combined evidence is the interrupted 56-target guard report plus
+the root-only completion report.  This is acceptable because all non-root
+targets were checked before interruption and the only missing target was the
+root, now checked independently.  All four DU9IN selected ranks
+(`714`, `716`, `724`, and `748`) are now accepted.  The next step is to emit a
+shallow DU9IN batch root importing only these four accepted rank roots and check
+it serially under a memory guard.  Do not use a monolithic or wide root.
