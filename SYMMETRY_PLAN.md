@@ -37838,3 +37838,39 @@ theorem-only split-cover batch for ranks `641`, `659`, `647`, `654`, and
 `657`.  The safe next step is to emit a shallow DU9IM batch root that imports
 only these accepted rank roots, then run that root serially under the same
 guard before considering any broader integration.
+
+### Phase 6Z6K8AP16DU9IM - split batch root accepted
+
+After all five DU9IM rank roots were accepted individually, a shallow split
+batch root was added:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  ImpactSubcubeWalshSymbolicCompactDenomDU9IMSplitCoverBatchSmoke.lean
+```
+
+This root imports only the accepted theorem-only split rank roots for ranks
+`641`, `647`, `654`, `657`, and `659`.  It does not import or revive the older
+monolithic compact-Walsh batch route.
+
+Serial build command:
+
+```bash
+/usr/bin/time -v bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IMSplitCoverBatchSmoke'
+```
+
+Build summary:
+
+- status: `passed`;
+- target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IMSplitCoverBatchSmoke`;
+- elapsed wall time: `2.28s`;
+- maximum resident set size: `3362988 KiB` (`3284.17 MiB`);
+- exit status: `0`.
+
+Decision: the DU9IM split batch root is accepted.  The accepted split batch
+roots now include DU9II, DU9IJ, DU9IK, DU9IL, and DU9IM.  Continue by either
+selecting the next compact h-cover window or by building the next higher-level
+shallow root over accepted split batch roots.  Keep the same memory rule:
+individual heavy rank roots are checked serially; only shallow roots may be
+considered for broader composition.
