@@ -31668,3 +31668,60 @@ Decision: accepted.  Every selected `[64,128)` target rank has a compact
 Walsh subcube profile with no uncovered masks.  Next step: prepare an
 AP16DJ-compatible batch plan/source pair for these six ranks and dry-run it
 before emitting Lean.
+
+### Phase 6Z.6K.8AP.16DU.9HF checkpoint: `[64,128)` hcover batch prep and dry-run
+
+Phase 6Z.6K.8AP.16DU.9HF prepares an AP16DJ-compatible six-rank hcover batch
+for ranks `65`, `72`, `78`, `80`, `84`, and `86`.
+
+Prep command:
+
+```bash
+/usr/bin/time -v python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile-glob 'scripts/generated/phase6z6k8ap16du9he_rank*_walsh_subcube_cover.json' \
+  --output-prefix scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9HFBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HFBatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9HF' \
+  --signature-key-prefix du9hf
+```
+
+Result: passed in `elapsed=0.02s`, `max_rss_kb=14208`.
+
+AP16DJ dry-run command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --plan scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9hf_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9HFBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HFBatchSmoke
+```
+
+Result: passed in `elapsed=0.06s`, `max_rss_kb=26952`, with status `dry_run`,
+`6` signatures, and `151` planned guarded targets.
+
+Guard target distribution:
+
+- `6` trace data modules;
+- `13 * 6` split trace-step modules plus trace final/root modules;
+- `42` selected-impact modules;
+- `6` selected-impact roots;
+- `6` cover roots;
+- `1` shallow batch root.
+
+Selected word impacts:
+
+| Rank | Good masks | Selected subcubes | Selected word impacts |
+| ---: | ---: | ---: | --- |
+| `65` | `7` | `21` | `[0, 1, 3, 5, 7, 8, 9]` |
+| `72` | `7` | `22` | `[0, 1, 3, 5, 7, 8, 9]` |
+| `78` | `11` | `22` | `[0, 1, 3, 5, 7, 8, 10]` |
+| `80` | `13` | `21` | `[0, 1, 3, 5, 7, 8, 11]` |
+| `84` | `16` | `17` | `[0, 1, 3, 5, 7, 9, 11]` |
+| `86` | `13` | `16` | `[0, 1, 3, 5, 7, 9, 10]` |
+
+Decision: accepted.  The `[64,128)` six-rank batch is comparable to DU9GH,
+DU9GO, and DU9GU at the dry-run stage.  Next step: emit the Lean files, inspect
+cover-root sizes, then run cover roots serially under the `4500 MiB` guard.
