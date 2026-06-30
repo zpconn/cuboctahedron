@@ -34638,3 +34638,57 @@ selected impact includes a full normal-vector proof near the RSS cap.  Continue
 the DU9IH rank-by-rank sequence with the next largest selected-subcube ranks,
 starting with `363` and then `362`, still serial-only under the `4200 MiB`
 guard.
+
+### Phase 6Z6K8AP16DU9IH - rank 363 split cover accepted
+
+Rank `363` is the next largest DU9IH target by selected subcube count.  It was
+emitted with the same trace step `12`, final-vector component split, and
+selected-impact component split discipline used for rank `369`:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_source.json \
+  --rank 363 \
+  --tag DU9IH \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IH' \
+  --report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank363_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 11
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected subcubes: `21`;
+- guarded targets: `52`.
+
+The rank was checked serially under the `4200 MiB` process-tree RSS cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank363_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ih_split_cover_rank363_guard_4200.json \
+  --out-dir /tmp/ap16du9ih_split_cover_rank363_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `52`;
+- maximum process-tree RSS: `4162.59 MiB`;
+- peak target: `ImpactSubcubeWalshVectorTraceRank363SplitStep12YSmoke`;
+- minimum observed available memory: `45915.21 MiB`;
+- total guarded elapsed time across targets: `188.26s`;
+- killed targets: none.
+
+Decision: rank `363` is accepted under the DU9IH split-cover path.  Continue
+with rank `362` next, still using selected-impact component splitting and the
+same serial `4200 MiB` guard.  Do not batch these high-risk roots into a broad
+Lake build.
