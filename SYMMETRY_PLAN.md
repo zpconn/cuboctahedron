@@ -40999,3 +40999,74 @@ DU9IQ scaling step can now focus on batch selection policy: either increase the
 limit for rank `896`, select the next rank from the reduced-bound profile, or
 teach the planner to skip already emitted bridge summaries and produce the next
 bounded frontier.
+
+### Phase 6Z6K8AP16DU9IQ - second traced bridge frontier accepted
+
+The traced bridge batch planner now supports an explicit
+`--skip-existing-bridges` mode.  This keeps each bounded frontier disjoint from
+previously emitted leaves without needing to hand-edit the reduced-bound
+profile.  The mode records skipped bridge summaries in the plan JSON/Markdown
+so the frontier is auditable and the planner remains non-proving.
+
+Second rank-`896`, limit-`6` frontier plan:
+
+- report:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank896_next.json`;
+- Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank896_next.md`;
+- skipped existing bridge leaves: summaries `0`, `1`, `2`, `3`, `4`, and `5`;
+- selected bridge summaries: `6`, `7`, `8`, `9`, `10`, and `11`;
+- unique normal traces: indices `0`, `1`, `3`, `5`, `7`, and `10`;
+- all required normal trace modules already existed from earlier guarded
+  batches.
+
+The six new standalone reduced direct-bridge leaves were emitted and checked
+serially through `scripts/run_memory_guarded.py` with the same cap:
+
+```bash
+--max-tree-rss-mib 12000 --min-available-mib 35000 --poll-seconds 0.5
+```
+
+Guarded build results:
+
+- bridge idx `06`: exit `0`, elapsed `5.01s`, peak tree RSS `4028 MiB`,
+  minimum available memory `45855 MiB`;
+- bridge idx `07`: exit `0`, elapsed `3.50s`, peak tree RSS `4052 MiB`,
+  minimum available memory `45837 MiB`;
+- bridge idx `08`: exit `0`, elapsed `3.00s`, peak tree RSS `4040 MiB`,
+  minimum available memory `45855 MiB`;
+- bridge idx `09`: exit `0`, elapsed `2.50s`, peak tree RSS `4023 MiB`,
+  minimum available memory `45879 MiB`;
+- bridge idx `10`: exit `0`, elapsed `2.50s`, peak tree RSS `4021 MiB`,
+  minimum available memory `45886 MiB`;
+- bridge idx `11`: exit `0`, elapsed `3.00s`, peak tree RSS `4029 MiB`,
+  minimum available memory `45873 MiB`.
+
+A second shallow aggregate root was emitted for this frontier:
+
+- module:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank896Idx06To11Smoke`;
+- file:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeBatchRank896Idx06To11Smoke.lean`;
+- report:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank896_idx06_to_11_aggregate.json`;
+- Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank896_idx06_to_11_aggregate.md`.
+
+The aggregate root imports only the six cached bridge leaves and re-exports
+tiny `True` theorem surfaces; it does not replay arithmetic.
+
+Aggregate guarded build result:
+
+- exit `0`;
+- elapsed `2.50s`;
+- peak tree RSS `4003 MiB`;
+- minimum available memory `45874 MiB`.
+
+Decision: accepted.  The planner/emitter workflow now supports repeated
+bounded frontiers without accidentally reselecting prior bridge leaves, and a
+second disjoint frontier stayed in the same safe memory band.  The next scaling
+step should remain shallow: either emit one combined aggregate over the two
+accepted frontiers, or run the skip-existing planner again for summaries
+`12`-`17`.  Do not increase the Lean build fan-out until a combined aggregate
+has been checked and remains near the current ~4 GiB import surface.

@@ -57,17 +57,23 @@ def bridge_path(summary_index: int) -> Path:
     return BASE_DIR / f"{bridge_stem(summary_index)}Smoke.lean"
 
 
-def select_rows(data: dict[str, Any], *, rank: int, limit: int) -> list[tuple[int, dict[str, Any]]]:
+def select_rows(
+    data: dict[str, Any], *, rank: int, limit: int, skip_existing_bridges: bool
+) -> tuple[list[tuple[int, dict[str, Any]]], list[int]]:
     rows: list[tuple[int, dict[str, Any]]] = []
+    skipped_existing: list[int] = []
     for index, row in enumerate(data["summaries"]):
         if int(row["rank"]) != rank:
             continue
         if not bool(row.get("reduced_bound_nonpositive", False)):
             continue
+        if skip_existing_bridges and bridge_path(index).exists():
+            skipped_existing.append(index)
+            continue
         rows.append((index, row))
         if len(rows) >= limit:
             break
-    return rows
+    return rows, skipped_existing
 
 
 def shell_quote(text: str) -> str:
@@ -80,9 +86,16 @@ def command(parts: list[str]) -> str:
     return " ".join(shell_quote(part) for part in parts)
 
 
-def build_payload(profile: Path, *, rank: int, limit: int) -> dict[str, Any]:
+def build_payload(
+    profile: Path, *, rank: int, limit: int, skip_existing_bridges: bool
+) -> dict[str, Any]:
     data = json.loads(profile.read_text(encoding="utf-8"))
-    selected = select_rows(data, rank=rank, limit=limit)
+    selected, skipped_existing = select_rows(
+        data,
+        rank=rank,
+        limit=limit,
+        skip_existing_bridges=skip_existing_bridges,
+    )
     normal_indices = sorted({
         int(impact) - 1
         for _summary_index, row in selected
@@ -173,6 +186,9 @@ def build_payload(profile: Path, *, rank: int, limit: int) -> dict[str, Any]:
         "profile": str(profile),
         "rank": rank,
         "limit": limit,
+        "skip_existing_bridges": skip_existing_bridges,
+        "skipped_existing_bridge_summaries": skipped_existing,
+        "skipped_existing_bridge_count": len(skipped_existing),
         "selected_count": len(selected),
         "vector_trace_module": vector_trace_module,
         "normal_trace_stem": normal_stem(rank),
@@ -191,6 +207,7 @@ def write_markdown(payload: dict[str, Any], path: Path) -> None:
         "",
         f"- rank: `{payload['rank']}`",
         f"- selected cubes: `{payload['selected_count']}`",
+        f"- skipped existing bridge leaves: `{payload['skipped_existing_bridge_count']}`",
         f"- unique normal traces: `{payload['normal_task_count']}`",
         f"- bridge modules: `{payload['bridge_task_count']}`",
         f"- memory policy: {payload['memory_policy']}",
@@ -224,12 +241,22 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--rank", type=int, default=896)
     parser.add_argument("--limit", type=int, default=6)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
+    parser.add_argument(
+        "--skip-existing-bridges",
+        action="store_true",
+        help="Do not select rows whose bridge Lean file already exists.",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    payload = build_payload(args.profile, rank=args.rank, limit=args.limit)
+    payload = build_payload(
+        args.profile,
+        rank=args.rank,
+        limit=args.limit,
+        skip_existing_bridges=args.skip_existing_bridges,
+    )
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     write_markdown(payload, args.report.with_suffix(".md"))
