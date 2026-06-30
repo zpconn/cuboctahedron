@@ -41864,3 +41864,46 @@ Decision: accepted.  Rank `903` now has all prerequisites for bridge summaries
 `40` through `45`.  Continue by emitting those six standalone reduced
 direct-bridge leaves, checking each under the same `12 GiB` guard, and then
 building a shallow rank-local aggregate.
+
+### Phase 6Z6K8AP16DU9IQ - rank-903 traced bridge frontier accepted
+
+The first bounded rank-`903` direct-bridge frontier was emitted and checked
+after the vector and normal traces were available.  Generated standalone bridge
+leaves:
+
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx40Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx41Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx42Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx43Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx44Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx45Smoke`.
+
+Generated shallow batch root:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank903Smoke
+```
+
+The six standalone reduced direct-bridge leaves passed under the `12 GiB`
+guard:
+
+- bridge count: `6`;
+- failures: `0`;
+- total serial elapsed time: `18.52s`;
+- worst bridge target:
+  `weighted_denom_cube_du9iq_direct_bridge_generated_idx42_guard.json`;
+- worst bridge elapsed time: `3.00s`;
+- worst bridge peak tree RSS: `4144 MiB`;
+- lowest available memory seen during bridge builds: `45934 MiB`.
+
+The shallow batch root also passed under the same guard:
+
+- elapsed time: `2.50s`;
+- peak tree RSS: `3724 MiB`;
+- minimum available memory seen: `46158 MiB`.
+
+Decision: accepted.  Rank `903` now has the first six traced DU9IQ bridge
+leaves and a shallow aggregate, all checked without broad uncached imports.
+The next scaling step is to run another rank-`903` frontier with
+`--skip-existing-bridges`, inspect whether it requires new normal traces, and
+continue the same guarded plan-first workflow.
