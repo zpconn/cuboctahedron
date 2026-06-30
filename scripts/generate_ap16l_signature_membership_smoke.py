@@ -255,9 +255,8 @@ private theorem generatedSignatureTemplateDomainCovers
           generatedSignatureFacts mask) :
     TemplateLanguageDomainCoversIdentityRange
       generatedSignatureTemplateDomain {anchor} {hi} := by
-  intro rank mask hlt hlo hhi hM hgood
-  have hrank : rank = {anchor} := by omega
-  subst rank
+  refine TemplateLanguageDomainCoversIdentityRange.single ?_
+  intro mask hlt hM hgood
   have hmember : generatedGoodMaskMember mask := hmask hlt hgood
   exact ⟨rfl, hmember, hfacts hmember⟩
 
@@ -272,9 +271,8 @@ private theorem generatedSignatureCandidateUnionDomainCovers
           generatedSignatureFacts mask) :
     TemplateLanguageDomainCoversIdentityRange
       generatedSignatureCandidateUnionDomain {anchor} {hi} := by
-  intro rank mask hlt hlo hhi hM hgood
-  have hrank : rank = {anchor} := by omega
-  subst rank
+  refine TemplateLanguageDomainCoversIdentityRange.single ?_
+  intro mask hlt hM hgood
   have hmember : generatedGoodMaskMember mask := hmask hlt hgood
   exact ⟨generatedCandidateOfMask mask, rfl, hfacts hmember, rfl⟩
 

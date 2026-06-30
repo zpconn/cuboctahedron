@@ -30153,3 +30153,41 @@ but it is a reusable Prop-level assembly lemma.  It keeps future generated
 singleton/domain smoke files from re-emitting local Nat interval proofs while
 preserving the main rule that hcover must come from compressed
 state/signature/algebraic membership, not rank/mask tables.
+
+### Phase 6Z.6K.8AP.16DU.9FX checkpoint: singleton signature smoke uses domain `single`
+
+Phase 6Z.6K.8AP.16DU.9FX updates
+`scripts/generate_ap16l_signature_membership_smoke.py` so the bounded
+positive-survivor signature smoke consumes
+`TemplateLanguageDomainCoversIdentityRange.single` in both singleton-domain
+coverage proofs:
+
+- `generatedSignatureTemplateDomainCovers`;
+- `generatedSignatureCandidateUnionDomainCovers`.
+
+This keeps the smoke aligned with the production-facing API from 9FW.  The
+generated file no longer emits the local `omega` proof that the queried rank in
+`[anchor, anchor+1)` is the anchor; it only emits the semantic mask/facts
+payload for the anchor.
+
+Regeneration command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/generate_ap16l_signature_membership_smoke.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=18076`.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 240s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean
+```
+
+Result: passed in `elapsed=0:04.30`, `max_rss_kb=3259996`.
+
+Decision: accepted.  This does not change the remaining hard obligation, but
+it validates that generated singleton hcover smoke can route through the
+shared Prop-level singleton combinator.
