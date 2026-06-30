@@ -43592,3 +43592,68 @@ that production generation should keep this shape sharded and serial/low-jobs.
 Next work should move the weighted positive-mask bridge into the generator so
 new rank/signature modules can emit this theorem surface directly, without
 hand-patching a private predicate adapter.
+
+### Phase 6Z6K8AP16DU9IQ19 - AP.16T emitter learns weighted-cover close
+
+The rank/signature source-row emitter now has optional weighted-positive hooks:
+
+```text
+scripts/generate_ap16t_precomputed_signature_smoke.py
+```
+
+New options:
+
+```text
+--weighted-positive-module
+--weighted-positive-predicate
+--weighted-positive-theorem
+```
+
+When `--weighted-positive-module` is supplied, the emitter imports that module
+and emits:
+
+```lean
+generatedGoodMaskMember_of_weightedPositiveMaskMember
+
+generatedSingletonSignatureWeightedClosedSemanticAllGoodCoverage :
+  AllTranslationGoodCoverageOnRange anchor (anchor + 1)
+```
+
+This makes the weighted-cover/source-row composition from
+Phase 6Z6K8AP16DU9IQ18 reproducible for future generated rank/signature
+modules instead of requiring a hand patch inside each module.
+
+Throwaway generation command:
+
+```bash
+python3 scripts/generate_ap16t_precomputed_signature_smoke.py \
+  --rank 896 \
+  --mask 9 \
+  --output /tmp/WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke.lean \
+  --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke \
+  --weighted-positive-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank896PositiveMasksSmoke
+```
+
+The generated `/tmp` file was typechecked under the memory guard:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/ap16t_weighted_emitter_tmp_guard.json \
+  -- lake env lean /tmp/WeightedDenomCubeDU9IQRank896PositivePrecomputedSignatureSmoke.lean
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `57.15s` | `7474 MiB` | `40389 MiB` | `0` |
+
+Decision: accepted.  This does not yet scale beyond the bounded rank-`896`
+slice, but it closes a critical reproducibility gap: the next generated
+source-row slices can be emitted directly with a weighted-cover closed theorem.
+The next scaling task is to emit positive-mask bridge modules from the traced
+weighted-cover emitter automatically, then call this AP.16T emitter with those
+module names for a bounded multi-rank batch.

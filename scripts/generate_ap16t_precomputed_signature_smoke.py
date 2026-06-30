@@ -448,6 +448,9 @@ def emit_module(
     bad_masks: dict[int, BadDirectionCase],
     output: Path,
     module_namespace: str,
+    weighted_positive_module: str | None,
+    weighted_positive_predicate: str,
+    weighted_positive_theorem: str,
 ) -> None:
     anchor = int(signature["ranks"][0])
     hi = anchor + 1
@@ -462,8 +465,14 @@ def emit_module(
         int(mask): key_to_ctor[signature["mask_candidates"][str(mask)][0]]
         for mask in good_masks
     }
-    lines: list[str] = [
+    imports = [
         "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.BadMaskCover",
+    ]
+    if weighted_positive_module is not None:
+        imports.append(f"import {weighted_positive_module}")
+
+    lines: list[str] = [
+        *imports,
         "",
         "/-!",
         "Generated AP.16T precomputed positive-survivor signature smoke.",
@@ -608,6 +617,39 @@ def emit_module(
         "      intro mask hlt hgood",
         "      exact generatedGoodMaskMember_of_GoodDirection_viaCover hlt hgood)",
         "",
+    ])
+    if weighted_positive_module is not None:
+        weighted_predicate = (
+            f"{weighted_positive_module}.{weighted_positive_predicate}"
+        )
+        weighted_theorem = f"{weighted_positive_module}.{weighted_positive_theorem}"
+        lines.extend([
+            "private theorem generatedGoodMaskMember_of_weightedPositiveMaskMember",
+            "    {mask : SignMask}",
+            f"    (h : {weighted_predicate} mask) :",
+            "    generatedGoodMaskMember mask := by",
+            "  fin_cases mask <;>",
+            "    simp [",
+            f"      {weighted_predicate},",
+            "      generatedGoodMaskMember] at h ⊢",
+            "",
+            "/--",
+            "AP.16T weighted-cover closed semantic singleton-signature coverage theorem.",
+            "",
+            "This closes AP.16AZ's semantic membership premise through an",
+            "externally generated traced weighted-denominator cube cover rather",
+            "than through the older rank-local bad-mask cover.",
+            "-/",
+            "theorem generatedSingletonSignatureWeightedClosedSemanticAllGoodCoverage :",
+            f"    AllTranslationGoodCoverageOnRange {anchor} {hi} :=",
+            "  generatedSingletonSignatureSemanticAllGoodCoverage",
+            "    (by",
+            "      intro mask hlt hgood",
+            "      exact generatedGoodMaskMember_of_weightedPositiveMaskMember",
+            f"        ({weighted_theorem} hlt hgood))",
+            "",
+        ])
+    lines.extend([
         f"end {module_namespace}",
         "",
     ])
@@ -622,6 +664,24 @@ def main() -> None:
     parser.add_argument("--namespace", default=None)
     parser.add_argument("--rank", type=int, default=DEFAULT_RANK)
     parser.add_argument("--mask", type=int, default=DEFAULT_MASK)
+    parser.add_argument(
+        "--weighted-positive-module",
+        default=None,
+        help=(
+            "Lean module/namespace exposing a public positive-mask predicate "
+            "and GoodDirection-to-positive-mask theorem."
+        ),
+    )
+    parser.add_argument(
+        "--weighted-positive-predicate",
+        default="rank896PositiveMaskMember",
+        help="Predicate name inside --weighted-positive-module.",
+    )
+    parser.add_argument(
+        "--weighted-positive-theorem",
+        default="goodDirection_rank896PositiveMaskMember",
+        help="GoodDirection bridge theorem name inside --weighted-positive-module.",
+    )
     args = parser.parse_args()
 
     module_namespace = (
@@ -650,6 +710,9 @@ def main() -> None:
         bad_masks=bad_masks,
         output=args.output,
         module_namespace=module_namespace,
+        weighted_positive_module=args.weighted_positive_module,
+        weighted_positive_predicate=args.weighted_positive_predicate,
+        weighted_positive_theorem=args.weighted_positive_theorem,
     )
     print(
         f"wrote {args.output} for rank {args.rank}, "
