@@ -1,0 +1,3194 @@
+{
+  "ambiguous_good_survivor_memberships": 0,
+  "ambiguous_samples": [],
+  "bad_direction_evidence_emitted": 0,
+  "bounded_generation_estimate": {
+    "candidate_chunks_at_64_candidates": 1,
+    "proof_parallelism": "Python generation may use --jobs 4; Lean smoke builds should stay serial/focused",
+    "rough_lean_lines": 1328,
+    "row_modules": 8,
+    "source_language_modules": 20
+  },
+  "candidates_per_good_mask_histogram": {
+    "1": 138
+  },
+  "counts": {
+    "covered_cases": 138,
+    "good_direction_survivors": 138,
+    "identity_words": 12,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 52,
+    "not_good_direction_masks": 630,
+    "pair_words_scanned": 64,
+    "translation_sign_assignments": 768,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "candidate_gate": 2000,
+    "notes": [
+      "the profile groups only GoodDirection survivors",
+      "denominator-nonpositive masks are intentionally not enumerated",
+      "future Lean evidence should consume a GoodDirection premise and prove positive membership"
+    ],
+    "signature_gate": 2000,
+    "status": "accepted-positive-survivor-membership-profile"
+  },
+  "descriptor_family_count": 20,
+  "duplicate_rank_mask_memberships": 0,
+  "duplicate_samples": [],
+  "jobs": 4,
+  "masks_per_rank_histogram": {
+    "11": 1,
+    "13": 5,
+    "16": 2,
+    "7": 2,
+    "8": 2
+  },
+  "next_lean_surface": {
+    "erasure_path": [
+      "SourcePositionRowProducerGoodCoverageOnRange.of_coverage",
+      "SourcePositionRowProducerGoodLanguageOnRange.to_allGoodCoverage",
+      "semanticGeneratedCoverageOfAllGoodIntervals"
+    ],
+    "forbidden_shape": "do not prove forall mask by fin_cases over all 64 masks; do not emit denominator-nonpositive witnesses for masks that fail GoodDirection",
+    "membership_goal": "produce one SourcePairPositionSpec, one SourceIndexStateRowProducer, and one SourceIndexStateKey",
+    "premises": [
+      "rank < numPairWords",
+      "lo <= rank",
+      "rank < hi",
+      "totalLinearOfPairWord (unrankPairWord rank) = matId",
+      "GoodDirectionAtRank rank mask"
+    ],
+    "target": "SourcePositionRowProducerGoodCoverageOnRange lo hi"
+  },
+  "phase": "6Z.6K.8AP.16I",
+  "positive_candidate_catalog": [
+    {
+      "case_count": 43,
+      "descriptor_count": 1,
+      "key": "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+      "mask_count": 6,
+      "rank_count": 12,
+      "sample": [
+        {
+          "mask": 0,
+          "rank": 65,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 9,
+          "rank": 65,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 0,
+          "rank": 72,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 18,
+          "rank": 72,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm"
+          ],
+          "excludedFaceSetSize": 6,
+          "face": "tmmm",
+          "impact": 1,
+          "index": 23,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmm 5",
+          "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+          "slot": 5
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 19,
+      "descriptor_count": 1,
+      "key": "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295",
+      "mask_count": 4,
+      "rank_count": 8,
+      "sample": [
+        {
+          "mask": 13,
+          "rank": 65,
+          "sourceIndices": [
+            0,
+            11
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 22,
+          "rank": 65,
+          "sourceIndices": [
+            0,
+            11
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 13,
+          "rank": 72,
+          "sourceIndices": [
+            0,
+            11
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 22,
+          "rank": 72,
+          "sourceIndices": [
+            0,
+            11
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 11,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e87, by decide\u27e9",
+          "obligation": "ordering:7"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 13,
+      "descriptor_count": 1,
+      "key": "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+      "mask_count": 3,
+      "rank_count": 7,
+      "sample": [
+        {
+          "mask": 54,
+          "rank": 65,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 54,
+          "rank": 78,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 22,
+          "rank": 80,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 54,
+          "rank": 80,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "excludedFaceSetSize": 7,
+          "face": "tmmp",
+          "impact": 1,
+          "index": 24,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmp 6",
+          "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+          "slot": 6
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 10,
+      "descriptor_count": 1,
+      "key": "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded",
+      "mask_count": 5,
+      "rank_count": 6,
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 84,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 86,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 87,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 89,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 6,
+          "index": 83,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 8,
+      "descriptor_count": 1,
+      "key": "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68",
+      "mask_count": 2,
+      "rank_count": 5,
+      "sample": [
+        {
+          "mask": 13,
+          "rank": 78,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 13,
+          "rank": 84,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 29,
+          "rank": 84,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 29,
+          "rank": 86,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 7,
+      "descriptor_count": 1,
+      "key": "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40",
+      "mask_count": 2,
+      "rank_count": 5,
+      "sample": [
+        {
+          "mask": 45,
+          "rank": 72,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 45,
+          "rank": 78,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 45,
+          "rank": 120,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 47,
+          "rank": 120,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 1,
+          "index": 25,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 6,
+      "descriptor_count": 1,
+      "key": "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63",
+      "mask_count": 4,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 13,
+          "rank": 123,
+          "sourceIndices": [
+            0,
+            13
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 22,
+          "rank": 123,
+          "sourceIndices": [
+            0,
+            13
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 13,
+          "rank": 125,
+          "sourceIndices": [
+            0,
+            13
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 22,
+          "rank": 125,
+          "sourceIndices": [
+            0,
+            13
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 13,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e89, by decide\u27e9",
+          "obligation": "ordering:9"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 5,
+      "descriptor_count": 1,
+      "key": "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b",
+      "mask_count": 5,
+      "rank_count": 3,
+      "sample": [
+        {
+          "mask": 54,
+          "rank": 86,
+          "sourceIndices": [
+            122,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 55,
+          "rank": 86,
+          "sourceIndices": [
+            122,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 45,
+          "rank": 87,
+          "sourceIndices": [
+            122,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 47,
+          "rank": 87,
+          "sourceIndices": [
+            122,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 9,
+          "index": 122,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e89, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:9:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 4,
+      "descriptor_count": 1,
+      "key": "80ededb7a93030d8e451da53d329282f00aaae96771dd601441bfcb7f493a521",
+      "mask_count": 4,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 45,
+          "rank": 80,
+          "sourceIndices": [
+            148,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 80,
+          "sourceIndices": [
+            148,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 54,
+          "rank": 125,
+          "sourceIndices": [
+            148,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 55,
+          "rank": 125,
+          "sourceIndices": [
+            148,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 11,
+          "index": 148,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e811, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:11:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 4,
+      "descriptor_count": 1,
+      "key": "ce27a48d56d26f3187d51f3f91c860bc8962c6e1921a64107832d1e28c09bca2",
+      "mask_count": 4,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 28,
+          "rank": 84,
+          "sourceIndices": [
+            1,
+            15
+          ],
+          "template": "opp_1m_var_second"
+        },
+        {
+          "mask": 45,
+          "rank": 89,
+          "sourceIndices": [
+            1,
+            15
+          ],
+          "template": "opp_1m_var_second"
+        },
+        {
+          "mask": 54,
+          "rank": 89,
+          "sourceIndices": [
+            1,
+            15
+          ],
+          "template": "opp_1m_var_second"
+        },
+        {
+          "mask": 55,
+          "rank": 89,
+          "sourceIndices": [
+            1,
+            15
+          ],
+          "template": "opp_1m_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        },
+        {
+          "dynamic": false,
+          "index": 15,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e811, by decide\u27e9",
+          "obligation": "ordering:11"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_second"
+      ]
+    },
+    {
+      "case_count": 4,
+      "descriptor_count": 1,
+      "key": "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d",
+      "mask_count": 2,
+      "rank_count": 3,
+      "sample": [
+        {
+          "mask": 29,
+          "rank": 65,
+          "sourceIndices": [
+            175,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 30,
+          "rank": 72,
+          "sourceIndices": [
+            175,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 29,
+          "rank": 78,
+          "sourceIndices": [
+            175,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 30,
+          "rank": 78,
+          "sourceIndices": [
+            175,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 12,
+          "face": "xm",
+          "impact": 13,
+          "index": 175,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e813, by decide\u27e9 Face.xm 1",
+          "obligation": "interior:13:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 1
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "key": "6967b55102537fd57b4794517c832a8d888f640d7639d45485b982e2329f62d8",
+      "mask_count": 1,
+      "rank_count": 3,
+      "sample": [
+        {
+          "mask": 28,
+          "rank": 78,
+          "sourceIndices": [
+            2,
+            7
+          ],
+          "template": "opp_m1_var_second"
+        },
+        {
+          "mask": 28,
+          "rank": 80,
+          "sourceIndices": [
+            2,
+            7
+          ],
+          "template": "opp_m1_var_second"
+        },
+        {
+          "mask": 28,
+          "rank": 89,
+          "sourceIndices": [
+            2,
+            7
+          ],
+          "template": "opp_m1_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_second"
+      ]
+    },
+    {
+      "case_count": 2,
+      "descriptor_count": 1,
+      "key": "03e232a8aba9a89ba6c508e12b3396c2ef41049cc9611e61f36b53570b697623",
+      "mask_count": 2,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 45,
+          "rank": 84,
+          "sourceIndices": [
+            2,
+            15
+          ],
+          "template": "opp_m1_var_second"
+        },
+        {
+          "mask": 47,
+          "rank": 84,
+          "sourceIndices": [
+            2,
+            15
+          ],
+          "template": "opp_m1_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        },
+        {
+          "dynamic": false,
+          "index": 15,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e811, by decide\u27e9",
+          "obligation": "ordering:11"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_second"
+      ]
+    },
+    {
+      "case_count": 2,
+      "descriptor_count": 1,
+      "key": "2ddb70a003d7b88234fa9589e14626cd5b83e2f14a1dddc6e1b5057fadf25dc4",
+      "mask_count": 1,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 65,
+          "sourceIndices": [
+            3,
+            11
+          ],
+          "template": "eq_eq_neg_var_second"
+        },
+        {
+          "mask": 63,
+          "rank": 72,
+          "sourceIndices": [
+            3,
+            11
+          ],
+          "template": "eq_eq_neg_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 3,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e83, by decide\u27e9",
+          "obligation": "xpStart:3"
+        },
+        {
+          "dynamic": false,
+          "index": 11,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e87, by decide\u27e9",
+          "obligation": "ordering:7"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_neg_var_second"
+      ]
+    },
+    {
+      "case_count": 2,
+      "descriptor_count": 1,
+      "key": "5e5c0130d5b98662961778aceff46c6ca9d895d69a01188a133b29e720438566",
+      "mask_count": 1,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 28,
+          "rank": 120,
+          "sourceIndices": [
+            96,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 28,
+          "rank": 125,
+          "sourceIndices": [
+            96,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 7,
+          "index": 96,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e87, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:7:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 2,
+      "descriptor_count": 1,
+      "key": "f11ae72737c7e7f0ccd2189d71bf958a371eba14cfcf83f2d78e9d0e709ed777",
+      "mask_count": 1,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 28,
+          "rank": 86,
+          "sourceIndices": [
+            84,
+            3
+          ],
+          "template": "eq_eq_neg_var_first"
+        },
+        {
+          "mask": 28,
+          "rank": 87,
+          "sourceIndices": [
+            84,
+            3
+          ],
+          "template": "eq_eq_neg_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 12,
+          "face": "xm",
+          "impact": 6,
+          "index": 84,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xm 1",
+          "obligation": "interior:6:xm:slot1:excluded=yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 1
+        },
+        {
+          "dynamic": false,
+          "index": 3,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e83, by decide\u27e9",
+          "obligation": "xpStart:3"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_neg_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "2c91fe54b77bd1029a9147c583442ce3faa9315b34c562bf2dc5bd4ad166590b",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 45,
+          "rank": 86,
+          "sourceIndices": [
+            1,
+            16
+          ],
+          "template": "opp_1m_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        },
+        {
+          "dynamic": false,
+          "index": 16,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e812, by decide\u27e9",
+          "obligation": "ordering:12"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_second"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "60a2c714f0e6a4e3d2cec09e32bfd3736da53f58e1e170b33123e72b0c1cea98",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 54,
+          "rank": 87,
+          "sourceIndices": [
+            1,
+            14
+          ],
+          "template": "opp_1m_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        },
+        {
+          "dynamic": false,
+          "index": 14,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e810, by decide\u27e9",
+          "obligation": "ordering:10"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_second"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "c5d8a0a887f9458304460a8eb6f91bc8e293c898cc2488517104ad39457ad12e",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 47,
+          "rank": 89,
+          "sourceIndices": [
+            161,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 12,
+          "index": 161,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e812, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:12:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "key": "d0463464045bcef7789bbcba2debc1a5d639c5971d24975cb91bfadb6001c33e",
+      "mask_count": 1,
+      "rank_count": 1,
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 78,
+          "sourceIndices": [
+            1,
+            7
+          ],
+          "template": "opp_1m_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_second"
+      ]
+    }
+  ],
+  "positive_candidate_group_count": 20,
+  "positive_survivor_signature_catalog": [
+    {
+      "case_count": 16,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "key": "af563aaa3e92326f21c01b1e2ece16aef9f012730d1089f8c8055acb3837422e",
+      "mask_candidates": {
+        "13": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "ce27a48d56d26f3187d51f3f91c860bc8962c6e1921a64107832d1e28c09bca2"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "31": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "45": [
+          "03e232a8aba9a89ba6c508e12b3396c2ef41049cc9611e61f36b53570b697623"
+        ],
+        "47": [
+          "03e232a8aba9a89ba6c508e12b3396c2ef41049cc9611e61f36b53570b697623"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "63": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        84
+      ]
+    },
+    {
+      "case_count": 16,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "key": "d5f01ff503da2fa46a4a07c89b8fd6b861b9c545911b0dd902c18598bdd3417d",
+      "mask_candidates": {
+        "13": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "6967b55102537fd57b4794517c832a8d888f640d7639d45485b982e2329f62d8"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "31": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "45": [
+          "ce27a48d56d26f3187d51f3f91c860bc8962c6e1921a64107832d1e28c09bca2"
+        ],
+        "47": [
+          "c5d8a0a887f9458304460a8eb6f91bc8e293c898cc2488517104ad39457ad12e"
+        ],
+        "54": [
+          "ce27a48d56d26f3187d51f3f91c860bc8962c6e1921a64107832d1e28c09bca2"
+        ],
+        "55": [
+          "ce27a48d56d26f3187d51f3f91c860bc8962c6e1921a64107832d1e28c09bca2"
+        ],
+        "63": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        89
+      ]
+    },
+    {
+      "case_count": 13,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "key": "38d400c7f92238ced16cec8fa3c6d6c366745fad5c802eb9aa74c18cef901ca3",
+      "mask_candidates": {
+        "13": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "28": [
+          "6967b55102537fd57b4794517c832a8d888f640d7639d45485b982e2329f62d8"
+        ],
+        "30": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "31": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "45": [
+          "80ededb7a93030d8e451da53d329282f00aaae96771dd601441bfcb7f493a521"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "63": [
+          "80ededb7a93030d8e451da53d329282f00aaae96771dd601441bfcb7f493a521"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        80
+      ]
+    },
+    {
+      "case_count": 13,
+      "good_masks": [
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "key": "96afe96639d995f69cd02ffc5614aee51de117467b57b96d9cb4aaa2b2ccf6e3",
+      "mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "f11ae72737c7e7f0ccd2189d71bf958a371eba14cfcf83f2d78e9d0e709ed777"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "31": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "45": [
+          "2c91fe54b77bd1029a9147c583442ce3faa9315b34c562bf2dc5bd4ad166590b"
+        ],
+        "54": [
+          "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b"
+        ],
+        "55": [
+          "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b"
+        ],
+        "63": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        86
+      ]
+    },
+    {
+      "case_count": 13,
+      "good_masks": [
+        8,
+        9,
+        13,
+        18,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        63
+      ],
+      "key": "adb86984fe523034072eca547f1733ff607163e2d7395a72876016beb9f47251",
+      "mask_candidates": {
+        "13": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "f11ae72737c7e7f0ccd2189d71bf958a371eba14cfcf83f2d78e9d0e709ed777"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "31": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "45": [
+          "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b"
+        ],
+        "47": [
+          "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b"
+        ],
+        "54": [
+          "60a2c714f0e6a4e3d2cec09e32bfd3736da53f58e1e170b33123e72b0c1cea98"
+        ],
+        "63": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        87
+      ]
+    },
+    {
+      "case_count": 13,
+      "good_masks": [
+        8,
+        9,
+        13,
+        18,
+        22,
+        24,
+        28,
+        29,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "key": "b79615a95c0a8b13f1d44bfd8d91f5590e372a21393af934aed7da04d900079c",
+      "mask_candidates": {
+        "13": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "5e5c0130d5b98662961778aceff46c6ca9d895d69a01188a133b29e720438566"
+        ],
+        "29": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "31": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "45": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "47": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        120
+      ]
+    },
+    {
+      "case_count": 13,
+      "good_masks": [
+        8,
+        9,
+        13,
+        18,
+        22,
+        24,
+        28,
+        29,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "key": "bb0a3c537c1464b2807bf3875781139eb9fb3043149877e0a9e14bd4eed254d4",
+      "mask_candidates": {
+        "13": [
+          "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "5e5c0130d5b98662961778aceff46c6ca9d895d69a01188a133b29e720438566"
+        ],
+        "29": [
+          "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63"
+        ],
+        "31": [
+          "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63"
+        ],
+        "45": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "47": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "54": [
+          "80ededb7a93030d8e451da53d329282f00aaae96771dd601441bfcb7f493a521"
+        ],
+        "55": [
+          "80ededb7a93030d8e451da53d329282f00aaae96771dd601441bfcb7f493a521"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        125
+      ]
+    },
+    {
+      "case_count": 11,
+      "good_masks": [
+        0,
+        9,
+        13,
+        18,
+        22,
+        28,
+        29,
+        30,
+        45,
+        54,
+        63
+      ],
+      "key": "8c411050beac0cf8892c2d59f4cffe5e100624d36a110b3fc554a1e7e1e5d6b7",
+      "mask_candidates": {
+        "0": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "13": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "28": [
+          "6967b55102537fd57b4794517c832a8d888f640d7639d45485b982e2329f62d8"
+        ],
+        "29": [
+          "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d"
+        ],
+        "30": [
+          "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d"
+        ],
+        "45": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "63": [
+          "d0463464045bcef7789bbcba2debc1a5d639c5971d24975cb91bfadb6001c33e"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        78
+      ]
+    },
+    {
+      "case_count": 8,
+      "good_masks": [
+        8,
+        9,
+        13,
+        24,
+        30,
+        31,
+        54,
+        55
+      ],
+      "key": "75b7a56769c22e2148b47d3e49b56b94f9a4aa70f2ec87f75622a7cc1254818d",
+      "mask_candidates": {
+        "13": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "30": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "31": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        122
+      ]
+    },
+    {
+      "case_count": 8,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        22,
+        47,
+        54,
+        55
+      ],
+      "key": "91a77793d6ee358df5fa9a402cd3f22cb7570982f0b385819b7c49255c09e9dd",
+      "mask_candidates": {
+        "13": [
+          "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63"
+        ],
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63"
+        ],
+        "47": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        123
+      ]
+    },
+    {
+      "case_count": 7,
+      "good_masks": [
+        0,
+        13,
+        18,
+        22,
+        30,
+        45,
+        63
+      ],
+      "key": "55400410aa277d8585855caec5a33fadaf56ef307f5682469493d5471c62f219",
+      "mask_candidates": {
+        "0": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "13": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "30": [
+          "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d"
+        ],
+        "45": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "63": [
+          "2ddb70a003d7b88234fa9589e14626cd5b83e2f14a1dddc6e1b5057fadf25dc4"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        72
+      ]
+    },
+    {
+      "case_count": 7,
+      "good_masks": [
+        0,
+        9,
+        13,
+        22,
+        29,
+        54,
+        63
+      ],
+      "key": "b00e7ed9520adc7b42693ed639afc5652a4d0b564059b662cb42b84683517279",
+      "mask_candidates": {
+        "0": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "13": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "22": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "29": [
+          "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "63": [
+          "2ddb70a003d7b88234fa9589e14626cd5b83e2f14a1dddc6e1b5057fadf25dc4"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "rank_count": 1,
+      "ranks": [
+        65
+      ]
+    }
+  ],
+  "positive_survivor_signature_count": 12,
+  "ranges": [
+    [
+      64,
+      128
+    ]
+  ],
+  "ranks_with_good_direction": 12,
+  "reusable_obligation_count": 28,
+  "row_group_count": 8,
+  "schema_version": 1,
+  "source_language_failure_samples": [],
+  "source_language_group_count": 20,
+  "source_language_validation_failures": {},
+  "source_pair_spec_group_count": 20,
+  "top_positive_candidate_groups": [
+    {
+      "case_count": 43,
+      "descriptor_count": 1,
+      "key": "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+      "mask_count": 6,
+      "rank_count": 12,
+      "sample": [
+        {
+          "mask": 0,
+          "rank": 65,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 9,
+          "rank": 65,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 0,
+          "rank": 72,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 18,
+          "rank": 72,
+          "sourceIndices": [
+            23,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm"
+          ],
+          "excludedFaceSetSize": 6,
+          "face": "tmmm",
+          "impact": 1,
+          "index": 23,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmm 5",
+          "obligation": "interior:1:tmmm:slot5:excluded=xp,xm,yp,ym,zp,zm",
+          "slot": 5
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 19,
+      "descriptor_count": 1,
+      "key": "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295",
+      "mask_count": 4,
+      "rank_count": 8,
+      "sample": [
+        {
+          "mask": 13,
+          "rank": 65,
+          "sourceIndices": [
+            0,
+            11
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 22,
+          "rank": 65,
+          "sourceIndices": [
+            0,
+            11
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 13,
+          "rank": 72,
+          "sourceIndices": [
+            0,
+            11
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 22,
+          "rank": 72,
+          "sourceIndices": [
+            0,
+            11
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 11,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e87, by decide\u27e9",
+          "obligation": "ordering:7"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 13,
+      "descriptor_count": 1,
+      "key": "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+      "mask_count": 3,
+      "rank_count": 7,
+      "sample": [
+        {
+          "mask": 54,
+          "rank": 65,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 54,
+          "rank": 78,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 22,
+          "rank": 80,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        },
+        {
+          "mask": 54,
+          "rank": 80,
+          "sourceIndices": [
+            24,
+            1
+          ],
+          "template": "opp_1m_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm"
+          ],
+          "excludedFaceSetSize": 7,
+          "face": "tmmp",
+          "impact": 1,
+          "index": 24,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmp 6",
+          "obligation": "interior:1:tmmp:slot6:excluded=xp,xm,yp,ym,zp,zm,tmmm",
+          "slot": 6
+        },
+        {
+          "dynamic": false,
+          "index": 1,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e81, by decide\u27e9",
+          "obligation": "xpStart:1"
+        }
+      ],
+      "template_ids": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "case_count": 10,
+      "descriptor_count": 1,
+      "key": "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded",
+      "mask_count": 5,
+      "rank_count": 6,
+      "sample": [
+        {
+          "mask": 63,
+          "rank": 84,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 86,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 87,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 63,
+          "rank": 89,
+          "sourceIndices": [
+            83,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 6,
+          "index": 83,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:6:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "case_count": 8,
+      "descriptor_count": 1,
+      "key": "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68",
+      "mask_count": 2,
+      "rank_count": 5,
+      "sample": [
+        {
+          "mask": 13,
+          "rank": 78,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 13,
+          "rank": 84,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 29,
+          "rank": 84,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 29,
+          "rank": 86,
+          "sourceIndices": [
+            0,
+            7
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 7,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e83, by decide\u27e9",
+          "obligation": "ordering:3"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 7,
+      "descriptor_count": 1,
+      "key": "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40",
+      "mask_count": 2,
+      "rank_count": 5,
+      "sample": [
+        {
+          "mask": 45,
+          "rank": 72,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 45,
+          "rank": 78,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 45,
+          "rank": 120,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        },
+        {
+          "mask": 47,
+          "rank": 120,
+          "sourceIndices": [
+            25,
+            2
+          ],
+          "template": "opp_m1_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xp",
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp"
+          ],
+          "excludedFaceSetSize": 8,
+          "face": "tmpm",
+          "impact": 1,
+          "index": 25,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpm 7",
+          "obligation": "interior:1:tmpm:slot7:excluded=xp,xm,yp,ym,zp,zm,tmmm,tmmp",
+          "slot": 7
+        },
+        {
+          "dynamic": false,
+          "index": 2,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e82, by decide\u27e9",
+          "obligation": "xpStart:2"
+        }
+      ],
+      "template_ids": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "case_count": 6,
+      "descriptor_count": 1,
+      "key": "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63",
+      "mask_count": 4,
+      "rank_count": 2,
+      "sample": [
+        {
+          "mask": 13,
+          "rank": 123,
+          "sourceIndices": [
+            0,
+            13
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 22,
+          "rank": 123,
+          "sourceIndices": [
+            0,
+            13
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 13,
+          "rank": 125,
+          "sourceIndices": [
+            0,
+            13
+          ],
+          "template": "eq_eq_pos_var_second"
+        },
+        {
+          "mask": 22,
+          "rank": 125,
+          "sourceIndices": [
+            0,
+            13
+          ],
+          "template": "eq_eq_pos_var_second"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        },
+        {
+          "dynamic": false,
+          "index": 13,
+          "kind": "ordering",
+          "lean": "SourcePositionSpec.ordering \u27e89, by decide\u27e9",
+          "obligation": "ordering:9"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "case_count": 5,
+      "descriptor_count": 1,
+      "key": "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b",
+      "mask_count": 5,
+      "rank_count": 3,
+      "sample": [
+        {
+          "mask": 54,
+          "rank": 86,
+          "sourceIndices": [
+            122,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 55,
+          "rank": 86,
+          "sourceIndices": [
+            122,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 45,
+          "rank": 87,
+          "sourceIndices": [
+            122,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        },
+        {
+          "mask": 47,
+          "rank": 87,
+          "sourceIndices": [
+            122,
+            0
+          ],
+          "template": "eq_eq_pos_var_first"
+        }
+      ],
+      "source_positions": [
+        {
+          "dynamic": true,
+          "excludedFaceSet": [
+            "xm",
+            "yp",
+            "ym",
+            "zp",
+            "zm",
+            "tmmm",
+            "tmmp",
+            "tmpm",
+            "tmpp",
+            "tpmm",
+            "tpmp",
+            "tppm",
+            "tppp"
+          ],
+          "excludedFaceSetSize": 13,
+          "face": "xp",
+          "impact": 9,
+          "index": 122,
+          "kind": "interior",
+          "lean": "SourcePositionSpec.interior \u27e89, by decide\u27e9 Face.xp 0",
+          "obligation": "interior:9:xp:slot0:excluded=xm,yp,ym,zp,zm,tmmm,tmmp,tmpm,tmpp,tpmm,tpmp,tppm,tppp",
+          "slot": 0
+        },
+        {
+          "dynamic": false,
+          "index": 0,
+          "kind": "xpStart",
+          "lean": "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+          "obligation": "xpStart:0"
+        }
+      ],
+      "template_ids": [
+        "eq_eq_pos_var_first"
+      ]
+    }
+  ],
+  "top_positive_survivor_signatures": [
+    {
+      "candidate_count": 7,
+      "case_count": 16,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "key": "af563aaa3e92326f21c01b1e2ece16aef9f012730d1089f8c8055acb3837422e",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "13": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "ce27a48d56d26f3187d51f3f91c860bc8962c6e1921a64107832d1e28c09bca2"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "31": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "45": [
+          "03e232a8aba9a89ba6c508e12b3396c2ef41049cc9611e61f36b53570b697623"
+        ],
+        "47": [
+          "03e232a8aba9a89ba6c508e12b3396c2ef41049cc9611e61f36b53570b697623"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "63": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        84
+      ]
+    },
+    {
+      "candidate_count": 7,
+      "case_count": 16,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "key": "d5f01ff503da2fa46a4a07c89b8fd6b861b9c545911b0dd902c18598bdd3417d",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "13": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "6967b55102537fd57b4794517c832a8d888f640d7639d45485b982e2329f62d8"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "31": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "45": [
+          "ce27a48d56d26f3187d51f3f91c860bc8962c6e1921a64107832d1e28c09bca2"
+        ],
+        "47": [
+          "c5d8a0a887f9458304460a8eb6f91bc8e293c898cc2488517104ad39457ad12e"
+        ],
+        "54": [
+          "ce27a48d56d26f3187d51f3f91c860bc8962c6e1921a64107832d1e28c09bca2"
+        ],
+        "55": [
+          "ce27a48d56d26f3187d51f3f91c860bc8962c6e1921a64107832d1e28c09bca2"
+        ],
+        "63": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        89
+      ]
+    },
+    {
+      "candidate_count": 5,
+      "case_count": 13,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "key": "38d400c7f92238ced16cec8fa3c6d6c366745fad5c802eb9aa74c18cef901ca3",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "13": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "28": [
+          "6967b55102537fd57b4794517c832a8d888f640d7639d45485b982e2329f62d8"
+        ],
+        "30": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "31": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "45": [
+          "80ededb7a93030d8e451da53d329282f00aaae96771dd601441bfcb7f493a521"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "63": [
+          "80ededb7a93030d8e451da53d329282f00aaae96771dd601441bfcb7f493a521"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        80
+      ]
+    },
+    {
+      "candidate_count": 7,
+      "case_count": 13,
+      "good_masks": [
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "key": "96afe96639d995f69cd02ffc5614aee51de117467b57b96d9cb4aaa2b2ccf6e3",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "16": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "f11ae72737c7e7f0ccd2189d71bf958a371eba14cfcf83f2d78e9d0e709ed777"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "31": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "45": [
+          "2c91fe54b77bd1029a9147c583442ce3faa9315b34c562bf2dc5bd4ad166590b"
+        ],
+        "54": [
+          "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b"
+        ],
+        "55": [
+          "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b"
+        ],
+        "63": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        86
+      ]
+    },
+    {
+      "candidate_count": 7,
+      "case_count": 13,
+      "good_masks": [
+        8,
+        9,
+        13,
+        18,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        63
+      ],
+      "key": "adb86984fe523034072eca547f1733ff607163e2d7395a72876016beb9f47251",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "13": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "f11ae72737c7e7f0ccd2189d71bf958a371eba14cfcf83f2d78e9d0e709ed777"
+        ],
+        "29": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "30": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "31": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "45": [
+          "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b"
+        ],
+        "47": [
+          "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b"
+        ],
+        "54": [
+          "60a2c714f0e6a4e3d2cec09e32bfd3736da53f58e1e170b33123e72b0c1cea98"
+        ],
+        "63": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        87
+      ]
+    },
+    {
+      "candidate_count": 6,
+      "case_count": 13,
+      "good_masks": [
+        8,
+        9,
+        13,
+        18,
+        22,
+        24,
+        28,
+        29,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "key": "b79615a95c0a8b13f1d44bfd8d91f5590e372a21393af934aed7da04d900079c",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "13": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "d67508ec688c7fb39e7f36e05f6c5c9854e04b653e8ea876583166dd05e2952b"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "5e5c0130d5b98662961778aceff46c6ca9d895d69a01188a133b29e720438566"
+        ],
+        "29": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "31": [
+          "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+        ],
+        "45": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "47": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "55": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        120
+      ]
+    },
+    {
+      "candidate_count": 5,
+      "case_count": 13,
+      "good_masks": [
+        8,
+        9,
+        13,
+        18,
+        22,
+        24,
+        28,
+        29,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "key": "bb0a3c537c1464b2807bf3875781139eb9fb3043149877e0a9e14bd4eed254d4",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "13": [
+          "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63"
+        ],
+        "24": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "28": [
+          "5e5c0130d5b98662961778aceff46c6ca9d895d69a01188a133b29e720438566"
+        ],
+        "29": [
+          "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63"
+        ],
+        "31": [
+          "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63"
+        ],
+        "45": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "47": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "54": [
+          "80ededb7a93030d8e451da53d329282f00aaae96771dd601441bfcb7f493a521"
+        ],
+        "55": [
+          "80ededb7a93030d8e451da53d329282f00aaae96771dd601441bfcb7f493a521"
+        ],
+        "8": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        125
+      ]
+    },
+    {
+      "candidate_count": 8,
+      "case_count": 11,
+      "good_masks": [
+        0,
+        9,
+        13,
+        18,
+        22,
+        28,
+        29,
+        30,
+        45,
+        54,
+        63
+      ],
+      "key": "8c411050beac0cf8892c2d59f4cffe5e100624d36a110b3fc554a1e7e1e5d6b7",
+      "rank_count": 1,
+      "sample_mask_candidates": {
+        "0": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "13": [
+          "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+        ],
+        "18": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ],
+        "22": [
+          "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+        ],
+        "28": [
+          "6967b55102537fd57b4794517c832a8d888f640d7639d45485b982e2329f62d8"
+        ],
+        "29": [
+          "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d"
+        ],
+        "30": [
+          "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d"
+        ],
+        "45": [
+          "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+        ],
+        "54": [
+          "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+        ],
+        "63": [
+          "d0463464045bcef7789bbcba2debc1a5d639c5971d24975cb91bfadb6001c33e"
+        ],
+        "9": [
+          "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+        ]
+      },
+      "sample_ranks": [
+        78
+      ]
+    }
+  ],
+  "total_good_direction_cases": 138,
+  "trusted_as_proof": false,
+  "windows": [
+    {
+      "counts": {
+        "covered_cases": 138,
+        "good_direction_survivors": 138,
+        "identity_words": 12,
+        "non_two_source_cases": 0,
+        "nonidentity_words_skipped": 52,
+        "not_good_direction_masks": 630,
+        "pair_words_scanned": 64,
+        "translation_sign_assignments": 768,
+        "uncovered_cases": 0
+      },
+      "family_count": 20,
+      "range": [
+        64,
+        128
+      ],
+      "represented_case_count": 138
+    }
+  ]
+}

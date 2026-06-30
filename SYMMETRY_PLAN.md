@@ -31628,3 +31628,43 @@ command above are the authoritative 9HD provenance.
 Decision: accepted.  Continue with low-memory parallel compact Walsh subcube
 profiles for ranks `65`, `72`, `78`, `80`, `84`, and `86`; do not emit Lean
 until every profile has `uncovered = 0`.
+
+### Phase 6Z.6K.8AP.16DU.9HE checkpoint: compact cover profiles for `[64,128)` batch
+
+Phase 6Z.6K.8AP.16DU.9HE first generates the compatible positive-survivor
+profile for `[64,128)`:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_ap16i_positive_survivor_membership.py \
+  --ranges 64:128 \
+  --jobs 4 \
+  --candidate-gate 2000 \
+  --signature-gate 2000 \
+  --json scripts/generated/phase6z6k8ap16du9he_positive_survivor_membership_64_128.json \
+  --md scripts/generated/phase6z6k8ap16du9he_positive_survivor_membership_64_128.md
+```
+
+Result: passed in `elapsed=0.86s`, `max_rss_kb=26908`, with `138`
+GoodDirection cases, `12` positive survivor signatures, `20` positive
+candidate groups, and no ambiguity or duplicates.
+
+Then it runs the compact Walsh subcube cover profiler for ranks `65`, `72`,
+`78`, `80`, `84`, and `86` using four Python workers.
+
+Result: passed in `elapsed=2.75s`, `max_rss_kb=25836`.
+
+Profile summary:
+
+| Rank | Anchor mask | Good masks | Bad masks | Candidates | Selected subcubes | Uncovered | Walsh validated |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
+| `65` | `0` | `7` | `57` | `215` | `21` | `0` | yes |
+| `72` | `0` | `7` | `57` | `215` | `22` | `0` | yes |
+| `78` | `0` | `11` | `53` | `196` | `22` | `0` | yes |
+| `80` | `8` | `13` | `51` | `173` | `21` | `0` | yes |
+| `84` | `8` | `16` | `48` | `201` | `17` | `0` | yes |
+| `86` | `9` | `13` | `51` | `197` | `16` | `0` | yes |
+
+Decision: accepted.  Every selected `[64,128)` target rank has a compact
+Walsh subcube profile with no uncovered masks.  Next step: prepare an
+AP16DJ-compatible batch plan/source pair for these six ranks and dry-run it
+before emitting Lean.
