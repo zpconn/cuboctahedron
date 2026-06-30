@@ -44326,3 +44326,121 @@ partial untracked rank-`911` bridge leaves from this attempted path were
 discarded. The next valid complete candidate from the corrected profile is
 rank `955`. Continue with the same memory discipline established for rank
 `905`: serial leaf-first builds, then warmed aggregate roots only.
+
+### Phase 6Z6K8AP16DU9IQ28 - generated rank-955 weighted source-row path accepted
+
+Rank `955` was the next valid complete DU9IQ weighted pipeline candidate after
+correcting the candidate profiler. The corrected profile reports:
+
+```text
+rank:                  955
+positive masks:        16, 18, 22, 54, 56, 57, 63
+reduced cubes:         13
+covered nonpositive:   57
+uncovered nonpositive: none
+```
+
+The traced bridge batch planner selected summary indices `78-90` and normal
+trace indices:
+
+```text
+0, 1, 3, 5, 6, 7, 8
+```
+
+Generation used the same leaf-first structure as rank `905`:
+
+```bash
+python3 scripts/generate_ap16dk_split_walsh_vector_trace_smoke.py \
+  --rank 955 \
+  --stem WeightedDenomCubeDU9IQVectorTraceRank955Chain \
+  --dependency-mode chain \
+  --component-step 3 \
+  --component-step 11 \
+  --component-final \
+  --report scripts/generated/weighted_denom_cube_du9iq_vector_trace_rank955_chain_generation.json
+```
+
+The vector trace emitted `25` files and exported root module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank955ChainSmoke
+```
+
+Guarded vector builds were run serially, with the leaves built before the
+warmed root. The maximum observed vector peak was:
+
+| layer | count | max elapsed | peak tree RSS | min available at max | exit |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| vector trace | `25` | `11.02s` | `4290.58 MiB` | `45758.98 MiB` | `0` |
+
+Normal traces were emitted for indices `0`, `1`, `3`, `5`, `6`, `7`, and `8`,
+then built serially:
+
+| layer | count | max elapsed | peak tree RSS | min available at max | exit |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| normal traces | `7` | `3.50s` | `4119.63 MiB` | `45942.13 MiB` | `0` |
+
+The direct bridges for indices `78-90` were emitted with
+`--standalone-reduced` and built serially:
+
+| layer | count | max elapsed | peak tree RSS | min available at max | exit |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| direct bridges | `13` | `3.50s` | `4150.20 MiB` | `45912.61 MiB` | `0` |
+
+The bridge cover was generated with:
+
+```bash
+python3 scripts/emit_du9iq_traced_bridge_cover.py \
+  --rank 955 \
+  --indices 78-90 \
+  --stem WeightedDenomCubeDU9IQDirectBridgeCoverRank955AllGeneratedSmoke \
+  --report scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank955_all_generated.json \
+  --positive-stem WeightedDenomCubeDU9IQDirectBridgeCoverRank955PositiveMasksGeneratedSmoke \
+  --positive-masks 16,18,22,54,56,57,63 \
+  --positive-report scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank955_positive_masks_generated.json
+```
+
+The positive-mask bridge module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank955PositiveMasksGeneratedSmoke
+```
+
+built under guard:
+
+| layer | count | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| positive cover | `1` | `9.01s` | `4194.18 MiB` | `45839.06 MiB` | `0` |
+
+The generated source-row module was then emitted using mask `16` as the
+positive-mask anchor:
+
+```bash
+python3 scripts/generate_ap16t_precomputed_signature_smoke.py \
+  --rank 955 \
+  --mask 16 \
+  --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank955PositiveGeneratedPrecomputedSignatureSmoke.lean \
+  --weighted-positive-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank955PositiveMasksGeneratedSmoke
+```
+
+The generator reported `7` positive masks, `5` candidate groups, and `57`
+bad-direction witnesses. The module exports the rank-local semantic coverage:
+
+```lean
+generatedSingletonSignatureWeightedClosedSemanticAllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 955 956
+```
+
+Focused guarded source-row build:
+
+| layer | count | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| source-row closure | `1` | `66.69s` | `8232.13 MiB` | `39541.35 MiB` | `0` |
+
+Decision: accepted. Rank `955` now has generated end-to-end weighted coverage
+to `AllTranslationGoodCoverageOnRange 955 956`. The corrected `[896,960)`
+DU9IQ reduced weighted-cover frontier is now exhausted for complete ranks:
+`896`, `897`, `899`, `903`, `905`, and `955` are closed; rank `911` remains
+blocked on masks `32`, `34`, and `41`. The next step is to either fold rank
+`955` into the bounded accepted root or move to the unresolved-rank repair path
+for rank `911`.
