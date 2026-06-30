@@ -1,0 +1,122 @@
+{
+  "entries": [
+    {
+      "anchor_mask": 9,
+      "bad_mask_count": 51,
+      "candidate_subcube_count": 173,
+      "good_mask_count": 13,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank896",
+      "rank": 896,
+      "selected_subcube_count": 19,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        7,
+        9,
+        10
+      ],
+      "signature_key_prefix": "du9iq_rank896"
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 51,
+      "candidate_subcube_count": 173,
+      "good_mask_count": 13,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank897",
+      "rank": 897,
+      "selected_subcube_count": 19,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        7,
+        9,
+        10
+      ],
+      "signature_key_prefix": "du9iq_rank897"
+    },
+    {
+      "anchor_mask": 8,
+      "bad_mask_count": 48,
+      "candidate_subcube_count": 201,
+      "good_mask_count": 16,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank899",
+      "rank": 899,
+      "selected_subcube_count": 17,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "signature_key_prefix": "du9iq_rank899"
+    },
+    {
+      "anchor_mask": 18,
+      "bad_mask_count": 57,
+      "candidate_subcube_count": 235,
+      "good_mask_count": 7,
+      "planned_modules": {
+        "cover": 1,
+        "selected_impact": 7,
+        "selected_impact_root": 1,
+        "total": 10,
+        "trace": 1
+      },
+      "planned_namespace_suffix": "Rank903",
+      "rank": 903,
+      "selected_subcube_count": 18,
+      "selected_word_impact_count": 7,
+      "selected_word_impacts": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        7,
+        11
+      ],
+      "signature_key_prefix": "du9iq_rank903"
+    }
+  ],
+  "generation_report": "scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_generation.json",
+  "next_command": "python3 scripts/generate_ap16dj_compact_walsh_batch.py --plan scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_plan.json --source scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_source.json --report scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_generation.json --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IQBatchSmoke.lean --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IQBatchSmoke",
+  "next_emit_command": "python3 scripts/generate_ap16dj_compact_walsh_batch.py --emit --plan scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_plan.json --source scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_source.json --report scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_generation.json --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IQBatchSmoke.lean --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IQBatchSmoke",
+  "phase": "Phase 6Z.6K.8AP.16DU.9IQ",
+  "plan": "scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_plan.json",
+  "root_lean": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IQBatchSmoke.lean",
+  "root_namespace": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IQBatchSmoke",
+  "schema_version": 1,
+  "source": "scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_source.json",
+  "trusted_as_proof": false
+}

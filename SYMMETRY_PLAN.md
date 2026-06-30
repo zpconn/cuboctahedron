@@ -39367,3 +39367,104 @@ Diagnostic summary:
 Decision: start DU9IQ with the four recommended ranks.  As with DU9IP, Python
 profiling/generation may use small guarded worker pools, but generated Lean
 rank leaves and roots must remain serial under the memory guard.
+
+### Phase 6Z6K8AP16DU9IQ - batch inputs prepared
+
+The positive-survivor membership profile was run over `[896,960)` under a
+`1000 MiB` process-tree cap and `30000 MiB` available-memory floor:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960_guard.json \
+  -- \
+  python3 scripts/profile_ap16i_positive_survivor_membership.py \
+    --ranges 896:960 \
+    --jobs 4 \
+    --sample-limit 64 \
+    --signature-gate 64 \
+    --candidate-gate 64 \
+    --json scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json \
+    --md scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.md
+```
+
+Result:
+
+- status: `accepted-positive-survivor-membership-profile`;
+- ranks with GoodDirection survivors: `7`;
+- GoodDirection cases: `75`;
+- positive candidate groups: `19`;
+- positive survivor signatures: `7`;
+- bad-direction evidence emitted: `0`;
+- duplicate rank/mask memberships: `0`;
+- ambiguous GoodDirection memberships: `0`;
+- guard peak RSS: `106 MiB`;
+- minimum available memory seen: `46246 MiB`.
+
+The compact Walsh cover scaling pass covered all `7` signatures:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9iq_compact_walsh_cover_scaling_guard.json \
+  -- \
+  python3 scripts/profile_ap16dd_compact_walsh_cover_scaling.py \
+    --profile scripts/generated/phase6z6k8ap16du9iq_positive_survivor_membership_896_960.json \
+    --output scripts/generated/phase6z6k8ap16du9iq_compact_walsh_cover_scaling.json \
+    --limit 64
+```
+
+Result:
+
+- sampled signatures: `7`;
+- uncovered signatures: `0`;
+- selected subcubes total: `119`;
+- selected subcubes min/max/mean: `15 / 19 / 17.00`;
+- selected word-impact union:
+  `[0, 1, 3, 5, 6, 7, 8, 9, 10, 11]`;
+- guard peak RSS: `26 MiB`;
+- minimum available memory seen: `46257 MiB`.
+
+The four recommended DU9IQ ranks were materialized as standalone compact Walsh
+cover profiles:
+
+| Rank | Anchor mask | Good masks | Selected subcubes | Uncovered | Selected word impacts |
+| ---: | ----------: | ---------: | ----------------: | --------: | --- |
+| `896` | `9` | `13` | `19` | `0` | `[0, 1, 3, 5, 7, 9, 10]` |
+| `897` | `8` | `13` | `19` | `0` | `[0, 1, 3, 5, 7, 9, 10]` |
+| `899` | `8` | `16` | `17` | `0` | `[0, 1, 3, 5, 7, 9, 11]` |
+| `903` | `18` | `7` | `18` | `0` | `[0, 1, 3, 5, 6, 7, 11]` |
+
+The DU9IQ plan/source pair was prepared from those four validated rank
+profiles:
+
+```bash
+python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile-glob 'scripts/generated/phase6z6k8ap16du9iq_rank*_walsh_subcube_cover.json' \
+  --output-prefix scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IQBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IQBatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IQ' \
+  --signature-key-prefix du9iq
+```
+
+Result:
+
+- prepared ranks: `896`, `897`, `899`, and `903`;
+- planned serial Lean targets before split-cover emission: `40`;
+- selected subcubes across prepared ranks: `73`;
+- selected word-impact union:
+  `[0, 1, 3, 5, 6, 7, 9, 10, 11]`;
+- plan:
+  `scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_plan.json`;
+- source:
+  `scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_source.json`.
+
+Decision: DU9IQ is ready for rank-by-rank split-cover emission.  Start with
+rank `896`, split trace step `12` and the final trace, and use component splits
+on later selected impacts `7`, `9`, and `10`.  Keep Lean checking serial under
+the `4200 MiB` rank guard.
