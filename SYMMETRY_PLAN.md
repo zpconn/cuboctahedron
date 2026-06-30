@@ -35901,3 +35901,61 @@ Guard summary:
 Decision: rank `498` is accepted.  The DU9IJ batch now has accepted split
 rank roots for `498` and `503`; continue one rank at a time with `449` and
 `501` before assembling the shallow batch root.
+
+### Phase 6Z6K8AP16DU9IJ - rank 449 split cover accepted
+
+The third DU9IJ proof-producing rank used the next validated compact cover:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ij_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ij_compact_hcover_batch_source.json \
+  --rank 449 \
+  --tag DU9IJ \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IJ' \
+  --report scripts/generated/phase6z6k8ap16du9ij_split_cover_rank449_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 7 \
+  --component-selected-impact 10
+```
+
+Generated topology:
+
+- selected word impacts: `[0, 1, 3, 5, 6, 7, 10]`;
+- selected subcubes: `17`;
+- guarded targets: `57`;
+- selected-impact normal component targets:
+  - `rank449_impact6_x`, `rank449_impact6_y`, `rank449_impact6_z`;
+  - `rank449_impact7_x`, `rank449_impact7_y`, `rank449_impact7_z`;
+  - `rank449_impact10_x`, `rank449_impact10_y`, `rank449_impact10_z`.
+
+Guard command:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ij_split_cover_rank449_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ij_split_cover_rank449_guard_4200.json \
+  --out-dir /tmp/ap16du9ij_split_cover_rank449_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard summary:
+
+- status: `passed`;
+- target count: `57`;
+- peak tree RSS: `4165.55 MiB`;
+- peak target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank449SplitFinalXSmoke`;
+- minimum available memory observed: `45848.24 MiB`;
+- summed target elapsed time: `193.26s`;
+- killed targets: `0`.
+
+Decision: rank `449` is accepted.  The DU9IJ batch now has accepted split
+rank roots for `449`, `498`, and `503`; continue serially with rank `501`
+before assembling the shallow DU9IJ split batch root.
