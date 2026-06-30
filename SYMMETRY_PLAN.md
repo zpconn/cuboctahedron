@@ -29487,3 +29487,67 @@ source-position shapes.  The next Lean smoke should therefore keep
 signature-specific coverage separate while factoring
 `TemplateLanguageMemberBridgeOnDomain` through reusable candidate-group
 member facts.
+
+### Phase 6Z.6K.8AP.16DU.9FL checkpoint: candidate-group domain member bridge
+
+Phase 6Z.6K.8AP.16DU.9FL updates
+`scripts/generate_ap16i_positive_membership_smoke.py` so the AP.16I
+group-level smoke exposes the reusable candidate-group member bridge directly:
+
+```lean
+private def generatedCandidateTemplateDomain :
+    TemplateLanguageDomain
+
+private theorem generatedCandidateTemplateDomainMemberBridge :
+    TemplateLanguageMemberBridgeOnDomain
+      generatedCandidateTemplateDomain
+
+theorem generatedGroupTemplateDomainCovers
+    (hclass : ...) :
+    TemplateLanguageDomainCoversIdentityRange
+      generatedCandidateTemplateDomain 0 5000
+
+theorem generatedGroupTemplateMemberBridgeViaDomain
+    (hclass : ...) :
+    TemplateLanguageMemberBridgeOnRange 0 5000
+```
+
+The key improvement over 9FG is that the member bridge for the candidate
+domain is now premise-free: once a case is in the domain, source-position facts
+and row facts produce template membership.  The remaining `hclass` premise is
+only the coverage side, proving that every identity-linear GoodDirection case
+in the bounded range belongs to that domain.
+
+Generation command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/generate_ap16i_positive_membership_smoke.py
+```
+
+Result: passed in `elapsed=0:00.04`, `max_rss_kb=17504`.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean
+```
+
+Result: passed in `elapsed=0:08.70`, `max_rss_kb=3253552`.
+
+The semantic contract audit was extended to guard the candidate-domain
+surface:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=12680`.
+
+Decision: accepted as the first reusable candidate-group domain smoke.  The
+next production-relevant move is to generate a bounded domain that is a
+disjunction of several candidate-group domains, with one shared member bridge
+per candidate group and a separate coverage theorem that routes each
+GoodDirection survivor into the appropriate candidate domain.

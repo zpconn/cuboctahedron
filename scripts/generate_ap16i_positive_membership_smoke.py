@@ -110,6 +110,19 @@ private def generatedCandidate (rank : Nat) (mask : SignMask) : Prop :=
   generatedSpec.Predicate rank mask /\\
     generatedRowProducer.Applies generatedKey rank mask
 
+private def generatedCandidateTemplateDomain : TemplateLanguageDomain :=
+  generatedCandidate
+
+private theorem generatedCandidateTemplateDomainMemberBridge :
+    TemplateLanguageMemberBridgeOnDomain
+      generatedCandidateTemplateDomain := by
+  intro rank mask hlt hmem hM hgood
+  have hsource : SourceIndexStateSourceFacts generatedKey rank mask :=
+    generatedSpec.sourceFacts rfl rfl rfl hmem.1
+  have hrows : SourceIndexStateRowFacts generatedKey rank mask :=
+    generatedRowProducer.rowFacts hmem.2
+  exact TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows
+
 /--
 Representative generated AP.16I theorem for candidate group `{group["key"]}`.
 
@@ -161,6 +174,34 @@ theorem generatedGroupTemplateMemberBridge
     TemplateLanguageMemberBridgeOnRange {lo} {hi} :=
   SourcePositionRowProducerGoodCoverageOnRange.to_templateMemberBridge
     (generatedGroupSourcePositionCoverage hclass)
+
+theorem generatedGroupTemplateDomainCovers
+    (hclass :
+      forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
+        {lo} <= rank ->
+          rank < {hi} ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                generatedCandidate rank mask) :
+    TemplateLanguageDomainCoversIdentityRange
+      generatedCandidateTemplateDomain {lo} {hi} := by
+  intro rank mask hlt hlo hhi hM hgood
+  exact hclass hlt hlo hhi hM hgood
+
+theorem generatedGroupTemplateMemberBridgeViaDomain
+    (hclass :
+      forall {{rank : Nat}} {{mask : SignMask}} (hlt : rank < numPairWords),
+        {lo} <= rank ->
+          rank < {hi} ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                generatedCandidate rank mask) :
+    TemplateLanguageMemberBridgeOnRange {lo} {hi} :=
+  TemplateLanguageMemberBridgeOnDomain.to_range
+    (generatedGroupTemplateDomainCovers hclass)
+    generatedCandidateTemplateDomainMemberBridge
 
 theorem generatedGroupTemplateCoverage
     (hclass :

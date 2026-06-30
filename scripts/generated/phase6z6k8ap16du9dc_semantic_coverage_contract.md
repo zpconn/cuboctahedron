@@ -16,6 +16,9 @@ it is a contract for the next proof-producing generator.
 | `generated_smoke_hclass_is_hypothesis` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean` |
 | `generated_smoke_template_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean` |
 | `generated_smoke_template_coverage_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean` |
+| `generated_smoke_candidate_domain_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean` |
+| `generated_smoke_candidate_domain_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean` |
+| `generated_smoke_template_member_bridge_via_domain_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean` |
 | `signature_smoke_template_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` |
 | `signature_smoke_semantic_template_member_bridge_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` |
 | `signature_smoke_template_domain_exists` | `true` | `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorSignatureMembershipGeneratedSmoke.lean` |

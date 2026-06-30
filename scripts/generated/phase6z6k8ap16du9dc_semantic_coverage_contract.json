@@ -16,6 +16,16 @@
       "needle": "theorem sourceIndexFactsCatalog_of_classifierKey_source_row",
       "present": true
     },
+    "generated_smoke_candidate_domain_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
+      "needle": "private def generatedCandidateTemplateDomain",
+      "present": true
+    },
+    "generated_smoke_candidate_domain_member_bridge_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
+      "needle": "private theorem generatedCandidateTemplateDomainMemberBridge",
+      "present": true
+    },
     "generated_smoke_hclass_is_hypothesis": {
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
       "needle": "(hclass :",
@@ -29,6 +39,11 @@
     "generated_smoke_template_member_bridge_exists": {
       "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
       "needle": "theorem generatedGroupTemplateMemberBridge",
+      "present": true
+    },
+    "generated_smoke_template_member_bridge_via_domain_exists": {
+      "file": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorMembershipGeneratedSmoke.lean",
+      "needle": "theorem generatedGroupTemplateMemberBridgeViaDomain",
       "present": true
     },
     "positive_single_candidate_classifier_exists": {

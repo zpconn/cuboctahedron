@@ -69,6 +69,18 @@ CHECKS = {
         "positive_survivor_membership_generated_smoke",
         "theorem generatedGroupTemplateCoverage",
     ),
+    "generated_smoke_candidate_domain_exists": (
+        "positive_survivor_membership_generated_smoke",
+        "private def generatedCandidateTemplateDomain",
+    ),
+    "generated_smoke_candidate_domain_member_bridge_exists": (
+        "positive_survivor_membership_generated_smoke",
+        "private theorem generatedCandidateTemplateDomainMemberBridge",
+    ),
+    "generated_smoke_template_member_bridge_via_domain_exists": (
+        "positive_survivor_membership_generated_smoke",
+        "theorem generatedGroupTemplateMemberBridgeViaDomain",
+    ),
     "signature_smoke_template_member_bridge_exists": (
         "positive_survivor_signature_membership_generated_smoke",
         "theorem generatedSingletonSignatureTemplateMemberBridge",
