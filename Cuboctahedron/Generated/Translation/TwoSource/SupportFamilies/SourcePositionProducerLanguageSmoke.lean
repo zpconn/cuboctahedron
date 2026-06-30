@@ -82,6 +82,14 @@ private theorem emptySourcePositionRowProducerCoverageBySingleCandidate :
       intro rank mask hlt hlo hhi hM hgood
       exact False.elim (Nat.not_lt_zero rank hhi))
 
+private theorem emptySourcePositionRowProducerCoverageBySingleCandidateDomain :
+    SourcePositionRowProducerGoodCoverageOnRange 0 0 :=
+  SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidateDomain
+    smokeSpec smokeRowProducer smokeKey rfl rfl rfl
+    (by
+      intro rank mask hlt hlo hhi hM hgood
+      exact False.elim (Nat.not_lt_zero rank hhi))
+
 def smokeLanguageOfCoverage :
     SourcePositionRowProducerGoodLanguageOnRange 0 0 :=
   SourcePositionRowProducerGoodLanguageOnRange.of_coverage
@@ -136,6 +144,11 @@ theorem smokeAllGoodCoverageOfSingleCandidateCoverage :
     AllTranslationGoodCoverageOnRange 0 0 :=
   SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
     emptySourcePositionRowProducerCoverageBySingleCandidate
+
+theorem smokeAllGoodCoverageOfSingleCandidateDomainCoverage :
+    AllTranslationGoodCoverageOnRange 0 0 :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_allGoodCoverage
+    emptySourcePositionRowProducerCoverageBySingleCandidateDomain
 
 theorem sourcePositionProducerLanguageSmoke_builds : True := by
   trivial

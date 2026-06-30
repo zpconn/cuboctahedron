@@ -139,13 +139,43 @@ theorem SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidate
             totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
                 (matId : Mat3 Rat) ->
               GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
-                rowProducer.Applies key rank mask) :
+        rowProducer.Applies key rank mask) :
     SourcePositionRowProducerGoodCoverageOnRange lo hi := by
   intro rank mask hlt hlo hhi hM hgood
   exact ⟨spec, rowProducer, key,
     ⟨hfirst, ⟨hsecond, ⟨hsupport,
       ⟨hsource hlt hlo hhi hM hgood,
         hrows hlt hlo hhi hM hgood⟩⟩⟩⟩⟩
+
+/--
+Build direct source-position coverage from a single compressed candidate
+domain.
+
+This is the generated-domain counterpart of `of_singleCandidate`: a future
+state/signature coverage theorem can target the semantic domain
+`spec.Predicate rank mask /\ rowProducer.Applies key rank mask`, and this
+adapter turns it into the AP.16D source-position coverage surface without
+replaying source or row facts separately.
+-/
+theorem SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidateDomain
+    {lo hi : Nat}
+    (spec : SourcePairPositionSpec)
+    (rowProducer : SourceIndexStateRowProducer)
+    (key : SourceIndexStateKey)
+    (hfirst : key.firstIndex = spec.first.index)
+    (hsecond : key.secondIndex = spec.second.index)
+    (hsupport : key.support = spec.support)
+    (hcover :
+      TemplateLanguageDomainCoversIdentityRange
+        (fun rank mask =>
+          spec.Predicate rank mask /\
+            rowProducer.Applies key rank mask)
+        lo hi) :
+    SourcePositionRowProducerGoodCoverageOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  have hmem := hcover hlt hlo hhi hM hgood
+  exact ⟨spec, rowProducer, key,
+    ⟨hfirst, ⟨hsecond, ⟨hsupport, hmem⟩⟩⟩⟩
 
 def SourcePositionRowProducerGoodLanguageOnRange.of_coverage
     {lo hi : Nat}

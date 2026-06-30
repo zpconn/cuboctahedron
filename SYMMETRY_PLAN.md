@@ -29865,3 +29865,51 @@ other semantic smokes.  This removes one hand-maintained piece from the
 coverage side.  The next bottleneck remains the higher-level proof that
 signatures/states satisfy these source-position predicates over a domain,
 rather than only proving the reusable lookup obligations themselves.
+
+### Phase 6Z.6K.8AP.16DU.9FR checkpoint: single-candidate-domain source-position adapter
+
+Phase 6Z.6K.8AP.16DU.9FR adds the generic theorem
+`SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidateDomain` to
+`SourcePositionProducerLanguage.lean`.
+
+The theorem is the domain-shaped counterpart of `of_singleCandidate`: if a
+compressed coverage proof can show that every identity-linear GoodDirection
+case in a range lies in the semantic domain
+
+```lean
+fun rank mask =>
+  spec.Predicate rank mask /\ rowProducer.Applies key rank mask
+```
+
+then the generic adapter turns that directly into
+`SourcePositionRowProducerGoodCoverageOnRange lo hi`.  This is a better target
+for generated state/signature coverage than separately emitting source and row
+premises for every candidate.
+
+Focused dependency build:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
+```
+
+Result: passed in `elapsed=0:02.79`, `max_rss_kb=3285724`.
+
+Focused smoke check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguageSmoke.lean
+```
+
+Result: passed in `elapsed=0:01.59`, `max_rss_kb=3256860`.
+
+Operational note: running the dependency check and the dependent smoke in
+parallel failed once because the smoke imported the old compiled `.olean`.
+For these API-extension checkpoints, rebuild the dependency target first and
+only then run dependent smoke files.  This is a build-cache sequencing issue,
+not a proof issue.
+
+Decision: accepted.  Future generated coverage can now target
+single-candidate semantic domains directly, and the bridge to AP.16D
+source-position coverage is hand-written and Lean-checked.
