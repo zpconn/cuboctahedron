@@ -1,0 +1,1806 @@
+{
+  "bad_mask_cases": 373,
+  "decision": {
+    "next_step": "profile-weighted-denominator-cube-cover",
+    "notes": [
+      "this profile emits no Lean",
+      "selected subcubes contain no positive-survivor masks",
+      "each selected subcube has one impact denominator nonpositive on every member mask",
+      "acceptance only authorizes a small Lean bound-smoke, not final production emission"
+    ],
+    "status": "reject-impact-subcube-profile"
+  },
+  "good_direction_cases": 75,
+  "identity_rank_count": 7,
+  "largest_rank_cover": 18,
+  "largest_selected_cube": 16,
+  "limit": 64,
+  "max_rank_cubes_gate": 24,
+  "max_total_cubes_gate": 96,
+  "nonidentity_rank_count": 57,
+  "phase": "6Z.6K.8AP.16DU.9IQ impact-subcube bad-cover profile",
+  "rank_end": 960,
+  "rank_start": 896,
+  "rank_summaries": [
+    {
+      "bad_mask_count": 51,
+      "candidate_cube_count": 407,
+      "good_masks": [
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "largest_selected_cube": 8,
+      "rank": 896,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            48,
+            49,
+            50,
+            51
+          ],
+          "max_denom": "-28/9",
+          "pattern": "**00*1"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            25,
+            27
+          ],
+          "max_denom": "-28/9",
+          "pattern": "1*0*10"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            12,
+            14,
+            44,
+            46
+          ],
+          "max_denom": "-28/9",
+          "pattern": "0*110*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            36,
+            37,
+            52,
+            53
+          ],
+          "max_denom": "-28/9",
+          "pattern": "*010*1"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 6,
+          "mask_count": 4,
+          "masks": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "max_denom": "-4/9",
+          "pattern": "1**000"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 8,
+          "mask_count": 4,
+          "masks": [
+            56,
+            58,
+            60,
+            62
+          ],
+          "max_denom": "-4/9",
+          "pattern": "0**111"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 11,
+          "mask_count": 4,
+          "masks": [
+            57,
+            59,
+            61,
+            63
+          ],
+          "max_denom": "-20/9",
+          "pattern": "1**111"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 11,
+          "mask_count": 4,
+          "masks": [
+            0,
+            2,
+            8,
+            10
+          ],
+          "max_denom": "-4/3",
+          "pattern": "0*0*00"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_denom": "-28/9",
+          "pattern": "1**010"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            40,
+            42,
+            44,
+            46
+          ],
+          "max_denom": "-28/9",
+          "pattern": "0**101"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            10,
+            11,
+            26,
+            27
+          ],
+          "max_denom": "-28/9",
+          "pattern": "*101*0"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 11,
+          "mask_count": 4,
+          "masks": [
+            0,
+            2,
+            4,
+            6
+          ],
+          "max_denom": "-44/9",
+          "pattern": "0**000"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 10,
+          "mask_count": 2,
+          "masks": [
+            41,
+            43
+          ],
+          "max_denom": "-4",
+          "pattern": "1*0101"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            36,
+            38,
+            44,
+            46
+          ],
+          "max_denom": "-28/9",
+          "pattern": "0*1*01"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 6,
+          "mask_count": 4,
+          "masks": [
+            5,
+            7,
+            37,
+            39
+          ],
+          "max_denom": "-4/9",
+          "pattern": "1*100*"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 8,
+          "mask_count": 2,
+          "masks": [
+            7,
+            15
+          ],
+          "max_denom": "-4/9",
+          "pattern": "111*00"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 11,
+          "mask_count": 2,
+          "masks": [
+            29,
+            61
+          ],
+          "max_denom": "-4/3",
+          "pattern": "10111*"
+        },
+        {
+          "fixed_count": 6,
+          "impact": 10,
+          "mask_count": 1,
+          "masks": [
+            20
+          ],
+          "max_denom": "-4",
+          "pattern": "001010"
+        }
+      ],
+      "selected_cube_count": 18,
+      "selected_mask_total": 67
+    },
+    {
+      "bad_mask_count": 51,
+      "candidate_cube_count": 407,
+      "good_masks": [
+        8,
+        13,
+        16,
+        18,
+        24,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "largest_selected_cube": 8,
+      "rank": 897,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_denom": "-28/9",
+          "pattern": "***001"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            49,
+            51
+          ],
+          "max_denom": "-28/9",
+          "pattern": "1*001*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            12,
+            14,
+            44,
+            46
+          ],
+          "max_denom": "-28/9",
+          "pattern": "0*110*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 6,
+          "mask_count": 4,
+          "masks": [
+            5,
+            7,
+            21,
+            23
+          ],
+          "max_denom": "-4/9",
+          "pattern": "1*10*0"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 8,
+          "mask_count": 4,
+          "masks": [
+            40,
+            42,
+            56,
+            58
+          ],
+          "max_denom": "-4/9",
+          "pattern": "0*01*1"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 11,
+          "mask_count": 4,
+          "masks": [
+            9,
+            11,
+            41,
+            43
+          ],
+          "max_denom": "-4/3",
+          "pattern": "1*010*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 11,
+          "mask_count": 4,
+          "masks": [
+            4,
+            6,
+            20,
+            22
+          ],
+          "max_denom": "-20/9",
+          "pattern": "0*10*0"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            48,
+            49,
+            52,
+            53
+          ],
+          "max_denom": "-28/9",
+          "pattern": "*0*011"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            1,
+            3,
+            17,
+            19
+          ],
+          "max_denom": "-28/9",
+          "pattern": "1*00*0"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            25,
+            27
+          ],
+          "max_denom": "-28/9",
+          "pattern": "1*0*10"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            44,
+            46,
+            60,
+            62
+          ],
+          "max_denom": "-28/9",
+          "pattern": "0*11*1"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            10,
+            11,
+            14,
+            15
+          ],
+          "max_denom": "-28/9",
+          "pattern": "*1*100"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 11,
+          "mask_count": 4,
+          "masks": [
+            41,
+            43,
+            57,
+            59
+          ],
+          "max_denom": "-44/9",
+          "pattern": "1*01*1"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 10,
+          "mask_count": 2,
+          "masks": [
+            0,
+            2
+          ],
+          "max_denom": "-4",
+          "pattern": "0*0000"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 8,
+          "mask_count": 4,
+          "masks": [
+            48,
+            50,
+            56,
+            58
+          ],
+          "max_denom": "-4/9",
+          "pattern": "0*0*11"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 6,
+          "mask_count": 2,
+          "masks": [
+            26,
+            58
+          ],
+          "max_denom": "-4/9",
+          "pattern": "01011*"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 11,
+          "mask_count": 2,
+          "masks": [
+            20,
+            28
+          ],
+          "max_denom": "-4/3",
+          "pattern": "001*10"
+        },
+        {
+          "fixed_count": 6,
+          "impact": 10,
+          "mask_count": 1,
+          "masks": [
+            61
+          ],
+          "max_denom": "-4",
+          "pattern": "101111"
+        }
+      ],
+      "selected_cube_count": 18,
+      "selected_mask_total": 67
+    },
+    {
+      "bad_mask_count": 48,
+      "candidate_cube_count": 489,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "largest_selected_cube": 8,
+      "rank": 899,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            32,
+            33,
+            34,
+            35
+          ],
+          "max_denom": "-4/3",
+          "pattern": "**000*"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            48,
+            49,
+            50,
+            51
+          ],
+          "max_denom": "-4/3",
+          "pattern": "**00*1"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            40,
+            41,
+            42,
+            43
+          ],
+          "max_denom": "-4/3",
+          "pattern": "**0*01"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_denom": "-4/3",
+          "pattern": "***001"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            25,
+            27
+          ],
+          "max_denom": "-4/3",
+          "pattern": "1*0*10"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            12,
+            14,
+            44,
+            46
+          ],
+          "max_denom": "-4/3",
+          "pattern": "0*110*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            20,
+            21,
+            52,
+            53
+          ],
+          "max_denom": "-4/3",
+          "pattern": "*0101*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            10,
+            11,
+            26,
+            27
+          ],
+          "max_denom": "-4/3",
+          "pattern": "*101*0"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            44,
+            46,
+            60,
+            62
+          ],
+          "max_denom": "-4/3",
+          "pattern": "0*11*1"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 6,
+          "mask_count": 2,
+          "masks": [
+            5,
+            7
+          ],
+          "max_denom": "-4",
+          "pattern": "1*1000"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 8,
+          "mask_count": 2,
+          "masks": [
+            56,
+            58
+          ],
+          "max_denom": "-4",
+          "pattern": "0*0111"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 10,
+          "mask_count": 2,
+          "masks": [
+            4,
+            6
+          ],
+          "max_denom": "-4",
+          "pattern": "0*1000"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 12,
+          "mask_count": 2,
+          "masks": [
+            57,
+            59
+          ],
+          "max_denom": "-4",
+          "pattern": "1*0111"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_denom": "-4/3",
+          "pattern": "1**010"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            10,
+            11,
+            14,
+            15
+          ],
+          "max_denom": "-4/3",
+          "pattern": "*1*100"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            52,
+            53,
+            60,
+            61
+          ],
+          "max_denom": "-4/3",
+          "pattern": "*01*11"
+        }
+      ],
+      "selected_cube_count": 16,
+      "selected_mask_total": 72
+    },
+    {
+      "bad_mask_count": 57,
+      "candidate_cube_count": 553,
+      "good_masks": [
+        18,
+        22,
+        24,
+        25,
+        54,
+        55,
+        63
+      ],
+      "largest_selected_cube": 8,
+      "rank": 903,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            6,
+            7,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_denom": "-68/27",
+          "pattern": "**100*"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 7,
+          "mask_count": 8,
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11
+          ],
+          "max_denom": "-4/9",
+          "pattern": "**0*00"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            36,
+            37,
+            38,
+            39,
+            44,
+            45,
+            46,
+            47
+          ],
+          "max_denom": "-68/27",
+          "pattern": "**1*01"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_denom": "-100/27",
+          "pattern": "***001"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 7,
+          "mask_count": 8,
+          "masks": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_denom": "-4/9",
+          "pattern": "***100"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_denom": "-20/27",
+          "pattern": "1**010"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            52,
+            53,
+            60,
+            61
+          ],
+          "max_denom": "-20/27",
+          "pattern": "*01*11"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 8,
+          "mask_count": 4,
+          "masks": [
+            28,
+            29,
+            30,
+            31
+          ],
+          "max_denom": "-44/27",
+          "pattern": "**1110"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 12,
+          "mask_count": 4,
+          "masks": [
+            40,
+            42,
+            56,
+            58
+          ],
+          "max_denom": "-44/27",
+          "pattern": "0*01*1"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 6,
+          "mask_count": 4,
+          "masks": [
+            16,
+            17,
+            48,
+            49
+          ],
+          "max_denom": "-4/9",
+          "pattern": "*0001*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            10,
+            11,
+            26,
+            27
+          ],
+          "max_denom": "-116/27",
+          "pattern": "*101*0"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 8,
+          "mask_count": 4,
+          "masks": [
+            34,
+            35,
+            50,
+            51
+          ],
+          "max_denom": "-44/27",
+          "pattern": "*100*1"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 12,
+          "mask_count": 4,
+          "masks": [
+            40,
+            41,
+            56,
+            57
+          ],
+          "max_denom": "-44/27",
+          "pattern": "*001*1"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            44,
+            46,
+            60,
+            62
+          ],
+          "max_denom": "-52/27",
+          "pattern": "0*11*1"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            10,
+            11,
+            42,
+            43
+          ],
+          "max_denom": "-20/27",
+          "pattern": "*1010*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 4,
+          "mask_count": 4,
+          "masks": [
+            20,
+            21,
+            52,
+            53
+          ],
+          "max_denom": "-20/27",
+          "pattern": "*0101*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 12,
+          "mask_count": 4,
+          "masks": [
+            56,
+            57,
+            58,
+            59
+          ],
+          "max_denom": "-68/27",
+          "pattern": "**0111"
+        }
+      ],
+      "selected_cube_count": 17,
+      "selected_mask_total": 88
+    },
+    {
+      "bad_mask_count": 56,
+      "candidate_cube_count": 633,
+      "good_masks": [
+        18,
+        22,
+        24,
+        41,
+        54,
+        55,
+        57,
+        63
+      ],
+      "largest_selected_cube": 16,
+      "rank": 905,
+      "selected": [
+        {
+          "fixed_count": 2,
+          "impact": 1,
+          "mask_count": 16,
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_denom": "-4/27",
+          "pattern": "***00*"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 2,
+          "mask_count": 8,
+          "masks": [
+            40,
+            42,
+            44,
+            46,
+            56,
+            58,
+            60,
+            62
+          ],
+          "max_denom": "-20/27",
+          "pattern": "0**1*1"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 4,
+          "mask_count": 8,
+          "masks": [
+            10,
+            11,
+            26,
+            27,
+            42,
+            43,
+            58,
+            59
+          ],
+          "max_denom": "-20/27",
+          "pattern": "*101**"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 2,
+          "mask_count": 8,
+          "masks": [
+            1,
+            3,
+            5,
+            7,
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_denom": "-20/27",
+          "pattern": "1**0*0"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 8,
+          "mask_count": 4,
+          "masks": [
+            12,
+            13,
+            28,
+            29
+          ],
+          "max_denom": "-44/9",
+          "pattern": "*011*0"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 4,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            20,
+            21,
+            36,
+            37,
+            52,
+            53
+          ],
+          "max_denom": "-20/27",
+          "pattern": "*010**"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 6,
+          "mask_count": 4,
+          "masks": [
+            16,
+            17,
+            48,
+            49
+          ],
+          "max_denom": "-4/9",
+          "pattern": "*0001*"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            36,
+            37,
+            38,
+            39,
+            44,
+            45,
+            46,
+            47
+          ],
+          "max_denom": "-20/27",
+          "pattern": "**1*01"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 7,
+          "mask_count": 4,
+          "masks": [
+            8,
+            10,
+            12,
+            14
+          ],
+          "max_denom": "-4/3",
+          "pattern": "0**100"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 11,
+          "mask_count": 4,
+          "masks": [
+            13,
+            15,
+            29,
+            31
+          ],
+          "max_denom": "-4/9",
+          "pattern": "1*11*0"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            25,
+            27
+          ],
+          "max_denom": "-4/27",
+          "pattern": "1*0*10"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 6,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            49,
+            51
+          ],
+          "max_denom": "-4/9",
+          "pattern": "1*001*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 7,
+          "mask_count": 4,
+          "masks": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "max_denom": "-4",
+          "pattern": "**0100"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 8,
+          "mask_count": 4,
+          "masks": [
+            28,
+            29,
+            60,
+            61
+          ],
+          "max_denom": "-4/3",
+          "pattern": "*0111*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 11,
+          "mask_count": 4,
+          "masks": [
+            32,
+            34,
+            48,
+            50
+          ],
+          "max_denom": "-28/9",
+          "pattern": "0*00*1"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 6,
+          "mask_count": 2,
+          "masks": [
+            14,
+            30
+          ],
+          "max_denom": "-4/9",
+          "pattern": "0111*0"
+        }
+      ],
+      "selected_cube_count": 16,
+      "selected_mask_total": 94
+    },
+    {
+      "bad_mask_count": 53,
+      "candidate_cube_count": 537,
+      "good_masks": [
+        9,
+        16,
+        18,
+        22,
+        24,
+        45,
+        50,
+        54,
+        55,
+        57,
+        63
+      ],
+      "largest_selected_cube": 8,
+      "rank": 911,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            6,
+            7,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_denom": "-28/9",
+          "pattern": "**100*"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 2,
+          "mask_count": 8,
+          "masks": [
+            40,
+            42,
+            44,
+            46,
+            56,
+            58,
+            60,
+            62
+          ],
+          "max_denom": "-4/27",
+          "pattern": "0**1*1"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 2,
+          "mask_count": 8,
+          "masks": [
+            1,
+            3,
+            5,
+            7,
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_denom": "-4/27",
+          "pattern": "1**0*0"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 4,
+          "mask_count": 8,
+          "masks": [
+            10,
+            11,
+            26,
+            27,
+            42,
+            43,
+            58,
+            59
+          ],
+          "max_denom": "-4/27",
+          "pattern": "*101**"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_denom": "-52/27",
+          "pattern": "**1*00"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 6,
+          "mask_count": 4,
+          "masks": [
+            33,
+            35,
+            49,
+            51
+          ],
+          "max_denom": "-20/9",
+          "pattern": "1*00*1"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 4,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            20,
+            21,
+            36,
+            37,
+            52,
+            53
+          ],
+          "max_denom": "-4/27",
+          "pattern": "*010**"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 8,
+          "mask_count": 4,
+          "masks": [
+            28,
+            29,
+            60,
+            61
+          ],
+          "max_denom": "-28/9",
+          "pattern": "*0111*"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "max_denom": "-28/9",
+          "pattern": "***000"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 6,
+          "mask_count": 4,
+          "masks": [
+            32,
+            33,
+            48,
+            49
+          ],
+          "max_denom": "-20/9",
+          "pattern": "*000*1"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 10,
+          "mask_count": 4,
+          "masks": [
+            25,
+            27,
+            29,
+            31
+          ],
+          "max_denom": "-28/9",
+          "pattern": "1**110"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 7,
+          "mask_count": 4,
+          "masks": [
+            8,
+            10,
+            40,
+            42
+          ],
+          "max_denom": "-4/3",
+          "pattern": "0*010*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 7,
+          "mask_count": 4,
+          "masks": [
+            32,
+            34,
+            40,
+            42
+          ],
+          "max_denom": "-4/3",
+          "pattern": "0*0*01"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 7,
+          "mask_count": 4,
+          "masks": [
+            42,
+            43,
+            46,
+            47
+          ],
+          "max_denom": "-4/3",
+          "pattern": "*1*101"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 7,
+          "mask_count": 4,
+          "masks": [
+            40,
+            41,
+            42,
+            43
+          ],
+          "max_denom": "-4",
+          "pattern": "**0101"
+        },
+        {
+          "fixed_count": 5,
+          "impact": 6,
+          "mask_count": 2,
+          "masks": [
+            14,
+            30
+          ],
+          "max_denom": "-20/9",
+          "pattern": "0111*0"
+        }
+      ],
+      "selected_cube_count": 16,
+      "selected_mask_total": 90
+    },
+    {
+      "bad_mask_count": 57,
+      "candidate_cube_count": 593,
+      "good_masks": [
+        16,
+        18,
+        22,
+        54,
+        56,
+        57,
+        63
+      ],
+      "largest_selected_cube": 8,
+      "rank": 955,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            6,
+            7,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_denom": "-140/81",
+          "pattern": "**100*"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 4,
+          "mask_count": 8,
+          "masks": [
+            10,
+            11,
+            26,
+            27,
+            42,
+            43,
+            58,
+            59
+          ],
+          "max_denom": "-44/81",
+          "pattern": "*101**"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 7,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            40,
+            41,
+            42,
+            43
+          ],
+          "max_denom": "-4/9",
+          "pattern": "**0*01"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 9,
+          "mask_count": 8,
+          "masks": [
+            9,
+            11,
+            13,
+            15,
+            25,
+            27,
+            29,
+            31
+          ],
+          "max_denom": "-4/27",
+          "pattern": "1**1*0"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "max_denom": "-364/81",
+          "pattern": "***000"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 4,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            20,
+            21,
+            36,
+            37,
+            52,
+            53
+          ],
+          "max_denom": "-44/81",
+          "pattern": "*010**"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 7,
+          "mask_count": 8,
+          "masks": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47
+          ],
+          "max_denom": "-4/9",
+          "pattern": "***101"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 6,
+          "mask_count": 4,
+          "masks": [
+            48,
+            49,
+            50,
+            51
+          ],
+          "max_denom": "-68/27",
+          "pattern": "**0011"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 9,
+          "mask_count": 8,
+          "masks": [
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31
+          ],
+          "max_denom": "-4/9",
+          "pattern": "***110"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_denom": "-76/81",
+          "pattern": "1**010"
+        },
+        {
+          "fixed_count": 3,
+          "impact": 1,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_denom": "-268/81",
+          "pattern": "**1*00"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 2,
+          "mask_count": 4,
+          "masks": [
+            44,
+            46,
+            60,
+            62
+          ],
+          "max_denom": "-172/81",
+          "pattern": "0*11*1"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 6,
+          "mask_count": 4,
+          "masks": [
+            49,
+            51,
+            53,
+            55
+          ],
+          "max_denom": "-44/27",
+          "pattern": "1**011"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 8,
+          "mask_count": 4,
+          "masks": [
+            28,
+            29,
+            60,
+            61
+          ],
+          "max_denom": "-28/9",
+          "pattern": "*0111*"
+        },
+        {
+          "fixed_count": 4,
+          "impact": 9,
+          "mask_count": 4,
+          "masks": [
+            8,
+            9,
+            24,
+            25
+          ],
+          "max_denom": "-4/27",
+          "pattern": "*001*0"
+        }
+      ],
+      "selected_cube_count": 15,
+      "selected_mask_total": 96
+    }
+  ],
+  "total_candidate_cubes": 3619,
+  "total_selected_cubes": 116,
+  "trusted_as_proof": false
+}

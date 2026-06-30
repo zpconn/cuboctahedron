@@ -40097,3 +40097,47 @@ denominator obstruction and reports whether a small `BadMaskCover` family can
 discharge `GoodDirection -> positive-survivor membership` without
 compact-Walsh roots, `fin_cases mask`, rank-local Boolean reduction, or
 `pairPrefixLinearNat` replay.
+
+### Phase 6Z6K8AP16DU9IQ - impact-subcube hmask cover profile rejected
+
+The first compressed `hmask` diagnostic tests the simplest semantic
+`BadMaskCover` candidate: Boolean subcubes that contain no positive-survivor
+masks and have one exact impact denominator nonpositive on every member mask.
+This targets the existing `ImpactSubcubeCover` API but still emits no Lean:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_du9iq_impact_subcube_cover.py \
+  --rank-start 896 \
+  --limit 64 \
+  --max-total-cubes-gate 96 \
+  --max-rank-cubes-gate 24 \
+  --json scripts/generated/phase6z6k8ap16du9iq_impact_subcube_cover_profile.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_impact_subcube_cover_profile.md
+```
+
+Result:
+
+- status: `reject-impact-subcube-profile`;
+- next step: `profile-weighted-denominator-cube-cover`;
+- rank window: `[896,960)`;
+- identity ranks: `7`;
+- GoodDirection cases: `75`;
+- bad-mask cases: `373`;
+- candidate subcubes: `3619`;
+- selected greedy subcubes: `116`;
+- largest per-rank cover: `18`;
+- largest selected subcube: `16`;
+- total-cube gate: `96`;
+- per-rank gate: `24`;
+- elapsed time: `5.11s`;
+- peak RSS: `27420 KiB`.
+
+Decision: common-impact subcubes are real and cover the entire bad-mask
+complement in this window, but the cover is still too granular for the current
+production threshold.  Do not emit Lean for this route yet.  Promote weighted
+denominator-cube profiling next: allow one family to prove that a nonnegative
+integer combination of multiple exact impact denominators is nonpositive on a
+whole Boolean subcube.  This is the correct next semantic strengthening because
+it can merge cubes where different masks fail at different first impacts while
+still targeting `BadMaskCover` and avoiding compact-Walsh roots, `fin_cases
+mask`, rank-local Boolean reduction, and `pairPrefixLinearNat` replay.
