@@ -44810,3 +44810,47 @@ Telemetry:
 Decision: accepted. Corrected rank `903` is now closed through the
 compact-free selector route.  Corrected ranks closed by this route so far:
 `896`, `897`, `899`, and `903`.
+
+### Phase 6Z6K8AP16DU9IQ35 - compact-free selector range accepted for rank 905
+
+Rank `905` is another single-shard compact-free range using
+`SourceIndexStateSelectorDU9IQMicroRank896_956.Shard001`.  It was emitted with:
+
+```bash
+python3 scripts/emit_compact_free_selector_singleton_range.py \
+  --rank 905 \
+  --micro-dir Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --micro-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --positive-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank905PositiveMasksGeneratedSmoke \
+  --module SourceIndexStateSelectorDU9IQCompactFreeRange905Smoke \
+  --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQCompactFreeRange905Smoke.lean
+```
+
+The module exports:
+
+```lean
+selectorCatalog905_906_allGood :
+  AllTranslationGoodCoverageOnRange 905 906
+```
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9iq_compact_free_range905_guard.json \
+  -- lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQCompactFreeRange905Smoke
+```
+
+Telemetry:
+
+| target | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: |
+| `SourceIndexStateSelectorDU9IQCompactFreeRange905Smoke` | `5.51s` | `3955.05 MiB` | `46083.25 MiB` | `0` |
+
+Decision: accepted. Corrected rank `905` is now closed through the
+compact-free selector route.  Corrected ranks closed by this route so far:
+`896`, `897`, `899`, `903`, and `905`.
