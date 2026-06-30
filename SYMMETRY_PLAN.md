@@ -39637,3 +39637,90 @@ under the `4200 MiB` guard, but the margin is still tight.  Continue DU9IQ with
 rank `899`, keep trace steps `11` and `12` split, keep the final trace split,
 and split the selected later word impacts `7`, `9`, and `11` by normal
 component.  Keep Lean checking strictly serial.
+
+### Phase 6Z6K8AP16DU9IQ - rank 899 split cover accepted
+
+Rank `899` was emitted from the DU9IQ compact h-cover batch using the same
+guarded split discipline as rank `897`.  Its compact Walsh profile contains
+`17` selected subcubes and `16` GoodDirection masks.  The selected word-impact
+set is `[0, 1, 3, 5, 7, 9, 11]`; the selected normal-component splits were
+impacts `7`, `9`, and `11`.  The vector trace split kept steps `11` and `12`,
+plus the final trace, explicit.
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9iq_compact_hcover_batch_source.json \
+  --rank 899 \
+  --tag DU9IQ \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IQ' \
+  --report scripts/generated/phase6z6k8ap16du9iq_split_cover_rank899_generation.json \
+  --component-trace-step 11 \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 7 \
+  --component-selected-impact 9 \
+  --component-selected-impact 11
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected rank: `899`;
+- selected subcubes: `17`;
+- planned guarded targets: `60`.
+
+A plan-only pass confirmed the target list:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --plan-only \
+  --generation-report scripts/generated/phase6z6k8ap16du9iq_split_cover_rank899_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9iq_split_cover_rank899_plan.json \
+  --out-dir /tmp/ap16du9iq_split_cover_rank899_plan \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+The full guarded serial Lean pass was then run:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9iq_split_cover_rank899_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9iq_split_cover_rank899_guard_4200_floor30000.json \
+  --out-dir /tmp/ap16du9iq_split_cover_rank899_guard_4200_floor30000 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- completed targets: `60 / 60`;
+- maximum target RSS:
+  `4173.26 MiB`
+  (`ImpactSubcubeWalshSymbolicCompactDenomDU9IQSplitCoverRank899Smoke`);
+- minimum available memory seen:
+  `45751.59 MiB`
+  (`ImpactSubcubeWalshVectorTraceRank899SplitStep12ZSmoke`);
+- root target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IQSplitCoverRank899Smoke`;
+- root target RSS:
+  `4173.26 MiB`;
+- root target minimum available memory:
+  `45753.00 MiB`.
+
+The generated rank `899` Lean files were scanned for forbidden proof shortcuts
+(`sorry`, `admit`, `axiom`, `native_decide`, and `unsafe`), with no matches.
+
+Decision: rank `899` is accepted, but the root theorem is now only about
+`26.74 MiB` under the `4200 MiB` cap.  Continue DU9IQ with rank `903`, keep
+trace steps `11` and `12` split, keep the final trace split, and split the
+selected later word impacts `6`, `7`, and `11` by normal component.  Keep Lean
+checking strictly serial; if rank `903` approaches the cap, add one more
+component split rather than raising the cap.
