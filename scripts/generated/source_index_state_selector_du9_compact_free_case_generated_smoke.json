@@ -1,0 +1,32 @@
+{
+  "cases": [
+    {
+      "key": "k000",
+      "mask": 8,
+      "rank": 0,
+      "source_theorem": "rank0Mask8_selectorCoordinateSourceRowFacts",
+      "theorem": "rank0Mask8_selectorCoordinateSourceRowFacts"
+    },
+    {
+      "key": "k003",
+      "mask": 13,
+      "rank": 0,
+      "source_theorem": "rank0Mask13_selectorCoordinateSourceRowFacts",
+      "theorem": "rank0Mask13_selectorCoordinateSourceRowFacts"
+    }
+  ],
+  "decision": {
+    "notes": [
+      "This is not final coverage.",
+      "It validates the theorem surface future selector-family emitters should produce.",
+      "Range membership remains the next hard proof obligation."
+    ],
+    "status": "compact-free-selector-case-smoke-generated"
+  },
+  "imports_compact_membership": false,
+  "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeCaseGeneratedSmoke",
+  "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9CompactFreeCaseGeneratedSmoke.lean",
+  "phase": "Phase 6Z6K8AP16DU9IQ compact-free selector case emitter",
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}

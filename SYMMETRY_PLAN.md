@@ -43013,3 +43013,61 @@ Decision: accepted as a small API step toward the production
 source-index/state membership route.  This does not solve range membership by
 itself, but it gives the next generated selector-family smoke a compact-free
 source/row fact surface to consume.
+
+### Phase 6Z6K8AP16DU9IQ10 - compact-free selector case emitter accepted
+
+The compact-free selector source/row surface was made reproducible through a
+small emitter:
+
+```text
+scripts/emit_compact_free_selector_case_smoke.py
+```
+
+It emits:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeCaseGeneratedSmoke
+```
+
+The generated module imports only:
+
+```lean
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.RowPropertySemanticCaseSmoke
+```
+
+and re-exports the two selector-coordinate source/row facts:
+
+```lean
+rank0Mask8_selectorCoordinateSourceRowFacts :
+  SelectorCoordinateSourceRowFacts
+    (selectorCoordinateOfKey ClassifierKey.k000) 0 rank0Mask8
+
+rank0Mask13_selectorCoordinateSourceRowFacts :
+  SelectorCoordinateSourceRowFacts
+    (selectorCoordinateOfKey ClassifierKey.k003) 0 rank0Mask13
+```
+
+The emitter report confirms that no import line mentions
+`SourceIndexStateSelectorDU9PCompactMembership`.
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9_compact_free_case_generated_smoke_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeCaseGeneratedSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `4.00s` | `3931 MiB` | `45535 MiB` | `0` |
+
+Decision: accepted as a generated compact-free theorem-surface smoke.  The
+remaining production blocker is still range membership: proving that a whole
+selector/source-row family covers every `GoodDirectionAtRank` survivor in its
+language without falling back to compact rank-local membership.
