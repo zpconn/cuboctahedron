@@ -37874,3 +37874,70 @@ selecting the next compact h-cover window or by building the next higher-level
 shallow root over accepted split batch roots.  Keep the same memory rule:
 individual heavy rank roots are checked serially; only shallow roots may be
 considered for broader composition.
+
+### Phase 6Z6K8AP16DU9I - pairwise split composition accepted
+
+An attempted shallow DU9I group root over the accepted split batch roots
+DU9IE, DU9IG, DU9IH, DU9II, DU9IJ, DU9IK, DU9IL, and DU9IM was rejected by
+the memory guard rather than kept as a path forward:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4200 \
+  --min-available-mib 12000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9i_split_cover_group_root_guard_4200.json \
+  -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9ISplitCoverGroupSmoke'
+```
+
+Rejected summary:
+
+- exit status: `-15`;
+- guard reason: process-tree RSS `4407.11 MiB` exceeded the `4200 MiB` cap;
+- elapsed wall time before guard termination: `15.02s`;
+- minimum available memory remained `46035.61 MiB`, so the guard prevented a
+  host-risk escalation.
+
+A four-batch half-group was also rejected under the same cap:
+
+- target: `ImpactSubcubeWalshSymbolicCompactDenomDU9ISplitCoverGroupASmoke`;
+- exit status: `-15`;
+- guard reason: process-tree RSS `4321.64 MiB` exceeded the `4200 MiB` cap;
+- elapsed wall time before guard termination: `8.51s`.
+
+The accepted replacement topology is pairwise composition.  The following
+pair roots were added:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  ImpactSubcubeWalshSymbolicCompactDenomDU9ISplitCoverPair0Smoke.lean
+  ImpactSubcubeWalshSymbolicCompactDenomDU9ISplitCoverPair1Smoke.lean
+  ImpactSubcubeWalshSymbolicCompactDenomDU9ISplitCoverPair2Smoke.lean
+  ImpactSubcubeWalshSymbolicCompactDenomDU9ISplitCoverPair3Smoke.lean
+```
+
+Pair root coverage:
+
+- pair 0 imports accepted DU9IE and DU9IG split batch roots;
+- pair 1 imports accepted DU9IH and DU9II split batch roots;
+- pair 2 imports accepted DU9IJ and DU9IK split batch roots;
+- pair 3 imports accepted DU9IL and DU9IM split batch roots.
+
+Guarded build results:
+
+| Root | Guard cap | Status | Peak RSS | Elapsed |
+| --- | ---: | --- | ---: | ---: |
+| pair 0 | `4200 MiB` | passed | `4123.73 MiB` | `2.50s` |
+| pair 1 | `4200 MiB` | rejected | `4247.17 MiB` | `7.01s` |
+| pair 1 | `4400 MiB` | passed | `4166.76 MiB` | `3.00s` |
+| pair 2 | `4400 MiB` | passed | `4128.76 MiB` | `3.00s` |
+| pair 3 | `4400 MiB` | passed | `4064.27 MiB` | `3.50s` |
+
+Decision: pairwise split composition is accepted as the current safe DU9I
+composition layer.  The eight-root DU9I group and four-root half-groups should
+not be used under the present topology.  Any broader root must either import
+only these pair roots after their `.olean` artifacts are present and be
+guarded, or wait for a smaller theorem surface that avoids loading transitive
+rank/subcube artifacts.  The current safe rule is: pair roots may use a
+`4400 MiB` RSS cap with a `12000 MiB` available-memory floor; anything wider
+must be treated as experimental and killed on first guard breach.

@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 12000.0,
+  "command": [
+    "bash",
+    "-lc",
+    "export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9ISplitCoverPair1Smoke"
+  ],
+  "elapsed_seconds": 7.009383935015649,
+  "exit_code": -15,
+  "killed_reason": "process-tree RSS 4247 MiB exceeded 4200 MiB cap",
+  "max_tree_rss_kib": 4349104,
+  "max_tree_rss_mib": 4247.171875,
+  "min_available_seen_kib": 47121588,
+  "min_available_seen_mib": 46017.17578125,
+  "rss_cap_mib": 4200.0
+}
