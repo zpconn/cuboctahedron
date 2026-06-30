@@ -41907,3 +41907,83 @@ leaves and a shallow aggregate, all checked without broad uncached imports.
 The next scaling step is to run another rank-`903` frontier with
 `--skip-existing-bridges`, inspect whether it requires new normal traces, and
 continue the same guarded plan-first workflow.
+
+### Phase 6Z6K8AP16DU9IQ - rank-903 second traced bridge frontier accepted
+
+The next rank-`903` plan was run with `--skip-existing-bridges`.  It skipped
+the already checked summaries `40` through `45` and selected the next six
+bridge summaries:
+
+- plan JSON:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank903_next.json`;
+- plan Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank903_next.md`;
+- selected bridge summaries: `46`, `47`, `48`, `49`, `50`, and `51`;
+- required normal traces: indices `0`, `1`, `3`, `5`, `6`, and `11`;
+- newly required normal traces: indices `1` and `5`.
+
+The two newly required normal traces were emitted and checked:
+
+- `WeightedDenomCubeDU9IQNormalTraceRank903Idx01Smoke`;
+- `WeightedDenomCubeDU9IQNormalTraceRank903Idx05Smoke`.
+
+Normal trace guarded-build result:
+
+- new normal traces checked: `2`;
+- failures: `0`;
+- total serial elapsed time: `5.51s`;
+- worst target:
+  `weighted_denom_cube_du9iq_normal_trace_rank903_idx01_guard.json`;
+- worst elapsed time: `2.50s`;
+- worst peak tree RSS: `4099 MiB`;
+- lowest available memory seen: `45971 MiB`.
+
+Generated bridge leaves:
+
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx46Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx47Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx48Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx49Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx50Smoke`;
+- `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx51Smoke`.
+
+Generated second batch root:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank903Idx46To51Smoke
+```
+
+Generated combined root over the two rank-`903` batch roots:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank903CombinedSmoke
+```
+
+The six standalone reduced direct-bridge leaves passed under the `12 GiB`
+guard:
+
+- bridge count: `6`;
+- failures: `0`;
+- total serial elapsed time: `17.02s`;
+- worst bridge target:
+  `weighted_denom_cube_du9iq_direct_bridge_generated_idx51_guard.json`;
+- worst bridge elapsed time: `3.00s`;
+- worst bridge peak tree RSS: `4141 MiB`;
+- lowest available memory seen during bridge builds: `45940 MiB`.
+
+The second batch root passed:
+
+- elapsed time: `2.50s`;
+- peak tree RSS: `3717 MiB`;
+- minimum available memory seen: `46150 MiB`.
+
+The combined rank-`903` root passed:
+
+- elapsed time: `2.50s`;
+- peak tree RSS: `3783 MiB`;
+- minimum available memory seen: `46135 MiB`.
+
+Decision: accepted.  Rank `903` now has twelve traced DU9IQ bridge leaves
+through two batch roots and one combined super-root.  The next step is another
+rank-`903` `--skip-existing-bridges` plan to determine whether this rank has a
+small final frontier or additional batches.
