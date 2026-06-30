@@ -28740,3 +28740,40 @@ post-generation edits.  This remains a smoke/migration route; the selected
 work should now move from "can existing smokes erase to template language?"
 to "can we prove the template-language membership existential over compressed
 state/algebraic families without selector catalogs?"
+
+### Phase 6Z.6K.8AP.16DU.9EW checkpoint: direct member bridge target
+
+Phase 6Z.6K.8AP.16DU.9EW adds the named production bridge target to
+`TemplateLanguage.lean`:
+
+```lean
+abbrev TemplateLanguageMemberBridgeOnRange (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            TemplateLanguageMember rank mask
+
+theorem TemplateLanguageMemberBridgeOnRange.to_coverage
+    {lo hi : Nat}
+    (bridge : TemplateLanguageMemberBridgeOnRange lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi
+```
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 120s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean
+```
+
+Result: passed in `elapsed=0:01.61`, `max_rss_kb=3297836`.
+
+Decision: this is the cleanest current theorem surface for future compressed
+translation state-language work.  A production module can now prove
+`TemplateLanguageMemberBridgeOnRange lo hi` directly, with private
+support/source details if needed, and erase it to coverage using one tiny
+theorem.  This further demotes finite source-index catalogs to compatibility
+adapters rather than production targets.

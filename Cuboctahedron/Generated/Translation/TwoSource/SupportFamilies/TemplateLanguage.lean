@@ -108,6 +108,32 @@ certificate literals.
 abbrev TemplateLanguageCoverageOnIdentityRange (lo hi : Nat) : Prop :=
   RowPropertyParametricCoverageOnIdentityRange lo hi
 
+/--
+The preferred production obligation for a compressed template-language proof.
+
+Unlike catalog-oriented bridges, this predicate asks directly for
+template-tagged membership for every identity-linear GoodDirection case in a
+range.  Generated state-language or algebraic-family modules should target
+this shape when they can keep the concrete support data private.
+-/
+abbrev TemplateLanguageMemberBridgeOnRange (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            TemplateLanguageMember rank mask
+
+/-- Erase the preferred membership bridge to template-language coverage. -/
+theorem TemplateLanguageMemberBridgeOnRange.to_coverage
+    {lo hi : Nat}
+    (bridge : TemplateLanguageMemberBridgeOnRange lo hi) :
+    TemplateLanguageCoverageOnIdentityRange lo hi := by
+  intro r hlt mask hlo hhi hM hgood
+  exact TemplateLanguageMember.to_templateLanguageWitness
+    (bridge hlt hlo hhi hM hgood)
+
 /-- Empty range coverage, useful for balanced generated interval assembly. -/
 theorem TemplateLanguageCoverageOnIdentityRange.empty
     {lo hi : Nat}
