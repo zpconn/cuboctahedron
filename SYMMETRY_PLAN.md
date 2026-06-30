@@ -30831,3 +30831,41 @@ the six targeted missing ranks (`5`, `9`, `11`, `17`, `24`, `27`), not a broad
 range.  The next scaling move should be a coverage adapter that combines the
 already checked `[0,4)` compact range with this six-rank hcover batch, followed
 by a new profiler query for the remaining missing ranks in `[0,64)`.
+
+### Phase 6Z.6K.8AP.16DU.9GM checkpoint: next missing hcover ranks after guarded DU9GH batch
+
+Phase 6Z.6K.8AP.16DU.9GM updates
+`scripts/profile_next_compact_hcover_ranks.py` so the diagnostic can treat a
+guarded compact batch root as a covered-rank source.  The script now accepts:
+
+- `--covered-batch-generation-report`
+- `--covered-batch-guard-summary`
+
+This remains diagnostic only; it does not make JSON trusted proof evidence.
+
+Command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 0 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 6 \
+  --covered-batch-generation-report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --covered-batch-guard-summary scripts/generated/phase6z6k8ap16du9gh_serial_guard_batch_root.json \
+  --json scripts/generated/phase6z6k8ap16du9gm_next_compact_hcover_ranks.json \
+  --md scripts/generated/phase6z6k8ap16du9gm_next_compact_hcover_ranks.md
+```
+
+Result: passed in `elapsed=0:01.01`, `max_rss_kb=25244`.
+
+Recommended next target ranks:
+
+```text
+29, 30, 32, 40, 42, 44
+```
+
+Decision: accepted.  The first DU9GH batch is now excluded from the diagnostic
+missing-target frontier, and the next six-rank compact hcover batch is ready for
+Walsh subcube cover profiling.  Continue with low-memory Python profiling first;
+do not emit the next Lean batch until each rank has an uncovered-count of zero.

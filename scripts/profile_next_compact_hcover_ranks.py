@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -32,6 +33,7 @@ DEFAULT_JSON = Path(
     "scripts/generated/phase6z6k8ap16du9gf_next_compact_hcover_ranks.json"
 )
 DEFAULT_MD = DEFAULT_JSON.with_suffix(".md")
+RANK_RE = re.compile(r"CoverRank([0-9]+)Smoke")
 
 
 def cover_module_path(rank: int) -> Path:
@@ -50,7 +52,8 @@ def selected_impacts_path(rank: int) -> Path:
     return BASE_DIR / f"ImpactSubcubeWalshSymbolicCompactDenomRank{rank}SelectedImpactsSmoke.lean"
 
 
-def scan_rank(rank: int) -> dict[str, Any]:
+def scan_rank(rank: int, batch_covered_ranks: set[int] | None = None) -> dict[str, Any]:
+    batch_covered_ranks = batch_covered_ranks or set()
     probe = classify_choice(rank, 0)
     if probe is None:
         return {
@@ -97,6 +100,7 @@ def scan_rank(rank: int) -> dict[str, Any]:
         "compact_cover_exists": cover_module_path(rank).exists(),
         "du9p_batch_module": str(du9p_batch_path(rank)),
         "du9p_batch_exists": du9p_batch_path(rank).exists(),
+        "guarded_batch_exists": rank in batch_covered_ranks,
         "split_trace_root": str(split_trace_root_path(rank)),
         "split_trace_root_exists": split_trace_root_path(rank).exists(),
         "selected_impacts_root": str(selected_impacts_path(rank)),
@@ -115,18 +119,56 @@ def windows(rank_start: int, limit: int, jobs: int) -> list[tuple[int, int]]:
     ]
 
 
-def scan_window(args: tuple[int, int]) -> list[dict[str, Any]]:
-    start, limit = args
-    return [scan_rank(rank) for rank in range(start, start + limit)]
+def scan_window(args: tuple[int, int, set[int]]) -> list[dict[str, Any]]:
+    start, limit, batch_covered_ranks = args
+    return [scan_rank(rank, batch_covered_ranks) for rank in range(start, start + limit)]
 
 
-def profile(*, rank_start: int, limit: int, jobs: int, target_missing: int) -> dict[str, Any]:
+def guarded_batch_covered_ranks(
+    generation_report: Path | None,
+    guard_summary: Path | None,
+) -> set[int]:
+    if generation_report is None or guard_summary is None:
+        return set()
+    if not generation_report.exists() or not guard_summary.exists():
+        return set()
+    guard = json.loads(guard_summary.read_text(encoding="utf-8"))
+    if guard.get("status") != "passed":
+        return set()
+    report = json.loads(generation_report.read_text(encoding="utf-8"))
+    ranks: set[int] = set()
+    for target in report.get("targets", []):
+        if target.get("kind") != "cover":
+            continue
+        module = str(target.get("module", ""))
+        match = RANK_RE.search(module)
+        if match:
+            ranks.add(int(match.group(1)))
+    return ranks
+
+
+def profile(
+    *,
+    rank_start: int,
+    limit: int,
+    jobs: int,
+    target_missing: int,
+    covered_batch_generation_report: Path | None = None,
+    covered_batch_guard_summary: Path | None = None,
+) -> dict[str, Any]:
+    batch_covered_ranks = guarded_batch_covered_ranks(
+        covered_batch_generation_report,
+        covered_batch_guard_summary,
+    )
     if jobs <= 1:
-        rows = scan_window((rank_start, limit))
+        rows = scan_window((rank_start, limit, batch_covered_ranks))
     else:
         rows = []
         with ProcessPoolExecutor(max_workers=jobs) as pool:
-            futures = [pool.submit(scan_window, window) for window in windows(rank_start, limit, jobs)]
+            futures = [
+                pool.submit(scan_window, (start, count, batch_covered_ranks))
+                for start, count in windows(rank_start, limit, jobs)
+            ]
             for future in as_completed(futures):
                 rows.extend(future.result())
         rows.sort(key=lambda item: int(item["rank"]))
@@ -135,7 +177,8 @@ def profile(*, rank_start: int, limit: int, jobs: int, target_missing: int) -> d
     good_rows = [row for row in identity_rows if int(row.get("good_mask_count", 0)) > 0]
     missing_rows = [
         row for row in good_rows
-        if not bool(row["compact_cover_exists"]) or not bool(row["du9p_batch_exists"])
+        if not bool(row["compact_cover_exists"])
+        or not (bool(row["du9p_batch_exists"]) or bool(row["guarded_batch_exists"]))
     ]
     missing_rows.sort(key=lambda item: int(item["rank"]))
     target_rows = missing_rows[:target_missing]
@@ -167,6 +210,9 @@ def profile(*, rank_start: int, limit: int, jobs: int, target_missing: int) -> d
         "uncovered_masks": sum(int(row.get("uncovered_masks", 0)) for row in identity_rows),
         "non_two_source_masks": sum(int(row.get("non_two_source_masks", 0)) for row in identity_rows),
         "status_counts": dict(sorted(status_counts.items())),
+        "covered_batch_generation_report": str(covered_batch_generation_report) if covered_batch_generation_report else None,
+        "covered_batch_guard_summary": str(covered_batch_guard_summary) if covered_batch_guard_summary else None,
+        "guarded_batch_covered_ranks": sorted(batch_covered_ranks),
         "identity_rows": identity_rows,
         "missing_compact_cover_rows": missing_rows,
         "recommended_target_rows": target_rows,
@@ -195,14 +241,15 @@ def markdown(payload: dict[str, Any]) -> str:
         "",
         "## Recommended Missing Targets",
         "",
-        "| Rank | Good masks | Compact cover | DU9P batch | Split trace | Selected impacts |",
-        "| ---: | ---: | :---: | :---: | :---: | :---: |",
+        "| Rank | Good masks | Compact cover | DU9P batch | Guarded batch | Split trace | Selected impacts |",
+        "| ---: | ---: | :---: | :---: | :---: | :---: | :---: |",
     ]
     for row in payload["recommended_target_rows"]:
         lines.append(
             f"| {row['rank']} | {row['good_mask_count']} | "
             f"{'yes' if row['compact_cover_exists'] else 'no'} | "
             f"{'yes' if row['du9p_batch_exists'] else 'no'} | "
+            f"{'yes' if row.get('guarded_batch_exists') else 'no'} | "
             f"{'yes' if row['split_trace_root_exists'] else 'no'} | "
             f"{'yes' if row['selected_impacts_root_exists'] else 'no'} |"
         )
@@ -211,15 +258,16 @@ def markdown(payload: dict[str, Any]) -> str:
         "",
         "## Identity Rank Status",
         "",
-        "| Rank | Good masks | Not-Good | Compact cover | DU9P batch |",
-        "| ---: | ---: | ---: | :---: | :---: |",
+        "| Rank | Good masks | Not-Good | Compact cover | DU9P batch | Guarded batch |",
+        "| ---: | ---: | ---: | :---: | :---: | :---: |",
     ])
     for row in payload["identity_rows"]:
         lines.append(
             f"| {row['rank']} | {row.get('good_mask_count', 0)} | "
             f"{row.get('not_good_masks', 0)} | "
             f"{'yes' if row.get('compact_cover_exists') else 'no'} | "
-            f"{'yes' if row.get('du9p_batch_exists') else 'no'} |"
+            f"{'yes' if row.get('du9p_batch_exists') else 'no'} | "
+            f"{'yes' if row.get('guarded_batch_exists') else 'no'} |"
         )
 
     lines.extend([
@@ -241,6 +289,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--target-missing", type=int, default=4)
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--md", type=Path, default=DEFAULT_MD)
+    parser.add_argument("--covered-batch-generation-report", type=Path, default=None)
+    parser.add_argument("--covered-batch-guard-summary", type=Path, default=None)
     return parser.parse_args()
 
 
@@ -251,6 +301,8 @@ def main() -> None:
         limit=args.limit,
         jobs=args.jobs,
         target_missing=args.target_missing,
+        covered_batch_generation_report=args.covered_batch_generation_report,
+        covered_batch_guard_summary=args.covered_batch_guard_summary,
     )
     args.json.parent.mkdir(parents=True, exist_ok=True)
     args.json.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
