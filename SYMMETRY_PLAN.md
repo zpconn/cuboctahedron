@@ -38996,3 +38996,109 @@ Decision: rank `834` is accepted.  Continue DU9IP with ranks `837`, `839`,
 and `840`, one at a time under the same serial memory guard.  Rank `834`
 comes closer to the `4200 MiB` cap than the DU9IO roots, so no Lean
 parallelism should be used for the remaining DU9IP ranks.
+
+### Phase 6Z6K8AP16DU9IP - rank 837 split cover accepted
+
+Rank `837` was emitted from the DU9IP compact h-cover batch.  Its compact
+Walsh profile contains `16` selected subcubes.  The selected normal-component
+splits were impacts `7`, `8`, and `11`; the vector trace split kept step `12`
+and the final trace explicit.
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ip_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ip_compact_hcover_batch_source.json \
+  --rank 837 \
+  --tag DU9IP \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IP' \
+  --report scripts/generated/phase6z6k8ap16du9ip_split_cover_rank837_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 7 \
+  --component-selected-impact 8 \
+  --component-selected-impact 11
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected rank: `837`;
+- selected subcubes: `16`;
+- planned guarded targets: `56`.
+
+A plan-only pass confirmed the target list:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --plan-only \
+  --generation-report scripts/generated/phase6z6k8ap16du9ip_split_cover_rank837_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ip_split_cover_rank837_plan.json \
+  --out-dir /tmp/ap16du9ip_split_cover_rank837_plan \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+The first full guarded pass stopped safely at the local guard instead of
+raising memory pressure:
+
+- status: `failed_or_guard_stopped`;
+- completed targets before stop: `15 / 56`;
+- stopped target:
+  `ImpactSubcubeWalshVectorTraceRank837SplitStep12YSmoke`;
+- stopped target RSS:
+  `4203.48 MiB`;
+- minimum available memory at the stopped target:
+  `45746.04 MiB`.
+
+This was a per-target guard breach rather than a system-memory problem.  The
+trace component emitter was then tightened so component proofs unfold the full
+previous prefix vector but only the required next-prefix coordinate.  The
+targeted generator change lives in
+`scripts/generate_ap16dk_split_walsh_vector_trace_smoke.py`:
+
+- `trace_step_component_norm_defs` now narrows local step component proofs;
+- `trace_final_component_norm_defs` does the same for final-vector component
+  proofs.
+
+A single-target guard for the narrowed `Step12Y` theorem passed at
+`4167 MiB`, so rank `837` was regenerated and the full guarded serial Lean pass
+was rerun:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ip_split_cover_rank837_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ip_split_cover_rank837_guard_4200_floor30000.json \
+  --out-dir /tmp/ap16du9ip_split_cover_rank837_guard_4200_floor30000 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- completed targets: `56 / 56`;
+- maximum target RSS:
+  `4162.36 MiB`
+  (`ImpactSubcubeWalshVectorTraceRank837SplitStep12XSmoke`);
+- minimum available memory seen:
+  `45416.57 MiB`
+  (`ImpactSubcubeWalshSymbolicCompactDenomDU9IPSplitCoverRank837Subcube003Smoke`);
+- root target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IPSplitCoverRank837Smoke`;
+- root target RSS:
+  `4147.30 MiB`;
+- root target minimum available memory:
+  `45597.54 MiB`.
+
+The generated rank `837` Lean files were scanned for forbidden proof shortcuts
+(`sorry`, `admit`, `axiom`, `native_decide`, and `unsafe`), with no matches.
+
+Decision: rank `837` is accepted.  Continue DU9IP with ranks `839` and `840`,
+one at a time under the same serial memory guard.  Keep the narrowed trace
+component emitter for subsequent ranks; it is a reusable memory-safety
+improvement, not a rank-specific hand edit.

@@ -163,6 +163,19 @@ def emit_step(
     return path
 
 
+def trace_step_component_norm_defs(index: int, component: str) -> str:
+    """Normalization set for a single component of a local trace step.
+
+    The previous prefix vector may contribute through matrix multiplication, so
+    keep all of `generatedPref index`.  The next prefix appears only on the
+    left-hand side, so unfold only the target coordinate.  This keeps the
+    component proof smaller than the generic all-coordinate trace normalizer.
+    """
+    names = trace_norm_defs([index], include_step=True, include_final=False)
+    names += f", generatedPref{index + 1:02d}, generatedPref{index + 1:02d}_{component}"
+    return names
+
+
 def emit_step_component(
     rank: int,
     namespace: str,
@@ -174,7 +187,7 @@ def emit_step_component(
     if component not in TRACE_COMPONENTS:
         raise ValueError(f"unknown trace component: {component}")
     path = path_for(f"{stem}Step{index:02d}{component.upper()}Smoke")
-    step_defs = trace_norm_defs([index, index + 1], include_step=True, include_final=False)
+    step_defs = trace_step_component_norm_defs(index, component)
     lines = [
         f"import {BASE_MODULE}.{stem}DataSmoke",
         "",
@@ -230,6 +243,13 @@ def emit_step_from_components(
     return path
 
 
+def trace_final_component_norm_defs(component: str) -> str:
+    """Normalization set for a single component of the final-vector proof."""
+    names = trace_norm_defs([13], include_step=False, include_final=False)
+    names += f", generatedVector, generatedVector_{component}"
+    return names
+
+
 def emit_final(namespace: str, stem: str, *, chain_imports: bool = False) -> Path:
     path = path_for(f"{stem}FinalSmoke")
     import_module = (
@@ -269,7 +289,7 @@ def emit_final_component(
     if component not in TRACE_COMPONENTS:
         raise ValueError(f"unknown trace component: {component}")
     path = path_for(f"{stem}Final{component.upper()}Smoke")
-    final_defs = trace_norm_defs([13], include_step=False, include_final=True)
+    final_defs = trace_final_component_norm_defs(component)
     lines = [
         f"import {BASE_MODULE}.{stem}DataSmoke",
         "",
