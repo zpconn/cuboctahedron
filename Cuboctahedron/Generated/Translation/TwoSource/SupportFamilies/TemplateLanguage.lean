@@ -151,6 +151,87 @@ theorem TemplateLanguageMemberBridgeOnRange.of_sourceRowPredicateBridge
   TemplateLanguageMemberBridgeOnRange.of_sourceRowFactsBridge
     (SourceRowPredicateGoodBridgeOnRange.to_factsGoodBridgeOnRange bridge)
 
+/--
+A compressed semantic domain over translation cases.
+
+This is the state-language escape hatch from rank/mask tables: the domain may
+represent a symbolic recurrence state, a quotient class, a D4 transport class,
+or any other small semantic family over `(rank, mask)`.
+-/
+abbrev TemplateLanguageDomain := Nat -> SignMask -> Prop
+
+/--
+The domain covers every identity-linear GoodDirection case in a range.
+
+This keeps rank intervals as an outer accountability boundary only; the actual
+compression coordinate is the arbitrary semantic domain.
+-/
+abbrev TemplateLanguageDomainCoversIdentityRange
+    (domain : TemplateLanguageDomain) (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            domain rank mask
+
+/-- The domain proves template membership for every case it contains. -/
+abbrev TemplateLanguageMemberBridgeOnDomain
+    (domain : TemplateLanguageDomain) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    domain rank mask ->
+      totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+          (matId : Mat3 Rat) ->
+        GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+          TemplateLanguageMember rank mask
+
+/-- A covered semantic domain yields the preferred range member bridge. -/
+theorem TemplateLanguageMemberBridgeOnDomain.to_range
+    {domain : TemplateLanguageDomain} {lo hi : Nat}
+    (hcover : TemplateLanguageDomainCoversIdentityRange domain lo hi)
+    (hmember : TemplateLanguageMemberBridgeOnDomain domain) :
+    TemplateLanguageMemberBridgeOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  exact hmember hlt (hcover hlt hlo hhi hM hgood) hM hgood
+
+/-- Restrict a domain bridge along a semantic subset relation. -/
+theorem TemplateLanguageMemberBridgeOnDomain.mono
+    {domain subdomain : TemplateLanguageDomain}
+    (hsub : forall {rank : Nat} {mask : SignMask},
+      subdomain rank mask -> domain rank mask)
+    (hmember : TemplateLanguageMemberBridgeOnDomain domain) :
+    TemplateLanguageMemberBridgeOnDomain subdomain := by
+  intro rank mask hlt hsubmem hM hgood
+  exact hmember hlt (hsub hsubmem) hM hgood
+
+/-- Combine two semantic domain bridges by case analysis. -/
+theorem TemplateLanguageMemberBridgeOnDomain.or
+    {left right : TemplateLanguageDomain}
+    (hleft : TemplateLanguageMemberBridgeOnDomain left)
+    (hright : TemplateLanguageMemberBridgeOnDomain right) :
+    TemplateLanguageMemberBridgeOnDomain
+      (fun rank mask => left rank mask \/ right rank mask) := by
+  intro rank mask hlt hmem hM hgood
+  cases hmem with
+  | inl h => exact hleft hlt h hM hgood
+  | inr h => exact hright hlt h hM hgood
+
+/--
+Two semantic domains that cover a range by disjunction yield the preferred
+range member bridge.
+-/
+theorem TemplateLanguageMemberBridgeOnRange.of_domain_or
+    {left right : TemplateLanguageDomain} {lo hi : Nat}
+    (hcover :
+      TemplateLanguageDomainCoversIdentityRange
+        (fun rank mask => left rank mask \/ right rank mask) lo hi)
+    (hleft : TemplateLanguageMemberBridgeOnDomain left)
+    (hright : TemplateLanguageMemberBridgeOnDomain right) :
+    TemplateLanguageMemberBridgeOnRange lo hi :=
+  TemplateLanguageMemberBridgeOnDomain.to_range hcover
+    (TemplateLanguageMemberBridgeOnDomain.or hleft hright)
+
 /-- Empty range coverage, useful for balanced generated interval assembly. -/
 theorem TemplateLanguageCoverageOnIdentityRange.empty
     {lo hi : Nat}

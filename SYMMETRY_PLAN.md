@@ -28873,3 +28873,81 @@ obligation that the production route should prove directly.  This makes the
 next frontier crisp: produce a compressed, Lean-checked
 `TemplateLanguageMemberBridgeOnRange` (or a state-language analogue that
 implies it) for meaningful ranges without finite selector catalogs.
+
+### Phase 6Z.6K.8AP.16DU.9EZ checkpoint: semantic domain bridge core
+
+Phase 6Z.6K.8AP.16DU.9EZ adds a generic semantic-domain bridge to
+`TemplateLanguage.lean`.  This is the first small Lean core for the intended
+state-language production route: ranks remain an outer accountability
+boundary, but compression may happen in any domain predicate over `(rank,
+mask)`.
+
+New theorem surface:
+
+```lean
+abbrev TemplateLanguageDomain := Nat -> SignMask -> Prop
+
+abbrev TemplateLanguageDomainCoversIdentityRange
+    (domain : TemplateLanguageDomain) (lo hi : Nat) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    lo <= rank ->
+      rank < hi ->
+        totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+            (matId : Mat3 Rat) ->
+          GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+            domain rank mask
+
+abbrev TemplateLanguageMemberBridgeOnDomain
+    (domain : TemplateLanguageDomain) : Prop :=
+  forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+    domain rank mask ->
+      totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+          (matId : Mat3 Rat) ->
+        GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+          TemplateLanguageMember rank mask
+
+theorem TemplateLanguageMemberBridgeOnDomain.to_range
+    {domain : TemplateLanguageDomain} {lo hi : Nat}
+    (hcover : TemplateLanguageDomainCoversIdentityRange domain lo hi)
+    (hmember : TemplateLanguageMemberBridgeOnDomain domain) :
+    TemplateLanguageMemberBridgeOnRange lo hi
+
+theorem TemplateLanguageMemberBridgeOnDomain.mono
+    {domain subdomain : TemplateLanguageDomain}
+    (hsub : forall {rank : Nat} {mask : SignMask},
+      subdomain rank mask -> domain rank mask)
+    (hmember : TemplateLanguageMemberBridgeOnDomain domain) :
+    TemplateLanguageMemberBridgeOnDomain subdomain
+
+theorem TemplateLanguageMemberBridgeOnDomain.or
+    {left right : TemplateLanguageDomain}
+    (hleft : TemplateLanguageMemberBridgeOnDomain left)
+    (hright : TemplateLanguageMemberBridgeOnDomain right) :
+    TemplateLanguageMemberBridgeOnDomain
+      (fun rank mask => left rank mask \/ right rank mask)
+
+theorem TemplateLanguageMemberBridgeOnRange.of_domain_or
+    {left right : TemplateLanguageDomain} {lo hi : Nat}
+    (hcover :
+      TemplateLanguageDomainCoversIdentityRange
+        (fun rank mask => left rank mask \/ right rank mask) lo hi)
+    (hleft : TemplateLanguageMemberBridgeOnDomain left)
+    (hright : TemplateLanguageMemberBridgeOnDomain right) :
+    TemplateLanguageMemberBridgeOnRange lo hi
+```
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 120s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/TemplateLanguage.lean
+```
+
+Result: passed in `elapsed=0:05.22`, `max_rss_kb=3297280`.
+
+Decision: accepted as the generic theorem-composition core for future
+state-language or algebraic-family coverage.  This is not evidence that any
+domain covers the global search space; it is the small Lean bridge that lets a
+future compressed domain prove membership and then discharge a rank-bounded
+coverage obligation without finite selector catalogs or concrete rank/mask
+tables.
