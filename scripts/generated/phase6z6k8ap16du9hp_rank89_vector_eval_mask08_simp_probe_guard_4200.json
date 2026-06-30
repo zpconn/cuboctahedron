@@ -1,0 +1,16 @@
+{
+  "available_floor_mib": 12000.0,
+  "command": [
+    "bash",
+    "-lc",
+    "cat >/tmp/rank89_vector_eval_mask08_simp_probe.lean <<'LEAN'\nimport Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitDataSmoke\n\nnamespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitSmoke\n\nopen Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier\nopen Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.ImpactSubcube\n\nset_option maxHeartbeats 0\nset_option maxRecDepth 10000\nset_option linter.unusedSimpArgs false\n\ntheorem generatedVector_eval_mask08_simp_probe :\n    generatedVector.eval (\u27e88, by decide\u27e9 : SignMask) =\n      translationVectorOfChoice generatedWord (\u27e88, by decide\u27e9 : SignMask) := by\n  apply Vec3.ext <;>\n    simp [generatedVector, generatedVector_x, generatedVector_y, generatedVector_z,\n      WalshAffineVec3.eval, WalshAffine.eval, translationVectorOfChoice,\n      translationPrefixVectorNat, vecAdd, scalarMul, matVec, pairPrefixLinearNat,\n      pairReflectionDeltaQ, reflD, canonicalOffsetQ, matMul, matId, reflM,\n      matSub, scalarMat, outer, dot, canonicalNormalQ, signedCoeffAt,\n      signedPositiveAt, maskBitForPair, countPairBeforeNat, generatedWord,\n      SignBit.value, SignBit.toPairId] <;>\n    norm_num [generatedVector, generatedVector_x, generatedVector_y, generatedVector_z,\n      WalshAffineVec3.eval, WalshAffine.eval, translationVectorOfChoice,\n      translationPrefixVectorNat, vecAdd, scalarMul, matVec, pairPrefixLinearNat,\n      pairReflectionDeltaQ, reflD, canonicalOffsetQ, matMul, matId, reflM,\n      matSub, scalarMat, outer, dot, canonicalNormalQ, signedCoeffAt,\n      signedPositiveAt, maskBitForPair, countPairBeforeNat, generatedWord,\n      SignBit.value, SignBit.toPairId]\n\nend Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank89SplitSmoke\nLEAN\nlake env lean /tmp/rank89_vector_eval_mask08_simp_probe.lean"
+  ],
+  "elapsed_seconds": 11.513591480004834,
+  "exit_code": 1,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4176216,
+  "max_tree_rss_mib": 4078.3359375,
+  "min_available_seen_kib": 47017264,
+  "min_available_seen_mib": 45915.296875,
+  "rss_cap_mib": 4200.0
+}

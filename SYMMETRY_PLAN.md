@@ -32341,3 +32341,31 @@ theorem no longer has to replay the full local step arithmetic at the tail of
 the word.  Do not rerun rank89 `trace_step_12` above `4200 MiB` until that
 refactor or an equivalent split is in place, unless the user explicitly chooses
 to accept the known rank87-style `4400 MiB` outlier envelope.
+
+### Phase 6Z.6K.8AP.16DU.9HR checkpoint: direct eval-bridge probes are inconclusive
+
+Phase 6Z.6K.8AP.16DU.9HR tests whether rank89 can bypass the expensive
+tail-step trace theorem by proving the generated Walsh vector evaluation
+directly for a concrete mask.  This targets the theorem actually consumed by
+the denominator modules:
+
+```lean
+generatedVector.eval mask = translationVectorOfChoice generatedWord mask
+```
+
+Two low-cap probes were run for mask `8`:
+
+| Probe | Result | Peak tree RSS |
+| --- | --- | ---: |
+| direct concrete-mask `norm_num` eval equality | failed with unsolved generated-word/sign-bit goals | 4092 MiB |
+| concrete-mask eval equality with `generatedWord` kept opaque for generated `@[simp]` lemmas | stopped by guard | 4213 MiB |
+
+The direct-eval bridge remains promising conceptually because it avoids the
+full `TranslationWalshVectorTrace` step chain and matches downstream use, but
+these tactic-only probes are not accepted as a safe replacement.  The next
+attempt should change the generated data shape, for example by emitting a
+separate explicit-vector/eval certificate with pre-simplified component
+equations or an integer/scaled representation, rather than asking Lean to unfold
+`translationVectorOfChoice` over the whole word in one theorem.  Continue to
+avoid broad package builds and avoid running rank89 outliers above the low guard
+until the structural refactor has a successful pilot.
