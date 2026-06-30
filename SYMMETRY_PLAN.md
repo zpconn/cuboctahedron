@@ -40832,3 +40832,42 @@ surface.  The next safe scaling step is a small bounded batch planner for
 rank `896` that lists required normal traces, deduplicates them across
 selected weighted cubes, and emits bridge modules one at a time with serial
 guarded build commands.  Do not run the whole batch as one cold `lake build`.
+
+### Phase 6Z6K8AP16DU9IQ - traced bridge batch planner accepted
+
+A non-executing batch planner was added:
+
+- script: `scripts/plan_du9iq_traced_bridge_batch.py`;
+- report:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank896.json`;
+- Markdown summary:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank896.md`.
+
+The planner reads the reduced-bound profile, selects a bounded number of
+direct-reduced cubes for one rank, deduplicates required normal traces, and
+prints exact serial emit/build commands.  It intentionally does not emit Lean
+and does not run Lean.  This keeps the next scaling step auditable before
+expensive work starts.
+
+Rank-`896`, limit-`6` plan:
+
+- selected bridge leaves: `6`;
+- unique normal traces: `7`;
+- already present normal traces: indices `1`, `5`, and `10`;
+- missing normal traces: indices `0`, `3`, `7`, and `9`;
+- planned bridge summaries: `0`, `1`, `2`, `3`, `4`, and `5`;
+- already present standalone bridge: summary `2`;
+- memory policy: serial guarded Lean builds only; no cold broad root build.
+
+Decision: accepted as planning infrastructure.  The next safe implementation
+step is to execute this plan incrementally:
+
+1. emit/build missing normal traces one at a time under the `12000 MiB`
+   guard;
+2. emit/build missing bridge leaves one at a time under the same guard;
+3. only after all six leaves are individually cached, add a tiny aggregate
+   root if needed.
+
+Do not run a single broad `lake build` over the planned batch until every
+target has a measured individual RSS and the aggregate root is known to import
+only cached theorem surfaces.
