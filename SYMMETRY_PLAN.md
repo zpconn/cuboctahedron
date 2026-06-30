@@ -34922,3 +34922,61 @@ and targeted component splitting rather than any broad Lake build.  The
 remaining DU9IH ranks are `357`, `377`, and `371`; continue with rank `357`
 next, with selected-impact component splitting for the larger selected impacts
 before running the guard.
+
+### Phase 6Z6K8AP16DU9IH - rank 357 split cover accepted
+
+Rank `357` was emitted after rank `323`.  The plan entry uses selected
+word-impacts `[0, 1, 3, 5, 6, 7, 8]`; this run split selected impacts `7` and
+`8` into normal-coordinate component theorem files:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_source.json \
+  --rank 357 \
+  --tag DU9IH \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IH' \
+  --report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank357_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 7 \
+  --component-selected-impact 8
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected subcubes: `17`;
+- guarded targets: `54`;
+- selected-impact normal component targets:
+  `rank357_impact7_x/y/z` and `rank357_impact8_x/y/z`.
+
+The rank was checked serially under the `4200 MiB` process-tree RSS cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank357_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ih_split_cover_rank357_guard_4200.json \
+  --out-dir /tmp/ap16du9ih_split_cover_rank357_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `54`;
+- maximum process-tree RSS: `4163.18 MiB`;
+- peak target: `ImpactSubcubeWalshVectorTraceRank357SplitStep12XSmoke`;
+- minimum observed available memory: `45903.82 MiB`;
+- total guarded elapsed time across targets: `182.74s`;
+- killed targets: none.
+
+Decision: rank `357` is accepted.  Component splitting kept the selected-impact
+targets comfortably below the cap, and the peak returned to a trace-step
+component target.  The remaining DU9IH ranks are `377` and `371`; continue with
+rank `377` next under the same serial guard and split the larger selected
+impacts before checking.
