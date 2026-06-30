@@ -29203,3 +29203,45 @@ Decision: accepted as proof-neutral contract maintenance.  The audit now
 tracks the production-relevant bridge from source-position language to
 `TemplateLanguageMemberBridgeOnRange`, while continuing to mark the real
 generated obligation as open.
+
+### Phase 6Z.6K.8AP.16DU.9FF checkpoint: source-position template bridge smoke
+
+Phase 6Z.6K.8AP.16DU.9FF updates
+`SourcePositionProducerLanguageSmoke.lean` so the existing empty-range smoke
+exercises the new template member-bridge path:
+
+```lean
+theorem smokeTemplateMemberBridge :
+    TemplateLanguageMemberBridgeOnRange 0 0
+
+theorem smokeTemplateCoverage :
+    TemplateLanguageCoverageOnIdentityRange 0 0
+
+theorem smokeTemplateMemberBridgeOfDirectCoverage :
+    TemplateLanguageMemberBridgeOnRange 0 0
+
+theorem smokeTemplateCoverageOfDirectCoverage :
+    TemplateLanguageCoverageOnIdentityRange 0 0
+```
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
+```
+
+Result: passed in `elapsed=0:02.68`, `max_rss_kb=3300716`.
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguageSmoke.lean
+```
+
+Result: passed in `elapsed=0:01.91`, `max_rss_kb=3277808`.
+
+Decision: accepted as a tiny Lean smoke of the source-position-to-template
+bridge.  It is deliberately empty-range and therefore not coverage evidence.
+It validates that future nonempty source-position language chunks can export
+the current template-language theorem surface without routing through old
+all-good coverage first.

@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
 
 /-!
 Smoke check for the source-position plus row-producer AP language bridge.
@@ -15,6 +16,7 @@ open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProdu
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
+open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
 
 private def emptySourcePositionRowProducerLanguage :
     SourcePositionRowProducerGoodLanguageOnRange 0 0 where
@@ -99,6 +101,26 @@ theorem smokeFactsBridge :
     SourceRowFactsGoodBridgeOnRange 0 0 :=
   SourcePositionRowProducerGoodLanguageOnRange.to_bridge
     emptySourcePositionRowProducerLanguage
+
+theorem smokeTemplateMemberBridge :
+    TemplateLanguageMemberBridgeOnRange 0 0 :=
+  SourcePositionRowProducerGoodLanguageOnRange.to_templateMemberBridge
+    emptySourcePositionRowProducerLanguage
+
+theorem smokeTemplateCoverage :
+    TemplateLanguageCoverageOnIdentityRange 0 0 :=
+  SourcePositionRowProducerGoodLanguageOnRange.to_templateCoverage
+    emptySourcePositionRowProducerLanguage
+
+theorem smokeTemplateMemberBridgeOfDirectCoverage :
+    TemplateLanguageMemberBridgeOnRange 0 0 :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_templateMemberBridge
+    emptySourcePositionRowProducerCoverage
+
+theorem smokeTemplateCoverageOfDirectCoverage :
+    TemplateLanguageCoverageOnIdentityRange 0 0 :=
+  SourcePositionRowProducerGoodCoverageOnRange.to_templateCoverage
+    emptySourcePositionRowProducerCoverage
 
 theorem smokeAllGoodCoverage :
     AllTranslationGoodCoverageOnRange 0 0 :=
