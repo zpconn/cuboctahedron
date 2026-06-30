@@ -35628,3 +35628,50 @@ have individually guarded split-cover roots.  The next bounded action is to
 create a shallow DU9II batch smoke root that imports only those six accepted
 rank roots and re-exports their semantic adapters, then guard that root
 separately before treating the batch as assembled.
+
+### Phase 6Z6K8AP16DU9II - split batch root accepted
+
+After all six DU9II rank roots passed under individual guards, the shallow
+batch root was created at:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IISplitCoverBatchSmoke.lean
+```
+
+The root imports only the accepted rank roots:
+
+- `384`;
+- `387`;
+- `389`;
+- `413`;
+- `444`;
+- `447`.
+
+It re-exports one semantic `GoodDirection` adapter theorem per rank and a
+small build-smoke theorem referencing the imported rank roots.  It does not
+import the older monolithic compact-Walsh batch route.
+
+Guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4200 \
+  --min-available-mib 12000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9ii_split_cover_batch_root_guard_4200.json \
+  -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 900s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IISplitCoverBatchSmoke'
+```
+
+Guard result:
+
+- exit code: `0`;
+- maximum process-tree RSS: `4126.57 MiB`;
+- minimum observed available memory: `45971.65 MiB`;
+- elapsed wall time: `2.50s`;
+- killed reason: none.
+
+Decision: the DU9II split batch root is accepted.  This validates that the
+shallow batch assembly stays below the same cap after the per-rank shards are
+accepted.  The next planning step is to select the next compact-hcover window
+or promote these accepted split batch roots into the higher-level coverage
+assembly, but broad package builds should remain disabled.
