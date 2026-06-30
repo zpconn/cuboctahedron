@@ -56,6 +56,14 @@ formalization in the GitHub repository.  The final compressed strategy was
 shaped in part by source-size, memory, and build-time constraints.
 \end{abstract}
 
+\paragraph{AI usage.}
+All Lean code for the accompanying formalization was written by OpenAI Codex
+and GPT-5.5 Pro.  The process began with several weeks of manually directed
+research-project scaffolding in Codex.  Once enough coherent structure,
+interfaces, and verification strategy had emerged, the remaining Lean
+development proceeded autonomously until the complete verification was
+assembled.
+
 \section{Introduction}
 
 The motion of a billiard particle in a polyhedron is simple locally and subtle
@@ -662,7 +670,7 @@ This is the part for which the GitHub formalization is the real proof.  The
 printed article explains why such certificates prove the theorem; the
 formalization checks that the certificates exist for every finite case.
 
-\subsection*{Resource pressure as a source of structure}
+\subsection{Resource pressure as a source of structure}
 
 One lesson of the formalization is that the computational constraints were not
 merely an implementation nuisance.  They became a source of mathematical
@@ -695,7 +703,7 @@ cases already eliminated by the positive-denominator theorem.  The resource
 bounds acted as a kind of experimental pressure, turning proof search from a
 large enumeration of facts into a search for reusable mathematical language.
 
-\subsection*{Experimental theorem surfaces}
+\subsection{Experimental theorem surfaces}
 
 There is consequently a useful distinction between two kinds of theorems in
 the formal proof artifact.  The first kind consists of the structural
