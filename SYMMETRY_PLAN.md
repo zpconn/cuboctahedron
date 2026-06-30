@@ -31047,3 +31047,32 @@ rank.  The observed uncached peaks remain close to the 4.5 GiB cap, so cover
 roots should continue to run serially.  Next step: run the shallow DU9GO
 batch-root module under the same guard and record whether the root import layer
 is still cheap.
+
+### Phase 6Z.6K.8AP.16DU.9GR checkpoint: DU9GO shallow batch root under guard
+
+Phase 6Z.6K.8AP.16DU.9GR verifies the shallow DU9GO batch root after all six
+cover roots have passed.
+
+Command:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9go_serial_guard_batch_root.json \
+  --out-dir /tmp/ap16dj_du9go_serial_guarded/batch_root \
+  --target-kind batch_root \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed in `elapsed=2.50s`, with `peak_tree_rss=4096 MiB` and
+`min_available=46020 MiB`.
+
+Decision: accepted.  The second six-rank compact hcover batch now has guarded
+checks for its cover roots and shallow root.  Like DU9GH, this is still a
+diagnostic/smoke batch for targeted ranks, not final generated coverage.  Next
+step: query the next missing compact-hcover frontier after both guarded batches
+(`DU9GH` and `DU9GO`) are treated as covered by diagnostics, then profile the
+next small rank batch with low-memory Python parallelism.
