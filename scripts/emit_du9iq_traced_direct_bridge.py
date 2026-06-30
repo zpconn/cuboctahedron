@@ -511,7 +511,7 @@ def emit_module(
         f"    (hlt : {rank_name} < numPairWords) :",
         f"    (⟨{rank_name}, hlt⟩ : Fin numPairWords) = generatedRank := by",
         "  ext",
-        "  rfl",
+        f"  norm_num [{rank_name}, generatedRank, {vector_trace_module}.generatedRank]",
         "",
         "private theorem directWalshDotAtRank_eq_of_val",
         "    (r : Fin numPairWords) (mask : SignMask) {i j : WordIndex}",

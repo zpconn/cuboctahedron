@@ -165,6 +165,8 @@ def build_payload(
                 "--summary-index", str(summary_index),
                 "--stem", bridge_stem(summary_index),
                 "--standalone-reduced",
+                "--vector-trace-module", vector_trace_module,
+                "--normal-trace-stem", normal_stem(rank),
                 "--report", str(report),
             ]),
             "guard_command": command([

@@ -41321,3 +41321,58 @@ memory guard.  The next safe step is to emit only the six planned rank-`897`
 direct bridge leaves and their shallow aggregate, building each leaf/root
 serially under the `12 GiB` guard.  Do not broaden to a full rank or cold
 generated-root build.
+
+### Phase 6Z6K8AP16DU9IQ - rank-897 traced bridge frontier accepted
+
+The first bounded rank-`897` direct-bridge frontier was emitted and checked.
+The accepted frontier covers six reduced-bound weighted cubes:
+
+- summaries `14` through `19`;
+- support patterns:
+  `***001`, `1*0*1*`, `0**1*1`, `***000`, `*010**`, `1*010*`;
+- generated bridge leaves:
+  `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx14Smoke` through
+  `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx19Smoke`;
+- shallow aggregate:
+  `WeightedDenomCubeDU9IQDirectBridgeBatchRank897Smoke`.
+
+During the first bridge build attempt, summary `14` exposed a generator bug:
+the traced direct-bridge emitter defaulted to the rank-`896` vector/normal
+trace modules unless explicit trace arguments were supplied, and the generated
+rank equality used `rfl` on a `Fin` value whose proof component was not
+definitionally identical.  This failed quickly under guard, without memory
+risk.  The fix was:
+
+- make `scripts/emit_du9iq_traced_direct_bridge.py` prove `generatedRank_eq`
+  by value normalization rather than raw `rfl`;
+- make `scripts/plan_du9iq_traced_bridge_batch.py` include explicit
+  `--vector-trace-module` and `--normal-trace-stem` arguments in bridge emit
+  commands;
+- regenerate the rank-`897` batch plan so the recorded emit commands are
+  rank-specific.
+
+The corrected leaves were rebuilt serially with the `12 GiB` guard.  All six
+bridge leaves passed:
+
+- bridge count: `6`;
+- total serial elapsed time: `19.53s`;
+- worst bridge target:
+  `weighted_denom_cube_du9iq_direct_bridge_generated_idx17_guard.json`;
+- worst bridge elapsed time: `3.00s`;
+- worst bridge peak tree RSS: `4139 MiB`;
+- lowest available memory seen during bridge builds: `45924 MiB`.
+
+The shallow aggregate also passed:
+
+- aggregate guard:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank897_aggregate_guard.json`;
+- elapsed time: `2.50s`;
+- peak tree RSS: `4086 MiB`;
+- minimum available memory seen: `45959 MiB`.
+
+Decision: accepted.  Rank `897` now has the first six traced DU9IQ bridge
+leaves composed through a shallow root, and the full path was checked without
+approaching the memory cap.  The next scaling step is to plan the next bounded
+frontier with `--skip-existing-bridges`, inspect whether it needs new normal
+traces, and repeat this same trace-first, serial-guarded bridge process.  Do
+not run a broad cold root build.
