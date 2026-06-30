@@ -30434,3 +30434,44 @@ The next step should generalize this route beyond the singleton rank by
 building a small rank-window adapter over existing compact Walsh cover roots
 for ranks that already have them (`0`, `2`, `3` in the DU.9P fixture), then
 profile which additional ranks require compact cover generation.
+
+### Phase 6Z.6K.8AP.16DU.9GE checkpoint: DU.9P compact range hcover root
+
+Phase 6Z.6K.8AP.16DU.9GE adds
+`Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9PCompactRangeSmoke.lean`.
+This is a thin public-shape smoke for the bounded `[0,4)` DU.9P fixture:
+
+- ranks `0`, `2`, and `3` are handled by the existing compact
+  GoodDirection-to-survivor membership roots;
+- rank `1` is handled by the already-checked rank-1 classifier/vacuity route
+  inside `SourceIndexStateSelectorDU9PCompactAllGood`;
+- the new module exports a small theorem with the intended hcover range
+  surface:
+
+```lean
+compactMembershipBridgeCoverage0_4 :
+  AllTranslationGoodCoverageOnRange 0 4
+```
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 300s lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9PCompactRangeSmoke
+```
+
+Result: passed in `elapsed=0:23.71`, `max_rss_kb=3895472`.  The timing includes
+building the rank-1 classifier import and the compact all-Good bounded root;
+the new range-smoke module itself built in about `1.1s`.
+
+Decision: accepted as the first compact hcover range root.  The important
+engineering choice is that the new module does not re-prove rank-specific
+rational matrix facts.  It reuses the existing compact all-Good root as a
+semantic theorem source, keeping the range surface small and avoiding the
+`Rat` arithmetic path that previously caused memory and time spikes.
+
+Next step: extend this range-root pattern by profiling the nearest identity
+ranks without existing compact Walsh cover roots, then emit only the missing
+compact cover modules needed to grow the hcover range.  Continue using focused
+module builds and RSS capture; do not import AP16DO-style heavy singleton
+facts through ordinary broad roots without the serial guard.
