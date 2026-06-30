@@ -437,14 +437,24 @@ word, the six remaining sign choices may be encoded by variables
 s_1,\ldots,s_6\in\{1,-1\}.
 \]
 A function of these sign choices can be expanded in the Walsh basis: constants,
-single signs \(s_i\), products \(s_i s_j\), and higher products.  In this
+single signs \(s_i\), products \(s_i s_j\), and higher products.  Equivalently,
+it is a multilinear polynomial on the Boolean cube \(\{\pm1\}^6\).  In this
 problem, the denominator functions needed for the positive-denominator
 condition have degree at most two.
 
-\begin{lemma}[Quadratic sign dependence]
-For a fixed translation-type pair word, each internal denominator
-\(u_i\dotp b\), as a function of the six sign choices, is a rational
-polynomial of degree at most two in the variables \(s_1,\ldots,s_6\).
+\begin{lemma}[Impact denominators are Walsh polynomials]
+Fix a translation-type pair word.  For each internal impact \(i\), the
+corresponding denominator
+\[
+D_i(s_1,\ldots,s_6)=u_i(s_1,\ldots,s_6)\dotp b(s_1,\ldots,s_6)
+\]
+is a rational Walsh polynomial of degree at most two.  That is, there are
+rational coefficients \(\alpha_i,\beta_{ij},\gamma_{ijk}\) such that
+\[
+D_i(s_1,\ldots,s_6)
+  =\alpha_i+\sum_{j=1}^6 \beta_{ij}s_j
+   +\sum_{1\le j<k\le 6}\gamma_{ijk}s_js_k .
+\]
 \end{lemma}
 
 \begin{proof}
@@ -452,7 +462,9 @@ The copied normal \(u_i\) of an unfolded impact plane depends affinely on the
 sign choices: it is a constant vector plus a rational linear combination of
 the sign variables.  The translation vector \(b\) has the same affine
 dependence.  Their dot product is therefore the dot product of two affine
-sign-vector expressions, and hence has degree at most two.
+sign-vector expressions, and hence has degree at most two.  Since each
+variable satisfies \(s_j^2=1\) on the sign cube, repeated variables reduce to
+constants, leaving exactly the Walsh expansion displayed above.
 \end{proof}
 
 A subcube is obtained by fixing some of the signs and leaving the rest free.
