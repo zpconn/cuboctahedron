@@ -41830,3 +41830,37 @@ kept safely below the OOM danger zone.  The next step is to emit the five
 rank-`903` normal traces required by summaries `40` through `45`, build each
 one serially under the tighter `12 GiB` guard, and only then emit the direct
 bridge leaves.
+
+### Phase 6Z6K8AP16DU9IQ - rank-903 normal trace prerequisites accepted
+
+The five normal traces required by the first rank-`903` direct-bridge
+frontier were emitted against the checked vector trace root:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank903ChainSmoke
+```
+
+Generated normal trace modules:
+
+- `WeightedDenomCubeDU9IQNormalTraceRank903Smoke`;
+- `WeightedDenomCubeDU9IQNormalTraceRank903Idx03Smoke`;
+- `WeightedDenomCubeDU9IQNormalTraceRank903Idx06Smoke`;
+- `WeightedDenomCubeDU9IQNormalTraceRank903Idx07Smoke`;
+- `WeightedDenomCubeDU9IQNormalTraceRank903Idx11Smoke`.
+
+Each normal trace was built serially with `LAKE_JOBS=1` under the `12 GiB`
+tree-RSS guard and a `35 GiB` minimum-available-memory floor.  The run passed:
+
+- normal traces checked: `5`;
+- failures: `0`;
+- total serial elapsed time: `14.52s`;
+- worst target:
+  `weighted_denom_cube_du9iq_normal_trace_rank903_idx07_guard.json`;
+- worst elapsed time: `3.00s`;
+- worst peak tree RSS: `4129 MiB`;
+- lowest available memory seen: `45968 MiB`.
+
+Decision: accepted.  Rank `903` now has all prerequisites for bridge summaries
+`40` through `45`.  Continue by emitting those six standalone reduced
+direct-bridge leaves, checking each under the same `12 GiB` guard, and then
+building a shallow rank-local aggregate.
