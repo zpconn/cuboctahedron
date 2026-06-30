@@ -31324,3 +31324,42 @@ Decision: accepted.  DU9GU now has guarded cover-root and shallow-root
 telemetry, completing the third six-rank compact hcover batch.  The next step
 is to query the missing-rank frontier after DU9GH, DU9GO, and DU9GU so the next
 batch can be chosen from already-verified coverage state.
+
+### Phase 6Z.6K.8AP.16DU.9GY checkpoint: next missing hcover ranks after three guarded batches
+
+Phase 6Z.6K.8AP.16DU.9GY reruns the next-target profiler after the DU9GH,
+DU9GO, and DU9GU guarded batch roots have all passed:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_next_compact_hcover_ranks.py \
+  --rank-start 0 \
+  --limit 64 \
+  --jobs 4 \
+  --target-missing 6 \
+  --covered-batch-generation-report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --covered-batch-guard-summary scripts/generated/phase6z6k8ap16du9gh_serial_guard_batch_root.json \
+  --covered-batch-generation-report scripts/generated/phase6z6k8ap16du9go_compact_hcover_batch_generation.json \
+  --covered-batch-guard-summary scripts/generated/phase6z6k8ap16du9go_serial_guard_batch_root.json \
+  --covered-batch-generation-report scripts/generated/phase6z6k8ap16du9gu_compact_hcover_batch_generation.json \
+  --covered-batch-guard-summary scripts/generated/phase6z6k8ap16du9gu_serial_guard_batch_root.json \
+  --json scripts/generated/phase6z6k8ap16du9gy_next_compact_hcover_ranks.json \
+  --md scripts/generated/phase6z6k8ap16du9gy_next_compact_hcover_ranks.md
+```
+
+Result: passed in roughly `1.01s`, with `max_rss_kb=25304`.
+
+The bounded `[0,64)` status is now:
+
+- identity ranks: `22`;
+- GoodDirection cases: `264`;
+- not-GoodDirection masks: `1144`;
+- uncovered masks according to the diagnostic profiler: `0`;
+- remaining rank without a compact hcover root: `62`.
+
+The markdown artifact still has the older static title
+`Phase 6Z.6K.8AP.16DU.9GF Next Compact Hcover Ranks`; the path and command
+above are the authoritative 9GY provenance.
+
+Decision: accepted.  The next generated batch should be a single-rank compact
+hcover batch for rank `62`, which should complete the current `[0,64)` bounded
+identity-rank smoke window without adding unnecessary heavy roots.
