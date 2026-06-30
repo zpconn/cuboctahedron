@@ -30650,3 +30650,61 @@ stop on first failure
 Next step: run the AP16DJ emitter with `--emit` for this batch, then use the
 serial memory guard on the planned target list.  If any target approaches the
 5 GiB cap, stop and split the batch further before continuing.
+
+### Phase 6Z.6K.8AP.16DU.9GI checkpoint: bounded emission and one-target guarded build
+
+Phase 6Z.6K.8AP.16DU.9GI emitted the six-rank compact hcover batch for ranks
+`5`, `9`, `11`, `17`, `24`, and `27`, then generated a serial guard plan for
+the emitted modules.
+
+Emitter command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py --emit \
+  --plan scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9GHBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9GHBatchSmoke
+```
+
+Result: passed in `elapsed=0:03.83`, `max_rss_kb=28120`, updating the
+generation report to `emitted_pending_guarded_build`.
+
+Guard plan command:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py --plan-only \
+  --generation-report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9gh_serial_guard_plan.json \
+  --out-dir /tmp/ap16dj_du9gh_serial_guarded/targets
+```
+
+Result: produced a `151`-target serial plan with the same target-kind breakdown
+as the dry-run.
+
+One-target guarded build command:
+
+```bash
+/usr/bin/time -v python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9gh_serial_guard_prefix1.json \
+  --out-dir /tmp/ap16dj_du9gh_serial_guarded/prefix1 \
+  --max-targets 1 \
+  --rss-cap-mib 4500 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 600 \
+  --poll-seconds 0.5
+```
+
+Result: passed.  The target was
+`Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank5SplitDataSmoke`,
+with `elapsed=13.02s`, `peak_tree_rss=4048 MiB`, and
+`min_available=45934 MiB`.
+
+Decision: emission is accepted, and the first guarded target validates that the
+split-trace data root can build under a hard cap.  The `4048 MiB` peak is close
+enough to the `4500 MiB` cap that the next action must remain conservative:
+build only a tiny guarded prefix, or first reorder the guard plan to put the
+largest expected targets under explicit observation.  Do not run the whole
+`151`-target batch or any broad root without the serial guard.
