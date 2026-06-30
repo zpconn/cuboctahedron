@@ -30587,3 +30587,66 @@ the corresponding split-trace, selected-impact, compact-cover, and shallow
 batch roots.  Build those emitted Lean targets only through the serial RSS
 guard first; do not attach them to a broad root until their per-target memory
 profile is recorded.
+
+### Phase 6Z.6K.8AP.16DU.9GH checkpoint: compact hcover batch prep and AP16DJ dry-run
+
+Phase 6Z.6K.8AP.16DU.9GH adds
+`scripts/prepare_compact_hcover_rank_batch.py`, a no-Lean helper that converts
+Walsh subcube-cover profiles into the plan/source schema consumed by
+`scripts/generate_ap16dj_compact_walsh_batch.py`.
+
+Prep command:
+
+```bash
+/usr/bin/time -v python3 scripts/prepare_compact_hcover_rank_batch.py
+```
+
+Result: passed in `elapsed=0:00.02`, `max_rss_kb=14208`, producing:
+
+- `scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_plan.json`
+- `scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_source.json`
+- `scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_prep.json`
+
+AP16DJ dry-run command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --plan scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9gh_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9GHBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9GHBatchSmoke
+```
+
+Result: passed in `elapsed=0:00.07`, `max_rss_kb=27720`, with status
+`dry_run`.
+
+Planned guarded targets:
+
+| Target kind | Count |
+| --- | ---: |
+| split trace data | `6` |
+| split trace steps | `78` |
+| split trace final/root | `12` |
+| selected-impact consumers | `42` |
+| selected-impact roots | `6` |
+| compact cover roots | `6` |
+| shallow batch root | `1` |
+| total | `151` |
+
+Decision: accepted as planning telemetry.  The six-rank batch is ready for
+bounded Lean emission, but it is not yet proof evidence.  Emission and checking
+must be a separate guarded step using:
+
+```text
+build targets serially
+LEAN_NUM_THREADS=1
+LAKE_JOBS=1
+process-tree RSS cap: 5000 MiB
+minimum MemAvailable floor: 12000 MiB
+stop on first failure
+```
+
+Next step: run the AP16DJ emitter with `--emit` for this batch, then use the
+serial memory guard on the planned target list.  If any target approaches the
+5 GiB cap, stop and split the batch further before continuing.
