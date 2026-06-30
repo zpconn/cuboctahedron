@@ -39724,3 +39724,49 @@ trace steps `11` and `12` split, keep the final trace split, and split the
 selected later word impacts `6`, `7`, and `11` by normal component.  Keep Lean
 checking strictly serial; if rank `903` approaches the cap, add one more
 component split rather than raising the cap.
+
+### Phase 6Z6K8AP16DU9IQ - rank 903 guarded run aborted
+
+Rank `903` was emitted from the DU9IQ compact h-cover batch with the intended
+extra component splits, but its guarded Lean pass was stopped before acceptance
+after an OOM-risk warning.  This rank is **not accepted** by this checkpoint.
+
+Generation summary:
+
+- rank: `903`;
+- selected subcubes: `18`;
+- root targets generated: `61`;
+- selected word-impact set: `[0, 1, 3, 5, 6, 7, 11]`;
+- selected normal-component splits: impacts `6`, `7`, and `11`;
+- vector-trace splits: steps `11`, `12`, and the final trace.
+
+The interrupted guarded command was:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9iq_split_cover_rank903_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9iq_split_cover_rank903_guard_4200_floor30000.json \
+  --out-dir /tmp/ap16du9iq_split_cover_rank903_guard_4200_floor30000 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Observed partial guard status at interruption:
+
+- status in JSON: `running`;
+- completed targets: `26 / 61`;
+- maximum target RSS observed:
+  `4155.15 MiB`
+  (`ImpactSubcubeWalshVectorTraceRank903SplitFinalYSmoke`);
+- minimum available memory observed:
+  `45750.04 MiB`
+  (`ImpactSubcubeWalshVectorTraceRank903SplitFinalYSmoke`).
+
+Decision: do not resume rank `903` under the current target shape.  The margin is
+too narrow and the guard was already replaying substantial dependencies.  Before
+another guarded Lean pass, regenerate rank `903` with finer splits on the
+currently heaviest targets, especially the final vector-trace component and the
+DU9IQ root target.  Keep the current partially generated files unaccepted until a
+fresh guarded pass completes all targets under the cap.
