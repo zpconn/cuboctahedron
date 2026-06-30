@@ -31409,3 +31409,50 @@ Decision: accepted.  Rank `62` has a compact Walsh subcube cover with no
 uncovered masks.  Next step: prepare a single-rank AP16DJ-compatible hcover
 batch for rank `62`, dry-run it, and only then emit Lean under the same serial
 guard policy used for DU9GH/DU9GO/DU9GU.
+
+### Phase 6Z.6K.8AP.16DU.9HA checkpoint: rank62 hcover batch prep and dry-run
+
+Phase 6Z.6K.8AP.16DU.9HA prepares a single-rank AP16DJ-compatible batch for
+rank `62`.
+
+Prep command:
+
+```bash
+/usr/bin/time -v python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile scripts/generated/phase6z6k8ap16du9gz_rank62_walsh_subcube_cover.json \
+  --output-prefix scripts/generated/phase6z6k8ap16du9ha_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9HABatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HABatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9HA' \
+  --signature-key-prefix du9ha
+```
+
+Result: passed in `elapsed=0.02s`, `max_rss_kb=13632`.
+
+AP16DJ dry-run command:
+
+```bash
+/usr/bin/time -v python3 scripts/generate_ap16dj_compact_walsh_batch.py \
+  --plan scripts/generated/phase6z6k8ap16du9ha_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ha_compact_hcover_batch_source.json \
+  --report scripts/generated/phase6z6k8ap16du9ha_compact_hcover_batch_generation.json \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9HABatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HABatchSmoke
+```
+
+Result: passed in `elapsed=0.06s`, `max_rss_kb=26760`, with status `dry_run`,
+`1` signature, and `26` planned guarded targets:
+
+- `1` trace data module;
+- `13` split trace-step modules plus trace final/root;
+- `7` selected-impact modules;
+- `1` selected-impact root;
+- `1` cover root;
+- `1` shallow batch root.
+
+Rank `62` uses selected word impacts `[0, 1, 3, 5, 7, 8, 11]`.
+
+Decision: accepted.  The final bounded `[0,64)` missing rank has a small
+single-rank plan.  Next step: emit the DU9HA Lean files, inspect the guard
+target list, probe the cover root, then run the cover and batch root under the
+same serial memory guard.
