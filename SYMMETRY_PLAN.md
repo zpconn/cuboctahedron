@@ -37657,3 +37657,62 @@ DU9IM ranks should continue one at a time under the same serial `4200 MiB`
 process-tree guard.  Do not broaden this into a package build or parallel
 Lean run.  Continue with ranks `647`, `654`, and finally the higher-risk rank
 `657`.
+
+### Phase 6Z6K8AP16DU9IM - rank 647 theorem-only split cover accepted
+
+Rank `647` was emitted with the theorem-only split-cover generator, splitting
+the selected impact denominator targets for impacts `6`, `8`, and `9`:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9im_compact_hcover_batch_source.json \
+  --rank 647 \
+  --tag DU9IM \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IM' \
+  --report scripts/generated/phase6z6k8ap16du9im_split_cover_rank647_generation_direct_subcube_root.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 8 \
+  --component-selected-impact 9
+```
+
+The emitted topology had `56` guarded build targets: the split trace targets,
+selected impact denominator targets, `16` theorem-only subcube leaves, and one
+split-cover root.
+
+The accepted full guarded pass was:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9im_split_cover_rank647_generation_direct_subcube_root.json \
+  --json scripts/generated/phase6z6k8ap16du9im_split_cover_rank647_direct_full_guard_4200.json \
+  --out-dir /tmp/ap16du9im_split_cover_rank647_direct_full_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Full guarded pass summary:
+
+- status: `passed`;
+- target count: `56`;
+- guard cap: `4200 MiB`;
+- maximum process-tree RSS: `4154.79 MiB`;
+- peak target: `trace_step_12_z`;
+- split-cover root RSS: `4154.25 MiB`;
+- next-highest targets:
+  - `trace_final_z`: `4149.73 MiB`;
+  - `trace_step_12_x`: `4147.23 MiB`;
+  - `trace_step_12_y`: `4144.35 MiB`;
+  - `trace_final_y`: `4142.89 MiB`;
+- minimum available memory stayed above the `12000 MiB` floor throughout the
+  guard.
+
+Decision: rank `647` is accepted.  It confirms that the theorem-only
+split-cover topology remains viable for a 16-subcube DU9IM rank under the
+serial `4200 MiB` guard.  Continue with rank `654`; leave the 22-subcube rank
+`657` for last.
