@@ -1,0 +1,29 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "python3",
+    "scripts/profile_ap16i_positive_survivor_membership.py",
+    "--ranges",
+    "768:832",
+    "--jobs",
+    "4",
+    "--sample-limit",
+    "64",
+    "--signature-gate",
+    "64",
+    "--candidate-gate",
+    "64",
+    "--json",
+    "scripts/generated/phase6z6k8ap16du9io_positive_survivor_membership_768_832.json",
+    "--md",
+    "scripts/generated/phase6z6k8ap16du9io_positive_survivor_membership_768_832.md"
+  ],
+  "elapsed_seconds": 1.0015381179982796,
+  "exit_code": 0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 110660,
+  "max_tree_rss_mib": 108.06640625,
+  "min_available_seen_kib": 47614756,
+  "min_available_seen_mib": 46498.78515625,
+  "rss_cap_mib": 1000.0
+}

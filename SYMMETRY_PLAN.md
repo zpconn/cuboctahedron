@@ -38284,3 +38284,100 @@ rank at a time, using the same theorem-only split-cover topology and the same
 strict serial guard discipline as DU9IN.  Python profiling/generation may use
 bounded parallelism where memory-light; Lean checking remains serial and
 guarded.
+
+### Phase 6Z6K8AP16DU9IO - batch inputs prepared
+
+The positive-survivor membership profile was run over the same bounded
+`[768,832)` frontier under a `1000 MiB` process-tree cap and `30000 MiB`
+available-memory floor:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9io_positive_survivor_membership_768_832_guard.json \
+  -- \
+  python3 scripts/profile_ap16i_positive_survivor_membership.py \
+    --ranges 768:832 \
+    --jobs 4 \
+    --sample-limit 64 \
+    --signature-gate 64 \
+    --candidate-gate 64 \
+    --json scripts/generated/phase6z6k8ap16du9io_positive_survivor_membership_768_832.json \
+    --md scripts/generated/phase6z6k8ap16du9io_positive_survivor_membership_768_832.md
+```
+
+Result:
+
+- status: `accepted-positive-survivor-membership-profile`;
+- ranks with GoodDirection survivors: `11`;
+- GoodDirection cases: `122`;
+- positive candidate groups: `22`;
+- positive survivor signatures: `11`;
+- bad-direction evidence emitted: `0`;
+- duplicate rank/mask memberships: `0`;
+- ambiguous GoodDirection memberships: `0`;
+- guard peak RSS: `108 MiB`;
+- minimum available memory seen: `46498 MiB`.
+
+The compact Walsh cover scaling pass covered all `11` signatures:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9io_compact_walsh_cover_scaling_guard.json \
+  -- \
+  python3 scripts/profile_ap16dd_compact_walsh_cover_scaling.py \
+    --profile scripts/generated/phase6z6k8ap16du9io_positive_survivor_membership_768_832.json \
+    --output scripts/generated/phase6z6k8ap16du9io_compact_walsh_cover_scaling.json \
+    --limit 64
+```
+
+Result:
+
+- sampled signatures: `11`;
+- uncovered signatures: `0`;
+- selected subcubes total: `197`;
+- selected subcubes min/max/mean: `13 / 22 / 17.91`;
+- selected word-impact union:
+  `[0, 1, 3, 5, 6, 7, 8, 9, 10, 11]`;
+- guard peak RSS: `26 MiB`.
+
+The four recommended DU9IO ranks were materialized as standalone compact Walsh
+cover profiles:
+
+| Rank | Anchor mask | Selected subcubes | Uncovered | Selected word impacts |
+| ---: | ----------: | ----------------: | --------: | --- |
+| `790` | `6` | `17` | `0` | `[0, 1, 3, 5, 6, 7, 8]` |
+| `798` | `16` | `22` | `0` | `[0, 1, 3, 5, 6, 7, 11]` |
+| `800` | `16` | `13` | `0` | `[0, 1, 3, 5, 6, 7, 10]` |
+| `808` | `15` | `16` | `0` | `[0, 1, 3, 5, 6, 7, 9]` |
+
+The DU9IO plan/source pair was prepared from those four validated rank
+profiles:
+
+```bash
+python3 scripts/prepare_compact_hcover_rank_batch.py \
+  --profile-glob 'scripts/generated/phase6z6k8ap16du9io_rank*_walsh_subcube_cover.json' \
+  --output-prefix scripts/generated/phase6z6k8ap16du9io_compact_hcover_batch \
+  --root-lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IOBatchSmoke.lean \
+  --root-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IOBatchSmoke \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IO' \
+  --signature-key-prefix du9io
+```
+
+Result:
+
+- prepared ranks: `790`, `798`, `800`, and `808`;
+- plan:
+  `scripts/generated/phase6z6k8ap16du9io_compact_hcover_batch_plan.json`;
+- source:
+  `scripts/generated/phase6z6k8ap16du9io_compact_hcover_batch_source.json`.
+
+Decision: DU9IO is ready for rank-by-rank Lean emission.  Start with rank
+`790`, split trace step `12` and the final trace, and select normal-component
+splits for impacts indicated by the rank profile if needed.  As before, do
+plan-only selection before each guarded build and keep Lean checking serial.
