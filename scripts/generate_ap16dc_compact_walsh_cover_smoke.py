@@ -88,6 +88,15 @@ def lean_module_from_path(path: str) -> str:
 def emit_dot_coefficients(entry: dict[str, Any]) -> list[str]:
     ns = entry["namespace"]
     trace_ns = entry.get("trace_namespace", TRACE_NS)
+    extra_normal_defs: list[str] = []
+    if bool(entry.get("split_normal_components", False)):
+        for component in ["x", "y", "z"]:
+            component_ns = (
+                f"{ns.removesuffix('Smoke')}Normal{component.upper()}Smoke"
+                if ns.endswith("Smoke")
+                else f"{ns}Normal{component.upper()}Smoke"
+            )
+            extra_normal_defs.append(f"    {component_ns}.generatedNormal_{component},")
     return [
         "private theorem generatedDotCoefficients :",
         f"    WalshAffineVec3.dot {ns}.generatedNormal {ns}.generatedVector = generatedPoly := by",
@@ -97,6 +106,7 @@ def emit_dot_coefficients(entry: dict[str, Any]) -> list[str]:
         f"    {ns}.generatedNormal_x,",
         f"    {ns}.generatedNormal_y,",
         f"    {ns}.generatedNormal_z,",
+        *extra_normal_defs,
         f"    {ns}.generatedVector,",
         f"    {trace_ns}.generatedVector,",
         f"    {trace_ns}.generatedVector_x,",

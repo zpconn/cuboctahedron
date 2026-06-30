@@ -32456,3 +32456,94 @@ DU9HN ranks unless a dry-run or first focused guard shows the extra component
 targets are unnecessary.  Continue to avoid broad `lake build`; use serial
 guarded target runs and only consider memory-safe parallelism after several
 more component-split ranks show the same envelope.
+
+### Phase 6Z.6K.8AP.16DU.9HT checkpoint: rank120 selected-impact split accepted
+
+Phase 6Z.6K.8AP.16DU.9HT applies the rank89 component-vector split to rank
+`120` and adds one more structural split for an impact-normal outlier.  The
+generator now supports selected-impact normal components:
+
+- `NormalX`, `NormalY`, and `NormalZ` files prove the generated normal vector
+  equality one coordinate at a time for a selected impact;
+- the original selected-impact file imports those component files and
+  reassembles `generatedNormal_eq_impactNormalWalsh` with
+  `WalshAffineVec3.ext`;
+- subcube coefficient proofs import the component namespaces when a selected
+  impact was split, so downstream compact-denominator coefficient checks keep
+  using the same public selected-impact theorem.
+
+This keeps the public selected-impact theorem surface unchanged while avoiding
+one large normal-vector equality target.
+
+Generator syntax check:
+
+```bash
+python3 -m py_compile \
+  scripts/generate_ap16cq_compact_denom_consumer_smoke.py \
+  scripts/generate_ap16dc_compact_walsh_cover_smoke.py \
+  scripts/generate_ap16du_split_compact_cover.py
+```
+
+Regeneration command:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_source.json \
+  --rank 120 \
+  --tag DU9HN \
+  --phase 'Phase 6Z.6K.8AP.16DU.9HN' \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 11 \
+  --report scripts/generated/phase6z6k8ap16du9hn_split_cover_rank120_component_final_generation.json
+```
+
+The emitted report contains `55` guarded targets:
+
+- `24` ordinary split-trace prerequisite targets;
+- `3` component targets for `trace_step_12`;
+- `3` component targets for `trace_final`;
+- `3` component targets for selected impact `11`;
+- `7` selected-impact targets;
+- `1` selected-impacts root;
+- `21` split-cover subcube targets;
+- `1` split-cover root.
+
+Focused guarded checks, all with `--rss-cap-mib 4200`,
+`--available-floor-mib 12000`, `LEAN_NUM_THREADS=1`, and `LAKE_JOBS=1`:
+
+| Target group | Result | Targets | Peak tree RSS | Minimum available memory |
+| --- | --- | ---: | ---: | ---: |
+| trace prerequisites through split root | passed | 22 | `4170.79 MiB` | above floor |
+| initial cover target run | stopped by guard | impact `11` | `4205.68 MiB` | above floor |
+| impact `11` normal components plus assembled impact | passed | 4 | `4028.29 MiB` | above floor |
+| selected-impact/root, split subcubes, split root | passed | 33 | `4141.29 MiB` | about `45739 MiB` |
+
+The initial cover run stopped safely at `rank120_impact11`; it was not rerun at
+a higher cap.  Instead, impact `11` was regenerated with normal-component files
+and the focused guard confirmed the assembled selected-impact target at
+`4028.29 MiB`.  The final cover-target guard then passed all selected-impact,
+subcube, and split-root targets, with the split-cover root peaking at
+`4141.29 MiB`.
+
+The final accepted rank120 proof surface is:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+  ImpactSubcubeWalshSymbolicCompactDenomDU9HNSplitCoverRank120Smoke
+```
+
+and it exposes the expected
+`generatedGoodMaskMember_of_GoodDirection_viaCompactWalshImpactSubcubes`
+theorem for rank `120`.
+
+Decision: accepted.  For future DU9HN-style compact-denominator outliers, keep
+the `4200 MiB` cap and split the offending selected-impact normal equality
+before considering any cap increase.  The next safe scaling step is to apply the
+rank89/rank120 pattern to another prepared DU9HM rank, first with
+`--component-trace-step 12 --component-trace-final`, then with
+`--component-selected-impact` only if a selected-impact target stops under the
+guard.  These smoke surfaces remain bounded generated evidence and are not yet
+the final project-wide generated coverage theorem.

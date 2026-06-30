@@ -26,6 +26,7 @@ if str(SCRIPT_DIR) not in sys.path:
 
 import check_certificates_independently as exact  # noqa: E402
 from generate_ap16by_walsh_symbolic_all_smoke import (  # noqa: E402
+    emit_walsh_affine,
     emit_walsh_vec,
     lean_rat,
 )
@@ -63,6 +64,7 @@ DEFAULT_ROOT_NAMESPACE = (
 
 WalshAffine = dict[tuple[int, ...], Fraction]
 WalshVec3 = list[WalshAffine]
+NORMAL_COMPONENTS = ("x", "y", "z")
 
 
 def symbolic_impact_normal(word: list[str], impact_index: int) -> WalshVec3:
@@ -123,6 +125,21 @@ def normal_eval_simp_names() -> str:
     ])
 
 
+def normal_component_namespace(namespace: str, component: str) -> str:
+    suffix = component.upper()
+    if namespace.endswith("Smoke"):
+        return f"{namespace.removesuffix('Smoke')}Normal{suffix}Smoke"
+    return f"{namespace}Normal{suffix}Smoke"
+
+
+def normal_component_lean(path: Path, component: str) -> Path:
+    suffix = component.upper()
+    stem = path.stem
+    if stem.endswith("Smoke"):
+        stem = stem.removesuffix("Smoke")
+    return path.with_name(f"{stem}Normal{suffix}Smoke.lean")
+
+
 def emit_normal_eval_proof(normal_const: list[Fraction] | None) -> list[str]:
     _ = normal_const
     eq_defs = ", ".join([
@@ -174,6 +191,133 @@ def emit_normal_eval_proof(normal_const: list[Fraction] | None) -> list[str]:
     ]
 
 
+def emit_split_normal_eval_proof(component_namespaces: dict[str, str]) -> list[str]:
+    return [
+        "private theorem generatedNormal_eq_impactNormalWalsh :",
+        "    generatedNormal =",
+        "      impactNormalWalshAt generatedWord firstWordImpactIndex := by",
+        "  apply WalshAffineVec3.ext",
+        "  · simpa [generatedNormal, generatedNormal_x, generatedWord, firstWordImpactIndex, selectedWordImpactIndex,",
+        f"      {component_namespaces['x']}.generatedWord,",
+        f"      {component_namespaces['x']}.firstWordImpactIndex,",
+        f"      {component_namespaces['x']}.selectedWordImpactIndex] using",
+        f"      {component_namespaces['x']}.generatedNormal_x_eq_impactNormalWalsh_x",
+        "  · simpa [generatedNormal, generatedNormal_y, generatedWord, firstWordImpactIndex, selectedWordImpactIndex,",
+        f"      {component_namespaces['y']}.generatedWord,",
+        f"      {component_namespaces['y']}.firstWordImpactIndex,",
+        f"      {component_namespaces['y']}.selectedWordImpactIndex] using",
+        f"      {component_namespaces['y']}.generatedNormal_y_eq_impactNormalWalsh_y",
+        "  · simpa [generatedNormal, generatedNormal_z, generatedWord, firstWordImpactIndex, selectedWordImpactIndex,",
+        f"      {component_namespaces['z']}.generatedWord,",
+        f"      {component_namespaces['z']}.firstWordImpactIndex,",
+        f"      {component_namespaces['z']}.selectedWordImpactIndex] using",
+        f"      {component_namespaces['z']}.generatedNormal_z_eq_impactNormalWalsh_z",
+        "",
+        "private theorem generatedNormal_eval_eq_compact (mask : SignMask) :",
+        "    generatedNormal.eval mask =",
+        "      matVec (pairPrefixLinearNat generatedWord firstWordImpactIndex.val)",
+        "        (scalarMul (signedCoeffAt generatedWord mask firstWordImpactIndex)",
+        "          (canonicalNormalQ (generatedWord.get firstWordImpactIndex))) := by",
+        "  rw [generatedNormal_eq_impactNormalWalsh]",
+        "  exact impactNormalWalshAt_eval generatedWord mask firstWordImpactIndex",
+    ]
+
+
+def build_normal_component_lean(
+    *,
+    rank: int,
+    impact_index: int,
+    trace_namespace: str,
+    namespace: str,
+    component: str,
+) -> str:
+    if component not in NORMAL_COMPONENTS:
+        raise ValueError(f"unknown normal component {component!r}")
+    axis_index = NORMAL_COMPONENTS.index(component)
+    word = exact.pair_word_at_rank(rank)
+    if not (0 <= impact_index < len(word)):
+        raise ValueError(f"impact index must be in [0,{len(word)}), got {impact_index}")
+    normal = symbolic_impact_normal(word, impact_index)
+    eq_defs = ", ".join([
+        f"generatedNormal_{component}",
+        "impactNormalWalshAt",
+        "WalshAffineVec3.smulConst",
+        "WalshAffine.const",
+        "WalshAffine.scale",
+        "WalshAffine.bit",
+        "WalshAffine.neg",
+        "WalshAffine.zero",
+        "signedCoeffWalshAt",
+        "countPairBeforeNat",
+        "generatedWord",
+        "firstWordImpactIndex",
+        "selectedWordImpactIndex",
+        "generatedWord_get_selected",
+        "pairPrefixLinearNat",
+        "canonicalNormalQ",
+        "scalarMul",
+        "matVec",
+        "matMul",
+        "matId",
+        "reflM",
+        "matSub",
+        "scalarMat",
+        "outer",
+        "dot",
+    ])
+    lines: list[str] = [
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshCompactDenomBridge",
+        f"import {trace_namespace}",
+        "",
+        "/-!",
+        f"Generated compact-denominator normal `{component}` component for rank `{rank}`.",
+        "",
+        "This component file isolates the heavy symbolic normal equality so the",
+        "main selected-impact bridge can assemble the vector equality cheaply.",
+        "-/",
+        "",
+        f"namespace {namespace}",
+        "",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier",
+        "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorClassifier.ImpactSubcube",
+        "",
+        "set_option maxHeartbeats 0",
+        "set_option maxRecDepth 10000",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "set_option linter.unreachableTactic false",
+        "",
+        "abbrev generatedWord : PairWord :=",
+        f"  {trace_namespace}.generatedWord",
+        "",
+    ]
+    lines.extend(emit_walsh_affine(f"generatedNormal_{component}", normal[axis_index], visibility=""))
+    lines.extend([
+        "",
+        f"def selectedWordImpactIndex : WordIndex := ⟨{impact_index}, by decide⟩",
+        "",
+        "abbrev firstWordImpactIndex : WordIndex := selectedWordImpactIndex",
+        "",
+        "private theorem generatedWord_get_selected :",
+        f"    generatedWord.get firstWordImpactIndex = PairId.{word[impact_index]} := by",
+        "  rfl",
+        "",
+        f"theorem generatedNormal_{component}_eq_impactNormalWalsh_{component} :",
+        f"    generatedNormal_{component} =",
+        f"      (impactNormalWalshAt generatedWord firstWordImpactIndex).{component} := by",
+        "  apply WalshAffine.ext <;>",
+        f"    simp [{eq_defs}] <;>",
+        f"    norm_num [{eq_defs}]",
+        "",
+        f"theorem normal{component.upper()}ComponentSmoke_builds : True := by",
+        "  trivial",
+        "",
+        f"end {namespace}",
+        "",
+    ])
+    return "\n".join(lines)
+
+
 def build_lean(
     *,
     rank: int,
@@ -181,6 +325,7 @@ def build_lean(
     impact_index: int,
     trace_namespace: str,
     namespace: str,
+    normal_component_namespaces: dict[str, str] | None = None,
 ) -> str:
     word = exact.pair_word_at_rank(rank)
     if not (0 <= impact_index < len(word)):
@@ -188,9 +333,18 @@ def build_lean(
     normal = symbolic_impact_normal(word, impact_index)
     normal_const = maybe_constant_vec(normal)
 
+    normal_component_imports = (
+        [
+            f"import {normal_component_namespaces[component]}"
+            for component in NORMAL_COMPONENTS
+        ]
+        if normal_component_namespaces
+        else []
+    )
     lines: list[str] = [
         "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshCompactDenomBridge",
         f"import {trace_namespace}",
+        *normal_component_imports,
         "",
         "/-!",
         f"Generated AP16CQ compact-denominator consumer for rank `{rank}`.",
@@ -222,7 +376,21 @@ def build_lean(
         f"def generatedMask{mask} : SignMask := ⟨{mask}, by decide⟩",
         "",
     ]
-    lines.extend(emit_walsh_vec("generatedNormal", normal, visibility=""))
+    if normal_component_namespaces:
+        for component in NORMAL_COMPONENTS:
+            lines.extend([
+                f"abbrev generatedNormal_{component} : WalshAffine :=",
+                f"  {normal_component_namespaces[component]}.generatedNormal_{component}",
+                "",
+            ])
+        lines.extend([
+            "def generatedNormal : WalshAffineVec3 where",
+            "  x := generatedNormal_x",
+            "  y := generatedNormal_y",
+            "  z := generatedNormal_z",
+        ])
+    else:
+        lines.extend(emit_walsh_vec("generatedNormal", normal, visibility=""))
     lines.extend([
         "",
         f"def selectedWordImpactIndex : WordIndex := ⟨{impact_index}, by decide⟩",
@@ -239,7 +407,10 @@ def build_lean(
         "  rfl",
         "",
     ])
-    lines.extend(emit_normal_eval_proof(normal_const))
+    if normal_component_namespaces:
+        lines.extend(emit_split_normal_eval_proof(normal_component_namespaces))
+    else:
+        lines.extend(emit_normal_eval_proof(normal_const))
     lines.append("")
     lines.extend([
         "private theorem generatedVector_eq_translationVector (mask : SignMask) :",
@@ -346,6 +517,25 @@ def write_manifest_batch(path: Path) -> None:
     for entry in entries:
         lean_path = Path(str(entry["lean"]))
         lean_path.parent.mkdir(parents=True, exist_ok=True)
+        component_namespaces = None
+        if bool(entry.get("split_normal_components", False)):
+            component_namespaces = {
+                component: normal_component_namespace(str(entry["namespace"]), component)
+                for component in NORMAL_COMPONENTS
+            }
+            for component in NORMAL_COMPONENTS:
+                component_path = normal_component_lean(lean_path, component)
+                component_path.write_text(
+                    build_normal_component_lean(
+                        rank=int(entry["rank"]),
+                        impact_index=int(entry["impact_index"]),
+                        trace_namespace=str(entry["trace_namespace"]),
+                        namespace=component_namespaces[component],
+                        component=component,
+                    ),
+                    encoding="utf-8",
+                )
+                print(f"wrote {component_path}")
         lean_path.write_text(
             build_lean(
                 rank=int(entry["rank"]),
@@ -353,6 +543,7 @@ def write_manifest_batch(path: Path) -> None:
                 impact_index=int(entry["impact_index"]),
                 trace_namespace=str(entry["trace_namespace"]),
                 namespace=str(entry["namespace"]),
+                normal_component_namespaces=component_namespaces,
             ),
             encoding="utf-8",
         )

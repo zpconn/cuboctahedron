@@ -49,7 +49,11 @@ from generate_ap16dj_compact_walsh_batch import (  # noqa: E402
     trace_target_paths,
     write_cover_profile,
 )
-from generate_ap16cq_compact_denom_consumer_smoke import write_manifest_batch  # noqa: E402
+from generate_ap16cq_compact_denom_consumer_smoke import (  # noqa: E402
+    NORMAL_COMPONENTS,
+    normal_component_lean,
+    write_manifest_batch,
+)
 from generate_ap16bl_impact_subcube_smoke import selected_subcubes  # noqa: E402
 from generate_ap16t_precomputed_signature_smoke import (  # noqa: E402
     classified_cases_and_bad_masks_for_signature,
@@ -379,8 +383,10 @@ def prerequisite_targets(
     *,
     component_trace_steps: set[int] | None = None,
     component_trace_final: bool = False,
+    component_selected_impacts: set[int] | None = None,
 ) -> list[dict[str, str]]:
     rank = int(entry["rank"])
+    component_selected_impacts = component_selected_impacts or set()
     targets: list[dict[str, str]] = []
     for kind, path in trace_target_paths(
         rank,
@@ -389,6 +395,15 @@ def prerequisite_targets(
     ):
         targets.append({"kind": kind, "module": module_from_path(path)})
     for impact in entry["selected_word_impacts"]:
+        if int(impact) in component_selected_impacts:
+            for component in NORMAL_COMPONENTS:
+                targets.append({
+                    "kind": "selected_impact_normal_component",
+                    "label": f"rank{rank}_impact{impact}_{component}",
+                    "module": module_from_path(
+                        normal_component_lean(impact_lean(rank, int(impact)), component)
+                    ),
+                })
         targets.append({
             "kind": "selected_impact",
             "label": f"rank{rank}_impact{impact}",
@@ -408,6 +423,10 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
     cover_payload = write_cover_profile(source_by_rank, args.rank)
 
     manifest = manifest_for_entry(entry)
+    component_selected_impacts = set(args.component_selected_impact)
+    for item in manifest["entries"]:
+        if int(item["impact_index"]) in component_selected_impacts:
+            item["split_normal_components"] = True
     manifest_path = selected_manifest_json(args.rank)
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -485,6 +504,7 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         entry,
         component_trace_steps=component_trace_steps,
         component_trace_final=component_trace_final,
+        component_selected_impacts=component_selected_impacts,
     )
     targets.extend([
         {
@@ -514,6 +534,7 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         "selected_word_impacts": sorted({int(s["impact"]) - 1 for s in subcubes}),
         "component_trace_steps": sorted(component_trace_steps),
         "component_trace_final": component_trace_final,
+        "component_selected_impacts": sorted(component_selected_impacts),
         "root_lean": str(root_lean(args.tag, args.rank)),
         "root_module": module_from_path(root_lean(args.tag, args.rank)),
         "emitted_trace_lean": emitted_trace_lean,
@@ -546,6 +567,16 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Split the trace final-vector proof into component theorem files.",
     )
+    parser.add_argument(
+        "--component-selected-impact",
+        action="append",
+        type=int,
+        default=[],
+        help=(
+            "Split the symbolic normal proof for this selected word-impact "
+            "into x/y/z component theorem files. May be repeated."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -560,6 +591,7 @@ def write_markdown(payload: dict[str, Any], path: Path) -> None:
         f"- selected word impacts: `{payload['selected_word_impacts']}`",
         f"- component trace steps: `{payload['component_trace_steps']}`",
         f"- component trace final: `{payload['component_trace_final']}`",
+        f"- component selected impacts: `{payload['component_selected_impacts']}`",
         f"- root module: `{payload['root_module']}`",
         f"- targets: `{len(payload['targets'])}`",
         f"- prerequisite targets: `{sum(1 for target in payload['targets'] if not target['kind'].startswith('split_cover_'))}`",
