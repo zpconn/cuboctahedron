@@ -1,0 +1,23 @@
+{
+  "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx60Smoke",
+  "normal_trace_stem": "WeightedDenomCubeDU9IQNormalTraceRank905",
+  "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx60Smoke.lean",
+  "pattern": "111**0",
+  "phase": "Phase 6Z.6K.8AP.16DU.9IQ traced direct bridge emitter",
+  "profile": "scripts/generated/phase6z6k8ap16du9iq_weighted_reduced_quadratic_bounds_profile.json",
+  "rank": 905,
+  "reduced_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQReducedBoundSmoke",
+  "standalone_reduced": true,
+  "summary_index": 60,
+  "support": [
+    2,
+    11
+  ],
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false,
+  "vector_trace_module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank905ChainSmoke",
+  "weights": [
+    "1",
+    "1"
+  ]
+}

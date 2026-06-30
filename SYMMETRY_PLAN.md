@@ -44132,3 +44132,143 @@ higher than ranks `897` and `899` but still safely inside the 12 GiB cap.  The
 remaining complete ranks from the `[896,960)` DU9IQ profile are `905`, `911`,
 and `955`; unlike `897/899/903`, they require generating additional
 direct-bridge leaves before the positive/source-row path can be repeated.
+
+### Phase 6Z6K8AP16DU9IQ26 - generated rank-905 weighted source-row path accepted
+
+Rank `905` was the first DU9IQ weighted pipeline candidate that required
+fresh direct-bridge prerequisites after the rank-`903` checkpoint. A batch plan
+was generated for thirteen bridge leaves and seven shared normal traces:
+
+```bash
+python3 scripts/plan_du9iq_traced_bridge_batch.py \
+  --rank 905 \
+  --limit 13 \
+  --skip-existing-bridges \
+  --report scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank905_all.json
+```
+
+The plan selected direct-bridge indices `52-64` and normal trace indices:
+
+```text
+0, 1, 3, 5, 6, 7, 10
+```
+
+The split Walsh-vector trace was emitted as:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQVectorTraceRank905ChainSmoke
+```
+
+with component splits at steps `3` and `11`, plus a split final vector proof.
+A cold guarded build of the vector-trace root was deliberately rejected by the
+memory guard:
+
+| target | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: |
+| cold vector root | `8.01s` | `28617 MiB` | `44035 MiB` | `-15` |
+
+The rejected cold root confirms that this backend must not cold-build aggregate
+roots. The safe path is leaf-first: build generated vector steps/components
+serially, then build the warmed root. With that discipline, all vector targets
+and the warmed root built successfully:
+
+| vector targets | max elapsed | max peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: | ---: |
+| `26` | `10.01s` | `4298 MiB` | `45765 MiB` | `0` |
+
+The seven generated normal traces also built serially under the 12 GiB guard:
+
+| normal traces | max elapsed | max peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: | ---: |
+| `7` | `3.00s` | `4117 MiB` | `45962 MiB` | `0` |
+
+The thirteen direct-bridge leaves were emitted from indices `52-64` and built
+serially under the 12 GiB guard. The maximum observed peak tree RSS among these
+rank-`905` bridge leaves was `4123 MiB`.
+
+The direct-bridge cover was then generated for all selected cubes and for the
+GoodDirection survivor masks:
+
+```text
+18, 22, 24, 41, 54, 55, 57, 63
+```
+
+Generation command:
+
+```bash
+python3 scripts/emit_du9iq_traced_bridge_cover.py \
+  --rank 905 \
+  --indices 52-64 \
+  --stem WeightedDenomCubeDU9IQDirectBridgeCoverRank905AllGeneratedSmoke \
+  --report scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank905_all_generated.json \
+  --positive-stem WeightedDenomCubeDU9IQDirectBridgeCoverRank905PositiveMasksGeneratedSmoke \
+  --positive-masks 18,22,24,41,54,55,57,63 \
+  --positive-report scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank905_positive_masks_generated.json
+```
+
+Focused guarded positive-bridge build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank905_positive_masks_generated_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank905PositiveMasksGeneratedSmoke
+```
+
+Positive-bridge result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `8.51s` | `4192 MiB` | `45862 MiB` | `0` |
+
+Generated source-row module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank905PositiveGeneratedPrecomputedSignatureSmoke
+```
+
+Generation command:
+
+```bash
+python3 scripts/generate_ap16t_precomputed_signature_smoke.py \
+  --rank 905 \
+  --mask 18 \
+  --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank905PositiveGeneratedPrecomputedSignatureSmoke.lean \
+  --weighted-positive-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank905PositiveMasksGeneratedSmoke
+```
+
+The generator reported `8` positive masks, `5` candidate groups, and `56`
+bad-direction witnesses. The source-row module exports:
+
+```lean
+generatedSingletonSignatureWeightedClosedSemanticAllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 905 906
+```
+
+Focused guarded source-row build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank905_positive_generated_signature_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank905PositiveGeneratedPrecomputedSignatureSmoke
+```
+
+Source-row result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `63.17s` | `8096 MiB` | `40367 MiB` | `0` |
+
+Decision: accepted. Rank `905` now has generated end-to-end weighted coverage
+to `AllTranslationGoodCoverageOnRange 905 906`. This checkpoint establishes a
+new memory rule for future complete ranks: build vector/normal/bridge leaves
+serially first, then build warmed aggregate roots. Do not cold-build aggregate
+roots for fresh generated ranks. The remaining complete ranks from the
+`[896,960)` DU9IQ profile are `911` and `955`.
