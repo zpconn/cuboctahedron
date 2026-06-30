@@ -32182,3 +32182,53 @@ then run prerequisite and split-cover targets serially under the memory guard.
 Keep the existing caps: `4300 MiB` for ordinary cached split targets, isolated
 `4400 MiB` only for prerequisite outliers that have already demonstrated they
 need it, and stop immediately on the first guard failure.
+
+### Phase 6Z.6K.8AP.16DU.9HO checkpoint: rank87 split cover accepted
+
+Phase 6Z.6K.8AP.16DU.9HO emits and verifies the first DU9HN split cover,
+rank `87`.
+
+Emission command:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9hm_compact_hcover_batch_source.json \
+  --rank 87 \
+  --tag DU9HN \
+  --phase 'Phase 6Z.6K.8AP.16DU.9HN' \
+  --report scripts/generated/phase6z6k8ap16du9hn_split_cover_rank87_generation.json
+```
+
+The emitted rank87 report contains `41` guarded targets:
+
+- `24` prerequisite targets;
+- `16` split subcube targets;
+- `1` split rank root.
+
+Guarded build outcome:
+
+| Target group | Cap | Result | Peak tree RSS |
+| --- | ---: | --- | ---: |
+| initial serial run through `trace_step_12` | 4300 MiB | stopped safely at `trace_step_12` | 4305.7 MiB |
+| isolated `trace_step_12` | 4400 MiB | passed | 4329.1 MiB |
+| isolated `trace_final` | 4400 MiB | passed | 4335.1 MiB |
+| remaining trace/root, selected impacts, split subcubes, split root | 4300 MiB | passed | 4155.8 MiB |
+
+The final accepted proof surface is:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.
+  ImpactSubcubeWalshSymbolicCompactDenomDU9HNSplitCoverRank87Smoke
+```
+
+and it exposes the expected theorem
+`generatedGoodMaskMember_of_GoodDirection_viaCompactWalshImpactSubcubes` for
+rank `87`.
+
+Decision: accepted.  Rank `87` confirms the new prerequisite-aware split report
+works.  Continue with the remaining DU9HN ranks using the same operational
+policy: ordinary targets at `4300 MiB`, isolated `trace_step_12` and
+`trace_final` at `4400 MiB` only if the `4300 MiB` guard stops them by a small
+margin, and no broad package builds.
