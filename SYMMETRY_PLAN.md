@@ -34580,3 +34580,61 @@ Decision: DU9IH prep is accepted as planning telemetry.  The next step is
 rank-by-rank split-cover emission and serial guarded checking, starting with
 the largest selected-subcube ranks (`369`, `363`, `362`) before the smaller
 roots.
+
+### Phase 6Z6K8AP16DU9IH - rank 369 split cover accepted
+
+Rank `369` is the largest DU9IH target in this bounded batch by selected
+subcube count.  It was emitted first, with an explicit component split for
+selected impact `11` to avoid repeating the earlier near-OOM normal-vector
+shape:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ih_compact_hcover_batch_source.json \
+  --rank 369 \
+  --tag DU9IH \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IH' \
+  --report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank369_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 11
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected subcubes: `22`;
+- guarded targets: `56`;
+- selected impact `11`: split into normal `x/y/z` component modules.
+
+The rank was then checked serially under the `4200 MiB` process-tree RSS cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ih_split_cover_rank369_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ih_split_cover_rank369_guard_4200.json \
+  --out-dir /tmp/ap16du9ih_split_cover_rank369_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `56`;
+- maximum process-tree RSS: `4163.63 MiB`;
+- peak target: `ImpactSubcubeWalshVectorTraceRank369SplitStep12YSmoke`;
+- minimum observed available memory: `45924.15 MiB`;
+- total guarded elapsed time across targets: `205.78s`;
+- killed targets: none.
+
+Decision: rank `369` is accepted under the DU9IH split-cover path.  The
+selected-impact component split should remain the default whenever a high-risk
+selected impact includes a full normal-vector proof near the RSS cap.  Continue
+the DU9IH rank-by-rank sequence with the next largest selected-subcube ranks,
+starting with `363` and then `362`, still serial-only under the `4200 MiB`
+guard.
