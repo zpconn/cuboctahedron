@@ -30330,3 +30330,59 @@ side is safe and already proof-carrying for rank `0`; the remaining hard
 premise is still the first half of hcover, namely proving
 `GoodDirectionAtRank (⟨0, _⟩ : Fin numPairWords) mask -> Rank0SurvivorMask mask`
 without reverting to an expensive finite bad-mask denominator replay.
+
+### Phase 6Z.6K.8AP.16DU.9GC checkpoint: rank-0 survivor-premise profile
+
+Phase 6Z.6K.8AP.16DU.9GC adds
+`scripts/profile_rank0_survivor_premise.py`, a proof-neutral exact-rational
+profile of the missing rank-0 survivor premise from 9GB.  It uses the existing
+certificate-generator geometry helpers to classify all `64` masks, then
+summarizes the bad masks by first nonpositive impact denominator and by small
+Boolean cubes over the six sign-mask bits.
+
+Run command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_rank0_survivor_premise.py
+```
+
+Result: passed in `elapsed=0:00.60`, `max_rss_kb=22180`.
+
+Findings:
+
+| Metric | Value |
+| --- | ---: |
+| GoodDirection survivor masks | `16` |
+| Bad-direction masks | `48` |
+| All-bad greedy cube cover | `10` cubes |
+| Same-first-impact cube cover | `18` cubes |
+| Same-first-impact+denom cube cover | `25` cubes |
+
+The GoodDirection survivors remain exactly:
+
+```text
+[8, 9, 13, 16, 18, 22, 24, 28, 29, 30, 31, 45, 47, 54, 55, 63]
+```
+
+The first-bad-impact histogram is:
+
+| Impact | Masks |
+| ---: | ---: |
+| `1` | `20` |
+| `2` | `12` |
+| `4` | `8` |
+| `6` | `4` |
+| `8` | `2` |
+| `10` | `1` |
+| `12` | `1` |
+
+Decision: accepted as the next hcover-premise gate.  Rank `0` is not random:
+the bad masks admit a small Boolean-cube structure, and preserving a single
+first-bad impact per cube costs only `18` cubes.  The next implementation step
+should emit a bounded rank-0 survivor-premise Lean smoke from the
+same-first-impact cube cover, using the hand-written necessary-condition
+theorem
+`not_goodDirectionAtRank_of_nonpositive_denom`.  This remains a smoke test,
+not the global strategy, but it exercises the missing first half of hcover in a
+compact shape before generalizing to denominator-cube or state-language
+families.
