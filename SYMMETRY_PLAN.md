@@ -32003,3 +32003,40 @@ Next step: build a thin `[64,128)` batch assembly that reuses the already
 accepted covers for ranks `65`, `72`, `78`, and `80`, and the split roots for
 ranks `84` and `86`, or regenerate the earlier four ranks through the split
 topology only if the mixed root shows import-memory pressure.
+
+### Phase 6Z.6K.8AP.16DU.9HK checkpoint: mixed `[64,128)` batch root accepted
+
+Phase 6Z.6K.8AP.16DU.9HK adds a mixed batch root:
+
+```text
+Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/
+  ImpactSubcubeWalshSymbolicCompactDenomDU9HFMixedBatchSmoke.lean
+```
+
+This root deliberately does not import the rejected old monolithic rank `84`
+or rank `86` cover modules.  It reuses:
+
+- old accepted compact cover roots for ranks `65`, `72`, `78`, and `80`;
+- split cover roots for ranks `84` and `86`.
+
+The focused guarded build was:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4300 \
+  --min-available-mib 12000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9hk_mixed_batch_root_guard_4300.json \
+  -- bash -lc 'export LEAN_NUM_THREADS=1; export LAKE_JOBS=1; timeout 600s lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9HFMixedBatchSmoke'
+```
+
+Result: passed in `elapsed=4.00s`, with `peak_tree_rss=4067.7 MiB` and
+`min_available=46089.9 MiB`.  A banned-token scan over the mixed root found no
+`sorry`, `admit`, `axiom`, `native_decide`, or `unsafe` tokens.
+
+Decision: accepted.  The bounded `[64,128)` hcover batch should use this mixed
+root instead of the old `ImpactSubcubeWalshSymbolicCompactDenomDU9HFBatchSmoke`
+root.  The next production-scaling step is to teach the coverage/frontier
+diagnostics that a guarded mixed/split batch can mark ranks `65`, `72`, `78`,
+`80`, `84`, and `86` as covered without counting the old rank84/rank86
+monolithic cover roots as part of the path forward.
