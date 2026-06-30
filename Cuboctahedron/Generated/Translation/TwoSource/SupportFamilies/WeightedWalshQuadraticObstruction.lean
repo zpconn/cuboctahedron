@@ -60,6 +60,52 @@ def WeightedWalshQuadraticObstruction.toWeightedDenomCubeObstruction
       intro mask hlt hmember
       exact obstruction.nonpos hlt hmember)
 
+/--
+Variant for generated leaves that prove polynomial nonpositivity by a sharper
+local argument than independent term upper bounds.  This is useful when fixed
+subcube bits create cancellations before the remaining free-bit bound is
+applied.
+-/
+structure WeightedWalshQuadraticNonposObstruction
+    (rank : Nat) (Member : SignMask -> Prop) where
+  weights : InternalImpactWeights
+  nonnegative : weights.Nonnegative
+  positive_some : weights.PositiveSome
+  poly : WalshQuadratic
+  direct_eq :
+    forall {mask : SignMask} (hlt : rank < numPairWords),
+      Member mask ->
+        weightedDirectWalshDotAtRank
+          (⟨rank, hlt⟩ : Fin numPairWords) mask weights =
+            poly.coeffEval mask
+  poly_nonpos :
+    forall {mask : SignMask},
+      Member mask ->
+        poly.coeffEval mask <= 0
+
+theorem WeightedWalshQuadraticNonposObstruction.nonpos
+    {rank : Nat} {Member : SignMask -> Prop}
+    (obstruction : WeightedWalshQuadraticNonposObstruction rank Member)
+    {mask : SignMask} (hlt : rank < numPairWords)
+    (hmember : Member mask) :
+    weightedDenomAtRank
+      (⟨rank, hlt⟩ : Fin numPairWords) mask obstruction.weights <= 0 := by
+  rw [weightedDenomAtRank_eq_weightedDirectWalshDotAtRank]
+  rw [obstruction.direct_eq hlt hmember]
+  exact obstruction.poly_nonpos hmember
+
+def WeightedWalshQuadraticNonposObstruction.toWeightedDenomCubeObstruction
+    {rank : Nat} {Member : SignMask -> Prop}
+    (obstruction : WeightedWalshQuadraticNonposObstruction rank Member) :
+    WeightedDenomCubeObstruction rank Member :=
+  WeightedDenomCubeObstruction.ofNonnegative
+    obstruction.weights
+    obstruction.nonnegative
+    obstruction.positive_some
+    (by
+      intro mask hlt hmember
+      exact obstruction.nonpos hlt hmember)
+
 theorem weightedWalshQuadraticObstruction_builds : True := by
   trivial
 

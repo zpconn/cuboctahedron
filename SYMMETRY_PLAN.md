@@ -40369,3 +40369,62 @@ adapter, using generated coefficient equality and subcube upper-bound facts.
 That smoke should still be rejected if it needs compact-Walsh roots,
 `pairPrefixLinearNat` replay, `fin_cases mask`, rank-local Boolean reduction,
 or large arrays.
+
+### Phase 6Z6K8AP16DU9IQ - direct rank-level weighted-Walsh smoke rejected under guard
+
+A concrete rank-`896` support-2 smoke was attempted through the new
+`WeightedWalshQuadraticNonposObstruction` surface.  The polynomial
+nonpositivity itself was small: after substituting the fixed cube bits in
+pattern `1**0*0`, the weighted polynomial reduces to the one-free-bit bound
+`-4 + 4*z <= 0`.
+
+However, the attempted coefficient equality proof asked Lean to unfold
+`DenominatorCube.weightedDirectWalshQuadraticAtRank` directly at rank `896`.
+That reintroduced the old rank-local symbolic recurrence cost.  The memory
+guard stopped the build before it could threaten the machine:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 5500 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_weighted_walsh_nonpos_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQWeightedWalshNonposSmoke
+```
+
+Result:
+
+- exit: `-15`;
+- killed reason: process-tree RSS `6774 MiB` exceeded the `5500 MiB` cap;
+- elapsed before kill: `7.51s`;
+- minimum available memory seen: `45935 MiB`.
+
+The failed Lean smoke file was removed so it cannot enter normal builds.
+
+Decision: keep the accepted `WeightedWalshQuadraticNonposObstruction` adapter,
+but reject direct unfolding of
+`weightedDirectWalshQuadraticAtRank` as the coefficient-equality producer.  The
+next producer must emit/check coefficient equality through small local
+coefficient facts or dot-data facts, not by asking Lean to recompute the
+rank-level weighted quadratic.  This is the same lesson as the earlier
+compact-Walsh trace work, but now isolated to a much smaller surface.
+
+The accepted adapter was rebuilt after adding the nonpos variant:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 5500 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_walsh_quadratic_obstruction_nonpos_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadraticObstruction
+```
+
+Result:
+
+- exit: `0`;
+- elapsed: `1.50s`;
+- peak tree RSS: `824 MiB`;
+- minimum available memory seen: `46417 MiB`.
