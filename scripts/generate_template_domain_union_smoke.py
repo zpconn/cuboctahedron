@@ -296,7 +296,7 @@ def main() -> None:
     parser.add_argument("--candidate-count", type=int, default=4)
     parser.add_argument(
         "--selection",
-        choices=["top-candidates", "top-good-mask-set"],
+        choices=["top-candidates", "top-good-mask-set", "all-candidates"],
         default="top-candidates",
     )
     args = parser.parse_args()
@@ -304,6 +304,13 @@ def main() -> None:
     profile = json.loads(args.profile.read_text(encoding="utf-8"))
     if args.selection == "top-good-mask-set":
         groups, selection_summary = select_top_good_mask_set_groups(profile)
+    elif args.selection == "all-candidates":
+        groups = select_top_candidate_groups(
+            profile, len(profile.get("positive_candidate_catalog", []))
+        )
+        selection_summary = (
+            f"selection=all-candidates candidate_count={len(groups)}"
+        )
     else:
         groups = select_top_candidate_groups(profile, args.candidate_count)
         selection_summary = (

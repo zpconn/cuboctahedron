@@ -29751,3 +29751,56 @@ A `40`-candidate reusable union checks in about the same memory envelope as
 the smaller smokes and under ten seconds.  The remaining unsolved task is not
 candidate-domain member composition; it is proving the coverage side for
 many signatures/states without enumerating rank/mask singleton facts.
+
+### Phase 6Z.6K.8AP.16DU.9FP checkpoint: all bounded candidate-domain union scaling
+
+Phase 6Z.6K.8AP.16DU.9FP extends
+`scripts/generate_template_domain_union_smoke.py` with
+`--selection all-candidates`, then regenerates
+`PositiveSurvivorTemplateDomainUnionSmoke.lean` for all `195` positive
+candidate groups in the bounded AP.16I profile.
+
+Generation command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/generate_template_domain_union_smoke.py \
+    --selection all-candidates
+```
+
+Result: passed in `elapsed=0:00.03`, `max_rss_kb=17816`, with
+`candidate_count=195`.
+
+Generated source size:
+
+```bash
+wc -l Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean
+du -h Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean
+```
+
+Result: `3452` lines, `144K`.
+
+Focused Lean check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 300s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/PositiveSurvivorTemplateDomainUnionSmoke.lean
+```
+
+Result: passed in `elapsed=0:06.14`, `max_rss_kb=3404948`.
+
+The semantic contract audit still passes:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/audit_ap16du9dc_semantic_coverage_contract.py
+```
+
+Result: passed in `elapsed=0:00.01`, `max_rss_kb=12764`.
+
+Decision: accepted.  The reusable candidate-domain member-bridge layer scales
+comfortably across every candidate group in the bounded profile.  That means
+the current bottleneck is now isolated to the coverage side:
+`TemplateLanguageDomainCoversIdentityRange` must be proved by a compressed
+signature/state/algebraic language, but the downstream domain-member bridge is
+cheap enough to compose.
