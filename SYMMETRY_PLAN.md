@@ -28951,3 +28951,75 @@ domain covers the global search space; it is the small Lean bridge that lets a
 future compressed domain prove membership and then discharge a rank-bounded
 coverage obligation without finite selector catalogs or concrete rank/mask
 tables.
+
+### Phase 6Z.6K.8AP.16DU.9FA checkpoint: classifier smoke exercises domain bridge
+
+Phase 6Z.6K.8AP.16DU.9FA updates
+`scripts/generate_source_index_state_classifier_smoke.py` so the bounded
+classifier smoke uses the new generic domain bridge.  The regenerated
+`SourceIndexStateClassifierDU3Smoke.lean` now includes:
+
+```lean
+def classifierSourceRowDomain : TemplateLanguageDomain := fun rank mask =>
+  exists key : ClassifierKey,
+    SourceIndexStateSourceFacts key.toSourceIndexStateKey rank mask /\
+      SourceIndexStateRowFacts key.toSourceIndexStateKey rank mask
+
+theorem classifierSourceRowDomainCovers_of_key_source_row
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                    SourceIndexStateRowFacts
+                      key.toSourceIndexStateKey rank mask) :
+    TemplateLanguageDomainCoversIdentityRange
+      classifierSourceRowDomain 0 5000
+
+theorem classifierSourceRowDomainMemberBridge :
+    TemplateLanguageMemberBridgeOnDomain classifierSourceRowDomain
+```
+
+`classifierTemplateLanguageMemberBridge_of_key_source_row` now factors through
+`TemplateLanguageMemberBridgeOnDomain.to_range`.
+
+Regeneration command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 240s \
+  python3 scripts/generate_source_index_state_classifier_smoke.py \
+    --jobs 1 --family-count 125 --phase 6Z.6K.8AP.16DU.9FA
+```
+
+Result: emitted the bounded smoke in `elapsed=1:04.80`,
+`max_rss_kb=37676`, selected all `125` bounded families covering `4693`
+bounded cases.
+
+Validation:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.TemplateLanguage
+```
+
+Result: passed in `elapsed=0:02.29`, `max_rss_kb=3304916`.
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateClassifierDU3Smoke.lean
+```
+
+Result: passed in `elapsed=0:03.66`, `max_rss_kb=3488472`.
+
+Decision: the generic domain bridge is now exercised by a real generated
+bounded smoke.  This validates the theorem path from semantic domain coverage
+to `TemplateLanguageMemberBridgeOnRange`, but the domain is still backed by
+bounded source-row facts and is not production coverage.  The next production
+step must replace this domain with a genuinely compressed algebraic or
+state-language domain whose coverage proof is not equivalent to enumerating
+rank/mask witnesses.

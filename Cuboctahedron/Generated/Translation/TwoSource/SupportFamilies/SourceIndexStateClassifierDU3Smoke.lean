@@ -8,7 +8,7 @@ Generated GoodDirection-only source-index/state classifier smoke.
 
 This module intentionally contains no concrete rank/mask examples and no
 bounded replay proof.  It packages selected descriptor states as a
-semantic classifier surface for Phase 6Z.6K.8AP.16DU.9EX.
+semantic classifier surface for Phase 6Z.6K.8AP.16DU.9FA.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateClassifierDU3Smoke
@@ -4036,6 +4036,35 @@ theorem sourceIndexFactsCatalog_of_classifierKey_source_row_bool
       hcomplete hlt hlo hhi hM
         (goodDirectionAtRankBool_eq_true_of_goodDirection hgood))
 
+def classifierSourceRowDomain : TemplateLanguageDomain := fun rank mask =>
+  exists key : ClassifierKey,
+    SourceIndexStateSourceFacts key.toSourceIndexStateKey rank mask /\
+      SourceIndexStateRowFacts key.toSourceIndexStateKey rank mask
+
+theorem classifierSourceRowDomainCovers_of_key_source_row
+    (hcomplete :
+      forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
+        0 <= rank ->
+          rank < 5000 ->
+            totalLinearOfPairWord (unrankPairWord ⟨rank, hlt⟩) =
+                (matId : Mat3 Rat) ->
+              GoodDirectionAtRank ⟨rank, hlt⟩ mask ->
+                exists key : ClassifierKey,
+                  SourceIndexStateSourceFacts
+                    key.toSourceIndexStateKey rank mask /\
+                    SourceIndexStateRowFacts
+                      key.toSourceIndexStateKey rank mask) :
+    TemplateLanguageDomainCoversIdentityRange
+      classifierSourceRowDomain 0 5000 := by
+  intro rank mask hlt hlo hhi hM hgood
+  exact hcomplete hlt hlo hhi hM hgood
+
+theorem classifierSourceRowDomainMemberBridge :
+    TemplateLanguageMemberBridgeOnDomain classifierSourceRowDomain := by
+  intro rank mask hlt hdomain _hM _hgood
+  rcases hdomain with ⟨key, hsource, hrows⟩
+  exact TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows
+
 theorem classifierTemplateLanguageMemberBridge_of_key_source_row
     (hcomplete :
       forall {rank : Nat} {mask : SignMask} (hlt : rank < numPairWords),
@@ -4049,10 +4078,10 @@ theorem classifierTemplateLanguageMemberBridge_of_key_source_row
                     key.toSourceIndexStateKey rank mask /\
                     SourceIndexStateRowFacts
                       key.toSourceIndexStateKey rank mask) :
-    TemplateLanguageMemberBridgeOnRange 0 5000 := by
-  intro rank mask hlt hlo hhi hM hgood
-  rcases hcomplete hlt hlo hhi hM hgood with ⟨key, hsource, hrows⟩
-  exact TemplateLanguageMember.of_sourceIndexState_source_row hsource hrows
+    TemplateLanguageMemberBridgeOnRange 0 5000 :=
+  TemplateLanguageMemberBridgeOnDomain.to_range
+    (classifierSourceRowDomainCovers_of_key_source_row hcomplete)
+    classifierSourceRowDomainMemberBridge
 
 theorem classifierDescriptorCoverage_of_sourceIndexFactsCatalog
     (hcomplete :

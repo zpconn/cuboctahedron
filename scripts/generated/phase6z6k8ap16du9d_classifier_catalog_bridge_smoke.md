@@ -1,4 +1,4 @@
-# Phase 6Z.6K.8AP.16DU.9EX Source-Index/State Classifier Smoke
+# Phase 6Z.6K.8AP.16DU.9FA Source-Index/State Classifier Smoke
 
 This generated smoke is not global coverage. It packages selected
 source-index/state descriptors into a GoodDirection-only classifier
