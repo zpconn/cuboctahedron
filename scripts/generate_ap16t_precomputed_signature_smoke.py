@@ -674,15 +674,32 @@ def main() -> None:
     )
     parser.add_argument(
         "--weighted-positive-predicate",
-        default="rank896PositiveMaskMember",
-        help="Predicate name inside --weighted-positive-module.",
+        default=None,
+        help=(
+            "Predicate name inside --weighted-positive-module. "
+            "Defaults to rank{rank}PositiveMaskMember."
+        ),
     )
     parser.add_argument(
         "--weighted-positive-theorem",
-        default="goodDirection_rank896PositiveMaskMember",
-        help="GoodDirection bridge theorem name inside --weighted-positive-module.",
+        default=None,
+        help=(
+            "GoodDirection bridge theorem name inside --weighted-positive-module. "
+            "Defaults to goodDirection_rank{rank}PositiveMaskMember."
+        ),
     )
     args = parser.parse_args()
+
+    weighted_positive_predicate = (
+        args.weighted_positive_predicate
+        if args.weighted_positive_predicate is not None
+        else f"rank{args.rank}PositiveMaskMember"
+    )
+    weighted_positive_theorem = (
+        args.weighted_positive_theorem
+        if args.weighted_positive_theorem is not None
+        else f"goodDirection_rank{args.rank}PositiveMaskMember"
+    )
 
     module_namespace = (
         args.namespace
@@ -711,8 +728,8 @@ def main() -> None:
         output=args.output,
         module_namespace=module_namespace,
         weighted_positive_module=args.weighted_positive_module,
-        weighted_positive_predicate=args.weighted_positive_predicate,
-        weighted_positive_theorem=args.weighted_positive_theorem,
+        weighted_positive_predicate=weighted_positive_predicate,
+        weighted_positive_theorem=weighted_positive_theorem,
     )
     print(
         f"wrote {args.output} for rank {args.rank}, "

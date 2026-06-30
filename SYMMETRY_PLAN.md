@@ -43834,3 +43834,111 @@ full generated weighted-cover/source-row pipeline.  This gives a concrete next
 batch: generate positive bridges and source-row coverage modules for ranks
 `897, 899, 903, 905, 911, 955`, then measure whether the per-rank source-row
 module cost stays near the rank-`896` profile or varies significantly.
+
+### Phase 6Z6K8AP16DU9IQ23 - generated rank-897 weighted source-row path accepted
+
+The next complete rank from the bounded DU9IQ weighted pipeline candidate list
+was promoted through the same generated path as rank `896`.
+
+Generated cover roots:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank897AllSmoke
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank897PositiveMasksGeneratedSmoke
+```
+
+The generated positive-mask bridge uses direct-bridge leaf indices `14-27` and
+leaves exactly these GoodDirection survivor masks:
+
+```text
+8, 13, 16, 18, 24, 29, 30, 31, 45, 47, 54, 55, 63
+```
+
+Generation command:
+
+```bash
+python3 scripts/emit_du9iq_traced_bridge_cover.py \
+  --rank 897 \
+  --indices 14-27 \
+  --stem WeightedDenomCubeDU9IQDirectBridgeCoverRank897AllSmoke \
+  --report scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank897_all.json \
+  --positive-stem WeightedDenomCubeDU9IQDirectBridgeCoverRank897PositiveMasksGeneratedSmoke \
+  --positive-masks 8,13,16,18,24,29,30,31,45,47,54,55,63 \
+  --positive-report scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank897_positive_masks_generated.json
+```
+
+Focused guarded positive-bridge build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_cover_rank897_positive_masks_generated_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank897PositiveMasksGeneratedSmoke
+```
+
+Positive-bridge result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `13.02s` | `4202 MiB` | `45805 MiB` | `0` |
+
+The AP.16T source-row emitter was also generalized so
+`--weighted-positive-predicate` and `--weighted-positive-theorem` now default to
+rank-specific names:
+
+```text
+rank{rank}PositiveMaskMember
+goodDirection_rank{rank}PositiveMaskMember
+```
+
+This avoids the old rank-`896` default leaking into future generated modules.
+
+Generated source-row module:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank897PositiveGeneratedPrecomputedSignatureSmoke
+```
+
+Generation command:
+
+```bash
+python3 scripts/generate_ap16t_precomputed_signature_smoke.py \
+  --rank 897 \
+  --mask 8 \
+  --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQRank897PositiveGeneratedPrecomputedSignatureSmoke.lean \
+  --weighted-positive-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank897PositiveMasksGeneratedSmoke
+```
+
+The source-row module exports:
+
+```lean
+generatedSingletonSignatureWeightedClosedSemanticAllGoodCoverage :
+  AllTranslationGoodCoverageOnRange 897 898
+```
+
+Focused guarded source-row build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_rank897_positive_generated_signature_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank897PositiveGeneratedPrecomputedSignatureSmoke
+```
+
+Source-row result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `60.16s` | `7893 MiB` | `40680 MiB` | `0` |
+
+Decision: accepted.  Rank `897` now has a generated end-to-end
+weighted-cover/source-row path to semantic all-Good translation coverage.  The
+source-row cost remains near the rank-`896` profile, so the next safe scaling
+step is to repeat this generated path for ranks `899` and `903`, whose
+direct-bridge leaves already exist, still one heavy source-row build at a time.

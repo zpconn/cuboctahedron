@@ -1,0 +1,137 @@
+{
+  "indices": [
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27
+  ],
+  "leaf_count": 14,
+  "leaves": [
+    {
+      "cube": "cubexxx001",
+      "index": "14",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx14Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx14Smoke.lean",
+      "pattern": "xxx001",
+      "weights": "weights1"
+    },
+    {
+      "cube": "cube1x0x1x",
+      "index": "15",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx15Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx15Smoke.lean",
+      "pattern": "1x0x1x",
+      "weights": "weights2_11"
+    },
+    {
+      "cube": "cube0xx1x1",
+      "index": "16",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx16Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx16Smoke.lean",
+      "pattern": "0xx1x1",
+      "weights": "weights2_8"
+    },
+    {
+      "cube": "cubexxx000",
+      "index": "17",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx17Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx17Smoke.lean",
+      "pattern": "xxx000",
+      "weights": "weights6_10"
+    },
+    {
+      "cube": "cubex010xx",
+      "index": "18",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx18Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx18Smoke.lean",
+      "pattern": "x010xx",
+      "weights": "weights4_6"
+    },
+    {
+      "cube": "cube1x010x",
+      "index": "19",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx19Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx19Smoke.lean",
+      "pattern": "1x010x",
+      "weights": "weights11"
+    },
+    {
+      "cube": "cubex1x100",
+      "index": "20",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx20Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx20Smoke.lean",
+      "pattern": "x1x100",
+      "weights": "weights4"
+    },
+    {
+      "cube": "cube0x0xx1",
+      "index": "21",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx21Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx21Smoke.lean",
+      "pattern": "0x0xx1",
+      "weights": "weights1_8"
+    },
+    {
+      "cube": "cube1xx0x0",
+      "index": "22",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx22Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx22Smoke.lean",
+      "pattern": "1xx0x0",
+      "weights": "weights2_6"
+    },
+    {
+      "cube": "cube0x110x",
+      "index": "23",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx23Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx23Smoke.lean",
+      "pattern": "0x110x",
+      "weights": "weights2"
+    },
+    {
+      "cube": "cube0x10x0",
+      "index": "24",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx24Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx24Smoke.lean",
+      "pattern": "0x10x0",
+      "weights": "weights11"
+    },
+    {
+      "cube": "cube0101xx",
+      "index": "25",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx25Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx25Smoke.lean",
+      "pattern": "0101xx",
+      "weights": "weights4_6"
+    },
+    {
+      "cube": "cubex0x111",
+      "index": "26",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx26Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx26Smoke.lean",
+      "pattern": "x0x111",
+      "weights": "weights8_10"
+    },
+    {
+      "cube": "cube001x10",
+      "index": "27",
+      "module": "WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx27Smoke",
+      "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx27Smoke.lean",
+      "pattern": "001x10",
+      "weights": "weights11"
+    }
+  ],
+  "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank897AllSmoke",
+  "path": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeCoverRank897AllSmoke.lean",
+  "rank": 897,
+  "stem": "WeightedDenomCubeDU9IQDirectBridgeCoverRank897AllSmoke"
+}
