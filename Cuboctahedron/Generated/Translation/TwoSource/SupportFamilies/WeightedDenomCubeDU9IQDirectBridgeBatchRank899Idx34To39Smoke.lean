@@ -1,0 +1,41 @@
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx34Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx35Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx36Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx37Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx38Smoke
+import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx39Smoke
+
+/-!
+Shallow aggregate for DU9IQ traced direct bridge batch `WeightedDenomCubeDU9IQDirectBridgeBatchRank899Idx34To39Smoke`.
+
+The imported leaves contain the checked arithmetic.  This module only
+proves that the theorem surfaces compose without name conflicts or broad
+local unfolding.
+-/
+
+namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies
+namespace WeightedDenomCubeDU9IQDirectBridgeBatchRank899Idx34To39Smoke
+
+theorem idx34_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx34Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx35_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx35Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx36_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx36Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx37_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx37Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx38_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx38Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem idx39_builds : True :=
+  WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx39Smoke.tracedDirectBridgeGeneratedSmoke_builds
+
+theorem weightedDenomCubeDU9IQDirectBridgeBatchRank899Idx34To39Smoke_builds : True := by
+  trivial
+
+end WeightedDenomCubeDU9IQDirectBridgeBatchRank899Idx34To39Smoke
+end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies

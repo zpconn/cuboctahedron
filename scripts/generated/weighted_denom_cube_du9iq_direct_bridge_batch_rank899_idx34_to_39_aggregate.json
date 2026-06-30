@@ -1,0 +1,17 @@
+{
+  "bridge_count": 6,
+  "bridge_modules": [
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx34Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx35Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx36Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx37Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx38Smoke",
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx39Smoke"
+  ],
+  "module": "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank899Idx34To39Smoke",
+  "output": "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/WeightedDenomCubeDU9IQDirectBridgeBatchRank899Idx34To39Smoke.lean",
+  "phase": "Phase 6Z6K8AP16DU9IQ traced direct bridge batch aggregate",
+  "plan": "scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank899_next.json",
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}
