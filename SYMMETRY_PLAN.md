@@ -40141,3 +40141,70 @@ whole Boolean subcube.  This is the correct next semantic strengthening because
 it can merge cubes where different masks fail at different first impacts while
 still targeting `BadMaskCover` and avoiding compact-Walsh roots, `fin_cases
 mask`, rank-local Boolean reduction, and `pairPrefixLinearNat` replay.
+
+### Phase 6Z6K8AP16DU9IQ - weighted denominator-cube hmask cover profile rejected
+
+The weighted version of the hmask profiler targets the existing
+`DenominatorCube.WeightedDenomCubeCover` API.  It still emits no Lean.  A
+Boolean subcube is accepted only when it contains no positive-survivor masks
+and a small nonnegative integer combination of internal impact denominators is
+nonpositive on every member mask.
+
+Primary bounded run:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_du9iq_weighted_denominator_cube_cover.py \
+  --rank-start 896 \
+  --limit 64 \
+  --max-support 2 \
+  --max-weight 8 \
+  --max-total-cubes-gate 96 \
+  --max-rank-cubes-gate 24 \
+  --json scripts/generated/phase6z6k8ap16du9iq_weighted_denominator_cube_cover_profile.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_weighted_denominator_cube_cover_profile.md
+```
+
+Result:
+
+- status: `reject-weighted-denominator-cube-profile`;
+- next step: `increase-weighted-search-or-profile-nonlocal-hmask-language`;
+- selected greedy cubes: `99`;
+- largest per-rank cover: `15`;
+- largest selected cube: `16`;
+- candidate weighted cubes: `2042`;
+- elapsed time: `32.68s`;
+- peak RSS: `27540 KiB`.
+
+Because the result was close to the `96` total-cube gate, a wider but still
+bounded search was also run with support still capped at `2` and max weight
+raised to `16`:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_du9iq_weighted_denominator_cube_cover.py \
+  --rank-start 896 \
+  --limit 64 \
+  --max-support 2 \
+  --max-weight 16 \
+  --max-total-cubes-gate 96 \
+  --max-rank-cubes-gate 24 \
+  --json scripts/generated/phase6z6k8ap16du9iq_weighted_denominator_cube_cover_w16_profile.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_weighted_denominator_cube_cover_w16_profile.md
+```
+
+The wider run produced `98` selected greedy cubes, still above the gate, after
+`1:46.46` wall time and `27532 KiB` peak RSS.
+
+Decision: support-2 weighted denominator cubes almost meet the DU9IQ hmask
+gate but appear close to saturated: doubling the weight range only saved one
+cube.  Do not emit Lean from this route yet.  The next safe options are:
+
+1. improve the set-cover selection itself, because the current cover is greedy
+   and may miss a sub-96 solution with the same candidates;
+2. run a tightly time-budgeted support-3 profiler on this same window;
+3. if support-3 still fragments, switch to a less rank-local hmask language
+   that shares bad-mask families across the source-position/state producer
+   descriptors.
+
+All three options remain diagnostic-only until a small cover is found.  No
+future hmask step should revive compact-Walsh roots, `fin_cases mask`,
+rank-local Boolean reduction, or `pairPrefixLinearNat` replay.

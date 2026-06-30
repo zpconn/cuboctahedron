@@ -1,0 +1,2341 @@
+{
+  "bad_mask_cases": 373,
+  "decision": {
+    "next_step": "increase-weighted-search-or-profile-nonlocal-hmask-language",
+    "notes": [
+      "this profile emits no Lean",
+      "selected cubes contain no positive-survivor masks",
+      "each selected cube has a small nonnegative integer denominator combination nonpositive on every member mask",
+      "acceptance only authorizes a small Lean bound-smoke, not final production emission"
+    ],
+    "status": "reject-weighted-denominator-cube-profile"
+  },
+  "good_direction_cases": 75,
+  "identity_rank_count": 7,
+  "largest_rank_cover": 15,
+  "largest_selected_cube": 16,
+  "limit": 64,
+  "max_rank_cubes_gate": 24,
+  "max_support": 2,
+  "max_total_cubes_gate": 96,
+  "max_weight": 8,
+  "nonidentity_rank_count": 57,
+  "phase": "6Z.6K.8AP.16DU.9IQ weighted denominator-cube bad-cover profile",
+  "rank_end": 960,
+  "rank_start": 896,
+  "rank_summaries": [
+    {
+      "bad_mask_count": 51,
+      "candidate_cube_count": 268,
+      "good_masks": [
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "largest_selected_cube": 8,
+      "rank": 896,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            48,
+            49,
+            50,
+            51
+          ],
+          "max_value": "-28/9",
+          "pattern": "**00*1",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            1,
+            3,
+            5,
+            7,
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_value": "0",
+          "pattern": "1**0*0",
+          "support": [
+            2,
+            6
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            6,
+            12,
+            14,
+            36,
+            38,
+            44,
+            46
+          ],
+          "max_value": "-4/9",
+          "pattern": "0*1*0*",
+          "support": [
+            2,
+            11
+          ],
+          "weights": [
+            2,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            40,
+            41,
+            42,
+            43,
+            56,
+            57,
+            58,
+            59
+          ],
+          "max_value": "-8/9",
+          "pattern": "**01*1",
+          "support": [
+            8,
+            10
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            48,
+            49,
+            52,
+            53,
+            56,
+            57,
+            60,
+            61
+          ],
+          "max_value": "0",
+          "pattern": "*0**11",
+          "support": [
+            4,
+            8
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            0,
+            2,
+            8,
+            10
+          ],
+          "max_value": "-4/3",
+          "pattern": "0*0*00",
+          "support": [
+            11
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            10,
+            11,
+            26,
+            27
+          ],
+          "max_value": "-28/9",
+          "pattern": "*101*0",
+          "support": [
+            4
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            1,
+            3,
+            5,
+            7,
+            33,
+            35,
+            37,
+            39
+          ],
+          "max_value": "0",
+          "pattern": "1**00*",
+          "support": [
+            1,
+            6
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            40,
+            42,
+            44,
+            46,
+            56,
+            58,
+            60,
+            62
+          ],
+          "max_value": "0",
+          "pattern": "0**1*1",
+          "support": [
+            2,
+            8
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            25,
+            27
+          ],
+          "max_value": "-28/9",
+          "pattern": "1*0*10",
+          "support": [
+            2
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            57,
+            59,
+            61,
+            63
+          ],
+          "max_value": "-20/9",
+          "pattern": "1**111",
+          "support": [
+            11
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            3,
+            7,
+            11,
+            15
+          ],
+          "max_value": "0",
+          "pattern": "11**00",
+          "support": [
+            4,
+            8
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            4,
+            5,
+            20,
+            21
+          ],
+          "max_value": "-8/9",
+          "pattern": "*010*0",
+          "support": [
+            6,
+            10
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 5,
+          "mask_count": 2,
+          "masks": [
+            29,
+            61
+          ],
+          "max_value": "-4/3",
+          "pattern": "10111*",
+          "support": [
+            11
+          ],
+          "weights": [
+            1
+          ]
+        }
+      ],
+      "selected_cube_count": 14,
+      "selected_mask_total": 82
+    },
+    {
+      "bad_mask_count": 51,
+      "candidate_cube_count": 268,
+      "good_masks": [
+        8,
+        13,
+        16,
+        18,
+        24,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "largest_selected_cube": 8,
+      "rank": 897,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_value": "-28/9",
+          "pattern": "***001",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            17,
+            19,
+            25,
+            27,
+            49,
+            51,
+            57,
+            59
+          ],
+          "max_value": "-4/9",
+          "pattern": "1*0*1*",
+          "support": [
+            2,
+            11
+          ],
+          "weights": [
+            2,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            40,
+            42,
+            44,
+            46,
+            56,
+            58,
+            60,
+            62
+          ],
+          "max_value": "0",
+          "pattern": "0**1*1",
+          "support": [
+            2,
+            8
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "max_value": "-8/9",
+          "pattern": "***000",
+          "support": [
+            6,
+            10
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            20,
+            21,
+            36,
+            37,
+            52,
+            53
+          ],
+          "max_value": "0",
+          "pattern": "*010**",
+          "support": [
+            4,
+            6
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            9,
+            11,
+            41,
+            43
+          ],
+          "max_value": "-4/3",
+          "pattern": "1*010*",
+          "support": [
+            11
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            10,
+            11,
+            14,
+            15
+          ],
+          "max_value": "-28/9",
+          "pattern": "*1*100",
+          "support": [
+            4
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            32,
+            34,
+            40,
+            42,
+            48,
+            50,
+            56,
+            58
+          ],
+          "max_value": "0",
+          "pattern": "0*0**1",
+          "support": [
+            1,
+            8
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            1,
+            3,
+            5,
+            7,
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_value": "0",
+          "pattern": "1**0*0",
+          "support": [
+            2,
+            6
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            12,
+            14,
+            44,
+            46
+          ],
+          "max_value": "-28/9",
+          "pattern": "0*110*",
+          "support": [
+            2
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            4,
+            6,
+            20,
+            22
+          ],
+          "max_value": "-20/9",
+          "pattern": "0*10*0",
+          "support": [
+            11
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            10,
+            26,
+            42,
+            58
+          ],
+          "max_value": "0",
+          "pattern": "0101**",
+          "support": [
+            4,
+            6
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            56,
+            57,
+            60,
+            61
+          ],
+          "max_value": "-8/9",
+          "pattern": "*0*111",
+          "support": [
+            8,
+            10
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 5,
+          "mask_count": 2,
+          "masks": [
+            20,
+            28
+          ],
+          "max_value": "-4/3",
+          "pattern": "001*10",
+          "support": [
+            11
+          ],
+          "weights": [
+            1
+          ]
+        }
+      ],
+      "selected_cube_count": 14,
+      "selected_mask_total": 82
+    },
+    {
+      "bad_mask_count": 48,
+      "candidate_cube_count": 287,
+      "good_masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "largest_selected_cube": 8,
+      "rank": 899,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            32,
+            33,
+            34,
+            35
+          ],
+          "max_value": "-4/3",
+          "pattern": "**000*",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            17,
+            19,
+            25,
+            27,
+            49,
+            51,
+            57,
+            59
+          ],
+          "max_value": "0",
+          "pattern": "1*0*1*",
+          "support": [
+            2,
+            12
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            6,
+            12,
+            14,
+            36,
+            38,
+            44,
+            46
+          ],
+          "max_value": "0",
+          "pattern": "0*1*0*",
+          "support": [
+            2,
+            10
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            32,
+            34,
+            40,
+            42,
+            48,
+            50,
+            56,
+            58
+          ],
+          "max_value": "0",
+          "pattern": "0*0**1",
+          "support": [
+            1,
+            8
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            20,
+            21,
+            36,
+            37,
+            52,
+            53
+          ],
+          "max_value": "0",
+          "pattern": "*010**",
+          "support": [
+            4,
+            6
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            10,
+            11,
+            26,
+            27,
+            42,
+            43,
+            58,
+            59
+          ],
+          "max_value": "0",
+          "pattern": "*101**",
+          "support": [
+            4,
+            12
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            1,
+            3,
+            5,
+            7,
+            33,
+            35,
+            37,
+            39
+          ],
+          "max_value": "0",
+          "pattern": "1**00*",
+          "support": [
+            1,
+            6
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            40,
+            42,
+            44,
+            46,
+            56,
+            58,
+            60,
+            62
+          ],
+          "max_value": "0",
+          "pattern": "0**1*1",
+          "support": [
+            2,
+            8
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            40,
+            41,
+            42,
+            43
+          ],
+          "max_value": "-4/3",
+          "pattern": "**0*01",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            1,
+            3,
+            5,
+            7,
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_value": "0",
+          "pattern": "1**0*0",
+          "support": [
+            2,
+            6
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            2,
+            3,
+            6,
+            7,
+            10,
+            11,
+            14,
+            15
+          ],
+          "max_value": "0",
+          "pattern": "*1**00",
+          "support": [
+            4,
+            10
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            48,
+            49,
+            52,
+            53,
+            56,
+            57,
+            60,
+            61
+          ],
+          "max_value": "0",
+          "pattern": "*0**11",
+          "support": [
+            4,
+            8
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        }
+      ],
+      "selected_cube_count": 12,
+      "selected_mask_total": 96
+    },
+    {
+      "bad_mask_count": 57,
+      "candidate_cube_count": 324,
+      "good_masks": [
+        18,
+        22,
+        24,
+        25,
+        54,
+        55,
+        63
+      ],
+      "largest_selected_cube": 8,
+      "rank": 903,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            6,
+            7,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_value": "-68/27",
+          "pattern": "**100*",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            9,
+            10,
+            11
+          ],
+          "max_value": "-4/9",
+          "pattern": "**0*00",
+          "support": [
+            7
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            32,
+            34,
+            40,
+            42,
+            48,
+            50,
+            56,
+            58
+          ],
+          "max_value": "0",
+          "pattern": "0*0**1",
+          "support": [
+            1,
+            12
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            20,
+            21,
+            28,
+            29,
+            52,
+            53,
+            60,
+            61
+          ],
+          "max_value": "-4/9",
+          "pattern": "*01*1*",
+          "support": [
+            4,
+            8
+          ],
+          "weights": [
+            5,
+            2
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            36,
+            37,
+            38,
+            39,
+            44,
+            45,
+            46,
+            47
+          ],
+          "max_value": "-68/27",
+          "pattern": "**1*01",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_value": "-4/9",
+          "pattern": "***100",
+          "support": [
+            7
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            40,
+            41,
+            48,
+            49,
+            56,
+            57
+          ],
+          "max_value": "0",
+          "pattern": "*00**1",
+          "support": [
+            1,
+            12
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            49,
+            51
+          ],
+          "max_value": "-4/9",
+          "pattern": "1*001*",
+          "support": [
+            6
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            2,
+            3,
+            10,
+            11,
+            34,
+            35,
+            42,
+            43
+          ],
+          "max_value": "-16/3",
+          "pattern": "*10*0*",
+          "support": [
+            7,
+            8
+          ],
+          "weights": [
+            5,
+            3
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            10,
+            11,
+            26,
+            27
+          ],
+          "max_value": "-116/27",
+          "pattern": "*101*0",
+          "support": [
+            4
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            28,
+            29,
+            30,
+            31
+          ],
+          "max_value": "-44/27",
+          "pattern": "**1110",
+          "support": [
+            8
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            40,
+            42,
+            44,
+            46,
+            56,
+            58,
+            60,
+            62
+          ],
+          "max_value": "-44/27",
+          "pattern": "0**1*1",
+          "support": [
+            2,
+            12
+          ],
+          "weights": [
+            4,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            48,
+            49,
+            50,
+            51,
+            56,
+            57,
+            58,
+            59
+          ],
+          "max_value": "-4/9",
+          "pattern": "**0*11",
+          "support": [
+            8,
+            12
+          ],
+          "weights": [
+            1,
+            2
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_value": "-20/27",
+          "pattern": "1**010",
+          "support": [
+            2
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            16,
+            17,
+            48,
+            49
+          ],
+          "max_value": "-4/9",
+          "pattern": "*0001*",
+          "support": [
+            6
+          ],
+          "weights": [
+            1
+          ]
+        }
+      ],
+      "selected_cube_count": 15,
+      "selected_mask_total": 100
+    },
+    {
+      "bad_mask_count": 56,
+      "candidate_cube_count": 310,
+      "good_masks": [
+        18,
+        22,
+        24,
+        41,
+        54,
+        55,
+        57,
+        63
+      ],
+      "largest_selected_cube": 16,
+      "rank": 905,
+      "selected": [
+        {
+          "fixed_count": 2,
+          "mask_count": 16,
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_value": "-4/27",
+          "pattern": "***00*",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            40,
+            42,
+            44,
+            46,
+            56,
+            58,
+            60,
+            62
+          ],
+          "max_value": "-20/27",
+          "pattern": "0**1*1",
+          "support": [
+            2
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            10,
+            11,
+            26,
+            27,
+            42,
+            43,
+            58,
+            59
+          ],
+          "max_value": "-20/27",
+          "pattern": "*101**",
+          "support": [
+            4
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            1,
+            3,
+            5,
+            7,
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_value": "-20/27",
+          "pattern": "1**0*0",
+          "support": [
+            2
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            13,
+            15,
+            29,
+            31
+          ],
+          "max_value": "-4/9",
+          "pattern": "1*11*0",
+          "support": [
+            11
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            12,
+            14,
+            28,
+            30
+          ],
+          "max_value": "-32/9",
+          "pattern": "0*11*0",
+          "support": [
+            6,
+            8
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            48,
+            49,
+            52,
+            53
+          ],
+          "max_value": "-32/27",
+          "pattern": "*0*011",
+          "support": [
+            4,
+            6
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            36,
+            37,
+            38,
+            39,
+            44,
+            45,
+            46,
+            47
+          ],
+          "max_value": "-20/27",
+          "pattern": "**1*01",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            8,
+            9,
+            10,
+            11
+          ],
+          "max_value": "-4",
+          "pattern": "**0100",
+          "support": [
+            7
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            34,
+            35,
+            50,
+            51
+          ],
+          "max_value": "-4/3",
+          "pattern": "*100*1",
+          "support": [
+            8,
+            11
+          ],
+          "weights": [
+            2,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            20,
+            21,
+            36,
+            37,
+            52,
+            53
+          ],
+          "max_value": "-20/27",
+          "pattern": "*010**",
+          "support": [
+            4
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            17,
+            19,
+            25,
+            27
+          ],
+          "max_value": "-4/27",
+          "pattern": "1*0*10",
+          "support": [
+            2
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            28,
+            29,
+            60,
+            61
+          ],
+          "max_value": "-4/3",
+          "pattern": "*0111*",
+          "support": [
+            8
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            16,
+            17,
+            48,
+            49
+          ],
+          "max_value": "-4/9",
+          "pattern": "*0001*",
+          "support": [
+            6
+          ],
+          "weights": [
+            1
+          ]
+        }
+      ],
+      "selected_cube_count": 14,
+      "selected_mask_total": 88
+    },
+    {
+      "bad_mask_count": 53,
+      "candidate_cube_count": 280,
+      "good_masks": [
+        9,
+        16,
+        18,
+        22,
+        24,
+        45,
+        50,
+        54,
+        55,
+        57,
+        63
+      ],
+      "largest_selected_cube": 8,
+      "rank": 911,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            1,
+            3,
+            5,
+            7,
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_value": "-4/27",
+          "pattern": "1**0*0",
+          "support": [
+            2
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            40,
+            42,
+            44,
+            46,
+            56,
+            58,
+            60,
+            62
+          ],
+          "max_value": "-4/27",
+          "pattern": "0**1*1",
+          "support": [
+            2
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            10,
+            11,
+            26,
+            27,
+            42,
+            43,
+            58,
+            59
+          ],
+          "max_value": "-4/27",
+          "pattern": "*101**",
+          "support": [
+            4
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            20,
+            21,
+            36,
+            37,
+            52,
+            53
+          ],
+          "max_value": "-4/27",
+          "pattern": "*010**",
+          "support": [
+            4
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_value": "-52/27",
+          "pattern": "**1*00",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            40,
+            41,
+            42,
+            43
+          ],
+          "max_value": "-8/9",
+          "pattern": "**0*01",
+          "support": [
+            6,
+            7
+          ],
+          "weights": [
+            1,
+            7
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            28,
+            29,
+            30,
+            31
+          ],
+          "max_value": "-8/3",
+          "pattern": "**1110",
+          "support": [
+            8,
+            10
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            6,
+            7,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_value": "-28/9",
+          "pattern": "**100*",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "max_value": "-28/9",
+          "pattern": "***000",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            33,
+            35,
+            49,
+            51
+          ],
+          "max_value": "-20/9",
+          "pattern": "1*00*1",
+          "support": [
+            6
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            17,
+            19,
+            21,
+            23,
+            25,
+            27,
+            29,
+            31
+          ],
+          "max_value": "-44/27",
+          "pattern": "1***10",
+          "support": [
+            2,
+            10
+          ],
+          "weights": [
+            2,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            20,
+            21,
+            28,
+            29,
+            52,
+            53,
+            60,
+            61
+          ],
+          "max_value": "-44/27",
+          "pattern": "*01*1*",
+          "support": [
+            4,
+            8
+          ],
+          "weights": [
+            2,
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            8,
+            10,
+            40,
+            42
+          ],
+          "max_value": "-4/3",
+          "pattern": "0*010*",
+          "support": [
+            7
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            42,
+            43,
+            46,
+            47
+          ],
+          "max_value": "-4/3",
+          "pattern": "*1*101",
+          "support": [
+            7
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            32,
+            33,
+            48,
+            49
+          ],
+          "max_value": "-20/9",
+          "pattern": "*000*1",
+          "support": [
+            6
+          ],
+          "weights": [
+            1
+          ]
+        }
+      ],
+      "selected_cube_count": 15,
+      "selected_mask_total": 100
+    },
+    {
+      "bad_mask_count": 57,
+      "candidate_cube_count": 305,
+      "good_masks": [
+        16,
+        18,
+        22,
+        54,
+        56,
+        57,
+        63
+      ],
+      "largest_selected_cube": 8,
+      "rank": 955,
+      "selected": [
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            9,
+            11,
+            13,
+            15,
+            25,
+            27,
+            29,
+            31
+          ],
+          "max_value": "-4/27",
+          "pattern": "1**1*0",
+          "support": [
+            9
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            20,
+            21,
+            36,
+            37,
+            52,
+            53
+          ],
+          "max_value": "-44/81",
+          "pattern": "*010**",
+          "support": [
+            4
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            32,
+            33,
+            34,
+            35,
+            40,
+            41,
+            42,
+            43
+          ],
+          "max_value": "-4/9",
+          "pattern": "**0*01",
+          "support": [
+            7
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "max_value": "-364/81",
+          "pattern": "***000",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            6,
+            12,
+            14,
+            36,
+            38,
+            44,
+            46
+          ],
+          "max_value": "-8/27",
+          "pattern": "0*1*0*",
+          "support": [
+            1,
+            2
+          ],
+          "weights": [
+            1,
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            10,
+            11,
+            26,
+            27,
+            42,
+            43,
+            58,
+            59
+          ],
+          "max_value": "-44/81",
+          "pattern": "*101**",
+          "support": [
+            4
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            48,
+            49,
+            50,
+            51
+          ],
+          "max_value": "-68/27",
+          "pattern": "**0011",
+          "support": [
+            6
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31
+          ],
+          "max_value": "-4/9",
+          "pattern": "***110",
+          "support": [
+            9
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            1,
+            3,
+            5,
+            7,
+            17,
+            19,
+            21,
+            23
+          ],
+          "max_value": "-44/27",
+          "pattern": "1**0*0",
+          "support": [
+            1,
+            2
+          ],
+          "weights": [
+            1,
+            2
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            44,
+            45,
+            60,
+            61
+          ],
+          "max_value": "-28/9",
+          "pattern": "*011*1",
+          "support": [
+            8
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            4,
+            5,
+            6,
+            7,
+            36,
+            37,
+            38,
+            39
+          ],
+          "max_value": "-140/81",
+          "pattern": "**100*",
+          "support": [
+            1
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 3,
+          "mask_count": 8,
+          "masks": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47
+          ],
+          "max_value": "-4/9",
+          "pattern": "***101",
+          "support": [
+            7
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            49,
+            51,
+            53,
+            55
+          ],
+          "max_value": "-44/27",
+          "pattern": "1**011",
+          "support": [
+            6
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            44,
+            46,
+            60,
+            62
+          ],
+          "max_value": "-172/81",
+          "pattern": "0*11*1",
+          "support": [
+            2
+          ],
+          "weights": [
+            1
+          ]
+        },
+        {
+          "fixed_count": 4,
+          "mask_count": 4,
+          "masks": [
+            8,
+            9,
+            24,
+            25
+          ],
+          "max_value": "-4/27",
+          "pattern": "*001*0",
+          "support": [
+            9
+          ],
+          "weights": [
+            1
+          ]
+        }
+      ],
+      "selected_cube_count": 15,
+      "selected_mask_total": 100
+    }
+  ],
+  "selected_support_histogram": {
+    "1,12:1,1": 2,
+    "1,2:1,1": 1,
+    "1,2:1,2": 1,
+    "1,6:1,1": 2,
+    "1,8:1,1": 2,
+    "11:1": 7,
+    "1:1": 13,
+    "2,10:1,1": 1,
+    "2,10:2,1": 1,
+    "2,11:2,1": 2,
+    "2,12:1,1": 1,
+    "2,12:4,1": 1,
+    "2,6:1,1": 3,
+    "2,8:1,1": 3,
+    "2:1": 9,
+    "4,10:1,1": 1,
+    "4,12:1,1": 1,
+    "4,6:1,1": 4,
+    "4,8:1,1": 3,
+    "4,8:2,1": 1,
+    "4,8:5,2": 1,
+    "4:1": 9,
+    "6,10:1,1": 2,
+    "6,7:1,7": 1,
+    "6,8:1,1": 1,
+    "6:1": 7,
+    "7,8:5,3": 1,
+    "7:1": 7,
+    "8,10:1,1": 3,
+    "8,11:2,1": 1,
+    "8,12:1,2": 1,
+    "8:1": 3,
+    "9:1": 3
+  },
+  "total_candidate_cubes": 2042,
+  "total_selected_cubes": 99,
+  "trusted_as_proof": false
+}
