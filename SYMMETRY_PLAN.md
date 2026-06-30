@@ -40791,3 +40791,44 @@ generate all DU9IQ cubes at once; instead, emit one additional support pattern
 that uses different weights or a different normal pair, prebuild any required
 normal traces serially, and confirm the generated bridge remains below the
 12 GiB direct-bridge cap.
+
+### Phase 6Z6K8AP16DU9IQ - standalone reduced bridge emitter accepted on second support
+
+The traced direct bridge emitter was extended with `--standalone-reduced`.
+This mode emits the cube, sparse weights, weighted Walsh polynomial, reduced
+Walsh polynomial, reduced absolute-bound proof, direct Walsh-dot equality, and
+the final weighted-denominator nonpositivity theorem in one thin generated
+module.  This removes the temporary dependency on the hand-written
+`WeightedDenomCubeDU9IQReducedBoundSmoke` being specialized to support
+`[2,6]`.
+
+Second support smoke:
+
+- profile row: summary index `2`;
+- rank: `896`;
+- cube pattern: `0*1*0*`;
+- support: `[2,11]`;
+- weights: `[2,1]`;
+- newly required normal trace:
+  `WeightedDenomCubeDU9IQNormalTraceRank896Idx10Smoke`;
+- generated bridge:
+  `WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx02Smoke`;
+- reports:
+  - `scripts/generated/weighted_denom_cube_du9iq_normal_trace_rank896_idx10_generation.json`;
+  - `scripts/generated/weighted_denom_cube_du9iq_normal_trace_rank896_idx10_guard.json`;
+  - `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_generated_idx02.json`;
+  - `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_generated_idx02_guard.json`.
+
+Guarded build results:
+
+- normal trace idx `10`: exit `0`, elapsed `7.01s`, peak tree RSS
+  `4065 MiB`, minimum available memory `45554 MiB`;
+- standalone direct bridge idx `02`: exit `0`, elapsed `3.50s`, peak tree
+  RSS `4108 MiB`, minimum available memory `45571 MiB`.
+
+Decision: accepted.  The emitter now works for a different support, a
+different normal pair, non-unit weights, and a locally emitted reduced-bound
+surface.  The next safe scaling step is a small bounded batch planner for
+rank `896` that lists required normal traces, deduplicates them across
+selected weighted cubes, and emits bridge modules one at a time with serial
+guarded build commands.  Do not run the whole batch as one cold `lake build`.

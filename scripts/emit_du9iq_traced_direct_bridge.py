@@ -46,6 +46,7 @@ from profile_ap16du9be_weighted_walsh_poly import (  # noqa: E402
     compute_rank_walsh_forms,
     weighted_coeffs,
 )
+from profile_du9iq_weighted_reduced_quadratic_bounds import reduce_coeffs  # noqa: E402
 
 
 BASE_DIR = Path("Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies")
@@ -64,6 +65,7 @@ DEFAULT_VECTOR_TRACE_MODULE = (
     f"{BASE_MODULE}.WeightedDenomCubeDU9IQVectorTraceRank896ChainSmoke"
 )
 DEFAULT_NORMAL_TRACE_STEM = "WeightedDenomCubeDU9IQNormalTraceRank896"
+SIGN_BITS = ["y", "z", "d111", "d11m", "d1m1", "dm11"]
 
 
 def name_suffix(index: int) -> str:
@@ -104,6 +106,12 @@ def poly_name(rank: int, support: list[int]) -> str:
 
 def parse_fraction(text: Any) -> Fraction:
     return Fraction(str(text))
+
+
+def field_map(
+    coeffs: dict[tuple[int, ...], Fraction],
+) -> dict[tuple[int, ...], Fraction]:
+    return {subset: coeff for subset, coeff in coeffs.items() if coeff}
 
 
 def load_summary(profile: Path, summary_index: int) -> dict[str, Any]:
@@ -172,6 +180,192 @@ def weighted_sum_expr(
     return " + ".join(terms) if terms else "0"
 
 
+def emit_quadratic_with_visibility(
+    name: str,
+    coeffs: dict[tuple[int, ...], Fraction],
+    *,
+    visibility: str,
+) -> list[str]:
+    lines = emit_quadratic(name, coeffs)
+    if not lines:
+        return lines
+    lines[0] = lines[0].replace("private def", f"{visibility}def").replace("  def", "def")
+    return lines
+
+
+def emit_cube(name: str, pattern: str) -> list[str]:
+    lines = [f"def {name} : MaskSubcube where", "  fixed"]
+    for bit_name, char in zip(SIGN_BITS, pattern, strict=True):
+        if char == "*":
+            continue
+        value = "true" if char == "1" else "false"
+        lines.append(f"    | SignBit.{bit_name} => some {value}")
+    lines.append("    | _ => none")
+    return lines
+
+
+def emit_weights(name: str, support: list[int], weights: list[Fraction]) -> list[str]:
+    weight_by_impact = {
+        impact: weight for impact, weight in zip(support, weights, strict=True)
+    }
+    lines = [f"def {name} : InternalImpactWeights where"]
+    for impact in range(1, 14):
+        lines.append(f"  w{impact} := {lean_rat(weight_by_impact.get(impact, Fraction(0)))}")
+    return lines
+
+
+def emit_fixed_bit_facts(cube: str, pattern: str) -> tuple[list[str], list[str]]:
+    lines: list[str] = []
+    names: list[str] = []
+    for bit_name, char in zip(SIGN_BITS, pattern, strict=True):
+        if char == "*":
+            continue
+        value = "true" if char == "1" else "false"
+        hname = f"h{bit_name}"
+        names.append(hname)
+        lines.extend([
+            f"  have {hname} : maskBitForPair mask SignBit.{bit_name}.toPairId = {value} := by",
+            f"    simpa [{cube}, MaskSubcube.Member] using hmask SignBit.{bit_name}",
+        ])
+    return lines, names
+
+
+def emit_cube_case_split(
+    *,
+    pattern: str,
+    poly: str,
+    reduced: str,
+    fixed_names: list[str],
+) -> list[str]:
+    free_bits = [bit for bit, char in zip(SIGN_BITS, pattern, strict=True) if char == "*"]
+    free_names = [f"h{bit}" for bit in free_bits]
+    simp_args = ", ".join([
+        poly,
+        reduced,
+        "WalshQuadratic.coeffEval",
+        "SignBit.value",
+        *fixed_names,
+        *free_names,
+    ])
+    if not free_bits:
+        return [
+            f"  simp [{simp_args}]",
+            "  norm_num",
+        ]
+    lines: list[str] = []
+    indent = "  "
+    for bit in free_bits:
+        lines.append(
+            f"{indent}by_cases h{bit} : maskBitForPair mask SignBit.{bit}.toPairId"
+        )
+        lines.append(f"{indent}all_goals")
+        indent += "  "
+    lines.extend([
+        f"{indent}simp [{simp_args}]",
+        f"{indent}norm_num",
+    ])
+    return lines
+
+
+def emit_reduced_bound_surface(
+    *,
+    rank_name: str,
+    rank: int,
+    cube: str,
+    pattern: str,
+    weights_def: str,
+    support: list[int],
+    weights: list[Fraction],
+    poly: str,
+    poly_coeffs: dict[tuple[int, ...], Fraction],
+    reduced: str,
+    reduced_coeffs: dict[tuple[int, ...], Fraction],
+) -> list[str]:
+    fixed_lines, fixed_names = emit_fixed_bit_facts(cube, pattern)
+    lines: list[str] = [
+        f"def {rank_name} : Nat := {rank}",
+        "",
+        *emit_cube(cube, pattern),
+        "",
+        *emit_weights(weights_def, support, weights),
+        "",
+        f"private theorem {weights_def}_nonnegative :",
+        f"    {weights_def}.Nonnegative := by",
+        f"  norm_num [{weights_def}, InternalImpactWeights.Nonnegative]",
+        "",
+        f"private theorem {weights_def}_positive :",
+        f"    {weights_def}.PositiveSome := by",
+        f"  norm_num [{weights_def}, InternalImpactWeights.PositiveSome]",
+        "",
+        *emit_quadratic_with_visibility(poly, poly_coeffs, visibility=""),
+        "",
+        *emit_quadratic_with_visibility(reduced, reduced_coeffs, visibility="private "),
+        "",
+        f"private theorem {poly}_eq_reduced_on_cube",
+        f"    {{mask : SignMask}} (hmask : {cube}.Member mask) :",
+        f"    {poly}.coeffEval mask = {reduced}.coeffEval mask := by",
+        *fixed_lines,
+        *emit_cube_case_split(
+            pattern=pattern,
+            poly=poly,
+            reduced=reduced,
+            fixed_names=fixed_names,
+        ),
+        "",
+        f"private def reducedBound{rank}_{'_'.join(str(v) for v in support)} :",
+        f"    WalshQuadraticReducedAbsBound {cube} {poly} where",
+        f"  reduced := {reduced}",
+        "  eq_on_cube := by",
+        "    intro mask hmask",
+        f"    exact {poly}_eq_reduced_on_cube hmask",
+        "  abs_bound_nonpos := by",
+        f"    norm_num [{reduced}, WalshQuadratic.absBoundSum]",
+        "",
+        f"private def cubeBound{rank}_{'_'.join(str(v) for v in support)} :",
+        f"    WalshQuadraticCubeBound {cube} {poly} :=",
+        f"  WalshQuadraticCubeBound.leaf reducedBound{rank}_{'_'.join(str(v) for v in support)}",
+        "",
+        f"private theorem {poly}_nonpos",
+        f"    {{mask : SignMask}} (hmask : {cube}.Member mask) :",
+        f"    {poly}.coeffEval mask <= 0 :=",
+        f"  cubeBound{rank}_{'_'.join(str(v) for v in support)}.coeffEval_nonpos hmask",
+        "",
+        f"def reducedObstruction{rank}_{'_'.join(str(v) for v in support)}",
+        "    (direct_eq :",
+        f"      forall {{mask : SignMask}} (hlt : {rank_name} < numPairWords),",
+        f"        {cube}.Member mask ->",
+        "          weightedDirectWalshDotAtRank",
+        f"            (⟨{rank_name}, hlt⟩ : Fin numPairWords) mask {weights_def} =",
+        f"            {poly}.coeffEval mask) :",
+        f"    WeightedWalshQuadraticNonposObstruction {rank_name} {cube}.Member where",
+        f"  weights := {weights_def}",
+        f"  nonnegative := {weights_def}_nonnegative",
+        f"  positive_some := {weights_def}_positive",
+        f"  poly := {poly}",
+        "  direct_eq := by",
+        "    intro mask hlt hmember",
+        "    exact direct_eq hlt hmember",
+        "  poly_nonpos := by",
+        "    intro mask hmember",
+        f"    exact {poly}_nonpos hmember",
+        "",
+        "theorem weightedDenom_nonpos_of_reduced_bound",
+        "    (direct_eq :",
+        f"      forall {{mask : SignMask}} (hlt : {rank_name} < numPairWords),",
+        f"        {cube}.Member mask ->",
+        "          weightedDirectWalshDotAtRank",
+        f"            (⟨{rank_name}, hlt⟩ : Fin numPairWords) mask {weights_def} =",
+        f"            {poly}.coeffEval mask)",
+        f"    {{mask : SignMask}} (hlt : {rank_name} < numPairWords)",
+        f"    (hmember : {cube}.Member mask) :",
+        "    weightedDenomAtRank",
+        f"      (⟨{rank_name}, hlt⟩ : Fin numPairWords) mask {weights_def} <= 0 :=",
+        f"  (reducedObstruction{rank}_{'_'.join(str(v) for v in support)} direct_eq).nonpos hlt hmember",
+        "",
+    ]
+    return lines
+
+
 def emit_module(
     *,
     namespace: str,
@@ -180,6 +374,7 @@ def emit_module(
     reduced_module: str,
     vector_trace_module: str,
     normal_trace_stem: str,
+    standalone_reduced: bool,
 ) -> str:
     rank = int(summary["rank"])
     pattern = str(summary["pattern"])
@@ -191,6 +386,7 @@ def emit_module(
     if not valid:
         raise RuntimeError(f"rank {rank} Walsh forms failed external validation")
     weighted = weighted_coeffs(forms, support, weights)
+    reduced = reduce_coeffs(weighted, pattern)
 
     dot_coeffs: dict[int, dict[tuple[int, ...], Fraction]] = {}
     for impact in support:
@@ -220,12 +416,15 @@ def emit_module(
     rank_name = f"rank{rank}"
 
     imports = [
-        f"import {reduced_module}",
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ReducedWalshQuadraticBound",
+        "import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedWalshQuadraticObstruction",
         *[
             f"import {normal_module_name(normal_trace_stem, impact - 1)}"
             for impact in support
         ],
     ]
+    if not standalone_reduced:
+        imports.insert(0, f"import {reduced_module}")
     lines: list[str] = [
         *imports,
         "",
@@ -271,19 +470,36 @@ def emit_module(
         ])
 
     lines.extend([
-        f"abbrev {rank_name} : Nat :=",
-        f"  {reduced_module}.{rank_name}",
-        "",
-        f"abbrev {cube} : MaskSubcube :=",
-        f"  {reduced_module}.{cube}",
-        "",
-        f"abbrev {weights_def} : InternalImpactWeights :=",
-        f"  {reduced_module}.{weights_def}",
-        "",
-        f"abbrev {poly} : WalshQuadratic :=",
-        f"  {reduced_module}.{poly}",
-        "",
     ])
+    if standalone_reduced:
+        lines.extend(emit_reduced_bound_surface(
+            rank_name=rank_name,
+            rank=rank,
+            cube=cube,
+            pattern=pattern,
+            weights_def=weights_def,
+            support=support,
+            weights=weights,
+            poly=poly,
+            poly_coeffs=field_map(weighted),
+            reduced=f"reduced{rank}_{'_'.join(str(v) for v in support)}",
+            reduced_coeffs=field_map(reduced),
+        ))
+    else:
+        lines.extend([
+            f"abbrev {rank_name} : Nat :=",
+            f"  {reduced_module}.{rank_name}",
+            "",
+            f"abbrev {cube} : MaskSubcube :=",
+            f"  {reduced_module}.{cube}",
+            "",
+            f"abbrev {weights_def} : InternalImpactWeights :=",
+            f"  {reduced_module}.{weights_def}",
+            "",
+            f"abbrev {poly} : WalshQuadratic :=",
+            f"  {reduced_module}.{poly}",
+            "",
+        ])
 
     for impact in support:
         index = impact - 1
@@ -361,7 +577,7 @@ def emit_module(
         f"    {weighted_sum_expr(support, weights, eval_suffix='coeffEval mask')} =",
         f"      {poly}.coeffEval mask := by",
         f"  simp [{', '.join([dot_name(impact - 1) for impact in support])}, {poly},",
-        f"    {reduced_module}.{poly}, WalshQuadratic.coeffEval]",
+        f"    {reduced_module + '.' + poly + ', ' if not standalone_reduced else ''}WalshQuadratic.coeffEval]",
         "  ring_nf",
         "",
         "theorem direct_eq",
@@ -371,7 +587,7 @@ def emit_module(
         f"        (⟨{rank_name}, hlt⟩ : Fin numPairWords) mask {weights_def} =",
         f"      {poly}.coeffEval mask := by",
         "  unfold weightedDirectWalshDotAtRank",
-        f"  norm_num [{weights_def}, {reduced_module}.{weights_def}]",
+        f"  norm_num [{weights_def}{', ' + reduced_module + '.' + weights_def if not standalone_reduced else ''}]",
     ])
     rw_terms = [
         f"direct{theorem_suffix(impact - 1)}_eq_of_val (mask := mask) (hlt := hlt) (hi := rfl)"
@@ -389,7 +605,7 @@ def emit_module(
         f"    (hmember : {cube}.Member mask) :",
         "    weightedDenomAtRank",
         f"      (⟨{rank_name}, hlt⟩ : Fin numPairWords) mask {weights_def} <= 0 :=",
-        f"  {reduced_module}.weightedDenom_nonpos_of_reduced_bound",
+        f"  {'weightedDenom_nonpos_of_reduced_bound' if standalone_reduced else reduced_module + '.weightedDenom_nonpos_of_reduced_bound'}",
         "    (fun hlt hmember => direct_eq hlt hmember)",
         "    hlt hmember",
         "",
@@ -411,6 +627,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--reduced-module", default=DEFAULT_REDUCED_MODULE)
     parser.add_argument("--vector-trace-module", default=DEFAULT_VECTOR_TRACE_MODULE)
     parser.add_argument("--normal-trace-stem", default=DEFAULT_NORMAL_TRACE_STEM)
+    parser.add_argument(
+        "--standalone-reduced",
+        action="store_true",
+        help="Emit the cube/weights/poly/reduced-bound surface locally instead of importing a fixed reduced module.",
+    )
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     return parser.parse_args()
 
@@ -428,6 +649,7 @@ def main() -> None:
             reduced_module=args.reduced_module,
             vector_trace_module=args.vector_trace_module,
             normal_trace_stem=args.normal_trace_stem,
+            standalone_reduced=args.standalone_reduced,
         ),
         encoding="utf-8",
     )
@@ -446,6 +668,7 @@ def main() -> None:
         "reduced_module": args.reduced_module,
         "vector_trace_module": args.vector_trace_module,
         "normal_trace_stem": args.normal_trace_stem,
+        "standalone_reduced": args.standalone_reduced,
     }
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
