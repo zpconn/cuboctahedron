@@ -9,7 +9,7 @@ GoodDirection-to-positive-mask theorem explicit and emits no facts for
 masks that fail GoodDirection.
 -/
 
-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke
+namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank905PositivePrecomputedSignatureSmoke
 
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState
 open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage
@@ -7305,7 +7305,7 @@ theorem generatedSingletonSignatureSemanticAllGoodCoverage
 AP.16BA closed semantic singleton-signature coverage theorem.
 
 This closes AP.16AZ's remaining semantic membership premise for the
-singleton signature at rank `100805`.
+singleton signature at rank `905`.
 -/
 theorem generatedSingletonSignatureClosedSemanticAllGoodCoverage :
     AllTranslationGoodCoverageOnRange 905 906 :=
@@ -7314,4 +7314,4 @@ theorem generatedSingletonSignatureClosedSemanticAllGoodCoverage :
       intro mask hlt hgood
       exact generatedGoodMaskMember_of_GoodDirection_viaCover hlt hgood)
 
-end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke
+end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank905PositivePrecomputedSignatureSmoke

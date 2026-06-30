@@ -61,6 +61,9 @@ DEFAULT_OUTPUT = Path(
     "Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/"
     "PositiveSurvivorPrecomputedSignatureSmoke.lean"
 )
+DEFAULT_NAMESPACE_PREFIX = (
+    "Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies"
+)
 DEFAULT_RANK = 100_805
 DEFAULT_MASK = 4
 
@@ -444,6 +447,7 @@ def emit_module(
     cases: dict[int, ClassifiedCase],
     bad_masks: dict[int, BadDirectionCase],
     output: Path,
+    module_namespace: str,
 ) -> None:
     anchor = int(signature["ranks"][0])
     hi = anchor + 1
@@ -470,7 +474,7 @@ def emit_module(
         "masks that fail GoodDirection.",
         "-/",
         "",
-        "namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke",
+        f"namespace {module_namespace}",
         "",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexState",
         "open Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionLanguage",
@@ -595,7 +599,7 @@ def emit_module(
         "AP.16BA closed semantic singleton-signature coverage theorem.",
         "",
         "This closes AP.16AZ's remaining semantic membership premise for the",
-        "singleton signature at rank `100805`.",
+        f"singleton signature at rank `{anchor}`.",
         "-/",
         "theorem generatedSingletonSignatureClosedSemanticAllGoodCoverage :",
         f"    AllTranslationGoodCoverageOnRange {anchor} {hi} :=",
@@ -604,7 +608,7 @@ def emit_module(
         "      intro mask hlt hgood",
         "      exact generatedGoodMaskMember_of_GoodDirection_viaCover hlt hgood)",
         "",
-        "end Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke",
+        f"end {module_namespace}",
         "",
     ])
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -615,9 +619,16 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--profile", type=Path, default=DEFAULT_PROFILE)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--namespace", default=None)
     parser.add_argument("--rank", type=int, default=DEFAULT_RANK)
     parser.add_argument("--mask", type=int, default=DEFAULT_MASK)
     args = parser.parse_args()
+
+    module_namespace = (
+        args.namespace
+        if args.namespace is not None
+        else f"{DEFAULT_NAMESPACE_PREFIX}.{args.output.stem}"
+    )
 
     profile = json.loads(args.profile.read_text(encoding="utf-8"))
     signature = select_signature_containing_rank_mask(profile, args.rank, args.mask)
@@ -638,6 +649,7 @@ def main() -> None:
         cases=cases,
         bad_masks=bad_masks,
         output=args.output,
+        module_namespace=module_namespace,
     )
     print(
         f"wrote {args.output} for rank {args.rank}, "

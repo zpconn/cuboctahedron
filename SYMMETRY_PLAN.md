@@ -42451,3 +42451,97 @@ three singleton signatures (`903`, `905`, `955`) with stable aggregate-facing
 semantic wrappers.  The next step should build a tiny aggregate root over these
 three wrappers, then proceed to the next singleton (`911`, 11 survivor masks)
 only if the aggregate root remains memory-light.
+
+### Phase 6Z6K8AP16DU9IQ3 - accepted singleton sparse root accepted
+
+The first aggregate root over the accepted DU9IQ singleton signatures exposed a
+real import-graph issue before it became a memory issue.  The initial sparse
+root attempted to import the three closed semantic wrappers:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903ClosedSemanticSmoke
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank905ClosedSemanticSmoke
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank955ClosedSemanticSmoke
+```
+
+The first root build failed quickly because the rank-specific positive
+precomputed-signature files had different filenames but shared the same Lean
+namespace:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke
+```
+
+That made their exported theorem names collide as soon as more than one
+rank-specific leaf was imported by a common root.  The AP.16T emitter was
+patched:
+
+```text
+scripts/generate_ap16t_precomputed_signature_smoke.py
+```
+
+It now derives the default module namespace from the output filename:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.<output-stem>
+```
+
+The three accepted rank leaves were regenerated with rank-local namespaces, and
+their wrappers now refer to the rank-local
+`generatedSingletonSignatureClosedSemanticAllGoodCoverage` theorem.
+
+The first post-regeneration root build also taught an important memory lesson:
+when all three invalidated heavy leaves were imported through the root at once,
+the guard killed the build at `12093 MiB` tree RSS before any OOM risk.  The
+safe build order is therefore:
+
+1. Rebuild invalidated heavy singleton leaves individually under the strict
+   guard.
+2. Rebuild the aggregate root only after those `.olean`s exist.
+
+The regenerated individual leaf builds were:
+
+| target | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: |
+| `WeightedDenomCubeDU9IQRank903PositivePrecomputedSignatureSmoke` | `62.68s` | `8060 MiB` | `39797 MiB` | `0` |
+| `WeightedDenomCubeDU9IQRank905PositivePrecomputedSignatureSmoke` | `61.17s` | `8031 MiB` | `39760 MiB` | `0` |
+| `WeightedDenomCubeDU9IQRank955PositivePrecomputedSignatureSmoke` | `62.67s` | `8150 MiB` | `39664 MiB` | `0` |
+
+After those `.olean`s existed, the sparse aggregate root built:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke
+```
+
+It exports:
+
+```lean
+acceptedSingletonRanks : List Nat := [903, 905, 955]
+
+acceptedSingletonAllGoodCoverage :
+  CoversRanks AllTranslationGoodRankKilled acceptedSingletonRanks
+```
+
+Guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_accepted_singletons_root_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQAcceptedSingletonRootSmoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `3.50s` | `9063 MiB` | `45698 MiB` | `0` |
+
+Decision: accepted, with a build-order constraint.  Aggregate roots over heavy
+precomputed-signature leaves are viable only when invalidated heavy leaves are
+first built one at a time under guard.  Do not ask Lake to discover and build
+multiple invalidated heavy imports through a common root.  The next safe step is
+to try rank `911` as another singleton signature, again using the individual
+leaf -> wrapper -> sparse-root update sequence.

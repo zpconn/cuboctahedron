@@ -13,7 +13,7 @@ namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.Weighted
 
 theorem rank903AllGoodCoverage :
     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge.AllTranslationGoodCoverageOnRange 903 904 :=
-  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PositiveSurvivorPrecomputedSignatureSmoke.generatedSingletonSignatureClosedSemanticAllGoodCoverage
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQRank903PositivePrecomputedSignatureSmoke.generatedSingletonSignatureClosedSemanticAllGoodCoverage
 
 theorem rank903AllGoodRankKilled :
     Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.PairSignProducerMembershipBridge.AllTranslationGoodRankKilled 903 := by
