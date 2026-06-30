@@ -29448,3 +29448,42 @@ task is no longer to define another public target; it is to synthesize
 larger semantic domains where `TemplateLanguageDomainCoversIdentityRange` is
 proved by algebraic/state language facts rather than singleton positive-mask
 premises.
+
+### Phase 6Z.6K.8AP.16DU.9FK checkpoint: template domain candidate profile
+
+Phase 6Z.6K.8AP.16DU.9FK adds
+`scripts/profile_template_domain_candidates.py`, a proof-neutral profiler over
+the existing bounded AP.16I positive-survivor membership profile.  It does not
+recompute geometry and does not emit Lean evidence.  Its job is to identify
+which semantic domain coordinates are promising before we generate another
+Lean smoke.
+
+Command:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 60s \
+  python3 scripts/profile_template_domain_candidates.py
+```
+
+Result: passed in `elapsed=0:00.03`, `max_rss_kb=18332`.
+
+Key bounded-profile counts:
+
+| Metric | Count |
+| --- | ---: |
+| Positive-survivor signatures | `757` |
+| Positive candidate groups | `195` |
+| Unique good-mask sets | `362` |
+| Unique candidate sets | `717` |
+| Unique mask-to-candidate maps | `757` |
+| Unique source-position shapes | `191` |
+| Unique template sets | `11` |
+
+Decision: mask-to-candidate-map grouping is rejected for this bounded sample:
+it gives `757` maps for `757` signatures, i.e. no compression.  The better
+next coordinate is reusable candidate-group/source-position facts: the same
+bounded data has only `195` positive candidate groups and `191`
+source-position shapes.  The next Lean smoke should therefore keep
+signature-specific coverage separate while factoring
+`TemplateLanguageMemberBridgeOnDomain` through reusable candidate-group
+member facts.

@@ -1,0 +1,1427 @@
+{
+  "candidate_case_count": {
+    "max": 1316,
+    "median": 7,
+    "min": 1,
+    "p90": 78,
+    "total": 7112
+  },
+  "candidate_mask_count_histogram": {
+    "1": 61,
+    "2": 30,
+    "3": 18,
+    "4": 20,
+    "5": 6,
+    "6": 8,
+    "7": 2,
+    "8": 9,
+    "9": 7,
+    "10": 1,
+    "11": 6,
+    "12": 2,
+    "13": 3,
+    "14": 3,
+    "15": 4,
+    "16": 1,
+    "17": 1,
+    "18": 2,
+    "19": 1,
+    "20": 3,
+    "21": 1,
+    "22": 1,
+    "23": 1,
+    "24": 1,
+    "25": 1,
+    "31": 1,
+    "32": 1
+  },
+  "candidate_rank_count_histogram": {
+    "1": 41,
+    "2": 21,
+    "3": 14,
+    "4": 10,
+    "5": 3,
+    "6": 9,
+    "7": 3,
+    "8": 6,
+    "9": 5,
+    "10": 3,
+    "11": 5,
+    "12": 2,
+    "13": 2,
+    "14": 4,
+    "15": 2,
+    "16": 2,
+    "17": 4,
+    "18": 1,
+    "19": 4,
+    "22": 2,
+    "23": 3,
+    "24": 1,
+    "25": 3,
+    "26": 1,
+    "28": 1,
+    "29": 1,
+    "30": 4,
+    "32": 1,
+    "34": 1,
+    "35": 1,
+    "36": 4,
+    "37": 1,
+    "38": 1,
+    "39": 2,
+    "41": 1,
+    "42": 1,
+    "43": 3,
+    "45": 1,
+    "46": 1,
+    "47": 1,
+    "48": 2,
+    "50": 1,
+    "52": 2,
+    "59": 2,
+    "63": 1,
+    "66": 1,
+    "85": 1,
+    "90": 2,
+    "128": 1,
+    "139": 1,
+    "157": 1,
+    "200": 1,
+    "254": 1,
+    "367": 1,
+    "488": 1
+  },
+  "counts": {
+    "positive_candidate_groups": 195,
+    "positive_survivor_signatures": 757,
+    "unique_candidate_sets": 717,
+    "unique_good_mask_sets": 362,
+    "unique_mask_to_candidate_maps": 757,
+    "unique_source_position_shapes": 191,
+    "unique_template_sets": 11
+  },
+  "interpretation": {
+    "mask_to_candidate_map_status": "rejected-no-sharing-in-bounded-profile",
+    "next_gate": "Do not group by mask-to-candidate map in this bounded sample: it has no compression.  Instead, emit a bounded domain smoke whose TemplateLanguageMemberBridgeOnDomain is factored through reusable positive candidate groups/source-position shapes, then keep the signature-specific coverage premise separate.",
+    "one_domain_per_mask_to_candidate_map": 757,
+    "one_domain_per_signature": 757,
+    "one_member_bridge_obligation_per_candidate_group": 195
+  },
+  "profile": {
+    "ranges": [
+      [
+        0,
+        5000
+      ],
+      [
+        100000,
+        102500
+      ],
+      [
+        1000000,
+        1002500
+      ],
+      [
+        10000000,
+        10002500
+      ],
+      [
+        30000000,
+        30002500
+      ],
+      [
+        60000000,
+        60002500
+      ],
+      [
+        90000000,
+        90002500
+      ]
+    ],
+    "ranks_with_good_direction": 796,
+    "total_good_direction_cases": 7112,
+    "windows": [
+      {
+        "counts": {
+          "covered_cases": 4693,
+          "good_direction_survivors": 4693,
+          "identity_words": 487,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 4513,
+          "not_good_direction_masks": 26475,
+          "pair_words_scanned": 5000,
+          "translation_sign_assignments": 31168,
+          "uncovered_cases": 0
+        },
+        "family_count": 125,
+        "range": [
+          0,
+          5000
+        ],
+        "represented_case_count": 4693
+      },
+      {
+        "counts": {
+          "covered_cases": 296,
+          "good_direction_survivors": 296,
+          "identity_words": 66,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2434,
+          "not_good_direction_masks": 3928,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 4224,
+          "uncovered_cases": 0
+        },
+        "family_count": 37,
+        "range": [
+          100000,
+          102500
+        ],
+        "represented_case_count": 296
+      },
+      {
+        "counts": {
+          "covered_cases": 50,
+          "good_direction_survivors": 50,
+          "identity_words": 11,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2489,
+          "not_good_direction_masks": 654,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 704,
+          "uncovered_cases": 0
+        },
+        "family_count": 12,
+        "range": [
+          1000000,
+          1002500
+        ],
+        "represented_case_count": 50
+      },
+      {
+        "counts": {
+          "covered_cases": 2069,
+          "good_direction_survivors": 2069,
+          "identity_words": 235,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2265,
+          "not_good_direction_masks": 12971,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 15040,
+          "uncovered_cases": 0
+        },
+        "family_count": 136,
+        "range": [
+          10000000,
+          10002500
+        ],
+        "represented_case_count": 2069
+      },
+      {
+        "counts": {
+          "covered_cases": 0,
+          "good_direction_survivors": 0,
+          "identity_words": 127,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2373,
+          "not_good_direction_masks": 8128,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 8128,
+          "uncovered_cases": 0
+        },
+        "family_count": 0,
+        "range": [
+          30000000,
+          30002500
+        ],
+        "represented_case_count": 0
+      },
+      {
+        "counts": {
+          "covered_cases": 0,
+          "good_direction_survivors": 0,
+          "identity_words": 27,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2473,
+          "not_good_direction_masks": 1728,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 1728,
+          "uncovered_cases": 0
+        },
+        "family_count": 0,
+        "range": [
+          60000000,
+          60002500
+        ],
+        "represented_case_count": 0
+      },
+      {
+        "counts": {
+          "covered_cases": 4,
+          "good_direction_survivors": 4,
+          "identity_words": 5,
+          "non_two_source_cases": 0,
+          "nonidentity_words_skipped": 2495,
+          "not_good_direction_masks": 316,
+          "pair_words_scanned": 2500,
+          "translation_sign_assignments": 320,
+          "uncovered_cases": 0
+        },
+        "family_count": 1,
+        "range": [
+          90000000,
+          90002500
+        ],
+        "represented_case_count": 4
+      }
+    ]
+  },
+  "signature_case_count": {
+    "max": 24,
+    "median": 8,
+    "min": 1,
+    "p90": 13,
+    "total": 7112
+  },
+  "signature_good_mask_count_histogram": {
+    "1": 17,
+    "2": 33,
+    "3": 19,
+    "4": 25,
+    "5": 23,
+    "6": 40,
+    "7": 140,
+    "8": 101,
+    "9": 30,
+    "10": 1,
+    "11": 104,
+    "12": 12,
+    "13": 166,
+    "16": 46
+  },
+  "signature_rank_count": {
+    "max": 4,
+    "median": 1,
+    "min": 1,
+    "p90": 1,
+    "total": 796
+  },
+  "top_candidate_sets": [
+    {
+      "candidate_keys": [
+        "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+      ],
+      "signature_count": 4
+    },
+    {
+      "candidate_keys": [
+        "94820b46b2ac11a0714e9c555904b3e67b30707f4823e1e6b4ebece323d5e086",
+        "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+        "ece83320493b96e698f2c3c863aebbbb0710fc908c639b61f060f2d5cf1a6e51",
+        "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+      ],
+      "signature_count": 3
+    },
+    {
+      "candidate_keys": [
+        "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+        "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+      ],
+      "signature_count": 3
+    },
+    {
+      "candidate_keys": [
+        "ae35ce47550c1a64ed8e6ee9661b6eec254f77e1d6f3aa8843e031e50c845c07",
+        "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40",
+        "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602",
+        "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+        "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+        "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+      ],
+      "signature_count": 2
+    },
+    {
+      "candidate_keys": [
+        "077d94cb4e03d0b35225eec960d3d57adf4baed04982313840be3ee6c6bb7821",
+        "9dbe22381768fd3df65f50f75aec2ef513be651b48b53a75ccaec9db25f2926a",
+        "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40",
+        "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d",
+        "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+        "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+      ],
+      "signature_count": 2
+    },
+    {
+      "candidate_keys": [
+        "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded",
+        "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40",
+        "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602",
+        "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+        "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+        "f11ae72737c7e7f0ccd2189d71bf958a371eba14cfcf83f2d78e9d0e709ed777"
+      ],
+      "signature_count": 2
+    },
+    {
+      "candidate_keys": [
+        "0368db52356757ec0b17547e5da4f03913a38726f4b519fb6eccfa4939cc96c3",
+        "35dd2f7a40c0e62fe928cd23d830f20122ebbd3766e801a66a92cad634e65310",
+        "662d9a7f3ea77b576fb54ba4a9f528f3f7df9f5449db40ea9fa3fb95a9239390",
+        "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602",
+        "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+        "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+      ],
+      "signature_count": 2
+    },
+    {
+      "candidate_keys": [
+        "0368db52356757ec0b17547e5da4f03913a38726f4b519fb6eccfa4939cc96c3",
+        "196ef355e130da5d1edd2529a31a15029688e0bba063d7894534bc7256ac484e",
+        "6490d6d1e3ea0f58a55df654a509d9a22b5b46e4e413e4f5daab2efd1517db4c",
+        "6f7e27670b3b452c12aee1c30d540652d376cc06a0fda8ecece85f865e8b518e",
+        "ae76cdb7409608f0c960b20b747c307640b55ff22e04858462adf4d8c8cea9e7",
+        "cc6a7a0d1b815acdfe15378f058a6083929251b2bee19446f9bce4562b4347d1",
+        "ece69480c83e204a9dc687f82195b7b4b07d6632a94d6a9156dd7d6f26b4722b"
+      ],
+      "signature_count": 2
+    },
+    {
+      "candidate_keys": [
+        "2c91fe54b77bd1029a9147c583442ce3faa9315b34c562bf2dc5bd4ad166590b",
+        "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68",
+        "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602",
+        "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+        "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac",
+        "f3f0bfb86a4e0f5853ed38ddab73c13252fd297c57dc538be9a3fcf831924f63"
+      ],
+      "signature_count": 2
+    },
+    {
+      "candidate_keys": [
+        "347652b83d2447dadfb0840bff9f0f3c38935a0cbb858d933d5bad7154478848",
+        "8a4787ef4987b977a9b9011236ae2fec4d8c9b09be7bb391c14f95a724681f5f",
+        "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568",
+        "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+      ],
+      "signature_count": 2
+    }
+  ],
+  "top_good_mask_sets": [
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55,
+        63
+      ],
+      "signature_count": 30
+    },
+    {
+      "masks": [
+        10,
+        11,
+        15,
+        16,
+        18,
+        20,
+        26,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        52,
+        53,
+        61
+      ],
+      "signature_count": 12
+    },
+    {
+      "masks": [
+        7,
+        9,
+        13,
+        15,
+        18,
+        22,
+        23,
+        24,
+        28,
+        31,
+        39,
+        47,
+        55
+      ],
+      "signature_count": 11
+    },
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        22,
+        28,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        18,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        47,
+        54,
+        63
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        9,
+        13,
+        16,
+        18,
+        22,
+        24,
+        28,
+        30,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        16,
+        18,
+        24,
+        28,
+        29,
+        30,
+        47,
+        54,
+        55,
+        63
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        8,
+        9,
+        13,
+        18,
+        22,
+        24,
+        28,
+        29,
+        31,
+        45,
+        47,
+        54,
+        55
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        31,
+        45,
+        54,
+        55,
+        63
+      ],
+      "signature_count": 8
+    },
+    {
+      "masks": [
+        8,
+        9,
+        16,
+        18,
+        22,
+        24,
+        28,
+        29,
+        30,
+        45,
+        47,
+        55,
+        63
+      ],
+      "signature_count": 8
+    }
+  ],
+  "top_mask_to_candidate_maps": [
+    {
+      "map": [
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 4
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 6
+        },
+        {
+          "candidate_keys": [
+            "dd2875dae829e109f43be24b5de1602209e416dd46fe6fc59f0cff3b5323f332"
+          ],
+          "mask": 11
+        },
+        {
+          "candidate_keys": [
+            "ac92b6b8fd7f472110de30bddecd3b143706f725a062b61266effee7f19252f2"
+          ],
+          "mask": 22
+        },
+        {
+          "candidate_keys": [
+            "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d"
+          ],
+          "mask": 30
+        },
+        {
+          "candidate_keys": [
+            "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d"
+          ],
+          "mask": 31
+        },
+        {
+          "candidate_keys": [
+            "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+          ],
+          "mask": 59
+        },
+        {
+          "candidate_keys": [
+            "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602"
+          ],
+          "mask": 63
+        }
+      ],
+      "signature_count": 1
+    },
+    {
+      "map": [
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 9
+        },
+        {
+          "candidate_keys": [
+            "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+          ],
+          "mask": 13
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 18
+        },
+        {
+          "candidate_keys": [
+            "56e7d27d308d8a0dda2c573a668290ba0c4bbba86804ecfdf80e2c5baa7b15fc"
+          ],
+          "mask": 22
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 24
+        },
+        {
+          "candidate_keys": [
+            "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+          ],
+          "mask": 29
+        },
+        {
+          "candidate_keys": [
+            "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+          ],
+          "mask": 30
+        },
+        {
+          "candidate_keys": [
+            "56e7d27d308d8a0dda2c573a668290ba0c4bbba86804ecfdf80e2c5baa7b15fc"
+          ],
+          "mask": 31
+        },
+        {
+          "candidate_keys": [
+            "d0463464045bcef7789bbcba2debc1a5d639c5971d24975cb91bfadb6001c33e"
+          ],
+          "mask": 39
+        },
+        {
+          "candidate_keys": [
+            "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+          ],
+          "mask": 45
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 54
+        }
+      ],
+      "signature_count": 1
+    },
+    {
+      "map": [
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 8
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 9
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 16
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 18
+        },
+        {
+          "candidate_keys": [
+            "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+          ],
+          "mask": 22
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 24
+        },
+        {
+          "candidate_keys": [
+            "d046d8dc2716b9d167b3ab367f02e6f225dcfcc049adf22c44e94cd6053adcf0"
+          ],
+          "mask": 28
+        },
+        {
+          "candidate_keys": [
+            "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+          ],
+          "mask": 30
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 54
+        },
+        {
+          "candidate_keys": [
+            "d046d8dc2716b9d167b3ab367f02e6f225dcfcc049adf22c44e94cd6053adcf0"
+          ],
+          "mask": 61
+        },
+        {
+          "candidate_keys": [
+            "6ebb3e2cb5e1c7892b77aa67399310a78090138f1a986c949153351136d28ded"
+          ],
+          "mask": 63
+        }
+      ],
+      "signature_count": 1
+    },
+    {
+      "map": [
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 4
+        },
+        {
+          "candidate_keys": [
+            "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda"
+          ],
+          "mask": 8
+        },
+        {
+          "candidate_keys": [
+            "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+          ],
+          "mask": 13
+        },
+        {
+          "candidate_keys": [
+            "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda"
+          ],
+          "mask": 16
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 22
+        },
+        {
+          "candidate_keys": [
+            "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda"
+          ],
+          "mask": 39
+        },
+        {
+          "candidate_keys": [
+            "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+          ],
+          "mask": 45
+        },
+        {
+          "candidate_keys": [
+            "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda"
+          ],
+          "mask": 47
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 54
+        },
+        {
+          "candidate_keys": [
+            "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda"
+          ],
+          "mask": 55
+        },
+        {
+          "candidate_keys": [
+            "2ca5a640e7bdbe20db2afd90c69ab1c156a409688a9d63361182b768e64cdcd8"
+          ],
+          "mask": 63
+        }
+      ],
+      "signature_count": 1
+    },
+    {
+      "map": [
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 0
+        },
+        {
+          "candidate_keys": [
+            "84b95a4df981db1318e5753c7ee2d4e1662006f90480420b48fdc57f34056dda"
+          ],
+          "mask": 7
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 8
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 9
+        },
+        {
+          "candidate_keys": [
+            "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+          ],
+          "mask": 13
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 16
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 18
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 22
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 24
+        },
+        {
+          "candidate_keys": [
+            "ab8c66a8a4368db478a9c0a1585613e1294e7a1dd64095b1daf05e55cbd60530"
+          ],
+          "mask": 47
+        },
+        {
+          "candidate_keys": [
+            "ab8c66a8a4368db478a9c0a1585613e1294e7a1dd64095b1daf05e55cbd60530"
+          ],
+          "mask": 55
+        }
+      ],
+      "signature_count": 1
+    },
+    {
+      "map": [
+        {
+          "candidate_keys": [
+            "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+          ],
+          "mask": 15
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 16
+        },
+        {
+          "candidate_keys": [
+            "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e"
+          ],
+          "mask": 22
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 24
+        },
+        {
+          "candidate_keys": [
+            "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+          ],
+          "mask": 29
+        },
+        {
+          "candidate_keys": [
+            "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e"
+          ],
+          "mask": 30
+        },
+        {
+          "candidate_keys": [
+            "ff7045f242cc78a613a2c582dcc29298f8b0f71e5f67969c94c6e1d30f8e7dc2"
+          ],
+          "mask": 31
+        },
+        {
+          "candidate_keys": [
+            "f01869a5e93096b978dd3ec4b88423e2a2ce2d71b1e8c937cf41548815f56d2b"
+          ],
+          "mask": 45
+        },
+        {
+          "candidate_keys": [
+            "f01869a5e93096b978dd3ec4b88423e2a2ce2d71b1e8c937cf41548815f56d2b"
+          ],
+          "mask": 47
+        },
+        {
+          "candidate_keys": [
+            "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+          ],
+          "mask": 57
+        },
+        {
+          "candidate_keys": [
+            "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602"
+          ],
+          "mask": 63
+        }
+      ],
+      "signature_count": 1
+    },
+    {
+      "map": [
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 4
+        },
+        {
+          "candidate_keys": [
+            "c5ac34ebc5afde2ec17ec0f90651bf7554d61419c8a789e4c1bd294ab664ecfc"
+          ],
+          "mask": 11
+        },
+        {
+          "candidate_keys": [
+            "ac92b6b8fd7f472110de30bddecd3b143706f725a062b61266effee7f19252f2"
+          ],
+          "mask": 14
+        },
+        {
+          "candidate_keys": [
+            "c5ac34ebc5afde2ec17ec0f90651bf7554d61419c8a789e4c1bd294ab664ecfc"
+          ],
+          "mask": 15
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 20
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 22
+        },
+        {
+          "candidate_keys": [
+            "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d"
+          ],
+          "mask": 31
+        },
+        {
+          "candidate_keys": [
+            "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+          ],
+          "mask": 43
+        },
+        {
+          "candidate_keys": [
+            "b8148c3fd362172c3e7d5bdda3cd5011ba43f01d7feef17a2f16cd03cd6e06e7"
+          ],
+          "mask": 47
+        },
+        {
+          "candidate_keys": [
+            "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+          ],
+          "mask": 59
+        },
+        {
+          "candidate_keys": [
+            "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602"
+          ],
+          "mask": 63
+        }
+      ],
+      "signature_count": 1
+    },
+    {
+      "map": [
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 4
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 8
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 9
+        },
+        {
+          "candidate_keys": [
+            "c17ae884e7cf2fc8dbdede249f6a8af7a2ebaa4bf1838348f135d5ca40146a40"
+          ],
+          "mask": 13
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 22
+        },
+        {
+          "candidate_keys": [
+            "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d"
+          ],
+          "mask": 25
+        },
+        {
+          "candidate_keys": [
+            "5e5c0130d5b98662961778aceff46c6ca9d895d69a01188a133b29e720438566"
+          ],
+          "mask": 28
+        },
+        {
+          "candidate_keys": [
+            "df498b0adbe30465a7df8b7414b4612965ffa10faefa6a2bc52727fabf971f6d"
+          ],
+          "mask": 29
+        },
+        {
+          "candidate_keys": [
+            "077d94cb4e03d0b35225eec960d3d57adf4baed04982313840be3ee6c6bb7821"
+          ],
+          "mask": 31
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 54
+        },
+        {
+          "candidate_keys": [
+            "9dbe22381768fd3df65f50f75aec2ef513be651b48b53a75ccaec9db25f2926a"
+          ],
+          "mask": 63
+        }
+      ],
+      "signature_count": 1
+    },
+    {
+      "map": [
+        {
+          "candidate_keys": [
+            "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+          ],
+          "mask": 9
+        },
+        {
+          "candidate_keys": [
+            "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+          ],
+          "mask": 13
+        },
+        {
+          "candidate_keys": [
+            "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+          ],
+          "mask": 18
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 22
+        },
+        {
+          "candidate_keys": [
+            "60df39036b07d6303a57740ada3bea752f4270c9c54ea3a6df9bf3fe6dbb1295"
+          ],
+          "mask": 24
+        },
+        {
+          "candidate_keys": [
+            "e2f3e84ec6e12320c480ac2a357769bd0e8f121eccf35fc9c6ef9fc513b029a8"
+          ],
+          "mask": 29
+        },
+        {
+          "candidate_keys": [
+            "e2f3e84ec6e12320c480ac2a357769bd0e8f121eccf35fc9c6ef9fc513b029a8"
+          ],
+          "mask": 30
+        },
+        {
+          "candidate_keys": [
+            "077d94cb4e03d0b35225eec960d3d57adf4baed04982313840be3ee6c6bb7821"
+          ],
+          "mask": 31
+        },
+        {
+          "candidate_keys": [
+            "f606a03cdf23d2cf0864f591d6e78a13f5b5417ff110adf2367a88e19d8b1a9c"
+          ],
+          "mask": 39
+        },
+        {
+          "candidate_keys": [
+            "cf9962e55a9e720734cce334c9ee24ea4057e05bbe3dcbf91e1eb8ec04227193"
+          ],
+          "mask": 45
+        },
+        {
+          "candidate_keys": [
+            "cf9962e55a9e720734cce334c9ee24ea4057e05bbe3dcbf91e1eb8ec04227193"
+          ],
+          "mask": 54
+        }
+      ],
+      "signature_count": 1
+    },
+    {
+      "map": [
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 8
+        },
+        {
+          "candidate_keys": [
+            "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+          ],
+          "mask": 13
+        },
+        {
+          "candidate_keys": [
+            "35dd2f7a40c0e62fe928cd23d830f20122ebbd3766e801a66a92cad634e65310"
+          ],
+          "mask": 23
+        },
+        {
+          "candidate_keys": [
+            "ed8a3dc60ca2ef6e342de9f3ca8e833be4d6ae5d40a18e68e1010a636f0a8bac"
+          ],
+          "mask": 24
+        },
+        {
+          "candidate_keys": [
+            "a5167846555be435bc1382c392c7134cfc350a0cd170006ddc74c176e5e81f68"
+          ],
+          "mask": 29
+        },
+        {
+          "candidate_keys": [
+            "4b9d96d356fb8fdd07273237d34830adeca6ed55cb1a1af6646832e02d23a86e"
+          ],
+          "mask": 30
+        },
+        {
+          "candidate_keys": [
+            "35dd2f7a40c0e62fe928cd23d830f20122ebbd3766e801a66a92cad634e65310"
+          ],
+          "mask": 31
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 54
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 55
+        },
+        {
+          "candidate_keys": [
+            "e122fdae7b6cf3e4661bae8897bba294cb9acf17b3cff26996c3567dcaa54568"
+          ],
+          "mask": 58
+        },
+        {
+          "candidate_keys": [
+            "da3aaad2d275ab461a1534b8153394b1d6e09297bd6d321d341701939ce0f602"
+          ],
+          "mask": 63
+        }
+      ],
+      "signature_count": 1
+    }
+  ],
+  "top_source_position_shapes": [
+    {
+      "candidate_group_count": 4,
+      "source_positions": [
+        "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.xp 0",
+        "SourcePositionSpec.ordering \u27e81, by decide\u27e9"
+      ]
+    },
+    {
+      "candidate_group_count": 2,
+      "source_positions": [
+        "SourcePositionSpec.ordering \u27e81, by decide\u27e9",
+        "SourcePositionSpec.ordering \u27e84, by decide\u27e9"
+      ]
+    },
+    {
+      "candidate_group_count": 1,
+      "source_positions": [
+        "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmm 5",
+        "SourcePositionSpec.xpStart \u27e80, by decide\u27e9"
+      ]
+    },
+    {
+      "candidate_group_count": 1,
+      "source_positions": [
+        "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmmp 6",
+        "SourcePositionSpec.xpStart \u27e81, by decide\u27e9"
+      ]
+    },
+    {
+      "candidate_group_count": 1,
+      "source_positions": [
+        "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.tmpp 8",
+        "SourcePositionSpec.xpStart \u27e80, by decide\u27e9"
+      ]
+    },
+    {
+      "candidate_group_count": 1,
+      "source_positions": [
+        "SourcePositionSpec.interior \u27e81, by decide\u27e9 Face.tmpm 7",
+        "SourcePositionSpec.xpStart \u27e82, by decide\u27e9"
+      ]
+    },
+    {
+      "candidate_group_count": 1,
+      "source_positions": [
+        "SourcePositionSpec.interior \u27e86, by decide\u27e9 Face.xp 0",
+        "SourcePositionSpec.xpStart \u27e80, by decide\u27e9"
+      ]
+    },
+    {
+      "candidate_group_count": 1,
+      "source_positions": [
+        "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+        "SourcePositionSpec.ordering \u27e83, by decide\u27e9"
+      ]
+    },
+    {
+      "candidate_group_count": 1,
+      "source_positions": [
+        "SourcePositionSpec.interior \u27e83, by decide\u27e9 Face.tmpm 7",
+        "SourcePositionSpec.xpStart \u27e81, by decide\u27e9"
+      ]
+    },
+    {
+      "candidate_group_count": 1,
+      "source_positions": [
+        "SourcePositionSpec.xpStart \u27e80, by decide\u27e9",
+        "SourcePositionSpec.ordering \u27e811, by decide\u27e9"
+      ]
+    }
+  ],
+  "top_template_sets": [
+    {
+      "candidate_group_count": 46,
+      "templates": [
+        "eq_eq_pos_var_first"
+      ]
+    },
+    {
+      "candidate_group_count": 35,
+      "templates": [
+        "opp_1m_var_first"
+      ]
+    },
+    {
+      "candidate_group_count": 28,
+      "templates": [
+        "opp_m1_var_first"
+      ]
+    },
+    {
+      "candidate_group_count": 19,
+      "templates": [
+        "exact_two_source_valid"
+      ]
+    },
+    {
+      "candidate_group_count": 15,
+      "templates": [
+        "eq_eq_neg_var_first"
+      ]
+    },
+    {
+      "candidate_group_count": 12,
+      "templates": [
+        "axis_a_only"
+      ]
+    },
+    {
+      "candidate_group_count": 10,
+      "templates": [
+        "eq_eq_pos_var_second"
+      ]
+    },
+    {
+      "candidate_group_count": 8,
+      "templates": [
+        "opp_1m_var_second"
+      ]
+    },
+    {
+      "candidate_group_count": 8,
+      "templates": [
+        "opp_m1_var_second"
+      ]
+    },
+    {
+      "candidate_group_count": 7,
+      "templates": [
+        "eq_eq_neg_var_second"
+      ]
+    }
+  ],
+  "trusted_as_proof": false
+}
