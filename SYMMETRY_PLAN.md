@@ -39862,3 +39862,91 @@ the DU9IQ window; the remaining production obligation is the known
 GoodDirection-to-source-index/state-domain bridge, proved without
 `fin_cases mask`, compact-Walsh membership roots, rank-local Boolean reduction,
 or replaying `pairPrefixLinearNat` inside generated leaves.
+
+### Phase 6Z6K8AP16DU9IQ - semantic split-facts smoke accepted
+
+After the OOM warning, host-side process and memory checks confirmed that no
+heavy `lean`, `lake`, or repository Python job was still running, and that the
+machine had about `45 GiB` available.  Work then stayed in low-memory
+semantic-audit mode.
+
+The source-index/state fact-production profiler was run on the same DU9IQ
+window:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_source_index_state_fact_production.py \
+  --rank-start 896 \
+  --limit 64 \
+  --jobs 4 \
+  --group-gate 80 \
+  --json scripts/generated/phase6z6k8ap16du9iq_source_index_state_fact_production_896_960.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_source_index_state_fact_production_896_960.md
+```
+
+Profiler result:
+
+- status: `accepted-next-lean-smoke`;
+- wall time: `0.93s`;
+- maximum RSS: `26172 KiB`;
+- GoodDirection cases: `75`;
+- source-index/state families: `19`;
+- descriptor-key obligations: `19`;
+- source-fact obligations: `19`;
+- row-fact obligations: `7`;
+- source/row glue obligations: `19`;
+- total split-fact obligations: `45`;
+- source facts alone are unambiguous in this window;
+- row facts alone remain ambiguous, so descriptor glue is still required.
+
+A DU9IQ-specific split-facts smoke was then emitted:
+
+```bash
+python3 scripts/generate_source_index_state_split_facts_smoke.py \
+  --profile-json scripts/generated/phase6z6k8ap16du9iq_source_index_state_fact_production_896_960.json \
+  --family-count 19 \
+  --jobs 4 \
+  --out Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSplitFactsDU9IQSmoke.lean \
+  --json scripts/generated/phase6z6k8ap16du9iq_source_index_state_split_facts_smoke.json \
+  --md scripts/generated/phase6z6k8ap16du9iq_source_index_state_split_facts_smoke.md \
+  --namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSplitFactsDU9IQSmoke \
+  --phase '6Z.6K.8AP.16DU.9IQ semantic split-facts'
+```
+
+Generated module properties:
+
+- file:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSplitFactsDU9IQSmoke.lean`;
+- size: `699` Lean lines;
+- selected families: `19`;
+- selected cases: `75`;
+- no `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+  `fin_cases mask`, `classifierAppliesBool`, `CompactWalsh`, or
+  `pairPrefixLinearNat` occurrences.
+
+Focused guarded validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 5500 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/phase6z6k8ap16du9iq_source_index_state_split_facts_smoke_guard.json \
+  -- lake env lean Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSplitFactsDU9IQSmoke.lean
+```
+
+Guard result:
+
+- exit code: `0`;
+- elapsed: `11.51s`;
+- peak process-tree RSS: `3925.45 MiB`;
+- minimum available memory seen: `46035.13 MiB`.
+
+Decision: the DU9IQ semantic split-facts route is accepted as the next safe
+proof surface for this window.  It is not global coverage yet, but it proves
+that the DU9IQ GoodDirection survivors can be represented at the source/row
+fact layer without rank-local Boolean membership, compact-Walsh membership
+roots, or replaying rational prefix-linear traces in generated leaves.  The
+next step is to convert this split-facts smoke into the actual
+GoodDirection-to-source-index/state-domain membership theorem required by the
+semantic coverage contract, then scale that theorem surface over additional
+frontier windows under the same guarded, non-rank-local rules.

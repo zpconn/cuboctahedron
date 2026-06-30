@@ -1,0 +1,723 @@
+{
+  "ambiguous_row_cases": 72,
+  "ambiguous_row_groups": 5,
+  "ambiguous_row_samples": [
+    {
+      "case_count": 34,
+      "descriptor_count": 7,
+      "descriptors": [
+        {
+          "cases": 20,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            23,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            122,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            109,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            110,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "key": "27981d7fe4aff67a4b376d24bcb887dfcc7de046716ab6582858839111fd367d"
+    },
+    {
+      "case_count": 13,
+      "descriptor_count": 2,
+      "descriptors": [
+        {
+          "cases": 7,
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "source_indices": [
+            0,
+            7
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 6,
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "source_indices": [
+            0,
+            13
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "key": "a6659fc752d0d0dc0894d106bf45c0c40ea0229a7cea1c0408d3b2e9ae992906"
+    },
+    {
+      "case_count": 12,
+      "descriptor_count": 2,
+      "descriptors": [
+        {
+          "cases": 9,
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "source_indices": [
+            24,
+            1
+          ],
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 3,
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "source_indices": [
+            83,
+            1
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "key": "b8de738ef91751c8edd6750009b155fcb173041087e4eb649c02101d7b981651"
+    },
+    {
+      "case_count": 8,
+      "descriptor_count": 3,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "source_indices": [
+            84,
+            2
+          ],
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 3,
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "source_indices": [
+            25,
+            2
+          ],
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 2,
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "source_indices": [
+            136,
+            2
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "key": "41d14fa5c54bdb86c8a57664c1c7350b32e408aad949d6f68791f765c07175e2"
+    },
+    {
+      "case_count": 5,
+      "descriptor_count": 3,
+      "descriptors": [
+        {
+          "cases": 2,
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "source_indices": [
+            1,
+            14
+          ],
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 2,
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "source_indices": [
+            1,
+            10
+          ],
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 1,
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "source_indices": [
+            1,
+            16
+          ],
+          "template_id": "opp_1m_var_second"
+        }
+      ],
+      "key": "5866527521d1cd86b4d528c518448d7b3e40b2bfb8a72d71c5b40b9e48e93f7d"
+    }
+  ],
+  "ambiguous_source_cases": 0,
+  "ambiguous_source_groups": 0,
+  "ambiguous_source_samples": [],
+  "counts": {
+    "covered_cases": 75,
+    "good_direction_survivors": 75,
+    "identity_words": 7,
+    "non_two_source_cases": 0,
+    "nonidentity_words_skipped": 57,
+    "not_good_direction_masks": 373,
+    "pair_words_scanned": 64,
+    "translation_sign_assignments": 448,
+    "uncovered_cases": 0
+  },
+  "decision": {
+    "group_gate": 80,
+    "notes": [
+      "source and row facts can be stated independently",
+      "descriptor glue remains necessary because row/source groups are ambiguous alone"
+    ],
+    "status": "accepted-next-lean-smoke"
+  },
+  "descriptor_key_obligations": 19,
+  "explicit_replay_obligations": 75,
+  "good_direction_cases": 75,
+  "jobs": 4,
+  "mode": "source_index_state_fact_production_profile",
+  "rank_end": 960,
+  "rank_start": 896,
+  "row_fact_obligations": 7,
+  "schema_version": 1,
+  "source_fact_obligations": 19,
+  "source_index_state_family_count": 19,
+  "source_key_surface": "kind_impact",
+  "source_row_glue_obligations": 19,
+  "top_descriptor_groups": [
+    {
+      "case_count": 20,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 20,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            23,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "key": "4ab625a66362aed9aa5398318116d17226ddcd8960cf777e2e1c880300564174"
+    },
+    {
+      "case_count": 9,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 9,
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "source_indices": [
+            24,
+            1
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "key": "3e7b61323fd0e0c35c3f960d77d8d9ab050d21139083b4f335c8cca271b3cf50"
+    },
+    {
+      "case_count": 7,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 7,
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "source_indices": [
+            0,
+            7
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "key": "fcecc66becc3a19cacfc01fe3e605ad61a696f718d579d843ea73eb94b0cd1d0"
+    },
+    {
+      "case_count": 6,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 6,
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "source_indices": [
+            0,
+            13
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "key": "51955be4f7824326e23377d37a68453d65b77afe0e997ce06ef54861f8b53c9f"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            110,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "key": "13a11be0ab3a3c1cc37ea61bbe253e3e5c7e1aa2baafa4330206afb0e249b6f0"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "source_indices": [
+            84,
+            2
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "key": "28d326cd6f4aafe7b47e4f47759984d31cc9b24fd3db423acf303a769322023d"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            122,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "key": "3e6f65d8d7903c33f236039a2f67be4713f19ea52c4d67295de474a5908ed771"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            109,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "key": "4fa496dd7b886402c1cd3d8edd351e721c486c53476fabb1fde5f9eba6c8cdd1"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "source_indices": [
+            83,
+            1
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "key": "c53e436dcea556c6c04a3258972c2364b38dd674b7366b36340502906724bd17"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "source_indices": [
+            25,
+            2
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "key": "cabf83ae8ea0eca519c9a0e4ae99d31cca73126d157975f938f9ce376914a854"
+    }
+  ],
+  "top_row_groups": [
+    {
+      "case_count": 34,
+      "descriptor_count": 7,
+      "descriptors": [
+        {
+          "cases": 20,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            23,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            122,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            109,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        },
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            110,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "key": "27981d7fe4aff67a4b376d24bcb887dfcc7de046716ab6582858839111fd367d"
+    },
+    {
+      "case_count": 13,
+      "descriptor_count": 2,
+      "descriptors": [
+        {
+          "cases": 7,
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "source_indices": [
+            0,
+            7
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        },
+        {
+          "cases": 6,
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "source_indices": [
+            0,
+            13
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "key": "a6659fc752d0d0dc0894d106bf45c0c40ea0229a7cea1c0408d3b2e9ae992906"
+    },
+    {
+      "case_count": 12,
+      "descriptor_count": 2,
+      "descriptors": [
+        {
+          "cases": 9,
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "source_indices": [
+            24,
+            1
+          ],
+          "template_id": "opp_1m_var_first"
+        },
+        {
+          "cases": 3,
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "source_indices": [
+            83,
+            1
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "key": "b8de738ef91751c8edd6750009b155fcb173041087e4eb649c02101d7b981651"
+    },
+    {
+      "case_count": 8,
+      "descriptor_count": 3,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "source_indices": [
+            84,
+            2
+          ],
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 3,
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "source_indices": [
+            25,
+            2
+          ],
+          "template_id": "opp_m1_var_first"
+        },
+        {
+          "cases": 2,
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "source_indices": [
+            136,
+            2
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "key": "41d14fa5c54bdb86c8a57664c1c7350b32e408aad949d6f68791f765c07175e2"
+    },
+    {
+      "case_count": 5,
+      "descriptor_count": 3,
+      "descriptors": [
+        {
+          "cases": 2,
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "source_indices": [
+            1,
+            14
+          ],
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 2,
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "source_indices": [
+            1,
+            10
+          ],
+          "template_id": "opp_1m_var_second"
+        },
+        {
+          "cases": 1,
+          "row_property_key": "9e28132282c11c37f33bd4d8e7b679036632d2d844673fc204a5cb501bb03382",
+          "source_indices": [
+            1,
+            16
+          ],
+          "template_id": "opp_1m_var_second"
+        }
+      ],
+      "key": "5866527521d1cd86b4d528c518448d7b3e40b2bfb8a72d71c5b40b9e48e93f7d"
+    },
+    {
+      "case_count": 2,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 2,
+          "row_property_key": "516bde31c1f986b92695e6f59963e7258037afab996940a9a47e2016c3a06e5b",
+          "source_indices": [
+            26,
+            3
+          ],
+          "template_id": "eq_eq_neg_var_first"
+        }
+      ],
+      "key": "ab58d270064eefa002683f651a0d6bfcfa613500a91016f81015c7bbfc9bfb9d"
+    },
+    {
+      "case_count": 1,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 1,
+          "row_property_key": "0ef1248979a51a72226ced64e0cd085ba836f78524dfad98ea5b8d5c95f5fa61",
+          "source_indices": [
+            44,
+            5
+          ],
+          "template_id": "axis_a_only"
+        }
+      ],
+      "key": "7d9e6f246fd2ff58074eff2e9a128514417de91d61a5aaea2b2d365f8aaf48db"
+    }
+  ],
+  "top_source_groups": [
+    {
+      "case_count": 20,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 20,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            23,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "key": "e6036b3771bec884271fd313167d8519f778f5bfa8a367817b10f62a89a8a658"
+    },
+    {
+      "case_count": 9,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 9,
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "source_indices": [
+            24,
+            1
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "key": "769b51797f7673bfeb9398aa368722d1bd240c5dab2544ca613968cd12d1d04f"
+    },
+    {
+      "case_count": 7,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 7,
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "source_indices": [
+            0,
+            7
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "key": "bd6920dd445394fa411d960ee0fa5e224849d9dca848e1d3076a39d3626dfd13"
+    },
+    {
+      "case_count": 6,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 6,
+          "row_property_key": "8ffcafda0054b4729c0b52066396e52e2ca37d764323ce1b7c10184fa45e0976",
+          "source_indices": [
+            0,
+            13
+          ],
+          "template_id": "eq_eq_pos_var_second"
+        }
+      ],
+      "key": "9accec1e031f7ece790b4aa4210485dc1f22e39bd32249b558d48ffc9b0d7a0b"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            109,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "key": "3a2924aa5bdbec3a5329bab98173034188d967d93ba7605c96c85f733e8934bc"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            122,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "key": "692bbc76b40817b5dcd7452f4db344bdbb5d2b802f23d64eb74e0f2f53b56cd4"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "source_indices": [
+            25,
+            2
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "key": "a940ab9f3ad72969cb34647573c21a29f5a495fb263e3600e94bc0c2c4550404"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "83e0bba9a62a5cae753319e32a3086ee23506cf0de85735ba98311f13d1ca082",
+          "source_indices": [
+            83,
+            1
+          ],
+          "template_id": "opp_1m_var_first"
+        }
+      ],
+      "key": "ad267e9929734fb517e7637e7427ddc6db18b4b7f248a273978142252e902f28"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "0006663011bcc6a4229a7d4792afea7ae4224d313e9c9e3da8721c1d955b3403",
+          "source_indices": [
+            84,
+            2
+          ],
+          "template_id": "opp_m1_var_first"
+        }
+      ],
+      "key": "c8554aaf4b73ef54193dc1098080e5fafa5f64822fb2c03410d5082efd63016e"
+    },
+    {
+      "case_count": 3,
+      "descriptor_count": 1,
+      "descriptors": [
+        {
+          "cases": 3,
+          "row_property_key": "89150a165454d85708caa44cd6a931ee7e3e1f1eebf92fc2a41907dc9743a8df",
+          "source_indices": [
+            110,
+            0
+          ],
+          "template_id": "eq_eq_pos_var_first"
+        }
+      ],
+      "key": "fc805e5aa43cbf59fd54e11b9b4cc4bf2c46e5b085bcbdba6c2acab8157c72dc"
+    }
+  ],
+  "total_split_fact_obligations": 45,
+  "trusted_as_proof": false
+}
