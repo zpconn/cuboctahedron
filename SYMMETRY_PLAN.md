@@ -36876,3 +36876,132 @@ discipline.  The practical safe pattern for the remaining DU9IL ranks is now:
 build prerequisites and easy subcubes in small filtered batches, retry any
 near-cap subcube alone, and build the rank root alone or in the final tiny
 batch.  Do not run DU9IL Lean targets concurrently.
+
+### Phase 6Z6K8AP16DU9IL - rank 582 split cover accepted
+
+Rank `582` was emitted with the segmented DU9IL topology:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9il_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9il_compact_hcover_batch_source.json \
+  --rank 582 \
+  --tag DU9IL \
+  --phase 'Phase 6Z.6K.8AP.16DU.9IL' \
+  --report scripts/generated/phase6z6k8ap16du9il_split_cover_rank582_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 7 \
+  --component-selected-impact 9
+```
+
+Generated topology:
+
+- selected word impacts: `[0, 1, 3, 5, 6, 7, 9]`;
+- selected subcubes: `16`;
+- guarded targets: `56`;
+- selected-impact normal component targets:
+  - `rank582_impact6_x`, `rank582_impact6_y`, `rank582_impact6_z`;
+  - `rank582_impact7_x`, `rank582_impact7_y`, `rank582_impact7_z`;
+  - `rank582_impact9_x`, `rank582_impact9_y`, `rank582_impact9_z`.
+
+Prerequisite guard:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9il_split_cover_rank582_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9il_split_cover_rank582_prereq_guard_4200.json \
+  --out-dir /tmp/ap16du9il_split_cover_rank582_prereq_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5 \
+  --target-index 0 --target-index 1 --target-index 2 --target-index 3 \
+  --target-index 4 --target-index 5 --target-index 6 --target-index 7 \
+  --target-index 8 --target-index 9 --target-index 10 --target-index 11 \
+  --target-index 12 --target-index 13 --target-index 14 --target-index 15 \
+  --target-index 16 --target-index 17 --target-index 18 --target-index 19 \
+  --target-index 20 --target-index 21 --target-index 22 --target-index 23 \
+  --target-index 24 --target-index 25 --target-index 26 --target-index 27 \
+  --target-index 28 --target-index 29 --target-index 30 --target-index 31 \
+  --target-index 32 --target-index 33 --target-index 34 --target-index 35 \
+  --target-index 36 --target-index 37 --target-index 38
+```
+
+Prerequisite summary:
+
+- status: `passed`;
+- target count: `39`;
+- peak tree RSS: `4142.79 MiB`;
+- peak target:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshVectorTraceRank582SplitFinalYSmoke`;
+- peak kind: `trace_final_y`;
+- minimum available memory observed: `45883.32 MiB`;
+- summed target elapsed time: `136.18s`;
+- killed targets: `0`.
+
+Subcube/root guard:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9il_split_cover_rank582_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9il_split_cover_rank582_subcubes_guard_4160.json \
+  --out-dir /tmp/ap16du9il_split_cover_rank582_subcubes_guard_4160 \
+  --rss-cap-mib 4160 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5 \
+  --target-index 39 --target-index 40 --target-index 41 --target-index 42 \
+  --target-index 43 --target-index 44 --target-index 45 --target-index 46 \
+  --target-index 47 --target-index 48 --target-index 49 --target-index 50 \
+  --target-index 51 --target-index 52 --target-index 53 --target-index 54 \
+  --target-index 55
+```
+
+The `4160 MiB` subcube/root guard passed all 16 subcubes and then safely
+stopped on the rank root:
+
+- status: `failed_or_guard_stopped`;
+- passed before stop: `16 / 17`;
+- failed target: rank root
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9ILSplitCoverRank582Smoke`;
+- stop reason: `process-tree RSS 4174 MiB exceeded 4160 MiB cap`;
+- peak tree RSS: `4174.13 MiB`;
+- minimum available memory observed: `45855.14 MiB`.
+
+Root-only retry:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9il_split_cover_rank582_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9il_split_cover_rank582_root_guard_4200.json \
+  --out-dir /tmp/ap16du9il_split_cover_rank582_root_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5 \
+  --target-index 55
+```
+
+Root-only retry summary:
+
+- status: `passed`;
+- target count: `1`;
+- peak tree RSS: `4161.66 MiB`;
+- peak kind: `split_cover_root`;
+- minimum available memory observed: `45863.29 MiB`;
+- elapsed time: `4.51s`.
+
+Combined acceptance:
+
+- prerequisite targets passed: `39 / 39`;
+- subcube targets passed: `16 / 16`;
+- root target passed alone under the `4200 MiB` cap;
+- unique rank `582` generated targets passed: `56 / 56`.
+
+Decision: rank `582` is accepted.  Its root confirms the remaining DU9IL
+rank roots should be built alone under the `4200 MiB` cap, not inside the
+`4160 MiB` subcube batch.  Keep subcubes at `4160 MiB` when possible; keep
+roots isolated at `4200 MiB`; do not run DU9IL Lean targets concurrently.
