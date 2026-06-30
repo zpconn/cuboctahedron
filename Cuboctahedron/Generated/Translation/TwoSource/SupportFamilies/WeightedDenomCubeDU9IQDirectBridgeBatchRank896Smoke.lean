@@ -6,11 +6,11 @@ import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDen
 import Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx05Smoke
 
 /-!
-Shallow aggregate for the first bounded DU9IQ traced direct bridge batch.
+Shallow aggregate for DU9IQ traced direct bridge batch `WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke`.
 
-The imported leaves contain the checked arithmetic.  This module only proves
-that the six theorem surfaces compose without name conflicts or broad local
-unfolding.
+The imported leaves contain the checked arithmetic.  This module only
+proves that the theorem surfaces compose without name conflicts or broad
+local unfolding.
 -/
 
 namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies
@@ -34,7 +34,7 @@ theorem idx04_builds : True :=
 theorem idx05_builds : True :=
   WeightedDenomCubeDU9IQDirectBridgeGeneratedIdx05Smoke.tracedDirectBridgeGeneratedSmoke_builds
 
-theorem batchRank896Smoke_builds : True := by
+theorem weightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke_builds : True := by
   trivial
 
 end WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke

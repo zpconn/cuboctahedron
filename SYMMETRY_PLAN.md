@@ -40960,3 +40960,42 @@ serially buildable; aggregate roots are theorem-valued and import only cached
 leaf surfaces.  The next useful experiment is either a second bounded batch
 from the same rank/profile or a small generator mode that emits this aggregate
 root automatically from the batch plan.
+
+### Phase 6Z6K8AP16DU9IQ - traced bridge aggregate emitter accepted
+
+The manual aggregate root was turned into a reusable emitter:
+
+- script: `scripts/emit_du9iq_traced_bridge_batch_aggregate.py`;
+- input plan:
+  `scripts/generated/weighted_denom_cube_du9iq_traced_bridge_batch_plan_rank896.json`;
+- generated report:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank896_aggregate.json`;
+- generated Markdown:
+  `scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank896_aggregate.md`.
+
+The emitter reads the batch plan, imports the selected bridge leaves, and
+writes a shallow root that re-exports only tiny `True` build surfaces from the
+leaf modules.  It does not replay weighted-denominator arithmetic or reduce
+any checker.
+
+Generated-root guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/weighted_denom_cube_du9iq_direct_bridge_batch_rank896_aggregate_guard.json \
+  -- env LAKE_JOBS=1 lake build \
+    Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeBatchRank896Smoke
+```
+
+Result: exit `0`, elapsed `5.01s`, peak tree RSS `3951 MiB`, minimum
+available memory `45860 MiB`.
+
+Decision: accepted.  Future bounded traced-bridge batches should use the
+planner plus this aggregate emitter instead of hand-written roots.  The next
+DU9IQ scaling step can now focus on batch selection policy: either increase the
+limit for rank `896`, select the next rank from the reduced-bound profile, or
+teach the planner to skip already emitted bridge summaries and produce the next
+bounded frontier.
