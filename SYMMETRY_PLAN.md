@@ -38710,3 +38710,65 @@ Decision: rank `808` is accepted.  The four recommended DU9IO ranks
 serial Lean checks.  The next production step is to emit a shallow DU9IO batch
 root importing only those four accepted rank roots and check that root under
 the same guard.
+
+### Phase 6Z6K8AP16DU9IO - four-rank batch root accepted
+
+After the four DU9IO rank roots were checked individually, a shallow batch
+root was emitted to import only those accepted roots and re-export the
+GoodDirection-to-good-mask adapters:
+
+```bash
+python3 scripts/generate_ap16du_split_batch_root.py \
+  --emit \
+  --tag DU9IO \
+  --rank 790 \
+  --rank 798 \
+  --rank 800 \
+  --rank 808 \
+  --report scripts/generated/phase6z6k8ap16du9io_split_cover_batch_root_generation.json \
+  --note 'DU9IO ranks 790, 798, 800, and 808 were checked individually under serial memory guards before this root was emitted.'
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- ranks: `790`, `798`, `800`, and `808`;
+- root file:
+  `Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/ImpactSubcubeWalshSymbolicCompactDenomDU9IOSplitCoverBatchSmoke.lean`;
+- root module:
+  `Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.ImpactSubcubeWalshSymbolicCompactDenomDU9IOSplitCoverBatchSmoke`.
+
+The root was checked under the same serial memory guard:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9io_split_cover_batch_root_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9io_split_cover_batch_root_guard_4200_floor30000.json \
+  --out-dir /tmp/ap16du9io_split_cover_batch_root_guard_4200_floor30000 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 30000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- completed targets: `1 / 1`;
+- checked target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IOSplitCoverBatchSmoke`;
+- maximum target RSS:
+  `4075.61 MiB`;
+- minimum available memory seen:
+  `45988.73 MiB`.
+
+The DU9IO batch root and its generated reports were scanned for forbidden
+proof shortcuts (`sorry`, `admit`, `axiom`, `native_decide`, and `unsafe`),
+with no matches.
+
+Decision: the DU9IO four-rank batch root is accepted.  DU9IO now mirrors the
+DU9IN pattern: four individually checked rank roots composed by a shallow,
+memory-safe batch root.  The next frontier should use the same process:
+profile the next bounded rank window with memory-light Python parallelism,
+select a small set of ranks, then emit/check each rank serially before any
+batch-root composition.
