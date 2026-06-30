@@ -35390,3 +35390,63 @@ Guard result:
 Decision: rank `384` is accepted.  The trace-final `Y` component remains the
 batch peak pattern, so the `4200 MiB` guard is still mandatory for every
 remaining DU9II rank.
+
+### Phase 6Z6K8AP16DU9II - rank 387 split cover accepted
+
+Rank `387` was emitted with `16` selected subcubes and selected word-impacts
+`[0, 1, 3, 5, 6, 8, 11]`.  The run split trace step `12`, the final trace
+vector, and selected impacts `6`, `8`, and `11` into normal-coordinate
+component files:
+
+```bash
+python3 scripts/generate_ap16du_split_compact_cover.py \
+  --emit \
+  --plan scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_plan.json \
+  --source scripts/generated/phase6z6k8ap16du9ii_compact_hcover_batch_source.json \
+  --rank 387 \
+  --tag DU9II \
+  --phase 'Phase 6Z.6K.8AP.16DU.9II' \
+  --report scripts/generated/phase6z6k8ap16du9ii_split_cover_rank387_generation.json \
+  --component-trace-step 12 \
+  --component-trace-final \
+  --component-selected-impact 6 \
+  --component-selected-impact 8 \
+  --component-selected-impact 11
+```
+
+Generation result:
+
+- status: `emitted_pending_guarded_build`;
+- selected subcubes: `16`;
+- guarded targets: `56`;
+- selected-impact normal component targets:
+  `rank387_impact6_x/y/z`, `rank387_impact8_x/y/z`, and
+  `rank387_impact11_x/y/z`.
+
+The rank was checked serially under the `4200 MiB` process-tree cap:
+
+```bash
+python3 scripts/run_ap16dj_serial_guarded.py \
+  --generation-report scripts/generated/phase6z6k8ap16du9ii_split_cover_rank387_generation.json \
+  --json scripts/generated/phase6z6k8ap16du9ii_split_cover_rank387_guard_4200.json \
+  --out-dir /tmp/ap16du9ii_split_cover_rank387_guard_4200 \
+  --rss-cap-mib 4200 \
+  --available-floor-mib 12000 \
+  --timeout-seconds 900 \
+  --poll-seconds 0.5
+```
+
+Guard result:
+
+- status: `passed`;
+- target count: `56`;
+- maximum process-tree RSS: `4157.97 MiB`;
+- peak target:
+  `ImpactSubcubeWalshSymbolicCompactDenomDU9IISplitCoverRank387Smoke`;
+- minimum observed available memory: `45898.39 MiB`;
+- total guarded elapsed time across targets: `193.76s`;
+- killed targets: none.
+
+Decision: rank `387` is accepted.  Unlike ranks `389` and `384`, the final
+split-cover root was the peak target, but it still stayed below the cap.  Keep
+the same serial workflow for the remaining DU9II ranks; no broad root yet.
