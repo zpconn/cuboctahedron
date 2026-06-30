@@ -177,6 +177,45 @@ theorem SourcePositionRowProducerGoodCoverageOnRange.of_singleCandidateDomain
   exact ⟨spec, rowProducer, key,
     ⟨hfirst, ⟨hsecond, ⟨hsupport, hmem⟩⟩⟩⟩
 
+/--
+Build direct source-position coverage from a compressed union of candidate
+domains.
+
+This is the production-oriented form of `of_singleCandidateDomain`: generated
+state/signature coverage may prove membership in an existential union of
+candidate domains, while the per-candidate equality facts remain tiny local
+facts about the generated catalog.
+-/
+theorem SourcePositionRowProducerGoodCoverageOnRange.of_candidateUnionDomain
+    {lo hi : Nat} {Candidate : Type}
+    (spec : Candidate -> SourcePairPositionSpec)
+    (rowProducer : Candidate -> SourceIndexStateRowProducer)
+    (key : Candidate -> SourceIndexStateKey)
+    (hfirst :
+      forall candidate : Candidate,
+        (key candidate).firstIndex = (spec candidate).first.index)
+    (hsecond :
+      forall candidate : Candidate,
+        (key candidate).secondIndex = (spec candidate).second.index)
+    (hsupport :
+      forall candidate : Candidate,
+        (key candidate).support = (spec candidate).support)
+    (hcover :
+      TemplateLanguageDomainCoversIdentityRange
+        (fun rank mask =>
+          exists candidate : Candidate,
+            (spec candidate).Predicate rank mask /\
+              (rowProducer candidate).Applies (key candidate) rank mask)
+        lo hi) :
+    SourcePositionRowProducerGoodCoverageOnRange lo hi := by
+  intro rank mask hlt hlo hhi hM hgood
+  rcases hcover hlt hlo hhi hM hgood with
+    ⟨candidate, hpredicate, hrow⟩
+  exact ⟨spec candidate, rowProducer candidate, key candidate,
+    ⟨hfirst candidate,
+      ⟨hsecond candidate,
+        ⟨hsupport candidate, ⟨hpredicate, hrow⟩⟩⟩⟩⟩
+
 def SourcePositionRowProducerGoodLanguageOnRange.of_coverage
     {lo hi : Nat}
     (coverage : SourcePositionRowProducerGoodCoverageOnRange lo hi) :

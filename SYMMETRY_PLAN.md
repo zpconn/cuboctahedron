@@ -29913,3 +29913,46 @@ not a proof issue.
 Decision: accepted.  Future generated coverage can now target
 single-candidate semantic domains directly, and the bridge to AP.16D
 source-position coverage is hand-written and Lean-checked.
+
+### Phase 6Z.6K.8AP.16DU.9FS checkpoint: candidate-union source-position adapter
+
+Phase 6Z.6K.8AP.16DU.9FS adds
+`SourcePositionRowProducerGoodCoverageOnRange.of_candidateUnionDomain`.
+This is the production-shaped generalization of the single-candidate-domain
+adapter: generated state/signature coverage may prove membership in an
+existential union of candidate domains
+
+```lean
+fun rank mask =>
+  ∃ candidate,
+    (spec candidate).Predicate rank mask /\
+      (rowProducer candidate).Applies (key candidate) rank mask
+```
+
+and the adapter turns that into
+`SourcePositionRowProducerGoodCoverageOnRange lo hi`, using only tiny
+per-candidate equalities for `firstIndex`, `secondIndex`, and `support`.
+
+Focused dependency build:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourcePositionProducerLanguage
+```
+
+Result: passed in `elapsed=0:04.18`, `max_rss_kb=3284160`.
+
+Focused smoke check:
+
+```bash
+/usr/bin/time -f 'elapsed=%E max_rss_kb=%M' timeout 180s lake env lean \
+  Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourcePositionProducerLanguageSmoke.lean
+```
+
+Result: passed in `elapsed=0:02.13`, `max_rss_kb=3260616`.
+
+Decision: accepted.  This is the preferred target for generated source-position
+coverage over reusable candidate catalogs: prove one compressed existential
+union-domain coverage theorem, then erase it through the hand-written Lean
+adapter rather than emitting a separate source/row proof for every candidate
+at every occurrence.
