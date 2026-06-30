@@ -43268,3 +43268,64 @@ level without importing `SourceIndexStateSelectorDU9PCompactMembership`: ranks
 handled by the existing row-relation classifier path.  The next step is to add
 a small compact-free `[0,4)` aggregate root using these singleton catalogs and
 the rank-`1` classifier theorem, then measure that root under guard.
+
+### Phase 6Z6K8AP16DU9IQ14 - compact-free `[0,4)` aggregate root accepted
+
+The bounded singleton selector catalogs were composed into a compact-free
+aggregate root:
+
+```text
+Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeRange0_4Smoke
+```
+
+It imports:
+
+- `SourceIndexStateSelectorDU9CompactFreeRange0Smoke`;
+- `SourceIndexStateSelectorDU9CompactFreeRange2Smoke`;
+- `SourceIndexStateSelectorDU9CompactFreeRange3Smoke`;
+- `RowRelationClassifier.Window000000001_000000002` for rank `1`.
+
+It does **not** import `SourceIndexStateSelectorDU9PCompactMembership`.
+
+Exported theorem:
+
+```lean
+allGoodCoverage0_4 :
+  AllTranslationGoodCoverageOnRange 0 4
+```
+
+The proof is a theorem-only interval composition:
+
+```lean
+CoversInterval.concat
+  selectorCatalog0_1_allGood
+  (CoversInterval.concat
+    (CoversInterval.single rank1_allGoodKilled)
+    (CoversInterval.concat
+      selectorCatalog2_3_allGood
+      selectorCatalog3_4_allGood))
+```
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9_compact_free_range0_4_guard.json \
+  -- lake build Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9CompactFreeRange0_4Smoke
+```
+
+Result:
+
+| elapsed | peak tree RSS | min available | exit |
+| ---: | ---: | ---: | ---: |
+| `5.51s` | `3982 MiB` | `45907 MiB` | `0` |
+
+Decision: accepted.  This is the first nonempty compact-free bounded aggregate
+root replacing the old DU.9P compact membership route for `[0,4)`.  It is still
+rank-local because the GoodDirection-to-positive-mask evidence comes from the
+rank-specific bad-mask cover roots.  The next strategic step is to generalize
+that input: a reusable semantic/signature family should produce the same
+selector-catalog facts for many ranks without per-rank mask splits.
