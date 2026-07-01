@@ -164,6 +164,47 @@ def evalLabelStepFn {State Label : Type}
           | none => none
           | some (u, tailGain) => some (u, gain + tailGain)
 
+theorem evalLabelStepFn_append {State Label : Type}
+    {next : State -> Label -> Option (State × Int)}
+    {start mid finish : State}
+    {labels₁ labels₂ : List Label}
+    {gain₁ gain₂ : Int}
+    (h₁ : evalLabelStepFn next start labels₁ = some (mid, gain₁))
+    (h₂ : evalLabelStepFn next mid labels₂ = some (finish, gain₂)) :
+    evalLabelStepFn next start (labels₁ ++ labels₂) =
+      some (finish, gain₁ + gain₂) := by
+  induction labels₁ generalizing start mid gain₁ with
+  | nil =>
+      simp [evalLabelStepFn] at h₁
+      rcases h₁ with ⟨rfl, rfl⟩
+      simpa using h₂
+  | cons label labels ih =>
+      simp [evalLabelStepFn]
+      simp [evalLabelStepFn] at h₁
+      cases hnext : next start label with
+      | none =>
+          simp [hnext] at h₁
+      | some step =>
+          cases step with
+          | mk nextState stepGain =>
+              simp [hnext] at h₁
+              cases htail : evalLabelStepFn next nextState labels with
+              | none =>
+                  simp [htail] at h₁
+              | some tailResult =>
+                  cases tailResult with
+                  | mk tailState tailGain =>
+                      simp [htail] at h₁
+                      rcases h₁ with ⟨rfl, rfl⟩
+                      have hrec :=
+                        ih (start := nextState)
+                          (mid := tailState)
+                          (gain₁ := tailGain)
+                          htail h₂
+                      simp
+                      rw [hrec]
+                      simp [Int.add_assoc]
+
 theorem bellmanLabelStepRun_of_evalLabelStepFn
     {State Label : Type}
     {Step : State -> Label -> State -> Int -> Prop}

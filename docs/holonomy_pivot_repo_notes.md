@@ -1602,3 +1602,42 @@ Deterministic label-step evaluator:
 
 This keeps the next semantic-family smoke away from exact hand-built
 `BellmanLabelStepRun.cons` trees per path class.
+
+Eval-backed object-cover smoke:
+
+- Added `evalLabelStepFn_append` to `Cuboctahedron.Search.BellmanPotential`.
+- `scripts/emit_bellman_graph_smoke.py` now emits a deterministic
+  `smokeNext` table, a table-defined `SmokeStepEval`, literal one-step eval
+  facts, append-composed trie-node eval facts, and an eval-backed sampled
+  object cover.
+- The generated sampled public theorem
+  `graphSmoke_sampled_axis_rank_killed` now routes through
+  `graphSmoke_sampled_axis_object_cover_eval_rank_killed_of_start_violation`.
+
+Focused commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Result:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` eval object-cover route | `2:23.27` | `10,084,892 kB` | passed |
+
+This validates the deterministic finite-horizon evaluator as a Lean-checked
+route into the semantic object-cover/start-violation theorem.  It also shows
+that the all-trie-node smoke is too heavy to scale without more sharding or
+pruning: production should emit eval facts only for terminal object-family
+nodes, or split each Bellman family into small modules that export semantic
+killed theorems.

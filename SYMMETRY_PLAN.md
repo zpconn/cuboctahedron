@@ -49001,3 +49001,59 @@ Decision: accepted.  This does not solve membership compression by itself,
 but it removes a likely source of future generated bloat: exact
 `BellmanLabelStepRun.cons` trees for every path.  The next emitter slice
 should use this table-evaluation theorem in a tiny semantic-family smoke.
+
+### Holonomy/Bellman Pivot - eval-backed object-cover smoke passed
+
+Follow-up: the bounded graph smoke now exercises the deterministic evaluator
+inside the sampled semantic object-cover route.
+
+Added to `Cuboctahedron.Search.BellmanPotential`:
+
+```lean
+theorem evalLabelStepFn_append
+```
+
+This composes two successful deterministic label-step evaluations.  The graph
+smoke emitter now generates:
+
+- a deterministic `smokeNext : State -> SmokeLabel -> Option (State × Int)`;
+- a table-defined `SmokeStepEval`;
+- literal one-step eval lemmas plus append-composed node eval lemmas;
+- `sampledAxisRankObjectCoverEval`;
+- `graphSmoke_sampled_axis_object_cover_eval_rank_killed_of_start_violation`;
+- `graphSmoke_sampled_axis_rank_killed`, now routed through the eval-backed
+  object cover.
+
+Focused commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` eval object-cover route | `2:23.27` | `10,084,892 kB` | passed |
+
+Interpretation: the GPT5.5 Bellman/potential pivot is now exercised in the
+right proof shape at sampled scale: a deterministic finite-horizon transition
+table feeds the semantic object-cover/start-violation theorem.  This is still
+not full coverage and still not the final family membership theorem.
+
+Build-cost warning: generating eval lemmas for every trie node is noticeably
+heavier than the earlier trie-only object cover (`~2.4 min / ~10 GiB` versus
+`~1.1 min / ~8.7 GiB`).  The production emitter should therefore avoid
+scaling this exact smoke shape blindly.  Next steps should either emit eval
+facts only for terminal/sampled object-family nodes or split Bellman family
+modules so each one checks a small table and exports only semantic killed
+theorems.

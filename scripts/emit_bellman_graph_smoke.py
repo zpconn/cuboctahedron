@@ -635,6 +635,18 @@ def emit(
                 f"SmokeEdgeLabel {name} {label_ctor(int(label_idx))}"
             )
             label_case_idx += 1
+    transition_by_state_label: dict[tuple[int, int], tuple[int, int, int, str]] = {}
+    for case_name, edge_idx, label_idx in edge_label_cases:
+        edge = edges[edge_idx]
+        key = (int(edge["src"]), int(label_idx))
+        entry = (edge_idx, int(edge["dst"]), int(edge["gain_scaled"]), case_name)
+        previous = transition_by_state_label.get(key)
+        if previous is not None and previous != entry:
+            raise SystemExit(
+                "eval smoke requires deterministic state/label transitions; "
+                f"duplicate key {key} has {previous} and {entry}"
+            )
+        transition_by_state_label[key] = entry
     lines.extend([
         "",
         "private inductive SmokeStep : State -> SmokeLabel -> State -> Int -> Prop where",
@@ -656,6 +668,35 @@ def emit(
         name = edge_name(edge_idx)
         lines.append(f"  | {case_name} => simpa [BellmanEdge.Valid] using {name}_valid")
     lines.extend([
+        "",
+        "private def smokeNext : State -> SmokeLabel -> Option (State × Int)",
+    ])
+    for (src_idx, label_idx), (_edge_idx, dst_idx, gain_scaled, _case_name) in sorted(
+        transition_by_state_label.items()
+    ):
+        lines.append(
+            f"  | {state_ctor(src_idx)}, {label_ctor(label_idx)} => "
+            f"some ({state_ctor(dst_idx)}, {gain_scaled})"
+        )
+    lines.extend([
+        "  | _, _ => none",
+        "",
+        "private def SmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",
+        "  smokeNext s label = some (t, gain)",
+        "",
+        "private theorem SmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+        "    SmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by",
+        "  intro h",
+        "  revert t gain",
+        "  cases s <;> cases label <;> intro t gain h <;> simp [SmokeStepEval, smokeNext] at h <;> try contradiction",
+        "  all_goals",
+        "    rcases h with ⟨rfl, rfl⟩",
+        "    decide",
+        "",
+        "private theorem SmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+        "    smokeNext s label = some (t, gain) -> SmokeStepEval s label t gain := by",
+        "  intro h",
+        "  exact h",
         "",
         f"-- shared prefix length: {common_prefix_len}",
         f"private def commonPrefixFinalState : State := {state_ctor(common_prefix_final)}",
@@ -707,6 +748,12 @@ def emit(
         f"  unfold {trie_node_state_name(0)} {trie_node_labels_name(0)} {trie_node_gain_name(0)}",
         "  exact BellmanLabelStepRun.nil rootState",
         "",
+        f"private theorem {trie_node_name(0)}Eval :",
+        f"    evalLabelStepFn smokeNext rootState {trie_node_labels_name(0)} =",
+        f"      some ({trie_node_state_name(0)}, {trie_node_gain_name(0)}) := by",
+        f"  unfold {trie_node_state_name(0)} {trie_node_labels_name(0)} {trie_node_gain_name(0)}",
+        "  simp [evalLabelStepFn]",
+        "",
     ])
     for node_idx, node in enumerate(trie_nodes[1:], start=1):
         parent = int(node["parent"])  # type: ignore[arg-type]
@@ -738,6 +785,20 @@ def emit(
             f"      {trie_node_labels_name(node_idx)} {trie_node_gain_name(node_idx)} := by",
             f"  unfold {trie_node_labels_name(node_idx)} {trie_node_gain_name(node_idx)}",
             f"  exact BellmanLabelStepRun.append {trie_node_run_name(parent)} {trie_node_step_run_name(node_idx)}",
+            "",
+            f"private theorem {trie_node_name(node_idx)}StepEval :",
+            f"    evalLabelStepFn smokeNext {trie_node_state_name(parent)}",
+            f"      {trie_node_step_labels_name(node_idx)} =",
+            f"        some ({trie_node_state_name(node_idx)}, {trie_node_step_gain_name(node_idx)}) := by",
+            f"  change evalLabelStepFn smokeNext {state_ctor(int(edges[edge_idx]['src']))}",
+            f"    [{label_ctor(label_idx)}] = some ({state_ctor(int(edges[edge_idx]['dst']))}, {int(edges[edge_idx]['gain_scaled'])})",
+            "  rfl",
+            "",
+            f"private theorem {trie_node_name(node_idx)}Eval :",
+            f"    evalLabelStepFn smokeNext rootState {trie_node_labels_name(node_idx)} =",
+            f"      some ({trie_node_state_name(node_idx)}, {trie_node_gain_name(node_idx)}) := by",
+            f"  unfold {trie_node_labels_name(node_idx)} {trie_node_gain_name(node_idx)}",
+            f"  exact evalLabelStepFn_append {trie_node_name(parent)}Eval {trie_node_name(node_idx)}StepEval",
             "",
         ])
     for obj in path_objects:
@@ -1918,6 +1979,67 @@ def emit(
                 "  BellmanAxisRankObjectCover.scaledMargin_nonpos",
                 "    sampledAxisRankObjectCover hrank",
                 "",
+                "private def sampledAxisRankObjectCoverEval :",
+                "    BellmanAxisRankObjectCover",
+                "      SampledRankIndex State SmokeLabel graphPotential SmokeStepEval smokeLabelOfFace",
+                "      rootState (" + str(const_scaled) + " : Int) sampledRankOf sampledObjectAccepts",
+                "      sampledContainsRank sampledScaledMarginAtRank where",
+                "  forcedSeq := sampledObjectForcedSeq",
+                "  trace_bound := by",
+                "    intro idx _hAccept",
+                "    cases idx",
+            ])
+            for info in same_axis_infos:
+                trie_node = int(info["trie_node"])
+                lines.extend([
+                    f"    · refine ⟨{trie_node_state_name(trie_node)}, {trie_node_gain_name(trie_node)}, ?_, ?_, ?_⟩",
+                    "      · have heval :",
+                    "          evalLabelStepFn smokeNext rootState",
+                    f"            (smokeLabelsOfSeq {info['seq_name']}) =",
+                    f"              some ({trie_node_state_name(trie_node)}, {trie_node_gain_name(trie_node)}) := by",
+                    f"          rw [{info['seq_name']}Labels_eq]",
+                    f"          exact {trie_node_name(trie_node)}Eval",
+                    "        exact bellmanLabelStepRun_of_evalLabelStepFn",
+                    "          (Step := SmokeStepEval)",
+                    "          (next := smokeNext)",
+                    "          (start := rootState)",
+                    f"          (labels := smokeLabelsOfSeq {info['seq_name']})",
+                    f"          (result := ({trie_node_state_name(trie_node)}, {trie_node_gain_name(trie_node)}))",
+                    "          (by",
+                    "            intro s label t gain h",
+                    "            exact SmokeStepEval.sound h)",
+                    "          heval",
+                    f"      · exact {info['obj_name']}TrieFinal_nonneg",
+                    "      · unfold sampledRankOf sampledScaledMarginAtRank",
+                    "        simp",
+                    f"        exact {info['obj_name']}TrieMargin_bound_gain",
+                ])
+            lines.extend([
+                "  step_valid := by",
+                "    intro s label t gain h",
+                "    exact SmokeStepEval.valid h",
+                "  root_bound := root_bound",
+                "  covers := by",
+                "    intro rank hrank",
+                "    rcases hrank with ⟨idx, hidx⟩",
+                "    have hAccept : sampledObjectAccepts idx := by",
+                "      cases idx",
+            ])
+            for info in same_axis_infos:
+                lines.extend([
+                    f"      · change AxisForcesForcedSeq (unrankPairWord {info['rank_name']})",
+                    f"          {same_axis_infos[0]['axis_name']} {info['seq_name']}",
+                    f"        exact {info['obj_name']}AxisForces",
+                ])
+            lines.extend([
+                "    exact ⟨idx, hAccept, hidx⟩",
+                "",
+                "theorem graphSmoke_sampled_axis_object_cover_eval_scaled_margin_nonpos",
+                "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",
+                "    sampledScaledMarginAtRank rank <= 0 :=",
+                "  BellmanAxisRankObjectCover.scaledMargin_nonpos",
+                "    sampledAxisRankObjectCoverEval hrank",
+                "",
                 "private def sampledObjectStartViolationCert :",
                 "    forall idx, sampledObjectAccepts idx ->",
                 "      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.ObjectStartViolationMarginCert",
@@ -1950,6 +2072,12 @@ def emit(
                 "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
                 "  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_cover_start_violation_margin_certs",
                 "    sampledAxisRankObjectCover sampledObjectStartViolationCert hrank",
+                "",
+                "theorem graphSmoke_sampled_axis_object_cover_eval_rank_killed_of_start_violation",
+                "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",
+                "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
+                "  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_cover_start_violation_margin_certs",
+                "    sampledAxisRankObjectCoverEval sampledObjectStartViolationCert hrank",
                 "",
                 "theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive",
                 "    (hpositive :",
@@ -2007,7 +2135,7 @@ def emit(
                 "theorem graphSmoke_sampled_axis_rank_killed",
                 "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",
                 "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
-                "  graphSmoke_sampled_axis_object_cover_rank_killed_of_start_violation",
+                "  graphSmoke_sampled_axis_object_cover_eval_rank_killed_of_start_violation",
                 "    hrank",
                 "",
             ])

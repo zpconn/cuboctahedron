@@ -3028,3 +3028,51 @@ Results:
 
 This is a support theorem, not a coverage claim.  The remaining work is still
 the semantic membership theorem for the closed object-family language.
+
+## Eval-backed Bellman Object-Cover Smoke
+
+The deterministic evaluator is now exercised by the sampled object-cover
+route itself, not merely present as unused support.
+
+Changes:
+
+- `Cuboctahedron.Search.BellmanPotential` now also proves
+  `evalLabelStepFn_append`, used to compose parent and one-step table
+  evaluations.
+- `scripts/emit_bellman_graph_smoke.py` emits a deterministic `smokeNext`
+  table, `SmokeStepEval`, literal one-step eval lemmas, append-composed node
+  eval lemmas, and `sampledAxisRankObjectCoverEval`.
+- The generated sampled public theorem
+  `graphSmoke_sampled_axis_rank_killed` now uses
+  `graphSmoke_sampled_axis_object_cover_eval_rank_killed_of_start_violation`.
+
+Focused run:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Result:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` eval object-cover route | `2:23.27` | `10,084,892 kB` | passed |
+
+Interpretation: this confirms that a deterministic label-step table can feed
+the existing semantic Bellman object-cover/start-violation bridge.  It is a
+successful proof-shape smoke for the GPT5.5 Bellman/potential pivot.
+
+Caveat: emitting eval proofs for every trie node costs more than the earlier
+trie-only sampled object cover.  The production route should not scale this
+exact all-node smoke.  The next emitter should either generate eval facts only
+for terminal/sampled object-family nodes or shard each finite-horizon Bellman
+family so that broad roots import only small semantic theorem surfaces.
