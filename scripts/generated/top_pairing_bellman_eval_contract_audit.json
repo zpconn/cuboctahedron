@@ -1,5 +1,5 @@
 {
-  "decision": "semantic-object-built-eval-still-sampled",
+  "decision": "stronger-eval-predicate-built-closed-to-eval-missing",
   "files": {
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean": {
       "closed_language_fields": [],
@@ -841,6 +841,7 @@
           "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
         }
       ],
+      "semantic_eval_language": [],
       "semantic_eval_target": [
         {
           "line": 24925,
@@ -1065,6 +1066,7 @@
       ],
       "exists": true,
       "sampled_eval": [],
+      "semantic_eval_language": [],
       "semantic_eval_target": [],
       "semantic_object": []
     },
@@ -1094,13 +1096,160 @@
           "line": 41,
           "pattern": "forCanonicalSeq",
           "text": "TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed"
+        },
+        {
+          "line": 111,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "closed : TopPairingClosedLanguageAtRank rank badFace"
+        },
+        {
+          "line": 206,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank obj.rank badFace :="
+        },
+        {
+          "line": 323,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank badFace ->"
         }
       ],
       "exists": true,
       "sampled_eval": [],
+      "semantic_eval_language": [
+        {
+          "line": 101,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "structure TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 120,
+          "pattern": "TopPairingBellmanEvalContainsRank",
+          "text": "abbrev TopPairingBellmanEvalContainsRank"
+        },
+        {
+          "line": 130,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 133,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "structure TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 144,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 147,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "namespace TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 159,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 174,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 189,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 204,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 219,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 223,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 243,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 251,
+          "pattern": "TopPairingBellmanEvalContainsRank",
+          "text": "(TopPairingBellmanEvalContainsRank"
+        },
+        {
+          "line": 278,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 287,
+          "pattern": "TopPairingBellmanEvalContainsRank",
+          "text": "(TopPairingBellmanEvalContainsRank"
+        },
+        {
+          "line": 306,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "end TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 308,
+          "pattern": "topPairingBellmanEvalObjectCoverOfClosedToEval",
+          "text": "def topPairingBellmanEvalObjectCoverOfClosedToEval"
+        },
+        {
+          "line": 324,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 330,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 333,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.rankOf"
+        },
+        {
+          "line": 337,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.Accepts"
+        },
+        {
+          "line": 344,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.forcedSeq"
+        },
+        {
+          "line": 352,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "exact TopPairingBellmanEvalObj.evalAccepts obj))"
+        }
+      ],
       "semantic_eval_target": [
         {
           "line": 72,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        },
+        {
+          "line": 113,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        },
+        {
+          "line": 221,
           "pattern": "BellmanEvalAccepts",
           "text": "BellmanEvalAccepts V next start const"
         }
@@ -1180,6 +1329,11 @@
           "line": 99,
           "pattern": "TopPairingBellmanObj",
           "text": "end TopPairingBellmanObj"
+        },
+        {
+          "line": 341,
+          "pattern": "TopPairingClosedContainsRank",
+          "text": "(TopPairingClosedContainsRank badFace)"
         }
       ]
     },
@@ -1653,6 +1807,7 @@
           "text": "\"      rank := sampledRankOf idx,\","
         }
       ],
+      "semantic_eval_language": [],
       "semantic_eval_target": [
         {
           "line": 1978,
@@ -1666,9 +1821,10 @@
   "next_required_theorem": "forall obj : TopPairingBellmanObj Face.ym, BellmanEvalAccepts ... obj",
   "required_emitter_change": "Move deterministic eval from sampledSmokeNext/SampledRankIndex to a theorem over TopPairingBellmanObj and obj.closed.",
   "totals": {
-    "closed_language_fields": 47,
+    "closed_language_fields": 50,
     "sampled_eval": 260,
-    "semantic_eval_target": 3,
-    "semantic_object": 15
+    "semantic_eval_language": 24,
+    "semantic_eval_target": 5,
+    "semantic_object": 16
   }
 }

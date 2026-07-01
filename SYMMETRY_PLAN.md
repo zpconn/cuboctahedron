@@ -56402,3 +56402,89 @@ still requires a `SampledRankIndex` or one branch per sampled path/rank, the
 Bellman automaton state is not semantic enough and the plan should pivot to a
 cancellation-tree / semantic-state automaton rather than scaling sampled
 coverage.
+
+### Holonomy/Bellman Pivot - stronger eval-language predicate
+
+Added a stronger semantic fallback surface to:
+
+```text
+Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+New Lean surface:
+
+```lean
+structure TopPairingBellmanEvalLanguageAtRank ...
+abbrev TopPairingBellmanEvalContainsRank ...
+structure TopPairingBellmanEvalObj ...
+def TopPairingBellmanEvalObj.objectCover ...
+def topPairingBellmanEvalObjectCoverOfClosedToEval ...
+```
+
+Meaning:
+
+- `TopPairingBellmanEvalLanguageAtRank` is the explicit stronger predicate:
+  closed top-pairing language plus `BellmanEvalAccepts` for the deterministic
+  automaton;
+- `TopPairingBellmanEvalObj.objectCover` proves that this stronger semantic
+  predicate is enough to build a Bellman object cover with no sampled object
+  type;
+- `topPairingBellmanEvalObjectCoverOfClosedToEval` proves that if generated
+  code can establish
+
+  ```lean
+  forall rank,
+    TopPairingClosedLanguageAtRank rank badFace ->
+      TopPairingBellmanEvalLanguageAtRank ... rank badFace
+  ```
+
+  then the final cover can still expose the original closed-language predicate,
+  not the stronger intermediate predicate.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 90 \
+  --json scripts/generated/top_pairing_bellman_object_eval_language_guard.json \
+  -- lake env lean Cuboctahedron/Search/TopPairingBellmanObject.lean
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|Classical\\.choose" \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean || true
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean || true
+
+python3 -m py_compile scripts/audit_top_pairing_bellman_eval_contract.py
+python3 scripts/audit_top_pairing_bellman_eval_contract.py
+```
+
+Results:
+
+- guarded direct Lean check passed in `2.00s`;
+- peak process-tree RSS `3579.96 MiB`;
+- minimum MemAvailable observed `46247.07 MiB`;
+- sampled-token audit over `TopPairingBellmanObject.lean`: no hits;
+- forbidden-token scan over `TopPairingBellmanObject.lean`: no hits;
+- eval-contract audit decision:
+  `stronger-eval-predicate-built-closed-to-eval-missing`.
+
+Decision: accepted as the formal fallback when the existing
+`TopPairingClosedLanguageAtRank` fields are too weak to produce deterministic
+evaluation directly.  The route still needs the theorem
+`closed_to_eval`; this checkpoint ensures that theorem can be the only
+generated/semantic obligation, rather than rebuilding sampled object
+membership.
+
+Next implementation target:
+
+1. change the Bellman graph emitter so deterministic `next`, potentials,
+   transition validity, and margin/eval facts are emitted for a semantic
+   closed-language theorem, not only inside the `SampledRankIndex` block;
+2. prove or generated-check the theorem
+   `TopPairingClosedLanguageAtRank rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank ... rank Face.ym`;
+3. reject the Bellman route if the proof still requires branching over sampled
+   ranks/paths rather than closed-language automaton facts.

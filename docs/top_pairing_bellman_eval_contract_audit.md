@@ -7,10 +7,11 @@ sampled-object-bound.
 
 ## Summary
 
-- decision: `semantic-object-built-eval-still-sampled`
-- semantic-object mentions: `15`
-- closed-language field mentions: `47`
+- decision: `stronger-eval-predicate-built-closed-to-eval-missing`
+- semantic-object mentions: `16`
+- closed-language field mentions: `50`
 - sampled-eval mentions: `260`
+- semantic eval-language mentions: `24`
 - semantic closed-eval theorem mentions: `0`
 
 ## Interpretation
@@ -32,7 +33,7 @@ not by case-splitting on `SampledRankIndex`.
 ### `Cuboctahedron/Search/TopPairingBellmanObject.lean`
 
 - exists: `True`
-- `semantic_object`: `15`
+- `semantic_object`: `16`
   - line `16`: `abbrev TopPairingClosedContainsRank (badFace : Face) :`
   - line `20`: `structure TopPairingBellmanObj (badFace : Face) where`
   - line `24`: `namespace TopPairingBellmanObj`
@@ -41,16 +42,31 @@ not by case-splitting on `SampledRankIndex`.
   - line `34`: `def forcedSeq {badFace : Face} (obj : TopPairingBellmanObj badFace) :`
   - line `39`: `(obj : TopPairingBellmanObj badFace) :`
   - line `45`: `(TopPairingBellmanObj badFace)`
-  - ... `7` more
-- `closed_language_fields`: `5`
+  - ... `8` more
+- `closed_language_fields`: `8`
   - line `18`: `fun rank => TopPairingClosedLanguageAtRank rank badFace`
   - line `22`: `closed : TopPairingClosedLanguageAtRank rank badFace`
   - line `40`: `TopPairingClosedLanguageForSeq obj.rank (forcedSeq obj) badFace :=`
   - line `41`: `TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed`
   - line `41`: `TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed`
+  - line `111`: `closed : TopPairingClosedLanguageAtRank rank badFace`
+  - line `206`: `TopPairingClosedLanguageAtRank obj.rank badFace :=`
+  - line `323`: `TopPairingClosedLanguageAtRank rank badFace ->`
 - `sampled_eval`: `0`
-- `semantic_eval_target`: `1`
+- `semantic_eval_target`: `3`
   - line `72`: `BellmanEvalAccepts V next start const`
+  - line `113`: `BellmanEvalAccepts V next start const`
+  - line `221`: `BellmanEvalAccepts V next start const`
+- `semantic_eval_language`: `24`
+  - line `101`: `structure TopPairingBellmanEvalLanguageAtRank`
+  - line `120`: `abbrev TopPairingBellmanEvalContainsRank`
+  - line `130`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `133`: `structure TopPairingBellmanEvalObj`
+  - line `144`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `147`: `namespace TopPairingBellmanEvalObj`
+  - line `159`: `TopPairingBellmanEvalObj`
+  - line `174`: `TopPairingBellmanEvalObj`
+  - ... `16` more
 
 ### `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`
 
@@ -68,6 +84,7 @@ not by case-splitting on `SampledRankIndex`.
   - ... `34` more
 - `sampled_eval`: `0`
 - `semantic_eval_target`: `0`
+- `semantic_eval_language`: `0`
 
 ### `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean`
 
@@ -86,6 +103,7 @@ not by case-splitting on `SampledRankIndex`.
   - ... `159` more
 - `semantic_eval_target`: `1`
   - line `24925`: `BellmanEvalAccepts graphPotential sampledSmokeNext rootState`
+- `semantic_eval_language`: `0`
 
 ### `scripts/emit_bellman_graph_smoke.py`
 
@@ -104,4 +122,5 @@ not by case-splitting on `SampledRankIndex`.
   - ... `85` more
 - `semantic_eval_target`: `1`
   - line `1978`: `"    BellmanEvalAccepts graphPotential sampledSmokeNext rootState",`
+- `semantic_eval_language`: `0`
 

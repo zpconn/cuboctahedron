@@ -49,6 +49,12 @@ PATTERNS = {
         "topPairingClosed_evalAccepts",
         "BellmanEvalAccepts",
     ],
+    "semantic_eval_language": [
+        "TopPairingBellmanEvalLanguageAtRank",
+        "TopPairingBellmanEvalContainsRank",
+        "TopPairingBellmanEvalObj",
+        "topPairingBellmanEvalObjectCoverOfClosedToEval",
+    ],
 }
 
 
@@ -83,6 +89,7 @@ def main() -> None:
 
     sampled_eval = totals["sampled_eval"]
     semantic_object = totals["semantic_object"]
+    semantic_eval_language = totals["semantic_eval_language"]
     semantic_eval_names = [
         match
         for info in by_file.values()
@@ -90,6 +97,9 @@ def main() -> None:
         if match["pattern"] in {"topPairingClosed_eval", "topPairingClosed_evalAccepts"}
     ]
     decision = (
+        "stronger-eval-predicate-built-closed-to-eval-missing"
+        if semantic_eval_language and sampled_eval and not semantic_eval_names
+        else
         "semantic-object-built-eval-still-sampled"
         if semantic_object and sampled_eval and not semantic_eval_names
         else "needs-manual-review"
@@ -129,6 +139,7 @@ def main() -> None:
         f"- semantic-object mentions: `{totals['semantic_object']}`",
         f"- closed-language field mentions: `{totals['closed_language_fields']}`",
         f"- sampled-eval mentions: `{totals['sampled_eval']}`",
+        f"- semantic eval-language mentions: `{totals['semantic_eval_language']}`",
         f"- semantic closed-eval theorem mentions: `{len(semantic_eval_names)}`",
         "",
         "## Interpretation",
