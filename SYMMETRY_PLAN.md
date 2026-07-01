@@ -224,6 +224,76 @@ python3 scripts/run_bellman_safe_smoke.py \
 passed in `5.01s`, with `4002.89 MiB` peak process-tree RSS and
 `46143.72 MiB` minimum available memory.
 
+### Bellman Trace Shard - cancellation and axis-forces bridge accepted
+
+The selected generated trace shard now proves its own cancellation-language
+membership:
+
+```lean
+generatedTopPairingLanguageAtRank :
+  TopPairingLanguageAtRank generatedRank
+```
+
+and exposes:
+
+```lean
+generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation
+```
+
+which reduces the selected shard's local assumptions to
+`PairSignLanguageAtRank generatedRank generatedForcedSeq seq`.
+
+The shard now also imports the small axis-forces bridge and exposes:
+
+```lean
+generatedClosedLanguageForSeqOfAxisForces
+```
+
+This theorem consumes the semantic nonidentity hypotheses
+`SeqRealizesPairWord`, `NonIdentityAxisConstraints`,
+`checkKernelLineWitness ... = true`, and
+`AxisForcesForcedSeq ... generatedForcedSeq`, then returns
+`TopPairingClosedLanguageForSeq generatedRank seq Face.ym`.  This is the
+intended boundary: the Bellman closed-language proof no longer assumes
+`PairSignLanguageAtRank` directly.
+
+Dependency/build note: direct Lean checking first found missing local `.olean`
+artifacts for `PairWordSymmetry` and `TranslationCase`.  These were compiled
+with direct Lean under the same guard:
+
+```bash
+lake env lean -M 6000 -j1 -s 2048 \
+  -o .lake/build/lib/lean/Cuboctahedron/Search/PairWordSymmetry.olean \
+  -i .lake/build/lib/lean/Cuboctahedron/Search/PairWordSymmetry.ilean \
+  Cuboctahedron/Search/PairWordSymmetry.lean
+
+lake env lean -M 6000 -j1 -s 2048 \
+  -o .lake/build/lib/lean/Cuboctahedron/Search/TranslationCase.olean \
+  -i .lake/build/lib/lean/Cuboctahedron/Search/TranslationCase.ilean \
+  Cuboctahedron/Search/TranslationCase.lean
+
+lake env lean -M 6000 -j1 -s 2048 \
+  -o .lake/build/lib/lean/Cuboctahedron/Search/AxisForcedRankLanguage.olean \
+  -i .lake/build/lib/lean/Cuboctahedron/Search/AxisForcedRankLanguage.ilean \
+  Cuboctahedron/Search/AxisForcedRankLanguage.lean
+```
+
+All three direct artifact builds stayed around `4.0 GiB` RSS under the
+`8192 MiB` hard-AS cap.  `lake build` for even `PairWordSymmetry` still fails
+under the hard-AS cap with `failed to create thread`, so direct Lean remains
+the accepted smoke runner for this track.
+
+Final accepted shard check:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_axis_forces_direct_8g_as.json
+```
+
+Result: passed in `4.51s`, with `4012.77 MiB` peak process-tree RSS,
+`8192 MiB` hard address-space cap, and `46056.39 MiB` minimum available
+memory.
+
 ## Success Criteria
 
 1. Dry-run compression profiler reports:

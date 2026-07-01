@@ -3246,3 +3246,48 @@ BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean
   Result: passed in `5.01s`, with `4002.89 MiB` peak process-tree RSS,
   `8192 MiB` hard address-space cap, and `46143.72 MiB` minimum available
   memory.
+
+Axis-forces bridge checkpoint:
+
+- The generated shard now imports
+  `Cuboctahedron.Search.AxisForcedRankLanguage` and exposes:
+
+  ```lean
+  generatedClosedLanguageForSeqOfAxisForces
+  ```
+
+  It has the shape:
+
+  ```text
+  SeqRealizesPairWord (unrankPairWord generatedRank) seq ->
+  NonIdentityAxisConstraints seq ->
+  checkKernelLineWitness ... axis kernel = true ->
+  AxisForcesForcedSeq (unrankPairWord generatedRank) axis generatedForcedSeq ->
+  TopPairingClosedLanguageForSeq generatedRank seq Face.ym
+  ```
+
+  This removes the direct `PairSignLanguageAtRank` assumption from the public
+  selected-shard theorem and replaces it with the existing semantic
+  nonidentity axis-forcing bridge.
+
+- Direct dependency notes:
+  - `AxisForcedRankLanguage.lean` initially failed under direct Lean because
+    local `.olean` artifacts for `PairWordSymmetry` and then
+    `TranslationCase` were missing.
+  - `lake build Cuboctahedron.Search.PairWordSymmetry` failed safely under
+    `RLIMIT_AS = 8192 MiB` with Lean's `failed to create thread` exception.
+  - Direct Lean source checks and direct `.olean` emission for
+    `PairWordSymmetry`, `TranslationCase`, and `AxisForcedRankLanguage` all
+    passed under `-M 6000 -j1 -s 2048`, the `6000 MiB` RSS cap, the
+    `8192 MiB` hard-AS cap, and the `24576 MiB` available-memory floor.
+
+- Accepted final shard check:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_axis_forces_direct_8g_as.json
+  ```
+
+  Result: passed in `4.51s`, with `4012.77 MiB` peak process-tree RSS,
+  `8192 MiB` hard address-space cap, and `46056.39 MiB` minimum available
+  memory.

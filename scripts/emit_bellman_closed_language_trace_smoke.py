@@ -485,6 +485,7 @@ def emit_module(
 ) -> list[str]:
     labels = ", ".join(face_ctor(face) for face in faces)
     lines = [
+        "import Cuboctahedron.Search.AxisForcedRankLanguage",
         "import Cuboctahedron.Search.BellmanTopPairingLanguage",
         "",
         "/-!",
@@ -856,6 +857,25 @@ def emit_module(
                             f"  {name}ClosedLanguageForSeqOfGeneratedRankPairSignBadFace",
                             "    pairSign",
                             f"    {name}TopPairingLanguageAtRank",
+                            "",
+                            f"theorem {name}ClosedLanguageForSeqOfAxisForces",
+                            "    {axis : Vec3 Rat} {kernel : KernelLineWitness}",
+                            "    {seq : Step14 -> Face}",
+                            "    (hRealize :",
+                            f"      SeqRealizesPairWord (unrankPairWord {name}Rank) seq)",
+                            "    (hAxisConstraints :",
+                            "      NonIdentityAxisConstraints seq)",
+                            "    (hKernel :",
+                            "      checkKernelLineWitness",
+                            f"        (totalLinearOfPairWord (unrankPairWord {name}Rank))",
+                            "        axis kernel = true)",
+                            "    (hForces :",
+                            f"      AxisForcesForcedSeq (unrankPairWord {name}Rank)",
+                            f"        axis {name}ForcedSeq) :",
+                            f"    TopPairingClosedLanguageForSeq {name}Rank seq {face_ctor(selected_bad_face)} :=",
+                            f"  {name}ClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation",
+                            "    (pairSignLanguageAtRank_of_axisForces",
+                            "      hRealize hAxisConstraints hKernel hForces)",
                             "",
                         ]
                     )
