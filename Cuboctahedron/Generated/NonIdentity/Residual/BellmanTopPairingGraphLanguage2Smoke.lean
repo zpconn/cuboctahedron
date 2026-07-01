@@ -25049,6 +25049,12 @@ theorem graphSmoke_sampled_axis_object_cover_eval_scaled_margin_nonpos
   BellmanAxisRankObjectCover.scaledMargin_nonpos
     sampledAxisRankObjectCoverEval hrank
 
+theorem graphSmoke_sampled_axis_object_eval_scaled_margin_nonpos_at_object
+    (idx : SampledRankIndex) (hAccept : sampledObjectAccepts idx) :
+    sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :=
+  BellmanAxisRankObjectCover.scaledMargin_nonpos_at_object
+    sampledAxisRankObjectCoverEval idx hAccept
+
 private def sampledObjectStartViolationCert :
     forall idx, sampledObjectAccepts idx ->
       Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.ObjectStartViolationMarginCert
@@ -25099,8 +25105,8 @@ theorem graphSmoke_sampled_axis_object_nonpos_eval_rank_killed_of_start_violatio
   Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
     sampledAxisRankObjectCoverEval.covers
     (fun idx hAccept =>
-      BellmanAxisRankObjectCover.scaledMargin_nonpos_at_object
-        sampledAxisRankObjectCoverEval idx hAccept)
+      graphSmoke_sampled_axis_object_eval_scaled_margin_nonpos_at_object
+        idx hAccept)
     sampledObjectStartViolationCert hrank
 
 theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive

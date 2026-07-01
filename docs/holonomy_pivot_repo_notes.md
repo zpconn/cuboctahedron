@@ -1717,3 +1717,20 @@ This is the abstraction boundary production shards need: graph/potential
 modules can export object-level nonpositive theorems, while terminal
 start-violation modules import only those theorem surfaces plus small terminal
 certificates.
+
+Named object-nonpos export:
+
+- The generated smoke now exports:
+
+  ```lean
+  theorem graphSmoke_sampled_axis_object_eval_scaled_margin_nonpos_at_object
+  ```
+
+- The split terminal theorem
+  `graphSmoke_sampled_axis_object_nonpos_eval_rank_killed_of_start_violation`
+  consumes that named theorem.  This mirrors the intended production module
+  boundary.
+- Focused build passed in `1:08.97` wall time with `8,840,984 kB` max RSS.
+
+This checkpoint does not split the file yet, but it validates the theorem
+surface that will be moved into a graph-cover shard.

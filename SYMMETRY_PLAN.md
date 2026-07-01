@@ -49223,3 +49223,46 @@ Next step: make the emitter produce two smoke modules instead of one:
    terminal certs and exporting `NonIdentityRankKilled`.
 
 That split is the direct rehearsal for production Bellman family shards.
+
+### Holonomy/Bellman Pivot - object nonpos export surface accepted
+
+The generated smoke now names the object-level nonpositive theorem explicitly:
+
+```lean
+theorem graphSmoke_sampled_axis_object_eval_scaled_margin_nonpos_at_object
+    (idx : SampledRankIndex) (hAccept : sampledObjectAccepts idx) :
+    sampledScaledMarginAtRank (sampledRankOf idx) <= 0
+```
+
+The split terminal theorem
+`graphSmoke_sampled_axis_object_nonpos_eval_rank_killed_of_start_violation`
+now consumes this named theorem instead of inlining
+`BellmanAxisRankObjectCover.scaledMargin_nonpos_at_object`.  This is the exact
+theorem surface that a future graph-cover shard should export to a separate
+terminal shard.
+
+Focused commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` named object-nonpos surface | `1:08.97` | `8,840,984 kB` | passed |
+
+Decision: accepted.  This does not reduce the current monolithic smoke by
+itself, but it proves the intended module boundary is type-correct and cheap:
+graph/potential code can stop at an object-level nonpositive theorem, while a
+terminal module can consume that theorem plus local start-violation certs.

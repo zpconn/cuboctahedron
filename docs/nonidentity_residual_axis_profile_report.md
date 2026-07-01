@@ -3178,3 +3178,24 @@ Decision: accepted.  The split-terminal bridge adds no material build cost and
 is the correct interface for production: one module can prove object-level
 nonpositive margin from the Bellman automaton, while a separate terminal module
 imports only that theorem and proves semantic `NonIdentityRankKilled`.
+
+### Named object nonpositive theorem
+
+The smoke emitter now names the object-level nonpositive theorem:
+
+```lean
+theorem graphSmoke_sampled_axis_object_eval_scaled_margin_nonpos_at_object
+```
+
+and routes
+`graphSmoke_sampled_axis_object_nonpos_eval_rank_killed_of_start_violation`
+through this name.  This is a direct rehearsal of the production split:
+graph-cover shard exports the nonpositive theorem; terminal shard consumes it.
+
+Focused build:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` named object-nonpos surface | `1:08.97` | `8,840,984 kB` | passed |
+
+Decision: accepted as the graph/terminal module boundary.
