@@ -227,6 +227,53 @@ def pairOccursOddFrom (start : Bool) (target : PairId) : List PairId -> Bool
 def pairOccursOdd (target : PairId) (pairs : List PairId) : Bool :=
   pairOccursOddFrom false target pairs
 
+theorem pairOccursOddFrom_count_zero_one_two
+    (start : Bool) (target : PairId) (pairs : List PairId) :
+    (pairs.count target = 0 -> pairOccursOddFrom start target pairs = start) /\
+      (pairs.count target = 1 -> pairOccursOddFrom start target pairs = !start) /\
+        (pairs.count target = 2 -> pairOccursOddFrom start target pairs = start) := by
+  induction pairs generalizing start with
+  | nil =>
+      constructor
+      · intro _; rfl
+      constructor <;> intro h <;> simp at h
+  | cons p ps ih =>
+      by_cases hp : p = target
+      · subst p
+        constructor
+        · intro h
+          simp at h
+        constructor
+        · intro h
+          have htail : ps.count target = 0 := by
+            simpa using h
+          simpa [pairOccursOddFrom] using (ih (!start)).1 htail
+        · intro h
+          have htail : ps.count target = 1 := by
+            simpa using h
+          simpa [pairOccursOddFrom] using (ih (!start)).2.1 htail
+      · constructor
+        · intro h
+          have htail : ps.count target = 0 := by
+            simpa [hp] using h
+          simpa [pairOccursOddFrom, hp] using (ih start).1 htail
+        constructor
+        · intro h
+          have htail : ps.count target = 1 := by
+            simpa [hp] using h
+          simpa [pairOccursOddFrom, hp] using (ih start).2.1 htail
+        · intro h
+          have htail : ps.count target = 2 := by
+            simpa [hp] using h
+          simpa [pairOccursOddFrom, hp] using (ih start).2.2 htail
+
+theorem pairOccursOdd_eq_false_of_count_two
+    (target : PairId) (pairs : List PairId)
+    (h : pairs.count target = 2) :
+    pairOccursOdd target pairs = false := by
+  simpa [pairOccursOdd] using
+    (pairOccursOddFrom_count_zero_one_two false target pairs).2.2 h
+
 theorem foldl_scanPair_parity_x
     (pairs : List PairId) (state : ShadowState) :
     ((pairs.foldl ShadowState.scanPair state).parity).x =

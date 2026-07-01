@@ -282,3 +282,58 @@ Build completed successfully
 
 This isolates the remaining valid-count parity proof from the concrete
 `Fin 13` indexing used by the product-order bridge.
+
+## Valid-Count Square-Parity Checkpoint
+
+The remaining square-parity proof gate is now Lean-checked in:
+
+- `Cuboctahedron/Search/ShadowNormalFormCounts.lean`
+
+This module connects the list-level parity invariant to the repository's
+`ValidPairWord` predicate.  It proves the started factor list has even square
+pair occurrence counts:
+
+```lean
+theorem startedPairFactors_count_x_of_valid
+    {w : PairWord} (hvalid : ValidPairWord w) :
+    (startedPairFactors w).count PairId.x = 2
+
+theorem startedPairFactors_count_y_of_valid
+    {w : PairWord} (hvalid : ValidPairWord w) :
+    (startedPairFactors w).count PairId.y = 2
+
+theorem startedPairFactors_count_z_of_valid
+    {w : PairWord} (hvalid : ValidPairWord w) :
+    (startedPairFactors w).count PairId.z = 2
+```
+
+and derives the semantic square-parity result:
+
+```lean
+theorem finalSquareParityOfPairWord_eq_id_of_valid
+    {w : PairWord} (hvalid : ValidPairWord w) :
+    finalSquareParityOfPairWord w = SqParity.id
+```
+
+Focused build:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalFormCounts
+```
+
+Result:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalFormCounts (2.3s)
+Build completed successfully
+```
+
+Accepted: Track 1 proof gate 2 is complete.  For every valid started
+pair-word, the square part of the holonomy normal form is Lean-proved to be
+the identity parity.  The remaining Track 1 proof gates are now:
+
+1. adjacent triangular cancellation preserves the triangular linear product;
+2. a nonempty reduced triangular shadow cannot have identity triangular
+   product, using the planned mod-3 scaled-integer argument;
+3. the final Lean identity classifier theorem connecting
+   `totalLinearOfPairWord w = matId` with `reducedShadowOfPairWord w = []`.

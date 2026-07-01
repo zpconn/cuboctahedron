@@ -286,6 +286,50 @@ Lean factor-list/toList checkpoint:
 Accepted: the valid-count parity proof can now reason over `w.toList ++ [x]`
 instead of the concrete `Fin 13`/`List.finRange` representation.
 
+Lean valid-count square-parity checkpoint:
+
+- Added `Cuboctahedron/Search/ShadowNormalFormCounts.lean`.
+- It imports `Cuboctahedron.Search.Enumeration` and the lightweight shadow
+  core, but no generated coverage modules.
+- It proves:
+
+  ```lean
+  theorem startedPairFactors_count_x_of_valid
+      {w : PairWord} (hvalid : ValidPairWord w) :
+      (startedPairFactors w).count PairId.x = 2
+
+  theorem startedPairFactors_count_y_of_valid
+      {w : PairWord} (hvalid : ValidPairWord w) :
+      (startedPairFactors w).count PairId.y = 2
+
+  theorem startedPairFactors_count_z_of_valid
+      {w : PairWord} (hvalid : ValidPairWord w) :
+      (startedPairFactors w).count PairId.z = 2
+
+  theorem finalSquareParityOfPairWord_eq_id_of_valid
+      {w : PairWord} (hvalid : ValidPairWord w) :
+      finalSquareParityOfPairWord w = SqParity.id
+  ```
+
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalFormCounts
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalFormCounts (2.3s)
+  Build completed successfully
+  ```
+
+Accepted: Track 1 proof gate 2 is complete.  For valid pair words, the square
+part of the started holonomy is Lean-proved to be identity parity.  Remaining
+Track 1 gates are now triangular cancellation/product preservation, the
+mod-3 proof that nonempty reduced triangular shadows are nonidentity, and the
+final identity classifier theorem.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
