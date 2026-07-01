@@ -48,6 +48,23 @@ shadow, adjacent cancellation, and a mod-3 triangular product argument.
 What remains is to emit and check complete semantic generated coverage over
 the two normal-form branches.
 
+The active nonidentity completion route is the **Bellman strategy**. Lean now
+has a generic Bellman/potential theorem for integer transition gains, plus a
+lightweight top-pairing language surface for the dominant residual family. The
+intended generated proof is not a giant list of killed ranks. It is:
+
+```text
+semantic family language
+  -> exact label-step run through a finite transition system
+  -> integer potential bound
+  -> nonpositive geometric obstruction margin
+  -> no forced-axis witness
+```
+
+External scripts may discover the automaton, gains, and potential. Lean must
+still check every transition inequality, the semantic language membership, and
+the bridge from nonpositive margin to the billiard obstruction.
+
 ## Exact Model
 
 The cuboctahedron is represented by rational inequalities:
@@ -253,6 +270,63 @@ NonIdentityRankKilled r
 It means: if rank `r` is nonidentity-linear, then no unfolded feasible witness
 exists for that rank.
 
+### Bellman residual strategy
+
+The hard nonidentity residuals are no longer being treated primarily as
+rank-interval certificate packing. The current route packages a residual
+family as a closed semantic language and proves a margin bound for the whole
+language.
+
+For a residual family, geometry supplies an exact rational margin:
+
+```text
+feasible forced-axis witness -> margin > 0
+```
+
+A Bellman certificate proves the opposite:
+
+```text
+all accepted words in this semantic family -> scaled_margin <= 0
+```
+
+The generic Lean theorem is the usual potential argument. A transition has an
+integer gain `g`, source state `s`, destination state `t`, and potential `V`.
+If every transition satisfies
+
+```text
+g + V(t) <= V(s)
+```
+
+then gains telescope along a path. With a root bound and nonnegative final
+potential, Lean proves the accumulated gain, and therefore the scaled margin,
+is nonpositive.
+
+The production-facing shape uses labels rather than raw edge lists:
+
+```lean
+BellmanLabelStepRun
+BellmanLabelStepRunLanguageBound
+scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound
+```
+
+In plain language: a generated family theorem should show that each accepted
+signed face word steps through a small automaton with exact integer gains. The
+potential proof kills every accepted word at once.
+
+Current Bellman language work is centered on top-pairing residuals. The
+checked language components include:
+
+- cancellation-pairing membership;
+- per-step signed-face schedule constraints;
+- square-gap constraints;
+- exact local-axis sign checks from prefix reflection matrices;
+- canonical bad-face compatibility;
+- signed sequence transport through `PairSignLanguageAtRank`.
+
+The important boundary is that ranks are still addresses for final
+exhaustiveness, but Bellman certificates should be organized by semantic
+language families, not by lexicographic rank adjacency.
+
 ## Empty Shadow Branch
 
 If the reduced shadow is empty, the linear part is identity and the affine
@@ -390,14 +464,15 @@ flowchart TD
     E["rank/unrank enumeration"]
     F["holonomy normal form"]
     G{"reduced shadow empty?"}
-    H["nonidentity semantic coverage"]
+    H["forced-axis geometry"]
+    HB["Bellman semantic family margin <= 0"]
     I["translation GoodDirection theorem"]
     J["all-Good translation semantic coverage"]
     K["no unfolded started omnihedral witness"]
     L["no nonsingular omnihedral orbit"]
 
     A --> B --> C --> D --> E --> F --> G
-    G -- "no" --> H --> K
+    G -- "no" --> H --> HB --> K
     G -- "yes" --> I --> J --> K
     K --> L
 ```
@@ -442,6 +517,10 @@ Not trusted as proof:
   product decomposition.
 - `Cuboctahedron/Search/ShadowNormalFormClassifier.lean`: identity iff empty
   reduced shadow.
+- `Cuboctahedron/Search/BellmanPotential.lean`: generic integer
+  Bellman/potential path and label-step theorems.
+- `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`: lightweight semantic
+  language surface for the current top-pairing Bellman residual family.
 - `Cuboctahedron/Search/NonIdentityCase.lean`: forced-axis nonidentity
   geometry and certificate soundness.
 - `Cuboctahedron/Search/TranslationGoodDirection.lean`: proof that feasible
@@ -452,6 +531,8 @@ Not trusted as proof:
   support checker.
 - `Cuboctahedron/Generated/Coverage/Predicates.lean`: semantic killed
   predicates.
+- `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean`:
+  generated-style smoke for the closed Bellman language trace surface.
 - `Cuboctahedron/Generated/Coverage/TranslationSurvivors.lean`: adapter from
   GoodDirection-only translation evidence to ordinary translation coverage.
 - `Cuboctahedron/Generated/ExhaustiveCoverage.lean`: semantic exhaustive
@@ -462,10 +543,16 @@ Not trusted as proof:
   the holonomy pivot.
 - `docs/shadow_normal_form_report.md`: exact external scan results and Lean
   checkpoint history.
+- `docs/nonidentity_residual_axis_profile_report.md`: Bellman pivot history,
+  diagnostic state choices, and accepted/rejected proof surfaces.
+- `scripts/emit_bellman_closed_language_trace_smoke.py`: emits the current
+  closed-language Bellman trace smoke shard.
+- `scripts/run_bellman_safe_smoke.py`: strict allowlisted runner for small
+  Bellman generated smokes; this is operational safety tooling, not proof.
 - `SYMMETRY_PLAN.md`: long-running strategy log and gated proof-engineering
   plan.
 - `paper/cuboctahedron_no_omnihedral.tex`: paper-style overview of the current
-  strategy.
+  strategy, including the Bellman certificate route.
 
 ## Validation
 
@@ -484,6 +571,16 @@ be:
 lean Cuboctahedron/PrintAxioms.lean
 ```
 
+For current small Bellman generated smokes, use the guard wrapper rather than
+an unguarded broad build:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py --json /tmp/bellman_safe_smoke.json
+```
+
+The wrapper intentionally allows only known small Bellman targets and enforces
+strict memory and timeout caps.
+
 ## Development Rule of Thumb
 
 Ranks are for exhaustiveness. They should not be treated as the main
@@ -492,7 +589,7 @@ compression coordinate for new generated evidence.
 The current direction is:
 
 ```text
-holonomy state -> semantic family theorem -> Lean-checked coverage
+holonomy state -> semantic family language -> Bellman/Farkas theorem -> Lean-checked coverage
 ```
 
 Every generated datum may be wrong until Lean checks the theorem that consumes
