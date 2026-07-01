@@ -7105,255 +7105,6 @@ private theorem SmokeStep.valid {s : State} {label : SmokeLabel} {t : State} {ga
   | e0227 => simpa [BellmanEdge.Valid] using edge0227_valid
   | e0228 => simpa [BellmanEdge.Valid] using edge0228_valid
 
-private def smokeNext : State -> SmokeLabel -> Option (State × Int)
-  | State.s0000, SmokeLabel.l0008 => some (State.s0142, 103)
-  | State.s0001, SmokeLabel.l0007 => some (State.s0029, -36)
-  | State.s0002, SmokeLabel.l0007 => some (State.s0031, -36)
-  | State.s0003, SmokeLabel.l0007 => some (State.s0032, -36)
-  | State.s0004, SmokeLabel.l0007 => some (State.s0033, -36)
-  | State.s0005, SmokeLabel.l0007 => some (State.s0034, -36)
-  | State.s0006, SmokeLabel.l0007 => some (State.s0036, -36)
-  | State.s0007, SmokeLabel.l0012 => some (State.s0023, -18)
-  | State.s0008, SmokeLabel.l0012 => some (State.s0030, -18)
-  | State.s0009, SmokeLabel.l0002 => some (State.s0039, 96)
-  | State.s0010, SmokeLabel.l0002 => some (State.s0040, 96)
-  | State.s0011, SmokeLabel.l0002 => some (State.s0041, 96)
-  | State.s0012, SmokeLabel.l0001 => some (State.s0043, -124)
-  | State.s0012, SmokeLabel.l0012 => some (State.s0037, 114)
-  | State.s0013, SmokeLabel.l0001 => some (State.s0044, -124)
-  | State.s0013, SmokeLabel.l0012 => some (State.s0038, 114)
-  | State.s0014, SmokeLabel.l0001 => some (State.s0045, 96)
-  | State.s0014, SmokeLabel.l0011 => some (State.s0023, -117)
-  | State.s0015, SmokeLabel.l0001 => some (State.s0046, 96)
-  | State.s0015, SmokeLabel.l0011 => some (State.s0024, -117)
-  | State.s0016, SmokeLabel.l0001 => some (State.s0047, 96)
-  | State.s0016, SmokeLabel.l0011 => some (State.s0025, -117)
-  | State.s0017, SmokeLabel.l0001 => some (State.s0048, 96)
-  | State.s0017, SmokeLabel.l0011 => some (State.s0026, -117)
-  | State.s0018, SmokeLabel.l0001 => some (State.s0049, 96)
-  | State.s0018, SmokeLabel.l0011 => some (State.s0027, -117)
-  | State.s0019, SmokeLabel.l0011 => some (State.s0028, -117)
-  | State.s0020, SmokeLabel.l0001 => some (State.s0050, 96)
-  | State.s0020, SmokeLabel.l0011 => some (State.s0035, -117)
-  | State.s0021, SmokeLabel.l0002 => some (State.s0052, -124)
-  | State.s0022, SmokeLabel.l0011 => some (State.s0042, 103)
-  | State.s0022, SmokeLabel.l0012 => some (State.s0051, -10)
-  | State.s0023, SmokeLabel.l0003 => some (State.s0053, 96)
-  | State.s0024, SmokeLabel.l0003 => some (State.s0055, 96)
-  | State.s0025, SmokeLabel.l0003 => some (State.s0056, 96)
-  | State.s0026, SmokeLabel.l0003 => some (State.s0057, 96)
-  | State.s0027, SmokeLabel.l0003 => some (State.s0058, 96)
-  | State.s0028, SmokeLabel.l0003 => some (State.s0059, 96)
-  | State.s0029, SmokeLabel.l0003 => some (State.s0060, 96)
-  | State.s0030, SmokeLabel.l0003 => some (State.s0061, 96)
-  | State.s0031, SmokeLabel.l0003 => some (State.s0063, 96)
-  | State.s0032, SmokeLabel.l0003 => some (State.s0064, 96)
-  | State.s0033, SmokeLabel.l0003 => some (State.s0065, 96)
-  | State.s0034, SmokeLabel.l0003 => some (State.s0067, 96)
-  | State.s0035, SmokeLabel.l0003 => some (State.s0068, 96)
-  | State.s0036, SmokeLabel.l0003 => some (State.s0069, 96)
-  | State.s0037, SmokeLabel.l0013 => some (State.s0054, 114)
-  | State.s0038, SmokeLabel.l0013 => some (State.s0062, 114)
-  | State.s0039, SmokeLabel.l0013 => some (State.s0066, 114)
-  | State.s0040, SmokeLabel.l0000 => some (State.s0073, -124)
-  | State.s0041, SmokeLabel.l0000 => some (State.s0075, -124)
-  | State.s0042, SmokeLabel.l0012 => some (State.s0070, -10)
-  | State.s0043, SmokeLabel.l0012 => some (State.s0071, -10)
-  | State.s0044, SmokeLabel.l0012 => some (State.s0072, -10)
-  | State.s0045, SmokeLabel.l0003 => some (State.s0076, -124)
-  | State.s0046, SmokeLabel.l0003 => some (State.s0078, -124)
-  | State.s0047, SmokeLabel.l0003 => some (State.s0079, -124)
-  | State.s0048, SmokeLabel.l0003 => some (State.s0080, -124)
-  | State.s0049, SmokeLabel.l0003 => some (State.s0081, -124)
-  | State.s0050, SmokeLabel.l0003 => some (State.s0083, -124)
-  | State.s0051, SmokeLabel.l0011 => some (State.s0070, 103)
-  | State.s0051, SmokeLabel.l0013 => some (State.s0077, -10)
-  | State.s0052, SmokeLabel.l0011 => some (State.s0074, 103)
-  | State.s0052, SmokeLabel.l0013 => some (State.s0082, -10)
-  | State.s0053, SmokeLabel.l0001 => some (State.s0085, -124)
-  | State.s0054, SmokeLabel.l0001 => some (State.s0088, -124)
-  | State.s0055, SmokeLabel.l0001 => some (State.s0090, -124)
-  | State.s0056, SmokeLabel.l0001 => some (State.s0092, -124)
-  | State.s0057, SmokeLabel.l0001 => some (State.s0094, -124)
-  | State.s0058, SmokeLabel.l0001 => some (State.s0096, -124)
-  | State.s0059, SmokeLabel.l0001 => some (State.s0097, -124)
-  | State.s0060, SmokeLabel.l0001 => some (State.s0098, -124)
-  | State.s0061, SmokeLabel.l0001 => some (State.s0099, -124)
-  | State.s0062, SmokeLabel.l0001 => some (State.s0101, -124)
-  | State.s0063, SmokeLabel.l0001 => some (State.s0102, -124)
-  | State.s0064, SmokeLabel.l0001 => some (State.s0103, -124)
-  | State.s0065, SmokeLabel.l0001 => some (State.s0104, -124)
-  | State.s0066, SmokeLabel.l0001 => some (State.s0105, -124)
-  | State.s0067, SmokeLabel.l0001 => some (State.s0106, -124)
-  | State.s0068, SmokeLabel.l0001 => some (State.s0111, -124)
-  | State.s0069, SmokeLabel.l0001 => some (State.s0112, -124)
-  | State.s0070, SmokeLabel.l0013 => some (State.s0086, -10)
-  | State.s0071, SmokeLabel.l0013 => some (State.s0087, -10)
-  | State.s0072, SmokeLabel.l0013 => some (State.s0100, -10)
-  | State.s0073, SmokeLabel.l0013 => some (State.s0107, -10)
-  | State.s0074, SmokeLabel.l0013 => some (State.s0108, -10)
-  | State.s0075, SmokeLabel.l0013 => some (State.s0109, -10)
-  | State.s0076, SmokeLabel.l0011 => some (State.s0084, 103)
-  | State.s0077, SmokeLabel.l0011 => some (State.s0086, 103)
-  | State.s0078, SmokeLabel.l0011 => some (State.s0089, 103)
-  | State.s0079, SmokeLabel.l0011 => some (State.s0091, 103)
-  | State.s0080, SmokeLabel.l0011 => some (State.s0093, 103)
-  | State.s0081, SmokeLabel.l0011 => some (State.s0095, 103)
-  | State.s0082, SmokeLabel.l0011 => some (State.s0108, 103)
-  | State.s0083, SmokeLabel.l0011 => some (State.s0110, 103)
-  | State.s0084, SmokeLabel.l0009 => some (State.s0113, -73)
-  | State.s0085, SmokeLabel.l0009 => some (State.s0114, -73)
-  | State.s0086, SmokeLabel.l0009 => some (State.s0115, -73)
-  | State.s0087, SmokeLabel.l0009 => some (State.s0116, -73)
-  | State.s0088, SmokeLabel.l0009 => some (State.s0117, -73)
-  | State.s0089, SmokeLabel.l0009 => some (State.s0118, -73)
-  | State.s0090, SmokeLabel.l0009 => some (State.s0119, -73)
-  | State.s0091, SmokeLabel.l0009 => some (State.s0120, -73)
-  | State.s0092, SmokeLabel.l0009 => some (State.s0121, -73)
-  | State.s0093, SmokeLabel.l0009 => some (State.s0122, -73)
-  | State.s0094, SmokeLabel.l0009 => some (State.s0123, -73)
-  | State.s0095, SmokeLabel.l0009 => some (State.s0124, -73)
-  | State.s0096, SmokeLabel.l0009 => some (State.s0125, -73)
-  | State.s0097, SmokeLabel.l0009 => some (State.s0126, -73)
-  | State.s0098, SmokeLabel.l0009 => some (State.s0127, -73)
-  | State.s0099, SmokeLabel.l0009 => some (State.s0128, -73)
-  | State.s0100, SmokeLabel.l0009 => some (State.s0129, -73)
-  | State.s0101, SmokeLabel.l0009 => some (State.s0130, -73)
-  | State.s0102, SmokeLabel.l0009 => some (State.s0131, -73)
-  | State.s0103, SmokeLabel.l0009 => some (State.s0132, -73)
-  | State.s0104, SmokeLabel.l0009 => some (State.s0133, -73)
-  | State.s0105, SmokeLabel.l0009 => some (State.s0134, -73)
-  | State.s0106, SmokeLabel.l0009 => some (State.s0135, -73)
-  | State.s0107, SmokeLabel.l0009 => some (State.s0136, -73)
-  | State.s0108, SmokeLabel.l0009 => some (State.s0137, -73)
-  | State.s0109, SmokeLabel.l0009 => some (State.s0138, -73)
-  | State.s0110, SmokeLabel.l0009 => some (State.s0139, -73)
-  | State.s0111, SmokeLabel.l0009 => some (State.s0140, -73)
-  | State.s0112, SmokeLabel.l0009 => some (State.s0141, -73)
-  | State.s0142, SmokeLabel.l0010 => some (State.s0143, -73)
-  | State.s0143, SmokeLabel.l0002 => some (State.s0146, -124)
-  | State.s0143, SmokeLabel.l0011 => some (State.s0144, -73)
-  | State.s0143, SmokeLabel.l0012 => some (State.s0145, -10)
-  | State.s0144, SmokeLabel.l0000 => some (State.s0148, -124)
-  | State.s0144, SmokeLabel.l0012 => some (State.s0147, -10)
-  | State.s0145, SmokeLabel.l0003 => some (State.s0151, -124)
-  | State.s0145, SmokeLabel.l0011 => some (State.s0147, -73)
-  | State.s0145, SmokeLabel.l0013 => some (State.s0149, -10)
-  | State.s0146, SmokeLabel.l0006 => some (State.s0152, 96)
-  | State.s0146, SmokeLabel.l0012 => some (State.s0150, 114)
-  | State.s0147, SmokeLabel.l0001 => some (State.s0155, -124)
-  | State.s0147, SmokeLabel.l0013 => some (State.s0153, -10)
-  | State.s0148, SmokeLabel.l0004 => some (State.s0156, 96)
-  | State.s0148, SmokeLabel.l0012 => some (State.s0154, 114)
-  | State.s0149, SmokeLabel.l0002 => some (State.s0158, -124)
-  | State.s0149, SmokeLabel.l0011 => some (State.s0153, -73)
-  | State.s0150, SmokeLabel.l0013 => some (State.s0157, 114)
-  | State.s0151, SmokeLabel.l0007 => some (State.s0160, 96)
-  | State.s0152, SmokeLabel.l0004 => some (State.s0161, -36)
-  | State.s0152, SmokeLabel.l0013 => some (State.s0159, -18)
-  | State.s0153, SmokeLabel.l0000 => some (State.s0163, -124)
-  | State.s0154, SmokeLabel.l0005 => some (State.s0165, 96)
-  | State.s0154, SmokeLabel.l0013 => some (State.s0162, 114)
-  | State.s0155, SmokeLabel.l0005 => some (State.s0166, 96)
-  | State.s0156, SmokeLabel.l0006 => some (State.s0167, -36)
-  | State.s0156, SmokeLabel.l0013 => some (State.s0164, -18)
-  | State.s0157, SmokeLabel.l0006 => some (State.s0169, 96)
-  | State.s0158, SmokeLabel.l0006 => some (State.s0170, 96)
-  | State.s0159, SmokeLabel.l0012 => some (State.s0168, -18)
-  | State.s0160, SmokeLabel.l0005 => some (State.s0172, -36)
-  | State.s0161, SmokeLabel.l0007 => some (State.s0173, -144)
-  | State.s0161, SmokeLabel.l0013 => some (State.s0171, -54)
-  | State.s0162, SmokeLabel.l0004 => some (State.s0175, 96)
-  | State.s0163, SmokeLabel.l0004 => some (State.s0176, 96)
-  | State.s0164, SmokeLabel.l0012 => some (State.s0174, -18)
-  | State.s0165, SmokeLabel.l0007 => some (State.s0178, -36)
-  | State.s0166, SmokeLabel.l0007 => some (State.s0179, -36)
-  | State.s0167, SmokeLabel.l0005 => some (State.s0180, -144)
-  | State.s0167, SmokeLabel.l0013 => some (State.s0177, -54)
-  | State.s0168, SmokeLabel.l0004 => some (State.s0182, -36)
-  | State.s0169, SmokeLabel.l0004 => some (State.s0183, -36)
-  | State.s0170, SmokeLabel.l0004 => some (State.s0184, -36)
-  | State.s0171, SmokeLabel.l0012 => some (State.s0181, -54)
-  | State.s0172, SmokeLabel.l0006 => some (State.s0186, -144)
-  | State.s0173, SmokeLabel.l0000 => some (State.s0187, -144)
-  | State.s0173, SmokeLabel.l0013 => some (State.s0185, 90)
-  | State.s0174, SmokeLabel.l0006 => some (State.s0189, -36)
-  | State.s0175, SmokeLabel.l0006 => some (State.s0190, -36)
-  | State.s0176, SmokeLabel.l0006 => some (State.s0191, -36)
-  | State.s0177, SmokeLabel.l0012 => some (State.s0188, -54)
-  | State.s0178, SmokeLabel.l0004 => some (State.s0193, -144)
-  | State.s0179, SmokeLabel.l0004 => some (State.s0194, -144)
-  | State.s0180, SmokeLabel.l0002 => some (State.s0195, -144)
-  | State.s0180, SmokeLabel.l0013 => some (State.s0192, 90)
-  | State.s0181, SmokeLabel.l0007 => some (State.s0197, -144)
-  | State.s0182, SmokeLabel.l0007 => some (State.s0198, -144)
-  | State.s0183, SmokeLabel.l0007 => some (State.s0199, -144)
-  | State.s0184, SmokeLabel.l0007 => some (State.s0200, -144)
-  | State.s0185, SmokeLabel.l0012 => some (State.s0196, 90)
-  | State.s0186, SmokeLabel.l0001 => some (State.s0202, -144)
-  | State.s0187, SmokeLabel.l0005 => some (State.s0203, -36)
-  | State.s0187, SmokeLabel.l0013 => some (State.s0201, -54)
-  | State.s0188, SmokeLabel.l0005 => some (State.s0205, -144)
-  | State.s0189, SmokeLabel.l0005 => some (State.s0206, -144)
-  | State.s0190, SmokeLabel.l0005 => some (State.s0207, -144)
-  | State.s0191, SmokeLabel.l0005 => some (State.s0208, -144)
-  | State.s0192, SmokeLabel.l0012 => some (State.s0204, 90)
-  | State.s0193, SmokeLabel.l0003 => some (State.s0210, -144)
-  | State.s0194, SmokeLabel.l0003 => some (State.s0211, -144)
-  | State.s0195, SmokeLabel.l0007 => some (State.s0213, -36)
-  | State.s0195, SmokeLabel.l0013 => some (State.s0209, -54)
-  | State.s0196, SmokeLabel.l0000 => some (State.s0215, -144)
-  | State.s0197, SmokeLabel.l0000 => some (State.s0216, -144)
-  | State.s0198, SmokeLabel.l0000 => some (State.s0217, -144)
-  | State.s0199, SmokeLabel.l0000 => some (State.s0218, -144)
-  | State.s0200, SmokeLabel.l0000 => some (State.s0219, -144)
-  | State.s0201, SmokeLabel.l0012 => some (State.s0214, -54)
-  | State.s0202, SmokeLabel.l0004 => some (State.s0221, -36)
-  | State.s0203, SmokeLabel.l0001 => some (State.s0222, 96)
-  | State.s0203, SmokeLabel.l0011 => some (State.s0212, -117)
-  | State.s0203, SmokeLabel.l0013 => some (State.s0220, -18)
-  | State.s0204, SmokeLabel.l0002 => some (State.s0002, -144)
-  | State.s0205, SmokeLabel.l0002 => some (State.s0003, -144)
-  | State.s0206, SmokeLabel.l0002 => some (State.s0004, -144)
-  | State.s0207, SmokeLabel.l0002 => some (State.s0005, -144)
-  | State.s0208, SmokeLabel.l0002 => some (State.s0006, -144)
-  | State.s0209, SmokeLabel.l0012 => some (State.s0001, -54)
-  | State.s0210, SmokeLabel.l0006 => some (State.s0009, -36)
-  | State.s0211, SmokeLabel.l0006 => some (State.s0011, -36)
-  | State.s0212, SmokeLabel.l0003 => some (State.s0012, 96)
-  | State.s0212, SmokeLabel.l0013 => some (State.s0007, -18)
-  | State.s0213, SmokeLabel.l0003 => some (State.s0013, 96)
-  | State.s0213, SmokeLabel.l0013 => some (State.s0008, -18)
-  | State.s0214, SmokeLabel.l0005 => some (State.s0015, -36)
-  | State.s0215, SmokeLabel.l0005 => some (State.s0016, -36)
-  | State.s0216, SmokeLabel.l0005 => some (State.s0017, -36)
-  | State.s0217, SmokeLabel.l0005 => some (State.s0018, -36)
-  | State.s0218, SmokeLabel.l0005 => some (State.s0019, -36)
-  | State.s0219, SmokeLabel.l0005 => some (State.s0020, -36)
-  | State.s0220, SmokeLabel.l0011 => some (State.s0007, -117)
-  | State.s0220, SmokeLabel.l0012 => some (State.s0014, -18)
-  | State.s0221, SmokeLabel.l0000 => some (State.s0021, 96)
-  | State.s0221, SmokeLabel.l0011 => some (State.s0010, -117)
-  | State.s0222, SmokeLabel.l0003 => some (State.s0022, -124)
-  | _, _ => none
-
-private def SmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=
-  smokeNext s label = some (t, gain)
-
-private theorem SmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :
-    SmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by
-  intro h
-  revert t gain
-  cases s <;> cases label <;> intro t gain h <;> simp [SmokeStepEval, smokeNext] at h <;> try contradiction
-  all_goals
-    rcases h with ⟨rfl, rfl⟩
-    decide
-
-private theorem SmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :
-    smokeNext s label = some (t, gain) -> SmokeStepEval s label t gain := by
-  intro h
-  exact h
-
 -- shared prefix length: 2
 private def commonPrefixFinalState : State := State.s0143
 
@@ -24633,345 +24384,390 @@ theorem graphSmoke_cls0001_face_seq_trace_scaled_margin_nonpos :
   graphSmoke_cls0001_seq_language_scaled_margin_nonpos
     cls0001FaceSeq (fun _ => rfl)
 
+-- sampled-local eval transitions: 24
+private def sampledSmokeNext : State -> SmokeLabel -> Option (State × Int)
+  | State.s0000, SmokeLabel.l0008 => some (State.s0142, 103)
+  | State.s0006, SmokeLabel.l0007 => some (State.s0036, -36)
+  | State.s0011, SmokeLabel.l0002 => some (State.s0041, 96)
+  | State.s0036, SmokeLabel.l0003 => some (State.s0069, 96)
+  | State.s0041, SmokeLabel.l0000 => some (State.s0075, -124)
+  | State.s0069, SmokeLabel.l0001 => some (State.s0112, -124)
+  | State.s0075, SmokeLabel.l0013 => some (State.s0109, -10)
+  | State.s0109, SmokeLabel.l0009 => some (State.s0138, -73)
+  | State.s0112, SmokeLabel.l0009 => some (State.s0141, -73)
+  | State.s0142, SmokeLabel.l0010 => some (State.s0143, -73)
+  | State.s0143, SmokeLabel.l0011 => some (State.s0144, -73)
+  | State.s0144, SmokeLabel.l0012 => some (State.s0147, -10)
+  | State.s0147, SmokeLabel.l0001 => some (State.s0155, -124)
+  | State.s0147, SmokeLabel.l0013 => some (State.s0153, -10)
+  | State.s0153, SmokeLabel.l0000 => some (State.s0163, -124)
+  | State.s0155, SmokeLabel.l0005 => some (State.s0166, 96)
+  | State.s0163, SmokeLabel.l0004 => some (State.s0176, 96)
+  | State.s0166, SmokeLabel.l0007 => some (State.s0179, -36)
+  | State.s0176, SmokeLabel.l0006 => some (State.s0191, -36)
+  | State.s0179, SmokeLabel.l0004 => some (State.s0194, -144)
+  | State.s0191, SmokeLabel.l0005 => some (State.s0208, -144)
+  | State.s0194, SmokeLabel.l0003 => some (State.s0211, -144)
+  | State.s0208, SmokeLabel.l0002 => some (State.s0006, -144)
+  | State.s0211, SmokeLabel.l0006 => some (State.s0011, -36)
+  | _, _ => none
+
+private def SampledSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=
+  sampledSmokeNext s label = some (t, gain)
+
+private theorem SampledSmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :
+    SampledSmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by
+  intro h
+  revert t gain
+  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction
+  all_goals
+    rcases h with ⟨rfl, rfl⟩
+    decide
+
+private theorem SampledSmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :
+    sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by
+  intro h
+  exact h
+
 -- sampled eval trie nodes, including root: 25
 private theorem trieNode0000Eval :
-    evalLabelStepFn smokeNext rootState trieNode0000Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0000Labels =
       some (trieNode0000State, trieNode0000Gain) := by
   unfold trieNode0000State trieNode0000Labels trieNode0000Gain
   simp [evalLabelStepFn]
 
 private theorem trieNode0001StepEval :
-    evalLabelStepFn smokeNext trieNode0000State
+    evalLabelStepFn sampledSmokeNext trieNode0000State
       trieNode0001StepLabels =
         some (trieNode0001State, trieNode0001StepGain) := by
-  change evalLabelStepFn smokeNext State.s0000
+  change evalLabelStepFn sampledSmokeNext State.s0000
     [SmokeLabel.l0008] = some (State.s0142, 103)
   rfl
 
 private theorem trieNode0001Eval :
-    evalLabelStepFn smokeNext rootState trieNode0001Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0001Labels =
       some (trieNode0001State, trieNode0001Gain) := by
   unfold trieNode0001Labels trieNode0001Gain
   exact evalLabelStepFn_append trieNode0000Eval trieNode0001StepEval
 
 private theorem trieNode0002StepEval :
-    evalLabelStepFn smokeNext trieNode0001State
+    evalLabelStepFn sampledSmokeNext trieNode0001State
       trieNode0002StepLabels =
         some (trieNode0002State, trieNode0002StepGain) := by
-  change evalLabelStepFn smokeNext State.s0142
+  change evalLabelStepFn sampledSmokeNext State.s0142
     [SmokeLabel.l0010] = some (State.s0143, -73)
   rfl
 
 private theorem trieNode0002Eval :
-    evalLabelStepFn smokeNext rootState trieNode0002Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0002Labels =
       some (trieNode0002State, trieNode0002Gain) := by
   unfold trieNode0002Labels trieNode0002Gain
   exact evalLabelStepFn_append trieNode0001Eval trieNode0002StepEval
 
 private theorem trieNode0003StepEval :
-    evalLabelStepFn smokeNext trieNode0002State
+    evalLabelStepFn sampledSmokeNext trieNode0002State
       trieNode0003StepLabels =
         some (trieNode0003State, trieNode0003StepGain) := by
-  change evalLabelStepFn smokeNext State.s0143
+  change evalLabelStepFn sampledSmokeNext State.s0143
     [SmokeLabel.l0011] = some (State.s0144, -73)
   rfl
 
 private theorem trieNode0003Eval :
-    evalLabelStepFn smokeNext rootState trieNode0003Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0003Labels =
       some (trieNode0003State, trieNode0003Gain) := by
   unfold trieNode0003Labels trieNode0003Gain
   exact evalLabelStepFn_append trieNode0002Eval trieNode0003StepEval
 
 private theorem trieNode0004StepEval :
-    evalLabelStepFn smokeNext trieNode0003State
+    evalLabelStepFn sampledSmokeNext trieNode0003State
       trieNode0004StepLabels =
         some (trieNode0004State, trieNode0004StepGain) := by
-  change evalLabelStepFn smokeNext State.s0144
+  change evalLabelStepFn sampledSmokeNext State.s0144
     [SmokeLabel.l0012] = some (State.s0147, -10)
   rfl
 
 private theorem trieNode0004Eval :
-    evalLabelStepFn smokeNext rootState trieNode0004Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0004Labels =
       some (trieNode0004State, trieNode0004Gain) := by
   unfold trieNode0004Labels trieNode0004Gain
   exact evalLabelStepFn_append trieNode0003Eval trieNode0004StepEval
 
 private theorem trieNode0005StepEval :
-    evalLabelStepFn smokeNext trieNode0004State
+    evalLabelStepFn sampledSmokeNext trieNode0004State
       trieNode0005StepLabels =
         some (trieNode0005State, trieNode0005StepGain) := by
-  change evalLabelStepFn smokeNext State.s0147
+  change evalLabelStepFn sampledSmokeNext State.s0147
     [SmokeLabel.l0013] = some (State.s0153, -10)
   rfl
 
 private theorem trieNode0005Eval :
-    evalLabelStepFn smokeNext rootState trieNode0005Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0005Labels =
       some (trieNode0005State, trieNode0005Gain) := by
   unfold trieNode0005Labels trieNode0005Gain
   exact evalLabelStepFn_append trieNode0004Eval trieNode0005StepEval
 
 private theorem trieNode0015StepEval :
-    evalLabelStepFn smokeNext trieNode0004State
+    evalLabelStepFn sampledSmokeNext trieNode0004State
       trieNode0015StepLabels =
         some (trieNode0015State, trieNode0015StepGain) := by
-  change evalLabelStepFn smokeNext State.s0147
+  change evalLabelStepFn sampledSmokeNext State.s0147
     [SmokeLabel.l0001] = some (State.s0155, -124)
   rfl
 
 private theorem trieNode0015Eval :
-    evalLabelStepFn smokeNext rootState trieNode0015Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0015Labels =
       some (trieNode0015State, trieNode0015Gain) := by
   unfold trieNode0015Labels trieNode0015Gain
   exact evalLabelStepFn_append trieNode0004Eval trieNode0015StepEval
 
 private theorem trieNode0006StepEval :
-    evalLabelStepFn smokeNext trieNode0005State
+    evalLabelStepFn sampledSmokeNext trieNode0005State
       trieNode0006StepLabels =
         some (trieNode0006State, trieNode0006StepGain) := by
-  change evalLabelStepFn smokeNext State.s0153
+  change evalLabelStepFn sampledSmokeNext State.s0153
     [SmokeLabel.l0000] = some (State.s0163, -124)
   rfl
 
 private theorem trieNode0006Eval :
-    evalLabelStepFn smokeNext rootState trieNode0006Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0006Labels =
       some (trieNode0006State, trieNode0006Gain) := by
   unfold trieNode0006Labels trieNode0006Gain
   exact evalLabelStepFn_append trieNode0005Eval trieNode0006StepEval
 
 private theorem trieNode0016StepEval :
-    evalLabelStepFn smokeNext trieNode0015State
+    evalLabelStepFn sampledSmokeNext trieNode0015State
       trieNode0016StepLabels =
         some (trieNode0016State, trieNode0016StepGain) := by
-  change evalLabelStepFn smokeNext State.s0155
+  change evalLabelStepFn sampledSmokeNext State.s0155
     [SmokeLabel.l0005] = some (State.s0166, 96)
   rfl
 
 private theorem trieNode0016Eval :
-    evalLabelStepFn smokeNext rootState trieNode0016Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0016Labels =
       some (trieNode0016State, trieNode0016Gain) := by
   unfold trieNode0016Labels trieNode0016Gain
   exact evalLabelStepFn_append trieNode0015Eval trieNode0016StepEval
 
 private theorem trieNode0007StepEval :
-    evalLabelStepFn smokeNext trieNode0006State
+    evalLabelStepFn sampledSmokeNext trieNode0006State
       trieNode0007StepLabels =
         some (trieNode0007State, trieNode0007StepGain) := by
-  change evalLabelStepFn smokeNext State.s0163
+  change evalLabelStepFn sampledSmokeNext State.s0163
     [SmokeLabel.l0004] = some (State.s0176, 96)
   rfl
 
 private theorem trieNode0007Eval :
-    evalLabelStepFn smokeNext rootState trieNode0007Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0007Labels =
       some (trieNode0007State, trieNode0007Gain) := by
   unfold trieNode0007Labels trieNode0007Gain
   exact evalLabelStepFn_append trieNode0006Eval trieNode0007StepEval
 
 private theorem trieNode0017StepEval :
-    evalLabelStepFn smokeNext trieNode0016State
+    evalLabelStepFn sampledSmokeNext trieNode0016State
       trieNode0017StepLabels =
         some (trieNode0017State, trieNode0017StepGain) := by
-  change evalLabelStepFn smokeNext State.s0166
+  change evalLabelStepFn sampledSmokeNext State.s0166
     [SmokeLabel.l0007] = some (State.s0179, -36)
   rfl
 
 private theorem trieNode0017Eval :
-    evalLabelStepFn smokeNext rootState trieNode0017Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0017Labels =
       some (trieNode0017State, trieNode0017Gain) := by
   unfold trieNode0017Labels trieNode0017Gain
   exact evalLabelStepFn_append trieNode0016Eval trieNode0017StepEval
 
 private theorem trieNode0008StepEval :
-    evalLabelStepFn smokeNext trieNode0007State
+    evalLabelStepFn sampledSmokeNext trieNode0007State
       trieNode0008StepLabels =
         some (trieNode0008State, trieNode0008StepGain) := by
-  change evalLabelStepFn smokeNext State.s0176
+  change evalLabelStepFn sampledSmokeNext State.s0176
     [SmokeLabel.l0006] = some (State.s0191, -36)
   rfl
 
 private theorem trieNode0008Eval :
-    evalLabelStepFn smokeNext rootState trieNode0008Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0008Labels =
       some (trieNode0008State, trieNode0008Gain) := by
   unfold trieNode0008Labels trieNode0008Gain
   exact evalLabelStepFn_append trieNode0007Eval trieNode0008StepEval
 
 private theorem trieNode0018StepEval :
-    evalLabelStepFn smokeNext trieNode0017State
+    evalLabelStepFn sampledSmokeNext trieNode0017State
       trieNode0018StepLabels =
         some (trieNode0018State, trieNode0018StepGain) := by
-  change evalLabelStepFn smokeNext State.s0179
+  change evalLabelStepFn sampledSmokeNext State.s0179
     [SmokeLabel.l0004] = some (State.s0194, -144)
   rfl
 
 private theorem trieNode0018Eval :
-    evalLabelStepFn smokeNext rootState trieNode0018Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0018Labels =
       some (trieNode0018State, trieNode0018Gain) := by
   unfold trieNode0018Labels trieNode0018Gain
   exact evalLabelStepFn_append trieNode0017Eval trieNode0018StepEval
 
 private theorem trieNode0009StepEval :
-    evalLabelStepFn smokeNext trieNode0008State
+    evalLabelStepFn sampledSmokeNext trieNode0008State
       trieNode0009StepLabels =
         some (trieNode0009State, trieNode0009StepGain) := by
-  change evalLabelStepFn smokeNext State.s0191
+  change evalLabelStepFn sampledSmokeNext State.s0191
     [SmokeLabel.l0005] = some (State.s0208, -144)
   rfl
 
 private theorem trieNode0009Eval :
-    evalLabelStepFn smokeNext rootState trieNode0009Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0009Labels =
       some (trieNode0009State, trieNode0009Gain) := by
   unfold trieNode0009Labels trieNode0009Gain
   exact evalLabelStepFn_append trieNode0008Eval trieNode0009StepEval
 
 private theorem trieNode0019StepEval :
-    evalLabelStepFn smokeNext trieNode0018State
+    evalLabelStepFn sampledSmokeNext trieNode0018State
       trieNode0019StepLabels =
         some (trieNode0019State, trieNode0019StepGain) := by
-  change evalLabelStepFn smokeNext State.s0194
+  change evalLabelStepFn sampledSmokeNext State.s0194
     [SmokeLabel.l0003] = some (State.s0211, -144)
   rfl
 
 private theorem trieNode0019Eval :
-    evalLabelStepFn smokeNext rootState trieNode0019Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0019Labels =
       some (trieNode0019State, trieNode0019Gain) := by
   unfold trieNode0019Labels trieNode0019Gain
   exact evalLabelStepFn_append trieNode0018Eval trieNode0019StepEval
 
 private theorem trieNode0010StepEval :
-    evalLabelStepFn smokeNext trieNode0009State
+    evalLabelStepFn sampledSmokeNext trieNode0009State
       trieNode0010StepLabels =
         some (trieNode0010State, trieNode0010StepGain) := by
-  change evalLabelStepFn smokeNext State.s0208
+  change evalLabelStepFn sampledSmokeNext State.s0208
     [SmokeLabel.l0002] = some (State.s0006, -144)
   rfl
 
 private theorem trieNode0010Eval :
-    evalLabelStepFn smokeNext rootState trieNode0010Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0010Labels =
       some (trieNode0010State, trieNode0010Gain) := by
   unfold trieNode0010Labels trieNode0010Gain
   exact evalLabelStepFn_append trieNode0009Eval trieNode0010StepEval
 
 private theorem trieNode0020StepEval :
-    evalLabelStepFn smokeNext trieNode0019State
+    evalLabelStepFn sampledSmokeNext trieNode0019State
       trieNode0020StepLabels =
         some (trieNode0020State, trieNode0020StepGain) := by
-  change evalLabelStepFn smokeNext State.s0211
+  change evalLabelStepFn sampledSmokeNext State.s0211
     [SmokeLabel.l0006] = some (State.s0011, -36)
   rfl
 
 private theorem trieNode0020Eval :
-    evalLabelStepFn smokeNext rootState trieNode0020Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0020Labels =
       some (trieNode0020State, trieNode0020Gain) := by
   unfold trieNode0020Labels trieNode0020Gain
   exact evalLabelStepFn_append trieNode0019Eval trieNode0020StepEval
 
 private theorem trieNode0011StepEval :
-    evalLabelStepFn smokeNext trieNode0010State
+    evalLabelStepFn sampledSmokeNext trieNode0010State
       trieNode0011StepLabels =
         some (trieNode0011State, trieNode0011StepGain) := by
-  change evalLabelStepFn smokeNext State.s0006
+  change evalLabelStepFn sampledSmokeNext State.s0006
     [SmokeLabel.l0007] = some (State.s0036, -36)
   rfl
 
 private theorem trieNode0011Eval :
-    evalLabelStepFn smokeNext rootState trieNode0011Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0011Labels =
       some (trieNode0011State, trieNode0011Gain) := by
   unfold trieNode0011Labels trieNode0011Gain
   exact evalLabelStepFn_append trieNode0010Eval trieNode0011StepEval
 
 private theorem trieNode0021StepEval :
-    evalLabelStepFn smokeNext trieNode0020State
+    evalLabelStepFn sampledSmokeNext trieNode0020State
       trieNode0021StepLabels =
         some (trieNode0021State, trieNode0021StepGain) := by
-  change evalLabelStepFn smokeNext State.s0011
+  change evalLabelStepFn sampledSmokeNext State.s0011
     [SmokeLabel.l0002] = some (State.s0041, 96)
   rfl
 
 private theorem trieNode0021Eval :
-    evalLabelStepFn smokeNext rootState trieNode0021Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0021Labels =
       some (trieNode0021State, trieNode0021Gain) := by
   unfold trieNode0021Labels trieNode0021Gain
   exact evalLabelStepFn_append trieNode0020Eval trieNode0021StepEval
 
 private theorem trieNode0012StepEval :
-    evalLabelStepFn smokeNext trieNode0011State
+    evalLabelStepFn sampledSmokeNext trieNode0011State
       trieNode0012StepLabels =
         some (trieNode0012State, trieNode0012StepGain) := by
-  change evalLabelStepFn smokeNext State.s0036
+  change evalLabelStepFn sampledSmokeNext State.s0036
     [SmokeLabel.l0003] = some (State.s0069, 96)
   rfl
 
 private theorem trieNode0012Eval :
-    evalLabelStepFn smokeNext rootState trieNode0012Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0012Labels =
       some (trieNode0012State, trieNode0012Gain) := by
   unfold trieNode0012Labels trieNode0012Gain
   exact evalLabelStepFn_append trieNode0011Eval trieNode0012StepEval
 
 private theorem trieNode0022StepEval :
-    evalLabelStepFn smokeNext trieNode0021State
+    evalLabelStepFn sampledSmokeNext trieNode0021State
       trieNode0022StepLabels =
         some (trieNode0022State, trieNode0022StepGain) := by
-  change evalLabelStepFn smokeNext State.s0041
+  change evalLabelStepFn sampledSmokeNext State.s0041
     [SmokeLabel.l0000] = some (State.s0075, -124)
   rfl
 
 private theorem trieNode0022Eval :
-    evalLabelStepFn smokeNext rootState trieNode0022Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0022Labels =
       some (trieNode0022State, trieNode0022Gain) := by
   unfold trieNode0022Labels trieNode0022Gain
   exact evalLabelStepFn_append trieNode0021Eval trieNode0022StepEval
 
 private theorem trieNode0013StepEval :
-    evalLabelStepFn smokeNext trieNode0012State
+    evalLabelStepFn sampledSmokeNext trieNode0012State
       trieNode0013StepLabels =
         some (trieNode0013State, trieNode0013StepGain) := by
-  change evalLabelStepFn smokeNext State.s0069
+  change evalLabelStepFn sampledSmokeNext State.s0069
     [SmokeLabel.l0001] = some (State.s0112, -124)
   rfl
 
 private theorem trieNode0013Eval :
-    evalLabelStepFn smokeNext rootState trieNode0013Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0013Labels =
       some (trieNode0013State, trieNode0013Gain) := by
   unfold trieNode0013Labels trieNode0013Gain
   exact evalLabelStepFn_append trieNode0012Eval trieNode0013StepEval
 
 private theorem trieNode0023StepEval :
-    evalLabelStepFn smokeNext trieNode0022State
+    evalLabelStepFn sampledSmokeNext trieNode0022State
       trieNode0023StepLabels =
         some (trieNode0023State, trieNode0023StepGain) := by
-  change evalLabelStepFn smokeNext State.s0075
+  change evalLabelStepFn sampledSmokeNext State.s0075
     [SmokeLabel.l0013] = some (State.s0109, -10)
   rfl
 
 private theorem trieNode0023Eval :
-    evalLabelStepFn smokeNext rootState trieNode0023Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0023Labels =
       some (trieNode0023State, trieNode0023Gain) := by
   unfold trieNode0023Labels trieNode0023Gain
   exact evalLabelStepFn_append trieNode0022Eval trieNode0023StepEval
 
 private theorem trieNode0014StepEval :
-    evalLabelStepFn smokeNext trieNode0013State
+    evalLabelStepFn sampledSmokeNext trieNode0013State
       trieNode0014StepLabels =
         some (trieNode0014State, trieNode0014StepGain) := by
-  change evalLabelStepFn smokeNext State.s0112
+  change evalLabelStepFn sampledSmokeNext State.s0112
     [SmokeLabel.l0009] = some (State.s0141, -73)
   rfl
 
 private theorem trieNode0014Eval :
-    evalLabelStepFn smokeNext rootState trieNode0014Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0014Labels =
       some (trieNode0014State, trieNode0014Gain) := by
   unfold trieNode0014Labels trieNode0014Gain
   exact evalLabelStepFn_append trieNode0013Eval trieNode0014StepEval
 
 private theorem trieNode0024StepEval :
-    evalLabelStepFn smokeNext trieNode0023State
+    evalLabelStepFn sampledSmokeNext trieNode0023State
       trieNode0024StepLabels =
         some (trieNode0024State, trieNode0024StepGain) := by
-  change evalLabelStepFn smokeNext State.s0109
+  change evalLabelStepFn sampledSmokeNext State.s0109
     [SmokeLabel.l0009] = some (State.s0138, -73)
   rfl
 
 private theorem trieNode0024Eval :
-    evalLabelStepFn smokeNext rootState trieNode0024Labels =
+    evalLabelStepFn sampledSmokeNext rootState trieNode0024Labels =
       some (trieNode0024State, trieNode0024Gain) := by
   unfold trieNode0024Labels trieNode0024Gain
   exact evalLabelStepFn_append trieNode0023Eval trieNode0024StepEval
@@ -25181,7 +24977,7 @@ theorem graphSmoke_sampled_axis_object_cover_scaled_margin_nonpos
 
 private def sampledAxisRankObjectCoverEval :
     BellmanAxisRankObjectCover
-      SampledRankIndex State SmokeLabel graphPotential SmokeStepEval smokeLabelOfFace
+      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace
       rootState (176 : Int) sampledRankOf sampledObjectAccepts
       sampledContainsRank sampledScaledMarginAtRank where
   forcedSeq := sampledObjectForcedSeq
@@ -25190,20 +24986,20 @@ private def sampledAxisRankObjectCoverEval :
     cases idx
     · refine ⟨trieNode0014State, trieNode0014Gain, ?_, ?_, ?_⟩
       · have heval :
-          evalLabelStepFn smokeNext rootState
+          evalLabelStepFn sampledSmokeNext rootState
             (smokeLabelsOfSeq cls0000FaceSeq) =
               some (trieNode0014State, trieNode0014Gain) := by
           rw [cls0000FaceSeqLabels_eq]
           exact trieNode0014Eval
         exact bellmanLabelStepRun_of_evalLabelStepFn
-          (Step := SmokeStepEval)
-          (next := smokeNext)
+          (Step := SampledSmokeStepEval)
+          (next := sampledSmokeNext)
           (start := rootState)
           (labels := smokeLabelsOfSeq cls0000FaceSeq)
           (result := (trieNode0014State, trieNode0014Gain))
           (by
             intro s label t gain h
-            exact SmokeStepEval.sound h)
+            exact SampledSmokeStepEval.sound h)
           heval
       · exact cls0000TrieFinal_nonneg
       · unfold sampledRankOf sampledScaledMarginAtRank
@@ -25211,20 +25007,20 @@ private def sampledAxisRankObjectCoverEval :
         exact cls0000TrieMargin_bound_gain
     · refine ⟨trieNode0024State, trieNode0024Gain, ?_, ?_, ?_⟩
       · have heval :
-          evalLabelStepFn smokeNext rootState
+          evalLabelStepFn sampledSmokeNext rootState
             (smokeLabelsOfSeq cls0001FaceSeq) =
               some (trieNode0024State, trieNode0024Gain) := by
           rw [cls0001FaceSeqLabels_eq]
           exact trieNode0024Eval
         exact bellmanLabelStepRun_of_evalLabelStepFn
-          (Step := SmokeStepEval)
-          (next := smokeNext)
+          (Step := SampledSmokeStepEval)
+          (next := sampledSmokeNext)
           (start := rootState)
           (labels := smokeLabelsOfSeq cls0001FaceSeq)
           (result := (trieNode0024State, trieNode0024Gain))
           (by
             intro s label t gain h
-            exact SmokeStepEval.sound h)
+            exact SampledSmokeStepEval.sound h)
           heval
       · exact cls0001TrieFinal_nonneg
       · unfold sampledRankOf sampledScaledMarginAtRank
@@ -25232,7 +25028,7 @@ private def sampledAxisRankObjectCoverEval :
         exact cls0001TrieMargin_bound_gain
   step_valid := by
     intro s label t gain h
-    exact SmokeStepEval.valid h
+    exact SampledSmokeStepEval.valid h
   root_bound := root_bound
   covers := by
     intro rank hrank

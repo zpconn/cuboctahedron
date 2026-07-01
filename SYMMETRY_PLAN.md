@@ -49089,3 +49089,64 @@ sampled start-violation certificate bridge imports.  The next optimization
 should not spend more time pruning trie eval facts; it should make the
 transition table and validity proof family-local, terminal-local, or otherwise
 sharded so each generated module checks a much smaller table.
+
+### Holonomy/Bellman Pivot - sampled-local eval table accepted
+
+Implemented the next Bellman smoke optimization in
+`scripts/emit_bellman_graph_smoke.py`: the deterministic evaluator is no
+longer emitted as one full graph table for the bounded smoke.  Instead, the
+generator computes the sampled object-cover ancestors first and emits a local
+table only for the transitions used by those sampled paths.
+
+Generated surface change:
+
+```lean
+-- sampled-local eval transitions: 24
+private def sampledSmokeNext : State -> SmokeLabel -> Option (State × Int)
+private def SampledSmokeStepEval
+private theorem SampledSmokeStepEval.valid
+private theorem SampledSmokeStepEval.sound
+```
+
+The old full-table names `smokeNext` and `SmokeStepEval` are no longer emitted
+in `BellmanTopPairingGraphLanguage2Smoke.lean`.  The sampled public theorem
+still routes through the eval-backed object cover:
+
+```lean
+graphSmoke_sampled_axis_object_cover_eval_rank_killed_of_start_violation
+graphSmoke_sampled_axis_rank_killed
+```
+
+Focused commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` sampled-local eval table | `1:11.40` | `8,894,272 kB` | passed |
+
+Interpretation: this recovers most of the overhead introduced by the broad
+eval table (`2:24.17` / `9,997,752 kB`) and brings the eval-backed route close
+to the earlier non-eval object-cover smoke.  Therefore the production
+Bellman/potential route should use family-local or terminal-local deterministic
+tables, with broad roots importing only the resulting semantic killed
+theorems.  Do not emit one full Bellman evaluator for a large graph module.
+
+Remaining cost: the local eval route is still roughly in the same range as the
+object-cover/start-violation smoke, so the next optimization target is the
+terminal-family theorem itself: split the sampled start-violation/certificate
+bridge into small Bellman-family modules and keep only theorem surfaces in
+group/root files.  More eval-node pruning is no longer expected to help.

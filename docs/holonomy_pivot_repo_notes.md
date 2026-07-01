@@ -1660,3 +1660,32 @@ This did not materially improve the build profile relative to the all-node eval
 smoke.  The next optimization should target the full transition table and
 `SmokeStepEval.valid` proof shape, likely by emitting family-local or
 terminal-local tables rather than one broad table/validity proof.
+
+Sampled-local eval-table follow-up:
+
+- `scripts/emit_bellman_graph_smoke.py` now emits the deterministic evaluator
+  only after identifying the sampled object-cover paths.
+- The generated smoke uses a local table:
+
+  ```lean
+  -- sampled-local eval transitions: 24
+  private def sampledSmokeNext
+  private def SampledSmokeStepEval
+  ```
+
+- The old full-table names `smokeNext` and `SmokeStepEval` are no longer
+  emitted in the sampled smoke module.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+  ```
+
+  passed in `1:11.40` wall time with `8,894,272 kB` max RSS.
+
+This accepts local/sharded deterministic tables as the right eval-backed
+Bellman shape.  It also rejects broad graph-level eval tables for production:
+they add a large checking tax without improving the semantic theorem surface.
+The next nonidentity Bellman step should split terminal family modules and
+export small killed theorems, rather than optimizing eval-node facts further.

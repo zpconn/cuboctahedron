@@ -3103,3 +3103,45 @@ start-violation certificate bridge, not the number of node eval lemmas.  The
 next route should use family-local or terminal-local transition tables and
 validity proofs, then export one small semantic killed theorem per Bellman
 family.
+
+### Sampled-local eval table
+
+The emitter now constructs a local evaluator for only the sampled object-cover
+paths.  In the current two-rank bounded smoke this yields `24` sampled-local
+transitions:
+
+```lean
+private def sampledSmokeNext : State -> SmokeLabel -> Option (State × Int)
+private def SampledSmokeStepEval
+```
+
+The old full `smokeNext` / `SmokeStepEval` table is no longer generated for
+this smoke.  The final sampled killed theorem still uses the eval-backed
+object-cover route.
+
+Focused run:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Result:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` sampled-local eval table | `1:11.40` | `8,894,272 kB` | passed |
+
+Decision: accepted as the production direction for eval-backed Bellman
+families.  Deterministic transition tables must be family-local or sharded;
+one broad graph-level evaluator is too expensive.  The next useful smoke is a
+small terminal-family module whose public export is only a semantic killed
+theorem.

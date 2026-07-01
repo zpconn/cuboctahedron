@@ -669,35 +669,6 @@ def emit(
         lines.append(f"  | {case_name} => simpa [BellmanEdge.Valid] using {name}_valid")
     lines.extend([
         "",
-        "private def smokeNext : State -> SmokeLabel -> Option (State × Int)",
-    ])
-    for (src_idx, label_idx), (_edge_idx, dst_idx, gain_scaled, _case_name) in sorted(
-        transition_by_state_label.items()
-    ):
-        lines.append(
-            f"  | {state_ctor(src_idx)}, {label_ctor(label_idx)} => "
-            f"some ({state_ctor(dst_idx)}, {gain_scaled})"
-        )
-    lines.extend([
-        "  | _, _ => none",
-        "",
-        "private def SmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",
-        "  smokeNext s label = some (t, gain)",
-        "",
-        "private theorem SmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
-        "    SmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by",
-        "  intro h",
-        "  revert t gain",
-        "  cases s <;> cases label <;> intro t gain h <;> simp [SmokeStepEval, smokeNext] at h <;> try contradiction",
-        "  all_goals",
-        "    rcases h with ⟨rfl, rfl⟩",
-        "    decide",
-        "",
-        "private theorem SmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
-        "    smokeNext s label = some (t, gain) -> SmokeStepEval s label t gain := by",
-        "  intro h",
-        "  exact h",
-        "",
         f"-- shared prefix length: {common_prefix_len}",
         f"private def commonPrefixFinalState : State := {state_ctor(common_prefix_final)}",
         "",
@@ -1723,14 +1694,63 @@ def emit(
             needed_eval_nodes_sorted = sorted(
                 needed_eval_nodes, key=lambda node_idx: len(trie_ancestors(node_idx))
             )
+            needed_eval_transitions: dict[
+                tuple[int, int], tuple[int, int, int]
+            ] = {}
+            for node_idx in needed_eval_nodes_sorted:
+                if node_idx == 0:
+                    continue
+                node = trie_nodes[node_idx]
+                edge_idx = int(node["edge"])  # type: ignore[arg-type]
+                label_idx = int(node["label"])  # type: ignore[arg-type]
+                edge = edges[edge_idx]
+                key = (int(edge["src"]), label_idx)
+                entry = (int(edge["dst"]), int(edge["gain_scaled"]), edge_idx)
+                previous = needed_eval_transitions.get(key)
+                if previous is not None and previous != entry:
+                    raise SystemExit(
+                        "sampled eval table requires deterministic state/label "
+                        f"transitions; duplicate key {key} has {previous} and {entry}"
+                    )
+                needed_eval_transitions[key] = entry
             lines.extend([
+                f"-- sampled-local eval transitions: {len(needed_eval_transitions)}",
+                "private def sampledSmokeNext : State -> SmokeLabel -> Option (State × Int)",
+            ])
+            for (src_idx, label_idx), (dst_idx, gain_scaled, _edge_idx) in sorted(
+                needed_eval_transitions.items()
+            ):
+                lines.append(
+                    f"  | {state_ctor(src_idx)}, {label_ctor(label_idx)} => "
+                    f"some ({state_ctor(dst_idx)}, {gain_scaled})"
+                )
+            lines.extend([
+                "  | _, _ => none",
+                "",
+                "private def SampledSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",
+                "  sampledSmokeNext s label = some (t, gain)",
+                "",
+                "private theorem SampledSmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+                "    SampledSmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by",
+                "  intro h",
+                "  revert t gain",
+                "  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction",
+                "  all_goals",
+                "    rcases h with ⟨rfl, rfl⟩",
+                "    decide",
+                "",
+                "private theorem SampledSmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+                "    sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by",
+                "  intro h",
+                "  exact h",
+                "",
                 f"-- sampled eval trie nodes, including root: {len(needed_eval_nodes_sorted)}",
             ])
             for node_idx in needed_eval_nodes_sorted:
                 if node_idx == 0:
                     lines.extend([
                         f"private theorem {trie_node_name(0)}Eval :",
-                        f"    evalLabelStepFn smokeNext rootState {trie_node_labels_name(0)} =",
+                        f"    evalLabelStepFn sampledSmokeNext rootState {trie_node_labels_name(0)} =",
                         f"      some ({trie_node_state_name(0)}, {trie_node_gain_name(0)}) := by",
                         f"  unfold {trie_node_state_name(0)} {trie_node_labels_name(0)} {trie_node_gain_name(0)}",
                         "  simp [evalLabelStepFn]",
@@ -1744,15 +1764,15 @@ def emit(
                 edge = edges[edge_idx]
                 lines.extend([
                     f"private theorem {trie_node_name(node_idx)}StepEval :",
-                    f"    evalLabelStepFn smokeNext {trie_node_state_name(parent)}",
+                    f"    evalLabelStepFn sampledSmokeNext {trie_node_state_name(parent)}",
                     f"      {trie_node_step_labels_name(node_idx)} =",
                     f"        some ({trie_node_state_name(node_idx)}, {trie_node_step_gain_name(node_idx)}) := by",
-                    f"  change evalLabelStepFn smokeNext {state_ctor(int(edge['src']))}",
+                    f"  change evalLabelStepFn sampledSmokeNext {state_ctor(int(edge['src']))}",
                     f"    [{label_ctor(label_idx)}] = some ({state_ctor(int(edge['dst']))}, {int(edge['gain_scaled'])})",
                     "  rfl",
                     "",
                     f"private theorem {trie_node_name(node_idx)}Eval :",
-                    f"    evalLabelStepFn smokeNext rootState {trie_node_labels_name(node_idx)} =",
+                    f"    evalLabelStepFn sampledSmokeNext rootState {trie_node_labels_name(node_idx)} =",
                     f"      some ({trie_node_state_name(node_idx)}, {trie_node_gain_name(node_idx)}) := by",
                     f"  unfold {trie_node_labels_name(node_idx)} {trie_node_gain_name(node_idx)}",
                     f"  exact evalLabelStepFn_append {trie_node_name(parent)}Eval {trie_node_name(node_idx)}StepEval",
@@ -2002,7 +2022,7 @@ def emit(
                 "",
                 "private def sampledAxisRankObjectCoverEval :",
                 "    BellmanAxisRankObjectCover",
-                "      SampledRankIndex State SmokeLabel graphPotential SmokeStepEval smokeLabelOfFace",
+                "      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace",
                 "      rootState (" + str(const_scaled) + " : Int) sampledRankOf sampledObjectAccepts",
                 "      sampledContainsRank sampledScaledMarginAtRank where",
                 "  forcedSeq := sampledObjectForcedSeq",
@@ -2015,20 +2035,20 @@ def emit(
                 lines.extend([
                     f"    · refine ⟨{trie_node_state_name(trie_node)}, {trie_node_gain_name(trie_node)}, ?_, ?_, ?_⟩",
                     "      · have heval :",
-                    "          evalLabelStepFn smokeNext rootState",
+                    "          evalLabelStepFn sampledSmokeNext rootState",
                     f"            (smokeLabelsOfSeq {info['seq_name']}) =",
                     f"              some ({trie_node_state_name(trie_node)}, {trie_node_gain_name(trie_node)}) := by",
                     f"          rw [{info['seq_name']}Labels_eq]",
                     f"          exact {trie_node_name(trie_node)}Eval",
                     "        exact bellmanLabelStepRun_of_evalLabelStepFn",
-                    "          (Step := SmokeStepEval)",
-                    "          (next := smokeNext)",
+                    "          (Step := SampledSmokeStepEval)",
+                    "          (next := sampledSmokeNext)",
                     "          (start := rootState)",
                     f"          (labels := smokeLabelsOfSeq {info['seq_name']})",
                     f"          (result := ({trie_node_state_name(trie_node)}, {trie_node_gain_name(trie_node)}))",
                     "          (by",
                     "            intro s label t gain h",
-                    "            exact SmokeStepEval.sound h)",
+                    "            exact SampledSmokeStepEval.sound h)",
                     "          heval",
                     f"      · exact {info['obj_name']}TrieFinal_nonneg",
                     "      · unfold sampledRankOf sampledScaledMarginAtRank",
@@ -2038,7 +2058,7 @@ def emit(
             lines.extend([
                 "  step_valid := by",
                 "    intro s label t gain h",
-                "    exact SmokeStepEval.valid h",
+                "    exact SampledSmokeStepEval.valid h",
                 "  root_bound := root_bound",
                 "  covers := by",
                 "    intro rank hrank",
