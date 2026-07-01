@@ -3825,3 +3825,41 @@ Fourth split path:
 Decision: accepted as another proof-bearing sampled path under the strict
 post-crash guard.  Continue only one selected path at a time unless a future
 explicit strategy changes the quarantine.
+
+Fifth split path:
+
+- The selected next target, path object index `4` / rank `40387`, was run as a
+  single guarded path with `--check-stage missing`.  Both trace and split were
+  missing/stale before the run.  No batch execution or parallel Lean was used.
+- Dry-run command:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 4 \
+    --check \
+    --check-stage missing \
+    --dry-run \
+    --json scripts/generated/bellman_split_path_04_missing_dry_run.json
+  ```
+
+- Proof-bearing command:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 4 \
+    --check \
+    --check-stage missing \
+    --json scripts/generated/bellman_split_path_04_missing_run.json
+  ```
+
+- Result:
+  - trace shard with `.olean` emission: passed in `8.51s`, peak RSS
+    `3999 MiB`, hard-AS cap `6144 MiB`, minimum available `46250 MiB`;
+  - split root with `.olean` emission: passed in `1.50s`, peak RSS
+    `3633 MiB`, hard-AS cap `6144 MiB`, minimum available `46429 MiB`.
+- Refreshed `[0,37)` planner summary: `0` over budget, `5` fresh trace
+  artifacts, `5` fresh split artifacts, `1184 KiB` planned trace source, and
+  `74 KiB` planned split source.
+- Refreshed selector chose path index `5`, rank `42247`, as the next possible
+  single-path target.
+
+Decision: accepted as another proof-bearing sampled path under the strict
+post-crash guard.

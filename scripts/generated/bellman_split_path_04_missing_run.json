@@ -1,0 +1,411 @@
+{
+  "check_stage": "missing",
+  "commands": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/run_memory_guarded.py",
+        "--timeout-seconds",
+        "45.0",
+        "--max-tree-rss-mib",
+        "4500.0",
+        "--min-available-mib",
+        "36864.0",
+        "--hard-address-space-mib",
+        "6144.0",
+        "--poll-seconds",
+        "0.5",
+        "--json",
+        "/tmp/cuboctahedron_bellman_guards/bellman_split_path_04_trace_20260701_132855.guard.json",
+        "--",
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6000",
+        "-j1",
+        "-s",
+        "2048",
+        "-o",
+        ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke04.olean",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke04.lean"
+      ],
+      "exit_code": 0,
+      "guard_json": "/tmp/cuboctahedron_bellman_guards/bellman_split_path_04_trace_20260701_132855.guard.json",
+      "guard_summary": {
+        "elapsed_seconds": 8.508678692000103,
+        "exit_code": 0,
+        "killed_reason": null,
+        "max_tree_rss_kib": 4095940,
+        "min_available_seen_kib": 47360340
+      },
+      "kind": "trace"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/run_memory_guarded.py",
+        "--timeout-seconds",
+        "45.0",
+        "--max-tree-rss-mib",
+        "4500.0",
+        "--min-available-mib",
+        "36864.0",
+        "--hard-address-space-mib",
+        "6144.0",
+        "--poll-seconds",
+        "0.5",
+        "--json",
+        "/tmp/cuboctahedron_bellman_guards/bellman_split_path_04_split_20260701_132904.guard.json",
+        "--",
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6000",
+        "-j1",
+        "-s",
+        "2048",
+        "-o",
+        ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke04.olean",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke04.lean"
+      ],
+      "exit_code": 0,
+      "guard_json": "/tmp/cuboctahedron_bellman_guards/bellman_split_path_04_split_20260701_132904.guard.json",
+      "guard_summary": {
+        "elapsed_seconds": 1.5022887790000823,
+        "exit_code": 0,
+        "killed_reason": null,
+        "max_tree_rss_kib": 3721048,
+        "min_available_seen_kib": 47543576
+      },
+      "kind": "split"
+    }
+  ],
+  "graph_json": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "guard_dir": "/tmp/cuboctahedron_bellman_guards",
+  "mode": "bellman-split-smoke-path-run",
+  "path_object_index": 4,
+  "split": {
+    "artifact_status": {
+      "fresh_olean": false,
+      "olean": {
+        "bytes": null,
+        "exists": false,
+        "kib": null,
+        "mtime": null
+      },
+      "source": {
+        "bytes": 1927,
+        "exists": true,
+        "kib": 2,
+        "mtime": 1782930518.9429379
+      }
+    },
+    "artifact_status_after_emit": {
+      "fresh_olean": false,
+      "olean": {
+        "bytes": null,
+        "exists": false,
+        "kib": null,
+        "mtime": null
+      },
+      "source": {
+        "bytes": 1927,
+        "exists": true,
+        "kib": 2,
+        "mtime": 1782930518.9429379
+      }
+    },
+    "budget": {
+      "local_import_count": 26,
+      "max_local_imports": 26,
+      "max_target_source_kib": 8,
+      "target_source_bytes": 1927,
+      "target_source_kib": 2
+    },
+    "import_budget": 26,
+    "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke04",
+    "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke04.olean",
+    "planned_source_kib": 2,
+    "preflight": {
+      "checked_olean_count": 26,
+      "direct_imports": [
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanAxisForcesPairSignSmoke",
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke04"
+      ],
+      "import_artifacts": [
+        {
+          "module": "Cuboctahedron.Basic.Aff3",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Basic/Aff3.olean",
+          "olean_mtime": 1782339965.875524,
+          "source": "Cuboctahedron/Basic/Aff3.lean",
+          "source_mtime": 1781540147.9089053
+        },
+        {
+          "module": "Cuboctahedron.Basic.Mat3",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Basic/Mat3.olean",
+          "olean_mtime": 1782339957.0543656,
+          "source": "Cuboctahedron/Basic/Mat3.lean",
+          "source_mtime": 1782339938.2788754
+        },
+        {
+          "module": "Cuboctahedron.Basic.Vec3",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Basic/Vec3.olean",
+          "olean_mtime": 1781475007.3546739,
+          "source": "Cuboctahedron/Basic/Vec3.lean",
+          "source_mtime": 1781474997.9933045
+        },
+        {
+          "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanAxisForcesPairSignSmoke",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanAxisForcesPairSignSmoke.olean",
+          "olean_mtime": 1782926703.640658,
+          "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanAxisForcesPairSignSmoke.lean",
+          "source_mtime": 1782925807.871132
+        },
+        {
+          "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke04",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke04.olean",
+          "olean_mtime": 1782930543.4705014,
+          "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke04.lean",
+          "source_mtime": 1782930518.9429379
+        },
+        {
+          "module": "Cuboctahedron.Geometry.BilliardOrbit",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Geometry/BilliardOrbit.olean",
+          "olean_mtime": 1782339973.3316348,
+          "source": "Cuboctahedron/Geometry/BilliardOrbit.lean",
+          "source_mtime": 1781478362.040562
+        },
+        {
+          "module": "Cuboctahedron.Geometry.Faces",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Geometry/Faces.olean",
+          "olean_mtime": 1781475346.2827792,
+          "source": "Cuboctahedron/Geometry/Faces.lean",
+          "source_mtime": 1781475341.1300023
+        },
+        {
+          "module": "Cuboctahedron.Geometry.Polyhedron",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Geometry/Polyhedron.olean",
+          "olean_mtime": 1781475395.0926692,
+          "source": "Cuboctahedron/Geometry/Polyhedron.lean",
+          "source_mtime": 1781475388.8629506
+        },
+        {
+          "module": "Cuboctahedron.Geometry.Reflection",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Geometry/Reflection.olean",
+          "olean_mtime": 1782339970.7052095,
+          "source": "Cuboctahedron/Geometry/Reflection.lean",
+          "source_mtime": 1781539309.4114637
+        },
+        {
+          "module": "Cuboctahedron.Geometry.Unfolding",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Geometry/Unfolding.olean",
+          "olean_mtime": 1782339972.1440003,
+          "source": "Cuboctahedron/Geometry/Unfolding.lean",
+          "source_mtime": 1781540152.8661835
+        },
+        {
+          "module": "Cuboctahedron.Geometry.UnfoldingFeasible",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Geometry/UnfoldingFeasible.olean",
+          "olean_mtime": 1782339976.4510117,
+          "source": "Cuboctahedron/Geometry/UnfoldingFeasible.lean",
+          "source_mtime": 1781552443.8977726
+        },
+        {
+          "module": "Cuboctahedron.Search.AxisForcedRankLanguage",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/AxisForcedRankLanguage.olean",
+          "olean_mtime": 1782924773.0278363,
+          "source": "Cuboctahedron/Search/AxisForcedRankLanguage.lean",
+          "source_mtime": 1782894937.1949646
+        },
+        {
+          "module": "Cuboctahedron.Search.BellmanTopPairingLanguage",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/BellmanTopPairingLanguage.olean",
+          "olean_mtime": 1782923396.8009653,
+          "source": "Cuboctahedron/Search/BellmanTopPairingLanguage.lean",
+          "source_mtime": 1782923348.001983
+        },
+        {
+          "module": "Cuboctahedron.Search.CancellationPairingLanguage",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/CancellationPairingLanguage.olean",
+          "olean_mtime": 1782921111.021736,
+          "source": "Cuboctahedron/Search/CancellationPairingLanguage.lean",
+          "source_mtime": 1782917376.1546297
+        },
+        {
+          "module": "Cuboctahedron.Search.Certificates",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/Certificates.olean",
+          "olean_mtime": 1782340010.2497866,
+          "source": "Cuboctahedron/Search/Certificates.lean",
+          "source_mtime": 1782164650.502692
+        },
+        {
+          "module": "Cuboctahedron.Search.Enumeration",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/Enumeration.olean",
+          "olean_mtime": 1782921109.635373,
+          "source": "Cuboctahedron/Search/Enumeration.lean",
+          "source_mtime": 1781817008.2501204
+        },
+        {
+          "module": "Cuboctahedron.Search.FaceLabelLanguage",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/FaceLabelLanguage.olean",
+          "olean_mtime": 1782921092.1547945,
+          "source": "Cuboctahedron/Search/FaceLabelLanguage.lean",
+          "source_mtime": 1782894356.312554
+        },
+        {
+          "module": "Cuboctahedron.Search.Farkas2D",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/Farkas2D.olean",
+          "olean_mtime": 1782236352.098207,
+          "source": "Cuboctahedron/Search/Farkas2D.lean",
+          "source_mtime": 1782236307.233802
+        },
+        {
+          "module": "Cuboctahedron.Search.Itineraries",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/Itineraries.olean",
+          "olean_mtime": 1782921090.8974578,
+          "source": "Cuboctahedron/Search/Itineraries.lean",
+          "source_mtime": 1781479030.2880445
+        },
+        {
+          "module": "Cuboctahedron.Search.LinearConstraints",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/LinearConstraints.olean",
+          "olean_mtime": 1781541013.1532848,
+          "source": "Cuboctahedron/Search/LinearConstraints.lean",
+          "source_mtime": 1781541006.8221881
+        },
+        {
+          "module": "Cuboctahedron.Search.NonIdentityCase",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/NonIdentityCase.olean",
+          "olean_mtime": 1782921097.752927,
+          "source": "Cuboctahedron/Search/NonIdentityCase.lean",
+          "source_mtime": 1782920997.3315961
+        },
+        {
+          "module": "Cuboctahedron.Search.PairWordSymmetry",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/PairWordSymmetry.olean",
+          "olean_mtime": 1782924707.765711,
+          "source": "Cuboctahedron/Search/PairWordSymmetry.lean",
+          "source_mtime": 1782016122.4354725
+        },
+        {
+          "module": "Cuboctahedron.Search.PairWords",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/PairWords.olean",
+          "olean_mtime": 1782921082.4661021,
+          "source": "Cuboctahedron/Search/PairWords.lean",
+          "source_mtime": 1782921074.4367638
+        },
+        {
+          "module": "Cuboctahedron.Search.RankFaceLabelLanguage",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/RankFaceLabelLanguage.olean",
+          "olean_mtime": 1782923395.5209901,
+          "source": "Cuboctahedron/Search/RankFaceLabelLanguage.lean",
+          "source_mtime": 1782894721.125602
+        },
+        {
+          "module": "Cuboctahedron.Search.ShadowNormalForm",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/ShadowNormalForm.olean",
+          "olean_mtime": 1782921091.3658867,
+          "source": "Cuboctahedron/Search/ShadowNormalForm.lean",
+          "source_mtime": 1782868889.9000654
+        },
+        {
+          "module": "Cuboctahedron.Search.TranslationCase",
+          "olean": ".lake/build/lib/lean/Cuboctahedron/Search/TranslationCase.olean",
+          "olean_mtime": 1782924744.8779337,
+          "source": "Cuboctahedron/Search/TranslationCase.lean",
+          "source_mtime": 1781542569.9702532
+        }
+      ],
+      "local_import_count": 26,
+      "local_imports": [
+        "Cuboctahedron.Basic.Aff3",
+        "Cuboctahedron.Basic.Mat3",
+        "Cuboctahedron.Basic.Vec3",
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanAxisForcesPairSignSmoke",
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke04",
+        "Cuboctahedron.Geometry.BilliardOrbit",
+        "Cuboctahedron.Geometry.Faces",
+        "Cuboctahedron.Geometry.Polyhedron",
+        "Cuboctahedron.Geometry.Reflection",
+        "Cuboctahedron.Geometry.Unfolding",
+        "Cuboctahedron.Geometry.UnfoldingFeasible",
+        "Cuboctahedron.Search.AxisForcedRankLanguage",
+        "Cuboctahedron.Search.BellmanTopPairingLanguage",
+        "Cuboctahedron.Search.CancellationPairingLanguage",
+        "Cuboctahedron.Search.Certificates",
+        "Cuboctahedron.Search.Enumeration",
+        "Cuboctahedron.Search.FaceLabelLanguage",
+        "Cuboctahedron.Search.Farkas2D",
+        "Cuboctahedron.Search.Itineraries",
+        "Cuboctahedron.Search.LinearConstraints",
+        "Cuboctahedron.Search.NonIdentityCase",
+        "Cuboctahedron.Search.PairWordSymmetry",
+        "Cuboctahedron.Search.PairWords",
+        "Cuboctahedron.Search.RankFaceLabelLanguage",
+        "Cuboctahedron.Search.ShadowNormalForm",
+        "Cuboctahedron.Search.TranslationCase"
+      ]
+    },
+    "source_budget_kib": 8,
+    "source_changed": false,
+    "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke04.lean",
+    "target": "split-composition-04",
+    "within_source_budget": true
+  },
+  "status": "checked",
+  "trace": {
+    "artifact_status": {
+      "fresh_olean": false,
+      "olean": {
+        "bytes": null,
+        "exists": false,
+        "kib": null,
+        "mtime": null
+      },
+      "source": {
+        "bytes": 32566,
+        "exists": true,
+        "kib": 32,
+        "mtime": 1782930518.9429379
+      }
+    },
+    "artifact_status_after_emit": {
+      "fresh_olean": false,
+      "olean": {
+        "bytes": null,
+        "exists": false,
+        "kib": null,
+        "mtime": null
+      },
+      "source": {
+        "bytes": 32566,
+        "exists": true,
+        "kib": 32,
+        "mtime": 1782930518.9429379
+      }
+    },
+    "budget": {
+      "local_import_count": 18,
+      "max_local_imports": 18,
+      "max_target_source_kib": 40,
+      "target_source_bytes": 32566,
+      "target_source_kib": 32
+    },
+    "import_budget": 18,
+    "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke04",
+    "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke04.olean",
+    "planned_source_kib": 32,
+    "preflight": {
+      "checked_olean_count": 18,
+      "local_import_count": 18
+    },
+    "source_budget_kib": 40,
+    "source_changed": false,
+    "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke04.lean",
+    "target": "generated-trace-04",
+    "within_source_budget": true
+  },
+  "trace_report": "scripts/generated/bellman_closed_language_generated_trace_smoke_04.json"
+}
