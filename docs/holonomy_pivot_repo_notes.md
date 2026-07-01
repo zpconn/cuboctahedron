@@ -2470,3 +2470,17 @@ Closed-language `decide` warning:
   should emit explicit field proofs or direct `BellmanNonposStartViolationObject`
   constructors, then package them through
   `BellmanNonposStartViolationObjectMembership`.
+- Use `scripts/run_memory_guarded.py` for any future generated-language
+  membership smoke or Bellman object bridge.  The post-cleanup support module
+  was rebuilt safely with:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/bellman_top_pairing_language_guard.json \
+    -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+  ```
+
+  The guarded cached run passed with `814 MiB` peak process-tree RSS.

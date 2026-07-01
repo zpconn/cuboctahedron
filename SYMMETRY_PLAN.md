@@ -50713,3 +50713,33 @@ whole-language Boolean reduction.  If a smoke membership theorem is needed,
 emit explicit generated field lemmas for the two sampled objects or a direct
 `objectOf` function, and build under a strict timeout/RSS guard before adding
 any reusable automation.
+
+Guarded-build follow-up: `scripts/run_memory_guarded.py` already provides the
+right operational safety wrapper.  After removing the risky smoke and
+decidability instances, the safe support module was rebuilt both directly and
+through the guard:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --poll-seconds 0.5 \
+  --json /tmp/bellman_top_pairing_language_guard.json \
+  -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+```
+
+Measured results:
+
+| command | wall | peak RSS | status |
+| --- | ---: | ---: | --- |
+| direct support-module build after cleanup | `0:14.89` | `3,256,988 kB` | passed |
+| guarded cached support-module build | `1.00s` | `814 MiB` tree RSS | passed |
+
+Rule going forward: any generated-language membership smoke or Bellman
+terminal/object bridge that could elaborate generated data must run through
+`scripts/run_memory_guarded.py` with an explicit RSS cap and MemAvailable
+floor.  Unguarded Lean experiments are allowed only for small hand-written
+support modules whose previous direct build is already below the normal
+3-4 GiB baseline.
