@@ -474,6 +474,13 @@ Top margin+cancellation-pairing checkpoint:
   passed in `0:07.53` wall time with `3,468,636 kB` max RSS.  The next
   generated bridge should prove accepted top-family words produce these
   signed-face labeled runs.
+- Labeled-run status: the Bellman core now also has `BellmanLabeledRun`,
+  `BellmanLabeledRunLanguageBound`, and
+  `scaledMargin_nonpos_of_bellmanLabeledRunLanguageBound`.  The generated
+  smoke instantiates this as `graphSmoke_labeled_run_language_scaled_margin_nonpos`,
+  carrying only labels, final state, accumulated gain, and margin.  Focused
+  build passed in `0:05.59` wall time with `3,479,988 kB` max RSS.  This is
+  the cleanest current target for the real top-family word-language bridge.
 
 ## Explicit Non-Goals
 

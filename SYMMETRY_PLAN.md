@@ -2102,6 +2102,17 @@ Bellman profiler prototype checkpoint:
   signed-face labels rather than opaque edge IDs.  It is still bounded smoke;
   the remaining gap is to prove the accepted top-family words produce these
   labeled graph runs.
+- Labeled-run checkpoint: the Bellman core now also exposes
+  `BellmanLabeledRun`, `BellmanLabeledRunLanguageBound`, and
+  `scaledMargin_nonpos_of_bellmanLabeledRunLanguageBound`.  This version
+  carries only the label list, final state, and accumulated gain, avoiding an
+  explicit edge-list field in the final bridge surface.  The generated smoke
+  instantiates it with `SmokeLabeledRunTrace` and proves
+  `graphSmoke_labeled_run_language_scaled_margin_nonpos`.  Focused builds
+  passed: Bellman core in `0:02.96` wall time with `3,285,560 kB` max RSS,
+  and the no-edge-list labeled-run smoke in `0:05.59` wall time with
+  `3,479,988 kB` max RSS.  This is the preferred current theorem target for
+  a generated top-family word-language bridge.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

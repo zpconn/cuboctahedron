@@ -1218,6 +1218,44 @@ Semantic-label checkpoint:
   bounded smoke; full production still needs a proof that accepted top-family
   words construct such labeled runs.
 
+No-edge-list labeled-run checkpoint:
+
+- Added `BellmanLabeledRun`, `BellmanLabeledRunLanguageBound`, and
+  `scaledMargin_nonpos_of_bellmanLabeledRunLanguageBound` to
+  `Cuboctahedron.Search.BellmanPotential`.
+- This theorem surface avoids an explicit edge-list field: a generated
+  language proof only needs a label list, final state, accumulated gain, and
+  a `BellmanLabeledRun` proof.
+- Updated the graph emitter to instantiate this as:
+
+  ```lean
+  private structure SmokeLabeledRunTrace where
+    finish : State
+    labels : List SmokeLabel
+    gain : Int
+    margin : Int
+
+  theorem graphSmoke_labeled_run_language_scaled_margin_nonpos :
+      forall trace : SmokeLabeledRunTrace,
+        smokeLabeledRunTraceAccepts trace ->
+          smokeLabeledRunTraceScaledMargin trace <= 0
+  ```
+
+- Focused builds passed:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.BellmanPotential
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Results: Bellman core `0:02.96` wall / `3,285,560 kB` max RSS; labeled-run
+  smoke `0:05.59` wall / `3,479,988 kB` max RSS.
+- Decision: this is the preferred current target for a real top-family
+  word-language bridge.  It removes edge-list literals from the bridge shape
+  while preserving Lean-checked Bellman edge validity through the
+  `BellmanLabeledRun` constructors.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

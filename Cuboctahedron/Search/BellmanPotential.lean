@@ -107,6 +107,22 @@ theorem toGraphPath
 
 end BellmanLabeledGraphPath
 
+inductive BellmanLabeledRun
+    {State Label : Type}
+    (GraphEdge : BellmanEdge State -> Prop)
+    (EdgeLabel : BellmanEdge State -> Label -> Prop) :
+    State -> State -> List Label -> Int -> Prop
+  | nil (s : State) : BellmanLabeledRun GraphEdge EdgeLabel s s [] 0
+  | cons {s t u : State} {label : Label}
+      {labels : List Label} {e : BellmanEdge State} {tailGain : Int}
+      (hsrc : e.src = s)
+      (hdst : e.dst = t)
+      (hgraph : GraphEdge e)
+      (hlabel : EdgeLabel e label)
+      (htail : BellmanLabeledRun GraphEdge EdgeLabel t u labels tailGain) :
+      BellmanLabeledRun GraphEdge EdgeLabel s u
+        (label :: labels) (e.gain + tailGain)
+
 def bellmanGainSum {State : Type} : List (BellmanEdge State) -> Int
   | [] => 0
   | e :: edges => e.gain + bellmanGainSum edges
@@ -155,6 +171,51 @@ theorem const_add_bellmanGainSum_nonpos_of_path
     const + bellmanGainSum edges <= 0 := by
   have hsum := bellmanGainSum_le_startPotential_of_final_nonneg
     (V := V) hpath hvalid hfinish
+  linarith
+
+theorem labeledRunGain_add_finalPotential_le_startPotential
+    {State Label : Type} {V : State -> Int}
+    {GraphEdge : BellmanEdge State -> Prop}
+    {EdgeLabel : BellmanEdge State -> Label -> Prop}
+    {start finish : State} {labels : List Label} {gain : Int}
+    (hrun : BellmanLabeledRun GraphEdge EdgeLabel start finish labels gain)
+    (hvalid : forall e, GraphEdge e -> e.Valid V) :
+    gain + V finish <= V start := by
+  induction hrun with
+  | nil s =>
+      simp
+  | cons hsrc hdst hgraph _hlabel _htail ih =>
+      rename_i s t u label labels e tailGain
+      have hedge : BellmanEdge.Valid V e := hvalid e hgraph
+      unfold BellmanEdge.Valid at hedge
+      rw [hsrc, hdst] at hedge
+      linarith
+
+theorem labeledRunGain_le_startPotential_of_final_nonneg
+    {State Label : Type} {V : State -> Int}
+    {GraphEdge : BellmanEdge State -> Prop}
+    {EdgeLabel : BellmanEdge State -> Label -> Prop}
+    {start finish : State} {labels : List Label} {gain : Int}
+    (hrun : BellmanLabeledRun GraphEdge EdgeLabel start finish labels gain)
+    (hvalid : forall e, GraphEdge e -> e.Valid V)
+    (hfinish : 0 <= V finish) :
+    gain <= V start := by
+  have h := labeledRunGain_add_finalPotential_le_startPotential
+    (V := V) hrun hvalid
+  linarith
+
+theorem const_add_labeledRunGain_nonpos
+    {State Label : Type} {V : State -> Int}
+    {GraphEdge : BellmanEdge State -> Prop}
+    {EdgeLabel : BellmanEdge State -> Label -> Prop}
+    {start finish : State} {labels : List Label} {gain const : Int}
+    (hrun : BellmanLabeledRun GraphEdge EdgeLabel start finish labels gain)
+    (hvalid : forall e, GraphEdge e -> e.Valid V)
+    (hfinish : 0 <= V finish)
+    (hroot : const + V start <= 0) :
+    const + gain <= 0 := by
+  have hgain := labeledRunGain_le_startPotential_of_final_nonneg
+    (V := V) hrun hvalid hfinish
   linarith
 
 def BellmanTraceBound
@@ -315,6 +376,50 @@ theorem scaledMargin_nonpos_of_bellmanLabeledGraphLanguageTraceBound
         hvalid e
           (BellmanGraphPath.edge_mem
             (BellmanLabeledGraphPath.toGraphPath hpath) e he))
+      hfinish
+      hroot
+  linarith
+
+def BellmanLabeledRunLanguageBound
+    {State Label Obj : Type}
+    (V : State -> Int)
+    (GraphEdge : BellmanEdge State -> Prop)
+    (EdgeLabel : BellmanEdge State -> Label -> Prop)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Obj -> Int)
+    (wordOf : Obj -> List Label)
+    (Accepts : Obj -> Prop) : Prop :=
+  forall obj : Obj, Accepts obj -> exists finish gain,
+    BellmanLabeledRun GraphEdge EdgeLabel start finish (wordOf obj) gain
+      /\ 0 <= V finish
+      /\ scaledMargin obj <= const + gain
+
+theorem scaledMargin_nonpos_of_bellmanLabeledRunLanguageBound
+    {State Label Obj : Type}
+    {V : State -> Int}
+    {GraphEdge : BellmanEdge State -> Prop}
+    {EdgeLabel : BellmanEdge State -> Label -> Prop}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Obj -> Int}
+    {wordOf : Obj -> List Label}
+    {Accepts : Obj -> Prop}
+    (hvalid : forall e, GraphEdge e -> e.Valid V)
+    (hroot : const + V start <= 0)
+    (htrace :
+      BellmanLabeledRunLanguageBound
+        V GraphEdge EdgeLabel start const scaledMargin wordOf Accepts) :
+    forall obj : Obj, Accepts obj -> scaledMargin obj <= 0 := by
+  intro obj hobj
+  rcases htrace obj hobj with ⟨finish, gain, hrun, hfinish, hmargin⟩
+  have hbound :
+      const + gain <= 0 :=
+    const_add_labeledRunGain_nonpos
+      (V := V)
+      (const := const)
+      hrun
+      hvalid
       hfinish
       hroot
   linarith

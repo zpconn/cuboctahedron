@@ -6647,6 +6647,45 @@ theorem graphSmoke_labeled_trace_language_scaled_margin_nonpos :
     root_bound
     smokeLabeledTraceLanguageTraceBound
 
+private structure SmokeLabeledRunTrace where
+  finish : State
+  labels : List SmokeLabel
+  gain : Int
+  margin : Int
+
+private def smokeLabeledRunTraceScaledMargin (trace : SmokeLabeledRunTrace) : Int :=
+  trace.margin
+
+private def smokeLabeledRunTraceAccepts (trace : SmokeLabeledRunTrace) : Prop :=
+  BellmanLabeledRun GraphEdge SmokeEdgeLabel
+    rootState trace.finish trace.labels trace.gain
+    /\ 0 <= graphPotential trace.finish
+    /\ trace.margin <= (176 : Int) + trace.gain
+
+private theorem smokeLabeledRunLanguageBound :
+    BellmanLabeledRunLanguageBound
+      graphPotential GraphEdge SmokeEdgeLabel rootState
+      (176 : Int) smokeLabeledRunTraceScaledMargin
+      (fun trace => trace.labels) smokeLabeledRunTraceAccepts := by
+  intro trace htrace
+  rcases htrace with ⟨hrun, hfinish, hmargin⟩
+  exact ⟨trace.finish, trace.gain, hrun, hfinish, hmargin⟩
+
+theorem graphSmoke_labeled_run_language_scaled_margin_nonpos :
+    forall trace : SmokeLabeledRunTrace,
+      smokeLabeledRunTraceAccepts trace ->
+        smokeLabeledRunTraceScaledMargin trace <= 0 :=
+  scaledMargin_nonpos_of_bellmanLabeledRunLanguageBound
+    (V := graphPotential)
+    (GraphEdge := GraphEdge)
+    (EdgeLabel := SmokeEdgeLabel)
+    (start := rootState)
+    (const := 176)
+    (wordOf := fun trace => trace.labels)
+    (fun _ he => GraphEdge.valid he)
+    root_bound
+    smokeLabeledRunLanguageBound
+
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=
   graphSmoke_observed_objects_scaled_margin_nonpos
