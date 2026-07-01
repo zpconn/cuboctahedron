@@ -1913,6 +1913,28 @@ Bellman profiler prototype checkpoint:
   immediate cached rerun passed in `0:00.98` wall time with `811,536 kB` max
   RSS.  A forbidden-key scan over the Bellman core and smoke found no `sorry`,
   `admit`, `axiom`, `native_decide`, or `unsafe`.
+- Generated-style Bellman graph smoke checkpoint: the profiler now has an
+  optional `--include-graph` export that writes the scaled finite Bellman graph
+  (`states`, `edges`, potentials, root states, final states) for a bounded
+  diagnostic family.  The first export used `[0,1000000)` with
+  `with-step-tri-source`, producing `223` states, `229` edges, `29` final
+  states, `scale = 88`, and `const = 176`.  The export command took `1:21.82`
+  wall time with `26,136 kB` max RSS.
+- Added `scripts/emit_bellman_graph_smoke.py` and generated
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`.
+  The first emitter version used `State := Fin stateCount` and a large Nat
+  match for `graphPotential`; that failed even on this bounded graph, first on
+  recursion depth and then on heartbeat timeouts while proving edge validity.
+  The accepted emitter uses an inductive state constructor for each graph
+  state and an inductive `GraphEdge` predicate for finite graph membership.
+  This is an important Lean-engineering rule for Bellman generation: avoid
+  large `Fin`/Nat lookup tables in proof-facing generated graph certificates.
+  Focused build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:25.03` wall time with `6,036,172 kB` max RSS.  This is stronger than
+  the path smoke because it verifies all emitted edges for the bounded graph
+  and exposes `graphSmoke_path_scaled_margin_nonpos`, but it is still a
+  bounded diagnostic module, not full generated coverage.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

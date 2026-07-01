@@ -551,7 +551,13 @@ def profile_maybe_parallel(
     return aggregate
 
 
-def bellman_payload(stats: BellmanStats, *, elapsed: float, jobs: int) -> dict[str, Any]:
+def bellman_payload(
+    stats: BellmanStats,
+    *,
+    elapsed: float,
+    jobs: int,
+    include_graph: bool = False,
+) -> dict[str, Any]:
     edges: set[tuple[str, Fraction, str]] = set()
     final_states: set[str] = set()
     root_states: set[str] = set()
@@ -592,7 +598,7 @@ def bellman_payload(stats: BellmanStats, *, elapsed: float, jobs: int) -> dict[s
         observed_sequences=observed_sequences,
         edge_ranks=edge_ranks,
     )
-    return {
+    payload = {
         "schema_version": 1,
         "mode": "nonidentity-margin-bellman-profile",
         "arithmetic": "exact Fraction/integer arithmetic; no floating point",
@@ -643,6 +649,35 @@ def bellman_payload(stats: BellmanStats, *, elapsed: float, jobs: int) -> dict[s
         "argmax_path": argmax_path,
         "samples": stats.samples,
     }
+    if include_graph:
+        states_sorted = sorted(potential)
+        state_index = {state: idx for idx, state in enumerate(states_sorted)}
+        payload["graph"] = {
+            "state_count": len(states_sorted),
+            "scale": scale,
+            "const_scaled": int(max_const * scale),
+            "root_indices": [state_index[state] for state in sorted(root_states)],
+            "final_indices": [state_index[state] for state in sorted(final_states)],
+            "states": [
+                {
+                    "index": idx,
+                    "key": state,
+                    "potential_scaled": int(potential[state] * scale),
+                }
+                for idx, state in enumerate(states_sorted)
+            ],
+            "edges": [
+                {
+                    "src": state_index[src],
+                    "dst": state_index[dst],
+                    "gain_scaled": int(gain * scale),
+                }
+                for src, gain, dst in sorted(edges, key=lambda edge: (
+                    state_index[edge[0]], state_index[edge[2]], edge[1]
+                ))
+            ],
+        }
+    return payload
 
 
 def write_md(path: Path, payload: dict[str, Any]) -> None:
@@ -720,6 +755,7 @@ def main() -> None:
         default="with-step",
     )
     parser.add_argument("--sample-limit", type=int, default=20)
+    parser.add_argument("--include-graph", action="store_true")
     parser.add_argument("--json", type=Path, default=None)
     parser.add_argument("--markdown", type=Path, default=None)
     args = parser.parse_args()
@@ -737,7 +773,12 @@ def main() -> None:
         sample_limit=args.sample_limit,
     )
     elapsed = time.perf_counter() - t0
-    payload = bellman_payload(stats, elapsed=elapsed, jobs=args.jobs)
+    payload = bellman_payload(
+        stats,
+        elapsed=elapsed,
+        jobs=args.jobs,
+        include_graph=args.include_graph,
+    )
     json_path = args.json or GENERATED_DIR / (
         f"nonid_margin_bellman_{args.start:09d}_{args.end:09d}_{args.state_key_mode}.json"
     )

@@ -806,6 +806,52 @@ Generated-style Bellman smoke:
   `BellmanTopPairingSmoke.lean` found no `sorry`, `admit`, `axiom`,
   `native_decide`, or `unsafe`.
 
+Generated-style Bellman graph smoke:
+
+- Added optional graph export to `scripts/nonidentity_margin_bellman_profile.py`
+  via `--include-graph`.
+- For `[0,1000000)` with `with-step-tri-source`, the graph export reports
+  `223` states, `229` edges, `29` final states, `scale = 88`, `const = 176`,
+  and max margin bound `0`.
+- Export command:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/nonidentity_margin_bellman_profile.py \
+    --start 0 --end 1000000 \
+    --jobs 8 --chunk-size 250000 \
+    --state-key-mode with-step-tri-source \
+    --include-graph \
+    --json scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+    --markdown scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.md
+  ```
+
+  Result: `1:21.82` wall time, `26,136 kB` max RSS.
+- Added `scripts/emit_bellman_graph_smoke.py` and generated
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`.
+- A first graph-smoke emitter using `State := Fin stateCount` and a large Nat
+  match for `graphPotential` was rejected: the focused build hit recursion
+  depth first, then heartbeat timeouts, while checking individual edge facts.
+  The accepted emitter uses one inductive constructor per state and an
+  inductive `GraphEdge` proposition for graph membership.
+- Focused build passed:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Result: `0:25.03` wall time, `6,036,172 kB` max RSS.
+- Public theorem exposed by the smoke:
+
+  ```lean
+  theorem graphSmoke_path_scaled_margin_nonpos
+  ```
+
+- This graph smoke is still bounded diagnostic evidence, not full coverage,
+  but it checks all emitted edge inequalities for the bounded graph and
+  validates the constructor-state encoding for generated Bellman graph
+  certificates.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -823,6 +869,13 @@ Generated-style Bellman smoke:
 - `scripts/direct_start_offset_family_profile.py`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_000100000.json`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_000100000.md`
+- `scripts/nonidentity_margin_bellman_profile.py`
+- `scripts/emit_bellman_graph_smoke.py`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.md`
+- `Cuboctahedron/Search/BellmanPotential.lean`
+- `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSmoke.lean`
+- `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.json`
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.md`
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_margin_yp_m2_000000000_000100000.json`

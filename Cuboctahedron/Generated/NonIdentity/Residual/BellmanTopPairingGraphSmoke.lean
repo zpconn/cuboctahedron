@@ -1,0 +1,2329 @@
+import Cuboctahedron.Search.BellmanPotential
+
+set_option maxRecDepth 4096
+
+/-!
+Generated-style graph smoke for a Bellman nonidentity margin family.
+
+This file is not final generated coverage.  It verifies one bounded
+private Bellman graph emitted from the exact tri-source profiler.
+-/
+
+namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+
+open Cuboctahedron
+
+-- state count: 223
+private inductive State where
+  | s0000
+  | s0001
+  | s0002
+  | s0003
+  | s0004
+  | s0005
+  | s0006
+  | s0007
+  | s0008
+  | s0009
+  | s0010
+  | s0011
+  | s0012
+  | s0013
+  | s0014
+  | s0015
+  | s0016
+  | s0017
+  | s0018
+  | s0019
+  | s0020
+  | s0021
+  | s0022
+  | s0023
+  | s0024
+  | s0025
+  | s0026
+  | s0027
+  | s0028
+  | s0029
+  | s0030
+  | s0031
+  | s0032
+  | s0033
+  | s0034
+  | s0035
+  | s0036
+  | s0037
+  | s0038
+  | s0039
+  | s0040
+  | s0041
+  | s0042
+  | s0043
+  | s0044
+  | s0045
+  | s0046
+  | s0047
+  | s0048
+  | s0049
+  | s0050
+  | s0051
+  | s0052
+  | s0053
+  | s0054
+  | s0055
+  | s0056
+  | s0057
+  | s0058
+  | s0059
+  | s0060
+  | s0061
+  | s0062
+  | s0063
+  | s0064
+  | s0065
+  | s0066
+  | s0067
+  | s0068
+  | s0069
+  | s0070
+  | s0071
+  | s0072
+  | s0073
+  | s0074
+  | s0075
+  | s0076
+  | s0077
+  | s0078
+  | s0079
+  | s0080
+  | s0081
+  | s0082
+  | s0083
+  | s0084
+  | s0085
+  | s0086
+  | s0087
+  | s0088
+  | s0089
+  | s0090
+  | s0091
+  | s0092
+  | s0093
+  | s0094
+  | s0095
+  | s0096
+  | s0097
+  | s0098
+  | s0099
+  | s0100
+  | s0101
+  | s0102
+  | s0103
+  | s0104
+  | s0105
+  | s0106
+  | s0107
+  | s0108
+  | s0109
+  | s0110
+  | s0111
+  | s0112
+  | s0113
+  | s0114
+  | s0115
+  | s0116
+  | s0117
+  | s0118
+  | s0119
+  | s0120
+  | s0121
+  | s0122
+  | s0123
+  | s0124
+  | s0125
+  | s0126
+  | s0127
+  | s0128
+  | s0129
+  | s0130
+  | s0131
+  | s0132
+  | s0133
+  | s0134
+  | s0135
+  | s0136
+  | s0137
+  | s0138
+  | s0139
+  | s0140
+  | s0141
+  | s0142
+  | s0143
+  | s0144
+  | s0145
+  | s0146
+  | s0147
+  | s0148
+  | s0149
+  | s0150
+  | s0151
+  | s0152
+  | s0153
+  | s0154
+  | s0155
+  | s0156
+  | s0157
+  | s0158
+  | s0159
+  | s0160
+  | s0161
+  | s0162
+  | s0163
+  | s0164
+  | s0165
+  | s0166
+  | s0167
+  | s0168
+  | s0169
+  | s0170
+  | s0171
+  | s0172
+  | s0173
+  | s0174
+  | s0175
+  | s0176
+  | s0177
+  | s0178
+  | s0179
+  | s0180
+  | s0181
+  | s0182
+  | s0183
+  | s0184
+  | s0185
+  | s0186
+  | s0187
+  | s0188
+  | s0189
+  | s0190
+  | s0191
+  | s0192
+  | s0193
+  | s0194
+  | s0195
+  | s0196
+  | s0197
+  | s0198
+  | s0199
+  | s0200
+  | s0201
+  | s0202
+  | s0203
+  | s0204
+  | s0205
+  | s0206
+  | s0207
+  | s0208
+  | s0209
+  | s0210
+  | s0211
+  | s0212
+  | s0213
+  | s0214
+  | s0215
+  | s0216
+  | s0217
+  | s0218
+  | s0219
+  | s0220
+  | s0221
+  | s0222
+
+private def graphPotential : State -> Int
+  | State.s0000 => -176
+  | State.s0001 => -137
+  | State.s0002 => -137
+  | State.s0003 => -137
+  | State.s0004 => -137
+  | State.s0005 => -137
+  | State.s0006 => -137
+  | State.s0007 => -119
+  | State.s0008 => -119
+  | State.s0009 => 13
+  | State.s0010 => -111
+  | State.s0011 => -111
+  | State.s0012 => 31
+  | State.s0013 => 31
+  | State.s0014 => 2
+  | State.s0015 => 2
+  | State.s0016 => 2
+  | State.s0017 => 2
+  | State.s0018 => 2
+  | State.s0019 => -218
+  | State.s0020 => 2
+  | State.s0021 => -104
+  | State.s0022 => 10
+  | State.s0023 => -101
+  | State.s0024 => -101
+  | State.s0025 => -101
+  | State.s0026 => -101
+  | State.s0027 => -101
+  | State.s0028 => -101
+  | State.s0029 => -101
+  | State.s0030 => -101
+  | State.s0031 => -101
+  | State.s0032 => -101
+  | State.s0033 => -101
+  | State.s0034 => -101
+  | State.s0035 => -101
+  | State.s0036 => -101
+  | State.s0037 => -83
+  | State.s0038 => -83
+  | State.s0039 => -83
+  | State.s0040 => -207
+  | State.s0041 => -207
+  | State.s0042 => -93
+  | State.s0043 => -93
+  | State.s0044 => -93
+  | State.s0045 => -94
+  | State.s0046 => -94
+  | State.s0047 => -94
+  | State.s0048 => -94
+  | State.s0049 => -94
+  | State.s0050 => -94
+  | State.s0051 => 20
+  | State.s0052 => 20
+  | State.s0053 => -197
+  | State.s0054 => -197
+  | State.s0055 => -197
+  | State.s0056 => -197
+  | State.s0057 => -197
+  | State.s0058 => -197
+  | State.s0059 => -197
+  | State.s0060 => -197
+  | State.s0061 => -197
+  | State.s0062 => -197
+  | State.s0063 => -197
+  | State.s0064 => -197
+  | State.s0065 => -197
+  | State.s0066 => -197
+  | State.s0067 => -197
+  | State.s0068 => -197
+  | State.s0069 => -197
+  | State.s0070 => -83
+  | State.s0071 => -83
+  | State.s0072 => -83
+  | State.s0073 => -83
+  | State.s0074 => -83
+  | State.s0075 => -83
+  | State.s0076 => 30
+  | State.s0077 => 30
+  | State.s0078 => 30
+  | State.s0079 => 30
+  | State.s0080 => 30
+  | State.s0081 => 30
+  | State.s0082 => 30
+  | State.s0083 => 30
+  | State.s0084 => -73
+  | State.s0085 => -73
+  | State.s0086 => -73
+  | State.s0087 => -73
+  | State.s0088 => -73
+  | State.s0089 => -73
+  | State.s0090 => -73
+  | State.s0091 => -73
+  | State.s0092 => -73
+  | State.s0093 => -73
+  | State.s0094 => -73
+  | State.s0095 => -73
+  | State.s0096 => -73
+  | State.s0097 => -73
+  | State.s0098 => -73
+  | State.s0099 => -73
+  | State.s0100 => -73
+  | State.s0101 => -73
+  | State.s0102 => -73
+  | State.s0103 => -73
+  | State.s0104 => -73
+  | State.s0105 => -73
+  | State.s0106 => -73
+  | State.s0107 => -73
+  | State.s0108 => -73
+  | State.s0109 => -73
+  | State.s0110 => -73
+  | State.s0111 => -73
+  | State.s0112 => -73
+  | State.s0113 => 0
+  | State.s0114 => 0
+  | State.s0115 => 0
+  | State.s0116 => 0
+  | State.s0117 => 0
+  | State.s0118 => 0
+  | State.s0119 => 0
+  | State.s0120 => 0
+  | State.s0121 => 0
+  | State.s0122 => 0
+  | State.s0123 => 0
+  | State.s0124 => 0
+  | State.s0125 => 0
+  | State.s0126 => 0
+  | State.s0127 => 0
+  | State.s0128 => 0
+  | State.s0129 => 0
+  | State.s0130 => 0
+  | State.s0131 => 0
+  | State.s0132 => 0
+  | State.s0133 => 0
+  | State.s0134 => 0
+  | State.s0135 => 0
+  | State.s0136 => 0
+  | State.s0137 => 0
+  | State.s0138 => 0
+  | State.s0139 => 0
+  | State.s0140 => 0
+  | State.s0141 => 0
+  | State.s0142 => -279
+  | State.s0143 => -206
+  | State.s0144 => -261
+  | State.s0145 => -396
+  | State.s0146 => -82
+  | State.s0147 => -499
+  | State.s0148 => -137
+  | State.s0149 => -386
+  | State.s0150 => -368
+  | State.s0151 => -272
+  | State.s0152 => -178
+  | State.s0153 => -489
+  | State.s0154 => -251
+  | State.s0155 => -375
+  | State.s0156 => -233
+  | State.s0157 => -482
+  | State.s0158 => -262
+  | State.s0159 => -368
+  | State.s0160 => -376
+  | State.s0161 => -142
+  | State.s0162 => -365
+  | State.s0163 => -365
+  | State.s0164 => -347
+  | State.s0165 => -479
+  | State.s0166 => -471
+  | State.s0167 => -197
+  | State.s0168 => -358
+  | State.s0169 => -578
+  | State.s0170 => -358
+  | State.s0171 => -332
+  | State.s0172 => -376
+  | State.s0173 => 2
+  | State.s0174 => -461
+  | State.s0175 => -461
+  | State.s0176 => -461
+  | State.s0177 => -311
+  | State.s0178 => -435
+  | State.s0179 => -479
+  | State.s0180 => -53
+  | State.s0181 => -322
+  | State.s0182 => -322
+  | State.s0183 => -542
+  | State.s0184 => -322
+  | State.s0185 => -88
+  | State.s0186 => -188
+  | State.s0187 => -26
+  | State.s0188 => -425
+  | State.s0189 => -425
+  | State.s0190 => -425
+  | State.s0191 => -425
+  | State.s0192 => -167
+  | State.s0193 => -191
+  | State.s0194 => -291
+  | State.s0195 => 91
+  | State.s0196 => -178
+  | State.s0197 => -178
+  | State.s0198 => -178
+  | State.s0199 => -398
+  | State.s0200 => -178
+  | State.s0201 => -88
+  | State.s0202 => -44
+  | State.s0203 => 10
+  | State.s0204 => -281
+  | State.s0205 => -281
+  | State.s0206 => -281
+  | State.s0207 => -281
+  | State.s0208 => -281
+  | State.s0209 => -23
+  | State.s0210 => -191
+  | State.s0211 => -147
+  | State.s0212 => 127
+  | State.s0213 => 127
+  | State.s0214 => -34
+  | State.s0215 => -34
+  | State.s0216 => -34
+  | State.s0217 => -34
+  | State.s0218 => -254
+  | State.s0219 => -34
+  | State.s0220 => -16
+  | State.s0221 => -8
+  | State.s0222 => -114
+
+private def rootState : State := State.s0000
+
+private def edge0000 : BellmanEdge State :=
+  { src := State.s0000, gain := 103, dst := State.s0142 }
+
+private theorem edge0000_valid : edge0000.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0000]
+
+private def edge0001 : BellmanEdge State :=
+  { src := State.s0001, gain := -36, dst := State.s0029 }
+
+private theorem edge0001_valid : edge0001.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0001]
+
+private def edge0002 : BellmanEdge State :=
+  { src := State.s0002, gain := -36, dst := State.s0031 }
+
+private theorem edge0002_valid : edge0002.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0002]
+
+private def edge0003 : BellmanEdge State :=
+  { src := State.s0003, gain := -36, dst := State.s0032 }
+
+private theorem edge0003_valid : edge0003.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0003]
+
+private def edge0004 : BellmanEdge State :=
+  { src := State.s0004, gain := -36, dst := State.s0033 }
+
+private theorem edge0004_valid : edge0004.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0004]
+
+private def edge0005 : BellmanEdge State :=
+  { src := State.s0005, gain := -36, dst := State.s0034 }
+
+private theorem edge0005_valid : edge0005.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0005]
+
+private def edge0006 : BellmanEdge State :=
+  { src := State.s0006, gain := -36, dst := State.s0036 }
+
+private theorem edge0006_valid : edge0006.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0006]
+
+private def edge0007 : BellmanEdge State :=
+  { src := State.s0007, gain := -18, dst := State.s0023 }
+
+private theorem edge0007_valid : edge0007.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0007]
+
+private def edge0008 : BellmanEdge State :=
+  { src := State.s0008, gain := -18, dst := State.s0030 }
+
+private theorem edge0008_valid : edge0008.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0008]
+
+private def edge0009 : BellmanEdge State :=
+  { src := State.s0009, gain := 96, dst := State.s0039 }
+
+private theorem edge0009_valid : edge0009.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0009]
+
+private def edge0010 : BellmanEdge State :=
+  { src := State.s0010, gain := 96, dst := State.s0040 }
+
+private theorem edge0010_valid : edge0010.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0010]
+
+private def edge0011 : BellmanEdge State :=
+  { src := State.s0011, gain := 96, dst := State.s0041 }
+
+private theorem edge0011_valid : edge0011.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0011]
+
+private def edge0012 : BellmanEdge State :=
+  { src := State.s0012, gain := 114, dst := State.s0037 }
+
+private theorem edge0012_valid : edge0012.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0012]
+
+private def edge0013 : BellmanEdge State :=
+  { src := State.s0012, gain := -124, dst := State.s0043 }
+
+private theorem edge0013_valid : edge0013.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0013]
+
+private def edge0014 : BellmanEdge State :=
+  { src := State.s0013, gain := 114, dst := State.s0038 }
+
+private theorem edge0014_valid : edge0014.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0014]
+
+private def edge0015 : BellmanEdge State :=
+  { src := State.s0013, gain := -124, dst := State.s0044 }
+
+private theorem edge0015_valid : edge0015.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0015]
+
+private def edge0016 : BellmanEdge State :=
+  { src := State.s0014, gain := -117, dst := State.s0023 }
+
+private theorem edge0016_valid : edge0016.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0016]
+
+private def edge0017 : BellmanEdge State :=
+  { src := State.s0014, gain := 96, dst := State.s0045 }
+
+private theorem edge0017_valid : edge0017.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0017]
+
+private def edge0018 : BellmanEdge State :=
+  { src := State.s0015, gain := -117, dst := State.s0024 }
+
+private theorem edge0018_valid : edge0018.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0018]
+
+private def edge0019 : BellmanEdge State :=
+  { src := State.s0015, gain := 96, dst := State.s0046 }
+
+private theorem edge0019_valid : edge0019.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0019]
+
+private def edge0020 : BellmanEdge State :=
+  { src := State.s0016, gain := -117, dst := State.s0025 }
+
+private theorem edge0020_valid : edge0020.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0020]
+
+private def edge0021 : BellmanEdge State :=
+  { src := State.s0016, gain := 96, dst := State.s0047 }
+
+private theorem edge0021_valid : edge0021.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0021]
+
+private def edge0022 : BellmanEdge State :=
+  { src := State.s0017, gain := -117, dst := State.s0026 }
+
+private theorem edge0022_valid : edge0022.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0022]
+
+private def edge0023 : BellmanEdge State :=
+  { src := State.s0017, gain := 96, dst := State.s0048 }
+
+private theorem edge0023_valid : edge0023.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0023]
+
+private def edge0024 : BellmanEdge State :=
+  { src := State.s0018, gain := -117, dst := State.s0027 }
+
+private theorem edge0024_valid : edge0024.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0024]
+
+private def edge0025 : BellmanEdge State :=
+  { src := State.s0018, gain := 96, dst := State.s0049 }
+
+private theorem edge0025_valid : edge0025.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0025]
+
+private def edge0026 : BellmanEdge State :=
+  { src := State.s0019, gain := -117, dst := State.s0028 }
+
+private theorem edge0026_valid : edge0026.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0026]
+
+private def edge0027 : BellmanEdge State :=
+  { src := State.s0020, gain := -117, dst := State.s0035 }
+
+private theorem edge0027_valid : edge0027.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0027]
+
+private def edge0028 : BellmanEdge State :=
+  { src := State.s0020, gain := 96, dst := State.s0050 }
+
+private theorem edge0028_valid : edge0028.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0028]
+
+private def edge0029 : BellmanEdge State :=
+  { src := State.s0021, gain := -124, dst := State.s0052 }
+
+private theorem edge0029_valid : edge0029.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0029]
+
+private def edge0030 : BellmanEdge State :=
+  { src := State.s0022, gain := 103, dst := State.s0042 }
+
+private theorem edge0030_valid : edge0030.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0030]
+
+private def edge0031 : BellmanEdge State :=
+  { src := State.s0022, gain := -10, dst := State.s0051 }
+
+private theorem edge0031_valid : edge0031.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0031]
+
+private def edge0032 : BellmanEdge State :=
+  { src := State.s0023, gain := 96, dst := State.s0053 }
+
+private theorem edge0032_valid : edge0032.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0032]
+
+private def edge0033 : BellmanEdge State :=
+  { src := State.s0024, gain := 96, dst := State.s0055 }
+
+private theorem edge0033_valid : edge0033.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0033]
+
+private def edge0034 : BellmanEdge State :=
+  { src := State.s0025, gain := 96, dst := State.s0056 }
+
+private theorem edge0034_valid : edge0034.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0034]
+
+private def edge0035 : BellmanEdge State :=
+  { src := State.s0026, gain := 96, dst := State.s0057 }
+
+private theorem edge0035_valid : edge0035.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0035]
+
+private def edge0036 : BellmanEdge State :=
+  { src := State.s0027, gain := 96, dst := State.s0058 }
+
+private theorem edge0036_valid : edge0036.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0036]
+
+private def edge0037 : BellmanEdge State :=
+  { src := State.s0028, gain := 96, dst := State.s0059 }
+
+private theorem edge0037_valid : edge0037.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0037]
+
+private def edge0038 : BellmanEdge State :=
+  { src := State.s0029, gain := 96, dst := State.s0060 }
+
+private theorem edge0038_valid : edge0038.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0038]
+
+private def edge0039 : BellmanEdge State :=
+  { src := State.s0030, gain := 96, dst := State.s0061 }
+
+private theorem edge0039_valid : edge0039.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0039]
+
+private def edge0040 : BellmanEdge State :=
+  { src := State.s0031, gain := 96, dst := State.s0063 }
+
+private theorem edge0040_valid : edge0040.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0040]
+
+private def edge0041 : BellmanEdge State :=
+  { src := State.s0032, gain := 96, dst := State.s0064 }
+
+private theorem edge0041_valid : edge0041.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0041]
+
+private def edge0042 : BellmanEdge State :=
+  { src := State.s0033, gain := 96, dst := State.s0065 }
+
+private theorem edge0042_valid : edge0042.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0042]
+
+private def edge0043 : BellmanEdge State :=
+  { src := State.s0034, gain := 96, dst := State.s0067 }
+
+private theorem edge0043_valid : edge0043.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0043]
+
+private def edge0044 : BellmanEdge State :=
+  { src := State.s0035, gain := 96, dst := State.s0068 }
+
+private theorem edge0044_valid : edge0044.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0044]
+
+private def edge0045 : BellmanEdge State :=
+  { src := State.s0036, gain := 96, dst := State.s0069 }
+
+private theorem edge0045_valid : edge0045.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0045]
+
+private def edge0046 : BellmanEdge State :=
+  { src := State.s0037, gain := 114, dst := State.s0054 }
+
+private theorem edge0046_valid : edge0046.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0046]
+
+private def edge0047 : BellmanEdge State :=
+  { src := State.s0038, gain := 114, dst := State.s0062 }
+
+private theorem edge0047_valid : edge0047.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0047]
+
+private def edge0048 : BellmanEdge State :=
+  { src := State.s0039, gain := 114, dst := State.s0066 }
+
+private theorem edge0048_valid : edge0048.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0048]
+
+private def edge0049 : BellmanEdge State :=
+  { src := State.s0040, gain := -124, dst := State.s0073 }
+
+private theorem edge0049_valid : edge0049.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0049]
+
+private def edge0050 : BellmanEdge State :=
+  { src := State.s0041, gain := -124, dst := State.s0075 }
+
+private theorem edge0050_valid : edge0050.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0050]
+
+private def edge0051 : BellmanEdge State :=
+  { src := State.s0042, gain := -10, dst := State.s0070 }
+
+private theorem edge0051_valid : edge0051.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0051]
+
+private def edge0052 : BellmanEdge State :=
+  { src := State.s0043, gain := -10, dst := State.s0071 }
+
+private theorem edge0052_valid : edge0052.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0052]
+
+private def edge0053 : BellmanEdge State :=
+  { src := State.s0044, gain := -10, dst := State.s0072 }
+
+private theorem edge0053_valid : edge0053.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0053]
+
+private def edge0054 : BellmanEdge State :=
+  { src := State.s0045, gain := -124, dst := State.s0076 }
+
+private theorem edge0054_valid : edge0054.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0054]
+
+private def edge0055 : BellmanEdge State :=
+  { src := State.s0046, gain := -124, dst := State.s0078 }
+
+private theorem edge0055_valid : edge0055.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0055]
+
+private def edge0056 : BellmanEdge State :=
+  { src := State.s0047, gain := -124, dst := State.s0079 }
+
+private theorem edge0056_valid : edge0056.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0056]
+
+private def edge0057 : BellmanEdge State :=
+  { src := State.s0048, gain := -124, dst := State.s0080 }
+
+private theorem edge0057_valid : edge0057.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0057]
+
+private def edge0058 : BellmanEdge State :=
+  { src := State.s0049, gain := -124, dst := State.s0081 }
+
+private theorem edge0058_valid : edge0058.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0058]
+
+private def edge0059 : BellmanEdge State :=
+  { src := State.s0050, gain := -124, dst := State.s0083 }
+
+private theorem edge0059_valid : edge0059.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0059]
+
+private def edge0060 : BellmanEdge State :=
+  { src := State.s0051, gain := 103, dst := State.s0070 }
+
+private theorem edge0060_valid : edge0060.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0060]
+
+private def edge0061 : BellmanEdge State :=
+  { src := State.s0051, gain := -10, dst := State.s0077 }
+
+private theorem edge0061_valid : edge0061.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0061]
+
+private def edge0062 : BellmanEdge State :=
+  { src := State.s0052, gain := 103, dst := State.s0074 }
+
+private theorem edge0062_valid : edge0062.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0062]
+
+private def edge0063 : BellmanEdge State :=
+  { src := State.s0052, gain := -10, dst := State.s0082 }
+
+private theorem edge0063_valid : edge0063.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0063]
+
+private def edge0064 : BellmanEdge State :=
+  { src := State.s0053, gain := -124, dst := State.s0085 }
+
+private theorem edge0064_valid : edge0064.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0064]
+
+private def edge0065 : BellmanEdge State :=
+  { src := State.s0054, gain := -124, dst := State.s0088 }
+
+private theorem edge0065_valid : edge0065.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0065]
+
+private def edge0066 : BellmanEdge State :=
+  { src := State.s0055, gain := -124, dst := State.s0090 }
+
+private theorem edge0066_valid : edge0066.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0066]
+
+private def edge0067 : BellmanEdge State :=
+  { src := State.s0056, gain := -124, dst := State.s0092 }
+
+private theorem edge0067_valid : edge0067.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0067]
+
+private def edge0068 : BellmanEdge State :=
+  { src := State.s0057, gain := -124, dst := State.s0094 }
+
+private theorem edge0068_valid : edge0068.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0068]
+
+private def edge0069 : BellmanEdge State :=
+  { src := State.s0058, gain := -124, dst := State.s0096 }
+
+private theorem edge0069_valid : edge0069.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0069]
+
+private def edge0070 : BellmanEdge State :=
+  { src := State.s0059, gain := -124, dst := State.s0097 }
+
+private theorem edge0070_valid : edge0070.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0070]
+
+private def edge0071 : BellmanEdge State :=
+  { src := State.s0060, gain := -124, dst := State.s0098 }
+
+private theorem edge0071_valid : edge0071.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0071]
+
+private def edge0072 : BellmanEdge State :=
+  { src := State.s0061, gain := -124, dst := State.s0099 }
+
+private theorem edge0072_valid : edge0072.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0072]
+
+private def edge0073 : BellmanEdge State :=
+  { src := State.s0062, gain := -124, dst := State.s0101 }
+
+private theorem edge0073_valid : edge0073.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0073]
+
+private def edge0074 : BellmanEdge State :=
+  { src := State.s0063, gain := -124, dst := State.s0102 }
+
+private theorem edge0074_valid : edge0074.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0074]
+
+private def edge0075 : BellmanEdge State :=
+  { src := State.s0064, gain := -124, dst := State.s0103 }
+
+private theorem edge0075_valid : edge0075.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0075]
+
+private def edge0076 : BellmanEdge State :=
+  { src := State.s0065, gain := -124, dst := State.s0104 }
+
+private theorem edge0076_valid : edge0076.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0076]
+
+private def edge0077 : BellmanEdge State :=
+  { src := State.s0066, gain := -124, dst := State.s0105 }
+
+private theorem edge0077_valid : edge0077.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0077]
+
+private def edge0078 : BellmanEdge State :=
+  { src := State.s0067, gain := -124, dst := State.s0106 }
+
+private theorem edge0078_valid : edge0078.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0078]
+
+private def edge0079 : BellmanEdge State :=
+  { src := State.s0068, gain := -124, dst := State.s0111 }
+
+private theorem edge0079_valid : edge0079.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0079]
+
+private def edge0080 : BellmanEdge State :=
+  { src := State.s0069, gain := -124, dst := State.s0112 }
+
+private theorem edge0080_valid : edge0080.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0080]
+
+private def edge0081 : BellmanEdge State :=
+  { src := State.s0070, gain := -10, dst := State.s0086 }
+
+private theorem edge0081_valid : edge0081.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0081]
+
+private def edge0082 : BellmanEdge State :=
+  { src := State.s0071, gain := -10, dst := State.s0087 }
+
+private theorem edge0082_valid : edge0082.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0082]
+
+private def edge0083 : BellmanEdge State :=
+  { src := State.s0072, gain := -10, dst := State.s0100 }
+
+private theorem edge0083_valid : edge0083.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0083]
+
+private def edge0084 : BellmanEdge State :=
+  { src := State.s0073, gain := -10, dst := State.s0107 }
+
+private theorem edge0084_valid : edge0084.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0084]
+
+private def edge0085 : BellmanEdge State :=
+  { src := State.s0074, gain := -10, dst := State.s0108 }
+
+private theorem edge0085_valid : edge0085.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0085]
+
+private def edge0086 : BellmanEdge State :=
+  { src := State.s0075, gain := -10, dst := State.s0109 }
+
+private theorem edge0086_valid : edge0086.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0086]
+
+private def edge0087 : BellmanEdge State :=
+  { src := State.s0076, gain := 103, dst := State.s0084 }
+
+private theorem edge0087_valid : edge0087.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0087]
+
+private def edge0088 : BellmanEdge State :=
+  { src := State.s0077, gain := 103, dst := State.s0086 }
+
+private theorem edge0088_valid : edge0088.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0088]
+
+private def edge0089 : BellmanEdge State :=
+  { src := State.s0078, gain := 103, dst := State.s0089 }
+
+private theorem edge0089_valid : edge0089.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0089]
+
+private def edge0090 : BellmanEdge State :=
+  { src := State.s0079, gain := 103, dst := State.s0091 }
+
+private theorem edge0090_valid : edge0090.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0090]
+
+private def edge0091 : BellmanEdge State :=
+  { src := State.s0080, gain := 103, dst := State.s0093 }
+
+private theorem edge0091_valid : edge0091.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0091]
+
+private def edge0092 : BellmanEdge State :=
+  { src := State.s0081, gain := 103, dst := State.s0095 }
+
+private theorem edge0092_valid : edge0092.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0092]
+
+private def edge0093 : BellmanEdge State :=
+  { src := State.s0082, gain := 103, dst := State.s0108 }
+
+private theorem edge0093_valid : edge0093.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0093]
+
+private def edge0094 : BellmanEdge State :=
+  { src := State.s0083, gain := 103, dst := State.s0110 }
+
+private theorem edge0094_valid : edge0094.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0094]
+
+private def edge0095 : BellmanEdge State :=
+  { src := State.s0084, gain := -73, dst := State.s0113 }
+
+private theorem edge0095_valid : edge0095.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0095]
+
+private def edge0096 : BellmanEdge State :=
+  { src := State.s0085, gain := -73, dst := State.s0114 }
+
+private theorem edge0096_valid : edge0096.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0096]
+
+private def edge0097 : BellmanEdge State :=
+  { src := State.s0086, gain := -73, dst := State.s0115 }
+
+private theorem edge0097_valid : edge0097.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0097]
+
+private def edge0098 : BellmanEdge State :=
+  { src := State.s0087, gain := -73, dst := State.s0116 }
+
+private theorem edge0098_valid : edge0098.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0098]
+
+private def edge0099 : BellmanEdge State :=
+  { src := State.s0088, gain := -73, dst := State.s0117 }
+
+private theorem edge0099_valid : edge0099.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0099]
+
+private def edge0100 : BellmanEdge State :=
+  { src := State.s0089, gain := -73, dst := State.s0118 }
+
+private theorem edge0100_valid : edge0100.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0100]
+
+private def edge0101 : BellmanEdge State :=
+  { src := State.s0090, gain := -73, dst := State.s0119 }
+
+private theorem edge0101_valid : edge0101.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0101]
+
+private def edge0102 : BellmanEdge State :=
+  { src := State.s0091, gain := -73, dst := State.s0120 }
+
+private theorem edge0102_valid : edge0102.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0102]
+
+private def edge0103 : BellmanEdge State :=
+  { src := State.s0092, gain := -73, dst := State.s0121 }
+
+private theorem edge0103_valid : edge0103.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0103]
+
+private def edge0104 : BellmanEdge State :=
+  { src := State.s0093, gain := -73, dst := State.s0122 }
+
+private theorem edge0104_valid : edge0104.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0104]
+
+private def edge0105 : BellmanEdge State :=
+  { src := State.s0094, gain := -73, dst := State.s0123 }
+
+private theorem edge0105_valid : edge0105.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0105]
+
+private def edge0106 : BellmanEdge State :=
+  { src := State.s0095, gain := -73, dst := State.s0124 }
+
+private theorem edge0106_valid : edge0106.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0106]
+
+private def edge0107 : BellmanEdge State :=
+  { src := State.s0096, gain := -73, dst := State.s0125 }
+
+private theorem edge0107_valid : edge0107.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0107]
+
+private def edge0108 : BellmanEdge State :=
+  { src := State.s0097, gain := -73, dst := State.s0126 }
+
+private theorem edge0108_valid : edge0108.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0108]
+
+private def edge0109 : BellmanEdge State :=
+  { src := State.s0098, gain := -73, dst := State.s0127 }
+
+private theorem edge0109_valid : edge0109.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0109]
+
+private def edge0110 : BellmanEdge State :=
+  { src := State.s0099, gain := -73, dst := State.s0128 }
+
+private theorem edge0110_valid : edge0110.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0110]
+
+private def edge0111 : BellmanEdge State :=
+  { src := State.s0100, gain := -73, dst := State.s0129 }
+
+private theorem edge0111_valid : edge0111.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0111]
+
+private def edge0112 : BellmanEdge State :=
+  { src := State.s0101, gain := -73, dst := State.s0130 }
+
+private theorem edge0112_valid : edge0112.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0112]
+
+private def edge0113 : BellmanEdge State :=
+  { src := State.s0102, gain := -73, dst := State.s0131 }
+
+private theorem edge0113_valid : edge0113.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0113]
+
+private def edge0114 : BellmanEdge State :=
+  { src := State.s0103, gain := -73, dst := State.s0132 }
+
+private theorem edge0114_valid : edge0114.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0114]
+
+private def edge0115 : BellmanEdge State :=
+  { src := State.s0104, gain := -73, dst := State.s0133 }
+
+private theorem edge0115_valid : edge0115.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0115]
+
+private def edge0116 : BellmanEdge State :=
+  { src := State.s0105, gain := -73, dst := State.s0134 }
+
+private theorem edge0116_valid : edge0116.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0116]
+
+private def edge0117 : BellmanEdge State :=
+  { src := State.s0106, gain := -73, dst := State.s0135 }
+
+private theorem edge0117_valid : edge0117.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0117]
+
+private def edge0118 : BellmanEdge State :=
+  { src := State.s0107, gain := -73, dst := State.s0136 }
+
+private theorem edge0118_valid : edge0118.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0118]
+
+private def edge0119 : BellmanEdge State :=
+  { src := State.s0108, gain := -73, dst := State.s0137 }
+
+private theorem edge0119_valid : edge0119.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0119]
+
+private def edge0120 : BellmanEdge State :=
+  { src := State.s0109, gain := -73, dst := State.s0138 }
+
+private theorem edge0120_valid : edge0120.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0120]
+
+private def edge0121 : BellmanEdge State :=
+  { src := State.s0110, gain := -73, dst := State.s0139 }
+
+private theorem edge0121_valid : edge0121.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0121]
+
+private def edge0122 : BellmanEdge State :=
+  { src := State.s0111, gain := -73, dst := State.s0140 }
+
+private theorem edge0122_valid : edge0122.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0122]
+
+private def edge0123 : BellmanEdge State :=
+  { src := State.s0112, gain := -73, dst := State.s0141 }
+
+private theorem edge0123_valid : edge0123.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0123]
+
+private def edge0124 : BellmanEdge State :=
+  { src := State.s0142, gain := -73, dst := State.s0143 }
+
+private theorem edge0124_valid : edge0124.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0124]
+
+private def edge0125 : BellmanEdge State :=
+  { src := State.s0143, gain := -73, dst := State.s0144 }
+
+private theorem edge0125_valid : edge0125.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0125]
+
+private def edge0126 : BellmanEdge State :=
+  { src := State.s0143, gain := -10, dst := State.s0145 }
+
+private theorem edge0126_valid : edge0126.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0126]
+
+private def edge0127 : BellmanEdge State :=
+  { src := State.s0143, gain := -124, dst := State.s0146 }
+
+private theorem edge0127_valid : edge0127.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0127]
+
+private def edge0128 : BellmanEdge State :=
+  { src := State.s0144, gain := -10, dst := State.s0147 }
+
+private theorem edge0128_valid : edge0128.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0128]
+
+private def edge0129 : BellmanEdge State :=
+  { src := State.s0144, gain := -124, dst := State.s0148 }
+
+private theorem edge0129_valid : edge0129.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0129]
+
+private def edge0130 : BellmanEdge State :=
+  { src := State.s0145, gain := -73, dst := State.s0147 }
+
+private theorem edge0130_valid : edge0130.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0130]
+
+private def edge0131 : BellmanEdge State :=
+  { src := State.s0145, gain := -10, dst := State.s0149 }
+
+private theorem edge0131_valid : edge0131.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0131]
+
+private def edge0132 : BellmanEdge State :=
+  { src := State.s0145, gain := -124, dst := State.s0151 }
+
+private theorem edge0132_valid : edge0132.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0132]
+
+private def edge0133 : BellmanEdge State :=
+  { src := State.s0146, gain := 114, dst := State.s0150 }
+
+private theorem edge0133_valid : edge0133.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0133]
+
+private def edge0134 : BellmanEdge State :=
+  { src := State.s0146, gain := 96, dst := State.s0152 }
+
+private theorem edge0134_valid : edge0134.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0134]
+
+private def edge0135 : BellmanEdge State :=
+  { src := State.s0147, gain := -10, dst := State.s0153 }
+
+private theorem edge0135_valid : edge0135.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0135]
+
+private def edge0136 : BellmanEdge State :=
+  { src := State.s0147, gain := -124, dst := State.s0155 }
+
+private theorem edge0136_valid : edge0136.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0136]
+
+private def edge0137 : BellmanEdge State :=
+  { src := State.s0148, gain := 114, dst := State.s0154 }
+
+private theorem edge0137_valid : edge0137.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0137]
+
+private def edge0138 : BellmanEdge State :=
+  { src := State.s0148, gain := 96, dst := State.s0156 }
+
+private theorem edge0138_valid : edge0138.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0138]
+
+private def edge0139 : BellmanEdge State :=
+  { src := State.s0149, gain := -73, dst := State.s0153 }
+
+private theorem edge0139_valid : edge0139.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0139]
+
+private def edge0140 : BellmanEdge State :=
+  { src := State.s0149, gain := -124, dst := State.s0158 }
+
+private theorem edge0140_valid : edge0140.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0140]
+
+private def edge0141 : BellmanEdge State :=
+  { src := State.s0150, gain := 114, dst := State.s0157 }
+
+private theorem edge0141_valid : edge0141.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0141]
+
+private def edge0142 : BellmanEdge State :=
+  { src := State.s0151, gain := 96, dst := State.s0159 }
+
+private theorem edge0142_valid : edge0142.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0142]
+
+private def edge0143 : BellmanEdge State :=
+  { src := State.s0152, gain := -18, dst := State.s0160 }
+
+private theorem edge0143_valid : edge0143.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0143]
+
+private def edge0144 : BellmanEdge State :=
+  { src := State.s0152, gain := -36, dst := State.s0161 }
+
+private theorem edge0144_valid : edge0144.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0144]
+
+private def edge0145 : BellmanEdge State :=
+  { src := State.s0153, gain := -124, dst := State.s0163 }
+
+private theorem edge0145_valid : edge0145.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0145]
+
+private def edge0146 : BellmanEdge State :=
+  { src := State.s0154, gain := 114, dst := State.s0162 }
+
+private theorem edge0146_valid : edge0146.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0146]
+
+private def edge0147 : BellmanEdge State :=
+  { src := State.s0154, gain := 96, dst := State.s0164 }
+
+private theorem edge0147_valid : edge0147.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0147]
+
+private def edge0148 : BellmanEdge State :=
+  { src := State.s0155, gain := 96, dst := State.s0166 }
+
+private theorem edge0148_valid : edge0148.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0148]
+
+private def edge0149 : BellmanEdge State :=
+  { src := State.s0156, gain := -18, dst := State.s0165 }
+
+private theorem edge0149_valid : edge0149.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0149]
+
+private def edge0150 : BellmanEdge State :=
+  { src := State.s0156, gain := -36, dst := State.s0167 }
+
+private theorem edge0150_valid : edge0150.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0150]
+
+private def edge0151 : BellmanEdge State :=
+  { src := State.s0157, gain := 96, dst := State.s0169 }
+
+private theorem edge0151_valid : edge0151.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0151]
+
+private def edge0152 : BellmanEdge State :=
+  { src := State.s0158, gain := 96, dst := State.s0170 }
+
+private theorem edge0152_valid : edge0152.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0152]
+
+private def edge0153 : BellmanEdge State :=
+  { src := State.s0159, gain := -36, dst := State.s0171 }
+
+private theorem edge0153_valid : edge0153.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0153]
+
+private def edge0154 : BellmanEdge State :=
+  { src := State.s0160, gain := -18, dst := State.s0168 }
+
+private theorem edge0154_valid : edge0154.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0154]
+
+private def edge0155 : BellmanEdge State :=
+  { src := State.s0161, gain := -54, dst := State.s0172 }
+
+private theorem edge0155_valid : edge0155.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0155]
+
+private def edge0156 : BellmanEdge State :=
+  { src := State.s0161, gain := -144, dst := State.s0173 }
+
+private theorem edge0156_valid : edge0156.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0156]
+
+private def edge0157 : BellmanEdge State :=
+  { src := State.s0162, gain := 96, dst := State.s0175 }
+
+private theorem edge0157_valid : edge0157.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0157]
+
+private def edge0158 : BellmanEdge State :=
+  { src := State.s0163, gain := 96, dst := State.s0176 }
+
+private theorem edge0158_valid : edge0158.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0158]
+
+private def edge0159 : BellmanEdge State :=
+  { src := State.s0164, gain := -36, dst := State.s0177 }
+
+private theorem edge0159_valid : edge0159.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0159]
+
+private def edge0160 : BellmanEdge State :=
+  { src := State.s0165, gain := -18, dst := State.s0174 }
+
+private theorem edge0160_valid : edge0160.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0160]
+
+private def edge0161 : BellmanEdge State :=
+  { src := State.s0166, gain := -36, dst := State.s0178 }
+
+private theorem edge0161_valid : edge0161.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0161]
+
+private def edge0162 : BellmanEdge State :=
+  { src := State.s0167, gain := -54, dst := State.s0179 }
+
+private theorem edge0162_valid : edge0162.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0162]
+
+private def edge0163 : BellmanEdge State :=
+  { src := State.s0167, gain := -144, dst := State.s0180 }
+
+private theorem edge0163_valid : edge0163.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0163]
+
+private def edge0164 : BellmanEdge State :=
+  { src := State.s0168, gain := -36, dst := State.s0182 }
+
+private theorem edge0164_valid : edge0164.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0164]
+
+private def edge0165 : BellmanEdge State :=
+  { src := State.s0169, gain := -36, dst := State.s0183 }
+
+private theorem edge0165_valid : edge0165.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0165]
+
+private def edge0166 : BellmanEdge State :=
+  { src := State.s0170, gain := -36, dst := State.s0184 }
+
+private theorem edge0166_valid : edge0166.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0166]
+
+private def edge0167 : BellmanEdge State :=
+  { src := State.s0171, gain := -144, dst := State.s0186 }
+
+private theorem edge0167_valid : edge0167.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0167]
+
+private def edge0168 : BellmanEdge State :=
+  { src := State.s0172, gain := -54, dst := State.s0181 }
+
+private theorem edge0168_valid : edge0168.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0168]
+
+private def edge0169 : BellmanEdge State :=
+  { src := State.s0173, gain := 90, dst := State.s0185 }
+
+private theorem edge0169_valid : edge0169.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0169]
+
+private def edge0170 : BellmanEdge State :=
+  { src := State.s0173, gain := -144, dst := State.s0187 }
+
+private theorem edge0170_valid : edge0170.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0170]
+
+private def edge0171 : BellmanEdge State :=
+  { src := State.s0174, gain := -36, dst := State.s0189 }
+
+private theorem edge0171_valid : edge0171.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0171]
+
+private def edge0172 : BellmanEdge State :=
+  { src := State.s0175, gain := -36, dst := State.s0190 }
+
+private theorem edge0172_valid : edge0172.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0172]
+
+private def edge0173 : BellmanEdge State :=
+  { src := State.s0176, gain := -36, dst := State.s0191 }
+
+private theorem edge0173_valid : edge0173.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0173]
+
+private def edge0174 : BellmanEdge State :=
+  { src := State.s0177, gain := -144, dst := State.s0192 }
+
+private theorem edge0174_valid : edge0174.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0174]
+
+private def edge0175 : BellmanEdge State :=
+  { src := State.s0178, gain := -144, dst := State.s0194 }
+
+private theorem edge0175_valid : edge0175.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0175]
+
+private def edge0176 : BellmanEdge State :=
+  { src := State.s0179, gain := -54, dst := State.s0188 }
+
+private theorem edge0176_valid : edge0176.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0176]
+
+private def edge0177 : BellmanEdge State :=
+  { src := State.s0180, gain := 90, dst := State.s0193 }
+
+private theorem edge0177_valid : edge0177.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0177]
+
+private def edge0178 : BellmanEdge State :=
+  { src := State.s0180, gain := -144, dst := State.s0195 }
+
+private theorem edge0178_valid : edge0178.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0178]
+
+private def edge0179 : BellmanEdge State :=
+  { src := State.s0181, gain := -144, dst := State.s0197 }
+
+private theorem edge0179_valid : edge0179.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0179]
+
+private def edge0180 : BellmanEdge State :=
+  { src := State.s0182, gain := -144, dst := State.s0198 }
+
+private theorem edge0180_valid : edge0180.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0180]
+
+private def edge0181 : BellmanEdge State :=
+  { src := State.s0183, gain := -144, dst := State.s0199 }
+
+private theorem edge0181_valid : edge0181.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0181]
+
+private def edge0182 : BellmanEdge State :=
+  { src := State.s0184, gain := -144, dst := State.s0200 }
+
+private theorem edge0182_valid : edge0182.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0182]
+
+private def edge0183 : BellmanEdge State :=
+  { src := State.s0185, gain := 90, dst := State.s0196 }
+
+private theorem edge0183_valid : edge0183.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0183]
+
+private def edge0184 : BellmanEdge State :=
+  { src := State.s0186, gain := -144, dst := State.s0202 }
+
+private theorem edge0184_valid : edge0184.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0184]
+
+private def edge0185 : BellmanEdge State :=
+  { src := State.s0187, gain := -54, dst := State.s0201 }
+
+private theorem edge0185_valid : edge0185.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0185]
+
+private def edge0186 : BellmanEdge State :=
+  { src := State.s0187, gain := -36, dst := State.s0203 }
+
+private theorem edge0186_valid : edge0186.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0186]
+
+private def edge0187 : BellmanEdge State :=
+  { src := State.s0188, gain := -144, dst := State.s0205 }
+
+private theorem edge0187_valid : edge0187.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0187]
+
+private def edge0188 : BellmanEdge State :=
+  { src := State.s0189, gain := -144, dst := State.s0206 }
+
+private theorem edge0188_valid : edge0188.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0188]
+
+private def edge0189 : BellmanEdge State :=
+  { src := State.s0190, gain := -144, dst := State.s0207 }
+
+private theorem edge0189_valid : edge0189.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0189]
+
+private def edge0190 : BellmanEdge State :=
+  { src := State.s0191, gain := -144, dst := State.s0208 }
+
+private theorem edge0190_valid : edge0190.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0190]
+
+private def edge0191 : BellmanEdge State :=
+  { src := State.s0192, gain := -144, dst := State.s0209 }
+
+private theorem edge0191_valid : edge0191.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0191]
+
+private def edge0192 : BellmanEdge State :=
+  { src := State.s0193, gain := 90, dst := State.s0204 }
+
+private theorem edge0192_valid : edge0192.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0192]
+
+private def edge0193 : BellmanEdge State :=
+  { src := State.s0194, gain := -144, dst := State.s0211 }
+
+private theorem edge0193_valid : edge0193.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0193]
+
+private def edge0194 : BellmanEdge State :=
+  { src := State.s0195, gain := -54, dst := State.s0210 }
+
+private theorem edge0194_valid : edge0194.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0194]
+
+private def edge0195 : BellmanEdge State :=
+  { src := State.s0195, gain := -36, dst := State.s0213 }
+
+private theorem edge0195_valid : edge0195.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0195]
+
+private def edge0196 : BellmanEdge State :=
+  { src := State.s0196, gain := -144, dst := State.s0215 }
+
+private theorem edge0196_valid : edge0196.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0196]
+
+private def edge0197 : BellmanEdge State :=
+  { src := State.s0197, gain := -144, dst := State.s0216 }
+
+private theorem edge0197_valid : edge0197.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0197]
+
+private def edge0198 : BellmanEdge State :=
+  { src := State.s0198, gain := -144, dst := State.s0217 }
+
+private theorem edge0198_valid : edge0198.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0198]
+
+private def edge0199 : BellmanEdge State :=
+  { src := State.s0199, gain := -144, dst := State.s0218 }
+
+private theorem edge0199_valid : edge0199.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0199]
+
+private def edge0200 : BellmanEdge State :=
+  { src := State.s0200, gain := -144, dst := State.s0219 }
+
+private theorem edge0200_valid : edge0200.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0200]
+
+private def edge0201 : BellmanEdge State :=
+  { src := State.s0201, gain := -54, dst := State.s0214 }
+
+private theorem edge0201_valid : edge0201.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0201]
+
+private def edge0202 : BellmanEdge State :=
+  { src := State.s0202, gain := -36, dst := State.s0221 }
+
+private theorem edge0202_valid : edge0202.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0202]
+
+private def edge0203 : BellmanEdge State :=
+  { src := State.s0203, gain := -117, dst := State.s0212 }
+
+private theorem edge0203_valid : edge0203.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0203]
+
+private def edge0204 : BellmanEdge State :=
+  { src := State.s0203, gain := -18, dst := State.s0220 }
+
+private theorem edge0204_valid : edge0204.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0204]
+
+private def edge0205 : BellmanEdge State :=
+  { src := State.s0203, gain := 96, dst := State.s0222 }
+
+private theorem edge0205_valid : edge0205.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0205]
+
+private def edge0206 : BellmanEdge State :=
+  { src := State.s0204, gain := -144, dst := State.s0002 }
+
+private theorem edge0206_valid : edge0206.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0206]
+
+private def edge0207 : BellmanEdge State :=
+  { src := State.s0205, gain := -144, dst := State.s0003 }
+
+private theorem edge0207_valid : edge0207.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0207]
+
+private def edge0208 : BellmanEdge State :=
+  { src := State.s0206, gain := -144, dst := State.s0004 }
+
+private theorem edge0208_valid : edge0208.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0208]
+
+private def edge0209 : BellmanEdge State :=
+  { src := State.s0207, gain := -144, dst := State.s0005 }
+
+private theorem edge0209_valid : edge0209.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0209]
+
+private def edge0210 : BellmanEdge State :=
+  { src := State.s0208, gain := -144, dst := State.s0006 }
+
+private theorem edge0210_valid : edge0210.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0210]
+
+private def edge0211 : BellmanEdge State :=
+  { src := State.s0209, gain := -36, dst := State.s0009 }
+
+private theorem edge0211_valid : edge0211.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0211]
+
+private def edge0212 : BellmanEdge State :=
+  { src := State.s0210, gain := -54, dst := State.s0001 }
+
+private theorem edge0212_valid : edge0212.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0212]
+
+private def edge0213 : BellmanEdge State :=
+  { src := State.s0211, gain := -36, dst := State.s0011 }
+
+private theorem edge0213_valid : edge0213.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0213]
+
+private def edge0214 : BellmanEdge State :=
+  { src := State.s0212, gain := -18, dst := State.s0007 }
+
+private theorem edge0214_valid : edge0214.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0214]
+
+private def edge0215 : BellmanEdge State :=
+  { src := State.s0212, gain := 96, dst := State.s0012 }
+
+private theorem edge0215_valid : edge0215.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0215]
+
+private def edge0216 : BellmanEdge State :=
+  { src := State.s0213, gain := -18, dst := State.s0008 }
+
+private theorem edge0216_valid : edge0216.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0216]
+
+private def edge0217 : BellmanEdge State :=
+  { src := State.s0213, gain := 96, dst := State.s0013 }
+
+private theorem edge0217_valid : edge0217.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0217]
+
+private def edge0218 : BellmanEdge State :=
+  { src := State.s0214, gain := -36, dst := State.s0015 }
+
+private theorem edge0218_valid : edge0218.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0218]
+
+private def edge0219 : BellmanEdge State :=
+  { src := State.s0215, gain := -36, dst := State.s0016 }
+
+private theorem edge0219_valid : edge0219.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0219]
+
+private def edge0220 : BellmanEdge State :=
+  { src := State.s0216, gain := -36, dst := State.s0017 }
+
+private theorem edge0220_valid : edge0220.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0220]
+
+private def edge0221 : BellmanEdge State :=
+  { src := State.s0217, gain := -36, dst := State.s0018 }
+
+private theorem edge0221_valid : edge0221.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0221]
+
+private def edge0222 : BellmanEdge State :=
+  { src := State.s0218, gain := -36, dst := State.s0019 }
+
+private theorem edge0222_valid : edge0222.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0222]
+
+private def edge0223 : BellmanEdge State :=
+  { src := State.s0219, gain := -36, dst := State.s0020 }
+
+private theorem edge0223_valid : edge0223.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0223]
+
+private def edge0224 : BellmanEdge State :=
+  { src := State.s0220, gain := -117, dst := State.s0007 }
+
+private theorem edge0224_valid : edge0224.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0224]
+
+private def edge0225 : BellmanEdge State :=
+  { src := State.s0220, gain := -18, dst := State.s0014 }
+
+private theorem edge0225_valid : edge0225.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0225]
+
+private def edge0226 : BellmanEdge State :=
+  { src := State.s0221, gain := -117, dst := State.s0010 }
+
+private theorem edge0226_valid : edge0226.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0226]
+
+private def edge0227 : BellmanEdge State :=
+  { src := State.s0221, gain := 96, dst := State.s0021 }
+
+private theorem edge0227_valid : edge0227.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0227]
+
+private def edge0228 : BellmanEdge State :=
+  { src := State.s0222, gain := -124, dst := State.s0022 }
+
+private theorem edge0228_valid : edge0228.Valid graphPotential := by
+  norm_num [BellmanEdge.Valid, graphPotential, edge0228]
+
+private inductive GraphEdge : BellmanEdge State -> Prop where
+  | e0000 : GraphEdge edge0000
+  | e0001 : GraphEdge edge0001
+  | e0002 : GraphEdge edge0002
+  | e0003 : GraphEdge edge0003
+  | e0004 : GraphEdge edge0004
+  | e0005 : GraphEdge edge0005
+  | e0006 : GraphEdge edge0006
+  | e0007 : GraphEdge edge0007
+  | e0008 : GraphEdge edge0008
+  | e0009 : GraphEdge edge0009
+  | e0010 : GraphEdge edge0010
+  | e0011 : GraphEdge edge0011
+  | e0012 : GraphEdge edge0012
+  | e0013 : GraphEdge edge0013
+  | e0014 : GraphEdge edge0014
+  | e0015 : GraphEdge edge0015
+  | e0016 : GraphEdge edge0016
+  | e0017 : GraphEdge edge0017
+  | e0018 : GraphEdge edge0018
+  | e0019 : GraphEdge edge0019
+  | e0020 : GraphEdge edge0020
+  | e0021 : GraphEdge edge0021
+  | e0022 : GraphEdge edge0022
+  | e0023 : GraphEdge edge0023
+  | e0024 : GraphEdge edge0024
+  | e0025 : GraphEdge edge0025
+  | e0026 : GraphEdge edge0026
+  | e0027 : GraphEdge edge0027
+  | e0028 : GraphEdge edge0028
+  | e0029 : GraphEdge edge0029
+  | e0030 : GraphEdge edge0030
+  | e0031 : GraphEdge edge0031
+  | e0032 : GraphEdge edge0032
+  | e0033 : GraphEdge edge0033
+  | e0034 : GraphEdge edge0034
+  | e0035 : GraphEdge edge0035
+  | e0036 : GraphEdge edge0036
+  | e0037 : GraphEdge edge0037
+  | e0038 : GraphEdge edge0038
+  | e0039 : GraphEdge edge0039
+  | e0040 : GraphEdge edge0040
+  | e0041 : GraphEdge edge0041
+  | e0042 : GraphEdge edge0042
+  | e0043 : GraphEdge edge0043
+  | e0044 : GraphEdge edge0044
+  | e0045 : GraphEdge edge0045
+  | e0046 : GraphEdge edge0046
+  | e0047 : GraphEdge edge0047
+  | e0048 : GraphEdge edge0048
+  | e0049 : GraphEdge edge0049
+  | e0050 : GraphEdge edge0050
+  | e0051 : GraphEdge edge0051
+  | e0052 : GraphEdge edge0052
+  | e0053 : GraphEdge edge0053
+  | e0054 : GraphEdge edge0054
+  | e0055 : GraphEdge edge0055
+  | e0056 : GraphEdge edge0056
+  | e0057 : GraphEdge edge0057
+  | e0058 : GraphEdge edge0058
+  | e0059 : GraphEdge edge0059
+  | e0060 : GraphEdge edge0060
+  | e0061 : GraphEdge edge0061
+  | e0062 : GraphEdge edge0062
+  | e0063 : GraphEdge edge0063
+  | e0064 : GraphEdge edge0064
+  | e0065 : GraphEdge edge0065
+  | e0066 : GraphEdge edge0066
+  | e0067 : GraphEdge edge0067
+  | e0068 : GraphEdge edge0068
+  | e0069 : GraphEdge edge0069
+  | e0070 : GraphEdge edge0070
+  | e0071 : GraphEdge edge0071
+  | e0072 : GraphEdge edge0072
+  | e0073 : GraphEdge edge0073
+  | e0074 : GraphEdge edge0074
+  | e0075 : GraphEdge edge0075
+  | e0076 : GraphEdge edge0076
+  | e0077 : GraphEdge edge0077
+  | e0078 : GraphEdge edge0078
+  | e0079 : GraphEdge edge0079
+  | e0080 : GraphEdge edge0080
+  | e0081 : GraphEdge edge0081
+  | e0082 : GraphEdge edge0082
+  | e0083 : GraphEdge edge0083
+  | e0084 : GraphEdge edge0084
+  | e0085 : GraphEdge edge0085
+  | e0086 : GraphEdge edge0086
+  | e0087 : GraphEdge edge0087
+  | e0088 : GraphEdge edge0088
+  | e0089 : GraphEdge edge0089
+  | e0090 : GraphEdge edge0090
+  | e0091 : GraphEdge edge0091
+  | e0092 : GraphEdge edge0092
+  | e0093 : GraphEdge edge0093
+  | e0094 : GraphEdge edge0094
+  | e0095 : GraphEdge edge0095
+  | e0096 : GraphEdge edge0096
+  | e0097 : GraphEdge edge0097
+  | e0098 : GraphEdge edge0098
+  | e0099 : GraphEdge edge0099
+  | e0100 : GraphEdge edge0100
+  | e0101 : GraphEdge edge0101
+  | e0102 : GraphEdge edge0102
+  | e0103 : GraphEdge edge0103
+  | e0104 : GraphEdge edge0104
+  | e0105 : GraphEdge edge0105
+  | e0106 : GraphEdge edge0106
+  | e0107 : GraphEdge edge0107
+  | e0108 : GraphEdge edge0108
+  | e0109 : GraphEdge edge0109
+  | e0110 : GraphEdge edge0110
+  | e0111 : GraphEdge edge0111
+  | e0112 : GraphEdge edge0112
+  | e0113 : GraphEdge edge0113
+  | e0114 : GraphEdge edge0114
+  | e0115 : GraphEdge edge0115
+  | e0116 : GraphEdge edge0116
+  | e0117 : GraphEdge edge0117
+  | e0118 : GraphEdge edge0118
+  | e0119 : GraphEdge edge0119
+  | e0120 : GraphEdge edge0120
+  | e0121 : GraphEdge edge0121
+  | e0122 : GraphEdge edge0122
+  | e0123 : GraphEdge edge0123
+  | e0124 : GraphEdge edge0124
+  | e0125 : GraphEdge edge0125
+  | e0126 : GraphEdge edge0126
+  | e0127 : GraphEdge edge0127
+  | e0128 : GraphEdge edge0128
+  | e0129 : GraphEdge edge0129
+  | e0130 : GraphEdge edge0130
+  | e0131 : GraphEdge edge0131
+  | e0132 : GraphEdge edge0132
+  | e0133 : GraphEdge edge0133
+  | e0134 : GraphEdge edge0134
+  | e0135 : GraphEdge edge0135
+  | e0136 : GraphEdge edge0136
+  | e0137 : GraphEdge edge0137
+  | e0138 : GraphEdge edge0138
+  | e0139 : GraphEdge edge0139
+  | e0140 : GraphEdge edge0140
+  | e0141 : GraphEdge edge0141
+  | e0142 : GraphEdge edge0142
+  | e0143 : GraphEdge edge0143
+  | e0144 : GraphEdge edge0144
+  | e0145 : GraphEdge edge0145
+  | e0146 : GraphEdge edge0146
+  | e0147 : GraphEdge edge0147
+  | e0148 : GraphEdge edge0148
+  | e0149 : GraphEdge edge0149
+  | e0150 : GraphEdge edge0150
+  | e0151 : GraphEdge edge0151
+  | e0152 : GraphEdge edge0152
+  | e0153 : GraphEdge edge0153
+  | e0154 : GraphEdge edge0154
+  | e0155 : GraphEdge edge0155
+  | e0156 : GraphEdge edge0156
+  | e0157 : GraphEdge edge0157
+  | e0158 : GraphEdge edge0158
+  | e0159 : GraphEdge edge0159
+  | e0160 : GraphEdge edge0160
+  | e0161 : GraphEdge edge0161
+  | e0162 : GraphEdge edge0162
+  | e0163 : GraphEdge edge0163
+  | e0164 : GraphEdge edge0164
+  | e0165 : GraphEdge edge0165
+  | e0166 : GraphEdge edge0166
+  | e0167 : GraphEdge edge0167
+  | e0168 : GraphEdge edge0168
+  | e0169 : GraphEdge edge0169
+  | e0170 : GraphEdge edge0170
+  | e0171 : GraphEdge edge0171
+  | e0172 : GraphEdge edge0172
+  | e0173 : GraphEdge edge0173
+  | e0174 : GraphEdge edge0174
+  | e0175 : GraphEdge edge0175
+  | e0176 : GraphEdge edge0176
+  | e0177 : GraphEdge edge0177
+  | e0178 : GraphEdge edge0178
+  | e0179 : GraphEdge edge0179
+  | e0180 : GraphEdge edge0180
+  | e0181 : GraphEdge edge0181
+  | e0182 : GraphEdge edge0182
+  | e0183 : GraphEdge edge0183
+  | e0184 : GraphEdge edge0184
+  | e0185 : GraphEdge edge0185
+  | e0186 : GraphEdge edge0186
+  | e0187 : GraphEdge edge0187
+  | e0188 : GraphEdge edge0188
+  | e0189 : GraphEdge edge0189
+  | e0190 : GraphEdge edge0190
+  | e0191 : GraphEdge edge0191
+  | e0192 : GraphEdge edge0192
+  | e0193 : GraphEdge edge0193
+  | e0194 : GraphEdge edge0194
+  | e0195 : GraphEdge edge0195
+  | e0196 : GraphEdge edge0196
+  | e0197 : GraphEdge edge0197
+  | e0198 : GraphEdge edge0198
+  | e0199 : GraphEdge edge0199
+  | e0200 : GraphEdge edge0200
+  | e0201 : GraphEdge edge0201
+  | e0202 : GraphEdge edge0202
+  | e0203 : GraphEdge edge0203
+  | e0204 : GraphEdge edge0204
+  | e0205 : GraphEdge edge0205
+  | e0206 : GraphEdge edge0206
+  | e0207 : GraphEdge edge0207
+  | e0208 : GraphEdge edge0208
+  | e0209 : GraphEdge edge0209
+  | e0210 : GraphEdge edge0210
+  | e0211 : GraphEdge edge0211
+  | e0212 : GraphEdge edge0212
+  | e0213 : GraphEdge edge0213
+  | e0214 : GraphEdge edge0214
+  | e0215 : GraphEdge edge0215
+  | e0216 : GraphEdge edge0216
+  | e0217 : GraphEdge edge0217
+  | e0218 : GraphEdge edge0218
+  | e0219 : GraphEdge edge0219
+  | e0220 : GraphEdge edge0220
+  | e0221 : GraphEdge edge0221
+  | e0222 : GraphEdge edge0222
+  | e0223 : GraphEdge edge0223
+  | e0224 : GraphEdge edge0224
+  | e0225 : GraphEdge edge0225
+  | e0226 : GraphEdge edge0226
+  | e0227 : GraphEdge edge0227
+  | e0228 : GraphEdge edge0228
+
+private theorem GraphEdge.valid {e : BellmanEdge State} :
+    GraphEdge e -> e.Valid graphPotential := by
+  intro h
+  cases h with
+  | e0000 => exact edge0000_valid
+  | e0001 => exact edge0001_valid
+  | e0002 => exact edge0002_valid
+  | e0003 => exact edge0003_valid
+  | e0004 => exact edge0004_valid
+  | e0005 => exact edge0005_valid
+  | e0006 => exact edge0006_valid
+  | e0007 => exact edge0007_valid
+  | e0008 => exact edge0008_valid
+  | e0009 => exact edge0009_valid
+  | e0010 => exact edge0010_valid
+  | e0011 => exact edge0011_valid
+  | e0012 => exact edge0012_valid
+  | e0013 => exact edge0013_valid
+  | e0014 => exact edge0014_valid
+  | e0015 => exact edge0015_valid
+  | e0016 => exact edge0016_valid
+  | e0017 => exact edge0017_valid
+  | e0018 => exact edge0018_valid
+  | e0019 => exact edge0019_valid
+  | e0020 => exact edge0020_valid
+  | e0021 => exact edge0021_valid
+  | e0022 => exact edge0022_valid
+  | e0023 => exact edge0023_valid
+  | e0024 => exact edge0024_valid
+  | e0025 => exact edge0025_valid
+  | e0026 => exact edge0026_valid
+  | e0027 => exact edge0027_valid
+  | e0028 => exact edge0028_valid
+  | e0029 => exact edge0029_valid
+  | e0030 => exact edge0030_valid
+  | e0031 => exact edge0031_valid
+  | e0032 => exact edge0032_valid
+  | e0033 => exact edge0033_valid
+  | e0034 => exact edge0034_valid
+  | e0035 => exact edge0035_valid
+  | e0036 => exact edge0036_valid
+  | e0037 => exact edge0037_valid
+  | e0038 => exact edge0038_valid
+  | e0039 => exact edge0039_valid
+  | e0040 => exact edge0040_valid
+  | e0041 => exact edge0041_valid
+  | e0042 => exact edge0042_valid
+  | e0043 => exact edge0043_valid
+  | e0044 => exact edge0044_valid
+  | e0045 => exact edge0045_valid
+  | e0046 => exact edge0046_valid
+  | e0047 => exact edge0047_valid
+  | e0048 => exact edge0048_valid
+  | e0049 => exact edge0049_valid
+  | e0050 => exact edge0050_valid
+  | e0051 => exact edge0051_valid
+  | e0052 => exact edge0052_valid
+  | e0053 => exact edge0053_valid
+  | e0054 => exact edge0054_valid
+  | e0055 => exact edge0055_valid
+  | e0056 => exact edge0056_valid
+  | e0057 => exact edge0057_valid
+  | e0058 => exact edge0058_valid
+  | e0059 => exact edge0059_valid
+  | e0060 => exact edge0060_valid
+  | e0061 => exact edge0061_valid
+  | e0062 => exact edge0062_valid
+  | e0063 => exact edge0063_valid
+  | e0064 => exact edge0064_valid
+  | e0065 => exact edge0065_valid
+  | e0066 => exact edge0066_valid
+  | e0067 => exact edge0067_valid
+  | e0068 => exact edge0068_valid
+  | e0069 => exact edge0069_valid
+  | e0070 => exact edge0070_valid
+  | e0071 => exact edge0071_valid
+  | e0072 => exact edge0072_valid
+  | e0073 => exact edge0073_valid
+  | e0074 => exact edge0074_valid
+  | e0075 => exact edge0075_valid
+  | e0076 => exact edge0076_valid
+  | e0077 => exact edge0077_valid
+  | e0078 => exact edge0078_valid
+  | e0079 => exact edge0079_valid
+  | e0080 => exact edge0080_valid
+  | e0081 => exact edge0081_valid
+  | e0082 => exact edge0082_valid
+  | e0083 => exact edge0083_valid
+  | e0084 => exact edge0084_valid
+  | e0085 => exact edge0085_valid
+  | e0086 => exact edge0086_valid
+  | e0087 => exact edge0087_valid
+  | e0088 => exact edge0088_valid
+  | e0089 => exact edge0089_valid
+  | e0090 => exact edge0090_valid
+  | e0091 => exact edge0091_valid
+  | e0092 => exact edge0092_valid
+  | e0093 => exact edge0093_valid
+  | e0094 => exact edge0094_valid
+  | e0095 => exact edge0095_valid
+  | e0096 => exact edge0096_valid
+  | e0097 => exact edge0097_valid
+  | e0098 => exact edge0098_valid
+  | e0099 => exact edge0099_valid
+  | e0100 => exact edge0100_valid
+  | e0101 => exact edge0101_valid
+  | e0102 => exact edge0102_valid
+  | e0103 => exact edge0103_valid
+  | e0104 => exact edge0104_valid
+  | e0105 => exact edge0105_valid
+  | e0106 => exact edge0106_valid
+  | e0107 => exact edge0107_valid
+  | e0108 => exact edge0108_valid
+  | e0109 => exact edge0109_valid
+  | e0110 => exact edge0110_valid
+  | e0111 => exact edge0111_valid
+  | e0112 => exact edge0112_valid
+  | e0113 => exact edge0113_valid
+  | e0114 => exact edge0114_valid
+  | e0115 => exact edge0115_valid
+  | e0116 => exact edge0116_valid
+  | e0117 => exact edge0117_valid
+  | e0118 => exact edge0118_valid
+  | e0119 => exact edge0119_valid
+  | e0120 => exact edge0120_valid
+  | e0121 => exact edge0121_valid
+  | e0122 => exact edge0122_valid
+  | e0123 => exact edge0123_valid
+  | e0124 => exact edge0124_valid
+  | e0125 => exact edge0125_valid
+  | e0126 => exact edge0126_valid
+  | e0127 => exact edge0127_valid
+  | e0128 => exact edge0128_valid
+  | e0129 => exact edge0129_valid
+  | e0130 => exact edge0130_valid
+  | e0131 => exact edge0131_valid
+  | e0132 => exact edge0132_valid
+  | e0133 => exact edge0133_valid
+  | e0134 => exact edge0134_valid
+  | e0135 => exact edge0135_valid
+  | e0136 => exact edge0136_valid
+  | e0137 => exact edge0137_valid
+  | e0138 => exact edge0138_valid
+  | e0139 => exact edge0139_valid
+  | e0140 => exact edge0140_valid
+  | e0141 => exact edge0141_valid
+  | e0142 => exact edge0142_valid
+  | e0143 => exact edge0143_valid
+  | e0144 => exact edge0144_valid
+  | e0145 => exact edge0145_valid
+  | e0146 => exact edge0146_valid
+  | e0147 => exact edge0147_valid
+  | e0148 => exact edge0148_valid
+  | e0149 => exact edge0149_valid
+  | e0150 => exact edge0150_valid
+  | e0151 => exact edge0151_valid
+  | e0152 => exact edge0152_valid
+  | e0153 => exact edge0153_valid
+  | e0154 => exact edge0154_valid
+  | e0155 => exact edge0155_valid
+  | e0156 => exact edge0156_valid
+  | e0157 => exact edge0157_valid
+  | e0158 => exact edge0158_valid
+  | e0159 => exact edge0159_valid
+  | e0160 => exact edge0160_valid
+  | e0161 => exact edge0161_valid
+  | e0162 => exact edge0162_valid
+  | e0163 => exact edge0163_valid
+  | e0164 => exact edge0164_valid
+  | e0165 => exact edge0165_valid
+  | e0166 => exact edge0166_valid
+  | e0167 => exact edge0167_valid
+  | e0168 => exact edge0168_valid
+  | e0169 => exact edge0169_valid
+  | e0170 => exact edge0170_valid
+  | e0171 => exact edge0171_valid
+  | e0172 => exact edge0172_valid
+  | e0173 => exact edge0173_valid
+  | e0174 => exact edge0174_valid
+  | e0175 => exact edge0175_valid
+  | e0176 => exact edge0176_valid
+  | e0177 => exact edge0177_valid
+  | e0178 => exact edge0178_valid
+  | e0179 => exact edge0179_valid
+  | e0180 => exact edge0180_valid
+  | e0181 => exact edge0181_valid
+  | e0182 => exact edge0182_valid
+  | e0183 => exact edge0183_valid
+  | e0184 => exact edge0184_valid
+  | e0185 => exact edge0185_valid
+  | e0186 => exact edge0186_valid
+  | e0187 => exact edge0187_valid
+  | e0188 => exact edge0188_valid
+  | e0189 => exact edge0189_valid
+  | e0190 => exact edge0190_valid
+  | e0191 => exact edge0191_valid
+  | e0192 => exact edge0192_valid
+  | e0193 => exact edge0193_valid
+  | e0194 => exact edge0194_valid
+  | e0195 => exact edge0195_valid
+  | e0196 => exact edge0196_valid
+  | e0197 => exact edge0197_valid
+  | e0198 => exact edge0198_valid
+  | e0199 => exact edge0199_valid
+  | e0200 => exact edge0200_valid
+  | e0201 => exact edge0201_valid
+  | e0202 => exact edge0202_valid
+  | e0203 => exact edge0203_valid
+  | e0204 => exact edge0204_valid
+  | e0205 => exact edge0205_valid
+  | e0206 => exact edge0206_valid
+  | e0207 => exact edge0207_valid
+  | e0208 => exact edge0208_valid
+  | e0209 => exact edge0209_valid
+  | e0210 => exact edge0210_valid
+  | e0211 => exact edge0211_valid
+  | e0212 => exact edge0212_valid
+  | e0213 => exact edge0213_valid
+  | e0214 => exact edge0214_valid
+  | e0215 => exact edge0215_valid
+  | e0216 => exact edge0216_valid
+  | e0217 => exact edge0217_valid
+  | e0218 => exact edge0218_valid
+  | e0219 => exact edge0219_valid
+  | e0220 => exact edge0220_valid
+  | e0221 => exact edge0221_valid
+  | e0222 => exact edge0222_valid
+  | e0223 => exact edge0223_valid
+  | e0224 => exact edge0224_valid
+  | e0225 => exact edge0225_valid
+  | e0226 => exact edge0226_valid
+  | e0227 => exact edge0227_valid
+  | e0228 => exact edge0228_valid
+
+private theorem root_bound :
+    (176 : Int) + graphPotential rootState <= 0 := by
+  norm_num [rootState, graphPotential]
+
+theorem graphSmoke_path_scaled_margin_nonpos
+    {finish : State} {edges : List (BellmanEdge State)}
+    (hpath : BellmanPath rootState finish edges)
+    (hgraph : forall e, e ∈ edges -> GraphEdge e)
+    (hfinish : 0 <= graphPotential finish) :
+    (176 : Int) + bellmanGainSum edges <= 0 :=
+  const_add_bellmanGainSum_nonpos_of_path
+    (V := graphPotential)
+    (const := 176)
+    hpath
+    (fun e he => GraphEdge.valid (hgraph e he))
+    hfinish
+    root_bound
+
+theorem bellmanGraphSmoke_builds : True := by
+  exact True.intro
+
+end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke

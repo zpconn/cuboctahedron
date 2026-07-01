@@ -367,6 +367,16 @@ Top margin+cancellation-pairing checkpoint:
   builds in `0:08.50` wall time at `3,242,260 kB` max RSS.  It is path-level
   only, but validates the generated-data-to-Bellman theorem connection.  A
   cached rerun built in `0:00.98` wall time at `811,536 kB` max RSS.
+- Graph-smoke status: `scripts/nonidentity_margin_bellman_profile.py` now has
+  `--include-graph`, and `scripts/emit_bellman_graph_smoke.py` emits a bounded
+  constructor-state Lean graph certificate.  For `[0,1000000)` with
+  `with-step-tri-source`, the exported graph has `223` states, `229` edges,
+  and `29` final states.  The Lean graph smoke
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  builds in `0:25.03` wall time at `6,036,172 kB` max RSS.  A previous
+  Fin/Nat-table encoding was rejected after recursion-depth and heartbeat
+  failures, so generated Bellman graph certificates should use constructor
+  states or similarly shallow proof-facing lookup surfaces.
 
 ## Explicit Non-Goals
 
