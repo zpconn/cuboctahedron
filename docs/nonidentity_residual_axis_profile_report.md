@@ -2050,3 +2050,60 @@ transporting axis-forced feasible sequences into Bellman label-step runs.  The
 next production task is to replace sampled-rank membership with a semantic
 holonomy/cancellation-family membership theorem that supplies the generated
 forced/template run and axis-forcing premises.
+
+## Bellman Rank-Family Surface Checkpoint
+
+The nonidentity residual strategy has now pivoted from sampled path-class
+bridges to a production-shaped rank-family interface in:
+
+```text
+Cuboctahedron/Search/BellmanAxisBridge.lean
+```
+
+New surfaces:
+
+```lean
+BellmanAxisRankFamily
+BellmanAxisRankFamily.scaledMargin_nonpos
+```
+
+The family structure records the forced/template sequence, axis and kernel,
+Bellman run, local potential checks, family margin bound, and per-member
+kernel/axis-forcing facts.  The theorem derives `scaledMargin rank <= 0` for
+any realized sequence with `NonIdentityAxisConstraints`.  This is the intended
+semantic leaf interface for the Bellman/potential certificate route.
+
+A generated one-class smoke instantiated the structure:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphFamilySmoke.lean
+```
+
+Generated theorem:
+
+```lean
+graphSmoke_cls0000_axis_rank_family_scaled_margin_nonpos
+```
+
+Focused build:
+
+```text
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphFamilySmoke
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `BellmanTopPairingGraphFamilySmoke` | `0:16.69` | `4,299,384 kB` | `0` |
+
+The forbidden-keyword scan over the shared bridge, generator, and generated
+family smoke found no `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Decision: accepted as a theorem-surface smoke only.  The generated smoke still
+uses singleton membership (`ContainsRank rank := rank = cls0000Rank`).  The
+next nonidentity residual proof task is the real holonomy/cancellation-family
+membership theorem: a family predicate must imply the generated kernel check,
+axis-forcing facts, Bellman label-step run, and margin bound without keying by
+exact affine RHS or per-rank certificates.

@@ -110,4 +110,80 @@ theorem scaledMargin_nonpos_of_axisForces_labelStepRun
       (V := V) hrunSeq hvalid hfinish hroot
   linarith
 
+structure BellmanAxisRankFamily
+    (State Label : Type)
+    (V : State -> Int)
+    (Step : State -> Label -> State -> Int -> Prop)
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (ContainsRank : Fin numPairWords -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) where
+  forcedSeq : Step14 -> Face
+  axis : Vec3 Rat
+  kernel : KernelLineWitness
+  finish : State
+  gain : Int
+  run :
+    BellmanLabelStepRun Step start finish
+      (faceLabelsInContributionOrder labelOfFace forcedSeq) gain
+  step_valid :
+    forall s label t gain, Step s label t gain -> gain + V t <= V s
+  finish_nonneg : 0 <= V finish
+  root_bound : const + V start <= 0
+  margin_bound :
+    forall rank, ContainsRank rank -> scaledMargin rank <= const + gain
+  kernel_check :
+    forall rank, ContainsRank rank ->
+      checkKernelLineWitness (totalLinearOfPairWord (unrankPairWord rank))
+        axis kernel = true
+  axis_forces :
+    forall rank, ContainsRank rank ->
+      AxisForcesForcedSeq (unrankPairWord rank) axis forcedSeq
+
+namespace BellmanAxisRankFamily
+
+theorem scaledMargin_nonpos
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {ContainsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      BellmanAxisRankFamily
+        State Label V Step labelOfFace start const ContainsRank scaledMargin)
+    {rank : Fin numPairWords} {seq : Step14 -> Face}
+    (hrank : ContainsRank rank)
+    (hRealize : SeqRealizesPairWord (unrankPairWord rank) seq)
+    (hAxisConstraints : NonIdentityAxisConstraints seq) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_axisForces_labelStepRun
+    (labelOfFace := labelOfFace)
+    (V := V)
+    (Step := Step)
+    (rank := rank)
+    (axis := family.axis)
+    (kernel := family.kernel)
+    (forcedSeq := family.forcedSeq)
+    (seq := seq)
+    (start := start)
+    (finish := family.finish)
+    (gain := family.gain)
+    (const := const)
+    (margin := scaledMargin rank)
+    family.run
+    family.step_valid
+    family.finish_nonneg
+    family.root_bound
+    (family.margin_bound rank hrank)
+    hRealize
+    hAxisConstraints
+    (family.kernel_check rank hrank)
+    (family.axis_forces rank hrank)
+
+end BellmanAxisRankFamily
+
 end Cuboctahedron

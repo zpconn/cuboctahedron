@@ -909,3 +909,39 @@ Reusable Bellman/axis adapter:
   ```
 
   Result: `0:15.15` wall time, `4,279,512 kB` max RSS, exit `0`.
+
+Bellman rank-family surface:
+
+- `Cuboctahedron.Search.BellmanAxisBridge` now also defines
+  `BellmanAxisRankFamily` and
+  `BellmanAxisRankFamily.scaledMargin_nonpos`.
+- This is the production-shaped interface for the GPT5.5-style
+  Bellman/potential pivot: a generated family keeps its potential table,
+  forced/template sequence, exact axis/kernel data, and margin arithmetic
+  private, then exports a semantic theorem over a `ContainsRank` predicate.
+- `scripts/emit_bellman_graph_smoke.py` can instantiate this surface for the
+  current top-pairing Bellman graph.  The one-class smoke is:
+
+  ```text
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphFamilySmoke
+  ```
+
+  with theorem:
+
+  ```lean
+  graphSmoke_cls0000_axis_rank_family_scaled_margin_nonpos
+  ```
+
+- Focused build:
+
+  ```text
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphFamilySmoke
+  ```
+
+  Result: `0:16.69` wall time, `4,299,384 kB` max RSS, exit `0`.
+- The smoke's `ContainsRank` predicate is intentionally singleton-shaped, so
+  it proves the theorem surface but not coverage.  The next real bridge is a
+  holonomy/cancellation-language membership theorem that supplies the same
+  kernel check, axis-forcing fact, Bellman run, and margin bound for all ranks
+  in a semantic family.

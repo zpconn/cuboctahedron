@@ -47460,3 +47460,79 @@ bound, and scaled-margin inequality.  The next production task is now the real
 semantic family membership theorem: construct the label-step run and
 axis-forcing premises from holonomy/cancellation-family membership rather than
 from sampled ranks.
+
+### Holonomy/Bellman Pivot - rank-family theorem surface accepted
+
+Following the GPT5.5 Pro recommendation, the nonidentity residual lane is now
+explicitly a Bellman/potential certificate lane, not another certificate-packing
+or exact-affine-RHS keying lane.  The immediate proof interface is a semantic
+rank-family wrapper:
+
+```lean
+BellmanAxisRankFamily
+BellmanAxisRankFamily.scaledMargin_nonpos
+```
+
+This structure lives in:
+
+```text
+Cuboctahedron/Search/BellmanAxisBridge.lean
+```
+
+It packages the data a production Bellman leaf should export privately:
+
+- a forced/template signed face sequence;
+- an exact projective axis and kernel witness;
+- a Bellman label-step run from root to final state;
+- local Bellman step inequalities, final-potential nonnegativity, and root
+  bound;
+- a family-level scaled-margin bound;
+- a `ContainsRank` predicate with exact kernel and axis-forcing facts for every
+  member.
+
+The theorem `BellmanAxisRankFamily.scaledMargin_nonpos` then proves the
+semantic margin nonpositivity for any realized sequence satisfying
+`NonIdentityAxisConstraints`.  This is the desired production shape: generated
+leaves should expose semantic family facts and keep potentials, traces, axes,
+and margin arithmetic out of public theorem types.
+
+A one-class generated smoke now instantiates this interface:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphFamilySmoke.lean
+```
+
+Generated theorem:
+
+```lean
+graphSmoke_cls0000_axis_rank_family_scaled_margin_nonpos
+```
+
+Commands run:
+
+```bash
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphFamilySmoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphFamilySmoke \
+  --rank-bridge-limit 1
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphFamilySmoke
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `BellmanTopPairingGraphFamilySmoke` | `0:16.69` | `4,299,384 kB` | `0` |
+
+The forbidden-keyword scan over the shared bridge, emitter, and generated
+family smoke found no `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Decision: accepted as the next theorem surface.  The current smoke still uses
+`ContainsRank rank := rank = cls0000Rank`, so it is not coverage and must not
+be scaled as singleton membership.  The next real implementation task is to
+replace that singleton predicate with a holonomy/cancellation-language family
+predicate and generate Lean proofs that every member supplies the same
+Bellman label-step run, margin bound, kernel check, and axis-forcing premise.
