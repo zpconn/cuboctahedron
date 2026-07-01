@@ -2044,7 +2044,7 @@
   "global_blockers": [],
   "graph_json": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
   "graph_path_object_count": 37,
-  "mem_available_mib": 46616,
+  "mem_available_mib": 46537,
   "min_available_mib": 36864,
   "mode": "bellman-split-batch-dry-run-guard",
   "options": {
