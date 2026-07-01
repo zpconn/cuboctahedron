@@ -1443,3 +1443,24 @@ cancellation pairing, observed schedule/square-gap constraints, oriented local
 forced-axis compatibility, and canonical bad-face compatibility.  This is a
 more promising production language than exact path classes, but it is not yet
 closed.
+
+Refined frontier audit:
+
+- Reran `scripts/audit_bellman_missing_transition_completions.py` against the
+  neg-axis local-forced closure artifact.
+- Result:
+
+  | metric | value |
+  | --- | ---: |
+  | `gap_count` | `1` |
+  | `total_completions` | `1` |
+  | `total_matched_top_family` | `0` |
+
+- The sole completion has contribution faces
+  `xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp tmmp tmpp yp xp`.
+- It fails only by `canonical_bad_face_mismatch`:
+  `canonical_bad_face = tpmm`, target `yp`.
+
+Next gate: add or audit a canonical-bad-face compatibility predicate for this
+Bellman object language.  A zero-gap closure after that would justify a larger
+semantic object-family Lean smoke.

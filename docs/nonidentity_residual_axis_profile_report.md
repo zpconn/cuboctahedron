@@ -2807,3 +2807,42 @@ oriented local forced-axis compatibility
 
 This gives a concrete way to pursue the GPT5.5 Bellman/potential pivot without
 falling back to rank-local certificate packing.
+
+## Refined Bellman Closure Frontier
+
+The remaining-gap audit was rerun against the neg-axis local-forced closure
+artifact:
+
+```bash
+python3 scripts/audit_bellman_missing_transition_completions.py \
+  --graph scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --closure scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_negaxis_1M_step_face_linear_tri_source.json \
+  --json scripts/generated/bellman_missing_transition_completions_top_pairing_negaxis_closure_1M_step_face_linear_tri_source.json \
+  --markdown scripts/generated/bellman_missing_transition_completions_top_pairing_negaxis_closure_1M_step_face_linear_tri_source.md \
+  --max-completions-per-gap 100000
+```
+
+Result:
+
+| metric | value |
+| --- | ---: |
+| `gap_count` | `1` |
+| `total_completions` | `1` |
+| `total_matched_top_family` | `0` |
+| `truncated_gaps` | `0` |
+
+The sole remaining candidate is:
+
+```text
+state 19, missing face tmmp
+contribution faces:
+  xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp tmmp tmpp yp xp
+reason:
+  canonical_bad_face_mismatch
+  canonical_bad_face = tpmm
+  target_bad_face = yp
+```
+
+Conclusion: for this 1M top-pairing graph, the object-language frontier is now
+one canonical-bad-face compatibility invariant.  This should be tested before
+any larger Lean smoke is emitted.
