@@ -154,6 +154,76 @@ theorem nonIdentityRankKilled_of_closed_top_pairing_ym_language_family
   nonIdentityRankKilled_of_closed_top_pairing_language_family
     family certOf hclosed
 
+structure ClosedTopPairingLanguageFamily
+    (State Label : Type)
+    (V : State -> Int)
+    (Step : State -> Label -> State -> Int -> Prop)
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (badFace : Face)
+    (scaledMargin : Fin numPairWords -> Int) where
+  family :
+    _root_.Cuboctahedron.BellmanAxisRankLanguageFamily
+      State Label V Step labelOfFace start const
+      (ClosedTopPairingContainsRank badFace) scaledMargin
+  certOf :
+    forall rank,
+      _root_.Cuboctahedron.TopPairingClosedLanguageAtRank rank badFace ->
+        _root_.Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.ObjectStartViolationMarginCert
+          rank (scaledMargin rank)
+
+namespace ClosedTopPairingLanguageFamily
+
+theorem rankKilled
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {badFace : Face}
+    (closedFamily :
+      ClosedTopPairingLanguageFamily
+        State Label V Step labelOfFace start const badFace scaledMargin)
+    {rank : Fin numPairWords}
+    (hclosed :
+      _root_.Cuboctahedron.TopPairingClosedLanguageAtRank rank badFace) :
+    _root_.Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_closed_top_pairing_language_family
+    closedFamily.family closedFamily.certOf hclosed
+
+end ClosedTopPairingLanguageFamily
+
+abbrev ClosedTopPairingYmLanguageFamily
+    (State Label : Type)
+    (V : State -> Int)
+    (Step : State -> Label -> State -> Int -> Prop)
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Fin numPairWords -> Int) :=
+  ClosedTopPairingLanguageFamily
+    State Label V Step labelOfFace start const Face.ym scaledMargin
+
+theorem nonIdentityRankKilled_of_closed_top_pairing_ym_family_bundle
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    (closedFamily :
+      ClosedTopPairingYmLanguageFamily
+        State Label V Step labelOfFace start const scaledMargin)
+    {rank : Fin numPairWords}
+    (hclosed :
+      _root_.Cuboctahedron.TopPairingClosedLanguageAtRank rank Face.ym) :
+    _root_.Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  ClosedTopPairingLanguageFamily.rankKilled closedFamily hclosed
+
 theorem bridgeSurface_builds : True := by
   exact True.intro
 

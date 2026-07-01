@@ -56189,3 +56189,74 @@ The new `BellmanAxisRankLanguageFamily.toObjectCover` and closed-language
 family bridge mean that once those fields are generated/proved semantically,
 the route to `Generated.Coverage.NonIdentityRankKilled` no longer needs
 sampled object membership.
+
+### Holonomy/Bellman Pivot - closed-language generated-leaf contract
+
+Added a small Lean contract in:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean
+```
+
+New exported surface:
+
+```lean
+structure ClosedTopPairingLanguageFamily ...
+theorem ClosedTopPairingLanguageFamily.rankKilled ...
+abbrev ClosedTopPairingYmLanguageFamily ...
+theorem nonIdentityRankKilled_of_closed_top_pairing_ym_family_bundle ...
+```
+
+This packages the exact production target for future generated Bellman leaves:
+
+1. a `BellmanAxisRankLanguageFamily` whose `ContainsRank` is
+   `ClosedTopPairingContainsRank badFace`;
+2. rank-indexed `ObjectStartViolationMarginCert`s for every rank satisfying
+   `TopPairingClosedLanguageAtRank rank badFace`;
+3. a theorem turning any `TopPairingClosedLanguageAtRank` proof into
+   `Generated.Coverage.NonIdentityRankKilled`.
+
+This does not generate full coverage yet.  Its purpose is to remove ambiguity
+from the next emitter target: a production Bellman residual leaf should export
+one closed-language family bundle, not a singleton `SampledRankIndex`, not a
+`rank = clsNNNNRank` predicate, and not a private `Classical.choose` membership
+adapter over sampled ranks.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 90 \
+  --json scripts/generated/bellman_closed_language_bridge_guard_family_bundle.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean || true
+```
+
+Results:
+
+- guarded direct Lean check passed in `7.00s`;
+- peak process-tree RSS `3766.26 MiB`;
+- minimum MemAvailable observed `46038.30 MiB`;
+- forbidden-token scan over the changed Lean file: no hits.
+
+Decision: accepted as a small semantic API checkpoint.  It does not solve the
+remaining emitter obligations, but it gives the emitter a Lean-checked,
+hardware-safe final theorem surface for the top-pairing Bellman closed-language
+family route.
+
+Next required emitter/generalization work:
+
+1. emit `ClosedTopPairingYmLanguageFamily` instead of singleton
+   `BellmanAxisRankLanguageFamily` instances;
+2. replace every `rw [hrank]` proof with closed-language field proofs from
+   `TopPairingClosedLanguageAtRank`;
+3. prove the hard semantic fields over the closed language:
+   `kernel_check`, `axis_forces`, Bellman `run`, `margin_bound`, and
+   `ObjectStartViolationMarginCert`;
+4. keep representative leaves behind the memory guard before considering any
+   broad emission.
