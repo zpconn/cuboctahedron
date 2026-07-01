@@ -5167,3 +5167,38 @@ Eighth split path:
 
 Decision: accepted as another proof-bearing sampled path under the strict
 post-crash guard.
+
+Aggregate split-smoke metrics:
+
+- Added `scripts/summarize_bellman_split_smokes.py` as a diagnostic-only
+  aggregator for the checked Bellman split smoke paths.
+- Ran it over the completed `[0,37)` sample:
+
+  ```bash
+  python3 scripts/summarize_bellman_split_smokes.py \
+    --start-index 0 \
+    --count 37 \
+    --plan-json scripts/generated/bellman_split_smoke_batch_plan_000_037.json \
+    --selector-json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+    --guard-json scripts/generated/bellman_split_batch_guard_000_016.json \
+    --json scripts/generated/bellman_split_smoke_metrics_000_037.json \
+    --markdown docs/bellman_split_smoke_metrics_000_037.md
+  ```
+
+- Result: `37/37` paths and `74/74` guarded Lean commands summarized with no
+  guard errors.
+- Total guarded elapsed time: `355.176s`; mean path time: `9.599s`; p95 path
+  time: `13.013s`.
+- Max observed process-tree RSS: `4044.3 MiB`, leaving `455.7 MiB` below the
+  `4500 MiB` guard cap; minimum MemAvailable observed by the guards was
+  `46060.2 MiB`.
+- Diagnostic projection: `2.666` serial guarded CPU-hours per `1000` sampled
+  paths, or `0.667` ideal wall-hours per `1000` sampled paths at four
+  independent workers.
+- Interpretation: the split checker shape is memory-stable for sampled paths,
+  but the time projection only works if the final backend proves large
+  semantic state/family languages.  Scaling this as one path-like check per
+  rank or residual object would miss the build-time target.
+
+This report remains untrusted diagnostic aggregation.  It does not establish
+exhaustive generated coverage.

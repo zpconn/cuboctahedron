@@ -55642,3 +55642,65 @@ Decision: accepted as the thirty-seventh checked split path under the strict
 post-crash guard.  This completes the current `[0,37)` split Bellman smoke set
 as checked sampled evidence.  It remains sampled evidence only, not a final
 exhaustive coverage proof.
+
+### Holonomy/Bellman Pivot - aggregate split-smoke metrics for `[0,37)`
+
+Added a diagnostic-only aggregate reporter:
+
+```bash
+python3 -m py_compile scripts/summarize_bellman_split_smokes.py
+
+python3 scripts/summarize_bellman_split_smokes.py \
+  --start-index 0 \
+  --count 37 \
+  --plan-json scripts/generated/bellman_split_smoke_batch_plan_000_037.json \
+  --selector-json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --guard-json scripts/generated/bellman_split_batch_guard_000_016.json \
+  --json scripts/generated/bellman_split_smoke_metrics_000_037.json \
+  --markdown docs/bellman_split_smoke_metrics_000_037.md
+```
+
+The first three smoke paths used earlier historical artifact names, so the
+reporter accepts both the old `*_run.json` / `*_trace_only_run.json` /
+`*_split_only_run.json` files and the current `*_missing_run.json` convention.
+This is report normalization only; it does not rename proof artifacts or rerun
+Lean.
+
+Aggregate results:
+
+- status: `accepted`;
+- paths: `37/37`;
+- guarded Lean commands summarized: `74`;
+- guard errors: none;
+- total guarded elapsed time: `355.176s` (`5.92 min`);
+- mean path elapsed time: `9.599s`;
+- p95 path elapsed time: `13.013s`;
+- trace stage: `37` commands, `273.003s` total, mean `7.378s`,
+  p95 `10.511s`, max `11.01s`;
+- split stage: `37` commands, `82.173s` total, mean `2.221s`,
+  p95 `2.037s`, max `11.511s`;
+- max observed process-tree RSS: `4044.3 MiB`;
+- hard process-tree RSS guard cap: `4500.0 MiB`;
+- RSS headroom to the guard cap: `455.7 MiB`;
+- minimum MemAvailable observed by the guards: `46060.2 MiB`;
+- `[0,37)` planner summary: `0` entries over budget, `37` fresh trace
+  artifacts, `37` fresh split artifacts, `1184 KiB` total trace source,
+  `74 KiB` total split source;
+- `[0,37)` single-path selector status: `no-candidate`;
+- strict `[0,16)` batch dry-run guard status: `accepted-dry-run`, with `0`
+  blocked entries and `0` total blockers.
+
+Decision: the split-trace representation is memory-stable for these sampled
+proof-bearing paths under the post-crash guard.  The measured diagnostic
+projection is about `2.666` serial guarded CPU-hours per `1000` sampled paths,
+or about `0.667` ideal wall-hours per `1000` sampled paths at four independent
+workers.  That projection is acceptable only for a small number of semantic
+family leaves; it is not acceptable for rank-like or path-like enumeration.
+The next accepted strategy step must therefore keep using this Bellman/split
+theorem surface while proving membership for whole holonomy/state languages,
+not by scaling the sampled one-path checks.
+
+Proof status: this aggregate report is not proof evidence.  It is hardware and
+source-size evidence for the sampled checker shape only.  Exhaustive generated
+coverage still requires Lean-checked membership/coverage theorems connecting
+arbitrary ranks or semantic states to these killed-language families.
