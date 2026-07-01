@@ -347,4 +347,49 @@ theorem scaledMargin_nonpos
 
 end BellmanAxisRankIndexedFamily
 
+structure BellmanAxisRankIndexedCover
+    (Index State Label : Type)
+    (V : State -> Int)
+    (Step : State -> Label -> State -> Int -> Prop)
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (rankOf : Index -> Fin numPairWords)
+    (ContainsRank : Fin numPairWords -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) where
+  family :
+    BellmanAxisRankIndexedFamily
+      Index State Label V Step labelOfFace start const rankOf scaledMargin
+  covers :
+    forall rank, ContainsRank rank -> exists idx : Index, rankOf idx = rank
+
+namespace BellmanAxisRankIndexedCover
+
+theorem scaledMargin_nonpos
+    {Index State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {rankOf : Index -> Fin numPairWords}
+    {ContainsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (cover :
+      BellmanAxisRankIndexedCover
+        Index State Label V Step labelOfFace start const rankOf
+        ContainsRank scaledMargin)
+    {rank : Fin numPairWords}
+    (hrank : ContainsRank rank)
+    {seq : Step14 -> Face}
+    (hRealize : SeqRealizesPairWord (unrankPairWord rank) seq)
+    (hAxisConstraints : NonIdentityAxisConstraints seq) :
+    scaledMargin rank <= 0 := by
+  rcases cover.covers rank hrank with ⟨idx, hidx⟩
+  rw [← hidx] at hRealize ⊢
+  exact BellmanAxisRankIndexedFamily.scaledMargin_nonpos
+    cover.family idx hRealize hAxisConstraints
+
+end BellmanAxisRankIndexedCover
+
 end Cuboctahedron

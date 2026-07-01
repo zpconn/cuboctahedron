@@ -2359,3 +2359,34 @@ Result: `0:15.37` wall time, `4,519,660 kB` max RSS, exit `0`.
 Decision: accepted.  The next nonidentity Bellman membership theorem should
 be indexed by a finite generated automaton path/state witness internally, then
 export only Prop-level semantic coverage.
+
+## Indexed Bellman Cover Adapter
+
+The indexed family surface now has a reusable Prop-boundary adapter:
+
+```lean
+BellmanAxisRankIndexedCover
+BellmanAxisRankIndexedCover.scaledMargin_nonpos
+```
+
+The cover stores a private `BellmanAxisRankIndexedFamily`, a public semantic
+`ContainsRank : Fin numPairWords -> Prop`, and a proof that membership yields
+some internal Type-level index with the same rank.  The theorem eliminates the
+index only after the conclusion is Prop-valued.
+
+The two-rank smoke now uses:
+
+```lean
+sampledAxisRankIndexedCover
+graphSmoke_sampled_axis_rank_language_family_scaled_margin_nonpos
+```
+
+Focused builds:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:02.16` | `3,280,748 kB` | passed |
+| `BellmanTopPairingGraphLanguage2Smoke` | `0:15.53` | `4,532,064 kB` | passed |
+
+Decision: accepted as the preferred public/private split for nonidentity
+Bellman margin coverage.

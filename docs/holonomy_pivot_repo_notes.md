@@ -1066,3 +1066,26 @@ Indexed Bellman rank-language surface:
   Result: `0:15.37` wall / `4,519,660 kB` max RSS / exit `0`.
 - Decision: accepted.  The production Bellman graph-membership theorem should
   be Type-indexed internally and Prop-valued at the public API boundary.
+
+Indexed Bellman cover adapter:
+
+- Added `BellmanAxisRankIndexedCover` and
+  `BellmanAxisRankIndexedCover.scaledMargin_nonpos`.
+- This is the reusable public/private boundary for generated nonidentity
+  Bellman leaves.  Internally, the leaf keeps a Type-level finite index/path
+  witness used to produce computational data.  Externally, it exposes only a
+  semantic `ContainsRank : Fin numPairWords -> Prop` plus a coverage proof
+  that such a rank has an index.
+- The generated two-rank smoke now uses `sampledAxisRankIndexedCover` and the
+  common cover theorem instead of spelling out the Prop adapter locally.
+- Focused build:
+
+  ```text
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+  ```
+
+  Result: `0:15.53` wall / `4,532,064 kB` max RSS / exit `0`.
+- Decision: accepted.  The next production step is generating the actual
+  finite automaton membership proof that produces the Type-level path/index
+  for broad semantic top-pairing families.

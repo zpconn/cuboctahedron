@@ -47944,3 +47944,57 @@ Decision: accepted.  The current production route should use a Type-level
 finite automaton/path index internally, then provide Prop-level semantic
 coverage as the public API.  This avoids the `Prop`-elimination trap while
 keeping certificate data private and theorem-valued.
+
+### Holonomy/Bellman Pivot - indexed cover adapter accepted
+
+The Type-indexed family surface now has a common Prop-boundary adapter:
+
+```lean
+BellmanAxisRankIndexedCover
+BellmanAxisRankIndexedCover.scaledMargin_nonpos
+```
+
+This packages:
+
+- a private `BellmanAxisRankIndexedFamily`;
+- a semantic `ContainsRank : Fin numPairWords -> Prop`;
+- a proof that every `ContainsRank` proof yields some Type-level index
+  `idx` with `rankOf idx = rank`.
+
+The theorem then erases the index at the public boundary and applies the
+indexed Bellman family theorem.  This is the desired shape for production
+generated coverage: finite automaton/path witnesses internally, semantic
+Prop-valued coverage externally.
+
+The two-rank smoke now uses this common cover:
+
+```lean
+sampledAxisRankIndexedCover
+graphSmoke_sampled_axis_rank_language_family_scaled_margin_nonpos
+```
+
+Commands rerun:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Search.BellmanAxisBridge
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Results:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:02.16` | `3,280,748 kB` | passed |
+| `BellmanTopPairingGraphLanguage2Smoke` | `0:15.53` | `4,532,064 kB` | passed |
+| keyword scan | - | - | no matches |
+
+Decision: accepted.  Next work should generate a real finite automaton
+membership witness, not another sampled-rank enumeration: `ContainsRank rank`
+must produce the internal index/path required by `BellmanAxisRankIndexedCover`.

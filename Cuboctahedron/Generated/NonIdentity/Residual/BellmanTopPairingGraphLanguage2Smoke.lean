@@ -23804,16 +23804,24 @@ theorem graphSmoke_sampled_axis_indexed_rank_family_scaled_margin_nonpos
     hRealize
     hAxisConstraints
 
+private def sampledAxisRankIndexedCover :
+    BellmanAxisRankIndexedCover
+      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace
+      rootState (176 : Int) sampledRankOf sampledContainsRank
+      sampledScaledMarginAtRank where
+  family := sampledAxisRankIndexedFamily
+  covers := by
+    intro rank hrank
+    exact hrank
+
 theorem graphSmoke_sampled_axis_rank_language_family_scaled_margin_nonpos
     {rank : Fin numPairWords} (hrank : sampledContainsRank rank)
     (seq : Step14 -> Face)
     (hRealize : SeqRealizesPairWord (unrankPairWord rank) seq)
     (hAxisConstraints : NonIdentityAxisConstraints seq) :
-    sampledScaledMarginAtRank rank <= 0 := by
-  rcases hrank with ⟨idx, hidx⟩
-  rw [← hidx] at hRealize ⊢
-  exact graphSmoke_sampled_axis_indexed_rank_family_scaled_margin_nonpos
-    idx seq hRealize hAxisConstraints
+    sampledScaledMarginAtRank rank <= 0 :=
+  BellmanAxisRankIndexedCover.scaledMargin_nonpos
+    sampledAxisRankIndexedCover hrank hRealize hAxisConstraints
 
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=
