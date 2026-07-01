@@ -86,6 +86,34 @@ theorem bellmanEvalAccepts_of_closedTraceA_or_closedTraceB
   · rw [htrace]
     exact closedTraceB_eval
 
+theorem bellmanEvalAccepts_of_closedFaceTraceA_or_closedFaceTraceB
+    {badFace : Face}
+    {scaledMargin : Fin numPairWords -> Int}
+    (obj : TopPairingBellmanObj badFace)
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+          topPairingClosedFaceTraceA \/
+        TopPairingBellmanObj.labels (fun f : Face => f) obj =
+          topPairingClosedFaceTraceB)
+    (hmargin : scaledMargin obj.rank <= (176 : Int) + (-376 : Int)) :
+    BellmanEvalAccepts graphPotential graphSmokeNext rootState (176 : Int)
+      (fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)
+      (fun obj => TopPairingBellmanObj.labels smokeLabelOfFace obj)
+      obj := by
+  apply bellmanEvalAccepts_of_closedTraceA_or_closedTraceB obj
+  · rcases htrace with htrace | htrace
+    · left
+      rw [TopPairingBellmanObj.labels_map
+        (g := smokeLabelOfFace) (labelOfFace := fun f : Face => f)]
+      rw [htrace]
+      exact closedTraceA_eq_faceTraceA_labels
+    · right
+      rw [TopPairingBellmanObj.labels_map
+        (g := smokeLabelOfFace) (labelOfFace := fun f : Face => f)]
+      rw [htrace]
+      exact closedTraceB_eq_faceTraceB_labels
+  · exact hmargin
+
 theorem traceSmoke_builds : True := by
   exact True.intro
 

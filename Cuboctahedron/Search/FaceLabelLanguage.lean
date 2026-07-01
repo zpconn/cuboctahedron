@@ -22,6 +22,14 @@ def faceLabelsInContributionOrder {α : Type}
     (labelOfFace : Face -> α) (seq : Step14 -> Face) : List α :=
   contributionOrderSteps.map fun i => labelOfFace (seq i)
 
+theorem faceLabelsInContributionOrder_map
+    {α β : Type} (g : α -> β) (labelOfFace : Face -> α)
+    (seq : Step14 -> Face) :
+    faceLabelsInContributionOrder (fun f => g (labelOfFace f)) seq =
+      (faceLabelsInContributionOrder labelOfFace seq).map g := by
+  unfold faceLabelsInContributionOrder
+  simp
+
 def SameFaceSeq (template seq : Step14 -> Face) : Prop :=
   forall i : Step14, seq i = template i
 

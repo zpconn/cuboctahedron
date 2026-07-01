@@ -58074,3 +58074,108 @@ Decision: continue Bellman for this semantic-membership experiment.  The proof
 surface is now sharply defined: a generated state-DAG classifier from
 `TopPairingClosedLanguageAtRank` to the two-trace disjunction, followed by the
 existing closed-trace evaluator smoke.
+
+Face-trace-to-evaluator bridge checkpoint:
+
+- Added the generic label-map theorem
+  `faceLabelsInContributionOrder_map` in
+  `Cuboctahedron/Search/FaceLabelLanguage.lean`.
+- Added the object-level wrapper
+  `TopPairingBellmanObj.labels_map` in
+  `Cuboctahedron/Search/TopPairingBellmanObject.lean`.
+- Added the generated-smoke theorem
+  `bellmanEvalAccepts_of_closedFaceTraceA_or_closedFaceTraceB` in
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean`.
+- This theorem is the exact bridge the next generated classifier needs:
+  once a closed top-pairing object proves its face-label list is
+  `topPairingClosedFaceTraceA` or `topPairingClosedFaceTraceB`, and the
+  corresponding scaled-margin bound is supplied, the deterministic Bellman
+  evaluator yields `BellmanEvalAccepts`.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_axis_forced_rank_language_dep_guard.json \
+  -- lake build Cuboctahedron.Search.AxisForcedRankLanguage
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_language_labels_map_dep_guard.json \
+  -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_bellman_object_labels_map_guard.json \
+  -- lake env lean Cuboctahedron/Search/TopPairingBellmanObject.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_bellman_object_labels_map_olean_guard.json \
+  -- lake build Cuboctahedron.Search.TopPairingBellmanObject
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_graph_eval_split_base_dep_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_closed_eval_trace_smoke_face_bridge_guard.json \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean
+```
+
+Result:
+
+```text
+AxisForcedRankLanguage dep:
+  passed, peak_tree_rss = 1501.7 MiB, elapsed = 3.00s
+BellmanTopPairingLanguage:
+  passed, peak_tree_rss = 4044.7 MiB, elapsed = 3.01s
+TopPairingBellmanObject lean check:
+  passed, peak_tree_rss = 3585.9 MiB, elapsed = 2.00s
+TopPairingBellmanObject olean:
+  passed, peak_tree_rss = 4060.4 MiB, elapsed = 4.01s
+GraphEvalSplit10MSmoke.Base:
+  passed, peak_tree_rss = 4288.1 MiB, elapsed = 9.02s
+ClosedEvalTraceSmoke:
+  passed, peak_tree_rss = 3591.4 MiB, elapsed = 3.00s
+```
+
+Build-discipline note: do not run multiple invalidating `lake build` targets in
+parallel for this Bellman stack.  A parallel attempt caused one writer race on
+an `.olean` path and one guarded stop from combined worker RSS.  Python/exact
+profilers can use memory-safe parallelism, but these Lean rebuilds should be
+serial and guarded unless/until a Lake-level job cap is available.
+
+Decision: accepted.  The remaining theorem is now exactly the state-DAG
+classifier plus margin bound:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  TopPairingBellmanObj.labels (fun f : Face => f) obj =
+      topPairingClosedFaceTraceA \/
+    TopPairingBellmanObj.labels (fun f : Face => f) obj =
+      topPairingClosedFaceTraceB
+```
+
+and
+
+```lean
+scaledMargin obj.rank <= (176 : Int) + (-376 : Int)
+```
+
+for the closed top-pairing family.

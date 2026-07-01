@@ -47,6 +47,14 @@ def labels {badFace : Face} {Label : Type} (labelOfFace : Face -> Label)
     (obj : TopPairingBellmanObj badFace) : List Label :=
   faceLabelsInContributionOrder labelOfFace (forcedSeq obj)
 
+theorem labels_map {badFace : Face} {α β : Type}
+    (g : α -> β) (labelOfFace : Face -> α)
+    (obj : TopPairingBellmanObj badFace) :
+    labels (fun f => g (labelOfFace f)) obj =
+      (labels labelOfFace obj).map g := by
+  unfold labels
+  exact faceLabelsInContributionOrder_map g labelOfFace (forcedSeq obj)
+
 theorem closedForCanonicalSeq {badFace : Face}
     (obj : TopPairingBellmanObj badFace) :
     TopPairingClosedLanguageForSeq obj.rank (forcedSeq obj) badFace :=
