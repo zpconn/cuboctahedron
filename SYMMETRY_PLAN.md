@@ -2179,6 +2179,22 @@ Bellman profiler prototype checkpoint:
   evidence, but it demonstrates that shared semantic prefix/state runs can be
   Lean-checked cheaply and are a better production shape than one constructor
   chain per word/path class.
+- Prefix-trie scale diagnostic: added `scripts/bellman_trie_profile.py` to
+  profile trie reuse from graph JSON without emitting Lean.  Regenerated the
+  `[0,5000000)` top-family `with-step-tri-source` graph with the current
+  path-class schema using eight worker processes; it finished in `3:36.76`
+  wall time with `32,128 kB` max RSS.  The trie profile now reports:
+
+  | range | path classes | raw steps | trie nodes | reused steps | max branching |
+  | ---: | ---: | ---: | ---: | ---: | ---: |
+  | `[0,1000000)` | `37` | `518` | `270` | `249` | `3` |
+  | `[0,5000000)` | `194` | `2716` | `1373` | `1344` | `3` |
+
+  This keeps the prefix-trie/automaton route active: reuse scales roughly with
+  observed path volume and the trie stays shallow (`max_depth = 14`) with small
+  branching.  The existing `[0,10000000)` graph was generated before path-class
+  export, so it still reports graph size only; regenerate it with the current
+  schema before drawing trie-scale conclusions for 10M.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

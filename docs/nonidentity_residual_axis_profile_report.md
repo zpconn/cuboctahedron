@@ -1399,6 +1399,39 @@ Prefix-trie Bellman smoke:
   pattern: shared semantic prefix/state runs can be checked cheaply and reused
   by many accepted words/classes.
 
+Prefix-trie scale diagnostic:
+
+- Added `scripts/bellman_trie_profile.py`, a diagnostic profiler over existing
+  Bellman graph JSON files.  It does not emit Lean evidence; it reports whether
+  observed path classes share enough label-prefix structure to justify a
+  production trie/automaton backend.
+- Regenerated the `[0,5000000)` `with-step-tri-source` graph with the current
+  path-class schema:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/nonidentity_margin_bellman_profile.py \
+    --start 0 --end 5000000 --jobs 8 --chunk-size 250000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1 \
+    --target-margin-cancellation-pairing \
+    "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1" \
+    --state-key-mode with-step-tri-source --include-graph \
+    --json scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.json \
+    --markdown scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.md
+  ```
+
+  Result: `3:36.76` wall time, `32,128 kB` max RSS.
+- Trie profile:
+
+  | range | path classes | raw steps | trie nodes | reused steps | max branching |
+  | ---: | ---: | ---: | ---: | ---: | ---: |
+  | `[0,1000000)` | `37` | `518` | `270` | `249` | `3` |
+  | `[0,5000000)` | `194` | `2716` | `1373` | `1344` | `3` |
+
+- Decision: keep the prefix-trie/automaton route active.  Trie reuse scales with
+  the observed path-class volume, the trie remains depth `14`, and branching
+  stays small.  The existing `[0,10000000)` graph predates path-class export, so
+  it needs regeneration before it can provide trie-scale data.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

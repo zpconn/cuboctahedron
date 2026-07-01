@@ -523,6 +523,15 @@ Top margin+cancellation-pairing checkpoint:
   is still bounded observed evidence, but it is the strongest current
   state-language proof shape: shared semantic prefix/state runs should be
   generated and reused, rather than one constructor chain per word/path class.
+- Prefix-trie scale status: `scripts/bellman_trie_profile.py` now profiles trie
+  reuse from graph JSON without emitting Lean.  Regenerating the `[0,5000000)`
+  top-family graph with path classes took `3:36.76` wall time and `32,128 kB`
+  max RSS using eight worker processes.  The resulting profile has `194` path
+  classes, `2,716` raw step occurrences, `1,373` trie nodes, `1,344` reused
+  steps, depth `14`, and max branching `3`.  This supports the trie/automaton
+  route as a scalable state-language coordinate; the existing 10M graph still
+  needs regeneration with the current path-class schema before it can report
+  trie reuse.
 
 ## Explicit Non-Goals
 
