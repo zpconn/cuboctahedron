@@ -1481,6 +1481,11 @@ Concrete face-sequence bridge smoke:
   exact intended bridge shape for production: a semantic family/language
   predicate proves the generated label equality, and the generic Bellman
   theorem supplies the margin bound.
+- The smoke now imports `Cuboctahedron.Search.Enumeration` and proves the
+  sampled rank facts `cls0000FaceSeq_rank`,
+  `cls0000FaceSeq_unrank_pairword`, and `cls0000FaceSeq_matches_unrank`,
+  connecting rank `517` to `pairWordOfSeq cls0000FaceSeq` via the existing
+  `rankPairWord?_eq_some_iff_unrank` theorem.
 - Focused build passed:
 
   ```bash
@@ -1488,13 +1493,13 @@ Concrete face-sequence bridge smoke:
     Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
   ```
 
-  Result: `0:08.78` wall time, `3,939,680 kB` max RSS.
+  Result: `0:09.35` wall time, `3,951,928 kB` max RSS.
 - Decision: accepted as the first Lean-checked bridge from actual
-  `Step14 -> Face` itineraries to the Bellman trie language through a reusable
-  label-equality and sequence-language theorem.  The remaining production gap
-  is to replace this toy pointwise-equality language by a theorem that the
-  holonomy/cancellation top-family predicate determines the same face-label
-  language/trie branch.
+  `Step14 -> Face` itineraries to the Bellman trie language through rank/unrank,
+  pair-word matching, reusable label equality, and a sequence-language theorem.
+  The remaining production gap is to replace this toy pointwise-equality
+  language by a theorem that the holonomy/cancellation top-family predicate
+  determines the same face-label language/trie branch.
 
 ## Artifacts
 

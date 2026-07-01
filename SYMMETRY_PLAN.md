@@ -2226,14 +2226,19 @@ Bellman profiler prototype checkpoint:
   predicate `cls0000FaceSeqLanguage` and proves
   `graphSmoke_cls0000_seq_language_scaled_margin_nonpos`, demonstrating the
   production proof shape `family/language predicate -> generated label
-  equality -> Bellman bound`.  Focused build passed:
+  equality -> Bellman bound`.  The same smoke now imports
+  `Cuboctahedron.Search.Enumeration` and proves the sampled rank bridge
+  `cls0000FaceSeq_rank`, `cls0000FaceSeq_unrank_pairword`, and
+  `cls0000FaceSeq_matches_unrank`, connecting rank `517` to
+  `pairWordOfSeq cls0000FaceSeq` through the existing
+  `rankPairWord?_eq_some_iff_unrank` theorem.  Focused build passed:
   `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
-  in `0:08.78` wall time with `3,939,680 kB` max RSS.  Decision: this is the
+  in `0:09.35` wall time with `3,951,928 kB` max RSS.  Decision: this is the
   first Lean-checked smoke connecting actual `Step14 -> Face` itineraries to
-  the Bellman trie language through a reusable label-equality and
-  sequence-language bridge.  It is not full membership yet; the production
-  bridge still needs to replace the toy pointwise-equality language with the
-  holonomy/cancellation top-family predicate.
+  the Bellman trie language through rank/unrank, pair-word matching, reusable
+  label equality, and a sequence-language bridge.  It is not full membership
+  yet; the production bridge still needs to replace the toy pointwise-equality
+  language with the holonomy/cancellation top-family predicate.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

@@ -33,6 +33,16 @@ def face_name_from_label_key(key: str) -> str:
     raise ValueError(f"label key has no face component: {key}")
 
 
+def rank_sample_to_int(value: object) -> int | None:
+    if value is None:
+        return None
+    if isinstance(value, list):
+        if not value:
+            return None
+        return int(value[0])
+    return int(value)
+
+
 def right_assoc_add(terms: list[str]) -> str:
     expr = "0"
     for term in reversed(terms):
@@ -120,6 +130,11 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
                 "margin_scaled": int(obj["margin_scaled"]),
                 "edge_indices": [int(edge_idx) for edge_idx in obj["edge_indices"]],
                 "label_indices": [int(label_idx) for label_idx in obj.get("label_indices", [])],
+                "rank_sample": (
+                    rank_sample_to_int(obj["rank_sample"])
+                    if path_classes is not None and "rank_sample" in obj
+                    else None
+                ),
             }
             for idx, obj in enumerate(path_objects)
         ]
@@ -210,6 +225,9 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         )
         and len(path_objects[0]["label_indices"]) == 14
     )
+    can_emit_rank_sequence_bridge = (
+        can_emit_face_sequence_bridge and path_objects[0].get("rank_sample") is not None
+    )
 
     def trie_node_name(index: int) -> str:
         return f"trieNode{index:04d}"
@@ -246,9 +264,14 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         out.reverse()
         return out
 
-    lines: list[str] = [
+    imports = [
         "import Cuboctahedron.Search.BellmanPotential",
         "import Cuboctahedron.Search.Itineraries",
+    ]
+    if can_emit_rank_sequence_bridge:
+        imports.append("import Cuboctahedron.Search.Enumeration")
+    lines: list[str] = [
+        *imports,
         "",
         "set_option maxRecDepth 4096",
         "",
@@ -1074,6 +1097,7 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         obj_name = str(obj["name"])
         trie_node = int(obj["trie_node"])
         seq_name = f"{obj_name}FaceSeq"
+        rank_name = f"{obj_name}Rank"
         trace_of_seq_name = f"{obj_name}TraceOfSeq"
         label_indices = [int(idx) for idx in obj["label_indices"]]
         seq_faces = {
@@ -1115,6 +1139,29 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
                 for step in list(range(1, 14)) + [0]
             ],
             "",
+        ])
+        if can_emit_rank_sequence_bridge:
+            rank_sample = int(obj["rank_sample"])
+            lines.extend([
+                f"private def {rank_name} : Fin numPairWords := ⟨{rank_sample}, by decide⟩",
+                "",
+                f"private theorem {seq_name}_rank :",
+                f"    rankPairWord? (pairWordOfSeq {seq_name}) = some {rank_name} := by",
+                "  decide",
+                "",
+                f"private theorem {seq_name}_unrank_pairword :",
+                f"    unrankPairWord {rank_name} = pairWordOfSeq {seq_name} := by",
+                "  exact",
+                f"    ((rankPairWord?_eq_some_iff_unrank (pairWordOfSeq {seq_name})",
+                f"      {rank_name}).1 {seq_name}_rank).symm",
+                "",
+                f"private theorem {seq_name}_matches_unrank :",
+                f"    PairWordMatchesSeq (unrankPairWord {rank_name}) {seq_name} := by",
+                f"  rw [{seq_name}_unrank_pairword]",
+                f"  exact pairWordOfSeq_matches {seq_name}",
+                "",
+            ])
+        lines.extend([
             f"private def {trace_of_seq_name} (seq : Step14 -> Face) : SmokeLabelStepTrace where",
             f"  finish := {trie_node_state_name(trie_node)}",
             "  labels := smokeLabelsOfSeq seq",

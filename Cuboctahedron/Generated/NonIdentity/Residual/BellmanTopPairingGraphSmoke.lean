@@ -1,5 +1,6 @@
 import Cuboctahedron.Search.BellmanPotential
 import Cuboctahedron.Search.Itineraries
+import Cuboctahedron.Search.Enumeration
 
 set_option maxRecDepth 4096
 
@@ -22203,6 +22204,23 @@ private theorem cls0000FaceSeqLanguage_labels_eq
   rw [hseq (⟨12, by decide⟩ : Step14)]
   rw [hseq (⟨13, by decide⟩ : Step14)]
   rw [hseq (⟨0, by decide⟩ : Step14)]
+
+private def cls0000Rank : Fin numPairWords := ⟨517, by decide⟩
+
+private theorem cls0000FaceSeq_rank :
+    rankPairWord? (pairWordOfSeq cls0000FaceSeq) = some cls0000Rank := by
+  decide
+
+private theorem cls0000FaceSeq_unrank_pairword :
+    unrankPairWord cls0000Rank = pairWordOfSeq cls0000FaceSeq := by
+  exact
+    ((rankPairWord?_eq_some_iff_unrank (pairWordOfSeq cls0000FaceSeq)
+      cls0000Rank).1 cls0000FaceSeq_rank).symm
+
+private theorem cls0000FaceSeq_matches_unrank :
+    PairWordMatchesSeq (unrankPairWord cls0000Rank) cls0000FaceSeq := by
+  rw [cls0000FaceSeq_unrank_pairword]
+  exact pairWordOfSeq_matches cls0000FaceSeq
 
 private def cls0000TraceOfSeq (seq : Step14 -> Face) : SmokeLabelStepTrace where
   finish := trieNode0014State

@@ -552,8 +552,11 @@ Top margin+cancellation-pairing checkpoint:
   with those generated labels.  It also emits the toy pointwise sequence
   language `cls0000FaceSeqLanguage` and proves
   `graphSmoke_cls0000_seq_language_scaled_margin_nonpos`, so the smoke now has
-  the shape `language predicate -> label equality -> Bellman bound`.  The
-  focused build passed in `0:08.78` wall time with `3,939,680 kB` max RSS.  The
+  the shape `language predicate -> label equality -> Bellman bound`.  It now
+  also imports `Cuboctahedron.Search.Enumeration` and proves one sampled
+  rank/unrank bridge for rank `517`, namely `cls0000FaceSeq_rank`,
+  `cls0000FaceSeq_unrank_pairword`, and `cls0000FaceSeq_matches_unrank`.  The
+  focused build passed in `0:09.35` wall time with `3,951,928 kB` max RSS.  The
   next production gap is now precise: replace that toy language with the top
   holonomy/cancellation family predicate.
 
