@@ -51406,3 +51406,65 @@ missing generated facts are:
 
 Only after those are emitted and checked for one object should this route scale
 to multiple sampled graph objects.
+
+### Holonomy/Bellman Pivot - label-equality trace surface accepted
+
+The selected graph path has negative signed faces (`xm`, `ym`, `zm`, etc.), so
+the earlier `generatedClosedLanguageOfPositiveTemplateTrace` surface is not the
+right route for this concrete trace.  Its all-positive premise is intentionally
+too strong for these labels.  Rather than forcing an impossible
+`template_positive` fact, the emitter now also exports a direct label-equality
+surface:
+
+```lean
+generatedClosedLanguageOfLabelTrace
+generatedClosedLanguageOfLabelTraceConcreteLocalAxis
+```
+
+The new theorem shape asks for exactly the remaining membership fact:
+
+```lean
+faceLabelsInContributionOrder (fun f => f)
+  (canonicalSeqOfPairWord (unrankPairWord rank)) =
+  generatedContributionLabels
+```
+
+Then it combines that label equality with:
+
+```text
+generatedScheduleLabels
+generatedSquareGapLabels
+generatedLocalAxisTraceConcrete
+TopPairingLanguageAtRank rank
+TopPairingCanonicalBadFaceCompatible badFace
+```
+
+to prove `TopPairingClosedLanguageAtRank rank badFace`.
+
+This keeps the proof architecture honest: the positive-template bridge remains
+available as a compatibility smoke, but the active route for this selected
+Bellman graph path is direct label equality or, eventually,
+`PairSignLanguageAtRank`/axis-forces-derived label equality.
+
+Command:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_label_eq_6g.json
+```
+
+Result:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| label-equality concrete-local-axis smoke | `6.01s` | `4164 MiB` | `45987 MiB` | passed |
+
+Current generated shard size: `655` lines.  Current emitter size: `647` lines.
+
+Decision: accepted.  The remaining one-object facts are now exactly:
+
+- produce the direct label equality above, likely via the existing
+  `PairSignLanguageAtRank` / `faceLabelsInContributionOrder_eq_of_pairSignLanguageAtRank`
+  route rather than positive-template assumptions;
+- produce `TopPairingLanguageAtRank rank` for the selected graph path;
+- produce `TopPairingCanonicalBadFaceCompatible badFace`.

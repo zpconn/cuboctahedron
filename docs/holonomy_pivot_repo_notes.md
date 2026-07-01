@@ -2886,3 +2886,38 @@ Concrete local-axis facts for selected graph path:
 - Decision: accepted for one selected graph path object.  The next generated
   membership facts are template match/positivity/labels, cancellation language,
   and canonical bad-face compatibility.
+
+Label-equality trace surface:
+
+- The selected graph path contains negative signed faces, so the older
+  all-positive template bridge is not the right active route for this trace.
+- Extended the generated shard with:
+
+  ```lean
+  generatedClosedLanguageOfLabelTrace
+  generatedClosedLanguageOfLabelTraceConcreteLocalAxis
+  ```
+
+- These theorems require the direct label equality:
+
+  ```lean
+  faceLabelsInContributionOrder (fun f => f)
+    (canonicalSeqOfPairWord (unrankPairWord rank)) =
+    generatedContributionLabels
+  ```
+
+  and then combine it with the generated schedule/square-gap/local-axis facts.
+- Strict wrapper smoke:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_label_eq_6g.json
+  ```
+
+- Result: passed in `6.01s`, with `4164 MiB` peak process-tree RSS and
+  `45987 MiB` minimum available memory.
+- Current generated shard size: `655` lines.  Current emitter size: `647`
+  lines.
+- Decision: accepted.  The next membership step should produce this direct
+  label equality, preferably through the existing `PairSignLanguageAtRank` or
+  axis-forces label bridge, not through all-positive assumptions.
