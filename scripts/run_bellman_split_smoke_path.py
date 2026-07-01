@@ -25,6 +25,7 @@ from typing import Any
 
 PLANNER_PATH = Path("scripts/plan_bellman_split_smokes.py")
 SAFE_WRAPPER_PATH = Path("scripts/run_bellman_safe_smoke.py")
+DEFAULT_GUARD_DIR = Path("/tmp/cuboctahedron_bellman_guards")
 
 
 def load_module(path: Path, name: str) -> Any:
@@ -121,6 +122,16 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Run summary path. Defaults under scripts/generated.",
     )
+    parser.add_argument(
+        "--guard-dir",
+        type=Path,
+        default=DEFAULT_GUARD_DIR,
+        help=(
+            "Directory for transient run_memory_guarded JSON logs.  Defaults "
+            "outside the repository so guard-log churn is never generated "
+            "source evidence."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -191,8 +202,9 @@ def main() -> int:
     rc = 0
 
     if args.check:
+        args.guard_dir.mkdir(parents=True, exist_ok=True)
         timestamp = time.strftime("%Y%m%d_%H%M%S")
-        trace_guard_json = Path("scripts/generated") / (
+        trace_guard_json = args.guard_dir / (
             f"bellman_split_path_{args.path_object_index:02d}_trace_{timestamp}.guard.json"
         )
         trace_cmd = guarded_command(
@@ -225,7 +237,7 @@ def main() -> int:
                 split_preflight = safe.local_import_preflight(str(split_source))
                 split_budget = safe.enforce_target_budget(split_target, split_preflight)
             timestamp = time.strftime("%Y%m%d_%H%M%S")
-            split_guard_json = Path("scripts/generated") / (
+            split_guard_json = args.guard_dir / (
                 f"bellman_split_path_{args.path_object_index:02d}_split_{timestamp}.guard.json"
             )
             split_cmd = guarded_command(
@@ -259,6 +271,7 @@ def main() -> int:
         "status": "dry-run" if args.dry_run else status,
         "path_object_index": args.path_object_index,
         "graph_json": str(args.graph_json),
+        "guard_dir": str(args.guard_dir) if args.check else None,
         "trace_report": str(trace_report_path),
         "trace": {
             **entry["trace"],

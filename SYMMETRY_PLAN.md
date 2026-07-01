@@ -52901,3 +52901,69 @@ Replacement next step:
 Decision: batch expansion rejected for now.  The accepted proof architecture
 remains the split Bellman route, but the execution strategy must become even
 more conservative before any more proof-bearing scaling.
+
+### Holonomy/Bellman Pivot - dry-run batch guard accepted
+
+Crash-recovery safety tooling was tightened without running Lean.
+
+Changes:
+
+- `scripts/run_bellman_split_smoke_path.py` now writes transient
+  `run_memory_guarded.py` JSON logs under `/tmp/cuboctahedron_bellman_guards`
+  by default.  Stable per-path summaries still live under `scripts/generated/`.
+  This keeps timestamped guard-log churn out of the generated evidence tree.
+- Added `scripts/plan_bellman_split_batch_guard.py`, a dry-run-only accounting
+  guard for Bellman split batches.  It does not invoke Lean, Lake, or
+  `run_memory_guarded.py`.  It checks:
+  - current `MemAvailable`;
+  - generated module/source-path allowlists;
+  - planned trace/split source-size budgets;
+  - optional `.olean` freshness;
+  - optional existing single-path checked summaries.
+
+Commands run:
+
+```bash
+python3 -m py_compile \
+  scripts/run_bellman_split_smoke_path.py \
+  scripts/plan_bellman_split_batch_guard.py
+
+python3 scripts/plan_bellman_split_batch_guard.py \
+  --start-index 0 \
+  --count 4 \
+  --require-fresh-artifacts \
+  --require-checked-summaries \
+  --json scripts/generated/bellman_split_batch_guard_000_004.json \
+  --markdown docs/bellman_split_batch_guard_000_004.md
+
+python3 scripts/plan_bellman_split_batch_guard.py \
+  --start-index 0 \
+  --count 4 \
+  --json scripts/generated/bellman_split_batch_guard_000_004_accounting.json \
+  --markdown docs/bellman_split_batch_guard_000_004_accounting.md
+
+git diff --check
+```
+
+Results:
+
+| check | result |
+| --- | --- |
+| Python syntax check | passed |
+| strict dry-run guard `[0,4)` | `rejected-dry-run`; `4` entries, `3` blocked, `6` blockers, `46755 MiB` available |
+| accounting-only dry-run guard `[0,4)` | `accepted-dry-run`; `4` entries, `0` blocked, `46757 MiB` available |
+| `git diff --check` | passed |
+
+The strict guard report found:
+
+- index `0`: trace/split artifacts fresh, but no checked per-path run summary;
+- index `1`: split artifact missing/stale and no checked per-path run summary;
+- index `2`: fresh trace/split artifacts and checked run summary;
+- index `3`: trace/split artifacts missing/stale and no checked per-path run
+  summary.
+
+Decision: accepted as crash-recovery tooling.  Batch execution remains
+quarantined; this script only makes the refusal/accounting state explicit.  The
+next proof-bearing action, if any, must be one additional single-path check
+under the strict guard, and only after the dry-run guard says the candidate is
+eligible.

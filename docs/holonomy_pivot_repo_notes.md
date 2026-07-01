@@ -3662,3 +3662,51 @@ Post-run crash quarantine:
 - Before any further proof-bearing scaling, move transient guard JSON output out
   of the repository and add a dry-run-only accounting wrapper that refuses to
   invoke Lean.
+
+Dry-run batch guard after crash quarantine:
+
+- `scripts/run_bellman_split_smoke_path.py` now accepts `--guard-dir` and
+  defaults transient guard JSON logs to `/tmp/cuboctahedron_bellman_guards`.
+  The stable run summary still records the guard directory and command
+  summaries, but timestamped guard logs are no longer generated under
+  `scripts/generated/`.
+- Added `scripts/plan_bellman_split_batch_guard.py`.
+- The new guard is dry-run-only: it does not invoke Lean, Lake, or
+  `scripts/run_memory_guarded.py`.  It reads the planner, renders planned source
+  sizes in memory, checks current `MemAvailable`, validates generated
+  module/source allowlists, and optionally requires fresh `.olean` artifacts and
+  existing checked single-path summaries.
+- Commands run:
+
+  ```bash
+  python3 -m py_compile \
+    scripts/run_bellman_split_smoke_path.py \
+    scripts/plan_bellman_split_batch_guard.py
+
+  python3 scripts/plan_bellman_split_batch_guard.py \
+    --start-index 0 \
+    --count 4 \
+    --require-fresh-artifacts \
+    --require-checked-summaries \
+    --json scripts/generated/bellman_split_batch_guard_000_004.json \
+    --markdown docs/bellman_split_batch_guard_000_004.md
+
+  python3 scripts/plan_bellman_split_batch_guard.py \
+    --start-index 0 \
+    --count 4 \
+    --json scripts/generated/bellman_split_batch_guard_000_004_accounting.json \
+    --markdown docs/bellman_split_batch_guard_000_004_accounting.md
+  ```
+
+- Results:
+  - Python syntax check passed.
+  - Strict `[0,4)` dry-run guard rejected the batch: `3` blocked entries,
+    `6` blockers, `46755 MiB` available.
+  - Accounting-only `[0,4)` dry-run guard accepted: `0` blockers,
+    `46757 MiB` available.
+- The strict rejection is the intended behavior: only path index `2` currently
+  has fresh trace/split artifacts and a checked per-path run summary.
+
+Decision: accepted as crash-recovery tooling.  It does not advance Lean proof
+coverage by itself, but it prevents accidental batch execution from being
+mistaken for the next proof step.
