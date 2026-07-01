@@ -1416,3 +1416,30 @@ Next gate: generate a real top-pairing object-family membership predicate whose
 accepted objects come with `AxisForcesForcedSeq` witnesses.  The Bellman graph
 can then remain a private finite-horizon potential certificate, while the
 public theorem exports only semantic nonidentity killed coverage.
+
+Local forced-axis transition closure:
+
+- Extended `scripts/audit_bellman_target_pairing_closure.py` with
+  `--require-local-axis-forced`.  The diagnostic parses the state's exact
+  `lin=` matrix and filters legal next faces by the strict sign of
+  `dot (lin * normal(face)) axis`.
+- On the 1M face-linear-tri-source graph, using the sample axis orientation
+  `1,1,3` rejects the observed transitions, showing the local contribution
+  order needs the opposite axis orientation for this test.
+- Rerunning with `--axis=-1,-1,-3` gives:
+
+  | metric | value |
+  | --- | ---: |
+  | `total_observed_face_transitions` | `229` |
+  | `total_local_axis_rejected_transitions` | `14` |
+  | `total_missing_transitions` | `1` |
+  | `total_illegal_transitions` | `0` |
+
+- The single remaining gap is state `19`, face `tmmp`, consistent with the
+  earlier completion audit's `canonical_bad_face_mismatch` reason.
+
+Implication: the coarser Bellman membership theorem should combine target
+cancellation pairing, observed schedule/square-gap constraints, oriented local
+forced-axis compatibility, and canonical bad-face compatibility.  This is a
+more promising production language than exact path classes, but it is not yet
+closed.

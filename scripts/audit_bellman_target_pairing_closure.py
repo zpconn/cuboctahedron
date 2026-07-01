@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 from functools import lru_cache
+from fractions import Fraction
 import json
 from pathlib import Path
 from typing import Any
@@ -22,7 +23,13 @@ import sys
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from exact_profile import FACE_ORDER, FACE_TO_PAIR_SIGN  # noqa: E402
+from exact_profile import (  # noqa: E402
+    FACE_NORMALS,
+    FACE_ORDER,
+    FACE_TO_PAIR_SIGN,
+    dot,
+    mat_vec,
+)
 from shadow_normal_form_profile import SQUARE_TOGGLES, act_tri, xor_parity  # noqa: E402
 from nonidentity_margin_bellman_profile import TOP_PAIRING, parity_key  # noqa: E402
 
@@ -66,6 +73,21 @@ def parse_parity(state_key: str) -> tuple[bool, bool, bool]:
     return tuple(bit == "1" for bit in raw)  # type: ignore[return-value]
 
 
+def parse_lin(state_key: str) -> tuple[tuple[Fraction, Fraction, Fraction], ...] | None:
+    raw = parse_part(state_key, "lin")
+    if raw is None:
+        return None
+    rows = []
+    for row_raw in raw.split(";"):
+        entries = tuple(Fraction(piece) for piece in row_raw.split(","))
+        if len(entries) != 3:
+            raise ValueError(f"bad matrix row in state: {state_key}")
+        rows.append(entries)
+    if len(rows) != 3:
+        raise ValueError(f"bad matrix length in state: {state_key}")
+    return tuple(rows)  # type: ignore[return-value]
+
+
 def parse_tri_sources(state_key: str) -> list[tuple[int, str, str, str]]:
     raw = parse_part(state_key, "triSrc")
     if raw is None or raw == "":
@@ -84,6 +106,33 @@ def face_from_label(label_key: str) -> str:
     if raw is None:
         raise ValueError(f"label has no face component: {label_key}")
     return raw
+
+
+def parse_axis(raw: str) -> tuple[Fraction, Fraction, Fraction]:
+    parts = tuple(Fraction(piece) for piece in raw.split(","))
+    if len(parts) != 3:
+        raise ValueError(f"axis must have three comma-separated entries: {raw}")
+    return parts  # type: ignore[return-value]
+
+
+def sample_axis_from_payload(data: dict[str, Any]) -> tuple[Fraction, Fraction, Fraction]:
+    for sample in data.get("samples", []):
+        axis = sample.get("axis")
+        if axis:
+            return parse_axis(str(axis))
+    target_axis = data.get("target", {}).get("axis_d4")
+    if target_axis:
+        return parse_axis(str(target_axis))
+    raise ValueError("cannot infer local forced-axis filter axis from payload")
+
+
+def local_axis_forces_face(
+    linear: tuple[tuple[Fraction, Fraction, Fraction], ...],
+    axis: tuple[Fraction, Fraction, Fraction],
+    face: str,
+) -> bool:
+    transformed = mat_vec(linear, tuple(Fraction(x) for x in FACE_NORMALS[face]))
+    return dot(transformed, axis) > 0
 
 
 def target_pairing_from_key(target: str) -> str:
@@ -331,10 +380,21 @@ def observed_allowed_square_faces_by_gap(graph: dict[str, Any]) -> tuple[frozens
     return tuple(frozenset(bucket) for bucket in buckets)
 
 
-def audit(input_path: Path, target: str, schedule_mode: str) -> dict[str, Any]:
+def audit(
+    input_path: Path,
+    target: str,
+    schedule_mode: str,
+    *,
+    require_local_axis_forced: bool,
+    axis_raw: str | None,
+) -> dict[str, Any]:
     data = json.loads(input_path.read_text())
     graph = data["graph"]
     target_pairing = target_pairing_from_key(target)
+    forced_axis = (
+        parse_axis(axis_raw) if axis_raw is not None
+        else sample_axis_from_payload(data)
+    ) if require_local_axis_forced else None
     labels = {int(row["index"]): str(row["key"]) for row in graph["labels"]}
     states = {int(row["index"]): str(row["key"]) for row in graph["states"]}
     allowed_faces_by_step = (
@@ -360,9 +420,11 @@ def audit(input_path: Path, target: str, schedule_mode: str) -> dict[str, Any]:
     total_illegal = 0
     total_legal = 0
     total_observed = 0
+    total_axis_rejected = 0
     states_with_missing = 0
     states_with_illegal = 0
     states_with_face_counts = 0
+    states_with_axis_rejections = 0
     for state_idx, state_key in sorted(states.items()):
         counts = parse_face_counts(state_key)
         if counts is None:
@@ -383,6 +445,21 @@ def audit(input_path: Path, target: str, schedule_mode: str) -> dict[str, Any]:
             allowed_faces_by_step=allowed_faces_by_step,
             allowed_square_faces_by_gap=allowed_square_faces_by_gap,
         )
+        axis_rejected: list[str] = []
+        if forced_axis is not None:
+            linear = parse_lin(state_key)
+            if linear is None:
+                raise ValueError(
+                    "--require-local-axis-forced requires state keys with a lin= component"
+                )
+            axis_rejected = sorted(
+                face for face in legal_faces
+                if not local_axis_forces_face(linear, forced_axis, face)
+            )
+            if axis_rejected:
+                legal_faces = legal_faces - set(axis_rejected)
+                states_with_axis_rejections += 1
+                total_axis_rejected += len(axis_rejected)
         observed = outgoing_faces.get(state_idx, set())
         missing = sorted(legal_faces - observed)
         illegal = sorted(observed - legal_faces)
@@ -403,8 +480,10 @@ def audit(input_path: Path, target: str, schedule_mode: str) -> dict[str, Any]:
                     "observed_count": len(observed),
                     "missing_count": len(missing),
                     "illegal_count": len(illegal),
+                    "axis_rejected_count": len(axis_rejected),
                     "missing_faces": missing[:20],
                     "illegal_faces": illegal[:20],
+                    "axis_rejected_faces": axis_rejected[:20],
                 }
             )
     rows.sort(key=lambda row: (-row["missing_count"], -row["illegal_count"], int(row["state"])))
@@ -419,6 +498,9 @@ def audit(input_path: Path, target: str, schedule_mode: str) -> dict[str, Any]:
         "input": str(input_path),
         "target_pairing": target_pairing,
         "schedule_mode": schedule_mode,
+        "require_local_axis_forced": require_local_axis_forced,
+        "forced_axis": ",".join(str(x) for x in forced_axis)
+            if forced_axis is not None else None,
         "allowed_faces_by_step": [
             sorted(bucket) for bucket in allowed_faces_by_step
         ] if allowed_faces_by_step is not None else None,
@@ -430,10 +512,12 @@ def audit(input_path: Path, target: str, schedule_mode: str) -> dict[str, Any]:
         "states_with_face_counts": states_with_face_counts,
         "total_target_legal_transitions": total_legal,
         "total_observed_face_transitions": total_observed,
+        "total_local_axis_rejected_transitions": total_axis_rejected,
         "total_missing_transitions": total_missing,
         "total_illegal_transitions": total_illegal,
         "states_with_missing_transitions": states_with_missing,
         "states_with_illegal_transitions": states_with_illegal,
+        "states_with_local_axis_rejections": states_with_axis_rejections,
         "top_problem_states": rows[:25],
         "decision": decision,
         "recommendation": (
@@ -457,6 +541,9 @@ def write_markdown(payload: dict[str, Any], output_path: Path) -> None:
     lines.append(f"Input: `{payload['input']}`")
     lines.append("")
     lines.append(f"Schedule mode: `{payload['schedule_mode']}`")
+    if payload.get("require_local_axis_forced"):
+        lines.append("")
+        lines.append(f"Local forced-axis filter: `{payload['forced_axis']}`")
     lines.append("")
     lines.append(f"Decision: `{payload['decision']}`")
     lines.append("")
@@ -470,8 +557,10 @@ def write_markdown(payload: dict[str, Any], output_path: Path) -> None:
         "states_with_face_counts",
         "total_target_legal_transitions",
         "total_observed_face_transitions",
+        "total_local_axis_rejected_transitions",
         "total_missing_transitions",
         "total_illegal_transitions",
+        "states_with_local_axis_rejections",
         "states_with_missing_transitions",
         "states_with_illegal_transitions",
     ]:
@@ -480,12 +569,13 @@ def write_markdown(payload: dict[str, Any], output_path: Path) -> None:
         lines.append("")
         lines.append("## Top Problem States")
         lines.append("")
-        lines.append("| State | Legal | Observed | Missing | Illegal |")
-        lines.append("| ---: | ---: | ---: | --- | --- |")
+        lines.append("| State | Legal | Observed | Axis rejected | Missing | Illegal |")
+        lines.append("| ---: | ---: | ---: | --- | --- | --- |")
         for row in payload["top_problem_states"][:10]:
             lines.append(
                 f"| `{row['state']}` | `{row['legal_count']}` | "
-                f"`{row['observed_count']}` | `{row['missing_faces'][:8]}` | "
+                f"`{row['observed_count']}` | `{row.get('axis_rejected_faces', [])[:8]}` | "
+                f"`{row['missing_faces'][:8]}` | "
                 f"`{row['illegal_faces'][:8]}` |"
             )
     if payload["allowed_faces_by_step"] is not None:
@@ -520,9 +610,31 @@ def main() -> None:
     )
     parser.add_argument("--json", type=Path)
     parser.add_argument("--markdown", "--md", type=Path)
+    parser.add_argument(
+        "--require-local-axis-forced",
+        action="store_true",
+        help=(
+            "Filter legal next faces by the local forced-axis sign using the lin= "
+            "component in each state key. This is diagnostic only; it tests whether "
+            "forced-sequence compatibility is the missing membership invariant."
+        ),
+    )
+    parser.add_argument(
+        "--axis",
+        help=(
+            "Axis for --require-local-axis-forced, as 'x,y,z'. Defaults to the "
+            "first sample axis in the profile JSON."
+        ),
+    )
     args = parser.parse_args()
 
-    payload = audit(args.input, args.target, args.schedule_mode)
+    payload = audit(
+        args.input,
+        args.target,
+        args.schedule_mode,
+        require_local_axis_forced=args.require_local_axis_forced,
+        axis_raw=args.axis,
+    )
     if args.json:
         args.json.parent.mkdir(parents=True, exist_ok=True)
         args.json.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")

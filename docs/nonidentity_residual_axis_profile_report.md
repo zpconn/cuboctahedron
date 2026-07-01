@@ -2760,3 +2760,50 @@ finite-horizon; object acceptance now carries the semantic forced-sequence
 condition needed to avoid the over-broad language gap.  The remaining work is
 to replace the two sampled objects with generated top-pairing families that
 prove the same `AxisForcesForcedSeq` membership predicate.
+
+## Local Forced-Axis Closure Audit
+
+To test the next membership coordinate before emitting more Lean, the
+target-pairing closure audit now has a `--require-local-axis-forced` option.
+It parses the exact prefix linear matrix from each state key and filters legal
+next faces by the strict sign of the transported face normal against a chosen
+axis.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_bellman_target_pairing_closure.py
+
+python3 scripts/audit_bellman_target_pairing_closure.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --schedule-mode observed+square-gap \
+  --require-local-axis-forced \
+  --axis=-1,-1,-3 \
+  --json scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_negaxis_1M_step_face_linear_tri_source.json \
+  --markdown scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_negaxis_1M_step_face_linear_tri_source.md
+```
+
+Result for the useful orientation:
+
+| metric | value |
+| --- | ---: |
+| `forced_axis` | `-1,-1,-3` |
+| `total_observed_face_transitions` | `229` |
+| `total_target_legal_transitions` | `230` |
+| `total_local_axis_rejected_transitions` | `14` |
+| `total_missing_transitions` | `1` |
+| `total_illegal_transitions` | `0` |
+
+The one remaining missing transition is state `19`, face `tmmp`; the previous
+completion audit classified that transition as `canonical_bad_face_mismatch`.
+So the immediate next invariant is not an exact path key.  It is canonical
+bad-face compatibility layered on top of:
+
+```text
+target cancellation pairing
+observed schedule / square-gap constraints
+oriented local forced-axis compatibility
+```
+
+This gives a concrete way to pursue the GPT5.5 Bellman/potential pivot without
+falling back to rank-local certificate packing.

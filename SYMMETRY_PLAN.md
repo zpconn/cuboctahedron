@@ -48616,3 +48616,66 @@ Do not broaden the Bellman graph language without a forced-sequence
 compatibility predicate.  If the semantic object family fragments, test
 affine-cocycle gauge normalization and cancellation-summary DAGs as shrinkers
 before returning to exact RHS or per-rank certificate keys.
+
+### Holonomy/Bellman Pivot - local forced-axis closure audit
+
+To advance the coarser-membership side of the Bellman plan, extended
+`scripts/audit_bellman_target_pairing_closure.py` with an optional local
+forced-axis filter.  The filter parses the current exact `lin=` matrix from a
+Bellman state and keeps a candidate next face only when the transported face
+normal has the correct strict dot sign with the chosen projective axis.  This
+is an untrusted diagnostic, but it tests exactly the invariant suggested by
+the corrected closure-gap audit: missing transitions were almost all
+`forced_sequence_mismatch`.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_bellman_target_pairing_closure.py
+
+python3 scripts/audit_bellman_target_pairing_closure.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --schedule-mode observed+square-gap \
+  --require-local-axis-forced \
+  --json scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_1M_step_face_linear_tri_source.json \
+  --markdown scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_1M_step_face_linear_tri_source.md
+
+python3 scripts/audit_bellman_target_pairing_closure.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --schedule-mode observed+square-gap \
+  --require-local-axis-forced \
+  --axis=-1,-1,-3 \
+  --json scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_negaxis_1M_step_face_linear_tri_source.json \
+  --markdown scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_negaxis_1M_step_face_linear_tri_source.md
+```
+
+Result:
+
+| run | forced axis | target legal | observed | axis rejected | missing | illegal | decision |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
+| sample-axis orientation | `1,1,3` | `14` | `229` | `230` | `14` | `229` | wrong orientation for this contribution-order local test |
+| reversed orientation | `-1,-1,-3` | `230` | `229` | `14` | `1` | `0` | one remaining gap |
+
+Interpretation:
+
+- The contribution-order graph needs the opposite orientation for the local
+  forced-axis next-face test.
+- With that orientation, local forced-axis compatibility removes `14/15` of
+  the over-broad missing transitions and rejects no observed transition.
+- The single remaining missing transition is state `19`, face `tmmp`, matching
+  the earlier completion audit's `canonical_bad_face_mismatch` reason.
+
+Decision: accepted as a useful next membership coordinate.  The next Bellman
+membership theorem should target this stack:
+
+```text
+target cancellation pairing
+  + observed schedule / square-gap language
+  + oriented local forced-axis next-face compatibility
+  + canonical bad-face compatibility
+```
+
+Only after that closure audit reaches zero missing/illegal transitions should
+we consider emitting a larger semantic object-family Lean smoke.  The current
+result is strong enough to rule out exact path classes as the next move, but
+not yet strong enough to claim a closed production language.
