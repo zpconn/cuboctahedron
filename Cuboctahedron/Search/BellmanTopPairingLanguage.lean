@@ -1,6 +1,7 @@
 import Cuboctahedron.Search.CancellationPairingLanguage
 import Cuboctahedron.Search.FaceLabelLanguage
 import Cuboctahedron.Search.NonIdentityCase
+import Cuboctahedron.Search.RankFaceLabelLanguage
 
 /-!
 Semantic language predicates for the current top-pairing Bellman family.
@@ -401,6 +402,18 @@ theorem transportLabels
       rw [hlabels]
       exact h.localAxis)
     h.canonicalBadFace
+
+theorem transportPairSignLanguage
+    {rank : Fin numPairWords} {seq template : Step14 -> Face}
+    {badFace : Face}
+    (htemplate : PairWordMatchesSeq (unrankPairWord rank) template)
+    (hseq : PairSignLanguageAtRank rank template seq)
+    (h : TopPairingClosedLanguageForSeq rank template badFace) :
+    TopPairingClosedLanguageForSeq rank seq badFace :=
+  transportLabels
+    (faceLabelsInContributionOrder_eq_of_pairSignLanguageAtRank
+      (fun f => f) htemplate hseq)
+    h
 
 end TopPairingClosedLanguageForSeq
 

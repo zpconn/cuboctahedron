@@ -3031,3 +3031,42 @@ Signed label-transport checkpoint:
 - Decision: accepted.  Next generated proof work should instantiate the
   transport equality from `AxisForcesForcedSeq`, not from canonical positive
   labels.
+
+PairSign bridge checkpoint:
+
+- A direct separate adapter importing `Cuboctahedron.Search.AxisForcedRankLanguage`
+  was tried and rejected under the strict memory guard:
+
+  ```text
+  /tmp/bellman_top_pairing_axis_bridge_guard.json
+  elapsed 7.01s, peak RSS 6205.52 MiB, killed by the 6000 MiB cap
+  ```
+
+  The theorem was small, but the import stack was too heavy for this
+  post-crash Bellman layer.
+- Replaced that route with the lighter
+  `TopPairingClosedLanguageForSeq.transportPairSignLanguage` theorem in
+  `Cuboctahedron.Search.BellmanTopPairingLanguage`.
+- This theorem targets `PairSignLanguageAtRank`, whose dependency surface is
+  `RankFaceLabelLanguage`, not the full certificate/axis-forces stack.
+- The generated trace emitter now exports:
+
+  ```lean
+  generatedClosedLanguageForSeqOfPairSignTrace
+  generatedClosedLanguageForSeqOfPairSignTraceConcreteLocalAxis
+  ```
+
+- Strict wrapper check:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_pairsign_6g.json
+  ```
+
+  Result: passed in `7.51s`, with `4142.32 MiB` peak process-tree RSS and
+  `46125.38 MiB` minimum available memory.
+- Decision: accepted.  Future generated membership can consume
+  `PairSignLanguageAtRank rank forcedSeq seq`; producing that fact from
+  `AxisForcesForcedSeq` remains valid, but should be staged outside the
+  lightweight Bellman trace shard unless its import path passes the strict
+  guard.

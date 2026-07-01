@@ -51666,3 +51666,73 @@ Decision: accepted.  The next bridge no longer needs to manipulate the
 canonical all-positive sequence.  It should instantiate `seq_labels_eq` with
 `faceLabelsInContributionOrder_eq_of_axisForces` and prove only the generated
 `forcedSeq` label equality plus cancellation/bad-face membership facts.
+
+### Holonomy/Bellman Pivot - PairSign bridge accepted, heavy axis-forces adapter rejected
+
+Tried the most direct hand-written adapter:
+
+```lean
+topPairingClosedLanguageForSeq_of_axisForces
+```
+
+in a separate module importing `Cuboctahedron.Search.AxisForcedRankLanguage`.
+The theorem itself was tiny, but the import stack pulled in the heavier
+certificate layer.  The required guarded build was killed by the memory guard:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --poll-seconds 0.5 \
+  --json /tmp/bellman_top_pairing_axis_bridge_guard.json \
+  -- lake build Cuboctahedron.Search.BellmanTopPairingAxisBridge
+```
+
+Result:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| separate axis-forces Bellman adapter | `7.01s` | `6205.52 MiB` | `46042.48 MiB` | rejected by guard |
+
+Decision: reject this adapter shape under the post-crash 6 GiB rule.  Do not
+raise the cap.
+
+Accepted replacement: keep this Bellman layer at the lighter
+`PairSignLanguageAtRank` boundary.  Added:
+
+```lean
+TopPairingClosedLanguageForSeq.transportPairSignLanguage
+```
+
+to `Cuboctahedron.Search.BellmanTopPairingLanguage`.  It imports only
+`Cuboctahedron.Search.RankFaceLabelLanguage`, uses
+`faceLabelsInContributionOrder_eq_of_pairSignLanguageAtRank`, and transports
+closed-language evidence from a generated forced sequence to any sequence in
+the same pair/sign language.
+
+The generated trace emitter now exports:
+
+```lean
+generatedClosedLanguageForSeqOfPairSignTrace
+generatedClosedLanguageForSeqOfPairSignTraceConcreteLocalAxis
+```
+
+Strict post-crash proof check:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_pairsign_6g.json
+```
+
+Result:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| PairSign generated trace smoke | `7.51s` | `4142.32 MiB` | `46125.38 MiB` | passed |
+
+Decision: accepted.  The next generated membership step should prove or
+consume `PairSignLanguageAtRank rank forcedSeq seq`.  The existing
+axis-forces theorem can still produce that fact, but it should remain outside
+this lightweight Bellman trace module unless a guarded build demonstrates the
+combined import path is safe.
