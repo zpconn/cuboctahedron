@@ -1,0 +1,19 @@
+{
+  "available_floor_mib": 36864.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "Cuboctahedron/Search/BellmanAxisBridge.lean"
+  ],
+  "elapsed_seconds": 7.0060403130009945,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 3858040,
+  "max_tree_rss_mib": 3767.6171875,
+  "min_available_seen_kib": 47336248,
+  "min_available_seen_mib": 46226.8046875,
+  "rss_cap_mib": 4500.0,
+  "timeout_seconds": 90.0
+}

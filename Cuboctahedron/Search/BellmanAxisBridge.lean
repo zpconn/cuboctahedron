@@ -723,4 +723,38 @@ theorem scaledMargin_nonpos
 
 end BellmanAxisRankObjectCover
 
+namespace BellmanAxisRankLanguageFamily
+
+def toObjectCover
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {ContainsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      BellmanAxisRankLanguageFamily
+        State Label V Step labelOfFace start const ContainsRank scaledMargin) :
+    BellmanAxisRankObjectCover
+      { rank : Fin numPairWords // ContainsRank rank }
+      State Label V Step labelOfFace start const
+      (fun obj => obj.1)
+      (fun _obj => True)
+      ContainsRank scaledMargin where
+  forcedSeq := fun obj => family.forcedSeq obj.1 obj.2
+  trace_bound := by
+    intro obj _hAccept
+    exact ⟨family.finish obj.1 obj.2, family.gain obj.1 obj.2,
+      family.run obj.1 obj.2, family.finish_nonneg obj.1 obj.2,
+      family.margin_bound obj.1 obj.2⟩
+  step_valid := family.step_valid
+  root_bound := family.root_bound
+  covers := by
+    intro rank hrank
+    exact ⟨⟨rank, hrank⟩, True.intro, rfl⟩
+
+end BellmanAxisRankLanguageFamily
+
 end Cuboctahedron

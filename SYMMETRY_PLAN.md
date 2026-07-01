@@ -56024,3 +56024,96 @@ Results:
 Decision: accepted as a small Lean-checked adapter toward the closed-language
 object-cover proof.  This still does not construct the object cover; it removes
 one rank-to-sequence bookkeeping obstacle for the next membership theorem.
+
+### Holonomy/Bellman Pivot - rank-language family to object-cover adapter
+
+Added a generic semantic adapter in:
+
+```text
+Cuboctahedron/Search/BellmanAxisBridge.lean
+```
+
+New theorem-surface definition:
+
+```lean
+def BellmanAxisRankLanguageFamily.toObjectCover
+```
+
+It turns a `BellmanAxisRankLanguageFamily ... ContainsRank scaledMargin` into a
+`BellmanAxisRankObjectCover` by using objects of type
+`{ rank : Fin numPairWords // ContainsRank rank }`.  This is exactly the
+object-cover shape the closed-language bridge needs, without introducing a
+sample index type or `Classical.choose` over sampled ranks.
+
+The closed top-pairing bridge now exposes:
+
+```lean
+theorem nonIdentityRankKilled_of_closed_top_pairing_language_family
+theorem nonIdentityRankKilled_of_closed_top_pairing_ym_language_family
+```
+
+in:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean
+```
+
+These theorems consume:
+
+1. a `BellmanAxisRankLanguageFamily` whose `ContainsRank` is
+   `ClosedTopPairingContainsRank badFace`;
+2. a rank-indexed `ObjectStartViolationMarginCert` provider for the same
+   closed language;
+3. a `TopPairingClosedLanguageAtRank` proof for the target rank.
+
+and return `Generated.Coverage.NonIdentityRankKilled rank`.
+
+Commands run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 90 \
+  --json scripts/generated/bellman_axis_bridge_guard_toObjectCover.json \
+  -- lake env lean Cuboctahedron/Search/BellmanAxisBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 90 \
+  --json scripts/generated/bellman_closed_language_bridge_guard_language_family.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Search/BellmanAxisBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean || true
+```
+
+Results:
+
+- `BellmanAxisBridge.lean` guarded direct Lean check passed in `7.01s`, peak
+  process-tree RSS `3767.62 MiB`, minimum MemAvailable `46226.80 MiB`;
+- `BellmanTopPairingClosedLanguageBridge.lean` guarded direct Lean check
+  passed in `2.00s`, peak process-tree RSS `3578.81 MiB`, minimum
+  MemAvailable `46234.11 MiB`;
+- forbidden-token scan over both changed Lean files: no hits.
+
+Operational notes:
+
+- `lake build Cuboctahedron.Search.BellmanAxisBridge` is rejected for this
+  checkpoint.  Under the `4500 MiB` RSS guard it replayed too much of the
+  package and was safely terminated at `6444.44 MiB` process-tree RSS.
+- Direct `.olean` emission for `BellmanAxisBridge` first failed because
+  `PairWordSymmetry.olean` was absent; the missing single-module artifacts
+  `PairWordSymmetry.olean` and `TranslationCase.olean` were repaired by direct
+  guarded Lean emission, with peaks `4144.90 MiB` and `4057.72 MiB`
+  respectively.  This is build-cache hygiene only, not proof evidence.
+
+Decision: accepted.  The sampled-index membership bottleneck now has a
+semantic theorem surface: future generated closed-language leaves can target
+`BellmanAxisRankLanguageFamily` over `ClosedTopPairingContainsRank Face.ym`
+and invoke the new closed-language family bridge.  Remaining production work
+is to generate/prove the fields of that language family and the corresponding
+rank-indexed start-violation certificates from the closed-language predicate.

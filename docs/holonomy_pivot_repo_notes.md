@@ -5309,3 +5309,32 @@ Closed-language canonical-sequence adapter:
   - peak process-tree RSS `3819.79 MiB`;
   - minimum MemAvailable `46273.07 MiB`;
   - forbidden-token scan over the changed Lean file had no hits.
+
+Rank-language family to object-cover adapter:
+
+- Added `BellmanAxisRankLanguageFamily.toObjectCover` in
+  `Cuboctahedron/Search/BellmanAxisBridge.lean`.
+- It converts a rank-predicate-indexed
+  `BellmanAxisRankLanguageFamily` into a `BellmanAxisRankObjectCover` using
+  objects `{ rank : Fin numPairWords // ContainsRank rank }`.  This is the
+  generic semantic replacement for sampled object indexes.
+- Extended
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean`
+  with:
+  - `nonIdentityRankKilled_of_closed_top_pairing_language_family`;
+  - `nonIdentityRankKilled_of_closed_top_pairing_ym_language_family`.
+- These theorems consume a `BellmanAxisRankLanguageFamily` over
+  `ClosedTopPairingContainsRank badFace` and a rank-indexed
+  `ObjectStartViolationMarginCert` provider, then produce
+  `Generated.Coverage.NonIdentityRankKilled`.
+- Validation:
+  - guarded direct Lean check of
+    `Cuboctahedron/Search/BellmanAxisBridge.lean` passed in `7.01s`, peak RSS
+    `3767.62 MiB`, minimum MemAvailable `46226.80 MiB`;
+  - guarded direct Lean check of the closed-language bridge passed in `2.00s`,
+    peak RSS `3578.81 MiB`, minimum MemAvailable `46234.11 MiB`;
+  - forbidden-token scan over both changed Lean files had no hits.
+- Build discipline finding: `lake build Cuboctahedron.Search.BellmanAxisBridge`
+  replayed too much and was safely killed by the guard at `6444.44 MiB`; do
+  not use that runner for this checkpoint.  Direct guarded Lean checks remain
+  the accepted validation path for these small bridge modules.

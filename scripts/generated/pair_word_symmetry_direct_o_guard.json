@@ -1,0 +1,21 @@
+{
+  "available_floor_mib": 36864.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "-o",
+    ".lake/build/lib/lean/Cuboctahedron/Search/PairWordSymmetry.olean",
+    "Cuboctahedron/Search/PairWordSymmetry.lean"
+  ],
+  "elapsed_seconds": 4.003524509997078,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4244380,
+  "max_tree_rss_mib": 4144.90234375,
+  "min_available_seen_kib": 47008912,
+  "min_available_seen_mib": 45907.140625,
+  "rss_cap_mib": 4500.0,
+  "timeout_seconds": 90.0
+}
