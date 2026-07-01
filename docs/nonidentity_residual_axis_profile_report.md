@@ -1315,6 +1315,28 @@ Label-step Bellman checkpoint:
   through `SmokeStep`-style semantic transitions, rather than enumerating
   observed path classes.
 
+Label-step composition checkpoint:
+
+- Added `BellmanLabelStepRun.append` to
+  `Cuboctahedron.Search.BellmanPotential`.
+- This gives the cancellation-tree route a small compositional primitive:
+  separately proved label-step subruns can be concatenated while preserving
+  the concatenated semantic label list and sum of integer gains.
+- Focused builds passed:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.BellmanPotential
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Results: Bellman core `0:02.28` wall / `3,328,908 kB` max RSS; generated
+  graph smoke `0:06.18` wall / `3,673,548 kB` max RSS.
+- Decision: accepted as a support theorem for the next holonomy/cancellation
+  bridge.  The next proof-shape target is to build word-language runs by
+  composing subruns, not by replaying a full length-14 constructor chain for
+  each observed path class.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

@@ -499,6 +499,12 @@ Top margin+cancellation-pairing checkpoint:
   `3,318,464 kB` max RSS and for the generated smoke in `0:06.29` wall time
   with `3,678,196 kB` max RSS.  The next Bellman gap is proving real
   holonomy/cancellation words satisfy such semantic step relations.
+- Label-step composition status: `BellmanLabelStepRun.append` now composes
+  semantic subruns.  The focused Bellman core build passed in `0:02.28` wall
+  time with `3,328,908 kB` max RSS, and the generated graph smoke still passed
+  in `0:06.18` wall time with `3,673,548 kB` max RSS.  This is a support
+  theorem for cancellation-tree summaries and other holonomy-language proofs
+  that should assemble full runs from smaller pieces.
 
 ## Explicit Non-Goals
 

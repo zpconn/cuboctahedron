@@ -134,6 +134,24 @@ inductive BellmanLabelStepRun
       (htail : BellmanLabelStepRun Step t u labels tailGain) :
       BellmanLabelStepRun Step s u (label :: labels) (gain + tailGain)
 
+namespace BellmanLabelStepRun
+
+theorem append
+    {State Label : Type}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {s t u : State} {labels₁ labels₂ : List Label} {gain₁ gain₂ : Int}
+    (h₁ : BellmanLabelStepRun Step s t labels₁ gain₁)
+    (h₂ : BellmanLabelStepRun Step t u labels₂ gain₂) :
+    BellmanLabelStepRun Step s u (labels₁ ++ labels₂) (gain₁ + gain₂) := by
+  induction h₁ generalizing u labels₂ gain₂ with
+  | nil s =>
+      simpa using h₂
+  | cons hstep _htail ih =>
+      simpa [List.cons_append, Int.add_assoc] using
+        BellmanLabelStepRun.cons hstep (ih h₂)
+
+end BellmanLabelStepRun
+
 def bellmanGainSum {State : Type} : List (BellmanEdge State) -> Int
   | [] => 0
   | e :: edges => e.gain + bellmanGainSum edges

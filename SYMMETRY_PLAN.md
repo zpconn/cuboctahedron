@@ -2143,6 +2143,13 @@ Bellman profiler prototype checkpoint:
   nonidentity Bellman margin route.  The next gap is no longer edge/path
   plumbing; it is proving that real holonomy/cancellation words satisfy the
   generated semantic `Step` relation.
+- Label-step composition checkpoint: `BellmanLabelStepRun.append` now composes
+  two semantic step runs, preserving concatenated label lists and accumulated
+  integer gains.  Focused builds passed: Bellman core in `0:02.28` wall time
+  with `3,328,908 kB` max RSS, and the generated graph smoke in `0:06.18`
+  wall time with `3,673,548 kB` max RSS.  This supports the next intended
+  cancellation-tree/summary proof shape: prove smaller subruns and compose
+  them instead of emitting one long constructor chain per full word.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
