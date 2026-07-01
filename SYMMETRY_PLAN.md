@@ -58337,3 +58337,43 @@ PrefixSmoke regenerated Lean check:
 Decision: accepted.  The immediate next implementation step is to extend this
 emitter from the fixed first prefix into a real state-DAG shard emitter that
 produces theorem modules for bounded groups of semantic states.
+
+State-DAG graph-output checkpoint:
+
+- Extended `scripts/profile_top_pairing_trace_state_dag.py` with optional
+  `--graph-json` output.
+- The default profile JSON remains small and does **not** embed the full graph.
+  The full graph is generated on demand for future emitters, keeping large
+  diagnostic data out of normal proof paths and out of public theorem
+  statements.
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/profile_top_pairing_trace_state_dag.py
+
+python3 scripts/profile_top_pairing_trace_state_dag.py \
+  --json scripts/generated/top_pairing_trace_state_dag_profile.json \
+  --markdown docs/top_pairing_trace_state_dag_profile.md \
+  --graph-json scripts/generated/top_pairing_trace_state_dag_graph.json
+
+wc -c \
+  scripts/generated/top_pairing_trace_state_dag_graph.json \
+  scripts/generated/top_pairing_trace_state_dag_profile.json \
+  docs/top_pairing_trace_state_dag_profile.md
+```
+
+Result:
+
+```text
+graph JSON = 10,316,361 bytes
+profile JSON = 3,566 bytes
+markdown report = 2,740 bytes
+states = 7387
+edges = 7661
+terminals = 249
+```
+
+Decision: accepted, with the graph JSON treated as reproducible diagnostic
+input rather than committed proof evidence.  The next emitter can regenerate
+that graph locally and emit small Lean shards from it.

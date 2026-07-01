@@ -39,6 +39,7 @@ def matrix_key(linear) -> tuple[tuple[tuple[int, int], ...], ...]:
 
 def profile(max_examples: int) -> dict[str, object]:
     state_ids: dict[tuple[object, ...], int] = {}
+    id_to_key: list[tuple[object, ...]] = []
     edges: set[tuple[int, str, int]] = set()
     depth_states: dict[int, int] = {i: 0 for i in range(15)}
     terminal_states: dict[int, str] = {}
@@ -75,6 +76,7 @@ def profile(max_examples: int) -> dict[str, object]:
             return found
         ident = len(state_ids)
         state_ids[key] = ident
+        id_to_key.append(key)
         depth_states[key[0]] += 1  # type: ignore[index]
         return ident
 
@@ -180,6 +182,20 @@ def profile(max_examples: int) -> dict[str, object]:
         "terminal_histogram": terminal_histogram,
         "terminal_path_histogram": terminal_path_histogram,
         "terminal_examples": terminal_examples,
+        "graph": {
+            "states": [
+                serialize_state_key(ident, key)
+                for ident, key in enumerate(id_to_key)
+            ],
+            "edges": [
+                {"source": source, "face": face, "target": target}
+                for source, face, target in sorted(edges)
+            ],
+            "terminals": [
+                {"state": state, "kind": kind}
+                for state, kind in sorted(terminal_states.items())
+            ],
+        },
         "state_key": [
             "step",
             "remaining_pair_counts",
@@ -187,6 +203,42 @@ def profile(max_examples: int) -> dict[str, object]:
             "local_axis_linear_matrix",
             "triangular_cancellation_stack",
         ],
+    }
+
+
+def serialize_matrix(matrix: tuple[tuple[tuple[int, int], ...], ...]) -> list[list[list[int]]]:
+    return [
+        [[num, den] for num, den in row]
+        for row in matrix
+    ]
+
+
+def serialize_stack(state: audit.StackState) -> dict[str, object]:
+    return {
+        "shadow_len": state.shadow_len,
+        "stack": [list(item) for item in state.stack],
+        "cancellations_rev": [list(item) for item in state.cancellations_rev],
+    }
+
+
+def serialize_state_key(ident: int, key: tuple[object, ...]) -> dict[str, object]:
+    step = key[0]
+    counts = key[1]
+    square_gap = key[2]
+    linear = key[3]
+    stack = key[4]
+    assert isinstance(step, int)
+    assert isinstance(counts, tuple)
+    assert isinstance(square_gap, int)
+    assert isinstance(linear, tuple)
+    assert isinstance(stack, audit.StackState)
+    return {
+        "id": ident,
+        "step": step,
+        "remaining_pair_counts": dict(zip(PAIR_ORDER, counts)),
+        "square_gap": square_gap,
+        "local_axis_linear_matrix": serialize_matrix(linear),
+        "triangular_cancellation_stack": serialize_stack(stack),
     }
 
 
@@ -239,14 +291,31 @@ def main() -> None:
         type=Path,
         default=ROOT / "docs/top_pairing_trace_state_dag_profile.md",
     )
+    parser.add_argument(
+        "--graph-json",
+        type=Path,
+        default=None,
+        help="optional compact state/edge graph output for later Lean emitters",
+    )
     parser.add_argument("--max-examples", type=int, default=3)
     args = parser.parse_args()
 
     report = profile(args.max_examples)
     args.json.parent.mkdir(parents=True, exist_ok=True)
     args.markdown.parent.mkdir(parents=True, exist_ok=True)
-    args.json.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
-    write_markdown(report, args.markdown)
+    profile_report = {
+        key: value
+        for key, value in report.items()
+        if key != "graph"
+    }
+    args.json.write_text(json.dumps(profile_report, indent=2, sort_keys=True) + "\n")
+    write_markdown(profile_report, args.markdown)
+    if args.graph_json is not None:
+        args.graph_json.parent.mkdir(parents=True, exist_ok=True)
+        args.graph_json.write_text(
+            json.dumps(report["graph"], indent=2, sort_keys=True) + "\n"
+        )
+        print(f"wrote {args.graph_json}")
     print(f"wrote {args.json}")
     print(f"wrote {args.markdown}")
     print(f"decision: {report['decision']}")
