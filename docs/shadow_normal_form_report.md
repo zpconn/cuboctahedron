@@ -182,3 +182,36 @@ theorem.  The next proof obligations are:
 2. prove that square parity is identity for valid pair words;
 3. prove the mod-3 triangular product theorem for nonempty reduced shadows;
 4. derive the identity classifier theorem in Lean.
+
+## Linear Product Bridge Checkpoint
+
+The first proof obligation above now has a Lean bridge module:
+
+- `Cuboctahedron/Search/ShadowNormalFormLinear.lean`
+
+It defines `pairLinearProductFactors`, a list product over the exact pair
+factor order consumed by the shadow scanner, and proves:
+
+```lean
+theorem totalLinearOfPairWord_eq_pairLinearProductFactors
+    (w : PairWord) :
+    totalLinearOfPairWord w =
+      pairLinearProductFactors (startedPairFactors w)
+```
+
+Focused build:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalFormLinear
+```
+
+Result:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalFormLinear (4.0s)
+Build completed successfully
+```
+
+Remaining Lean proof gates are now the valid-count parity theorem, triangular
+adjacent-cancellation/product theorem, and the mod-3 nonidentity theorem for
+nonempty reduced triangular shadows.

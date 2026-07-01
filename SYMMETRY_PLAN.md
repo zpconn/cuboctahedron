@@ -200,6 +200,40 @@ gates are:
    or the exact adapted theorem shape, can be proved without generated
    rank evidence.
 
+Lean product-order bridge checkpoint:
+
+- Added `Cuboctahedron/Search/ShadowNormalFormLinear.lean`.
+- It imports the existing `NonIdentityCase` product definitions and the new
+  shadow scanner, without importing generated coverage modules.
+- It defines `pairLinearProductFactors`, the list product over the same
+  `startedPairFactors` order consumed by the shadow scan.
+- It proves:
+
+  ```lean
+  theorem totalLinearOfPairWord_eq_pairLinearProductFactors
+      (w : PairWord) :
+      totalLinearOfPairWord w =
+        pairLinearProductFactors (startedPairFactors w)
+  ```
+
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalFormLinear
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalFormLinear (4.0s)
+  Build completed successfully
+  ```
+
+Accepted: proof gate 1 now has a Lean theorem surface.  Remaining Track 1
+gates are valid-count square parity, triangular cancellation/product
+preservation, and the mod-3 proof that nonempty reduced triangular shadows are
+nonidentity.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
