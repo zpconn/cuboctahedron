@@ -5,16 +5,16 @@ This report is planning/accounting only. It does not invoke Lean.
 - graph: `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json`
 - scanned range: `0..37`
 - status: `selected`
-- current MemAvailable: `46607 MiB`
+- current MemAvailable: `46621 MiB`
 - required MemAvailable: `36864 MiB`
 
 Selected candidate:
 
-- index: `12`
-- rank: `124013`
+- index: `13`
+- rank: `136597`
 - reason: trace and split artifacts are missing or stale
-- trace module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke12`
-- split module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke12`
+- trace module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke13`
+- split module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke13`
 - trace source: `32 KiB`
 - split source: `2 KiB`
 
@@ -32,7 +32,7 @@ Selected candidate:
 | `9` | `43203` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `10` | `43205` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `11` | `113917` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
-| `12` | `124013` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
+| `12` | `124013` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `13` | `136597` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
 | `14` | `151567` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
 | `15` | `151569` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
