@@ -1930,3 +1930,43 @@ profile is still safe.  An all-`37` sampled smoke can be tried as a focused
 target, but the production path should move toward the semantic
 holonomy/cancellation-language membership theorem instead of accumulating
 sampled-class modules as final evidence.
+
+## Bellman All-37 Sampled Bridge Checkpoint
+
+The final sampled-class ramp generated:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphBridge37Smoke.lean
+```
+
+The module contains `37` generated-axis bridge theorems, one for each audited
+path class in the current `[0,1000000)` top-pairing graph, and has `45,317`
+source lines.
+
+Guarded focused build:
+
+```text
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 14000 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/bellman_bridge37_guard.json \
+  -- lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge37Smoke
+```
+
+Result:
+
+| target | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: |
+| `BellmanTopPairingGraphBridge37Smoke` | `150.90s` | `10,446.67 MiB` | `37,240.78 MiB` | `0` |
+
+The forbidden-keyword scan over the emitter and generated all-37 smoke found
+no `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Decision: accepted as the last sampled-class bridge smoke for this graph.  It
+validates the generated proof shape but is intentionally not final coverage.
+The next nonidentity Bellman work must implement a semantic
+holonomy/cancellation-language membership bridge that proves arbitrary family
+members map into the Bellman label-step language and satisfy the generated
+axis-forcing premises.

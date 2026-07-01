@@ -47340,3 +47340,44 @@ default.  The next possible ramp is all `37` sampled path classes, but it
 should be generated as a separate smoke module and built only as a focused
 target.  The production task remains a compact semantic family-language bridge,
 not a sampled-class list.
+
+### Holonomy/Bellman Pivot - all-37 sampled axis bridge smoke accepted
+
+The final sampled-class ramp generated the all-`37` audited Bellman path-class
+bridge module:
+
+```bash
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphBridge37Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge37Smoke \
+  --rank-bridge-limit 37
+```
+
+The module has `37` sampled generated-axis bridge theorems and `45,317` source
+lines.  It was built under the memory guard, not as part of a broad package
+build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 14000 \
+  --min-available-mib 30000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/bellman_bridge37_guard.json \
+  -- lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge37Smoke
+```
+
+Guard result:
+
+| target | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: |
+| `BellmanTopPairingGraphBridge37Smoke` | `150.90s` | `10,446.67 MiB` | `37,240.78 MiB` | `0` |
+
+Decision: accepted as a focused smoke/proof-shape validation.  All observed
+path classes in the current `[0,1M)` top-pairing graph can be bridged by
+Lean-checked sampled axis-forcing facts without approaching the machine memory
+limit.  This should be the last sampled-class ramp: the next proof work must
+replace sampled rank bridges with a semantic holonomy/cancellation-language
+membership theorem that constructs the same Bellman label-step run and
+`AxisForces` premises for arbitrary members of the family.

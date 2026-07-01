@@ -859,3 +859,20 @@ Bounded multi-class Bellman bridge:
   Result: `0:34.53` wall time, `5,510,392 kB` max RSS, exit `0`.  This keeps
   the sampled bridge ramp within the memory budget, but these modules remain
   focused smokes rather than final coverage roots.
+- The all-`37` sampled bridge module
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge37Smoke`
+  was generated and built under `scripts/run_memory_guarded.py`.
+  Guard telemetry:
+
+  ```text
+  elapsed: 150.90s
+  peak tree RSS: 10,446.67 MiB
+  minimum available memory: 37,240.78 MiB
+  exit: 0
+  ```
+
+  This validates the sampled proof shape for every observed path class in the
+  current graph.  It should not become the production coverage strategy.  The
+  next implementation step is a semantic holonomy/cancellation-language bridge
+  that proves arbitrary family members construct the same Bellman label-step
+  run and axis-forcing premises.
