@@ -1690,6 +1690,33 @@ they add a large checking tax without improving the semantic theorem surface.
 The next nonidentity Bellman step should split terminal family modules and
 export small killed theorems, rather than optimizing eval-node facts further.
 
+Bellman graph/terminal boundary update:
+
+- The sampled Bellman emitter now supports a corrected split where graph
+  shards contain only Bellman graph/potential object-cover evidence and
+  terminal shards own local start-violation `NonIdCert` payloads.
+- Generated graph shard:
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2GraphSmoke`.
+  It exports the sampled rank/object interface plus
+  `graphSmoke_sampled_axis_object_eval_scaled_margin_nonpos_at_object` and
+  `graphSmoke_sampled_axis_object_cover_eval_covers`.
+- Generated terminal shard:
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke`.
+  It imports the graph shard, checks the local start-violation payloads,
+  builds `sampledObjectStartViolationCert`, and exports
+  `graphSmoke_sampled_axis_rank_killed`.
+- Focused one-at-a-time builds passed:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | graph split | `0:21.30` | `4,721,740 kB` |
+  | terminal split | `0:52.35` | `7,719,508 kB` |
+
+This is now the preferred production boundary for the GPT5.5
+Bellman/potential pivot.  Broad group/root modules should import terminal
+semantic killed shards, not graph/potential shards, and public theorem
+statements should not expose potential tables or local terminal cert data.
+
 Split terminal bridge:
 
 - Added to `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`:

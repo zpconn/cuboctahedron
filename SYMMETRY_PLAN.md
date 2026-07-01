@@ -49357,3 +49357,57 @@ semantic object-level margin theorem, while a tiny terminal shard imports only
 that theorem surface plus local terminal certificates and exports a killed
 predicate.  Broad group/root modules should import terminal theorem shards,
 not graph/potential shards.
+
+### Holonomy/Bellman Pivot - terminal payload moved out of graph shard
+
+Follow-up to the split smoke: the first split still left the local
+start-violation `NonIdCert` payload blocks in the graph shard and merely made
+their names public enough for the terminal shard.  That was the wrong
+production boundary.  The emitter now removes those terminal payload blocks
+from the graph split and splices them into the terminal split instead.
+
+The graph shard now stops at the sampled object interface and Bellman
+nonpositive theorem surface.  It no longer contains the generated
+`cls000*_PositiveCertSeq` / `NonIdCert` payloads or the legacy
+`xpStartInterior_margin_positive` helper theorems.  The terminal shard imports
+the graph surface, owns the two local start-violation payloads, builds the
+`ObjectStartViolationMarginCert` map, and exports:
+
+```lean
+theorem graphSmoke_sampled_axis_rank_killed
+```
+
+Focused regeneration command was the same split command as above.  The split
+file sizes are now:
+
+| file | lines |
+| --- | ---: |
+| `BellmanTopPairingGraphLanguage2GraphSmoke.lean` | `24,369` |
+| `BellmanTopPairingGraphLanguage2TerminalSmoke.lean` | `740` |
+| monolithic `BellmanTopPairingGraphLanguage2Smoke.lean` | `25,185` |
+
+Focused builds, run one at a time:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2GraphSmoke` | `0:21.30` | `4,721,740 kB` | passed |
+| `BellmanTopPairingGraphLanguage2TerminalSmoke` | `0:52.35` | `7,719,508 kB` | passed |
+| monolithic `BellmanTopPairingGraphLanguage2Smoke` | `0:00.86` | `834,068 kB` | passed from cache |
+
+The terminal shard is slower than the earlier 58-line version because it now
+checks the two local affine-solve/start-violation payloads itself.  That is
+intentional: terminal contradiction payloads should be terminal-local.  The
+graph shard is closer to the GPT5.5 Pro Bellman/potential target: a private
+finite-horizon potential certificate plus a small exported semantic
+nonpositive theorem.
+
+Decision: accepted as the correct split boundary.  Production Bellman family
+generation should emit:
+
+1. graph/potential shards exporting object-level integer margin bounds;
+2. terminal contradiction shards importing those bounds and owning local
+   terminal cert payloads;
+3. group/root modules importing only terminal killed theorem shards.
+
+Do not move terminal cert payloads back into graph/potential shards, and do
+not expose potential tables or local cert data in public theorem statements.

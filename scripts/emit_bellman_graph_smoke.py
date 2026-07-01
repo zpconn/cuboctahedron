@@ -2229,17 +2229,50 @@ def emit(
         }
         for info in rank_bridge_infos:
             obj_name = str(info["obj_name"])
-            positive_name = str(info["positive_cert_name"])
             public_names.add(str(info["rank_name"]))
+            public_names.add(str(info["seq_name"]))
+            public_names.add(str(info["axis_name"]))
+            public_names.add(str(info["kernel_name"]))
             public_names.add(f"{obj_name}Word")
             public_names.add(f"{obj_name}_unrank_word")
-            public_names.add(positive_name)
-            public_names.add(f"{positive_name}_kernelCheck")
-            public_names.add(f"{positive_name}_axisForces")
-            public_names.add(f"{positive_name}_badFace_ne_xp")
-            public_names.add(f"{positive_name}_badFaceViolation")
+            public_names.add(f"{obj_name}KernelCheck")
+            public_names.add(f"{obj_name}AxisForces")
+
+        def first_line_starting(prefix: str, source_lines: list[str]) -> int:
+            for idx, source_line in enumerate(source_lines):
+                if source_line.startswith(prefix):
+                    return idx
+            raise ValueError(prefix)
+
+        skip_ranges: list[tuple[int, int]] = []
+        for info in rank_bridge_infos:
+            obj_name = str(info["obj_name"])
+            positive_name = str(info["positive_cert_name"])
+            try:
+                start = first_line_starting(f"private def {positive_name}Seq", raw_lines)
+                end = first_line_starting(f"private def {obj_name}PairSignLanguage", raw_lines)
+            except ValueError:
+                continue
+            skip_ranges.append((start, end))
+            try:
+                start = first_line_starting(
+                    f"private theorem {positive_name}_xpStartInterior_margin_positive",
+                    raw_lines,
+                )
+            except ValueError:
+                continue
+            end = start + 1
+            while end < len(raw_lines) and raw_lines[end] != "":
+                end += 1
+            skip_ranges.append((start, min(end + 1, len(raw_lines))))
+
+        def skipped(index: int) -> bool:
+            return any(start <= index < end for start, end in skip_ranges)
+
         out: list[str] = []
-        for line in raw_lines:
+        for index, line in enumerate(raw_lines):
+            if skipped(index):
+                continue
             stripped = line.lstrip()
             indent = line[: len(line) - len(stripped)]
             if stripped.startswith("private inductive "):
@@ -2280,6 +2313,30 @@ def emit(
             "",
             f"open {graph_namespace}",
             "",
+        ]
+        for info in same_axis_infos:
+            obj_name = str(info["obj_name"])
+            positive_name = str(info["positive_cert_name"])
+            try:
+                start = next(
+                    idx for idx, line in enumerate(lines)
+                    if line.startswith(f"private def {positive_name}Seq")
+                )
+                end = next(
+                    idx for idx, line in enumerate(lines)
+                    if line.startswith(f"private def {obj_name}PairSignLanguage")
+                )
+            except ValueError as exc:
+                raise SystemExit(
+                    f"could not find terminal positive-cert block for {positive_name}"
+                ) from exc
+            except StopIteration as exc:
+                raise SystemExit(
+                    f"could not find terminal positive-cert block for {positive_name}"
+                ) from exc
+            out.extend(lines[start:end])
+            out.append("")
+        out.extend([
             "private def sampledObjectStartViolationCert :",
             "    forall idx, sampledObjectAccepts idx ->",
             "      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.ObjectStartViolationMarginCert",
@@ -2287,7 +2344,7 @@ def emit(
             "        (sampledScaledMarginAtRank (sampledRankOf idx))",
             "  | idx, _hAccept => by",
             "      cases idx",
-        ]
+        ])
         for info in same_axis_infos:
             positive_name = str(info["positive_cert_name"])
             bad_face = str(info["positive_bad_face"])

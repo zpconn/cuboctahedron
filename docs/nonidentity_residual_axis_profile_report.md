@@ -3229,3 +3229,40 @@ The terminal shard is now a small semantic theorem surface suitable for
 group/root imports.  Production should scale this shape by generating many
 graph/potential leaves and small terminal killed leaves, then importing only
 terminal theorem surfaces above the leaf layer.
+
+### Split graph/terminal payload correction
+
+The first split still left local positive/start-violation `NonIdCert` payloads
+in the graph shard.  That made the terminal file tiny, but it was not the right
+production boundary because graph/potential shards still carried terminal
+contradiction data.
+
+The emitter now removes the positive cert payload blocks and the legacy
+`xpStartInterior_margin_positive` helper theorems from the graph split.  Those
+payload blocks are spliced into the terminal split instead.
+
+Resulting split sizes:
+
+| file | lines |
+| --- | ---: |
+| `BellmanTopPairingGraphLanguage2GraphSmoke.lean` | `24,369` |
+| `BellmanTopPairingGraphLanguage2TerminalSmoke.lean` | `740` |
+| monolithic `BellmanTopPairingGraphLanguage2Smoke.lean` | `25,185` |
+
+Focused one-at-a-time builds passed:
+
+| target | wall | max RSS |
+| --- | ---: | ---: |
+| `BellmanTopPairingGraphLanguage2GraphSmoke` | `0:21.30` | `4,721,740 kB` |
+| `BellmanTopPairingGraphLanguage2TerminalSmoke` | `0:52.35` | `7,719,508 kB` |
+| monolithic `BellmanTopPairingGraphLanguage2Smoke` | `0:00.86` | `834,068 kB` from cache |
+
+The graph shard now proves only the object-level Bellman nonpositive margin
+surface.  The terminal shard imports that surface, checks the local
+start-violation payloads, builds the `ObjectStartViolationMarginCert` map, and
+exports `graphSmoke_sampled_axis_rank_killed`.
+
+Decision: accepted.  This is the correct rehearsal for production Bellman
+families under the GPT5.5 potential-certificate pivot: terminal contradiction
+payloads are terminal-local; graph/potential shards expose only semantic
+margin bounds.
