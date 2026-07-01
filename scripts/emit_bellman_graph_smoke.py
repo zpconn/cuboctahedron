@@ -676,6 +676,26 @@ def emit(
         lines.append(f"  | {case_name} => simpa [BellmanEdge.Valid] using {name}_valid")
     lines.extend([
         "",
+        f"-- graph-global deterministic eval transitions: {len(transition_by_state_label)}",
+        "private def graphSmokeNext : State -> SmokeLabel -> Option (State × Int)",
+    ])
+    for (src_idx, label_idx), (_edge_idx, dst_idx, gain_scaled, _case_name) in sorted(
+        transition_by_state_label.items()
+    ):
+        lines.append(
+            f"  | {state_ctor(src_idx)}, {label_ctor(label_idx)} => "
+            f"some ({state_ctor(dst_idx)}, {gain_scaled})"
+        )
+    lines.extend([
+        "  | _, _ => none",
+        "",
+        "/--",
+        "The global evaluator table is intentionally emitted separately from the",
+        "`SmokeStep` proof relation. A later semantic-membership leaf should prove",
+        "`graphSmokeNext ... = some ... -> SmokeStep ...` in bounded chunks, rather",
+        "than by one large state/label case split.",
+        "-/",
+        "",
         f"-- shared prefix length: {common_prefix_len}",
         f"private def commonPrefixFinalState : State := {state_ctor(common_prefix_final)}",
         "",

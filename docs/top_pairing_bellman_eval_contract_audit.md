@@ -111,16 +111,16 @@ not by case-splitting on `SampledRankIndex`.
 - `semantic_object`: `0`
 - `closed_language_fields`: `0`
 - `sampled_eval`: `93`
-  - line `1725`: `"private def sampledSmokeNext : State -> SmokeLabel -> Option (State × Int)",`
-  - line `1737`: `"private def SampledSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",`
-  - line `1738`: `"  sampledSmokeNext s label = some (t, gain)",`
-  - line `1740`: `"private theorem SampledSmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",`
-  - line `1741`: `"    SampledSmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by",`
-  - line `1744`: `"  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction",`
-  - line `1744`: `"  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction",`
-  - line `1749`: `"private theorem SampledSmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",`
+  - line `1745`: `"private def sampledSmokeNext : State -> SmokeLabel -> Option (State × Int)",`
+  - line `1757`: `"private def SampledSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",`
+  - line `1758`: `"  sampledSmokeNext s label = some (t, gain)",`
+  - line `1760`: `"private theorem SampledSmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",`
+  - line `1761`: `"    SampledSmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by",`
+  - line `1764`: `"  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction",`
+  - line `1764`: `"  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction",`
+  - line `1769`: `"private theorem SampledSmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",`
   - ... `85` more
 - `semantic_eval_target`: `1`
-  - line `1978`: `"    BellmanEvalAccepts graphPotential sampledSmokeNext rootState",`
+  - line `1998`: `"    BellmanEvalAccepts graphPotential sampledSmokeNext rootState",`
 - `semantic_eval_language`: `0`
 

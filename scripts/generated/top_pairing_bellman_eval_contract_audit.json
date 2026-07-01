@@ -1342,467 +1342,467 @@
       "exists": true,
       "sampled_eval": [
         {
-          "line": 1725,
+          "line": 1745,
           "pattern": "sampledSmokeNext",
           "text": "\"private def sampledSmokeNext : State -> SmokeLabel -> Option (State \u00d7 Int)\","
         },
         {
-          "line": 1737,
+          "line": 1757,
           "pattern": "SampledSmokeStepEval",
           "text": "\"private def SampledSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=\","
         },
         {
-          "line": 1738,
+          "line": 1758,
           "pattern": "sampledSmokeNext",
           "text": "\"  sampledSmokeNext s label = some (t, gain)\","
         },
         {
-          "line": 1740,
+          "line": 1760,
           "pattern": "SampledSmokeStepEval",
           "text": "\"private theorem SampledSmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :\","
         },
         {
-          "line": 1741,
+          "line": 1761,
           "pattern": "SampledSmokeStepEval",
           "text": "\"    SampledSmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by\","
         },
         {
-          "line": 1744,
+          "line": 1764,
           "pattern": "sampledSmokeNext",
           "text": "\"  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction\","
         },
         {
-          "line": 1744,
+          "line": 1764,
           "pattern": "SampledSmokeStepEval",
           "text": "\"  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction\","
         },
         {
-          "line": 1749,
+          "line": 1769,
           "pattern": "SampledSmokeStepEval",
           "text": "\"private theorem SampledSmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :\","
         },
         {
-          "line": 1750,
+          "line": 1770,
           "pattern": "sampledSmokeNext",
           "text": "\"    sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by\","
         },
         {
-          "line": 1750,
+          "line": 1770,
           "pattern": "SampledSmokeStepEval",
           "text": "\"    sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by\","
         },
         {
-          "line": 1760,
+          "line": 1780,
           "pattern": "sampledSmokeNext",
           "text": "f\"    evalLabelStepFn sampledSmokeNext rootState {trie_node_labels_name(0)} =\","
         },
         {
-          "line": 1774,
+          "line": 1794,
           "pattern": "sampledSmokeNext",
           "text": "f\"    evalLabelStepFn sampledSmokeNext {trie_node_state_name(parent)}\","
         },
         {
-          "line": 1777,
+          "line": 1797,
           "pattern": "sampledSmokeNext",
           "text": "f\"  change evalLabelStepFn sampledSmokeNext {state_ctor(int(edge['src']))}\","
         },
         {
-          "line": 1782,
+          "line": 1802,
           "pattern": "sampledSmokeNext",
           "text": "f\"    evalLabelStepFn sampledSmokeNext rootState {trie_node_labels_name(node_idx)} =\","
         },
         {
-          "line": 1789,
+          "line": 1809,
           "pattern": "SampledRankIndex",
           "text": "\"private inductive SampledRankIndex where\","
         },
         {
-          "line": 1795,
+          "line": 1815,
           "pattern": "SampledRankIndex",
           "text": "\"private def sampledRankOf : SampledRankIndex -> Fin numPairWords\","
         },
         {
-          "line": 1795,
+          "line": 1815,
           "pattern": "sampledRankOf",
           "text": "\"private def sampledRankOf : SampledRankIndex -> Fin numPairWords\","
         },
         {
-          "line": 1799,
+          "line": 1819,
           "pattern": "SampledRankIndex",
           "text": "f\"  | SampledRankIndex.i{idx:04d} => {info['rank_name']}\""
         },
         {
-          "line": 1803,
+          "line": 1823,
           "pattern": "sampledContainsRank",
           "text": "\"private def sampledContainsRank (rank : Fin numPairWords) : Prop :=\","
         },
         {
-          "line": 1804,
+          "line": 1824,
           "pattern": "SampledRankIndex",
           "text": "\"  exists idx : SampledRankIndex, sampledRankOf idx = rank\","
         },
         {
-          "line": 1804,
+          "line": 1824,
           "pattern": "sampledRankOf",
           "text": "\"  exists idx : SampledRankIndex, sampledRankOf idx = rank\","
         },
         {
-          "line": 1833,
+          "line": 1853,
           "pattern": "SampledRankIndex",
           "text": "\"      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace\","
         },
         {
-          "line": 1834,
+          "line": 1854,
           "pattern": "sampledRankOf",
           "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf\","
         },
         {
-          "line": 1907,
+          "line": 1927,
           "pattern": "sampledRankOf",
           "text": "\"    \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
         },
         {
-          "line": 1937,
+          "line": 1957,
           "pattern": "SampledRankIndex",
           "text": "\"    (idx : SampledRankIndex)\","
         },
         {
-          "line": 1939,
+          "line": 1959,
           "pattern": "sampledRankOf",
           "text": "\"    (hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)\","
         },
         {
-          "line": 1941,
+          "line": 1961,
           "pattern": "sampledRankOf",
           "text": "\"    sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :=\","
         },
         {
-          "line": 1950,
+          "line": 1970,
           "pattern": "SampledRankIndex",
           "text": "\"      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace\","
         },
         {
-          "line": 1951,
+          "line": 1971,
           "pattern": "sampledContainsRank",
           "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledContainsRank\","
         },
         {
-          "line": 1951,
+          "line": 1971,
           "pattern": "sampledRankOf",
           "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledContainsRank\","
         },
         {
-          "line": 1959,
+          "line": 1979,
           "pattern": "sampledContainsRank",
           "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank)\","
         },
         {
-          "line": 1967,
+          "line": 1987,
           "pattern": "SampledRankIndex",
           "text": "\"private def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face\","
         },
         {
-          "line": 1971,
+          "line": 1991,
           "pattern": "SampledRankIndex",
           "text": "f\"  | SampledRankIndex.i{idx:04d} => {info['seq_name']}\""
         },
         {
-          "line": 1975,
+          "line": 1995,
           "pattern": "SampledRankIndex",
           "text": "\"private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=\","
         },
         {
-          "line": 1976,
+          "line": 1996,
           "pattern": "sampledRankOf",
           "text": "\"  AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))\","
         },
         {
-          "line": 1978,
+          "line": 1998,
           "pattern": "sampledSmokeNext",
           "text": "\"    BellmanEvalAccepts graphPotential sampledSmokeNext rootState\","
         },
         {
-          "line": 1980,
+          "line": 2000,
           "pattern": "sampledRankOf",
           "text": "\"      (fun idx => sampledScaledMarginAtRank (sampledRankOf idx))\","
         },
         {
-          "line": 1985,
+          "line": 2005,
           "pattern": "SampledRankIndex",
           "text": "\"  exists idx : SampledRankIndex, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank\","
         },
         {
-          "line": 1985,
+          "line": 2005,
           "pattern": "sampledRankOf",
           "text": "\"  exists idx : SampledRankIndex, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank\","
         },
         {
-          "line": 1988,
+          "line": 2008,
           "pattern": "SampledRankIndex",
           "text": "\"    BellmanRankObjectMembership SampledRankIndex sampledRankOf\","
         },
         {
-          "line": 1988,
+          "line": 2008,
           "pattern": "sampledRankOf",
           "text": "\"    BellmanRankObjectMembership SampledRankIndex sampledRankOf\","
         },
         {
-          "line": 1989,
+          "line": 2009,
           "pattern": "sampledContainsRank",
           "text": "\"      sampledObjectAccepts sampledContainsRank where\","
         },
         {
-          "line": 1990,
+          "line": 2010,
           "pattern": "Classical.choose",
           "text": "\"  objectOf := fun _rank hrank => Classical.choose hrank\","
         },
         {
-          "line": 1993,
+          "line": 2013,
           "pattern": "Classical.choose",
           "text": "\"    let idx := Classical.choose hrank\","
         },
         {
-          "line": 2003,
+          "line": 2023,
           "pattern": "sampledSmokeNext",
           "text": "\"        \u00b7 change evalLabelStepFn sampledSmokeNext rootState\","
         },
         {
-          "line": 2009,
+          "line": 2029,
           "pattern": "sampledRankOf",
           "text": "\"        \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
         },
         {
-          "line": 2016,
+          "line": 2036,
           "pattern": "Classical.choose",
           "text": "\"    exact Classical.choose_spec hrank\","
         },
         {
-          "line": 2020,
+          "line": 2040,
           "pattern": "SampledRankIndex",
           "text": "\"      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace\","
         },
         {
-          "line": 2021,
+          "line": 2041,
           "pattern": "sampledRankOf",
           "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledObjectAccepts\","
         },
         {
-          "line": 2022,
+          "line": 2042,
           "pattern": "sampledContainsRank",
           "text": "\"      sampledContainsRank sampledScaledMarginAtRank :=\","
         },
         {
-          "line": 2040,
+          "line": 2060,
           "pattern": "sampledRankOf",
           "text": "\"        \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
         },
         {
-          "line": 2053,
+          "line": 2073,
           "pattern": "sampledContainsRank",
           "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
-        },
-        {
-          "line": 2060,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
-        },
-        {
-          "line": 2060,
-          "pattern": "SampledRankIndex",
-          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
-        },
-        {
-          "line": 2061,
-          "pattern": "sampledRankOf",
-          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledObjectAccepts\","
-        },
-        {
-          "line": 2062,
-          "pattern": "sampledContainsRank",
-          "text": "\"      sampledContainsRank sampledScaledMarginAtRank :=\","
-        },
-        {
-          "line": 2074,
-          "pattern": "sampledSmokeNext",
-          "text": "\"            evalLabelStepFn sampledSmokeNext rootState\","
         },
         {
           "line": 2080,
           "pattern": "SampledSmokeStepEval",
-          "text": "\"            (Step := SampledSmokeStepEval)\","
+          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
+        },
+        {
+          "line": 2080,
+          "pattern": "SampledRankIndex",
+          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
         },
         {
           "line": 2081,
-          "pattern": "sampledSmokeNext",
-          "text": "\"            (next := sampledSmokeNext)\","
-        },
-        {
-          "line": 2087,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"              exact SampledSmokeStepEval.sound h)\","
-        },
-        {
-          "line": 2090,
-          "pattern": "sampledRankOf",
-          "text": "\"        \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
-        },
-        {
-          "line": 2098,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"      exact SampledSmokeStepEval.valid h)\","
-        },
-        {
-          "line": 2103,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
-        },
-        {
-          "line": 2109,
-          "pattern": "SampledRankIndex",
-          "text": "\"    (idx : SampledRankIndex) (hAccept : sampledObjectAccepts idx) :\","
-        },
-        {
-          "line": 2110,
-          "pattern": "sampledRankOf",
-          "text": "\"    sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :=\","
-        },
-        {
-          "line": 2115,
-          "pattern": "sampledContainsRank",
-          "text": "\"    forall rank, sampledContainsRank rank ->\","
-        },
-        {
-          "line": 2116,
-          "pattern": "sampledRankOf",
-          "text": "\"      exists idx, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank :=\","
-        },
-        {
-          "line": 2121,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
-        },
-        {
-          "line": 2121,
-          "pattern": "SampledRankIndex",
-          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
-        },
-        {
-          "line": 2122,
           "pattern": "sampledRankOf",
           "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledObjectAccepts\","
         },
         {
-          "line": 2128,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"      exact SampledSmokeStepEval.sound h)\","
+          "line": 2082,
+          "pattern": "sampledContainsRank",
+          "text": "\"      sampledContainsRank sampledScaledMarginAtRank :=\","
         },
         {
-          "line": 2141,
+          "line": 2094,
+          "pattern": "sampledSmokeNext",
+          "text": "\"            evalLabelStepFn sampledSmokeNext rootState\","
+        },
+        {
+          "line": 2100,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"            (Step := SampledSmokeStepEval)\","
+        },
+        {
+          "line": 2101,
+          "pattern": "sampledSmokeNext",
+          "text": "\"            (next := sampledSmokeNext)\","
+        },
+        {
+          "line": 2107,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"              exact SampledSmokeStepEval.sound h)\","
+        },
+        {
+          "line": 2110,
+          "pattern": "sampledRankOf",
+          "text": "\"        \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
+        },
+        {
+          "line": 2118,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"      exact SampledSmokeStepEval.valid h)\","
+        },
+        {
+          "line": 2123,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
+        },
+        {
+          "line": 2129,
+          "pattern": "SampledRankIndex",
+          "text": "\"    (idx : SampledRankIndex) (hAccept : sampledObjectAccepts idx) :\","
+        },
+        {
+          "line": 2130,
+          "pattern": "sampledRankOf",
+          "text": "\"    sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :=\","
+        },
+        {
+          "line": 2135,
+          "pattern": "sampledContainsRank",
+          "text": "\"    forall rank, sampledContainsRank rank ->\","
+        },
+        {
+          "line": 2136,
           "pattern": "sampledRankOf",
           "text": "\"      exists idx, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank :=\","
         },
         {
-          "line": 2147,
+          "line": 2141,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
+        },
+        {
+          "line": 2141,
+          "pattern": "SampledRankIndex",
+          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
+        },
+        {
+          "line": 2142,
+          "pattern": "sampledRankOf",
+          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledObjectAccepts\","
+        },
+        {
+          "line": 2148,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"      exact SampledSmokeStepEval.sound h)\","
+        },
+        {
+          "line": 2161,
+          "pattern": "sampledRankOf",
+          "text": "\"      exists idx, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank :=\","
+        },
+        {
+          "line": 2167,
           "pattern": "sampledRankOf",
           "text": "\"        (sampledRankOf idx)\","
         },
         {
-          "line": 2148,
+          "line": 2168,
           "pattern": "sampledRankOf",
           "text": "\"        (sampledScaledMarginAtRank (sampledRankOf idx))\","
         },
         {
-          "line": 2172,
+          "line": 2192,
           "pattern": "sampledContainsRank",
           "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
         },
         {
-          "line": 2178,
+          "line": 2198,
           "pattern": "sampledContainsRank",
           "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
         },
         {
-          "line": 2190,
+          "line": 2210,
           "pattern": "sampledContainsRank",
           "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
         },
         {
-          "line": 2203,
+          "line": 2223,
           "pattern": "sampledRankOf",
           "text": "\"        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->\","
-        },
-        {
-          "line": 2207,
-          "pattern": "sampledRankOf",
-          "text": "\"        0 < sampledScaledMarginAtRank (sampledRankOf idx))\","
-        },
-        {
-          "line": 2208,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
-        },
-        {
-          "line": 2216,
-          "pattern": "sampledRankOf",
-          "text": "\"        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->\","
-        },
-        {
-          "line": 2220,
-          "pattern": "sampledRankOf",
-          "text": "\"        0 < sampledScaledMarginAtRank (sampledRankOf idx))\","
-        },
-        {
-          "line": 2221,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
         },
         {
           "line": 2227,
+          "pattern": "sampledRankOf",
+          "text": "\"        0 < sampledScaledMarginAtRank (sampledRankOf idx))\","
+        },
+        {
+          "line": 2228,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
+        },
+        {
+          "line": 2236,
+          "pattern": "sampledRankOf",
+          "text": "\"        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->\","
+        },
+        {
+          "line": 2240,
+          "pattern": "sampledRankOf",
+          "text": "\"        0 < sampledScaledMarginAtRank (sampledRankOf idx))\","
+        },
+        {
+          "line": 2241,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
+        },
+        {
+          "line": 2247,
           "pattern": "SampledRankIndex",
           "text": "\"    (idx : SampledRankIndex)\","
         },
         {
-          "line": 2229,
+          "line": 2249,
           "pattern": "sampledRankOf",
           "text": "\"    (hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)\","
         },
         {
-          "line": 2233,
+          "line": 2253,
           "pattern": "sampledRankOf",
           "text": "\"    0 < sampledScaledMarginAtRank (sampledRankOf idx) := by\","
         },
         {
-          "line": 2253,
+          "line": 2273,
           "pattern": "sampledContainsRank",
           "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
         },
         {
-          "line": 2273,
+          "line": 2293,
           "pattern": "SampledRankIndex",
           "text": "\"SampledRankIndex\","
         },
         {
-          "line": 2274,
+          "line": 2294,
           "pattern": "sampledRankOf",
           "text": "\"sampledRankOf\","
         },
         {
-          "line": 2275,
+          "line": 2295,
           "pattern": "sampledContainsRank",
           "text": "\"sampledContainsRank\","
         },
         {
-          "line": 2393,
+          "line": 2413,
           "pattern": "sampledRankOf",
           "text": "\"        (sampledRankOf idx)\","
         },
         {
-          "line": 2394,
+          "line": 2414,
           "pattern": "sampledRankOf",
           "text": "\"        (sampledScaledMarginAtRank (sampledRankOf idx))\","
         },
         {
-          "line": 2430,
+          "line": 2450,
           "pattern": "sampledRankOf",
           "text": "\"      rank := sampledRankOf idx,\","
         }
@@ -1810,7 +1810,7 @@
       "semantic_eval_language": [],
       "semantic_eval_target": [
         {
-          "line": 1978,
+          "line": 1998,
           "pattern": "BellmanEvalAccepts",
           "text": "\"    BellmanEvalAccepts graphPotential sampledSmokeNext rootState\","
         }
