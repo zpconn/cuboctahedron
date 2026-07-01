@@ -52113,3 +52113,53 @@ BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean
 No Lean proof check was run for this checkpoint.  The next proof-bearing
 Bellman step remains quarantined until it is split into a tiny target whose
 dependency artifacts are preflighted first.
+
+### Holonomy/Bellman Pivot - post-quarantine current-state audit
+
+After the import-preflight checkpoint, a source-only audit of the current
+generated shard shows that the older "next safe target" text is stale.  The
+file
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean
+```
+
+already contains:
+
+```lean
+generatedTopPairingLanguageAtRank :
+  TopPairingLanguageAtRank generatedRank
+
+generatedCanonicalBadFaceCompatible :
+  TopPairingCanonicalBadFaceCompatible Face.ym
+
+generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation :
+  PairSignLanguageAtRank generatedRank generatedForcedSeq seq ->
+  TopPairingClosedLanguageForSeq generatedRank seq Face.ym
+
+generatedClosedLanguageForSeqOfAxisForces :
+  SeqRealizesPairWord (unrankPairWord generatedRank) seq ->
+  NonIdentityAxisConstraints seq ->
+  checkKernelLineWitness ... axis kernel = true ->
+  AxisForcesForcedSeq (unrankPairWord generatedRank) axis generatedForcedSeq ->
+  TopPairingClosedLanguageForSeq generatedRank seq Face.ym
+```
+
+This was only a file inspection, not a new proof check.  It changes the next
+task selection: the selected shard has already generated the cancellation and
+bad-face facts.  The remaining risk is not a missing local theorem but the
+cost and scalability of importing/using the axis-forces bridge in larger
+generated Bellman families.
+
+Next safe proof-bearing target should therefore be a **smaller split bridge**,
+not another rank-local fact in the selected shard:
+
+1. keep the generated trace shard at the lightweight
+   `PairSignLanguageAtRank` boundary for normal Bellman checks;
+2. create a tiny hand-written or generated smoke target that imports the
+   axis-forces bridge alone and proves only the pair-sign transport fact, under
+   the import preflight and direct-Lean guard;
+3. if that split bridge exceeds the 6 GiB cap, do not merge it back into the
+   trace shard.  Instead continue with a semantic-family bridge that avoids the
+   heavy certificate import stack.

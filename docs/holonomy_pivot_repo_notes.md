@@ -3322,3 +3322,15 @@ Import-preflight checkpoint:
   `Cuboctahedron.Search.BellmanTopPairingLanguage`, with `24` transitive local
   imports whose `.olean` artifacts were present.  No Lean proof check was run
   for this checkpoint.
+
+Post-quarantine source audit:
+
+- The current generated trace shard already contains local proofs of
+  `generatedTopPairingLanguageAtRank` and
+  `generatedCanonicalBadFaceCompatible`, plus the theorem
+  `generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation`.
+  The old plan text saying those are the next facts to generate is stale.
+- The remaining selected-shard bridge is now at the pair-sign / axis-forces
+  boundary.  Future proof-bearing checks should split that bridge into a tiny
+  target first; do not merge a heavier axis-forces import stack back into
+  ordinary Bellman trace smokes unless it passes the strict direct-Lean guard.
