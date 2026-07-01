@@ -56661,3 +56661,108 @@ followed by a generated theorem from `TopPairingClosedLanguageAtRank` to
 `TopPairingBellmanEvalLanguageAtRank`.  If that theorem still requires sampled
 rank/path enumeration, this Bellman route should be demoted to discovery
 infrastructure and replaced by a cancellation-tree summary automaton.
+
+### Holonomy/Bellman Pivot - graph core split smoke
+
+Added a focused graph-core emitter:
+
+```text
+scripts/emit_bellman_graph_core.py
+```
+
+This emits only:
+
+- `State`;
+- `graphPotential`;
+- graph edges and edge validity proofs;
+- `SmokeLabel`;
+- `SmokeStep`;
+- deterministic per-state `graphSmokeNext_sNNNN` tables;
+- global `graphSmokeNext`;
+- `graphSmokeNext_sound : graphSmokeNext s label = some (t, gain) -> SmokeStep s label t gain`;
+- `GraphSmokeStepEval.valid`.
+
+It deliberately emits no `SampledRankIndex`, no sampled rank/object bridge, and
+no terminal geometry data.  This directly tests the semantic Bellman evaluator
+surface recommended by GPT5.5: the run is computed by a deterministic evaluator,
+not stored as a sampled path.
+
+Representative committed smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphCoreSmoke.lean
+```
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_core.py
+
+python3 scripts/emit_bellman_graph_core.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphCoreSmoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphCoreSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 120 \
+  --json scripts/generated/bellman_graph_core_smoke_guard.json \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphCoreSmoke.lean
+
+rg -n "SampledRankIndex|sampledSmokeNext|sampledContainsRank|sampledRankOf|sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  scripts/emit_bellman_graph_core.py \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphCoreSmoke.lean || true
+```
+
+Results for the 1M `step_face_linear_tri_source` graph:
+
+- generated source size: `250 KiB`;
+- states: `223`;
+- edges: `229`;
+- guarded Lean check passed in `6.00s`;
+- peak process-tree RSS `4346 MiB`;
+- minimum MemAvailable observed `45610 MiB`;
+- sampled/forbidden token scan: no hits.
+
+This is the first Lean-checked artifact in this Bellman route that proves the
+global deterministic evaluator table corresponds to the Bellman step relation
+without sampled rank objects.
+
+Scaling probe, not committed as source:
+
+```bash
+python3 scripts/emit_bellman_graph_core.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.json \
+  --output /tmp/BellmanTopPairingGraphCoreSmoke5M.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphCoreSmoke5M
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_graph_core_5m_smoke_guard.json \
+  -- lake env lean /tmp/BellmanTopPairingGraphCoreSmoke5M.lean
+```
+
+Results for the 5M `step_tri_source` graph:
+
+- generated source size in `/tmp`: `904 KiB`;
+- guarded Lean check was terminated by the memory guard;
+- peak process-tree RSS `4625 MiB`, above the `4500 MiB` cap;
+- minimum MemAvailable stayed safe (`45339 MiB`), so the guard prevented system
+  risk.
+
+Decision: promote the graph-core split, but reject monolithic graph-core files
+for larger graphs.  The next emitter step should split again:
+
+1. graph base module: `State`, `graphPotential`, `SmokeLabel`, `SmokeStep`,
+   per-state next functions, and edge facts;
+2. bounded soundness shards, e.g. 32-64 source states per file, proving
+   `graphSmokeNext_sound_sNNNN`;
+3. a shallow root that imports soundness shards and exports
+   `graphSmokeNext_sound` and `GraphSmokeStepEval.valid`.
+
+This keeps the Bellman semantic-membership route alive and gives a concrete
+scaling constraint: the proof is plausible only if larger graphs are checked as
+small soundness shards, not as one generated file.
