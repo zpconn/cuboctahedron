@@ -294,6 +294,44 @@ Direct start-violation theorem hook:
   and the `X+` start-interior fact by integer/projective algebra faster than
   the old `LocalCertSmoke` path.
 
+Direct-start smoke result:
+
+- Added `Cuboctahedron/Generated/NonIdentity/Residual/DirectStartSmoke.lean`.
+- The smoke uses rank `861`, with forced sequence:
+
+  ```text
+  xp xm ym yp zm zp tmmp tppm tpmp tpmm tmmm tmpm tmpp tppp
+  ```
+
+  and the focused-class spine:
+
+  ```text
+  axis = 1,3,1
+  reduced = d11m d111 dm11 d11m d111 dm11
+  bad face = ym
+  ```
+
+- It proves:
+
+  ```lean
+  theorem Cuboctahedron.Generated.NonIdentity.Residual.DirectStartSmoke.rank861_no_axis_constraints :
+      ¬ NonIdentityAxisConstraints rank861Seq
+  ```
+
+- This smoke does not use `AxisStartViolationCert` and does not check
+  `AffineAxisSolveWitness`.  The core inequality follows from `p0.x = 1`,
+  endpoint, and fixed-direction equations by linear arithmetic.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.DirectStartSmoke
+  ```
+
+  Result: success, `0:04.00` wall time, `3,341,448 KiB` max RSS.
+- Decision: the direct theorem surface is viable for representatives and much
+  cheaper than the old concrete local certificate smoke.  It still needs a
+  family-level/projective form before broad emission.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -306,6 +344,7 @@ Direct start-violation theorem hook:
 - `scripts/axis_start_focus_profile.py`
 - `scripts/generated/axis_start_focus_yp_1_m3_m1_000000000_000100000.json`
 - `scripts/generated/axis_start_focus_yp_1_m3_m1_000000000_000100000.md`
+- `Cuboctahedron/Generated/NonIdentity/Residual/DirectStartSmoke.lean`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.json`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.md`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000000100.json`

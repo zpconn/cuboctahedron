@@ -1342,6 +1342,44 @@ Direct start-violation theorem hook:
   surface for the next smoke: prove the direct inequality for the largest
   exact-axis/reduced-shadow class by integer/projective algebra.
 
+Direct start-violation smoke:
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/DirectStartSmoke.lean`.
+- The smoke targets rank `861`, a representative of the dominant focused
+  class with:
+
+  ```text
+  axis = 1,3,1
+  reduced = d11m d111 dm11 d11m d111 dm11
+  bad face = ym
+  ```
+
+- It proves:
+
+  ```lean
+  theorem Cuboctahedron.Generated.NonIdentity.Residual.DirectStartSmoke.rank861_no_axis_constraints :
+      ¬ NonIdentityAxisConstraints rank861Seq
+  ```
+
+- Crucially, the proof does **not** use `AxisStartViolationCert` and does not
+  check an `AffineAxisSolveWitness`.  It uses the strengthened direct hook:
+  from `p0.x = 1`, the endpoint equation, and the fixed-direction equation,
+  Lean derives the bad start-face inequality directly.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.DirectStartSmoke
+  ```
+
+  passed in `0:04.00` wall time with `3,341,448 KiB` max RSS.
+- Interpretation: this is a much better theorem surface than the old
+  `LocalCertSmoke` path (`~45s`, `~5.18 GiB`) for individual representatives.
+  It is still not production-ready as one theorem per rank because it computes
+  a concrete `totalAff`.  The next gate is to generalize the direct linear
+  derivation over the exact-axis/reduced-shadow family or move the same
+  algebra into integer/projective family lemmas.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

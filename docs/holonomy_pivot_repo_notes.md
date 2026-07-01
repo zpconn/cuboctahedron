@@ -194,6 +194,16 @@ affine solve witness.  The strengthened hook builds in
 `Cuboctahedron.Search.TerminalNonidentityTemplates` with a measured
 `0:07.00` wall time and `3,227,668 KiB` max RSS on the current machine.
 
+The first direct smoke is
+`Cuboctahedron.Generated.NonIdentity.Residual.DirectStartSmoke.rank861_no_axis_constraints`.
+It targets rank `861` in the dominant exact-axis/reduced-shadow class and
+proves `¬ NonIdentityAxisConstraints rank861Seq` without
+`AxisStartViolationCert` or `AffineAxisSolveWitness`.  The proof still uses a
+concrete `totalAff` computation for that sequence, but the contradiction is
+now linear algebra from the endpoint/fixed-direction equations plus
+`p0.x = 1`.  Focused build telemetry: `0:04.00` wall time and
+`3,341,448 KiB` max RSS.
+
 ## Explicit Non-Goals
 
 The following approaches are archived as diagnostics, not the active route to
