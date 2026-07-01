@@ -52644,3 +52644,30 @@ the tightened guard.  It restores Lean-checked evidence for the one sampled
 split-composition root without widening the target set.  The next proof-bearing
 step, if attempted, should be another single target under the same envelope,
 not a broad generated build or a multi-target run.
+
+Follow-up: the two leaf targets imported by the composition root were also
+checked singly under the same tightened envelope:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --target axis-forces-pairsign \
+  --json /tmp/bellman_axis_forces_pairsign_tight_guard.json
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --target generated-trace \
+  --json /tmp/bellman_generated_trace_tight_guard.json
+```
+
+Results:
+
+| target | elapsed | peak tree RSS | hard-AS cap | min available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `axis-forces-pairsign` | `4.01s` | `3827 MiB` | `6144 MiB` | `46387 MiB` | passed |
+| `generated-trace` | `4.50s` | `4000 MiB` | `6144 MiB` | `46252 MiB` | passed |
+| `split-composition` | `12.02s` | `3891 MiB` | `6144 MiB` | `46331 MiB` | passed |
+
+Decision: the current one-path split Bellman smoke stack is fully revalidated
+under the post-crash envelope: both leaves and the tiny composition root pass
+when checked one at a time.  This supports the split architecture, but it does
+not justify running multiple Lean targets concurrently or broadening to larger
+generated shards without the same single-target gate.

@@ -3484,3 +3484,32 @@ First proof-bearing check under the tightened post-crash envelope:
 - Decision: the existing one-path split-composition smoke is revalidated under
   the tightened envelope.  Do not infer that larger Bellman generated targets
   are safe; test each new target singly under the same guard.
+
+Leaf revalidation under the same tightened envelope:
+
+- `axis-forces-pairsign`:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --target axis-forces-pairsign \
+    --json /tmp/bellman_axis_forces_pairsign_tight_guard.json
+  ```
+
+  Result: passed in `4.01s`, with `3827 MiB` peak process-tree RSS,
+  `6144 MiB` hard address-space cap, and `46387 MiB` minimum available memory.
+
+- `generated-trace`:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --target generated-trace \
+    --json /tmp/bellman_generated_trace_tight_guard.json
+  ```
+
+  Result: passed in `4.50s`, with `4000 MiB` peak process-tree RSS,
+  `6144 MiB` hard address-space cap, and `46252 MiB` minimum available memory.
+
+The current one-path split Bellman smoke stack is therefore revalidated under
+the post-crash envelope when checked one target at a time: both leaves and the
+tiny composition root pass.  This remains a bounded smoke, not a license to run
+parallel Lean or broader generated targets.
