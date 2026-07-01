@@ -58299,3 +58299,41 @@ PrefixSmoke Lake module:
 Decision: accepted as the first production-shaped generated classifier shard.
 The next generator work should emit more of the `7387`-state DAG, grouped into
 small shards, rather than adding only hand-written prefix lemmas.
+
+Classifier-prefix emitter checkpoint:
+
+- Added `scripts/emit_top_pairing_trace_classifier_prefix_smoke.py`.
+- The script regenerates
+  `Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/PrefixSmoke.lean`
+  from a deterministic template.
+- Running the emitter after the checked module was committed produced no source
+  diff, confirming the generated module is now reproducible rather than a
+  hand-only artifact.
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+
+python3 scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_trace_classifier_prefix_emitter_guard.json \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/PrefixSmoke.lean
+```
+
+Result:
+
+```text
+PrefixSmoke regenerated Lean check:
+  passed
+  peak_tree_rss = 3725.7 MiB
+  elapsed = 4.00s
+```
+
+Decision: accepted.  The immediate next implementation step is to extend this
+emitter from the fixed first prefix into a real state-DAG shard emitter that
+produces theorem modules for bounded groups of semantic states.
