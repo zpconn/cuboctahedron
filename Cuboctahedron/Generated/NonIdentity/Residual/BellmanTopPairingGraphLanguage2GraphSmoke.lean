@@ -24225,6 +24225,9 @@ def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=
   AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))
     cls0000Axis (sampledObjectForcedSeq idx)
 
+private def sampledAcceptedContainsRank (rank : Fin numPairWords) : Prop :=
+  exists idx : SampledRankIndex, sampledObjectAccepts idx /\ sampledRankOf idx = rank
+
 private noncomputable def sampledObjectMembership :
     BellmanRankObjectMembership SampledRankIndex sampledRankOf
       sampledObjectAccepts sampledContainsRank where
@@ -24362,6 +24365,28 @@ theorem graphSmoke_sampled_axis_object_cover_eval_covers :
     forall rank, sampledContainsRank rank ->
       exists idx, sampledObjectAccepts idx /\ sampledRankOf idx = rank :=
   sampledAxisRankObjectCoverEval.covers
+
+private noncomputable def sampledAcceptedAxisRankObjectCoverEval :
+    BellmanAxisRankObjectCover
+      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace
+      rootState (176 : Int) sampledRankOf sampledObjectAccepts
+      sampledAcceptedContainsRank sampledScaledMarginAtRank :=
+  BellmanAxisRankObjectCover.ofExistsMembership
+    sampledObjectForcedSeq
+    sampledAxisRankObjectCoverEval.trace_bound
+    sampledAxisRankObjectCoverEval.step_valid
+    sampledAxisRankObjectCoverEval.root_bound
+
+theorem graphSmoke_sampled_accepted_axis_object_cover_eval_scaled_margin_nonpos
+    {rank : Fin numPairWords} (hrank : sampledAcceptedContainsRank rank) :
+    sampledScaledMarginAtRank rank <= 0 :=
+  BellmanAxisRankObjectCover.scaledMargin_nonpos
+    sampledAcceptedAxisRankObjectCoverEval hrank
+
+theorem graphSmoke_sampled_accepted_axis_object_cover_eval_covers :
+    forall rank, sampledAcceptedContainsRank rank ->
+      exists idx, sampledObjectAccepts idx /\ sampledRankOf idx = rank :=
+  sampledAcceptedAxisRankObjectCoverEval.covers
 
 
 theorem bellmanGraphSmoke_builds : True := by

@@ -1958,3 +1958,34 @@ Strategic note after the GPT5.5 Bellman/potential review:
   larger windows make the Bellman graph too large.
 - Translation should stay on the GoodDirection plus small integer
   Helly/Farkas-circuit route; bad-direction masks are not proof data.
+
+Accepted-object Bellman membership surface:
+
+- Added `BellmanRankObjectMembership.ofExists` and
+  `BellmanAxisRankObjectCover.ofExistsMembership` to
+  `Cuboctahedron.Search.BellmanAxisBridge`.
+- The generated graph smoke now defines the semantic production-shaped rank
+  predicate:
+
+  ```lean
+  private def sampledAcceptedContainsRank (rank : Fin numPairWords) : Prop :=
+    exists idx : SampledRankIndex,
+      sampledObjectAccepts idx /\ sampledRankOf idx = rank
+  ```
+
+- It then proves nonpositive margin and semantic killed coverage for
+  `sampledAcceptedContainsRank` through the object cover.
+- Focused builds:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `Cuboctahedron.Search.BellmanAxisBridge` | `0:02.29` | `3,284,988 kB` |
+  | `BellmanTopPairingGraphLanguage2AllSmoke` | `1:16.27` | `7,693,352 kB` |
+
+- Split-boundary audit remains passed: graph positive payloads `0`, terminal
+  positive payloads `2`.
+
+This is still a bounded smoke over two sampled objects.  The next real proof
+step is to make the object type and `Accepts` predicate describe the closed
+top-pairing/canonical-bad-face Bellman language, while reusing the same
+`exists accepted object with this rank` membership surface.

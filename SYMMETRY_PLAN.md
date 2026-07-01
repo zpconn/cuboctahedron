@@ -49818,3 +49818,61 @@ Latest strategy pivot from GPT5.5 Pro review:
    reserve Walsh-Farkas certificates only for leftovers.
 6. All new generated routes should use integer/projective arithmetic at the
    proof boundary where possible; avoid generated rational checker replay.
+
+### Holonomy/Bellman Pivot - accepted-object membership surface
+
+Implemented the next small step toward the semantic membership theorem:
+
+- Added `BellmanRankObjectMembership.ofExists` in
+  `Cuboctahedron.Search.BellmanAxisBridge`.  This packages the common semantic
+  predicate
+
+  ```lean
+  fun rank => exists obj, Accepts obj /\ rankOf obj = rank
+  ```
+
+  into a `BellmanRankObjectMembership`.
+- Added `BellmanAxisRankObjectCover.ofExistsMembership`, which turns that
+  accepted-object membership predicate directly into an object cover.
+- Updated the Bellman graph smoke emitter to generate:
+
+  ```lean
+  private def sampledAcceptedContainsRank (rank : Fin numPairWords) : Prop :=
+    exists idx : SampledRankIndex,
+      sampledObjectAccepts idx /\ sampledRankOf idx = rank
+
+  private noncomputable def sampledAcceptedAxisRankObjectCoverEval : ...
+
+  theorem graphSmoke_sampled_accepted_axis_object_cover_eval_scaled_margin_nonpos
+  theorem graphSmoke_sampled_accepted_axis_object_cover_eval_rank_killed_of_start_violation
+  ```
+
+This still uses two sampled objects, so it is not production coverage.  But the
+rank predicate now has the production semantic shape: "there exists an
+accepted Bellman object for this rank."  The sampled cover no longer has to
+write its own private `Classical.choose` adapter for that shape.
+
+Focused checks:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` with `ofExists` | `0:02.29` | `3,284,988 kB` | passed |
+| `BellmanTopPairingGraphLanguage2AllSmoke` accepted-object route | `1:16.27` | `7,693,352 kB` | passed |
+
+The split-boundary audit still passes:
+
+```json
+{"graph_lines": 24395, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 743, "terminal_positive_payloads": 2}
+```
+
+Decision: accepted.  The next Bellman implementation should replace the
+sampled `SampledRankIndex` object type with a generated object type for the
+closed top-pairing/canonical-bad-face language, keeping the same theorem
+surface:
+
+```lean
+exists obj, Accepts obj /\ rankOf obj = rank
+```
+
+Only after that semantic object-language membership theorem exists should we
+scale to larger Bellman windows or assemble StateKilled roots.

@@ -403,6 +403,20 @@ structure BellmanRankObjectMembership
 
 namespace BellmanRankObjectMembership
 
+noncomputable def ofExists
+    {Obj : Type}
+    {rankOf : Obj -> Fin numPairWords}
+    {Accepts : Obj -> Prop} :
+    BellmanRankObjectMembership Obj rankOf Accepts
+      (fun rank => exists obj, Accepts obj /\ rankOf obj = rank) where
+  objectOf := fun _rank hrank => Classical.choose hrank
+  object_accepts := by
+    intro rank hrank
+    exact (Classical.choose_spec hrank).1
+  object_rank := by
+    intro rank hrank
+    exact (Classical.choose_spec hrank).2
+
 theorem covers
     {Obj : Type}
     {rankOf : Obj -> Fin numPairWords}
@@ -473,6 +487,36 @@ def ofMembership
   step_valid := step_valid
   root_bound := root_bound
   covers := BellmanRankObjectMembership.covers membership
+
+noncomputable def ofExistsMembership
+    {Obj State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {rankOf : Obj -> Fin numPairWords}
+    {Accepts : Obj -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (forcedSeq : Obj -> Step14 -> Face)
+    (trace_bound :
+      BellmanLabelStepRunLanguageBound V Step start const
+        (fun obj => scaledMargin (rankOf obj))
+        (fun obj => faceLabelsInContributionOrder labelOfFace (forcedSeq obj))
+        Accepts)
+    (step_valid :
+      forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (root_bound : const + V start <= 0) :
+    BellmanAxisRankObjectCover
+      Obj State Label V Step labelOfFace start const rankOf
+      Accepts (fun rank => exists obj, Accepts obj /\ rankOf obj = rank)
+      scaledMargin :=
+  ofMembership
+    forcedSeq
+    trace_bound
+    step_valid
+    root_bound
+    BellmanRankObjectMembership.ofExists
 
 theorem scaledMargin_nonpos_at_object
     {Obj State Label : Type}
