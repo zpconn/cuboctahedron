@@ -255,6 +255,24 @@ private theorem generatedForcedSeq_labels_eq :
   unfold generatedForcedSeq generatedContributionLabels
   rfl
 
+def generatedRank : Fin numPairWords :=
+  ⟨517, by decide⟩
+
+private theorem generatedForcedSeq_rank :
+    rankPairWord? (pairWordOfSeq generatedForcedSeq) = some generatedRank := by
+  decide
+
+private theorem generatedForcedSeq_unrank_pairword :
+    unrankPairWord generatedRank = pairWordOfSeq generatedForcedSeq := by
+  exact
+    ((rankPairWord?_eq_some_iff_unrank (pairWordOfSeq generatedForcedSeq)
+      generatedRank).1 generatedForcedSeq_rank).symm
+
+private theorem generatedForcedSeq_matches_unrank :
+    PairWordMatchesSeq (unrankPairWord generatedRank) generatedForcedSeq := by
+  rw [generatedForcedSeq_unrank_pairword]
+  exact pairWordOfSeq_matches generatedForcedSeq
+
 
 private def generatedM01 : Mat3 Rat :=
   { m00 := -1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 }
@@ -825,6 +843,21 @@ theorem generatedClosedLanguageForSeqOfGeneratedForcedSeq
   generatedClosedLanguageForSeqOfPairSignTraceConcreteLocalAxis
     generatedForcedSeq_labels_eq
     forced_matches
+    pairSign
+    cancellation
+    canonicalBadFace
+
+theorem generatedClosedLanguageForSeqOfGeneratedRankPairSign
+    {badFace : Face} {seq : Step14 -> Face}
+    (pairSign :
+      PairSignLanguageAtRank generatedRank generatedForcedSeq seq)
+    (cancellation :
+      TopPairingLanguageAtRank generatedRank)
+    (canonicalBadFace :
+      TopPairingCanonicalBadFaceCompatible badFace) :
+    TopPairingClosedLanguageForSeq generatedRank seq badFace :=
+  generatedClosedLanguageForSeqOfGeneratedForcedSeq
+    generatedForcedSeq_matches_unrank
     pairSign
     cancellation
     canonicalBadFace

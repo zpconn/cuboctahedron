@@ -51811,3 +51811,63 @@ selected object, because they should be fieldwise/rank-light.  The
 `PairSignLanguageAtRank` fact for arbitrary feasible `seq` should stay at the
 light `PairSignLanguageAtRank` boundary unless a separate strict guard proves
 that importing `AxisForcedRankLanguage` is safe.
+
+### Holonomy/Bellman Pivot - generated rank/PairWordMatchesSeq accepted
+
+The generated trace shard now also owns the selected rank and proves that the
+generated forced sequence matches the unranked pair word at that rank.
+
+Emitter additions:
+
+```lean
+generatedRank : Fin numPairWords
+generatedForcedSeq_rank :
+  rankPairWord? (pairWordOfSeq generatedForcedSeq) = some generatedRank
+generatedForcedSeq_matches_unrank :
+  PairWordMatchesSeq (unrankPairWord generatedRank) generatedForcedSeq
+```
+
+The rank proof uses the existing rank/unrank correctness theorem
+`rankPairWord?_eq_some_iff_unrank`, with a local `decide` proof only for this
+single selected sequence/rank.
+
+The shard now exports:
+
+```lean
+generatedClosedLanguageForSeqOfGeneratedRankPairSign
+```
+
+This theorem consumes:
+
+```text
+PairSignLanguageAtRank generatedRank generatedForcedSeq seq
+TopPairingLanguageAtRank generatedRank
+TopPairingCanonicalBadFaceCompatible badFace
+```
+
+and returns `TopPairingClosedLanguageForSeq generatedRank seq badFace`.
+
+Strict post-crash proof check:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_rank_match_6g.json
+```
+
+Result:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| generated rank/PairWordMatchesSeq smoke | `5.01s` | `4182.92 MiB` | `46031.80 MiB` | passed |
+
+Decision: accepted.  For the selected graph path object, generated evidence
+now covers all Bellman-side signed trace facts plus the concrete rank/word
+matching fact.  The remaining assumptions are down to:
+
+- `PairSignLanguageAtRank generatedRank generatedForcedSeq seq`;
+- `TopPairingLanguageAtRank generatedRank`;
+- `TopPairingCanonicalBadFaceCompatible badFace`.
+
+Next safe target: generate/prove `TopPairingCanonicalBadFaceCompatible` for
+the selected bad face, then attempt a similarly small `TopPairingLanguageAtRank`
+membership fact.  Do not import the heavy axis-forces stack into this shard.

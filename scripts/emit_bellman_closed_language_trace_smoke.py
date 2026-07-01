@@ -420,12 +420,36 @@ def emit_forced_sequence(name: str, faces: list[str]) -> list[str]:
     return lines
 
 
+def emit_rank_match(name: str, rank: int) -> list[str]:
+    return [
+        f"def {name}Rank : Fin numPairWords :=",
+        f"  ⟨{rank}, by decide⟩",
+        "",
+        f"private theorem {name}ForcedSeq_rank :",
+        f"    rankPairWord? (pairWordOfSeq {name}ForcedSeq) = some {name}Rank := by",
+        "  decide",
+        "",
+        f"private theorem {name}ForcedSeq_unrank_pairword :",
+        f"    unrankPairWord {name}Rank = pairWordOfSeq {name}ForcedSeq := by",
+        "  exact",
+        f"    ((rankPairWord?_eq_some_iff_unrank (pairWordOfSeq {name}ForcedSeq)",
+        f"      {name}Rank).1 {name}ForcedSeq_rank).symm",
+        "",
+        f"private theorem {name}ForcedSeq_matches_unrank :",
+        f"    PairWordMatchesSeq (unrankPairWord {name}Rank) {name}ForcedSeq := by",
+        f"  rw [{name}ForcedSeq_unrank_pairword]",
+        f"  exact pairWordOfSeq_matches {name}ForcedSeq",
+        "",
+    ]
+
+
 def emit_module(
     namespace: str,
     name: str,
     faces: list[str],
     *,
     concrete_local_axis: bool,
+    selected_rank: int | None,
 ) -> list[str]:
     labels = ", ".join(face_ctor(face) for face in faces)
     lines = [
@@ -474,6 +498,8 @@ def emit_module(
     lines.extend(emit_local_axis_signature(name, faces))
     lines.extend([""])
     lines.extend(emit_forced_sequence(name, faces))
+    if selected_rank is not None:
+        lines.extend(emit_rank_match(name, selected_rank))
     if concrete_local_axis:
         lines.extend([""])
         lines.extend(emit_concrete_local_axis(name, faces))
@@ -747,6 +773,26 @@ def emit_module(
                 "",
             ]
         )
+        if selected_rank is not None:
+            lines.extend(
+                [
+                    f"theorem {name}ClosedLanguageForSeqOfGeneratedRankPairSign",
+                    "    {badFace : Face} {seq : Step14 -> Face}",
+                    "    (pairSign :",
+                    f"      PairSignLanguageAtRank {name}Rank {name}ForcedSeq seq)",
+                    "    (cancellation :",
+                    f"      TopPairingLanguageAtRank {name}Rank)",
+                    "    (canonicalBadFace :",
+                    "      TopPairingCanonicalBadFaceCompatible badFace) :",
+                    f"    TopPairingClosedLanguageForSeq {name}Rank seq badFace :=",
+                    f"  {name}ClosedLanguageForSeqOfGeneratedForcedSeq",
+                    f"    {name}ForcedSeq_matches_unrank",
+                    "    pairSign",
+                    "    cancellation",
+                    "    canonicalBadFace",
+                    "",
+                ]
+            )
     lines.extend(
         [
             f"theorem {name}GeneratedTraceSmoke_builds : True := by",
@@ -801,6 +847,7 @@ def main() -> None:
         args.name,
         faces,
         concrete_local_axis=args.concrete_local_axis,
+        selected_rank=source.get("rank") if isinstance(source.get("rank"), int) else None,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text("\n".join(lines))

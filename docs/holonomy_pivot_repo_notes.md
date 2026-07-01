@@ -3110,3 +3110,37 @@ Generated forced-sequence checkpoint:
 - Decision: accepted.  The generated trace shard now owns the concrete
   signed forced sequence and its label equality, further reducing future
   membership assumptions.
+
+Generated rank/word match checkpoint:
+
+- The emitter now also writes:
+
+  ```lean
+  generatedRank : Fin numPairWords
+  generatedForcedSeq_rank :
+    rankPairWord? (pairWordOfSeq generatedForcedSeq) = some generatedRank
+  generatedForcedSeq_matches_unrank :
+    PairWordMatchesSeq (unrankPairWord generatedRank) generatedForcedSeq
+  ```
+
+- It exports:
+
+  ```lean
+  generatedClosedLanguageForSeqOfGeneratedRankPairSign
+  ```
+
+  which no longer needs a separate `PairWordMatchesSeq` assumption for the
+  selected rank.
+- Strict wrapper check:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_rank_match_6g.json
+  ```
+
+  Result: passed in `5.01s`, with `4182.92 MiB` peak process-tree RSS and
+  `46031.80 MiB` minimum available memory.
+- Decision: accepted.  The selected trace shard now proves its own
+  rank/forced-sequence matching fact.  Remaining local facts are
+  `PairSignLanguageAtRank`, `TopPairingLanguageAtRank`, and canonical bad-face
+  compatibility.
