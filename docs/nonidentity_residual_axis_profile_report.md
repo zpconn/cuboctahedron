@@ -1052,6 +1052,28 @@ Path-class bridge checkpoint:
   cocycle-gauge/cancellation-summary refinement that merges observed traces
   before Lean sees them.
 
+Language-level Bellman core checkpoint:
+
+- Added `BellmanLanguageTraceBound` and
+  `scaledMargin_nonpos_of_bellmanLanguageTraceBound` to
+  `Cuboctahedron.Search.BellmanPotential`.
+- This is the direct theorem surface for the next generated family bridge:
+  a generated module should define a semantic `Accepts : Obj -> Prop` for a
+  holonomy/cancellation language and prove every accepted object has a valid
+  Bellman graph path, final nonnegative potential, and scaled-margin bound.
+  The theorem then proves `scaledMargin obj <= 0` for every accepted object
+  without finite observed-object enumeration.
+- Focused builds passed:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.BellmanPotential
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Results: Bellman core `0:02.94` wall / `3,252,660 kB` max RSS; graph smoke
+  against the updated core `0:03.89` wall / `3,439,292 kB` max RSS.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

@@ -2029,6 +2029,19 @@ Bellman profiler prototype checkpoint:
   the holonomy/cancellation automaton, or add a coarser cocycle-gauged /
   cancellation-summary coordinate before emitting more observed-object
   families.
+- Language-level Bellman core checkpoint: `Cuboctahedron.Search.BellmanPotential`
+  now also exposes `BellmanLanguageTraceBound` and
+  `scaledMargin_nonpos_of_bellmanLanguageTraceBound`.  This is the production
+  theorem target after rejecting exact trace classes: a generated module can
+  define a semantic predicate `Accepts : Obj -> Prop` for a
+  holonomy/cancellation language and prove that every accepted object has a
+  valid Bellman graph path and scaled-margin bound.  Focused builds passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Search.BellmanPotential` in
+  `0:02.94` wall time with `3,252,660 kB` max RSS, and
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:03.89` wall time with `3,439,292 kB` max RSS.  The next implementation
+  should generate a tiny accepted-language smoke that uses this theorem
+  directly instead of finite `SmokeObj` enumeration.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

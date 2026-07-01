@@ -425,6 +425,15 @@ Top margin+cancellation-pairing checkpoint:
   production Bellman bridge must prove membership for a coarser
   holonomy/cancellation language or introduce a gauge/summary coordinate that
   merges traces before Lean emission.
+- Language-level Bellman status: `Cuboctahedron.Search.BellmanPotential` now
+  also provides `BellmanLanguageTraceBound` and
+  `scaledMargin_nonpos_of_bellmanLanguageTraceBound`.  This is the theorem
+  surface for the next generated bridge: define a semantic `Accepts`
+  predicate for a holonomy/cancellation language, prove accepted objects have
+  graph paths and margin bounds, then obtain nonpositivity without finite
+  observed-object enumeration.  Focused builds passed for the Bellman core
+  (`0:02.94`, `3,252,660 kB` RSS) and the current graph smoke against the
+  updated core (`0:03.89`, `3,439,292 kB` RSS).
 
 ## Explicit Non-Goals
 

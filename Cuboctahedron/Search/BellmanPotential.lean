@@ -120,4 +120,43 @@ theorem scaledMargin_nonpos_of_bellmanTraceBound
       hroot
   linarith
 
+def BellmanLanguageTraceBound
+    {State Obj : Type}
+    (V : State -> Int)
+    (GraphEdge : BellmanEdge State -> Prop)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Obj -> Int)
+    (Accepts : Obj -> Prop) : Prop :=
+  forall obj : Obj, Accepts obj -> exists finish edges,
+    BellmanPath start finish edges
+      /\ (forall e, e ∈ edges -> GraphEdge e)
+      /\ 0 <= V finish
+      /\ scaledMargin obj <= const + bellmanGainSum edges
+
+theorem scaledMargin_nonpos_of_bellmanLanguageTraceBound
+    {State Obj : Type}
+    {V : State -> Int}
+    {GraphEdge : BellmanEdge State -> Prop}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Obj -> Int}
+    {Accepts : Obj -> Prop}
+    (hvalid : forall e, GraphEdge e -> e.Valid V)
+    (hroot : const + V start <= 0)
+    (htrace : BellmanLanguageTraceBound V GraphEdge start const scaledMargin Accepts) :
+    forall obj : Obj, Accepts obj -> scaledMargin obj <= 0 := by
+  intro obj hobj
+  rcases htrace obj hobj with ⟨finish, edges, hpath, hgraph, hfinish, hmargin⟩
+  have hbound :
+      const + bellmanGainSum edges <= 0 :=
+    const_add_bellmanGainSum_nonpos_of_path
+      (V := V)
+      (const := const)
+      hpath
+      (fun e he => hvalid e (hgraph e he))
+      hfinish
+      hroot
+  linarith
+
 end Cuboctahedron
