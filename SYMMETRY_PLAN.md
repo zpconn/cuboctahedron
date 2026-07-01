@@ -51198,3 +51198,59 @@ sampled Bellman objects, add a small runner/checklist that refuses to launch
 unless these caps are supplied, and re-run only the already-accepted generated
 trace shard under the stricter `6000 MiB` cap.  If it fails, the trace shard is
 not safe enough to scale.
+
+### Holonomy/Bellman Pivot - strict Bellman smoke wrapper accepted
+
+Added a Bellman-specific guard wrapper:
+
+```text
+scripts/run_bellman_safe_smoke.py
+```
+
+This wrapper is operational safety tooling, not proof evidence.  It exposes
+only allowlisted small Bellman smoke targets and forwards them to
+`scripts/run_memory_guarded.py`.  For the current target it refuses:
+
+- process-tree RSS caps above `6000 MiB`;
+- availability floors below `24576 MiB`;
+- timeouts above `60s`;
+- any target not in its explicit target table.
+
+Current allowlisted target:
+
+```text
+generated-trace ->
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke
+```
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/run_bellman_safe_smoke.py
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --dry-run \
+  --json /tmp/bellman_safe_smoke_generated_trace_6g.json
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_6g.json
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --dry-run \
+  --max-tree-rss-mib 7000
+```
+
+Results:
+
+| command | result |
+| --- | --- |
+| Python compile | passed |
+| dry-run | expanded to a single `lake build` of the allowlisted generated trace target with `6000 MiB` RSS cap, `24576 MiB` availability floor, and `60s` timeout |
+| strict generated-trace smoke | passed in `2.00s`, peak process-tree RSS `846 MiB`, minimum available memory `46443 MiB` |
+| high-cap refusal test | refused before launching: `--max-tree-rss-mib 7000 exceeds 6000` |
+
+Decision: accepted.  The generated trace shard is now revalidated under the
+post-crash `6000 MiB` cap, and the next Bellman generated-language checks must
+go through this wrapper or an equally strict allowlisted runner.  This does not
+prove scalability yet; it only makes the immediate next smokes much harder to
+run accidentally as broad or high-memory builds.

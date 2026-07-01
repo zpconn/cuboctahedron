@@ -2755,3 +2755,50 @@ Post-crash safety correction:
   timeout at most `60s`, and minimum available memory at least `24576 MiB`.
 - If an already-accepted target fails under the stricter cap, shrink the theorem
   surface before continuing.  Do not raise the cap as the default response.
+
+Strict Bellman smoke wrapper:
+
+- Added `scripts/run_bellman_safe_smoke.py`.
+- It is an allowlisted wrapper around `scripts/run_memory_guarded.py`, with
+  hard defaults and rejections for the current post-crash policy:
+
+  ```text
+  max process-tree RSS cap: 6000 MiB
+  minimum MemAvailable floor: 24576 MiB
+  max timeout: 60s
+  ```
+
+- Current allowlisted target:
+
+  ```text
+  generated-trace ->
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke
+  ```
+
+- Commands run:
+
+  ```bash
+  python3 -m py_compile scripts/run_bellman_safe_smoke.py
+
+  python3 scripts/run_bellman_safe_smoke.py \
+    --dry-run \
+    --json /tmp/bellman_safe_smoke_generated_trace_6g.json
+
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_6g.json
+
+  python3 scripts/run_bellman_safe_smoke.py \
+    --dry-run \
+    --max-tree-rss-mib 7000
+  ```
+
+- Results:
+  - compile passed;
+  - dry-run expanded to one guarded `lake build` of the allowlisted generated
+    trace target;
+  - strict generated-trace smoke passed in `2.00s`, with `846 MiB` peak
+    process-tree RSS and `46443 MiB` minimum available memory;
+  - high-cap refusal test stopped before launch with
+    `--max-tree-rss-mib 7000 exceeds 6000`.
+- Decision: accepted as the mandatory route for the next Bellman generated
+  smokes unless an equally strict allowlisted runner is introduced.
