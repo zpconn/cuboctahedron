@@ -1074,6 +1074,25 @@ Language-level Bellman core checkpoint:
   Results: Bellman core `0:02.94` wall / `3,252,660 kB` max RSS; graph smoke
   against the updated core `0:03.89` wall / `3,439,292 kB` max RSS.
 
+Language-theorem smoke checkpoint:
+
+- Updated the graph emitter to generate:
+
+  ```lean
+  private theorem smokeLanguageTraceBound :
+      BellmanLanguageTraceBound ...
+
+  theorem graphSmoke_observed_language_scaled_margin_nonpos :
+      forall obj : SmokeObj,
+        smokeAccepts obj -> smokeScaledMargin obj <= 0
+  ```
+
+- The current `smokeAccepts` predicate is finite and trivial, so this is not
+  production coverage.  It verifies that generated code can instantiate the
+  exact language-relative theorem surface needed by the next real
+  holonomy/cancellation-language bridge.
+- Focused build passed in `0:04.72` wall time with `3,439,532 kB` max RSS.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

@@ -434,6 +434,13 @@ Top margin+cancellation-pairing checkpoint:
   observed-object enumeration.  Focused builds passed for the Bellman core
   (`0:02.94`, `3,252,660 kB` RSS) and the current graph smoke against the
   updated core (`0:03.89`, `3,439,292 kB` RSS).
+- Language-theorem smoke status: the graph emitter now emits
+  `smokeLanguageTraceBound` and
+  `graphSmoke_observed_language_scaled_margin_nonpos`, instantiating
+  `scaledMargin_nonpos_of_bellmanLanguageTraceBound` in generated code.  The
+  current `smokeAccepts` predicate is still finite/trivial, so this validates
+  the bridge shape rather than production coverage.  Focused build passed in
+  `0:04.72` wall time with `3,439,532 kB` max RSS.
 
 ## Explicit Non-Goals
 

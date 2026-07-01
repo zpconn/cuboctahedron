@@ -2042,6 +2042,14 @@ Bellman profiler prototype checkpoint:
   in `0:03.89` wall time with `3,439,292 kB` max RSS.  The next implementation
   should generate a tiny accepted-language smoke that uses this theorem
   directly instead of finite `SmokeObj` enumeration.
+- Language-theorem smoke checkpoint: the graph emitter now also emits
+  `smokeAccepts`, `smokeLanguageTraceBound`, and
+  `graphSmoke_observed_language_scaled_margin_nonpos`, so the generated smoke
+  actually instantiates `scaledMargin_nonpos_of_bellmanLanguageTraceBound`.
+  Its current `Accepts` predicate is still finite/trivial, so this is not yet
+  production language coverage, but it proves the exact theorem path that a
+  real holonomy/cancellation-language bridge should use.  Focused build
+  passed in `0:04.72` wall time with `3,439,532 kB` max RSS.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
