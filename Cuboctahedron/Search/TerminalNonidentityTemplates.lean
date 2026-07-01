@@ -83,4 +83,49 @@ theorem no_nonidentity_axis_constraints_of_forced_direction_nonpositive
   exact not_PreImpactForwardAll_of_nonpositive
     (seq := seq) (w := candidateW) (i := i) hi hbad hForwardAll
 
+theorem no_nonidentity_axis_constraints_of_forced_preimpact_point_not_interior
+    {seq : Step14 -> Face} {i : Impact15} {x : Vec3 Real}
+    (hForcedPoint :
+      forall data : UnfoldedFeasibleData seq,
+        data.w ≠ zeroVec3R ->
+        linePoint data.p0 data.w 1 =
+          affApply (affRatToReal (totalAff seq)) data.p0 ->
+        matVec (affRatToReal (totalAff seq)).M data.w = data.w ->
+        linePoint data.p0 data.w (data.crossing_times i) = x)
+    (hnot : ¬ InPreUnfoldedImpactFaceInterior seq i x) :
+    ¬ NonIdentityAxisConstraints seq := by
+  intro hAxis
+  rcases hAxis.line_data with
+    ⟨data, hNonzero, _hStartInterior, hEndpoint, hFixed, _hForward,
+      _hForwardAll, _hImpact, hPreImpact, _hOpen, _hHit⟩
+  have hx : linePoint data.p0 data.w (data.crossing_times i) = x :=
+    hForcedPoint data hNonzero hEndpoint hFixed
+  exact hnot (by simpa [hx] using hPreImpact i)
+
+theorem no_nonidentity_axis_constraints_of_forced_open_segment_not_interior
+    {seq : Step14 -> Face} {i : Step14} {s : Real} {x : Vec3 Real}
+    (hs0 : 0 < s)
+    (hs1 : s < 1)
+    (hForcedPoint :
+      forall data : UnfoldedFeasibleData seq,
+        data.w ≠ zeroVec3R ->
+        linePoint data.p0 data.w 1 =
+          affApply (affRatToReal (totalAff seq)) data.p0 ->
+        matVec (affRatToReal (totalAff seq)).M data.w = data.w ->
+        linePoint data.p0 data.w
+          (segmentTime (data.crossing_times i.castSucc)
+            (data.crossing_times (transitionEndImpact i)) s) = x)
+    (hnot : ¬ InPreUnfoldedPolyhedronInterior seq (transitionEndImpact i) x) :
+    ¬ NonIdentityAxisConstraints seq := by
+  intro hAxis
+  rcases hAxis.line_data with
+    ⟨data, hNonzero, _hStartInterior, hEndpoint, hFixed, _hForward,
+      _hForwardAll, _hImpact, _hPreImpact, hOpen, _hHit⟩
+  have hx :
+      linePoint data.p0 data.w
+          (segmentTime (data.crossing_times i.castSucc)
+            (data.crossing_times (transitionEndImpact i)) s) = x :=
+    hForcedPoint data hNonzero hEndpoint hFixed
+  exact hnot (by simpa [hx] using hOpen i s hs0 hs1)
+
 end Cuboctahedron

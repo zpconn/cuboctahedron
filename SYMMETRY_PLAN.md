@@ -829,6 +829,8 @@ Terminal nonidentity theorem-schema checkpoint:
   theorem not_PreImpactForwardAll_of_nonpositive
   theorem no_nonidentity_axis_constraints_of_forced_start_violation
   theorem no_nonidentity_axis_constraints_of_forced_direction_nonpositive
+  theorem no_nonidentity_axis_constraints_of_forced_preimpact_point_not_interior
+  theorem no_nonidentity_axis_constraints_of_forced_open_segment_not_interior
   ```
 
 - Focused build:
@@ -846,12 +848,14 @@ Terminal nonidentity theorem-schema checkpoint:
 
 - Targeted forbidden-term scan on the new file found no `sorry`, `admit`,
   `axiom`, `native_decide`, or `unsafe`.
-- Accepted: the dominant start-interior and forward-sign obstruction schemas
-  now have a Lean API.  Generated residual evidence should next target these
-  theorem shapes by proving small local facts: the forced affine-axis start
-  point, the forced direction, and a single non-strict copied-face inequality.
-- Not yet complete: first-hit mismatch and hit-tie templates still need their
-  own Lean schemas if they remain common after the local-certificate profiler.
+- Accepted: the observed terminal residual buckets now have a Lean API:
+  start-interior separation, forward-sign violation, pre-impact face/interior
+  contradiction, and open-segment interior contradiction.  Generated residual
+  evidence should next target these theorem shapes by proving small local
+  facts: the forced affine-axis start point, the forced direction, the forced
+  terminal point, and one non-strict copied-face/polyhedron inequality.
+- Not yet complete: the local certificate format and profiler that prove those
+  small local facts without reverting to exact-margin singleton leaves.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
