@@ -3356,3 +3356,44 @@ shape by default: graph/potential shard, terminal contradiction shard, and
 terminal-only root/group shard.  This keeps broad imports aligned with the
 semantic-family pivot and prevents graph/potential internals or terminal cert
 payloads from leaking into root theorem statements.
+
+### Aggregate next-action planner
+
+Added:
+
+```text
+scripts/plan_bellman_pivot_next.py
+```
+
+The planner aggregates the cached production gate, semantic route, split
+boundary, and path-coarsening diagnostics.  It is deliberately untrusted and
+does not emit Lean evidence.
+
+Current result:
+
+```text
+decision = implement-semantic-membership-then-scale
+```
+
+Key checks:
+
+| check | value |
+| --- | --- |
+| hard Bellman gates pass | `True` |
+| semantic route ready | `True` |
+| split boundary clean | `True` |
+| exact-path warning | `True` |
+
+The exact-path warning is expected: path classes are still singleton-like
+(`37/37`) in the focused 1M top-pairing artifact.  Therefore the next proof
+step should not scale exact path classes.  It should prove semantic membership
+for the already-closed Bellman object language, then reuse the split
+graph/terminal/root emitter shape.
+
+This is the current nonidentity priority order:
+
+1. semantic object-family membership for the closed Bellman language;
+2. rerun the planner on larger exact windows before broad Lean builds;
+3. only if states/edges grow too quickly, try cocycle-gauge preconditioning;
+4. if gauge is weak, try cancellation-summary DAG bounds;
+5. assemble `StateKilled`/root coverage only after terminal families are real.

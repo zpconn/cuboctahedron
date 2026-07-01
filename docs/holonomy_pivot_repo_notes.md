@@ -1767,6 +1767,33 @@ emitter itself: heavy graph/potential leaves stay below terminal modules,
 terminal modules own local terminal evidence, and roots/groups import only
 semantic killed theorem surfaces.
 
+Bellman aggregate next-action planner:
+
+- Added `scripts/plan_bellman_pivot_next.py`.
+- The planner reads cached untrusted diagnostics and outputs the next safe
+  Bellman action.  It is not proof evidence.
+- Current command:
+
+  ```bash
+  python3 scripts/plan_bellman_pivot_next.py \
+    --production-gate scripts/generated/bellman_production_gate_top_pairing_1M_step_face_linear_tri_source.json \
+    --route-profile scripts/generated/bellman_object_family_route_profile_1M.json \
+    --split-audit scripts/generated/bellman_split_boundary_graph_language2.json \
+    --path-coarsening scripts/generated/bellman_path_coarsening_10M.json \
+    --json scripts/generated/bellman_pivot_next_action_graph_language2.json \
+    --markdown scripts/generated/bellman_pivot_next_action_graph_language2.md
+  ```
+
+- Current decision: `implement-semantic-membership-then-scale`.
+- Checks: hard Bellman gates pass, semantic route is ready, split boundary
+  passes, but exact path classes are still singleton-like.
+
+This means the next Lean implementation should prove the semantic
+object-family membership theorem for the closed Bellman language before
+scaling the split emitter.  Cocycle-gauge and cancellation-summary work should
+be treated as shrinkers for larger-window growth, not as replacements for the
+current Bellman theorem surface.
+
 Split terminal bridge:
 
 - Added to `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`:

@@ -49562,3 +49562,81 @@ theorem surfaces.  The next nonidentity step is no longer another
 certificate-packing layer; it is scaling this split emitter to multiple
 Bellman margin families and then profiling cocycle-gauge/cancellation-summary
 state reductions only where the Bellman state count grows too quickly.
+
+### Holonomy/Bellman Pivot - aggregate next-action planner accepted
+
+Added an untrusted planning diagnostic:
+
+```text
+scripts/plan_bellman_pivot_next.py
+```
+
+It aggregates existing cached Bellman diagnostics:
+
+- production gate audit;
+- semantic object-family route profile;
+- graph/terminal split-boundary audit;
+- optional path-coarsening profile.
+
+It does not emit proof evidence.  Its purpose is to prevent accidental
+backsliding into exact path/rank certificate packing by making the next action
+explicit before any larger Lean generation or build.
+
+Command:
+
+```bash
+python3 scripts/plan_bellman_pivot_next.py \
+  --production-gate scripts/generated/bellman_production_gate_top_pairing_1M_step_face_linear_tri_source.json \
+  --route-profile scripts/generated/bellman_object_family_route_profile_1M.json \
+  --split-audit scripts/generated/bellman_split_boundary_graph_language2.json \
+  --path-coarsening scripts/generated/bellman_path_coarsening_10M.json \
+  --json scripts/generated/bellman_pivot_next_action_graph_language2.json \
+  --markdown scripts/generated/bellman_pivot_next_action_graph_language2.md
+```
+
+Current result:
+
+```json
+{
+  "decision": "implement-semantic-membership-then-scale",
+  "checks": {
+    "hard_gate_ok": true,
+    "exact_path_warning": true,
+    "semantic_route_ready": true,
+    "split_boundary_ok": true
+  }
+}
+```
+
+Important metrics:
+
+| metric | value |
+| --- | ---: |
+| matched paths | `37` |
+| Bellman states | `223` |
+| Bellman edges | `229` |
+| exact path class ratio | `1.0` |
+| scaled bit length | `10` |
+| fraction bit length | `9` |
+| graph positive payloads | `0` |
+| terminal positive payloads | `2` |
+
+Interpretation: the cached 1M top-pairing family has a good Bellman potential,
+a closed semantic transition route, and a clean graph/terminal/root split.
+However, exact path classes remain singleton-like, so exact path class coverage
+is still the wrong proof coordinate.  The next implementation target is a
+semantic object-family membership theorem for the closed language:
+
+```text
+target cancellation pairing
+  + observed schedule/square-gap language
+  + oriented local forced-axis next-face compatibility
+  + canonical bad-face compatibility
+  -> accepted Bellman object / terminal contradiction object
+```
+
+Only if larger windows show Bellman states/edges growing toward the gates
+should we spend effort on cocycle-gauge or cancellation-summary preconditioning.
+This matches the GPT5.5 Pro recommendation: use Bellman potentials as the
+primary nonidentity margin certificate, with gauge/cancellation summaries as
+shrinkers rather than the first proof surface.
