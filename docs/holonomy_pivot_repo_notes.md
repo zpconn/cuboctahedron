@@ -2616,3 +2616,33 @@ Component trace constructor status:
 - Decision: accepted as the next safe proof surface.  The generator should
   emit these traces directly.  Do not use local rank/word `decide` to discover
   them.
+
+Literal component trace smoke:
+
+- Extended
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageFieldSmoke.lean`
+  with one literal contribution-label trace over
+  `[xm, ym, yp, zm, zp, tmmm, tpmm, tppm, tpmp, tmpm, tppp, tmpp, tmmp, xp]`.
+- The smoke proves `sampleScheduleTrace` and `sampleSquareGapTrace` by
+  explicit constructor chains over the literal list, then exposes
+  `closedLanguageOfLiteralTrace`.
+- `closedLanguageOfLiteralTrace` separates the next membership problem into:
+  label equality for the rank, cancellation proof, local-axis trace proof, and
+  canonical-bad-face proof.  It does not reduce `unrankPairWord`.
+- Guarded build passed:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 120 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/bellman_closed_language_literal_trace_smoke_guard.json \
+    -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke
+  ```
+
+  Result: `4.51s`, `3991 MiB` peak process-tree RSS, `46168 MiB` minimum
+  available memory.
+- Decision: accepted as a bounded trace-shape smoke.  The remaining proof work
+  is label-equality without rank reduction and a proof-carrying local-axis
+  trace over exact prefix states.

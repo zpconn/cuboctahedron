@@ -50931,3 +50931,52 @@ Lean to discover `TopPairingStepScheduleLabels`,
 still is not concrete closed-language membership; the remaining gap is to make
 one sampled shard produce the explicit trace facts and the corresponding
 `BellmanNonposStartViolationObjectMembership`.
+
+### Holonomy/Bellman Pivot - literal component trace smoke accepted
+
+Extended
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageFieldSmoke.lean`
+with a tiny generated-style literal contribution-label trace:
+
+```lean
+sampleContributionLabels
+sampleScheduleTrace
+sampleSquareGapTrace
+closedLanguageOfLiteralTrace
+```
+
+The sample list is the contribution-order face list
+
+```text
+[xm, ym, yp, zm, zp, tmmm, tpmm, tppm, tpmp, tmpm, tppp, tmpp, tmmp, xp]
+```
+
+It proves the schedule and square-gap component predicates with explicit
+constructor chains over the literal list.  The final theorem assumes only:
+
+```text
+canonical rank labels = sampleContributionLabels
+cancellation component proof
+local-axis trace proof
+canonical bad-face proof
+```
+
+and packages those into `TopPairingClosedLanguageAtRank`.  This is intentionally
+not a full sampled rank membership proof; it proves that the generator can
+factor membership into small literal trace facts plus a separate label-equality
+bridge, avoiding the rejected rank/word reduction route.
+
+Guarded check:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| `python3 scripts/run_memory_guarded.py --timeout-seconds 120 --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/bellman_closed_language_literal_trace_smoke_guard.json -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke` | `4.51s` | `3991 MiB` | `46168 MiB` | passed |
+
+Additional checks: `git diff --check` passed and the touched Lean files had no
+hits for `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`, `Float`, or
+`epsilon`.
+
+Decision: accepted as a bounded trace-shape smoke.  The next real membership
+step is to generate or prove the separate label-equality bridge without
+reducing `unrankPairWord`, and to add a proof-carrying local-axis trace over
+integer/projective prefix states.
