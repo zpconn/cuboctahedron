@@ -1,0 +1,127 @@
+{
+  "confusion": {
+    "empty_and_identity": 138,
+    "empty_and_nonidentity": 0,
+    "nonempty_and_identity": 0,
+    "nonempty_and_nonidentity": 862
+  },
+  "distinct_reduced_shadows": 438,
+  "elapsed_seconds": 0.23123550415039062,
+  "empty_shadow_count": 138,
+  "end": 1000,
+  "expected_full_identity_count": 2468088,
+  "final_parity_distribution": [
+    [
+      "000",
+      1000
+    ]
+  ],
+  "identity_count": 138,
+  "mismatch_count": 0,
+  "mismatch_examples": [],
+  "mode": "shadow-normal-form-profile",
+  "product_order": "R(w[0]) * ... * R(w[12]) * R(x)",
+  "reduced_length_distribution": [
+    [
+      0,
+      138
+    ],
+    [
+      4,
+      198
+    ],
+    [
+      6,
+      334
+    ],
+    [
+      8,
+      330
+    ]
+  ],
+  "scanned": 1000,
+  "schema_version": 1,
+  "start": 0,
+  "top_reduced_shadows": [
+    [
+      "<empty>",
+      138
+    ],
+    [
+      "dm11 d11m dm11 d11m",
+      33
+    ],
+    [
+      "dm11 d111 dm11 d111",
+      33
+    ],
+    [
+      "dm11 d1m1 dm11 d1m1",
+      28
+    ],
+    [
+      "d1m1 d11m d1m1 d11m",
+      25
+    ],
+    [
+      "d1m1 dm11 d1m1 dm11",
+      20
+    ],
+    [
+      "d1m1 d111 d1m1 d111",
+      13
+    ],
+    [
+      "d11m d111 d11m d111",
+      12
+    ],
+    [
+      "d111 d11m d111 d11m",
+      12
+    ],
+    [
+      "d1m1 d11m d1m1 d111 d11m d111",
+      7
+    ],
+    [
+      "dm11 d11m dm11 d111 d11m d111",
+      7
+    ],
+    [
+      "dm11 d11m d111 dm11 d11m d111",
+      7
+    ],
+    [
+      "dm11 d11m d111 dm11 d111 d11m",
+      7
+    ],
+    [
+      "dm11 d11m d111 d11m dm11 d111",
+      7
+    ],
+    [
+      "dm11 d11m d111 d11m d111 dm11",
+      7
+    ],
+    [
+      "dm11 d111 dm11 d11m d111 d11m",
+      7
+    ],
+    [
+      "dm11 d111 d11m dm11 d11m d111",
+      7
+    ],
+    [
+      "dm11 d111 d11m dm11 d111 d11m",
+      7
+    ],
+    [
+      "dm11 d111 d11m d111 dm11 d11m",
+      7
+    ],
+    [
+      "dm11 d111 d11m d111 d11m dm11",
+      7
+    ]
+  ]
+}

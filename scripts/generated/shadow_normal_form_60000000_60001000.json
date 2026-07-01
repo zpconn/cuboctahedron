@@ -1,0 +1,127 @@
+{
+  "confusion": {
+    "empty_and_identity": 0,
+    "empty_and_nonidentity": 0,
+    "nonempty_and_identity": 0,
+    "nonempty_and_nonidentity": 1000
+  },
+  "distinct_reduced_shadows": 51,
+  "elapsed_seconds": 0.250044584274292,
+  "empty_shadow_count": 0,
+  "end": 60001000,
+  "expected_full_identity_count": 2468088,
+  "final_parity_distribution": [
+    [
+      "000",
+      1000
+    ]
+  ],
+  "identity_count": 0,
+  "mismatch_count": 0,
+  "mismatch_examples": [],
+  "mode": "shadow-normal-form-profile",
+  "product_order": "R(w[0]) * ... * R(w[12]) * R(x)",
+  "reduced_length_distribution": [
+    [
+      2,
+      7
+    ],
+    [
+      4,
+      202
+    ],
+    [
+      6,
+      402
+    ],
+    [
+      8,
+      389
+    ]
+  ],
+  "scanned": 1000,
+  "schema_version": 1,
+  "start": 60000000,
+  "top_reduced_shadows": [
+    [
+      "d11m d111 d11m dm11",
+      182
+    ],
+    [
+      "d11m d111 d11m dm11 d11m d111",
+      99
+    ],
+    [
+      "d11m d111 d11m dm11 d111 d11m",
+      86
+    ],
+    [
+      "d11m d111 d11m dm11 d11m dm11",
+      52
+    ],
+    [
+      "d11m d111 d11m dm11 d111 d1m1",
+      51
+    ],
+    [
+      "d11m d111 d11m dm11 d11m d111 d11m d111",
+      43
+    ],
+    [
+      "d11m d111 d11m dm11 d11m d1m1",
+      42
+    ],
+    [
+      "d11m d111 d11m dm11 d111 dm11",
+      42
+    ],
+    [
+      "d11m d111 d11m dm11 d111 d11m d111 d11m",
+      31
+    ],
+    [
+      "d11m d111 d11m dm11 d11m d111 dm11 d1m1",
+      13
+    ],
+    [
+      "d11m d111 d11m dm11 d111 dm11 d1m1 d11m",
+      13
+    ],
+    [
+      "d11m d111 d11m dm11 d11m d1m1 dm11 d111",
+      12
+    ],
+    [
+      "d11m d111 d11m dm11 d1m1 d111",
+      12
+    ],
+    [
+      "d11m d111 d11m dm11 d11m d111 dm11 d111",
+      12
+    ],
+    [
+      "d11m d111 d11m dm11 d11m d111 d1m1 dm11",
+      12
+    ],
+    [
+      "d11m d111 d11m dm11 d11m d111 d11m d1m1",
+      12
+    ],
+    [
+      "d11m d111 d11m dm11 d111 dm11 d111 d11m",
+      12
+    ],
+    [
+      "d11m d111 d11m dm11 d111 dm11 d1m1 dm11",
+      12
+    ],
+    [
+      "d11m d111 d11m dm11 d111 d1m1 dm11 d11m",
+      12
+    ],
+    [
+      "d11m d111 d11m dm11 d11m d1m1 dm11 d1m1",
+      11
+    ]
+  ]
+}

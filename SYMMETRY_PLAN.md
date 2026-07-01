@@ -92,6 +92,60 @@ emitter, prefer:
 
 ## Revised Strategy Synthesis
 
+### 2026-06-30 Holonomy-Normal-Form Pivot
+
+The active path is now the holonomy-normal-form pivot recorded in
+`docs/holonomy_pivot_repo_notes.md`.  This supersedes attempts to finish the
+DU9IQ singleton/range repair route as a path to the final proof.  That older
+route remains useful as diagnostic evidence, but it has repeatedly shown the
+wrong scaling profile: it closes individual GoodDirection survivors while the
+final theorem needs state-level semantic compression.
+
+The immediate proof-engineering order is:
+
+1. Validate the square-parity / triangular-shadow classifier externally with
+   exact arithmetic:
+
+   ```text
+   reducedShadow(word) = []  iff  totalLinearOfPairWord(word) = I
+   ```
+
+   The full-run expected empty-shadow count is `2,468,088`.
+2. Only after that profile passes, implement the Lean shadow-normal-form core:
+   square parity, triangular projective letters, shadow scan, stack reduction,
+   and the mod-3 triangular nonidentity theorem.
+3. Use nonempty reduced shadows as the nontranslation side of the finite
+   holonomy split, then profile forced-axis sign rejection over reduced-shadow
+   and primitive-axis signatures.
+4. Use empty reduced shadows as the translation side, then mine
+   cancellation-tree and projective integer row signatures for GoodDirection
+   survivors only.
+
+The key discipline is that ranks now serve only as addresses for
+`unrankPairWord`.  New generated/checked evidence should be organized over
+semantic holonomy states, not contiguous rank intervals.  Translation masks
+that fail `GoodDirection` are not generated proof obligations; they are ruled
+out by the existing semantic theorem
+`goodDirection_of_translation_feasible_at_rank`.
+
+Initial Track 1 implementation checkpoint:
+
+- Added `docs/holonomy_pivot_repo_notes.md` to pin existing Lean names,
+  product-order convention, GoodDirection surfaces, and public semantic
+  coverage predicates.
+- Added `scripts/shadow_normal_form_profile.py`, an exact untrusted profiler
+  for square parity and triangular reduced-shadow classification.
+- Added `docs/shadow_normal_form_report.md` with first calibration results.
+- Calibration windows `[0,10000)`, `[10000000,10001000)`,
+  `[30000000,30001000)`, `[60000000,60001000)`, and
+  `[90000000,90001000)` all had zero mismatches between empty reduced shadow
+  and exact `totalLinearOfPairWord = I`.
+
+Next gate: make the shadow profiler checkpointable/parallel over disjoint
+rank windows and run the full exact external scan.  Do not start Lean
+formalization of the shadow theorem until the full scan reports zero
+mismatches and exactly `2,468,088` empty shadows.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

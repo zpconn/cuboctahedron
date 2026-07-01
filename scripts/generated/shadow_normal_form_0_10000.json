@@ -1,0 +1,131 @@
+{
+  "confusion": {
+    "empty_and_identity": 712,
+    "empty_and_nonidentity": 0,
+    "nonempty_and_identity": 0,
+    "nonempty_and_nonidentity": 9288
+  },
+  "distinct_reduced_shadows": 2174,
+  "elapsed_seconds": 2.360064744949341,
+  "empty_shadow_count": 712,
+  "end": 10000,
+  "expected_full_identity_count": 2468088,
+  "final_parity_distribution": [
+    [
+      "000",
+      10000
+    ]
+  ],
+  "identity_count": 712,
+  "mismatch_count": 0,
+  "mismatch_examples": [],
+  "mode": "shadow-normal-form-profile",
+  "product_order": "R(w[0]) * ... * R(w[12]) * R(x)",
+  "reduced_length_distribution": [
+    [
+      0,
+      712
+    ],
+    [
+      2,
+      737
+    ],
+    [
+      4,
+      2211
+    ],
+    [
+      6,
+      3418
+    ],
+    [
+      8,
+      2922
+    ]
+  ],
+  "scanned": 10000,
+  "schema_version": 1,
+  "start": 0,
+  "top_reduced_shadows": [
+    [
+      "<empty>",
+      712
+    ],
+    [
+      "d1m1 dm11",
+      289
+    ],
+    [
+      "dm11 d1m1",
+      240
+    ],
+    [
+      "d1m1 dm11 d1m1 dm11",
+      124
+    ],
+    [
+      "d1m1 d11m d1m1 d11m",
+      112
+    ],
+    [
+      "d1m1 d111 d1m1 d111",
+      111
+    ],
+    [
+      "d111 d11m",
+      106
+    ],
+    [
+      "d11m d111",
+      102
+    ],
+    [
+      "dm11 d1m1 dm11 d1m1",
+      100
+    ],
+    [
+      "d111 d11m d111 d11m",
+      84
+    ],
+    [
+      "d11m d111 d11m d111",
+      79
+    ],
+    [
+      "d1m1 d111 dm11 d111",
+      78
+    ],
+    [
+      "d1m1 d11m dm11 d11m",
+      77
+    ],
+    [
+      "d1m1 d11m d111 dm11",
+      68
+    ],
+    [
+      "dm11 d111 dm11 d111",
+      67
+    ],
+    [
+      "d1m1 d11m d1m1 d111",
+      67
+    ],
+    [
+      "d1m1 d111 d11m dm11",
+      67
+    ],
+    [
+      "d1m1 d11m dm11 d111",
+      67
+    ],
+    [
+      "dm11 d11m dm11 d11m",
+      66
+    ],
+    [
+      "d1m1 d111 d1m1 d11m",
+      66
+    ]
+  ]
+}

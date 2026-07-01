@@ -1,0 +1,130 @@
+{
+  "mismatch_count": 0,
+  "mismatch_examples": [],
+  "mode": "shadow-normal-form-random-samples",
+  "sample_count": 20,
+  "samples": [
+    {
+      "identity": false,
+      "rank": 282669,
+      "reduced": "d11m d1m1 d111 dm11",
+      "word": "x y z d1m1 d1m1 d11m d111 z y dm11 d11m dm11 d111"
+    },
+    {
+      "identity": false,
+      "rank": 3804733,
+      "reduced": "d1m1 dm11 d111 d1m1 d11m dm11",
+      "word": "x d11m y z dm11 d111 d1m1 dm11 y d11m z d1m1 d111"
+    },
+    {
+      "identity": false,
+      "rank": 8470054,
+      "reduced": "dm11 d111",
+      "word": "y x d1m1 dm11 z d11m y dm11 d111 d1m1 d11m z d111"
+    },
+    {
+      "identity": false,
+      "rank": 12597620,
+      "reduced": "d1m1 d111 dm11 d1m1 dm11 d11m dm11 d11m",
+      "word": "y d111 x d11m d1m1 dm11 y d111 z dm11 d11m z d1m1"
+    },
+    {
+      "identity": false,
+      "rank": 15826780,
+      "reduced": "dm11 d111 dm11 d1m1 dm11 d1m1",
+      "word": "y d11m z dm11 d111 d11m d111 y d1m1 d1m1 dm11 x z"
+    },
+    {
+      "identity": false,
+      "rank": 18034063,
+      "reduced": "d111 d11m dm11 d11m d1m1 dm11",
+      "word": "y d1m1 z z d11m d11m dm11 x d1m1 d111 dm11 y d111"
+    },
+    {
+      "identity": false,
+      "rank": 28179657,
+      "reduced": "d11m d111 d11m d1m1 d111 d11m dm11 d11m",
+      "word": "z d111 z y d1m1 dm11 d111 d1m1 dm11 d11m y d11m x"
+    },
+    {
+      "identity": false,
+      "rank": 34234785,
+      "reduced": "dm11 d111 d1m1 d111",
+      "word": "z d1m1 d11m dm11 d1m1 d11m z y y d111 x d111 dm11"
+    },
+    {
+      "identity": false,
+      "rank": 50951092,
+      "reduced": "d11m dm11",
+      "word": "d111 dm11 z d1m1 d11m y d1m1 dm11 z x d11m y d111"
+    },
+    {
+      "identity": false,
+      "rank": 52319252,
+      "reduced": "d111 d1m1 d111 d11m",
+      "word": "d111 dm11 dm11 d11m z z y y d11m d1m1 d111 x d1m1"
+    },
+    {
+      "identity": false,
+      "rank": 58085012,
+      "reduced": "d11m dm11",
+      "word": "d11m z d1m1 dm11 x y d11m z d111 dm11 d111 y d1m1"
+    },
+    {
+      "identity": false,
+      "rank": 59778857,
+      "reduced": "d111 d1m1",
+      "word": "d11m d111 d111 x d1m1 dm11 z dm11 y d11m d1m1 z y"
+    },
+    {
+      "identity": false,
+      "rank": 60329669,
+      "reduced": "d11m d111 d1m1 d111 d11m d111 d1m1 dm11",
+      "word": "d11m d111 d1m1 y d1m1 dm11 z y z x dm11 d11m d111"
+    },
+    {
+      "identity": false,
+      "rank": 63383683,
+      "reduced": "d11m d1m1 dm11 d1m1 dm11 d111 dm11 d111",
+      "word": "d11m d1m1 z d1m1 z y x y d11m d111 dm11 d111 dm11"
+    },
+    {
+      "identity": false,
+      "rank": 65479012,
+      "reduced": "d11m dm11 d111 dm11 d11m dm11",
+      "word": "d11m dm11 y d1m1 d11m dm11 z d111 z x d1m1 y d111"
+    },
+    {
+      "identity": false,
+      "rank": 66496171,
+      "reduced": "d11m dm11 d11m d1m1 dm11 d11m dm11 d111",
+      "word": "d11m dm11 d11m y d111 x d1m1 d111 z dm11 y d1m1 z"
+    },
+    {
+      "identity": false,
+      "rank": 76397250,
+      "reduced": "d1m1 d11m d1m1 d11m d111 dm11",
+      "word": "d1m1 d11m y y d1m1 d11m d111 z x z d111 dm11 dm11"
+    },
+    {
+      "identity": false,
+      "rank": 81528947,
+      "reduced": "d1m1 dm11 d11m dm11 d111 dm11 d1m1 d111",
+      "word": "d1m1 dm11 d11m y d11m y d111 z z dm11 d1m1 d111 x"
+    },
+    {
+      "identity": false,
+      "rank": 87455328,
+      "reduced": "dm11 d111 d1m1 d111 d11m d111",
+      "word": "dm11 z d11m x d111 d1m1 dm11 d1m1 d11m y y z d111"
+    },
+    {
+      "identity": false,
+      "rank": 93393106,
+      "reduced": "dm11 d11m dm11 d111 d1m1 dm11 d111 d1m1",
+      "word": "dm11 d11m dm11 y d1m1 d111 d11m y d111 d1m1 z x z"
+    }
+  ],
+  "schema_version": 1,
+  "seed": 1
+}
