@@ -945,3 +945,15 @@ Bellman rank-family surface:
   holonomy/cancellation-language membership theorem that supplies the same
   kernel check, axis-forcing fact, Bellman run, and margin bound for all ranks
   in a semantic family.
+
+Exact path-class family audit:
+
+- Added `scripts/audit_bellman_family_class_sizes.py`.
+- On
+  `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json`,
+  the audit reported `37` parsed path classes, `37` total represented members,
+  `37` singleton classes, `0` multi-member classes, and max class size `1`.
+- Decision: exact Bellman paths are not a production family coordinate for
+  this artifact.  They are useful for smoke tests, but the next implementation
+  must quotient by a coarser holonomy/cancellation state language rather than
+  scaling exact edge/label path membership.

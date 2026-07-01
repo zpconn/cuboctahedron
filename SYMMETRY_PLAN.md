@@ -47536,3 +47536,45 @@ be scaled as singleton membership.  The next real implementation task is to
 replace that singleton predicate with a holonomy/cancellation-language family
 predicate and generate Lean proofs that every member supplies the same
 Bellman label-step run, margin bound, kernel check, and axis-forcing premise.
+
+### Holonomy/Bellman Pivot - exact path classes rejected as families
+
+Added an untrusted diagnostic:
+
+```text
+scripts/audit_bellman_family_class_sizes.py
+```
+
+It audits whether the Bellman graph's exact path classes are genuine
+multi-member families or singleton samples.  This prevents us from accidentally
+turning exact Bellman paths into another per-rank coverage backend.
+
+Command run:
+
+```bash
+python3 scripts/audit_bellman_family_class_sizes.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --json scripts/generated/bellman_family_class_size_audit_1M.json \
+  --md scripts/generated/bellman_family_class_size_audit_1M.md
+```
+
+Result:
+
+| metric | value |
+| --- | ---: |
+| graph-reported path classes | `37` |
+| parsed classes | `37` |
+| total represented members | `37` |
+| singleton classes | `37` |
+| multi-member classes | `0` |
+| max class size | `1` |
+
+Decision: exact path classes are rejected as a production family coordinate for
+this graph.  The Bellman rank-family theorem surface is accepted, but the
+membership predicate must be coarser than exact edge/label path.  The next
+implementation should profile and emit a holonomy/cancellation state-language
+predicate, for example keyed by remaining counts, square parity, reduced
+triangular stack/cancellation source, axis D4 class, margin form, and
+coarsened Bellman state transitions, while explicitly excluding exact affine
+RHS, solved start point, total affine offset, or full exact Bellman path from
+the state key.

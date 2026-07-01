@@ -2107,3 +2107,41 @@ next nonidentity residual proof task is the real holonomy/cancellation-family
 membership theorem: a family predicate must imply the generated kernel check,
 axis-forcing facts, Bellman label-step run, and margin bound without keying by
 exact affine RHS or per-rank certificates.
+
+## Exact Path-Class Family Audit
+
+Added:
+
+```text
+scripts/audit_bellman_family_class_sizes.py
+```
+
+The audit checks whether the exact Bellman path classes in the current graph
+are already multi-member families.  It is diagnostic only, but it is now the
+gate that prevents exact-path scaling from being mistaken for semantic
+coverage.
+
+Command:
+
+```text
+python3 scripts/audit_bellman_family_class_sizes.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --json scripts/generated/bellman_family_class_size_audit_1M.json \
+  --md scripts/generated/bellman_family_class_size_audit_1M.md
+```
+
+Result:
+
+| metric | value |
+| --- | ---: |
+| graph-reported path classes | `37` |
+| parsed classes | `37` |
+| total represented members | `37` |
+| singleton classes | `37` |
+| multi-member classes | `0` |
+| max class size | `1` |
+
+Decision: exact Bellman path classes are all singleton in this `[0,1M)`
+artifact and must not be used as the production family partition.  The next
+residual route is a coarser holonomy/cancellation state-language family
+predicate that can still supply the accepted `BellmanAxisRankFamily` fields.
