@@ -1426,11 +1426,15 @@ Prefix-trie scale diagnostic:
   | ---: | ---: | ---: | ---: | ---: | ---: |
   | `[0,1000000)` | `37` | `518` | `270` | `249` | `3` |
   | `[0,5000000)` | `194` | `2716` | `1373` | `1344` | `3` |
+  | `[0,10000000)` | `273` | `3822` | `1990` | `1833` | `3` |
 
+- Regenerated the `[0,10000000)` graph with the same path-class schema:
+  `6:28.01` wall time, `34,064 kB` max RSS.
 - Decision: keep the prefix-trie/automaton route active.  Trie reuse scales with
   the observed path-class volume, the trie remains depth `14`, and branching
-  stays small.  The existing `[0,10000000)` graph predates path-class export, so
-  it needs regeneration before it can provide trie-scale data.
+  stays small through the 10M window.  The next production-facing step is not a
+  larger observed trie; it is a semantic word-language/trie membership bridge
+  for the holonomy/cancellation top family.
 
 ## Artifacts
 

@@ -41,16 +41,16 @@
     "end": 10000000,
     "states": 970,
     "edges": 1054,
-    "labels": null,
-    "path_items_kind": "none",
-    "path_items": 0,
-    "raw_step_occurrences": null,
-    "trie_nodes": null,
-    "trie_transition_nodes": null,
-    "reused_step_occurrences": null,
-    "terminal_nodes": null,
-    "max_depth": null,
-    "max_branching": null,
-    "average_depth": null
+    "labels": 14,
+    "path_items_kind": "path_classes",
+    "path_items": 273,
+    "raw_step_occurrences": 3822,
+    "trie_nodes": 1990,
+    "trie_transition_nodes": 1989,
+    "reused_step_occurrences": 1833,
+    "terminal_nodes": 273,
+    "max_depth": 14,
+    "max_branching": 3,
+    "average_depth": 14.0
   }
 ]

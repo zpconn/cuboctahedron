@@ -2190,11 +2190,18 @@ Bellman profiler prototype checkpoint:
   | `[0,1000000)` | `37` | `518` | `270` | `249` | `3` |
   | `[0,5000000)` | `194` | `2716` | `1373` | `1344` | `3` |
 
+  Regenerated the `[0,10000000)` graph with the same schema; it finished in
+  `6:28.01` wall time with `34,064 kB` max RSS and adds:
+
+  | range | path classes | raw steps | trie nodes | reused steps | max branching |
+  | ---: | ---: | ---: | ---: | ---: | ---: |
+  | `[0,10000000)` | `273` | `3822` | `1990` | `1833` | `3` |
+
   This keeps the prefix-trie/automaton route active: reuse scales roughly with
   observed path volume and the trie stays shallow (`max_depth = 14`) with small
-  branching.  The existing `[0,10000000)` graph was generated before path-class
-  export, so it still reports graph size only; regenerate it with the current
-  schema before drawing trie-scale conclusions for 10M.
+  branching through the 10M window.  The next production-facing step is not a
+  larger observed trie; it is a semantic word-language/trie membership bridge
+  for the holonomy/cancellation top family.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

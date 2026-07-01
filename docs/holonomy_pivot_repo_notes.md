@@ -528,10 +528,13 @@ Top margin+cancellation-pairing checkpoint:
   top-family graph with path classes took `3:36.76` wall time and `32,128 kB`
   max RSS using eight worker processes.  The resulting profile has `194` path
   classes, `2,716` raw step occurrences, `1,373` trie nodes, `1,344` reused
+  steps, depth `14`, and max branching `3`.  Regenerating the `[0,10000000)`
+  graph took `6:28.01` wall time and `34,064 kB` max RSS; it has `273` path
+  classes, `3,822` raw step occurrences, `1,990` trie nodes, `1,833` reused
   steps, depth `14`, and max branching `3`.  This supports the trie/automaton
-  route as a scalable state-language coordinate; the existing 10M graph still
-  needs regeneration with the current path-class schema before it can report
-  trie reuse.
+  route as a scalable state-language coordinate.  The next production-facing
+  step is a semantic word-language/trie membership bridge, not a still-larger
+  observed trie.
 
 ## Explicit Non-Goals
 
