@@ -357,6 +357,10 @@ Top margin+cancellation-pairing checkpoint:
   `417` states, `457` edges, and maximum margin bound `-16/11`.  This supports
   tri-source Bellman as a real semantic coordinate rather than an initial
   rank-window accident.
+- Lean core status: `Cuboctahedron.Search.BellmanPotential` now provides the
+  generic integer-potential path telescoping theorem and builds in focused
+  mode.  Generated Bellman families should target this surface rather than
+  replaying concrete affine offsets.
 
 ## Explicit Non-Goals
 

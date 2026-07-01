@@ -1889,6 +1889,16 @@ Bellman profiler prototype checkpoint:
   Bellman-max path was a real observed path at rank `15543335`.  Runtime was
   `5:10.35` wall with `26,648 kB` max RSS.  This reduces the risk that the
   first-window success was an early-rank artifact.
+- Lean Bellman core checkpoint: added
+  `Cuboctahedron/Search/BellmanPotential.lean`, a small geometry-independent
+  trusted theorem surface for integer potentials.  It defines
+  `BellmanEdge`, `BellmanPath`, `bellmanGainSum`, and proves:
+  `bellmanGainSum_add_finalPotential_le_startPotential`,
+  `bellmanGainSum_le_startPotential_of_final_nonneg`, and
+  `const_add_bellmanGainSum_nonpos_of_path`.  Focused build passed:
+  `lake build Cuboctahedron.Search.BellmanPotential`.  This is not generated
+  coverage yet; it is the core induction theorem that generated Bellman
+  families should instantiate after the profiler has enough scale evidence.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

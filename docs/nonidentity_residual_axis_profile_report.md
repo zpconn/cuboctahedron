@@ -760,6 +760,23 @@ windows to estimate full-family state count, or begin designing the small
 generic Lean Bellman theorem while the external profiler continues gathering
 coverage data.
 
+Lean Bellman core:
+
+- Added `Cuboctahedron/Search/BellmanPotential.lean`.
+- The file is geometry-independent and proves the integer-potential
+  telescoping fact that generated Bellman families need:
+  - `bellmanGainSum_add_finalPotential_le_startPotential`;
+  - `bellmanGainSum_le_startPotential_of_final_nonneg`;
+  - `const_add_bellmanGainSum_nonpos_of_path`.
+- Focused build passed:
+
+  ```bash
+  lake build Cuboctahedron.Search.BellmanPotential
+  ```
+
+- Keyword scan on the new file found no `sorry`, `admit`, `axiom`,
+  `native_decide`, or `unsafe`.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -800,6 +817,7 @@ coverage data.
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source.md`
 - `scripts/generated/nonid_margin_bellman_top_pairing_010000000_020000000_with_step_tri_source.json`
 - `scripts/generated/nonid_margin_bellman_top_pairing_010000000_020000000_with_step_tri_source.md`
+- `Cuboctahedron/Search/BellmanPotential.lean`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.json`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.md`
 - `scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.json`

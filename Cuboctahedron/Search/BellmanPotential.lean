@@ -1,0 +1,86 @@
+import Mathlib.Tactic
+
+/-!
+Small generic Bellman/potential certificates over integer edge gains.
+
+This module is intentionally independent of the cuboctahedron geometry.  It
+captures the trusted proof shape needed by generated nonidentity margin
+families: if every transition satisfies `gain + V(next) <= V(current)`, then
+the sum of gains along any chained path is bounded by the potential drop.
+-/
+
+namespace Cuboctahedron
+
+structure BellmanEdge (State : Type) where
+  src : State
+  gain : Int
+  dst : State
+deriving Repr
+
+namespace BellmanEdge
+
+def Valid {State : Type} (V : State -> Int) (e : BellmanEdge State) : Prop :=
+  e.gain + V e.dst <= V e.src
+
+end BellmanEdge
+
+inductive BellmanPath {State : Type} :
+    State -> State -> List (BellmanEdge State) -> Prop
+  | nil (s : State) : BellmanPath s s []
+  | cons {s t u : State} {e : BellmanEdge State} {edges : List (BellmanEdge State)}
+      (hsrc : e.src = s)
+      (hdst : e.dst = t)
+      (htail : BellmanPath t u edges) :
+      BellmanPath s u (e :: edges)
+
+def bellmanGainSum {State : Type} : List (BellmanEdge State) -> Int
+  | [] => 0
+  | e :: edges => e.gain + bellmanGainSum edges
+
+theorem bellmanGainSum_add_finalPotential_le_startPotential
+    {State : Type} {V : State -> Int}
+    {start finish : State} {edges : List (BellmanEdge State)}
+    (hpath : BellmanPath start finish edges)
+    (hvalid : forall e, e ∈ edges -> e.Valid V) :
+    bellmanGainSum edges + V finish <= V start := by
+  induction hpath with
+  | nil s =>
+      simp [bellmanGainSum]
+  | cons hsrc hdst htail ih =>
+      rename_i s t u e edges
+      have hedge : BellmanEdge.Valid V e := hvalid e (by simp)
+      have htailValid :
+          forall e', e' ∈ edges -> BellmanEdge.Valid V e' := by
+        intro e' he
+        exact hvalid e' (by simp [he])
+      have htailBound := ih htailValid
+      simp [bellmanGainSum]
+      unfold BellmanEdge.Valid at hedge
+      rw [hsrc, hdst] at hedge
+      linarith
+
+theorem bellmanGainSum_le_startPotential_of_final_nonneg
+    {State : Type} {V : State -> Int}
+    {start finish : State} {edges : List (BellmanEdge State)}
+    (hpath : BellmanPath start finish edges)
+    (hvalid : forall e, e ∈ edges -> e.Valid V)
+    (hfinish : 0 <= V finish) :
+    bellmanGainSum edges <= V start := by
+  have h := bellmanGainSum_add_finalPotential_le_startPotential
+    (V := V) hpath hvalid
+  linarith
+
+theorem const_add_bellmanGainSum_nonpos_of_path
+    {State : Type} {V : State -> Int}
+    {start finish : State} {edges : List (BellmanEdge State)}
+    {const : Int}
+    (hpath : BellmanPath start finish edges)
+    (hvalid : forall e, e ∈ edges -> e.Valid V)
+    (hfinish : 0 <= V finish)
+    (hroot : const + V start <= 0) :
+    const + bellmanGainSum edges <= 0 := by
+  have hsum := bellmanGainSum_le_startPotential_of_final_nonneg
+    (V := V) hpath hvalid hfinish
+  linarith
+
+end Cuboctahedron
