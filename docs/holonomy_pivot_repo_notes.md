@@ -1928,3 +1928,33 @@ Split graph/terminal smoke:
 The terminal shard being tiny and fast is the key architecture result.  The
 heavy Bellman table can stay in leaf graph shards, while group/root imports
 should point at terminal semantic killed shards.
+
+Object-cover membership constructor smoke:
+
+- `scripts/emit_bellman_graph_smoke.py` now emits sampled object covers through
+  `BellmanAxisRankObjectCover.ofMembership`.
+- The generated cover definitions are `private noncomputable def` because the
+  sampled membership proof uses private `Classical.choose` to select an object
+  from Prop-level rank membership.
+- Focused build passed:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `BellmanTopPairingGraphLanguage2AllSmoke` | `1:14.28` | `7,650,856 kB` |
+
+- Split-boundary audit remains passed with graph positive payloads `0` and
+  terminal positive payloads `2`.
+- The next-action planner still returns
+  `implement-semantic-membership-then-scale`.
+
+Strategic note after the GPT5.5 Bellman/potential review:
+
+- Continue nonidentity residual work through Bellman/potential certificates over
+  semantic holonomy/cancellation languages.
+- The next proof target is not another certificate packing format.  It is a
+  real semantic membership theorem for the closed Bellman object language,
+  feeding `BellmanRankObjectMembership` and then `ofMembership`.
+- Cocycle-gauge and cancellation-summary profiling are conditional shrinkers if
+  larger windows make the Bellman graph too large.
+- Translation should stay on the GoodDirection plus small integer
+  Helly/Farkas-circuit route; bad-direction masks are not proof data.

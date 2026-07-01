@@ -49766,3 +49766,55 @@ Focused build:
 | target | wall | max RSS | status |
 | --- | ---: | ---: | --- |
 | `Cuboctahedron.Search.BellmanAxisBridge` after `ofMembership` | `0:02.72` | `3,292,116 kB` | passed |
+
+Follow-up smoke after the constructor refactor:
+
+- `scripts/emit_bellman_graph_smoke.py` now emits the sampled graph/object
+  covers through `BellmanAxisRankObjectCover.ofMembership` instead of repeating
+  the full record literal and `covers` plumbing in each generated cover.
+- The two generated object covers are marked `private noncomputable def`
+  because their sampled `BellmanRankObjectMembership` proof uses private
+  `Classical.choose` to select a Type-level object from the Prop-level rank
+  membership predicate.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke
+  ```
+
+  passed in `1:14.28` wall time with `7,650,856 kB` max RSS.
+- The split-boundary audit still passes:
+
+  ```json
+  {"graph_lines": 24370, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 743, "terminal_positive_payloads": 2}
+  ```
+- The aggregate next-action planner still returns
+  `implement-semantic-membership-then-scale`.
+
+Decision: accepted.  This is the correct generated-shard shape for the latest
+GPT5.5 Bellman/potential pivot: a family shard should prove semantic
+rank-to-object membership once, instantiate the private Bellman object cover
+through `ofMembership`, and export only semantic nonpositive/killed theorem
+surfaces.  Do not add another certificate-packing layer.
+
+Latest strategy pivot from GPT5.5 Pro review:
+
+1. Nonidentity residual margin compression should proceed first through
+   finite-horizon Bellman/potential certificates over holonomy/cancellation
+   automata.  The production theorem should prove a margin bound for a whole
+   accepted language, not for exact affine-RHS keys.
+2. The immediate implementation target is a semantic membership theorem for
+   the closed Bellman language.  Exact observed path classes remain diagnostics
+   only.
+3. Cocycle-gauge normalization and cancellation-summary DAGs are conditional
+   shrinkers: run them only if larger Bellman windows show state/edge growth
+   near the gates.
+4. `StateKilled`/root assembly waits until terminal Bellman and translation
+   circuit families are real.  The DAG is an assembly layer, not the discovery
+   mechanism.
+5. Translation work remains on the semantic GoodDirection/circuit track:
+   mine small integer 2D Helly/Farkas circuits for GoodDirection survivors and
+   reserve Walsh-Farkas certificates only for leftovers.
+6. All new generated routes should use integer/projective arithmetic at the
+   proof boundary where possible; avoid generated rational checker replay.
