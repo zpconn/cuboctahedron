@@ -593,6 +593,17 @@ Top margin+cancellation-pairing checkpoint:
   in `0:08.78` wall / `3,934,080 kB` max RSS.  This makes the future
   production theorem target cleaner: generated holonomy-family modules should
   prove `PairSignLanguageAtRank` facts and then reuse the generic bridge.
+- Axis-forced rank/sign bridge status: added
+  `Cuboctahedron.Search.AxisForcedRankLanguage`.  It packages the existing
+  geometric theorem `forcedSeq_eq_of_axisForces_data` into
+  `pairSignLanguageAtRank_of_axisForces`, proving that a feasible
+  nonidentity sequence whose axis forces a generated `forcedSeq` satisfies
+  `PairSignLanguageAtRank rank forcedSeq seq`.  It also exposes
+  `faceLabelsInContributionOrder_eq_of_axisForces`.  The focused build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Search.AxisForcedRankLanguage`
+  in `0:02.18` wall / `3,259,396 kB` max RSS.  This is the first direct
+  nonidentity hook from semantic axis-family evidence into the Bellman
+  face-label language surface.
 
 ## Explicit Non-Goals
 

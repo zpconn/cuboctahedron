@@ -2275,6 +2275,19 @@ Bellman profiler prototype checkpoint:
   in `0:08.78` wall / `3,934,080 kB` max RSS.  The next production-facing
   theorem should prove `PairSignLanguageAtRank` from the real
   holonomy/cancellation top-family state predicate.
+- Axis-forced rank/sign bridge checkpoint: added
+  `Cuboctahedron.Search.AxisForcedRankLanguage`.  It reuses the existing
+  theorem `forcedSeq_eq_of_axisForces_data` and exposes
+  `pairSignLanguageAtRank_of_axisForces`, which proves that a feasible
+  nonidentity sequence satisfying `SeqRealizesPairWord (unrankPairWord rank)`
+  and `NonIdentityAxisConstraints` lies in `PairSignLanguageAtRank` whenever
+  the generated axis data forces the template sequence.  The companion theorem
+  `faceLabelsInContributionOrder_eq_of_axisForces` gives the contribution-order
+  label equality directly.  Focused build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Search.AxisForcedRankLanguage` in
+  `0:02.18` wall / `3,259,396 kB` max RSS.  This converts an existing
+  nonidentity soundness theorem into the Bellman language target and should be
+  the hook used by the first real top-family membership smoke.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

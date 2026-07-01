@@ -1551,6 +1551,29 @@ Concrete face-sequence bridge smoke:
   generated-file typecheck `0:06.28` wall time, `3,760,780 kB` max RSS; Lake
   graph target `0:08.78` wall time, `3,934,080 kB` max RSS.
 
+Axis-forced rank/sign bridge:
+
+- Added `Cuboctahedron.Search.AxisForcedRankLanguage`.
+- The theorem `pairSignLanguageAtRank_of_axisForces` packages the existing
+  `forcedSeq_eq_of_axisForces_data` result into the reusable Bellman language
+  surface.  Given `SeqRealizesPairWord (unrankPairWord rank) seq`,
+  `NonIdentityAxisConstraints seq`, a checked kernel-line witness, and
+  `AxisForcesForcedSeq (unrankPairWord rank) axis forcedSeq`, it proves
+  `PairSignLanguageAtRank rank forcedSeq seq`.
+- The companion theorem `faceLabelsInContributionOrder_eq_of_axisForces`
+  gives the contribution-order label equality directly.
+- Focused build passed:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.AxisForcedRankLanguage
+  ```
+
+  Result: `0:02.18` wall time, `3,259,396 kB` max RSS.
+- Decision: accepted as the first direct nonidentity semantic adapter from
+  axis-family evidence to the Bellman face-label language.  The next generated
+  membership smoke should instantiate this theorem for the sampled
+  top-family rank/template before trying to generalize the whole family.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -1579,6 +1602,7 @@ Concrete face-sequence bridge smoke:
 - `Cuboctahedron/Search/BellmanPotential.lean`
 - `Cuboctahedron/Search/FaceLabelLanguage.lean`
 - `Cuboctahedron/Search/RankFaceLabelLanguage.lean`
+- `Cuboctahedron/Search/AxisForcedRankLanguage.lean`
 - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSmoke.lean`
 - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`
 - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph5MSmoke.lean`
