@@ -52624,3 +52624,23 @@ This means the current allowlisted smoke targets have fresh local `.olean`
 imports and are still within their strict source/import budgets.  It does not
 mean their Lean proof checks have been re-run under the tightened post-crash
 RSS/address-space envelope.
+
+First proof-bearing check under the tightened post-crash envelope:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --target split-composition \
+  --json /tmp/bellman_split_composition_tight_guard.json
+```
+
+Result:
+
+| target | imports | source | elapsed | peak tree RSS | hard-AS cap | min available | status |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| `split-composition` | `26 / 26` | `2 / 8 KiB` | `12.02s` | `3891 MiB` | `6144 MiB` | `46331 MiB` | passed |
+
+Decision: accepted as the first post-crash proof-bearing Bellman check under
+the tightened guard.  It restores Lean-checked evidence for the one sampled
+split-composition root without widening the target set.  The next proof-bearing
+step, if attempted, should be another single target under the same envelope,
+not a broad generated build or a multi-target run.

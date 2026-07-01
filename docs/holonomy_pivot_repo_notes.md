@@ -3465,3 +3465,22 @@ Per-target budget preflight:
 
   This is the preferred first check after crashes, rebases, generated-shard
   edits, or artifact cleanup; it is still not proof evidence.
+
+First proof-bearing check under the tightened post-crash envelope:
+
+- Command:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --target split-composition \
+    --json /tmp/bellman_split_composition_tight_guard.json
+  ```
+
+- Result: passed.
+- Telemetry: `12.02s` elapsed, `3891 MiB` peak process-tree RSS,
+  `6144 MiB` hard address-space cap, and `46331 MiB` minimum available memory.
+- Target preflight/budget: `26 / 26` fresh local imports, `2 / 8 KiB` target
+  source.
+- Decision: the existing one-path split-composition smoke is revalidated under
+  the tightened envelope.  Do not infer that larger Bellman generated targets
+  are safe; test each new target singly under the same guard.
