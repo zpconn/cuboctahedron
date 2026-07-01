@@ -3864,6 +3864,46 @@ Fifth split path:
 Decision: accepted as another proof-bearing sampled path under the strict
 post-crash guard.
 
+Sixth split path:
+
+- The selected next target, path object index `5` / rank `42247`, was run as a
+  single guarded path with `--check-stage missing`.  Both trace and split were
+  missing/stale before the run.  No batch execution or parallel Lean was used.
+- Dry-run command:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 5 \
+    --check \
+    --check-stage missing \
+    --dry-run \
+    --json scripts/generated/bellman_split_path_05_missing_dry_run.json
+  ```
+
+- Proof-bearing command:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 5 \
+    --check \
+    --check-stage missing \
+    --json scripts/generated/bellman_split_path_05_missing_run.json
+  ```
+
+- Result:
+  - trace shard with `.olean` emission: passed in `8.53s`, peak RSS
+    `3974 MiB`, hard-AS cap `6144 MiB`, minimum available `46268 MiB`;
+  - split root with `.olean` emission: passed in `2.00s`, peak RSS
+    `3907 MiB`, hard-AS cap `6144 MiB`, minimum available `46377 MiB`.
+- Refreshed strict `[0,8)` dry-run guard is still rejected, with `4` blocked
+  entries and `7` total blockers.
+- Refreshed `[0,37)` planner summary: `0` over budget, `6` fresh trace
+  artifacts, `6` fresh split artifacts, `1184 KiB` planned trace source, and
+  `74 KiB` planned split source.
+- Refreshed selector chose path index `6`, rank `42943`, as the next possible
+  single-path target.
+
+Decision: accepted as another proof-bearing sampled path under the strict
+post-crash guard.
+
 Seventh split path:
 
 - The selected next target, path object index `6` / rank `42943`, was run as a
@@ -3904,41 +3944,42 @@ Seventh split path:
 Decision: accepted as another proof-bearing sampled path under the strict
 post-crash guard.
 
-Sixth split path:
+Eighth split path:
 
-- The selected next target, path object index `5` / rank `42247`, was run as a
+- The selected next target, path object index `7` / rank `43171`, was run as a
   single guarded path with `--check-stage missing`.  Both trace and split were
   missing/stale before the run.  No batch execution or parallel Lean was used.
 - Dry-run command:
 
   ```bash
-  python3 scripts/run_bellman_split_smoke_path.py 5 \
+  python3 scripts/run_bellman_split_smoke_path.py 7 \
     --check \
     --check-stage missing \
     --dry-run \
-    --json scripts/generated/bellman_split_path_05_missing_dry_run.json
+    --json scripts/generated/bellman_split_path_07_missing_dry_run.json
   ```
 
 - Proof-bearing command:
 
   ```bash
-  python3 scripts/run_bellman_split_smoke_path.py 5 \
+  python3 scripts/run_bellman_split_smoke_path.py 7 \
     --check \
     --check-stage missing \
-    --json scripts/generated/bellman_split_path_05_missing_run.json
+    --json scripts/generated/bellman_split_path_07_missing_run.json
   ```
 
 - Result:
-  - trace shard with `.olean` emission: passed in `8.53s`, peak RSS
-    `3974 MiB`, hard-AS cap `6144 MiB`, minimum available `46268 MiB`;
+  - trace shard with `.olean` emission: passed in `7.51s`, peak RSS
+    `4013 MiB`, hard-AS cap `6144 MiB`, minimum available `46125 MiB`;
   - split root with `.olean` emission: passed in `2.00s`, peak RSS
-    `3907 MiB`, hard-AS cap `6144 MiB`, minimum available `46377 MiB`.
-- Refreshed strict `[0,8)` dry-run guard is still rejected, with `4` blocked
-  entries and `7` total blockers.
-- Refreshed `[0,37)` planner summary: `0` over budget, `6` fresh trace
-  artifacts, `6` fresh split artifacts, `1184 KiB` planned trace source, and
+    `3631 MiB`, hard-AS cap `6144 MiB`, minimum available `46204 MiB`.
+- Refreshed strict `[0,8)` dry-run guard is still rejected, but all entries now
+  have fresh artifacts; remaining blockers are checked-summary gaps for paths
+  `0` and `1`.
+- Refreshed `[0,37)` planner summary: `0` over budget, `8` fresh trace
+  artifacts, `8` fresh split artifacts, `1184 KiB` planned trace source, and
   `74 KiB` planned split source.
-- Refreshed selector chose path index `6`, rank `42943`, as the next possible
+- Refreshed selector chose path index `8`, rank `43195`, as the next possible
   single-path target.
 
 Decision: accepted as another proof-bearing sampled path under the strict
