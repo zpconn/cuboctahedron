@@ -9,7 +9,7 @@ face, return periodically, and then repeat forever?
 
 The intended theorem says **no**.
 
-The proof splits into two cases based on the structure of an affine map associated to each candidate billiard path. In one case, a holonomy normal form structural theorem rules out all possible paths. In the other case, all possible paths are ruled out by studying a Bellman potential flow on a specially constructed finite graph that captures certain aspects of the behavior of orbits as they unfold over time. Together, these two arguments, each fully formalized in Lean 4, rule out all possible omnihedral paths in the cuboctahedron. As far as the author knows, this is a novel result in pure mathematics as of July 2026.
+The proof splits into two cases based on the structure of an affine map associated to each candidate billiard path. In one case, a holonomy normal form structural theorem forces a sequence of cascading consequences that together rule out all possible paths. In the other case, all possible paths are ruled out by studying a Bellman potential flow on a specially constructed finite graph that captures certain aspects of the behavior of orbits as they unfold over time. Together, these two arguments, each fully formalized in Lean 4, rule out all possible omnihedral paths in the cuboctahedron. As far as the author knows, this is a novel result in pure mathematics as of July 2026.
 
 ## Current Status
 
