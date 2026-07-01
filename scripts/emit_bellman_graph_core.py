@@ -39,9 +39,16 @@ def emit(
     *,
     emit_sound: bool = True,
     emit_valid: bool = True,
+    numeric_ids: bool = False,
+    eval_only: bool = False,
 ) -> None:
+    if eval_only:
+        emit_sound = False
+        emit_valid = False
     if emit_sound and not emit_valid:
         raise SystemExit("--omit-valid implies --omit-sound")
+    if emit_sound and numeric_ids:
+        raise SystemExit("--numeric-ids currently requires --omit-sound or --omit-valid")
     data = json.loads(input_path.read_text())
     graph = data["graph"]
     state_count = int(graph["state_count"])
@@ -108,9 +115,19 @@ def emit(
     can_emit_face_labels = all(face in set(label_face_by_index.values()) for face in face_order)
     if can_emit_face_labels:
         face_label_by_name = {
-            face: label_ctor(label_idx)
+            face: (f"({label_idx} : SmokeLabel)" if numeric_ids else label_ctor(label_idx))
             for label_idx, face in label_face_by_index.items()
         }
+
+    def state_term(index: int) -> str:
+        if numeric_ids:
+            return f"({index} : State)"
+        return state_ctor(index)
+
+    def label_term(index: int) -> str:
+        if numeric_ids:
+            return f"({index} : SmokeLabel)"
+        return label_ctor(index)
 
     lines: list[str] = [
         "import Cuboctahedron.Search.BellmanPotential",
@@ -135,79 +152,113 @@ def emit(
         "",
         "open Cuboctahedron",
         "",
-        f"-- state count: {state_count}",
-        "inductive State where",
     ]
-    for idx in range(state_count):
-        lines.append(f"  | s{idx:04d}")
-    lines.extend([
-        "",
-        "def graphPotential : State -> Int",
-    ])
+    if numeric_ids:
+        lines.extend([
+            f"-- state count: {state_count}",
+            "abbrev State : Type := Nat",
+            "",
+            "def graphPotential : State -> Int",
+        ])
+    else:
+        lines.extend([
+            f"-- state count: {state_count}",
+            "inductive State where",
+        ])
+        for idx in range(state_count):
+            lines.append(f"  | s{idx:04d}")
+        lines.extend([
+            "",
+            "def graphPotential : State -> Int",
+        ])
     potential_by_index = {
         int(state["index"]): int(state["potential_scaled"]) for state in states
     }
     for idx in range(state_count):
-        lines.append(f"  | {state_ctor(idx)} => {potential_by_index[idx]}")
+        if numeric_ids:
+            lines.append(f"  | {idx} => {potential_by_index[idx]}")
+        else:
+            lines.append(f"  | {state_ctor(idx)} => {potential_by_index[idx]}")
+    if numeric_ids:
+        lines.append("  | _ => 0")
     lines.extend([
         "",
-        f"def rootState : State := {state_ctor(int(roots[0]))}",
+        f"def rootState : State := {state_term(int(roots[0]))}",
         "",
     ])
-    for idx, edge in enumerate(edges):
+    if not eval_only:
+        for idx, edge in enumerate(edges):
+            lines.extend([
+                f"def {edge_name(idx)} : BellmanEdge State :=",
+                "  {",
+                f"    src := {state_term(int(edge['src']))},",
+                f"    gain := {int(edge['gain_scaled'])},",
+                f"    dst := {state_term(int(edge['dst']))}",
+                "  }",
+                "",
+            ])
+            if emit_valid:
+                lines.extend([
+                    f"theorem {edge_name(idx)}_valid : {edge_name(idx)}.Valid graphPotential := by",
+                    f"  change ({int(edge['gain_scaled'])} : Int) + "
+                    f"graphPotential {state_term(int(edge['dst']))} <= "
+                    f"graphPotential {state_term(int(edge['src']))}",
+                    "  decide",
+                    "",
+                ])
         lines.extend([
-            f"def {edge_name(idx)} : BellmanEdge State :=",
-            "  {",
-            f"    src := {state_ctor(int(edge['src']))},",
-            f"    gain := {int(edge['gain_scaled'])},",
-            f"    dst := {state_ctor(int(edge['dst']))}",
-            "  }",
-            "",
+            "inductive GraphEdge : BellmanEdge State -> Prop where",
         ])
+        for idx in range(len(edges)):
+            lines.append(f"  | e{idx:04d} : GraphEdge {edge_name(idx)}")
+        lines.append("")
         if emit_valid:
             lines.extend([
-                f"theorem {edge_name(idx)}_valid : {edge_name(idx)}.Valid graphPotential := by",
-                f"  change ({int(edge['gain_scaled'])} : Int) + "
-                f"graphPotential {state_ctor(int(edge['dst']))} <= "
-                f"graphPotential {state_ctor(int(edge['src']))}",
+                "theorem GraphEdge.valid {e : BellmanEdge State} :",
+                "    GraphEdge e -> BellmanEdge.Valid graphPotential e := by",
+                "  intro h",
+                "  cases h with",
+            ])
+            for idx in range(len(edges)):
+                lines.append(f"  | e{idx:04d} => exact {edge_name(idx)}_valid")
+            lines.extend([
+                "",
+                "theorem root_bound :",
+                f"    ({const_scaled} : Int) + graphPotential rootState <= 0 := by",
                 "  decide",
                 "",
             ])
-    lines.extend([
-        "inductive GraphEdge : BellmanEdge State -> Prop where",
-    ])
-    for idx in range(len(edges)):
-        lines.append(f"  | e{idx:04d} : GraphEdge {edge_name(idx)}")
-    lines.append("")
-    if emit_valid:
-        lines.extend([
-            "theorem GraphEdge.valid {e : BellmanEdge State} :",
-            "    GraphEdge e -> BellmanEdge.Valid graphPotential e := by",
-            "  intro h",
-            "  cases h with",
-        ])
-        for idx in range(len(edges)):
-            lines.append(f"  | e{idx:04d} => exact {edge_name(idx)}_valid")
-        lines.extend([
-            "",
-            "theorem root_bound :",
-            f"    ({const_scaled} : Int) + graphPotential rootState <= 0 := by",
-            "  decide",
-            "",
-        ])
+        else:
+            lines.extend([
+                "/-- Validity proofs are omitted in definitions-only mode and should",
+                "be emitted in bounded proof shards.",
+                "-/",
+                "",
+            ])
     else:
         lines.extend([
-            "/-- Validity proofs are omitted in definitions-only mode and should",
-            "be emitted in bounded proof shards.",
+            "/-- Edge/step constructors and validity proofs are omitted in eval-only",
+            "mode. The deterministic evaluator is the proof surface; validity should",
+            "be emitted as bounded `GraphSmokeStepEval.valid` shards.",
             "-/",
             "",
         ])
     lines.extend([
-        f"-- label count: {len(labels)}",
-        "inductive SmokeLabel where",
     ])
-    for label in labels:
-        lines.append(f"  | l{int(label['index']):04d} -- {label['key']}")
+    if numeric_ids:
+        lines.extend([
+            f"-- label count: {len(labels)}",
+            "abbrev SmokeLabel : Type := Nat",
+        ])
+        for label in labels:
+            lines.append(f"-- label {int(label['index']):04d}: {label['key']}")
+    else:
+        lines.extend([
+            f"-- label count: {len(labels)}",
+            "inductive SmokeLabel where",
+        ])
+        for label in labels:
+            lines.append(f"  | l{int(label['index']):04d} -- {label['key']}")
     if can_emit_face_labels:
         lines.extend([
             "",
@@ -220,28 +271,29 @@ def emit(
             "def smokeLabelsOfSeq (seq : Step14 -> Face) : List SmokeLabel :=",
             "  faceLabelsInContributionOrder smokeLabelOfFace seq",
         ])
-    lines.extend([
-        "",
-        "inductive SmokeStep : State -> SmokeLabel -> State -> Int -> Prop where",
-    ])
-    for case_name, edge_idx, label_idx in edge_label_cases:
-        lines.append(
-            f"  | {case_name} : SmokeStep {edge_name(edge_idx)}.src "
-            f"{label_ctor(label_idx)} {edge_name(edge_idx)}.dst "
-            f"{edge_name(edge_idx)}.gain"
-        )
-    if emit_valid:
+    if not eval_only:
         lines.extend([
             "",
-            "theorem SmokeStep.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
-            "    SmokeStep s label t gain -> gain + graphPotential t <= graphPotential s := by",
-            "  intro h",
-            "  cases h with",
+            "inductive SmokeStep : State -> SmokeLabel -> State -> Int -> Prop where",
         ])
-        for case_name, edge_idx, _label_idx in edge_label_cases:
+        for case_name, edge_idx, label_idx in edge_label_cases:
             lines.append(
-                f"  | {case_name} => simpa [BellmanEdge.Valid] using {edge_name(edge_idx)}_valid"
+                f"  | {case_name} : SmokeStep {edge_name(edge_idx)}.src "
+                f"{label_term(label_idx)} {edge_name(edge_idx)}.dst "
+                f"{edge_name(edge_idx)}.gain"
             )
+        if emit_valid:
+            lines.extend([
+                "",
+                "theorem SmokeStep.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+                "    SmokeStep s label t gain -> gain + graphPotential t <= graphPotential s := by",
+                "  intro h",
+                "  cases h with",
+            ])
+            for case_name, edge_idx, _label_idx in edge_label_cases:
+                lines.append(
+                    f"  | {case_name} => simpa [BellmanEdge.Valid] using {edge_name(edge_idx)}_valid"
+                )
     label_order = [int(label["index"]) for label in labels]
     lines.extend([
         "",
@@ -258,8 +310,8 @@ def emit(
         )
         for label_idx, (_edge_idx, dst_idx, gain_scaled, _case_name) in state_transitions:
             lines.append(
-                f"  | {label_ctor(label_idx)} => "
-                f"some ({state_ctor(dst_idx)}, ({gain_scaled} : Int))"
+                f"  | {label_idx if numeric_ids else label_ctor(label_idx)} => "
+                f"some ({state_term(dst_idx)}, ({gain_scaled} : Int))"
             )
         lines.extend([
             "  | _ => none",
@@ -267,9 +319,14 @@ def emit(
         ])
     lines.append("def graphSmokeNext : State -> SmokeLabel -> Option (State × Int)")
     for state_idx in range(state_count):
-        lines.append(
-            f"  | {state_ctor(state_idx)} => graphSmokeNext_s{state_idx:04d}"
-        )
+        if numeric_ids:
+            lines.append(f"  | {state_idx} => graphSmokeNext_s{state_idx:04d}")
+        else:
+            lines.append(
+                f"  | {state_ctor(state_idx)} => graphSmokeNext_s{state_idx:04d}"
+            )
+    if numeric_ids:
+        lines.append("  | _ => fun _ => none")
     lines.append("")
     if emit_sound:
         for state_idx in range(state_count):
@@ -281,13 +338,20 @@ def emit(
             lines.extend([
                 f"theorem graphSmokeNext_sound_s{state_idx:04d} "
                 "{label : SmokeLabel} {t : State} {gain : Int} :",
-                f"    graphSmokeNext {state_ctor(state_idx)} label = some (t, gain) ->",
-                f"      SmokeStep {state_ctor(state_idx)} label t gain := by",
+                f"    graphSmokeNext {state_term(state_idx)} label = some (t, gain) ->",
+                f"      SmokeStep {state_term(state_idx)} label t gain := by",
                 "  intro h",
                 f"  change graphSmokeNext_s{state_idx:04d} label = some (t, gain) at h",
-                f"  cases label <;> simp [graphSmokeNext_s{state_idx:04d}] at h <;> try contradiction",
             ])
-            if state_transitions:
+            if numeric_ids:
+                lines.append(
+                    f"  simp [graphSmokeNext_s{state_idx:04d}] at h"
+                )
+            else:
+                lines.append(
+                    f"  cases label <;> simp [graphSmokeNext_s{state_idx:04d}] at h <;> try contradiction"
+                )
+            if state_transitions and not numeric_ids:
                 lines.extend([
                     "  all_goals",
                     "    rcases h with ⟨rfl, rfl⟩",
@@ -295,6 +359,12 @@ def emit(
                 ])
                 for _label_idx, (_edge_idx, _dst_idx, _gain_scaled, case_name) in state_transitions:
                     lines.append(f"    | exact SmokeStep.{case_name}")
+            elif state_transitions:
+                lines.extend([
+                    "  -- Numeric-label next soundness is intentionally not used",
+                    "  -- in production until a smaller proof strategy is emitted.",
+                    "  first | contradiction",
+                ])
             lines.append("")
         lines.extend([
             "theorem graphSmokeNext_sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
@@ -324,10 +394,10 @@ def emit(
             "next-to-step soundness bridge. This mode is used only to measure",
             "whether graph definitions fit before soundness sharding.",
             "-/",
-            "def GraphSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",
-            "  graphSmokeNext s label = some (t, gain)",
-            "",
-        ])
+        "def GraphSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",
+        "  graphSmokeNext s label = some (t, gain)",
+        "",
+    ])
     lines.extend([
         "theorem bellmanGraphCoreSmoke_builds : True := by",
         "  exact True.intro",
@@ -346,6 +416,8 @@ def main() -> None:
     parser.add_argument("--namespace", required=True)
     parser.add_argument("--omit-sound", action="store_true")
     parser.add_argument("--omit-valid", action="store_true")
+    parser.add_argument("--numeric-ids", action="store_true")
+    parser.add_argument("--eval-only", action="store_true")
     args = parser.parse_args()
     emit(
         args.input,
@@ -353,6 +425,8 @@ def main() -> None:
         args.namespace,
         emit_sound=(not args.omit_sound and not args.omit_valid),
         emit_valid=not args.omit_valid,
+        numeric_ids=args.numeric_ids,
+        eval_only=args.eval_only,
     )
 
 

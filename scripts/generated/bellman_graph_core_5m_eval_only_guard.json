@@ -1,0 +1,19 @@
+{
+  "available_floor_mib": 36864.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "/tmp/BellmanTopPairingGraphCoreSmoke5MEvalOnly.lean"
+  ],
+  "elapsed_seconds": 6.004442718000064,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4270052,
+  "max_tree_rss_mib": 4169.97265625,
+  "min_available_seen_kib": 47004792,
+  "min_available_seen_mib": 45903.1171875,
+  "rss_cap_mib": 4500.0,
+  "timeout_seconds": 180.0
+}

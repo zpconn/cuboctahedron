@@ -56818,3 +56818,113 @@ geometry leaves into ordinary generated coverage roots.
 
 The 1M core remains a valid smoke for the theorem surface, but it is not yet a
 scaling proof for 5M/full emission.
+
+### Holonomy/Bellman Pivot - numeric eval-only graph base
+
+The failed 5M base probes above showed that even graph definitions are too
+heavy if the base module emits one constructor per state/label/edge/step.  The
+next experiment changed the representation:
+
+- `State := Nat`;
+- `SmokeLabel := Nat`;
+- keep only `graphPotential`, `smokeLabelOfFace`, per-state deterministic
+  `graphSmokeNext_sNNNN`, global `graphSmokeNext`, and
+  `GraphSmokeStepEval`;
+- omit all `BellmanEdge`, `GraphEdge`, `SmokeStep`, and validity/soundness
+  proofs from the base file.
+
+This is still a semantic Bellman evaluator surface.  It is **not** a proof of
+validity by itself; the validity theorem must be emitted next as bounded proof
+shards over `GraphSmokeStepEval`.
+
+Emitter change:
+
+```text
+scripts/emit_bellman_graph_core.py --numeric-ids --eval-only
+```
+
+Committed representative:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalOnly10MSmoke.lean
+```
+
+Commands:
+
+```bash
+python3 scripts/emit_bellman_graph_core.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.json \
+  --output /tmp/BellmanTopPairingGraphCoreSmoke5MNumericDefs.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphCoreSmoke5MNumericDefs \
+  --numeric-ids --omit-valid
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_graph_core_5m_numeric_defs_guard.json \
+  -- lake env lean /tmp/BellmanTopPairingGraphCoreSmoke5MNumericDefs.lean
+
+python3 scripts/emit_bellman_graph_core.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.json \
+  --output /tmp/BellmanTopPairingGraphCoreSmoke5MEvalOnly.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphCoreSmoke5MEvalOnly \
+  --numeric-ids --eval-only
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_graph_core_5m_eval_only_guard.json \
+  -- lake env lean /tmp/BellmanTopPairingGraphCoreSmoke5MEvalOnly.lean
+
+python3 scripts/emit_bellman_graph_core.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalOnly10MSmoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalOnly10MSmoke \
+  --numeric-ids --eval-only
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_graph_eval_only_10m_guard.json \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalOnly10MSmoke.lean
+
+rg -n "SampledRankIndex|sampledSmokeNext|sampledContainsRank|sampledRankOf|sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  scripts/emit_bellman_graph_core.py \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalOnly10MSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphCoreSmoke.lean || true
+```
+
+Results:
+
+| variant | source size | guard result | peak RSS |
+| --- | ---: | --- | ---: |
+| 5M numeric definitions-only, still with edge/step constructors | `324 KiB` | killed | `4522 MiB` |
+| 5M numeric eval-only base | `136 KiB` | passed | `4169 MiB` |
+| 10M numeric eval-only base, committed path | `166 KiB` | passed | `4252 MiB` |
+
+The token scan over the numeric eval-only smoke and emitter found no sampled
+rank terms and no forbidden proof shortcuts.
+
+Decision: accept numeric eval-only graph bases as the scalable Bellman graph
+definition coordinate.  Reject any base format that emits `BellmanEdge`,
+`GraphEdge`, or `SmokeStep` constructors for large graphs.  The next proof
+architecture must be:
+
+1. numeric eval-only base module;
+2. bounded validity shards proving local facts of the form
+
+   ```lean
+   GraphSmokeStepEval s label t gain ->
+     gain + graphPotential t <= graphPotential s
+   ```
+
+   for small sets of source states;
+3. a shallow validity root exporting `GraphSmokeStepEval.valid`;
+4. the closed-language-to-evaluator theorem
+   `TopPairingClosedLanguageAtRank -> TopPairingBellmanEvalLanguageAtRank`.
+
+This route preserves the GPT5.5 Bellman recommendation while avoiding the
+constructor-heavy graph representation that failed the 5M memory gate.
