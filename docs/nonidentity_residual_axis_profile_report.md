@@ -1486,14 +1486,23 @@ Concrete face-sequence bridge smoke:
   `cls0000FaceSeq_unrank_pairword`, and `cls0000FaceSeq_matches_unrank`,
   connecting rank `517` to `pairWordOfSeq cls0000FaceSeq` via the existing
   `rankPairWord?_eq_some_iff_unrank` theorem.
+- Added the reusable core module `Cuboctahedron.Search.FaceLabelLanguage` with
+  `contributionOrderSteps`, `faceLabelsInContributionOrder`, `SameFaceSeq`,
+  and `faceLabelsInContributionOrder_eq_of_same`.  The generated graph smoke
+  now imports this module and uses its shared theorem for the
+  sequence-language-to-label-equality step instead of carrying private
+  per-step rewrite boilerplate.
 - Focused build passed:
 
   ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.FaceLabelLanguage
+
   /usr/bin/time -v lake build \
     Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
   ```
 
-  Result: `0:09.35` wall time, `3,951,928 kB` max RSS.
+  Results: core `0:02.48` wall time, `3,266,508 kB` max RSS; graph smoke
+  `0:08.96` wall time, `3,965,756 kB` max RSS.
 - Decision: accepted as the first Lean-checked bridge from actual
   `Step14 -> Face` itineraries to the Bellman trie language through rank/unrank,
   pair-word matching, reusable label equality, and a sequence-language theorem.

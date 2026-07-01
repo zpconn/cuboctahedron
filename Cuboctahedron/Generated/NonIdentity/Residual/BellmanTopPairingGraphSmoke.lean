@@ -1,5 +1,5 @@
 import Cuboctahedron.Search.BellmanPotential
-import Cuboctahedron.Search.Itineraries
+import Cuboctahedron.Search.FaceLabelLanguage
 import Cuboctahedron.Search.Enumeration
 
 set_option maxRecDepth 4096
@@ -6400,21 +6400,7 @@ The profiler emits Bellman labels in contribution order: the thirteen
 post-start faces first, followed by the initial `X+` face.
 -/
 private def smokeLabelsOfSeq (seq : Step14 -> Face) : List SmokeLabel :=
-  [smokeLabelOfFace (seq (⟨1, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨2, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨3, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨4, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨5, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨6, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨7, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨8, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨9, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨10, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨11, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨12, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨13, by decide⟩ : Step14))
-  , smokeLabelOfFace (seq (⟨0, by decide⟩ : Step14))
-  ]
+  faceLabelsInContributionOrder smokeLabelOfFace seq
 
 private inductive SmokeEdgeLabel : BellmanEdge State -> SmokeLabel -> Prop where
   | e0000 : SmokeEdgeLabel edge0000 SmokeLabel.l0008
@@ -22176,11 +22162,11 @@ private def cls0000FaceSeq : Step14 -> Face
   | _ => Face.tmmp
 
 private def cls0000FaceSeqLanguage (seq : Step14 -> Face) : Prop :=
-  forall i : Step14, seq i = cls0000FaceSeq i
+  SameFaceSeq cls0000FaceSeq seq
 
 private theorem cls0000FaceSeqLabels_eq :
     smokeLabelsOfSeq cls0000FaceSeq = trieNode0014Labels := by
-  unfold smokeLabelsOfSeq cls0000FaceSeq smokeLabelOfFace
+  unfold smokeLabelsOfSeq faceLabelsInContributionOrder contributionOrderSteps cls0000FaceSeq smokeLabelOfFace
   unfold trieNode0014Labels trieNode0014StepLabels trieNode0013Labels trieNode0013StepLabels trieNode0012Labels trieNode0012StepLabels trieNode0011Labels trieNode0011StepLabels trieNode0010Labels trieNode0010StepLabels trieNode0009Labels trieNode0009StepLabels trieNode0008Labels trieNode0008StepLabels trieNode0007Labels trieNode0007StepLabels trieNode0006Labels trieNode0006StepLabels trieNode0005Labels trieNode0005StepLabels trieNode0004Labels trieNode0004StepLabels trieNode0003Labels trieNode0003StepLabels trieNode0002Labels trieNode0002StepLabels trieNode0001Labels trieNode0001StepLabels trieNode0000Labels
   rfl
 
@@ -22190,20 +22176,7 @@ private theorem cls0000FaceSeqLanguage_labels_eq
     smokeLabelsOfSeq seq = trieNode0014Labels := by
   rw [← cls0000FaceSeqLabels_eq]
   unfold smokeLabelsOfSeq
-  rw [hseq (⟨1, by decide⟩ : Step14)]
-  rw [hseq (⟨2, by decide⟩ : Step14)]
-  rw [hseq (⟨3, by decide⟩ : Step14)]
-  rw [hseq (⟨4, by decide⟩ : Step14)]
-  rw [hseq (⟨5, by decide⟩ : Step14)]
-  rw [hseq (⟨6, by decide⟩ : Step14)]
-  rw [hseq (⟨7, by decide⟩ : Step14)]
-  rw [hseq (⟨8, by decide⟩ : Step14)]
-  rw [hseq (⟨9, by decide⟩ : Step14)]
-  rw [hseq (⟨10, by decide⟩ : Step14)]
-  rw [hseq (⟨11, by decide⟩ : Step14)]
-  rw [hseq (⟨12, by decide⟩ : Step14)]
-  rw [hseq (⟨13, by decide⟩ : Step14)]
-  rw [hseq (⟨0, by decide⟩ : Step14)]
+  exact faceLabelsInContributionOrder_eq_of_same smokeLabelOfFace hseq
 
 private def cls0000Rank : Fin numPairWords := ⟨517, by decide⟩
 

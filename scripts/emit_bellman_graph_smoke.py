@@ -266,7 +266,7 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
 
     imports = [
         "import Cuboctahedron.Search.BellmanPotential",
-        "import Cuboctahedron.Search.Itineraries",
+        "import Cuboctahedron.Search.FaceLabelLanguage",
     ]
     if can_emit_rank_sequence_bridge:
         imports.append("import Cuboctahedron.Search.Enumeration")
@@ -553,15 +553,7 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             "post-start faces first, followed by the initial `X+` face.",
             "-/",
             "private def smokeLabelsOfSeq (seq : Step14 -> Face) : List SmokeLabel :=",
-            "  [smokeLabelOfFace (seq (⟨1, by decide⟩ : Step14))",
-        ])
-        for step in range(2, 14):
-            lines.append(
-                f"  , smokeLabelOfFace (seq (⟨{step}, by decide⟩ : Step14))"
-            )
-        lines.extend([
-            "  , smokeLabelOfFace (seq (⟨0, by decide⟩ : Step14))",
-            "  ]",
+            "  faceLabelsInContributionOrder smokeLabelOfFace seq",
         ])
     lines.extend([
         "",
@@ -1120,11 +1112,11 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             f"  | _ => Face.{seq_faces[13]}",
             "",
             f"private def {seq_name}Language (seq : Step14 -> Face) : Prop :=",
-            f"  forall i : Step14, seq i = {seq_name} i",
+            f"  SameFaceSeq {seq_name} seq",
             "",
             f"private theorem {seq_name}Labels_eq :",
             f"    smokeLabelsOfSeq {seq_name} = {trie_node_labels_name(trie_node)} := by",
-            f"  unfold smokeLabelsOfSeq {seq_name} smokeLabelOfFace",
+            f"  unfold smokeLabelsOfSeq faceLabelsInContributionOrder contributionOrderSteps {seq_name} smokeLabelOfFace",
             "  unfold " + " ".join(trie_label_unfolds),
             "  rfl",
             "",
@@ -1134,10 +1126,7 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             f"    smokeLabelsOfSeq seq = {trie_node_labels_name(trie_node)} := by",
             f"  rw [← {seq_name}Labels_eq]",
             "  unfold smokeLabelsOfSeq",
-            *[
-                f"  rw [hseq (⟨{step}, by decide⟩ : Step14)]"
-                for step in list(range(1, 14)) + [0]
-            ],
+            "  exact faceLabelsInContributionOrder_eq_of_same smokeLabelOfFace hseq",
             "",
         ])
         if can_emit_rank_sequence_bridge:

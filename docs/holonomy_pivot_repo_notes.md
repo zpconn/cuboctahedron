@@ -556,7 +556,12 @@ Top margin+cancellation-pairing checkpoint:
   also imports `Cuboctahedron.Search.Enumeration` and proves one sampled
   rank/unrank bridge for rank `517`, namely `cls0000FaceSeq_rank`,
   `cls0000FaceSeq_unrank_pairword`, and `cls0000FaceSeq_matches_unrank`.  The
-  focused build passed in `0:09.35` wall time with `3,951,928 kB` max RSS.  The
+  reusable core `Cuboctahedron.Search.FaceLabelLanguage` now provides
+  `contributionOrderSteps`, `faceLabelsInContributionOrder`, `SameFaceSeq`,
+  and `faceLabelsInContributionOrder_eq_of_same`; the graph smoke imports it
+  for the sequence-language-to-label-equality step.  Focused builds passed for
+  the core in `0:02.48` wall / `3,266,508 kB` max RSS and for the graph smoke
+  in `0:08.96` wall / `3,965,756 kB` max RSS.  The
   next production gap is now precise: replace that toy language with the top
   holonomy/cancellation family predicate.
 

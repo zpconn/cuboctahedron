@@ -2233,7 +2233,14 @@ Bellman profiler prototype checkpoint:
   `pairWordOfSeq cls0000FaceSeq` through the existing
   `rankPairWord?_eq_some_iff_unrank` theorem.  Focused build passed:
   `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
-  in `0:09.35` wall time with `3,951,928 kB` max RSS.  Decision: this is the
+  in `0:09.35` wall time with `3,951,928 kB` max RSS.  Follow-up core
+  checkpoint: added `Cuboctahedron.Search.FaceLabelLanguage` with
+  `contributionOrderSteps`, `faceLabelsInContributionOrder`, `SameFaceSeq`,
+  and `faceLabelsInContributionOrder_eq_of_same`; the generator now imports
+  this module and uses the shared theorem for the toy sequence-language bridge.
+  Focused builds passed for the core in `0:02.48` wall / `3,266,508 kB` max RSS
+  and for the graph smoke in `0:08.96` wall / `3,965,756 kB` max RSS.
+  Decision: this is the
   first Lean-checked smoke connecting actual `Step14 -> Face` itineraries to
   the Bellman trie language through rank/unrank, pair-word matching, reusable
   label equality, and a sequence-language bridge.  It is not full membership

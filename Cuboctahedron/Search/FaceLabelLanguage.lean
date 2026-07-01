@@ -1,0 +1,51 @@
+import Cuboctahedron.Search.Itineraries
+
+/-!
+Small helpers for turning started face sequences into contribution-order label
+words.
+
+Bellman margin automata use the contribution order already used by the
+nonidentity residual profiler: the thirteen post-start faces first, followed by
+the initial `X+` face.
+-/
+
+namespace Cuboctahedron
+
+def contributionOrderSteps : List Step14 :=
+  [⟨1, by decide⟩, ⟨2, by decide⟩, ⟨3, by decide⟩,
+   ⟨4, by decide⟩, ⟨5, by decide⟩, ⟨6, by decide⟩,
+   ⟨7, by decide⟩, ⟨8, by decide⟩, ⟨9, by decide⟩,
+   ⟨10, by decide⟩, ⟨11, by decide⟩, ⟨12, by decide⟩,
+   ⟨13, by decide⟩, ⟨0, by decide⟩]
+
+def faceLabelsInContributionOrder {α : Type}
+    (labelOfFace : Face -> α) (seq : Step14 -> Face) : List α :=
+  contributionOrderSteps.map fun i => labelOfFace (seq i)
+
+def SameFaceSeq (template seq : Step14 -> Face) : Prop :=
+  forall i : Step14, seq i = template i
+
+theorem faceLabelsInContributionOrder_eq_of_same
+    {α : Type} (labelOfFace : Face -> α)
+    {template seq : Step14 -> Face}
+    (hseq : SameFaceSeq template seq) :
+    faceLabelsInContributionOrder labelOfFace seq =
+      faceLabelsInContributionOrder labelOfFace template := by
+  unfold faceLabelsInContributionOrder contributionOrderSteps
+  simp only [List.map_cons, List.map_nil]
+  rw [hseq (⟨1, by decide⟩ : Step14)]
+  rw [hseq (⟨2, by decide⟩ : Step14)]
+  rw [hseq (⟨3, by decide⟩ : Step14)]
+  rw [hseq (⟨4, by decide⟩ : Step14)]
+  rw [hseq (⟨5, by decide⟩ : Step14)]
+  rw [hseq (⟨6, by decide⟩ : Step14)]
+  rw [hseq (⟨7, by decide⟩ : Step14)]
+  rw [hseq (⟨8, by decide⟩ : Step14)]
+  rw [hseq (⟨9, by decide⟩ : Step14)]
+  rw [hseq (⟨10, by decide⟩ : Step14)]
+  rw [hseq (⟨11, by decide⟩ : Step14)]
+  rw [hseq (⟨12, by decide⟩ : Step14)]
+  rw [hseq (⟨13, by decide⟩ : Step14)]
+  rw [hseq (⟨0, by decide⟩ : Step14)]
+
+end Cuboctahedron
