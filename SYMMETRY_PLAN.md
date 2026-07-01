@@ -52474,3 +52474,26 @@ one sampled Bellman path: separate leaf checks, separate axis-forces bridge,
 and a tiny composition root.  This is still a smoke, not exhaustive coverage,
 but it is stronger evidence for the final generated architecture than a
 monolithic trace leaf importing the axis stack.
+
+Artifact-producing follow-up: the composition root itself was also emitted as
+an `.olean` under the strict guard:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --target split-composition \
+  --emit-olean \
+  --json /tmp/bellman_split_composition_emit_olean.json
+```
+
+Result:
+
+| target | imports | elapsed | peak tree RSS | minimum available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `split-composition --emit-olean` | `26` fresh `.olean`s | `4.01s` | `3810.38 MiB` | `46399.39 MiB` | passed |
+
+The emitted artifact is:
+
+```text
+.lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSplitCompositionSmoke.olean
+```

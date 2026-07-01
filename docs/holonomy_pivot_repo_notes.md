@@ -3400,3 +3400,7 @@ Split-composition checkpoint:
   `axis-forces-pairsign --emit-olean` passed in `2.00s` at `3941.01 MiB`.
 - With fresh artifacts, `--target split-composition` passed in `2.50s` at
   `3576.13 MiB` peak RSS with `26` fresh local imports.
+- The composition root also emitted its own `.olean` under the wrapper:
+  `split-composition --emit-olean` passed in `4.01s` at `3810.38 MiB` peak
+  RSS with `26` fresh imports.  The artifact path is
+  `.lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke.olean`.
