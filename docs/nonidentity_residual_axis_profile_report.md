@@ -1747,6 +1747,36 @@ language-level membership theorem for the top Bellman family, so generated
 leaves prove `AxisForces`/rank-language membership over a semantic domain
 rather than for a single sample.
 
+Bellman path-class bridge audit:
+
+- Added `scripts/audit_bellman_axis_bridge_samples.py`, an exact untrusted
+  preflight audit for generated Bellman graph JSON files.
+- The audit reconstructs each path class's face sequence from the graph labels,
+  recomputes the sampled rank's exact linear part, primitive forced axis,
+  kernel-line witness, and forced signed sequence, then checks whether the
+  forced sequence matches the graph-label sequence.
+- On the current `[0,1000000)` top-pairing graph, every observed path class
+  is bridgeable:
+
+  ```text
+  path classes: 37
+  bridgeable: 37
+  axis counts: -1/3,-1/3,-1 -> 37
+  final axis dot counts: 1/3 -> 37
+  decision: all-sampled-path-classes-bridgeable
+  ```
+
+- Output artifacts:
+  - `scripts/generated/bellman_axis_bridge_samples_000000000_001000000.json`
+  - `scripts/generated/bellman_axis_bridge_samples_000000000_001000000.md`
+
+Decision: accepted as a generation gate for the next Lean slice.  The current
+observed graph does not merely have one compatible sample; all 37 sampled
+path classes admit the same style of exact axis-forces bridge.  The next
+emitter step should add a bounded multi-class bridge mode, first for a small
+number of classes and then for all 37 if focused builds remain in the same
+memory band.
+
 ## Decision
 
 Accepted:

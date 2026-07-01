@@ -47194,3 +47194,35 @@ language-level membership theorem for the top Bellman family.  The production
 shape should not enumerate exact affine RHS values; it should show that a
 semantic domain of ranks/words satisfies the generated `AxisForces` and
 label-language premises needed by the Bellman theorem.
+
+### Holonomy/Bellman Pivot - path-class axis bridge audit accepted
+
+Added an exact external preflight audit:
+
+```bash
+python3 scripts/audit_bellman_axis_bridge_samples.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --json scripts/generated/bellman_axis_bridge_samples_000000000_001000000.json \
+  --markdown scripts/generated/bellman_axis_bridge_samples_000000000_001000000.md
+```
+
+The audit is not trusted proof.  It checks whether each observed Bellman path
+class with a rank sample has an exact forced-axis sequence matching the graph's
+semantic face-label sequence.  This is the right preflight gate before asking
+Lean to check generated axis-forces facts for more classes.
+
+Result:
+
+| Metric | Value |
+| --- | ---: |
+| path classes | `37` |
+| bridgeable | `37` |
+| axis | `-1/3,-1/3,-1` for all `37` |
+| final axis dot | `1/3` for all `37` |
+| decision | `all-sampled-path-classes-bridgeable` |
+
+Decision: accepted.  The current top-pairing graph is ready for a bounded
+multi-class Lean bridge smoke.  The next emitter step should add an explicit
+small `--rank-bridge-limit` or equivalent and first check a handful of classes
+before attempting all `37`.  This remains a smoke/proof-shape validation, not
+final coverage, because the external audit does not prove completeness.

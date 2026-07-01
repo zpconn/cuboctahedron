@@ -1,0 +1,2904 @@
+{
+  "axis_counts": {
+    "-1/3,-1/3,-1": 37
+  },
+  "bridgeable_count": 37,
+  "decision": "all-sampled-path-classes-bridgeable",
+  "final_axis_dot_counts": {
+    "1/3": 37
+  },
+  "input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json",
+  "mismatch_examples": [],
+  "path_class_count": 37,
+  "rows": [
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 0,
+      "count": 1,
+      "final": 141,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "zm",
+        "zp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "zm",
+        "zp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -376,
+      "rank_sample": 517,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 1,
+      "count": 1,
+      "final": 138,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "zm",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "tmmm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "zm",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "tmmm",
+        "zp"
+      ],
+      "margin_scaled": -376,
+      "rank_sample": 10613,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "d11m",
+        "d1m1",
+        "d111",
+        "dm11",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d111",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 2,
+      "count": 1,
+      "final": 135,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm",
+        "zp",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm",
+        "zp",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -128,
+      "rank_sample": 23197,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "z",
+        "z",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 3,
+      "count": 1,
+      "final": 134,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "zp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "zp",
+        "tmmp"
+      ],
+      "margin_scaled": -128,
+      "rank_sample": 25555,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "z",
+        "d1m1",
+        "d111",
+        "dm11",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "z",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 4,
+      "count": 1,
+      "final": 133,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -392,
+      "rank_sample": 40387,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "z",
+        "z",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 5,
+      "count": 1,
+      "final": 132,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -464,
+      "rank_sample": 42247,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "z",
+        "z",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 6,
+      "count": 1,
+      "final": 131,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -176,
+      "rank_sample": 42943,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "z",
+        "z",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 7,
+      "count": 1,
+      "final": 127,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -464,
+      "rank_sample": 43171,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "z",
+        "z",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 8,
+      "count": 1,
+      "final": 128,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -392,
+      "rank_sample": 43195,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "z",
+        "z",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 9,
+      "count": 1,
+      "final": 130,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp"
+      ],
+      "margin_scaled": -128,
+      "rank_sample": 43203,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "z",
+        "z",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 10,
+      "count": 1,
+      "final": 129,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp"
+      ],
+      "margin_scaled": -376,
+      "rank_sample": 43205,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m",
+        "z",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 11,
+      "count": 1,
+      "final": 141,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "yp",
+        "zp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "yp",
+        "zp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -376,
+      "rank_sample": 113917,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "y",
+        "z",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 12,
+      "count": 1,
+      "final": 138,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "yp",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "tmmm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "yp",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "tmmm",
+        "zp"
+      ],
+      "margin_scaled": -376,
+      "rank_sample": 124013,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "y",
+        "d11m",
+        "d1m1",
+        "d111",
+        "dm11",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d111",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 13,
+      "count": 1,
+      "final": 141,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -376,
+      "rank_sample": 136597,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "z",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 14,
+      "count": 1,
+      "final": 140,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -420,
+      "rank_sample": 151567,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "z",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 15,
+      "count": 1,
+      "final": 139,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "margin_scaled": -200,
+      "rank_sample": 151569,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "z",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 16,
+      "count": 1,
+      "final": 136,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "tmmm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "tmmm",
+        "zp"
+      ],
+      "margin_scaled": -420,
+      "rank_sample": 312761,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "dm11",
+        "d111",
+        "d1m1",
+        "d11m",
+        "d11m",
+        "dm11",
+        "y",
+        "d1m1",
+        "d111",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 17,
+      "count": 1,
+      "final": 137,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "yp",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "yp",
+        "zp"
+      ],
+      "margin_scaled": -200,
+      "rank_sample": 312772,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "dm11",
+        "d111",
+        "d1m1",
+        "d11m",
+        "d11m",
+        "dm11",
+        "d111",
+        "d1m1",
+        "y",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 18,
+      "count": 1,
+      "final": 137,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "zp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "zp",
+        "yp"
+      ],
+      "margin_scaled": -200,
+      "rank_sample": 312773,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "dm11",
+        "d111",
+        "d1m1",
+        "d11m",
+        "d11m",
+        "dm11",
+        "d111",
+        "d1m1",
+        "z",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 19,
+      "count": 1,
+      "final": 126,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "zm",
+        "zp",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "zm",
+        "zp",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -172,
+      "rank_sample": 824407,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "z",
+        "z",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 20,
+      "count": 1,
+      "final": 125,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -436,
+      "rank_sample": 914497,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "z",
+        "z",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 21,
+      "count": 1,
+      "final": 124,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "margin_scaled": -216,
+      "rank_sample": 914499,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "z",
+        "z",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 22,
+      "count": 1,
+      "final": 123,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -508,
+      "rank_sample": 944197,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 23,
+      "count": 1,
+      "final": 122,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "margin_scaled": -288,
+      "rank_sample": 944199,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 24,
+      "count": 1,
+      "final": 121,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -220,
+      "rank_sample": 946777,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "z",
+        "z",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 25,
+      "count": 1,
+      "final": 120,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "margin_scaled": 0,
+      "rank_sample": 946779,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "z",
+        "z",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 26,
+      "count": 1,
+      "final": 119,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -508,
+      "rank_sample": 947437,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "z",
+        "z",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 27,
+      "count": 1,
+      "final": 118,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "margin_scaled": -288,
+      "rank_sample": 947439,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "z",
+        "z",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 28,
+      "count": 1,
+      "final": 114,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "zp",
+        "zm",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "zp",
+        "zm",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -436,
+      "rank_sample": 947581,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "z",
+        "z",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 29,
+      "count": 1,
+      "final": 117,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp"
+      ],
+      "margin_scaled": -172,
+      "rank_sample": 947589,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "z",
+        "z",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 30,
+      "count": 1,
+      "final": 116,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp"
+      ],
+      "margin_scaled": -420,
+      "rank_sample": 947591,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m",
+        "z",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 31,
+      "count": 1,
+      "final": 114,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "yp",
+        "zm",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "yp",
+        "zm",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -436,
+      "rank_sample": 947593,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "z",
+        "y",
+        "z",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 32,
+      "count": 1,
+      "final": 114,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "margin_scaled": -436,
+      "rank_sample": 947599,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "z",
+        "z",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 33,
+      "count": 1,
+      "final": 113,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "margin_scaled": -216,
+      "rank_sample": 947601,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "z",
+        "z",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 34,
+      "count": 1,
+      "final": 115,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "zm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "zm",
+        "zp"
+      ],
+      "margin_scaled": -200,
+      "rank_sample": 947625,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y",
+        "z",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 35,
+      "count": 1,
+      "final": 115,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "yp",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "yp",
+        "zp"
+      ],
+      "margin_scaled": -200,
+      "rank_sample": 947626,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "z",
+        "y",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "class_index": 36,
+      "count": 1,
+      "final": 115,
+      "final_axis_dot": "1/3",
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "zp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "label_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "zp",
+        "yp"
+      ],
+      "margin_scaled": -200,
+      "rank_sample": 947627,
+      "status": "bridgeable",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "z",
+        "z",
+        "y"
+      ]
+    }
+  ],
+  "status_counts": {
+    "bridgeable": 37
+  }
+}

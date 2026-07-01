@@ -805,3 +805,11 @@ Bellman/potential residual pivot:
   passed in `0:12.49` wall time with `4,294,092 kB` max RSS.  The corresponding
   forbidden-keyword scan over the emitter and generated smoke module found no
   `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+- `scripts/audit_bellman_axis_bridge_samples.py` now checks whether sampled
+  Bellman path classes can be bridged by the same exact forced-axis sequence
+  used in the generated Lean smoke.  On
+  `nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json`,
+  all `37 / 37` path classes were bridgeable.  Every sampled class used axis
+  `-1/3,-1/3,-1` and final axis dot `1/3`.  This is not proof evidence, but it
+  is the preflight gate for emitting bounded multi-class axis-forces bridge
+  modules next.
