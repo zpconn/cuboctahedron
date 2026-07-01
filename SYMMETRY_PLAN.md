@@ -48773,3 +48773,58 @@ canonical bad-face compatibility.  It should not compute full affine solves in
 the root.  Prefer a generated terminal-family theorem that proves a Bellman
 object's terminal axis-start failure has canonical bad face `yp`, then include
 that theorem in the `Accepts` predicate for the object-cover route.
+
+### Holonomy/Bellman Pivot - object start-violation bridge accepted
+
+Implemented the first Lean-facing terminal adapter for the canonical
+bad-face frontier.  The new surface is deliberately object-level: a generated
+Bellman object can carry the private start-violation data needed to contradict
+the `X+` start-interior requirement, while the public theorem still exposes
+only `NonIdentityRankKilled`.
+
+Changed:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+
+structure ObjectStartViolationMarginCert
+theorem ObjectStartViolationMarginCert.positive
+theorem nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
+```
+
+`ObjectStartViolationMarginCert` packages:
+
+- a private `NonIdCert`-shaped candidate with kernel and affine-axis solve
+  checks;
+- an `AxisForcesForcedSeq` witness for the object's forced signed sequence;
+- a concrete bad face `badFace ≠ Face.xp`;
+- the exact real halfspace violation
+  `offsetR badFace ≤ dot (normalR badFace) (vecRatToReal cert.p0)`.
+
+The theorem `ObjectStartViolationMarginCert.positive` does not ask the
+generated family to prove a separate `XpStartInteriorQ -> 0 < margin`
+arithmetic lemma.  Instead, if a feasible nonidentity sequence satisfies the
+axis constraints, existing soundness forces its start point to be
+`cert.p0`; the bad-face inequality proves that `cert.p0` is not in the
+relative interior of `X+`, contradicting the feasible start-interior datum.
+From that contradiction the bridge supplies the positive side needed by the
+already checked Bellman nonpositive-margin theorem.
+
+Focused build:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:03.47` | `3,283,248 kB` | passed |
+
+Decision: accepted as the next terminal theorem surface for the Bellman object
+route.  It is still not the full canonical-bad-face membership theorem.  The
+next generator step should emit a small smoke object whose `Accepts` predicate
+combines forced-sequence compatibility and this object start-violation cert;
+then route the object-cover theorem through
+`nonIdentityRankKilled_of_object_cover_start_violation_margin_certs`.

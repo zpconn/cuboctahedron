@@ -1489,3 +1489,38 @@ Implication: the next Lean-facing design target is a generated semantic
 terminal theorem for canonical bad-face compatibility, not exact path-class
 membership.  It should become part of object `Accepts` for the Bellman
 object-cover route.
+
+Object start-violation Bellman bridge:
+
+- `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` now imports
+  `Cuboctahedron.Search.TerminalNonidentityTemplates` and exposes a
+  terminal-object adapter for start-interior failures:
+
+  ```lean
+  structure ObjectStartViolationMarginCert
+  theorem ObjectStartViolationMarginCert.positive
+  theorem nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
+  ```
+
+- The certificate is object-level, not rank-global.  It carries a private
+  `NonIdCert`-shaped candidate, kernel and affine-axis solve checks,
+  `AxisForcesForcedSeq`, a concrete `badFace ≠ Face.xp`, and the halfspace
+  inequality showing that the candidate start point violates the relative
+  interior of `X+`.
+- The bridge composes this terminal contradiction with
+  `BellmanAxisRankObjectCover.scaledMargin_nonpos_at_object`, so generated
+  Bellman leaves can produce `NonIdentityRankKilled` without exposing the
+  Bellman potential table or replaying full rank-local certificate checks in
+  the public theorem.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+  ```
+
+  passed in `0:03.47` wall time with `3,283,248 kB` max RSS.
+
+Next gate: teach the Bellman smoke emitter to instantiate
+`ObjectStartViolationMarginCert` for sampled accepted objects, then replace
+the current positive-margin premise/object route with
+`nonIdentityRankKilled_of_object_cover_start_violation_margin_certs`.

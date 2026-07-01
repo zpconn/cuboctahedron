@@ -2873,3 +2873,47 @@ The next proof-oriented task is to design a small Lean surface for canonical
 bad-face compatibility in the Bellman object language.  It should be a
 terminal-family theorem and part of object acceptance, not a root-level
 replay of all affine solve arithmetic.
+
+## Object Start-Violation Bridge
+
+The first Lean-facing terminal surface for that frontier now exists in:
+
+```text
+Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean
+```
+
+New names:
+
+```lean
+ObjectStartViolationMarginCert
+ObjectStartViolationMarginCert.positive
+nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
+```
+
+This is intentionally a bridge, not a full generated family.  A generated
+accepted Bellman object may provide:
+
+- the private candidate data and exact kernel/affine-axis solve checks;
+- `AxisForcesForcedSeq` for the object's forced signed sequence;
+- a concrete bad face different from `Face.xp`;
+- the halfspace inequality proving the candidate start point is outside the
+  relative interior of the starting `X+` face.
+
+From these facts, Lean derives that any feasible nonidentity axis-constrained
+sequence would force the same start point and simultaneously require it to be
+inside `X+`, contradiction.  The object-cover bridge then combines this
+terminal contradiction with the Bellman nonpositive-margin certificate to
+produce `Coverage.NonIdentityRankKilled`.
+
+Focused check:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+```
+
+passed in `0:03.47` wall time with `3,283,248 kB` max RSS.
+
+Next profiling/emitter task: instantiate this bridge in a small sampled
+Bellman object smoke.  That smoke should make object acceptance include both
+forced-sequence compatibility and the start-violation certificate, matching
+the refined canonical-bad-face frontier.

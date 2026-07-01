@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.Coverage.Predicates
 import Cuboctahedron.Search.BellmanAxisBridge
+import Cuboctahedron.Search.TerminalNonidentityTemplates
 
 /-!
 Semantic bridge from Bellman nonidentity margin bounds to public generated
@@ -137,5 +138,82 @@ theorem positive_margin_of_axis_forces_start_interior
     rw [← hRealize.startsXp]
     exact data.start_interior
   exact hMargin (XpStartInteriorQ_of_real hp0Interior)
+
+structure ObjectStartViolationMarginCert
+    (rank : Fin numPairWords) (margin : Int) where
+  cert : NonIdCert
+  word_eq : cert.word = unrankPairWord rank
+  kernel_check :
+    checkKernelLineWitness (totalLinearOfPairWord cert.word)
+      cert.axis cert.kernel = true
+  solve_check :
+    checkAffineAxisSolveWitness (totalAff (faceVectorSeq cert.forcedSeq))
+      cert.axis cert.p0 cert.lambda cert.solve = true
+  axis_forces :
+    AxisForcesForcedSeq cert.word cert.axis
+      (faceVectorSeq cert.forcedSeq)
+  badFace : Face
+  badFace_ne_xp : badFace ≠ Face.xp
+  badFace_violation :
+    offsetR badFace ≤ dot (normalR badFace) (vecRatToReal cert.p0)
+
+namespace ObjectStartViolationMarginCert
+
+theorem positive
+    {rank : Fin numPairWords} {margin : Int}
+    (cert : ObjectStartViolationMarginCert rank margin)
+    {seq : Step14 -> Face}
+    (hRealize : SeqRealizesPairWord (unrankPairWord rank) seq)
+    (hAxisConstraints : NonIdentityAxisConstraints seq) :
+    0 < margin := by
+  have hRealizeCert : SeqRealizesPairWord cert.cert.word seq := by
+    simpa [cert.word_eq] using hRealize
+  rcases
+    nonIdCert_forces_candidate_data
+      (cert := cert.cert) (seq := seq) hRealizeCert hAxisConstraints
+      cert.kernel_check cert.solve_check cert.axis_forces with
+    ⟨data, _hForcedEq, hp0, _hw⟩
+  have hp0Interior :
+      InFaceInterior Face.xp (vecRatToReal cert.cert.p0) := by
+    rw [← hp0]
+    rw [← hRealize.startsXp]
+    exact data.start_interior
+  have hnot :
+      ¬ InFaceInterior Face.xp (vecRatToReal cert.cert.p0) :=
+    not_inFaceInterior_of_not_strict
+      (f := Face.xp) (g := cert.badFace)
+      (p := vecRatToReal cert.cert.p0)
+      cert.badFace_ne_xp cert.badFace_violation
+  exact False.elim (hnot hp0Interior)
+
+end ObjectStartViolationMarginCert
+
+theorem nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
+    {Obj State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {rankOf : Obj -> Fin numPairWords}
+    {Accepts : Obj -> Prop}
+    {ContainsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (cover :
+      BellmanAxisRankObjectCover
+        Obj State Label V Step labelOfFace start const rankOf
+        Accepts ContainsRank scaledMargin)
+    (certOf :
+      forall obj, Accepts obj ->
+        ObjectStartViolationMarginCert
+          (rankOf obj) (scaledMargin (rankOf obj)))
+    {rank : Fin numPairWords}
+    (hrank : ContainsRank rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_object_cover_margin_positive
+    cover
+    (fun obj _seq hobj hRealize _hStart _hLinear hAxis =>
+      (certOf obj hobj).positive hRealize hAxis)
+    hrank
 
 end Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
