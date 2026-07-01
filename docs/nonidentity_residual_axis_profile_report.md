@@ -1574,6 +1574,39 @@ Axis-forced rank/sign bridge:
   membership smoke should instantiate this theorem for the sampled
   top-family rank/template before trying to generalize the whole family.
 
+Generated axis-forces-to-Bellman smoke:
+
+- Updated `scripts/emit_bellman_graph_smoke.py` so rank-facing graph smokes
+  import `Cuboctahedron.Search.AxisForcedRankLanguage`.
+- Regenerated
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`.
+- The generated theorem
+  `graphSmoke_cls0000_axis_forces_scaled_margin_nonpos` proves the Bellman
+  margin bound for any `seq` satisfying real semantic nonidentity evidence:
+  `SeqRealizesPairWord (unrankPairWord cls0000Rank) seq`,
+  `NonIdentityAxisConstraints seq`, a checked kernel-line witness, and
+  `AxisForcesForcedSeq (unrankPairWord cls0000Rank) axis cls0000FaceSeq`.
+  It derives the reusable `PairSignLanguageAtRank` fact via
+  `pairSignLanguageAtRank_of_axisForces`, then applies the existing pair/sign
+  Bellman theorem.
+- Focused checks passed:
+
+  ```bash
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Results: direct generated-file typecheck `0:06.23` wall time,
+  `3,797,744 kB` max RSS; Lake graph target `0:11.73` wall time,
+  `3,955,352 kB` max RSS.
+- Decision: accepted as a real semantic bridge smoke.  It is still tied to the
+  sampled `cls0000` rank/template, but the proof assumptions are now the
+  intended nonidentity axis-family assumptions rather than a toy pointwise
+  face-sequence equality.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

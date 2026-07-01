@@ -1,6 +1,6 @@
 import Cuboctahedron.Search.BellmanPotential
 import Cuboctahedron.Search.FaceLabelLanguage
-import Cuboctahedron.Search.RankFaceLabelLanguage
+import Cuboctahedron.Search.AxisForcedRankLanguage
 
 set_option maxRecDepth 4096
 
@@ -22247,6 +22247,23 @@ theorem graphSmoke_cls0000_pair_sign_language_scaled_margin_nonpos
     smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq seq) <= 0 :=
   graphSmoke_cls0000_seq_language_scaled_margin_nonpos
     seq (cls0000PairSignLanguage_same seq hseq)
+
+theorem graphSmoke_cls0000_axis_forces_scaled_margin_nonpos
+    (seq : Step14 -> Face) (axis : Vec3 Rat)
+    (kernel : KernelLineWitness)
+    (hRealize : SeqRealizesPairWord (unrankPairWord cls0000Rank) seq)
+    (hAxisConstraints : NonIdentityAxisConstraints seq)
+    (hKernel :
+      checkKernelLineWitness (totalLinearOfPairWord (unrankPairWord cls0000Rank))
+        axis kernel = true)
+    (hForces :
+      AxisForcesForcedSeq (unrankPairWord cls0000Rank)
+        axis cls0000FaceSeq) :
+    smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq seq) <= 0 :=
+  graphSmoke_cls0000_pair_sign_language_scaled_margin_nonpos
+    seq
+    (pairSignLanguageAtRank_of_axisForces
+      hRealize hAxisConstraints hKernel hForces)
 
 theorem graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos :
     smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq cls0000FaceSeq) <= 0 :=

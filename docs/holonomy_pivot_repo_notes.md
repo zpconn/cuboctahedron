@@ -604,6 +604,21 @@ Top margin+cancellation-pairing checkpoint:
   in `0:02.18` wall / `3,259,396 kB` max RSS.  This is the first direct
   nonidentity hook from semantic axis-family evidence into the Bellman
   face-label language surface.
+- Generated axis-forces-to-Bellman smoke status: the Bellman graph emitter now
+  imports `Cuboctahedron.Search.AxisForcedRankLanguage` for rank-facing smokes
+  and emits `graphSmoke_cls0000_axis_forces_scaled_margin_nonpos`.  The theorem
+  assumes `SeqRealizesPairWord (unrankPairWord cls0000Rank) seq`,
+  `NonIdentityAxisConstraints seq`, a checked kernel-line witness, and
+  `AxisForcesForcedSeq (unrankPairWord cls0000Rank) axis cls0000FaceSeq`; it
+  then applies `pairSignLanguageAtRank_of_axisForces` and the Bellman trie
+  margin theorem.  Focused checks passed:
+  `/usr/bin/time -v lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`
+  in `0:06.23` wall / `3,797,744 kB` max RSS and
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:11.73` wall / `3,955,352 kB` max RSS.  This is still one sampled
+  rank/template, but it is no longer a toy language assumption: it validates
+  the proof path from semantic nonidentity axis evidence to Bellman margin
+  nonpositivity.
 
 ## Explicit Non-Goals
 

@@ -269,7 +269,7 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "import Cuboctahedron.Search.FaceLabelLanguage",
     ]
     if can_emit_rank_sequence_bridge:
-        imports.append("import Cuboctahedron.Search.RankFaceLabelLanguage")
+        imports.append("import Cuboctahedron.Search.AxisForcedRankLanguage")
     lines: list[str] = [
         *imports,
         "",
@@ -1206,6 +1206,23 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
                 f"    smokeLabelStepTraceScaledMargin ({trace_of_seq_name} seq) <= 0 :=",
                 f"  graphSmoke_{obj_name}_seq_language_scaled_margin_nonpos",
                 f"    seq ({obj_name}PairSignLanguage_same seq hseq)",
+                "",
+                f"theorem graphSmoke_{obj_name}_axis_forces_scaled_margin_nonpos",
+                "    (seq : Step14 -> Face) (axis : Vec3 Rat)",
+                "    (kernel : KernelLineWitness)",
+                f"    (hRealize : SeqRealizesPairWord (unrankPairWord {rank_name}) seq)",
+                "    (hAxisConstraints : NonIdentityAxisConstraints seq)",
+                "    (hKernel :",
+                f"      checkKernelLineWitness (totalLinearOfPairWord (unrankPairWord {rank_name}))",
+                "        axis kernel = true)",
+                "    (hForces :",
+                f"      AxisForcesForcedSeq (unrankPairWord {rank_name})",
+                f"        axis {seq_name}) :",
+                f"    smokeLabelStepTraceScaledMargin ({trace_of_seq_name} seq) <= 0 :=",
+                f"  graphSmoke_{obj_name}_pair_sign_language_scaled_margin_nonpos",
+                "    seq",
+                "    (pairSignLanguageAtRank_of_axisForces",
+                "      hRealize hAxisConstraints hKernel hForces)",
                 "",
             ])
         lines.extend([

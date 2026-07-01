@@ -2288,6 +2288,24 @@ Bellman profiler prototype checkpoint:
   `0:02.18` wall / `3,259,396 kB` max RSS.  This converts an existing
   nonidentity soundness theorem into the Bellman language target and should be
   the hook used by the first real top-family membership smoke.
+- Generated axis-forces-to-Bellman smoke checkpoint: the graph emitter now
+  imports `Cuboctahedron.Search.AxisForcedRankLanguage` when rank bridges are
+  emitted and adds `graphSmoke_cls0000_axis_forces_scaled_margin_nonpos`.  The
+  theorem assumes real semantic nonidentity evidence for an arbitrary `seq`:
+  `SeqRealizesPairWord (unrankPairWord cls0000Rank) seq`,
+  `NonIdentityAxisConstraints seq`, a checked `KernelLineWitness`, and
+  `AxisForcesForcedSeq (unrankPairWord cls0000Rank) axis cls0000FaceSeq`.
+  It then derives `PairSignLanguageAtRank` through
+  `pairSignLanguageAtRank_of_axisForces` and applies the Bellman pair/sign
+  margin theorem.  Focused checks passed:
+  `/usr/bin/time -v lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`
+  in `0:06.23` wall / `3,797,744 kB` max RSS and
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:11.73` wall / `3,955,352 kB` max RSS.  Decision: accepted as the first
+  proof-shaped bridge from semantic nonidentity axis data to a Bellman
+  top-family margin bound.  It remains sampled to `cls0000`; the next frontier
+  is replacing the sampled forced sequence/rank with a generated family-level
+  predicate covering all members of the top holonomy/cancellation family.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
