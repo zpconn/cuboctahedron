@@ -1367,6 +1367,38 @@ Shared-prefix composed-run smoke:
   reusable subruns and compose them, rather than replaying a whole constructor
   chain for every complete word.
 
+Prefix-trie Bellman smoke:
+
+- The graph emitter now builds a label-prefix trie over the 37 observed
+  top-family label classes.
+- Trie compression:
+
+  | quantity | count |
+  | --- | ---: |
+  | observed classes | 37 |
+  | raw observed step occurrences | 518 |
+  | trie nodes including root | 270 |
+  | trie transition nodes | 269 |
+  | reused step occurrences | 249 |
+
+- Every non-root trie node is proved by appending its parent
+  `BellmanLabelStepRun` to a one-step run.  Each observed class points to its
+  terminal trie node through `smokeObservedTrieLabelStepRunLanguageBound`, and
+  the exported smoke theorem is
+  `graphSmoke_observed_trie_label_step_run_scaled_margin_nonpos`.
+- Focused build passed:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Result: `0:08.69` wall time, `3,918,384 kB` max RSS.
+- Decision: accepted as the strongest current Bellman state-language smoke.
+  It is still bounded observed evidence, but it validates a production-shaped
+  pattern: shared semantic prefix/state runs can be checked cheaply and reused
+  by many accepted words/classes.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

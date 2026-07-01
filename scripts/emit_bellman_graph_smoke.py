@@ -142,6 +142,64 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
     common_prefix_gain_scaled = sum(
         int(edges[idx]["gain_scaled"]) for idx in common_prefix_edges
     )
+    trie_nodes: list[dict[str, int | None]] = [
+        {"parent": None, "edge": None, "label": None, "state": int(roots[0])}
+    ]
+    trie_children: list[dict[tuple[int, int], int]] = [dict()]
+    for obj in path_objects:
+        node = 0
+        for edge_idx, label_idx in zip(obj["edge_indices"], obj["label_indices"]):
+            pair = (int(edge_idx), int(label_idx))
+            child = trie_children[node].get(pair)
+            if child is None:
+                child = len(trie_nodes)
+                trie_children[node][pair] = child
+                trie_nodes.append(
+                    {
+                        "parent": node,
+                        "edge": int(edge_idx),
+                        "label": int(label_idx),
+                        "state": int(edges[int(edge_idx)]["dst"]),
+                    }
+                )
+                trie_children.append(dict())
+            node = child
+        obj["trie_node"] = node
+
+    def trie_node_name(index: int) -> str:
+        return f"trieNode{index:04d}"
+
+    def trie_node_state_name(index: int) -> str:
+        return f"{trie_node_name(index)}State"
+
+    def trie_node_labels_name(index: int) -> str:
+        return f"{trie_node_name(index)}Labels"
+
+    def trie_node_gain_name(index: int) -> str:
+        return f"{trie_node_name(index)}Gain"
+
+    def trie_node_step_labels_name(index: int) -> str:
+        return f"{trie_node_name(index)}StepLabels"
+
+    def trie_node_step_gain_name(index: int) -> str:
+        return f"{trie_node_name(index)}StepGain"
+
+    def trie_node_run_name(index: int) -> str:
+        return f"{trie_node_name(index)}Run"
+
+    def trie_node_step_run_name(index: int) -> str:
+        return f"{trie_node_name(index)}StepRun"
+
+    def trie_ancestors(index: int) -> list[int]:
+        out: list[int] = []
+        while index != 0:
+            out.append(index)
+            parent = trie_nodes[index]["parent"]
+            assert parent is not None
+            index = int(parent)
+        out.append(0)
+        out.reverse()
+        return out
 
     lines: list[str] = [
         "import Cuboctahedron.Search.BellmanPotential",
@@ -495,6 +553,50 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         f"  exact BellmanLabelStepRun.nil {state_ctor(common_prefix_final)}",
         "",
     ])
+    lines.extend([
+        f"-- label-prefix trie nodes, including root: {len(trie_nodes)}",
+        f"private def {trie_node_state_name(0)} : State := rootState",
+        f"private def {trie_node_labels_name(0)} : List SmokeLabel := []",
+        f"private def {trie_node_gain_name(0)} : Int := 0",
+        f"private theorem {trie_node_run_name(0)} :",
+        f"    BellmanLabelStepRun SmokeStep rootState {trie_node_state_name(0)}",
+        f"      {trie_node_labels_name(0)} {trie_node_gain_name(0)} := by",
+        f"  unfold {trie_node_state_name(0)} {trie_node_labels_name(0)} {trie_node_gain_name(0)}",
+        "  exact BellmanLabelStepRun.nil rootState",
+        "",
+    ])
+    for node_idx, node in enumerate(trie_nodes[1:], start=1):
+        parent = int(node["parent"])  # type: ignore[arg-type]
+        edge_idx = int(node["edge"])  # type: ignore[arg-type]
+        label_idx = int(node["label"])  # type: ignore[arg-type]
+        edge = edge_name(edge_idx)
+        step_case = edge_label_step_ctor[(edge_idx, label_idx)]
+        lines.extend([
+            f"private def {trie_node_state_name(node_idx)} : State := {edge}.dst",
+            f"private def {trie_node_step_labels_name(node_idx)} : List SmokeLabel :=",
+            f"  [{label_ctor(label_idx)}]",
+            f"private def {trie_node_step_gain_name(node_idx)} : Int := {edge}.gain + (0)",
+            f"private def {trie_node_labels_name(node_idx)} : List SmokeLabel :=",
+            f"  {trie_node_labels_name(parent)} ++ {trie_node_step_labels_name(node_idx)}",
+            f"private def {trie_node_gain_name(node_idx)} : Int :=",
+            f"  {trie_node_gain_name(parent)} + {trie_node_step_gain_name(node_idx)}",
+            "",
+            f"private theorem {trie_node_step_run_name(node_idx)} :",
+            f"    BellmanLabelStepRun SmokeStep {trie_node_state_name(parent)} {trie_node_state_name(node_idx)}",
+            f"      {trie_node_step_labels_name(node_idx)} {trie_node_step_gain_name(node_idx)} := by",
+            f"  unfold {trie_node_state_name(parent)} {trie_node_state_name(node_idx)}",
+            f"  unfold {trie_node_step_labels_name(node_idx)} {trie_node_step_gain_name(node_idx)}",
+            "  apply BellmanLabelStepRun.cons",
+            f"  · exact {step_case}",
+            f"  exact BellmanLabelStepRun.nil {trie_node_state_name(node_idx)}",
+            "",
+            f"private theorem {trie_node_run_name(node_idx)} :",
+            f"    BellmanLabelStepRun SmokeStep rootState {trie_node_state_name(node_idx)}",
+            f"      {trie_node_labels_name(node_idx)} {trie_node_gain_name(node_idx)} := by",
+            f"  unfold {trie_node_labels_name(node_idx)} {trie_node_gain_name(node_idx)}",
+            f"  exact BellmanLabelStepRun.append {trie_node_run_name(parent)} {trie_node_step_run_name(node_idx)}",
+            "",
+        ])
     for obj in path_objects:
         obj_name = obj["name"]
         edge_indices = obj["edge_indices"]
@@ -621,6 +723,25 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             f"  change ({obj['margin_scaled']} : Int) <= {const_scaled + gain_scaled}",
             "  decide",
             "",
+            f"private theorem {obj_name}TrieFinal_nonneg :",
+            f"    0 <= graphPotential {trie_node_state_name(int(obj['trie_node']))} := by",
+            f"  unfold {trie_node_state_name(int(obj['trie_node']))}",
+            "  decide",
+            "",
+            f"private theorem {obj_name}TrieMargin_bound_gain :",
+            f"    smokeScaledMargin SmokeObj.{obj_name} <= ({const_scaled} : Int) + {trie_node_gain_name(int(obj['trie_node']))} := by",
+        ])
+        ancestors = trie_ancestors(int(obj["trie_node"]))
+        unfold_names: list[str] = []
+        for ancestor in reversed(ancestors):
+            unfold_names.append(trie_node_gain_name(ancestor))
+            if ancestor != 0:
+                unfold_names.append(trie_node_step_gain_name(ancestor))
+        lines.extend([
+            "  unfold " + " ".join(unfold_names),
+            f"  change ({obj['margin_scaled']} : Int) <= {const_scaled + gain_scaled}",
+            "  decide",
+            "",
             f"private theorem {obj_name}Margin_bound_gain :",
             f"    smokeScaledMargin SmokeObj.{obj_name} <= ({const_scaled} : Int) + {obj_name}Gain := by",
             f"  unfold {obj_name}Gain",
@@ -719,6 +840,12 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         lines.append(f"  | SmokeObj.{obj['name']} => {obj['name']}ComposedLabels")
     lines.extend([
         "",
+        "private def smokeObjTrieLabels : SmokeObj -> List SmokeLabel",
+    ])
+    for obj in path_objects:
+        lines.append(f"  | SmokeObj.{obj['name']} => {trie_node_labels_name(int(obj['trie_node']))}")
+    lines.extend([
+        "",
         "private theorem smokeObservedLabeledRunLanguageBound :",
         "    BellmanLabeledRunLanguageBound",
         "      graphPotential GraphEdge SmokeEdgeLabel rootState",
@@ -803,6 +930,35 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "    (fun _ _ _ _ h => SmokeStep.valid h)",
         "    root_bound",
         "    smokeObservedComposedLabelStepRunLanguageBound",
+        "",
+        "private theorem smokeObservedTrieLabelStepRunLanguageBound :",
+        "    BellmanLabelStepRunLanguageBound",
+        "      graphPotential SmokeStep rootState",
+        f"      ({const_scaled} : Int) smokeScaledMargin smokeObjTrieLabels smokeAccepts := by",
+        "  intro obj _hobj",
+        "  cases obj",
+    ])
+    for obj in path_objects:
+        obj_name = obj["name"]
+        trie_node = int(obj["trie_node"])
+        lines.extend([
+            f"  · exact ⟨{trie_node_state_name(trie_node)}, {trie_node_gain_name(trie_node)},",
+            f"      {trie_node_run_name(trie_node)}, {obj_name}TrieFinal_nonneg,",
+            f"      {obj_name}TrieMargin_bound_gain⟩",
+        ])
+    lines.extend([
+        "",
+        "theorem graphSmoke_observed_trie_label_step_run_scaled_margin_nonpos :",
+        "    forall obj : SmokeObj, smokeAccepts obj -> smokeScaledMargin obj <= 0 :=",
+        "  scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound",
+        "    (V := graphPotential)",
+        "    (Step := SmokeStep)",
+        "    (start := rootState)",
+        f"    (const := {const_scaled})",
+        "    (wordOf := smokeObjTrieLabels)",
+        "    (fun _ _ _ _ h => SmokeStep.valid h)",
+        "    root_bound",
+        "    smokeObservedTrieLabelStepRunLanguageBound",
         "",
         "theorem graphSmoke_argmax_object_scaled_margin_nonpos :",
         "    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=",

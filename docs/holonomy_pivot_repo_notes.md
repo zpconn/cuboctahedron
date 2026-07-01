@@ -512,6 +512,17 @@ Top margin+cancellation-pairing checkpoint:
   wall time with `3,750,340 kB` max RSS.  This is still bounded smoke, but it
   validates the intended cancellation-summary style: reusable subruns first,
   full runs by composition.
+- Prefix-trie status: the same generated smoke now builds a semantic
+  label-prefix trie for the 37 observed top-family classes.  It compresses
+  `518` raw observed step occurrences to `269` non-root trie nodes (`270`
+  nodes including the root), proves each node by appending its parent
+  `BellmanLabelStepRun` to a one-step run, and routes every observed class
+  through `smokeObservedTrieLabelStepRunLanguageBound` to
+  `graphSmoke_observed_trie_label_step_run_scaled_margin_nonpos`.  The focused
+  graph smoke passed in `0:08.69` wall time with `3,918,384 kB` max RSS.  This
+  is still bounded observed evidence, but it is the strongest current
+  state-language proof shape: shared semantic prefix/state runs should be
+  generated and reused, rather than one constructor chain per word/path class.
 
 ## Explicit Non-Goals
 

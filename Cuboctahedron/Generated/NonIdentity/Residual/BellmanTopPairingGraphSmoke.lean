@@ -7093,6 +7093,6472 @@ private theorem commonPrefixLabelStepRun :
   · exact SmokeStep.e0124
   exact BellmanLabelStepRun.nil State.s0143
 
+-- label-prefix trie nodes, including root: 270
+private def trieNode0000State : State := rootState
+private def trieNode0000Labels : List SmokeLabel := []
+private def trieNode0000Gain : Int := 0
+private theorem trieNode0000Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0000State
+      trieNode0000Labels trieNode0000Gain := by
+  unfold trieNode0000State trieNode0000Labels trieNode0000Gain
+  exact BellmanLabelStepRun.nil rootState
+
+private def trieNode0001State : State := edge0000.dst
+private def trieNode0001StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0008]
+private def trieNode0001StepGain : Int := edge0000.gain + (0)
+private def trieNode0001Labels : List SmokeLabel :=
+  trieNode0000Labels ++ trieNode0001StepLabels
+private def trieNode0001Gain : Int :=
+  trieNode0000Gain + trieNode0001StepGain
+
+private theorem trieNode0001StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0000State trieNode0001State
+      trieNode0001StepLabels trieNode0001StepGain := by
+  unfold trieNode0000State trieNode0001State
+  unfold trieNode0001StepLabels trieNode0001StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  exact BellmanLabelStepRun.nil trieNode0001State
+
+private theorem trieNode0001Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0001State
+      trieNode0001Labels trieNode0001Gain := by
+  unfold trieNode0001Labels trieNode0001Gain
+  exact BellmanLabelStepRun.append trieNode0000Run trieNode0001StepRun
+
+private def trieNode0002State : State := edge0124.dst
+private def trieNode0002StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0010]
+private def trieNode0002StepGain : Int := edge0124.gain + (0)
+private def trieNode0002Labels : List SmokeLabel :=
+  trieNode0001Labels ++ trieNode0002StepLabels
+private def trieNode0002Gain : Int :=
+  trieNode0001Gain + trieNode0002StepGain
+
+private theorem trieNode0002StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0001State trieNode0002State
+      trieNode0002StepLabels trieNode0002StepGain := by
+  unfold trieNode0001State trieNode0002State
+  unfold trieNode0002StepLabels trieNode0002StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  exact BellmanLabelStepRun.nil trieNode0002State
+
+private theorem trieNode0002Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0002State
+      trieNode0002Labels trieNode0002Gain := by
+  unfold trieNode0002Labels trieNode0002Gain
+  exact BellmanLabelStepRun.append trieNode0001Run trieNode0002StepRun
+
+private def trieNode0003State : State := edge0125.dst
+private def trieNode0003StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0003StepGain : Int := edge0125.gain + (0)
+private def trieNode0003Labels : List SmokeLabel :=
+  trieNode0002Labels ++ trieNode0003StepLabels
+private def trieNode0003Gain : Int :=
+  trieNode0002Gain + trieNode0003StepGain
+
+private theorem trieNode0003StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0002State trieNode0003State
+      trieNode0003StepLabels trieNode0003StepGain := by
+  unfold trieNode0002State trieNode0003State
+  unfold trieNode0003StepLabels trieNode0003StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  exact BellmanLabelStepRun.nil trieNode0003State
+
+private theorem trieNode0003Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0003State
+      trieNode0003Labels trieNode0003Gain := by
+  unfold trieNode0003Labels trieNode0003Gain
+  exact BellmanLabelStepRun.append trieNode0002Run trieNode0003StepRun
+
+private def trieNode0004State : State := edge0128.dst
+private def trieNode0004StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0004StepGain : Int := edge0128.gain + (0)
+private def trieNode0004Labels : List SmokeLabel :=
+  trieNode0003Labels ++ trieNode0004StepLabels
+private def trieNode0004Gain : Int :=
+  trieNode0003Gain + trieNode0004StepGain
+
+private theorem trieNode0004StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0003State trieNode0004State
+      trieNode0004StepLabels trieNode0004StepGain := by
+  unfold trieNode0003State trieNode0004State
+  unfold trieNode0004StepLabels trieNode0004StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0128
+  exact BellmanLabelStepRun.nil trieNode0004State
+
+private theorem trieNode0004Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0004State
+      trieNode0004Labels trieNode0004Gain := by
+  unfold trieNode0004Labels trieNode0004Gain
+  exact BellmanLabelStepRun.append trieNode0003Run trieNode0004StepRun
+
+private def trieNode0005State : State := edge0135.dst
+private def trieNode0005StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0005StepGain : Int := edge0135.gain + (0)
+private def trieNode0005Labels : List SmokeLabel :=
+  trieNode0004Labels ++ trieNode0005StepLabels
+private def trieNode0005Gain : Int :=
+  trieNode0004Gain + trieNode0005StepGain
+
+private theorem trieNode0005StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0004State trieNode0005State
+      trieNode0005StepLabels trieNode0005StepGain := by
+  unfold trieNode0004State trieNode0005State
+  unfold trieNode0005StepLabels trieNode0005StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0135
+  exact BellmanLabelStepRun.nil trieNode0005State
+
+private theorem trieNode0005Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0005State
+      trieNode0005Labels trieNode0005Gain := by
+  unfold trieNode0005Labels trieNode0005Gain
+  exact BellmanLabelStepRun.append trieNode0004Run trieNode0005StepRun
+
+private def trieNode0006State : State := edge0145.dst
+private def trieNode0006StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0006StepGain : Int := edge0145.gain + (0)
+private def trieNode0006Labels : List SmokeLabel :=
+  trieNode0005Labels ++ trieNode0006StepLabels
+private def trieNode0006Gain : Int :=
+  trieNode0005Gain + trieNode0006StepGain
+
+private theorem trieNode0006StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0005State trieNode0006State
+      trieNode0006StepLabels trieNode0006StepGain := by
+  unfold trieNode0005State trieNode0006State
+  unfold trieNode0006StepLabels trieNode0006StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0145
+  exact BellmanLabelStepRun.nil trieNode0006State
+
+private theorem trieNode0006Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0006State
+      trieNode0006Labels trieNode0006Gain := by
+  unfold trieNode0006Labels trieNode0006Gain
+  exact BellmanLabelStepRun.append trieNode0005Run trieNode0006StepRun
+
+private def trieNode0007State : State := edge0158.dst
+private def trieNode0007StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0007StepGain : Int := edge0158.gain + (0)
+private def trieNode0007Labels : List SmokeLabel :=
+  trieNode0006Labels ++ trieNode0007StepLabels
+private def trieNode0007Gain : Int :=
+  trieNode0006Gain + trieNode0007StepGain
+
+private theorem trieNode0007StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0006State trieNode0007State
+      trieNode0007StepLabels trieNode0007StepGain := by
+  unfold trieNode0006State trieNode0007State
+  unfold trieNode0007StepLabels trieNode0007StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0158
+  exact BellmanLabelStepRun.nil trieNode0007State
+
+private theorem trieNode0007Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0007State
+      trieNode0007Labels trieNode0007Gain := by
+  unfold trieNode0007Labels trieNode0007Gain
+  exact BellmanLabelStepRun.append trieNode0006Run trieNode0007StepRun
+
+private def trieNode0008State : State := edge0173.dst
+private def trieNode0008StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0008StepGain : Int := edge0173.gain + (0)
+private def trieNode0008Labels : List SmokeLabel :=
+  trieNode0007Labels ++ trieNode0008StepLabels
+private def trieNode0008Gain : Int :=
+  trieNode0007Gain + trieNode0008StepGain
+
+private theorem trieNode0008StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0007State trieNode0008State
+      trieNode0008StepLabels trieNode0008StepGain := by
+  unfold trieNode0007State trieNode0008State
+  unfold trieNode0008StepLabels trieNode0008StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0173
+  exact BellmanLabelStepRun.nil trieNode0008State
+
+private theorem trieNode0008Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0008State
+      trieNode0008Labels trieNode0008Gain := by
+  unfold trieNode0008Labels trieNode0008Gain
+  exact BellmanLabelStepRun.append trieNode0007Run trieNode0008StepRun
+
+private def trieNode0009State : State := edge0190.dst
+private def trieNode0009StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0009StepGain : Int := edge0190.gain + (0)
+private def trieNode0009Labels : List SmokeLabel :=
+  trieNode0008Labels ++ trieNode0009StepLabels
+private def trieNode0009Gain : Int :=
+  trieNode0008Gain + trieNode0009StepGain
+
+private theorem trieNode0009StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0008State trieNode0009State
+      trieNode0009StepLabels trieNode0009StepGain := by
+  unfold trieNode0008State trieNode0009State
+  unfold trieNode0009StepLabels trieNode0009StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0190
+  exact BellmanLabelStepRun.nil trieNode0009State
+
+private theorem trieNode0009Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0009State
+      trieNode0009Labels trieNode0009Gain := by
+  unfold trieNode0009Labels trieNode0009Gain
+  exact BellmanLabelStepRun.append trieNode0008Run trieNode0009StepRun
+
+private def trieNode0010State : State := edge0210.dst
+private def trieNode0010StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0010StepGain : Int := edge0210.gain + (0)
+private def trieNode0010Labels : List SmokeLabel :=
+  trieNode0009Labels ++ trieNode0010StepLabels
+private def trieNode0010Gain : Int :=
+  trieNode0009Gain + trieNode0010StepGain
+
+private theorem trieNode0010StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0009State trieNode0010State
+      trieNode0010StepLabels trieNode0010StepGain := by
+  unfold trieNode0009State trieNode0010State
+  unfold trieNode0010StepLabels trieNode0010StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0210
+  exact BellmanLabelStepRun.nil trieNode0010State
+
+private theorem trieNode0010Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0010State
+      trieNode0010Labels trieNode0010Gain := by
+  unfold trieNode0010Labels trieNode0010Gain
+  exact BellmanLabelStepRun.append trieNode0009Run trieNode0010StepRun
+
+private def trieNode0011State : State := edge0006.dst
+private def trieNode0011StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0011StepGain : Int := edge0006.gain + (0)
+private def trieNode0011Labels : List SmokeLabel :=
+  trieNode0010Labels ++ trieNode0011StepLabels
+private def trieNode0011Gain : Int :=
+  trieNode0010Gain + trieNode0011StepGain
+
+private theorem trieNode0011StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0010State trieNode0011State
+      trieNode0011StepLabels trieNode0011StepGain := by
+  unfold trieNode0010State trieNode0011State
+  unfold trieNode0011StepLabels trieNode0011StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0006
+  exact BellmanLabelStepRun.nil trieNode0011State
+
+private theorem trieNode0011Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0011State
+      trieNode0011Labels trieNode0011Gain := by
+  unfold trieNode0011Labels trieNode0011Gain
+  exact BellmanLabelStepRun.append trieNode0010Run trieNode0011StepRun
+
+private def trieNode0012State : State := edge0045.dst
+private def trieNode0012StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0012StepGain : Int := edge0045.gain + (0)
+private def trieNode0012Labels : List SmokeLabel :=
+  trieNode0011Labels ++ trieNode0012StepLabels
+private def trieNode0012Gain : Int :=
+  trieNode0011Gain + trieNode0012StepGain
+
+private theorem trieNode0012StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0011State trieNode0012State
+      trieNode0012StepLabels trieNode0012StepGain := by
+  unfold trieNode0011State trieNode0012State
+  unfold trieNode0012StepLabels trieNode0012StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0045
+  exact BellmanLabelStepRun.nil trieNode0012State
+
+private theorem trieNode0012Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0012State
+      trieNode0012Labels trieNode0012Gain := by
+  unfold trieNode0012Labels trieNode0012Gain
+  exact BellmanLabelStepRun.append trieNode0011Run trieNode0012StepRun
+
+private def trieNode0013State : State := edge0080.dst
+private def trieNode0013StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0013StepGain : Int := edge0080.gain + (0)
+private def trieNode0013Labels : List SmokeLabel :=
+  trieNode0012Labels ++ trieNode0013StepLabels
+private def trieNode0013Gain : Int :=
+  trieNode0012Gain + trieNode0013StepGain
+
+private theorem trieNode0013StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0012State trieNode0013State
+      trieNode0013StepLabels trieNode0013StepGain := by
+  unfold trieNode0012State trieNode0013State
+  unfold trieNode0013StepLabels trieNode0013StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0080
+  exact BellmanLabelStepRun.nil trieNode0013State
+
+private theorem trieNode0013Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0013State
+      trieNode0013Labels trieNode0013Gain := by
+  unfold trieNode0013Labels trieNode0013Gain
+  exact BellmanLabelStepRun.append trieNode0012Run trieNode0013StepRun
+
+private def trieNode0014State : State := edge0123.dst
+private def trieNode0014StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0014StepGain : Int := edge0123.gain + (0)
+private def trieNode0014Labels : List SmokeLabel :=
+  trieNode0013Labels ++ trieNode0014StepLabels
+private def trieNode0014Gain : Int :=
+  trieNode0013Gain + trieNode0014StepGain
+
+private theorem trieNode0014StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0013State trieNode0014State
+      trieNode0014StepLabels trieNode0014StepGain := by
+  unfold trieNode0013State trieNode0014State
+  unfold trieNode0014StepLabels trieNode0014StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0123
+  exact BellmanLabelStepRun.nil trieNode0014State
+
+private theorem trieNode0014Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0014State
+      trieNode0014Labels trieNode0014Gain := by
+  unfold trieNode0014Labels trieNode0014Gain
+  exact BellmanLabelStepRun.append trieNode0013Run trieNode0014StepRun
+
+private def trieNode0015State : State := edge0136.dst
+private def trieNode0015StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0015StepGain : Int := edge0136.gain + (0)
+private def trieNode0015Labels : List SmokeLabel :=
+  trieNode0004Labels ++ trieNode0015StepLabels
+private def trieNode0015Gain : Int :=
+  trieNode0004Gain + trieNode0015StepGain
+
+private theorem trieNode0015StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0004State trieNode0015State
+      trieNode0015StepLabels trieNode0015StepGain := by
+  unfold trieNode0004State trieNode0015State
+  unfold trieNode0015StepLabels trieNode0015StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0136
+  exact BellmanLabelStepRun.nil trieNode0015State
+
+private theorem trieNode0015Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0015State
+      trieNode0015Labels trieNode0015Gain := by
+  unfold trieNode0015Labels trieNode0015Gain
+  exact BellmanLabelStepRun.append trieNode0004Run trieNode0015StepRun
+
+private def trieNode0016State : State := edge0148.dst
+private def trieNode0016StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0016StepGain : Int := edge0148.gain + (0)
+private def trieNode0016Labels : List SmokeLabel :=
+  trieNode0015Labels ++ trieNode0016StepLabels
+private def trieNode0016Gain : Int :=
+  trieNode0015Gain + trieNode0016StepGain
+
+private theorem trieNode0016StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0015State trieNode0016State
+      trieNode0016StepLabels trieNode0016StepGain := by
+  unfold trieNode0015State trieNode0016State
+  unfold trieNode0016StepLabels trieNode0016StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0148
+  exact BellmanLabelStepRun.nil trieNode0016State
+
+private theorem trieNode0016Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0016State
+      trieNode0016Labels trieNode0016Gain := by
+  unfold trieNode0016Labels trieNode0016Gain
+  exact BellmanLabelStepRun.append trieNode0015Run trieNode0016StepRun
+
+private def trieNode0017State : State := edge0161.dst
+private def trieNode0017StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0017StepGain : Int := edge0161.gain + (0)
+private def trieNode0017Labels : List SmokeLabel :=
+  trieNode0016Labels ++ trieNode0017StepLabels
+private def trieNode0017Gain : Int :=
+  trieNode0016Gain + trieNode0017StepGain
+
+private theorem trieNode0017StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0016State trieNode0017State
+      trieNode0017StepLabels trieNode0017StepGain := by
+  unfold trieNode0016State trieNode0017State
+  unfold trieNode0017StepLabels trieNode0017StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0161
+  exact BellmanLabelStepRun.nil trieNode0017State
+
+private theorem trieNode0017Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0017State
+      trieNode0017Labels trieNode0017Gain := by
+  unfold trieNode0017Labels trieNode0017Gain
+  exact BellmanLabelStepRun.append trieNode0016Run trieNode0017StepRun
+
+private def trieNode0018State : State := edge0175.dst
+private def trieNode0018StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0018StepGain : Int := edge0175.gain + (0)
+private def trieNode0018Labels : List SmokeLabel :=
+  trieNode0017Labels ++ trieNode0018StepLabels
+private def trieNode0018Gain : Int :=
+  trieNode0017Gain + trieNode0018StepGain
+
+private theorem trieNode0018StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0017State trieNode0018State
+      trieNode0018StepLabels trieNode0018StepGain := by
+  unfold trieNode0017State trieNode0018State
+  unfold trieNode0018StepLabels trieNode0018StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0175
+  exact BellmanLabelStepRun.nil trieNode0018State
+
+private theorem trieNode0018Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0018State
+      trieNode0018Labels trieNode0018Gain := by
+  unfold trieNode0018Labels trieNode0018Gain
+  exact BellmanLabelStepRun.append trieNode0017Run trieNode0018StepRun
+
+private def trieNode0019State : State := edge0193.dst
+private def trieNode0019StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0019StepGain : Int := edge0193.gain + (0)
+private def trieNode0019Labels : List SmokeLabel :=
+  trieNode0018Labels ++ trieNode0019StepLabels
+private def trieNode0019Gain : Int :=
+  trieNode0018Gain + trieNode0019StepGain
+
+private theorem trieNode0019StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0018State trieNode0019State
+      trieNode0019StepLabels trieNode0019StepGain := by
+  unfold trieNode0018State trieNode0019State
+  unfold trieNode0019StepLabels trieNode0019StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0193
+  exact BellmanLabelStepRun.nil trieNode0019State
+
+private theorem trieNode0019Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0019State
+      trieNode0019Labels trieNode0019Gain := by
+  unfold trieNode0019Labels trieNode0019Gain
+  exact BellmanLabelStepRun.append trieNode0018Run trieNode0019StepRun
+
+private def trieNode0020State : State := edge0213.dst
+private def trieNode0020StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0020StepGain : Int := edge0213.gain + (0)
+private def trieNode0020Labels : List SmokeLabel :=
+  trieNode0019Labels ++ trieNode0020StepLabels
+private def trieNode0020Gain : Int :=
+  trieNode0019Gain + trieNode0020StepGain
+
+private theorem trieNode0020StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0019State trieNode0020State
+      trieNode0020StepLabels trieNode0020StepGain := by
+  unfold trieNode0019State trieNode0020State
+  unfold trieNode0020StepLabels trieNode0020StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0213
+  exact BellmanLabelStepRun.nil trieNode0020State
+
+private theorem trieNode0020Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0020State
+      trieNode0020Labels trieNode0020Gain := by
+  unfold trieNode0020Labels trieNode0020Gain
+  exact BellmanLabelStepRun.append trieNode0019Run trieNode0020StepRun
+
+private def trieNode0021State : State := edge0011.dst
+private def trieNode0021StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0021StepGain : Int := edge0011.gain + (0)
+private def trieNode0021Labels : List SmokeLabel :=
+  trieNode0020Labels ++ trieNode0021StepLabels
+private def trieNode0021Gain : Int :=
+  trieNode0020Gain + trieNode0021StepGain
+
+private theorem trieNode0021StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0020State trieNode0021State
+      trieNode0021StepLabels trieNode0021StepGain := by
+  unfold trieNode0020State trieNode0021State
+  unfold trieNode0021StepLabels trieNode0021StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0011
+  exact BellmanLabelStepRun.nil trieNode0021State
+
+private theorem trieNode0021Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0021State
+      trieNode0021Labels trieNode0021Gain := by
+  unfold trieNode0021Labels trieNode0021Gain
+  exact BellmanLabelStepRun.append trieNode0020Run trieNode0021StepRun
+
+private def trieNode0022State : State := edge0050.dst
+private def trieNode0022StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0022StepGain : Int := edge0050.gain + (0)
+private def trieNode0022Labels : List SmokeLabel :=
+  trieNode0021Labels ++ trieNode0022StepLabels
+private def trieNode0022Gain : Int :=
+  trieNode0021Gain + trieNode0022StepGain
+
+private theorem trieNode0022StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0021State trieNode0022State
+      trieNode0022StepLabels trieNode0022StepGain := by
+  unfold trieNode0021State trieNode0022State
+  unfold trieNode0022StepLabels trieNode0022StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0050
+  exact BellmanLabelStepRun.nil trieNode0022State
+
+private theorem trieNode0022Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0022State
+      trieNode0022Labels trieNode0022Gain := by
+  unfold trieNode0022Labels trieNode0022Gain
+  exact BellmanLabelStepRun.append trieNode0021Run trieNode0022StepRun
+
+private def trieNode0023State : State := edge0086.dst
+private def trieNode0023StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0023StepGain : Int := edge0086.gain + (0)
+private def trieNode0023Labels : List SmokeLabel :=
+  trieNode0022Labels ++ trieNode0023StepLabels
+private def trieNode0023Gain : Int :=
+  trieNode0022Gain + trieNode0023StepGain
+
+private theorem trieNode0023StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0022State trieNode0023State
+      trieNode0023StepLabels trieNode0023StepGain := by
+  unfold trieNode0022State trieNode0023State
+  unfold trieNode0023StepLabels trieNode0023StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0086
+  exact BellmanLabelStepRun.nil trieNode0023State
+
+private theorem trieNode0023Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0023State
+      trieNode0023Labels trieNode0023Gain := by
+  unfold trieNode0023Labels trieNode0023Gain
+  exact BellmanLabelStepRun.append trieNode0022Run trieNode0023StepRun
+
+private def trieNode0024State : State := edge0120.dst
+private def trieNode0024StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0024StepGain : Int := edge0120.gain + (0)
+private def trieNode0024Labels : List SmokeLabel :=
+  trieNode0023Labels ++ trieNode0024StepLabels
+private def trieNode0024Gain : Int :=
+  trieNode0023Gain + trieNode0024StepGain
+
+private theorem trieNode0024StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0023State trieNode0024State
+      trieNode0024StepLabels trieNode0024StepGain := by
+  unfold trieNode0023State trieNode0024State
+  unfold trieNode0024StepLabels trieNode0024StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0120
+  exact BellmanLabelStepRun.nil trieNode0024State
+
+private theorem trieNode0024Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0024State
+      trieNode0024Labels trieNode0024Gain := by
+  unfold trieNode0024Labels trieNode0024Gain
+  exact BellmanLabelStepRun.append trieNode0023Run trieNode0024StepRun
+
+private def trieNode0025State : State := edge0129.dst
+private def trieNode0025StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0025StepGain : Int := edge0129.gain + (0)
+private def trieNode0025Labels : List SmokeLabel :=
+  trieNode0003Labels ++ trieNode0025StepLabels
+private def trieNode0025Gain : Int :=
+  trieNode0003Gain + trieNode0025StepGain
+
+private theorem trieNode0025StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0003State trieNode0025State
+      trieNode0025StepLabels trieNode0025StepGain := by
+  unfold trieNode0003State trieNode0025State
+  unfold trieNode0025StepLabels trieNode0025StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  exact BellmanLabelStepRun.nil trieNode0025State
+
+private theorem trieNode0025Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0025State
+      trieNode0025Labels trieNode0025Gain := by
+  unfold trieNode0025Labels trieNode0025Gain
+  exact BellmanLabelStepRun.append trieNode0003Run trieNode0025StepRun
+
+private def trieNode0026State : State := edge0137.dst
+private def trieNode0026StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0026StepGain : Int := edge0137.gain + (0)
+private def trieNode0026Labels : List SmokeLabel :=
+  trieNode0025Labels ++ trieNode0026StepLabels
+private def trieNode0026Gain : Int :=
+  trieNode0025Gain + trieNode0026StepGain
+
+private theorem trieNode0026StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0025State trieNode0026State
+      trieNode0026StepLabels trieNode0026StepGain := by
+  unfold trieNode0025State trieNode0026State
+  unfold trieNode0026StepLabels trieNode0026StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0137
+  exact BellmanLabelStepRun.nil trieNode0026State
+
+private theorem trieNode0026Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0026State
+      trieNode0026Labels trieNode0026Gain := by
+  unfold trieNode0026Labels trieNode0026Gain
+  exact BellmanLabelStepRun.append trieNode0025Run trieNode0026StepRun
+
+private def trieNode0027State : State := edge0146.dst
+private def trieNode0027StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0027StepGain : Int := edge0146.gain + (0)
+private def trieNode0027Labels : List SmokeLabel :=
+  trieNode0026Labels ++ trieNode0027StepLabels
+private def trieNode0027Gain : Int :=
+  trieNode0026Gain + trieNode0027StepGain
+
+private theorem trieNode0027StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0026State trieNode0027State
+      trieNode0027StepLabels trieNode0027StepGain := by
+  unfold trieNode0026State trieNode0027State
+  unfold trieNode0027StepLabels trieNode0027StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0146
+  exact BellmanLabelStepRun.nil trieNode0027State
+
+private theorem trieNode0027Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0027State
+      trieNode0027Labels trieNode0027Gain := by
+  unfold trieNode0027Labels trieNode0027Gain
+  exact BellmanLabelStepRun.append trieNode0026Run trieNode0027StepRun
+
+private def trieNode0028State : State := edge0157.dst
+private def trieNode0028StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0028StepGain : Int := edge0157.gain + (0)
+private def trieNode0028Labels : List SmokeLabel :=
+  trieNode0027Labels ++ trieNode0028StepLabels
+private def trieNode0028Gain : Int :=
+  trieNode0027Gain + trieNode0028StepGain
+
+private theorem trieNode0028StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0027State trieNode0028State
+      trieNode0028StepLabels trieNode0028StepGain := by
+  unfold trieNode0027State trieNode0028State
+  unfold trieNode0028StepLabels trieNode0028StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0157
+  exact BellmanLabelStepRun.nil trieNode0028State
+
+private theorem trieNode0028Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0028State
+      trieNode0028Labels trieNode0028Gain := by
+  unfold trieNode0028Labels trieNode0028Gain
+  exact BellmanLabelStepRun.append trieNode0027Run trieNode0028StepRun
+
+private def trieNode0029State : State := edge0172.dst
+private def trieNode0029StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0029StepGain : Int := edge0172.gain + (0)
+private def trieNode0029Labels : List SmokeLabel :=
+  trieNode0028Labels ++ trieNode0029StepLabels
+private def trieNode0029Gain : Int :=
+  trieNode0028Gain + trieNode0029StepGain
+
+private theorem trieNode0029StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0028State trieNode0029State
+      trieNode0029StepLabels trieNode0029StepGain := by
+  unfold trieNode0028State trieNode0029State
+  unfold trieNode0029StepLabels trieNode0029StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0172
+  exact BellmanLabelStepRun.nil trieNode0029State
+
+private theorem trieNode0029Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0029State
+      trieNode0029Labels trieNode0029Gain := by
+  unfold trieNode0029Labels trieNode0029Gain
+  exact BellmanLabelStepRun.append trieNode0028Run trieNode0029StepRun
+
+private def trieNode0030State : State := edge0189.dst
+private def trieNode0030StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0030StepGain : Int := edge0189.gain + (0)
+private def trieNode0030Labels : List SmokeLabel :=
+  trieNode0029Labels ++ trieNode0030StepLabels
+private def trieNode0030Gain : Int :=
+  trieNode0029Gain + trieNode0030StepGain
+
+private theorem trieNode0030StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0029State trieNode0030State
+      trieNode0030StepLabels trieNode0030StepGain := by
+  unfold trieNode0029State trieNode0030State
+  unfold trieNode0030StepLabels trieNode0030StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0189
+  exact BellmanLabelStepRun.nil trieNode0030State
+
+private theorem trieNode0030Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0030State
+      trieNode0030Labels trieNode0030Gain := by
+  unfold trieNode0030Labels trieNode0030Gain
+  exact BellmanLabelStepRun.append trieNode0029Run trieNode0030StepRun
+
+private def trieNode0031State : State := edge0209.dst
+private def trieNode0031StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0031StepGain : Int := edge0209.gain + (0)
+private def trieNode0031Labels : List SmokeLabel :=
+  trieNode0030Labels ++ trieNode0031StepLabels
+private def trieNode0031Gain : Int :=
+  trieNode0030Gain + trieNode0031StepGain
+
+private theorem trieNode0031StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0030State trieNode0031State
+      trieNode0031StepLabels trieNode0031StepGain := by
+  unfold trieNode0030State trieNode0031State
+  unfold trieNode0031StepLabels trieNode0031StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0209
+  exact BellmanLabelStepRun.nil trieNode0031State
+
+private theorem trieNode0031Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0031State
+      trieNode0031Labels trieNode0031Gain := by
+  unfold trieNode0031Labels trieNode0031Gain
+  exact BellmanLabelStepRun.append trieNode0030Run trieNode0031StepRun
+
+private def trieNode0032State : State := edge0005.dst
+private def trieNode0032StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0032StepGain : Int := edge0005.gain + (0)
+private def trieNode0032Labels : List SmokeLabel :=
+  trieNode0031Labels ++ trieNode0032StepLabels
+private def trieNode0032Gain : Int :=
+  trieNode0031Gain + trieNode0032StepGain
+
+private theorem trieNode0032StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0031State trieNode0032State
+      trieNode0032StepLabels trieNode0032StepGain := by
+  unfold trieNode0031State trieNode0032State
+  unfold trieNode0032StepLabels trieNode0032StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0005
+  exact BellmanLabelStepRun.nil trieNode0032State
+
+private theorem trieNode0032Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0032State
+      trieNode0032Labels trieNode0032Gain := by
+  unfold trieNode0032Labels trieNode0032Gain
+  exact BellmanLabelStepRun.append trieNode0031Run trieNode0032StepRun
+
+private def trieNode0033State : State := edge0043.dst
+private def trieNode0033StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0033StepGain : Int := edge0043.gain + (0)
+private def trieNode0033Labels : List SmokeLabel :=
+  trieNode0032Labels ++ trieNode0033StepLabels
+private def trieNode0033Gain : Int :=
+  trieNode0032Gain + trieNode0033StepGain
+
+private theorem trieNode0033StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0032State trieNode0033State
+      trieNode0033StepLabels trieNode0033StepGain := by
+  unfold trieNode0032State trieNode0033State
+  unfold trieNode0033StepLabels trieNode0033StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0043
+  exact BellmanLabelStepRun.nil trieNode0033State
+
+private theorem trieNode0033Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0033State
+      trieNode0033Labels trieNode0033Gain := by
+  unfold trieNode0033Labels trieNode0033Gain
+  exact BellmanLabelStepRun.append trieNode0032Run trieNode0033StepRun
+
+private def trieNode0034State : State := edge0078.dst
+private def trieNode0034StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0034StepGain : Int := edge0078.gain + (0)
+private def trieNode0034Labels : List SmokeLabel :=
+  trieNode0033Labels ++ trieNode0034StepLabels
+private def trieNode0034Gain : Int :=
+  trieNode0033Gain + trieNode0034StepGain
+
+private theorem trieNode0034StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0033State trieNode0034State
+      trieNode0034StepLabels trieNode0034StepGain := by
+  unfold trieNode0033State trieNode0034State
+  unfold trieNode0034StepLabels trieNode0034StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0078
+  exact BellmanLabelStepRun.nil trieNode0034State
+
+private theorem trieNode0034Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0034State
+      trieNode0034Labels trieNode0034Gain := by
+  unfold trieNode0034Labels trieNode0034Gain
+  exact BellmanLabelStepRun.append trieNode0033Run trieNode0034StepRun
+
+private def trieNode0035State : State := edge0117.dst
+private def trieNode0035StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0035StepGain : Int := edge0117.gain + (0)
+private def trieNode0035Labels : List SmokeLabel :=
+  trieNode0034Labels ++ trieNode0035StepLabels
+private def trieNode0035Gain : Int :=
+  trieNode0034Gain + trieNode0035StepGain
+
+private theorem trieNode0035StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0034State trieNode0035State
+      trieNode0035StepLabels trieNode0035StepGain := by
+  unfold trieNode0034State trieNode0035State
+  unfold trieNode0035StepLabels trieNode0035StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0117
+  exact BellmanLabelStepRun.nil trieNode0035State
+
+private theorem trieNode0035Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0035State
+      trieNode0035Labels trieNode0035Gain := by
+  unfold trieNode0035Labels trieNode0035Gain
+  exact BellmanLabelStepRun.append trieNode0034Run trieNode0035StepRun
+
+private def trieNode0036State : State := edge0147.dst
+private def trieNode0036StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0036StepGain : Int := edge0147.gain + (0)
+private def trieNode0036Labels : List SmokeLabel :=
+  trieNode0026Labels ++ trieNode0036StepLabels
+private def trieNode0036Gain : Int :=
+  trieNode0026Gain + trieNode0036StepGain
+
+private theorem trieNode0036StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0026State trieNode0036State
+      trieNode0036StepLabels trieNode0036StepGain := by
+  unfold trieNode0026State trieNode0036State
+  unfold trieNode0036StepLabels trieNode0036StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0147
+  exact BellmanLabelStepRun.nil trieNode0036State
+
+private theorem trieNode0036Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0036State
+      trieNode0036Labels trieNode0036Gain := by
+  unfold trieNode0036Labels trieNode0036Gain
+  exact BellmanLabelStepRun.append trieNode0026Run trieNode0036StepRun
+
+private def trieNode0037State : State := edge0159.dst
+private def trieNode0037StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0037StepGain : Int := edge0159.gain + (0)
+private def trieNode0037Labels : List SmokeLabel :=
+  trieNode0036Labels ++ trieNode0037StepLabels
+private def trieNode0037Gain : Int :=
+  trieNode0036Gain + trieNode0037StepGain
+
+private theorem trieNode0037StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0036State trieNode0037State
+      trieNode0037StepLabels trieNode0037StepGain := by
+  unfold trieNode0036State trieNode0037State
+  unfold trieNode0037StepLabels trieNode0037StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0159
+  exact BellmanLabelStepRun.nil trieNode0037State
+
+private theorem trieNode0037Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0037State
+      trieNode0037Labels trieNode0037Gain := by
+  unfold trieNode0037Labels trieNode0037Gain
+  exact BellmanLabelStepRun.append trieNode0036Run trieNode0037StepRun
+
+private def trieNode0038State : State := edge0174.dst
+private def trieNode0038StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0038StepGain : Int := edge0174.gain + (0)
+private def trieNode0038Labels : List SmokeLabel :=
+  trieNode0037Labels ++ trieNode0038StepLabels
+private def trieNode0038Gain : Int :=
+  trieNode0037Gain + trieNode0038StepGain
+
+private theorem trieNode0038StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0037State trieNode0038State
+      trieNode0038StepLabels trieNode0038StepGain := by
+  unfold trieNode0037State trieNode0038State
+  unfold trieNode0038StepLabels trieNode0038StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0174
+  exact BellmanLabelStepRun.nil trieNode0038State
+
+private theorem trieNode0038Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0038State
+      trieNode0038Labels trieNode0038Gain := by
+  unfold trieNode0038Labels trieNode0038Gain
+  exact BellmanLabelStepRun.append trieNode0037Run trieNode0038StepRun
+
+private def trieNode0039State : State := edge0191.dst
+private def trieNode0039StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0039StepGain : Int := edge0191.gain + (0)
+private def trieNode0039Labels : List SmokeLabel :=
+  trieNode0038Labels ++ trieNode0039StepLabels
+private def trieNode0039Gain : Int :=
+  trieNode0038Gain + trieNode0039StepGain
+
+private theorem trieNode0039StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0038State trieNode0039State
+      trieNode0039StepLabels trieNode0039StepGain := by
+  unfold trieNode0038State trieNode0039State
+  unfold trieNode0039StepLabels trieNode0039StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0191
+  exact BellmanLabelStepRun.nil trieNode0039State
+
+private theorem trieNode0039Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0039State
+      trieNode0039Labels trieNode0039Gain := by
+  unfold trieNode0039Labels trieNode0039Gain
+  exact BellmanLabelStepRun.append trieNode0038Run trieNode0039StepRun
+
+private def trieNode0040State : State := edge0211.dst
+private def trieNode0040StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0040StepGain : Int := edge0211.gain + (0)
+private def trieNode0040Labels : List SmokeLabel :=
+  trieNode0039Labels ++ trieNode0040StepLabels
+private def trieNode0040Gain : Int :=
+  trieNode0039Gain + trieNode0040StepGain
+
+private theorem trieNode0040StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0039State trieNode0040State
+      trieNode0040StepLabels trieNode0040StepGain := by
+  unfold trieNode0039State trieNode0040State
+  unfold trieNode0040StepLabels trieNode0040StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0211
+  exact BellmanLabelStepRun.nil trieNode0040State
+
+private theorem trieNode0040Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0040State
+      trieNode0040Labels trieNode0040Gain := by
+  unfold trieNode0040Labels trieNode0040Gain
+  exact BellmanLabelStepRun.append trieNode0039Run trieNode0040StepRun
+
+private def trieNode0041State : State := edge0009.dst
+private def trieNode0041StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0041StepGain : Int := edge0009.gain + (0)
+private def trieNode0041Labels : List SmokeLabel :=
+  trieNode0040Labels ++ trieNode0041StepLabels
+private def trieNode0041Gain : Int :=
+  trieNode0040Gain + trieNode0041StepGain
+
+private theorem trieNode0041StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0040State trieNode0041State
+      trieNode0041StepLabels trieNode0041StepGain := by
+  unfold trieNode0040State trieNode0041State
+  unfold trieNode0041StepLabels trieNode0041StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0009
+  exact BellmanLabelStepRun.nil trieNode0041State
+
+private theorem trieNode0041Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0041State
+      trieNode0041Labels trieNode0041Gain := by
+  unfold trieNode0041Labels trieNode0041Gain
+  exact BellmanLabelStepRun.append trieNode0040Run trieNode0041StepRun
+
+private def trieNode0042State : State := edge0048.dst
+private def trieNode0042StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0042StepGain : Int := edge0048.gain + (0)
+private def trieNode0042Labels : List SmokeLabel :=
+  trieNode0041Labels ++ trieNode0042StepLabels
+private def trieNode0042Gain : Int :=
+  trieNode0041Gain + trieNode0042StepGain
+
+private theorem trieNode0042StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0041State trieNode0042State
+      trieNode0042StepLabels trieNode0042StepGain := by
+  unfold trieNode0041State trieNode0042State
+  unfold trieNode0042StepLabels trieNode0042StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0048
+  exact BellmanLabelStepRun.nil trieNode0042State
+
+private theorem trieNode0042Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0042State
+      trieNode0042Labels trieNode0042Gain := by
+  unfold trieNode0042Labels trieNode0042Gain
+  exact BellmanLabelStepRun.append trieNode0041Run trieNode0042StepRun
+
+private def trieNode0043State : State := edge0077.dst
+private def trieNode0043StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0043StepGain : Int := edge0077.gain + (0)
+private def trieNode0043Labels : List SmokeLabel :=
+  trieNode0042Labels ++ trieNode0043StepLabels
+private def trieNode0043Gain : Int :=
+  trieNode0042Gain + trieNode0043StepGain
+
+private theorem trieNode0043StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0042State trieNode0043State
+      trieNode0043StepLabels trieNode0043StepGain := by
+  unfold trieNode0042State trieNode0043State
+  unfold trieNode0043StepLabels trieNode0043StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0077
+  exact BellmanLabelStepRun.nil trieNode0043State
+
+private theorem trieNode0043Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0043State
+      trieNode0043Labels trieNode0043Gain := by
+  unfold trieNode0043Labels trieNode0043Gain
+  exact BellmanLabelStepRun.append trieNode0042Run trieNode0043StepRun
+
+private def trieNode0044State : State := edge0116.dst
+private def trieNode0044StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0044StepGain : Int := edge0116.gain + (0)
+private def trieNode0044Labels : List SmokeLabel :=
+  trieNode0043Labels ++ trieNode0044StepLabels
+private def trieNode0044Gain : Int :=
+  trieNode0043Gain + trieNode0044StepGain
+
+private theorem trieNode0044StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0043State trieNode0044State
+      trieNode0044StepLabels trieNode0044StepGain := by
+  unfold trieNode0043State trieNode0044State
+  unfold trieNode0044StepLabels trieNode0044StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0116
+  exact BellmanLabelStepRun.nil trieNode0044State
+
+private theorem trieNode0044Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0044State
+      trieNode0044Labels trieNode0044Gain := by
+  unfold trieNode0044Labels trieNode0044Gain
+  exact BellmanLabelStepRun.append trieNode0043Run trieNode0044StepRun
+
+private def trieNode0045State : State := edge0138.dst
+private def trieNode0045StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0045StepGain : Int := edge0138.gain + (0)
+private def trieNode0045Labels : List SmokeLabel :=
+  trieNode0025Labels ++ trieNode0045StepLabels
+private def trieNode0045Gain : Int :=
+  trieNode0025Gain + trieNode0045StepGain
+
+private theorem trieNode0045StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0025State trieNode0045State
+      trieNode0045StepLabels trieNode0045StepGain := by
+  unfold trieNode0025State trieNode0045State
+  unfold trieNode0045StepLabels trieNode0045StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  exact BellmanLabelStepRun.nil trieNode0045State
+
+private theorem trieNode0045Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0045State
+      trieNode0045Labels trieNode0045Gain := by
+  unfold trieNode0045Labels trieNode0045Gain
+  exact BellmanLabelStepRun.append trieNode0025Run trieNode0045StepRun
+
+private def trieNode0046State : State := edge0149.dst
+private def trieNode0046StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0046StepGain : Int := edge0149.gain + (0)
+private def trieNode0046Labels : List SmokeLabel :=
+  trieNode0045Labels ++ trieNode0046StepLabels
+private def trieNode0046Gain : Int :=
+  trieNode0045Gain + trieNode0046StepGain
+
+private theorem trieNode0046StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0045State trieNode0046State
+      trieNode0046StepLabels trieNode0046StepGain := by
+  unfold trieNode0045State trieNode0046State
+  unfold trieNode0046StepLabels trieNode0046StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0149
+  exact BellmanLabelStepRun.nil trieNode0046State
+
+private theorem trieNode0046Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0046State
+      trieNode0046Labels trieNode0046Gain := by
+  unfold trieNode0046Labels trieNode0046Gain
+  exact BellmanLabelStepRun.append trieNode0045Run trieNode0046StepRun
+
+private def trieNode0047State : State := edge0160.dst
+private def trieNode0047StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0047StepGain : Int := edge0160.gain + (0)
+private def trieNode0047Labels : List SmokeLabel :=
+  trieNode0046Labels ++ trieNode0047StepLabels
+private def trieNode0047Gain : Int :=
+  trieNode0046Gain + trieNode0047StepGain
+
+private theorem trieNode0047StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0046State trieNode0047State
+      trieNode0047StepLabels trieNode0047StepGain := by
+  unfold trieNode0046State trieNode0047State
+  unfold trieNode0047StepLabels trieNode0047StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0160
+  exact BellmanLabelStepRun.nil trieNode0047State
+
+private theorem trieNode0047Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0047State
+      trieNode0047Labels trieNode0047Gain := by
+  unfold trieNode0047Labels trieNode0047Gain
+  exact BellmanLabelStepRun.append trieNode0046Run trieNode0047StepRun
+
+private def trieNode0048State : State := edge0171.dst
+private def trieNode0048StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0048StepGain : Int := edge0171.gain + (0)
+private def trieNode0048Labels : List SmokeLabel :=
+  trieNode0047Labels ++ trieNode0048StepLabels
+private def trieNode0048Gain : Int :=
+  trieNode0047Gain + trieNode0048StepGain
+
+private theorem trieNode0048StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0047State trieNode0048State
+      trieNode0048StepLabels trieNode0048StepGain := by
+  unfold trieNode0047State trieNode0048State
+  unfold trieNode0048StepLabels trieNode0048StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0171
+  exact BellmanLabelStepRun.nil trieNode0048State
+
+private theorem trieNode0048Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0048State
+      trieNode0048Labels trieNode0048Gain := by
+  unfold trieNode0048Labels trieNode0048Gain
+  exact BellmanLabelStepRun.append trieNode0047Run trieNode0048StepRun
+
+private def trieNode0049State : State := edge0188.dst
+private def trieNode0049StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0049StepGain : Int := edge0188.gain + (0)
+private def trieNode0049Labels : List SmokeLabel :=
+  trieNode0048Labels ++ trieNode0049StepLabels
+private def trieNode0049Gain : Int :=
+  trieNode0048Gain + trieNode0049StepGain
+
+private theorem trieNode0049StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0048State trieNode0049State
+      trieNode0049StepLabels trieNode0049StepGain := by
+  unfold trieNode0048State trieNode0049State
+  unfold trieNode0049StepLabels trieNode0049StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0188
+  exact BellmanLabelStepRun.nil trieNode0049State
+
+private theorem trieNode0049Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0049State
+      trieNode0049Labels trieNode0049Gain := by
+  unfold trieNode0049Labels trieNode0049Gain
+  exact BellmanLabelStepRun.append trieNode0048Run trieNode0049StepRun
+
+private def trieNode0050State : State := edge0208.dst
+private def trieNode0050StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0050StepGain : Int := edge0208.gain + (0)
+private def trieNode0050Labels : List SmokeLabel :=
+  trieNode0049Labels ++ trieNode0050StepLabels
+private def trieNode0050Gain : Int :=
+  trieNode0049Gain + trieNode0050StepGain
+
+private theorem trieNode0050StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0049State trieNode0050State
+      trieNode0050StepLabels trieNode0050StepGain := by
+  unfold trieNode0049State trieNode0050State
+  unfold trieNode0050StepLabels trieNode0050StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0208
+  exact BellmanLabelStepRun.nil trieNode0050State
+
+private theorem trieNode0050Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0050State
+      trieNode0050Labels trieNode0050Gain := by
+  unfold trieNode0050Labels trieNode0050Gain
+  exact BellmanLabelStepRun.append trieNode0049Run trieNode0050StepRun
+
+private def trieNode0051State : State := edge0004.dst
+private def trieNode0051StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0051StepGain : Int := edge0004.gain + (0)
+private def trieNode0051Labels : List SmokeLabel :=
+  trieNode0050Labels ++ trieNode0051StepLabels
+private def trieNode0051Gain : Int :=
+  trieNode0050Gain + trieNode0051StepGain
+
+private theorem trieNode0051StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0050State trieNode0051State
+      trieNode0051StepLabels trieNode0051StepGain := by
+  unfold trieNode0050State trieNode0051State
+  unfold trieNode0051StepLabels trieNode0051StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0004
+  exact BellmanLabelStepRun.nil trieNode0051State
+
+private theorem trieNode0051Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0051State
+      trieNode0051Labels trieNode0051Gain := by
+  unfold trieNode0051Labels trieNode0051Gain
+  exact BellmanLabelStepRun.append trieNode0050Run trieNode0051StepRun
+
+private def trieNode0052State : State := edge0042.dst
+private def trieNode0052StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0052StepGain : Int := edge0042.gain + (0)
+private def trieNode0052Labels : List SmokeLabel :=
+  trieNode0051Labels ++ trieNode0052StepLabels
+private def trieNode0052Gain : Int :=
+  trieNode0051Gain + trieNode0052StepGain
+
+private theorem trieNode0052StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0051State trieNode0052State
+      trieNode0052StepLabels trieNode0052StepGain := by
+  unfold trieNode0051State trieNode0052State
+  unfold trieNode0052StepLabels trieNode0052StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0042
+  exact BellmanLabelStepRun.nil trieNode0052State
+
+private theorem trieNode0052Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0052State
+      trieNode0052Labels trieNode0052Gain := by
+  unfold trieNode0052Labels trieNode0052Gain
+  exact BellmanLabelStepRun.append trieNode0051Run trieNode0052StepRun
+
+private def trieNode0053State : State := edge0076.dst
+private def trieNode0053StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0053StepGain : Int := edge0076.gain + (0)
+private def trieNode0053Labels : List SmokeLabel :=
+  trieNode0052Labels ++ trieNode0053StepLabels
+private def trieNode0053Gain : Int :=
+  trieNode0052Gain + trieNode0053StepGain
+
+private theorem trieNode0053StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0052State trieNode0053State
+      trieNode0053StepLabels trieNode0053StepGain := by
+  unfold trieNode0052State trieNode0053State
+  unfold trieNode0053StepLabels trieNode0053StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0076
+  exact BellmanLabelStepRun.nil trieNode0053State
+
+private theorem trieNode0053Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0053State
+      trieNode0053Labels trieNode0053Gain := by
+  unfold trieNode0053Labels trieNode0053Gain
+  exact BellmanLabelStepRun.append trieNode0052Run trieNode0053StepRun
+
+private def trieNode0054State : State := edge0115.dst
+private def trieNode0054StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0054StepGain : Int := edge0115.gain + (0)
+private def trieNode0054Labels : List SmokeLabel :=
+  trieNode0053Labels ++ trieNode0054StepLabels
+private def trieNode0054Gain : Int :=
+  trieNode0053Gain + trieNode0054StepGain
+
+private theorem trieNode0054StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0053State trieNode0054State
+      trieNode0054StepLabels trieNode0054StepGain := by
+  unfold trieNode0053State trieNode0054State
+  unfold trieNode0054StepLabels trieNode0054StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0115
+  exact BellmanLabelStepRun.nil trieNode0054State
+
+private theorem trieNode0054Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0054State
+      trieNode0054Labels trieNode0054Gain := by
+  unfold trieNode0054Labels trieNode0054Gain
+  exact BellmanLabelStepRun.append trieNode0053Run trieNode0054StepRun
+
+private def trieNode0055State : State := edge0150.dst
+private def trieNode0055StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0055StepGain : Int := edge0150.gain + (0)
+private def trieNode0055Labels : List SmokeLabel :=
+  trieNode0045Labels ++ trieNode0055StepLabels
+private def trieNode0055Gain : Int :=
+  trieNode0045Gain + trieNode0055StepGain
+
+private theorem trieNode0055StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0045State trieNode0055State
+      trieNode0055StepLabels trieNode0055StepGain := by
+  unfold trieNode0045State trieNode0055State
+  unfold trieNode0055StepLabels trieNode0055StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  exact BellmanLabelStepRun.nil trieNode0055State
+
+private theorem trieNode0055Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0055State
+      trieNode0055Labels trieNode0055Gain := by
+  unfold trieNode0055Labels trieNode0055Gain
+  exact BellmanLabelStepRun.append trieNode0045Run trieNode0055StepRun
+
+private def trieNode0056State : State := edge0162.dst
+private def trieNode0056StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0056StepGain : Int := edge0162.gain + (0)
+private def trieNode0056Labels : List SmokeLabel :=
+  trieNode0055Labels ++ trieNode0056StepLabels
+private def trieNode0056Gain : Int :=
+  trieNode0055Gain + trieNode0056StepGain
+
+private theorem trieNode0056StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0055State trieNode0056State
+      trieNode0056StepLabels trieNode0056StepGain := by
+  unfold trieNode0055State trieNode0056State
+  unfold trieNode0056StepLabels trieNode0056StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0162
+  exact BellmanLabelStepRun.nil trieNode0056State
+
+private theorem trieNode0056Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0056State
+      trieNode0056Labels trieNode0056Gain := by
+  unfold trieNode0056Labels trieNode0056Gain
+  exact BellmanLabelStepRun.append trieNode0055Run trieNode0056StepRun
+
+private def trieNode0057State : State := edge0176.dst
+private def trieNode0057StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0057StepGain : Int := edge0176.gain + (0)
+private def trieNode0057Labels : List SmokeLabel :=
+  trieNode0056Labels ++ trieNode0057StepLabels
+private def trieNode0057Gain : Int :=
+  trieNode0056Gain + trieNode0057StepGain
+
+private theorem trieNode0057StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0056State trieNode0057State
+      trieNode0057StepLabels trieNode0057StepGain := by
+  unfold trieNode0056State trieNode0057State
+  unfold trieNode0057StepLabels trieNode0057StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0176
+  exact BellmanLabelStepRun.nil trieNode0057State
+
+private theorem trieNode0057Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0057State
+      trieNode0057Labels trieNode0057Gain := by
+  unfold trieNode0057Labels trieNode0057Gain
+  exact BellmanLabelStepRun.append trieNode0056Run trieNode0057StepRun
+
+private def trieNode0058State : State := edge0187.dst
+private def trieNode0058StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0058StepGain : Int := edge0187.gain + (0)
+private def trieNode0058Labels : List SmokeLabel :=
+  trieNode0057Labels ++ trieNode0058StepLabels
+private def trieNode0058Gain : Int :=
+  trieNode0057Gain + trieNode0058StepGain
+
+private theorem trieNode0058StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0057State trieNode0058State
+      trieNode0058StepLabels trieNode0058StepGain := by
+  unfold trieNode0057State trieNode0058State
+  unfold trieNode0058StepLabels trieNode0058StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0187
+  exact BellmanLabelStepRun.nil trieNode0058State
+
+private theorem trieNode0058Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0058State
+      trieNode0058Labels trieNode0058Gain := by
+  unfold trieNode0058Labels trieNode0058Gain
+  exact BellmanLabelStepRun.append trieNode0057Run trieNode0058StepRun
+
+private def trieNode0059State : State := edge0207.dst
+private def trieNode0059StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0059StepGain : Int := edge0207.gain + (0)
+private def trieNode0059Labels : List SmokeLabel :=
+  trieNode0058Labels ++ trieNode0059StepLabels
+private def trieNode0059Gain : Int :=
+  trieNode0058Gain + trieNode0059StepGain
+
+private theorem trieNode0059StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0058State trieNode0059State
+      trieNode0059StepLabels trieNode0059StepGain := by
+  unfold trieNode0058State trieNode0059State
+  unfold trieNode0059StepLabels trieNode0059StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0207
+  exact BellmanLabelStepRun.nil trieNode0059State
+
+private theorem trieNode0059Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0059State
+      trieNode0059Labels trieNode0059Gain := by
+  unfold trieNode0059Labels trieNode0059Gain
+  exact BellmanLabelStepRun.append trieNode0058Run trieNode0059StepRun
+
+private def trieNode0060State : State := edge0003.dst
+private def trieNode0060StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0060StepGain : Int := edge0003.gain + (0)
+private def trieNode0060Labels : List SmokeLabel :=
+  trieNode0059Labels ++ trieNode0060StepLabels
+private def trieNode0060Gain : Int :=
+  trieNode0059Gain + trieNode0060StepGain
+
+private theorem trieNode0060StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0059State trieNode0060State
+      trieNode0060StepLabels trieNode0060StepGain := by
+  unfold trieNode0059State trieNode0060State
+  unfold trieNode0060StepLabels trieNode0060StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0003
+  exact BellmanLabelStepRun.nil trieNode0060State
+
+private theorem trieNode0060Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0060State
+      trieNode0060Labels trieNode0060Gain := by
+  unfold trieNode0060Labels trieNode0060Gain
+  exact BellmanLabelStepRun.append trieNode0059Run trieNode0060StepRun
+
+private def trieNode0061State : State := edge0041.dst
+private def trieNode0061StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0061StepGain : Int := edge0041.gain + (0)
+private def trieNode0061Labels : List SmokeLabel :=
+  trieNode0060Labels ++ trieNode0061StepLabels
+private def trieNode0061Gain : Int :=
+  trieNode0060Gain + trieNode0061StepGain
+
+private theorem trieNode0061StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0060State trieNode0061State
+      trieNode0061StepLabels trieNode0061StepGain := by
+  unfold trieNode0060State trieNode0061State
+  unfold trieNode0061StepLabels trieNode0061StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0041
+  exact BellmanLabelStepRun.nil trieNode0061State
+
+private theorem trieNode0061Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0061State
+      trieNode0061Labels trieNode0061Gain := by
+  unfold trieNode0061Labels trieNode0061Gain
+  exact BellmanLabelStepRun.append trieNode0060Run trieNode0061StepRun
+
+private def trieNode0062State : State := edge0075.dst
+private def trieNode0062StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0062StepGain : Int := edge0075.gain + (0)
+private def trieNode0062Labels : List SmokeLabel :=
+  trieNode0061Labels ++ trieNode0062StepLabels
+private def trieNode0062Gain : Int :=
+  trieNode0061Gain + trieNode0062StepGain
+
+private theorem trieNode0062StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0061State trieNode0062State
+      trieNode0062StepLabels trieNode0062StepGain := by
+  unfold trieNode0061State trieNode0062State
+  unfold trieNode0062StepLabels trieNode0062StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0075
+  exact BellmanLabelStepRun.nil trieNode0062State
+
+private theorem trieNode0062Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0062State
+      trieNode0062Labels trieNode0062Gain := by
+  unfold trieNode0062Labels trieNode0062Gain
+  exact BellmanLabelStepRun.append trieNode0061Run trieNode0062StepRun
+
+private def trieNode0063State : State := edge0114.dst
+private def trieNode0063StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0063StepGain : Int := edge0114.gain + (0)
+private def trieNode0063Labels : List SmokeLabel :=
+  trieNode0062Labels ++ trieNode0063StepLabels
+private def trieNode0063Gain : Int :=
+  trieNode0062Gain + trieNode0063StepGain
+
+private theorem trieNode0063StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0062State trieNode0063State
+      trieNode0063StepLabels trieNode0063StepGain := by
+  unfold trieNode0062State trieNode0063State
+  unfold trieNode0063StepLabels trieNode0063StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0114
+  exact BellmanLabelStepRun.nil trieNode0063State
+
+private theorem trieNode0063Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0063State
+      trieNode0063Labels trieNode0063Gain := by
+  unfold trieNode0063Labels trieNode0063Gain
+  exact BellmanLabelStepRun.append trieNode0062Run trieNode0063StepRun
+
+private def trieNode0064State : State := edge0163.dst
+private def trieNode0064StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0064StepGain : Int := edge0163.gain + (0)
+private def trieNode0064Labels : List SmokeLabel :=
+  trieNode0055Labels ++ trieNode0064StepLabels
+private def trieNode0064Gain : Int :=
+  trieNode0055Gain + trieNode0064StepGain
+
+private theorem trieNode0064StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0055State trieNode0064State
+      trieNode0064StepLabels trieNode0064StepGain := by
+  unfold trieNode0055State trieNode0064State
+  unfold trieNode0064StepLabels trieNode0064StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0163
+  exact BellmanLabelStepRun.nil trieNode0064State
+
+private theorem trieNode0064Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0064State
+      trieNode0064Labels trieNode0064Gain := by
+  unfold trieNode0064Labels trieNode0064Gain
+  exact BellmanLabelStepRun.append trieNode0055Run trieNode0064StepRun
+
+private def trieNode0065State : State := edge0177.dst
+private def trieNode0065StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0065StepGain : Int := edge0177.gain + (0)
+private def trieNode0065Labels : List SmokeLabel :=
+  trieNode0064Labels ++ trieNode0065StepLabels
+private def trieNode0065Gain : Int :=
+  trieNode0064Gain + trieNode0065StepGain
+
+private theorem trieNode0065StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0064State trieNode0065State
+      trieNode0065StepLabels trieNode0065StepGain := by
+  unfold trieNode0064State trieNode0065State
+  unfold trieNode0065StepLabels trieNode0065StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0177
+  exact BellmanLabelStepRun.nil trieNode0065State
+
+private theorem trieNode0065Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0065State
+      trieNode0065Labels trieNode0065Gain := by
+  unfold trieNode0065Labels trieNode0065Gain
+  exact BellmanLabelStepRun.append trieNode0064Run trieNode0065StepRun
+
+private def trieNode0066State : State := edge0192.dst
+private def trieNode0066StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0066StepGain : Int := edge0192.gain + (0)
+private def trieNode0066Labels : List SmokeLabel :=
+  trieNode0065Labels ++ trieNode0066StepLabels
+private def trieNode0066Gain : Int :=
+  trieNode0065Gain + trieNode0066StepGain
+
+private theorem trieNode0066StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0065State trieNode0066State
+      trieNode0066StepLabels trieNode0066StepGain := by
+  unfold trieNode0065State trieNode0066State
+  unfold trieNode0066StepLabels trieNode0066StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0192
+  exact BellmanLabelStepRun.nil trieNode0066State
+
+private theorem trieNode0066Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0066State
+      trieNode0066Labels trieNode0066Gain := by
+  unfold trieNode0066Labels trieNode0066Gain
+  exact BellmanLabelStepRun.append trieNode0065Run trieNode0066StepRun
+
+private def trieNode0067State : State := edge0206.dst
+private def trieNode0067StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0067StepGain : Int := edge0206.gain + (0)
+private def trieNode0067Labels : List SmokeLabel :=
+  trieNode0066Labels ++ trieNode0067StepLabels
+private def trieNode0067Gain : Int :=
+  trieNode0066Gain + trieNode0067StepGain
+
+private theorem trieNode0067StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0066State trieNode0067State
+      trieNode0067StepLabels trieNode0067StepGain := by
+  unfold trieNode0066State trieNode0067State
+  unfold trieNode0067StepLabels trieNode0067StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0206
+  exact BellmanLabelStepRun.nil trieNode0067State
+
+private theorem trieNode0067Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0067State
+      trieNode0067Labels trieNode0067Gain := by
+  unfold trieNode0067Labels trieNode0067Gain
+  exact BellmanLabelStepRun.append trieNode0066Run trieNode0067StepRun
+
+private def trieNode0068State : State := edge0002.dst
+private def trieNode0068StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0068StepGain : Int := edge0002.gain + (0)
+private def trieNode0068Labels : List SmokeLabel :=
+  trieNode0067Labels ++ trieNode0068StepLabels
+private def trieNode0068Gain : Int :=
+  trieNode0067Gain + trieNode0068StepGain
+
+private theorem trieNode0068StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0067State trieNode0068State
+      trieNode0068StepLabels trieNode0068StepGain := by
+  unfold trieNode0067State trieNode0068State
+  unfold trieNode0068StepLabels trieNode0068StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0002
+  exact BellmanLabelStepRun.nil trieNode0068State
+
+private theorem trieNode0068Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0068State
+      trieNode0068Labels trieNode0068Gain := by
+  unfold trieNode0068Labels trieNode0068Gain
+  exact BellmanLabelStepRun.append trieNode0067Run trieNode0068StepRun
+
+private def trieNode0069State : State := edge0040.dst
+private def trieNode0069StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0069StepGain : Int := edge0040.gain + (0)
+private def trieNode0069Labels : List SmokeLabel :=
+  trieNode0068Labels ++ trieNode0069StepLabels
+private def trieNode0069Gain : Int :=
+  trieNode0068Gain + trieNode0069StepGain
+
+private theorem trieNode0069StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0068State trieNode0069State
+      trieNode0069StepLabels trieNode0069StepGain := by
+  unfold trieNode0068State trieNode0069State
+  unfold trieNode0069StepLabels trieNode0069StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0040
+  exact BellmanLabelStepRun.nil trieNode0069State
+
+private theorem trieNode0069Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0069State
+      trieNode0069Labels trieNode0069Gain := by
+  unfold trieNode0069Labels trieNode0069Gain
+  exact BellmanLabelStepRun.append trieNode0068Run trieNode0069StepRun
+
+private def trieNode0070State : State := edge0074.dst
+private def trieNode0070StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0070StepGain : Int := edge0074.gain + (0)
+private def trieNode0070Labels : List SmokeLabel :=
+  trieNode0069Labels ++ trieNode0070StepLabels
+private def trieNode0070Gain : Int :=
+  trieNode0069Gain + trieNode0070StepGain
+
+private theorem trieNode0070StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0069State trieNode0070State
+      trieNode0070StepLabels trieNode0070StepGain := by
+  unfold trieNode0069State trieNode0070State
+  unfold trieNode0070StepLabels trieNode0070StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0074
+  exact BellmanLabelStepRun.nil trieNode0070State
+
+private theorem trieNode0070Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0070State
+      trieNode0070Labels trieNode0070Gain := by
+  unfold trieNode0070Labels trieNode0070Gain
+  exact BellmanLabelStepRun.append trieNode0069Run trieNode0070StepRun
+
+private def trieNode0071State : State := edge0113.dst
+private def trieNode0071StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0071StepGain : Int := edge0113.gain + (0)
+private def trieNode0071Labels : List SmokeLabel :=
+  trieNode0070Labels ++ trieNode0071StepLabels
+private def trieNode0071Gain : Int :=
+  trieNode0070Gain + trieNode0071StepGain
+
+private theorem trieNode0071StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0070State trieNode0071State
+      trieNode0071StepLabels trieNode0071StepGain := by
+  unfold trieNode0070State trieNode0071State
+  unfold trieNode0071StepLabels trieNode0071StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0113
+  exact BellmanLabelStepRun.nil trieNode0071State
+
+private theorem trieNode0071Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0071State
+      trieNode0071Labels trieNode0071Gain := by
+  unfold trieNode0071Labels trieNode0071Gain
+  exact BellmanLabelStepRun.append trieNode0070Run trieNode0071StepRun
+
+private def trieNode0072State : State := edge0178.dst
+private def trieNode0072StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0072StepGain : Int := edge0178.gain + (0)
+private def trieNode0072Labels : List SmokeLabel :=
+  trieNode0064Labels ++ trieNode0072StepLabels
+private def trieNode0072Gain : Int :=
+  trieNode0064Gain + trieNode0072StepGain
+
+private theorem trieNode0072StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0064State trieNode0072State
+      trieNode0072StepLabels trieNode0072StepGain := by
+  unfold trieNode0064State trieNode0072State
+  unfold trieNode0072StepLabels trieNode0072StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0178
+  exact BellmanLabelStepRun.nil trieNode0072State
+
+private theorem trieNode0072Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0072State
+      trieNode0072Labels trieNode0072Gain := by
+  unfold trieNode0072Labels trieNode0072Gain
+  exact BellmanLabelStepRun.append trieNode0064Run trieNode0072StepRun
+
+private def trieNode0073State : State := edge0194.dst
+private def trieNode0073StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0073StepGain : Int := edge0194.gain + (0)
+private def trieNode0073Labels : List SmokeLabel :=
+  trieNode0072Labels ++ trieNode0073StepLabels
+private def trieNode0073Gain : Int :=
+  trieNode0072Gain + trieNode0073StepGain
+
+private theorem trieNode0073StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0072State trieNode0073State
+      trieNode0073StepLabels trieNode0073StepGain := by
+  unfold trieNode0072State trieNode0073State
+  unfold trieNode0073StepLabels trieNode0073StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0194
+  exact BellmanLabelStepRun.nil trieNode0073State
+
+private theorem trieNode0073Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0073State
+      trieNode0073Labels trieNode0073Gain := by
+  unfold trieNode0073Labels trieNode0073Gain
+  exact BellmanLabelStepRun.append trieNode0072Run trieNode0073StepRun
+
+private def trieNode0074State : State := edge0212.dst
+private def trieNode0074StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0074StepGain : Int := edge0212.gain + (0)
+private def trieNode0074Labels : List SmokeLabel :=
+  trieNode0073Labels ++ trieNode0074StepLabels
+private def trieNode0074Gain : Int :=
+  trieNode0073Gain + trieNode0074StepGain
+
+private theorem trieNode0074StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0073State trieNode0074State
+      trieNode0074StepLabels trieNode0074StepGain := by
+  unfold trieNode0073State trieNode0074State
+  unfold trieNode0074StepLabels trieNode0074StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0212
+  exact BellmanLabelStepRun.nil trieNode0074State
+
+private theorem trieNode0074Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0074State
+      trieNode0074Labels trieNode0074Gain := by
+  unfold trieNode0074Labels trieNode0074Gain
+  exact BellmanLabelStepRun.append trieNode0073Run trieNode0074StepRun
+
+private def trieNode0075State : State := edge0001.dst
+private def trieNode0075StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0075StepGain : Int := edge0001.gain + (0)
+private def trieNode0075Labels : List SmokeLabel :=
+  trieNode0074Labels ++ trieNode0075StepLabels
+private def trieNode0075Gain : Int :=
+  trieNode0074Gain + trieNode0075StepGain
+
+private theorem trieNode0075StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0074State trieNode0075State
+      trieNode0075StepLabels trieNode0075StepGain := by
+  unfold trieNode0074State trieNode0075State
+  unfold trieNode0075StepLabels trieNode0075StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0001
+  exact BellmanLabelStepRun.nil trieNode0075State
+
+private theorem trieNode0075Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0075State
+      trieNode0075Labels trieNode0075Gain := by
+  unfold trieNode0075Labels trieNode0075Gain
+  exact BellmanLabelStepRun.append trieNode0074Run trieNode0075StepRun
+
+private def trieNode0076State : State := edge0038.dst
+private def trieNode0076StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0076StepGain : Int := edge0038.gain + (0)
+private def trieNode0076Labels : List SmokeLabel :=
+  trieNode0075Labels ++ trieNode0076StepLabels
+private def trieNode0076Gain : Int :=
+  trieNode0075Gain + trieNode0076StepGain
+
+private theorem trieNode0076StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0075State trieNode0076State
+      trieNode0076StepLabels trieNode0076StepGain := by
+  unfold trieNode0075State trieNode0076State
+  unfold trieNode0076StepLabels trieNode0076StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0038
+  exact BellmanLabelStepRun.nil trieNode0076State
+
+private theorem trieNode0076Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0076State
+      trieNode0076Labels trieNode0076Gain := by
+  unfold trieNode0076Labels trieNode0076Gain
+  exact BellmanLabelStepRun.append trieNode0075Run trieNode0076StepRun
+
+private def trieNode0077State : State := edge0071.dst
+private def trieNode0077StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0077StepGain : Int := edge0071.gain + (0)
+private def trieNode0077Labels : List SmokeLabel :=
+  trieNode0076Labels ++ trieNode0077StepLabels
+private def trieNode0077Gain : Int :=
+  trieNode0076Gain + trieNode0077StepGain
+
+private theorem trieNode0077StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0076State trieNode0077State
+      trieNode0077StepLabels trieNode0077StepGain := by
+  unfold trieNode0076State trieNode0077State
+  unfold trieNode0077StepLabels trieNode0077StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0071
+  exact BellmanLabelStepRun.nil trieNode0077State
+
+private theorem trieNode0077Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0077State
+      trieNode0077Labels trieNode0077Gain := by
+  unfold trieNode0077Labels trieNode0077Gain
+  exact BellmanLabelStepRun.append trieNode0076Run trieNode0077StepRun
+
+private def trieNode0078State : State := edge0109.dst
+private def trieNode0078StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0078StepGain : Int := edge0109.gain + (0)
+private def trieNode0078Labels : List SmokeLabel :=
+  trieNode0077Labels ++ trieNode0078StepLabels
+private def trieNode0078Gain : Int :=
+  trieNode0077Gain + trieNode0078StepGain
+
+private theorem trieNode0078StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0077State trieNode0078State
+      trieNode0078StepLabels trieNode0078StepGain := by
+  unfold trieNode0077State trieNode0078State
+  unfold trieNode0078StepLabels trieNode0078StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0109
+  exact BellmanLabelStepRun.nil trieNode0078State
+
+private theorem trieNode0078Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0078State
+      trieNode0078Labels trieNode0078Gain := by
+  unfold trieNode0078Labels trieNode0078Gain
+  exact BellmanLabelStepRun.append trieNode0077Run trieNode0078StepRun
+
+private def trieNode0079State : State := edge0195.dst
+private def trieNode0079StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0079StepGain : Int := edge0195.gain + (0)
+private def trieNode0079Labels : List SmokeLabel :=
+  trieNode0072Labels ++ trieNode0079StepLabels
+private def trieNode0079Gain : Int :=
+  trieNode0072Gain + trieNode0079StepGain
+
+private theorem trieNode0079StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0072State trieNode0079State
+      trieNode0079StepLabels trieNode0079StepGain := by
+  unfold trieNode0072State trieNode0079State
+  unfold trieNode0079StepLabels trieNode0079StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0195
+  exact BellmanLabelStepRun.nil trieNode0079State
+
+private theorem trieNode0079Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0079State
+      trieNode0079Labels trieNode0079Gain := by
+  unfold trieNode0079Labels trieNode0079Gain
+  exact BellmanLabelStepRun.append trieNode0072Run trieNode0079StepRun
+
+private def trieNode0080State : State := edge0216.dst
+private def trieNode0080StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0080StepGain : Int := edge0216.gain + (0)
+private def trieNode0080Labels : List SmokeLabel :=
+  trieNode0079Labels ++ trieNode0080StepLabels
+private def trieNode0080Gain : Int :=
+  trieNode0079Gain + trieNode0080StepGain
+
+private theorem trieNode0080StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0079State trieNode0080State
+      trieNode0080StepLabels trieNode0080StepGain := by
+  unfold trieNode0079State trieNode0080State
+  unfold trieNode0080StepLabels trieNode0080StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0216
+  exact BellmanLabelStepRun.nil trieNode0080State
+
+private theorem trieNode0080Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0080State
+      trieNode0080Labels trieNode0080Gain := by
+  unfold trieNode0080Labels trieNode0080Gain
+  exact BellmanLabelStepRun.append trieNode0079Run trieNode0080StepRun
+
+private def trieNode0081State : State := edge0008.dst
+private def trieNode0081StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0081StepGain : Int := edge0008.gain + (0)
+private def trieNode0081Labels : List SmokeLabel :=
+  trieNode0080Labels ++ trieNode0081StepLabels
+private def trieNode0081Gain : Int :=
+  trieNode0080Gain + trieNode0081StepGain
+
+private theorem trieNode0081StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0080State trieNode0081State
+      trieNode0081StepLabels trieNode0081StepGain := by
+  unfold trieNode0080State trieNode0081State
+  unfold trieNode0081StepLabels trieNode0081StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0008
+  exact BellmanLabelStepRun.nil trieNode0081State
+
+private theorem trieNode0081Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0081State
+      trieNode0081Labels trieNode0081Gain := by
+  unfold trieNode0081Labels trieNode0081Gain
+  exact BellmanLabelStepRun.append trieNode0080Run trieNode0081StepRun
+
+private def trieNode0082State : State := edge0039.dst
+private def trieNode0082StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0082StepGain : Int := edge0039.gain + (0)
+private def trieNode0082Labels : List SmokeLabel :=
+  trieNode0081Labels ++ trieNode0082StepLabels
+private def trieNode0082Gain : Int :=
+  trieNode0081Gain + trieNode0082StepGain
+
+private theorem trieNode0082StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0081State trieNode0082State
+      trieNode0082StepLabels trieNode0082StepGain := by
+  unfold trieNode0081State trieNode0082State
+  unfold trieNode0082StepLabels trieNode0082StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0039
+  exact BellmanLabelStepRun.nil trieNode0082State
+
+private theorem trieNode0082Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0082State
+      trieNode0082Labels trieNode0082Gain := by
+  unfold trieNode0082Labels trieNode0082Gain
+  exact BellmanLabelStepRun.append trieNode0081Run trieNode0082StepRun
+
+private def trieNode0083State : State := edge0072.dst
+private def trieNode0083StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0083StepGain : Int := edge0072.gain + (0)
+private def trieNode0083Labels : List SmokeLabel :=
+  trieNode0082Labels ++ trieNode0083StepLabels
+private def trieNode0083Gain : Int :=
+  trieNode0082Gain + trieNode0083StepGain
+
+private theorem trieNode0083StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0082State trieNode0083State
+      trieNode0083StepLabels trieNode0083StepGain := by
+  unfold trieNode0082State trieNode0083State
+  unfold trieNode0083StepLabels trieNode0083StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0072
+  exact BellmanLabelStepRun.nil trieNode0083State
+
+private theorem trieNode0083Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0083State
+      trieNode0083Labels trieNode0083Gain := by
+  unfold trieNode0083Labels trieNode0083Gain
+  exact BellmanLabelStepRun.append trieNode0082Run trieNode0083StepRun
+
+private def trieNode0084State : State := edge0110.dst
+private def trieNode0084StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0084StepGain : Int := edge0110.gain + (0)
+private def trieNode0084Labels : List SmokeLabel :=
+  trieNode0083Labels ++ trieNode0084StepLabels
+private def trieNode0084Gain : Int :=
+  trieNode0083Gain + trieNode0084StepGain
+
+private theorem trieNode0084StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0083State trieNode0084State
+      trieNode0084StepLabels trieNode0084StepGain := by
+  unfold trieNode0083State trieNode0084State
+  unfold trieNode0084StepLabels trieNode0084StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0110
+  exact BellmanLabelStepRun.nil trieNode0084State
+
+private theorem trieNode0084Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0084State
+      trieNode0084Labels trieNode0084Gain := by
+  unfold trieNode0084Labels trieNode0084Gain
+  exact BellmanLabelStepRun.append trieNode0083Run trieNode0084StepRun
+
+private def trieNode0085State : State := edge0217.dst
+private def trieNode0085StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0085StepGain : Int := edge0217.gain + (0)
+private def trieNode0085Labels : List SmokeLabel :=
+  trieNode0079Labels ++ trieNode0085StepLabels
+private def trieNode0085Gain : Int :=
+  trieNode0079Gain + trieNode0085StepGain
+
+private theorem trieNode0085StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0079State trieNode0085State
+      trieNode0085StepLabels trieNode0085StepGain := by
+  unfold trieNode0079State trieNode0085State
+  unfold trieNode0085StepLabels trieNode0085StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0217
+  exact BellmanLabelStepRun.nil trieNode0085State
+
+private theorem trieNode0085Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0085State
+      trieNode0085Labels trieNode0085Gain := by
+  unfold trieNode0085Labels trieNode0085Gain
+  exact BellmanLabelStepRun.append trieNode0079Run trieNode0085StepRun
+
+private def trieNode0086State : State := edge0014.dst
+private def trieNode0086StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0086StepGain : Int := edge0014.gain + (0)
+private def trieNode0086Labels : List SmokeLabel :=
+  trieNode0085Labels ++ trieNode0086StepLabels
+private def trieNode0086Gain : Int :=
+  trieNode0085Gain + trieNode0086StepGain
+
+private theorem trieNode0086StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0085State trieNode0086State
+      trieNode0086StepLabels trieNode0086StepGain := by
+  unfold trieNode0085State trieNode0086State
+  unfold trieNode0086StepLabels trieNode0086StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0014
+  exact BellmanLabelStepRun.nil trieNode0086State
+
+private theorem trieNode0086Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0086State
+      trieNode0086Labels trieNode0086Gain := by
+  unfold trieNode0086Labels trieNode0086Gain
+  exact BellmanLabelStepRun.append trieNode0085Run trieNode0086StepRun
+
+private def trieNode0087State : State := edge0047.dst
+private def trieNode0087StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0087StepGain : Int := edge0047.gain + (0)
+private def trieNode0087Labels : List SmokeLabel :=
+  trieNode0086Labels ++ trieNode0087StepLabels
+private def trieNode0087Gain : Int :=
+  trieNode0086Gain + trieNode0087StepGain
+
+private theorem trieNode0087StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0086State trieNode0087State
+      trieNode0087StepLabels trieNode0087StepGain := by
+  unfold trieNode0086State trieNode0087State
+  unfold trieNode0087StepLabels trieNode0087StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0047
+  exact BellmanLabelStepRun.nil trieNode0087State
+
+private theorem trieNode0087Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0087State
+      trieNode0087Labels trieNode0087Gain := by
+  unfold trieNode0087Labels trieNode0087Gain
+  exact BellmanLabelStepRun.append trieNode0086Run trieNode0087StepRun
+
+private def trieNode0088State : State := edge0073.dst
+private def trieNode0088StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0088StepGain : Int := edge0073.gain + (0)
+private def trieNode0088Labels : List SmokeLabel :=
+  trieNode0087Labels ++ trieNode0088StepLabels
+private def trieNode0088Gain : Int :=
+  trieNode0087Gain + trieNode0088StepGain
+
+private theorem trieNode0088StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0087State trieNode0088State
+      trieNode0088StepLabels trieNode0088StepGain := by
+  unfold trieNode0087State trieNode0088State
+  unfold trieNode0088StepLabels trieNode0088StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0073
+  exact BellmanLabelStepRun.nil trieNode0088State
+
+private theorem trieNode0088Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0088State
+      trieNode0088Labels trieNode0088Gain := by
+  unfold trieNode0088Labels trieNode0088Gain
+  exact BellmanLabelStepRun.append trieNode0087Run trieNode0088StepRun
+
+private def trieNode0089State : State := edge0112.dst
+private def trieNode0089StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0089StepGain : Int := edge0112.gain + (0)
+private def trieNode0089Labels : List SmokeLabel :=
+  trieNode0088Labels ++ trieNode0089StepLabels
+private def trieNode0089Gain : Int :=
+  trieNode0088Gain + trieNode0089StepGain
+
+private theorem trieNode0089StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0088State trieNode0089State
+      trieNode0089StepLabels trieNode0089StepGain := by
+  unfold trieNode0088State trieNode0089State
+  unfold trieNode0089StepLabels trieNode0089StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0112
+  exact BellmanLabelStepRun.nil trieNode0089State
+
+private theorem trieNode0089Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0089State
+      trieNode0089Labels trieNode0089Gain := by
+  unfold trieNode0089Labels trieNode0089Gain
+  exact BellmanLabelStepRun.append trieNode0088Run trieNode0089StepRun
+
+private def trieNode0090State : State := edge0015.dst
+private def trieNode0090StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0090StepGain : Int := edge0015.gain + (0)
+private def trieNode0090Labels : List SmokeLabel :=
+  trieNode0085Labels ++ trieNode0090StepLabels
+private def trieNode0090Gain : Int :=
+  trieNode0085Gain + trieNode0090StepGain
+
+private theorem trieNode0090StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0085State trieNode0090State
+      trieNode0090StepLabels trieNode0090StepGain := by
+  unfold trieNode0085State trieNode0090State
+  unfold trieNode0090StepLabels trieNode0090StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0015
+  exact BellmanLabelStepRun.nil trieNode0090State
+
+private theorem trieNode0090Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0090State
+      trieNode0090Labels trieNode0090Gain := by
+  unfold trieNode0090Labels trieNode0090Gain
+  exact BellmanLabelStepRun.append trieNode0085Run trieNode0090StepRun
+
+private def trieNode0091State : State := edge0053.dst
+private def trieNode0091StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0091StepGain : Int := edge0053.gain + (0)
+private def trieNode0091Labels : List SmokeLabel :=
+  trieNode0090Labels ++ trieNode0091StepLabels
+private def trieNode0091Gain : Int :=
+  trieNode0090Gain + trieNode0091StepGain
+
+private theorem trieNode0091StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0090State trieNode0091State
+      trieNode0091StepLabels trieNode0091StepGain := by
+  unfold trieNode0090State trieNode0091State
+  unfold trieNode0091StepLabels trieNode0091StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0053
+  exact BellmanLabelStepRun.nil trieNode0091State
+
+private theorem trieNode0091Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0091State
+      trieNode0091Labels trieNode0091Gain := by
+  unfold trieNode0091Labels trieNode0091Gain
+  exact BellmanLabelStepRun.append trieNode0090Run trieNode0091StepRun
+
+private def trieNode0092State : State := edge0083.dst
+private def trieNode0092StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0092StepGain : Int := edge0083.gain + (0)
+private def trieNode0092Labels : List SmokeLabel :=
+  trieNode0091Labels ++ trieNode0092StepLabels
+private def trieNode0092Gain : Int :=
+  trieNode0091Gain + trieNode0092StepGain
+
+private theorem trieNode0092StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0091State trieNode0092State
+      trieNode0092StepLabels trieNode0092StepGain := by
+  unfold trieNode0091State trieNode0092State
+  unfold trieNode0092StepLabels trieNode0092StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0083
+  exact BellmanLabelStepRun.nil trieNode0092State
+
+private theorem trieNode0092Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0092State
+      trieNode0092Labels trieNode0092Gain := by
+  unfold trieNode0092Labels trieNode0092Gain
+  exact BellmanLabelStepRun.append trieNode0091Run trieNode0092StepRun
+
+private def trieNode0093State : State := edge0111.dst
+private def trieNode0093StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0093StepGain : Int := edge0111.gain + (0)
+private def trieNode0093Labels : List SmokeLabel :=
+  trieNode0092Labels ++ trieNode0093StepLabels
+private def trieNode0093Gain : Int :=
+  trieNode0092Gain + trieNode0093StepGain
+
+private theorem trieNode0093StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0092State trieNode0093State
+      trieNode0093StepLabels trieNode0093StepGain := by
+  unfold trieNode0092State trieNode0093State
+  unfold trieNode0093StepLabels trieNode0093StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0111
+  exact BellmanLabelStepRun.nil trieNode0093State
+
+private theorem trieNode0093Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0093State
+      trieNode0093Labels trieNode0093Gain := by
+  unfold trieNode0093Labels trieNode0093Gain
+  exact BellmanLabelStepRun.append trieNode0092Run trieNode0093StepRun
+
+private def trieNode0094State : State := edge0126.dst
+private def trieNode0094StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0094StepGain : Int := edge0126.gain + (0)
+private def trieNode0094Labels : List SmokeLabel :=
+  trieNode0002Labels ++ trieNode0094StepLabels
+private def trieNode0094Gain : Int :=
+  trieNode0002Gain + trieNode0094StepGain
+
+private theorem trieNode0094StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0002State trieNode0094State
+      trieNode0094StepLabels trieNode0094StepGain := by
+  unfold trieNode0002State trieNode0094State
+  unfold trieNode0094StepLabels trieNode0094StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  exact BellmanLabelStepRun.nil trieNode0094State
+
+private theorem trieNode0094Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0094State
+      trieNode0094Labels trieNode0094Gain := by
+  unfold trieNode0094Labels trieNode0094Gain
+  exact BellmanLabelStepRun.append trieNode0002Run trieNode0094StepRun
+
+private def trieNode0095State : State := edge0130.dst
+private def trieNode0095StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0095StepGain : Int := edge0130.gain + (0)
+private def trieNode0095Labels : List SmokeLabel :=
+  trieNode0094Labels ++ trieNode0095StepLabels
+private def trieNode0095Gain : Int :=
+  trieNode0094Gain + trieNode0095StepGain
+
+private theorem trieNode0095StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0094State trieNode0095State
+      trieNode0095StepLabels trieNode0095StepGain := by
+  unfold trieNode0094State trieNode0095State
+  unfold trieNode0095StepLabels trieNode0095StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0130
+  exact BellmanLabelStepRun.nil trieNode0095State
+
+private theorem trieNode0095Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0095State
+      trieNode0095Labels trieNode0095Gain := by
+  unfold trieNode0095Labels trieNode0095Gain
+  exact BellmanLabelStepRun.append trieNode0094Run trieNode0095StepRun
+
+private def trieNode0096State : State := edge0135.dst
+private def trieNode0096StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0096StepGain : Int := edge0135.gain + (0)
+private def trieNode0096Labels : List SmokeLabel :=
+  trieNode0095Labels ++ trieNode0096StepLabels
+private def trieNode0096Gain : Int :=
+  trieNode0095Gain + trieNode0096StepGain
+
+private theorem trieNode0096StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0095State trieNode0096State
+      trieNode0096StepLabels trieNode0096StepGain := by
+  unfold trieNode0095State trieNode0096State
+  unfold trieNode0096StepLabels trieNode0096StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0135
+  exact BellmanLabelStepRun.nil trieNode0096State
+
+private theorem trieNode0096Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0096State
+      trieNode0096Labels trieNode0096Gain := by
+  unfold trieNode0096Labels trieNode0096Gain
+  exact BellmanLabelStepRun.append trieNode0095Run trieNode0096StepRun
+
+private def trieNode0097State : State := edge0145.dst
+private def trieNode0097StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0097StepGain : Int := edge0145.gain + (0)
+private def trieNode0097Labels : List SmokeLabel :=
+  trieNode0096Labels ++ trieNode0097StepLabels
+private def trieNode0097Gain : Int :=
+  trieNode0096Gain + trieNode0097StepGain
+
+private theorem trieNode0097StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0096State trieNode0097State
+      trieNode0097StepLabels trieNode0097StepGain := by
+  unfold trieNode0096State trieNode0097State
+  unfold trieNode0097StepLabels trieNode0097StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0145
+  exact BellmanLabelStepRun.nil trieNode0097State
+
+private theorem trieNode0097Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0097State
+      trieNode0097Labels trieNode0097Gain := by
+  unfold trieNode0097Labels trieNode0097Gain
+  exact BellmanLabelStepRun.append trieNode0096Run trieNode0097StepRun
+
+private def trieNode0098State : State := edge0158.dst
+private def trieNode0098StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0098StepGain : Int := edge0158.gain + (0)
+private def trieNode0098Labels : List SmokeLabel :=
+  trieNode0097Labels ++ trieNode0098StepLabels
+private def trieNode0098Gain : Int :=
+  trieNode0097Gain + trieNode0098StepGain
+
+private theorem trieNode0098StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0097State trieNode0098State
+      trieNode0098StepLabels trieNode0098StepGain := by
+  unfold trieNode0097State trieNode0098State
+  unfold trieNode0098StepLabels trieNode0098StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0158
+  exact BellmanLabelStepRun.nil trieNode0098State
+
+private theorem trieNode0098Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0098State
+      trieNode0098Labels trieNode0098Gain := by
+  unfold trieNode0098Labels trieNode0098Gain
+  exact BellmanLabelStepRun.append trieNode0097Run trieNode0098StepRun
+
+private def trieNode0099State : State := edge0173.dst
+private def trieNode0099StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0099StepGain : Int := edge0173.gain + (0)
+private def trieNode0099Labels : List SmokeLabel :=
+  trieNode0098Labels ++ trieNode0099StepLabels
+private def trieNode0099Gain : Int :=
+  trieNode0098Gain + trieNode0099StepGain
+
+private theorem trieNode0099StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0098State trieNode0099State
+      trieNode0099StepLabels trieNode0099StepGain := by
+  unfold trieNode0098State trieNode0099State
+  unfold trieNode0099StepLabels trieNode0099StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0173
+  exact BellmanLabelStepRun.nil trieNode0099State
+
+private theorem trieNode0099Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0099State
+      trieNode0099Labels trieNode0099Gain := by
+  unfold trieNode0099Labels trieNode0099Gain
+  exact BellmanLabelStepRun.append trieNode0098Run trieNode0099StepRun
+
+private def trieNode0100State : State := edge0190.dst
+private def trieNode0100StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0100StepGain : Int := edge0190.gain + (0)
+private def trieNode0100Labels : List SmokeLabel :=
+  trieNode0099Labels ++ trieNode0100StepLabels
+private def trieNode0100Gain : Int :=
+  trieNode0099Gain + trieNode0100StepGain
+
+private theorem trieNode0100StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0099State trieNode0100State
+      trieNode0100StepLabels trieNode0100StepGain := by
+  unfold trieNode0099State trieNode0100State
+  unfold trieNode0100StepLabels trieNode0100StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0190
+  exact BellmanLabelStepRun.nil trieNode0100State
+
+private theorem trieNode0100Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0100State
+      trieNode0100Labels trieNode0100Gain := by
+  unfold trieNode0100Labels trieNode0100Gain
+  exact BellmanLabelStepRun.append trieNode0099Run trieNode0100StepRun
+
+private def trieNode0101State : State := edge0210.dst
+private def trieNode0101StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0101StepGain : Int := edge0210.gain + (0)
+private def trieNode0101Labels : List SmokeLabel :=
+  trieNode0100Labels ++ trieNode0101StepLabels
+private def trieNode0101Gain : Int :=
+  trieNode0100Gain + trieNode0101StepGain
+
+private theorem trieNode0101StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0100State trieNode0101State
+      trieNode0101StepLabels trieNode0101StepGain := by
+  unfold trieNode0100State trieNode0101State
+  unfold trieNode0101StepLabels trieNode0101StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0210
+  exact BellmanLabelStepRun.nil trieNode0101State
+
+private theorem trieNode0101Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0101State
+      trieNode0101Labels trieNode0101Gain := by
+  unfold trieNode0101Labels trieNode0101Gain
+  exact BellmanLabelStepRun.append trieNode0100Run trieNode0101StepRun
+
+private def trieNode0102State : State := edge0006.dst
+private def trieNode0102StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0102StepGain : Int := edge0006.gain + (0)
+private def trieNode0102Labels : List SmokeLabel :=
+  trieNode0101Labels ++ trieNode0102StepLabels
+private def trieNode0102Gain : Int :=
+  trieNode0101Gain + trieNode0102StepGain
+
+private theorem trieNode0102StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0101State trieNode0102State
+      trieNode0102StepLabels trieNode0102StepGain := by
+  unfold trieNode0101State trieNode0102State
+  unfold trieNode0102StepLabels trieNode0102StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0006
+  exact BellmanLabelStepRun.nil trieNode0102State
+
+private theorem trieNode0102Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0102State
+      trieNode0102Labels trieNode0102Gain := by
+  unfold trieNode0102Labels trieNode0102Gain
+  exact BellmanLabelStepRun.append trieNode0101Run trieNode0102StepRun
+
+private def trieNode0103State : State := edge0045.dst
+private def trieNode0103StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0103StepGain : Int := edge0045.gain + (0)
+private def trieNode0103Labels : List SmokeLabel :=
+  trieNode0102Labels ++ trieNode0103StepLabels
+private def trieNode0103Gain : Int :=
+  trieNode0102Gain + trieNode0103StepGain
+
+private theorem trieNode0103StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0102State trieNode0103State
+      trieNode0103StepLabels trieNode0103StepGain := by
+  unfold trieNode0102State trieNode0103State
+  unfold trieNode0103StepLabels trieNode0103StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0045
+  exact BellmanLabelStepRun.nil trieNode0103State
+
+private theorem trieNode0103Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0103State
+      trieNode0103Labels trieNode0103Gain := by
+  unfold trieNode0103Labels trieNode0103Gain
+  exact BellmanLabelStepRun.append trieNode0102Run trieNode0103StepRun
+
+private def trieNode0104State : State := edge0080.dst
+private def trieNode0104StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0104StepGain : Int := edge0080.gain + (0)
+private def trieNode0104Labels : List SmokeLabel :=
+  trieNode0103Labels ++ trieNode0104StepLabels
+private def trieNode0104Gain : Int :=
+  trieNode0103Gain + trieNode0104StepGain
+
+private theorem trieNode0104StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0103State trieNode0104State
+      trieNode0104StepLabels trieNode0104StepGain := by
+  unfold trieNode0103State trieNode0104State
+  unfold trieNode0104StepLabels trieNode0104StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0080
+  exact BellmanLabelStepRun.nil trieNode0104State
+
+private theorem trieNode0104Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0104State
+      trieNode0104Labels trieNode0104Gain := by
+  unfold trieNode0104Labels trieNode0104Gain
+  exact BellmanLabelStepRun.append trieNode0103Run trieNode0104StepRun
+
+private def trieNode0105State : State := edge0123.dst
+private def trieNode0105StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0105StepGain : Int := edge0123.gain + (0)
+private def trieNode0105Labels : List SmokeLabel :=
+  trieNode0104Labels ++ trieNode0105StepLabels
+private def trieNode0105Gain : Int :=
+  trieNode0104Gain + trieNode0105StepGain
+
+private theorem trieNode0105StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0104State trieNode0105State
+      trieNode0105StepLabels trieNode0105StepGain := by
+  unfold trieNode0104State trieNode0105State
+  unfold trieNode0105StepLabels trieNode0105StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0123
+  exact BellmanLabelStepRun.nil trieNode0105State
+
+private theorem trieNode0105Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0105State
+      trieNode0105Labels trieNode0105Gain := by
+  unfold trieNode0105Labels trieNode0105Gain
+  exact BellmanLabelStepRun.append trieNode0104Run trieNode0105StepRun
+
+private def trieNode0106State : State := edge0136.dst
+private def trieNode0106StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0106StepGain : Int := edge0136.gain + (0)
+private def trieNode0106Labels : List SmokeLabel :=
+  trieNode0095Labels ++ trieNode0106StepLabels
+private def trieNode0106Gain : Int :=
+  trieNode0095Gain + trieNode0106StepGain
+
+private theorem trieNode0106StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0095State trieNode0106State
+      trieNode0106StepLabels trieNode0106StepGain := by
+  unfold trieNode0095State trieNode0106State
+  unfold trieNode0106StepLabels trieNode0106StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0136
+  exact BellmanLabelStepRun.nil trieNode0106State
+
+private theorem trieNode0106Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0106State
+      trieNode0106Labels trieNode0106Gain := by
+  unfold trieNode0106Labels trieNode0106Gain
+  exact BellmanLabelStepRun.append trieNode0095Run trieNode0106StepRun
+
+private def trieNode0107State : State := edge0148.dst
+private def trieNode0107StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0107StepGain : Int := edge0148.gain + (0)
+private def trieNode0107Labels : List SmokeLabel :=
+  trieNode0106Labels ++ trieNode0107StepLabels
+private def trieNode0107Gain : Int :=
+  trieNode0106Gain + trieNode0107StepGain
+
+private theorem trieNode0107StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0106State trieNode0107State
+      trieNode0107StepLabels trieNode0107StepGain := by
+  unfold trieNode0106State trieNode0107State
+  unfold trieNode0107StepLabels trieNode0107StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0148
+  exact BellmanLabelStepRun.nil trieNode0107State
+
+private theorem trieNode0107Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0107State
+      trieNode0107Labels trieNode0107Gain := by
+  unfold trieNode0107Labels trieNode0107Gain
+  exact BellmanLabelStepRun.append trieNode0106Run trieNode0107StepRun
+
+private def trieNode0108State : State := edge0161.dst
+private def trieNode0108StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0108StepGain : Int := edge0161.gain + (0)
+private def trieNode0108Labels : List SmokeLabel :=
+  trieNode0107Labels ++ trieNode0108StepLabels
+private def trieNode0108Gain : Int :=
+  trieNode0107Gain + trieNode0108StepGain
+
+private theorem trieNode0108StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0107State trieNode0108State
+      trieNode0108StepLabels trieNode0108StepGain := by
+  unfold trieNode0107State trieNode0108State
+  unfold trieNode0108StepLabels trieNode0108StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0161
+  exact BellmanLabelStepRun.nil trieNode0108State
+
+private theorem trieNode0108Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0108State
+      trieNode0108Labels trieNode0108Gain := by
+  unfold trieNode0108Labels trieNode0108Gain
+  exact BellmanLabelStepRun.append trieNode0107Run trieNode0108StepRun
+
+private def trieNode0109State : State := edge0175.dst
+private def trieNode0109StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0109StepGain : Int := edge0175.gain + (0)
+private def trieNode0109Labels : List SmokeLabel :=
+  trieNode0108Labels ++ trieNode0109StepLabels
+private def trieNode0109Gain : Int :=
+  trieNode0108Gain + trieNode0109StepGain
+
+private theorem trieNode0109StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0108State trieNode0109State
+      trieNode0109StepLabels trieNode0109StepGain := by
+  unfold trieNode0108State trieNode0109State
+  unfold trieNode0109StepLabels trieNode0109StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0175
+  exact BellmanLabelStepRun.nil trieNode0109State
+
+private theorem trieNode0109Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0109State
+      trieNode0109Labels trieNode0109Gain := by
+  unfold trieNode0109Labels trieNode0109Gain
+  exact BellmanLabelStepRun.append trieNode0108Run trieNode0109StepRun
+
+private def trieNode0110State : State := edge0193.dst
+private def trieNode0110StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0110StepGain : Int := edge0193.gain + (0)
+private def trieNode0110Labels : List SmokeLabel :=
+  trieNode0109Labels ++ trieNode0110StepLabels
+private def trieNode0110Gain : Int :=
+  trieNode0109Gain + trieNode0110StepGain
+
+private theorem trieNode0110StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0109State trieNode0110State
+      trieNode0110StepLabels trieNode0110StepGain := by
+  unfold trieNode0109State trieNode0110State
+  unfold trieNode0110StepLabels trieNode0110StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0193
+  exact BellmanLabelStepRun.nil trieNode0110State
+
+private theorem trieNode0110Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0110State
+      trieNode0110Labels trieNode0110Gain := by
+  unfold trieNode0110Labels trieNode0110Gain
+  exact BellmanLabelStepRun.append trieNode0109Run trieNode0110StepRun
+
+private def trieNode0111State : State := edge0213.dst
+private def trieNode0111StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0111StepGain : Int := edge0213.gain + (0)
+private def trieNode0111Labels : List SmokeLabel :=
+  trieNode0110Labels ++ trieNode0111StepLabels
+private def trieNode0111Gain : Int :=
+  trieNode0110Gain + trieNode0111StepGain
+
+private theorem trieNode0111StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0110State trieNode0111State
+      trieNode0111StepLabels trieNode0111StepGain := by
+  unfold trieNode0110State trieNode0111State
+  unfold trieNode0111StepLabels trieNode0111StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0213
+  exact BellmanLabelStepRun.nil trieNode0111State
+
+private theorem trieNode0111Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0111State
+      trieNode0111Labels trieNode0111Gain := by
+  unfold trieNode0111Labels trieNode0111Gain
+  exact BellmanLabelStepRun.append trieNode0110Run trieNode0111StepRun
+
+private def trieNode0112State : State := edge0011.dst
+private def trieNode0112StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0112StepGain : Int := edge0011.gain + (0)
+private def trieNode0112Labels : List SmokeLabel :=
+  trieNode0111Labels ++ trieNode0112StepLabels
+private def trieNode0112Gain : Int :=
+  trieNode0111Gain + trieNode0112StepGain
+
+private theorem trieNode0112StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0111State trieNode0112State
+      trieNode0112StepLabels trieNode0112StepGain := by
+  unfold trieNode0111State trieNode0112State
+  unfold trieNode0112StepLabels trieNode0112StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0011
+  exact BellmanLabelStepRun.nil trieNode0112State
+
+private theorem trieNode0112Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0112State
+      trieNode0112Labels trieNode0112Gain := by
+  unfold trieNode0112Labels trieNode0112Gain
+  exact BellmanLabelStepRun.append trieNode0111Run trieNode0112StepRun
+
+private def trieNode0113State : State := edge0050.dst
+private def trieNode0113StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0113StepGain : Int := edge0050.gain + (0)
+private def trieNode0113Labels : List SmokeLabel :=
+  trieNode0112Labels ++ trieNode0113StepLabels
+private def trieNode0113Gain : Int :=
+  trieNode0112Gain + trieNode0113StepGain
+
+private theorem trieNode0113StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0112State trieNode0113State
+      trieNode0113StepLabels trieNode0113StepGain := by
+  unfold trieNode0112State trieNode0113State
+  unfold trieNode0113StepLabels trieNode0113StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0050
+  exact BellmanLabelStepRun.nil trieNode0113State
+
+private theorem trieNode0113Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0113State
+      trieNode0113Labels trieNode0113Gain := by
+  unfold trieNode0113Labels trieNode0113Gain
+  exact BellmanLabelStepRun.append trieNode0112Run trieNode0113StepRun
+
+private def trieNode0114State : State := edge0086.dst
+private def trieNode0114StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0114StepGain : Int := edge0086.gain + (0)
+private def trieNode0114Labels : List SmokeLabel :=
+  trieNode0113Labels ++ trieNode0114StepLabels
+private def trieNode0114Gain : Int :=
+  trieNode0113Gain + trieNode0114StepGain
+
+private theorem trieNode0114StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0113State trieNode0114State
+      trieNode0114StepLabels trieNode0114StepGain := by
+  unfold trieNode0113State trieNode0114State
+  unfold trieNode0114StepLabels trieNode0114StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0086
+  exact BellmanLabelStepRun.nil trieNode0114State
+
+private theorem trieNode0114Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0114State
+      trieNode0114Labels trieNode0114Gain := by
+  unfold trieNode0114Labels trieNode0114Gain
+  exact BellmanLabelStepRun.append trieNode0113Run trieNode0114StepRun
+
+private def trieNode0115State : State := edge0120.dst
+private def trieNode0115StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0115StepGain : Int := edge0120.gain + (0)
+private def trieNode0115Labels : List SmokeLabel :=
+  trieNode0114Labels ++ trieNode0115StepLabels
+private def trieNode0115Gain : Int :=
+  trieNode0114Gain + trieNode0115StepGain
+
+private theorem trieNode0115StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0114State trieNode0115State
+      trieNode0115StepLabels trieNode0115StepGain := by
+  unfold trieNode0114State trieNode0115State
+  unfold trieNode0115StepLabels trieNode0115StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0120
+  exact BellmanLabelStepRun.nil trieNode0115State
+
+private theorem trieNode0115Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0115State
+      trieNode0115Labels trieNode0115Gain := by
+  unfold trieNode0115Labels trieNode0115Gain
+  exact BellmanLabelStepRun.append trieNode0114Run trieNode0115StepRun
+
+private def trieNode0116State : State := edge0131.dst
+private def trieNode0116StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0116StepGain : Int := edge0131.gain + (0)
+private def trieNode0116Labels : List SmokeLabel :=
+  trieNode0094Labels ++ trieNode0116StepLabels
+private def trieNode0116Gain : Int :=
+  trieNode0094Gain + trieNode0116StepGain
+
+private theorem trieNode0116StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0094State trieNode0116State
+      trieNode0116StepLabels trieNode0116StepGain := by
+  unfold trieNode0094State trieNode0116State
+  unfold trieNode0116StepLabels trieNode0116StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0131
+  exact BellmanLabelStepRun.nil trieNode0116State
+
+private theorem trieNode0116Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0116State
+      trieNode0116Labels trieNode0116Gain := by
+  unfold trieNode0116Labels trieNode0116Gain
+  exact BellmanLabelStepRun.append trieNode0094Run trieNode0116StepRun
+
+private def trieNode0117State : State := edge0139.dst
+private def trieNode0117StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0117StepGain : Int := edge0139.gain + (0)
+private def trieNode0117Labels : List SmokeLabel :=
+  trieNode0116Labels ++ trieNode0117StepLabels
+private def trieNode0117Gain : Int :=
+  trieNode0116Gain + trieNode0117StepGain
+
+private theorem trieNode0117StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0116State trieNode0117State
+      trieNode0117StepLabels trieNode0117StepGain := by
+  unfold trieNode0116State trieNode0117State
+  unfold trieNode0117StepLabels trieNode0117StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0139
+  exact BellmanLabelStepRun.nil trieNode0117State
+
+private theorem trieNode0117Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0117State
+      trieNode0117Labels trieNode0117Gain := by
+  unfold trieNode0117Labels trieNode0117Gain
+  exact BellmanLabelStepRun.append trieNode0116Run trieNode0117StepRun
+
+private def trieNode0118State : State := edge0145.dst
+private def trieNode0118StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0118StepGain : Int := edge0145.gain + (0)
+private def trieNode0118Labels : List SmokeLabel :=
+  trieNode0117Labels ++ trieNode0118StepLabels
+private def trieNode0118Gain : Int :=
+  trieNode0117Gain + trieNode0118StepGain
+
+private theorem trieNode0118StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0117State trieNode0118State
+      trieNode0118StepLabels trieNode0118StepGain := by
+  unfold trieNode0117State trieNode0118State
+  unfold trieNode0118StepLabels trieNode0118StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0145
+  exact BellmanLabelStepRun.nil trieNode0118State
+
+private theorem trieNode0118Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0118State
+      trieNode0118Labels trieNode0118Gain := by
+  unfold trieNode0118Labels trieNode0118Gain
+  exact BellmanLabelStepRun.append trieNode0117Run trieNode0118StepRun
+
+private def trieNode0119State : State := edge0158.dst
+private def trieNode0119StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0119StepGain : Int := edge0158.gain + (0)
+private def trieNode0119Labels : List SmokeLabel :=
+  trieNode0118Labels ++ trieNode0119StepLabels
+private def trieNode0119Gain : Int :=
+  trieNode0118Gain + trieNode0119StepGain
+
+private theorem trieNode0119StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0118State trieNode0119State
+      trieNode0119StepLabels trieNode0119StepGain := by
+  unfold trieNode0118State trieNode0119State
+  unfold trieNode0119StepLabels trieNode0119StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0158
+  exact BellmanLabelStepRun.nil trieNode0119State
+
+private theorem trieNode0119Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0119State
+      trieNode0119Labels trieNode0119Gain := by
+  unfold trieNode0119Labels trieNode0119Gain
+  exact BellmanLabelStepRun.append trieNode0118Run trieNode0119StepRun
+
+private def trieNode0120State : State := edge0173.dst
+private def trieNode0120StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0120StepGain : Int := edge0173.gain + (0)
+private def trieNode0120Labels : List SmokeLabel :=
+  trieNode0119Labels ++ trieNode0120StepLabels
+private def trieNode0120Gain : Int :=
+  trieNode0119Gain + trieNode0120StepGain
+
+private theorem trieNode0120StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0119State trieNode0120State
+      trieNode0120StepLabels trieNode0120StepGain := by
+  unfold trieNode0119State trieNode0120State
+  unfold trieNode0120StepLabels trieNode0120StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0173
+  exact BellmanLabelStepRun.nil trieNode0120State
+
+private theorem trieNode0120Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0120State
+      trieNode0120Labels trieNode0120Gain := by
+  unfold trieNode0120Labels trieNode0120Gain
+  exact BellmanLabelStepRun.append trieNode0119Run trieNode0120StepRun
+
+private def trieNode0121State : State := edge0190.dst
+private def trieNode0121StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0121StepGain : Int := edge0190.gain + (0)
+private def trieNode0121Labels : List SmokeLabel :=
+  trieNode0120Labels ++ trieNode0121StepLabels
+private def trieNode0121Gain : Int :=
+  trieNode0120Gain + trieNode0121StepGain
+
+private theorem trieNode0121StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0120State trieNode0121State
+      trieNode0121StepLabels trieNode0121StepGain := by
+  unfold trieNode0120State trieNode0121State
+  unfold trieNode0121StepLabels trieNode0121StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0190
+  exact BellmanLabelStepRun.nil trieNode0121State
+
+private theorem trieNode0121Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0121State
+      trieNode0121Labels trieNode0121Gain := by
+  unfold trieNode0121Labels trieNode0121Gain
+  exact BellmanLabelStepRun.append trieNode0120Run trieNode0121StepRun
+
+private def trieNode0122State : State := edge0210.dst
+private def trieNode0122StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0122StepGain : Int := edge0210.gain + (0)
+private def trieNode0122Labels : List SmokeLabel :=
+  trieNode0121Labels ++ trieNode0122StepLabels
+private def trieNode0122Gain : Int :=
+  trieNode0121Gain + trieNode0122StepGain
+
+private theorem trieNode0122StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0121State trieNode0122State
+      trieNode0122StepLabels trieNode0122StepGain := by
+  unfold trieNode0121State trieNode0122State
+  unfold trieNode0122StepLabels trieNode0122StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0210
+  exact BellmanLabelStepRun.nil trieNode0122State
+
+private theorem trieNode0122Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0122State
+      trieNode0122Labels trieNode0122Gain := by
+  unfold trieNode0122Labels trieNode0122Gain
+  exact BellmanLabelStepRun.append trieNode0121Run trieNode0122StepRun
+
+private def trieNode0123State : State := edge0006.dst
+private def trieNode0123StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0123StepGain : Int := edge0006.gain + (0)
+private def trieNode0123Labels : List SmokeLabel :=
+  trieNode0122Labels ++ trieNode0123StepLabels
+private def trieNode0123Gain : Int :=
+  trieNode0122Gain + trieNode0123StepGain
+
+private theorem trieNode0123StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0122State trieNode0123State
+      trieNode0123StepLabels trieNode0123StepGain := by
+  unfold trieNode0122State trieNode0123State
+  unfold trieNode0123StepLabels trieNode0123StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0006
+  exact BellmanLabelStepRun.nil trieNode0123State
+
+private theorem trieNode0123Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0123State
+      trieNode0123Labels trieNode0123Gain := by
+  unfold trieNode0123Labels trieNode0123Gain
+  exact BellmanLabelStepRun.append trieNode0122Run trieNode0123StepRun
+
+private def trieNode0124State : State := edge0045.dst
+private def trieNode0124StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0124StepGain : Int := edge0045.gain + (0)
+private def trieNode0124Labels : List SmokeLabel :=
+  trieNode0123Labels ++ trieNode0124StepLabels
+private def trieNode0124Gain : Int :=
+  trieNode0123Gain + trieNode0124StepGain
+
+private theorem trieNode0124StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0123State trieNode0124State
+      trieNode0124StepLabels trieNode0124StepGain := by
+  unfold trieNode0123State trieNode0124State
+  unfold trieNode0124StepLabels trieNode0124StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0045
+  exact BellmanLabelStepRun.nil trieNode0124State
+
+private theorem trieNode0124Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0124State
+      trieNode0124Labels trieNode0124Gain := by
+  unfold trieNode0124Labels trieNode0124Gain
+  exact BellmanLabelStepRun.append trieNode0123Run trieNode0124StepRun
+
+private def trieNode0125State : State := edge0080.dst
+private def trieNode0125StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0125StepGain : Int := edge0080.gain + (0)
+private def trieNode0125Labels : List SmokeLabel :=
+  trieNode0124Labels ++ trieNode0125StepLabels
+private def trieNode0125Gain : Int :=
+  trieNode0124Gain + trieNode0125StepGain
+
+private theorem trieNode0125StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0124State trieNode0125State
+      trieNode0125StepLabels trieNode0125StepGain := by
+  unfold trieNode0124State trieNode0125State
+  unfold trieNode0125StepLabels trieNode0125StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0080
+  exact BellmanLabelStepRun.nil trieNode0125State
+
+private theorem trieNode0125Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0125State
+      trieNode0125Labels trieNode0125Gain := by
+  unfold trieNode0125Labels trieNode0125Gain
+  exact BellmanLabelStepRun.append trieNode0124Run trieNode0125StepRun
+
+private def trieNode0126State : State := edge0123.dst
+private def trieNode0126StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0126StepGain : Int := edge0123.gain + (0)
+private def trieNode0126Labels : List SmokeLabel :=
+  trieNode0125Labels ++ trieNode0126StepLabels
+private def trieNode0126Gain : Int :=
+  trieNode0125Gain + trieNode0126StepGain
+
+private theorem trieNode0126StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0125State trieNode0126State
+      trieNode0126StepLabels trieNode0126StepGain := by
+  unfold trieNode0125State trieNode0126State
+  unfold trieNode0126StepLabels trieNode0126StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0123
+  exact BellmanLabelStepRun.nil trieNode0126State
+
+private theorem trieNode0126Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0126State
+      trieNode0126Labels trieNode0126Gain := by
+  unfold trieNode0126Labels trieNode0126Gain
+  exact BellmanLabelStepRun.append trieNode0125Run trieNode0126StepRun
+
+private def trieNode0127State : State := edge0140.dst
+private def trieNode0127StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0127StepGain : Int := edge0140.gain + (0)
+private def trieNode0127Labels : List SmokeLabel :=
+  trieNode0116Labels ++ trieNode0127StepLabels
+private def trieNode0127Gain : Int :=
+  trieNode0116Gain + trieNode0127StepGain
+
+private theorem trieNode0127StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0116State trieNode0127State
+      trieNode0127StepLabels trieNode0127StepGain := by
+  unfold trieNode0116State trieNode0127State
+  unfold trieNode0127StepLabels trieNode0127StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0140
+  exact BellmanLabelStepRun.nil trieNode0127State
+
+private theorem trieNode0127Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0127State
+      trieNode0127Labels trieNode0127Gain := by
+  unfold trieNode0127Labels trieNode0127Gain
+  exact BellmanLabelStepRun.append trieNode0116Run trieNode0127StepRun
+
+private def trieNode0128State : State := edge0152.dst
+private def trieNode0128StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0128StepGain : Int := edge0152.gain + (0)
+private def trieNode0128Labels : List SmokeLabel :=
+  trieNode0127Labels ++ trieNode0128StepLabels
+private def trieNode0128Gain : Int :=
+  trieNode0127Gain + trieNode0128StepGain
+
+private theorem trieNode0128StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0127State trieNode0128State
+      trieNode0128StepLabels trieNode0128StepGain := by
+  unfold trieNode0127State trieNode0128State
+  unfold trieNode0128StepLabels trieNode0128StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0152
+  exact BellmanLabelStepRun.nil trieNode0128State
+
+private theorem trieNode0128Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0128State
+      trieNode0128Labels trieNode0128Gain := by
+  unfold trieNode0128Labels trieNode0128Gain
+  exact BellmanLabelStepRun.append trieNode0127Run trieNode0128StepRun
+
+private def trieNode0129State : State := edge0166.dst
+private def trieNode0129StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0129StepGain : Int := edge0166.gain + (0)
+private def trieNode0129Labels : List SmokeLabel :=
+  trieNode0128Labels ++ trieNode0129StepLabels
+private def trieNode0129Gain : Int :=
+  trieNode0128Gain + trieNode0129StepGain
+
+private theorem trieNode0129StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0128State trieNode0129State
+      trieNode0129StepLabels trieNode0129StepGain := by
+  unfold trieNode0128State trieNode0129State
+  unfold trieNode0129StepLabels trieNode0129StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0166
+  exact BellmanLabelStepRun.nil trieNode0129State
+
+private theorem trieNode0129Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0129State
+      trieNode0129Labels trieNode0129Gain := by
+  unfold trieNode0129Labels trieNode0129Gain
+  exact BellmanLabelStepRun.append trieNode0128Run trieNode0129StepRun
+
+private def trieNode0130State : State := edge0182.dst
+private def trieNode0130StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0130StepGain : Int := edge0182.gain + (0)
+private def trieNode0130Labels : List SmokeLabel :=
+  trieNode0129Labels ++ trieNode0130StepLabels
+private def trieNode0130Gain : Int :=
+  trieNode0129Gain + trieNode0130StepGain
+
+private theorem trieNode0130StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0129State trieNode0130State
+      trieNode0130StepLabels trieNode0130StepGain := by
+  unfold trieNode0129State trieNode0130State
+  unfold trieNode0130StepLabels trieNode0130StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0182
+  exact BellmanLabelStepRun.nil trieNode0130State
+
+private theorem trieNode0130Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0130State
+      trieNode0130Labels trieNode0130Gain := by
+  unfold trieNode0130Labels trieNode0130Gain
+  exact BellmanLabelStepRun.append trieNode0129Run trieNode0130StepRun
+
+private def trieNode0131State : State := edge0200.dst
+private def trieNode0131StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0131StepGain : Int := edge0200.gain + (0)
+private def trieNode0131Labels : List SmokeLabel :=
+  trieNode0130Labels ++ trieNode0131StepLabels
+private def trieNode0131Gain : Int :=
+  trieNode0130Gain + trieNode0131StepGain
+
+private theorem trieNode0131StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0130State trieNode0131State
+      trieNode0131StepLabels trieNode0131StepGain := by
+  unfold trieNode0130State trieNode0131State
+  unfold trieNode0131StepLabels trieNode0131StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0200
+  exact BellmanLabelStepRun.nil trieNode0131State
+
+private theorem trieNode0131Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0131State
+      trieNode0131Labels trieNode0131Gain := by
+  unfold trieNode0131Labels trieNode0131Gain
+  exact BellmanLabelStepRun.append trieNode0130Run trieNode0131StepRun
+
+private def trieNode0132State : State := edge0223.dst
+private def trieNode0132StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0132StepGain : Int := edge0223.gain + (0)
+private def trieNode0132Labels : List SmokeLabel :=
+  trieNode0131Labels ++ trieNode0132StepLabels
+private def trieNode0132Gain : Int :=
+  trieNode0131Gain + trieNode0132StepGain
+
+private theorem trieNode0132StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0131State trieNode0132State
+      trieNode0132StepLabels trieNode0132StepGain := by
+  unfold trieNode0131State trieNode0132State
+  unfold trieNode0132StepLabels trieNode0132StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0223
+  exact BellmanLabelStepRun.nil trieNode0132State
+
+private theorem trieNode0132Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0132State
+      trieNode0132Labels trieNode0132Gain := by
+  unfold trieNode0132Labels trieNode0132Gain
+  exact BellmanLabelStepRun.append trieNode0131Run trieNode0132StepRun
+
+private def trieNode0133State : State := edge0027.dst
+private def trieNode0133StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0133StepGain : Int := edge0027.gain + (0)
+private def trieNode0133Labels : List SmokeLabel :=
+  trieNode0132Labels ++ trieNode0133StepLabels
+private def trieNode0133Gain : Int :=
+  trieNode0132Gain + trieNode0133StepGain
+
+private theorem trieNode0133StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0132State trieNode0133State
+      trieNode0133StepLabels trieNode0133StepGain := by
+  unfold trieNode0132State trieNode0133State
+  unfold trieNode0133StepLabels trieNode0133StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0027
+  exact BellmanLabelStepRun.nil trieNode0133State
+
+private theorem trieNode0133Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0133State
+      trieNode0133Labels trieNode0133Gain := by
+  unfold trieNode0133Labels trieNode0133Gain
+  exact BellmanLabelStepRun.append trieNode0132Run trieNode0133StepRun
+
+private def trieNode0134State : State := edge0044.dst
+private def trieNode0134StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0134StepGain : Int := edge0044.gain + (0)
+private def trieNode0134Labels : List SmokeLabel :=
+  trieNode0133Labels ++ trieNode0134StepLabels
+private def trieNode0134Gain : Int :=
+  trieNode0133Gain + trieNode0134StepGain
+
+private theorem trieNode0134StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0133State trieNode0134State
+      trieNode0134StepLabels trieNode0134StepGain := by
+  unfold trieNode0133State trieNode0134State
+  unfold trieNode0134StepLabels trieNode0134StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0044
+  exact BellmanLabelStepRun.nil trieNode0134State
+
+private theorem trieNode0134Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0134State
+      trieNode0134Labels trieNode0134Gain := by
+  unfold trieNode0134Labels trieNode0134Gain
+  exact BellmanLabelStepRun.append trieNode0133Run trieNode0134StepRun
+
+private def trieNode0135State : State := edge0079.dst
+private def trieNode0135StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0135StepGain : Int := edge0079.gain + (0)
+private def trieNode0135Labels : List SmokeLabel :=
+  trieNode0134Labels ++ trieNode0135StepLabels
+private def trieNode0135Gain : Int :=
+  trieNode0134Gain + trieNode0135StepGain
+
+private theorem trieNode0135StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0134State trieNode0135State
+      trieNode0135StepLabels trieNode0135StepGain := by
+  unfold trieNode0134State trieNode0135State
+  unfold trieNode0135StepLabels trieNode0135StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0079
+  exact BellmanLabelStepRun.nil trieNode0135State
+
+private theorem trieNode0135Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0135State
+      trieNode0135Labels trieNode0135Gain := by
+  unfold trieNode0135Labels trieNode0135Gain
+  exact BellmanLabelStepRun.append trieNode0134Run trieNode0135StepRun
+
+private def trieNode0136State : State := edge0122.dst
+private def trieNode0136StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0136StepGain : Int := edge0122.gain + (0)
+private def trieNode0136Labels : List SmokeLabel :=
+  trieNode0135Labels ++ trieNode0136StepLabels
+private def trieNode0136Gain : Int :=
+  trieNode0135Gain + trieNode0136StepGain
+
+private theorem trieNode0136StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0135State trieNode0136State
+      trieNode0136StepLabels trieNode0136StepGain := by
+  unfold trieNode0135State trieNode0136State
+  unfold trieNode0136StepLabels trieNode0136StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0122
+  exact BellmanLabelStepRun.nil trieNode0136State
+
+private theorem trieNode0136Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0136State
+      trieNode0136Labels trieNode0136Gain := by
+  unfold trieNode0136Labels trieNode0136Gain
+  exact BellmanLabelStepRun.append trieNode0135Run trieNode0136StepRun
+
+private def trieNode0137State : State := edge0028.dst
+private def trieNode0137StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0137StepGain : Int := edge0028.gain + (0)
+private def trieNode0137Labels : List SmokeLabel :=
+  trieNode0132Labels ++ trieNode0137StepLabels
+private def trieNode0137Gain : Int :=
+  trieNode0132Gain + trieNode0137StepGain
+
+private theorem trieNode0137StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0132State trieNode0137State
+      trieNode0137StepLabels trieNode0137StepGain := by
+  unfold trieNode0132State trieNode0137State
+  unfold trieNode0137StepLabels trieNode0137StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0028
+  exact BellmanLabelStepRun.nil trieNode0137State
+
+private theorem trieNode0137Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0137State
+      trieNode0137Labels trieNode0137Gain := by
+  unfold trieNode0137Labels trieNode0137Gain
+  exact BellmanLabelStepRun.append trieNode0132Run trieNode0137StepRun
+
+private def trieNode0138State : State := edge0059.dst
+private def trieNode0138StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0138StepGain : Int := edge0059.gain + (0)
+private def trieNode0138Labels : List SmokeLabel :=
+  trieNode0137Labels ++ trieNode0138StepLabels
+private def trieNode0138Gain : Int :=
+  trieNode0137Gain + trieNode0138StepGain
+
+private theorem trieNode0138StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0137State trieNode0138State
+      trieNode0138StepLabels trieNode0138StepGain := by
+  unfold trieNode0137State trieNode0138State
+  unfold trieNode0138StepLabels trieNode0138StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0059
+  exact BellmanLabelStepRun.nil trieNode0138State
+
+private theorem trieNode0138Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0138State
+      trieNode0138Labels trieNode0138Gain := by
+  unfold trieNode0138Labels trieNode0138Gain
+  exact BellmanLabelStepRun.append trieNode0137Run trieNode0138StepRun
+
+private def trieNode0139State : State := edge0094.dst
+private def trieNode0139StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0139StepGain : Int := edge0094.gain + (0)
+private def trieNode0139Labels : List SmokeLabel :=
+  trieNode0138Labels ++ trieNode0139StepLabels
+private def trieNode0139Gain : Int :=
+  trieNode0138Gain + trieNode0139StepGain
+
+private theorem trieNode0139StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0138State trieNode0139State
+      trieNode0139StepLabels trieNode0139StepGain := by
+  unfold trieNode0138State trieNode0139State
+  unfold trieNode0139StepLabels trieNode0139StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0094
+  exact BellmanLabelStepRun.nil trieNode0139State
+
+private theorem trieNode0139Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0139State
+      trieNode0139Labels trieNode0139Gain := by
+  unfold trieNode0139Labels trieNode0139Gain
+  exact BellmanLabelStepRun.append trieNode0138Run trieNode0139StepRun
+
+private def trieNode0140State : State := edge0121.dst
+private def trieNode0140StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0140StepGain : Int := edge0121.gain + (0)
+private def trieNode0140Labels : List SmokeLabel :=
+  trieNode0139Labels ++ trieNode0140StepLabels
+private def trieNode0140Gain : Int :=
+  trieNode0139Gain + trieNode0140StepGain
+
+private theorem trieNode0140StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0139State trieNode0140State
+      trieNode0140StepLabels trieNode0140StepGain := by
+  unfold trieNode0139State trieNode0140State
+  unfold trieNode0140StepLabels trieNode0140StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0121
+  exact BellmanLabelStepRun.nil trieNode0140State
+
+private theorem trieNode0140Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0140State
+      trieNode0140Labels trieNode0140Gain := by
+  unfold trieNode0140Labels trieNode0140Gain
+  exact BellmanLabelStepRun.append trieNode0139Run trieNode0140StepRun
+
+private def trieNode0141State : State := edge0132.dst
+private def trieNode0141StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0141StepGain : Int := edge0132.gain + (0)
+private def trieNode0141Labels : List SmokeLabel :=
+  trieNode0094Labels ++ trieNode0141StepLabels
+private def trieNode0141Gain : Int :=
+  trieNode0094Gain + trieNode0141StepGain
+
+private theorem trieNode0141StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0094State trieNode0141State
+      trieNode0141StepLabels trieNode0141StepGain := by
+  unfold trieNode0094State trieNode0141State
+  unfold trieNode0141StepLabels trieNode0141StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0132
+  exact BellmanLabelStepRun.nil trieNode0141State
+
+private theorem trieNode0141Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0141State
+      trieNode0141Labels trieNode0141Gain := by
+  unfold trieNode0141Labels trieNode0141Gain
+  exact BellmanLabelStepRun.append trieNode0094Run trieNode0141StepRun
+
+private def trieNode0142State : State := edge0142.dst
+private def trieNode0142StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0142StepGain : Int := edge0142.gain + (0)
+private def trieNode0142Labels : List SmokeLabel :=
+  trieNode0141Labels ++ trieNode0142StepLabels
+private def trieNode0142Gain : Int :=
+  trieNode0141Gain + trieNode0142StepGain
+
+private theorem trieNode0142StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0141State trieNode0142State
+      trieNode0142StepLabels trieNode0142StepGain := by
+  unfold trieNode0141State trieNode0142State
+  unfold trieNode0142StepLabels trieNode0142StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0142
+  exact BellmanLabelStepRun.nil trieNode0142State
+
+private theorem trieNode0142Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0142State
+      trieNode0142Labels trieNode0142Gain := by
+  unfold trieNode0142Labels trieNode0142Gain
+  exact BellmanLabelStepRun.append trieNode0141Run trieNode0142StepRun
+
+private def trieNode0143State : State := edge0153.dst
+private def trieNode0143StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0143StepGain : Int := edge0153.gain + (0)
+private def trieNode0143Labels : List SmokeLabel :=
+  trieNode0142Labels ++ trieNode0143StepLabels
+private def trieNode0143Gain : Int :=
+  trieNode0142Gain + trieNode0143StepGain
+
+private theorem trieNode0143StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0142State trieNode0143State
+      trieNode0143StepLabels trieNode0143StepGain := by
+  unfold trieNode0142State trieNode0143State
+  unfold trieNode0143StepLabels trieNode0143StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0153
+  exact BellmanLabelStepRun.nil trieNode0143State
+
+private theorem trieNode0143Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0143State
+      trieNode0143Labels trieNode0143Gain := by
+  unfold trieNode0143Labels trieNode0143Gain
+  exact BellmanLabelStepRun.append trieNode0142Run trieNode0143StepRun
+
+private def trieNode0144State : State := edge0167.dst
+private def trieNode0144StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0144StepGain : Int := edge0167.gain + (0)
+private def trieNode0144Labels : List SmokeLabel :=
+  trieNode0143Labels ++ trieNode0144StepLabels
+private def trieNode0144Gain : Int :=
+  trieNode0143Gain + trieNode0144StepGain
+
+private theorem trieNode0144StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0143State trieNode0144State
+      trieNode0144StepLabels trieNode0144StepGain := by
+  unfold trieNode0143State trieNode0144State
+  unfold trieNode0144StepLabels trieNode0144StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0167
+  exact BellmanLabelStepRun.nil trieNode0144State
+
+private theorem trieNode0144Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0144State
+      trieNode0144Labels trieNode0144Gain := by
+  unfold trieNode0144Labels trieNode0144Gain
+  exact BellmanLabelStepRun.append trieNode0143Run trieNode0144StepRun
+
+private def trieNode0145State : State := edge0184.dst
+private def trieNode0145StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0145StepGain : Int := edge0184.gain + (0)
+private def trieNode0145Labels : List SmokeLabel :=
+  trieNode0144Labels ++ trieNode0145StepLabels
+private def trieNode0145Gain : Int :=
+  trieNode0144Gain + trieNode0145StepGain
+
+private theorem trieNode0145StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0144State trieNode0145State
+      trieNode0145StepLabels trieNode0145StepGain := by
+  unfold trieNode0144State trieNode0145State
+  unfold trieNode0145StepLabels trieNode0145StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0184
+  exact BellmanLabelStepRun.nil trieNode0145State
+
+private theorem trieNode0145Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0145State
+      trieNode0145Labels trieNode0145Gain := by
+  unfold trieNode0145Labels trieNode0145Gain
+  exact BellmanLabelStepRun.append trieNode0144Run trieNode0145StepRun
+
+private def trieNode0146State : State := edge0202.dst
+private def trieNode0146StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0146StepGain : Int := edge0202.gain + (0)
+private def trieNode0146Labels : List SmokeLabel :=
+  trieNode0145Labels ++ trieNode0146StepLabels
+private def trieNode0146Gain : Int :=
+  trieNode0145Gain + trieNode0146StepGain
+
+private theorem trieNode0146StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0145State trieNode0146State
+      trieNode0146StepLabels trieNode0146StepGain := by
+  unfold trieNode0145State trieNode0146State
+  unfold trieNode0146StepLabels trieNode0146StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0202
+  exact BellmanLabelStepRun.nil trieNode0146State
+
+private theorem trieNode0146Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0146State
+      trieNode0146Labels trieNode0146Gain := by
+  unfold trieNode0146Labels trieNode0146Gain
+  exact BellmanLabelStepRun.append trieNode0145Run trieNode0146StepRun
+
+private def trieNode0147State : State := edge0226.dst
+private def trieNode0147StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0147StepGain : Int := edge0226.gain + (0)
+private def trieNode0147Labels : List SmokeLabel :=
+  trieNode0146Labels ++ trieNode0147StepLabels
+private def trieNode0147Gain : Int :=
+  trieNode0146Gain + trieNode0147StepGain
+
+private theorem trieNode0147StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0146State trieNode0147State
+      trieNode0147StepLabels trieNode0147StepGain := by
+  unfold trieNode0146State trieNode0147State
+  unfold trieNode0147StepLabels trieNode0147StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0226
+  exact BellmanLabelStepRun.nil trieNode0147State
+
+private theorem trieNode0147Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0147State
+      trieNode0147Labels trieNode0147Gain := by
+  unfold trieNode0147Labels trieNode0147Gain
+  exact BellmanLabelStepRun.append trieNode0146Run trieNode0147StepRun
+
+private def trieNode0148State : State := edge0010.dst
+private def trieNode0148StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0148StepGain : Int := edge0010.gain + (0)
+private def trieNode0148Labels : List SmokeLabel :=
+  trieNode0147Labels ++ trieNode0148StepLabels
+private def trieNode0148Gain : Int :=
+  trieNode0147Gain + trieNode0148StepGain
+
+private theorem trieNode0148StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0147State trieNode0148State
+      trieNode0148StepLabels trieNode0148StepGain := by
+  unfold trieNode0147State trieNode0148State
+  unfold trieNode0148StepLabels trieNode0148StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0010
+  exact BellmanLabelStepRun.nil trieNode0148State
+
+private theorem trieNode0148Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0148State
+      trieNode0148Labels trieNode0148Gain := by
+  unfold trieNode0148Labels trieNode0148Gain
+  exact BellmanLabelStepRun.append trieNode0147Run trieNode0148StepRun
+
+private def trieNode0149State : State := edge0049.dst
+private def trieNode0149StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0149StepGain : Int := edge0049.gain + (0)
+private def trieNode0149Labels : List SmokeLabel :=
+  trieNode0148Labels ++ trieNode0149StepLabels
+private def trieNode0149Gain : Int :=
+  trieNode0148Gain + trieNode0149StepGain
+
+private theorem trieNode0149StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0148State trieNode0149State
+      trieNode0149StepLabels trieNode0149StepGain := by
+  unfold trieNode0148State trieNode0149State
+  unfold trieNode0149StepLabels trieNode0149StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0049
+  exact BellmanLabelStepRun.nil trieNode0149State
+
+private theorem trieNode0149Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0149State
+      trieNode0149Labels trieNode0149Gain := by
+  unfold trieNode0149Labels trieNode0149Gain
+  exact BellmanLabelStepRun.append trieNode0148Run trieNode0149StepRun
+
+private def trieNode0150State : State := edge0084.dst
+private def trieNode0150StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0150StepGain : Int := edge0084.gain + (0)
+private def trieNode0150Labels : List SmokeLabel :=
+  trieNode0149Labels ++ trieNode0150StepLabels
+private def trieNode0150Gain : Int :=
+  trieNode0149Gain + trieNode0150StepGain
+
+private theorem trieNode0150StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0149State trieNode0150State
+      trieNode0150StepLabels trieNode0150StepGain := by
+  unfold trieNode0149State trieNode0150State
+  unfold trieNode0150StepLabels trieNode0150StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0084
+  exact BellmanLabelStepRun.nil trieNode0150State
+
+private theorem trieNode0150Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0150State
+      trieNode0150Labels trieNode0150Gain := by
+  unfold trieNode0150Labels trieNode0150Gain
+  exact BellmanLabelStepRun.append trieNode0149Run trieNode0150StepRun
+
+private def trieNode0151State : State := edge0118.dst
+private def trieNode0151StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0151StepGain : Int := edge0118.gain + (0)
+private def trieNode0151Labels : List SmokeLabel :=
+  trieNode0150Labels ++ trieNode0151StepLabels
+private def trieNode0151Gain : Int :=
+  trieNode0150Gain + trieNode0151StepGain
+
+private theorem trieNode0151StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0150State trieNode0151State
+      trieNode0151StepLabels trieNode0151StepGain := by
+  unfold trieNode0150State trieNode0151State
+  unfold trieNode0151StepLabels trieNode0151StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0118
+  exact BellmanLabelStepRun.nil trieNode0151State
+
+private theorem trieNode0151Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0151State
+      trieNode0151Labels trieNode0151Gain := by
+  unfold trieNode0151Labels trieNode0151Gain
+  exact BellmanLabelStepRun.append trieNode0150Run trieNode0151StepRun
+
+private def trieNode0152State : State := edge0227.dst
+private def trieNode0152StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0152StepGain : Int := edge0227.gain + (0)
+private def trieNode0152Labels : List SmokeLabel :=
+  trieNode0146Labels ++ trieNode0152StepLabels
+private def trieNode0152Gain : Int :=
+  trieNode0146Gain + trieNode0152StepGain
+
+private theorem trieNode0152StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0146State trieNode0152State
+      trieNode0152StepLabels trieNode0152StepGain := by
+  unfold trieNode0146State trieNode0152State
+  unfold trieNode0152StepLabels trieNode0152StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0227
+  exact BellmanLabelStepRun.nil trieNode0152State
+
+private theorem trieNode0152Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0152State
+      trieNode0152Labels trieNode0152Gain := by
+  unfold trieNode0152Labels trieNode0152Gain
+  exact BellmanLabelStepRun.append trieNode0146Run trieNode0152StepRun
+
+private def trieNode0153State : State := edge0029.dst
+private def trieNode0153StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0153StepGain : Int := edge0029.gain + (0)
+private def trieNode0153Labels : List SmokeLabel :=
+  trieNode0152Labels ++ trieNode0153StepLabels
+private def trieNode0153Gain : Int :=
+  trieNode0152Gain + trieNode0153StepGain
+
+private theorem trieNode0153StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0152State trieNode0153State
+      trieNode0153StepLabels trieNode0153StepGain := by
+  unfold trieNode0152State trieNode0153State
+  unfold trieNode0153StepLabels trieNode0153StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0029
+  exact BellmanLabelStepRun.nil trieNode0153State
+
+private theorem trieNode0153Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0153State
+      trieNode0153Labels trieNode0153Gain := by
+  unfold trieNode0153Labels trieNode0153Gain
+  exact BellmanLabelStepRun.append trieNode0152Run trieNode0153StepRun
+
+private def trieNode0154State : State := edge0062.dst
+private def trieNode0154StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0154StepGain : Int := edge0062.gain + (0)
+private def trieNode0154Labels : List SmokeLabel :=
+  trieNode0153Labels ++ trieNode0154StepLabels
+private def trieNode0154Gain : Int :=
+  trieNode0153Gain + trieNode0154StepGain
+
+private theorem trieNode0154StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0153State trieNode0154State
+      trieNode0154StepLabels trieNode0154StepGain := by
+  unfold trieNode0153State trieNode0154State
+  unfold trieNode0154StepLabels trieNode0154StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0062
+  exact BellmanLabelStepRun.nil trieNode0154State
+
+private theorem trieNode0154Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0154State
+      trieNode0154Labels trieNode0154Gain := by
+  unfold trieNode0154Labels trieNode0154Gain
+  exact BellmanLabelStepRun.append trieNode0153Run trieNode0154StepRun
+
+private def trieNode0155State : State := edge0085.dst
+private def trieNode0155StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0155StepGain : Int := edge0085.gain + (0)
+private def trieNode0155Labels : List SmokeLabel :=
+  trieNode0154Labels ++ trieNode0155StepLabels
+private def trieNode0155Gain : Int :=
+  trieNode0154Gain + trieNode0155StepGain
+
+private theorem trieNode0155StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0154State trieNode0155State
+      trieNode0155StepLabels trieNode0155StepGain := by
+  unfold trieNode0154State trieNode0155State
+  unfold trieNode0155StepLabels trieNode0155StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0085
+  exact BellmanLabelStepRun.nil trieNode0155State
+
+private theorem trieNode0155Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0155State
+      trieNode0155Labels trieNode0155Gain := by
+  unfold trieNode0155Labels trieNode0155Gain
+  exact BellmanLabelStepRun.append trieNode0154Run trieNode0155StepRun
+
+private def trieNode0156State : State := edge0119.dst
+private def trieNode0156StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0156StepGain : Int := edge0119.gain + (0)
+private def trieNode0156Labels : List SmokeLabel :=
+  trieNode0155Labels ++ trieNode0156StepLabels
+private def trieNode0156Gain : Int :=
+  trieNode0155Gain + trieNode0156StepGain
+
+private theorem trieNode0156StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0155State trieNode0156State
+      trieNode0156StepLabels trieNode0156StepGain := by
+  unfold trieNode0155State trieNode0156State
+  unfold trieNode0156StepLabels trieNode0156StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0119
+  exact BellmanLabelStepRun.nil trieNode0156State
+
+private theorem trieNode0156Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0156State
+      trieNode0156Labels trieNode0156Gain := by
+  unfold trieNode0156Labels trieNode0156Gain
+  exact BellmanLabelStepRun.append trieNode0155Run trieNode0156StepRun
+
+private def trieNode0157State : State := edge0063.dst
+private def trieNode0157StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0157StepGain : Int := edge0063.gain + (0)
+private def trieNode0157Labels : List SmokeLabel :=
+  trieNode0153Labels ++ trieNode0157StepLabels
+private def trieNode0157Gain : Int :=
+  trieNode0153Gain + trieNode0157StepGain
+
+private theorem trieNode0157StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0153State trieNode0157State
+      trieNode0157StepLabels trieNode0157StepGain := by
+  unfold trieNode0153State trieNode0157State
+  unfold trieNode0157StepLabels trieNode0157StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0063
+  exact BellmanLabelStepRun.nil trieNode0157State
+
+private theorem trieNode0157Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0157State
+      trieNode0157Labels trieNode0157Gain := by
+  unfold trieNode0157Labels trieNode0157Gain
+  exact BellmanLabelStepRun.append trieNode0153Run trieNode0157StepRun
+
+private def trieNode0158State : State := edge0093.dst
+private def trieNode0158StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0158StepGain : Int := edge0093.gain + (0)
+private def trieNode0158Labels : List SmokeLabel :=
+  trieNode0157Labels ++ trieNode0158StepLabels
+private def trieNode0158Gain : Int :=
+  trieNode0157Gain + trieNode0158StepGain
+
+private theorem trieNode0158StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0157State trieNode0158State
+      trieNode0158StepLabels trieNode0158StepGain := by
+  unfold trieNode0157State trieNode0158State
+  unfold trieNode0158StepLabels trieNode0158StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0093
+  exact BellmanLabelStepRun.nil trieNode0158State
+
+private theorem trieNode0158Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0158State
+      trieNode0158Labels trieNode0158Gain := by
+  unfold trieNode0158Labels trieNode0158Gain
+  exact BellmanLabelStepRun.append trieNode0157Run trieNode0158StepRun
+
+private def trieNode0159State : State := edge0119.dst
+private def trieNode0159StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0159StepGain : Int := edge0119.gain + (0)
+private def trieNode0159Labels : List SmokeLabel :=
+  trieNode0158Labels ++ trieNode0159StepLabels
+private def trieNode0159Gain : Int :=
+  trieNode0158Gain + trieNode0159StepGain
+
+private theorem trieNode0159StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0158State trieNode0159State
+      trieNode0159StepLabels trieNode0159StepGain := by
+  unfold trieNode0158State trieNode0159State
+  unfold trieNode0159StepLabels trieNode0159StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0119
+  exact BellmanLabelStepRun.nil trieNode0159State
+
+private theorem trieNode0159Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0159State
+      trieNode0159Labels trieNode0159Gain := by
+  unfold trieNode0159Labels trieNode0159Gain
+  exact BellmanLabelStepRun.append trieNode0158Run trieNode0159StepRun
+
+private def trieNode0160State : State := edge0127.dst
+private def trieNode0160StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0002]
+private def trieNode0160StepGain : Int := edge0127.gain + (0)
+private def trieNode0160Labels : List SmokeLabel :=
+  trieNode0002Labels ++ trieNode0160StepLabels
+private def trieNode0160Gain : Int :=
+  trieNode0002Gain + trieNode0160StepGain
+
+private theorem trieNode0160StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0002State trieNode0160State
+      trieNode0160StepLabels trieNode0160StepGain := by
+  unfold trieNode0002State trieNode0160State
+  unfold trieNode0160StepLabels trieNode0160StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  exact BellmanLabelStepRun.nil trieNode0160State
+
+private theorem trieNode0160Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0160State
+      trieNode0160Labels trieNode0160Gain := by
+  unfold trieNode0160Labels trieNode0160Gain
+  exact BellmanLabelStepRun.append trieNode0002Run trieNode0160StepRun
+
+private def trieNode0161State : State := edge0133.dst
+private def trieNode0161StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0161StepGain : Int := edge0133.gain + (0)
+private def trieNode0161Labels : List SmokeLabel :=
+  trieNode0160Labels ++ trieNode0161StepLabels
+private def trieNode0161Gain : Int :=
+  trieNode0160Gain + trieNode0161StepGain
+
+private theorem trieNode0161StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0160State trieNode0161State
+      trieNode0161StepLabels trieNode0161StepGain := by
+  unfold trieNode0160State trieNode0161State
+  unfold trieNode0161StepLabels trieNode0161StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0133
+  exact BellmanLabelStepRun.nil trieNode0161State
+
+private theorem trieNode0161Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0161State
+      trieNode0161Labels trieNode0161Gain := by
+  unfold trieNode0161Labels trieNode0161Gain
+  exact BellmanLabelStepRun.append trieNode0160Run trieNode0161StepRun
+
+private def trieNode0162State : State := edge0141.dst
+private def trieNode0162StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0162StepGain : Int := edge0141.gain + (0)
+private def trieNode0162Labels : List SmokeLabel :=
+  trieNode0161Labels ++ trieNode0162StepLabels
+private def trieNode0162Gain : Int :=
+  trieNode0161Gain + trieNode0162StepGain
+
+private theorem trieNode0162StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0161State trieNode0162State
+      trieNode0162StepLabels trieNode0162StepGain := by
+  unfold trieNode0161State trieNode0162State
+  unfold trieNode0162StepLabels trieNode0162StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0141
+  exact BellmanLabelStepRun.nil trieNode0162State
+
+private theorem trieNode0162Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0162State
+      trieNode0162Labels trieNode0162Gain := by
+  unfold trieNode0162Labels trieNode0162Gain
+  exact BellmanLabelStepRun.append trieNode0161Run trieNode0162StepRun
+
+private def trieNode0163State : State := edge0151.dst
+private def trieNode0163StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0163StepGain : Int := edge0151.gain + (0)
+private def trieNode0163Labels : List SmokeLabel :=
+  trieNode0162Labels ++ trieNode0163StepLabels
+private def trieNode0163Gain : Int :=
+  trieNode0162Gain + trieNode0163StepGain
+
+private theorem trieNode0163StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0162State trieNode0163State
+      trieNode0163StepLabels trieNode0163StepGain := by
+  unfold trieNode0162State trieNode0163State
+  unfold trieNode0163StepLabels trieNode0163StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0151
+  exact BellmanLabelStepRun.nil trieNode0163State
+
+private theorem trieNode0163Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0163State
+      trieNode0163Labels trieNode0163Gain := by
+  unfold trieNode0163Labels trieNode0163Gain
+  exact BellmanLabelStepRun.append trieNode0162Run trieNode0163StepRun
+
+private def trieNode0164State : State := edge0165.dst
+private def trieNode0164StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0164StepGain : Int := edge0165.gain + (0)
+private def trieNode0164Labels : List SmokeLabel :=
+  trieNode0163Labels ++ trieNode0164StepLabels
+private def trieNode0164Gain : Int :=
+  trieNode0163Gain + trieNode0164StepGain
+
+private theorem trieNode0164StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0163State trieNode0164State
+      trieNode0164StepLabels trieNode0164StepGain := by
+  unfold trieNode0163State trieNode0164State
+  unfold trieNode0164StepLabels trieNode0164StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0165
+  exact BellmanLabelStepRun.nil trieNode0164State
+
+private theorem trieNode0164Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0164State
+      trieNode0164Labels trieNode0164Gain := by
+  unfold trieNode0164Labels trieNode0164Gain
+  exact BellmanLabelStepRun.append trieNode0163Run trieNode0164StepRun
+
+private def trieNode0165State : State := edge0181.dst
+private def trieNode0165StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0165StepGain : Int := edge0181.gain + (0)
+private def trieNode0165Labels : List SmokeLabel :=
+  trieNode0164Labels ++ trieNode0165StepLabels
+private def trieNode0165Gain : Int :=
+  trieNode0164Gain + trieNode0165StepGain
+
+private theorem trieNode0165StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0164State trieNode0165State
+      trieNode0165StepLabels trieNode0165StepGain := by
+  unfold trieNode0164State trieNode0165State
+  unfold trieNode0165StepLabels trieNode0165StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0181
+  exact BellmanLabelStepRun.nil trieNode0165State
+
+private theorem trieNode0165Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0165State
+      trieNode0165Labels trieNode0165Gain := by
+  unfold trieNode0165Labels trieNode0165Gain
+  exact BellmanLabelStepRun.append trieNode0164Run trieNode0165StepRun
+
+private def trieNode0166State : State := edge0199.dst
+private def trieNode0166StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0166StepGain : Int := edge0199.gain + (0)
+private def trieNode0166Labels : List SmokeLabel :=
+  trieNode0165Labels ++ trieNode0166StepLabels
+private def trieNode0166Gain : Int :=
+  trieNode0165Gain + trieNode0166StepGain
+
+private theorem trieNode0166StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0165State trieNode0166State
+      trieNode0166StepLabels trieNode0166StepGain := by
+  unfold trieNode0165State trieNode0166State
+  unfold trieNode0166StepLabels trieNode0166StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0199
+  exact BellmanLabelStepRun.nil trieNode0166State
+
+private theorem trieNode0166Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0166State
+      trieNode0166Labels trieNode0166Gain := by
+  unfold trieNode0166Labels trieNode0166Gain
+  exact BellmanLabelStepRun.append trieNode0165Run trieNode0166StepRun
+
+private def trieNode0167State : State := edge0222.dst
+private def trieNode0167StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0167StepGain : Int := edge0222.gain + (0)
+private def trieNode0167Labels : List SmokeLabel :=
+  trieNode0166Labels ++ trieNode0167StepLabels
+private def trieNode0167Gain : Int :=
+  trieNode0166Gain + trieNode0167StepGain
+
+private theorem trieNode0167StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0166State trieNode0167State
+      trieNode0167StepLabels trieNode0167StepGain := by
+  unfold trieNode0166State trieNode0167State
+  unfold trieNode0167StepLabels trieNode0167StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0222
+  exact BellmanLabelStepRun.nil trieNode0167State
+
+private theorem trieNode0167Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0167State
+      trieNode0167Labels trieNode0167Gain := by
+  unfold trieNode0167Labels trieNode0167Gain
+  exact BellmanLabelStepRun.append trieNode0166Run trieNode0167StepRun
+
+private def trieNode0168State : State := edge0026.dst
+private def trieNode0168StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0168StepGain : Int := edge0026.gain + (0)
+private def trieNode0168Labels : List SmokeLabel :=
+  trieNode0167Labels ++ trieNode0168StepLabels
+private def trieNode0168Gain : Int :=
+  trieNode0167Gain + trieNode0168StepGain
+
+private theorem trieNode0168StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0167State trieNode0168State
+      trieNode0168StepLabels trieNode0168StepGain := by
+  unfold trieNode0167State trieNode0168State
+  unfold trieNode0168StepLabels trieNode0168StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0026
+  exact BellmanLabelStepRun.nil trieNode0168State
+
+private theorem trieNode0168Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0168State
+      trieNode0168Labels trieNode0168Gain := by
+  unfold trieNode0168Labels trieNode0168Gain
+  exact BellmanLabelStepRun.append trieNode0167Run trieNode0168StepRun
+
+private def trieNode0169State : State := edge0037.dst
+private def trieNode0169StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0169StepGain : Int := edge0037.gain + (0)
+private def trieNode0169Labels : List SmokeLabel :=
+  trieNode0168Labels ++ trieNode0169StepLabels
+private def trieNode0169Gain : Int :=
+  trieNode0168Gain + trieNode0169StepGain
+
+private theorem trieNode0169StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0168State trieNode0169State
+      trieNode0169StepLabels trieNode0169StepGain := by
+  unfold trieNode0168State trieNode0169State
+  unfold trieNode0169StepLabels trieNode0169StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0037
+  exact BellmanLabelStepRun.nil trieNode0169State
+
+private theorem trieNode0169Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0169State
+      trieNode0169Labels trieNode0169Gain := by
+  unfold trieNode0169Labels trieNode0169Gain
+  exact BellmanLabelStepRun.append trieNode0168Run trieNode0169StepRun
+
+private def trieNode0170State : State := edge0070.dst
+private def trieNode0170StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0170StepGain : Int := edge0070.gain + (0)
+private def trieNode0170Labels : List SmokeLabel :=
+  trieNode0169Labels ++ trieNode0170StepLabels
+private def trieNode0170Gain : Int :=
+  trieNode0169Gain + trieNode0170StepGain
+
+private theorem trieNode0170StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0169State trieNode0170State
+      trieNode0170StepLabels trieNode0170StepGain := by
+  unfold trieNode0169State trieNode0170State
+  unfold trieNode0170StepLabels trieNode0170StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0070
+  exact BellmanLabelStepRun.nil trieNode0170State
+
+private theorem trieNode0170Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0170State
+      trieNode0170Labels trieNode0170Gain := by
+  unfold trieNode0170Labels trieNode0170Gain
+  exact BellmanLabelStepRun.append trieNode0169Run trieNode0170StepRun
+
+private def trieNode0171State : State := edge0108.dst
+private def trieNode0171StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0171StepGain : Int := edge0108.gain + (0)
+private def trieNode0171Labels : List SmokeLabel :=
+  trieNode0170Labels ++ trieNode0171StepLabels
+private def trieNode0171Gain : Int :=
+  trieNode0170Gain + trieNode0171StepGain
+
+private theorem trieNode0171StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0170State trieNode0171State
+      trieNode0171StepLabels trieNode0171StepGain := by
+  unfold trieNode0170State trieNode0171State
+  unfold trieNode0171StepLabels trieNode0171StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0108
+  exact BellmanLabelStepRun.nil trieNode0171State
+
+private theorem trieNode0171Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0171State
+      trieNode0171Labels trieNode0171Gain := by
+  unfold trieNode0171Labels trieNode0171Gain
+  exact BellmanLabelStepRun.append trieNode0170Run trieNode0171StepRun
+
+private def trieNode0172State : State := edge0134.dst
+private def trieNode0172StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0006]
+private def trieNode0172StepGain : Int := edge0134.gain + (0)
+private def trieNode0172Labels : List SmokeLabel :=
+  trieNode0160Labels ++ trieNode0172StepLabels
+private def trieNode0172Gain : Int :=
+  trieNode0160Gain + trieNode0172StepGain
+
+private theorem trieNode0172StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0160State trieNode0172State
+      trieNode0172StepLabels trieNode0172StepGain := by
+  unfold trieNode0160State trieNode0172State
+  unfold trieNode0172StepLabels trieNode0172StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  exact BellmanLabelStepRun.nil trieNode0172State
+
+private theorem trieNode0172Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0172State
+      trieNode0172Labels trieNode0172Gain := by
+  unfold trieNode0172Labels trieNode0172Gain
+  exact BellmanLabelStepRun.append trieNode0160Run trieNode0172StepRun
+
+private def trieNode0173State : State := edge0143.dst
+private def trieNode0173StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0173StepGain : Int := edge0143.gain + (0)
+private def trieNode0173Labels : List SmokeLabel :=
+  trieNode0172Labels ++ trieNode0173StepLabels
+private def trieNode0173Gain : Int :=
+  trieNode0172Gain + trieNode0173StepGain
+
+private theorem trieNode0173StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0172State trieNode0173State
+      trieNode0173StepLabels trieNode0173StepGain := by
+  unfold trieNode0172State trieNode0173State
+  unfold trieNode0173StepLabels trieNode0173StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0143
+  exact BellmanLabelStepRun.nil trieNode0173State
+
+private theorem trieNode0173Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0173State
+      trieNode0173Labels trieNode0173Gain := by
+  unfold trieNode0173Labels trieNode0173Gain
+  exact BellmanLabelStepRun.append trieNode0172Run trieNode0173StepRun
+
+private def trieNode0174State : State := edge0154.dst
+private def trieNode0174StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0174StepGain : Int := edge0154.gain + (0)
+private def trieNode0174Labels : List SmokeLabel :=
+  trieNode0173Labels ++ trieNode0174StepLabels
+private def trieNode0174Gain : Int :=
+  trieNode0173Gain + trieNode0174StepGain
+
+private theorem trieNode0174StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0173State trieNode0174State
+      trieNode0174StepLabels trieNode0174StepGain := by
+  unfold trieNode0173State trieNode0174State
+  unfold trieNode0174StepLabels trieNode0174StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0154
+  exact BellmanLabelStepRun.nil trieNode0174State
+
+private theorem trieNode0174Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0174State
+      trieNode0174Labels trieNode0174Gain := by
+  unfold trieNode0174Labels trieNode0174Gain
+  exact BellmanLabelStepRun.append trieNode0173Run trieNode0174StepRun
+
+private def trieNode0175State : State := edge0164.dst
+private def trieNode0175StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0175StepGain : Int := edge0164.gain + (0)
+private def trieNode0175Labels : List SmokeLabel :=
+  trieNode0174Labels ++ trieNode0175StepLabels
+private def trieNode0175Gain : Int :=
+  trieNode0174Gain + trieNode0175StepGain
+
+private theorem trieNode0175StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0174State trieNode0175State
+      trieNode0175StepLabels trieNode0175StepGain := by
+  unfold trieNode0174State trieNode0175State
+  unfold trieNode0175StepLabels trieNode0175StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0164
+  exact BellmanLabelStepRun.nil trieNode0175State
+
+private theorem trieNode0175Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0175State
+      trieNode0175Labels trieNode0175Gain := by
+  unfold trieNode0175Labels trieNode0175Gain
+  exact BellmanLabelStepRun.append trieNode0174Run trieNode0175StepRun
+
+private def trieNode0176State : State := edge0180.dst
+private def trieNode0176StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0176StepGain : Int := edge0180.gain + (0)
+private def trieNode0176Labels : List SmokeLabel :=
+  trieNode0175Labels ++ trieNode0176StepLabels
+private def trieNode0176Gain : Int :=
+  trieNode0175Gain + trieNode0176StepGain
+
+private theorem trieNode0176StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0175State trieNode0176State
+      trieNode0176StepLabels trieNode0176StepGain := by
+  unfold trieNode0175State trieNode0176State
+  unfold trieNode0176StepLabels trieNode0176StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0180
+  exact BellmanLabelStepRun.nil trieNode0176State
+
+private theorem trieNode0176Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0176State
+      trieNode0176Labels trieNode0176Gain := by
+  unfold trieNode0176Labels trieNode0176Gain
+  exact BellmanLabelStepRun.append trieNode0175Run trieNode0176StepRun
+
+private def trieNode0177State : State := edge0198.dst
+private def trieNode0177StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0177StepGain : Int := edge0198.gain + (0)
+private def trieNode0177Labels : List SmokeLabel :=
+  trieNode0176Labels ++ trieNode0177StepLabels
+private def trieNode0177Gain : Int :=
+  trieNode0176Gain + trieNode0177StepGain
+
+private theorem trieNode0177StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0176State trieNode0177State
+      trieNode0177StepLabels trieNode0177StepGain := by
+  unfold trieNode0176State trieNode0177State
+  unfold trieNode0177StepLabels trieNode0177StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0198
+  exact BellmanLabelStepRun.nil trieNode0177State
+
+private theorem trieNode0177Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0177State
+      trieNode0177Labels trieNode0177Gain := by
+  unfold trieNode0177Labels trieNode0177Gain
+  exact BellmanLabelStepRun.append trieNode0176Run trieNode0177StepRun
+
+private def trieNode0178State : State := edge0221.dst
+private def trieNode0178StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0178StepGain : Int := edge0221.gain + (0)
+private def trieNode0178Labels : List SmokeLabel :=
+  trieNode0177Labels ++ trieNode0178StepLabels
+private def trieNode0178Gain : Int :=
+  trieNode0177Gain + trieNode0178StepGain
+
+private theorem trieNode0178StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0177State trieNode0178State
+      trieNode0178StepLabels trieNode0178StepGain := by
+  unfold trieNode0177State trieNode0178State
+  unfold trieNode0178StepLabels trieNode0178StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0221
+  exact BellmanLabelStepRun.nil trieNode0178State
+
+private theorem trieNode0178Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0178State
+      trieNode0178Labels trieNode0178Gain := by
+  unfold trieNode0178Labels trieNode0178Gain
+  exact BellmanLabelStepRun.append trieNode0177Run trieNode0178StepRun
+
+private def trieNode0179State : State := edge0024.dst
+private def trieNode0179StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0179StepGain : Int := edge0024.gain + (0)
+private def trieNode0179Labels : List SmokeLabel :=
+  trieNode0178Labels ++ trieNode0179StepLabels
+private def trieNode0179Gain : Int :=
+  trieNode0178Gain + trieNode0179StepGain
+
+private theorem trieNode0179StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0178State trieNode0179State
+      trieNode0179StepLabels trieNode0179StepGain := by
+  unfold trieNode0178State trieNode0179State
+  unfold trieNode0179StepLabels trieNode0179StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0024
+  exact BellmanLabelStepRun.nil trieNode0179State
+
+private theorem trieNode0179Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0179State
+      trieNode0179Labels trieNode0179Gain := by
+  unfold trieNode0179Labels trieNode0179Gain
+  exact BellmanLabelStepRun.append trieNode0178Run trieNode0179StepRun
+
+private def trieNode0180State : State := edge0036.dst
+private def trieNode0180StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0180StepGain : Int := edge0036.gain + (0)
+private def trieNode0180Labels : List SmokeLabel :=
+  trieNode0179Labels ++ trieNode0180StepLabels
+private def trieNode0180Gain : Int :=
+  trieNode0179Gain + trieNode0180StepGain
+
+private theorem trieNode0180StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0179State trieNode0180State
+      trieNode0180StepLabels trieNode0180StepGain := by
+  unfold trieNode0179State trieNode0180State
+  unfold trieNode0180StepLabels trieNode0180StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0036
+  exact BellmanLabelStepRun.nil trieNode0180State
+
+private theorem trieNode0180Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0180State
+      trieNode0180Labels trieNode0180Gain := by
+  unfold trieNode0180Labels trieNode0180Gain
+  exact BellmanLabelStepRun.append trieNode0179Run trieNode0180StepRun
+
+private def trieNode0181State : State := edge0069.dst
+private def trieNode0181StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0181StepGain : Int := edge0069.gain + (0)
+private def trieNode0181Labels : List SmokeLabel :=
+  trieNode0180Labels ++ trieNode0181StepLabels
+private def trieNode0181Gain : Int :=
+  trieNode0180Gain + trieNode0181StepGain
+
+private theorem trieNode0181StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0180State trieNode0181State
+      trieNode0181StepLabels trieNode0181StepGain := by
+  unfold trieNode0180State trieNode0181State
+  unfold trieNode0181StepLabels trieNode0181StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0069
+  exact BellmanLabelStepRun.nil trieNode0181State
+
+private theorem trieNode0181Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0181State
+      trieNode0181Labels trieNode0181Gain := by
+  unfold trieNode0181Labels trieNode0181Gain
+  exact BellmanLabelStepRun.append trieNode0180Run trieNode0181StepRun
+
+private def trieNode0182State : State := edge0107.dst
+private def trieNode0182StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0182StepGain : Int := edge0107.gain + (0)
+private def trieNode0182Labels : List SmokeLabel :=
+  trieNode0181Labels ++ trieNode0182StepLabels
+private def trieNode0182Gain : Int :=
+  trieNode0181Gain + trieNode0182StepGain
+
+private theorem trieNode0182StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0181State trieNode0182State
+      trieNode0182StepLabels trieNode0182StepGain := by
+  unfold trieNode0181State trieNode0182State
+  unfold trieNode0182StepLabels trieNode0182StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0107
+  exact BellmanLabelStepRun.nil trieNode0182State
+
+private theorem trieNode0182Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0182State
+      trieNode0182Labels trieNode0182Gain := by
+  unfold trieNode0182Labels trieNode0182Gain
+  exact BellmanLabelStepRun.append trieNode0181Run trieNode0182StepRun
+
+private def trieNode0183State : State := edge0025.dst
+private def trieNode0183StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0183StepGain : Int := edge0025.gain + (0)
+private def trieNode0183Labels : List SmokeLabel :=
+  trieNode0178Labels ++ trieNode0183StepLabels
+private def trieNode0183Gain : Int :=
+  trieNode0178Gain + trieNode0183StepGain
+
+private theorem trieNode0183StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0178State trieNode0183State
+      trieNode0183StepLabels trieNode0183StepGain := by
+  unfold trieNode0178State trieNode0183State
+  unfold trieNode0183StepLabels trieNode0183StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0025
+  exact BellmanLabelStepRun.nil trieNode0183State
+
+private theorem trieNode0183Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0183State
+      trieNode0183Labels trieNode0183Gain := by
+  unfold trieNode0183Labels trieNode0183Gain
+  exact BellmanLabelStepRun.append trieNode0178Run trieNode0183StepRun
+
+private def trieNode0184State : State := edge0058.dst
+private def trieNode0184StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0184StepGain : Int := edge0058.gain + (0)
+private def trieNode0184Labels : List SmokeLabel :=
+  trieNode0183Labels ++ trieNode0184StepLabels
+private def trieNode0184Gain : Int :=
+  trieNode0183Gain + trieNode0184StepGain
+
+private theorem trieNode0184StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0183State trieNode0184State
+      trieNode0184StepLabels trieNode0184StepGain := by
+  unfold trieNode0183State trieNode0184State
+  unfold trieNode0184StepLabels trieNode0184StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0058
+  exact BellmanLabelStepRun.nil trieNode0184State
+
+private theorem trieNode0184Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0184State
+      trieNode0184Labels trieNode0184Gain := by
+  unfold trieNode0184Labels trieNode0184Gain
+  exact BellmanLabelStepRun.append trieNode0183Run trieNode0184StepRun
+
+private def trieNode0185State : State := edge0092.dst
+private def trieNode0185StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0185StepGain : Int := edge0092.gain + (0)
+private def trieNode0185Labels : List SmokeLabel :=
+  trieNode0184Labels ++ trieNode0185StepLabels
+private def trieNode0185Gain : Int :=
+  trieNode0184Gain + trieNode0185StepGain
+
+private theorem trieNode0185StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0184State trieNode0185State
+      trieNode0185StepLabels trieNode0185StepGain := by
+  unfold trieNode0184State trieNode0185State
+  unfold trieNode0185StepLabels trieNode0185StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0092
+  exact BellmanLabelStepRun.nil trieNode0185State
+
+private theorem trieNode0185Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0185State
+      trieNode0185Labels trieNode0185Gain := by
+  unfold trieNode0185Labels trieNode0185Gain
+  exact BellmanLabelStepRun.append trieNode0184Run trieNode0185StepRun
+
+private def trieNode0186State : State := edge0106.dst
+private def trieNode0186StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0186StepGain : Int := edge0106.gain + (0)
+private def trieNode0186Labels : List SmokeLabel :=
+  trieNode0185Labels ++ trieNode0186StepLabels
+private def trieNode0186Gain : Int :=
+  trieNode0185Gain + trieNode0186StepGain
+
+private theorem trieNode0186StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0185State trieNode0186State
+      trieNode0186StepLabels trieNode0186StepGain := by
+  unfold trieNode0185State trieNode0186State
+  unfold trieNode0186StepLabels trieNode0186StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0106
+  exact BellmanLabelStepRun.nil trieNode0186State
+
+private theorem trieNode0186Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0186State
+      trieNode0186Labels trieNode0186Gain := by
+  unfold trieNode0186Labels trieNode0186Gain
+  exact BellmanLabelStepRun.append trieNode0185Run trieNode0186StepRun
+
+private def trieNode0187State : State := edge0144.dst
+private def trieNode0187StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0004]
+private def trieNode0187StepGain : Int := edge0144.gain + (0)
+private def trieNode0187Labels : List SmokeLabel :=
+  trieNode0172Labels ++ trieNode0187StepLabels
+private def trieNode0187Gain : Int :=
+  trieNode0172Gain + trieNode0187StepGain
+
+private theorem trieNode0187StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0172State trieNode0187State
+      trieNode0187StepLabels trieNode0187StepGain := by
+  unfold trieNode0172State trieNode0187State
+  unfold trieNode0187StepLabels trieNode0187StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  exact BellmanLabelStepRun.nil trieNode0187State
+
+private theorem trieNode0187Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0187State
+      trieNode0187Labels trieNode0187Gain := by
+  unfold trieNode0187Labels trieNode0187Gain
+  exact BellmanLabelStepRun.append trieNode0172Run trieNode0187StepRun
+
+private def trieNode0188State : State := edge0155.dst
+private def trieNode0188StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0188StepGain : Int := edge0155.gain + (0)
+private def trieNode0188Labels : List SmokeLabel :=
+  trieNode0187Labels ++ trieNode0188StepLabels
+private def trieNode0188Gain : Int :=
+  trieNode0187Gain + trieNode0188StepGain
+
+private theorem trieNode0188StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0187State trieNode0188State
+      trieNode0188StepLabels trieNode0188StepGain := by
+  unfold trieNode0187State trieNode0188State
+  unfold trieNode0188StepLabels trieNode0188StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0155
+  exact BellmanLabelStepRun.nil trieNode0188State
+
+private theorem trieNode0188Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0188State
+      trieNode0188Labels trieNode0188Gain := by
+  unfold trieNode0188Labels trieNode0188Gain
+  exact BellmanLabelStepRun.append trieNode0187Run trieNode0188StepRun
+
+private def trieNode0189State : State := edge0168.dst
+private def trieNode0189StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0189StepGain : Int := edge0168.gain + (0)
+private def trieNode0189Labels : List SmokeLabel :=
+  trieNode0188Labels ++ trieNode0189StepLabels
+private def trieNode0189Gain : Int :=
+  trieNode0188Gain + trieNode0189StepGain
+
+private theorem trieNode0189StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0188State trieNode0189State
+      trieNode0189StepLabels trieNode0189StepGain := by
+  unfold trieNode0188State trieNode0189State
+  unfold trieNode0189StepLabels trieNode0189StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0168
+  exact BellmanLabelStepRun.nil trieNode0189State
+
+private theorem trieNode0189Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0189State
+      trieNode0189Labels trieNode0189Gain := by
+  unfold trieNode0189Labels trieNode0189Gain
+  exact BellmanLabelStepRun.append trieNode0188Run trieNode0189StepRun
+
+private def trieNode0190State : State := edge0179.dst
+private def trieNode0190StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0190StepGain : Int := edge0179.gain + (0)
+private def trieNode0190Labels : List SmokeLabel :=
+  trieNode0189Labels ++ trieNode0190StepLabels
+private def trieNode0190Gain : Int :=
+  trieNode0189Gain + trieNode0190StepGain
+
+private theorem trieNode0190StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0189State trieNode0190State
+      trieNode0190StepLabels trieNode0190StepGain := by
+  unfold trieNode0189State trieNode0190State
+  unfold trieNode0190StepLabels trieNode0190StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0179
+  exact BellmanLabelStepRun.nil trieNode0190State
+
+private theorem trieNode0190Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0190State
+      trieNode0190Labels trieNode0190Gain := by
+  unfold trieNode0190Labels trieNode0190Gain
+  exact BellmanLabelStepRun.append trieNode0189Run trieNode0190StepRun
+
+private def trieNode0191State : State := edge0197.dst
+private def trieNode0191StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0191StepGain : Int := edge0197.gain + (0)
+private def trieNode0191Labels : List SmokeLabel :=
+  trieNode0190Labels ++ trieNode0191StepLabels
+private def trieNode0191Gain : Int :=
+  trieNode0190Gain + trieNode0191StepGain
+
+private theorem trieNode0191StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0190State trieNode0191State
+      trieNode0191StepLabels trieNode0191StepGain := by
+  unfold trieNode0190State trieNode0191State
+  unfold trieNode0191StepLabels trieNode0191StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0197
+  exact BellmanLabelStepRun.nil trieNode0191State
+
+private theorem trieNode0191Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0191State
+      trieNode0191Labels trieNode0191Gain := by
+  unfold trieNode0191Labels trieNode0191Gain
+  exact BellmanLabelStepRun.append trieNode0190Run trieNode0191StepRun
+
+private def trieNode0192State : State := edge0220.dst
+private def trieNode0192StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0192StepGain : Int := edge0220.gain + (0)
+private def trieNode0192Labels : List SmokeLabel :=
+  trieNode0191Labels ++ trieNode0192StepLabels
+private def trieNode0192Gain : Int :=
+  trieNode0191Gain + trieNode0192StepGain
+
+private theorem trieNode0192StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0191State trieNode0192State
+      trieNode0192StepLabels trieNode0192StepGain := by
+  unfold trieNode0191State trieNode0192State
+  unfold trieNode0192StepLabels trieNode0192StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0220
+  exact BellmanLabelStepRun.nil trieNode0192State
+
+private theorem trieNode0192Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0192State
+      trieNode0192Labels trieNode0192Gain := by
+  unfold trieNode0192Labels trieNode0192Gain
+  exact BellmanLabelStepRun.append trieNode0191Run trieNode0192StepRun
+
+private def trieNode0193State : State := edge0022.dst
+private def trieNode0193StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0193StepGain : Int := edge0022.gain + (0)
+private def trieNode0193Labels : List SmokeLabel :=
+  trieNode0192Labels ++ trieNode0193StepLabels
+private def trieNode0193Gain : Int :=
+  trieNode0192Gain + trieNode0193StepGain
+
+private theorem trieNode0193StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0192State trieNode0193State
+      trieNode0193StepLabels trieNode0193StepGain := by
+  unfold trieNode0192State trieNode0193State
+  unfold trieNode0193StepLabels trieNode0193StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0022
+  exact BellmanLabelStepRun.nil trieNode0193State
+
+private theorem trieNode0193Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0193State
+      trieNode0193Labels trieNode0193Gain := by
+  unfold trieNode0193Labels trieNode0193Gain
+  exact BellmanLabelStepRun.append trieNode0192Run trieNode0193StepRun
+
+private def trieNode0194State : State := edge0035.dst
+private def trieNode0194StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0194StepGain : Int := edge0035.gain + (0)
+private def trieNode0194Labels : List SmokeLabel :=
+  trieNode0193Labels ++ trieNode0194StepLabels
+private def trieNode0194Gain : Int :=
+  trieNode0193Gain + trieNode0194StepGain
+
+private theorem trieNode0194StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0193State trieNode0194State
+      trieNode0194StepLabels trieNode0194StepGain := by
+  unfold trieNode0193State trieNode0194State
+  unfold trieNode0194StepLabels trieNode0194StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0035
+  exact BellmanLabelStepRun.nil trieNode0194State
+
+private theorem trieNode0194Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0194State
+      trieNode0194Labels trieNode0194Gain := by
+  unfold trieNode0194Labels trieNode0194Gain
+  exact BellmanLabelStepRun.append trieNode0193Run trieNode0194StepRun
+
+private def trieNode0195State : State := edge0068.dst
+private def trieNode0195StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0195StepGain : Int := edge0068.gain + (0)
+private def trieNode0195Labels : List SmokeLabel :=
+  trieNode0194Labels ++ trieNode0195StepLabels
+private def trieNode0195Gain : Int :=
+  trieNode0194Gain + trieNode0195StepGain
+
+private theorem trieNode0195StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0194State trieNode0195State
+      trieNode0195StepLabels trieNode0195StepGain := by
+  unfold trieNode0194State trieNode0195State
+  unfold trieNode0195StepLabels trieNode0195StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0068
+  exact BellmanLabelStepRun.nil trieNode0195State
+
+private theorem trieNode0195Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0195State
+      trieNode0195Labels trieNode0195Gain := by
+  unfold trieNode0195Labels trieNode0195Gain
+  exact BellmanLabelStepRun.append trieNode0194Run trieNode0195StepRun
+
+private def trieNode0196State : State := edge0105.dst
+private def trieNode0196StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0196StepGain : Int := edge0105.gain + (0)
+private def trieNode0196Labels : List SmokeLabel :=
+  trieNode0195Labels ++ trieNode0196StepLabels
+private def trieNode0196Gain : Int :=
+  trieNode0195Gain + trieNode0196StepGain
+
+private theorem trieNode0196StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0195State trieNode0196State
+      trieNode0196StepLabels trieNode0196StepGain := by
+  unfold trieNode0195State trieNode0196State
+  unfold trieNode0196StepLabels trieNode0196StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0105
+  exact BellmanLabelStepRun.nil trieNode0196State
+
+private theorem trieNode0196Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0196State
+      trieNode0196Labels trieNode0196Gain := by
+  unfold trieNode0196Labels trieNode0196Gain
+  exact BellmanLabelStepRun.append trieNode0195Run trieNode0196StepRun
+
+private def trieNode0197State : State := edge0023.dst
+private def trieNode0197StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0197StepGain : Int := edge0023.gain + (0)
+private def trieNode0197Labels : List SmokeLabel :=
+  trieNode0192Labels ++ trieNode0197StepLabels
+private def trieNode0197Gain : Int :=
+  trieNode0192Gain + trieNode0197StepGain
+
+private theorem trieNode0197StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0192State trieNode0197State
+      trieNode0197StepLabels trieNode0197StepGain := by
+  unfold trieNode0192State trieNode0197State
+  unfold trieNode0197StepLabels trieNode0197StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0023
+  exact BellmanLabelStepRun.nil trieNode0197State
+
+private theorem trieNode0197Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0197State
+      trieNode0197Labels trieNode0197Gain := by
+  unfold trieNode0197Labels trieNode0197Gain
+  exact BellmanLabelStepRun.append trieNode0192Run trieNode0197StepRun
+
+private def trieNode0198State : State := edge0057.dst
+private def trieNode0198StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0198StepGain : Int := edge0057.gain + (0)
+private def trieNode0198Labels : List SmokeLabel :=
+  trieNode0197Labels ++ trieNode0198StepLabels
+private def trieNode0198Gain : Int :=
+  trieNode0197Gain + trieNode0198StepGain
+
+private theorem trieNode0198StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0197State trieNode0198State
+      trieNode0198StepLabels trieNode0198StepGain := by
+  unfold trieNode0197State trieNode0198State
+  unfold trieNode0198StepLabels trieNode0198StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0057
+  exact BellmanLabelStepRun.nil trieNode0198State
+
+private theorem trieNode0198Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0198State
+      trieNode0198Labels trieNode0198Gain := by
+  unfold trieNode0198Labels trieNode0198Gain
+  exact BellmanLabelStepRun.append trieNode0197Run trieNode0198StepRun
+
+private def trieNode0199State : State := edge0091.dst
+private def trieNode0199StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0199StepGain : Int := edge0091.gain + (0)
+private def trieNode0199Labels : List SmokeLabel :=
+  trieNode0198Labels ++ trieNode0199StepLabels
+private def trieNode0199Gain : Int :=
+  trieNode0198Gain + trieNode0199StepGain
+
+private theorem trieNode0199StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0198State trieNode0199State
+      trieNode0199StepLabels trieNode0199StepGain := by
+  unfold trieNode0198State trieNode0199State
+  unfold trieNode0199StepLabels trieNode0199StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0091
+  exact BellmanLabelStepRun.nil trieNode0199State
+
+private theorem trieNode0199Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0199State
+      trieNode0199Labels trieNode0199Gain := by
+  unfold trieNode0199Labels trieNode0199Gain
+  exact BellmanLabelStepRun.append trieNode0198Run trieNode0199StepRun
+
+private def trieNode0200State : State := edge0104.dst
+private def trieNode0200StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0200StepGain : Int := edge0104.gain + (0)
+private def trieNode0200Labels : List SmokeLabel :=
+  trieNode0199Labels ++ trieNode0200StepLabels
+private def trieNode0200Gain : Int :=
+  trieNode0199Gain + trieNode0200StepGain
+
+private theorem trieNode0200StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0199State trieNode0200State
+      trieNode0200StepLabels trieNode0200StepGain := by
+  unfold trieNode0199State trieNode0200State
+  unfold trieNode0200StepLabels trieNode0200StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0104
+  exact BellmanLabelStepRun.nil trieNode0200State
+
+private theorem trieNode0200Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0200State
+      trieNode0200Labels trieNode0200Gain := by
+  unfold trieNode0200Labels trieNode0200Gain
+  exact BellmanLabelStepRun.append trieNode0199Run trieNode0200StepRun
+
+private def trieNode0201State : State := edge0156.dst
+private def trieNode0201StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0007]
+private def trieNode0201StepGain : Int := edge0156.gain + (0)
+private def trieNode0201Labels : List SmokeLabel :=
+  trieNode0187Labels ++ trieNode0201StepLabels
+private def trieNode0201Gain : Int :=
+  trieNode0187Gain + trieNode0201StepGain
+
+private theorem trieNode0201StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0187State trieNode0201State
+      trieNode0201StepLabels trieNode0201StepGain := by
+  unfold trieNode0187State trieNode0201State
+  unfold trieNode0201StepLabels trieNode0201StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  exact BellmanLabelStepRun.nil trieNode0201State
+
+private theorem trieNode0201Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0201State
+      trieNode0201Labels trieNode0201Gain := by
+  unfold trieNode0201Labels trieNode0201Gain
+  exact BellmanLabelStepRun.append trieNode0187Run trieNode0201StepRun
+
+private def trieNode0202State : State := edge0169.dst
+private def trieNode0202StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0202StepGain : Int := edge0169.gain + (0)
+private def trieNode0202Labels : List SmokeLabel :=
+  trieNode0201Labels ++ trieNode0202StepLabels
+private def trieNode0202Gain : Int :=
+  trieNode0201Gain + trieNode0202StepGain
+
+private theorem trieNode0202StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0201State trieNode0202State
+      trieNode0202StepLabels trieNode0202StepGain := by
+  unfold trieNode0201State trieNode0202State
+  unfold trieNode0202StepLabels trieNode0202StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0169
+  exact BellmanLabelStepRun.nil trieNode0202State
+
+private theorem trieNode0202Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0202State
+      trieNode0202Labels trieNode0202Gain := by
+  unfold trieNode0202Labels trieNode0202Gain
+  exact BellmanLabelStepRun.append trieNode0201Run trieNode0202StepRun
+
+private def trieNode0203State : State := edge0183.dst
+private def trieNode0203StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0203StepGain : Int := edge0183.gain + (0)
+private def trieNode0203Labels : List SmokeLabel :=
+  trieNode0202Labels ++ trieNode0203StepLabels
+private def trieNode0203Gain : Int :=
+  trieNode0202Gain + trieNode0203StepGain
+
+private theorem trieNode0203StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0202State trieNode0203State
+      trieNode0203StepLabels trieNode0203StepGain := by
+  unfold trieNode0202State trieNode0203State
+  unfold trieNode0203StepLabels trieNode0203StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0183
+  exact BellmanLabelStepRun.nil trieNode0203State
+
+private theorem trieNode0203Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0203State
+      trieNode0203Labels trieNode0203Gain := by
+  unfold trieNode0203Labels trieNode0203Gain
+  exact BellmanLabelStepRun.append trieNode0202Run trieNode0203StepRun
+
+private def trieNode0204State : State := edge0196.dst
+private def trieNode0204StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0204StepGain : Int := edge0196.gain + (0)
+private def trieNode0204Labels : List SmokeLabel :=
+  trieNode0203Labels ++ trieNode0204StepLabels
+private def trieNode0204Gain : Int :=
+  trieNode0203Gain + trieNode0204StepGain
+
+private theorem trieNode0204StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0203State trieNode0204State
+      trieNode0204StepLabels trieNode0204StepGain := by
+  unfold trieNode0203State trieNode0204State
+  unfold trieNode0204StepLabels trieNode0204StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0196
+  exact BellmanLabelStepRun.nil trieNode0204State
+
+private theorem trieNode0204Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0204State
+      trieNode0204Labels trieNode0204Gain := by
+  unfold trieNode0204Labels trieNode0204Gain
+  exact BellmanLabelStepRun.append trieNode0203Run trieNode0204StepRun
+
+private def trieNode0205State : State := edge0219.dst
+private def trieNode0205StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0205StepGain : Int := edge0219.gain + (0)
+private def trieNode0205Labels : List SmokeLabel :=
+  trieNode0204Labels ++ trieNode0205StepLabels
+private def trieNode0205Gain : Int :=
+  trieNode0204Gain + trieNode0205StepGain
+
+private theorem trieNode0205StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0204State trieNode0205State
+      trieNode0205StepLabels trieNode0205StepGain := by
+  unfold trieNode0204State trieNode0205State
+  unfold trieNode0205StepLabels trieNode0205StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0219
+  exact BellmanLabelStepRun.nil trieNode0205State
+
+private theorem trieNode0205Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0205State
+      trieNode0205Labels trieNode0205Gain := by
+  unfold trieNode0205Labels trieNode0205Gain
+  exact BellmanLabelStepRun.append trieNode0204Run trieNode0205StepRun
+
+private def trieNode0206State : State := edge0020.dst
+private def trieNode0206StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0206StepGain : Int := edge0020.gain + (0)
+private def trieNode0206Labels : List SmokeLabel :=
+  trieNode0205Labels ++ trieNode0206StepLabels
+private def trieNode0206Gain : Int :=
+  trieNode0205Gain + trieNode0206StepGain
+
+private theorem trieNode0206StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0205State trieNode0206State
+      trieNode0206StepLabels trieNode0206StepGain := by
+  unfold trieNode0205State trieNode0206State
+  unfold trieNode0206StepLabels trieNode0206StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0020
+  exact BellmanLabelStepRun.nil trieNode0206State
+
+private theorem trieNode0206Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0206State
+      trieNode0206Labels trieNode0206Gain := by
+  unfold trieNode0206Labels trieNode0206Gain
+  exact BellmanLabelStepRun.append trieNode0205Run trieNode0206StepRun
+
+private def trieNode0207State : State := edge0034.dst
+private def trieNode0207StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0207StepGain : Int := edge0034.gain + (0)
+private def trieNode0207Labels : List SmokeLabel :=
+  trieNode0206Labels ++ trieNode0207StepLabels
+private def trieNode0207Gain : Int :=
+  trieNode0206Gain + trieNode0207StepGain
+
+private theorem trieNode0207StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0206State trieNode0207State
+      trieNode0207StepLabels trieNode0207StepGain := by
+  unfold trieNode0206State trieNode0207State
+  unfold trieNode0207StepLabels trieNode0207StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0034
+  exact BellmanLabelStepRun.nil trieNode0207State
+
+private theorem trieNode0207Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0207State
+      trieNode0207Labels trieNode0207Gain := by
+  unfold trieNode0207Labels trieNode0207Gain
+  exact BellmanLabelStepRun.append trieNode0206Run trieNode0207StepRun
+
+private def trieNode0208State : State := edge0067.dst
+private def trieNode0208StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0208StepGain : Int := edge0067.gain + (0)
+private def trieNode0208Labels : List SmokeLabel :=
+  trieNode0207Labels ++ trieNode0208StepLabels
+private def trieNode0208Gain : Int :=
+  trieNode0207Gain + trieNode0208StepGain
+
+private theorem trieNode0208StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0207State trieNode0208State
+      trieNode0208StepLabels trieNode0208StepGain := by
+  unfold trieNode0207State trieNode0208State
+  unfold trieNode0208StepLabels trieNode0208StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0067
+  exact BellmanLabelStepRun.nil trieNode0208State
+
+private theorem trieNode0208Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0208State
+      trieNode0208Labels trieNode0208Gain := by
+  unfold trieNode0208Labels trieNode0208Gain
+  exact BellmanLabelStepRun.append trieNode0207Run trieNode0208StepRun
+
+private def trieNode0209State : State := edge0103.dst
+private def trieNode0209StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0209StepGain : Int := edge0103.gain + (0)
+private def trieNode0209Labels : List SmokeLabel :=
+  trieNode0208Labels ++ trieNode0209StepLabels
+private def trieNode0209Gain : Int :=
+  trieNode0208Gain + trieNode0209StepGain
+
+private theorem trieNode0209StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0208State trieNode0209State
+      trieNode0209StepLabels trieNode0209StepGain := by
+  unfold trieNode0208State trieNode0209State
+  unfold trieNode0209StepLabels trieNode0209StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0103
+  exact BellmanLabelStepRun.nil trieNode0209State
+
+private theorem trieNode0209Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0209State
+      trieNode0209Labels trieNode0209Gain := by
+  unfold trieNode0209Labels trieNode0209Gain
+  exact BellmanLabelStepRun.append trieNode0208Run trieNode0209StepRun
+
+private def trieNode0210State : State := edge0021.dst
+private def trieNode0210StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0210StepGain : Int := edge0021.gain + (0)
+private def trieNode0210Labels : List SmokeLabel :=
+  trieNode0205Labels ++ trieNode0210StepLabels
+private def trieNode0210Gain : Int :=
+  trieNode0205Gain + trieNode0210StepGain
+
+private theorem trieNode0210StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0205State trieNode0210State
+      trieNode0210StepLabels trieNode0210StepGain := by
+  unfold trieNode0205State trieNode0210State
+  unfold trieNode0210StepLabels trieNode0210StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0021
+  exact BellmanLabelStepRun.nil trieNode0210State
+
+private theorem trieNode0210Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0210State
+      trieNode0210Labels trieNode0210Gain := by
+  unfold trieNode0210Labels trieNode0210Gain
+  exact BellmanLabelStepRun.append trieNode0205Run trieNode0210StepRun
+
+private def trieNode0211State : State := edge0056.dst
+private def trieNode0211StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0211StepGain : Int := edge0056.gain + (0)
+private def trieNode0211Labels : List SmokeLabel :=
+  trieNode0210Labels ++ trieNode0211StepLabels
+private def trieNode0211Gain : Int :=
+  trieNode0210Gain + trieNode0211StepGain
+
+private theorem trieNode0211StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0210State trieNode0211State
+      trieNode0211StepLabels trieNode0211StepGain := by
+  unfold trieNode0210State trieNode0211State
+  unfold trieNode0211StepLabels trieNode0211StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0056
+  exact BellmanLabelStepRun.nil trieNode0211State
+
+private theorem trieNode0211Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0211State
+      trieNode0211Labels trieNode0211Gain := by
+  unfold trieNode0211Labels trieNode0211Gain
+  exact BellmanLabelStepRun.append trieNode0210Run trieNode0211StepRun
+
+private def trieNode0212State : State := edge0090.dst
+private def trieNode0212StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0212StepGain : Int := edge0090.gain + (0)
+private def trieNode0212Labels : List SmokeLabel :=
+  trieNode0211Labels ++ trieNode0212StepLabels
+private def trieNode0212Gain : Int :=
+  trieNode0211Gain + trieNode0212StepGain
+
+private theorem trieNode0212StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0211State trieNode0212State
+      trieNode0212StepLabels trieNode0212StepGain := by
+  unfold trieNode0211State trieNode0212State
+  unfold trieNode0212StepLabels trieNode0212StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0090
+  exact BellmanLabelStepRun.nil trieNode0212State
+
+private theorem trieNode0212Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0212State
+      trieNode0212Labels trieNode0212Gain := by
+  unfold trieNode0212Labels trieNode0212Gain
+  exact BellmanLabelStepRun.append trieNode0211Run trieNode0212StepRun
+
+private def trieNode0213State : State := edge0102.dst
+private def trieNode0213StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0213StepGain : Int := edge0102.gain + (0)
+private def trieNode0213Labels : List SmokeLabel :=
+  trieNode0212Labels ++ trieNode0213StepLabels
+private def trieNode0213Gain : Int :=
+  trieNode0212Gain + trieNode0213StepGain
+
+private theorem trieNode0213StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0212State trieNode0213State
+      trieNode0213StepLabels trieNode0213StepGain := by
+  unfold trieNode0212State trieNode0213State
+  unfold trieNode0213StepLabels trieNode0213StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0102
+  exact BellmanLabelStepRun.nil trieNode0213State
+
+private theorem trieNode0213Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0213State
+      trieNode0213Labels trieNode0213Gain := by
+  unfold trieNode0213Labels trieNode0213Gain
+  exact BellmanLabelStepRun.append trieNode0212Run trieNode0213StepRun
+
+private def trieNode0214State : State := edge0170.dst
+private def trieNode0214StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0000]
+private def trieNode0214StepGain : Int := edge0170.gain + (0)
+private def trieNode0214Labels : List SmokeLabel :=
+  trieNode0201Labels ++ trieNode0214StepLabels
+private def trieNode0214Gain : Int :=
+  trieNode0201Gain + trieNode0214StepGain
+
+private theorem trieNode0214StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0201State trieNode0214State
+      trieNode0214StepLabels trieNode0214StepGain := by
+  unfold trieNode0201State trieNode0214State
+  unfold trieNode0214StepLabels trieNode0214StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  exact BellmanLabelStepRun.nil trieNode0214State
+
+private theorem trieNode0214Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0214State
+      trieNode0214Labels trieNode0214Gain := by
+  unfold trieNode0214Labels trieNode0214Gain
+  exact BellmanLabelStepRun.append trieNode0201Run trieNode0214StepRun
+
+private def trieNode0215State : State := edge0185.dst
+private def trieNode0215StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0215StepGain : Int := edge0185.gain + (0)
+private def trieNode0215Labels : List SmokeLabel :=
+  trieNode0214Labels ++ trieNode0215StepLabels
+private def trieNode0215Gain : Int :=
+  trieNode0214Gain + trieNode0215StepGain
+
+private theorem trieNode0215StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0214State trieNode0215State
+      trieNode0215StepLabels trieNode0215StepGain := by
+  unfold trieNode0214State trieNode0215State
+  unfold trieNode0215StepLabels trieNode0215StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0185
+  exact BellmanLabelStepRun.nil trieNode0215State
+
+private theorem trieNode0215Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0215State
+      trieNode0215Labels trieNode0215Gain := by
+  unfold trieNode0215Labels trieNode0215Gain
+  exact BellmanLabelStepRun.append trieNode0214Run trieNode0215StepRun
+
+private def trieNode0216State : State := edge0201.dst
+private def trieNode0216StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0216StepGain : Int := edge0201.gain + (0)
+private def trieNode0216Labels : List SmokeLabel :=
+  trieNode0215Labels ++ trieNode0216StepLabels
+private def trieNode0216Gain : Int :=
+  trieNode0215Gain + trieNode0216StepGain
+
+private theorem trieNode0216StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0215State trieNode0216State
+      trieNode0216StepLabels trieNode0216StepGain := by
+  unfold trieNode0215State trieNode0216State
+  unfold trieNode0216StepLabels trieNode0216StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0201
+  exact BellmanLabelStepRun.nil trieNode0216State
+
+private theorem trieNode0216Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0216State
+      trieNode0216Labels trieNode0216Gain := by
+  unfold trieNode0216Labels trieNode0216Gain
+  exact BellmanLabelStepRun.append trieNode0215Run trieNode0216StepRun
+
+private def trieNode0217State : State := edge0218.dst
+private def trieNode0217StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0217StepGain : Int := edge0218.gain + (0)
+private def trieNode0217Labels : List SmokeLabel :=
+  trieNode0216Labels ++ trieNode0217StepLabels
+private def trieNode0217Gain : Int :=
+  trieNode0216Gain + trieNode0217StepGain
+
+private theorem trieNode0217StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0216State trieNode0217State
+      trieNode0217StepLabels trieNode0217StepGain := by
+  unfold trieNode0216State trieNode0217State
+  unfold trieNode0217StepLabels trieNode0217StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0218
+  exact BellmanLabelStepRun.nil trieNode0217State
+
+private theorem trieNode0217Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0217State
+      trieNode0217Labels trieNode0217Gain := by
+  unfold trieNode0217Labels trieNode0217Gain
+  exact BellmanLabelStepRun.append trieNode0216Run trieNode0217StepRun
+
+private def trieNode0218State : State := edge0018.dst
+private def trieNode0218StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0218StepGain : Int := edge0018.gain + (0)
+private def trieNode0218Labels : List SmokeLabel :=
+  trieNode0217Labels ++ trieNode0218StepLabels
+private def trieNode0218Gain : Int :=
+  trieNode0217Gain + trieNode0218StepGain
+
+private theorem trieNode0218StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0217State trieNode0218State
+      trieNode0218StepLabels trieNode0218StepGain := by
+  unfold trieNode0217State trieNode0218State
+  unfold trieNode0218StepLabels trieNode0218StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0018
+  exact BellmanLabelStepRun.nil trieNode0218State
+
+private theorem trieNode0218Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0218State
+      trieNode0218Labels trieNode0218Gain := by
+  unfold trieNode0218Labels trieNode0218Gain
+  exact BellmanLabelStepRun.append trieNode0217Run trieNode0218StepRun
+
+private def trieNode0219State : State := edge0033.dst
+private def trieNode0219StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0219StepGain : Int := edge0033.gain + (0)
+private def trieNode0219Labels : List SmokeLabel :=
+  trieNode0218Labels ++ trieNode0219StepLabels
+private def trieNode0219Gain : Int :=
+  trieNode0218Gain + trieNode0219StepGain
+
+private theorem trieNode0219StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0218State trieNode0219State
+      trieNode0219StepLabels trieNode0219StepGain := by
+  unfold trieNode0218State trieNode0219State
+  unfold trieNode0219StepLabels trieNode0219StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0033
+  exact BellmanLabelStepRun.nil trieNode0219State
+
+private theorem trieNode0219Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0219State
+      trieNode0219Labels trieNode0219Gain := by
+  unfold trieNode0219Labels trieNode0219Gain
+  exact BellmanLabelStepRun.append trieNode0218Run trieNode0219StepRun
+
+private def trieNode0220State : State := edge0066.dst
+private def trieNode0220StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0220StepGain : Int := edge0066.gain + (0)
+private def trieNode0220Labels : List SmokeLabel :=
+  trieNode0219Labels ++ trieNode0220StepLabels
+private def trieNode0220Gain : Int :=
+  trieNode0219Gain + trieNode0220StepGain
+
+private theorem trieNode0220StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0219State trieNode0220State
+      trieNode0220StepLabels trieNode0220StepGain := by
+  unfold trieNode0219State trieNode0220State
+  unfold trieNode0220StepLabels trieNode0220StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0066
+  exact BellmanLabelStepRun.nil trieNode0220State
+
+private theorem trieNode0220Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0220State
+      trieNode0220Labels trieNode0220Gain := by
+  unfold trieNode0220Labels trieNode0220Gain
+  exact BellmanLabelStepRun.append trieNode0219Run trieNode0220StepRun
+
+private def trieNode0221State : State := edge0101.dst
+private def trieNode0221StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0221StepGain : Int := edge0101.gain + (0)
+private def trieNode0221Labels : List SmokeLabel :=
+  trieNode0220Labels ++ trieNode0221StepLabels
+private def trieNode0221Gain : Int :=
+  trieNode0220Gain + trieNode0221StepGain
+
+private theorem trieNode0221StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0220State trieNode0221State
+      trieNode0221StepLabels trieNode0221StepGain := by
+  unfold trieNode0220State trieNode0221State
+  unfold trieNode0221StepLabels trieNode0221StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0101
+  exact BellmanLabelStepRun.nil trieNode0221State
+
+private theorem trieNode0221Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0221State
+      trieNode0221Labels trieNode0221Gain := by
+  unfold trieNode0221Labels trieNode0221Gain
+  exact BellmanLabelStepRun.append trieNode0220Run trieNode0221StepRun
+
+private def trieNode0222State : State := edge0019.dst
+private def trieNode0222StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0222StepGain : Int := edge0019.gain + (0)
+private def trieNode0222Labels : List SmokeLabel :=
+  trieNode0217Labels ++ trieNode0222StepLabels
+private def trieNode0222Gain : Int :=
+  trieNode0217Gain + trieNode0222StepGain
+
+private theorem trieNode0222StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0217State trieNode0222State
+      trieNode0222StepLabels trieNode0222StepGain := by
+  unfold trieNode0217State trieNode0222State
+  unfold trieNode0222StepLabels trieNode0222StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0019
+  exact BellmanLabelStepRun.nil trieNode0222State
+
+private theorem trieNode0222Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0222State
+      trieNode0222Labels trieNode0222Gain := by
+  unfold trieNode0222Labels trieNode0222Gain
+  exact BellmanLabelStepRun.append trieNode0217Run trieNode0222StepRun
+
+private def trieNode0223State : State := edge0055.dst
+private def trieNode0223StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0223StepGain : Int := edge0055.gain + (0)
+private def trieNode0223Labels : List SmokeLabel :=
+  trieNode0222Labels ++ trieNode0223StepLabels
+private def trieNode0223Gain : Int :=
+  trieNode0222Gain + trieNode0223StepGain
+
+private theorem trieNode0223StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0222State trieNode0223State
+      trieNode0223StepLabels trieNode0223StepGain := by
+  unfold trieNode0222State trieNode0223State
+  unfold trieNode0223StepLabels trieNode0223StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0055
+  exact BellmanLabelStepRun.nil trieNode0223State
+
+private theorem trieNode0223Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0223State
+      trieNode0223Labels trieNode0223Gain := by
+  unfold trieNode0223Labels trieNode0223Gain
+  exact BellmanLabelStepRun.append trieNode0222Run trieNode0223StepRun
+
+private def trieNode0224State : State := edge0089.dst
+private def trieNode0224StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0224StepGain : Int := edge0089.gain + (0)
+private def trieNode0224Labels : List SmokeLabel :=
+  trieNode0223Labels ++ trieNode0224StepLabels
+private def trieNode0224Gain : Int :=
+  trieNode0223Gain + trieNode0224StepGain
+
+private theorem trieNode0224StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0223State trieNode0224State
+      trieNode0224StepLabels trieNode0224StepGain := by
+  unfold trieNode0223State trieNode0224State
+  unfold trieNode0224StepLabels trieNode0224StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0089
+  exact BellmanLabelStepRun.nil trieNode0224State
+
+private theorem trieNode0224Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0224State
+      trieNode0224Labels trieNode0224Gain := by
+  unfold trieNode0224Labels trieNode0224Gain
+  exact BellmanLabelStepRun.append trieNode0223Run trieNode0224StepRun
+
+private def trieNode0225State : State := edge0100.dst
+private def trieNode0225StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0225StepGain : Int := edge0100.gain + (0)
+private def trieNode0225Labels : List SmokeLabel :=
+  trieNode0224Labels ++ trieNode0225StepLabels
+private def trieNode0225Gain : Int :=
+  trieNode0224Gain + trieNode0225StepGain
+
+private theorem trieNode0225StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0224State trieNode0225State
+      trieNode0225StepLabels trieNode0225StepGain := by
+  unfold trieNode0224State trieNode0225State
+  unfold trieNode0225StepLabels trieNode0225StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0100
+  exact BellmanLabelStepRun.nil trieNode0225State
+
+private theorem trieNode0225Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0225State
+      trieNode0225Labels trieNode0225Gain := by
+  unfold trieNode0225Labels trieNode0225Gain
+  exact BellmanLabelStepRun.append trieNode0224Run trieNode0225StepRun
+
+private def trieNode0226State : State := edge0186.dst
+private def trieNode0226StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0005]
+private def trieNode0226StepGain : Int := edge0186.gain + (0)
+private def trieNode0226Labels : List SmokeLabel :=
+  trieNode0214Labels ++ trieNode0226StepLabels
+private def trieNode0226Gain : Int :=
+  trieNode0214Gain + trieNode0226StepGain
+
+private theorem trieNode0226StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0214State trieNode0226State
+      trieNode0226StepLabels trieNode0226StepGain := by
+  unfold trieNode0214State trieNode0226State
+  unfold trieNode0226StepLabels trieNode0226StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  exact BellmanLabelStepRun.nil trieNode0226State
+
+private theorem trieNode0226Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0226State
+      trieNode0226Labels trieNode0226Gain := by
+  unfold trieNode0226Labels trieNode0226Gain
+  exact BellmanLabelStepRun.append trieNode0214Run trieNode0226StepRun
+
+private def trieNode0227State : State := edge0203.dst
+private def trieNode0227StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0227StepGain : Int := edge0203.gain + (0)
+private def trieNode0227Labels : List SmokeLabel :=
+  trieNode0226Labels ++ trieNode0227StepLabels
+private def trieNode0227Gain : Int :=
+  trieNode0226Gain + trieNode0227StepGain
+
+private theorem trieNode0227StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0226State trieNode0227State
+      trieNode0227StepLabels trieNode0227StepGain := by
+  unfold trieNode0226State trieNode0227State
+  unfold trieNode0227StepLabels trieNode0227StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0203
+  exact BellmanLabelStepRun.nil trieNode0227State
+
+private theorem trieNode0227Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0227State
+      trieNode0227Labels trieNode0227Gain := by
+  unfold trieNode0227Labels trieNode0227Gain
+  exact BellmanLabelStepRun.append trieNode0226Run trieNode0227StepRun
+
+private def trieNode0228State : State := edge0214.dst
+private def trieNode0228StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0228StepGain : Int := edge0214.gain + (0)
+private def trieNode0228Labels : List SmokeLabel :=
+  trieNode0227Labels ++ trieNode0228StepLabels
+private def trieNode0228Gain : Int :=
+  trieNode0227Gain + trieNode0228StepGain
+
+private theorem trieNode0228StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0227State trieNode0228State
+      trieNode0228StepLabels trieNode0228StepGain := by
+  unfold trieNode0227State trieNode0228State
+  unfold trieNode0228StepLabels trieNode0228StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0214
+  exact BellmanLabelStepRun.nil trieNode0228State
+
+private theorem trieNode0228Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0228State
+      trieNode0228Labels trieNode0228Gain := by
+  unfold trieNode0228Labels trieNode0228Gain
+  exact BellmanLabelStepRun.append trieNode0227Run trieNode0228StepRun
+
+private def trieNode0229State : State := edge0007.dst
+private def trieNode0229StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0229StepGain : Int := edge0007.gain + (0)
+private def trieNode0229Labels : List SmokeLabel :=
+  trieNode0228Labels ++ trieNode0229StepLabels
+private def trieNode0229Gain : Int :=
+  trieNode0228Gain + trieNode0229StepGain
+
+private theorem trieNode0229StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0228State trieNode0229State
+      trieNode0229StepLabels trieNode0229StepGain := by
+  unfold trieNode0228State trieNode0229State
+  unfold trieNode0229StepLabels trieNode0229StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0007
+  exact BellmanLabelStepRun.nil trieNode0229State
+
+private theorem trieNode0229Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0229State
+      trieNode0229Labels trieNode0229Gain := by
+  unfold trieNode0229Labels trieNode0229Gain
+  exact BellmanLabelStepRun.append trieNode0228Run trieNode0229StepRun
+
+private def trieNode0230State : State := edge0032.dst
+private def trieNode0230StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0230StepGain : Int := edge0032.gain + (0)
+private def trieNode0230Labels : List SmokeLabel :=
+  trieNode0229Labels ++ trieNode0230StepLabels
+private def trieNode0230Gain : Int :=
+  trieNode0229Gain + trieNode0230StepGain
+
+private theorem trieNode0230StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0229State trieNode0230State
+      trieNode0230StepLabels trieNode0230StepGain := by
+  unfold trieNode0229State trieNode0230State
+  unfold trieNode0230StepLabels trieNode0230StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0032
+  exact BellmanLabelStepRun.nil trieNode0230State
+
+private theorem trieNode0230Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0230State
+      trieNode0230Labels trieNode0230Gain := by
+  unfold trieNode0230Labels trieNode0230Gain
+  exact BellmanLabelStepRun.append trieNode0229Run trieNode0230StepRun
+
+private def trieNode0231State : State := edge0064.dst
+private def trieNode0231StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0231StepGain : Int := edge0064.gain + (0)
+private def trieNode0231Labels : List SmokeLabel :=
+  trieNode0230Labels ++ trieNode0231StepLabels
+private def trieNode0231Gain : Int :=
+  trieNode0230Gain + trieNode0231StepGain
+
+private theorem trieNode0231StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0230State trieNode0231State
+      trieNode0231StepLabels trieNode0231StepGain := by
+  unfold trieNode0230State trieNode0231State
+  unfold trieNode0231StepLabels trieNode0231StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0064
+  exact BellmanLabelStepRun.nil trieNode0231State
+
+private theorem trieNode0231Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0231State
+      trieNode0231Labels trieNode0231Gain := by
+  unfold trieNode0231Labels trieNode0231Gain
+  exact BellmanLabelStepRun.append trieNode0230Run trieNode0231StepRun
+
+private def trieNode0232State : State := edge0096.dst
+private def trieNode0232StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0232StepGain : Int := edge0096.gain + (0)
+private def trieNode0232Labels : List SmokeLabel :=
+  trieNode0231Labels ++ trieNode0232StepLabels
+private def trieNode0232Gain : Int :=
+  trieNode0231Gain + trieNode0232StepGain
+
+private theorem trieNode0232StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0231State trieNode0232State
+      trieNode0232StepLabels trieNode0232StepGain := by
+  unfold trieNode0231State trieNode0232State
+  unfold trieNode0232StepLabels trieNode0232StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0096
+  exact BellmanLabelStepRun.nil trieNode0232State
+
+private theorem trieNode0232Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0232State
+      trieNode0232Labels trieNode0232Gain := by
+  unfold trieNode0232Labels trieNode0232Gain
+  exact BellmanLabelStepRun.append trieNode0231Run trieNode0232StepRun
+
+private def trieNode0233State : State := edge0215.dst
+private def trieNode0233StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0233StepGain : Int := edge0215.gain + (0)
+private def trieNode0233Labels : List SmokeLabel :=
+  trieNode0227Labels ++ trieNode0233StepLabels
+private def trieNode0233Gain : Int :=
+  trieNode0227Gain + trieNode0233StepGain
+
+private theorem trieNode0233StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0227State trieNode0233State
+      trieNode0233StepLabels trieNode0233StepGain := by
+  unfold trieNode0227State trieNode0233State
+  unfold trieNode0233StepLabels trieNode0233StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0215
+  exact BellmanLabelStepRun.nil trieNode0233State
+
+private theorem trieNode0233Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0233State
+      trieNode0233Labels trieNode0233Gain := by
+  unfold trieNode0233Labels trieNode0233Gain
+  exact BellmanLabelStepRun.append trieNode0227Run trieNode0233StepRun
+
+private def trieNode0234State : State := edge0012.dst
+private def trieNode0234StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0234StepGain : Int := edge0012.gain + (0)
+private def trieNode0234Labels : List SmokeLabel :=
+  trieNode0233Labels ++ trieNode0234StepLabels
+private def trieNode0234Gain : Int :=
+  trieNode0233Gain + trieNode0234StepGain
+
+private theorem trieNode0234StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0233State trieNode0234State
+      trieNode0234StepLabels trieNode0234StepGain := by
+  unfold trieNode0233State trieNode0234State
+  unfold trieNode0234StepLabels trieNode0234StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0012
+  exact BellmanLabelStepRun.nil trieNode0234State
+
+private theorem trieNode0234Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0234State
+      trieNode0234Labels trieNode0234Gain := by
+  unfold trieNode0234Labels trieNode0234Gain
+  exact BellmanLabelStepRun.append trieNode0233Run trieNode0234StepRun
+
+private def trieNode0235State : State := edge0046.dst
+private def trieNode0235StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0235StepGain : Int := edge0046.gain + (0)
+private def trieNode0235Labels : List SmokeLabel :=
+  trieNode0234Labels ++ trieNode0235StepLabels
+private def trieNode0235Gain : Int :=
+  trieNode0234Gain + trieNode0235StepGain
+
+private theorem trieNode0235StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0234State trieNode0235State
+      trieNode0235StepLabels trieNode0235StepGain := by
+  unfold trieNode0234State trieNode0235State
+  unfold trieNode0235StepLabels trieNode0235StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0046
+  exact BellmanLabelStepRun.nil trieNode0235State
+
+private theorem trieNode0235Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0235State
+      trieNode0235Labels trieNode0235Gain := by
+  unfold trieNode0235Labels trieNode0235Gain
+  exact BellmanLabelStepRun.append trieNode0234Run trieNode0235StepRun
+
+private def trieNode0236State : State := edge0065.dst
+private def trieNode0236StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0236StepGain : Int := edge0065.gain + (0)
+private def trieNode0236Labels : List SmokeLabel :=
+  trieNode0235Labels ++ trieNode0236StepLabels
+private def trieNode0236Gain : Int :=
+  trieNode0235Gain + trieNode0236StepGain
+
+private theorem trieNode0236StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0235State trieNode0236State
+      trieNode0236StepLabels trieNode0236StepGain := by
+  unfold trieNode0235State trieNode0236State
+  unfold trieNode0236StepLabels trieNode0236StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0065
+  exact BellmanLabelStepRun.nil trieNode0236State
+
+private theorem trieNode0236Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0236State
+      trieNode0236Labels trieNode0236Gain := by
+  unfold trieNode0236Labels trieNode0236Gain
+  exact BellmanLabelStepRun.append trieNode0235Run trieNode0236StepRun
+
+private def trieNode0237State : State := edge0099.dst
+private def trieNode0237StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0237StepGain : Int := edge0099.gain + (0)
+private def trieNode0237Labels : List SmokeLabel :=
+  trieNode0236Labels ++ trieNode0237StepLabels
+private def trieNode0237Gain : Int :=
+  trieNode0236Gain + trieNode0237StepGain
+
+private theorem trieNode0237StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0236State trieNode0237State
+      trieNode0237StepLabels trieNode0237StepGain := by
+  unfold trieNode0236State trieNode0237State
+  unfold trieNode0237StepLabels trieNode0237StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0099
+  exact BellmanLabelStepRun.nil trieNode0237State
+
+private theorem trieNode0237Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0237State
+      trieNode0237Labels trieNode0237Gain := by
+  unfold trieNode0237Labels trieNode0237Gain
+  exact BellmanLabelStepRun.append trieNode0236Run trieNode0237StepRun
+
+private def trieNode0238State : State := edge0013.dst
+private def trieNode0238StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0238StepGain : Int := edge0013.gain + (0)
+private def trieNode0238Labels : List SmokeLabel :=
+  trieNode0233Labels ++ trieNode0238StepLabels
+private def trieNode0238Gain : Int :=
+  trieNode0233Gain + trieNode0238StepGain
+
+private theorem trieNode0238StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0233State trieNode0238State
+      trieNode0238StepLabels trieNode0238StepGain := by
+  unfold trieNode0233State trieNode0238State
+  unfold trieNode0238StepLabels trieNode0238StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0013
+  exact BellmanLabelStepRun.nil trieNode0238State
+
+private theorem trieNode0238Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0238State
+      trieNode0238Labels trieNode0238Gain := by
+  unfold trieNode0238Labels trieNode0238Gain
+  exact BellmanLabelStepRun.append trieNode0233Run trieNode0238StepRun
+
+private def trieNode0239State : State := edge0052.dst
+private def trieNode0239StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0239StepGain : Int := edge0052.gain + (0)
+private def trieNode0239Labels : List SmokeLabel :=
+  trieNode0238Labels ++ trieNode0239StepLabels
+private def trieNode0239Gain : Int :=
+  trieNode0238Gain + trieNode0239StepGain
+
+private theorem trieNode0239StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0238State trieNode0239State
+      trieNode0239StepLabels trieNode0239StepGain := by
+  unfold trieNode0238State trieNode0239State
+  unfold trieNode0239StepLabels trieNode0239StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0052
+  exact BellmanLabelStepRun.nil trieNode0239State
+
+private theorem trieNode0239Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0239State
+      trieNode0239Labels trieNode0239Gain := by
+  unfold trieNode0239Labels trieNode0239Gain
+  exact BellmanLabelStepRun.append trieNode0238Run trieNode0239StepRun
+
+private def trieNode0240State : State := edge0082.dst
+private def trieNode0240StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0240StepGain : Int := edge0082.gain + (0)
+private def trieNode0240Labels : List SmokeLabel :=
+  trieNode0239Labels ++ trieNode0240StepLabels
+private def trieNode0240Gain : Int :=
+  trieNode0239Gain + trieNode0240StepGain
+
+private theorem trieNode0240StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0239State trieNode0240State
+      trieNode0240StepLabels trieNode0240StepGain := by
+  unfold trieNode0239State trieNode0240State
+  unfold trieNode0240StepLabels trieNode0240StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0082
+  exact BellmanLabelStepRun.nil trieNode0240State
+
+private theorem trieNode0240Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0240State
+      trieNode0240Labels trieNode0240Gain := by
+  unfold trieNode0240Labels trieNode0240Gain
+  exact BellmanLabelStepRun.append trieNode0239Run trieNode0240StepRun
+
+private def trieNode0241State : State := edge0098.dst
+private def trieNode0241StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0241StepGain : Int := edge0098.gain + (0)
+private def trieNode0241Labels : List SmokeLabel :=
+  trieNode0240Labels ++ trieNode0241StepLabels
+private def trieNode0241Gain : Int :=
+  trieNode0240Gain + trieNode0241StepGain
+
+private theorem trieNode0241StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0240State trieNode0241State
+      trieNode0241StepLabels trieNode0241StepGain := by
+  unfold trieNode0240State trieNode0241State
+  unfold trieNode0241StepLabels trieNode0241StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0098
+  exact BellmanLabelStepRun.nil trieNode0241State
+
+private theorem trieNode0241Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0241State
+      trieNode0241Labels trieNode0241Gain := by
+  unfold trieNode0241Labels trieNode0241Gain
+  exact BellmanLabelStepRun.append trieNode0240Run trieNode0241StepRun
+
+private def trieNode0242State : State := edge0204.dst
+private def trieNode0242StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0242StepGain : Int := edge0204.gain + (0)
+private def trieNode0242Labels : List SmokeLabel :=
+  trieNode0226Labels ++ trieNode0242StepLabels
+private def trieNode0242Gain : Int :=
+  trieNode0226Gain + trieNode0242StepGain
+
+private theorem trieNode0242StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0226State trieNode0242State
+      trieNode0242StepLabels trieNode0242StepGain := by
+  unfold trieNode0226State trieNode0242State
+  unfold trieNode0242StepLabels trieNode0242StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0204
+  exact BellmanLabelStepRun.nil trieNode0242State
+
+private theorem trieNode0242Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0242State
+      trieNode0242Labels trieNode0242Gain := by
+  unfold trieNode0242Labels trieNode0242Gain
+  exact BellmanLabelStepRun.append trieNode0226Run trieNode0242StepRun
+
+private def trieNode0243State : State := edge0224.dst
+private def trieNode0243StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0243StepGain : Int := edge0224.gain + (0)
+private def trieNode0243Labels : List SmokeLabel :=
+  trieNode0242Labels ++ trieNode0243StepLabels
+private def trieNode0243Gain : Int :=
+  trieNode0242Gain + trieNode0243StepGain
+
+private theorem trieNode0243StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0242State trieNode0243State
+      trieNode0243StepLabels trieNode0243StepGain := by
+  unfold trieNode0242State trieNode0243State
+  unfold trieNode0243StepLabels trieNode0243StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0224
+  exact BellmanLabelStepRun.nil trieNode0243State
+
+private theorem trieNode0243Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0243State
+      trieNode0243Labels trieNode0243Gain := by
+  unfold trieNode0243Labels trieNode0243Gain
+  exact BellmanLabelStepRun.append trieNode0242Run trieNode0243StepRun
+
+private def trieNode0244State : State := edge0007.dst
+private def trieNode0244StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0244StepGain : Int := edge0007.gain + (0)
+private def trieNode0244Labels : List SmokeLabel :=
+  trieNode0243Labels ++ trieNode0244StepLabels
+private def trieNode0244Gain : Int :=
+  trieNode0243Gain + trieNode0244StepGain
+
+private theorem trieNode0244StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0243State trieNode0244State
+      trieNode0244StepLabels trieNode0244StepGain := by
+  unfold trieNode0243State trieNode0244State
+  unfold trieNode0244StepLabels trieNode0244StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0007
+  exact BellmanLabelStepRun.nil trieNode0244State
+
+private theorem trieNode0244Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0244State
+      trieNode0244Labels trieNode0244Gain := by
+  unfold trieNode0244Labels trieNode0244Gain
+  exact BellmanLabelStepRun.append trieNode0243Run trieNode0244StepRun
+
+private def trieNode0245State : State := edge0032.dst
+private def trieNode0245StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0245StepGain : Int := edge0032.gain + (0)
+private def trieNode0245Labels : List SmokeLabel :=
+  trieNode0244Labels ++ trieNode0245StepLabels
+private def trieNode0245Gain : Int :=
+  trieNode0244Gain + trieNode0245StepGain
+
+private theorem trieNode0245StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0244State trieNode0245State
+      trieNode0245StepLabels trieNode0245StepGain := by
+  unfold trieNode0244State trieNode0245State
+  unfold trieNode0245StepLabels trieNode0245StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0032
+  exact BellmanLabelStepRun.nil trieNode0245State
+
+private theorem trieNode0245Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0245State
+      trieNode0245Labels trieNode0245Gain := by
+  unfold trieNode0245Labels trieNode0245Gain
+  exact BellmanLabelStepRun.append trieNode0244Run trieNode0245StepRun
+
+private def trieNode0246State : State := edge0064.dst
+private def trieNode0246StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0246StepGain : Int := edge0064.gain + (0)
+private def trieNode0246Labels : List SmokeLabel :=
+  trieNode0245Labels ++ trieNode0246StepLabels
+private def trieNode0246Gain : Int :=
+  trieNode0245Gain + trieNode0246StepGain
+
+private theorem trieNode0246StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0245State trieNode0246State
+      trieNode0246StepLabels trieNode0246StepGain := by
+  unfold trieNode0245State trieNode0246State
+  unfold trieNode0246StepLabels trieNode0246StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0064
+  exact BellmanLabelStepRun.nil trieNode0246State
+
+private theorem trieNode0246Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0246State
+      trieNode0246Labels trieNode0246Gain := by
+  unfold trieNode0246Labels trieNode0246Gain
+  exact BellmanLabelStepRun.append trieNode0245Run trieNode0246StepRun
+
+private def trieNode0247State : State := edge0096.dst
+private def trieNode0247StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0247StepGain : Int := edge0096.gain + (0)
+private def trieNode0247Labels : List SmokeLabel :=
+  trieNode0246Labels ++ trieNode0247StepLabels
+private def trieNode0247Gain : Int :=
+  trieNode0246Gain + trieNode0247StepGain
+
+private theorem trieNode0247StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0246State trieNode0247State
+      trieNode0247StepLabels trieNode0247StepGain := by
+  unfold trieNode0246State trieNode0247State
+  unfold trieNode0247StepLabels trieNode0247StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0096
+  exact BellmanLabelStepRun.nil trieNode0247State
+
+private theorem trieNode0247Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0247State
+      trieNode0247Labels trieNode0247Gain := by
+  unfold trieNode0247Labels trieNode0247Gain
+  exact BellmanLabelStepRun.append trieNode0246Run trieNode0247StepRun
+
+private def trieNode0248State : State := edge0225.dst
+private def trieNode0248StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0248StepGain : Int := edge0225.gain + (0)
+private def trieNode0248Labels : List SmokeLabel :=
+  trieNode0242Labels ++ trieNode0248StepLabels
+private def trieNode0248Gain : Int :=
+  trieNode0242Gain + trieNode0248StepGain
+
+private theorem trieNode0248StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0242State trieNode0248State
+      trieNode0248StepLabels trieNode0248StepGain := by
+  unfold trieNode0242State trieNode0248State
+  unfold trieNode0248StepLabels trieNode0248StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0225
+  exact BellmanLabelStepRun.nil trieNode0248State
+
+private theorem trieNode0248Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0248State
+      trieNode0248Labels trieNode0248Gain := by
+  unfold trieNode0248Labels trieNode0248Gain
+  exact BellmanLabelStepRun.append trieNode0242Run trieNode0248StepRun
+
+private def trieNode0249State : State := edge0016.dst
+private def trieNode0249StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0249StepGain : Int := edge0016.gain + (0)
+private def trieNode0249Labels : List SmokeLabel :=
+  trieNode0248Labels ++ trieNode0249StepLabels
+private def trieNode0249Gain : Int :=
+  trieNode0248Gain + trieNode0249StepGain
+
+private theorem trieNode0249StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0248State trieNode0249State
+      trieNode0249StepLabels trieNode0249StepGain := by
+  unfold trieNode0248State trieNode0249State
+  unfold trieNode0249StepLabels trieNode0249StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0016
+  exact BellmanLabelStepRun.nil trieNode0249State
+
+private theorem trieNode0249Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0249State
+      trieNode0249Labels trieNode0249Gain := by
+  unfold trieNode0249Labels trieNode0249Gain
+  exact BellmanLabelStepRun.append trieNode0248Run trieNode0249StepRun
+
+private def trieNode0250State : State := edge0032.dst
+private def trieNode0250StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0250StepGain : Int := edge0032.gain + (0)
+private def trieNode0250Labels : List SmokeLabel :=
+  trieNode0249Labels ++ trieNode0250StepLabels
+private def trieNode0250Gain : Int :=
+  trieNode0249Gain + trieNode0250StepGain
+
+private theorem trieNode0250StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0249State trieNode0250State
+      trieNode0250StepLabels trieNode0250StepGain := by
+  unfold trieNode0249State trieNode0250State
+  unfold trieNode0250StepLabels trieNode0250StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0032
+  exact BellmanLabelStepRun.nil trieNode0250State
+
+private theorem trieNode0250Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0250State
+      trieNode0250Labels trieNode0250Gain := by
+  unfold trieNode0250Labels trieNode0250Gain
+  exact BellmanLabelStepRun.append trieNode0249Run trieNode0250StepRun
+
+private def trieNode0251State : State := edge0064.dst
+private def trieNode0251StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0251StepGain : Int := edge0064.gain + (0)
+private def trieNode0251Labels : List SmokeLabel :=
+  trieNode0250Labels ++ trieNode0251StepLabels
+private def trieNode0251Gain : Int :=
+  trieNode0250Gain + trieNode0251StepGain
+
+private theorem trieNode0251StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0250State trieNode0251State
+      trieNode0251StepLabels trieNode0251StepGain := by
+  unfold trieNode0250State trieNode0251State
+  unfold trieNode0251StepLabels trieNode0251StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0064
+  exact BellmanLabelStepRun.nil trieNode0251State
+
+private theorem trieNode0251Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0251State
+      trieNode0251Labels trieNode0251Gain := by
+  unfold trieNode0251Labels trieNode0251Gain
+  exact BellmanLabelStepRun.append trieNode0250Run trieNode0251StepRun
+
+private def trieNode0252State : State := edge0096.dst
+private def trieNode0252StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0252StepGain : Int := edge0096.gain + (0)
+private def trieNode0252Labels : List SmokeLabel :=
+  trieNode0251Labels ++ trieNode0252StepLabels
+private def trieNode0252Gain : Int :=
+  trieNode0251Gain + trieNode0252StepGain
+
+private theorem trieNode0252StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0251State trieNode0252State
+      trieNode0252StepLabels trieNode0252StepGain := by
+  unfold trieNode0251State trieNode0252State
+  unfold trieNode0252StepLabels trieNode0252StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0096
+  exact BellmanLabelStepRun.nil trieNode0252State
+
+private theorem trieNode0252Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0252State
+      trieNode0252Labels trieNode0252Gain := by
+  unfold trieNode0252Labels trieNode0252Gain
+  exact BellmanLabelStepRun.append trieNode0251Run trieNode0252StepRun
+
+private def trieNode0253State : State := edge0017.dst
+private def trieNode0253StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0253StepGain : Int := edge0017.gain + (0)
+private def trieNode0253Labels : List SmokeLabel :=
+  trieNode0248Labels ++ trieNode0253StepLabels
+private def trieNode0253Gain : Int :=
+  trieNode0248Gain + trieNode0253StepGain
+
+private theorem trieNode0253StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0248State trieNode0253State
+      trieNode0253StepLabels trieNode0253StepGain := by
+  unfold trieNode0248State trieNode0253State
+  unfold trieNode0253StepLabels trieNode0253StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0017
+  exact BellmanLabelStepRun.nil trieNode0253State
+
+private theorem trieNode0253Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0253State
+      trieNode0253Labels trieNode0253Gain := by
+  unfold trieNode0253Labels trieNode0253Gain
+  exact BellmanLabelStepRun.append trieNode0248Run trieNode0253StepRun
+
+private def trieNode0254State : State := edge0054.dst
+private def trieNode0254StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0254StepGain : Int := edge0054.gain + (0)
+private def trieNode0254Labels : List SmokeLabel :=
+  trieNode0253Labels ++ trieNode0254StepLabels
+private def trieNode0254Gain : Int :=
+  trieNode0253Gain + trieNode0254StepGain
+
+private theorem trieNode0254StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0253State trieNode0254State
+      trieNode0254StepLabels trieNode0254StepGain := by
+  unfold trieNode0253State trieNode0254State
+  unfold trieNode0254StepLabels trieNode0254StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0054
+  exact BellmanLabelStepRun.nil trieNode0254State
+
+private theorem trieNode0254Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0254State
+      trieNode0254Labels trieNode0254Gain := by
+  unfold trieNode0254Labels trieNode0254Gain
+  exact BellmanLabelStepRun.append trieNode0253Run trieNode0254StepRun
+
+private def trieNode0255State : State := edge0087.dst
+private def trieNode0255StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0255StepGain : Int := edge0087.gain + (0)
+private def trieNode0255Labels : List SmokeLabel :=
+  trieNode0254Labels ++ trieNode0255StepLabels
+private def trieNode0255Gain : Int :=
+  trieNode0254Gain + trieNode0255StepGain
+
+private theorem trieNode0255StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0254State trieNode0255State
+      trieNode0255StepLabels trieNode0255StepGain := by
+  unfold trieNode0254State trieNode0255State
+  unfold trieNode0255StepLabels trieNode0255StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0087
+  exact BellmanLabelStepRun.nil trieNode0255State
+
+private theorem trieNode0255Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0255State
+      trieNode0255Labels trieNode0255Gain := by
+  unfold trieNode0255Labels trieNode0255Gain
+  exact BellmanLabelStepRun.append trieNode0254Run trieNode0255StepRun
+
+private def trieNode0256State : State := edge0095.dst
+private def trieNode0256StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0256StepGain : Int := edge0095.gain + (0)
+private def trieNode0256Labels : List SmokeLabel :=
+  trieNode0255Labels ++ trieNode0256StepLabels
+private def trieNode0256Gain : Int :=
+  trieNode0255Gain + trieNode0256StepGain
+
+private theorem trieNode0256StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0255State trieNode0256State
+      trieNode0256StepLabels trieNode0256StepGain := by
+  unfold trieNode0255State trieNode0256State
+  unfold trieNode0256StepLabels trieNode0256StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0095
+  exact BellmanLabelStepRun.nil trieNode0256State
+
+private theorem trieNode0256Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0256State
+      trieNode0256Labels trieNode0256Gain := by
+  unfold trieNode0256Labels trieNode0256Gain
+  exact BellmanLabelStepRun.append trieNode0255Run trieNode0256StepRun
+
+private def trieNode0257State : State := edge0205.dst
+private def trieNode0257StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0001]
+private def trieNode0257StepGain : Int := edge0205.gain + (0)
+private def trieNode0257Labels : List SmokeLabel :=
+  trieNode0226Labels ++ trieNode0257StepLabels
+private def trieNode0257Gain : Int :=
+  trieNode0226Gain + trieNode0257StepGain
+
+private theorem trieNode0257StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0226State trieNode0257State
+      trieNode0257StepLabels trieNode0257StepGain := by
+  unfold trieNode0226State trieNode0257State
+  unfold trieNode0257StepLabels trieNode0257StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0205
+  exact BellmanLabelStepRun.nil trieNode0257State
+
+private theorem trieNode0257Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0257State
+      trieNode0257Labels trieNode0257Gain := by
+  unfold trieNode0257Labels trieNode0257Gain
+  exact BellmanLabelStepRun.append trieNode0226Run trieNode0257StepRun
+
+private def trieNode0258State : State := edge0228.dst
+private def trieNode0258StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0003]
+private def trieNode0258StepGain : Int := edge0228.gain + (0)
+private def trieNode0258Labels : List SmokeLabel :=
+  trieNode0257Labels ++ trieNode0258StepLabels
+private def trieNode0258Gain : Int :=
+  trieNode0257Gain + trieNode0258StepGain
+
+private theorem trieNode0258StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0257State trieNode0258State
+      trieNode0258StepLabels trieNode0258StepGain := by
+  unfold trieNode0257State trieNode0258State
+  unfold trieNode0258StepLabels trieNode0258StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0228
+  exact BellmanLabelStepRun.nil trieNode0258State
+
+private theorem trieNode0258Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0258State
+      trieNode0258Labels trieNode0258Gain := by
+  unfold trieNode0258Labels trieNode0258Gain
+  exact BellmanLabelStepRun.append trieNode0257Run trieNode0258StepRun
+
+private def trieNode0259State : State := edge0030.dst
+private def trieNode0259StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0259StepGain : Int := edge0030.gain + (0)
+private def trieNode0259Labels : List SmokeLabel :=
+  trieNode0258Labels ++ trieNode0259StepLabels
+private def trieNode0259Gain : Int :=
+  trieNode0258Gain + trieNode0259StepGain
+
+private theorem trieNode0259StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0258State trieNode0259State
+      trieNode0259StepLabels trieNode0259StepGain := by
+  unfold trieNode0258State trieNode0259State
+  unfold trieNode0259StepLabels trieNode0259StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0030
+  exact BellmanLabelStepRun.nil trieNode0259State
+
+private theorem trieNode0259Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0259State
+      trieNode0259Labels trieNode0259Gain := by
+  unfold trieNode0259Labels trieNode0259Gain
+  exact BellmanLabelStepRun.append trieNode0258Run trieNode0259StepRun
+
+private def trieNode0260State : State := edge0051.dst
+private def trieNode0260StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0260StepGain : Int := edge0051.gain + (0)
+private def trieNode0260Labels : List SmokeLabel :=
+  trieNode0259Labels ++ trieNode0260StepLabels
+private def trieNode0260Gain : Int :=
+  trieNode0259Gain + trieNode0260StepGain
+
+private theorem trieNode0260StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0259State trieNode0260State
+      trieNode0260StepLabels trieNode0260StepGain := by
+  unfold trieNode0259State trieNode0260State
+  unfold trieNode0260StepLabels trieNode0260StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0051
+  exact BellmanLabelStepRun.nil trieNode0260State
+
+private theorem trieNode0260Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0260State
+      trieNode0260Labels trieNode0260Gain := by
+  unfold trieNode0260Labels trieNode0260Gain
+  exact BellmanLabelStepRun.append trieNode0259Run trieNode0260StepRun
+
+private def trieNode0261State : State := edge0081.dst
+private def trieNode0261StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0261StepGain : Int := edge0081.gain + (0)
+private def trieNode0261Labels : List SmokeLabel :=
+  trieNode0260Labels ++ trieNode0261StepLabels
+private def trieNode0261Gain : Int :=
+  trieNode0260Gain + trieNode0261StepGain
+
+private theorem trieNode0261StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0260State trieNode0261State
+      trieNode0261StepLabels trieNode0261StepGain := by
+  unfold trieNode0260State trieNode0261State
+  unfold trieNode0261StepLabels trieNode0261StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0081
+  exact BellmanLabelStepRun.nil trieNode0261State
+
+private theorem trieNode0261Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0261State
+      trieNode0261Labels trieNode0261Gain := by
+  unfold trieNode0261Labels trieNode0261Gain
+  exact BellmanLabelStepRun.append trieNode0260Run trieNode0261StepRun
+
+private def trieNode0262State : State := edge0097.dst
+private def trieNode0262StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0262StepGain : Int := edge0097.gain + (0)
+private def trieNode0262Labels : List SmokeLabel :=
+  trieNode0261Labels ++ trieNode0262StepLabels
+private def trieNode0262Gain : Int :=
+  trieNode0261Gain + trieNode0262StepGain
+
+private theorem trieNode0262StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0261State trieNode0262State
+      trieNode0262StepLabels trieNode0262StepGain := by
+  unfold trieNode0261State trieNode0262State
+  unfold trieNode0262StepLabels trieNode0262StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0097
+  exact BellmanLabelStepRun.nil trieNode0262State
+
+private theorem trieNode0262Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0262State
+      trieNode0262Labels trieNode0262Gain := by
+  unfold trieNode0262Labels trieNode0262Gain
+  exact BellmanLabelStepRun.append trieNode0261Run trieNode0262StepRun
+
+private def trieNode0263State : State := edge0031.dst
+private def trieNode0263StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0012]
+private def trieNode0263StepGain : Int := edge0031.gain + (0)
+private def trieNode0263Labels : List SmokeLabel :=
+  trieNode0258Labels ++ trieNode0263StepLabels
+private def trieNode0263Gain : Int :=
+  trieNode0258Gain + trieNode0263StepGain
+
+private theorem trieNode0263StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0258State trieNode0263State
+      trieNode0263StepLabels trieNode0263StepGain := by
+  unfold trieNode0258State trieNode0263State
+  unfold trieNode0263StepLabels trieNode0263StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0031
+  exact BellmanLabelStepRun.nil trieNode0263State
+
+private theorem trieNode0263Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0263State
+      trieNode0263Labels trieNode0263Gain := by
+  unfold trieNode0263Labels trieNode0263Gain
+  exact BellmanLabelStepRun.append trieNode0258Run trieNode0263StepRun
+
+private def trieNode0264State : State := edge0060.dst
+private def trieNode0264StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0264StepGain : Int := edge0060.gain + (0)
+private def trieNode0264Labels : List SmokeLabel :=
+  trieNode0263Labels ++ trieNode0264StepLabels
+private def trieNode0264Gain : Int :=
+  trieNode0263Gain + trieNode0264StepGain
+
+private theorem trieNode0264StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0263State trieNode0264State
+      trieNode0264StepLabels trieNode0264StepGain := by
+  unfold trieNode0263State trieNode0264State
+  unfold trieNode0264StepLabels trieNode0264StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0060
+  exact BellmanLabelStepRun.nil trieNode0264State
+
+private theorem trieNode0264Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0264State
+      trieNode0264Labels trieNode0264Gain := by
+  unfold trieNode0264Labels trieNode0264Gain
+  exact BellmanLabelStepRun.append trieNode0263Run trieNode0264StepRun
+
+private def trieNode0265State : State := edge0081.dst
+private def trieNode0265StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0265StepGain : Int := edge0081.gain + (0)
+private def trieNode0265Labels : List SmokeLabel :=
+  trieNode0264Labels ++ trieNode0265StepLabels
+private def trieNode0265Gain : Int :=
+  trieNode0264Gain + trieNode0265StepGain
+
+private theorem trieNode0265StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0264State trieNode0265State
+      trieNode0265StepLabels trieNode0265StepGain := by
+  unfold trieNode0264State trieNode0265State
+  unfold trieNode0265StepLabels trieNode0265StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0081
+  exact BellmanLabelStepRun.nil trieNode0265State
+
+private theorem trieNode0265Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0265State
+      trieNode0265Labels trieNode0265Gain := by
+  unfold trieNode0265Labels trieNode0265Gain
+  exact BellmanLabelStepRun.append trieNode0264Run trieNode0265StepRun
+
+private def trieNode0266State : State := edge0097.dst
+private def trieNode0266StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0266StepGain : Int := edge0097.gain + (0)
+private def trieNode0266Labels : List SmokeLabel :=
+  trieNode0265Labels ++ trieNode0266StepLabels
+private def trieNode0266Gain : Int :=
+  trieNode0265Gain + trieNode0266StepGain
+
+private theorem trieNode0266StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0265State trieNode0266State
+      trieNode0266StepLabels trieNode0266StepGain := by
+  unfold trieNode0265State trieNode0266State
+  unfold trieNode0266StepLabels trieNode0266StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0097
+  exact BellmanLabelStepRun.nil trieNode0266State
+
+private theorem trieNode0266Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0266State
+      trieNode0266Labels trieNode0266Gain := by
+  unfold trieNode0266Labels trieNode0266Gain
+  exact BellmanLabelStepRun.append trieNode0265Run trieNode0266StepRun
+
+private def trieNode0267State : State := edge0061.dst
+private def trieNode0267StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0013]
+private def trieNode0267StepGain : Int := edge0061.gain + (0)
+private def trieNode0267Labels : List SmokeLabel :=
+  trieNode0263Labels ++ trieNode0267StepLabels
+private def trieNode0267Gain : Int :=
+  trieNode0263Gain + trieNode0267StepGain
+
+private theorem trieNode0267StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0263State trieNode0267State
+      trieNode0267StepLabels trieNode0267StepGain := by
+  unfold trieNode0263State trieNode0267State
+  unfold trieNode0267StepLabels trieNode0267StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0061
+  exact BellmanLabelStepRun.nil trieNode0267State
+
+private theorem trieNode0267Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0267State
+      trieNode0267Labels trieNode0267Gain := by
+  unfold trieNode0267Labels trieNode0267Gain
+  exact BellmanLabelStepRun.append trieNode0263Run trieNode0267StepRun
+
+private def trieNode0268State : State := edge0088.dst
+private def trieNode0268StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0011]
+private def trieNode0268StepGain : Int := edge0088.gain + (0)
+private def trieNode0268Labels : List SmokeLabel :=
+  trieNode0267Labels ++ trieNode0268StepLabels
+private def trieNode0268Gain : Int :=
+  trieNode0267Gain + trieNode0268StepGain
+
+private theorem trieNode0268StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0267State trieNode0268State
+      trieNode0268StepLabels trieNode0268StepGain := by
+  unfold trieNode0267State trieNode0268State
+  unfold trieNode0268StepLabels trieNode0268StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0088
+  exact BellmanLabelStepRun.nil trieNode0268State
+
+private theorem trieNode0268Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0268State
+      trieNode0268Labels trieNode0268Gain := by
+  unfold trieNode0268Labels trieNode0268Gain
+  exact BellmanLabelStepRun.append trieNode0267Run trieNode0268StepRun
+
+private def trieNode0269State : State := edge0097.dst
+private def trieNode0269StepLabels : List SmokeLabel :=
+  [SmokeLabel.l0009]
+private def trieNode0269StepGain : Int := edge0097.gain + (0)
+private def trieNode0269Labels : List SmokeLabel :=
+  trieNode0268Labels ++ trieNode0269StepLabels
+private def trieNode0269Gain : Int :=
+  trieNode0268Gain + trieNode0269StepGain
+
+private theorem trieNode0269StepRun :
+    BellmanLabelStepRun SmokeStep trieNode0268State trieNode0269State
+      trieNode0269StepLabels trieNode0269StepGain := by
+  unfold trieNode0268State trieNode0269State
+  unfold trieNode0269StepLabels trieNode0269StepGain
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0097
+  exact BellmanLabelStepRun.nil trieNode0269State
+
+private theorem trieNode0269Run :
+    BellmanLabelStepRun SmokeStep rootState trieNode0269State
+      trieNode0269Labels trieNode0269Gain := by
+  unfold trieNode0269Labels trieNode0269Gain
+  exact BellmanLabelStepRun.append trieNode0268Run trieNode0269StepRun
+
 private def cls0000Labels : List SmokeLabel :=
   [SmokeLabel.l0008
   , SmokeLabel.l0010
@@ -7284,6 +13750,17 @@ private theorem cls0000ComposedLabelStepRun :
 private theorem cls0000ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0000 <= (176 : Int) + cls0000ComposedGain := by
   unfold cls0000ComposedGain commonPrefixGain cls0000SuffixGain
+  change (-376 : Int) <= -376
+  decide
+
+private theorem cls0000TrieFinal_nonneg :
+    0 <= graphPotential trieNode0014State := by
+  unfold trieNode0014State
+  decide
+
+private theorem cls0000TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0000 <= (176 : Int) + trieNode0014Gain := by
+  unfold trieNode0014Gain trieNode0014StepGain trieNode0013Gain trieNode0013StepGain trieNode0012Gain trieNode0012StepGain trieNode0011Gain trieNode0011StepGain trieNode0010Gain trieNode0010StepGain trieNode0009Gain trieNode0009StepGain trieNode0008Gain trieNode0008StepGain trieNode0007Gain trieNode0007StepGain trieNode0006Gain trieNode0006StepGain trieNode0005Gain trieNode0005StepGain trieNode0004Gain trieNode0004StepGain trieNode0003Gain trieNode0003StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-376 : Int) <= -376
   decide
 
@@ -7487,6 +13964,17 @@ private theorem cls0001ComposedMargin_bound_gain :
   change (-376 : Int) <= -376
   decide
 
+private theorem cls0001TrieFinal_nonneg :
+    0 <= graphPotential trieNode0024State := by
+  unfold trieNode0024State
+  decide
+
+private theorem cls0001TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0001 <= (176 : Int) + trieNode0024Gain := by
+  unfold trieNode0024Gain trieNode0024StepGain trieNode0023Gain trieNode0023StepGain trieNode0022Gain trieNode0022StepGain trieNode0021Gain trieNode0021StepGain trieNode0020Gain trieNode0020StepGain trieNode0019Gain trieNode0019StepGain trieNode0018Gain trieNode0018StepGain trieNode0017Gain trieNode0017StepGain trieNode0016Gain trieNode0016StepGain trieNode0015Gain trieNode0015StepGain trieNode0004Gain trieNode0004StepGain trieNode0003Gain trieNode0003StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-376 : Int) <= -376
+  decide
+
 private theorem cls0001Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0001 <= (176 : Int) + cls0001Gain := by
   unfold cls0001Gain
@@ -7684,6 +14172,17 @@ private theorem cls0002ComposedLabelStepRun :
 private theorem cls0002ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0002 <= (176 : Int) + cls0002ComposedGain := by
   unfold cls0002ComposedGain commonPrefixGain cls0002SuffixGain
+  change (-128 : Int) <= -128
+  decide
+
+private theorem cls0002TrieFinal_nonneg :
+    0 <= graphPotential trieNode0035State := by
+  unfold trieNode0035State
+  decide
+
+private theorem cls0002TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0002 <= (176 : Int) + trieNode0035Gain := by
+  unfold trieNode0035Gain trieNode0035StepGain trieNode0034Gain trieNode0034StepGain trieNode0033Gain trieNode0033StepGain trieNode0032Gain trieNode0032StepGain trieNode0031Gain trieNode0031StepGain trieNode0030Gain trieNode0030StepGain trieNode0029Gain trieNode0029StepGain trieNode0028Gain trieNode0028StepGain trieNode0027Gain trieNode0027StepGain trieNode0026Gain trieNode0026StepGain trieNode0025Gain trieNode0025StepGain trieNode0003Gain trieNode0003StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-128 : Int) <= -128
   decide
 
@@ -7887,6 +14386,17 @@ private theorem cls0003ComposedMargin_bound_gain :
   change (-128 : Int) <= -128
   decide
 
+private theorem cls0003TrieFinal_nonneg :
+    0 <= graphPotential trieNode0044State := by
+  unfold trieNode0044State
+  decide
+
+private theorem cls0003TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0003 <= (176 : Int) + trieNode0044Gain := by
+  unfold trieNode0044Gain trieNode0044StepGain trieNode0043Gain trieNode0043StepGain trieNode0042Gain trieNode0042StepGain trieNode0041Gain trieNode0041StepGain trieNode0040Gain trieNode0040StepGain trieNode0039Gain trieNode0039StepGain trieNode0038Gain trieNode0038StepGain trieNode0037Gain trieNode0037StepGain trieNode0036Gain trieNode0036StepGain trieNode0026Gain trieNode0026StepGain trieNode0025Gain trieNode0025StepGain trieNode0003Gain trieNode0003StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-128 : Int) <= -128
+  decide
+
 private theorem cls0003Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0003 <= (176 : Int) + cls0003Gain := by
   unfold cls0003Gain
@@ -8084,6 +14594,17 @@ private theorem cls0004ComposedLabelStepRun :
 private theorem cls0004ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0004 <= (176 : Int) + cls0004ComposedGain := by
   unfold cls0004ComposedGain commonPrefixGain cls0004SuffixGain
+  change (-392 : Int) <= -392
+  decide
+
+private theorem cls0004TrieFinal_nonneg :
+    0 <= graphPotential trieNode0054State := by
+  unfold trieNode0054State
+  decide
+
+private theorem cls0004TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0004 <= (176 : Int) + trieNode0054Gain := by
+  unfold trieNode0054Gain trieNode0054StepGain trieNode0053Gain trieNode0053StepGain trieNode0052Gain trieNode0052StepGain trieNode0051Gain trieNode0051StepGain trieNode0050Gain trieNode0050StepGain trieNode0049Gain trieNode0049StepGain trieNode0048Gain trieNode0048StepGain trieNode0047Gain trieNode0047StepGain trieNode0046Gain trieNode0046StepGain trieNode0045Gain trieNode0045StepGain trieNode0025Gain trieNode0025StepGain trieNode0003Gain trieNode0003StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-392 : Int) <= -392
   decide
 
@@ -8287,6 +14808,17 @@ private theorem cls0005ComposedMargin_bound_gain :
   change (-464 : Int) <= -464
   decide
 
+private theorem cls0005TrieFinal_nonneg :
+    0 <= graphPotential trieNode0063State := by
+  unfold trieNode0063State
+  decide
+
+private theorem cls0005TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0005 <= (176 : Int) + trieNode0063Gain := by
+  unfold trieNode0063Gain trieNode0063StepGain trieNode0062Gain trieNode0062StepGain trieNode0061Gain trieNode0061StepGain trieNode0060Gain trieNode0060StepGain trieNode0059Gain trieNode0059StepGain trieNode0058Gain trieNode0058StepGain trieNode0057Gain trieNode0057StepGain trieNode0056Gain trieNode0056StepGain trieNode0055Gain trieNode0055StepGain trieNode0045Gain trieNode0045StepGain trieNode0025Gain trieNode0025StepGain trieNode0003Gain trieNode0003StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-464 : Int) <= -464
+  decide
+
 private theorem cls0005Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0005 <= (176 : Int) + cls0005Gain := by
   unfold cls0005Gain
@@ -8484,6 +15016,17 @@ private theorem cls0006ComposedLabelStepRun :
 private theorem cls0006ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0006 <= (176 : Int) + cls0006ComposedGain := by
   unfold cls0006ComposedGain commonPrefixGain cls0006SuffixGain
+  change (-176 : Int) <= -176
+  decide
+
+private theorem cls0006TrieFinal_nonneg :
+    0 <= graphPotential trieNode0071State := by
+  unfold trieNode0071State
+  decide
+
+private theorem cls0006TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0006 <= (176 : Int) + trieNode0071Gain := by
+  unfold trieNode0071Gain trieNode0071StepGain trieNode0070Gain trieNode0070StepGain trieNode0069Gain trieNode0069StepGain trieNode0068Gain trieNode0068StepGain trieNode0067Gain trieNode0067StepGain trieNode0066Gain trieNode0066StepGain trieNode0065Gain trieNode0065StepGain trieNode0064Gain trieNode0064StepGain trieNode0055Gain trieNode0055StepGain trieNode0045Gain trieNode0045StepGain trieNode0025Gain trieNode0025StepGain trieNode0003Gain trieNode0003StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-176 : Int) <= -176
   decide
 
@@ -8687,6 +15230,17 @@ private theorem cls0007ComposedMargin_bound_gain :
   change (-464 : Int) <= -464
   decide
 
+private theorem cls0007TrieFinal_nonneg :
+    0 <= graphPotential trieNode0078State := by
+  unfold trieNode0078State
+  decide
+
+private theorem cls0007TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0007 <= (176 : Int) + trieNode0078Gain := by
+  unfold trieNode0078Gain trieNode0078StepGain trieNode0077Gain trieNode0077StepGain trieNode0076Gain trieNode0076StepGain trieNode0075Gain trieNode0075StepGain trieNode0074Gain trieNode0074StepGain trieNode0073Gain trieNode0073StepGain trieNode0072Gain trieNode0072StepGain trieNode0064Gain trieNode0064StepGain trieNode0055Gain trieNode0055StepGain trieNode0045Gain trieNode0045StepGain trieNode0025Gain trieNode0025StepGain trieNode0003Gain trieNode0003StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-464 : Int) <= -464
+  decide
+
 private theorem cls0007Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0007 <= (176 : Int) + cls0007Gain := by
   unfold cls0007Gain
@@ -8884,6 +15438,17 @@ private theorem cls0008ComposedLabelStepRun :
 private theorem cls0008ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0008 <= (176 : Int) + cls0008ComposedGain := by
   unfold cls0008ComposedGain commonPrefixGain cls0008SuffixGain
+  change (-392 : Int) <= -392
+  decide
+
+private theorem cls0008TrieFinal_nonneg :
+    0 <= graphPotential trieNode0084State := by
+  unfold trieNode0084State
+  decide
+
+private theorem cls0008TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0008 <= (176 : Int) + trieNode0084Gain := by
+  unfold trieNode0084Gain trieNode0084StepGain trieNode0083Gain trieNode0083StepGain trieNode0082Gain trieNode0082StepGain trieNode0081Gain trieNode0081StepGain trieNode0080Gain trieNode0080StepGain trieNode0079Gain trieNode0079StepGain trieNode0072Gain trieNode0072StepGain trieNode0064Gain trieNode0064StepGain trieNode0055Gain trieNode0055StepGain trieNode0045Gain trieNode0045StepGain trieNode0025Gain trieNode0025StepGain trieNode0003Gain trieNode0003StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-392 : Int) <= -392
   decide
 
@@ -9087,6 +15652,17 @@ private theorem cls0009ComposedMargin_bound_gain :
   change (-128 : Int) <= -128
   decide
 
+private theorem cls0009TrieFinal_nonneg :
+    0 <= graphPotential trieNode0089State := by
+  unfold trieNode0089State
+  decide
+
+private theorem cls0009TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0009 <= (176 : Int) + trieNode0089Gain := by
+  unfold trieNode0089Gain trieNode0089StepGain trieNode0088Gain trieNode0088StepGain trieNode0087Gain trieNode0087StepGain trieNode0086Gain trieNode0086StepGain trieNode0085Gain trieNode0085StepGain trieNode0079Gain trieNode0079StepGain trieNode0072Gain trieNode0072StepGain trieNode0064Gain trieNode0064StepGain trieNode0055Gain trieNode0055StepGain trieNode0045Gain trieNode0045StepGain trieNode0025Gain trieNode0025StepGain trieNode0003Gain trieNode0003StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-128 : Int) <= -128
+  decide
+
 private theorem cls0009Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0009 <= (176 : Int) + cls0009Gain := by
   unfold cls0009Gain
@@ -9284,6 +15860,17 @@ private theorem cls0010ComposedLabelStepRun :
 private theorem cls0010ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0010 <= (176 : Int) + cls0010ComposedGain := by
   unfold cls0010ComposedGain commonPrefixGain cls0010SuffixGain
+  change (-376 : Int) <= -376
+  decide
+
+private theorem cls0010TrieFinal_nonneg :
+    0 <= graphPotential trieNode0093State := by
+  unfold trieNode0093State
+  decide
+
+private theorem cls0010TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0010 <= (176 : Int) + trieNode0093Gain := by
+  unfold trieNode0093Gain trieNode0093StepGain trieNode0092Gain trieNode0092StepGain trieNode0091Gain trieNode0091StepGain trieNode0090Gain trieNode0090StepGain trieNode0085Gain trieNode0085StepGain trieNode0079Gain trieNode0079StepGain trieNode0072Gain trieNode0072StepGain trieNode0064Gain trieNode0064StepGain trieNode0055Gain trieNode0055StepGain trieNode0045Gain trieNode0045StepGain trieNode0025Gain trieNode0025StepGain trieNode0003Gain trieNode0003StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-376 : Int) <= -376
   decide
 
@@ -9487,6 +16074,17 @@ private theorem cls0011ComposedMargin_bound_gain :
   change (-376 : Int) <= -376
   decide
 
+private theorem cls0011TrieFinal_nonneg :
+    0 <= graphPotential trieNode0105State := by
+  unfold trieNode0105State
+  decide
+
+private theorem cls0011TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0011 <= (176 : Int) + trieNode0105Gain := by
+  unfold trieNode0105Gain trieNode0105StepGain trieNode0104Gain trieNode0104StepGain trieNode0103Gain trieNode0103StepGain trieNode0102Gain trieNode0102StepGain trieNode0101Gain trieNode0101StepGain trieNode0100Gain trieNode0100StepGain trieNode0099Gain trieNode0099StepGain trieNode0098Gain trieNode0098StepGain trieNode0097Gain trieNode0097StepGain trieNode0096Gain trieNode0096StepGain trieNode0095Gain trieNode0095StepGain trieNode0094Gain trieNode0094StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-376 : Int) <= -376
+  decide
+
 private theorem cls0011Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0011 <= (176 : Int) + cls0011Gain := by
   unfold cls0011Gain
@@ -9684,6 +16282,17 @@ private theorem cls0012ComposedLabelStepRun :
 private theorem cls0012ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0012 <= (176 : Int) + cls0012ComposedGain := by
   unfold cls0012ComposedGain commonPrefixGain cls0012SuffixGain
+  change (-376 : Int) <= -376
+  decide
+
+private theorem cls0012TrieFinal_nonneg :
+    0 <= graphPotential trieNode0115State := by
+  unfold trieNode0115State
+  decide
+
+private theorem cls0012TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0012 <= (176 : Int) + trieNode0115Gain := by
+  unfold trieNode0115Gain trieNode0115StepGain trieNode0114Gain trieNode0114StepGain trieNode0113Gain trieNode0113StepGain trieNode0112Gain trieNode0112StepGain trieNode0111Gain trieNode0111StepGain trieNode0110Gain trieNode0110StepGain trieNode0109Gain trieNode0109StepGain trieNode0108Gain trieNode0108StepGain trieNode0107Gain trieNode0107StepGain trieNode0106Gain trieNode0106StepGain trieNode0095Gain trieNode0095StepGain trieNode0094Gain trieNode0094StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-376 : Int) <= -376
   decide
 
@@ -9887,6 +16496,17 @@ private theorem cls0013ComposedMargin_bound_gain :
   change (-376 : Int) <= -376
   decide
 
+private theorem cls0013TrieFinal_nonneg :
+    0 <= graphPotential trieNode0126State := by
+  unfold trieNode0126State
+  decide
+
+private theorem cls0013TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0013 <= (176 : Int) + trieNode0126Gain := by
+  unfold trieNode0126Gain trieNode0126StepGain trieNode0125Gain trieNode0125StepGain trieNode0124Gain trieNode0124StepGain trieNode0123Gain trieNode0123StepGain trieNode0122Gain trieNode0122StepGain trieNode0121Gain trieNode0121StepGain trieNode0120Gain trieNode0120StepGain trieNode0119Gain trieNode0119StepGain trieNode0118Gain trieNode0118StepGain trieNode0117Gain trieNode0117StepGain trieNode0116Gain trieNode0116StepGain trieNode0094Gain trieNode0094StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-376 : Int) <= -376
+  decide
+
 private theorem cls0013Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0013 <= (176 : Int) + cls0013Gain := by
   unfold cls0013Gain
@@ -10084,6 +16704,17 @@ private theorem cls0014ComposedLabelStepRun :
 private theorem cls0014ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0014 <= (176 : Int) + cls0014ComposedGain := by
   unfold cls0014ComposedGain commonPrefixGain cls0014SuffixGain
+  change (-420 : Int) <= -420
+  decide
+
+private theorem cls0014TrieFinal_nonneg :
+    0 <= graphPotential trieNode0136State := by
+  unfold trieNode0136State
+  decide
+
+private theorem cls0014TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0014 <= (176 : Int) + trieNode0136Gain := by
+  unfold trieNode0136Gain trieNode0136StepGain trieNode0135Gain trieNode0135StepGain trieNode0134Gain trieNode0134StepGain trieNode0133Gain trieNode0133StepGain trieNode0132Gain trieNode0132StepGain trieNode0131Gain trieNode0131StepGain trieNode0130Gain trieNode0130StepGain trieNode0129Gain trieNode0129StepGain trieNode0128Gain trieNode0128StepGain trieNode0127Gain trieNode0127StepGain trieNode0116Gain trieNode0116StepGain trieNode0094Gain trieNode0094StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-420 : Int) <= -420
   decide
 
@@ -10287,6 +16918,17 @@ private theorem cls0015ComposedMargin_bound_gain :
   change (-200 : Int) <= -200
   decide
 
+private theorem cls0015TrieFinal_nonneg :
+    0 <= graphPotential trieNode0140State := by
+  unfold trieNode0140State
+  decide
+
+private theorem cls0015TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0015 <= (176 : Int) + trieNode0140Gain := by
+  unfold trieNode0140Gain trieNode0140StepGain trieNode0139Gain trieNode0139StepGain trieNode0138Gain trieNode0138StepGain trieNode0137Gain trieNode0137StepGain trieNode0132Gain trieNode0132StepGain trieNode0131Gain trieNode0131StepGain trieNode0130Gain trieNode0130StepGain trieNode0129Gain trieNode0129StepGain trieNode0128Gain trieNode0128StepGain trieNode0127Gain trieNode0127StepGain trieNode0116Gain trieNode0116StepGain trieNode0094Gain trieNode0094StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-200 : Int) <= -200
+  decide
+
 private theorem cls0015Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0015 <= (176 : Int) + cls0015Gain := by
   unfold cls0015Gain
@@ -10484,6 +17126,17 @@ private theorem cls0016ComposedLabelStepRun :
 private theorem cls0016ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0016 <= (176 : Int) + cls0016ComposedGain := by
   unfold cls0016ComposedGain commonPrefixGain cls0016SuffixGain
+  change (-420 : Int) <= -420
+  decide
+
+private theorem cls0016TrieFinal_nonneg :
+    0 <= graphPotential trieNode0151State := by
+  unfold trieNode0151State
+  decide
+
+private theorem cls0016TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0016 <= (176 : Int) + trieNode0151Gain := by
+  unfold trieNode0151Gain trieNode0151StepGain trieNode0150Gain trieNode0150StepGain trieNode0149Gain trieNode0149StepGain trieNode0148Gain trieNode0148StepGain trieNode0147Gain trieNode0147StepGain trieNode0146Gain trieNode0146StepGain trieNode0145Gain trieNode0145StepGain trieNode0144Gain trieNode0144StepGain trieNode0143Gain trieNode0143StepGain trieNode0142Gain trieNode0142StepGain trieNode0141Gain trieNode0141StepGain trieNode0094Gain trieNode0094StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-420 : Int) <= -420
   decide
 
@@ -10687,6 +17340,17 @@ private theorem cls0017ComposedMargin_bound_gain :
   change (-200 : Int) <= -200
   decide
 
+private theorem cls0017TrieFinal_nonneg :
+    0 <= graphPotential trieNode0156State := by
+  unfold trieNode0156State
+  decide
+
+private theorem cls0017TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0017 <= (176 : Int) + trieNode0156Gain := by
+  unfold trieNode0156Gain trieNode0156StepGain trieNode0155Gain trieNode0155StepGain trieNode0154Gain trieNode0154StepGain trieNode0153Gain trieNode0153StepGain trieNode0152Gain trieNode0152StepGain trieNode0146Gain trieNode0146StepGain trieNode0145Gain trieNode0145StepGain trieNode0144Gain trieNode0144StepGain trieNode0143Gain trieNode0143StepGain trieNode0142Gain trieNode0142StepGain trieNode0141Gain trieNode0141StepGain trieNode0094Gain trieNode0094StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-200 : Int) <= -200
+  decide
+
 private theorem cls0017Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0017 <= (176 : Int) + cls0017Gain := by
   unfold cls0017Gain
@@ -10884,6 +17548,17 @@ private theorem cls0018ComposedLabelStepRun :
 private theorem cls0018ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0018 <= (176 : Int) + cls0018ComposedGain := by
   unfold cls0018ComposedGain commonPrefixGain cls0018SuffixGain
+  change (-200 : Int) <= -200
+  decide
+
+private theorem cls0018TrieFinal_nonneg :
+    0 <= graphPotential trieNode0159State := by
+  unfold trieNode0159State
+  decide
+
+private theorem cls0018TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0018 <= (176 : Int) + trieNode0159Gain := by
+  unfold trieNode0159Gain trieNode0159StepGain trieNode0158Gain trieNode0158StepGain trieNode0157Gain trieNode0157StepGain trieNode0153Gain trieNode0153StepGain trieNode0152Gain trieNode0152StepGain trieNode0146Gain trieNode0146StepGain trieNode0145Gain trieNode0145StepGain trieNode0144Gain trieNode0144StepGain trieNode0143Gain trieNode0143StepGain trieNode0142Gain trieNode0142StepGain trieNode0141Gain trieNode0141StepGain trieNode0094Gain trieNode0094StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-200 : Int) <= -200
   decide
 
@@ -11087,6 +17762,17 @@ private theorem cls0019ComposedMargin_bound_gain :
   change (-172 : Int) <= -172
   decide
 
+private theorem cls0019TrieFinal_nonneg :
+    0 <= graphPotential trieNode0171State := by
+  unfold trieNode0171State
+  decide
+
+private theorem cls0019TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0019 <= (176 : Int) + trieNode0171Gain := by
+  unfold trieNode0171Gain trieNode0171StepGain trieNode0170Gain trieNode0170StepGain trieNode0169Gain trieNode0169StepGain trieNode0168Gain trieNode0168StepGain trieNode0167Gain trieNode0167StepGain trieNode0166Gain trieNode0166StepGain trieNode0165Gain trieNode0165StepGain trieNode0164Gain trieNode0164StepGain trieNode0163Gain trieNode0163StepGain trieNode0162Gain trieNode0162StepGain trieNode0161Gain trieNode0161StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-172 : Int) <= -172
+  decide
+
 private theorem cls0019Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0019 <= (176 : Int) + cls0019Gain := by
   unfold cls0019Gain
@@ -11284,6 +17970,17 @@ private theorem cls0020ComposedLabelStepRun :
 private theorem cls0020ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0020 <= (176 : Int) + cls0020ComposedGain := by
   unfold cls0020ComposedGain commonPrefixGain cls0020SuffixGain
+  change (-436 : Int) <= -436
+  decide
+
+private theorem cls0020TrieFinal_nonneg :
+    0 <= graphPotential trieNode0182State := by
+  unfold trieNode0182State
+  decide
+
+private theorem cls0020TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0020 <= (176 : Int) + trieNode0182Gain := by
+  unfold trieNode0182Gain trieNode0182StepGain trieNode0181Gain trieNode0181StepGain trieNode0180Gain trieNode0180StepGain trieNode0179Gain trieNode0179StepGain trieNode0178Gain trieNode0178StepGain trieNode0177Gain trieNode0177StepGain trieNode0176Gain trieNode0176StepGain trieNode0175Gain trieNode0175StepGain trieNode0174Gain trieNode0174StepGain trieNode0173Gain trieNode0173StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-436 : Int) <= -436
   decide
 
@@ -11487,6 +18184,17 @@ private theorem cls0021ComposedMargin_bound_gain :
   change (-216 : Int) <= -216
   decide
 
+private theorem cls0021TrieFinal_nonneg :
+    0 <= graphPotential trieNode0186State := by
+  unfold trieNode0186State
+  decide
+
+private theorem cls0021TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0021 <= (176 : Int) + trieNode0186Gain := by
+  unfold trieNode0186Gain trieNode0186StepGain trieNode0185Gain trieNode0185StepGain trieNode0184Gain trieNode0184StepGain trieNode0183Gain trieNode0183StepGain trieNode0178Gain trieNode0178StepGain trieNode0177Gain trieNode0177StepGain trieNode0176Gain trieNode0176StepGain trieNode0175Gain trieNode0175StepGain trieNode0174Gain trieNode0174StepGain trieNode0173Gain trieNode0173StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-216 : Int) <= -216
+  decide
+
 private theorem cls0021Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0021 <= (176 : Int) + cls0021Gain := by
   unfold cls0021Gain
@@ -11684,6 +18392,17 @@ private theorem cls0022ComposedLabelStepRun :
 private theorem cls0022ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0022 <= (176 : Int) + cls0022ComposedGain := by
   unfold cls0022ComposedGain commonPrefixGain cls0022SuffixGain
+  change (-508 : Int) <= -508
+  decide
+
+private theorem cls0022TrieFinal_nonneg :
+    0 <= graphPotential trieNode0196State := by
+  unfold trieNode0196State
+  decide
+
+private theorem cls0022TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0022 <= (176 : Int) + trieNode0196Gain := by
+  unfold trieNode0196Gain trieNode0196StepGain trieNode0195Gain trieNode0195StepGain trieNode0194Gain trieNode0194StepGain trieNode0193Gain trieNode0193StepGain trieNode0192Gain trieNode0192StepGain trieNode0191Gain trieNode0191StepGain trieNode0190Gain trieNode0190StepGain trieNode0189Gain trieNode0189StepGain trieNode0188Gain trieNode0188StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-508 : Int) <= -508
   decide
 
@@ -11887,6 +18606,17 @@ private theorem cls0023ComposedMargin_bound_gain :
   change (-288 : Int) <= -288
   decide
 
+private theorem cls0023TrieFinal_nonneg :
+    0 <= graphPotential trieNode0200State := by
+  unfold trieNode0200State
+  decide
+
+private theorem cls0023TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0023 <= (176 : Int) + trieNode0200Gain := by
+  unfold trieNode0200Gain trieNode0200StepGain trieNode0199Gain trieNode0199StepGain trieNode0198Gain trieNode0198StepGain trieNode0197Gain trieNode0197StepGain trieNode0192Gain trieNode0192StepGain trieNode0191Gain trieNode0191StepGain trieNode0190Gain trieNode0190StepGain trieNode0189Gain trieNode0189StepGain trieNode0188Gain trieNode0188StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-288 : Int) <= -288
+  decide
+
 private theorem cls0023Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0023 <= (176 : Int) + cls0023Gain := by
   unfold cls0023Gain
@@ -12084,6 +18814,17 @@ private theorem cls0024ComposedLabelStepRun :
 private theorem cls0024ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0024 <= (176 : Int) + cls0024ComposedGain := by
   unfold cls0024ComposedGain commonPrefixGain cls0024SuffixGain
+  change (-220 : Int) <= -220
+  decide
+
+private theorem cls0024TrieFinal_nonneg :
+    0 <= graphPotential trieNode0209State := by
+  unfold trieNode0209State
+  decide
+
+private theorem cls0024TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0024 <= (176 : Int) + trieNode0209Gain := by
+  unfold trieNode0209Gain trieNode0209StepGain trieNode0208Gain trieNode0208StepGain trieNode0207Gain trieNode0207StepGain trieNode0206Gain trieNode0206StepGain trieNode0205Gain trieNode0205StepGain trieNode0204Gain trieNode0204StepGain trieNode0203Gain trieNode0203StepGain trieNode0202Gain trieNode0202StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-220 : Int) <= -220
   decide
 
@@ -12287,6 +19028,17 @@ private theorem cls0025ComposedMargin_bound_gain :
   change (0 : Int) <= 0
   decide
 
+private theorem cls0025TrieFinal_nonneg :
+    0 <= graphPotential trieNode0213State := by
+  unfold trieNode0213State
+  decide
+
+private theorem cls0025TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0025 <= (176 : Int) + trieNode0213Gain := by
+  unfold trieNode0213Gain trieNode0213StepGain trieNode0212Gain trieNode0212StepGain trieNode0211Gain trieNode0211StepGain trieNode0210Gain trieNode0210StepGain trieNode0205Gain trieNode0205StepGain trieNode0204Gain trieNode0204StepGain trieNode0203Gain trieNode0203StepGain trieNode0202Gain trieNode0202StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (0 : Int) <= 0
+  decide
+
 private theorem cls0025Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0025 <= (176 : Int) + cls0025Gain := by
   unfold cls0025Gain
@@ -12484,6 +19236,17 @@ private theorem cls0026ComposedLabelStepRun :
 private theorem cls0026ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0026 <= (176 : Int) + cls0026ComposedGain := by
   unfold cls0026ComposedGain commonPrefixGain cls0026SuffixGain
+  change (-508 : Int) <= -508
+  decide
+
+private theorem cls0026TrieFinal_nonneg :
+    0 <= graphPotential trieNode0221State := by
+  unfold trieNode0221State
+  decide
+
+private theorem cls0026TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0026 <= (176 : Int) + trieNode0221Gain := by
+  unfold trieNode0221Gain trieNode0221StepGain trieNode0220Gain trieNode0220StepGain trieNode0219Gain trieNode0219StepGain trieNode0218Gain trieNode0218StepGain trieNode0217Gain trieNode0217StepGain trieNode0216Gain trieNode0216StepGain trieNode0215Gain trieNode0215StepGain trieNode0214Gain trieNode0214StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-508 : Int) <= -508
   decide
 
@@ -12687,6 +19450,17 @@ private theorem cls0027ComposedMargin_bound_gain :
   change (-288 : Int) <= -288
   decide
 
+private theorem cls0027TrieFinal_nonneg :
+    0 <= graphPotential trieNode0225State := by
+  unfold trieNode0225State
+  decide
+
+private theorem cls0027TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0027 <= (176 : Int) + trieNode0225Gain := by
+  unfold trieNode0225Gain trieNode0225StepGain trieNode0224Gain trieNode0224StepGain trieNode0223Gain trieNode0223StepGain trieNode0222Gain trieNode0222StepGain trieNode0217Gain trieNode0217StepGain trieNode0216Gain trieNode0216StepGain trieNode0215Gain trieNode0215StepGain trieNode0214Gain trieNode0214StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-288 : Int) <= -288
+  decide
+
 private theorem cls0027Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0027 <= (176 : Int) + cls0027Gain := by
   unfold cls0027Gain
@@ -12884,6 +19658,17 @@ private theorem cls0028ComposedLabelStepRun :
 private theorem cls0028ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0028 <= (176 : Int) + cls0028ComposedGain := by
   unfold cls0028ComposedGain commonPrefixGain cls0028SuffixGain
+  change (-436 : Int) <= -436
+  decide
+
+private theorem cls0028TrieFinal_nonneg :
+    0 <= graphPotential trieNode0232State := by
+  unfold trieNode0232State
+  decide
+
+private theorem cls0028TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0028 <= (176 : Int) + trieNode0232Gain := by
+  unfold trieNode0232Gain trieNode0232StepGain trieNode0231Gain trieNode0231StepGain trieNode0230Gain trieNode0230StepGain trieNode0229Gain trieNode0229StepGain trieNode0228Gain trieNode0228StepGain trieNode0227Gain trieNode0227StepGain trieNode0226Gain trieNode0226StepGain trieNode0214Gain trieNode0214StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-436 : Int) <= -436
   decide
 
@@ -13087,6 +19872,17 @@ private theorem cls0029ComposedMargin_bound_gain :
   change (-172 : Int) <= -172
   decide
 
+private theorem cls0029TrieFinal_nonneg :
+    0 <= graphPotential trieNode0237State := by
+  unfold trieNode0237State
+  decide
+
+private theorem cls0029TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0029 <= (176 : Int) + trieNode0237Gain := by
+  unfold trieNode0237Gain trieNode0237StepGain trieNode0236Gain trieNode0236StepGain trieNode0235Gain trieNode0235StepGain trieNode0234Gain trieNode0234StepGain trieNode0233Gain trieNode0233StepGain trieNode0227Gain trieNode0227StepGain trieNode0226Gain trieNode0226StepGain trieNode0214Gain trieNode0214StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-172 : Int) <= -172
+  decide
+
 private theorem cls0029Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0029 <= (176 : Int) + cls0029Gain := by
   unfold cls0029Gain
@@ -13284,6 +20080,17 @@ private theorem cls0030ComposedLabelStepRun :
 private theorem cls0030ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0030 <= (176 : Int) + cls0030ComposedGain := by
   unfold cls0030ComposedGain commonPrefixGain cls0030SuffixGain
+  change (-420 : Int) <= -420
+  decide
+
+private theorem cls0030TrieFinal_nonneg :
+    0 <= graphPotential trieNode0241State := by
+  unfold trieNode0241State
+  decide
+
+private theorem cls0030TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0030 <= (176 : Int) + trieNode0241Gain := by
+  unfold trieNode0241Gain trieNode0241StepGain trieNode0240Gain trieNode0240StepGain trieNode0239Gain trieNode0239StepGain trieNode0238Gain trieNode0238StepGain trieNode0233Gain trieNode0233StepGain trieNode0227Gain trieNode0227StepGain trieNode0226Gain trieNode0226StepGain trieNode0214Gain trieNode0214StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-420 : Int) <= -420
   decide
 
@@ -13487,6 +20294,17 @@ private theorem cls0031ComposedMargin_bound_gain :
   change (-436 : Int) <= -436
   decide
 
+private theorem cls0031TrieFinal_nonneg :
+    0 <= graphPotential trieNode0247State := by
+  unfold trieNode0247State
+  decide
+
+private theorem cls0031TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0031 <= (176 : Int) + trieNode0247Gain := by
+  unfold trieNode0247Gain trieNode0247StepGain trieNode0246Gain trieNode0246StepGain trieNode0245Gain trieNode0245StepGain trieNode0244Gain trieNode0244StepGain trieNode0243Gain trieNode0243StepGain trieNode0242Gain trieNode0242StepGain trieNode0226Gain trieNode0226StepGain trieNode0214Gain trieNode0214StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-436 : Int) <= -436
+  decide
+
 private theorem cls0031Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0031 <= (176 : Int) + cls0031Gain := by
   unfold cls0031Gain
@@ -13684,6 +20502,17 @@ private theorem cls0032ComposedLabelStepRun :
 private theorem cls0032ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0032 <= (176 : Int) + cls0032ComposedGain := by
   unfold cls0032ComposedGain commonPrefixGain cls0032SuffixGain
+  change (-436 : Int) <= -436
+  decide
+
+private theorem cls0032TrieFinal_nonneg :
+    0 <= graphPotential trieNode0252State := by
+  unfold trieNode0252State
+  decide
+
+private theorem cls0032TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0032 <= (176 : Int) + trieNode0252Gain := by
+  unfold trieNode0252Gain trieNode0252StepGain trieNode0251Gain trieNode0251StepGain trieNode0250Gain trieNode0250StepGain trieNode0249Gain trieNode0249StepGain trieNode0248Gain trieNode0248StepGain trieNode0242Gain trieNode0242StepGain trieNode0226Gain trieNode0226StepGain trieNode0214Gain trieNode0214StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-436 : Int) <= -436
   decide
 
@@ -13887,6 +20716,17 @@ private theorem cls0033ComposedMargin_bound_gain :
   change (-216 : Int) <= -216
   decide
 
+private theorem cls0033TrieFinal_nonneg :
+    0 <= graphPotential trieNode0256State := by
+  unfold trieNode0256State
+  decide
+
+private theorem cls0033TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0033 <= (176 : Int) + trieNode0256Gain := by
+  unfold trieNode0256Gain trieNode0256StepGain trieNode0255Gain trieNode0255StepGain trieNode0254Gain trieNode0254StepGain trieNode0253Gain trieNode0253StepGain trieNode0248Gain trieNode0248StepGain trieNode0242Gain trieNode0242StepGain trieNode0226Gain trieNode0226StepGain trieNode0214Gain trieNode0214StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-216 : Int) <= -216
+  decide
+
 private theorem cls0033Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0033 <= (176 : Int) + cls0033Gain := by
   unfold cls0033Gain
@@ -14084,6 +20924,17 @@ private theorem cls0034ComposedLabelStepRun :
 private theorem cls0034ComposedMargin_bound_gain :
     smokeScaledMargin SmokeObj.cls0034 <= (176 : Int) + cls0034ComposedGain := by
   unfold cls0034ComposedGain commonPrefixGain cls0034SuffixGain
+  change (-200 : Int) <= -200
+  decide
+
+private theorem cls0034TrieFinal_nonneg :
+    0 <= graphPotential trieNode0262State := by
+  unfold trieNode0262State
+  decide
+
+private theorem cls0034TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0034 <= (176 : Int) + trieNode0262Gain := by
+  unfold trieNode0262Gain trieNode0262StepGain trieNode0261Gain trieNode0261StepGain trieNode0260Gain trieNode0260StepGain trieNode0259Gain trieNode0259StepGain trieNode0258Gain trieNode0258StepGain trieNode0257Gain trieNode0257StepGain trieNode0226Gain trieNode0226StepGain trieNode0214Gain trieNode0214StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
   change (-200 : Int) <= -200
   decide
 
@@ -14287,6 +21138,17 @@ private theorem cls0035ComposedMargin_bound_gain :
   change (-200 : Int) <= -200
   decide
 
+private theorem cls0035TrieFinal_nonneg :
+    0 <= graphPotential trieNode0266State := by
+  unfold trieNode0266State
+  decide
+
+private theorem cls0035TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0035 <= (176 : Int) + trieNode0266Gain := by
+  unfold trieNode0266Gain trieNode0266StepGain trieNode0265Gain trieNode0265StepGain trieNode0264Gain trieNode0264StepGain trieNode0263Gain trieNode0263StepGain trieNode0258Gain trieNode0258StepGain trieNode0257Gain trieNode0257StepGain trieNode0226Gain trieNode0226StepGain trieNode0214Gain trieNode0214StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-200 : Int) <= -200
+  decide
+
 private theorem cls0035Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0035 <= (176 : Int) + cls0035Gain := by
   unfold cls0035Gain
@@ -14487,6 +21349,17 @@ private theorem cls0036ComposedMargin_bound_gain :
   change (-200 : Int) <= -200
   decide
 
+private theorem cls0036TrieFinal_nonneg :
+    0 <= graphPotential trieNode0269State := by
+  unfold trieNode0269State
+  decide
+
+private theorem cls0036TrieMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0036 <= (176 : Int) + trieNode0269Gain := by
+  unfold trieNode0269Gain trieNode0269StepGain trieNode0268Gain trieNode0268StepGain trieNode0267Gain trieNode0267StepGain trieNode0263Gain trieNode0263StepGain trieNode0258Gain trieNode0258StepGain trieNode0257Gain trieNode0257StepGain trieNode0226Gain trieNode0226StepGain trieNode0214Gain trieNode0214StepGain trieNode0201Gain trieNode0201StepGain trieNode0187Gain trieNode0187StepGain trieNode0172Gain trieNode0172StepGain trieNode0160Gain trieNode0160StepGain trieNode0002Gain trieNode0002StepGain trieNode0001Gain trieNode0001StepGain trieNode0000Gain
+  change (-200 : Int) <= -200
+  decide
+
 private theorem cls0036Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0036 <= (176 : Int) + cls0036Gain := by
   unfold cls0036Gain
@@ -14648,6 +21521,45 @@ private def smokeObjComposedLabels : SmokeObj -> List SmokeLabel
   | SmokeObj.cls0034 => cls0034ComposedLabels
   | SmokeObj.cls0035 => cls0035ComposedLabels
   | SmokeObj.cls0036 => cls0036ComposedLabels
+
+private def smokeObjTrieLabels : SmokeObj -> List SmokeLabel
+  | SmokeObj.cls0000 => trieNode0014Labels
+  | SmokeObj.cls0001 => trieNode0024Labels
+  | SmokeObj.cls0002 => trieNode0035Labels
+  | SmokeObj.cls0003 => trieNode0044Labels
+  | SmokeObj.cls0004 => trieNode0054Labels
+  | SmokeObj.cls0005 => trieNode0063Labels
+  | SmokeObj.cls0006 => trieNode0071Labels
+  | SmokeObj.cls0007 => trieNode0078Labels
+  | SmokeObj.cls0008 => trieNode0084Labels
+  | SmokeObj.cls0009 => trieNode0089Labels
+  | SmokeObj.cls0010 => trieNode0093Labels
+  | SmokeObj.cls0011 => trieNode0105Labels
+  | SmokeObj.cls0012 => trieNode0115Labels
+  | SmokeObj.cls0013 => trieNode0126Labels
+  | SmokeObj.cls0014 => trieNode0136Labels
+  | SmokeObj.cls0015 => trieNode0140Labels
+  | SmokeObj.cls0016 => trieNode0151Labels
+  | SmokeObj.cls0017 => trieNode0156Labels
+  | SmokeObj.cls0018 => trieNode0159Labels
+  | SmokeObj.cls0019 => trieNode0171Labels
+  | SmokeObj.cls0020 => trieNode0182Labels
+  | SmokeObj.cls0021 => trieNode0186Labels
+  | SmokeObj.cls0022 => trieNode0196Labels
+  | SmokeObj.cls0023 => trieNode0200Labels
+  | SmokeObj.cls0024 => trieNode0209Labels
+  | SmokeObj.cls0025 => trieNode0213Labels
+  | SmokeObj.cls0026 => trieNode0221Labels
+  | SmokeObj.cls0027 => trieNode0225Labels
+  | SmokeObj.cls0028 => trieNode0232Labels
+  | SmokeObj.cls0029 => trieNode0237Labels
+  | SmokeObj.cls0030 => trieNode0241Labels
+  | SmokeObj.cls0031 => trieNode0247Labels
+  | SmokeObj.cls0032 => trieNode0252Labels
+  | SmokeObj.cls0033 => trieNode0256Labels
+  | SmokeObj.cls0034 => trieNode0262Labels
+  | SmokeObj.cls0035 => trieNode0266Labels
+  | SmokeObj.cls0036 => trieNode0269Labels
 
 private theorem smokeObservedLabeledRunLanguageBound :
     BellmanLabeledRunLanguageBound
@@ -15039,6 +21951,136 @@ theorem graphSmoke_observed_composed_label_step_run_scaled_margin_nonpos :
     (fun _ _ _ _ h => SmokeStep.valid h)
     root_bound
     smokeObservedComposedLabelStepRunLanguageBound
+
+private theorem smokeObservedTrieLabelStepRunLanguageBound :
+    BellmanLabelStepRunLanguageBound
+      graphPotential SmokeStep rootState
+      (176 : Int) smokeScaledMargin smokeObjTrieLabels smokeAccepts := by
+  intro obj _hobj
+  cases obj
+  · exact ⟨trieNode0014State, trieNode0014Gain,
+      trieNode0014Run, cls0000TrieFinal_nonneg,
+      cls0000TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0024State, trieNode0024Gain,
+      trieNode0024Run, cls0001TrieFinal_nonneg,
+      cls0001TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0035State, trieNode0035Gain,
+      trieNode0035Run, cls0002TrieFinal_nonneg,
+      cls0002TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0044State, trieNode0044Gain,
+      trieNode0044Run, cls0003TrieFinal_nonneg,
+      cls0003TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0054State, trieNode0054Gain,
+      trieNode0054Run, cls0004TrieFinal_nonneg,
+      cls0004TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0063State, trieNode0063Gain,
+      trieNode0063Run, cls0005TrieFinal_nonneg,
+      cls0005TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0071State, trieNode0071Gain,
+      trieNode0071Run, cls0006TrieFinal_nonneg,
+      cls0006TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0078State, trieNode0078Gain,
+      trieNode0078Run, cls0007TrieFinal_nonneg,
+      cls0007TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0084State, trieNode0084Gain,
+      trieNode0084Run, cls0008TrieFinal_nonneg,
+      cls0008TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0089State, trieNode0089Gain,
+      trieNode0089Run, cls0009TrieFinal_nonneg,
+      cls0009TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0093State, trieNode0093Gain,
+      trieNode0093Run, cls0010TrieFinal_nonneg,
+      cls0010TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0105State, trieNode0105Gain,
+      trieNode0105Run, cls0011TrieFinal_nonneg,
+      cls0011TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0115State, trieNode0115Gain,
+      trieNode0115Run, cls0012TrieFinal_nonneg,
+      cls0012TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0126State, trieNode0126Gain,
+      trieNode0126Run, cls0013TrieFinal_nonneg,
+      cls0013TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0136State, trieNode0136Gain,
+      trieNode0136Run, cls0014TrieFinal_nonneg,
+      cls0014TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0140State, trieNode0140Gain,
+      trieNode0140Run, cls0015TrieFinal_nonneg,
+      cls0015TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0151State, trieNode0151Gain,
+      trieNode0151Run, cls0016TrieFinal_nonneg,
+      cls0016TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0156State, trieNode0156Gain,
+      trieNode0156Run, cls0017TrieFinal_nonneg,
+      cls0017TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0159State, trieNode0159Gain,
+      trieNode0159Run, cls0018TrieFinal_nonneg,
+      cls0018TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0171State, trieNode0171Gain,
+      trieNode0171Run, cls0019TrieFinal_nonneg,
+      cls0019TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0182State, trieNode0182Gain,
+      trieNode0182Run, cls0020TrieFinal_nonneg,
+      cls0020TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0186State, trieNode0186Gain,
+      trieNode0186Run, cls0021TrieFinal_nonneg,
+      cls0021TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0196State, trieNode0196Gain,
+      trieNode0196Run, cls0022TrieFinal_nonneg,
+      cls0022TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0200State, trieNode0200Gain,
+      trieNode0200Run, cls0023TrieFinal_nonneg,
+      cls0023TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0209State, trieNode0209Gain,
+      trieNode0209Run, cls0024TrieFinal_nonneg,
+      cls0024TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0213State, trieNode0213Gain,
+      trieNode0213Run, cls0025TrieFinal_nonneg,
+      cls0025TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0221State, trieNode0221Gain,
+      trieNode0221Run, cls0026TrieFinal_nonneg,
+      cls0026TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0225State, trieNode0225Gain,
+      trieNode0225Run, cls0027TrieFinal_nonneg,
+      cls0027TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0232State, trieNode0232Gain,
+      trieNode0232Run, cls0028TrieFinal_nonneg,
+      cls0028TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0237State, trieNode0237Gain,
+      trieNode0237Run, cls0029TrieFinal_nonneg,
+      cls0029TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0241State, trieNode0241Gain,
+      trieNode0241Run, cls0030TrieFinal_nonneg,
+      cls0030TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0247State, trieNode0247Gain,
+      trieNode0247Run, cls0031TrieFinal_nonneg,
+      cls0031TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0252State, trieNode0252Gain,
+      trieNode0252Run, cls0032TrieFinal_nonneg,
+      cls0032TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0256State, trieNode0256Gain,
+      trieNode0256Run, cls0033TrieFinal_nonneg,
+      cls0033TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0262State, trieNode0262Gain,
+      trieNode0262Run, cls0034TrieFinal_nonneg,
+      cls0034TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0266State, trieNode0266Gain,
+      trieNode0266Run, cls0035TrieFinal_nonneg,
+      cls0035TrieMargin_bound_gain⟩
+  · exact ⟨trieNode0269State, trieNode0269Gain,
+      trieNode0269Run, cls0036TrieFinal_nonneg,
+      cls0036TrieMargin_bound_gain⟩
+
+theorem graphSmoke_observed_trie_label_step_run_scaled_margin_nonpos :
+    forall obj : SmokeObj, smokeAccepts obj -> smokeScaledMargin obj <= 0 :=
+  scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound
+    (V := graphPotential)
+    (Step := SmokeStep)
+    (start := rootState)
+    (const := 176)
+    (wordOf := smokeObjTrieLabels)
+    (fun _ _ _ _ h => SmokeStep.valid h)
+    root_bound
+    smokeObservedTrieLabelStepRunLanguageBound
 
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=

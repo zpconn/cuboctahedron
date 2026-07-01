@@ -2164,6 +2164,21 @@ Bellman profiler prototype checkpoint:
   a composition-pattern smoke.  It is still an observed bounded language, but
   it validates the proof shape needed by cancellation-tree summaries:
   construct shared subruns once and assemble full runs by append.
+- Prefix-trie Bellman smoke: the emitter now builds a semantic label-prefix
+  trie for the 37 observed top-family classes.  This collapses `518` raw
+  observed step occurrences to `269` non-root trie nodes, with 270 total trie
+  nodes including the root.  Each trie node has a `BellmanLabelStepRun`
+  obtained by appending its parent run to a one-step run; each observed class
+  points to its terminal trie node through
+  `smokeObservedTrieLabelStepRunLanguageBound` and
+  `graphSmoke_observed_trie_label_step_run_scaled_margin_nonpos`.  Focused
+  build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:08.69` wall time with `3,918,384 kB` max RSS.  Decision: accepted as
+  the strongest current state-language smoke.  It remains bounded observed
+  evidence, but it demonstrates that shared semantic prefix/state runs can be
+  Lean-checked cheaply and are a better production shape than one constructor
+  chain per word/path class.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
