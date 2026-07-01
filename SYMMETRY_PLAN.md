@@ -63,6 +63,56 @@ shadows and zero mismatches, and the Lean theorem
 place.  Future steps should build from that theorem rather than regenerate
 rank-local evidence.
 
+### Holonomy-Normal-Form Marching Orders
+
+The latest GPT/Gemini prompt is now the controlling strategy description, with
+one important repo-specific adjustment: Tracks 0, 1, and 2 have already been
+substantially completed and should not be restarted.
+
+Completed or accepted gates:
+
+- **Track 0, repository reconnaissance:** existing faces, pair words,
+  rank/unrank, product-order convention, GoodDirection, D4 symmetry, and
+  semantic coverage predicates are recorded in
+  `docs/holonomy_pivot_repo_notes.md`.
+- **Track 1, square-parity / triangular-shadow normal form:** the full exact
+  external profiler passed with `reducedShadow = []` iff `M = I`, and the Lean
+  classifier theorem
+  `Cuboctahedron.Search.ShadowNormalFormClassifier.totalLinearOfPairWord_eq_identity_iff_reducedShadow_empty_of_valid`
+  is available.
+- **Track 2, forced-axis sign filter:** the exact profiler shows the filter is
+  useful but incomplete.  It is a front-end obstruction, not the final
+  nontranslation proof.
+
+Active nontranslation work:
+
+- Treat the residual branch as a holonomy/axis-family problem, not as
+  rank-local affine-solve replay.
+- Do not refine source/solve hashes further as the primary coordinate; the
+  `[0,100000)` profiles show those keys fragment into near-singletons.
+- Focus next on the dominant start-interior residual family:
+  `badFace = yp`, D4-projective axis class `1,-3,-1`, especially the largest
+  exact-axis/reduced-shadow pair
+  `axis = 1,3,1`,
+  `reduced = d11m d111 dm11 d11m d111 dm11`.
+- Use the direct start-violation theorem surface to prove bad-face
+  inequalities from `NonIdentityAxisConstraints` data and the `X+`
+  start-interior hypothesis, rather than emitting concrete solved `p0`
+  witnesses.
+- If the direct theorem remains Rat-heavy or per-rank, introduce an
+  integer/projective axis-start lemma before any broad generated emission.
+
+Deferred translation work:
+
+- Do not start broad translation row mining until the nontranslation residual
+  route has a measured theorem surface.
+- When translation resumes, generated evidence starts only after
+  `GoodDirection`; masks failing GoodDirection are eliminated by deduction, not
+  data.
+- Preferred translation coordinates are cancellation tree, weighted normal
+  signatures, projective integer row/source signatures, and small-row
+  Farkas/Helly certificates for GoodDirection survivors.
+
 ## Memory-Safe Parallelism Policy
 
 Use bounded parallelism whenever it is easy to implement and the measured
@@ -1278,14 +1328,16 @@ Direct start-violation theorem hook:
   `Cuboctahedron/Search/TerminalNonidentityTemplates.lean`.
 - The theorem turns a direct bad-face inequality for every feasible axis datum
   into `¬ NonIdentityAxisConstraints seq`, without requiring a generated
-  concrete `p0` value or `AffineAxisSolveWitness`.
+  concrete `p0` value or `AffineAxisSolveWitness`.  The direct inequality may
+  use the `X+` start-interior hypothesis from the feasible axis datum.
 - Focused build:
 
   ```bash
   /usr/bin/time -v lake build Cuboctahedron.Search.TerminalNonidentityTemplates
   ```
 
-  passed in `0:10.09` wall time with `3,249,292 KiB` max RSS.
+  passed after the strengthened hook in `0:07.00` wall time with
+  `3,227,668 KiB` max RSS.
 - This does not yet prove a production family.  It creates the right theorem
   surface for the next smoke: prove the direct inequality for the largest
   exact-axis/reduced-shadow class by integer/projective algebra.

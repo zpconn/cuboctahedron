@@ -68,6 +68,7 @@ theorem no_nonidentity_axis_constraints_of_direct_start_violation
     (hviol :
       forall data : UnfoldedFeasibleData seq,
         data.w ≠ zeroVec3R ->
+        InFaceInterior Face.xp data.p0 ->
         linePoint data.p0 data.w 1 =
           affApply (affRatToReal (totalAff seq)) data.p0 ->
         matVec (affRatToReal (totalAff seq)).M data.w = data.w ->
@@ -77,10 +78,10 @@ theorem no_nonidentity_axis_constraints_of_direct_start_violation
   rcases hAxis.line_data with
     ⟨data, hNonzero, hStartInterior, hEndpoint, hFixed, _hForward,
       _hForwardAll, _hImpact, _hPreImpact, _hOpen, _hHit⟩
-  have hbad : offsetR badFace ≤ dot (normalR badFace) data.p0 :=
-    hviol data hNonzero hEndpoint hFixed
   have hStartInteriorXp : InFaceInterior Face.xp data.p0 := by
     simpa [hStart] using hStartInterior
+  have hbad : offsetR badFace ≤ dot (normalR badFace) data.p0 :=
+    hviol data hNonzero hStartInteriorXp hEndpoint hFixed
   exact not_inFaceInterior_of_not_strict
     (f := Face.xp) (g := badFace) (p := data.p0) hbadFace hbad
     hStartInteriorXp

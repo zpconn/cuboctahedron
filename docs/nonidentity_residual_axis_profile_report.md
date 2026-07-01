@@ -269,6 +269,7 @@ Direct start-violation theorem hook:
   ```lean
   ∀ data,
     data.w ≠ zeroVec3R →
+    InFaceInterior Face.xp data.p0 →
     linePoint data.p0 data.w 1 =
       affApply (affRatToReal (totalAff seq)) data.p0 →
     matVec (affRatToReal (totalAff seq)).M data.w = data.w →
@@ -283,11 +284,15 @@ Direct start-violation theorem hook:
   /usr/bin/time -v lake build Cuboctahedron.Search.TerminalNonidentityTemplates
   ```
 
-  Result: success, `0:10.09` wall time, `3,249,292 KiB` max RSS.
+  Initial result: success, `0:10.09` wall time, `3,249,292 KiB` max RSS.
+- After strengthening the theorem hook so the direct inequality may use
+  `InFaceInterior Face.xp data.p0`, the same focused build succeeded in
+  `0:07.00` wall time with `3,227,668 KiB` max RSS.
 - Next smoke target: use this theorem for the largest axis/reduced-shadow pair
   identified above.  The key acceptance question is whether a generated family
-  can prove the direct inequality by integer/projective algebra faster than the
-  old `LocalCertSmoke` path.
+  can prove the direct inequality from the endpoint/fixed-direction equations
+  and the `X+` start-interior fact by integer/projective algebra faster than
+  the old `LocalCertSmoke` path.
 
 ## Artifacts
 

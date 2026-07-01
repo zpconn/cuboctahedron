@@ -151,6 +151,49 @@ Therefore the next strategy is not "finish rank interval coverage."  It is:
    tree / projective integer row / row-source signatures, not BadDirection
    mask data.
 
+## Current Marching Orders From The Holonomy Prompt
+
+The latest holonomy-normal-form prompt should be read as the active strategy,
+but not as a request to restart earlier tracks.  The repo has already passed
+the key Track 1 gate:
+
+```text
+reducedShadow(pair word) = []  iff  totalLinearOfPairWord(pair word) = I
+```
+
+This is supported externally by the full exact profiler and internally by the
+Lean theorem
+`Cuboctahedron.Search.ShadowNormalFormClassifier.totalLinearOfPairWord_eq_identity_iff_reducedShadow_empty_of_valid`.
+
+The next proof work is therefore downstream of this split:
+
+- Nontranslation: use forced-axis signs as a necessary filter, then attack the
+  residual start-interior failures as semantic holonomy/axis families.  Do not
+  refine source/solve hashes further as the production coordinate; the
+  bounded profiles show that such keys fragment badly.
+- Translation: postpone broad mining until the nontranslation residual theorem
+  surface is measured.  When translation resumes, generated evidence should
+  handle only GoodDirection survivors.
+- Rank: use rank only as the final `unrankPairWord` accounting bridge.
+
+The immediate nontranslation theorem target is the dominant start-interior
+axis family observed by `scripts/axis_start_focus_profile.py`: canonical bad
+face `yp`, D4-projective axis class `1,-3,-1`, and especially the largest
+exact-axis/reduced-shadow pair:
+
+```text
+axis = 1,3,1
+reduced shadow = d11m d111 dm11 d11m d111 dm11
+```
+
+`Cuboctahedron.Search.TerminalNonidentityTemplates` now exposes a direct
+start-violation hook for this style of proof.  The hook is intentionally
+semantic: it asks for the bad-face inequality for any feasible axis datum,
+using the `X+` start-interior fact, rather than requiring a generated concrete
+affine solve witness.  The strengthened hook builds in
+`Cuboctahedron.Search.TerminalNonidentityTemplates` with a measured
+`0:07.00` wall time and `3,227,668 KiB` max RSS on the current machine.
+
 ## Explicit Non-Goals
 
 The following approaches are archived as diagnostics, not the active route to
