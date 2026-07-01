@@ -1873,6 +1873,15 @@ Bellman profiler prototype checkpoint:
   (rank `946779`).  Runtime was `5:57.77` wall, with `27,988 kB` max RSS.
   Growth is not flat, but it is far better than one state per exact prefix and
   remains small enough to justify the next, broader scale test.
+- Broader scale test: `with-step-tri-source` on `[0,10000000)` with eight
+  workers succeeded as well.  It scanned `10,000,000` ranks, found `273`
+  matched paths, and produced `970` states, `1,054` edges, and `116` final
+  states.  The root bound remained `-2`, the maximum margin bound remained
+  `0`, and the Bellman-max path was still realized by rank `946779`.
+  Runtime was `6:22.35` wall with `28,780 kB` max RSS.  The state count grew
+  only from `789` to `970` when doubling from 5M to 10M, which is a strong
+  signal that triangular source progress is capturing a reusable semantic
+  family rather than simply replaying exact prefixes.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

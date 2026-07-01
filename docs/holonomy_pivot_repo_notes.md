@@ -349,6 +349,10 @@ Top margin+cancellation-pairing checkpoint:
   `27,988 kB` max RSS.  This keeps the Bellman route active; next test a
   broader window or start designing the generic Lean Bellman theorem only
   after one more scale check.
+- Broader status: `[0,10000000)` with eight workers also succeeded, with
+  `273` matched paths, `970` states, `1,054` edges, maximum margin bound `0`,
+  and `28,780 kB` max RSS.  The 5M-to-10M state growth is mild enough to keep
+  the tri-source Bellman coordinate as the active nonidentity margin route.
 
 ## Explicit Non-Goals
 

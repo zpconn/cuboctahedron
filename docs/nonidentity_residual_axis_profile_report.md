@@ -698,6 +698,37 @@ memory-light.  State/edge growth is real, so this is not a solved production
 certificate yet, but the growth is meaningfully below exact-prefix behavior
 and justifies a broader scale test before designing the Lean Bellman core.
 
+Broader `[0,10000000)` scale test:
+
+```bash
+/usr/bin/time -v python3 scripts/nonidentity_margin_bellman_profile.py \
+  --start 0 --end 10000000 \
+  --jobs 8 --chunk-size 250000 \
+  --state-key-mode with-step-tri-source \
+  --json scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source.json \
+  --markdown scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source.md
+```
+
+| metric | value |
+| --- | ---: |
+| scanned | `10,000,000` |
+| matched paths | `273` |
+| states | `970` |
+| edges | `1,054` |
+| final states | `116` |
+| margin values | `46` |
+| root bound | `-2` |
+| max margin bound | `0` |
+| Bellman-max observed? | `true`, rank `946779` |
+| elapsed | `6:22.35` |
+| max RSS | `28,780 kB` |
+
+Decision: this is the strongest Bellman signal so far.  Doubling the window
+from 5M to 10M increased states only from `789` to `970`, while preserving the
+nonpositive Bellman bound and a real argmax path.  Continue with this
+tri-source coordinate unless a later disjoint-window test shows very different
+behavior.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -734,6 +765,8 @@ and justifies a broader scale test before designing the Lean Bellman core.
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source.md`
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source.json`
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source.md`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source.json`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source.md`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.json`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.md`
 - `scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.json`
