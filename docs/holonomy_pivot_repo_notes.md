@@ -3448,3 +3448,20 @@ Per-target budget preflight:
 - The wrapper JSON records these under `target_budget`.  This is an operational
   guardrail only; proof-bearing promotion still requires a strict guarded Lean
   check under the current memory envelope.
+- `scripts/run_bellman_safe_smoke.py --status-only` now checks all allowlisted
+  targets with the same freshness and budget preflight, then exits before
+  constructing or launching Lean.  Status-only validation was run as:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --status-only \
+    --json /tmp/bellman_safe_status_only.json
+  ```
+
+  It reported:
+  - `axis-forces-pairsign`: ready, `21 / 21` imports, `2 / 8 KiB` source;
+  - `generated-trace`: ready, `18 / 18` imports, `32 / 40 KiB` source;
+  - `split-composition`: ready, `26 / 26` imports, `2 / 8 KiB` source.
+
+  This is the preferred first check after crashes, rebases, generated-shard
+  edits, or artifact cleanup; it is still not proof evidence.

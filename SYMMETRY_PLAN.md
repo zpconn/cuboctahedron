@@ -52595,3 +52595,32 @@ Results:
 The wrapper JSON now records the budget and observed values under
 `target_budget`.  This is operational safety evidence only; it does not prove
 any Lean theorem.
+
+Follow-up status-only gate:
+
+`scripts/run_bellman_safe_smoke.py` now supports `--status-only`, which checks
+every allowlisted target with the same local-import freshness preflight and
+target budget rules, but exits without constructing or launching Lean.  This is
+the preferred first command after any crash, rebase, generated-shard edit, or
+artifact cleanup.
+
+Command run:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --status-only \
+  --json /tmp/bellman_safe_status_only.json
+```
+
+Output:
+
+| target | status | imports | source |
+| --- | --- | ---: | ---: |
+| `axis-forces-pairsign` | ready | `21 / 21` | `2 / 8 KiB` |
+| `generated-trace` | ready | `18 / 18` | `32 / 40 KiB` |
+| `split-composition` | ready | `26 / 26` | `2 / 8 KiB` |
+
+This means the current allowlisted smoke targets have fresh local `.olean`
+imports and are still within their strict source/import budgets.  It does not
+mean their Lean proof checks have been re-run under the tightened post-crash
+RSS/address-space envelope.

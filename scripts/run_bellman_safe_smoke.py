@@ -184,6 +184,14 @@ def parse_args() -> argparse.Namespace:
         help="Print the guarded command without launching it.",
     )
     parser.add_argument(
+        "--status-only",
+        action="store_true",
+        help=(
+            "Inspect all allowlisted targets with the import and size-budget "
+            "preflight, then exit without constructing or launching Lean."
+        ),
+    )
+    parser.add_argument(
         "--emit-olean",
         action="store_true",
         help=(
@@ -385,9 +393,71 @@ def enforce_target_budget(target: dict[str, Any], import_preflight: dict[str, An
     return budget
 
 
+def target_status(name: str, target: dict[str, Any]) -> dict[str, Any]:
+    try:
+        import_preflight = local_import_preflight(target["path"])
+        target_budget = enforce_target_budget(target, import_preflight)
+    except SystemExit as exc:
+        return {
+            "target": name,
+            "description": target["description"],
+            "module": target["module"],
+            "path": target["path"],
+            "status": "refused",
+            "reason": str(exc),
+        }
+    return {
+        "target": name,
+        "description": target["description"],
+        "module": target["module"],
+        "path": target["path"],
+        "status": "ready",
+        "local_import_count": import_preflight["local_import_count"],
+        "checked_olean_count": import_preflight["checked_olean_count"],
+        "target_budget": target_budget,
+        "direct_imports": import_preflight["direct_imports"],
+    }
+
+
+def print_status_table(statuses: list[dict[str, Any]]) -> None:
+    print("target\tstatus\timports\tsource")
+    for item in statuses:
+        if item["status"] != "ready":
+            print(f"{item['target']}\t{item['status']}\t-\t-")
+            continue
+        budget = item["target_budget"]
+        print(
+            f"{item['target']}\tready\t"
+            f"{budget['local_import_count']}/{budget['max_local_imports']}\t"
+            f"{budget['target_source_kib']}/{budget['max_target_source_kib']} KiB"
+        )
+
+
 def main() -> int:
     args = parse_args()
     reject_if_not_strict(args)
+
+    if args.status_only:
+        statuses = [target_status(name, target) for name, target in sorted(TARGETS.items())]
+        print_status_table(statuses)
+        if args.json is not None:
+            write_wrapper_json(
+                args.json,
+                {
+                    "status_only": True,
+                    "targets": statuses,
+                    "caps": {
+                        "max_tree_rss_mib": args.max_tree_rss_mib,
+                        "hard_address_space_mib": args.hard_address_space_mib,
+                        "min_available_mib": args.min_available_mib,
+                        "timeout_seconds": args.timeout_seconds,
+                        "lean_memory_mib": args.lean_memory_mib,
+                        "lean_threads": args.lean_threads,
+                        "lean_tstack_kib": args.lean_tstack_kib,
+                    },
+                },
+            )
+        return 0
 
     target = TARGETS[args.target]
     import_preflight = local_import_preflight(target["path"])
