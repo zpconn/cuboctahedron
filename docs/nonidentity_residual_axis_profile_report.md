@@ -1284,6 +1284,37 @@ Observed labeled-run constructor checkpoint:
   real holonomy/cancellation word-language proof that constructs these runs
   without enumerating observed rank/path classes.
 
+Label-step Bellman checkpoint:
+
+- Added `BellmanLabelStepRun`, `BellmanLabelStepRunLanguageBound`, and
+  `scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound` to
+  `Cuboctahedron.Search.BellmanPotential`.
+- This API removes edge objects from the generated theorem surface.  A
+  language proof now supplies only:
+  - a semantic step relation `Step : State -> Label -> State -> Int -> Prop`;
+  - a local potential inequality for each step;
+  - a run over the word's semantic label list;
+  - final nonnegative potential and margin-vs-gain facts.
+- Updated the graph emitter to instantiate this with `SmokeStep`,
+  object-level `BellmanLabelStepRun` proofs,
+  `smokeObservedLabelStepRunLanguageBound`, and
+  `graphSmoke_observed_label_step_run_scaled_margin_nonpos`.
+- Focused builds passed:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.BellmanPotential
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Results: Bellman core `0:04.07` wall / `3,318,464 kB` max RSS; generated
+  label-step smoke `0:06.29` wall / `3,678,196 kB` max RSS.
+- Decision: accepted as the current target theorem surface for the
+  nonidentity Bellman margin route.  The next production task is a real
+  holonomy/cancellation word-language bridge that proves accepted words step
+  through `SmokeStep`-style semantic transitions, rather than enumerating
+  observed path classes.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

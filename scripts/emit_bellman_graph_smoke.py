@@ -384,17 +384,42 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
     ])
     label_case_idx = 0
     edge_label_ctor: dict[tuple[int, int], str] = {}
+    edge_label_step_ctor: dict[tuple[int, int], str] = {}
+    edge_label_cases: list[tuple[str, int, int]] = []
     for idx, name in enumerate(edge_names):
         edge_label_indices = edges[idx].get("label_indices")
         if edge_label_indices is None:
             edge_label_indices = [idx]
         for label_idx in edge_label_indices:
-            edge_label_ctor[(idx, int(label_idx))] = f"SmokeEdgeLabel.e{label_case_idx:04d}"
+            case_name = f"e{label_case_idx:04d}"
+            edge_label_ctor[(idx, int(label_idx))] = f"SmokeEdgeLabel.{case_name}"
+            edge_label_step_ctor[(idx, int(label_idx))] = f"SmokeStep.{case_name}"
+            edge_label_cases.append((case_name, idx, int(label_idx)))
             lines.append(
-                f"  | e{label_case_idx:04d} : "
+                f"  | {case_name} : "
                 f"SmokeEdgeLabel {name} {label_ctor(int(label_idx))}"
             )
             label_case_idx += 1
+    lines.extend([
+        "",
+        "private inductive SmokeStep : State -> SmokeLabel -> State -> Int -> Prop where",
+    ])
+    for case_name, edge_idx, label_idx in edge_label_cases:
+        name = edge_name(edge_idx)
+        lines.append(
+            f"  | {case_name} : "
+            f"SmokeStep {name}.src {label_ctor(label_idx)} {name}.dst {name}.gain"
+        )
+    lines.extend([
+        "",
+        "private theorem SmokeStep.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+        "    SmokeStep s label t gain -> gain + graphPotential t <= graphPotential s := by",
+        "  intro h",
+        "  cases h with",
+    ])
+    for case_name, edge_idx, _label_idx in edge_label_cases:
+        name = edge_name(edge_idx)
+        lines.append(f"  | {case_name} => simpa [BellmanEdge.Valid] using {name}_valid")
     lines.append("")
     for obj in path_objects:
         obj_name = obj["name"]
@@ -454,6 +479,25 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             ])
         lines.extend([
             f"  exact BellmanLabeledRun.nil {state_ctor(int(obj['final']))}",
+            "",
+            f"private theorem {obj_name}LabelStepRun :",
+            f"    BellmanLabelStepRun SmokeStep",
+            f"      rootState {obj_name}FinalState {obj_name}Labels {obj_name}Gain := by",
+            f"  unfold {obj_name}Labels {obj_name}Gain rootState {obj_name}FinalState",
+        ])
+        for edge_idx, label_idx in zip(edge_indices, label_indices):
+            try:
+                step_case = edge_label_step_ctor[(int(edge_idx), int(label_idx))]
+            except KeyError as exc:
+                raise SystemExit(
+                    f"{obj_name}: edge {edge_idx} does not allow label {label_idx}"
+                ) from exc
+            lines.extend([
+                "  apply BellmanLabelStepRun.cons",
+                f"  · exact {step_case}",
+            ])
+        lines.extend([
+            f"  exact BellmanLabelStepRun.nil {state_ctor(int(obj['final']))}",
             "",
             f"private theorem {obj_name}Margin_bound_gain :",
             f"    smokeScaledMargin SmokeObj.{obj_name} <= ({const_scaled} : Int) + {obj_name}Gain := by",
@@ -575,6 +619,34 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "    (fun _ he => GraphEdge.valid he)",
         "    root_bound",
         "    smokeObservedLabeledRunLanguageBound",
+        "",
+        "private theorem smokeObservedLabelStepRunLanguageBound :",
+        "    BellmanLabelStepRunLanguageBound",
+        "      graphPotential SmokeStep rootState",
+        f"      ({const_scaled} : Int) smokeScaledMargin smokeObjLabels smokeAccepts := by",
+        "  intro obj _hobj",
+        "  cases obj",
+    ])
+    for obj in path_objects:
+        obj_name = obj["name"]
+        lines.extend([
+            f"  · exact ⟨{obj_name}FinalState, {obj_name}Gain,",
+            f"      {obj_name}LabelStepRun, {obj_name}Final_nonneg,",
+            f"      {obj_name}Margin_bound_gain⟩",
+        ])
+    lines.extend([
+        "",
+        "theorem graphSmoke_observed_label_step_run_scaled_margin_nonpos :",
+        "    forall obj : SmokeObj, smokeAccepts obj -> smokeScaledMargin obj <= 0 :=",
+        "  scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound",
+        "    (V := graphPotential)",
+        "    (Step := SmokeStep)",
+        "    (start := rootState)",
+        f"    (const := {const_scaled})",
+        "    (wordOf := smokeObjLabels)",
+        "    (fun _ _ _ _ h => SmokeStep.valid h)",
+        "    root_bound",
+        "    smokeObservedLabelStepRunLanguageBound",
         "",
         "theorem graphSmoke_argmax_object_scaled_margin_nonpos :",
         "    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=",

@@ -489,6 +489,16 @@ Top margin+cancellation-pairing checkpoint:
   smoke passed in `0:04.78` wall time with `3,542,636 kB` max RSS.  The next
   Bellman step is not more observed-class enumeration; it is proving that the
   actual holonomy/cancellation word language constructs these labeled runs.
+- Label-step status: `Cuboctahedron.Search.BellmanPotential` now also has
+  `BellmanLabelStepRun`, `BellmanLabelStepRunLanguageBound`, and
+  `scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound`.  The generated
+  graph smoke instantiates this through a semantic
+  `SmokeStep : State -> SmokeLabel -> State -> Int -> Prop`, so the preferred
+  production target no longer needs edge objects in the word-language bridge.
+  Focused builds passed for the Bellman core in `0:04.07` wall time with
+  `3,318,464 kB` max RSS and for the generated smoke in `0:06.29` wall time
+  with `3,678,196 kB` max RSS.  The next Bellman gap is proving real
+  holonomy/cancellation words satisfy such semantic step relations.
 
 ## Explicit Non-Goals
 

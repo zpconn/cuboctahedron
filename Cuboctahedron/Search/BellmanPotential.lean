@@ -123,6 +123,17 @@ inductive BellmanLabeledRun
       BellmanLabeledRun GraphEdge EdgeLabel s u
         (label :: labels) (e.gain + tailGain)
 
+inductive BellmanLabelStepRun
+    {State Label : Type}
+    (Step : State -> Label -> State -> Int -> Prop) :
+    State -> State -> List Label -> Int -> Prop
+  | nil (s : State) : BellmanLabelStepRun Step s s [] 0
+  | cons {s t u : State} {label : Label}
+      {labels : List Label} {gain tailGain : Int}
+      (hstep : Step s label t gain)
+      (htail : BellmanLabelStepRun Step t u labels tailGain) :
+      BellmanLabelStepRun Step s u (label :: labels) (gain + tailGain)
+
 def bellmanGainSum {State : Type} : List (BellmanEdge State) -> Int
   | [] => 0
   | e :: edges => e.gain + bellmanGainSum edges
@@ -215,6 +226,46 @@ theorem const_add_labeledRunGain_nonpos
     (hroot : const + V start <= 0) :
     const + gain <= 0 := by
   have hgain := labeledRunGain_le_startPotential_of_final_nonneg
+    (V := V) hrun hvalid hfinish
+  linarith
+
+theorem labelStepRunGain_add_finalPotential_le_startPotential
+    {State Label : Type} {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {start finish : State} {labels : List Label} {gain : Int}
+    (hrun : BellmanLabelStepRun Step start finish labels gain)
+    (hvalid : forall s label t gain, Step s label t gain -> gain + V t <= V s) :
+    gain + V finish <= V start := by
+  induction hrun with
+  | nil s =>
+      simp
+  | cons hstep _htail ih =>
+      rename_i s t u label labels stepGain tailGain
+      have hedge : stepGain + V t <= V s := hvalid s label t stepGain hstep
+      linarith
+
+theorem labelStepRunGain_le_startPotential_of_final_nonneg
+    {State Label : Type} {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {start finish : State} {labels : List Label} {gain : Int}
+    (hrun : BellmanLabelStepRun Step start finish labels gain)
+    (hvalid : forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (hfinish : 0 <= V finish) :
+    gain <= V start := by
+  have h := labelStepRunGain_add_finalPotential_le_startPotential
+    (V := V) hrun hvalid
+  linarith
+
+theorem const_add_labelStepRunGain_nonpos
+    {State Label : Type} {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {start finish : State} {labels : List Label} {gain const : Int}
+    (hrun : BellmanLabelStepRun Step start finish labels gain)
+    (hvalid : forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (hfinish : 0 <= V finish)
+    (hroot : const + V start <= 0) :
+    const + gain <= 0 := by
+  have hgain := labelStepRunGain_le_startPotential_of_final_nonneg
     (V := V) hrun hvalid hfinish
   linarith
 
@@ -416,6 +467,48 @@ theorem scaledMargin_nonpos_of_bellmanLabeledRunLanguageBound
   have hbound :
       const + gain <= 0 :=
     const_add_labeledRunGain_nonpos
+      (V := V)
+      (const := const)
+      hrun
+      hvalid
+      hfinish
+      hroot
+  linarith
+
+def BellmanLabelStepRunLanguageBound
+    {State Label Obj : Type}
+    (V : State -> Int)
+    (Step : State -> Label -> State -> Int -> Prop)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Obj -> Int)
+    (wordOf : Obj -> List Label)
+    (Accepts : Obj -> Prop) : Prop :=
+  forall obj : Obj, Accepts obj -> exists finish gain,
+    BellmanLabelStepRun Step start finish (wordOf obj) gain
+      /\ 0 <= V finish
+      /\ scaledMargin obj <= const + gain
+
+theorem scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound
+    {State Label Obj : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Obj -> Int}
+    {wordOf : Obj -> List Label}
+    {Accepts : Obj -> Prop}
+    (hvalid : forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (hroot : const + V start <= 0)
+    (htrace :
+      BellmanLabelStepRunLanguageBound
+        V Step start const scaledMargin wordOf Accepts) :
+    forall obj : Obj, Accepts obj -> scaledMargin obj <= 0 := by
+  intro obj hobj
+  rcases htrace obj hobj with ⟨finish, gain, hrun, hfinish, hmargin⟩
+  have hbound :
+      const + gain <= 0 :=
+    const_add_labelStepRunGain_nonpos
       (V := V)
       (const := const)
       hrun

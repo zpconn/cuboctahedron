@@ -6608,6 +6608,471 @@ private inductive SmokeEdgeLabel : BellmanEdge State -> SmokeLabel -> Prop where
   | e0227 : SmokeEdgeLabel edge0227 SmokeLabel.l0000
   | e0228 : SmokeEdgeLabel edge0228 SmokeLabel.l0003
 
+private inductive SmokeStep : State -> SmokeLabel -> State -> Int -> Prop where
+  | e0000 : SmokeStep edge0000.src SmokeLabel.l0008 edge0000.dst edge0000.gain
+  | e0001 : SmokeStep edge0001.src SmokeLabel.l0007 edge0001.dst edge0001.gain
+  | e0002 : SmokeStep edge0002.src SmokeLabel.l0007 edge0002.dst edge0002.gain
+  | e0003 : SmokeStep edge0003.src SmokeLabel.l0007 edge0003.dst edge0003.gain
+  | e0004 : SmokeStep edge0004.src SmokeLabel.l0007 edge0004.dst edge0004.gain
+  | e0005 : SmokeStep edge0005.src SmokeLabel.l0007 edge0005.dst edge0005.gain
+  | e0006 : SmokeStep edge0006.src SmokeLabel.l0007 edge0006.dst edge0006.gain
+  | e0007 : SmokeStep edge0007.src SmokeLabel.l0012 edge0007.dst edge0007.gain
+  | e0008 : SmokeStep edge0008.src SmokeLabel.l0012 edge0008.dst edge0008.gain
+  | e0009 : SmokeStep edge0009.src SmokeLabel.l0002 edge0009.dst edge0009.gain
+  | e0010 : SmokeStep edge0010.src SmokeLabel.l0002 edge0010.dst edge0010.gain
+  | e0011 : SmokeStep edge0011.src SmokeLabel.l0002 edge0011.dst edge0011.gain
+  | e0012 : SmokeStep edge0012.src SmokeLabel.l0012 edge0012.dst edge0012.gain
+  | e0013 : SmokeStep edge0013.src SmokeLabel.l0001 edge0013.dst edge0013.gain
+  | e0014 : SmokeStep edge0014.src SmokeLabel.l0012 edge0014.dst edge0014.gain
+  | e0015 : SmokeStep edge0015.src SmokeLabel.l0001 edge0015.dst edge0015.gain
+  | e0016 : SmokeStep edge0016.src SmokeLabel.l0011 edge0016.dst edge0016.gain
+  | e0017 : SmokeStep edge0017.src SmokeLabel.l0001 edge0017.dst edge0017.gain
+  | e0018 : SmokeStep edge0018.src SmokeLabel.l0011 edge0018.dst edge0018.gain
+  | e0019 : SmokeStep edge0019.src SmokeLabel.l0001 edge0019.dst edge0019.gain
+  | e0020 : SmokeStep edge0020.src SmokeLabel.l0011 edge0020.dst edge0020.gain
+  | e0021 : SmokeStep edge0021.src SmokeLabel.l0001 edge0021.dst edge0021.gain
+  | e0022 : SmokeStep edge0022.src SmokeLabel.l0011 edge0022.dst edge0022.gain
+  | e0023 : SmokeStep edge0023.src SmokeLabel.l0001 edge0023.dst edge0023.gain
+  | e0024 : SmokeStep edge0024.src SmokeLabel.l0011 edge0024.dst edge0024.gain
+  | e0025 : SmokeStep edge0025.src SmokeLabel.l0001 edge0025.dst edge0025.gain
+  | e0026 : SmokeStep edge0026.src SmokeLabel.l0011 edge0026.dst edge0026.gain
+  | e0027 : SmokeStep edge0027.src SmokeLabel.l0011 edge0027.dst edge0027.gain
+  | e0028 : SmokeStep edge0028.src SmokeLabel.l0001 edge0028.dst edge0028.gain
+  | e0029 : SmokeStep edge0029.src SmokeLabel.l0002 edge0029.dst edge0029.gain
+  | e0030 : SmokeStep edge0030.src SmokeLabel.l0011 edge0030.dst edge0030.gain
+  | e0031 : SmokeStep edge0031.src SmokeLabel.l0012 edge0031.dst edge0031.gain
+  | e0032 : SmokeStep edge0032.src SmokeLabel.l0003 edge0032.dst edge0032.gain
+  | e0033 : SmokeStep edge0033.src SmokeLabel.l0003 edge0033.dst edge0033.gain
+  | e0034 : SmokeStep edge0034.src SmokeLabel.l0003 edge0034.dst edge0034.gain
+  | e0035 : SmokeStep edge0035.src SmokeLabel.l0003 edge0035.dst edge0035.gain
+  | e0036 : SmokeStep edge0036.src SmokeLabel.l0003 edge0036.dst edge0036.gain
+  | e0037 : SmokeStep edge0037.src SmokeLabel.l0003 edge0037.dst edge0037.gain
+  | e0038 : SmokeStep edge0038.src SmokeLabel.l0003 edge0038.dst edge0038.gain
+  | e0039 : SmokeStep edge0039.src SmokeLabel.l0003 edge0039.dst edge0039.gain
+  | e0040 : SmokeStep edge0040.src SmokeLabel.l0003 edge0040.dst edge0040.gain
+  | e0041 : SmokeStep edge0041.src SmokeLabel.l0003 edge0041.dst edge0041.gain
+  | e0042 : SmokeStep edge0042.src SmokeLabel.l0003 edge0042.dst edge0042.gain
+  | e0043 : SmokeStep edge0043.src SmokeLabel.l0003 edge0043.dst edge0043.gain
+  | e0044 : SmokeStep edge0044.src SmokeLabel.l0003 edge0044.dst edge0044.gain
+  | e0045 : SmokeStep edge0045.src SmokeLabel.l0003 edge0045.dst edge0045.gain
+  | e0046 : SmokeStep edge0046.src SmokeLabel.l0013 edge0046.dst edge0046.gain
+  | e0047 : SmokeStep edge0047.src SmokeLabel.l0013 edge0047.dst edge0047.gain
+  | e0048 : SmokeStep edge0048.src SmokeLabel.l0013 edge0048.dst edge0048.gain
+  | e0049 : SmokeStep edge0049.src SmokeLabel.l0000 edge0049.dst edge0049.gain
+  | e0050 : SmokeStep edge0050.src SmokeLabel.l0000 edge0050.dst edge0050.gain
+  | e0051 : SmokeStep edge0051.src SmokeLabel.l0012 edge0051.dst edge0051.gain
+  | e0052 : SmokeStep edge0052.src SmokeLabel.l0012 edge0052.dst edge0052.gain
+  | e0053 : SmokeStep edge0053.src SmokeLabel.l0012 edge0053.dst edge0053.gain
+  | e0054 : SmokeStep edge0054.src SmokeLabel.l0003 edge0054.dst edge0054.gain
+  | e0055 : SmokeStep edge0055.src SmokeLabel.l0003 edge0055.dst edge0055.gain
+  | e0056 : SmokeStep edge0056.src SmokeLabel.l0003 edge0056.dst edge0056.gain
+  | e0057 : SmokeStep edge0057.src SmokeLabel.l0003 edge0057.dst edge0057.gain
+  | e0058 : SmokeStep edge0058.src SmokeLabel.l0003 edge0058.dst edge0058.gain
+  | e0059 : SmokeStep edge0059.src SmokeLabel.l0003 edge0059.dst edge0059.gain
+  | e0060 : SmokeStep edge0060.src SmokeLabel.l0011 edge0060.dst edge0060.gain
+  | e0061 : SmokeStep edge0061.src SmokeLabel.l0013 edge0061.dst edge0061.gain
+  | e0062 : SmokeStep edge0062.src SmokeLabel.l0011 edge0062.dst edge0062.gain
+  | e0063 : SmokeStep edge0063.src SmokeLabel.l0013 edge0063.dst edge0063.gain
+  | e0064 : SmokeStep edge0064.src SmokeLabel.l0001 edge0064.dst edge0064.gain
+  | e0065 : SmokeStep edge0065.src SmokeLabel.l0001 edge0065.dst edge0065.gain
+  | e0066 : SmokeStep edge0066.src SmokeLabel.l0001 edge0066.dst edge0066.gain
+  | e0067 : SmokeStep edge0067.src SmokeLabel.l0001 edge0067.dst edge0067.gain
+  | e0068 : SmokeStep edge0068.src SmokeLabel.l0001 edge0068.dst edge0068.gain
+  | e0069 : SmokeStep edge0069.src SmokeLabel.l0001 edge0069.dst edge0069.gain
+  | e0070 : SmokeStep edge0070.src SmokeLabel.l0001 edge0070.dst edge0070.gain
+  | e0071 : SmokeStep edge0071.src SmokeLabel.l0001 edge0071.dst edge0071.gain
+  | e0072 : SmokeStep edge0072.src SmokeLabel.l0001 edge0072.dst edge0072.gain
+  | e0073 : SmokeStep edge0073.src SmokeLabel.l0001 edge0073.dst edge0073.gain
+  | e0074 : SmokeStep edge0074.src SmokeLabel.l0001 edge0074.dst edge0074.gain
+  | e0075 : SmokeStep edge0075.src SmokeLabel.l0001 edge0075.dst edge0075.gain
+  | e0076 : SmokeStep edge0076.src SmokeLabel.l0001 edge0076.dst edge0076.gain
+  | e0077 : SmokeStep edge0077.src SmokeLabel.l0001 edge0077.dst edge0077.gain
+  | e0078 : SmokeStep edge0078.src SmokeLabel.l0001 edge0078.dst edge0078.gain
+  | e0079 : SmokeStep edge0079.src SmokeLabel.l0001 edge0079.dst edge0079.gain
+  | e0080 : SmokeStep edge0080.src SmokeLabel.l0001 edge0080.dst edge0080.gain
+  | e0081 : SmokeStep edge0081.src SmokeLabel.l0013 edge0081.dst edge0081.gain
+  | e0082 : SmokeStep edge0082.src SmokeLabel.l0013 edge0082.dst edge0082.gain
+  | e0083 : SmokeStep edge0083.src SmokeLabel.l0013 edge0083.dst edge0083.gain
+  | e0084 : SmokeStep edge0084.src SmokeLabel.l0013 edge0084.dst edge0084.gain
+  | e0085 : SmokeStep edge0085.src SmokeLabel.l0013 edge0085.dst edge0085.gain
+  | e0086 : SmokeStep edge0086.src SmokeLabel.l0013 edge0086.dst edge0086.gain
+  | e0087 : SmokeStep edge0087.src SmokeLabel.l0011 edge0087.dst edge0087.gain
+  | e0088 : SmokeStep edge0088.src SmokeLabel.l0011 edge0088.dst edge0088.gain
+  | e0089 : SmokeStep edge0089.src SmokeLabel.l0011 edge0089.dst edge0089.gain
+  | e0090 : SmokeStep edge0090.src SmokeLabel.l0011 edge0090.dst edge0090.gain
+  | e0091 : SmokeStep edge0091.src SmokeLabel.l0011 edge0091.dst edge0091.gain
+  | e0092 : SmokeStep edge0092.src SmokeLabel.l0011 edge0092.dst edge0092.gain
+  | e0093 : SmokeStep edge0093.src SmokeLabel.l0011 edge0093.dst edge0093.gain
+  | e0094 : SmokeStep edge0094.src SmokeLabel.l0011 edge0094.dst edge0094.gain
+  | e0095 : SmokeStep edge0095.src SmokeLabel.l0009 edge0095.dst edge0095.gain
+  | e0096 : SmokeStep edge0096.src SmokeLabel.l0009 edge0096.dst edge0096.gain
+  | e0097 : SmokeStep edge0097.src SmokeLabel.l0009 edge0097.dst edge0097.gain
+  | e0098 : SmokeStep edge0098.src SmokeLabel.l0009 edge0098.dst edge0098.gain
+  | e0099 : SmokeStep edge0099.src SmokeLabel.l0009 edge0099.dst edge0099.gain
+  | e0100 : SmokeStep edge0100.src SmokeLabel.l0009 edge0100.dst edge0100.gain
+  | e0101 : SmokeStep edge0101.src SmokeLabel.l0009 edge0101.dst edge0101.gain
+  | e0102 : SmokeStep edge0102.src SmokeLabel.l0009 edge0102.dst edge0102.gain
+  | e0103 : SmokeStep edge0103.src SmokeLabel.l0009 edge0103.dst edge0103.gain
+  | e0104 : SmokeStep edge0104.src SmokeLabel.l0009 edge0104.dst edge0104.gain
+  | e0105 : SmokeStep edge0105.src SmokeLabel.l0009 edge0105.dst edge0105.gain
+  | e0106 : SmokeStep edge0106.src SmokeLabel.l0009 edge0106.dst edge0106.gain
+  | e0107 : SmokeStep edge0107.src SmokeLabel.l0009 edge0107.dst edge0107.gain
+  | e0108 : SmokeStep edge0108.src SmokeLabel.l0009 edge0108.dst edge0108.gain
+  | e0109 : SmokeStep edge0109.src SmokeLabel.l0009 edge0109.dst edge0109.gain
+  | e0110 : SmokeStep edge0110.src SmokeLabel.l0009 edge0110.dst edge0110.gain
+  | e0111 : SmokeStep edge0111.src SmokeLabel.l0009 edge0111.dst edge0111.gain
+  | e0112 : SmokeStep edge0112.src SmokeLabel.l0009 edge0112.dst edge0112.gain
+  | e0113 : SmokeStep edge0113.src SmokeLabel.l0009 edge0113.dst edge0113.gain
+  | e0114 : SmokeStep edge0114.src SmokeLabel.l0009 edge0114.dst edge0114.gain
+  | e0115 : SmokeStep edge0115.src SmokeLabel.l0009 edge0115.dst edge0115.gain
+  | e0116 : SmokeStep edge0116.src SmokeLabel.l0009 edge0116.dst edge0116.gain
+  | e0117 : SmokeStep edge0117.src SmokeLabel.l0009 edge0117.dst edge0117.gain
+  | e0118 : SmokeStep edge0118.src SmokeLabel.l0009 edge0118.dst edge0118.gain
+  | e0119 : SmokeStep edge0119.src SmokeLabel.l0009 edge0119.dst edge0119.gain
+  | e0120 : SmokeStep edge0120.src SmokeLabel.l0009 edge0120.dst edge0120.gain
+  | e0121 : SmokeStep edge0121.src SmokeLabel.l0009 edge0121.dst edge0121.gain
+  | e0122 : SmokeStep edge0122.src SmokeLabel.l0009 edge0122.dst edge0122.gain
+  | e0123 : SmokeStep edge0123.src SmokeLabel.l0009 edge0123.dst edge0123.gain
+  | e0124 : SmokeStep edge0124.src SmokeLabel.l0010 edge0124.dst edge0124.gain
+  | e0125 : SmokeStep edge0125.src SmokeLabel.l0011 edge0125.dst edge0125.gain
+  | e0126 : SmokeStep edge0126.src SmokeLabel.l0012 edge0126.dst edge0126.gain
+  | e0127 : SmokeStep edge0127.src SmokeLabel.l0002 edge0127.dst edge0127.gain
+  | e0128 : SmokeStep edge0128.src SmokeLabel.l0012 edge0128.dst edge0128.gain
+  | e0129 : SmokeStep edge0129.src SmokeLabel.l0000 edge0129.dst edge0129.gain
+  | e0130 : SmokeStep edge0130.src SmokeLabel.l0011 edge0130.dst edge0130.gain
+  | e0131 : SmokeStep edge0131.src SmokeLabel.l0013 edge0131.dst edge0131.gain
+  | e0132 : SmokeStep edge0132.src SmokeLabel.l0003 edge0132.dst edge0132.gain
+  | e0133 : SmokeStep edge0133.src SmokeLabel.l0012 edge0133.dst edge0133.gain
+  | e0134 : SmokeStep edge0134.src SmokeLabel.l0006 edge0134.dst edge0134.gain
+  | e0135 : SmokeStep edge0135.src SmokeLabel.l0013 edge0135.dst edge0135.gain
+  | e0136 : SmokeStep edge0136.src SmokeLabel.l0001 edge0136.dst edge0136.gain
+  | e0137 : SmokeStep edge0137.src SmokeLabel.l0012 edge0137.dst edge0137.gain
+  | e0138 : SmokeStep edge0138.src SmokeLabel.l0004 edge0138.dst edge0138.gain
+  | e0139 : SmokeStep edge0139.src SmokeLabel.l0011 edge0139.dst edge0139.gain
+  | e0140 : SmokeStep edge0140.src SmokeLabel.l0002 edge0140.dst edge0140.gain
+  | e0141 : SmokeStep edge0141.src SmokeLabel.l0013 edge0141.dst edge0141.gain
+  | e0142 : SmokeStep edge0142.src SmokeLabel.l0007 edge0142.dst edge0142.gain
+  | e0143 : SmokeStep edge0143.src SmokeLabel.l0013 edge0143.dst edge0143.gain
+  | e0144 : SmokeStep edge0144.src SmokeLabel.l0004 edge0144.dst edge0144.gain
+  | e0145 : SmokeStep edge0145.src SmokeLabel.l0000 edge0145.dst edge0145.gain
+  | e0146 : SmokeStep edge0146.src SmokeLabel.l0013 edge0146.dst edge0146.gain
+  | e0147 : SmokeStep edge0147.src SmokeLabel.l0005 edge0147.dst edge0147.gain
+  | e0148 : SmokeStep edge0148.src SmokeLabel.l0005 edge0148.dst edge0148.gain
+  | e0149 : SmokeStep edge0149.src SmokeLabel.l0013 edge0149.dst edge0149.gain
+  | e0150 : SmokeStep edge0150.src SmokeLabel.l0006 edge0150.dst edge0150.gain
+  | e0151 : SmokeStep edge0151.src SmokeLabel.l0006 edge0151.dst edge0151.gain
+  | e0152 : SmokeStep edge0152.src SmokeLabel.l0006 edge0152.dst edge0152.gain
+  | e0153 : SmokeStep edge0153.src SmokeLabel.l0005 edge0153.dst edge0153.gain
+  | e0154 : SmokeStep edge0154.src SmokeLabel.l0012 edge0154.dst edge0154.gain
+  | e0155 : SmokeStep edge0155.src SmokeLabel.l0013 edge0155.dst edge0155.gain
+  | e0156 : SmokeStep edge0156.src SmokeLabel.l0007 edge0156.dst edge0156.gain
+  | e0157 : SmokeStep edge0157.src SmokeLabel.l0004 edge0157.dst edge0157.gain
+  | e0158 : SmokeStep edge0158.src SmokeLabel.l0004 edge0158.dst edge0158.gain
+  | e0159 : SmokeStep edge0159.src SmokeLabel.l0007 edge0159.dst edge0159.gain
+  | e0160 : SmokeStep edge0160.src SmokeLabel.l0012 edge0160.dst edge0160.gain
+  | e0161 : SmokeStep edge0161.src SmokeLabel.l0007 edge0161.dst edge0161.gain
+  | e0162 : SmokeStep edge0162.src SmokeLabel.l0013 edge0162.dst edge0162.gain
+  | e0163 : SmokeStep edge0163.src SmokeLabel.l0005 edge0163.dst edge0163.gain
+  | e0164 : SmokeStep edge0164.src SmokeLabel.l0004 edge0164.dst edge0164.gain
+  | e0165 : SmokeStep edge0165.src SmokeLabel.l0004 edge0165.dst edge0165.gain
+  | e0166 : SmokeStep edge0166.src SmokeLabel.l0004 edge0166.dst edge0166.gain
+  | e0167 : SmokeStep edge0167.src SmokeLabel.l0006 edge0167.dst edge0167.gain
+  | e0168 : SmokeStep edge0168.src SmokeLabel.l0012 edge0168.dst edge0168.gain
+  | e0169 : SmokeStep edge0169.src SmokeLabel.l0013 edge0169.dst edge0169.gain
+  | e0170 : SmokeStep edge0170.src SmokeLabel.l0000 edge0170.dst edge0170.gain
+  | e0171 : SmokeStep edge0171.src SmokeLabel.l0006 edge0171.dst edge0171.gain
+  | e0172 : SmokeStep edge0172.src SmokeLabel.l0006 edge0172.dst edge0172.gain
+  | e0173 : SmokeStep edge0173.src SmokeLabel.l0006 edge0173.dst edge0173.gain
+  | e0174 : SmokeStep edge0174.src SmokeLabel.l0004 edge0174.dst edge0174.gain
+  | e0175 : SmokeStep edge0175.src SmokeLabel.l0004 edge0175.dst edge0175.gain
+  | e0176 : SmokeStep edge0176.src SmokeLabel.l0012 edge0176.dst edge0176.gain
+  | e0177 : SmokeStep edge0177.src SmokeLabel.l0013 edge0177.dst edge0177.gain
+  | e0178 : SmokeStep edge0178.src SmokeLabel.l0002 edge0178.dst edge0178.gain
+  | e0179 : SmokeStep edge0179.src SmokeLabel.l0007 edge0179.dst edge0179.gain
+  | e0180 : SmokeStep edge0180.src SmokeLabel.l0007 edge0180.dst edge0180.gain
+  | e0181 : SmokeStep edge0181.src SmokeLabel.l0007 edge0181.dst edge0181.gain
+  | e0182 : SmokeStep edge0182.src SmokeLabel.l0007 edge0182.dst edge0182.gain
+  | e0183 : SmokeStep edge0183.src SmokeLabel.l0012 edge0183.dst edge0183.gain
+  | e0184 : SmokeStep edge0184.src SmokeLabel.l0001 edge0184.dst edge0184.gain
+  | e0185 : SmokeStep edge0185.src SmokeLabel.l0013 edge0185.dst edge0185.gain
+  | e0186 : SmokeStep edge0186.src SmokeLabel.l0005 edge0186.dst edge0186.gain
+  | e0187 : SmokeStep edge0187.src SmokeLabel.l0005 edge0187.dst edge0187.gain
+  | e0188 : SmokeStep edge0188.src SmokeLabel.l0005 edge0188.dst edge0188.gain
+  | e0189 : SmokeStep edge0189.src SmokeLabel.l0005 edge0189.dst edge0189.gain
+  | e0190 : SmokeStep edge0190.src SmokeLabel.l0005 edge0190.dst edge0190.gain
+  | e0191 : SmokeStep edge0191.src SmokeLabel.l0003 edge0191.dst edge0191.gain
+  | e0192 : SmokeStep edge0192.src SmokeLabel.l0012 edge0192.dst edge0192.gain
+  | e0193 : SmokeStep edge0193.src SmokeLabel.l0003 edge0193.dst edge0193.gain
+  | e0194 : SmokeStep edge0194.src SmokeLabel.l0013 edge0194.dst edge0194.gain
+  | e0195 : SmokeStep edge0195.src SmokeLabel.l0007 edge0195.dst edge0195.gain
+  | e0196 : SmokeStep edge0196.src SmokeLabel.l0000 edge0196.dst edge0196.gain
+  | e0197 : SmokeStep edge0197.src SmokeLabel.l0000 edge0197.dst edge0197.gain
+  | e0198 : SmokeStep edge0198.src SmokeLabel.l0000 edge0198.dst edge0198.gain
+  | e0199 : SmokeStep edge0199.src SmokeLabel.l0000 edge0199.dst edge0199.gain
+  | e0200 : SmokeStep edge0200.src SmokeLabel.l0000 edge0200.dst edge0200.gain
+  | e0201 : SmokeStep edge0201.src SmokeLabel.l0012 edge0201.dst edge0201.gain
+  | e0202 : SmokeStep edge0202.src SmokeLabel.l0004 edge0202.dst edge0202.gain
+  | e0203 : SmokeStep edge0203.src SmokeLabel.l0011 edge0203.dst edge0203.gain
+  | e0204 : SmokeStep edge0204.src SmokeLabel.l0013 edge0204.dst edge0204.gain
+  | e0205 : SmokeStep edge0205.src SmokeLabel.l0001 edge0205.dst edge0205.gain
+  | e0206 : SmokeStep edge0206.src SmokeLabel.l0002 edge0206.dst edge0206.gain
+  | e0207 : SmokeStep edge0207.src SmokeLabel.l0002 edge0207.dst edge0207.gain
+  | e0208 : SmokeStep edge0208.src SmokeLabel.l0002 edge0208.dst edge0208.gain
+  | e0209 : SmokeStep edge0209.src SmokeLabel.l0002 edge0209.dst edge0209.gain
+  | e0210 : SmokeStep edge0210.src SmokeLabel.l0002 edge0210.dst edge0210.gain
+  | e0211 : SmokeStep edge0211.src SmokeLabel.l0006 edge0211.dst edge0211.gain
+  | e0212 : SmokeStep edge0212.src SmokeLabel.l0012 edge0212.dst edge0212.gain
+  | e0213 : SmokeStep edge0213.src SmokeLabel.l0006 edge0213.dst edge0213.gain
+  | e0214 : SmokeStep edge0214.src SmokeLabel.l0013 edge0214.dst edge0214.gain
+  | e0215 : SmokeStep edge0215.src SmokeLabel.l0003 edge0215.dst edge0215.gain
+  | e0216 : SmokeStep edge0216.src SmokeLabel.l0013 edge0216.dst edge0216.gain
+  | e0217 : SmokeStep edge0217.src SmokeLabel.l0003 edge0217.dst edge0217.gain
+  | e0218 : SmokeStep edge0218.src SmokeLabel.l0005 edge0218.dst edge0218.gain
+  | e0219 : SmokeStep edge0219.src SmokeLabel.l0005 edge0219.dst edge0219.gain
+  | e0220 : SmokeStep edge0220.src SmokeLabel.l0005 edge0220.dst edge0220.gain
+  | e0221 : SmokeStep edge0221.src SmokeLabel.l0005 edge0221.dst edge0221.gain
+  | e0222 : SmokeStep edge0222.src SmokeLabel.l0005 edge0222.dst edge0222.gain
+  | e0223 : SmokeStep edge0223.src SmokeLabel.l0005 edge0223.dst edge0223.gain
+  | e0224 : SmokeStep edge0224.src SmokeLabel.l0011 edge0224.dst edge0224.gain
+  | e0225 : SmokeStep edge0225.src SmokeLabel.l0012 edge0225.dst edge0225.gain
+  | e0226 : SmokeStep edge0226.src SmokeLabel.l0011 edge0226.dst edge0226.gain
+  | e0227 : SmokeStep edge0227.src SmokeLabel.l0000 edge0227.dst edge0227.gain
+  | e0228 : SmokeStep edge0228.src SmokeLabel.l0003 edge0228.dst edge0228.gain
+
+private theorem SmokeStep.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :
+    SmokeStep s label t gain -> gain + graphPotential t <= graphPotential s := by
+  intro h
+  cases h with
+  | e0000 => simpa [BellmanEdge.Valid] using edge0000_valid
+  | e0001 => simpa [BellmanEdge.Valid] using edge0001_valid
+  | e0002 => simpa [BellmanEdge.Valid] using edge0002_valid
+  | e0003 => simpa [BellmanEdge.Valid] using edge0003_valid
+  | e0004 => simpa [BellmanEdge.Valid] using edge0004_valid
+  | e0005 => simpa [BellmanEdge.Valid] using edge0005_valid
+  | e0006 => simpa [BellmanEdge.Valid] using edge0006_valid
+  | e0007 => simpa [BellmanEdge.Valid] using edge0007_valid
+  | e0008 => simpa [BellmanEdge.Valid] using edge0008_valid
+  | e0009 => simpa [BellmanEdge.Valid] using edge0009_valid
+  | e0010 => simpa [BellmanEdge.Valid] using edge0010_valid
+  | e0011 => simpa [BellmanEdge.Valid] using edge0011_valid
+  | e0012 => simpa [BellmanEdge.Valid] using edge0012_valid
+  | e0013 => simpa [BellmanEdge.Valid] using edge0013_valid
+  | e0014 => simpa [BellmanEdge.Valid] using edge0014_valid
+  | e0015 => simpa [BellmanEdge.Valid] using edge0015_valid
+  | e0016 => simpa [BellmanEdge.Valid] using edge0016_valid
+  | e0017 => simpa [BellmanEdge.Valid] using edge0017_valid
+  | e0018 => simpa [BellmanEdge.Valid] using edge0018_valid
+  | e0019 => simpa [BellmanEdge.Valid] using edge0019_valid
+  | e0020 => simpa [BellmanEdge.Valid] using edge0020_valid
+  | e0021 => simpa [BellmanEdge.Valid] using edge0021_valid
+  | e0022 => simpa [BellmanEdge.Valid] using edge0022_valid
+  | e0023 => simpa [BellmanEdge.Valid] using edge0023_valid
+  | e0024 => simpa [BellmanEdge.Valid] using edge0024_valid
+  | e0025 => simpa [BellmanEdge.Valid] using edge0025_valid
+  | e0026 => simpa [BellmanEdge.Valid] using edge0026_valid
+  | e0027 => simpa [BellmanEdge.Valid] using edge0027_valid
+  | e0028 => simpa [BellmanEdge.Valid] using edge0028_valid
+  | e0029 => simpa [BellmanEdge.Valid] using edge0029_valid
+  | e0030 => simpa [BellmanEdge.Valid] using edge0030_valid
+  | e0031 => simpa [BellmanEdge.Valid] using edge0031_valid
+  | e0032 => simpa [BellmanEdge.Valid] using edge0032_valid
+  | e0033 => simpa [BellmanEdge.Valid] using edge0033_valid
+  | e0034 => simpa [BellmanEdge.Valid] using edge0034_valid
+  | e0035 => simpa [BellmanEdge.Valid] using edge0035_valid
+  | e0036 => simpa [BellmanEdge.Valid] using edge0036_valid
+  | e0037 => simpa [BellmanEdge.Valid] using edge0037_valid
+  | e0038 => simpa [BellmanEdge.Valid] using edge0038_valid
+  | e0039 => simpa [BellmanEdge.Valid] using edge0039_valid
+  | e0040 => simpa [BellmanEdge.Valid] using edge0040_valid
+  | e0041 => simpa [BellmanEdge.Valid] using edge0041_valid
+  | e0042 => simpa [BellmanEdge.Valid] using edge0042_valid
+  | e0043 => simpa [BellmanEdge.Valid] using edge0043_valid
+  | e0044 => simpa [BellmanEdge.Valid] using edge0044_valid
+  | e0045 => simpa [BellmanEdge.Valid] using edge0045_valid
+  | e0046 => simpa [BellmanEdge.Valid] using edge0046_valid
+  | e0047 => simpa [BellmanEdge.Valid] using edge0047_valid
+  | e0048 => simpa [BellmanEdge.Valid] using edge0048_valid
+  | e0049 => simpa [BellmanEdge.Valid] using edge0049_valid
+  | e0050 => simpa [BellmanEdge.Valid] using edge0050_valid
+  | e0051 => simpa [BellmanEdge.Valid] using edge0051_valid
+  | e0052 => simpa [BellmanEdge.Valid] using edge0052_valid
+  | e0053 => simpa [BellmanEdge.Valid] using edge0053_valid
+  | e0054 => simpa [BellmanEdge.Valid] using edge0054_valid
+  | e0055 => simpa [BellmanEdge.Valid] using edge0055_valid
+  | e0056 => simpa [BellmanEdge.Valid] using edge0056_valid
+  | e0057 => simpa [BellmanEdge.Valid] using edge0057_valid
+  | e0058 => simpa [BellmanEdge.Valid] using edge0058_valid
+  | e0059 => simpa [BellmanEdge.Valid] using edge0059_valid
+  | e0060 => simpa [BellmanEdge.Valid] using edge0060_valid
+  | e0061 => simpa [BellmanEdge.Valid] using edge0061_valid
+  | e0062 => simpa [BellmanEdge.Valid] using edge0062_valid
+  | e0063 => simpa [BellmanEdge.Valid] using edge0063_valid
+  | e0064 => simpa [BellmanEdge.Valid] using edge0064_valid
+  | e0065 => simpa [BellmanEdge.Valid] using edge0065_valid
+  | e0066 => simpa [BellmanEdge.Valid] using edge0066_valid
+  | e0067 => simpa [BellmanEdge.Valid] using edge0067_valid
+  | e0068 => simpa [BellmanEdge.Valid] using edge0068_valid
+  | e0069 => simpa [BellmanEdge.Valid] using edge0069_valid
+  | e0070 => simpa [BellmanEdge.Valid] using edge0070_valid
+  | e0071 => simpa [BellmanEdge.Valid] using edge0071_valid
+  | e0072 => simpa [BellmanEdge.Valid] using edge0072_valid
+  | e0073 => simpa [BellmanEdge.Valid] using edge0073_valid
+  | e0074 => simpa [BellmanEdge.Valid] using edge0074_valid
+  | e0075 => simpa [BellmanEdge.Valid] using edge0075_valid
+  | e0076 => simpa [BellmanEdge.Valid] using edge0076_valid
+  | e0077 => simpa [BellmanEdge.Valid] using edge0077_valid
+  | e0078 => simpa [BellmanEdge.Valid] using edge0078_valid
+  | e0079 => simpa [BellmanEdge.Valid] using edge0079_valid
+  | e0080 => simpa [BellmanEdge.Valid] using edge0080_valid
+  | e0081 => simpa [BellmanEdge.Valid] using edge0081_valid
+  | e0082 => simpa [BellmanEdge.Valid] using edge0082_valid
+  | e0083 => simpa [BellmanEdge.Valid] using edge0083_valid
+  | e0084 => simpa [BellmanEdge.Valid] using edge0084_valid
+  | e0085 => simpa [BellmanEdge.Valid] using edge0085_valid
+  | e0086 => simpa [BellmanEdge.Valid] using edge0086_valid
+  | e0087 => simpa [BellmanEdge.Valid] using edge0087_valid
+  | e0088 => simpa [BellmanEdge.Valid] using edge0088_valid
+  | e0089 => simpa [BellmanEdge.Valid] using edge0089_valid
+  | e0090 => simpa [BellmanEdge.Valid] using edge0090_valid
+  | e0091 => simpa [BellmanEdge.Valid] using edge0091_valid
+  | e0092 => simpa [BellmanEdge.Valid] using edge0092_valid
+  | e0093 => simpa [BellmanEdge.Valid] using edge0093_valid
+  | e0094 => simpa [BellmanEdge.Valid] using edge0094_valid
+  | e0095 => simpa [BellmanEdge.Valid] using edge0095_valid
+  | e0096 => simpa [BellmanEdge.Valid] using edge0096_valid
+  | e0097 => simpa [BellmanEdge.Valid] using edge0097_valid
+  | e0098 => simpa [BellmanEdge.Valid] using edge0098_valid
+  | e0099 => simpa [BellmanEdge.Valid] using edge0099_valid
+  | e0100 => simpa [BellmanEdge.Valid] using edge0100_valid
+  | e0101 => simpa [BellmanEdge.Valid] using edge0101_valid
+  | e0102 => simpa [BellmanEdge.Valid] using edge0102_valid
+  | e0103 => simpa [BellmanEdge.Valid] using edge0103_valid
+  | e0104 => simpa [BellmanEdge.Valid] using edge0104_valid
+  | e0105 => simpa [BellmanEdge.Valid] using edge0105_valid
+  | e0106 => simpa [BellmanEdge.Valid] using edge0106_valid
+  | e0107 => simpa [BellmanEdge.Valid] using edge0107_valid
+  | e0108 => simpa [BellmanEdge.Valid] using edge0108_valid
+  | e0109 => simpa [BellmanEdge.Valid] using edge0109_valid
+  | e0110 => simpa [BellmanEdge.Valid] using edge0110_valid
+  | e0111 => simpa [BellmanEdge.Valid] using edge0111_valid
+  | e0112 => simpa [BellmanEdge.Valid] using edge0112_valid
+  | e0113 => simpa [BellmanEdge.Valid] using edge0113_valid
+  | e0114 => simpa [BellmanEdge.Valid] using edge0114_valid
+  | e0115 => simpa [BellmanEdge.Valid] using edge0115_valid
+  | e0116 => simpa [BellmanEdge.Valid] using edge0116_valid
+  | e0117 => simpa [BellmanEdge.Valid] using edge0117_valid
+  | e0118 => simpa [BellmanEdge.Valid] using edge0118_valid
+  | e0119 => simpa [BellmanEdge.Valid] using edge0119_valid
+  | e0120 => simpa [BellmanEdge.Valid] using edge0120_valid
+  | e0121 => simpa [BellmanEdge.Valid] using edge0121_valid
+  | e0122 => simpa [BellmanEdge.Valid] using edge0122_valid
+  | e0123 => simpa [BellmanEdge.Valid] using edge0123_valid
+  | e0124 => simpa [BellmanEdge.Valid] using edge0124_valid
+  | e0125 => simpa [BellmanEdge.Valid] using edge0125_valid
+  | e0126 => simpa [BellmanEdge.Valid] using edge0126_valid
+  | e0127 => simpa [BellmanEdge.Valid] using edge0127_valid
+  | e0128 => simpa [BellmanEdge.Valid] using edge0128_valid
+  | e0129 => simpa [BellmanEdge.Valid] using edge0129_valid
+  | e0130 => simpa [BellmanEdge.Valid] using edge0130_valid
+  | e0131 => simpa [BellmanEdge.Valid] using edge0131_valid
+  | e0132 => simpa [BellmanEdge.Valid] using edge0132_valid
+  | e0133 => simpa [BellmanEdge.Valid] using edge0133_valid
+  | e0134 => simpa [BellmanEdge.Valid] using edge0134_valid
+  | e0135 => simpa [BellmanEdge.Valid] using edge0135_valid
+  | e0136 => simpa [BellmanEdge.Valid] using edge0136_valid
+  | e0137 => simpa [BellmanEdge.Valid] using edge0137_valid
+  | e0138 => simpa [BellmanEdge.Valid] using edge0138_valid
+  | e0139 => simpa [BellmanEdge.Valid] using edge0139_valid
+  | e0140 => simpa [BellmanEdge.Valid] using edge0140_valid
+  | e0141 => simpa [BellmanEdge.Valid] using edge0141_valid
+  | e0142 => simpa [BellmanEdge.Valid] using edge0142_valid
+  | e0143 => simpa [BellmanEdge.Valid] using edge0143_valid
+  | e0144 => simpa [BellmanEdge.Valid] using edge0144_valid
+  | e0145 => simpa [BellmanEdge.Valid] using edge0145_valid
+  | e0146 => simpa [BellmanEdge.Valid] using edge0146_valid
+  | e0147 => simpa [BellmanEdge.Valid] using edge0147_valid
+  | e0148 => simpa [BellmanEdge.Valid] using edge0148_valid
+  | e0149 => simpa [BellmanEdge.Valid] using edge0149_valid
+  | e0150 => simpa [BellmanEdge.Valid] using edge0150_valid
+  | e0151 => simpa [BellmanEdge.Valid] using edge0151_valid
+  | e0152 => simpa [BellmanEdge.Valid] using edge0152_valid
+  | e0153 => simpa [BellmanEdge.Valid] using edge0153_valid
+  | e0154 => simpa [BellmanEdge.Valid] using edge0154_valid
+  | e0155 => simpa [BellmanEdge.Valid] using edge0155_valid
+  | e0156 => simpa [BellmanEdge.Valid] using edge0156_valid
+  | e0157 => simpa [BellmanEdge.Valid] using edge0157_valid
+  | e0158 => simpa [BellmanEdge.Valid] using edge0158_valid
+  | e0159 => simpa [BellmanEdge.Valid] using edge0159_valid
+  | e0160 => simpa [BellmanEdge.Valid] using edge0160_valid
+  | e0161 => simpa [BellmanEdge.Valid] using edge0161_valid
+  | e0162 => simpa [BellmanEdge.Valid] using edge0162_valid
+  | e0163 => simpa [BellmanEdge.Valid] using edge0163_valid
+  | e0164 => simpa [BellmanEdge.Valid] using edge0164_valid
+  | e0165 => simpa [BellmanEdge.Valid] using edge0165_valid
+  | e0166 => simpa [BellmanEdge.Valid] using edge0166_valid
+  | e0167 => simpa [BellmanEdge.Valid] using edge0167_valid
+  | e0168 => simpa [BellmanEdge.Valid] using edge0168_valid
+  | e0169 => simpa [BellmanEdge.Valid] using edge0169_valid
+  | e0170 => simpa [BellmanEdge.Valid] using edge0170_valid
+  | e0171 => simpa [BellmanEdge.Valid] using edge0171_valid
+  | e0172 => simpa [BellmanEdge.Valid] using edge0172_valid
+  | e0173 => simpa [BellmanEdge.Valid] using edge0173_valid
+  | e0174 => simpa [BellmanEdge.Valid] using edge0174_valid
+  | e0175 => simpa [BellmanEdge.Valid] using edge0175_valid
+  | e0176 => simpa [BellmanEdge.Valid] using edge0176_valid
+  | e0177 => simpa [BellmanEdge.Valid] using edge0177_valid
+  | e0178 => simpa [BellmanEdge.Valid] using edge0178_valid
+  | e0179 => simpa [BellmanEdge.Valid] using edge0179_valid
+  | e0180 => simpa [BellmanEdge.Valid] using edge0180_valid
+  | e0181 => simpa [BellmanEdge.Valid] using edge0181_valid
+  | e0182 => simpa [BellmanEdge.Valid] using edge0182_valid
+  | e0183 => simpa [BellmanEdge.Valid] using edge0183_valid
+  | e0184 => simpa [BellmanEdge.Valid] using edge0184_valid
+  | e0185 => simpa [BellmanEdge.Valid] using edge0185_valid
+  | e0186 => simpa [BellmanEdge.Valid] using edge0186_valid
+  | e0187 => simpa [BellmanEdge.Valid] using edge0187_valid
+  | e0188 => simpa [BellmanEdge.Valid] using edge0188_valid
+  | e0189 => simpa [BellmanEdge.Valid] using edge0189_valid
+  | e0190 => simpa [BellmanEdge.Valid] using edge0190_valid
+  | e0191 => simpa [BellmanEdge.Valid] using edge0191_valid
+  | e0192 => simpa [BellmanEdge.Valid] using edge0192_valid
+  | e0193 => simpa [BellmanEdge.Valid] using edge0193_valid
+  | e0194 => simpa [BellmanEdge.Valid] using edge0194_valid
+  | e0195 => simpa [BellmanEdge.Valid] using edge0195_valid
+  | e0196 => simpa [BellmanEdge.Valid] using edge0196_valid
+  | e0197 => simpa [BellmanEdge.Valid] using edge0197_valid
+  | e0198 => simpa [BellmanEdge.Valid] using edge0198_valid
+  | e0199 => simpa [BellmanEdge.Valid] using edge0199_valid
+  | e0200 => simpa [BellmanEdge.Valid] using edge0200_valid
+  | e0201 => simpa [BellmanEdge.Valid] using edge0201_valid
+  | e0202 => simpa [BellmanEdge.Valid] using edge0202_valid
+  | e0203 => simpa [BellmanEdge.Valid] using edge0203_valid
+  | e0204 => simpa [BellmanEdge.Valid] using edge0204_valid
+  | e0205 => simpa [BellmanEdge.Valid] using edge0205_valid
+  | e0206 => simpa [BellmanEdge.Valid] using edge0206_valid
+  | e0207 => simpa [BellmanEdge.Valid] using edge0207_valid
+  | e0208 => simpa [BellmanEdge.Valid] using edge0208_valid
+  | e0209 => simpa [BellmanEdge.Valid] using edge0209_valid
+  | e0210 => simpa [BellmanEdge.Valid] using edge0210_valid
+  | e0211 => simpa [BellmanEdge.Valid] using edge0211_valid
+  | e0212 => simpa [BellmanEdge.Valid] using edge0212_valid
+  | e0213 => simpa [BellmanEdge.Valid] using edge0213_valid
+  | e0214 => simpa [BellmanEdge.Valid] using edge0214_valid
+  | e0215 => simpa [BellmanEdge.Valid] using edge0215_valid
+  | e0216 => simpa [BellmanEdge.Valid] using edge0216_valid
+  | e0217 => simpa [BellmanEdge.Valid] using edge0217_valid
+  | e0218 => simpa [BellmanEdge.Valid] using edge0218_valid
+  | e0219 => simpa [BellmanEdge.Valid] using edge0219_valid
+  | e0220 => simpa [BellmanEdge.Valid] using edge0220_valid
+  | e0221 => simpa [BellmanEdge.Valid] using edge0221_valid
+  | e0222 => simpa [BellmanEdge.Valid] using edge0222_valid
+  | e0223 => simpa [BellmanEdge.Valid] using edge0223_valid
+  | e0224 => simpa [BellmanEdge.Valid] using edge0224_valid
+  | e0225 => simpa [BellmanEdge.Valid] using edge0225_valid
+  | e0226 => simpa [BellmanEdge.Valid] using edge0226_valid
+  | e0227 => simpa [BellmanEdge.Valid] using edge0227_valid
+  | e0228 => simpa [BellmanEdge.Valid] using edge0228_valid
+
 private def cls0000Labels : List SmokeLabel :=
   [SmokeLabel.l0008
   , SmokeLabel.l0010
@@ -6702,6 +7167,40 @@ private theorem cls0000LabeledRun :
   · exact GraphEdge.e0123
   · exact SmokeEdgeLabel.e0123
   exact BellmanLabeledRun.nil State.s0141
+
+private theorem cls0000LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0000FinalState cls0000Labels cls0000Gain := by
+  unfold cls0000Labels cls0000Gain rootState cls0000FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0128
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0135
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0145
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0158
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0173
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0190
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0210
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0006
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0045
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0080
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0123
+  exact BellmanLabelStepRun.nil State.s0141
 
 private theorem cls0000Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0000 <= (176 : Int) + cls0000Gain := by
@@ -6804,6 +7303,40 @@ private theorem cls0001LabeledRun :
   · exact SmokeEdgeLabel.e0120
   exact BellmanLabeledRun.nil State.s0138
 
+private theorem cls0001LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0001FinalState cls0001Labels cls0001Gain := by
+  unfold cls0001Labels cls0001Gain rootState cls0001FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0128
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0136
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0148
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0161
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0175
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0193
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0213
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0011
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0050
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0086
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0120
+  exact BellmanLabelStepRun.nil State.s0138
+
 private theorem cls0001Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0001 <= (176 : Int) + cls0001Gain := by
   unfold cls0001Gain
@@ -6904,6 +7437,40 @@ private theorem cls0002LabeledRun :
   · exact GraphEdge.e0117
   · exact SmokeEdgeLabel.e0117
   exact BellmanLabeledRun.nil State.s0135
+
+private theorem cls0002LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0002FinalState cls0002Labels cls0002Gain := by
+  unfold cls0002Labels cls0002Gain rootState cls0002FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0137
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0146
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0157
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0172
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0189
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0209
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0005
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0043
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0078
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0117
+  exact BellmanLabelStepRun.nil State.s0135
 
 private theorem cls0002Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0002 <= (176 : Int) + cls0002Gain := by
@@ -7006,6 +7573,40 @@ private theorem cls0003LabeledRun :
   · exact SmokeEdgeLabel.e0116
   exact BellmanLabeledRun.nil State.s0134
 
+private theorem cls0003LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0003FinalState cls0003Labels cls0003Gain := by
+  unfold cls0003Labels cls0003Gain rootState cls0003FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0137
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0147
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0159
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0174
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0191
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0211
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0009
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0048
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0077
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0116
+  exact BellmanLabelStepRun.nil State.s0134
+
 private theorem cls0003Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0003 <= (176 : Int) + cls0003Gain := by
   unfold cls0003Gain
@@ -7106,6 +7707,40 @@ private theorem cls0004LabeledRun :
   · exact GraphEdge.e0115
   · exact SmokeEdgeLabel.e0115
   exact BellmanLabeledRun.nil State.s0133
+
+private theorem cls0004LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0004FinalState cls0004Labels cls0004Gain := by
+  unfold cls0004Labels cls0004Gain rootState cls0004FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0149
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0160
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0171
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0188
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0208
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0004
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0042
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0076
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0115
+  exact BellmanLabelStepRun.nil State.s0133
 
 private theorem cls0004Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0004 <= (176 : Int) + cls0004Gain := by
@@ -7208,6 +7843,40 @@ private theorem cls0005LabeledRun :
   · exact SmokeEdgeLabel.e0114
   exact BellmanLabeledRun.nil State.s0132
 
+private theorem cls0005LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0005FinalState cls0005Labels cls0005Gain := by
+  unfold cls0005Labels cls0005Gain rootState cls0005FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0162
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0176
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0187
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0207
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0003
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0041
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0075
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0114
+  exact BellmanLabelStepRun.nil State.s0132
+
 private theorem cls0005Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0005 <= (176 : Int) + cls0005Gain := by
   unfold cls0005Gain
@@ -7308,6 +7977,40 @@ private theorem cls0006LabeledRun :
   · exact GraphEdge.e0113
   · exact SmokeEdgeLabel.e0113
   exact BellmanLabeledRun.nil State.s0131
+
+private theorem cls0006LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0006FinalState cls0006Labels cls0006Gain := by
+  unfold cls0006Labels cls0006Gain rootState cls0006FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0163
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0177
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0192
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0206
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0002
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0040
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0074
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0113
+  exact BellmanLabelStepRun.nil State.s0131
 
 private theorem cls0006Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0006 <= (176 : Int) + cls0006Gain := by
@@ -7410,6 +8113,40 @@ private theorem cls0007LabeledRun :
   · exact SmokeEdgeLabel.e0109
   exact BellmanLabeledRun.nil State.s0127
 
+private theorem cls0007LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0007FinalState cls0007Labels cls0007Gain := by
+  unfold cls0007Labels cls0007Gain rootState cls0007FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0163
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0178
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0194
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0212
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0001
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0038
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0071
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0109
+  exact BellmanLabelStepRun.nil State.s0127
+
 private theorem cls0007Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0007 <= (176 : Int) + cls0007Gain := by
   unfold cls0007Gain
@@ -7510,6 +8247,40 @@ private theorem cls0008LabeledRun :
   · exact GraphEdge.e0110
   · exact SmokeEdgeLabel.e0110
   exact BellmanLabeledRun.nil State.s0128
+
+private theorem cls0008LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0008FinalState cls0008Labels cls0008Gain := by
+  unfold cls0008Labels cls0008Gain rootState cls0008FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0163
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0178
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0195
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0216
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0008
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0039
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0072
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0110
+  exact BellmanLabelStepRun.nil State.s0128
 
 private theorem cls0008Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0008 <= (176 : Int) + cls0008Gain := by
@@ -7612,6 +8383,40 @@ private theorem cls0009LabeledRun :
   · exact SmokeEdgeLabel.e0112
   exact BellmanLabeledRun.nil State.s0130
 
+private theorem cls0009LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0009FinalState cls0009Labels cls0009Gain := by
+  unfold cls0009Labels cls0009Gain rootState cls0009FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0163
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0178
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0195
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0217
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0014
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0047
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0073
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0112
+  exact BellmanLabelStepRun.nil State.s0130
+
 private theorem cls0009Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0009 <= (176 : Int) + cls0009Gain := by
   unfold cls0009Gain
@@ -7712,6 +8517,40 @@ private theorem cls0010LabeledRun :
   · exact GraphEdge.e0111
   · exact SmokeEdgeLabel.e0111
   exact BellmanLabeledRun.nil State.s0129
+
+private theorem cls0010LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0010FinalState cls0010Labels cls0010Gain := by
+  unfold cls0010Labels cls0010Gain rootState cls0010FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0163
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0178
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0195
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0217
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0015
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0053
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0083
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0111
+  exact BellmanLabelStepRun.nil State.s0129
 
 private theorem cls0010Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0010 <= (176 : Int) + cls0010Gain := by
@@ -7814,6 +8653,40 @@ private theorem cls0011LabeledRun :
   · exact SmokeEdgeLabel.e0123
   exact BellmanLabeledRun.nil State.s0141
 
+private theorem cls0011LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0011FinalState cls0011Labels cls0011Gain := by
+  unfold cls0011Labels cls0011Gain rootState cls0011FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0130
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0135
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0145
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0158
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0173
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0190
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0210
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0006
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0045
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0080
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0123
+  exact BellmanLabelStepRun.nil State.s0141
+
 private theorem cls0011Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0011 <= (176 : Int) + cls0011Gain := by
   unfold cls0011Gain
@@ -7914,6 +8787,40 @@ private theorem cls0012LabeledRun :
   · exact GraphEdge.e0120
   · exact SmokeEdgeLabel.e0120
   exact BellmanLabeledRun.nil State.s0138
+
+private theorem cls0012LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0012FinalState cls0012Labels cls0012Gain := by
+  unfold cls0012Labels cls0012Gain rootState cls0012FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0130
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0136
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0148
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0161
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0175
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0193
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0213
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0011
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0050
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0086
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0120
+  exact BellmanLabelStepRun.nil State.s0138
 
 private theorem cls0012Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0012 <= (176 : Int) + cls0012Gain := by
@@ -8016,6 +8923,40 @@ private theorem cls0013LabeledRun :
   · exact SmokeEdgeLabel.e0123
   exact BellmanLabeledRun.nil State.s0141
 
+private theorem cls0013LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0013FinalState cls0013Labels cls0013Gain := by
+  unfold cls0013Labels cls0013Gain rootState cls0013FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0131
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0139
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0145
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0158
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0173
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0190
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0210
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0006
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0045
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0080
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0123
+  exact BellmanLabelStepRun.nil State.s0141
+
 private theorem cls0013Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0013 <= (176 : Int) + cls0013Gain := by
   unfold cls0013Gain
@@ -8116,6 +9057,40 @@ private theorem cls0014LabeledRun :
   · exact GraphEdge.e0122
   · exact SmokeEdgeLabel.e0122
   exact BellmanLabeledRun.nil State.s0140
+
+private theorem cls0014LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0014FinalState cls0014Labels cls0014Gain := by
+  unfold cls0014Labels cls0014Gain rootState cls0014FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0131
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0140
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0152
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0166
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0182
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0200
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0223
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0027
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0044
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0079
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0122
+  exact BellmanLabelStepRun.nil State.s0140
 
 private theorem cls0014Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0014 <= (176 : Int) + cls0014Gain := by
@@ -8218,6 +9193,40 @@ private theorem cls0015LabeledRun :
   · exact SmokeEdgeLabel.e0121
   exact BellmanLabeledRun.nil State.s0139
 
+private theorem cls0015LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0015FinalState cls0015Labels cls0015Gain := by
+  unfold cls0015Labels cls0015Gain rootState cls0015FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0131
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0140
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0152
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0166
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0182
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0200
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0223
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0028
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0059
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0094
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0121
+  exact BellmanLabelStepRun.nil State.s0139
+
 private theorem cls0015Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0015 <= (176 : Int) + cls0015Gain := by
   unfold cls0015Gain
@@ -8318,6 +9327,40 @@ private theorem cls0016LabeledRun :
   · exact GraphEdge.e0118
   · exact SmokeEdgeLabel.e0118
   exact BellmanLabeledRun.nil State.s0136
+
+private theorem cls0016LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0016FinalState cls0016Labels cls0016Gain := by
+  unfold cls0016Labels cls0016Gain rootState cls0016FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0132
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0142
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0153
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0167
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0184
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0202
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0226
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0010
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0049
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0084
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0118
+  exact BellmanLabelStepRun.nil State.s0136
 
 private theorem cls0016Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0016 <= (176 : Int) + cls0016Gain := by
@@ -8420,6 +9463,40 @@ private theorem cls0017LabeledRun :
   · exact SmokeEdgeLabel.e0119
   exact BellmanLabeledRun.nil State.s0137
 
+private theorem cls0017LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0017FinalState cls0017Labels cls0017Gain := by
+  unfold cls0017Labels cls0017Gain rootState cls0017FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0132
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0142
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0153
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0167
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0184
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0202
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0227
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0029
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0062
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0085
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0119
+  exact BellmanLabelStepRun.nil State.s0137
+
 private theorem cls0017Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0017 <= (176 : Int) + cls0017Gain := by
   unfold cls0017Gain
@@ -8520,6 +9597,40 @@ private theorem cls0018LabeledRun :
   · exact GraphEdge.e0119
   · exact SmokeEdgeLabel.e0119
   exact BellmanLabeledRun.nil State.s0137
+
+private theorem cls0018LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0018FinalState cls0018Labels cls0018Gain := by
+  unfold cls0018Labels cls0018Gain rootState cls0018FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0132
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0142
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0153
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0167
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0184
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0202
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0227
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0029
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0063
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0093
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0119
+  exact BellmanLabelStepRun.nil State.s0137
 
 private theorem cls0018Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0018 <= (176 : Int) + cls0018Gain := by
@@ -8622,6 +9733,40 @@ private theorem cls0019LabeledRun :
   · exact SmokeEdgeLabel.e0108
   exact BellmanLabeledRun.nil State.s0126
 
+private theorem cls0019LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0019FinalState cls0019Labels cls0019Gain := by
+  unfold cls0019Labels cls0019Gain rootState cls0019FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0133
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0141
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0151
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0165
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0181
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0199
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0222
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0026
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0037
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0070
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0108
+  exact BellmanLabelStepRun.nil State.s0126
+
 private theorem cls0019Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0019 <= (176 : Int) + cls0019Gain := by
   unfold cls0019Gain
@@ -8722,6 +9867,40 @@ private theorem cls0020LabeledRun :
   · exact GraphEdge.e0107
   · exact SmokeEdgeLabel.e0107
   exact BellmanLabeledRun.nil State.s0125
+
+private theorem cls0020LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0020FinalState cls0020Labels cls0020Gain := by
+  unfold cls0020Labels cls0020Gain rootState cls0020FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0143
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0154
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0164
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0180
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0198
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0221
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0024
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0036
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0069
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0107
+  exact BellmanLabelStepRun.nil State.s0125
 
 private theorem cls0020Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0020 <= (176 : Int) + cls0020Gain := by
@@ -8824,6 +10003,40 @@ private theorem cls0021LabeledRun :
   · exact SmokeEdgeLabel.e0106
   exact BellmanLabeledRun.nil State.s0124
 
+private theorem cls0021LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0021FinalState cls0021Labels cls0021Gain := by
+  unfold cls0021Labels cls0021Gain rootState cls0021FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0143
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0154
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0164
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0180
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0198
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0221
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0025
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0058
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0092
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0106
+  exact BellmanLabelStepRun.nil State.s0124
+
 private theorem cls0021Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0021 <= (176 : Int) + cls0021Gain := by
   unfold cls0021Gain
@@ -8924,6 +10137,40 @@ private theorem cls0022LabeledRun :
   · exact GraphEdge.e0105
   · exact SmokeEdgeLabel.e0105
   exact BellmanLabeledRun.nil State.s0123
+
+private theorem cls0022LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0022FinalState cls0022Labels cls0022Gain := by
+  unfold cls0022Labels cls0022Gain rootState cls0022FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0155
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0168
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0179
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0197
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0220
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0022
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0035
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0068
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0105
+  exact BellmanLabelStepRun.nil State.s0123
 
 private theorem cls0022Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0022 <= (176 : Int) + cls0022Gain := by
@@ -9026,6 +10273,40 @@ private theorem cls0023LabeledRun :
   · exact SmokeEdgeLabel.e0104
   exact BellmanLabeledRun.nil State.s0122
 
+private theorem cls0023LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0023FinalState cls0023Labels cls0023Gain := by
+  unfold cls0023Labels cls0023Gain rootState cls0023FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0155
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0168
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0179
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0197
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0220
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0023
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0057
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0091
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0104
+  exact BellmanLabelStepRun.nil State.s0122
+
 private theorem cls0023Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0023 <= (176 : Int) + cls0023Gain := by
   unfold cls0023Gain
@@ -9126,6 +10407,40 @@ private theorem cls0024LabeledRun :
   · exact GraphEdge.e0103
   · exact SmokeEdgeLabel.e0103
   exact BellmanLabeledRun.nil State.s0121
+
+private theorem cls0024LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0024FinalState cls0024Labels cls0024Gain := by
+  unfold cls0024Labels cls0024Gain rootState cls0024FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0169
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0183
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0196
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0219
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0020
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0034
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0067
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0103
+  exact BellmanLabelStepRun.nil State.s0121
 
 private theorem cls0024Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0024 <= (176 : Int) + cls0024Gain := by
@@ -9228,6 +10543,40 @@ private theorem cls0025LabeledRun :
   · exact SmokeEdgeLabel.e0102
   exact BellmanLabeledRun.nil State.s0120
 
+private theorem cls0025LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0025FinalState cls0025Labels cls0025Gain := by
+  unfold cls0025Labels cls0025Gain rootState cls0025FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0169
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0183
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0196
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0219
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0021
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0056
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0090
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0102
+  exact BellmanLabelStepRun.nil State.s0120
+
 private theorem cls0025Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0025 <= (176 : Int) + cls0025Gain := by
   unfold cls0025Gain
@@ -9328,6 +10677,40 @@ private theorem cls0026LabeledRun :
   · exact GraphEdge.e0101
   · exact SmokeEdgeLabel.e0101
   exact BellmanLabeledRun.nil State.s0119
+
+private theorem cls0026LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0026FinalState cls0026Labels cls0026Gain := by
+  unfold cls0026Labels cls0026Gain rootState cls0026FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0185
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0201
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0218
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0018
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0033
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0066
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0101
+  exact BellmanLabelStepRun.nil State.s0119
 
 private theorem cls0026Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0026 <= (176 : Int) + cls0026Gain := by
@@ -9430,6 +10813,40 @@ private theorem cls0027LabeledRun :
   · exact SmokeEdgeLabel.e0100
   exact BellmanLabeledRun.nil State.s0118
 
+private theorem cls0027LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0027FinalState cls0027Labels cls0027Gain := by
+  unfold cls0027Labels cls0027Gain rootState cls0027FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0185
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0201
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0218
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0019
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0055
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0089
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0100
+  exact BellmanLabelStepRun.nil State.s0118
+
 private theorem cls0027Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0027 <= (176 : Int) + cls0027Gain := by
   unfold cls0027Gain
@@ -9530,6 +10947,40 @@ private theorem cls0028LabeledRun :
   · exact GraphEdge.e0096
   · exact SmokeEdgeLabel.e0096
   exact BellmanLabeledRun.nil State.s0114
+
+private theorem cls0028LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0028FinalState cls0028Labels cls0028Gain := by
+  unfold cls0028Labels cls0028Gain rootState cls0028FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0203
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0214
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0007
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0032
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0064
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0096
+  exact BellmanLabelStepRun.nil State.s0114
 
 private theorem cls0028Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0028 <= (176 : Int) + cls0028Gain := by
@@ -9632,6 +11083,40 @@ private theorem cls0029LabeledRun :
   · exact SmokeEdgeLabel.e0099
   exact BellmanLabeledRun.nil State.s0117
 
+private theorem cls0029LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0029FinalState cls0029Labels cls0029Gain := by
+  unfold cls0029Labels cls0029Gain rootState cls0029FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0203
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0215
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0012
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0046
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0065
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0099
+  exact BellmanLabelStepRun.nil State.s0117
+
 private theorem cls0029Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0029 <= (176 : Int) + cls0029Gain := by
   unfold cls0029Gain
@@ -9732,6 +11217,40 @@ private theorem cls0030LabeledRun :
   · exact GraphEdge.e0098
   · exact SmokeEdgeLabel.e0098
   exact BellmanLabeledRun.nil State.s0116
+
+private theorem cls0030LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0030FinalState cls0030Labels cls0030Gain := by
+  unfold cls0030Labels cls0030Gain rootState cls0030FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0203
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0215
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0013
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0052
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0082
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0098
+  exact BellmanLabelStepRun.nil State.s0116
 
 private theorem cls0030Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0030 <= (176 : Int) + cls0030Gain := by
@@ -9834,6 +11353,40 @@ private theorem cls0031LabeledRun :
   · exact SmokeEdgeLabel.e0096
   exact BellmanLabeledRun.nil State.s0114
 
+private theorem cls0031LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0031FinalState cls0031Labels cls0031Gain := by
+  unfold cls0031Labels cls0031Gain rootState cls0031FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0204
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0224
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0007
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0032
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0064
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0096
+  exact BellmanLabelStepRun.nil State.s0114
+
 private theorem cls0031Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0031 <= (176 : Int) + cls0031Gain := by
   unfold cls0031Gain
@@ -9934,6 +11487,40 @@ private theorem cls0032LabeledRun :
   · exact GraphEdge.e0096
   · exact SmokeEdgeLabel.e0096
   exact BellmanLabeledRun.nil State.s0114
+
+private theorem cls0032LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0032FinalState cls0032Labels cls0032Gain := by
+  unfold cls0032Labels cls0032Gain rootState cls0032FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0204
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0225
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0016
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0032
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0064
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0096
+  exact BellmanLabelStepRun.nil State.s0114
 
 private theorem cls0032Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0032 <= (176 : Int) + cls0032Gain := by
@@ -10036,6 +11623,40 @@ private theorem cls0033LabeledRun :
   · exact SmokeEdgeLabel.e0095
   exact BellmanLabeledRun.nil State.s0113
 
+private theorem cls0033LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0033FinalState cls0033Labels cls0033Gain := by
+  unfold cls0033Labels cls0033Gain rootState cls0033FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0204
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0225
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0017
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0054
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0087
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0095
+  exact BellmanLabelStepRun.nil State.s0113
+
 private theorem cls0033Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0033 <= (176 : Int) + cls0033Gain := by
   unfold cls0033Gain
@@ -10136,6 +11757,40 @@ private theorem cls0034LabeledRun :
   · exact GraphEdge.e0097
   · exact SmokeEdgeLabel.e0097
   exact BellmanLabeledRun.nil State.s0115
+
+private theorem cls0034LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0034FinalState cls0034Labels cls0034Gain := by
+  unfold cls0034Labels cls0034Gain rootState cls0034FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0205
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0228
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0030
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0051
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0081
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0097
+  exact BellmanLabelStepRun.nil State.s0115
 
 private theorem cls0034Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0034 <= (176 : Int) + cls0034Gain := by
@@ -10238,6 +11893,40 @@ private theorem cls0035LabeledRun :
   · exact SmokeEdgeLabel.e0097
   exact BellmanLabeledRun.nil State.s0115
 
+private theorem cls0035LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0035FinalState cls0035Labels cls0035Gain := by
+  unfold cls0035Labels cls0035Gain rootState cls0035FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0205
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0228
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0031
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0060
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0081
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0097
+  exact BellmanLabelStepRun.nil State.s0115
+
 private theorem cls0035Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0035 <= (176 : Int) + cls0035Gain := by
   unfold cls0035Gain
@@ -10338,6 +12027,40 @@ private theorem cls0036LabeledRun :
   · exact GraphEdge.e0097
   · exact SmokeEdgeLabel.e0097
   exact BellmanLabeledRun.nil State.s0115
+
+private theorem cls0036LabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0036FinalState cls0036Labels cls0036Gain := by
+  unfold cls0036Labels cls0036Gain rootState cls0036FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0205
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0228
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0031
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0061
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0088
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0097
+  exact BellmanLabelStepRun.nil State.s0115
 
 private theorem cls0036Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0036 <= (176 : Int) + cls0036Gain := by
@@ -10592,6 +12315,136 @@ theorem graphSmoke_observed_labeled_run_scaled_margin_nonpos :
     (fun _ he => GraphEdge.valid he)
     root_bound
     smokeObservedLabeledRunLanguageBound
+
+private theorem smokeObservedLabelStepRunLanguageBound :
+    BellmanLabelStepRunLanguageBound
+      graphPotential SmokeStep rootState
+      (176 : Int) smokeScaledMargin smokeObjLabels smokeAccepts := by
+  intro obj _hobj
+  cases obj
+  · exact ⟨cls0000FinalState, cls0000Gain,
+      cls0000LabelStepRun, cls0000Final_nonneg,
+      cls0000Margin_bound_gain⟩
+  · exact ⟨cls0001FinalState, cls0001Gain,
+      cls0001LabelStepRun, cls0001Final_nonneg,
+      cls0001Margin_bound_gain⟩
+  · exact ⟨cls0002FinalState, cls0002Gain,
+      cls0002LabelStepRun, cls0002Final_nonneg,
+      cls0002Margin_bound_gain⟩
+  · exact ⟨cls0003FinalState, cls0003Gain,
+      cls0003LabelStepRun, cls0003Final_nonneg,
+      cls0003Margin_bound_gain⟩
+  · exact ⟨cls0004FinalState, cls0004Gain,
+      cls0004LabelStepRun, cls0004Final_nonneg,
+      cls0004Margin_bound_gain⟩
+  · exact ⟨cls0005FinalState, cls0005Gain,
+      cls0005LabelStepRun, cls0005Final_nonneg,
+      cls0005Margin_bound_gain⟩
+  · exact ⟨cls0006FinalState, cls0006Gain,
+      cls0006LabelStepRun, cls0006Final_nonneg,
+      cls0006Margin_bound_gain⟩
+  · exact ⟨cls0007FinalState, cls0007Gain,
+      cls0007LabelStepRun, cls0007Final_nonneg,
+      cls0007Margin_bound_gain⟩
+  · exact ⟨cls0008FinalState, cls0008Gain,
+      cls0008LabelStepRun, cls0008Final_nonneg,
+      cls0008Margin_bound_gain⟩
+  · exact ⟨cls0009FinalState, cls0009Gain,
+      cls0009LabelStepRun, cls0009Final_nonneg,
+      cls0009Margin_bound_gain⟩
+  · exact ⟨cls0010FinalState, cls0010Gain,
+      cls0010LabelStepRun, cls0010Final_nonneg,
+      cls0010Margin_bound_gain⟩
+  · exact ⟨cls0011FinalState, cls0011Gain,
+      cls0011LabelStepRun, cls0011Final_nonneg,
+      cls0011Margin_bound_gain⟩
+  · exact ⟨cls0012FinalState, cls0012Gain,
+      cls0012LabelStepRun, cls0012Final_nonneg,
+      cls0012Margin_bound_gain⟩
+  · exact ⟨cls0013FinalState, cls0013Gain,
+      cls0013LabelStepRun, cls0013Final_nonneg,
+      cls0013Margin_bound_gain⟩
+  · exact ⟨cls0014FinalState, cls0014Gain,
+      cls0014LabelStepRun, cls0014Final_nonneg,
+      cls0014Margin_bound_gain⟩
+  · exact ⟨cls0015FinalState, cls0015Gain,
+      cls0015LabelStepRun, cls0015Final_nonneg,
+      cls0015Margin_bound_gain⟩
+  · exact ⟨cls0016FinalState, cls0016Gain,
+      cls0016LabelStepRun, cls0016Final_nonneg,
+      cls0016Margin_bound_gain⟩
+  · exact ⟨cls0017FinalState, cls0017Gain,
+      cls0017LabelStepRun, cls0017Final_nonneg,
+      cls0017Margin_bound_gain⟩
+  · exact ⟨cls0018FinalState, cls0018Gain,
+      cls0018LabelStepRun, cls0018Final_nonneg,
+      cls0018Margin_bound_gain⟩
+  · exact ⟨cls0019FinalState, cls0019Gain,
+      cls0019LabelStepRun, cls0019Final_nonneg,
+      cls0019Margin_bound_gain⟩
+  · exact ⟨cls0020FinalState, cls0020Gain,
+      cls0020LabelStepRun, cls0020Final_nonneg,
+      cls0020Margin_bound_gain⟩
+  · exact ⟨cls0021FinalState, cls0021Gain,
+      cls0021LabelStepRun, cls0021Final_nonneg,
+      cls0021Margin_bound_gain⟩
+  · exact ⟨cls0022FinalState, cls0022Gain,
+      cls0022LabelStepRun, cls0022Final_nonneg,
+      cls0022Margin_bound_gain⟩
+  · exact ⟨cls0023FinalState, cls0023Gain,
+      cls0023LabelStepRun, cls0023Final_nonneg,
+      cls0023Margin_bound_gain⟩
+  · exact ⟨cls0024FinalState, cls0024Gain,
+      cls0024LabelStepRun, cls0024Final_nonneg,
+      cls0024Margin_bound_gain⟩
+  · exact ⟨cls0025FinalState, cls0025Gain,
+      cls0025LabelStepRun, cls0025Final_nonneg,
+      cls0025Margin_bound_gain⟩
+  · exact ⟨cls0026FinalState, cls0026Gain,
+      cls0026LabelStepRun, cls0026Final_nonneg,
+      cls0026Margin_bound_gain⟩
+  · exact ⟨cls0027FinalState, cls0027Gain,
+      cls0027LabelStepRun, cls0027Final_nonneg,
+      cls0027Margin_bound_gain⟩
+  · exact ⟨cls0028FinalState, cls0028Gain,
+      cls0028LabelStepRun, cls0028Final_nonneg,
+      cls0028Margin_bound_gain⟩
+  · exact ⟨cls0029FinalState, cls0029Gain,
+      cls0029LabelStepRun, cls0029Final_nonneg,
+      cls0029Margin_bound_gain⟩
+  · exact ⟨cls0030FinalState, cls0030Gain,
+      cls0030LabelStepRun, cls0030Final_nonneg,
+      cls0030Margin_bound_gain⟩
+  · exact ⟨cls0031FinalState, cls0031Gain,
+      cls0031LabelStepRun, cls0031Final_nonneg,
+      cls0031Margin_bound_gain⟩
+  · exact ⟨cls0032FinalState, cls0032Gain,
+      cls0032LabelStepRun, cls0032Final_nonneg,
+      cls0032Margin_bound_gain⟩
+  · exact ⟨cls0033FinalState, cls0033Gain,
+      cls0033LabelStepRun, cls0033Final_nonneg,
+      cls0033Margin_bound_gain⟩
+  · exact ⟨cls0034FinalState, cls0034Gain,
+      cls0034LabelStepRun, cls0034Final_nonneg,
+      cls0034Margin_bound_gain⟩
+  · exact ⟨cls0035FinalState, cls0035Gain,
+      cls0035LabelStepRun, cls0035Final_nonneg,
+      cls0035Margin_bound_gain⟩
+  · exact ⟨cls0036FinalState, cls0036Gain,
+      cls0036LabelStepRun, cls0036Final_nonneg,
+      cls0036Margin_bound_gain⟩
+
+theorem graphSmoke_observed_label_step_run_scaled_margin_nonpos :
+    forall obj : SmokeObj, smokeAccepts obj -> smokeScaledMargin obj <= 0 :=
+  scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound
+    (V := graphPotential)
+    (Step := SmokeStep)
+    (start := rootState)
+    (const := 176)
+    (wordOf := smokeObjLabels)
+    (fun _ _ _ _ h => SmokeStep.valid h)
+    root_bound
+    smokeObservedLabelStepRunLanguageBound
 
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=

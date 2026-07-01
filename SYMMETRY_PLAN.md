@@ -2127,6 +2127,22 @@ Bellman profiler prototype checkpoint:
   now precise: replace the finite observed path-class cases with a
   holonomy/cancellation word-language proof that constructs the same kind of
   `BellmanLabeledRun` from semantic labels.
+- Label-step Bellman checkpoint: `Cuboctahedron.Search.BellmanPotential` now
+  also exposes `BellmanLabelStepRun`,
+  `BellmanLabelStepRunLanguageBound`, and
+  `scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound`.  This is an even
+  thinner automaton API: a generated/hand proof supplies a semantic transition
+  relation `Step : State -> Label -> State -> Int -> Prop`, proves each step
+  satisfies the potential inequality, and constructs a label-step run for the
+  word language.  The graph smoke instantiates this through `SmokeStep`,
+  `smokeObservedLabelStepRunLanguageBound`, and
+  `graphSmoke_observed_label_step_run_scaled_margin_nonpos`.  Focused builds
+  passed: Bellman core in `0:04.07` wall time with `3,318,464 kB` max RSS,
+  and the generated smoke in `0:06.29` wall time with `3,678,196 kB` max RSS.
+  Decision: accepted as the current production theorem target for the
+  nonidentity Bellman margin route.  The next gap is no longer edge/path
+  plumbing; it is proving that real holonomy/cancellation words satisfy the
+  generated semantic `Step` relation.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
