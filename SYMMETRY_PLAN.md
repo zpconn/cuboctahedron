@@ -52163,3 +52163,40 @@ not another rank-local fact in the selected shard:
 3. if that split bridge exceeds the 6 GiB cap, do not merge it back into the
    trace shard.  Instead continue with a semantic-family bridge that avoids the
    heavy certificate import stack.
+
+### Holonomy/Bellman Pivot - stale import preflight accepted
+
+Strengthened `scripts/run_bellman_safe_smoke.py` again: the local-import
+preflight now checks both existence and freshness.  For every recursively
+imported local `Cuboctahedron.*` source file, the wrapper finds the
+corresponding `.lake/build/lib/lean/.../*.olean` artifact and refuses to
+launch Lean if the artifact is absent or older than the source file.
+
+This matters because the accepted runner is direct Lean, not Lake.  Direct
+Lean should not be used as a hidden dependency builder, and it also should not
+silently validate a generated shard against stale imported artifacts after a
+source edit.
+
+Validation performed without launching Lean:
+
+```bash
+python3 -m py_compile scripts/run_bellman_safe_smoke.py
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --dry-run \
+  --json /tmp/bellman_safe_smoke_stale_preflight_dry_run.json
+
+git diff --check
+```
+
+Result:
+
+| command | status |
+| --- | --- |
+| Python compile | passed |
+| stale-import preflight dry run | passed; found `24` local imports and `24` fresh `.olean` artifacts |
+| `git diff --check` | passed |
+
+The dry-run wrapper JSON now records each imported local module with source
+path, `.olean` path, source mtime, and `.olean` mtime.  No Lean proof check was
+run for this checkpoint.

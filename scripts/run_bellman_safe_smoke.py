@@ -243,6 +243,8 @@ def local_import_preflight(target_path: str) -> dict[str, Any]:
     local_seen: set[str] = set()
     source_missing: list[str] = []
     olean_missing: list[str] = []
+    stale_olean: list[str] = []
+    import_artifacts: list[dict[str, Any]] = []
     stack = [module for module in direct_imports if module.startswith(LOCAL_MODULE_PREFIX)]
 
     while stack:
@@ -257,11 +259,27 @@ def local_import_preflight(target_path: str) -> dict[str, Any]:
             continue
         if not olean_path.exists():
             olean_missing.append(f"{module} ({olean_path})")
+        else:
+            source_mtime = source_path.stat().st_mtime
+            olean_mtime = olean_path.stat().st_mtime
+            if olean_mtime < source_mtime:
+                stale_olean.append(
+                    f"{module} ({olean_path} older than {source_path})"
+                )
+            import_artifacts.append(
+                {
+                    "module": module,
+                    "source": str(source_path),
+                    "olean": str(olean_path),
+                    "source_mtime": source_mtime,
+                    "olean_mtime": olean_mtime,
+                }
+            )
         for imported in parse_imports(source_path):
             if imported.startswith(LOCAL_MODULE_PREFIX) and imported not in local_seen:
                 stack.append(imported)
 
-    if source_missing or olean_missing:
+    if source_missing or olean_missing or stale_olean:
         details: list[str] = []
         if source_missing:
             details.append(
@@ -273,9 +291,16 @@ def local_import_preflight(target_path: str) -> dict[str, Any]:
             )
             if len(olean_missing) > 20:
                 details.append(f"... and {len(olean_missing) - 20} more missing .olean files")
+        if stale_olean:
+            details.append(
+                "stale local .olean files:\n  - " + "\n  - ".join(sorted(stale_olean)[:20])
+            )
+            if len(stale_olean) > 20:
+                details.append(f"... and {len(stale_olean) - 20} more stale .olean files")
         raise SystemExit(
             "Refusing Bellman smoke run before Lean launch; direct Lean would "
-            "load local imports whose build artifacts are absent.\n" + "\n".join(details)
+            "load local imports whose build artifacts are absent or stale.\n"
+            + "\n".join(details)
         )
 
     return {
@@ -283,6 +308,7 @@ def local_import_preflight(target_path: str) -> dict[str, Any]:
         "local_import_count": len(local_seen),
         "local_imports": sorted(local_seen),
         "checked_olean_count": len(local_seen),
+        "import_artifacts": sorted(import_artifacts, key=lambda item: item["module"]),
     }
 
 
@@ -345,7 +371,7 @@ def main() -> int:
         },
     )
     print(
-        f"preflight: {import_preflight['local_import_count']} local imports have .olean files",
+        f"preflight: {import_preflight['local_import_count']} local imports have fresh .olean files",
         file=sys.stderr,
     )
     print(" ".join(command))

@@ -3322,6 +3322,11 @@ Import-preflight checkpoint:
   `Cuboctahedron.Search.BellmanTopPairingLanguage`, with `24` transitive local
   imports whose `.olean` artifacts were present.  No Lean proof check was run
   for this checkpoint.
+- The preflight now also checks artifact freshness: each local `.olean` must be
+  at least as new as its corresponding source file.  The stale-import dry run
+  found `24` fresh local artifacts and records source/olean paths and mtimes in
+  the wrapper JSON.  This is still operational safety evidence only; it does
+  not replace Lean proof checking.
 
 Post-quarantine source audit:
 
