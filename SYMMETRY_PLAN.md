@@ -54028,3 +54028,82 @@ Decision: accepted as the sixteenth checked split path under the strict
 post-crash guard.  The sampled split Bellman checks remain below the
 `4500 MiB` process-tree RSS cap.  Batch execution remains quarantined until the
 legacy summary gaps are reconciled; do not use broad or parallel Lean here.
+
+### Holonomy/Bellman Pivot - `[0,16)` dry-run guard accepted
+
+Reconciled the legacy run-summary gaps for path object indices `0` and `1`.
+This did not run broad Lean or batch Lean; it only reran the specific guarded
+components needed for recognized checked summaries.
+
+Commands run:
+
+```bash
+free -m
+git status --short
+
+python3 scripts/run_bellman_split_smoke_path.py 0 \
+  --check \
+  --check-stage both \
+  --dry-run \
+  --json scripts/generated/bellman_split_path_00_run_dry_run.json
+
+python3 scripts/run_bellman_split_smoke_path.py 0 \
+  --check \
+  --check-stage both \
+  --json scripts/generated/bellman_split_path_00_run.json
+
+python3 scripts/run_bellman_split_smoke_path.py 1 \
+  --check \
+  --check-stage trace \
+  --dry-run \
+  --json scripts/generated/bellman_split_path_01_trace_only_dry_run.json
+
+python3 scripts/run_bellman_split_smoke_path.py 1 \
+  --check \
+  --check-stage trace \
+  --json scripts/generated/bellman_split_path_01_trace_only_run.json
+
+python3 scripts/plan_bellman_split_batch_guard.py \
+  --start-index 0 \
+  --count 16 \
+  --require-fresh-artifacts \
+  --require-checked-summaries \
+  --json scripts/generated/bellman_split_batch_guard_000_016.json \
+  --markdown docs/bellman_split_batch_guard_000_016.md
+
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+
+python3 scripts/plan_bellman_split_smokes.py \
+  --count 37 \
+  --json scripts/generated/bellman_split_smoke_batch_plan_000_037.json \
+  --markdown docs/bellman_split_smoke_batch_plan_000_037.md
+```
+
+Proof-bearing reconciliation results:
+
+| component | elapsed | peak tree RSS | hard-AS cap | min available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| path `0` `generated-trace --emit-olean` | `7.51s` | `4003 MiB` | `6144 MiB` | `46176 MiB` | passed |
+| path `0` `split-composition --emit-olean` | `2.00s` | `3626 MiB` | `6144 MiB` | `46351 MiB` | passed |
+| path `1` `generated-trace-01 --emit-olean` | `5.01s` | `4038 MiB` | `6144 MiB` | `46162 MiB` | passed |
+
+Refreshed accounting:
+
+- strict `[0,16)` batch guard is now `accepted-dry-run`, with `0` blocked
+  entries and `0` total blockers;
+- `[0,37)` source/artifact plan still reports `0` over budget, `16` fresh
+  trace artifacts, `16` fresh split artifacts, `1184 KiB` total trace source,
+  and `74 KiB` total split source;
+- the next dry-run-selected single-path candidate remains path object index
+  `16`, rank `312761`, with both trace and split artifacts missing/stale.
+
+Decision: accepted as the first fully reconciled guarded window for the split
+Bellman smoke path.  This is still a dry-run guard, not broad execution; it is
+evidence that the generated split architecture can keep a 16-path window within
+the post-crash memory/source/import budgets when checked one component at a
+time.

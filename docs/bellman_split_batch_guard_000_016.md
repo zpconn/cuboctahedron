@@ -5,17 +5,17 @@ and is not proof evidence.
 
 - graph: `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json`
 - planned range: `0..16`
-- status: `rejected-dry-run`
-- current MemAvailable: `46624 MiB`
+- status: `accepted-dry-run`
+- current MemAvailable: `46658 MiB`
 - required MemAvailable: `36864 MiB`
 - entries: `16`
-- blocked entries: `2`
-- total blockers: `3`
+- blocked entries: `0`
+- total blockers: `0`
 
 | index | rank | trace KiB | split KiB | trace artifact | split artifact | run summary | blockers |
 | ---: | ---: | ---: | ---: | --- | --- | --- | --- |
-| `0` | `517` | `32` | `2` | fresh | fresh | `None` | trace checked run summary is missing<br>split checked run summary is missing |
-| `1` | `10613` | `32` | `2` | fresh | fresh | `split-checked` | trace checked run summary is missing |
+| `0` | `517` | `32` | `2` | fresh | fresh | `checked` | none |
+| `1` | `10613` | `32` | `2` | fresh | fresh | `checked` | none |
 | `2` | `23197` | `32` | `2` | fresh | fresh | `checked` | none |
 | `3` | `25555` | `32` | `2` | fresh | fresh | `checked` | none |
 | `4` | `40387` | `32` | `2` | fresh | fresh | `checked` | none |

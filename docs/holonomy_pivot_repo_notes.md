@@ -3864,6 +3864,30 @@ Fifth split path:
 Decision: accepted as another proof-bearing sampled path under the strict
 post-crash guard.
 
+`[0,16)` guard reconciliation:
+
+- Reconciled the two legacy checked-summary gaps that remained after all
+  `[0,16)` artifacts were fresh.  This used single-component guarded checks,
+  not broad or parallel Lean.
+- Path object index `0` was rerun with `--check-stage both` and canonical
+  summary `scripts/generated/bellman_split_path_00_run.json`.
+  - trace: passed in `7.51s`, peak RSS `4003 MiB`, hard-AS cap `6144 MiB`,
+    minimum available `46176 MiB`;
+  - split: passed in `2.00s`, peak RSS `3626 MiB`, hard-AS cap `6144 MiB`,
+    minimum available `46351 MiB`.
+- Path object index `1` was rerun with `--check-stage trace` and canonical
+  trace-only summary `scripts/generated/bellman_split_path_01_trace_only_run.json`.
+  - trace: passed in `5.01s`, peak RSS `4038 MiB`, hard-AS cap `6144 MiB`,
+    minimum available `46162 MiB`.
+- Refreshed strict `[0,16)` dry-run guard is now `accepted-dry-run` with `0`
+  blocked entries and `0` total blockers.
+- Refreshed selector chose path index `16`, rank `312761`, as the next possible
+  single-path target outside the accepted window.
+
+Decision: accepted as the first fully reconciled guarded window for the split
+Bellman route.  The acceptance remains a dry-run guard/accounting result, with
+the proof-bearing pieces checked individually under memory guard.
+
 Sixteenth split path:
 
 - The selected next target, path object index `15` / rank `151569`, was run as

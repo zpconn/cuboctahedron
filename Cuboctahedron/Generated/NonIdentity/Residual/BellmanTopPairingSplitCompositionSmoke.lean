@@ -2,12 +2,10 @@ import Cuboctahedron.Generated.NonIdentity.Residual.BellmanAxisForcesPairSignSmo
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke
 
 /-!
-Small composition smoke for the split Bellman route.
+Small composition smoke for a sampled split Bellman route.
 
-The ordinary generated trace shard stops at `PairSignLanguageAtRank`; the
-axis-forces bridge is measured separately.  This file checks that the two
-surfaces compose in a tiny root module, without putting the axis-forces import
-back into every trace leaf.
+This file composes a generated trace shard at the `PairSignLanguageAtRank`
+boundary with the separately measured axis-forces bridge.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke

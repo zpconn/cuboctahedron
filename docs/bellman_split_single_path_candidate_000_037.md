@@ -5,7 +5,7 @@ This report is planning/accounting only. It does not invoke Lean.
 - graph: `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json`
 - scanned range: `0..37`
 - status: `selected`
-- current MemAvailable: `46634 MiB`
+- current MemAvailable: `46663 MiB`
 - required MemAvailable: `36864 MiB`
 
 Selected candidate:
@@ -20,8 +20,8 @@ Selected candidate:
 
 | index | rank | trace KiB | split KiB | trace artifact | split artifact | run summary | candidate reason |
 | ---: | ---: | ---: | ---: | --- | --- | --- | --- |
-| `0` | `517` | `32` | `2` | fresh | fresh | `None` | fresh artifacts exist, but current path-run summary is missing or stale |
-| `1` | `10613` | `32` | `2` | fresh | fresh | `split-checked` | fresh artifacts exist, but current path-run summary is missing or stale |
+| `0` | `517` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
+| `1` | `10613` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `2` | `23197` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `3` | `25555` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `4` | `40387` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |

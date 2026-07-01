@@ -1,0 +1,146 @@
+{
+  "check_stage": "trace",
+  "commands": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/run_memory_guarded.py",
+        "--timeout-seconds",
+        "45.0",
+        "--max-tree-rss-mib",
+        "4500.0",
+        "--min-available-mib",
+        "36864.0",
+        "--hard-address-space-mib",
+        "6144.0",
+        "--poll-seconds",
+        "0.5",
+        "--json",
+        "/tmp/cuboctahedron_bellman_guards/bellman_split_path_01_trace_20260701_141756.guard.json",
+        "--",
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6000",
+        "-j1",
+        "-s",
+        "2048",
+        "-o",
+        ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke01.olean",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke01.lean"
+      ],
+      "exit_code": 0,
+      "guard_json": "/tmp/cuboctahedron_bellman_guards/bellman_split_path_01_trace_20260701_141756.guard.json",
+      "guard_summary": {
+        "elapsed_seconds": 5.005224918000749,
+        "exit_code": 0,
+        "killed_reason": null,
+        "max_tree_rss_kib": 4135264,
+        "min_available_seen_kib": 47270608
+      },
+      "kind": "trace"
+    }
+  ],
+  "graph_json": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "guard_dir": "/tmp/cuboctahedron_bellman_guards",
+  "mode": "bellman-split-smoke-path-run",
+  "path_object_index": 1,
+  "split": {
+    "artifact_status": {
+      "fresh_olean": true,
+      "olean": {
+        "bytes": 17936,
+        "exists": true,
+        "kib": 18,
+        "mtime": 1782930001.7335768
+      },
+      "source": {
+        "bytes": 1927,
+        "exists": true,
+        "kib": 2,
+        "mtime": 1782929937.0823267
+      }
+    },
+    "artifact_status_after_emit": {
+      "fresh_olean": true,
+      "olean": {
+        "bytes": 17936,
+        "exists": true,
+        "kib": 18,
+        "mtime": 1782930001.7335768
+      },
+      "source": {
+        "bytes": 1927,
+        "exists": true,
+        "kib": 2,
+        "mtime": 1782929937.0823267
+      }
+    },
+    "budget": null,
+    "import_budget": 26,
+    "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke01",
+    "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke01.olean",
+    "planned_source_kib": 2,
+    "preflight": null,
+    "source_budget_kib": 8,
+    "source_changed": false,
+    "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke01.lean",
+    "target": "split-composition-01",
+    "within_source_budget": true
+  },
+  "status": "trace-checked",
+  "trace": {
+    "artifact_status": {
+      "fresh_olean": true,
+      "olean": {
+        "bytes": 2503504,
+        "exists": true,
+        "kib": 2445,
+        "mtime": 1782928264.5732415
+      },
+      "source": {
+        "bytes": 32561,
+        "exists": true,
+        "kib": 32,
+        "mtime": 1782928172.7349994
+      }
+    },
+    "artifact_status_after_emit": {
+      "fresh_olean": true,
+      "olean": {
+        "bytes": 2503504,
+        "exists": true,
+        "kib": 2445,
+        "mtime": 1782928264.5732415
+      },
+      "source": {
+        "bytes": 32561,
+        "exists": true,
+        "kib": 32,
+        "mtime": 1782928172.7349994
+      }
+    },
+    "budget": {
+      "local_import_count": 18,
+      "max_local_imports": 18,
+      "max_target_source_kib": 40,
+      "target_source_bytes": 32561,
+      "target_source_kib": 32
+    },
+    "import_budget": 18,
+    "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke01",
+    "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke01.olean",
+    "planned_source_kib": 32,
+    "preflight": {
+      "checked_olean_count": 18,
+      "local_import_count": 18
+    },
+    "source_budget_kib": 40,
+    "source_changed": false,
+    "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke01.lean",
+    "target": "generated-trace-01",
+    "within_source_budget": true
+  },
+  "trace_report": "scripts/generated/bellman_closed_language_generated_trace_smoke_01.json"
+}

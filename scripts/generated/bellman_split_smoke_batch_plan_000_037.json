@@ -48,16 +48,16 @@
         "artifact_status": {
           "fresh_olean": true,
           "olean": {
-            "bytes": 18040,
+            "bytes": 17928,
             "exists": true,
             "kib": 18,
-            "mtime": 1782926968.9459164
+            "mtime": 1782933440.976764
           },
           "source": {
-            "bytes": 2025,
+            "bytes": 1909,
             "exists": true,
             "kib": 2,
-            "mtime": 1782926802.670246
+            "mtime": 1782933379.9113305
           }
         },
         "import_budget": 26,
@@ -76,7 +76,7 @@
             "bytes": 2474024,
             "exists": true,
             "kib": 2417,
-            "mtime": 1782926692.5327382
+            "mtime": 1782933439.1193206
           },
           "source": {
             "bytes": 31752,
@@ -164,7 +164,7 @@
             "bytes": 2503504,
             "exists": true,
             "kib": 2445,
-            "mtime": 1782928264.5732415
+            "mtime": 1782933480.5844958
           },
           "source": {
             "bytes": 32561,
