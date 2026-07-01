@@ -1213,3 +1213,33 @@ Closed sampled positive-margin smoke:
   semantic membership theorem that constructs the internal Type-level Bellman
   index/path.  Do not scale the sampled rank-local start/solve replay as final
   coverage.
+
+Bellman production gate audit:
+
+- Added `scripts/audit_bellman_production_gates.py`.
+- The script reads a Bellman graph JSON artifact and checks the current
+  production gates: observed nonpositive Bellman bound, bounded fixed point,
+  state/edge budget, integer bit-length budget, and an exact-path-class warning
+  gate.
+- Ran it on:
+
+  ```text
+  scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json
+  ```
+
+  Outputs:
+
+  ```text
+  scripts/generated/bellman_production_gate_top_pairing_1M.json
+  scripts/generated/bellman_production_gate_top_pairing_1M.md
+  ```
+
+- Result: `candidate-needs-coarser-membership`.
+- The numerical Bellman gates pass: `223` states, `229` edges, scaled bit
+  length `10`, fraction bit length `9`, and max margin bound `0`.
+- The exact path-class warning fails: `37` path classes for `37` paths, ratio
+  `1.0`.
+- Consequence: the current graph is an excellent potential certificate but not
+  yet a production family language.  Next work should prove membership through
+  a coarser holonomy/cancellation automaton or add cocycle-gauge/summary
+  coordinates.  Do not emit exact Bellman path classes as final coverage.

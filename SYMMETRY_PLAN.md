@@ -48217,3 +48217,51 @@ sampled/rank-local start-interior replay with a family-level Bellman/potential
 certificate over a holonomy/cancellation automaton, preferably using
 integer-scaled margins/potentials and a semantic `ContainsRank` theorem that
 constructs the internal Type-level Bellman index/path.
+
+### Holonomy/Bellman Pivot - production gate audit added
+
+Added:
+
+```text
+scripts/audit_bellman_production_gates.py
+```
+
+This untrusted diagnostic reads a Bellman graph JSON artifact and applies the
+current production gates before any more generated Lean is emitted:
+
+- observed Bellman margin bound must be nonpositive;
+- fixed-point/longest-path solve must be bounded;
+- state count and edge count must fit the family budget;
+- scaled integer and fraction bit lengths must remain small;
+- exact path classes are treated as a warning signal, not as an acceptable
+  production family coordinate.
+
+Ran it on the current 1M top-pairing graph:
+
+```bash
+python3 -m py_compile scripts/audit_bellman_production_gates.py
+python3 scripts/audit_bellman_production_gates.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --json scripts/generated/bellman_production_gate_top_pairing_1M.json \
+  --markdown scripts/generated/bellman_production_gate_top_pairing_1M.md
+```
+
+Gate result:
+
+| metric | value |
+| --- | ---: |
+| decision | `candidate-needs-coarser-membership` |
+| matched paths | `37` |
+| states | `223` |
+| edges | `229` |
+| scaled bit length | `10` |
+| fraction bit length | `9` |
+| max margin bound | `0` |
+| exact path class ratio | `1.0` |
+
+Decision: the Bellman potential graph is numerically excellent and comfortably
+inside the state/edge/bit gates, but exact path classes are singleton-like.  Do
+not emit exact-path production families.  The next implementation should prove
+a coarser holonomy/cancellation-language membership theorem for this graph, or
+add a cocycle-gauge/cancellation-summary coordinate that makes such membership
+possible.

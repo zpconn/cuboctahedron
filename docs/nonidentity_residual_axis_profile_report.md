@@ -2505,3 +2505,48 @@ for this bounded diagnostic smoke, but they should not be treated as the final
 production strategy.  The production route should avoid late large rational
 normalization by moving the Bellman margin proof to integer-scaled
 family-level potentials over holonomy/cancellation states.
+
+## Bellman Production Gate Audit
+
+Added the diagnostic gate script:
+
+```text
+scripts/audit_bellman_production_gates.py
+```
+
+It audits Bellman JSON artifacts against the current production criteria:
+bounded potential solve, nonpositive observed max margin, state/edge budgets,
+integer bit-length budgets, and a warning gate for exact path classes.
+
+Run on:
+
+```text
+scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json
+```
+
+with outputs:
+
+```text
+scripts/generated/bellman_production_gate_top_pairing_1M.json
+scripts/generated/bellman_production_gate_top_pairing_1M.md
+```
+
+Result: `candidate-needs-coarser-membership`.
+
+Important metrics:
+
+| metric | value |
+| --- | ---: |
+| matched paths | `37` |
+| states | `223` |
+| edges | `229` |
+| scaled bit length | `10` |
+| fraction bit length | `9` |
+| max margin bound | `0` |
+| exact path class ratio | `1.0` |
+
+Interpretation: the Bellman potential is small and strong enough, but the
+observed exact path classes are singleton-like.  The next nonidentity residual
+work should therefore target a coarser holonomy/cancellation-language
+membership theorem or a cocycle-gauge/cancellation-summary coordinate, not
+more exact-path generated leaves.
