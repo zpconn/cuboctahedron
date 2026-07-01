@@ -334,6 +334,65 @@ def emit_root(
     output_path.write_text("\n".join(lines))
 
 
+def emit_all_root(
+    output_path: Path,
+    namespace: str,
+    base_namespace: str,
+    shard_imports: list[str],
+    shard_namespaces: list[str],
+    shard_ranges: list[tuple[int, int]],
+    state_count: int,
+) -> None:
+    lines = prelude(namespace, shard_imports)
+    lines.extend([
+        f"open {base_namespace}",
+        "",
+        "/-- Root validity dispatcher for all generated source-state shards.",
+        "",
+        "The range premise is intentional at this smoke stage: the eventual",
+        "closed-language-to-evaluator bridge must prove the evaluator only visits",
+        "states inside this generated graph.  This root composes all local",
+        "potential inequalities without rebuilding the graph in one module. -/",
+        "theorem valid_of_lt "
+        "{s : State} {label : SmokeLabel} {t : State} {gain : Int}",
+        "    (hs : s < stateCount) :",
+        "    GraphSmokeStepEval s label t gain ->",
+        "      gain + graphPotential t <= graphPotential s := by",
+        "  intro h",
+    ])
+
+    lower_expr = "Nat.zero_le s"
+    for shard_idx, ((start, stop), shard_namespace) in enumerate(
+        zip(shard_ranges, shard_namespaces, strict=True)
+    ):
+        hhi = f"hhi_{shard_idx:03d}"
+        indent = "  " * (shard_idx + 1)
+        lines.append(f"{indent}by_cases {hhi} : s < {stop}")
+        lines.append(f"{indent}·")
+        lines.append(
+            f"{indent}  exact {shard_namespace}.valid_range "
+            f"({lower_expr}) {hhi} h"
+        )
+        lines.append(f"{indent}·")
+        lower_expr = f"Nat.le_of_not_lt {hhi}"
+
+    final_indent = "  " * (len(shard_ranges) + 1)
+    lines.append(
+        f"{final_indent}exact False.elim "
+        f"((Nat.not_lt_of_ge ({lower_expr})) hs)"
+    )
+    lines.extend([
+        "",
+        "theorem root_builds : True := by",
+        "  exact True.intro",
+        "",
+        f"end {namespace}",
+        "",
+    ])
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text("\n".join(lines))
+
+
 def emit_split(
     input_path: Path,
     output_dir: Path,
@@ -372,25 +431,89 @@ def emit_split(
     )
 
 
+def emit_all_splits(
+    input_path: Path,
+    output_dir: Path,
+    module_prefix: str,
+    namespace_prefix: str,
+    shard_size: int,
+) -> None:
+    if shard_size <= 0:
+        raise SystemExit("--shard-size must be positive")
+    graph = parse_graph(input_path)
+    state_count = int(graph["state_count"])
+    base_module = f"{module_prefix}.Base"
+    base_namespace = f"{namespace_prefix}.Base"
+    root_namespace = f"{namespace_prefix}.Root"
+
+    emit_base(graph, output_dir / "Base.lean", base_namespace)
+
+    shard_imports: list[str] = []
+    shard_namespaces: list[str] = []
+    shard_ranges: list[tuple[int, int]] = []
+    for shard_index, start in enumerate(range(0, state_count, shard_size)):
+        stop = min(state_count, start + shard_size)
+        shard_module = f"{module_prefix}.Shard{shard_index:03d}"
+        shard_namespace = f"{namespace_prefix}.Shard{shard_index:03d}"
+        emit_shard(
+            graph,
+            output_dir / f"Shard{shard_index:03d}.lean",
+            shard_namespace,
+            base_module,
+            base_namespace,
+            start,
+            stop - start,
+        )
+        shard_imports.append(shard_module)
+        shard_namespaces.append(shard_namespace)
+        shard_ranges.append((start, stop))
+
+    emit_all_root(
+        output_dir / "Root.lean",
+        root_namespace,
+        base_namespace,
+        shard_imports,
+        shard_namespaces,
+        shard_ranges,
+        state_count,
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--module-prefix", required=True)
     parser.add_argument("--namespace-prefix", required=True)
-    parser.add_argument("--shard-start", type=int, required=True)
-    parser.add_argument("--shard-count", type=int, required=True)
+    parser.add_argument("--shard-start", type=int)
+    parser.add_argument("--shard-count", type=int)
     parser.add_argument("--shard-index", type=int, default=0)
+    parser.add_argument("--all-shards", action="store_true")
+    parser.add_argument("--shard-size", type=int, default=32)
     args = parser.parse_args()
-    emit_split(
-        args.input,
-        args.output_dir,
-        args.module_prefix,
-        args.namespace_prefix,
-        args.shard_start,
-        args.shard_count,
-        args.shard_index,
-    )
+    if args.all_shards:
+        emit_all_splits(
+            args.input,
+            args.output_dir,
+            args.module_prefix,
+            args.namespace_prefix,
+            args.shard_size,
+        )
+    else:
+        if args.shard_start is None or args.shard_count is None:
+            raise SystemExit(
+                "--shard-start and --shard-count are required unless "
+                "--all-shards is used"
+            )
+        emit_split(
+            args.input,
+            args.output_dir,
+            args.module_prefix,
+            args.namespace_prefix,
+            args.shard_start,
+            args.shard_count,
+            args.shard_index,
+        )
 
 
 if __name__ == "__main__":

@@ -57113,3 +57113,160 @@ the 10M representative with conservative 32-state default shards, then build a
 root that dispatches across shard ranges.  Only after the full 10M split root
 is guarded-green should this architecture be considered ready for the
 `TopPairingClosedLanguageAtRank -> TopPairingBellmanEvalLanguageAtRank` bridge.
+
+### Holonomy/Bellman Pivot - full 10M eval split root
+
+Updated the split emitter so it can generate either a single shard or a full
+bounded shard family:
+
+```text
+scripts/emit_bellman_graph_eval_split.py --all-shards --shard-size N
+```
+
+The full root now imports the generated shard modules and exposes:
+
+```lean
+theorem valid_of_lt
+    {s : State} {label : SmokeLabel} {t : State} {gain : Int}
+    (hs : s < stateCount) :
+    GraphSmokeStepEval s label t gain ->
+      gain + graphPotential t <= graphPotential s
+```
+
+The range premise is deliberate.  The next semantic theorem must prove that
+`TopPairingClosedLanguageAtRank` evaluation only visits states inside the
+generated graph; this root composes the local Bellman inequalities once that
+in-range invariant is available.
+
+First attempt, rejected:
+
+```bash
+python3 scripts/emit_bellman_graph_eval_split.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --output-dir Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke \
+  --module-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke \
+  --namespace-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke \
+  --all-shards --shard-size 32
+```
+
+The 32-state shard family generated `31` shards, but serial guarded building
+found a hot shard:
+
+```text
+Shard019: memory guard terminated at peak_tree_rss = 4602 MiB
+```
+
+Decision: reject 32-source-state shards for this 10M graph.  The kill was safe
+and confirmed the failure mode is shard granularity, not the semantic Bellman
+evaluator shape.
+
+Accepted split:
+
+```bash
+python3 scripts/emit_bellman_graph_eval_split.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --output-dir Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke \
+  --module-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke \
+  --namespace-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke \
+  --all-shards --shard-size 16
+```
+
+This generated:
+
+```text
+Base.lean
+Root.lean
+Shard000.lean ... Shard060.lean
+```
+
+Source footprint:
+
+```text
+Base.lean: 169290 bytes
+largest shard: Shard038.lean, 16955 bytes
+all Lean files total: 834387 bytes after the 61-shard split
+```
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_eval_split.py
+
+rg -n "SampledRankIndex|sampledSmokeNext|sampledContainsRank|sampledRankOf|sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  scripts/emit_bellman_graph_eval_split.py \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke || true
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_eval_split_10m_all16_shard038_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Shard038
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_eval_split_10m_all16_shard039_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Shard039
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_eval_split_10m_all16_shard060_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Shard060
+```
+
+Representative results:
+
+| module | guarded build | peak RSS |
+| --- | ---: | ---: |
+| `Shard038` | passed | `4228 MiB` |
+| `Shard039` | passed | `4249 MiB` |
+| `Shard060` | passed | `4203 MiB` |
+
+Then all `61` shards were built serially under the same guard.  Result:
+
+```text
+all shards passed; max_peak_tree_rss = 4308 MiB
+```
+
+After shard `.olean`s were cached, the root dispatcher built safely:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_eval_split_10m_all16_root_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Root
+```
+
+Result:
+
+```text
+Root.lean: passed in 3.01s, peak_tree_rss = 4085 MiB
+```
+
+Decision: accepted.  The 10M representative graph now has a memory-safe,
+importable Bellman evaluator validity architecture with no sampled object
+bridge.  The production rule is **16 source states per validity shard** unless
+a smaller cap is required by a larger graph.  Lean builds for these shards must
+remain serial or externally scheduled by memory budget; do not let Lake build
+many of them concurrently.
+
+Next implementation target:
+
+1. prove or generate the in-range evaluator invariant needed to remove the
+   `valid_of_lt` premise at the `BellmanEvalAccepts` call site;
+2. generate the closed-language-to-eval theorem:
+
+   ```lean
+   TopPairingClosedLanguageAtRank rank Face.ym ->
+     TopPairingBellmanEvalLanguageAtRank ... rank Face.ym
+   ```
+
+3. if that theorem still requires `SampledRankIndex`, sampled paths, or one
+   branch per rank/path, stop Bellman as a production proof route and pivot to
+   a stronger cancellation-tree semantic automaton.
