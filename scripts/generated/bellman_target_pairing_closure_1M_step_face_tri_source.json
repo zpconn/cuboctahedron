@@ -1,0 +1,378 @@
+{
+  "decision": "target-pairing-language-not-closed",
+  "edge_count": 229,
+  "input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_tri_source_graph.json",
+  "recommendation": "The target pairing alone is still not enough; inspect missing and illegal transitions to identify the next state component.",
+  "state_count": 223,
+  "states_with_face_counts": 223,
+  "states_with_illegal_transitions": 0,
+  "states_with_missing_transitions": 102,
+  "target_pairing": "pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+  "top_problem_states": [
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 8,
+      "missing_count": 7,
+      "missing_faces": [
+        "tmpp",
+        "tpmm",
+        "xp",
+        "ym",
+        "yp",
+        "zm",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 0,
+      "state_key": "step=0|faces=1,1,1,1,1,1,1,1,1,1,1,1,1,1|par=000|stack=<empty>|triSrc="
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 7,
+      "missing_count": 6,
+      "missing_faces": [
+        "tmmm",
+        "tppp",
+        "xp",
+        "yp",
+        "zm",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 142,
+      "state_key": "step=1|faces=1,0,1,1,1,1,1,1,1,1,1,1,1,1|par=100|stack=<empty>|triSrc="
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 6,
+      "missing_count": 4,
+      "missing_faces": [
+        "tmmp",
+        "xp",
+        "yp",
+        "zp"
+      ],
+      "observed_count": 2,
+      "state": 146,
+      "state_key": "step=3|faces=1,0,1,0,1,1,1,1,0,1,1,1,1,1|par=110|stack=dm11|triSrc=2:d1m1->dm11@110"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 5,
+      "missing_count": 4,
+      "missing_faces": [
+        "tmmm",
+        "tppp",
+        "xp",
+        "yp"
+      ],
+      "observed_count": 1,
+      "state": 150,
+      "state_key": "step=4|faces=1,0,1,0,1,0,1,1,0,1,1,1,1,1|par=111|stack=dm11|triSrc=2:d1m1->dm11@110"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 5,
+      "missing_count": 4,
+      "missing_faces": [
+        "tmmm",
+        "xp",
+        "yp",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 151,
+      "state_key": "step=4|faces=1,0,1,0,1,0,1,1,1,0,1,1,1,1|par=111|stack=dm11|triSrc=3:dm11->dm11@111"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 6,
+      "missing_count": 4,
+      "missing_faces": [
+        "tmpp",
+        "xp",
+        "yp",
+        "zm"
+      ],
+      "observed_count": 2,
+      "state": 152,
+      "state_key": "step=4|faces=1,0,1,0,1,1,1,1,0,1,1,1,0,1|par=110|stack=dm11 d111|triSrc=2:d1m1->dm11@110|3:d11m->d111@110"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 5,
+      "missing_count": 4,
+      "missing_faces": [
+        "tmpm",
+        "xp",
+        "yp",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 160,
+      "state_key": "step=5|faces=1,0,1,0,1,0,1,1,1,0,1,1,1,0|par=111|stack=dm11 d111|triSrc=3:dm11->dm11@111|4:d111->d111@111"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 6,
+      "missing_count": 4,
+      "missing_faces": [
+        "tmmm",
+        "xp",
+        "yp",
+        "zm"
+      ],
+      "observed_count": 2,
+      "state": 161,
+      "state_key": "step=5|faces=1,0,1,0,1,1,1,1,0,1,0,1,0,1|par=110|stack=dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 5,
+      "missing_count": 4,
+      "missing_faces": [
+        "tmmp",
+        "xp",
+        "yp",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 172,
+      "state_key": "step=6|faces=1,0,1,0,1,0,1,1,1,0,1,0,1,0|par=111|stack=dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 5,
+      "missing_count": 4,
+      "missing_faces": [
+        "xp",
+        "yp",
+        "zm",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 222,
+      "state_key": "step=9|faces=1,0,1,0,1,1,0,0,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|6:d111->d11m@110|7:d1m1->dm11@110|8:d11m->d111@110"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 4,
+      "missing_count": 3,
+      "missing_faces": [
+        "xp",
+        "yp",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 21,
+      "state_key": "step=10|faces=1,0,1,0,1,0,0,0,1,0,0,0,0,0|par=111|stack=dm11 d111 d1m1 dm11 d111|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111|9:d111->d111@111"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 6,
+      "missing_count": 3,
+      "missing_faces": [
+        "tpmp",
+        "xp",
+        "zp"
+      ],
+      "observed_count": 3,
+      "state": 143,
+      "state_key": "step=2|faces=1,0,1,0,1,1,1,1,1,1,1,1,1,1|par=110|stack=<empty>|triSrc="
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 5,
+      "missing_count": 3,
+      "missing_faces": [
+        "tppp",
+        "xp",
+        "zp"
+      ],
+      "observed_count": 2,
+      "state": 144,
+      "state_key": "step=3|faces=1,0,0,0,1,1,1,1,1,1,1,1,1,1|par=100|stack=<empty>|triSrc="
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 5,
+      "missing_count": 3,
+      "missing_faces": [
+        "tmmp",
+        "xp",
+        "zm"
+      ],
+      "observed_count": 2,
+      "state": 156,
+      "state_key": "step=5|faces=1,0,0,0,1,1,0,1,1,1,0,1,1,1|par=100|stack=dm11 d111|triSrc=3:d111->dm11@100|4:dm11->d111@100"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 4,
+      "missing_count": 3,
+      "missing_faces": [
+        "tmmp",
+        "xp",
+        "yp"
+      ],
+      "observed_count": 1,
+      "state": 171,
+      "state_key": "step=6|faces=1,0,1,0,0,1,1,1,0,1,0,1,0,1|par=111|stack=dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 5,
+      "missing_count": 3,
+      "missing_faces": [
+        "xp",
+        "yp",
+        "zm"
+      ],
+      "observed_count": 2,
+      "state": 173,
+      "state_key": "step=6|faces=1,0,1,0,1,1,1,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1 d11m|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 4,
+      "missing_count": 3,
+      "missing_faces": [
+        "tmmp",
+        "xp",
+        "yp"
+      ],
+      "observed_count": 1,
+      "state": 185,
+      "state_key": "step=7|faces=1,0,1,0,0,1,1,1,0,1,0,1,0,0|par=111|stack=dm11 d111 d1m1 d11m|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 4,
+      "missing_count": 3,
+      "missing_faces": [
+        "xp",
+        "yp",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 186,
+      "state_key": "step=7|faces=1,0,1,0,1,0,1,1,1,0,1,0,0,0|par=111|stack=dm11 d111 d1m1 d11m|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 5,
+      "missing_count": 3,
+      "missing_faces": [
+        "xp",
+        "yp",
+        "zm"
+      ],
+      "observed_count": 2,
+      "state": 187,
+      "state_key": "step=7|faces=1,0,1,0,1,1,0,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|6:d111->d11m@110"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 4,
+      "missing_count": 3,
+      "missing_faces": [
+        "tmpp",
+        "xp",
+        "yp"
+      ],
+      "observed_count": 1,
+      "state": 201,
+      "state_key": "step=8|faces=1,0,1,0,0,1,0,1,0,1,0,1,0,0|par=111|stack=dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|6:d111->d11m@110"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 4,
+      "missing_count": 3,
+      "missing_faces": [
+        "xp",
+        "yp",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 202,
+      "state_key": "step=8|faces=1,0,1,0,1,0,1,0,1,0,1,0,0,0|par=111|stack=dm11 d111 d1m1|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 3,
+      "missing_count": 2,
+      "missing_faces": [
+        "xp",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 10,
+      "state_key": "step=10|faces=1,0,0,0,1,0,1,0,1,0,0,0,0,0|par=101|stack=dm11 d111 d1m1 dm11|triSrc=3:dm11->dm11@111|4:d111->d111@111|5:d1m1->d1m1@111|6:d11m->d11m@111|7:d11m->d11m@111|8:dm11->dm11@111"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 3,
+      "missing_count": 2,
+      "missing_faces": [
+        "xp",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 11,
+      "state_key": "step=10|faces=1,0,0,0,1,0,1,0,1,0,0,0,0,0|par=101|stack=dm11 d111 d1m1 dm11|triSrc=4:d11m->dm11@101|5:d1m1->d111@101|6:d111->d1m1@101|7:dm11->d11m@101|8:dm11->d11m@101|9:d11m->dm11@101"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 4,
+      "missing_count": 2,
+      "missing_faces": [
+        "xp",
+        "zp"
+      ],
+      "observed_count": 2,
+      "state": 22,
+      "state_key": "step=10|faces=1,0,1,0,1,1,0,0,0,0,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|6:d111->d11m@110|7:d1m1->dm11@110|8:d11m->d111@110|9:dm11->d1m1@110"
+    },
+    {
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 3,
+      "missing_count": 2,
+      "missing_faces": [
+        "xp",
+        "zp"
+      ],
+      "observed_count": 1,
+      "state": 42,
+      "state_key": "step=11|faces=1,0,0,0,1,1,0,0,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|6:d111->d11m@110|7:d1m1->dm11@110|8:d11m->d111@110|9:dm11->d1m1@110"
+    }
+  ],
+  "total_illegal_transitions": 0,
+  "total_missing_transitions": 191,
+  "total_observed_face_transitions": 229,
+  "total_target_legal_transitions": 420
+}

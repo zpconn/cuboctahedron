@@ -981,3 +981,11 @@ Bellman coarsening/closure notes:
   face permutations."  It must include the top-pairing cancellation/tri-source
   constraints that explain why the missing transitions are not actually in the
   family.
+- Added `scripts/audit_bellman_target_pairing_closure.py` to test that
+  stronger target-pairing language.  On the 1M signed-face graph, it reported
+  `420` target-pairing-legal transitions, `229` observed transitions, `191`
+  missing transitions, and `0` illegal observed transitions.  Runtime was
+  `0:08.04`, max RSS `573,572 kB`.
+- Decision: target cancellation pairing is necessary but not sufficient.  The
+  next language coordinate needs a coarser source-position/square-schedule
+  restriction between bare cancellation pairing and exact square-parity path.

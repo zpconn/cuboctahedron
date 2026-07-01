@@ -47678,3 +47678,55 @@ and not:
 ```text
 all permutations of the remaining signed faces.
 ```
+
+### Holonomy/Bellman Pivot - target-pairing closure audit
+
+Added an untrusted target-pairing transition audit:
+
+```text
+scripts/audit_bellman_target_pairing_closure.py
+```
+
+Unlike the naive signed-face audit, this script treats a next face as legal
+only if the resulting prefix can still complete to the target triangular
+cancellation pairing:
+
+```text
+pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1
+```
+
+The finite completion search is exact and pruned by the target shadow length
+and cancellation prefix.  It is still diagnostic only; Lean would need a
+separate transition-closure theorem for any accepted language.
+
+Command run:
+
+```bash
+/usr/bin/time -v python3 scripts/audit_bellman_target_pairing_closure.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_tri_source_graph.json \
+  --json scripts/generated/bellman_target_pairing_closure_1M_step_face_tri_source.json \
+  --md scripts/generated/bellman_target_pairing_closure_1M_step_face_tri_source.md
+```
+
+Result: `0:08.04` wall time, `573,572 kB` max RSS, exit `0`.
+
+Audit result:
+
+| metric | value |
+| --- | ---: |
+| states with face counts | `223` |
+| target-pairing legal transitions | `420` |
+| observed face transitions | `229` |
+| missing target-pairing transitions | `191` |
+| illegal observed transitions | `0` |
+| states with missing transitions | `102` |
+
+Decision: target cancellation pairing is a necessary and sound-looking
+constraint for the observed graph (no observed transition is illegal), but it
+is not sufficient as the production language because it still permits `191`
+extra transitions in the 1M graph.  The next candidate should add a coarser
+source-position/square-schedule constraint explaining those missing
+transitions.  A quick observed-path check found `37` distinct square-parity
+paths for `37` paths in the 1M graph, so exact square-parity path is likely too
+fine; the next profiler should look for a coarser source-position constraint
+between bare cancellation pairing and exact square-parity path.

@@ -2204,3 +2204,41 @@ The naive transition closure audit then rejected the overly broad language
 Decision: the next membership theorem must encode top-pairing
 cancellation/tri-source constraints.  Signed-face counts are useful supporting
 state, but not sufficient as the family language.
+
+## Target-Pairing Transition Closure Audit
+
+Added:
+
+```text
+scripts/audit_bellman_target_pairing_closure.py
+```
+
+This audit checks a stronger language than the naive signed-face audit: a next
+face is legal only when the resulting prefix can still complete to the target
+triangular cancellation pairing
+`pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1`.
+
+Command:
+
+```text
+/usr/bin/time -v python3 scripts/audit_bellman_target_pairing_closure.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_tri_source_graph.json \
+  --json scripts/generated/bellman_target_pairing_closure_1M_step_face_tri_source.json \
+  --md scripts/generated/bellman_target_pairing_closure_1M_step_face_tri_source.md
+```
+
+Result: `0:08.04` wall time, `573,572 kB` max RSS, exit `0`.
+
+| metric | value |
+| --- | ---: |
+| target-pairing legal transitions | `420` |
+| observed face transitions | `229` |
+| missing target-pairing transitions | `191` |
+| illegal observed transitions | `0` |
+| states with missing transitions | `102` |
+
+Decision: target cancellation pairing strictly improves the naive language and
+accepts every observed transition, but it is still too broad.  The next
+membership profiler should add a coarser source-position or square-schedule
+constraint; exact square-parity paths appear too fine in the 1M graph (`37`
+distinct paths for `37` observed paths).
