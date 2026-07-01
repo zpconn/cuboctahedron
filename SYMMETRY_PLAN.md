@@ -52792,3 +52792,66 @@ current source-size budgets, but this is only a source-budget and artifact
 freshness plan.  The next proof-bearing expansion should still check new
 targets one at a time under `scripts/run_bellman_safe_smoke.py`, or add a
 serial batch runner that enforces the same per-target gate.
+
+### Holonomy/Bellman Pivot - serial split-smoke path runner accepted
+
+Added:
+
+```text
+scripts/run_bellman_split_smoke_path.py
+```
+
+This runner takes a path object index from the cached Bellman graph, emits the
+corresponding trace shard, emits the tiny split-composition root, enforces the
+same trace/root source budgets, and optionally runs the trace and split checks
+serially under `scripts/run_memory_guarded.py` with the tightened Bellman
+envelope.  It emits the trace `.olean` first, then the split-root `.olean`, so
+future aggregate roots can depend on checked artifacts.  It is still
+operational tooling; proof evidence is the Lean checks it runs and records.
+
+Dry-run command for path object index `2`:
+
+```bash
+python3 scripts/run_bellman_split_smoke_path.py 2 \
+  --check \
+  --dry-run \
+  --json scripts/generated/bellman_split_path_02_dry_run.json
+```
+
+The dry run emitted planned sources and printed the two guarded commands
+without launching Lean.
+
+Proof-bearing serial check:
+
+```bash
+python3 scripts/run_bellman_split_smoke_path.py 2 \
+  --check \
+  --json scripts/generated/bellman_split_path_02_run.json
+```
+
+Result:
+
+| component | elapsed | peak tree RSS | hard-AS cap | min available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `generated-trace-02 --emit-olean` | `6.03s` | `4016 MiB` | `6144 MiB` | `46254 MiB` | passed |
+| `split-composition-02 --emit-olean` | `2.00s` | `3637 MiB` | `6144 MiB` | `46423 MiB` | passed |
+
+Generated files:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedLanguageGeneratedTraceSmoke02.lean
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSplitCompositionSmoke02.lean
+scripts/generated/bellman_closed_language_generated_trace_smoke_02.json
+scripts/generated/bellman_split_path_02_run.json
+```
+
+After refreshing the batch plans, `[0,37)` still has `0` entries over budget.
+Fresh artifacts now stand at `3` trace shards and `2` split roots; total planned
+source remains `1184 KiB` trace and `74 KiB` split.
+
+Decision: accepted.  The split route now has a reusable serial runner and a
+third checked sampled path under the post-crash guard.  The next scaling step
+should use this runner on a small consecutive batch, still serially, and stop at
+the first guard failure.

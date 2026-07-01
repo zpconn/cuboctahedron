@@ -3594,3 +3594,50 @@ Decision: accepted as the next operational planning gate.  The full cached
 37-path graph can be split into small planned trace/root shards, but proof
 promotion still requires single-target guarded Lean checks or a serial batch
 runner that enforces the same guard per target.
+
+Serial split-smoke path runner:
+
+- Added `scripts/run_bellman_split_smoke_path.py`.
+- The runner accepts a cached Bellman `path_object_index`, emits the matching
+  trace shard and tiny split-composition root, enforces the same source/import
+  budgets as the planner, and optionally runs direct Lean checks serially under
+  `scripts/run_memory_guarded.py`.
+- The runner emits both trace and split `.olean` artifacts when `--check` is
+  used, so future aggregate roots can depend on checked artifacts.
+- Dry-run for path object index `2`:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 2 \
+    --check \
+    --dry-run \
+    --json scripts/generated/bellman_split_path_02_dry_run.json
+  ```
+
+  This printed the two guarded commands without launching Lean.
+
+- Proof-bearing serial check for path object index `2`:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 2 \
+    --check \
+    --json scripts/generated/bellman_split_path_02_run.json
+  ```
+
+  Results:
+  - trace shard with `.olean` emission: passed in `6.03s`, peak RSS
+    `4016 MiB`, hard-AS cap `6144 MiB`, minimum available `46254 MiB`;
+  - split root with `.olean` emission: passed in `2.00s`, peak RSS
+    `3637 MiB`, hard-AS cap `6144 MiB`, minimum available `46423 MiB`.
+
+- Generated path-2 files:
+  - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke02.lean`;
+  - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke02.lean`;
+  - `scripts/generated/bellman_closed_language_generated_trace_smoke_02.json`;
+  - `scripts/generated/bellman_split_path_02_run.json`.
+- Refreshed batch plans now report `3` fresh trace artifacts and `2` fresh split
+  artifacts over the `[0,37)` cached path set, still with `0` entries over
+  budget.
+
+Decision: accepted.  The split Bellman smoke route now has a reusable serial
+runner and a third checked sampled path.  Continue scaling with small serial
+batches and stop on the first guard failure.

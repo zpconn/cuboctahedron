@@ -121,7 +121,7 @@ def render_trace_source(
         selected_rank=int(rank),
         selected_bad_face=bad_face,
     )
-    text = "\n".join(lines) + "\n"
+    text = "\n".join(lines).rstrip() + "\n"
     source = {**source, "faces": faces}
     return text, source
 

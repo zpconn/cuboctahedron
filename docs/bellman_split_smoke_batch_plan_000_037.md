@@ -7,8 +7,8 @@ This report is planning/operational evidence only. It does not prove any Lean th
 - planned range: `0..37`
 - planned entries: `37`
 - entries over budget: `0`
-- fresh trace artifacts: `2`
-- fresh split artifacts: `1`
+- fresh trace artifacts: `3`
+- fresh split artifacts: `2`
 - total planned trace source: `1184 KiB`
 - total planned split source: `74 KiB`
 
@@ -16,7 +16,7 @@ This report is planning/operational evidence only. It does not prove any Lean th
 | ---: | ---: | ---: | --- | ---: | --- | --- |
 | `0` | `517` | `32` | fresh | `2` | fresh | ok |
 | `1` | `10613` | `32` | fresh | `2` | missing/stale | ok |
-| `2` | `23197` | `32` | missing/stale | `2` | missing/stale | ok |
+| `2` | `23197` | `32` | fresh | `2` | fresh | ok |
 | `3` | `25555` | `32` | missing/stale | `2` | missing/stale | ok |
 | `4` | `40387` | `32` | missing/stale | `2` | missing/stale | ok |
 | `5` | `42247` | `32` | missing/stale | `2` | missing/stale | ok |
