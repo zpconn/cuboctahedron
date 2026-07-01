@@ -215,3 +215,15 @@ Follow-up family gate:
   compression target to signed-state empty-cone/Gordan prefix pruning and/or
   substantially cheaper integer/projective theorem surfaces before emitting
   broad generated residual evidence.
+
+Signed-prefix empty-cone checkpoint:
+
+- `scripts/signed_prefix_empty_cone_profile.py` profiles exact Gordan
+  certificates over signed-prefix unfolded normals.  It is external diagnostic
+  code only.
+- Depth `4`, `5`, and `6` calibration runs are memory-light.  The depth-6 run
+  used `8` workers, completed in `1:32.20`, peaked at `23,808 KiB` RSS, and
+  killed `3,685,893,120 / 6,227,020,800` signed started itineraries (`293/495`).
+- This confirms empty-cone pruning is a real and cheap obstruction, but not yet
+  complete enough alone.  The next step should add frontier-state clustering
+  and test deeper signed prefixes before emitting Lean proof leaves.

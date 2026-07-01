@@ -1,0 +1,366 @@
+{
+  "arithmetic": "exact Fraction/integer arithmetic; no floating point",
+  "decision_hint": "If pruning removes most signed completions by shallow depth with few certificate families, formalize signed-state Gordan certificates next. If not, combine this with holonomy/axis signatures rather than emitting local axis certificates.",
+  "elapsed_seconds": 92.15868067741394,
+  "examples": [
+    {
+      "depth": 6,
+      "prefix": [
+        "xm",
+        "tmpp",
+        "yp",
+        "ym",
+        "zp",
+        "tmmm"
+      ],
+      "support": [
+        2,
+        3,
+        6
+      ],
+      "support_normals": [
+        "1,1,1",
+        "-2/3,1/3,-2/3",
+        "1/3,-5/3,1/3"
+      ],
+      "weights": [
+        1,
+        2,
+        1
+      ]
+    },
+    {
+      "depth": 6,
+      "prefix": [
+        "xm",
+        "tmpp",
+        "yp",
+        "ym",
+        "zp",
+        "tmmp"
+      ],
+      "support": [
+        0,
+        2,
+        6
+      ],
+      "support_normals": [
+        "-1,0,0",
+        "1,1,1",
+        "5/3,-1/3,-1/3"
+      ],
+      "weights": [
+        6,
+        1,
+        3
+      ]
+    },
+    {
+      "depth": 6,
+      "prefix": [
+        "xm",
+        "tmpp",
+        "yp",
+        "ym",
+        "zp",
+        "tmpm"
+      ],
+      "support": [
+        2,
+        6
+      ],
+      "support_normals": [
+        "1,1,1",
+        "-1,-1,-1"
+      ],
+      "weights": [
+        1,
+        1
+      ]
+    },
+    {
+      "depth": 6,
+      "prefix": [
+        "xm",
+        "tmpp",
+        "yp",
+        "ym",
+        "zm",
+        "tmmm"
+      ],
+      "support": [
+        2,
+        3,
+        6
+      ],
+      "support_normals": [
+        "1,1,1",
+        "-2/3,1/3,-2/3",
+        "1/3,-5/3,1/3"
+      ],
+      "weights": [
+        1,
+        2,
+        1
+      ]
+    },
+    {
+      "depth": 6,
+      "prefix": [
+        "xm",
+        "tmpp",
+        "yp",
+        "ym",
+        "zm",
+        "tmmp"
+      ],
+      "support": [
+        0,
+        2,
+        6
+      ],
+      "support_normals": [
+        "-1,0,0",
+        "1,1,1",
+        "5/3,-1/3,-1/3"
+      ],
+      "weights": [
+        6,
+        1,
+        3
+      ]
+    },
+    {
+      "depth": 6,
+      "prefix": [
+        "xm",
+        "tmpp",
+        "yp",
+        "ym",
+        "zm",
+        "tmpm"
+      ],
+      "support": [
+        2,
+        6
+      ],
+      "support_normals": [
+        "1,1,1",
+        "-1,-1,-1"
+      ],
+      "weights": [
+        1,
+        1
+      ]
+    },
+    {
+      "depth": 5,
+      "prefix": [
+        "xm",
+        "tmpp",
+        "yp",
+        "ym",
+        "tmmm"
+      ],
+      "support": [
+        0,
+        2,
+        5
+      ],
+      "support_normals": [
+        "-1,0,0",
+        "1,1,1",
+        "5/3,-1/3,-1/3"
+      ],
+      "weights": [
+        6,
+        1,
+        3
+      ]
+    },
+    {
+      "depth": 5,
+      "prefix": [
+        "xm",
+        "tmpp",
+        "yp",
+        "ym",
+        "tmmp"
+      ],
+      "support": [
+        2,
+        3,
+        5
+      ],
+      "support_normals": [
+        "1,1,1",
+        "-2/3,1/3,-2/3",
+        "1/3,-5/3,1/3"
+      ],
+      "weights": [
+        1,
+        2,
+        1
+      ]
+    }
+  ],
+  "frontier_by_depth": {
+    "6": 504192
+  },
+  "frontier_fraction_of_signed_space": "202/495",
+  "frontier_nodes": 504192,
+  "frontier_signed_completions": 2541127680,
+  "full_survivors": 0,
+  "jobs": 8,
+  "killed_fraction_of_signed_space": "293/495",
+  "killed_signed_completions": 3685893120,
+  "max_depth": 6,
+  "max_support": 4,
+  "min_check_depth": 2,
+  "mode": "signed-prefix-empty-cone-profile",
+  "nodes": 802372,
+  "nodes_by_depth": {
+    "2": 156,
+    "3": 1672,
+    "4": 14840,
+    "5": 109224,
+    "6": 676480
+  },
+  "pruned_by_depth": {
+    "2": 4,
+    "3": 188,
+    "4": 2704,
+    "5": 24664,
+    "6": 172288
+  },
+  "pruned_nodes": 199848,
+  "split_depth": 2,
+  "support_sizes": {
+    "2": 31696,
+    "3": 85352,
+    "4": 82800
+  },
+  "top_cert_keys": [
+    [
+      "support=2|weights=1,1",
+      31696
+    ],
+    [
+      "support=3|weights=6,1,3",
+      17384
+    ],
+    [
+      "support=3|weights=3,1,6",
+      13608
+    ],
+    [
+      "support=3|weights=3,4,9",
+      7016
+    ],
+    [
+      "support=3|weights=3,2,3",
+      6904
+    ],
+    [
+      "support=3|weights=1,2,1",
+      6264
+    ],
+    [
+      "support=3|weights=2,1,1",
+      4492
+    ],
+    [
+      "support=3|weights=1,4,3",
+      3184
+    ],
+    [
+      "support=3|weights=12,11,9",
+      2816
+    ],
+    [
+      "support=3|weights=3,11,18",
+      2456
+    ],
+    [
+      "support=3|weights=1,1,2",
+      2304
+    ],
+    [
+      "support=4|weights=3,1,3,3",
+      1952
+    ],
+    [
+      "support=3|weights=2,1,3",
+      1920
+    ],
+    [
+      "support=3|weights=18,11,3",
+      1840
+    ],
+    [
+      "support=4|weights=1,1,1,1",
+      1704
+    ],
+    [
+      "support=3|weights=3,1,2",
+      1704
+    ],
+    [
+      "support=3|weights=6,5,9",
+      1544
+    ],
+    [
+      "support=3|weights=1,6,3",
+      1328
+    ],
+    [
+      "support=3|weights=30,13,27",
+      1280
+    ],
+    [
+      "support=4|weights=6,6,5,3",
+      1024
+    ],
+    [
+      "support=4|weights=6,1,6,3",
+      976
+    ],
+    [
+      "support=4|weights=6,12,7,9",
+      960
+    ],
+    [
+      "support=3|weights=4,1,3",
+      932
+    ],
+    [
+      "support=4|weights=12,6,7,9",
+      880
+    ],
+    [
+      "support=3|weights=33,10,27",
+      804
+    ],
+    [
+      "support=3|weights=1,2,3",
+      804
+    ],
+    [
+      "support=4|weights=6,1,2,3",
+      728
+    ],
+    [
+      "support=3|weights=3,2,1",
+      724
+    ],
+    [
+      "support=4|weights=3,1,1,3",
+      712
+    ],
+    [
+      "support=4|weights=6,4,1,3",
+      712
+    ]
+  ],
+  "total_signed_started_itineraries": 6227020800
+}

@@ -1083,6 +1083,26 @@ Residual family-gate profiler checkpoint:
   integer-normalized theorem surfaces before any broad residual Lean
   generation.
 
+Signed-prefix empty-cone profiler checkpoint:
+
+- Added `scripts/signed_prefix_empty_cone_profile.py`, an exact external
+  profiler for signed-state Gordan certificates over unfolded prefix normals.
+  It searches support sizes `2`, `3`, and `4`, clears denominators to integer
+  weights, and emits bounded JSON/Markdown diagnostics only.
+- Calibration runs:
+
+  | max depth | jobs | split depth | nodes | pruned | killed signed completions | killed fraction | elapsed | peak RSS |
+  | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+  | `4` | `1` | `0` | `16,682` | `2,896` | `1,823,109,120` | `628/2145` | `3.93s` | `19,200 KiB` |
+  | `5` | `4` | `1` | `125,905` | `27,560` | `2,817,561,600` | `1747/3861` | `17.17s` | `19,392 KiB` |
+  | `6` | `8` | `2` | `802,372` | `199,848` | `3,685,893,120` | `293/495` | `1:32.20` | `23,808 KiB` |
+
+- Decision: accepted as the active next nontranslation compression line, but
+  not yet as a production proof surface.  The depth-6 profiler is
+  memory-safe and prunes about `59%` of the signed itinerary space, which is
+  meaningful but insufficient by itself.  The next gate should add
+  frontier-state clustering and test depth `7`/`8` before any Lean emission.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
