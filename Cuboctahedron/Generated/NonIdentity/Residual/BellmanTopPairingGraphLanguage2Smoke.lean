@@ -25071,7 +25071,42 @@ private noncomputable def sampledAcceptedAxisRankObjectCoverEval :
       sampledAcceptedContainsRank sampledScaledMarginAtRank :=
   BellmanAxisRankObjectCover.ofExistsMembership
     sampledObjectForcedSeq
-    sampledAxisRankObjectCoverEval.trace_bound
+    (bellmanLabelStepRunLanguageBound_of_evalLabelStepFn
+      (V := graphPotential)
+      (Step := SampledSmokeStepEval)
+      (next := sampledSmokeNext)
+      (start := rootState)
+      (const := (176 : Int))
+      (scaledMargin := fun idx => sampledScaledMarginAtRank (sampledRankOf idx))
+      (wordOf := fun idx => faceLabelsInContributionOrder smokeLabelOfFace (sampledObjectForcedSeq idx))
+      (Accepts := sampledObjectAccepts)
+      (by
+        intro s label t gain h
+        exact SampledSmokeStepEval.sound h)
+      (by
+        intro idx _hAccept
+        cases idx
+        · refine ⟨(trieNode0014State, trieNode0014Gain), ?_, ?_, ?_⟩
+          · change evalLabelStepFn sampledSmokeNext rootState
+              (smokeLabelsOfSeq cls0000FaceSeq) =
+                some (trieNode0014State, trieNode0014Gain)
+            rw [cls0000FaceSeqLabels_eq]
+            exact trieNode0014Eval
+          · exact cls0000TrieFinal_nonneg
+          · unfold sampledRankOf sampledScaledMarginAtRank
+            simp
+            exact cls0000TrieMargin_bound_gain
+        · refine ⟨(trieNode0024State, trieNode0024Gain), ?_, ?_, ?_⟩
+          · change evalLabelStepFn sampledSmokeNext rootState
+              (smokeLabelsOfSeq cls0001FaceSeq) =
+                some (trieNode0024State, trieNode0024Gain)
+            rw [cls0001FaceSeqLabels_eq]
+            exact trieNode0024Eval
+          · exact cls0001TrieFinal_nonneg
+          · unfold sampledRankOf sampledScaledMarginAtRank
+            simp
+            exact cls0001TrieMargin_bound_gain
+      ))
     sampledAxisRankObjectCoverEval.step_valid
     sampledAxisRankObjectCoverEval.root_bound
 

@@ -597,6 +597,33 @@ def BellmanLabelStepRunLanguageBound
       /\ 0 <= V finish
       /\ scaledMargin obj <= const + gain
 
+theorem bellmanLabelStepRunLanguageBound_of_evalLabelStepFn
+    {State Label Obj : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {next : State -> Label -> Option (State × Int)}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Obj -> Int}
+    {wordOf : Obj -> List Label}
+    {Accepts : Obj -> Prop}
+    (hsound :
+      forall s label t gain,
+        next s label = some (t, gain) -> Step s label t gain)
+    (heval :
+      forall obj, Accepts obj -> exists result : State × Int,
+        evalLabelStepFn next start (wordOf obj) = some result /\
+          0 <= V result.1 /\
+          scaledMargin obj <= const + result.2) :
+    BellmanLabelStepRunLanguageBound
+      V Step start const scaledMargin wordOf Accepts := by
+  intro obj hobj
+  rcases heval obj hobj with ⟨result, hrunEval, hfinish, hmargin⟩
+  exact ⟨result.1, result.2,
+    bellmanLabelStepRun_of_evalLabelStepFn hsound hrunEval,
+    hfinish,
+    hmargin⟩
+
 theorem scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound
     {State Label Obj : Type}
     {V : State -> Int}

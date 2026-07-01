@@ -49912,3 +49912,53 @@ rank satisfies semantic accepted-object language
   -> private Bellman object cover proves scaledMargin <= 0
   -> terminal start-violation payload proves NonIdentityRankKilled
 ```
+
+### Holonomy/Bellman Pivot - evaluator-derived accepted-object trace bound
+
+Added a reusable Bellman core theorem:
+
+```lean
+theorem bellmanLabelStepRunLanguageBound_of_evalLabelStepFn
+```
+
+in `Cuboctahedron.Search.BellmanPotential`.  It turns a deterministic
+`evalLabelStepFn` result plus final-potential and margin facts into a
+`BellmanLabelStepRunLanguageBound`.
+
+Why this matters for production:
+
+- A closed Bellman object-language predicate can carry evaluator success and
+  margin facts.
+- Generated shards no longer need to construct explicit
+  `BellmanLabelStepRun.cons` proof trees or case-by-case trace-bound records
+  for every accepted object.
+- This keeps the proof surface semantic: accepted object -> evaluator accepts
+  its label word -> Bellman nonpositivity.
+
+The graph smoke now uses this theorem for the accepted-object cover:
+
+```lean
+sampledAcceptedAxisRankObjectCoverEval
+```
+
+is built from `BellmanAxisRankObjectCover.ofExistsMembership` and
+`bellmanLabelStepRunLanguageBound_of_evalLabelStepFn`, not by reusing a
+prebuilt trace-bound record.
+
+Focused checks:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanPotential` | `0:04.91` | `3,354,612 kB` | passed |
+| `BellmanTopPairingGraphLanguage2AllSmoke` evaluator route | `1:13.69` | `7,652,480 kB` | passed |
+
+The split-boundary audit still passes:
+
+```json
+{"graph_lines": 24430, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 743, "terminal_positive_payloads": 2}
+```
+
+Decision: accepted.  The next Bellman slice should define a generated
+closed-language object whose `Accepts` proof supplies this evaluator/margin
+package directly from the target-pairing, local-axis, and canonical-bad-face
+state invariants.

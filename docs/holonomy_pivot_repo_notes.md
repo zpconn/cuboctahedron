@@ -2003,3 +2003,27 @@ Terminal/root accepted-object threading:
 This means the split smoke now exposes the production-shaped theorem surface
 all the way through the root: accepted Bellman object membership implies
 semantic `NonIdentityRankKilled`.
+
+Evaluator-derived accepted-object trace bound:
+
+- Added `bellmanLabelStepRunLanguageBound_of_evalLabelStepFn` to
+  `Cuboctahedron.Search.BellmanPotential`.
+- The accepted-object graph smoke now builds
+  `sampledAcceptedAxisRankObjectCoverEval` using that theorem plus
+  `BellmanAxisRankObjectCover.ofExistsMembership`.
+- This is the production-facing shape for a closed Bellman language:
+  `Accepts obj` should provide deterministic evaluator success, final
+  nonnegative potential, and the object margin bound.
+- Focused builds:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `Cuboctahedron.Search.BellmanPotential` | `0:04.91` | `3,354,612 kB` |
+  | `BellmanTopPairingGraphLanguage2AllSmoke` | `1:13.69` | `7,652,480 kB` |
+
+- Split-boundary audit remains passed: graph positive payloads `0`, terminal
+  positive payloads `2`.
+
+Next Bellman slice: generate a real closed-language object whose `Accepts`
+predicate is built from target-pairing/local-axis/canonical-bad-face invariants
+and feeds the evaluator theorem directly.
