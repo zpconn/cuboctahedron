@@ -330,6 +330,54 @@ Track 1 gates are now triangular cancellation/product preservation, the
 mod-3 proof that nonempty reduced triangular shadows are nonidentity, and the
 final identity classifier theorem.
 
+Lean triangular product checkpoint:
+
+- Added `Cuboctahedron/Search/ShadowNormalFormTriangular.lean`.
+- It defines the projective triangular linear product:
+
+  ```lean
+  def triLinear (t : TriLetter) : Mat3 Rat
+  def triProduct : List TriLetter -> Mat3 Rat
+  def triProductRevStack : List TriLetter -> Mat3 Rat
+  ```
+
+- It proves:
+
+  ```lean
+  theorem triLinear_mul_self (t : TriLetter) :
+      matMul (triLinear t) (triLinear t) = (matId : Mat3 Rat)
+
+  theorem triProduct_append (xs ys : List TriLetter) :
+      triProduct (xs ++ ys) = matMul (triProduct xs) (triProduct ys)
+
+  theorem triProductRevStack_eq_triProduct_reverse
+      (stack : List TriLetter) :
+      triProductRevStack stack = triProduct stack.reverse
+
+  theorem triProductRevStack_pushReduced
+      (t : TriLetter) (stack : List TriLetter) :
+      triProductRevStack (ShadowState.pushReduced t stack) =
+        matMul (triProductRevStack stack) (triLinear t)
+  ```
+
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalFormTriangular
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalFormTriangular (6.1s)
+  Build completed successfully
+  ```
+
+Accepted: the adjacent-cancellation/product-preservation core is Lean-checked.
+Remaining Track 1 gates are now the full scanner-to-triangular-product bridge,
+the mod-3 proof that nonempty reduced triangular products are nonidentity, and
+the final identity classifier theorem.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

@@ -337,3 +337,54 @@ the identity parity.  The remaining Track 1 proof gates are now:
    product, using the planned mod-3 scaled-integer argument;
 3. the final Lean identity classifier theorem connecting
    `totalLinearOfPairWord w = matId` with `reducedShadowOfPairWord w = []`.
+
+## Triangular Product Checkpoint
+
+The first triangular algebra layer is now Lean-checked in:
+
+- `Cuboctahedron/Search/ShadowNormalFormTriangular.lean`
+
+It defines:
+
+```lean
+def triLinear (t : TriLetter) : Mat3 Rat
+def triProduct : List TriLetter -> Mat3 Rat
+def triProductRevStack : List TriLetter -> Mat3 Rat
+```
+
+and proves the local algebra needed by stack cancellation:
+
+```lean
+theorem triLinear_mul_self (t : TriLetter) :
+    matMul (triLinear t) (triLinear t) = (matId : Mat3 Rat)
+
+theorem triProduct_append (xs ys : List TriLetter) :
+    triProduct (xs ++ ys) = matMul (triProduct xs) (triProduct ys)
+
+theorem triProductRevStack_eq_triProduct_reverse
+    (stack : List TriLetter) :
+    triProductRevStack stack = triProduct stack.reverse
+
+theorem triProductRevStack_pushReduced
+    (t : TriLetter) (stack : List TriLetter) :
+    triProductRevStack (ShadowState.pushReduced t stack) =
+      matMul (triProductRevStack stack) (triLinear t)
+```
+
+Focused build:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalFormTriangular
+```
+
+Result:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalFormTriangular (6.1s)
+Build completed successfully
+```
+
+Accepted: the adjacent-cancellation/product-preservation core is in place.
+The remaining triangular work is to connect this local stack lemma to the full
+scanner's acted triangular shadow and then prove the mod-3 theorem that a
+nonempty reduced triangular product is never the identity.
