@@ -50218,3 +50218,74 @@ Decision: accepted.  The immediate generator target for the split route is now
 clearer: terminal shards should emit `BellmanNonposStartViolationObject`
 membership, not combined eval/start objects that would force graph internals
 across module boundaries.
+
+### Holonomy/Bellman Pivot - split terminal now uses state-erased objects
+
+Implemented the split-route generator target above.  The terminal shard now
+constructs the preferred state-erased object:
+
+```lean
+private theorem terminalNonposStartViolationObjectExists
+    {rank : Fin numPairWords} (hrank : terminalContainsRank rank) :
+    exists obj :
+      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.BellmanNonposStartViolationObject
+        sampledScaledMarginAtRank,
+      True /\ obj.rank = rank
+```
+
+and closes the sampled killed theorem through the split-friendly bridge:
+
+```lean
+theorem graphSmoke_sampled_axis_rank_killed
+    {rank : Fin numPairWords} (hrank : terminalContainsRank rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_nonpos_start_violation_objects
+    (scaledMargin := sampledScaledMarginAtRank)
+    (terminalNonposStartViolationObjectExists hrank)
+```
+
+This is the concrete response to the GPT5.5 Pro recommendation to stop adding
+certificate-packing layers for the nonidentity margin problem.  The generated
+proof surface is now:
+
+```text
+rank membership in the terminal language
+  -> graph-exported scaledMargin rank <= 0
+  -> terminal-local start-violation certificate
+  -> BellmanNonposStartViolationObject
+  -> NonIdentityRankKilled rank
+```
+
+The graph shard still owns the private Bellman automaton/evaluator/potential
+and exports only object-level nonpositivity.  The terminal shard owns the local
+start-interior contradiction.  No private graph state leaks across the module
+boundary, and no ordinary `NonIdCert` or exact affine-RHS certificate is
+replayed.
+
+Focused checks:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean` | `0:55.43` | `7,629,792 kB` | passed |
+| `lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke` | `0:00.93` | `844,172 kB` | passed from cache/replay |
+| split-boundary audit | n/a | n/a | passed |
+
+The updated split-boundary audit is:
+
+```json
+{"graph_lines": 24423, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 759, "terminal_positive_payloads": 2}
+```
+
+Decision: accepted.  The active nonidentity residual strategy is now:
+
+1. use finite-horizon Bellman/potential certificates as the primary proof of
+   the margin bound `c + l . b_w <= 0` over semantic holonomy/cancellation
+   languages;
+2. keep affine-cocycle gauge normalization and cancellation-summary DAGs as
+   shrinkers only if larger Bellman windows show state/edge growth toward the
+   gates;
+3. make future production shards prove semantic rank-to-object membership for
+   `BellmanNonposStartViolationObject`, rather than returning checked
+   certificate values or exact path classes;
+4. postpone `StateKilled`/root assembly until these terminal family theorems
+   are real and measured.

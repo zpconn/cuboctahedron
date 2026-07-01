@@ -2169,3 +2169,48 @@ State-erased split object surface:
 Next split-route generator target: terminal shards should construct
 `BellmanNonposStartViolationObject` membership from graph-exported
 nonpositivity theorems and terminal-local start-violation certificates.
+
+Split terminal object route accepted:
+
+- Updated `scripts/emit_bellman_graph_smoke.py` and the generated split
+  terminal smoke so the terminal shard now constructs
+  `BellmanNonposStartViolationObject`s directly.
+- The generated theorem is:
+
+  ```lean
+  terminalNonposStartViolationObjectExists
+  ```
+
+  and the sampled killed theorem now uses:
+
+  ```lean
+  nonIdentityRankKilled_of_nonpos_start_violation_objects
+  ```
+
+- This realizes the GPT5.5 Bellman/potential pivot in the split architecture:
+  the graph shard keeps the Bellman automaton, evaluator, states, labels, and
+  potential private, while the terminal shard receives only exported
+  nonpositivity and combines it with local start-interior violation evidence.
+- Focused checks:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean` | `0:55.43` | `7,629,792 kB` |
+  | `lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke` | `0:00.93` | `844,172 kB` |
+
+- Split-boundary audit after the change:
+
+  ```json
+  {"graph_lines": 24423, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 759, "terminal_positive_payloads": 2}
+  ```
+
+Current GPT5.5 pivot priority:
+
+1. Treat nonidentity residual margin bounds as finite-horizon
+   Bellman/potential certificates over holonomy/cancellation languages.
+2. Make production shards prove semantic rank-to-object membership for
+   `BellmanNonposStartViolationObject`.
+3. Use affine-cocycle gauge normalization and cancellation-summary DAGs only
+   when Bellman state/edge growth requires shrinkers.
+4. Do not return to ordinary checked `NonIdCert` packing or exact affine-RHS
+   keys for the final nonidentity residual route.
