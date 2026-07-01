@@ -2,6 +2,8 @@
 
 Input: `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_tri_source_graph.json`
 
+Schedule mode: `none`
+
 Decision: `target-pairing-language-not-closed`
 
 The target pairing alone is still not enough; inspect missing and illegal transitions to identify the next state component.

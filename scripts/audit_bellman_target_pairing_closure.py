@@ -228,6 +228,8 @@ def legal_next_faces_for_target(
     cancellations: tuple[tuple[int, int, str], ...],
     shadow_len: int,
     target_pairing: str,
+    allowed_faces_by_step: tuple[frozenset[str], ...] | None = None,
+    allowed_square_faces_by_gap: tuple[frozenset[str], ...] | None = None,
 ) -> set[str]:
     target_cancellations, target_stack = parse_target_pairing(target_pairing)
 
@@ -253,6 +255,16 @@ def legal_next_faces_for_target(
         for idx, count in enumerate(counts0):
             if count <= 0:
                 continue
+            face = FACE_ORDER[idx]
+            if allowed_faces_by_step is not None and face not in allowed_faces_by_step[step0]:
+                continue
+            pair_id, _positive = FACE_TO_PAIR_SIGN[face]
+            if (
+                allowed_square_faces_by_gap is not None
+                and pair_id in SQUARE_TOGGLES
+                and face not in allowed_square_faces_by_gap[shadow_len0]
+            ):
+                continue
             nxt = advance(
                 counts=counts0,
                 step=step0,
@@ -260,7 +272,7 @@ def legal_next_faces_for_target(
                 stack=stack0,
                 cancellations=cancellations0,
                 shadow_len=shadow_len0,
-                face=FACE_ORDER[idx],
+                face=face,
             )
             if can_complete(*nxt):
                 return True
@@ -271,6 +283,15 @@ def legal_next_faces_for_target(
         if count <= 0:
             continue
         face = FACE_ORDER[idx]
+        if allowed_faces_by_step is not None and face not in allowed_faces_by_step[step]:
+            continue
+        pair_id, _positive = FACE_TO_PAIR_SIGN[face]
+        if (
+            allowed_square_faces_by_gap is not None
+            and pair_id in SQUARE_TOGGLES
+            and face not in allowed_square_faces_by_gap[shadow_len]
+        ):
+            continue
         nxt = advance(
             counts=counts,
             step=step,
@@ -285,12 +306,47 @@ def legal_next_faces_for_target(
     return out
 
 
-def audit(input_path: Path, target: str) -> dict[str, Any]:
+def observed_allowed_faces_by_step(graph: dict[str, Any]) -> tuple[frozenset[str], ...]:
+    labels = {int(row["index"]): str(row["key"]) for row in graph["labels"]}
+    buckets: list[set[str]] = [set() for _ in range(14)]
+    for obj in graph.get("path_objects", []):
+        for step, label_idx in enumerate(obj.get("label_indices", [])):
+            if step < len(buckets):
+                buckets[step].add(face_from_label(labels[int(label_idx)]))
+    return tuple(frozenset(bucket) for bucket in buckets)
+
+
+def observed_allowed_square_faces_by_gap(graph: dict[str, Any]) -> tuple[frozenset[str], ...]:
+    labels = {int(row["index"]): str(row["key"]) for row in graph["labels"]}
+    buckets: list[set[str]] = [set() for _ in range(9)]
+    for obj in graph.get("path_objects", []):
+        tri_count = 0
+        for label_idx in obj.get("label_indices", []):
+            face = face_from_label(labels[int(label_idx)])
+            pair_id, _positive = FACE_TO_PAIR_SIGN[face]
+            if pair_id in SQUARE_TOGGLES:
+                buckets[tri_count].add(face)
+            else:
+                tri_count += 1
+    return tuple(frozenset(bucket) for bucket in buckets)
+
+
+def audit(input_path: Path, target: str, schedule_mode: str) -> dict[str, Any]:
     data = json.loads(input_path.read_text())
     graph = data["graph"]
     target_pairing = target_pairing_from_key(target)
     labels = {int(row["index"]): str(row["key"]) for row in graph["labels"]}
     states = {int(row["index"]): str(row["key"]) for row in graph["states"]}
+    allowed_faces_by_step = (
+        observed_allowed_faces_by_step(graph)
+        if schedule_mode in ("observed", "observed+square-gap")
+        else None
+    )
+    allowed_square_faces_by_gap = (
+        observed_allowed_square_faces_by_gap(graph)
+        if schedule_mode in ("observed-square-gap", "observed+square-gap")
+        else None
+    )
 
     outgoing_faces: dict[int, set[str]] = {}
     for edge in graph["edges"]:
@@ -324,6 +380,8 @@ def audit(input_path: Path, target: str) -> dict[str, Any]:
             cancellations=cancellations,
             shadow_len=shadow_len,
             target_pairing=target_pairing,
+            allowed_faces_by_step=allowed_faces_by_step,
+            allowed_square_faces_by_gap=allowed_square_faces_by_gap,
         )
         observed = outgoing_faces.get(state_idx, set())
         missing = sorted(legal_faces - observed)
@@ -360,6 +418,13 @@ def audit(input_path: Path, target: str) -> dict[str, Any]:
     return {
         "input": str(input_path),
         "target_pairing": target_pairing,
+        "schedule_mode": schedule_mode,
+        "allowed_faces_by_step": [
+            sorted(bucket) for bucket in allowed_faces_by_step
+        ] if allowed_faces_by_step is not None else None,
+        "allowed_square_faces_by_gap": [
+            sorted(bucket) for bucket in allowed_square_faces_by_gap
+        ] if allowed_square_faces_by_gap is not None else None,
         "state_count": len(states),
         "edge_count": len(graph["edges"]),
         "states_with_face_counts": states_with_face_counts,
@@ -391,6 +456,8 @@ def write_markdown(payload: dict[str, Any], output_path: Path) -> None:
     lines.append("")
     lines.append(f"Input: `{payload['input']}`")
     lines.append("")
+    lines.append(f"Schedule mode: `{payload['schedule_mode']}`")
+    lines.append("")
     lines.append(f"Decision: `{payload['decision']}`")
     lines.append("")
     lines.append(payload["recommendation"])
@@ -421,6 +488,22 @@ def write_markdown(payload: dict[str, Any], output_path: Path) -> None:
                 f"`{row['observed_count']}` | `{row['missing_faces'][:8]}` | "
                 f"`{row['illegal_faces'][:8]}` |"
             )
+    if payload["allowed_faces_by_step"] is not None:
+        lines.append("")
+        lines.append("## Allowed Faces By Step")
+        lines.append("")
+        lines.append("| Step | Faces |")
+        lines.append("| ---: | --- |")
+        for idx, faces in enumerate(payload["allowed_faces_by_step"]):
+            lines.append(f"| `{idx}` | `{faces}` |")
+    if payload["allowed_square_faces_by_gap"] is not None:
+        lines.append("")
+        lines.append("## Allowed Square Faces By Triangular Gap")
+        lines.append("")
+        lines.append("| Gap | Faces |")
+        lines.append("| ---: | --- |")
+        for idx, faces in enumerate(payload["allowed_square_faces_by_gap"]):
+            lines.append(f"| `{idx}` | `{faces}` |")
     lines.append("")
     output_path.write_text("\n".join(lines))
 
@@ -429,11 +512,17 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=Path, required=True)
     parser.add_argument("--target", default=TOP_PAIRING)
+    parser.add_argument(
+        "--schedule-mode",
+        choices=["none", "observed", "observed-square-gap", "observed+square-gap"],
+        default="none",
+        help="Optional source-position schedule restriction for diagnostic closure.",
+    )
     parser.add_argument("--json", type=Path)
     parser.add_argument("--markdown", "--md", type=Path)
     args = parser.parse_args()
 
-    payload = audit(args.input, args.target)
+    payload = audit(args.input, args.target, args.schedule_mode)
     if args.json:
         args.json.parent.mkdir(parents=True, exist_ok=True)
         args.json.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")

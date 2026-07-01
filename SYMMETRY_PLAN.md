@@ -47730,3 +47730,58 @@ transitions.  A quick observed-path check found `37` distinct square-parity
 paths for `37` paths in the 1M graph, so exact square-parity path is likely too
 fine; the next profiler should look for a coarser source-position constraint
 between bare cancellation pairing and exact square-parity path.
+
+### Holonomy/Bellman Pivot - source-position schedule audit
+
+The target-pairing closure audit was extended with diagnostic schedule modes:
+
+- `observed`: allowed signed faces by contribution position, derived from the
+  observed paths in the graph;
+- `observed-square-gap`: allowed square faces by triangular-shadow gap;
+- `observed+square-gap`: both restrictions.
+
+These modes are diagnostics only because the allowed sets are learned from the
+current graph; a production proof would need a Lean-checked semantic reason for
+the schedule.
+
+Commands:
+
+```bash
+/usr/bin/time -v python3 scripts/audit_bellman_target_pairing_closure.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_tri_source_graph.json \
+  --schedule-mode observed \
+  --json scripts/generated/bellman_target_pairing_observed_schedule_closure_1M_step_face_tri_source.json \
+  --md scripts/generated/bellman_target_pairing_observed_schedule_closure_1M_step_face_tri_source.md
+
+/usr/bin/time -v python3 scripts/audit_bellman_target_pairing_closure.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_tri_source_graph.json \
+  --schedule-mode observed-square-gap \
+  --json scripts/generated/bellman_target_pairing_square_gap_closure_1M_step_face_tri_source.json \
+  --md scripts/generated/bellman_target_pairing_square_gap_closure_1M_step_face_tri_source.md
+
+/usr/bin/time -v python3 scripts/audit_bellman_target_pairing_closure.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_tri_source_graph.json \
+  --schedule-mode observed+square-gap \
+  --json scripts/generated/bellman_target_pairing_observed_step_square_gap_closure_1M_step_face_tri_source.json \
+  --md scripts/generated/bellman_target_pairing_observed_step_square_gap_closure_1M_step_face_tri_source.md
+```
+
+Results:
+
+| schedule | legal transitions | observed transitions | extra transitions | illegal observed | max RSS |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| none | `420` | `229` | `191` | `0` | `573,504 kB` |
+| observed square gap | `326` | `229` | `97` | `0` | `50,376 kB` |
+| observed position | `245` | `229` | `16` | `0` | `31,256 kB` |
+| observed position + square gap | `244` | `229` | `15` | `0` | `29,648 kB` |
+
+Decision: source-position scheduling explains most of the target-pairing
+over-approximation, but not all of it.  Since exact square-gap schedules and
+exact square-parity paths are singleton on the current observed graph, the
+next candidate should not be another exact schedule key.  The next useful
+proof surface is a generated finite-state language theorem over the Bellman
+graph itself: prove that the chosen semantic family predicate steps only along
+the graph's finite `Step` relation, then use the already accepted
+`BellmanAxisRankFamily` margin theorem.  The remaining challenge is to define
+that semantic family predicate without exact affine data and without per-rank
+membership.

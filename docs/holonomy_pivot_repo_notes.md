@@ -989,3 +989,13 @@ Bellman coarsening/closure notes:
 - Decision: target cancellation pairing is necessary but not sufficient.  The
   next language coordinate needs a coarser source-position/square-schedule
   restriction between bare cancellation pairing and exact square-parity path.
+- Schedule-mode diagnostics were added to
+  `scripts/audit_bellman_target_pairing_closure.py`.  On the 1M signed-face
+  graph, target pairing plus observed position schedule reduced extra
+  transitions from `191` to `16`; adding observed square-gap constraints
+  reduced them to `15`.  No observed transition was rejected.  This is a
+  strong diagnostic that source-position constraints matter, but it is not a
+  closed production language.
+- Decision: the next proof surface should treat the generated Bellman graph
+  itself as the finite language automaton and prove semantic family membership
+  steps through that graph, instead of searching for another exact schedule key.

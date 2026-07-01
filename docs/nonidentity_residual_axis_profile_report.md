@@ -2242,3 +2242,21 @@ accepts every observed transition, but it is still too broad.  The next
 membership profiler should add a coarser source-position or square-schedule
 constraint; exact square-parity paths appear too fine in the 1M graph (`37`
 distinct paths for `37` observed paths).
+
+## Source-Position Schedule Closure Audit
+
+`scripts/audit_bellman_target_pairing_closure.py` now supports schedule modes
+on top of the target cancellation-pairing language.
+
+| schedule | legal transitions | observed transitions | extra transitions | illegal observed | max RSS |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| none | `420` | `229` | `191` | `0` | `573,504 kB` |
+| observed square gap | `326` | `229` | `97` | `0` | `50,376 kB` |
+| observed position | `245` | `229` | `16` | `0` | `31,256 kB` |
+| observed position + square gap | `244` | `229` | `15` | `0` | `29,648 kB` |
+
+Decision: source-position schedule is highly explanatory but still not a
+closed language.  The next Bellman membership route should use the generated
+finite graph `Step` relation as the language automaton and prove that the
+semantic family predicate steps along it, rather than trying to find one more
+ad hoc exact schedule key.

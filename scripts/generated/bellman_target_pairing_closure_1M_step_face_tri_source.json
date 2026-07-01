@@ -1,8 +1,10 @@
 {
+  "allowed_faces_by_step": null,
   "decision": "target-pairing-language-not-closed",
   "edge_count": 229,
   "input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_tri_source_graph.json",
   "recommendation": "The target pairing alone is still not enough; inspect missing and illegal transitions to identify the next state component.",
+  "schedule_mode": "none",
   "state_count": 223,
   "states_with_face_counts": 223,
   "states_with_illegal_transitions": 0,
