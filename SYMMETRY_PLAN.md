@@ -55576,3 +55576,69 @@ Refreshed accounting:
 Decision: accepted as the thirty-sixth checked split path under the strict
 post-crash guard.  The sampled split Bellman checks remain below the
 `4500 MiB` process-tree RSS cap.
+
+### Holonomy/Bellman Pivot - thirty-seventh split path accepted
+
+Ran the final remaining serial guarded proof-bearing check in the current
+`[0,37)` sample plan: path object index `36`, rank `947627`.  The run used the
+same strict post-crash guard and did not use batch execution or parallel Lean.
+
+Commands run:
+
+```bash
+git status --short --branch
+free -m
+
+python3 scripts/run_bellman_split_smoke_path.py 36 \
+  --check \
+  --check-stage missing \
+  --dry-run \
+  --json scripts/generated/bellman_split_path_36_missing_dry_run.json
+
+python3 scripts/run_bellman_split_smoke_path.py 36 \
+  --check \
+  --check-stage missing \
+  --json scripts/generated/bellman_split_path_36_missing_run.json
+
+python3 scripts/plan_bellman_split_batch_guard.py \
+  --start-index 0 \
+  --count 16 \
+  --require-fresh-artifacts \
+  --require-checked-summaries \
+  --json scripts/generated/bellman_split_batch_guard_000_016.json \
+  --markdown docs/bellman_split_batch_guard_000_016.md
+
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+
+python3 scripts/plan_bellman_split_smokes.py \
+  --count 37 \
+  --json scripts/generated/bellman_split_smoke_batch_plan_000_037.json \
+  --markdown docs/bellman_split_smoke_batch_plan_000_037.md
+```
+
+Proof-bearing results for path object index `36`:
+
+| component | elapsed | peak tree RSS | hard-AS cap | min available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `generated-trace-36 --emit-olean` | `6.60s` | `4039 MiB` | `6144 MiB` | `46205 MiB` | passed |
+| `split-composition-36 --emit-olean` | `2.00s` | `3965 MiB` | `6144 MiB` | `46299 MiB` | passed |
+
+Refreshed accounting:
+
+- strict `[0,16)` batch guard remains `accepted-dry-run`, with `0` blocked
+  entries and `0` total blockers;
+- `[0,37)` source/artifact plan reports `0` over budget, `37` fresh trace
+  artifacts, `37` fresh split artifacts, `1184 KiB` total trace source, and
+  `74 KiB` total split source;
+- the dry-run single-path selector reports `no-candidate` for `[0,37)`, meaning
+  every planned path has fresh trace and split artifacts.
+
+Decision: accepted as the thirty-seventh checked split path under the strict
+post-crash guard.  This completes the current `[0,37)` split Bellman smoke set
+as checked sampled evidence.  It remains sampled evidence only, not a final
+exhaustive coverage proof.
