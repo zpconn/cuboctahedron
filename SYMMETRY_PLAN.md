@@ -659,6 +659,54 @@ next step is theorem assembly: combine the valid-count parity theorem,
 product decomposition, reduced-shadow product preservation, and triangular
 nonidentity theorem into the final identity classifier.
 
+Lean identity classifier checkpoint:
+
+- Added `Cuboctahedron/Search/ShadowNormalFormClassifier.lean`.
+- It proves:
+
+  ```lean
+  theorem totalLinearOfPairWord_eq_triProduct_reducedShadow_of_valid
+      {w : PairWord} (hvalid : ValidPairWord w) :
+      totalLinearOfPairWord w =
+        triProduct (reducedShadowOfPairWord w)
+
+  theorem totalLinearOfPairWord_ne_identity_of_reducedShadow_nonempty
+      {w : PairWord} (hvalid : ValidPairWord w)
+      (hne : reducedShadowOfPairWord w ≠ []) :
+      totalLinearOfPairWord w ≠ (matId : Mat3 Rat)
+
+  theorem totalLinearOfPairWord_eq_identity_iff_reducedShadow_empty_of_valid
+      {w : PairWord} (hvalid : ValidPairWord w) :
+      totalLinearOfPairWord w = (matId : Mat3 Rat) ↔
+        reducedShadowOfPairWord w = []
+  ```
+
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalFormClassifier
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalFormClassifier (1.4s)
+  Build completed successfully
+  ```
+
+Accepted: Track 1 is complete at the theorem level.  The branch split no
+longer needs generated rank evidence:
+
+```text
+translation linear part  <->  empty reduced triangular shadow
+nontranslation linear part <-> nonempty reduced triangular shadow
+```
+
+Next active phase: exact forced-axis sign filtering for the nontranslation
+side, with external profiling grouped by reduced shadow / primitive axis /
+forced signed-lift signatures.  Do not proceed to translation row mining until
+this nontranslation profile reports kill and survivor counts.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

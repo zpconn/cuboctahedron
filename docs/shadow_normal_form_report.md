@@ -688,3 +688,55 @@ ValidPairWord w ->
   (totalLinearOfPairWord w = (matId : Mat3 Rat) <->
     reducedShadowOfPairWord w = [])
 ```
+
+## Identity Classifier Checkpoint
+
+The Track 1 classifier theorem is now Lean-checked in:
+
+- `Cuboctahedron/Search/ShadowNormalFormClassifier.lean`
+
+The module assembles the valid-count parity theorem, product decomposition,
+reduced-shadow product preservation, and triangular nonidentity theorem.  It
+proves:
+
+```lean
+theorem totalLinearOfPairWord_eq_triProduct_reducedShadow_of_valid
+    {w : PairWord} (hvalid : ValidPairWord w) :
+    totalLinearOfPairWord w =
+      triProduct (reducedShadowOfPairWord w)
+
+theorem totalLinearOfPairWord_ne_identity_of_reducedShadow_nonempty
+    {w : PairWord} (hvalid : ValidPairWord w)
+    (hne : reducedShadowOfPairWord w ≠ []) :
+    totalLinearOfPairWord w ≠ (matId : Mat3 Rat)
+
+theorem totalLinearOfPairWord_eq_identity_iff_reducedShadow_empty_of_valid
+    {w : PairWord} (hvalid : ValidPairWord w) :
+    totalLinearOfPairWord w = (matId : Mat3 Rat) ↔
+      reducedShadowOfPairWord w = []
+```
+
+Focused build:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalFormClassifier
+```
+
+Result:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalFormClassifier (1.4s)
+Build completed successfully
+```
+
+Accepted: Track 1 is complete at the theorem level.  The untrusted full
+external scan is now backed by a Lean proof of the same classifier for every
+valid pair word, with no generated rank evidence and no enumeration loop in
+Lean.
+
+Next proof-strategy phase: use this classifier as the semantic branch split.
+Translation words are exactly valid pair words with empty reduced shadow;
+nontranslation words are exactly valid pair words with nonempty reduced
+shadow.  The next profiler/proof target is the exact forced-axis sign filter
+on the nontranslation side, organized by reduced shadow / primitive axis
+signatures rather than raw ranks.
