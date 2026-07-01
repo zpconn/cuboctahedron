@@ -2802,3 +2802,44 @@ Strict Bellman smoke wrapper:
     `--max-tree-rss-mib 7000 exceeds 6000`.
 - Decision: accepted as the mandatory route for the next Bellman generated
   smokes unless an equally strict allowlisted runner is introduced.
+
+Graph-input trace emitter:
+
+- Extended `scripts/emit_bellman_closed_language_trace_smoke.py` so it can read
+  a cached Bellman graph JSON and select a path object's `label_indices`.
+- The script maps those indices through graph labels of the form
+  `face=...|pair=...`, validates the resulting 14-face contribution list
+  against the top-pairing schedule and square-gap tables, and emits the same
+  constructor-chain trace shard.
+- Cached graph input:
+
+  ```text
+  scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json
+  ```
+
+- Selected path object metadata now recorded in
+  `scripts/generated/bellman_closed_language_generated_trace_smoke.json`:
+
+  ```text
+  path_object_index = 0
+  rank = 517
+  label_indices = [8, 10, 11, 12, 13, 0, 4, 6, 5, 2, 7, 3, 1, 9]
+  edge_indices = [0, 124, 125, 128, 135, 145, 158, 173, 190, 210, 6, 45, 80, 123]
+  final = 141
+  margin_scaled = -376
+  ```
+
+- The generated Lean shard was byte-identical to the previous generated trace
+  file; only the generator and report changed.
+- Strict wrapper smoke:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_graph_input_6g.json
+  ```
+
+- Result: passed in `1.50s`, with `821 MiB` peak process-tree RSS and
+  `46543 MiB` minimum available memory.
+- Decision: accepted.  This is now a graph-object-driven generated trace smoke,
+  but the local-axis matrix/dot facts are still theorem parameters.  The next
+  generator step is to emit or import those facts for the selected object.

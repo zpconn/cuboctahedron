@@ -51254,3 +51254,78 @@ post-crash `6000 MiB` cap, and the next Bellman generated-language checks must
 go through this wrapper or an equally strict allowlisted runner.  This does not
 prove scalability yet; it only makes the immediate next smokes much harder to
 run accidentally as broad or high-memory builds.
+
+### Holonomy/Bellman Pivot - graph-input trace emitter accepted
+
+Extended:
+
+```text
+scripts/emit_bellman_closed_language_trace_smoke.py
+```
+
+The emitter can now read a cached Bellman graph JSON and select a path object
+instead of relying only on the built-in face list.  The generator extracts the
+path object's `label_indices`, maps them through the graph's `face=...` label
+keys, validates the resulting 14-face contribution list against the
+top-pairing schedule and square-gap tables, and emits the same proof-carrying
+trace shard.
+
+This is still untrusted generation: the JSON only selects the candidate trace.
+Lean still checks the schedule, square-gap, local-axis trace theorem surface,
+and positive-template bridge.
+
+Graph input used:
+
+```text
+scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json
+```
+
+Selected path object:
+
+```text
+path_object_index = 0
+rank = 517
+label_indices = [8, 10, 11, 12, 13, 0, 4, 6, 5, 2, 7, 3, 1, 9]
+edge_indices = [0, 124, 125, 128, 135, 145, 158, 173, 190, 210, 6, 45, 80, 123]
+final = 141
+margin_scaled = -376
+```
+
+The graph-selected face list is:
+
+```text
+[xm, ym, yp, zm, zp, tmmm, tpmm, tppm, tpmp, tmpm, tppp, tmpp, tmmp, xp]
+```
+
+which is byte-identical to the previous hand-seeded generated Lean shard.  The
+committed JSON report now records the graph input and selected object metadata.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_closed_language_trace_smoke.py
+
+python3 scripts/emit_bellman_closed_language_trace_smoke.py \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke \
+  --name generated \
+  --graph-json scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --path-object-index 0 \
+  --report scripts/generated/bellman_closed_language_generated_trace_smoke.json
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_graph_input_6g.json
+```
+
+Results:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| Python compile | - | - | - | passed |
+| graph-input emitter run | - | - | - | passed |
+| strict wrapper generated-trace smoke | `1.50s` | `821 MiB` | `46543 MiB` | passed |
+
+Decision: accepted as a real step toward sampled Bellman-object input.  The
+next gap is to emit or import the per-step matrix/dot facts for the selected
+object, instead of leaving `generatedLocalAxisTraceOfGeneratedStates`
+parameterized by those facts.
