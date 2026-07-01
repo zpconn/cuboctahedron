@@ -632,6 +632,30 @@ theorem generatedClosedLanguageForSeqOfLabelTrace
       exact topPairingLocalAxisLabels_ofFrom localAxisTrace)
     canonicalBadFace
 
+theorem generatedClosedLanguageForSeqOfTransportedLabelTrace
+    {rank : Fin numPairWords} {badFace : Face}
+    {seq forcedSeq : Step14 -> Face}
+    (forced_labels_eq :
+      faceLabelsInContributionOrder (fun f => f) forcedSeq =
+        generatedContributionLabels)
+    (seq_labels_eq :
+      faceLabelsInContributionOrder (fun f => f) seq =
+        faceLabelsInContributionOrder (fun f => f) forcedSeq)
+    (cancellation :
+      TopPairingLanguageAtRank rank)
+    (localAxisTrace :
+      TopPairingLocalAxisFrom (matId : Mat3 Rat) generatedContributionLabels)
+    (canonicalBadFace :
+      TopPairingCanonicalBadFaceCompatible badFace) :
+    TopPairingClosedLanguageForSeq rank seq badFace :=
+  TopPairingClosedLanguageForSeq.transportLabels
+    seq_labels_eq
+    (generatedClosedLanguageForSeqOfLabelTrace
+      forced_labels_eq
+      cancellation
+      localAxisTrace
+      canonicalBadFace)
+
 theorem generatedClosedLanguageOfPositiveTemplateConcreteLocalAxis
     {rank : Fin numPairWords} {badFace : Face}
     {template : Step14 -> Face}
@@ -688,6 +712,27 @@ theorem generatedClosedLanguageForSeqOfLabelTraceConcreteLocalAxis
     TopPairingClosedLanguageForSeq rank seq badFace :=
   generatedClosedLanguageForSeqOfLabelTrace
     labels_eq
+    cancellation
+    generatedLocalAxisTraceConcrete
+    canonicalBadFace
+
+theorem generatedClosedLanguageForSeqOfTransportedLabelTraceConcreteLocalAxis
+    {rank : Fin numPairWords} {badFace : Face}
+    {seq forcedSeq : Step14 -> Face}
+    (forced_labels_eq :
+      faceLabelsInContributionOrder (fun f => f) forcedSeq =
+        generatedContributionLabels)
+    (seq_labels_eq :
+      faceLabelsInContributionOrder (fun f => f) seq =
+        faceLabelsInContributionOrder (fun f => f) forcedSeq)
+    (cancellation :
+      TopPairingLanguageAtRank rank)
+    (canonicalBadFace :
+      TopPairingCanonicalBadFaceCompatible badFace) :
+    TopPairingClosedLanguageForSeq rank seq badFace :=
+  generatedClosedLanguageForSeqOfTransportedLabelTrace
+    forced_labels_eq
+    seq_labels_eq
     cancellation
     generatedLocalAxisTraceConcrete
     canonicalBadFace

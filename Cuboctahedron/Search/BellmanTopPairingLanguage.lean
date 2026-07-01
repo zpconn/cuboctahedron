@@ -381,6 +381,27 @@ theorem ofComponents
   localAxis := localAxis
   canonicalBadFace := canonicalBadFace
 
+theorem transportLabels
+    {rank : Fin numPairWords} {seq template : Step14 -> Face}
+    {badFace : Face}
+    (hlabels :
+      faceLabelsInContributionOrder (fun f => f) seq =
+        faceLabelsInContributionOrder (fun f => f) template)
+    (h : TopPairingClosedLanguageForSeq rank template badFace) :
+    TopPairingClosedLanguageForSeq rank seq badFace :=
+  ofComponents
+    h.cancellation
+    (by
+      rw [hlabels]
+      exact h.schedule)
+    (by
+      rw [hlabels]
+      exact h.squareGap)
+    (by
+      rw [hlabels]
+      exact h.localAxis)
+    h.canonicalBadFace
+
 end TopPairingClosedLanguageForSeq
 
 end Cuboctahedron

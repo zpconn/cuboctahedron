@@ -3003,3 +3003,31 @@ axis-forced signed sequence
   -> TopPairingClosedLanguageForSeq
   -> Bellman nonpositive start-violation object membership
 ```
+
+Signed label-transport checkpoint:
+
+- Added `TopPairingClosedLanguageForSeq.transportLabels` in
+  `Cuboctahedron.Search.BellmanTopPairingLanguage`.
+- The generated trace emitter now also exports:
+
+  ```lean
+  generatedClosedLanguageForSeqOfTransportedLabelTrace
+  generatedClosedLanguageForSeqOfTransportedLabelTraceConcreteLocalAxis
+  ```
+
+- This is the exact theorem shape wanted for axis-forced feasibility data:
+  generated facts prove the forced sequence has the private Bellman labels,
+  while `faceLabelsInContributionOrder_eq_of_axisForces` will provide the
+  equality from any actual feasible signed sequence to that forced sequence.
+- Strict wrapper check:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_label_transport_6g.json
+  ```
+
+  Result: passed in `8.01s`, with `4149.81 MiB` peak process-tree RSS and
+  `46037.78 MiB` minimum available memory.
+- Decision: accepted.  Next generated proof work should instantiate the
+  transport equality from `AxisForcesForcedSeq`, not from canonical positive
+  labels.

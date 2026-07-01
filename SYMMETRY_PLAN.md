@@ -51609,3 +51609,60 @@ AxisForcesForcedSeq / PairSignLanguageAtRank
 ```
 
 Do not revive canonical all-positive label reduction for this negative trace.
+
+### Holonomy/Bellman Pivot - signed label transport surface accepted
+
+Added the next small bridge needed for axis-forced membership.
+
+New generic theorem in `Cuboctahedron.Search.BellmanTopPairingLanguage`:
+
+```lean
+TopPairingClosedLanguageForSeq.transportLabels
+```
+
+It transports a `TopPairingClosedLanguageForSeq rank template badFace` proof
+across an equality of contribution-order labels:
+
+```lean
+faceLabelsInContributionOrder (fun f => f) seq =
+  faceLabelsInContributionOrder (fun f => f) template
+```
+
+This is exactly the equality shape already supplied by
+`faceLabelsInContributionOrder_eq_of_axisForces`.
+
+Updated the generated trace emitter so the smoke shard exports:
+
+```lean
+generatedClosedLanguageForSeqOfTransportedLabelTrace
+generatedClosedLanguageForSeqOfTransportedLabelTraceConcreteLocalAxis
+```
+
+These theorems take:
+
+```text
+forcedSeq labels = generatedContributionLabels
+seq labels = forcedSeq labels
+TopPairingLanguageAtRank rank
+TopPairingCanonicalBadFaceCompatible badFace
+```
+
+and return `TopPairingClosedLanguageForSeq rank seq badFace`.
+
+Strict post-crash proof check:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_label_transport_6g.json
+```
+
+Result:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| signed label-transport generated trace smoke | `8.01s` | `4149.81 MiB` | `46037.78 MiB` | passed |
+
+Decision: accepted.  The next bridge no longer needs to manipulate the
+canonical all-positive sequence.  It should instantiate `seq_labels_eq` with
+`faceLabelsInContributionOrder_eq_of_axisForces` and prove only the generated
+`forcedSeq` label equality plus cancellation/bad-face membership facts.
