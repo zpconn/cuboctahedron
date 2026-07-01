@@ -152,4 +152,59 @@ structure TopPairingClosedLanguageAtRank
   canonicalBadFace :
     TopPairingCanonicalBadFaceCompatible badFace
 
+namespace TopPairingScheduleLanguageAtRank
+
+theorem ofComponents
+    {rank : Fin numPairWords}
+    (cancellation :
+      Cuboctahedron.TopPairingLanguageAtRank rank)
+    (schedule :
+      TopPairingStepScheduleLabels
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank))))
+    (squareGap :
+      TopPairingSquareGapLabels
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank))))
+    (localAxis :
+      TopPairingLocalAxisLabels
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)))) :
+    TopPairingScheduleLanguageAtRank rank where
+  cancellation := cancellation
+  schedule := schedule
+  squareGap := squareGap
+  localAxis := localAxis
+
+end TopPairingScheduleLanguageAtRank
+
+namespace TopPairingClosedLanguageAtRank
+
+theorem ofComponents
+    {rank : Fin numPairWords} {badFace : Face}
+    (cancellation :
+      Cuboctahedron.TopPairingLanguageAtRank rank)
+    (schedule :
+      TopPairingStepScheduleLabels
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank))))
+    (squareGap :
+      TopPairingSquareGapLabels
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank))))
+    (localAxis :
+      TopPairingLocalAxisLabels
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank))))
+    (canonicalBadFace :
+      TopPairingCanonicalBadFaceCompatible badFace) :
+    TopPairingClosedLanguageAtRank rank badFace where
+  cancellation := cancellation
+  schedule := schedule
+  squareGap := squareGap
+  localAxis := localAxis
+  canonicalBadFace := canonicalBadFace
+
+end TopPairingClosedLanguageAtRank
+
 end Cuboctahedron

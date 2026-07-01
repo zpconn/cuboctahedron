@@ -50785,3 +50785,63 @@ closed Bellman languages, and do not use whole-language `decide` as a generated
 membership proof strategy.  The next proof-bearing step must construct
 `BellmanNonposStartViolationObjectMembership` through explicit field proofs or
 direct object constructors, with the first smoke capped by the guard above.
+
+### Holonomy/Bellman Pivot - closed-language constructor surface accepted
+
+Implemented the next safe slice after the OOM: the closed top-pairing language
+now has small hand-written component constructors in
+`Cuboctahedron/Search/BellmanTopPairingLanguage.lean`.
+
+New theorem surfaces:
+
+```lean
+TopPairingScheduleLanguageAtRank.ofComponents
+TopPairingClosedLanguageAtRank.ofComponents
+```
+
+These constructors are intentionally boring: generated shards must provide the
+component proofs (`cancellation`, `schedule`, `squareGap`, `localAxis`, and
+`canonicalBadFace`) explicitly, and the constructor packages them into
+`TopPairingClosedLanguageAtRank`.  This is the accepted replacement for broad
+recursive `Decidable` instances and whole-language `decide`.
+
+Rejected smoke attempts under the new guard:
+
+| attempt | command shape | result |
+| --- | --- | --- |
+| concrete field smoke importing the heavy graph shard | `lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke` | killed by guard at `12663 MiB` process-tree RSS |
+| self-contained concrete field smoke using local rank/word literals and fieldwise `decide` | `lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageFieldSmoke.lean` | killed by guard at `13195 MiB` process-tree RSS |
+
+Accepted smoke:
+
+Added
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageFieldSmoke.lean`
+as a constructor-surface generated-style module.  It proves:
+
+```lean
+theorem closedLanguageOfGeneratedFields
+    {rank : Fin numPairWords} {badFace : Face}
+    (cancellation : TopPairingLanguageAtRank rank)
+    (schedule : ...)
+    (squareGap : ...)
+    (localAxis : ...)
+    (canonicalBadFace : TopPairingCanonicalBadFaceCompatible badFace) :
+    TopPairingClosedLanguageAtRank rank badFace
+```
+
+Guarded checks:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| `lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `2.51s` | `4031.57 MiB` | `46128.91 MiB` | passed |
+| `lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageFieldSmoke.lean` | `2.00s` | `3577 MiB` | `46324 MiB` | passed |
+| `lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke` | `2.50s` | `3760.61 MiB` | `46236.20 MiB` | passed |
+
+Decision: accepted as the correct membership-constructor surface, not as a
+concrete membership proof.  The evidence is important because it separates the
+next generator task from the failed reduction path.  The next Bellman step is
+to make the generator emit explicit component facts for one or two sampled
+top-pairing ranks/objects, then assemble
+`TopPairingClosedLanguageAtRank` through `ofComponents`, and only after that
+feed the resulting closed-language object into
+`BellmanNonposStartViolationObjectMembership`.

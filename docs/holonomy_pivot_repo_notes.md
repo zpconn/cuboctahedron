@@ -2523,3 +2523,51 @@ Guard timeout hardening:
 Future generated Bellman membership smokes must include all three caps:
 wall-clock timeout, process-tree RSS, and system `MemAvailable`.  Do not run
 another closed-language membership experiment as an uncapped `lake build`.
+
+Closed-language constructor surface:
+
+- Added component constructors in
+  `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`:
+
+  ```lean
+  TopPairingScheduleLanguageAtRank.ofComponents
+  TopPairingClosedLanguageAtRank.ofComponents
+  ```
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageFieldSmoke.lean`
+  as a generated-style constructor-surface smoke.  It does not prove concrete
+  sampled membership by reduction.  Instead it verifies the intended generated
+  theorem shape: explicit component proofs assemble into
+  `TopPairingClosedLanguageAtRank`.
+- Two concrete-reduction attempts were rejected under the guard:
+  - importing the heavy Bellman graph shard just to reuse sampled rank names
+    hit `12663 MiB` process-tree RSS and was killed;
+  - self-contained local rank/word literals plus fieldwise `decide` hit
+    `13195 MiB` process-tree RSS and was killed.
+- Accepted guarded checks:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 120 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/bellman_top_pairing_language_constructor_guard.json \
+    -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 120 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/bellman_closed_language_constructor_smoke_lake_guard.json \
+    -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke
+  ```
+
+  Results: support module passed at `4031.57 MiB` peak process-tree RSS; the
+  generated-style constructor smoke passed at `3760.61 MiB` peak process-tree
+  RSS.
+- Next generator task: emit explicit component facts for sampled top-pairing
+  objects and call `TopPairingClosedLanguageAtRank.ofComponents`; do not use
+  local fieldwise `decide` as a substitute for those component facts.
