@@ -1,0 +1,178 @@
+{
+  "check_stage": "missing",
+  "commands": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/run_memory_guarded.py",
+        "--timeout-seconds",
+        "45.0",
+        "--max-tree-rss-mib",
+        "4500.0",
+        "--min-available-mib",
+        "36864.0",
+        "--hard-address-space-mib",
+        "6144.0",
+        "--poll-seconds",
+        "0.5",
+        "--json",
+        "/tmp/cuboctahedron_bellman_guards/bellman_split_path_24_trace_20260701_143912.guard.json",
+        "--",
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6000",
+        "-j1",
+        "-s",
+        "2048",
+        "-o",
+        ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke24.olean",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke24.lean"
+      ],
+      "guard_json": "/tmp/cuboctahedron_bellman_guards/bellman_split_path_24_trace_20260701_143912.guard.json",
+      "kind": "trace"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "scripts/run_memory_guarded.py",
+        "--timeout-seconds",
+        "45.0",
+        "--max-tree-rss-mib",
+        "4500.0",
+        "--min-available-mib",
+        "36864.0",
+        "--hard-address-space-mib",
+        "6144.0",
+        "--poll-seconds",
+        "0.5",
+        "--json",
+        "/tmp/cuboctahedron_bellman_guards/bellman_split_path_24_split_20260701_143912.guard.json",
+        "--",
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6000",
+        "-j1",
+        "-s",
+        "2048",
+        "-o",
+        ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke24.olean",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke24.lean"
+      ],
+      "guard_json": "/tmp/cuboctahedron_bellman_guards/bellman_split_path_24_split_20260701_143912.guard.json",
+      "kind": "split"
+    }
+  ],
+  "graph_json": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "guard_dir": "/tmp/cuboctahedron_bellman_guards",
+  "mode": "bellman-split-smoke-path-run",
+  "path_object_index": 24,
+  "split": {
+    "artifact_status": {
+      "fresh_olean": false,
+      "olean": {
+        "bytes": null,
+        "exists": false,
+        "kib": null,
+        "mtime": null
+      },
+      "source": {
+        "bytes": null,
+        "exists": false,
+        "kib": null,
+        "mtime": null
+      }
+    },
+    "artifact_status_after_emit": {
+      "fresh_olean": false,
+      "olean": {
+        "bytes": null,
+        "exists": false,
+        "kib": null,
+        "mtime": null
+      },
+      "source": {
+        "bytes": 1927,
+        "exists": true,
+        "kib": 2,
+        "mtime": 1782934752.7968712
+      }
+    },
+    "budget": {
+      "deferred_import_preflight": true,
+      "max_local_imports": 26,
+      "max_target_source_kib": 8,
+      "target_source_kib": 2
+    },
+    "import_budget": 26,
+    "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke24",
+    "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke24.olean",
+    "planned_source_kib": 2,
+    "preflight": {
+      "deferred": true,
+      "reason": "trace .olean is produced by the preceding dry-run command"
+    },
+    "source_budget_kib": 8,
+    "source_changed": true,
+    "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke24.lean",
+    "target": "split-composition-24",
+    "within_source_budget": true
+  },
+  "status": "dry-run",
+  "trace": {
+    "artifact_status": {
+      "fresh_olean": false,
+      "olean": {
+        "bytes": null,
+        "exists": false,
+        "kib": null,
+        "mtime": null
+      },
+      "source": {
+        "bytes": null,
+        "exists": false,
+        "kib": null,
+        "mtime": null
+      }
+    },
+    "artifact_status_after_emit": {
+      "fresh_olean": false,
+      "olean": {
+        "bytes": null,
+        "exists": false,
+        "kib": null,
+        "mtime": null
+      },
+      "source": {
+        "bytes": 32654,
+        "exists": true,
+        "kib": 32,
+        "mtime": 1782934752.7968712
+      }
+    },
+    "budget": {
+      "local_import_count": 18,
+      "max_local_imports": 18,
+      "max_target_source_kib": 40,
+      "target_source_bytes": 32654,
+      "target_source_kib": 32
+    },
+    "import_budget": 18,
+    "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke24",
+    "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke24.olean",
+    "planned_source_kib": 32,
+    "preflight": {
+      "checked_olean_count": 18,
+      "local_import_count": 18
+    },
+    "source_budget_kib": 40,
+    "source_changed": true,
+    "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke24.lean",
+    "target": "generated-trace-24",
+    "within_source_budget": true
+  },
+  "trace_report": "scripts/generated/bellman_closed_language_generated_trace_smoke_24.json"
+}

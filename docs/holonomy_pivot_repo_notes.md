@@ -3864,6 +3864,35 @@ Fifth split path:
 Decision: accepted as another proof-bearing sampled path under the strict
 post-crash guard.
 
+Rebase recheck plus twenty-fifth split path:
+
+- The path-23 checkpoint push was rejected because `origin/main` had a
+  concurrent README-only update.  After `git fetch origin`, the local path-23
+  commit was cleanly rebased on top of `origin/main` and pushed.  The rebase
+  replay changed source mtimes, so path `23` needed an `.olean` freshness
+  recheck before the selector would advance.
+- Path object index `23` recheck:
+  - trace: passed in `7.01s`, peak RSS `4011 MiB`, hard-AS cap `6144 MiB`,
+    minimum available `46070 MiB`;
+  - split: passed in `2.00s`, peak RSS `3616 MiB`, hard-AS cap `6144 MiB`,
+    minimum available `46244 MiB`.
+- Path object index `24` / rank `946777` was then run as a single guarded path
+  with `--check-stage missing`.
+  - trace: passed in `5.01s`, peak RSS `4041 MiB`, hard-AS cap `6144 MiB`,
+    minimum available `46060 MiB`;
+  - split: passed in `2.00s`, peak RSS `3969 MiB`, hard-AS cap `6144 MiB`,
+    minimum available `46138 MiB`.
+- Refreshed strict `[0,16)` dry-run guard remains `accepted-dry-run` with `0`
+  blocked entries and `0` total blockers.
+- Refreshed `[0,37)` planner summary: `0` over budget, `25` fresh trace
+  artifacts, `25` fresh split artifacts, `1184 KiB` planned trace source, and
+  `74 KiB` planned split source.
+- Refreshed selector chose path index `25`, rank `946779`, as the next possible
+  single-path target.
+
+Decision: accepted.  The rebase only forced a freshness recheck; all
+proof-bearing checks stayed inside the strict post-crash guard.
+
 Twenty-fourth split path:
 
 - The selected next target, path object index `23` / rank `944199`, was run as
