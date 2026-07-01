@@ -537,6 +537,25 @@ Top margin+cancellation-pairing extraction and Lean smoke:
   cancellation/margin-bound certificate for the full family, avoiding
   per-rank `totalAff` normalization.
 
+Margin-bound bridge:
+
+- Added `offsetMarginQ` and `offsetMarginQ_real_bound_of_value` to
+  `Cuboctahedron/Search/TerminalNonidentityTemplates.lean`.
+- `DirectStartTopPairingSmoke` now supplies the representative bound through
+  an exact rational margin-value equation and a nonpositivity proof:
+  `offsetMarginQ 2 {x=-103/176,y=73/176,z=5/88} topAff.b = -105/22`.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.DirectStartTopPairingSmoke
+  ```
+
+  passed in `0:09.07` wall time with `3,355,340 KiB` max RSS after rebuilding
+  `TerminalNonidentityTemplates`.
+- Decision: this is still not family coverage, but it changes the missing
+  proof from a Real inequality to exact rational margin-value certificates.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

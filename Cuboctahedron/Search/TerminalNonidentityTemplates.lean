@@ -86,6 +86,24 @@ theorem no_nonidentity_axis_constraints_of_direct_start_violation
     (f := Face.xp) (g := badFace) (p := data.p0) hbadFace hbad
     hStartInteriorXp
 
+def offsetMarginQ (const : Rat) (coeff b : Vec3 Rat) : Rat :=
+  const + dot coeff b
+
+theorem offsetMarginQ_real_bound_of_value
+    {const value : Rat} {coeff b : Vec3 Rat}
+    (hvalue : offsetMarginQ const coeff b = value)
+    (hnonpos : value ≤ 0) :
+    (const : Real) +
+        (coeff.x : Real) * (b.x : Real) +
+        (coeff.y : Real) * (b.y : Real) +
+        (coeff.z : Real) * (b.z : Real) ≤ 0 := by
+  have hvalueR : (offsetMarginQ const coeff b : Real) = (value : Real) := by
+    rw [hvalue]
+  have hnonposR : (value : Real) ≤ 0 := by
+    exact_mod_cast hnonpos
+  norm_num [offsetMarginQ, dot] at hvalueR
+  linarith
+
 theorem no_nonidentity_axis_constraints_of_forced_direction_nonpositive
     {seq : Step14 -> Face} {candidateW : Vec3 Real} {i : Impact15}
     (hi : i ≠ (0 : Impact15))

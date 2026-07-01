@@ -306,6 +306,12 @@ Top margin+cancellation-pairing checkpoint:
 - This is accepted as a theorem-surface smoke only.  The production gap is a
   Lean-checkable cancellation/margin-bound certificate for the whole family;
   do not scale by unfolding concrete `totalAff` values for each rank.
+- Added `offsetMarginQ` and `offsetMarginQ_real_bound_of_value` in
+  `Cuboctahedron.Search.TerminalNonidentityTemplates`.  The top-pairing smoke
+  now routes its bound through the exact rational margin-value equation
+  `offsetMarginQ ... = -105/22` plus a nonpositivity proof.  The focused
+  rebuild passed in `0:09.07` wall time with `3,355,340 KiB` max RSS.  This
+  narrows, but does not close, the family proof gap.
 
 ## Explicit Non-Goals
 

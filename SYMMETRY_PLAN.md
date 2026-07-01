@@ -1651,6 +1651,37 @@ Top margin+cancellation-pairing theorem-surface smoke:
   inequality for the whole family without concrete per-rank `totalAff`
   normalization.
 
+Margin-bound bridge checkpoint:
+
+- Added the reusable helper in
+  `Cuboctahedron.Search.TerminalNonidentityTemplates`:
+
+  ```lean
+  def offsetMarginQ (const : Rat) (coeff b : Vec3 Rat) : Rat
+
+  theorem offsetMarginQ_real_bound_of_value
+      (hvalue : offsetMarginQ const coeff b = value)
+      (hnonpos : value <= 0) :
+      (const : Real) + coeff.x*b.x + coeff.y*b.y + coeff.z*b.z <= 0
+  ```
+
+- Rewired `DirectStartTopPairingSmoke` so the affine-offset margin bound is
+  supplied through this rational margin-value bridge instead of a raw
+  `norm_num` proof of the Real inequality.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.DirectStartTopPairingSmoke
+  ```
+
+  passed in `0:09.07` wall time with `3,355,340 KiB` max RSS after rebuilding
+  `TerminalNonidentityTemplates`.
+- Decision: this narrows the missing family proof.  A generated family now
+  only needs to prove an exact rational margin-value equation and
+  nonpositivity; it still does not prove membership of all 37 extracted cases
+  in one Lean family.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

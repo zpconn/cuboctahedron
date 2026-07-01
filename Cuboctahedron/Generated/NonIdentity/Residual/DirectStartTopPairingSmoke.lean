@@ -101,7 +101,14 @@ private theorem top_direct_ym_violation :
   apply direct_ym_violation_of_top_linear_form (A := topAff)
   · exact top_totalAff
   · rfl
-  · norm_num
+  · exact
+      offsetMarginQ_real_bound_of_value
+        (const := 2)
+        (coeff := { x := (-103/176), y := (73/176), z := (5/88) })
+        (b := topAff.b)
+        (value := (-105/22))
+        (by norm_num [offsetMarginQ, dot, topAff])
+        (by norm_num)
 
 private theorem top_ym_ne_xp : Face.ym ≠ Face.xp := by
   decide
