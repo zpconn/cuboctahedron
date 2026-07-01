@@ -201,8 +201,11 @@ proves `¬ NonIdentityAxisConstraints rank861Seq` without
 `AxisStartViolationCert` or `AffineAxisSolveWitness`.  The proof still uses a
 concrete `totalAff` computation for that sequence, but the contradiction is
 now linear algebra from the endpoint/fixed-direction equations plus
-`p0.x = 1`.  Focused build telemetry: `0:04.00` wall time and
-`3,341,448 KiB` max RSS.
+`p0.x = 1`.  It now factors through
+`direct_ym_violation_of_rank861_linear_form`, which fixes the linear
+coefficient matrix and assumes only the affine-offset margin bound
+`4 - 269/176*b.x + 73/176*b.y + 25/88*b.z <= 0`.  Focused build telemetry
+after this factoring: `0:03.99` wall time and `3,367,152 KiB` max RSS.
 
 The follow-up exact profiler
 `scripts/direct_start_linear_profile.py` shows why this should not become a
@@ -216,8 +219,12 @@ emitting one theorem per concrete affine RHS.
 
 Filtering further to the largest exact-axis/reduced-shadow key gives one
 coefficient matrix for `107` residuals, but still `100` affine RHS / solution /
-total-affine keys and `69` bad-face margins.  This rejects concrete RHS as a
-production key even within the largest holonomy-axis class.
+total-affine keys and `69` bad-face margins.  The useful compression is that
+the bad-face margin as a linear form in the total affine offset `b` collapses
+to only `3` forms in that largest key (`60` forms across the focused D4-axis
+class).  This rejects concrete RHS as a production key but promotes
+margin-linear-form plus cancellation/offset-family certificates as the next
+theorem surface.
 
 ## Explicit Non-Goals
 

@@ -224,6 +224,73 @@
         }
       ]
     },
+    "margin_linear_form_keys": {
+      "exact": true,
+      "overflow_cases": 0,
+      "stored_distinct": 60,
+      "top": [
+        {
+          "count": 72,
+          "key": "ym|const=-2|b=269/176,73/176,25/88"
+        },
+        {
+          "count": 72,
+          "key": "yp|const=-2|b=269/176,-73/176,-25/88"
+        },
+        {
+          "count": 69,
+          "key": "ym|const=-2|b=269/176,73/176,-25/88"
+        },
+        {
+          "count": 55,
+          "key": "ym|const=4|b=-259/176,103/176,25/88"
+        },
+        {
+          "count": 55,
+          "key": "ym|const=4|b=-259/176,103/176,-25/88"
+        },
+        {
+          "count": 50,
+          "key": "yp|const=2|b=-103/176,-73/176,5/88"
+        },
+        {
+          "count": 49,
+          "key": "ym|const=2|b=-103/176,73/176,5/88"
+        },
+        {
+          "count": 49,
+          "key": "yp|const=4|b=-259/176,-103/176,25/88"
+        },
+        {
+          "count": 47,
+          "key": "yp|const=2|b=-73/176,-103/176,5/88"
+        },
+        {
+          "count": 46,
+          "key": "ym|const=2|b=-73/176,103/176,-5/88"
+        },
+        {
+          "count": 46,
+          "key": "yp|const=4|b=-259/176,-103/176,-25/88"
+        },
+        {
+          "count": 45,
+          "key": "ym|const=2|b=-73/176,103/176,5/88"
+        },
+        {
+          "count": 44,
+          "key": "ym|const=2|b=-103/176,73/176,-5/88"
+        },
+        {
+          "count": 38,
+          "key": "yp|const=2|b=-103/176,-73/176,-5/88"
+        },
+        {
+          "count": 36,
+          "key": "yp|const=-2|b=259/176,-103/176,25/88"
+        }
+      ]
+    },
     "rhs_keys": {
       "exact": true,
       "overflow_cases": 0,
@@ -500,7 +567,7 @@
     "nonidentity": 94435,
     "scanned": 100000
   },
-  "elapsed_seconds": 8.789677791995928,
+  "elapsed_seconds": 9.016724410001189,
   "end": 100000,
   "jobs": 4,
   "mode": "direct-start-linear-profile",
@@ -632,6 +699,8 @@
   "start": 0,
   "target": {
     "axis_d4": "1,-3,-1",
-    "canonical_bad_face": "yp"
+    "canonical_bad_face": "yp",
+    "exact_axis": null,
+    "reduced_shadow": null
   }
 }

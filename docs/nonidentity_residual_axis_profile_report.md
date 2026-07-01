@@ -321,16 +321,27 @@ Direct-start smoke result:
 - This smoke does not use `AxisStartViolationCert` and does not check
   `AffineAxisSolveWitness`.  The core inequality follows from `p0.x = 1`,
   endpoint, and fixed-direction equations by linear arithmetic.
+- The smoke now factors the proof through a reusable fixed-linear-part theorem
+  `direct_ym_violation_of_rank861_linear_form`.  That theorem assumes the
+  affine-offset margin bound
+
+  ```text
+  4 - 269/176*b.x + 73/176*b.y + 25/88*b.z <= 0
+  ```
+
+  and derives the bad-face inequality from endpoint/fixed-direction equations
+  plus `p0.x = 1`.
 - Focused build:
 
   ```bash
   /usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.DirectStartSmoke
   ```
 
-  Result: success, `0:04.00` wall time, `3,341,448 KiB` max RSS.
+  Result after factoring through the offset-bound theorem: success, `0:03.99`
+  wall time, `3,367,152 KiB` max RSS.
 - Decision: the direct theorem surface is viable for representatives and much
-  cheaper than the old concrete local certificate smoke.  It still needs a
-  family-level/projective form before broad emission.
+  cheaper than the old concrete local certificate smoke.  The remaining
+  production gap is a family-level proof of the affine-offset margin bound.
 
 Direct-start linear-system profile:
 
@@ -356,6 +367,7 @@ Direct-start linear-system profile:
   | exact-axis/reduced-shadow keys | `16` |
   | endpoint/fixed coefficient matrices | `16` |
   | actual bad faces | `4` |
+  | margin linear forms in affine offset `b` | `60` |
   | bad-face margins | `163` |
   | affine RHS keys | `1,337` |
   | solution keys | `1,337` |
@@ -390,15 +402,17 @@ Largest exact-axis/reduced-shadow refinement:
   | matched residuals | `107` |
   | coefficient matrices | `1` |
   | actual bad faces | `3` |
+  | margin linear forms in affine offset `b` | `3` |
   | bad-face margins | `69` |
   | affine RHS keys | `100` |
   | solution keys | `100` |
   | total affine keys | `100` |
 
 - Decision: the largest exact-axis/reduced-shadow key confirms that the
-  linear coefficient side is family-level, but the affine-offset side is not.
-  The next viable route needs a cancellation-tree or offset-family theorem
-  proving margin nonpositivity without enumerating RHS values.
+  linear coefficient side is family-level and that bad-face margin linear
+  forms are also small.  Concrete affine RHS values remain too fragmented.
+  The next viable route is an offset-family theorem proving each margin linear
+  form is nonpositive over a cancellation/translation family.
 
 ## Artifacts
 

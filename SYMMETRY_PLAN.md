@@ -1366,19 +1366,33 @@ Direct start-violation smoke:
   check an `AffineAxisSolveWitness`.  It uses the strengthened direct hook:
   from `p0.x = 1`, the endpoint equation, and the fixed-direction equation,
   Lean derives the bad start-face inequality directly.
+- The smoke has now been factored through a reusable theorem surface:
+
+  ```lean
+  direct_ym_violation_of_rank861_linear_form
+  ```
+
+  This theorem fixes the coefficient matrix/linear holonomy and assumes only a
+  small affine-offset margin bound:
+
+  ```text
+  4 - 269/176*b.x + 73/176*b.y + 25/88*b.z <= 0
+  ```
+
+  It then derives the `ym` start-face violation from endpoint,
+  fixed-direction, and `p0.x = 1`.
 - Focused build:
 
   ```bash
   /usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.DirectStartSmoke
   ```
 
-  passed in `0:04.00` wall time with `3,341,448 KiB` max RSS.
+  passed after the offset-bound refactor in `0:03.99` wall time with
+  `3,367,152 KiB` max RSS.
 - Interpretation: this is a much better theorem surface than the old
   `LocalCertSmoke` path (`~45s`, `~5.18 GiB`) for individual representatives.
-  It is still not production-ready as one theorem per rank because it computes
-  a concrete `totalAff`.  The next gate is to generalize the direct linear
-  derivation over the exact-axis/reduced-shadow family or move the same
-  algebra into integer/projective family lemmas.
+  The next missing piece is not the direct inequality proof; it is a
+  family-level proof of the affine-offset margin bound.
 
 Direct-start linear profile:
 
@@ -1404,6 +1418,7 @@ Direct-start linear profile:
   | exact-axis/reduced-shadow keys | `16` | strong holonomy-axis compression |
   | endpoint/fixed coefficient matrices | `16` | same compression as the holonomy-axis spine |
   | actual bad faces | `4` | D4 variants of the canonical bad face |
+  | margin linear forms in affine offset `b` | `60` | promising second-layer certificate target |
   | bad-face margins | `163` | not singleton-like, but not family-level yet |
   | affine RHS keys | `1,337` | too fragmented |
   | solution keys | `1,337` | too fragmented |
@@ -1441,16 +1456,25 @@ Largest-pair direct-start refinement:
   | matched residuals | `107` |
   | coefficient matrices | `1` |
   | actual bad faces | `3` |
+  | margin linear forms in affine offset `b` | `3` |
   | margins | `69` |
   | affine RHS keys | `100` |
   | solution keys | `100` |
   | total affine keys | `100` |
 
 - Decision: even the largest exact-axis/reduced-shadow class does not collapse
-  at the concrete affine/RHS level.  The accepted next coordinate must explain
-  margin nonpositivity through the combinatorics of the affine translation
-  terms themselves, likely a cancellation-tree/offset-family lemma.  Do not
-  emit direct-start leaves keyed by total affine map or RHS.
+  at the concrete affine/RHS level.  However, the margin as a linear form in
+  the affine offset `b` collapses to only `3` forms in this class.  The
+  accepted next coordinate is therefore a theorem surface of the shape:
+
+  ```text
+  fixed holonomy-axis coefficient matrix
+  + one bad-face margin linear form in total affine offset b
+  + cancellation/offset-family certificate proving that form <= 0
+  -> no nonidentity axis constraints
+  ```
+
+  Do not emit direct-start leaves keyed by total affine map or RHS.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

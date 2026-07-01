@@ -4,7 +4,7 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 
 - Range: `[0, 100,000)`
 - Jobs: `4`
-- Elapsed seconds: `8.468`
+- Elapsed seconds: `8.437`
 - Target canonical bad face: `yp`
 - Target D4 axis: `1,-3,-1`
 - Target exact axis: `1,3,1`
@@ -198,6 +198,18 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 | `yp` | `72` |
 | `ym` | `25` |
 | `zp` | `10` |
+
+### `margin_linear_form_keys`
+
+- Stored distinct: `3`
+- Exact: `True`
+- Overflow cases: `0`
+
+| key | count |
+| --- | ---: |
+| `yp|const=-2|b=269/176,-73/176,-25/88` | `72` |
+| `ym|const=4|b=-269/176,73/176,25/88` | `25` |
+| `zp|const=0|b=73/176,5/88,-103/176` | `10` |
 
 ## Samples
 

@@ -27,6 +27,8 @@ if str(SCRIPT_DIR) not in sys.path:
 
 from exact_profile import (  # noqa: E402
     EXPECTED_PAIR_WORDS,
+    FACE_NORMALS,
+    FACE_OFFSETS,
     IDENTITY,
     PAIR_COUNTS,
     PAIR_IDS,
@@ -156,6 +158,50 @@ def solution_key_from_rref(pivots: list[int], rref: list[list[Fraction]]) -> str
     return ",".join(qkey(v) for v in values)
 
 
+def solution_vector_from_rref(pivots: list[int], rref: list[list[Fraction]]) -> list[Fraction] | None:
+    n = 5
+    if pivots != list(range(n)):
+        return None
+    values = [Fraction(0) for _ in range(n)]
+    for row in rref:
+        pivot = next((i for i in range(n) if row[i] == 1), None)
+        if pivot is not None:
+            values[pivot] = row[-1]
+    return values
+
+
+def solution_response_matrix(rows: list[list[Fraction]]) -> list[list[Fraction]] | None:
+    response: list[list[Fraction]] = []
+    for rhs_index in range(6):
+        rhs = [Fraction(1) if i == rhs_index else Fraction(0) for i in range(6)]
+        pivots, rref = solve_linear_system(rows, rhs)
+        solution = solution_vector_from_rref(pivots, rref)
+        if solution is None:
+            return None
+        response.append(solution)
+    return [[response[rhs_index][var] for rhs_index in range(6)] for var in range(5)]
+
+
+def margin_linear_form_key(aff: tuple, bad_face: str, rows: list[list[Fraction]]) -> str:
+    matrix, _offset = aff
+    response = solution_response_matrix(rows)
+    if response is None:
+        return f"{bad_face}|nonunique"
+    normal = FACE_NORMALS[bad_face]
+    offset = FACE_OFFSETS[bad_face]
+    rhs_const = [matrix[0][0] - 1, matrix[1][0], matrix[2][0], Fraction(0), Fraction(0), Fraction(0)]
+    margin_rhs = [
+        -normal[1] * response[0][j] - normal[2] * response[1][j]
+        for j in range(6)
+    ]
+    const = offset - normal[0] + sum(margin_rhs[j] * rhs_const[j] for j in range(6))
+    coeff_b = margin_rhs[:3]
+    return (
+        f"{bad_face}|const={qkey(const)}|"
+        f"b={','.join(qkey(c) for c in coeff_b)}"
+    )
+
+
 @dataclass
 class DirectStats:
     max_distinct: int
@@ -179,6 +225,7 @@ class DirectStats:
     target_value_keys: CappedCounter | None = None
     margin_keys: CappedCounter | None = None
     actual_bad_face_keys: CappedCounter | None = None
+    margin_linear_form_keys: CappedCounter | None = None
     samples: dict[str, list[dict[str, Any]]] = field(default_factory=lambda: defaultdict(list))
 
     def __post_init__(self) -> None:
@@ -191,6 +238,7 @@ class DirectStats:
             "target_value_keys",
             "margin_keys",
             "actual_bad_face_keys",
+            "margin_linear_form_keys",
         ]:
             if getattr(self, name) is None:
                 setattr(self, name, CappedCounter(self.max_distinct))
@@ -210,6 +258,7 @@ class DirectStats:
             "target_value_keys",
             "margin_keys",
             "actual_bad_face_keys",
+            "margin_linear_form_keys",
         ]:
             mine = getattr(self, name)
             theirs = getattr(other, name)
@@ -235,6 +284,7 @@ class DirectStats:
             "target_value_keys",
             "margin_keys",
             "actual_bad_face_keys",
+            "margin_linear_form_keys",
         ]:
             counter = getattr(self, name)
             assert counter is not None
@@ -331,6 +381,7 @@ def classify_leaf(stats: DirectStats, *, rank: int, word: tuple[str, ...], pref:
     assert stats.target_value_keys is not None
     assert stats.margin_keys is not None
     assert stats.actual_bad_face_keys is not None
+    assert stats.margin_linear_form_keys is not None
     stats.exact_axis_reduced_shadow_keys.add(exact_axis_reduced)
     stats.coeff_matrix_keys.add(matrix_key(rows))
     stats.rhs_keys.add(",".join(qkey(x) for x in rhs))
@@ -338,7 +389,10 @@ def classify_leaf(stats: DirectStats, *, rank: int, word: tuple[str, ...], pref:
     stats.total_aff_keys.add(aff_key(aff))
     stats.target_value_keys.add(target_value)
     stats.margin_keys.add(failure_details.get("margin", "?"))
-    stats.actual_bad_face_keys.add(failure_details.get("bad_face", "?"))
+    actual_bad_face = failure_details.get("bad_face", "?")
+    stats.actual_bad_face_keys.add(actual_bad_face)
+    if actual_bad_face in FACE_NORMALS:
+        stats.margin_linear_form_keys.add(margin_linear_form_key(aff, actual_bad_face, rows))
     stats.add_sample(
         "matched",
         {

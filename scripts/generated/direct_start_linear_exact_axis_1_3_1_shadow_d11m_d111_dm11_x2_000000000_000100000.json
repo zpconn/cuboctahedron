@@ -128,6 +128,25 @@
         }
       ]
     },
+    "margin_linear_form_keys": {
+      "exact": true,
+      "overflow_cases": 0,
+      "stored_distinct": 3,
+      "top": [
+        {
+          "count": 72,
+          "key": "yp|const=-2|b=269/176,-73/176,-25/88"
+        },
+        {
+          "count": 25,
+          "key": "ym|const=4|b=-269/176,73/176,25/88"
+        },
+        {
+          "count": 10,
+          "key": "zp|const=0|b=73/176,5/88,-103/176"
+        }
+      ]
+    },
     "rhs_keys": {
       "exact": true,
       "overflow_cases": 0,
@@ -484,7 +503,7 @@
     "nonidentity": 94435,
     "scanned": 100000
   },
-  "elapsed_seconds": 8.467830006993609,
+  "elapsed_seconds": 8.436804771976313,
   "end": 100000,
   "jobs": 4,
   "mode": "direct-start-linear-profile",
