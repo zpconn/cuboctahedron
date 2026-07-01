@@ -1,0 +1,16 @@
+{
+  "base": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Base.lean",
+  "decision": "closed-components-all-accepted",
+  "first_rejections": [],
+  "limits": {
+    "max_examples": 5,
+    "max_nodes": null
+  },
+  "stats": {
+    "accepted": 2,
+    "closed_candidates": 2,
+    "dfs_nodes": 11318,
+    "prefix_graph_rejects": 197,
+    "rejected": 0
+  }
+}

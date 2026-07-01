@@ -57586,3 +57586,47 @@ not mention `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, or
 `sampledSmokeNext`.  If the current closed predicate is too weak, the next
 allowed move is to strengthen the semantic predicate with compact evaluator
 fields such as `eval_ok`/`margin_bound`, not to emit sampled rank evidence.
+
+Closed-language graph-acceptance diagnostic:
+
+- Added `scripts/audit_top_pairing_closed_graph_acceptance.py`, an exact
+  Python diagnostic for the current 10M top-pairing graph.
+- It enumerates label words satisfying the visible
+  `TopPairingClosedLanguageAtRank` components:
+  valid remaining pair counts after the started `X+` face, step schedule,
+  square-gap schedule, exact rational local-axis positivity, and the
+  top-pairing triangular cancellation summary.
+- It then runs the generated deterministic evaluator from
+  `BellmanTopPairingGraphEvalSplit10MSmoke/Base.lean` on every such label
+  word.  This is diagnostic only, not proof, but it tests the exact theorem
+  shape before we ask Lean to formalize it.
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_closed_graph_acceptance.py
+
+python3 scripts/audit_top_pairing_closed_graph_acceptance.py \
+  --json scripts/generated/top_pairing_closed_graph_acceptance_full.json \
+  --markdown docs/top_pairing_closed_graph_acceptance_full.md
+```
+
+Result:
+
+```text
+decision: closed-components-all-accepted
+dfs_nodes = 11318
+closed_candidates = 2
+accepted = 2
+rejected = 0
+prefix_graph_rejects = 197
+```
+
+Interpretation: the current closed-language fields appear strong enough for
+the deterministic graph evaluator on this bounded 10M top-pairing graph.  The
+formal next step remains the same theorem, but the fallback of adding a new
+`eval_ok` field is not yet justified.  The next Lean slice should generate a
+finite closure proof from the closed-language trace fields to
+`BellmanEvalAccepts`, likely by enumerating the two accepted closed label words
+as semantic label traces and proving that any closed object has one of those
+two traces.
