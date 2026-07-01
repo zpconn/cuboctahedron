@@ -58017,3 +58017,60 @@ Decision: accepted.  The Bellman route still remains on the GPT5.5 go/no-go
 line: continue only if the next classifier is semantic in
 `TopPairingClosedLanguageAtRank`; reject any implementation that falls back to
 sampled object/rank membership.
+
+Semantic state-DAG classifier profile:
+
+- Added `scripts/profile_top_pairing_trace_state_dag.py`, an exact diagnostic
+  that memoizes the semantic state needed by a future closed-language
+  classifier:
+  - current step;
+  - remaining pair counts;
+  - square-gap index;
+  - exact local-axis linear matrix;
+  - triangular cancellation stack.
+- This profiles the proof DAG we actually want Lean to check, instead of the
+  raw tree of rejected face choices.  It is still diagnostic only; it is not
+  trusted proof.
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/profile_top_pairing_trace_state_dag.py
+
+python3 scripts/profile_top_pairing_trace_state_dag.py \
+  --json scripts/generated/top_pairing_trace_state_dag_profile.json \
+  --markdown docs/top_pairing_trace_state_dag_profile.md
+```
+
+Result:
+
+```text
+decision = semantic-state-dag-candidate
+states = 7387
+edges = 7661
+terminal states:
+  cancellation_reject = 248
+  closed = 1
+terminal paths:
+  cancellation_reject = 440
+  closed = 2
+```
+
+Interpretation: semantic state merging is viable and materially smaller than
+the raw prefix-rejection estimate (`141387` rejected face branches), but exact
+trace classification is path-sensitive at the terminal: the two accepted
+closed traces merge into the same final semantic state.  The next generated
+Lean classifier should therefore:
+
+1. emit a state-DAG proof over the `7387` semantic states and `7661` edges;
+2. carry enough terminal-path witness information to prove the two accepted
+   label traces;
+3. use the existing accessors
+   `TopPairingClosedLanguageAtRank.pairCounts` and
+   `TopPairingClosedLanguageAtRank.cancellationLabels`;
+4. avoid any sampled rank/path table.
+
+Decision: continue Bellman for this semantic-membership experiment.  The proof
+surface is now sharply defined: a generated state-DAG classifier from
+`TopPairingClosedLanguageAtRank` to the two-trace disjunction, followed by the
+existing closed-trace evaluator smoke.
