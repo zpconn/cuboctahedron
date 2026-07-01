@@ -1417,6 +1417,41 @@ Direct-start linear profile:
   bounds the RHS/margin over a cancellation-tree or affine-translation family,
   rather than emitting a proof for each RHS.
 
+Largest-pair direct-start refinement:
+
+- Re-ran the direct-start linear profiler on only the largest
+  exact-axis/reduced-shadow key:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/direct_start_linear_profile.py \
+    --start 0 --end 100000 --jobs 4 --chunk-size 25000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1 \
+    --target-exact-axis 1,3,1 \
+    --target-reduced-shadow "d11m d111 dm11 d11m d111 dm11" \
+    --json-out scripts/generated/direct_start_linear_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.json \
+    --md-out scripts/generated/direct_start_linear_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.md \
+    --top 20
+  ```
+
+  It passed in `0:08.52` wall time with `24,516 KiB` max RSS.
+- Results inside that single holonomy-axis key:
+
+  | coordinate | distinct |
+  | --- | ---: |
+  | matched residuals | `107` |
+  | coefficient matrices | `1` |
+  | actual bad faces | `3` |
+  | margins | `69` |
+  | affine RHS keys | `100` |
+  | solution keys | `100` |
+  | total affine keys | `100` |
+
+- Decision: even the largest exact-axis/reduced-shadow class does not collapse
+  at the concrete affine/RHS level.  The accepted next coordinate must explain
+  margin nonpositivity through the combinatorics of the affine translation
+  terms themselves, likely a cancellation-tree/offset-family lemma.  Do not
+  emit direct-start leaves keyed by total affine map or RHS.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

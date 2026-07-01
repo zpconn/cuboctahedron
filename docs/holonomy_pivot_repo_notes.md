@@ -214,6 +214,11 @@ therefore keep the 16-key linear coefficient spine and prove the RHS/margin
 bound through a higher semantic translation/cancellation family, not by
 emitting one theorem per concrete affine RHS.
 
+Filtering further to the largest exact-axis/reduced-shadow key gives one
+coefficient matrix for `107` residuals, but still `100` affine RHS / solution /
+total-affine keys and `69` bad-face margins.  This rejects concrete RHS as a
+production key even within the largest holonomy-axis class.
+
 ## Explicit Non-Goals
 
 The following approaches are archived as diagnostics, not the active route to

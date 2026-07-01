@@ -367,6 +367,39 @@ Direct-start linear-system profile:
   semantic layer that proves margin nonpositivity over a family of affine
   translations.
 
+Largest exact-axis/reduced-shadow refinement:
+
+- Command:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/direct_start_linear_profile.py \
+    --start 0 --end 100000 --jobs 4 --chunk-size 25000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1 \
+    --target-exact-axis 1,3,1 \
+    --target-reduced-shadow "d11m d111 dm11 d11m d111 dm11" \
+    --json-out scripts/generated/direct_start_linear_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.json \
+    --md-out scripts/generated/direct_start_linear_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.md \
+    --top 20
+  ```
+
+- Result: success, `0:08.52` wall time, `24,516 KiB` max RSS.
+- Counts:
+
+  | coordinate | distinct |
+  | --- | ---: |
+  | matched residuals | `107` |
+  | coefficient matrices | `1` |
+  | actual bad faces | `3` |
+  | bad-face margins | `69` |
+  | affine RHS keys | `100` |
+  | solution keys | `100` |
+  | total affine keys | `100` |
+
+- Decision: the largest exact-axis/reduced-shadow key confirms that the
+  linear coefficient side is family-level, but the affine-offset side is not.
+  The next viable route needs a cancellation-tree or offset-family theorem
+  proving margin nonpositivity without enumerating RHS values.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -383,6 +416,8 @@ Direct-start linear-system profile:
 - `scripts/direct_start_linear_profile.py`
 - `scripts/generated/direct_start_linear_yp_1_m3_m1_000000000_000100000.json`
 - `scripts/generated/direct_start_linear_yp_1_m3_m1_000000000_000100000.md`
+- `scripts/generated/direct_start_linear_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.json`
+- `scripts/generated/direct_start_linear_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.md`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.json`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.md`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000000100.json`

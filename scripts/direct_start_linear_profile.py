@@ -164,6 +164,8 @@ class DirectStats:
     end: int
     target_bad_face: str
     target_axis_d4: str
+    target_exact_axis: str | None
+    target_reduced_shadow: str | None
     scanned: int = 0
     nonidentity: int = 0
     forced_balance_survivors: int = 0
@@ -247,6 +249,8 @@ class DirectStats:
             "target": {
                 "canonical_bad_face": self.target_bad_face,
                 "axis_d4": self.target_axis_d4,
+                "exact_axis": self.target_exact_axis,
+                "reduced_shadow": self.target_reduced_shadow,
             },
             "counts": {
                 "scanned": self.scanned,
@@ -304,9 +308,14 @@ def classify_leaf(stats: DirectStats, *, rank: int, word: tuple[str, ...], pref:
     axis_d4 = d4_projective_axis_key(oriented_axis_key)
     if canonical_bad_face != stats.target_bad_face or axis_d4 != stats.target_axis_d4:
         return
-    stats.matched += 1
 
     reduced_key = reduced_shadow_key(reduced)
+    if stats.target_exact_axis is not None and oriented_axis_key != stats.target_exact_axis:
+        return
+    if stats.target_reduced_shadow is not None and reduced_key != stats.target_reduced_shadow:
+        return
+    stats.matched += 1
+
     aff = total_aff(seq)
     rows, rhs = direct_system_for_aff(aff)
     pivots, rref = solve_linear_system(rows, rhs)
@@ -353,6 +362,8 @@ def profile_range(
     *,
     target_bad_face: str,
     target_axis_d4: str,
+    target_exact_axis: str | None,
+    target_reduced_shadow: str | None,
     max_distinct: int,
     sample_limit: int,
     progress: int | None,
@@ -364,6 +375,8 @@ def profile_range(
         end=end,
         target_bad_face=target_bad_face,
         target_axis_d4=target_axis_d4,
+        target_exact_axis=target_exact_axis,
+        target_reduced_shadow=target_reduced_shadow,
     )
     remaining = dict(PAIR_COUNTS)
     prefix: list[str] = []
@@ -429,6 +442,8 @@ def profile_maybe_parallel(
     chunk_size: int | None,
     target_bad_face: str,
     target_axis_d4: str,
+    target_exact_axis: str | None,
+    target_reduced_shadow: str | None,
     max_distinct: int,
     sample_limit: int,
     progress: int | None,
@@ -440,6 +455,8 @@ def profile_maybe_parallel(
             end,
             target_bad_face=target_bad_face,
             target_axis_d4=target_axis_d4,
+            target_exact_axis=target_exact_axis,
+            target_reduced_shadow=target_reduced_shadow,
             max_distinct=max_distinct,
             sample_limit=sample_limit,
             progress=progress,
@@ -451,6 +468,8 @@ def profile_maybe_parallel(
         end=end,
         target_bad_face=target_bad_face,
         target_axis_d4=target_axis_d4,
+        target_exact_axis=target_exact_axis,
+        target_reduced_shadow=target_reduced_shadow,
     )
     with ProcessPoolExecutor(max_workers=jobs) as executor:
         futures = [
@@ -460,6 +479,8 @@ def profile_maybe_parallel(
                 hi,
                 target_bad_face=target_bad_face,
                 target_axis_d4=target_axis_d4,
+                target_exact_axis=target_exact_axis,
+                target_reduced_shadow=target_reduced_shadow,
                 max_distinct=max_distinct,
                 sample_limit=sample_limit,
                 progress=progress,
@@ -488,6 +509,8 @@ def write_md(path: Path, payload: dict[str, Any], top: int) -> None:
         f"- Elapsed seconds: `{payload['elapsed_seconds']:.3f}`",
         f"- Target canonical bad face: `{payload['target']['canonical_bad_face']}`",
         f"- Target D4 axis: `{payload['target']['axis_d4']}`",
+        f"- Target exact axis: `{payload['target']['exact_axis']}`",
+        f"- Target reduced shadow: `{payload['target']['reduced_shadow']}`",
         "",
         "## Counts",
         "",
@@ -528,6 +551,8 @@ def main() -> None:
     parser.add_argument("--chunk-size", type=int, default=None)
     parser.add_argument("--target-bad-face", default="yp")
     parser.add_argument("--target-axis-d4", default="1,-3,-1")
+    parser.add_argument("--target-exact-axis", default=None)
+    parser.add_argument("--target-reduced-shadow", default=None)
     parser.add_argument("--max-distinct", type=int, default=50_000)
     parser.add_argument("--sample-limit", type=int, default=10)
     parser.add_argument("--top", type=int, default=20)
@@ -549,6 +574,8 @@ def main() -> None:
         chunk_size=args.chunk_size,
         target_bad_face=args.target_bad_face,
         target_axis_d4=args.target_axis_d4,
+        target_exact_axis=args.target_exact_axis,
+        target_reduced_shadow=args.target_reduced_shadow,
         max_distinct=args.max_distinct,
         sample_limit=args.sample_limit,
         progress=args.progress,
