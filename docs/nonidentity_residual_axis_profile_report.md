@@ -1527,6 +1527,29 @@ Concrete face-sequence bridge smoke:
   sampled `cls0000PairSignLanguage` by a theorem that the
   holonomy/cancellation top-family predicate determines the same pair/sign
   language and trie branch.
+- Follow-up reusable core: added
+  `Cuboctahedron.Search.RankFaceLabelLanguage`, which defines
+  `PairSignLanguageAtRank rank template seq` and proves the generic adapters
+  `sameFaceSeq_of_pairSignLanguageAtRank` and
+  `faceLabelsInContributionOrder_eq_of_pairSignLanguageAtRank`.  The graph
+  emitter now defines the sampled `cls0000PairSignLanguage` as an instance of
+  this reusable predicate instead of generating the rank/sign proof shape
+  privately.
+- Focused builds passed:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.RankFaceLabelLanguage
+
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Results: rank/sign core `0:03.48` wall time, `3,244,824 kB` max RSS; direct
+  generated-file typecheck `0:06.28` wall time, `3,760,780 kB` max RSS; Lake
+  graph target `0:08.78` wall time, `3,934,080 kB` max RSS.
 
 ## Artifacts
 
@@ -1555,6 +1578,7 @@ Concrete face-sequence bridge smoke:
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.md`
 - `Cuboctahedron/Search/BellmanPotential.lean`
 - `Cuboctahedron/Search/FaceLabelLanguage.lean`
+- `Cuboctahedron/Search/RankFaceLabelLanguage.lean`
 - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSmoke.lean`
 - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`
 - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph5MSmoke.lean`

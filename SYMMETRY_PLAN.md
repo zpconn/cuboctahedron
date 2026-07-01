@@ -2257,6 +2257,24 @@ Bellman profiler prototype checkpoint:
   It is not full membership yet; the production bridge still needs to replace
   the sampled `cls0000PairSignLanguage` with the holonomy/cancellation
   top-family predicate.
+- Rank/sign bridge core checkpoint: added
+  `Cuboctahedron.Search.RankFaceLabelLanguage`, which imports rank/unrank
+  machinery and exposes the reusable predicate
+  `PairSignLanguageAtRank rank template seq`.  Its theorems
+  `sameFaceSeq_of_pairSignLanguageAtRank` and
+  `faceLabelsInContributionOrder_eq_of_pairSignLanguageAtRank` package the
+  generic proof that pair-word matching plus forced actual face signs determine
+  the same face sequence and contribution-order labels.  The graph emitter now
+  imports this module and defines the sampled `cls0000PairSignLanguage` through
+  the reusable predicate.  Focused builds passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Search.RankFaceLabelLanguage` in
+  `0:03.48` wall / `3,244,824 kB` max RSS,
+  `/usr/bin/time -v lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`
+  in `0:06.28` wall / `3,760,780 kB` max RSS, and
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:08.78` wall / `3,934,080 kB` max RSS.  The next production-facing
+  theorem should prove `PairSignLanguageAtRank` from the real
+  holonomy/cancellation top-family state predicate.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

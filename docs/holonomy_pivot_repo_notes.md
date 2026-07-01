@@ -578,6 +578,21 @@ Top margin+cancellation-pairing checkpoint:
   holonomy/cancellation top-family predicate, proving the pair-word matching
   and forced-sign hypotheses from that semantic state rather than enumerating
   exact face sequences.
+- Rank/sign language core status: the sampled pair/sign bridge has been lifted
+  into `Cuboctahedron.Search.RankFaceLabelLanguage`.  The reusable predicate is
+  `PairSignLanguageAtRank rank template seq`, with the generic theorems
+  `sameFaceSeq_of_pairSignLanguageAtRank` and
+  `faceLabelsInContributionOrder_eq_of_pairSignLanguageAtRank`.  The graph
+  emitter now imports this module and defines `cls0000PairSignLanguage` as an
+  instance of the reusable predicate.  Focused builds passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Search.RankFaceLabelLanguage` in
+  `0:03.48` wall / `3,244,824 kB` max RSS,
+  `/usr/bin/time -v lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`
+  in `0:06.28` wall / `3,760,780 kB` max RSS, and
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:08.78` wall / `3,934,080 kB` max RSS.  This makes the future
+  production theorem target cleaner: generated holonomy-family modules should
+  prove `PairSignLanguageAtRank` facts and then reuse the generic bridge.
 
 ## Explicit Non-Goals
 

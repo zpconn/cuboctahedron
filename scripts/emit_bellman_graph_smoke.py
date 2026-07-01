@@ -269,7 +269,7 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "import Cuboctahedron.Search.FaceLabelLanguage",
     ]
     if can_emit_rank_sequence_bridge:
-        imports.append("import Cuboctahedron.Search.Enumeration")
+        imports.append("import Cuboctahedron.Search.RankFaceLabelLanguage")
     lines: list[str] = [
         *imports,
         "",
@@ -1150,18 +1150,14 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
                 f"  exact pairWordOfSeq_matches {seq_name}",
                 "",
                 f"private def {obj_name}PairSignLanguage (seq : Step14 -> Face) : Prop :=",
-                f"  PairWordMatchesSeq (unrankPairWord {rank_name}) seq /\\",
-                f"    (forall i : Step14,",
-                f"      positiveSignOfFace (seq i) = positiveSignOfFace ({seq_name} i)) /\\",
-                f"    seq 0 = {seq_name} 0",
+                f"  PairSignLanguageAtRank {rank_name} {seq_name} seq",
                 "",
                 f"private theorem {obj_name}PairSignLanguage_same",
                 "    (seq : Step14 -> Face)",
                 f"    (hseq : {obj_name}PairSignLanguage seq) :",
                 f"    {seq_name}Language seq := by",
-                "  rcases hseq with ⟨hmatch, hsign, hstart⟩",
-                "  exact sameFaceSeq_of_pairWordMatchesSeq_and_sign",
-                f"    {seq_name}_matches_unrank hmatch hstart hsign",
+                "  exact sameFaceSeq_of_pairSignLanguageAtRank",
+                f"    {seq_name}_matches_unrank hseq",
                 "",
             ])
         lines.extend([

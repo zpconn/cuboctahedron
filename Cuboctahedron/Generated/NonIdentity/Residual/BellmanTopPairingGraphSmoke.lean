@@ -1,6 +1,6 @@
 import Cuboctahedron.Search.BellmanPotential
 import Cuboctahedron.Search.FaceLabelLanguage
-import Cuboctahedron.Search.Enumeration
+import Cuboctahedron.Search.RankFaceLabelLanguage
 
 set_option maxRecDepth 4096
 
@@ -22196,18 +22196,14 @@ private theorem cls0000FaceSeq_matches_unrank :
   exact pairWordOfSeq_matches cls0000FaceSeq
 
 private def cls0000PairSignLanguage (seq : Step14 -> Face) : Prop :=
-  PairWordMatchesSeq (unrankPairWord cls0000Rank) seq /\
-    (forall i : Step14,
-      positiveSignOfFace (seq i) = positiveSignOfFace (cls0000FaceSeq i)) /\
-    seq 0 = cls0000FaceSeq 0
+  PairSignLanguageAtRank cls0000Rank cls0000FaceSeq seq
 
 private theorem cls0000PairSignLanguage_same
     (seq : Step14 -> Face)
     (hseq : cls0000PairSignLanguage seq) :
     cls0000FaceSeqLanguage seq := by
-  rcases hseq with ⟨hmatch, hsign, hstart⟩
-  exact sameFaceSeq_of_pairWordMatchesSeq_and_sign
-    cls0000FaceSeq_matches_unrank hmatch hstart hsign
+  exact sameFaceSeq_of_pairSignLanguageAtRank
+    cls0000FaceSeq_matches_unrank hseq
 
 private def cls0000TraceOfSeq (seq : Step14 -> Face) : SmokeLabelStepTrace where
   finish := trieNode0014State
