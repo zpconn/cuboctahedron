@@ -1039,6 +1039,50 @@ Residual local-certificate emission smoke checkpoint:
   local-certificate families and/or move the same obstructions to integer
   normalized, smaller theorem surfaces before any broad generation.
 
+Residual family-gate profiler checkpoint:
+
+- Extended `scripts/nonidentity_residual_axis_profile.py` with a diagnostic
+  `family_gate` payload and optional key-table output.  This is still an
+  exact external profiler only, not trusted proof evidence.
+- Calibration command:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/nonidentity_residual_axis_profile.py \
+    --start 0 --end 100000 \
+    --jobs 4 \
+    --chunk-size 25000 \
+    --max-distinct 20000 \
+    --top 30 \
+    --sample-limit 10 \
+    --include-key-tables \
+    --json scripts/generated/nonidentity_residual_family_gate_000000000_000100000.json \
+    --markdown scripts/generated/nonidentity_residual_family_gate_000000000_000100000.md
+  ```
+
+- Telemetry:
+
+  | range | jobs | elapsed | peak RSS | residual survivors |
+  | --- | ---: | ---: | ---: | ---: |
+  | `[0,100000)` | `4` | `8.51s` | `31,188 KiB` | `9,036` |
+
+- Distinct-family diagnostics in that window:
+
+  | coordinate | sample distinct | linear full projection | projected CPU hours at local-cert smoke cost |
+  | --- | ---: | ---: | ---: |
+  | `terminal_template_keys` / `certificate_template_keys` | `32` | `31,135` | `391.26` |
+  | `terminal_by_axis` | `823` | `800,756` | `10,062.83` |
+  | `terminal_by_reduced_shadow` | `1,471` | `1,431,242` | `17,985.94` |
+  | `terminal_family_keys` | `1,663` | `1,618,052` | `20,333.52` |
+  | `residual_signatures` | `6,330` | `6,158,913` | `77,397.01` |
+
+- Decision: direct local-certificate family emission is rejected for the
+  production proof.  Even the coarsest proof-relevant exact coordinates project
+  far beyond the 5-6 hour target when combined with the observed
+  `LocalCertSmoke` cost.  The next nontranslation work should promote
+  signed-state empty-cone/Gordan prefix pruning and/or substantially cheaper
+  integer-normalized theorem surfaces before any broad residual Lean
+  generation.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

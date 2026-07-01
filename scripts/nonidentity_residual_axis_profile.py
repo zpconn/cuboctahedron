@@ -147,14 +147,29 @@ class ResidualAxisStats:
             for sample in samples:
                 self.add_sample(stage, sample)
 
-    def payload(self, *, elapsed_seconds: float, jobs: int, top: int) -> dict[str, Any]:
+    def payload(
+        self,
+        *,
+        elapsed_seconds: float,
+        jobs: int,
+        top: int,
+        include_key_tables: bool = False,
+    ) -> dict[str, Any]:
         assert self.terminal_family_keys is not None
         assert self.terminal_template_keys is not None
         assert self.certificate_template_keys is not None
         assert self.residual_signatures is not None
         assert self.terminal_by_reduced_shadow is not None
         assert self.terminal_by_axis is not None
-        return {
+        counters = {
+            "terminal_family_keys": self.terminal_family_keys,
+            "terminal_template_keys": self.terminal_template_keys,
+            "certificate_template_keys": self.certificate_template_keys,
+            "residual_signatures": self.residual_signatures,
+            "terminal_by_reduced_shadow": self.terminal_by_reduced_shadow,
+            "terminal_by_axis": self.terminal_by_axis,
+        }
+        payload = {
             "schema_version": 1,
             "mode": "nonidentity-residual-axis-profile",
             "arithmetic": "exact Fraction/integer arithmetic; no floating point",
@@ -184,8 +199,78 @@ class ResidualAxisStats:
             "residual_signatures": self.residual_signatures.payload(top=top),
             "terminal_by_reduced_shadow": self.terminal_by_reduced_shadow.payload(top=top),
             "terminal_by_axis": self.terminal_by_axis.payload(top=top),
+            "family_gate": family_gate_payload(self, counters),
             "samples": self.samples,
         }
+        if include_key_tables:
+            payload["key_tables"] = {
+                name: dict(sorted(counter.counts.items()))
+                for name, counter in counters.items()
+            }
+        return payload
+
+
+def projected_full_count(sample_count: int, scanned: int) -> int | None:
+    if scanned <= 0:
+        return None
+    return round(sample_count * EXPECTED_PAIR_WORDS / scanned)
+
+
+def projected_cpu_hours(projected_leaves: int | None, seconds_per_leaf: float) -> float | None:
+    if projected_leaves is None:
+        return None
+    return projected_leaves * seconds_per_leaf / 3600.0
+
+
+def family_gate_payload(
+    stats: ResidualAxisStats,
+    counters: dict[str, CappedCounter],
+) -> dict[str, Any]:
+    """Return a diagnostic scaling model for residual local-certificate families.
+
+    The projection is intentionally simple and conservative: it linearly scales
+    observed bounded-window distinct counts to the full pair-word space.  It is
+    not proof evidence and should only be used to choose the next exact
+    profiling/emission target.
+    """
+
+    smoke_seconds = 45.24
+    smoke_rss_kib = 5_184_428
+    estimates: dict[str, Any] = {}
+    for name, counter in counters.items():
+        projected = projected_full_count(len(counter.counts), stats.scanned)
+        estimates[name] = {
+            "sample_distinct": len(counter.counts),
+            "sample_exact": counter.exact,
+            "sample_overflow_cases": counter.overflow_cases,
+            "linear_projected_full_distinct": projected,
+            "projected_cpu_hours_at_smoke_leaf_cost": projected_cpu_hours(
+                projected,
+                smoke_seconds,
+            ),
+        }
+    residual_projected = projected_full_count(stats.residual_survivors, stats.scanned)
+    return {
+        "warning": (
+            "diagnostic linear projection only; exact full coverage still needs "
+            "Lean-checked family certificates"
+        ),
+        "calibration_leaf": {
+            "target": "Cuboctahedron.Generated.NonIdentity.Residual.LocalCertSmoke",
+            "seconds": smoke_seconds,
+            "max_rss_kib": smoke_rss_kib,
+        },
+        "residual_survivors": {
+            "sample_count": stats.residual_survivors,
+            "linear_projected_full_count": residual_projected,
+        },
+        "distinct_family_estimates": estimates,
+        "decision_hint": (
+            "If projected exact terminal-family or residual-signature counts "
+            "remain far above the low-thousands gate, promote signed-state "
+            "empty-cone/Gordan pruning before broad Lean emission."
+        ),
+    }
 
 
 def certificate_kind_for_failure(failure: str) -> str:
@@ -536,6 +621,37 @@ def render_markdown(payload: dict[str, Any]) -> str:
         for row in tracker["top"]:
             lines.append(f"| `{row['key']}` | `{row['count']:,}` |")
 
+    gate = payload["family_gate"]
+    lines.extend([
+        "",
+        "## Family Gate Projection",
+        "",
+        f"- Warning: {gate['warning']}",
+        f"- Calibration target: `{gate['calibration_leaf']['target']}`",
+        f"- Calibration seconds per smoke leaf: `{gate['calibration_leaf']['seconds']:.2f}`",
+        f"- Calibration max RSS: `{gate['calibration_leaf']['max_rss_kib']:,} KiB`",
+        f"- Residual survivors in sample: `{gate['residual_survivors']['sample_count']:,}`",
+        f"- Linear projected full residual survivors: "
+        f"`{gate['residual_survivors']['linear_projected_full_count']:,}`",
+        "",
+        "| Counter | Sample distinct | Exact sample | Linear projected full distinct | CPU hours at smoke cost |",
+        "| --- | ---: | :---: | ---: | ---: |",
+    ])
+    for key, row in gate["distinct_family_estimates"].items():
+        projected = row["linear_projected_full_distinct"]
+        cpu_hours = row["projected_cpu_hours_at_smoke_leaf_cost"]
+        projected_text = "n/a" if projected is None else f"{projected:,}"
+        cpu_text = "n/a" if cpu_hours is None else f"{cpu_hours:.2f}"
+        exact_text = "yes" if row["sample_exact"] else "no"
+        lines.append(
+            f"| `{key}` | `{row['sample_distinct']:,}` | {exact_text} | "
+            f"`{projected_text}` | `{cpu_text}` |"
+        )
+    lines.extend([
+        "",
+        f"Decision hint: {gate['decision_hint']}",
+    ])
+
     lines.extend(["", "## Sample Buckets", ""])
     for stage, samples in payload["samples"].items():
         lines.append(f"- `{stage}`: `{len(samples)}` samples")
@@ -553,6 +669,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--sample-limit", type=int, default=20)
     parser.add_argument("--top", type=int, default=25)
     parser.add_argument("--progress", type=int)
+    parser.add_argument(
+        "--include-key-tables",
+        action="store_true",
+        help="include full stored key tables in JSON for bounded family-gate runs",
+    )
     parser.add_argument("--json", type=Path)
     parser.add_argument("--markdown", type=Path)
     return parser.parse_args()
@@ -576,7 +697,12 @@ def main() -> None:
         progress=args.progress,
     )
     elapsed = time.time() - began
-    payload = stats.payload(elapsed_seconds=elapsed, jobs=args.jobs, top=args.top)
+    payload = stats.payload(
+        elapsed_seconds=elapsed,
+        jobs=args.jobs,
+        top=args.top,
+        include_key_tables=args.include_key_tables,
+    )
     json_path = args.json or default_json_path(args.start, end)
     md_path = args.markdown or default_md_path(args.start, end)
     write_json(json_path, payload)

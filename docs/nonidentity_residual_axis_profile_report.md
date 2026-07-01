@@ -91,9 +91,68 @@ terminal-template keys, and the disjoint 100k windows have between `9` and
 terminal-template theorems in Lean, while local generated evidence supplies
 only the small numeric inequalities needed to instantiate those templates.
 
+## Family-Gate Calibration
+
+The profiler now emits a `family_gate` section to make the scaling decision
+explicit.  This gate uses the observed `LocalCertSmoke` build as a deliberately
+conservative cost model:
+
+```text
+target: Cuboctahedron.Generated.NonIdentity.Residual.LocalCertSmoke
+elapsed: 45.24s
+max RSS: 5,184,428 KiB
+```
+
+Calibration command:
+
+```bash
+/usr/bin/time -v python3 scripts/nonidentity_residual_axis_profile.py \
+  --start 0 --end 100000 \
+  --jobs 4 \
+  --chunk-size 25000 \
+  --max-distinct 20000 \
+  --top 30 \
+  --sample-limit 10 \
+  --include-key-tables \
+  --json scripts/generated/nonidentity_residual_family_gate_000000000_000100000.json \
+  --markdown scripts/generated/nonidentity_residual_family_gate_000000000_000100000.md
+```
+
+Telemetry:
+
+| range | jobs | elapsed | max RSS | residual survivors |
+| --- | ---: | ---: | ---: | ---: |
+| `[0,100000)` | 4 | 8.51s | 31,188 kB | 9,036 |
+
+Linear full-run projections from the first 100k window:
+
+| coordinate | sample distinct | projected full distinct | projected CPU hours at smoke cost |
+| --- | ---: | ---: | ---: |
+| `certificate_template_keys` | 32 | 31,135 | 391.26 |
+| `terminal_template_keys` | 32 | 31,135 | 391.26 |
+| `terminal_by_axis` | 823 | 800,756 | 10,062.83 |
+| `terminal_by_reduced_shadow` | 1,471 | 1,431,242 | 17,985.94 |
+| `terminal_family_keys` | 1,663 | 1,618,052 | 20,333.52 |
+| `residual_signatures` | 6,330 | 6,158,913 | 77,397.01 |
+
+These projections are diagnostics, not proof evidence.  They are still enough
+to reject broad local-certificate emission: even the coarse exact template
+coordinate is far beyond the 5-6 hour target under the current theorem surface.
+
+Decision from this gate:
+
+- keep the terminal local-certificate files as API/soundness smoke tests;
+- do not scale them into production generated evidence;
+- promote signed-state empty-cone/Gordan prefix pruning as the next
+  nontranslation compression target;
+- if local axis certificates are revisited, first replace the Rat-heavy
+  theorem surface with a much cheaper integer/projective instantiation.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
+- `scripts/generated/nonidentity_residual_family_gate_000000000_000100000.json`
+- `scripts/generated/nonidentity_residual_family_gate_000000000_000100000.md`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000000100.json`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000000100.md`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000010000.json`

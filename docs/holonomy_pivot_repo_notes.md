@@ -197,3 +197,21 @@ Recent checkpoint:
   directly; the next residual work must profile reusable family counts and
   consider integer-normalized or empty-cone/Gordan theorem surfaces before
   broad generation.
+
+Follow-up family gate:
+
+- `scripts/nonidentity_residual_axis_profile.py` now emits a `family_gate`
+  payload.  The first `[0,100000)` calibration ran with `--jobs 4`, completed
+  in `8.51s`, and used only `31,188 KiB` peak RSS, so the profiler itself is
+  safe.
+- The scaling signal rejects direct production use of the local-certificate
+  route.  In that window, exact residual signatures already number `6,330`
+  and linearly project to about `6.16M` full-run signatures; even the coarse
+  certificate-template coordinate projects to about `31,135` families.  At the
+  observed `LocalCertSmoke` theorem cost, this is hundreds to many thousands of
+  CPU hours, not the requested 5-6 hour build.
+- Active nontranslation strategy is therefore: keep the local-certificate
+  structures as soundness/API building blocks, but move the production
+  compression target to signed-state empty-cone/Gordan prefix pruning and/or
+  substantially cheaper integer/projective theorem surfaces before emitting
+  broad generated residual evidence.
