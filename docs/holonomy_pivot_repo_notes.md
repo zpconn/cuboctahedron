@@ -2300,3 +2300,37 @@ That record should construct
 `BellmanNonposStartViolationObject`s from target cancellation pairing,
 observed schedule/square-gap, local forced-axis compatibility, and canonical
 bad-face compatibility.
+
+Cancellation-pairing language core:
+
+- Added `Cuboctahedron/Search/CancellationPairingLanguage.lean`.
+- This is the first Lean-side semantic component of the top-pairing Bellman
+  membership language.
+- Key definitions:
+
+  ```lean
+  TriCancellationPair
+  TriSurvivor
+  TriCancellationSummary
+  triangularCancellationSummaryOfShadow
+  triangularCancellationSummaryOfPairWord
+  topPairingTargetSummary
+  TopPairingLanguageAtRank
+  ```
+
+- The target now exists in Lean as the exact summary:
+
+  ```text
+  pairs=3-4:d11m
+  survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1
+  ```
+
+- Focused check:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `lake build Cuboctahedron.Search.CancellationPairingLanguage` | `0:02.30` | `3,280,896 kB` |
+
+This does not prove Bellman terminal membership yet.  It replaces one JSON
+coordinate in the accepted predicate stack with a Lean predicate that future
+generated membership shards can use.

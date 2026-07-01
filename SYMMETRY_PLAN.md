@@ -50419,3 +50419,58 @@ where `semanticContainsRank` encodes the already-profiled closed language:
 target cancellation pairing, observed schedule/square-gap, local forced-axis
 compatibility, and canonical bad-face compatibility.  Exact path classes and
 sampled rank indices remain diagnostics only.
+
+### Holonomy/Bellman Pivot - cancellation-pairing language core accepted
+
+Added a small hand-written Lean module:
+
+```text
+Cuboctahedron/Search/CancellationPairingLanguage.lean
+```
+
+It defines the first semantic component of the Bellman membership language:
+ordered adjacent cancellation of the triangular shadow.
+
+Key definitions:
+
+```lean
+structure TriCancellationPair
+structure TriSurvivor
+structure TriCancellationSummary
+def triangularCancellationSummaryOfShadow
+def triangularCancellationSummaryOfPairWord
+def topPairingTargetSummary
+def TopPairingLanguageAtRank
+```
+
+The current top-pairing target is now a Lean object rather than only a JSON
+string:
+
+```text
+pairs=3-4:d11m
+survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1
+```
+
+and the module checks the representative triangular shadow by `rfl`:
+
+```lean
+theorem topPairingTargetShadow_summary :
+    triangularCancellationSummaryOfShadow topPairingTargetShadow =
+      topPairingTargetSummary
+```
+
+Focused check:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `lake build Cuboctahedron.Search.CancellationPairingLanguage` | `0:02.30` | `3,280,896 kB` | passed |
+
+Decision: accepted as the first Lean-side semantic language predicate for the
+Bellman membership theorem.  This is not full membership yet.  The remaining
+closed-language components still need Lean predicates and bridges:
+
+- observed schedule / square-gap compatibility;
+- local forced-axis next-face compatibility;
+- canonical bad-face compatibility;
+- construction of `BellmanNonposStartViolationObject`s from the combined
+  language.
