@@ -5,7 +5,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLan
 theorem graphLanguage2AllSmoke_rank_killed
     {rank : Fin numPairWords}
     (hrank :
-      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2GraphSmoke.sampledContainsRank
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke.terminalContainsRank
         rank) :
     Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
   Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke.graphSmoke_sampled_axis_rank_killed

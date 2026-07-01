@@ -1767,6 +1767,27 @@ emitter itself: heavy graph/potential leaves stay below terminal modules,
 terminal modules own local terminal evidence, and roots/groups import only
 semantic killed theorem surfaces.
 
+Terminal-boundary cleanup:
+
+- The split emitter now adds a terminal-local predicate alias:
+
+  ```lean
+  def terminalContainsRank (rank : Fin numPairWords) : Prop
+  ```
+
+- The generated all/root smoke theorem now mentions
+  `BellmanTopPairingGraphLanguage2TerminalSmoke.terminalContainsRank` instead
+  of the graph shard's `sampledContainsRank`.
+- Focused build of
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke`
+  passed in `1:03.12` wall time with `7,669,176 kB` max RSS.
+- The split-boundary audit still passes with graph positive payload count `0`
+  and terminal positive payload count `2`.
+
+This keeps group/root theorem types at the terminal semantic layer while still
+allowing the terminal shard to depend transitively on the private graph/potential
+leaf.
+
 Bellman aggregate next-action planner:
 
 - Added `scripts/plan_bellman_pivot_next.py`.

@@ -2366,8 +2366,11 @@ def emit(
             ])
         out.extend([
             "",
+            "def terminalContainsRank (rank : Fin numPairWords) : Prop :=",
+            "  sampledContainsRank rank",
+            "",
             "theorem graphSmoke_sampled_axis_rank_killed",
-            "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",
+            "    {rank : Fin numPairWords} (hrank : terminalContainsRank rank) :",
             "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
             "  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs",
             "    graphSmoke_sampled_axis_object_cover_eval_covers",
@@ -2384,7 +2387,6 @@ def emit(
 
     def make_all_lines(
         terminal_import_name: str,
-        graph_ns: str,
         terminal_ns: str,
         all_ns: str,
     ) -> list[str]:
@@ -2396,7 +2398,7 @@ def emit(
             "theorem graphLanguage2AllSmoke_rank_killed",
             "    {rank : Fin numPairWords}",
             "    (hrank :",
-            f"      {graph_ns}.sampledContainsRank",
+            f"      {terminal_ns}.terminalContainsRank",
             "        rank) :",
             "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
             f"  {terminal_ns}.graphSmoke_sampled_axis_rank_killed",
@@ -2455,7 +2457,6 @@ def emit(
             assert all_namespace is not None
             all_lines = make_all_lines(
                 terminal_namespace,
-                graph_namespace,
                 terminal_namespace,
                 all_namespace,
             )

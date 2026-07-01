@@ -49563,6 +49563,32 @@ certificate-packing layer; it is scaling this split emitter to multiple
 Bellman margin families and then profiling cocycle-gauge/cancellation-summary
 state reductions only where the Bellman state count grows too quickly.
 
+Follow-up terminal-boundary cleanup: the split emitter now also makes the
+terminal shard re-export a terminal-local predicate:
+
+```lean
+def terminalContainsRank (rank : Fin numPairWords) : Prop
+```
+
+The generated root theorem now takes:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke.terminalContainsRank rank
+```
+
+rather than mentioning the graph shard's `sampledContainsRank` in the root
+theorem type.  This keeps the public root surface at the terminal semantic
+layer even though the terminal shard still imports the graph/potential leaf.
+
+Focused build after this cleanup:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2AllSmoke` | `1:03.12` | `7,669,176 kB` | passed |
+
+The split-boundary audit still passes; terminal line count is now `743` because
+of the local predicate alias.
+
 ### Holonomy/Bellman Pivot - aggregate next-action planner accepted
 
 Added an untrusted planning diagnostic:

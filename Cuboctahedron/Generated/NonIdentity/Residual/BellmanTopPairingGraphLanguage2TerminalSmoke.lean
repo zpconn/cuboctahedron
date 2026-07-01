@@ -726,8 +726,11 @@ private def sampledObjectStartViolationCert :
         change cls0001Word = unrankPairWord cls0001Rank
         exact cls0001_unrank_word.symm
 
+def terminalContainsRank (rank : Fin numPairWords) : Prop :=
+  sampledContainsRank rank
+
 theorem graphSmoke_sampled_axis_rank_killed
-    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
+    {rank : Fin numPairWords} (hrank : terminalContainsRank rank) :
     Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
   Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
     graphSmoke_sampled_axis_object_cover_eval_covers

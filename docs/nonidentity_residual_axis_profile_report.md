@@ -3357,6 +3357,30 @@ terminal-only root/group shard.  This keeps broad imports aligned with the
 semantic-family pivot and prevents graph/potential internals or terminal cert
 payloads from leaking into root theorem statements.
 
+Terminal-boundary cleanup:
+
+- The terminal shard now re-exports:
+
+  ```lean
+  def terminalContainsRank (rank : Fin numPairWords) : Prop
+  ```
+
+- The all/root smoke theorem uses that terminal-local predicate in its premise,
+  so root theorem statements no longer directly mention the graph shard's
+  `sampledContainsRank`.
+- Focused build passed:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `BellmanTopPairingGraphLanguage2AllSmoke` | `1:03.12` | `7,669,176 kB` |
+
+- Split-boundary audit remains `passed`; terminal positive payload count stays
+  `2`.
+
+Decision: accepted.  This is a better rehearsal for production root/group
+modules, which should compose terminal semantic coverage predicates rather
+than graph/potential predicates.
+
 ### Aggregate next-action planner
 
 Added:
