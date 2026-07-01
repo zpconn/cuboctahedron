@@ -1,4 +1,251 @@
 {
+  "argmax_path": {
+    "edge_count": 14,
+    "edges": [
+      {
+        "dst": "step=1|faces=1,0,1,1,1,1,1,1,1,1,1,1,1,1|par=100|stack=<empty>",
+        "dst_short": "step=1|faces=1,0,1,1,1,1,1,1,1,1,1,1,1,1|par=100|stack=<empty>",
+        "edge_realizing_ranks": [
+          312761,
+          312772,
+          312773,
+          824407,
+          914497,
+          914499,
+          944197,
+          944199,
+          946777,
+          946779
+        ],
+        "gain": "103/88",
+        "src": "step=0|faces=1,1,1,1,1,1,1,1,1,1,1,1,1,1|par=000|stack=<empty>",
+        "src_short": "step=0|faces=1,1,1,1,1,1,1,1,1,1,1,1,1,1|par=000|stack=<empty>",
+        "step": 1
+      },
+      {
+        "dst": "step=2|faces=1,0,1,0,1,1,1,1,1,1,1,1,1,1|par=110|stack=<empty>",
+        "dst_short": "step=2|faces=1,0,1,0,1,1,1,1,1,1,1,1,1,1|par=110|stack=<empty>",
+        "edge_realizing_ranks": [
+          312761,
+          312772,
+          312773,
+          824407,
+          914497,
+          914499,
+          944197,
+          944199,
+          946777,
+          946779
+        ],
+        "gain": "-73/88",
+        "src": "step=1|faces=1,0,1,1,1,1,1,1,1,1,1,1,1,1|par=100|stack=<empty>",
+        "src_short": "step=1|faces=1,0,1,1,1,1,1,1,1,1,1,1,1,1|par=100|stack=<empty>",
+        "step": 2
+      },
+      {
+        "dst": "step=3|faces=1,0,1,0,1,1,1,1,0,1,1,1,1,1|par=110|stack=dm11",
+        "dst_short": "step=3|faces=1,0,1,0,1,1,1,1,0,1,1,1,1,1|par=110|stack=dm11",
+        "edge_realizing_ranks": [
+          824407,
+          914497,
+          914499,
+          944197,
+          944199,
+          946777,
+          946779,
+          947437,
+          947439,
+          947581
+        ],
+        "gain": "-31/22",
+        "src": "step=2|faces=1,0,1,0,1,1,1,1,1,1,1,1,1,1|par=110|stack=<empty>",
+        "src_short": "step=2|faces=1,0,1,0,1,1,1,1,1,1,1,1,1,1|par=110|stack=<empty>",
+        "step": 3
+      },
+      {
+        "dst": "step=4|faces=1,0,1,0,1,0,1,1,0,1,1,1,1,1|par=111|stack=dm11",
+        "dst_short": "step=4|faces=1,0,1,0,1,0,1,1,0,1,1,1,1,1|par=111|stack=dm11",
+        "edge_realizing_ranks": [
+          824407
+        ],
+        "gain": "57/44",
+        "src": "step=3|faces=1,0,1,0,1,1,1,1,0,1,1,1,1,1|par=110|stack=dm11",
+        "src_short": "step=3|faces=1,0,1,0,1,1,1,1,0,1,1,1,1,1|par=110|stack=dm11",
+        "step": 4
+      },
+      {
+        "dst": "step=5|faces=1,0,1,0,0,0,1,1,0,1,1,1,1,1|par=110|stack=dm11",
+        "dst_short": "step=5|faces=1,0,1,0,0,0,1,1,0,1,1,1,1,1|par=110|stack=dm11",
+        "edge_realizing_ranks": [
+          824407
+        ],
+        "gain": "57/44",
+        "src": "step=4|faces=1,0,1,0,1,0,1,1,0,1,1,1,1,1|par=111|stack=dm11",
+        "src_short": "step=4|faces=1,0,1,0,1,0,1,1,0,1,1,1,1,1|par=111|stack=dm11",
+        "step": 5
+      },
+      {
+        "dst": "step=6|faces=1,0,1,0,0,0,1,1,0,1,1,1,0,1|par=110|stack=dm11 d111",
+        "dst_short": "step=6|faces=1,0,1,0,0,0,1,1,0,1,1,1,0,1|par=110|stack=dm11 d111",
+        "edge_realizing_ranks": [
+          824407,
+          151567,
+          151569
+        ],
+        "gain": "12/11",
+        "src": "step=5|faces=1,0,1,0,0,0,1,1,0,1,1,1,1,1|par=110|stack=dm11",
+        "src_short": "step=5|faces=1,0,1,0,0,0,1,1,0,1,1,1,1,1|par=110|stack=dm11",
+        "step": 6
+      },
+      {
+        "dst": "step=7|faces=1,0,1,0,0,0,1,1,0,1,0,1,0,1|par=110|stack=dm11 d111 d1m1",
+        "dst_short": "step=7|faces=1,0,1,0,0,0,1,1,0,1,0,1,0,1|par=110|stack=dm11 d111 d1m1",
+        "edge_realizing_ranks": [
+          824407,
+          914497,
+          914499,
+          151567,
+          151569
+        ],
+        "gain": "-9/22",
+        "src": "step=6|faces=1,0,1,0,0,0,1,1,0,1,1,1,0,1|par=110|stack=dm11 d111",
+        "src_short": "step=6|faces=1,0,1,0,0,0,1,1,0,1,1,1,0,1|par=110|stack=dm11 d111",
+        "step": 7
+      },
+      {
+        "dst": "step=8|faces=1,0,1,0,0,0,1,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1 d11m",
+        "dst_short": "step=8|faces=1,0,1,0,0,0,1,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1 d11m",
+        "edge_realizing_ranks": [
+          824407,
+          914497,
+          914499,
+          944197,
+          944199,
+          151567,
+          151569
+        ],
+        "gain": "-18/11",
+        "src": "step=7|faces=1,0,1,0,0,0,1,1,0,1,0,1,0,1|par=110|stack=dm11 d111 d1m1",
+        "src_short": "step=7|faces=1,0,1,0,0,0,1,1,0,1,0,1,0,1|par=110|stack=dm11 d111 d1m1",
+        "step": 8
+      },
+      {
+        "dst": "step=9|faces=1,0,1,0,0,0,0,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1",
+        "dst_short": "step=9|faces=1,0,1,0,0,0,0,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1",
+        "edge_realizing_ranks": [
+          824407,
+          914497,
+          914499,
+          944197,
+          944199,
+          946777,
+          946779,
+          151567,
+          151569
+        ],
+        "gain": "-18/11",
+        "src": "step=8|faces=1,0,1,0,0,0,1,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1 d11m",
+        "src_short": "step=8|faces=1,0,1,0,0,0,1,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1 d11m",
+        "step": 9
+      },
+      {
+        "dst": "step=10|faces=1,0,1,0,0,0,0,1,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11",
+        "dst_short": "step=10|faces=1,0,1,0,0,0,0,1,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11",
+        "edge_realizing_ranks": [
+          824407,
+          914497,
+          914499,
+          944197,
+          944199,
+          946777,
+          946779,
+          947437,
+          947439,
+          151567
+        ],
+        "gain": "-9/22",
+        "src": "step=9|faces=1,0,1,0,0,0,0,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1",
+        "src_short": "step=9|faces=1,0,1,0,0,0,0,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1",
+        "step": 10
+      },
+      {
+        "dst": "step=11|faces=1,0,1,0,0,0,0,0,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111",
+        "dst_short": "step=11|faces=1,0,1,0,0,0,0,0,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111",
+        "edge_realizing_ranks": [
+          914499,
+          944199,
+          946779,
+          947439,
+          947601,
+          151569
+        ],
+        "gain": "12/11",
+        "src": "step=10|faces=1,0,1,0,0,0,0,1,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11",
+        "src_short": "step=10|faces=1,0,1,0,0,0,0,1,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11",
+        "step": 11
+      },
+      {
+        "dst": "step=12|faces=1,0,1,0,0,0,0,0,0,0,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+        "dst_short": "step=12|faces=1,0,1,0,0,0,0,0,0,0,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+        "edge_realizing_ranks": [
+          914499,
+          944199,
+          946779,
+          947439,
+          947601,
+          151569
+        ],
+        "gain": "-31/22",
+        "src": "step=11|faces=1,0,1,0,0,0,0,0,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111",
+        "src_short": "step=11|faces=1,0,1,0,0,0,0,0,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111",
+        "step": 12
+      },
+      {
+        "dst": "step=13|faces=1,0,0,0,0,0,0,0,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+        "dst_short": "step=13|faces=1,0,0,0,0,0,0,0,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+        "edge_realizing_ranks": [
+          312773,
+          914499,
+          944199,
+          946779,
+          947439,
+          947601,
+          947627,
+          151569
+        ],
+        "gain": "103/88",
+        "src": "step=12|faces=1,0,1,0,0,0,0,0,0,0,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+        "src_short": "step=12|faces=1,0,1,0,0,0,0,0,0,0,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+        "step": 13
+      },
+      {
+        "dst": "step=14|faces=0,0,0,0,0,0,0,0,0,0,0,0,0,0|par=000|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+        "dst_short": "step=14|faces=0,0,0,0,0,0,0,0,0,0,0,0,0,0|par=000|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+        "edge_realizing_ranks": [
+          312761,
+          312772,
+          312773,
+          824407,
+          914497,
+          914499,
+          944197,
+          944199,
+          946777,
+          946779
+        ],
+        "gain": "-73/88",
+        "src": "step=13|faces=1,0,0,0,0,0,0,0,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+        "src_short": "step=13|faces=1,0,0,0,0,0,0,0,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+        "step": 14
+      }
+    ],
+    "final_state": "step=14|faces=0,0,0,0,0,0,0,0,0,0,0,0,0,0|par=000|stack=dm11 d111 d1m1 dm11 d111 d1m1",
+    "is_observed_path": false,
+    "margin_bound": "6/11",
+    "realizing_ranks": [],
+    "root_state": "step=0|faces=1,1,1,1,1,1,1,1,1,1,1,1,1,1|par=000|stack=<empty>",
+    "total_gain": "-16/11"
+  },
   "arithmetic": "exact Fraction/integer arithmetic; no floating point",
   "bellman": {
     "bounded_fixed_point": true,
@@ -26,7 +273,7 @@
     "scanned": 1000000,
     "states": 75
   },
-  "elapsed_seconds": 80.21339185599936,
+  "elapsed_seconds": 79.3532561189786,
   "end": 1000000,
   "jobs": 4,
   "mode": "nonidentity-margin-bellman-profile",

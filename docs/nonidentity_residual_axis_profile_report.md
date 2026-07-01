@@ -618,6 +618,27 @@ source-position progress so the graph describes the real top-family language
 without keying by exact prefix, exact affine RHS, solved start point, or total
 affine map.
 
+Argmax spurious-path diagnostic:
+
+- The profiler now records the Bellman-maximizing path, the ranks realizing
+  each selected edge, and whether any observed rank realizes the whole path.
+- Rerunning the failing `[0,1000000)` `with-step` profile kept the same counts
+  (`73` states, `101` edges, max margin bound `6/11`) with `25,676 kB` max
+  RSS.
+- Rerunning `with-step-face` kept the same failure shape (`75` states,
+  `101` edges, max margin bound `6/11`) with `25,668 kB` max RSS.
+- In both reruns the argmax path had `14` edges, total gain `-16/11`, margin
+  bound `6/11`, and `is_observed_path = false`.  No rank realizes the whole
+  path.  The selected edges are individually observed, but they splice
+  incompatible prefixes and suffixes from ranks such as `824407`, `914499`,
+  `944199`, `946779`, `947439`, `947601`, and `151569`.
+
+Decision: face inventory does not fix the Bellman over-approximation.  The
+next profiler refinement should encode target cancellation-pairing/bracket
+progress or source-position progress.  Do not add exact affine RHS, solved
+start points, total affine maps, or full prefix words to the production state
+unless every coarser semantic progress coordinate fails.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

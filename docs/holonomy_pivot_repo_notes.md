@@ -334,6 +334,11 @@ Top margin+cancellation-pairing checkpoint:
   Bellman as a proof shape but rejects the current coarse state key for Lean
   emission.  Next refine the automaton with cancellation-progress or
   source-position progress, not exact affine RHS or solved start points.
+- Argmax diagnostic status: the Bellman-maximizing coarse path is not realized
+  by any observed rank.  It stitches individually observed edges from
+  incompatible words, and adding signed-face inventory does not prevent the
+  splice.  This points specifically to missing cancellation-pairing/bracket
+  progress or source-position progress.
 
 ## Explicit Non-Goals
 

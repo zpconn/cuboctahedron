@@ -220,6 +220,72 @@ def solve_bellman(
     return memo, acyclic
 
 
+def short_state(state: str, *, limit: int = 180) -> str:
+    if len(state) <= limit:
+        return state
+    return state[: limit - 3] + "..."
+
+
+def edge_key(edge: tuple[str, Fraction, str]) -> tuple[str, str, str]:
+    src, gain, dst = edge
+    return (src, qkey(gain), dst)
+
+
+def argmax_bellman_path(
+    *,
+    root_states: set[str],
+    edges: set[tuple[str, Fraction, str]],
+    potential: dict[str, Fraction],
+    max_const: Fraction,
+    observed_sequences: dict[tuple[tuple[str, str, str], ...], list[int]],
+    edge_ranks: dict[tuple[str, str, str], list[int]],
+) -> dict[str, Any] | None:
+    if not root_states:
+        return None
+    outgoing: dict[str, list[tuple[Fraction, str]]] = defaultdict(list)
+    for src, gain, dst in edges:
+        outgoing[src].append((gain, dst))
+    root = max(root_states, key=lambda state: (potential.get(state, Fraction(0)), state))
+    state = root
+    seen: set[str] = set()
+    path_edges: list[tuple[str, Fraction, str]] = []
+    total_gain = Fraction(0)
+    while outgoing.get(state):
+        if state in seen:
+            break
+        seen.add(state)
+        gain, dst = max(
+            outgoing[state],
+            key=lambda item: (item[0] + potential.get(item[1], Fraction(0)), qkey(item[0]), item[1]),
+        )
+        path_edges.append((state, gain, dst))
+        total_gain += gain
+        state = dst
+    keyed = tuple(edge_key(edge) for edge in path_edges)
+    realizing_ranks = observed_sequences.get(keyed, [])
+    return {
+        "root_state": root,
+        "final_state": state,
+        "edge_count": len(path_edges),
+        "total_gain": qkey(total_gain),
+        "margin_bound": qkey(max_const + total_gain),
+        "is_observed_path": bool(realizing_ranks),
+        "realizing_ranks": realizing_ranks[:20],
+        "edges": [
+            {
+                "step": idx,
+                "gain": qkey(gain),
+                "src": src,
+                "dst": dst,
+                "src_short": short_state(src),
+                "dst_short": short_state(dst),
+                "edge_realizing_ranks": edge_ranks.get(edge_key((src, gain, dst)), [])[:10],
+            }
+            for idx, (src, gain, dst) in enumerate(path_edges, start=1)
+        ],
+    }
+
+
 @dataclass
 class BellmanStats:
     start: int
@@ -485,6 +551,8 @@ def bellman_payload(stats: BellmanStats, *, elapsed: float, jobs: int) -> dict[s
     edges: set[tuple[str, Fraction, str]] = set()
     final_states: set[str] = set()
     root_states: set[str] = set()
+    edge_ranks: dict[tuple[str, str, str], list[int]] = defaultdict(list)
+    observed_sequences: dict[tuple[tuple[str, str, str], ...], list[int]] = defaultdict(list)
     denominators = [1]
     gain_bits = 0
     for path in stats.paths:
@@ -492,8 +560,14 @@ def bellman_payload(stats: BellmanStats, *, elapsed: float, jobs: int) -> dict[s
             root_states.add(path["states"][0])
             final_states.add(path["states"][-1])
         denominators.append(path["const"].denominator)
+        keyed_path = tuple(edge_key(edge) for edge in path["edges"])
+        observed_sequences[keyed_path].append(path["rank"])
         for src, gain, dst in path["edges"]:
-            edges.add((src, gain, dst))
+            edge = (src, gain, dst)
+            edges.add(edge)
+            ekey = edge_key(edge)
+            if len(edge_ranks[ekey]) < 20:
+                edge_ranks[ekey].append(path["rank"])
             denominators.append(gain.denominator)
             gain_bits = max(gain_bits, fraction_bit_length(gain))
     potential, bounded = solve_bellman(edges, final_states)
@@ -505,6 +579,14 @@ def bellman_payload(stats: BellmanStats, *, elapsed: float, jobs: int) -> dict[s
     potential_bits = max((fraction_bit_length(value) for value in potential.values()), default=0)
     scaled_bits = max(
         [abs(int(value * scale)).bit_length() for value in potential.values()] + [scale.bit_length(), 0]
+    )
+    argmax_path = argmax_bellman_path(
+        root_states=root_states,
+        edges=edges,
+        potential=potential,
+        max_const=max_const,
+        observed_sequences=observed_sequences,
+        edge_ranks=edge_ranks,
     )
     return {
         "schema_version": 1,
@@ -554,6 +636,7 @@ def bellman_payload(stats: BellmanStats, *, elapsed: float, jobs: int) -> dict[s
             {"key": key, "count": count}
             for key, count in stats.margin_families.most_common(20)
         ],
+        "argmax_path": argmax_path,
         "samples": stats.samples,
     }
 
@@ -582,6 +665,20 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
     lines.extend(["", "## Bellman", "", "| metric | value |", "| --- | ---: |"])
     for key, value in payload["bellman"].items():
         lines.append(f"| `{key}` | `{value}` |")
+    argmax_path = payload.get("argmax_path")
+    if argmax_path is not None:
+        lines.extend(["", "## Bellman Argmax Path", ""])
+        lines.append(f"- Edge count: `{argmax_path['edge_count']}`")
+        lines.append(f"- Total gain: `{argmax_path['total_gain']}`")
+        lines.append(f"- Margin bound: `{argmax_path['margin_bound']}`")
+        lines.append(f"- Is observed path: `{argmax_path['is_observed_path']}`")
+        lines.append(f"- Realizing ranks: `{argmax_path['realizing_ranks']}`")
+        lines.extend(["", "| step | gain | edge realizing ranks | dst state |", "| ---: | ---: | --- | --- |"])
+        for edge in argmax_path["edges"]:
+            lines.append(
+                f"| `{edge['step']}` | `{edge['gain']}` | "
+                f"`{edge['edge_realizing_ranks']}` | `{edge['dst_short']}` |"
+            )
     lines.extend(["", "## Top Margin Values", "", "| value | count |", "| --- | ---: |"])
     for row in payload["top_margin_values"]:
         lines.append(f"| `{row['key']}` | `{row['count']}` |")

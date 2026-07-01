@@ -1839,6 +1839,16 @@ Bellman profiler prototype checkpoint:
   state, not exact affine RHS, solved `p0`, total affine maps, or raw prefix
   words.  A useful immediate debugging aid would be to have the profiler print
   the argmax spurious path for a failing coarse state key.
+- Added that argmax diagnostic and reran the two failing 1M coarse modes.
+  `with-step` again had `73` states and `101` edges; `with-step-face` again
+  had `75` states and `101` edges.  Both reported the same Bellman-max path:
+  `14` edges, total gain `-16/11`, margin bound `6/11`,
+  `is_observed_path = false`, and no realizing rank.  The path stitches early
+  positive edges realized by rank `824407` with later edges realized by other
+  ranks.  Therefore simple remaining-count, face-inventory, parity, stack,
+  and step state is not enough.  The next state-key experiment should encode
+  the target cancellation pairing/bracket progress or source-position progress
+  so the automaton cannot splice incompatible prefixes and suffixes.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
