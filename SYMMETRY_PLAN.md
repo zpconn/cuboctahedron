@@ -55975,3 +55975,52 @@ Lean/generator slice must replace the generated `SampledRankIndex` /
 `TopPairingClosedLanguageAtRank` rather than from exact sampled-rank
 enumeration.  This remains a semantic membership theorem, not another
 certificate-packing layer.
+
+### Holonomy/Bellman Pivot - canonical closed-language adapter
+
+Added a small Prop-level adapter theorem in:
+
+```text
+Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+```
+
+New theorem:
+
+```lean
+theorem TopPairingClosedLanguageAtRank.forCanonicalSeq
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    TopPairingClosedLanguageForSeq
+      rank (canonicalSeqOfPairWord (unrankPairWord rank)) badFace
+```
+
+Purpose: the closed-language predicate is rank-indexed, but the object-cover
+membership theorem must construct Bellman objects from an actual forced face
+sequence.  This theorem gives the closed-language facts for the canonical
+sequence of the unranked pair word without introducing generated data.
+
+Commands run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 90 \
+  --json scripts/generated/bellman_top_pairing_language_guard_forCanonicalSeq.json \
+  -- lake env lean Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Search/BellmanTopPairingLanguage.lean || true
+```
+
+Results:
+
+- guarded direct Lean check passed in `8.01s`;
+- peak process-tree RSS `3819.79 MiB`;
+- minimum MemAvailable `46273.07 MiB`;
+- no guard kill;
+- forbidden-token scan over the changed Lean file: no hits.
+
+Decision: accepted as a small Lean-checked adapter toward the closed-language
+object-cover proof.  This still does not construct the object cover; it removes
+one rank-to-sequence bookkeeping obstacle for the next membership theorem.

@@ -333,6 +333,17 @@ theorem ofComponents
   localAxis := localAxis
   canonicalBadFace := canonicalBadFace
 
+theorem forCanonicalSeq
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    TopPairingClosedLanguageForSeq
+      rank (canonicalSeqOfPairWord (unrankPairWord rank)) badFace where
+  cancellation := h.cancellation
+  schedule := h.schedule
+  squareGap := h.squareGap
+  localAxis := h.localAxis
+  canonicalBadFace := h.canonicalBadFace
+
 end TopPairingClosedLanguageAtRank
 
 namespace TopPairingScheduleLanguageForSeq

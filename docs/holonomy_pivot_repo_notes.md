@@ -5289,3 +5289,23 @@ Bellman membership-mode audit:
   separately.  The next implementation target is therefore precise: construct
   `BellmanAxisRankObjectCover.covers` from
   `TopPairingClosedLanguageAtRank`, not from exact sampled-rank enumeration.
+
+Closed-language canonical-sequence adapter:
+
+- Added
+  `TopPairingClosedLanguageAtRank.forCanonicalSeq` in
+  `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`.
+- The theorem converts
+  `TopPairingClosedLanguageAtRank rank badFace` into
+  `TopPairingClosedLanguageForSeq rank
+  (canonicalSeqOfPairWord (unrankPairWord rank)) badFace`.
+- Purpose: the remaining object-cover proof needs to construct Bellman objects
+  from a concrete forced face sequence.  This adapter carries the closed
+  schedule/square-gap/local-axis/canonical-bad-face facts from the rank
+  predicate to the canonical sequence without generated data.
+- Validation:
+  - guarded direct Lean check of
+    `Cuboctahedron/Search/BellmanTopPairingLanguage.lean` passed in `8.01s`;
+  - peak process-tree RSS `3819.79 MiB`;
+  - minimum MemAvailable `46273.07 MiB`;
+  - forbidden-token scan over the changed Lean file had no hits.
