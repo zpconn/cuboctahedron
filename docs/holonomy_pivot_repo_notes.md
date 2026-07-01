@@ -2388,3 +2388,34 @@ Top-pairing square-gap language:
 
 Remaining language components before object membership: local forced-axis
 next-face compatibility and canonical bad-face compatibility.
+
+Top-pairing local forced-axis language:
+
+- Extended `Cuboctahedron/Search/BellmanTopPairingLanguage.lean` with the
+  exact local forced-axis predicate from the closure audit.
+- New definitions:
+
+  ```lean
+  topPairingLocalAxis
+  TopPairingLocalAxisAllows
+  TopPairingLocalAxisFrom
+  TopPairingLocalAxisLabels
+  TopPairingLocalAxisSeq
+  ```
+
+- The axis for this route is `(-1,-1,-3)`.  The predicate scans
+  contribution-order faces, checks positivity of the transformed normal
+  against that axis, and advances the prefix linear part by the corresponding
+  reflection.
+- `TopPairingScheduleLanguageAtRank` now includes cancellation summary,
+  observed step schedule, observed square-gap schedule, and local forced-axis
+  compatibility.
+- Focused check:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `0:04.35` | `3,272,680 kB` |
+
+Remaining before terminal object membership: canonical bad-face compatibility
+and construction of `BellmanNonposStartViolationObject`s from the combined
+language.

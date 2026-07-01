@@ -82,6 +82,27 @@ def TopPairingSquareGapLabels (labels : List Face) : Prop :=
 def TopPairingSquareGapSeq (seq : Step14 -> Face) : Prop :=
   TopPairingSquareGapLabels (faceLabelsInContributionOrder (fun f => f) seq)
 
+def topPairingLocalAxis : Vec3 Rat where
+  x := -1
+  y := -1
+  z := -3
+
+def TopPairingLocalAxisAllows (linear : Mat3 Rat) (face : Face) : Prop :=
+  0 < dot (matVec linear (normalQ face)) topPairingLocalAxis
+
+def TopPairingLocalAxisFrom : Mat3 Rat -> List Face -> Prop
+  | _linear, [] => True
+  | linear, face :: rest =>
+      TopPairingLocalAxisAllows linear face /\
+        TopPairingLocalAxisFrom
+          (matMul linear (reflM (normalQ face))) rest
+
+def TopPairingLocalAxisLabels (labels : List Face) : Prop :=
+  TopPairingLocalAxisFrom (matId : Mat3 Rat) labels
+
+def TopPairingLocalAxisSeq (seq : Step14 -> Face) : Prop :=
+  TopPairingLocalAxisLabels (faceLabelsInContributionOrder (fun f => f) seq)
+
 structure TopPairingScheduleLanguageAtRank (rank : Fin numPairWords) : Prop where
   cancellation :
     Cuboctahedron.TopPairingLanguageAtRank rank
@@ -90,6 +111,9 @@ structure TopPairingScheduleLanguageAtRank (rank : Fin numPairWords) : Prop wher
       (faceLabelsInContributionOrder (fun f => f) (canonicalSeqOfPairWord (unrankPairWord rank)))
   squareGap :
     TopPairingSquareGapLabels
+      (faceLabelsInContributionOrder (fun f => f) (canonicalSeqOfPairWord (unrankPairWord rank)))
+  localAxis :
+    TopPairingLocalAxisLabels
       (faceLabelsInContributionOrder (fun f => f) (canonicalSeqOfPairWord (unrankPairWord rank)))
 
 end Cuboctahedron

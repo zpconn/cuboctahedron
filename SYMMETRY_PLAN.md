@@ -50553,3 +50553,48 @@ Focused check:
 
 Decision: accepted.  The next remaining semantic-language components are
 local forced-axis next-face compatibility and canonical bad-face compatibility.
+
+### Holonomy/Bellman Pivot - local forced-axis language core accepted
+
+Extended `Cuboctahedron/Search/BellmanTopPairingLanguage.lean` with the local
+forced-axis next-face compatibility predicate used by the closure audit.
+
+The fixed axis for this top-pairing route is now explicit Lean data:
+
+```lean
+def topPairingLocalAxis : Vec3 Rat := (-1, -1, -3)
+```
+
+New predicates:
+
+```lean
+def TopPairingLocalAxisAllows (linear : Mat3 Rat) (face : Face) : Prop
+def TopPairingLocalAxisFrom : Mat3 Rat -> List Face -> Prop
+def TopPairingLocalAxisLabels : List Face -> Prop
+def TopPairingLocalAxisSeq : (Step14 -> Face) -> Prop
+```
+
+`TopPairingLocalAxisFrom` matches the diagnostic filter: at each
+contribution-order face, transform that face normal by the current prefix
+linear part and require positive dot product with the fixed axis, then advance
+the prefix linear part by the face reflection.
+
+The combined rank-language structure now contains:
+
+```text
+cancellation summary = topPairingTargetSummary
+observed contribution-order step schedule
+observed square-gap schedule
+local forced-axis next-face compatibility
+```
+
+Focused check:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `0:04.35` | `3,272,680 kB` | passed |
+
+Decision: accepted as the third Lean-side semantic language component.  The
+remaining language-level piece is canonical bad-face compatibility.  After
+that, the next proof-bearing step is to construct
+`BellmanNonposStartViolationObject`s from the combined language.
