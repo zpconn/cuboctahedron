@@ -63,6 +63,19 @@ TARGETS = {
         "max_local_imports": 18,
         "max_target_source_kib": 40,
     },
+    "generated-trace-01": {
+        "module": (
+            "Cuboctahedron.Generated.NonIdentity.Residual."
+            "BellmanTopPairingClosedLanguageGeneratedTraceSmoke01"
+        ),
+        "path": (
+            "Cuboctahedron/Generated/NonIdentity/Residual/"
+            "BellmanTopPairingClosedLanguageGeneratedTraceSmoke01.lean"
+        ),
+        "description": "second standalone generated Bellman closed-language trace shard",
+        "max_local_imports": 18,
+        "max_target_source_kib": 40,
+    },
     "split-composition": {
         "module": (
             "Cuboctahedron.Generated.NonIdentity.Residual."
@@ -73,6 +86,19 @@ TARGETS = {
             "BellmanTopPairingSplitCompositionSmoke.lean"
         ),
         "description": "tiny root composing trace and axis-forces split bridge",
+        "max_local_imports": 26,
+        "max_target_source_kib": 8,
+    },
+    "split-composition-01": {
+        "module": (
+            "Cuboctahedron.Generated.NonIdentity.Residual."
+            "BellmanTopPairingSplitCompositionSmoke01"
+        ),
+        "path": (
+            "Cuboctahedron/Generated/NonIdentity/Residual/"
+            "BellmanTopPairingSplitCompositionSmoke01.lean"
+        ),
+        "description": "second tiny root composing trace and axis-forces split bridge",
         "max_local_imports": 26,
         "max_target_source_kib": 8,
     },

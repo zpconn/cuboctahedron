@@ -52671,3 +52671,75 @@ under the post-crash envelope: both leaves and the tiny composition root pass
 when checked one at a time.  This supports the split architecture, but it does
 not justify running multiple Lean targets concurrently or broadening to larger
 generated shards without the same single-target gate.
+
+### Holonomy/Bellman Pivot - second sampled split path accepted
+
+Generated a second sampled Bellman trace shard from path object index `1` in:
+
+```text
+scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json
+```
+
+New generated files:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedLanguageGeneratedTraceSmoke01.lean
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSplitCompositionSmoke01.lean
+scripts/generated/bellman_closed_language_generated_trace_smoke_01.json
+```
+
+The second trace shard follows the same split architecture as the first:
+it imports only `Cuboctahedron.Search.BellmanTopPairingLanguage`, stops at the
+`PairSignLanguageAtRank` boundary, and exports
+`generated01ClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation`.
+The second composition root imports that trace shard plus the separately
+measured `BellmanAxisForcesPairSignSmoke`.
+
+The wrapper now has allowlisted targets for the second path:
+
+| target | max local imports | max target source |
+| --- | ---: | ---: |
+| `generated-trace-01` | `18` | `40 KiB` |
+| `split-composition-01` | `26` | `8 KiB` |
+
+Status-only after adding the targets:
+
+| target | status | imports | source |
+| --- | --- | ---: | ---: |
+| `generated-trace-01` | ready | `18 / 18` | `32 / 40 KiB` |
+| `split-composition-01` | initially refused | - | - |
+
+The initial refusal was expected: `split-composition-01` imports
+`BellmanTopPairingClosedLanguageGeneratedTraceSmoke01`, whose `.olean` did not
+yet exist.  The trace shard was then emitted under the strict guard:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --target generated-trace-01 \
+  --emit-olean \
+  --json /tmp/bellman_generated_trace01_tight_emit_olean.json
+```
+
+Result: passed in `11.01s`, with `3967 MiB` peak tree RSS, `6144 MiB`
+hard-AS cap, and `46244 MiB` minimum available memory.
+
+After that artifact was fresh, status-only passed for all five allowlisted
+targets, including `split-composition-01` at `26 / 26` imports and
+`3 / 8 KiB` source.  The second composition root then passed:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --target split-composition-01 \
+  --json /tmp/bellman_split_composition01_tight_guard.json
+```
+
+Result: passed in `2.00s`, with `3546 MiB` peak tree RSS, `6144 MiB`
+hard-AS cap, and `46442 MiB` minimum available memory.
+
+Decision: accepted.  The split Bellman architecture is now Lean-checked under
+the tightened post-crash envelope for two sampled Bellman graph paths.  This is
+still bounded smoke evidence, not full coverage, but it is stronger evidence
+that the final route should keep ordinary trace leaves separate from the
+axis-forces bridge and compose them through tiny roots.

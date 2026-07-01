@@ -3513,3 +3513,48 @@ The current one-path split Bellman smoke stack is therefore revalidated under
 the post-crash envelope when checked one target at a time: both leaves and the
 tiny composition root pass.  This remains a bounded smoke, not a license to run
 parallel Lean or broader generated targets.
+
+Second sampled split path:
+
+- Generated path object index `1` from
+  `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json`.
+- New files:
+  - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke01.lean`;
+  - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke01.lean`;
+  - `scripts/generated/bellman_closed_language_generated_trace_smoke_01.json`.
+- The trace shard imports only
+  `Cuboctahedron.Search.BellmanTopPairingLanguage` and stops at
+  `PairSignLanguageAtRank`.  The composition root imports that shard plus the
+  separately checked `BellmanAxisForcesPairSignSmoke`.
+- Added allowlisted wrapper targets:
+  - `generated-trace-01`: budget `18` local imports and `40 KiB` target source;
+  - `split-composition-01`: budget `26` local imports and `8 KiB` target source.
+- Status-only initially refused `split-composition-01` because the second trace
+  `.olean` was absent.  This was the intended safety behavior.
+- The second trace shard was emitted under the strict guard:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --target generated-trace-01 \
+    --emit-olean \
+    --json /tmp/bellman_generated_trace01_tight_emit_olean.json
+  ```
+
+  Result: passed in `11.01s`, with `3967 MiB` peak tree RSS, `6144 MiB` hard
+  address-space cap, and `46244 MiB` minimum available memory.
+
+- After that, `split-composition-01` passed status-only and then the strict
+  guarded check:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --target split-composition-01 \
+    --json /tmp/bellman_split_composition01_tight_guard.json
+  ```
+
+  Result: passed in `2.00s`, with `3546 MiB` peak tree RSS, `6144 MiB` hard
+  address-space cap, and `46442 MiB` minimum available memory.
+
+Decision: accepted as a second bounded split-path smoke under the post-crash
+envelope.  This strengthens evidence for the split architecture while keeping
+the proof checks singly guarded and small.
