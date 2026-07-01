@@ -49666,3 +49666,83 @@ should we spend effort on cocycle-gauge or cancellation-summary preconditioning.
 This matches the GPT5.5 Pro recommendation: use Bellman potentials as the
 primary nonidentity margin certificate, with gauge/cancellation summaries as
 shrinkers rather than the first proof surface.
+
+### Holonomy/Bellman Pivot - rank-object membership surface accepted
+
+Added a reusable handwritten membership adapter:
+
+```lean
+Cuboctahedron.Search.BellmanAxisBridge
+
+structure BellmanRankObjectMembership
+theorem BellmanRankObjectMembership.covers
+```
+
+This isolates the remaining semantic membership obligation from the Bellman
+potential theorem.  A generated family should now prove:
+
+```lean
+BellmanRankObjectMembership Obj rankOf Accepts ContainsRank
+```
+
+where `ContainsRank` is the semantic rank-language predicate and `Accepts` is
+the object-language predicate containing forced-axis/canonical-bad-face/start
+violation compatibility.  The existing `BellmanAxisRankObjectCover` and
+terminal killed theorem can then consume `BellmanRankObjectMembership.covers`.
+
+The sampled graph smoke now exercises this surface:
+
+```lean
+private noncomputable def sampledObjectMembership :
+  BellmanRankObjectMembership SampledRankIndex sampledRankOf
+    sampledObjectAccepts sampledContainsRank
+```
+
+Both object-cover instances now use:
+
+```lean
+BellmanRankObjectMembership.covers sampledObjectMembership
+```
+
+Rejected mini-attempt: the first generated version tried to pattern-match a
+`Prop`-level existential proof of `sampledContainsRank` to construct a
+Type-level object.  Lean correctly rejected this:
+
+```text
+Exists.casesOn can only eliminate into Prop
+```
+
+The accepted smoke uses `Classical.choose` inside the private membership
+definition.  This is not a custom axiom or unsafe shortcut; it is the standard
+Lean choice principle already available in the logic.  The production route
+may use the same pattern for Prop-level rank-language membership, while keeping
+the chosen object and terminal payloads private.
+
+Focused checks:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Search.BellmanAxisBridge
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:03.22` | `3,289,636 kB` | passed |
+| `BellmanTopPairingGraphLanguage2AllSmoke` | `1:13.98` | `7,648,172 kB` | passed |
+
+The split-boundary audit still passes:
+
+```json
+{"graph_lines": 24368, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 743, "terminal_positive_payloads": 2}
+```
+
+Forbidden-token scan over the touched Lean/generated/script files found no
+`sorry`, `admit`, `axiom`, `native_decide`, or `unsafe` tokens.
+
+Decision: accepted as the next proof surface for semantic Bellman membership.
+This is still bounded smoke, not full coverage.  The next production step is
+to replace the sampled `BellmanRankObjectMembership` proof with a generated
+semantic object-family membership theorem for the closed transition language.

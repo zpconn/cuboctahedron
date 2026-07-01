@@ -392,6 +392,32 @@ theorem scaledMargin_nonpos
 
 end BellmanAxisRankIndexedCover
 
+structure BellmanRankObjectMembership
+    (Obj : Type)
+    (rankOf : Obj -> Fin numPairWords)
+    (Accepts : Obj -> Prop)
+    (ContainsRank : Fin numPairWords -> Prop) where
+  objectOf : forall rank, ContainsRank rank -> Obj
+  object_accepts : forall rank hrank, Accepts (objectOf rank hrank)
+  object_rank : forall rank hrank, rankOf (objectOf rank hrank) = rank
+
+namespace BellmanRankObjectMembership
+
+theorem covers
+    {Obj : Type}
+    {rankOf : Obj -> Fin numPairWords}
+    {Accepts : Obj -> Prop}
+    {ContainsRank : Fin numPairWords -> Prop}
+    (membership :
+      BellmanRankObjectMembership Obj rankOf Accepts ContainsRank) :
+    forall rank, ContainsRank rank -> exists obj, Accepts obj /\ rankOf obj = rank := by
+  intro rank hrank
+  exact ⟨membership.objectOf rank hrank,
+    membership.object_accepts rank hrank,
+    membership.object_rank rank hrank⟩
+
+end BellmanRankObjectMembership
+
 structure BellmanAxisRankObjectCover
     (Obj State Label : Type)
     (V : State -> Int)

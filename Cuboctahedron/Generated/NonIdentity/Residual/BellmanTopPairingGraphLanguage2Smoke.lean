@@ -24923,6 +24923,25 @@ private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=
   AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))
     cls0000Axis (sampledObjectForcedSeq idx)
 
+private noncomputable def sampledObjectMembership :
+    BellmanRankObjectMembership SampledRankIndex sampledRankOf
+      sampledObjectAccepts sampledContainsRank where
+  objectOf := fun _rank hrank => Classical.choose hrank
+  object_accepts := by
+    intro rank hrank
+    let idx := Classical.choose hrank
+    change sampledObjectAccepts idx
+    cases idx
+    · change AxisForcesForcedSeq (unrankPairWord cls0000Rank)
+        cls0000Axis cls0000FaceSeq
+      exact cls0000AxisForces
+    · change AxisForcesForcedSeq (unrankPairWord cls0001Rank)
+        cls0000Axis cls0001FaceSeq
+      exact cls0001AxisForces
+  object_rank := by
+    intro rank hrank
+    exact Classical.choose_spec hrank
+
 private def sampledAxisRankObjectCover :
     BellmanAxisRankObjectCover
       SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace
@@ -24957,17 +24976,7 @@ private def sampledAxisRankObjectCover :
     exact SmokeStep.valid h
   root_bound := root_bound
   covers := by
-    intro rank hrank
-    rcases hrank with ⟨idx, hidx⟩
-    have hAccept : sampledObjectAccepts idx := by
-      cases idx
-      · change AxisForcesForcedSeq (unrankPairWord cls0000Rank)
-          cls0000Axis cls0000FaceSeq
-        exact cls0000AxisForces
-      · change AxisForcesForcedSeq (unrankPairWord cls0001Rank)
-          cls0000Axis cls0001FaceSeq
-        exact cls0001AxisForces
-    exact ⟨idx, hAccept, hidx⟩
+    exact BellmanRankObjectMembership.covers sampledObjectMembership
 
 theorem graphSmoke_sampled_axis_object_cover_scaled_margin_nonpos
     {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
@@ -25031,17 +25040,7 @@ private def sampledAxisRankObjectCoverEval :
     exact SampledSmokeStepEval.valid h
   root_bound := root_bound
   covers := by
-    intro rank hrank
-    rcases hrank with ⟨idx, hidx⟩
-    have hAccept : sampledObjectAccepts idx := by
-      cases idx
-      · change AxisForcesForcedSeq (unrankPairWord cls0000Rank)
-          cls0000Axis cls0000FaceSeq
-        exact cls0000AxisForces
-      · change AxisForcesForcedSeq (unrankPairWord cls0001Rank)
-          cls0000Axis cls0001FaceSeq
-        exact cls0001AxisForces
-    exact ⟨idx, hAccept, hidx⟩
+    exact BellmanRankObjectMembership.covers sampledObjectMembership
 
 theorem graphSmoke_sampled_axis_object_cover_eval_scaled_margin_nonpos
     {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :

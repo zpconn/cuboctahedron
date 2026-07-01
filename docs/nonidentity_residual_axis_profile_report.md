@@ -3421,3 +3421,52 @@ This is the current nonidentity priority order:
 3. only if states/edges grow too quickly, try cocycle-gauge preconditioning;
 4. if gauge is weak, try cancellation-summary DAG bounds;
 5. assemble `StateKilled`/root coverage only after terminal families are real.
+
+### Rank-object membership adapter
+
+Implemented the next small Lean proof surface for item 1 above.
+
+New handwritten surface:
+
+```lean
+Cuboctahedron.Search.BellmanAxisBridge
+
+structure BellmanRankObjectMembership
+theorem BellmanRankObjectMembership.covers
+```
+
+The sampled generated graph now defines:
+
+```lean
+private noncomputable def sampledObjectMembership :
+  BellmanRankObjectMembership SampledRankIndex sampledRankOf
+    sampledObjectAccepts sampledContainsRank
+```
+
+and both object-cover instances consume
+`BellmanRankObjectMembership.covers sampledObjectMembership`.
+
+Important Lean boundary: the first attempted generated membership proof tried
+to destruct `sampledContainsRank : Prop` to produce a `SampledRankIndex`, which
+Lean rejected because `Exists.casesOn` cannot eliminate into Type.  The accepted
+sampled proof uses `Classical.choose` privately.  This is appropriate for the
+next production membership theorem: `ContainsRank` can remain Prop-level while
+the generated module privately chooses the accepted object needed by
+`BellmanAxisRankObjectCover`.
+
+Focused builds:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:03.22` | `3,289,636 kB` | passed |
+| `BellmanTopPairingGraphLanguage2AllSmoke` | `1:13.98` | `7,648,172 kB` | passed |
+
+Split-boundary audit remains passed:
+
+```json
+{"graph_lines": 24368, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 743, "terminal_positive_payloads": 2}
+```
+
+Decision: accepted.  This is still bounded smoke, not production coverage, but
+it gives the generator a real semantic membership theorem target rather than
+embedding exact object-cover proofs directly in each Bellman cover.

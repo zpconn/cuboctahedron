@@ -1976,6 +1976,27 @@ def emit(
                 "  AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))",
                 f"    {same_axis_infos[0]['axis_name']} (sampledObjectForcedSeq idx)",
                 "",
+                "private noncomputable def sampledObjectMembership :",
+                "    BellmanRankObjectMembership SampledRankIndex sampledRankOf",
+                "      sampledObjectAccepts sampledContainsRank where",
+                "  objectOf := fun _rank hrank => Classical.choose hrank",
+                "  object_accepts := by",
+                "    intro rank hrank",
+                "    let idx := Classical.choose hrank",
+                "    change sampledObjectAccepts idx",
+                "    cases idx",
+            ])
+            for info in same_axis_infos:
+                lines.extend([
+                    f"    · change AxisForcesForcedSeq (unrankPairWord {info['rank_name']})",
+                    f"        {same_axis_infos[0]['axis_name']} {info['seq_name']}",
+                    f"      exact {info['obj_name']}AxisForces",
+                ])
+            lines.extend([
+                "  object_rank := by",
+                "    intro rank hrank",
+                "    exact Classical.choose_spec hrank",
+                "",
                 "private def sampledAxisRankObjectCover :",
                 "    BellmanAxisRankObjectCover",
                 "      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace",
@@ -2007,19 +2028,7 @@ def emit(
                 "    exact SmokeStep.valid h",
                 "  root_bound := root_bound",
                 "  covers := by",
-                "    intro rank hrank",
-                "    rcases hrank with ⟨idx, hidx⟩",
-                "    have hAccept : sampledObjectAccepts idx := by",
-                "      cases idx",
-            ])
-            for info in same_axis_infos:
-                lines.extend([
-                    f"      · change AxisForcesForcedSeq (unrankPairWord {info['rank_name']})",
-                    f"          {same_axis_infos[0]['axis_name']} {info['seq_name']}",
-                    f"        exact {info['obj_name']}AxisForces",
-                ])
-            lines.extend([
-                "    exact ⟨idx, hAccept, hidx⟩",
+                "    exact BellmanRankObjectMembership.covers sampledObjectMembership",
                 "",
                 "theorem graphSmoke_sampled_axis_object_cover_scaled_margin_nonpos",
                 "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",
@@ -2068,19 +2077,7 @@ def emit(
                 "    exact SampledSmokeStepEval.valid h",
                 "  root_bound := root_bound",
                 "  covers := by",
-                "    intro rank hrank",
-                "    rcases hrank with ⟨idx, hidx⟩",
-                "    have hAccept : sampledObjectAccepts idx := by",
-                "      cases idx",
-            ])
-            for info in same_axis_infos:
-                lines.extend([
-                    f"      · change AxisForcesForcedSeq (unrankPairWord {info['rank_name']})",
-                    f"          {same_axis_infos[0]['axis_name']} {info['seq_name']}",
-                    f"        exact {info['obj_name']}AxisForces",
-                ])
-            lines.extend([
-                "    exact ⟨idx, hAccept, hidx⟩",
+                "    exact BellmanRankObjectMembership.covers sampledObjectMembership",
                 "",
                 "theorem graphSmoke_sampled_axis_object_cover_eval_scaled_margin_nonpos",
                 "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",

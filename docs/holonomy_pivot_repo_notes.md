@@ -1815,6 +1815,38 @@ scaling the split emitter.  Cocycle-gauge and cancellation-summary work should
 be treated as shrinkers for larger-window growth, not as replacements for the
 current Bellman theorem surface.
 
+Bellman rank-object membership adapter:
+
+- Added to `Cuboctahedron.Search.BellmanAxisBridge`:
+
+  ```lean
+  structure BellmanRankObjectMembership
+  theorem BellmanRankObjectMembership.covers
+  ```
+
+- This separates the semantic membership theorem from the object-cover theorem.
+  Production generated families should prove a
+  `BellmanRankObjectMembership Obj rankOf Accepts ContainsRank`; object covers
+  and terminal killed theorems can then reuse `covers`.
+- The sampled graph smoke now defines a private
+  `sampledObjectMembership` and uses it for both object-cover instances.
+- A direct `rcases` implementation failed because `sampledContainsRank` is
+  `Prop` and cannot be eliminated into the Type-level object.  The accepted
+  private sampled membership uses `Classical.choose`.
+- Focused builds passed:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `Cuboctahedron.Search.BellmanAxisBridge` | `0:03.22` | `3,289,636 kB` |
+  | `BellmanTopPairingGraphLanguage2AllSmoke` | `1:13.98` | `7,648,172 kB` |
+
+- Split-boundary audit remains passed with graph positive payloads `0` and
+  terminal positive payloads `2`.
+
+This is the current Lean theorem surface for the next real membership step:
+replace the sampled membership proof with a generated semantic membership proof
+for the closed Bellman language.
+
 Split terminal bridge:
 
 - Added to `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`:
