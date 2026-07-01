@@ -55788,3 +55788,59 @@ that proves membership in this object-family language for a nontrivial
 coarser class, then run it under the same guarded single-target build
 discipline.  Until that membership theorem exists, the Bellman route remains
 promising but not production-ready.
+
+Lean surface inspection:
+
+- `Cuboctahedron/Search/BellmanTopPairingLanguage.lean` already defines
+  `TopPairingClosedLanguageAtRank rank badFace` as the semantic closed-language
+  predicate combining:
+  - `TopPairingLanguageAtRank rank`;
+  - `TopPairingStepScheduleLabels`;
+  - `TopPairingSquareGapLabels`;
+  - `TopPairingLocalAxisLabels`;
+  - `TopPairingCanonicalBadFaceCompatible badFace`.
+- `Cuboctahedron/Search/BellmanAxisBridge.lean` defines
+  `BellmanAxisRankObjectCover`.  Its production-critical field is:
+
+  ```lean
+  covers :
+    forall rank, ContainsRank rank ->
+      exists obj, Accepts obj /\ rankOf obj = rank
+  ```
+
+- `Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean` already
+  consumes such a cover via
+  `nonIdentityRankKilled_of_object_cover_start_violation_margin_certs`.
+- The current smoke
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean`
+  fills this gap with:
+
+  ```lean
+  private inductive SampledRankIndex where
+    | i0000
+    | i0001
+
+  private def sampledContainsRank (rank : Fin numPairWords) : Prop :=
+    exists idx : SampledRankIndex, sampledRankOf idx = rank
+  ```
+
+  and then uses `Classical.choose` over that exact sampled object index.
+
+Implementation target: replace the sampled `ContainsRank`/`covers` proof with
+a semantic one.  The smallest useful next theorem shape is approximately:
+
+```lean
+theorem topPairingClosedLanguage_exists_startViolationObject
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    exists obj :
+      BellmanEvalStartViolationObject
+        State SmokeLabel graphPotential sampledSmokeNext smokeLabelOfFace
+        rootState (176 : Int) cls0000Axis sampledScaledMarginAtRank,
+      True /\ obj.bellman.rank = rank
+```
+
+or the equivalent `BellmanRankObjectMembership` package.  The point is not
+that these exact private names are final; the point is that the next generated
+leaf must derive the object and start-violation certificate from the closed
+language predicate, instead of choosing one of finitely listed sampled ranks.

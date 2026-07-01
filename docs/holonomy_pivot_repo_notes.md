@@ -5230,3 +5230,15 @@ Bellman production gate and next membership target:
 - Next Lean task: prove a semantic object-family membership theorem for that
   closed language, reusing the existing object-cover/start-violation surfaces,
   instead of emitting another exact-path smoke.
+- Lean surface inspection:
+  - `TopPairingClosedLanguageAtRank rank badFace` is already the closed
+    semantic predicate in `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`.
+  - `BellmanAxisRankObjectCover` already has the needed `covers` field:
+    `forall rank, ContainsRank rank -> exists obj, Accepts obj /\ rankOf obj = rank`.
+  - `nonIdentityRankKilled_of_object_cover_start_violation_margin_certs`
+    already consumes that cover and object start-violation certificates.
+  - The current graph smoke still sets
+    `sampledContainsRank rank := exists idx : SampledRankIndex, sampledRankOf idx = rank`.
+    The next generated/handwritten slice must replace this sampled object
+    membership proof with one derived from `TopPairingClosedLanguageAtRank`
+    (or an equivalent closed-language predicate).
