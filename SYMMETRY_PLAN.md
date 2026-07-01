@@ -50087,3 +50087,77 @@ Decision: accepted.  Future closed-language Bellman family shards should use
 should focus on the semantic membership proof and the object-level
 `BellmanEvalAccepts` proof; the cover/trace-bound plumbing is now
 hand-written and reusable.
+
+### Holonomy/Bellman Pivot - eval/start-violation object surface accepted
+
+Added a reusable accepted-object type in `Cuboctahedron.Search.BellmanAxisBridge`:
+
+```lean
+structure BellmanEvalAxisObject
+theorem BellmanEvalAxisObject.evalAccepts
+theorem BellmanEvalAxisObject.axisForces
+noncomputable def BellmanAxisRankObjectCover.ofEvalAxisObjects
+```
+
+This type packages the evidence an accepted Bellman object must carry:
+
+```text
+rank
+forced signed sequence
+AxisForcesForcedSeq for that rank/axis/sequence
+deterministic Bellman evaluator result
+final nonnegative potential
+scaled-margin bound
+```
+
+It is a scaffold for replacing the finite `SampledRankIndex` object enum with
+a semantic object language.  The object type itself carries the proof-relevant
+local facts, while the rank membership predicate remains the production-shaped
+existential:
+
+```lean
+exists obj : BellmanEvalAxisObject ..., True /\ obj.rank = rank
+```
+
+Added the terminal bridge in
+`Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`:
+
+```lean
+structure BellmanEvalStartViolationObject
+
+theorem nonIdentityRankKilled_of_eval_start_violation_objects
+```
+
+This is the direct theorem surface future closed-language Bellman shards should
+target for start-interior residual families:
+
+```text
+exists accepted eval/start-violation object for rank
+  + next-function soundness
+  + Bellman step/root inequalities
+  -> NonIdentityRankKilled rank
+```
+
+The existing split smoke still uses `SampledRankIndex`; this change does not
+claim new coverage.  It removes another layer of generated plumbing and gives
+the next generator a semantic object target rather than a sampled enum target.
+
+Focused checks:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:02.40` | `3,308,556 kB` | passed |
+| `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:03.40` | `3,289,960 kB` | passed |
+| `BellmanTopPairingGraphLanguage2AllSmoke` downstream compatibility | `1:15.29` | `7,621,824 kB` | passed |
+
+Split-boundary audit remains:
+
+```json
+{"graph_lines": 24423, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 743, "terminal_positive_payloads": 2}
+```
+
+Decision: accepted as the next closed-language membership scaffold.  The next
+proof-bearing generator step should emit a small smoke where the rank
+membership theorem constructs `BellmanEvalStartViolationObject`s from semantic
+target-pairing/local-axis/canonical-bad-face invariants, instead of from a
+bare sampled index enumeration.

@@ -2094,3 +2094,38 @@ Eval object-cover constructor:
 Next code-generation target: future Bellman family shards should call
 `ofEvalExistsMembership`, prove semantic closed-language membership, and keep
 the Bellman trace-bound plumbing out of generated theorem bodies.
+
+Eval/start-violation object surface:
+
+- Added `BellmanEvalAxisObject` in `Cuboctahedron.Search.BellmanAxisBridge`.
+  It packages rank, forced sequence, axis-forcing evidence, deterministic
+  Bellman evaluator success, final nonnegative potential, and the scaled-margin
+  bound.
+- Added `BellmanAxisRankObjectCover.ofEvalAxisObjects`, a cover constructor
+  for the existential accepted-object predicate
+  `exists obj, True /\ obj.rank = rank`.
+- Added `BellmanEvalStartViolationObject` and
+  `nonIdentityRankKilled_of_eval_start_violation_objects` in
+  `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`.
+- This theorem is the current target surface for future nonidentity
+  start-interior Bellman shards:
+
+  ```text
+  exists accepted eval/start-violation object for rank
+    + next-function soundness
+    + Bellman step/root inequalities
+    -> NonIdentityRankKilled rank
+  ```
+
+- Focused checks:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `Cuboctahedron.Search.BellmanAxisBridge` | `0:02.40` | `3,308,556 kB` |
+  | `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:03.40` | `3,289,960 kB` |
+  | `BellmanTopPairingGraphLanguage2AllSmoke` | `1:15.29` | `7,621,824 kB` |
+
+Next proof-bearing generator step: emit a small smoke where rank membership
+constructs `BellmanEvalStartViolationObject`s from semantic target-pairing,
+local-axis, canonical-bad-face, and closed transition-language invariants
+rather than from a bare sampled-index enumeration.

@@ -432,6 +432,67 @@ theorem covers
 
 end BellmanRankObjectMembership
 
+structure BellmanEvalAxisObject
+    (State Label : Type)
+    (V : State -> Int)
+    (next : State -> Label -> Option (State × Int))
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (axis : Vec3 Rat)
+    (scaledMargin : Fin numPairWords -> Int) where
+  rank : Fin numPairWords
+  forcedSeq : Step14 -> Face
+  axis_forces :
+    AxisForcesForcedSeq (unrankPairWord rank) axis forcedSeq
+  result : State × Int
+  eval_ok :
+    evalLabelStepFn next start
+      (faceLabelsInContributionOrder labelOfFace forcedSeq) = some result
+  final_nonneg : 0 <= V result.1
+  margin_bound : scaledMargin rank <= const + result.2
+
+namespace BellmanEvalAxisObject
+
+theorem evalAccepts
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {axis : Vec3 Rat}
+    {scaledMargin : Fin numPairWords -> Int}
+    (obj :
+      BellmanEvalAxisObject
+        State Label V next labelOfFace start const axis scaledMargin) :
+    BellmanEvalAccepts V next start const
+      (fun obj :
+        BellmanEvalAxisObject
+          State Label V next labelOfFace start const axis scaledMargin =>
+        scaledMargin obj.rank)
+      (fun obj =>
+        faceLabelsInContributionOrder labelOfFace obj.forcedSeq)
+      obj :=
+  ⟨obj.result, obj.eval_ok, obj.final_nonneg, obj.margin_bound⟩
+
+theorem axisForces
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {axis : Vec3 Rat}
+    {scaledMargin : Fin numPairWords -> Int}
+    (obj :
+      BellmanEvalAxisObject
+        State Label V next labelOfFace start const axis scaledMargin) :
+    AxisForcesForcedSeq (unrankPairWord obj.rank) axis obj.forcedSeq :=
+  obj.axis_forces
+
+end BellmanEvalAxisObject
+
 structure BellmanAxisRankObjectCover
     (Obj State Label : Type)
     (V : State -> Int)
@@ -550,6 +611,59 @@ noncomputable def ofEvalExistsMembership
     forcedSeq
     (bellmanLabelStepRunLanguageBound_of_evalAccepts
       next_sound eval_accepts)
+    step_valid
+    root_bound
+
+noncomputable def ofEvalAxisObjects
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {axis : Vec3 Rat}
+    {scaledMargin : Fin numPairWords -> Int}
+    (next_sound :
+      forall s label t gain,
+        next s label = some (t, gain) -> Step s label t gain)
+    (step_valid :
+      forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (root_bound : const + V start <= 0) :
+    BellmanAxisRankObjectCover
+      (BellmanEvalAxisObject
+        State Label V next labelOfFace start const axis scaledMargin)
+      State Label V Step labelOfFace start const
+      (fun obj => obj.rank)
+      (fun _obj => True)
+      (fun rank =>
+        exists obj :
+          BellmanEvalAxisObject
+            State Label V next labelOfFace start const axis scaledMargin,
+          True /\ obj.rank = rank)
+      scaledMargin :=
+  ofEvalExistsMembership
+    (Obj :=
+      BellmanEvalAxisObject
+        State Label V next labelOfFace start const axis scaledMargin)
+    (State := State)
+    (Label := Label)
+    (V := V)
+    (Step := Step)
+    (next := next)
+    (labelOfFace := labelOfFace)
+    (start := start)
+    (const := const)
+    (rankOf := fun obj => obj.rank)
+    (Accepts := fun _obj => True)
+    (scaledMargin := scaledMargin)
+    (fun obj :
+      BellmanEvalAxisObject
+        State Label V next labelOfFace start const axis scaledMargin =>
+      obj.forcedSeq)
+    next_sound
+    (fun obj _hAccept =>
+      BellmanEvalAxisObject.evalAccepts obj)
     step_valid
     root_bound
 

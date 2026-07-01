@@ -216,6 +216,73 @@ theorem nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
       (certOf obj hobj).positive hRealize hAxis)
     hrank
 
+structure BellmanEvalStartViolationObject
+    (State Label : Type)
+    (V : State -> Int)
+    (next : State -> Label -> Option (State × Int))
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (axis : Vec3 Rat)
+    (scaledMargin : Fin numPairWords -> Int) where
+  bellman :
+    BellmanEvalAxisObject
+      State Label V next labelOfFace start const axis scaledMargin
+  startViolation :
+    ObjectStartViolationMarginCert
+      bellman.rank (scaledMargin bellman.rank)
+
+theorem nonIdentityRankKilled_of_eval_start_violation_objects
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {axis : Vec3 Rat}
+    {scaledMargin : Fin numPairWords -> Int}
+    (next_sound :
+      forall s label t gain,
+        next s label = some (t, gain) -> Step s label t gain)
+    (step_valid :
+      forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (root_bound : const + V start <= 0)
+    {rank : Fin numPairWords}
+    (hrank :
+      exists obj :
+        BellmanEvalStartViolationObject
+          State Label V next labelOfFace start const axis scaledMargin,
+        True /\ obj.bellman.rank = rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
+    (BellmanAxisRankObjectCover.ofEvalExistsMembership
+      (Obj :=
+        BellmanEvalStartViolationObject
+          State Label V next labelOfFace start const axis scaledMargin)
+      (State := State)
+      (Label := Label)
+      (V := V)
+      (Step := Step)
+      (next := next)
+      (labelOfFace := labelOfFace)
+      (start := start)
+      (const := const)
+      (rankOf := fun obj => obj.bellman.rank)
+      (Accepts := fun _obj => True)
+      (scaledMargin := scaledMargin)
+      (fun obj :
+        BellmanEvalStartViolationObject
+          State Label V next labelOfFace start const axis scaledMargin =>
+        obj.bellman.forcedSeq)
+      next_sound
+      (fun obj _hAccept =>
+        BellmanEvalAxisObject.evalAccepts obj.bellman)
+      step_valid
+      root_bound)
+    (fun obj _hAccept => obj.startViolation)
+    hrank
+
 theorem nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
     {Obj : Type}
     {rankOf : Obj -> Fin numPairWords}
