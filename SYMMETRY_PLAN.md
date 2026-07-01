@@ -52025,3 +52025,36 @@ matching fact.  The remaining assumptions are down to:
 Next safe target: generate/prove `TopPairingCanonicalBadFaceCompatible` for
 the selected bad face, then attempt a similarly small `TopPairingLanguageAtRank`
 membership fact.  Do not import the heavy axis-forces stack into this shard.
+
+### Holonomy/Bellman Pivot - third OOM incident and crash quarantine
+
+After the latest Bellman/axis-forces work, the user reported that the machine
+crashed again, likely from memory pressure.  On restart/lightweight inspection,
+there were no lingering Lean or Python jobs visible, `free -h` reported about
+`45 GiB` available memory, and `git status --short` showed only unrelated local
+changes in `README.md` and `paper/cuboctahedron_no_omnihedral.tex`.  The exact
+pre-crash process is not recoverable from this sandbox, so the project policy
+is to treat the whole most-recent heavy path as unsafe until revalidated with a
+smaller command.
+
+Crash quarantine rules:
+
+- Do not run broad `lake build` on Bellman/generated targets.
+- Do not use `lake build` through `scripts/run_bellman_safe_smoke.py`; the
+  wrapper now allows only direct Lean source checking with `lake env lean`.
+- Do not run a command that may compile missing dependencies as part of a
+  generated-shard check.  If a dependency `.olean` is missing, check/build that
+  dependency separately with the same strict cap and record the result before
+  returning to the shard.
+- Keep Bellman generated checks at `-M 6000 -j1 -s 2048`, RSS cap
+  `6000 MiB`, hard address-space cap `8192 MiB`, available-memory floor
+  `24576 MiB`, timeout `60s`.
+- Do not combine theorem-surface edits, dependency compilation, and generated
+  shard validation in one command.
+- If any generated/Bellman target exceeds the cap or needs a higher cap, reject
+  that theorem surface and shrink it.  Do not raise the cap as the next move.
+
+Immediate safe next step is documentation/profiler work only, or a dry-run /
+syntax-level validation of the wrapper.  The next proof-bearing step must be a
+new tiny target that does not import the heavier axis-forces stack and does not
+trigger dependency compilation as a side effect.

@@ -3291,3 +3291,19 @@ Axis-forces bridge checkpoint:
   Result: passed in `4.51s`, with `4012.77 MiB` peak process-tree RSS,
   `8192 MiB` hard address-space cap, and `46056.39 MiB` minimum available
   memory.
+
+Latest crash-safety note:
+
+- The user reported another machine crash after the most recent Bellman /
+  axis-forces work.  Lightweight inspection after restart showed no lingering
+  Lean/Python job and about `45 GiB` available memory, but the exact pre-crash
+  process is not recoverable here.  Treat the most recent heavy path as unsafe
+  until revalidated by smaller direct-Lean targets.
+- `scripts/run_bellman_safe_smoke.py` now allows only the `direct-lean` runner.
+  It must not be used to launch `lake build`; Lake builds and dependency
+  compilations require separate, explicit, strictly capped commands and fresh
+  telemetry.
+- Future generated/Bellman checks should keep the current envelope:
+  `lake env lean -M 6000 -j1 -s 2048`, process-tree RSS cap `6000 MiB`, hard
+  address-space cap `8192 MiB`, available-memory floor `24576 MiB`, and timeout
+  `60s`.

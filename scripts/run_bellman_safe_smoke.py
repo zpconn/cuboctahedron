@@ -116,12 +116,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--runner",
-        choices=["direct-lean", "lake-build"],
+        choices=["direct-lean"],
         default="direct-lean",
         help=(
-            "Use direct Lean checking by default. `lake-build` is retained for "
-            "diagnostics but failed under the hard address-space cap on this "
-            "target due thread reservation."
+            "Only direct Lean checking is allowed in this safety wrapper. "
+            "Lake builds have triggered broad rebuilds or failed under hard "
+            "address-space caps and require a separate runner."
         ),
     )
     parser.add_argument(
@@ -216,24 +216,17 @@ def main() -> int:
 
     target = TARGETS[args.target]
     guard_json = args.json if args.json is not None else default_json_path(args.target)
-    if args.runner == "direct-lean":
-        checked_command = [
-            "lake",
-            "env",
-            "lean",
-            "-M",
-            str(args.lean_memory_mib),
-            "-j" + str(args.lean_threads),
-            "-s",
-            str(args.lean_tstack_kib),
-            target["path"],
-        ]
-    else:
-        checked_command = [
-            "lake",
-            "build",
-            target["module"],
-        ]
+    checked_command = [
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        str(args.lean_memory_mib),
+        "-j" + str(args.lean_threads),
+        "-s",
+        str(args.lean_tstack_kib),
+        target["path"],
+    ]
     command = [
         sys.executable,
         "scripts/run_memory_guarded.py",
