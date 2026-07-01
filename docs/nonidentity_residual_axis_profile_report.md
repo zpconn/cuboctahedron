@@ -2672,3 +2672,44 @@ Next gate: instantiate this object cover in generated smoke for the sampled
 top-pairing family, then compare build time/RSS against the existing
 rank-indexed smoke.  If it stays in the same memory envelope, use it as the
 production target for forced-sequence membership.
+
+## Object-Cover Smoke Accepted
+
+The generated nonidentity Bellman killed bridge now includes:
+
+```lean
+theorem nonIdentityRankKilled_of_object_cover_margin_positive
+```
+
+File:
+
+```text
+Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean
+```
+
+The smoke emitter now instantiates `BellmanAxisRankObjectCover` for the same
+two sampled top-pairing objects used by the previous indexed-cover smoke.  The
+sampled public theorem
+
+```lean
+graphSmoke_sampled_axis_rank_killed
+```
+
+now routes through:
+
+```lean
+graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive
+```
+
+Build telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:05.80` | `3,274,272 kB` | passed |
+| `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke` | `1:06.09` | `8,634,400 kB` | passed |
+
+Conclusion: the object-language cover is buildable in the current smoke
+envelope and is a better production target than exact path-class indexing.
+The remaining hard task is the semantic `Accepts` theorem for a whole
+top-pairing family: ranks in the family must map to accepted objects whose
+forced contribution-label word is the Bellman language word.

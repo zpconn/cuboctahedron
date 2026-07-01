@@ -48480,3 +48480,67 @@ top-pairing family.  The smoke should prove the same sampled
 `NonIdentityRankKilled` theorem through object-language acceptance rather than
 through exact rank/path-class indexing.  If that works, the production family
 generator can target semantic objects and forced-sequence membership directly.
+
+### Holonomy/Bellman Pivot - object-cover smoke accepted
+
+Extended the object-cover route through the generated semantic killed bridge
+and the bounded top-pairing smoke.
+
+Changed:
+
+- `Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean` now exports:
+
+  ```lean
+  theorem nonIdentityRankKilled_of_object_cover_margin_positive
+  ```
+
+  This is the object-cover analogue of the indexed-cover killed bridge.  It
+  obtains `scaledMargin <= 0` from `BellmanAxisRankObjectCover`, combines it
+  with a generated positive-margin theorem for the same accepted object, and
+  exports `NonIdentityRankKilled`.
+
+- `scripts/emit_bellman_graph_smoke.py` now emits:
+
+  ```lean
+  private def sampledAxisRankObjectCover
+  theorem graphSmoke_sampled_axis_object_cover_scaled_margin_nonpos
+  theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive
+  ```
+
+- The sampled public theorem
+
+  ```lean
+  graphSmoke_sampled_axis_rank_killed
+  ```
+
+  now routes through the object-cover killed bridge instead of the exact
+  indexed-cover killed bridge.
+
+Commands:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanKilledBridge` after object-cover killed bridge | `0:05.80` | `3,274,272 kB` | passed |
+| `BellmanTopPairingGraphLanguage2Smoke` object-cover route | `1:06.09` | `8,634,400 kB` | passed |
+
+Decision: accepted as the next production theorem surface.  It does not solve
+full membership yet, but it proves that the final public killed theorem can
+flow through semantic objects accepted by a Bellman label language.  The next
+work should replace the smoke's two sampled objects with a generated semantic
+object family whose `Accepts` predicate encodes forced-sequence compatibility
+for the top-pairing language.

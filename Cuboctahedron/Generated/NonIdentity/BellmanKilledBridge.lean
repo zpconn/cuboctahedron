@@ -70,6 +70,47 @@ theorem nonIdentityRankKilled_of_indexed_cover_margin_positive
     hpositive idx seq hRealizeIdx hStart hLinear hAxis
   linarith
 
+theorem nonIdentityRankKilled_of_object_cover_margin_positive
+    {Obj State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {rankOf : Obj -> Fin numPairWords}
+    {Accepts : Obj -> Prop}
+    {ContainsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (cover :
+      BellmanAxisRankObjectCover
+        Obj State Label V Step labelOfFace start const rankOf
+        Accepts ContainsRank scaledMargin)
+    (hpositive :
+      forall obj seq,
+        Accepts obj ->
+        SeqRealizesPairWord (unrankPairWord (rankOf obj)) seq ->
+        StartsXp seq ->
+        totalLinear seq ≠ (matId : Mat3 Rat) ->
+        NonIdentityAxisConstraints seq ->
+        0 < scaledMargin (rankOf obj))
+    {rank : Fin numPairWords}
+    (hrank : ContainsRank rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank := by
+  apply nonIdentityRankKilled_of_no_axis_constraints
+  intro seq hRealize hStart hLinear hAxis
+  rcases cover.covers rank hrank with ⟨obj, hobj, hidx⟩
+  have hRealizeObj :
+      SeqRealizesPairWord (unrankPairWord (rankOf obj)) seq := by
+    simpa [hidx] using hRealize
+  have hnonpos :
+      scaledMargin (rankOf obj) <= 0 :=
+    BellmanAxisRankObjectCover.scaledMargin_nonpos_at_object
+      cover obj hobj
+  have hpos :
+      0 < scaledMargin (rankOf obj) :=
+    hpositive obj seq hobj hRealizeObj hStart hLinear hAxis
+  linarith
+
 theorem positive_margin_of_axis_forces_start_interior
     {seq : Step14 -> Face} {cert : NonIdCert} {margin : Int}
     (hRealize : SeqRealizesPairWord cert.word seq)

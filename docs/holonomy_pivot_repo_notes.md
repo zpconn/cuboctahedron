@@ -1341,3 +1341,34 @@ Object-language Bellman cover:
   the sampled top-pairing family.  That will test the GPT5.5 Bellman route
   more faithfully than exact path-class indexing: semantic object membership
   first, Bellman accepted forced labels second, public killed theorem last.
+
+Object-cover smoke:
+
+- Added
+  `nonIdentityRankKilled_of_object_cover_margin_positive` to
+  `Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean`.
+- Updated `scripts/emit_bellman_graph_smoke.py` so the sampled top-pairing
+  smoke emits:
+
+  ```lean
+  private def sampledAxisRankObjectCover
+  theorem graphSmoke_sampled_axis_object_cover_scaled_margin_nonpos
+  theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive
+  ```
+
+- Regenerated
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean`.
+- The public sampled theorem
+  `graphSmoke_sampled_axis_rank_killed` now routes through the object-cover
+  killed bridge.
+- Focused builds passed:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:05.80` | `3,274,272 kB` |
+  | `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke` | `1:06.09` | `8,634,400 kB` |
+
+- Consequence: this is now the preferred Bellman production surface.  The next
+  generated step should make `sampledObjectAccepts` nontrivial: semantic
+  top-pairing objects accepted by forced-sequence compatibility, not a
+  hand-enumerated two-object smoke.

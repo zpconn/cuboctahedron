@@ -24505,6 +24505,71 @@ theorem graphSmoke_sampled_axis_rank_language_family_scaled_margin_nonpos
   BellmanAxisRankIndexedCover.scaledMargin_nonpos
     sampledAxisRankIndexedCover hrank hRealize hAxisConstraints
 
+private def sampledObjectAccepts (_idx : SampledRankIndex) : Prop :=
+  True
+
+private def sampledAxisRankObjectCover :
+    BellmanAxisRankObjectCover
+      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace
+      rootState (176 : Int) sampledRankOf sampledObjectAccepts
+      sampledContainsRank sampledScaledMarginAtRank where
+  forcedSeq := by
+    intro idx
+    cases idx
+    · exact cls0000FaceSeq
+    · exact cls0001FaceSeq
+  trace_bound := by
+    intro idx _hAccept
+    cases idx
+    · refine ⟨trieNode0014State, trieNode0014Gain, ?_, ?_, ?_⟩
+      · change BellmanLabelStepRun SmokeStep rootState
+          trieNode0014State
+          (smokeLabelsOfSeq cls0000FaceSeq) trieNode0014Gain
+        rw [cls0000FaceSeqLabels_eq]
+        exact trieNode0014Run
+      · exact cls0000TrieFinal_nonneg
+      · unfold sampledRankOf sampledScaledMarginAtRank
+        simp
+        exact cls0000TrieMargin_bound_gain
+    · refine ⟨trieNode0024State, trieNode0024Gain, ?_, ?_, ?_⟩
+      · change BellmanLabelStepRun SmokeStep rootState
+          trieNode0024State
+          (smokeLabelsOfSeq cls0001FaceSeq) trieNode0024Gain
+        rw [cls0001FaceSeqLabels_eq]
+        exact trieNode0024Run
+      · exact cls0001TrieFinal_nonneg
+      · unfold sampledRankOf sampledScaledMarginAtRank
+        simp
+        exact cls0001TrieMargin_bound_gain
+  step_valid := by
+    intro s label t gain h
+    exact SmokeStep.valid h
+  root_bound := root_bound
+  covers := by
+    intro rank hrank
+    rcases hrank with ⟨idx, hidx⟩
+    exact ⟨idx, trivial, hidx⟩
+
+theorem graphSmoke_sampled_axis_object_cover_scaled_margin_nonpos
+    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
+    sampledScaledMarginAtRank rank <= 0 :=
+  BellmanAxisRankObjectCover.scaledMargin_nonpos
+    sampledAxisRankObjectCover hrank
+
+theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive
+    (hpositive :
+      forall idx seq,
+        sampledObjectAccepts idx ->
+        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->
+        StartsXp seq ->
+        totalLinear seq ≠ (matId : Mat3 Rat) ->
+        NonIdentityAxisConstraints seq ->
+        0 < sampledScaledMarginAtRank (sampledRankOf idx))
+    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_cover_margin_positive
+    sampledAxisRankObjectCover hpositive hrank
+
 theorem graphSmoke_sampled_axis_rank_killed_of_margin_positive
     (hpositive :
       forall idx seq,
@@ -24549,8 +24614,9 @@ private theorem graphSmoke_sampled_axis_rank_positive_margin
 theorem graphSmoke_sampled_axis_rank_killed
     {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
     Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
-  graphSmoke_sampled_axis_rank_killed_of_margin_positive
-    graphSmoke_sampled_axis_rank_positive_margin hrank
+  graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive
+    (fun idx seq _hAccept =>
+      graphSmoke_sampled_axis_rank_positive_margin idx seq) hrank
 
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=
