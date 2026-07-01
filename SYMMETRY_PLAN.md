@@ -1545,6 +1545,48 @@ Direct-start offset-family profile:
   much.  The next viable compression layer must explain these offset margins
   by a coarser cancellation tree / holonomy-state relation, not by direct
   aggregation of transported contribution values.
+- Follow-up cancellation counters were added to the same profiler.  Re-running
+  the same three commands stayed memory-safe (`25-29 MiB` max RSS) and showed:
+
+  | sample | matched | margin forms | cancellation pairings | margin+cancellation pairings | cancellation shapes |
+  | --- | ---: | ---: | ---: | ---: | ---: |
+  | full focused D4-axis class | `1,427` | `60` | `190` | `353` | `1` |
+  | largest exact-axis/reduced-shadow key | `107` | `3` | `12` | `21` | `1` |
+  | dominant margin form inside largest key | `72` | `1` | `11` | `11` | `1` |
+
+- Interpretation: exact transported contribution values are too fine, and
+  cancellation *shape* alone is too coarse (`pairs=1;survivors=6` for all
+  cases in this window).  The ordered cancellation pairing is the first
+  offset-side coordinate that gives meaningful compression without collapsing
+  all mathematical information.  The next scale test should profile
+  margin+cancellation-pairing keys on a larger window and then try one
+  generated/hand-written semantic theorem for a top pairing family.
+- The larger `[0,1000000)` scale test for the same focused D4-axis class ran
+  safely:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/direct_start_offset_family_profile.py \
+    --start 0 --end 1000000 --jobs 4 --chunk-size 250000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1
+  ```
+
+  Result: `1:21.69` wall time, `31,684 KiB` max RSS.
+
+  | coordinate | distinct/count |
+  | --- | ---: |
+  | matched residuals | `4,934` |
+  | exact-axis/reduced-shadow keys | `16` |
+  | margin linear forms | `60` |
+  | contribution multisets | `545` |
+  | triangular shadows / cancellation pairings | `284` |
+  | margin+cancellation pairings | `599` |
+  | margin+cancellation shapes | `60` |
+
+- Decision after the 1M scale test: ordered cancellation pairing is not yet a
+  complete production strategy, but it scales plausibly enough to keep as the
+  next nonidentity residual family coordinate.  The immediate next proof task
+  is to choose one high-count margin+cancellation-pairing family and design a
+  small Lean theorem that derives the margin bound from that semantic state.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

@@ -253,6 +253,36 @@ fixed linear coefficient matrix
 but the semantic proof should be based on a coarser cancellation-tree or
 holonomy-state relation, not on exact transported contribution signatures.
 
+Adding cancellation-state counters to the same profiler gives the current
+best offset-side coordinate.  In the focused `[0,100000)` D4-axis class,
+ordered cancellation pairings are much smaller than contribution signatures:
+
+| sample | matched | margin forms | cancellation pairings | margin+cancellation pairings | cancellation shapes |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| full focused D4-axis class | `1,427` | `60` | `190` | `353` | `1` |
+| largest exact-axis/reduced-shadow key | `107` | `3` | `12` | `21` | `1` |
+| dominant margin form inside largest key | `72` | `1` | `11` | `11` | `1` |
+
+This rejects coarse cancellation shape (`pairs=1;survivors=6`) but keeps
+ordered cancellation pairing as the next scale-test coordinate for direct
+start residual families.
+
+The `[0,1000000)` scale test for the same focused D4-axis class stayed
+memory-light (`1:21.69`, `31,684 KiB` max RSS) and produced:
+
+| coordinate | distinct/count |
+| --- | ---: |
+| matched residuals | `4,934` |
+| exact-axis/reduced-shadow keys | `16` |
+| margin linear forms | `60` |
+| contribution multisets | `545` |
+| triangular shadows / cancellation pairings | `284` |
+| margin+cancellation pairings | `599` |
+| margin+cancellation shapes | `60` |
+
+This keeps margin+cancellation-pairing families as the next nonidentity
+residual interface to test in Lean.
+
 ## Explicit Non-Goals
 
 The following approaches are archived as diagnostics, not the active route to

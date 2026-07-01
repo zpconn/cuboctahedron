@@ -66,6 +66,11 @@ from forced_axis_sign_profile import (  # noqa: E402
 from nonidentity_residual_axis_profile import d4_projective_axis_key  # noqa: E402
 from profile_symmetry_compression import terminal_axis_candidate_algebra_failure  # noqa: E402
 from shadow_normal_form_profile import shadow_scan  # noqa: E402
+from shadow_normal_form_profile import (  # noqa: E402
+    SQUARE_TOGGLES,
+    act_tri,
+    xor_parity,
+)
 
 
 def default_json_path(start: int, end: int, bad_face: str, axis_d4: str) -> Path:
@@ -142,6 +147,47 @@ def aggregate_pair_sign_key(contribs: list[dict[str, Any]]) -> str:
     return "|".join(f"{key}:{qkey(sums[key])}" for key in keys if sums[key] != 0)
 
 
+def parity_key(parity: tuple[bool, bool, bool]) -> str:
+    return "".join("1" if bit else "0" for bit in parity)
+
+
+def shadow_cancellation_keys(word: tuple[str, ...]) -> dict[str, str]:
+    parity = (False, False, False)
+    parity_path = [parity_key(parity)]
+    shadow: list[str] = []
+    stack: list[tuple[str, int]] = []
+    cancellations: list[tuple[int, int, str]] = []
+    tri_sources: list[str] = []
+    for source_index, pair_id in enumerate([*word, "x"]):
+        if pair_id in SQUARE_TOGGLES:
+            parity = xor_parity(parity, SQUARE_TOGGLES[pair_id])
+            parity_path.append(parity_key(parity))
+            continue
+        tri = act_tri(parity, pair_id)
+        shadow_index = len(shadow)
+        shadow.append(tri)
+        tri_sources.append(f"{source_index}:{pair_id}->{tri}@{parity_key(parity)}")
+        if stack and stack[-1][0] == tri:
+            prev_tri, prev_index = stack.pop()
+            cancellations.append((prev_index, shadow_index, prev_tri))
+        else:
+            stack.append((tri, shadow_index))
+        parity_path.append(parity_key(parity))
+    cancellation_key = "|".join(
+        f"{left}-{right}:{tri}" for left, right, tri in cancellations
+    )
+    survivor_key = "|".join(f"{index}:{tri}" for tri, index in stack)
+    shape_key = "|".join(str(right - left) for left, right, _tri in cancellations)
+    return {
+        "square_parity_path": ">".join(parity_path),
+        "tri_shadow": " ".join(shadow),
+        "tri_sources": "|".join(tri_sources),
+        "cancellation_pairing": f"pairs={cancellation_key};survivors={survivor_key}",
+        "cancellation_shape": f"pairs={shape_key};survivors={len(stack)}",
+        "reduced_positions": survivor_key,
+    }
+
+
 @dataclass
 class OffsetFamilyStats:
     max_distinct: int
@@ -167,6 +213,14 @@ class OffsetFamilyStats:
     contribution_by_pair_keys: CappedCounter | None = None
     contribution_by_pair_sign_keys: CappedCounter | None = None
     contribution_sign_pattern_keys: CappedCounter | None = None
+    square_parity_path_keys: CappedCounter | None = None
+    tri_shadow_keys: CappedCounter | None = None
+    tri_source_keys: CappedCounter | None = None
+    cancellation_pairing_keys: CappedCounter | None = None
+    cancellation_shape_keys: CappedCounter | None = None
+    reduced_position_keys: CappedCounter | None = None
+    margin_cancellation_pairing_keys: CappedCounter | None = None
+    margin_cancellation_shape_keys: CappedCounter | None = None
     margin_value_keys: CappedCounter | None = None
     samples: dict[str, list[dict[str, Any]]] = field(default_factory=lambda: defaultdict(list))
 
@@ -180,6 +234,14 @@ class OffsetFamilyStats:
             "contribution_by_pair_keys",
             "contribution_by_pair_sign_keys",
             "contribution_sign_pattern_keys",
+            "square_parity_path_keys",
+            "tri_shadow_keys",
+            "tri_source_keys",
+            "cancellation_pairing_keys",
+            "cancellation_shape_keys",
+            "reduced_position_keys",
+            "margin_cancellation_pairing_keys",
+            "margin_cancellation_shape_keys",
             "margin_value_keys",
         ]:
             if getattr(self, name) is None:
@@ -201,6 +263,14 @@ class OffsetFamilyStats:
             "contribution_by_pair_keys",
             "contribution_by_pair_sign_keys",
             "contribution_sign_pattern_keys",
+            "square_parity_path_keys",
+            "tri_shadow_keys",
+            "tri_source_keys",
+            "cancellation_pairing_keys",
+            "cancellation_shape_keys",
+            "reduced_position_keys",
+            "margin_cancellation_pairing_keys",
+            "margin_cancellation_shape_keys",
             "margin_value_keys",
         ]:
             mine = getattr(self, name)
@@ -227,6 +297,14 @@ class OffsetFamilyStats:
             "contribution_by_pair_keys",
             "contribution_by_pair_sign_keys",
             "contribution_sign_pattern_keys",
+            "square_parity_path_keys",
+            "tri_shadow_keys",
+            "tri_source_keys",
+            "cancellation_pairing_keys",
+            "cancellation_shape_keys",
+            "reduced_position_keys",
+            "margin_cancellation_pairing_keys",
+            "margin_cancellation_shape_keys",
             "margin_value_keys",
         ]:
             counter = getattr(self, name)
@@ -349,6 +427,27 @@ def classify_leaf(stats: OffsetFamilyStats, *, rank: int, word: tuple[str, ...],
     stats.contribution_by_pair_keys.add(aggregate_key(contributions, "pair", PAIR_IDS))
     stats.contribution_by_pair_sign_keys.add(aggregate_pair_sign_key(contributions))
     stats.contribution_sign_pattern_keys.add(sign_pattern_key(contributions))
+    cancel_keys = shadow_cancellation_keys(word)
+    assert stats.square_parity_path_keys is not None
+    assert stats.tri_shadow_keys is not None
+    assert stats.tri_source_keys is not None
+    assert stats.cancellation_pairing_keys is not None
+    assert stats.cancellation_shape_keys is not None
+    assert stats.reduced_position_keys is not None
+    assert stats.margin_cancellation_pairing_keys is not None
+    assert stats.margin_cancellation_shape_keys is not None
+    stats.square_parity_path_keys.add(cancel_keys["square_parity_path"])
+    stats.tri_shadow_keys.add(cancel_keys["tri_shadow"])
+    stats.tri_source_keys.add(cancel_keys["tri_sources"])
+    stats.cancellation_pairing_keys.add(cancel_keys["cancellation_pairing"])
+    stats.cancellation_shape_keys.add(cancel_keys["cancellation_shape"])
+    stats.reduced_position_keys.add(cancel_keys["reduced_positions"])
+    stats.margin_cancellation_pairing_keys.add(
+        f"{margin_key}|{cancel_keys['cancellation_pairing']}"
+    )
+    stats.margin_cancellation_shape_keys.add(
+        f"{margin_key}|{cancel_keys['cancellation_shape']}"
+    )
     stats.margin_value_keys.add(qkey(margin_value))
     stats.add_sample(
         "matched",

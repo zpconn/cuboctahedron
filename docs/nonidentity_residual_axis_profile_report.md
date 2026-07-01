@@ -451,6 +451,40 @@ Direct-start offset-family profile:
   partition.  The margin-linear-form theorem hook remains accepted, but the
   margin bound needs a coarser cancellation-tree / holonomy-state explanation
   rather than a family keyed by exact contribution values.
+- The same profiler now also counts square-parity paths, triangular shadows,
+  stack-cancellation pairings, cancellation shapes, and margin+cancellation
+  combined keys.  Rerunning the three bounded commands stayed memory-safe
+  (`25-29 MiB` max RSS).
+- Cancellation-counter summary:
+
+  | sample | matched | margin forms | cancellation pairings | margin+cancellation pairings | cancellation shapes |
+  | --- | ---: | ---: | ---: | ---: | ---: |
+  | full focused D4-axis class | `1,427` | `60` | `190` | `353` | `1` |
+  | largest exact-axis/reduced-shadow key | `107` | `3` | `12` | `21` | `1` |
+  | dominant margin form inside largest key | `72` | `1` | `11` | `11` | `1` |
+
+- Decision: cancellation shape alone is useless here because every case has
+  the same coarse shape (`pairs=1;survivors=6`).  Ordered cancellation pairing
+  is the first offset-side coordinate that compresses while preserving useful
+  structure.  The next scale test should measure margin+cancellation-pairing
+  growth on a larger window before designing Lean family declarations.
+- The `[0,1000000)` scale test for the same focused D4-axis class ran in
+  `1:21.69` wall time with `31,684 KiB` max RSS.  It found:
+
+  | coordinate | distinct/count |
+  | --- | ---: |
+  | matched residuals | `4,934` |
+  | exact-axis/reduced-shadow keys | `16` |
+  | margin linear forms | `60` |
+  | contribution multisets | `545` |
+  | triangular shadows / cancellation pairings | `284` |
+  | margin+cancellation pairings | `599` |
+  | margin+cancellation shapes | `60` |
+
+- Decision after the 1M scale test: margin+cancellation-pairing families scale
+  far better than concrete affine data and remain plausible.  The next Lean
+  experiment should target one high-count margin+cancellation-pairing family
+  and prove the margin bound from that semantic state.
 
 ## Artifacts
 
@@ -473,6 +507,8 @@ Direct-start offset-family profile:
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.md`
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_margin_yp_m2_000000000_000100000.json`
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_margin_yp_m2_000000000_000100000.md`
+- `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.json`
+- `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.md`
 - `scripts/generated/direct_start_linear_yp_1_m3_m1_000000000_000100000.json`
 - `scripts/generated/direct_start_linear_yp_1_m3_m1_000000000_000100000.md`
 - `scripts/generated/direct_start_linear_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.json`
