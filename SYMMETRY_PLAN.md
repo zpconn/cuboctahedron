@@ -52855,3 +52855,49 @@ Decision: accepted.  The split route now has a reusable serial runner and a
 third checked sampled path under the post-crash guard.  The next scaling step
 should use this runner on a small consecutive batch, still serially, and stop at
 the first guard failure.
+
+### Holonomy/Bellman Pivot - fifth crash report and batch expansion quarantine
+
+After preparing to move from single-path split smokes toward a small consecutive
+batch, the user reported another machine crash, likely from memory pressure.  A
+lightweight post-restart inspection showed the repository at commit
+`743bfb9cf Add serial Bellman split smoke runner`, a clean worktree, and about
+`45 GiB` available memory.  No new proof-bearing files from a batch expansion
+were present in the working tree.
+
+This invalidates the previous "next scaling step" as stated.  Even though the
+path-level runner is serial and guarded, the current operational process is not
+yet safe enough to proceed to batch execution on this hardware.  In particular,
+the combination of generated/Bellman imports, cached artifact churn, planner
+loads, and accidental broad diagnostics must be treated as a crash risk until
+proved otherwise.
+
+New quarantine rules before any further Bellman proof checks:
+
+- Do not run a consecutive batch of Bellman split paths.
+- Do not run parallel tool orchestration around Bellman/generated diagnostics.
+- Do not run broad text searches over `SYMMETRY_PLAN.md` or generated trees;
+  use narrow `tail`, exact file reads, or exact `rg` patterns with small
+  `--max-count` limits.
+- Do not launch Lean on a generated/Bellman target unless the command is a
+  single target, emits no broad build graph, and is wrapped by the strict guard.
+- Do not raise the current `6144 MiB` hard address-space cap or the
+  `4500 MiB` process-tree RSS cap to make a target pass.
+
+Replacement next step:
+
+1. Patch `scripts/run_bellman_split_smoke_path.py` so transient guard JSON files
+   are written outside the repository, e.g. under `/tmp/cuboctahedron_bellman_guards`,
+   while stable summaries remain in `scripts/generated/`.
+2. Add a **dry-run-only** batch planner/runner that composes already-checked
+   path summaries but refuses to invoke Lean.  Its job is accounting, not proof
+   checking.
+3. Add a preflight refusal mode that checks current `MemAvailable`, local
+   `.olean` freshness, planned source size, and target allowlist without
+   importing Lean modules.
+4. Only after those safety changes are committed should the plan consider one
+   additional proof-bearing single-path check, not a batch.
+
+Decision: batch expansion rejected for now.  The accepted proof architecture
+remains the split Bellman route, but the execution strategy must become even
+more conservative before any more proof-bearing scaling.

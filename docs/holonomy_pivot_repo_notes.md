@@ -3638,6 +3638,27 @@ Serial split-smoke path runner:
   artifacts over the `[0,37)` cached path set, still with `0` entries over
   budget.
 
-Decision: accepted.  The split Bellman smoke route now has a reusable serial
-runner and a third checked sampled path.  Continue scaling with small serial
-batches and stop on the first guard failure.
+Decision: accepted, but with a later crash quarantine.  The split Bellman smoke
+route has a reusable serial runner and a third checked sampled path, but the
+next small-batch scaling step is now rejected until the execution wrapper is
+made stricter.
+
+Post-run crash quarantine:
+
+- After preparing to move from single-path split checks to small consecutive
+  batch execution, the user reported another machine crash, likely from memory
+  pressure.  A lightweight post-restart inspection showed commit
+  `743bfb9cf Add serial Bellman split smoke runner`, a clean worktree, and about
+  `45 GiB` available memory.
+- Treat the crash as an operational safety failure, not as a mathematical
+  rejection of the split Bellman proof surface.
+- Do not run Bellman/generated proof checks in batches.
+- Do not use parallel tool orchestration for Bellman/generated diagnostics.
+- Do not run broad searches over `SYMMETRY_PLAN.md` or generated trees while in
+  crash recovery; use narrow reads only.
+- Keep all future proof-bearing Bellman checks as single-target direct Lean
+  checks under the strict guard: `-M 6000 -j1 -s 2048`, `6144 MiB` hard address
+  cap, `4500 MiB` process-tree RSS cap, and high available-memory floor.
+- Before any further proof-bearing scaling, move transient guard JSON output out
+  of the repository and add a dry-run-only accounting wrapper that refuses to
+  invoke Lean.
