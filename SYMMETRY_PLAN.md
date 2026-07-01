@@ -56766,3 +56766,55 @@ for larger graphs.  The next emitter step should split again:
 This keeps the Bellman semantic-membership route alive and gives a concrete
 scaling constraint: the proof is plausible only if larger graphs are checked as
 small soundness shards, not as one generated file.
+
+Follow-up base-size probes:
+
+```bash
+python3 scripts/emit_bellman_graph_core.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.json \
+  --output /tmp/BellmanTopPairingGraphCoreSmoke5MBase.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphCoreSmoke5MBase \
+  --omit-sound
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_graph_core_5m_base_guard.json \
+  -- lake env lean /tmp/BellmanTopPairingGraphCoreSmoke5MBase.lean
+
+python3 scripts/emit_bellman_graph_core.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.json \
+  --output /tmp/BellmanTopPairingGraphCoreSmoke5MDefs.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphCoreSmoke5MDefs \
+  --omit-valid
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_graph_core_5m_defs_guard.json \
+  -- lake env lean /tmp/BellmanTopPairingGraphCoreSmoke5MDefs.lean
+```
+
+Results:
+
+| 5M variant | source size | guard result | peak RSS |
+| --- | ---: | --- | ---: |
+| full graph core with next soundness | `904 KiB` | killed | `4625 MiB` |
+| base with validity proofs, no next soundness | `558 KiB` | killed | `4518 MiB` |
+| definitions only, no validity/soundness proofs | `352 KiB` | killed | `4564 MiB` |
+
+Decision refinement: the 5M graph is too large as a single Lean source module
+even before proof sharding.  Larger Bellman coverage needs a **chunked graph
+definition architecture**, not merely chunked soundness proofs.  The next
+accepted design should emit:
+
+1. a tiny shared type/core module if possible;
+2. state/edge/next chunks with bounded constructor counts;
+3. proof shards local to those chunks;
+4. a root that exposes the semantic evaluator theorem without importing heavy
+geometry leaves into ordinary generated coverage roots.
+
+The 1M core remains a valid smoke for the theorem surface, but it is not yet a
+scaling proof for 5M/full emission.

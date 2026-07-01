@@ -32,7 +32,16 @@ def face_name_from_label_key(key: str) -> str:
     raise ValueError(f"label key has no face component: {key}")
 
 
-def emit(input_path: Path, output_path: Path, namespace: str) -> None:
+def emit(
+    input_path: Path,
+    output_path: Path,
+    namespace: str,
+    *,
+    emit_sound: bool = True,
+    emit_valid: bool = True,
+) -> None:
+    if emit_sound and not emit_valid:
+        raise SystemExit("--omit-valid implies --omit-sound")
     data = json.loads(input_path.read_text())
     graph = data["graph"]
     state_count = int(graph["state_count"])
@@ -154,33 +163,46 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             f"    dst := {state_ctor(int(edge['dst']))}",
             "  }",
             "",
-            f"theorem {edge_name(idx)}_valid : {edge_name(idx)}.Valid graphPotential := by",
-            f"  change ({int(edge['gain_scaled'])} : Int) + "
-            f"graphPotential {state_ctor(int(edge['dst']))} <= "
-            f"graphPotential {state_ctor(int(edge['src']))}",
-            "  decide",
-            "",
         ])
+        if emit_valid:
+            lines.extend([
+                f"theorem {edge_name(idx)}_valid : {edge_name(idx)}.Valid graphPotential := by",
+                f"  change ({int(edge['gain_scaled'])} : Int) + "
+                f"graphPotential {state_ctor(int(edge['dst']))} <= "
+                f"graphPotential {state_ctor(int(edge['src']))}",
+                "  decide",
+                "",
+            ])
     lines.extend([
         "inductive GraphEdge : BellmanEdge State -> Prop where",
     ])
     for idx in range(len(edges)):
         lines.append(f"  | e{idx:04d} : GraphEdge {edge_name(idx)}")
+    lines.append("")
+    if emit_valid:
+        lines.extend([
+            "theorem GraphEdge.valid {e : BellmanEdge State} :",
+            "    GraphEdge e -> BellmanEdge.Valid graphPotential e := by",
+            "  intro h",
+            "  cases h with",
+        ])
+        for idx in range(len(edges)):
+            lines.append(f"  | e{idx:04d} => exact {edge_name(idx)}_valid")
+        lines.extend([
+            "",
+            "theorem root_bound :",
+            f"    ({const_scaled} : Int) + graphPotential rootState <= 0 := by",
+            "  decide",
+            "",
+        ])
+    else:
+        lines.extend([
+            "/-- Validity proofs are omitted in definitions-only mode and should",
+            "be emitted in bounded proof shards.",
+            "-/",
+            "",
+        ])
     lines.extend([
-        "",
-        "theorem GraphEdge.valid {e : BellmanEdge State} :",
-        "    GraphEdge e -> BellmanEdge.Valid graphPotential e := by",
-        "  intro h",
-        "  cases h with",
-    ])
-    for idx in range(len(edges)):
-        lines.append(f"  | e{idx:04d} => exact {edge_name(idx)}_valid")
-    lines.extend([
-        "",
-        "theorem root_bound :",
-        f"    ({const_scaled} : Int) + graphPotential rootState <= 0 := by",
-        "  decide",
-        "",
         f"-- label count: {len(labels)}",
         "inductive SmokeLabel where",
     ])
@@ -208,17 +230,18 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             f"{label_ctor(label_idx)} {edge_name(edge_idx)}.dst "
             f"{edge_name(edge_idx)}.gain"
         )
-    lines.extend([
-        "",
-        "theorem SmokeStep.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
-        "    SmokeStep s label t gain -> gain + graphPotential t <= graphPotential s := by",
-        "  intro h",
-        "  cases h with",
-    ])
-    for case_name, edge_idx, _label_idx in edge_label_cases:
-        lines.append(
-            f"  | {case_name} => simpa [BellmanEdge.Valid] using {edge_name(edge_idx)}_valid"
-        )
+    if emit_valid:
+        lines.extend([
+            "",
+            "theorem SmokeStep.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+            "    SmokeStep s label t gain -> gain + graphPotential t <= graphPotential s := by",
+            "  intro h",
+            "  cases h with",
+        ])
+        for case_name, edge_idx, _label_idx in edge_label_cases:
+            lines.append(
+                f"  | {case_name} => simpa [BellmanEdge.Valid] using {edge_name(edge_idx)}_valid"
+            )
     label_order = [int(label["index"]) for label in labels]
     lines.extend([
         "",
@@ -248,51 +271,64 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             f"  | {state_ctor(state_idx)} => graphSmokeNext_s{state_idx:04d}"
         )
     lines.append("")
-    for state_idx in range(state_count):
-        state_transitions = [
-            (label_idx, transition_by_state_label[(state_idx, label_idx)])
-            for label_idx in label_order
-            if (state_idx, label_idx) in transition_by_state_label
-        ]
-        lines.extend([
-            f"theorem graphSmokeNext_sound_s{state_idx:04d} "
-            "{label : SmokeLabel} {t : State} {gain : Int} :",
-            f"    graphSmokeNext {state_ctor(state_idx)} label = some (t, gain) ->",
-            f"      SmokeStep {state_ctor(state_idx)} label t gain := by",
-            "  intro h",
-            f"  change graphSmokeNext_s{state_idx:04d} label = some (t, gain) at h",
-            f"  cases label <;> simp [graphSmokeNext_s{state_idx:04d}] at h <;> try contradiction",
-        ])
-        if state_transitions:
+    if emit_sound:
+        for state_idx in range(state_count):
+            state_transitions = [
+                (label_idx, transition_by_state_label[(state_idx, label_idx)])
+                for label_idx in label_order
+                if (state_idx, label_idx) in transition_by_state_label
+            ]
             lines.extend([
-                "  all_goals",
-                "    rcases h with ⟨rfl, rfl⟩",
-                "    first",
+                f"theorem graphSmokeNext_sound_s{state_idx:04d} "
+                "{label : SmokeLabel} {t : State} {gain : Int} :",
+                f"    graphSmokeNext {state_ctor(state_idx)} label = some (t, gain) ->",
+                f"      SmokeStep {state_ctor(state_idx)} label t gain := by",
+                "  intro h",
+                f"  change graphSmokeNext_s{state_idx:04d} label = some (t, gain) at h",
+                f"  cases label <;> simp [graphSmokeNext_s{state_idx:04d}] at h <;> try contradiction",
             ])
-            for _label_idx, (_edge_idx, _dst_idx, _gain_scaled, case_name) in state_transitions:
-                lines.append(f"    | exact SmokeStep.{case_name}")
-        lines.append("")
+            if state_transitions:
+                lines.extend([
+                    "  all_goals",
+                    "    rcases h with ⟨rfl, rfl⟩",
+                    "    first",
+                ])
+                for _label_idx, (_edge_idx, _dst_idx, _gain_scaled, case_name) in state_transitions:
+                    lines.append(f"    | exact SmokeStep.{case_name}")
+            lines.append("")
+        lines.extend([
+            "theorem graphSmokeNext_sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+            "    graphSmokeNext s label = some (t, gain) -> SmokeStep s label t gain := by",
+            "  cases s <;> intro h",
+        ])
+        for state_idx in range(state_count):
+            lines.append(f"  · exact graphSmokeNext_sound_s{state_idx:04d} h")
+        lines.extend([
+            "",
+            "def GraphSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",
+            "  graphSmokeNext s label = some (t, gain)",
+            "",
+            "theorem GraphSmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+            "    graphSmokeNext s label = some (t, gain) -> SmokeStep s label t gain :=",
+            "  graphSmokeNext_sound",
+            "",
+            "theorem GraphSmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+            "    GraphSmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by",
+            "  intro h",
+            "  exact SmokeStep.valid (graphSmokeNext_sound h)",
+            "",
+        ])
+    else:
+        lines.extend([
+            "/-- Base-only smoke: deterministic next table emitted without the",
+            "next-to-step soundness bridge. This mode is used only to measure",
+            "whether graph definitions fit before soundness sharding.",
+            "-/",
+            "def GraphSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",
+            "  graphSmokeNext s label = some (t, gain)",
+            "",
+        ])
     lines.extend([
-        "theorem graphSmokeNext_sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
-        "    graphSmokeNext s label = some (t, gain) -> SmokeStep s label t gain := by",
-        "  cases s <;> intro h",
-    ])
-    for state_idx in range(state_count):
-        lines.append(f"  · exact graphSmokeNext_sound_s{state_idx:04d} h")
-    lines.extend([
-        "",
-        "def GraphSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",
-        "  graphSmokeNext s label = some (t, gain)",
-        "",
-        "theorem GraphSmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
-        "    graphSmokeNext s label = some (t, gain) -> SmokeStep s label t gain :=",
-        "  graphSmokeNext_sound",
-        "",
-        "theorem GraphSmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
-        "    GraphSmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by",
-        "  intro h",
-        "  exact SmokeStep.valid (graphSmokeNext_sound h)",
-        "",
         "theorem bellmanGraphCoreSmoke_builds : True := by",
         "  exact True.intro",
         "",
@@ -308,8 +344,16 @@ def main() -> None:
     parser.add_argument("--input", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--namespace", required=True)
+    parser.add_argument("--omit-sound", action="store_true")
+    parser.add_argument("--omit-valid", action="store_true")
     args = parser.parse_args()
-    emit(args.input, args.output, args.namespace)
+    emit(
+        args.input,
+        args.output,
+        args.namespace,
+        emit_sound=(not args.omit_sound and not args.omit_valid),
+        emit_valid=not args.omit_valid,
+    )
 
 
 if __name__ == "__main__":
