@@ -1524,3 +1524,34 @@ Next gate: teach the Bellman smoke emitter to instantiate
 `ObjectStartViolationMarginCert` for sampled accepted objects, then replace
 the current positive-margin premise/object route with
 `nonIdentityRankKilled_of_object_cover_start_violation_margin_certs`.
+
+Object start-violation smoke:
+
+- `scripts/emit_bellman_graph_smoke.py` now computes a concrete violated
+  non-`X+` face for each sampled axis-start candidate and emits the matching
+  bad-face inequality theorem.
+- The generated sampled smoke now defines:
+
+  ```lean
+  sampledObjectStartViolationCert
+  graphSmoke_sampled_axis_object_cover_rank_killed_of_start_violation
+  graphSmoke_sampled_axis_rank_killed
+  ```
+
+- `graphSmoke_sampled_axis_rank_killed` now uses
+  `nonIdentityRankKilled_of_object_cover_start_violation_margin_certs`, so the
+  final sampled public killed theorem no longer depends on a separately
+  supplied positive-margin callback.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+  ```
+
+  passed in `1:09.07` wall time with `8,583,932 kB` max RSS.
+
+Next gate: replace the two sampled objects with a generated semantic
+top-pairing object family.  The candidate acceptance stack should include
+forced-sequence compatibility, oriented local forced-axis compatibility, and
+canonical bad-face/start-violation data.

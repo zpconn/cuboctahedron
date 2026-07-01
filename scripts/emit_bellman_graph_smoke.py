@@ -14,6 +14,9 @@ from fractions import Fraction
 from pathlib import Path
 
 from generate_exact_certificates import (
+    FACE_NORMALS,
+    FACE_OFFSETS,
+    FACE_ORDER,
     append_face_vector_get_theorems,
     append_pair_word_get_theorems,
     append_path_prefix_aff_theorems,
@@ -35,6 +38,19 @@ from generate_exact_certificates import (
     total_linear,
     word_get_simp_names,
 )
+
+
+def dot_frac(a: tuple[int, int, int], b: tuple[Fraction, Fraction, Fraction]) -> Fraction:
+    return sum(Fraction(ai) * bi for ai, bi in zip(a, b))
+
+
+def start_violation_face(p0: tuple[Fraction, Fraction, Fraction]) -> str:
+    for face in FACE_ORDER:
+        if face == "xp":
+            continue
+        if FACE_OFFSETS[face] <= dot_frac(FACE_NORMALS[face], p0):
+            return face
+    raise ValueError(f"candidate p0 does not violate a non-X+ face: {p0}")
 
 
 def state_ctor(index: int) -> str:
@@ -1185,11 +1201,13 @@ def emit(
             )
             if positive_p0[0] != 1:
                 raise ValueError("positive candidate p0 is not on the X+ plane")
+            positive_bad_face = start_violation_face(positive_p0)
             positive_cert_payload = {
                 "name": f"{obj_name}PositiveCert",
                 "forced_seq": sample_forced_seq,
                 "p0": [str(value) for value in positive_p0],
                 "lambda": str(positive_lam),
+                "bad_face": positive_bad_face,
                 "solve_left_inverse": [
                     [str(value) for value in row] for row in positive_solve
                 ],
@@ -1215,6 +1233,8 @@ def emit(
                     "positive_axis_solve_theorem": f"{positive_cert_payload['name']}_axisSolveCheck",
                     "positive_axis_forces_theorem": f"{positive_cert_payload['name']}_axisForces",
                     "positive_margin_theorem": f"{positive_cert_payload['name']}_xpStartInterior_margin_positive",
+                    "positive_bad_face": positive_bad_face,
+                    "positive_bad_face_violation_theorem": f"{positive_cert_payload['name']}_badFaceViolation",
                 }
             )
             sample_final_axis_dot = final_axis_dot(sample_word, sample_axis)
@@ -1354,6 +1374,7 @@ def emit(
                 "  failure := NonIdFailure.axisMissesStartInterior",
                 "",
             ])
+            positive_bad_face = str(positive_cert_payload["bad_face"])
             positive_path_prefix_theorems = append_path_prefix_aff_theorems(
                 lines, positive_cert_payload
             )
@@ -1390,6 +1411,17 @@ def emit(
                 f"      {axis_name} {kernel_name} = true",
                 f"  rw [← {obj_name}_unrank_word]",
                 f"  exact {obj_name}KernelCheck",
+                "",
+                f"private theorem {positive_name}_badFace_ne_xp :",
+                f"    Face.{positive_bad_face} ≠ Face.xp := by",
+                "  decide",
+                "",
+                f"private theorem {positive_name}_badFaceViolation :",
+                f"    offsetR Face.{positive_bad_face} <=",
+                f"      dot (normalR Face.{positive_bad_face})",
+                f"        (vecRatToReal {positive_name}.p0) := by",
+                f"  norm_num [{positive_name}, offsetR, normalR, offsetQ, normalQ,",
+                "    vecRatToReal, dot]",
                 "",
             ])
             lines.extend([
@@ -1886,6 +1918,39 @@ def emit(
                 "  BellmanAxisRankObjectCover.scaledMargin_nonpos",
                 "    sampledAxisRankObjectCover hrank",
                 "",
+                "private def sampledObjectStartViolationCert :",
+                "    forall idx, sampledObjectAccepts idx ->",
+                "      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.ObjectStartViolationMarginCert",
+                "        (sampledRankOf idx)",
+                "        (sampledScaledMarginAtRank (sampledRankOf idx))",
+                "  | idx, _hAccept => by",
+                "      cases idx",
+            ])
+            for info in same_axis_infos:
+                positive_name = str(info["positive_cert_name"])
+                bad_face = str(info["positive_bad_face"])
+                lines.extend([
+                    "      · refine {",
+                    f"          cert := {positive_name},",
+                    "          word_eq := ?_,",
+                    f"          kernel_check := {positive_name}_kernelCheck,",
+                    f"          solve_check := {positive_name}_axisSolveCheck,",
+                    f"          axis_forces := {positive_name}_axisForces,",
+                    f"          badFace := Face.{bad_face},",
+                    f"          badFace_ne_xp := {positive_name}_badFace_ne_xp,",
+                    f"          badFace_violation := {positive_name}_badFaceViolation",
+                    "        }",
+                    f"        change {info['obj_name']}Word = unrankPairWord {info['rank_name']}",
+                    f"        exact {info['obj_name']}_unrank_word.symm",
+                ])
+            lines.extend([
+                "",
+                "theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_start_violation",
+                "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",
+                "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
+                "  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_cover_start_violation_margin_certs",
+                "    sampledAxisRankObjectCover sampledObjectStartViolationCert hrank",
+                "",
                 "theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive",
                 "    (hpositive :",
                 "      forall idx seq,",
@@ -1942,9 +2007,8 @@ def emit(
                 "theorem graphSmoke_sampled_axis_rank_killed",
                 "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",
                 "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
-                "  graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive",
-                "    (fun idx seq _hAccept =>",
-                "      graphSmoke_sampled_axis_rank_positive_margin idx seq) hrank",
+                "  graphSmoke_sampled_axis_object_cover_rank_killed_of_start_violation",
+                "    hrank",
                 "",
             ])
     lines.extend([

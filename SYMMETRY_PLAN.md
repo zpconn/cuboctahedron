@@ -48828,3 +48828,56 @@ next generator step should emit a small smoke object whose `Accepts` predicate
 combines forced-sequence compatibility and this object start-violation cert;
 then route the object-cover theorem through
 `nonIdentityRankKilled_of_object_cover_start_violation_margin_certs`.
+
+### Holonomy/Bellman Pivot - object start-violation smoke accepted
+
+Implemented the sampled smoke for the new terminal adapter.  The Bellman graph
+emitter now selects a concrete violated non-`X+` face for each sampled
+axis-start candidate and emits:
+
+```lean
+private theorem clsXXXXPositiveCert_badFace_ne_xp
+private theorem clsXXXXPositiveCert_badFaceViolation
+private def sampledObjectStartViolationCert
+theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_start_violation
+theorem graphSmoke_sampled_axis_rank_killed
+```
+
+`graphSmoke_sampled_axis_rank_killed` now routes through:
+
+```lean
+nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
+```
+
+instead of requiring an external positive-margin callback.  The old
+positive-margin callback theorem remains in the smoke as a regression path,
+but it is no longer the final sampled public killed theorem.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` object start-violation route | `1:09.07` | `8,583,932 kB` | passed |
+
+Decision: accepted.  This is the first sampled route where object acceptance
+contains forced-sequence compatibility and the terminal start-violation
+certificate, and the public killed theorem is produced by the object-cover
+bridge.  The remaining production problem is now membership compression:
+replace the two sampled objects with a generated semantic top-pairing object
+family whose acceptance includes forced-axis compatibility and canonical
+bad-face/start-violation data.

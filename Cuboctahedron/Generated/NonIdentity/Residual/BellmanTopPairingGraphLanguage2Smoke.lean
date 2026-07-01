@@ -23023,6 +23023,17 @@ private theorem cls0000PositiveCert_kernelCheck :
   rw [← cls0000_unrank_word]
   exact cls0000KernelCheck
 
+private theorem cls0000PositiveCert_badFace_ne_xp :
+    Face.ym ≠ Face.xp := by
+  decide
+
+private theorem cls0000PositiveCert_badFaceViolation :
+    offsetR Face.ym <=
+      dot (normalR Face.ym)
+        (vecRatToReal cls0000PositiveCert.p0) := by
+  norm_num [cls0000PositiveCert, offsetR, normalR, offsetQ, normalQ,
+    vecRatToReal, dot]
+
 private def cls0000PairSignLanguage (seq : Step14 -> Face) : Prop :=
   PairSignLanguageAtRank cls0000Rank cls0000FaceSeq seq
 
@@ -24128,6 +24139,17 @@ private theorem cls0001PositiveCert_kernelCheck :
   rw [← cls0001_unrank_word]
   exact cls0001KernelCheck
 
+private theorem cls0001PositiveCert_badFace_ne_xp :
+    Face.ym ≠ Face.xp := by
+  decide
+
+private theorem cls0001PositiveCert_badFaceViolation :
+    offsetR Face.ym <=
+      dot (normalR Face.ym)
+        (vecRatToReal cls0001PositiveCert.p0) := by
+  norm_num [cls0001PositiveCert, offsetR, normalR, offsetQ, normalQ,
+    vecRatToReal, dot]
+
 private def cls0001PairSignLanguage (seq : Step14 -> Face) : Prop :=
   PairSignLanguageAtRank cls0001Rank cls0001FaceSeq seq
 
@@ -24565,6 +24587,44 @@ theorem graphSmoke_sampled_axis_object_cover_scaled_margin_nonpos
   BellmanAxisRankObjectCover.scaledMargin_nonpos
     sampledAxisRankObjectCover hrank
 
+private def sampledObjectStartViolationCert :
+    forall idx, sampledObjectAccepts idx ->
+      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.ObjectStartViolationMarginCert
+        (sampledRankOf idx)
+        (sampledScaledMarginAtRank (sampledRankOf idx))
+  | idx, _hAccept => by
+      cases idx
+      · refine {
+          cert := cls0000PositiveCert,
+          word_eq := ?_,
+          kernel_check := cls0000PositiveCert_kernelCheck,
+          solve_check := cls0000PositiveCert_axisSolveCheck,
+          axis_forces := cls0000PositiveCert_axisForces,
+          badFace := Face.ym,
+          badFace_ne_xp := cls0000PositiveCert_badFace_ne_xp,
+          badFace_violation := cls0000PositiveCert_badFaceViolation
+        }
+        change cls0000Word = unrankPairWord cls0000Rank
+        exact cls0000_unrank_word.symm
+      · refine {
+          cert := cls0001PositiveCert,
+          word_eq := ?_,
+          kernel_check := cls0001PositiveCert_kernelCheck,
+          solve_check := cls0001PositiveCert_axisSolveCheck,
+          axis_forces := cls0001PositiveCert_axisForces,
+          badFace := Face.ym,
+          badFace_ne_xp := cls0001PositiveCert_badFace_ne_xp,
+          badFace_violation := cls0001PositiveCert_badFaceViolation
+        }
+        change cls0001Word = unrankPairWord cls0001Rank
+        exact cls0001_unrank_word.symm
+
+theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_start_violation
+    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
+    sampledAxisRankObjectCover sampledObjectStartViolationCert hrank
+
 theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive
     (hpositive :
       forall idx seq,
@@ -24623,9 +24683,8 @@ private theorem graphSmoke_sampled_axis_rank_positive_margin
 theorem graphSmoke_sampled_axis_rank_killed
     {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
     Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
-  graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive
-    (fun idx seq _hAccept =>
-      graphSmoke_sampled_axis_rank_positive_margin idx seq) hrank
+  graphSmoke_sampled_axis_object_cover_rank_killed_of_start_violation
+    hrank
 
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=
