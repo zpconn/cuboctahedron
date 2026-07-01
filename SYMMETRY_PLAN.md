@@ -50743,3 +50743,45 @@ terminal/object bridge that could elaborate generated data must run through
 floor.  Unguarded Lean experiments are allowed only for small hand-written
 support modules whose previous direct build is already below the normal
 3-4 GiB baseline.
+
+### Holonomy/Bellman Pivot - guard timeout added after OOM crash
+
+Postmortem for the machine crash: the likely trigger was the rejected
+closed-language membership smoke described above.  The unsafe ingredient was
+not the semantic language predicates themselves, but asking Lean to synthesize
+and use broad recursive decidability instances for a generated closed-language
+membership proof.  This can build an enormous elaboration/reduction problem
+before a normal build command has a chance to fail cleanly.
+
+Operational hardening:
+
+- `scripts/run_memory_guarded.py` now has `--timeout-seconds` in addition to
+  process-tree RSS and `MemAvailable` guards.
+- Guarded timeout termination now returns exit code `124`; memory-floor/RSS
+  terminations return `137`; keyboard interruption returns `130`.
+- Any future generated-language membership smoke, Bellman object bridge, or
+  other possibly generated Lean target must use all three controls:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 120 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/<target>.json \
+    -- lake build <target>
+  ```
+
+Verification after the guard hardening:
+
+| command | result |
+| --- | --- |
+| `python3 -m py_compile scripts/run_memory_guarded.py` | passed |
+| `python3 scripts/run_memory_guarded.py --timeout-seconds 1 ... -- sleep 5` | killed by timeout, wrapper exit `124`, peak tree RSS `1 MiB` |
+| `python3 scripts/run_memory_guarded.py --timeout-seconds 60 --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/bellman_top_pairing_language_guard_timeout.json -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | passed, `803 MiB` peak tree RSS, `46506 MiB` minimum available memory |
+
+Design rule strengthened: do not introduce global `Decidable` instances for
+closed Bellman languages, and do not use whole-language `decide` as a generated
+membership proof strategy.  The next proof-bearing step must construct
+`BellmanNonposStartViolationObjectMembership` through explicit field proofs or
+direct object constructors, with the first smoke capped by the guard above.

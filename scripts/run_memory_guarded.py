@@ -128,6 +128,12 @@ def parse_args() -> argparse.Namespace:
         help="Grace period between SIGTERM and SIGKILL.",
     )
     parser.add_argument(
+        "--timeout-seconds",
+        type=float,
+        default=None,
+        help="Terminate if wall-clock runtime exceeds this many seconds.",
+    )
+    parser.add_argument(
         "--json",
         type=Path,
         default=None,
@@ -150,6 +156,8 @@ def parse_args() -> argparse.Namespace:
         parser.error("missing command to run")
     if args.poll_seconds <= 0:
         parser.error("--poll-seconds must be positive")
+    if args.timeout_seconds is not None and args.timeout_seconds <= 0:
+        parser.error("--timeout-seconds must be positive when provided")
     return args
 
 
@@ -194,6 +202,14 @@ def main() -> int:
                     f"MemAvailable {available_kib // 1024} MiB fell below "
                     f"{min_available_kib // 1024} MiB floor"
                 )
+            elif (
+                args.timeout_seconds is not None
+                and time.monotonic() - started > args.timeout_seconds
+            ):
+                killed_reason = (
+                    f"wall-clock runtime exceeded "
+                    f"{args.timeout_seconds:.2f}s timeout"
+                )
             if killed_reason is not None:
                 print(f"memory guard terminating command: {killed_reason}", file=sys.stderr)
                 terminate_group(pgid, grace_seconds=args.grace_seconds)
@@ -221,6 +237,7 @@ def main() -> int:
         ),
         "rss_cap_mib": args.max_tree_rss_mib,
         "available_floor_mib": args.min_available_mib,
+        "timeout_seconds": args.timeout_seconds,
     }
     if args.json is not None:
         write_json(args.json, payload)
@@ -232,7 +249,11 @@ def main() -> int:
         f"{'unknown' if min_available_seen_kib is None else str(min_available_seen_kib // 1024) + ' MiB'}",
         file=sys.stderr,
     )
-    if killed_reason is not None and rc == 0:
+    if killed_reason is not None:
+        if killed_reason == "interrupted":
+            return 130
+        if killed_reason.startswith("wall-clock runtime exceeded"):
+            return 124
         return 137
     return int(rc if rc is not None else 1)
 

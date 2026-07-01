@@ -2484,3 +2484,42 @@ Closed-language `decide` warning:
   ```
 
   The guarded cached run passed with `814 MiB` peak process-tree RSS.
+
+Guard timeout hardening:
+
+- After the closed-language `decide` smoke crashed the machine, the guard was
+  extended with `--timeout-seconds`.
+- Timeout kills now return `124`; memory guard kills return `137`; interrupts
+  return `130`.
+- Tiny validation:
+
+  ```bash
+  python3 -m py_compile scripts/run_memory_guarded.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 1 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --json /tmp/guard_timeout_test_after_code_fix.json \
+    -- sleep 5
+  ```
+
+  The timeout test returned `124` and reported only `1 MiB` peak tree RSS.
+- The safe support module was also rebuilt through the timeout-enabled guard:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 60 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/bellman_top_pairing_language_guard_timeout.json \
+    -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+  ```
+
+  Result: passed with `803 MiB` peak process-tree RSS and `46506 MiB` minimum
+  available memory.
+
+Future generated Bellman membership smokes must include all three caps:
+wall-clock timeout, process-tree RSS, and system `MemAvailable`.  Do not run
+another closed-language membership experiment as an uncapped `lake build`.
