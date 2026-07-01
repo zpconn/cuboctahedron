@@ -1475,6 +1475,12 @@ Concrete face-sequence bridge smoke:
   labels match `trieNode0014Labels`.  The sampled itinerary theorem
   `graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos` is now just this
   generic bridge instantiated with `cls0000FaceSeqLabels_eq`.
+- The emitter now also defines the toy language predicate
+  `cls0000FaceSeqLanguage` and proves
+  `graphSmoke_cls0000_seq_language_scaled_margin_nonpos`.  This gives the
+  exact intended bridge shape for production: a semantic family/language
+  predicate proves the generated label equality, and the generic Bellman
+  theorem supplies the margin bound.
 - Focused build passed:
 
   ```bash
@@ -1482,12 +1488,13 @@ Concrete face-sequence bridge smoke:
     Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
   ```
 
-  Result: `0:08.68` wall time, `3,932,064 kB` max RSS.
+  Result: `0:08.78` wall time, `3,939,680 kB` max RSS.
 - Decision: accepted as the first Lean-checked bridge from actual
   `Step14 -> Face` itineraries to the Bellman trie language through a reusable
-  label-equality theorem.  The remaining production gap is to replace this one
-  sampled equality by a theorem that the holonomy/cancellation top-family
-  predicate determines the same face-label language/trie branch.
+  label-equality and sequence-language theorem.  The remaining production gap
+  is to replace this toy pointwise-equality language by a theorem that the
+  holonomy/cancellation top-family predicate determines the same face-label
+  language/trie branch.
 
 ## Artifacts
 

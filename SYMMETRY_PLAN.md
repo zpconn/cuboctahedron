@@ -2222,14 +2222,18 @@ Bellman profiler prototype checkpoint:
   now handles any `seq : Step14 -> Face` whose `smokeLabelsOfSeq seq` equals
   the generated trie labels, and
   `graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos` instantiates it for
-  the sampled itinerary.  Focused build passed:
+  the sampled itinerary.  The emitter also defines the toy sequence-language
+  predicate `cls0000FaceSeqLanguage` and proves
+  `graphSmoke_cls0000_seq_language_scaled_margin_nonpos`, demonstrating the
+  production proof shape `family/language predicate -> generated label
+  equality -> Bellman bound`.  Focused build passed:
   `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
-  in `0:08.68` wall time with `3,932,064 kB` max RSS.  Decision: this is the
+  in `0:08.78` wall time with `3,939,680 kB` max RSS.  Decision: this is the
   first Lean-checked smoke connecting actual `Step14 -> Face` itineraries to
-  the Bellman trie language through a reusable label-equality bridge.  It is
-  not full membership yet; the production bridge still needs a theorem from the
-  holonomy/cancellation top-family predicate to the generated face-label
-  sequence/trie node.
+  the Bellman trie language through a reusable label-equality and
+  sequence-language bridge.  It is not full membership yet; the production
+  bridge still needs to replace the toy pointwise-equality language with the
+  holonomy/cancellation top-family predicate.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

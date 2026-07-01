@@ -549,10 +549,13 @@ Top margin+cancellation-pairing checkpoint:
   `cls0000FaceSeq : Step14 -> Face` maps to the `trieNode0014` labels and then
   exposes the reusable bridge
   `graphSmoke_cls0000_seq_of_trie_labels_scaled_margin_nonpos` for any sequence
-  with those generated labels.  The focused build passed in `0:08.68` wall time
-  with `3,932,064 kB` max RSS.  The next production gap is now precise: prove
-  that the top holonomy/cancellation family predicate entails the generated
-  face-label trace equality, rather than only a sampled itinerary.
+  with those generated labels.  It also emits the toy pointwise sequence
+  language `cls0000FaceSeqLanguage` and proves
+  `graphSmoke_cls0000_seq_language_scaled_margin_nonpos`, so the smoke now has
+  the shape `language predicate -> label equality -> Bellman bound`.  The
+  focused build passed in `0:08.78` wall time with `3,939,680 kB` max RSS.  The
+  next production gap is now precise: replace that toy language with the top
+  holonomy/cancellation family predicate.
 
 ## Explicit Non-Goals
 

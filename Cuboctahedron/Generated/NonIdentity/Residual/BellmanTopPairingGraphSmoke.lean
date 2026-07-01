@@ -22174,11 +22174,35 @@ private def cls0000FaceSeq : Step14 -> Face
   | ⟨12, _⟩ => Face.tmpp
   | _ => Face.tmmp
 
+private def cls0000FaceSeqLanguage (seq : Step14 -> Face) : Prop :=
+  forall i : Step14, seq i = cls0000FaceSeq i
+
 private theorem cls0000FaceSeqLabels_eq :
     smokeLabelsOfSeq cls0000FaceSeq = trieNode0014Labels := by
   unfold smokeLabelsOfSeq cls0000FaceSeq smokeLabelOfFace
   unfold trieNode0014Labels trieNode0014StepLabels trieNode0013Labels trieNode0013StepLabels trieNode0012Labels trieNode0012StepLabels trieNode0011Labels trieNode0011StepLabels trieNode0010Labels trieNode0010StepLabels trieNode0009Labels trieNode0009StepLabels trieNode0008Labels trieNode0008StepLabels trieNode0007Labels trieNode0007StepLabels trieNode0006Labels trieNode0006StepLabels trieNode0005Labels trieNode0005StepLabels trieNode0004Labels trieNode0004StepLabels trieNode0003Labels trieNode0003StepLabels trieNode0002Labels trieNode0002StepLabels trieNode0001Labels trieNode0001StepLabels trieNode0000Labels
   rfl
+
+private theorem cls0000FaceSeqLanguage_labels_eq
+    (seq : Step14 -> Face)
+    (hseq : cls0000FaceSeqLanguage seq) :
+    smokeLabelsOfSeq seq = trieNode0014Labels := by
+  rw [← cls0000FaceSeqLabels_eq]
+  unfold smokeLabelsOfSeq
+  rw [hseq (⟨1, by decide⟩ : Step14)]
+  rw [hseq (⟨2, by decide⟩ : Step14)]
+  rw [hseq (⟨3, by decide⟩ : Step14)]
+  rw [hseq (⟨4, by decide⟩ : Step14)]
+  rw [hseq (⟨5, by decide⟩ : Step14)]
+  rw [hseq (⟨6, by decide⟩ : Step14)]
+  rw [hseq (⟨7, by decide⟩ : Step14)]
+  rw [hseq (⟨8, by decide⟩ : Step14)]
+  rw [hseq (⟨9, by decide⟩ : Step14)]
+  rw [hseq (⟨10, by decide⟩ : Step14)]
+  rw [hseq (⟨11, by decide⟩ : Step14)]
+  rw [hseq (⟨12, by decide⟩ : Step14)]
+  rw [hseq (⟨13, by decide⟩ : Step14)]
+  rw [hseq (⟨0, by decide⟩ : Step14)]
 
 private def cls0000TraceOfSeq (seq : Step14 -> Face) : SmokeLabelStepTrace where
   finish := trieNode0014State
@@ -22209,10 +22233,17 @@ theorem graphSmoke_cls0000_seq_of_trie_labels_scaled_margin_nonpos
   graphSmoke_label_step_trace_language_scaled_margin_nonpos
     (cls0000TraceOfSeq seq) (cls0000TraceOfSeq_accepts seq hlabels)
 
+theorem graphSmoke_cls0000_seq_language_scaled_margin_nonpos
+    (seq : Step14 -> Face)
+    (hseq : cls0000FaceSeqLanguage seq) :
+    smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq seq) <= 0 :=
+  graphSmoke_cls0000_seq_of_trie_labels_scaled_margin_nonpos
+    seq (cls0000FaceSeqLanguage_labels_eq seq hseq)
+
 theorem graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos :
     smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq cls0000FaceSeq) <= 0 :=
-  graphSmoke_cls0000_seq_of_trie_labels_scaled_margin_nonpos
-    cls0000FaceSeq cls0000FaceSeqLabels_eq
+  graphSmoke_cls0000_seq_language_scaled_margin_nonpos
+    cls0000FaceSeq (fun _ => rfl)
 
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=
