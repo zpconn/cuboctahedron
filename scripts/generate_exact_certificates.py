@@ -3581,7 +3581,6 @@ def append_not_omni_theorem(lines: list[str], cert: dict) -> str:
 def append_path_prefix_aff_theorems(lines: list[str], cert: dict) -> list[str]:
     name = cert["name"]
     forced = seq_name(name)
-    seq_simp = ", ".join(seq_get_simp_names(forced))
     prefixes = path_prefix_affs(cert["forced_seq"])
     theorem_names: list[str] = []
     for index, prefix in enumerate(prefixes):
@@ -3596,6 +3595,7 @@ def append_path_prefix_aff_theorems(lines: list[str], cert: dict) -> list[str]:
             ])
         else:
             prev = theorem_names[index - 1]
+            seq_simp = f"{forced}_get{index:02d}_num"
             lines.extend([
                 f"theorem {theorem} :",
                 f"    pathPrefixAffNat (faceVectorSeq {forced}) {index} = {lean_aff(prefix)} := by",
@@ -3614,7 +3614,7 @@ def append_total_aff_theorem(lines: list[str], cert: dict, path_prefix_theorems:
     theorem = f"{name}_totalAff"
     forced = seq_name(name)
     affine = total_aff(cert["forced_seq"])
-    seq_simp = ", ".join(seq_get_simp_names(forced))
+    seq_simp = f"{forced}_get00_num"
     lines.extend([
         f"theorem {theorem} :",
         f"    totalAff (faceVectorSeq {name}.forcedSeq) = {lean_aff(affine)} := by",

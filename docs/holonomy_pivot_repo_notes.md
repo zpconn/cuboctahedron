@@ -1170,3 +1170,46 @@ Start-interior positive margin bridge:
   `p0`/`lambda`/solve witnesses and the small start-interior linear arithmetic
   lemma for the sampled Bellman family, then use it to close the killed theorem
   without an external `hpositive` premise.
+
+Closed sampled positive-margin smoke:
+
+- The Bellman graph smoke emitter now generates private positive-margin
+  candidate data for the sampled ranks.  For the current two-rank diagnostic it
+  emits `cls0000PositiveCert` and `cls0001PositiveCert`, along with kernel,
+  affine-solve, and axis-forcing facts.
+- It also emits the local start-interior arithmetic lemmas:
+
+  ```lean
+  cls0000PositiveCert_xpStartInterior_margin_positive
+  cls0001PositiveCert_xpStartInterior_margin_positive
+  ```
+
+- The generated smoke now proves:
+
+  ```lean
+  graphSmoke_sampled_axis_rank_positive_margin
+  graphSmoke_sampled_axis_rank_killed
+  ```
+
+  so the public semantic result
+  `Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank` follows for
+  the sampled Bellman cover with no external positive-margin premise.
+- Build result:
+
+  ```text
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+  ```
+
+  passed in `1:04.75` wall time with `8,731,216 kB` max RSS.
+- The emitter now gives generated path-prefix proofs smaller local simp sets,
+  using only the needed face-index theorem at each step.  The smoke still needs
+  a local `maxHeartbeats 2000000` for a few late rational normalizations, so it
+  remains a bounded diagnostic checkpoint rather than the production
+  certificate shape.
+- Strategic consequence: continue the GPT5.5/Gemini pivot.  The next
+  production proof should be a family-level Bellman/potential certificate over
+  a holonomy/cancellation automaton, with integer-scaled gains/potentials and a
+  semantic membership theorem that constructs the internal Type-level Bellman
+  index/path.  Do not scale the sampled rank-local start/solve replay as final
+  coverage.

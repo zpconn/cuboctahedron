@@ -48139,3 +48139,81 @@ candidate `p0`/`lambda`/solve witness and the tiny
 sampled top-pairing Bellman family.  Once that smoke exists, the generated
 file should prove `graphSmoke_sampled_axis_rank_killed...` with no external
 positive-margin premise.
+
+### Holonomy/Bellman Pivot - closed positive-margin smoke accepted
+
+The sampled two-rank Bellman smoke now closes the public killed theorem without
+an external positive-margin premise.  The generator emits private candidate
+start/solve data for each sampled rank:
+
+```lean
+cls0000PositiveCert
+cls0001PositiveCert
+```
+
+and proves the local start-interior implication:
+
+```lean
+cls0000PositiveCert_xpStartInterior_margin_positive
+cls0001PositiveCert_xpStartInterior_margin_positive
+```
+
+The smoke then combines these with the generic bridge
+`positive_margin_of_axis_forces_start_interior` to prove:
+
+```lean
+graphSmoke_sampled_axis_rank_positive_margin
+graphSmoke_sampled_axis_rank_killed
+```
+
+This is the first end-to-end generated Bellman route from private automaton
+margin evidence and private start/solve data to the public semantic predicate
+`Coverage.NonIdentityRankKilled`, with no exported `exists cert,
+checkNonIdCert cert = true` surface.
+
+Implementation notes:
+
+- `scripts/emit_bellman_graph_smoke.py` now emits the private positive-margin
+  candidate data and uses the semantic killed bridge.
+- `scripts/generate_exact_certificates.py` now emits smaller path-prefix
+  proofs by giving `simp` only the current face-index theorem rather than all
+  14 face-index theorems.
+- The generated smoke sets a local `maxHeartbeats 2000000` because a few
+  late rational path-prefix normalization proofs exceed Lean's default
+  heartbeat cap.  This is accepted for the bounded diagnostic smoke, but it is
+  another warning that production leaves should move further toward
+  integer/homogeneous Bellman certificates and avoid late large `Rat`
+  normalization.
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/generate_exact_certificates.py
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  scripts/emit_bellman_graph_smoke.py \
+  scripts/generate_exact_certificates.py
+```
+
+Results:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` | `1:04.75` | `8,731,216 kB` | passed |
+| keyword scan | - | - | only Python metadata key `"uses_native_decide": False` |
+
+Decision: accepted as a smoke checkpoint, not as the production shape.  The
+next production task remains the GPT5.5/Gemini holonomy pivot: replace this
+sampled/rank-local start-interior replay with a family-level Bellman/potential
+certificate over a holonomy/cancellation automaton, preferably using
+integer-scaled margins/potentials and a semantic `ContainsRank` theorem that
+constructs the internal Type-level Bellman index/path.

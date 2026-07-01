@@ -14,17 +14,24 @@ from fractions import Fraction
 from pathlib import Path
 
 from generate_exact_certificates import (
+    append_face_vector_get_theorems,
     append_pair_word_get_theorems,
+    append_path_prefix_aff_theorems,
+    append_total_aff_theorem,
     final_axis_dot,
     forced_sequence_from_axis,
     kernel_line_cross_factor,
+    lean_face_vector_literal,
     lean_pair_word_literal,
+    lean_mat4,
     lean_mat3,
     lean_rat,
     lean_vec,
     oriented_fixed_axis,
     pair_word_at_rank,
     prefix_matrices,
+    solve_axis_intersection,
+    total_aff,
     total_linear,
     word_get_simp_names,
 )
@@ -303,7 +310,12 @@ def emit(
     lines: list[str] = [
         *imports,
         "",
+        "set_option maxHeartbeats 2000000",
         "set_option maxRecDepth 4096",
+        "set_option linter.unusedSimpArgs false",
+        "set_option linter.unusedTactic false",
+        "set_option linter.unreachableTactic false",
+        "set_option linter.unnecessarySeqFocus false",
         "",
         "/-!",
         "Generated-style graph smoke for a Bellman nonidentity margin family.",
@@ -1168,6 +1180,20 @@ def emit(
             sample_axis = oriented_fixed_axis(sample_word, sample_linear)
             sample_kernel = kernel_line_cross_factor(sample_linear, sample_axis)
             sample_forced_seq = forced_sequence_from_axis(sample_word, sample_axis)
+            positive_p0, positive_lam, positive_solve = solve_axis_intersection(
+                total_aff(sample_forced_seq), sample_axis
+            )
+            if positive_p0[0] != 1:
+                raise ValueError("positive candidate p0 is not on the X+ plane")
+            positive_cert_payload = {
+                "name": f"{obj_name}PositiveCert",
+                "forced_seq": sample_forced_seq,
+                "p0": [str(value) for value in positive_p0],
+                "lambda": str(positive_lam),
+                "solve_left_inverse": [
+                    [str(value) for value in row] for row in positive_solve
+                ],
+            }
             sample_prefix_mats = prefix_matrices(sample_word)
             sample_seq_faces = [seq_faces[index] for index in range(14)]
             if sample_forced_seq != sample_seq_faces:
@@ -1185,6 +1211,10 @@ def emit(
                     "kernel_name": kernel_name,
                     "trace_of_seq_name": trace_of_seq_name,
                     "trie_node": trie_node,
+                    "positive_cert_name": positive_cert_payload["name"],
+                    "positive_axis_solve_theorem": f"{positive_cert_payload['name']}_axisSolveCheck",
+                    "positive_axis_forces_theorem": f"{positive_cert_payload['name']}_axisForces",
+                    "positive_margin_theorem": f"{positive_cert_payload['name']}_xpStartInterior_margin_positive",
                 }
             )
             sample_final_axis_dot = final_axis_dot(sample_word, sample_axis)
@@ -1295,6 +1325,74 @@ def emit(
                     for axis_i in range(13)
                 ],
                 "",
+            ])
+            positive_name = positive_cert_payload["name"]
+            positive_seq_name = f"{positive_name}Seq"
+            positive_p0 = tuple(Fraction(x) for x in positive_cert_payload["p0"])
+            positive_lam = Fraction(positive_cert_payload["lambda"])
+            positive_solve = tuple(
+                tuple(Fraction(x) for x in row)
+                for row in positive_cert_payload["solve_left_inverse"]
+            )
+            lines.extend([
+                f"private def {positive_seq_name} : Vector Face 14 :=",
+                lean_face_vector_literal(positive_cert_payload["forced_seq"]),
+                "",
+            ])
+            append_face_vector_get_theorems(
+                lines, positive_seq_name, positive_cert_payload["forced_seq"]
+            )
+            lines.extend([
+                f"private def {positive_name} : NonIdCert where",
+                f"  word := {word_name}",
+                f"  axis := {axis_name}",
+                f"  kernel := {kernel_name}",
+                f"  forcedSeq := {positive_seq_name}",
+                f"  p0 := {lean_vec(positive_p0)}",
+                f"  lambda := {lean_rat(positive_lam)}",
+                f"  solve := {{ leftInverse := {lean_mat4(positive_solve)} }}",
+                "  failure := NonIdFailure.axisMissesStartInterior",
+                "",
+            ])
+            positive_path_prefix_theorems = append_path_prefix_aff_theorems(
+                lines, positive_cert_payload
+            )
+            positive_total_aff_theorem = append_total_aff_theorem(
+                lines, positive_cert_payload, positive_path_prefix_theorems
+            )
+            lines.extend([
+                f"theorem {positive_name}_axisSolveCheck :",
+                "    checkAffineAxisSolveWitness",
+                f"      (totalAff (faceVectorSeq {positive_name}.forcedSeq))",
+                f"      {positive_name}.axis {positive_name}.p0 {positive_name}.lambda {positive_name}.solve = true := by",
+                f"  rw [{positive_total_aff_theorem}]",
+                f"  norm_num [{positive_name}, {axis_name}, checkAffineAxisSolveWitness, axisSolveMatrix,",
+                "    axisSolveVector, axisSolveRhs, mat4Mul, mat4Vec, mat4Id, matId, matSub]",
+                "",
+            ])
+            lines.extend([
+                f"private theorem {positive_name}_axisForces :",
+                f"    AxisForcesForcedSeq {positive_name}.word {positive_name}.axis",
+                f"      (faceVectorSeq {positive_name}.forcedSeq) := by",
+                f"  change AxisForcesForcedSeq {word_name} {axis_name}",
+                f"      (faceVectorSeq {positive_seq_name})",
+                f"  have hSeqEq : faceVectorSeq {positive_seq_name} = {seq_name} := by",
+                "    funext i",
+                "    fin_cases i <;> rfl",
+                "  rw [hSeqEq]",
+                f"  rw [← {obj_name}_unrank_word]",
+                f"  exact {obj_name}AxisForces",
+                "",
+                f"private theorem {positive_name}_kernelCheck :",
+                f"    checkKernelLineWitness (totalLinearOfPairWord {positive_name}.word)",
+                f"      {positive_name}.axis {positive_name}.kernel = true := by",
+                f"  change checkKernelLineWitness (totalLinearOfPairWord {word_name})",
+                f"      {axis_name} {kernel_name} = true",
+                f"  rw [← {obj_name}_unrank_word]",
+                f"  exact {obj_name}KernelCheck",
+                "",
+            ])
+            lines.extend([
                 f"private def {obj_name}PairSignLanguage (seq : Step14 -> Face) : Prop :=",
                 f"  PairSignLanguageAtRank {rank_name} {seq_name} seq",
                 "",
@@ -1574,6 +1672,21 @@ def emit(
             lines.extend([
                 "  0",
                 "",
+            ])
+            for info in same_axis_infos:
+                positive_name = str(info["positive_cert_name"])
+                lines.extend([
+                    f"private theorem {positive_name}_xpStartInterior_margin_positive :",
+                    f"    XpStartInteriorQ {positive_name}.p0 ->",
+                    f"      0 < sampledScaledMarginAtRank {info['rank_name']} := by",
+                    "  intro hInterior",
+                    f"  have hNotInterior : ¬ XpStartInteriorQ {positive_name}.p0 := by",
+                    f"    unfold XpStartInteriorQ {positive_name}",
+                    "    norm_num",
+                    "  exact False.elim (hNotInterior hInterior)",
+                    "",
+                ])
+            lines.extend([
                 "private def sampledAxisRankIndexedFamily :",
                 "    BellmanAxisRankIndexedFamily",
                 "      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace",
@@ -1722,6 +1835,38 @@ def emit(
                 "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
                 "  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_indexed_cover_margin_positive",
                 "    sampledAxisRankIndexedCover hpositive hrank",
+                "",
+                "private theorem graphSmoke_sampled_axis_rank_positive_margin",
+                "    (idx : SampledRankIndex)",
+                "    (seq : Step14 -> Face)",
+                "    (hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)",
+                "    (_hStart : StartsXp seq)",
+                "    (_hLinear : totalLinear seq ≠ (matId : Mat3 Rat))",
+                "    (hAxis : NonIdentityAxisConstraints seq) :",
+                "    0 < sampledScaledMarginAtRank (sampledRankOf idx) := by",
+                "  cases idx",
+            ])
+            for info in same_axis_infos:
+                obj_name = str(info["obj_name"])
+                positive_name = str(info["positive_cert_name"])
+                lines.extend([
+                    f"  · have hRealizeCert : SeqRealizesPairWord {positive_name}.word seq := by",
+                    f"      change SeqRealizesPairWord {obj_name}Word seq",
+                    f"      rw [← {obj_name}_unrank_word]",
+                    "      exact hRealize",
+                    "    exact",
+                    "      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.positive_margin_of_axis_forces_start_interior",
+                    f"        hRealizeCert hAxis {positive_name}_kernelCheck",
+                    f"        {positive_name}_axisSolveCheck {positive_name}_axisForces",
+                    f"        {positive_name}_xpStartInterior_margin_positive",
+                ])
+            lines.extend([
+                "",
+                "theorem graphSmoke_sampled_axis_rank_killed",
+                "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",
+                "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
+                "  graphSmoke_sampled_axis_rank_killed_of_margin_positive",
+                "    graphSmoke_sampled_axis_rank_positive_margin hrank",
                 "",
             ])
     lines.extend([

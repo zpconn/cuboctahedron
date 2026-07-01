@@ -2466,3 +2466,42 @@ small `XpStartInteriorQ cert.p0 -> 0 < scaledMargin` arithmetic lemma for the
 top-pairing Bellman family, then discharge
 `graphSmoke_sampled_axis_rank_killed_of_margin_positive` without leaving the
 positive-margin premise external.
+
+## Closed Positive-Margin Bellman Smoke
+
+The sampled top-pairing Bellman smoke now emits the private candidate
+`p0`/`lambda`/solve data and closes the positive-margin premise internally for
+two sampled ranks.
+
+New generated theorem surface:
+
+```lean
+graphSmoke_sampled_axis_rank_positive_margin
+graphSmoke_sampled_axis_rank_killed
+```
+
+`graphSmoke_sampled_axis_rank_killed` proves
+`Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank` for the sampled
+cover by combining:
+
+- `BellmanAxisRankIndexedCover.scaledMargin_nonpos`;
+- private kernel/affine-solve/axis-forcing facts;
+- `positive_margin_of_axis_forces_start_interior`;
+- local generated arithmetic lemmas
+  `cls0000PositiveCert_xpStartInterior_margin_positive` and
+  `cls0001PositiveCert_xpStartInterior_margin_positive`.
+
+Focused build:
+
+```text
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Result: `1:04.75` wall / `8,731,216 kB` max RSS / exit `0`.
+
+The higher RSS and the local generated `maxHeartbeats 2000000` are acceptable
+for this bounded diagnostic smoke, but they should not be treated as the final
+production strategy.  The production route should avoid late large rational
+normalization by moving the Bellman margin proof to integer-scaled
+family-level potentials over holonomy/cancellation states.
