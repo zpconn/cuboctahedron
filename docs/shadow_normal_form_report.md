@@ -34,6 +34,7 @@ triangular projective letters.
 | `[60000000,60001000)` | 1,000 | 0 | 0 | 0 | 0.250s |
 | `[90000000,90001000)` | 1,000 | 1 | 1 | 0 | 0.247s |
 | window runner `[0,20000)`, 4 jobs | 20,000 | 1,091 | 1,091 | 0 | 1.239s |
+| window runner `[0,100000)`, 4 jobs | 100,000 | 5,565 | 5,565 | 0 | 6.106s |
 
 All sampled windows satisfy:
 
@@ -66,6 +67,12 @@ as expected from the pair counts together with the final started `X` factor.
 - `scripts/generated/shadow_windows_smoke_0_20000/window_000005000_000010000.json`
 - `scripts/generated/shadow_windows_smoke_0_20000/window_000010000_000015000.json`
 - `scripts/generated/shadow_windows_smoke_0_20000/window_000015000_000020000.json`
+- `scripts/generated/shadow_windows_calibration_0_100000.json`
+- `scripts/generated/shadow_windows_calibration_0_100000.md`
+- `scripts/generated/shadow_windows_calibration_0_100000/window_000000000_000025000.json`
+- `scripts/generated/shadow_windows_calibration_0_100000/window_000025000_000050000.json`
+- `scripts/generated/shadow_windows_calibration_0_100000/window_000050000_000075000.json`
+- `scripts/generated/shadow_windows_calibration_0_100000/window_000075000_000100000.json`
 
 ## Decision
 
@@ -76,3 +83,16 @@ to run the full exact scan without turning Lean into the executor:
 2. keep worker count small unless measured RSS remains trivial;
 3. require zero mismatches and empty-shadow count `2,468,088`;
 4. only then begin the Lean square-parity / triangular-shadow core theorem.
+
+The `[0,100000)` calibration used `/usr/bin/time -v` and reported:
+
+```text
+User time: 24.20s
+Wall time: 0:06.14
+CPU: 394%
+Maximum resident set size: 18,240 kB
+```
+
+At this throughput, a full external scan should be feasible as a low-memory
+profiling job.  It is still not a Lean proof; it is the acceptance gate before
+formalizing the classifier.

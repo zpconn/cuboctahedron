@@ -145,6 +145,9 @@ Initial Track 1 implementation checkpoint:
 - The checkpointed 4-worker smoke over `[0,20000)` also had zero mismatches:
   `20,000` ranks scanned, `1,091` empty shadows, `1,091` identity products,
   elapsed `1.239s`.
+- The 4-worker `[0,100000)` calibration also had zero mismatches:
+  `100,000` ranks scanned, `5,565` empty shadows, `5,565` identity products,
+  elapsed `6.106s`; `/usr/bin/time -v` reported max RSS `18,240 kB`.
 
 Next gate: run the full checkpointed exact external scan.  Do not start Lean
 formalization of the shadow theorem until the full scan reports zero mismatches
