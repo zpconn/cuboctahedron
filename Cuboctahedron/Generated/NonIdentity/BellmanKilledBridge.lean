@@ -316,4 +316,31 @@ theorem nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
     (certOf obj hobj).positive hRealizeObj hAxis
   linarith
 
+structure BellmanNonposStartViolationObject
+    (scaledMargin : Fin numPairWords -> Int) where
+  rank : Fin numPairWords
+  nonpos : scaledMargin rank <= 0
+  startViolation :
+    ObjectStartViolationMarginCert rank (scaledMargin rank)
+
+theorem nonIdentityRankKilled_of_nonpos_start_violation_objects
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      exists obj : BellmanNonposStartViolationObject scaledMargin,
+        True /\ obj.rank = rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
+    (Obj := BellmanNonposStartViolationObject scaledMargin)
+    (rankOf := fun obj => obj.rank)
+    (Accepts := fun _obj => True)
+    (ContainsRank := fun rank =>
+      exists obj : BellmanNonposStartViolationObject scaledMargin,
+        True /\ obj.rank = rank)
+    (scaledMargin := scaledMargin)
+    (fun _rank hrank => hrank)
+    (fun obj _hAccept => obj.nonpos)
+    (fun obj _hAccept => obj.startViolation)
+    hrank
+
 end Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge

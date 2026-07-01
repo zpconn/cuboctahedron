@@ -50173,3 +50173,48 @@ modules, keep using the state-erased theorem
 graph shard exports object-level nonpositivity, and the terminal shard owns the
 local start-violation payload.  Do not export private automaton data merely to
 use the combined object theorem across the split.
+
+### Holonomy/Bellman Pivot - state-erased split object surface accepted
+
+Added the split-friendly object surface:
+
+```lean
+structure BellmanNonposStartViolationObject
+
+theorem nonIdentityRankKilled_of_nonpos_start_violation_objects
+```
+
+in `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`.
+
+This packages exactly what a split terminal shard should know:
+
+```text
+rank
+graph-exported proof: scaledMargin rank <= 0
+terminal-owned ObjectStartViolationMarginCert for that rank/margin
+```
+
+The resulting membership theorem is state-erased:
+
+```lean
+exists obj : BellmanNonposStartViolationObject scaledMargin,
+  True /\ obj.rank = rank
+  -> NonIdentityRankKilled rank
+```
+
+That matches the graph/terminal firewall: graph shards can keep Bellman states,
+labels, potentials, and evaluators private, while terminal shards build small
+semantic objects from exported nonpositivity facts and local start-violation
+payloads.
+
+Focused checks:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:02.59` | `3,291,044 kB` | passed |
+| `BellmanTopPairingGraphLanguage2AllSmoke` downstream compatibility | `1:18.01` | `7,711,664 kB` | passed |
+
+Decision: accepted.  The immediate generator target for the split route is now
+clearer: terminal shards should emit `BellmanNonposStartViolationObject`
+membership, not combined eval/start objects that would force graph internals
+across module boundaries.

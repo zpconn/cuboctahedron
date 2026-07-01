@@ -2142,3 +2142,30 @@ Split-boundary caveat:
   `nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs`: graph
   shards export object-level nonpositivity; terminal shards own local
   start-violation payloads.
+
+State-erased split object surface:
+
+- Added `BellmanNonposStartViolationObject` and
+  `nonIdentityRankKilled_of_nonpos_start_violation_objects` in
+  `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`.
+- This is the preferred split-shard target:
+
+  ```text
+  rank
+  graph-exported scaledMargin rank <= 0
+  terminal-owned ObjectStartViolationMarginCert
+  ```
+
+- It proves `NonIdentityRankKilled rank` from the existential accepted-object
+  predicate `exists obj, True /\ obj.rank = rank`, without mentioning private
+  Bellman states or evaluators.
+- Focused checks:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:02.59` | `3,291,044 kB` |
+  | `BellmanTopPairingGraphLanguage2AllSmoke` | `1:18.01` | `7,711,664 kB` |
+
+Next split-route generator target: terminal shards should construct
+`BellmanNonposStartViolationObject` membership from graph-exported
+nonpositivity theorems and terminal-local start-violation certificates.
