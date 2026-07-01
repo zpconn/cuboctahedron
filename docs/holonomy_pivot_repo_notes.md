@@ -2666,3 +2666,29 @@ Local-axis generated-state trace surface:
 - Decision: accepted.  Remaining work is to make the generator emit the
   per-step matrix/dot facts and to prove rank-label equality without reducing
   `unrankPairWord` in Lean.
+
+Positive-template label bridge:
+
+- Added `positiveSignOfFace_faceOfPairSign` in
+  `Cuboctahedron/Search/PairWords.lean`.
+- Added `canonicalSeqOfPairWord_matches` in
+  `Cuboctahedron/Search/NonIdentityCase.lean`.
+- Added `faceLabelsInContributionOrder_eq_of_positive_template` in
+  `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`.
+- Added `closedLanguageOfPositiveTemplateTrace` to the generated-style smoke.
+- This bridge proves canonical contribution labels from a generated positive
+  template, `PairWordMatchesSeq (unrankPairWord rank) template`, start/sign
+  facts, and a literal template-label equality.  It avoids reducing
+  `unrankPairWord` in Lean.
+- Guarded builds passed:
+  - `Cuboctahedron.Search.PairWords`: `2.50s`, `3869 MiB` peak process-tree
+    RSS.
+  - `Cuboctahedron.Search.NonIdentityCase`: `10.52s`, `4196 MiB` peak
+    process-tree RSS.
+  - `Cuboctahedron.Search.BellmanTopPairingLanguage`: `23.58s`, `11072 MiB`
+    peak process-tree RSS after dependency rebuilds.
+  - `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke`:
+    `2.50s`, `4053 MiB` peak process-tree RSS.
+- Decision: accepted.  The next move is a small generator mode that emits one
+  sampled shard using the positive-template label bridge, literal
+  schedule/square-gap traces, and proof-carrying local-axis trace facts.

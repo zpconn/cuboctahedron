@@ -149,6 +149,28 @@ def TopPairingLocalAxisLabels (labels : List Face) : Prop :=
 def TopPairingLocalAxisSeq (seq : Step14 -> Face) : Prop :=
   TopPairingLocalAxisLabels (faceLabelsInContributionOrder (fun f => f) seq)
 
+theorem faceLabelsInContributionOrder_eq_of_positive_template
+    {rank : Fin numPairWords} {template : Step14 -> Face} {labels : List Face}
+    (htemplate : PairWordMatchesSeq (unrankPairWord rank) template)
+    (hstart : template 0 = Face.xp)
+    (hsign : forall i : Step14, positiveSignOfFace (template i) = true)
+    (hlabels :
+      faceLabelsInContributionOrder (fun f => f) template = labels) :
+    faceLabelsInContributionOrder (fun f => f)
+        (canonicalSeqOfPairWord (unrankPairWord rank)) = labels := by
+  have hsame :
+      SameFaceSeq template (canonicalSeqOfPairWord (unrankPairWord rank)) :=
+    sameFaceSeq_of_pairWordMatchesSeq_and_sign
+      htemplate
+      (canonicalSeqOfPairWord_matches (unrankPairWord rank))
+      (by simp [hstart])
+      (by
+        intro i
+        rw [hsign i]
+        simp [canonicalSeqOfPairWord])
+  rw [faceLabelsInContributionOrder_eq_of_same (fun f => f) hsame]
+  exact hlabels
+
 theorem topPairingLocalAxisFrom_nil {linear : Mat3 Rat} :
     TopPairingLocalAxisFrom linear [] := by
   trivial

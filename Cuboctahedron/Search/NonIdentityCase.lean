@@ -133,6 +133,12 @@ theorem nonidentity_axis_constraints_start_interior
     pairOfFace (canonicalSeqOfPairWord w i) = pairAtStartedIndex w i := by
   simp [canonicalSeqOfPairWord]
 
+theorem canonicalSeqOfPairWord_matches (w : PairWord) :
+    PairWordMatchesSeq w (canonicalSeqOfPairWord w) := by
+  intro i
+  rw [pairOfFace_canonicalSeqOfPairWord]
+  simp
+
 theorem faceReflection_linear_eq_of_pairOfFace_eq {f g : Face}
     (h : pairOfFace f = pairOfFace g) :
     (faceReflectionQ f).M = (faceReflectionQ g).M := by

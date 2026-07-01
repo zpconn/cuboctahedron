@@ -51033,3 +51033,64 @@ Decision: accepted as the local-axis component trace surface.  The remaining
 membership gap has narrowed to proof-carrying generation of the per-step
 matrix/dot facts and a label-equality bridge that does not reduce
 `unrankPairWord` inside Lean.
+
+### Holonomy/Bellman Pivot - positive-template label bridge accepted
+
+Added the first label-equality bridge that avoids rank-word reduction.
+
+New theorem surfaces:
+
+```lean
+positiveSignOfFace_faceOfPairSign
+canonicalSeqOfPairWord_matches
+faceLabelsInContributionOrder_eq_of_positive_template
+closedLanguageOfPositiveTemplateTrace
+```
+
+The bridge works as follows:
+
+```text
+generated positive template sequence
+  + PairWordMatchesSeq (unrankPairWord rank) template
+  + template starts at X+
+  + every template face has positive sign
+  + contribution-order labels of template = literal trace labels
+  -> contribution-order labels of canonicalSeqOfPairWord (unrankPairWord rank)
+     = literal trace labels
+```
+
+This isolates the remaining proof obligation exactly where the generator can
+handle it: prove the template matches the unranked pair word and prove the
+literal template-label list, instead of making Lean reduce `unrankPairWord` or
+rediscover the labels.
+
+Guarded checks:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| `python3 scripts/run_memory_guarded.py --timeout-seconds 120 --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/pairwords_positive_sign_faceofpairsign_guard.json -- lake build Cuboctahedron.Search.PairWords` | `2.50s` | `3869 MiB` | `46296 MiB` | passed |
+| `python3 scripts/run_memory_guarded.py --timeout-seconds 120 --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/nonidentity_case_canonical_match_guard.json -- lake build Cuboctahedron.Search.NonIdentityCase` | `10.52s` | `4196 MiB` | `45982 MiB` | passed |
+| `python3 scripts/run_memory_guarded.py --timeout-seconds 120 --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/bellman_top_pairing_language_label_bridge_guard2.json -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `23.58s` | `11072 MiB` | `44801 MiB` | passed |
+| `python3 scripts/run_memory_guarded.py --timeout-seconds 120 --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/bellman_closed_language_positive_template_trace_guard.json -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke` | `2.50s` | `4053 MiB` | `46180 MiB` | passed |
+
+The `BellmanTopPairingLanguage` build peaked near the 12 GiB guard because
+Lake rebuilt dependencies after the low-level `PairWords`/`NonIdentityCase`
+changes.  The target itself remains shallow, but this measurement reinforces
+the rule that even focused support-module changes should stay behind the guard.
+
+Additional checks: `git diff --check` passed and the touched Lean files had no
+hits for `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`, `Float`, or
+`epsilon`.
+
+Decision: accepted.  The closed-language membership scaffold now has all three
+structural pieces needed for a sampled generated shard:
+
+```text
+positive template label bridge
+literal schedule/square-gap traces
+proof-carrying local-axis trace
+```
+
+The next step is not another hand-written bridge; it is a small generator mode
+that emits one sampled shard with these exact proof-carrying facts, still under
+the strict guard.

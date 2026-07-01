@@ -91,6 +91,10 @@ def ValidPairWord (w : PairWord) : Prop :=
     faceOfPairSign (pairOfFace f) (positiveSignOfFace f) = f := by
   cases f <;> rfl
 
+@[simp] theorem positiveSignOfFace_faceOfPairSign (p : PairId) (positive : Bool) :
+    positiveSignOfFace (faceOfPairSign p positive) = positive := by
+  cases p <;> cases positive <;> rfl
+
 @[simp] theorem normalQ_faceOfPairSign_true (p : PairId) :
     normalQ (faceOfPairSign p true) = canonicalNormalQ p := by
   cases p <;> rfl

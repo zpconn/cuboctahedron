@@ -288,6 +288,30 @@ theorem closedLanguageOfLiteralTrace
       exact topPairingLocalAxisLabels_ofFrom localAxisTrace)
     canonicalBadFace
 
+theorem closedLanguageOfPositiveTemplateTrace
+    {rank : Fin numPairWords} {badFace : Face}
+    {template : Step14 -> Face}
+    (template_matches :
+      PairWordMatchesSeq (unrankPairWord rank) template)
+    (template_start :
+      template 0 = Face.xp)
+    (template_positive :
+      forall i : Step14, positiveSignOfFace (template i) = true)
+    (template_labels :
+      faceLabelsInContributionOrder (fun f => f) template =
+        sampleContributionLabels)
+    (cancellation :
+      TopPairingLanguageAtRank rank)
+    (localAxisTrace :
+      TopPairingLocalAxisFrom (matId : Mat3 Rat) sampleContributionLabels)
+    (canonicalBadFace :
+      TopPairingCanonicalBadFaceCompatible badFace) :
+    TopPairingClosedLanguageAtRank rank badFace :=
+  closedLanguageOfLiteralTrace
+    (faceLabelsInContributionOrder_eq_of_positive_template
+      template_matches template_start template_positive template_labels)
+    cancellation localAxisTrace canonicalBadFace
+
 theorem closedLanguageFieldSmoke_builds : True := by
   exact True.intro
 
