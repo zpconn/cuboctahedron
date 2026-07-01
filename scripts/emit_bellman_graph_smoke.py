@@ -104,9 +104,11 @@ def emit(
     rank_bridge_limit: int = 1,
     graph_output_path: Path | None = None,
     terminal_output_path: Path | None = None,
+    all_output_path: Path | None = None,
     graph_import: str | None = None,
     graph_namespace: str | None = None,
     terminal_namespace: str | None = None,
+    all_namespace: str | None = None,
 ) -> None:
     if rank_bridge_limit < 0:
         raise SystemExit("--rank-bridge-limit must be nonnegative")
@@ -2380,7 +2382,34 @@ def emit(
         ])
         return out
 
-    if graph_output_path is not None or terminal_output_path is not None:
+    def make_all_lines(
+        terminal_import_name: str,
+        graph_ns: str,
+        terminal_ns: str,
+        all_ns: str,
+    ) -> list[str]:
+        return [
+            f"import {terminal_import_name}",
+            "",
+            f"namespace {all_ns}",
+            "",
+            "theorem graphLanguage2AllSmoke_rank_killed",
+            "    {rank : Fin numPairWords}",
+            "    (hrank :",
+            f"      {graph_ns}.sampledContainsRank",
+            "        rank) :",
+            "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
+            f"  {terminal_ns}.graphSmoke_sampled_axis_rank_killed",
+            "    hrank",
+            "",
+            "theorem bellmanGraphLanguage2AllSmoke_builds : True := by",
+            "  exact True.intro",
+            "",
+            f"end {all_ns}",
+            "",
+        ]
+
+    if graph_output_path is not None or terminal_output_path is not None or all_output_path is not None:
         if graph_output_path is None or terminal_output_path is None:
             raise SystemExit(
                 "--graph-output and --terminal-output must be provided together"
@@ -2391,6 +2420,8 @@ def emit(
             graph_namespace = namespace
         if terminal_namespace is None:
             terminal_namespace = f"{graph_namespace}Terminal"
+        if all_output_path is not None and all_namespace is None:
+            all_namespace = f"{graph_namespace}All"
         if len(same_axis_infos) < 2:
             raise SystemExit("split output requires at least two same-axis bridge samples")
         marker = "private def sampledObjectStartViolationCert :"
@@ -2420,6 +2451,16 @@ def emit(
         graph_output_path.write_text("\n".join(graph_lines))
         terminal_output_path.parent.mkdir(parents=True, exist_ok=True)
         terminal_output_path.write_text("\n".join(terminal_lines))
+        if all_output_path is not None:
+            assert all_namespace is not None
+            all_lines = make_all_lines(
+                terminal_namespace,
+                graph_namespace,
+                terminal_namespace,
+                all_namespace,
+            )
+            all_output_path.parent.mkdir(parents=True, exist_ok=True)
+            all_output_path.write_text("\n".join(all_lines))
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text("\n".join(lines))
@@ -2444,9 +2485,11 @@ def main() -> None:
     )
     parser.add_argument("--graph-output", type=Path)
     parser.add_argument("--terminal-output", type=Path)
+    parser.add_argument("--all-output", type=Path)
     parser.add_argument("--graph-import")
     parser.add_argument("--graph-namespace")
     parser.add_argument("--terminal-namespace")
+    parser.add_argument("--all-namespace")
     args = parser.parse_args()
     emit(
         args.input,
@@ -2455,9 +2498,11 @@ def main() -> None:
         rank_bridge_limit=args.rank_bridge_limit,
         graph_output_path=args.graph_output,
         terminal_output_path=args.terminal_output,
+        all_output_path=args.all_output,
         graph_import=args.graph_import,
         graph_namespace=args.graph_namespace,
         terminal_namespace=args.terminal_namespace,
+        all_namespace=args.all_namespace,
     )
 
 

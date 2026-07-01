@@ -3323,3 +3323,36 @@ import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLangua
 Decision: accepted.  This validates the intended group/root import pattern for
 Bellman production shards: import terminal semantic killed surfaces, not graph
 or potential shards.
+
+### Generated terminal-root output
+
+The split-output emitter now writes the terminal-only root smoke directly via
+`--all-output` / `--all-namespace`, so the graph/terminal/root shape no longer
+depends on a hand-written root module.  Regenerating the bounded smoke produces
+the same three-layer layout:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphLanguage2GraphSmoke.lean
+  BellmanTopPairingGraphLanguage2TerminalSmoke.lean
+  BellmanTopPairingGraphLanguage2AllSmoke.lean
+```
+
+The regenerated root imports only
+`Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke`
+and exports `graphLanguage2AllSmoke_rank_killed`.
+
+Focused build after regeneration:
+
+| target | wall | max RSS |
+| --- | ---: | ---: |
+| `BellmanTopPairingGraphLanguage2AllSmoke` | `0:02.28` | `849,616 kB` |
+
+The split-boundary audit still passes with graph positive payload count `0`
+and terminal positive payload count `2`.
+
+Decision: accepted.  Future Bellman family generation should use this emitter
+shape by default: graph/potential shard, terminal contradiction shard, and
+terminal-only root/group shard.  This keeps broad imports aligned with the
+semantic-family pivot and prevents graph/potential internals or terminal cert
+payloads from leaking into root theorem statements.

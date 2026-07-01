@@ -1743,6 +1743,30 @@ This validates the group/root import rule for generated Bellman coverage:
 above the leaf layer, import terminal semantic killed shards rather than
 graph/potential shards.
 
+Bellman generated terminal-root output:
+
+- `scripts/emit_bellman_graph_smoke.py` now accepts `--all-output` and
+  `--all-namespace` in split-output mode.
+- The same regeneration command can now emit the graph/potential shard, the
+  terminal contradiction shard, and the terminal-only root/group smoke.
+- The generated
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke`
+  directly imports only
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke`
+  and exports `graphLanguage2AllSmoke_rank_killed`.
+- Focused build after regeneration passed in `0:02.28` wall time with
+  `849,616 kB` max RSS.
+- The split-boundary audit still passes:
+
+  ```json
+  {"graph_lines": 24369, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 740, "terminal_positive_payloads": 2}
+  ```
+
+This makes the GPT5.5 Bellman/potential production shape reproducible from the
+emitter itself: heavy graph/potential leaves stay below terminal modules,
+terminal modules own local terminal evidence, and roots/groups import only
+semantic killed theorem surfaces.
+
 Split terminal bridge:
 
 - Added to `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`:

@@ -49493,3 +49493,72 @@ Decision: accepted.  This is the import pattern for generated group/root
 assembly: import terminal semantic killed shards directly, rely on transitive
 imports for graph names if a theorem parameter still mentions them, and do not
 directly import graph/potential shards above the terminal layer.
+
+### Holonomy/Bellman Pivot - generated terminal-root output accepted
+
+The Bellman graph smoke emitter now generates the terminal-only root layer as
+part of the same split-output command.  Added:
+
+```text
+--all-output
+--all-namespace
+```
+
+to `scripts/emit_bellman_graph_smoke.py`.  With these flags, the emitter writes
+the graph shard, terminal shard, and root/group smoke in one pass:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphLanguage2GraphSmoke.lean
+  BellmanTopPairingGraphLanguage2TerminalSmoke.lean
+  BellmanTopPairingGraphLanguage2AllSmoke.lean
+```
+
+The root smoke imports only the terminal shard and re-exports:
+
+```lean
+theorem graphLanguage2AllSmoke_rank_killed
+```
+
+Regeneration command:
+
+```bash
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2 \
+  --graph-output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2GraphSmoke.lean \
+  --terminal-output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean \
+  --all-output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2AllSmoke.lean \
+  --graph-import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2GraphSmoke \
+  --graph-namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2GraphSmoke \
+  --terminal-namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke \
+  --all-namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke
+```
+
+Focused checks after regeneration:
+
+| check | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2AllSmoke` build | `0:02.28` | `849,616 kB` | passed |
+| split-boundary audit | n/a | n/a | passed |
+
+The split-boundary audit result remained:
+
+```json
+{"graph_lines": 24369, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 740, "terminal_positive_payloads": 2}
+```
+
+Direct-import and forbidden-token scans confirm that the generated root imports
+only the terminal shard and contains no `sorry`, `admit`, `axiom`,
+`native_decide`, or `unsafe` tokens.
+
+Decision: accepted as the production emission shape for Bellman/potential
+families.  This directly implements the GPT5.5 Pro pivot: graph/potential
+modules carry private integer Bellman evidence, terminal modules own terminal
+contradiction payloads, and group/root modules compose only semantic killed
+theorem surfaces.  The next nonidentity step is no longer another
+certificate-packing layer; it is scaling this split emitter to multiple
+Bellman margin families and then profiling cocycle-gauge/cancellation-summary
+state reductions only where the Bellman state count grows too quickly.
