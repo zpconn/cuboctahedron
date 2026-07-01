@@ -22,6 +22,10 @@ def edge_name(index: int) -> str:
     return f"edge{index:04d}"
 
 
+def label_ctor(index: int) -> str:
+    return f"SmokeLabel.l{index:04d}"
+
+
 def lean_or_cases(names: list[str], *, indent: str = "  ") -> list[str]:
     lines = [indent + "rcases he with"]
     lines.append(indent + "  " + " | ".join(names))
@@ -34,6 +38,12 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
     state_count = int(graph["state_count"])
     edges = graph["edges"]
     states = graph["states"]
+    labels = graph.get("labels")
+    if labels is None:
+        labels = [
+            {"index": idx, "key": edge_name(idx)}
+            for idx, _edge in enumerate(edges)
+        ]
     roots = graph["root_indices"]
     if len(roots) != 1:
         raise SystemExit(f"expected one root state, found {len(roots)}")
@@ -87,6 +97,7 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
                 "final": int(obj["final"]),
                 "margin_scaled": int(obj["margin_scaled"]),
                 "edge_indices": [int(edge_idx) for edge_idx in obj["edge_indices"]],
+                "label_indices": [int(label_idx) for label_idx in obj.get("label_indices", [])],
             }
             for idx, obj in enumerate(path_objects)
         ]
@@ -358,14 +369,23 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "",
         "private inductive SmokeLabel where",
     ])
-    for idx in range(len(edge_names)):
-        lines.append(f"  | l{idx:04d}")
+    for label in labels:
+        lines.append(f"  | l{int(label['index']):04d} -- {label['key']}")
     lines.extend([
         "",
         "private inductive SmokeEdgeLabel : BellmanEdge State -> SmokeLabel -> Prop where",
     ])
+    label_case_idx = 0
     for idx, name in enumerate(edge_names):
-        lines.append(f"  | e{idx:04d} : SmokeEdgeLabel {name} SmokeLabel.l{idx:04d}")
+        edge_label_indices = edges[idx].get("label_indices")
+        if edge_label_indices is None:
+            edge_label_indices = [idx]
+        for label_idx in edge_label_indices:
+            lines.append(
+                f"  | e{label_case_idx:04d} : "
+                f"SmokeEdgeLabel {name} {label_ctor(int(label_idx))}"
+            )
+            label_case_idx += 1
     lines.extend([
         "",
         "private structure SmokeLabeledTrace where",

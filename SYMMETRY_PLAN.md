@@ -2089,6 +2089,19 @@ Bellman profiler prototype checkpoint:
   bound.  Focused builds passed: Bellman core in `0:02.33` wall time with
   `3,285,452 kB` max RSS, and the labeled graph smoke in `0:06.01` wall time
   with `3,555,352 kB` max RSS.
+- Semantic-label checkpoint: the Bellman profiler now exports transition
+  labels derived from the contribution-order signed face and opposite pair,
+  for example `face=xm|pair=x`.  On the `[0,1000000)`
+  `with-step-tri-source` graph this yields `14` semantic labels and `229`
+  edge-label relations.  The emitter uses these labels for `SmokeLabel` and
+  `SmokeEdgeLabel` instead of synthetic per-edge labels, and the labeled
+  graph smoke still builds:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  passed in `0:07.53` wall time with `3,468,636 kB` max RSS.  This is a real
+  improvement in the bridge shape: the next word-language proof can target
+  signed-face labels rather than opaque edge IDs.  It is still bounded smoke;
+  the remaining gap is to prove the accepted top-family words produce these
+  labeled graph runs.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

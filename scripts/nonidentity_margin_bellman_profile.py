@@ -114,7 +114,7 @@ def contribution_state_path(
     gains: list[Fraction],
     *,
     state_key_mode: str,
-) -> tuple[list[str], list[tuple[str, Fraction, str]]]:
+) -> tuple[list[str], list[tuple[str, Fraction, str]], list[str]]:
     """Return state ids and gain-labelled edges for the contribution order.
 
     The contribution order matches `totalAff`: seq[1], ..., seq[13], seq[0].
@@ -162,6 +162,7 @@ def contribution_state_path(
 
     states.append(state_id(0))
     edges: list[tuple[str, Fraction, str]] = []
+    edge_labels: list[str] = []
     for step, (face, pair_id, gain) in enumerate(zip(faces, pairs, gains), start=1):
         src = states[-1]
         remaining[pair_id] -= 1
@@ -181,7 +182,8 @@ def contribution_state_path(
         dst = state_id(step)
         states.append(dst)
         edges.append((src, gain, dst))
-    return states, edges
+        edge_labels.append(f"face={face}|pair={pair_id}")
+    return states, edges, edge_labels
 
 
 def solve_bellman(
@@ -401,7 +403,11 @@ def classify_leaf(stats: BellmanStats, *, rank: int, word: tuple[str, ...], pref
         return
 
     gains = [item["value"] for item in contributions]
-    states, edges = contribution_state_path(seq, gains, state_key_mode=stats.state_key_mode)
+    states, edges, edge_labels = contribution_state_path(
+        seq,
+        gains,
+        state_key_mode=stats.state_key_mode,
+    )
     reduced_key = reduced_shadow_key(reduced)
     margin_family = (
         f"axisD4={axis_d4}|axis={oriented_axis_key}|reduced={reduced_key}|"
@@ -417,6 +423,7 @@ def classify_leaf(stats: BellmanStats, *, rank: int, word: tuple[str, ...], pref
             "margin_value": qkey(margin_value),
             "states": states,
             "edges": [(src, gain, dst) for src, gain, dst in edges],
+            "edge_labels": edge_labels,
             "sample": {
                 "rank": rank,
                 "word": ",".join(word),
@@ -658,6 +665,14 @@ def bellman_payload(
         edge_index = {
             edge_key(edge): idx for idx, edge in enumerate(edge_tuples)
         }
+        edge_label_sets: dict[tuple[str, str, str], set[str]] = defaultdict(set)
+        label_set: set[str] = set()
+        for path in stats.paths:
+            for edge, label in zip(path["edges"], path.get("edge_labels", [])):
+                edge_label_sets[edge_key(edge)].add(label)
+                label_set.add(label)
+        labels_sorted = sorted(label_set)
+        label_index = {label: idx for idx, label in enumerate(labels_sorted)}
         path_objects = [
             {
                 "rank": path["rank"],
@@ -666,15 +681,19 @@ def bellman_payload(
                 "edge_indices": [
                     edge_index[edge_key(edge)] for edge in path["edges"]
                 ],
+                "label_indices": [
+                    label_index[label] for label in path.get("edge_labels", [])
+                ],
             }
             for path in sorted(stats.paths, key=lambda path: path["rank"])
         ]
-        path_class_map: dict[tuple[int, int, tuple[int, ...]], dict[str, Any]] = {}
+        path_class_map: dict[tuple[int, int, tuple[int, ...], tuple[int, ...]], dict[str, Any]] = {}
         for obj in path_objects:
             key = (
                 int(obj["final"]),
                 int(obj["margin_scaled"]),
                 tuple(int(edge_idx) for edge_idx in obj["edge_indices"]),
+                tuple(int(label_idx) for label_idx in obj.get("label_indices", [])),
             )
             group = path_class_map.setdefault(
                 key,
@@ -682,6 +701,7 @@ def bellman_payload(
                     "final": key[0],
                     "margin_scaled": key[1],
                     "edge_indices": list(key[2]),
+                    "label_indices": list(key[3]),
                     "count": 0,
                     "rank_sample": [],
                 },
@@ -721,8 +741,16 @@ def bellman_payload(
                     "src": state_index[src],
                     "dst": state_index[dst],
                     "gain_scaled": int(gain * scale),
+                    "label_indices": [
+                        label_index[label]
+                        for label in sorted(edge_label_sets.get(edge_key((src, gain, dst)), set()))
+                    ],
                 }
                 for src, gain, dst in edge_tuples
+            ],
+            "labels": [
+                {"index": idx, "key": label}
+                for idx, label in enumerate(labels_sorted)
             ],
             "path_objects": path_objects,
             "path_classes": path_classes,
@@ -775,6 +803,10 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
         lines.append(f"- Path objects: `{len(graph.get('path_objects', []))}`")
         lines.append(
             f"- Path classes: `{graph.get('path_class_count', len(graph.get('path_classes', [])))}`"
+        )
+        lines.append(f"- Semantic labels: `{len(graph.get('labels', []))}`")
+        lines.append(
+            f"- Edge-label relations: `{sum(len(edge.get('label_indices', [])) for edge in graph.get('edges', []))}`"
         )
     lines.extend(["", "## Top Margin Values", "", "| value | count |", "| --- | ---: |"])
     for row in payload["top_margin_values"]:

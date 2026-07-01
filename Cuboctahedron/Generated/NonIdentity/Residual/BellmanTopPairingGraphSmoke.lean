@@ -6362,466 +6362,251 @@ theorem graphSmoke_graph_trace_language_scaled_margin_nonpos :
     smokeGraphTraceLanguageTraceBound
 
 private inductive SmokeLabel where
-  | l0000
-  | l0001
-  | l0002
-  | l0003
-  | l0004
-  | l0005
-  | l0006
-  | l0007
-  | l0008
-  | l0009
-  | l0010
-  | l0011
-  | l0012
-  | l0013
-  | l0014
-  | l0015
-  | l0016
-  | l0017
-  | l0018
-  | l0019
-  | l0020
-  | l0021
-  | l0022
-  | l0023
-  | l0024
-  | l0025
-  | l0026
-  | l0027
-  | l0028
-  | l0029
-  | l0030
-  | l0031
-  | l0032
-  | l0033
-  | l0034
-  | l0035
-  | l0036
-  | l0037
-  | l0038
-  | l0039
-  | l0040
-  | l0041
-  | l0042
-  | l0043
-  | l0044
-  | l0045
-  | l0046
-  | l0047
-  | l0048
-  | l0049
-  | l0050
-  | l0051
-  | l0052
-  | l0053
-  | l0054
-  | l0055
-  | l0056
-  | l0057
-  | l0058
-  | l0059
-  | l0060
-  | l0061
-  | l0062
-  | l0063
-  | l0064
-  | l0065
-  | l0066
-  | l0067
-  | l0068
-  | l0069
-  | l0070
-  | l0071
-  | l0072
-  | l0073
-  | l0074
-  | l0075
-  | l0076
-  | l0077
-  | l0078
-  | l0079
-  | l0080
-  | l0081
-  | l0082
-  | l0083
-  | l0084
-  | l0085
-  | l0086
-  | l0087
-  | l0088
-  | l0089
-  | l0090
-  | l0091
-  | l0092
-  | l0093
-  | l0094
-  | l0095
-  | l0096
-  | l0097
-  | l0098
-  | l0099
-  | l0100
-  | l0101
-  | l0102
-  | l0103
-  | l0104
-  | l0105
-  | l0106
-  | l0107
-  | l0108
-  | l0109
-  | l0110
-  | l0111
-  | l0112
-  | l0113
-  | l0114
-  | l0115
-  | l0116
-  | l0117
-  | l0118
-  | l0119
-  | l0120
-  | l0121
-  | l0122
-  | l0123
-  | l0124
-  | l0125
-  | l0126
-  | l0127
-  | l0128
-  | l0129
-  | l0130
-  | l0131
-  | l0132
-  | l0133
-  | l0134
-  | l0135
-  | l0136
-  | l0137
-  | l0138
-  | l0139
-  | l0140
-  | l0141
-  | l0142
-  | l0143
-  | l0144
-  | l0145
-  | l0146
-  | l0147
-  | l0148
-  | l0149
-  | l0150
-  | l0151
-  | l0152
-  | l0153
-  | l0154
-  | l0155
-  | l0156
-  | l0157
-  | l0158
-  | l0159
-  | l0160
-  | l0161
-  | l0162
-  | l0163
-  | l0164
-  | l0165
-  | l0166
-  | l0167
-  | l0168
-  | l0169
-  | l0170
-  | l0171
-  | l0172
-  | l0173
-  | l0174
-  | l0175
-  | l0176
-  | l0177
-  | l0178
-  | l0179
-  | l0180
-  | l0181
-  | l0182
-  | l0183
-  | l0184
-  | l0185
-  | l0186
-  | l0187
-  | l0188
-  | l0189
-  | l0190
-  | l0191
-  | l0192
-  | l0193
-  | l0194
-  | l0195
-  | l0196
-  | l0197
-  | l0198
-  | l0199
-  | l0200
-  | l0201
-  | l0202
-  | l0203
-  | l0204
-  | l0205
-  | l0206
-  | l0207
-  | l0208
-  | l0209
-  | l0210
-  | l0211
-  | l0212
-  | l0213
-  | l0214
-  | l0215
-  | l0216
-  | l0217
-  | l0218
-  | l0219
-  | l0220
-  | l0221
-  | l0222
-  | l0223
-  | l0224
-  | l0225
-  | l0226
-  | l0227
-  | l0228
+  | l0000 -- face=tmmm|pair=d111
+  | l0001 -- face=tmmp|pair=d11m
+  | l0002 -- face=tmpm|pair=d1m1
+  | l0003 -- face=tmpp|pair=dm11
+  | l0004 -- face=tpmm|pair=dm11
+  | l0005 -- face=tpmp|pair=d1m1
+  | l0006 -- face=tppm|pair=d11m
+  | l0007 -- face=tppp|pair=d111
+  | l0008 -- face=xm|pair=x
+  | l0009 -- face=xp|pair=x
+  | l0010 -- face=ym|pair=y
+  | l0011 -- face=yp|pair=y
+  | l0012 -- face=zm|pair=z
+  | l0013 -- face=zp|pair=z
 
 private inductive SmokeEdgeLabel : BellmanEdge State -> SmokeLabel -> Prop where
-  | e0000 : SmokeEdgeLabel edge0000 SmokeLabel.l0000
-  | e0001 : SmokeEdgeLabel edge0001 SmokeLabel.l0001
-  | e0002 : SmokeEdgeLabel edge0002 SmokeLabel.l0002
-  | e0003 : SmokeEdgeLabel edge0003 SmokeLabel.l0003
-  | e0004 : SmokeEdgeLabel edge0004 SmokeLabel.l0004
-  | e0005 : SmokeEdgeLabel edge0005 SmokeLabel.l0005
-  | e0006 : SmokeEdgeLabel edge0006 SmokeLabel.l0006
-  | e0007 : SmokeEdgeLabel edge0007 SmokeLabel.l0007
-  | e0008 : SmokeEdgeLabel edge0008 SmokeLabel.l0008
-  | e0009 : SmokeEdgeLabel edge0009 SmokeLabel.l0009
-  | e0010 : SmokeEdgeLabel edge0010 SmokeLabel.l0010
-  | e0011 : SmokeEdgeLabel edge0011 SmokeLabel.l0011
+  | e0000 : SmokeEdgeLabel edge0000 SmokeLabel.l0008
+  | e0001 : SmokeEdgeLabel edge0001 SmokeLabel.l0007
+  | e0002 : SmokeEdgeLabel edge0002 SmokeLabel.l0007
+  | e0003 : SmokeEdgeLabel edge0003 SmokeLabel.l0007
+  | e0004 : SmokeEdgeLabel edge0004 SmokeLabel.l0007
+  | e0005 : SmokeEdgeLabel edge0005 SmokeLabel.l0007
+  | e0006 : SmokeEdgeLabel edge0006 SmokeLabel.l0007
+  | e0007 : SmokeEdgeLabel edge0007 SmokeLabel.l0012
+  | e0008 : SmokeEdgeLabel edge0008 SmokeLabel.l0012
+  | e0009 : SmokeEdgeLabel edge0009 SmokeLabel.l0002
+  | e0010 : SmokeEdgeLabel edge0010 SmokeLabel.l0002
+  | e0011 : SmokeEdgeLabel edge0011 SmokeLabel.l0002
   | e0012 : SmokeEdgeLabel edge0012 SmokeLabel.l0012
-  | e0013 : SmokeEdgeLabel edge0013 SmokeLabel.l0013
-  | e0014 : SmokeEdgeLabel edge0014 SmokeLabel.l0014
-  | e0015 : SmokeEdgeLabel edge0015 SmokeLabel.l0015
-  | e0016 : SmokeEdgeLabel edge0016 SmokeLabel.l0016
-  | e0017 : SmokeEdgeLabel edge0017 SmokeLabel.l0017
-  | e0018 : SmokeEdgeLabel edge0018 SmokeLabel.l0018
-  | e0019 : SmokeEdgeLabel edge0019 SmokeLabel.l0019
-  | e0020 : SmokeEdgeLabel edge0020 SmokeLabel.l0020
-  | e0021 : SmokeEdgeLabel edge0021 SmokeLabel.l0021
-  | e0022 : SmokeEdgeLabel edge0022 SmokeLabel.l0022
-  | e0023 : SmokeEdgeLabel edge0023 SmokeLabel.l0023
-  | e0024 : SmokeEdgeLabel edge0024 SmokeLabel.l0024
-  | e0025 : SmokeEdgeLabel edge0025 SmokeLabel.l0025
-  | e0026 : SmokeEdgeLabel edge0026 SmokeLabel.l0026
-  | e0027 : SmokeEdgeLabel edge0027 SmokeLabel.l0027
-  | e0028 : SmokeEdgeLabel edge0028 SmokeLabel.l0028
-  | e0029 : SmokeEdgeLabel edge0029 SmokeLabel.l0029
-  | e0030 : SmokeEdgeLabel edge0030 SmokeLabel.l0030
-  | e0031 : SmokeEdgeLabel edge0031 SmokeLabel.l0031
-  | e0032 : SmokeEdgeLabel edge0032 SmokeLabel.l0032
-  | e0033 : SmokeEdgeLabel edge0033 SmokeLabel.l0033
-  | e0034 : SmokeEdgeLabel edge0034 SmokeLabel.l0034
-  | e0035 : SmokeEdgeLabel edge0035 SmokeLabel.l0035
-  | e0036 : SmokeEdgeLabel edge0036 SmokeLabel.l0036
-  | e0037 : SmokeEdgeLabel edge0037 SmokeLabel.l0037
-  | e0038 : SmokeEdgeLabel edge0038 SmokeLabel.l0038
-  | e0039 : SmokeEdgeLabel edge0039 SmokeLabel.l0039
-  | e0040 : SmokeEdgeLabel edge0040 SmokeLabel.l0040
-  | e0041 : SmokeEdgeLabel edge0041 SmokeLabel.l0041
-  | e0042 : SmokeEdgeLabel edge0042 SmokeLabel.l0042
-  | e0043 : SmokeEdgeLabel edge0043 SmokeLabel.l0043
-  | e0044 : SmokeEdgeLabel edge0044 SmokeLabel.l0044
-  | e0045 : SmokeEdgeLabel edge0045 SmokeLabel.l0045
-  | e0046 : SmokeEdgeLabel edge0046 SmokeLabel.l0046
-  | e0047 : SmokeEdgeLabel edge0047 SmokeLabel.l0047
-  | e0048 : SmokeEdgeLabel edge0048 SmokeLabel.l0048
-  | e0049 : SmokeEdgeLabel edge0049 SmokeLabel.l0049
-  | e0050 : SmokeEdgeLabel edge0050 SmokeLabel.l0050
-  | e0051 : SmokeEdgeLabel edge0051 SmokeLabel.l0051
-  | e0052 : SmokeEdgeLabel edge0052 SmokeLabel.l0052
-  | e0053 : SmokeEdgeLabel edge0053 SmokeLabel.l0053
-  | e0054 : SmokeEdgeLabel edge0054 SmokeLabel.l0054
-  | e0055 : SmokeEdgeLabel edge0055 SmokeLabel.l0055
-  | e0056 : SmokeEdgeLabel edge0056 SmokeLabel.l0056
-  | e0057 : SmokeEdgeLabel edge0057 SmokeLabel.l0057
-  | e0058 : SmokeEdgeLabel edge0058 SmokeLabel.l0058
-  | e0059 : SmokeEdgeLabel edge0059 SmokeLabel.l0059
-  | e0060 : SmokeEdgeLabel edge0060 SmokeLabel.l0060
-  | e0061 : SmokeEdgeLabel edge0061 SmokeLabel.l0061
-  | e0062 : SmokeEdgeLabel edge0062 SmokeLabel.l0062
-  | e0063 : SmokeEdgeLabel edge0063 SmokeLabel.l0063
-  | e0064 : SmokeEdgeLabel edge0064 SmokeLabel.l0064
-  | e0065 : SmokeEdgeLabel edge0065 SmokeLabel.l0065
-  | e0066 : SmokeEdgeLabel edge0066 SmokeLabel.l0066
-  | e0067 : SmokeEdgeLabel edge0067 SmokeLabel.l0067
-  | e0068 : SmokeEdgeLabel edge0068 SmokeLabel.l0068
-  | e0069 : SmokeEdgeLabel edge0069 SmokeLabel.l0069
-  | e0070 : SmokeEdgeLabel edge0070 SmokeLabel.l0070
-  | e0071 : SmokeEdgeLabel edge0071 SmokeLabel.l0071
-  | e0072 : SmokeEdgeLabel edge0072 SmokeLabel.l0072
-  | e0073 : SmokeEdgeLabel edge0073 SmokeLabel.l0073
-  | e0074 : SmokeEdgeLabel edge0074 SmokeLabel.l0074
-  | e0075 : SmokeEdgeLabel edge0075 SmokeLabel.l0075
-  | e0076 : SmokeEdgeLabel edge0076 SmokeLabel.l0076
-  | e0077 : SmokeEdgeLabel edge0077 SmokeLabel.l0077
-  | e0078 : SmokeEdgeLabel edge0078 SmokeLabel.l0078
-  | e0079 : SmokeEdgeLabel edge0079 SmokeLabel.l0079
-  | e0080 : SmokeEdgeLabel edge0080 SmokeLabel.l0080
-  | e0081 : SmokeEdgeLabel edge0081 SmokeLabel.l0081
-  | e0082 : SmokeEdgeLabel edge0082 SmokeLabel.l0082
-  | e0083 : SmokeEdgeLabel edge0083 SmokeLabel.l0083
-  | e0084 : SmokeEdgeLabel edge0084 SmokeLabel.l0084
-  | e0085 : SmokeEdgeLabel edge0085 SmokeLabel.l0085
-  | e0086 : SmokeEdgeLabel edge0086 SmokeLabel.l0086
-  | e0087 : SmokeEdgeLabel edge0087 SmokeLabel.l0087
-  | e0088 : SmokeEdgeLabel edge0088 SmokeLabel.l0088
-  | e0089 : SmokeEdgeLabel edge0089 SmokeLabel.l0089
-  | e0090 : SmokeEdgeLabel edge0090 SmokeLabel.l0090
-  | e0091 : SmokeEdgeLabel edge0091 SmokeLabel.l0091
-  | e0092 : SmokeEdgeLabel edge0092 SmokeLabel.l0092
-  | e0093 : SmokeEdgeLabel edge0093 SmokeLabel.l0093
-  | e0094 : SmokeEdgeLabel edge0094 SmokeLabel.l0094
-  | e0095 : SmokeEdgeLabel edge0095 SmokeLabel.l0095
-  | e0096 : SmokeEdgeLabel edge0096 SmokeLabel.l0096
-  | e0097 : SmokeEdgeLabel edge0097 SmokeLabel.l0097
-  | e0098 : SmokeEdgeLabel edge0098 SmokeLabel.l0098
-  | e0099 : SmokeEdgeLabel edge0099 SmokeLabel.l0099
-  | e0100 : SmokeEdgeLabel edge0100 SmokeLabel.l0100
-  | e0101 : SmokeEdgeLabel edge0101 SmokeLabel.l0101
-  | e0102 : SmokeEdgeLabel edge0102 SmokeLabel.l0102
-  | e0103 : SmokeEdgeLabel edge0103 SmokeLabel.l0103
-  | e0104 : SmokeEdgeLabel edge0104 SmokeLabel.l0104
-  | e0105 : SmokeEdgeLabel edge0105 SmokeLabel.l0105
-  | e0106 : SmokeEdgeLabel edge0106 SmokeLabel.l0106
-  | e0107 : SmokeEdgeLabel edge0107 SmokeLabel.l0107
-  | e0108 : SmokeEdgeLabel edge0108 SmokeLabel.l0108
-  | e0109 : SmokeEdgeLabel edge0109 SmokeLabel.l0109
-  | e0110 : SmokeEdgeLabel edge0110 SmokeLabel.l0110
-  | e0111 : SmokeEdgeLabel edge0111 SmokeLabel.l0111
-  | e0112 : SmokeEdgeLabel edge0112 SmokeLabel.l0112
-  | e0113 : SmokeEdgeLabel edge0113 SmokeLabel.l0113
-  | e0114 : SmokeEdgeLabel edge0114 SmokeLabel.l0114
-  | e0115 : SmokeEdgeLabel edge0115 SmokeLabel.l0115
-  | e0116 : SmokeEdgeLabel edge0116 SmokeLabel.l0116
-  | e0117 : SmokeEdgeLabel edge0117 SmokeLabel.l0117
-  | e0118 : SmokeEdgeLabel edge0118 SmokeLabel.l0118
-  | e0119 : SmokeEdgeLabel edge0119 SmokeLabel.l0119
-  | e0120 : SmokeEdgeLabel edge0120 SmokeLabel.l0120
-  | e0121 : SmokeEdgeLabel edge0121 SmokeLabel.l0121
-  | e0122 : SmokeEdgeLabel edge0122 SmokeLabel.l0122
-  | e0123 : SmokeEdgeLabel edge0123 SmokeLabel.l0123
-  | e0124 : SmokeEdgeLabel edge0124 SmokeLabel.l0124
-  | e0125 : SmokeEdgeLabel edge0125 SmokeLabel.l0125
-  | e0126 : SmokeEdgeLabel edge0126 SmokeLabel.l0126
-  | e0127 : SmokeEdgeLabel edge0127 SmokeLabel.l0127
-  | e0128 : SmokeEdgeLabel edge0128 SmokeLabel.l0128
-  | e0129 : SmokeEdgeLabel edge0129 SmokeLabel.l0129
-  | e0130 : SmokeEdgeLabel edge0130 SmokeLabel.l0130
-  | e0131 : SmokeEdgeLabel edge0131 SmokeLabel.l0131
-  | e0132 : SmokeEdgeLabel edge0132 SmokeLabel.l0132
-  | e0133 : SmokeEdgeLabel edge0133 SmokeLabel.l0133
-  | e0134 : SmokeEdgeLabel edge0134 SmokeLabel.l0134
-  | e0135 : SmokeEdgeLabel edge0135 SmokeLabel.l0135
-  | e0136 : SmokeEdgeLabel edge0136 SmokeLabel.l0136
-  | e0137 : SmokeEdgeLabel edge0137 SmokeLabel.l0137
-  | e0138 : SmokeEdgeLabel edge0138 SmokeLabel.l0138
-  | e0139 : SmokeEdgeLabel edge0139 SmokeLabel.l0139
-  | e0140 : SmokeEdgeLabel edge0140 SmokeLabel.l0140
-  | e0141 : SmokeEdgeLabel edge0141 SmokeLabel.l0141
-  | e0142 : SmokeEdgeLabel edge0142 SmokeLabel.l0142
-  | e0143 : SmokeEdgeLabel edge0143 SmokeLabel.l0143
-  | e0144 : SmokeEdgeLabel edge0144 SmokeLabel.l0144
-  | e0145 : SmokeEdgeLabel edge0145 SmokeLabel.l0145
-  | e0146 : SmokeEdgeLabel edge0146 SmokeLabel.l0146
-  | e0147 : SmokeEdgeLabel edge0147 SmokeLabel.l0147
-  | e0148 : SmokeEdgeLabel edge0148 SmokeLabel.l0148
-  | e0149 : SmokeEdgeLabel edge0149 SmokeLabel.l0149
-  | e0150 : SmokeEdgeLabel edge0150 SmokeLabel.l0150
-  | e0151 : SmokeEdgeLabel edge0151 SmokeLabel.l0151
-  | e0152 : SmokeEdgeLabel edge0152 SmokeLabel.l0152
-  | e0153 : SmokeEdgeLabel edge0153 SmokeLabel.l0153
-  | e0154 : SmokeEdgeLabel edge0154 SmokeLabel.l0154
-  | e0155 : SmokeEdgeLabel edge0155 SmokeLabel.l0155
-  | e0156 : SmokeEdgeLabel edge0156 SmokeLabel.l0156
-  | e0157 : SmokeEdgeLabel edge0157 SmokeLabel.l0157
-  | e0158 : SmokeEdgeLabel edge0158 SmokeLabel.l0158
-  | e0159 : SmokeEdgeLabel edge0159 SmokeLabel.l0159
-  | e0160 : SmokeEdgeLabel edge0160 SmokeLabel.l0160
-  | e0161 : SmokeEdgeLabel edge0161 SmokeLabel.l0161
-  | e0162 : SmokeEdgeLabel edge0162 SmokeLabel.l0162
-  | e0163 : SmokeEdgeLabel edge0163 SmokeLabel.l0163
-  | e0164 : SmokeEdgeLabel edge0164 SmokeLabel.l0164
-  | e0165 : SmokeEdgeLabel edge0165 SmokeLabel.l0165
-  | e0166 : SmokeEdgeLabel edge0166 SmokeLabel.l0166
-  | e0167 : SmokeEdgeLabel edge0167 SmokeLabel.l0167
-  | e0168 : SmokeEdgeLabel edge0168 SmokeLabel.l0168
-  | e0169 : SmokeEdgeLabel edge0169 SmokeLabel.l0169
-  | e0170 : SmokeEdgeLabel edge0170 SmokeLabel.l0170
-  | e0171 : SmokeEdgeLabel edge0171 SmokeLabel.l0171
-  | e0172 : SmokeEdgeLabel edge0172 SmokeLabel.l0172
-  | e0173 : SmokeEdgeLabel edge0173 SmokeLabel.l0173
-  | e0174 : SmokeEdgeLabel edge0174 SmokeLabel.l0174
-  | e0175 : SmokeEdgeLabel edge0175 SmokeLabel.l0175
-  | e0176 : SmokeEdgeLabel edge0176 SmokeLabel.l0176
-  | e0177 : SmokeEdgeLabel edge0177 SmokeLabel.l0177
-  | e0178 : SmokeEdgeLabel edge0178 SmokeLabel.l0178
-  | e0179 : SmokeEdgeLabel edge0179 SmokeLabel.l0179
-  | e0180 : SmokeEdgeLabel edge0180 SmokeLabel.l0180
-  | e0181 : SmokeEdgeLabel edge0181 SmokeLabel.l0181
-  | e0182 : SmokeEdgeLabel edge0182 SmokeLabel.l0182
-  | e0183 : SmokeEdgeLabel edge0183 SmokeLabel.l0183
-  | e0184 : SmokeEdgeLabel edge0184 SmokeLabel.l0184
-  | e0185 : SmokeEdgeLabel edge0185 SmokeLabel.l0185
-  | e0186 : SmokeEdgeLabel edge0186 SmokeLabel.l0186
-  | e0187 : SmokeEdgeLabel edge0187 SmokeLabel.l0187
-  | e0188 : SmokeEdgeLabel edge0188 SmokeLabel.l0188
-  | e0189 : SmokeEdgeLabel edge0189 SmokeLabel.l0189
-  | e0190 : SmokeEdgeLabel edge0190 SmokeLabel.l0190
-  | e0191 : SmokeEdgeLabel edge0191 SmokeLabel.l0191
-  | e0192 : SmokeEdgeLabel edge0192 SmokeLabel.l0192
-  | e0193 : SmokeEdgeLabel edge0193 SmokeLabel.l0193
-  | e0194 : SmokeEdgeLabel edge0194 SmokeLabel.l0194
-  | e0195 : SmokeEdgeLabel edge0195 SmokeLabel.l0195
-  | e0196 : SmokeEdgeLabel edge0196 SmokeLabel.l0196
-  | e0197 : SmokeEdgeLabel edge0197 SmokeLabel.l0197
-  | e0198 : SmokeEdgeLabel edge0198 SmokeLabel.l0198
-  | e0199 : SmokeEdgeLabel edge0199 SmokeLabel.l0199
-  | e0200 : SmokeEdgeLabel edge0200 SmokeLabel.l0200
-  | e0201 : SmokeEdgeLabel edge0201 SmokeLabel.l0201
-  | e0202 : SmokeEdgeLabel edge0202 SmokeLabel.l0202
-  | e0203 : SmokeEdgeLabel edge0203 SmokeLabel.l0203
-  | e0204 : SmokeEdgeLabel edge0204 SmokeLabel.l0204
-  | e0205 : SmokeEdgeLabel edge0205 SmokeLabel.l0205
-  | e0206 : SmokeEdgeLabel edge0206 SmokeLabel.l0206
-  | e0207 : SmokeEdgeLabel edge0207 SmokeLabel.l0207
-  | e0208 : SmokeEdgeLabel edge0208 SmokeLabel.l0208
-  | e0209 : SmokeEdgeLabel edge0209 SmokeLabel.l0209
-  | e0210 : SmokeEdgeLabel edge0210 SmokeLabel.l0210
-  | e0211 : SmokeEdgeLabel edge0211 SmokeLabel.l0211
-  | e0212 : SmokeEdgeLabel edge0212 SmokeLabel.l0212
-  | e0213 : SmokeEdgeLabel edge0213 SmokeLabel.l0213
-  | e0214 : SmokeEdgeLabel edge0214 SmokeLabel.l0214
-  | e0215 : SmokeEdgeLabel edge0215 SmokeLabel.l0215
-  | e0216 : SmokeEdgeLabel edge0216 SmokeLabel.l0216
-  | e0217 : SmokeEdgeLabel edge0217 SmokeLabel.l0217
-  | e0218 : SmokeEdgeLabel edge0218 SmokeLabel.l0218
-  | e0219 : SmokeEdgeLabel edge0219 SmokeLabel.l0219
-  | e0220 : SmokeEdgeLabel edge0220 SmokeLabel.l0220
-  | e0221 : SmokeEdgeLabel edge0221 SmokeLabel.l0221
-  | e0222 : SmokeEdgeLabel edge0222 SmokeLabel.l0222
-  | e0223 : SmokeEdgeLabel edge0223 SmokeLabel.l0223
-  | e0224 : SmokeEdgeLabel edge0224 SmokeLabel.l0224
-  | e0225 : SmokeEdgeLabel edge0225 SmokeLabel.l0225
-  | e0226 : SmokeEdgeLabel edge0226 SmokeLabel.l0226
-  | e0227 : SmokeEdgeLabel edge0227 SmokeLabel.l0227
-  | e0228 : SmokeEdgeLabel edge0228 SmokeLabel.l0228
+  | e0013 : SmokeEdgeLabel edge0013 SmokeLabel.l0001
+  | e0014 : SmokeEdgeLabel edge0014 SmokeLabel.l0012
+  | e0015 : SmokeEdgeLabel edge0015 SmokeLabel.l0001
+  | e0016 : SmokeEdgeLabel edge0016 SmokeLabel.l0011
+  | e0017 : SmokeEdgeLabel edge0017 SmokeLabel.l0001
+  | e0018 : SmokeEdgeLabel edge0018 SmokeLabel.l0011
+  | e0019 : SmokeEdgeLabel edge0019 SmokeLabel.l0001
+  | e0020 : SmokeEdgeLabel edge0020 SmokeLabel.l0011
+  | e0021 : SmokeEdgeLabel edge0021 SmokeLabel.l0001
+  | e0022 : SmokeEdgeLabel edge0022 SmokeLabel.l0011
+  | e0023 : SmokeEdgeLabel edge0023 SmokeLabel.l0001
+  | e0024 : SmokeEdgeLabel edge0024 SmokeLabel.l0011
+  | e0025 : SmokeEdgeLabel edge0025 SmokeLabel.l0001
+  | e0026 : SmokeEdgeLabel edge0026 SmokeLabel.l0011
+  | e0027 : SmokeEdgeLabel edge0027 SmokeLabel.l0011
+  | e0028 : SmokeEdgeLabel edge0028 SmokeLabel.l0001
+  | e0029 : SmokeEdgeLabel edge0029 SmokeLabel.l0002
+  | e0030 : SmokeEdgeLabel edge0030 SmokeLabel.l0011
+  | e0031 : SmokeEdgeLabel edge0031 SmokeLabel.l0012
+  | e0032 : SmokeEdgeLabel edge0032 SmokeLabel.l0003
+  | e0033 : SmokeEdgeLabel edge0033 SmokeLabel.l0003
+  | e0034 : SmokeEdgeLabel edge0034 SmokeLabel.l0003
+  | e0035 : SmokeEdgeLabel edge0035 SmokeLabel.l0003
+  | e0036 : SmokeEdgeLabel edge0036 SmokeLabel.l0003
+  | e0037 : SmokeEdgeLabel edge0037 SmokeLabel.l0003
+  | e0038 : SmokeEdgeLabel edge0038 SmokeLabel.l0003
+  | e0039 : SmokeEdgeLabel edge0039 SmokeLabel.l0003
+  | e0040 : SmokeEdgeLabel edge0040 SmokeLabel.l0003
+  | e0041 : SmokeEdgeLabel edge0041 SmokeLabel.l0003
+  | e0042 : SmokeEdgeLabel edge0042 SmokeLabel.l0003
+  | e0043 : SmokeEdgeLabel edge0043 SmokeLabel.l0003
+  | e0044 : SmokeEdgeLabel edge0044 SmokeLabel.l0003
+  | e0045 : SmokeEdgeLabel edge0045 SmokeLabel.l0003
+  | e0046 : SmokeEdgeLabel edge0046 SmokeLabel.l0013
+  | e0047 : SmokeEdgeLabel edge0047 SmokeLabel.l0013
+  | e0048 : SmokeEdgeLabel edge0048 SmokeLabel.l0013
+  | e0049 : SmokeEdgeLabel edge0049 SmokeLabel.l0000
+  | e0050 : SmokeEdgeLabel edge0050 SmokeLabel.l0000
+  | e0051 : SmokeEdgeLabel edge0051 SmokeLabel.l0012
+  | e0052 : SmokeEdgeLabel edge0052 SmokeLabel.l0012
+  | e0053 : SmokeEdgeLabel edge0053 SmokeLabel.l0012
+  | e0054 : SmokeEdgeLabel edge0054 SmokeLabel.l0003
+  | e0055 : SmokeEdgeLabel edge0055 SmokeLabel.l0003
+  | e0056 : SmokeEdgeLabel edge0056 SmokeLabel.l0003
+  | e0057 : SmokeEdgeLabel edge0057 SmokeLabel.l0003
+  | e0058 : SmokeEdgeLabel edge0058 SmokeLabel.l0003
+  | e0059 : SmokeEdgeLabel edge0059 SmokeLabel.l0003
+  | e0060 : SmokeEdgeLabel edge0060 SmokeLabel.l0011
+  | e0061 : SmokeEdgeLabel edge0061 SmokeLabel.l0013
+  | e0062 : SmokeEdgeLabel edge0062 SmokeLabel.l0011
+  | e0063 : SmokeEdgeLabel edge0063 SmokeLabel.l0013
+  | e0064 : SmokeEdgeLabel edge0064 SmokeLabel.l0001
+  | e0065 : SmokeEdgeLabel edge0065 SmokeLabel.l0001
+  | e0066 : SmokeEdgeLabel edge0066 SmokeLabel.l0001
+  | e0067 : SmokeEdgeLabel edge0067 SmokeLabel.l0001
+  | e0068 : SmokeEdgeLabel edge0068 SmokeLabel.l0001
+  | e0069 : SmokeEdgeLabel edge0069 SmokeLabel.l0001
+  | e0070 : SmokeEdgeLabel edge0070 SmokeLabel.l0001
+  | e0071 : SmokeEdgeLabel edge0071 SmokeLabel.l0001
+  | e0072 : SmokeEdgeLabel edge0072 SmokeLabel.l0001
+  | e0073 : SmokeEdgeLabel edge0073 SmokeLabel.l0001
+  | e0074 : SmokeEdgeLabel edge0074 SmokeLabel.l0001
+  | e0075 : SmokeEdgeLabel edge0075 SmokeLabel.l0001
+  | e0076 : SmokeEdgeLabel edge0076 SmokeLabel.l0001
+  | e0077 : SmokeEdgeLabel edge0077 SmokeLabel.l0001
+  | e0078 : SmokeEdgeLabel edge0078 SmokeLabel.l0001
+  | e0079 : SmokeEdgeLabel edge0079 SmokeLabel.l0001
+  | e0080 : SmokeEdgeLabel edge0080 SmokeLabel.l0001
+  | e0081 : SmokeEdgeLabel edge0081 SmokeLabel.l0013
+  | e0082 : SmokeEdgeLabel edge0082 SmokeLabel.l0013
+  | e0083 : SmokeEdgeLabel edge0083 SmokeLabel.l0013
+  | e0084 : SmokeEdgeLabel edge0084 SmokeLabel.l0013
+  | e0085 : SmokeEdgeLabel edge0085 SmokeLabel.l0013
+  | e0086 : SmokeEdgeLabel edge0086 SmokeLabel.l0013
+  | e0087 : SmokeEdgeLabel edge0087 SmokeLabel.l0011
+  | e0088 : SmokeEdgeLabel edge0088 SmokeLabel.l0011
+  | e0089 : SmokeEdgeLabel edge0089 SmokeLabel.l0011
+  | e0090 : SmokeEdgeLabel edge0090 SmokeLabel.l0011
+  | e0091 : SmokeEdgeLabel edge0091 SmokeLabel.l0011
+  | e0092 : SmokeEdgeLabel edge0092 SmokeLabel.l0011
+  | e0093 : SmokeEdgeLabel edge0093 SmokeLabel.l0011
+  | e0094 : SmokeEdgeLabel edge0094 SmokeLabel.l0011
+  | e0095 : SmokeEdgeLabel edge0095 SmokeLabel.l0009
+  | e0096 : SmokeEdgeLabel edge0096 SmokeLabel.l0009
+  | e0097 : SmokeEdgeLabel edge0097 SmokeLabel.l0009
+  | e0098 : SmokeEdgeLabel edge0098 SmokeLabel.l0009
+  | e0099 : SmokeEdgeLabel edge0099 SmokeLabel.l0009
+  | e0100 : SmokeEdgeLabel edge0100 SmokeLabel.l0009
+  | e0101 : SmokeEdgeLabel edge0101 SmokeLabel.l0009
+  | e0102 : SmokeEdgeLabel edge0102 SmokeLabel.l0009
+  | e0103 : SmokeEdgeLabel edge0103 SmokeLabel.l0009
+  | e0104 : SmokeEdgeLabel edge0104 SmokeLabel.l0009
+  | e0105 : SmokeEdgeLabel edge0105 SmokeLabel.l0009
+  | e0106 : SmokeEdgeLabel edge0106 SmokeLabel.l0009
+  | e0107 : SmokeEdgeLabel edge0107 SmokeLabel.l0009
+  | e0108 : SmokeEdgeLabel edge0108 SmokeLabel.l0009
+  | e0109 : SmokeEdgeLabel edge0109 SmokeLabel.l0009
+  | e0110 : SmokeEdgeLabel edge0110 SmokeLabel.l0009
+  | e0111 : SmokeEdgeLabel edge0111 SmokeLabel.l0009
+  | e0112 : SmokeEdgeLabel edge0112 SmokeLabel.l0009
+  | e0113 : SmokeEdgeLabel edge0113 SmokeLabel.l0009
+  | e0114 : SmokeEdgeLabel edge0114 SmokeLabel.l0009
+  | e0115 : SmokeEdgeLabel edge0115 SmokeLabel.l0009
+  | e0116 : SmokeEdgeLabel edge0116 SmokeLabel.l0009
+  | e0117 : SmokeEdgeLabel edge0117 SmokeLabel.l0009
+  | e0118 : SmokeEdgeLabel edge0118 SmokeLabel.l0009
+  | e0119 : SmokeEdgeLabel edge0119 SmokeLabel.l0009
+  | e0120 : SmokeEdgeLabel edge0120 SmokeLabel.l0009
+  | e0121 : SmokeEdgeLabel edge0121 SmokeLabel.l0009
+  | e0122 : SmokeEdgeLabel edge0122 SmokeLabel.l0009
+  | e0123 : SmokeEdgeLabel edge0123 SmokeLabel.l0009
+  | e0124 : SmokeEdgeLabel edge0124 SmokeLabel.l0010
+  | e0125 : SmokeEdgeLabel edge0125 SmokeLabel.l0011
+  | e0126 : SmokeEdgeLabel edge0126 SmokeLabel.l0012
+  | e0127 : SmokeEdgeLabel edge0127 SmokeLabel.l0002
+  | e0128 : SmokeEdgeLabel edge0128 SmokeLabel.l0012
+  | e0129 : SmokeEdgeLabel edge0129 SmokeLabel.l0000
+  | e0130 : SmokeEdgeLabel edge0130 SmokeLabel.l0011
+  | e0131 : SmokeEdgeLabel edge0131 SmokeLabel.l0013
+  | e0132 : SmokeEdgeLabel edge0132 SmokeLabel.l0003
+  | e0133 : SmokeEdgeLabel edge0133 SmokeLabel.l0012
+  | e0134 : SmokeEdgeLabel edge0134 SmokeLabel.l0006
+  | e0135 : SmokeEdgeLabel edge0135 SmokeLabel.l0013
+  | e0136 : SmokeEdgeLabel edge0136 SmokeLabel.l0001
+  | e0137 : SmokeEdgeLabel edge0137 SmokeLabel.l0012
+  | e0138 : SmokeEdgeLabel edge0138 SmokeLabel.l0004
+  | e0139 : SmokeEdgeLabel edge0139 SmokeLabel.l0011
+  | e0140 : SmokeEdgeLabel edge0140 SmokeLabel.l0002
+  | e0141 : SmokeEdgeLabel edge0141 SmokeLabel.l0013
+  | e0142 : SmokeEdgeLabel edge0142 SmokeLabel.l0007
+  | e0143 : SmokeEdgeLabel edge0143 SmokeLabel.l0013
+  | e0144 : SmokeEdgeLabel edge0144 SmokeLabel.l0004
+  | e0145 : SmokeEdgeLabel edge0145 SmokeLabel.l0000
+  | e0146 : SmokeEdgeLabel edge0146 SmokeLabel.l0013
+  | e0147 : SmokeEdgeLabel edge0147 SmokeLabel.l0005
+  | e0148 : SmokeEdgeLabel edge0148 SmokeLabel.l0005
+  | e0149 : SmokeEdgeLabel edge0149 SmokeLabel.l0013
+  | e0150 : SmokeEdgeLabel edge0150 SmokeLabel.l0006
+  | e0151 : SmokeEdgeLabel edge0151 SmokeLabel.l0006
+  | e0152 : SmokeEdgeLabel edge0152 SmokeLabel.l0006
+  | e0153 : SmokeEdgeLabel edge0153 SmokeLabel.l0005
+  | e0154 : SmokeEdgeLabel edge0154 SmokeLabel.l0012
+  | e0155 : SmokeEdgeLabel edge0155 SmokeLabel.l0013
+  | e0156 : SmokeEdgeLabel edge0156 SmokeLabel.l0007
+  | e0157 : SmokeEdgeLabel edge0157 SmokeLabel.l0004
+  | e0158 : SmokeEdgeLabel edge0158 SmokeLabel.l0004
+  | e0159 : SmokeEdgeLabel edge0159 SmokeLabel.l0007
+  | e0160 : SmokeEdgeLabel edge0160 SmokeLabel.l0012
+  | e0161 : SmokeEdgeLabel edge0161 SmokeLabel.l0007
+  | e0162 : SmokeEdgeLabel edge0162 SmokeLabel.l0013
+  | e0163 : SmokeEdgeLabel edge0163 SmokeLabel.l0005
+  | e0164 : SmokeEdgeLabel edge0164 SmokeLabel.l0004
+  | e0165 : SmokeEdgeLabel edge0165 SmokeLabel.l0004
+  | e0166 : SmokeEdgeLabel edge0166 SmokeLabel.l0004
+  | e0167 : SmokeEdgeLabel edge0167 SmokeLabel.l0006
+  | e0168 : SmokeEdgeLabel edge0168 SmokeLabel.l0012
+  | e0169 : SmokeEdgeLabel edge0169 SmokeLabel.l0013
+  | e0170 : SmokeEdgeLabel edge0170 SmokeLabel.l0000
+  | e0171 : SmokeEdgeLabel edge0171 SmokeLabel.l0006
+  | e0172 : SmokeEdgeLabel edge0172 SmokeLabel.l0006
+  | e0173 : SmokeEdgeLabel edge0173 SmokeLabel.l0006
+  | e0174 : SmokeEdgeLabel edge0174 SmokeLabel.l0004
+  | e0175 : SmokeEdgeLabel edge0175 SmokeLabel.l0004
+  | e0176 : SmokeEdgeLabel edge0176 SmokeLabel.l0012
+  | e0177 : SmokeEdgeLabel edge0177 SmokeLabel.l0013
+  | e0178 : SmokeEdgeLabel edge0178 SmokeLabel.l0002
+  | e0179 : SmokeEdgeLabel edge0179 SmokeLabel.l0007
+  | e0180 : SmokeEdgeLabel edge0180 SmokeLabel.l0007
+  | e0181 : SmokeEdgeLabel edge0181 SmokeLabel.l0007
+  | e0182 : SmokeEdgeLabel edge0182 SmokeLabel.l0007
+  | e0183 : SmokeEdgeLabel edge0183 SmokeLabel.l0012
+  | e0184 : SmokeEdgeLabel edge0184 SmokeLabel.l0001
+  | e0185 : SmokeEdgeLabel edge0185 SmokeLabel.l0013
+  | e0186 : SmokeEdgeLabel edge0186 SmokeLabel.l0005
+  | e0187 : SmokeEdgeLabel edge0187 SmokeLabel.l0005
+  | e0188 : SmokeEdgeLabel edge0188 SmokeLabel.l0005
+  | e0189 : SmokeEdgeLabel edge0189 SmokeLabel.l0005
+  | e0190 : SmokeEdgeLabel edge0190 SmokeLabel.l0005
+  | e0191 : SmokeEdgeLabel edge0191 SmokeLabel.l0003
+  | e0192 : SmokeEdgeLabel edge0192 SmokeLabel.l0012
+  | e0193 : SmokeEdgeLabel edge0193 SmokeLabel.l0003
+  | e0194 : SmokeEdgeLabel edge0194 SmokeLabel.l0013
+  | e0195 : SmokeEdgeLabel edge0195 SmokeLabel.l0007
+  | e0196 : SmokeEdgeLabel edge0196 SmokeLabel.l0000
+  | e0197 : SmokeEdgeLabel edge0197 SmokeLabel.l0000
+  | e0198 : SmokeEdgeLabel edge0198 SmokeLabel.l0000
+  | e0199 : SmokeEdgeLabel edge0199 SmokeLabel.l0000
+  | e0200 : SmokeEdgeLabel edge0200 SmokeLabel.l0000
+  | e0201 : SmokeEdgeLabel edge0201 SmokeLabel.l0012
+  | e0202 : SmokeEdgeLabel edge0202 SmokeLabel.l0004
+  | e0203 : SmokeEdgeLabel edge0203 SmokeLabel.l0011
+  | e0204 : SmokeEdgeLabel edge0204 SmokeLabel.l0013
+  | e0205 : SmokeEdgeLabel edge0205 SmokeLabel.l0001
+  | e0206 : SmokeEdgeLabel edge0206 SmokeLabel.l0002
+  | e0207 : SmokeEdgeLabel edge0207 SmokeLabel.l0002
+  | e0208 : SmokeEdgeLabel edge0208 SmokeLabel.l0002
+  | e0209 : SmokeEdgeLabel edge0209 SmokeLabel.l0002
+  | e0210 : SmokeEdgeLabel edge0210 SmokeLabel.l0002
+  | e0211 : SmokeEdgeLabel edge0211 SmokeLabel.l0006
+  | e0212 : SmokeEdgeLabel edge0212 SmokeLabel.l0012
+  | e0213 : SmokeEdgeLabel edge0213 SmokeLabel.l0006
+  | e0214 : SmokeEdgeLabel edge0214 SmokeLabel.l0013
+  | e0215 : SmokeEdgeLabel edge0215 SmokeLabel.l0003
+  | e0216 : SmokeEdgeLabel edge0216 SmokeLabel.l0013
+  | e0217 : SmokeEdgeLabel edge0217 SmokeLabel.l0003
+  | e0218 : SmokeEdgeLabel edge0218 SmokeLabel.l0005
+  | e0219 : SmokeEdgeLabel edge0219 SmokeLabel.l0005
+  | e0220 : SmokeEdgeLabel edge0220 SmokeLabel.l0005
+  | e0221 : SmokeEdgeLabel edge0221 SmokeLabel.l0005
+  | e0222 : SmokeEdgeLabel edge0222 SmokeLabel.l0005
+  | e0223 : SmokeEdgeLabel edge0223 SmokeLabel.l0005
+  | e0224 : SmokeEdgeLabel edge0224 SmokeLabel.l0011
+  | e0225 : SmokeEdgeLabel edge0225 SmokeLabel.l0012
+  | e0226 : SmokeEdgeLabel edge0226 SmokeLabel.l0011
+  | e0227 : SmokeEdgeLabel edge0227 SmokeLabel.l0000
+  | e0228 : SmokeEdgeLabel edge0228 SmokeLabel.l0003
 
 private structure SmokeLabeledTrace where
   finish : State

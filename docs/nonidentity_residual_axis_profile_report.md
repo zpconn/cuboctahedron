@@ -1189,6 +1189,35 @@ Labeled automaton checkpoint:
   synthetic edge labels with semantic transition labels derived from the
   top-family state key.
 
+Semantic-label checkpoint:
+
+- Extended `scripts/nonidentity_margin_bellman_profile.py` so graph exports
+  carry contribution-order signed-face/pair labels for each observed
+  transition, e.g. `face=xm|pair=x`.
+- The `[0,1000000)` `with-step-tri-source` graph now reports:
+
+  ```text
+  semantic labels: 14
+  edge-label relations: 229
+  ```
+
+- Updated `scripts/emit_bellman_graph_smoke.py` so `SmokeLabel` constructors
+  and `SmokeEdgeLabel` facts are derived from those semantic labels rather
+  than opaque edge IDs.
+- Focused build passed:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Result: `0:07.53` wall time, `3,468,636 kB` max RSS.
+- Decision: accepted as a stronger bridge surface.  The labeled run theorem
+  now speaks in signed-face/pair transition labels, which are plausible
+  outputs of a real holonomy/cancellation word-language proof.  It is still
+  bounded smoke; full production still needs a proof that accepted top-family
+  words construct such labeled runs.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

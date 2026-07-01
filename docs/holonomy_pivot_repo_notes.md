@@ -467,6 +467,13 @@ Top margin+cancellation-pairing checkpoint:
   passed in `0:06.01` wall time with `3,555,352 kB` max RSS.  This is the
   bridge shape the real holonomy/cancellation word-language proof should
   target: semantic labels -> graph edges -> labeled run -> margin bound.
+- Semantic-label status: the Bellman profiler exports contribution-order
+  signed-face/pair labels, such as `face=xm|pair=x`.  The 1M graph has `14`
+  semantic labels and `229` edge-label relations, and the emitter now uses
+  those labels instead of synthetic edge labels.  The focused graph smoke
+  passed in `0:07.53` wall time with `3,468,636 kB` max RSS.  The next
+  generated bridge should prove accepted top-family words produce these
+  signed-face labeled runs.
 
 ## Explicit Non-Goals
 
