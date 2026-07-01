@@ -1380,6 +1380,43 @@ Direct start-violation smoke:
   derivation over the exact-axis/reduced-shadow family or move the same
   algebra into integer/projective family lemmas.
 
+Direct-start linear profile:
+
+- Added `scripts/direct_start_linear_profile.py`, an untrusted exact
+  diagnostic profiler for the same focused residual class.  It records the
+  endpoint/fixed-direction linear system with `p0.x = 1`, grouped by
+  exact-axis/reduced-shadow, coefficient matrix, affine RHS, solution, actual
+  bad face, and bad-face margin.
+- Bounded run:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/direct_start_linear_profile.py \
+    --start 0 --end 100000 --jobs 4 --chunk-size 25000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1 --top 15
+  ```
+
+  passed in `0:08.84` wall time with `25,224 KiB` max RSS.
+- Results for the focused class on `[0,100000)`:
+
+  | coordinate | distinct | interpretation |
+  | --- | ---: | --- |
+  | matched residuals | `1,427` | target canonical bad-face/axis class |
+  | exact-axis/reduced-shadow keys | `16` | strong holonomy-axis compression |
+  | endpoint/fixed coefficient matrices | `16` | same compression as the holonomy-axis spine |
+  | actual bad faces | `4` | D4 variants of the canonical bad face |
+  | bad-face margins | `163` | not singleton-like, but not family-level yet |
+  | affine RHS keys | `1,337` | too fragmented |
+  | solution keys | `1,337` | too fragmented |
+  | total affine keys | `1,337` | too fragmented |
+
+- Decision: the direct theorem surface is accepted as a representative smoke
+  and as the right algebraic shape, but the profile rejects any backend that
+  groups by concrete `totalAff`, affine RHS, or solved `p0`.  The promising
+  coordinate is the 16-key coefficient-matrix / exact-axis-reduced-shadow
+  spine.  The next proof architecture must add a second semantic layer that
+  bounds the RHS/margin over a cancellation-tree or affine-translation family,
+  rather than emitting a proof for each RHS.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

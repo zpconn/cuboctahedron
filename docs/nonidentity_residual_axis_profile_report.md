@@ -332,6 +332,41 @@ Direct-start smoke result:
   cheaper than the old concrete local certificate smoke.  It still needs a
   family-level/projective form before broad emission.
 
+Direct-start linear-system profile:
+
+- Added `scripts/direct_start_linear_profile.py`.
+- This exact untrusted diagnostic asks whether the direct-start proof can be
+  grouped above the concrete-affine level.  It builds the linear system from
+  endpoint, fixed direction, and `p0.x = 1`, then counts coefficient matrices,
+  RHS values, solutions, total affine maps, actual bad faces, and margins.
+- Command:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/direct_start_linear_profile.py \
+    --start 0 --end 100000 --jobs 4 --chunk-size 25000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1 --top 15
+  ```
+
+- Result: success, `0:08.84` wall time, `25,224 KiB` max RSS.
+- Counts for the focused class:
+
+  | coordinate | distinct |
+  | --- | ---: |
+  | matched residuals | `1,427` |
+  | exact-axis/reduced-shadow keys | `16` |
+  | endpoint/fixed coefficient matrices | `16` |
+  | actual bad faces | `4` |
+  | bad-face margins | `163` |
+  | affine RHS keys | `1,337` |
+  | solution keys | `1,337` |
+  | total affine keys | `1,337` |
+
+- Decision: concrete `totalAff`, RHS, and solved `p0` are rejected as
+  production grouping keys.  The coefficient matrix follows the
+  exact-axis/reduced-shadow spine and is promising, but it needs a second
+  semantic layer that proves margin nonpositivity over a family of affine
+  translations.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -345,6 +380,9 @@ Direct-start smoke result:
 - `scripts/generated/axis_start_focus_yp_1_m3_m1_000000000_000100000.json`
 - `scripts/generated/axis_start_focus_yp_1_m3_m1_000000000_000100000.md`
 - `Cuboctahedron/Generated/NonIdentity/Residual/DirectStartSmoke.lean`
+- `scripts/direct_start_linear_profile.py`
+- `scripts/generated/direct_start_linear_yp_1_m3_m1_000000000_000100000.json`
+- `scripts/generated/direct_start_linear_yp_1_m3_m1_000000000_000100000.md`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.json`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.md`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000000100.json`

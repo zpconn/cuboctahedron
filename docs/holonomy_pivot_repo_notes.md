@@ -204,6 +204,16 @@ now linear algebra from the endpoint/fixed-direction equations plus
 `p0.x = 1`.  Focused build telemetry: `0:04.00` wall time and
 `3,341,448 KiB` max RSS.
 
+The follow-up exact profiler
+`scripts/direct_start_linear_profile.py` shows why this should not become a
+concrete-affine backend.  On `[0,100000)` for the same focused class, the
+coefficient matrix has only `16` distinct keys, matching the exact-axis /
+reduced-shadow spine, but the affine RHS, total affine map, and solved start
+point each fragment into `1,337` distinct keys.  The next family theorem should
+therefore keep the 16-key linear coefficient spine and prove the RHS/margin
+bound through a higher semantic translation/cancellation family, not by
+emitting one theorem per concrete affine RHS.
+
 ## Explicit Non-Goals
 
 The following approaches are archived as diagnostics, not the active route to
