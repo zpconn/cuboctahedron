@@ -586,6 +586,38 @@ Bellman/potential pivot:
   with exit code `130` because it belonged to the old exact-value stability
   lane.
 
+Bellman profiler prototype results:
+
+- Added `scripts/nonidentity_margin_bellman_profile.py`, an untrusted exact
+  diagnostic that extracts local margin gains for the top
+  margin+cancellation-pairing family and solves exact Bellman/longest-path
+  potentials on an observed state graph.
+- Compilation smoke passed:
+
+  ```bash
+  python3 -m py_compile scripts/nonidentity_margin_bellman_profile.py
+  ```
+
+- On `[0,100000)`, `--state-key-mode with-step` covered the observed paths:
+  `11` matched paths, `42` states, `52` edges, root bound `-38/11`, maximum
+  margin bound `-16/11`.
+- On `[0,1000000)`, the same coarse key failed: `37` matched paths, `73`
+  states, `101` edges, root bound `-16/11`, maximum margin bound `6/11`.
+  Adding signed-face inventory with `with-step-face` also failed with `75`
+  states and the same maximum bound `6/11`.
+- On `[0,1000000)`, `--state-key-mode with-prefix` succeeded:
+  `270` states, `269` edges, root bound `-2`, maximum margin bound `0`.
+- All three 1M four-worker diagnostics stayed memory-light, around `80s`
+  wall time and roughly `25 MiB` max RSS.
+
+Decision: Bellman/potential certificates are still the preferred next
+nonidentity residual route, but the current coarse automata are too loose and
+the exact-prefix automaton is too literal.  The next state-design experiment
+should add cancellation-progress, target-pairing bracket progress, or
+source-position progress so the graph describes the real top-family language
+without keying by exact prefix, exact affine RHS, solved start point, or total
+affine map.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -607,6 +639,15 @@ Bellman/potential pivot:
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.md`
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_margin_yp_m2_000000000_000100000.json`
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_margin_yp_m2_000000000_000100000.md`
+- `scripts/nonidentity_margin_bellman_profile.py`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_000100000_with_step.json`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_000100000_with_step.md`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step.json`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step.md`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face.json`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face.md`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_prefix.json`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_prefix.md`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.json`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.md`
 - `scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.json`

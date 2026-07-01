@@ -1804,6 +1804,42 @@ margin+cancellation family was started after the value-set smoke but stopped
 once this pivot landed.  That run was from the old “stability of exact
 top-family values” lane and is no longer the priority.
 
+Bellman profiler prototype checkpoint:
+
+- Added `scripts/nonidentity_margin_bellman_profile.py`.  The profiler is an
+  untrusted exact diagnostic only: it reuses the exact residual filter,
+  extracts local affine-offset margin gains for the top
+  margin+cancellation-pairing family, builds an observed acyclic transition
+  graph, and solves exact longest-path Bellman potentials over `Fraction`
+  values.  It emits no Lean evidence.
+- `python3 -m py_compile scripts/nonidentity_margin_bellman_profile.py`
+  passed.
+- On `[0,100000)` with `--state-key-mode with-step`, the observed graph had
+  `11` matched paths, `42` states, `52` edges, root bound `-38/11`, maximum
+  certified margin bound `-16/11`, and `proves_observed_nonpositive = true`.
+  This was a useful smoke, but too small to validate the abstraction.
+- On `[0,1000000)` with the same `with-step` key, the graph had `37` matched
+  paths, `73` states, `101` edges, root bound `-16/11`, but maximum certified
+  margin bound `6/11`, so `proves_observed_nonpositive = false`.  Adding
+  signed-face inventory via `with-step-face` stayed tiny (`75` states,
+  `101` edges) but failed in the same way.  Interpretation: these coarse
+  states over-approximate the language and admit spurious recombinations that
+  are not real top-family words.
+- On `[0,1000000)` with `--state-key-mode with-prefix`, the exact-prefix
+  graph had `270` states, `269` edges, root bound `-2`, maximum certified
+  margin bound `0`, and `proves_observed_nonpositive = true`.  This validates
+  the Bellman method on the observed paths, but exact prefix is a correctness
+  floor rather than the production coordinate; it may scale almost linearly.
+- Runtime/RSS remained safe for these diagnostics: the 1M four-worker runs
+  took about `80s` and peaked around `25 MiB` RSS.
+- Decision: keep the Bellman route, but do not emit Lean from the current
+  coarse automaton.  The next experiment should refine the semantic state just
+  enough to prevent spurious recombination, preferably by adding
+  cancellation-progress / source-position progress / target-pairing bracket
+  state, not exact affine RHS, solved `p0`, total affine maps, or raw prefix
+  words.  A useful immediate debugging aid would be to have the profiler print
+  the argmax spurious path for a failing coarse state key.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

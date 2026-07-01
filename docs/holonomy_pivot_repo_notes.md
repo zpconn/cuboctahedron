@@ -327,6 +327,13 @@ Top margin+cancellation-pairing checkpoint:
   counts before any new Lean family emission.
 - A `[0,10000000)` extraction for the fixed top family was intentionally
   stopped after this pivot.  It belonged to the old stability-of-values lane.
+- Bellman prototype status: the script now exists and compiles.  A 1M
+  four-worker diagnostic showed that coarse `with-step` and `with-step-face`
+  states are too loose (`max_margin_bound = 6/11`), while exact-prefix state
+  succeeds (`270` states, `269` edges, `max_margin_bound = 0`).  This validates
+  Bellman as a proof shape but rejects the current coarse state key for Lean
+  emission.  Next refine the automaton with cancellation-progress or
+  source-position progress, not exact affine RHS or solved start points.
 
 ## Explicit Non-Goals
 

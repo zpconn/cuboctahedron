@@ -1,0 +1,327 @@
+{
+  "arithmetic": "exact Fraction/integer arithmetic; no floating point",
+  "bellman": {
+    "bounded_fixed_point": true,
+    "gain_fraction_bit_length": 7,
+    "max_const": "2",
+    "max_margin_bound": "0",
+    "potential_fraction_bit_length": 9,
+    "proves_observed_nonpositive": true,
+    "root_bound": "-2",
+    "scale": 88,
+    "scaled_potential_bit_length": 10
+  },
+  "counts": {
+    "axis_start_failures": 41639,
+    "edges": 269,
+    "final_states": 37,
+    "forced_balance_survivors": 43235,
+    "margin_families": 1,
+    "margin_values": 14,
+    "matched": 37,
+    "nonidentity": 970133,
+    "offset_sum_mismatches": 0,
+    "paths": 37,
+    "root_states": 1,
+    "scanned": 1000000,
+    "states": 270
+  },
+  "elapsed_seconds": 80.35681015602313,
+  "end": 1000000,
+  "jobs": 4,
+  "mode": "nonidentity-margin-bellman-profile",
+  "samples": [
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-105/22",
+      "rank": 312761,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym zm tmpp tppp tpmp tppm tmmp tpmm yp tmpm tmmm zp",
+      "word": "x,y,z,dm11,d111,d1m1,d11m,d11m,dm11,y,d1m1,d111,z"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-25/11",
+      "rank": 312772,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym zm tmpp tppp tpmp tppm tmmp tpmm tmmm tmpm yp zp",
+      "word": "x,y,z,dm11,d111,d1m1,d11m,d11m,dm11,d111,d1m1,y,z"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-25/11",
+      "rank": 312773,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym zm tmpp tppp tpmp tppm tmmp tpmm tmmm tmpm zp yp",
+      "word": "x,y,z,dm11,d111,d1m1,d11m,d11m,dm11,d111,d1m1,z,y"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-43/22",
+      "rank": 824407,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp yp tmpp tmmp",
+      "word": "x,y,d1m1,z,z,d11m,dm11,d111,d111,d1m1,y,dm11,d11m"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-109/22",
+      "rank": 914497,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm zp zm tpmm tppp tmmm tpmp yp tmpp tmmp",
+      "word": "x,y,d1m1,d11m,z,z,dm11,d111,d111,d1m1,y,dm11,d11m"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-27/11",
+      "rank": 914499,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm zp zm tpmm tppp tmmm tpmp tmmp tmpp yp",
+      "word": "x,y,d1m1,d11m,z,z,dm11,d111,d111,d1m1,d11m,dm11,y"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-127/22",
+      "rank": 944197,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm zp zm tppp tmmm tpmp yp tmpp tmmp",
+      "word": "x,y,d1m1,d11m,dm11,z,z,d111,d111,d1m1,y,dm11,d11m"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-36/11",
+      "rank": 944199,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm zp zm tppp tmmm tpmp tmmp tmpp yp",
+      "word": "x,y,d1m1,d11m,dm11,z,z,d111,d111,d1m1,d11m,dm11,y"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-5/2",
+      "rank": 946777,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp zp zm tmmm tpmp yp tmpp tmmp",
+      "word": "x,y,d1m1,d11m,dm11,d111,z,z,d111,d1m1,y,dm11,d11m"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "0",
+      "rank": 946779,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp zp zm tmmm tpmp tmmp tmpp yp",
+      "word": "x,y,d1m1,d11m,dm11,d111,z,z,d111,d1m1,d11m,dm11,y"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-127/22",
+      "rank": 947437,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp tmmm zp zm tpmp yp tmpp tmmp",
+      "word": "x,y,d1m1,d11m,dm11,d111,d111,z,z,d1m1,y,dm11,d11m"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-36/11",
+      "rank": 947439,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp tmmm zp zm tpmp tmmp tmpp yp",
+      "word": "x,y,d1m1,d11m,dm11,d111,d111,z,z,d1m1,d11m,dm11,y"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-109/22",
+      "rank": 947581,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp tmmm tpmp yp zp zm tmpp tmmp",
+      "word": "x,y,d1m1,d11m,dm11,d111,d111,d1m1,y,z,z,dm11,d11m"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-43/22",
+      "rank": 947589,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp tmmm tpmp yp tmpp zm zp tmmp",
+      "word": "x,y,d1m1,d11m,dm11,d111,d111,d1m1,y,dm11,z,z,d11m"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-105/22",
+      "rank": 947591,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp tmmm tpmp yp tmpp tmmp zm zp",
+      "word": "x,y,d1m1,d11m,dm11,d111,d111,d1m1,y,dm11,d11m,z,z"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-109/22",
+      "rank": 947593,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp tmmm tpmp zp yp zm tmpp tmmp",
+      "word": "x,y,d1m1,d11m,dm11,d111,d111,d1m1,z,y,z,dm11,d11m"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-109/22",
+      "rank": 947599,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp tmmm tpmp zp zm yp tmpp tmmp",
+      "word": "x,y,d1m1,d11m,dm11,d111,d111,d1m1,z,z,y,dm11,d11m"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-27/11",
+      "rank": 947601,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp tmmm tpmp zp zm tmmp tmpp yp",
+      "word": "x,y,d1m1,d11m,dm11,d111,d111,d1m1,z,z,d11m,dm11,y"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-25/11",
+      "rank": 947625,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp tmpp yp zm zp",
+      "word": "x,y,d1m1,d11m,dm11,d111,d111,d1m1,d11m,dm11,y,z,z"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-25/11",
+      "rank": 947626,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp tmpp zm yp zp",
+      "word": "x,y,d1m1,d11m,dm11,d111,d111,d1m1,d11m,dm11,z,y,z"
+    }
+  ],
+  "schema_version": 1,
+  "start": 0,
+  "target": {
+    "axis_d4": "1,-3,-1",
+    "canonical_bad_face": "yp",
+    "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+    "state_key_mode": "with-prefix"
+  },
+  "top_margin_families": [
+    {
+      "count": 37,
+      "key": "axisD4=1,-3,-1|axis=1,1,3|reduced=dm11 d111 d1m1 dm11 d111 d1m1|ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1"
+    }
+  ],
+  "top_margin_values": [
+    {
+      "count": 6,
+      "key": "-25/11"
+    },
+    {
+      "count": 6,
+      "key": "-47/11"
+    },
+    {
+      "count": 4,
+      "key": "-109/22"
+    },
+    {
+      "count": 3,
+      "key": "-105/22"
+    },
+    {
+      "count": 3,
+      "key": "-16/11"
+    },
+    {
+      "count": 2,
+      "key": "-43/22"
+    },
+    {
+      "count": 2,
+      "key": "-27/11"
+    },
+    {
+      "count": 2,
+      "key": "-127/22"
+    },
+    {
+      "count": 2,
+      "key": "-36/11"
+    },
+    {
+      "count": 2,
+      "key": "-49/11"
+    },
+    {
+      "count": 2,
+      "key": "-58/11"
+    },
+    {
+      "count": 1,
+      "key": "-5/2"
+    },
+    {
+      "count": 1,
+      "key": "0"
+    },
+    {
+      "count": 1,
+      "key": "-2"
+    }
+  ]
+}
