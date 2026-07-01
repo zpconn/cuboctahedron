@@ -3145,3 +3145,36 @@ families.  Deterministic transition tables must be family-local or sharded;
 one broad graph-level evaluator is too expensive.  The next useful smoke is a
 small terminal-family module whose public export is only a semantic killed
 theorem.
+
+### Split terminal nonpos bridge
+
+Added a generic bridge:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+
+theorem nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
+```
+
+It separates the two halves of the Bellman terminal proof:
+
+1. object-level Bellman graph/potential theorem:
+   `scaledMargin (rankOf obj) <= 0`;
+2. terminal start-violation theorem:
+   `ObjectStartViolationMarginCert (rankOf obj) ...`.
+
+The bounded smoke now exports
+`graphSmoke_sampled_axis_object_nonpos_eval_rank_killed_of_start_violation`
+and points `graphSmoke_sampled_axis_rank_killed` at that split theorem.
+
+Focused builds:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanKilledBridge` split theorem | `0:02.51` | `3,287,464 kB` | passed |
+| `BellmanTopPairingGraphLanguage2Smoke` split-terminal route | `1:10.34` | `8,835,660 kB` | passed |
+
+Decision: accepted.  The split-terminal bridge adds no material build cost and
+is the correct interface for production: one module can prove object-level
+nonpositive margin from the Bellman automaton, while a separate terminal module
+imports only that theorem and proves semantic `NonIdentityRankKilled`.

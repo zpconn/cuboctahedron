@@ -49150,3 +49150,76 @@ object-cover/start-violation smoke, so the next optimization target is the
 terminal-family theorem itself: split the sampled start-violation/certificate
 bridge into small Bellman-family modules and keep only theorem surfaces in
 group/root files.  More eval-node pruning is no longer expected to help.
+
+### Holonomy/Bellman Pivot - terminal nonpos bridge accepted
+
+Added a generic split-terminal theorem in:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+
+theorem nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
+```
+
+This bridge no longer consumes a full `BellmanAxisRankObjectCover`.  It takes:
+
+- a rank-to-object cover predicate;
+- an object-level theorem `scaledMargin (rankOf obj) <= 0`;
+- object-local `ObjectStartViolationMarginCert` witnesses.
+
+It then proves `Coverage.NonIdentityRankKilled rank`.  This is the theorem
+surface needed to split production Bellman files into:
+
+```text
+graph/potential family module  -> exports object-level margin nonpositive
+terminal start-violation module -> imports only that theorem surface
+group/root modules             -> import only semantic killed theorems
+```
+
+The smoke emitter now also emits:
+
+```lean
+theorem graphSmoke_sampled_axis_object_nonpos_eval_rank_killed_of_start_violation
+theorem graphSmoke_sampled_axis_rank_killed
+```
+
+and routes the sampled public killed theorem through the split nonpos bridge.
+
+Focused commands:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanKilledBridge` split theorem | `0:02.51` | `3,287,464 kB` | passed |
+| `BellmanTopPairingGraphLanguage2Smoke` split-terminal route | `1:10.34` | `8,835,660 kB` | passed |
+
+Decision: accepted.  The split bridge adds no meaningful generated build cost
+and gives the exact abstraction boundary requested by the Bellman/potential
+pivot: terminal contradictions can now consume semantic nonpositive-margin
+facts rather than carrying the Bellman automaton structure into the terminal
+proof.
+
+Next step: make the emitter produce two smoke modules instead of one:
+
+1. a graph-cover module exporting only the object-level nonpositive theorem;
+2. a terminal start-violation module importing that theorem plus the small
+   terminal certs and exporting `NonIdentityRankKilled`.
+
+That split is the direct rehearsal for production Bellman family shards.

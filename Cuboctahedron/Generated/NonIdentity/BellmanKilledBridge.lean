@@ -216,4 +216,37 @@ theorem nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
       (certOf obj hobj).positive hRealize hAxis)
     hrank
 
+theorem nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
+    {Obj : Type}
+    {rankOf : Obj -> Fin numPairWords}
+    {Accepts : Obj -> Prop}
+    {ContainsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (covers :
+      forall rank, ContainsRank rank ->
+        exists obj, Accepts obj /\ rankOf obj = rank)
+    (hnonpos :
+      forall obj, Accepts obj ->
+        scaledMargin (rankOf obj) <= 0)
+    (certOf :
+      forall obj, Accepts obj ->
+        ObjectStartViolationMarginCert
+          (rankOf obj) (scaledMargin (rankOf obj)))
+    {rank : Fin numPairWords}
+    (hrank : ContainsRank rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank := by
+  apply nonIdentityRankKilled_of_no_axis_constraints
+  intro seq hRealize hStart _hLinear hAxis
+  rcases covers rank hrank with ⟨obj, hobj, hidx⟩
+  have hRealizeObj :
+      SeqRealizesPairWord (unrankPairWord (rankOf obj)) seq := by
+    simpa [hidx] using hRealize
+  have hle :
+      scaledMargin (rankOf obj) <= 0 :=
+    hnonpos obj hobj
+  have hpos :
+      0 < scaledMargin (rankOf obj) :=
+    (certOf obj hobj).positive hRealizeObj hAxis
+  linarith
+
 end Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge

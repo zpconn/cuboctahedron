@@ -1689,3 +1689,31 @@ Bellman shape.  It also rejects broad graph-level eval tables for production:
 they add a large checking tax without improving the semantic theorem surface.
 The next nonidentity Bellman step should split terminal family modules and
 export small killed theorems, rather than optimizing eval-node facts further.
+
+Split terminal bridge:
+
+- Added to `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`:
+
+  ```lean
+  theorem nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
+  ```
+
+- This theorem consumes a rank/object cover, an object-level
+  `scaledMargin <= 0` theorem, and object-local
+  `ObjectStartViolationMarginCert` witnesses.  It does not mention Bellman
+  states, labels, transition tables, or cover structures in the terminal
+  theorem input.
+- The bounded smoke now emits
+  `graphSmoke_sampled_axis_object_nonpos_eval_rank_killed_of_start_violation`
+  and routes `graphSmoke_sampled_axis_rank_killed` through it.
+- Focused builds passed:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `BellmanKilledBridge` split theorem | `0:02.51` | `3,287,464 kB` |
+  | `BellmanTopPairingGraphLanguage2Smoke` split-terminal route | `1:10.34` | `8,835,660 kB` |
+
+This is the abstraction boundary production shards need: graph/potential
+modules can export object-level nonpositive theorems, while terminal
+start-violation modules import only those theorem surfaces plus small terminal
+certificates.
