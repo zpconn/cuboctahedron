@@ -897,6 +897,44 @@ Terminal nonidentity local-certificate checkpoint:
   that estimates how many `AxisStartViolationCert` leaves would be required
   after grouping by template and local witness reuse.
 
+Terminal point/open-segment local-certificate checkpoint:
+
+- Extended `Cuboctahedron/Search/TerminalNonidentityTemplates.lean` with two
+  additional proof-carrying residual certificate shapes:
+
+  ```lean
+  structure PreImpactPointViolationCert
+  theorem PreImpactPointViolationCert.no_axis_constraints
+
+  structure OpenSegmentViolationCert
+  theorem OpenSegmentViolationCert.no_axis_constraints
+  ```
+
+- These structures target the smaller observed terminal residual buckets:
+  first-hit mismatch, hit ties, and open-segment/interior failures.  They keep
+  the theorem surface semantic by requiring generated leaves to prove only:
+  a forced terminal point and a corresponding non-interior fact.
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.TerminalNonidentityTemplates
+  ```
+
+  passed after the new structures:
+
+  ```text
+  Built Cuboctahedron.Search.TerminalNonidentityTemplates (3.6s)
+  Build completed successfully
+  ```
+
+- Accepted: all observed residual terminal buckets now have a hand-written
+  Lean local-certificate surface independent of ordinary `NonIdCert` replay.
+- Next required gate: a generator/profiler audit that estimates how many local
+  certificate leaves would remain when the residual-axis profiler emits
+  `AxisStartViolationCert`, `PreImpactPointViolationCert`, and
+  `OpenSegmentViolationCert` targets, with public roots exposing only semantic
+  killed predicates.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

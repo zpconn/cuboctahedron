@@ -184,4 +184,55 @@ theorem AxisStartViolationCert.no_axis_constraints
     (f := Face.xp) (g := cert.badFace) (p := vecRatToReal cert.p0)
     hbadFace hviol hStartInteriorXp
 
+structure PreImpactPointViolationCert
+    (seq : Step14 -> Face) where
+  impact : Impact15
+  point : Vec3 Rat
+  forcedPoint :
+    forall data : UnfoldedFeasibleData seq,
+      data.w ≠ zeroVec3R ->
+      linePoint data.p0 data.w 1 =
+        affApply (affRatToReal (totalAff seq)) data.p0 ->
+      matVec (affRatToReal (totalAff seq)).M data.w = data.w ->
+      linePoint data.p0 data.w (data.crossing_times impact) =
+        vecRatToReal point
+  notInterior :
+    ¬ InPreUnfoldedImpactFaceInterior seq impact (vecRatToReal point)
+
+theorem PreImpactPointViolationCert.no_axis_constraints
+    {seq : Step14 -> Face} (cert : PreImpactPointViolationCert seq) :
+    ¬ NonIdentityAxisConstraints seq :=
+  no_nonidentity_axis_constraints_of_forced_preimpact_point_not_interior
+    (seq := seq) (i := cert.impact) (x := vecRatToReal cert.point)
+    cert.forcedPoint cert.notInterior
+
+structure OpenSegmentViolationCert
+    (seq : Step14 -> Face) where
+  step : Step14
+  s : Real
+  point : Vec3 Rat
+  s_pos : 0 < s
+  s_lt_one : s < 1
+  forcedPoint :
+    forall data : UnfoldedFeasibleData seq,
+      data.w ≠ zeroVec3R ->
+      linePoint data.p0 data.w 1 =
+        affApply (affRatToReal (totalAff seq)) data.p0 ->
+      matVec (affRatToReal (totalAff seq)).M data.w = data.w ->
+      linePoint data.p0 data.w
+        (segmentTime (data.crossing_times step.castSucc)
+          (data.crossing_times (transitionEndImpact step)) s) =
+        vecRatToReal point
+  notInterior :
+    ¬ InPreUnfoldedPolyhedronInterior seq (transitionEndImpact step)
+      (vecRatToReal point)
+
+theorem OpenSegmentViolationCert.no_axis_constraints
+    {seq : Step14 -> Face} (cert : OpenSegmentViolationCert seq) :
+    ¬ NonIdentityAxisConstraints seq :=
+  no_nonidentity_axis_constraints_of_forced_open_segment_not_interior
+    (seq := seq) (i := cert.step) (s := cert.s)
+    (x := vecRatToReal cert.point)
+    cert.s_pos cert.s_lt_one cert.forcedPoint cert.notInterior
+
 end Cuboctahedron
