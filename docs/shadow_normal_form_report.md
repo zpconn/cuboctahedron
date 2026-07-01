@@ -259,3 +259,26 @@ This proves that the scanner's square-parity component is exactly the parity
 of square-pair occurrences in its input list.  The remaining parity gate is to
 connect `ValidPairWord w` to even `x/y/z` occurrence in
 `startedPairFactors w`.
+
+The same module now also proves the factor-list/toList bridge:
+
+```lean
+theorem startedPairFactors_eq_toList_append (w : PairWord) :
+    startedPairFactors w = w.toList ++ [PairId.x]
+```
+
+Focused build:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalForm
+```
+
+Result:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalForm (2.1s)
+Build completed successfully
+```
+
+This isolates the remaining valid-count parity proof from the concrete
+`Fin 13` indexing used by the product-order bridge.

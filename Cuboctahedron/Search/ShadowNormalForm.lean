@@ -1,3 +1,5 @@
+import Init.Data.Vector.Lemmas
+import Batteries.Data.Vector.Lemmas
 import Cuboctahedron.Search.PairWords
 
 /-!
@@ -319,6 +321,16 @@ def finalSquareParityOfPairWord (w : PairWord) : SqParity :=
 theorem startedPairFactors_length (w : PairWord) :
     (startedPairFactors w).length = 14 := by
   simp [startedPairFactors]
+
+theorem startedPairFactors_eq_toList_append (w : PairWord) :
+    startedPairFactors w = w.toList ++ [PairId.x] := by
+  apply List.ext_getElem
+  · simp [startedPairFactors]
+  · intro i hleft hright
+    have hi : i < 14 := by
+      simpa [startedPairFactors] using hleft
+    interval_cases i <;>
+      simp [startedPairFactors, List.finRange, Vector.get_eq_getElem]
 
 /- Small sanity examples matching the external profiler's stack convention. -/
 example :

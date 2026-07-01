@@ -261,6 +261,31 @@ occurrence parity of `x/y/z` in the scanned factor list.  Remaining parity
 work: prove that `ValidPairWord w` implies even square occurrence in
 `startedPairFactors w`, hence `finalSquareParityOfPairWord w = SqParity.id`.
 
+Lean factor-list/toList checkpoint:
+
+- `Cuboctahedron/Search/ShadowNormalForm.lean` now proves:
+
+  ```lean
+  theorem startedPairFactors_eq_toList_append (w : PairWord) :
+      startedPairFactors w = w.toList ++ [PairId.x]
+  ```
+
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalForm
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalForm (2.1s)
+  Build completed successfully
+  ```
+
+Accepted: the valid-count parity proof can now reason over `w.toList ++ [x]`
+instead of the concrete `Fin 13`/`List.finRange` representation.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
