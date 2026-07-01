@@ -2202,6 +2202,17 @@ Bellman profiler prototype checkpoint:
   branching through the 10M window.  The next production-facing step is not a
   larger observed trie; it is a semantic word-language/trie membership bridge
   for the holonomy/cancellation top family.
+- Non-enumerative label-step trace smoke: the graph emitter now also exports
+  `graphSmoke_label_step_trace_language_scaled_margin_nonpos`.  Unlike the
+  observed-object theorems, this one quantifies over an arbitrary
+  `SmokeLabelStepTrace` carrying a label list, finish state, gain, and margin,
+  and assumes only a `BellmanLabelStepRun SmokeStep ...` plus final
+  nonnegative potential and margin-bound facts.  Focused build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:11.84` wall time with `3,914,984 kB` max RSS.  Decision: accepted as a
+  bridge-shape checkpoint.  It removes finite observed constructors from this
+  theorem surface, but the remaining production gap is still to prove real
+  holonomy/cancellation top-family words instantiate `SmokeLabelStepTrace`.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

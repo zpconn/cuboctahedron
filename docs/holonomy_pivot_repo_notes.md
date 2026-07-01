@@ -535,6 +535,14 @@ Top margin+cancellation-pairing checkpoint:
   route as a scalable state-language coordinate.  The next production-facing
   step is a semantic word-language/trie membership bridge, not a still-larger
   observed trie.
+- Non-enumerative label-step trace status: the graph emitter now exports
+  `graphSmoke_label_step_trace_language_scaled_margin_nonpos`, whose object is
+  an arbitrary `SmokeLabelStepTrace` rather than a finite observed constructor.
+  The accepted trace carries a `BellmanLabelStepRun SmokeStep ...`, final
+  nonnegative potential, and a scaled margin bound.  The focused graph smoke
+  passed in `0:11.84` wall time with `3,914,984 kB` max RSS.  This is the right
+  bridge shape for the next step: prove real holonomy/cancellation top-family
+  words produce such traces.
 
 ## Explicit Non-Goals
 

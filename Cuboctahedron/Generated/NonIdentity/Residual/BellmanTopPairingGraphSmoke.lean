@@ -21444,6 +21444,44 @@ theorem graphSmoke_labeled_run_language_scaled_margin_nonpos :
     root_bound
     smokeLabeledRunLanguageBound
 
+private structure SmokeLabelStepTrace where
+  finish : State
+  labels : List SmokeLabel
+  gain : Int
+  margin : Int
+
+private def smokeLabelStepTraceScaledMargin (trace : SmokeLabelStepTrace) : Int :=
+  trace.margin
+
+private def smokeLabelStepTraceAccepts (trace : SmokeLabelStepTrace) : Prop :=
+  BellmanLabelStepRun SmokeStep
+    rootState trace.finish trace.labels trace.gain
+    /\ 0 <= graphPotential trace.finish
+    /\ trace.margin <= (176 : Int) + trace.gain
+
+private theorem smokeLabelStepTraceLanguageBound :
+    BellmanLabelStepRunLanguageBound
+      graphPotential SmokeStep rootState
+      (176 : Int) smokeLabelStepTraceScaledMargin
+      (fun trace => trace.labels) smokeLabelStepTraceAccepts := by
+  intro trace htrace
+  rcases htrace with ⟨hrun, hfinish, hmargin⟩
+  exact ⟨trace.finish, trace.gain, hrun, hfinish, hmargin⟩
+
+theorem graphSmoke_label_step_trace_language_scaled_margin_nonpos :
+    forall trace : SmokeLabelStepTrace,
+      smokeLabelStepTraceAccepts trace ->
+        smokeLabelStepTraceScaledMargin trace <= 0 :=
+  scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound
+    (V := graphPotential)
+    (Step := SmokeStep)
+    (start := rootState)
+    (const := 176)
+    (wordOf := fun trace => trace.labels)
+    (fun _ _ _ _ h => SmokeStep.valid h)
+    root_bound
+    smokeLabelStepTraceLanguageBound
+
 private def smokeObjLabels : SmokeObj -> List SmokeLabel
   | SmokeObj.cls0000 => cls0000Labels
   | SmokeObj.cls0001 => cls0001Labels

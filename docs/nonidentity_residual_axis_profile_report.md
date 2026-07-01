@@ -1436,6 +1436,30 @@ Prefix-trie scale diagnostic:
   larger observed trie; it is a semantic word-language/trie membership bridge
   for the holonomy/cancellation top family.
 
+Non-enumerative label-step trace smoke:
+
+- Updated `scripts/emit_bellman_graph_smoke.py` to emit
+  `SmokeLabelStepTrace` and
+  `graphSmoke_label_step_trace_language_scaled_margin_nonpos`.
+- This theorem no longer quantifies over finite observed `SmokeObj`
+  constructors.  Its object is an arbitrary label-step trace carrying:
+  label list, finish state, accumulated gain, and scaled margin.
+- The accepted predicate is exactly the production-shaped assumption we need
+  the real holonomy/cancellation word-language bridge to produce:
+  `BellmanLabelStepRun SmokeStep rootState finish labels gain`, final
+  nonnegative potential, and `margin <= const + gain`.
+- Focused build passed:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Result: `0:11.84` wall time, `3,914,984 kB` max RSS.
+- Decision: accepted as a bridge-shape checkpoint.  It removes finite observed
+  constructors from this theorem surface, but it does not prove membership for
+  actual cuboctahedron top-family words yet.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
