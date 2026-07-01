@@ -380,6 +380,12 @@ Top margin+cancellation-pairing checkpoint:
   but much heavier.  Generated Bellman graph certificates should therefore use
   constructor states or similarly shallow proof-facing lookup surfaces plus
   tiny explicit integer inequality proofs.
+- Medium graph status: the same graph emitter also builds the `[0,5000000)`
+  smoke `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph5MSmoke`.
+  The graph export has `789` states and `863` edges; the focused build passed
+  in `0:13.21` wall time with `4,178,640 kB` max RSS.  This keeps the Bellman
+  route inside the representative-leaf memory budget, provided production
+  leaves remain sharded by semantic family.
 
 ## Explicit Non-Goals
 

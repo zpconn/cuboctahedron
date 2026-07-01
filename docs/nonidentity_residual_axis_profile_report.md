@@ -856,6 +856,38 @@ Generated-style Bellman graph smoke:
   validates the constructor-state encoding for generated Bellman graph
   certificates.
 
+5M graph-smoke scaling:
+
+- Export command:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/nonidentity_margin_bellman_profile.py \
+    --start 0 --end 5000000 \
+    --jobs 8 --chunk-size 250000 \
+    --state-key-mode with-step-tri-source \
+    --include-graph \
+    --json scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.json \
+    --markdown scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.md
+  ```
+
+  Result: `5,000,000` ranks scanned, `194` matched paths, `789` states,
+  `863` edges, `95` final states, max margin bound `0`, `3:35.35` wall time,
+  `29,784 kB` max RSS.
+- Generated
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph5MSmoke.lean`
+  with the same constructor-state/explicit-inequality emitter.
+- Focused build passed:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph5MSmoke
+  ```
+
+  Result: `0:13.21` wall time, `4,178,640 kB` max RSS.
+- Decision: accepted as a medium-size Bellman graph leaf smoke.  The emitter
+  shape is plausible for production-sized Bellman family leaves if generated
+  coverage is organized by semantic family and sharded before root assembly.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -877,9 +909,12 @@ Generated-style Bellman graph smoke:
 - `scripts/emit_bellman_graph_smoke.py`
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json`
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.md`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.json`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.md`
 - `Cuboctahedron/Search/BellmanPotential.lean`
 - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSmoke.lean`
 - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`
+- `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph5MSmoke.lean`
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.json`
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.md`
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_margin_yp_m2_000000000_000100000.json`

@@ -1941,6 +1941,19 @@ Bellman profiler prototype checkpoint:
   Bellman leaves should therefore emit shallow constructor states plus
   explicit integer inequalities, not large table lookups or tactic-heavy
   arithmetic.
+- 5M graph scaling checkpoint: exported the `[0,5000000)` graph with
+  `--include-graph` and `--jobs 8`.  The profiler scanned `5,000,000` ranks,
+  matched `194` paths, and exported `789` states, `863` edges, and `95` final
+  states.  The Bellman root bound remained `-2`, maximum margin bound stayed
+  `0`, and the run took `3:35.35` wall time with only `29,784 kB` max RSS.
+  Generated
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph5MSmoke.lean`
+  as a separate smoke module.  The focused build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph5MSmoke`
+  in `0:13.21` wall time with `4,178,640 kB` max RSS.  This accepts the
+  constructor-state/explicit-inequality graph emitter as a plausible production
+  shape for medium Bellman family leaves, subject to full-family coverage and
+  import sharding.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
