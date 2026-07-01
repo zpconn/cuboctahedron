@@ -2431,3 +2431,38 @@ Remaining gap: generate the positive-margin theorem for a real Bellman family.
 That theorem should be family/margin-form based and should not reintroduce
 exact affine RHS, solved start point, total affine offset, or rank-local
 certificate replay as public coordinates.
+
+## Start-Interior Positive Margin Bridge
+
+Added:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+
+positive_margin_of_axis_forces_start_interior
+```
+
+This theorem provides the missing generic bridge for
+`axisMissesStartInterior` Bellman families.  It uses the existing axis-forcing
+and affine-solve soundness lemmas to show that a hypothetical feasible
+nonidentity axis configuration forces the generated candidate `p0` to be the
+actual start point.  Since the actual start point is in the relative interior
+of `X+`, `XpStartInteriorQ cert.p0` follows, and any generated margin lemma of
+the form `XpStartInteriorQ cert.p0 -> 0 < margin` gives the positive side of
+the Bellman contradiction.
+
+Focused builds:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:04.61` | `3,269,260 kB` | passed |
+| `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke` | `0:15.78` | `4,496,136 kB` | passed |
+
+The hard-constraint keyword scan over the changed bridge, generated smoke, and
+emitter found no `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Remaining generator work: emit private candidate start/solve data and the
+small `XpStartInteriorQ cert.p0 -> 0 < scaledMargin` arithmetic lemma for the
+top-pairing Bellman family, then discharge
+`graphSmoke_sampled_axis_rank_killed_of_margin_positive` without leaving the
+positive-margin premise external.

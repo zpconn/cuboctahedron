@@ -48082,3 +48082,60 @@ For production this premise must be generated from the same family constants
 that define the margin form, not from a rank-local certificate replay.  The
 Bellman potential table remains private generated evidence; the public API is
 semantic killed coverage.
+
+### Holonomy/Bellman Pivot - start-interior positive-margin bridge accepted
+
+The positive-margin side of the Bellman contradiction now has a generic Lean
+bridge:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+
+positive_margin_of_axis_forces_start_interior
+```
+
+This theorem captures the remaining geometric shape for
+`axisMissesStartInterior` Bellman families.  If the generated family supplies:
+
+- a private candidate `NonIdCert` record carrying `word`, `axis`, `kernel`,
+  `forcedSeq`, `p0`, `lambda`, and affine solve witness;
+- a kernel check;
+- an affine solve check;
+- `AxisForcesForcedSeq`;
+- a small theorem that `XpStartInteriorQ cert.p0 -> 0 < margin`;
+
+then any hypothetical `NonIdentityAxisConstraints seq` forces the candidate
+start point `cert.p0` to be the real feasible start point, hence `cert.p0` is
+inside the `X+` face and the generated margin is strictly positive.
+
+This is not `checkNonIdCert` replay.  It reuses the existing trusted axis and
+affine-solve soundness lemmas, then exposes only the margin positivity needed
+by `nonIdentityRankKilled_of_indexed_cover_margin_positive`.
+
+Commands run:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  scripts/emit_bellman_graph_smoke.py
+```
+
+Results:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanKilledBridge` | `0:04.61` | `3,269,260 kB` | passed |
+| `BellmanTopPairingGraphLanguage2Smoke` | `0:15.78` | `4,496,136 kB` | passed |
+| keyword scan | - | - | no matches |
+
+Decision: accepted.  The next generator task is to emit the private
+candidate `p0`/`lambda`/solve witness and the tiny
+`XpStartInteriorQ cert.p0 -> 0 < scaledMargin` arithmetic lemma for the
+sampled top-pairing Bellman family.  Once that smoke exists, the generated
+file should prove `graphSmoke_sampled_axis_rank_killed...` with no external
+positive-margin premise.

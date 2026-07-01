@@ -1133,3 +1133,40 @@ Bellman margin to public killed coverage:
   coverage predicate without exporting raw nonidentity certificates.  The next
   production step is generating the positive-margin theorem for real dominant
   top-pairing families.
+
+Start-interior positive margin bridge:
+
+- Added:
+
+  ```lean
+  positive_margin_of_axis_forces_start_interior
+  ```
+
+  in:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean
+  ```
+
+- This theorem is the generic start-interior side of the Bellman margin
+  contradiction.  Given a private candidate `NonIdCert`, kernel check, affine
+  solve check, axis-forcing proof, and a small generated theorem
+  `XpStartInteriorQ cert.p0 -> 0 < margin`, it derives `0 < margin` from any
+  hypothetical `NonIdentityAxisConstraints seq`.
+
+- The proof uses existing trusted geometry:
+  `nonIdCert_forces_candidate_data` and `XpStartInteriorQ_of_real`.  It does
+  not call `checkNonIdCert` and does not expose a checked certificate as the
+  public theorem surface.
+
+- Focused builds:
+
+  | target | wall | max RSS | status |
+  | --- | ---: | ---: | --- |
+  | `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:04.61` | `3,269,260 kB` | passed |
+  | `BellmanTopPairingGraphLanguage2Smoke` | `0:15.78` | `4,496,136 kB` | passed |
+
+- Decision: accepted.  The next emitter step is to generate private
+  `p0`/`lambda`/solve witnesses and the small start-interior linear arithmetic
+  lemma for the sampled Bellman family, then use it to close the killed theorem
+  without an external `hpositive` premise.
