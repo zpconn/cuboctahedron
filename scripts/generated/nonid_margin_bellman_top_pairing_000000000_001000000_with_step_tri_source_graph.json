@@ -9,13 +9,13 @@
           312761,
           312772,
           312773,
-          824407,
           914497,
           914499,
           944197,
           944199,
           946777,
-          946779
+          946779,
+          947437
         ],
         "gain": "103/88",
         "src": "step=0|rem=2,2,2,2,2,2,2|par=000|stack=<empty>|triSrc=",
@@ -29,13 +29,13 @@
           312761,
           312772,
           312773,
-          824407,
           914497,
           914499,
           944197,
           944199,
           946777,
-          946779
+          946779,
+          947437
         ],
         "gain": "-73/88",
         "src": "step=1|rem=1,2,2,2,2,2,2|par=100|stack=<empty>|triSrc=",
@@ -46,7 +46,6 @@
         "dst": "step=3|rem=1,1,2,2,2,1,2|par=110|stack=dm11|triSrc=2:d1m1->dm11@110",
         "dst_short": "step=3|rem=1,1,2,2,2,1,2|par=110|stack=dm11|triSrc=2:d1m1->dm11@110",
         "edge_realizing_ranks": [
-          824407,
           914497,
           914499,
           944197,
@@ -55,7 +54,8 @@
           946779,
           947437,
           947439,
-          947581
+          947581,
+          947589
         ],
         "gain": "-31/22",
         "src": "step=2|rem=1,1,2,2,2,2,2|par=110|stack=<empty>|triSrc=",
@@ -251,7 +251,7 @@
     "scanned": 1000000,
     "states": 223
   },
-  "elapsed_seconds": 79.8461748699774,
+  "elapsed_seconds": 46.906721539999126,
   "end": 1000000,
   "graph": {
     "const_scaled": 176,
@@ -1432,6 +1432,934 @@
       139,
       140,
       141
+    ],
+    "path_class_count": 37,
+    "path_classes": [
+      {
+        "class_index": 0,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          125,
+          128,
+          135,
+          145,
+          158,
+          173,
+          190,
+          210,
+          6,
+          45,
+          80,
+          123
+        ],
+        "final": 141,
+        "margin_scaled": -376,
+        "rank_sample": [
+          517
+        ]
+      },
+      {
+        "class_index": 1,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          125,
+          128,
+          136,
+          148,
+          161,
+          175,
+          193,
+          213,
+          11,
+          50,
+          86,
+          120
+        ],
+        "final": 138,
+        "margin_scaled": -376,
+        "rank_sample": [
+          10613
+        ]
+      },
+      {
+        "class_index": 2,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          125,
+          129,
+          137,
+          146,
+          157,
+          172,
+          189,
+          209,
+          5,
+          43,
+          78,
+          117
+        ],
+        "final": 135,
+        "margin_scaled": -128,
+        "rank_sample": [
+          23197
+        ]
+      },
+      {
+        "class_index": 3,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          125,
+          129,
+          137,
+          147,
+          159,
+          174,
+          191,
+          211,
+          9,
+          48,
+          77,
+          116
+        ],
+        "final": 134,
+        "margin_scaled": -128,
+        "rank_sample": [
+          25555
+        ]
+      },
+      {
+        "class_index": 4,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          125,
+          129,
+          138,
+          149,
+          160,
+          171,
+          188,
+          208,
+          4,
+          42,
+          76,
+          115
+        ],
+        "final": 133,
+        "margin_scaled": -392,
+        "rank_sample": [
+          40387
+        ]
+      },
+      {
+        "class_index": 5,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          125,
+          129,
+          138,
+          150,
+          162,
+          176,
+          187,
+          207,
+          3,
+          41,
+          75,
+          114
+        ],
+        "final": 132,
+        "margin_scaled": -464,
+        "rank_sample": [
+          42247
+        ]
+      },
+      {
+        "class_index": 6,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          125,
+          129,
+          138,
+          150,
+          163,
+          177,
+          192,
+          206,
+          2,
+          40,
+          74,
+          113
+        ],
+        "final": 131,
+        "margin_scaled": -176,
+        "rank_sample": [
+          42943
+        ]
+      },
+      {
+        "class_index": 7,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          125,
+          129,
+          138,
+          150,
+          163,
+          178,
+          194,
+          212,
+          1,
+          38,
+          71,
+          109
+        ],
+        "final": 127,
+        "margin_scaled": -464,
+        "rank_sample": [
+          43171
+        ]
+      },
+      {
+        "class_index": 8,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          125,
+          129,
+          138,
+          150,
+          163,
+          178,
+          195,
+          216,
+          8,
+          39,
+          72,
+          110
+        ],
+        "final": 128,
+        "margin_scaled": -392,
+        "rank_sample": [
+          43195
+        ]
+      },
+      {
+        "class_index": 9,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          125,
+          129,
+          138,
+          150,
+          163,
+          178,
+          195,
+          217,
+          14,
+          47,
+          73,
+          112
+        ],
+        "final": 130,
+        "margin_scaled": -128,
+        "rank_sample": [
+          43203
+        ]
+      },
+      {
+        "class_index": 10,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          125,
+          129,
+          138,
+          150,
+          163,
+          178,
+          195,
+          217,
+          15,
+          53,
+          83,
+          111
+        ],
+        "final": 129,
+        "margin_scaled": -376,
+        "rank_sample": [
+          43205
+        ]
+      },
+      {
+        "class_index": 11,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          126,
+          130,
+          135,
+          145,
+          158,
+          173,
+          190,
+          210,
+          6,
+          45,
+          80,
+          123
+        ],
+        "final": 141,
+        "margin_scaled": -376,
+        "rank_sample": [
+          113917
+        ]
+      },
+      {
+        "class_index": 12,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          126,
+          130,
+          136,
+          148,
+          161,
+          175,
+          193,
+          213,
+          11,
+          50,
+          86,
+          120
+        ],
+        "final": 138,
+        "margin_scaled": -376,
+        "rank_sample": [
+          124013
+        ]
+      },
+      {
+        "class_index": 13,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          126,
+          131,
+          139,
+          145,
+          158,
+          173,
+          190,
+          210,
+          6,
+          45,
+          80,
+          123
+        ],
+        "final": 141,
+        "margin_scaled": -376,
+        "rank_sample": [
+          136597
+        ]
+      },
+      {
+        "class_index": 14,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          126,
+          131,
+          140,
+          152,
+          166,
+          182,
+          200,
+          223,
+          27,
+          44,
+          79,
+          122
+        ],
+        "final": 140,
+        "margin_scaled": -420,
+        "rank_sample": [
+          151567
+        ]
+      },
+      {
+        "class_index": 15,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          126,
+          131,
+          140,
+          152,
+          166,
+          182,
+          200,
+          223,
+          28,
+          59,
+          94,
+          121
+        ],
+        "final": 139,
+        "margin_scaled": -200,
+        "rank_sample": [
+          151569
+        ]
+      },
+      {
+        "class_index": 16,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          126,
+          132,
+          142,
+          153,
+          167,
+          184,
+          202,
+          226,
+          10,
+          49,
+          84,
+          118
+        ],
+        "final": 136,
+        "margin_scaled": -420,
+        "rank_sample": [
+          312761
+        ]
+      },
+      {
+        "class_index": 17,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          126,
+          132,
+          142,
+          153,
+          167,
+          184,
+          202,
+          227,
+          29,
+          62,
+          85,
+          119
+        ],
+        "final": 137,
+        "margin_scaled": -200,
+        "rank_sample": [
+          312772
+        ]
+      },
+      {
+        "class_index": 18,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          126,
+          132,
+          142,
+          153,
+          167,
+          184,
+          202,
+          227,
+          29,
+          63,
+          93,
+          119
+        ],
+        "final": 137,
+        "margin_scaled": -200,
+        "rank_sample": [
+          312773
+        ]
+      },
+      {
+        "class_index": 19,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          133,
+          141,
+          151,
+          165,
+          181,
+          199,
+          222,
+          26,
+          37,
+          70,
+          108
+        ],
+        "final": 126,
+        "margin_scaled": -172,
+        "rank_sample": [
+          824407
+        ]
+      },
+      {
+        "class_index": 20,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          143,
+          154,
+          164,
+          180,
+          198,
+          221,
+          24,
+          36,
+          69,
+          107
+        ],
+        "final": 125,
+        "margin_scaled": -436,
+        "rank_sample": [
+          914497
+        ]
+      },
+      {
+        "class_index": 21,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          143,
+          154,
+          164,
+          180,
+          198,
+          221,
+          25,
+          58,
+          92,
+          106
+        ],
+        "final": 124,
+        "margin_scaled": -216,
+        "rank_sample": [
+          914499
+        ]
+      },
+      {
+        "class_index": 22,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          155,
+          168,
+          179,
+          197,
+          220,
+          22,
+          35,
+          68,
+          105
+        ],
+        "final": 123,
+        "margin_scaled": -508,
+        "rank_sample": [
+          944197
+        ]
+      },
+      {
+        "class_index": 23,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          155,
+          168,
+          179,
+          197,
+          220,
+          23,
+          57,
+          91,
+          104
+        ],
+        "final": 122,
+        "margin_scaled": -288,
+        "rank_sample": [
+          944199
+        ]
+      },
+      {
+        "class_index": 24,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          169,
+          183,
+          196,
+          219,
+          20,
+          34,
+          67,
+          103
+        ],
+        "final": 121,
+        "margin_scaled": -220,
+        "rank_sample": [
+          946777
+        ]
+      },
+      {
+        "class_index": 25,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          169,
+          183,
+          196,
+          219,
+          21,
+          56,
+          90,
+          102
+        ],
+        "final": 120,
+        "margin_scaled": 0,
+        "rank_sample": [
+          946779
+        ]
+      },
+      {
+        "class_index": 26,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          170,
+          185,
+          201,
+          218,
+          18,
+          33,
+          66,
+          101
+        ],
+        "final": 119,
+        "margin_scaled": -508,
+        "rank_sample": [
+          947437
+        ]
+      },
+      {
+        "class_index": 27,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          170,
+          185,
+          201,
+          218,
+          19,
+          55,
+          89,
+          100
+        ],
+        "final": 118,
+        "margin_scaled": -288,
+        "rank_sample": [
+          947439
+        ]
+      },
+      {
+        "class_index": 28,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          170,
+          186,
+          203,
+          214,
+          7,
+          32,
+          64,
+          96
+        ],
+        "final": 114,
+        "margin_scaled": -436,
+        "rank_sample": [
+          947581
+        ]
+      },
+      {
+        "class_index": 29,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          170,
+          186,
+          203,
+          215,
+          12,
+          46,
+          65,
+          99
+        ],
+        "final": 117,
+        "margin_scaled": -172,
+        "rank_sample": [
+          947589
+        ]
+      },
+      {
+        "class_index": 30,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          170,
+          186,
+          203,
+          215,
+          13,
+          52,
+          82,
+          98
+        ],
+        "final": 116,
+        "margin_scaled": -420,
+        "rank_sample": [
+          947591
+        ]
+      },
+      {
+        "class_index": 31,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          170,
+          186,
+          204,
+          224,
+          7,
+          32,
+          64,
+          96
+        ],
+        "final": 114,
+        "margin_scaled": -436,
+        "rank_sample": [
+          947593
+        ]
+      },
+      {
+        "class_index": 32,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          170,
+          186,
+          204,
+          225,
+          16,
+          32,
+          64,
+          96
+        ],
+        "final": 114,
+        "margin_scaled": -436,
+        "rank_sample": [
+          947599
+        ]
+      },
+      {
+        "class_index": 33,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          170,
+          186,
+          204,
+          225,
+          17,
+          54,
+          87,
+          95
+        ],
+        "final": 113,
+        "margin_scaled": -216,
+        "rank_sample": [
+          947601
+        ]
+      },
+      {
+        "class_index": 34,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          170,
+          186,
+          205,
+          228,
+          30,
+          51,
+          81,
+          97
+        ],
+        "final": 115,
+        "margin_scaled": -200,
+        "rank_sample": [
+          947625
+        ]
+      },
+      {
+        "class_index": 35,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          170,
+          186,
+          205,
+          228,
+          31,
+          60,
+          81,
+          97
+        ],
+        "final": 115,
+        "margin_scaled": -200,
+        "rank_sample": [
+          947626
+        ]
+      },
+      {
+        "class_index": 36,
+        "count": 1,
+        "edge_indices": [
+          0,
+          124,
+          127,
+          134,
+          144,
+          156,
+          170,
+          186,
+          205,
+          228,
+          31,
+          61,
+          88,
+          97
+        ],
+        "final": 115,
+        "margin_scaled": -200,
+        "rank_sample": [
+          947627
+        ]
+      }
     ],
     "path_objects": [
       {
@@ -3376,17 +4304,6 @@
       "axis_d4": "1,-3,-1",
       "bad_face": "ym",
       "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
-      "margin_value": "-43/22",
-      "rank": 824407,
-      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
-      "seq": "xp xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp yp tmpp tmmp",
-      "word": "x,y,d1m1,z,z,d11m,dm11,d111,d111,d1m1,y,dm11,d11m"
-    },
-    {
-      "axis": "1,1,3",
-      "axis_d4": "1,-3,-1",
-      "bad_face": "ym",
-      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
       "margin_value": "-109/22",
       "rank": 914497,
       "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
@@ -3557,6 +4474,17 @@
       "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
       "seq": "xp xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp tmpp zm yp zp",
       "word": "x,y,d1m1,d11m,dm11,d111,d111,d1m1,d11m,dm11,z,y,z"
+    },
+    {
+      "axis": "1,1,3",
+      "axis_d4": "1,-3,-1",
+      "bad_face": "ym",
+      "margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "margin_value": "-25/11",
+      "rank": 947627,
+      "reduced": "dm11 d111 d1m1 dm11 d111 d1m1",
+      "seq": "xp xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp tmpp zm zp yp",
+      "word": "x,y,d1m1,d11m,dm11,d111,d111,d1m1,d11m,dm11,z,z,y"
     }
   ],
   "schema_version": 1,
@@ -3596,10 +4524,6 @@
     },
     {
       "count": 2,
-      "key": "-43/22"
-    },
-    {
-      "count": 2,
       "key": "-27/11"
     },
     {
@@ -3609,6 +4533,10 @@
     {
       "count": 2,
       "key": "-36/11"
+    },
+    {
+      "count": 2,
+      "key": "-43/22"
     },
     {
       "count": 2,

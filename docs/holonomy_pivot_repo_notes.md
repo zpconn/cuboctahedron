@@ -415,6 +415,16 @@ Top margin+cancellation-pairing checkpoint:
   smoke toward production: it validates member-to-path/margin-bound assembly
   for a finite observed family, while the remaining gap is replacing observed
   path enumeration with a semantic family-language theorem.
+- Path-class bridge status: the graph export now also includes
+  `path_classes`, grouping observed objects by exact Bellman edge trace,
+  final state, and scaled margin; the emitter uses classes when present.  On
+  the same `[0,1000000)` graph there are `37` observed objects and `37`
+  path classes, so exact trace grouping gives no compression.  The
+  class-aware focused build passed in `0:07.36` wall time with `3,441,212 kB`
+  max RSS.  Treat path classes as a diagnostic/regression layer only; the
+  production Bellman bridge must prove membership for a coarser
+  holonomy/cancellation language or introduce a gauge/summary coordinate that
+  merges traces before Lean emission.
 
 ## Explicit Non-Goals
 

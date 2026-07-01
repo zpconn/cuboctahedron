@@ -658,6 +658,50 @@ def bellman_payload(
         edge_index = {
             edge_key(edge): idx for idx, edge in enumerate(edge_tuples)
         }
+        path_objects = [
+            {
+                "rank": path["rank"],
+                "final": state_index[path["states"][-1]],
+                "margin_scaled": int(Fraction(path["margin_value"]) * scale),
+                "edge_indices": [
+                    edge_index[edge_key(edge)] for edge in path["edges"]
+                ],
+            }
+            for path in sorted(stats.paths, key=lambda path: path["rank"])
+        ]
+        path_class_map: dict[tuple[int, int, tuple[int, ...]], dict[str, Any]] = {}
+        for obj in path_objects:
+            key = (
+                int(obj["final"]),
+                int(obj["margin_scaled"]),
+                tuple(int(edge_idx) for edge_idx in obj["edge_indices"]),
+            )
+            group = path_class_map.setdefault(
+                key,
+                {
+                    "final": key[0],
+                    "margin_scaled": key[1],
+                    "edge_indices": list(key[2]),
+                    "count": 0,
+                    "rank_sample": [],
+                },
+            )
+            group["count"] += 1
+            if len(group["rank_sample"]) < 12:
+                group["rank_sample"].append(obj["rank"])
+        path_classes = [
+            {"class_index": idx, **group}
+            for idx, group in enumerate(
+                sorted(
+                    path_class_map.values(),
+                    key=lambda group: (
+                        group["edge_indices"],
+                        group["final"],
+                        group["margin_scaled"],
+                    ),
+                )
+            )
+        ]
         payload["graph"] = {
             "state_count": len(states_sorted),
             "scale": scale,
@@ -680,17 +724,9 @@ def bellman_payload(
                 }
                 for src, gain, dst in edge_tuples
             ],
-            "path_objects": [
-                {
-                    "rank": path["rank"],
-                    "final": state_index[path["states"][-1]],
-                    "margin_scaled": int(Fraction(path["margin_value"]) * scale),
-                    "edge_indices": [
-                        edge_index[edge_key(edge)] for edge in path["edges"]
-                    ],
-                }
-                for path in sorted(stats.paths, key=lambda path: path["rank"])
-            ],
+            "path_objects": path_objects,
+            "path_classes": path_classes,
+            "path_class_count": len(path_classes),
         }
     return payload
 
@@ -733,6 +769,13 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
                 f"| `{edge['step']}` | `{edge['gain']}` | "
                 f"`{edge['edge_realizing_ranks']}` | `{edge['dst_short']}` |"
             )
+    graph = payload.get("graph")
+    if graph is not None:
+        lines.extend(["", "## Graph Export", ""])
+        lines.append(f"- Path objects: `{len(graph.get('path_objects', []))}`")
+        lines.append(
+            f"- Path classes: `{graph.get('path_class_count', len(graph.get('path_classes', [])))}`"
+        )
     lines.extend(["", "## Top Margin Values", "", "| value | count |", "| --- | ---: |"])
     for row in payload["top_margin_values"]:
         lines.append(f"| `{row['key']}` | `{row['count']}` |")

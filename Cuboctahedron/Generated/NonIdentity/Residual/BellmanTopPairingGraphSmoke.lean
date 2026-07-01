@@ -2568,87 +2568,87 @@ theorem graphSmoke_family_scaled_margin_nonpos
     htrace
 
 private inductive SmokeObj where
-  | obj0000
-  | obj0001
-  | obj0002
-  | obj0003
-  | obj0004
-  | obj0005
-  | obj0006
-  | obj0007
-  | obj0008
-  | obj0009
-  | obj0010
-  | obj0011
-  | obj0012
-  | obj0013
-  | obj0014
-  | obj0015
-  | obj0016
-  | obj0017
-  | obj0018
-  | obj0019
-  | obj0020
-  | obj0021
-  | obj0022
-  | obj0023
-  | obj0024
-  | obj0025
-  | obj0026
-  | obj0027
-  | obj0028
-  | obj0029
-  | obj0030
-  | obj0031
-  | obj0032
-  | obj0033
-  | obj0034
-  | obj0035
-  | obj0036
+  | cls0000
+  | cls0001
+  | cls0002
+  | cls0003
+  | cls0004
+  | cls0005
+  | cls0006
+  | cls0007
+  | cls0008
+  | cls0009
+  | cls0010
+  | cls0011
+  | cls0012
+  | cls0013
+  | cls0014
+  | cls0015
+  | cls0016
+  | cls0017
+  | cls0018
+  | cls0019
+  | cls0020
+  | cls0021
+  | cls0022
+  | cls0023
+  | cls0024
+  | cls0025
+  | cls0026
+  | cls0027
+  | cls0028
+  | cls0029
+  | cls0030
+  | cls0031
+  | cls0032
+  | cls0033
+  | cls0034
+  | cls0035
+  | cls0036
 
 private def smokeScaledMargin : SmokeObj -> Int
-  | SmokeObj.obj0000 => -376
-  | SmokeObj.obj0001 => -376
-  | SmokeObj.obj0002 => -128
-  | SmokeObj.obj0003 => -128
-  | SmokeObj.obj0004 => -392
-  | SmokeObj.obj0005 => -464
-  | SmokeObj.obj0006 => -176
-  | SmokeObj.obj0007 => -464
-  | SmokeObj.obj0008 => -392
-  | SmokeObj.obj0009 => -128
-  | SmokeObj.obj0010 => -376
-  | SmokeObj.obj0011 => -376
-  | SmokeObj.obj0012 => -376
-  | SmokeObj.obj0013 => -376
-  | SmokeObj.obj0014 => -420
-  | SmokeObj.obj0015 => -200
-  | SmokeObj.obj0016 => -420
-  | SmokeObj.obj0017 => -200
-  | SmokeObj.obj0018 => -200
-  | SmokeObj.obj0019 => -172
-  | SmokeObj.obj0020 => -436
-  | SmokeObj.obj0021 => -216
-  | SmokeObj.obj0022 => -508
-  | SmokeObj.obj0023 => -288
-  | SmokeObj.obj0024 => -220
-  | SmokeObj.obj0025 => 0
-  | SmokeObj.obj0026 => -508
-  | SmokeObj.obj0027 => -288
-  | SmokeObj.obj0028 => -436
-  | SmokeObj.obj0029 => -172
-  | SmokeObj.obj0030 => -420
-  | SmokeObj.obj0031 => -436
-  | SmokeObj.obj0032 => -436
-  | SmokeObj.obj0033 => -216
-  | SmokeObj.obj0034 => -200
-  | SmokeObj.obj0035 => -200
-  | SmokeObj.obj0036 => -200
+  | SmokeObj.cls0000 => -376
+  | SmokeObj.cls0001 => -376
+  | SmokeObj.cls0002 => -128
+  | SmokeObj.cls0003 => -128
+  | SmokeObj.cls0004 => -392
+  | SmokeObj.cls0005 => -464
+  | SmokeObj.cls0006 => -176
+  | SmokeObj.cls0007 => -464
+  | SmokeObj.cls0008 => -392
+  | SmokeObj.cls0009 => -128
+  | SmokeObj.cls0010 => -376
+  | SmokeObj.cls0011 => -376
+  | SmokeObj.cls0012 => -376
+  | SmokeObj.cls0013 => -376
+  | SmokeObj.cls0014 => -420
+  | SmokeObj.cls0015 => -200
+  | SmokeObj.cls0016 => -420
+  | SmokeObj.cls0017 => -200
+  | SmokeObj.cls0018 => -200
+  | SmokeObj.cls0019 => -172
+  | SmokeObj.cls0020 => -436
+  | SmokeObj.cls0021 => -216
+  | SmokeObj.cls0022 => -508
+  | SmokeObj.cls0023 => -288
+  | SmokeObj.cls0024 => -220
+  | SmokeObj.cls0025 => 0
+  | SmokeObj.cls0026 => -508
+  | SmokeObj.cls0027 => -288
+  | SmokeObj.cls0028 => -436
+  | SmokeObj.cls0029 => -172
+  | SmokeObj.cls0030 => -420
+  | SmokeObj.cls0031 => -436
+  | SmokeObj.cls0032 => -436
+  | SmokeObj.cls0033 => -216
+  | SmokeObj.cls0034 => -200
+  | SmokeObj.cls0035 => -200
+  | SmokeObj.cls0036 => -200
 
--- rank: 517
-private def obj0000FinalState : State := State.s0141
+-- rank: class count 1; sample [517]
+private def cls0000FinalState : State := State.s0141
 
-private def obj0000Edges : List (BellmanEdge State) :=
+private def cls0000Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0125
@@ -2664,9 +2664,9 @@ private def obj0000Edges : List (BellmanEdge State) :=
   , edge0080
   , edge0123]
 
-private theorem obj0000Path :
-    BellmanPath rootState obj0000FinalState obj0000Edges := by
-  unfold obj0000Edges rootState obj0000FinalState
+private theorem cls0000Path :
+    BellmanPath rootState cls0000FinalState cls0000Edges := by
+  unfold cls0000Edges rootState cls0000FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -2711,10 +2711,10 @@ private theorem obj0000Path :
   · rfl
   exact BellmanPath.nil State.s0141
 
-private theorem obj0000Graph :
-    forall e, e ∈ obj0000Edges -> GraphEdge e := by
+private theorem cls0000Graph :
+    forall e, e ∈ cls0000Edges -> GraphEdge e := by
   intro e he
-  simp [obj0000Edges] at he
+  simp [cls0000Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -2732,19 +2732,19 @@ private theorem obj0000Graph :
   · subst e; exact GraphEdge.e0080
   · subst e; exact GraphEdge.e0123
 
-private theorem obj0000Final_nonneg :
-    0 <= graphPotential obj0000FinalState := by
+private theorem cls0000Final_nonneg :
+    0 <= graphPotential cls0000FinalState := by
   decide
 
-private theorem obj0000Margin_bound :
-    smokeScaledMargin SmokeObj.obj0000 <= (176 : Int) + bellmanGainSum obj0000Edges := by
+private theorem cls0000Margin_bound :
+    smokeScaledMargin SmokeObj.cls0000 <= (176 : Int) + bellmanGainSum cls0000Edges := by
   change (-376 : Int) <= -376
   decide
 
--- rank: 10613
-private def obj0001FinalState : State := State.s0138
+-- rank: class count 1; sample [10613]
+private def cls0001FinalState : State := State.s0138
 
-private def obj0001Edges : List (BellmanEdge State) :=
+private def cls0001Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0125
@@ -2760,9 +2760,9 @@ private def obj0001Edges : List (BellmanEdge State) :=
   , edge0086
   , edge0120]
 
-private theorem obj0001Path :
-    BellmanPath rootState obj0001FinalState obj0001Edges := by
-  unfold obj0001Edges rootState obj0001FinalState
+private theorem cls0001Path :
+    BellmanPath rootState cls0001FinalState cls0001Edges := by
+  unfold cls0001Edges rootState cls0001FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -2807,10 +2807,10 @@ private theorem obj0001Path :
   · rfl
   exact BellmanPath.nil State.s0138
 
-private theorem obj0001Graph :
-    forall e, e ∈ obj0001Edges -> GraphEdge e := by
+private theorem cls0001Graph :
+    forall e, e ∈ cls0001Edges -> GraphEdge e := by
   intro e he
-  simp [obj0001Edges] at he
+  simp [cls0001Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -2828,19 +2828,19 @@ private theorem obj0001Graph :
   · subst e; exact GraphEdge.e0086
   · subst e; exact GraphEdge.e0120
 
-private theorem obj0001Final_nonneg :
-    0 <= graphPotential obj0001FinalState := by
+private theorem cls0001Final_nonneg :
+    0 <= graphPotential cls0001FinalState := by
   decide
 
-private theorem obj0001Margin_bound :
-    smokeScaledMargin SmokeObj.obj0001 <= (176 : Int) + bellmanGainSum obj0001Edges := by
+private theorem cls0001Margin_bound :
+    smokeScaledMargin SmokeObj.cls0001 <= (176 : Int) + bellmanGainSum cls0001Edges := by
   change (-376 : Int) <= -376
   decide
 
--- rank: 23197
-private def obj0002FinalState : State := State.s0135
+-- rank: class count 1; sample [23197]
+private def cls0002FinalState : State := State.s0135
 
-private def obj0002Edges : List (BellmanEdge State) :=
+private def cls0002Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0125
@@ -2856,9 +2856,9 @@ private def obj0002Edges : List (BellmanEdge State) :=
   , edge0078
   , edge0117]
 
-private theorem obj0002Path :
-    BellmanPath rootState obj0002FinalState obj0002Edges := by
-  unfold obj0002Edges rootState obj0002FinalState
+private theorem cls0002Path :
+    BellmanPath rootState cls0002FinalState cls0002Edges := by
+  unfold cls0002Edges rootState cls0002FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -2903,10 +2903,10 @@ private theorem obj0002Path :
   · rfl
   exact BellmanPath.nil State.s0135
 
-private theorem obj0002Graph :
-    forall e, e ∈ obj0002Edges -> GraphEdge e := by
+private theorem cls0002Graph :
+    forall e, e ∈ cls0002Edges -> GraphEdge e := by
   intro e he
-  simp [obj0002Edges] at he
+  simp [cls0002Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -2924,19 +2924,19 @@ private theorem obj0002Graph :
   · subst e; exact GraphEdge.e0078
   · subst e; exact GraphEdge.e0117
 
-private theorem obj0002Final_nonneg :
-    0 <= graphPotential obj0002FinalState := by
+private theorem cls0002Final_nonneg :
+    0 <= graphPotential cls0002FinalState := by
   decide
 
-private theorem obj0002Margin_bound :
-    smokeScaledMargin SmokeObj.obj0002 <= (176 : Int) + bellmanGainSum obj0002Edges := by
+private theorem cls0002Margin_bound :
+    smokeScaledMargin SmokeObj.cls0002 <= (176 : Int) + bellmanGainSum cls0002Edges := by
   change (-128 : Int) <= -128
   decide
 
--- rank: 25555
-private def obj0003FinalState : State := State.s0134
+-- rank: class count 1; sample [25555]
+private def cls0003FinalState : State := State.s0134
 
-private def obj0003Edges : List (BellmanEdge State) :=
+private def cls0003Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0125
@@ -2952,9 +2952,9 @@ private def obj0003Edges : List (BellmanEdge State) :=
   , edge0077
   , edge0116]
 
-private theorem obj0003Path :
-    BellmanPath rootState obj0003FinalState obj0003Edges := by
-  unfold obj0003Edges rootState obj0003FinalState
+private theorem cls0003Path :
+    BellmanPath rootState cls0003FinalState cls0003Edges := by
+  unfold cls0003Edges rootState cls0003FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -2999,10 +2999,10 @@ private theorem obj0003Path :
   · rfl
   exact BellmanPath.nil State.s0134
 
-private theorem obj0003Graph :
-    forall e, e ∈ obj0003Edges -> GraphEdge e := by
+private theorem cls0003Graph :
+    forall e, e ∈ cls0003Edges -> GraphEdge e := by
   intro e he
-  simp [obj0003Edges] at he
+  simp [cls0003Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -3020,19 +3020,19 @@ private theorem obj0003Graph :
   · subst e; exact GraphEdge.e0077
   · subst e; exact GraphEdge.e0116
 
-private theorem obj0003Final_nonneg :
-    0 <= graphPotential obj0003FinalState := by
+private theorem cls0003Final_nonneg :
+    0 <= graphPotential cls0003FinalState := by
   decide
 
-private theorem obj0003Margin_bound :
-    smokeScaledMargin SmokeObj.obj0003 <= (176 : Int) + bellmanGainSum obj0003Edges := by
+private theorem cls0003Margin_bound :
+    smokeScaledMargin SmokeObj.cls0003 <= (176 : Int) + bellmanGainSum cls0003Edges := by
   change (-128 : Int) <= -128
   decide
 
--- rank: 40387
-private def obj0004FinalState : State := State.s0133
+-- rank: class count 1; sample [40387]
+private def cls0004FinalState : State := State.s0133
 
-private def obj0004Edges : List (BellmanEdge State) :=
+private def cls0004Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0125
@@ -3048,9 +3048,9 @@ private def obj0004Edges : List (BellmanEdge State) :=
   , edge0076
   , edge0115]
 
-private theorem obj0004Path :
-    BellmanPath rootState obj0004FinalState obj0004Edges := by
-  unfold obj0004Edges rootState obj0004FinalState
+private theorem cls0004Path :
+    BellmanPath rootState cls0004FinalState cls0004Edges := by
+  unfold cls0004Edges rootState cls0004FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -3095,10 +3095,10 @@ private theorem obj0004Path :
   · rfl
   exact BellmanPath.nil State.s0133
 
-private theorem obj0004Graph :
-    forall e, e ∈ obj0004Edges -> GraphEdge e := by
+private theorem cls0004Graph :
+    forall e, e ∈ cls0004Edges -> GraphEdge e := by
   intro e he
-  simp [obj0004Edges] at he
+  simp [cls0004Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -3116,19 +3116,19 @@ private theorem obj0004Graph :
   · subst e; exact GraphEdge.e0076
   · subst e; exact GraphEdge.e0115
 
-private theorem obj0004Final_nonneg :
-    0 <= graphPotential obj0004FinalState := by
+private theorem cls0004Final_nonneg :
+    0 <= graphPotential cls0004FinalState := by
   decide
 
-private theorem obj0004Margin_bound :
-    smokeScaledMargin SmokeObj.obj0004 <= (176 : Int) + bellmanGainSum obj0004Edges := by
+private theorem cls0004Margin_bound :
+    smokeScaledMargin SmokeObj.cls0004 <= (176 : Int) + bellmanGainSum cls0004Edges := by
   change (-392 : Int) <= -392
   decide
 
--- rank: 42247
-private def obj0005FinalState : State := State.s0132
+-- rank: class count 1; sample [42247]
+private def cls0005FinalState : State := State.s0132
 
-private def obj0005Edges : List (BellmanEdge State) :=
+private def cls0005Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0125
@@ -3144,9 +3144,9 @@ private def obj0005Edges : List (BellmanEdge State) :=
   , edge0075
   , edge0114]
 
-private theorem obj0005Path :
-    BellmanPath rootState obj0005FinalState obj0005Edges := by
-  unfold obj0005Edges rootState obj0005FinalState
+private theorem cls0005Path :
+    BellmanPath rootState cls0005FinalState cls0005Edges := by
+  unfold cls0005Edges rootState cls0005FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -3191,10 +3191,10 @@ private theorem obj0005Path :
   · rfl
   exact BellmanPath.nil State.s0132
 
-private theorem obj0005Graph :
-    forall e, e ∈ obj0005Edges -> GraphEdge e := by
+private theorem cls0005Graph :
+    forall e, e ∈ cls0005Edges -> GraphEdge e := by
   intro e he
-  simp [obj0005Edges] at he
+  simp [cls0005Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -3212,19 +3212,19 @@ private theorem obj0005Graph :
   · subst e; exact GraphEdge.e0075
   · subst e; exact GraphEdge.e0114
 
-private theorem obj0005Final_nonneg :
-    0 <= graphPotential obj0005FinalState := by
+private theorem cls0005Final_nonneg :
+    0 <= graphPotential cls0005FinalState := by
   decide
 
-private theorem obj0005Margin_bound :
-    smokeScaledMargin SmokeObj.obj0005 <= (176 : Int) + bellmanGainSum obj0005Edges := by
+private theorem cls0005Margin_bound :
+    smokeScaledMargin SmokeObj.cls0005 <= (176 : Int) + bellmanGainSum cls0005Edges := by
   change (-464 : Int) <= -464
   decide
 
--- rank: 42943
-private def obj0006FinalState : State := State.s0131
+-- rank: class count 1; sample [42943]
+private def cls0006FinalState : State := State.s0131
 
-private def obj0006Edges : List (BellmanEdge State) :=
+private def cls0006Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0125
@@ -3240,9 +3240,9 @@ private def obj0006Edges : List (BellmanEdge State) :=
   , edge0074
   , edge0113]
 
-private theorem obj0006Path :
-    BellmanPath rootState obj0006FinalState obj0006Edges := by
-  unfold obj0006Edges rootState obj0006FinalState
+private theorem cls0006Path :
+    BellmanPath rootState cls0006FinalState cls0006Edges := by
+  unfold cls0006Edges rootState cls0006FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -3287,10 +3287,10 @@ private theorem obj0006Path :
   · rfl
   exact BellmanPath.nil State.s0131
 
-private theorem obj0006Graph :
-    forall e, e ∈ obj0006Edges -> GraphEdge e := by
+private theorem cls0006Graph :
+    forall e, e ∈ cls0006Edges -> GraphEdge e := by
   intro e he
-  simp [obj0006Edges] at he
+  simp [cls0006Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -3308,19 +3308,19 @@ private theorem obj0006Graph :
   · subst e; exact GraphEdge.e0074
   · subst e; exact GraphEdge.e0113
 
-private theorem obj0006Final_nonneg :
-    0 <= graphPotential obj0006FinalState := by
+private theorem cls0006Final_nonneg :
+    0 <= graphPotential cls0006FinalState := by
   decide
 
-private theorem obj0006Margin_bound :
-    smokeScaledMargin SmokeObj.obj0006 <= (176 : Int) + bellmanGainSum obj0006Edges := by
+private theorem cls0006Margin_bound :
+    smokeScaledMargin SmokeObj.cls0006 <= (176 : Int) + bellmanGainSum cls0006Edges := by
   change (-176 : Int) <= -176
   decide
 
--- rank: 43171
-private def obj0007FinalState : State := State.s0127
+-- rank: class count 1; sample [43171]
+private def cls0007FinalState : State := State.s0127
 
-private def obj0007Edges : List (BellmanEdge State) :=
+private def cls0007Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0125
@@ -3336,9 +3336,9 @@ private def obj0007Edges : List (BellmanEdge State) :=
   , edge0071
   , edge0109]
 
-private theorem obj0007Path :
-    BellmanPath rootState obj0007FinalState obj0007Edges := by
-  unfold obj0007Edges rootState obj0007FinalState
+private theorem cls0007Path :
+    BellmanPath rootState cls0007FinalState cls0007Edges := by
+  unfold cls0007Edges rootState cls0007FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -3383,10 +3383,10 @@ private theorem obj0007Path :
   · rfl
   exact BellmanPath.nil State.s0127
 
-private theorem obj0007Graph :
-    forall e, e ∈ obj0007Edges -> GraphEdge e := by
+private theorem cls0007Graph :
+    forall e, e ∈ cls0007Edges -> GraphEdge e := by
   intro e he
-  simp [obj0007Edges] at he
+  simp [cls0007Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -3404,19 +3404,19 @@ private theorem obj0007Graph :
   · subst e; exact GraphEdge.e0071
   · subst e; exact GraphEdge.e0109
 
-private theorem obj0007Final_nonneg :
-    0 <= graphPotential obj0007FinalState := by
+private theorem cls0007Final_nonneg :
+    0 <= graphPotential cls0007FinalState := by
   decide
 
-private theorem obj0007Margin_bound :
-    smokeScaledMargin SmokeObj.obj0007 <= (176 : Int) + bellmanGainSum obj0007Edges := by
+private theorem cls0007Margin_bound :
+    smokeScaledMargin SmokeObj.cls0007 <= (176 : Int) + bellmanGainSum cls0007Edges := by
   change (-464 : Int) <= -464
   decide
 
--- rank: 43195
-private def obj0008FinalState : State := State.s0128
+-- rank: class count 1; sample [43195]
+private def cls0008FinalState : State := State.s0128
 
-private def obj0008Edges : List (BellmanEdge State) :=
+private def cls0008Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0125
@@ -3432,9 +3432,9 @@ private def obj0008Edges : List (BellmanEdge State) :=
   , edge0072
   , edge0110]
 
-private theorem obj0008Path :
-    BellmanPath rootState obj0008FinalState obj0008Edges := by
-  unfold obj0008Edges rootState obj0008FinalState
+private theorem cls0008Path :
+    BellmanPath rootState cls0008FinalState cls0008Edges := by
+  unfold cls0008Edges rootState cls0008FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -3479,10 +3479,10 @@ private theorem obj0008Path :
   · rfl
   exact BellmanPath.nil State.s0128
 
-private theorem obj0008Graph :
-    forall e, e ∈ obj0008Edges -> GraphEdge e := by
+private theorem cls0008Graph :
+    forall e, e ∈ cls0008Edges -> GraphEdge e := by
   intro e he
-  simp [obj0008Edges] at he
+  simp [cls0008Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -3500,19 +3500,19 @@ private theorem obj0008Graph :
   · subst e; exact GraphEdge.e0072
   · subst e; exact GraphEdge.e0110
 
-private theorem obj0008Final_nonneg :
-    0 <= graphPotential obj0008FinalState := by
+private theorem cls0008Final_nonneg :
+    0 <= graphPotential cls0008FinalState := by
   decide
 
-private theorem obj0008Margin_bound :
-    smokeScaledMargin SmokeObj.obj0008 <= (176 : Int) + bellmanGainSum obj0008Edges := by
+private theorem cls0008Margin_bound :
+    smokeScaledMargin SmokeObj.cls0008 <= (176 : Int) + bellmanGainSum cls0008Edges := by
   change (-392 : Int) <= -392
   decide
 
--- rank: 43203
-private def obj0009FinalState : State := State.s0130
+-- rank: class count 1; sample [43203]
+private def cls0009FinalState : State := State.s0130
 
-private def obj0009Edges : List (BellmanEdge State) :=
+private def cls0009Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0125
@@ -3528,9 +3528,9 @@ private def obj0009Edges : List (BellmanEdge State) :=
   , edge0073
   , edge0112]
 
-private theorem obj0009Path :
-    BellmanPath rootState obj0009FinalState obj0009Edges := by
-  unfold obj0009Edges rootState obj0009FinalState
+private theorem cls0009Path :
+    BellmanPath rootState cls0009FinalState cls0009Edges := by
+  unfold cls0009Edges rootState cls0009FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -3575,10 +3575,10 @@ private theorem obj0009Path :
   · rfl
   exact BellmanPath.nil State.s0130
 
-private theorem obj0009Graph :
-    forall e, e ∈ obj0009Edges -> GraphEdge e := by
+private theorem cls0009Graph :
+    forall e, e ∈ cls0009Edges -> GraphEdge e := by
   intro e he
-  simp [obj0009Edges] at he
+  simp [cls0009Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -3596,19 +3596,19 @@ private theorem obj0009Graph :
   · subst e; exact GraphEdge.e0073
   · subst e; exact GraphEdge.e0112
 
-private theorem obj0009Final_nonneg :
-    0 <= graphPotential obj0009FinalState := by
+private theorem cls0009Final_nonneg :
+    0 <= graphPotential cls0009FinalState := by
   decide
 
-private theorem obj0009Margin_bound :
-    smokeScaledMargin SmokeObj.obj0009 <= (176 : Int) + bellmanGainSum obj0009Edges := by
+private theorem cls0009Margin_bound :
+    smokeScaledMargin SmokeObj.cls0009 <= (176 : Int) + bellmanGainSum cls0009Edges := by
   change (-128 : Int) <= -128
   decide
 
--- rank: 43205
-private def obj0010FinalState : State := State.s0129
+-- rank: class count 1; sample [43205]
+private def cls0010FinalState : State := State.s0129
 
-private def obj0010Edges : List (BellmanEdge State) :=
+private def cls0010Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0125
@@ -3624,9 +3624,9 @@ private def obj0010Edges : List (BellmanEdge State) :=
   , edge0083
   , edge0111]
 
-private theorem obj0010Path :
-    BellmanPath rootState obj0010FinalState obj0010Edges := by
-  unfold obj0010Edges rootState obj0010FinalState
+private theorem cls0010Path :
+    BellmanPath rootState cls0010FinalState cls0010Edges := by
+  unfold cls0010Edges rootState cls0010FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -3671,10 +3671,10 @@ private theorem obj0010Path :
   · rfl
   exact BellmanPath.nil State.s0129
 
-private theorem obj0010Graph :
-    forall e, e ∈ obj0010Edges -> GraphEdge e := by
+private theorem cls0010Graph :
+    forall e, e ∈ cls0010Edges -> GraphEdge e := by
   intro e he
-  simp [obj0010Edges] at he
+  simp [cls0010Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -3692,19 +3692,19 @@ private theorem obj0010Graph :
   · subst e; exact GraphEdge.e0083
   · subst e; exact GraphEdge.e0111
 
-private theorem obj0010Final_nonneg :
-    0 <= graphPotential obj0010FinalState := by
+private theorem cls0010Final_nonneg :
+    0 <= graphPotential cls0010FinalState := by
   decide
 
-private theorem obj0010Margin_bound :
-    smokeScaledMargin SmokeObj.obj0010 <= (176 : Int) + bellmanGainSum obj0010Edges := by
+private theorem cls0010Margin_bound :
+    smokeScaledMargin SmokeObj.cls0010 <= (176 : Int) + bellmanGainSum cls0010Edges := by
   change (-376 : Int) <= -376
   decide
 
--- rank: 113917
-private def obj0011FinalState : State := State.s0141
+-- rank: class count 1; sample [113917]
+private def cls0011FinalState : State := State.s0141
 
-private def obj0011Edges : List (BellmanEdge State) :=
+private def cls0011Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0126
@@ -3720,9 +3720,9 @@ private def obj0011Edges : List (BellmanEdge State) :=
   , edge0080
   , edge0123]
 
-private theorem obj0011Path :
-    BellmanPath rootState obj0011FinalState obj0011Edges := by
-  unfold obj0011Edges rootState obj0011FinalState
+private theorem cls0011Path :
+    BellmanPath rootState cls0011FinalState cls0011Edges := by
+  unfold cls0011Edges rootState cls0011FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -3767,10 +3767,10 @@ private theorem obj0011Path :
   · rfl
   exact BellmanPath.nil State.s0141
 
-private theorem obj0011Graph :
-    forall e, e ∈ obj0011Edges -> GraphEdge e := by
+private theorem cls0011Graph :
+    forall e, e ∈ cls0011Edges -> GraphEdge e := by
   intro e he
-  simp [obj0011Edges] at he
+  simp [cls0011Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -3788,19 +3788,19 @@ private theorem obj0011Graph :
   · subst e; exact GraphEdge.e0080
   · subst e; exact GraphEdge.e0123
 
-private theorem obj0011Final_nonneg :
-    0 <= graphPotential obj0011FinalState := by
+private theorem cls0011Final_nonneg :
+    0 <= graphPotential cls0011FinalState := by
   decide
 
-private theorem obj0011Margin_bound :
-    smokeScaledMargin SmokeObj.obj0011 <= (176 : Int) + bellmanGainSum obj0011Edges := by
+private theorem cls0011Margin_bound :
+    smokeScaledMargin SmokeObj.cls0011 <= (176 : Int) + bellmanGainSum cls0011Edges := by
   change (-376 : Int) <= -376
   decide
 
--- rank: 124013
-private def obj0012FinalState : State := State.s0138
+-- rank: class count 1; sample [124013]
+private def cls0012FinalState : State := State.s0138
 
-private def obj0012Edges : List (BellmanEdge State) :=
+private def cls0012Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0126
@@ -3816,9 +3816,9 @@ private def obj0012Edges : List (BellmanEdge State) :=
   , edge0086
   , edge0120]
 
-private theorem obj0012Path :
-    BellmanPath rootState obj0012FinalState obj0012Edges := by
-  unfold obj0012Edges rootState obj0012FinalState
+private theorem cls0012Path :
+    BellmanPath rootState cls0012FinalState cls0012Edges := by
+  unfold cls0012Edges rootState cls0012FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -3863,10 +3863,10 @@ private theorem obj0012Path :
   · rfl
   exact BellmanPath.nil State.s0138
 
-private theorem obj0012Graph :
-    forall e, e ∈ obj0012Edges -> GraphEdge e := by
+private theorem cls0012Graph :
+    forall e, e ∈ cls0012Edges -> GraphEdge e := by
   intro e he
-  simp [obj0012Edges] at he
+  simp [cls0012Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -3884,19 +3884,19 @@ private theorem obj0012Graph :
   · subst e; exact GraphEdge.e0086
   · subst e; exact GraphEdge.e0120
 
-private theorem obj0012Final_nonneg :
-    0 <= graphPotential obj0012FinalState := by
+private theorem cls0012Final_nonneg :
+    0 <= graphPotential cls0012FinalState := by
   decide
 
-private theorem obj0012Margin_bound :
-    smokeScaledMargin SmokeObj.obj0012 <= (176 : Int) + bellmanGainSum obj0012Edges := by
+private theorem cls0012Margin_bound :
+    smokeScaledMargin SmokeObj.cls0012 <= (176 : Int) + bellmanGainSum cls0012Edges := by
   change (-376 : Int) <= -376
   decide
 
--- rank: 136597
-private def obj0013FinalState : State := State.s0141
+-- rank: class count 1; sample [136597]
+private def cls0013FinalState : State := State.s0141
 
-private def obj0013Edges : List (BellmanEdge State) :=
+private def cls0013Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0126
@@ -3912,9 +3912,9 @@ private def obj0013Edges : List (BellmanEdge State) :=
   , edge0080
   , edge0123]
 
-private theorem obj0013Path :
-    BellmanPath rootState obj0013FinalState obj0013Edges := by
-  unfold obj0013Edges rootState obj0013FinalState
+private theorem cls0013Path :
+    BellmanPath rootState cls0013FinalState cls0013Edges := by
+  unfold cls0013Edges rootState cls0013FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -3959,10 +3959,10 @@ private theorem obj0013Path :
   · rfl
   exact BellmanPath.nil State.s0141
 
-private theorem obj0013Graph :
-    forall e, e ∈ obj0013Edges -> GraphEdge e := by
+private theorem cls0013Graph :
+    forall e, e ∈ cls0013Edges -> GraphEdge e := by
   intro e he
-  simp [obj0013Edges] at he
+  simp [cls0013Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -3980,19 +3980,19 @@ private theorem obj0013Graph :
   · subst e; exact GraphEdge.e0080
   · subst e; exact GraphEdge.e0123
 
-private theorem obj0013Final_nonneg :
-    0 <= graphPotential obj0013FinalState := by
+private theorem cls0013Final_nonneg :
+    0 <= graphPotential cls0013FinalState := by
   decide
 
-private theorem obj0013Margin_bound :
-    smokeScaledMargin SmokeObj.obj0013 <= (176 : Int) + bellmanGainSum obj0013Edges := by
+private theorem cls0013Margin_bound :
+    smokeScaledMargin SmokeObj.cls0013 <= (176 : Int) + bellmanGainSum cls0013Edges := by
   change (-376 : Int) <= -376
   decide
 
--- rank: 151567
-private def obj0014FinalState : State := State.s0140
+-- rank: class count 1; sample [151567]
+private def cls0014FinalState : State := State.s0140
 
-private def obj0014Edges : List (BellmanEdge State) :=
+private def cls0014Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0126
@@ -4008,9 +4008,9 @@ private def obj0014Edges : List (BellmanEdge State) :=
   , edge0079
   , edge0122]
 
-private theorem obj0014Path :
-    BellmanPath rootState obj0014FinalState obj0014Edges := by
-  unfold obj0014Edges rootState obj0014FinalState
+private theorem cls0014Path :
+    BellmanPath rootState cls0014FinalState cls0014Edges := by
+  unfold cls0014Edges rootState cls0014FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -4055,10 +4055,10 @@ private theorem obj0014Path :
   · rfl
   exact BellmanPath.nil State.s0140
 
-private theorem obj0014Graph :
-    forall e, e ∈ obj0014Edges -> GraphEdge e := by
+private theorem cls0014Graph :
+    forall e, e ∈ cls0014Edges -> GraphEdge e := by
   intro e he
-  simp [obj0014Edges] at he
+  simp [cls0014Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -4076,19 +4076,19 @@ private theorem obj0014Graph :
   · subst e; exact GraphEdge.e0079
   · subst e; exact GraphEdge.e0122
 
-private theorem obj0014Final_nonneg :
-    0 <= graphPotential obj0014FinalState := by
+private theorem cls0014Final_nonneg :
+    0 <= graphPotential cls0014FinalState := by
   decide
 
-private theorem obj0014Margin_bound :
-    smokeScaledMargin SmokeObj.obj0014 <= (176 : Int) + bellmanGainSum obj0014Edges := by
+private theorem cls0014Margin_bound :
+    smokeScaledMargin SmokeObj.cls0014 <= (176 : Int) + bellmanGainSum cls0014Edges := by
   change (-420 : Int) <= -420
   decide
 
--- rank: 151569
-private def obj0015FinalState : State := State.s0139
+-- rank: class count 1; sample [151569]
+private def cls0015FinalState : State := State.s0139
 
-private def obj0015Edges : List (BellmanEdge State) :=
+private def cls0015Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0126
@@ -4104,9 +4104,9 @@ private def obj0015Edges : List (BellmanEdge State) :=
   , edge0094
   , edge0121]
 
-private theorem obj0015Path :
-    BellmanPath rootState obj0015FinalState obj0015Edges := by
-  unfold obj0015Edges rootState obj0015FinalState
+private theorem cls0015Path :
+    BellmanPath rootState cls0015FinalState cls0015Edges := by
+  unfold cls0015Edges rootState cls0015FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -4151,10 +4151,10 @@ private theorem obj0015Path :
   · rfl
   exact BellmanPath.nil State.s0139
 
-private theorem obj0015Graph :
-    forall e, e ∈ obj0015Edges -> GraphEdge e := by
+private theorem cls0015Graph :
+    forall e, e ∈ cls0015Edges -> GraphEdge e := by
   intro e he
-  simp [obj0015Edges] at he
+  simp [cls0015Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -4172,19 +4172,19 @@ private theorem obj0015Graph :
   · subst e; exact GraphEdge.e0094
   · subst e; exact GraphEdge.e0121
 
-private theorem obj0015Final_nonneg :
-    0 <= graphPotential obj0015FinalState := by
+private theorem cls0015Final_nonneg :
+    0 <= graphPotential cls0015FinalState := by
   decide
 
-private theorem obj0015Margin_bound :
-    smokeScaledMargin SmokeObj.obj0015 <= (176 : Int) + bellmanGainSum obj0015Edges := by
+private theorem cls0015Margin_bound :
+    smokeScaledMargin SmokeObj.cls0015 <= (176 : Int) + bellmanGainSum cls0015Edges := by
   change (-200 : Int) <= -200
   decide
 
--- rank: 312761
-private def obj0016FinalState : State := State.s0136
+-- rank: class count 1; sample [312761]
+private def cls0016FinalState : State := State.s0136
 
-private def obj0016Edges : List (BellmanEdge State) :=
+private def cls0016Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0126
@@ -4200,9 +4200,9 @@ private def obj0016Edges : List (BellmanEdge State) :=
   , edge0084
   , edge0118]
 
-private theorem obj0016Path :
-    BellmanPath rootState obj0016FinalState obj0016Edges := by
-  unfold obj0016Edges rootState obj0016FinalState
+private theorem cls0016Path :
+    BellmanPath rootState cls0016FinalState cls0016Edges := by
+  unfold cls0016Edges rootState cls0016FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -4247,10 +4247,10 @@ private theorem obj0016Path :
   · rfl
   exact BellmanPath.nil State.s0136
 
-private theorem obj0016Graph :
-    forall e, e ∈ obj0016Edges -> GraphEdge e := by
+private theorem cls0016Graph :
+    forall e, e ∈ cls0016Edges -> GraphEdge e := by
   intro e he
-  simp [obj0016Edges] at he
+  simp [cls0016Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -4268,19 +4268,19 @@ private theorem obj0016Graph :
   · subst e; exact GraphEdge.e0084
   · subst e; exact GraphEdge.e0118
 
-private theorem obj0016Final_nonneg :
-    0 <= graphPotential obj0016FinalState := by
+private theorem cls0016Final_nonneg :
+    0 <= graphPotential cls0016FinalState := by
   decide
 
-private theorem obj0016Margin_bound :
-    smokeScaledMargin SmokeObj.obj0016 <= (176 : Int) + bellmanGainSum obj0016Edges := by
+private theorem cls0016Margin_bound :
+    smokeScaledMargin SmokeObj.cls0016 <= (176 : Int) + bellmanGainSum cls0016Edges := by
   change (-420 : Int) <= -420
   decide
 
--- rank: 312772
-private def obj0017FinalState : State := State.s0137
+-- rank: class count 1; sample [312772]
+private def cls0017FinalState : State := State.s0137
 
-private def obj0017Edges : List (BellmanEdge State) :=
+private def cls0017Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0126
@@ -4296,9 +4296,9 @@ private def obj0017Edges : List (BellmanEdge State) :=
   , edge0085
   , edge0119]
 
-private theorem obj0017Path :
-    BellmanPath rootState obj0017FinalState obj0017Edges := by
-  unfold obj0017Edges rootState obj0017FinalState
+private theorem cls0017Path :
+    BellmanPath rootState cls0017FinalState cls0017Edges := by
+  unfold cls0017Edges rootState cls0017FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -4343,10 +4343,10 @@ private theorem obj0017Path :
   · rfl
   exact BellmanPath.nil State.s0137
 
-private theorem obj0017Graph :
-    forall e, e ∈ obj0017Edges -> GraphEdge e := by
+private theorem cls0017Graph :
+    forall e, e ∈ cls0017Edges -> GraphEdge e := by
   intro e he
-  simp [obj0017Edges] at he
+  simp [cls0017Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -4364,19 +4364,19 @@ private theorem obj0017Graph :
   · subst e; exact GraphEdge.e0085
   · subst e; exact GraphEdge.e0119
 
-private theorem obj0017Final_nonneg :
-    0 <= graphPotential obj0017FinalState := by
+private theorem cls0017Final_nonneg :
+    0 <= graphPotential cls0017FinalState := by
   decide
 
-private theorem obj0017Margin_bound :
-    smokeScaledMargin SmokeObj.obj0017 <= (176 : Int) + bellmanGainSum obj0017Edges := by
+private theorem cls0017Margin_bound :
+    smokeScaledMargin SmokeObj.cls0017 <= (176 : Int) + bellmanGainSum cls0017Edges := by
   change (-200 : Int) <= -200
   decide
 
--- rank: 312773
-private def obj0018FinalState : State := State.s0137
+-- rank: class count 1; sample [312773]
+private def cls0018FinalState : State := State.s0137
 
-private def obj0018Edges : List (BellmanEdge State) :=
+private def cls0018Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0126
@@ -4392,9 +4392,9 @@ private def obj0018Edges : List (BellmanEdge State) :=
   , edge0093
   , edge0119]
 
-private theorem obj0018Path :
-    BellmanPath rootState obj0018FinalState obj0018Edges := by
-  unfold obj0018Edges rootState obj0018FinalState
+private theorem cls0018Path :
+    BellmanPath rootState cls0018FinalState cls0018Edges := by
+  unfold cls0018Edges rootState cls0018FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -4439,10 +4439,10 @@ private theorem obj0018Path :
   · rfl
   exact BellmanPath.nil State.s0137
 
-private theorem obj0018Graph :
-    forall e, e ∈ obj0018Edges -> GraphEdge e := by
+private theorem cls0018Graph :
+    forall e, e ∈ cls0018Edges -> GraphEdge e := by
   intro e he
-  simp [obj0018Edges] at he
+  simp [cls0018Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -4460,19 +4460,19 @@ private theorem obj0018Graph :
   · subst e; exact GraphEdge.e0093
   · subst e; exact GraphEdge.e0119
 
-private theorem obj0018Final_nonneg :
-    0 <= graphPotential obj0018FinalState := by
+private theorem cls0018Final_nonneg :
+    0 <= graphPotential cls0018FinalState := by
   decide
 
-private theorem obj0018Margin_bound :
-    smokeScaledMargin SmokeObj.obj0018 <= (176 : Int) + bellmanGainSum obj0018Edges := by
+private theorem cls0018Margin_bound :
+    smokeScaledMargin SmokeObj.cls0018 <= (176 : Int) + bellmanGainSum cls0018Edges := by
   change (-200 : Int) <= -200
   decide
 
--- rank: 824407
-private def obj0019FinalState : State := State.s0126
+-- rank: class count 1; sample [824407]
+private def cls0019FinalState : State := State.s0126
 
-private def obj0019Edges : List (BellmanEdge State) :=
+private def cls0019Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -4488,9 +4488,9 @@ private def obj0019Edges : List (BellmanEdge State) :=
   , edge0070
   , edge0108]
 
-private theorem obj0019Path :
-    BellmanPath rootState obj0019FinalState obj0019Edges := by
-  unfold obj0019Edges rootState obj0019FinalState
+private theorem cls0019Path :
+    BellmanPath rootState cls0019FinalState cls0019Edges := by
+  unfold cls0019Edges rootState cls0019FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -4535,10 +4535,10 @@ private theorem obj0019Path :
   · rfl
   exact BellmanPath.nil State.s0126
 
-private theorem obj0019Graph :
-    forall e, e ∈ obj0019Edges -> GraphEdge e := by
+private theorem cls0019Graph :
+    forall e, e ∈ cls0019Edges -> GraphEdge e := by
   intro e he
-  simp [obj0019Edges] at he
+  simp [cls0019Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -4556,19 +4556,19 @@ private theorem obj0019Graph :
   · subst e; exact GraphEdge.e0070
   · subst e; exact GraphEdge.e0108
 
-private theorem obj0019Final_nonneg :
-    0 <= graphPotential obj0019FinalState := by
+private theorem cls0019Final_nonneg :
+    0 <= graphPotential cls0019FinalState := by
   decide
 
-private theorem obj0019Margin_bound :
-    smokeScaledMargin SmokeObj.obj0019 <= (176 : Int) + bellmanGainSum obj0019Edges := by
+private theorem cls0019Margin_bound :
+    smokeScaledMargin SmokeObj.cls0019 <= (176 : Int) + bellmanGainSum cls0019Edges := by
   change (-172 : Int) <= -172
   decide
 
--- rank: 914497
-private def obj0020FinalState : State := State.s0125
+-- rank: class count 1; sample [914497]
+private def cls0020FinalState : State := State.s0125
 
-private def obj0020Edges : List (BellmanEdge State) :=
+private def cls0020Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -4584,9 +4584,9 @@ private def obj0020Edges : List (BellmanEdge State) :=
   , edge0069
   , edge0107]
 
-private theorem obj0020Path :
-    BellmanPath rootState obj0020FinalState obj0020Edges := by
-  unfold obj0020Edges rootState obj0020FinalState
+private theorem cls0020Path :
+    BellmanPath rootState cls0020FinalState cls0020Edges := by
+  unfold cls0020Edges rootState cls0020FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -4631,10 +4631,10 @@ private theorem obj0020Path :
   · rfl
   exact BellmanPath.nil State.s0125
 
-private theorem obj0020Graph :
-    forall e, e ∈ obj0020Edges -> GraphEdge e := by
+private theorem cls0020Graph :
+    forall e, e ∈ cls0020Edges -> GraphEdge e := by
   intro e he
-  simp [obj0020Edges] at he
+  simp [cls0020Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -4652,19 +4652,19 @@ private theorem obj0020Graph :
   · subst e; exact GraphEdge.e0069
   · subst e; exact GraphEdge.e0107
 
-private theorem obj0020Final_nonneg :
-    0 <= graphPotential obj0020FinalState := by
+private theorem cls0020Final_nonneg :
+    0 <= graphPotential cls0020FinalState := by
   decide
 
-private theorem obj0020Margin_bound :
-    smokeScaledMargin SmokeObj.obj0020 <= (176 : Int) + bellmanGainSum obj0020Edges := by
+private theorem cls0020Margin_bound :
+    smokeScaledMargin SmokeObj.cls0020 <= (176 : Int) + bellmanGainSum cls0020Edges := by
   change (-436 : Int) <= -436
   decide
 
--- rank: 914499
-private def obj0021FinalState : State := State.s0124
+-- rank: class count 1; sample [914499]
+private def cls0021FinalState : State := State.s0124
 
-private def obj0021Edges : List (BellmanEdge State) :=
+private def cls0021Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -4680,9 +4680,9 @@ private def obj0021Edges : List (BellmanEdge State) :=
   , edge0092
   , edge0106]
 
-private theorem obj0021Path :
-    BellmanPath rootState obj0021FinalState obj0021Edges := by
-  unfold obj0021Edges rootState obj0021FinalState
+private theorem cls0021Path :
+    BellmanPath rootState cls0021FinalState cls0021Edges := by
+  unfold cls0021Edges rootState cls0021FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -4727,10 +4727,10 @@ private theorem obj0021Path :
   · rfl
   exact BellmanPath.nil State.s0124
 
-private theorem obj0021Graph :
-    forall e, e ∈ obj0021Edges -> GraphEdge e := by
+private theorem cls0021Graph :
+    forall e, e ∈ cls0021Edges -> GraphEdge e := by
   intro e he
-  simp [obj0021Edges] at he
+  simp [cls0021Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -4748,19 +4748,19 @@ private theorem obj0021Graph :
   · subst e; exact GraphEdge.e0092
   · subst e; exact GraphEdge.e0106
 
-private theorem obj0021Final_nonneg :
-    0 <= graphPotential obj0021FinalState := by
+private theorem cls0021Final_nonneg :
+    0 <= graphPotential cls0021FinalState := by
   decide
 
-private theorem obj0021Margin_bound :
-    smokeScaledMargin SmokeObj.obj0021 <= (176 : Int) + bellmanGainSum obj0021Edges := by
+private theorem cls0021Margin_bound :
+    smokeScaledMargin SmokeObj.cls0021 <= (176 : Int) + bellmanGainSum cls0021Edges := by
   change (-216 : Int) <= -216
   decide
 
--- rank: 944197
-private def obj0022FinalState : State := State.s0123
+-- rank: class count 1; sample [944197]
+private def cls0022FinalState : State := State.s0123
 
-private def obj0022Edges : List (BellmanEdge State) :=
+private def cls0022Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -4776,9 +4776,9 @@ private def obj0022Edges : List (BellmanEdge State) :=
   , edge0068
   , edge0105]
 
-private theorem obj0022Path :
-    BellmanPath rootState obj0022FinalState obj0022Edges := by
-  unfold obj0022Edges rootState obj0022FinalState
+private theorem cls0022Path :
+    BellmanPath rootState cls0022FinalState cls0022Edges := by
+  unfold cls0022Edges rootState cls0022FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -4823,10 +4823,10 @@ private theorem obj0022Path :
   · rfl
   exact BellmanPath.nil State.s0123
 
-private theorem obj0022Graph :
-    forall e, e ∈ obj0022Edges -> GraphEdge e := by
+private theorem cls0022Graph :
+    forall e, e ∈ cls0022Edges -> GraphEdge e := by
   intro e he
-  simp [obj0022Edges] at he
+  simp [cls0022Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -4844,19 +4844,19 @@ private theorem obj0022Graph :
   · subst e; exact GraphEdge.e0068
   · subst e; exact GraphEdge.e0105
 
-private theorem obj0022Final_nonneg :
-    0 <= graphPotential obj0022FinalState := by
+private theorem cls0022Final_nonneg :
+    0 <= graphPotential cls0022FinalState := by
   decide
 
-private theorem obj0022Margin_bound :
-    smokeScaledMargin SmokeObj.obj0022 <= (176 : Int) + bellmanGainSum obj0022Edges := by
+private theorem cls0022Margin_bound :
+    smokeScaledMargin SmokeObj.cls0022 <= (176 : Int) + bellmanGainSum cls0022Edges := by
   change (-508 : Int) <= -508
   decide
 
--- rank: 944199
-private def obj0023FinalState : State := State.s0122
+-- rank: class count 1; sample [944199]
+private def cls0023FinalState : State := State.s0122
 
-private def obj0023Edges : List (BellmanEdge State) :=
+private def cls0023Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -4872,9 +4872,9 @@ private def obj0023Edges : List (BellmanEdge State) :=
   , edge0091
   , edge0104]
 
-private theorem obj0023Path :
-    BellmanPath rootState obj0023FinalState obj0023Edges := by
-  unfold obj0023Edges rootState obj0023FinalState
+private theorem cls0023Path :
+    BellmanPath rootState cls0023FinalState cls0023Edges := by
+  unfold cls0023Edges rootState cls0023FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -4919,10 +4919,10 @@ private theorem obj0023Path :
   · rfl
   exact BellmanPath.nil State.s0122
 
-private theorem obj0023Graph :
-    forall e, e ∈ obj0023Edges -> GraphEdge e := by
+private theorem cls0023Graph :
+    forall e, e ∈ cls0023Edges -> GraphEdge e := by
   intro e he
-  simp [obj0023Edges] at he
+  simp [cls0023Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -4940,19 +4940,19 @@ private theorem obj0023Graph :
   · subst e; exact GraphEdge.e0091
   · subst e; exact GraphEdge.e0104
 
-private theorem obj0023Final_nonneg :
-    0 <= graphPotential obj0023FinalState := by
+private theorem cls0023Final_nonneg :
+    0 <= graphPotential cls0023FinalState := by
   decide
 
-private theorem obj0023Margin_bound :
-    smokeScaledMargin SmokeObj.obj0023 <= (176 : Int) + bellmanGainSum obj0023Edges := by
+private theorem cls0023Margin_bound :
+    smokeScaledMargin SmokeObj.cls0023 <= (176 : Int) + bellmanGainSum cls0023Edges := by
   change (-288 : Int) <= -288
   decide
 
--- rank: 946777
-private def obj0024FinalState : State := State.s0121
+-- rank: class count 1; sample [946777]
+private def cls0024FinalState : State := State.s0121
 
-private def obj0024Edges : List (BellmanEdge State) :=
+private def cls0024Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -4968,9 +4968,9 @@ private def obj0024Edges : List (BellmanEdge State) :=
   , edge0067
   , edge0103]
 
-private theorem obj0024Path :
-    BellmanPath rootState obj0024FinalState obj0024Edges := by
-  unfold obj0024Edges rootState obj0024FinalState
+private theorem cls0024Path :
+    BellmanPath rootState cls0024FinalState cls0024Edges := by
+  unfold cls0024Edges rootState cls0024FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -5015,10 +5015,10 @@ private theorem obj0024Path :
   · rfl
   exact BellmanPath.nil State.s0121
 
-private theorem obj0024Graph :
-    forall e, e ∈ obj0024Edges -> GraphEdge e := by
+private theorem cls0024Graph :
+    forall e, e ∈ cls0024Edges -> GraphEdge e := by
   intro e he
-  simp [obj0024Edges] at he
+  simp [cls0024Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -5036,19 +5036,19 @@ private theorem obj0024Graph :
   · subst e; exact GraphEdge.e0067
   · subst e; exact GraphEdge.e0103
 
-private theorem obj0024Final_nonneg :
-    0 <= graphPotential obj0024FinalState := by
+private theorem cls0024Final_nonneg :
+    0 <= graphPotential cls0024FinalState := by
   decide
 
-private theorem obj0024Margin_bound :
-    smokeScaledMargin SmokeObj.obj0024 <= (176 : Int) + bellmanGainSum obj0024Edges := by
+private theorem cls0024Margin_bound :
+    smokeScaledMargin SmokeObj.cls0024 <= (176 : Int) + bellmanGainSum cls0024Edges := by
   change (-220 : Int) <= -220
   decide
 
--- rank: 946779
-private def obj0025FinalState : State := State.s0120
+-- rank: class count 1; sample [946779]
+private def cls0025FinalState : State := State.s0120
 
-private def obj0025Edges : List (BellmanEdge State) :=
+private def cls0025Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -5064,9 +5064,9 @@ private def obj0025Edges : List (BellmanEdge State) :=
   , edge0090
   , edge0102]
 
-private theorem obj0025Path :
-    BellmanPath rootState obj0025FinalState obj0025Edges := by
-  unfold obj0025Edges rootState obj0025FinalState
+private theorem cls0025Path :
+    BellmanPath rootState cls0025FinalState cls0025Edges := by
+  unfold cls0025Edges rootState cls0025FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -5111,10 +5111,10 @@ private theorem obj0025Path :
   · rfl
   exact BellmanPath.nil State.s0120
 
-private theorem obj0025Graph :
-    forall e, e ∈ obj0025Edges -> GraphEdge e := by
+private theorem cls0025Graph :
+    forall e, e ∈ cls0025Edges -> GraphEdge e := by
   intro e he
-  simp [obj0025Edges] at he
+  simp [cls0025Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -5132,19 +5132,19 @@ private theorem obj0025Graph :
   · subst e; exact GraphEdge.e0090
   · subst e; exact GraphEdge.e0102
 
-private theorem obj0025Final_nonneg :
-    0 <= graphPotential obj0025FinalState := by
+private theorem cls0025Final_nonneg :
+    0 <= graphPotential cls0025FinalState := by
   decide
 
-private theorem obj0025Margin_bound :
-    smokeScaledMargin SmokeObj.obj0025 <= (176 : Int) + bellmanGainSum obj0025Edges := by
+private theorem cls0025Margin_bound :
+    smokeScaledMargin SmokeObj.cls0025 <= (176 : Int) + bellmanGainSum cls0025Edges := by
   change (0 : Int) <= 0
   decide
 
--- rank: 947437
-private def obj0026FinalState : State := State.s0119
+-- rank: class count 1; sample [947437]
+private def cls0026FinalState : State := State.s0119
 
-private def obj0026Edges : List (BellmanEdge State) :=
+private def cls0026Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -5160,9 +5160,9 @@ private def obj0026Edges : List (BellmanEdge State) :=
   , edge0066
   , edge0101]
 
-private theorem obj0026Path :
-    BellmanPath rootState obj0026FinalState obj0026Edges := by
-  unfold obj0026Edges rootState obj0026FinalState
+private theorem cls0026Path :
+    BellmanPath rootState cls0026FinalState cls0026Edges := by
+  unfold cls0026Edges rootState cls0026FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -5207,10 +5207,10 @@ private theorem obj0026Path :
   · rfl
   exact BellmanPath.nil State.s0119
 
-private theorem obj0026Graph :
-    forall e, e ∈ obj0026Edges -> GraphEdge e := by
+private theorem cls0026Graph :
+    forall e, e ∈ cls0026Edges -> GraphEdge e := by
   intro e he
-  simp [obj0026Edges] at he
+  simp [cls0026Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -5228,19 +5228,19 @@ private theorem obj0026Graph :
   · subst e; exact GraphEdge.e0066
   · subst e; exact GraphEdge.e0101
 
-private theorem obj0026Final_nonneg :
-    0 <= graphPotential obj0026FinalState := by
+private theorem cls0026Final_nonneg :
+    0 <= graphPotential cls0026FinalState := by
   decide
 
-private theorem obj0026Margin_bound :
-    smokeScaledMargin SmokeObj.obj0026 <= (176 : Int) + bellmanGainSum obj0026Edges := by
+private theorem cls0026Margin_bound :
+    smokeScaledMargin SmokeObj.cls0026 <= (176 : Int) + bellmanGainSum cls0026Edges := by
   change (-508 : Int) <= -508
   decide
 
--- rank: 947439
-private def obj0027FinalState : State := State.s0118
+-- rank: class count 1; sample [947439]
+private def cls0027FinalState : State := State.s0118
 
-private def obj0027Edges : List (BellmanEdge State) :=
+private def cls0027Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -5256,9 +5256,9 @@ private def obj0027Edges : List (BellmanEdge State) :=
   , edge0089
   , edge0100]
 
-private theorem obj0027Path :
-    BellmanPath rootState obj0027FinalState obj0027Edges := by
-  unfold obj0027Edges rootState obj0027FinalState
+private theorem cls0027Path :
+    BellmanPath rootState cls0027FinalState cls0027Edges := by
+  unfold cls0027Edges rootState cls0027FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -5303,10 +5303,10 @@ private theorem obj0027Path :
   · rfl
   exact BellmanPath.nil State.s0118
 
-private theorem obj0027Graph :
-    forall e, e ∈ obj0027Edges -> GraphEdge e := by
+private theorem cls0027Graph :
+    forall e, e ∈ cls0027Edges -> GraphEdge e := by
   intro e he
-  simp [obj0027Edges] at he
+  simp [cls0027Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -5324,19 +5324,19 @@ private theorem obj0027Graph :
   · subst e; exact GraphEdge.e0089
   · subst e; exact GraphEdge.e0100
 
-private theorem obj0027Final_nonneg :
-    0 <= graphPotential obj0027FinalState := by
+private theorem cls0027Final_nonneg :
+    0 <= graphPotential cls0027FinalState := by
   decide
 
-private theorem obj0027Margin_bound :
-    smokeScaledMargin SmokeObj.obj0027 <= (176 : Int) + bellmanGainSum obj0027Edges := by
+private theorem cls0027Margin_bound :
+    smokeScaledMargin SmokeObj.cls0027 <= (176 : Int) + bellmanGainSum cls0027Edges := by
   change (-288 : Int) <= -288
   decide
 
--- rank: 947581
-private def obj0028FinalState : State := State.s0114
+-- rank: class count 1; sample [947581]
+private def cls0028FinalState : State := State.s0114
 
-private def obj0028Edges : List (BellmanEdge State) :=
+private def cls0028Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -5352,9 +5352,9 @@ private def obj0028Edges : List (BellmanEdge State) :=
   , edge0064
   , edge0096]
 
-private theorem obj0028Path :
-    BellmanPath rootState obj0028FinalState obj0028Edges := by
-  unfold obj0028Edges rootState obj0028FinalState
+private theorem cls0028Path :
+    BellmanPath rootState cls0028FinalState cls0028Edges := by
+  unfold cls0028Edges rootState cls0028FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -5399,10 +5399,10 @@ private theorem obj0028Path :
   · rfl
   exact BellmanPath.nil State.s0114
 
-private theorem obj0028Graph :
-    forall e, e ∈ obj0028Edges -> GraphEdge e := by
+private theorem cls0028Graph :
+    forall e, e ∈ cls0028Edges -> GraphEdge e := by
   intro e he
-  simp [obj0028Edges] at he
+  simp [cls0028Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -5420,19 +5420,19 @@ private theorem obj0028Graph :
   · subst e; exact GraphEdge.e0064
   · subst e; exact GraphEdge.e0096
 
-private theorem obj0028Final_nonneg :
-    0 <= graphPotential obj0028FinalState := by
+private theorem cls0028Final_nonneg :
+    0 <= graphPotential cls0028FinalState := by
   decide
 
-private theorem obj0028Margin_bound :
-    smokeScaledMargin SmokeObj.obj0028 <= (176 : Int) + bellmanGainSum obj0028Edges := by
+private theorem cls0028Margin_bound :
+    smokeScaledMargin SmokeObj.cls0028 <= (176 : Int) + bellmanGainSum cls0028Edges := by
   change (-436 : Int) <= -436
   decide
 
--- rank: 947589
-private def obj0029FinalState : State := State.s0117
+-- rank: class count 1; sample [947589]
+private def cls0029FinalState : State := State.s0117
 
-private def obj0029Edges : List (BellmanEdge State) :=
+private def cls0029Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -5448,9 +5448,9 @@ private def obj0029Edges : List (BellmanEdge State) :=
   , edge0065
   , edge0099]
 
-private theorem obj0029Path :
-    BellmanPath rootState obj0029FinalState obj0029Edges := by
-  unfold obj0029Edges rootState obj0029FinalState
+private theorem cls0029Path :
+    BellmanPath rootState cls0029FinalState cls0029Edges := by
+  unfold cls0029Edges rootState cls0029FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -5495,10 +5495,10 @@ private theorem obj0029Path :
   · rfl
   exact BellmanPath.nil State.s0117
 
-private theorem obj0029Graph :
-    forall e, e ∈ obj0029Edges -> GraphEdge e := by
+private theorem cls0029Graph :
+    forall e, e ∈ cls0029Edges -> GraphEdge e := by
   intro e he
-  simp [obj0029Edges] at he
+  simp [cls0029Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -5516,19 +5516,19 @@ private theorem obj0029Graph :
   · subst e; exact GraphEdge.e0065
   · subst e; exact GraphEdge.e0099
 
-private theorem obj0029Final_nonneg :
-    0 <= graphPotential obj0029FinalState := by
+private theorem cls0029Final_nonneg :
+    0 <= graphPotential cls0029FinalState := by
   decide
 
-private theorem obj0029Margin_bound :
-    smokeScaledMargin SmokeObj.obj0029 <= (176 : Int) + bellmanGainSum obj0029Edges := by
+private theorem cls0029Margin_bound :
+    smokeScaledMargin SmokeObj.cls0029 <= (176 : Int) + bellmanGainSum cls0029Edges := by
   change (-172 : Int) <= -172
   decide
 
--- rank: 947591
-private def obj0030FinalState : State := State.s0116
+-- rank: class count 1; sample [947591]
+private def cls0030FinalState : State := State.s0116
 
-private def obj0030Edges : List (BellmanEdge State) :=
+private def cls0030Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -5544,9 +5544,9 @@ private def obj0030Edges : List (BellmanEdge State) :=
   , edge0082
   , edge0098]
 
-private theorem obj0030Path :
-    BellmanPath rootState obj0030FinalState obj0030Edges := by
-  unfold obj0030Edges rootState obj0030FinalState
+private theorem cls0030Path :
+    BellmanPath rootState cls0030FinalState cls0030Edges := by
+  unfold cls0030Edges rootState cls0030FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -5591,10 +5591,10 @@ private theorem obj0030Path :
   · rfl
   exact BellmanPath.nil State.s0116
 
-private theorem obj0030Graph :
-    forall e, e ∈ obj0030Edges -> GraphEdge e := by
+private theorem cls0030Graph :
+    forall e, e ∈ cls0030Edges -> GraphEdge e := by
   intro e he
-  simp [obj0030Edges] at he
+  simp [cls0030Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -5612,19 +5612,19 @@ private theorem obj0030Graph :
   · subst e; exact GraphEdge.e0082
   · subst e; exact GraphEdge.e0098
 
-private theorem obj0030Final_nonneg :
-    0 <= graphPotential obj0030FinalState := by
+private theorem cls0030Final_nonneg :
+    0 <= graphPotential cls0030FinalState := by
   decide
 
-private theorem obj0030Margin_bound :
-    smokeScaledMargin SmokeObj.obj0030 <= (176 : Int) + bellmanGainSum obj0030Edges := by
+private theorem cls0030Margin_bound :
+    smokeScaledMargin SmokeObj.cls0030 <= (176 : Int) + bellmanGainSum cls0030Edges := by
   change (-420 : Int) <= -420
   decide
 
--- rank: 947593
-private def obj0031FinalState : State := State.s0114
+-- rank: class count 1; sample [947593]
+private def cls0031FinalState : State := State.s0114
 
-private def obj0031Edges : List (BellmanEdge State) :=
+private def cls0031Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -5640,9 +5640,9 @@ private def obj0031Edges : List (BellmanEdge State) :=
   , edge0064
   , edge0096]
 
-private theorem obj0031Path :
-    BellmanPath rootState obj0031FinalState obj0031Edges := by
-  unfold obj0031Edges rootState obj0031FinalState
+private theorem cls0031Path :
+    BellmanPath rootState cls0031FinalState cls0031Edges := by
+  unfold cls0031Edges rootState cls0031FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -5687,10 +5687,10 @@ private theorem obj0031Path :
   · rfl
   exact BellmanPath.nil State.s0114
 
-private theorem obj0031Graph :
-    forall e, e ∈ obj0031Edges -> GraphEdge e := by
+private theorem cls0031Graph :
+    forall e, e ∈ cls0031Edges -> GraphEdge e := by
   intro e he
-  simp [obj0031Edges] at he
+  simp [cls0031Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -5708,19 +5708,19 @@ private theorem obj0031Graph :
   · subst e; exact GraphEdge.e0064
   · subst e; exact GraphEdge.e0096
 
-private theorem obj0031Final_nonneg :
-    0 <= graphPotential obj0031FinalState := by
+private theorem cls0031Final_nonneg :
+    0 <= graphPotential cls0031FinalState := by
   decide
 
-private theorem obj0031Margin_bound :
-    smokeScaledMargin SmokeObj.obj0031 <= (176 : Int) + bellmanGainSum obj0031Edges := by
+private theorem cls0031Margin_bound :
+    smokeScaledMargin SmokeObj.cls0031 <= (176 : Int) + bellmanGainSum cls0031Edges := by
   change (-436 : Int) <= -436
   decide
 
--- rank: 947599
-private def obj0032FinalState : State := State.s0114
+-- rank: class count 1; sample [947599]
+private def cls0032FinalState : State := State.s0114
 
-private def obj0032Edges : List (BellmanEdge State) :=
+private def cls0032Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -5736,9 +5736,9 @@ private def obj0032Edges : List (BellmanEdge State) :=
   , edge0064
   , edge0096]
 
-private theorem obj0032Path :
-    BellmanPath rootState obj0032FinalState obj0032Edges := by
-  unfold obj0032Edges rootState obj0032FinalState
+private theorem cls0032Path :
+    BellmanPath rootState cls0032FinalState cls0032Edges := by
+  unfold cls0032Edges rootState cls0032FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -5783,10 +5783,10 @@ private theorem obj0032Path :
   · rfl
   exact BellmanPath.nil State.s0114
 
-private theorem obj0032Graph :
-    forall e, e ∈ obj0032Edges -> GraphEdge e := by
+private theorem cls0032Graph :
+    forall e, e ∈ cls0032Edges -> GraphEdge e := by
   intro e he
-  simp [obj0032Edges] at he
+  simp [cls0032Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -5804,19 +5804,19 @@ private theorem obj0032Graph :
   · subst e; exact GraphEdge.e0064
   · subst e; exact GraphEdge.e0096
 
-private theorem obj0032Final_nonneg :
-    0 <= graphPotential obj0032FinalState := by
+private theorem cls0032Final_nonneg :
+    0 <= graphPotential cls0032FinalState := by
   decide
 
-private theorem obj0032Margin_bound :
-    smokeScaledMargin SmokeObj.obj0032 <= (176 : Int) + bellmanGainSum obj0032Edges := by
+private theorem cls0032Margin_bound :
+    smokeScaledMargin SmokeObj.cls0032 <= (176 : Int) + bellmanGainSum cls0032Edges := by
   change (-436 : Int) <= -436
   decide
 
--- rank: 947601
-private def obj0033FinalState : State := State.s0113
+-- rank: class count 1; sample [947601]
+private def cls0033FinalState : State := State.s0113
 
-private def obj0033Edges : List (BellmanEdge State) :=
+private def cls0033Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -5832,9 +5832,9 @@ private def obj0033Edges : List (BellmanEdge State) :=
   , edge0087
   , edge0095]
 
-private theorem obj0033Path :
-    BellmanPath rootState obj0033FinalState obj0033Edges := by
-  unfold obj0033Edges rootState obj0033FinalState
+private theorem cls0033Path :
+    BellmanPath rootState cls0033FinalState cls0033Edges := by
+  unfold cls0033Edges rootState cls0033FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -5879,10 +5879,10 @@ private theorem obj0033Path :
   · rfl
   exact BellmanPath.nil State.s0113
 
-private theorem obj0033Graph :
-    forall e, e ∈ obj0033Edges -> GraphEdge e := by
+private theorem cls0033Graph :
+    forall e, e ∈ cls0033Edges -> GraphEdge e := by
   intro e he
-  simp [obj0033Edges] at he
+  simp [cls0033Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -5900,19 +5900,19 @@ private theorem obj0033Graph :
   · subst e; exact GraphEdge.e0087
   · subst e; exact GraphEdge.e0095
 
-private theorem obj0033Final_nonneg :
-    0 <= graphPotential obj0033FinalState := by
+private theorem cls0033Final_nonneg :
+    0 <= graphPotential cls0033FinalState := by
   decide
 
-private theorem obj0033Margin_bound :
-    smokeScaledMargin SmokeObj.obj0033 <= (176 : Int) + bellmanGainSum obj0033Edges := by
+private theorem cls0033Margin_bound :
+    smokeScaledMargin SmokeObj.cls0033 <= (176 : Int) + bellmanGainSum cls0033Edges := by
   change (-216 : Int) <= -216
   decide
 
--- rank: 947625
-private def obj0034FinalState : State := State.s0115
+-- rank: class count 1; sample [947625]
+private def cls0034FinalState : State := State.s0115
 
-private def obj0034Edges : List (BellmanEdge State) :=
+private def cls0034Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -5928,9 +5928,9 @@ private def obj0034Edges : List (BellmanEdge State) :=
   , edge0081
   , edge0097]
 
-private theorem obj0034Path :
-    BellmanPath rootState obj0034FinalState obj0034Edges := by
-  unfold obj0034Edges rootState obj0034FinalState
+private theorem cls0034Path :
+    BellmanPath rootState cls0034FinalState cls0034Edges := by
+  unfold cls0034Edges rootState cls0034FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -5975,10 +5975,10 @@ private theorem obj0034Path :
   · rfl
   exact BellmanPath.nil State.s0115
 
-private theorem obj0034Graph :
-    forall e, e ∈ obj0034Edges -> GraphEdge e := by
+private theorem cls0034Graph :
+    forall e, e ∈ cls0034Edges -> GraphEdge e := by
   intro e he
-  simp [obj0034Edges] at he
+  simp [cls0034Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -5996,19 +5996,19 @@ private theorem obj0034Graph :
   · subst e; exact GraphEdge.e0081
   · subst e; exact GraphEdge.e0097
 
-private theorem obj0034Final_nonneg :
-    0 <= graphPotential obj0034FinalState := by
+private theorem cls0034Final_nonneg :
+    0 <= graphPotential cls0034FinalState := by
   decide
 
-private theorem obj0034Margin_bound :
-    smokeScaledMargin SmokeObj.obj0034 <= (176 : Int) + bellmanGainSum obj0034Edges := by
+private theorem cls0034Margin_bound :
+    smokeScaledMargin SmokeObj.cls0034 <= (176 : Int) + bellmanGainSum cls0034Edges := by
   change (-200 : Int) <= -200
   decide
 
--- rank: 947626
-private def obj0035FinalState : State := State.s0115
+-- rank: class count 1; sample [947626]
+private def cls0035FinalState : State := State.s0115
 
-private def obj0035Edges : List (BellmanEdge State) :=
+private def cls0035Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -6024,9 +6024,9 @@ private def obj0035Edges : List (BellmanEdge State) :=
   , edge0081
   , edge0097]
 
-private theorem obj0035Path :
-    BellmanPath rootState obj0035FinalState obj0035Edges := by
-  unfold obj0035Edges rootState obj0035FinalState
+private theorem cls0035Path :
+    BellmanPath rootState cls0035FinalState cls0035Edges := by
+  unfold cls0035Edges rootState cls0035FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -6071,10 +6071,10 @@ private theorem obj0035Path :
   · rfl
   exact BellmanPath.nil State.s0115
 
-private theorem obj0035Graph :
-    forall e, e ∈ obj0035Edges -> GraphEdge e := by
+private theorem cls0035Graph :
+    forall e, e ∈ cls0035Edges -> GraphEdge e := by
   intro e he
-  simp [obj0035Edges] at he
+  simp [cls0035Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -6092,19 +6092,19 @@ private theorem obj0035Graph :
   · subst e; exact GraphEdge.e0081
   · subst e; exact GraphEdge.e0097
 
-private theorem obj0035Final_nonneg :
-    0 <= graphPotential obj0035FinalState := by
+private theorem cls0035Final_nonneg :
+    0 <= graphPotential cls0035FinalState := by
   decide
 
-private theorem obj0035Margin_bound :
-    smokeScaledMargin SmokeObj.obj0035 <= (176 : Int) + bellmanGainSum obj0035Edges := by
+private theorem cls0035Margin_bound :
+    smokeScaledMargin SmokeObj.cls0035 <= (176 : Int) + bellmanGainSum cls0035Edges := by
   change (-200 : Int) <= -200
   decide
 
--- rank: 947627
-private def obj0036FinalState : State := State.s0115
+-- rank: class count 1; sample [947627]
+private def cls0036FinalState : State := State.s0115
 
-private def obj0036Edges : List (BellmanEdge State) :=
+private def cls0036Edges : List (BellmanEdge State) :=
   [edge0000
   , edge0124
   , edge0127
@@ -6120,9 +6120,9 @@ private def obj0036Edges : List (BellmanEdge State) :=
   , edge0088
   , edge0097]
 
-private theorem obj0036Path :
-    BellmanPath rootState obj0036FinalState obj0036Edges := by
-  unfold obj0036Edges rootState obj0036FinalState
+private theorem cls0036Path :
+    BellmanPath rootState cls0036FinalState cls0036Edges := by
+  unfold cls0036Edges rootState cls0036FinalState
   apply BellmanPath.cons
   · rfl
   · rfl
@@ -6167,10 +6167,10 @@ private theorem obj0036Path :
   · rfl
   exact BellmanPath.nil State.s0115
 
-private theorem obj0036Graph :
-    forall e, e ∈ obj0036Edges -> GraphEdge e := by
+private theorem cls0036Graph :
+    forall e, e ∈ cls0036Edges -> GraphEdge e := by
   intro e he
-  simp [obj0036Edges] at he
+  simp [cls0036Edges] at he
   rcases he with
     h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
   · subst e; exact GraphEdge.e0000
@@ -6188,12 +6188,12 @@ private theorem obj0036Graph :
   · subst e; exact GraphEdge.e0088
   · subst e; exact GraphEdge.e0097
 
-private theorem obj0036Final_nonneg :
-    0 <= graphPotential obj0036FinalState := by
+private theorem cls0036Final_nonneg :
+    0 <= graphPotential cls0036FinalState := by
   decide
 
-private theorem obj0036Margin_bound :
-    smokeScaledMargin SmokeObj.obj0036 <= (176 : Int) + bellmanGainSum obj0036Edges := by
+private theorem cls0036Margin_bound :
+    smokeScaledMargin SmokeObj.cls0036 <= (176 : Int) + bellmanGainSum cls0036Edges := by
   change (-200 : Int) <= -200
   decide
 
@@ -6203,80 +6203,80 @@ private theorem smokeTraceBound :
       (176 : Int) smokeScaledMargin := by
   intro obj
   cases obj
-  · exact ⟨obj0000FinalState, obj0000Edges, obj0000Path,
-      obj0000Graph, obj0000Final_nonneg, obj0000Margin_bound⟩
-  · exact ⟨obj0001FinalState, obj0001Edges, obj0001Path,
-      obj0001Graph, obj0001Final_nonneg, obj0001Margin_bound⟩
-  · exact ⟨obj0002FinalState, obj0002Edges, obj0002Path,
-      obj0002Graph, obj0002Final_nonneg, obj0002Margin_bound⟩
-  · exact ⟨obj0003FinalState, obj0003Edges, obj0003Path,
-      obj0003Graph, obj0003Final_nonneg, obj0003Margin_bound⟩
-  · exact ⟨obj0004FinalState, obj0004Edges, obj0004Path,
-      obj0004Graph, obj0004Final_nonneg, obj0004Margin_bound⟩
-  · exact ⟨obj0005FinalState, obj0005Edges, obj0005Path,
-      obj0005Graph, obj0005Final_nonneg, obj0005Margin_bound⟩
-  · exact ⟨obj0006FinalState, obj0006Edges, obj0006Path,
-      obj0006Graph, obj0006Final_nonneg, obj0006Margin_bound⟩
-  · exact ⟨obj0007FinalState, obj0007Edges, obj0007Path,
-      obj0007Graph, obj0007Final_nonneg, obj0007Margin_bound⟩
-  · exact ⟨obj0008FinalState, obj0008Edges, obj0008Path,
-      obj0008Graph, obj0008Final_nonneg, obj0008Margin_bound⟩
-  · exact ⟨obj0009FinalState, obj0009Edges, obj0009Path,
-      obj0009Graph, obj0009Final_nonneg, obj0009Margin_bound⟩
-  · exact ⟨obj0010FinalState, obj0010Edges, obj0010Path,
-      obj0010Graph, obj0010Final_nonneg, obj0010Margin_bound⟩
-  · exact ⟨obj0011FinalState, obj0011Edges, obj0011Path,
-      obj0011Graph, obj0011Final_nonneg, obj0011Margin_bound⟩
-  · exact ⟨obj0012FinalState, obj0012Edges, obj0012Path,
-      obj0012Graph, obj0012Final_nonneg, obj0012Margin_bound⟩
-  · exact ⟨obj0013FinalState, obj0013Edges, obj0013Path,
-      obj0013Graph, obj0013Final_nonneg, obj0013Margin_bound⟩
-  · exact ⟨obj0014FinalState, obj0014Edges, obj0014Path,
-      obj0014Graph, obj0014Final_nonneg, obj0014Margin_bound⟩
-  · exact ⟨obj0015FinalState, obj0015Edges, obj0015Path,
-      obj0015Graph, obj0015Final_nonneg, obj0015Margin_bound⟩
-  · exact ⟨obj0016FinalState, obj0016Edges, obj0016Path,
-      obj0016Graph, obj0016Final_nonneg, obj0016Margin_bound⟩
-  · exact ⟨obj0017FinalState, obj0017Edges, obj0017Path,
-      obj0017Graph, obj0017Final_nonneg, obj0017Margin_bound⟩
-  · exact ⟨obj0018FinalState, obj0018Edges, obj0018Path,
-      obj0018Graph, obj0018Final_nonneg, obj0018Margin_bound⟩
-  · exact ⟨obj0019FinalState, obj0019Edges, obj0019Path,
-      obj0019Graph, obj0019Final_nonneg, obj0019Margin_bound⟩
-  · exact ⟨obj0020FinalState, obj0020Edges, obj0020Path,
-      obj0020Graph, obj0020Final_nonneg, obj0020Margin_bound⟩
-  · exact ⟨obj0021FinalState, obj0021Edges, obj0021Path,
-      obj0021Graph, obj0021Final_nonneg, obj0021Margin_bound⟩
-  · exact ⟨obj0022FinalState, obj0022Edges, obj0022Path,
-      obj0022Graph, obj0022Final_nonneg, obj0022Margin_bound⟩
-  · exact ⟨obj0023FinalState, obj0023Edges, obj0023Path,
-      obj0023Graph, obj0023Final_nonneg, obj0023Margin_bound⟩
-  · exact ⟨obj0024FinalState, obj0024Edges, obj0024Path,
-      obj0024Graph, obj0024Final_nonneg, obj0024Margin_bound⟩
-  · exact ⟨obj0025FinalState, obj0025Edges, obj0025Path,
-      obj0025Graph, obj0025Final_nonneg, obj0025Margin_bound⟩
-  · exact ⟨obj0026FinalState, obj0026Edges, obj0026Path,
-      obj0026Graph, obj0026Final_nonneg, obj0026Margin_bound⟩
-  · exact ⟨obj0027FinalState, obj0027Edges, obj0027Path,
-      obj0027Graph, obj0027Final_nonneg, obj0027Margin_bound⟩
-  · exact ⟨obj0028FinalState, obj0028Edges, obj0028Path,
-      obj0028Graph, obj0028Final_nonneg, obj0028Margin_bound⟩
-  · exact ⟨obj0029FinalState, obj0029Edges, obj0029Path,
-      obj0029Graph, obj0029Final_nonneg, obj0029Margin_bound⟩
-  · exact ⟨obj0030FinalState, obj0030Edges, obj0030Path,
-      obj0030Graph, obj0030Final_nonneg, obj0030Margin_bound⟩
-  · exact ⟨obj0031FinalState, obj0031Edges, obj0031Path,
-      obj0031Graph, obj0031Final_nonneg, obj0031Margin_bound⟩
-  · exact ⟨obj0032FinalState, obj0032Edges, obj0032Path,
-      obj0032Graph, obj0032Final_nonneg, obj0032Margin_bound⟩
-  · exact ⟨obj0033FinalState, obj0033Edges, obj0033Path,
-      obj0033Graph, obj0033Final_nonneg, obj0033Margin_bound⟩
-  · exact ⟨obj0034FinalState, obj0034Edges, obj0034Path,
-      obj0034Graph, obj0034Final_nonneg, obj0034Margin_bound⟩
-  · exact ⟨obj0035FinalState, obj0035Edges, obj0035Path,
-      obj0035Graph, obj0035Final_nonneg, obj0035Margin_bound⟩
-  · exact ⟨obj0036FinalState, obj0036Edges, obj0036Path,
-      obj0036Graph, obj0036Final_nonneg, obj0036Margin_bound⟩
+  · exact ⟨cls0000FinalState, cls0000Edges, cls0000Path,
+      cls0000Graph, cls0000Final_nonneg, cls0000Margin_bound⟩
+  · exact ⟨cls0001FinalState, cls0001Edges, cls0001Path,
+      cls0001Graph, cls0001Final_nonneg, cls0001Margin_bound⟩
+  · exact ⟨cls0002FinalState, cls0002Edges, cls0002Path,
+      cls0002Graph, cls0002Final_nonneg, cls0002Margin_bound⟩
+  · exact ⟨cls0003FinalState, cls0003Edges, cls0003Path,
+      cls0003Graph, cls0003Final_nonneg, cls0003Margin_bound⟩
+  · exact ⟨cls0004FinalState, cls0004Edges, cls0004Path,
+      cls0004Graph, cls0004Final_nonneg, cls0004Margin_bound⟩
+  · exact ⟨cls0005FinalState, cls0005Edges, cls0005Path,
+      cls0005Graph, cls0005Final_nonneg, cls0005Margin_bound⟩
+  · exact ⟨cls0006FinalState, cls0006Edges, cls0006Path,
+      cls0006Graph, cls0006Final_nonneg, cls0006Margin_bound⟩
+  · exact ⟨cls0007FinalState, cls0007Edges, cls0007Path,
+      cls0007Graph, cls0007Final_nonneg, cls0007Margin_bound⟩
+  · exact ⟨cls0008FinalState, cls0008Edges, cls0008Path,
+      cls0008Graph, cls0008Final_nonneg, cls0008Margin_bound⟩
+  · exact ⟨cls0009FinalState, cls0009Edges, cls0009Path,
+      cls0009Graph, cls0009Final_nonneg, cls0009Margin_bound⟩
+  · exact ⟨cls0010FinalState, cls0010Edges, cls0010Path,
+      cls0010Graph, cls0010Final_nonneg, cls0010Margin_bound⟩
+  · exact ⟨cls0011FinalState, cls0011Edges, cls0011Path,
+      cls0011Graph, cls0011Final_nonneg, cls0011Margin_bound⟩
+  · exact ⟨cls0012FinalState, cls0012Edges, cls0012Path,
+      cls0012Graph, cls0012Final_nonneg, cls0012Margin_bound⟩
+  · exact ⟨cls0013FinalState, cls0013Edges, cls0013Path,
+      cls0013Graph, cls0013Final_nonneg, cls0013Margin_bound⟩
+  · exact ⟨cls0014FinalState, cls0014Edges, cls0014Path,
+      cls0014Graph, cls0014Final_nonneg, cls0014Margin_bound⟩
+  · exact ⟨cls0015FinalState, cls0015Edges, cls0015Path,
+      cls0015Graph, cls0015Final_nonneg, cls0015Margin_bound⟩
+  · exact ⟨cls0016FinalState, cls0016Edges, cls0016Path,
+      cls0016Graph, cls0016Final_nonneg, cls0016Margin_bound⟩
+  · exact ⟨cls0017FinalState, cls0017Edges, cls0017Path,
+      cls0017Graph, cls0017Final_nonneg, cls0017Margin_bound⟩
+  · exact ⟨cls0018FinalState, cls0018Edges, cls0018Path,
+      cls0018Graph, cls0018Final_nonneg, cls0018Margin_bound⟩
+  · exact ⟨cls0019FinalState, cls0019Edges, cls0019Path,
+      cls0019Graph, cls0019Final_nonneg, cls0019Margin_bound⟩
+  · exact ⟨cls0020FinalState, cls0020Edges, cls0020Path,
+      cls0020Graph, cls0020Final_nonneg, cls0020Margin_bound⟩
+  · exact ⟨cls0021FinalState, cls0021Edges, cls0021Path,
+      cls0021Graph, cls0021Final_nonneg, cls0021Margin_bound⟩
+  · exact ⟨cls0022FinalState, cls0022Edges, cls0022Path,
+      cls0022Graph, cls0022Final_nonneg, cls0022Margin_bound⟩
+  · exact ⟨cls0023FinalState, cls0023Edges, cls0023Path,
+      cls0023Graph, cls0023Final_nonneg, cls0023Margin_bound⟩
+  · exact ⟨cls0024FinalState, cls0024Edges, cls0024Path,
+      cls0024Graph, cls0024Final_nonneg, cls0024Margin_bound⟩
+  · exact ⟨cls0025FinalState, cls0025Edges, cls0025Path,
+      cls0025Graph, cls0025Final_nonneg, cls0025Margin_bound⟩
+  · exact ⟨cls0026FinalState, cls0026Edges, cls0026Path,
+      cls0026Graph, cls0026Final_nonneg, cls0026Margin_bound⟩
+  · exact ⟨cls0027FinalState, cls0027Edges, cls0027Path,
+      cls0027Graph, cls0027Final_nonneg, cls0027Margin_bound⟩
+  · exact ⟨cls0028FinalState, cls0028Edges, cls0028Path,
+      cls0028Graph, cls0028Final_nonneg, cls0028Margin_bound⟩
+  · exact ⟨cls0029FinalState, cls0029Edges, cls0029Path,
+      cls0029Graph, cls0029Final_nonneg, cls0029Margin_bound⟩
+  · exact ⟨cls0030FinalState, cls0030Edges, cls0030Path,
+      cls0030Graph, cls0030Final_nonneg, cls0030Margin_bound⟩
+  · exact ⟨cls0031FinalState, cls0031Edges, cls0031Path,
+      cls0031Graph, cls0031Final_nonneg, cls0031Margin_bound⟩
+  · exact ⟨cls0032FinalState, cls0032Edges, cls0032Path,
+      cls0032Graph, cls0032Final_nonneg, cls0032Margin_bound⟩
+  · exact ⟨cls0033FinalState, cls0033Edges, cls0033Path,
+      cls0033Graph, cls0033Final_nonneg, cls0033Margin_bound⟩
+  · exact ⟨cls0034FinalState, cls0034Edges, cls0034Path,
+      cls0034Graph, cls0034Final_nonneg, cls0034Margin_bound⟩
+  · exact ⟨cls0035FinalState, cls0035Edges, cls0035Path,
+      cls0035Graph, cls0035Final_nonneg, cls0035Margin_bound⟩
+  · exact ⟨cls0036FinalState, cls0036Edges, cls0036Path,
+      cls0036Graph, cls0036Final_nonneg, cls0036Margin_bound⟩
 
 theorem graphSmoke_observed_objects_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=

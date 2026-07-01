@@ -61,7 +61,8 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
     argmax_rhs_scaled = const_scaled + sum(
         int(edges[idx]["gain_scaled"]) for idx in argmax_edge_indices
     )
-    path_objects = graph.get("path_objects")
+    path_classes = graph.get("path_classes")
+    path_objects = path_classes if path_classes is not None else graph.get("path_objects")
     if path_objects is None:
         path_objects = [
             {
@@ -75,8 +76,14 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
     else:
         path_objects = [
             {
-                "name": f"obj{idx:04d}",
-                "rank": obj["rank"],
+                "name": (
+                    f"cls{idx:04d}" if path_classes is not None else f"obj{idx:04d}"
+                ),
+                "rank": (
+                    f"class count {obj['count']}; sample {obj['rank_sample']}"
+                    if path_classes is not None
+                    else obj["rank"]
+                ),
                 "final": int(obj["final"]),
                 "margin_scaled": int(obj["margin_scaled"]),
                 "edge_indices": [int(edge_idx) for edge_idx in obj["edge_indices"]],

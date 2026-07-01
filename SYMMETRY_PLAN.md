@@ -2014,6 +2014,21 @@ Bellman profiler prototype checkpoint:
   exact proof shape production generation should use for each semantic
   Bellman family: member -> path -> graph membership -> margin bound ->
   semantic nonpositivity.
+- Path-class checkpoint after the GPT5.5 Bellman-language recommendation:
+  the profiler now also emits `path_classes`, grouping observed objects by
+  `(final state, scaled margin, exact Bellman edge trace)`, and the emitter
+  prefers those classes when present.  Regenerating the `[0,1000000)`
+  `with-step-tri-source` graph found `37` path objects and `37` path classes,
+  so exact edge-trace classes do **not** compress this bounded family beyond
+  observed ranks.  The regenerated class-aware smoke still builds:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  passed in `0:07.36` wall time with `3,441,212 kB` max RSS.  Decision:
+  accept the class-aware exporter/emitter as a diagnostic and regression
+  surface, but reject exact graph traces as the production family coordinate.
+  The next Bellman step must prove a language-level membership theorem over
+  the holonomy/cancellation automaton, or add a coarser cocycle-gauged /
+  cancellation-summary coordinate before emitting more observed-object
+  families.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

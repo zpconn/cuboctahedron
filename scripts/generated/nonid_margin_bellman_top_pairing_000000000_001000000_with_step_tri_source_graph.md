@@ -4,7 +4,7 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 
 - Range: `[0, 1,000,000)`
 - Jobs: `8`
-- Elapsed seconds: `79.846`
+- Elapsed seconds: `46.907`
 - Target bad face: `yp`
 - Target D4 axis: `1,-3,-1`
 - Target margin+cancellation pairing: `ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1`
@@ -52,9 +52,9 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 
 | step | gain | edge realizing ranks | dst state |
 | ---: | ---: | --- | --- |
-| `1` | `103/88` | `[312761, 312772, 312773, 824407, 914497, 914499, 944197, 944199, 946777, 946779]` | `step=1|rem=1,2,2,2,2,2,2|par=100|stack=<empty>|triSrc=` |
-| `2` | `-73/88` | `[312761, 312772, 312773, 824407, 914497, 914499, 944197, 944199, 946777, 946779]` | `step=2|rem=1,1,2,2,2,2,2|par=110|stack=<empty>|triSrc=` |
-| `3` | `-31/22` | `[824407, 914497, 914499, 944197, 944199, 946777, 946779, 947437, 947439, 947581]` | `step=3|rem=1,1,2,2,2,1,2|par=110|stack=dm11|triSrc=2:d1m1->dm11@110` |
+| `1` | `103/88` | `[312761, 312772, 312773, 914497, 914499, 944197, 944199, 946777, 946779, 947437]` | `step=1|rem=1,2,2,2,2,2,2|par=100|stack=<empty>|triSrc=` |
+| `2` | `-73/88` | `[312761, 312772, 312773, 914497, 914499, 944197, 944199, 946777, 946779, 947437]` | `step=2|rem=1,1,2,2,2,2,2|par=110|stack=<empty>|triSrc=` |
+| `3` | `-31/22` | `[914497, 914499, 944197, 944199, 946777, 946779, 947437, 947439, 947581, 947589]` | `step=3|rem=1,1,2,2,2,1,2|par=110|stack=dm11|triSrc=2:d1m1->dm11@110` |
 | `4` | `12/11` | `[914497, 914499, 944197, 944199, 946777, 946779, 947437, 947439, 947581, 947589]` | `step=4|rem=1,1,2,2,1,1,2|par=110|stack=dm11 d111|triSrc=2:d1m1->dm11@110|3:d11m->d111@110` |
 | `5` | `-9/22` | `[944197, 944199, 946777, 946779, 947437, 947439, 947581, 947589, 947591, 947593]` | `step=5|rem=1,1,2,2,1,1,1|par=110|stack=dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110` |
 | `6` | `-18/11` | `[946777, 946779, 947437, 947439, 947581, 947589, 947591, 947593, 947599, 947601]` | `step=6|rem=1,1,2,1,1,1,1|par=110|stack=dm11 d111 d1m1 d11m|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110` |
@@ -67,6 +67,11 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 | `13` | `103/88` | `[946779]` | `step=13|rem=1,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@11...` |
 | `14` | `-73/88` | `[946779]` | `step=14|rem=0,0,0,0,0,0,0|par=000|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@11...` |
 
+## Graph Export
+
+- Path objects: `37`
+- Path classes: `37`
+
 ## Top Margin Values
 
 | value | count |
@@ -76,10 +81,10 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 | `-109/22` | `4` |
 | `-105/22` | `3` |
 | `-16/11` | `3` |
-| `-43/22` | `2` |
 | `-27/11` | `2` |
 | `-127/22` | `2` |
 | `-36/11` | `2` |
+| `-43/22` | `2` |
 | `-49/11` | `2` |
 | `-58/11` | `2` |
 | `-5/2` | `1` |
@@ -91,7 +96,6 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 - rank `312761` value `-105/22` axis `1,1,3` reduced `dm11 d111 d1m1 dm11 d111 d1m1`
 - rank `312772` value `-25/11` axis `1,1,3` reduced `dm11 d111 d1m1 dm11 d111 d1m1`
 - rank `312773` value `-25/11` axis `1,1,3` reduced `dm11 d111 d1m1 dm11 d111 d1m1`
-- rank `824407` value `-43/22` axis `1,1,3` reduced `dm11 d111 d1m1 dm11 d111 d1m1`
 - rank `914497` value `-109/22` axis `1,1,3` reduced `dm11 d111 d1m1 dm11 d111 d1m1`
 - rank `914499` value `-27/11` axis `1,1,3` reduced `dm11 d111 d1m1 dm11 d111 d1m1`
 - rank `944197` value `-127/22` axis `1,1,3` reduced `dm11 d111 d1m1 dm11 d111 d1m1`
@@ -108,3 +112,4 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 - rank `947601` value `-27/11` axis `1,1,3` reduced `dm11 d111 d1m1 dm11 d111 d1m1`
 - rank `947625` value `-25/11` axis `1,1,3` reduced `dm11 d111 d1m1 dm11 d111 d1m1`
 - rank `947626` value `-25/11` axis `1,1,3` reduced `dm11 d111 d1m1 dm11 d111 d1m1`
+- rank `947627` value `-25/11` axis `1,1,3` reduced `dm11 d111 d1m1 dm11 d111 d1m1`

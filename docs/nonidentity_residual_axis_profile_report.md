@@ -1023,6 +1023,35 @@ Observed-family bridge smoke:
   full family-language theorem because `SmokeObj` still enumerates observed
   paths from the diagnostic window.
 
+Path-class bridge checkpoint:
+
+- Extended the graph export with `path_classes`, grouping observed objects by
+  exact Bellman edge trace, final state, and scaled margin.  The graph emitter
+  now prefers those classes when present and records rank samples only as
+  provenance comments.
+- Regenerated the `[0,1000000)` `with-step-tri-source` graph.  It has:
+
+  ```text
+  path objects: 37
+  path classes: 37
+  ```
+
+- Rebuilt the class-aware smoke:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Result: `0:07.36` wall time, `3,441,212 kB` max RSS.
+- Decision: exact Bellman edge traces are not the desired production
+  compression coordinate.  Keep this class-aware emitter as a useful
+  diagnostic and regression tool, but do not scale by enumerating trace
+  objects.  The next Bellman implementation step is a true language-level
+  membership theorem over the holonomy/cancellation automaton, or a
+  cocycle-gauge/cancellation-summary refinement that merges observed traces
+  before Lean sees them.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
