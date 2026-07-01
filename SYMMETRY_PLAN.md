@@ -157,6 +157,49 @@ Next gate: implement the Lean square-parity / triangular-shadow core theorem.
 The full external profiler gate is now passed, but it remains untrusted
 evidence; Lean still needs the actual normal-form proof.
 
+Lean Track 1 core checkpoint:
+
+- Added `Cuboctahedron/Search/ShadowNormalForm.lean`.
+- The module is hand-written and imports only `Cuboctahedron.Search.PairWords`;
+  it does not import generated coverage modules.
+- It defines `SqParity`, `TriLetter`, parity action on triangular letters,
+  `ShadowState`, `startedPairFactors`, `triangularShadowOfPairWord`,
+  `reducedShadowOfPairWord`, and `finalSquareParityOfPairWord`.
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalForm
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalForm (1.4s)
+  Build completed successfully
+  ```
+
+Accepted: this is the correct first Lean surface for the holonomy pivot.  It
+is small, theorem-facing, and independent of the heavy generated tree.
+
+Not yet accepted: the shadow classifier theorem itself.  The next Lean proof
+gates are:
+
+1. `startedPairFactors`/`shadowStateOfPairWord` matches the exact
+   product-order convention of `totalLinearOfPairWord`;
+2. valid pair-word counts imply final square parity `SqParity.id`;
+3. adjacent triangular cancellation preserves triangular linear product;
+4. a nonempty reduced triangular shadow cannot have identity product, using
+   the planned mod-3 integer/scaled-matrix argument;
+5. the final Lean theorem
+
+   ```lean
+   totalLinearOfPairWord w = (matId : Mat3 Rat) <->
+     reducedShadowOfPairWord w = []
+   ```
+
+   or the exact adapted theorem shape, can be proved without generated
+   rank evidence.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

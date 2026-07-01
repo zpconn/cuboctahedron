@@ -142,3 +142,43 @@ Wall time: 30:42.98
 CPU: 1568%
 Maximum resident set size: 20,160 kB
 ```
+
+## Lean Core Checkpoint
+
+The first Lean-side normal-form infrastructure is now in:
+
+- `Cuboctahedron/Search/ShadowNormalForm.lean`
+
+It defines:
+
+- `SqParity`;
+- `TriLetter`;
+- square-pair parity updates;
+- projective triangular action by square parity;
+- `ShadowState`;
+- `startedPairFactors`;
+- `triangularShadowOfPairWord`;
+- `reducedShadowOfPairWord`;
+- `finalSquareParityOfPairWord`.
+
+Focused build:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalForm
+```
+
+Result:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalForm (1.4s)
+Build completed successfully
+```
+
+This is Lean-checked code, but it is not yet the full shadow normal-form
+theorem.  The next proof obligations are:
+
+1. prove that `startedPairFactors` matches the product order of
+   `totalLinearOfPairWord`;
+2. prove that square parity is identity for valid pair words;
+3. prove the mod-3 triangular product theorem for nonempty reduced shadows;
+4. derive the identity classifier theorem in Lean.
