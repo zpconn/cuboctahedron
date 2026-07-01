@@ -3199,3 +3199,33 @@ Focused build:
 | `BellmanTopPairingGraphLanguage2Smoke` named object-nonpos surface | `1:08.97` | `8,840,984 kB` | passed |
 
 Decision: accepted as the graph/terminal module boundary.
+
+### Split graph/terminal smoke modules
+
+The emitter now produces actual split modules for the sampled Bellman family:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphLanguage2GraphSmoke.lean
+  BellmanTopPairingGraphLanguage2TerminalSmoke.lean
+```
+
+The graph shard contains the Bellman graph/eval object-cover proof and exports
+the object-level nonpositive theorem plus a rank/object cover theorem.  The
+terminal shard imports the graph shard, defines only the local
+`ObjectStartViolationMarginCert` map, and exports
+`graphSmoke_sampled_axis_rank_killed`.
+
+Build telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2GraphSmoke` | `1:08.77` | `8,960,900 kB` | passed |
+| `BellmanTopPairingGraphLanguage2TerminalSmoke` | `0:01.97` | `3,305,948 kB` | passed |
+| monolithic `BellmanTopPairingGraphLanguage2Smoke` | `1:09.57` | `8,857,984 kB` | passed |
+
+Decision: accepted.  The graph shard is still the heavy leaf, as expected.
+The terminal shard is now a small semantic theorem surface suitable for
+group/root imports.  Production should scale this shape by generating many
+graph/potential leaves and small terminal killed leaves, then importing only
+terminal theorem surfaces above the leaf layer.

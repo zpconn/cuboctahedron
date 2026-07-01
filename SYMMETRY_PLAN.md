@@ -49266,3 +49266,94 @@ Decision: accepted.  This does not reduce the current monolithic smoke by
 itself, but it proves the intended module boundary is type-correct and cheap:
 graph/potential code can stop at an object-level nonpositive theorem, while a
 terminal module can consume that theorem plus local start-violation certs.
+
+### Holonomy/Bellman Pivot - graph/terminal split smoke accepted
+
+The Bellman smoke emitter now supports split output in addition to the
+monolithic compatibility file:
+
+```bash
+--graph-output ...
+--terminal-output ...
+--graph-import ...
+--graph-namespace ...
+--terminal-namespace ...
+```
+
+For the current bounded sampled family it emits:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphLanguage2GraphSmoke.lean
+  BellmanTopPairingGraphLanguage2TerminalSmoke.lean
+```
+
+The graph shard contains the Bellman graph/evaluator and exports only the
+object interface needed downstream, including:
+
+```lean
+inductive SampledRankIndex
+def sampledRankOf
+def sampledContainsRank
+def sampledScaledMarginAtRank
+def sampledObjectAccepts
+theorem graphSmoke_sampled_axis_object_eval_scaled_margin_nonpos_at_object
+theorem graphSmoke_sampled_axis_object_cover_eval_covers
+```
+
+The terminal shard is only `58` lines.  It imports the graph shard, defines the
+local `ObjectStartViolationMarginCert` map, and exports:
+
+```lean
+theorem graphSmoke_sampled_axis_rank_killed
+```
+
+Focused command:
+
+```bash
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2 \
+  --graph-output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2GraphSmoke.lean \
+  --terminal-output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean \
+  --graph-import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2GraphSmoke \
+  --graph-namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2GraphSmoke \
+  --terminal-namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke
+```
+
+Focused builds:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2GraphSmoke
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2GraphSmoke` | `1:08.77` | `8,960,900 kB` | passed |
+| `BellmanTopPairingGraphLanguage2TerminalSmoke` | `0:01.97` | `3,305,948 kB` | passed |
+| monolithic `BellmanTopPairingGraphLanguage2Smoke` | `1:09.57` | `8,857,984 kB` | passed |
+
+Implementation lesson: the first terminal build failed because helper theorem
+names like `cls0000PositiveCert_kernelCheck`, `cls0000PositiveCert_axisForces`,
+and `cls0000_unrank_word` were still private in the graph shard.  The emitter
+now intentionally exports only the small helper names needed by the terminal
+certificate map.  Production shards must treat this export list as part of the
+family interface.
+
+Decision: accepted.  This is the first real two-module rehearsal of the
+Bellman/potential production shape: a heavy graph/potential shard exports a
+semantic object-level margin theorem, while a tiny terminal shard imports only
+that theorem surface plus local terminal certificates and exports a killed
+predicate.  Broad group/root modules should import terminal theorem shards,
+not graph/potential shards.

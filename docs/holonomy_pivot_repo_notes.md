@@ -1734,3 +1734,30 @@ Named object-nonpos export:
 
 This checkpoint does not split the file yet, but it validates the theorem
 surface that will be moved into a graph-cover shard.
+
+Split graph/terminal smoke:
+
+- `scripts/emit_bellman_graph_smoke.py` now accepts split-output flags:
+  `--graph-output`, `--terminal-output`, `--graph-import`,
+  `--graph-namespace`, and `--terminal-namespace`.
+- Generated split modules:
+
+  ```text
+  BellmanTopPairingGraphLanguage2GraphSmoke.lean
+  BellmanTopPairingGraphLanguage2TerminalSmoke.lean
+  ```
+
+- The graph shard exports the sampled object interface and object-level
+  nonpositive theorem.  The terminal shard imports it, defines the
+  start-violation cert map, and exports `graphSmoke_sampled_axis_rank_killed`.
+- Build telemetry:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `BellmanTopPairingGraphLanguage2GraphSmoke` | `1:08.77` | `8,960,900 kB` |
+  | `BellmanTopPairingGraphLanguage2TerminalSmoke` | `0:01.97` | `3,305,948 kB` |
+  | monolithic `BellmanTopPairingGraphLanguage2Smoke` | `1:09.57` | `8,857,984 kB` |
+
+The terminal shard being tiny and fast is the key architecture result.  The
+heavy Bellman table can stay in leaf graph shards, while group/root imports
+should point at terminal semantic killed shards.

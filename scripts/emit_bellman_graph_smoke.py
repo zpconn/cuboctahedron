@@ -102,6 +102,11 @@ def emit(
     output_path: Path,
     namespace: str,
     rank_bridge_limit: int = 1,
+    graph_output_path: Path | None = None,
+    terminal_output_path: Path | None = None,
+    graph_import: str | None = None,
+    graph_namespace: str | None = None,
+    terminal_namespace: str | None = None,
 ) -> None:
     if rank_bridge_limit < 0:
         raise SystemExit("--rank-bridge-limit must be nonnegative")
@@ -2087,6 +2092,11 @@ def emit(
                 "  BellmanAxisRankObjectCover.scaledMargin_nonpos_at_object",
                 "    sampledAxisRankObjectCoverEval idx hAccept",
                 "",
+                "theorem graphSmoke_sampled_axis_object_cover_eval_covers :",
+                "    forall rank, sampledContainsRank rank ->",
+                "      exists idx, sampledObjectAccepts idx /\\ sampledRankOf idx = rank :=",
+                "  sampledAxisRankObjectCoverEval.covers",
+                "",
                 "private def sampledObjectStartViolationCert :",
                 "    forall idx, sampledObjectAccepts idx ->",
                 "      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.ObjectStartViolationMarginCert",
@@ -2207,6 +2217,153 @@ def emit(
         f"end {namespace}",
         "",
     ])
+
+    def split_public_graph_lines(raw_lines: list[str]) -> list[str]:
+        public_names: set[str] = {
+            "SampledRankIndex",
+            "sampledRankOf",
+            "sampledContainsRank",
+            "sampledScaledMarginAtRank",
+            "sampledObjectForcedSeq",
+            "sampledObjectAccepts",
+        }
+        for info in rank_bridge_infos:
+            obj_name = str(info["obj_name"])
+            positive_name = str(info["positive_cert_name"])
+            public_names.add(str(info["rank_name"]))
+            public_names.add(f"{obj_name}Word")
+            public_names.add(f"{obj_name}_unrank_word")
+            public_names.add(positive_name)
+            public_names.add(f"{positive_name}_kernelCheck")
+            public_names.add(f"{positive_name}_axisForces")
+            public_names.add(f"{positive_name}_badFace_ne_xp")
+            public_names.add(f"{positive_name}_badFaceViolation")
+        out: list[str] = []
+        for line in raw_lines:
+            stripped = line.lstrip()
+            indent = line[: len(line) - len(stripped)]
+            if stripped.startswith("private inductive "):
+                name = stripped.split()[2]
+                if name in public_names:
+                    out.append(indent + stripped.removeprefix("private "))
+                    continue
+            if stripped.startswith("private def "):
+                name = stripped.split()[2]
+                if name in public_names:
+                    out.append(indent + stripped.removeprefix("private "))
+                    continue
+            if stripped.startswith("private theorem "):
+                name = stripped.split()[2]
+                if name in public_names:
+                    out.append(indent + stripped.removeprefix("private "))
+                    continue
+            out.append(line)
+        return out
+
+    def make_terminal_lines(
+        graph_import_name: str,
+        graph_namespace: str,
+        terminal_ns: str,
+    ) -> list[str]:
+        out = [
+            f"import {graph_import_name}",
+            "import Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge",
+            "",
+            "set_option maxHeartbeats 2000000",
+            "set_option maxRecDepth 4096",
+            "set_option linter.unusedSimpArgs false",
+            "set_option linter.unusedTactic false",
+            "set_option linter.unreachableTactic false",
+            "set_option linter.unnecessarySeqFocus false",
+            "",
+            f"namespace {terminal_ns}",
+            "",
+            f"open {graph_namespace}",
+            "",
+            "private def sampledObjectStartViolationCert :",
+            "    forall idx, sampledObjectAccepts idx ->",
+            "      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.ObjectStartViolationMarginCert",
+            "        (sampledRankOf idx)",
+            "        (sampledScaledMarginAtRank (sampledRankOf idx))",
+            "  | idx, _hAccept => by",
+            "      cases idx",
+        ]
+        for info in same_axis_infos:
+            positive_name = str(info["positive_cert_name"])
+            bad_face = str(info["positive_bad_face"])
+            out.extend([
+                "      · refine {",
+                f"          cert := {positive_name},",
+                "          word_eq := ?_,",
+                f"          kernel_check := {positive_name}_kernelCheck,",
+                f"          solve_check := {positive_name}_axisSolveCheck,",
+                f"          axis_forces := {positive_name}_axisForces,",
+                f"          badFace := Face.{bad_face},",
+                f"          badFace_ne_xp := {positive_name}_badFace_ne_xp,",
+                f"          badFace_violation := {positive_name}_badFaceViolation",
+                "        }",
+                f"        change {info['obj_name']}Word = unrankPairWord {info['rank_name']}",
+                f"        exact {info['obj_name']}_unrank_word.symm",
+            ])
+        out.extend([
+            "",
+            "theorem graphSmoke_sampled_axis_rank_killed",
+            "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",
+            "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
+            "  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs",
+            "    graphSmoke_sampled_axis_object_cover_eval_covers",
+            "    graphSmoke_sampled_axis_object_eval_scaled_margin_nonpos_at_object",
+            "    sampledObjectStartViolationCert hrank",
+            "",
+            "theorem bellmanGraphTerminalSmoke_builds : True := by",
+            "  exact True.intro",
+            "",
+            f"end {terminal_ns}",
+            "",
+        ])
+        return out
+
+    if graph_output_path is not None or terminal_output_path is not None:
+        if graph_output_path is None or terminal_output_path is None:
+            raise SystemExit(
+                "--graph-output and --terminal-output must be provided together"
+            )
+        if graph_import is None:
+            raise SystemExit("--graph-import is required for split output")
+        if graph_namespace is None:
+            graph_namespace = namespace
+        if terminal_namespace is None:
+            terminal_namespace = f"{graph_namespace}Terminal"
+        if len(same_axis_infos) < 2:
+            raise SystemExit("split output requires at least two same-axis bridge samples")
+        marker = "private def sampledObjectStartViolationCert :"
+        try:
+            marker_idx = lines.index(marker)
+        except ValueError as exc:
+            raise SystemExit("could not find sampled terminal-cert marker") from exc
+        graph_lines = split_public_graph_lines(lines[:marker_idx])
+        graph_lines = [
+            f"namespace {graph_namespace}" if line == f"namespace {namespace}" else line
+            for line in graph_lines
+        ]
+        graph_lines.extend([
+            "",
+            "theorem bellmanGraphSmoke_builds : True := by",
+            "  exact True.intro",
+            "",
+            f"end {graph_namespace}",
+            "",
+        ])
+        terminal_lines = make_terminal_lines(
+            graph_import,
+            graph_namespace,
+            terminal_namespace,
+        )
+        graph_output_path.parent.mkdir(parents=True, exist_ok=True)
+        graph_output_path.write_text("\n".join(graph_lines))
+        terminal_output_path.parent.mkdir(parents=True, exist_ok=True)
+        terminal_output_path.write_text("\n".join(terminal_lines))
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text("\n".join(lines))
 
@@ -2228,12 +2385,22 @@ def main() -> None:
             "rank/forced-axis bridge.  Use 0 for graph-only smoke."
         ),
     )
+    parser.add_argument("--graph-output", type=Path)
+    parser.add_argument("--terminal-output", type=Path)
+    parser.add_argument("--graph-import")
+    parser.add_argument("--graph-namespace")
+    parser.add_argument("--terminal-namespace")
     args = parser.parse_args()
     emit(
         args.input,
         args.output,
         args.namespace,
         rank_bridge_limit=args.rank_bridge_limit,
+        graph_output_path=args.graph_output,
+        terminal_output_path=args.terminal_output,
+        graph_import=args.graph_import,
+        graph_namespace=args.graph_namespace,
+        terminal_namespace=args.terminal_namespace,
     )
 
 

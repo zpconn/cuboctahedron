@@ -18,7 +18,7 @@ This file is not final generated coverage.  It verifies one bounded
 private Bellman graph emitted from the exact tri-source profiler.
 -/
 
-namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2GraphSmoke
 
 open Cuboctahedron
 
@@ -22185,9 +22185,9 @@ private theorem cls0000FaceSeqLanguage_labels_eq
   unfold smokeLabelsOfSeq
   exact faceLabelsInContributionOrder_eq_of_same smokeLabelOfFace hseq
 
-private def cls0000Rank : Fin numPairWords := ⟨517, by decide⟩
+def cls0000Rank : Fin numPairWords := ⟨517, by decide⟩
 
-private def cls0000Word : PairWord :=
+def cls0000Word : PairWord :=
   ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.dm11, PairId.d11m, PairId.d1m1, PairId.d1m1, PairId.d111, PairId.dm11, PairId.d11m], by decide⟩
 
 @[simp] theorem cls0000Word_get00_num :
@@ -22365,7 +22365,7 @@ private theorem cls0000FaceSeq_matches_unrank :
   rw [cls0000FaceSeq_unrank_pairword]
   exact pairWordOfSeq_matches cls0000FaceSeq
 
-private theorem cls0000_unrank_word :
+theorem cls0000_unrank_word :
     unrankPairWord cls0000Rank = cls0000Word := by
   rw [cls0000FaceSeq_unrank_pairword]
   exact cls0000Word_eq_pairWordOfSeq.symm
@@ -22865,7 +22865,7 @@ private def cls0000PositiveCertSeq : Vector Face 14 :=
   rw [hi]
   decide
 
-private def cls0000PositiveCert : NonIdCert where
+def cls0000PositiveCert : NonIdCert where
   word := cls0000Word
   axis := cls0000Axis
   kernel := cls0000Kernel
@@ -23003,7 +23003,7 @@ theorem cls0000PositiveCert_axisSolveCheck :
   norm_num [cls0000PositiveCert, cls0000Axis, checkAffineAxisSolveWitness, axisSolveMatrix,
     axisSolveVector, axisSolveRhs, mat4Mul, mat4Vec, mat4Id, matId, matSub]
 
-private theorem cls0000PositiveCert_axisForces :
+theorem cls0000PositiveCert_axisForces :
     AxisForcesForcedSeq cls0000PositiveCert.word cls0000PositiveCert.axis
       (faceVectorSeq cls0000PositiveCert.forcedSeq) := by
   change AxisForcesForcedSeq cls0000Word cls0000Axis
@@ -23015,7 +23015,7 @@ private theorem cls0000PositiveCert_axisForces :
   rw [← cls0000_unrank_word]
   exact cls0000AxisForces
 
-private theorem cls0000PositiveCert_kernelCheck :
+theorem cls0000PositiveCert_kernelCheck :
     checkKernelLineWitness (totalLinearOfPairWord cls0000PositiveCert.word)
       cls0000PositiveCert.axis cls0000PositiveCert.kernel = true := by
   change checkKernelLineWitness (totalLinearOfPairWord cls0000Word)
@@ -23023,11 +23023,11 @@ private theorem cls0000PositiveCert_kernelCheck :
   rw [← cls0000_unrank_word]
   exact cls0000KernelCheck
 
-private theorem cls0000PositiveCert_badFace_ne_xp :
+theorem cls0000PositiveCert_badFace_ne_xp :
     Face.ym ≠ Face.xp := by
   decide
 
-private theorem cls0000PositiveCert_badFaceViolation :
+theorem cls0000PositiveCert_badFaceViolation :
     offsetR Face.ym <=
       dot (normalR Face.ym)
         (vecRatToReal cls0000PositiveCert.p0) := by
@@ -23301,9 +23301,9 @@ private theorem cls0001FaceSeqLanguage_labels_eq
   unfold smokeLabelsOfSeq
   exact faceLabelsInContributionOrder_eq_of_same smokeLabelOfFace hseq
 
-private def cls0001Rank : Fin numPairWords := ⟨10613, by decide⟩
+def cls0001Rank : Fin numPairWords := ⟨10613, by decide⟩
 
-private def cls0001Word : PairWord :=
+def cls0001Word : PairWord :=
   ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.d11m, PairId.d1m1, PairId.d111, PairId.dm11, PairId.dm11, PairId.d11m, PairId.d1m1, PairId.d111, PairId.z], by decide⟩
 
 @[simp] theorem cls0001Word_get00_num :
@@ -23481,7 +23481,7 @@ private theorem cls0001FaceSeq_matches_unrank :
   rw [cls0001FaceSeq_unrank_pairword]
   exact pairWordOfSeq_matches cls0001FaceSeq
 
-private theorem cls0001_unrank_word :
+theorem cls0001_unrank_word :
     unrankPairWord cls0001Rank = cls0001Word := by
   rw [cls0001FaceSeq_unrank_pairword]
   exact cls0001Word_eq_pairWordOfSeq.symm
@@ -23981,7 +23981,7 @@ private def cls0001PositiveCertSeq : Vector Face 14 :=
   rw [hi]
   decide
 
-private def cls0001PositiveCert : NonIdCert where
+def cls0001PositiveCert : NonIdCert where
   word := cls0001Word
   axis := cls0001Axis
   kernel := cls0001Kernel
@@ -24119,7 +24119,7 @@ theorem cls0001PositiveCert_axisSolveCheck :
   norm_num [cls0001PositiveCert, cls0001Axis, checkAffineAxisSolveWitness, axisSolveMatrix,
     axisSolveVector, axisSolveRhs, mat4Mul, mat4Vec, mat4Id, matId, matSub]
 
-private theorem cls0001PositiveCert_axisForces :
+theorem cls0001PositiveCert_axisForces :
     AxisForcesForcedSeq cls0001PositiveCert.word cls0001PositiveCert.axis
       (faceVectorSeq cls0001PositiveCert.forcedSeq) := by
   change AxisForcesForcedSeq cls0001Word cls0001Axis
@@ -24131,7 +24131,7 @@ private theorem cls0001PositiveCert_axisForces :
   rw [← cls0001_unrank_word]
   exact cls0001AxisForces
 
-private theorem cls0001PositiveCert_kernelCheck :
+theorem cls0001PositiveCert_kernelCheck :
     checkKernelLineWitness (totalLinearOfPairWord cls0001PositiveCert.word)
       cls0001PositiveCert.axis cls0001PositiveCert.kernel = true := by
   change checkKernelLineWitness (totalLinearOfPairWord cls0001Word)
@@ -24139,11 +24139,11 @@ private theorem cls0001PositiveCert_kernelCheck :
   rw [← cls0001_unrank_word]
   exact cls0001KernelCheck
 
-private theorem cls0001PositiveCert_badFace_ne_xp :
+theorem cls0001PositiveCert_badFace_ne_xp :
     Face.ym ≠ Face.xp := by
   decide
 
-private theorem cls0001PositiveCert_badFaceViolation :
+theorem cls0001PositiveCert_badFaceViolation :
     offsetR Face.ym <=
       dot (normalR Face.ym)
         (vecRatToReal cls0001PositiveCert.p0) := by
@@ -24772,18 +24772,18 @@ private theorem trieNode0024Eval :
   unfold trieNode0024Labels trieNode0024Gain
   exact evalLabelStepFn_append trieNode0023Eval trieNode0024StepEval
 
-private inductive SampledRankIndex where
+inductive SampledRankIndex where
   | i0000
   | i0001
 
-private def sampledRankOf : SampledRankIndex -> Fin numPairWords
+def sampledRankOf : SampledRankIndex -> Fin numPairWords
   | SampledRankIndex.i0000 => cls0000Rank
   | SampledRankIndex.i0001 => cls0001Rank
 
-private def sampledContainsRank (rank : Fin numPairWords) : Prop :=
+def sampledContainsRank (rank : Fin numPairWords) : Prop :=
   exists idx : SampledRankIndex, sampledRankOf idx = rank
 
-private def sampledScaledMarginAtRank (rank : Fin numPairWords) : Int :=
+def sampledScaledMarginAtRank (rank : Fin numPairWords) : Int :=
   if rank = cls0000Rank then smokeScaledMargin SmokeObj.cls0000 else
   if rank = cls0001Rank then smokeScaledMargin SmokeObj.cls0001 else
   0
@@ -24915,11 +24915,11 @@ theorem graphSmoke_sampled_axis_rank_language_family_scaled_margin_nonpos
   BellmanAxisRankIndexedCover.scaledMargin_nonpos
     sampledAxisRankIndexedCover hrank hRealize hAxisConstraints
 
-private def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face
+def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face
   | SampledRankIndex.i0000 => cls0000FaceSeq
   | SampledRankIndex.i0001 => cls0001FaceSeq
 
-private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=
+def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=
   AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))
     cls0000Axis (sampledObjectForcedSeq idx)
 
@@ -25060,126 +25060,8 @@ theorem graphSmoke_sampled_axis_object_cover_eval_covers :
       exists idx, sampledObjectAccepts idx /\ sampledRankOf idx = rank :=
   sampledAxisRankObjectCoverEval.covers
 
-private def sampledObjectStartViolationCert :
-    forall idx, sampledObjectAccepts idx ->
-      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.ObjectStartViolationMarginCert
-        (sampledRankOf idx)
-        (sampledScaledMarginAtRank (sampledRankOf idx))
-  | idx, _hAccept => by
-      cases idx
-      · refine {
-          cert := cls0000PositiveCert,
-          word_eq := ?_,
-          kernel_check := cls0000PositiveCert_kernelCheck,
-          solve_check := cls0000PositiveCert_axisSolveCheck,
-          axis_forces := cls0000PositiveCert_axisForces,
-          badFace := Face.ym,
-          badFace_ne_xp := cls0000PositiveCert_badFace_ne_xp,
-          badFace_violation := cls0000PositiveCert_badFaceViolation
-        }
-        change cls0000Word = unrankPairWord cls0000Rank
-        exact cls0000_unrank_word.symm
-      · refine {
-          cert := cls0001PositiveCert,
-          word_eq := ?_,
-          kernel_check := cls0001PositiveCert_kernelCheck,
-          solve_check := cls0001PositiveCert_axisSolveCheck,
-          axis_forces := cls0001PositiveCert_axisForces,
-          badFace := Face.ym,
-          badFace_ne_xp := cls0001PositiveCert_badFace_ne_xp,
-          badFace_violation := cls0001PositiveCert_badFaceViolation
-        }
-        change cls0001Word = unrankPairWord cls0001Rank
-        exact cls0001_unrank_word.symm
-
-theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_start_violation
-    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
-    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
-  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
-    sampledAxisRankObjectCover sampledObjectStartViolationCert hrank
-
-theorem graphSmoke_sampled_axis_object_cover_eval_rank_killed_of_start_violation
-    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
-    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
-  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
-    sampledAxisRankObjectCoverEval sampledObjectStartViolationCert hrank
-
-theorem graphSmoke_sampled_axis_object_nonpos_eval_rank_killed_of_start_violation
-    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
-    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
-  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
-    sampledAxisRankObjectCoverEval.covers
-    (fun idx hAccept =>
-      graphSmoke_sampled_axis_object_eval_scaled_margin_nonpos_at_object
-        idx hAccept)
-    sampledObjectStartViolationCert hrank
-
-theorem graphSmoke_sampled_axis_object_cover_rank_killed_of_margin_positive
-    (hpositive :
-      forall idx seq,
-        sampledObjectAccepts idx ->
-        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->
-        StartsXp seq ->
-        totalLinear seq ≠ (matId : Mat3 Rat) ->
-        NonIdentityAxisConstraints seq ->
-        0 < sampledScaledMarginAtRank (sampledRankOf idx))
-    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
-    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
-  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_object_cover_margin_positive
-    sampledAxisRankObjectCover hpositive hrank
-
-theorem graphSmoke_sampled_axis_rank_killed_of_margin_positive
-    (hpositive :
-      forall idx seq,
-        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->
-        StartsXp seq ->
-        totalLinear seq ≠ (matId : Mat3 Rat) ->
-        NonIdentityAxisConstraints seq ->
-        0 < sampledScaledMarginAtRank (sampledRankOf idx))
-    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
-    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
-  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_indexed_cover_margin_positive
-    sampledAxisRankIndexedCover hpositive hrank
-
-private theorem graphSmoke_sampled_axis_rank_positive_margin
-    (idx : SampledRankIndex)
-    (seq : Step14 -> Face)
-    (hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)
-    (_hStart : StartsXp seq)
-    (_hLinear : totalLinear seq ≠ (matId : Mat3 Rat))
-    (hAxis : NonIdentityAxisConstraints seq) :
-    0 < sampledScaledMarginAtRank (sampledRankOf idx) := by
-  cases idx
-  · have hRealizeCert : SeqRealizesPairWord cls0000PositiveCert.word seq := by
-      change SeqRealizesPairWord cls0000Word seq
-      rw [← cls0000_unrank_word]
-      exact hRealize
-    exact
-      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.positive_margin_of_axis_forces_start_interior
-        hRealizeCert hAxis cls0000PositiveCert_kernelCheck
-        cls0000PositiveCert_axisSolveCheck cls0000PositiveCert_axisForces
-        cls0000PositiveCert_xpStartInterior_margin_positive
-  · have hRealizeCert : SeqRealizesPairWord cls0001PositiveCert.word seq := by
-      change SeqRealizesPairWord cls0001Word seq
-      rw [← cls0001_unrank_word]
-      exact hRealize
-    exact
-      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.positive_margin_of_axis_forces_start_interior
-        hRealizeCert hAxis cls0001PositiveCert_kernelCheck
-        cls0001PositiveCert_axisSolveCheck cls0001PositiveCert_axisForces
-        cls0001PositiveCert_xpStartInterior_margin_positive
-
-theorem graphSmoke_sampled_axis_rank_killed
-    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
-    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
-  graphSmoke_sampled_axis_object_nonpos_eval_rank_killed_of_start_violation
-    hrank
-
-theorem graphSmoke_argmax_object_scaled_margin_nonpos :
-    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=
-  graphSmoke_observed_objects_scaled_margin_nonpos
 
 theorem bellmanGraphSmoke_builds : True := by
   exact True.intro
 
-end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2GraphSmoke
