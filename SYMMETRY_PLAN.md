@@ -559,6 +559,55 @@ remaining Track 1 assembly gates are:
    (reducedShadowOfPairWord w) ≠ matId`;
 3. connect the square/triangular normal form to `totalLinearOfPairWord`.
 
+Lean reduced-shadow nonidentity checkpoint:
+
+- Extended `Cuboctahedron/Search/ShadowNormalFormMod3.lean` with the
+  no-adjacent invariant for scanner-produced reduced stacks:
+
+  ```lean
+  theorem shadowStateOfPairList_reducedRev_noAdjacent
+      (pairs : List PairId) :
+      NoAdjacentEq (shadowStateOfPairList pairs).reducedRev
+
+  theorem shadowStateOfPairList_reducedShadow_noAdjacent
+      (pairs : List PairId) :
+      NoAdjacentEq (ShadowState.reducedShadow (shadowStateOfPairList pairs))
+  ```
+
+- Extended `Cuboctahedron/Search/ShadowNormalFormScaled.lean` with:
+
+  ```lean
+  theorem reducedShadow_triProduct_ne_identity_of_nonempty
+      (pairs : List PairId)
+      (hne : ShadowState.reducedShadow (shadowStateOfPairList pairs) ≠ []) :
+      triProduct (ShadowState.reducedShadow (shadowStateOfPairList pairs)) ≠
+        (matId : Mat3 Rat)
+
+  theorem reducedShadowOfPairWord_triProduct_ne_identity_of_nonempty
+      (w : PairWord)
+      (hne : reducedShadowOfPairWord w ≠ []) :
+      triProduct (reducedShadowOfPairWord w) ≠ (matId : Mat3 Rat)
+  ```
+
+- Focused builds:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalFormMod3
+  lake build Cuboctahedron.Search.ShadowNormalFormScaled
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalFormMod3 (3.5s)
+  Built Cuboctahedron.Search.ShadowNormalFormScaled (4.7s)
+  Build completed successfully
+  ```
+
+Accepted: Track 1's reduced-shadow nonidentity theorem is in place.  The
+remaining bridge is the square/triangular normal-form decomposition of
+`pairLinearProductFactors`.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

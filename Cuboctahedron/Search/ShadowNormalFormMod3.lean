@@ -1,3 +1,4 @@
+import Mathlib.Data.List.Chain
 import Mathlib.Data.ZMod.Basic
 import Mathlib.Tactic
 import Cuboctahedron.Search.ShadowNormalFormTriangular
@@ -49,6 +50,80 @@ def NoAdjacentEq : List TriLetter -> Prop
   | [] => True
   | [_] => True
   | a :: b :: rest => a ≠ b ∧ NoAdjacentEq (b :: rest)
+
+theorem NoAdjacentEq_iff_isChain_ne :
+    ∀ letters : List TriLetter,
+      NoAdjacentEq letters ↔ letters.IsChain (fun a b => a ≠ b)
+  | [] => by
+      simp [NoAdjacentEq]
+  | [_] => by
+      simp [NoAdjacentEq]
+  | a :: b :: rest => by
+      simp [NoAdjacentEq, List.isChain_cons_cons,
+        NoAdjacentEq_iff_isChain_ne (b :: rest)]
+
+theorem NoAdjacentEq_reverse {letters : List TriLetter}
+    (h : NoAdjacentEq letters) :
+    NoAdjacentEq letters.reverse := by
+  rw [NoAdjacentEq_iff_isChain_ne, List.isChain_reverse]
+  have hchain := (NoAdjacentEq_iff_isChain_ne letters).mp h
+  exact hchain.imp (fun a b hne hEq => hne hEq.symm)
+
+theorem NoAdjacentEq_tail {head : TriLetter} {tail : List TriLetter}
+    (h : NoAdjacentEq (head :: tail)) :
+    NoAdjacentEq tail := by
+  cases tail with
+  | nil =>
+      trivial
+  | cons next rest =>
+      exact h.2
+
+theorem pushReduced_noAdjacent (t : TriLetter) (stack : List TriLetter)
+    (h : NoAdjacentEq stack) :
+    NoAdjacentEq (ShadowState.pushReduced t stack) := by
+  cases stack with
+  | nil =>
+      simp [ShadowState.pushReduced, NoAdjacentEq]
+  | cons u rest =>
+      by_cases htu : t = u
+      · subst u
+        simpa [ShadowState.pushReduced] using NoAdjacentEq_tail h
+      · simp [ShadowState.pushReduced, htu, NoAdjacentEq, h]
+
+theorem scanPair_preserves_reducedRev_noAdjacent
+    (state : ShadowState) (pair : PairId)
+    (h : NoAdjacentEq state.reducedRev) :
+    NoAdjacentEq (state.scanPair pair).reducedRev := by
+  unfold ShadowState.scanPair
+  cases htri : TriLetter.ofPairId? pair with
+  | none =>
+      simpa [htri] using h
+  | some tri =>
+      simpa [htri] using
+        pushReduced_noAdjacent (tri.act state.parity) state.reducedRev h
+
+theorem foldl_scanPair_reducedRev_noAdjacent
+    (pairs : List PairId) (state : ShadowState)
+    (h : NoAdjacentEq state.reducedRev) :
+    NoAdjacentEq (pairs.foldl ShadowState.scanPair state).reducedRev := by
+  induction pairs generalizing state with
+  | nil =>
+      exact h
+  | cons pair rest ih =>
+      rw [List.foldl_cons]
+      exact ih (state.scanPair pair)
+        (scanPair_preserves_reducedRev_noAdjacent state pair h)
+
+theorem shadowStateOfPairList_reducedRev_noAdjacent
+    (pairs : List PairId) :
+    NoAdjacentEq (shadowStateOfPairList pairs).reducedRev := by
+  exact foldl_scanPair_reducedRev_noAdjacent pairs ShadowState.initial trivial
+
+theorem shadowStateOfPairList_reducedShadow_noAdjacent
+    (pairs : List PairId) :
+    NoAdjacentEq (ShadowState.reducedShadow (shadowStateOfPairList pairs)) := by
+  simpa [ShadowState.reducedShadow] using
+    NoAdjacentEq_reverse (shadowStateOfPairList_reducedRev_noAdjacent pairs)
 
 theorem triNormalZ3_x_ne_zero (t : TriLetter) :
     (triNormalZ3 t).x ≠ 0 := by

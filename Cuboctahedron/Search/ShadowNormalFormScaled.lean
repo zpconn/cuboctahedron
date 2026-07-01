@@ -173,4 +173,27 @@ theorem triProduct_ne_identity_of_noAdjacent
   exact triScaledProductInt_ne_scaledIdentity_of_noAdjacent head tail hred
     (triScaledProductInt_eq_scaledIdentity_of_triProduct_eq_identity h)
 
+theorem reducedShadow_triProduct_ne_identity_of_nonempty
+    (pairs : List PairId)
+    (hne : ShadowState.reducedShadow (shadowStateOfPairList pairs) ≠ []) :
+    triProduct (ShadowState.reducedShadow (shadowStateOfPairList pairs)) ≠
+      (matId : Mat3 Rat) := by
+  let letters := ShadowState.reducedShadow (shadowStateOfPairList pairs)
+  cases hletters : letters with
+  | nil =>
+      exact False.elim (hne hletters)
+  | cons head tail =>
+      have hred : NoAdjacentEq (head :: tail) := by
+        simpa [letters, hletters] using
+          shadowStateOfPairList_reducedShadow_noAdjacent pairs
+      simpa [letters, hletters] using
+        triProduct_ne_identity_of_noAdjacent head tail hred
+
+theorem reducedShadowOfPairWord_triProduct_ne_identity_of_nonempty
+    (w : PairWord)
+    (hne : reducedShadowOfPairWord w ≠ []) :
+    triProduct (reducedShadowOfPairWord w) ≠ (matId : Mat3 Rat) := by
+  simpa [reducedShadowOfPairWord, shadowStateOfPairWord] using
+    reducedShadow_triProduct_ne_identity_of_nonempty (startedPairFactors w) hne
+
 end Cuboctahedron

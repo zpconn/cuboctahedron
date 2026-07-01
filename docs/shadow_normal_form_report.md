@@ -571,3 +571,54 @@ Accepted: nonempty no-adjacent-equal triangular words are Lean-proved to have
 nonidentity rational triangular product.  The remaining Track 1 assembly work
 is to prove reduced shadows are `NoAdjacentEq`, then use this theorem in the
 full pair-word identity classifier.
+
+## Reduced-Shadow Nonidentity Checkpoint
+
+The no-adjacent invariant for scanner-produced reduced shadows is now
+Lean-checked in `Cuboctahedron/Search/ShadowNormalFormMod3.lean`:
+
+```lean
+theorem shadowStateOfPairList_reducedRev_noAdjacent
+    (pairs : List PairId) :
+    NoAdjacentEq (shadowStateOfPairList pairs).reducedRev
+
+theorem shadowStateOfPairList_reducedShadow_noAdjacent
+    (pairs : List PairId) :
+    NoAdjacentEq (ShadowState.reducedShadow (shadowStateOfPairList pairs))
+```
+
+The scaled module then applies the rational nonidentity theorem directly to
+scanner outputs:
+
+```lean
+theorem reducedShadow_triProduct_ne_identity_of_nonempty
+    (pairs : List PairId)
+    (hne : ShadowState.reducedShadow (shadowStateOfPairList pairs) ≠ []) :
+    triProduct (ShadowState.reducedShadow (shadowStateOfPairList pairs)) ≠
+      (matId : Mat3 Rat)
+
+theorem reducedShadowOfPairWord_triProduct_ne_identity_of_nonempty
+    (w : PairWord)
+    (hne : reducedShadowOfPairWord w ≠ []) :
+    triProduct (reducedShadowOfPairWord w) ≠ (matId : Mat3 Rat)
+```
+
+Focused builds:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalFormMod3
+lake build Cuboctahedron.Search.ShadowNormalFormScaled
+```
+
+Results:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalFormMod3 (3.5s)
+Built Cuboctahedron.Search.ShadowNormalFormScaled (4.7s)
+Build completed successfully
+```
+
+Accepted: the reduced-shadow side of the identity classifier is now in place.
+The remaining Track 1 bridge is the square/triangular normal-form product
+decomposition connecting `pairLinearProductFactors` to final square parity and
+the acted triangular `triProduct`.
