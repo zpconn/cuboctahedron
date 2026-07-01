@@ -1,0 +1,243 @@
+{
+  "arithmetic": "exact Fraction/integer arithmetic; no floating point",
+  "counts": {
+    "bad_pair_balance": 36342,
+    "exact_identity": 1029,
+    "exact_nonidentity": 98971,
+    "final_axis_reject": 8243,
+    "forced_zero_denominator": 52135,
+    "no_fixed_axis": 0,
+    "residual_survivors": 2251,
+    "shadow_identity": 1029,
+    "shadow_linear_mismatches": 0,
+    "shadow_nonidentity": 98971
+  },
+  "elapsed_seconds": 7.9344401359558105,
+  "end": 90100000,
+  "jobs": 4,
+  "mode": "nonidentity-residual-axis-profile",
+  "product_order": "R(w[0]) * ... * R(w[12]) * R(x)",
+  "residual_signatures": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 970,
+    "top": [
+      {
+        "count": 21,
+        "key": "residual|reduced=dm11 d111 d11m d1m1 d11m d1m1|axis=8,5,-9|signs=+---+-+-+-+-+|failure=axis_misses_start_interior"
+      },
+      {
+        "count": 20,
+        "key": "residual|reduced=dm11 d111 d11m dm11 d111 d1m1|axis=4,-5,3|signs=+-++---++-+--|failure=axis_misses_start_interior"
+      },
+      {
+        "count": 16,
+        "key": "residual|reduced=dm11 d111 d11m dm11 d111 d1m1|axis=4,-5,3|signs=+-++--+-+-+--|failure=axis_misses_start_interior"
+      },
+      {
+        "count": 16,
+        "key": "residual|reduced=dm11 d111 d11m dm11 d111 d1m1|axis=4,-5,3|signs=+-++---+-++--|failure=axis_misses_start_interior"
+      },
+      {
+        "count": 14,
+        "key": "residual|reduced=dm11 d111 d11m d1m1|axis=2,-1,0|signs=+-++--+-+-+--|failure=axis_misses_start_interior"
+      }
+    ]
+  },
+  "samples": {
+    "terminal_axis_misses_start_interior": [
+      {
+        "axis": "-20/33,-1/3,-1",
+        "failure": "axis_misses_start_interior",
+        "failure_details": {
+          "bad_face": "zp",
+          "canonical_bad_face": "yp",
+          "margin": "-3054/4025",
+          "p0": "1,-307/4025,7079/4025",
+          "solve_shape": "7dcb5b62a517b2a8"
+        },
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-3054/4025",
+        "forced_seq": [
+          "xp",
+          "tpmm",
+          "tmmm",
+          "tppm",
+          "yp",
+          "tpmp",
+          "tmpp",
+          "ym",
+          "xm",
+          "zm",
+          "tppp",
+          "tmpm",
+          "zp",
+          "tmmp"
+        ],
+        "forced_signs": "--++++---+-+-",
+        "rank": 90050050,
+        "reduced_shadow": "dm11 d111 d11m d111 d11m d1m1 d111 d1m1",
+        "word": "dm11,d111,d11m,y,d1m1,dm11,y,x,z,d111,d1m1,z,d11m"
+      }
+    ],
+    "terminal_first_hit_mismatch": [
+      {
+        "axis": "-29/8,27/8,-1",
+        "failure": "first_hit_mismatch",
+        "failure_details": {
+          "actual": "yp",
+          "expected": "tmpp",
+          "expected_time": "2743/16704",
+          "step": 0,
+          "time": "7907/84564",
+          "witness": "actualBeforeExpected:pos:3299/46656"
+        },
+        "family_key": "firstHitMismatch|step=0|faces=tmmm,ym|actualBeforeExpected:pos:3299/46656",
+        "forced_seq": [
+          "xp",
+          "tmpp",
+          "tmmm",
+          "tppm",
+          "zp",
+          "xm",
+          "ym",
+          "tpmm",
+          "tppp",
+          "zm",
+          "tmpm",
+          "yp",
+          "tmmp",
+          "tpmp"
+        ],
+        "forced_signs": "+-++---+--+-+",
+        "rank": 90064578,
+        "reduced_shadow": "dm11 d111 d11m dm11 d111 dm11 d1m1 d11m",
+        "word": "dm11,d111,d11m,z,x,y,dm11,d111,z,d1m1,y,d11m,d1m1"
+      }
+    ],
+    "terminal_hit_tie": [
+      {
+        "axis": "-2,1,0",
+        "failure": "hit_tie",
+        "failure_details": {
+          "actual": [
+            "yp",
+            "tmpp"
+          ],
+          "expected": "tmpp",
+          "step": 0,
+          "time": "9/112"
+        },
+        "family_key": "hitTie|step=0|faces=tmmm,tmmm,ym|time=pos:9/112",
+        "forced_seq": [
+          "xp",
+          "tmpp",
+          "tmmm",
+          "tppm",
+          "ym",
+          "tppp",
+          "xm",
+          "tpmm",
+          "zp",
+          "zm",
+          "tpmp",
+          "tmpm",
+          "yp",
+          "tmmp"
+        ],
+        "forced_signs": "+-+-+--+-+-+-",
+        "rank": 90013012,
+        "reduced_shadow": "dm11 d111 d11m d1m1",
+        "word": "dm11,d111,d11m,y,d111,x,dm11,z,z,d1m1,d1m1,y,d11m"
+      }
+    ]
+  },
+  "scanned": 100000,
+  "schema_version": 1,
+  "start": 90000000,
+  "terminal_by_axis": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 158,
+    "top": [
+      {
+        "count": 261,
+        "key": "axis_misses_start_interior|axis=2,-1,0"
+      },
+      {
+        "count": 208,
+        "key": "axis_misses_start_interior|axis=8,5,-9"
+      },
+      {
+        "count": 200,
+        "key": "axis_misses_start_interior|axis=4,-5,3"
+      },
+      {
+        "count": 117,
+        "key": "axis_misses_start_interior|axis=5,-9,2"
+      },
+      {
+        "count": 104,
+        "key": "axis_misses_start_interior|axis=6,-7,-5"
+      }
+    ]
+  },
+  "terminal_by_reduced_shadow": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 159,
+    "top": [
+      {
+        "count": 236,
+        "key": "axis_misses_start_interior|reduced=dm11 d111 d11m d1m1"
+      },
+      {
+        "count": 208,
+        "key": "axis_misses_start_interior|reduced=dm11 d111 d11m d1m1 d11m d1m1"
+      },
+      {
+        "count": 200,
+        "key": "axis_misses_start_interior|reduced=dm11 d111 d11m dm11 d111 d1m1"
+      },
+      {
+        "count": 117,
+        "key": "axis_misses_start_interior|reduced=dm11 d111 d11m d111 d1m1 d11m"
+      },
+      {
+        "count": 104,
+        "key": "axis_misses_start_interior|reduced=dm11 d111 d11m dm11 d1m1 d111"
+      }
+    ]
+  },
+  "terminal_failure_counts": {
+    "axis_misses_start_interior": 2200,
+    "first_hit_mismatch": 44,
+    "hit_tie": 7
+  },
+  "terminal_family_keys": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 779,
+    "top": [
+      {
+        "count": 30,
+        "key": "axisMissesStartInterior|badFace=yp|margin=neg:-167/100"
+      },
+      {
+        "count": 28,
+        "key": "axisMissesStartInterior|badFace=yp|margin=neg:-437/100"
+      },
+      {
+        "count": 28,
+        "key": "axisMissesStartInterior|badFace=yp|margin=neg:-5/4"
+      },
+      {
+        "count": 24,
+        "key": "axisMissesStartInterior|badFace=yp|margin=neg:-91/66"
+      },
+      {
+        "count": 20,
+        "key": "axisMissesStartInterior|badFace=yp|margin=neg:-23/4"
+      }
+    ]
+  }
+}

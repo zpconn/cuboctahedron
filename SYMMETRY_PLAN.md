@@ -766,6 +766,47 @@ Forced-axis cross-window checkpoint:
   enough.  If not, empty-cone/Gordan prefix pruning becomes the primary
   nontranslation compression tool.
 
+Nonidentity residual-axis checkpoint:
+
+- Added `scripts/nonidentity_residual_axis_profile.py`, an exact untrusted
+  profiler for the forced-balance survivors left by
+  `scripts/forced_axis_sign_profile.py`.
+- It uses the same product order and reduced-shadow split, then runs the exact
+  terminal affine-axis candidate classifier on only the survivors.  The
+  profiler records capped terminal-family keys and residual signatures; it does
+  not emit Lean evidence.
+- Added `docs/nonidentity_residual_axis_profile_report.md`.
+- Calibration runs:
+
+  ```text
+  [0,100):              residuals=6     terminal keys=4     signatures=6
+  [0,10000):            residuals=1014  terminal keys=342   signatures=862
+  [0,100000):           residuals=9036  terminal keys=1663  signatures=6330
+  [10000000,10100000):  residuals=4143  terminal keys=972   signatures=3258
+  [30000000,30100000):  residuals=961   terminal keys=714   signatures=646
+  [60000000,60100000):  residuals=1471  terminal keys=629   signatures=680
+  [90000000,90100000):  residuals=2251  terminal keys=779   signatures=970
+  ```
+
+- All calibration windows had zero shadow/linear mismatches.  The 100k windows
+  stayed memory-light under 4-worker bounded parallelism, with reported max RSS
+  between roughly `24 MB` and `29 MB`.
+- Accepted as diagnostic infrastructure: residual terminal failures are
+  dominated by exact start-interior misses, with first-hit mismatches and rare
+  hit ties as smaller buckets.
+- Rejected as a direct Lean-emission coordinate: the current coarse terminal
+  key fragments too much.  The first 100k ranks already produce `1,663`
+  terminal-family keys from `9,036` residual survivors.  Scaling that key would
+  exceed the target leaf budget.
+- Next nontranslation strategy change:
+  1. keep the forced-axis filter as a cheap front-end;
+  2. do not emit terminal residual leaves keyed by exact margins;
+  3. either quotient start-interior misses by symbolic separating-face /
+     inequality templates, or promote signed-state empty-cone/Gordan prefix
+     pruning before the affine-axis terminal stage;
+  4. require a new profiler to report a low-thousands-or-smaller semantic
+     family count before any residual Lean generation.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
