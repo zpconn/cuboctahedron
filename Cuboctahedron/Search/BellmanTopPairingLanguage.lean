@@ -5,11 +5,10 @@ import Cuboctahedron.Search.NonIdentityCase
 /-!
 Semantic language predicates for the current top-pairing Bellman family.
 
-This module starts collecting the Lean-side predicates corresponding to the
-accepted Bellman closure diagnostics.  It is deliberately small: the first
-component is the cancellation-pairing language, and the second is the observed
-contribution-order face schedule.  Later slices should add the square-gap,
-local forced-axis, and canonical-bad-face components.
+This module collects the Lean-side predicates corresponding to the accepted
+Bellman closure diagnostics.  It is deliberately small: these predicates are
+the semantic language components that future generated membership theorems
+will use before constructing private Bellman objects.
 -/
 
 namespace Cuboctahedron
@@ -103,6 +102,37 @@ def TopPairingLocalAxisLabels (labels : List Face) : Prop :=
 def TopPairingLocalAxisSeq (seq : Step14 -> Face) : Prop :=
   TopPairingLocalAxisLabels (faceLabelsInContributionOrder (fun f => f) seq)
 
+def startedCanonicalSingleFace : Face -> Face
+  | Face.xp => Face.xp
+  | Face.xm => Face.xm
+  | Face.yp => Face.yp
+  | Face.ym => Face.yp
+  | Face.zp => Face.yp
+  | Face.zm => Face.yp
+  | Face.tmmm => Face.tmmm
+  | Face.tmmp => Face.tmmm
+  | Face.tmpm => Face.tmmm
+  | Face.tmpp => Face.tmmm
+  | Face.tpmm => Face.tpmm
+  | Face.tpmp => Face.tpmm
+  | Face.tppm => Face.tpmm
+  | Face.tppp => Face.tpmm
+
+def topPairingCanonicalBadFace : Face :=
+  Face.yp
+
+def TopPairingCanonicalBadFaceCompatible (badFace : Face) : Prop :=
+  startedCanonicalSingleFace badFace = topPairingCanonicalBadFace
+
+theorem topPairingCanonicalBadFaceCompatible_ym :
+    TopPairingCanonicalBadFaceCompatible Face.ym := by
+  rfl
+
+theorem not_topPairingCanonicalBadFaceCompatible_tpmm :
+    ¬ TopPairingCanonicalBadFaceCompatible Face.tpmm := by
+  intro h
+  cases h
+
 structure TopPairingScheduleLanguageAtRank (rank : Fin numPairWords) : Prop where
   cancellation :
     Cuboctahedron.TopPairingLanguageAtRank rank
@@ -115,5 +145,11 @@ structure TopPairingScheduleLanguageAtRank (rank : Fin numPairWords) : Prop wher
   localAxis :
     TopPairingLocalAxisLabels
       (faceLabelsInContributionOrder (fun f => f) (canonicalSeqOfPairWord (unrankPairWord rank)))
+
+structure TopPairingClosedLanguageAtRank
+    (rank : Fin numPairWords) (badFace : Face) : Prop extends
+    TopPairingScheduleLanguageAtRank rank where
+  canonicalBadFace :
+    TopPairingCanonicalBadFaceCompatible badFace
 
 end Cuboctahedron

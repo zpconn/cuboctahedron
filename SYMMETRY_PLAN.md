@@ -50598,3 +50598,75 @@ Decision: accepted as the third Lean-side semantic language component.  The
 remaining language-level piece is canonical bad-face compatibility.  After
 that, the next proof-bearing step is to construct
 `BellmanNonposStartViolationObject`s from the combined language.
+
+### Holonomy/Bellman Pivot - canonical bad-face language core accepted
+
+Extended `Cuboctahedron/Search/BellmanTopPairingLanguage.lean` with the last
+Lean-side language component suggested by the corrected Bellman closure-gap
+audit: canonical bad-face compatibility.
+
+The profiler canonicalizes a singleton bad face under the started-face `D4`
+action and the standard face order.  The Lean predicate now records the same
+single-face classes directly:
+
+```lean
+def startedCanonicalSingleFace : Face -> Face
+def topPairingCanonicalBadFace : Face
+def TopPairingCanonicalBadFaceCompatible (badFace : Face) : Prop
+```
+
+For this top-pairing family, `topPairingCanonicalBadFace = Face.yp`.  This is
+intentionally not the same as requiring the actual terminal violation face to
+be literally `Face.yp`; the current terminal objects can use `Face.ym`, whose
+started-D4 singleton canonical representative is `Face.yp`.  The known missing
+transition in the closure audit used actual/canonical class `Face.tpmm`, and
+the module now includes a tiny negative check:
+
+```lean
+theorem topPairingCanonicalBadFaceCompatible_ym :
+  TopPairingCanonicalBadFaceCompatible Face.ym
+
+theorem not_topPairingCanonicalBadFaceCompatible_tpmm :
+  ¬ TopPairingCanonicalBadFaceCompatible Face.tpmm
+```
+
+The combined language surface is now:
+
+```lean
+structure TopPairingClosedLanguageAtRank
+    (rank : Fin numPairWords) (badFace : Face) : Prop extends
+    TopPairingScheduleLanguageAtRank rank where
+  canonicalBadFace :
+    TopPairingCanonicalBadFaceCompatible badFace
+```
+
+Rejected mini-attempt: the negative `tpmm` check was first written as
+`by decide`, but Lean did not synthesize a decidable instance for the negated
+compatibility proposition.  The final proof is structural (`intro h; cases h`)
+and keeps the module independent of generated decision procedures.
+
+Focused checks:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| first `lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `0:09.19` | `3,263,644 kB` | failed, tiny decidability proof |
+| final `lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `0:02.20` | `3,296,056 kB` | passed |
+| `rg -n "sorry\|admit\|axiom\|native_decide\|unsafe\|Float\|epsilon" Cuboctahedron/Search/BellmanTopPairingLanguage.lean` | - | - | no hits |
+| `git diff --check` | - | - | passed |
+
+Decision: accepted.  The top-pairing semantic language now has the four
+components called for by the closure diagnostics:
+
+```text
+cancellation pairing
+observed contribution-order step schedule
+observed square-gap schedule
+local forced-axis compatibility
+canonical bad-face compatibility
+```
+
+Next proof-bearing Bellman step: use this closed semantic language to
+construct `BellmanNonposStartViolationObject`s (or the corresponding
+`BellmanNonposStartViolationObjectMembership`) for the sampled top-pairing
+family, replacing the sampled rank/object existential predicate with a
+language-to-object theorem.

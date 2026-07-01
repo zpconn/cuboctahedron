@@ -2419,3 +2419,39 @@ Top-pairing local forced-axis language:
 Remaining before terminal object membership: canonical bad-face compatibility
 and construction of `BellmanNonposStartViolationObject`s from the combined
 language.
+
+Top-pairing canonical bad-face language:
+
+- Extended `Cuboctahedron/Search/BellmanTopPairingLanguage.lean` with the
+  singleton bad-face canonicalization used by the corrected Bellman
+  closure-gap audit.
+- New definitions:
+
+  ```lean
+  startedCanonicalSingleFace
+  topPairingCanonicalBadFace
+  TopPairingCanonicalBadFaceCompatible
+  TopPairingClosedLanguageAtRank
+  ```
+
+- For this family, `topPairingCanonicalBadFace = Face.yp`.  This predicate is
+  intentionally a D4 singleton-class predicate: actual bad face `Face.ym` is
+  compatible, while the known missing-transition class `Face.tpmm` is not.
+- Small checks in the module:
+
+  ```lean
+  topPairingCanonicalBadFaceCompatible_ym
+  not_topPairingCanonicalBadFaceCompatible_tpmm
+  ```
+
+- Focused check:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `0:02.20` | `3,296,056 kB` |
+
+The closed top-pairing language now contains cancellation pairing, observed
+step schedule, square-gap schedule, local forced-axis compatibility, and
+canonical bad-face compatibility.  The next proof-bearing Bellman step is to
+construct `BellmanNonposStartViolationObject`s from this combined language
+instead of from sampled rank/object existentials.
