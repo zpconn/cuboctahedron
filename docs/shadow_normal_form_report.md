@@ -35,6 +35,7 @@ triangular projective letters.
 | `[90000000,90001000)` | 1,000 | 1 | 1 | 0 | 0.247s |
 | window runner `[0,20000)`, 4 jobs | 20,000 | 1,091 | 1,091 | 0 | 1.239s |
 | window runner `[0,100000)`, 4 jobs | 100,000 | 5,565 | 5,565 | 0 | 6.106s |
+| full window runner `[0,97297200)`, 16 jobs | 97,297,200 | 2,468,088 | 2,468,088 | 0 | 1842.949s |
 
 All sampled windows satisfy:
 
@@ -73,16 +74,52 @@ as expected from the pair counts together with the final started `X` factor.
 - `scripts/generated/shadow_windows_calibration_0_100000/window_000025000_000050000.json`
 - `scripts/generated/shadow_windows_calibration_0_100000/window_000050000_000075000.json`
 - `scripts/generated/shadow_windows_calibration_0_100000/window_000075000_000100000.json`
+- `scripts/generated/shadow_windows_full.json`
+- `scripts/generated/shadow_windows_full.md`
+- `scripts/generated/shadow_windows_full/`
 
 ## Decision
 
-The sampled exact evidence supports continuing with Track 1.  The next step is
-to run the full exact scan without turning Lean into the executor:
+The full exact external scan passed the Track 1 profiler gate:
 
-1. use `scripts/run_shadow_normal_form_windows.py` with checkpoint windows;
-2. keep worker count small unless measured RSS remains trivial;
-3. require zero mismatches and empty-shadow count `2,468,088`;
-4. only then begin the Lean square-parity / triangular-shadow core theorem.
+```text
+reducedShadow(word) = []  iff  totalLinearOfPairWord(word) = I
+```
+
+for every one of the `97,297,200` pair words.
+
+The full confusion matrix was:
+
+| shadow / linear | identity | nonidentity |
+| --- | ---: | ---: |
+| empty | 2,468,088 | 0 |
+| nonempty | 0 | 94,829,112 |
+
+The final parity distribution was exactly:
+
+```text
+000: 97,297,200
+```
+
+This does not prove the theorem in Lean, but it validates that the next Lean
+formalization target should be the square-parity / triangular-shadow normal
+form rather than more rank-interval evidence.
+
+Next steps:
+
+1. implement a small Lean module for square parity, triangular projective
+   letters, shadow scan, and stack reduction;
+2. prove the product-order bridge to `totalLinearOfPairWord`;
+3. prove the mod-3 triangular theorem that a nonempty reduced triangular
+   shadow cannot have identity linear product;
+4. derive the Lean theorem:
+
+   ```lean
+   totalLinearOfPairWord w = (matId : Mat3 Rat) <->
+     reduceShadow (triangularShadow w) = []
+   ```
+
+   with the exact theorem shape adapted to the final definitions.
 
 The `[0,100000)` calibration used `/usr/bin/time -v` and reported:
 
@@ -96,3 +133,12 @@ Maximum resident set size: 18,240 kB
 At this throughput, a full external scan should be feasible as a low-memory
 profiling job.  It is still not a Lean proof; it is the acceptance gate before
 formalizing the classifier.
+
+The full scan used `/usr/bin/time -v` and reported:
+
+```text
+User time: 28,898.10s
+Wall time: 30:42.98
+CPU: 1568%
+Maximum resident set size: 20,160 kB
+```

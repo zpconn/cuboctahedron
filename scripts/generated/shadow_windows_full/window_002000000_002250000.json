@@ -1,0 +1,51 @@
+{
+  "confusion": {
+    "empty_and_identity": 6125,
+    "empty_and_nonidentity": 0,
+    "nonempty_and_identity": 0,
+    "nonempty_and_nonidentity": 243875
+  },
+  "distinct_reduced_shadows": 3951,
+  "elapsed_seconds": 73.44440841674805,
+  "empty_shadow_count": 6125,
+  "end": 2250000,
+  "expected_full_identity_count": 2468088,
+  "final_parity_distribution": [
+    [
+      "000",
+      250000
+    ]
+  ],
+  "identity_count": 6125,
+  "mismatch_count": 0,
+  "mismatch_examples": [],
+  "mode": "shadow-normal-form-profile",
+  "product_order": "R(w[0]) * ... * R(w[12]) * R(x)",
+  "reduced_length_distribution": [
+    [
+      0,
+      6125
+    ],
+    [
+      2,
+      29571
+    ],
+    [
+      4,
+      65227
+    ],
+    [
+      6,
+      87192
+    ],
+    [
+      8,
+      61885
+    ]
+  ],
+  "reused_existing_checkpoint": false,
+  "scanned": 250000,
+  "schema_version": 1,
+  "start": 2000000,
+  "top_reduced_shadows": []
+}

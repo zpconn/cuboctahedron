@@ -148,10 +148,14 @@ Initial Track 1 implementation checkpoint:
 - The 4-worker `[0,100000)` calibration also had zero mismatches:
   `100,000` ranks scanned, `5,565` empty shadows, `5,565` identity products,
   elapsed `6.106s`; `/usr/bin/time -v` reported max RSS `18,240 kB`.
+- The full 16-worker checkpointed external scan over `[0,97297200)` passed:
+  `97,297,200` ranks scanned, `2,468,088` empty shadows,
+  `2,468,088` identity products, `0` mismatches, elapsed `30:42.98`;
+  `/usr/bin/time -v` reported max RSS `20,160 kB`.
 
-Next gate: run the full checkpointed exact external scan.  Do not start Lean
-formalization of the shadow theorem until the full scan reports zero mismatches
-and exactly `2,468,088` empty shadows.
+Next gate: implement the Lean square-parity / triangular-shadow core theorem.
+The full external profiler gate is now passed, but it remains untrusted
+evidence; Lean still needs the actual normal-form proof.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

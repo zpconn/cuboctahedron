@@ -1,0 +1,51 @@
+{
+  "checkpoint_dir": "scripts/generated/shadow_windows_full",
+  "completed_windows": 390,
+  "confusion": {
+    "empty_and_identity": 2468088,
+    "empty_and_nonidentity": 0,
+    "nonempty_and_identity": 0,
+    "nonempty_and_nonidentity": 94829112
+  },
+  "elapsed_seconds": 1842.9488530158997,
+  "empty_shadow_count": 2468088,
+  "end": 97297200,
+  "final_parity_distribution": [
+    [
+      "000",
+      97297200
+    ]
+  ],
+  "identity_count": 2468088,
+  "jobs": 16,
+  "mismatch_count": 0,
+  "mismatch_examples": [],
+  "mode": "shadow-normal-form-window-aggregate",
+  "reduced_length_distribution": [
+    [
+      0,
+      2468088
+    ],
+    [
+      2,
+      12470624
+    ],
+    [
+      4,
+      27025472
+    ],
+    [
+      6,
+      33875648
+    ],
+    [
+      8,
+      21457368
+    ]
+  ],
+  "reused_windows": 0,
+  "scanned": 97297200,
+  "schema_version": 1,
+  "start": 0,
+  "window_size": 250000
+}
