@@ -639,6 +639,35 @@ progress or source-position progress.  Do not add exact affine RHS, solved
 start points, total affine maps, or full prefix words to the production state
 unless every coarser semantic progress coordinate fails.
 
+Triangular source-progress checkpoint:
+
+- `with-step-linear` was tested on `[0,1000000)` to check whether current
+  prefix holonomy blocks the splice.  It did not: `73` states, `101` edges,
+  maximum margin bound `6/11`, and `proves_observed_nonpositive = false`.
+- `with-step-tri-source` adds triangular source-position/parity progress while
+  still avoiding exact affine RHS, solved start points, total affine maps, and
+  full prefix words.
+- On `[0,1000000)`, `with-step-tri-source` succeeded:
+
+  | metric | value |
+  | --- | ---: |
+  | matched paths | `37` |
+  | states | `223` |
+  | edges | `229` |
+  | final states | `29` |
+  | root bound | `-2` |
+  | max margin bound | `0` |
+  | Bellman-max observed? | `true`, rank `946779` |
+  | max RSS | `25,884 kB` |
+
+Decision: triangular source-position progress is the first accepted semantic
+state refinement for this Bellman route.  It is coarser than exact-prefix
+state (`223` vs `270` states on the 1M window) and, unlike the coarse
+`with-step`/`with-step-face`/`with-step-linear` keys, it prevents the observed
+positive spurious path.  The next test should scale `with-step-tri-source` to
+a larger window for the same top family before any Lean Bellman theorem is
+designed around it.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -669,6 +698,10 @@ unless every coarser semantic progress coordinate fails.
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face.md`
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_prefix.json`
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_prefix.md`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_linear.json`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_linear.md`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source.json`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source.md`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.json`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.md`
 - `scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.json`

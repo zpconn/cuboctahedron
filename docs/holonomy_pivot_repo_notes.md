@@ -339,6 +339,11 @@ Top margin+cancellation-pairing checkpoint:
   incompatible words, and adding signed-face inventory does not prevent the
   splice.  This points specifically to missing cancellation-pairing/bracket
   progress or source-position progress.
+- First accepted refinement: `with-step-tri-source` records triangular
+  source-position/parity progress and succeeds on the 1M top-family window
+  with `223` states, `229` edges, maximum margin bound `0`, and a real
+  Bellman-max path.  Prefix linear holonomy alone did not help.  The next
+  gate is a larger-window `with-step-tri-source` scale test.
 
 ## Explicit Non-Goals
 

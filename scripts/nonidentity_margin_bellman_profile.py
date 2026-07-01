@@ -134,6 +134,7 @@ def contribution_state_path(
 
     parity = (False, False, False)
     stack: list[str] = []
+    tri_sources: list[str] = []
     prefix_faces: list[str] = []
     prefix = IDENTITY
     states: list[str] = []
@@ -153,6 +154,8 @@ def contribution_state_path(
             parts.insert(0, f"step={step}")
         if "linear" in state_key_mode:
             parts.append(f"lin={mat_key(prefix)}")
+        if "tri-source" in state_key_mode:
+            parts.append("triSrc=" + "|".join(tri_sources))
         if "prefix" in state_key_mode:
             parts.append("prefix=" + " ".join(prefix_faces))
         return "|".join(parts)
@@ -168,6 +171,7 @@ def contribution_state_path(
             parity = xor_parity(parity, SQUARE_TOGGLES[pair_id])
         else:
             tri = act_tri(parity, pair_id)
+            tri_sources.append(f"{step - 1}:{pair_id}->{tri}@{parity_key(parity)}")
             if stack and stack[-1] == tri:
                 stack.pop()
             else:
@@ -709,6 +713,8 @@ def main() -> None:
             "with-step-linear",
             "with-step-face",
             "with-step-face-linear",
+            "with-step-tri-source",
+            "with-step-face-tri-source",
             "with-prefix",
         ],
         default="with-step",

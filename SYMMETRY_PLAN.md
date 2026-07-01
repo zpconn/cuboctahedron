@@ -1849,6 +1849,22 @@ Bellman profiler prototype checkpoint:
   and step state is not enough.  The next state-key experiment should encode
   the target cancellation pairing/bracket progress or source-position progress
   so the automaton cannot splice incompatible prefixes and suffixes.
+- Reran `with-step-linear` on `[0,1000000)` to test whether current prefix
+  holonomy alone blocks the splice.  It did not: the state count and failure
+  were identical to `with-step` (`73` states, `101` edges, max margin bound
+  `6/11`).  In this family, prefix linear data is redundant with the existing
+  parity/stack state for Bellman compression.
+- Added `with-step-tri-source`, which records triangular source-position and
+  parity progress such as `10:d11m->d111@110` while still avoiding exact
+  affine RHS, solved start points, and full square-prefix words.  On
+  `[0,1000000)`, this mode succeeded: `37` matched paths, `223` states,
+  `229` edges, `29` final states, root bound `-2`, maximum margin bound `0`,
+  and `is_observed_path = true` for the Bellman-max path, realized by rank
+  `946779`.  RSS remained tiny (`25,884 kB`).
+- Decision: `with-step-tri-source` is the first promising Bellman production
+  coordinate.  The next scaling test should run this key on a larger window
+  for the same top family and measure whether states/edges grow with semantic
+  source-position classes or drift toward exact-prefix growth.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
