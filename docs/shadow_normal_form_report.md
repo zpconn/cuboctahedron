@@ -388,3 +388,39 @@ Accepted: the adjacent-cancellation/product-preservation core is in place.
 The remaining triangular work is to connect this local stack lemma to the full
 scanner's acted triangular shadow and then prove the mod-3 theorem that a
 nonempty reduced triangular product is never the identity.
+
+## Scanner Reduced-Shadow Product Checkpoint
+
+The triangular module now also connects the local cancellation lemma to the
+actual scanner state.  It proves that the scanner's reduced stack and
+unreduced triangular shadow have the same triangular product:
+
+```lean
+theorem shadowStateOfPairList_reducedRev_product_eq_shadowRev_product
+    (pairs : List PairId) :
+    triProductRevStack (shadowStateOfPairList pairs).reducedRev =
+      triProductRevStack (shadowStateOfPairList pairs).shadowRev
+
+theorem reducedShadow_triProduct_eq_shadow_triProduct
+    (pairs : List PairId) :
+    triProduct (ShadowState.reducedShadow (shadowStateOfPairList pairs)) =
+      triProduct (ShadowState.shadow (shadowStateOfPairList pairs))
+```
+
+Focused build:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalFormTriangular
+```
+
+Result:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalFormTriangular (6.1s)
+Build completed successfully
+```
+
+Accepted: the full shadow scanner is now Lean-proved to preserve triangular
+linear product under adjacent stack cancellation.  The remaining Track 1
+algebra gate is the mod-3 theorem that a nonempty reduced triangular product
+cannot be identity.

@@ -378,6 +378,42 @@ Remaining Track 1 gates are now the full scanner-to-triangular-product bridge,
 the mod-3 proof that nonempty reduced triangular products are nonidentity, and
 the final identity classifier theorem.
 
+Lean scanner reduced-shadow product checkpoint:
+
+- Extended `Cuboctahedron/Search/ShadowNormalFormTriangular.lean` with the
+  scanner-level invariant that reduced and unreduced triangular shadows have
+  the same product.
+- New theorems:
+
+  ```lean
+  theorem shadowStateOfPairList_reducedRev_product_eq_shadowRev_product
+      (pairs : List PairId) :
+      triProductRevStack (shadowStateOfPairList pairs).reducedRev =
+        triProductRevStack (shadowStateOfPairList pairs).shadowRev
+
+  theorem reducedShadow_triProduct_eq_shadow_triProduct
+      (pairs : List PairId) :
+      triProduct (ShadowState.reducedShadow (shadowStateOfPairList pairs)) =
+        triProduct (ShadowState.shadow (shadowStateOfPairList pairs))
+  ```
+
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalFormTriangular
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalFormTriangular (6.1s)
+  Build completed successfully
+  ```
+
+Accepted: Track 1's triangular cancellation/product-preservation bridge is
+complete at the scanner level.  The next algebra gate is the mod-3 theorem
+for nonempty reduced triangular products.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

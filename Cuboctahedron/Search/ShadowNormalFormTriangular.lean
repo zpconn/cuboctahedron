@@ -73,4 +73,47 @@ theorem triProductRevStack_pushReduced (t : TriLetter)
           triLinear_mul_self, matMul_matId]
       · simp [ShadowState.pushReduced, h, triProductRevStack]
 
+theorem scanPair_preserves_triProductRevStack_invariant
+    (state : ShadowState) (pair : PairId)
+    (h : triProductRevStack state.reducedRev =
+      triProductRevStack state.shadowRev) :
+    triProductRevStack (state.scanPair pair).reducedRev =
+      triProductRevStack (state.scanPair pair).shadowRev := by
+  unfold ShadowState.scanPair
+  cases htri : TriLetter.ofPairId? pair with
+  | none =>
+      simp [h]
+  | some tri =>
+      simp [triProductRevStack_pushReduced, h, triProductRevStack]
+
+theorem foldl_scanPair_preserves_triProductRevStack_invariant
+    (pairs : List PairId) (state : ShadowState)
+    (h : triProductRevStack state.reducedRev =
+      triProductRevStack state.shadowRev) :
+    triProductRevStack (pairs.foldl ShadowState.scanPair state).reducedRev =
+      triProductRevStack (pairs.foldl ShadowState.scanPair state).shadowRev := by
+  induction pairs generalizing state with
+  | nil =>
+      exact h
+  | cons pair rest ih =>
+      rw [List.foldl_cons]
+      exact ih (state.scanPair pair)
+        (scanPair_preserves_triProductRevStack_invariant state pair h)
+
+theorem shadowStateOfPairList_reducedRev_product_eq_shadowRev_product
+    (pairs : List PairId) :
+    triProductRevStack (shadowStateOfPairList pairs).reducedRev =
+      triProductRevStack (shadowStateOfPairList pairs).shadowRev := by
+  exact foldl_scanPair_preserves_triProductRevStack_invariant pairs
+    ShadowState.initial rfl
+
+theorem reducedShadow_triProduct_eq_shadow_triProduct
+    (pairs : List PairId) :
+    triProduct (ShadowState.reducedShadow (shadowStateOfPairList pairs)) =
+      triProduct (ShadowState.shadow (shadowStateOfPairList pairs)) := by
+  have h := shadowStateOfPairList_reducedRev_product_eq_shadowRev_product pairs
+  rw [triProductRevStack_eq_triProduct_reverse,
+    triProductRevStack_eq_triProduct_reverse] at h
+  simpa [ShadowState.reducedShadow, ShadowState.shadow] using h
+
 end Cuboctahedron
