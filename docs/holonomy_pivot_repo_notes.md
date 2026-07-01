@@ -3864,6 +3864,46 @@ Fifth split path:
 Decision: accepted as another proof-bearing sampled path under the strict
 post-crash guard.
 
+Nineteenth split path:
+
+- The selected next target, path object index `18` / rank `312773`, was run as
+  a single guarded path with `--check-stage missing`.  Both trace and split were
+  missing/stale before the run.  No batch execution or parallel Lean was used.
+- Dry-run command:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 18 \
+    --check \
+    --check-stage missing \
+    --dry-run \
+    --json scripts/generated/bellman_split_path_18_missing_dry_run.json
+  ```
+
+- Proof-bearing command:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 18 \
+    --check \
+    --check-stage missing \
+    --json scripts/generated/bellman_split_path_18_missing_run.json
+  ```
+
+- Result:
+  - trace shard with `.olean` emission: passed in `6.51s`, peak RSS
+    `4022 MiB`, hard-AS cap `6144 MiB`, minimum available `46178 MiB`;
+  - split root with `.olean` emission: passed in `2.00s`, peak RSS
+    `3634 MiB`, hard-AS cap `6144 MiB`, minimum available `46373 MiB`.
+- Refreshed strict `[0,16)` dry-run guard remains `accepted-dry-run` with `0`
+  blocked entries and `0` total blockers.
+- Refreshed `[0,37)` planner summary: `0` over budget, `19` fresh trace
+  artifacts, `19` fresh split artifacts, `1184 KiB` planned trace source, and
+  `74 KiB` planned split source.
+- Refreshed selector chose path index `19`, rank `824407`, as the next possible
+  single-path target.
+
+Decision: accepted as another proof-bearing sampled path under the strict
+post-crash guard.
+
 Eighteenth split path:
 
 - The selected next target, path object index `17` / rank `312772`, was run as
