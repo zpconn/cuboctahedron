@@ -57791,3 +57791,47 @@ triangularCancellationSummaryOfFaceLabels labels = topPairingTargetSummary ->
 
 and only then specialize it to `TopPairingClosedLanguageAtRank` using
 `triangularCancellationSummaryOfCanonicalLabels`.
+
+Naive list-classification prototype result:
+
+- Tried an isolated prototype module
+  `Cuboctahedron/Search/TopPairingTraceClassification.lean` with the theorem
+  shape above.
+- The proof strategy destructed the length-14 face-label list and then used
+  sequential `cases face <;> simp_all [...]` against the schedule, square-gap,
+  local-axis, and cancellation facts.
+- Guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_trace_classification_guard.json \
+  -- lake build Cuboctahedron.Search.TopPairingTraceClassification
+```
+
+Result:
+
+```text
+failed
+elapsed = 102.14s
+peak_tree_rss = 4042 MiB
+reason = repeated `simp` max-step exhaustion at the first broad classifier step
+```
+
+Decision: do not pursue a monolithic `simp_all` classifier.  This failure does
+not invalidate the semantic Bellman route; it shows the proof needs the same
+shape as the successful Python diagnostic: an explicit finite prefix
+certificate/tree with small local facts.  The next theorem generator should
+emit bounded prefix lemmas that consume one closed-language component at a
+time, for example:
+
+1. schedule + square-gap + local-axis prefix pruning;
+2. list-level cancellation summary pruning via
+   `triangularCancellationSummaryOfFaceLabels`;
+3. two accepted terminal label traces.
+
+The public theorem should still be the same two-trace classifier, but its proof
+must be generated as a small deterministic prefix proof rather than delegated
+to global simplification.
