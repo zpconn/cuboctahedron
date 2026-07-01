@@ -1186,6 +1186,33 @@ Forced-axis plus empty-cone combined checkpoint:
   and stronger quotienting by reduced shadow, primitive axis, solve shape, and
   terminal source signature.
 
+Residual source-quotient checkpoint:
+
+- Extended `scripts/nonidentity_residual_axis_profile.py` with diagnostic
+  source-oriented terminal keys:
+  `terminal_source_keys`, `terminal_source_axis_keys`, and
+  `terminal_source_reduced_axis_keys`.
+- Re-ran the bounded `[0,100000)` nonidentity residual profile with four
+  workers.  It scanned `100,000` pair words in `8.739s` using exact
+  integer/Fraction arithmetic and preserved the existing counts:
+  `9,036` forced-axis residual survivors, `8,775` start-interior failures,
+  `251` first-hit mismatches, and `10` hit ties.
+- The new quotient is rejected:
+
+  | coordinate | sample distinct | projected full distinct | projected CPU hours at smoke rate |
+  | --- | ---: | ---: | ---: |
+  | `terminal_template_keys` | `32` | `31,135` | `391.26` |
+  | `terminal_source_keys` | `8,540` | `8,309,181` | `104,418.71` |
+  | `terminal_source_axis_keys` | `8,709` | `8,473,613` | `106,485.07` |
+  | `terminal_source_reduced_axis_keys` | `8,733` | `8,496,964` | `106,778.51` |
+
+- Interpretation: adding solve/source detail to the start-interior residual
+  turns the dominant coarse bucket into mostly tiny families.  That means the
+  next nonidentity step should not be another local-key refinement.  It should
+  seek a theorem that kills the dominant `axisStart|badFace=yp` family by a
+  coarser holonomy/axis invariant, preferably using integer/projective
+  arithmetic and avoiding replay of each affine solve.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

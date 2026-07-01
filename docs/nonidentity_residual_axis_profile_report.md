@@ -159,11 +159,39 @@ Follow-up correction:
   by reduced shadow, primitive axis, solve shape, and terminal source
   signature.
 
+Terminal source quotient checkpoint:
+
+- The profiler now also records diagnostic source-oriented quotients:
+  `terminal_source_keys`, `terminal_source_axis_keys`, and
+  `terminal_source_reduced_axis_keys`.  These retain solve/source information
+  while erasing exact rational margins.
+- On `[0,100000)`, the new coordinates are worse than the coarser terminal
+  template coordinate:
+
+  | Counter | Sample distinct | Linear projected full distinct | CPU hours at smoke cost |
+  | --- | ---: | ---: | ---: |
+  | `terminal_template_keys` | 32 | 31,135 | 391.26 |
+  | `terminal_source_keys` | 8,540 | 8,309,181 | 104,418.71 |
+  | `terminal_source_axis_keys` | 8,709 | 8,473,613 | 106,485.07 |
+  | `terminal_source_reduced_axis_keys` | 8,733 | 8,496,964 | 106,778.51 |
+
+- Conclusion: adding solve/source detail fragments the dominant
+  `axis_misses_start_interior` bucket rather than compressing it.  These keys
+  are useful diagnostics for understanding the failure surface, but they are
+  rejected as generated proof coordinates.
+- The next nontranslation residual route should not be "more detailed
+  local-certificate keys."  It should look for a new algebraic obstruction:
+  integer/projective axis-family theorems, class-level holonomy invariants, or
+  a still-coarser theorem that explains why the large `yp` start-interior
+  bucket fails without replaying each affine solve.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
 - `scripts/generated/nonidentity_residual_family_gate_000000000_000100000.json`
 - `scripts/generated/nonidentity_residual_family_gate_000000000_000100000.md`
+- `scripts/generated/nonidentity_residual_source_quotient_000000000_000100000.json`
+- `scripts/generated/nonidentity_residual_source_quotient_000000000_000100000.md`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.json`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.md`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000000100.json`
@@ -207,11 +235,14 @@ Rejected for direct Lean emission:
 
 Next nontranslation work:
 
-1. Profile reusable local-certificate family counts for the three existing
-   Lean certificate surfaces, avoiding exact-margin keys.
+1. Stop refining residual keys by adding exact source/solve detail; the source
+   quotient checkpoint shows that direction fragments the sample.
 2. Keep the forced-axis sign filter as a cheap front-end filter.
-3. Use signed-state empty-cone/Gordan prefix pruning as the next fallback if
-   local template certificates still produce too many generated leaves.
-4. Do not generate terminal residual Lean leaves until the planned semantic
+3. Prototype a cheaper integer/projective axis-family theorem surface for the
+   dominant start-interior bucket, preferably one whose statement depends only
+   on coarse holonomy/axis facts and not exact affine margins.
+4. Keep signed-state empty-cone/Gordan as a pre-forced-axis front-end only; do
+   not expect it to solve the forced-axis residual branch.
+5. Do not generate terminal residual Lean leaves until the planned semantic
    family count is below the low-thousands gate and representative leaves build
    substantially cheaper than the current smoke.

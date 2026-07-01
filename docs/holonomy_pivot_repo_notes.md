@@ -246,3 +246,19 @@ Combined forced-axis/cone checkpoint:
   active residual route should focus on cheaper integer/projective
   local-axis-family theorems and quotienting by reduced shadow, primitive axis,
   solve shape, and terminal source signature.
+
+Residual source-quotient checkpoint:
+
+- `scripts/nonidentity_residual_axis_profile.py` now also records
+  source-oriented diagnostic keys for the terminal residual obstruction:
+  `terminal_source_keys`, `terminal_source_axis_keys`, and
+  `terminal_source_reduced_axis_keys`.
+- On `[0,100000)`, these finer keys fragment the residual branch:
+  `terminal_source_keys = 8,540`,
+  `terminal_source_axis_keys = 8,709`, and
+  `terminal_source_reduced_axis_keys = 8,733`, compared with only `32`
+  coarse terminal-template keys.
+- Conclusion: retaining solve/source shape is the wrong compression direction
+  for broad generated evidence.  It is useful for diagnostics, but the proof
+  path needs a new algebraic theorem surface for the dominant start-interior
+  bucket rather than more precise local-certificate keys.

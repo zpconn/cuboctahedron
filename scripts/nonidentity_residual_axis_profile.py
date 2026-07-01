@@ -94,6 +94,9 @@ class ResidualAxisStats:
     terminal_template_keys: CappedCounter | None = None
     certificate_template_keys: CappedCounter | None = None
     residual_signatures: CappedCounter | None = None
+    terminal_source_keys: CappedCounter | None = None
+    terminal_source_axis_keys: CappedCounter | None = None
+    terminal_source_reduced_axis_keys: CappedCounter | None = None
     terminal_by_reduced_shadow: CappedCounter | None = None
     terminal_by_axis: CappedCounter | None = None
     samples: dict[str, list[dict[str, Any]]] = field(default_factory=lambda: defaultdict(list))
@@ -107,6 +110,12 @@ class ResidualAxisStats:
             self.certificate_template_keys = CappedCounter(self.max_distinct)
         if self.residual_signatures is None:
             self.residual_signatures = CappedCounter(self.max_distinct)
+        if self.terminal_source_keys is None:
+            self.terminal_source_keys = CappedCounter(self.max_distinct)
+        if self.terminal_source_axis_keys is None:
+            self.terminal_source_axis_keys = CappedCounter(self.max_distinct)
+        if self.terminal_source_reduced_axis_keys is None:
+            self.terminal_source_reduced_axis_keys = CappedCounter(self.max_distinct)
         if self.terminal_by_reduced_shadow is None:
             self.terminal_by_reduced_shadow = CappedCounter(self.max_distinct)
         if self.terminal_by_axis is None:
@@ -135,12 +144,18 @@ class ResidualAxisStats:
         assert self.terminal_template_keys is not None and other.terminal_template_keys is not None
         assert self.certificate_template_keys is not None and other.certificate_template_keys is not None
         assert self.residual_signatures is not None and other.residual_signatures is not None
+        assert self.terminal_source_keys is not None and other.terminal_source_keys is not None
+        assert self.terminal_source_axis_keys is not None and other.terminal_source_axis_keys is not None
+        assert self.terminal_source_reduced_axis_keys is not None and other.terminal_source_reduced_axis_keys is not None
         assert self.terminal_by_reduced_shadow is not None and other.terminal_by_reduced_shadow is not None
         assert self.terminal_by_axis is not None and other.terminal_by_axis is not None
         self.terminal_family_keys.merge(other.terminal_family_keys)
         self.terminal_template_keys.merge(other.terminal_template_keys)
         self.certificate_template_keys.merge(other.certificate_template_keys)
         self.residual_signatures.merge(other.residual_signatures)
+        self.terminal_source_keys.merge(other.terminal_source_keys)
+        self.terminal_source_axis_keys.merge(other.terminal_source_axis_keys)
+        self.terminal_source_reduced_axis_keys.merge(other.terminal_source_reduced_axis_keys)
         self.terminal_by_reduced_shadow.merge(other.terminal_by_reduced_shadow)
         self.terminal_by_axis.merge(other.terminal_by_axis)
         for stage, samples in other.samples.items():
@@ -159,6 +174,9 @@ class ResidualAxisStats:
         assert self.terminal_template_keys is not None
         assert self.certificate_template_keys is not None
         assert self.residual_signatures is not None
+        assert self.terminal_source_keys is not None
+        assert self.terminal_source_axis_keys is not None
+        assert self.terminal_source_reduced_axis_keys is not None
         assert self.terminal_by_reduced_shadow is not None
         assert self.terminal_by_axis is not None
         counters = {
@@ -166,6 +184,9 @@ class ResidualAxisStats:
             "terminal_template_keys": self.terminal_template_keys,
             "certificate_template_keys": self.certificate_template_keys,
             "residual_signatures": self.residual_signatures,
+            "terminal_source_keys": self.terminal_source_keys,
+            "terminal_source_axis_keys": self.terminal_source_axis_keys,
+            "terminal_source_reduced_axis_keys": self.terminal_source_reduced_axis_keys,
             "terminal_by_reduced_shadow": self.terminal_by_reduced_shadow,
             "terminal_by_axis": self.terminal_by_axis,
         }
@@ -197,6 +218,9 @@ class ResidualAxisStats:
             "terminal_template_keys": self.terminal_template_keys.payload(top=top),
             "certificate_template_keys": self.certificate_template_keys.payload(top=top),
             "residual_signatures": self.residual_signatures.payload(top=top),
+            "terminal_source_keys": self.terminal_source_keys.payload(top=top),
+            "terminal_source_axis_keys": self.terminal_source_axis_keys.payload(top=top),
+            "terminal_source_reduced_axis_keys": self.terminal_source_reduced_axis_keys.payload(top=top),
             "terminal_by_reduced_shadow": self.terminal_by_reduced_shadow.payload(top=top),
             "terminal_by_axis": self.terminal_by_axis.payload(top=top),
             "family_gate": family_gate_payload(self, counters),
@@ -267,8 +291,11 @@ def family_gate_payload(
         "distinct_family_estimates": estimates,
         "decision_hint": (
             "If projected exact terminal-family or residual-signature counts "
-            "remain far above the low-thousands gate, promote signed-state "
-            "empty-cone/Gordan pruning before broad Lean emission."
+            "remain far above the low-thousands gate, do not emit broad "
+            "local-certificate leaves.  The combined forced-axis/cone profile "
+            "showed empty-cone does not kill these residuals, so the next "
+            "route should be an integer/projective family theorem or a "
+            "higher-level holonomy invariant."
         ),
     }
 
@@ -300,6 +327,44 @@ def coarse_terminal_template_key(failure: str, details: dict[str, Any]) -> str:
             f"|expected={details.get('expected', '?')}"
             f"|actual={details.get('actual', '?')}"
             f"|{witness_kind}"
+        )
+    if failure == "hit_tie":
+        actual = details.get("actual", [])
+        if isinstance(actual, list):
+            actual_key = ",".join(sorted(str(face) for face in actual))
+        else:
+            actual_key = str(actual)
+        return (
+            "hitTie"
+            f"|step={details.get('step', '?')}"
+            f"|expected={details.get('expected', '?')}"
+            f"|actual={actual_key}"
+        )
+    if failure == "no_future_hit":
+        return (
+            "noFutureHit"
+            f"|step={details.get('step', '?')}"
+            f"|expected={details.get('expected', '?')}"
+        )
+    return failure
+
+
+def terminal_source_signature_key(failure: str, details: dict[str, Any]) -> str:
+    """Diagnostic quotient key retaining source/solve shape but erasing margins."""
+
+    if failure == "axis_misses_start_interior":
+        bad_face = details.get("canonical_bad_face", details.get("bad_face", "?"))
+        solve_shape = details.get("solve_shape", "?")
+        return f"axisStart|badFace={bad_face}|solveShape={solve_shape}"
+    if failure == "first_hit_mismatch":
+        witness = str(details.get("witness", "unknown"))
+        witness_kind = witness.split(":", 1)[0]
+        return (
+            "firstHit"
+            f"|step={details.get('step', '?')}"
+            f"|expected={details.get('expected', '?')}"
+            f"|actual={details.get('actual', '?')}"
+            f"|witness={witness_kind}"
         )
     if failure == "hit_tie":
         actual = details.get("actual", [])
@@ -417,12 +482,21 @@ def classify_leaf(
     assert stats.terminal_template_keys is not None
     assert stats.certificate_template_keys is not None
     assert stats.residual_signatures is not None
+    assert stats.terminal_source_keys is not None
+    assert stats.terminal_source_axis_keys is not None
+    assert stats.terminal_source_reduced_axis_keys is not None
     assert stats.terminal_by_reduced_shadow is not None
     assert stats.terminal_by_axis is not None
     stats.terminal_family_keys.add(family_key)
     template_key = coarse_terminal_template_key(failure, failure_details)
+    source_key = terminal_source_signature_key(failure, failure_details)
     stats.terminal_template_keys.add(template_key)
     stats.certificate_template_keys.add(f"{cert_kind}|{template_key}")
+    stats.terminal_source_keys.add(source_key)
+    stats.terminal_source_axis_keys.add(f"{source_key}|axis={oriented_axis_key}")
+    stats.terminal_source_reduced_axis_keys.add(
+        f"{source_key}|reduced={reduced_key}|axis={oriented_axis_key}"
+    )
     stats.residual_signatures.add(
         f"residual|reduced={reduced_key}|axis={oriented_axis_key}"
         f"|signs={details['forced_signs']}|failure={failure}"
@@ -603,6 +677,9 @@ def render_markdown(payload: dict[str, Any]) -> str:
         "terminal_template_keys",
         "certificate_template_keys",
         "residual_signatures",
+        "terminal_source_keys",
+        "terminal_source_axis_keys",
+        "terminal_source_reduced_axis_keys",
         "terminal_by_reduced_shadow",
         "terminal_by_axis",
     ]:
