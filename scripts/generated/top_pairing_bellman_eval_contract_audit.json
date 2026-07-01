@@ -1078,37 +1078,37 @@
           "text": "fun rank => TopPairingClosedLanguageAtRank rank badFace"
         },
         {
-          "line": 22,
+          "line": 26,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "closed : TopPairingClosedLanguageAtRank rank badFace"
         },
         {
-          "line": 40,
+          "line": 52,
           "pattern": "TopPairingClosedLanguageForSeq",
           "text": "TopPairingClosedLanguageForSeq obj.rank (forcedSeq obj) badFace :="
         },
         {
-          "line": 41,
+          "line": 53,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed"
         },
         {
-          "line": 41,
+          "line": 53,
           "pattern": "forCanonicalSeq",
           "text": "TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed"
         },
         {
-          "line": 111,
+          "line": 216,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "closed : TopPairingClosedLanguageAtRank rank badFace"
         },
         {
-          "line": 206,
+          "line": 311,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "TopPairingClosedLanguageAtRank obj.rank badFace :="
         },
         {
-          "line": 323,
+          "line": 428,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "TopPairingClosedLanguageAtRank rank badFace ->"
         }
@@ -1117,139 +1117,154 @@
       "sampled_eval": [],
       "semantic_eval_language": [
         {
-          "line": 101,
+          "line": 206,
           "pattern": "TopPairingBellmanEvalLanguageAtRank",
           "text": "structure TopPairingBellmanEvalLanguageAtRank"
         },
         {
-          "line": 120,
+          "line": 225,
           "pattern": "TopPairingBellmanEvalContainsRank",
           "text": "abbrev TopPairingBellmanEvalContainsRank"
         },
         {
-          "line": 130,
+          "line": 235,
           "pattern": "TopPairingBellmanEvalLanguageAtRank",
           "text": "TopPairingBellmanEvalLanguageAtRank"
         },
         {
-          "line": 133,
+          "line": 238,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "structure TopPairingBellmanEvalObj"
         },
         {
-          "line": 144,
+          "line": 249,
           "pattern": "TopPairingBellmanEvalLanguageAtRank",
           "text": "TopPairingBellmanEvalLanguageAtRank"
         },
         {
-          "line": 147,
+          "line": 252,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "namespace TopPairingBellmanEvalObj"
         },
         {
-          "line": 159,
+          "line": 264,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "TopPairingBellmanEvalObj"
         },
         {
-          "line": 174,
+          "line": 279,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "TopPairingBellmanEvalObj"
         },
         {
-          "line": 189,
+          "line": 294,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "TopPairingBellmanEvalObj"
         },
         {
-          "line": 204,
+          "line": 309,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "TopPairingBellmanEvalObj"
         },
         {
-          "line": 219,
+          "line": 324,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "TopPairingBellmanEvalObj"
         },
         {
-          "line": 223,
+          "line": 328,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "TopPairingBellmanEvalObj"
         },
         {
-          "line": 243,
+          "line": 348,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj"
         },
         {
-          "line": 251,
+          "line": 356,
           "pattern": "TopPairingBellmanEvalContainsRank",
           "text": "(TopPairingBellmanEvalContainsRank"
         },
         {
-          "line": 278,
+          "line": 383,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj"
         },
         {
-          "line": 287,
+          "line": 392,
           "pattern": "TopPairingBellmanEvalContainsRank",
           "text": "(TopPairingBellmanEvalContainsRank"
         },
         {
-          "line": 306,
+          "line": 411,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "end TopPairingBellmanEvalObj"
         },
         {
-          "line": 308,
+          "line": 413,
           "pattern": "topPairingBellmanEvalObjectCoverOfClosedToEval",
           "text": "def topPairingBellmanEvalObjectCoverOfClosedToEval"
         },
         {
-          "line": 324,
+          "line": 429,
           "pattern": "TopPairingBellmanEvalLanguageAtRank",
           "text": "TopPairingBellmanEvalLanguageAtRank"
         },
         {
-          "line": 330,
+          "line": 435,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj"
         },
         {
-          "line": 333,
+          "line": 438,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj.rankOf"
         },
         {
-          "line": 337,
+          "line": 442,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj.Accepts"
         },
         {
-          "line": 344,
+          "line": 449,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj.forcedSeq"
         },
         {
-          "line": 352,
+          "line": 457,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "exact TopPairingBellmanEvalObj.evalAccepts obj))"
         }
       ],
       "semantic_eval_target": [
         {
-          "line": 72,
+          "line": 84,
           "pattern": "BellmanEvalAccepts",
           "text": "BellmanEvalAccepts V next start const"
         },
         {
-          "line": 113,
+          "line": 114,
           "pattern": "BellmanEvalAccepts",
           "text": "BellmanEvalAccepts V next start const"
         },
         {
-          "line": 221,
+          "line": 161,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        },
+        {
+          "line": 188,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        },
+        {
+          "line": 218,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        },
+        {
+          "line": 326,
           "pattern": "BellmanEvalAccepts",
           "text": "BellmanEvalAccepts V next start const"
         }
@@ -1261,77 +1276,202 @@
           "text": "abbrev TopPairingClosedContainsRank (badFace : Face) :"
         },
         {
-          "line": 20,
-          "pattern": "TopPairingBellmanObj",
-          "text": "structure TopPairingBellmanObj (badFace : Face) where"
+          "line": 22,
+          "pattern": "TopPairingClosedContainsRank",
+          "text": "TopPairingClosedContainsRank badFace"
         },
         {
           "line": 24,
           "pattern": "TopPairingBellmanObj",
-          "text": "namespace TopPairingBellmanObj"
+          "text": "structure TopPairingBellmanObj (badFace : Face) where"
         },
         {
-          "line": 26,
+          "line": 28,
           "pattern": "TopPairingBellmanObj",
-          "text": "def rankOf {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
+          "text": "namespace TopPairingBellmanObj"
         },
         {
           "line": 30,
           "pattern": "TopPairingBellmanObj",
-          "text": "def Accepts {badFace : Face} (_obj : TopPairingBellmanObj badFace) :"
+          "text": "def rankOf {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
         },
         {
           "line": 34,
           "pattern": "TopPairingBellmanObj",
+          "text": "def Accepts {badFace : Face} (_obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 38,
+          "pattern": "TopPairingBellmanObj",
+          "text": "theorem accepts {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 42,
+          "pattern": "TopPairingBellmanObj",
           "text": "def forcedSeq {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
         },
         {
-          "line": 39,
+          "line": 47,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj badFace) : List Label :="
+        },
+        {
+          "line": 51,
           "pattern": "TopPairingBellmanObj",
           "text": "(obj : TopPairingBellmanObj badFace) :"
         },
         {
-          "line": 45,
+          "line": 57,
           "pattern": "TopPairingBellmanObj",
           "text": "(TopPairingBellmanObj badFace)"
         },
         {
-          "line": 48,
+          "line": 60,
           "pattern": "TopPairingClosedContainsRank",
           "text": "(TopPairingClosedContainsRank badFace) where"
         },
         {
-          "line": 57,
-          "pattern": "objectCoverOfEvalAccepts",
-          "text": "def objectCoverOfEvalAccepts"
-        },
-        {
-          "line": 71,
+          "line": 83,
           "pattern": "TopPairingBellmanObj",
           "text": "forall obj : TopPairingBellmanObj badFace,"
         },
         {
-          "line": 73,
+          "line": 85,
           "pattern": "TopPairingBellmanObj",
           "text": "(fun obj : TopPairingBellmanObj badFace =>"
         },
         {
-          "line": 82,
+          "line": 90,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)"
+        },
+        {
+          "line": 99,
+          "pattern": "objectCoverOfEvalAccepts",
+          "text": "def objectCoverOfEvalAccepts"
+        },
+        {
+          "line": 113,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj badFace,"
+        },
+        {
+          "line": 115,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace =>"
+        },
+        {
+          "line": 123,
           "pattern": "TopPairingBellmanObj",
           "text": "(TopPairingBellmanObj badFace)"
         },
         {
-          "line": 86,
+          "line": 127,
           "pattern": "TopPairingClosedContainsRank",
           "text": "(TopPairingClosedContainsRank badFace)"
         },
         {
-          "line": 99,
+          "line": 136,
           "pattern": "TopPairingBellmanObj",
           "text": "end TopPairingBellmanObj"
         },
         {
-          "line": 341,
+          "line": 140,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(TopPairingBellmanObj badFace)"
+        },
+        {
+          "line": 141,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.rankOf"
+        },
+        {
+          "line": 142,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.Accepts"
+        },
+        {
+          "line": 144,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.closedMembership badFace"
+        },
+        {
+          "line": 160,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj badFace,"
+        },
+        {
+          "line": 162,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace =>"
+        },
+        {
+          "line": 164,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels labelOfFace obj)"
+        },
+        {
+          "line": 167,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)"
+        },
+        {
+          "line": 168,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels labelOfFace obj)"
+        },
+        {
+          "line": 169,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.Accepts :="
+        },
+        {
+          "line": 170,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.traceBoundOfEvalAccepts"
+        },
+        {
+          "line": 187,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj badFace,"
+        },
+        {
+          "line": 189,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace =>"
+        },
+        {
+          "line": 191,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels labelOfFace obj)"
+        },
+        {
+          "line": 197,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(TopPairingBellmanObj badFace)"
+        },
+        {
+          "line": 199,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.rankOf"
+        },
+        {
+          "line": 200,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.Accepts"
+        },
+        {
+          "line": 203,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.objectCoverOfEvalAccepts"
+        },
+        {
+          "line": 203,
+          "pattern": "objectCoverOfEvalAccepts",
+          "text": "TopPairingBellmanObj.objectCoverOfEvalAccepts"
+        },
+        {
+          "line": 446,
           "pattern": "TopPairingClosedContainsRank",
           "text": "(TopPairingClosedContainsRank badFace)"
         }
@@ -1824,7 +1964,7 @@
     "closed_language_fields": 50,
     "sampled_eval": 260,
     "semantic_eval_language": 24,
-    "semantic_eval_target": 5,
-    "semantic_object": 16
+    "semantic_eval_target": 8,
+    "semantic_object": 41
   }
 }

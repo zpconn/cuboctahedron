@@ -57506,3 +57506,83 @@ closed-language-to-evaluator theorem without `SampledRankIndex`, sampled
 paths, or one generated branch per rank/path.  If that proof collapses back to
 sampled membership, stop Bellman as a production proof route and replace this
 automaton with a stronger cancellation-tree semantic automaton.
+
+Semantic Bellman object-cover checkpoint:
+
+- Reconciled the GPT5.5 recommendation with the existing Lean interface in
+  `Cuboctahedron/Search/TopPairingBellmanObject.lean`.
+- The file now keeps the prior stronger fallback scaffolding:
+  `TopPairingBellmanEvalLanguageAtRank`,
+  `TopPairingBellmanEvalObj`, and
+  `topPairingBellmanEvalObjectCoverOfClosedToEval`.
+- It also exposes the production-facing semantic closed-object names:
+  `ClosedTopPairingContainsRank`,
+  `TopPairingBellmanObj`,
+  `topPairingClosedMembership`,
+  `topPairingClosedTraceBound_of_evalAccepts`, and
+  `topPairingClosedObjectCoverOfEvalAccepts`.
+- `TopPairingBellmanObj` is the intended compact object:
+  `rank : Fin numPairWords` plus
+  `closed : TopPairingClosedLanguageAtRank rank badFace`.  It introduces no
+  sampled rank/path object table.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_bellman_object_guard.json \
+  -- lake build Cuboctahedron.Search.TopPairingBellmanObject
+```
+
+Result:
+
+```text
+passed
+peak_tree_rss = 3632 MiB
+elapsed = 5.01s
+```
+
+Contract audit:
+
+```bash
+python3 scripts/audit_top_pairing_bellman_eval_contract.py
+```
+
+Result:
+
+```text
+wrote scripts/generated/top_pairing_bellman_eval_contract_audit.json
+wrote docs/top_pairing_bellman_eval_contract_audit.md
+decision: stronger-eval-predicate-built-closed-to-eval-missing
+```
+
+Decision: keep Bellman for one more semantic-membership experiment, exactly as
+recommended.  The object-cover/membership layer is now Lean-checked and cheap.
+The remaining go/no-go theorem is not another potential or sampled smoke; it is
+the deterministic semantic evaluator bridge:
+
+```lean
+forall obj : TopPairingBellmanObj Face.ym,
+  BellmanEvalAccepts graphPotential graphSmokeNext rootState graphConst
+    (fun obj => topPairingScaledMargin obj.rank)
+    (fun obj => TopPairingBellmanObj.labels smokeLabelOfFace obj)
+    obj
+```
+
+or equivalently a theorem
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState graphConst
+    topPairingScaledMargin rank Face.ym
+```
+
+where the generated proof is semantic in the closed-language fields and does
+not mention `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, or
+`sampledSmokeNext`.  If the current closed predicate is too weak, the next
+allowed move is to strengthen the semantic predicate with compact evaluator
+fields such as `eval_ok`/`margin_bound`, not to emit sampled rank evidence.

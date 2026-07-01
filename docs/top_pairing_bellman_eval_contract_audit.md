@@ -8,7 +8,7 @@ sampled-object-bound.
 ## Summary
 
 - decision: `stronger-eval-predicate-built-closed-to-eval-missing`
-- semantic-object mentions: `16`
+- semantic-object mentions: `41`
 - closed-language field mentions: `50`
 - sampled-eval mentions: `260`
 - semantic eval-language mentions: `24`
@@ -33,39 +33,42 @@ not by case-splitting on `SampledRankIndex`.
 ### `Cuboctahedron/Search/TopPairingBellmanObject.lean`
 
 - exists: `True`
-- `semantic_object`: `16`
+- `semantic_object`: `41`
   - line `16`: `abbrev TopPairingClosedContainsRank (badFace : Face) :`
-  - line `20`: `structure TopPairingBellmanObj (badFace : Face) where`
-  - line `24`: `namespace TopPairingBellmanObj`
-  - line `26`: `def rankOf {badFace : Face} (obj : TopPairingBellmanObj badFace) :`
-  - line `30`: `def Accepts {badFace : Face} (_obj : TopPairingBellmanObj badFace) :`
-  - line `34`: `def forcedSeq {badFace : Face} (obj : TopPairingBellmanObj badFace) :`
-  - line `39`: `(obj : TopPairingBellmanObj badFace) :`
-  - line `45`: `(TopPairingBellmanObj badFace)`
-  - ... `8` more
+  - line `22`: `TopPairingClosedContainsRank badFace`
+  - line `24`: `structure TopPairingBellmanObj (badFace : Face) where`
+  - line `28`: `namespace TopPairingBellmanObj`
+  - line `30`: `def rankOf {badFace : Face} (obj : TopPairingBellmanObj badFace) :`
+  - line `34`: `def Accepts {badFace : Face} (_obj : TopPairingBellmanObj badFace) :`
+  - line `38`: `theorem accepts {badFace : Face} (obj : TopPairingBellmanObj badFace) :`
+  - line `42`: `def forcedSeq {badFace : Face} (obj : TopPairingBellmanObj badFace) :`
+  - ... `33` more
 - `closed_language_fields`: `8`
   - line `18`: `fun rank => TopPairingClosedLanguageAtRank rank badFace`
-  - line `22`: `closed : TopPairingClosedLanguageAtRank rank badFace`
-  - line `40`: `TopPairingClosedLanguageForSeq obj.rank (forcedSeq obj) badFace :=`
-  - line `41`: `TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed`
-  - line `41`: `TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed`
-  - line `111`: `closed : TopPairingClosedLanguageAtRank rank badFace`
-  - line `206`: `TopPairingClosedLanguageAtRank obj.rank badFace :=`
-  - line `323`: `TopPairingClosedLanguageAtRank rank badFace ->`
+  - line `26`: `closed : TopPairingClosedLanguageAtRank rank badFace`
+  - line `52`: `TopPairingClosedLanguageForSeq obj.rank (forcedSeq obj) badFace :=`
+  - line `53`: `TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed`
+  - line `53`: `TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed`
+  - line `216`: `closed : TopPairingClosedLanguageAtRank rank badFace`
+  - line `311`: `TopPairingClosedLanguageAtRank obj.rank badFace :=`
+  - line `428`: `TopPairingClosedLanguageAtRank rank badFace ->`
 - `sampled_eval`: `0`
-- `semantic_eval_target`: `3`
-  - line `72`: `BellmanEvalAccepts V next start const`
-  - line `113`: `BellmanEvalAccepts V next start const`
-  - line `221`: `BellmanEvalAccepts V next start const`
+- `semantic_eval_target`: `6`
+  - line `84`: `BellmanEvalAccepts V next start const`
+  - line `114`: `BellmanEvalAccepts V next start const`
+  - line `161`: `BellmanEvalAccepts V next start const`
+  - line `188`: `BellmanEvalAccepts V next start const`
+  - line `218`: `BellmanEvalAccepts V next start const`
+  - line `326`: `BellmanEvalAccepts V next start const`
 - `semantic_eval_language`: `24`
-  - line `101`: `structure TopPairingBellmanEvalLanguageAtRank`
-  - line `120`: `abbrev TopPairingBellmanEvalContainsRank`
-  - line `130`: `TopPairingBellmanEvalLanguageAtRank`
-  - line `133`: `structure TopPairingBellmanEvalObj`
-  - line `144`: `TopPairingBellmanEvalLanguageAtRank`
-  - line `147`: `namespace TopPairingBellmanEvalObj`
-  - line `159`: `TopPairingBellmanEvalObj`
-  - line `174`: `TopPairingBellmanEvalObj`
+  - line `206`: `structure TopPairingBellmanEvalLanguageAtRank`
+  - line `225`: `abbrev TopPairingBellmanEvalContainsRank`
+  - line `235`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `238`: `structure TopPairingBellmanEvalObj`
+  - line `249`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `252`: `namespace TopPairingBellmanEvalObj`
+  - line `264`: `TopPairingBellmanEvalObj`
+  - line `279`: `TopPairingBellmanEvalObj`
   - ... `16` more
 
 ### `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`

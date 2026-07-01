@@ -17,6 +17,10 @@ abbrev TopPairingClosedContainsRank (badFace : Face) :
     Fin numPairWords -> Prop :=
   fun rank => TopPairingClosedLanguageAtRank rank badFace
 
+abbrev ClosedTopPairingContainsRank (badFace : Face) :
+    Fin numPairWords -> Prop :=
+  TopPairingClosedContainsRank badFace
+
 structure TopPairingBellmanObj (badFace : Face) where
   rank : Fin numPairWords
   closed : TopPairingClosedLanguageAtRank rank badFace
@@ -31,9 +35,17 @@ def Accepts {badFace : Face} (_obj : TopPairingBellmanObj badFace) :
     Prop :=
   True
 
+theorem accepts {badFace : Face} (obj : TopPairingBellmanObj badFace) :
+    Accepts obj :=
+  True.intro
+
 def forcedSeq {badFace : Face} (obj : TopPairingBellmanObj badFace) :
     Step14 -> Face :=
   canonicalSeqOfPairWord (unrankPairWord obj.rank)
+
+def labels {badFace : Face} {Label : Type} (labelOfFace : Face -> Label)
+    (obj : TopPairingBellmanObj badFace) : List Label :=
+  faceLabelsInContributionOrder labelOfFace (forcedSeq obj)
 
 theorem closedForCanonicalSeq {badFace : Face}
     (obj : TopPairingBellmanObj badFace) :
@@ -54,6 +66,36 @@ def closedMembership (badFace : Face) :
     intro _rank _hclosed
     rfl
 
+theorem traceBoundOfEvalAccepts
+    {badFace : Face}
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    (next_sound :
+      forall s label t gain,
+        next s label = some (t, gain) -> Step s label t gain)
+    (eval_accepts :
+      forall obj : TopPairingBellmanObj badFace,
+        BellmanEvalAccepts V next start const
+          (fun obj : TopPairingBellmanObj badFace =>
+            scaledMargin obj.rank)
+          (fun obj => labels labelOfFace obj)
+          obj) :
+    BellmanLabelStepRunLanguageBound V Step start const
+      (fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)
+      (fun obj => labels labelOfFace obj)
+      (Accepts (badFace := badFace)) :=
+  bellmanLabelStepRunLanguageBound_of_evalAccepts
+    next_sound
+    (by
+      intro obj _hAccept
+      exact eval_accepts obj)
+
 def objectCoverOfEvalAccepts
     {badFace : Face}
     {State Label : Type}
@@ -72,8 +114,7 @@ def objectCoverOfEvalAccepts
         BellmanEvalAccepts V next start const
           (fun obj : TopPairingBellmanObj badFace =>
             scaledMargin obj.rank)
-          (fun obj =>
-            faceLabelsInContributionOrder labelOfFace (forcedSeq obj))
+          (fun obj => labels labelOfFace obj)
           obj)
     (step_valid :
       forall s label t gain, Step s label t gain -> gain + V t <= V s)
@@ -87,16 +128,80 @@ def objectCoverOfEvalAccepts
       scaledMargin :=
   BellmanAxisRankObjectCover.ofMembership
     (forcedSeq (badFace := badFace))
-    (bellmanLabelStepRunLanguageBound_of_evalAccepts
-      next_sound
-      (by
-        intro obj _hAccept
-        exact eval_accepts obj))
+    (traceBoundOfEvalAccepts next_sound eval_accepts)
     step_valid
     root_bound
     (closedMembership badFace)
 
 end TopPairingBellmanObj
+
+def topPairingClosedMembership (badFace : Face) :
+    BellmanRankObjectMembership
+      (TopPairingBellmanObj badFace)
+      TopPairingBellmanObj.rankOf
+      TopPairingBellmanObj.Accepts
+      (ClosedTopPairingContainsRank badFace) :=
+  TopPairingBellmanObj.closedMembership badFace
+
+theorem topPairingClosedTraceBound_of_evalAccepts
+    {badFace : Face}
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    (next_sound :
+      forall s label t gain,
+        next s label = some (t, gain) -> Step s label t gain)
+    (eval_accepts :
+      forall obj : TopPairingBellmanObj badFace,
+        BellmanEvalAccepts V next start const
+          (fun obj : TopPairingBellmanObj badFace =>
+            scaledMargin obj.rank)
+          (fun obj => TopPairingBellmanObj.labels labelOfFace obj)
+          obj) :
+    BellmanLabelStepRunLanguageBound V Step start const
+      (fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)
+      (fun obj => TopPairingBellmanObj.labels labelOfFace obj)
+      TopPairingBellmanObj.Accepts :=
+  TopPairingBellmanObj.traceBoundOfEvalAccepts
+    next_sound eval_accepts
+
+def topPairingClosedObjectCoverOfEvalAccepts
+    {badFace : Face}
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    (next_sound :
+      forall s label t gain,
+        next s label = some (t, gain) -> Step s label t gain)
+    (eval_accepts :
+      forall obj : TopPairingBellmanObj badFace,
+        BellmanEvalAccepts V next start const
+          (fun obj : TopPairingBellmanObj badFace =>
+            scaledMargin obj.rank)
+          (fun obj => TopPairingBellmanObj.labels labelOfFace obj)
+          obj)
+    (step_valid :
+      forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (root_bound : const + V start <= 0) :
+    BellmanAxisRankObjectCover
+      (TopPairingBellmanObj badFace)
+      State Label V Step labelOfFace start const
+      TopPairingBellmanObj.rankOf
+      TopPairingBellmanObj.Accepts
+      (ClosedTopPairingContainsRank badFace)
+      scaledMargin :=
+  TopPairingBellmanObj.objectCoverOfEvalAccepts
+    next_sound eval_accepts step_valid root_bound
 
 structure TopPairingBellmanEvalLanguageAtRank
     {State Label : Type}
