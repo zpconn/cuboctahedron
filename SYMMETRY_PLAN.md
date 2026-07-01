@@ -608,6 +608,57 @@ Accepted: Track 1's reduced-shadow nonidentity theorem is in place.  The
 remaining bridge is the square/triangular normal-form decomposition of
 `pairLinearProductFactors`.
 
+Lean square/triangular product decomposition checkpoint:
+
+- Added `Cuboctahedron/Search/ShadowNormalFormProduct.lean`.
+- It defines:
+
+  ```lean
+  def sqParityLinear (p : SqParity) : Mat3 Rat
+  def shadowStateLinearProduct (state : ShadowState) : Mat3 Rat
+  ```
+
+- It proves the scan-step product invariant:
+
+  ```lean
+  theorem shadowStateLinearProduct_scanPair
+      (state : ShadowState) (pair : PairId) :
+      matMul (shadowStateLinearProduct state) (reflM (canonicalNormalQ pair)) =
+        shadowStateLinearProduct (state.scanPair pair)
+  ```
+
+- It bridges this scanner invariant to existing pair-word products:
+
+  ```lean
+  theorem pairLinearProductFactors_eq_shadowStateLinearProduct
+      (pairs : List PairId) :
+      pairLinearProductFactors pairs =
+        shadowStateLinearProduct (shadowStateOfPairList pairs)
+
+  theorem totalLinearOfPairWord_eq_shadowStateLinearProduct
+      (w : PairWord) :
+      totalLinearOfPairWord w =
+        shadowStateLinearProduct (shadowStateOfPairList (startedPairFactors w))
+  ```
+
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalFormProduct
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalFormProduct (37s)
+  Build completed successfully
+  ```
+
+Accepted: all major Track 1 algebra components are now Lean-checked.  The
+next step is theorem assembly: combine the valid-count parity theorem,
+product decomposition, reduced-shadow product preservation, and triangular
+nonidentity theorem into the final identity classifier.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

@@ -622,3 +622,69 @@ Accepted: the reduced-shadow side of the identity classifier is now in place.
 The remaining Track 1 bridge is the square/triangular normal-form product
 decomposition connecting `pairLinearProductFactors` to final square parity and
 the acted triangular `triProduct`.
+
+## Square/Triangular Product Decomposition Checkpoint
+
+The full product decomposition bridge is now Lean-checked in:
+
+- `Cuboctahedron/Search/ShadowNormalFormProduct.lean`
+
+It defines the square-parity linear matrix and the combined shadow-state
+product:
+
+```lean
+def sqParityLinear (p : SqParity) : Mat3 Rat
+def shadowStateLinearProduct (state : ShadowState) : Mat3 Rat
+```
+
+and proves the scan-step invariant:
+
+```lean
+theorem shadowStateLinearProduct_scanPair
+    (state : ShadowState) (pair : PairId) :
+    matMul (shadowStateLinearProduct state) (reflM (canonicalNormalQ pair)) =
+      shadowStateLinearProduct (state.scanPair pair)
+```
+
+The module also bridges the scanner fold back to the existing exact product:
+
+```lean
+theorem pairLinearProductFactors_eq_shadowStateLinearProduct
+    (pairs : List PairId) :
+    pairLinearProductFactors pairs =
+      shadowStateLinearProduct (shadowStateOfPairList pairs)
+
+theorem totalLinearOfPairWord_eq_shadowStateLinearProduct
+    (w : PairWord) :
+    totalLinearOfPairWord w =
+      shadowStateLinearProduct (shadowStateOfPairList (startedPairFactors w))
+```
+
+Focused build:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalFormProduct
+```
+
+Result:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalFormProduct (37s)
+Build completed successfully
+```
+
+Accepted: the square/triangular normal-form product decomposition is now
+Lean-checked.  The remaining Track 1 assembly work is to combine:
+
+- valid pair-word square parity is `SqParity.id`;
+- reduced and unreduced triangular shadows have equal product;
+- nonempty reduced triangular shadows have nonidentity product;
+- `totalLinearOfPairWord_eq_shadowStateLinearProduct`.
+
+Together these should yield the main classifier theorem:
+
+```lean
+ValidPairWord w ->
+  (totalLinearOfPairWord w = (matId : Mat3 Rat) <->
+    reducedShadowOfPairWord w = [])
+```
