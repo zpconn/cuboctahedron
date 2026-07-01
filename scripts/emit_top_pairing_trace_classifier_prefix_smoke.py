@@ -56,6 +56,37 @@ theorem closedObj_prefix_xm_ym
         Face.xm :: Face.ym :: rest :=
   closedRank_prefix_xm_ym obj.closed
 
+theorem closedRank_prefix3
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    (∃ rest : List Face,
+        faceLabelsInContributionOrder (fun f : Face => f)
+            (canonicalSeqOfPairWord (unrankPairWord rank)) =
+          Face.xm :: Face.ym :: Face.tmpm :: rest) \\/
+      (∃ rest : List Face,
+        faceLabelsInContributionOrder (fun f : Face => f)
+            (canonicalSeqOfPairWord (unrankPairWord rank)) =
+          Face.xm :: Face.ym :: Face.yp :: rest) \\/
+        (∃ rest : List Face,
+          faceLabelsInContributionOrder (fun f : Face => f)
+              (canonicalSeqOfPairWord (unrankPairWord rank)) =
+            Face.xm :: Face.ym :: Face.zm :: rest) :=
+  topPairingStepScheduleLabels_prefix3 h.schedule
+
+theorem closedObj_prefix3
+    {badFace : Face}
+    (obj : TopPairingBellmanObj badFace) :
+    (∃ rest : List Face,
+        TopPairingBellmanObj.labels (fun f : Face => f) obj =
+          Face.xm :: Face.ym :: Face.tmpm :: rest) \\/
+      (∃ rest : List Face,
+        TopPairingBellmanObj.labels (fun f : Face => f) obj =
+          Face.xm :: Face.ym :: Face.yp :: rest) \\/
+        (∃ rest : List Face,
+          TopPairingBellmanObj.labels (fun f : Face => f) obj =
+            Face.xm :: Face.ym :: Face.zm :: rest) :=
+  closedRank_prefix3 obj.closed
+
 theorem prefixSmoke_builds : True := by
   exact True.intro
 

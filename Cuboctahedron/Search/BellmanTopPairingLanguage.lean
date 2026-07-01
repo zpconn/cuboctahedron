@@ -90,6 +90,52 @@ theorem topPairingStepScheduleLabels_prefix_xm_ym
           subst f1
           exact ⟨rest, rfl⟩
 
+theorem topPairingStepScheduleLabels_prefix3
+    {labels : List Face}
+    (h : TopPairingStepScheduleLabels labels) :
+    (∃ rest : List Face,
+        labels = Face.xm :: Face.ym :: Face.tmpm :: rest) \/
+      (∃ rest : List Face,
+        labels = Face.xm :: Face.ym :: Face.yp :: rest) \/
+        (∃ rest : List Face,
+          labels = Face.xm :: Face.ym :: Face.zm :: rest) := by
+  cases labels with
+  | nil =>
+      rcases h with ⟨hlen, _hfrom⟩
+      norm_num at hlen
+  | cons f0 labels =>
+      cases labels with
+      | nil =>
+          rcases h with ⟨hlen, _hfrom⟩
+          norm_num at hlen
+      | cons f1 labels =>
+          cases labels with
+          | nil =>
+              rcases h with ⟨hlen, _hfrom⟩
+              norm_num at hlen
+          | cons f2 rest =>
+              rcases h with ⟨_hlen, hfrom⟩
+              unfold TopPairingStepScheduleFrom at hfrom
+              rcases hfrom with ⟨hf0, hrest0⟩
+              simp [topPairingAllowedFacesAtStep] at hf0
+              subst f0
+              unfold TopPairingStepScheduleFrom at hrest0
+              rcases hrest0 with ⟨hf1, hrest1⟩
+              simp [topPairingAllowedFacesAtStep] at hf1
+              subst f1
+              unfold TopPairingStepScheduleFrom at hrest1
+              rcases hrest1 with ⟨hf2, _hrest2⟩
+              simp [topPairingAllowedFacesAtStep] at hf2
+              rcases hf2 with rfl | rfl | rfl
+              · left
+                exact ⟨rest, rfl⟩
+              · right
+                left
+                exact ⟨rest, rfl⟩
+              · right
+                right
+                exact ⟨rest, rfl⟩
+
 def topPairingAllowedSquareFacesAtGap : Nat -> List Face
   | 0 => [Face.xm, Face.ym, Face.yp, Face.zm, Face.zp]
   | 1 => [Face.zm, Face.zp]

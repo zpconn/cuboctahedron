@@ -58377,3 +58377,61 @@ terminals = 249
 Decision: accepted, with the graph JSON treated as reproducible diagnostic
 input rather than committed proof evidence.  The next emitter can regenerate
 that graph locally and emit small Lean shards from it.
+
+Second prefix-classifier shard:
+
+- Added `topPairingStepScheduleLabels_prefix3` in
+  `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`.
+- Extended the generated prefix smoke emitter and regenerated
+  `TopPairingTraceClassifier/PrefixSmoke.lean` with:
+
+```lean
+theorem closedRank_prefix3 :
+  TopPairingClosedLanguageAtRank rank badFace ->
+    (∃ rest, labels rank = Face.xm :: Face.ym :: Face.tmpm :: rest) \/
+    (∃ rest, labels rank = Face.xm :: Face.ym :: Face.yp :: rest) \/
+    (∃ rest, labels rank = Face.xm :: Face.ym :: Face.zm :: rest)
+
+theorem closedObj_prefix3 :
+  ...
+```
+
+- This is the next state-DAG proof shape: after the deterministic `xm,ym`
+  prefix, the schedule restricts the third face to exactly the three graph
+  successors seen in the exact profiler.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_language_prefix3_guard.json \
+  -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_trace_classifier_prefix3_smoke_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.PrefixSmoke
+```
+
+Result:
+
+```text
+BellmanTopPairingLanguage:
+  passed
+  peak_tree_rss = 3880.0 MiB
+  elapsed = 6.00s
+
+PrefixSmoke with prefix3:
+  passed
+  peak_tree_rss = 4047.1 MiB
+  elapsed = 4.00s
+```
+
+Decision: accepted.  The proof is still semantic and non-sampled.  The next
+scaling step is not to hand-write depth 4, 5, ...; it is to generate these
+finite successor disjunctions from the state-DAG graph in bounded shards.
