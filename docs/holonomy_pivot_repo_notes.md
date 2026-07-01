@@ -895,3 +895,17 @@ Reusable Bellman/axis adapter:
 - This is the reusable hook that future generated nonidentity Bellman leaves
   should call after proving their semantic label-step run and generated
   axis-forcing facts.
+- `scripts/emit_bellman_graph_smoke.py` now exercises that reusable hook in a
+  generated module:
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridgeAdapterSmoke`.
+  It exports
+  `graphSmoke_cls0000_generated_axis_forces_bridge_scaled_margin_nonpos`, which
+  calls `scaledMargin_nonpos_of_axisForces_labelStepRun` directly.
+- Focused build:
+
+  ```text
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridgeAdapterSmoke
+  ```
+
+  Result: `0:15.15` wall time, `4,279,512 kB` max RSS, exit `0`.

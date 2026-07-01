@@ -47419,3 +47419,44 @@ checkpoint should update `scripts/emit_bellman_graph_smoke.py` to use
 `scaledMargin_nonpos_of_axisForces_labelStepRun` directly in a small smoke,
 then remove the bespoke pair-sign-language plumbing from future generated
 family leaves where possible.
+
+### Holonomy/Bellman Pivot - generated shared-bridge smoke accepted
+
+`scripts/emit_bellman_graph_smoke.py` now imports
+`Cuboctahedron.Search.BellmanAxisBridge` when rank/axis bridges are emitted and
+adds a direct theorem using the shared adapter:
+
+```lean
+graphSmoke_cls0000_generated_axis_forces_bridge_scaled_margin_nonpos
+```
+
+A one-class adapter smoke was generated separately:
+
+```bash
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphBridgeAdapterSmoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridgeAdapterSmoke \
+  --rank-bridge-limit 1
+```
+
+Focused build:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridgeAdapterSmoke
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `BellmanTopPairingGraphBridgeAdapterSmoke` | `0:15.15` | `4,279,512 kB` | `0` |
+
+Decision: accepted.  Future generated Bellman leaves can call
+`scaledMargin_nonpos_of_axisForces_labelStepRun` directly after proving the
+forced/template `BellmanLabelStepRun`, final-potential nonnegativity, root
+bound, and scaled-margin inequality.  The next production task is now the real
+semantic family membership theorem: construct the label-step run and
+axis-forcing premises from holonomy/cancellation-family membership rather than
+from sampled ranks.

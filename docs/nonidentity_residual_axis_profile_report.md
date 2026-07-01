@@ -2011,3 +2011,42 @@ coverage.  The next checkpoint should make the Bellman graph smoke emitter use
 `scaledMargin_nonpos_of_axisForces_labelStepRun` directly, proving that future
 generated family leaves can rely on this shared adapter instead of bespoke
 pair-sign-language plumbing.
+
+## Generated Shared-Bridge Smoke Checkpoint
+
+The Bellman graph smoke emitter now imports
+`Cuboctahedron.Search.BellmanAxisBridge` for rank/axis bridge modules and emits
+a theorem that uses the shared adapter directly:
+
+```lean
+graphSmoke_cls0000_generated_axis_forces_bridge_scaled_margin_nonpos
+```
+
+Generated smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphBridgeAdapterSmoke.lean
+```
+
+Focused build:
+
+```text
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridgeAdapterSmoke
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `BellmanTopPairingGraphBridgeAdapterSmoke` | `0:15.15` | `4,279,512 kB` | `0` |
+
+The forbidden-keyword scan over the emitter, shared bridge module, and
+generated adapter smoke found no `sorry`, `admit`, `axiom`, `native_decide`,
+or `unsafe`.
+
+Decision: accepted.  The generated route now has a shared theorem hook for
+transporting axis-forced feasible sequences into Bellman label-step runs.  The
+next production task is to replace sampled-rank membership with a semantic
+holonomy/cancellation-family membership theorem that supplies the generated
+forced/template run and axis-forcing premises.
