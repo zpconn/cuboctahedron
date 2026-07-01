@@ -556,6 +556,18 @@ Margin-bound bridge:
 - Decision: this is still not family coverage, but it changes the missing
   proof from a Real inequality to exact rational margin-value certificates.
 
+Finite value-set smoke:
+
+- `DirectStartTopPairingSmoke` now records the 14 observed top-family margin
+  values in a local `TopPairingMarginValue` predicate and proves each is
+  nonpositive.
+- The representative proof now uses membership in this finite value set before
+  applying `offsetMarginQ_real_bound_of_value`.
+- Focused build passed in `0:05.84` wall time with `3,251,032 KiB` max RSS.
+- Decision: the value inequality itself is cheap and reusable.  The remaining
+  family gap is proving that every sequence covered by the top
+  margin+cancellation-pairing state lands in that value set.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

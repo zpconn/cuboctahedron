@@ -312,6 +312,11 @@ Top margin+cancellation-pairing checkpoint:
   `offsetMarginQ ... = -105/22` plus a nonpositivity proof.  The focused
   rebuild passed in `0:09.07` wall time with `3,355,340 KiB` max RSS.  This
   narrows, but does not close, the family proof gap.
+- The smoke now also has a local `TopPairingMarginValue` predicate for the 14
+  observed margin values.  A focused rebuild passed in `0:05.84` wall time
+  with `3,251,032 KiB` max RSS.  The remaining gap is to prove value-set
+  membership from the cancellation/holonomy state, not to prove the values are
+  nonpositive.
 
 ## Explicit Non-Goals
 

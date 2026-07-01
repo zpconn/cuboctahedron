@@ -1682,6 +1682,20 @@ Margin-bound bridge checkpoint:
   nonpositivity; it still does not prove membership of all 37 extracted cases
   in one Lean family.
 
+Top-family finite value-set smoke:
+
+- Added a local `TopPairingMarginValue` predicate in
+  `DirectStartTopPairingSmoke` containing the 14 margin values observed in
+  the extracted top family:
+  `-25/11`, `-47/11`, `-109/22`, `-105/22`, `-16/11`, `-43/22`,
+  `-27/11`, `-127/22`, `-36/11`, `-49/11`, `-58/11`, `-5/2`, `0`, and `-2`.
+- The smoke now proves nonpositivity from membership in this finite value set
+  before applying `offsetMarginQ_real_bound_of_value`.
+- Focused build passed in `0:05.84` wall time with `3,251,032 KiB` max RSS.
+- Decision: accepted as a small interface refinement.  The next missing piece
+  is not the value inequality; it is a semantic proof that a sequence in the
+  top cancellation family has one of these values.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

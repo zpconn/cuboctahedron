@@ -56,6 +56,40 @@ private abbrev topAff : Aff3 Rat :=
   { M := topLinearPart,
     b := { x := (652/243), y := (-2620/243), z := (-3124/243) } }
 
+private abbrev topMarginCoeff : Vec3 Rat :=
+  { x := (-103/176), y := (73/176), z := (5/88) }
+
+private inductive TopPairingMarginValue : Rat -> Prop
+  | neg25_11 : TopPairingMarginValue (-25/11)
+  | neg47_11 : TopPairingMarginValue (-47/11)
+  | neg109_22 : TopPairingMarginValue (-109/22)
+  | neg105_22 : TopPairingMarginValue (-105/22)
+  | neg16_11 : TopPairingMarginValue (-16/11)
+  | neg43_22 : TopPairingMarginValue (-43/22)
+  | neg27_11 : TopPairingMarginValue (-27/11)
+  | neg127_22 : TopPairingMarginValue (-127/22)
+  | neg36_11 : TopPairingMarginValue (-36/11)
+  | neg49_11 : TopPairingMarginValue (-49/11)
+  | neg58_11 : TopPairingMarginValue (-58/11)
+  | neg5_2 : TopPairingMarginValue (-5/2)
+  | zero : TopPairingMarginValue 0
+  | neg2 : TopPairingMarginValue (-2)
+
+private theorem TopPairingMarginValue.nonpos
+    {value : Rat} (h : TopPairingMarginValue value) :
+    value ≤ 0 := by
+  cases h <;> norm_num
+
+private theorem top_pairing_margin_bound_of_value
+    {b : Vec3 Rat} {value : Rat}
+    (hvalue : offsetMarginQ 2 topMarginCoeff b = value)
+    (hmember : TopPairingMarginValue value) :
+    (2 : Real) +
+        ((-103 / 176 : Rat) : Real) * (b.x : Real) +
+        ((73 / 176 : Rat) : Real) * (b.y : Real) +
+        ((5 / 88 : Rat) : Real) * (b.z : Real) ≤ 0 :=
+  offsetMarginQ_real_bound_of_value hvalue hmember.nonpos
+
 private theorem direct_ym_violation_of_top_linear_form
     {seq : Step14 -> Face} {A : Aff3 Rat}
     (hTotal : totalAff seq = A)
@@ -102,13 +136,11 @@ private theorem top_direct_ym_violation :
   · exact top_totalAff
   · rfl
   · exact
-      offsetMarginQ_real_bound_of_value
-        (const := 2)
-        (coeff := { x := (-103/176), y := (73/176), z := (5/88) })
+      top_pairing_margin_bound_of_value
         (b := topAff.b)
         (value := (-105/22))
-        (by norm_num [offsetMarginQ, dot, topAff])
-        (by norm_num)
+        (by norm_num [offsetMarginQ, dot, topMarginCoeff, topAff])
+        TopPairingMarginValue.neg105_22
 
 private theorem top_ym_ne_xp : Face.ym ≠ Face.xp := by
   decide
