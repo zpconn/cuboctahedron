@@ -24225,7 +24225,7 @@ def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=
   AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))
     cls0000Axis (sampledObjectForcedSeq idx)
 
-private def sampledAcceptedContainsRank (rank : Fin numPairWords) : Prop :=
+def sampledAcceptedContainsRank (rank : Fin numPairWords) : Prop :=
   exists idx : SampledRankIndex, sampledObjectAccepts idx /\ sampledRankOf idx = rank
 
 private noncomputable def sampledObjectMembership :

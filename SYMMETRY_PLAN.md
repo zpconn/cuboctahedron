@@ -49876,3 +49876,39 @@ exists obj, Accepts obj /\ rankOf obj = rank
 
 Only after that semantic object-language membership theorem exists should we
 scale to larger Bellman windows or assemble StateKilled roots.
+
+Follow-up terminal/root threading:
+
+- `sampledAcceptedContainsRank` is now exported from the graph shard.
+- The split terminal shard now defines:
+
+  ```lean
+  def terminalContainsRank (rank : Fin numPairWords) : Prop :=
+    sampledAcceptedContainsRank rank
+  ```
+
+- Its public smoke theorem consumes
+  `graphSmoke_sampled_accepted_axis_object_cover_eval_covers`, so the terminal
+  and root layers now expose the production-shaped accepted-object rank
+  predicate rather than the weaker sampled-index-only predicate.
+- Focused build:
+
+  | target | wall | max RSS | status |
+  | --- | ---: | ---: | --- |
+  | `BellmanTopPairingGraphLanguage2AllSmoke` terminal accepted-object route | `1:13.58` | `7,646,996 kB` | passed |
+
+- Split-boundary audit remains:
+
+  ```json
+  {"graph_lines": 24395, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 743, "terminal_positive_payloads": 2}
+  ```
+
+Decision: accepted.  The graph/terminal/root split now rehearses the intended
+production interface end to end:
+
+```text
+rank satisfies semantic accepted-object language
+  -> accepted Bellman object exists with that rank
+  -> private Bellman object cover proves scaledMargin <= 0
+  -> terminal start-violation payload proves NonIdentityRankKilled
+```

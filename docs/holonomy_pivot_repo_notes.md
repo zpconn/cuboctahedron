@@ -1989,3 +1989,17 @@ This is still a bounded smoke over two sampled objects.  The next real proof
 step is to make the object type and `Accepts` predicate describe the closed
 top-pairing/canonical-bad-face Bellman language, while reusing the same
 `exists accepted object with this rank` membership surface.
+
+Terminal/root accepted-object threading:
+
+- `sampledAcceptedContainsRank` is now exported from the graph shard.
+- The terminal shard now sets `terminalContainsRank` equal to
+  `sampledAcceptedContainsRank`.
+- The terminal killed theorem consumes
+  `graphSmoke_sampled_accepted_axis_object_cover_eval_covers`.
+- Focused all-smoke build passed in `1:13.58` wall time with
+  `7,646,996 kB` max RSS.
+
+This means the split smoke now exposes the production-shaped theorem surface
+all the way through the root: accepted Bellman object membership implies
+semantic `NonIdentityRankKilled`.
