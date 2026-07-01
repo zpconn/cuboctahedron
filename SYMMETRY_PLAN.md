@@ -743,6 +743,29 @@ Forced-axis Track 2 diagnostic checkpoint:
   If that family count stays too high, promote empty-cone/Gordan prefix pruning
   before generating any residual Lean leaves.
 
+Forced-axis cross-window checkpoint:
+
+- Ran the same exact profiler on four disjoint 100k windows using 4-worker
+  bounded parallelism.  All runs stayed below `31 MB` reported max RSS and had
+  zero shadow/linear mismatches.
+
+  ```text
+  [10000000,10100000): identity=3278 nonidentity=96722 forcedZero=57652 badBalance=26682 survivors=4143
+  [30000000,30100000): identity=1928 nonidentity=98072 forcedZero=62683 badBalance=23857 survivors=961
+  [60000000,60100000): identity=1420 nonidentity=98580 forcedZero=73573 badBalance=19573 survivors=1471
+  [90000000,90100000): identity=1029 nonidentity=98971 forcedZero=52135 badBalance=36342 survivors=2251
+  ```
+
+- Updated `docs/forced_axis_sign_profile_report.md` with these windows.
+- Interpretation: forced-axis rejection is consistently strong, but survivor
+  density varies substantially by rank region.  This reinforces the core
+  strategy change: do not encode nontranslation proof obligations as rank
+  intervals.  The next proof-discovery gate should classify the survivors by
+  semantic terminal failures (axis misses start, bad first hit, hit interior
+  failure, etc.) and only then decide whether residual family counts are small
+  enough.  If not, empty-cone/Gordan prefix pruning becomes the primary
+  nontranslation compression tool.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

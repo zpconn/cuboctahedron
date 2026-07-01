@@ -1,0 +1,763 @@
+{
+  "arithmetic": "exact Fraction/integer arithmetic; no floating point",
+  "axes": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 337,
+    "top": [
+      {
+        "count": 12306,
+        "key": "1,-1,0"
+      },
+      {
+        "count": 6192,
+        "key": "2,3,-1"
+      },
+      {
+        "count": 4684,
+        "key": "3,2,-1"
+      },
+      {
+        "count": 2436,
+        "key": "4,1,-1"
+      },
+      {
+        "count": 2016,
+        "key": "4,-5,11"
+      },
+      {
+        "count": 1851,
+        "key": "1,0,1"
+      },
+      {
+        "count": 1846,
+        "key": "1,4,-1"
+      },
+      {
+        "count": 1797,
+        "key": "2,13,-3"
+      },
+      {
+        "count": 1717,
+        "key": "10,-1,9"
+      },
+      {
+        "count": 1668,
+        "key": "2,1,3"
+      },
+      {
+        "count": 1640,
+        "key": "1,2,3"
+      },
+      {
+        "count": 1588,
+        "key": "5,-4,-11"
+      },
+      {
+        "count": 1473,
+        "key": "5,-6,11"
+      },
+      {
+        "count": 1466,
+        "key": "1,-2,11"
+      },
+      {
+        "count": 1435,
+        "key": "2,-1,-11"
+      },
+      {
+        "count": 1333,
+        "key": "13,2,-3"
+      },
+      {
+        "count": 1300,
+        "key": "1,-10,-9"
+      },
+      {
+        "count": 1283,
+        "key": "5,1,-12"
+      },
+      {
+        "count": 1270,
+        "key": "0,1,1"
+      },
+      {
+        "count": 1251,
+        "key": "13,-3,-2"
+      }
+    ]
+  },
+  "counts": {
+    "bad_pair_balance": 19573,
+    "exact_identity": 1420,
+    "exact_nonidentity": 98580,
+    "final_axis_wrong_orientation_only": 0,
+    "final_axis_zero": 3963,
+    "forced_balance_survivors": 1471,
+    "forced_zero_denominator": 73573,
+    "no_fixed_axis": 0,
+    "shadow_identity": 1420,
+    "shadow_linear_mismatches": 0,
+    "shadow_nonidentity": 98580
+  },
+  "elapsed_seconds": 6.401352167129517,
+  "end": 60100000,
+  "jobs": 4,
+  "mode": "forced-axis-sign-profile",
+  "orientation_stage_counts": {
+    "bad_pair_balance": 19573,
+    "final_dot_nonpositive": 102543,
+    "forced_balance_survivor": 1471,
+    "forced_zero_denominator": 73573
+  },
+  "product_order": "R(w[0]) * ... * R(w[12]) * R(x)",
+  "reduced_shadows": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 364,
+    "top": [
+      {
+        "count": 6079,
+        "key": "d11m d111 d11m dm11"
+      },
+      {
+        "count": 5682,
+        "key": "d11m d111"
+      },
+      {
+        "count": 4720,
+        "key": "d11m d111 d11m d111"
+      },
+      {
+        "count": 4618,
+        "key": "d11m d111 d11m d1m1"
+      },
+      {
+        "count": 2022,
+        "key": "d11m d111 dm11 d11m"
+      },
+      {
+        "count": 1797,
+        "key": "d11m d111 d11m d111 dm11 d111"
+      },
+      {
+        "count": 1717,
+        "key": "d11m d111 d11m d1m1 d11m d111"
+      },
+      {
+        "count": 1668,
+        "key": "d11m d111 d1m1 d111"
+      },
+      {
+        "count": 1640,
+        "key": "d11m d111 dm11 d111"
+      },
+      {
+        "count": 1575,
+        "key": "d11m d111 d11m d1m1 d111 d11m"
+      },
+      {
+        "count": 1542,
+        "key": "d11m d111 d1m1 d11m"
+      },
+      {
+        "count": 1519,
+        "key": "d11m dm11"
+      },
+      {
+        "count": 1473,
+        "key": "d11m d111 d11m d111 d11m dm11"
+      },
+      {
+        "count": 1466,
+        "key": "d11m d111 d11m d111 dm11 d11m"
+      },
+      {
+        "count": 1445,
+        "key": "d11m d111 d11m d111 d11m d111"
+      },
+      {
+        "count": 1435,
+        "key": "d11m d111 d11m d111 d1m1 d11m"
+      },
+      {
+        "count": 1420,
+        "key": "<empty>"
+      },
+      {
+        "count": 1333,
+        "key": "d11m d111 d11m d111 d1m1 d111"
+      },
+      {
+        "count": 1300,
+        "key": "d11m d111 d11m dm11 d11m d111"
+      },
+      {
+        "count": 1283,
+        "key": "d11m d111 d11m d1m1 dm11 d111"
+      }
+    ]
+  },
+  "rejection_families": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 8732,
+    "top": [
+      {
+        "count": 6079,
+        "key": "forcedZero|reduced=d11m d111 d11m dm11|axis=2,3,-1|zeroAt=1|pair=d111|normal=1,1,5"
+      },
+      {
+        "count": 5682,
+        "key": "forcedZero|reduced=d11m d111|axis=1,-1,0|zeroAt=0|pair=d11m|normal=1,1,-1"
+      },
+      {
+        "count": 4720,
+        "key": "forcedZero|reduced=d11m d111 d11m d111|axis=1,-1,0|zeroAt=0|pair=d11m|normal=1,1,-1"
+      },
+      {
+        "count": 4618,
+        "key": "forcedZero|reduced=d11m d111 d11m d1m1|axis=3,2,-1|zeroAt=1|pair=d111|normal=1,1,5"
+      },
+      {
+        "count": 2022,
+        "key": "forcedZero|reduced=d11m d111 dm11 d11m|axis=4,1,-1|zeroAt=1|pair=d111|normal=1,1,5"
+      },
+      {
+        "count": 1797,
+        "key": "forcedZero|reduced=d11m d111 d11m d111 dm11 d111|axis=2,13,-3|zeroAt=1|pair=d111|normal=1,1,5"
+      },
+      {
+        "count": 1717,
+        "key": "forcedZero|reduced=d11m d111 d11m d1m1 d11m d111|axis=10,-1,9|zeroAt=0|pair=d11m|normal=1,1,-1"
+      },
+      {
+        "count": 1668,
+        "key": "forcedZero|reduced=d11m d111 d1m1 d111|axis=2,1,3|zeroAt=0|pair=d11m|normal=1,1,-1"
+      },
+      {
+        "count": 1640,
+        "key": "forcedZero|reduced=d11m d111 dm11 d111|axis=1,2,3|zeroAt=0|pair=d11m|normal=1,1,-1"
+      },
+      {
+        "count": 1575,
+        "key": "forcedZero|reduced=d11m d111 d11m d1m1 d111 d11m|axis=4,-5,11|zeroAt=2|pair=d11m|normal=11,11,1"
+      },
+      {
+        "count": 1542,
+        "key": "forcedZero|reduced=d11m d111 d1m1 d11m|axis=1,4,-1|zeroAt=1|pair=d111|normal=1,1,5"
+      },
+      {
+        "count": 1519,
+        "key": "forcedZero|reduced=d11m dm11|axis=1,0,1|zeroAt=0|pair=d11m|normal=1,1,-1"
+      },
+      {
+        "count": 1473,
+        "key": "forcedZero|reduced=d11m d111 d11m d111 d11m dm11|axis=5,-6,11|zeroAt=2|pair=d11m|normal=11,11,1"
+      },
+      {
+        "count": 1466,
+        "key": "forcedZero|reduced=d11m d111 d11m d111 dm11 d11m|axis=1,-2,11|zeroAt=2|pair=d11m|normal=11,11,1"
+      },
+      {
+        "count": 1445,
+        "key": "forcedZero|reduced=d11m d111 d11m d111 d11m d111|axis=1,-1,0|zeroAt=0|pair=d11m|normal=1,1,-1"
+      },
+      {
+        "count": 1435,
+        "key": "forcedZero|reduced=d11m d111 d11m d111 d1m1 d11m|axis=2,-1,-11|zeroAt=2|pair=d11m|normal=11,11,1"
+      },
+      {
+        "count": 1333,
+        "key": "forcedZero|reduced=d11m d111 d11m d111 d1m1 d111|axis=13,2,-3|zeroAt=1|pair=d111|normal=1,1,5"
+      },
+      {
+        "count": 1300,
+        "key": "forcedZero|reduced=d11m d111 d11m dm11 d11m d111|axis=1,-10,-9|zeroAt=0|pair=d11m|normal=1,1,-1"
+      },
+      {
+        "count": 1251,
+        "key": "forcedZero|reduced=d11m d111 d11m dm11 d11m dm11|axis=13,-3,-2|zeroAt=1|pair=d111|normal=1,1,5"
+      },
+      {
+        "count": 1248,
+        "key": "forcedZero|reduced=d11m d111 d11m dm11 d111 d11m|axis=5,-4,-11|zeroAt=2|pair=d11m|normal=11,11,1"
+      }
+    ]
+  },
+  "samples": {
+    "bad_pair_balance": [
+      {
+        "axis": "-1/2,0,1",
+        "duplicated": [
+          "tmpm",
+          "tppp",
+          "ym"
+        ],
+        "final_axis_dot": "1/2",
+        "forced_seq": [
+          "xp",
+          "tmmp",
+          "tppp",
+          "tppm",
+          "ym",
+          "tmpp",
+          "zm",
+          "zp",
+          "tmpm",
+          "ym",
+          "tppp",
+          "tmpm",
+          "tpmm",
+          "xm"
+        ],
+        "forced_signs": "-++-+-+--+---",
+        "missing": [
+          "tmmm",
+          "tpmp",
+          "yp"
+        ],
+        "rank": 60050013,
+        "reduced_shadow": "d11m d111 d1m1 dm11",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,y,d111,d1m1,dm11,x"
+      },
+      {
+        "axis": "-2,-1,0",
+        "duplicated": [
+          "tmmm",
+          "tmpp",
+          "xp",
+          "ym"
+        ],
+        "final_axis_dot": "2",
+        "forced_seq": [
+          "xp",
+          "tmmp",
+          "tmmm",
+          "tppm",
+          "ym",
+          "tmpp",
+          "zm",
+          "zp",
+          "tpmp",
+          "ym",
+          "tmpm",
+          "xp",
+          "tmmm",
+          "tmpp"
+        ],
+        "forced_signs": "--+-+-++--+-+",
+        "missing": [
+          "tpmm",
+          "tppp",
+          "xm",
+          "yp"
+        ],
+        "rank": 60050016,
+        "reduced_shadow": "d11m d1m1 dm11 d111",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,y,d1m1,x,d111,dm11"
+      },
+      {
+        "axis": "-2,0,1",
+        "duplicated": [
+          "tmpm",
+          "tmpp",
+          "xp",
+          "ym"
+        ],
+        "final_axis_dot": "2",
+        "forced_seq": [
+          "xp",
+          "tmmp",
+          "tppp",
+          "tppm",
+          "ym",
+          "tmpp",
+          "zm",
+          "zp",
+          "tmpm",
+          "ym",
+          "tmpm",
+          "xp",
+          "tmpp",
+          "tmmm"
+        ],
+        "forced_signs": "-++-+-+---++-",
+        "missing": [
+          "tpmm",
+          "tpmp",
+          "xm",
+          "yp"
+        ],
+        "rank": 60050017,
+        "reduced_shadow": "d11m d1m1 d111 dm11",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,y,d1m1,x,dm11,d111"
+      },
+      {
+        "axis": "-2,0,1",
+        "duplicated": [
+          "tmpm",
+          "tppp",
+          "ym"
+        ],
+        "final_axis_dot": "2",
+        "forced_seq": [
+          "xp",
+          "tmmp",
+          "tppp",
+          "tppm",
+          "ym",
+          "tmpp",
+          "zm",
+          "zp",
+          "tmpm",
+          "ym",
+          "tmpm",
+          "tppp",
+          "tpmm",
+          "xm"
+        ],
+        "forced_signs": "-++-+-+---+--",
+        "missing": [
+          "tmmm",
+          "tpmp",
+          "yp"
+        ],
+        "rank": 60050019,
+        "reduced_shadow": "d11m d1m1 d111 dm11",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,y,d1m1,d111,dm11,x"
+      },
+      {
+        "axis": "-2,-1,0",
+        "duplicated": [
+          "ym"
+        ],
+        "final_axis_dot": "2",
+        "forced_seq": [
+          "xp",
+          "tmmp",
+          "tmmm",
+          "tppm",
+          "ym",
+          "tmpp",
+          "zm",
+          "zp",
+          "tpmp",
+          "ym",
+          "tmpm",
+          "tpmm",
+          "tppp",
+          "xm"
+        ],
+        "forced_signs": "--+-+-++---+-",
+        "missing": [
+          "yp"
+        ],
+        "rank": 60050021,
+        "reduced_shadow": "d11m d1m1 dm11 d111",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,y,d1m1,dm11,d111,x"
+      }
+    ],
+    "final_axis_zero": [
+      {
+        "axis": "0,1,1",
+        "final_normal": "7/9,4/9,-4/9",
+        "rank": 60050000,
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,x,dm11,d111,y,d1m1"
+      },
+      {
+        "axis": "0,1,1",
+        "final_normal": "7/9,4/9,-4/9",
+        "rank": 60050002,
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,x,dm11,d1m1,y,d111"
+      },
+      {
+        "axis": "0,-1,1",
+        "final_normal": "7/9,-4/9,-4/9",
+        "rank": 60050006,
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,y,x,d1m1,d111,dm11"
+      },
+      {
+        "axis": "0,-1,1",
+        "final_normal": "7/9,4/9,4/9",
+        "rank": 60050007,
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,y,x,d1m1,dm11,d111"
+      },
+      {
+        "axis": "0,-1/2,1",
+        "final_normal": "79/81,16/81,8/81",
+        "rank": 60050015,
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,y,d111,dm11,d1m1,x"
+      }
+    ],
+    "forced_balance_survivor": [
+      {
+        "axis": "-2,0,1",
+        "final_axis_dot": "2",
+        "forced_seq": [
+          "xp",
+          "tmmp",
+          "tppp",
+          "tppm",
+          "ym",
+          "tmpp",
+          "zm",
+          "zp",
+          "tmpm",
+          "tmmm",
+          "tpmp",
+          "yp",
+          "tpmm",
+          "xm"
+        ],
+        "forced_signs": "-++-+-+--++--",
+        "rank": 60050043,
+        "reduced_shadow": "d11m d1m1 d111 dm11",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,d111,d1m1,y,dm11,x"
+      },
+      {
+        "axis": "-1/2,0,1",
+        "final_axis_dot": "1/2",
+        "forced_seq": [
+          "xp",
+          "tmmp",
+          "tppp",
+          "tppm",
+          "ym",
+          "tmpp",
+          "zm",
+          "zp",
+          "tmpm",
+          "tpmp",
+          "xm",
+          "tpmm",
+          "yp",
+          "tmmm"
+        ],
+        "forced_signs": "-++-+-+-+--+-",
+        "rank": 60050056,
+        "reduced_shadow": "d11m d111 d1m1 dm11",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,d1m1,x,dm11,y,d111"
+      },
+      {
+        "axis": "-1/2,0,1",
+        "final_axis_dot": "1/2",
+        "forced_seq": [
+          "xp",
+          "tmmp",
+          "tppp",
+          "tppm",
+          "ym",
+          "tmpp",
+          "zm",
+          "zp",
+          "tmpm",
+          "tpmp",
+          "tmmm",
+          "yp",
+          "tpmm",
+          "xm"
+        ],
+        "forced_signs": "-++-+-+-+-+--",
+        "rank": 60050067,
+        "reduced_shadow": "d11m d111 d1m1 dm11",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,d1m1,d111,y,dm11,x"
+      },
+      {
+        "axis": "-9/8,5/8,1",
+        "final_axis_dot": "9/8",
+        "forced_seq": [
+          "xp",
+          "tmmp",
+          "tppp",
+          "tppm",
+          "yp",
+          "tmpp",
+          "zm",
+          "tmmm",
+          "ym",
+          "zp",
+          "tmpm",
+          "tpmm",
+          "tpmp",
+          "xm"
+        ],
+        "forced_signs": "-++++---+--+-",
+        "rank": 60050240,
+        "reduced_shadow": "d11m d111 dm11 d1m1 dm11 d1m1",
+        "word": "d11m,d111,d11m,y,dm11,z,d111,y,z,d1m1,dm11,d1m1,x"
+      },
+      {
+        "axis": "-9/8,5/8,1",
+        "final_axis_dot": "9/8",
+        "forced_seq": [
+          "xp",
+          "tmmp",
+          "tppp",
+          "tppm",
+          "yp",
+          "tmpp",
+          "zm",
+          "tmmm",
+          "zp",
+          "ym",
+          "tmpm",
+          "tpmm",
+          "tpmp",
+          "xm"
+        ],
+        "forced_signs": "-++++--+---+-",
+        "rank": 60050300,
+        "reduced_shadow": "d11m d111 dm11 d1m1 dm11 d1m1",
+        "word": "d11m,d111,d11m,y,dm11,z,d111,z,y,d1m1,dm11,d1m1,x"
+      }
+    ],
+    "forced_zero_denominator": [
+      {
+        "axis": "-1/2,-3/2,1",
+        "final_axis_dot": "1/2",
+        "normal_class": "5,-1,1",
+        "rank": 60050001,
+        "reduced_shadow": "d11m d1m1 d11m dm11",
+        "transformed_normal": "5/3,-1/3,1/3",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,x,dm11,d111,d1m1,y",
+        "zero_at": 9,
+        "zero_pair": "dm11"
+      },
+      {
+        "axis": "-1/4,-1/4,1",
+        "final_axis_dot": "1/4",
+        "normal_class": "5,-1,1",
+        "rank": 60050003,
+        "reduced_shadow": "d11m d1m1 dm11 d11m",
+        "transformed_normal": "5/3,-1/3,1/3",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,x,dm11,d1m1,d111,y",
+        "zero_at": 9,
+        "zero_pair": "dm11"
+      },
+      {
+        "axis": "-2/3,-1/3,1",
+        "final_axis_dot": "2/3",
+        "normal_class": "1,-5,-1",
+        "rank": 60050004,
+        "reduced_shadow": "d11m dm11 d11m d111",
+        "transformed_normal": "-1/3,5/3,1/3",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,y,x,d111,d1m1,dm11",
+        "zero_at": 10,
+        "zero_pair": "d111"
+      },
+      {
+        "axis": "-4,-1,1",
+        "final_axis_dot": "4",
+        "normal_class": "1,1,5",
+        "rank": 60050005,
+        "reduced_shadow": "d11m dm11 d111 d11m",
+        "transformed_normal": "1/3,1/3,5/3",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,y,x,d111,dm11,d1m1",
+        "zero_at": 1,
+        "zero_pair": "d111"
+      },
+      {
+        "axis": "-4,-1,1",
+        "final_axis_dot": "4",
+        "normal_class": "1,1,5",
+        "rank": 60050008,
+        "reduced_shadow": "d11m d111 dm11 d11m",
+        "transformed_normal": "1/3,1/3,5/3",
+        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,y,x,dm11,d111,d1m1",
+        "zero_at": 1,
+        "zero_pair": "d111"
+      }
+    ]
+  },
+  "scanned": 100000,
+  "schema_version": 1,
+  "start": 60000000,
+  "survivor_signatures": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 672,
+    "top": [
+      {
+        "count": 15,
+        "key": "survivor|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++-+-+-+-+--"
+      },
+      {
+        "count": 13,
+        "key": "survivor|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++-+-+-+--+-"
+      },
+      {
+        "count": 13,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--++-+-+-+-+-"
+      },
+      {
+        "count": 11,
+        "key": "survivor|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++-+-+--+-+-"
+      },
+      {
+        "count": 11,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--+-+-+-+-++-"
+      },
+      {
+        "count": 11,
+        "key": "survivor|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++-+--+-+-+-"
+      },
+      {
+        "count": 11,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--+-++-+-+-+-"
+      },
+      {
+        "count": 10,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 dm11 d111|axis=5,1,-12|signs=-++-+-+++----"
+      },
+      {
+        "count": 10,
+        "key": "survivor|reduced=d11m d111 d11m d111 d1m1 dm11|axis=5,9,8|signs=--++----++++-"
+      },
+      {
+        "count": 9,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--+-+-++-+-+-"
+      },
+      {
+        "count": 9,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--+-+-+-++-+-"
+      },
+      {
+        "count": 9,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 dm11 d111 dm11 d11m|axis=4,-35,17|signs=+--+--++-+--+"
+      },
+      {
+        "count": 8,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 d11m dm11 d11m d111|axis=35,1,-18|signs=-++---++-+--+"
+      },
+      {
+        "count": 8,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--++--++-+-+-"
+      },
+      {
+        "count": 8,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--++--++--++-"
+      },
+      {
+        "count": 8,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--++--+-++-+-"
+      },
+      {
+        "count": 8,
+        "key": "survivor|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--++--+-+-++-"
+      },
+      {
+        "count": 7,
+        "key": "survivor|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++-+--++-+--"
+      },
+      {
+        "count": 7,
+        "key": "survivor|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++--++--+-+-"
+      },
+      {
+        "count": 7,
+        "key": "survivor|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++--++-+-+--"
+      }
+    ]
+  }
+}
