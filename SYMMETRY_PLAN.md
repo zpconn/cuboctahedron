@@ -55308,3 +55308,70 @@ Refreshed accounting:
 Decision: accepted as the thirty-second checked split path under the strict
 post-crash guard.  The sampled split Bellman checks remain below the
 `4500 MiB` process-tree RSS cap.
+
+### Holonomy/Bellman Pivot - thirty-third split path accepted
+
+Ran one more serial guarded proof-bearing check: path object index `32`, rank
+`947599`.  The run used the same strict post-crash guard and did not use batch
+execution or parallel Lean.
+
+Commands run:
+
+```bash
+sed -n '1,220p' \
+  /home/zpconn/.codex/attachments/e1cf8a15-bc8e-4372-9bde-3f7f114c9700/pasted-text-1.txt
+git status --short --branch
+free -m
+
+python3 scripts/run_bellman_split_smoke_path.py 32 \
+  --check \
+  --check-stage missing \
+  --dry-run \
+  --json scripts/generated/bellman_split_path_32_missing_dry_run.json
+
+python3 scripts/run_bellman_split_smoke_path.py 32 \
+  --check \
+  --check-stage missing \
+  --json scripts/generated/bellman_split_path_32_missing_run.json
+
+python3 scripts/plan_bellman_split_batch_guard.py \
+  --start-index 0 \
+  --count 16 \
+  --require-fresh-artifacts \
+  --require-checked-summaries \
+  --json scripts/generated/bellman_split_batch_guard_000_016.json \
+  --markdown docs/bellman_split_batch_guard_000_016.md
+
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+
+python3 scripts/plan_bellman_split_smokes.py \
+  --count 37 \
+  --json scripts/generated/bellman_split_smoke_batch_plan_000_037.json \
+  --markdown docs/bellman_split_smoke_batch_plan_000_037.md
+```
+
+Proof-bearing results for path object index `32`:
+
+| component | elapsed | peak tree RSS | hard-AS cap | min available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `generated-trace-32 --emit-olean` | `7.51s` | `4028 MiB` | `6144 MiB` | `46201 MiB` | passed |
+| `split-composition-32 --emit-olean` | `2.00s` | `3619 MiB` | `6144 MiB` | `46398 MiB` | passed |
+
+Refreshed accounting:
+
+- strict `[0,16)` batch guard remains `accepted-dry-run`, with `0` blocked
+  entries and `0` total blockers;
+- `[0,37)` source/artifact plan reports `0` over budget, `33` fresh trace
+  artifacts, `33` fresh split artifacts, `1184 KiB` total trace source, and
+  `74 KiB` total split source;
+- the next dry-run-selected single-path candidate is path object index `33`,
+  rank `947601`, with both trace and split artifacts missing/stale.
+
+Decision: accepted as the thirty-third checked split path under the strict
+post-crash guard.  The sampled split Bellman checks remain below the
+`4500 MiB` process-tree RSS cap.

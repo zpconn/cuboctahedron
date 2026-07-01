@@ -2862,18 +2862,18 @@
       "rank": 947599,
       "split": {
         "artifact_status": {
-          "fresh_olean": false,
+          "fresh_olean": true,
           "olean": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 17936,
+            "exists": true,
+            "kib": 18,
+            "mtime": 1782936504.2786336
           },
           "source": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 1927,
+            "exists": true,
+            "kib": 2,
+            "mtime": 1782936481.6654866
           }
         },
         "import_budget": 26,
@@ -2887,18 +2887,18 @@
       },
       "trace": {
         "artifact_status": {
-          "fresh_olean": false,
+          "fresh_olean": true,
           "olean": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 2536968,
+            "exists": true,
+            "kib": 2478,
+            "mtime": 1782936502.5379846
           },
           "source": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 32650,
+            "exists": true,
+            "kib": 32,
+            "mtime": 1782936481.6654866
           }
         },
         "import_budget": 18,
@@ -3270,8 +3270,8 @@
   "start_index": 0,
   "summary": {
     "entries_over_budget": 0,
-    "fresh_split_artifacts": 32,
-    "fresh_trace_artifacts": 32,
+    "fresh_split_artifacts": 33,
+    "fresh_trace_artifacts": 33,
     "planned_entries": 37,
     "total_split_source_kib": 74,
     "total_trace_source_kib": 1184
