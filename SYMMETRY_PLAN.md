@@ -2150,6 +2150,20 @@ Bellman profiler prototype checkpoint:
   wall time with `3,673,548 kB` max RSS.  This supports the next intended
   cancellation-tree/summary proof shape: prove smaller subruns and compose
   them instead of emitting one long constructor chain per full word.
+- Shared-prefix composition smoke: the top-family graph's 37 observed label
+  classes share a two-transition semantic prefix (`face=xm|pair=x`,
+  `face=ym|pair=y`).  The graph smoke emitter now proves this prefix once as
+  `commonPrefixLabelStepRun`, proves per-class suffix runs from the prefix
+  state, and constructs `clsNNNNComposedLabelStepRun` via
+  `BellmanLabelStepRun.append`.  The composed runs feed
+  `smokeObservedComposedLabelStepRunLanguageBound` and
+  `graphSmoke_observed_composed_label_step_run_scaled_margin_nonpos`.
+  Focused build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:11.75` wall time with `3,750,340 kB` max RSS.  Decision: accepted as
+  a composition-pattern smoke.  It is still an observed bounded language, but
+  it validates the proof shape needed by cancellation-tree summaries:
+  construct shared subruns once and assemble full runs by append.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

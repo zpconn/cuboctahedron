@@ -505,6 +505,13 @@ Top margin+cancellation-pairing checkpoint:
   in `0:06.18` wall time with `3,673,548 kB` max RSS.  This is a support
   theorem for cancellation-tree summaries and other holonomy-language proofs
   that should assemble full runs from smaller pieces.
+- Shared-prefix composition status: the current generated smoke detects the
+  common two-label prefix shared by all 37 observed top-family classes, proves
+  that prefix once, proves suffix runs per class, and composes them with
+  `BellmanLabelStepRun.append`.  The focused graph smoke passed in `0:11.75`
+  wall time with `3,750,340 kB` max RSS.  This is still bounded smoke, but it
+  validates the intended cancellation-summary style: reusable subruns first,
+  full runs by composition.
 
 ## Explicit Non-Goals
 

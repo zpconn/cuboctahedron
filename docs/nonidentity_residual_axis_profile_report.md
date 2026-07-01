@@ -1337,6 +1337,36 @@ Label-step composition checkpoint:
   composing subruns, not by replaying a full length-14 constructor chain for
   each observed path class.
 
+Shared-prefix composed-run smoke:
+
+- The 37 observed label classes in the 1M top-family graph share a
+  two-transition semantic prefix:
+
+  ```text
+  face=xm|pair=x
+  face=ym|pair=y
+  ```
+
+- Updated `scripts/emit_bellman_graph_smoke.py` to emit:
+  - `commonPrefixLabelStepRun`;
+  - per-class suffix label-step runs from `commonPrefixFinalState`;
+  - per-class composed runs using `BellmanLabelStepRun.append`;
+  - `smokeObservedComposedLabelStepRunLanguageBound`;
+  - `graphSmoke_observed_composed_label_step_run_scaled_margin_nonpos`.
+- Focused build passed:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Result: `0:11.75` wall time, `3,750,340 kB` max RSS.
+- Decision: accepted as a composition-pattern smoke.  This still uses the
+  bounded observed path classes, but it validates the intended production
+  direction: cancellation-tree and holonomy-language proofs should build
+  reusable subruns and compose them, rather than replaying a whole constructor
+  chain for every complete word.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

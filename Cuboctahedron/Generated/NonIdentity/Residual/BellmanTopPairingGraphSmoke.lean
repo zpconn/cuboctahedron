@@ -7073,6 +7073,26 @@ private theorem SmokeStep.valid {s : State} {label : SmokeLabel} {t : State} {ga
   | e0227 => simpa [BellmanEdge.Valid] using edge0227_valid
   | e0228 => simpa [BellmanEdge.Valid] using edge0228_valid
 
+-- shared prefix length: 2
+private def commonPrefixFinalState : State := State.s0143
+
+private def commonPrefixLabels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010]
+
+private def commonPrefixGain : Int :=
+  edge0000.gain + (edge0124.gain + (0))
+
+private theorem commonPrefixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState commonPrefixFinalState commonPrefixLabels commonPrefixGain := by
+  unfold commonPrefixLabels commonPrefixGain rootState commonPrefixFinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0000
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0124
+  exact BellmanLabelStepRun.nil State.s0143
+
 private def cls0000Labels : List SmokeLabel :=
   [SmokeLabel.l0008
   , SmokeLabel.l0010
@@ -7201,6 +7221,71 @@ private theorem cls0000LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0123
   exact BellmanLabelStepRun.nil State.s0141
+
+private def cls0000SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0011
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0000SuffixGain : Int :=
+  edge0125.gain + (edge0128.gain + (edge0135.gain + (edge0145.gain + (edge0158.gain + (edge0173.gain + (edge0190.gain + (edge0210.gain + (edge0006.gain + (edge0045.gain + (edge0080.gain + (edge0123.gain + (0))))))))))))
+
+private theorem cls0000SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0000FinalState cls0000SuffixLabels cls0000SuffixGain := by
+  unfold cls0000SuffixLabels cls0000SuffixGain commonPrefixFinalState cls0000FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0128
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0135
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0145
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0158
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0173
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0190
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0210
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0006
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0045
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0080
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0123
+  exact BellmanLabelStepRun.nil State.s0141
+
+private def cls0000ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0000SuffixLabels
+
+private def cls0000ComposedGain : Int :=
+  commonPrefixGain + cls0000SuffixGain
+
+private theorem cls0000ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0000FinalState cls0000ComposedLabels cls0000ComposedGain := by
+  unfold cls0000ComposedLabels cls0000ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0000SuffixLabelStepRun
+
+private theorem cls0000ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0000 <= (176 : Int) + cls0000ComposedGain := by
+  unfold cls0000ComposedGain commonPrefixGain cls0000SuffixGain
+  change (-376 : Int) <= -376
+  decide
 
 private theorem cls0000Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0000 <= (176 : Int) + cls0000Gain := by
@@ -7337,6 +7422,71 @@ private theorem cls0001LabelStepRun :
   · exact SmokeStep.e0120
   exact BellmanLabelStepRun.nil State.s0138
 
+private def cls0001SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0011
+  , SmokeLabel.l0012
+  , SmokeLabel.l0001
+  , SmokeLabel.l0005
+  , SmokeLabel.l0007
+  , SmokeLabel.l0004
+  , SmokeLabel.l0003
+  , SmokeLabel.l0006
+  , SmokeLabel.l0002
+  , SmokeLabel.l0000
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0001SuffixGain : Int :=
+  edge0125.gain + (edge0128.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0175.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))
+
+private theorem cls0001SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0001FinalState cls0001SuffixLabels cls0001SuffixGain := by
+  unfold cls0001SuffixLabels cls0001SuffixGain commonPrefixFinalState cls0001FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0128
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0136
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0148
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0161
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0175
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0193
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0213
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0011
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0050
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0086
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0120
+  exact BellmanLabelStepRun.nil State.s0138
+
+private def cls0001ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0001SuffixLabels
+
+private def cls0001ComposedGain : Int :=
+  commonPrefixGain + cls0001SuffixGain
+
+private theorem cls0001ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0001FinalState cls0001ComposedLabels cls0001ComposedGain := by
+  unfold cls0001ComposedLabels cls0001ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0001SuffixLabelStepRun
+
+private theorem cls0001ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0001 <= (176 : Int) + cls0001ComposedGain := by
+  unfold cls0001ComposedGain commonPrefixGain cls0001SuffixGain
+  change (-376 : Int) <= -376
+  decide
+
 private theorem cls0001Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0001 <= (176 : Int) + cls0001Gain := by
   unfold cls0001Gain
@@ -7471,6 +7621,71 @@ private theorem cls0002LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0117
   exact BellmanLabelStepRun.nil State.s0135
+
+private def cls0002SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0002SuffixGain : Int :=
+  edge0125.gain + (edge0129.gain + (edge0137.gain + (edge0146.gain + (edge0157.gain + (edge0172.gain + (edge0189.gain + (edge0209.gain + (edge0005.gain + (edge0043.gain + (edge0078.gain + (edge0117.gain + (0))))))))))))
+
+private theorem cls0002SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0002FinalState cls0002SuffixLabels cls0002SuffixGain := by
+  unfold cls0002SuffixLabels cls0002SuffixGain commonPrefixFinalState cls0002FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0137
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0146
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0157
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0172
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0189
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0209
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0005
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0043
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0078
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0117
+  exact BellmanLabelStepRun.nil State.s0135
+
+private def cls0002ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0002SuffixLabels
+
+private def cls0002ComposedGain : Int :=
+  commonPrefixGain + cls0002SuffixGain
+
+private theorem cls0002ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0002FinalState cls0002ComposedLabels cls0002ComposedGain := by
+  unfold cls0002ComposedLabels cls0002ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0002SuffixLabelStepRun
+
+private theorem cls0002ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0002 <= (176 : Int) + cls0002ComposedGain := by
+  unfold cls0002ComposedGain commonPrefixGain cls0002SuffixGain
+  change (-128 : Int) <= -128
+  decide
 
 private theorem cls0002Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0002 <= (176 : Int) + cls0002Gain := by
@@ -7607,6 +7822,71 @@ private theorem cls0003LabelStepRun :
   · exact SmokeStep.e0116
   exact BellmanLabelStepRun.nil State.s0134
 
+private def cls0003SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0012
+  , SmokeLabel.l0005
+  , SmokeLabel.l0007
+  , SmokeLabel.l0004
+  , SmokeLabel.l0003
+  , SmokeLabel.l0006
+  , SmokeLabel.l0002
+  , SmokeLabel.l0013
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0003SuffixGain : Int :=
+  edge0125.gain + (edge0129.gain + (edge0137.gain + (edge0147.gain + (edge0159.gain + (edge0174.gain + (edge0191.gain + (edge0211.gain + (edge0009.gain + (edge0048.gain + (edge0077.gain + (edge0116.gain + (0))))))))))))
+
+private theorem cls0003SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0003FinalState cls0003SuffixLabels cls0003SuffixGain := by
+  unfold cls0003SuffixLabels cls0003SuffixGain commonPrefixFinalState cls0003FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0137
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0147
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0159
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0174
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0191
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0211
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0009
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0048
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0077
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0116
+  exact BellmanLabelStepRun.nil State.s0134
+
+private def cls0003ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0003SuffixLabels
+
+private def cls0003ComposedGain : Int :=
+  commonPrefixGain + cls0003SuffixGain
+
+private theorem cls0003ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0003FinalState cls0003ComposedLabels cls0003ComposedGain := by
+  unfold cls0003ComposedLabels cls0003ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0003SuffixLabelStepRun
+
+private theorem cls0003ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0003 <= (176 : Int) + cls0003ComposedGain := by
+  unfold cls0003ComposedGain commonPrefixGain cls0003SuffixGain
+  change (-128 : Int) <= -128
+  decide
+
 private theorem cls0003Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0003 <= (176 : Int) + cls0003Gain := by
   unfold cls0003Gain
@@ -7741,6 +8021,71 @@ private theorem cls0004LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0115
   exact BellmanLabelStepRun.nil State.s0133
+
+private def cls0004SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0004SuffixGain : Int :=
+  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0149.gain + (edge0160.gain + (edge0171.gain + (edge0188.gain + (edge0208.gain + (edge0004.gain + (edge0042.gain + (edge0076.gain + (edge0115.gain + (0))))))))))))
+
+private theorem cls0004SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0004FinalState cls0004SuffixLabels cls0004SuffixGain := by
+  unfold cls0004SuffixLabels cls0004SuffixGain commonPrefixFinalState cls0004FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0149
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0160
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0171
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0188
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0208
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0004
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0042
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0076
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0115
+  exact BellmanLabelStepRun.nil State.s0133
+
+private def cls0004ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0004SuffixLabels
+
+private def cls0004ComposedGain : Int :=
+  commonPrefixGain + cls0004SuffixGain
+
+private theorem cls0004ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0004FinalState cls0004ComposedLabels cls0004ComposedGain := by
+  unfold cls0004ComposedLabels cls0004ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0004SuffixLabelStepRun
+
+private theorem cls0004ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0004 <= (176 : Int) + cls0004ComposedGain := by
+  unfold cls0004ComposedGain commonPrefixGain cls0004SuffixGain
+  change (-392 : Int) <= -392
+  decide
 
 private theorem cls0004Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0004 <= (176 : Int) + cls0004Gain := by
@@ -7877,6 +8222,71 @@ private theorem cls0005LabelStepRun :
   · exact SmokeStep.e0114
   exact BellmanLabelStepRun.nil State.s0132
 
+private def cls0005SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0005SuffixGain : Int :=
+  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0162.gain + (edge0176.gain + (edge0187.gain + (edge0207.gain + (edge0003.gain + (edge0041.gain + (edge0075.gain + (edge0114.gain + (0))))))))))))
+
+private theorem cls0005SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0005FinalState cls0005SuffixLabels cls0005SuffixGain := by
+  unfold cls0005SuffixLabels cls0005SuffixGain commonPrefixFinalState cls0005FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0162
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0176
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0187
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0207
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0003
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0041
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0075
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0114
+  exact BellmanLabelStepRun.nil State.s0132
+
+private def cls0005ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0005SuffixLabels
+
+private def cls0005ComposedGain : Int :=
+  commonPrefixGain + cls0005SuffixGain
+
+private theorem cls0005ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0005FinalState cls0005ComposedLabels cls0005ComposedGain := by
+  unfold cls0005ComposedLabels cls0005ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0005SuffixLabelStepRun
+
+private theorem cls0005ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0005 <= (176 : Int) + cls0005ComposedGain := by
+  unfold cls0005ComposedGain commonPrefixGain cls0005SuffixGain
+  change (-464 : Int) <= -464
+  decide
+
 private theorem cls0005Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0005 <= (176 : Int) + cls0005Gain := by
   unfold cls0005Gain
@@ -8011,6 +8421,71 @@ private theorem cls0006LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0113
   exact BellmanLabelStepRun.nil State.s0131
+
+private def cls0006SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0006SuffixGain : Int :=
+  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0177.gain + (edge0192.gain + (edge0206.gain + (edge0002.gain + (edge0040.gain + (edge0074.gain + (edge0113.gain + (0))))))))))))
+
+private theorem cls0006SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0006FinalState cls0006SuffixLabels cls0006SuffixGain := by
+  unfold cls0006SuffixLabels cls0006SuffixGain commonPrefixFinalState cls0006FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0163
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0177
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0192
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0206
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0002
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0040
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0074
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0113
+  exact BellmanLabelStepRun.nil State.s0131
+
+private def cls0006ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0006SuffixLabels
+
+private def cls0006ComposedGain : Int :=
+  commonPrefixGain + cls0006SuffixGain
+
+private theorem cls0006ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0006FinalState cls0006ComposedLabels cls0006ComposedGain := by
+  unfold cls0006ComposedLabels cls0006ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0006SuffixLabelStepRun
+
+private theorem cls0006ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0006 <= (176 : Int) + cls0006ComposedGain := by
+  unfold cls0006ComposedGain commonPrefixGain cls0006SuffixGain
+  change (-176 : Int) <= -176
+  decide
 
 private theorem cls0006Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0006 <= (176 : Int) + cls0006Gain := by
@@ -8147,6 +8622,71 @@ private theorem cls0007LabelStepRun :
   · exact SmokeStep.e0109
   exact BellmanLabelStepRun.nil State.s0127
 
+private def cls0007SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0007SuffixGain : Int :=
+  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0194.gain + (edge0212.gain + (edge0001.gain + (edge0038.gain + (edge0071.gain + (edge0109.gain + (0))))))))))))
+
+private theorem cls0007SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0007FinalState cls0007SuffixLabels cls0007SuffixGain := by
+  unfold cls0007SuffixLabels cls0007SuffixGain commonPrefixFinalState cls0007FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0163
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0178
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0194
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0212
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0001
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0038
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0071
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0109
+  exact BellmanLabelStepRun.nil State.s0127
+
+private def cls0007ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0007SuffixLabels
+
+private def cls0007ComposedGain : Int :=
+  commonPrefixGain + cls0007SuffixGain
+
+private theorem cls0007ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0007FinalState cls0007ComposedLabels cls0007ComposedGain := by
+  unfold cls0007ComposedLabels cls0007ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0007SuffixLabelStepRun
+
+private theorem cls0007ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0007 <= (176 : Int) + cls0007ComposedGain := by
+  unfold cls0007ComposedGain commonPrefixGain cls0007SuffixGain
+  change (-464 : Int) <= -464
+  decide
+
 private theorem cls0007Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0007 <= (176 : Int) + cls0007Gain := by
   unfold cls0007Gain
@@ -8281,6 +8821,71 @@ private theorem cls0008LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0110
   exact BellmanLabelStepRun.nil State.s0128
+
+private def cls0008SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0008SuffixGain : Int :=
+  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0195.gain + (edge0216.gain + (edge0008.gain + (edge0039.gain + (edge0072.gain + (edge0110.gain + (0))))))))))))
+
+private theorem cls0008SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0008FinalState cls0008SuffixLabels cls0008SuffixGain := by
+  unfold cls0008SuffixLabels cls0008SuffixGain commonPrefixFinalState cls0008FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0163
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0178
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0195
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0216
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0008
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0039
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0072
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0110
+  exact BellmanLabelStepRun.nil State.s0128
+
+private def cls0008ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0008SuffixLabels
+
+private def cls0008ComposedGain : Int :=
+  commonPrefixGain + cls0008SuffixGain
+
+private theorem cls0008ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0008FinalState cls0008ComposedLabels cls0008ComposedGain := by
+  unfold cls0008ComposedLabels cls0008ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0008SuffixLabelStepRun
+
+private theorem cls0008ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0008 <= (176 : Int) + cls0008ComposedGain := by
+  unfold cls0008ComposedGain commonPrefixGain cls0008SuffixGain
+  change (-392 : Int) <= -392
+  decide
 
 private theorem cls0008Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0008 <= (176 : Int) + cls0008Gain := by
@@ -8417,6 +9022,71 @@ private theorem cls0009LabelStepRun :
   · exact SmokeStep.e0112
   exact BellmanLabelStepRun.nil State.s0130
 
+private def cls0009SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0009SuffixGain : Int :=
+  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0195.gain + (edge0217.gain + (edge0014.gain + (edge0047.gain + (edge0073.gain + (edge0112.gain + (0))))))))))))
+
+private theorem cls0009SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0009FinalState cls0009SuffixLabels cls0009SuffixGain := by
+  unfold cls0009SuffixLabels cls0009SuffixGain commonPrefixFinalState cls0009FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0163
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0178
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0195
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0217
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0014
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0047
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0073
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0112
+  exact BellmanLabelStepRun.nil State.s0130
+
+private def cls0009ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0009SuffixLabels
+
+private def cls0009ComposedGain : Int :=
+  commonPrefixGain + cls0009SuffixGain
+
+private theorem cls0009ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0009FinalState cls0009ComposedLabels cls0009ComposedGain := by
+  unfold cls0009ComposedLabels cls0009ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0009SuffixLabelStepRun
+
+private theorem cls0009ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0009 <= (176 : Int) + cls0009ComposedGain := by
+  unfold cls0009ComposedGain commonPrefixGain cls0009SuffixGain
+  change (-128 : Int) <= -128
+  decide
+
 private theorem cls0009Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0009 <= (176 : Int) + cls0009Gain := by
   unfold cls0009Gain
@@ -8551,6 +9221,71 @@ private theorem cls0010LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0111
   exact BellmanLabelStepRun.nil State.s0129
+
+private def cls0010SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0010SuffixGain : Int :=
+  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0195.gain + (edge0217.gain + (edge0015.gain + (edge0053.gain + (edge0083.gain + (edge0111.gain + (0))))))))))))
+
+private theorem cls0010SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0010FinalState cls0010SuffixLabels cls0010SuffixGain := by
+  unfold cls0010SuffixLabels cls0010SuffixGain commonPrefixFinalState cls0010FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0125
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0129
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0138
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0150
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0163
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0178
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0195
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0217
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0015
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0053
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0083
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0111
+  exact BellmanLabelStepRun.nil State.s0129
+
+private def cls0010ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0010SuffixLabels
+
+private def cls0010ComposedGain : Int :=
+  commonPrefixGain + cls0010SuffixGain
+
+private theorem cls0010ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0010FinalState cls0010ComposedLabels cls0010ComposedGain := by
+  unfold cls0010ComposedLabels cls0010ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0010SuffixLabelStepRun
+
+private theorem cls0010ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0010 <= (176 : Int) + cls0010ComposedGain := by
+  unfold cls0010ComposedGain commonPrefixGain cls0010SuffixGain
+  change (-376 : Int) <= -376
+  decide
 
 private theorem cls0010Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0010 <= (176 : Int) + cls0010Gain := by
@@ -8687,6 +9422,71 @@ private theorem cls0011LabelStepRun :
   · exact SmokeStep.e0123
   exact BellmanLabelStepRun.nil State.s0141
 
+private def cls0011SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0012
+  , SmokeLabel.l0011
+  , SmokeLabel.l0013
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0011SuffixGain : Int :=
+  edge0126.gain + (edge0130.gain + (edge0135.gain + (edge0145.gain + (edge0158.gain + (edge0173.gain + (edge0190.gain + (edge0210.gain + (edge0006.gain + (edge0045.gain + (edge0080.gain + (edge0123.gain + (0))))))))))))
+
+private theorem cls0011SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0011FinalState cls0011SuffixLabels cls0011SuffixGain := by
+  unfold cls0011SuffixLabels cls0011SuffixGain commonPrefixFinalState cls0011FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0130
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0135
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0145
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0158
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0173
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0190
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0210
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0006
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0045
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0080
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0123
+  exact BellmanLabelStepRun.nil State.s0141
+
+private def cls0011ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0011SuffixLabels
+
+private def cls0011ComposedGain : Int :=
+  commonPrefixGain + cls0011SuffixGain
+
+private theorem cls0011ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0011FinalState cls0011ComposedLabels cls0011ComposedGain := by
+  unfold cls0011ComposedLabels cls0011ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0011SuffixLabelStepRun
+
+private theorem cls0011ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0011 <= (176 : Int) + cls0011ComposedGain := by
+  unfold cls0011ComposedGain commonPrefixGain cls0011SuffixGain
+  change (-376 : Int) <= -376
+  decide
+
 private theorem cls0011Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0011 <= (176 : Int) + cls0011Gain := by
   unfold cls0011Gain
@@ -8821,6 +9621,71 @@ private theorem cls0012LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0120
   exact BellmanLabelStepRun.nil State.s0138
+
+private def cls0012SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0012
+  , SmokeLabel.l0011
+  , SmokeLabel.l0001
+  , SmokeLabel.l0005
+  , SmokeLabel.l0007
+  , SmokeLabel.l0004
+  , SmokeLabel.l0003
+  , SmokeLabel.l0006
+  , SmokeLabel.l0002
+  , SmokeLabel.l0000
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0012SuffixGain : Int :=
+  edge0126.gain + (edge0130.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0175.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))
+
+private theorem cls0012SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0012FinalState cls0012SuffixLabels cls0012SuffixGain := by
+  unfold cls0012SuffixLabels cls0012SuffixGain commonPrefixFinalState cls0012FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0130
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0136
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0148
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0161
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0175
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0193
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0213
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0011
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0050
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0086
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0120
+  exact BellmanLabelStepRun.nil State.s0138
+
+private def cls0012ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0012SuffixLabels
+
+private def cls0012ComposedGain : Int :=
+  commonPrefixGain + cls0012SuffixGain
+
+private theorem cls0012ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0012FinalState cls0012ComposedLabels cls0012ComposedGain := by
+  unfold cls0012ComposedLabels cls0012ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0012SuffixLabelStepRun
+
+private theorem cls0012ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0012 <= (176 : Int) + cls0012ComposedGain := by
+  unfold cls0012ComposedGain commonPrefixGain cls0012SuffixGain
+  change (-376 : Int) <= -376
+  decide
 
 private theorem cls0012Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0012 <= (176 : Int) + cls0012Gain := by
@@ -8957,6 +9822,71 @@ private theorem cls0013LabelStepRun :
   · exact SmokeStep.e0123
   exact BellmanLabelStepRun.nil State.s0141
 
+private def cls0013SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0013SuffixGain : Int :=
+  edge0126.gain + (edge0131.gain + (edge0139.gain + (edge0145.gain + (edge0158.gain + (edge0173.gain + (edge0190.gain + (edge0210.gain + (edge0006.gain + (edge0045.gain + (edge0080.gain + (edge0123.gain + (0))))))))))))
+
+private theorem cls0013SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0013FinalState cls0013SuffixLabels cls0013SuffixGain := by
+  unfold cls0013SuffixLabels cls0013SuffixGain commonPrefixFinalState cls0013FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0131
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0139
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0145
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0158
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0173
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0190
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0210
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0006
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0045
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0080
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0123
+  exact BellmanLabelStepRun.nil State.s0141
+
+private def cls0013ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0013SuffixLabels
+
+private def cls0013ComposedGain : Int :=
+  commonPrefixGain + cls0013SuffixGain
+
+private theorem cls0013ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0013FinalState cls0013ComposedLabels cls0013ComposedGain := by
+  unfold cls0013ComposedLabels cls0013ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0013SuffixLabelStepRun
+
+private theorem cls0013ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0013 <= (176 : Int) + cls0013ComposedGain := by
+  unfold cls0013ComposedGain commonPrefixGain cls0013SuffixGain
+  change (-376 : Int) <= -376
+  decide
+
 private theorem cls0013Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0013 <= (176 : Int) + cls0013Gain := by
   unfold cls0013Gain
@@ -9091,6 +10021,71 @@ private theorem cls0014LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0122
   exact BellmanLabelStepRun.nil State.s0140
+
+private def cls0014SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0014SuffixGain : Int :=
+  edge0126.gain + (edge0131.gain + (edge0140.gain + (edge0152.gain + (edge0166.gain + (edge0182.gain + (edge0200.gain + (edge0223.gain + (edge0027.gain + (edge0044.gain + (edge0079.gain + (edge0122.gain + (0))))))))))))
+
+private theorem cls0014SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0014FinalState cls0014SuffixLabels cls0014SuffixGain := by
+  unfold cls0014SuffixLabels cls0014SuffixGain commonPrefixFinalState cls0014FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0131
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0140
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0152
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0166
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0182
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0200
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0223
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0027
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0044
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0079
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0122
+  exact BellmanLabelStepRun.nil State.s0140
+
+private def cls0014ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0014SuffixLabels
+
+private def cls0014ComposedGain : Int :=
+  commonPrefixGain + cls0014SuffixGain
+
+private theorem cls0014ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0014FinalState cls0014ComposedLabels cls0014ComposedGain := by
+  unfold cls0014ComposedLabels cls0014ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0014SuffixLabelStepRun
+
+private theorem cls0014ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0014 <= (176 : Int) + cls0014ComposedGain := by
+  unfold cls0014ComposedGain commonPrefixGain cls0014SuffixGain
+  change (-420 : Int) <= -420
+  decide
 
 private theorem cls0014Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0014 <= (176 : Int) + cls0014Gain := by
@@ -9227,6 +10222,71 @@ private theorem cls0015LabelStepRun :
   · exact SmokeStep.e0121
   exact BellmanLabelStepRun.nil State.s0139
 
+private def cls0015SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0015SuffixGain : Int :=
+  edge0126.gain + (edge0131.gain + (edge0140.gain + (edge0152.gain + (edge0166.gain + (edge0182.gain + (edge0200.gain + (edge0223.gain + (edge0028.gain + (edge0059.gain + (edge0094.gain + (edge0121.gain + (0))))))))))))
+
+private theorem cls0015SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0015FinalState cls0015SuffixLabels cls0015SuffixGain := by
+  unfold cls0015SuffixLabels cls0015SuffixGain commonPrefixFinalState cls0015FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0131
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0140
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0152
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0166
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0182
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0200
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0223
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0028
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0059
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0094
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0121
+  exact BellmanLabelStepRun.nil State.s0139
+
+private def cls0015ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0015SuffixLabels
+
+private def cls0015ComposedGain : Int :=
+  commonPrefixGain + cls0015SuffixGain
+
+private theorem cls0015ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0015FinalState cls0015ComposedLabels cls0015ComposedGain := by
+  unfold cls0015ComposedLabels cls0015ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0015SuffixLabelStepRun
+
+private theorem cls0015ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0015 <= (176 : Int) + cls0015ComposedGain := by
+  unfold cls0015ComposedGain commonPrefixGain cls0015SuffixGain
+  change (-200 : Int) <= -200
+  decide
+
 private theorem cls0015Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0015 <= (176 : Int) + cls0015Gain := by
   unfold cls0015Gain
@@ -9361,6 +10421,71 @@ private theorem cls0016LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0118
   exact BellmanLabelStepRun.nil State.s0136
+
+private def cls0016SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0007
+  , SmokeLabel.l0005
+  , SmokeLabel.l0006
+  , SmokeLabel.l0001
+  , SmokeLabel.l0004
+  , SmokeLabel.l0011
+  , SmokeLabel.l0002
+  , SmokeLabel.l0000
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0016SuffixGain : Int :=
+  edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0226.gain + (edge0010.gain + (edge0049.gain + (edge0084.gain + (edge0118.gain + (0))))))))))))
+
+private theorem cls0016SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0016FinalState cls0016SuffixLabels cls0016SuffixGain := by
+  unfold cls0016SuffixLabels cls0016SuffixGain commonPrefixFinalState cls0016FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0132
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0142
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0153
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0167
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0184
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0202
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0226
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0010
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0049
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0084
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0118
+  exact BellmanLabelStepRun.nil State.s0136
+
+private def cls0016ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0016SuffixLabels
+
+private def cls0016ComposedGain : Int :=
+  commonPrefixGain + cls0016SuffixGain
+
+private theorem cls0016ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0016FinalState cls0016ComposedLabels cls0016ComposedGain := by
+  unfold cls0016ComposedLabels cls0016ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0016SuffixLabelStepRun
+
+private theorem cls0016ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0016 <= (176 : Int) + cls0016ComposedGain := by
+  unfold cls0016ComposedGain commonPrefixGain cls0016SuffixGain
+  change (-420 : Int) <= -420
+  decide
 
 private theorem cls0016Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0016 <= (176 : Int) + cls0016Gain := by
@@ -9497,6 +10622,71 @@ private theorem cls0017LabelStepRun :
   · exact SmokeStep.e0119
   exact BellmanLabelStepRun.nil State.s0137
 
+private def cls0017SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0007
+  , SmokeLabel.l0005
+  , SmokeLabel.l0006
+  , SmokeLabel.l0001
+  , SmokeLabel.l0004
+  , SmokeLabel.l0000
+  , SmokeLabel.l0002
+  , SmokeLabel.l0011
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0017SuffixGain : Int :=
+  edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0062.gain + (edge0085.gain + (edge0119.gain + (0))))))))))))
+
+private theorem cls0017SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0017FinalState cls0017SuffixLabels cls0017SuffixGain := by
+  unfold cls0017SuffixLabels cls0017SuffixGain commonPrefixFinalState cls0017FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0132
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0142
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0153
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0167
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0184
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0202
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0227
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0029
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0062
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0085
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0119
+  exact BellmanLabelStepRun.nil State.s0137
+
+private def cls0017ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0017SuffixLabels
+
+private def cls0017ComposedGain : Int :=
+  commonPrefixGain + cls0017SuffixGain
+
+private theorem cls0017ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0017FinalState cls0017ComposedLabels cls0017ComposedGain := by
+  unfold cls0017ComposedLabels cls0017ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0017SuffixLabelStepRun
+
+private theorem cls0017ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0017 <= (176 : Int) + cls0017ComposedGain := by
+  unfold cls0017ComposedGain commonPrefixGain cls0017SuffixGain
+  change (-200 : Int) <= -200
+  decide
+
 private theorem cls0017Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0017 <= (176 : Int) + cls0017Gain := by
   unfold cls0017Gain
@@ -9631,6 +10821,71 @@ private theorem cls0018LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0119
   exact BellmanLabelStepRun.nil State.s0137
+
+private def cls0018SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0007
+  , SmokeLabel.l0005
+  , SmokeLabel.l0006
+  , SmokeLabel.l0001
+  , SmokeLabel.l0004
+  , SmokeLabel.l0000
+  , SmokeLabel.l0002
+  , SmokeLabel.l0013
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0018SuffixGain : Int :=
+  edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0063.gain + (edge0093.gain + (edge0119.gain + (0))))))))))))
+
+private theorem cls0018SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0018FinalState cls0018SuffixLabels cls0018SuffixGain := by
+  unfold cls0018SuffixLabels cls0018SuffixGain commonPrefixFinalState cls0018FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0126
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0132
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0142
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0153
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0167
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0184
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0202
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0227
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0029
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0063
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0093
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0119
+  exact BellmanLabelStepRun.nil State.s0137
+
+private def cls0018ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0018SuffixLabels
+
+private def cls0018ComposedGain : Int :=
+  commonPrefixGain + cls0018SuffixGain
+
+private theorem cls0018ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0018FinalState cls0018ComposedLabels cls0018ComposedGain := by
+  unfold cls0018ComposedLabels cls0018ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0018SuffixLabelStepRun
+
+private theorem cls0018ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0018 <= (176 : Int) + cls0018ComposedGain := by
+  unfold cls0018ComposedGain commonPrefixGain cls0018SuffixGain
+  change (-200 : Int) <= -200
+  decide
 
 private theorem cls0018Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0018 <= (176 : Int) + cls0018Gain := by
@@ -9767,6 +11022,71 @@ private theorem cls0019LabelStepRun :
   · exact SmokeStep.e0108
   exact BellmanLabelStepRun.nil State.s0126
 
+private def cls0019SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0019SuffixGain : Int :=
+  edge0127.gain + (edge0133.gain + (edge0141.gain + (edge0151.gain + (edge0165.gain + (edge0181.gain + (edge0199.gain + (edge0222.gain + (edge0026.gain + (edge0037.gain + (edge0070.gain + (edge0108.gain + (0))))))))))))
+
+private theorem cls0019SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0019FinalState cls0019SuffixLabels cls0019SuffixGain := by
+  unfold cls0019SuffixLabels cls0019SuffixGain commonPrefixFinalState cls0019FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0133
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0141
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0151
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0165
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0181
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0199
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0222
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0026
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0037
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0070
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0108
+  exact BellmanLabelStepRun.nil State.s0126
+
+private def cls0019ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0019SuffixLabels
+
+private def cls0019ComposedGain : Int :=
+  commonPrefixGain + cls0019SuffixGain
+
+private theorem cls0019ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0019FinalState cls0019ComposedLabels cls0019ComposedGain := by
+  unfold cls0019ComposedLabels cls0019ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0019SuffixLabelStepRun
+
+private theorem cls0019ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0019 <= (176 : Int) + cls0019ComposedGain := by
+  unfold cls0019ComposedGain commonPrefixGain cls0019SuffixGain
+  change (-172 : Int) <= -172
+  decide
+
 private theorem cls0019Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0019 <= (176 : Int) + cls0019Gain := by
   unfold cls0019Gain
@@ -9901,6 +11221,71 @@ private theorem cls0020LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0107
   exact BellmanLabelStepRun.nil State.s0125
+
+private def cls0020SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0020SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0154.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0024.gain + (edge0036.gain + (edge0069.gain + (edge0107.gain + (0))))))))))))
+
+private theorem cls0020SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0020FinalState cls0020SuffixLabels cls0020SuffixGain := by
+  unfold cls0020SuffixLabels cls0020SuffixGain commonPrefixFinalState cls0020FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0143
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0154
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0164
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0180
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0198
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0221
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0024
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0036
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0069
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0107
+  exact BellmanLabelStepRun.nil State.s0125
+
+private def cls0020ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0020SuffixLabels
+
+private def cls0020ComposedGain : Int :=
+  commonPrefixGain + cls0020SuffixGain
+
+private theorem cls0020ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0020FinalState cls0020ComposedLabels cls0020ComposedGain := by
+  unfold cls0020ComposedLabels cls0020ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0020SuffixLabelStepRun
+
+private theorem cls0020ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0020 <= (176 : Int) + cls0020ComposedGain := by
+  unfold cls0020ComposedGain commonPrefixGain cls0020SuffixGain
+  change (-436 : Int) <= -436
+  decide
 
 private theorem cls0020Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0020 <= (176 : Int) + cls0020Gain := by
@@ -10037,6 +11422,71 @@ private theorem cls0021LabelStepRun :
   · exact SmokeStep.e0106
   exact BellmanLabelStepRun.nil State.s0124
 
+private def cls0021SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0021SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0154.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0025.gain + (edge0058.gain + (edge0092.gain + (edge0106.gain + (0))))))))))))
+
+private theorem cls0021SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0021FinalState cls0021SuffixLabels cls0021SuffixGain := by
+  unfold cls0021SuffixLabels cls0021SuffixGain commonPrefixFinalState cls0021FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0143
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0154
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0164
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0180
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0198
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0221
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0025
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0058
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0092
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0106
+  exact BellmanLabelStepRun.nil State.s0124
+
+private def cls0021ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0021SuffixLabels
+
+private def cls0021ComposedGain : Int :=
+  commonPrefixGain + cls0021SuffixGain
+
+private theorem cls0021ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0021FinalState cls0021ComposedLabels cls0021ComposedGain := by
+  unfold cls0021ComposedLabels cls0021ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0021SuffixLabelStepRun
+
+private theorem cls0021ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0021 <= (176 : Int) + cls0021ComposedGain := by
+  unfold cls0021ComposedGain commonPrefixGain cls0021SuffixGain
+  change (-216 : Int) <= -216
+  decide
+
 private theorem cls0021Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0021 <= (176 : Int) + cls0021Gain := by
   unfold cls0021Gain
@@ -10171,6 +11621,71 @@ private theorem cls0022LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0105
   exact BellmanLabelStepRun.nil State.s0123
+
+private def cls0022SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0022SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0168.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0022.gain + (edge0035.gain + (edge0068.gain + (edge0105.gain + (0))))))))))))
+
+private theorem cls0022SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0022FinalState cls0022SuffixLabels cls0022SuffixGain := by
+  unfold cls0022SuffixLabels cls0022SuffixGain commonPrefixFinalState cls0022FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0155
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0168
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0179
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0197
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0220
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0022
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0035
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0068
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0105
+  exact BellmanLabelStepRun.nil State.s0123
+
+private def cls0022ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0022SuffixLabels
+
+private def cls0022ComposedGain : Int :=
+  commonPrefixGain + cls0022SuffixGain
+
+private theorem cls0022ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0022FinalState cls0022ComposedLabels cls0022ComposedGain := by
+  unfold cls0022ComposedLabels cls0022ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0022SuffixLabelStepRun
+
+private theorem cls0022ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0022 <= (176 : Int) + cls0022ComposedGain := by
+  unfold cls0022ComposedGain commonPrefixGain cls0022SuffixGain
+  change (-508 : Int) <= -508
+  decide
 
 private theorem cls0022Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0022 <= (176 : Int) + cls0022Gain := by
@@ -10307,6 +11822,71 @@ private theorem cls0023LabelStepRun :
   · exact SmokeStep.e0104
   exact BellmanLabelStepRun.nil State.s0122
 
+private def cls0023SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0023SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0168.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0023.gain + (edge0057.gain + (edge0091.gain + (edge0104.gain + (0))))))))))))
+
+private theorem cls0023SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0023FinalState cls0023SuffixLabels cls0023SuffixGain := by
+  unfold cls0023SuffixLabels cls0023SuffixGain commonPrefixFinalState cls0023FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0155
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0168
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0179
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0197
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0220
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0023
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0057
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0091
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0104
+  exact BellmanLabelStepRun.nil State.s0122
+
+private def cls0023ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0023SuffixLabels
+
+private def cls0023ComposedGain : Int :=
+  commonPrefixGain + cls0023SuffixGain
+
+private theorem cls0023ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0023FinalState cls0023ComposedLabels cls0023ComposedGain := by
+  unfold cls0023ComposedLabels cls0023ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0023SuffixLabelStepRun
+
+private theorem cls0023ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0023 <= (176 : Int) + cls0023ComposedGain := by
+  unfold cls0023ComposedGain commonPrefixGain cls0023SuffixGain
+  change (-288 : Int) <= -288
+  decide
+
 private theorem cls0023Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0023 <= (176 : Int) + cls0023Gain := by
   unfold cls0023Gain
@@ -10441,6 +12021,71 @@ private theorem cls0024LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0103
   exact BellmanLabelStepRun.nil State.s0121
+
+private def cls0024SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0024SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0169.gain + (edge0183.gain + (edge0196.gain + (edge0219.gain + (edge0020.gain + (edge0034.gain + (edge0067.gain + (edge0103.gain + (0))))))))))))
+
+private theorem cls0024SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0024FinalState cls0024SuffixLabels cls0024SuffixGain := by
+  unfold cls0024SuffixLabels cls0024SuffixGain commonPrefixFinalState cls0024FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0169
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0183
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0196
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0219
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0020
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0034
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0067
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0103
+  exact BellmanLabelStepRun.nil State.s0121
+
+private def cls0024ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0024SuffixLabels
+
+private def cls0024ComposedGain : Int :=
+  commonPrefixGain + cls0024SuffixGain
+
+private theorem cls0024ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0024FinalState cls0024ComposedLabels cls0024ComposedGain := by
+  unfold cls0024ComposedLabels cls0024ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0024SuffixLabelStepRun
+
+private theorem cls0024ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0024 <= (176 : Int) + cls0024ComposedGain := by
+  unfold cls0024ComposedGain commonPrefixGain cls0024SuffixGain
+  change (-220 : Int) <= -220
+  decide
 
 private theorem cls0024Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0024 <= (176 : Int) + cls0024Gain := by
@@ -10577,6 +12222,71 @@ private theorem cls0025LabelStepRun :
   · exact SmokeStep.e0102
   exact BellmanLabelStepRun.nil State.s0120
 
+private def cls0025SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0025SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0169.gain + (edge0183.gain + (edge0196.gain + (edge0219.gain + (edge0021.gain + (edge0056.gain + (edge0090.gain + (edge0102.gain + (0))))))))))))
+
+private theorem cls0025SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0025FinalState cls0025SuffixLabels cls0025SuffixGain := by
+  unfold cls0025SuffixLabels cls0025SuffixGain commonPrefixFinalState cls0025FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0169
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0183
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0196
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0219
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0021
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0056
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0090
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0102
+  exact BellmanLabelStepRun.nil State.s0120
+
+private def cls0025ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0025SuffixLabels
+
+private def cls0025ComposedGain : Int :=
+  commonPrefixGain + cls0025SuffixGain
+
+private theorem cls0025ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0025FinalState cls0025ComposedLabels cls0025ComposedGain := by
+  unfold cls0025ComposedLabels cls0025ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0025SuffixLabelStepRun
+
+private theorem cls0025ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0025 <= (176 : Int) + cls0025ComposedGain := by
+  unfold cls0025ComposedGain commonPrefixGain cls0025SuffixGain
+  change (0 : Int) <= 0
+  decide
+
 private theorem cls0025Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0025 <= (176 : Int) + cls0025Gain := by
   unfold cls0025Gain
@@ -10711,6 +12421,71 @@ private theorem cls0026LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0101
   exact BellmanLabelStepRun.nil State.s0119
+
+private def cls0026SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0026SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0185.gain + (edge0201.gain + (edge0218.gain + (edge0018.gain + (edge0033.gain + (edge0066.gain + (edge0101.gain + (0))))))))))))
+
+private theorem cls0026SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0026FinalState cls0026SuffixLabels cls0026SuffixGain := by
+  unfold cls0026SuffixLabels cls0026SuffixGain commonPrefixFinalState cls0026FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0185
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0201
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0218
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0018
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0033
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0066
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0101
+  exact BellmanLabelStepRun.nil State.s0119
+
+private def cls0026ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0026SuffixLabels
+
+private def cls0026ComposedGain : Int :=
+  commonPrefixGain + cls0026SuffixGain
+
+private theorem cls0026ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0026FinalState cls0026ComposedLabels cls0026ComposedGain := by
+  unfold cls0026ComposedLabels cls0026ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0026SuffixLabelStepRun
+
+private theorem cls0026ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0026 <= (176 : Int) + cls0026ComposedGain := by
+  unfold cls0026ComposedGain commonPrefixGain cls0026SuffixGain
+  change (-508 : Int) <= -508
+  decide
 
 private theorem cls0026Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0026 <= (176 : Int) + cls0026Gain := by
@@ -10847,6 +12622,71 @@ private theorem cls0027LabelStepRun :
   · exact SmokeStep.e0100
   exact BellmanLabelStepRun.nil State.s0118
 
+private def cls0027SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0027SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0185.gain + (edge0201.gain + (edge0218.gain + (edge0019.gain + (edge0055.gain + (edge0089.gain + (edge0100.gain + (0))))))))))))
+
+private theorem cls0027SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0027FinalState cls0027SuffixLabels cls0027SuffixGain := by
+  unfold cls0027SuffixLabels cls0027SuffixGain commonPrefixFinalState cls0027FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0185
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0201
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0218
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0019
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0055
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0089
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0100
+  exact BellmanLabelStepRun.nil State.s0118
+
+private def cls0027ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0027SuffixLabels
+
+private def cls0027ComposedGain : Int :=
+  commonPrefixGain + cls0027SuffixGain
+
+private theorem cls0027ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0027FinalState cls0027ComposedLabels cls0027ComposedGain := by
+  unfold cls0027ComposedLabels cls0027ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0027SuffixLabelStepRun
+
+private theorem cls0027ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0027 <= (176 : Int) + cls0027ComposedGain := by
+  unfold cls0027ComposedGain commonPrefixGain cls0027SuffixGain
+  change (-288 : Int) <= -288
+  decide
+
 private theorem cls0027Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0027 <= (176 : Int) + cls0027Gain := by
   unfold cls0027Gain
@@ -10981,6 +12821,71 @@ private theorem cls0028LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0096
   exact BellmanLabelStepRun.nil State.s0114
+
+private def cls0028SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0028SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0203.gain + (edge0214.gain + (edge0007.gain + (edge0032.gain + (edge0064.gain + (edge0096.gain + (0))))))))))))
+
+private theorem cls0028SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0028FinalState cls0028SuffixLabels cls0028SuffixGain := by
+  unfold cls0028SuffixLabels cls0028SuffixGain commonPrefixFinalState cls0028FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0203
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0214
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0007
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0032
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0064
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0096
+  exact BellmanLabelStepRun.nil State.s0114
+
+private def cls0028ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0028SuffixLabels
+
+private def cls0028ComposedGain : Int :=
+  commonPrefixGain + cls0028SuffixGain
+
+private theorem cls0028ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0028FinalState cls0028ComposedLabels cls0028ComposedGain := by
+  unfold cls0028ComposedLabels cls0028ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0028SuffixLabelStepRun
+
+private theorem cls0028ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0028 <= (176 : Int) + cls0028ComposedGain := by
+  unfold cls0028ComposedGain commonPrefixGain cls0028SuffixGain
+  change (-436 : Int) <= -436
+  decide
 
 private theorem cls0028Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0028 <= (176 : Int) + cls0028Gain := by
@@ -11117,6 +13022,71 @@ private theorem cls0029LabelStepRun :
   · exact SmokeStep.e0099
   exact BellmanLabelStepRun.nil State.s0117
 
+private def cls0029SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0029SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0203.gain + (edge0215.gain + (edge0012.gain + (edge0046.gain + (edge0065.gain + (edge0099.gain + (0))))))))))))
+
+private theorem cls0029SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0029FinalState cls0029SuffixLabels cls0029SuffixGain := by
+  unfold cls0029SuffixLabels cls0029SuffixGain commonPrefixFinalState cls0029FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0203
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0215
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0012
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0046
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0065
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0099
+  exact BellmanLabelStepRun.nil State.s0117
+
+private def cls0029ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0029SuffixLabels
+
+private def cls0029ComposedGain : Int :=
+  commonPrefixGain + cls0029SuffixGain
+
+private theorem cls0029ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0029FinalState cls0029ComposedLabels cls0029ComposedGain := by
+  unfold cls0029ComposedLabels cls0029ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0029SuffixLabelStepRun
+
+private theorem cls0029ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0029 <= (176 : Int) + cls0029ComposedGain := by
+  unfold cls0029ComposedGain commonPrefixGain cls0029SuffixGain
+  change (-172 : Int) <= -172
+  decide
+
 private theorem cls0029Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0029 <= (176 : Int) + cls0029Gain := by
   unfold cls0029Gain
@@ -11251,6 +13221,71 @@ private theorem cls0030LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0098
   exact BellmanLabelStepRun.nil State.s0116
+
+private def cls0030SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0030SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0203.gain + (edge0215.gain + (edge0013.gain + (edge0052.gain + (edge0082.gain + (edge0098.gain + (0))))))))))))
+
+private theorem cls0030SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0030FinalState cls0030SuffixLabels cls0030SuffixGain := by
+  unfold cls0030SuffixLabels cls0030SuffixGain commonPrefixFinalState cls0030FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0203
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0215
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0013
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0052
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0082
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0098
+  exact BellmanLabelStepRun.nil State.s0116
+
+private def cls0030ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0030SuffixLabels
+
+private def cls0030ComposedGain : Int :=
+  commonPrefixGain + cls0030SuffixGain
+
+private theorem cls0030ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0030FinalState cls0030ComposedLabels cls0030ComposedGain := by
+  unfold cls0030ComposedLabels cls0030ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0030SuffixLabelStepRun
+
+private theorem cls0030ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0030 <= (176 : Int) + cls0030ComposedGain := by
+  unfold cls0030ComposedGain commonPrefixGain cls0030SuffixGain
+  change (-420 : Int) <= -420
+  decide
 
 private theorem cls0030Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0030 <= (176 : Int) + cls0030Gain := by
@@ -11387,6 +13422,71 @@ private theorem cls0031LabelStepRun :
   · exact SmokeStep.e0096
   exact BellmanLabelStepRun.nil State.s0114
 
+private def cls0031SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0013
+  , SmokeLabel.l0011
+  , SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0031SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0204.gain + (edge0224.gain + (edge0007.gain + (edge0032.gain + (edge0064.gain + (edge0096.gain + (0))))))))))))
+
+private theorem cls0031SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0031FinalState cls0031SuffixLabels cls0031SuffixGain := by
+  unfold cls0031SuffixLabels cls0031SuffixGain commonPrefixFinalState cls0031FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0204
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0224
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0007
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0032
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0064
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0096
+  exact BellmanLabelStepRun.nil State.s0114
+
+private def cls0031ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0031SuffixLabels
+
+private def cls0031ComposedGain : Int :=
+  commonPrefixGain + cls0031SuffixGain
+
+private theorem cls0031ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0031FinalState cls0031ComposedLabels cls0031ComposedGain := by
+  unfold cls0031ComposedLabels cls0031ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0031SuffixLabelStepRun
+
+private theorem cls0031ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0031 <= (176 : Int) + cls0031ComposedGain := by
+  unfold cls0031ComposedGain commonPrefixGain cls0031SuffixGain
+  change (-436 : Int) <= -436
+  decide
+
 private theorem cls0031Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0031 <= (176 : Int) + cls0031Gain := by
   unfold cls0031Gain
@@ -11521,6 +13621,71 @@ private theorem cls0032LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0096
   exact BellmanLabelStepRun.nil State.s0114
+
+private def cls0032SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0032SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0204.gain + (edge0225.gain + (edge0016.gain + (edge0032.gain + (edge0064.gain + (edge0096.gain + (0))))))))))))
+
+private theorem cls0032SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0032FinalState cls0032SuffixLabels cls0032SuffixGain := by
+  unfold cls0032SuffixLabels cls0032SuffixGain commonPrefixFinalState cls0032FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0204
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0225
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0016
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0032
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0064
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0096
+  exact BellmanLabelStepRun.nil State.s0114
+
+private def cls0032ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0032SuffixLabels
+
+private def cls0032ComposedGain : Int :=
+  commonPrefixGain + cls0032SuffixGain
+
+private theorem cls0032ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0032FinalState cls0032ComposedLabels cls0032ComposedGain := by
+  unfold cls0032ComposedLabels cls0032ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0032SuffixLabelStepRun
+
+private theorem cls0032ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0032 <= (176 : Int) + cls0032ComposedGain := by
+  unfold cls0032ComposedGain commonPrefixGain cls0032SuffixGain
+  change (-436 : Int) <= -436
+  decide
 
 private theorem cls0032Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0032 <= (176 : Int) + cls0032Gain := by
@@ -11657,6 +13822,71 @@ private theorem cls0033LabelStepRun :
   · exact SmokeStep.e0095
   exact BellmanLabelStepRun.nil State.s0113
 
+private def cls0033SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0033SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0204.gain + (edge0225.gain + (edge0017.gain + (edge0054.gain + (edge0087.gain + (edge0095.gain + (0))))))))))))
+
+private theorem cls0033SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0033FinalState cls0033SuffixLabels cls0033SuffixGain := by
+  unfold cls0033SuffixLabels cls0033SuffixGain commonPrefixFinalState cls0033FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0204
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0225
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0017
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0054
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0087
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0095
+  exact BellmanLabelStepRun.nil State.s0113
+
+private def cls0033ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0033SuffixLabels
+
+private def cls0033ComposedGain : Int :=
+  commonPrefixGain + cls0033SuffixGain
+
+private theorem cls0033ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0033FinalState cls0033ComposedLabels cls0033ComposedGain := by
+  unfold cls0033ComposedLabels cls0033ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0033SuffixLabelStepRun
+
+private theorem cls0033ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0033 <= (176 : Int) + cls0033ComposedGain := by
+  unfold cls0033ComposedGain commonPrefixGain cls0033SuffixGain
+  change (-216 : Int) <= -216
+  decide
+
 private theorem cls0033Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0033 <= (176 : Int) + cls0033Gain := by
   unfold cls0033Gain
@@ -11791,6 +14021,71 @@ private theorem cls0034LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0097
   exact BellmanLabelStepRun.nil State.s0115
+
+private def cls0034SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0034SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0205.gain + (edge0228.gain + (edge0030.gain + (edge0051.gain + (edge0081.gain + (edge0097.gain + (0))))))))))))
+
+private theorem cls0034SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0034FinalState cls0034SuffixLabels cls0034SuffixGain := by
+  unfold cls0034SuffixLabels cls0034SuffixGain commonPrefixFinalState cls0034FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0205
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0228
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0030
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0051
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0081
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0097
+  exact BellmanLabelStepRun.nil State.s0115
+
+private def cls0034ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0034SuffixLabels
+
+private def cls0034ComposedGain : Int :=
+  commonPrefixGain + cls0034SuffixGain
+
+private theorem cls0034ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0034FinalState cls0034ComposedLabels cls0034ComposedGain := by
+  unfold cls0034ComposedLabels cls0034ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0034SuffixLabelStepRun
+
+private theorem cls0034ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0034 <= (176 : Int) + cls0034ComposedGain := by
+  unfold cls0034ComposedGain commonPrefixGain cls0034SuffixGain
+  change (-200 : Int) <= -200
+  decide
 
 private theorem cls0034Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0034 <= (176 : Int) + cls0034Gain := by
@@ -11927,6 +14222,71 @@ private theorem cls0035LabelStepRun :
   · exact SmokeStep.e0097
   exact BellmanLabelStepRun.nil State.s0115
 
+private def cls0035SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0012
+  , SmokeLabel.l0011
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0035SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0205.gain + (edge0228.gain + (edge0031.gain + (edge0060.gain + (edge0081.gain + (edge0097.gain + (0))))))))))))
+
+private theorem cls0035SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0035FinalState cls0035SuffixLabels cls0035SuffixGain := by
+  unfold cls0035SuffixLabels cls0035SuffixGain commonPrefixFinalState cls0035FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0205
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0228
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0031
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0060
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0081
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0097
+  exact BellmanLabelStepRun.nil State.s0115
+
+private def cls0035ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0035SuffixLabels
+
+private def cls0035ComposedGain : Int :=
+  commonPrefixGain + cls0035SuffixGain
+
+private theorem cls0035ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0035FinalState cls0035ComposedLabels cls0035ComposedGain := by
+  unfold cls0035ComposedLabels cls0035ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0035SuffixLabelStepRun
+
+private theorem cls0035ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0035 <= (176 : Int) + cls0035ComposedGain := by
+  unfold cls0035ComposedGain commonPrefixGain cls0035SuffixGain
+  change (-200 : Int) <= -200
+  decide
+
 private theorem cls0035Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0035 <= (176 : Int) + cls0035Gain := by
   unfold cls0035Gain
@@ -12062,6 +14422,71 @@ private theorem cls0036LabelStepRun :
   · exact SmokeStep.e0097
   exact BellmanLabelStepRun.nil State.s0115
 
+private def cls0036SuffixLabels : List SmokeLabel :=
+  [SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0036SuffixGain : Int :=
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0205.gain + (edge0228.gain + (edge0031.gain + (edge0061.gain + (edge0088.gain + (edge0097.gain + (0))))))))))))
+
+private theorem cls0036SuffixLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      commonPrefixFinalState cls0036FinalState cls0036SuffixLabels cls0036SuffixGain := by
+  unfold cls0036SuffixLabels cls0036SuffixGain commonPrefixFinalState cls0036FinalState
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0127
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0134
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0144
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0156
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0170
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0186
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0205
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0228
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0031
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0061
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0088
+  apply BellmanLabelStepRun.cons
+  · exact SmokeStep.e0097
+  exact BellmanLabelStepRun.nil State.s0115
+
+private def cls0036ComposedLabels : List SmokeLabel :=
+  commonPrefixLabels ++ cls0036SuffixLabels
+
+private def cls0036ComposedGain : Int :=
+  commonPrefixGain + cls0036SuffixGain
+
+private theorem cls0036ComposedLabelStepRun :
+    BellmanLabelStepRun SmokeStep
+      rootState cls0036FinalState cls0036ComposedLabels cls0036ComposedGain := by
+  unfold cls0036ComposedLabels cls0036ComposedGain
+  exact BellmanLabelStepRun.append commonPrefixLabelStepRun cls0036SuffixLabelStepRun
+
+private theorem cls0036ComposedMargin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0036 <= (176 : Int) + cls0036ComposedGain := by
+  unfold cls0036ComposedGain commonPrefixGain cls0036SuffixGain
+  change (-200 : Int) <= -200
+  decide
+
 private theorem cls0036Margin_bound_gain :
     smokeScaledMargin SmokeObj.cls0036 <= (176 : Int) + cls0036Gain := by
   unfold cls0036Gain
@@ -12184,6 +14609,45 @@ private def smokeObjLabels : SmokeObj -> List SmokeLabel
   | SmokeObj.cls0034 => cls0034Labels
   | SmokeObj.cls0035 => cls0035Labels
   | SmokeObj.cls0036 => cls0036Labels
+
+private def smokeObjComposedLabels : SmokeObj -> List SmokeLabel
+  | SmokeObj.cls0000 => cls0000ComposedLabels
+  | SmokeObj.cls0001 => cls0001ComposedLabels
+  | SmokeObj.cls0002 => cls0002ComposedLabels
+  | SmokeObj.cls0003 => cls0003ComposedLabels
+  | SmokeObj.cls0004 => cls0004ComposedLabels
+  | SmokeObj.cls0005 => cls0005ComposedLabels
+  | SmokeObj.cls0006 => cls0006ComposedLabels
+  | SmokeObj.cls0007 => cls0007ComposedLabels
+  | SmokeObj.cls0008 => cls0008ComposedLabels
+  | SmokeObj.cls0009 => cls0009ComposedLabels
+  | SmokeObj.cls0010 => cls0010ComposedLabels
+  | SmokeObj.cls0011 => cls0011ComposedLabels
+  | SmokeObj.cls0012 => cls0012ComposedLabels
+  | SmokeObj.cls0013 => cls0013ComposedLabels
+  | SmokeObj.cls0014 => cls0014ComposedLabels
+  | SmokeObj.cls0015 => cls0015ComposedLabels
+  | SmokeObj.cls0016 => cls0016ComposedLabels
+  | SmokeObj.cls0017 => cls0017ComposedLabels
+  | SmokeObj.cls0018 => cls0018ComposedLabels
+  | SmokeObj.cls0019 => cls0019ComposedLabels
+  | SmokeObj.cls0020 => cls0020ComposedLabels
+  | SmokeObj.cls0021 => cls0021ComposedLabels
+  | SmokeObj.cls0022 => cls0022ComposedLabels
+  | SmokeObj.cls0023 => cls0023ComposedLabels
+  | SmokeObj.cls0024 => cls0024ComposedLabels
+  | SmokeObj.cls0025 => cls0025ComposedLabels
+  | SmokeObj.cls0026 => cls0026ComposedLabels
+  | SmokeObj.cls0027 => cls0027ComposedLabels
+  | SmokeObj.cls0028 => cls0028ComposedLabels
+  | SmokeObj.cls0029 => cls0029ComposedLabels
+  | SmokeObj.cls0030 => cls0030ComposedLabels
+  | SmokeObj.cls0031 => cls0031ComposedLabels
+  | SmokeObj.cls0032 => cls0032ComposedLabels
+  | SmokeObj.cls0033 => cls0033ComposedLabels
+  | SmokeObj.cls0034 => cls0034ComposedLabels
+  | SmokeObj.cls0035 => cls0035ComposedLabels
+  | SmokeObj.cls0036 => cls0036ComposedLabels
 
 private theorem smokeObservedLabeledRunLanguageBound :
     BellmanLabeledRunLanguageBound
@@ -12445,6 +14909,136 @@ theorem graphSmoke_observed_label_step_run_scaled_margin_nonpos :
     (fun _ _ _ _ h => SmokeStep.valid h)
     root_bound
     smokeObservedLabelStepRunLanguageBound
+
+private theorem smokeObservedComposedLabelStepRunLanguageBound :
+    BellmanLabelStepRunLanguageBound
+      graphPotential SmokeStep rootState
+      (176 : Int) smokeScaledMargin smokeObjComposedLabels smokeAccepts := by
+  intro obj _hobj
+  cases obj
+  · exact ⟨cls0000FinalState, cls0000ComposedGain,
+      cls0000ComposedLabelStepRun, cls0000Final_nonneg,
+      cls0000ComposedMargin_bound_gain⟩
+  · exact ⟨cls0001FinalState, cls0001ComposedGain,
+      cls0001ComposedLabelStepRun, cls0001Final_nonneg,
+      cls0001ComposedMargin_bound_gain⟩
+  · exact ⟨cls0002FinalState, cls0002ComposedGain,
+      cls0002ComposedLabelStepRun, cls0002Final_nonneg,
+      cls0002ComposedMargin_bound_gain⟩
+  · exact ⟨cls0003FinalState, cls0003ComposedGain,
+      cls0003ComposedLabelStepRun, cls0003Final_nonneg,
+      cls0003ComposedMargin_bound_gain⟩
+  · exact ⟨cls0004FinalState, cls0004ComposedGain,
+      cls0004ComposedLabelStepRun, cls0004Final_nonneg,
+      cls0004ComposedMargin_bound_gain⟩
+  · exact ⟨cls0005FinalState, cls0005ComposedGain,
+      cls0005ComposedLabelStepRun, cls0005Final_nonneg,
+      cls0005ComposedMargin_bound_gain⟩
+  · exact ⟨cls0006FinalState, cls0006ComposedGain,
+      cls0006ComposedLabelStepRun, cls0006Final_nonneg,
+      cls0006ComposedMargin_bound_gain⟩
+  · exact ⟨cls0007FinalState, cls0007ComposedGain,
+      cls0007ComposedLabelStepRun, cls0007Final_nonneg,
+      cls0007ComposedMargin_bound_gain⟩
+  · exact ⟨cls0008FinalState, cls0008ComposedGain,
+      cls0008ComposedLabelStepRun, cls0008Final_nonneg,
+      cls0008ComposedMargin_bound_gain⟩
+  · exact ⟨cls0009FinalState, cls0009ComposedGain,
+      cls0009ComposedLabelStepRun, cls0009Final_nonneg,
+      cls0009ComposedMargin_bound_gain⟩
+  · exact ⟨cls0010FinalState, cls0010ComposedGain,
+      cls0010ComposedLabelStepRun, cls0010Final_nonneg,
+      cls0010ComposedMargin_bound_gain⟩
+  · exact ⟨cls0011FinalState, cls0011ComposedGain,
+      cls0011ComposedLabelStepRun, cls0011Final_nonneg,
+      cls0011ComposedMargin_bound_gain⟩
+  · exact ⟨cls0012FinalState, cls0012ComposedGain,
+      cls0012ComposedLabelStepRun, cls0012Final_nonneg,
+      cls0012ComposedMargin_bound_gain⟩
+  · exact ⟨cls0013FinalState, cls0013ComposedGain,
+      cls0013ComposedLabelStepRun, cls0013Final_nonneg,
+      cls0013ComposedMargin_bound_gain⟩
+  · exact ⟨cls0014FinalState, cls0014ComposedGain,
+      cls0014ComposedLabelStepRun, cls0014Final_nonneg,
+      cls0014ComposedMargin_bound_gain⟩
+  · exact ⟨cls0015FinalState, cls0015ComposedGain,
+      cls0015ComposedLabelStepRun, cls0015Final_nonneg,
+      cls0015ComposedMargin_bound_gain⟩
+  · exact ⟨cls0016FinalState, cls0016ComposedGain,
+      cls0016ComposedLabelStepRun, cls0016Final_nonneg,
+      cls0016ComposedMargin_bound_gain⟩
+  · exact ⟨cls0017FinalState, cls0017ComposedGain,
+      cls0017ComposedLabelStepRun, cls0017Final_nonneg,
+      cls0017ComposedMargin_bound_gain⟩
+  · exact ⟨cls0018FinalState, cls0018ComposedGain,
+      cls0018ComposedLabelStepRun, cls0018Final_nonneg,
+      cls0018ComposedMargin_bound_gain⟩
+  · exact ⟨cls0019FinalState, cls0019ComposedGain,
+      cls0019ComposedLabelStepRun, cls0019Final_nonneg,
+      cls0019ComposedMargin_bound_gain⟩
+  · exact ⟨cls0020FinalState, cls0020ComposedGain,
+      cls0020ComposedLabelStepRun, cls0020Final_nonneg,
+      cls0020ComposedMargin_bound_gain⟩
+  · exact ⟨cls0021FinalState, cls0021ComposedGain,
+      cls0021ComposedLabelStepRun, cls0021Final_nonneg,
+      cls0021ComposedMargin_bound_gain⟩
+  · exact ⟨cls0022FinalState, cls0022ComposedGain,
+      cls0022ComposedLabelStepRun, cls0022Final_nonneg,
+      cls0022ComposedMargin_bound_gain⟩
+  · exact ⟨cls0023FinalState, cls0023ComposedGain,
+      cls0023ComposedLabelStepRun, cls0023Final_nonneg,
+      cls0023ComposedMargin_bound_gain⟩
+  · exact ⟨cls0024FinalState, cls0024ComposedGain,
+      cls0024ComposedLabelStepRun, cls0024Final_nonneg,
+      cls0024ComposedMargin_bound_gain⟩
+  · exact ⟨cls0025FinalState, cls0025ComposedGain,
+      cls0025ComposedLabelStepRun, cls0025Final_nonneg,
+      cls0025ComposedMargin_bound_gain⟩
+  · exact ⟨cls0026FinalState, cls0026ComposedGain,
+      cls0026ComposedLabelStepRun, cls0026Final_nonneg,
+      cls0026ComposedMargin_bound_gain⟩
+  · exact ⟨cls0027FinalState, cls0027ComposedGain,
+      cls0027ComposedLabelStepRun, cls0027Final_nonneg,
+      cls0027ComposedMargin_bound_gain⟩
+  · exact ⟨cls0028FinalState, cls0028ComposedGain,
+      cls0028ComposedLabelStepRun, cls0028Final_nonneg,
+      cls0028ComposedMargin_bound_gain⟩
+  · exact ⟨cls0029FinalState, cls0029ComposedGain,
+      cls0029ComposedLabelStepRun, cls0029Final_nonneg,
+      cls0029ComposedMargin_bound_gain⟩
+  · exact ⟨cls0030FinalState, cls0030ComposedGain,
+      cls0030ComposedLabelStepRun, cls0030Final_nonneg,
+      cls0030ComposedMargin_bound_gain⟩
+  · exact ⟨cls0031FinalState, cls0031ComposedGain,
+      cls0031ComposedLabelStepRun, cls0031Final_nonneg,
+      cls0031ComposedMargin_bound_gain⟩
+  · exact ⟨cls0032FinalState, cls0032ComposedGain,
+      cls0032ComposedLabelStepRun, cls0032Final_nonneg,
+      cls0032ComposedMargin_bound_gain⟩
+  · exact ⟨cls0033FinalState, cls0033ComposedGain,
+      cls0033ComposedLabelStepRun, cls0033Final_nonneg,
+      cls0033ComposedMargin_bound_gain⟩
+  · exact ⟨cls0034FinalState, cls0034ComposedGain,
+      cls0034ComposedLabelStepRun, cls0034Final_nonneg,
+      cls0034ComposedMargin_bound_gain⟩
+  · exact ⟨cls0035FinalState, cls0035ComposedGain,
+      cls0035ComposedLabelStepRun, cls0035Final_nonneg,
+      cls0035ComposedMargin_bound_gain⟩
+  · exact ⟨cls0036FinalState, cls0036ComposedGain,
+      cls0036ComposedLabelStepRun, cls0036Final_nonneg,
+      cls0036ComposedMargin_bound_gain⟩
+
+theorem graphSmoke_observed_composed_label_step_run_scaled_margin_nonpos :
+    forall obj : SmokeObj, smokeAccepts obj -> smokeScaledMargin obj <= 0 :=
+  scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound
+    (V := graphPotential)
+    (Step := SmokeStep)
+    (start := rootState)
+    (const := 176)
+    (wordOf := smokeObjComposedLabels)
+    (fun _ _ _ _ h => SmokeStep.valid h)
+    root_bound
+    smokeObservedComposedLabelStepRunLanguageBound
 
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=

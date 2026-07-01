@@ -108,6 +108,40 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             }
             for idx, obj in enumerate(path_objects)
         ]
+    for obj in path_objects:
+        if not obj.get("label_indices"):
+            obj["label_indices"] = [
+                int((edges[edge_idx].get("label_indices") or [edge_idx])[0])
+                for edge_idx in obj["edge_indices"]
+            ]
+        if len(obj["label_indices"]) != len(obj["edge_indices"]):
+            raise SystemExit(
+                f"{obj['name']}: label count {len(obj['label_indices'])} does not match "
+                f"edge count {len(obj['edge_indices'])}"
+            )
+    common_prefix_len = 0
+    if path_objects:
+        first_pairs = list(zip(path_objects[0]["edge_indices"], path_objects[0]["label_indices"]))
+        while common_prefix_len < len(first_pairs):
+            pair = first_pairs[common_prefix_len]
+            if all(
+                common_prefix_len < len(obj["edge_indices"])
+                and (obj["edge_indices"][common_prefix_len], obj["label_indices"][common_prefix_len]) == pair
+                for obj in path_objects
+            ):
+                common_prefix_len += 1
+            else:
+                break
+    common_prefix_edges = path_objects[0]["edge_indices"][:common_prefix_len] if path_objects else []
+    common_prefix_labels = path_objects[0]["label_indices"][:common_prefix_len] if path_objects else []
+    common_prefix_final = (
+        int(edges[common_prefix_edges[-1]]["dst"])
+        if common_prefix_edges
+        else int(roots[0])
+    )
+    common_prefix_gain_scaled = sum(
+        int(edges[idx]["gain_scaled"]) for idx in common_prefix_edges
+    )
 
     lines: list[str] = [
         "import Cuboctahedron.Search.BellmanPotential",
@@ -420,21 +454,54 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
     for case_name, edge_idx, _label_idx in edge_label_cases:
         name = edge_name(edge_idx)
         lines.append(f"  | {case_name} => simpa [BellmanEdge.Valid] using {name}_valid")
-    lines.append("")
+    lines.extend([
+        "",
+        f"-- shared prefix length: {common_prefix_len}",
+        f"private def commonPrefixFinalState : State := {state_ctor(common_prefix_final)}",
+        "",
+        "private def commonPrefixLabels : List SmokeLabel :=",
+    ])
+    if common_prefix_labels:
+        label_terms = [label_ctor(int(label_idx)) for label_idx in common_prefix_labels]
+        lines.append("  [" + label_terms[0])
+        for label_term in label_terms[1:]:
+            lines.append("  , " + label_term)
+        lines[-1] += "]"
+    else:
+        lines.append("  []")
+    lines.extend([
+        "",
+        "private def commonPrefixGain : Int :=",
+    ])
+    if common_prefix_edges:
+        gain_terms = [f"{edge_name(int(edge_idx))}.gain" for edge_idx in common_prefix_edges]
+        lines.append("  " + right_assoc_add(gain_terms))
+    else:
+        lines.append("  0")
+    lines.extend([
+        "",
+        "private theorem commonPrefixLabelStepRun :",
+        "    BellmanLabelStepRun SmokeStep",
+        "      rootState commonPrefixFinalState commonPrefixLabels commonPrefixGain := by",
+        "  unfold commonPrefixLabels commonPrefixGain rootState commonPrefixFinalState",
+    ])
+    for edge_idx, label_idx in zip(common_prefix_edges, common_prefix_labels):
+        step_case = edge_label_step_ctor[(int(edge_idx), int(label_idx))]
+        lines.extend([
+            "  apply BellmanLabelStepRun.cons",
+            f"  · exact {step_case}",
+        ])
+    lines.extend([
+        f"  exact BellmanLabelStepRun.nil {state_ctor(common_prefix_final)}",
+        "",
+    ])
     for obj in path_objects:
         obj_name = obj["name"]
         edge_indices = obj["edge_indices"]
-        label_indices = obj.get("label_indices", [])
-        if not label_indices:
-            label_indices = [
-                (edges[edge_idx].get("label_indices") or [edge_idx])[0]
-                for edge_idx in edge_indices
-            ]
-        if len(label_indices) != len(edge_indices):
-            raise SystemExit(
-                f"{obj_name}: label count {len(label_indices)} does not match "
-                f"edge count {len(edge_indices)}"
-            )
+        label_indices = obj["label_indices"]
+        suffix_edge_indices = edge_indices[common_prefix_len:]
+        suffix_label_indices = label_indices[common_prefix_len:]
+        suffix_gain_scaled = sum(int(edges[idx]["gain_scaled"]) for idx in suffix_edge_indices)
         gain_scaled = sum(int(edges[idx]["gain_scaled"]) for idx in edge_indices)
         lines.extend([
             f"private def {obj_name}Labels : List SmokeLabel :=",
@@ -498,6 +565,61 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             ])
         lines.extend([
             f"  exact BellmanLabelStepRun.nil {state_ctor(int(obj['final']))}",
+            "",
+            f"private def {obj_name}SuffixLabels : List SmokeLabel :=",
+        ])
+        if suffix_label_indices:
+            suffix_label_terms = [label_ctor(int(label_idx)) for label_idx in suffix_label_indices]
+            lines.append("  [" + suffix_label_terms[0])
+            for label_term in suffix_label_terms[1:]:
+                lines.append("  , " + label_term)
+            lines[-1] += "]"
+        else:
+            lines.append("  []")
+        lines.extend([
+            "",
+            f"private def {obj_name}SuffixGain : Int :=",
+        ])
+        if suffix_edge_indices:
+            suffix_gain_terms = [
+                f"{edge_name(int(edge_idx))}.gain" for edge_idx in suffix_edge_indices
+            ]
+            lines.append("  " + right_assoc_add(suffix_gain_terms))
+        else:
+            lines.append("  0")
+        lines.extend([
+            "",
+            f"private theorem {obj_name}SuffixLabelStepRun :",
+            f"    BellmanLabelStepRun SmokeStep",
+            f"      commonPrefixFinalState {obj_name}FinalState {obj_name}SuffixLabels {obj_name}SuffixGain := by",
+            f"  unfold {obj_name}SuffixLabels {obj_name}SuffixGain commonPrefixFinalState {obj_name}FinalState",
+        ])
+        for edge_idx, label_idx in zip(suffix_edge_indices, suffix_label_indices):
+            step_case = edge_label_step_ctor[(int(edge_idx), int(label_idx))]
+            lines.extend([
+                "  apply BellmanLabelStepRun.cons",
+                f"  · exact {step_case}",
+            ])
+        lines.extend([
+            f"  exact BellmanLabelStepRun.nil {state_ctor(int(obj['final']))}",
+            "",
+            f"private def {obj_name}ComposedLabels : List SmokeLabel :=",
+            f"  commonPrefixLabels ++ {obj_name}SuffixLabels",
+            "",
+            f"private def {obj_name}ComposedGain : Int :=",
+            f"  commonPrefixGain + {obj_name}SuffixGain",
+            "",
+            f"private theorem {obj_name}ComposedLabelStepRun :",
+            f"    BellmanLabelStepRun SmokeStep",
+            f"      rootState {obj_name}FinalState {obj_name}ComposedLabels {obj_name}ComposedGain := by",
+            f"  unfold {obj_name}ComposedLabels {obj_name}ComposedGain",
+            f"  exact BellmanLabelStepRun.append commonPrefixLabelStepRun {obj_name}SuffixLabelStepRun",
+            "",
+            f"private theorem {obj_name}ComposedMargin_bound_gain :",
+            f"    smokeScaledMargin SmokeObj.{obj_name} <= ({const_scaled} : Int) + {obj_name}ComposedGain := by",
+            f"  unfold {obj_name}ComposedGain commonPrefixGain {obj_name}SuffixGain",
+            f"  change ({obj['margin_scaled']} : Int) <= {const_scaled + gain_scaled}",
+            "  decide",
             "",
             f"private theorem {obj_name}Margin_bound_gain :",
             f"    smokeScaledMargin SmokeObj.{obj_name} <= ({const_scaled} : Int) + {obj_name}Gain := by",
@@ -591,6 +713,12 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         lines.append(f"  | SmokeObj.{obj['name']} => {obj['name']}Labels")
     lines.extend([
         "",
+        "private def smokeObjComposedLabels : SmokeObj -> List SmokeLabel",
+    ])
+    for obj in path_objects:
+        lines.append(f"  | SmokeObj.{obj['name']} => {obj['name']}ComposedLabels")
+    lines.extend([
+        "",
         "private theorem smokeObservedLabeledRunLanguageBound :",
         "    BellmanLabeledRunLanguageBound",
         "      graphPotential GraphEdge SmokeEdgeLabel rootState",
@@ -647,6 +775,34 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "    (fun _ _ _ _ h => SmokeStep.valid h)",
         "    root_bound",
         "    smokeObservedLabelStepRunLanguageBound",
+        "",
+        "private theorem smokeObservedComposedLabelStepRunLanguageBound :",
+        "    BellmanLabelStepRunLanguageBound",
+        "      graphPotential SmokeStep rootState",
+        f"      ({const_scaled} : Int) smokeScaledMargin smokeObjComposedLabels smokeAccepts := by",
+        "  intro obj _hobj",
+        "  cases obj",
+    ])
+    for obj in path_objects:
+        obj_name = obj["name"]
+        lines.extend([
+            f"  · exact ⟨{obj_name}FinalState, {obj_name}ComposedGain,",
+            f"      {obj_name}ComposedLabelStepRun, {obj_name}Final_nonneg,",
+            f"      {obj_name}ComposedMargin_bound_gain⟩",
+        ])
+    lines.extend([
+        "",
+        "theorem graphSmoke_observed_composed_label_step_run_scaled_margin_nonpos :",
+        "    forall obj : SmokeObj, smokeAccepts obj -> smokeScaledMargin obj <= 0 :=",
+        "  scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound",
+        "    (V := graphPotential)",
+        "    (Step := SmokeStep)",
+        "    (start := rootState)",
+        f"    (const := {const_scaled})",
+        "    (wordOf := smokeObjComposedLabels)",
+        "    (fun _ _ _ _ h => SmokeStep.valid h)",
+        "    root_bound",
+        "    smokeObservedComposedLabelStepRunLanguageBound",
         "",
         "theorem graphSmoke_argmax_object_scaled_margin_nonpos :",
         "    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=",
