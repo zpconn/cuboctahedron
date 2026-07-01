@@ -2,6 +2,7 @@ import Cuboctahedron.Search.CancellationPairingLanguage
 import Cuboctahedron.Search.FaceLabelLanguage
 import Cuboctahedron.Search.NonIdentityCase
 import Cuboctahedron.Search.RankFaceLabelLanguage
+import Cuboctahedron.Search.ShadowNormalFormCounts
 
 /-!
 Semantic language predicates for the current top-pairing Bellman family.
@@ -155,6 +156,15 @@ def triangularCancellationSummaryOfFaceLabels (labels : List Face) :
   triangularCancellationSummaryOfShadow
     ((shadowStateOfPairList (labels.map pairOfFace)).shadow)
 
+def TopPairingPairCountsLabels (labels : List Face) : Prop :=
+  (labels.map pairOfFace).count PairId.x = 2 /\
+    (labels.map pairOfFace).count PairId.y = 2 /\
+      (labels.map pairOfFace).count PairId.z = 2 /\
+        (labels.map pairOfFace).count PairId.d111 = 2 /\
+          (labels.map pairOfFace).count PairId.d11m = 2 /\
+            (labels.map pairOfFace).count PairId.d1m1 = 2 /\
+              (labels.map pairOfFace).count PairId.dm11 = 2
+
 set_option linter.unusedTactic false in
 set_option linter.unreachableTactic false in
 theorem canonicalContributionPairs_eq_startedPairFactors
@@ -189,6 +199,41 @@ theorem triangularCancellationSummaryOfCanonicalLabels
   unfold shadowStateOfPairWord
   rw [map_pairOfFace_faceLabelsInContributionOrder]
   rw [canonicalContributionPairs_eq_startedPairFactors]
+
+theorem topPairingPairCountsCanonicalLabels
+    (rank : Fin numPairWords) :
+    TopPairingPairCountsLabels
+      (faceLabelsInContributionOrder (fun f => f)
+        (canonicalSeqOfPairWord (unrankPairWord rank))) := by
+  unfold TopPairingPairCountsLabels
+  rw [map_pairOfFace_faceLabelsInContributionOrder]
+  rw [canonicalContributionPairs_eq_startedPairFactors]
+  have hvalid := unrankPairWord_valid rank
+  constructor
+  · exact startedPairFactors_count_x_of_valid hvalid
+  constructor
+  · exact startedPairFactors_count_y_of_valid hvalid
+  constructor
+  · exact startedPairFactors_count_z_of_valid hvalid
+  constructor
+  · have h : (unrankPairWord rank).count PairId.d111 = 2 := by
+      simpa [pairCount_eq_vector_count] using hvalid.2.2.2.1
+    rw [startedPairFactors_eq_toList_append, List.count_append]
+    simp [h]
+  constructor
+  · have h : (unrankPairWord rank).count PairId.d11m = 2 := by
+      simpa [pairCount_eq_vector_count] using hvalid.2.2.2.2.1
+    rw [startedPairFactors_eq_toList_append, List.count_append]
+    simp [h]
+  constructor
+  · have h : (unrankPairWord rank).count PairId.d1m1 = 2 := by
+      simpa [pairCount_eq_vector_count] using hvalid.2.2.2.2.2.1
+    rw [startedPairFactors_eq_toList_append, List.count_append]
+    simp [h]
+  · have h : (unrankPairWord rank).count PairId.dm11 = 2 := by
+      simpa [pairCount_eq_vector_count] using hvalid.2.2.2.2.2.2
+    rw [startedPairFactors_eq_toList_append, List.count_append]
+    simp [h]
 
 theorem faceLabelsInContributionOrder_eq_of_positive_template
     {rank : Fin numPairWords} {template : Step14 -> Face} {labels : List Face}

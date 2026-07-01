@@ -1,0 +1,367 @@
+{
+  "decision": "two-terminal-prefix-certificate",
+  "depth_nodes": {
+    "0": 1,
+    "1": 1,
+    "2": 1,
+    "3": 3,
+    "4": 8,
+    "5": 24,
+    "6": 68,
+    "7": 209,
+    "8": 595,
+    "9": 1585,
+    "10": 3186,
+    "11": 3082,
+    "12": 1631,
+    "13": 482,
+    "14": 442
+  },
+  "estimated_generated_rejection_leaves": 141387,
+  "first_examples": {
+    "closed_terminals": [
+      {
+        "labels": [
+          "xm",
+          "ym",
+          "zm",
+          "tmpp",
+          "tppp",
+          "tpmp",
+          "tppm",
+          "tmmp",
+          "tpmm",
+          "tmmm",
+          "tmpm",
+          "yp",
+          "zp",
+          "xp"
+        ]
+      },
+      {
+        "labels": [
+          "xm",
+          "ym",
+          "zm",
+          "tmpp",
+          "tppp",
+          "tpmp",
+          "tppm",
+          "tmmp",
+          "tpmm",
+          "tmmm",
+          "tmpm",
+          "zp",
+          "yp",
+          "xp"
+        ]
+      }
+    ],
+    "count_rejects": [
+      {
+        "face": "yp",
+        "pair": "y",
+        "prefix": [
+          "xm",
+          "ym",
+          "yp"
+        ],
+        "remaining_counts": {
+          "d111": 2,
+          "d11m": 2,
+          "d1m1": 2,
+          "dm11": 2,
+          "x": 0,
+          "y": 0,
+          "z": 2
+        },
+        "step": 3
+      },
+      {
+        "face": "yp",
+        "pair": "y",
+        "prefix": [
+          "xm",
+          "ym",
+          "yp",
+          "zm"
+        ],
+        "remaining_counts": {
+          "d111": 2,
+          "d11m": 2,
+          "d1m1": 2,
+          "dm11": 2,
+          "x": 0,
+          "y": 0,
+          "z": 1
+        },
+        "step": 4
+      },
+      {
+        "face": "zp",
+        "pair": "z",
+        "prefix": [
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp"
+        ],
+        "remaining_counts": {
+          "d111": 2,
+          "d11m": 2,
+          "d1m1": 2,
+          "dm11": 2,
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "step": 5
+      }
+    ],
+    "local_axis_rejects": [
+      {
+        "face": "zp",
+        "prefix": [
+          "xm",
+          "ym",
+          "yp"
+        ],
+        "step": 3
+      },
+      {
+        "face": "tppp",
+        "prefix": [
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp"
+        ],
+        "step": 5
+      },
+      {
+        "face": "tppp",
+        "prefix": [
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tppm"
+        ],
+        "step": 6
+      }
+    ],
+    "shadow_length_rejects": [],
+    "square_gap_rejects": [
+      {
+        "face": "yp",
+        "prefix": [
+          "xm",
+          "ym",
+          "zm",
+          "zp",
+          "tpmm",
+          "tppp",
+          "tppm",
+          "tmpm"
+        ],
+        "square_gap": 4,
+        "step": 8
+      },
+      {
+        "face": "yp",
+        "prefix": [
+          "xm",
+          "ym",
+          "zm",
+          "zp",
+          "tpmm",
+          "tppp",
+          "tppm",
+          "tmpm",
+          "tppp"
+        ],
+        "square_gap": 5,
+        "step": 9
+      },
+      {
+        "face": "yp",
+        "prefix": [
+          "xm",
+          "ym",
+          "zm",
+          "zp",
+          "tpmm",
+          "tppp",
+          "tppm",
+          "tmpm",
+          "tppp",
+          "tpmp",
+          "tmmp"
+        ],
+        "square_gap": 7,
+        "step": 11
+      }
+    ],
+    "terminal_cancellation_rejects": [
+      {
+        "labels": [
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tppm",
+          "tpmp",
+          "tmpm",
+          "tpmm",
+          "tmmm",
+          "tppp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ],
+        "stack": {
+          "cancellations_rev": [
+            [
+              "d11m",
+              0,
+              7
+            ],
+            [
+              "dm11",
+              3,
+              6
+            ],
+            [
+              "d111",
+              4,
+              5
+            ],
+            [
+              "d1m1",
+              1,
+              2
+            ]
+          ],
+          "shadow_len": 8,
+          "stack": []
+        }
+      },
+      {
+        "labels": [
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tppm",
+          "tpmm",
+          "tmpm",
+          "tpmp",
+          "tmmm",
+          "tppp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ],
+        "stack": {
+          "cancellations_rev": [
+            [
+              "d11m",
+              0,
+              7
+            ],
+            [
+              "dm11",
+              1,
+              6
+            ],
+            [
+              "d111",
+              4,
+              5
+            ],
+            [
+              "d1m1",
+              2,
+              3
+            ]
+          ],
+          "shadow_len": 8,
+          "stack": []
+        }
+      },
+      {
+        "labels": [
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tpmp",
+          "tppp",
+          "tpmm",
+          "tppm",
+          "tmpm",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ],
+        "stack": {
+          "cancellations_rev": [],
+          "shadow_len": 8,
+          "stack": [
+            [
+              "d11m",
+              7
+            ],
+            [
+              "dm11",
+              6
+            ],
+            [
+              "d1m1",
+              5
+            ],
+            [
+              "d11m",
+              4
+            ],
+            [
+              "dm11",
+              3
+            ],
+            [
+              "d111",
+              2
+            ],
+            [
+              "d1m1",
+              1
+            ],
+            [
+              "d111",
+              0
+            ]
+          ]
+        }
+      }
+    ],
+    "terminal_count_rejects": []
+  },
+  "stats": {
+    "closed_terminals": 2,
+    "count_rejects": 33527,
+    "local_axis_rejects": 10473,
+    "prefix_nodes": 11318,
+    "schedule_rejects": 95143,
+    "shadow_length_rejects": 0,
+    "square_gap_rejects": 1804,
+    "terminal_cancellation_rejects": 440,
+    "terminal_count_rejects": 0
+  }
+}

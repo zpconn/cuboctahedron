@@ -57835,3 +57835,91 @@ time, for example:
 The public theorem should still be the same two-trace classifier, but its proof
 must be generated as a small deterministic prefix proof rather than delegated
 to global simplification.
+
+Pair-count bridge and prefix-certificate profile:
+
+- Strengthened the hand-written language interface in
+  `Cuboctahedron/Search/BellmanTopPairingLanguage.lean` with the missing
+  pair-count premise needed by the standalone list-level classifier.
+- New definition/theorem:
+  - `TopPairingPairCountsLabels`;
+  - `topPairingPairCountsCanonicalLabels`.
+- The theorem proves that the canonical contribution-order labels associated
+  to any `unrankPairWord rank` satisfy exactly two occurrences of every
+  opposite-face pair after including the final started `X+` label.  This is the
+  list-level counterpart of `unrankPairWord_valid`.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_language_pair_counts_bridge_guard.json \
+  -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+```
+
+Result:
+
+```text
+passed
+peak_tree_rss = 4011 MiB
+elapsed = 4.00s
+```
+
+Dependent smoke after the pair-count bridge:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_closed_eval_trace_smoke_after_pair_counts_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalTraceSmoke
+```
+
+Result:
+
+```text
+passed
+peak_tree_rss = 3951.3 MiB
+elapsed = 7.01s
+```
+
+- Added `scripts/profile_top_pairing_trace_classifier.py`, an exact
+  diagnostic profiler for the finite prefix certificate needed by the
+  list-level two-trace classifier.
+- Ran:
+
+```bash
+python3 -m py_compile scripts/profile_top_pairing_trace_classifier.py
+
+python3 scripts/profile_top_pairing_trace_classifier.py \
+  --json scripts/generated/top_pairing_trace_classifier_profile.json \
+  --markdown docs/top_pairing_trace_classifier_profile.md
+```
+
+Result:
+
+```text
+decision = two-terminal-prefix-certificate
+prefix_nodes = 11318
+closed_terminals = 2
+terminal_cancellation_rejects = 440
+schedule_rejects = 95143
+count_rejects = 33527
+square_gap_rejects = 1804
+local_axis_rejects = 10473
+estimated generated rejection leaves = 141387
+```
+
+Interpretation: a naive generated proof that emits a separate contradiction
+for every excluded `Face` branch would be too large.  A viable generated proof
+must first use small membership/transition lemmas to restrict the current face
+to schedule-, square-gap-, local-axis-, and count-compatible choices, then
+branch only on the remaining semantic prefix states.  That proof should be
+roughly proportional to the `11318` accepted-prefix nodes plus `440` terminal
+cancellation rejects, not the `141387` raw rejected face branches.  The next
+generator should therefore emit a compressed membership-driven prefix proof,
+not a cases-on-all-faces proof.
