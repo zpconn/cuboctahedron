@@ -847,3 +847,15 @@ Bounded multi-class Bellman bridge:
   Result: `0:21.11` wall time, `4,989,520 kB` max RSS, exit `0`.  The
   measured memory is still safely below the practical ceiling, so the next
   bounded smoke is `--rank-bridge-limit 8`.
+- The `--rank-bridge-limit 8` module
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge8Smoke`
+  also built successfully:
+
+  ```text
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge8Smoke
+  ```
+
+  Result: `0:34.53` wall time, `5,510,392 kB` max RSS, exit `0`.  This keeps
+  the sampled bridge ramp within the memory budget, but these modules remain
+  focused smokes rather than final coverage roots.

@@ -47305,3 +47305,38 @@ memory ceiling, and elapsed time stayed comparable to the two-class smoke.
 The next bounded ramp is `--rank-bridge-limit 8`.  Continue to keep these
 modules classified as smoke/proof-shape evidence; production coverage still
 needs the semantic family-language membership theorem.
+
+### Holonomy/Bellman Pivot - eight-class axis bridge smoke accepted
+
+The sampled Bellman bridge ramp continued with `--rank-bridge-limit 8`:
+
+```bash
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphBridge8Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge8Smoke \
+  --rank-bridge-limit 8
+```
+
+The module exports exact sampled axis-force bridges for `cls0000` through
+`cls0007`.
+
+Focused build:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge8Smoke
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `BellmanTopPairingGraphBridge8Smoke` | `0:34.53` | `5,510,392 kB` | `0` |
+
+Decision: accepted.  Peak memory remains comfortably safe, though the module is
+now large enough that broad package imports should not pull this smoke in by
+default.  The next possible ramp is all `37` sampled path classes, but it
+should be generated as a separate smoke module and built only as a focused
+target.  The production task remains a compact semantic family-language bridge,
+not a sampled-class list.

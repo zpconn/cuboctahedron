@@ -1897,3 +1897,36 @@ found no `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
 Decision: accepted.  Peak RSS rose to about `4.99 GiB`, still comfortably
 inside the practical memory budget.  The next safe ramp is an eight-class
 smoke before attempting all `37` sampled path classes.
+
+## Bellman Eight-Class Bridge Checkpoint
+
+The bounded bridge ramp was extended to `--rank-bridge-limit 8`, generating:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphBridge8Smoke.lean
+```
+
+The module exports sampled generated-axis theorems for `cls0000` through
+`cls0007`.
+
+Focused build:
+
+```text
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge8Smoke
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `BellmanTopPairingGraphBridge8Smoke` | `0:34.53` | `5,510,392 kB` | `0` |
+
+The forbidden-keyword scan over the emitter and generated eight-class smoke
+found no `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Decision: accepted as the largest sampled bridge smoke so far.  The memory
+profile is still safe.  An all-`37` sampled smoke can be tried as a focused
+target, but the production path should move toward the semantic
+holonomy/cancellation-language membership theorem instead of accumulating
+sampled-class modules as final evidence.
