@@ -185,6 +185,39 @@ Terminal source quotient checkpoint:
   a still-coarser theorem that explains why the large `yp` start-interior
   bucket fails without replaying each affine solve.
 
+Axis-class quotient checkpoint:
+
+- The profiler now records four coarser start-interior-only coordinates:
+  D4-projective axis class, absolute axis pattern, and the same two coordinates
+  refined by reduced-shadow length.
+- On `[0,100000)`, the run remained memory-safe:
+
+  ```text
+  elapsed: 0:08.52
+  max RSS: 34,704 KiB
+  ```
+
+- These coordinates compress the dominant start-interior bucket much better
+  than source/solve-shape keys:
+
+  | Counter | Sample distinct | Linear projected full distinct | CPU hours at smoke cost |
+  | --- | ---: | ---: | ---: |
+  | `terminal_source_keys` | 8,540 | 8,309,181 | 104,418.71 |
+  | `axis_start_d4_axis_keys` | 182 | 177,081 | 2,225.32 |
+  | `axis_start_abs_axis_keys` | 182 | 177,081 | 2,225.32 |
+  | `axis_start_len_d4_axis_keys` | 184 | 179,027 | 2,249.77 |
+  | `axis_start_len_abs_axis_keys` | 184 | 179,027 | 2,249.77 |
+
+- The largest class is
+  `axisStart|badFace=yp|axisD4=1,-3,-1`, covering `1,427 / 9,036`
+  residual survivors in the window.  The second largest is
+  `axisStart|badFace=yp|axisD4=3,-1,-1`, covering `659`.
+- Conclusion: D4/absolute axis classes are useful as theorem-design clues, but
+  not as one-leaf-per-class production coordinates under the current
+  `LocalCertSmoke` cost.  The next viable residual experiment should target
+  one or two largest axis classes with a lightweight integer/projective theorem
+  surface and measure that cost before any broader emission.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -192,6 +225,8 @@ Terminal source quotient checkpoint:
 - `scripts/generated/nonidentity_residual_family_gate_000000000_000100000.md`
 - `scripts/generated/nonidentity_residual_source_quotient_000000000_000100000.json`
 - `scripts/generated/nonidentity_residual_source_quotient_000000000_000100000.md`
+- `scripts/generated/nonidentity_residual_axisclass_000000000_000100000.json`
+- `scripts/generated/nonidentity_residual_axisclass_000000000_000100000.md`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.json`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.md`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000000100.json`
@@ -239,8 +274,8 @@ Next nontranslation work:
    quotient checkpoint shows that direction fragments the sample.
 2. Keep the forced-axis sign filter as a cheap front-end filter.
 3. Prototype a cheaper integer/projective axis-family theorem surface for the
-   dominant start-interior bucket, preferably one whose statement depends only
-   on coarse holonomy/axis facts and not exact affine margins.
+   largest D4 axis-start classes, beginning with
+   `axisStart|badFace=yp|axisD4=1,-3,-1`.
 4. Keep signed-state empty-cone/Gordan as a pre-forced-axis front-end only; do
    not expect it to solve the forced-axis residual branch.
 5. Do not generate terminal residual Lean leaves until the planned semantic

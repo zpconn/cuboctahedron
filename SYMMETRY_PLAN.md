@@ -1213,6 +1213,30 @@ Residual source-quotient checkpoint:
   coarser holonomy/axis invariant, preferably using integer/projective
   arithmetic and avoiding replay of each affine solve.
 
+Axis-class quotient checkpoint:
+
+- Added four start-interior-only profiler counters:
+  `axis_start_d4_axis_keys`, `axis_start_abs_axis_keys`,
+  `axis_start_len_d4_axis_keys`, and `axis_start_len_abs_axis_keys`.
+- Re-ran `[0,100000)` with four workers.  Telemetry stayed safe:
+  `0:08.52` wall time and `34,704 KiB` max RSS.
+- Result:
+
+  | coordinate | sample distinct | projected full distinct | projected CPU hours at smoke rate |
+  | --- | ---: | ---: | ---: |
+  | `terminal_source_keys` | `8,540` | `8,309,181` | `104,418.71` |
+  | `axis_start_d4_axis_keys` | `182` | `177,081` | `2,225.32` |
+  | `axis_start_abs_axis_keys` | `182` | `177,081` | `2,225.32` |
+  | `axis_start_len_d4_axis_keys` | `184` | `179,027` | `2,249.77` |
+  | `axis_start_len_abs_axis_keys` | `184` | `179,027` | `2,249.77` |
+
+- Interpretation: D4/absolute axis classes are the first nontranslation
+  residual quotient in this branch that has visible compression power.  They
+  still miss the 5-6 hour target by a large margin if each class uses the
+  current Rat-heavy local-certificate proof surface.  The next checkpoint
+  should therefore be a lightweight integer/projective theorem smoke for the
+  largest class, `axisStart|badFace=yp|axisD4=1,-3,-1`, not broad emission.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

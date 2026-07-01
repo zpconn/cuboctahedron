@@ -262,3 +262,20 @@ Residual source-quotient checkpoint:
   for broad generated evidence.  It is useful for diagnostics, but the proof
   path needs a new algebraic theorem surface for the dominant start-interior
   bucket rather than more precise local-certificate keys.
+
+Axis-class quotient checkpoint:
+
+- The residual profiler now records D4-projective and absolute axis-pattern
+  keys for `axis_misses_start_interior` failures.
+- On `[0,100000)`, those coarse axis classes are far better than solve/source
+  keys but still not production-ready as one theorem per class:
+  `axis_start_d4_axis_keys = 182` and
+  `axis_start_abs_axis_keys = 182`, projecting to about `177,081` full classes
+  under the simple linear model.
+- The largest observed class is
+  `axisStart|badFace=yp|axisD4=1,-3,-1`, with `1,427` sample cases.
+- Next residual proof work should try to prove one largest axis class using a
+  cheaper integer/projective theorem surface.  If that theorem is still near
+  the 45-second `LocalCertSmoke` cost, this route is not viable; if it is
+  sub-second, the axis-class quotient may become useful in combination with
+  higher holonomy grouping.

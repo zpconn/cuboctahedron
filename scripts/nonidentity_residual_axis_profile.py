@@ -16,7 +16,9 @@ import argparse
 from collections import Counter, defaultdict
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass, field
+from fractions import Fraction
 import json
+from math import gcd
 import sys
 import time
 from pathlib import Path
@@ -97,6 +99,10 @@ class ResidualAxisStats:
     terminal_source_keys: CappedCounter | None = None
     terminal_source_axis_keys: CappedCounter | None = None
     terminal_source_reduced_axis_keys: CappedCounter | None = None
+    axis_start_d4_axis_keys: CappedCounter | None = None
+    axis_start_abs_axis_keys: CappedCounter | None = None
+    axis_start_len_d4_axis_keys: CappedCounter | None = None
+    axis_start_len_abs_axis_keys: CappedCounter | None = None
     terminal_by_reduced_shadow: CappedCounter | None = None
     terminal_by_axis: CappedCounter | None = None
     samples: dict[str, list[dict[str, Any]]] = field(default_factory=lambda: defaultdict(list))
@@ -116,6 +122,14 @@ class ResidualAxisStats:
             self.terminal_source_axis_keys = CappedCounter(self.max_distinct)
         if self.terminal_source_reduced_axis_keys is None:
             self.terminal_source_reduced_axis_keys = CappedCounter(self.max_distinct)
+        if self.axis_start_d4_axis_keys is None:
+            self.axis_start_d4_axis_keys = CappedCounter(self.max_distinct)
+        if self.axis_start_abs_axis_keys is None:
+            self.axis_start_abs_axis_keys = CappedCounter(self.max_distinct)
+        if self.axis_start_len_d4_axis_keys is None:
+            self.axis_start_len_d4_axis_keys = CappedCounter(self.max_distinct)
+        if self.axis_start_len_abs_axis_keys is None:
+            self.axis_start_len_abs_axis_keys = CappedCounter(self.max_distinct)
         if self.terminal_by_reduced_shadow is None:
             self.terminal_by_reduced_shadow = CappedCounter(self.max_distinct)
         if self.terminal_by_axis is None:
@@ -147,6 +161,10 @@ class ResidualAxisStats:
         assert self.terminal_source_keys is not None and other.terminal_source_keys is not None
         assert self.terminal_source_axis_keys is not None and other.terminal_source_axis_keys is not None
         assert self.terminal_source_reduced_axis_keys is not None and other.terminal_source_reduced_axis_keys is not None
+        assert self.axis_start_d4_axis_keys is not None and other.axis_start_d4_axis_keys is not None
+        assert self.axis_start_abs_axis_keys is not None and other.axis_start_abs_axis_keys is not None
+        assert self.axis_start_len_d4_axis_keys is not None and other.axis_start_len_d4_axis_keys is not None
+        assert self.axis_start_len_abs_axis_keys is not None and other.axis_start_len_abs_axis_keys is not None
         assert self.terminal_by_reduced_shadow is not None and other.terminal_by_reduced_shadow is not None
         assert self.terminal_by_axis is not None and other.terminal_by_axis is not None
         self.terminal_family_keys.merge(other.terminal_family_keys)
@@ -156,6 +174,10 @@ class ResidualAxisStats:
         self.terminal_source_keys.merge(other.terminal_source_keys)
         self.terminal_source_axis_keys.merge(other.terminal_source_axis_keys)
         self.terminal_source_reduced_axis_keys.merge(other.terminal_source_reduced_axis_keys)
+        self.axis_start_d4_axis_keys.merge(other.axis_start_d4_axis_keys)
+        self.axis_start_abs_axis_keys.merge(other.axis_start_abs_axis_keys)
+        self.axis_start_len_d4_axis_keys.merge(other.axis_start_len_d4_axis_keys)
+        self.axis_start_len_abs_axis_keys.merge(other.axis_start_len_abs_axis_keys)
         self.terminal_by_reduced_shadow.merge(other.terminal_by_reduced_shadow)
         self.terminal_by_axis.merge(other.terminal_by_axis)
         for stage, samples in other.samples.items():
@@ -177,6 +199,10 @@ class ResidualAxisStats:
         assert self.terminal_source_keys is not None
         assert self.terminal_source_axis_keys is not None
         assert self.terminal_source_reduced_axis_keys is not None
+        assert self.axis_start_d4_axis_keys is not None
+        assert self.axis_start_abs_axis_keys is not None
+        assert self.axis_start_len_d4_axis_keys is not None
+        assert self.axis_start_len_abs_axis_keys is not None
         assert self.terminal_by_reduced_shadow is not None
         assert self.terminal_by_axis is not None
         counters = {
@@ -187,6 +213,10 @@ class ResidualAxisStats:
             "terminal_source_keys": self.terminal_source_keys,
             "terminal_source_axis_keys": self.terminal_source_axis_keys,
             "terminal_source_reduced_axis_keys": self.terminal_source_reduced_axis_keys,
+            "axis_start_d4_axis_keys": self.axis_start_d4_axis_keys,
+            "axis_start_abs_axis_keys": self.axis_start_abs_axis_keys,
+            "axis_start_len_d4_axis_keys": self.axis_start_len_d4_axis_keys,
+            "axis_start_len_abs_axis_keys": self.axis_start_len_abs_axis_keys,
             "terminal_by_reduced_shadow": self.terminal_by_reduced_shadow,
             "terminal_by_axis": self.terminal_by_axis,
         }
@@ -221,6 +251,10 @@ class ResidualAxisStats:
             "terminal_source_keys": self.terminal_source_keys.payload(top=top),
             "terminal_source_axis_keys": self.terminal_source_axis_keys.payload(top=top),
             "terminal_source_reduced_axis_keys": self.terminal_source_reduced_axis_keys.payload(top=top),
+            "axis_start_d4_axis_keys": self.axis_start_d4_axis_keys.payload(top=top),
+            "axis_start_abs_axis_keys": self.axis_start_abs_axis_keys.payload(top=top),
+            "axis_start_len_d4_axis_keys": self.axis_start_len_d4_axis_keys.payload(top=top),
+            "axis_start_len_abs_axis_keys": self.axis_start_len_abs_axis_keys.payload(top=top),
             "terminal_by_reduced_shadow": self.terminal_by_reduced_shadow.payload(top=top),
             "terminal_by_axis": self.terminal_by_axis.payload(top=top),
             "family_gate": family_gate_payload(self, counters),
@@ -387,6 +421,55 @@ def terminal_source_signature_key(failure: str, details: dict[str, Any]) -> str:
     return failure
 
 
+def parse_axis_key(axis_key: str) -> tuple[Fraction, Fraction, Fraction]:
+    parts = tuple(Fraction(part) for part in axis_key.split(","))
+    if len(parts) != 3:
+        raise ValueError(f"expected 3D axis key, got {axis_key!r}")
+    return parts  # type: ignore[return-value]
+
+
+def primitive_int_vec(v: tuple[Fraction, Fraction, Fraction]) -> tuple[int, int, int]:
+    den = 1
+    for value in v:
+        den = den * value.denominator // gcd(den, value.denominator)
+    ints = [int(value * den) for value in v]
+    g = 0
+    for value in ints:
+        g = gcd(g, abs(value))
+    if g:
+        ints = [value // g for value in ints]
+    for value in ints:
+        if value < 0:
+            ints = [-x for x in ints]
+            break
+        if value > 0:
+            break
+    return (ints[0], ints[1], ints[2])
+
+
+def vec_int_key(v: tuple[int, int, int]) -> str:
+    return ",".join(str(value) for value in v)
+
+
+def d4_projective_axis_key(axis_key: str) -> str:
+    """Canonicalize a projective axis under the D4 stabilizer of X+."""
+
+    x, y, z = parse_axis_key(axis_key)
+    candidates: list[tuple[int, int, int]] = []
+    for sy in (-1, 1):
+        for sz in (-1, 1):
+            candidates.append(primitive_int_vec((x, sy * y, sz * z)))
+            candidates.append(primitive_int_vec((x, sy * z, sz * y)))
+    return vec_int_key(min(candidates))
+
+
+def abs_axis_pattern_key(axis_key: str) -> str:
+    x, y, z = parse_axis_key(axis_key)
+    xi, yi, zi = primitive_int_vec((x, y, z))
+    yz = sorted([abs(yi), abs(zi)])
+    return f"x={abs(xi)}|yz={yz[0]},{yz[1]}"
+
+
 def classify_leaf(
     stats: ResidualAxisStats,
     *,
@@ -485,6 +568,10 @@ def classify_leaf(
     assert stats.terminal_source_keys is not None
     assert stats.terminal_source_axis_keys is not None
     assert stats.terminal_source_reduced_axis_keys is not None
+    assert stats.axis_start_d4_axis_keys is not None
+    assert stats.axis_start_abs_axis_keys is not None
+    assert stats.axis_start_len_d4_axis_keys is not None
+    assert stats.axis_start_len_abs_axis_keys is not None
     assert stats.terminal_by_reduced_shadow is not None
     assert stats.terminal_by_axis is not None
     stats.terminal_family_keys.add(family_key)
@@ -497,6 +584,26 @@ def classify_leaf(
     stats.terminal_source_reduced_axis_keys.add(
         f"{source_key}|reduced={reduced_key}|axis={oriented_axis_key}"
     )
+    if failure == "axis_misses_start_interior":
+        bad_face = failure_details.get(
+            "canonical_bad_face",
+            failure_details.get("bad_face", "?"),
+        )
+        d4_axis = d4_projective_axis_key(oriented_axis_key)
+        abs_axis = abs_axis_pattern_key(oriented_axis_key)
+        reduced_len = len(reduced)
+        stats.axis_start_d4_axis_keys.add(
+            f"axisStart|badFace={bad_face}|axisD4={d4_axis}"
+        )
+        stats.axis_start_abs_axis_keys.add(
+            f"axisStart|badFace={bad_face}|axisAbs={abs_axis}"
+        )
+        stats.axis_start_len_d4_axis_keys.add(
+            f"axisStart|badFace={bad_face}|reducedLen={reduced_len}|axisD4={d4_axis}"
+        )
+        stats.axis_start_len_abs_axis_keys.add(
+            f"axisStart|badFace={bad_face}|reducedLen={reduced_len}|axisAbs={abs_axis}"
+        )
     stats.residual_signatures.add(
         f"residual|reduced={reduced_key}|axis={oriented_axis_key}"
         f"|signs={details['forced_signs']}|failure={failure}"
@@ -680,6 +787,10 @@ def render_markdown(payload: dict[str, Any]) -> str:
         "terminal_source_keys",
         "terminal_source_axis_keys",
         "terminal_source_reduced_axis_keys",
+        "axis_start_d4_axis_keys",
+        "axis_start_abs_axis_keys",
+        "axis_start_len_d4_axis_keys",
+        "axis_start_len_abs_axis_keys",
         "terminal_by_reduced_shadow",
         "terminal_by_axis",
     ]:
