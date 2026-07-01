@@ -50980,3 +50980,56 @@ Decision: accepted as a bounded trace-shape smoke.  The next real membership
 step is to generate or prove the separate label-equality bridge without
 reducing `unrankPairWord`, and to add a proof-carrying local-axis trace over
 integer/projective prefix states.
+
+### Holonomy/Bellman Pivot - local-axis generated-state trace accepted
+
+Added a proof-carrying local-axis trace surface that avoids whole-list
+local-axis reduction.
+
+New theorem surfaces in `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`:
+
+```lean
+topPairingLocalAxisAllows_of_dot_eq
+topPairingLocalAxisFrom_cons_next
+```
+
+The first turns a generated dot-product equality plus a positivity proof into
+`TopPairingLocalAxisAllows`.  The second lets generated shards thread explicit
+named prefix linear states through `TopPairingLocalAxisFrom` by providing the
+next-state equality separately.  This is the intended replacement for asking
+Lean to compute the entire local-axis predicate from the rank word.
+
+Extended
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageFieldSmoke.lean`
+with:
+
+```lean
+sampleLocalAxisTraceOfGeneratedStates
+```
+
+It assembles the sample 14-face local-axis trace from:
+
+```text
+per-step dot equality
+per-step strict positivity
+per-step next linear state equality
+```
+
+No concrete rank/unrank reduction is used, and the generated matrix facts
+remain separate proof-carrying inputs.
+
+Guarded checks:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| `python3 scripts/run_memory_guarded.py --timeout-seconds 120 --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/bellman_top_pairing_language_local_axis_trace_guard.json -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `5.53s` | `4017 MiB` | `46156 MiB` | passed |
+| `python3 scripts/run_memory_guarded.py --timeout-seconds 120 --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/bellman_closed_language_local_axis_trace_smoke_guard.json -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke` | `2.50s` | `4073 MiB` | `46131 MiB` | passed |
+
+Additional checks: `git diff --check` passed and the touched Lean files had no
+hits for `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`, `Float`, or
+`epsilon`.
+
+Decision: accepted as the local-axis component trace surface.  The remaining
+membership gap has narrowed to proof-carrying generation of the per-step
+matrix/dot facts and a label-equality bridge that does not reduce
+`unrankPairWord` inside Lean.

@@ -162,6 +162,25 @@ theorem topPairingLocalAxisFrom_cons
     TopPairingLocalAxisFrom linear (face :: rest) :=
   And.intro hface hrest
 
+theorem topPairingLocalAxisAllows_of_dot_eq
+    {linear : Mat3 Rat} {face : Face} {value : Rat}
+    (hdot :
+      dot (matVec linear (normalQ face)) topPairingLocalAxis = value)
+    (hpos : 0 < value) :
+    TopPairingLocalAxisAllows linear face := by
+  unfold TopPairingLocalAxisAllows
+  rw [hdot]
+  exact hpos
+
+theorem topPairingLocalAxisFrom_cons_next
+    {linear next : Mat3 Rat} {face : Face} {rest : List Face}
+    (hface : TopPairingLocalAxisAllows linear face)
+    (hnext : next = matMul linear (reflM (normalQ face)))
+    (hrest : TopPairingLocalAxisFrom next rest) :
+    TopPairingLocalAxisFrom linear (face :: rest) :=
+  And.intro hface (by
+    simpa [hnext] using hrest)
+
 theorem topPairingLocalAxisLabels_ofFrom
     {labels : List Face}
     (hfrom : TopPairingLocalAxisFrom (matId : Mat3 Rat) labels) :

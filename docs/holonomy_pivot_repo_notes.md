@@ -2646,3 +2646,23 @@ Literal component trace smoke:
 - Decision: accepted as a bounded trace-shape smoke.  The remaining proof work
   is label-equality without rank reduction and a proof-carrying local-axis
   trace over exact prefix states.
+
+Local-axis generated-state trace surface:
+
+- Added `topPairingLocalAxisAllows_of_dot_eq` and
+  `topPairingLocalAxisFrom_cons_next` to
+  `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`.
+- These lemmas let generated shards prove `TopPairingLocalAxisFrom` from
+  per-step dot equalities, positivity facts, and explicit next linear-state
+  equalities.  They avoid whole-list local-axis reduction.
+- Added `sampleLocalAxisTraceOfGeneratedStates` to
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageFieldSmoke.lean`.
+- Guarded builds passed:
+  - `Cuboctahedron.Search.BellmanTopPairingLanguage`: `5.53s`,
+    `4017 MiB` peak process-tree RSS, `46156 MiB` minimum available memory.
+  - `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke`:
+    `2.50s`, `4073 MiB` peak process-tree RSS, `46131 MiB` minimum available
+    memory.
+- Decision: accepted.  Remaining work is to make the generator emit the
+  per-step matrix/dot facts and to prove rank-label equality without reducing
+  `unrankPairWord` in Lean.
