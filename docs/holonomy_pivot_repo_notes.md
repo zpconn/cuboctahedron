@@ -386,6 +386,12 @@ Top margin+cancellation-pairing checkpoint:
   in `0:13.21` wall time with `4,178,640 kB` max RSS.  This keeps the Bellman
   route inside the representative-leaf memory budget, provided production
   leaves remain sharded by semantic family.
+- 10M graph status: the `[0,10000000)` graph export has `970` states and
+  `1,054` edges, and the focused smoke
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph10MSmoke`
+  builds in `0:17.78` wall time with `4,494,748 kB` max RSS.  This remains
+  safe enough for representative medium Bellman leaves, but larger production
+  graphs should still be sharded before normal imports.
 
 ## Explicit Non-Goals
 

@@ -1954,6 +1954,17 @@ Bellman profiler prototype checkpoint:
   constructor-state/explicit-inequality graph emitter as a plausible production
   shape for medium Bellman family leaves, subject to full-family coverage and
   import sharding.
+- 10M graph scaling checkpoint: exported the `[0,10000000)` graph with the
+  same settings.  The profiler scanned `10,000,000` ranks, matched `273`
+  paths, and exported `970` states, `1,054` edges, and `116` final states.
+  The maximum margin bound stayed `0`, and the export took `6:20.76` wall
+  time with `30,744 kB` max RSS.  Generated
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph10MSmoke.lean`
+  as a separate smoke module.  Focused build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph10MSmoke`
+  in `0:17.78` wall time with `4,494,748 kB` max RSS.  The 5M-to-10M graph
+  smoke growth remains sublinear in states/edges relative to scanned ranks and
+  stays within the intended representative-leaf memory budget.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
