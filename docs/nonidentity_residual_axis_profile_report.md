@@ -1866,3 +1866,34 @@ checkpoint (`4.29 GiB` to `4.52 GiB`).  The next safe ramp is to test
 RSS or elapsed time stops scaling gently.  This remains smoke/proof-shape
 validation; final coverage requires replacing sampled class bridges with a
 semantic holonomy/cancellation-language membership theorem.
+
+## Bellman Four-Class Bridge Checkpoint
+
+The bounded bridge ramp was extended to `--rank-bridge-limit 4`, generating:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphBridge4Smoke.lean
+```
+
+The module exports sampled generated-axis theorems for `cls0000` through
+`cls0003`.
+
+Focused build:
+
+```text
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge4Smoke
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `BellmanTopPairingGraphBridge4Smoke` | `0:21.11` | `4,989,520 kB` | `0` |
+
+The forbidden-keyword scan over the emitter and generated four-class smoke
+found no `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Decision: accepted.  Peak RSS rose to about `4.99 GiB`, still comfortably
+inside the practical memory budget.  The next safe ramp is an eight-class
+smoke before attempting all `37` sampled path classes.

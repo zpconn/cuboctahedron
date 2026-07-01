@@ -47271,3 +47271,37 @@ not final coverage: the final theorem needs a semantic holonomy/cancellation
 language bridge that proves arbitrary family members satisfy the same
 label-language and `AxisForces` premises, not one sampled rank per observed
 class.
+
+### Holonomy/Bellman Pivot - four-class axis bridge smoke accepted
+
+The bounded bridge ramp continued with `--rank-bridge-limit 4`:
+
+```bash
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphBridge4Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge4Smoke \
+  --rank-bridge-limit 4
+```
+
+The generated module exports exact sampled axis-force bridges for `cls0000`
+through `cls0003`.
+
+Focused build:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge4Smoke
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `BellmanTopPairingGraphBridge4Smoke` | `0:21.11` | `4,989,520 kB` | `0` |
+
+Decision: accepted.  Four sampled bridges still fit comfortably below the
+memory ceiling, and elapsed time stayed comparable to the two-class smoke.
+The next bounded ramp is `--rank-bridge-limit 8`.  Continue to keep these
+modules classified as smoke/proof-shape evidence; production coverage still
+needs the semantic family-language membership theorem.

@@ -835,3 +835,15 @@ Bounded multi-class Bellman bridge:
   production bridge must be a semantic holonomy/cancellation-language theorem,
   but the measured RSS supports the next bounded ramp to `4`, `8`, and
   eventually all `37` sampled classes if focused builds remain stable.
+- The `--rank-bridge-limit 4` module
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge4Smoke`
+  also built successfully:
+
+  ```text
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge4Smoke
+  ```
+
+  Result: `0:21.11` wall time, `4,989,520 kB` max RSS, exit `0`.  The
+  measured memory is still safely below the practical ceiling, so the next
+  bounded smoke is `--rank-bridge-limit 8`.
