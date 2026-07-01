@@ -50670,3 +50670,46 @@ construct `BellmanNonposStartViolationObject`s (or the corresponding
 `BellmanNonposStartViolationObjectMembership`) for the sampled top-pairing
 family, replacing the sampled rank/object existential predicate with a
 language-to-object theorem.
+
+### Holonomy/Bellman Pivot - closed-language decide smoke rejected
+
+Safety correction after the canonical bad-face checkpoint: a bounded
+experimental file attempted to prove the two sampled closed-language
+memberships by adding decidability instances for the recursive semantic
+language predicates and then using fieldwise `decide`.  The target was:
+
+```lean
+TopPairingClosedLanguageAtRank cls0000Rank Face.ym
+TopPairingClosedLanguageAtRank cls0001Rank Face.ym
+```
+
+This was the wrong direction.  The first whole-structure `decide` attempt
+failed quickly because Lean had no `Decidable` instance.  A second attempt
+added explicit instances for the schedule, square-gap, local-axis, and
+canonical-bad-face predicates; `Cuboctahedron.Search.BellmanTopPairingLanguage`
+still built in `0:04.76` with `3,264,032 kB` max RSS, but the generated smoke
+target
+
+```text
+lake build
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageSmoke
+```
+
+ran past the guard window and caused a machine crash/OOM.  The uncommitted
+smoke file and broad decidability instances were removed immediately after
+restart.
+
+Decision: rejected.  Do not prove production closed-language membership by
+making these semantic predicates decidable and calling `decide`.  The next
+safe implementation must be proof-carrying in the opposite sense:
+
+```text
+generated language field proofs / object constructors
+  -> BellmanNonposStartViolationObjectMembership
+```
+
+with no global `Decidable` instances for the closed language and no
+whole-language Boolean reduction.  If a smoke membership theorem is needed,
+emit explicit generated field lemmas for the two sampled objects or a direct
+`objectOf` function, and build under a strict timeout/RSS guard before adding
+any reusable automation.

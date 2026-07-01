@@ -2455,3 +2455,18 @@ step schedule, square-gap schedule, local forced-axis compatibility, and
 canonical bad-face compatibility.  The next proof-bearing Bellman step is to
 construct `BellmanNonposStartViolationObject`s from this combined language
 instead of from sampled rank/object existentials.
+
+Closed-language `decide` warning:
+
+- A bounded experiment tried to prove the two sampled
+  `TopPairingClosedLanguageAtRank` facts by adding broad decidability
+  instances for the recursive semantic language predicates and then using
+  fieldwise `decide`.
+- The support module still built, but the generated smoke target
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageSmoke`
+  ran past the guard window and crashed the machine, likely by OOM.
+- That path is rejected.  Do not add global `Decidable` instances or broad
+  `decide` proofs for the closed language.  Future Bellman membership shards
+  should emit explicit field proofs or direct `BellmanNonposStartViolationObject`
+  constructors, then package them through
+  `BellmanNonposStartViolationObjectMembership`.
