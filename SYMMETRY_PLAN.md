@@ -2050,6 +2050,21 @@ Bellman profiler prototype checkpoint:
   production language coverage, but it proves the exact theorem path that a
   real holonomy/cancellation-language bridge should use.  Focused build
   passed in `0:04.72` wall time with `3,439,532 kB` max RSS.
+- Non-enumerative trace-language smoke checkpoint: the graph emitter now also
+  emits `SmokeTrace`, whose objects are arbitrary `(finish, edges, margin)`
+  traces rather than constructors for observed ranks/classes.  The generated
+  predicate `smokeTraceAccepts` requires a `BellmanPath`, graph-edge
+  membership, final nonnegative potential, and the scaled-margin bound; the
+  theorem `graphSmoke_trace_language_scaled_margin_nonpos` proves
+  nonpositivity for every accepted trace through
+  `scaledMargin_nonpos_of_bellmanLanguageTraceBound`.  This still does not
+  connect cuboctahedron words to traces, but it removes finite observed-object
+  enumeration from the Bellman theorem surface.  Focused build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:06.55` wall time with `3,429,332 kB` max RSS.  The next gap is now
+  precise: prove that the real top margin/cancellation holonomy language maps
+  into `smokeTraceAccepts`, or find a coarser gauge/summary state for which
+  that membership proof is small.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

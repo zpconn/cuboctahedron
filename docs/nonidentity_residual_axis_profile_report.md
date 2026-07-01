@@ -1093,6 +1093,34 @@ Language-theorem smoke checkpoint:
   holonomy/cancellation-language bridge.
 - Focused build passed in `0:04.72` wall time with `3,439,532 kB` max RSS.
 
+Non-enumerative trace-language smoke:
+
+- Updated the graph emitter again to generate a `SmokeTrace` structure:
+
+  ```lean
+  private structure SmokeTrace where
+    finish : State
+    edges : List (BellmanEdge State)
+    margin : Int
+  ```
+
+- The generated predicate `smokeTraceAccepts` requires:
+  - `BellmanPath rootState trace.finish trace.edges`;
+  - graph membership for every edge in `trace.edges`;
+  - nonnegative final potential;
+  - `trace.margin <= const + bellmanGainSum trace.edges`.
+- The theorem
+  `graphSmoke_trace_language_scaled_margin_nonpos` proves
+  `smokeTraceScaledMargin trace <= 0` for every accepted trace using
+  `scaledMargin_nonpos_of_bellmanLanguageTraceBound`.
+- Focused build passed in `0:06.55` wall time with `3,429,332 kB` max RSS.
+- Decision: this is a stronger bridge than finite observed objects/classes.
+  It proves Lean can consume a non-enumerative Bellman trace language.  The
+  remaining proof problem is now the intended one: prove that the real
+  top-family holonomy/cancellation word language produces accepted traces, or
+  introduce a cocycle-gauge/cancellation-summary coordinate that makes that
+  membership proof compact.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

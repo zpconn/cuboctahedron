@@ -441,6 +441,15 @@ Top margin+cancellation-pairing checkpoint:
   current `smokeAccepts` predicate is still finite/trivial, so this validates
   the bridge shape rather than production coverage.  Focused build passed in
   `0:04.72` wall time with `3,439,532 kB` max RSS.
+- Non-enumerative trace-language status: the graph emitter now also emits
+  `SmokeTrace`, `smokeTraceAccepts`, and
+  `graphSmoke_trace_language_scaled_margin_nonpos`.  This theorem quantifies
+  over arbitrary accepted `(finish, edges, margin)` traces through the private
+  Bellman graph, rather than over finite observed rank/class constructors.
+  Focused build passed in `0:06.55` wall time with `3,429,332 kB` max RSS.
+  Remaining Bellman gap: connect the real holonomy/cancellation word language
+  to accepted traces, or first coarsen the trace coordinate by a gauge/summary
+  state that makes that membership proof compact.
 
 ## Explicit Non-Goals
 
