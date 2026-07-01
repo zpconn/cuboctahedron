@@ -2692,3 +2692,66 @@ Positive-template label bridge:
 - Decision: accepted.  The next move is a small generator mode that emits one
   sampled shard using the positive-template label bridge, literal
   schedule/square-gap traces, and proof-carrying local-axis trace facts.
+
+Standalone generated trace shard:
+
+- Added `scripts/emit_bellman_closed_language_trace_smoke.py`.
+- The script emits:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean
+  scripts/generated/bellman_closed_language_generated_trace_smoke.json
+  ```
+
+- The generated Lean shard is `273` lines and imports only
+  `Cuboctahedron.Search.BellmanTopPairingLanguage`.
+- It mechanically emits the literal contribution-label list, schedule and
+  square-gap constructor chains, a local-axis generated-state trace theorem,
+  and `generatedClosedLanguageOfPositiveTemplateTrace`.
+- Commands run:
+
+  ```bash
+  python3 -m py_compile scripts/emit_bellman_closed_language_trace_smoke.py
+
+  python3 scripts/emit_bellman_closed_language_trace_smoke.py \
+    --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean \
+    --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke \
+    --name generated \
+    --report scripts/generated/bellman_closed_language_generated_trace_smoke.json
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 120 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 4096 \
+    --poll-seconds 0.5 \
+    --json /tmp/bellman_generated_trace_smoke_guard.json \
+    -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke
+  ```
+
+- Result: generated trace shard passed in `4.00s`, with `3989 MiB` peak
+  process-tree RSS and `46199 MiB` minimum available memory.
+- Decision: accepted as the first generator-owned closed-language trace shard.
+  It is not concrete rank membership yet; the next generator step is to read a
+  sampled Bellman object and emit template-matching and local-axis matrix/dot
+  facts instead of leaving them as parameters.
+
+Post-crash safety correction:
+
+- After this work, the user reported that the machine crashed, likely from
+  memory pressure.  The visible guard logs for the latest recorded shard do not
+  show an oversized process, but the plan now treats the crash report as a real
+  safety incident.
+- The latest recorded guard logs were:
+
+  ```text
+  Generated trace shard: 4.00s, 3989 MiB peak RSS, 46199 MiB min available.
+  BellmanTopPairingLanguage dependency rebuild: 23.58s, 11072 MiB peak RSS,
+  44801 MiB min available.
+  ```
+
+- New operating rule: no unguarded generated/Bellman `lake build`,
+  `lake env lean`, or broad profiler runs.  The next smokes should use
+  `scripts/run_memory_guarded.py` with a cap no higher than `6000 MiB`,
+  timeout at most `60s`, and minimum available memory at least `24576 MiB`.
+- If an already-accepted target fails under the stricter cap, shrink the theorem
+  surface before continuing.  Do not raise the cap as the default response.

@@ -51094,3 +51094,107 @@ proof-carrying local-axis trace
 The next step is not another hand-written bridge; it is a small generator mode
 that emits one sampled shard with these exact proof-carrying facts, still under
 the strict guard.
+
+### Holonomy/Bellman Pivot - standalone generated trace shard accepted
+
+Added the first generator-owned closed-language trace smoke:
+
+```text
+scripts/emit_bellman_closed_language_trace_smoke.py
+```
+
+It emits:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean
+scripts/generated/bellman_closed_language_generated_trace_smoke.json
+```
+
+The generated Lean shard is `273` lines.  It imports only
+`Cuboctahedron.Search.BellmanTopPairingLanguage`, defines the literal
+contribution-order face list, emits constructor-chain proofs for schedule and
+square-gap traces, emits a local-axis trace theorem parameterized by explicit
+per-step matrix/dot facts, and exports:
+
+```lean
+generatedClosedLanguageOfPositiveTemplateTrace
+```
+
+This is the first check that the accepted closed-language trace style can be
+produced mechanically by a generator rather than only hand-written in the
+field-smoke module.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_closed_language_trace_smoke.py
+
+python3 scripts/emit_bellman_closed_language_trace_smoke.py \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke \
+  --name generated \
+  --report scripts/generated/bellman_closed_language_generated_trace_smoke.json
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --poll-seconds 0.5 \
+  --json /tmp/bellman_generated_trace_smoke_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke
+```
+
+Results:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| Python compile | - | - | - | passed |
+| emitter run | - | - | - | passed |
+| guarded generated trace shard build | `4.00s` | `3989 MiB` | `46199 MiB` | passed |
+
+Additional checks: `git diff --check` passed and the generated Lean/script had
+no hits for `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`, `Float`, or
+`epsilon`.
+
+Decision: accepted as the first generator-owned Bellman closed-language trace
+shard.  It still stops before concrete rank membership: the next production
+step is extending the emitter to read a sampled Bellman object and emit the
+template-matching facts and per-step local-axis matrix/dot facts, rather than
+leaving them as parameters.
+
+### Holonomy/Bellman Pivot - post-crash safety correction
+
+After the generated trace shard work, the user reported that the machine
+crashed, likely from memory pressure.  The visible guard logs for the latest
+recorded shard do **not** show an oversized process:
+
+| recorded target | elapsed | peak process-tree RSS | min available memory |
+| --- | ---: | ---: | ---: |
+| `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke` | `4.00s` | `3989 MiB` | `46199 MiB` |
+| `Cuboctahedron.Search.BellmanTopPairingLanguage` dependency rebuild | `23.58s` | `11072 MiB` | `44801 MiB` |
+
+Even so, the project policy is now to treat this as a real safety incident,
+not as a harmless mystery.  The next steps must avoid any command that could
+silently trigger a broad rebuild, dependency cascade, or large profiler.
+
+Hard operating rule from this point:
+
+- No unguarded `lake build`, `lake env lean`, or broad profiler runs on
+  generated/Bellman targets.
+- No generated-language build with a cap above `6000 MiB` until the exact same
+  target has passed under that cap.
+- No parallelism for Lean builds of generated/Bellman targets unless each
+  worker has already passed its target independently under a cap and the total
+  projected RSS is below half of available RAM.
+- Prefer `timeout ≤ 60s`, `max-tree-rss-mib ≤ 6000`, and
+  `min-available-mib ≥ 24576` for the next smokes.
+- If a target needs more than `6000 MiB`, stop and shrink the theorem surface
+  before continuing; do not simply raise the cap.
+- Do not run a command that imports heavy generated leaves through an aggregate
+  module unless the aggregate import fan-in has been inspected first.
+
+This changes the immediate production plan.  Before extending the emitter to
+sampled Bellman objects, add a small runner/checklist that refuses to launch
+unless these caps are supplied, and re-run only the already-accepted generated
+trace shard under the stricter `6000 MiB` cap.  If it fails, the trace shard is
+not safe enough to scale.

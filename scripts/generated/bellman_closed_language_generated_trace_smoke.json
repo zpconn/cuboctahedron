@@ -1,0 +1,24 @@
+{
+  "mode": "bellman-closed-language-trace-smoke",
+  "output": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean",
+  "namespace": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke",
+  "name": "generated",
+  "faces": [
+    "xm",
+    "ym",
+    "yp",
+    "zm",
+    "zp",
+    "tmmm",
+    "tpmm",
+    "tppm",
+    "tpmp",
+    "tmpm",
+    "tppp",
+    "tmpp",
+    "tmmp",
+    "xp"
+  ],
+  "face_count": 14,
+  "proof_strategy": "literal schedule/square-gap traces plus explicit local-axis state/dot facts and a positive-template label bridge"
+}
