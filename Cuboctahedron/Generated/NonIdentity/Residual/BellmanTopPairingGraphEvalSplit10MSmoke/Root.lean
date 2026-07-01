@@ -330,6 +330,12 @@ theorem valid_of_lt {s : State} {label : SmokeLabel} {t : State} {gain : Int}
                                                                                                                           ·
                                                                                                                             exact False.elim ((Nat.not_lt_of_ge (Nat.le_of_not_lt hhi_060)) hs)
 
+theorem valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :
+    GraphSmokeStepEval s label t gain ->
+      gain + graphPotential t <= graphPotential s := by
+  intro h
+  exact valid_of_lt h.1 h
+
 theorem root_builds : True := by
   exact True.intro
 

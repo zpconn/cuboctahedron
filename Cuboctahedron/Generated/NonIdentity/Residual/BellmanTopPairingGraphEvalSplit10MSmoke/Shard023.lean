@@ -18,6 +18,7 @@ theorem valid_s0368 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (368 : State) label t gain ->
       gain + graphPotential t <= graphPotential (368 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0368 label = some (t, gain) at h
   by_cases h_l0008 : label = (8 : SmokeLabel)
   · subst label
@@ -32,6 +33,7 @@ theorem valid_s0369 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (369 : State) label t gain ->
       gain + graphPotential t <= graphPotential (369 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0369 label = some (t, gain) at h
   by_cases h_l0008 : label = (8 : SmokeLabel)
   · subst label
@@ -46,6 +48,7 @@ theorem valid_s0370 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (370 : State) label t gain ->
       gain + graphPotential t <= graphPotential (370 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0370 label = some (t, gain) at h
   by_cases h_l0008 : label = (8 : SmokeLabel)
   · subst label
@@ -60,6 +63,7 @@ theorem valid_s0371 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (371 : State) label t gain ->
       gain + graphPotential t <= graphPotential (371 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0371 label = some (t, gain) at h
   by_cases h_l0008 : label = (8 : SmokeLabel)
   · subst label
@@ -74,6 +78,7 @@ theorem valid_s0372 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (372 : State) label t gain ->
       gain + graphPotential t <= graphPotential (372 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0372 label = some (t, gain) at h
   by_cases h_l0008 : label = (8 : SmokeLabel)
   · subst label
@@ -88,6 +93,7 @@ theorem valid_s0373 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (373 : State) label t gain ->
       gain + graphPotential t <= graphPotential (373 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0373 label = some (t, gain) at h
   by_cases h_l0008 : label = (8 : SmokeLabel)
   · subst label
@@ -102,6 +108,7 @@ theorem valid_s0374 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (374 : State) label t gain ->
       gain + graphPotential t <= graphPotential (374 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0374 label = some (t, gain) at h
   by_cases h_l0008 : label = (8 : SmokeLabel)
   · subst label
@@ -116,6 +123,7 @@ theorem valid_s0375 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (375 : State) label t gain ->
       gain + graphPotential t <= graphPotential (375 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0375 label = some (t, gain) at h
   by_cases h_l0008 : label = (8 : SmokeLabel)
   · subst label
@@ -130,6 +138,7 @@ theorem valid_s0376 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (376 : State) label t gain ->
       gain + graphPotential t <= graphPotential (376 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0376 label = some (t, gain) at h
   by_cases h_l0009 : label = (9 : SmokeLabel)
   · subst label
@@ -144,6 +153,7 @@ theorem valid_s0377 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (377 : State) label t gain ->
       gain + graphPotential t <= graphPotential (377 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0377 label = some (t, gain) at h
   by_cases h_l0009 : label = (9 : SmokeLabel)
   · subst label
@@ -158,6 +168,7 @@ theorem valid_s0378 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (378 : State) label t gain ->
       gain + graphPotential t <= graphPotential (378 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0378 label = some (t, gain) at h
   by_cases h_l0009 : label = (9 : SmokeLabel)
   · subst label
@@ -172,6 +183,7 @@ theorem valid_s0379 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (379 : State) label t gain ->
       gain + graphPotential t <= graphPotential (379 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0379 label = some (t, gain) at h
   by_cases h_l0009 : label = (9 : SmokeLabel)
   · subst label
@@ -186,6 +198,7 @@ theorem valid_s0380 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (380 : State) label t gain ->
       gain + graphPotential t <= graphPotential (380 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0380 label = some (t, gain) at h
   by_cases h_l0009 : label = (9 : SmokeLabel)
   · subst label
@@ -200,6 +213,7 @@ theorem valid_s0381 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (381 : State) label t gain ->
       gain + graphPotential t <= graphPotential (381 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0381 label = some (t, gain) at h
   by_cases h_l0009 : label = (9 : SmokeLabel)
   · subst label
@@ -214,6 +228,7 @@ theorem valid_s0382 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (382 : State) label t gain ->
       gain + graphPotential t <= graphPotential (382 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0382 label = some (t, gain) at h
   by_cases h_l0009 : label = (9 : SmokeLabel)
   · subst label
@@ -228,6 +243,7 @@ theorem valid_s0383 {label : SmokeLabel} {t : State} {gain : Int} :
     GraphSmokeStepEval (383 : State) label t gain ->
       gain + graphPotential t <= graphPotential (383 : State) := by
   intro h
+  rcases h with ⟨_hs, h⟩
   change graphSmokeNext_s0383 label = some (t, gain) at h
   by_cases h_l0009 : label = (9 : SmokeLabel)
   · subst label

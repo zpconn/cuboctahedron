@@ -193,7 +193,7 @@ def emit_base(graph: dict[str, object], output_path: Path, namespace: str) -> No
         "  | _ => fun _ => none",
         "",
         "def GraphSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",
-        "  graphSmokeNext s label = some (t, gain)",
+        "  s < stateCount /\\ graphSmokeNext s label = some (t, gain)",
         "",
         "theorem bellmanGraphEvalBase_builds : True := by",
         "  exact True.intro",
@@ -273,6 +273,7 @@ def emit_shard(
             f"    GraphSmokeStepEval ({state_idx} : State) label t gain ->",
             f"      gain + graphPotential t <= graphPotential ({state_idx} : State) := by",
             "  intro h",
+            "  rcases h with ⟨_hs, h⟩",
             f"  change graphSmokeNext_s{state_idx:04d} label = some (t, gain) at h",
         ])
         emit_valid_branch(lines, state_idx=state_idx, transitions=state_transitions)
@@ -323,6 +324,13 @@ def emit_root(
         "      gain + graphPotential t <= graphPotential s := by",
         "  intro h",
         f"  exact {shard_namespace}.valid_range hlo hhi h",
+        "",
+        "theorem valid "
+        "{s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+        "    GraphSmokeStepEval s label t gain ->",
+        "      gain + graphPotential t <= graphPotential s := by",
+        "  intro h",
+        "  exact valid_shard000 h.1 h",
         "",
         "theorem root_builds : True := by",
         "  exact True.intro",
@@ -382,6 +390,13 @@ def emit_all_root(
         f"((Nat.not_lt_of_ge ({lower_expr})) hs)"
     )
     lines.extend([
+        "",
+        "theorem valid "
+        "{s : State} {label : SmokeLabel} {t : State} {gain : Int} :",
+        "    GraphSmokeStepEval s label t gain ->",
+        "      gain + graphPotential t <= graphPotential s := by",
+        "  intro h",
+        "  exact valid_of_lt h.1 h",
         "",
         "theorem root_builds : True := by",
         "  exact True.intro",

@@ -57184,7 +57184,7 @@ Source footprint:
 ```text
 Base.lean: 169290 bytes
 largest shard: Shard038.lean, 16955 bytes
-all Lean files total: 834387 bytes after the 61-shard split
+all Lean files total: 862743 bytes after the range-guarded 61-shard split
 ```
 
 Validation:
@@ -57256,10 +57256,62 @@ a smaller cap is required by a larger graph.  Lean builds for these shards must
 remain serial or externally scheduled by memory budget; do not let Lake build
 many of them concurrently.
 
+Follow-up refinement: the root now exports the plain step-validity theorem
+needed by the Bellman object-cover API:
+
+```lean
+def GraphSmokeStepEval (s : State) (label : SmokeLabel) (t : State)
+    (gain : Int) : Prop :=
+  s < stateCount /\ graphSmokeNext s label = some (t, gain)
+
+theorem valid
+    {s : State} {label : SmokeLabel} {t : State} {gain : Int} :
+    GraphSmokeStepEval s label t gain ->
+      gain + graphPotential t <= graphPotential s
+```
+
+Rejected sub-attempt: also proving
+
+```lean
+graphSmokeNext s label = some (t, gain) -> s < stateCount
+```
+
+inside `Base.lean` by guarding `graphSmokeNext` with an `if s < stateCount`
+made the base too heavy and was killed safely by the memory guard:
+
+```text
+Base.lean with source-range theorem: peak_tree_rss = 4604 MiB, killed
+```
+
+Accepted sub-attempt: keep `graphSmokeNext` as the compact numeric evaluator,
+make `GraphSmokeStepEval` range-guarded, and have the root derive `valid` from
+the local `valid_range` shards.  Guarded checks:
+
+```text
+Base.lean: passed, peak_tree_rss = 4382 MiB
+Shard038.lean: passed, peak_tree_rss = 4226 MiB
+all 61 range-guard shards: passed, max_peak_tree_rss = 4306 MiB
+Root.lean: passed, peak_tree_rss = 4075 MiB
+```
+
+Decision: accepted as the current step-validity surface.  Remaining Bellman
+graph API gap: the object-cover route still needs a `next_sound` theorem of
+the shape
+
+```lean
+graphSmokeNext s label = some (t, gain) -> GraphSmokeStepEval s label t gain
+```
+
+or an equivalent specialized evaluator-to-run theorem whose proof does not
+unfold the whole graph in one base module.  Do not reintroduce a sampled path
+or rank table to close this gap.
+
 Next implementation target:
 
-1. prove or generate the in-range evaluator invariant needed to remove the
-   `valid_of_lt` premise at the `BellmanEvalAccepts` call site;
+1. prove or generate a memory-safe `next_sound` bridge for the range-guarded
+   step relation, or add a specialized evaluator-to-run theorem that consumes
+   `GraphSmokeStepEval.valid` without requiring a global source-range proof in
+   `Base.lean`;
 2. generate the closed-language-to-eval theorem:
 
    ```lean

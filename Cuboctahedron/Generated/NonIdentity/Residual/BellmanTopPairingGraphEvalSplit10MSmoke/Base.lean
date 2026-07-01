@@ -5972,7 +5972,7 @@ def graphSmokeNext : State -> SmokeLabel -> Option (State × Int)
   | _ => fun _ => none
 
 def GraphSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=
-  graphSmokeNext s label = some (t, gain)
+  s < stateCount /\ graphSmokeNext s label = some (t, gain)
 
 theorem bellmanGraphEvalBase_builds : True := by
   exact True.intro
