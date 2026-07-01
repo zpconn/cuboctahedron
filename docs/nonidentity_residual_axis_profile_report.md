@@ -3266,3 +3266,30 @@ Decision: accepted.  This is the correct rehearsal for production Bellman
 families under the GPT5.5 potential-certificate pivot: terminal contradiction
 payloads are terminal-local; graph/potential shards expose only semantic
 margin bounds.
+
+### Split-boundary audit
+
+Added `scripts/audit_bellman_split_boundary.py` as a cheap source-level guard
+for the production Bellman split.  It checks that graph shards expose only the
+object-level Bellman theorem surface and that terminal shards own the local
+start-violation payloads.
+
+Command:
+
+```bash
+python3 scripts/audit_bellman_split_boundary.py \
+  --graph Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2GraphSmoke.lean \
+  --terminal Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean \
+  --json scripts/generated/bellman_split_boundary_graph_language2.json \
+  --markdown scripts/generated/bellman_split_boundary_graph_language2.md
+```
+
+Result:
+
+```json
+{"graph_lines": 24369, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 740, "terminal_positive_payloads": 2}
+```
+
+Decision: accepted as a pre-build guard.  This audit is not proof evidence,
+but it should run before scaling graph/terminal shard emission so terminal
+payloads do not drift back into graph/potential modules.

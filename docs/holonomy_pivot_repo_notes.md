@@ -1717,6 +1717,19 @@ Bellman/potential pivot.  Broad group/root modules should import terminal
 semantic killed shards, not graph/potential shards, and public theorem
 statements should not expose potential tables or local terminal cert data.
 
+Bellman split-boundary audit:
+
+- Added `scripts/audit_bellman_split_boundary.py`.
+- Current sampled graph/terminal smoke passes:
+
+  ```json
+  {"graph_lines": 24369, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 740, "terminal_positive_payloads": 2}
+  ```
+
+- Treat this as an engineering pre-build guard for generated Bellman family
+  shards.  It is not Lean proof evidence, but it catches the exact regression
+  that would make production graph shards import or expose terminal payloads.
+
 Split terminal bridge:
 
 - Added to `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`:

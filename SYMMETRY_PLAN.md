@@ -49411,3 +49411,43 @@ generation should emit:
 
 Do not move terminal cert payloads back into graph/potential shards, and do
 not expose potential tables or local cert data in public theorem statements.
+
+### Holonomy/Bellman Pivot - split-boundary audit added
+
+Added a lightweight source-level guard:
+
+```text
+scripts/audit_bellman_split_boundary.py
+```
+
+The audit is not proof evidence.  It checks the generated Bellman split shape
+before larger builds:
+
+- graph shard must contain the sampled rank/object interface and object-level
+  Bellman nonpositive theorem surface;
+- graph shard must not contain terminal `PositiveCert` / `NonIdCert` payloads,
+  `ObjectStartViolationMarginCert`, or killed theorem exports;
+- terminal shard must import the graph shard, own the local
+  `ObjectStartViolationMarginCert` map, and export
+  `graphSmoke_sampled_axis_rank_killed`;
+- terminal shard must not contain graph evaluator/potential internals.
+
+Command:
+
+```bash
+python3 scripts/audit_bellman_split_boundary.py \
+  --graph Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2GraphSmoke.lean \
+  --terminal Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean \
+  --json scripts/generated/bellman_split_boundary_graph_language2.json \
+  --markdown scripts/generated/bellman_split_boundary_graph_language2.md
+```
+
+Result:
+
+```json
+{"graph_lines": 24369, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 740, "terminal_positive_payloads": 2}
+```
+
+Decision: accepted as an engineering gate for the Bellman/potential production
+emitter.  Future generated graph/terminal shards should pass this audit before
+any broad group/root composition or memory-heavy Lean build.

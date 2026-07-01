@@ -1,0 +1,20 @@
+{
+  "decision": {
+    "notes": [
+      "Graph shards should expose object-level Bellman surfaces only.",
+      "Terminal shards should own local start-violation payloads.",
+      "This audit is a source-level engineering guard, not proof evidence."
+    ],
+    "status": "passed"
+  },
+  "graph_forbidden_present": [],
+  "graph_lines": 24369,
+  "graph_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2GraphSmoke.lean",
+  "graph_positive_mentions": 0,
+  "graph_required_missing": [],
+  "terminal_forbidden_present": [],
+  "terminal_lines": 740,
+  "terminal_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean",
+  "terminal_positive_payloads": 2,
+  "terminal_required_missing": []
+}
