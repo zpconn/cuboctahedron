@@ -5,16 +5,16 @@ This report is planning/accounting only. It does not invoke Lean.
 - graph: `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json`
 - scanned range: `0..37`
 - status: `selected`
-- current MemAvailable: `46607 MiB`
+- current MemAvailable: `46634 MiB`
 - required MemAvailable: `36864 MiB`
 
 Selected candidate:
 
-- index: `15`
-- rank: `151569`
+- index: `16`
+- rank: `312761`
 - reason: trace and split artifacts are missing or stale
-- trace module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke15`
-- split module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke15`
+- trace module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke16`
+- split module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke16`
 - trace source: `32 KiB`
 - split source: `2 KiB`
 
@@ -35,7 +35,7 @@ Selected candidate:
 | `12` | `124013` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `13` | `136597` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `14` | `151567` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
-| `15` | `151569` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
+| `15` | `151569` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `16` | `312761` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
 | `17` | `312772` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
 | `18` | `312773` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
