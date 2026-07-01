@@ -3070,3 +3070,43 @@ PairSign bridge checkpoint:
   `AxisForcesForcedSeq` remains valid, but should be staged outside the
   lightweight Bellman trace shard unless its import path passes the strict
   guard.
+
+Generated forced-sequence checkpoint:
+
+- The trace emitter now reconstructs the selected signed forced sequence from
+  its contribution-order labels:
+
+  ```lean
+  generatedForcedSeq : Step14 -> Face
+  generatedForcedSeq_labels_eq :
+    faceLabelsInContributionOrder (fun f => f) generatedForcedSeq =
+      generatedContributionLabels
+  ```
+
+- The generated shard exports:
+
+  ```lean
+  generatedClosedLanguageForSeqOfGeneratedForcedSeq
+  ```
+
+  whose remaining assumptions are only:
+
+  ```text
+  PairWordMatchesSeq (unrankPairWord rank) generatedForcedSeq
+  PairSignLanguageAtRank rank generatedForcedSeq seq
+  TopPairingLanguageAtRank rank
+  TopPairingCanonicalBadFaceCompatible badFace
+  ```
+
+- Strict wrapper check:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_forced_seq_6g.json
+  ```
+
+  Result: passed in `6.51s`, with `4156.55 MiB` peak process-tree RSS and
+  `46065.13 MiB` minimum available memory.
+- Decision: accepted.  The generated trace shard now owns the concrete
+  signed forced sequence and its label equality, further reducing future
+  membership assumptions.

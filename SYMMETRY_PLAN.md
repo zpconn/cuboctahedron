@@ -51736,3 +51736,78 @@ consume `PairSignLanguageAtRank rank forcedSeq seq`.  The existing
 axis-forces theorem can still produce that fact, but it should remain outside
 this lightweight Bellman trace module unless a guarded build demonstrates the
 combined import path is safe.
+
+### Holonomy/Bellman Pivot - generated forced-sequence labels accepted
+
+The generated trace shard now owns the selected signed forced sequence.
+
+Emitter change:
+
+- `scripts/emit_bellman_closed_language_trace_smoke.py` reconstructs
+  `generatedForcedSeq : Step14 -> Face` from the contribution-order labels.
+  The generated sequence has:
+
+  ```text
+  generatedForcedSeq 1..13 = generatedContributionLabels[0..12]
+  generatedForcedSeq 0 = generatedContributionLabels[13]
+  ```
+
+- It emits the local proof:
+
+  ```lean
+  generatedForcedSeq_labels_eq :
+    faceLabelsInContributionOrder (fun f => f) generatedForcedSeq =
+      generatedContributionLabels
+  ```
+
+- It also exports:
+
+  ```lean
+  generatedClosedLanguageForSeqOfGeneratedForcedSeq
+  ```
+
+  which consumes only:
+
+  ```text
+  PairWordMatchesSeq (unrankPairWord rank) generatedForcedSeq
+  PairSignLanguageAtRank rank generatedForcedSeq seq
+  TopPairingLanguageAtRank rank
+  TopPairingCanonicalBadFaceCompatible badFace
+  ```
+
+  and returns `TopPairingClosedLanguageForSeq rank seq badFace`.
+
+Generated shard sizes after this step:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean: 835 lines
+scripts/emit_bellman_closed_language_trace_smoke.py: 828 lines
+```
+
+Strict post-crash proof check:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_forced_seq_6g.json
+```
+
+Result:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| generated forced-sequence trace smoke | `6.51s` | `4156.55 MiB` | `46065.13 MiB` | passed |
+
+Decision: accepted.  The selected graph path now has Lean-checked generated
+labels, schedule, square-gap, local-axis trace, and signed forced sequence.
+The remaining one-object membership facts are now narrower:
+
+- `PairWordMatchesSeq (unrankPairWord rank) generatedForcedSeq`;
+- `PairSignLanguageAtRank rank generatedForcedSeq seq`;
+- `TopPairingLanguageAtRank rank`;
+- `TopPairingCanonicalBadFaceCompatible badFace`.
+
+The next safe slice should try to generate the first and last of these for the
+selected object, because they should be fieldwise/rank-light.  The
+`PairSignLanguageAtRank` fact for arbitrary feasible `seq` should stay at the
+light `PairSignLanguageAtRank` boundary unless a separate strict guard proves
+that importing `AxisForcedRankLanguage` is safe.

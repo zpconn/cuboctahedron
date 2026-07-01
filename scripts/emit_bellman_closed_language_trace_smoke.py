@@ -397,6 +397,29 @@ def emit_concrete_local_axis(name: str, faces: list[str]) -> list[str]:
     return lines
 
 
+def emit_forced_sequence(name: str, faces: list[str]) -> list[str]:
+    step_faces = [faces[-1], *faces[:-1]]
+    lines = [
+        f"def {name}ForcedSeq : Step14 -> Face",
+    ]
+    for step, face in enumerate(step_faces[:13]):
+        lines.append(f"  | ⟨{step}, _⟩ => {face_ctor(face)}")
+    lines.extend(
+        [
+            f"  | _ => {face_ctor(step_faces[13])}",
+            "",
+            f"private theorem {name}ForcedSeq_labels_eq :",
+            "    faceLabelsInContributionOrder (fun f => f)",
+            f"      {name}ForcedSeq = {name}ContributionLabels := by",
+            "  unfold faceLabelsInContributionOrder contributionOrderSteps",
+            f"  unfold {name}ForcedSeq {name}ContributionLabels",
+            "  rfl",
+            "",
+        ]
+    )
+    return lines
+
+
 def emit_module(
     namespace: str,
     name: str,
@@ -449,6 +472,8 @@ def emit_module(
         ]
     )
     lines.extend(emit_local_axis_signature(name, faces))
+    lines.extend([""])
+    lines.extend(emit_forced_sequence(name, faces))
     if concrete_local_axis:
         lines.extend([""])
         lines.extend(emit_concrete_local_axis(name, faces))
@@ -699,6 +724,25 @@ def emit_module(
                 "    pairSign",
                 "    cancellation",
                 f"    {name}LocalAxisTraceConcrete",
+                "    canonicalBadFace",
+                "",
+                f"theorem {name}ClosedLanguageForSeqOfGeneratedForcedSeq",
+                "    {rank : Fin numPairWords} {badFace : Face}",
+                "    {seq : Step14 -> Face}",
+                "    (forced_matches :",
+                f"      PairWordMatchesSeq (unrankPairWord rank) {name}ForcedSeq)",
+                "    (pairSign :",
+                f"      PairSignLanguageAtRank rank {name}ForcedSeq seq)",
+                "    (cancellation :",
+                "      TopPairingLanguageAtRank rank)",
+                "    (canonicalBadFace :",
+                "      TopPairingCanonicalBadFaceCompatible badFace) :",
+                "    TopPairingClosedLanguageForSeq rank seq badFace :=",
+                f"  {name}ClosedLanguageForSeqOfPairSignTraceConcreteLocalAxis",
+                f"    {name}ForcedSeq_labels_eq",
+                "    forced_matches",
+                "    pairSign",
+                "    cancellation",
                 "    canonicalBadFace",
                 "",
             ]

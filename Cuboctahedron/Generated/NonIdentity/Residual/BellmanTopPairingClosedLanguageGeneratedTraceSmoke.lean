@@ -232,6 +232,30 @@ private theorem generatedLocalAxisTraceOfGeneratedStates
   · exact hnext13
   exact topPairingLocalAxisFrom_nil
 
+def generatedForcedSeq : Step14 -> Face
+  | ⟨0, _⟩ => Face.xp
+  | ⟨1, _⟩ => Face.xm
+  | ⟨2, _⟩ => Face.ym
+  | ⟨3, _⟩ => Face.yp
+  | ⟨4, _⟩ => Face.zm
+  | ⟨5, _⟩ => Face.zp
+  | ⟨6, _⟩ => Face.tmmm
+  | ⟨7, _⟩ => Face.tpmm
+  | ⟨8, _⟩ => Face.tppm
+  | ⟨9, _⟩ => Face.tpmp
+  | ⟨10, _⟩ => Face.tmpm
+  | ⟨11, _⟩ => Face.tppp
+  | ⟨12, _⟩ => Face.tmpp
+  | _ => Face.tmmp
+
+private theorem generatedForcedSeq_labels_eq :
+    faceLabelsInContributionOrder (fun f => f)
+      generatedForcedSeq = generatedContributionLabels := by
+  unfold faceLabelsInContributionOrder contributionOrderSteps
+  unfold generatedForcedSeq generatedContributionLabels
+  rfl
+
+
 private def generatedM01 : Mat3 Rat :=
   { m00 := -1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 }
 
@@ -784,6 +808,25 @@ theorem generatedClosedLanguageForSeqOfPairSignTraceConcreteLocalAxis
     pairSign
     cancellation
     generatedLocalAxisTraceConcrete
+    canonicalBadFace
+
+theorem generatedClosedLanguageForSeqOfGeneratedForcedSeq
+    {rank : Fin numPairWords} {badFace : Face}
+    {seq : Step14 -> Face}
+    (forced_matches :
+      PairWordMatchesSeq (unrankPairWord rank) generatedForcedSeq)
+    (pairSign :
+      PairSignLanguageAtRank rank generatedForcedSeq seq)
+    (cancellation :
+      TopPairingLanguageAtRank rank)
+    (canonicalBadFace :
+      TopPairingCanonicalBadFaceCompatible badFace) :
+    TopPairingClosedLanguageForSeq rank seq badFace :=
+  generatedClosedLanguageForSeqOfPairSignTraceConcreteLocalAxis
+    generatedForcedSeq_labels_eq
+    forced_matches
+    pairSign
+    cancellation
     canonicalBadFace
 
 theorem generatedGeneratedTraceSmoke_builds : True := by
