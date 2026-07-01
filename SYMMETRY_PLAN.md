@@ -135,16 +135,20 @@ Initial Track 1 implementation checkpoint:
   coverage predicates.
 - Added `scripts/shadow_normal_form_profile.py`, an exact untrusted profiler
   for square parity and triangular reduced-shadow classification.
+- Added `scripts/run_shadow_normal_form_windows.py`, a checkpointed
+  low-memory runner for disjoint rank windows.
 - Added `docs/shadow_normal_form_report.md` with first calibration results.
 - Calibration windows `[0,10000)`, `[10000000,10001000)`,
   `[30000000,30001000)`, `[60000000,60001000)`, and
   `[90000000,90001000)` all had zero mismatches between empty reduced shadow
   and exact `totalLinearOfPairWord = I`.
+- The checkpointed 4-worker smoke over `[0,20000)` also had zero mismatches:
+  `20,000` ranks scanned, `1,091` empty shadows, `1,091` identity products,
+  elapsed `1.239s`.
 
-Next gate: make the shadow profiler checkpointable/parallel over disjoint
-rank windows and run the full exact external scan.  Do not start Lean
-formalization of the shadow theorem until the full scan reports zero
-mismatches and exactly `2,468,088` empty shadows.
+Next gate: run the full checkpointed exact external scan.  Do not start Lean
+formalization of the shadow theorem until the full scan reports zero mismatches
+and exactly `2,468,088` empty shadows.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

@@ -33,6 +33,7 @@ triangular projective letters.
 | `[30000000,30001000)` | 1,000 | 19 | 19 | 0 | 0.246s |
 | `[60000000,60001000)` | 1,000 | 0 | 0 | 0 | 0.250s |
 | `[90000000,90001000)` | 1,000 | 1 | 1 | 0 | 0.247s |
+| window runner `[0,20000)`, 4 jobs | 20,000 | 1,091 | 1,091 | 0 | 1.239s |
 
 All sampled windows satisfy:
 
@@ -45,6 +46,7 @@ as expected from the pair counts together with the final started `X` factor.
 
 ## Artifacts
 
+- `scripts/run_shadow_normal_form_windows.py`
 - `scripts/generated/shadow_normal_form_0_1000.json`
 - `scripts/generated/shadow_normal_form_0_1000.md`
 - `scripts/generated/shadow_normal_form_random20.json`
@@ -58,13 +60,19 @@ as expected from the pair counts together with the final started `X` factor.
 - `scripts/generated/shadow_normal_form_60000000_60001000.md`
 - `scripts/generated/shadow_normal_form_90000000_90001000.json`
 - `scripts/generated/shadow_normal_form_90000000_90001000.md`
+- `scripts/generated/shadow_windows_smoke_0_20000.json`
+- `scripts/generated/shadow_windows_smoke_0_20000.md`
+- `scripts/generated/shadow_windows_smoke_0_20000/window_000000000_000005000.json`
+- `scripts/generated/shadow_windows_smoke_0_20000/window_000005000_000010000.json`
+- `scripts/generated/shadow_windows_smoke_0_20000/window_000010000_000015000.json`
+- `scripts/generated/shadow_windows_smoke_0_20000/window_000015000_000020000.json`
 
 ## Decision
 
 The sampled exact evidence supports continuing with Track 1.  The next step is
-to make the profiler full-run capable without turning Lean into the executor:
+to run the full exact scan without turning Lean into the executor:
 
-1. add checkpoint/range aggregation for the shadow profiler;
-2. run the full external exact scan or parallel disjoint-window scan;
+1. use `scripts/run_shadow_normal_form_windows.py` with checkpoint windows;
+2. keep worker count small unless measured RSS remains trivial;
 3. require zero mismatches and empty-shadow count `2,468,088`;
 4. only then begin the Lean square-parity / triangular-shadow core theorem.
