@@ -2550,3 +2550,40 @@ observed exact path classes are singleton-like.  The next nonidentity residual
 work should therefore target a coarser holonomy/cancellation-language
 membership theorem or a cocycle-gauge/cancellation-summary coordinate, not
 more exact-path generated leaves.
+
+## Combined Linear/Tri-Source State-Key Test
+
+Added the Bellman profiler mode:
+
+```text
+--state-key-mode with-step-face-linear-tri-source
+```
+
+This combines signed-face counts, prefix linear holonomy, and
+tri-source/cancellation data in one state key.  The 1M exact profile remained
+memory-light:
+
+```text
+/usr/bin/time -v python3 scripts/nonidentity_margin_bellman_profile.py \
+  --start 0 --end 1000000 \
+  --jobs 4 --chunk-size 250000 \
+  --state-key-mode with-step-face-linear-tri-source \
+  --include-graph
+```
+
+Result: `1:21.03` wall / `27,124 kB` max RSS / exit `0`.
+
+The combined key did not change the graph size or close the transition gap:
+
+| metric | value |
+| --- | ---: |
+| matched paths | `37` |
+| states | `223` |
+| edges | `229` |
+| missing target-pairing transitions under observed+square-gap schedule | `15` |
+| exact path class ratio | `1.0` |
+
+Decision: prefix linear holonomy is not the missing production coordinate for
+this top-pairing family.  Next work should focus on cocycle gauge,
+cancellation-summary language, or a specific invariant ruling out the 15
+apparent target-pairing transitions.

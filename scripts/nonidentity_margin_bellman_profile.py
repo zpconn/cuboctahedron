@@ -840,6 +840,7 @@ def main() -> None:
             "with-step-face-linear",
             "with-step-tri-source",
             "with-step-face-tri-source",
+            "with-step-face-linear-tri-source",
             "with-prefix",
         ],
         default="with-step",

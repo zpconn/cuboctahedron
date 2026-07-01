@@ -48265,3 +48265,91 @@ not emit exact-path production families.  The next implementation should prove
 a coarser holonomy/cancellation-language membership theorem for this graph, or
 add a cocycle-gauge/cancellation-summary coordinate that makes such membership
 possible.
+
+### Holonomy/Bellman Pivot - combined linear/tri-source state key rejected
+
+Tested the obvious state-key refinement suggested by the holonomy pivot:
+include prefix linear holonomy together with signed-face counts and
+tri-source/cancellation data.
+
+Implementation:
+
+```text
+scripts/nonidentity_margin_bellman_profile.py
+```
+
+now accepts:
+
+```text
+--state-key-mode with-step-face-linear-tri-source
+```
+
+Run:
+
+```bash
+/usr/bin/time -v python3 scripts/nonidentity_margin_bellman_profile.py \
+  --start 0 --end 1000000 \
+  --jobs 4 --chunk-size 250000 \
+  --state-key-mode with-step-face-linear-tri-source \
+  --include-graph \
+  --json scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --markdown scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.md
+```
+
+Result: `1:21.03` wall, `27,124 kB` max RSS, exit `0`.
+
+The combined key produced the same core Bellman graph shape as the previous
+tri-source graph:
+
+| metric | value |
+| --- | ---: |
+| matched paths | `37` |
+| states | `223` |
+| edges | `229` |
+| max margin bound | `0` |
+| scaled bit length | `10` |
+
+Audits:
+
+```bash
+/usr/bin/time -v python3 scripts/audit_bellman_target_pairing_closure.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --schedule-mode observed+square-gap \
+  --json scripts/generated/bellman_target_pairing_observed_step_square_gap_closure_1M_step_face_linear_tri_source.json \
+  --md scripts/generated/bellman_target_pairing_observed_step_square_gap_closure_1M_step_face_linear_tri_source.md
+
+python3 scripts/audit_bellman_production_gates.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --json scripts/generated/bellman_production_gate_top_pairing_1M_step_face_linear_tri_source.json \
+  --markdown scripts/generated/bellman_production_gate_top_pairing_1M_step_face_linear_tri_source.md
+```
+
+Closure result:
+
+| metric | value |
+| --- | ---: |
+| decision | `target-pairing-language-not-closed` |
+| legal transitions | `244` |
+| observed transitions | `229` |
+| missing transitions | `15` |
+| illegal transitions | `0` |
+
+Production gate result:
+
+| metric | value |
+| --- | ---: |
+| decision | `candidate-needs-coarser-membership` |
+| exact path class ratio | `1.0` |
+
+Decision: rejected as a production-coordinate improvement.  Prefix linear
+holonomy does not explain the remaining missing transitions for this family.
+Next work should skip further "just add linear state" variants and instead
+test one of:
+
+1. a cocycle-gauge preconditioner that changes local gains by a telescoping
+   potential before Bellman construction;
+2. a cancellation-summary language whose transition theorem is stronger than
+   target-pairing plus observed schedules;
+3. a direct proof that the remaining 15 apparent legal transitions are
+   impossible under a family-level invariant not currently present in the
+   state key.

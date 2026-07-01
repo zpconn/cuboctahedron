@@ -1243,3 +1243,22 @@ Bellman production gate audit:
   yet a production family language.  Next work should prove membership through
   a coarser holonomy/cancellation automaton or add cocycle-gauge/summary
   coordinates.  Do not emit exact Bellman path classes as final coverage.
+
+Combined linear/tri-source state-key audit:
+
+- Added `--state-key-mode with-step-face-linear-tri-source` to
+  `scripts/nonidentity_margin_bellman_profile.py`.
+- This tests whether adding prefix linear holonomy to the signed-face +
+  tri-source Bellman state explains the remaining membership gap.
+- The 1M profile passed in `1:21.03` wall time with only `27,124 kB` max RSS,
+  using 4 jobs.
+- Resulting graph metrics were unchanged for the current top-pairing family:
+  `37` matched paths, `223` states, `229` edges, max margin bound `0`.
+- The target-pairing closure audit with `observed+square-gap` still has `15`
+  missing transitions and `0` illegal transitions.
+- The production gate still says `candidate-needs-coarser-membership` with
+  exact path class ratio `1.0`.
+- Consequence: do not keep adding prefix-linear variants.  The next useful
+  experiments are cocycle-gauge preconditioning, cancellation-summary
+  languages, or a focused invariant explaining the remaining 15 apparent
+  legal transitions.
