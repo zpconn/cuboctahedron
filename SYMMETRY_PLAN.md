@@ -58435,3 +58435,56 @@ PrefixSmoke with prefix3:
 Decision: accepted.  The proof is still semantic and non-sampled.  The next
 scaling step is not to hand-write depth 4, 5, ...; it is to generate these
 finite successor disjunctions from the state-DAG graph in bounded shards.
+
+Generated depth-4 classifier smoke:
+
+- Extended `scripts/emit_top_pairing_trace_classifier_prefix_smoke.py` so the
+  generated `PrefixSmoke.lean` now proves `labels_prefix4`,
+  `closedRank_prefix4`, and `closedObj_prefix4`.
+- The theorem proves the eight state-DAG depth-4 alternatives:
+
+```text
+xm, ym, tmpm, tppm
+xm, ym, tmpm, zm
+xm, ym, yp,   tmmm
+xm, ym, yp,   tppm
+xm, ym, yp,   zm
+xm, ym, zm,   tmpp
+xm, ym, zm,   yp
+xm, ym, zm,   zp
+```
+
+- The proof shape is the intended generated local pattern:
+  first use the semantic prefix theorem at depth 3, then case-split only the
+  next face and close disallowed branches using the local schedule,
+  square-gap, and local-axis predicates with concrete arithmetic.  This avoids
+  the rejected monolithic classifier style.
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+python3 scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_trace_classifier_prefix4_smoke_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.PrefixSmoke
+```
+
+Result:
+
+```text
+PrefixSmoke depth-4:
+  passed
+  peak_tree_rss = 4092.8 MiB
+  elapsed = 7.01s
+  generated module size = 211 lines
+```
+
+Decision: accepted.  Depth-4 is the first nontrivial branch generated from the
+semantic predicates and it remains within the memory envelope.  The next
+emitter improvement should parameterize this pattern from the on-demand
+state-DAG graph, rather than hard-coding the eight prefixes.
