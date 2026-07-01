@@ -1,0 +1,615 @@
+{
+  "arithmetic": "exact Fraction/integer arithmetic; no floating point",
+  "axes": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 1373,
+    "top": [
+      {
+        "count": 753,
+        "key": "1,1,0"
+      },
+      {
+        "count": 371,
+        "key": "1,-1,0"
+      },
+      {
+        "count": 166,
+        "key": "0,1,1"
+      },
+      {
+        "count": 165,
+        "key": "1,0,-1"
+      },
+      {
+        "count": 121,
+        "key": "0,1,-1"
+      },
+      {
+        "count": 120,
+        "key": "1,-1,4"
+      },
+      {
+        "count": 118,
+        "key": "1,0,1"
+      },
+      {
+        "count": 100,
+        "key": "1,3,2"
+      },
+      {
+        "count": 99,
+        "key": "3,1,-2"
+      },
+      {
+        "count": 91,
+        "key": "2,-1,0"
+      },
+      {
+        "count": 90,
+        "key": "1,-2,0"
+      },
+      {
+        "count": 81,
+        "key": "2,0,1"
+      }
+    ]
+  },
+  "counts": {
+    "bad_pair_balance": 2078,
+    "exact_identity": 712,
+    "exact_nonidentity": 9288,
+    "final_axis_wrong_orientation_only": 0,
+    "final_axis_zero": 595,
+    "forced_balance_survivors": 1014,
+    "forced_zero_denominator": 5601,
+    "no_fixed_axis": 0,
+    "shadow_identity": 712,
+    "shadow_linear_mismatches": 0,
+    "shadow_nonidentity": 9288
+  },
+  "elapsed_seconds": 0.615809440612793,
+  "end": 10000,
+  "jobs": 4,
+  "mode": "forced-axis-sign-profile",
+  "orientation_stage_counts": {
+    "bad_pair_balance": 2078,
+    "final_dot_nonpositive": 9883,
+    "forced_balance_survivor": 1014,
+    "forced_zero_denominator": 5601
+  },
+  "product_order": "R(w[0]) * ... * R(w[12]) * R(x)",
+  "reduced_shadows": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 2174,
+    "top": [
+      {
+        "count": 712,
+        "key": "<empty>"
+      },
+      {
+        "count": 289,
+        "key": "d1m1 dm11"
+      },
+      {
+        "count": 240,
+        "key": "dm11 d1m1"
+      },
+      {
+        "count": 124,
+        "key": "d1m1 dm11 d1m1 dm11"
+      },
+      {
+        "count": 112,
+        "key": "d1m1 d11m d1m1 d11m"
+      },
+      {
+        "count": 111,
+        "key": "d1m1 d111 d1m1 d111"
+      },
+      {
+        "count": 106,
+        "key": "d111 d11m"
+      },
+      {
+        "count": 102,
+        "key": "d11m d111"
+      },
+      {
+        "count": 100,
+        "key": "dm11 d1m1 dm11 d1m1"
+      },
+      {
+        "count": 84,
+        "key": "d111 d11m d111 d11m"
+      },
+      {
+        "count": 79,
+        "key": "d11m d111 d11m d111"
+      },
+      {
+        "count": 78,
+        "key": "d1m1 d111 dm11 d111"
+      }
+    ]
+  },
+  "rejection_families": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 3356,
+    "top": [
+      {
+        "count": 289,
+        "key": "forcedZero|reduced=d1m1 dm11|axis=1,1,0|zeroAt=3|pair=z|normal=0,0,1"
+      },
+      {
+        "count": 240,
+        "key": "forcedZero|reduced=dm11 d1m1|axis=1,1,0|zeroAt=3|pair=z|normal=0,0,1"
+      },
+      {
+        "count": 124,
+        "key": "forcedZero|reduced=d1m1 dm11 d1m1 dm11|axis=1,1,0|zeroAt=3|pair=z|normal=0,0,1"
+      },
+      {
+        "count": 112,
+        "key": "finalAxisZero|axis=0,1,1|finalNormal=17,-56,56"
+      },
+      {
+        "count": 111,
+        "key": "forcedZero|reduced=d1m1 d111 d1m1 d111|axis=1,0,-1|zeroAt=1|pair=y|normal=0,1,0"
+      },
+      {
+        "count": 106,
+        "key": "forcedZero|reduced=d111 d11m|axis=1,-1,0|zeroAt=3|pair=z|normal=0,0,1"
+      },
+      {
+        "count": 102,
+        "key": "forcedZero|reduced=d11m d111|axis=1,-1,0|zeroAt=3|pair=z|normal=0,0,1"
+      },
+      {
+        "count": 100,
+        "key": "forcedZero|reduced=dm11 d1m1 dm11 d1m1|axis=1,1,0|zeroAt=3|pair=z|normal=0,0,1"
+      },
+      {
+        "count": 84,
+        "key": "forcedZero|reduced=d111 d11m d111 d11m|axis=1,-1,0|zeroAt=3|pair=z|normal=0,0,1"
+      },
+      {
+        "count": 79,
+        "key": "forcedZero|reduced=d11m d111 d11m d111|axis=1,-1,0|zeroAt=3|pair=z|normal=0,0,1"
+      },
+      {
+        "count": 68,
+        "key": "forcedZero|reduced=d1m1 d11m d111 dm11|axis=2,-1,0|zeroAt=3|pair=z|normal=0,0,1"
+      },
+      {
+        "count": 67,
+        "key": "finalAxisZero|axis=0,1,-1|finalNormal=17,-56,-56"
+      }
+    ]
+  },
+  "samples": {
+    "bad_pair_balance": [
+      {
+        "axis": "-9/10,-13/10,1",
+        "duplicated": [
+          "tppp"
+        ],
+        "final_axis_dot": "9/10",
+        "forced_seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zp",
+          "zm",
+          "tppp",
+          "tmmp",
+          "tppp",
+          "tpmp",
+          "tpmm",
+          "tppm",
+          "tmpm",
+          "tmpp"
+        ],
+        "forced_signs": "--++-+-++-+-+",
+        "missing": [
+          "tmmm"
+        ],
+        "rank": 102,
+        "reduced_shadow": "dm11 d1m1 dm11 d11m d111 d1m1 d11m d111",
+        "word": "x,y,y,z,z,d111,d11m,d111,d1m1,dm11,d11m,d1m1,dm11"
+      },
+      {
+        "axis": "-13/10,-9/10,-1",
+        "duplicated": [
+          "tmmm"
+        ],
+        "final_axis_dot": "13/10",
+        "forced_seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppm",
+          "tmmm",
+          "tpmm",
+          "tpmp",
+          "tmmp",
+          "tmpp",
+          "tmpm"
+        ],
+        "forced_signs": "--+-+-+--+-+-",
+        "missing": [
+          "tppp"
+        ],
+        "rank": 112,
+        "reduced_shadow": "dm11 d1m1 dm11 d111 d11m d1m1 d111 d11m",
+        "word": "x,y,y,z,z,d111,d11m,d111,dm11,d1m1,d11m,dm11,d1m1"
+      },
+      {
+        "axis": "-9/10,13/10,-1",
+        "duplicated": [
+          "tmpp"
+        ],
+        "final_axis_dot": "9/10",
+        "forced_seq": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zm",
+          "zp",
+          "tppp",
+          "tppm",
+          "tmpm",
+          "tmmm",
+          "tmmp",
+          "tmpp",
+          "tpmp",
+          "tmpp"
+        ],
+        "forced_signs": "-+--+++---+++",
+        "missing": [
+          "tpmm"
+        ],
+        "rank": 151,
+        "reduced_shadow": "dm11 d1m1 d11m dm11 d1m1 d111 d11m d111",
+        "word": "x,y,y,z,z,d111,d11m,d1m1,d111,d11m,dm11,d1m1,dm11"
+      },
+      {
+        "axis": "-5,18,1",
+        "duplicated": [
+          "tpmm"
+        ],
+        "final_axis_dot": "5",
+        "forced_seq": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zp",
+          "zm",
+          "tppp",
+          "tppm",
+          "tmpm",
+          "tmmm",
+          "tpmm",
+          "tmmp",
+          "tpmm",
+          "tpmp"
+        ],
+        "forced_signs": "-+-+-++-----+",
+        "missing": [
+          "tmpp"
+        ],
+        "rank": 157,
+        "reduced_shadow": "dm11 d1m1 d11m dm11 d111 d1m1 d111 d11m",
+        "word": "x,y,y,z,z,d111,d11m,d1m1,d111,dm11,d11m,dm11,d1m1"
+      },
+      {
+        "axis": "-18,-5,-1",
+        "duplicated": [
+          "tppm"
+        ],
+        "final_axis_dot": "18",
+        "forced_seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tppp",
+          "tppm",
+          "tpmp",
+          "tppm",
+          "tpmm",
+          "tmmm",
+          "tmpm",
+          "tmpp"
+        ],
+        "forced_signs": "--+-+++++---+",
+        "missing": [
+          "tmmp"
+        ],
+        "rank": 168,
+        "reduced_shadow": "dm11 d1m1 d11m d1m1 d111 dm11 d11m d111",
+        "word": "x,y,y,z,z,d111,d11m,d1m1,d11m,dm11,d111,d1m1,dm11"
+      }
+    ],
+    "final_axis_zero": [
+      {
+        "axis": "0,1,1",
+        "final_normal": "-17/81,56/81,-56/81",
+        "rank": 6,
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d11m,d1m1,dm11,dm11"
+      },
+      {
+        "axis": "0,1,1",
+        "final_normal": "-17/81,56/81,-56/81",
+        "rank": 8,
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d11m,dm11,dm11,d1m1"
+      },
+      {
+        "axis": "0,1,1",
+        "final_normal": "-17/81,56/81,-56/81",
+        "rank": 16,
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,dm11,dm11,d11m,d1m1"
+      },
+      {
+        "axis": "0,1,1",
+        "final_normal": "-17/81,56/81,-56/81",
+        "rank": 28,
+        "word": "x,y,y,z,z,d111,d111,d11m,dm11,dm11,d1m1,d11m,d1m1"
+      },
+      {
+        "axis": "0,1,1",
+        "final_normal": "-17/81,-56/81,56/81",
+        "rank": 33,
+        "word": "x,y,y,z,z,d111,d111,d1m1,d11m,d1m1,d11m,dm11,dm11"
+      }
+    ],
+    "forced_balance_survivor": [
+      {
+        "axis": "-1,-3,1",
+        "final_axis_dot": "1",
+        "forced_seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zp",
+          "zm",
+          "tmmm",
+          "tppp",
+          "tmmp",
+          "tpmp",
+          "tpmm",
+          "tppm",
+          "tmpm",
+          "tmpp"
+        ],
+        "forced_signs": "--++--+-+-+-+",
+        "rank": 12,
+        "reduced_shadow": "d1m1 d11m d111 d1m1 d11m d111",
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,dm11,d11m,d1m1,dm11"
+      },
+      {
+        "axis": "-3,-1,-1",
+        "final_axis_dot": "3",
+        "forced_seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tppp",
+          "tmmm",
+          "tppm",
+          "tpmm",
+          "tpmp",
+          "tmmp",
+          "tmpp",
+          "tmpm"
+        ],
+        "forced_signs": "--+-++-+-+-+-",
+        "rank": 22,
+        "reduced_shadow": "d1m1 d111 d11m d1m1 d111 d11m",
+        "word": "x,y,y,z,z,d111,d111,d11m,dm11,d1m1,d11m,dm11,d1m1"
+      },
+      {
+        "axis": "-1/3,1/3,-1",
+        "final_axis_dot": "1/3",
+        "forced_seq": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppp",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tpmp",
+          "tmmp",
+          "tmpp"
+        ],
+        "forced_signs": "-+--+-+-+-+-+",
+        "rank": 38,
+        "reduced_shadow": "d11m d1m1 d111 d11m d1m1 d111",
+        "word": "x,y,y,z,z,d111,d111,d1m1,d11m,dm11,d1m1,d11m,dm11"
+      },
+      {
+        "axis": "-3,-1,-1",
+        "final_axis_dot": "3",
+        "forced_seq": [
+          "xp",
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "zp",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "tpmm",
+          "tppm",
+          "tmpm",
+          "tmpp",
+          "tmmp"
+        ],
+        "forced_signs": "--+-++-+-+-+-",
+        "rank": 51,
+        "reduced_shadow": "d11m d111 d1m1 d11m d111 d1m1",
+        "word": "x,y,y,z,z,d111,d111,d1m1,dm11,d11m,d1m1,dm11,d11m"
+      },
+      {
+        "axis": "-1/3,1/3,-1",
+        "final_axis_dot": "1/3",
+        "forced_seq": [
+          "xp",
+          "xm",
+          "yp",
+          "ym",
+          "zm",
+          "zp",
+          "tmmm",
+          "tppp",
+          "tpmm",
+          "tppm",
+          "tmpm",
+          "tmpp",
+          "tmmp",
+          "tpmp"
+        ],
+        "forced_signs": "-+--+-+-+-+-+",
+        "rank": 67,
+        "reduced_shadow": "d111 d1m1 d11m d111 d1m1 d11m",
+        "word": "x,y,y,z,z,d111,d111,dm11,d11m,d1m1,dm11,d11m,d1m1"
+      }
+    ],
+    "forced_zero_denominator": [
+      {
+        "axis": "-1,1,0",
+        "final_axis_dot": "1",
+        "normal_class": "0,0,1",
+        "rank": 1,
+        "reduced_shadow": "d11m d111 d11m d111",
+        "transformed_normal": "0,0,1",
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,d1m1,dm11,d1m1,dm11",
+        "zero_at": 3,
+        "zero_pair": "z"
+      },
+      {
+        "axis": "-1,1,0",
+        "final_axis_dot": "1",
+        "normal_class": "0,0,1",
+        "rank": 4,
+        "reduced_shadow": "d111 d11m d111 d11m",
+        "transformed_normal": "0,0,1",
+        "word": "x,y,y,z,z,d111,d111,d11m,d11m,dm11,d1m1,dm11,d1m1",
+        "zero_at": 3,
+        "zero_pair": "z"
+      },
+      {
+        "axis": "-1,6,1",
+        "final_axis_dot": "1",
+        "normal_class": "5,1,-1",
+        "rank": 7,
+        "reduced_shadow": "d1m1 d11m d1m1 d111 d11m d111",
+        "transformed_normal": "-5/3,-1/3,1/3",
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d11m,dm11,d1m1,dm11",
+        "zero_at": 8,
+        "zero_pair": "d1m1"
+      },
+      {
+        "axis": "-1,0,1",
+        "final_axis_dot": "1",
+        "normal_class": "0,1,0",
+        "rank": 10,
+        "reduced_shadow": "d1m1 d111 d1m1 d111",
+        "transformed_normal": "0,1,0",
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,d1m1,dm11,d11m,dm11",
+        "zero_at": 1,
+        "zero_pair": "y"
+      },
+      {
+        "axis": "-3/2,-5/2,-1",
+        "final_axis_dot": "3/2",
+        "normal_class": "1,-1,1",
+        "rank": 13,
+        "reduced_shadow": "d1m1 d11m d111 d1m1 d111 d11m",
+        "transformed_normal": "-1,1,-1",
+        "word": "x,y,y,z,z,d111,d111,d11m,d1m1,dm11,d11m,dm11,d1m1",
+        "zero_at": 7,
+        "zero_pair": "d11m"
+      }
+    ]
+  },
+  "scanned": 10000,
+  "schema_version": 1,
+  "start": 0,
+  "survivor_signatures": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 858,
+    "top": [
+      {
+        "count": 8,
+        "key": "survivor|reduced=d11m d1m1 d111 d11m d1m1 d111|axis=1,-1,3|signs=-+--+-+-+-+-+"
+      },
+      {
+        "count": 8,
+        "key": "survivor|reduced=d111 d1m1 d11m d111 d1m1 d11m|axis=1,-1,3|signs=-+--+-+-+-+-+"
+      },
+      {
+        "count": 7,
+        "key": "survivor|reduced=d1m1 d11m d111 d1m1 d11m d111|axis=1,3,-1|signs=--++--+-+-+-+"
+      },
+      {
+        "count": 7,
+        "key": "survivor|reduced=d1m1 d111 d11m d1m1 d111 d11m|axis=3,1,1|signs=--+-++-+-+-+-"
+      },
+      {
+        "count": 7,
+        "key": "survivor|reduced=d11m d111 d1m1 d11m d111 d1m1|axis=3,1,1|signs=--+-++-+-+-+-"
+      },
+      {
+        "count": 7,
+        "key": "survivor|reduced=d111 d11m d1m1 d111 d11m d1m1|axis=1,3,-1|signs=--++--+-+-+-+"
+      },
+      {
+        "count": 6,
+        "key": "survivor|reduced=dm11 d1m1 d11m dm11 d1m1 d11m|axis=1,-3,1|signs=-+--+++--+--+"
+      },
+      {
+        "count": 6,
+        "key": "survivor|reduced=dm11 d1m1 d111 dm11 d1m1 d111|axis=3,-1,1|signs=-+--+++--+--+"
+      },
+      {
+        "count": 4,
+        "key": "survivor|reduced=d1m1 d11m dm11 d1m1 d11m dm11|axis=1,1,-3|signs=--++--+++--+-"
+      },
+      {
+        "count": 4,
+        "key": "survivor|reduced=d1m1 d11m dm11 d1m1 d11m dm11|axis=1,1,-3|signs=--++--++-++--"
+      },
+      {
+        "count": 4,
+        "key": "survivor|reduced=d1m1 d111 dm11 d1m1 d111 dm11|axis=1,1,3|signs=--+-++---++-+"
+      },
+      {
+        "count": 4,
+        "key": "survivor|reduced=d1m1 d111 dm11 d1m1 d111 dm11|axis=1,1,3|signs=--+-++--+--++"
+      }
+    ]
+  }
+}

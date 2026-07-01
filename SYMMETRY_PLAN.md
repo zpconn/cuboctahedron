@@ -707,6 +707,42 @@ side, with external profiling grouped by reduced shadow / primitive axis /
 forced signed-lift signatures.  Do not proceed to translation row mining until
 this nontranslation profile reports kill and survivor counts.
 
+Forced-axis Track 2 diagnostic checkpoint:
+
+- Added `scripts/forced_axis_sign_profile.py`, an exact untrusted profiler
+  for the nontranslation forced-axis sign filter.
+- It reuses the established product order
+  `R(w[0]) * ... * R(w[12]) * R(x)`, classifies nontranslation words by
+  nonempty reduced shadow, recomputes the exact linear product as a diagnostic,
+  computes the exact fixed axis of `M - I`, checks both orientations, requires
+  positive final `X+` return dot, and then classifies the positive orientation
+  by forced-zero denominator, bad face-balance, or forced-balance survivor.
+- It uses exact `Fraction`/integer arithmetic only, capped distinct trackers,
+  bounded samples, and optional process-level parallel windows.  It emits no
+  Lean evidence and proves nothing by itself.
+- Added `docs/forced_axis_sign_profile_report.md`.
+- Smoke and calibration runs:
+
+  ```text
+  [0,100)       jobs=1  scanned=100      mismatches=0  forcedZero=52     badBalance=0      survivors=6
+  [0,10000)    jobs=1  scanned=10000    mismatches=0  forcedZero=5601   badBalance=2078   survivors=1014
+  [0,10000)    jobs=4  scanned=10000    mismatches=0  forcedZero=5601   badBalance=2078   survivors=1014
+  [0,100000)   jobs=4  scanned=100000   mismatches=0  forcedZero=54794  badBalance=24364  survivors=9036
+  ```
+
+- The `[0,10000)` serial and 4-worker runs agree on the headline counts.
+  `/usr/bin/time -v` reported max RSS `20,352 kB` for the serial run and
+  `21,120 kB` for the 4-worker run.  The 4-worker `[0,100000)` run completed
+  in `5.883s` elapsed and reported max RSS `29,840 kB`.
+- Accepted as diagnostic infrastructure: the forced-axis filter is real,
+  cheap, and consistent with the Track 1 classifier on the calibration window.
+- Not accepted as a complete nontranslation proof strategy: `[0,100000)`
+  still leaves `9,036` forced-balance survivors.  Next nontranslation work is
+  to cluster those survivors by terminal affine-axis failure kind under keys
+  like `(reduced shadow, primitive axis, forced signs, terminal failure)`.
+  If that family count stays too high, promote empty-cone/Gordan prefix pruning
+  before generating any residual Lean leaves.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
