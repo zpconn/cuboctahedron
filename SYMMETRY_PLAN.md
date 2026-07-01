@@ -857,6 +857,46 @@ Terminal nonidentity theorem-schema checkpoint:
 - Not yet complete: the local certificate format and profiler that prove those
   small local facts without reverting to exact-margin singleton leaves.
 
+Terminal nonidentity local-certificate checkpoint:
+
+- Extended `Cuboctahedron/Search/TerminalNonidentityTemplates.lean` with the
+  first checked local residual certificate shape:
+
+  ```lean
+  structure AxisStartViolationCert
+  def AxisStartViolationCert.Checked
+  theorem AxisStartViolationCert.no_axis_constraints
+  ```
+
+- This certificate deliberately targets the dominant observed residual bucket:
+  the affine-axis candidate start point is forced by a checked kernel-line
+  witness and a checked affine-axis solve witness, then violates one strict
+  `X+`-interior inequality.
+- The soundness theorem concludes semantic impossibility,
+  `¬ NonIdentityAxisConstraints seq`, without constructing an ordinary
+  `NonIdCert` and without exposing generated data in a public theorem type.
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.TerminalNonidentityTemplates
+  ```
+
+  passed after the local-certificate addition:
+
+  ```text
+  Built Cuboctahedron.Search.TerminalNonidentityTemplates (2.2s)
+  Build completed successfully
+  ```
+
+- Accepted: the start-interior residual route now has a Lean-checked
+  semantic certificate surface.  This is the first real bridge from the
+  residual-axis profiler's coarse template keys to a proof-carrying local
+  generated evidence format.
+- Not yet complete: analogous local certificate structures for first-hit
+  mismatch and hit-tie/open-segment failures, plus a profiler/generator audit
+  that estimates how many `AxisStartViolationCert` leaves would be required
+  after grouping by template and local witness reuse.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

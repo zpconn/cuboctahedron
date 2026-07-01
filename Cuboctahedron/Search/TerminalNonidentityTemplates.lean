@@ -128,4 +128,60 @@ theorem no_nonidentity_axis_constraints_of_forced_open_segment_not_interior
     hForcedPoint data hNonzero hEndpoint hFixed
   exact hnot (by simpa [hx] using hOpen i s hs0 hs1)
 
+structure AxisStartViolationCert
+    (seq : Step14 -> Face) where
+  axis : Vec3 Rat
+  p0 : Vec3 Rat
+  lambda : Rat
+  kernel : KernelLineWitness
+  solve : AffineAxisSolveWitness
+  badFace : Face
+
+def AxisStartViolationCert.Checked
+    {seq : Step14 -> Face} (cert : AxisStartViolationCert seq) : Prop :=
+  checkKernelLineWitness (totalLinear seq) cert.axis cert.kernel = true /\
+    checkAffineAxisSolveWitness (totalAff seq) cert.axis cert.p0
+      cert.lambda cert.solve = true /\
+    cert.badFace ≠ Face.xp /\
+    offsetR cert.badFace ≤ dot (normalR cert.badFace) (vecRatToReal cert.p0)
+
+theorem AxisStartViolationCert.no_axis_constraints
+    {seq : Step14 -> Face} (cert : AxisStartViolationCert seq)
+    (hStart : StartsXp seq)
+    (hchecked : cert.Checked) :
+    ¬ NonIdentityAxisConstraints seq := by
+  intro hAxis
+  rcases hchecked with ⟨hKernel, hSolve, hbadFace, hviol⟩
+  rcases hAxis.line_data with
+    ⟨data', _hNonzero, hStartInterior, _hEndpoint, hFixed, _hForward,
+      _hForwardAll, _hImpact, _hPreImpact, _hOpen, _hHit⟩
+  have hp0' : data'.p0 = vecRatToReal cert.p0 := by
+    have hFixed' :
+        matVec ((totalLinear seq).map fun q => (q : Real)) data'.w =
+          data'.w := by
+      simpa [totalLinear, affRatToReal, Aff3.map] using hFixed
+    have hCross :=
+      checkKernelLineWitness_real_axisLine
+        (M := totalLinear seq) (axis := cert.axis)
+        (witness := cert.kernel) hKernel hFixed'
+    have hAxisNonzero := checkKernelLineWitness_axis_nonzero hKernel
+    rcases cross_eq_zero_scalar_of_axis_ne_zero hAxisNonzero hCross with
+      ⟨lambda, hParallel⟩
+    have hsol :=
+      endpoint_axis_solve_equation
+        (seq := seq) (axis := cert.axis) (data := data')
+        (lambda := lambda) hStart hParallel
+    exact
+      checkAffineAxisSolveWitness_real_start_eq
+        (A := totalAff seq) (axis := cert.axis) (certP := cert.p0)
+        (certLambda := cert.lambda) (witness := cert.solve)
+        hSolve hsol
+  have hStartInteriorXp : InFaceInterior Face.xp data'.p0 := by
+    rw [hStart] at hStartInterior
+    exact hStartInterior
+  rw [hp0'] at hStartInteriorXp
+  exact not_inFaceInterior_of_not_strict
+    (f := Face.xp) (g := cert.badFace) (p := vecRatToReal cert.p0)
+    hbadFace hviol hStartInteriorXp
+
 end Cuboctahedron
