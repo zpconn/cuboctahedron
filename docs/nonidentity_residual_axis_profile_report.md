@@ -1256,6 +1256,34 @@ No-edge-list labeled-run checkpoint:
   while preserving Lean-checked Bellman edge validity through the
   `BellmanLabeledRun` constructors.
 
+Observed labeled-run constructor checkpoint:
+
+- Updated `scripts/emit_bellman_graph_smoke.py` so each bounded observed path
+  class now gets:
+  - a semantic signed-face/pair label list;
+  - a right-associated accumulated gain expression matching
+    `BellmanLabeledRun.cons`;
+  - a concrete generated `BellmanLabeledRun` proof;
+  - a generated margin-vs-gain fact.
+- These object-level runs are assembled into
+  `smokeObservedLabeledRunLanguageBound` and then into
+  `graphSmoke_observed_labeled_run_scaled_margin_nonpos`.
+- Focused build passed:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Result: `0:04.78` wall time, `3,542,636 kB` max RSS.
+- Decision: accepted as the strongest current Bellman bridge smoke.  It still
+  covers only the bounded observed path classes from the 1M top-family
+  profiler, but the theorem surface is now the intended one for production:
+  semantic labels construct a `BellmanLabeledRun`, then the generic Bellman
+  theorem proves the integer margin bound.  The next production gap is a
+  real holonomy/cancellation word-language proof that constructs these runs
+  without enumerating observed rank/path classes.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

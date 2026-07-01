@@ -481,6 +481,14 @@ Top margin+cancellation-pairing checkpoint:
   carrying only labels, final state, accumulated gain, and margin.  Focused
   build passed in `0:05.59` wall time with `3,479,988 kB` max RSS.  This is
   the cleanest current target for the real top-family word-language bridge.
+- Observed labeled-run status: the graph smoke now also constructs concrete
+  `BellmanLabeledRun` proofs for every bounded observed path class using the
+  semantic signed-face/pair labels exported by the profiler.  The generated
+  accumulated gain expression is right-associated so Lean can apply
+  `BellmanLabeledRun.cons` without arithmetic normalization.  The focused
+  smoke passed in `0:04.78` wall time with `3,542,636 kB` max RSS.  The next
+  Bellman step is not more observed-class enumeration; it is proving that the
+  actual holonomy/cancellation word language constructs these labeled runs.
 
 ## Explicit Non-Goals
 

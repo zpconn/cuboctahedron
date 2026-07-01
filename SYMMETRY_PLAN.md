@@ -2113,6 +2113,20 @@ Bellman profiler prototype checkpoint:
   and the no-edge-list labeled-run smoke in `0:05.59` wall time with
   `3,479,988 kB` max RSS.  This is the preferred current theorem target for
   a generated top-family word-language bridge.
+- Observed labeled-run constructor checkpoint: the graph emitter now builds a
+  concrete `BellmanLabeledRun` proof for every bounded observed path class,
+  using semantic signed-face/pair labels and a right-associated accumulated
+  gain expression that matches the `BellmanLabeledRun.cons` recursion.  These
+  generated proofs feed `smokeObservedLabeledRunLanguageBound` and
+  `graphSmoke_observed_labeled_run_scaled_margin_nonpos`, so the bounded smoke
+  no longer merely postulates arbitrary accepted labeled traces.  Focused
+  build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:04.78` wall time with `3,542,636 kB` max RSS.  Decision: accepted as
+  the strongest current Bellman bridge smoke.  The remaining production gap is
+  now precise: replace the finite observed path-class cases with a
+  holonomy/cancellation word-language proof that constructs the same kind of
+  `BellmanLabeledRun` from semantic labels.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

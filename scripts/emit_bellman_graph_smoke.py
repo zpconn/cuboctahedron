@@ -26,6 +26,13 @@ def label_ctor(index: int) -> str:
     return f"SmokeLabel.l{index:04d}"
 
 
+def right_assoc_add(terms: list[str]) -> str:
+    expr = "0"
+    for term in reversed(terms):
+        expr = f"{term} + ({expr})"
+    return expr
+
+
 def lean_or_cases(names: list[str], *, indent: str = "  ") -> list[str]:
     lines = [indent + "rcases he with"]
     lines.append(indent + "  " + " | ".join(names))
@@ -376,18 +383,86 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "private inductive SmokeEdgeLabel : BellmanEdge State -> SmokeLabel -> Prop where",
     ])
     label_case_idx = 0
+    edge_label_ctor: dict[tuple[int, int], str] = {}
     for idx, name in enumerate(edge_names):
         edge_label_indices = edges[idx].get("label_indices")
         if edge_label_indices is None:
             edge_label_indices = [idx]
         for label_idx in edge_label_indices:
+            edge_label_ctor[(idx, int(label_idx))] = f"SmokeEdgeLabel.e{label_case_idx:04d}"
             lines.append(
                 f"  | e{label_case_idx:04d} : "
                 f"SmokeEdgeLabel {name} {label_ctor(int(label_idx))}"
             )
             label_case_idx += 1
+    lines.append("")
+    for obj in path_objects:
+        obj_name = obj["name"]
+        edge_indices = obj["edge_indices"]
+        label_indices = obj.get("label_indices", [])
+        if not label_indices:
+            label_indices = [
+                (edges[edge_idx].get("label_indices") or [edge_idx])[0]
+                for edge_idx in edge_indices
+            ]
+        if len(label_indices) != len(edge_indices):
+            raise SystemExit(
+                f"{obj_name}: label count {len(label_indices)} does not match "
+                f"edge count {len(edge_indices)}"
+            )
+        gain_scaled = sum(int(edges[idx]["gain_scaled"]) for idx in edge_indices)
+        lines.extend([
+            f"private def {obj_name}Labels : List SmokeLabel :=",
+        ])
+        if label_indices:
+            label_terms = [label_ctor(int(label_idx)) for label_idx in label_indices]
+            lines.append("  [" + label_terms[0])
+            for label_term in label_terms[1:]:
+                lines.append("  , " + label_term)
+            lines[-1] += "]"
+        else:
+            lines.append("  []")
+        lines.extend([
+            "",
+            f"private def {obj_name}Gain : Int :=",
+        ])
+        if edge_indices:
+            gain_terms = [f"{edge_name(int(edge_idx))}.gain" for edge_idx in edge_indices]
+            lines.append("  " + right_assoc_add(gain_terms))
+        else:
+            lines.append("  0")
+        lines.extend([
+            "",
+            f"private theorem {obj_name}LabeledRun :",
+            f"    BellmanLabeledRun GraphEdge SmokeEdgeLabel",
+            f"      rootState {obj_name}FinalState {obj_name}Labels {obj_name}Gain := by",
+            f"  unfold {obj_name}Labels {obj_name}Gain rootState {obj_name}FinalState",
+        ])
+        for edge_idx, label_idx in zip(edge_indices, label_indices):
+            try:
+                label_case = edge_label_ctor[(int(edge_idx), int(label_idx))]
+            except KeyError as exc:
+                raise SystemExit(
+                    f"{obj_name}: edge {edge_idx} does not allow label {label_idx}"
+                ) from exc
+            lines.extend([
+                f"  apply BellmanLabeledRun.cons (e := {edge_name(int(edge_idx))})",
+                "  · rfl",
+                "  · rfl",
+                f"  · exact GraphEdge.e{int(edge_idx):04d}",
+                f"  · exact {label_case}",
+            ])
+        lines.extend([
+            f"  exact BellmanLabeledRun.nil {state_ctor(int(obj['final']))}",
+            "",
+            f"private theorem {obj_name}Margin_bound_gain :",
+            f"    smokeScaledMargin SmokeObj.{obj_name} <= ({const_scaled} : Int) + {obj_name}Gain := by",
+            f"  unfold {obj_name}Gain",
+            f"  change ({obj['margin_scaled']} : Int) <= {const_scaled + gain_scaled}",
+            "  decide",
+            "",
+        ])
     lines.extend([
-        "",
         "private structure SmokeLabeledTrace where",
         "  finish : State",
         "  labels : List SmokeLabel",
@@ -465,6 +540,41 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "    (fun _ he => GraphEdge.valid he)",
         "    root_bound",
         "    smokeLabeledRunLanguageBound",
+        "",
+        "private def smokeObjLabels : SmokeObj -> List SmokeLabel",
+    ])
+    for obj in path_objects:
+        lines.append(f"  | SmokeObj.{obj['name']} => {obj['name']}Labels")
+    lines.extend([
+        "",
+        "private theorem smokeObservedLabeledRunLanguageBound :",
+        "    BellmanLabeledRunLanguageBound",
+        "      graphPotential GraphEdge SmokeEdgeLabel rootState",
+        f"      ({const_scaled} : Int) smokeScaledMargin smokeObjLabels smokeAccepts := by",
+        "  intro obj _hobj",
+        "  cases obj",
+    ])
+    for obj in path_objects:
+        obj_name = obj["name"]
+        lines.extend([
+            f"  · exact ⟨{obj_name}FinalState, {obj_name}Gain,",
+            f"      {obj_name}LabeledRun, {obj_name}Final_nonneg,",
+            f"      {obj_name}Margin_bound_gain⟩",
+        ])
+    lines.extend([
+        "",
+        "theorem graphSmoke_observed_labeled_run_scaled_margin_nonpos :",
+        "    forall obj : SmokeObj, smokeAccepts obj -> smokeScaledMargin obj <= 0 :=",
+        "  scaledMargin_nonpos_of_bellmanLabeledRunLanguageBound",
+        "    (V := graphPotential)",
+        "    (GraphEdge := GraphEdge)",
+        "    (EdgeLabel := SmokeEdgeLabel)",
+        "    (start := rootState)",
+        f"    (const := {const_scaled})",
+        "    (wordOf := smokeObjLabels)",
+        "    (fun _ he => GraphEdge.valid he)",
+        "    root_bound",
+        "    smokeObservedLabeledRunLanguageBound",
         "",
         "theorem graphSmoke_argmax_object_scaled_margin_nonpos :",
         "    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=",

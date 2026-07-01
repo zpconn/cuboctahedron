@@ -6608,6 +6608,3743 @@ private inductive SmokeEdgeLabel : BellmanEdge State -> SmokeLabel -> Prop where
   | e0227 : SmokeEdgeLabel edge0227 SmokeLabel.l0000
   | e0228 : SmokeEdgeLabel edge0228 SmokeLabel.l0003
 
+private def cls0000Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0011
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0000Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0128.gain + (edge0135.gain + (edge0145.gain + (edge0158.gain + (edge0173.gain + (edge0190.gain + (edge0210.gain + (edge0006.gain + (edge0045.gain + (edge0080.gain + (edge0123.gain + (0))))))))))))))
+
+private theorem cls0000LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0000FinalState cls0000Labels cls0000Gain := by
+  unfold cls0000Labels cls0000Gain rootState cls0000FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0125)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0125
+  · exact SmokeEdgeLabel.e0125
+  apply BellmanLabeledRun.cons (e := edge0128)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0128
+  · exact SmokeEdgeLabel.e0128
+  apply BellmanLabeledRun.cons (e := edge0135)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0135
+  · exact SmokeEdgeLabel.e0135
+  apply BellmanLabeledRun.cons (e := edge0145)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0145
+  · exact SmokeEdgeLabel.e0145
+  apply BellmanLabeledRun.cons (e := edge0158)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0158
+  · exact SmokeEdgeLabel.e0158
+  apply BellmanLabeledRun.cons (e := edge0173)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0173
+  · exact SmokeEdgeLabel.e0173
+  apply BellmanLabeledRun.cons (e := edge0190)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0190
+  · exact SmokeEdgeLabel.e0190
+  apply BellmanLabeledRun.cons (e := edge0210)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0210
+  · exact SmokeEdgeLabel.e0210
+  apply BellmanLabeledRun.cons (e := edge0006)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0006
+  · exact SmokeEdgeLabel.e0006
+  apply BellmanLabeledRun.cons (e := edge0045)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0045
+  · exact SmokeEdgeLabel.e0045
+  apply BellmanLabeledRun.cons (e := edge0080)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0080
+  · exact SmokeEdgeLabel.e0080
+  apply BellmanLabeledRun.cons (e := edge0123)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0123
+  · exact SmokeEdgeLabel.e0123
+  exact BellmanLabeledRun.nil State.s0141
+
+private theorem cls0000Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0000 <= (176 : Int) + cls0000Gain := by
+  unfold cls0000Gain
+  change (-376 : Int) <= -376
+  decide
+
+private def cls0001Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0011
+  , SmokeLabel.l0012
+  , SmokeLabel.l0001
+  , SmokeLabel.l0005
+  , SmokeLabel.l0007
+  , SmokeLabel.l0004
+  , SmokeLabel.l0003
+  , SmokeLabel.l0006
+  , SmokeLabel.l0002
+  , SmokeLabel.l0000
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0001Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0128.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0175.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))))
+
+private theorem cls0001LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0001FinalState cls0001Labels cls0001Gain := by
+  unfold cls0001Labels cls0001Gain rootState cls0001FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0125)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0125
+  · exact SmokeEdgeLabel.e0125
+  apply BellmanLabeledRun.cons (e := edge0128)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0128
+  · exact SmokeEdgeLabel.e0128
+  apply BellmanLabeledRun.cons (e := edge0136)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0136
+  · exact SmokeEdgeLabel.e0136
+  apply BellmanLabeledRun.cons (e := edge0148)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0148
+  · exact SmokeEdgeLabel.e0148
+  apply BellmanLabeledRun.cons (e := edge0161)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0161
+  · exact SmokeEdgeLabel.e0161
+  apply BellmanLabeledRun.cons (e := edge0175)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0175
+  · exact SmokeEdgeLabel.e0175
+  apply BellmanLabeledRun.cons (e := edge0193)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0193
+  · exact SmokeEdgeLabel.e0193
+  apply BellmanLabeledRun.cons (e := edge0213)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0213
+  · exact SmokeEdgeLabel.e0213
+  apply BellmanLabeledRun.cons (e := edge0011)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0011
+  · exact SmokeEdgeLabel.e0011
+  apply BellmanLabeledRun.cons (e := edge0050)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0050
+  · exact SmokeEdgeLabel.e0050
+  apply BellmanLabeledRun.cons (e := edge0086)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0086
+  · exact SmokeEdgeLabel.e0086
+  apply BellmanLabeledRun.cons (e := edge0120)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0120
+  · exact SmokeEdgeLabel.e0120
+  exact BellmanLabeledRun.nil State.s0138
+
+private theorem cls0001Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0001 <= (176 : Int) + cls0001Gain := by
+  unfold cls0001Gain
+  change (-376 : Int) <= -376
+  decide
+
+private def cls0002Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0002Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0137.gain + (edge0146.gain + (edge0157.gain + (edge0172.gain + (edge0189.gain + (edge0209.gain + (edge0005.gain + (edge0043.gain + (edge0078.gain + (edge0117.gain + (0))))))))))))))
+
+private theorem cls0002LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0002FinalState cls0002Labels cls0002Gain := by
+  unfold cls0002Labels cls0002Gain rootState cls0002FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0125)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0125
+  · exact SmokeEdgeLabel.e0125
+  apply BellmanLabeledRun.cons (e := edge0129)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0129
+  · exact SmokeEdgeLabel.e0129
+  apply BellmanLabeledRun.cons (e := edge0137)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0137
+  · exact SmokeEdgeLabel.e0137
+  apply BellmanLabeledRun.cons (e := edge0146)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0146
+  · exact SmokeEdgeLabel.e0146
+  apply BellmanLabeledRun.cons (e := edge0157)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0157
+  · exact SmokeEdgeLabel.e0157
+  apply BellmanLabeledRun.cons (e := edge0172)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0172
+  · exact SmokeEdgeLabel.e0172
+  apply BellmanLabeledRun.cons (e := edge0189)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0189
+  · exact SmokeEdgeLabel.e0189
+  apply BellmanLabeledRun.cons (e := edge0209)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0209
+  · exact SmokeEdgeLabel.e0209
+  apply BellmanLabeledRun.cons (e := edge0005)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0005
+  · exact SmokeEdgeLabel.e0005
+  apply BellmanLabeledRun.cons (e := edge0043)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0043
+  · exact SmokeEdgeLabel.e0043
+  apply BellmanLabeledRun.cons (e := edge0078)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0078
+  · exact SmokeEdgeLabel.e0078
+  apply BellmanLabeledRun.cons (e := edge0117)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0117
+  · exact SmokeEdgeLabel.e0117
+  exact BellmanLabeledRun.nil State.s0135
+
+private theorem cls0002Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0002 <= (176 : Int) + cls0002Gain := by
+  unfold cls0002Gain
+  change (-128 : Int) <= -128
+  decide
+
+private def cls0003Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0012
+  , SmokeLabel.l0005
+  , SmokeLabel.l0007
+  , SmokeLabel.l0004
+  , SmokeLabel.l0003
+  , SmokeLabel.l0006
+  , SmokeLabel.l0002
+  , SmokeLabel.l0013
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0003Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0137.gain + (edge0147.gain + (edge0159.gain + (edge0174.gain + (edge0191.gain + (edge0211.gain + (edge0009.gain + (edge0048.gain + (edge0077.gain + (edge0116.gain + (0))))))))))))))
+
+private theorem cls0003LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0003FinalState cls0003Labels cls0003Gain := by
+  unfold cls0003Labels cls0003Gain rootState cls0003FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0125)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0125
+  · exact SmokeEdgeLabel.e0125
+  apply BellmanLabeledRun.cons (e := edge0129)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0129
+  · exact SmokeEdgeLabel.e0129
+  apply BellmanLabeledRun.cons (e := edge0137)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0137
+  · exact SmokeEdgeLabel.e0137
+  apply BellmanLabeledRun.cons (e := edge0147)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0147
+  · exact SmokeEdgeLabel.e0147
+  apply BellmanLabeledRun.cons (e := edge0159)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0159
+  · exact SmokeEdgeLabel.e0159
+  apply BellmanLabeledRun.cons (e := edge0174)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0174
+  · exact SmokeEdgeLabel.e0174
+  apply BellmanLabeledRun.cons (e := edge0191)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0191
+  · exact SmokeEdgeLabel.e0191
+  apply BellmanLabeledRun.cons (e := edge0211)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0211
+  · exact SmokeEdgeLabel.e0211
+  apply BellmanLabeledRun.cons (e := edge0009)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0009
+  · exact SmokeEdgeLabel.e0009
+  apply BellmanLabeledRun.cons (e := edge0048)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0048
+  · exact SmokeEdgeLabel.e0048
+  apply BellmanLabeledRun.cons (e := edge0077)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0077
+  · exact SmokeEdgeLabel.e0077
+  apply BellmanLabeledRun.cons (e := edge0116)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0116
+  · exact SmokeEdgeLabel.e0116
+  exact BellmanLabeledRun.nil State.s0134
+
+private theorem cls0003Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0003 <= (176 : Int) + cls0003Gain := by
+  unfold cls0003Gain
+  change (-128 : Int) <= -128
+  decide
+
+private def cls0004Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0004Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0149.gain + (edge0160.gain + (edge0171.gain + (edge0188.gain + (edge0208.gain + (edge0004.gain + (edge0042.gain + (edge0076.gain + (edge0115.gain + (0))))))))))))))
+
+private theorem cls0004LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0004FinalState cls0004Labels cls0004Gain := by
+  unfold cls0004Labels cls0004Gain rootState cls0004FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0125)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0125
+  · exact SmokeEdgeLabel.e0125
+  apply BellmanLabeledRun.cons (e := edge0129)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0129
+  · exact SmokeEdgeLabel.e0129
+  apply BellmanLabeledRun.cons (e := edge0138)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0138
+  · exact SmokeEdgeLabel.e0138
+  apply BellmanLabeledRun.cons (e := edge0149)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0149
+  · exact SmokeEdgeLabel.e0149
+  apply BellmanLabeledRun.cons (e := edge0160)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0160
+  · exact SmokeEdgeLabel.e0160
+  apply BellmanLabeledRun.cons (e := edge0171)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0171
+  · exact SmokeEdgeLabel.e0171
+  apply BellmanLabeledRun.cons (e := edge0188)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0188
+  · exact SmokeEdgeLabel.e0188
+  apply BellmanLabeledRun.cons (e := edge0208)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0208
+  · exact SmokeEdgeLabel.e0208
+  apply BellmanLabeledRun.cons (e := edge0004)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0004
+  · exact SmokeEdgeLabel.e0004
+  apply BellmanLabeledRun.cons (e := edge0042)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0042
+  · exact SmokeEdgeLabel.e0042
+  apply BellmanLabeledRun.cons (e := edge0076)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0076
+  · exact SmokeEdgeLabel.e0076
+  apply BellmanLabeledRun.cons (e := edge0115)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0115
+  · exact SmokeEdgeLabel.e0115
+  exact BellmanLabeledRun.nil State.s0133
+
+private theorem cls0004Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0004 <= (176 : Int) + cls0004Gain := by
+  unfold cls0004Gain
+  change (-392 : Int) <= -392
+  decide
+
+private def cls0005Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0005Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0162.gain + (edge0176.gain + (edge0187.gain + (edge0207.gain + (edge0003.gain + (edge0041.gain + (edge0075.gain + (edge0114.gain + (0))))))))))))))
+
+private theorem cls0005LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0005FinalState cls0005Labels cls0005Gain := by
+  unfold cls0005Labels cls0005Gain rootState cls0005FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0125)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0125
+  · exact SmokeEdgeLabel.e0125
+  apply BellmanLabeledRun.cons (e := edge0129)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0129
+  · exact SmokeEdgeLabel.e0129
+  apply BellmanLabeledRun.cons (e := edge0138)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0138
+  · exact SmokeEdgeLabel.e0138
+  apply BellmanLabeledRun.cons (e := edge0150)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0150
+  · exact SmokeEdgeLabel.e0150
+  apply BellmanLabeledRun.cons (e := edge0162)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0162
+  · exact SmokeEdgeLabel.e0162
+  apply BellmanLabeledRun.cons (e := edge0176)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0176
+  · exact SmokeEdgeLabel.e0176
+  apply BellmanLabeledRun.cons (e := edge0187)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0187
+  · exact SmokeEdgeLabel.e0187
+  apply BellmanLabeledRun.cons (e := edge0207)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0207
+  · exact SmokeEdgeLabel.e0207
+  apply BellmanLabeledRun.cons (e := edge0003)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0003
+  · exact SmokeEdgeLabel.e0003
+  apply BellmanLabeledRun.cons (e := edge0041)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0041
+  · exact SmokeEdgeLabel.e0041
+  apply BellmanLabeledRun.cons (e := edge0075)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0075
+  · exact SmokeEdgeLabel.e0075
+  apply BellmanLabeledRun.cons (e := edge0114)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0114
+  · exact SmokeEdgeLabel.e0114
+  exact BellmanLabeledRun.nil State.s0132
+
+private theorem cls0005Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0005 <= (176 : Int) + cls0005Gain := by
+  unfold cls0005Gain
+  change (-464 : Int) <= -464
+  decide
+
+private def cls0006Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0006Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0177.gain + (edge0192.gain + (edge0206.gain + (edge0002.gain + (edge0040.gain + (edge0074.gain + (edge0113.gain + (0))))))))))))))
+
+private theorem cls0006LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0006FinalState cls0006Labels cls0006Gain := by
+  unfold cls0006Labels cls0006Gain rootState cls0006FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0125)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0125
+  · exact SmokeEdgeLabel.e0125
+  apply BellmanLabeledRun.cons (e := edge0129)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0129
+  · exact SmokeEdgeLabel.e0129
+  apply BellmanLabeledRun.cons (e := edge0138)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0138
+  · exact SmokeEdgeLabel.e0138
+  apply BellmanLabeledRun.cons (e := edge0150)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0150
+  · exact SmokeEdgeLabel.e0150
+  apply BellmanLabeledRun.cons (e := edge0163)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0163
+  · exact SmokeEdgeLabel.e0163
+  apply BellmanLabeledRun.cons (e := edge0177)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0177
+  · exact SmokeEdgeLabel.e0177
+  apply BellmanLabeledRun.cons (e := edge0192)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0192
+  · exact SmokeEdgeLabel.e0192
+  apply BellmanLabeledRun.cons (e := edge0206)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0206
+  · exact SmokeEdgeLabel.e0206
+  apply BellmanLabeledRun.cons (e := edge0002)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0002
+  · exact SmokeEdgeLabel.e0002
+  apply BellmanLabeledRun.cons (e := edge0040)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0040
+  · exact SmokeEdgeLabel.e0040
+  apply BellmanLabeledRun.cons (e := edge0074)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0074
+  · exact SmokeEdgeLabel.e0074
+  apply BellmanLabeledRun.cons (e := edge0113)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0113
+  · exact SmokeEdgeLabel.e0113
+  exact BellmanLabeledRun.nil State.s0131
+
+private theorem cls0006Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0006 <= (176 : Int) + cls0006Gain := by
+  unfold cls0006Gain
+  change (-176 : Int) <= -176
+  decide
+
+private def cls0007Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0007Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0194.gain + (edge0212.gain + (edge0001.gain + (edge0038.gain + (edge0071.gain + (edge0109.gain + (0))))))))))))))
+
+private theorem cls0007LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0007FinalState cls0007Labels cls0007Gain := by
+  unfold cls0007Labels cls0007Gain rootState cls0007FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0125)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0125
+  · exact SmokeEdgeLabel.e0125
+  apply BellmanLabeledRun.cons (e := edge0129)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0129
+  · exact SmokeEdgeLabel.e0129
+  apply BellmanLabeledRun.cons (e := edge0138)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0138
+  · exact SmokeEdgeLabel.e0138
+  apply BellmanLabeledRun.cons (e := edge0150)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0150
+  · exact SmokeEdgeLabel.e0150
+  apply BellmanLabeledRun.cons (e := edge0163)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0163
+  · exact SmokeEdgeLabel.e0163
+  apply BellmanLabeledRun.cons (e := edge0178)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0178
+  · exact SmokeEdgeLabel.e0178
+  apply BellmanLabeledRun.cons (e := edge0194)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0194
+  · exact SmokeEdgeLabel.e0194
+  apply BellmanLabeledRun.cons (e := edge0212)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0212
+  · exact SmokeEdgeLabel.e0212
+  apply BellmanLabeledRun.cons (e := edge0001)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0001
+  · exact SmokeEdgeLabel.e0001
+  apply BellmanLabeledRun.cons (e := edge0038)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0038
+  · exact SmokeEdgeLabel.e0038
+  apply BellmanLabeledRun.cons (e := edge0071)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0071
+  · exact SmokeEdgeLabel.e0071
+  apply BellmanLabeledRun.cons (e := edge0109)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0109
+  · exact SmokeEdgeLabel.e0109
+  exact BellmanLabeledRun.nil State.s0127
+
+private theorem cls0007Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0007 <= (176 : Int) + cls0007Gain := by
+  unfold cls0007Gain
+  change (-464 : Int) <= -464
+  decide
+
+private def cls0008Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0008Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0195.gain + (edge0216.gain + (edge0008.gain + (edge0039.gain + (edge0072.gain + (edge0110.gain + (0))))))))))))))
+
+private theorem cls0008LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0008FinalState cls0008Labels cls0008Gain := by
+  unfold cls0008Labels cls0008Gain rootState cls0008FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0125)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0125
+  · exact SmokeEdgeLabel.e0125
+  apply BellmanLabeledRun.cons (e := edge0129)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0129
+  · exact SmokeEdgeLabel.e0129
+  apply BellmanLabeledRun.cons (e := edge0138)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0138
+  · exact SmokeEdgeLabel.e0138
+  apply BellmanLabeledRun.cons (e := edge0150)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0150
+  · exact SmokeEdgeLabel.e0150
+  apply BellmanLabeledRun.cons (e := edge0163)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0163
+  · exact SmokeEdgeLabel.e0163
+  apply BellmanLabeledRun.cons (e := edge0178)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0178
+  · exact SmokeEdgeLabel.e0178
+  apply BellmanLabeledRun.cons (e := edge0195)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0195
+  · exact SmokeEdgeLabel.e0195
+  apply BellmanLabeledRun.cons (e := edge0216)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0216
+  · exact SmokeEdgeLabel.e0216
+  apply BellmanLabeledRun.cons (e := edge0008)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0008
+  · exact SmokeEdgeLabel.e0008
+  apply BellmanLabeledRun.cons (e := edge0039)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0039
+  · exact SmokeEdgeLabel.e0039
+  apply BellmanLabeledRun.cons (e := edge0072)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0072
+  · exact SmokeEdgeLabel.e0072
+  apply BellmanLabeledRun.cons (e := edge0110)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0110
+  · exact SmokeEdgeLabel.e0110
+  exact BellmanLabeledRun.nil State.s0128
+
+private theorem cls0008Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0008 <= (176 : Int) + cls0008Gain := by
+  unfold cls0008Gain
+  change (-392 : Int) <= -392
+  decide
+
+private def cls0009Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0009Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0195.gain + (edge0217.gain + (edge0014.gain + (edge0047.gain + (edge0073.gain + (edge0112.gain + (0))))))))))))))
+
+private theorem cls0009LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0009FinalState cls0009Labels cls0009Gain := by
+  unfold cls0009Labels cls0009Gain rootState cls0009FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0125)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0125
+  · exact SmokeEdgeLabel.e0125
+  apply BellmanLabeledRun.cons (e := edge0129)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0129
+  · exact SmokeEdgeLabel.e0129
+  apply BellmanLabeledRun.cons (e := edge0138)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0138
+  · exact SmokeEdgeLabel.e0138
+  apply BellmanLabeledRun.cons (e := edge0150)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0150
+  · exact SmokeEdgeLabel.e0150
+  apply BellmanLabeledRun.cons (e := edge0163)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0163
+  · exact SmokeEdgeLabel.e0163
+  apply BellmanLabeledRun.cons (e := edge0178)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0178
+  · exact SmokeEdgeLabel.e0178
+  apply BellmanLabeledRun.cons (e := edge0195)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0195
+  · exact SmokeEdgeLabel.e0195
+  apply BellmanLabeledRun.cons (e := edge0217)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0217
+  · exact SmokeEdgeLabel.e0217
+  apply BellmanLabeledRun.cons (e := edge0014)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0014
+  · exact SmokeEdgeLabel.e0014
+  apply BellmanLabeledRun.cons (e := edge0047)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0047
+  · exact SmokeEdgeLabel.e0047
+  apply BellmanLabeledRun.cons (e := edge0073)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0073
+  · exact SmokeEdgeLabel.e0073
+  apply BellmanLabeledRun.cons (e := edge0112)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0112
+  · exact SmokeEdgeLabel.e0112
+  exact BellmanLabeledRun.nil State.s0130
+
+private theorem cls0009Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0009 <= (176 : Int) + cls0009Gain := by
+  unfold cls0009Gain
+  change (-128 : Int) <= -128
+  decide
+
+private def cls0010Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0010Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0195.gain + (edge0217.gain + (edge0015.gain + (edge0053.gain + (edge0083.gain + (edge0111.gain + (0))))))))))))))
+
+private theorem cls0010LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0010FinalState cls0010Labels cls0010Gain := by
+  unfold cls0010Labels cls0010Gain rootState cls0010FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0125)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0125
+  · exact SmokeEdgeLabel.e0125
+  apply BellmanLabeledRun.cons (e := edge0129)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0129
+  · exact SmokeEdgeLabel.e0129
+  apply BellmanLabeledRun.cons (e := edge0138)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0138
+  · exact SmokeEdgeLabel.e0138
+  apply BellmanLabeledRun.cons (e := edge0150)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0150
+  · exact SmokeEdgeLabel.e0150
+  apply BellmanLabeledRun.cons (e := edge0163)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0163
+  · exact SmokeEdgeLabel.e0163
+  apply BellmanLabeledRun.cons (e := edge0178)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0178
+  · exact SmokeEdgeLabel.e0178
+  apply BellmanLabeledRun.cons (e := edge0195)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0195
+  · exact SmokeEdgeLabel.e0195
+  apply BellmanLabeledRun.cons (e := edge0217)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0217
+  · exact SmokeEdgeLabel.e0217
+  apply BellmanLabeledRun.cons (e := edge0015)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0015
+  · exact SmokeEdgeLabel.e0015
+  apply BellmanLabeledRun.cons (e := edge0053)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0053
+  · exact SmokeEdgeLabel.e0053
+  apply BellmanLabeledRun.cons (e := edge0083)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0083
+  · exact SmokeEdgeLabel.e0083
+  apply BellmanLabeledRun.cons (e := edge0111)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0111
+  · exact SmokeEdgeLabel.e0111
+  exact BellmanLabeledRun.nil State.s0129
+
+private theorem cls0010Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0010 <= (176 : Int) + cls0010Gain := by
+  unfold cls0010Gain
+  change (-376 : Int) <= -376
+  decide
+
+private def cls0011Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0012
+  , SmokeLabel.l0011
+  , SmokeLabel.l0013
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0011Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0130.gain + (edge0135.gain + (edge0145.gain + (edge0158.gain + (edge0173.gain + (edge0190.gain + (edge0210.gain + (edge0006.gain + (edge0045.gain + (edge0080.gain + (edge0123.gain + (0))))))))))))))
+
+private theorem cls0011LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0011FinalState cls0011Labels cls0011Gain := by
+  unfold cls0011Labels cls0011Gain rootState cls0011FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0126)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0126
+  · exact SmokeEdgeLabel.e0126
+  apply BellmanLabeledRun.cons (e := edge0130)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0130
+  · exact SmokeEdgeLabel.e0130
+  apply BellmanLabeledRun.cons (e := edge0135)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0135
+  · exact SmokeEdgeLabel.e0135
+  apply BellmanLabeledRun.cons (e := edge0145)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0145
+  · exact SmokeEdgeLabel.e0145
+  apply BellmanLabeledRun.cons (e := edge0158)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0158
+  · exact SmokeEdgeLabel.e0158
+  apply BellmanLabeledRun.cons (e := edge0173)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0173
+  · exact SmokeEdgeLabel.e0173
+  apply BellmanLabeledRun.cons (e := edge0190)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0190
+  · exact SmokeEdgeLabel.e0190
+  apply BellmanLabeledRun.cons (e := edge0210)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0210
+  · exact SmokeEdgeLabel.e0210
+  apply BellmanLabeledRun.cons (e := edge0006)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0006
+  · exact SmokeEdgeLabel.e0006
+  apply BellmanLabeledRun.cons (e := edge0045)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0045
+  · exact SmokeEdgeLabel.e0045
+  apply BellmanLabeledRun.cons (e := edge0080)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0080
+  · exact SmokeEdgeLabel.e0080
+  apply BellmanLabeledRun.cons (e := edge0123)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0123
+  · exact SmokeEdgeLabel.e0123
+  exact BellmanLabeledRun.nil State.s0141
+
+private theorem cls0011Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0011 <= (176 : Int) + cls0011Gain := by
+  unfold cls0011Gain
+  change (-376 : Int) <= -376
+  decide
+
+private def cls0012Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0012
+  , SmokeLabel.l0011
+  , SmokeLabel.l0001
+  , SmokeLabel.l0005
+  , SmokeLabel.l0007
+  , SmokeLabel.l0004
+  , SmokeLabel.l0003
+  , SmokeLabel.l0006
+  , SmokeLabel.l0002
+  , SmokeLabel.l0000
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0012Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0130.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0175.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))))
+
+private theorem cls0012LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0012FinalState cls0012Labels cls0012Gain := by
+  unfold cls0012Labels cls0012Gain rootState cls0012FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0126)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0126
+  · exact SmokeEdgeLabel.e0126
+  apply BellmanLabeledRun.cons (e := edge0130)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0130
+  · exact SmokeEdgeLabel.e0130
+  apply BellmanLabeledRun.cons (e := edge0136)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0136
+  · exact SmokeEdgeLabel.e0136
+  apply BellmanLabeledRun.cons (e := edge0148)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0148
+  · exact SmokeEdgeLabel.e0148
+  apply BellmanLabeledRun.cons (e := edge0161)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0161
+  · exact SmokeEdgeLabel.e0161
+  apply BellmanLabeledRun.cons (e := edge0175)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0175
+  · exact SmokeEdgeLabel.e0175
+  apply BellmanLabeledRun.cons (e := edge0193)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0193
+  · exact SmokeEdgeLabel.e0193
+  apply BellmanLabeledRun.cons (e := edge0213)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0213
+  · exact SmokeEdgeLabel.e0213
+  apply BellmanLabeledRun.cons (e := edge0011)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0011
+  · exact SmokeEdgeLabel.e0011
+  apply BellmanLabeledRun.cons (e := edge0050)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0050
+  · exact SmokeEdgeLabel.e0050
+  apply BellmanLabeledRun.cons (e := edge0086)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0086
+  · exact SmokeEdgeLabel.e0086
+  apply BellmanLabeledRun.cons (e := edge0120)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0120
+  · exact SmokeEdgeLabel.e0120
+  exact BellmanLabeledRun.nil State.s0138
+
+private theorem cls0012Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0012 <= (176 : Int) + cls0012Gain := by
+  unfold cls0012Gain
+  change (-376 : Int) <= -376
+  decide
+
+private def cls0013Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0011
+  , SmokeLabel.l0000
+  , SmokeLabel.l0004
+  , SmokeLabel.l0006
+  , SmokeLabel.l0005
+  , SmokeLabel.l0002
+  , SmokeLabel.l0007
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0013Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0131.gain + (edge0139.gain + (edge0145.gain + (edge0158.gain + (edge0173.gain + (edge0190.gain + (edge0210.gain + (edge0006.gain + (edge0045.gain + (edge0080.gain + (edge0123.gain + (0))))))))))))))
+
+private theorem cls0013LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0013FinalState cls0013Labels cls0013Gain := by
+  unfold cls0013Labels cls0013Gain rootState cls0013FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0126)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0126
+  · exact SmokeEdgeLabel.e0126
+  apply BellmanLabeledRun.cons (e := edge0131)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0131
+  · exact SmokeEdgeLabel.e0131
+  apply BellmanLabeledRun.cons (e := edge0139)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0139
+  · exact SmokeEdgeLabel.e0139
+  apply BellmanLabeledRun.cons (e := edge0145)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0145
+  · exact SmokeEdgeLabel.e0145
+  apply BellmanLabeledRun.cons (e := edge0158)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0158
+  · exact SmokeEdgeLabel.e0158
+  apply BellmanLabeledRun.cons (e := edge0173)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0173
+  · exact SmokeEdgeLabel.e0173
+  apply BellmanLabeledRun.cons (e := edge0190)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0190
+  · exact SmokeEdgeLabel.e0190
+  apply BellmanLabeledRun.cons (e := edge0210)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0210
+  · exact SmokeEdgeLabel.e0210
+  apply BellmanLabeledRun.cons (e := edge0006)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0006
+  · exact SmokeEdgeLabel.e0006
+  apply BellmanLabeledRun.cons (e := edge0045)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0045
+  · exact SmokeEdgeLabel.e0045
+  apply BellmanLabeledRun.cons (e := edge0080)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0080
+  · exact SmokeEdgeLabel.e0080
+  apply BellmanLabeledRun.cons (e := edge0123)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0123
+  · exact SmokeEdgeLabel.e0123
+  exact BellmanLabeledRun.nil State.s0141
+
+private theorem cls0013Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0013 <= (176 : Int) + cls0013Gain := by
+  unfold cls0013Gain
+  change (-376 : Int) <= -376
+  decide
+
+private def cls0014Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0014Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0131.gain + (edge0140.gain + (edge0152.gain + (edge0166.gain + (edge0182.gain + (edge0200.gain + (edge0223.gain + (edge0027.gain + (edge0044.gain + (edge0079.gain + (edge0122.gain + (0))))))))))))))
+
+private theorem cls0014LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0014FinalState cls0014Labels cls0014Gain := by
+  unfold cls0014Labels cls0014Gain rootState cls0014FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0126)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0126
+  · exact SmokeEdgeLabel.e0126
+  apply BellmanLabeledRun.cons (e := edge0131)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0131
+  · exact SmokeEdgeLabel.e0131
+  apply BellmanLabeledRun.cons (e := edge0140)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0140
+  · exact SmokeEdgeLabel.e0140
+  apply BellmanLabeledRun.cons (e := edge0152)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0152
+  · exact SmokeEdgeLabel.e0152
+  apply BellmanLabeledRun.cons (e := edge0166)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0166
+  · exact SmokeEdgeLabel.e0166
+  apply BellmanLabeledRun.cons (e := edge0182)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0182
+  · exact SmokeEdgeLabel.e0182
+  apply BellmanLabeledRun.cons (e := edge0200)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0200
+  · exact SmokeEdgeLabel.e0200
+  apply BellmanLabeledRun.cons (e := edge0223)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0223
+  · exact SmokeEdgeLabel.e0223
+  apply BellmanLabeledRun.cons (e := edge0027)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0027
+  · exact SmokeEdgeLabel.e0027
+  apply BellmanLabeledRun.cons (e := edge0044)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0044
+  · exact SmokeEdgeLabel.e0044
+  apply BellmanLabeledRun.cons (e := edge0079)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0079
+  · exact SmokeEdgeLabel.e0079
+  apply BellmanLabeledRun.cons (e := edge0122)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0122
+  · exact SmokeEdgeLabel.e0122
+  exact BellmanLabeledRun.nil State.s0140
+
+private theorem cls0014Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0014 <= (176 : Int) + cls0014Gain := by
+  unfold cls0014Gain
+  change (-420 : Int) <= -420
+  decide
+
+private def cls0015Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0015Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0131.gain + (edge0140.gain + (edge0152.gain + (edge0166.gain + (edge0182.gain + (edge0200.gain + (edge0223.gain + (edge0028.gain + (edge0059.gain + (edge0094.gain + (edge0121.gain + (0))))))))))))))
+
+private theorem cls0015LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0015FinalState cls0015Labels cls0015Gain := by
+  unfold cls0015Labels cls0015Gain rootState cls0015FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0126)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0126
+  · exact SmokeEdgeLabel.e0126
+  apply BellmanLabeledRun.cons (e := edge0131)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0131
+  · exact SmokeEdgeLabel.e0131
+  apply BellmanLabeledRun.cons (e := edge0140)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0140
+  · exact SmokeEdgeLabel.e0140
+  apply BellmanLabeledRun.cons (e := edge0152)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0152
+  · exact SmokeEdgeLabel.e0152
+  apply BellmanLabeledRun.cons (e := edge0166)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0166
+  · exact SmokeEdgeLabel.e0166
+  apply BellmanLabeledRun.cons (e := edge0182)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0182
+  · exact SmokeEdgeLabel.e0182
+  apply BellmanLabeledRun.cons (e := edge0200)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0200
+  · exact SmokeEdgeLabel.e0200
+  apply BellmanLabeledRun.cons (e := edge0223)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0223
+  · exact SmokeEdgeLabel.e0223
+  apply BellmanLabeledRun.cons (e := edge0028)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0028
+  · exact SmokeEdgeLabel.e0028
+  apply BellmanLabeledRun.cons (e := edge0059)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0059
+  · exact SmokeEdgeLabel.e0059
+  apply BellmanLabeledRun.cons (e := edge0094)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0094
+  · exact SmokeEdgeLabel.e0094
+  apply BellmanLabeledRun.cons (e := edge0121)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0121
+  · exact SmokeEdgeLabel.e0121
+  exact BellmanLabeledRun.nil State.s0139
+
+private theorem cls0015Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0015 <= (176 : Int) + cls0015Gain := by
+  unfold cls0015Gain
+  change (-200 : Int) <= -200
+  decide
+
+private def cls0016Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0007
+  , SmokeLabel.l0005
+  , SmokeLabel.l0006
+  , SmokeLabel.l0001
+  , SmokeLabel.l0004
+  , SmokeLabel.l0011
+  , SmokeLabel.l0002
+  , SmokeLabel.l0000
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0016Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0226.gain + (edge0010.gain + (edge0049.gain + (edge0084.gain + (edge0118.gain + (0))))))))))))))
+
+private theorem cls0016LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0016FinalState cls0016Labels cls0016Gain := by
+  unfold cls0016Labels cls0016Gain rootState cls0016FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0126)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0126
+  · exact SmokeEdgeLabel.e0126
+  apply BellmanLabeledRun.cons (e := edge0132)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0132
+  · exact SmokeEdgeLabel.e0132
+  apply BellmanLabeledRun.cons (e := edge0142)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0142
+  · exact SmokeEdgeLabel.e0142
+  apply BellmanLabeledRun.cons (e := edge0153)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0153
+  · exact SmokeEdgeLabel.e0153
+  apply BellmanLabeledRun.cons (e := edge0167)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0167
+  · exact SmokeEdgeLabel.e0167
+  apply BellmanLabeledRun.cons (e := edge0184)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0184
+  · exact SmokeEdgeLabel.e0184
+  apply BellmanLabeledRun.cons (e := edge0202)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0202
+  · exact SmokeEdgeLabel.e0202
+  apply BellmanLabeledRun.cons (e := edge0226)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0226
+  · exact SmokeEdgeLabel.e0226
+  apply BellmanLabeledRun.cons (e := edge0010)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0010
+  · exact SmokeEdgeLabel.e0010
+  apply BellmanLabeledRun.cons (e := edge0049)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0049
+  · exact SmokeEdgeLabel.e0049
+  apply BellmanLabeledRun.cons (e := edge0084)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0084
+  · exact SmokeEdgeLabel.e0084
+  apply BellmanLabeledRun.cons (e := edge0118)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0118
+  · exact SmokeEdgeLabel.e0118
+  exact BellmanLabeledRun.nil State.s0136
+
+private theorem cls0016Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0016 <= (176 : Int) + cls0016Gain := by
+  unfold cls0016Gain
+  change (-420 : Int) <= -420
+  decide
+
+private def cls0017Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0007
+  , SmokeLabel.l0005
+  , SmokeLabel.l0006
+  , SmokeLabel.l0001
+  , SmokeLabel.l0004
+  , SmokeLabel.l0000
+  , SmokeLabel.l0002
+  , SmokeLabel.l0011
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0017Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0062.gain + (edge0085.gain + (edge0119.gain + (0))))))))))))))
+
+private theorem cls0017LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0017FinalState cls0017Labels cls0017Gain := by
+  unfold cls0017Labels cls0017Gain rootState cls0017FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0126)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0126
+  · exact SmokeEdgeLabel.e0126
+  apply BellmanLabeledRun.cons (e := edge0132)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0132
+  · exact SmokeEdgeLabel.e0132
+  apply BellmanLabeledRun.cons (e := edge0142)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0142
+  · exact SmokeEdgeLabel.e0142
+  apply BellmanLabeledRun.cons (e := edge0153)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0153
+  · exact SmokeEdgeLabel.e0153
+  apply BellmanLabeledRun.cons (e := edge0167)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0167
+  · exact SmokeEdgeLabel.e0167
+  apply BellmanLabeledRun.cons (e := edge0184)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0184
+  · exact SmokeEdgeLabel.e0184
+  apply BellmanLabeledRun.cons (e := edge0202)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0202
+  · exact SmokeEdgeLabel.e0202
+  apply BellmanLabeledRun.cons (e := edge0227)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0227
+  · exact SmokeEdgeLabel.e0227
+  apply BellmanLabeledRun.cons (e := edge0029)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0029
+  · exact SmokeEdgeLabel.e0029
+  apply BellmanLabeledRun.cons (e := edge0062)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0062
+  · exact SmokeEdgeLabel.e0062
+  apply BellmanLabeledRun.cons (e := edge0085)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0085
+  · exact SmokeEdgeLabel.e0085
+  apply BellmanLabeledRun.cons (e := edge0119)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0119
+  · exact SmokeEdgeLabel.e0119
+  exact BellmanLabeledRun.nil State.s0137
+
+private theorem cls0017Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0017 <= (176 : Int) + cls0017Gain := by
+  unfold cls0017Gain
+  change (-200 : Int) <= -200
+  decide
+
+private def cls0018Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0007
+  , SmokeLabel.l0005
+  , SmokeLabel.l0006
+  , SmokeLabel.l0001
+  , SmokeLabel.l0004
+  , SmokeLabel.l0000
+  , SmokeLabel.l0002
+  , SmokeLabel.l0013
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0018Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0063.gain + (edge0093.gain + (edge0119.gain + (0))))))))))))))
+
+private theorem cls0018LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0018FinalState cls0018Labels cls0018Gain := by
+  unfold cls0018Labels cls0018Gain rootState cls0018FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0126)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0126
+  · exact SmokeEdgeLabel.e0126
+  apply BellmanLabeledRun.cons (e := edge0132)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0132
+  · exact SmokeEdgeLabel.e0132
+  apply BellmanLabeledRun.cons (e := edge0142)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0142
+  · exact SmokeEdgeLabel.e0142
+  apply BellmanLabeledRun.cons (e := edge0153)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0153
+  · exact SmokeEdgeLabel.e0153
+  apply BellmanLabeledRun.cons (e := edge0167)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0167
+  · exact SmokeEdgeLabel.e0167
+  apply BellmanLabeledRun.cons (e := edge0184)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0184
+  · exact SmokeEdgeLabel.e0184
+  apply BellmanLabeledRun.cons (e := edge0202)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0202
+  · exact SmokeEdgeLabel.e0202
+  apply BellmanLabeledRun.cons (e := edge0227)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0227
+  · exact SmokeEdgeLabel.e0227
+  apply BellmanLabeledRun.cons (e := edge0029)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0029
+  · exact SmokeEdgeLabel.e0029
+  apply BellmanLabeledRun.cons (e := edge0063)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0063
+  · exact SmokeEdgeLabel.e0063
+  apply BellmanLabeledRun.cons (e := edge0093)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0093
+  · exact SmokeEdgeLabel.e0093
+  apply BellmanLabeledRun.cons (e := edge0119)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0119
+  · exact SmokeEdgeLabel.e0119
+  exact BellmanLabeledRun.nil State.s0137
+
+private theorem cls0018Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0018 <= (176 : Int) + cls0018Gain := by
+  unfold cls0018Gain
+  change (-200 : Int) <= -200
+  decide
+
+private def cls0019Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0019Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0133.gain + (edge0141.gain + (edge0151.gain + (edge0165.gain + (edge0181.gain + (edge0199.gain + (edge0222.gain + (edge0026.gain + (edge0037.gain + (edge0070.gain + (edge0108.gain + (0))))))))))))))
+
+private theorem cls0019LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0019FinalState cls0019Labels cls0019Gain := by
+  unfold cls0019Labels cls0019Gain rootState cls0019FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0133)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0133
+  · exact SmokeEdgeLabel.e0133
+  apply BellmanLabeledRun.cons (e := edge0141)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0141
+  · exact SmokeEdgeLabel.e0141
+  apply BellmanLabeledRun.cons (e := edge0151)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0151
+  · exact SmokeEdgeLabel.e0151
+  apply BellmanLabeledRun.cons (e := edge0165)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0165
+  · exact SmokeEdgeLabel.e0165
+  apply BellmanLabeledRun.cons (e := edge0181)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0181
+  · exact SmokeEdgeLabel.e0181
+  apply BellmanLabeledRun.cons (e := edge0199)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0199
+  · exact SmokeEdgeLabel.e0199
+  apply BellmanLabeledRun.cons (e := edge0222)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0222
+  · exact SmokeEdgeLabel.e0222
+  apply BellmanLabeledRun.cons (e := edge0026)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0026
+  · exact SmokeEdgeLabel.e0026
+  apply BellmanLabeledRun.cons (e := edge0037)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0037
+  · exact SmokeEdgeLabel.e0037
+  apply BellmanLabeledRun.cons (e := edge0070)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0070
+  · exact SmokeEdgeLabel.e0070
+  apply BellmanLabeledRun.cons (e := edge0108)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0108
+  · exact SmokeEdgeLabel.e0108
+  exact BellmanLabeledRun.nil State.s0126
+
+private theorem cls0019Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0019 <= (176 : Int) + cls0019Gain := by
+  unfold cls0019Gain
+  change (-172 : Int) <= -172
+  decide
+
+private def cls0020Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0020Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0154.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0024.gain + (edge0036.gain + (edge0069.gain + (edge0107.gain + (0))))))))))))))
+
+private theorem cls0020LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0020FinalState cls0020Labels cls0020Gain := by
+  unfold cls0020Labels cls0020Gain rootState cls0020FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0143)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0143
+  · exact SmokeEdgeLabel.e0143
+  apply BellmanLabeledRun.cons (e := edge0154)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0154
+  · exact SmokeEdgeLabel.e0154
+  apply BellmanLabeledRun.cons (e := edge0164)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0164
+  · exact SmokeEdgeLabel.e0164
+  apply BellmanLabeledRun.cons (e := edge0180)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0180
+  · exact SmokeEdgeLabel.e0180
+  apply BellmanLabeledRun.cons (e := edge0198)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0198
+  · exact SmokeEdgeLabel.e0198
+  apply BellmanLabeledRun.cons (e := edge0221)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0221
+  · exact SmokeEdgeLabel.e0221
+  apply BellmanLabeledRun.cons (e := edge0024)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0024
+  · exact SmokeEdgeLabel.e0024
+  apply BellmanLabeledRun.cons (e := edge0036)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0036
+  · exact SmokeEdgeLabel.e0036
+  apply BellmanLabeledRun.cons (e := edge0069)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0069
+  · exact SmokeEdgeLabel.e0069
+  apply BellmanLabeledRun.cons (e := edge0107)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0107
+  · exact SmokeEdgeLabel.e0107
+  exact BellmanLabeledRun.nil State.s0125
+
+private theorem cls0020Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0020 <= (176 : Int) + cls0020Gain := by
+  unfold cls0020Gain
+  change (-436 : Int) <= -436
+  decide
+
+private def cls0021Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0021Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0154.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0025.gain + (edge0058.gain + (edge0092.gain + (edge0106.gain + (0))))))))))))))
+
+private theorem cls0021LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0021FinalState cls0021Labels cls0021Gain := by
+  unfold cls0021Labels cls0021Gain rootState cls0021FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0143)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0143
+  · exact SmokeEdgeLabel.e0143
+  apply BellmanLabeledRun.cons (e := edge0154)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0154
+  · exact SmokeEdgeLabel.e0154
+  apply BellmanLabeledRun.cons (e := edge0164)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0164
+  · exact SmokeEdgeLabel.e0164
+  apply BellmanLabeledRun.cons (e := edge0180)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0180
+  · exact SmokeEdgeLabel.e0180
+  apply BellmanLabeledRun.cons (e := edge0198)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0198
+  · exact SmokeEdgeLabel.e0198
+  apply BellmanLabeledRun.cons (e := edge0221)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0221
+  · exact SmokeEdgeLabel.e0221
+  apply BellmanLabeledRun.cons (e := edge0025)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0025
+  · exact SmokeEdgeLabel.e0025
+  apply BellmanLabeledRun.cons (e := edge0058)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0058
+  · exact SmokeEdgeLabel.e0058
+  apply BellmanLabeledRun.cons (e := edge0092)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0092
+  · exact SmokeEdgeLabel.e0092
+  apply BellmanLabeledRun.cons (e := edge0106)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0106
+  · exact SmokeEdgeLabel.e0106
+  exact BellmanLabeledRun.nil State.s0124
+
+private theorem cls0021Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0021 <= (176 : Int) + cls0021Gain := by
+  unfold cls0021Gain
+  change (-216 : Int) <= -216
+  decide
+
+private def cls0022Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0022Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0168.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0022.gain + (edge0035.gain + (edge0068.gain + (edge0105.gain + (0))))))))))))))
+
+private theorem cls0022LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0022FinalState cls0022Labels cls0022Gain := by
+  unfold cls0022Labels cls0022Gain rootState cls0022FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0155)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0155
+  · exact SmokeEdgeLabel.e0155
+  apply BellmanLabeledRun.cons (e := edge0168)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0168
+  · exact SmokeEdgeLabel.e0168
+  apply BellmanLabeledRun.cons (e := edge0179)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0179
+  · exact SmokeEdgeLabel.e0179
+  apply BellmanLabeledRun.cons (e := edge0197)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0197
+  · exact SmokeEdgeLabel.e0197
+  apply BellmanLabeledRun.cons (e := edge0220)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0220
+  · exact SmokeEdgeLabel.e0220
+  apply BellmanLabeledRun.cons (e := edge0022)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0022
+  · exact SmokeEdgeLabel.e0022
+  apply BellmanLabeledRun.cons (e := edge0035)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0035
+  · exact SmokeEdgeLabel.e0035
+  apply BellmanLabeledRun.cons (e := edge0068)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0068
+  · exact SmokeEdgeLabel.e0068
+  apply BellmanLabeledRun.cons (e := edge0105)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0105
+  · exact SmokeEdgeLabel.e0105
+  exact BellmanLabeledRun.nil State.s0123
+
+private theorem cls0022Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0022 <= (176 : Int) + cls0022Gain := by
+  unfold cls0022Gain
+  change (-508 : Int) <= -508
+  decide
+
+private def cls0023Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0023Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0168.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0023.gain + (edge0057.gain + (edge0091.gain + (edge0104.gain + (0))))))))))))))
+
+private theorem cls0023LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0023FinalState cls0023Labels cls0023Gain := by
+  unfold cls0023Labels cls0023Gain rootState cls0023FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0155)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0155
+  · exact SmokeEdgeLabel.e0155
+  apply BellmanLabeledRun.cons (e := edge0168)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0168
+  · exact SmokeEdgeLabel.e0168
+  apply BellmanLabeledRun.cons (e := edge0179)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0179
+  · exact SmokeEdgeLabel.e0179
+  apply BellmanLabeledRun.cons (e := edge0197)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0197
+  · exact SmokeEdgeLabel.e0197
+  apply BellmanLabeledRun.cons (e := edge0220)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0220
+  · exact SmokeEdgeLabel.e0220
+  apply BellmanLabeledRun.cons (e := edge0023)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0023
+  · exact SmokeEdgeLabel.e0023
+  apply BellmanLabeledRun.cons (e := edge0057)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0057
+  · exact SmokeEdgeLabel.e0057
+  apply BellmanLabeledRun.cons (e := edge0091)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0091
+  · exact SmokeEdgeLabel.e0091
+  apply BellmanLabeledRun.cons (e := edge0104)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0104
+  · exact SmokeEdgeLabel.e0104
+  exact BellmanLabeledRun.nil State.s0122
+
+private theorem cls0023Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0023 <= (176 : Int) + cls0023Gain := by
+  unfold cls0023Gain
+  change (-288 : Int) <= -288
+  decide
+
+private def cls0024Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0024Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0169.gain + (edge0183.gain + (edge0196.gain + (edge0219.gain + (edge0020.gain + (edge0034.gain + (edge0067.gain + (edge0103.gain + (0))))))))))))))
+
+private theorem cls0024LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0024FinalState cls0024Labels cls0024Gain := by
+  unfold cls0024Labels cls0024Gain rootState cls0024FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0169)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0169
+  · exact SmokeEdgeLabel.e0169
+  apply BellmanLabeledRun.cons (e := edge0183)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0183
+  · exact SmokeEdgeLabel.e0183
+  apply BellmanLabeledRun.cons (e := edge0196)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0196
+  · exact SmokeEdgeLabel.e0196
+  apply BellmanLabeledRun.cons (e := edge0219)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0219
+  · exact SmokeEdgeLabel.e0219
+  apply BellmanLabeledRun.cons (e := edge0020)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0020
+  · exact SmokeEdgeLabel.e0020
+  apply BellmanLabeledRun.cons (e := edge0034)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0034
+  · exact SmokeEdgeLabel.e0034
+  apply BellmanLabeledRun.cons (e := edge0067)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0067
+  · exact SmokeEdgeLabel.e0067
+  apply BellmanLabeledRun.cons (e := edge0103)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0103
+  · exact SmokeEdgeLabel.e0103
+  exact BellmanLabeledRun.nil State.s0121
+
+private theorem cls0024Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0024 <= (176 : Int) + cls0024Gain := by
+  unfold cls0024Gain
+  change (-220 : Int) <= -220
+  decide
+
+private def cls0025Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0025Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0169.gain + (edge0183.gain + (edge0196.gain + (edge0219.gain + (edge0021.gain + (edge0056.gain + (edge0090.gain + (edge0102.gain + (0))))))))))))))
+
+private theorem cls0025LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0025FinalState cls0025Labels cls0025Gain := by
+  unfold cls0025Labels cls0025Gain rootState cls0025FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0169)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0169
+  · exact SmokeEdgeLabel.e0169
+  apply BellmanLabeledRun.cons (e := edge0183)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0183
+  · exact SmokeEdgeLabel.e0183
+  apply BellmanLabeledRun.cons (e := edge0196)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0196
+  · exact SmokeEdgeLabel.e0196
+  apply BellmanLabeledRun.cons (e := edge0219)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0219
+  · exact SmokeEdgeLabel.e0219
+  apply BellmanLabeledRun.cons (e := edge0021)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0021
+  · exact SmokeEdgeLabel.e0021
+  apply BellmanLabeledRun.cons (e := edge0056)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0056
+  · exact SmokeEdgeLabel.e0056
+  apply BellmanLabeledRun.cons (e := edge0090)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0090
+  · exact SmokeEdgeLabel.e0090
+  apply BellmanLabeledRun.cons (e := edge0102)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0102
+  · exact SmokeEdgeLabel.e0102
+  exact BellmanLabeledRun.nil State.s0120
+
+private theorem cls0025Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0025 <= (176 : Int) + cls0025Gain := by
+  unfold cls0025Gain
+  change (0 : Int) <= 0
+  decide
+
+private def cls0026Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0026Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0185.gain + (edge0201.gain + (edge0218.gain + (edge0018.gain + (edge0033.gain + (edge0066.gain + (edge0101.gain + (0))))))))))))))
+
+private theorem cls0026LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0026FinalState cls0026Labels cls0026Gain := by
+  unfold cls0026Labels cls0026Gain rootState cls0026FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0170)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0170
+  · exact SmokeEdgeLabel.e0170
+  apply BellmanLabeledRun.cons (e := edge0185)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0185
+  · exact SmokeEdgeLabel.e0185
+  apply BellmanLabeledRun.cons (e := edge0201)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0201
+  · exact SmokeEdgeLabel.e0201
+  apply BellmanLabeledRun.cons (e := edge0218)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0218
+  · exact SmokeEdgeLabel.e0218
+  apply BellmanLabeledRun.cons (e := edge0018)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0018
+  · exact SmokeEdgeLabel.e0018
+  apply BellmanLabeledRun.cons (e := edge0033)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0033
+  · exact SmokeEdgeLabel.e0033
+  apply BellmanLabeledRun.cons (e := edge0066)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0066
+  · exact SmokeEdgeLabel.e0066
+  apply BellmanLabeledRun.cons (e := edge0101)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0101
+  · exact SmokeEdgeLabel.e0101
+  exact BellmanLabeledRun.nil State.s0119
+
+private theorem cls0026Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0026 <= (176 : Int) + cls0026Gain := by
+  unfold cls0026Gain
+  change (-508 : Int) <= -508
+  decide
+
+private def cls0027Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0027Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0185.gain + (edge0201.gain + (edge0218.gain + (edge0019.gain + (edge0055.gain + (edge0089.gain + (edge0100.gain + (0))))))))))))))
+
+private theorem cls0027LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0027FinalState cls0027Labels cls0027Gain := by
+  unfold cls0027Labels cls0027Gain rootState cls0027FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0170)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0170
+  · exact SmokeEdgeLabel.e0170
+  apply BellmanLabeledRun.cons (e := edge0185)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0185
+  · exact SmokeEdgeLabel.e0185
+  apply BellmanLabeledRun.cons (e := edge0201)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0201
+  · exact SmokeEdgeLabel.e0201
+  apply BellmanLabeledRun.cons (e := edge0218)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0218
+  · exact SmokeEdgeLabel.e0218
+  apply BellmanLabeledRun.cons (e := edge0019)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0019
+  · exact SmokeEdgeLabel.e0019
+  apply BellmanLabeledRun.cons (e := edge0055)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0055
+  · exact SmokeEdgeLabel.e0055
+  apply BellmanLabeledRun.cons (e := edge0089)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0089
+  · exact SmokeEdgeLabel.e0089
+  apply BellmanLabeledRun.cons (e := edge0100)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0100
+  · exact SmokeEdgeLabel.e0100
+  exact BellmanLabeledRun.nil State.s0118
+
+private theorem cls0027Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0027 <= (176 : Int) + cls0027Gain := by
+  unfold cls0027Gain
+  change (-288 : Int) <= -288
+  decide
+
+private def cls0028Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0028Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0203.gain + (edge0214.gain + (edge0007.gain + (edge0032.gain + (edge0064.gain + (edge0096.gain + (0))))))))))))))
+
+private theorem cls0028LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0028FinalState cls0028Labels cls0028Gain := by
+  unfold cls0028Labels cls0028Gain rootState cls0028FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0170)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0170
+  · exact SmokeEdgeLabel.e0170
+  apply BellmanLabeledRun.cons (e := edge0186)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0186
+  · exact SmokeEdgeLabel.e0186
+  apply BellmanLabeledRun.cons (e := edge0203)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0203
+  · exact SmokeEdgeLabel.e0203
+  apply BellmanLabeledRun.cons (e := edge0214)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0214
+  · exact SmokeEdgeLabel.e0214
+  apply BellmanLabeledRun.cons (e := edge0007)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0007
+  · exact SmokeEdgeLabel.e0007
+  apply BellmanLabeledRun.cons (e := edge0032)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0032
+  · exact SmokeEdgeLabel.e0032
+  apply BellmanLabeledRun.cons (e := edge0064)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0064
+  · exact SmokeEdgeLabel.e0064
+  apply BellmanLabeledRun.cons (e := edge0096)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0096
+  · exact SmokeEdgeLabel.e0096
+  exact BellmanLabeledRun.nil State.s0114
+
+private theorem cls0028Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0028 <= (176 : Int) + cls0028Gain := by
+  unfold cls0028Gain
+  change (-436 : Int) <= -436
+  decide
+
+private def cls0029Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0029Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0203.gain + (edge0215.gain + (edge0012.gain + (edge0046.gain + (edge0065.gain + (edge0099.gain + (0))))))))))))))
+
+private theorem cls0029LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0029FinalState cls0029Labels cls0029Gain := by
+  unfold cls0029Labels cls0029Gain rootState cls0029FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0170)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0170
+  · exact SmokeEdgeLabel.e0170
+  apply BellmanLabeledRun.cons (e := edge0186)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0186
+  · exact SmokeEdgeLabel.e0186
+  apply BellmanLabeledRun.cons (e := edge0203)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0203
+  · exact SmokeEdgeLabel.e0203
+  apply BellmanLabeledRun.cons (e := edge0215)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0215
+  · exact SmokeEdgeLabel.e0215
+  apply BellmanLabeledRun.cons (e := edge0012)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0012
+  · exact SmokeEdgeLabel.e0012
+  apply BellmanLabeledRun.cons (e := edge0046)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0046
+  · exact SmokeEdgeLabel.e0046
+  apply BellmanLabeledRun.cons (e := edge0065)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0065
+  · exact SmokeEdgeLabel.e0065
+  apply BellmanLabeledRun.cons (e := edge0099)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0099
+  · exact SmokeEdgeLabel.e0099
+  exact BellmanLabeledRun.nil State.s0117
+
+private theorem cls0029Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0029 <= (176 : Int) + cls0029Gain := by
+  unfold cls0029Gain
+  change (-172 : Int) <= -172
+  decide
+
+private def cls0030Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0030Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0203.gain + (edge0215.gain + (edge0013.gain + (edge0052.gain + (edge0082.gain + (edge0098.gain + (0))))))))))))))
+
+private theorem cls0030LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0030FinalState cls0030Labels cls0030Gain := by
+  unfold cls0030Labels cls0030Gain rootState cls0030FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0170)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0170
+  · exact SmokeEdgeLabel.e0170
+  apply BellmanLabeledRun.cons (e := edge0186)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0186
+  · exact SmokeEdgeLabel.e0186
+  apply BellmanLabeledRun.cons (e := edge0203)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0203
+  · exact SmokeEdgeLabel.e0203
+  apply BellmanLabeledRun.cons (e := edge0215)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0215
+  · exact SmokeEdgeLabel.e0215
+  apply BellmanLabeledRun.cons (e := edge0013)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0013
+  · exact SmokeEdgeLabel.e0013
+  apply BellmanLabeledRun.cons (e := edge0052)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0052
+  · exact SmokeEdgeLabel.e0052
+  apply BellmanLabeledRun.cons (e := edge0082)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0082
+  · exact SmokeEdgeLabel.e0082
+  apply BellmanLabeledRun.cons (e := edge0098)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0098
+  · exact SmokeEdgeLabel.e0098
+  exact BellmanLabeledRun.nil State.s0116
+
+private theorem cls0030Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0030 <= (176 : Int) + cls0030Gain := by
+  unfold cls0030Gain
+  change (-420 : Int) <= -420
+  decide
+
+private def cls0031Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0013
+  , SmokeLabel.l0011
+  , SmokeLabel.l0012
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0031Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0204.gain + (edge0224.gain + (edge0007.gain + (edge0032.gain + (edge0064.gain + (edge0096.gain + (0))))))))))))))
+
+private theorem cls0031LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0031FinalState cls0031Labels cls0031Gain := by
+  unfold cls0031Labels cls0031Gain rootState cls0031FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0170)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0170
+  · exact SmokeEdgeLabel.e0170
+  apply BellmanLabeledRun.cons (e := edge0186)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0186
+  · exact SmokeEdgeLabel.e0186
+  apply BellmanLabeledRun.cons (e := edge0204)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0204
+  · exact SmokeEdgeLabel.e0204
+  apply BellmanLabeledRun.cons (e := edge0224)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0224
+  · exact SmokeEdgeLabel.e0224
+  apply BellmanLabeledRun.cons (e := edge0007)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0007
+  · exact SmokeEdgeLabel.e0007
+  apply BellmanLabeledRun.cons (e := edge0032)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0032
+  · exact SmokeEdgeLabel.e0032
+  apply BellmanLabeledRun.cons (e := edge0064)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0064
+  · exact SmokeEdgeLabel.e0064
+  apply BellmanLabeledRun.cons (e := edge0096)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0096
+  · exact SmokeEdgeLabel.e0096
+  exact BellmanLabeledRun.nil State.s0114
+
+private theorem cls0031Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0031 <= (176 : Int) + cls0031Gain := by
+  unfold cls0031Gain
+  change (-436 : Int) <= -436
+  decide
+
+private def cls0032Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0011
+  , SmokeLabel.l0003
+  , SmokeLabel.l0001
+  , SmokeLabel.l0009]
+
+private def cls0032Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0204.gain + (edge0225.gain + (edge0016.gain + (edge0032.gain + (edge0064.gain + (edge0096.gain + (0))))))))))))))
+
+private theorem cls0032LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0032FinalState cls0032Labels cls0032Gain := by
+  unfold cls0032Labels cls0032Gain rootState cls0032FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0170)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0170
+  · exact SmokeEdgeLabel.e0170
+  apply BellmanLabeledRun.cons (e := edge0186)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0186
+  · exact SmokeEdgeLabel.e0186
+  apply BellmanLabeledRun.cons (e := edge0204)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0204
+  · exact SmokeEdgeLabel.e0204
+  apply BellmanLabeledRun.cons (e := edge0225)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0225
+  · exact SmokeEdgeLabel.e0225
+  apply BellmanLabeledRun.cons (e := edge0016)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0016
+  · exact SmokeEdgeLabel.e0016
+  apply BellmanLabeledRun.cons (e := edge0032)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0032
+  · exact SmokeEdgeLabel.e0032
+  apply BellmanLabeledRun.cons (e := edge0064)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0064
+  · exact SmokeEdgeLabel.e0064
+  apply BellmanLabeledRun.cons (e := edge0096)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0096
+  · exact SmokeEdgeLabel.e0096
+  exact BellmanLabeledRun.nil State.s0114
+
+private theorem cls0032Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0032 <= (176 : Int) + cls0032Gain := by
+  unfold cls0032Gain
+  change (-436 : Int) <= -436
+  decide
+
+private def cls0033Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0013
+  , SmokeLabel.l0012
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0033Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0204.gain + (edge0225.gain + (edge0017.gain + (edge0054.gain + (edge0087.gain + (edge0095.gain + (0))))))))))))))
+
+private theorem cls0033LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0033FinalState cls0033Labels cls0033Gain := by
+  unfold cls0033Labels cls0033Gain rootState cls0033FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0170)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0170
+  · exact SmokeEdgeLabel.e0170
+  apply BellmanLabeledRun.cons (e := edge0186)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0186
+  · exact SmokeEdgeLabel.e0186
+  apply BellmanLabeledRun.cons (e := edge0204)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0204
+  · exact SmokeEdgeLabel.e0204
+  apply BellmanLabeledRun.cons (e := edge0225)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0225
+  · exact SmokeEdgeLabel.e0225
+  apply BellmanLabeledRun.cons (e := edge0017)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0017
+  · exact SmokeEdgeLabel.e0017
+  apply BellmanLabeledRun.cons (e := edge0054)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0054
+  · exact SmokeEdgeLabel.e0054
+  apply BellmanLabeledRun.cons (e := edge0087)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0087
+  · exact SmokeEdgeLabel.e0087
+  apply BellmanLabeledRun.cons (e := edge0095)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0095
+  · exact SmokeEdgeLabel.e0095
+  exact BellmanLabeledRun.nil State.s0113
+
+private theorem cls0033Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0033 <= (176 : Int) + cls0033Gain := by
+  unfold cls0033Gain
+  change (-216 : Int) <= -216
+  decide
+
+private def cls0034Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0011
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0034Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0205.gain + (edge0228.gain + (edge0030.gain + (edge0051.gain + (edge0081.gain + (edge0097.gain + (0))))))))))))))
+
+private theorem cls0034LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0034FinalState cls0034Labels cls0034Gain := by
+  unfold cls0034Labels cls0034Gain rootState cls0034FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0170)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0170
+  · exact SmokeEdgeLabel.e0170
+  apply BellmanLabeledRun.cons (e := edge0186)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0186
+  · exact SmokeEdgeLabel.e0186
+  apply BellmanLabeledRun.cons (e := edge0205)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0205
+  · exact SmokeEdgeLabel.e0205
+  apply BellmanLabeledRun.cons (e := edge0228)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0228
+  · exact SmokeEdgeLabel.e0228
+  apply BellmanLabeledRun.cons (e := edge0030)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0030
+  · exact SmokeEdgeLabel.e0030
+  apply BellmanLabeledRun.cons (e := edge0051)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0051
+  · exact SmokeEdgeLabel.e0051
+  apply BellmanLabeledRun.cons (e := edge0081)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0081
+  · exact SmokeEdgeLabel.e0081
+  apply BellmanLabeledRun.cons (e := edge0097)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0097
+  · exact SmokeEdgeLabel.e0097
+  exact BellmanLabeledRun.nil State.s0115
+
+private theorem cls0034Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0034 <= (176 : Int) + cls0034Gain := by
+  unfold cls0034Gain
+  change (-200 : Int) <= -200
+  decide
+
+private def cls0035Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0012
+  , SmokeLabel.l0011
+  , SmokeLabel.l0013
+  , SmokeLabel.l0009]
+
+private def cls0035Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0205.gain + (edge0228.gain + (edge0031.gain + (edge0060.gain + (edge0081.gain + (edge0097.gain + (0))))))))))))))
+
+private theorem cls0035LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0035FinalState cls0035Labels cls0035Gain := by
+  unfold cls0035Labels cls0035Gain rootState cls0035FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0170)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0170
+  · exact SmokeEdgeLabel.e0170
+  apply BellmanLabeledRun.cons (e := edge0186)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0186
+  · exact SmokeEdgeLabel.e0186
+  apply BellmanLabeledRun.cons (e := edge0205)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0205
+  · exact SmokeEdgeLabel.e0205
+  apply BellmanLabeledRun.cons (e := edge0228)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0228
+  · exact SmokeEdgeLabel.e0228
+  apply BellmanLabeledRun.cons (e := edge0031)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0031
+  · exact SmokeEdgeLabel.e0031
+  apply BellmanLabeledRun.cons (e := edge0060)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0060
+  · exact SmokeEdgeLabel.e0060
+  apply BellmanLabeledRun.cons (e := edge0081)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0081
+  · exact SmokeEdgeLabel.e0081
+  apply BellmanLabeledRun.cons (e := edge0097)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0097
+  · exact SmokeEdgeLabel.e0097
+  exact BellmanLabeledRun.nil State.s0115
+
+private theorem cls0035Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0035 <= (176 : Int) + cls0035Gain := by
+  unfold cls0035Gain
+  change (-200 : Int) <= -200
+  decide
+
+private def cls0036Labels : List SmokeLabel :=
+  [SmokeLabel.l0008
+  , SmokeLabel.l0010
+  , SmokeLabel.l0002
+  , SmokeLabel.l0006
+  , SmokeLabel.l0004
+  , SmokeLabel.l0007
+  , SmokeLabel.l0000
+  , SmokeLabel.l0005
+  , SmokeLabel.l0001
+  , SmokeLabel.l0003
+  , SmokeLabel.l0012
+  , SmokeLabel.l0013
+  , SmokeLabel.l0011
+  , SmokeLabel.l0009]
+
+private def cls0036Gain : Int :=
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0156.gain + (edge0170.gain + (edge0186.gain + (edge0205.gain + (edge0228.gain + (edge0031.gain + (edge0061.gain + (edge0088.gain + (edge0097.gain + (0))))))))))))))
+
+private theorem cls0036LabeledRun :
+    BellmanLabeledRun GraphEdge SmokeEdgeLabel
+      rootState cls0036FinalState cls0036Labels cls0036Gain := by
+  unfold cls0036Labels cls0036Gain rootState cls0036FinalState
+  apply BellmanLabeledRun.cons (e := edge0000)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0000
+  · exact SmokeEdgeLabel.e0000
+  apply BellmanLabeledRun.cons (e := edge0124)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0124
+  · exact SmokeEdgeLabel.e0124
+  apply BellmanLabeledRun.cons (e := edge0127)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0127
+  · exact SmokeEdgeLabel.e0127
+  apply BellmanLabeledRun.cons (e := edge0134)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0134
+  · exact SmokeEdgeLabel.e0134
+  apply BellmanLabeledRun.cons (e := edge0144)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0144
+  · exact SmokeEdgeLabel.e0144
+  apply BellmanLabeledRun.cons (e := edge0156)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0156
+  · exact SmokeEdgeLabel.e0156
+  apply BellmanLabeledRun.cons (e := edge0170)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0170
+  · exact SmokeEdgeLabel.e0170
+  apply BellmanLabeledRun.cons (e := edge0186)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0186
+  · exact SmokeEdgeLabel.e0186
+  apply BellmanLabeledRun.cons (e := edge0205)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0205
+  · exact SmokeEdgeLabel.e0205
+  apply BellmanLabeledRun.cons (e := edge0228)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0228
+  · exact SmokeEdgeLabel.e0228
+  apply BellmanLabeledRun.cons (e := edge0031)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0031
+  · exact SmokeEdgeLabel.e0031
+  apply BellmanLabeledRun.cons (e := edge0061)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0061
+  · exact SmokeEdgeLabel.e0061
+  apply BellmanLabeledRun.cons (e := edge0088)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0088
+  · exact SmokeEdgeLabel.e0088
+  apply BellmanLabeledRun.cons (e := edge0097)
+  · rfl
+  · rfl
+  · exact GraphEdge.e0097
+  · exact SmokeEdgeLabel.e0097
+  exact BellmanLabeledRun.nil State.s0115
+
+private theorem cls0036Margin_bound_gain :
+    smokeScaledMargin SmokeObj.cls0036 <= (176 : Int) + cls0036Gain := by
+  unfold cls0036Gain
+  change (-200 : Int) <= -200
+  decide
+
 private structure SmokeLabeledTrace where
   finish : State
   labels : List SmokeLabel
@@ -6685,6 +10422,176 @@ theorem graphSmoke_labeled_run_language_scaled_margin_nonpos :
     (fun _ he => GraphEdge.valid he)
     root_bound
     smokeLabeledRunLanguageBound
+
+private def smokeObjLabels : SmokeObj -> List SmokeLabel
+  | SmokeObj.cls0000 => cls0000Labels
+  | SmokeObj.cls0001 => cls0001Labels
+  | SmokeObj.cls0002 => cls0002Labels
+  | SmokeObj.cls0003 => cls0003Labels
+  | SmokeObj.cls0004 => cls0004Labels
+  | SmokeObj.cls0005 => cls0005Labels
+  | SmokeObj.cls0006 => cls0006Labels
+  | SmokeObj.cls0007 => cls0007Labels
+  | SmokeObj.cls0008 => cls0008Labels
+  | SmokeObj.cls0009 => cls0009Labels
+  | SmokeObj.cls0010 => cls0010Labels
+  | SmokeObj.cls0011 => cls0011Labels
+  | SmokeObj.cls0012 => cls0012Labels
+  | SmokeObj.cls0013 => cls0013Labels
+  | SmokeObj.cls0014 => cls0014Labels
+  | SmokeObj.cls0015 => cls0015Labels
+  | SmokeObj.cls0016 => cls0016Labels
+  | SmokeObj.cls0017 => cls0017Labels
+  | SmokeObj.cls0018 => cls0018Labels
+  | SmokeObj.cls0019 => cls0019Labels
+  | SmokeObj.cls0020 => cls0020Labels
+  | SmokeObj.cls0021 => cls0021Labels
+  | SmokeObj.cls0022 => cls0022Labels
+  | SmokeObj.cls0023 => cls0023Labels
+  | SmokeObj.cls0024 => cls0024Labels
+  | SmokeObj.cls0025 => cls0025Labels
+  | SmokeObj.cls0026 => cls0026Labels
+  | SmokeObj.cls0027 => cls0027Labels
+  | SmokeObj.cls0028 => cls0028Labels
+  | SmokeObj.cls0029 => cls0029Labels
+  | SmokeObj.cls0030 => cls0030Labels
+  | SmokeObj.cls0031 => cls0031Labels
+  | SmokeObj.cls0032 => cls0032Labels
+  | SmokeObj.cls0033 => cls0033Labels
+  | SmokeObj.cls0034 => cls0034Labels
+  | SmokeObj.cls0035 => cls0035Labels
+  | SmokeObj.cls0036 => cls0036Labels
+
+private theorem smokeObservedLabeledRunLanguageBound :
+    BellmanLabeledRunLanguageBound
+      graphPotential GraphEdge SmokeEdgeLabel rootState
+      (176 : Int) smokeScaledMargin smokeObjLabels smokeAccepts := by
+  intro obj _hobj
+  cases obj
+  · exact ⟨cls0000FinalState, cls0000Gain,
+      cls0000LabeledRun, cls0000Final_nonneg,
+      cls0000Margin_bound_gain⟩
+  · exact ⟨cls0001FinalState, cls0001Gain,
+      cls0001LabeledRun, cls0001Final_nonneg,
+      cls0001Margin_bound_gain⟩
+  · exact ⟨cls0002FinalState, cls0002Gain,
+      cls0002LabeledRun, cls0002Final_nonneg,
+      cls0002Margin_bound_gain⟩
+  · exact ⟨cls0003FinalState, cls0003Gain,
+      cls0003LabeledRun, cls0003Final_nonneg,
+      cls0003Margin_bound_gain⟩
+  · exact ⟨cls0004FinalState, cls0004Gain,
+      cls0004LabeledRun, cls0004Final_nonneg,
+      cls0004Margin_bound_gain⟩
+  · exact ⟨cls0005FinalState, cls0005Gain,
+      cls0005LabeledRun, cls0005Final_nonneg,
+      cls0005Margin_bound_gain⟩
+  · exact ⟨cls0006FinalState, cls0006Gain,
+      cls0006LabeledRun, cls0006Final_nonneg,
+      cls0006Margin_bound_gain⟩
+  · exact ⟨cls0007FinalState, cls0007Gain,
+      cls0007LabeledRun, cls0007Final_nonneg,
+      cls0007Margin_bound_gain⟩
+  · exact ⟨cls0008FinalState, cls0008Gain,
+      cls0008LabeledRun, cls0008Final_nonneg,
+      cls0008Margin_bound_gain⟩
+  · exact ⟨cls0009FinalState, cls0009Gain,
+      cls0009LabeledRun, cls0009Final_nonneg,
+      cls0009Margin_bound_gain⟩
+  · exact ⟨cls0010FinalState, cls0010Gain,
+      cls0010LabeledRun, cls0010Final_nonneg,
+      cls0010Margin_bound_gain⟩
+  · exact ⟨cls0011FinalState, cls0011Gain,
+      cls0011LabeledRun, cls0011Final_nonneg,
+      cls0011Margin_bound_gain⟩
+  · exact ⟨cls0012FinalState, cls0012Gain,
+      cls0012LabeledRun, cls0012Final_nonneg,
+      cls0012Margin_bound_gain⟩
+  · exact ⟨cls0013FinalState, cls0013Gain,
+      cls0013LabeledRun, cls0013Final_nonneg,
+      cls0013Margin_bound_gain⟩
+  · exact ⟨cls0014FinalState, cls0014Gain,
+      cls0014LabeledRun, cls0014Final_nonneg,
+      cls0014Margin_bound_gain⟩
+  · exact ⟨cls0015FinalState, cls0015Gain,
+      cls0015LabeledRun, cls0015Final_nonneg,
+      cls0015Margin_bound_gain⟩
+  · exact ⟨cls0016FinalState, cls0016Gain,
+      cls0016LabeledRun, cls0016Final_nonneg,
+      cls0016Margin_bound_gain⟩
+  · exact ⟨cls0017FinalState, cls0017Gain,
+      cls0017LabeledRun, cls0017Final_nonneg,
+      cls0017Margin_bound_gain⟩
+  · exact ⟨cls0018FinalState, cls0018Gain,
+      cls0018LabeledRun, cls0018Final_nonneg,
+      cls0018Margin_bound_gain⟩
+  · exact ⟨cls0019FinalState, cls0019Gain,
+      cls0019LabeledRun, cls0019Final_nonneg,
+      cls0019Margin_bound_gain⟩
+  · exact ⟨cls0020FinalState, cls0020Gain,
+      cls0020LabeledRun, cls0020Final_nonneg,
+      cls0020Margin_bound_gain⟩
+  · exact ⟨cls0021FinalState, cls0021Gain,
+      cls0021LabeledRun, cls0021Final_nonneg,
+      cls0021Margin_bound_gain⟩
+  · exact ⟨cls0022FinalState, cls0022Gain,
+      cls0022LabeledRun, cls0022Final_nonneg,
+      cls0022Margin_bound_gain⟩
+  · exact ⟨cls0023FinalState, cls0023Gain,
+      cls0023LabeledRun, cls0023Final_nonneg,
+      cls0023Margin_bound_gain⟩
+  · exact ⟨cls0024FinalState, cls0024Gain,
+      cls0024LabeledRun, cls0024Final_nonneg,
+      cls0024Margin_bound_gain⟩
+  · exact ⟨cls0025FinalState, cls0025Gain,
+      cls0025LabeledRun, cls0025Final_nonneg,
+      cls0025Margin_bound_gain⟩
+  · exact ⟨cls0026FinalState, cls0026Gain,
+      cls0026LabeledRun, cls0026Final_nonneg,
+      cls0026Margin_bound_gain⟩
+  · exact ⟨cls0027FinalState, cls0027Gain,
+      cls0027LabeledRun, cls0027Final_nonneg,
+      cls0027Margin_bound_gain⟩
+  · exact ⟨cls0028FinalState, cls0028Gain,
+      cls0028LabeledRun, cls0028Final_nonneg,
+      cls0028Margin_bound_gain⟩
+  · exact ⟨cls0029FinalState, cls0029Gain,
+      cls0029LabeledRun, cls0029Final_nonneg,
+      cls0029Margin_bound_gain⟩
+  · exact ⟨cls0030FinalState, cls0030Gain,
+      cls0030LabeledRun, cls0030Final_nonneg,
+      cls0030Margin_bound_gain⟩
+  · exact ⟨cls0031FinalState, cls0031Gain,
+      cls0031LabeledRun, cls0031Final_nonneg,
+      cls0031Margin_bound_gain⟩
+  · exact ⟨cls0032FinalState, cls0032Gain,
+      cls0032LabeledRun, cls0032Final_nonneg,
+      cls0032Margin_bound_gain⟩
+  · exact ⟨cls0033FinalState, cls0033Gain,
+      cls0033LabeledRun, cls0033Final_nonneg,
+      cls0033Margin_bound_gain⟩
+  · exact ⟨cls0034FinalState, cls0034Gain,
+      cls0034LabeledRun, cls0034Final_nonneg,
+      cls0034Margin_bound_gain⟩
+  · exact ⟨cls0035FinalState, cls0035Gain,
+      cls0035LabeledRun, cls0035Final_nonneg,
+      cls0035Margin_bound_gain⟩
+  · exact ⟨cls0036FinalState, cls0036Gain,
+      cls0036LabeledRun, cls0036Final_nonneg,
+      cls0036Margin_bound_gain⟩
+
+theorem graphSmoke_observed_labeled_run_scaled_margin_nonpos :
+    forall obj : SmokeObj, smokeAccepts obj -> smokeScaledMargin obj <= 0 :=
+  scaledMargin_nonpos_of_bellmanLabeledRunLanguageBound
+    (V := graphPotential)
+    (GraphEdge := GraphEdge)
+    (EdgeLabel := SmokeEdgeLabel)
+    (start := rootState)
+    (const := 176)
+    (wordOf := smokeObjLabels)
+    (fun _ he => GraphEdge.valid he)
+    root_bound
+    smokeObservedLabeledRunLanguageBound
 
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=
