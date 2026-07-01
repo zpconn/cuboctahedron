@@ -25094,21 +25094,12 @@ private noncomputable def sampledAcceptedAxisRankObjectCoverEval :
       SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace
       rootState (176 : Int) sampledRankOf sampledObjectAccepts
       sampledAcceptedContainsRank sampledScaledMarginAtRank :=
-  BellmanAxisRankObjectCover.ofExistsMembership
+  BellmanAxisRankObjectCover.ofEvalExistsMembership
     sampledObjectForcedSeq
-    (bellmanLabelStepRunLanguageBound_of_evalAccepts
-      (V := graphPotential)
-      (Step := SampledSmokeStepEval)
-      (next := sampledSmokeNext)
-      (start := rootState)
-      (const := (176 : Int))
-      (scaledMargin := fun idx => sampledScaledMarginAtRank (sampledRankOf idx))
-      (wordOf := fun idx => faceLabelsInContributionOrder smokeLabelOfFace (sampledObjectForcedSeq idx))
-      (Accepts := sampledObjectAccepts)
-      (by
-        intro s label t gain h
-        exact SampledSmokeStepEval.sound h)
-      (fun idx hAccept => hAccept.2))
+    (by
+      intro s label t gain h
+      exact SampledSmokeStepEval.sound h)
+    (fun idx hAccept => hAccept.2)
     sampledAxisRankObjectCoverEval.step_valid
     sampledAxisRankObjectCoverEval.root_bound
 

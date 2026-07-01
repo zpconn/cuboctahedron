@@ -518,6 +518,41 @@ noncomputable def ofExistsMembership
     root_bound
     BellmanRankObjectMembership.ofExists
 
+noncomputable def ofEvalExistsMembership
+    {Obj State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {rankOf : Obj -> Fin numPairWords}
+    {Accepts : Obj -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (forcedSeq : Obj -> Step14 -> Face)
+    (next_sound :
+      forall s label t gain,
+        next s label = some (t, gain) -> Step s label t gain)
+    (eval_accepts :
+      forall obj, Accepts obj ->
+        BellmanEvalAccepts V next start const
+          (fun obj => scaledMargin (rankOf obj))
+          (fun obj => faceLabelsInContributionOrder labelOfFace (forcedSeq obj))
+          obj)
+    (step_valid :
+      forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (root_bound : const + V start <= 0) :
+    BellmanAxisRankObjectCover
+      Obj State Label V Step labelOfFace start const rankOf
+      Accepts (fun rank => exists obj, Accepts obj /\ rankOf obj = rank)
+      scaledMargin :=
+  ofExistsMembership
+    forcedSeq
+    (bellmanLabelStepRunLanguageBound_of_evalAccepts
+      next_sound eval_accepts)
+    step_valid
+    root_bound
+
 theorem scaledMargin_nonpos_at_object
     {Obj State Label : Type}
     {V : State -> Int}

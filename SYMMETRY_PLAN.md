@@ -50035,3 +50035,55 @@ local-axis, canonical-bad-face, and closed Bellman transition-language
 invariants.  Cocycle gauges, cancellation-summary DAGs, and larger
 StateKilled assembly remain conditional shrinkers/assemblers after that
 membership theorem exists.
+
+### Holonomy/Bellman Pivot - eval object-cover constructor accepted
+
+Added the small reusable constructor:
+
+```lean
+noncomputable def BellmanAxisRankObjectCover.ofEvalExistsMembership
+```
+
+in `Cuboctahedron.Search.BellmanAxisBridge`.  It packages the now-preferred
+production route:
+
+```text
+forcedSeq
+  + deterministic next-function soundness
+  + forall accepted object, BellmanEvalAccepts ...
+  + Bellman step/root inequalities
+  -> BellmanAxisRankObjectCover for exists accepted object with this rank
+```
+
+This removes theorem-plumbing from generated leaves.  The graph smoke emitter
+now emits:
+
+```lean
+BellmanAxisRankObjectCover.ofEvalExistsMembership
+  sampledObjectForcedSeq
+  sampledSmokeNext.sound
+  (fun idx hAccept => hAccept.2)
+  ...
+```
+
+instead of explicitly constructing
+`bellmanLabelStepRunLanguageBound_of_evalAccepts` inside the generated module.
+
+Focused checks:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:04.50` | `3,292,364 kB` | passed |
+| `BellmanTopPairingGraphLanguage2AllSmoke` constructor route | `1:18.79` | `7,635,832 kB` | passed |
+
+Split-boundary audit:
+
+```json
+{"graph_lines": 24423, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 743, "terminal_positive_payloads": 2}
+```
+
+Decision: accepted.  Future closed-language Bellman family shards should use
+`ofEvalExistsMembership` as their object-cover constructor.  Generated code
+should focus on the semantic membership proof and the object-level
+`BellmanEvalAccepts` proof; the cover/trace-bound plumbing is now
+hand-written and reusable.

@@ -2068,3 +2068,29 @@ rank satisfies closed Bellman language
 Do not scale `SampledRankIndex`.  Replace it with a semantic object type whose
 membership proof comes from target-pairing, local-axis, canonical-bad-face, and
 closed transition-language invariants.
+
+Eval object-cover constructor:
+
+- Added `BellmanAxisRankObjectCover.ofEvalExistsMembership` in
+  `Cuboctahedron.Search.BellmanAxisBridge`.
+- This constructor packages:
+  - the forced sequence function;
+  - deterministic Bellman next-function soundness;
+  - object-level `BellmanEvalAccepts` evidence for every accepted object;
+  - Bellman step/root inequalities;
+  - the existential accepted-object rank predicate.
+- The generated graph smoke now uses this constructor instead of building
+  `bellmanLabelStepRunLanguageBound_of_evalAccepts` in generated code.
+- Focused checks:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `Cuboctahedron.Search.BellmanAxisBridge` | `0:04.50` | `3,292,364 kB` |
+  | `BellmanTopPairingGraphLanguage2AllSmoke` | `1:18.79` | `7,635,832 kB` |
+
+- Split-boundary audit remains passed with `graph_positive_mentions = 0` and
+  `terminal_positive_payloads = 2`.
+
+Next code-generation target: future Bellman family shards should call
+`ofEvalExistsMembership`, prove semantic closed-language membership, and keep
+the Bellman trace-bound plumbing out of generated theorem bodies.
