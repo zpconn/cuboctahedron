@@ -317,6 +317,16 @@ Top margin+cancellation-pairing checkpoint:
   with `3,251,032 KiB` max RSS.  The remaining gap is to prove value-set
   membership from the cancellation/holonomy state, not to prove the values are
   nonpositive.
+- New pivot after GPT5.5 Pro review: do not scale the fixed top-family
+  extraction into another certificate-packing layer.  The next nonidentity
+  residual experiment is a Bellman/potential certificate over a finite
+  holonomy/cancellation automaton.  The script to add is
+  `scripts/nonidentity_margin_bellman_profile.py`; it should compute
+  integer-scaled local gains, potential inequalities
+  `gain + V(next) <= V(state)`, final inequalities, and state/transition
+  counts before any new Lean family emission.
+- A `[0,10000000)` extraction for the fixed top family was intentionally
+  stopped after this pivot.  It belonged to the old stability-of-values lane.
 
 ## Explicit Non-Goals
 

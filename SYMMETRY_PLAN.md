@@ -1696,6 +1696,114 @@ Top-family finite value-set smoke:
   is not the value inequality; it is a semantic proof that a sequence in the
   top cancellation family has one of these values.
 
+### Bellman/Potential Pivot For Nonidentity Margins
+
+GPT5.5 Pro's latest recommendation changes the next nonidentity scaling
+experiment.  Do **not** keep extending the fixed top-family extraction as
+another certificate-packing layer.  The extracted top family and finite
+value-set smoke are useful because they identify the theorem surface, but the
+production proof should certify margin bounds over a finite semantic
+automaton.
+
+The new primary nonidentity residual route is a Bellman/potential certificate
+for margins.  For a fixed margin family
+
+```text
+F = axis/reduced-shadow/bad-face/margin-form/cancellation-state
+```
+
+scan the signed pair word through a finite transducer.  Each transition has an
+integer-scaled local gain
+
+```text
+gain(F, state, signed-letter)
+```
+
+corresponding to the contribution to `const + coeff · totalAff(seq).b`.  A
+potential table `V` proves an upper bound on all future margin by local
+inequalities:
+
+```text
+gain(s,a) + V(s') <= V(s)
+```
+
+for every legal transition `s --a--> s'`, plus final inequalities
+
+```text
+const + V(s_final) <= 0
+```
+
+for accepting states.  Lean then checks the local integer inequalities and a
+generic induction theorem; the external script only proposes the state graph
+and potential values.
+
+Target Lean surface:
+
+```lean
+structure MarginAutomaton
+structure BellmanPotentialCert (F : MarginAutomaton)
+
+theorem margin_bound_of_bellman
+    (cert : BellmanPotentialCert F) :
+    forall seq,
+      MarginLanguage F seq ->
+        offsetMarginQ F.const F.coeff (totalAff seq).b <= 0
+```
+
+Production generated leaves should export semantic theorems such as:
+
+```lean
+theorem family_037_margin_bound :
+    forall seq, NonIdMarginFamily037 seq ->
+      offsetMarginQ const coeff (totalAff seq).b <= 0
+
+theorem family_037_killed :
+    forall seq, NonIdMarginFamily037 seq ->
+      ¬ NonIdentityAxisConstraints seq
+```
+
+The potential table may be a private implementation detail of a generated
+leaf.  It must not appear in public theorem statements.
+
+Profiler to add next:
+
+```bash
+python3 scripts/nonidentity_margin_bellman_profile.py \
+  --start 0 --end 1000000 \
+  --jobs 4 --chunk-size 250000 \
+  --family-mode axis-reduced-margin \
+  --target-bad-face yp \
+  --target-axis-d4 1,-3,-1 \
+  --json scripts/generated/nonid_margin_bellman_1M.json \
+  --markdown scripts/generated/nonid_margin_bellman_1M.md
+```
+
+The profiler should report matched residuals, margin families, states and
+transitions per family, accepting states, integer bit lengths, families proved
+by Bellman bounds, and uncovered residuals with reasons.  The first hard gate:
+
+```text
+projected nonidentity margin families <= 2,000
+largest family states <= 10,000
+largest family transitions <= 100,000
+integer bit length <= 64 preferred, <= 256 acceptable
+representative Lean family smoke <= 10s and <= 4 GiB RSS
+```
+
+If state counts grow nearly linearly from `100k -> 1M -> 10M` samples, this
+route fails and should not emit Lean.  If it compresses, implement the generic
+Lean Bellman theorem before emitting more family leaves.
+
+Optional support experiment: add a cocycle/coboundary gauge profiler that
+searches for an affine-origin shift or finite-state potential reducing local
+gain variation before Bellman solving.  Keep it only if it cuts local-gain or
+Bellman state/transition counts by a clear constant factor.
+
+Aborted old-lane note: a `[0,10000000)` extraction for the fixed top
+margin+cancellation family was started after the value-set smoke but stopped
+once this pivot landed.  That run was from the old “stability of exact
+top-family values” lane and is no longer the priority.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

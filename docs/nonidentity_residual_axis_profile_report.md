@@ -568,6 +568,24 @@ Finite value-set smoke:
   family gap is proving that every sequence covered by the top
   margin+cancellation-pairing state lands in that value set.
 
+Bellman/potential pivot:
+
+- GPT5.5 Pro's latest review changes the next scaling experiment.  Do not
+  continue scaling the top-family extraction as certificate packing.
+- The next nonidentity residual profiler should be
+  `scripts/nonidentity_margin_bellman_profile.py`.  It should build a finite
+  semantic automaton for a margin family, compute integer-scaled local gains,
+  and search for a potential `V` satisfying transition inequalities
+  `gain + V(next) <= V(state)` plus final nonpositivity.
+- Acceptance gate before Lean emission:
+  projected margin families `<= 2,000`, largest family `<= 10,000` states,
+  largest family `<= 100,000` transitions, integer bit length preferably
+  `<= 64` and at most `<= 256`, and a representative Lean family smoke
+  `<= 10s` / `<= 4 GiB` RSS.
+- The `[0,10000000)` top-family extraction that had just started was stopped
+  with exit code `130` because it belonged to the old exact-value stability
+  lane.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
