@@ -1985,6 +1985,18 @@ Bellman profiler prototype checkpoint:
   remaining Bellman work is to generate/check the family language bridge that
   maps each accepted word to such a graph path and proves the scaled-margin
   bound.
+- Membership-to-path bridge smoke: the graph emitter now also emits a tiny
+  finite semantic family with one object, `SmokeObj.argmax`, corresponding to
+  the profiler's realized Bellman-max path.  The generated module proves:
+  `argmaxPath : BellmanPath rootState argmaxFinalState argmaxEdges`,
+  `argmaxGraph : forall e, e ∈ argmaxEdges -> GraphEdge e`,
+  `argmaxMargin_bound`, `smokeTraceBound : BellmanTraceBound ...`, and the
+  theorem `graphSmoke_argmax_object_scaled_margin_nonpos`.  This is still a
+  one-object smoke, not production coverage, but it validates the next bridge
+  layer: generated semantic membership can supply a graph path, graph-edge
+  membership, final-potential proof, and scaled-margin inequality to the
+  generic theorem.  The warning-free 10M focused build passed after this
+  addition in `0:19.73` wall time with `4,494,640 kB` max RSS.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

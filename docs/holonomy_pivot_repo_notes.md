@@ -400,6 +400,12 @@ Top margin+cancellation-pairing checkpoint:
   warning-free 10M graph smoke with this bridge builds in `0:17.80` wall time
   with `4,514,536 kB` max RSS.  Next Bellman work should generate the
   family-language bridge; more graph edge smokes are lower priority.
+- Membership-to-path smoke status: the graph emitter now builds a one-object
+  semantic family from the realized argmax path and proves
+  `graphSmoke_argmax_object_scaled_margin_nonpos` via `BellmanTraceBound`.
+  The 10M smoke with this extra object/path/margin bridge builds in `0:19.73`
+  wall time with `4,494,640 kB` max RSS.  This validates the theorem shape for
+  replacing the one-object smoke with a generated family-language bridge.
 
 ## Explicit Non-Goals
 

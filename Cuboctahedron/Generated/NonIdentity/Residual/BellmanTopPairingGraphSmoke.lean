@@ -2567,6 +2567,120 @@ theorem graphSmoke_family_scaled_margin_nonpos
     root_bound
     htrace
 
+private inductive SmokeObj where
+  | argmax
+
+private def smokeScaledMargin : SmokeObj -> Int
+  | SmokeObj.argmax => 0
+
+private def argmaxFinalState : State := State.s0120
+
+private def argmaxEdges : List (BellmanEdge State) :=
+  [edge0000
+  , edge0124
+  , edge0127
+  , edge0134
+  , edge0144
+  , edge0156
+  , edge0169
+  , edge0183
+  , edge0196
+  , edge0219
+  , edge0021
+  , edge0056
+  , edge0090
+  , edge0102]
+
+private theorem argmaxPath :
+    BellmanPath rootState argmaxFinalState argmaxEdges := by
+  unfold argmaxEdges rootState argmaxFinalState
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  apply BellmanPath.cons
+  · rfl
+  · rfl
+  exact BellmanPath.nil State.s0120
+
+private theorem argmaxGraph :
+    forall e, e ∈ argmaxEdges -> GraphEdge e := by
+  intro e he
+  simp [argmaxEdges] at he
+  rcases he with
+    h0000 | h0001 | h0002 | h0003 | h0004 | h0005 | h0006 | h0007 | h0008 | h0009 | h0010 | h0011 | h0012 | h0013
+  · subst e; exact GraphEdge.e0000
+  · subst e; exact GraphEdge.e0124
+  · subst e; exact GraphEdge.e0127
+  · subst e; exact GraphEdge.e0134
+  · subst e; exact GraphEdge.e0144
+  · subst e; exact GraphEdge.e0156
+  · subst e; exact GraphEdge.e0169
+  · subst e; exact GraphEdge.e0183
+  · subst e; exact GraphEdge.e0196
+  · subst e; exact GraphEdge.e0219
+  · subst e; exact GraphEdge.e0021
+  · subst e; exact GraphEdge.e0056
+  · subst e; exact GraphEdge.e0090
+  · subst e; exact GraphEdge.e0102
+
+private theorem argmaxFinal_nonneg :
+    0 <= graphPotential argmaxFinalState := by
+  decide
+
+private theorem argmaxMargin_bound :
+    smokeScaledMargin SmokeObj.argmax <= (176 : Int) + bellmanGainSum argmaxEdges := by
+  change (0 : Int) <= 0
+  decide
+
+private theorem smokeTraceBound :
+    BellmanTraceBound
+      graphPotential GraphEdge rootState
+      (176 : Int) smokeScaledMargin := by
+  intro obj
+  cases obj
+  exact ⟨argmaxFinalState, argmaxEdges, argmaxPath,
+    argmaxGraph, argmaxFinal_nonneg, argmaxMargin_bound⟩
+
+theorem graphSmoke_argmax_object_scaled_margin_nonpos :
+    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=
+  graphSmoke_family_scaled_margin_nonpos smokeTraceBound
+
 theorem bellmanGraphSmoke_builds : True := by
   exact True.intro
 

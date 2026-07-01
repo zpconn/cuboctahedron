@@ -957,6 +957,34 @@ Semantic Bellman bridge:
   family-language bridge that maps each accepted word to one of these graph
   paths and proves the scaled-margin bound.
 
+Membership-to-path smoke:
+
+- Updated the graph emitter to create a one-object semantic family
+  `SmokeObj.argmax` from the profiler's realized Bellman-max path.
+- The generated graph smoke now proves:
+
+  ```lean
+  theorem graphSmoke_argmax_object_scaled_margin_nonpos :
+      forall obj : SmokeObj, smokeScaledMargin obj <= 0
+  ```
+
+- Internally this goes through `argmaxPath`, `argmaxGraph`,
+  `argmaxFinal_nonneg`, `argmaxMargin_bound`, and
+  `smokeTraceBound : BellmanTraceBound ...`, so it validates the object
+  membership-to-path theorem shape on actual generated graph data.
+- Focused 10M build after this addition passed:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph10MSmoke
+  ```
+
+  Result: `0:19.73` wall time, `4,494,640 kB` max RSS.
+- Decision: accepted as a bridge-shape smoke.  It is not full top-family
+  coverage; the next real step is to replace the one `SmokeObj` constructor
+  with the generated semantic family language and prove each accepted word has
+  a corresponding graph path and margin bound.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

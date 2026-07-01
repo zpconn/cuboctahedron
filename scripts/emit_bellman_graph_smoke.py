@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from fractions import Fraction
 from pathlib import Path
 
 
@@ -19,6 +20,12 @@ def state_ctor(index: int) -> str:
 
 def edge_name(index: int) -> str:
     return f"edge{index:04d}"
+
+
+def lean_or_cases(names: list[str], *, indent: str = "  ") -> list[str]:
+    lines = [indent + "rcases he with"]
+    lines.append(indent + "  " + " | ".join(names))
+    return lines
 
 
 def emit(input_path: Path, output_path: Path, namespace: str) -> None:
@@ -31,6 +38,29 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
     if len(roots) != 1:
         raise SystemExit(f"expected one root state, found {len(roots)}")
     const_scaled = int(graph["const_scaled"])
+    scale = int(graph["scale"])
+    state_index = {state["key"]: int(state["index"]) for state in states}
+    edge_index = {
+        (int(edge["src"]), int(edge["dst"]), int(edge["gain_scaled"])): idx
+        for idx, edge in enumerate(edges)
+    }
+    argmax = data.get("argmax_path", {})
+    argmax_edge_indices: list[int] = []
+    for step in argmax.get("edges", []):
+        src = state_index[step["src"]]
+        dst = state_index[step["dst"]]
+        gain_scaled = int(Fraction(step["gain"]) * scale)
+        try:
+            argmax_edge_indices.append(edge_index[(src, dst, gain_scaled)])
+        except KeyError as exc:
+            raise SystemExit(
+                f"argmax edge not found: src={src} dst={dst} gain={gain_scaled}"
+            ) from exc
+    argmax_final = state_index.get(argmax.get("final_state", ""), roots[0])
+    argmax_margin_scaled = int(Fraction(argmax.get("margin_bound", "0")) * scale)
+    argmax_rhs_scaled = const_scaled + sum(
+        int(edges[idx]["gain_scaled"]) for idx in argmax_edge_indices
+    )
 
     lines: list[str] = [
         "import Cuboctahedron.Search.BellmanPotential",
@@ -128,6 +158,75 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "    (fun _ he => GraphEdge.valid he)",
         "    root_bound",
         "    htrace",
+        "",
+        "private inductive SmokeObj where",
+        "  | argmax",
+        "",
+        "private def smokeScaledMargin : SmokeObj -> Int",
+        f"  | SmokeObj.argmax => {argmax_margin_scaled}",
+        "",
+        f"private def argmaxFinalState : State := {state_ctor(argmax_final)}",
+        "",
+        "private def argmaxEdges : List (BellmanEdge State) :=",
+    ])
+    if argmax_edge_indices:
+        edge_terms = [edge_name(idx) for idx in argmax_edge_indices]
+        lines.append("  [" + edge_terms[0])
+        for edge_term in edge_terms[1:]:
+            lines.append("  , " + edge_term)
+        lines[-1] += "]"
+    else:
+        lines.append("  []")
+    lines.extend([
+        "",
+        "private theorem argmaxPath :",
+        "    BellmanPath rootState argmaxFinalState argmaxEdges := by",
+        "  unfold argmaxEdges rootState argmaxFinalState",
+    ])
+    for _idx in argmax_edge_indices:
+        lines.extend([
+            "  apply BellmanPath.cons",
+            "  · rfl",
+            "  · rfl",
+        ])
+    lines.append(f"  exact BellmanPath.nil {state_ctor(argmax_final)}")
+    lines.extend([
+        "",
+        "private theorem argmaxGraph :",
+        "    forall e, e ∈ argmaxEdges -> GraphEdge e := by",
+        "  intro e he",
+        "  simp [argmaxEdges] at he",
+    ])
+    if argmax_edge_indices:
+        case_names = [f"h{idx:04d}" for idx in range(len(argmax_edge_indices))]
+        lines.extend(lean_or_cases(case_names))
+        for case_idx, edge_idx in enumerate(argmax_edge_indices):
+            lines.append(f"  · subst e; exact GraphEdge.e{edge_idx:04d}")
+    else:
+        lines.append("  exact False.elim he")
+    lines.extend([
+        "",
+        "private theorem argmaxFinal_nonneg :",
+        "    0 <= graphPotential argmaxFinalState := by",
+        "  decide",
+        "",
+        "private theorem argmaxMargin_bound :",
+        f"    smokeScaledMargin SmokeObj.argmax <= ({const_scaled} : Int) + bellmanGainSum argmaxEdges := by",
+        f"  change ({argmax_margin_scaled} : Int) <= {argmax_rhs_scaled}",
+        "  decide",
+        "",
+        "private theorem smokeTraceBound :",
+        "    BellmanTraceBound",
+        "      graphPotential GraphEdge rootState",
+        f"      ({const_scaled} : Int) smokeScaledMargin := by",
+        "  intro obj",
+        "  cases obj",
+        "  exact ⟨argmaxFinalState, argmaxEdges, argmaxPath,",
+        "    argmaxGraph, argmaxFinal_nonneg, argmaxMargin_bound⟩",
+        "",
+        "theorem graphSmoke_argmax_object_scaled_margin_nonpos :",
+        "    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=",
+        "  graphSmoke_family_scaled_margin_nonpos smokeTraceBound",
         "",
         "theorem bellmanGraphSmoke_builds : True := by",
         "  exact True.intro",
