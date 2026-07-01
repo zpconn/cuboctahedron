@@ -474,3 +474,55 @@ Accepted: the central mod-3 rank-one product argument is Lean-proved.  The
 remaining Track 1 work is to connect this finite-field product to the
 integer-scaled triangular reflection product, then bridge back to the rational
 `triProduct`/`totalLinearOfPairWord` identity classifier.
+
+## Integer-Scaled Mod-3 Bridge Checkpoint
+
+The integer-scaled reflection bridge is now Lean-checked in:
+
+- `Cuboctahedron/Search/ShadowNormalFormScaled.lean`
+
+It defines:
+
+```lean
+def triNormalInt : TriLetter -> Vec3 Int
+def triScaledLinearInt (t : TriLetter) : Mat3 Int
+def triScaledProductInt : List TriLetter -> Mat3 Int
+```
+
+where `triScaledLinearInt t` is the integer matrix `3I - 2nn^T`.
+
+It proves:
+
+```lean
+theorem triScaledLinearInt_mod3 (t : TriLetter) :
+    (triScaledLinearInt t).map (fun z : Int => (z : ZMod 3)) =
+      triMod3Linear t
+
+theorem triScaledProductInt_mod3 (letters : List TriLetter) :
+    (triScaledProductInt letters).map (fun z : Int => (z : ZMod 3)) =
+      triMod3Product letters
+
+theorem triScaledProductInt_ne_scaledIdentity_of_noAdjacent
+    (head : TriLetter) (tail : List TriLetter)
+    (hred : NoAdjacentEq (head :: tail)) :
+    triScaledProductInt (head :: tail) ≠
+      scalarMat ((3 : Int) ^ (head :: tail).length) (matId : Mat3 Int)
+```
+
+Focused build:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalFormScaled
+```
+
+Result:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalFormScaled (3.1s)
+Build completed successfully
+```
+
+Accepted: nonempty reduced triangular words are now Lean-proved not to have
+integer-scaled product `3^len * I`.  The remaining Track 1 algebra bridge is
+to show that rational `triProduct letters = matId` would imply exactly that
+integer-scaled identity equality.

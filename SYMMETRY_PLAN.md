@@ -462,6 +462,54 @@ triangular reflection products reduce to `triMod3Product` modulo 3, then use
 nonzeroness to rule out rational identity products for nonempty reduced
 shadows.
 
+Lean integer-scaled mod-3 bridge checkpoint:
+
+- Added `Cuboctahedron/Search/ShadowNormalFormScaled.lean`.
+- It defines the integer-scaled triangular reflection matrices:
+
+  ```lean
+  def triNormalInt : TriLetter -> Vec3 Int
+  def triScaledLinearInt (t : TriLetter) : Mat3 Int
+  def triScaledProductInt : List TriLetter -> Mat3 Int
+  ```
+
+- It proves:
+
+  ```lean
+  theorem triScaledLinearInt_mod3 (t : TriLetter) :
+      (triScaledLinearInt t).map (fun z : Int => (z : ZMod 3)) =
+        triMod3Linear t
+
+  theorem triScaledProductInt_mod3 (letters : List TriLetter) :
+      (triScaledProductInt letters).map (fun z : Int => (z : ZMod 3)) =
+        triMod3Product letters
+
+  theorem triScaledProductInt_ne_scaledIdentity_of_noAdjacent
+      (head : TriLetter) (tail : List TriLetter)
+      (hred : NoAdjacentEq (head :: tail)) :
+      triScaledProductInt (head :: tail) ≠
+        scalarMat ((3 : Int) ^ (head :: tail).length) (matId : Mat3 Int)
+  ```
+
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalFormScaled
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalFormScaled (3.1s)
+  Build completed successfully
+  ```
+
+Accepted: the integer-scaled product cannot be `3^len * I` for nonempty
+reduced triangular words.  The next Track 1 gate is the rational bridge:
+prove `triProduct letters = matId` implies
+`triScaledProductInt letters = 3^letters.length * I`, then derive the
+nonidentity theorem.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
