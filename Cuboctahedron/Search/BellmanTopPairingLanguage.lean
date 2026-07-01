@@ -65,6 +65,31 @@ theorem topPairingStepScheduleLabels_ofFrom
     TopPairingStepScheduleLabels labels :=
   And.intro hlen hfrom
 
+theorem topPairingStepScheduleLabels_prefix_xm_ym
+    {labels : List Face}
+    (h : TopPairingStepScheduleLabels labels) :
+    ∃ rest : List Face, labels = Face.xm :: Face.ym :: rest := by
+  cases labels with
+  | nil =>
+      rcases h with ⟨hlen, _hfrom⟩
+      norm_num at hlen
+  | cons f0 labels =>
+      cases labels with
+      | nil =>
+          rcases h with ⟨hlen, _hfrom⟩
+          norm_num at hlen
+      | cons f1 rest =>
+          rcases h with ⟨_hlen, hfrom⟩
+          unfold TopPairingStepScheduleFrom at hfrom
+          rcases hfrom with ⟨hf0, hrest0⟩
+          simp [topPairingAllowedFacesAtStep] at hf0
+          subst f0
+          unfold TopPairingStepScheduleFrom at hrest0
+          rcases hrest0 with ⟨hf1, _hrest1⟩
+          simp [topPairingAllowedFacesAtStep] at hf1
+          subst f1
+          exact ⟨rest, rfl⟩
+
 def topPairingAllowedSquareFacesAtGap : Nat -> List Face
   | 0 => [Face.xm, Face.ym, Face.yp, Face.zm, Face.zp]
   | 1 => [Face.zm, Face.zp]

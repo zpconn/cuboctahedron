@@ -58179,3 +58179,56 @@ scaledMargin obj.rank <= (176 : Int) + (-376 : Int)
 ```
 
 for the closed top-pairing family.
+
+First classifier-shard Lean lemma:
+
+- Added `topPairingStepScheduleLabels_prefix_xm_ym` in
+  `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`.
+- It proves the first deterministic prefix fact for the state-DAG classifier:
+
+```lean
+theorem topPairingStepScheduleLabels_prefix_xm_ym
+    {labels : List Face}
+    (h : TopPairingStepScheduleLabels labels) :
+    ∃ rest : List Face, labels = Face.xm :: Face.ym :: rest
+```
+
+- This is intentionally small, but it is the right proof style for the next
+  generated classifier: consume one semantic language component locally, prove
+  one bounded prefix fact, and avoid broad `simp_all` over all faces.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_language_prefix_xm_ym_guard.json \
+  -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_closed_eval_trace_smoke_after_prefix_guard.json \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean
+```
+
+Result:
+
+```text
+BellmanTopPairingLanguage:
+  passed
+  peak_tree_rss = 3774 MiB
+  elapsed = 3.01s
+
+ClosedEvalTraceSmoke after prefix lemma:
+  passed
+  peak_tree_rss = 3586 MiB
+  elapsed = 3.00s
+```
+
+Decision: accepted.  The next generated classifier should extend this style
+from the fixed first-two-face prefix to the full state-DAG proof, rather than
+trying another monolithic list classifier.
