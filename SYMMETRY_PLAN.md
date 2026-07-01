@@ -47867,3 +47867,80 @@ the artificial "one exact run per family" bottleneck.  The next implementation
 step is to generate a small graph-membership theorem: for a semantic
 top-pairing family predicate, prove that every accepted rank constructs one of
 the finite `SmokeStep` runs required by `BellmanAxisRankLanguageFamily`.
+
+### Holonomy/Bellman Pivot - indexed rank-language smoke accepted
+
+The first attempt to combine multiple sampled ranks under
+`BellmanAxisRankLanguageFamily` exposed an important Lean design issue:
+`ContainsRank : Fin numPairWords -> Prop` cannot generally be eliminated into
+computational fields such as `KernelLineWitness`, forced sequences, or
+Bellman runs when the proof is an `Or`/`Exists`-style membership proof.  The
+singleton smoke worked because equality recursors can rewrite the rank, but a
+real finite automaton needs a Type-level path/index witness.
+
+Added in:
+
+```lean
+BellmanAxisRankIndexedFamily
+BellmanAxisRankIndexedFamily.scaledMargin_nonpos
+```
+
+in:
+
+```text
+Cuboctahedron/Search/BellmanAxisBridge.lean
+```
+
+This indexed surface takes a finite `Index : Type` and `rankOf : Index -> Fin
+numPairWords`.  Generated leaves can construct kernels, forced sequences, and
+Bellman runs by pattern matching on the index.  A separate Prop-level adapter
+can then erase `exists idx, rankOf idx = rank` into the semantic theorem,
+because that final theorem lives in `Prop`.
+
+The emitter now generates a bounded two-rank smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean
+```
+
+The key theorem surfaces are:
+
+```lean
+graphSmoke_sampled_axis_indexed_rank_family_scaled_margin_nonpos
+graphSmoke_sampled_axis_rank_language_family_scaled_margin_nonpos
+```
+
+The first consumes the Type-level `SampledRankIndex`; the second is the
+Prop-level `sampledContainsRank` adapter.
+
+Commands run:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Search.BellmanAxisBridge
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Search/BellmanAxisBridge.lean \
+  scripts/emit_bellman_graph_smoke.py \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphFamilySmoke.lean
+```
+
+Results:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:02.15` | `3,284,548 kB` | passed |
+| `BellmanTopPairingGraphLanguage2Smoke` | `0:15.37` | `4,519,660 kB` | passed |
+| keyword scan | - | - | no matches |
+
+Decision: accepted.  The current production route should use a Type-level
+finite automaton/path index internally, then provide Prop-level semantic
+coverage as the public API.  This avoids the `Prop`-elimination trap while
+keeping certificate data private and theorem-valued.

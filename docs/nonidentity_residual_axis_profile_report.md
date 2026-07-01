@@ -2312,3 +2312,50 @@ file found no `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
 Decision: accepted as the current production-facing nonidentity margin proof
 surface.  The remaining proof gap is a finite-state membership theorem that
 maps a broad semantic top-pairing family into these rank-indexed Bellman runs.
+
+## Indexed Bellman Rank-Language Smoke
+
+The two-rank combined smoke found a useful design constraint.  A Prop-valued
+membership predicate such as `rank = r₀ ∨ rank = r₁` cannot be eliminated into
+data fields like `KernelLineWitness`, forced sequences, or Bellman runs.
+Therefore the production finite-state language should carry an internal
+Type-level index/path witness.
+
+Added:
+
+```lean
+BellmanAxisRankIndexedFamily
+BellmanAxisRankIndexedFamily.scaledMargin_nonpos
+```
+
+in `Cuboctahedron.Search.BellmanAxisBridge`.
+
+Generated smoke:
+
+```text
+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Important theorem names:
+
+```lean
+graphSmoke_sampled_axis_indexed_rank_family_scaled_margin_nonpos
+graphSmoke_sampled_axis_rank_language_family_scaled_margin_nonpos
+```
+
+The first theorem consumes a private finite index `SampledRankIndex`; the
+second theorem erases `sampledContainsRank : Prop` by extracting the index and
+then applying the indexed theorem.
+
+Focused build:
+
+```text
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Result: `0:15.37` wall time, `4,519,660 kB` max RSS, exit `0`.
+
+Decision: accepted.  The next nonidentity Bellman membership theorem should
+be indexed by a finite generated automaton path/state witness internally, then
+export only Prop-level semantic coverage.

@@ -1033,3 +1033,36 @@ Bellman rank-language family surface:
   `BellmanAxisRankLanguageFamily` while avoiding exact affine RHS, solved
   start point, total affine offset, and exact Bellman path as public family
   coordinates.
+
+Indexed Bellman rank-language surface:
+
+- The attempted multi-rank `ContainsRank : Prop` family exposed a Lean
+  limitation that is relevant to the production design: disjunctive/existential
+  Prop membership cannot be eliminated into computational data such as a
+  kernel witness or a Bellman run.
+- Added `BellmanAxisRankIndexedFamily` and
+  `BellmanAxisRankIndexedFamily.scaledMargin_nonpos` to
+  `Cuboctahedron.Search.BellmanAxisBridge`.
+- This interface takes an internal `Index : Type` plus
+  `rankOf : Index -> Fin numPairWords`.  Generated automata should use this
+  index/path witness to build rank-specific data.  A public Prop theorem can
+  then erase the index after the semantic result is in `Prop`.
+- Generated smoke:
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke`
+  with:
+
+  ```lean
+  graphSmoke_sampled_axis_indexed_rank_family_scaled_margin_nonpos
+  graphSmoke_sampled_axis_rank_language_family_scaled_margin_nonpos
+  ```
+
+- Focused build:
+
+  ```text
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+  ```
+
+  Result: `0:15.37` wall / `4,519,660 kB` max RSS / exit `0`.
+- Decision: accepted.  The production Bellman graph-membership theorem should
+  be Type-indexed internally and Prop-valued at the public API boundary.

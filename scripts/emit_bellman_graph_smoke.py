@@ -66,8 +66,10 @@ def right_assoc_add(terms: list[str]) -> str:
     return expr
 
 
-def lean_or_cases(names: list[str], *, indent: str = "  ") -> list[str]:
-    lines = [indent + "rcases he with"]
+def lean_or_cases(
+    names: list[str], *, indent: str = "  ", var: str = "he"
+) -> list[str]:
+    lines = [indent + f"rcases {var} with"]
     lines.append(indent + "  " + " | ".join(names))
     return lines
 
@@ -253,6 +255,7 @@ def emit(
         can_emit_face_sequence_bridge
         and all(obj.get("rank_sample") is not None for obj in bridge_objects)
     )
+    rank_bridge_infos: list[dict[str, object]] = []
 
     def trie_node_name(index: int) -> str:
         return f"trieNode{index:04d}"
@@ -1171,6 +1174,18 @@ def emit(
                     "sample forced sequence does not match emitted Bellman face sequence: "
                     f"forced={sample_forced_seq}, emitted={sample_seq_faces}"
                 )
+            rank_bridge_infos.append(
+                {
+                    "obj_name": obj_name,
+                    "rank_name": rank_name,
+                    "seq_name": seq_name,
+                    "axis_name": axis_name,
+                    "axis_value": sample_axis,
+                    "kernel_name": kernel_name,
+                    "trace_of_seq_name": trace_of_seq_name,
+                    "trie_node": trie_node,
+                }
+            )
             sample_final_axis_dot = final_axis_dot(sample_word, sample_axis)
             lines.extend([
                 f"private def {rank_name} : Fin numPairWords := ⟨{rank_sample}, by decide⟩",
@@ -1524,6 +1539,169 @@ def emit(
     if can_emit_face_sequence_bridge:
         for obj in bridge_objects:
             emit_face_sequence_bridge(obj)
+    if can_emit_rank_sequence_bridge and len(rank_bridge_infos) >= 2:
+        first_axis = rank_bridge_infos[0]["axis_value"]
+        same_axis_infos = [
+            info for info in rank_bridge_infos if info["axis_value"] == first_axis
+        ]
+        if len(same_axis_infos) >= 2:
+            lines.extend([
+                "private inductive SampledRankIndex where",
+            ])
+            for idx, _info in enumerate(same_axis_infos):
+                lines.append(f"  | i{idx:04d}")
+            lines.extend([
+                "",
+                "private def sampledRankOf : SampledRankIndex -> Fin numPairWords",
+            ])
+            for idx, info in enumerate(same_axis_infos):
+                lines.append(
+                    f"  | SampledRankIndex.i{idx:04d} => {info['rank_name']}"
+                )
+            lines.extend([
+                "",
+                "private def sampledContainsRank (rank : Fin numPairWords) : Prop :=",
+                "  exists idx : SampledRankIndex, sampledRankOf idx = rank",
+                "",
+                "private def sampledScaledMarginAtRank (rank : Fin numPairWords) : Int :=",
+            ])
+            for info in same_axis_infos:
+                lines.append(
+                    f"  if rank = {info['rank_name']} then "
+                    f"smokeScaledMargin SmokeObj.{info['obj_name']} else"
+                )
+            lines.extend([
+                "  0",
+                "",
+                "private def sampledAxisRankIndexedFamily :",
+                "    BellmanAxisRankIndexedFamily",
+                "      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace",
+                "      rootState (" + str(const_scaled) + " : Int) sampledRankOf",
+                "      sampledScaledMarginAtRank where",
+                f"  axis := {same_axis_infos[0]['axis_name']}",
+                "  kernel := by",
+                "    intro idx",
+                "    cases idx",
+            ])
+            for info in same_axis_infos:
+                lines.extend([
+                    f"    · exact {info['kernel_name']}",
+                ])
+            lines.extend([
+                "  forcedSeq := by",
+                "    intro idx",
+                "    cases idx",
+            ])
+            for info in same_axis_infos:
+                lines.extend([
+                    f"    · exact {info['seq_name']}",
+                ])
+            lines.extend([
+                "  finish := by",
+                "    intro idx",
+                "    cases idx",
+            ])
+            for info in same_axis_infos:
+                lines.extend([
+                    f"    · exact {trie_node_state_name(int(info['trie_node']))}",
+                ])
+            lines.extend([
+                "  gain := by",
+                "    intro idx",
+                "    cases idx",
+            ])
+            for info in same_axis_infos:
+                lines.extend([
+                    f"    · exact {trie_node_gain_name(int(info['trie_node']))}",
+                ])
+            lines.extend([
+                "  run := by",
+                "    intro idx",
+                "    cases idx",
+            ])
+            for info in same_axis_infos:
+                trie_node = int(info["trie_node"])
+                lines.extend([
+                    "    · change BellmanLabelStepRun SmokeStep rootState",
+                    f"        {trie_node_state_name(trie_node)}",
+                    f"        (smokeLabelsOfSeq {info['seq_name']}) "
+                    f"{trie_node_gain_name(trie_node)}",
+                    f"      rw [{info['seq_name']}Labels_eq]",
+                    f"      exact {trie_node_run_name(trie_node)}",
+                ])
+            lines.extend([
+                "  step_valid := by",
+                "    intro s label t gain h",
+                "    exact SmokeStep.valid h",
+                "  finish_nonneg := by",
+                "    intro idx",
+                "    cases idx",
+            ])
+            for info in same_axis_infos:
+                lines.extend([
+                    f"    · exact {info['obj_name']}TrieFinal_nonneg",
+                ])
+            lines.extend([
+                "  root_bound := root_bound",
+                "  margin_bound := by",
+                "    intro idx",
+                "    cases idx",
+            ])
+            for info in same_axis_infos:
+                lines.extend([
+                    "    · unfold sampledRankOf sampledScaledMarginAtRank",
+                    "      simp",
+                    f"      exact {info['obj_name']}TrieMargin_bound_gain",
+                ])
+            lines.extend([
+                "  kernel_check := by",
+                "    intro idx",
+                "    cases idx",
+            ])
+            for info in same_axis_infos:
+                lines.extend([
+                    f"    · change checkKernelLineWitness",
+                    f"        (totalLinearOfPairWord (unrankPairWord {info['rank_name']}))",
+                    f"        {same_axis_infos[0]['axis_name']} {info['kernel_name']} = true",
+                    f"      exact {info['obj_name']}KernelCheck",
+                ])
+            lines.extend([
+                "  axis_forces := by",
+                "    intro idx",
+                "    cases idx",
+            ])
+            for info in same_axis_infos:
+                lines.extend([
+                    f"    · change AxisForcesForcedSeq (unrankPairWord {info['rank_name']})",
+                    f"        {same_axis_infos[0]['axis_name']} {info['seq_name']}",
+                    f"      exact {info['obj_name']}AxisForces",
+                ])
+            lines.extend([
+                "",
+                "theorem graphSmoke_sampled_axis_indexed_rank_family_scaled_margin_nonpos",
+                "    (idx : SampledRankIndex)",
+                "    (seq : Step14 -> Face)",
+                "    (hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)",
+                "    (hAxisConstraints : NonIdentityAxisConstraints seq) :",
+                "    sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :=",
+                "  BellmanAxisRankIndexedFamily.scaledMargin_nonpos",
+                "    sampledAxisRankIndexedFamily",
+                "    idx",
+                "    hRealize",
+                "    hAxisConstraints",
+                "",
+                "theorem graphSmoke_sampled_axis_rank_language_family_scaled_margin_nonpos",
+                "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank)",
+                "    (seq : Step14 -> Face)",
+                "    (hRealize : SeqRealizesPairWord (unrankPairWord rank) seq)",
+                "    (hAxisConstraints : NonIdentityAxisConstraints seq) :",
+                "    sampledScaledMarginAtRank rank <= 0 := by",
+                "  rcases hrank with ⟨idx, hidx⟩",
+                "  rw [← hidx] at hRealize ⊢",
+                "  exact graphSmoke_sampled_axis_indexed_rank_family_scaled_margin_nonpos",
+                "    idx seq hRealize hAxisConstraints",
+                "",
+            ])
     lines.extend([
         "theorem graphSmoke_argmax_object_scaled_margin_nonpos :",
         "    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=",
