@@ -1823,23 +1823,24 @@ def emit(
                 "  BellmanAxisRankIndexedCover.scaledMargin_nonpos",
                 "    sampledAxisRankIndexedCover hrank hRealize hAxisConstraints",
                 "",
-                "private def sampledObjectAccepts (_idx : SampledRankIndex) : Prop :=",
-                "  True",
+                "private def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face",
+            ])
+            for idx, info in enumerate(same_axis_infos):
+                lines.append(
+                    f"  | SampledRankIndex.i{idx:04d} => {info['seq_name']}"
+                )
+            lines.extend([
+                "",
+                "private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=",
+                "  AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))",
+                f"    {same_axis_infos[0]['axis_name']} (sampledObjectForcedSeq idx)",
                 "",
                 "private def sampledAxisRankObjectCover :",
                 "    BellmanAxisRankObjectCover",
                 "      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace",
                 "      rootState (" + str(const_scaled) + " : Int) sampledRankOf sampledObjectAccepts",
                 "      sampledContainsRank sampledScaledMarginAtRank where",
-                "  forcedSeq := by",
-                "    intro idx",
-                "    cases idx",
-            ])
-            for info in same_axis_infos:
-                lines.extend([
-                    f"    · exact {info['seq_name']}",
-                ])
-            lines.extend([
+                "  forcedSeq := sampledObjectForcedSeq",
                 "  trace_bound := by",
                 "    intro idx _hAccept",
                 "    cases idx",
@@ -1867,7 +1868,17 @@ def emit(
                 "  covers := by",
                 "    intro rank hrank",
                 "    rcases hrank with ⟨idx, hidx⟩",
-                "    exact ⟨idx, trivial, hidx⟩",
+                "    have hAccept : sampledObjectAccepts idx := by",
+                "      cases idx",
+            ])
+            for info in same_axis_infos:
+                lines.extend([
+                    f"      · change AxisForcesForcedSeq (unrankPairWord {info['rank_name']})",
+                    f"          {same_axis_infos[0]['axis_name']} {info['seq_name']}",
+                    f"        exact {info['obj_name']}AxisForces",
+                ])
+            lines.extend([
+                "    exact ⟨idx, hAccept, hidx⟩",
                 "",
                 "theorem graphSmoke_sampled_axis_object_cover_scaled_margin_nonpos",
                 "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",

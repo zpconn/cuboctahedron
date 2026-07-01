@@ -48544,3 +48544,75 @@ flow through semantic objects accepted by a Bellman label language.  The next
 work should replace the smoke's two sampled objects with a generated semantic
 object family whose `Accepts` predicate encodes forced-sequence compatibility
 for the top-pairing language.
+
+### Holonomy/Bellman Pivot - forced-sequence object membership smoke
+
+Pivot update from the GPT5.5 Pro Bellman/potential recommendation:
+nonidentity residual work should continue through finite-horizon Bellman
+potential certificates over semantic holonomy objects.  The immediate missing
+piece after the object-cover smoke was that the smoke's object language was
+still a placeholder:
+
+```lean
+private def sampledObjectAccepts (_idx : SampledRankIndex) : Prop := True
+```
+
+That was too weak for the production route.  The closure-gap audit showed that
+over-broad Bellman objects can admit completions whose actual forced
+contribution labels differ, so semantic acceptance must include
+forced-sequence compatibility.
+
+Changed:
+
+- `scripts/emit_bellman_graph_smoke.py` now emits:
+
+  ```lean
+  private def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face
+  private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=
+    AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))
+      cls0000Axis (sampledObjectForcedSeq idx)
+  ```
+
+- The generated `sampledAxisRankObjectCover` now uses
+  `forcedSeq := sampledObjectForcedSeq`.
+- Its `covers` proof no longer returns `trivial`; it proves
+  `sampledObjectAccepts idx` from the generated `clsXXXXAxisForces` theorem
+  for each sampled object.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` forced-sequence object language | `1:07.64` | `8,516,300 kB` | passed |
+
+Decision: accepted.  The stronger object-language smoke stayed in the same
+memory envelope as the previous object-cover route and did not revive any
+rank/certificate packing path.  The next production step is to replace this
+two-object sampled cover with a generated semantic top-pairing object family:
+
+```text
+rank satisfies top-pairing object predicate
+  -> generated object accepted by AxisForcesForcedSeq
+  -> Bellman object-cover bound proves scaledMargin <= 0
+  -> positive start-interior margin theorem proves NonIdentityRankKilled
+```
+
+Do not broaden the Bellman graph language without a forced-sequence
+compatibility predicate.  If the semantic object family fragments, test
+affine-cocycle gauge normalization and cancellation-summary DAGs as shrinkers
+before returning to exact RHS or per-rank certificate keys.

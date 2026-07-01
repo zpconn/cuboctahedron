@@ -408,27 +408,27 @@ private def graphPotential : State -> Int
   | State.s0156 => -233
   | State.s0157 => -482
   | State.s0158 => -262
-  | State.s0159 => -368
-  | State.s0160 => -376
+  | State.s0159 => -376
+  | State.s0160 => -368
   | State.s0161 => -142
   | State.s0162 => -365
   | State.s0163 => -365
-  | State.s0164 => -347
-  | State.s0165 => -479
+  | State.s0164 => -479
+  | State.s0165 => -347
   | State.s0166 => -471
   | State.s0167 => -197
   | State.s0168 => -358
   | State.s0169 => -578
   | State.s0170 => -358
-  | State.s0171 => -332
-  | State.s0172 => -376
+  | State.s0171 => -376
+  | State.s0172 => -332
   | State.s0173 => 2
   | State.s0174 => -461
   | State.s0175 => -461
   | State.s0176 => -461
-  | State.s0177 => -311
-  | State.s0178 => -435
-  | State.s0179 => -479
+  | State.s0177 => -479
+  | State.s0178 => -311
+  | State.s0179 => -435
   | State.s0180 => -53
   | State.s0181 => -322
   | State.s0182 => -322
@@ -441,8 +441,8 @@ private def graphPotential : State -> Int
   | State.s0189 => -425
   | State.s0190 => -425
   | State.s0191 => -425
-  | State.s0192 => -167
-  | State.s0193 => -191
+  | State.s0192 => -191
+  | State.s0193 => -167
   | State.s0194 => -291
   | State.s0195 => 91
   | State.s0196 => -178
@@ -458,8 +458,8 @@ private def graphPotential : State -> Int
   | State.s0206 => -281
   | State.s0207 => -281
   | State.s0208 => -281
-  | State.s0209 => -23
-  | State.s0210 => -191
+  | State.s0209 => -191
+  | State.s0210 => -23
   | State.s0211 => -147
   | State.s0212 => 127
   | State.s0213 => 127
@@ -1470,17 +1470,17 @@ private theorem edge0141_valid : edge0141.Valid graphPotential := by
   decide
 
 private def edge0142 : BellmanEdge State :=
-  { src := State.s0151, gain := 96, dst := State.s0159 }
+  { src := State.s0151, gain := 96, dst := State.s0160 }
 
 private theorem edge0142_valid : edge0142.Valid graphPotential := by
-  change (96 : Int) + graphPotential State.s0159 <= graphPotential State.s0151
+  change (96 : Int) + graphPotential State.s0160 <= graphPotential State.s0151
   decide
 
 private def edge0143 : BellmanEdge State :=
-  { src := State.s0152, gain := -18, dst := State.s0160 }
+  { src := State.s0152, gain := -18, dst := State.s0159 }
 
 private theorem edge0143_valid : edge0143.Valid graphPotential := by
-  change (-18 : Int) + graphPotential State.s0160 <= graphPotential State.s0152
+  change (-18 : Int) + graphPotential State.s0159 <= graphPotential State.s0152
   decide
 
 private def edge0144 : BellmanEdge State :=
@@ -1505,10 +1505,10 @@ private theorem edge0146_valid : edge0146.Valid graphPotential := by
   decide
 
 private def edge0147 : BellmanEdge State :=
-  { src := State.s0154, gain := 96, dst := State.s0164 }
+  { src := State.s0154, gain := 96, dst := State.s0165 }
 
 private theorem edge0147_valid : edge0147.Valid graphPotential := by
-  change (96 : Int) + graphPotential State.s0164 <= graphPotential State.s0154
+  change (96 : Int) + graphPotential State.s0165 <= graphPotential State.s0154
   decide
 
 private def edge0148 : BellmanEdge State :=
@@ -1519,10 +1519,10 @@ private theorem edge0148_valid : edge0148.Valid graphPotential := by
   decide
 
 private def edge0149 : BellmanEdge State :=
-  { src := State.s0156, gain := -18, dst := State.s0165 }
+  { src := State.s0156, gain := -18, dst := State.s0164 }
 
 private theorem edge0149_valid : edge0149.Valid graphPotential := by
-  change (-18 : Int) + graphPotential State.s0165 <= graphPotential State.s0156
+  change (-18 : Int) + graphPotential State.s0164 <= graphPotential State.s0156
   decide
 
 private def edge0150 : BellmanEdge State :=
@@ -1547,24 +1547,24 @@ private theorem edge0152_valid : edge0152.Valid graphPotential := by
   decide
 
 private def edge0153 : BellmanEdge State :=
-  { src := State.s0159, gain := -36, dst := State.s0171 }
+  { src := State.s0159, gain := -18, dst := State.s0168 }
 
 private theorem edge0153_valid : edge0153.Valid graphPotential := by
-  change (-36 : Int) + graphPotential State.s0171 <= graphPotential State.s0159
+  change (-18 : Int) + graphPotential State.s0168 <= graphPotential State.s0159
   decide
 
 private def edge0154 : BellmanEdge State :=
-  { src := State.s0160, gain := -18, dst := State.s0168 }
+  { src := State.s0160, gain := -36, dst := State.s0172 }
 
 private theorem edge0154_valid : edge0154.Valid graphPotential := by
-  change (-18 : Int) + graphPotential State.s0168 <= graphPotential State.s0160
+  change (-36 : Int) + graphPotential State.s0172 <= graphPotential State.s0160
   decide
 
 private def edge0155 : BellmanEdge State :=
-  { src := State.s0161, gain := -54, dst := State.s0172 }
+  { src := State.s0161, gain := -54, dst := State.s0171 }
 
 private theorem edge0155_valid : edge0155.Valid graphPotential := by
-  change (-54 : Int) + graphPotential State.s0172 <= graphPotential State.s0161
+  change (-54 : Int) + graphPotential State.s0171 <= graphPotential State.s0161
   decide
 
 private def edge0156 : BellmanEdge State :=
@@ -1589,31 +1589,31 @@ private theorem edge0158_valid : edge0158.Valid graphPotential := by
   decide
 
 private def edge0159 : BellmanEdge State :=
-  { src := State.s0164, gain := -36, dst := State.s0177 }
+  { src := State.s0164, gain := -18, dst := State.s0174 }
 
 private theorem edge0159_valid : edge0159.Valid graphPotential := by
-  change (-36 : Int) + graphPotential State.s0177 <= graphPotential State.s0164
+  change (-18 : Int) + graphPotential State.s0174 <= graphPotential State.s0164
   decide
 
 private def edge0160 : BellmanEdge State :=
-  { src := State.s0165, gain := -18, dst := State.s0174 }
+  { src := State.s0165, gain := -36, dst := State.s0178 }
 
 private theorem edge0160_valid : edge0160.Valid graphPotential := by
-  change (-18 : Int) + graphPotential State.s0174 <= graphPotential State.s0165
+  change (-36 : Int) + graphPotential State.s0178 <= graphPotential State.s0165
   decide
 
 private def edge0161 : BellmanEdge State :=
-  { src := State.s0166, gain := -36, dst := State.s0178 }
+  { src := State.s0166, gain := -36, dst := State.s0179 }
 
 private theorem edge0161_valid : edge0161.Valid graphPotential := by
-  change (-36 : Int) + graphPotential State.s0178 <= graphPotential State.s0166
+  change (-36 : Int) + graphPotential State.s0179 <= graphPotential State.s0166
   decide
 
 private def edge0162 : BellmanEdge State :=
-  { src := State.s0167, gain := -54, dst := State.s0179 }
+  { src := State.s0167, gain := -54, dst := State.s0177 }
 
 private theorem edge0162_valid : edge0162.Valid graphPotential := by
-  change (-54 : Int) + graphPotential State.s0179 <= graphPotential State.s0167
+  change (-54 : Int) + graphPotential State.s0177 <= graphPotential State.s0167
   decide
 
 private def edge0163 : BellmanEdge State :=
@@ -1645,17 +1645,17 @@ private theorem edge0166_valid : edge0166.Valid graphPotential := by
   decide
 
 private def edge0167 : BellmanEdge State :=
-  { src := State.s0171, gain := -144, dst := State.s0186 }
+  { src := State.s0171, gain := -54, dst := State.s0181 }
 
 private theorem edge0167_valid : edge0167.Valid graphPotential := by
-  change (-144 : Int) + graphPotential State.s0186 <= graphPotential State.s0171
+  change (-54 : Int) + graphPotential State.s0181 <= graphPotential State.s0171
   decide
 
 private def edge0168 : BellmanEdge State :=
-  { src := State.s0172, gain := -54, dst := State.s0181 }
+  { src := State.s0172, gain := -144, dst := State.s0186 }
 
 private theorem edge0168_valid : edge0168.Valid graphPotential := by
-  change (-54 : Int) + graphPotential State.s0181 <= graphPotential State.s0172
+  change (-144 : Int) + graphPotential State.s0186 <= graphPotential State.s0172
   decide
 
 private def edge0169 : BellmanEdge State :=
@@ -1694,31 +1694,31 @@ private theorem edge0173_valid : edge0173.Valid graphPotential := by
   decide
 
 private def edge0174 : BellmanEdge State :=
-  { src := State.s0177, gain := -144, dst := State.s0192 }
+  { src := State.s0177, gain := -54, dst := State.s0188 }
 
 private theorem edge0174_valid : edge0174.Valid graphPotential := by
-  change (-144 : Int) + graphPotential State.s0192 <= graphPotential State.s0177
+  change (-54 : Int) + graphPotential State.s0188 <= graphPotential State.s0177
   decide
 
 private def edge0175 : BellmanEdge State :=
-  { src := State.s0178, gain := -144, dst := State.s0194 }
+  { src := State.s0178, gain := -144, dst := State.s0193 }
 
 private theorem edge0175_valid : edge0175.Valid graphPotential := by
-  change (-144 : Int) + graphPotential State.s0194 <= graphPotential State.s0178
+  change (-144 : Int) + graphPotential State.s0193 <= graphPotential State.s0178
   decide
 
 private def edge0176 : BellmanEdge State :=
-  { src := State.s0179, gain := -54, dst := State.s0188 }
+  { src := State.s0179, gain := -144, dst := State.s0194 }
 
 private theorem edge0176_valid : edge0176.Valid graphPotential := by
-  change (-54 : Int) + graphPotential State.s0188 <= graphPotential State.s0179
+  change (-144 : Int) + graphPotential State.s0194 <= graphPotential State.s0179
   decide
 
 private def edge0177 : BellmanEdge State :=
-  { src := State.s0180, gain := 90, dst := State.s0193 }
+  { src := State.s0180, gain := 90, dst := State.s0192 }
 
 private theorem edge0177_valid : edge0177.Valid graphPotential := by
-  change (90 : Int) + graphPotential State.s0193 <= graphPotential State.s0180
+  change (90 : Int) + graphPotential State.s0192 <= graphPotential State.s0180
   decide
 
 private def edge0178 : BellmanEdge State :=
@@ -1813,17 +1813,17 @@ private theorem edge0190_valid : edge0190.Valid graphPotential := by
   decide
 
 private def edge0191 : BellmanEdge State :=
-  { src := State.s0192, gain := -144, dst := State.s0209 }
+  { src := State.s0192, gain := 90, dst := State.s0204 }
 
 private theorem edge0191_valid : edge0191.Valid graphPotential := by
-  change (-144 : Int) + graphPotential State.s0209 <= graphPotential State.s0192
+  change (90 : Int) + graphPotential State.s0204 <= graphPotential State.s0192
   decide
 
 private def edge0192 : BellmanEdge State :=
-  { src := State.s0193, gain := 90, dst := State.s0204 }
+  { src := State.s0193, gain := -144, dst := State.s0210 }
 
 private theorem edge0192_valid : edge0192.Valid graphPotential := by
-  change (90 : Int) + graphPotential State.s0204 <= graphPotential State.s0193
+  change (-144 : Int) + graphPotential State.s0210 <= graphPotential State.s0193
   decide
 
 private def edge0193 : BellmanEdge State :=
@@ -1834,10 +1834,10 @@ private theorem edge0193_valid : edge0193.Valid graphPotential := by
   decide
 
 private def edge0194 : BellmanEdge State :=
-  { src := State.s0195, gain := -54, dst := State.s0210 }
+  { src := State.s0195, gain := -54, dst := State.s0209 }
 
 private theorem edge0194_valid : edge0194.Valid graphPotential := by
-  change (-54 : Int) + graphPotential State.s0210 <= graphPotential State.s0195
+  change (-54 : Int) + graphPotential State.s0209 <= graphPotential State.s0195
   decide
 
 private def edge0195 : BellmanEdge State :=
@@ -1953,17 +1953,17 @@ private theorem edge0210_valid : edge0210.Valid graphPotential := by
   decide
 
 private def edge0211 : BellmanEdge State :=
-  { src := State.s0209, gain := -36, dst := State.s0009 }
+  { src := State.s0209, gain := -54, dst := State.s0001 }
 
 private theorem edge0211_valid : edge0211.Valid graphPotential := by
-  change (-36 : Int) + graphPotential State.s0009 <= graphPotential State.s0209
+  change (-54 : Int) + graphPotential State.s0001 <= graphPotential State.s0209
   decide
 
 private def edge0212 : BellmanEdge State :=
-  { src := State.s0210, gain := -54, dst := State.s0001 }
+  { src := State.s0210, gain := -36, dst := State.s0009 }
 
 private theorem edge0212_valid : edge0212.Valid graphPotential := by
-  change (-54 : Int) + graphPotential State.s0001 <= graphPotential State.s0210
+  change (-36 : Int) + graphPotential State.s0009 <= graphPotential State.s0210
   decide
 
 private def edge0213 : BellmanEdge State :=
@@ -2761,7 +2761,7 @@ private def cls0001Edges : List (BellmanEdge State) :=
   , edge0136
   , edge0148
   , edge0161
-  , edge0175
+  , edge0176
   , edge0193
   , edge0213
   , edge0011
@@ -2829,7 +2829,7 @@ private theorem cls0001Graph :
   · subst e; exact GraphEdge.e0136
   · subst e; exact GraphEdge.e0148
   · subst e; exact GraphEdge.e0161
-  · subst e; exact GraphEdge.e0175
+  · subst e; exact GraphEdge.e0176
   · subst e; exact GraphEdge.e0193
   · subst e; exact GraphEdge.e0213
   · subst e; exact GraphEdge.e0011
@@ -2952,10 +2952,10 @@ private def cls0003Edges : List (BellmanEdge State) :=
   , edge0129
   , edge0137
   , edge0147
-  , edge0159
-  , edge0174
-  , edge0191
-  , edge0211
+  , edge0160
+  , edge0175
+  , edge0192
+  , edge0212
   , edge0009
   , edge0048
   , edge0077
@@ -3020,10 +3020,10 @@ private theorem cls0003Graph :
   · subst e; exact GraphEdge.e0129
   · subst e; exact GraphEdge.e0137
   · subst e; exact GraphEdge.e0147
-  · subst e; exact GraphEdge.e0159
-  · subst e; exact GraphEdge.e0174
-  · subst e; exact GraphEdge.e0191
-  · subst e; exact GraphEdge.e0211
+  · subst e; exact GraphEdge.e0160
+  · subst e; exact GraphEdge.e0175
+  · subst e; exact GraphEdge.e0192
+  · subst e; exact GraphEdge.e0212
   · subst e; exact GraphEdge.e0009
   · subst e; exact GraphEdge.e0048
   · subst e; exact GraphEdge.e0077
@@ -3048,7 +3048,7 @@ private def cls0004Edges : List (BellmanEdge State) :=
   , edge0129
   , edge0138
   , edge0149
-  , edge0160
+  , edge0159
   , edge0171
   , edge0188
   , edge0208
@@ -3116,7 +3116,7 @@ private theorem cls0004Graph :
   · subst e; exact GraphEdge.e0129
   · subst e; exact GraphEdge.e0138
   · subst e; exact GraphEdge.e0149
-  · subst e; exact GraphEdge.e0160
+  · subst e; exact GraphEdge.e0159
   · subst e; exact GraphEdge.e0171
   · subst e; exact GraphEdge.e0188
   · subst e; exact GraphEdge.e0208
@@ -3145,7 +3145,7 @@ private def cls0005Edges : List (BellmanEdge State) :=
   , edge0138
   , edge0150
   , edge0162
-  , edge0176
+  , edge0174
   , edge0187
   , edge0207
   , edge0003
@@ -3213,7 +3213,7 @@ private theorem cls0005Graph :
   · subst e; exact GraphEdge.e0138
   · subst e; exact GraphEdge.e0150
   · subst e; exact GraphEdge.e0162
-  · subst e; exact GraphEdge.e0176
+  · subst e; exact GraphEdge.e0174
   · subst e; exact GraphEdge.e0187
   · subst e; exact GraphEdge.e0207
   · subst e; exact GraphEdge.e0003
@@ -3242,7 +3242,7 @@ private def cls0006Edges : List (BellmanEdge State) :=
   , edge0150
   , edge0163
   , edge0177
-  , edge0192
+  , edge0191
   , edge0206
   , edge0002
   , edge0040
@@ -3310,7 +3310,7 @@ private theorem cls0006Graph :
   · subst e; exact GraphEdge.e0150
   · subst e; exact GraphEdge.e0163
   · subst e; exact GraphEdge.e0177
-  · subst e; exact GraphEdge.e0192
+  · subst e; exact GraphEdge.e0191
   · subst e; exact GraphEdge.e0206
   · subst e; exact GraphEdge.e0002
   · subst e; exact GraphEdge.e0040
@@ -3339,7 +3339,7 @@ private def cls0007Edges : List (BellmanEdge State) :=
   , edge0163
   , edge0178
   , edge0194
-  , edge0212
+  , edge0211
   , edge0001
   , edge0038
   , edge0071
@@ -3407,7 +3407,7 @@ private theorem cls0007Graph :
   · subst e; exact GraphEdge.e0163
   · subst e; exact GraphEdge.e0178
   · subst e; exact GraphEdge.e0194
-  · subst e; exact GraphEdge.e0212
+  · subst e; exact GraphEdge.e0211
   · subst e; exact GraphEdge.e0001
   · subst e; exact GraphEdge.e0038
   · subst e; exact GraphEdge.e0071
@@ -3817,7 +3817,7 @@ private def cls0012Edges : List (BellmanEdge State) :=
   , edge0136
   , edge0148
   , edge0161
-  , edge0175
+  , edge0176
   , edge0193
   , edge0213
   , edge0011
@@ -3885,7 +3885,7 @@ private theorem cls0012Graph :
   · subst e; exact GraphEdge.e0136
   · subst e; exact GraphEdge.e0148
   · subst e; exact GraphEdge.e0161
-  · subst e; exact GraphEdge.e0175
+  · subst e; exact GraphEdge.e0176
   · subst e; exact GraphEdge.e0193
   · subst e; exact GraphEdge.e0213
   · subst e; exact GraphEdge.e0011
@@ -4199,8 +4199,8 @@ private def cls0016Edges : List (BellmanEdge State) :=
   , edge0126
   , edge0132
   , edge0142
-  , edge0153
-  , edge0167
+  , edge0154
+  , edge0168
   , edge0184
   , edge0202
   , edge0226
@@ -4267,8 +4267,8 @@ private theorem cls0016Graph :
   · subst e; exact GraphEdge.e0126
   · subst e; exact GraphEdge.e0132
   · subst e; exact GraphEdge.e0142
-  · subst e; exact GraphEdge.e0153
-  · subst e; exact GraphEdge.e0167
+  · subst e; exact GraphEdge.e0154
+  · subst e; exact GraphEdge.e0168
   · subst e; exact GraphEdge.e0184
   · subst e; exact GraphEdge.e0202
   · subst e; exact GraphEdge.e0226
@@ -4295,8 +4295,8 @@ private def cls0017Edges : List (BellmanEdge State) :=
   , edge0126
   , edge0132
   , edge0142
-  , edge0153
-  , edge0167
+  , edge0154
+  , edge0168
   , edge0184
   , edge0202
   , edge0227
@@ -4363,8 +4363,8 @@ private theorem cls0017Graph :
   · subst e; exact GraphEdge.e0126
   · subst e; exact GraphEdge.e0132
   · subst e; exact GraphEdge.e0142
-  · subst e; exact GraphEdge.e0153
-  · subst e; exact GraphEdge.e0167
+  · subst e; exact GraphEdge.e0154
+  · subst e; exact GraphEdge.e0168
   · subst e; exact GraphEdge.e0184
   · subst e; exact GraphEdge.e0202
   · subst e; exact GraphEdge.e0227
@@ -4391,8 +4391,8 @@ private def cls0018Edges : List (BellmanEdge State) :=
   , edge0126
   , edge0132
   , edge0142
-  , edge0153
-  , edge0167
+  , edge0154
+  , edge0168
   , edge0184
   , edge0202
   , edge0227
@@ -4459,8 +4459,8 @@ private theorem cls0018Graph :
   · subst e; exact GraphEdge.e0126
   · subst e; exact GraphEdge.e0132
   · subst e; exact GraphEdge.e0142
-  · subst e; exact GraphEdge.e0153
-  · subst e; exact GraphEdge.e0167
+  · subst e; exact GraphEdge.e0154
+  · subst e; exact GraphEdge.e0168
   · subst e; exact GraphEdge.e0184
   · subst e; exact GraphEdge.e0202
   · subst e; exact GraphEdge.e0227
@@ -4583,7 +4583,7 @@ private def cls0020Edges : List (BellmanEdge State) :=
   , edge0127
   , edge0134
   , edge0143
-  , edge0154
+  , edge0153
   , edge0164
   , edge0180
   , edge0198
@@ -4651,7 +4651,7 @@ private theorem cls0020Graph :
   · subst e; exact GraphEdge.e0127
   · subst e; exact GraphEdge.e0134
   · subst e; exact GraphEdge.e0143
-  · subst e; exact GraphEdge.e0154
+  · subst e; exact GraphEdge.e0153
   · subst e; exact GraphEdge.e0164
   · subst e; exact GraphEdge.e0180
   · subst e; exact GraphEdge.e0198
@@ -4679,7 +4679,7 @@ private def cls0021Edges : List (BellmanEdge State) :=
   , edge0127
   , edge0134
   , edge0143
-  , edge0154
+  , edge0153
   , edge0164
   , edge0180
   , edge0198
@@ -4747,7 +4747,7 @@ private theorem cls0021Graph :
   · subst e; exact GraphEdge.e0127
   · subst e; exact GraphEdge.e0134
   · subst e; exact GraphEdge.e0143
-  · subst e; exact GraphEdge.e0154
+  · subst e; exact GraphEdge.e0153
   · subst e; exact GraphEdge.e0164
   · subst e; exact GraphEdge.e0180
   · subst e; exact GraphEdge.e0198
@@ -4776,7 +4776,7 @@ private def cls0022Edges : List (BellmanEdge State) :=
   , edge0134
   , edge0144
   , edge0155
-  , edge0168
+  , edge0167
   , edge0179
   , edge0197
   , edge0220
@@ -4844,7 +4844,7 @@ private theorem cls0022Graph :
   · subst e; exact GraphEdge.e0134
   · subst e; exact GraphEdge.e0144
   · subst e; exact GraphEdge.e0155
-  · subst e; exact GraphEdge.e0168
+  · subst e; exact GraphEdge.e0167
   · subst e; exact GraphEdge.e0179
   · subst e; exact GraphEdge.e0197
   · subst e; exact GraphEdge.e0220
@@ -4872,7 +4872,7 @@ private def cls0023Edges : List (BellmanEdge State) :=
   , edge0134
   , edge0144
   , edge0155
-  , edge0168
+  , edge0167
   , edge0179
   , edge0197
   , edge0220
@@ -4940,7 +4940,7 @@ private theorem cls0023Graph :
   · subst e; exact GraphEdge.e0134
   · subst e; exact GraphEdge.e0144
   · subst e; exact GraphEdge.e0155
-  · subst e; exact GraphEdge.e0168
+  · subst e; exact GraphEdge.e0167
   · subst e; exact GraphEdge.e0179
   · subst e; exact GraphEdge.e0197
   · subst e; exact GraphEdge.e0220
@@ -6563,30 +6563,30 @@ private inductive SmokeEdgeLabel : BellmanEdge State -> SmokeLabel -> Prop where
   | e0150 : SmokeEdgeLabel edge0150 SmokeLabel.l0006
   | e0151 : SmokeEdgeLabel edge0151 SmokeLabel.l0006
   | e0152 : SmokeEdgeLabel edge0152 SmokeLabel.l0006
-  | e0153 : SmokeEdgeLabel edge0153 SmokeLabel.l0005
-  | e0154 : SmokeEdgeLabel edge0154 SmokeLabel.l0012
+  | e0153 : SmokeEdgeLabel edge0153 SmokeLabel.l0012
+  | e0154 : SmokeEdgeLabel edge0154 SmokeLabel.l0005
   | e0155 : SmokeEdgeLabel edge0155 SmokeLabel.l0013
   | e0156 : SmokeEdgeLabel edge0156 SmokeLabel.l0007
   | e0157 : SmokeEdgeLabel edge0157 SmokeLabel.l0004
   | e0158 : SmokeEdgeLabel edge0158 SmokeLabel.l0004
-  | e0159 : SmokeEdgeLabel edge0159 SmokeLabel.l0007
-  | e0160 : SmokeEdgeLabel edge0160 SmokeLabel.l0012
+  | e0159 : SmokeEdgeLabel edge0159 SmokeLabel.l0012
+  | e0160 : SmokeEdgeLabel edge0160 SmokeLabel.l0007
   | e0161 : SmokeEdgeLabel edge0161 SmokeLabel.l0007
   | e0162 : SmokeEdgeLabel edge0162 SmokeLabel.l0013
   | e0163 : SmokeEdgeLabel edge0163 SmokeLabel.l0005
   | e0164 : SmokeEdgeLabel edge0164 SmokeLabel.l0004
   | e0165 : SmokeEdgeLabel edge0165 SmokeLabel.l0004
   | e0166 : SmokeEdgeLabel edge0166 SmokeLabel.l0004
-  | e0167 : SmokeEdgeLabel edge0167 SmokeLabel.l0006
-  | e0168 : SmokeEdgeLabel edge0168 SmokeLabel.l0012
+  | e0167 : SmokeEdgeLabel edge0167 SmokeLabel.l0012
+  | e0168 : SmokeEdgeLabel edge0168 SmokeLabel.l0006
   | e0169 : SmokeEdgeLabel edge0169 SmokeLabel.l0013
   | e0170 : SmokeEdgeLabel edge0170 SmokeLabel.l0000
   | e0171 : SmokeEdgeLabel edge0171 SmokeLabel.l0006
   | e0172 : SmokeEdgeLabel edge0172 SmokeLabel.l0006
   | e0173 : SmokeEdgeLabel edge0173 SmokeLabel.l0006
-  | e0174 : SmokeEdgeLabel edge0174 SmokeLabel.l0004
+  | e0174 : SmokeEdgeLabel edge0174 SmokeLabel.l0012
   | e0175 : SmokeEdgeLabel edge0175 SmokeLabel.l0004
-  | e0176 : SmokeEdgeLabel edge0176 SmokeLabel.l0012
+  | e0176 : SmokeEdgeLabel edge0176 SmokeLabel.l0004
   | e0177 : SmokeEdgeLabel edge0177 SmokeLabel.l0013
   | e0178 : SmokeEdgeLabel edge0178 SmokeLabel.l0002
   | e0179 : SmokeEdgeLabel edge0179 SmokeLabel.l0007
@@ -6601,8 +6601,8 @@ private inductive SmokeEdgeLabel : BellmanEdge State -> SmokeLabel -> Prop where
   | e0188 : SmokeEdgeLabel edge0188 SmokeLabel.l0005
   | e0189 : SmokeEdgeLabel edge0189 SmokeLabel.l0005
   | e0190 : SmokeEdgeLabel edge0190 SmokeLabel.l0005
-  | e0191 : SmokeEdgeLabel edge0191 SmokeLabel.l0003
-  | e0192 : SmokeEdgeLabel edge0192 SmokeLabel.l0012
+  | e0191 : SmokeEdgeLabel edge0191 SmokeLabel.l0012
+  | e0192 : SmokeEdgeLabel edge0192 SmokeLabel.l0003
   | e0193 : SmokeEdgeLabel edge0193 SmokeLabel.l0003
   | e0194 : SmokeEdgeLabel edge0194 SmokeLabel.l0013
   | e0195 : SmokeEdgeLabel edge0195 SmokeLabel.l0007
@@ -6621,8 +6621,8 @@ private inductive SmokeEdgeLabel : BellmanEdge State -> SmokeLabel -> Prop where
   | e0208 : SmokeEdgeLabel edge0208 SmokeLabel.l0002
   | e0209 : SmokeEdgeLabel edge0209 SmokeLabel.l0002
   | e0210 : SmokeEdgeLabel edge0210 SmokeLabel.l0002
-  | e0211 : SmokeEdgeLabel edge0211 SmokeLabel.l0006
-  | e0212 : SmokeEdgeLabel edge0212 SmokeLabel.l0012
+  | e0211 : SmokeEdgeLabel edge0211 SmokeLabel.l0012
+  | e0212 : SmokeEdgeLabel edge0212 SmokeLabel.l0006
   | e0213 : SmokeEdgeLabel edge0213 SmokeLabel.l0006
   | e0214 : SmokeEdgeLabel edge0214 SmokeLabel.l0013
   | e0215 : SmokeEdgeLabel edge0215 SmokeLabel.l0003
@@ -6794,30 +6794,30 @@ private inductive SmokeStep : State -> SmokeLabel -> State -> Int -> Prop where
   | e0150 : SmokeStep edge0150.src SmokeLabel.l0006 edge0150.dst edge0150.gain
   | e0151 : SmokeStep edge0151.src SmokeLabel.l0006 edge0151.dst edge0151.gain
   | e0152 : SmokeStep edge0152.src SmokeLabel.l0006 edge0152.dst edge0152.gain
-  | e0153 : SmokeStep edge0153.src SmokeLabel.l0005 edge0153.dst edge0153.gain
-  | e0154 : SmokeStep edge0154.src SmokeLabel.l0012 edge0154.dst edge0154.gain
+  | e0153 : SmokeStep edge0153.src SmokeLabel.l0012 edge0153.dst edge0153.gain
+  | e0154 : SmokeStep edge0154.src SmokeLabel.l0005 edge0154.dst edge0154.gain
   | e0155 : SmokeStep edge0155.src SmokeLabel.l0013 edge0155.dst edge0155.gain
   | e0156 : SmokeStep edge0156.src SmokeLabel.l0007 edge0156.dst edge0156.gain
   | e0157 : SmokeStep edge0157.src SmokeLabel.l0004 edge0157.dst edge0157.gain
   | e0158 : SmokeStep edge0158.src SmokeLabel.l0004 edge0158.dst edge0158.gain
-  | e0159 : SmokeStep edge0159.src SmokeLabel.l0007 edge0159.dst edge0159.gain
-  | e0160 : SmokeStep edge0160.src SmokeLabel.l0012 edge0160.dst edge0160.gain
+  | e0159 : SmokeStep edge0159.src SmokeLabel.l0012 edge0159.dst edge0159.gain
+  | e0160 : SmokeStep edge0160.src SmokeLabel.l0007 edge0160.dst edge0160.gain
   | e0161 : SmokeStep edge0161.src SmokeLabel.l0007 edge0161.dst edge0161.gain
   | e0162 : SmokeStep edge0162.src SmokeLabel.l0013 edge0162.dst edge0162.gain
   | e0163 : SmokeStep edge0163.src SmokeLabel.l0005 edge0163.dst edge0163.gain
   | e0164 : SmokeStep edge0164.src SmokeLabel.l0004 edge0164.dst edge0164.gain
   | e0165 : SmokeStep edge0165.src SmokeLabel.l0004 edge0165.dst edge0165.gain
   | e0166 : SmokeStep edge0166.src SmokeLabel.l0004 edge0166.dst edge0166.gain
-  | e0167 : SmokeStep edge0167.src SmokeLabel.l0006 edge0167.dst edge0167.gain
-  | e0168 : SmokeStep edge0168.src SmokeLabel.l0012 edge0168.dst edge0168.gain
+  | e0167 : SmokeStep edge0167.src SmokeLabel.l0012 edge0167.dst edge0167.gain
+  | e0168 : SmokeStep edge0168.src SmokeLabel.l0006 edge0168.dst edge0168.gain
   | e0169 : SmokeStep edge0169.src SmokeLabel.l0013 edge0169.dst edge0169.gain
   | e0170 : SmokeStep edge0170.src SmokeLabel.l0000 edge0170.dst edge0170.gain
   | e0171 : SmokeStep edge0171.src SmokeLabel.l0006 edge0171.dst edge0171.gain
   | e0172 : SmokeStep edge0172.src SmokeLabel.l0006 edge0172.dst edge0172.gain
   | e0173 : SmokeStep edge0173.src SmokeLabel.l0006 edge0173.dst edge0173.gain
-  | e0174 : SmokeStep edge0174.src SmokeLabel.l0004 edge0174.dst edge0174.gain
+  | e0174 : SmokeStep edge0174.src SmokeLabel.l0012 edge0174.dst edge0174.gain
   | e0175 : SmokeStep edge0175.src SmokeLabel.l0004 edge0175.dst edge0175.gain
-  | e0176 : SmokeStep edge0176.src SmokeLabel.l0012 edge0176.dst edge0176.gain
+  | e0176 : SmokeStep edge0176.src SmokeLabel.l0004 edge0176.dst edge0176.gain
   | e0177 : SmokeStep edge0177.src SmokeLabel.l0013 edge0177.dst edge0177.gain
   | e0178 : SmokeStep edge0178.src SmokeLabel.l0002 edge0178.dst edge0178.gain
   | e0179 : SmokeStep edge0179.src SmokeLabel.l0007 edge0179.dst edge0179.gain
@@ -6832,8 +6832,8 @@ private inductive SmokeStep : State -> SmokeLabel -> State -> Int -> Prop where
   | e0188 : SmokeStep edge0188.src SmokeLabel.l0005 edge0188.dst edge0188.gain
   | e0189 : SmokeStep edge0189.src SmokeLabel.l0005 edge0189.dst edge0189.gain
   | e0190 : SmokeStep edge0190.src SmokeLabel.l0005 edge0190.dst edge0190.gain
-  | e0191 : SmokeStep edge0191.src SmokeLabel.l0003 edge0191.dst edge0191.gain
-  | e0192 : SmokeStep edge0192.src SmokeLabel.l0012 edge0192.dst edge0192.gain
+  | e0191 : SmokeStep edge0191.src SmokeLabel.l0012 edge0191.dst edge0191.gain
+  | e0192 : SmokeStep edge0192.src SmokeLabel.l0003 edge0192.dst edge0192.gain
   | e0193 : SmokeStep edge0193.src SmokeLabel.l0003 edge0193.dst edge0193.gain
   | e0194 : SmokeStep edge0194.src SmokeLabel.l0013 edge0194.dst edge0194.gain
   | e0195 : SmokeStep edge0195.src SmokeLabel.l0007 edge0195.dst edge0195.gain
@@ -6852,8 +6852,8 @@ private inductive SmokeStep : State -> SmokeLabel -> State -> Int -> Prop where
   | e0208 : SmokeStep edge0208.src SmokeLabel.l0002 edge0208.dst edge0208.gain
   | e0209 : SmokeStep edge0209.src SmokeLabel.l0002 edge0209.dst edge0209.gain
   | e0210 : SmokeStep edge0210.src SmokeLabel.l0002 edge0210.dst edge0210.gain
-  | e0211 : SmokeStep edge0211.src SmokeLabel.l0006 edge0211.dst edge0211.gain
-  | e0212 : SmokeStep edge0212.src SmokeLabel.l0012 edge0212.dst edge0212.gain
+  | e0211 : SmokeStep edge0211.src SmokeLabel.l0012 edge0211.dst edge0211.gain
+  | e0212 : SmokeStep edge0212.src SmokeLabel.l0006 edge0212.dst edge0212.gain
   | e0213 : SmokeStep edge0213.src SmokeLabel.l0006 edge0213.dst edge0213.gain
   | e0214 : SmokeStep edge0214.src SmokeLabel.l0013 edge0214.dst edge0214.gain
   | e0215 : SmokeStep edge0215.src SmokeLabel.l0003 edge0215.dst edge0215.gain
@@ -7543,10 +7543,10 @@ private theorem trieNode0017Run :
   unfold trieNode0017Labels trieNode0017Gain
   exact BellmanLabelStepRun.append trieNode0016Run trieNode0017StepRun
 
-private def trieNode0018State : State := edge0175.dst
+private def trieNode0018State : State := edge0176.dst
 private def trieNode0018StepLabels : List SmokeLabel :=
   [SmokeLabel.l0004]
-private def trieNode0018StepGain : Int := edge0175.gain + (0)
+private def trieNode0018StepGain : Int := edge0176.gain + (0)
 private def trieNode0018Labels : List SmokeLabel :=
   trieNode0017Labels ++ trieNode0018StepLabels
 private def trieNode0018Gain : Int :=
@@ -7558,7 +7558,7 @@ private theorem trieNode0018StepRun :
   unfold trieNode0017State trieNode0018State
   unfold trieNode0018StepLabels trieNode0018StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0175
+  · exact SmokeStep.e0176
   exact BellmanLabelStepRun.nil trieNode0018State
 
 private theorem trieNode0018Run :
@@ -7999,10 +7999,10 @@ private theorem trieNode0036Run :
   unfold trieNode0036Labels trieNode0036Gain
   exact BellmanLabelStepRun.append trieNode0026Run trieNode0036StepRun
 
-private def trieNode0037State : State := edge0159.dst
+private def trieNode0037State : State := edge0160.dst
 private def trieNode0037StepLabels : List SmokeLabel :=
   [SmokeLabel.l0007]
-private def trieNode0037StepGain : Int := edge0159.gain + (0)
+private def trieNode0037StepGain : Int := edge0160.gain + (0)
 private def trieNode0037Labels : List SmokeLabel :=
   trieNode0036Labels ++ trieNode0037StepLabels
 private def trieNode0037Gain : Int :=
@@ -8014,7 +8014,7 @@ private theorem trieNode0037StepRun :
   unfold trieNode0036State trieNode0037State
   unfold trieNode0037StepLabels trieNode0037StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0159
+  · exact SmokeStep.e0160
   exact BellmanLabelStepRun.nil trieNode0037State
 
 private theorem trieNode0037Run :
@@ -8023,10 +8023,10 @@ private theorem trieNode0037Run :
   unfold trieNode0037Labels trieNode0037Gain
   exact BellmanLabelStepRun.append trieNode0036Run trieNode0037StepRun
 
-private def trieNode0038State : State := edge0174.dst
+private def trieNode0038State : State := edge0175.dst
 private def trieNode0038StepLabels : List SmokeLabel :=
   [SmokeLabel.l0004]
-private def trieNode0038StepGain : Int := edge0174.gain + (0)
+private def trieNode0038StepGain : Int := edge0175.gain + (0)
 private def trieNode0038Labels : List SmokeLabel :=
   trieNode0037Labels ++ trieNode0038StepLabels
 private def trieNode0038Gain : Int :=
@@ -8038,7 +8038,7 @@ private theorem trieNode0038StepRun :
   unfold trieNode0037State trieNode0038State
   unfold trieNode0038StepLabels trieNode0038StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0174
+  · exact SmokeStep.e0175
   exact BellmanLabelStepRun.nil trieNode0038State
 
 private theorem trieNode0038Run :
@@ -8047,10 +8047,10 @@ private theorem trieNode0038Run :
   unfold trieNode0038Labels trieNode0038Gain
   exact BellmanLabelStepRun.append trieNode0037Run trieNode0038StepRun
 
-private def trieNode0039State : State := edge0191.dst
+private def trieNode0039State : State := edge0192.dst
 private def trieNode0039StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
-private def trieNode0039StepGain : Int := edge0191.gain + (0)
+private def trieNode0039StepGain : Int := edge0192.gain + (0)
 private def trieNode0039Labels : List SmokeLabel :=
   trieNode0038Labels ++ trieNode0039StepLabels
 private def trieNode0039Gain : Int :=
@@ -8062,7 +8062,7 @@ private theorem trieNode0039StepRun :
   unfold trieNode0038State trieNode0039State
   unfold trieNode0039StepLabels trieNode0039StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0191
+  · exact SmokeStep.e0192
   exact BellmanLabelStepRun.nil trieNode0039State
 
 private theorem trieNode0039Run :
@@ -8071,10 +8071,10 @@ private theorem trieNode0039Run :
   unfold trieNode0039Labels trieNode0039Gain
   exact BellmanLabelStepRun.append trieNode0038Run trieNode0039StepRun
 
-private def trieNode0040State : State := edge0211.dst
+private def trieNode0040State : State := edge0212.dst
 private def trieNode0040StepLabels : List SmokeLabel :=
   [SmokeLabel.l0006]
-private def trieNode0040StepGain : Int := edge0211.gain + (0)
+private def trieNode0040StepGain : Int := edge0212.gain + (0)
 private def trieNode0040Labels : List SmokeLabel :=
   trieNode0039Labels ++ trieNode0040StepLabels
 private def trieNode0040Gain : Int :=
@@ -8086,7 +8086,7 @@ private theorem trieNode0040StepRun :
   unfold trieNode0039State trieNode0040State
   unfold trieNode0040StepLabels trieNode0040StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0211
+  · exact SmokeStep.e0212
   exact BellmanLabelStepRun.nil trieNode0040State
 
 private theorem trieNode0040Run :
@@ -8239,10 +8239,10 @@ private theorem trieNode0046Run :
   unfold trieNode0046Labels trieNode0046Gain
   exact BellmanLabelStepRun.append trieNode0045Run trieNode0046StepRun
 
-private def trieNode0047State : State := edge0160.dst
+private def trieNode0047State : State := edge0159.dst
 private def trieNode0047StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
-private def trieNode0047StepGain : Int := edge0160.gain + (0)
+private def trieNode0047StepGain : Int := edge0159.gain + (0)
 private def trieNode0047Labels : List SmokeLabel :=
   trieNode0046Labels ++ trieNode0047StepLabels
 private def trieNode0047Gain : Int :=
@@ -8254,7 +8254,7 @@ private theorem trieNode0047StepRun :
   unfold trieNode0046State trieNode0047State
   unfold trieNode0047StepLabels trieNode0047StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0160
+  · exact SmokeStep.e0159
   exact BellmanLabelStepRun.nil trieNode0047State
 
 private theorem trieNode0047Run :
@@ -8479,10 +8479,10 @@ private theorem trieNode0056Run :
   unfold trieNode0056Labels trieNode0056Gain
   exact BellmanLabelStepRun.append trieNode0055Run trieNode0056StepRun
 
-private def trieNode0057State : State := edge0176.dst
+private def trieNode0057State : State := edge0174.dst
 private def trieNode0057StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
-private def trieNode0057StepGain : Int := edge0176.gain + (0)
+private def trieNode0057StepGain : Int := edge0174.gain + (0)
 private def trieNode0057Labels : List SmokeLabel :=
   trieNode0056Labels ++ trieNode0057StepLabels
 private def trieNode0057Gain : Int :=
@@ -8494,7 +8494,7 @@ private theorem trieNode0057StepRun :
   unfold trieNode0056State trieNode0057State
   unfold trieNode0057StepLabels trieNode0057StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0176
+  · exact SmokeStep.e0174
   exact BellmanLabelStepRun.nil trieNode0057State
 
 private theorem trieNode0057Run :
@@ -8695,10 +8695,10 @@ private theorem trieNode0065Run :
   unfold trieNode0065Labels trieNode0065Gain
   exact BellmanLabelStepRun.append trieNode0064Run trieNode0065StepRun
 
-private def trieNode0066State : State := edge0192.dst
+private def trieNode0066State : State := edge0191.dst
 private def trieNode0066StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
-private def trieNode0066StepGain : Int := edge0192.gain + (0)
+private def trieNode0066StepGain : Int := edge0191.gain + (0)
 private def trieNode0066Labels : List SmokeLabel :=
   trieNode0065Labels ++ trieNode0066StepLabels
 private def trieNode0066Gain : Int :=
@@ -8710,7 +8710,7 @@ private theorem trieNode0066StepRun :
   unfold trieNode0065State trieNode0066State
   unfold trieNode0066StepLabels trieNode0066StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0192
+  · exact SmokeStep.e0191
   exact BellmanLabelStepRun.nil trieNode0066State
 
 private theorem trieNode0066Run :
@@ -8887,10 +8887,10 @@ private theorem trieNode0073Run :
   unfold trieNode0073Labels trieNode0073Gain
   exact BellmanLabelStepRun.append trieNode0072Run trieNode0073StepRun
 
-private def trieNode0074State : State := edge0212.dst
+private def trieNode0074State : State := edge0211.dst
 private def trieNode0074StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
-private def trieNode0074StepGain : Int := edge0212.gain + (0)
+private def trieNode0074StepGain : Int := edge0211.gain + (0)
 private def trieNode0074Labels : List SmokeLabel :=
   trieNode0073Labels ++ trieNode0074StepLabels
 private def trieNode0074Gain : Int :=
@@ -8902,7 +8902,7 @@ private theorem trieNode0074StepRun :
   unfold trieNode0073State trieNode0074State
   unfold trieNode0074StepLabels trieNode0074StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0212
+  · exact SmokeStep.e0211
   exact BellmanLabelStepRun.nil trieNode0074State
 
 private theorem trieNode0074Run :
@@ -9727,10 +9727,10 @@ private theorem trieNode0108Run :
   unfold trieNode0108Labels trieNode0108Gain
   exact BellmanLabelStepRun.append trieNode0107Run trieNode0108StepRun
 
-private def trieNode0109State : State := edge0175.dst
+private def trieNode0109State : State := edge0176.dst
 private def trieNode0109StepLabels : List SmokeLabel :=
   [SmokeLabel.l0004]
-private def trieNode0109StepGain : Int := edge0175.gain + (0)
+private def trieNode0109StepGain : Int := edge0176.gain + (0)
 private def trieNode0109Labels : List SmokeLabel :=
   trieNode0108Labels ++ trieNode0109StepLabels
 private def trieNode0109Gain : Int :=
@@ -9742,7 +9742,7 @@ private theorem trieNode0109StepRun :
   unfold trieNode0108State trieNode0109State
   unfold trieNode0109StepLabels trieNode0109StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0175
+  · exact SmokeStep.e0176
   exact BellmanLabelStepRun.nil trieNode0109State
 
 private theorem trieNode0109Run :
@@ -10543,10 +10543,10 @@ private theorem trieNode0142Run :
   unfold trieNode0142Labels trieNode0142Gain
   exact BellmanLabelStepRun.append trieNode0141Run trieNode0142StepRun
 
-private def trieNode0143State : State := edge0153.dst
+private def trieNode0143State : State := edge0154.dst
 private def trieNode0143StepLabels : List SmokeLabel :=
   [SmokeLabel.l0005]
-private def trieNode0143StepGain : Int := edge0153.gain + (0)
+private def trieNode0143StepGain : Int := edge0154.gain + (0)
 private def trieNode0143Labels : List SmokeLabel :=
   trieNode0142Labels ++ trieNode0143StepLabels
 private def trieNode0143Gain : Int :=
@@ -10558,7 +10558,7 @@ private theorem trieNode0143StepRun :
   unfold trieNode0142State trieNode0143State
   unfold trieNode0143StepLabels trieNode0143StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0153
+  · exact SmokeStep.e0154
   exact BellmanLabelStepRun.nil trieNode0143State
 
 private theorem trieNode0143Run :
@@ -10567,10 +10567,10 @@ private theorem trieNode0143Run :
   unfold trieNode0143Labels trieNode0143Gain
   exact BellmanLabelStepRun.append trieNode0142Run trieNode0143StepRun
 
-private def trieNode0144State : State := edge0167.dst
+private def trieNode0144State : State := edge0168.dst
 private def trieNode0144StepLabels : List SmokeLabel :=
   [SmokeLabel.l0006]
-private def trieNode0144StepGain : Int := edge0167.gain + (0)
+private def trieNode0144StepGain : Int := edge0168.gain + (0)
 private def trieNode0144Labels : List SmokeLabel :=
   trieNode0143Labels ++ trieNode0144StepLabels
 private def trieNode0144Gain : Int :=
@@ -10582,7 +10582,7 @@ private theorem trieNode0144StepRun :
   unfold trieNode0143State trieNode0144State
   unfold trieNode0144StepLabels trieNode0144StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0167
+  · exact SmokeStep.e0168
   exact BellmanLabelStepRun.nil trieNode0144State
 
 private theorem trieNode0144Run :
@@ -11287,10 +11287,10 @@ private theorem trieNode0173Run :
   unfold trieNode0173Labels trieNode0173Gain
   exact BellmanLabelStepRun.append trieNode0172Run trieNode0173StepRun
 
-private def trieNode0174State : State := edge0154.dst
+private def trieNode0174State : State := edge0153.dst
 private def trieNode0174StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
-private def trieNode0174StepGain : Int := edge0154.gain + (0)
+private def trieNode0174StepGain : Int := edge0153.gain + (0)
 private def trieNode0174Labels : List SmokeLabel :=
   trieNode0173Labels ++ trieNode0174StepLabels
 private def trieNode0174Gain : Int :=
@@ -11302,7 +11302,7 @@ private theorem trieNode0174StepRun :
   unfold trieNode0173State trieNode0174State
   unfold trieNode0174StepLabels trieNode0174StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0154
+  · exact SmokeStep.e0153
   exact BellmanLabelStepRun.nil trieNode0174State
 
 private theorem trieNode0174Run :
@@ -11647,10 +11647,10 @@ private theorem trieNode0188Run :
   unfold trieNode0188Labels trieNode0188Gain
   exact BellmanLabelStepRun.append trieNode0187Run trieNode0188StepRun
 
-private def trieNode0189State : State := edge0168.dst
+private def trieNode0189State : State := edge0167.dst
 private def trieNode0189StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
-private def trieNode0189StepGain : Int := edge0168.gain + (0)
+private def trieNode0189StepGain : Int := edge0167.gain + (0)
 private def trieNode0189Labels : List SmokeLabel :=
   trieNode0188Labels ++ trieNode0189StepLabels
 private def trieNode0189Gain : Int :=
@@ -11662,7 +11662,7 @@ private theorem trieNode0189StepRun :
   unfold trieNode0188State trieNode0189State
   unfold trieNode0189StepLabels trieNode0189StepGain
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0168
+  · exact SmokeStep.e0167
   exact BellmanLabelStepRun.nil trieNode0189State
 
 private theorem trieNode0189Run :
@@ -13819,7 +13819,7 @@ private def cls0001Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0001Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0128.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0175.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0128.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0176.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))))
 
 private theorem cls0001LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -13860,11 +13860,11 @@ private theorem cls0001LabeledRun :
   · rfl
   · exact GraphEdge.e0161
   · exact SmokeEdgeLabel.e0161
-  apply BellmanLabeledRun.cons (e := edge0175)
+  apply BellmanLabeledRun.cons (e := edge0176)
   · rfl
   · rfl
-  · exact GraphEdge.e0175
-  · exact SmokeEdgeLabel.e0175
+  · exact GraphEdge.e0176
+  · exact SmokeEdgeLabel.e0176
   apply BellmanLabeledRun.cons (e := edge0193)
   · rfl
   · rfl
@@ -13916,7 +13916,7 @@ private theorem cls0001LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0161
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0175
+  · exact SmokeStep.e0176
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0193
   apply BellmanLabelStepRun.cons
@@ -13946,7 +13946,7 @@ private def cls0001SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0001SuffixGain : Int :=
-  edge0125.gain + (edge0128.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0175.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))
+  edge0125.gain + (edge0128.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0176.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))
 
 private theorem cls0001SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -13963,7 +13963,7 @@ private theorem cls0001SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0161
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0175
+  · exact SmokeStep.e0176
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0193
   apply BellmanLabelStepRun.cons
@@ -14241,7 +14241,7 @@ private def cls0003Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0003Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0137.gain + (edge0147.gain + (edge0159.gain + (edge0174.gain + (edge0191.gain + (edge0211.gain + (edge0009.gain + (edge0048.gain + (edge0077.gain + (edge0116.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0137.gain + (edge0147.gain + (edge0160.gain + (edge0175.gain + (edge0192.gain + (edge0212.gain + (edge0009.gain + (edge0048.gain + (edge0077.gain + (edge0116.gain + (0))))))))))))))
 
 private theorem cls0003LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -14277,26 +14277,26 @@ private theorem cls0003LabeledRun :
   · rfl
   · exact GraphEdge.e0147
   · exact SmokeEdgeLabel.e0147
-  apply BellmanLabeledRun.cons (e := edge0159)
+  apply BellmanLabeledRun.cons (e := edge0160)
   · rfl
   · rfl
-  · exact GraphEdge.e0159
-  · exact SmokeEdgeLabel.e0159
-  apply BellmanLabeledRun.cons (e := edge0174)
+  · exact GraphEdge.e0160
+  · exact SmokeEdgeLabel.e0160
+  apply BellmanLabeledRun.cons (e := edge0175)
   · rfl
   · rfl
-  · exact GraphEdge.e0174
-  · exact SmokeEdgeLabel.e0174
-  apply BellmanLabeledRun.cons (e := edge0191)
+  · exact GraphEdge.e0175
+  · exact SmokeEdgeLabel.e0175
+  apply BellmanLabeledRun.cons (e := edge0192)
   · rfl
   · rfl
-  · exact GraphEdge.e0191
-  · exact SmokeEdgeLabel.e0191
-  apply BellmanLabeledRun.cons (e := edge0211)
+  · exact GraphEdge.e0192
+  · exact SmokeEdgeLabel.e0192
+  apply BellmanLabeledRun.cons (e := edge0212)
   · rfl
   · rfl
-  · exact GraphEdge.e0211
-  · exact SmokeEdgeLabel.e0211
+  · exact GraphEdge.e0212
+  · exact SmokeEdgeLabel.e0212
   apply BellmanLabeledRun.cons (e := edge0009)
   · rfl
   · rfl
@@ -14336,13 +14336,13 @@ private theorem cls0003LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0147
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0159
+  · exact SmokeStep.e0160
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0174
+  · exact SmokeStep.e0175
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0191
+  · exact SmokeStep.e0192
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0211
+  · exact SmokeStep.e0212
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0009
   apply BellmanLabelStepRun.cons
@@ -14368,7 +14368,7 @@ private def cls0003SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0003SuffixGain : Int :=
-  edge0125.gain + (edge0129.gain + (edge0137.gain + (edge0147.gain + (edge0159.gain + (edge0174.gain + (edge0191.gain + (edge0211.gain + (edge0009.gain + (edge0048.gain + (edge0077.gain + (edge0116.gain + (0))))))))))))
+  edge0125.gain + (edge0129.gain + (edge0137.gain + (edge0147.gain + (edge0160.gain + (edge0175.gain + (edge0192.gain + (edge0212.gain + (edge0009.gain + (edge0048.gain + (edge0077.gain + (edge0116.gain + (0))))))))))))
 
 private theorem cls0003SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -14383,13 +14383,13 @@ private theorem cls0003SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0147
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0159
+  · exact SmokeStep.e0160
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0174
+  · exact SmokeStep.e0175
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0191
+  · exact SmokeStep.e0192
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0211
+  · exact SmokeStep.e0212
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0009
   apply BellmanLabelStepRun.cons
@@ -14452,7 +14452,7 @@ private def cls0004Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0004Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0149.gain + (edge0160.gain + (edge0171.gain + (edge0188.gain + (edge0208.gain + (edge0004.gain + (edge0042.gain + (edge0076.gain + (edge0115.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0149.gain + (edge0159.gain + (edge0171.gain + (edge0188.gain + (edge0208.gain + (edge0004.gain + (edge0042.gain + (edge0076.gain + (edge0115.gain + (0))))))))))))))
 
 private theorem cls0004LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -14488,11 +14488,11 @@ private theorem cls0004LabeledRun :
   · rfl
   · exact GraphEdge.e0149
   · exact SmokeEdgeLabel.e0149
-  apply BellmanLabeledRun.cons (e := edge0160)
+  apply BellmanLabeledRun.cons (e := edge0159)
   · rfl
   · rfl
-  · exact GraphEdge.e0160
-  · exact SmokeEdgeLabel.e0160
+  · exact GraphEdge.e0159
+  · exact SmokeEdgeLabel.e0159
   apply BellmanLabeledRun.cons (e := edge0171)
   · rfl
   · rfl
@@ -14547,7 +14547,7 @@ private theorem cls0004LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0149
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0160
+  · exact SmokeStep.e0159
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0171
   apply BellmanLabelStepRun.cons
@@ -14579,7 +14579,7 @@ private def cls0004SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0004SuffixGain : Int :=
-  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0149.gain + (edge0160.gain + (edge0171.gain + (edge0188.gain + (edge0208.gain + (edge0004.gain + (edge0042.gain + (edge0076.gain + (edge0115.gain + (0))))))))))))
+  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0149.gain + (edge0159.gain + (edge0171.gain + (edge0188.gain + (edge0208.gain + (edge0004.gain + (edge0042.gain + (edge0076.gain + (edge0115.gain + (0))))))))))))
 
 private theorem cls0004SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -14594,7 +14594,7 @@ private theorem cls0004SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0149
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0160
+  · exact SmokeStep.e0159
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0171
   apply BellmanLabelStepRun.cons
@@ -14663,7 +14663,7 @@ private def cls0005Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0005Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0162.gain + (edge0176.gain + (edge0187.gain + (edge0207.gain + (edge0003.gain + (edge0041.gain + (edge0075.gain + (edge0114.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0162.gain + (edge0174.gain + (edge0187.gain + (edge0207.gain + (edge0003.gain + (edge0041.gain + (edge0075.gain + (edge0114.gain + (0))))))))))))))
 
 private theorem cls0005LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -14704,11 +14704,11 @@ private theorem cls0005LabeledRun :
   · rfl
   · exact GraphEdge.e0162
   · exact SmokeEdgeLabel.e0162
-  apply BellmanLabeledRun.cons (e := edge0176)
+  apply BellmanLabeledRun.cons (e := edge0174)
   · rfl
   · rfl
-  · exact GraphEdge.e0176
-  · exact SmokeEdgeLabel.e0176
+  · exact GraphEdge.e0174
+  · exact SmokeEdgeLabel.e0174
   apply BellmanLabeledRun.cons (e := edge0187)
   · rfl
   · rfl
@@ -14760,7 +14760,7 @@ private theorem cls0005LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0162
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0176
+  · exact SmokeStep.e0174
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0187
   apply BellmanLabelStepRun.cons
@@ -14790,7 +14790,7 @@ private def cls0005SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0005SuffixGain : Int :=
-  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0162.gain + (edge0176.gain + (edge0187.gain + (edge0207.gain + (edge0003.gain + (edge0041.gain + (edge0075.gain + (edge0114.gain + (0))))))))))))
+  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0162.gain + (edge0174.gain + (edge0187.gain + (edge0207.gain + (edge0003.gain + (edge0041.gain + (edge0075.gain + (edge0114.gain + (0))))))))))))
 
 private theorem cls0005SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -14807,7 +14807,7 @@ private theorem cls0005SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0162
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0176
+  · exact SmokeStep.e0174
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0187
   apply BellmanLabelStepRun.cons
@@ -14874,7 +14874,7 @@ private def cls0006Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0006Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0177.gain + (edge0192.gain + (edge0206.gain + (edge0002.gain + (edge0040.gain + (edge0074.gain + (edge0113.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0177.gain + (edge0191.gain + (edge0206.gain + (edge0002.gain + (edge0040.gain + (edge0074.gain + (edge0113.gain + (0))))))))))))))
 
 private theorem cls0006LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -14920,11 +14920,11 @@ private theorem cls0006LabeledRun :
   · rfl
   · exact GraphEdge.e0177
   · exact SmokeEdgeLabel.e0177
-  apply BellmanLabeledRun.cons (e := edge0192)
+  apply BellmanLabeledRun.cons (e := edge0191)
   · rfl
   · rfl
-  · exact GraphEdge.e0192
-  · exact SmokeEdgeLabel.e0192
+  · exact GraphEdge.e0191
+  · exact SmokeEdgeLabel.e0191
   apply BellmanLabeledRun.cons (e := edge0206)
   · rfl
   · rfl
@@ -14973,7 +14973,7 @@ private theorem cls0006LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0177
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0192
+  · exact SmokeStep.e0191
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0206
   apply BellmanLabelStepRun.cons
@@ -15001,7 +15001,7 @@ private def cls0006SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0006SuffixGain : Int :=
-  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0177.gain + (edge0192.gain + (edge0206.gain + (edge0002.gain + (edge0040.gain + (edge0074.gain + (edge0113.gain + (0))))))))))))
+  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0177.gain + (edge0191.gain + (edge0206.gain + (edge0002.gain + (edge0040.gain + (edge0074.gain + (edge0113.gain + (0))))))))))))
 
 private theorem cls0006SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -15020,7 +15020,7 @@ private theorem cls0006SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0177
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0192
+  · exact SmokeStep.e0191
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0206
   apply BellmanLabelStepRun.cons
@@ -15085,7 +15085,7 @@ private def cls0007Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0007Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0194.gain + (edge0212.gain + (edge0001.gain + (edge0038.gain + (edge0071.gain + (edge0109.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0194.gain + (edge0211.gain + (edge0001.gain + (edge0038.gain + (edge0071.gain + (edge0109.gain + (0))))))))))))))
 
 private theorem cls0007LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -15136,11 +15136,11 @@ private theorem cls0007LabeledRun :
   · rfl
   · exact GraphEdge.e0194
   · exact SmokeEdgeLabel.e0194
-  apply BellmanLabeledRun.cons (e := edge0212)
+  apply BellmanLabeledRun.cons (e := edge0211)
   · rfl
   · rfl
-  · exact GraphEdge.e0212
-  · exact SmokeEdgeLabel.e0212
+  · exact GraphEdge.e0211
+  · exact SmokeEdgeLabel.e0211
   apply BellmanLabeledRun.cons (e := edge0001)
   · rfl
   · rfl
@@ -15186,7 +15186,7 @@ private theorem cls0007LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0194
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0212
+  · exact SmokeStep.e0211
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0001
   apply BellmanLabelStepRun.cons
@@ -15212,7 +15212,7 @@ private def cls0007SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0007SuffixGain : Int :=
-  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0194.gain + (edge0212.gain + (edge0001.gain + (edge0038.gain + (edge0071.gain + (edge0109.gain + (0))))))))))))
+  edge0125.gain + (edge0129.gain + (edge0138.gain + (edge0150.gain + (edge0163.gain + (edge0178.gain + (edge0194.gain + (edge0211.gain + (edge0001.gain + (edge0038.gain + (edge0071.gain + (edge0109.gain + (0))))))))))))
 
 private theorem cls0007SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -15233,7 +15233,7 @@ private theorem cls0007SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0194
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0212
+  · exact SmokeStep.e0211
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0001
   apply BellmanLabelStepRun.cons
@@ -16140,7 +16140,7 @@ private def cls0012Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0012Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0130.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0175.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0130.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0176.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))))
 
 private theorem cls0012LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -16181,11 +16181,11 @@ private theorem cls0012LabeledRun :
   · rfl
   · exact GraphEdge.e0161
   · exact SmokeEdgeLabel.e0161
-  apply BellmanLabeledRun.cons (e := edge0175)
+  apply BellmanLabeledRun.cons (e := edge0176)
   · rfl
   · rfl
-  · exact GraphEdge.e0175
-  · exact SmokeEdgeLabel.e0175
+  · exact GraphEdge.e0176
+  · exact SmokeEdgeLabel.e0176
   apply BellmanLabeledRun.cons (e := edge0193)
   · rfl
   · rfl
@@ -16237,7 +16237,7 @@ private theorem cls0012LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0161
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0175
+  · exact SmokeStep.e0176
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0193
   apply BellmanLabelStepRun.cons
@@ -16267,7 +16267,7 @@ private def cls0012SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0012SuffixGain : Int :=
-  edge0126.gain + (edge0130.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0175.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))
+  edge0126.gain + (edge0130.gain + (edge0136.gain + (edge0148.gain + (edge0161.gain + (edge0176.gain + (edge0193.gain + (edge0213.gain + (edge0011.gain + (edge0050.gain + (edge0086.gain + (edge0120.gain + (0))))))))))))
 
 private theorem cls0012SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -16284,7 +16284,7 @@ private theorem cls0012SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0161
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0175
+  · exact SmokeStep.e0176
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0193
   apply BellmanLabelStepRun.cons
@@ -16984,7 +16984,7 @@ private def cls0016Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0016Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0226.gain + (edge0010.gain + (edge0049.gain + (edge0084.gain + (edge0118.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0154.gain + (edge0168.gain + (edge0184.gain + (edge0202.gain + (edge0226.gain + (edge0010.gain + (edge0049.gain + (edge0084.gain + (edge0118.gain + (0))))))))))))))
 
 private theorem cls0016LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -17015,16 +17015,16 @@ private theorem cls0016LabeledRun :
   · rfl
   · exact GraphEdge.e0142
   · exact SmokeEdgeLabel.e0142
-  apply BellmanLabeledRun.cons (e := edge0153)
+  apply BellmanLabeledRun.cons (e := edge0154)
   · rfl
   · rfl
-  · exact GraphEdge.e0153
-  · exact SmokeEdgeLabel.e0153
-  apply BellmanLabeledRun.cons (e := edge0167)
+  · exact GraphEdge.e0154
+  · exact SmokeEdgeLabel.e0154
+  apply BellmanLabeledRun.cons (e := edge0168)
   · rfl
   · rfl
-  · exact GraphEdge.e0167
-  · exact SmokeEdgeLabel.e0167
+  · exact GraphEdge.e0168
+  · exact SmokeEdgeLabel.e0168
   apply BellmanLabeledRun.cons (e := edge0184)
   · rfl
   · rfl
@@ -17077,9 +17077,9 @@ private theorem cls0016LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0142
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0153
+  · exact SmokeStep.e0154
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0167
+  · exact SmokeStep.e0168
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0184
   apply BellmanLabelStepRun.cons
@@ -17111,7 +17111,7 @@ private def cls0016SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0016SuffixGain : Int :=
-  edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0226.gain + (edge0010.gain + (edge0049.gain + (edge0084.gain + (edge0118.gain + (0))))))))))))
+  edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0154.gain + (edge0168.gain + (edge0184.gain + (edge0202.gain + (edge0226.gain + (edge0010.gain + (edge0049.gain + (edge0084.gain + (edge0118.gain + (0))))))))))))
 
 private theorem cls0016SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -17124,9 +17124,9 @@ private theorem cls0016SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0142
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0153
+  · exact SmokeStep.e0154
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0167
+  · exact SmokeStep.e0168
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0184
   apply BellmanLabelStepRun.cons
@@ -17195,7 +17195,7 @@ private def cls0017Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0017Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0062.gain + (edge0085.gain + (edge0119.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0154.gain + (edge0168.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0062.gain + (edge0085.gain + (edge0119.gain + (0))))))))))))))
 
 private theorem cls0017LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -17226,16 +17226,16 @@ private theorem cls0017LabeledRun :
   · rfl
   · exact GraphEdge.e0142
   · exact SmokeEdgeLabel.e0142
-  apply BellmanLabeledRun.cons (e := edge0153)
+  apply BellmanLabeledRun.cons (e := edge0154)
   · rfl
   · rfl
-  · exact GraphEdge.e0153
-  · exact SmokeEdgeLabel.e0153
-  apply BellmanLabeledRun.cons (e := edge0167)
+  · exact GraphEdge.e0154
+  · exact SmokeEdgeLabel.e0154
+  apply BellmanLabeledRun.cons (e := edge0168)
   · rfl
   · rfl
-  · exact GraphEdge.e0167
-  · exact SmokeEdgeLabel.e0167
+  · exact GraphEdge.e0168
+  · exact SmokeEdgeLabel.e0168
   apply BellmanLabeledRun.cons (e := edge0184)
   · rfl
   · rfl
@@ -17288,9 +17288,9 @@ private theorem cls0017LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0142
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0153
+  · exact SmokeStep.e0154
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0167
+  · exact SmokeStep.e0168
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0184
   apply BellmanLabelStepRun.cons
@@ -17322,7 +17322,7 @@ private def cls0017SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0017SuffixGain : Int :=
-  edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0062.gain + (edge0085.gain + (edge0119.gain + (0))))))))))))
+  edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0154.gain + (edge0168.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0062.gain + (edge0085.gain + (edge0119.gain + (0))))))))))))
 
 private theorem cls0017SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -17335,9 +17335,9 @@ private theorem cls0017SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0142
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0153
+  · exact SmokeStep.e0154
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0167
+  · exact SmokeStep.e0168
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0184
   apply BellmanLabelStepRun.cons
@@ -17406,7 +17406,7 @@ private def cls0018Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0018Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0063.gain + (edge0093.gain + (edge0119.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0154.gain + (edge0168.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0063.gain + (edge0093.gain + (edge0119.gain + (0))))))))))))))
 
 private theorem cls0018LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -17437,16 +17437,16 @@ private theorem cls0018LabeledRun :
   · rfl
   · exact GraphEdge.e0142
   · exact SmokeEdgeLabel.e0142
-  apply BellmanLabeledRun.cons (e := edge0153)
+  apply BellmanLabeledRun.cons (e := edge0154)
   · rfl
   · rfl
-  · exact GraphEdge.e0153
-  · exact SmokeEdgeLabel.e0153
-  apply BellmanLabeledRun.cons (e := edge0167)
+  · exact GraphEdge.e0154
+  · exact SmokeEdgeLabel.e0154
+  apply BellmanLabeledRun.cons (e := edge0168)
   · rfl
   · rfl
-  · exact GraphEdge.e0167
-  · exact SmokeEdgeLabel.e0167
+  · exact GraphEdge.e0168
+  · exact SmokeEdgeLabel.e0168
   apply BellmanLabeledRun.cons (e := edge0184)
   · rfl
   · rfl
@@ -17499,9 +17499,9 @@ private theorem cls0018LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0142
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0153
+  · exact SmokeStep.e0154
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0167
+  · exact SmokeStep.e0168
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0184
   apply BellmanLabelStepRun.cons
@@ -17533,7 +17533,7 @@ private def cls0018SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0018SuffixGain : Int :=
-  edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0153.gain + (edge0167.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0063.gain + (edge0093.gain + (edge0119.gain + (0))))))))))))
+  edge0126.gain + (edge0132.gain + (edge0142.gain + (edge0154.gain + (edge0168.gain + (edge0184.gain + (edge0202.gain + (edge0227.gain + (edge0029.gain + (edge0063.gain + (edge0093.gain + (edge0119.gain + (0))))))))))))
 
 private theorem cls0018SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -17546,9 +17546,9 @@ private theorem cls0018SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0142
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0153
+  · exact SmokeStep.e0154
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0167
+  · exact SmokeStep.e0168
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0184
   apply BellmanLabelStepRun.cons
@@ -17828,7 +17828,7 @@ private def cls0020Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0020Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0154.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0024.gain + (edge0036.gain + (edge0069.gain + (edge0107.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0153.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0024.gain + (edge0036.gain + (edge0069.gain + (edge0107.gain + (0))))))))))))))
 
 private theorem cls0020LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -17859,11 +17859,11 @@ private theorem cls0020LabeledRun :
   · rfl
   · exact GraphEdge.e0143
   · exact SmokeEdgeLabel.e0143
-  apply BellmanLabeledRun.cons (e := edge0154)
+  apply BellmanLabeledRun.cons (e := edge0153)
   · rfl
   · rfl
-  · exact GraphEdge.e0154
-  · exact SmokeEdgeLabel.e0154
+  · exact GraphEdge.e0153
+  · exact SmokeEdgeLabel.e0153
   apply BellmanLabeledRun.cons (e := edge0164)
   · rfl
   · rfl
@@ -17921,7 +17921,7 @@ private theorem cls0020LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0143
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0154
+  · exact SmokeStep.e0153
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0164
   apply BellmanLabelStepRun.cons
@@ -17955,7 +17955,7 @@ private def cls0020SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0020SuffixGain : Int :=
-  edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0154.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0024.gain + (edge0036.gain + (edge0069.gain + (edge0107.gain + (0))))))))))))
+  edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0153.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0024.gain + (edge0036.gain + (edge0069.gain + (edge0107.gain + (0))))))))))))
 
 private theorem cls0020SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -17968,7 +17968,7 @@ private theorem cls0020SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0143
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0154
+  · exact SmokeStep.e0153
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0164
   apply BellmanLabelStepRun.cons
@@ -18039,7 +18039,7 @@ private def cls0021Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0021Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0154.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0025.gain + (edge0058.gain + (edge0092.gain + (edge0106.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0153.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0025.gain + (edge0058.gain + (edge0092.gain + (edge0106.gain + (0))))))))))))))
 
 private theorem cls0021LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -18070,11 +18070,11 @@ private theorem cls0021LabeledRun :
   · rfl
   · exact GraphEdge.e0143
   · exact SmokeEdgeLabel.e0143
-  apply BellmanLabeledRun.cons (e := edge0154)
+  apply BellmanLabeledRun.cons (e := edge0153)
   · rfl
   · rfl
-  · exact GraphEdge.e0154
-  · exact SmokeEdgeLabel.e0154
+  · exact GraphEdge.e0153
+  · exact SmokeEdgeLabel.e0153
   apply BellmanLabeledRun.cons (e := edge0164)
   · rfl
   · rfl
@@ -18132,7 +18132,7 @@ private theorem cls0021LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0143
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0154
+  · exact SmokeStep.e0153
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0164
   apply BellmanLabelStepRun.cons
@@ -18166,7 +18166,7 @@ private def cls0021SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0021SuffixGain : Int :=
-  edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0154.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0025.gain + (edge0058.gain + (edge0092.gain + (edge0106.gain + (0))))))))))))
+  edge0127.gain + (edge0134.gain + (edge0143.gain + (edge0153.gain + (edge0164.gain + (edge0180.gain + (edge0198.gain + (edge0221.gain + (edge0025.gain + (edge0058.gain + (edge0092.gain + (edge0106.gain + (0))))))))))))
 
 private theorem cls0021SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -18179,7 +18179,7 @@ private theorem cls0021SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0143
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0154
+  · exact SmokeStep.e0153
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0164
   apply BellmanLabelStepRun.cons
@@ -18250,7 +18250,7 @@ private def cls0022Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0022Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0168.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0022.gain + (edge0035.gain + (edge0068.gain + (edge0105.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0167.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0022.gain + (edge0035.gain + (edge0068.gain + (edge0105.gain + (0))))))))))))))
 
 private theorem cls0022LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -18286,11 +18286,11 @@ private theorem cls0022LabeledRun :
   · rfl
   · exact GraphEdge.e0155
   · exact SmokeEdgeLabel.e0155
-  apply BellmanLabeledRun.cons (e := edge0168)
+  apply BellmanLabeledRun.cons (e := edge0167)
   · rfl
   · rfl
-  · exact GraphEdge.e0168
-  · exact SmokeEdgeLabel.e0168
+  · exact GraphEdge.e0167
+  · exact SmokeEdgeLabel.e0167
   apply BellmanLabeledRun.cons (e := edge0179)
   · rfl
   · rfl
@@ -18345,7 +18345,7 @@ private theorem cls0022LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0155
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0168
+  · exact SmokeStep.e0167
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0179
   apply BellmanLabelStepRun.cons
@@ -18377,7 +18377,7 @@ private def cls0022SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0022SuffixGain : Int :=
-  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0168.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0022.gain + (edge0035.gain + (edge0068.gain + (edge0105.gain + (0))))))))))))
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0167.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0022.gain + (edge0035.gain + (edge0068.gain + (edge0105.gain + (0))))))))))))
 
 private theorem cls0022SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -18392,7 +18392,7 @@ private theorem cls0022SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0155
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0168
+  · exact SmokeStep.e0167
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0179
   apply BellmanLabelStepRun.cons
@@ -18461,7 +18461,7 @@ private def cls0023Labels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0023Gain : Int :=
-  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0168.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0023.gain + (edge0057.gain + (edge0091.gain + (edge0104.gain + (0))))))))))))))
+  edge0000.gain + (edge0124.gain + (edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0167.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0023.gain + (edge0057.gain + (edge0091.gain + (edge0104.gain + (0))))))))))))))
 
 private theorem cls0023LabeledRun :
     BellmanLabeledRun GraphEdge SmokeEdgeLabel
@@ -18497,11 +18497,11 @@ private theorem cls0023LabeledRun :
   · rfl
   · exact GraphEdge.e0155
   · exact SmokeEdgeLabel.e0155
-  apply BellmanLabeledRun.cons (e := edge0168)
+  apply BellmanLabeledRun.cons (e := edge0167)
   · rfl
   · rfl
-  · exact GraphEdge.e0168
-  · exact SmokeEdgeLabel.e0168
+  · exact GraphEdge.e0167
+  · exact SmokeEdgeLabel.e0167
   apply BellmanLabeledRun.cons (e := edge0179)
   · rfl
   · rfl
@@ -18556,7 +18556,7 @@ private theorem cls0023LabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0155
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0168
+  · exact SmokeStep.e0167
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0179
   apply BellmanLabelStepRun.cons
@@ -18588,7 +18588,7 @@ private def cls0023SuffixLabels : List SmokeLabel :=
   , SmokeLabel.l0009]
 
 private def cls0023SuffixGain : Int :=
-  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0168.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0023.gain + (edge0057.gain + (edge0091.gain + (edge0104.gain + (0))))))))))))
+  edge0127.gain + (edge0134.gain + (edge0144.gain + (edge0155.gain + (edge0167.gain + (edge0179.gain + (edge0197.gain + (edge0220.gain + (edge0023.gain + (edge0057.gain + (edge0091.gain + (edge0104.gain + (0))))))))))))
 
 private theorem cls0023SuffixLabelStepRun :
     BellmanLabelStepRun SmokeStep
@@ -18603,7 +18603,7 @@ private theorem cls0023SuffixLabelStepRun :
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0155
   apply BellmanLabelStepRun.cons
-  · exact SmokeStep.e0168
+  · exact SmokeStep.e0167
   apply BellmanLabelStepRun.cons
   · exact SmokeStep.e0179
   apply BellmanLabelStepRun.cons
@@ -24505,19 +24505,20 @@ theorem graphSmoke_sampled_axis_rank_language_family_scaled_margin_nonpos
   BellmanAxisRankIndexedCover.scaledMargin_nonpos
     sampledAxisRankIndexedCover hrank hRealize hAxisConstraints
 
-private def sampledObjectAccepts (_idx : SampledRankIndex) : Prop :=
-  True
+private def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face
+  | SampledRankIndex.i0000 => cls0000FaceSeq
+  | SampledRankIndex.i0001 => cls0001FaceSeq
+
+private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=
+  AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))
+    cls0000Axis (sampledObjectForcedSeq idx)
 
 private def sampledAxisRankObjectCover :
     BellmanAxisRankObjectCover
       SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace
       rootState (176 : Int) sampledRankOf sampledObjectAccepts
       sampledContainsRank sampledScaledMarginAtRank where
-  forcedSeq := by
-    intro idx
-    cases idx
-    · exact cls0000FaceSeq
-    · exact cls0001FaceSeq
+  forcedSeq := sampledObjectForcedSeq
   trace_bound := by
     intro idx _hAccept
     cases idx
@@ -24548,7 +24549,15 @@ private def sampledAxisRankObjectCover :
   covers := by
     intro rank hrank
     rcases hrank with ⟨idx, hidx⟩
-    exact ⟨idx, trivial, hidx⟩
+    have hAccept : sampledObjectAccepts idx := by
+      cases idx
+      · change AxisForcesForcedSeq (unrankPairWord cls0000Rank)
+          cls0000Axis cls0000FaceSeq
+        exact cls0000AxisForces
+      · change AxisForcesForcedSeq (unrankPairWord cls0001Rank)
+          cls0000Axis cls0001FaceSeq
+        exact cls0001AxisForces
+    exact ⟨idx, hAccept, hidx⟩
 
 theorem graphSmoke_sampled_axis_object_cover_scaled_margin_nonpos
     {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :

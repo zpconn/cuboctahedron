@@ -2713,3 +2713,50 @@ envelope and is a better production target than exact path-class indexing.
 The remaining hard task is the semantic `Accepts` theorem for a whole
 top-pairing family: ranks in the family must map to accepted objects whose
 forced contribution-label word is the Bellman language word.
+
+## Forced-Sequence Object Membership Smoke
+
+The next Bellman smoke step strengthens the object-language route in the way
+required by the corrected closure-gap audit.  Instead of accepting every
+sampled object with `True`, the generated object predicate now requires the
+axis to force the object's generated signed sequence:
+
+```lean
+private def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face
+
+private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=
+  AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))
+    cls0000Axis (sampledObjectForcedSeq idx)
+```
+
+The generated `BellmanAxisRankObjectCover` uses this same
+`sampledObjectForcedSeq`; its cover proof obtains the acceptance evidence from
+the generated `clsXXXXAxisForces` facts.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` forced-sequence object language | `1:07.64` | `8,516,300 kB` | passed |
+
+Conclusion: this checkpoint directly implements the GPT5.5-style Bellman
+pivot at smoke scale.  The Bellman potential table remains private and
+finite-horizon; object acceptance now carries the semantic forced-sequence
+condition needed to avoid the over-broad language gap.  The remaining work is
+to replace the two sampled objects with generated top-pairing families that
+prove the same `AxisForcesForcedSeq` membership predicate.

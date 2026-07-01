@@ -1372,3 +1372,47 @@ Object-cover smoke:
   generated step should make `sampledObjectAccepts` nontrivial: semantic
   top-pairing objects accepted by forced-sequence compatibility, not a
   hand-enumerated two-object smoke.
+
+Forced-sequence object membership smoke:
+
+- Updated `scripts/emit_bellman_graph_smoke.py` so
+  `sampledObjectAccepts` is no longer `True`.  It now requires:
+
+  ```lean
+  AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))
+    cls0000Axis (sampledObjectForcedSeq idx)
+  ```
+
+- The generated `sampledAxisRankObjectCover` uses
+  `forcedSeq := sampledObjectForcedSeq`, and its `covers` proof discharges the
+  acceptance obligation with the generated `clsXXXXAxisForces` theorem for
+  each sampled object.
+- This is the first smoke where the object-language route encodes the
+  closure-gap lesson directly: Bellman objects must include forced-sequence
+  compatibility, not just the observed graph labels.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Focused build:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke` | `1:07.64` | `8,516,300 kB` | passed |
+
+Next gate: generate a real top-pairing object-family membership predicate whose
+accepted objects come with `AxisForcesForcedSeq` witnesses.  The Bellman graph
+can then remain a private finite-horizon potential certificate, while the
+public theorem exports only semantic nonidentity killed coverage.
