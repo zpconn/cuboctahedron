@@ -37,6 +37,17 @@ DEFAULT_LEAN_TSTACK_KIB = 2_048
 MAX_LEAN_TSTACK_KIB = 4_096
 
 TARGETS = {
+    "axis-forces-pairsign": {
+        "module": (
+            "Cuboctahedron.Generated.NonIdentity.Residual."
+            "BellmanAxisForcesPairSignSmoke"
+        ),
+        "path": (
+            "Cuboctahedron/Generated/NonIdentity/Residual/"
+            "BellmanAxisForcesPairSignSmoke.lean"
+        ),
+        "description": "axis-forces to pair-sign split bridge smoke",
+    },
     "generated-trace": {
         "module": (
             "Cuboctahedron.Generated.NonIdentity.Residual."

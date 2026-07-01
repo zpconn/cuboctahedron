@@ -52200,3 +52200,82 @@ Result:
 The dry-run wrapper JSON now records each imported local module with source
 path, `.olean` path, source mtime, and `.olean` mtime.  No Lean proof check was
 run for this checkpoint.
+
+### Holonomy/Bellman Pivot - split axis-forces pair-sign bridge accepted
+
+Implemented a tiny split bridge target:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanAxisForcesPairSignSmoke.lean
+```
+
+The file imports only `Cuboctahedron.Search.AxisForcedRankLanguage` and proves
+two theorem surfaces:
+
+```lean
+pairSign_of_axisForces_smoke :
+  SeqRealizesPairWord (unrankPairWord rank) seq ->
+  NonIdentityAxisConstraints seq ->
+  checkKernelLineWitness ... axis kernel = true ->
+  AxisForcesForcedSeq (unrankPairWord rank) axis forcedSeq ->
+  PairSignLanguageAtRank rank forcedSeq seq
+
+contributionLabels_eq_of_axisForces_smoke :
+  SeqRealizesPairWord (unrankPairWord rank) seq ->
+  NonIdentityAxisConstraints seq ->
+  checkKernelLineWitness ... axis kernel = true ->
+  AxisForcesForcedSeq (unrankPairWord rank) axis forcedSeq ->
+  faceLabelsInContributionOrder labelOfFace seq =
+    faceLabelsInContributionOrder labelOfFace forcedSeq
+```
+
+The strict smoke wrapper now has a second allowlisted target:
+
+```text
+--target axis-forces-pairsign
+```
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/run_bellman_safe_smoke.py
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --target axis-forces-pairsign \
+  --dry-run \
+  --json /tmp/bellman_axis_forces_pairsign_dry_run.json
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --target axis-forces-pairsign \
+  --json /tmp/bellman_axis_forces_pairsign_guard.json
+
+git diff --check
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|epsilon" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanAxisForcesPairSignSmoke.lean \
+  scripts/run_bellman_safe_smoke.py
+```
+
+Result:
+
+| command | status / telemetry |
+| --- | --- |
+| Python compile | passed |
+| dry-run preflight | passed; `21` local imports had fresh `.olean` artifacts |
+| strict direct-Lean smoke | passed, `11.51s`, `3900 MiB` peak tree RSS, `8192 MiB` hard-AS, `46210 MiB` minimum available |
+| `git diff --check` | passed |
+| forbidden-token scan | no hits |
+
+Decision: accepted as a split bridge smoke.  The axis-forces -> pair-sign
+boundary is viable under the 6 GiB guard when isolated from the generated
+Bellman trace shard.  This does **not** yet prove full Bellman-family
+coverage; it only separates the heavy semantic axis import from ordinary trace
+membership checks and gives a measured safe theorem surface for production
+planning.
+
+Next step: keep the ordinary generated trace shard at the
+`PairSignLanguageAtRank` boundary, and compose this split bridge only through
+small family/root modules whose import fan-in can be preflighted and measured
+independently.

@@ -3339,3 +3339,23 @@ Post-quarantine source audit:
   boundary.  Future proof-bearing checks should split that bridge into a tiny
   target first; do not merge a heavier axis-forces import stack back into
   ordinary Bellman trace smokes unless it passes the strict direct-Lean guard.
+
+Split axis-forces bridge checkpoint:
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanAxisForcesPairSignSmoke.lean`.
+  It imports only `Cuboctahedron.Search.AxisForcedRankLanguage` and proves
+  `pairSign_of_axisForces_smoke` plus
+  `contributionLabels_eq_of_axisForces_smoke`.
+- Added the allowlisted wrapper target `--target axis-forces-pairsign`.
+- Strict guarded validation passed:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --target axis-forces-pairsign \
+    --json /tmp/bellman_axis_forces_pairsign_guard.json
+  ```
+
+  Telemetry: `11.51s`, `3900 MiB` peak process-tree RSS, `8192 MiB` hard-AS
+  cap, and `46210 MiB` minimum available memory.  The import preflight found
+  `21` fresh local `.olean` artifacts.
