@@ -258,6 +258,37 @@ Largest axis-class focus checkpoint:
   entirely.  If it still needs per-solve evidence, the route is not compressed
   enough.
 
+Direct start-violation theorem hook:
+
+- Added the semantic theorem
+  `Cuboctahedron.no_nonidentity_axis_constraints_of_direct_start_violation` in
+  `Cuboctahedron/Search/TerminalNonidentityTemplates.lean`.
+- This theorem lets a future projective/holonomy family prove the bad start
+  face inequality directly for every feasible axis datum:
+
+  ```lean
+  ∀ data,
+    data.w ≠ zeroVec3R →
+    linePoint data.p0 data.w 1 =
+      affApply (affRatToReal (totalAff seq)) data.p0 →
+    matVec (affRatToReal (totalAff seq)).M data.w = data.w →
+    offsetR badFace ≤ dot (normalR badFace) data.p0
+  ```
+
+  and then derives `¬ NonIdentityAxisConstraints seq` without first producing
+  a concrete solved `p0` value or an `AffineAxisSolveWitness`.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.TerminalNonidentityTemplates
+  ```
+
+  Result: success, `0:10.09` wall time, `3,249,292 KiB` max RSS.
+- Next smoke target: use this theorem for the largest axis/reduced-shadow pair
+  identified above.  The key acceptance question is whether a generated family
+  can prove the direct inequality by integer/projective algebra faster than the
+  old `LocalCertSmoke` path.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

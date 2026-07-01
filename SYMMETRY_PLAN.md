@@ -1271,6 +1271,25 @@ Largest axis-class focus checkpoint:
   prove the largest pair by a direct integer/projective axis-start invariant,
   not by replaying the affine solve witness for each rank.
 
+Direct start-violation theorem hook:
+
+- Added
+  `Cuboctahedron.no_nonidentity_axis_constraints_of_direct_start_violation` in
+  `Cuboctahedron/Search/TerminalNonidentityTemplates.lean`.
+- The theorem turns a direct bad-face inequality for every feasible axis datum
+  into `¬ NonIdentityAxisConstraints seq`, without requiring a generated
+  concrete `p0` value or `AffineAxisSolveWitness`.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.TerminalNonidentityTemplates
+  ```
+
+  passed in `0:10.09` wall time with `3,249,292 KiB` max RSS.
+- This does not yet prove a production family.  It creates the right theorem
+  surface for the next smoke: prove the direct inequality for the largest
+  exact-axis/reduced-shadow class by integer/projective algebra.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

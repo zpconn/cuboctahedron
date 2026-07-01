@@ -61,6 +61,30 @@ theorem no_nonidentity_axis_constraints_of_forced_start_violation
     (f := Face.xp) (g := badFace) (p := p0) hbadFace hviol
     hStartInteriorXp
 
+theorem no_nonidentity_axis_constraints_of_direct_start_violation
+    {seq : Step14 -> Face} {badFace : Face}
+    (hStart : seq 0 = Face.xp)
+    (hbadFace : badFace ≠ Face.xp)
+    (hviol :
+      forall data : UnfoldedFeasibleData seq,
+        data.w ≠ zeroVec3R ->
+        linePoint data.p0 data.w 1 =
+          affApply (affRatToReal (totalAff seq)) data.p0 ->
+        matVec (affRatToReal (totalAff seq)).M data.w = data.w ->
+        offsetR badFace ≤ dot (normalR badFace) data.p0) :
+    ¬ NonIdentityAxisConstraints seq := by
+  intro hAxis
+  rcases hAxis.line_data with
+    ⟨data, hNonzero, hStartInterior, hEndpoint, hFixed, _hForward,
+      _hForwardAll, _hImpact, _hPreImpact, _hOpen, _hHit⟩
+  have hbad : offsetR badFace ≤ dot (normalR badFace) data.p0 :=
+    hviol data hNonzero hEndpoint hFixed
+  have hStartInteriorXp : InFaceInterior Face.xp data.p0 := by
+    simpa [hStart] using hStartInterior
+  exact not_inFaceInterior_of_not_strict
+    (f := Face.xp) (g := badFace) (p := data.p0) hbadFace hbad
+    hStartInteriorXp
+
 theorem no_nonidentity_axis_constraints_of_forced_direction_nonpositive
     {seq : Step14 -> Face} {candidateW : Vec3 Real} {i : Impact15}
     (hi : i ≠ (0 : Impact15))

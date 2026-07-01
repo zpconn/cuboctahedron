@@ -292,3 +292,13 @@ Focused largest-axis-class checkpoint:
 - First concrete theorem-smoke target:
   `axis=1,3,1` with reduced shadow
   `d11m d111 dm11 d11m d111 dm11`, which covers `107` sample residuals.
+
+Direct theorem-surface checkpoint:
+
+- `Cuboctahedron/Search/TerminalNonidentityTemplates.lean` now exposes
+  `no_nonidentity_axis_constraints_of_direct_start_violation`.
+- This theorem is the intended hook for projective axis-start families: prove
+  the bad-face inequality directly from the feasible axis datum, without
+  emitting a concrete solved `p0` or checking an `AffineAxisSolveWitness`.
+- Focused build of `Cuboctahedron.Search.TerminalNonidentityTemplates`
+  succeeded in `0:10.09` wall time with `3,249,292 KiB` max RSS.
