@@ -1,0 +1,68 @@
+{
+  "accepted_predicate_stack": [
+    "target cancellation pairing",
+    "observed schedule / square-gap language",
+    "oriented local forced-axis next-face compatibility",
+    "canonical bad-face compatibility",
+    "object-level start-violation certificate",
+    "private Bellman object-cover trace bound"
+  ],
+  "closure_input": "scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_negaxis_1M_step_face_linear_tri_source.json",
+  "decision": "candidate-next-lean-family-smoke",
+  "forced_axis": "-1,-1,-3",
+  "graph": {
+    "const_scaled": 176,
+    "edge_count": 229,
+    "final_state_count": 29,
+    "label_count": 14,
+    "path_class_count": 37,
+    "path_object_count": 37,
+    "root_state_count": 1,
+    "scale": 88,
+    "state_count": 223
+  },
+  "graph_input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "lean_surfaces": [
+    "BellmanAxisRankObjectCover",
+    "ObjectStartViolationMarginCert",
+    "nonIdentityRankKilled_of_object_cover_start_violation_margin_certs",
+    "graphSmoke_sampled_axis_object_cover_rank_killed_of_start_violation"
+  ],
+  "missing_completion_input": "scripts/generated/bellman_missing_transition_completions_top_pairing_negaxis_closure_1M_step_face_linear_tri_source.json",
+  "mode": "bellman-object-family-route-profile",
+  "recommendation": "Emit the next smoke as a semantic object-family membership theorem. The private Bellman graph, local forced-axis transition filter, and canonical bad-face/start-violation terminal data form a closed sampled language; the remaining Lean obligation is membership compression, not a new terminal contradiction theorem.",
+  "remaining_lean_obligation": "Replace the two sampled objects with a semantic object-family membership theorem for the closed transition language.  The theorem should construct accepted objects and start-violation certs without using exact path classes or rank-local certificate replay.",
+  "sample_family": {
+    "matched_ranks": 37,
+    "top_margin_family_count": 37,
+    "top_margin_family_key": "axisD4=1,-3,-1|axis=1,1,3|reduced=dm11 d111 d1m1 dm11 d111 d1m1|ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1"
+  },
+  "smoke": {
+    "max_rss_kb": 8583932,
+    "status": "passed",
+    "target": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke",
+    "wall": "1:09.07"
+  },
+  "state_key_mode": "with-step-face-linear-tri-source",
+  "target_axis_d4": "1,-3,-1",
+  "target_canonical_bad_face": "yp",
+  "target_pairing": "pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+  "transition_language": {
+    "canonical_bad_face_filter_would_close": true,
+    "closed_after_canonical_bad_face": true,
+    "illegal_after_canonical_bad_face": 0,
+    "illegal_before_bad_face": 0,
+    "legal_after_canonical_bad_face": 229,
+    "legal_after_target_pairing_schedule_axis": 230,
+    "local_axis_rejected_transitions": 14,
+    "missing_after_canonical_bad_face": 0,
+    "missing_before_bad_face": 1,
+    "missing_completion_count": 1,
+    "missing_completion_matches_top_family": 0,
+    "missing_completion_truncated_gaps": 0,
+    "observed_transitions": 229,
+    "states_with_face_counts": 223,
+    "states_with_illegal_before_bad_face": 0,
+    "states_with_missing_before_bad_face": 1
+  }
+}

@@ -1555,3 +1555,26 @@ Next gate: replace the two sampled objects with a generated semantic
 top-pairing object family.  The candidate acceptance stack should include
 forced-sequence compatibility, oriented local forced-axis compatibility, and
 canonical bad-face/start-violation data.
+
+Object-family route profile:
+
+- Added `scripts/profile_bellman_object_family_route.py`.
+- Generated:
+
+  ```text
+  scripts/generated/bellman_object_family_route_profile_1M.json
+  scripts/generated/bellman_object_family_route_profile_1M.md
+  ```
+
+- The profile merges the Bellman graph, local-axis closure audit, and
+  missing-transition completion audit into one route summary.  It reports
+  `223` states, `229` observed transitions, `230` legal transitions after the
+  target pairing/schedule/local-axis filters, and exactly one missing
+  transition before the canonical bad-face filter.  The missing-transition
+  completion audit shows `0` top-family matches and no truncation; applying
+  canonical bad-face compatibility leaves `229` legal transitions, `0`
+  missing transitions, and `0` illegal transitions.
+- Decision: `candidate-next-lean-family-smoke`.
+- The remaining Lean obligation is precise: replace sampled object
+  enumeration with a semantic object-family membership theorem for this
+  closed transition language.

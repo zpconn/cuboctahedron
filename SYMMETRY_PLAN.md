@@ -48881,3 +48881,73 @@ bridge.  The remaining production problem is now membership compression:
 replace the two sampled objects with a generated semantic top-pairing object
 family whose acceptance includes forced-axis compatibility and canonical
 bad-face/start-violation data.
+
+### Holonomy/Bellman Pivot - object-family route profile accepted
+
+Added a lightweight route profiler that merges the Bellman graph, the
+target-pairing/local-axis closure audit, and the missing-transition completion
+audit into one artifact:
+
+```text
+scripts/profile_bellman_object_family_route.py
+scripts/generated/bellman_object_family_route_profile_1M.json
+scripts/generated/bellman_object_family_route_profile_1M.md
+```
+
+Command:
+
+```bash
+python3 -m py_compile scripts/profile_bellman_object_family_route.py
+
+/usr/bin/time -v python3 scripts/profile_bellman_object_family_route.py \
+  --graph scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --closure scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_negaxis_1M_step_face_linear_tri_source.json \
+  --missing scripts/generated/bellman_missing_transition_completions_top_pairing_negaxis_closure_1M_step_face_linear_tri_source.json \
+  --smoke-wall 1:09.07 \
+  --smoke-rss-kb 8583932 \
+  --json scripts/generated/bellman_object_family_route_profile_1M.json \
+  --markdown scripts/generated/bellman_object_family_route_profile_1M.md
+```
+
+Profiler telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `profile_bellman_object_family_route.py` | `0:00.02` | `14,208 kB` | passed |
+
+Route summary:
+
+| Metric | Value |
+| --- | ---: |
+| Bellman states | `223` |
+| Bellman edges | `229` |
+| Bellman labels | `14` |
+| Diagnostic path classes | `37` |
+| Legal transitions after pairing/schedule/local-axis | `230` |
+| Observed transitions | `229` |
+| Local-axis rejected transitions | `14` |
+| Missing transitions before bad-face filter | `1` |
+| Missing completions matching top family | `0` |
+| Truncated missing gaps | `0` |
+| Legal transitions after canonical bad-face | `229` |
+| Missing after canonical bad-face | `0` |
+| Illegal after canonical bad-face | `0` |
+
+Decision: accepted as `candidate-next-lean-family-smoke`.  This consolidates
+the current evidence into a precise Lean task: prove membership compression
+for the closed semantic object language
+
+```text
+target cancellation pairing
+  + observed schedule / square-gap language
+  + oriented local forced-axis next-face compatibility
+  + canonical bad-face compatibility
+  + object-level start-violation certificate
+  + private Bellman object-cover trace bound
+```
+
+The accepted diagnostic still is not final proof.  It justifies the next
+Lean smoke: replace the two sampled objects with a semantic object-family
+membership theorem that constructs accepted objects and
+`ObjectStartViolationMarginCert` witnesses without exact path classes or
+rank-local certificate replay.

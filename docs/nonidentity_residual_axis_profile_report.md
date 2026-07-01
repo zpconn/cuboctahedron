@@ -2951,3 +2951,45 @@ Interpretation: the Lean surface for the GPT5.5 Bellman/potential pivot is
 now production-shaped at sampled scale.  The remaining nonidentity residual
 challenge is not the terminal contradiction theorem; it is the membership
 compression theorem for replacing sampled objects with a semantic family.
+
+## Bellman Object-Family Route Profile
+
+The current closure/membership evidence is now consolidated in:
+
+```text
+scripts/profile_bellman_object_family_route.py
+scripts/generated/bellman_object_family_route_profile_1M.json
+scripts/generated/bellman_object_family_route_profile_1M.md
+```
+
+Measured run:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_bellman_object_family_route.py \
+  --graph scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --closure scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_negaxis_1M_step_face_linear_tri_source.json \
+  --missing scripts/generated/bellman_missing_transition_completions_top_pairing_negaxis_closure_1M_step_face_linear_tri_source.json \
+  --smoke-wall 1:09.07 \
+  --smoke-rss-kb 8583932 \
+  --json scripts/generated/bellman_object_family_route_profile_1M.json \
+  --markdown scripts/generated/bellman_object_family_route_profile_1M.md
+```
+
+Telemetry: `0:00.02` wall time, `14,208 kB` max RSS.
+
+Important profile facts:
+
+- Bellman graph: `223` states, `229` edges, `14` labels.
+- The diagnostic path-class count remains `37`, but path classes are now
+  explicitly marked diagnostic, not the production membership coordinate.
+- Pairing/schedule/local-axis filters leave `230` legal transitions versus
+  `229` observed transitions.
+- The single missing transition has no completion in the exact top family;
+  it is removed solely by canonical bad-face compatibility.
+- After canonical bad-face filtering: `229` legal transitions, `0` missing,
+  `0` illegal.
+
+Decision: `candidate-next-lean-family-smoke`.  The next Lean task is a
+semantic object-family membership theorem for the closed transition language,
+not another terminal contradiction theorem and not exact path-class/rank-local
+enumeration.
