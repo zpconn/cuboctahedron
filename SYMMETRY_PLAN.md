@@ -57923,3 +57923,36 @@ roughly proportional to the `11318` accepted-prefix nodes plus `440` terminal
 cancellation rejects, not the `141387` raw rejected face branches.  The next
 generator should therefore emit a compressed membership-driven prefix proof,
 not a cases-on-all-faces proof.
+
+Accepted trace naming bridge:
+
+- Added shared semantic names in
+  `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`:
+  - `topPairingClosedFaceTraceA`;
+  - `topPairingClosedFaceTraceB`.
+- Added tiny generated smoke bridges in
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean`:
+  - `closedTraceA_eq_faceTraceA_labels`;
+  - `closedTraceB_eq_faceTraceB_labels`.
+
+These facts connect the future face-label classifier directly to the existing
+smoke-label evaluator theorem without introducing sampled ranks.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_closed_eval_trace_smoke_face_traces_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalTraceSmoke
+```
+
+Result:
+
+```text
+passed
+peak_tree_rss = 4027.4 MiB
+elapsed = 5.00s
+```

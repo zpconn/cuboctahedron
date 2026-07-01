@@ -151,6 +151,16 @@ def TopPairingLocalAxisLabels (labels : List Face) : Prop :=
 def TopPairingLocalAxisSeq (seq : Step14 -> Face) : Prop :=
   TopPairingLocalAxisLabels (faceLabelsInContributionOrder (fun f => f) seq)
 
+def topPairingClosedFaceTraceA : List Face :=
+  [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.tppp, Face.tpmp,
+    Face.tppm, Face.tmmp, Face.tpmm, Face.tmmm, Face.tmpm, Face.yp,
+    Face.zp, Face.xp]
+
+def topPairingClosedFaceTraceB : List Face :=
+  [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.tppp, Face.tpmp,
+    Face.tppm, Face.tmmp, Face.tpmm, Face.tmmm, Face.tmpm, Face.zp,
+    Face.yp, Face.xp]
+
 def triangularCancellationSummaryOfFaceLabels (labels : List Face) :
     TriCancellationSummary :=
   triangularCancellationSummaryOfShadow

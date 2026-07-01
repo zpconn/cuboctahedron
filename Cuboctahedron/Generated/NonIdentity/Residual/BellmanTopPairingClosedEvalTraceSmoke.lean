@@ -40,6 +40,14 @@ def closedTraceB : List SmokeLabel :=
     smokeLabelOfFace Face.tmpm, smokeLabelOfFace Face.zp,
     smokeLabelOfFace Face.yp, smokeLabelOfFace Face.xp]
 
+theorem closedTraceA_eq_faceTraceA_labels :
+    topPairingClosedFaceTraceA.map smokeLabelOfFace = closedTraceA := by
+  rfl
+
+theorem closedTraceB_eq_faceTraceB_labels :
+    topPairingClosedFaceTraceB.map smokeLabelOfFace = closedTraceB := by
+  rfl
+
 theorem closedTraceA_eval :
     evalLabelStepFn graphSmokeNext rootState closedTraceA =
       some ((601 : State), (-376 : Int)) := by
