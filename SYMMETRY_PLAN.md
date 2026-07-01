@@ -510,6 +510,55 @@ prove `triProduct letters = matId` implies
 `triScaledProductInt letters = 3^letters.length * I`, then derive the
 nonidentity theorem.
 
+Lean rational triangular nonidentity checkpoint:
+
+- Extended `Cuboctahedron/Search/ShadowNormalFormScaled.lean` with the
+  rational bridge from integer-scaled products to `triProduct`.
+- New key theorem:
+
+  ```lean
+  theorem triScaledProductInt_rat_eq_scaled_triProduct
+      (letters : List TriLetter) :
+      (triScaledProductInt letters).map (fun z : Int => (z : Rat)) =
+        scalarMat ((3 : Rat) ^ letters.length) (triProduct letters)
+  ```
+
+- It derives:
+
+  ```lean
+  theorem triScaledProductInt_eq_scaledIdentity_of_triProduct_eq_identity
+      {letters : List TriLetter}
+      (h : triProduct letters = (matId : Mat3 Rat)) :
+      triScaledProductInt letters =
+        scalarMat ((3 : Int) ^ letters.length) (matId : Mat3 Int)
+
+  theorem triProduct_ne_identity_of_noAdjacent
+      (head : TriLetter) (tail : List TriLetter)
+      (hred : NoAdjacentEq (head :: tail)) :
+      triProduct (head :: tail) ≠ (matId : Mat3 Rat)
+  ```
+
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalFormScaled
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalFormScaled (4.7s)
+  Build completed successfully
+  ```
+
+Accepted: the mod-3 argument now reaches rational triangular products.  The
+remaining Track 1 assembly gates are:
+
+1. prove reduced shadows produced by `pushReduced` are `NoAdjacentEq`;
+2. derive `reducedShadowOfPairWord w ≠ [] -> triProduct
+   (reducedShadowOfPairWord w) ≠ matId`;
+3. connect the square/triangular normal form to `totalLinearOfPairWord`.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

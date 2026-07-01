@@ -88,4 +88,89 @@ theorem triScaledProductInt_ne_scaledIdentity_of_noAdjacent
     scaledIdentityInt_mod3_eq_zero (by simp)] at hmap
   exact triMod3Product_ne_zero_of_noAdjacent head tail hred hmap
 
+theorem matMap_intCast_rat_matMul (A B : Mat3 Int) :
+    (matMul A B).map (fun z : Int => (z : Rat)) =
+      matMul (A.map (fun z : Int => (z : Rat)))
+        (B.map (fun z : Int => (z : Rat))) := by
+  apply Mat3.ext <;> simp [Mat3.map, matMul]
+
+theorem matMul_scalarMat_scalarMat_rat
+    (a b : Rat) (A B : Mat3 Rat) :
+    matMul (scalarMat a A) (scalarMat b B) =
+      scalarMat (a * b) (matMul A B) := by
+  apply Mat3.ext <;> simp [matMul, scalarMat] <;> ring
+
+theorem triScaledLinearInt_rat_eq_scaled_triLinear (t : TriLetter) :
+    (triScaledLinearInt t).map (fun z : Int => (z : Rat)) =
+      scalarMat (3 : Rat) (triLinear t) := by
+  cases t <;>
+    apply Mat3.ext <;>
+    norm_num [triScaledLinearInt, triNormalInt, triLinear,
+      TriLetter.toPairId, canonicalNormalQ, reflM, matSub, scalarMat, outer,
+      matId, dot, Mat3.map]
+
+theorem triScaledProductInt_rat_eq_scaled_triProduct
+    (letters : List TriLetter) :
+    (triScaledProductInt letters).map (fun z : Int => (z : Rat)) =
+      scalarMat ((3 : Rat) ^ letters.length) (triProduct letters) := by
+  induction letters with
+  | nil =>
+      apply Mat3.ext <;> simp [triScaledProductInt, triProduct, Mat3.map,
+        scalarMat, matId]
+  | cons t ts ih =>
+      rw [triScaledProductInt, triProduct, matMap_intCast_rat_matMul,
+        triScaledLinearInt_rat_eq_scaled_triLinear, ih,
+        matMul_scalarMat_scalarMat_rat]
+      have hpow : (3 : Rat) * 3 ^ ts.length = 3 ^ (ts.length + 1) := by
+        ring_nf
+      rw [hpow]
+      simp
+
+theorem scaledIdentityInt_rat (n : Nat) :
+    (scalarMat ((3 : Int) ^ n) (matId : Mat3 Int)).map
+        (fun z : Int => (z : Rat)) =
+      scalarMat ((3 : Rat) ^ n) (matId : Mat3 Rat) := by
+  apply Mat3.ext <;> simp [Mat3.map, scalarMat, matId]
+
+theorem matInt_eq_of_rat_map_eq {A B : Mat3 Int}
+    (h : A.map (fun z : Int => (z : Rat)) =
+      B.map (fun z : Int => (z : Rat))) :
+    A = B := by
+  apply Mat3.ext
+  · exact Int.cast_injective (α := Rat) (by
+      simpa [Mat3.map] using congrArg Mat3.m00 h)
+  · exact Int.cast_injective (α := Rat) (by
+      simpa [Mat3.map] using congrArg Mat3.m01 h)
+  · exact Int.cast_injective (α := Rat) (by
+      simpa [Mat3.map] using congrArg Mat3.m02 h)
+  · exact Int.cast_injective (α := Rat) (by
+      simpa [Mat3.map] using congrArg Mat3.m10 h)
+  · exact Int.cast_injective (α := Rat) (by
+      simpa [Mat3.map] using congrArg Mat3.m11 h)
+  · exact Int.cast_injective (α := Rat) (by
+      simpa [Mat3.map] using congrArg Mat3.m12 h)
+  · exact Int.cast_injective (α := Rat) (by
+      simpa [Mat3.map] using congrArg Mat3.m20 h)
+  · exact Int.cast_injective (α := Rat) (by
+      simpa [Mat3.map] using congrArg Mat3.m21 h)
+  · exact Int.cast_injective (α := Rat) (by
+      simpa [Mat3.map] using congrArg Mat3.m22 h)
+
+theorem triScaledProductInt_eq_scaledIdentity_of_triProduct_eq_identity
+    {letters : List TriLetter}
+    (h : triProduct letters = (matId : Mat3 Rat)) :
+    triScaledProductInt letters =
+      scalarMat ((3 : Int) ^ letters.length) (matId : Mat3 Int) := by
+  apply matInt_eq_of_rat_map_eq
+  rw [triScaledProductInt_rat_eq_scaled_triProduct, h,
+    scaledIdentityInt_rat]
+
+theorem triProduct_ne_identity_of_noAdjacent
+    (head : TriLetter) (tail : List TriLetter)
+    (hred : NoAdjacentEq (head :: tail)) :
+    triProduct (head :: tail) ≠ (matId : Mat3 Rat) := by
+  intro h
+  exact triScaledProductInt_ne_scaledIdentity_of_noAdjacent head tail hred
+    (triScaledProductInt_eq_scaledIdentity_of_triProduct_eq_identity h)
+
 end Cuboctahedron

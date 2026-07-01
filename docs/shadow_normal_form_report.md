@@ -526,3 +526,48 @@ Accepted: nonempty reduced triangular words are now Lean-proved not to have
 integer-scaled product `3^len * I`.  The remaining Track 1 algebra bridge is
 to show that rational `triProduct letters = matId` would imply exactly that
 integer-scaled identity equality.
+
+## Rational Triangular Nonidentity Checkpoint
+
+The scaled module now also proves the rational bridge back to `triProduct`.
+The key theorem is:
+
+```lean
+theorem triScaledProductInt_rat_eq_scaled_triProduct
+    (letters : List TriLetter) :
+    (triScaledProductInt letters).map (fun z : Int => (z : Rat)) =
+      scalarMat ((3 : Rat) ^ letters.length) (triProduct letters)
+```
+
+From this, it derives:
+
+```lean
+theorem triScaledProductInt_eq_scaledIdentity_of_triProduct_eq_identity
+    {letters : List TriLetter}
+    (h : triProduct letters = (matId : Mat3 Rat)) :
+    triScaledProductInt letters =
+      scalarMat ((3 : Int) ^ letters.length) (matId : Mat3 Int)
+
+theorem triProduct_ne_identity_of_noAdjacent
+    (head : TriLetter) (tail : List TriLetter)
+    (hred : NoAdjacentEq (head :: tail)) :
+    triProduct (head :: tail) ≠ (matId : Mat3 Rat)
+```
+
+Focused build:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalFormScaled
+```
+
+Result:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalFormScaled (4.7s)
+Build completed successfully
+```
+
+Accepted: nonempty no-adjacent-equal triangular words are Lean-proved to have
+nonidentity rational triangular product.  The remaining Track 1 assembly work
+is to prove reduced shadows are `NoAdjacentEq`, then use this theorem in the
+full pair-word identity classifier.
