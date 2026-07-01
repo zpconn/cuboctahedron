@@ -3,9 +3,9 @@
 Graph input: `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json`
 Closure input: `scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_negaxis_1M_step_face_linear_tri_source.json`
 
-Decision: `missing_transitions_are_overapproximation`
+Decision: `canonical_bad_face_filter_would_close`
 
-The sampled missing transitions do not produce exact top-family completions.  Use the reason histogram to identify the next invariant to add to the membership theorem.
+Every remaining completion is excluded solely by canonical bad-face mismatch.  A canonical-bad-face compatibility predicate is the next Bellman membership invariant to test/formalize.
 
 ## Summary
 
@@ -15,6 +15,7 @@ The sampled missing transitions do not produce exact top-family completions.  Us
 | `total_completions` | `1` |
 | `total_matched_top_family` | `0` |
 | `truncated_gaps` | `0` |
+| `canonical_bad_face_filter_would_close` | `True` |
 | `max_completions_per_gap` | `100000` |
 
 ## Aggregate Reasons

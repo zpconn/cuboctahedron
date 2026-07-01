@@ -1464,3 +1464,28 @@ Refined frontier audit:
 Next gate: add or audit a canonical-bad-face compatibility predicate for this
 Bellman object language.  A zero-gap closure after that would justify a larger
 semantic object-family Lean smoke.
+
+Canonical bad-face frontier gate:
+
+- `scripts/audit_bellman_missing_transition_completions.py` now promotes this
+  exact situation to a named decision:
+
+  ```text
+  canonical_bad_face_filter_would_close
+  ```
+
+- Rerunning the refined closure audit gives:
+
+  | metric | value |
+  | --- | ---: |
+  | `decision` | `canonical_bad_face_filter_would_close` |
+  | `canonical_bad_face_filter_would_close` | `True` |
+  | `gap_count` | `1` |
+  | `total_completions` | `1` |
+  | `total_matched_top_family` | `0` |
+  | `truncated_gaps` | `0` |
+
+Implication: the next Lean-facing design target is a generated semantic
+terminal theorem for canonical bad-face compatibility, not exact path-class
+membership.  It should become part of object `Accepts` for the Bellman
+object-cover route.

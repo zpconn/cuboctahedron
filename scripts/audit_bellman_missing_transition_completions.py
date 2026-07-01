@@ -428,9 +428,18 @@ def audit(
                 }
             )
 
+    reason_set = set(aggregate_reasons)
+    canonical_bad_face_only = (
+        bool(total_completions)
+        and not total_matches
+        and not truncated_gaps
+        and reason_set == {"canonical_bad_face_mismatch"}
+    )
     decision = (
         "missing_transitions_include_top_family_matches"
         if total_matches
+        else "canonical_bad_face_filter_would_close"
+        if canonical_bad_face_only
         else "missing_transitions_are_overapproximation"
         if total_completions and not truncated_gaps
         else "missing_transition_audit_incomplete"
@@ -439,6 +448,10 @@ def audit(
         "The closure language is too broad and admits completions that are in the exact top family; "
         "the Bellman graph needs more observed states or a stronger transition theorem."
         if total_matches
+        else "Every remaining completion is excluded solely by canonical bad-face mismatch.  "
+        "A canonical-bad-face compatibility predicate is the next Bellman membership invariant "
+        "to test/formalize."
+        if decision == "canonical_bad_face_filter_would_close"
         else "The sampled missing transitions do not produce exact top-family completions.  Use the "
         "reason histogram to identify the next invariant to add to the membership theorem."
         if decision == "missing_transitions_are_overapproximation"
@@ -457,6 +470,7 @@ def audit(
         "total_matched_top_family": total_matches,
         "truncated_gaps": truncated_gaps,
         "aggregate_reason_histogram": dict(aggregate_reasons.most_common()),
+        "canonical_bad_face_filter_would_close": canonical_bad_face_only,
         "rows": rows,
         "decision": decision,
         "recommendation": recommendation,
@@ -484,6 +498,7 @@ def write_markdown(payload: dict[str, Any], output_path: Path) -> None:
         "total_completions",
         "total_matched_top_family",
         "truncated_gaps",
+        "canonical_bad_face_filter_would_close",
         "max_completions_per_gap",
     ]:
         lines.append(f"| `{key}` | `{payload[key]}` |")

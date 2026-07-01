@@ -48721,3 +48721,55 @@ canonical-bad-face compatibility predicate for this Bellman family.  If that
 closes the graph with zero missing/illegal transitions, the next Lean smoke
 should encode the membership stack as semantic object acceptance rather than
 as exact path-class membership.
+
+### Holonomy/Bellman Pivot - canonical bad-face frontier gate
+
+Strengthened `scripts/audit_bellman_missing_transition_completions.py` so it
+does not merely report generic over-approximation.  It now emits the decision:
+
+```text
+canonical_bad_face_filter_would_close
+```
+
+when every remaining completion is excluded solely by canonical bad-face
+mismatch, with no top-family matches and no truncation.
+
+Command:
+
+```bash
+python3 -m py_compile scripts/audit_bellman_missing_transition_completions.py
+
+python3 scripts/audit_bellman_missing_transition_completions.py \
+  --graph scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --closure scripts/generated/bellman_target_pairing_observed_step_square_gap_axis_forced_closure_negaxis_1M_step_face_linear_tri_source.json \
+  --json scripts/generated/bellman_missing_transition_completions_top_pairing_negaxis_closure_1M_step_face_linear_tri_source.json \
+  --markdown scripts/generated/bellman_missing_transition_completions_top_pairing_negaxis_closure_1M_step_face_linear_tri_source.md \
+  --max-completions-per-gap 100000
+```
+
+Result:
+
+| metric | value |
+| --- | ---: |
+| `decision` | `canonical_bad_face_filter_would_close` |
+| `canonical_bad_face_filter_would_close` | `True` |
+| `gap_count` | `1` |
+| `total_completions` | `1` |
+| `total_matched_top_family` | `0` |
+| `truncated_gaps` | `0` |
+
+Decision: promoted.  The sampled Bellman language has a concrete membership
+stack that should close the graph:
+
+```text
+target cancellation pairing
+  + observed schedule / square-gap language
+  + oriented local forced-axis next-face compatibility
+  + canonical bad-face compatibility
+```
+
+Next implementation step: design the Lean/object-language surface for
+canonical bad-face compatibility.  It should not compute full affine solves in
+the root.  Prefer a generated terminal-family theorem that proves a Bellman
+object's terminal axis-start failure has canonical bad face `yp`, then include
+that theorem in the `Accepts` predicate for the object-cover route.

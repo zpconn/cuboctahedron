@@ -2846,3 +2846,30 @@ reason:
 Conclusion: for this 1M top-pairing graph, the object-language frontier is now
 one canonical-bad-face compatibility invariant.  This should be tested before
 any larger Lean smoke is emitted.
+
+## Canonical Bad-Face Frontier Gate
+
+The missing-transition completion audit now has a named decision for this
+frontier.  It reports:
+
+```text
+canonical_bad_face_filter_would_close
+```
+
+when the remaining completions are all excluded by canonical bad-face mismatch.
+
+Rerun result:
+
+| metric | value |
+| --- | ---: |
+| `decision` | `canonical_bad_face_filter_would_close` |
+| `canonical_bad_face_filter_would_close` | `True` |
+| `gap_count` | `1` |
+| `total_completions` | `1` |
+| `total_matched_top_family` | `0` |
+| `truncated_gaps` | `0` |
+
+The next proof-oriented task is to design a small Lean surface for canonical
+bad-face compatibility in the Bellman object language.  It should be a
+terminal-family theorem and part of object acceptance, not a root-level
+replay of all affine solve arithmetic.
