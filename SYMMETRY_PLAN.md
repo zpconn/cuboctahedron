@@ -48951,3 +48951,53 @@ Lean smoke: replace the two sampled objects with a semantic object-family
 membership theorem that constructs accepted objects and
 `ObjectStartViolationMarginCert` witnesses without exact path classes or
 rank-local certificate replay.
+
+### Holonomy/Bellman Pivot - deterministic label-step evaluator accepted
+
+Added a small generic Lean theorem to support the next object-family emitter:
+
+```lean
+Cuboctahedron.Search.BellmanPotential
+
+def evalLabelStepFn
+theorem bellmanLabelStepRun_of_evalLabelStepFn
+```
+
+`evalLabelStepFn` evaluates a deterministic finite label-step table:
+
+```lean
+State -> Label -> Option (State × Int)
+```
+
+over a label word.  If evaluation returns `some (finish, gain)` and every
+table entry is sound for the Prop-level `Step` relation, then
+`bellmanLabelStepRun_of_evalLabelStepFn` constructs the trusted
+`BellmanLabelStepRun`.
+
+Why this matters: the next semantic object-family smoke should not emit one
+hand-built Bellman run per exact path class.  It can instead emit a small
+deterministic transition table for the closed object language and prove that
+the semantic label word evaluates through that table.  This theorem turns that
+evaluation fact into the existing Bellman potential proof surface.
+
+Focused builds:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Search.BellmanPotential
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Search.BellmanAxisBridge \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanPotential` | `0:02.30` | `3,324,300 kB` | passed |
+| `BellmanAxisBridge + BellmanTopPairingGraphLanguage2Smoke` | `1:08.06` | `8,675,760 kB` | passed |
+
+Decision: accepted.  This does not solve membership compression by itself,
+but it removes a likely source of future generated bloat: exact
+`BellmanLabelStepRun.cons` trees for every path.  The next emitter slice
+should use this table-evaluation theorem in a tiny semantic-family smoke.

@@ -152,6 +152,55 @@ theorem append
 
 end BellmanLabelStepRun
 
+def evalLabelStepFn {State Label : Type}
+    (next : State -> Label -> Option (State × Int)) :
+    State -> List Label -> Option (State × Int)
+  | s, [] => some (s, 0)
+  | s, label :: labels =>
+      match next s label with
+      | none => none
+      | some (t, gain) =>
+          match evalLabelStepFn next t labels with
+          | none => none
+          | some (u, tailGain) => some (u, gain + tailGain)
+
+theorem bellmanLabelStepRun_of_evalLabelStepFn
+    {State Label : Type}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {next : State -> Label -> Option (State × Int)}
+    (hsound :
+      forall s label t gain,
+        next s label = some (t, gain) -> Step s label t gain)
+    {start : State} {labels : List Label} {result : State × Int}
+    (h :
+      evalLabelStepFn next start labels = some result) :
+    BellmanLabelStepRun Step start result.1 labels result.2 := by
+  induction labels generalizing start result with
+  | nil =>
+      simp [evalLabelStepFn] at h
+      cases h
+      exact BellmanLabelStepRun.nil start
+  | cons label labels ih =>
+      simp [evalLabelStepFn] at h
+      cases hnext : next start label with
+      | none =>
+          simp [hnext] at h
+      | some step =>
+          cases step with
+          | mk mid stepGain =>
+              simp [hnext] at h
+              cases htail : evalLabelStepFn next mid labels with
+              | none =>
+                  simp [htail] at h
+              | some result =>
+                  cases result with
+                  | mk finish' tailGain =>
+                      simp [htail] at h
+                      cases h
+                      exact BellmanLabelStepRun.cons
+                        (hsound start label mid stepGain hnext)
+                        (ih htail)
+
 def bellmanGainSum {State : Type} : List (BellmanEdge State) -> Int
   | [] => 0
   | e :: edges => e.gain + bellmanGainSum edges

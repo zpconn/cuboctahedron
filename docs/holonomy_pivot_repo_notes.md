@@ -1578,3 +1578,27 @@ Object-family route profile:
 - The remaining Lean obligation is precise: replace sampled object
   enumeration with a semantic object-family membership theorem for this
   closed transition language.
+
+Deterministic label-step evaluator:
+
+- Added to `Cuboctahedron.Search.BellmanPotential`:
+
+  ```lean
+  evalLabelStepFn
+  bellmanLabelStepRun_of_evalLabelStepFn
+  ```
+
+- This is a generic table-evaluation bridge.  A generated object-family
+  emitter can define a small deterministic transition table
+  `State -> Label -> Option (State × Int)`, prove each table entry sound for
+  the Prop-level `Step`, and then obtain `BellmanLabelStepRun` from the
+  evaluator result.
+- Focused builds passed:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `Cuboctahedron.Search.BellmanPotential` | `0:02.30` | `3,324,300 kB` |
+  | `BellmanAxisBridge + BellmanTopPairingGraphLanguage2Smoke` | `1:08.06` | `8,675,760 kB` |
+
+This keeps the next semantic-family smoke away from exact hand-built
+`BellmanLabelStepRun.cons` trees per path class.

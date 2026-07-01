@@ -2993,3 +2993,38 @@ Decision: `candidate-next-lean-family-smoke`.  The next Lean task is a
 semantic object-family membership theorem for the closed transition language,
 not another terminal contradiction theorem and not exact path-class/rank-local
 enumeration.
+
+## Deterministic Label-Step Evaluator
+
+The Bellman core now has the generic support theorem needed by that next
+semantic-family smoke:
+
+```lean
+evalLabelStepFn
+bellmanLabelStepRun_of_evalLabelStepFn
+```
+
+These live in `Cuboctahedron.Search.BellmanPotential`.  They let a generated
+family use a deterministic transition table over labels to construct a
+trusted `BellmanLabelStepRun`, instead of emitting a separate run proof for
+each exact path class.
+
+Focused checks:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Search.BellmanPotential
+
+/usr/bin/time -v lake build \
+  Cuboctahedron.Search.BellmanAxisBridge \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Results:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanPotential` | `0:02.30` | `3,324,300 kB` | passed |
+| `BellmanAxisBridge + BellmanTopPairingGraphLanguage2Smoke` | `1:08.06` | `8,675,760 kB` | passed |
+
+This is a support theorem, not a coverage claim.  The remaining work is still
+the semantic membership theorem for the closed object-family language.
