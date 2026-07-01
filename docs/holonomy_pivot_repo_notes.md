@@ -344,6 +344,11 @@ Top margin+cancellation-pairing checkpoint:
   with `223` states, `229` edges, maximum margin bound `0`, and a real
   Bellman-max path.  Prefix linear holonomy alone did not help.  The next
   gate is a larger-window `with-step-tri-source` scale test.
+- Larger-window status: the same key succeeded on `[0,5000000)` with `194`
+  matched paths, `789` states, `863` edges, maximum margin bound `0`, and
+  `27,988 kB` max RSS.  This keeps the Bellman route active; next test a
+  broader window or start designing the generic Lean Bellman theorem only
+  after one more scale check.
 
 ## Explicit Non-Goals
 

@@ -1865,6 +1865,14 @@ Bellman profiler prototype checkpoint:
   coordinate.  The next scaling test should run this key on a larger window
   for the same top family and measure whether states/edges grow with semantic
   source-position classes or drift toward exact-prefix growth.
+- Larger-window scale test: `with-step-tri-source` on `[0,5000000)` with
+  four workers also succeeded.  It scanned `5,000,000` ranks, found `194`
+  matched paths in the top family, and produced `789` states, `863` edges,
+  and `95` final states.  The Bellman root bound stayed `-2`, maximum margin
+  bound stayed `0`, and the Bellman-max path remained a real observed path
+  (rank `946779`).  Runtime was `5:57.77` wall, with `27,988 kB` max RSS.
+  Growth is not flat, but it is far better than one state per exact prefix and
+  remains small enough to justify the next, broader scale test.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

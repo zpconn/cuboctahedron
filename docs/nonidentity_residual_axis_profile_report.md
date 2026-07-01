@@ -668,6 +668,36 @@ positive spurious path.  The next test should scale `with-step-tri-source` to
 a larger window for the same top family before any Lean Bellman theorem is
 designed around it.
 
+Larger-window `with-step-tri-source` scale test:
+
+```bash
+/usr/bin/time -v python3 scripts/nonidentity_margin_bellman_profile.py \
+  --start 0 --end 5000000 \
+  --jobs 4 --chunk-size 250000 \
+  --state-key-mode with-step-tri-source \
+  --json scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source.json \
+  --markdown scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source.md
+```
+
+| metric | value |
+| --- | ---: |
+| scanned | `5,000,000` |
+| matched paths | `194` |
+| states | `789` |
+| edges | `863` |
+| final states | `95` |
+| margin values | `38` |
+| root bound | `-2` |
+| max margin bound | `0` |
+| Bellman-max observed? | `true`, rank `946779` |
+| elapsed | `5:57.77` |
+| max RSS | `27,988 kB` |
+
+Decision: the accepted state key still scales on the larger sample and remains
+memory-light.  State/edge growth is real, so this is not a solved production
+certificate yet, but the growth is meaningfully below exact-prefix behavior
+and justifies a broader scale test before designing the Lean Bellman core.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -702,6 +732,8 @@ designed around it.
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_linear.md`
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source.json`
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source.md`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source.json`
+- `scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source.md`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.json`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.md`
 - `scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.json`
