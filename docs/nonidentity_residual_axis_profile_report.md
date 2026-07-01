@@ -1460,6 +1460,31 @@ Non-enumerative label-step trace smoke:
   constructors from this theorem surface, but it does not prove membership for
   actual cuboctahedron top-family words yet.
 
+Concrete face-sequence bridge smoke:
+
+- Updated `scripts/emit_bellman_graph_smoke.py` so graph labels of the form
+  `face=...|pair=...` also generate a `Face -> SmokeLabel` adapter and
+  `smokeLabelsOfSeq : (Step14 -> Face) -> List SmokeLabel`.
+- The generated graph smoke now includes a concrete sampled itinerary
+  `cls0000FaceSeq : Step14 -> Face`, proves
+  `cls0000FaceSeqLabels_eq :
+    smokeLabelsOfSeq cls0000FaceSeq = trieNode0014Labels`, packages it as a
+  `SmokeLabelStepTrace`, and applies the arbitrary trace theorem in
+  `graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos`.
+- Focused build passed:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Result: `0:14.86` wall time, `3,924,476 kB` max RSS.
+- Decision: accepted as the first Lean-checked bridge from an actual
+  `Step14 -> Face` itinerary to the Bellman trie language.  The remaining
+  production gap is to replace this one sampled sequence by a theorem that the
+  holonomy/cancellation top-family predicate determines the same face-label
+  language/trie branch.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

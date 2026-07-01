@@ -26,6 +26,13 @@ def label_ctor(index: int) -> str:
     return f"SmokeLabel.l{index:04d}"
 
 
+def face_name_from_label_key(key: str) -> str:
+    for part in key.split("|"):
+        if part.startswith("face="):
+            return part.split("=", 1)[1]
+    raise ValueError(f"label key has no face component: {key}")
+
+
 def right_assoc_add(terms: list[str]) -> str:
     expr = "0"
     for term in reversed(terms):
@@ -51,6 +58,14 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             {"index": idx, "key": edge_name(idx)}
             for idx, _edge in enumerate(edges)
         ]
+    label_face_by_index: dict[int, str] = {}
+    for label in labels:
+        try:
+            label_face_by_index[int(label["index"])] = face_name_from_label_key(
+                str(label["key"])
+            )
+        except ValueError:
+            pass
     roots = graph["root_indices"]
     if len(roots) != 1:
         raise SystemExit(f"expected one root state, found {len(roots)}")
@@ -166,6 +181,36 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             node = child
         obj["trie_node"] = node
 
+    face_order = [
+        "xp",
+        "xm",
+        "yp",
+        "ym",
+        "zp",
+        "zm",
+        "tmmm",
+        "tmmp",
+        "tmpm",
+        "tmpp",
+        "tpmm",
+        "tpmp",
+        "tppm",
+        "tppp",
+    ]
+    face_label_by_name = {
+        face: label_ctor(label_idx) for label_idx, face in label_face_by_index.items()
+    }
+    can_emit_face_sequence_bridge = (
+        bool(path_objects)
+        and all(face in face_label_by_name for face in face_order)
+        and all(
+            label_idx in label_face_by_index
+            for obj in path_objects[:1]
+            for label_idx in obj["label_indices"]
+        )
+        and len(path_objects[0]["label_indices"]) == 14
+    )
+
     def trie_node_name(index: int) -> str:
         return f"trieNode{index:04d}"
 
@@ -203,6 +248,7 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
 
     lines: list[str] = [
         "import Cuboctahedron.Search.BellmanPotential",
+        "import Cuboctahedron.Search.Itineraries",
         "",
         "set_option maxRecDepth 4096",
         "",
@@ -470,6 +516,30 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
     ])
     for label in labels:
         lines.append(f"  | l{int(label['index']):04d} -- {label['key']}")
+    if can_emit_face_sequence_bridge:
+        lines.extend([
+            "",
+            "private def smokeLabelOfFace : Face -> SmokeLabel",
+        ])
+        for face in face_order:
+            lines.append(f"  | Face.{face} => {face_label_by_name[face]}")
+        lines.extend([
+            "",
+            "/--",
+            "The profiler emits Bellman labels in contribution order: the thirteen",
+            "post-start faces first, followed by the initial `X+` face.",
+            "-/",
+            "private def smokeLabelsOfSeq (seq : Step14 -> Face) : List SmokeLabel :=",
+            "  [smokeLabelOfFace (seq (⟨1, by decide⟩ : Step14))",
+        ])
+        for step in range(2, 14):
+            lines.append(
+                f"  , smokeLabelOfFace (seq (⟨{step}, by decide⟩ : Step14))"
+            )
+        lines.extend([
+            "  , smokeLabelOfFace (seq (⟨0, by decide⟩ : Step14))",
+            "  ]",
+        ])
     lines.extend([
         "",
         "private inductive SmokeEdgeLabel : BellmanEdge State -> SmokeLabel -> Prop where",
@@ -998,6 +1068,66 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "    root_bound",
         "    smokeObservedTrieLabelStepRunLanguageBound",
         "",
+    ])
+    if can_emit_face_sequence_bridge:
+        obj = path_objects[0]
+        obj_name = str(obj["name"])
+        trie_node = int(obj["trie_node"])
+        seq_name = f"{obj_name}FaceSeq"
+        trace_name = f"{obj_name}FaceSeqTrace"
+        label_indices = [int(idx) for idx in obj["label_indices"]]
+        seq_faces = {
+            step: label_face_by_index[label_indices[step - 1]]
+            for step in range(1, 14)
+        }
+        seq_faces[0] = label_face_by_index[label_indices[13]]
+        ancestors = trie_ancestors(trie_node)
+        trie_label_unfolds: list[str] = []
+        for anc in reversed(ancestors):
+            trie_label_unfolds.append(trie_node_labels_name(anc))
+            if anc != 0:
+                trie_label_unfolds.append(trie_node_step_labels_name(anc))
+        lines.extend([
+            f"private def {seq_name} : Step14 -> Face",
+        ])
+        for step in range(13):
+            lines.append(f"  | ⟨{step}, _⟩ => Face.{seq_faces[step]}")
+        lines.extend([
+            f"  | _ => Face.{seq_faces[13]}",
+            "",
+            f"private theorem {seq_name}Labels_eq :",
+            f"    smokeLabelsOfSeq {seq_name} = {trie_node_labels_name(trie_node)} := by",
+            f"  unfold smokeLabelsOfSeq {seq_name} smokeLabelOfFace",
+            "  unfold " + " ".join(trie_label_unfolds),
+            "  rfl",
+            "",
+            f"private def {trace_name} : SmokeLabelStepTrace where",
+            f"  finish := {trie_node_state_name(trie_node)}",
+            f"  labels := smokeLabelsOfSeq {seq_name}",
+            f"  gain := {trie_node_gain_name(trie_node)}",
+            f"  margin := smokeScaledMargin SmokeObj.{obj_name}",
+            "",
+            f"private theorem {trace_name}_accepts :",
+            f"    smokeLabelStepTraceAccepts {trace_name} := by",
+            f"  unfold smokeLabelStepTraceAccepts {trace_name}",
+            "  refine ⟨?_, ?_, ?_⟩",
+            "  · change BellmanLabelStepRun SmokeStep",
+            f"      rootState {trie_node_state_name(trie_node)}",
+            f"      (smokeLabelsOfSeq {seq_name}) {trie_node_gain_name(trie_node)}",
+            f"    rw [{seq_name}Labels_eq]",
+            f"    exact {trie_node_run_name(trie_node)}",
+            f"  · exact {obj_name}TrieFinal_nonneg",
+            f"  · change smokeScaledMargin SmokeObj.{obj_name} <=",
+            f"      ({const_scaled} : Int) + {trie_node_gain_name(trie_node)}",
+            f"    exact {obj_name}TrieMargin_bound_gain",
+            "",
+            f"theorem graphSmoke_{obj_name}_face_seq_trace_scaled_margin_nonpos :",
+            f"    smokeLabelStepTraceScaledMargin {trace_name} <= 0 :=",
+            "  graphSmoke_label_step_trace_language_scaled_margin_nonpos",
+            f"    {trace_name} {trace_name}_accepts",
+            "",
+        ])
+    lines.extend([
         "theorem graphSmoke_argmax_object_scaled_margin_nonpos :",
         "    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=",
         "  graphSmoke_observed_objects_scaled_margin_nonpos",

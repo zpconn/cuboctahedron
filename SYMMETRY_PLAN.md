@@ -2213,6 +2213,19 @@ Bellman profiler prototype checkpoint:
   bridge-shape checkpoint.  It removes finite observed constructors from this
   theorem surface, but the remaining production gap is still to prove real
   holonomy/cancellation top-family words instantiate `SmokeLabelStepTrace`.
+- Concrete face-sequence bridge smoke: the graph emitter now parses profiler
+  semantic labels of the form `face=...|pair=...`, imports
+  `Cuboctahedron.Search.Itineraries`, emits `smokeLabelOfFace` and
+  `smokeLabelsOfSeq`, and proves that the sampled class `cls0000FaceSeq :
+  Step14 -> Face` maps to the trie labels for `trieNode0014`.  The generated
+  theorem `graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos` applies the
+  arbitrary trace theorem to this concrete face sequence.  Focused build
+  passed: `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:14.86` wall time with `3,924,476 kB` max RSS.  Decision: this is the
+  first Lean-checked smoke connecting an actual `Step14 -> Face` itinerary to
+  the Bellman trie language.  It is not full membership yet; the production
+  bridge still needs a theorem from the holonomy/cancellation top-family
+  predicate to the generated face-label sequence/trie node.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
