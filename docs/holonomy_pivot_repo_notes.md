@@ -4203,6 +4203,45 @@ Thirty-fifth split path:
 Decision: accepted as another proof-bearing sampled path under the strict
 post-crash guard.
 
+Thirty-sixth split path:
+
+- Path object index `35` / rank `947626` was run as a single guarded path with
+  `--check-stage missing`.  No batch execution or parallel Lean was used.
+- Dry-run command:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 35 \
+    --check \
+    --check-stage missing \
+    --dry-run \
+    --json scripts/generated/bellman_split_path_35_missing_dry_run.json
+  ```
+
+- Proof-bearing command:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 35 \
+    --check \
+    --check-stage missing \
+    --json scripts/generated/bellman_split_path_35_missing_run.json
+  ```
+
+- Result:
+  - trace shard with `.olean` emission: passed in `8.10s`, peak RSS
+    `4028 MiB`, hard-AS cap `6144 MiB`, minimum available `46206 MiB`;
+  - split root with `.olean` emission: passed in `2.03s`, peak RSS
+    `3965 MiB`, hard-AS cap `6144 MiB`, minimum available `46298 MiB`.
+- Refreshed strict `[0,16)` dry-run guard remains `accepted-dry-run` with `0`
+  blocked entries and `0` total blockers.
+- Refreshed `[0,37)` planner summary: `0` over budget, `36` fresh trace
+  artifacts, `36` fresh split artifacts, `1184 KiB` planned trace source, and
+  `74 KiB` planned split source.
+- Refreshed selector chose path index `36`, rank `947627`, as the next possible
+  single-path target.
+
+Decision: accepted as another proof-bearing sampled path under the strict
+post-crash guard.
+
 Rebase recheck plus twenty-fifth split path:
 
 - The path-23 checkpoint push was rejected because `origin/main` had a
