@@ -5,16 +5,16 @@ This report is planning/accounting only. It does not invoke Lean.
 - graph: `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json`
 - scanned range: `0..37`
 - status: `selected`
-- current MemAvailable: `46628 MiB`
+- current MemAvailable: `46577 MiB`
 - required MemAvailable: `36864 MiB`
 
 Selected candidate:
 
-- index: `8`
-- rank: `43195`
+- index: `9`
+- rank: `43203`
 - reason: trace and split artifacts are missing or stale
-- trace module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke08`
-- split module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke08`
+- trace module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke09`
+- split module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke09`
 - trace source: `32 KiB`
 - split source: `2 KiB`
 
@@ -28,7 +28,7 @@ Selected candidate:
 | `5` | `42247` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `6` | `42943` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `7` | `43171` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
-| `8` | `43195` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
+| `8` | `43195` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `9` | `43203` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
 | `10` | `43205` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
 | `11` | `113917` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
