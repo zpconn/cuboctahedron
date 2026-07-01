@@ -3303,10 +3303,11 @@ Latest crash-safety note:
   It must not be used to launch `lake build`; Lake builds and dependency
   compilations require separate, explicit, strictly capped commands and fresh
   telemetry.
-- Future generated/Bellman checks should keep the current envelope:
-  `lake env lean -M 6000 -j1 -s 2048`, process-tree RSS cap `6000 MiB`, hard
-  address-space cap `8192 MiB`, available-memory floor `24576 MiB`, and timeout
-  `60s`.
+- Future generated/Bellman checks should use the tightened post-crash envelope:
+  direct `lake env lean -M 6000 -j1 -s 2048` only through
+  `scripts/run_bellman_safe_smoke.py`, process-tree RSS cap `4500 MiB`, hard
+  address-space cap `6144 MiB`, available-memory floor `36864 MiB`, and timeout
+  `45s`.  No `lake build` target is allowed through this Bellman wrapper.
 
 Import-preflight checkpoint:
 
@@ -3404,3 +3405,29 @@ Split-composition checkpoint:
   `split-composition --emit-olean` passed in `4.01s` at `3810.38 MiB` peak
   RSS with `26` fresh imports.  The artifact path is
   `.lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke.olean`.
+
+Latest crash report and tightened quarantine:
+
+- The user reported another machine crash after the follow-up Bellman work,
+  likely from memory pressure.  Post-restart lightweight inspection found about
+  `45 GiB` available memory and no lingering high-RSS Lean/Python job.  The
+  in-flight second-shard generated files were tiny (`32 KiB`, `4 KiB`, and
+  `4 KiB` report JSON), so the issue is proof-check/import memory, not source
+  size.
+- No additional Lean proof check was run for this incident checkpoint.
+- Because those second-shard files were not validated under the post-crash
+  envelope, they were not promoted into the repository; the unverified files
+  and temporary wrapper target entries were discarded.
+- `scripts/run_bellman_safe_smoke.py` was tightened from the old
+  `6000 MiB`/`8192 MiB`/`24576 MiB`/`60s` envelope to:
+  `4500 MiB` process-tree RSS cap, `6144 MiB` hard address-space cap,
+  `36864 MiB` available-memory floor, and `45s` timeout.
+- Static verification passed: `python3 -m py_compile` for the Bellman smoke,
+  memory guard, and trace-emitter scripts; `git diff --check`; and a narrow
+  forbidden-token scan over `scripts/run_bellman_safe_smoke.py`.  A dry run of
+  `python3 scripts/run_bellman_safe_smoke.py --target generated-trace --dry-run`
+  preflighted `18` fresh local imports and expanded to direct Lean with the
+  tightened caps, without launching Lean.
+- If a generated/Bellman target cannot pass under this stricter envelope, it is
+  considered too large for the current production-safe proof path and must be
+  split further before promotion.

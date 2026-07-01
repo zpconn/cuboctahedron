@@ -52497,3 +52497,55 @@ The emitted artifact is:
 .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
 BellmanTopPairingSplitCompositionSmoke.olean
 ```
+
+### Holonomy/Bellman Pivot - fourth crash report and tighter quarantine
+
+The user reported that the machine crashed again after the latest Bellman work,
+likely from memory pressure.  Lightweight inspection after restart showed:
+
+```text
+MemAvailable: about 45 GiB
+no lingering Lean/Python process with high RSS
+```
+
+The only surviving uncommitted changes from the in-flight work were the second
+sampled Bellman trace shard, its tiny composition root, a generated report
+JSON, and the allowlisted wrapper target entries.  The generated files were
+small when inspected:
+
+| file | size |
+| --- | ---: |
+| `BellmanTopPairingClosedLanguageGeneratedTraceSmoke01.lean` | `32 KiB` |
+| `BellmanTopPairingSplitCompositionSmoke01.lean` | `4 KiB` |
+| `bellman_closed_language_generated_trace_smoke_01.json` | `4 KiB` |
+
+So the crash should be treated as a proof-check/import-memory incident, not as a
+source-generation size issue.  No further Lean check was run for this incident
+checkpoint.  Because these second-shard files were not validated under the
+post-crash guard, they were not promoted into the repository; the wrapper target
+entries and unverified generated files were discarded.
+
+Safety revision applied immediately:
+
+- `scripts/run_bellman_safe_smoke.py` now refuses process-tree RSS caps above
+  `4500 MiB` instead of `6000 MiB`.
+- The inherited hard address-space cap is now at most `6144 MiB` instead of
+  `8192 MiB`.
+- The required `MemAvailable` floor is now at least `36864 MiB` instead of
+  `24576 MiB`.
+- The timeout cap is now `45s` instead of `60s`.
+- The wrapper is still direct-Lean only, `-j1`, and no `lake build` target is
+  allowed through this path.
+
+Static verification for the safety patch passed:
+
+| command | status |
+| --- | --- |
+| `python3 -m py_compile scripts/run_bellman_safe_smoke.py scripts/run_memory_guarded.py scripts/emit_bellman_closed_language_trace_smoke.py` | passed |
+| `git diff --check` | passed |
+| narrow forbidden-token scan over `scripts/run_bellman_safe_smoke.py` | no hits |
+| `python3 scripts/run_bellman_safe_smoke.py --target generated-trace --dry-run --json /tmp/bellman_generated_trace_tight_guard_dry_run.json` | passed; preflight found `18` fresh local imports and expanded to direct Lean with the tightened caps |
+
+Decision: pause proof-bearing Bellman checks until they can pass this stricter
+envelope, or shrink the theorem surface further.  If a target needs the old
+`6 GiB` envelope to pass, it is no longer accepted as a production-safe smoke.
