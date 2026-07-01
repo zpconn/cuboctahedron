@@ -1,0 +1,492 @@
+{
+  "aggregate_reason_histogram": {
+    "canonical_bad_face_mismatch": 1,
+    "forced_sequence_mismatch": 41
+  },
+  "closure_input": "scripts/generated/bellman_target_pairing_observed_step_square_gap_closure_1M_step_face_linear_tri_source.json",
+  "decision": "missing_transitions_are_overapproximation",
+  "gap_count": 15,
+  "graph_input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "max_completions_per_gap": 100000,
+  "mode": "bellman-missing-transition-completion-audit",
+  "recommendation": "The sampled missing transitions do not produce exact top-family completions.  Use the reason histogram to identify the next invariant to add to the membership theorem.",
+  "rows": [
+    {
+      "completion_count": 20,
+      "matched_top_family": 0,
+      "missing_face": "tmmm",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym tmpm tppm tpmm"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 20
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm tmmm tppp tpmp tmmp tmpp yp zm zp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm tmmm tppp tpmp tmmp tmpp yp zm zp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp tmpp yp zm zp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        },
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm tmmm tppp tpmp tmmp tmpp zm yp zp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm tmmm tppp tpmp tmmp tmpp zm yp zp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp tmpp zm yp zp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        },
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm tmmm tppp tpmp tmmp tmpp zm zp yp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm tmmm tppp tpmp tmmp tmpp zm zp yp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp tmpp zm zp yp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 161,
+      "state_key": "step=5|faces=1,0,1,0,1,1,1,1,0,1,0,1,0,1|par=110|stack=dm11 d111 d1m1|lin=7/27,26/27,2/27;-22/27,7/27,-14/27;14/27,-2/27,-23/27|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110",
+      "truncated": false
+    },
+    {
+      "completion_count": 2,
+      "matched_top_family": 0,
+      "missing_face": "zm",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym tmpm tppm tpmm"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 2
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm zm zp tppp tmmm tpmp tmmp tmpp yp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm zm zp tppp tmmm tpmp tmmp tmpp yp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm zp zm tppp tmmm tpmp tmmp tmpp yp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        },
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm zm zp tppp tmmm tpmp yp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm zm zp tppp tmmm tpmp yp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm zp zm tppp tmmm tpmp yp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 161,
+      "state_key": "step=5|faces=1,0,1,0,1,1,1,1,0,1,0,1,0,1|par=110|stack=dm11 d111 d1m1|lin=7/27,26/27,2/27;-22/27,7/27,-14/27;14/27,-2/27,-23/27|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110",
+      "truncated": false
+    },
+    {
+      "completion_count": 1,
+      "matched_top_family": 0,
+      "missing_face": "tmmp",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp"
+      ],
+      "reason_histogram": {
+        "canonical_bad_face_mismatch": 1
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp tmmp tmpp yp xp",
+          "details": {
+            "axis_d4": "1,-3,-1",
+            "canonical_bad_face": "tpmm",
+            "target_bad_face": "yp"
+          },
+          "reason": "canonical_bad_face_mismatch"
+        }
+      ],
+      "state": 19,
+      "state_key": "step=10|faces=1,0,1,0,0,0,0,1,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11|lin=55/81,44/81,40/81;20/81,-65/81,44/81;56/81,-20/81,-55/81|triSrc=2:d1m1->dm11@110|5:d11m->d111@110|6:dm11->d1m1@110|7:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@110",
+      "truncated": false
+    },
+    {
+      "completion_count": 1,
+      "matched_top_family": 0,
+      "missing_face": "zp",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym yp"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 1
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym yp zp zm tmmm tpmm tppm tpmp tmpm tppp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym yp zp zm tmmm tpmm tppm tpmp tmpm tppp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym yp zm zp tmmm tpmm tppm tpmp tmpm tppp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 144,
+      "state_key": "step=3|faces=1,0,0,0,1,1,1,1,1,1,1,1,1,1|par=100|stack=<empty>|lin=-1,0,0;0,1,0;0,0,1|triSrc=",
+      "truncated": false
+    },
+    {
+      "completion_count": 3,
+      "matched_top_family": 0,
+      "missing_face": "zp",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym tmpm"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 3
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym tmpm zp tppp tpmp tppm tmmp tpmm tmmm zm tmpp yp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm zp tppp tpmp tppm tmmp tpmm tmmm zm tmpp yp xp",
+            "forced_contribution_faces": "xm ym tmpm zm tppp tpmp tppm tmmp tpmm tmmm zp tmpp yp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        },
+        {
+          "contribution_faces": "xm ym tmpm zp zm tppm tpmm tppp tmmm tpmp tmmp tmpp yp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm zp zm tppm tpmm tppp tmmm tpmp tmmp tmpp yp xp",
+            "forced_contribution_faces": "xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp tmmp tmpp yp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        },
+        {
+          "contribution_faces": "xm ym tmpm zp zm tppm tpmm tppp tmmm tpmp yp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm zp zm tppm tpmm tppp tmmm tpmp yp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp yp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 146,
+      "state_key": "step=3|faces=1,0,1,0,1,1,1,1,0,1,1,1,1,1|par=110|stack=dm11|lin=-1/3,-2/3,2/3;-2/3,-1/3,-2/3;-2/3,2/3,1/3|triSrc=2:d1m1->dm11@110",
+      "truncated": false
+    },
+    {
+      "completion_count": 2,
+      "matched_top_family": 0,
+      "missing_face": "zp",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym yp tmmm"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 2
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym yp tmmm zp tpmp tppp tpmm tmpp tppm tmpm zm tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym yp tmmm zp tpmp tppp tpmm tmpp tppm tmpm zm tmmp xp",
+            "forced_contribution_faces": "xm ym yp tmmm zm tpmp tppp tpmm tmpp tppm tmpm zp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        },
+        {
+          "contribution_faces": "xm ym yp tmmm zp zm tpmm tppm tpmp tmpm tppp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym yp tmmm zp zm tpmm tppm tpmp tmpm tppp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym yp tmmm zm zp tpmm tppm tpmp tmpm tppp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 148,
+      "state_key": "step=4|faces=1,0,0,0,1,1,0,1,1,1,1,1,1,1|par=100|stack=dm11|lin=-1/3,2/3,2/3;-2/3,1/3,-2/3;-2/3,-2/3,1/3|triSrc=3:d111->dm11@100",
+      "truncated": false
+    },
+    {
+      "completion_count": 2,
+      "matched_top_family": 0,
+      "missing_face": "zm",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym tmpm tppm"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 2
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym tmpm tppm zm zp tpmm tppp tmmm tpmp tmmp tmpp yp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm zm zp tpmm tppp tmmm tpmp tmmp tmpp yp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm zp zm tpmm tppp tmmm tpmp tmmp tmpp yp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        },
+        {
+          "contribution_faces": "xm ym tmpm tppm zm zp tpmm tppp tmmm tpmp yp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm zm zp tpmm tppp tmmm tpmp yp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm zp zm tpmm tppp tmmm tpmp yp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 152,
+      "state_key": "step=4|faces=1,0,1,0,1,1,1,1,0,1,1,1,0,1|par=110|stack=dm11 d111|lin=7/9,4/9,-4/9;-4/9,-1/9,-8/9;-4/9,8/9,1/9|triSrc=2:d1m1->dm11@110|3:d11m->d111@110",
+      "truncated": false
+    },
+    {
+      "completion_count": 1,
+      "matched_top_family": 0,
+      "missing_face": "zm",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym yp tmmm tpmm"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 1
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym yp tmmm tpmm zm zp tppm tpmp tmpm tppp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym yp tmmm tpmm zm zp tppm tpmp tmpm tppp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym yp tmmm tpmm zp zm tppm tpmp tmpm tppp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 156,
+      "state_key": "step=5|faces=1,0,0,0,1,1,0,1,1,1,0,1,1,1|par=100|stack=dm11 d111|lin=7/9,-4/9,-4/9;-4/9,1/9,-8/9;-4/9,-8/9,1/9|triSrc=3:d111->dm11@100|4:dm11->d111@100",
+      "truncated": false
+    },
+    {
+      "completion_count": 1,
+      "matched_top_family": 0,
+      "missing_face": "zm",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym yp tmmm tpmm tppm"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 1
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym yp tmmm tpmm tppm zm zp tpmp tmpm tppp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym yp tmmm tpmm tppm zm zp tpmp tmpm tppp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym yp tmmm tpmm tppm zp zm tpmp tmpm tppp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 167,
+      "state_key": "step=6|faces=1,0,0,0,1,1,0,1,1,1,0,1,0,1|par=100|stack=dm11 d111 d1m1|lin=7/27,-26/27,2/27;-22/27,-7/27,-14/27;14/27,2/27,-23/27|triSrc=3:d111->dm11@100|4:dm11->d111@100|5:d11m->d1m1@100",
+      "truncated": false
+    },
+    {
+      "completion_count": 2,
+      "matched_top_family": 0,
+      "missing_face": "zm",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym tmpm tppm tpmm tppp"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 2
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm tppp zm zp tmmm tpmp tmmp tmpp yp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm tppp zm zp tmmm tpmp tmmp tmpp yp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm tppp zp zm tmmm tpmp tmmp tmpp yp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        },
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm tppp zm zp tmmm tpmp yp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm tppp zm zp tmmm tpmp yp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm tppp zp zm tmmm tpmp yp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 173,
+      "state_key": "step=6|faces=1,0,1,0,1,1,1,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1 d11m|lin=-49/81,8/81,-64/81;-8/81,79/81,16/81;64/81,16/81,-47/81|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110",
+      "truncated": false
+    },
+    {
+      "completion_count": 1,
+      "matched_top_family": 0,
+      "missing_face": "zm",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym yp tmmm tpmm tppm tpmp"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 1
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym yp tmmm tpmm tppm tpmp zm zp tmpm tppp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym yp tmmm tpmm tppm tpmp zm zp tmpm tppp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym yp tmmm tpmm tppm tpmp zp zm tmpm tppp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 180,
+      "state_key": "step=7|faces=1,0,0,0,1,1,0,1,1,1,0,0,0,1|par=100|stack=dm11 d111 d1m1 d11m|lin=-49/81,-8/81,-64/81;-8/81,-79/81,16/81;64/81,-16/81,-47/81|triSrc=3:d111->dm11@100|4:dm11->d111@100|5:d11m->d1m1@100|6:d1m1->d11m@100",
+      "truncated": false
+    },
+    {
+      "completion_count": 2,
+      "matched_top_family": 0,
+      "missing_face": "zm",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym tmpm tppm tpmm tppp tmmm"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 2
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm zm zp tpmp tmmp tmpp yp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm zm zp tpmp tmmp tmpp yp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm zp zm tpmp tmmp tmpp yp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        },
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm zm zp tpmp yp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm zm zp tpmp yp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm zp zm tpmp yp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 187,
+      "state_key": "step=7|faces=1,0,1,0,1,1,0,1,0,1,0,1,0,0|par=110|stack=dm11 d111 d1m1|lin=7/27,26/27,2/27;-22/27,7/27,-14/27;14/27,-2/27,-23/27|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|6:d111->d11m@110",
+      "truncated": false
+    },
+    {
+      "completion_count": 1,
+      "matched_top_family": 0,
+      "missing_face": "zm",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym yp tmmm tpmm tppm tpmp tmpm"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 1
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym yp tmmm tpmm tppm tpmp tmpm zm zp tppp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym yp tmmm tpmm tppm tpmp tmpm zm zp tppp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym yp tmmm tpmm tppm tpmp tmpm zp zm tppp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 195,
+      "state_key": "step=8|faces=1,0,0,0,1,1,0,1,0,1,0,0,0,1|par=100|stack=dm11 d111 d1m1|lin=7/27,-26/27,2/27;-22/27,-7/27,-14/27;14/27,2/27,-23/27|triSrc=3:d111->dm11@100|4:dm11->d111@100|5:d11m->d1m1@100|6:d1m1->d11m@100|7:d1m1->d11m@100",
+      "truncated": false
+    },
+    {
+      "completion_count": 2,
+      "matched_top_family": 0,
+      "missing_face": "zm",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym tmpm tppm tpmm tppp tmmm tpmp"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 2
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp zm zp tmmp tmpp yp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp zm zp tmmp tmpp yp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp zp zm tmmp tmpp yp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        },
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp zm zp yp tmpp tmmp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp zm zp yp tmpp tmmp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp zp zm yp tmpp tmmp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 203,
+      "state_key": "step=8|faces=1,0,1,0,1,1,0,1,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11|lin=55/81,44/81,40/81;20/81,-65/81,44/81;56/81,-20/81,-55/81|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|6:d111->d11m@110|7:d1m1->dm11@110",
+      "truncated": false
+    },
+    {
+      "completion_count": 1,
+      "matched_top_family": 0,
+      "missing_face": "zp",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp"
+      ],
+      "reason_histogram": {
+        "forced_sequence_mismatch": 1
+      },
+      "sample_matches": [],
+      "sample_nonmatches": [
+        {
+          "contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp zp zm tmpp yp xp",
+          "details": {
+            "candidate_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp zp zm tmpp yp xp",
+            "forced_contribution_faces": "xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp zm zp tmpp yp xp"
+          },
+          "reason": "forced_sequence_mismatch"
+        }
+      ],
+      "state": 222,
+      "state_key": "step=9|faces=1,0,1,0,1,1,0,0,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111|lin=47/243,14/243,238/243;238/243,-17/243,-46/243;-14/243,-242/243,17/243|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|6:d111->d11m@110|7:d1m1->dm11@110|8:d11m->d111@110",
+      "truncated": false
+    }
+  ],
+  "schedule_mode": "observed+square-gap",
+  "state_key_mode": "with-step-face-linear-tri-source",
+  "target_pairing": "pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+  "total_completions": 42,
+  "total_matched_top_family": 0,
+  "truncated_gaps": 0
+}

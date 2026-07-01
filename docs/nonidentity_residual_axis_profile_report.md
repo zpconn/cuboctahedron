@@ -2587,3 +2587,53 @@ Decision: prefix linear holonomy is not the missing production coordinate for
 this top-pairing family.  Next work should focus on cocycle gauge,
 cancellation-summary language, or a specific invariant ruling out the 15
 apparent target-pairing transitions.
+
+## Corrected Bellman Missing-Transition Audit
+
+The 15 apparent target-pairing/schedule gaps were audited directly with:
+
+```text
+scripts/audit_bellman_missing_transition_completions.py
+```
+
+This diagnostic enumerates completions of each reported missing transition and
+then reruns the exact top-family classifier.  The audit is still untrusted
+proof evidence, but it is useful for choosing the next Lean theorem surface.
+
+An initial version found apparent matches because it classified a completion by
+pair word and then recomputed the forced-axis signed sequence without checking
+that the recomputed sequence was the same contribution sequence that took the
+missing transition.  The script now rejects this case as
+`forced_sequence_mismatch`.
+
+Command:
+
+```text
+/usr/bin/time -v python3 scripts/audit_bellman_missing_transition_completions.py \
+  --graph scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --closure scripts/generated/bellman_target_pairing_observed_step_square_gap_closure_1M_step_face_linear_tri_source.json \
+  --json scripts/generated/bellman_missing_transition_completions_top_pairing_1M_step_face_linear_tri_source.json \
+  --markdown scripts/generated/bellman_missing_transition_completions_top_pairing_1M_step_face_linear_tri_source.md \
+  --max-completions-per-gap 100000
+```
+
+Result: `0:00.09` wall time, `27,140 kB` max RSS, exit `0`.
+
+| metric | value |
+| --- | ---: |
+| decision | `missing_transitions_are_overapproximation` |
+| reported gaps | `15` |
+| enumerated completions | `42` |
+| matched exact top family | `0` |
+| truncated gaps | `0` |
+| `forced_sequence_mismatch` completions | `41` |
+| `canonical_bad_face_mismatch` completions | `1` |
+
+Conclusion: the current Bellman graph is not missing any exact top-family
+completion among these closure gaps.  The production membership theorem must
+express the forced-axis signed-sequence condition, because the broader
+target-pairing language admits signed completions whose pair word belongs near
+the family but whose actual forced contribution labels differ.  This supports
+the current GPT5.5-style finite-horizon Bellman route: private potential table
+plus semantic forced-sequence membership, not exact path or certificate
+packing.

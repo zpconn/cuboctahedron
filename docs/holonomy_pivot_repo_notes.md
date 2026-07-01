@@ -1262,3 +1262,55 @@ Combined linear/tri-source state-key audit:
   experiments are cocycle-gauge preconditioning, cancellation-summary
   languages, or a focused invariant explaining the remaining 15 apparent
   legal transitions.
+
+Corrected Bellman closure-gap audit:
+
+- Added `scripts/audit_bellman_missing_transition_completions.py`.
+- The audit enumerates completions of each target-pairing/schedule missing
+  transition and reruns the exact top-family classifier.
+- The first version showed why this diagnostic needs to be careful: a
+  completion can have a pair word whose forced-axis sequence is in the family
+  even when the signed contribution sequence that took the missing transition
+  is not that forced sequence.  The script now rejects these as
+  `forced_sequence_mismatch`.
+- Corrected run:
+
+  ```text
+  /usr/bin/time -v python3 scripts/audit_bellman_missing_transition_completions.py \
+    --graph scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+    --closure scripts/generated/bellman_target_pairing_observed_step_square_gap_closure_1M_step_face_linear_tri_source.json \
+    --json scripts/generated/bellman_missing_transition_completions_top_pairing_1M_step_face_linear_tri_source.json \
+    --markdown scripts/generated/bellman_missing_transition_completions_top_pairing_1M_step_face_linear_tri_source.md \
+    --max-completions-per-gap 100000
+  ```
+
+- Result: `0:00.09` wall time, `27,140 kB` max RSS, decision
+  `missing_transitions_are_overapproximation`.
+- The 15 gaps produced `42` completions, `0` exact top-family matches,
+  `41` `forced_sequence_mismatch` cases, and `1`
+  `canonical_bad_face_mismatch`.
+- Consequence: the Bellman graph remains a viable finite-horizon potential
+  certificate for this family.  The next Lean bridge should not add more
+  exact affine state; it should prove forced-axis membership:
+
+  ```text
+  rank satisfies the semantic top-family predicate
+    -> forced signed contribution labels match the private Bellman language
+    -> Bellman indexed cover gives scaledMargin <= 0
+  ```
+
+Current strategic priority after GPT5.5 Pro's Bellman recommendation:
+
+1. Keep nonidentity residual coverage centered on finite-horizon
+   Bellman/potential certificates over holonomy/cancellation automata.
+2. Do not scale ordinary `NonIdCert` or exact start-margin certificate
+   packing.
+3. Keep potential tables, gains, and start-interior arithmetic private inside
+   generated leaves; export only semantic killed theorems.
+4. Use affine-cocycle gauge normalization or cancellation-summary DAGs only as
+   shrinkers if forced-sequence membership still fragments.
+5. Assemble final generated coverage through semantic state/family roots;
+   rank remains an address for `unrankPairWord`, not the compression
+   coordinate.
+6. When translation resumes, test GoodDirection survivors with integer
+   two/three-row Helly/Farkas circuits before any larger Walsh-Farkas fallback.

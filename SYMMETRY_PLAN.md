@@ -48353,3 +48353,79 @@ test one of:
 3. a direct proof that the remaining 15 apparent legal transitions are
    impossible under a family-level invariant not currently present in the
    state key.
+
+### Holonomy/Bellman Pivot - corrected closure-gap audit
+
+The previous transition-closure audit deliberately over-approximated the
+target-pairing language.  To decide whether its 15 missing transitions were
+real Bellman-family obligations, added:
+
+```text
+scripts/audit_bellman_missing_transition_completions.py
+```
+
+This diagnostic reads the Bellman graph plus the target-pairing closure audit,
+enumerates every completion of the reported missing transitions under the same
+`observed+square-gap` schedule, and then reruns the exact top-family
+classifier.  The first version of the audit exposed an important bug: it
+classified a completion by pair word, recomputed the forced-axis signed
+sequence, but did not check that the recomputed forced sequence was the same
+signed contribution sequence that used the missing transition.  That was fixed
+by rejecting `forced_sequence_mismatch`.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_bellman_missing_transition_completions.py
+
+/usr/bin/time -v python3 scripts/audit_bellman_missing_transition_completions.py \
+  --graph scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --closure scripts/generated/bellman_target_pairing_observed_step_square_gap_closure_1M_step_face_linear_tri_source.json \
+  --json scripts/generated/bellman_missing_transition_completions_top_pairing_1M_step_face_linear_tri_source.json \
+  --markdown scripts/generated/bellman_missing_transition_completions_top_pairing_1M_step_face_linear_tri_source.md \
+  --max-completions-per-gap 100000
+```
+
+Telemetry: `0:00.09` wall time, `27,140 kB` max RSS, exit `0`.
+
+Corrected result:
+
+| metric | value |
+| --- | ---: |
+| decision | `missing_transitions_are_overapproximation` |
+| reported gaps | `15` |
+| enumerated completions | `42` |
+| matched exact top family | `0` |
+| truncated gaps | `0` |
+| `forced_sequence_mismatch` completions | `41` |
+| `canonical_bad_face_mismatch` completions | `1` |
+
+Decision: the combined key is still not a production coordinate by itself, but
+the remaining 15 target-pairing/schedule gaps are not evidence that the
+Bellman graph misses real top-family words.  They are artifacts of an
+over-broad signed-face language that does not enforce forced-axis signed
+sequence compatibility.  The next production theorem should therefore add a
+semantic forced-sequence membership side condition:
+
+```text
+rank/member of family
+  -> exact forced-axis orientation
+  -> forced contribution labels match the Bellman label language
+  -> Bellman indexed cover
+  -> scaled margin <= 0
+```
+
+This is consistent with the GPT5.5 Pro pivot: stop packing residual
+certificates, keep the private Bellman potential table, and prove semantic
+family coverage by a finite-horizon holonomy/cancellation automaton.  The next
+implementation priorities are:
+
+1. factor a reusable forced-sequence-to-label-language lemma for the current
+   top-pairing family;
+2. keep potentials/gains integer-scaled and private;
+3. add cocycle-gauge or cancellation-summary preprocessing only if the
+   forced-sequence membership theorem still fragments;
+4. use an acyclic `StateKilled`/semantic-state DAG only after the terminal
+   Bellman and translation circuit families are real;
+5. when translation resumes, test the 2D Helly / two-or-three-row oriented
+   circuit route for `GoodDirection` survivors, not BadDirection mask data.
