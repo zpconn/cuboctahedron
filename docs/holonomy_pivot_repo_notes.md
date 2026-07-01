@@ -2363,3 +2363,28 @@ This replaces another JSON coordinate with a Lean predicate.  The remaining
 top-pairing membership components are square-gap compatibility, local
 forced-axis next-face compatibility, canonical-bad-face compatibility, and the
 actual construction of terminal Bellman objects.
+
+Top-pairing square-gap language:
+
+- Extended `Cuboctahedron/Search/BellmanTopPairingLanguage.lean` with the
+  observed square-face-by-triangular-gap table from the closure audit.
+- New definitions:
+
+  ```lean
+  topPairingAllowedSquareFacesAtGap
+  isSquarePair
+  TopPairingSquareGapFrom
+  TopPairingSquareGapLabels
+  TopPairingSquareGapSeq
+  ```
+
+- `TopPairingScheduleLanguageAtRank` now contains cancellation summary,
+  observed contribution-order step schedule, and observed square-gap schedule.
+- Focused check:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `0:02.21` | `3,277,028 kB` |
+
+Remaining language components before object membership: local forced-axis
+next-face compatibility and canonical bad-face compatibility.

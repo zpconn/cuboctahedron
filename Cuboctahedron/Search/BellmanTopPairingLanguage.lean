@@ -46,11 +46,50 @@ def TopPairingStepScheduleLabels (labels : List Face) : Prop :=
 def TopPairingStepScheduleSeq (seq : Step14 -> Face) : Prop :=
   TopPairingStepScheduleLabels (faceLabelsInContributionOrder (fun f => f) seq)
 
+def topPairingAllowedSquareFacesAtGap : Nat -> List Face
+  | 0 => [Face.xm, Face.ym, Face.yp, Face.zm, Face.zp]
+  | 1 => [Face.zm, Face.zp]
+  | 2 => [Face.zm, Face.zp]
+  | 3 => [Face.zm, Face.zp]
+  | 4 => [Face.zm, Face.zp]
+  | 5 => [Face.zm, Face.zp]
+  | 6 => [Face.yp, Face.zm, Face.zp]
+  | 7 => [Face.zm, Face.zp]
+  | 8 => [Face.xp, Face.yp, Face.zm, Face.zp]
+  | _ => []
+
+def isSquarePair : PairId -> Bool
+  | PairId.x => true
+  | PairId.y => true
+  | PairId.z => true
+  | PairId.d111 => false
+  | PairId.d11m => false
+  | PairId.d1m1 => false
+  | PairId.dm11 => false
+
+def TopPairingSquareGapFrom : Nat -> List Face -> Prop
+  | _gap, [] => True
+  | gap, face :: rest =>
+      if isSquarePair (pairOfFace face) then
+        face ∈ topPairingAllowedSquareFacesAtGap gap /\
+          TopPairingSquareGapFrom gap rest
+      else
+        TopPairingSquareGapFrom (gap + 1) rest
+
+def TopPairingSquareGapLabels (labels : List Face) : Prop :=
+  TopPairingSquareGapFrom 0 labels
+
+def TopPairingSquareGapSeq (seq : Step14 -> Face) : Prop :=
+  TopPairingSquareGapLabels (faceLabelsInContributionOrder (fun f => f) seq)
+
 structure TopPairingScheduleLanguageAtRank (rank : Fin numPairWords) : Prop where
   cancellation :
     Cuboctahedron.TopPairingLanguageAtRank rank
   schedule :
     TopPairingStepScheduleLabels
+      (faceLabelsInContributionOrder (fun f => f) (canonicalSeqOfPairWord (unrankPairWord rank)))
+  squareGap :
+    TopPairingSquareGapLabels
       (faceLabelsInContributionOrder (fun f => f) (canonicalSeqOfPairWord (unrankPairWord rank)))
 
 end Cuboctahedron

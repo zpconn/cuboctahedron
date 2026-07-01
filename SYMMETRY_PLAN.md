@@ -50518,3 +50518,38 @@ Focused check:
 Decision: accepted as the second Lean-side semantic language component.  The
 next useful slice is the square-gap predicate from the closure audit, followed
 by local forced-axis next-face compatibility.
+
+### Holonomy/Bellman Pivot - square-gap language core accepted
+
+Extended `Cuboctahedron/Search/BellmanTopPairingLanguage.lean` with the
+square-gap schedule from the closure audit.  This predicate scans
+contribution-order labels, counts how many triangular labels have already
+appeared, and checks any square face against the observed allowed bucket for
+that triangular gap.
+
+New definitions:
+
+```lean
+def topPairingAllowedSquareFacesAtGap : Nat -> List Face
+def isSquarePair : PairId -> Bool
+def TopPairingSquareGapFrom : Nat -> List Face -> Prop
+def TopPairingSquareGapLabels : List Face -> Prop
+def TopPairingSquareGapSeq : (Step14 -> Face) -> Prop
+```
+
+The combined rank-language structure now includes:
+
+```text
+cancellation summary = topPairingTargetSummary
+observed contribution-order step schedule
+observed square-gap schedule
+```
+
+Focused check:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `0:02.21` | `3,277,028 kB` | passed |
+
+Decision: accepted.  The next remaining semantic-language components are
+local forced-axis next-face compatibility and canonical bad-face compatibility.
