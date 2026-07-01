@@ -13,269 +13,284 @@ open Cuboctahedron
 
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 
-/-- Validity shard for source states [368, 384). -/
-theorem valid_s0368 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (368 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (368 : State) := by
+/-- Validity shard for source states [184, 192). -/
+theorem valid_s0184 {label : SmokeLabel} {t : State} {gain : Int} :
+    GraphSmokeStepEval (184 : State) label t gain ->
+      gain + graphPotential t <= graphPotential (184 : State) := by
   intro h
   rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0368 label = some (t, gain) at h
-  by_cases h_l0008 : label = (8 : SmokeLabel)
+  change graphSmokeNext_s0184 label = some (t, gain) at h
+  by_cases h_l0000 : label = (0 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0368] at h
+    simp [graphSmokeNext_s0184] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (457 : State) <= graphPotential (368 : State)
+    change (-124 : Int) + graphPotential (338 : State) <= graphPotential (184 : State)
     decide
   ·
-    simp [graphSmokeNext_s0368, h_l0008] at h
+    simp [graphSmokeNext_s0184, h_l0000] at h
 
-theorem valid_s0369 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (369 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (369 : State) := by
+theorem transition_ok_s0184 {label : SmokeLabel} {t : State} {gain : Int} :
+    graphSmokeNext (184 : State) label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential (184 : State) := by
   intro h
-  rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0369 label = some (t, gain) at h
-  by_cases h_l0008 : label = (8 : SmokeLabel)
+  change graphSmokeNext_s0184 label = some (t, gain) at h
+  by_cases h_l0000 : label = (0 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0369] at h
+    simp [graphSmokeNext_s0184] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (458 : State) <= graphPotential (369 : State)
-    decide
+    constructor
+    · decide
+    · change (-124 : Int) + graphPotential (338 : State) <= graphPotential (184 : State)
+      decide
   ·
-    simp [graphSmokeNext_s0369, h_l0008] at h
+    simp [graphSmokeNext_s0184, h_l0000] at h
 
-theorem valid_s0370 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (370 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (370 : State) := by
+theorem valid_s0185 {label : SmokeLabel} {t : State} {gain : Int} :
+    GraphSmokeStepEval (185 : State) label t gain ->
+      gain + graphPotential t <= graphPotential (185 : State) := by
   intro h
   rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0370 label = some (t, gain) at h
-  by_cases h_l0008 : label = (8 : SmokeLabel)
+  change graphSmokeNext_s0185 label = some (t, gain) at h
+  by_cases h_l0000 : label = (0 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0370] at h
+    simp [graphSmokeNext_s0185] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (459 : State) <= graphPotential (370 : State)
+    change (-124 : Int) + graphPotential (339 : State) <= graphPotential (185 : State)
     decide
   ·
-    simp [graphSmokeNext_s0370, h_l0008] at h
+    simp [graphSmokeNext_s0185, h_l0000] at h
 
-theorem valid_s0371 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (371 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (371 : State) := by
+theorem transition_ok_s0185 {label : SmokeLabel} {t : State} {gain : Int} :
+    graphSmokeNext (185 : State) label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential (185 : State) := by
   intro h
-  rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0371 label = some (t, gain) at h
-  by_cases h_l0008 : label = (8 : SmokeLabel)
+  change graphSmokeNext_s0185 label = some (t, gain) at h
+  by_cases h_l0000 : label = (0 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0371] at h
+    simp [graphSmokeNext_s0185] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (466 : State) <= graphPotential (371 : State)
-    decide
+    constructor
+    · decide
+    · change (-124 : Int) + graphPotential (339 : State) <= graphPotential (185 : State)
+      decide
   ·
-    simp [graphSmokeNext_s0371, h_l0008] at h
+    simp [graphSmokeNext_s0185, h_l0000] at h
 
-theorem valid_s0372 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (372 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (372 : State) := by
+theorem valid_s0186 {label : SmokeLabel} {t : State} {gain : Int} :
+    GraphSmokeStepEval (186 : State) label t gain ->
+      gain + graphPotential t <= graphPotential (186 : State) := by
   intro h
   rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0372 label = some (t, gain) at h
-  by_cases h_l0008 : label = (8 : SmokeLabel)
+  change graphSmokeNext_s0186 label = some (t, gain) at h
+  by_cases h_l0000 : label = (0 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0372] at h
+    simp [graphSmokeNext_s0186] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (468 : State) <= graphPotential (372 : State)
+    change (-124 : Int) + graphPotential (341 : State) <= graphPotential (186 : State)
     decide
   ·
-    simp [graphSmokeNext_s0372, h_l0008] at h
+    simp [graphSmokeNext_s0186, h_l0000] at h
 
-theorem valid_s0373 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (373 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (373 : State) := by
+theorem transition_ok_s0186 {label : SmokeLabel} {t : State} {gain : Int} :
+    graphSmokeNext (186 : State) label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential (186 : State) := by
   intro h
-  rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0373 label = some (t, gain) at h
-  by_cases h_l0008 : label = (8 : SmokeLabel)
+  change graphSmokeNext_s0186 label = some (t, gain) at h
+  by_cases h_l0000 : label = (0 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0373] at h
+    simp [graphSmokeNext_s0186] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (469 : State) <= graphPotential (373 : State)
-    decide
+    constructor
+    · decide
+    · change (-124 : Int) + graphPotential (341 : State) <= graphPotential (186 : State)
+      decide
   ·
-    simp [graphSmokeNext_s0373, h_l0008] at h
+    simp [graphSmokeNext_s0186, h_l0000] at h
 
-theorem valid_s0374 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (374 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (374 : State) := by
+theorem valid_s0187 {label : SmokeLabel} {t : State} {gain : Int} :
+    GraphSmokeStepEval (187 : State) label t gain ->
+      gain + graphPotential t <= graphPotential (187 : State) := by
   intro h
   rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0374 label = some (t, gain) at h
-  by_cases h_l0008 : label = (8 : SmokeLabel)
+  change graphSmokeNext_s0187 label = some (t, gain) at h
+  by_cases h_l0012 : label = (12 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0374] at h
+    simp [graphSmokeNext_s0187] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (482 : State) <= graphPotential (374 : State)
+    change (-10 : Int) + graphPotential (312 : State) <= graphPotential (187 : State)
     decide
   ·
-    simp [graphSmokeNext_s0374, h_l0008] at h
+    simp [graphSmokeNext_s0187, h_l0012] at h
 
-theorem valid_s0375 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (375 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (375 : State) := by
+theorem transition_ok_s0187 {label : SmokeLabel} {t : State} {gain : Int} :
+    graphSmokeNext (187 : State) label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential (187 : State) := by
   intro h
-  rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0375 label = some (t, gain) at h
-  by_cases h_l0008 : label = (8 : SmokeLabel)
+  change graphSmokeNext_s0187 label = some (t, gain) at h
+  by_cases h_l0012 : label = (12 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0375] at h
+    simp [graphSmokeNext_s0187] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (489 : State) <= graphPotential (375 : State)
-    decide
+    constructor
+    · decide
+    · change (-10 : Int) + graphPotential (312 : State) <= graphPotential (187 : State)
+      decide
   ·
-    simp [graphSmokeNext_s0375, h_l0008] at h
+    simp [graphSmokeNext_s0187, h_l0012] at h
 
-theorem valid_s0376 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (376 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (376 : State) := by
+theorem valid_s0188 {label : SmokeLabel} {t : State} {gain : Int} :
+    GraphSmokeStepEval (188 : State) label t gain ->
+      gain + graphPotential t <= graphPotential (188 : State) := by
   intro h
   rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0376 label = some (t, gain) at h
-  by_cases h_l0009 : label = (9 : SmokeLabel)
+  change graphSmokeNext_s0188 label = some (t, gain) at h
+  by_cases h_l0012 : label = (12 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0376] at h
+    simp [graphSmokeNext_s0188] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (492 : State) <= graphPotential (376 : State)
+    change (-10 : Int) + graphPotential (313 : State) <= graphPotential (188 : State)
     decide
   ·
-    simp [graphSmokeNext_s0376, h_l0009] at h
+    simp [graphSmokeNext_s0188, h_l0012] at h
 
-theorem valid_s0377 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (377 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (377 : State) := by
+theorem transition_ok_s0188 {label : SmokeLabel} {t : State} {gain : Int} :
+    graphSmokeNext (188 : State) label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential (188 : State) := by
   intro h
-  rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0377 label = some (t, gain) at h
-  by_cases h_l0009 : label = (9 : SmokeLabel)
+  change graphSmokeNext_s0188 label = some (t, gain) at h
+  by_cases h_l0012 : label = (12 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0377] at h
+    simp [graphSmokeNext_s0188] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (493 : State) <= graphPotential (377 : State)
-    decide
+    constructor
+    · decide
+    · change (-10 : Int) + graphPotential (313 : State) <= graphPotential (188 : State)
+      decide
   ·
-    simp [graphSmokeNext_s0377, h_l0009] at h
+    simp [graphSmokeNext_s0188, h_l0012] at h
 
-theorem valid_s0378 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (378 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (378 : State) := by
+theorem valid_s0189 {label : SmokeLabel} {t : State} {gain : Int} :
+    GraphSmokeStepEval (189 : State) label t gain ->
+      gain + graphPotential t <= graphPotential (189 : State) := by
   intro h
   rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0378 label = some (t, gain) at h
-  by_cases h_l0009 : label = (9 : SmokeLabel)
+  change graphSmokeNext_s0189 label = some (t, gain) at h
+  by_cases h_l0012 : label = (12 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0378] at h
+    simp [graphSmokeNext_s0189] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (494 : State) <= graphPotential (378 : State)
+    change (-10 : Int) + graphPotential (314 : State) <= graphPotential (189 : State)
     decide
   ·
-    simp [graphSmokeNext_s0378, h_l0009] at h
+    simp [graphSmokeNext_s0189, h_l0012] at h
 
-theorem valid_s0379 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (379 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (379 : State) := by
+theorem transition_ok_s0189 {label : SmokeLabel} {t : State} {gain : Int} :
+    graphSmokeNext (189 : State) label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential (189 : State) := by
   intro h
-  rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0379 label = some (t, gain) at h
-  by_cases h_l0009 : label = (9 : SmokeLabel)
+  change graphSmokeNext_s0189 label = some (t, gain) at h
+  by_cases h_l0012 : label = (12 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0379] at h
+    simp [graphSmokeNext_s0189] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (495 : State) <= graphPotential (379 : State)
-    decide
+    constructor
+    · decide
+    · change (-10 : Int) + graphPotential (314 : State) <= graphPotential (189 : State)
+      decide
   ·
-    simp [graphSmokeNext_s0379, h_l0009] at h
+    simp [graphSmokeNext_s0189, h_l0012] at h
 
-theorem valid_s0380 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (380 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (380 : State) := by
+theorem valid_s0190 {label : SmokeLabel} {t : State} {gain : Int} :
+    GraphSmokeStepEval (190 : State) label t gain ->
+      gain + graphPotential t <= graphPotential (190 : State) := by
   intro h
   rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0380 label = some (t, gain) at h
-  by_cases h_l0009 : label = (9 : SmokeLabel)
+  change graphSmokeNext_s0190 label = some (t, gain) at h
+  by_cases h_l0012 : label = (12 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0380] at h
+    simp [graphSmokeNext_s0190] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (496 : State) <= graphPotential (380 : State)
+    change (-10 : Int) + graphPotential (315 : State) <= graphPotential (190 : State)
     decide
   ·
-    simp [graphSmokeNext_s0380, h_l0009] at h
+    simp [graphSmokeNext_s0190, h_l0012] at h
 
-theorem valid_s0381 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (381 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (381 : State) := by
+theorem transition_ok_s0190 {label : SmokeLabel} {t : State} {gain : Int} :
+    graphSmokeNext (190 : State) label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential (190 : State) := by
   intro h
-  rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0381 label = some (t, gain) at h
-  by_cases h_l0009 : label = (9 : SmokeLabel)
+  change graphSmokeNext_s0190 label = some (t, gain) at h
+  by_cases h_l0012 : label = (12 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0381] at h
+    simp [graphSmokeNext_s0190] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (497 : State) <= graphPotential (381 : State)
-    decide
+    constructor
+    · decide
+    · change (-10 : Int) + graphPotential (315 : State) <= graphPotential (190 : State)
+      decide
   ·
-    simp [graphSmokeNext_s0381, h_l0009] at h
+    simp [graphSmokeNext_s0190, h_l0012] at h
 
-theorem valid_s0382 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (382 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (382 : State) := by
+theorem valid_s0191 {label : SmokeLabel} {t : State} {gain : Int} :
+    GraphSmokeStepEval (191 : State) label t gain ->
+      gain + graphPotential t <= graphPotential (191 : State) := by
   intro h
   rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0382 label = some (t, gain) at h
-  by_cases h_l0009 : label = (9 : SmokeLabel)
+  change graphSmokeNext_s0191 label = some (t, gain) at h
+  by_cases h_l0012 : label = (12 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0382] at h
+    simp [graphSmokeNext_s0191] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (498 : State) <= graphPotential (382 : State)
+    change (-10 : Int) + graphPotential (316 : State) <= graphPotential (191 : State)
     decide
   ·
-    simp [graphSmokeNext_s0382, h_l0009] at h
+    simp [graphSmokeNext_s0191, h_l0012] at h
 
-theorem valid_s0383 {label : SmokeLabel} {t : State} {gain : Int} :
-    GraphSmokeStepEval (383 : State) label t gain ->
-      gain + graphPotential t <= graphPotential (383 : State) := by
+theorem transition_ok_s0191 {label : SmokeLabel} {t : State} {gain : Int} :
+    graphSmokeNext (191 : State) label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential (191 : State) := by
   intro h
-  rcases h with ⟨_hs, h⟩
-  change graphSmokeNext_s0383 label = some (t, gain) at h
-  by_cases h_l0009 : label = (9 : SmokeLabel)
+  change graphSmokeNext_s0191 label = some (t, gain) at h
+  by_cases h_l0012 : label = (12 : SmokeLabel)
   · subst label
-    simp [graphSmokeNext_s0383] at h
+    simp [graphSmokeNext_s0191] at h
     rcases h with ⟨rfl, rfl⟩
-    change (-73 : Int) + graphPotential (499 : State) <= graphPotential (383 : State)
-    decide
+    constructor
+    · decide
+    · change (-10 : Int) + graphPotential (316 : State) <= graphPotential (191 : State)
+      decide
   ·
-    simp [graphSmokeNext_s0383, h_l0009] at h
+    simp [graphSmokeNext_s0191, h_l0012] at h
 
 theorem valid_range {s : State} {label : SmokeLabel} {t : State} {gain : Int}
-    (hlo : 368 <= s) (hhi : s < 384) :
+    (hlo : 184 <= s) (hhi : s < 192) :
     GraphSmokeStepEval s label t gain ->
       gain + graphPotential t <= graphPotential s := by
   intro h
   interval_cases s
-  · exact valid_s0368 h
-  · exact valid_s0369 h
-  · exact valid_s0370 h
-  · exact valid_s0371 h
-  · exact valid_s0372 h
-  · exact valid_s0373 h
-  · exact valid_s0374 h
-  · exact valid_s0375 h
-  · exact valid_s0376 h
-  · exact valid_s0377 h
-  · exact valid_s0378 h
-  · exact valid_s0379 h
-  · exact valid_s0380 h
-  · exact valid_s0381 h
-  · exact valid_s0382 h
-  · exact valid_s0383 h
+  · exact valid_s0184 h
+  · exact valid_s0185 h
+  · exact valid_s0186 h
+  · exact valid_s0187 h
+  · exact valid_s0188 h
+  · exact valid_s0189 h
+  · exact valid_s0190 h
+  · exact valid_s0191 h
+
+theorem transition_ok_range {s : State} {label : SmokeLabel} {t : State} {gain : Int}
+    (hlo : 184 <= s) (hhi : s < 192) :
+    graphSmokeNext s label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential s := by
+  intro h
+  interval_cases s
+  · exact transition_ok_s0184 h
+  · exact transition_ok_s0185 h
+  · exact transition_ok_s0186 h
+  · exact transition_ok_s0187 h
+  · exact transition_ok_s0188 h
+  · exact transition_ok_s0189 h
+  · exact transition_ok_s0190 h
+  · exact transition_ok_s0191 h
 
 theorem shard_builds : True := by
   exact True.intro

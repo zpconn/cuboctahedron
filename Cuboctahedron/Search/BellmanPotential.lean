@@ -242,6 +242,70 @@ theorem bellmanLabelStepRun_of_evalLabelStepFn
                         (hsound start label mid stepGain hnext)
                         (ih htail)
 
+theorem evalLabelStepFn_bound_of_next_invariant_aux
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {InRange : State -> Prop}
+    (hnext :
+      forall s label t gain,
+        InRange s ->
+          next s label = some (t, gain) ->
+            InRange t /\ gain + V t <= V s)
+    {start finish : State} {labels : List Label} {totalGain : Int}
+    (hstart : InRange start)
+    (heval : evalLabelStepFn next start labels = some (finish, totalGain)) :
+    InRange finish /\ totalGain + V finish <= V start := by
+  induction labels generalizing start finish totalGain with
+  | nil =>
+      simp [evalLabelStepFn] at heval
+      rcases heval with ⟨rfl, rfl⟩
+      exact ⟨hstart, by omega⟩
+  | cons label labels ih =>
+      simp [evalLabelStepFn] at heval
+      cases hstep : next start label with
+      | none =>
+          simp [hstep] at heval
+      | some step =>
+          cases step with
+          | mk mid stepGain =>
+              simp [hstep] at heval
+              cases htail : evalLabelStepFn next mid labels with
+              | none =>
+                  simp [htail] at heval
+              | some tailResult =>
+                  cases tailResult with
+                  | mk finish tailGain =>
+                      simp [htail] at heval
+                      rcases heval with ⟨rfl, rfl⟩
+                      rcases hnext start label mid stepGain hstart hstep with
+                        ⟨hmid, hstepBound⟩
+                      rcases ih
+                          (start := mid)
+                          (finish := finish)
+                          (totalGain := tailGain)
+                          hmid htail with
+                        ⟨hfinish, htailBound⟩
+                      exact ⟨hfinish, by omega⟩
+
+theorem evalLabelStepFn_bound_of_next_invariant
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {InRange : State -> Prop}
+    (hnext :
+      forall s label t gain,
+        InRange s ->
+          next s label = some (t, gain) ->
+            InRange t /\ gain + V t <= V s)
+    {start : State} {labels : List Label} {result : State × Int}
+    (hstart : InRange start)
+    (heval : evalLabelStepFn next start labels = some result) :
+    InRange result.1 /\ result.2 + V result.1 <= V start := by
+  rcases result with ⟨finish, totalGain⟩
+  exact evalLabelStepFn_bound_of_next_invariant_aux
+    (V := V) (InRange := InRange) hnext hstart heval
+
 def bellmanGainSum {State : Type} : List (BellmanEdge State) -> Int
   | [] => 0
   | e :: edges => e.gain + bellmanGainSum edges
@@ -688,6 +752,36 @@ theorem scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound
       hvalid
       hfinish
       hroot
+  linarith
+
+theorem scaledMargin_nonpos_of_bellmanEvalAccepts_invariant
+    {State Label Obj : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {InRange : State -> Prop}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Obj -> Int}
+    {wordOf : Obj -> List Label}
+    (hnext :
+      forall s label t gain,
+        InRange s ->
+          next s label = some (t, gain) ->
+            InRange t /\ gain + V t <= V s)
+    (hstart : InRange start)
+    (hroot : const + V start <= 0)
+    {obj : Obj}
+    (heval :
+      BellmanEvalAccepts V next start const scaledMargin wordOf obj) :
+    scaledMargin obj <= 0 := by
+  rcases heval with ⟨result, hrunEval, hfinish, hmargin⟩
+  rcases evalLabelStepFn_bound_of_next_invariant
+      (V := V) (InRange := InRange) hnext hstart hrunEval with
+    ⟨_hfinishRange, hbound⟩
+  have hgain_le_start : result.2 <= V start := by
+    omega
+  have hconst : const + result.2 <= 0 := by
+    omega
   linarith
 
 end Cuboctahedron

@@ -57322,3 +57322,187 @@ Next implementation target:
 3. if that theorem still requires `SampledRankIndex`, sampled paths, or one
    branch per rank/path, stop Bellman as a production proof route and pivot to
    a stronger cancellation-tree semantic automaton.
+
+### Holonomy/Bellman Pivot - invariant evaluator theorem
+
+GPT5.5's current recommendation is to continue Bellman for exactly one more
+semantic-membership experiment: prove the Bellman bound from a compact
+semantic object, not from sampled rank/path membership.  The key adjustment is
+to avoid forcing the production route through a global theorem
+
+```lean
+graphSmokeNext s label = some (t, gain) -> GraphSmokeStepEval s label t gain
+```
+
+when the only hard part of that theorem is the source-state range fact.  The
+semantic closed-language bridge is exactly the component that should prove the
+evaluator only visits generated states.  Therefore the core Bellman library now
+also exposes an invariant-based evaluator theorem:
+
+```lean
+theorem evalLabelStepFn_bound_of_next_invariant
+    (hnext :
+      forall s label t gain,
+        InRange s ->
+          next s label = some (t, gain) ->
+            InRange t /\ gain + V t <= V s)
+    (hstart : InRange start)
+    (heval : evalLabelStepFn next start labels = some result) :
+    InRange result.1 /\ result.2 + V result.1 <= V start
+
+theorem scaledMargin_nonpos_of_bellmanEvalAccepts_invariant
+    (hnext :
+      forall s label t gain,
+        InRange s ->
+          next s label = some (t, gain) ->
+            InRange t /\ gain + V t <= V s)
+    (hstart : InRange start)
+    (hroot : const + V start <= 0)
+    (heval :
+      BellmanEvalAccepts V next start const scaledMargin wordOf obj) :
+    scaledMargin obj <= 0
+```
+
+This is the desired proof shape for the next closed-language object slice:
+the generated graph supplies local transition invariants, while the semantic
+closed-language theorem supplies the evaluator run and the fact that it starts
+in range.  No sampled rank table is involved.
+
+The split emitter was updated to generate transition-invariant facts in
+addition to the existing `GraphSmokeStepEval` validity facts:
+
+```lean
+theorem transition_ok_sNNNN
+    {label : SmokeLabel} {t : State} {gain : Int} :
+    graphSmokeNext (NNNN : State) label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential (NNNN : State)
+
+theorem transition_ok_range
+    (hlo : start <= s) (hhi : s < stop) :
+    graphSmokeNext s label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential s
+
+theorem transition_ok_of_lt
+    (hs : s < stateCount) :
+    graphSmokeNext s label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential s
+```
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_eval_split.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 120 \
+  --json scripts/generated/bellman_potential_invariant_guard.json \
+  -- lake build Cuboctahedron.Search.BellmanPotential
+
+python3 scripts/emit_bellman_graph_eval_split.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --output-dir Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke \
+  --module-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke \
+  --namespace-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke \
+  --all-shards --shard-size 16
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 240 \
+  --json scripts/generated/bellman_eval_split_10m_transition_shard038_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Shard038
+```
+
+Rejected result:
+
+```text
+16-state transition-invariant Shard038: killed by memory guard
+peak_tree_rss = 4578 MiB > 4500 MiB cap
+```
+
+This does not reject the Bellman invariant route; it rejects the 16-state
+combined validity+transition shard size.
+
+The smoke was regenerated with 8 source states per shard:
+
+```bash
+python3 scripts/emit_bellman_graph_eval_split.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --output-dir Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke \
+  --module-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke \
+  --namespace-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke \
+  --all-shards --shard-size 8
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 240 \
+  --json scripts/generated/bellman_eval_split_10m_transition_base_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 240 \
+  --json scripts/generated/bellman_eval_split_10m_transition_shard076_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Shard076
+
+for i in $(seq -w 0 121); do
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 4500 \
+    --min-available-mib 36864 \
+    --timeout-seconds 240 \
+    --json scripts/generated/bellman_eval_split_10m_transition_shard${i}_serial_guard.json \
+    -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Shard${i}
+done
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 240 \
+  --json scripts/generated/bellman_eval_split_10m_transition_root_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Root
+```
+
+Accepted results:
+
+| target | guarded result | peak RSS |
+| --- | ---: | ---: |
+| `Cuboctahedron.Search.BellmanPotential` | passed | `770 MiB` |
+| `Base.lean` | passed | `4336 MiB` |
+| representative `Shard076.lean` | passed | `4248 MiB` |
+| all `122` serial 8-state shards | passed | max `4311.5 MiB` |
+| `Root.lean` after shard cache | passed | `4101 MiB` |
+
+Safety scan:
+
+```bash
+rg -n "SampledRankIndex|sampledSmokeNext|sampledContainsRank|sampledRankOf|sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Search/BellmanPotential.lean \
+  scripts/emit_bellman_graph_eval_split.py \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke || true
+```
+
+Result: no matches.
+
+Decision: accepted as the next Bellman semantic-membership slice.  The
+production rule for combined validity+transition Bellman shards is now **8
+source states per shard** unless future graph changes reduce memory.  The
+generic invariant theorem is the preferred route over a global `next_sound`
+proof: it lets a future theorem
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  BellmanEvalAccepts ... obj
+```
+
+carry the semantic range/evaluator obligations directly.  The remaining
+go/no-go gate is therefore very sharp: build a `TopPairingBellmanObj` whose
+object is essentially `rank` plus
+`TopPairingClosedLanguageAtRank rank Face.ym`, and prove the deterministic
+closed-language-to-evaluator theorem without `SampledRankIndex`, sampled
+paths, or one generated branch per rank/path.  If that proof collapses back to
+sampled membership, stop Bellman as a production proof route and replace this
+automaton with a stronger cancellation-tree semantic automaton.

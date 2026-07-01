@@ -240,6 +240,43 @@ def emit_valid_branch(
     )
 
 
+def emit_transition_ok_branch(
+    out: list[str],
+    *,
+    state_idx: int,
+    transitions: list[tuple[int, tuple[int, int]]],
+    depth: int = 0,
+    seen_names: list[str] | None = None,
+) -> None:
+    seen_names = [] if seen_names is None else seen_names
+    indent = "  " + "  " * depth
+    if not transitions:
+        simp_args = [f"graphSmokeNext_s{state_idx:04d}", *seen_names]
+        out.append(f"{indent}simp [{', '.join(simp_args)}] at h")
+        return
+    label_idx, (dst_idx, gain_scaled) = transitions[0]
+    hname = f"h_l{label_idx:04d}"
+    out.append(f"{indent}by_cases {hname} : label = ({label_idx} : SmokeLabel)")
+    out.append(f"{indent}· subst label")
+    out.append(f"{indent}  simp [graphSmokeNext_s{state_idx:04d}] at h")
+    out.append(f"{indent}  rcases h with ⟨rfl, rfl⟩")
+    out.append(f"{indent}  constructor")
+    out.append(f"{indent}  · decide")
+    out.append(
+        f"{indent}  · change ({gain_scaled} : Int) + "
+        f"graphPotential ({dst_idx} : State) <= graphPotential ({state_idx} : State)"
+    )
+    out.append(f"{indent}    decide")
+    out.append(f"{indent}·")
+    emit_transition_ok_branch(
+        out,
+        state_idx=state_idx,
+        transitions=transitions[1:],
+        depth=depth + 1,
+        seen_names=[*seen_names, hname],
+    )
+
+
 def emit_shard(
     graph: dict[str, object],
     output_path: Path,
@@ -278,6 +315,19 @@ def emit_shard(
         ])
         emit_valid_branch(lines, state_idx=state_idx, transitions=state_transitions)
         lines.append("")
+        lines.extend([
+            f"theorem transition_ok_s{state_idx:04d} "
+            "{label : SmokeLabel} {t : State} {gain : Int} :",
+            f"    graphSmokeNext ({state_idx} : State) label = some (t, gain) ->",
+            "      t < stateCount /\\ "
+            f"gain + graphPotential t <= graphPotential ({state_idx} : State) := by",
+            "  intro h",
+            f"  change graphSmokeNext_s{state_idx:04d} label = some (t, gain) at h",
+        ])
+        emit_transition_ok_branch(
+            lines, state_idx=state_idx, transitions=state_transitions
+        )
+        lines.append("")
     lines.extend([
         "theorem valid_range "
         "{s : State} {label : SmokeLabel} {t : State} {gain : Int}",
@@ -289,6 +339,18 @@ def emit_shard(
     ])
     for state_idx in range(start, stop):
         lines.append(f"  · exact valid_s{state_idx:04d} h")
+    lines.append("")
+    lines.extend([
+        "theorem transition_ok_range "
+        "{s : State} {label : SmokeLabel} {t : State} {gain : Int}",
+        f"    (hlo : {start} <= s) (hhi : s < {stop}) :",
+        "    graphSmokeNext s label = some (t, gain) ->",
+        "      t < stateCount /\\ gain + graphPotential t <= graphPotential s := by",
+        "  intro h",
+        "  interval_cases s",
+    ])
+    for state_idx in range(start, stop):
+        lines.append(f"  · exact transition_ok_s{state_idx:04d} h")
     lines.append("")
     lines.extend([
         "theorem shard_builds : True := by",
@@ -331,6 +393,14 @@ def emit_root(
         "      gain + graphPotential t <= graphPotential s := by",
         "  intro h",
         "  exact valid_shard000 h.1 h",
+        "",
+        "theorem transition_ok_shard000 "
+        "{s : State} {label : SmokeLabel} {t : State} {gain : Int}",
+        f"    (hlo : {start} <= s) (hhi : s < {stop}) :",
+        "    graphSmokeNext s label = some (t, gain) ->",
+        "      t < stateCount /\\ gain + graphPotential t <= graphPotential s := by",
+        "  intro h",
+        f"  exact {shard_namespace}.transition_ok_range hlo hhi h",
         "",
         "theorem root_builds : True := by",
         "  exact True.intro",
@@ -397,6 +467,36 @@ def emit_all_root(
         "      gain + graphPotential t <= graphPotential s := by",
         "  intro h",
         "  exact valid_of_lt h.1 h",
+        "",
+        "theorem transition_ok_of_lt "
+        "{s : State} {label : SmokeLabel} {t : State} {gain : Int}",
+        "    (hs : s < stateCount) :",
+        "    graphSmokeNext s label = some (t, gain) ->",
+        "      t < stateCount /\\ gain + graphPotential t <= graphPotential s := by",
+        "  intro h",
+    ])
+
+    lower_expr = "Nat.zero_le s"
+    for shard_idx, ((start, stop), shard_namespace) in enumerate(
+        zip(shard_ranges, shard_namespaces, strict=True)
+    ):
+        hhi = f"hhi_t_{shard_idx:03d}"
+        indent = "  " * (shard_idx + 1)
+        lines.append(f"{indent}by_cases {hhi} : s < {stop}")
+        lines.append(f"{indent}·")
+        lines.append(
+            f"{indent}  exact {shard_namespace}.transition_ok_range "
+            f"({lower_expr}) {hhi} h"
+        )
+        lines.append(f"{indent}·")
+        lower_expr = f"Nat.le_of_not_lt {hhi}"
+
+    final_indent = "  " * (len(shard_ranges) + 1)
+    lines.append(
+        f"{final_indent}exact False.elim "
+        f"((Nat.not_lt_of_ge ({lower_expr})) hs)"
+    )
+    lines.extend([
         "",
         "theorem root_builds : True := by",
         "  exact True.intro",
