@@ -40,6 +40,17 @@
 | `axisMissesStartInterior|badFace=yp|margin=neg:-379/66` | `1` |
 | `axisMissesStartInterior|badFace=yp|margin=neg:-53/33` | `1` |
 
+## Terminal Template Keys
+
+- Exact distinct count stored: `True`
+- Stored distinct keys: `2`
+- Overflow cases: `0`
+
+| Key | Count |
+| --- | ---: |
+| `axisMissesStartInterior|badFace=yp` | `4` |
+| `axisMissesStartInterior|badFace=tpmm` | `2` |
+
 ## Residual Signatures
 
 - Exact distinct count stored: `True`

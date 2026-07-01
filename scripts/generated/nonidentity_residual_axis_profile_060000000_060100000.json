@@ -12,7 +12,7 @@
     "shadow_linear_mismatches": 0,
     "shadow_nonidentity": 98580
   },
-  "elapsed_seconds": 7.020169496536255,
+  "elapsed_seconds": 5.945514678955078,
   "end": 60100000,
   "jobs": 4,
   "mode": "nonidentity-residual-axis-profile",
@@ -36,11 +36,11 @@
       },
       {
         "count": 11,
-        "key": "residual|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++-+-+--+-+-|failure=axis_misses_start_interior"
+        "key": "residual|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--+-+-+-+-++-|failure=axis_misses_start_interior"
       },
       {
         "count": 11,
-        "key": "residual|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--+-+-+-+-++-|failure=axis_misses_start_interior"
+        "key": "residual|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++-+--+-+-+-|failure=axis_misses_start_interior"
       }
     ]
   },
@@ -52,20 +52,20 @@
         "failure_details": {
           "bad_face": "ym",
           "canonical_bad_face": "yp",
-          "margin": "-27/10",
-          "p0": "1,-37/10,11/4",
-          "solve_shape": "d4c95c6b6cefba87"
+          "margin": "-7/6",
+          "p0": "1,-13/6,47/12",
+          "solve_shape": "1b7f2dd416df16e1"
         },
-        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-27/10",
+        "family_key": "axisMissesStartInterior|badFace=yp|margin=neg:-7/6",
         "forced_seq": [
           "xp",
           "tmmp",
           "tppp",
           "tppm",
           "ym",
-          "tmpp",
           "zm",
           "zp",
+          "tmpp",
           "tmpm",
           "tmmm",
           "tpmp",
@@ -73,45 +73,45 @@
           "tpmm",
           "xm"
         ],
-        "forced_signs": "-++-+-+--++--",
-        "rank": 60050043,
+        "forced_signs": "-++--++--++--",
+        "rank": 60025023,
         "reduced_shadow": "d11m d1m1 d111 dm11",
-        "word": "d11m,d111,d11m,y,dm11,z,z,d1m1,d111,d1m1,y,dm11,x"
+        "word": "d11m,d111,d11m,y,z,z,dm11,d1m1,d111,d1m1,y,dm11,x"
       }
     ],
     "terminal_first_hit_mismatch": [
       {
-        "axis": "-40/3,1/3,-1",
+        "axis": "-11/16,-1,0",
         "failure": "first_hit_mismatch",
         "failure_details": {
-          "actual": "tmmm",
+          "actual": "ym",
           "expected": "tmmp",
-          "expected_time": "2719/14080",
+          "expected_time": "1745/12804",
           "step": 0,
-          "time": "10893/98560",
-          "witness": "actualBeforeExpected:pos:37/448"
+          "time": "11687/136576",
+          "witness": "actualBeforeExpected:pos:1889/37248"
         },
-        "family_key": "firstHitMismatch|step=0|faces=tmmm,tmmp|actualBeforeExpected:pos:37/448",
+        "family_key": "firstHitMismatch|step=0|faces=tmmm,ym|actualBeforeExpected:pos:1889/37248",
         "forced_seq": [
           "xp",
           "tmmp",
           "tmmm",
           "tppm",
-          "zp",
-          "xm",
-          "yp",
-          "zm",
-          "tpmm",
-          "tpmp",
-          "tppp",
-          "tmpm",
           "ym",
+          "tppp",
+          "xm",
+          "tpmp",
+          "yp",
+          "tpmm",
+          "zp",
+          "zm",
+          "tmpm",
           "tmpp"
         ],
-        "forced_signs": "--++-+--++--+",
-        "rank": 60056972,
-        "reduced_shadow": "d11m d111 d11m d1m1 dm11 d11m dm11 d111",
-        "word": "d11m,d111,d11m,z,x,y,z,dm11,d1m1,d111,d1m1,y,dm11"
+        "forced_signs": "--+-+-++-+--+",
+        "rank": 60031728,
+        "reduced_shadow": "d11m d111 d11m d1m1 dm11 d111 d11m d111",
+        "word": "d11m,d111,d11m,y,d111,x,d1m1,y,dm11,z,z,d1m1,dm11"
       }
     ]
   },
@@ -200,6 +200,33 @@
       {
         "count": 12,
         "key": "axisMissesStartInterior|badFace=yp|margin=neg:-17/10"
+      }
+    ]
+  },
+  "terminal_template_keys": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 10,
+    "top": [
+      {
+        "count": 1403,
+        "key": "axisMissesStartInterior|badFace=yp"
+      },
+      {
+        "count": 41,
+        "key": "axisMissesStartInterior|badFace=tpmm"
+      },
+      {
+        "count": 9,
+        "key": "firstHitMismatch|step=0|expected=tmmp|actual=tmmm|actualBeforeExpected"
+      },
+      {
+        "count": 8,
+        "key": "firstHitMismatch|step=0|expected=tmmp|actual=zm|actualBeforeExpected"
+      },
+      {
+        "count": 3,
+        "key": "firstHitMismatch|step=0|expected=tmmp|actual=ym|actualBeforeExpected"
       }
     ]
   }

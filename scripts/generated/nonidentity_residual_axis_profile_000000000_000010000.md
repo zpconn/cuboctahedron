@@ -3,7 +3,7 @@
 - Range: `[0, 10,000)`
 - Scanned pair words: `10,000`
 - Jobs: `4`
-- Elapsed seconds: `1.126`
+- Elapsed seconds: `1.115`
 - Arithmetic: exact Fraction/integer arithmetic; no floating point
 
 ## Counts
@@ -61,6 +61,26 @@
 | `axisMissesStartInterior|badFace=yp|margin=neg:-2719/1300` | `9` |
 | `axisMissesStartInterior|badFace=yp|margin=neg:-4829/6150` | `9` |
 | `axisMissesStartInterior|badFace=yp|margin=neg:-7/33` | `9` |
+
+## Terminal Template Keys
+
+- Exact distinct count stored: `True`
+- Stored distinct keys: `11`
+- Overflow cases: `0`
+
+| Key | Count |
+| --- | ---: |
+| `axisMissesStartInterior|badFace=yp` | `926` |
+| `axisMissesStartInterior|badFace=tpmm` | `40` |
+| `firstHitMismatch|step=0|expected=xm|actual=zm|actualBeforeExpected` | `12` |
+| `firstHitMismatch|step=0|expected=xm|actual=zp|actualBeforeExpected` | `11` |
+| `firstHitMismatch|step=0|expected=xm|actual=ym|actualBeforeExpected` | `11` |
+| `firstHitMismatch|step=0|expected=xm|actual=yp|actualBeforeExpected` | `8` |
+| `firstHitMismatch|step=0|expected=xm|actual=tmmm|actualBeforeExpected` | `2` |
+| `firstHitMismatch|step=1|expected=yp|actual=tppp|actualBeforeExpected` | `1` |
+| `firstHitMismatch|step=0|expected=xm|actual=tmmp|actualBeforeExpected` | `1` |
+| `firstHitMismatch|step=1|expected=yp|actual=tppm|actualBeforeExpected` | `1` |
+| `firstHitMismatch|step=0|expected=xm|actual=tpmm|actualBeforeExpected` | `1` |
 
 ## Residual Signatures
 

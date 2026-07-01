@@ -779,13 +779,13 @@ Nonidentity residual-axis checkpoint:
 - Calibration runs:
 
   ```text
-  [0,100):              residuals=6     terminal keys=4     signatures=6
-  [0,10000):            residuals=1014  terminal keys=342   signatures=862
-  [0,100000):           residuals=9036  terminal keys=1663  signatures=6330
-  [10000000,10100000):  residuals=4143  terminal keys=972   signatures=3258
-  [30000000,30100000):  residuals=961   terminal keys=714   signatures=646
-  [60000000,60100000):  residuals=1471  terminal keys=629   signatures=680
-  [90000000,90100000):  residuals=2251  terminal keys=779   signatures=970
+  [0,100):              residuals=6     exact keys=4     template keys=2   signatures=6
+  [0,10000):            residuals=1014  exact keys=342   template keys=11  signatures=862
+  [0,100000):           residuals=9036  exact keys=1663  template keys=32  signatures=6330
+  [10000000,10100000):  residuals=4143  exact keys=972   template keys=37  signatures=3258
+  [30000000,30100000):  residuals=961   exact keys=714   template keys=13  signatures=646
+  [60000000,60100000):  residuals=1471  exact keys=629   template keys=10  signatures=680
+  [90000000,90100000):  residuals=2251  exact keys=779   template keys=9   signatures=970
   ```
 
 - All calibration windows had zero shadow/linear mismatches.  The 100k windows
@@ -794,17 +794,26 @@ Nonidentity residual-axis checkpoint:
 - Accepted as diagnostic infrastructure: residual terminal failures are
   dominated by exact start-interior misses, with first-hit mismatches and rare
   hit ties as smaller buckets.
-- Rejected as a direct Lean-emission coordinate: the current coarse terminal
-  key fragments too much.  The first 100k ranks already produce `1,663`
-  terminal-family keys from `9,036` residual survivors.  Scaling that key would
-  exceed the target leaf budget.
+- Rejected as a direct exact-margin Lean-emission coordinate: the exact
+  terminal key fragments too much.  The first 100k ranks already produce
+  `1,663` exact terminal-family keys and `6,330` residual signatures from
+  `9,036` residual survivors.
+- Accepted as a promising theorem-schema coordinate: the coarse terminal
+  template key has only `32` shapes in the first 100k ranks and between `9` and
+  `37` shapes in the disjoint 100k calibration windows.  This suggests the
+  residual route should split theorem schemas from local numeric certificates:
+  generic Lean theorems for start-interior separation, first-hit mismatch, and
+  hit ties; generated local evidence only for the small exact inequalities
+  needed to instantiate them.
 - Next nontranslation strategy change:
   1. keep the forced-axis filter as a cheap front-end;
   2. do not emit terminal residual leaves keyed by exact margins;
-  3. either quotient start-interior misses by symbolic separating-face /
-     inequality templates, or promote signed-state empty-cone/Gordan prefix
-     pruning before the affine-axis terminal stage;
-  4. require a new profiler to report a low-thousands-or-smaller semantic
+  3. add hand-written Lean theorem schemas for the coarse terminal templates;
+  4. design local generated certificates that instantiate those schemas without
+     leaking large exact-margin data through public theorem statements;
+  5. use signed-state empty-cone/Gordan prefix pruning as fallback if the local
+     certificate layer still exceeds the leaf/time budget;
+  6. require a new profiler to report a low-thousands-or-smaller semantic
      family count before any residual Lean generation.
 
 The current evidence strongly suggests that the previous generated-evidence

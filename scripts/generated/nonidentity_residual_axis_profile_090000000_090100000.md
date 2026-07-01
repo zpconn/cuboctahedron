@@ -3,7 +3,7 @@
 - Range: `[90,000,000, 90,100,000)`
 - Scanned pair words: `100,000`
 - Jobs: `4`
-- Elapsed seconds: `7.934`
+- Elapsed seconds: `6.701`
 - Arithmetic: exact Fraction/integer arithmetic; no floating point
 
 ## Counts
@@ -42,6 +42,20 @@
 | `axisMissesStartInterior|badFace=yp|margin=neg:-5/4` | `28` |
 | `axisMissesStartInterior|badFace=yp|margin=neg:-91/66` | `24` |
 | `axisMissesStartInterior|badFace=yp|margin=neg:-23/4` | `20` |
+
+## Terminal Template Keys
+
+- Exact distinct count stored: `True`
+- Stored distinct keys: `9`
+- Overflow cases: `0`
+
+| Key | Count |
+| --- | ---: |
+| `axisMissesStartInterior|badFace=yp` | `2,131` |
+| `axisMissesStartInterior|badFace=tpmm` | `69` |
+| `firstHitMismatch|step=0|expected=tmpp|actual=yp|actualBeforeExpected` | `16` |
+| `firstHitMismatch|step=0|expected=tmpp|actual=xm|actualBeforeExpected` | `15` |
+| `firstHitMismatch|step=0|expected=tmpp|actual=zm|actualBeforeExpected` | `8` |
 
 ## Residual Signatures
 

@@ -12,7 +12,7 @@
     "shadow_linear_mismatches": 0,
     "shadow_nonidentity": 96722
   },
-  "elapsed_seconds": 8.937427282333374,
+  "elapsed_seconds": 7.936481475830078,
   "end": 10100000,
   "jobs": 4,
   "mode": "nonidentity-residual-axis-profile",
@@ -239,6 +239,33 @@
       {
         "count": 30,
         "key": "axisMissesStartInterior|badFace=yp|margin=neg:-53/22"
+      }
+    ]
+  },
+  "terminal_template_keys": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 37,
+    "top": [
+      {
+        "count": 3815,
+        "key": "axisMissesStartInterior|badFace=yp"
+      },
+      {
+        "count": 137,
+        "key": "axisMissesStartInterior|badFace=tpmm"
+      },
+      {
+        "count": 22,
+        "key": "firstHitMismatch|step=0|expected=yp|actual=zp|actualBeforeExpected"
+      },
+      {
+        "count": 19,
+        "key": "firstHitMismatch|step=0|expected=yp|actual=zm|actualBeforeExpected"
+      },
+      {
+        "count": 19,
+        "key": "firstHitMismatch|step=0|expected=ym|actual=xm|actualBeforeExpected"
       }
     ]
   }

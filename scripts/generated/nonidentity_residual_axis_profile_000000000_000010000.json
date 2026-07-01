@@ -12,7 +12,7 @@
     "shadow_linear_mismatches": 0,
     "shadow_nonidentity": 9288
   },
-  "elapsed_seconds": 1.1257359981536865,
+  "elapsed_seconds": 1.1151301860809326,
   "end": 10000,
   "jobs": 4,
   "mode": "nonidentity-residual-axis-profile",
@@ -780,6 +780,57 @@
       {
         "count": 9,
         "key": "axisMissesStartInterior|badFace=yp|margin=neg:-7/33"
+      }
+    ]
+  },
+  "terminal_template_keys": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 11,
+    "top": [
+      {
+        "count": 926,
+        "key": "axisMissesStartInterior|badFace=yp"
+      },
+      {
+        "count": 40,
+        "key": "axisMissesStartInterior|badFace=tpmm"
+      },
+      {
+        "count": 12,
+        "key": "firstHitMismatch|step=0|expected=xm|actual=zm|actualBeforeExpected"
+      },
+      {
+        "count": 11,
+        "key": "firstHitMismatch|step=0|expected=xm|actual=zp|actualBeforeExpected"
+      },
+      {
+        "count": 11,
+        "key": "firstHitMismatch|step=0|expected=xm|actual=ym|actualBeforeExpected"
+      },
+      {
+        "count": 8,
+        "key": "firstHitMismatch|step=0|expected=xm|actual=yp|actualBeforeExpected"
+      },
+      {
+        "count": 2,
+        "key": "firstHitMismatch|step=0|expected=xm|actual=tmmm|actualBeforeExpected"
+      },
+      {
+        "count": 1,
+        "key": "firstHitMismatch|step=1|expected=yp|actual=tppp|actualBeforeExpected"
+      },
+      {
+        "count": 1,
+        "key": "firstHitMismatch|step=0|expected=xm|actual=tmmp|actualBeforeExpected"
+      },
+      {
+        "count": 1,
+        "key": "firstHitMismatch|step=1|expected=yp|actual=tppm|actualBeforeExpected"
+      },
+      {
+        "count": 1,
+        "key": "firstHitMismatch|step=0|expected=xm|actual=tpmm|actualBeforeExpected"
       }
     ]
   }

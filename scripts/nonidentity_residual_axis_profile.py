@@ -90,6 +90,7 @@ class ResidualAxisStats:
     residual_survivors: int = 0
     terminal_failure_counts: Counter[str] = field(default_factory=Counter)
     terminal_family_keys: CappedCounter | None = None
+    terminal_template_keys: CappedCounter | None = None
     residual_signatures: CappedCounter | None = None
     terminal_by_reduced_shadow: CappedCounter | None = None
     terminal_by_axis: CappedCounter | None = None
@@ -98,6 +99,8 @@ class ResidualAxisStats:
     def __post_init__(self) -> None:
         if self.terminal_family_keys is None:
             self.terminal_family_keys = CappedCounter(self.max_distinct)
+        if self.terminal_template_keys is None:
+            self.terminal_template_keys = CappedCounter(self.max_distinct)
         if self.residual_signatures is None:
             self.residual_signatures = CappedCounter(self.max_distinct)
         if self.terminal_by_reduced_shadow is None:
@@ -124,10 +127,12 @@ class ResidualAxisStats:
         self.residual_survivors += other.residual_survivors
         self.terminal_failure_counts.update(other.terminal_failure_counts)
         assert self.terminal_family_keys is not None and other.terminal_family_keys is not None
+        assert self.terminal_template_keys is not None and other.terminal_template_keys is not None
         assert self.residual_signatures is not None and other.residual_signatures is not None
         assert self.terminal_by_reduced_shadow is not None and other.terminal_by_reduced_shadow is not None
         assert self.terminal_by_axis is not None and other.terminal_by_axis is not None
         self.terminal_family_keys.merge(other.terminal_family_keys)
+        self.terminal_template_keys.merge(other.terminal_template_keys)
         self.residual_signatures.merge(other.residual_signatures)
         self.terminal_by_reduced_shadow.merge(other.terminal_by_reduced_shadow)
         self.terminal_by_axis.merge(other.terminal_by_axis)
@@ -137,6 +142,7 @@ class ResidualAxisStats:
 
     def payload(self, *, elapsed_seconds: float, jobs: int, top: int) -> dict[str, Any]:
         assert self.terminal_family_keys is not None
+        assert self.terminal_template_keys is not None
         assert self.residual_signatures is not None
         assert self.terminal_by_reduced_shadow is not None
         assert self.terminal_by_axis is not None
@@ -164,11 +170,49 @@ class ResidualAxisStats:
             },
             "terminal_failure_counts": dict(sorted(self.terminal_failure_counts.items())),
             "terminal_family_keys": self.terminal_family_keys.payload(top=top),
+            "terminal_template_keys": self.terminal_template_keys.payload(top=top),
             "residual_signatures": self.residual_signatures.payload(top=top),
             "terminal_by_reduced_shadow": self.terminal_by_reduced_shadow.payload(top=top),
             "terminal_by_axis": self.terminal_by_axis.payload(top=top),
             "samples": self.samples,
         }
+
+
+def coarse_terminal_template_key(failure: str, details: dict[str, Any]) -> str:
+    """Return a low-cardinality diagnostic key for semantic theorem templates."""
+
+    if failure == "axis_misses_start_interior":
+        bad_face = details.get("canonical_bad_face", details.get("bad_face", "?"))
+        return f"axisMissesStartInterior|badFace={bad_face}"
+    if failure == "first_hit_mismatch":
+        witness = str(details.get("witness", "unknown"))
+        witness_kind = witness.split(":", 1)[0]
+        return (
+            "firstHitMismatch"
+            f"|step={details.get('step', '?')}"
+            f"|expected={details.get('expected', '?')}"
+            f"|actual={details.get('actual', '?')}"
+            f"|{witness_kind}"
+        )
+    if failure == "hit_tie":
+        actual = details.get("actual", [])
+        if isinstance(actual, list):
+            actual_key = ",".join(sorted(str(face) for face in actual))
+        else:
+            actual_key = str(actual)
+        return (
+            "hitTie"
+            f"|step={details.get('step', '?')}"
+            f"|expected={details.get('expected', '?')}"
+            f"|actual={actual_key}"
+        )
+    if failure == "no_future_hit":
+        return (
+            "noFutureHit"
+            f"|step={details.get('step', '?')}"
+            f"|expected={details.get('expected', '?')}"
+        )
+    return failure
 
 
 def classify_leaf(
@@ -261,10 +305,12 @@ def classify_leaf(
     stats.residual_survivors += 1
     stats.terminal_failure_counts[failure] += 1
     assert stats.terminal_family_keys is not None
+    assert stats.terminal_template_keys is not None
     assert stats.residual_signatures is not None
     assert stats.terminal_by_reduced_shadow is not None
     assert stats.terminal_by_axis is not None
     stats.terminal_family_keys.add(family_key)
+    stats.terminal_template_keys.add(coarse_terminal_template_key(failure, failure_details))
     stats.residual_signatures.add(
         f"residual|reduced={reduced_key}|axis={oriented_axis_key}"
         f"|signs={details['forced_signs']}|failure={failure}"
@@ -432,6 +478,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
 
     for section in [
         "terminal_family_keys",
+        "terminal_template_keys",
         "residual_signatures",
         "terminal_by_reduced_shadow",
         "terminal_by_axis",

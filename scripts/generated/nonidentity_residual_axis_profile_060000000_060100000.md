@@ -3,7 +3,7 @@
 - Range: `[60,000,000, 60,100,000)`
 - Scanned pair words: `100,000`
 - Jobs: `4`
-- Elapsed seconds: `7.020`
+- Elapsed seconds: `5.946`
 - Arithmetic: exact Fraction/integer arithmetic; no floating point
 
 ## Counts
@@ -42,6 +42,20 @@
 | `axisMissesStartInterior|badFace=yp|margin=neg:-7/6` | `13` |
 | `axisMissesStartInterior|badFace=yp|margin=neg:-17/10` | `12` |
 
+## Terminal Template Keys
+
+- Exact distinct count stored: `True`
+- Stored distinct keys: `10`
+- Overflow cases: `0`
+
+| Key | Count |
+| --- | ---: |
+| `axisMissesStartInterior|badFace=yp` | `1,403` |
+| `axisMissesStartInterior|badFace=tpmm` | `41` |
+| `firstHitMismatch|step=0|expected=tmmp|actual=tmmm|actualBeforeExpected` | `9` |
+| `firstHitMismatch|step=0|expected=tmmp|actual=zm|actualBeforeExpected` | `8` |
+| `firstHitMismatch|step=0|expected=tmmp|actual=ym|actualBeforeExpected` | `3` |
+
 ## Residual Signatures
 
 - Exact distinct count stored: `True`
@@ -53,8 +67,8 @@
 | `residual|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++-+-+-+-+--|failure=axis_misses_start_interior` | `15` |
 | `residual|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--++-+-+-+-+-|failure=axis_misses_start_interior` | `13` |
 | `residual|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++-+-+-+--+-|failure=axis_misses_start_interior` | `12` |
-| `residual|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++-+-+--+-+-|failure=axis_misses_start_interior` | `11` |
 | `residual|reduced=d11m d111 d11m d1m1 dm11 d11m|axis=2,5,4|signs=--+-+-+-+-++-|failure=axis_misses_start_interior` | `11` |
+| `residual|reduced=d11m d111 d1m1 dm11|axis=1,0,-2|signs=-++-+--+-+-+-|failure=axis_misses_start_interior` | `11` |
 
 ## Terminal By Reduced Shadow
 

@@ -3,7 +3,7 @@
 - Range: `[0, 100,000)`
 - Scanned pair words: `100,000`
 - Jobs: `4`
-- Elapsed seconds: `8.516`
+- Elapsed seconds: `8.482`
 - Arithmetic: exact Fraction/integer arithmetic; no floating point
 
 ## Counts
@@ -67,6 +67,45 @@
 | `axisMissesStartInterior|badFace=yp|margin=neg:-17/11` | `24` |
 | `axisMissesStartInterior|badFace=yp|margin=neg:-185/22` | `23` |
 | `axisMissesStartInterior|badFace=yp|margin=neg:-17/22` | `23` |
+
+## Terminal Template Keys
+
+- Exact distinct count stored: `True`
+- Stored distinct keys: `32`
+- Overflow cases: `0`
+
+| Key | Count |
+| --- | ---: |
+| `axisMissesStartInterior|badFace=yp` | `8,532` |
+| `axisMissesStartInterior|badFace=tpmm` | `243` |
+| `firstHitMismatch|step=0|expected=xm|actual=zp|actualBeforeExpected` | `39` |
+| `firstHitMismatch|step=0|expected=xm|actual=zm|actualBeforeExpected` | `34` |
+| `firstHitMismatch|step=0|expected=xm|actual=ym|actualBeforeExpected` | `32` |
+| `firstHitMismatch|step=0|expected=xm|actual=yp|actualBeforeExpected` | `31` |
+| `firstHitMismatch|step=0|expected=xm|actual=tpmp|actualBeforeExpected` | `12` |
+| `firstHitMismatch|step=0|expected=xm|actual=tppm|actualBeforeExpected` | `12` |
+| `firstHitMismatch|step=0|expected=xm|actual=tpmm|actualBeforeExpected` | `11` |
+| `firstHitMismatch|step=0|expected=xm|actual=tmpp|actualBeforeExpected` | `10` |
+| `firstHitMismatch|step=0|expected=xm|actual=tmmp|actualBeforeExpected` | `9` |
+| `firstHitMismatch|step=0|expected=xm|actual=tmpm|actualBeforeExpected` | `9` |
+| `firstHitMismatch|step=0|expected=xm|actual=tppp|actualBeforeExpected` | `9` |
+| `firstHitMismatch|step=1|expected=yp|actual=xp|actualBeforeExpected` | `9` |
+| `firstHitMismatch|step=0|expected=xm|actual=tmmm|actualBeforeExpected` | `8` |
+| `firstHitMismatch|step=1|expected=ym|actual=xp|actualBeforeExpected` | `8` |
+| `firstHitMismatch|step=1|expected=yp|actual=tppp|actualBeforeExpected` | `3` |
+| `firstHitMismatch|step=1|expected=ym|actual=tpmp|actualBeforeExpected` | `3` |
+| `firstHitMismatch|step=1|expected=ym|actual=tpmm|actualBeforeExpected` | `3` |
+| `firstHitMismatch|step=1|expected=yp|actual=tppm|actualBeforeExpected` | `2` |
+| `firstHitMismatch|step=2|expected=yp|actual=xp|actualBeforeExpected` | `2` |
+| `hitTie|step=0|expected=xm|actual=tmmm,xm` | `2` |
+| `firstHitMismatch|step=2|expected=ym|actual=xp|actualBeforeExpected` | `2` |
+| `hitTie|step=0|expected=xm|actual=tmmp,xm` | `2` |
+| `hitTie|step=0|expected=xm|actual=tmpp,xm` | `2` |
+| `hitTie|step=0|expected=xm|actual=tppp,yp` | `1` |
+| `firstHitMismatch|step=2|expected=yp|actual=tpmm|actualBeforeExpected` | `1` |
+| `hitTie|step=0|expected=xm|actual=tpmp,ym` | `1` |
+| `firstHitMismatch|step=2|expected=yp|actual=tpmp|actualBeforeExpected` | `1` |
+| `hitTie|step=0|expected=xm|actual=tppm,yp` | `1` |
 
 ## Residual Signatures
 
