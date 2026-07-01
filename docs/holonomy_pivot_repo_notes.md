@@ -2952,3 +2952,54 @@ Latest crash safety note:
   preserving the `6000 MiB` process-tree RSS cap, `24576 MiB` availability
   floor, and `60s` timeout.  If the signed-sequence smoke exceeds that cap,
   stop and shrink the theorem surface rather than raising the cap.
+
+Signed-sequence surface checkpoint:
+
+- Added the sequence-parametric language structures in
+  `Cuboctahedron.Search.BellmanTopPairingLanguage`:
+
+  ```lean
+  TopPairingScheduleLanguageForSeq
+  TopPairingClosedLanguageForSeq
+  ```
+
+- The generated trace emitter now exports:
+
+  ```lean
+  generatedClosedLanguageForSeqOfLabelTrace
+  generatedClosedLanguageForSeqOfLabelTraceConcreteLocalAxis
+  ```
+
+  These theorems target an arbitrary signed `seq : Step14 -> Face` and require
+  only:
+
+  ```lean
+  faceLabelsInContributionOrder (fun f => f) seq =
+    generatedContributionLabels
+  ```
+
+  plus cancellation-language and canonical-bad-face facts.
+- The regenerated shard was checked only through the strict wrapper:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_seq_surface_6g.json
+  ```
+
+  Result: passed in `11.01s`, with `4122.64 MiB` peak process-tree RSS and
+  `46121.54 MiB` minimum available memory.
+- Static checks passed:
+  `python3 -m py_compile` for the emitter and guard scripts, `git diff
+  --check`, and the forbidden-token scan over the touched Lean/script files.
+- Decision: accepted.  This is now the correct route for the selected
+  negative-face Bellman graph path.  The canonical-label surface remains only
+  diagnostic.
+
+Next bridge:
+
+```text
+axis-forced signed sequence
+  -> signed-sequence label equality
+  -> TopPairingClosedLanguageForSeq
+  -> Bellman nonpositive start-violation object membership
+```

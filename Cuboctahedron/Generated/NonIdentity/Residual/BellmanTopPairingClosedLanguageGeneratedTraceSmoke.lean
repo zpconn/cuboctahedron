@@ -606,6 +606,32 @@ theorem generatedClosedLanguageOfLabelTrace
       exact topPairingLocalAxisLabels_ofFrom localAxisTrace)
     canonicalBadFace
 
+theorem generatedClosedLanguageForSeqOfLabelTrace
+    {rank : Fin numPairWords} {badFace : Face}
+    {seq : Step14 -> Face}
+    (labels_eq :
+      faceLabelsInContributionOrder (fun f => f) seq =
+        generatedContributionLabels)
+    (cancellation :
+      TopPairingLanguageAtRank rank)
+    (localAxisTrace :
+      TopPairingLocalAxisFrom (matId : Mat3 Rat) generatedContributionLabels)
+    (canonicalBadFace :
+      TopPairingCanonicalBadFaceCompatible badFace) :
+    TopPairingClosedLanguageForSeq rank seq badFace :=
+  TopPairingClosedLanguageForSeq.ofComponents
+    cancellation
+    (by
+      rw [labels_eq]
+      exact generatedScheduleLabels)
+    (by
+      rw [labels_eq]
+      exact generatedSquareGapLabels)
+    (by
+      rw [labels_eq]
+      exact topPairingLocalAxisLabels_ofFrom localAxisTrace)
+    canonicalBadFace
+
 theorem generatedClosedLanguageOfPositiveTemplateConcreteLocalAxis
     {rank : Fin numPairWords} {badFace : Face}
     {template : Step14 -> Face}
@@ -644,6 +670,23 @@ theorem generatedClosedLanguageOfLabelTraceConcreteLocalAxis
       TopPairingCanonicalBadFaceCompatible badFace) :
     TopPairingClosedLanguageAtRank rank badFace :=
   generatedClosedLanguageOfLabelTrace
+    labels_eq
+    cancellation
+    generatedLocalAxisTraceConcrete
+    canonicalBadFace
+
+theorem generatedClosedLanguageForSeqOfLabelTraceConcreteLocalAxis
+    {rank : Fin numPairWords} {badFace : Face}
+    {seq : Step14 -> Face}
+    (labels_eq :
+      faceLabelsInContributionOrder (fun f => f) seq =
+        generatedContributionLabels)
+    (cancellation :
+      TopPairingLanguageAtRank rank)
+    (canonicalBadFace :
+      TopPairingCanonicalBadFaceCompatible badFace) :
+    TopPairingClosedLanguageForSeq rank seq badFace :=
+  generatedClosedLanguageForSeqOfLabelTrace
     labels_eq
     cancellation
     generatedLocalAxisTraceConcrete

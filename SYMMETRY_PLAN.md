@@ -51516,3 +51516,96 @@ TopPairingClosedLanguageForSeq rank seq badFace
 Only after that signed-sequence surface passes under the strict wrapper should
 the route reconnect to `AxisForcesForcedSeq` or
 `faceLabelsInContributionOrder_eq_of_axisForces`.
+
+### Holonomy/Bellman Pivot - signed-sequence trace surface accepted
+
+Implemented the crash-safe correction described above.
+
+New hand-written API in
+`Cuboctahedron/Search/BellmanTopPairingLanguage.lean`:
+
+```lean
+structure TopPairingScheduleLanguageForSeq
+    (rank : Fin numPairWords) (seq : Step14 -> Face) : Prop
+
+structure TopPairingClosedLanguageForSeq
+    (rank : Fin numPairWords) (seq : Step14 -> Face) (badFace : Face) : Prop
+```
+
+These are the signed-sequence analogues of
+`TopPairingClosedLanguageAtRank`.  They keep `TopPairingLanguageAtRank rank`
+for cancellation/rank membership, but schedule, square-gap, and local-axis
+facts are stated over an arbitrary signed sequence `seq`, not over
+`canonicalSeqOfPairWord (unrankPairWord rank)`.
+
+Updated
+`scripts/emit_bellman_closed_language_trace_smoke.py` so generated trace
+shards now export:
+
+```lean
+generatedClosedLanguageForSeqOfLabelTrace
+generatedClosedLanguageForSeqOfLabelTraceConcreteLocalAxis
+```
+
+The generated theorem consumes the exact signed-sequence label equality:
+
+```lean
+faceLabelsInContributionOrder (fun f => f) seq =
+  generatedContributionLabels
+```
+
+This is the correct surface for the selected graph path with negative signed
+faces.  The older canonical-label theorem remains as a diagnostic
+compatibility surface only.
+
+Generated shard sizes after regeneration:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean: 698 lines
+scripts/emit_bellman_closed_language_trace_smoke.py: 690 lines
+Cuboctahedron/Search/BellmanTopPairingLanguage.lean: 386 lines
+```
+
+Strict post-crash proof check:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_seq_surface_6g.json
+```
+
+Result:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| signed-sequence generated trace smoke | `11.01s` | `4122.64 MiB` | `46121.54 MiB` | passed |
+
+The command rebuilt `Cuboctahedron.Search.BellmanTopPairingLanguage` and the
+generated trace shard under the `6000 MiB` cap and `60s` timeout, so this
+slice is accepted under the stricter safety envelope.
+
+Static checks:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_closed_language_trace_smoke.py scripts/run_bellman_safe_smoke.py scripts/run_memory_guarded.py
+git diff --check
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|epsilon" \
+  Cuboctahedron/Search/BellmanTopPairingLanguage.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean \
+  scripts/emit_bellman_closed_language_trace_smoke.py \
+  scripts/run_bellman_safe_smoke.py \
+  scripts/run_memory_guarded.py
+```
+
+All passed; the forbidden-token scan returned no hits.
+
+Next proof gap: connect the selected signed sequence to real axis-forced
+membership.  The intended bridge is:
+
+```text
+AxisForcesForcedSeq / PairSignLanguageAtRank
+  -> faceLabelsInContributionOrder (fun f => f) forcedSeq = generatedContributionLabels
+  -> TopPairingClosedLanguageForSeq rank forcedSeq badFace
+  -> Bellman nonpositive start-violation object membership
+```
+
+Do not revive canonical all-positive label reduction for this negative trace.

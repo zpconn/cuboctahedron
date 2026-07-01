@@ -259,6 +259,26 @@ structure TopPairingClosedLanguageAtRank
   canonicalBadFace :
     TopPairingCanonicalBadFaceCompatible badFace
 
+structure TopPairingScheduleLanguageForSeq
+    (rank : Fin numPairWords) (seq : Step14 -> Face) : Prop where
+  cancellation :
+    Cuboctahedron.TopPairingLanguageAtRank rank
+  schedule :
+    TopPairingStepScheduleLabels
+      (faceLabelsInContributionOrder (fun f => f) seq)
+  squareGap :
+    TopPairingSquareGapLabels
+      (faceLabelsInContributionOrder (fun f => f) seq)
+  localAxis :
+    TopPairingLocalAxisLabels
+      (faceLabelsInContributionOrder (fun f => f) seq)
+
+structure TopPairingClosedLanguageForSeq
+    (rank : Fin numPairWords) (seq : Step14 -> Face) (badFace : Face) : Prop
+    extends TopPairingScheduleLanguageForSeq rank seq where
+  canonicalBadFace :
+    TopPairingCanonicalBadFaceCompatible badFace
+
 namespace TopPairingScheduleLanguageAtRank
 
 theorem ofComponents
@@ -313,5 +333,54 @@ theorem ofComponents
   canonicalBadFace := canonicalBadFace
 
 end TopPairingClosedLanguageAtRank
+
+namespace TopPairingScheduleLanguageForSeq
+
+theorem ofComponents
+    {rank : Fin numPairWords} {seq : Step14 -> Face}
+    (cancellation :
+      Cuboctahedron.TopPairingLanguageAtRank rank)
+    (schedule :
+      TopPairingStepScheduleLabels
+        (faceLabelsInContributionOrder (fun f => f) seq))
+    (squareGap :
+      TopPairingSquareGapLabels
+        (faceLabelsInContributionOrder (fun f => f) seq))
+    (localAxis :
+      TopPairingLocalAxisLabels
+        (faceLabelsInContributionOrder (fun f => f) seq)) :
+    TopPairingScheduleLanguageForSeq rank seq where
+  cancellation := cancellation
+  schedule := schedule
+  squareGap := squareGap
+  localAxis := localAxis
+
+end TopPairingScheduleLanguageForSeq
+
+namespace TopPairingClosedLanguageForSeq
+
+theorem ofComponents
+    {rank : Fin numPairWords} {seq : Step14 -> Face} {badFace : Face}
+    (cancellation :
+      Cuboctahedron.TopPairingLanguageAtRank rank)
+    (schedule :
+      TopPairingStepScheduleLabels
+        (faceLabelsInContributionOrder (fun f => f) seq))
+    (squareGap :
+      TopPairingSquareGapLabels
+        (faceLabelsInContributionOrder (fun f => f) seq))
+    (localAxis :
+      TopPairingLocalAxisLabels
+        (faceLabelsInContributionOrder (fun f => f) seq))
+    (canonicalBadFace :
+      TopPairingCanonicalBadFaceCompatible badFace) :
+    TopPairingClosedLanguageForSeq rank seq badFace where
+  cancellation := cancellation
+  schedule := schedule
+  squareGap := squareGap
+  localAxis := localAxis
+  canonicalBadFace := canonicalBadFace
+
+end TopPairingClosedLanguageForSeq
 
 end Cuboctahedron
