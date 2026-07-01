@@ -3,7 +3,7 @@
 - Range: `[0, 10,000)`
 - Scanned pair words: `10,000`
 - Jobs: `4`
-- Elapsed seconds: `1.115`
+- Elapsed seconds: `1.113`
 - Arithmetic: exact Fraction/integer arithmetic; no floating point
 
 ## Counts
@@ -27,6 +27,13 @@
 | --- | ---: |
 | `axis_misses_start_interior` | `966` |
 | `first_hit_mismatch` | `48` |
+
+## Local Certificate Kinds
+
+| Certificate Kind | Count |
+| --- | ---: |
+| `AxisStartViolationCert` | `966` |
+| `OpenSegmentViolationCert` | `48` |
 
 ## Terminal Family Keys
 
@@ -81,6 +88,26 @@
 | `firstHitMismatch|step=0|expected=xm|actual=tmmp|actualBeforeExpected` | `1` |
 | `firstHitMismatch|step=1|expected=yp|actual=tppm|actualBeforeExpected` | `1` |
 | `firstHitMismatch|step=0|expected=xm|actual=tpmm|actualBeforeExpected` | `1` |
+
+## Certificate Template Keys
+
+- Exact distinct count stored: `True`
+- Stored distinct keys: `11`
+- Overflow cases: `0`
+
+| Key | Count |
+| --- | ---: |
+| `AxisStartViolationCert|axisMissesStartInterior|badFace=yp` | `926` |
+| `AxisStartViolationCert|axisMissesStartInterior|badFace=tpmm` | `40` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=zm|actualBeforeExpected` | `12` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=zp|actualBeforeExpected` | `11` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=ym|actualBeforeExpected` | `11` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=yp|actualBeforeExpected` | `8` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tmmm|actualBeforeExpected` | `2` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=1|expected=yp|actual=tppp|actualBeforeExpected` | `1` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tmmp|actualBeforeExpected` | `1` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=1|expected=yp|actual=tppm|actualBeforeExpected` | `1` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tpmm|actualBeforeExpected` | `1` |
 
 ## Residual Signatures
 

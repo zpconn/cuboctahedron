@@ -1,5 +1,36 @@
 {
   "arithmetic": "exact Fraction/integer arithmetic; no floating point",
+  "certificate_kind_counts": {
+    "AxisStartViolationCert": 1444,
+    "OpenSegmentViolationCert": 27
+  },
+  "certificate_template_keys": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 10,
+    "top": [
+      {
+        "count": 1403,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=yp"
+      },
+      {
+        "count": 41,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=tpmm"
+      },
+      {
+        "count": 9,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=tmmp|actual=tmmm|actualBeforeExpected"
+      },
+      {
+        "count": 8,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=tmmp|actual=zm|actualBeforeExpected"
+      },
+      {
+        "count": 3,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=tmmp|actual=ym|actualBeforeExpected"
+      }
+    ]
+  },
   "counts": {
     "bad_pair_balance": 19573,
     "exact_identity": 1420,
@@ -12,7 +43,7 @@
     "shadow_linear_mismatches": 0,
     "shadow_nonidentity": 98580
   },
-  "elapsed_seconds": 5.945514678955078,
+  "elapsed_seconds": 5.957607746124268,
   "end": 60100000,
   "jobs": 4,
   "mode": "nonidentity-residual-axis-profile",
@@ -48,6 +79,7 @@
     "terminal_axis_misses_start_interior": [
       {
         "axis": "-2,0,1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "ym",
@@ -82,6 +114,7 @@
     "terminal_first_hit_mismatch": [
       {
         "axis": "-11/16,-1,0",
+        "certificate_kind": "OpenSegmentViolationCert",
         "failure": "first_hit_mismatch",
         "failure_details": {
           "actual": "ym",

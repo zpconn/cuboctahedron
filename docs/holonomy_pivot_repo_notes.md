@@ -109,15 +109,74 @@ worth formalizing next.
 - Prefer integer/projective data for generated semantic families; bridge back
   to `Rat`/`Real` in small hand-written theorems.
 
+## Current Pivot Status
+
+The new GPT/Gemini holonomy-normal-form prompt is aligned with what the repo
+has already learned, but it should not reset the work back to Track 1.
+
+- Track 1 is validated externally and formalized in Lean:
+  - `scripts/shadow_normal_form_profile.py` completed a full exact scan with
+    `2,468,088` empty reduced shadows, `2,468,088` exact identity products,
+    and zero mismatches.
+  - The Lean classifier theorem is
+    `Cuboctahedron.Search.ShadowNormalFormClassifier.totalLinearOfPairWord_eq_identity_iff_reducedShadow_empty_of_valid`.
+  - The proof is built from small modules:
+    `ShadowNormalForm`, `ShadowNormalFormCounts`,
+    `ShadowNormalFormTriangular`, `ShadowNormalFormMod3`,
+    `ShadowNormalFormScaled`, `ShadowNormalFormProduct`, and
+    `ShadowNormalFormClassifier`.
+- Track 2 is already a profiler-backed filter, not a final proof:
+  - `scripts/forced_axis_sign_profile.py` proves the exact external
+    forced-axis sign filter is strong but incomplete.
+  - `scripts/nonidentity_residual_axis_profile.py` classifies the remaining
+    forced-balance survivors into terminal affine-axis failures.
+- The current nontranslation residual proof surface is
+  `Cuboctahedron/Search/TerminalNonidentityTemplates.lean`, which exposes
+  semantic local-certificate structures:
+  - `AxisStartViolationCert`;
+  - `PreImpactPointViolationCert`;
+  - `OpenSegmentViolationCert`.
+  These target `NonIdentityAxisConstraints` directly and do not replay
+  ordinary `NonIdCert` checkers.
+
+Therefore the next strategy is not "finish rank interval coverage."  It is:
+
+1. keep the shadow normal form as the trusted branch split;
+2. use forced-axis signs as a cheap nontranslation front-end;
+3. generate or profile semantic local-certificate families for the residual
+   axis buckets;
+4. if those families still exceed the low-thousands gate, promote signed-state
+   empty-cone/Gordan pruning before emitting full residual Lean evidence;
+5. for translation, work only on GoodDirection survivors and use cancellation
+   tree / projective integer row / row-source signatures, not BadDirection
+   mask data.
+
+## Explicit Non-Goals
+
+The following approaches are archived as diagnostics, not the active route to
+`Generated.rank_complete`:
+
+- raw rank intervals as the proof-compression coordinate;
+- one proof leaf per rank, mask, or residual exact margin;
+- packed blobs, byte-list decoders, or huge generated Boolean reductions;
+- final generated leaves whose main work is reducing `checkNonIdCert` or
+  `checkTranslationCert` for concrete cases;
+- translation BadDirection mask enumeration.  Feasible translation witnesses
+  must first satisfy `GoodDirectionAtRank`, so generated evidence belongs on
+  the GoodDirection survivor side.
+
 ## Next Interfaces To Add After Profiling
 
-If the shadow profiler validates the identity split:
+Since the shadow profiler and Lean classifier have already validated the
+identity split, the next interfaces are:
 
-1. Add a hand-written Lean module for square parity, triangular projective
-   letters, triangular shadow, and stack reduction.
-2. Prove or generate small theorem surfaces for:
-   - `linPart_eq_identity_iff_shadow_empty`;
-   - forced-axis sign rejection for nonempty shadows;
-   - cancellation-tree translation signatures for empty shadows.
-3. Keep all new generated evidence theorem-valued and semantic, targeting
-   `NonIdentityRankKilled` and `TranslationCaseKilled`.
+1. a residual local-certificate emission smoke for a tiny bounded
+   nontranslation window, using `AxisStartViolationCert`,
+   `PreImpactPointViolationCert`, and `OpenSegmentViolationCert`;
+2. a profiler that estimates the full local-certificate family count by
+   semantic template and reusable local fact, not exact margin;
+3. signed-state empty-cone/Gordan certificates if the residual local
+   certificate family count remains too high;
+4. translation GoodDirection survivor mining by cancellation tree and
+   projective integer row signatures, after the nontranslation residual
+   family gate is understood.

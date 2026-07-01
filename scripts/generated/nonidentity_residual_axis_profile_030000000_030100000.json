@@ -1,5 +1,36 @@
 {
   "arithmetic": "exact Fraction/integer arithmetic; no floating point",
+  "certificate_kind_counts": {
+    "AxisStartViolationCert": 922,
+    "OpenSegmentViolationCert": 39
+  },
+  "certificate_template_keys": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 13,
+    "top": [
+      {
+        "count": 872,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=yp"
+      },
+      {
+        "count": 50,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=tpmm"
+      },
+      {
+        "count": 11,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=zp|actual=tmpp|actualBeforeExpected"
+      },
+      {
+        "count": 9,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=zp|actual=xm|actualBeforeExpected"
+      },
+      {
+        "count": 6,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=zp|actual=yp|actualBeforeExpected"
+      }
+    ]
+  },
   "counts": {
     "bad_pair_balance": 23857,
     "exact_identity": 1928,
@@ -12,7 +43,7 @@
     "shadow_linear_mismatches": 0,
     "shadow_nonidentity": 98072
   },
-  "elapsed_seconds": 6.01742959022522,
+  "elapsed_seconds": 6.26946759223938,
   "end": 30100000,
   "jobs": 4,
   "mode": "nonidentity-residual-axis-profile",
@@ -48,6 +79,7 @@
     "terminal_axis_misses_start_interior": [
       {
         "axis": "-8/9,5/9,1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "yp",
@@ -82,6 +114,7 @@
     "terminal_first_hit_mismatch": [
       {
         "axis": "-12,5,1",
+        "certificate_kind": "OpenSegmentViolationCert",
         "failure": "first_hit_mismatch",
         "failure_details": {
           "actual": "tmpp",

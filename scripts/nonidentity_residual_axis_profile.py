@@ -89,8 +89,10 @@ class ResidualAxisStats:
     bad_pair_balance: int = 0
     residual_survivors: int = 0
     terminal_failure_counts: Counter[str] = field(default_factory=Counter)
+    certificate_kind_counts: Counter[str] = field(default_factory=Counter)
     terminal_family_keys: CappedCounter | None = None
     terminal_template_keys: CappedCounter | None = None
+    certificate_template_keys: CappedCounter | None = None
     residual_signatures: CappedCounter | None = None
     terminal_by_reduced_shadow: CappedCounter | None = None
     terminal_by_axis: CappedCounter | None = None
@@ -101,6 +103,8 @@ class ResidualAxisStats:
             self.terminal_family_keys = CappedCounter(self.max_distinct)
         if self.terminal_template_keys is None:
             self.terminal_template_keys = CappedCounter(self.max_distinct)
+        if self.certificate_template_keys is None:
+            self.certificate_template_keys = CappedCounter(self.max_distinct)
         if self.residual_signatures is None:
             self.residual_signatures = CappedCounter(self.max_distinct)
         if self.terminal_by_reduced_shadow is None:
@@ -126,13 +130,16 @@ class ResidualAxisStats:
         self.bad_pair_balance += other.bad_pair_balance
         self.residual_survivors += other.residual_survivors
         self.terminal_failure_counts.update(other.terminal_failure_counts)
+        self.certificate_kind_counts.update(other.certificate_kind_counts)
         assert self.terminal_family_keys is not None and other.terminal_family_keys is not None
         assert self.terminal_template_keys is not None and other.terminal_template_keys is not None
+        assert self.certificate_template_keys is not None and other.certificate_template_keys is not None
         assert self.residual_signatures is not None and other.residual_signatures is not None
         assert self.terminal_by_reduced_shadow is not None and other.terminal_by_reduced_shadow is not None
         assert self.terminal_by_axis is not None and other.terminal_by_axis is not None
         self.terminal_family_keys.merge(other.terminal_family_keys)
         self.terminal_template_keys.merge(other.terminal_template_keys)
+        self.certificate_template_keys.merge(other.certificate_template_keys)
         self.residual_signatures.merge(other.residual_signatures)
         self.terminal_by_reduced_shadow.merge(other.terminal_by_reduced_shadow)
         self.terminal_by_axis.merge(other.terminal_by_axis)
@@ -143,6 +150,7 @@ class ResidualAxisStats:
     def payload(self, *, elapsed_seconds: float, jobs: int, top: int) -> dict[str, Any]:
         assert self.terminal_family_keys is not None
         assert self.terminal_template_keys is not None
+        assert self.certificate_template_keys is not None
         assert self.residual_signatures is not None
         assert self.terminal_by_reduced_shadow is not None
         assert self.terminal_by_axis is not None
@@ -169,13 +177,27 @@ class ResidualAxisStats:
                 "residual_survivors": self.residual_survivors,
             },
             "terminal_failure_counts": dict(sorted(self.terminal_failure_counts.items())),
+            "certificate_kind_counts": dict(sorted(self.certificate_kind_counts.items())),
             "terminal_family_keys": self.terminal_family_keys.payload(top=top),
             "terminal_template_keys": self.terminal_template_keys.payload(top=top),
+            "certificate_template_keys": self.certificate_template_keys.payload(top=top),
             "residual_signatures": self.residual_signatures.payload(top=top),
             "terminal_by_reduced_shadow": self.terminal_by_reduced_shadow.payload(top=top),
             "terminal_by_axis": self.terminal_by_axis.payload(top=top),
             "samples": self.samples,
         }
+
+
+def certificate_kind_for_failure(failure: str) -> str:
+    if failure == "axis_misses_start_interior":
+        return "AxisStartViolationCert"
+    if failure == "first_hit_mismatch":
+        return "OpenSegmentViolationCert"
+    if failure == "hit_tie":
+        return "PreImpactPointViolationCert"
+    if failure in {"hit_interior_failure", "no_future_hit"}:
+        return "PreImpactPointViolationCert"
+    return f"unmapped:{failure}"
 
 
 def coarse_terminal_template_key(failure: str, details: dict[str, Any]) -> str:
@@ -304,13 +326,18 @@ def classify_leaf(
     )
     stats.residual_survivors += 1
     stats.terminal_failure_counts[failure] += 1
+    cert_kind = certificate_kind_for_failure(failure)
+    stats.certificate_kind_counts[cert_kind] += 1
     assert stats.terminal_family_keys is not None
     assert stats.terminal_template_keys is not None
+    assert stats.certificate_template_keys is not None
     assert stats.residual_signatures is not None
     assert stats.terminal_by_reduced_shadow is not None
     assert stats.terminal_by_axis is not None
     stats.terminal_family_keys.add(family_key)
-    stats.terminal_template_keys.add(coarse_terminal_template_key(failure, failure_details))
+    template_key = coarse_terminal_template_key(failure, failure_details)
+    stats.terminal_template_keys.add(template_key)
+    stats.certificate_template_keys.add(f"{cert_kind}|{template_key}")
     stats.residual_signatures.add(
         f"residual|reduced={reduced_key}|axis={oriented_axis_key}"
         f"|signs={details['forced_signs']}|failure={failure}"
@@ -325,6 +352,7 @@ def classify_leaf(
         "forced_signs": details["forced_signs"],
         "forced_seq": forced_seq,
         "failure": failure,
+        "certificate_kind": cert_kind,
         "family_key": family_key,
         "failure_details": failure_details,
     })
@@ -475,10 +503,20 @@ def render_markdown(payload: dict[str, Any]) -> str:
     ])
     for key, value in payload["terminal_failure_counts"].items():
         lines.append(f"| `{key}` | `{value:,}` |")
+    lines.extend([
+        "",
+        "## Local Certificate Kinds",
+        "",
+        "| Certificate Kind | Count |",
+        "| --- | ---: |",
+    ])
+    for key, value in payload["certificate_kind_counts"].items():
+        lines.append(f"| `{key}` | `{value:,}` |")
 
     for section in [
         "terminal_family_keys",
         "terminal_template_keys",
+        "certificate_template_keys",
         "residual_signatures",
         "terminal_by_reduced_shadow",
         "terminal_by_axis",

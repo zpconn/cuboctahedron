@@ -1,5 +1,137 @@
 {
   "arithmetic": "exact Fraction/integer arithmetic; no floating point",
+  "certificate_kind_counts": {
+    "AxisStartViolationCert": 8775,
+    "OpenSegmentViolationCert": 251,
+    "PreImpactPointViolationCert": 10
+  },
+  "certificate_template_keys": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 32,
+    "top": [
+      {
+        "count": 8532,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=yp"
+      },
+      {
+        "count": 243,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=tpmm"
+      },
+      {
+        "count": 39,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=zp|actualBeforeExpected"
+      },
+      {
+        "count": 34,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=zm|actualBeforeExpected"
+      },
+      {
+        "count": 32,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=ym|actualBeforeExpected"
+      },
+      {
+        "count": 31,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=yp|actualBeforeExpected"
+      },
+      {
+        "count": 12,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tpmp|actualBeforeExpected"
+      },
+      {
+        "count": 12,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tppm|actualBeforeExpected"
+      },
+      {
+        "count": 11,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tpmm|actualBeforeExpected"
+      },
+      {
+        "count": 10,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tmpp|actualBeforeExpected"
+      },
+      {
+        "count": 9,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tmmp|actualBeforeExpected"
+      },
+      {
+        "count": 9,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tmpm|actualBeforeExpected"
+      },
+      {
+        "count": 9,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tppp|actualBeforeExpected"
+      },
+      {
+        "count": 9,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=1|expected=yp|actual=xp|actualBeforeExpected"
+      },
+      {
+        "count": 8,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tmmm|actualBeforeExpected"
+      },
+      {
+        "count": 8,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=1|expected=ym|actual=xp|actualBeforeExpected"
+      },
+      {
+        "count": 3,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=1|expected=yp|actual=tppp|actualBeforeExpected"
+      },
+      {
+        "count": 3,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=1|expected=ym|actual=tpmp|actualBeforeExpected"
+      },
+      {
+        "count": 3,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=1|expected=ym|actual=tpmm|actualBeforeExpected"
+      },
+      {
+        "count": 2,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=1|expected=yp|actual=tppm|actualBeforeExpected"
+      },
+      {
+        "count": 2,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=2|expected=yp|actual=xp|actualBeforeExpected"
+      },
+      {
+        "count": 2,
+        "key": "PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tmmm,xm"
+      },
+      {
+        "count": 2,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=2|expected=ym|actual=xp|actualBeforeExpected"
+      },
+      {
+        "count": 2,
+        "key": "PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tmmp,xm"
+      },
+      {
+        "count": 2,
+        "key": "PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tmpp,xm"
+      },
+      {
+        "count": 1,
+        "key": "PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tppp,yp"
+      },
+      {
+        "count": 1,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=2|expected=yp|actual=tpmm|actualBeforeExpected"
+      },
+      {
+        "count": 1,
+        "key": "PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tpmp,ym"
+      },
+      {
+        "count": 1,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=2|expected=yp|actual=tpmp|actualBeforeExpected"
+      },
+      {
+        "count": 1,
+        "key": "PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tppm,yp"
+      }
+    ]
+  },
   "counts": {
     "bad_pair_balance": 24364,
     "exact_identity": 5565,
@@ -12,7 +144,7 @@
     "shadow_linear_mismatches": 0,
     "shadow_nonidentity": 94435
   },
-  "elapsed_seconds": 8.482157945632935,
+  "elapsed_seconds": 8.592220783233643,
   "end": 100000,
   "jobs": 4,
   "mode": "nonidentity-residual-axis-profile",
@@ -148,6 +280,7 @@
     "terminal_axis_misses_start_interior": [
       {
         "axis": "-1,-3,1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "ym",
@@ -180,6 +313,7 @@
       },
       {
         "axis": "-3,-1,-1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "tppm",
@@ -212,6 +346,7 @@
       },
       {
         "axis": "-1/3,1/3,-1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "yp",
@@ -244,6 +379,7 @@
       },
       {
         "axis": "-3,-1,-1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "tpmp",
@@ -276,6 +412,7 @@
       },
       {
         "axis": "-1/3,1/3,-1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "zm",
@@ -310,6 +447,7 @@
     "terminal_first_hit_mismatch": [
       {
         "axis": "-11/15,-8/15,1",
+        "certificate_kind": "OpenSegmentViolationCert",
         "failure": "first_hit_mismatch",
         "failure_details": {
           "actual": "zp",
@@ -343,6 +481,7 @@
       },
       {
         "axis": "-11/8,15/8,-1",
+        "certificate_kind": "OpenSegmentViolationCert",
         "failure": "first_hit_mismatch",
         "failure_details": {
           "actual": "yp",
@@ -376,6 +515,7 @@
       },
       {
         "axis": "-3,5/2,-1",
+        "certificate_kind": "OpenSegmentViolationCert",
         "failure": "first_hit_mismatch",
         "failure_details": {
           "actual": "yp",
@@ -409,6 +549,7 @@
       },
       {
         "axis": "-13/4,15/4,-1",
+        "certificate_kind": "OpenSegmentViolationCert",
         "failure": "first_hit_mismatch",
         "failure_details": {
           "actual": "yp",
@@ -442,6 +583,7 @@
       },
       {
         "axis": "-6/5,-2/5,1",
+        "certificate_kind": "OpenSegmentViolationCert",
         "failure": "first_hit_mismatch",
         "failure_details": {
           "actual": "zp",
@@ -477,6 +619,7 @@
     "terminal_hit_tie": [
       {
         "axis": "-1,3,-1",
+        "certificate_kind": "PreImpactPointViolationCert",
         "failure": "hit_tie",
         "failure_details": {
           "actual": [
@@ -511,6 +654,7 @@
       },
       {
         "axis": "-3,-1,-1",
+        "certificate_kind": "PreImpactPointViolationCert",
         "failure": "hit_tie",
         "failure_details": {
           "actual": [
@@ -545,6 +689,7 @@
       },
       {
         "axis": "-3,-1,-1",
+        "certificate_kind": "PreImpactPointViolationCert",
         "failure": "hit_tie",
         "failure_details": {
           "actual": [
@@ -579,6 +724,7 @@
       },
       {
         "axis": "-1,-3,-1",
+        "certificate_kind": "PreImpactPointViolationCert",
         "failure": "hit_tie",
         "failure_details": {
           "actual": [
@@ -613,6 +759,7 @@
       },
       {
         "axis": "-3,-1,1",
+        "certificate_kind": "PreImpactPointViolationCert",
         "failure": "hit_tie",
         "failure_details": {
           "actual": [

@@ -36,15 +36,15 @@ point tolerances.
 
 ## Calibration Runs
 
-| range | jobs | scanned | nonidentity | mismatches | forced zero | bad balance | residual survivors | terminal failures | exact keys | template keys | residual signatures | elapsed | max RSS |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: |
-| `[0,100)` | 1 | 100 | 70 | 0 | 52 | 0 | 6 | start-interior: 6 | 4 | 2 | 6 | 0.022s | n/a |
-| `[0,10000)` | 4 | 10,000 | 9,288 | 0 | 5,601 | 2,078 | 1,014 | start-interior: 966; first-hit: 48 | 342 | 11 | 862 | 1.126s | 24,680 kB |
-| `[0,100000)` | 4 | 100,000 | 94,435 | 0 | 54,794 | 24,364 | 9,036 | start-interior: 8,775; first-hit: 251; tie: 10 | 1,663 | 32 | 6,330 | 8.516s | 28,192 kB |
-| `[10000000,10100000)` | 4 | 100,000 | 96,722 | 0 | 57,652 | 26,682 | 4,143 | start-interior: 3,952; first-hit: 187; tie: 4 | 972 | 37 | 3,258 | 8.937s | 26,280 kB |
-| `[30000000,30100000)` | 4 | 100,000 | 98,072 | 0 | 62,683 | 23,857 | 961 | start-interior: 922; first-hit: 39 | 714 | 13 | 646 | 7.326s | 24,736 kB |
-| `[60000000,60100000)` | 4 | 100,000 | 98,580 | 0 | 73,573 | 19,573 | 1,471 | start-interior: 1,444; first-hit: 27 | 629 | 10 | 680 | 7.020s | 24,736 kB |
-| `[90000000,90100000)` | 4 | 100,000 | 98,971 | 0 | 52,135 | 36,342 | 2,251 | start-interior: 2,200; first-hit: 44; tie: 7 | 779 | 9 | 970 | 7.934s | 24,736 kB |
+| range | jobs | scanned | nonidentity | mismatches | forced zero | bad balance | residual survivors | terminal failures | exact keys | template keys | cert-template keys | residual signatures | elapsed | max RSS |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `[0,100)` | 1 | 100 | 70 | 0 | 52 | 0 | 6 | start-interior: 6 | 4 | 2 | 2 | 6 | 0.022s | n/a |
+| `[0,10000)` | 4 | 10,000 | 9,288 | 0 | 5,601 | 2,078 | 1,014 | start-interior: 966; first-hit: 48 | 342 | 11 | 11 | 862 | 1.126s | 24,680 kB |
+| `[0,100000)` | 4 | 100,000 | 94,435 | 0 | 54,794 | 24,364 | 9,036 | start-interior: 8,775; first-hit: 251; tie: 10 | 1,663 | 32 | 32 | 6,330 | 8.592s | 28,192 kB |
+| `[10000000,10100000)` | 4 | 100,000 | 96,722 | 0 | 57,652 | 26,682 | 4,143 | start-interior: 3,952; first-hit: 187; tie: 4 | 972 | 37 | 37 | 3,258 | 8.972s | 26,280 kB |
+| `[30000000,30100000)` | 4 | 100,000 | 98,072 | 0 | 62,683 | 23,857 | 961 | start-interior: 922; first-hit: 39 | 714 | 13 | 13 | 646 | 7.272s | 24,736 kB |
+| `[60000000,60100000)` | 4 | 100,000 | 98,580 | 0 | 73,573 | 19,573 | 1,471 | start-interior: 1,444; first-hit: 27 | 629 | 10 | 10 | 680 | 7.078s | 24,736 kB |
+| `[90000000,90100000)` | 4 | 100,000 | 98,971 | 0 | 52,135 | 36,342 | 2,251 | start-interior: 2,200; first-hit: 44; tie: 7 | 779 | 9 | 9 | 970 | 7.934s | 24,736 kB |
 
 The residual terminal failures are highly concentrated by reason:
 
@@ -60,6 +60,28 @@ There are two different key granularities:
   fragment too much for direct Lean emission;
 - coarse terminal-template keys erase those exact margins and retain only the
   semantic theorem shape, such as the canonical bad face or first-hit relation.
+
+The current profiler also maps each terminal failure to the hand-written
+Lean local-certificate surface in
+`Cuboctahedron/Search/TerminalNonidentityTemplates.lean`:
+
+| range | `AxisStartViolationCert` | `OpenSegmentViolationCert` | `PreImpactPointViolationCert` | cert-template keys |
+| --- | ---: | ---: | ---: | ---: |
+| `[0,100)` | 6 | 0 | 0 | 2 |
+| `[0,10000)` | 966 | 48 | 0 | 11 |
+| `[0,100000)` | 8,775 | 251 | 10 | 32 |
+| `[10000000,10100000)` | 3,952 | 187 | 4 | 37 |
+| `[30000000,30100000)` | 922 | 39 | 0 | 13 |
+| `[60000000,60100000)` | 1,444 | 27 | 0 | 10 |
+| `[90000000,90100000)` | 2,200 | 44 | 7 | 9 |
+
+This is a useful checkpoint: every observed terminal bucket now lands on one
+of the semantic certificate structures already available in Lean.  The
+certificate-template key count matches the coarse terminal-template key count
+on these windows because the certificate kind is determined by the terminal
+failure kind.  It is still not final generated coverage; the remaining work is
+to estimate and then emit reusable local fact leaves without falling back to
+ordinary `NonIdCert` replay or exact-margin singleton families.
 
 The first 100k ranks produce `1,663` exact terminal-family keys and `6,330`
 residual signatures from `9,036` residual survivors, so exact-margin keys are

@@ -37,6 +37,32 @@ This plan is intentionally gated. Gemini's estimated 200-900 leaves is a target,
   for small hand-written statements and Real bridge theorems, but it should
   not be the substrate for large generated kernel reductions.
 
+## Current Strategic Pivot
+
+The active route is the holonomy-normal-form strategy, not a repaired
+rank-interval backend.  The concrete invariant stack is:
+
+1. square parity and triangular shadow classify the linear holonomy;
+2. an empty reduced triangular shadow is exactly the translation branch;
+3. a nonempty reduced triangular shadow is exactly the nontranslation branch;
+4. forced-axis signs are a cheap necessary condition on the nontranslation
+   side;
+5. residual nontranslation cases must be covered by semantic axis-local
+   certificates or by signed-state empty-cone/Gordan pruning;
+6. translation generated evidence starts only after `GoodDirection`, then
+   compresses by cancellation-tree and projective integer row/source
+   signatures.
+
+This pivot incorporates the latest GPT/Gemini recommendation to treat every
+finite itinerary as a finite holonomy tube.  Lexicographic rank remains useful
+for `unrankPairWord` and final accounting, but it is not the
+proof-compression coordinate.  Track 1 is already past the requested
+validation gate: the full exact external profiler found `2,468,088` empty
+shadows and zero mismatches, and the Lean theorem
+`totalLinearOfPairWord_eq_identity_iff_reducedShadow_empty_of_valid` is in
+place.  Future steps should build from that theorem rather than regenerate
+rank-local evidence.
+
 ## Memory-Safe Parallelism Policy
 
 Use bounded parallelism whenever it is easy to implement and the measured
@@ -934,6 +960,46 @@ Terminal point/open-segment local-certificate checkpoint:
   `AxisStartViolationCert`, `PreImpactPointViolationCert`, and
   `OpenSegmentViolationCert` targets, with public roots exposing only semantic
   killed predicates.
+
+Residual local-certificate kind audit checkpoint:
+
+- Extended `scripts/nonidentity_residual_axis_profile.py` so every terminal
+  residual failure is mapped to the corresponding hand-written Lean local
+  certificate surface:
+
+  ```text
+  axis_misses_start_interior -> AxisStartViolationCert
+  first_hit_mismatch         -> OpenSegmentViolationCert
+  hit_tie                    -> PreImpactPointViolationCert
+  hit_interior_failure       -> PreImpactPointViolationCert
+  no_future_hit              -> PreImpactPointViolationCert
+  ```
+
+- The regenerated calibration artifacts now report both
+  `certificate_kind_counts` and `certificate_template_keys`.
+- Calibration summary:
+
+  ```text
+  [0,100):              AxisStart=6     OpenSegment=0    PreImpact=0   cert-template keys=2
+  [0,10000):            AxisStart=966   OpenSegment=48   PreImpact=0   cert-template keys=11
+  [0,100000):           AxisStart=8775  OpenSegment=251  PreImpact=10  cert-template keys=32
+  [10000000,10100000):  AxisStart=3952  OpenSegment=187  PreImpact=4   cert-template keys=37
+  [30000000,30100000):  AxisStart=922   OpenSegment=39   PreImpact=0   cert-template keys=13
+  [60000000,60100000):  AxisStart=1444  OpenSegment=27   PreImpact=0   cert-template keys=10
+  [90000000,90100000):  AxisStart=2200  OpenSegment=44   PreImpact=7   cert-template keys=9
+  ```
+
+- Accepted: every observed residual terminal bucket now lands on an existing
+  Lean semantic certificate structure, and the certificate-template key count
+  remains small in sampled windows.
+- Not yet accepted as full coverage: this is still a profiler
+  classification.  The next gate is an emission smoke over a tiny bounded
+  range that proves real local certificates end-to-end, followed by a
+  family-count profiler that estimates whether reusable local facts stay under
+  the low-thousands gate.
+- If that profiler fails the gate, signed-state empty-cone/Gordan pruning is
+  promoted from fallback to the primary nontranslation residual compression
+  tool before any large residual Lean generation.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

@@ -1,5 +1,23 @@
 {
   "arithmetic": "exact Fraction/integer arithmetic; no floating point",
+  "certificate_kind_counts": {
+    "AxisStartViolationCert": 6
+  },
+  "certificate_template_keys": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 2,
+    "top": [
+      {
+        "count": 4,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=yp"
+      },
+      {
+        "count": 2,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=tpmm"
+      }
+    ]
+  },
   "counts": {
     "bad_pair_balance": 0,
     "exact_identity": 30,
@@ -12,7 +30,7 @@
     "shadow_linear_mismatches": 0,
     "shadow_nonidentity": 70
   },
-  "elapsed_seconds": 0.02245354652404785,
+  "elapsed_seconds": 0.023149728775024414,
   "end": 100,
   "jobs": 1,
   "mode": "nonidentity-residual-axis-profile",
@@ -52,6 +70,7 @@
     "terminal_axis_misses_start_interior": [
       {
         "axis": "-1,-3,1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "ym",
@@ -84,6 +103,7 @@
       },
       {
         "axis": "-3,-1,-1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "tppm",
@@ -116,6 +136,7 @@
       },
       {
         "axis": "-1/3,1/3,-1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "yp",

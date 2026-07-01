@@ -1,5 +1,37 @@
 {
   "arithmetic": "exact Fraction/integer arithmetic; no floating point",
+  "certificate_kind_counts": {
+    "AxisStartViolationCert": 3952,
+    "OpenSegmentViolationCert": 187,
+    "PreImpactPointViolationCert": 4
+  },
+  "certificate_template_keys": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 37,
+    "top": [
+      {
+        "count": 3815,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=yp"
+      },
+      {
+        "count": 137,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=tpmm"
+      },
+      {
+        "count": 22,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=yp|actual=zp|actualBeforeExpected"
+      },
+      {
+        "count": 19,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=yp|actual=zm|actualBeforeExpected"
+      },
+      {
+        "count": 19,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=ym|actual=xm|actualBeforeExpected"
+      }
+    ]
+  },
   "counts": {
     "bad_pair_balance": 26682,
     "exact_identity": 3278,
@@ -12,7 +44,7 @@
     "shadow_linear_mismatches": 0,
     "shadow_nonidentity": 96722
   },
-  "elapsed_seconds": 7.936481475830078,
+  "elapsed_seconds": 8.026055097579956,
   "end": 10100000,
   "jobs": 4,
   "mode": "nonidentity-residual-axis-profile",
@@ -48,6 +80,7 @@
     "terminal_axis_misses_start_interior": [
       {
         "axis": "-35/17,4/17,-1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "yp",
@@ -82,6 +115,7 @@
     "terminal_first_hit_mismatch": [
       {
         "axis": "-27/25,16/25,-1",
+        "certificate_kind": "OpenSegmentViolationCert",
         "failure": "first_hit_mismatch",
         "failure_details": {
           "actual": "zm",
@@ -117,6 +151,7 @@
     "terminal_hit_tie": [
       {
         "axis": "-5/3,-4/3,1",
+        "certificate_kind": "PreImpactPointViolationCert",
         "failure": "hit_tie",
         "failure_details": {
           "actual": [

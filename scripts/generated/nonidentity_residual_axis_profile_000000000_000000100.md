@@ -3,7 +3,7 @@
 - Range: `[0, 100)`
 - Scanned pair words: `100`
 - Jobs: `1`
-- Elapsed seconds: `0.022`
+- Elapsed seconds: `0.023`
 - Arithmetic: exact Fraction/integer arithmetic; no floating point
 
 ## Counts
@@ -26,6 +26,12 @@
 | Failure | Count |
 | --- | ---: |
 | `axis_misses_start_interior` | `6` |
+
+## Local Certificate Kinds
+
+| Certificate Kind | Count |
+| --- | ---: |
+| `AxisStartViolationCert` | `6` |
 
 ## Terminal Family Keys
 
@@ -50,6 +56,17 @@
 | --- | ---: |
 | `axisMissesStartInterior|badFace=yp` | `4` |
 | `axisMissesStartInterior|badFace=tpmm` | `2` |
+
+## Certificate Template Keys
+
+- Exact distinct count stored: `True`
+- Stored distinct keys: `2`
+- Overflow cases: `0`
+
+| Key | Count |
+| --- | ---: |
+| `AxisStartViolationCert|axisMissesStartInterior|badFace=yp` | `4` |
+| `AxisStartViolationCert|axisMissesStartInterior|badFace=tpmm` | `2` |
 
 ## Residual Signatures
 

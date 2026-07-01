@@ -1,5 +1,37 @@
 {
   "arithmetic": "exact Fraction/integer arithmetic; no floating point",
+  "certificate_kind_counts": {
+    "AxisStartViolationCert": 2200,
+    "OpenSegmentViolationCert": 44,
+    "PreImpactPointViolationCert": 7
+  },
+  "certificate_template_keys": {
+    "exact": true,
+    "overflow_cases": 0,
+    "stored_distinct": 9,
+    "top": [
+      {
+        "count": 2131,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=yp"
+      },
+      {
+        "count": 69,
+        "key": "AxisStartViolationCert|axisMissesStartInterior|badFace=tpmm"
+      },
+      {
+        "count": 16,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=tmpp|actual=yp|actualBeforeExpected"
+      },
+      {
+        "count": 15,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=tmpp|actual=xm|actualBeforeExpected"
+      },
+      {
+        "count": 8,
+        "key": "OpenSegmentViolationCert|firstHitMismatch|step=0|expected=tmpp|actual=zm|actualBeforeExpected"
+      }
+    ]
+  },
   "counts": {
     "bad_pair_balance": 36342,
     "exact_identity": 1029,
@@ -12,7 +44,7 @@
     "shadow_linear_mismatches": 0,
     "shadow_nonidentity": 98971
   },
-  "elapsed_seconds": 6.700594902038574,
+  "elapsed_seconds": 6.863405227661133,
   "end": 90100000,
   "jobs": 4,
   "mode": "nonidentity-residual-axis-profile",
@@ -48,6 +80,7 @@
     "terminal_axis_misses_start_interior": [
       {
         "axis": "-20/33,-1/3,-1",
+        "certificate_kind": "AxisStartViolationCert",
         "failure": "axis_misses_start_interior",
         "failure_details": {
           "bad_face": "zp",
@@ -82,6 +115,7 @@
     "terminal_first_hit_mismatch": [
       {
         "axis": "-29/8,27/8,-1",
+        "certificate_kind": "OpenSegmentViolationCert",
         "failure": "first_hit_mismatch",
         "failure_details": {
           "actual": "yp",
@@ -117,6 +151,7 @@
     "terminal_hit_tie": [
       {
         "axis": "-2,1,0",
+        "certificate_kind": "PreImpactPointViolationCert",
         "failure": "hit_tie",
         "failure_details": {
           "actual": [

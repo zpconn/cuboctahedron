@@ -3,7 +3,7 @@
 - Range: `[0, 100,000)`
 - Scanned pair words: `100,000`
 - Jobs: `4`
-- Elapsed seconds: `8.482`
+- Elapsed seconds: `8.592`
 - Arithmetic: exact Fraction/integer arithmetic; no floating point
 
 ## Counts
@@ -28,6 +28,14 @@
 | `axis_misses_start_interior` | `8,775` |
 | `first_hit_mismatch` | `251` |
 | `hit_tie` | `10` |
+
+## Local Certificate Kinds
+
+| Certificate Kind | Count |
+| --- | ---: |
+| `AxisStartViolationCert` | `8,775` |
+| `OpenSegmentViolationCert` | `251` |
+| `PreImpactPointViolationCert` | `10` |
 
 ## Terminal Family Keys
 
@@ -106,6 +114,45 @@
 | `hitTie|step=0|expected=xm|actual=tpmp,ym` | `1` |
 | `firstHitMismatch|step=2|expected=yp|actual=tpmp|actualBeforeExpected` | `1` |
 | `hitTie|step=0|expected=xm|actual=tppm,yp` | `1` |
+
+## Certificate Template Keys
+
+- Exact distinct count stored: `True`
+- Stored distinct keys: `32`
+- Overflow cases: `0`
+
+| Key | Count |
+| --- | ---: |
+| `AxisStartViolationCert|axisMissesStartInterior|badFace=yp` | `8,532` |
+| `AxisStartViolationCert|axisMissesStartInterior|badFace=tpmm` | `243` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=zp|actualBeforeExpected` | `39` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=zm|actualBeforeExpected` | `34` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=ym|actualBeforeExpected` | `32` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=yp|actualBeforeExpected` | `31` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tpmp|actualBeforeExpected` | `12` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tppm|actualBeforeExpected` | `12` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tpmm|actualBeforeExpected` | `11` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tmpp|actualBeforeExpected` | `10` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tmmp|actualBeforeExpected` | `9` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tmpm|actualBeforeExpected` | `9` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tppp|actualBeforeExpected` | `9` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=1|expected=yp|actual=xp|actualBeforeExpected` | `9` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=xm|actual=tmmm|actualBeforeExpected` | `8` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=1|expected=ym|actual=xp|actualBeforeExpected` | `8` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=1|expected=yp|actual=tppp|actualBeforeExpected` | `3` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=1|expected=ym|actual=tpmp|actualBeforeExpected` | `3` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=1|expected=ym|actual=tpmm|actualBeforeExpected` | `3` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=1|expected=yp|actual=tppm|actualBeforeExpected` | `2` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=2|expected=yp|actual=xp|actualBeforeExpected` | `2` |
+| `PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tmmm,xm` | `2` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=2|expected=ym|actual=xp|actualBeforeExpected` | `2` |
+| `PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tmmp,xm` | `2` |
+| `PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tmpp,xm` | `2` |
+| `PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tppp,yp` | `1` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=2|expected=yp|actual=tpmm|actualBeforeExpected` | `1` |
+| `PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tpmp,ym` | `1` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=2|expected=yp|actual=tpmp|actualBeforeExpected` | `1` |
+| `PreImpactPointViolationCert|hitTie|step=0|expected=xm|actual=tppm,yp` | `1` |
 
 ## Residual Signatures
 

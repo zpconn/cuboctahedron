@@ -3,7 +3,7 @@
 - Range: `[30,000,000, 30,100,000)`
 - Scanned pair words: `100,000`
 - Jobs: `4`
-- Elapsed seconds: `6.017`
+- Elapsed seconds: `6.269`
 - Arithmetic: exact Fraction/integer arithmetic; no floating point
 
 ## Counts
@@ -27,6 +27,13 @@
 | --- | ---: |
 | `axis_misses_start_interior` | `922` |
 | `first_hit_mismatch` | `39` |
+
+## Local Certificate Kinds
+
+| Certificate Kind | Count |
+| --- | ---: |
+| `AxisStartViolationCert` | `922` |
+| `OpenSegmentViolationCert` | `39` |
 
 ## Terminal Family Keys
 
@@ -55,6 +62,20 @@
 | `firstHitMismatch|step=0|expected=zp|actual=tmpp|actualBeforeExpected` | `11` |
 | `firstHitMismatch|step=0|expected=zp|actual=xm|actualBeforeExpected` | `9` |
 | `firstHitMismatch|step=0|expected=zp|actual=yp|actualBeforeExpected` | `6` |
+
+## Certificate Template Keys
+
+- Exact distinct count stored: `True`
+- Stored distinct keys: `13`
+- Overflow cases: `0`
+
+| Key | Count |
+| --- | ---: |
+| `AxisStartViolationCert|axisMissesStartInterior|badFace=yp` | `872` |
+| `AxisStartViolationCert|axisMissesStartInterior|badFace=tpmm` | `50` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=zp|actual=tmpp|actualBeforeExpected` | `11` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=zp|actual=xm|actualBeforeExpected` | `9` |
+| `OpenSegmentViolationCert|firstHitMismatch|step=0|expected=zp|actual=yp|actualBeforeExpected` | `6` |
 
 ## Residual Signatures
 
