@@ -816,6 +816,43 @@ Nonidentity residual-axis checkpoint:
   6. require a new profiler to report a low-thousands-or-smaller semantic
      family count before any residual Lean generation.
 
+Terminal nonidentity theorem-schema checkpoint:
+
+- Added `Cuboctahedron/Search/TerminalNonidentityTemplates.lean`.
+- The module is hand-written, imports only the existing nonidentity axis
+  constraint surface, and contains no generated evidence.
+- It proves generic lemmas for the two immediate residual-template needs:
+
+  ```lean
+  theorem not_inFaceInterior_of_not_strict
+  theorem not_inFaceInterior_of_other_face_on_boundary
+  theorem not_PreImpactForwardAll_of_nonpositive
+  theorem no_nonidentity_axis_constraints_of_forced_start_violation
+  theorem no_nonidentity_axis_constraints_of_forced_direction_nonpositive
+  ```
+
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Search.TerminalNonidentityTemplates
+  ```
+
+  passed:
+
+  ```text
+  Built Cuboctahedron.Search.TerminalNonidentityTemplates (9.1s)
+  Build completed successfully
+  ```
+
+- Targeted forbidden-term scan on the new file found no `sorry`, `admit`,
+  `axiom`, `native_decide`, or `unsafe`.
+- Accepted: the dominant start-interior and forward-sign obstruction schemas
+  now have a Lean API.  Generated residual evidence should next target these
+  theorem shapes by proving small local facts: the forced affine-axis start
+  point, the forced direction, and a single non-strict copied-face inequality.
+- Not yet complete: first-hit mismatch and hit-tie templates still need their
+  own Lean schemas if they remain common after the local-certificate profiler.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
