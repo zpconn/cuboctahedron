@@ -1153,6 +1153,42 @@ Graph-path language checkpoint:
   that constructs a `BellmanGraphPath` from holonomy/cancellation state,
   rather than proving path structure and graph-edge membership separately.
 
+Labeled automaton checkpoint:
+
+- Added `BellmanLabeledGraphPath` to the Bellman core.  It extends
+  `BellmanGraphPath` with an input-label list, so generated word-language
+  proofs can track semantic labels while constructing the Bellman graph path.
+- Added `BellmanLabeledGraphLanguageTraceBound` and
+  `scaledMargin_nonpos_of_bellmanLabeledGraphLanguageTraceBound`.
+- Updated the graph emitter to instantiate the labeled theorem using
+  synthetic per-edge labels:
+
+  ```lean
+  private inductive SmokeLabel
+  private inductive SmokeEdgeLabel :
+      BellmanEdge State -> SmokeLabel -> Prop
+
+  theorem graphSmoke_labeled_trace_language_scaled_margin_nonpos :
+      forall trace : SmokeLabeledTrace,
+        smokeLabeledTraceAccepts trace ->
+          smokeLabeledTraceScaledMargin trace <= 0
+  ```
+
+- Focused builds passed:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.BellmanPotential
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Results: Bellman core `0:02.33` wall / `3,285,452 kB` max RSS; labeled
+  graph smoke `0:06.01` wall / `3,555,352 kB` max RSS.
+- Decision: accepted as the closest current theorem surface to a real
+  holonomy/cancellation word-language bridge.  The next bridge should replace
+  synthetic edge labels with semantic transition labels derived from the
+  top-family state key.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

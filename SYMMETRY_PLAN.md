@@ -2076,6 +2076,19 @@ Bellman profiler prototype checkpoint:
   bound, not a separate path proof plus edge-membership proof.  Focused builds
   passed: Bellman core in `0:02.46` wall time with `3,269,720 kB` max RSS,
   and the graph smoke in `0:04.57` wall time with `3,453,116 kB` max RSS.
+- Labeled automaton checkpoint: `Cuboctahedron.Search.BellmanPotential` now
+  also defines `BellmanLabeledGraphPath`,
+  `BellmanLabeledGraphLanguageTraceBound`, and
+  `scaledMargin_nonpos_of_bellmanLabeledGraphLanguageTraceBound`.  The graph
+  emitter instantiates these with synthetic per-edge labels as
+  `SmokeLabel`/`SmokeEdgeLabel`, proving
+  `graphSmoke_labeled_trace_language_scaled_margin_nonpos`.  This is still a
+  smoke, but it is the closest generic surface to the desired generated
+  word-language bridge: map cuboctahedron letters or semantic transition
+  labels to graph edges, prove a labeled run, then get the Bellman margin
+  bound.  Focused builds passed: Bellman core in `0:02.33` wall time with
+  `3,285,452 kB` max RSS, and the labeled graph smoke in `0:06.01` wall time
+  with `3,555,352 kB` max RSS.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

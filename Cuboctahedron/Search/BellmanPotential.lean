@@ -75,6 +75,38 @@ theorem edge_mem
 
 end BellmanGraphPath
 
+inductive BellmanLabeledGraphPath
+    {State Label : Type}
+    (GraphEdge : BellmanEdge State -> Prop)
+    (EdgeLabel : BellmanEdge State -> Label -> Prop) :
+    State -> State -> List Label -> List (BellmanEdge State) -> Prop
+  | nil (s : State) : BellmanLabeledGraphPath GraphEdge EdgeLabel s s [] []
+  | cons {s t u : State} {label : Label}
+      {labels : List Label} {e : BellmanEdge State} {edges : List (BellmanEdge State)}
+      (hsrc : e.src = s)
+      (hdst : e.dst = t)
+      (hgraph : GraphEdge e)
+      (hlabel : EdgeLabel e label)
+      (htail : BellmanLabeledGraphPath GraphEdge EdgeLabel t u labels edges) :
+      BellmanLabeledGraphPath GraphEdge EdgeLabel s u (label :: labels) (e :: edges)
+
+namespace BellmanLabeledGraphPath
+
+theorem toGraphPath
+    {State Label : Type}
+    {GraphEdge : BellmanEdge State -> Prop}
+    {EdgeLabel : BellmanEdge State -> Label -> Prop}
+    {start finish : State} {labels : List Label} {edges : List (BellmanEdge State)}
+    (hpath : BellmanLabeledGraphPath GraphEdge EdgeLabel start finish labels edges) :
+    BellmanGraphPath GraphEdge start finish edges := by
+  induction hpath with
+  | nil s =>
+      exact BellmanGraphPath.nil s
+  | cons hsrc hdst hgraph _hlabel _htail ih =>
+      exact BellmanGraphPath.cons hsrc hdst hgraph ih
+
+end BellmanLabeledGraphPath
+
 def bellmanGainSum {State : Type} : List (BellmanEdge State) -> Int
   | [] => 0
   | e :: edges => e.gain + bellmanGainSum edges
@@ -235,6 +267,54 @@ theorem scaledMargin_nonpos_of_bellmanGraphLanguageTraceBound
       (const := const)
       (BellmanGraphPath.toBellmanPath hpath)
       (fun e he => hvalid e (BellmanGraphPath.edge_mem hpath e he))
+      hfinish
+      hroot
+  linarith
+
+def BellmanLabeledGraphLanguageTraceBound
+    {State Label Obj : Type}
+    (V : State -> Int)
+    (GraphEdge : BellmanEdge State -> Prop)
+    (EdgeLabel : BellmanEdge State -> Label -> Prop)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Obj -> Int)
+    (wordOf : Obj -> List Label)
+    (Accepts : Obj -> Prop) : Prop :=
+  forall obj : Obj, Accepts obj -> exists finish edges,
+    BellmanLabeledGraphPath GraphEdge EdgeLabel start finish (wordOf obj) edges
+      /\ 0 <= V finish
+      /\ scaledMargin obj <= const + bellmanGainSum edges
+
+theorem scaledMargin_nonpos_of_bellmanLabeledGraphLanguageTraceBound
+    {State Label Obj : Type}
+    {V : State -> Int}
+    {GraphEdge : BellmanEdge State -> Prop}
+    {EdgeLabel : BellmanEdge State -> Label -> Prop}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Obj -> Int}
+    {wordOf : Obj -> List Label}
+    {Accepts : Obj -> Prop}
+    (hvalid : forall e, GraphEdge e -> e.Valid V)
+    (hroot : const + V start <= 0)
+    (htrace :
+      BellmanLabeledGraphLanguageTraceBound
+        V GraphEdge EdgeLabel start const scaledMargin wordOf Accepts) :
+    forall obj : Obj, Accepts obj -> scaledMargin obj <= 0 := by
+  intro obj hobj
+  rcases htrace obj hobj with ⟨finish, edges, hpath, hfinish, hmargin⟩
+  have hbound :
+      const + bellmanGainSum edges <= 0 :=
+    const_add_bellmanGainSum_nonpos_of_path
+      (V := V)
+      (const := const)
+      (BellmanGraphPath.toBellmanPath
+        (BellmanLabeledGraphPath.toGraphPath hpath))
+      (fun e he =>
+        hvalid e
+          (BellmanGraphPath.edge_mem
+            (BellmanLabeledGraphPath.toGraphPath hpath) e he))
       hfinish
       hroot
   linarith

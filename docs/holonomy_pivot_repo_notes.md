@@ -458,6 +458,15 @@ Top margin+cancellation-pairing checkpoint:
   builds passed for the core (`0:02.46`, `3,269,720 kB` RSS) and graph smoke
   (`0:04.57`, `3,453,116 kB` RSS).  This is the intended theorem surface for
   a future word-language-to-Bellman-automaton bridge.
+- Labeled automaton status: the Bellman core now also has
+  `BellmanLabeledGraphPath`,
+  `BellmanLabeledGraphLanguageTraceBound`, and
+  `scaledMargin_nonpos_of_bellmanLabeledGraphLanguageTraceBound`.  The
+  generated smoke instantiates these with synthetic edge labels and proves
+  `graphSmoke_labeled_trace_language_scaled_margin_nonpos`.  Focused build
+  passed in `0:06.01` wall time with `3,555,352 kB` max RSS.  This is the
+  bridge shape the real holonomy/cancellation word-language proof should
+  target: semantic labels -> graph edges -> labeled run -> margin bound.
 
 ## Explicit Non-Goals
 
