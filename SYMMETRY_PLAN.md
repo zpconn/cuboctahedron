@@ -57630,3 +57630,84 @@ finite closure proof from the closed-language trace fields to
 `BellmanEvalAccepts`, likely by enumerating the two accepted closed label words
 as semantic label traces and proving that any closed object has one of those
 two traces.
+
+Closed-trace evaluator Lean smoke:
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean`.
+- The file imports the generated deterministic graph base and the semantic
+  `TopPairingBellmanObj` layer, but does not introduce a sampled rank/path
+  object table.
+- It records the two closed traces discovered by the exact diagnostic and
+  proves:
+  - `closedTraceA_eval`;
+  - `closedTraceB_eval`;
+  - `graphPotential_601_nonneg`;
+  - `bellmanEvalAccepts_of_closedTraceA_or_closedTraceB`.
+- The last theorem is the intended production shape for the GPT5.5
+  recommendation: if a compact semantic object has labels equal to one of the
+  two closed traces and has the corresponding scaled-margin bound, then the
+  deterministic generated evaluator supplies `BellmanEvalAccepts`.  The object
+  is still `TopPairingBellmanObj badFace`, i.e. rank plus
+  `TopPairingClosedLanguageAtRank`; no `SampledRankIndex`,
+  `sampledContainsRank`, `sampledRankOf`, or `sampledSmokeNext` appears in this
+  module.
+
+Memory-guard validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_closed_eval_trace_smoke_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalTraceSmoke
+```
+
+Result: guarded stop, not an OOM.  The target crossed the deliberately tight
+cap while replaying imports:
+
+```text
+exit = 137
+peak_tree_rss = 4559 MiB
+```
+
+Retried with a still-safe cap:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_closed_eval_trace_smoke_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalTraceSmoke
+```
+
+Result:
+
+```text
+passed
+peak_tree_rss = 4131.7 MiB
+elapsed = 3.00s
+```
+
+Decision: continue Bellman for the semantic-membership experiment.  The
+potential and graph evaluator are not the blocker.  The remaining production
+obligations are now isolated as two semantic theorems, not sampled data:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  TopPairingBellmanObj.labels smokeLabelOfFace obj = closedTraceA \/
+    TopPairingBellmanObj.labels smokeLabelOfFace obj = closedTraceB
+```
+
+and
+
+```lean
+scaledMargin obj.rank <= (176 : Int) + (-376 : Int)
+```
+
+for the corresponding closed top-pairing family.  If either theorem requires a
+`SampledRankIndex` or one branch per rank/path, stop this Bellman route and
+replace the current closed-language predicate with a stronger
+cancellation-tree/evaluator semantic object.

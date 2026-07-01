@@ -265,6 +265,7 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
         "prefix_graph_rejects": 0,
     }
     first_rejections: list[dict[str, object]] = []
+    first_accepted: list[dict[str, object]] = []
 
     def dfs(
         step: int,
@@ -297,6 +298,14 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
                     )
             else:
                 stats["accepted"] += 1
+                if len(first_accepted) < args.max_examples:
+                    first_accepted.append(
+                        {
+                            "labels": labels.copy(),
+                            "final_state": graph_state,
+                            "gain": graph_gain,
+                        }
+                    )
             return
 
         for face in ALLOWED_AT_STEP[step]:
@@ -385,6 +394,7 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
         "base": args.base.relative_to(ROOT).as_posix(),
         "decision": decision,
         "stats": stats,
+        "first_accepted": first_accepted,
         "first_rejections": first_rejections,
         "limits": {
             "max_nodes": args.max_nodes,
@@ -411,6 +421,13 @@ def write_markdown(report: dict[str, object], path: Path) -> None:
     for key, value in stats.items():  # type: ignore[union-attr]
         lines.append(f"- `{key}`: `{value}`")
     rejections = report["first_rejections"]  # type: ignore[index]
+    accepted = report["first_accepted"]  # type: ignore[index]
+    if accepted:
+        lines.extend(["", "## First Accepted", ""])
+        for item in accepted:
+            lines.append("```json")
+            lines.append(json.dumps(item, indent=2))
+            lines.append("```")
     if rejections:
         lines.extend(["", "## First Rejections", ""])
         for item in rejections:

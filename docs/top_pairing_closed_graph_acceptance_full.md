@@ -14,3 +14,50 @@ generated deterministic Bellman graph accepts every such label word.
 - `accepted`: `2`
 - `rejected`: `0`
 - `prefix_graph_rejects`: `197`
+
+## First Accepted
+
+```json
+{
+  "labels": [
+    "xm",
+    "ym",
+    "zm",
+    "tmpp",
+    "tppp",
+    "tpmp",
+    "tppm",
+    "tmmp",
+    "tpmm",
+    "tmmm",
+    "tmpm",
+    "yp",
+    "zp",
+    "xp"
+  ],
+  "final_state": 601,
+  "gain": -376
+}
+```
+```json
+{
+  "labels": [
+    "xm",
+    "ym",
+    "zm",
+    "tmpp",
+    "tppp",
+    "tpmp",
+    "tppm",
+    "tmmp",
+    "tpmm",
+    "tmmm",
+    "tmpm",
+    "zp",
+    "yp",
+    "xp"
+  ],
+  "final_state": 601,
+  "gain": -376
+}
+```

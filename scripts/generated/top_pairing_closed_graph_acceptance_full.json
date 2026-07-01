@@ -1,6 +1,48 @@
 {
   "base": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Base.lean",
   "decision": "closed-components-all-accepted",
+  "first_accepted": [
+    {
+      "final_state": 601,
+      "gain": -376,
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "yp",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 601,
+      "gain": -376,
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "zp",
+        "yp",
+        "xp"
+      ]
+    }
+  ],
   "first_rejections": [],
   "limits": {
     "max_examples": 5,
