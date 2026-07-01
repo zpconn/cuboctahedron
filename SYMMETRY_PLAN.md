@@ -189,6 +189,41 @@ through an equally strict target-specific wrapper.  If an `8192 MiB`
 address-space cap causes a false failure, treat that as a signal to make the
 target smaller before considering any cap adjustment.
 
+Follow-up: `lake build` itself is not the right runner under the hard
+address-space cap for this Bellman target.  With `RLIMIT_AS = 8192 MiB`, the
+Lake build path failed safely with Lean's `failed to create thread` exception:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_cancellation_8g_as.json
+```
+
+before the wrapper was changed to direct Lean.  The recorded guard summary was
+`exit=-6`, elapsed `23.02s`, peak RSS `770.11 MiB`, hard-AS `8192 MiB`, and
+minimum available memory `46505.08 MiB`.  Decision: reject `lake build` as the
+default hard-capped Bellman smoke runner for now.
+
+The accepted runner is direct Lean checking through Lake's environment:
+
+```bash
+lake env lean -M 6000 -j1 -s 2048 \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean
+```
+
+wrapped by `scripts/run_memory_guarded.py` with the same `6000 MiB` RSS cap,
+`8192 MiB` hard-AS cap, `24576 MiB` availability floor, and `60s` timeout.
+`scripts/run_bellman_safe_smoke.py` now defaults to this direct-Lean runner.
+The accepted wrapper run:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_cancellation_direct_8g_as.json
+```
+
+passed in `5.01s`, with `4002.89 MiB` peak process-tree RSS and
+`46143.72 MiB` minimum available memory.
+
 ## Success Criteria
 
 1. Dry-run compression profiler reports:

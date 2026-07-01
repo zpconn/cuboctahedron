@@ -463,6 +463,17 @@ def emit_bad_face(name: str, bad_face: str) -> list[str]:
     ]
 
 
+def emit_top_pairing_language_at_rank(name: str) -> list[str]:
+    return [
+        f"private theorem {name}TopPairingLanguageAtRank :",
+        f"    TopPairingLanguageAtRank {name}Rank := by",
+        "  unfold TopPairingLanguageAtRank triangularCancellationSummaryOfPairWord",
+        f"  rw [{name}ForcedSeq_unrank_pairword]",
+        "  rfl",
+        "",
+    ]
+
+
 def emit_module(
     namespace: str,
     name: str,
@@ -521,6 +532,7 @@ def emit_module(
     lines.extend(emit_forced_sequence(name, faces))
     if selected_rank is not None:
         lines.extend(emit_rank_match(name, selected_rank))
+        lines.extend(emit_top_pairing_language_at_rank(name))
     if selected_bad_face is not None:
         lines.extend(emit_bad_face(name, selected_bad_face))
     if concrete_local_axis:
@@ -833,6 +845,20 @@ def emit_module(
                         "",
                     ]
                 )
+                if selected_rank is not None:
+                    lines.extend(
+                        [
+                            f"theorem {name}ClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation",
+                            "    {seq : Step14 -> Face}",
+                            "    (pairSign :",
+                            f"      PairSignLanguageAtRank {name}Rank {name}ForcedSeq seq) :",
+                            f"    TopPairingClosedLanguageForSeq {name}Rank seq {face_ctor(selected_bad_face)} :=",
+                            f"  {name}ClosedLanguageForSeqOfGeneratedRankPairSignBadFace",
+                            "    pairSign",
+                            f"    {name}TopPairingLanguageAtRank",
+                            "",
+                        ]
+                    )
     lines.extend(
         [
             f"theorem {name}GeneratedTraceSmoke_builds : True := by",

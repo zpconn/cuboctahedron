@@ -3186,3 +3186,63 @@ Generated canonical bad-face checkpoint:
   RSS polling cap, `24576 MiB` available-memory floor, and `60s` timeout.
   The hard-cap wrapper was validated only with `py_compile`, a dry-run, and a
   tiny `python3 -c` child; no post-crash Lean run has been launched yet.
+
+Generated cancellation/top-pairing membership checkpoint:
+
+- The generated shard now proves the selected rank belongs to the top-pairing
+  cancellation language:
+
+  ```lean
+  generatedTopPairingLanguageAtRank :
+    TopPairingLanguageAtRank generatedRank
+  ```
+
+  The proof is a small definitional equality after rewriting
+  `unrankPairWord generatedRank` to `pairWordOfSeq generatedForcedSeq`; it
+  does not import the heavy axis-forces stack.
+
+- The shard exports the sharper theorem:
+
+  ```lean
+  generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation
+  ```
+
+  whose only remaining assumption is now:
+
+  ```text
+  PairSignLanguageAtRank generatedRank generatedForcedSeq seq
+  ```
+
+- The first attempt to validate this through the hard-capped `lake build`
+  runner failed safely with Lean's `failed to create thread` exception under
+  `RLIMIT_AS = 8192 MiB`:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_cancellation_8g_as.json
+  ```
+
+  Guard summary: exit `-6`, elapsed `23.02s`, `770.11 MiB` peak RSS,
+  hard-AS `8192 MiB`, and `46505.08 MiB` minimum available memory.  This is
+  treated as a rejected runner configuration, not as a mathematical failure.
+
+- `scripts/run_bellman_safe_smoke.py` now defaults to direct Lean checking:
+
+  ```bash
+  lake env lean -M 6000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean
+  ```
+
+  under the same external RSS, hard-AS, availability, and timeout guard.
+
+- Accepted validation command:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_cancellation_direct_8g_as.json
+  ```
+
+  Result: passed in `5.01s`, with `4002.89 MiB` peak process-tree RSS,
+  `8192 MiB` hard address-space cap, and `46143.72 MiB` minimum available
+  memory.

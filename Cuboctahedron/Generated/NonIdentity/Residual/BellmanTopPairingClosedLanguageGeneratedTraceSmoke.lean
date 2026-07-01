@@ -273,6 +273,12 @@ private theorem generatedForcedSeq_matches_unrank :
   rw [generatedForcedSeq_unrank_pairword]
   exact pairWordOfSeq_matches generatedForcedSeq
 
+private theorem generatedTopPairingLanguageAtRank :
+    TopPairingLanguageAtRank generatedRank := by
+  unfold TopPairingLanguageAtRank triangularCancellationSummaryOfPairWord
+  rw [generatedForcedSeq_unrank_pairword]
+  rfl
+
 private theorem generatedCanonicalBadFaceCompatible :
     TopPairingCanonicalBadFaceCompatible Face.ym := by
   rfl
@@ -877,6 +883,15 @@ theorem generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFace
     pairSign
     cancellation
     generatedCanonicalBadFaceCompatible
+
+theorem generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation
+    {seq : Step14 -> Face}
+    (pairSign :
+      PairSignLanguageAtRank generatedRank generatedForcedSeq seq) :
+    TopPairingClosedLanguageForSeq generatedRank seq Face.ym :=
+  generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFace
+    pairSign
+    generatedTopPairingLanguageAtRank
 
 theorem generatedGeneratedTraceSmoke_builds : True := by
   exact True.intro

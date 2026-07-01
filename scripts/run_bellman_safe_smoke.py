@@ -27,12 +27,22 @@ MIN_AVAILABLE_FLOOR_MIB = 24_576.0
 DEFAULT_TIMEOUT_SECONDS = 60.0
 MAX_TIMEOUT_SECONDS = 60.0
 DEFAULT_POLL_SECONDS = 0.5
+DEFAULT_LEAN_MEMORY_MIB = 6_000
+MAX_LEAN_MEMORY_MIB = 6_000
+DEFAULT_LEAN_THREADS = 1
+MAX_LEAN_THREADS = 1
+DEFAULT_LEAN_TSTACK_KIB = 2_048
+MAX_LEAN_TSTACK_KIB = 4_096
 
 TARGETS = {
     "generated-trace": {
         "module": (
             "Cuboctahedron.Generated.NonIdentity.Residual."
             "BellmanTopPairingClosedLanguageGeneratedTraceSmoke"
+        ),
+        "path": (
+            "Cuboctahedron/Generated/NonIdentity/Residual/"
+            "BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean"
         ),
         "description": "standalone generated Bellman closed-language trace shard",
     },
@@ -105,6 +115,34 @@ def parse_args() -> argparse.Namespace:
         help="Guard polling interval.",
     )
     parser.add_argument(
+        "--runner",
+        choices=["direct-lean", "lake-build"],
+        default="direct-lean",
+        help=(
+            "Use direct Lean checking by default. `lake-build` is retained for "
+            "diagnostics but failed under the hard address-space cap on this "
+            "target due thread reservation."
+        ),
+    )
+    parser.add_argument(
+        "--lean-memory-mib",
+        type=int,
+        default=DEFAULT_LEAN_MEMORY_MIB,
+        help=f"Lean -M memory cap. Must be <= {MAX_LEAN_MEMORY_MIB}.",
+    )
+    parser.add_argument(
+        "--lean-threads",
+        type=int,
+        default=DEFAULT_LEAN_THREADS,
+        help=f"Lean -j thread count. Must be <= {MAX_LEAN_THREADS}.",
+    )
+    parser.add_argument(
+        "--lean-tstack-kib",
+        type=int,
+        default=DEFAULT_LEAN_TSTACK_KIB,
+        help=f"Lean -s thread stack size. Must be <= {MAX_LEAN_TSTACK_KIB}.",
+    )
+    parser.add_argument(
         "--json",
         type=Path,
         default=None,
@@ -140,6 +178,18 @@ def reject_if_not_strict(args: argparse.Namespace) -> None:
             f"--timeout-seconds {args.timeout_seconds:g} exceeds "
             f"{MAX_TIMEOUT_SECONDS:g}"
         )
+    if args.lean_memory_mib <= 0 or args.lean_memory_mib > MAX_LEAN_MEMORY_MIB:
+        errors.append(
+            f"--lean-memory-mib {args.lean_memory_mib} must be in 1..{MAX_LEAN_MEMORY_MIB}"
+        )
+    if args.lean_threads <= 0 or args.lean_threads > MAX_LEAN_THREADS:
+        errors.append(
+            f"--lean-threads {args.lean_threads} must be in 1..{MAX_LEAN_THREADS}"
+        )
+    if args.lean_tstack_kib <= 0 or args.lean_tstack_kib > MAX_LEAN_TSTACK_KIB:
+        errors.append(
+            f"--lean-tstack-kib {args.lean_tstack_kib} must be in 1..{MAX_LEAN_TSTACK_KIB}"
+        )
     available = read_mem_available_mib()
     if available is not None and available < args.min_available_mib:
         errors.append(
@@ -166,6 +216,24 @@ def main() -> int:
 
     target = TARGETS[args.target]
     guard_json = args.json if args.json is not None else default_json_path(args.target)
+    if args.runner == "direct-lean":
+        checked_command = [
+            "lake",
+            "env",
+            "lean",
+            "-M",
+            str(args.lean_memory_mib),
+            "-j" + str(args.lean_threads),
+            "-s",
+            str(args.lean_tstack_kib),
+            target["path"],
+        ]
+    else:
+        checked_command = [
+            "lake",
+            "build",
+            target["module"],
+        ]
     command = [
         sys.executable,
         "scripts/run_memory_guarded.py",
@@ -182,9 +250,7 @@ def main() -> int:
         "--json",
         str(guard_json),
         "--",
-        "lake",
-        "build",
-        target["module"],
+        *checked_command,
     ]
     wrapper_json = guard_json.with_suffix(".wrapper.json")
     write_wrapper_json(
@@ -193,12 +259,17 @@ def main() -> int:
             "target": args.target,
             "description": target["description"],
             "module": target["module"],
+            "path": target["path"],
+            "runner": args.runner,
             "guard_json": str(guard_json),
             "max_tree_rss_mib": args.max_tree_rss_mib,
             "hard_address_space_mib": args.hard_address_space_mib,
             "min_available_mib": args.min_available_mib,
             "timeout_seconds": args.timeout_seconds,
             "poll_seconds": args.poll_seconds,
+            "lean_memory_mib": args.lean_memory_mib,
+            "lean_threads": args.lean_threads,
+            "lean_tstack_kib": args.lean_tstack_kib,
             "command": command,
         },
     )
