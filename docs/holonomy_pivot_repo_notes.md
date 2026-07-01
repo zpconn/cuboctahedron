@@ -2589,3 +2589,30 @@ Concrete non-axis field reduction postmortem:
   should emit explicit component trace proofs or direct
   `BellmanNonposStartViolationObject` constructors, then assemble with
   `TopPairingClosedLanguageAtRank.ofComponents`.
+
+Component trace constructor status:
+
+- Added small explicit constructors in
+  `Cuboctahedron/Search/BellmanTopPairingLanguage.lean` for the three
+  recursive component predicates:
+  `TopPairingStepScheduleFrom`, `TopPairingSquareGapFrom`, and
+  `TopPairingLocalAxisFrom`.
+- Added `closedLanguageOfGeneratedTraces` to
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageFieldSmoke.lean`.
+  This validates the intended generated shape:
+
+  ```text
+  explicit schedule/square-gap/local-axis traces
+    -> label predicates
+    -> TopPairingClosedLanguageAtRank.ofComponents
+  ```
+
+- Guarded focused builds passed:
+  - `Cuboctahedron.Search.BellmanTopPairingLanguage`: `6.01s`,
+    `4054 MiB` peak process-tree RSS, `46078 MiB` minimum available memory.
+  - `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke`:
+    `2.51s`, `3750 MiB` peak process-tree RSS, `46208 MiB` minimum available
+    memory.
+- Decision: accepted as the next safe proof surface.  The generator should
+  emit these traces directly.  Do not use local rank/word `decide` to discover
+  them.

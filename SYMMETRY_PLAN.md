@@ -50877,3 +50877,57 @@ Do not use local `decide` over sampled rank/word literals to fill
 membership evidence must stay behind the timeout/RSS/MemAvailable guard, and
 the next cap should be lower than the previous 12 GiB trial unless there is a
 specific reason to spend more memory.
+
+### Holonomy/Bellman Pivot - component trace constructors accepted
+
+Implemented the first safe replacement for the rejected fieldwise reductions:
+the closed-language component predicates now have tiny explicit constructor
+lemmas in `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`.
+
+New theorem surfaces:
+
+```lean
+topPairingStepScheduleFrom_nil
+topPairingStepScheduleFrom_cons
+topPairingStepScheduleLabels_ofFrom
+topPairingSquareGapFrom_nil
+topPairingSquareGapFrom_cons_square
+topPairingSquareGapFrom_cons_tri
+topPairingSquareGapLabels_ofFrom
+topPairingLocalAxisFrom_nil
+topPairingLocalAxisFrom_cons
+topPairingLocalAxisLabels_ofFrom
+```
+
+The generated-style smoke
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageFieldSmoke.lean`
+now also proves:
+
+```lean
+closedLanguageOfGeneratedTraces
+```
+
+This theorem consumes explicit traces for `TopPairingStepScheduleFrom`,
+`TopPairingSquareGapFrom`, and `TopPairingLocalAxisFrom`, packages them into
+the existing label predicates, and then calls
+`TopPairingClosedLanguageAtRank.ofComponents`.  It deliberately does not prove
+sampled rank membership by reduction.
+
+Guarded checks:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| `python3 scripts/run_memory_guarded.py --timeout-seconds 120 --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/bellman_top_pairing_language_trace_constructors_guard.json -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `6.01s` | `4054 MiB` | `46078 MiB` | passed |
+| `python3 scripts/run_memory_guarded.py --timeout-seconds 120 --max-tree-rss-mib 12000 --min-available-mib 4096 --poll-seconds 0.5 --json /tmp/bellman_closed_language_trace_constructor_smoke_guard.json -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke` | `2.51s` | `3750 MiB` | `46208 MiB` | passed |
+
+Additional checks: `git diff --check` passed, and the touched Lean files had
+no hits for `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`, `Float`, or
+`epsilon`.
+
+Decision: accepted as the next generated proof surface.  The generator should
+now emit component traces built from these constructors rather than asking
+Lean to discover `TopPairingStepScheduleLabels`,
+`TopPairingSquareGapLabels`, or `TopPairingLocalAxisLabels` by `decide`.  This
+still is not concrete closed-language membership; the remaining gap is to make
+one sampled shard produce the explicit trace facts and the corresponding
+`BellmanNonposStartViolationObjectMembership`.

@@ -45,6 +45,24 @@ def TopPairingStepScheduleLabels (labels : List Face) : Prop :=
 def TopPairingStepScheduleSeq (seq : Step14 -> Face) : Prop :=
   TopPairingStepScheduleLabels (faceLabelsInContributionOrder (fun f => f) seq)
 
+theorem topPairingStepScheduleFrom_nil {step : Nat} :
+    TopPairingStepScheduleFrom step [] := by
+  trivial
+
+theorem topPairingStepScheduleFrom_cons
+    {step : Nat} {face : Face} {rest : List Face}
+    (hface : face ∈ topPairingAllowedFacesAtStep step)
+    (hrest : TopPairingStepScheduleFrom (step + 1) rest) :
+    TopPairingStepScheduleFrom step (face :: rest) :=
+  And.intro hface hrest
+
+theorem topPairingStepScheduleLabels_ofFrom
+    {labels : List Face}
+    (hlen : labels.length = 14)
+    (hfrom : TopPairingStepScheduleFrom 0 labels) :
+    TopPairingStepScheduleLabels labels :=
+  And.intro hlen hfrom
+
 def topPairingAllowedSquareFacesAtGap : Nat -> List Face
   | 0 => [Face.xm, Face.ym, Face.yp, Face.zm, Face.zp]
   | 1 => [Face.zm, Face.zp]
@@ -81,6 +99,35 @@ def TopPairingSquareGapLabels (labels : List Face) : Prop :=
 def TopPairingSquareGapSeq (seq : Step14 -> Face) : Prop :=
   TopPairingSquareGapLabels (faceLabelsInContributionOrder (fun f => f) seq)
 
+theorem topPairingSquareGapFrom_nil {gap : Nat} :
+    TopPairingSquareGapFrom gap [] := by
+  trivial
+
+theorem topPairingSquareGapFrom_cons_square
+    {gap : Nat} {face : Face} {rest : List Face}
+    (hpair : isSquarePair (pairOfFace face) = true)
+    (hface : face ∈ topPairingAllowedSquareFacesAtGap gap)
+    (hrest : TopPairingSquareGapFrom gap rest) :
+    TopPairingSquareGapFrom gap (face :: rest) := by
+  unfold TopPairingSquareGapFrom
+  rw [hpair]
+  exact And.intro hface hrest
+
+theorem topPairingSquareGapFrom_cons_tri
+    {gap : Nat} {face : Face} {rest : List Face}
+    (hpair : isSquarePair (pairOfFace face) = false)
+    (hrest : TopPairingSquareGapFrom (gap + 1) rest) :
+    TopPairingSquareGapFrom gap (face :: rest) := by
+  unfold TopPairingSquareGapFrom
+  rw [hpair]
+  exact hrest
+
+theorem topPairingSquareGapLabels_ofFrom
+    {labels : List Face}
+    (hfrom : TopPairingSquareGapFrom 0 labels) :
+    TopPairingSquareGapLabels labels :=
+  hfrom
+
 def topPairingLocalAxis : Vec3 Rat where
   x := -1
   y := -1
@@ -101,6 +148,25 @@ def TopPairingLocalAxisLabels (labels : List Face) : Prop :=
 
 def TopPairingLocalAxisSeq (seq : Step14 -> Face) : Prop :=
   TopPairingLocalAxisLabels (faceLabelsInContributionOrder (fun f => f) seq)
+
+theorem topPairingLocalAxisFrom_nil {linear : Mat3 Rat} :
+    TopPairingLocalAxisFrom linear [] := by
+  trivial
+
+theorem topPairingLocalAxisFrom_cons
+    {linear : Mat3 Rat} {face : Face} {rest : List Face}
+    (hface : TopPairingLocalAxisAllows linear face)
+    (hrest :
+      TopPairingLocalAxisFrom
+        (matMul linear (reflM (normalQ face))) rest) :
+    TopPairingLocalAxisFrom linear (face :: rest) :=
+  And.intro hface hrest
+
+theorem topPairingLocalAxisLabels_ofFrom
+    {labels : List Face}
+    (hfrom : TopPairingLocalAxisFrom (matId : Mat3 Rat) labels) :
+    TopPairingLocalAxisLabels labels :=
+  hfrom
 
 def startedCanonicalSingleFace : Face -> Face
   | Face.xp => Face.xp

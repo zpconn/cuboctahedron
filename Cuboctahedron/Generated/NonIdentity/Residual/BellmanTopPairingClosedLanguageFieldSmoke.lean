@@ -36,6 +36,35 @@ theorem closedLanguageOfGeneratedFields
   TopPairingClosedLanguageAtRank.ofComponents
     cancellation schedule squareGap localAxis canonicalBadFace
 
+theorem closedLanguageOfGeneratedTraces
+    {rank : Fin numPairWords} {badFace : Face}
+    (cancellation :
+      TopPairingLanguageAtRank rank)
+    (scheduleLength :
+      (faceLabelsInContributionOrder (fun f => f)
+        (canonicalSeqOfPairWord (unrankPairWord rank))).length = 14)
+    (scheduleTrace :
+      TopPairingStepScheduleFrom 0
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank))))
+    (squareGapTrace :
+      TopPairingSquareGapFrom 0
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank))))
+    (localAxisTrace :
+      TopPairingLocalAxisFrom (matId : Mat3 Rat)
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank))))
+    (canonicalBadFace :
+      TopPairingCanonicalBadFaceCompatible badFace) :
+    TopPairingClosedLanguageAtRank rank badFace :=
+  TopPairingClosedLanguageAtRank.ofComponents
+    cancellation
+    (topPairingStepScheduleLabels_ofFrom scheduleLength scheduleTrace)
+    (topPairingSquareGapLabels_ofFrom squareGapTrace)
+    (topPairingLocalAxisLabels_ofFrom localAxisTrace)
+    canonicalBadFace
+
 theorem closedLanguageFieldSmoke_builds : True := by
   exact True.intro
 
