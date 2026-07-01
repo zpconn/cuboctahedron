@@ -41,6 +41,8 @@ def emit(
     emit_valid: bool = True,
     numeric_ids: bool = False,
     eval_only: bool = False,
+    eval_valid_start: int | None = None,
+    eval_valid_count: int = 0,
 ) -> None:
     if eval_only:
         emit_sound = False
@@ -49,6 +51,8 @@ def emit(
         raise SystemExit("--omit-valid implies --omit-sound")
     if emit_sound and numeric_ids:
         raise SystemExit("--numeric-ids currently requires --omit-sound or --omit-valid")
+    if eval_valid_start is not None and not eval_only:
+        raise SystemExit("--eval-valid-start currently requires --eval-only")
     data = json.loads(input_path.read_text())
     graph = data["graph"]
     state_count = int(graph["state_count"])
@@ -394,10 +398,72 @@ def emit(
             "next-to-step soundness bridge. This mode is used only to measure",
             "whether graph definitions fit before soundness sharding.",
             "-/",
-        "def GraphSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",
-        "  graphSmokeNext s label = some (t, gain)",
-        "",
-    ])
+            "def GraphSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=",
+            "  graphSmokeNext s label = some (t, gain)",
+            "",
+        ])
+        if eval_valid_start is not None:
+            eval_valid_stop = min(state_count, eval_valid_start + max(0, eval_valid_count))
+
+            def emit_numeric_valid_branch(
+                out: list[str],
+                *,
+                state_idx: int,
+                transitions: list[tuple[int, tuple[int, int, int, str]]],
+                depth: int = 0,
+                seen_names: list[str] | None = None,
+            ) -> None:
+                seen_names = [] if seen_names is None else seen_names
+                indent = "  " + "  " * depth
+                if not transitions:
+                    simp_args = [f"graphSmokeNext_s{state_idx:04d}", *seen_names]
+                    out.append(f"{indent}simp [{', '.join(simp_args)}] at h")
+                    return
+                label_idx, (_edge_idx, dst_idx, gain_scaled, _case_name) = transitions[0]
+                hname = f"h_l{label_idx:04d}"
+                out.append(
+                    f"{indent}by_cases {hname} : label = ({label_idx} : SmokeLabel)"
+                )
+                out.append(f"{indent}· subst label")
+                out.append(
+                    f"{indent}  simp [graphSmokeNext_s{state_idx:04d}] at h"
+                )
+                out.append(f"{indent}  rcases h with ⟨rfl, rfl⟩")
+                out.append(
+                    f"{indent}  change ({gain_scaled} : Int) + "
+                    f"graphPotential ({dst_idx} : State) <= "
+                    f"graphPotential ({state_idx} : State)"
+                )
+                out.append(f"{indent}  decide")
+                out.append(f"{indent}·")
+                emit_numeric_valid_branch(
+                    out,
+                    state_idx=state_idx,
+                    transitions=transitions[1:],
+                    depth=depth + 1,
+                    seen_names=[*seen_names, hname],
+                )
+
+            for state_idx in range(eval_valid_start, eval_valid_stop):
+                state_transitions = [
+                    (label_idx, transition_by_state_label[(state_idx, label_idx)])
+                    for label_idx in label_order
+                    if (state_idx, label_idx) in transition_by_state_label
+                ]
+                lines.extend([
+                    f"theorem GraphSmokeStepEval.valid_s{state_idx:04d} "
+                    "{label : SmokeLabel} {t : State} {gain : Int} :",
+                    f"    GraphSmokeStepEval ({state_idx} : State) label t gain ->",
+                    f"      gain + graphPotential t <= graphPotential ({state_idx} : State) := by",
+                    "  intro h",
+                    f"  change graphSmokeNext_s{state_idx:04d} label = some (t, gain) at h",
+                ])
+                emit_numeric_valid_branch(
+                    lines,
+                    state_idx=state_idx,
+                    transitions=state_transitions,
+                )
+                lines.append("")
     lines.extend([
         "theorem bellmanGraphCoreSmoke_builds : True := by",
         "  exact True.intro",
@@ -418,6 +484,8 @@ def main() -> None:
     parser.add_argument("--omit-valid", action="store_true")
     parser.add_argument("--numeric-ids", action="store_true")
     parser.add_argument("--eval-only", action="store_true")
+    parser.add_argument("--eval-valid-start", type=int)
+    parser.add_argument("--eval-valid-count", type=int, default=0)
     args = parser.parse_args()
     emit(
         args.input,
@@ -427,6 +495,8 @@ def main() -> None:
         emit_valid=not args.omit_valid,
         numeric_ids=args.numeric_ids,
         eval_only=args.eval_only,
+        eval_valid_start=args.eval_valid_start,
+        eval_valid_count=args.eval_valid_count,
     )
 
 

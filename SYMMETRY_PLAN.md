@@ -56928,3 +56928,105 @@ architecture must be:
 
 This route preserves the GPT5.5 Bellman recommendation while avoiding the
 constructor-heavy graph representation that failed the 5M memory gate.
+
+### Holonomy/Bellman Pivot - numeric eval-validity shard smoke
+
+Added a bounded eval-validity proof mode to the same graph-core emitter:
+
+```text
+scripts/emit_bellman_graph_core.py --numeric-ids --eval-only \
+  --eval-valid-start N --eval-valid-count K
+```
+
+This mode keeps the numeric eval-only base and emits local theorems for a slice
+of source states:
+
+```lean
+theorem GraphSmokeStepEval.valid_sNNNN
+    {label : SmokeLabel} {t : State} {gain : Int} :
+    GraphSmokeStepEval (NNNN : State) label t gain ->
+      gain + graphPotential t <= graphPotential (NNNN : State)
+```
+
+The proof is direct: case split on the few labels that actually leave that
+state, reduce the local `graphSmokeNext_sNNNN`, and close the exact integer
+inequality with `decide`.  This avoids `SmokeStep` constructors entirely.
+
+Committed representative:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalValid10MShard000Smoke.lean
+```
+
+Commands:
+
+```bash
+python3 scripts/emit_bellman_graph_core.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --output /tmp/BellmanTopPairingGraphCoreSmoke10MEvalValid000.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphCoreSmoke10MEvalValid000 \
+  --numeric-ids --eval-only --eval-valid-start 0 --eval-valid-count 32
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_graph_core_10m_eval_valid_000_guard.json \
+  -- lake env lean /tmp/BellmanTopPairingGraphCoreSmoke10MEvalValid000.lean
+
+python3 scripts/emit_bellman_graph_core.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --output /tmp/BellmanTopPairingGraphCoreSmoke10MEvalValid000_064.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphCoreSmoke10MEvalValid000064 \
+  --numeric-ids --eval-only --eval-valid-start 0 --eval-valid-count 64
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_graph_core_10m_eval_valid_000_064_guard.json \
+  -- lake env lean /tmp/BellmanTopPairingGraphCoreSmoke10MEvalValid000_064.lean
+
+python3 scripts/emit_bellman_graph_core.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalValid10MShard000Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalValid10MShard000Smoke \
+  --numeric-ids --eval-only --eval-valid-start 0 --eval-valid-count 64
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_graph_eval_valid_10m_shard000_guard.json \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalValid10MShard000Smoke.lean
+```
+
+Results:
+
+| 10M eval-validity smoke | source size | guard result | peak RSS |
+| --- | ---: | --- | ---: |
+| states `[0,32)` in `/tmp` | `184 KiB` | passed | `4386 MiB` |
+| states `[0,64)` in `/tmp` | `202 KiB` | passed | `4396 MiB` |
+| committed states `[0,64)` | `202 KiB` | passed | `4440 MiB` |
+
+The scan over the emitter, eval-only smoke, and eval-validity smoke found no
+sampled rank terms and no forbidden proof shortcuts.
+
+Decision: accept numeric eval-validity shards as the next Bellman proof
+coordinate.  A 64-source-state shard is barely below the 4.5 GiB guard on this
+machine, so production should default to **32-source-state shards** and allow
+64 only after representative checks on the largest graph family.  The remaining
+Bellman task is to split these shards into real importable modules:
+
+1. a numeric eval-only base module;
+2. proof shards exporting `GraphSmokeStepEval.valid_sNNNN`;
+3. a root exporting
+
+   ```lean
+   theorem GraphSmokeStepEval.valid :
+     GraphSmokeStepEval s label t gain ->
+       gain + graphPotential t <= graphPotential s
+   ```
+
+4. the semantic closed-language evaluator theorem
+   `TopPairingClosedLanguageAtRank -> TopPairingBellmanEvalLanguageAtRank`.
