@@ -547,12 +547,12 @@ Top margin+cancellation-pairing checkpoint:
   `face=...|pair=...` labels and emits `smokeLabelOfFace` plus
   `smokeLabelsOfSeq`.  The generated graph smoke proves that the sampled
   `cls0000FaceSeq : Step14 -> Face` maps to the `trieNode0014` labels and then
-  applies the arbitrary `SmokeLabelStepTrace` theorem in
-  `graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos`.  The focused build
-  passed in `0:14.86` wall time with `3,924,476 kB` max RSS.  The next
-  production gap is now precise: prove that the top holonomy/cancellation
-  family predicate entails the generated face-label trace, rather than only a
-  sampled itinerary.
+  exposes the reusable bridge
+  `graphSmoke_cls0000_seq_of_trie_labels_scaled_margin_nonpos` for any sequence
+  with those generated labels.  The focused build passed in `0:08.68` wall time
+  with `3,932,064 kB` max RSS.  The next production gap is now precise: prove
+  that the top holonomy/cancellation family predicate entails the generated
+  face-label trace equality, rather than only a sampled itinerary.
 
 ## Explicit Non-Goals
 

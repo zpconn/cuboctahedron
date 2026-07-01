@@ -1074,7 +1074,7 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         obj_name = str(obj["name"])
         trie_node = int(obj["trie_node"])
         seq_name = f"{obj_name}FaceSeq"
-        trace_name = f"{obj_name}FaceSeqTrace"
+        trace_of_seq_name = f"{obj_name}TraceOfSeq"
         label_indices = [int(idx) for idx in obj["label_indices"]]
         seq_faces = {
             step: label_face_by_index[label_indices[step - 1]]
@@ -1101,30 +1101,39 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             "  unfold " + " ".join(trie_label_unfolds),
             "  rfl",
             "",
-            f"private def {trace_name} : SmokeLabelStepTrace where",
+            f"private def {trace_of_seq_name} (seq : Step14 -> Face) : SmokeLabelStepTrace where",
             f"  finish := {trie_node_state_name(trie_node)}",
-            f"  labels := smokeLabelsOfSeq {seq_name}",
+            "  labels := smokeLabelsOfSeq seq",
             f"  gain := {trie_node_gain_name(trie_node)}",
             f"  margin := smokeScaledMargin SmokeObj.{obj_name}",
             "",
-            f"private theorem {trace_name}_accepts :",
-            f"    smokeLabelStepTraceAccepts {trace_name} := by",
-            f"  unfold smokeLabelStepTraceAccepts {trace_name}",
+            f"private theorem {trace_of_seq_name}_accepts",
+            "    (seq : Step14 -> Face)",
+            f"    (hlabels : smokeLabelsOfSeq seq = {trie_node_labels_name(trie_node)}) :",
+            f"    smokeLabelStepTraceAccepts ({trace_of_seq_name} seq) := by",
+            f"  unfold smokeLabelStepTraceAccepts {trace_of_seq_name}",
             "  refine ⟨?_, ?_, ?_⟩",
             "  · change BellmanLabelStepRun SmokeStep",
             f"      rootState {trie_node_state_name(trie_node)}",
-            f"      (smokeLabelsOfSeq {seq_name}) {trie_node_gain_name(trie_node)}",
-            f"    rw [{seq_name}Labels_eq]",
+            f"      (smokeLabelsOfSeq seq) {trie_node_gain_name(trie_node)}",
+            "    rw [hlabels]",
             f"    exact {trie_node_run_name(trie_node)}",
             f"  · exact {obj_name}TrieFinal_nonneg",
             f"  · change smokeScaledMargin SmokeObj.{obj_name} <=",
             f"      ({const_scaled} : Int) + {trie_node_gain_name(trie_node)}",
             f"    exact {obj_name}TrieMargin_bound_gain",
             "",
-            f"theorem graphSmoke_{obj_name}_face_seq_trace_scaled_margin_nonpos :",
-            f"    smokeLabelStepTraceScaledMargin {trace_name} <= 0 :=",
+            f"theorem graphSmoke_{obj_name}_seq_of_trie_labels_scaled_margin_nonpos",
+            "    (seq : Step14 -> Face)",
+            f"    (hlabels : smokeLabelsOfSeq seq = {trie_node_labels_name(trie_node)}) :",
+            f"    smokeLabelStepTraceScaledMargin ({trace_of_seq_name} seq) <= 0 :=",
             "  graphSmoke_label_step_trace_language_scaled_margin_nonpos",
-            f"    {trace_name} {trace_name}_accepts",
+            f"    ({trace_of_seq_name} seq) ({trace_of_seq_name}_accepts seq hlabels)",
+            "",
+            f"theorem graphSmoke_{obj_name}_face_seq_trace_scaled_margin_nonpos :",
+            f"    smokeLabelStepTraceScaledMargin ({trace_of_seq_name} {seq_name}) <= 0 :=",
+            f"  graphSmoke_{obj_name}_seq_of_trie_labels_scaled_margin_nonpos",
+            f"    {seq_name} {seq_name}Labels_eq",
             "",
         ])
     lines.extend([

@@ -22180,30 +22180,39 @@ private theorem cls0000FaceSeqLabels_eq :
   unfold trieNode0014Labels trieNode0014StepLabels trieNode0013Labels trieNode0013StepLabels trieNode0012Labels trieNode0012StepLabels trieNode0011Labels trieNode0011StepLabels trieNode0010Labels trieNode0010StepLabels trieNode0009Labels trieNode0009StepLabels trieNode0008Labels trieNode0008StepLabels trieNode0007Labels trieNode0007StepLabels trieNode0006Labels trieNode0006StepLabels trieNode0005Labels trieNode0005StepLabels trieNode0004Labels trieNode0004StepLabels trieNode0003Labels trieNode0003StepLabels trieNode0002Labels trieNode0002StepLabels trieNode0001Labels trieNode0001StepLabels trieNode0000Labels
   rfl
 
-private def cls0000FaceSeqTrace : SmokeLabelStepTrace where
+private def cls0000TraceOfSeq (seq : Step14 -> Face) : SmokeLabelStepTrace where
   finish := trieNode0014State
-  labels := smokeLabelsOfSeq cls0000FaceSeq
+  labels := smokeLabelsOfSeq seq
   gain := trieNode0014Gain
   margin := smokeScaledMargin SmokeObj.cls0000
 
-private theorem cls0000FaceSeqTrace_accepts :
-    smokeLabelStepTraceAccepts cls0000FaceSeqTrace := by
-  unfold smokeLabelStepTraceAccepts cls0000FaceSeqTrace
+private theorem cls0000TraceOfSeq_accepts
+    (seq : Step14 -> Face)
+    (hlabels : smokeLabelsOfSeq seq = trieNode0014Labels) :
+    smokeLabelStepTraceAccepts (cls0000TraceOfSeq seq) := by
+  unfold smokeLabelStepTraceAccepts cls0000TraceOfSeq
   refine ⟨?_, ?_, ?_⟩
   · change BellmanLabelStepRun SmokeStep
       rootState trieNode0014State
-      (smokeLabelsOfSeq cls0000FaceSeq) trieNode0014Gain
-    rw [cls0000FaceSeqLabels_eq]
+      (smokeLabelsOfSeq seq) trieNode0014Gain
+    rw [hlabels]
     exact trieNode0014Run
   · exact cls0000TrieFinal_nonneg
   · change smokeScaledMargin SmokeObj.cls0000 <=
       (176 : Int) + trieNode0014Gain
     exact cls0000TrieMargin_bound_gain
 
-theorem graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos :
-    smokeLabelStepTraceScaledMargin cls0000FaceSeqTrace <= 0 :=
+theorem graphSmoke_cls0000_seq_of_trie_labels_scaled_margin_nonpos
+    (seq : Step14 -> Face)
+    (hlabels : smokeLabelsOfSeq seq = trieNode0014Labels) :
+    smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq seq) <= 0 :=
   graphSmoke_label_step_trace_language_scaled_margin_nonpos
-    cls0000FaceSeqTrace cls0000FaceSeqTrace_accepts
+    (cls0000TraceOfSeq seq) (cls0000TraceOfSeq_accepts seq hlabels)
+
+theorem graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos :
+    smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq cls0000FaceSeq) <= 0 :=
+  graphSmoke_cls0000_seq_of_trie_labels_scaled_margin_nonpos
+    cls0000FaceSeq cls0000FaceSeqLabels_eq
 
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=

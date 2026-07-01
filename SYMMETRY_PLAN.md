@@ -2218,14 +2218,18 @@ Bellman profiler prototype checkpoint:
   `Cuboctahedron.Search.Itineraries`, emits `smokeLabelOfFace` and
   `smokeLabelsOfSeq`, and proves that the sampled class `cls0000FaceSeq :
   Step14 -> Face` maps to the trie labels for `trieNode0014`.  The generated
-  theorem `graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos` applies the
-  arbitrary trace theorem to this concrete face sequence.  Focused build
-  passed: `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
-  in `0:14.86` wall time with `3,924,476 kB` max RSS.  Decision: this is the
-  first Lean-checked smoke connecting an actual `Step14 -> Face` itinerary to
-  the Bellman trie language.  It is not full membership yet; the production
-  bridge still needs a theorem from the holonomy/cancellation top-family
-  predicate to the generated face-label sequence/trie node.
+  theorem `graphSmoke_cls0000_seq_of_trie_labels_scaled_margin_nonpos`
+  now handles any `seq : Step14 -> Face` whose `smokeLabelsOfSeq seq` equals
+  the generated trie labels, and
+  `graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos` instantiates it for
+  the sampled itinerary.  Focused build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:08.68` wall time with `3,932,064 kB` max RSS.  Decision: this is the
+  first Lean-checked smoke connecting actual `Step14 -> Face` itineraries to
+  the Bellman trie language through a reusable label-equality bridge.  It is
+  not full membership yet; the production bridge still needs a theorem from the
+  holonomy/cancellation top-family predicate to the generated face-label
+  sequence/trie node.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

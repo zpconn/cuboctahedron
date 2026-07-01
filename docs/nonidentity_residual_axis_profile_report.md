@@ -1468,9 +1468,13 @@ Concrete face-sequence bridge smoke:
 - The generated graph smoke now includes a concrete sampled itinerary
   `cls0000FaceSeq : Step14 -> Face`, proves
   `cls0000FaceSeqLabels_eq :
-    smokeLabelsOfSeq cls0000FaceSeq = trieNode0014Labels`, packages it as a
-  `SmokeLabelStepTrace`, and applies the arbitrary trace theorem in
-  `graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos`.
+    smokeLabelsOfSeq cls0000FaceSeq = trieNode0014Labels`.
+- It also proves the reusable theorem
+  `graphSmoke_cls0000_seq_of_trie_labels_scaled_margin_nonpos`, which applies
+  the arbitrary trace theorem to any `seq : Step14 -> Face` whose generated
+  labels match `trieNode0014Labels`.  The sampled itinerary theorem
+  `graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos` is now just this
+  generic bridge instantiated with `cls0000FaceSeqLabels_eq`.
 - Focused build passed:
 
   ```bash
@@ -1478,12 +1482,12 @@ Concrete face-sequence bridge smoke:
     Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
   ```
 
-  Result: `0:14.86` wall time, `3,924,476 kB` max RSS.
-- Decision: accepted as the first Lean-checked bridge from an actual
-  `Step14 -> Face` itinerary to the Bellman trie language.  The remaining
-  production gap is to replace this one sampled sequence by a theorem that the
-  holonomy/cancellation top-family predicate determines the same face-label
-  language/trie branch.
+  Result: `0:08.68` wall time, `3,932,064 kB` max RSS.
+- Decision: accepted as the first Lean-checked bridge from actual
+  `Step14 -> Face` itineraries to the Bellman trie language through a reusable
+  label-equality theorem.  The remaining production gap is to replace this one
+  sampled equality by a theorem that the holonomy/cancellation top-family
+  predicate determines the same face-label language/trie branch.
 
 ## Artifacts
 
