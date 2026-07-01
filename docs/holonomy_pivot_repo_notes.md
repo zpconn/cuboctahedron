@@ -392,6 +392,14 @@ Top margin+cancellation-pairing checkpoint:
   builds in `0:17.78` wall time with `4,494,748 kB` max RSS.  This remains
   safe enough for representative medium Bellman leaves, but larger production
   graphs should still be sharded before normal imports.
+- Semantic bridge status: `Cuboctahedron.Search.BellmanPotential` now includes
+  `BellmanTraceBound` and
+  `scaledMargin_nonpos_of_bellmanTraceBound`.  The graph emitter exposes
+  `graphSmoke_family_scaled_margin_nonpos`, which turns a generated
+  membership-to-path/margin-bound proof into semantic nonpositivity.  The
+  warning-free 10M graph smoke with this bridge builds in `0:17.80` wall time
+  with `4,514,536 kB` max RSS.  Next Bellman work should generate the
+  family-language bridge; more graph edge smokes are lower priority.
 
 ## Explicit Non-Goals
 

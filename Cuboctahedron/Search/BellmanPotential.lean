@@ -83,4 +83,41 @@ theorem const_add_bellmanGainSum_nonpos_of_path
     (V := V) hpath hvalid hfinish
   linarith
 
+def BellmanTraceBound
+    {State Obj : Type}
+    (V : State -> Int)
+    (GraphEdge : BellmanEdge State -> Prop)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Obj -> Int) : Prop :=
+  forall obj : Obj, exists finish edges,
+    BellmanPath start finish edges
+      /\ (forall e, e ∈ edges -> GraphEdge e)
+      /\ 0 <= V finish
+      /\ scaledMargin obj <= const + bellmanGainSum edges
+
+theorem scaledMargin_nonpos_of_bellmanTraceBound
+    {State Obj : Type}
+    {V : State -> Int}
+    {GraphEdge : BellmanEdge State -> Prop}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Obj -> Int}
+    (hvalid : forall e, GraphEdge e -> e.Valid V)
+    (hroot : const + V start <= 0)
+    (htrace : BellmanTraceBound V GraphEdge start const scaledMargin) :
+    forall obj : Obj, scaledMargin obj <= 0 := by
+  intro obj
+  rcases htrace obj with ⟨finish, edges, hpath, hgraph, hfinish, hmargin⟩
+  have hbound :
+      const + bellmanGainSum edges <= 0 :=
+    const_add_bellmanGainSum_nonpos_of_path
+      (V := V)
+      (const := const)
+      hpath
+      (fun e he => hvalid e (hgraph e he))
+      hfinish
+      hroot
+  linarith
+
 end Cuboctahedron

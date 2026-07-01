@@ -2552,6 +2552,21 @@ theorem graphSmoke_path_scaled_margin_nonpos
     hfinish
     root_bound
 
+theorem graphSmoke_family_scaled_margin_nonpos
+    {Obj : Type} {scaledMargin : Obj -> Int}
+    (htrace : BellmanTraceBound
+      graphPotential GraphEdge rootState
+      (176 : Int) scaledMargin) :
+    forall obj : Obj, scaledMargin obj <= 0 :=
+  scaledMargin_nonpos_of_bellmanTraceBound
+    (V := graphPotential)
+    (GraphEdge := GraphEdge)
+    (start := rootState)
+    (const := 176)
+    (fun _ he => GraphEdge.valid he)
+    root_bound
+    htrace
+
 theorem bellmanGraphSmoke_builds : True := by
   exact True.intro
 

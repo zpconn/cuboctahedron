@@ -1965,6 +1965,26 @@ Bellman profiler prototype checkpoint:
   in `0:17.78` wall time with `4,494,748 kB` max RSS.  The 5M-to-10M graph
   smoke growth remains sublinear in states/edges relative to scanned ranks and
   stays within the intended representative-leaf memory budget.
+- Semantic Bellman bridge checkpoint: extended
+  `Cuboctahedron/Search/BellmanPotential.lean` with
+  `BellmanTraceBound` and
+  `scaledMargin_nonpos_of_bellmanTraceBound`.  This is the proof surface
+  needed after graph-edge validation: a generated family can prove that each
+  semantic object/word admits a valid path through the private Bellman graph,
+  that the path's final state has nonnegative potential, and that the object's
+  integer-scaled margin is bounded by `const + bellmanGainSum`; the generic
+  theorem then proves nonpositivity.  The graph emitter now exposes
+  `graphSmoke_family_scaled_margin_nonpos` in addition to the path theorem.
+  Focused builds passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Search.BellmanPotential` in
+  `0:02.51` wall time with `3,269,656 kB` max RSS, and
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph10MSmoke`
+  in `0:17.80` wall time with `4,514,536 kB` max RSS.  This still does not
+  prove top-family membership, but it closes the generic gap from "valid graph
+  path with a margin bound" to "semantic family margin is nonpositive."  The
+  remaining Bellman work is to generate/check the family language bridge that
+  maps each accepted word to such a graph path and proves the scaled-margin
+  bound.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

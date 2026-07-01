@@ -919,6 +919,44 @@ Generated-style Bellman graph smoke:
   memory budget and supports the Bellman graph route for this dominant
   nonidentity margin family, pending a full-family semantic coverage bridge.
 
+Semantic Bellman bridge:
+
+- Extended `Cuboctahedron/Search/BellmanPotential.lean` with:
+
+  ```lean
+  def BellmanTraceBound
+
+  theorem scaledMargin_nonpos_of_bellmanTraceBound
+  ```
+
+- This theorem is the generic bridge from semantic family membership to a
+  margin bound.  If every object in a family maps to a valid Bellman path, the
+  path's final state has nonnegative potential, and the object's scaled margin
+  is bounded by `const + bellmanGainSum`, then the object's scaled margin is
+  nonpositive.
+- Updated `scripts/emit_bellman_graph_smoke.py` so generated graph smokes also
+  expose:
+
+  ```lean
+  theorem graphSmoke_family_scaled_margin_nonpos
+  ```
+
+- Focused builds passed:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.BellmanPotential
+
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph10MSmoke
+  ```
+
+  Results: Bellman core `0:02.51` wall / `3,269,656 kB` max RSS; 10M graph
+  smoke `0:17.80` wall / `4,514,536 kB` max RSS.
+- Decision: accepted as the next proof surface.  The remaining top-family
+  Bellman task is not another graph validity smoke; it is the generated
+  family-language bridge that maps each accepted word to one of these graph
+  paths and proves the scaled-margin bound.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
