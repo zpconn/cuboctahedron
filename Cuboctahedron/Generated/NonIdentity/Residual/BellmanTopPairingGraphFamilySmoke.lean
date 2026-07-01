@@ -22858,6 +22858,65 @@ theorem graphSmoke_cls0000_axis_rank_family_scaled_margin_nonpos
     hRealize
     hAxisConstraints
 
+private def cls0000AxisRankLanguageFamily :
+    BellmanAxisRankLanguageFamily
+      State SmokeLabel graphPotential SmokeStep smokeLabelOfFace
+      rootState (176 : Int) cls0000ContainsRank
+      cls0000ScaledMarginAtRank where
+  axis := cls0000Axis
+  kernel := by
+    intro rank hrank
+    exact cls0000Kernel
+  forcedSeq := by
+    intro rank hrank
+    exact cls0000FaceSeq
+  finish := by
+    intro rank hrank
+    exact trieNode0014State
+  gain := by
+    intro rank hrank
+    exact trieNode0014Gain
+  run := by
+    intro rank hrank
+    change BellmanLabelStepRun SmokeStep rootState
+      trieNode0014State
+      (smokeLabelsOfSeq cls0000FaceSeq) trieNode0014Gain
+    rw [cls0000FaceSeqLabels_eq]
+    exact trieNode0014Run
+  step_valid := by
+    intro s label t gain h
+    exact SmokeStep.valid h
+  finish_nonneg := by
+    intro rank hrank
+    exact cls0000TrieFinal_nonneg
+  root_bound := root_bound
+  margin_bound := by
+    intro rank hrank
+    unfold cls0000ScaledMarginAtRank
+    exact cls0000TrieMargin_bound_gain
+  kernel_check := by
+    intro rank hrank
+    rw [hrank]
+    exact cls0000KernelCheck
+  axis_forces := by
+    intro rank hrank
+    rw [hrank]
+    exact cls0000AxisForces
+
+theorem graphSmoke_cls0000_axis_rank_language_family_scaled_margin_nonpos
+    (seq : Step14 -> Face)
+    (hRealize : SeqRealizesPairWord (unrankPairWord cls0000Rank) seq)
+    (hAxisConstraints : NonIdentityAxisConstraints seq) :
+    smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq seq) <= 0 := by
+  unfold smokeLabelStepTraceScaledMargin cls0000TraceOfSeq
+  exact BellmanAxisRankLanguageFamily.scaledMargin_nonpos
+    cls0000AxisRankLanguageFamily
+    (rank := cls0000Rank)
+    (seq := seq)
+    rfl
+    hRealize
+    hAxisConstraints
+
 theorem graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos :
     smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq cls0000FaceSeq) <= 0 :=
   graphSmoke_cls0000_seq_language_scaled_margin_nonpos

@@ -2260,3 +2260,55 @@ closed language.  The next Bellman membership route should use the generated
 finite graph `Step` relation as the language automaton and prove that the
 semantic family predicate steps along it, rather than trying to find one more
 ad hoc exact schedule key.
+
+## Bellman Rank-Language Family Surface
+
+`Cuboctahedron.Search.BellmanAxisBridge` now has a rank-language variant of
+the Bellman axis-family theorem:
+
+```lean
+BellmanAxisRankLanguageFamily
+BellmanAxisRankLanguageFamily.scaledMargin_nonpos
+```
+
+Unlike `BellmanAxisRankFamily`, this interface allows each accepted rank to
+provide its own forced sequence, kernel witness, final Bellman state, gain,
+label-step run, final potential proof, and scaled-margin bound.  The shared
+family still has one semantic `ContainsRank` predicate and one fixed axis.
+This is the intended surface for generated finite-state language membership:
+the generated automaton can construct a run per rank without reintroducing
+exact affine RHS or per-rank certificate replay as the family key.
+
+The existing one-rank top-pairing smoke now instantiates this surface via:
+
+```lean
+graphSmoke_cls0000_axis_rank_language_family_scaled_margin_nonpos
+```
+
+Commands:
+
+```text
+/usr/bin/time -v lake build Cuboctahedron.Search.BellmanAxisBridge
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphFamilySmoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphFamilySmoke \
+  --rank-bridge-limit 1
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphFamilySmoke
+```
+
+Results:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:13.82` | `3,280,096 kB` | passed |
+| `BellmanTopPairingGraphFamilySmoke` | `0:13.50` | `4,329,656 kB` | passed |
+
+The hard-constraint keyword scan over the changed bridge, emitter, and smoke
+file found no `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Decision: accepted as the current production-facing nonidentity margin proof
+surface.  The remaining proof gap is a finite-state membership theorem that
+maps a broad semantic top-pairing family into these rank-indexed Bellman runs.

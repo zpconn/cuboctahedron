@@ -999,3 +999,37 @@ Bellman coarsening/closure notes:
 - Decision: the next proof surface should treat the generated Bellman graph
   itself as the finite language automaton and prove semantic family membership
   steps through that graph, instead of searching for another exact schedule key.
+
+Bellman rank-language family surface:
+
+- Added `BellmanAxisRankLanguageFamily` and
+  `BellmanAxisRankLanguageFamily.scaledMargin_nonpos` in
+  `Cuboctahedron.Search.BellmanAxisBridge`.
+- This is the direct response to the GPT5.5 Pro Bellman/potential pivot: the
+  generated family no longer has to share one exact forced sequence or one
+  exact Bellman run.  For every accepted rank, it may provide a rank-indexed
+  kernel witness, forced sequence, final Bellman state, gain, label-step run,
+  final-potential proof, scaled-margin bound, kernel check, and axis-forcing
+  proof.
+- The one-rank generated smoke
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphFamilySmoke`
+  now instantiates this surface and exports
+  `graphSmoke_cls0000_axis_rank_language_family_scaled_margin_nonpos`.
+- Focused builds:
+
+  ```text
+  /usr/bin/time -v lake build Cuboctahedron.Search.BellmanAxisBridge
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphFamilySmoke
+  ```
+
+  Results: bridge `0:13.82` wall / `3,280,096 kB` max RSS / exit `0`;
+  generated smoke `0:13.50` wall / `4,329,656 kB` max RSS / exit `0`.
+- Keyword scan over the changed bridge, emitter, and generated smoke found no
+  `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.
+- Decision: accepted.  The next implementation step is a generated
+  graph-membership theorem for a semantic top-pairing family predicate.  That
+  theorem should construct the rank-indexed runs required by
+  `BellmanAxisRankLanguageFamily` while avoiding exact affine RHS, solved
+  start point, total affine offset, and exact Bellman path as public family
+  coordinates.

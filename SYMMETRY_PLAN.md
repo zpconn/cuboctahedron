@@ -47785,3 +47785,85 @@ the graph's finite `Step` relation, then use the already accepted
 `BellmanAxisRankFamily` margin theorem.  The remaining challenge is to define
 that semantic family predicate without exact affine data and without per-rank
 membership.
+
+### Holonomy/Bellman Pivot - rank-language family surface accepted
+
+This checkpoint implements the next proof surface suggested by the
+GPT5.5-style Bellman/potential pivot.  The previous `BellmanAxisRankFamily`
+interface was useful but still assumed one fixed forced sequence and one fixed
+Bellman run for an entire rank family.  That is too narrow for the finite
+automaton route, because a genuine semantic language family will map different
+accepted ranks to different graph paths.
+
+Added in:
+
+```text
+Cuboctahedron/Search/BellmanAxisBridge.lean
+```
+
+New public theorem surface:
+
+```lean
+BellmanAxisRankLanguageFamily
+BellmanAxisRankLanguageFamily.scaledMargin_nonpos
+```
+
+The new structure keeps one semantic `ContainsRank` predicate, but lets each
+accepted rank provide its own:
+
+- `KernelLineWitness`;
+- forced face sequence;
+- Bellman final state and gain;
+- `BellmanLabelStepRun`;
+- final-potential nonnegativity;
+- scaled-margin bound;
+- kernel check and axis-forcing proof.
+
+This is the intended bridge between a generated finite-state language
+membership theorem and the already-checked Bellman potential proof.  It does
+not key by exact affine RHS, solved start point, total affine offset, or exact
+Bellman path as a family coordinate.
+
+The smoke emitter now instantiates this interface in:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphFamilySmoke.lean
+```
+
+with theorem:
+
+```lean
+graphSmoke_cls0000_axis_rank_language_family_scaled_margin_nonpos
+```
+
+Commands run:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Search.BellmanAxisBridge
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphFamilySmoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphFamilySmoke \
+  --rank-bridge-limit 1
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphFamilySmoke
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Search/BellmanAxisBridge.lean \
+  scripts/emit_bellman_graph_smoke.py \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphFamilySmoke.lean
+```
+
+Results:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:13.82` | `3,280,096 kB` | passed |
+| `BellmanTopPairingGraphFamilySmoke` | `0:13.50` | `4,329,656 kB` | passed |
+| keyword scan | - | - | no matches |
+
+Decision: accepted.  This does not yet prove broad coverage, but it removes
+the artificial "one exact run per family" bottleneck.  The next implementation
+step is to generate a small graph-membership theorem: for a semantic
+top-pairing family predicate, prove that every accepted rank constructs one of
+the finite `SmokeStep` runs required by `BellmanAxisRankLanguageFamily`.
