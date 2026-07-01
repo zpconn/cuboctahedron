@@ -55920,3 +55920,58 @@ Decision: accepted as a small Lean-checked semantic bridge.  It is safe under
 the RSS/MemAvailable guard and introduces no generated data.  The next
 implementation step remains the real membership proof: construct
 `BellmanAxisRankObjectCover.covers` for the closed top-pairing language.
+
+### Holonomy/Bellman Pivot - membership-mode audit
+
+After the machine-crash/OOM concern, the next step was deliberately kept to
+Python/text-only auditing.  Added:
+
+```text
+scripts/audit_bellman_membership_mode.py
+```
+
+and ran:
+
+```bash
+python3 -m py_compile scripts/audit_bellman_membership_mode.py
+python3 scripts/audit_bellman_membership_mode.py
+```
+
+The audit writes:
+
+```text
+scripts/generated/bellman_membership_mode_audit.json
+docs/bellman_membership_mode_audit.md
+```
+
+Result:
+
+- decision: `sample-bound-emitter-with-closed-bridge-available`;
+- sampled membership mentions: `113`;
+- closed-language mentions: `6`;
+- object-cover mentions: `32`;
+- memory state after the run remained healthy (`45 GiB` available).
+
+Interpretation: the current generator and generated smoke files still use the
+sampled membership coordinate:
+
+```lean
+private inductive SampledRankIndex where ...
+private def sampledContainsRank (rank : Fin numPairWords) : Prop :=
+  exists idx : SampledRankIndex, sampledRankOf idx = rank
+```
+
+and `BellmanRankObjectMembership` is still filled by `Classical.choose` over
+that sampled rank witness.  The accepted semantic bridge exists separately as
+`ClosedTopPairingContainsRank badFace := fun rank =>
+TopPairingClosedLanguageAtRank rank badFace`.
+
+Decision: this audit confirms the next real implementation target.  Do not
+emit more sampled-path Bellman checks as production evidence.  The next
+Lean/generator slice must replace the generated `SampledRankIndex` /
+`sampledContainsRank` object-cover construction with a
+`BellmanAxisRankObjectCover` whose `ContainsRank` is
+`ClosedTopPairingContainsRank Face.ym`, and prove the `covers` field from
+`TopPairingClosedLanguageAtRank` rather than from exact sampled-rank
+enumeration.  This remains a semantic membership theorem, not another
+certificate-packing layer.

@@ -5263,3 +5263,29 @@ Closed-language object-cover bridge:
     mathlib `.olean` (`8.01s`, peak RSS `1223 MiB`, no guard kill);
   - RSS-guarded direct Lean check without hard-AS cap passed in `8.00s`, peak
     tree RSS `3850 MiB`, minimum MemAvailable `46367 MiB`, no guard kill.
+
+Bellman membership-mode audit:
+
+- Added `scripts/audit_bellman_membership_mode.py`, a Python/text-only audit
+  that inspects the current Bellman emitter and generated smoke surfaces for
+  sampled-rank membership versus the semantic closed-language object-cover
+  contract.
+- Ran:
+
+  ```bash
+  python3 -m py_compile scripts/audit_bellman_membership_mode.py
+  python3 scripts/audit_bellman_membership_mode.py
+  ```
+
+- Output:
+  - `docs/bellman_membership_mode_audit.md`;
+  - `scripts/generated/bellman_membership_mode_audit.json`.
+- Result: `sample-bound-emitter-with-closed-bridge-available`.
+- Counts: `113` sampled membership mentions, `6` closed-language mentions,
+  and `32` object-cover mentions.
+- Interpretation: the generator still emits `SampledRankIndex`,
+  `sampledContainsRank`, and `Classical.choose`-based object membership, while
+  the semantic bridge via `ClosedTopPairingContainsRank` is available
+  separately.  The next implementation target is therefore precise: construct
+  `BellmanAxisRankObjectCover.covers` from
+  `TopPairingClosedLanguageAtRank`, not from exact sampled-rank enumeration.

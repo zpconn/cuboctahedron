@@ -1,0 +1,580 @@
+{
+  "files": [
+    {
+      "exists": true,
+      "path": "scripts/emit_bellman_graph_smoke.py",
+      "patterns": {
+        "bellman_axis_rank_object_cover": {
+          "count": 10,
+          "examples": [
+            {
+              "line": 2019,
+              "text": "\"    BellmanAxisRankObjectCover\","
+            },
+            {
+              "line": 2023,
+              "text": "\"  BellmanAxisRankObjectCover.ofMembership\","
+            },
+            {
+              "line": 2055,
+              "text": "\"  BellmanAxisRankObjectCover.scaledMargin_nonpos\","
+            },
+            {
+              "line": 2059,
+              "text": "\"    BellmanAxisRankObjectCover\","
+            },
+            {
+              "line": 2063,
+              "text": "\"  BellmanAxisRankObjectCover.ofMembership\","
+            }
+          ]
+        },
+        "bellman_rank_object_membership": {
+          "count": 1,
+          "examples": [
+            {
+              "line": 1988,
+              "text": "\"    BellmanRankObjectMembership SampledRankIndex sampledRankOf\","
+            }
+          ]
+        },
+        "classical_choose": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 1990,
+              "text": "\"  objectOf := fun _rank hrank => Classical.choose hrank\","
+            },
+            {
+              "line": 1993,
+              "text": "\"    let idx := Classical.choose hrank\","
+            },
+            {
+              "line": 2016,
+              "text": "\"    exact Classical.choose_spec hrank\","
+            }
+          ]
+        },
+        "closed_top_pairing_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_contains_rank": {
+          "count": 16,
+          "examples": [
+            {
+              "line": 1803,
+              "text": "\"private def sampledContainsRank (rank : Fin numPairWords) : Prop :=\","
+            },
+            {
+              "line": 1951,
+              "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledContainsRank\","
+            },
+            {
+              "line": 1959,
+              "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank)\","
+            },
+            {
+              "line": 1989,
+              "text": "\"      sampledObjectAccepts sampledContainsRank where\","
+            },
+            {
+              "line": 2022,
+              "text": "\"      sampledContainsRank sampledScaledMarginAtRank :=\","
+            }
+          ]
+        },
+        "sampled_object_membership": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 1987,
+              "text": "\"private noncomputable def sampledObjectMembership :\","
+            },
+            {
+              "line": 2050,
+              "text": "\"    sampledObjectMembership\","
+            },
+            {
+              "line": 2100,
+              "text": "\"    sampledObjectMembership\","
+            }
+          ]
+        },
+        "sampled_rank_index": {
+          "count": 18,
+          "examples": [
+            {
+              "line": 1789,
+              "text": "\"private inductive SampledRankIndex where\","
+            },
+            {
+              "line": 1795,
+              "text": "\"private def sampledRankOf : SampledRankIndex -> Fin numPairWords\","
+            },
+            {
+              "line": 1799,
+              "text": "f\"  | SampledRankIndex.i{idx:04d} => {info['rank_name']}\""
+            },
+            {
+              "line": 1804,
+              "text": "\"  exists idx : SampledRankIndex, sampledRankOf idx = rank\","
+            },
+            {
+              "line": 1833,
+              "text": "\"      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace\","
+            }
+          ]
+        },
+        "terminal_contains_rank": {
+          "count": 7,
+          "examples": [
+            {
+              "line": 2421,
+              "text": "\"def terminalContainsRank (rank : Fin numPairWords) : Prop :=\","
+            },
+            {
+              "line": 2424,
+              "text": "\"private theorem terminalContainsRank_of_sampledAccepted\","
+            },
+            {
+              "line": 2426,
+              "text": "\"    terminalContainsRank rank := by\","
+            },
+            {
+              "line": 2439,
+              "text": "\"    {rank : Fin numPairWords} (hrank : terminalContainsRank rank) :\","
+            },
+            {
+              "line": 2445,
+              "text": "\"      sampledScaledMarginAtRank terminalContainsRank :=\","
+            }
+          ]
+        },
+        "top_pairing_closed_language": {
+          "count": 0,
+          "examples": []
+        }
+      }
+    },
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean",
+      "patterns": {
+        "bellman_axis_rank_object_cover": {
+          "count": 10,
+          "examples": [
+            {
+              "line": 24974,
+              "text": "BellmanAxisRankObjectCover"
+            },
+            {
+              "line": 24978,
+              "text": "BellmanAxisRankObjectCover.ofMembership"
+            },
+            {
+              "line": 25013,
+              "text": "BellmanAxisRankObjectCover.scaledMargin_nonpos"
+            },
+            {
+              "line": 25017,
+              "text": "BellmanAxisRankObjectCover"
+            },
+            {
+              "line": 25021,
+              "text": "BellmanAxisRankObjectCover.ofMembership"
+            }
+          ]
+        },
+        "bellman_rank_object_membership": {
+          "count": 1,
+          "examples": [
+            {
+              "line": 24935,
+              "text": "BellmanRankObjectMembership SampledRankIndex sampledRankOf"
+            }
+          ]
+        },
+        "classical_choose": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 24937,
+              "text": "objectOf := fun _rank hrank => Classical.choose hrank"
+            },
+            {
+              "line": 24940,
+              "text": "let idx := Classical.choose hrank"
+            },
+            {
+              "line": 24971,
+              "text": "exact Classical.choose_spec hrank"
+            }
+          ]
+        },
+        "closed_top_pairing_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_contains_rank": {
+          "count": 15,
+          "examples": [
+            {
+              "line": 24783,
+              "text": "private def sampledContainsRank (rank : Fin numPairWords) : Prop :="
+            },
+            {
+              "line": 24902,
+              "text": "rootState (176 : Int) sampledRankOf sampledContainsRank"
+            },
+            {
+              "line": 24910,
+              "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank)"
+            },
+            {
+              "line": 24936,
+              "text": "sampledObjectAccepts sampledContainsRank where"
+            },
+            {
+              "line": 24977,
+              "text": "sampledContainsRank sampledScaledMarginAtRank :="
+            }
+          ]
+        },
+        "sampled_object_membership": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 24934,
+              "text": "private noncomputable def sampledObjectMembership :"
+            },
+            {
+              "line": 25008,
+              "text": "sampledObjectMembership"
+            },
+            {
+              "line": 25073,
+              "text": "sampledObjectMembership"
+            }
+          ]
+        },
+        "sampled_rank_index": {
+          "count": 19,
+          "examples": [
+            {
+              "line": 24775,
+              "text": "private inductive SampledRankIndex where"
+            },
+            {
+              "line": 24779,
+              "text": "private def sampledRankOf : SampledRankIndex -> Fin numPairWords"
+            },
+            {
+              "line": 24780,
+              "text": "| SampledRankIndex.i0000 => cls0000Rank"
+            },
+            {
+              "line": 24781,
+              "text": "| SampledRankIndex.i0001 => cls0001Rank"
+            },
+            {
+              "line": 24784,
+              "text": "exists idx : SampledRankIndex, sampledRankOf idx = rank"
+            }
+          ]
+        },
+        "terminal_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "top_pairing_closed_language": {
+          "count": 0,
+          "examples": []
+        }
+      }
+    },
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2GraphSmoke.lean",
+      "patterns": {
+        "bellman_axis_rank_object_cover": {
+          "count": 10,
+          "examples": [
+            {
+              "line": 24276,
+              "text": "BellmanAxisRankObjectCover"
+            },
+            {
+              "line": 24280,
+              "text": "BellmanAxisRankObjectCover.ofMembership"
+            },
+            {
+              "line": 24315,
+              "text": "BellmanAxisRankObjectCover.scaledMargin_nonpos"
+            },
+            {
+              "line": 24319,
+              "text": "BellmanAxisRankObjectCover"
+            },
+            {
+              "line": 24323,
+              "text": "BellmanAxisRankObjectCover.ofMembership"
+            }
+          ]
+        },
+        "bellman_rank_object_membership": {
+          "count": 1,
+          "examples": [
+            {
+              "line": 24237,
+              "text": "BellmanRankObjectMembership SampledRankIndex sampledRankOf"
+            }
+          ]
+        },
+        "classical_choose": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 24239,
+              "text": "objectOf := fun _rank hrank => Classical.choose hrank"
+            },
+            {
+              "line": 24242,
+              "text": "let idx := Classical.choose hrank"
+            },
+            {
+              "line": 24273,
+              "text": "exact Classical.choose_spec hrank"
+            }
+          ]
+        },
+        "closed_top_pairing_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_contains_rank": {
+          "count": 9,
+          "examples": [
+            {
+              "line": 24103,
+              "text": "def sampledContainsRank (rank : Fin numPairWords) : Prop :="
+            },
+            {
+              "line": 24204,
+              "text": "rootState (176 : Int) sampledRankOf sampledContainsRank"
+            },
+            {
+              "line": 24212,
+              "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank)"
+            },
+            {
+              "line": 24238,
+              "text": "sampledObjectAccepts sampledContainsRank where"
+            },
+            {
+              "line": 24279,
+              "text": "sampledContainsRank sampledScaledMarginAtRank :="
+            }
+          ]
+        },
+        "sampled_object_membership": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 24236,
+              "text": "private noncomputable def sampledObjectMembership :"
+            },
+            {
+              "line": 24310,
+              "text": "sampledObjectMembership"
+            },
+            {
+              "line": 24375,
+              "text": "sampledObjectMembership"
+            }
+          ]
+        },
+        "sampled_rank_index": {
+          "count": 18,
+          "examples": [
+            {
+              "line": 24095,
+              "text": "inductive SampledRankIndex where"
+            },
+            {
+              "line": 24099,
+              "text": "def sampledRankOf : SampledRankIndex -> Fin numPairWords"
+            },
+            {
+              "line": 24100,
+              "text": "| SampledRankIndex.i0000 => cls0000Rank"
+            },
+            {
+              "line": 24101,
+              "text": "| SampledRankIndex.i0001 => cls0001Rank"
+            },
+            {
+              "line": 24104,
+              "text": "exists idx : SampledRankIndex, sampledRankOf idx = rank"
+            }
+          ]
+        },
+        "terminal_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "top_pairing_closed_language": {
+          "count": 0,
+          "examples": []
+        }
+      }
+    },
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean",
+      "patterns": {
+        "bellman_axis_rank_object_cover": {
+          "count": 0,
+          "examples": []
+        },
+        "bellman_rank_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "classical_choose": {
+          "count": 0,
+          "examples": []
+        },
+        "closed_top_pairing_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_rank_index": {
+          "count": 0,
+          "examples": []
+        },
+        "terminal_contains_rank": {
+          "count": 6,
+          "examples": [
+            {
+              "line": 733,
+              "text": "def terminalContainsRank (rank : Fin numPairWords) : Prop :="
+            },
+            {
+              "line": 736,
+              "text": "private theorem terminalContainsRank_of_sampledAccepted"
+            },
+            {
+              "line": 738,
+              "text": "terminalContainsRank rank := by"
+            },
+            {
+              "line": 751,
+              "text": "{rank : Fin numPairWords} (hrank : terminalContainsRank rank) :"
+            },
+            {
+              "line": 757,
+              "text": "sampledScaledMarginAtRank terminalContainsRank :="
+            }
+          ]
+        },
+        "top_pairing_closed_language": {
+          "count": 0,
+          "examples": []
+        }
+      }
+    },
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean",
+      "patterns": {
+        "bellman_axis_rank_object_cover": {
+          "count": 2,
+          "examples": [
+            {
+              "line": 33,
+              "text": "_root_.Cuboctahedron.BellmanAxisRankObjectCover"
+            },
+            {
+              "line": 58,
+              "text": "_root_.Cuboctahedron.BellmanAxisRankObjectCover"
+            }
+          ]
+        },
+        "bellman_rank_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "classical_choose": {
+          "count": 0,
+          "examples": []
+        },
+        "closed_top_pairing_contains_rank": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 16,
+              "text": "abbrev ClosedTopPairingContainsRank (badFace : Face) :"
+            },
+            {
+              "line": 35,
+              "text": "Accepts (ClosedTopPairingContainsRank badFace) scaledMargin)"
+            },
+            {
+              "line": 60,
+              "text": "Accepts (ClosedTopPairingContainsRank Face.ym) scaledMargin)"
+            }
+          ]
+        },
+        "sampled_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_rank_index": {
+          "count": 0,
+          "examples": []
+        },
+        "terminal_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "top_pairing_closed_language": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 19,
+              "text": "_root_.Cuboctahedron.TopPairingClosedLanguageAtRank rank badFace"
+            },
+            {
+              "line": 42,
+              "text": "_root_.Cuboctahedron.TopPairingClosedLanguageAtRank rank badFace) :"
+            },
+            {
+              "line": 67,
+              "text": "_root_.Cuboctahedron.TopPairingClosedLanguageAtRank rank Face.ym) :"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "summary": {
+    "closed_language_mentions": 6,
+    "decision": "sample-bound-emitter-with-closed-bridge-available",
+    "object_cover_mentions": 32,
+    "recommended_next_step": "Replace generated SampledRankIndex/sampledContainsRank covers with a BellmanAxisRankObjectCover whose ContainsRank is ClosedTopPairingContainsRank Face.ym, and prove the covers field from TopPairingClosedLanguageAtRank rather than Classical.choose over sampled ranks.",
+    "sampled_membership_mentions": 113
+  }
+}
