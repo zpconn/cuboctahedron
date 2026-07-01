@@ -44854,3 +44854,66 @@ Telemetry:
 Decision: accepted. Corrected rank `905` is now closed through the
 compact-free selector route.  Corrected ranks closed by this route so far:
 `896`, `897`, `899`, `903`, and `905`.
+
+### Phase 6Z6K8AP16DU9IQ36 - compact-free selector range accepted for rank 955
+
+Rank `955` required the final microshard in this bounded selector family,
+`SourceIndexStateSelectorDU9IQMicroRank896_956.Shard002`.  I first built that
+shard under the serial memory guard:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9iq_micro_rank896_956_shard002_guard.json \
+  -- lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956.Shard002
+```
+
+Then I emitted the compact-free singleton range:
+
+```bash
+python3 scripts/emit_compact_free_selector_singleton_range.py \
+  --rank 955 \
+  --micro-dir Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --micro-namespace Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQMicroRank896_956 \
+  --positive-module Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.WeightedDenomCubeDU9IQDirectBridgeCoverRank955PositiveMasksGeneratedSmoke \
+  --module SourceIndexStateSelectorDU9IQCompactFreeRange955Smoke \
+  --output Cuboctahedron/Generated/Translation/TwoSource/SupportFamilies/SourceIndexStateSelectorDU9IQCompactFreeRange955Smoke.lean
+```
+
+The module exports:
+
+```lean
+selectorCatalog955_956_allGood :
+  AllTranslationGoodCoverageOnRange 955 956
+```
+
+Focused guarded build:
+
+```bash
+env LAKE_JOBS=1 python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 35000 \
+  --poll-seconds 0.5 \
+  --json scripts/generated/source_index_state_selector_du9iq_compact_free_range955_guard.json \
+  -- lake build \
+  Cuboctahedron.Generated.Translation.TwoSource.SupportFamilies.SourceIndexStateSelectorDU9IQCompactFreeRange955Smoke
+```
+
+Telemetry:
+
+| target | elapsed | peak tree RSS | min available | exit |
+| --- | ---: | ---: | ---: | ---: |
+| `SourceIndexStateSelectorDU9IQMicroRank896_956.Shard002` | `18.03s` | `5037.54 MiB` | `44644.95 MiB` | `0` |
+| `SourceIndexStateSelectorDU9IQCompactFreeRange955Smoke` | `2.50s` | `4065.13 MiB` | `46043.48 MiB` | `0` |
+
+Decision: accepted. Corrected rank `955` is now closed through the
+compact-free selector route.  Corrected ranks closed by this route so far:
+`896`, `897`, `899`, `903`, `905`, and `955`.
+
+Remaining issue in this bounded DU9IQ batch: rank `911` still cannot be counted
+closed, because the current nonpositive-mask cover is missing masks `32`, `34`,
+and `41`.  The next step is a focused repair for those nonpositive masks, not a
+larger generated root.
