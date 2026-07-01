@@ -52743,3 +52743,52 @@ the tightened post-crash envelope for two sampled Bellman graph paths.  This is
 still bounded smoke evidence, not full coverage, but it is stronger evidence
 that the final route should keep ordinary trace leaves separate from the
 axis-forces bridge and compose them through tiny roots.
+
+### Holonomy/Bellman Pivot - split-smoke batch planner added
+
+Added a no-Lean planning script:
+
+```text
+scripts/plan_bellman_split_smokes.py
+```
+
+It reads a cached Bellman graph JSON, renders the same trace source text that
+`emit_bellman_closed_language_trace_smoke.py` would emit, and reports planned
+module names, target names, source sizes, source-budget status, and current
+source/`.olean` freshness.  It does **not** launch Lean and is not proof
+evidence; it is an operational planning gate before adding or checking more
+generated shards.
+
+Commands run:
+
+```bash
+python3 scripts/plan_bellman_split_smokes.py \
+  --count 8 \
+  --json scripts/generated/bellman_split_smoke_batch_plan_000_008.json \
+  --markdown docs/bellman_split_smoke_batch_plan_000_008.md
+
+python3 scripts/plan_bellman_split_smokes.py \
+  --count 37 \
+  --json scripts/generated/bellman_split_smoke_batch_plan_000_037.json \
+  --markdown docs/bellman_split_smoke_batch_plan_000_037.md
+```
+
+Planner summary:
+
+| planned range | entries | over budget | fresh trace artifacts | fresh split artifacts | planned trace source | planned split source |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `[0,8)` | `8` | `0` | `2` | `1` | `256 KiB` | `16 KiB` |
+| `[0,37)` | `37` | `0` | `2` | `1` | `1184 KiB` | `74 KiB` |
+
+The full `[0,37)` report is:
+
+```text
+docs/bellman_split_smoke_batch_plan_000_037.md
+```
+
+Decision: accepted as a pre-generation planning gate.  The current cached
+37-path Bellman graph can be split into small trace/root shards under the
+current source-size budgets, but this is only a source-budget and artifact
+freshness plan.  The next proof-bearing expansion should still check new
+targets one at a time under `scripts/run_bellman_safe_smoke.py`, or add a
+serial batch runner that enforces the same per-target gate.

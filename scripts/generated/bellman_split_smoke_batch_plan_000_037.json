@@ -1,0 +1,3279 @@
+{
+  "budgets": {
+    "split_import_budget": 26,
+    "split_source_budget_kib": 8,
+    "trace_import_budget": 18,
+    "trace_source_budget_kib": 40
+  },
+  "end_index": 37,
+  "entries": [
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "yp",
+        "zm",
+        "zp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 141,
+      "label_indices": [
+        8,
+        10,
+        11,
+        12,
+        13,
+        0,
+        4,
+        6,
+        5,
+        2,
+        7,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -376,
+      "path_object_index": 0,
+      "rank": 517,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": true,
+          "olean": {
+            "bytes": 18040,
+            "exists": true,
+            "kib": 18,
+            "mtime": 1782926968.9459164
+          },
+          "source": {
+            "bytes": 2025,
+            "exists": true,
+            "kib": 2,
+            "mtime": 1782926802.670246
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke.lean",
+        "target": "split-composition",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": true,
+          "olean": {
+            "bytes": 2474024,
+            "exists": true,
+            "kib": 2417,
+            "mtime": 1782926692.5327382
+          },
+          "source": {
+            "bytes": 31752,
+            "exists": true,
+            "kib": 32,
+            "mtime": 1782926484.5063157
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean",
+        "target": "generated-trace",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "yp",
+        "zm",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ],
+      "final": 138,
+      "label_indices": [
+        8,
+        10,
+        11,
+        12,
+        1,
+        5,
+        7,
+        4,
+        3,
+        6,
+        2,
+        0,
+        13,
+        9
+      ],
+      "margin_scaled": -376,
+      "path_object_index": 1,
+      "rank": 10613,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": 2050,
+            "exists": true,
+            "kib": 3,
+            "mtime": 1782928208.8024414
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke01",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke01.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke01.lean",
+        "target": "split-composition-01",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": true,
+          "olean": {
+            "bytes": 2503504,
+            "exists": true,
+            "kib": 2445,
+            "mtime": 1782928264.5732415
+          },
+          "source": {
+            "bytes": 32561,
+            "exists": true,
+            "kib": 32,
+            "mtime": 1782928172.7349994
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke01",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke01.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke01.lean",
+        "target": "generated-trace-01",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm",
+        "zp",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 135,
+      "label_indices": [
+        8,
+        10,
+        11,
+        0,
+        12,
+        13,
+        4,
+        6,
+        5,
+        2,
+        7,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -128,
+      "path_object_index": 2,
+      "rank": 23197,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke02",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke02.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke02.lean",
+        "target": "split-composition-02",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke02",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke02.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke02.lean",
+        "target": "generated-trace-02",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "zp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 134,
+      "label_indices": [
+        8,
+        10,
+        11,
+        0,
+        12,
+        5,
+        7,
+        4,
+        3,
+        6,
+        2,
+        13,
+        1,
+        9
+      ],
+      "margin_scaled": -128,
+      "path_object_index": 3,
+      "rank": 25555,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke03",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke03.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke03.lean",
+        "target": "split-composition-03",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke03",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke03.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke03.lean",
+        "target": "generated-trace-03",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 133,
+      "label_indices": [
+        8,
+        10,
+        11,
+        0,
+        4,
+        13,
+        12,
+        6,
+        5,
+        2,
+        7,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -392,
+      "path_object_index": 4,
+      "rank": 40387,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke04",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke04.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke04.lean",
+        "target": "split-composition-04",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke04",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke04.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke04.lean",
+        "target": "generated-trace-04",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 132,
+      "label_indices": [
+        8,
+        10,
+        11,
+        0,
+        4,
+        6,
+        13,
+        12,
+        5,
+        2,
+        7,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -464,
+      "path_object_index": 5,
+      "rank": 42247,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke05",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke05.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke05.lean",
+        "target": "split-composition-05",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke05",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke05.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke05.lean",
+        "target": "generated-trace-05",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 131,
+      "label_indices": [
+        8,
+        10,
+        11,
+        0,
+        4,
+        6,
+        5,
+        13,
+        12,
+        2,
+        7,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -176,
+      "path_object_index": 6,
+      "rank": 42943,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke06",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke06.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke06.lean",
+        "target": "split-composition-06",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke06",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke06.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke06.lean",
+        "target": "generated-trace-06",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 127,
+      "label_indices": [
+        8,
+        10,
+        11,
+        0,
+        4,
+        6,
+        5,
+        2,
+        13,
+        12,
+        7,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -464,
+      "path_object_index": 7,
+      "rank": 43171,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke07",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke07.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke07.lean",
+        "target": "split-composition-07",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke07",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke07.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke07.lean",
+        "target": "generated-trace-07",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 128,
+      "label_indices": [
+        8,
+        10,
+        11,
+        0,
+        4,
+        6,
+        5,
+        2,
+        7,
+        13,
+        12,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -392,
+      "path_object_index": 8,
+      "rank": 43195,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke08",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke08.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke08.lean",
+        "target": "split-composition-08",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke08",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke08.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke08.lean",
+        "target": "generated-trace-08",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 130,
+      "label_indices": [
+        8,
+        10,
+        11,
+        0,
+        4,
+        6,
+        5,
+        2,
+        7,
+        3,
+        12,
+        13,
+        1,
+        9
+      ],
+      "margin_scaled": -128,
+      "path_object_index": 9,
+      "rank": 43203,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke09",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke09.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke09.lean",
+        "target": "split-composition-09",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke09",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke09.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke09.lean",
+        "target": "generated-trace-09",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp",
+        "xp"
+      ],
+      "final": 129,
+      "label_indices": [
+        8,
+        10,
+        11,
+        0,
+        4,
+        6,
+        5,
+        2,
+        7,
+        3,
+        1,
+        12,
+        13,
+        9
+      ],
+      "margin_scaled": -376,
+      "path_object_index": 10,
+      "rank": 43205,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke10",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke10.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke10.lean",
+        "target": "split-composition-10",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke10",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke10.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke10.lean",
+        "target": "generated-trace-10",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "yp",
+        "zp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 141,
+      "label_indices": [
+        8,
+        10,
+        12,
+        11,
+        13,
+        0,
+        4,
+        6,
+        5,
+        2,
+        7,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -376,
+      "path_object_index": 11,
+      "rank": 113917,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke11",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke11.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke11.lean",
+        "target": "split-composition-11",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke11",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke11.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke11.lean",
+        "target": "generated-trace-11",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "yp",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ],
+      "final": 138,
+      "label_indices": [
+        8,
+        10,
+        12,
+        11,
+        1,
+        5,
+        7,
+        4,
+        3,
+        6,
+        2,
+        0,
+        13,
+        9
+      ],
+      "margin_scaled": -376,
+      "path_object_index": 12,
+      "rank": 124013,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke12",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke12.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke12.lean",
+        "target": "split-composition-12",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke12",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke12.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke12.lean",
+        "target": "generated-trace-12",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 141,
+      "label_indices": [
+        8,
+        10,
+        12,
+        13,
+        11,
+        0,
+        4,
+        6,
+        5,
+        2,
+        7,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -376,
+      "path_object_index": 13,
+      "rank": 136597,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke13",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke13.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke13.lean",
+        "target": "split-composition-13",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke13",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke13.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke13.lean",
+        "target": "generated-trace-13",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 140,
+      "label_indices": [
+        8,
+        10,
+        12,
+        13,
+        2,
+        6,
+        4,
+        7,
+        0,
+        5,
+        11,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -420,
+      "path_object_index": 14,
+      "rank": 151567,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke14",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke14.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke14.lean",
+        "target": "split-composition-14",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke14",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke14.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke14.lean",
+        "target": "generated-trace-14",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "final": 139,
+      "label_indices": [
+        8,
+        10,
+        12,
+        13,
+        2,
+        6,
+        4,
+        7,
+        0,
+        5,
+        1,
+        3,
+        11,
+        9
+      ],
+      "margin_scaled": -200,
+      "path_object_index": 15,
+      "rank": 151569,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke15",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke15.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke15.lean",
+        "target": "split-composition-15",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke15",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke15.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke15.lean",
+        "target": "generated-trace-15",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ],
+      "final": 136,
+      "label_indices": [
+        8,
+        10,
+        12,
+        3,
+        7,
+        5,
+        6,
+        1,
+        4,
+        11,
+        2,
+        0,
+        13,
+        9
+      ],
+      "margin_scaled": -420,
+      "path_object_index": 16,
+      "rank": 312761,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke16",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke16.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke16.lean",
+        "target": "split-composition-16",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke16",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke16.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke16.lean",
+        "target": "generated-trace-16",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "yp",
+        "zp",
+        "xp"
+      ],
+      "final": 137,
+      "label_indices": [
+        8,
+        10,
+        12,
+        3,
+        7,
+        5,
+        6,
+        1,
+        4,
+        0,
+        2,
+        11,
+        13,
+        9
+      ],
+      "margin_scaled": -200,
+      "path_object_index": 17,
+      "rank": 312772,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke17",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke17.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke17.lean",
+        "target": "split-composition-17",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke17",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke17.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke17.lean",
+        "target": "generated-trace-17",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "zp",
+        "yp",
+        "xp"
+      ],
+      "final": 137,
+      "label_indices": [
+        8,
+        10,
+        12,
+        3,
+        7,
+        5,
+        6,
+        1,
+        4,
+        0,
+        2,
+        13,
+        11,
+        9
+      ],
+      "margin_scaled": -200,
+      "path_object_index": 18,
+      "rank": 312773,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke18",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke18.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke18.lean",
+        "target": "split-composition-18",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke18",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke18.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke18.lean",
+        "target": "generated-trace-18",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "zm",
+        "zp",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 126,
+      "label_indices": [
+        8,
+        10,
+        2,
+        12,
+        13,
+        6,
+        4,
+        7,
+        0,
+        5,
+        11,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -172,
+      "path_object_index": 19,
+      "rank": 824407,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke19",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke19.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke19.lean",
+        "target": "split-composition-19",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke19",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke19.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke19.lean",
+        "target": "generated-trace-19",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 125,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        13,
+        12,
+        4,
+        7,
+        0,
+        5,
+        11,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -436,
+      "path_object_index": 20,
+      "rank": 914497,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke20",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke20.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke20.lean",
+        "target": "split-composition-20",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke20",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke20.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke20.lean",
+        "target": "generated-trace-20",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "final": 124,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        13,
+        12,
+        4,
+        7,
+        0,
+        5,
+        1,
+        3,
+        11,
+        9
+      ],
+      "margin_scaled": -216,
+      "path_object_index": 21,
+      "rank": 914499,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke21",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke21.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke21.lean",
+        "target": "split-composition-21",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke21",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke21.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke21.lean",
+        "target": "generated-trace-21",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 123,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        13,
+        12,
+        7,
+        0,
+        5,
+        11,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -508,
+      "path_object_index": 22,
+      "rank": 944197,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke22",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke22.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke22.lean",
+        "target": "split-composition-22",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke22",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke22.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke22.lean",
+        "target": "generated-trace-22",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "final": 122,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        13,
+        12,
+        7,
+        0,
+        5,
+        1,
+        3,
+        11,
+        9
+      ],
+      "margin_scaled": -288,
+      "path_object_index": 23,
+      "rank": 944199,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke23",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke23.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke23.lean",
+        "target": "split-composition-23",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke23",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke23.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke23.lean",
+        "target": "generated-trace-23",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 121,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        13,
+        12,
+        0,
+        5,
+        11,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -220,
+      "path_object_index": 24,
+      "rank": 946777,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke24",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke24.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke24.lean",
+        "target": "split-composition-24",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke24",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke24.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke24.lean",
+        "target": "generated-trace-24",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "final": 120,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        13,
+        12,
+        0,
+        5,
+        1,
+        3,
+        11,
+        9
+      ],
+      "margin_scaled": 0,
+      "path_object_index": 25,
+      "rank": 946779,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke25",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke25.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke25.lean",
+        "target": "split-composition-25",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke25",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke25.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke25.lean",
+        "target": "generated-trace-25",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 119,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        0,
+        13,
+        12,
+        5,
+        11,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -508,
+      "path_object_index": 26,
+      "rank": 947437,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke26",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke26.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke26.lean",
+        "target": "split-composition-26",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke26",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke26.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke26.lean",
+        "target": "generated-trace-26",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "final": 118,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        0,
+        13,
+        12,
+        5,
+        1,
+        3,
+        11,
+        9
+      ],
+      "margin_scaled": -288,
+      "path_object_index": 27,
+      "rank": 947439,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke27",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke27.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke27.lean",
+        "target": "split-composition-27",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke27",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke27.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke27.lean",
+        "target": "generated-trace-27",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "zp",
+        "zm",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 114,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        0,
+        5,
+        11,
+        13,
+        12,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -436,
+      "path_object_index": 28,
+      "rank": 947581,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke28",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke28.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke28.lean",
+        "target": "split-composition-28",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke28",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke28.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke28.lean",
+        "target": "generated-trace-28",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 117,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        0,
+        5,
+        11,
+        3,
+        12,
+        13,
+        1,
+        9
+      ],
+      "margin_scaled": -172,
+      "path_object_index": 29,
+      "rank": 947589,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke29",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke29.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke29.lean",
+        "target": "split-composition-29",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke29",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke29.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke29.lean",
+        "target": "generated-trace-29",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp",
+        "xp"
+      ],
+      "final": 116,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        0,
+        5,
+        11,
+        3,
+        1,
+        12,
+        13,
+        9
+      ],
+      "margin_scaled": -420,
+      "path_object_index": 30,
+      "rank": 947591,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke30",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke30.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke30.lean",
+        "target": "split-composition-30",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke30",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke30.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke30.lean",
+        "target": "generated-trace-30",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "yp",
+        "zm",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 114,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        0,
+        5,
+        13,
+        11,
+        12,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -436,
+      "path_object_index": 31,
+      "rank": 947593,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke31",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke31.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke31.lean",
+        "target": "split-composition-31",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke31",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke31.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke31.lean",
+        "target": "generated-trace-31",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "final": 114,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        0,
+        5,
+        13,
+        12,
+        11,
+        3,
+        1,
+        9
+      ],
+      "margin_scaled": -436,
+      "path_object_index": 32,
+      "rank": 947599,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke32",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke32.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke32.lean",
+        "target": "split-composition-32",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke32",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke32.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke32.lean",
+        "target": "generated-trace-32",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "final": 113,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        0,
+        5,
+        13,
+        12,
+        1,
+        3,
+        11,
+        9
+      ],
+      "margin_scaled": -216,
+      "path_object_index": 33,
+      "rank": 947601,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke33",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke33.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke33.lean",
+        "target": "split-composition-33",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke33",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke33.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke33.lean",
+        "target": "generated-trace-33",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "zm",
+        "zp",
+        "xp"
+      ],
+      "final": 115,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        0,
+        5,
+        1,
+        3,
+        11,
+        12,
+        13,
+        9
+      ],
+      "margin_scaled": -200,
+      "path_object_index": 34,
+      "rank": 947625,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke34",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke34.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke34.lean",
+        "target": "split-composition-34",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke34",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke34.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke34.lean",
+        "target": "generated-trace-34",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "yp",
+        "zp",
+        "xp"
+      ],
+      "final": 115,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        0,
+        5,
+        1,
+        3,
+        12,
+        11,
+        13,
+        9
+      ],
+      "margin_scaled": -200,
+      "path_object_index": 35,
+      "rank": 947626,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke35",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke35.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke35.lean",
+        "target": "split-composition-35",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke35",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke35.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke35.lean",
+        "target": "generated-trace-35",
+        "within_source_budget": true
+      }
+    },
+    {
+      "faces": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "zp",
+        "yp",
+        "xp"
+      ],
+      "final": 115,
+      "label_indices": [
+        8,
+        10,
+        2,
+        6,
+        4,
+        7,
+        0,
+        5,
+        1,
+        3,
+        12,
+        13,
+        11,
+        9
+      ],
+      "margin_scaled": -200,
+      "path_object_index": 36,
+      "rank": 947627,
+      "split": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 26,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke36",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke36.olean",
+        "planned_source_kib": 2,
+        "source_budget_kib": 8,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke36.lean",
+        "target": "split-composition-36",
+        "within_source_budget": true
+      },
+      "trace": {
+        "artifact_status": {
+          "fresh_olean": false,
+          "olean": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          },
+          "source": {
+            "bytes": null,
+            "exists": false,
+            "kib": null,
+            "mtime": null
+          }
+        },
+        "import_budget": 18,
+        "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke36",
+        "olean_path": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke36.olean",
+        "planned_source_kib": 32,
+        "source_budget_kib": 40,
+        "source_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageGeneratedTraceSmoke36.lean",
+        "target": "generated-trace-36",
+        "within_source_budget": true
+      }
+    }
+  ],
+  "graph_json": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "graph_path_object_count": 37,
+  "mode": "bellman-split-smoke-batch-plan",
+  "start_index": 0,
+  "summary": {
+    "entries_over_budget": 0,
+    "fresh_split_artifacts": 1,
+    "fresh_trace_artifacts": 2,
+    "planned_entries": 37,
+    "total_split_source_kib": 74,
+    "total_trace_source_kib": 1184
+  }
+}

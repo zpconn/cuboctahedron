@@ -3558,3 +3558,39 @@ Second sampled split path:
 Decision: accepted as a second bounded split-path smoke under the post-crash
 envelope.  This strengthens evidence for the split architecture while keeping
 the proof checks singly guarded and small.
+
+Split-smoke batch planner:
+
+- Added `scripts/plan_bellman_split_smokes.py`.
+- The planner reads the cached Bellman graph JSON and renders planned trace
+  source text in memory, using the same emitter helper as the generated trace
+  smoke.  It reports target/module names, source sizes, budget status, and
+  current source/`.olean` freshness.  It does not launch Lean and is not proof
+  evidence.
+- Commands run:
+
+  ```bash
+  python3 scripts/plan_bellman_split_smokes.py \
+    --count 8 \
+    --json scripts/generated/bellman_split_smoke_batch_plan_000_008.json \
+    --markdown docs/bellman_split_smoke_batch_plan_000_008.md
+
+  python3 scripts/plan_bellman_split_smokes.py \
+    --count 37 \
+    --json scripts/generated/bellman_split_smoke_batch_plan_000_037.json \
+    --markdown docs/bellman_split_smoke_batch_plan_000_037.md
+  ```
+
+- Results:
+  - `[0,8)`: `8` planned entries, `0` over budget, `256 KiB` trace source,
+    `16 KiB` split source;
+  - `[0,37)`: `37` planned entries, `0` over budget, `1184 KiB` trace source,
+    `74 KiB` split source.
+- Reports:
+  - `docs/bellman_split_smoke_batch_plan_000_008.md`;
+  - `docs/bellman_split_smoke_batch_plan_000_037.md`.
+
+Decision: accepted as the next operational planning gate.  The full cached
+37-path graph can be split into small planned trace/root shards, but proof
+promotion still requires single-target guarded Lean checks or a serial batch
+runner that enforces the same guard per target.
