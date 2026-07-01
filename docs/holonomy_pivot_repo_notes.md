@@ -450,6 +450,14 @@ Top margin+cancellation-pairing checkpoint:
   Remaining Bellman gap: connect the real holonomy/cancellation word language
   to accepted traces, or first coarsen the trace coordinate by a gauge/summary
   state that makes that membership proof compact.
+- Graph-path language status: `Cuboctahedron.Search.BellmanPotential` now has
+  `BellmanGraphPath`, `BellmanGraphLanguageTraceBound`, and
+  `scaledMargin_nonpos_of_bellmanGraphLanguageTraceBound`.  Generated graph
+  smokes can now use one automaton path proof that includes edge membership,
+  through `graphSmoke_graph_trace_language_scaled_margin_nonpos`.  Focused
+  builds passed for the core (`0:02.46`, `3,269,720 kB` RSS) and graph smoke
+  (`0:04.57`, `3,453,116 kB` RSS).  This is the intended theorem surface for
+  a future word-language-to-Bellman-automaton bridge.
 
 ## Explicit Non-Goals
 

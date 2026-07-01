@@ -2065,6 +2065,17 @@ Bellman profiler prototype checkpoint:
   precise: prove that the real top margin/cancellation holonomy language maps
   into `smokeTraceAccepts`, or find a coarser gauge/summary state for which
   that membership proof is small.
+- Graph-path language checkpoint: `Cuboctahedron.Search.BellmanPotential`
+  now defines `BellmanGraphPath`, bundling path structure with graph-edge
+  membership, plus `BellmanGraphLanguageTraceBound` and
+  `scaledMargin_nonpos_of_bellmanGraphLanguageTraceBound`.  The generated
+  smoke now instantiates this through `smokeGraphTraceAccepts` and
+  `graphSmoke_graph_trace_language_scaled_margin_nonpos`.  This is the
+  closest Bellman core surface yet to the intended finite automaton proof:
+  a word-language bridge should produce a `BellmanGraphPath` and a margin
+  bound, not a separate path proof plus edge-membership proof.  Focused builds
+  passed: Bellman core in `0:02.46` wall time with `3,269,720 kB` max RSS,
+  and the graph smoke in `0:04.57` wall time with `3,453,116 kB` max RSS.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

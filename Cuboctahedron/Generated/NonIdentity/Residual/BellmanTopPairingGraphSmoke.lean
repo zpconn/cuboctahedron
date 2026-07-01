@@ -6336,6 +6336,31 @@ theorem graphSmoke_trace_language_scaled_margin_nonpos :
     root_bound
     smokeTraceLanguageTraceBound
 
+private def smokeGraphTraceAccepts (trace : SmokeTrace) : Prop :=
+  BellmanGraphPath GraphEdge rootState trace.finish trace.edges
+    /\ 0 <= graphPotential trace.finish
+    /\ trace.margin <= (176 : Int) + bellmanGainSum trace.edges
+
+private theorem smokeGraphTraceLanguageTraceBound :
+    BellmanGraphLanguageTraceBound
+      graphPotential GraphEdge rootState
+      (176 : Int) smokeTraceScaledMargin smokeGraphTraceAccepts := by
+  intro trace htrace
+  rcases htrace with ⟨hpath, hfinish, hmargin⟩
+  exact ⟨trace.finish, trace.edges, hpath, hfinish, hmargin⟩
+
+theorem graphSmoke_graph_trace_language_scaled_margin_nonpos :
+    forall trace : SmokeTrace,
+      smokeGraphTraceAccepts trace -> smokeTraceScaledMargin trace <= 0 :=
+  scaledMargin_nonpos_of_bellmanGraphLanguageTraceBound
+    (V := graphPotential)
+    (GraphEdge := GraphEdge)
+    (start := rootState)
+    (const := 176)
+    (fun _ he => GraphEdge.valid he)
+    root_bound
+    smokeGraphTraceLanguageTraceBound
+
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=
   graphSmoke_observed_objects_scaled_margin_nonpos

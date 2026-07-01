@@ -1121,6 +1121,38 @@ Non-enumerative trace-language smoke:
   introduce a cocycle-gauge/cancellation-summary coordinate that makes that
   membership proof compact.
 
+Graph-path language checkpoint:
+
+- Added `BellmanGraphPath` to `Cuboctahedron.Search.BellmanPotential`.
+  Unlike `BellmanPath`, it carries the `GraphEdge` proof at each transition.
+- Added `BellmanGraphLanguageTraceBound` and
+  `scaledMargin_nonpos_of_bellmanGraphLanguageTraceBound`.
+- Updated the graph emitter to instantiate this theorem through:
+
+  ```lean
+  private def smokeGraphTraceAccepts (trace : SmokeTrace) : Prop := ...
+
+  theorem graphSmoke_graph_trace_language_scaled_margin_nonpos :
+      forall trace : SmokeTrace,
+        smokeGraphTraceAccepts trace ->
+          smokeTraceScaledMargin trace <= 0
+  ```
+
+- Focused builds passed:
+
+  ```bash
+  /usr/bin/time -v lake build Cuboctahedron.Search.BellmanPotential
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Results: Bellman core `0:02.46` wall / `3,269,720 kB` max RSS; graph smoke
+  `0:04.57` wall / `3,453,116 kB` max RSS.
+- Decision: accepted as the current Bellman automaton theorem surface.  The
+  next nonidentity Bellman work should target a real word-language relation
+  that constructs a `BellmanGraphPath` from holonomy/cancellation state,
+  rather than proving path structure and graph-edge membership separately.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
