@@ -2334,3 +2334,32 @@ Cancellation-pairing language core:
 This does not prove Bellman terminal membership yet.  It replaces one JSON
 coordinate in the accepted predicate stack with a Lean predicate that future
 generated membership shards can use.
+
+Top-pairing step-schedule language:
+
+- Added `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`.
+- This imports the cancellation-pairing core and adds the observed
+  contribution-order schedule predicate from the closure audit.
+- Key definitions:
+
+  ```lean
+  topPairingAllowedFacesAtStep
+  TopPairingStepScheduleFrom
+  TopPairingStepScheduleLabels
+  TopPairingStepScheduleSeq
+  TopPairingScheduleLanguageAtRank
+  ```
+
+- The current combined rank predicate includes cancellation-pairing membership
+  and the observed step schedule for the canonical face sequence of the
+  unranked pair word.
+- Focused check:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `0:02.41` | `3,279,288 kB` |
+
+This replaces another JSON coordinate with a Lean predicate.  The remaining
+top-pairing membership components are square-gap compatibility, local
+forced-axis next-face compatibility, canonical-bad-face compatibility, and the
+actual construction of terminal Bellman objects.

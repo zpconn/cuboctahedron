@@ -50474,3 +50474,47 @@ closed-language components still need Lean predicates and bridges:
 - canonical bad-face compatibility;
 - construction of `BellmanNonposStartViolationObject`s from the combined
   language.
+
+### Holonomy/Bellman Pivot - observed step-schedule language core accepted
+
+Added:
+
+```text
+Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+```
+
+This module starts assembling the accepted top-pairing Bellman language from
+Lean predicates rather than JSON tables.  It imports the cancellation-pairing
+core and adds the observed contribution-order step schedule from the closure
+audit:
+
+```lean
+def topPairingAllowedFacesAtStep : Nat -> List Face
+def TopPairingStepScheduleFrom : Nat -> List Face -> Prop
+def TopPairingStepScheduleLabels : List Face -> Prop
+def TopPairingStepScheduleSeq : (Step14 -> Face) -> Prop
+structure TopPairingScheduleLanguageAtRank
+```
+
+The combined rank predicate currently requires:
+
+```text
+TopPairingLanguageAtRank rank
+TopPairingStepScheduleLabels
+  (faceLabelsInContributionOrder id
+    (canonicalSeqOfPairWord (unrankPairWord rank)))
+```
+
+This is still deliberately weaker than final Bellman membership; it replaces
+the closure audit's observed-step table with a Lean predicate but does not yet
+prove square-gap, local forced-axis, or canonical-bad-face compatibility.
+
+Focused check:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `lake build Cuboctahedron.Search.BellmanTopPairingLanguage` | `0:02.41` | `3,279,288 kB` | passed |
+
+Decision: accepted as the second Lean-side semantic language component.  The
+next useful slice is the square-gap predicate from the closure audit, followed
+by local forced-axis next-face compatibility.
