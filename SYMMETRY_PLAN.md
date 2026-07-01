@@ -51329,3 +51329,80 @@ Decision: accepted as a real step toward sampled Bellman-object input.  The
 next gap is to emit or import the per-step matrix/dot facts for the selected
 object, instead of leaving `generatedLocalAxisTraceOfGeneratedStates`
 parameterized by those facts.
+
+### Holonomy/Bellman Pivot - concrete local-axis facts accepted for one graph path
+
+Extended the graph-input emitter again with:
+
+```text
+--concrete-local-axis
+```
+
+For the selected graph path object, the emitter now computes exact rational
+prefix matrices and local-axis dot values externally, emits them as private
+literal definitions, and emits Lean-checked facts:
+
+```lean
+generatedHdot00 ... generatedHdot13
+generatedHpos00 ... generatedHpos13
+generatedHnext00 ... generatedHnext13
+generatedLocalAxisTraceConcrete
+generatedClosedLanguageOfPositiveTemplateConcreteLocalAxis
+```
+
+The public improvement is that
+`generatedClosedLanguageOfPositiveTemplateConcreteLocalAxis` no longer takes a
+`TopPairingLocalAxisFrom ... generatedContributionLabels` parameter.  It still
+requires the template-match, positive-template, cancellation-language, and
+canonical-bad-face inputs; those are the remaining generated membership facts.
+
+The generated Lean shard grew from `273` lines to `612` lines.  The generated
+script is `604` lines.  The generated report records
+`"concrete_local_axis": true`.
+
+First strict run:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_concrete_axis_6g.json
+```
+
+Result: failed safely, not from memory.  Lean found unsolved `matId` field
+goals in generated next-state matrix proofs.  Guard measurements:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| initial concrete-local-axis smoke | `12.02s` | `4122 MiB` | `46045 MiB` | failed, proof script missing `matId` unfold |
+
+Fix: include `matId` in every generated next-state proof simplification list,
+because `reflM` expands through `matSub matId ...`.
+
+Passing strict run:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --json /tmp/bellman_safe_smoke_generated_trace_concrete_axis_6g_retry.json
+```
+
+Result:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| fixed concrete-local-axis smoke | `4.01s` | `4190 MiB` | `46006 MiB` | passed |
+
+Decision: accepted for the one selected graph path object.  This is a stronger
+sampled Bellman-object trace: the local-axis trace is now proof-carrying data
+inside the generated shard rather than an external theorem parameter.  The next
+missing generated facts are:
+
+- concrete `PairWordMatchesSeq (unrankPairWord rank) template` for the selected
+  rank/template, without broad rank reduction;
+- concrete `template 0 = Face.xp`;
+- concrete `forall i, positiveSignOfFace (template i) = true`;
+- concrete `faceLabelsInContributionOrder ... template = generatedContributionLabels`;
+- concrete `TopPairingLanguageAtRank rank` for the accepted cancellation
+  language;
+- concrete `TopPairingCanonicalBadFaceCompatible badFace`.
+
+Only after those are emitted and checked for one object should this route scale
+to multiple sampled graph objects.

@@ -9,6 +9,7 @@ literal contribution-order label list, not rank/unrank reductions.
 from __future__ import annotations
 
 import argparse
+from fractions import Fraction
 import json
 from pathlib import Path
 from typing import Any
@@ -64,6 +65,30 @@ ALLOWED_SQUARE_FACES_AT_GAP = {
 
 VALID_FACES = set(DEFAULT_FACES)
 
+NORMALS = {
+    "xp": (Fraction(1), Fraction(0), Fraction(0)),
+    "xm": (Fraction(-1), Fraction(0), Fraction(0)),
+    "yp": (Fraction(0), Fraction(1), Fraction(0)),
+    "ym": (Fraction(0), Fraction(-1), Fraction(0)),
+    "zp": (Fraction(0), Fraction(0), Fraction(1)),
+    "zm": (Fraction(0), Fraction(0), Fraction(-1)),
+    "tmmm": (Fraction(-1), Fraction(-1), Fraction(-1)),
+    "tmmp": (Fraction(-1), Fraction(-1), Fraction(1)),
+    "tmpm": (Fraction(-1), Fraction(1), Fraction(-1)),
+    "tmpp": (Fraction(-1), Fraction(1), Fraction(1)),
+    "tpmm": (Fraction(1), Fraction(-1), Fraction(-1)),
+    "tpmp": (Fraction(1), Fraction(-1), Fraction(1)),
+    "tppm": (Fraction(1), Fraction(1), Fraction(-1)),
+    "tppp": (Fraction(1), Fraction(1), Fraction(1)),
+}
+
+TOP_PAIRING_AXIS = (Fraction(-1), Fraction(-1), Fraction(-3))
+IDENTITY_MAT = (
+    (Fraction(1), Fraction(0), Fraction(0)),
+    (Fraction(0), Fraction(1), Fraction(0)),
+    (Fraction(0), Fraction(0), Fraction(1)),
+)
+
 
 def face_ctor(face: str) -> str:
     return f"Face.{face}"
@@ -75,6 +100,75 @@ def mat_name(index: int) -> str:
 
 def rat_name(index: int) -> str:
     return f"v{index:02d}"
+
+
+def lean_rat(value: Fraction) -> str:
+    if value.denominator == 1:
+        return str(value.numerator)
+    if value.numerator < 0:
+        return f"({value.numerator}/{value.denominator})"
+    return f"({value.numerator}/{value.denominator})"
+
+
+def lean_mat3(mat: tuple[tuple[Fraction, Fraction, Fraction], ...]) -> str:
+    return (
+        "{ "
+        f"m00 := {lean_rat(mat[0][0])}, "
+        f"m01 := {lean_rat(mat[0][1])}, "
+        f"m02 := {lean_rat(mat[0][2])}, "
+        f"m10 := {lean_rat(mat[1][0])}, "
+        f"m11 := {lean_rat(mat[1][1])}, "
+        f"m12 := {lean_rat(mat[1][2])}, "
+        f"m20 := {lean_rat(mat[2][0])}, "
+        f"m21 := {lean_rat(mat[2][1])}, "
+        f"m22 := {lean_rat(mat[2][2])} "
+        "}"
+    )
+
+
+def vec_dot(a: tuple[Fraction, Fraction, Fraction], b: tuple[Fraction, Fraction, Fraction]) -> Fraction:
+    return sum((x * y for x, y in zip(a, b)), Fraction(0))
+
+
+def mat_vec(
+    mat: tuple[tuple[Fraction, Fraction, Fraction], ...],
+    vec: tuple[Fraction, Fraction, Fraction],
+) -> tuple[Fraction, Fraction, Fraction]:
+    return tuple(vec_dot(row, vec) for row in mat)  # type: ignore[return-value]
+
+
+def mat_mul(
+    left: tuple[tuple[Fraction, Fraction, Fraction], ...],
+    right: tuple[tuple[Fraction, Fraction, Fraction], ...],
+) -> tuple[tuple[Fraction, Fraction, Fraction], ...]:
+    cols = tuple(tuple(right[row][col] for row in range(3)) for col in range(3))
+    return tuple(tuple(vec_dot(row, col) for col in cols) for row in left)
+
+
+def reflection_matrix(face: str) -> tuple[tuple[Fraction, Fraction, Fraction], ...]:
+    normal = NORMALS[face]
+    norm_sq = vec_dot(normal, normal)
+    rows: list[tuple[Fraction, Fraction, Fraction]] = []
+    for i in range(3):
+        row: list[Fraction] = []
+        for j in range(3):
+            entry = Fraction(1 if i == j else 0) - Fraction(2) * normal[i] * normal[j] / norm_sq
+            row.append(entry)
+        rows.append(tuple(row))  # type: ignore[arg-type]
+    return tuple(rows)
+
+
+def local_axis_data(
+    faces: list[str],
+) -> tuple[list[tuple[tuple[Fraction, Fraction, Fraction], ...]], list[Fraction]]:
+    current = IDENTITY_MAT
+    prefix_mats: list[tuple[tuple[Fraction, Fraction, Fraction], ...]] = []
+    dot_values: list[Fraction] = []
+    for face in faces:
+        dot_values.append(vec_dot(mat_vec(current, NORMALS[face]), TOP_PAIRING_AXIS))
+        current = mat_mul(current, reflection_matrix(face))
+        prefix_mats.append(current)
+    return prefix_mats, dot_values
 
 
 def label_key_face(label: Any) -> str:
@@ -239,7 +333,77 @@ def emit_local_axis_signature(name: str, faces: list[str]) -> list[str]:
     return lines
 
 
-def emit_module(namespace: str, name: str, faces: list[str]) -> list[str]:
+def emit_concrete_local_axis(name: str, faces: list[str]) -> list[str]:
+    prefix_mats, dot_values = local_axis_data(faces)
+    lines: list[str] = []
+    for index, mat in enumerate(prefix_mats, start=1):
+        lines.extend(
+            [
+                f"private def {name}M{index:02d} : Mat3 Rat :=",
+                f"  {lean_mat3(mat)}",
+                "",
+            ]
+        )
+    for index, value in enumerate(dot_values):
+        lines.extend(
+            [
+                f"private def {name}V{index:02d} : Rat :=",
+                f"  {lean_rat(value)}",
+                "",
+            ]
+        )
+    for index, face in enumerate(faces):
+        current = "(matId : Mat3 Rat)" if index == 0 else f"{name}M{index:02d}"
+        nxt = f"{name}M{index + 1:02d}"
+        value = f"{name}V{index:02d}"
+        lines.extend(
+            [
+                f"private theorem {name}Hdot{index:02d} :",
+                f"    dot (matVec {current} (normalQ {face_ctor(face)}))",
+                f"      topPairingLocalAxis = {value} := by",
+                f"  norm_num [{value}, {current if index != 0 else 'matId'}, "
+                "topPairingLocalAxis, normalQ, matVec, dot]",
+                "",
+                f"private theorem {name}Hpos{index:02d} :",
+                f"    0 < {value} := by",
+                f"  norm_num [{value}]",
+                "",
+                f"private theorem {name}Hnext{index:02d} :",
+                f"    {nxt} = matMul {current} (reflM (normalQ {face_ctor(face)})) := by",
+                f"  norm_num [{nxt}, {current if index != 0 else 'matId'}, normalQ, "
+                "matId, matMul, reflM, dot, matSub, scalarMat, outer]",
+                "",
+            ]
+        )
+    args: list[str] = []
+    for index in range(len(faces)):
+        args.extend(
+            [
+                f"{name}Hdot{index:02d}",
+                f"{name}Hpos{index:02d}",
+                f"{name}Hnext{index:02d}",
+            ]
+        )
+    lines.extend(
+        [
+            f"private theorem {name}LocalAxisTraceConcrete :",
+            f"    TopPairingLocalAxisFrom (matId : Mat3 Rat) {name}ContributionLabels :=",
+            f"  {name}LocalAxisTraceOfGeneratedStates",
+        ]
+    )
+    for arg in args:
+        lines.append(f"    {arg}")
+    lines.append("")
+    return lines
+
+
+def emit_module(
+    namespace: str,
+    name: str,
+    faces: list[str],
+    *,
+    concrete_local_axis: bool,
+) -> list[str]:
     labels = ", ".join(face_ctor(face) for face in faces)
     lines = [
         "import Cuboctahedron.Search.BellmanTopPairingLanguage",
@@ -285,6 +449,9 @@ def emit_module(namespace: str, name: str, faces: list[str]) -> list[str]:
         ]
     )
     lines.extend(emit_local_axis_signature(name, faces))
+    if concrete_local_axis:
+        lines.extend([""])
+        lines.extend(emit_concrete_local_axis(name, faces))
     lines.extend(
         [
             "",
@@ -323,6 +490,41 @@ def emit_module(namespace: str, name: str, faces: list[str]) -> list[str]:
             f"      exact topPairingLocalAxisLabels_ofFrom localAxisTrace)",
             "    canonicalBadFace",
             "",
+        ]
+    )
+    if concrete_local_axis:
+        lines.extend(
+            [
+                f"theorem {name}ClosedLanguageOfPositiveTemplateConcreteLocalAxis",
+                "    {rank : Fin numPairWords} {badFace : Face}",
+                "    {template : Step14 -> Face}",
+                "    (template_matches :",
+                "      PairWordMatchesSeq (unrankPairWord rank) template)",
+                "    (template_start :",
+                "      template 0 = Face.xp)",
+                "    (template_positive :",
+                "      forall i : Step14, positiveSignOfFace (template i) = true)",
+                "    (template_labels :",
+                "      faceLabelsInContributionOrder (fun f => f) template =",
+                f"        {name}ContributionLabels)",
+                "    (cancellation :",
+                "      TopPairingLanguageAtRank rank)",
+                "    (canonicalBadFace :",
+                "      TopPairingCanonicalBadFaceCompatible badFace) :",
+                "    TopPairingClosedLanguageAtRank rank badFace :=",
+                f"  {name}ClosedLanguageOfPositiveTemplateTrace",
+                "    template_matches",
+                "    template_start",
+                "    template_positive",
+                "    template_labels",
+                "    cancellation",
+                f"    {name}LocalAxisTraceConcrete",
+                "    canonicalBadFace",
+                "",
+            ]
+        )
+    lines.extend(
+        [
             f"theorem {name}GeneratedTraceSmoke_builds : True := by",
             "  exact True.intro",
             "",
@@ -356,6 +558,11 @@ def main() -> None:
         default=0,
         help="Path object index to read when --graph-json is provided.",
     )
+    parser.add_argument(
+        "--concrete-local-axis",
+        action="store_true",
+        help="Emit literal prefix matrices/dot values and a concrete local-axis trace theorem.",
+    )
     args = parser.parse_args()
 
     source: dict[str, Any] = {"kind": "built-in-default"}
@@ -365,7 +572,12 @@ def main() -> None:
         source["kind"] = "bellman-graph-path-object"
     validate_faces(faces)
 
-    lines = emit_module(args.namespace, args.name, faces)
+    lines = emit_module(
+        args.namespace,
+        args.name,
+        faces,
+        concrete_local_axis=args.concrete_local_axis,
+    )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text("\n".join(lines))
 
@@ -378,6 +590,7 @@ def main() -> None:
             "source": source,
             "faces": faces,
             "face_count": len(faces),
+            "concrete_local_axis": args.concrete_local_axis,
             "proof_strategy": (
                 "literal schedule/square-gap traces plus explicit local-axis "
                 "state/dot facts and a positive-template label bridge"

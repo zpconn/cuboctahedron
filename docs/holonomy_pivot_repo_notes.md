@@ -2843,3 +2843,46 @@ Graph-input trace emitter:
 - Decision: accepted.  This is now a graph-object-driven generated trace smoke,
   but the local-axis matrix/dot facts are still theorem parameters.  The next
   generator step is to emit or import those facts for the selected object.
+
+Concrete local-axis facts for selected graph path:
+
+- Extended `scripts/emit_bellman_closed_language_trace_smoke.py` with
+  `--concrete-local-axis`.
+- The emitter now computes exact rational prefix matrices and local-axis dot
+  values for the selected graph path, emits them as private literals, and emits
+  Lean-checked facts `generatedHdot00` through `generatedHdot13`,
+  `generatedHpos00` through `generatedHpos13`, and `generatedHnext00` through
+  `generatedHnext13`.
+- New theorem exported by the generated shard:
+
+  ```lean
+  generatedClosedLanguageOfPositiveTemplateConcreteLocalAxis
+  ```
+
+- This theorem no longer takes the local-axis trace as a parameter.  It still
+  requires template-match, positive-template, cancellation-language, and
+  canonical-bad-face facts.
+- Initial strict wrapper run failed safely, not from memory:
+
+  ```text
+  12.02s, 4122 MiB peak process-tree RSS, 46045 MiB minimum available memory.
+  ```
+
+  Cause: generated next-state proofs did not unfold `matId` inside `reflM`.
+- After adding `matId` to the generated next-state simplification list, the
+  strict wrapper run passed:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_concrete_axis_6g_retry.json
+  ```
+
+  Result:
+
+  ```text
+  4.01s, 4190 MiB peak process-tree RSS, 46006 MiB minimum available memory.
+  ```
+
+- Decision: accepted for one selected graph path object.  The next generated
+  membership facts are template match/positivity/labels, cancellation language,
+  and canonical bad-face compatibility.

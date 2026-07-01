@@ -60,5 +60,6 @@
     "xp"
   ],
   "face_count": 14,
+  "concrete_local_axis": true,
   "proof_strategy": "literal schedule/square-gap traces plus explicit local-axis state/dot facts and a positive-template label bridge"
 }
