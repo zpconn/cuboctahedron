@@ -279,3 +279,16 @@ Axis-class quotient checkpoint:
   the 45-second `LocalCertSmoke` cost, this route is not viable; if it is
   sub-second, the axis-class quotient may become useful in combination with
   higher holonomy grouping.
+
+Focused largest-axis-class checkpoint:
+
+- `scripts/axis_start_focus_profile.py` focuses the exact residual profile on
+  one canonical bad-face/D4-axis class.
+- For `canonical_bad_face = yp` and `axisD4 = 1,-3,-1` on `[0,100000)`, it
+  finds `1,427` matching residuals.  They have one absolute axis pattern
+  (`x=1|yz=1,3`), one reduced-shadow length (`6`), `8` exact axes, `16`
+  reduced shadows, and exactly `16` exact-axis/reduced-shadow pairs.  The
+  solve-shape surface still fragments into `1,337` hashes.
+- First concrete theorem-smoke target:
+  `axis=1,3,1` with reduced shadow
+  `d11m d111 dm11 d11m d111 dm11`, which covers `107` sample residuals.

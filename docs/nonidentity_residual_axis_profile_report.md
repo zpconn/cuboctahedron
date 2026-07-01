@@ -218,6 +218,46 @@ Axis-class quotient checkpoint:
   one or two largest axis classes with a lightweight integer/projective theorem
   surface and measure that cost before any broader emission.
 
+Largest axis-class focus checkpoint:
+
+- Added `scripts/axis_start_focus_profile.py`, a focused exact profiler for
+  one start-interior D4 axis class.
+- Target:
+
+  ```text
+  canonical bad face: yp
+  D4 axis class:      1,-3,-1
+  ```
+
+- On `[0,100000)`, the focused run used four workers, completed in `0:08.46`,
+  and peaked at `24,752 KiB` RSS.
+- It found `1,427` matched residuals inside the class.  Internal variation:
+
+  | Coordinate | Distinct |
+  | --- | ---: |
+  | absolute axis pattern | 1 |
+  | exact oriented axes | 8 |
+  | reduced-shadow length | 1 |
+  | reduced shadows | 16 |
+  | exact-axis/reduced-shadow pairs | 16 |
+  | actual bad faces | 4 |
+  | forced-sign strings | 274 |
+  | solve-shape hashes | 1,337 |
+
+- The largest exact-axis/reduced-shadow pair is:
+
+  ```text
+  axis=1,3,1
+  reduced=d11m d111 dm11 d11m d111 dm11
+  count=107
+  ```
+
+- Conclusion: the target class has a small holonomy/axis spine but a highly
+  fragmented affine solve surface.  The first Lean theorem-smoke should target
+  the largest exact-axis/reduced-shadow pair and should avoid solve-shape hashes
+  entirely.  If it still needs per-solve evidence, the route is not compressed
+  enough.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -227,6 +267,9 @@ Axis-class quotient checkpoint:
 - `scripts/generated/nonidentity_residual_source_quotient_000000000_000100000.md`
 - `scripts/generated/nonidentity_residual_axisclass_000000000_000100000.json`
 - `scripts/generated/nonidentity_residual_axisclass_000000000_000100000.md`
+- `scripts/axis_start_focus_profile.py`
+- `scripts/generated/axis_start_focus_yp_1_m3_m1_000000000_000100000.json`
+- `scripts/generated/axis_start_focus_yp_1_m3_m1_000000000_000100000.md`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.json`
 - `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.md`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000000100.json`
@@ -276,8 +319,12 @@ Next nontranslation work:
 3. Prototype a cheaper integer/projective axis-family theorem surface for the
    largest D4 axis-start classes, beginning with
    `axisStart|badFace=yp|axisD4=1,-3,-1`.
-4. Keep signed-state empty-cone/Gordan as a pre-forced-axis front-end only; do
+4. The first theorem-smoke target should be the largest exact-axis/reduced
+   pair:
+   `axis=1,3,1` and
+   `reduced=d11m d111 dm11 d11m d111 dm11`.
+5. Keep signed-state empty-cone/Gordan as a pre-forced-axis front-end only; do
    not expect it to solve the forced-axis residual branch.
-5. Do not generate terminal residual Lean leaves until the planned semantic
+6. Do not generate terminal residual Lean leaves until the planned semantic
    family count is below the low-thousands gate and representative leaves build
    substantially cheaper than the current smoke.

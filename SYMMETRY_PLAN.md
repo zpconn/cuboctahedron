@@ -1237,6 +1237,40 @@ Axis-class quotient checkpoint:
   should therefore be a lightweight integer/projective theorem smoke for the
   largest class, `axisStart|badFace=yp|axisD4=1,-3,-1`, not broad emission.
 
+Largest axis-class focus checkpoint:
+
+- Added `scripts/axis_start_focus_profile.py` to inspect one
+  start-interior axis class in detail without emitting proof evidence.
+- Targeted `canonical_bad_face = yp`, `axisD4 = 1,-3,-1` on `[0,100000)`.
+  The run completed in `0:08.46` wall time at `24,752 KiB` max RSS.
+- Result:
+
+  | coordinate | distinct |
+  | --- | ---: |
+  | matched residuals | `1,427` |
+  | absolute axis pattern | `1` |
+  | exact oriented axes | `8` |
+  | reduced-shadow length | `1` |
+  | reduced shadows | `16` |
+  | exact-axis/reduced-shadow pairs | `16` |
+  | actual bad faces | `4` |
+  | forced-sign strings | `274` |
+  | solve-shape hashes | `1,337` |
+
+- Largest exact-axis/reduced-shadow pair:
+
+  ```text
+  axis=1,3,1
+  reduced=d11m d111 dm11 d11m d111 dm11
+  sample count=107
+  ```
+
+- Interpretation: this is the first concrete nontranslation theorem-smoke
+  target.  The exact-axis/reduced-shadow spine is small, while solve-shape
+  hashes are almost singleton.  The Lean experiment should therefore try to
+  prove the largest pair by a direct integer/projective axis-start invariant,
+  not by replaying the affine solve witness for each rank.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
