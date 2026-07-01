@@ -57030,3 +57030,86 @@ Bellman task is to split these shards into real importable modules:
 
 4. the semantic closed-language evaluator theorem
    `TopPairingClosedLanguageAtRank -> TopPairingBellmanEvalLanguageAtRank`.
+
+### Holonomy/Bellman Pivot - numeric eval split base/shard/root
+
+Added a real split emitter for the numeric Bellman evaluator route:
+
+```text
+scripts/emit_bellman_graph_eval_split.py
+```
+
+Representative generated split:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Base.lean
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Shard000.lean
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Root.lean
+```
+
+This is the first Bellman graph smoke with the intended production layout:
+
+- `Base.lean`: numeric `State := Nat`, numeric `SmokeLabel := Nat`,
+  `graphPotential`, `smokeLabelOfFace`, `graphSmokeNext_sNNNN`,
+  `graphSmokeNext`, and `GraphSmokeStepEval`;
+- `Shard000.lean`: validity theorems for source states `[0,64)` plus a
+  range theorem;
+- `Root.lean`: imports the shard and exposes the shard range theorem through a
+  root module.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_eval_split.py
+
+python3 scripts/emit_bellman_graph_eval_split.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --output-dir Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke \
+  --module-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke \
+  --namespace-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke \
+  --shard-start 0 --shard-count 64 --shard-index 0
+
+rg -n "SampledRankIndex|sampledSmokeNext|sampledContainsRank|sampledRankOf|sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  scripts/emit_bellman_graph_eval_split.py \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke || true
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_eval_split_10m_base_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_eval_split_10m_shard000_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Shard000
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 180 \
+  --json scripts/generated/bellman_eval_split_10m_root_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Root
+```
+
+Results:
+
+| split module | source size | guarded build | peak RSS |
+| --- | ---: | ---: | ---: |
+| `Base.lean` | `166 KiB` | `12.09s` | `4351 MiB` |
+| `Shard000.lean` | `38 KiB` | `4.00s` | `4229 MiB` |
+| `Root.lean` | `1.1 KiB` | `3.00s` | `1485 MiB` |
+
+The sampled/forbidden token scan over the split emitter and generated split
+found no hits.
+
+Decision: accept the numeric eval split layout as the current Bellman graph
+architecture.  This replaces the previous single-file smokes for scalability
+purposes.  The next implementation step is to generate all validity shards for
+the 10M representative with conservative 32-state default shards, then build a
+root that dispatches across shard ranges.  Only after the full 10M split root
+is guarded-green should this architecture be considered ready for the
+`TopPairingClosedLanguageAtRank -> TopPairingBellmanEvalLanguageAtRank` bridge.
