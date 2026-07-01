@@ -299,6 +299,7 @@ def emit(
     if can_emit_rank_sequence_bridge:
         imports.append("import Cuboctahedron.Search.AxisForcedRankLanguage")
         imports.append("import Cuboctahedron.Search.BellmanAxisBridge")
+        imports.append("import Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge")
     lines: list[str] = [
         *imports,
         "",
@@ -1708,6 +1709,19 @@ def emit(
                 "    sampledScaledMarginAtRank rank <= 0 :=",
                 "  BellmanAxisRankIndexedCover.scaledMargin_nonpos",
                 "    sampledAxisRankIndexedCover hrank hRealize hAxisConstraints",
+                "",
+                "theorem graphSmoke_sampled_axis_rank_killed_of_margin_positive",
+                "    (hpositive :",
+                "      forall idx seq,",
+                "        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->",
+                "        StartsXp seq ->",
+                "        totalLinear seq ≠ (matId : Mat3 Rat) ->",
+                "        NonIdentityAxisConstraints seq ->",
+                "        0 < sampledScaledMarginAtRank (sampledRankOf idx))",
+                "    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :",
+                "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=",
+                "  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_indexed_cover_margin_positive",
+                "    sampledAxisRankIndexedCover hpositive hrank",
                 "",
             ])
     lines.extend([

@@ -1089,3 +1089,47 @@ Indexed Bellman cover adapter:
 - Decision: accepted.  The next production step is generating the actual
   finite automaton membership proof that produces the Type-level path/index
   for broad semantic top-pairing families.
+
+Bellman margin to public killed coverage:
+
+- Added:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean
+  ```
+
+- Exported theorem names:
+
+  ```lean
+  nonIdentityRankKilled_of_no_axis_constraints
+  nonIdentityRankKilled_of_indexed_cover_margin_positive
+  ```
+
+- This bridge is the current public semantic boundary for the Bellman
+  nonidentity residual route.  A generated leaf keeps its Type-indexed
+  Bellman automaton/path evidence private, proves `scaledMargin <= 0` through
+  `BellmanAxisRankIndexedCover`, and supplies the family-specific positive
+  margin lemma for actual nonidentity axis configurations.  The bridge then
+  proves:
+
+  ```lean
+  Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+  ```
+
+- The generated two-rank smoke now exports:
+
+  ```lean
+  graphSmoke_sampled_axis_rank_killed_of_margin_positive
+  ```
+
+- Focused builds:
+
+  | target | wall | max RSS | status |
+  | --- | ---: | ---: | --- |
+  | `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:00.86` | `842,388 kB` | passed |
+  | `BellmanTopPairingGraphLanguage2Smoke` | `0:15.38` | `4,458,448 kB` | passed |
+
+- Decision: accepted.  The Bellman route now reaches the public generated
+  coverage predicate without exporting raw nonidentity certificates.  The next
+  production step is generating the positive-margin theorem for real dominant
+  top-pairing families.

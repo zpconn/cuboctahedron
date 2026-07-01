@@ -2390,3 +2390,44 @@ Focused builds:
 
 Decision: accepted as the preferred public/private split for nonidentity
 Bellman margin coverage.
+
+## Semantic Bellman Killed Bridge
+
+The Bellman/potential route now reaches the public nonidentity coverage
+predicate through a small hand-written bridge:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+
+nonIdentityRankKilled_of_no_axis_constraints
+nonIdentityRankKilled_of_indexed_cover_margin_positive
+```
+
+The generated two-rank smoke now exports:
+
+```lean
+graphSmoke_sampled_axis_rank_killed_of_margin_positive
+```
+
+This theorem states that a Bellman indexed cover plus the family-specific
+positive-margin lemma proves
+`Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank`.  This is the
+right final theorem surface for the nonidentity margin branch: generated
+Bellman leaves prove semantic rank killing, not `exists cert,
+checkNonIdCert cert = true`.
+
+Focused builds:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:00.86` | `842,388 kB` | passed |
+| `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke` | `0:15.38` | `4,458,448 kB` | passed |
+
+The hard-constraint keyword scan over the changed bridge, emitter, and
+generated smoke found no `sorry`, `admit`, `axiom`, `native_decide`, or
+`unsafe`.
+
+Remaining gap: generate the positive-margin theorem for a real Bellman family.
+That theorem should be family/margin-form based and should not reintroduce
+exact affine RHS, solved start point, total affine offset, or rank-local
+certificate replay as public coordinates.

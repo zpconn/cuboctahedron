@@ -2,6 +2,7 @@ import Cuboctahedron.Search.BellmanPotential
 import Cuboctahedron.Search.FaceLabelLanguage
 import Cuboctahedron.Search.AxisForcedRankLanguage
 import Cuboctahedron.Search.BellmanAxisBridge
+import Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
 
 set_option maxRecDepth 4096
 
@@ -23822,6 +23823,19 @@ theorem graphSmoke_sampled_axis_rank_language_family_scaled_margin_nonpos
     sampledScaledMarginAtRank rank <= 0 :=
   BellmanAxisRankIndexedCover.scaledMargin_nonpos
     sampledAxisRankIndexedCover hrank hRealize hAxisConstraints
+
+theorem graphSmoke_sampled_axis_rank_killed_of_margin_positive
+    (hpositive :
+      forall idx seq,
+        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->
+        StartsXp seq ->
+        totalLinear seq ≠ (matId : Mat3 Rat) ->
+        NonIdentityAxisConstraints seq ->
+        0 < sampledScaledMarginAtRank (sampledRankOf idx))
+    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_indexed_cover_margin_positive
+    sampledAxisRankIndexedCover hpositive hrank
 
 theorem graphSmoke_argmax_object_scaled_margin_nonpos :
     forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=

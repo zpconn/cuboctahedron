@@ -47998,3 +47998,87 @@ Results:
 Decision: accepted.  Next work should generate a real finite automaton
 membership witness, not another sampled-rank enumeration: `ContainsRank rank`
 must produce the internal index/path required by `BellmanAxisRankIndexedCover`.
+
+### Holonomy/Bellman Pivot - semantic killed bridge accepted
+
+GPT5.5 Pro's latest recommendation is now the active nonidentity residual
+strategy: do not add another certificate-packing layer for the affine-offset
+margin problem.  Instead, prove the margin inequality by a finite-horizon
+Bellman/potential certificate over a holonomy/cancellation automaton, then
+bridge that semantic margin contradiction directly to
+`Coverage.NonIdentityRankKilled`.
+
+Implemented the first Lean bridge for that route:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+
+nonIdentityRankKilled_of_no_axis_constraints
+nonIdentityRankKilled_of_indexed_cover_margin_positive
+```
+
+The second theorem packages the intended production shape.  A generated leaf
+keeps its Type-level finite index/path witness private, proves
+`scaledMargin rank <= 0` using `BellmanAxisRankIndexedCover`, and assumes or
+supplies the family-specific geometric lemma that any actual nonidentity axis
+configuration would force `0 < scaledMargin rank`.  The contradiction yields
+the public semantic predicate:
+
+```lean
+Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+The two-rank Bellman smoke now emits:
+
+```lean
+graphSmoke_sampled_axis_rank_killed_of_margin_positive
+```
+
+This proves that the generated Bellman automaton surface can reach the actual
+public generated coverage predicate without exposing per-rank certificates or
+exact affine RHS values.
+
+Commands run:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke \
+  --rank-bridge-limit 2
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean \
+  scripts/emit_bellman_graph_smoke.py
+```
+
+Results:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanKilledBridge` | `0:00.86` | `842,388 kB` | passed |
+| `BellmanTopPairingGraphLanguage2Smoke` | `0:15.38` | `4,458,448 kB` | passed |
+| keyword scan | - | - | no matches |
+
+Decision: accepted.  The next concrete task is no longer broader sampled-rank
+smoke.  It is the first generated positive-margin family theorem for the
+dominant top-pairing Bellman family:
+
+```lean
+forall idx seq,
+  SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->
+  StartsXp seq ->
+  totalLinear seq ≠ (matId : Mat3 Rat) ->
+  NonIdentityAxisConstraints seq ->
+  0 < sampledScaledMarginAtRank (sampledRankOf idx)
+```
+
+For production this premise must be generated from the same family constants
+that define the margin form, not from a rank-local certificate replay.  The
+Bellman potential table remains private generated evidence; the public API is
+semantic killed coverage.
