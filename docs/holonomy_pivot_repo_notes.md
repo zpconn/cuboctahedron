@@ -3736,3 +3736,50 @@ Single-path candidate selector:
 Decision: accepted as planning/accounting only.  The next proof-bearing action,
 if resumed, should be this one selected single-path target under the strict
 guard, not a batch.
+
+Fresh-aware split-only path checking:
+
+- `scripts/run_bellman_split_smoke_path.py` now preserves source mtimes when
+  generated text is unchanged and supports `--check-stage both|trace|split|missing`.
+- `--check-stage split` requires a fresh trace `.olean`, so the runner can
+  check only the tiny split root when the trace shard is already current.
+- The dry-run batch guard now records trace and split checked evidence
+  separately.
+- Dry-run command for selected path index `1`:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 1 \
+    --check \
+    --check-stage split \
+    --dry-run \
+    --json scripts/generated/bellman_split_path_01_split_only_dry_run.json
+  ```
+
+  Result: only the split command was scheduled; trace source was unchanged and
+  its `.olean` remained fresh.
+
+- Proof-bearing split-only command:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 1 \
+    --check \
+    --check-stage split \
+    --json scripts/generated/bellman_split_path_01_split_only_run.json
+  ```
+
+  Result: passed in `11.51s`, peak process-tree RSS `3873 MiB`, hard address
+  cap `6144 MiB`, minimum available memory `46356 MiB`.
+
+- Refreshed strict `[0,4)` dry-run guard:
+  - status: `rejected-dry-run`;
+  - blocked entries: `3`;
+  - blockers: `5`;
+  - path `1` now has split checked evidence but still lacks a stable trace
+    checked summary.
+- Refreshed single-path selector:
+  - selected path index `3`, rank `25555`;
+  - reason: trace and split artifacts are missing/stale.
+
+Decision: accepted.  The proof-bearing work remains single-target and under the
+strict crash-recovery cap.  The next candidate is known, but no batch execution
+is allowed.

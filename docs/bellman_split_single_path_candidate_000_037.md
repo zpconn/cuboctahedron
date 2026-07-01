@@ -5,23 +5,23 @@ This report is planning/accounting only. It does not invoke Lean.
 - graph: `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json`
 - scanned range: `0..37`
 - status: `selected`
-- current MemAvailable: `46748 MiB`
+- current MemAvailable: `46752 MiB`
 - required MemAvailable: `36864 MiB`
 
 Selected candidate:
 
-- index: `1`
-- rank: `10613`
-- reason: trace artifact is fresh; split artifact is missing or stale
-- trace module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke01`
-- split module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke01`
+- index: `3`
+- rank: `25555`
+- reason: trace and split artifacts are missing or stale
+- trace module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageGeneratedTraceSmoke03`
+- split module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplitCompositionSmoke03`
 - trace source: `32 KiB`
 - split source: `2 KiB`
 
 | index | rank | trace KiB | split KiB | trace artifact | split artifact | run summary | candidate reason |
 | ---: | ---: | ---: | ---: | --- | --- | --- | --- |
 | `0` | `517` | `32` | `2` | fresh | fresh | `None` | fresh artifacts exist, but current path-run summary is missing or stale |
-| `1` | `10613` | `32` | `2` | fresh | missing/stale | `None` | trace artifact is fresh; split artifact is missing or stale |
+| `1` | `10613` | `32` | `2` | fresh | fresh | `split-checked` | fresh artifacts exist, but current path-run summary is missing or stale |
 | `2` | `23197` | `32` | `2` | fresh | fresh | `checked` | already checked by current path-run summary and fresh artifacts |
 | `3` | `25555` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |
 | `4` | `40387` | `32` | `2` | missing/stale | missing/stale | `None` | trace and split artifacts are missing or stale |

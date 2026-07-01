@@ -53010,3 +53010,78 @@ Result:
 Decision: accepted as planning/accounting only.  It identifies the next possible
 single-path proof-bearing action without widening to a batch.  It does not
 change proof coverage.
+
+### Holonomy/Bellman Pivot - split-only check mode accepted
+
+The single-path runner now avoids needless rechecks:
+
+- generated source files are written only when content changes, preserving
+  `.olean` freshness when the rendered text is identical;
+- `--check-stage` supports `both`, `trace`, `split`, and `missing`;
+- `--check-stage split` refuses to run unless the trace `.olean` is already
+  fresh;
+- run summaries record source-change status and artifact freshness after
+  emission;
+- the dry-run batch guard now tracks trace and split checked evidence
+  separately instead of requiring only a full combined run summary.
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/run_bellman_split_smoke_path.py
+
+python3 scripts/run_bellman_split_smoke_path.py 1 \
+  --check \
+  --check-stage split \
+  --dry-run \
+  --json scripts/generated/bellman_split_path_01_split_only_dry_run.json
+
+python3 scripts/run_bellman_split_smoke_path.py 1 \
+  --check \
+  --check-stage split \
+  --json scripts/generated/bellman_split_path_01_split_only_run.json
+
+python3 scripts/plan_bellman_split_batch_guard.py \
+  --start-index 0 \
+  --count 4 \
+  --require-fresh-artifacts \
+  --require-checked-summaries \
+  --json scripts/generated/bellman_split_batch_guard_000_004.json \
+  --markdown docs/bellman_split_batch_guard_000_004.md
+
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+```
+
+Dry-run summary for path object index `1`:
+
+| field | value |
+| --- | --- |
+| trace source changed | `False` |
+| trace artifact fresh after emit | `True` |
+| split source changed | `True` |
+| split artifact fresh after emit before check | `False` |
+| scheduled commands | `split` only |
+
+Proof-bearing split-only check for path object index `1`:
+
+| component | elapsed | peak tree RSS | hard-AS cap | min available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `split-composition-01 --emit-olean` | `11.51s` | `3873 MiB` | `6144 MiB` | `46356 MiB` | passed |
+
+The refreshed strict `[0,4)` dry-run guard still rejects batch promotion, now
+with `3` blocked entries and `5` total blockers.  Path `1` has split checked
+evidence and fresh artifacts, but still lacks a stable trace checked summary;
+path `2` is the only fully checked entry by the current summary accounting.
+
+The refreshed single-path selector now selects path object index `3`, rank
+`25555`, because both trace and split artifacts are missing/stale.  This is the
+next possible single-path target, but it has **not** been run.
+
+Decision: accepted.  This advances one path component under the strict
+post-crash envelope and makes the next proof-bearing step smaller and explicit.
+Batch execution remains quarantined.

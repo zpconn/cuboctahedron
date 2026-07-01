@@ -3,7 +3,8 @@
   "entries": [
     {
       "blockers": [
-        "single-path checked run summary is missing or not checked"
+        "trace checked run summary is missing",
+        "split checked run summary is missing"
       ],
       "faces": [
         "xm",
@@ -42,8 +43,15 @@
       "path_object_index": 0,
       "path_run_summary": {
         "exists": false,
-        "path": "scripts/generated/bellman_split_path_00_run.json",
-        "status": null
+        "paths": [
+          "scripts/generated/bellman_split_path_00_run.json",
+          "scripts/generated/bellman_split_path_00_trace_only_run.json",
+          "scripts/generated/bellman_split_path_00_split_only_run.json",
+          "scripts/generated/bellman_split_path_00_missing_run.json"
+        ],
+        "split_checked": false,
+        "status": null,
+        "trace_checked": false
       },
       "rank": 517,
       "split": {
@@ -99,8 +107,7 @@
     },
     {
       "blockers": [
-        "split .olean is missing or stale",
-        "single-path checked run summary is missing or not checked"
+        "trace checked run summary is missing"
       ],
       "faces": [
         "xm",
@@ -138,25 +145,50 @@
       "margin_scaled": -376,
       "path_object_index": 1,
       "path_run_summary": {
-        "exists": false,
-        "path": "scripts/generated/bellman_split_path_01_run.json",
-        "status": null
+        "exists": true,
+        "invalid": [],
+        "paths": [
+          "scripts/generated/bellman_split_path_01_run.json",
+          "scripts/generated/bellman_split_path_01_trace_only_run.json",
+          "scripts/generated/bellman_split_path_01_split_only_run.json",
+          "scripts/generated/bellman_split_path_01_missing_run.json"
+        ],
+        "split_checked": true,
+        "status": "split-checked",
+        "summaries": [
+          {
+            "commands": [
+              {
+                "elapsed_seconds": 11.511020056999769,
+                "exit_code": 0,
+                "killed_reason": null,
+                "kind": "split",
+                "max_tree_rss_kib": 3965976,
+                "min_available_seen_kib": 47468884
+              }
+            ],
+            "guard_dir": "/tmp/cuboctahedron_bellman_guards",
+            "path": "scripts/generated/bellman_split_path_01_split_only_run.json",
+            "status": "split-checked"
+          }
+        ],
+        "trace_checked": false
       },
       "rank": 10613,
       "split": {
         "artifact_status": {
-          "fresh_olean": false,
+          "fresh_olean": true,
           "olean": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 17936,
+            "exists": true,
+            "kib": 18,
+            "mtime": 1782930001.7335768
           },
           "source": {
-            "bytes": 2050,
+            "bytes": 1927,
             "exists": true,
-            "kib": 3,
-            "mtime": 1782928208.8024414
+            "kib": 2,
+            "mtime": 1782929937.0823267
           }
         },
         "import_budget": 26,
@@ -232,28 +264,42 @@
       "margin_scaled": -128,
       "path_object_index": 2,
       "path_run_summary": {
-        "commands": [
+        "exists": true,
+        "invalid": [],
+        "paths": [
+          "scripts/generated/bellman_split_path_02_run.json",
+          "scripts/generated/bellman_split_path_02_trace_only_run.json",
+          "scripts/generated/bellman_split_path_02_split_only_run.json",
+          "scripts/generated/bellman_split_path_02_missing_run.json"
+        ],
+        "split_checked": true,
+        "status": "checked",
+        "summaries": [
           {
-            "elapsed_seconds": 6.026578705001157,
-            "exit_code": 0,
-            "killed_reason": null,
-            "kind": "trace",
-            "max_tree_rss_kib": 4112720,
-            "min_available_seen_kib": 47364888
-          },
-          {
-            "elapsed_seconds": 2.0029743289996986,
-            "exit_code": 0,
-            "killed_reason": null,
-            "kind": "split",
-            "max_tree_rss_kib": 3724792,
-            "min_available_seen_kib": 47537296
+            "commands": [
+              {
+                "elapsed_seconds": 6.026578705001157,
+                "exit_code": 0,
+                "killed_reason": null,
+                "kind": "trace",
+                "max_tree_rss_kib": 4112720,
+                "min_available_seen_kib": 47364888
+              },
+              {
+                "elapsed_seconds": 2.0029743289996986,
+                "exit_code": 0,
+                "killed_reason": null,
+                "kind": "split",
+                "max_tree_rss_kib": 3724792,
+                "min_available_seen_kib": 47537296
+              }
+            ],
+            "guard_dir": null,
+            "path": "scripts/generated/bellman_split_path_02_run.json",
+            "status": "checked"
           }
         ],
-        "exists": true,
-        "guard_dir": null,
-        "path": "scripts/generated/bellman_split_path_02_run.json",
-        "status": "checked"
+        "trace_checked": true
       },
       "rank": 23197,
       "split": {
@@ -310,8 +356,7 @@
     {
       "blockers": [
         "trace .olean is missing or stale",
-        "split .olean is missing or stale",
-        "single-path checked run summary is missing or not checked"
+        "split .olean is missing or stale"
       ],
       "faces": [
         "xm",
@@ -350,8 +395,15 @@
       "path_object_index": 3,
       "path_run_summary": {
         "exists": false,
-        "path": "scripts/generated/bellman_split_path_03_run.json",
-        "status": null
+        "paths": [
+          "scripts/generated/bellman_split_path_03_run.json",
+          "scripts/generated/bellman_split_path_03_trace_only_run.json",
+          "scripts/generated/bellman_split_path_03_split_only_run.json",
+          "scripts/generated/bellman_split_path_03_missing_run.json"
+        ],
+        "split_checked": false,
+        "status": null,
+        "trace_checked": false
       },
       "rank": 25555,
       "split": {
@@ -421,7 +473,7 @@
   "summary": {
     "blocked_entries": 3,
     "entries": 4,
-    "total_blockers": 6,
+    "total_blockers": 5,
     "total_split_source_kib": 8,
     "total_trace_source_kib": 128
   }

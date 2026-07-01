@@ -46,6 +46,18 @@ def write_text(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def write_text_if_changed(path: Path, text: str) -> bool:
+    """Write text only when content changes.
+
+    Returning `False` means the file already contained the requested text and
+    its mtime was preserved.  That matters for `.olean` freshness checks.
+    """
+    if path.exists() and path.read_text(encoding="utf-8") == text:
+        return False
+    write_text(path, text)
+    return True
+
+
 def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -117,6 +129,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--check", action="store_true")
     parser.add_argument(
+        "--check-stage",
+        choices=("both", "trace", "split", "missing"),
+        default="both",
+        help=(
+            "Which proof-bearing stage to schedule when --check is set.  "
+            "`split` requires a fresh trace .olean.  `missing` schedules only "
+            "stale/missing artifacts."
+        ),
+    )
+    parser.add_argument(
         "--json",
         type=Path,
         default=None,
@@ -156,8 +178,8 @@ def main() -> int:
     split_text = planner.render_split_source(args.path_object_index)
     trace_source = Path(entry["trace"]["source_path"])
     split_source = Path(entry["split"]["source_path"])
-    write_text(trace_source, trace_text)
-    write_text(split_source, split_text)
+    trace_source_changed = write_text_if_changed(trace_source, trace_text)
+    split_source_changed = write_text_if_changed(split_source, split_text)
 
     trace_report = {
         "mode": "bellman-closed-language-trace-smoke",
@@ -197,32 +219,59 @@ def main() -> int:
 
     trace_preflight = safe.local_import_preflight(str(trace_source))
     trace_budget = safe.enforce_target_budget(trace_target, trace_preflight)
+    split_preflight = None
+    split_budget = None
     commands: list[dict[str, Any]] = []
     status = "generated"
     rc = 0
+    trace_after_emit = planner.artifact_status(
+        trace_source,
+        Path(entry["trace"]["olean_path"]),
+    )
+    split_after_emit = planner.artifact_status(
+        split_source,
+        Path(entry["split"]["olean_path"]),
+    )
+    should_check_trace = args.check_stage in ("both", "trace") or (
+        args.check_stage == "missing" and not trace_after_emit["fresh_olean"]
+    )
+    should_check_split = args.check_stage in ("both", "split") or (
+        args.check_stage == "missing" and not split_after_emit["fresh_olean"]
+    )
+    if args.check_stage == "split" and not trace_after_emit["fresh_olean"]:
+        raise SystemExit("cannot check split only because trace .olean is missing or stale")
+    if args.check_stage == "trace" and not should_check_trace:
+        status = "trace-already-fresh"
+    if args.check_stage == "missing" and not should_check_trace and not should_check_split:
+        status = "already-fresh"
 
     if args.check:
         args.guard_dir.mkdir(parents=True, exist_ok=True)
-        timestamp = time.strftime("%Y%m%d_%H%M%S")
-        trace_guard_json = args.guard_dir / (
-            f"bellman_split_path_{args.path_object_index:02d}_trace_{timestamp}.guard.json"
-        )
-        trace_cmd = guarded_command(
-            safe,
-            source_path=trace_source,
-            output_olean=Path(entry["trace"]["olean_path"]),
-            guard_json=trace_guard_json,
-        )
-        commands.append({"kind": "trace", "command": trace_cmd, "guard_json": str(trace_guard_json)})
-        if not args.dry_run:
-            trace_rc = subprocess.run(trace_cmd, check=False).returncode
-            commands[-1]["exit_code"] = trace_rc
-            commands[-1]["guard_summary"] = read_guard_summary(trace_guard_json)
-            if trace_rc != 0:
-                status = "trace-check-failed"
-                rc = trace_rc
-        if rc == 0:
-            if args.dry_run:
+        if should_check_trace:
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            trace_guard_json = args.guard_dir / (
+                f"bellman_split_path_{args.path_object_index:02d}_trace_{timestamp}.guard.json"
+            )
+            trace_cmd = guarded_command(
+                safe,
+                source_path=trace_source,
+                output_olean=Path(entry["trace"]["olean_path"]),
+                guard_json=trace_guard_json,
+            )
+            commands.append(
+                {"kind": "trace", "command": trace_cmd, "guard_json": str(trace_guard_json)}
+            )
+            if not args.dry_run:
+                trace_rc = subprocess.run(trace_cmd, check=False).returncode
+                commands[-1]["exit_code"] = trace_rc
+                commands[-1]["guard_summary"] = read_guard_summary(trace_guard_json)
+                if trace_rc != 0:
+                    status = "trace-check-failed"
+                    rc = trace_rc
+                elif not should_check_split:
+                    status = "trace-checked"
+        if rc == 0 and should_check_split:
+            if args.dry_run and should_check_trace:
                 split_preflight = {
                     "deferred": True,
                     "reason": "trace .olean is produced by the preceding dry-run command",
@@ -255,11 +304,7 @@ def main() -> int:
                     status = "split-check-failed"
                     rc = split_rc
             if rc == 0 and not args.dry_run:
-                status = "checked"
-        else:
-            split_budget = None
-    else:
-        split_budget = None
+                status = "checked" if should_check_trace else "split-checked"
 
     summary_path = (
         args.json
@@ -271,10 +316,13 @@ def main() -> int:
         "status": "dry-run" if args.dry_run else status,
         "path_object_index": args.path_object_index,
         "graph_json": str(args.graph_json),
+        "check_stage": args.check_stage if args.check else None,
         "guard_dir": str(args.guard_dir) if args.check else None,
         "trace_report": str(trace_report_path),
         "trace": {
             **entry["trace"],
+            "source_changed": trace_source_changed,
+            "artifact_status_after_emit": trace_after_emit,
             "preflight": {
                 "local_import_count": trace_preflight["local_import_count"],
                 "checked_olean_count": trace_preflight["checked_olean_count"],
@@ -283,6 +331,8 @@ def main() -> int:
         },
         "split": {
             **entry["split"],
+            "source_changed": split_source_changed,
+            "artifact_status_after_emit": split_after_emit,
             "preflight": split_preflight if args.check else None,
             "budget": split_budget,
         },

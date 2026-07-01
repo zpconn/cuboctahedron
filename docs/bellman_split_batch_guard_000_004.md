@@ -10,11 +10,11 @@ and is not proof evidence.
 - required MemAvailable: `36864 MiB`
 - entries: `4`
 - blocked entries: `3`
-- total blockers: `6`
+- total blockers: `5`
 
 | index | rank | trace KiB | split KiB | trace artifact | split artifact | run summary | blockers |
 | ---: | ---: | ---: | ---: | --- | --- | --- | --- |
-| `0` | `517` | `32` | `2` | fresh | fresh | `None` | single-path checked run summary is missing or not checked |
-| `1` | `10613` | `32` | `2` | fresh | missing/stale | `None` | split .olean is missing or stale<br>single-path checked run summary is missing or not checked |
+| `0` | `517` | `32` | `2` | fresh | fresh | `None` | trace checked run summary is missing<br>split checked run summary is missing |
+| `1` | `10613` | `32` | `2` | fresh | fresh | `split-checked` | trace checked run summary is missing |
 | `2` | `23197` | `32` | `2` | fresh | fresh | `checked` | none |
-| `3` | `25555` | `32` | `2` | missing/stale | missing/stale | `None` | trace .olean is missing or stale<br>split .olean is missing or stale<br>single-path checked run summary is missing or not checked |
+| `3` | `25555` | `32` | `2` | missing/stale | missing/stale | `None` | trace .olean is missing or stale<br>split .olean is missing or stale |

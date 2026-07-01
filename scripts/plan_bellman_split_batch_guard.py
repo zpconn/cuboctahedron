@@ -59,43 +59,87 @@ def mem_available_mib() -> int | None:
     return None
 
 
-def path_run_summary_path(index: int) -> Path:
-    return Path("scripts/generated") / f"bellman_split_path_{index:02d}_run.json"
+def path_run_summary_paths(index: int) -> list[Path]:
+    prefix = Path("scripts/generated") / f"bellman_split_path_{index:02d}"
+    return [
+        prefix.with_name(prefix.name + "_run.json"),
+        prefix.with_name(prefix.name + "_trace_only_run.json"),
+        prefix.with_name(prefix.name + "_split_only_run.json"),
+        prefix.with_name(prefix.name + "_missing_run.json"),
+    ]
 
 
 def read_path_summary(index: int) -> dict[str, Any]:
-    path = path_run_summary_path(index)
-    if not path.exists():
-        return {"exists": False, "path": str(path), "status": None}
-    try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
-        return {
-            "exists": True,
-            "path": str(path),
-            "status": "invalid-json",
-            "error": str(exc),
-        }
-    commands = data.get("commands", [])
-    command_summaries = []
-    for command in commands if isinstance(commands, list) else []:
-        guard = command.get("guard_summary", {}) if isinstance(command, dict) else {}
-        command_summaries.append(
+    paths = path_run_summary_paths(index)
+    found: list[dict[str, Any]] = []
+    trace_checked = False
+    split_checked = False
+    invalid: list[dict[str, str]] = []
+    for path in paths:
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            invalid.append({"path": str(path), "error": str(exc)})
+            continue
+        commands = data.get("commands", [])
+        command_summaries = []
+        for command in commands if isinstance(commands, list) else []:
+            guard = command.get("guard_summary", {}) if isinstance(command, dict) else {}
+            kind = command.get("kind")
+            exit_code = command.get("exit_code")
+            if kind == "trace" and exit_code == 0:
+                trace_checked = True
+            if kind == "split" and exit_code == 0:
+                split_checked = True
+            command_summaries.append(
+                {
+                    "kind": kind,
+                    "exit_code": exit_code,
+                    "elapsed_seconds": guard.get("elapsed_seconds"),
+                    "max_tree_rss_kib": guard.get("max_tree_rss_kib"),
+                    "min_available_seen_kib": guard.get("min_available_seen_kib"),
+                    "killed_reason": guard.get("killed_reason"),
+                }
+            )
+        if data.get("status") == "checked":
+            trace_checked = True
+            split_checked = True
+        found.append(
             {
-                "kind": command.get("kind"),
-                "exit_code": command.get("exit_code"),
-                "elapsed_seconds": guard.get("elapsed_seconds"),
-                "max_tree_rss_kib": guard.get("max_tree_rss_kib"),
-                "min_available_seen_kib": guard.get("min_available_seen_kib"),
-                "killed_reason": guard.get("killed_reason"),
+                "path": str(path),
+                "status": data.get("status"),
+                "guard_dir": data.get("guard_dir"),
+                "commands": command_summaries,
             }
         )
+    if not found and not invalid:
+        return {
+            "exists": False,
+            "paths": [str(path) for path in paths],
+            "status": None,
+            "trace_checked": False,
+            "split_checked": False,
+        }
+    if trace_checked and split_checked:
+        status = "checked"
+    elif trace_checked:
+        status = "trace-checked"
+    elif split_checked:
+        status = "split-checked"
+    elif invalid:
+        status = "invalid-json"
+    else:
+        status = "not-checked"
     return {
         "exists": True,
-        "path": str(path),
-        "status": data.get("status"),
-        "guard_dir": data.get("guard_dir"),
-        "commands": command_summaries,
+        "paths": [str(path) for path in paths],
+        "status": status,
+        "trace_checked": trace_checked,
+        "split_checked": split_checked,
+        "summaries": found,
+        "invalid": invalid,
     }
 
 
@@ -136,8 +180,12 @@ def entry_blockers(
         blockers.append("split .olean is missing or stale")
     summary = read_path_summary(int(index))
     entry["path_run_summary"] = summary
-    if require_checked_summaries and summary.get("status") != "checked":
-        blockers.append("single-path checked run summary is missing or not checked")
+    if require_checked_summaries and trace["artifact_status"]["fresh_olean"]:
+        if not summary.get("trace_checked"):
+            blockers.append("trace checked run summary is missing")
+    if require_checked_summaries and split["artifact_status"]["fresh_olean"]:
+        if not summary.get("split_checked"):
+            blockers.append("split checked run summary is missing")
     return blockers
 
 
