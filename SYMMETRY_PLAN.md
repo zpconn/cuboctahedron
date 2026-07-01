@@ -56348,3 +56348,57 @@ If this can be proved from `obj.closed` and finite deterministic automaton
 facts without sampled paths/ranks, Bellman remains the active route.  If it
 requires one branch per sampled path or rank, this route must pivot to a more
 honest cancellation-tree/semantic-state automaton.
+
+### Holonomy/Bellman Pivot - eval-contract audit
+
+Added:
+
+```text
+scripts/audit_top_pairing_bellman_eval_contract.py
+docs/top_pairing_bellman_eval_contract_audit.md
+scripts/generated/top_pairing_bellman_eval_contract_audit.json
+```
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_bellman_eval_contract.py
+python3 scripts/audit_top_pairing_bellman_eval_contract.py
+```
+
+Result:
+
+- decision: `semantic-object-built-eval-still-sampled`;
+- semantic-object mentions: `15`;
+- closed-language field mentions: `47`;
+- sampled-eval mentions: `260`;
+- semantic closed-eval theorem mentions: `0`.
+
+Interpretation: the semantic object/membership layer exists and is Lean-checked,
+but deterministic evaluation is still emitted inside the sampled block.  The
+current emitter creates:
+
+```lean
+private def sampledSmokeNext : State -> SmokeLabel -> Option (State × Int)
+private inductive SampledRankIndex where ...
+private def sampledContainsRank ...
+private noncomputable def sampledObjectMembership ...
+```
+
+and uses `Classical.choose` in the sampled membership path.  The new
+`TopPairingBellmanObj` module has no sampled vocabulary, but no generated
+closed-language evaluator theorem exists yet.
+
+Decision: this is the Bellman go/no-go frontier.  The next implementation must
+move deterministic evaluation from the sampled block to a theorem of the form:
+
+```lean
+forall obj : TopPairingBellmanObj Face.ym,
+  BellmanEvalAccepts ... obj
+```
+
+where the proof uses `obj.closed` and finite automaton facts.  If that proof
+still requires a `SampledRankIndex` or one branch per sampled path/rank, the
+Bellman automaton state is not semantic enough and the plan should pivot to a
+cancellation-tree / semantic-state automaton rather than scaling sampled
+coverage.

@@ -1,0 +1,1674 @@
+{
+  "decision": "semantic-object-built-eval-still-sampled",
+  "files": {
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean": {
+      "closed_language_fields": [],
+      "exists": true,
+      "sampled_eval": [
+        {
+          "line": 24388,
+          "pattern": "sampledSmokeNext",
+          "text": "private def sampledSmokeNext : State -> SmokeLabel -> Option (State \u00d7 Int)"
+        },
+        {
+          "line": 24415,
+          "pattern": "SampledSmokeStepEval",
+          "text": "private def SampledSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :="
+        },
+        {
+          "line": 24416,
+          "pattern": "sampledSmokeNext",
+          "text": "sampledSmokeNext s label = some (t, gain)"
+        },
+        {
+          "line": 24418,
+          "pattern": "SampledSmokeStepEval",
+          "text": "private theorem SampledSmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :"
+        },
+        {
+          "line": 24419,
+          "pattern": "SampledSmokeStepEval",
+          "text": "SampledSmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by"
+        },
+        {
+          "line": 24422,
+          "pattern": "sampledSmokeNext",
+          "text": "cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction"
+        },
+        {
+          "line": 24422,
+          "pattern": "SampledSmokeStepEval",
+          "text": "cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction"
+        },
+        {
+          "line": 24427,
+          "pattern": "SampledSmokeStepEval",
+          "text": "private theorem SampledSmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :"
+        },
+        {
+          "line": 24428,
+          "pattern": "sampledSmokeNext",
+          "text": "sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by"
+        },
+        {
+          "line": 24428,
+          "pattern": "SampledSmokeStepEval",
+          "text": "sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by"
+        },
+        {
+          "line": 24434,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0000Labels ="
+        },
+        {
+          "line": 24440,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0000State"
+        },
+        {
+          "line": 24443,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0000"
+        },
+        {
+          "line": 24448,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0001Labels ="
+        },
+        {
+          "line": 24454,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0001State"
+        },
+        {
+          "line": 24457,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0142"
+        },
+        {
+          "line": 24462,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0002Labels ="
+        },
+        {
+          "line": 24468,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0002State"
+        },
+        {
+          "line": 24471,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0143"
+        },
+        {
+          "line": 24476,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0003Labels ="
+        },
+        {
+          "line": 24482,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0003State"
+        },
+        {
+          "line": 24485,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0144"
+        },
+        {
+          "line": 24490,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0004Labels ="
+        },
+        {
+          "line": 24496,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0004State"
+        },
+        {
+          "line": 24499,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0147"
+        },
+        {
+          "line": 24504,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0005Labels ="
+        },
+        {
+          "line": 24510,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0004State"
+        },
+        {
+          "line": 24513,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0147"
+        },
+        {
+          "line": 24518,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0015Labels ="
+        },
+        {
+          "line": 24524,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0005State"
+        },
+        {
+          "line": 24527,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0153"
+        },
+        {
+          "line": 24532,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0006Labels ="
+        },
+        {
+          "line": 24538,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0015State"
+        },
+        {
+          "line": 24541,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0155"
+        },
+        {
+          "line": 24546,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0016Labels ="
+        },
+        {
+          "line": 24552,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0006State"
+        },
+        {
+          "line": 24555,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0163"
+        },
+        {
+          "line": 24560,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0007Labels ="
+        },
+        {
+          "line": 24566,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0016State"
+        },
+        {
+          "line": 24569,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0166"
+        },
+        {
+          "line": 24574,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0017Labels ="
+        },
+        {
+          "line": 24580,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0007State"
+        },
+        {
+          "line": 24583,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0176"
+        },
+        {
+          "line": 24588,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0008Labels ="
+        },
+        {
+          "line": 24594,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0017State"
+        },
+        {
+          "line": 24597,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0179"
+        },
+        {
+          "line": 24602,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0018Labels ="
+        },
+        {
+          "line": 24608,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0008State"
+        },
+        {
+          "line": 24611,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0191"
+        },
+        {
+          "line": 24616,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0009Labels ="
+        },
+        {
+          "line": 24622,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0018State"
+        },
+        {
+          "line": 24625,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0194"
+        },
+        {
+          "line": 24630,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0019Labels ="
+        },
+        {
+          "line": 24636,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0009State"
+        },
+        {
+          "line": 24639,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0208"
+        },
+        {
+          "line": 24644,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0010Labels ="
+        },
+        {
+          "line": 24650,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0019State"
+        },
+        {
+          "line": 24653,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0211"
+        },
+        {
+          "line": 24658,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0020Labels ="
+        },
+        {
+          "line": 24664,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0010State"
+        },
+        {
+          "line": 24667,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0006"
+        },
+        {
+          "line": 24672,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0011Labels ="
+        },
+        {
+          "line": 24678,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0020State"
+        },
+        {
+          "line": 24681,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0011"
+        },
+        {
+          "line": 24686,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0021Labels ="
+        },
+        {
+          "line": 24692,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0011State"
+        },
+        {
+          "line": 24695,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0036"
+        },
+        {
+          "line": 24700,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0012Labels ="
+        },
+        {
+          "line": 24706,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0021State"
+        },
+        {
+          "line": 24709,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0041"
+        },
+        {
+          "line": 24714,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0022Labels ="
+        },
+        {
+          "line": 24720,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0012State"
+        },
+        {
+          "line": 24723,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0069"
+        },
+        {
+          "line": 24728,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0013Labels ="
+        },
+        {
+          "line": 24734,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0022State"
+        },
+        {
+          "line": 24737,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0075"
+        },
+        {
+          "line": 24742,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0023Labels ="
+        },
+        {
+          "line": 24748,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0013State"
+        },
+        {
+          "line": 24751,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0112"
+        },
+        {
+          "line": 24756,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0014Labels ="
+        },
+        {
+          "line": 24762,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext trieNode0023State"
+        },
+        {
+          "line": 24765,
+          "pattern": "sampledSmokeNext",
+          "text": "change evalLabelStepFn sampledSmokeNext State.s0109"
+        },
+        {
+          "line": 24770,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0024Labels ="
+        },
+        {
+          "line": 24775,
+          "pattern": "SampledRankIndex",
+          "text": "private inductive SampledRankIndex where"
+        },
+        {
+          "line": 24779,
+          "pattern": "SampledRankIndex",
+          "text": "private def sampledRankOf : SampledRankIndex -> Fin numPairWords"
+        },
+        {
+          "line": 24779,
+          "pattern": "sampledRankOf",
+          "text": "private def sampledRankOf : SampledRankIndex -> Fin numPairWords"
+        },
+        {
+          "line": 24780,
+          "pattern": "SampledRankIndex",
+          "text": "| SampledRankIndex.i0000 => cls0000Rank"
+        },
+        {
+          "line": 24781,
+          "pattern": "SampledRankIndex",
+          "text": "| SampledRankIndex.i0001 => cls0001Rank"
+        },
+        {
+          "line": 24783,
+          "pattern": "sampledContainsRank",
+          "text": "private def sampledContainsRank (rank : Fin numPairWords) : Prop :="
+        },
+        {
+          "line": 24784,
+          "pattern": "SampledRankIndex",
+          "text": "exists idx : SampledRankIndex, sampledRankOf idx = rank"
+        },
+        {
+          "line": 24784,
+          "pattern": "sampledRankOf",
+          "text": "exists idx : SampledRankIndex, sampledRankOf idx = rank"
+        },
+        {
+          "line": 24811,
+          "pattern": "SampledRankIndex",
+          "text": "SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace"
+        },
+        {
+          "line": 24812,
+          "pattern": "sampledRankOf",
+          "text": "rootState (176 : Int) sampledRankOf"
+        },
+        {
+          "line": 24860,
+          "pattern": "sampledRankOf",
+          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
+        },
+        {
+          "line": 24863,
+          "pattern": "sampledRankOf",
+          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
+        },
+        {
+          "line": 24888,
+          "pattern": "SampledRankIndex",
+          "text": "(idx : SampledRankIndex)"
+        },
+        {
+          "line": 24890,
+          "pattern": "sampledRankOf",
+          "text": "(hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)"
+        },
+        {
+          "line": 24892,
+          "pattern": "sampledRankOf",
+          "text": "sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :="
+        },
+        {
+          "line": 24901,
+          "pattern": "SampledRankIndex",
+          "text": "SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace"
+        },
+        {
+          "line": 24902,
+          "pattern": "sampledContainsRank",
+          "text": "rootState (176 : Int) sampledRankOf sampledContainsRank"
+        },
+        {
+          "line": 24902,
+          "pattern": "sampledRankOf",
+          "text": "rootState (176 : Int) sampledRankOf sampledContainsRank"
+        },
+        {
+          "line": 24910,
+          "pattern": "sampledContainsRank",
+          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank)"
+        },
+        {
+          "line": 24918,
+          "pattern": "SampledRankIndex",
+          "text": "private def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face"
+        },
+        {
+          "line": 24919,
+          "pattern": "SampledRankIndex",
+          "text": "| SampledRankIndex.i0000 => cls0000FaceSeq"
+        },
+        {
+          "line": 24920,
+          "pattern": "SampledRankIndex",
+          "text": "| SampledRankIndex.i0001 => cls0001FaceSeq"
+        },
+        {
+          "line": 24922,
+          "pattern": "SampledRankIndex",
+          "text": "private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :="
+        },
+        {
+          "line": 24923,
+          "pattern": "sampledRankOf",
+          "text": "AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))"
+        },
+        {
+          "line": 24925,
+          "pattern": "sampledSmokeNext",
+          "text": "BellmanEvalAccepts graphPotential sampledSmokeNext rootState"
+        },
+        {
+          "line": 24927,
+          "pattern": "sampledRankOf",
+          "text": "(fun idx => sampledScaledMarginAtRank (sampledRankOf idx))"
+        },
+        {
+          "line": 24932,
+          "pattern": "SampledRankIndex",
+          "text": "exists idx : SampledRankIndex, sampledObjectAccepts idx /\\ sampledRankOf idx = rank"
+        },
+        {
+          "line": 24932,
+          "pattern": "sampledRankOf",
+          "text": "exists idx : SampledRankIndex, sampledObjectAccepts idx /\\ sampledRankOf idx = rank"
+        },
+        {
+          "line": 24935,
+          "pattern": "SampledRankIndex",
+          "text": "BellmanRankObjectMembership SampledRankIndex sampledRankOf"
+        },
+        {
+          "line": 24935,
+          "pattern": "sampledRankOf",
+          "text": "BellmanRankObjectMembership SampledRankIndex sampledRankOf"
+        },
+        {
+          "line": 24936,
+          "pattern": "sampledContainsRank",
+          "text": "sampledObjectAccepts sampledContainsRank where"
+        },
+        {
+          "line": 24937,
+          "pattern": "Classical.choose",
+          "text": "objectOf := fun _rank hrank => Classical.choose hrank"
+        },
+        {
+          "line": 24940,
+          "pattern": "Classical.choose",
+          "text": "let idx := Classical.choose hrank"
+        },
+        {
+          "line": 24947,
+          "pattern": "sampledSmokeNext",
+          "text": "\u00b7 change evalLabelStepFn sampledSmokeNext rootState"
+        },
+        {
+          "line": 24953,
+          "pattern": "sampledRankOf",
+          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
+        },
+        {
+          "line": 24960,
+          "pattern": "sampledSmokeNext",
+          "text": "\u00b7 change evalLabelStepFn sampledSmokeNext rootState"
+        },
+        {
+          "line": 24966,
+          "pattern": "sampledRankOf",
+          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
+        },
+        {
+          "line": 24971,
+          "pattern": "Classical.choose",
+          "text": "exact Classical.choose_spec hrank"
+        },
+        {
+          "line": 24975,
+          "pattern": "SampledRankIndex",
+          "text": "SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace"
+        },
+        {
+          "line": 24976,
+          "pattern": "sampledRankOf",
+          "text": "rootState (176 : Int) sampledRankOf sampledObjectAccepts"
+        },
+        {
+          "line": 24977,
+          "pattern": "sampledContainsRank",
+          "text": "sampledContainsRank sampledScaledMarginAtRank :="
+        },
+        {
+          "line": 24990,
+          "pattern": "sampledRankOf",
+          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
+        },
+        {
+          "line": 25000,
+          "pattern": "sampledRankOf",
+          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
+        },
+        {
+          "line": 25011,
+          "pattern": "sampledContainsRank",
+          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
+        },
+        {
+          "line": 25018,
+          "pattern": "SampledSmokeStepEval",
+          "text": "SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace"
+        },
+        {
+          "line": 25018,
+          "pattern": "SampledRankIndex",
+          "text": "SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace"
+        },
+        {
+          "line": 25019,
+          "pattern": "sampledRankOf",
+          "text": "rootState (176 : Int) sampledRankOf sampledObjectAccepts"
+        },
+        {
+          "line": 25020,
+          "pattern": "sampledContainsRank",
+          "text": "sampledContainsRank sampledScaledMarginAtRank :="
+        },
+        {
+          "line": 25028,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState"
+        },
+        {
+          "line": 25034,
+          "pattern": "SampledSmokeStepEval",
+          "text": "(Step := SampledSmokeStepEval)"
+        },
+        {
+          "line": 25035,
+          "pattern": "sampledSmokeNext",
+          "text": "(next := sampledSmokeNext)"
+        },
+        {
+          "line": 25041,
+          "pattern": "SampledSmokeStepEval",
+          "text": "exact SampledSmokeStepEval.sound h)"
+        },
+        {
+          "line": 25044,
+          "pattern": "sampledRankOf",
+          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
+        },
+        {
+          "line": 25049,
+          "pattern": "sampledSmokeNext",
+          "text": "evalLabelStepFn sampledSmokeNext rootState"
+        },
+        {
+          "line": 25055,
+          "pattern": "SampledSmokeStepEval",
+          "text": "(Step := SampledSmokeStepEval)"
+        },
+        {
+          "line": 25056,
+          "pattern": "sampledSmokeNext",
+          "text": "(next := sampledSmokeNext)"
+        },
+        {
+          "line": 25062,
+          "pattern": "SampledSmokeStepEval",
+          "text": "exact SampledSmokeStepEval.sound h)"
+        },
+        {
+          "line": 25065,
+          "pattern": "sampledRankOf",
+          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
+        },
+        {
+          "line": 25071,
+          "pattern": "SampledSmokeStepEval",
+          "text": "exact SampledSmokeStepEval.valid h)"
+        },
+        {
+          "line": 25076,
+          "pattern": "sampledContainsRank",
+          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
+        },
+        {
+          "line": 25082,
+          "pattern": "SampledRankIndex",
+          "text": "(idx : SampledRankIndex) (hAccept : sampledObjectAccepts idx) :"
+        },
+        {
+          "line": 25083,
+          "pattern": "sampledRankOf",
+          "text": "sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :="
+        },
+        {
+          "line": 25088,
+          "pattern": "sampledContainsRank",
+          "text": "forall rank, sampledContainsRank rank ->"
+        },
+        {
+          "line": 25089,
+          "pattern": "sampledRankOf",
+          "text": "exists idx, sampledObjectAccepts idx /\\ sampledRankOf idx = rank :="
+        },
+        {
+          "line": 25094,
+          "pattern": "SampledSmokeStepEval",
+          "text": "SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace"
+        },
+        {
+          "line": 25094,
+          "pattern": "SampledRankIndex",
+          "text": "SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace"
+        },
+        {
+          "line": 25095,
+          "pattern": "sampledRankOf",
+          "text": "rootState (176 : Int) sampledRankOf sampledObjectAccepts"
+        },
+        {
+          "line": 25101,
+          "pattern": "SampledSmokeStepEval",
+          "text": "exact SampledSmokeStepEval.sound h)"
+        },
+        {
+          "line": 25114,
+          "pattern": "sampledRankOf",
+          "text": "exists idx, sampledObjectAccepts idx /\\ sampledRankOf idx = rank :="
+        },
+        {
+          "line": 25120,
+          "pattern": "sampledRankOf",
+          "text": "(sampledRankOf idx)"
+        },
+        {
+          "line": 25121,
+          "pattern": "sampledRankOf",
+          "text": "(sampledScaledMarginAtRank (sampledRankOf idx))"
+        },
+        {
+          "line": 25150,
+          "pattern": "sampledContainsRank",
+          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
+        },
+        {
+          "line": 25156,
+          "pattern": "sampledContainsRank",
+          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
+        },
+        {
+          "line": 25168,
+          "pattern": "sampledContainsRank",
+          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
+        },
+        {
+          "line": 25181,
+          "pattern": "sampledRankOf",
+          "text": "SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->"
+        },
+        {
+          "line": 25185,
+          "pattern": "sampledRankOf",
+          "text": "0 < sampledScaledMarginAtRank (sampledRankOf idx))"
+        },
+        {
+          "line": 25186,
+          "pattern": "sampledContainsRank",
+          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
+        },
+        {
+          "line": 25194,
+          "pattern": "sampledRankOf",
+          "text": "SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->"
+        },
+        {
+          "line": 25198,
+          "pattern": "sampledRankOf",
+          "text": "0 < sampledScaledMarginAtRank (sampledRankOf idx))"
+        },
+        {
+          "line": 25199,
+          "pattern": "sampledContainsRank",
+          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
+        },
+        {
+          "line": 25205,
+          "pattern": "SampledRankIndex",
+          "text": "(idx : SampledRankIndex)"
+        },
+        {
+          "line": 25207,
+          "pattern": "sampledRankOf",
+          "text": "(hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)"
+        },
+        {
+          "line": 25211,
+          "pattern": "sampledRankOf",
+          "text": "0 < sampledScaledMarginAtRank (sampledRankOf idx) := by"
+        },
+        {
+          "line": 25233,
+          "pattern": "sampledContainsRank",
+          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
+        }
+      ],
+      "semantic_eval_target": [
+        {
+          "line": 24925,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts graphPotential sampledSmokeNext rootState"
+        }
+      ],
+      "semantic_object": []
+    },
+    "Cuboctahedron/Search/BellmanTopPairingLanguage.lean": {
+      "closed_language_fields": [
+        {
+          "line": 43,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "def TopPairingStepScheduleLabels (labels : List Face) : Prop :="
+        },
+        {
+          "line": 47,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "TopPairingStepScheduleLabels (faceLabelsInContributionOrder (fun f => f) seq)"
+        },
+        {
+          "line": 64,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "TopPairingStepScheduleLabels labels :="
+        },
+        {
+          "line": 97,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "def TopPairingSquareGapLabels (labels : List Face) : Prop :="
+        },
+        {
+          "line": 101,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "TopPairingSquareGapLabels (faceLabelsInContributionOrder (fun f => f) seq)"
+        },
+        {
+          "line": 129,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "TopPairingSquareGapLabels labels :="
+        },
+        {
+          "line": 147,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "def TopPairingLocalAxisLabels (labels : List Face) : Prop :="
+        },
+        {
+          "line": 151,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "TopPairingLocalAxisLabels (faceLabelsInContributionOrder (fun f => f) seq)"
+        },
+        {
+          "line": 210,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "TopPairingLocalAxisLabels labels :="
+        },
+        {
+          "line": 248,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 251,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 254,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 257,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "structure TopPairingClosedLanguageAtRank"
+        },
+        {
+          "line": 268,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 271,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 274,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 277,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "structure TopPairingClosedLanguageForSeq"
+        },
+        {
+          "line": 290,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 294,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 298,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 309,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "namespace TopPairingClosedLanguageAtRank"
+        },
+        {
+          "line": 316,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 320,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 324,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 329,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank badFace where"
+        },
+        {
+          "line": 336,
+          "pattern": "forCanonicalSeq",
+          "text": "theorem forCanonicalSeq"
+        },
+        {
+          "line": 338,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(h : TopPairingClosedLanguageAtRank rank badFace) :"
+        },
+        {
+          "line": 339,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "TopPairingClosedLanguageForSeq"
+        },
+        {
+          "line": 347,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "end TopPairingClosedLanguageAtRank"
+        },
+        {
+          "line": 356,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 359,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 362,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 372,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "namespace TopPairingClosedLanguageForSeq"
+        },
+        {
+          "line": 379,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 382,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 385,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 389,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "TopPairingClosedLanguageForSeq rank seq badFace where"
+        },
+        {
+          "line": 402,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "(h : TopPairingClosedLanguageForSeq rank template badFace) :"
+        },
+        {
+          "line": 403,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "TopPairingClosedLanguageForSeq rank seq badFace :="
+        },
+        {
+          "line": 422,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "(h : TopPairingClosedLanguageForSeq rank template badFace) :"
+        },
+        {
+          "line": 423,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "TopPairingClosedLanguageForSeq rank seq badFace :="
+        },
+        {
+          "line": 429,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "end TopPairingClosedLanguageForSeq"
+        }
+      ],
+      "exists": true,
+      "sampled_eval": [],
+      "semantic_eval_target": [],
+      "semantic_object": []
+    },
+    "Cuboctahedron/Search/TopPairingBellmanObject.lean": {
+      "closed_language_fields": [
+        {
+          "line": 18,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "fun rank => TopPairingClosedLanguageAtRank rank badFace"
+        },
+        {
+          "line": 22,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "closed : TopPairingClosedLanguageAtRank rank badFace"
+        },
+        {
+          "line": 40,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "TopPairingClosedLanguageForSeq obj.rank (forcedSeq obj) badFace :="
+        },
+        {
+          "line": 41,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed"
+        },
+        {
+          "line": 41,
+          "pattern": "forCanonicalSeq",
+          "text": "TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed"
+        }
+      ],
+      "exists": true,
+      "sampled_eval": [],
+      "semantic_eval_target": [
+        {
+          "line": 72,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        }
+      ],
+      "semantic_object": [
+        {
+          "line": 16,
+          "pattern": "TopPairingClosedContainsRank",
+          "text": "abbrev TopPairingClosedContainsRank (badFace : Face) :"
+        },
+        {
+          "line": 20,
+          "pattern": "TopPairingBellmanObj",
+          "text": "structure TopPairingBellmanObj (badFace : Face) where"
+        },
+        {
+          "line": 24,
+          "pattern": "TopPairingBellmanObj",
+          "text": "namespace TopPairingBellmanObj"
+        },
+        {
+          "line": 26,
+          "pattern": "TopPairingBellmanObj",
+          "text": "def rankOf {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 30,
+          "pattern": "TopPairingBellmanObj",
+          "text": "def Accepts {badFace : Face} (_obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 34,
+          "pattern": "TopPairingBellmanObj",
+          "text": "def forcedSeq {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 39,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 45,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(TopPairingBellmanObj badFace)"
+        },
+        {
+          "line": 48,
+          "pattern": "TopPairingClosedContainsRank",
+          "text": "(TopPairingClosedContainsRank badFace) where"
+        },
+        {
+          "line": 57,
+          "pattern": "objectCoverOfEvalAccepts",
+          "text": "def objectCoverOfEvalAccepts"
+        },
+        {
+          "line": 71,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj badFace,"
+        },
+        {
+          "line": 73,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace =>"
+        },
+        {
+          "line": 82,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(TopPairingBellmanObj badFace)"
+        },
+        {
+          "line": 86,
+          "pattern": "TopPairingClosedContainsRank",
+          "text": "(TopPairingClosedContainsRank badFace)"
+        },
+        {
+          "line": 99,
+          "pattern": "TopPairingBellmanObj",
+          "text": "end TopPairingBellmanObj"
+        }
+      ]
+    },
+    "scripts/emit_bellman_graph_smoke.py": {
+      "closed_language_fields": [],
+      "exists": true,
+      "sampled_eval": [
+        {
+          "line": 1725,
+          "pattern": "sampledSmokeNext",
+          "text": "\"private def sampledSmokeNext : State -> SmokeLabel -> Option (State \u00d7 Int)\","
+        },
+        {
+          "line": 1737,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"private def SampledSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=\","
+        },
+        {
+          "line": 1738,
+          "pattern": "sampledSmokeNext",
+          "text": "\"  sampledSmokeNext s label = some (t, gain)\","
+        },
+        {
+          "line": 1740,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"private theorem SampledSmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :\","
+        },
+        {
+          "line": 1741,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"    SampledSmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by\","
+        },
+        {
+          "line": 1744,
+          "pattern": "sampledSmokeNext",
+          "text": "\"  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction\","
+        },
+        {
+          "line": 1744,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction\","
+        },
+        {
+          "line": 1749,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"private theorem SampledSmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :\","
+        },
+        {
+          "line": 1750,
+          "pattern": "sampledSmokeNext",
+          "text": "\"    sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by\","
+        },
+        {
+          "line": 1750,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"    sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by\","
+        },
+        {
+          "line": 1760,
+          "pattern": "sampledSmokeNext",
+          "text": "f\"    evalLabelStepFn sampledSmokeNext rootState {trie_node_labels_name(0)} =\","
+        },
+        {
+          "line": 1774,
+          "pattern": "sampledSmokeNext",
+          "text": "f\"    evalLabelStepFn sampledSmokeNext {trie_node_state_name(parent)}\","
+        },
+        {
+          "line": 1777,
+          "pattern": "sampledSmokeNext",
+          "text": "f\"  change evalLabelStepFn sampledSmokeNext {state_ctor(int(edge['src']))}\","
+        },
+        {
+          "line": 1782,
+          "pattern": "sampledSmokeNext",
+          "text": "f\"    evalLabelStepFn sampledSmokeNext rootState {trie_node_labels_name(node_idx)} =\","
+        },
+        {
+          "line": 1789,
+          "pattern": "SampledRankIndex",
+          "text": "\"private inductive SampledRankIndex where\","
+        },
+        {
+          "line": 1795,
+          "pattern": "SampledRankIndex",
+          "text": "\"private def sampledRankOf : SampledRankIndex -> Fin numPairWords\","
+        },
+        {
+          "line": 1795,
+          "pattern": "sampledRankOf",
+          "text": "\"private def sampledRankOf : SampledRankIndex -> Fin numPairWords\","
+        },
+        {
+          "line": 1799,
+          "pattern": "SampledRankIndex",
+          "text": "f\"  | SampledRankIndex.i{idx:04d} => {info['rank_name']}\""
+        },
+        {
+          "line": 1803,
+          "pattern": "sampledContainsRank",
+          "text": "\"private def sampledContainsRank (rank : Fin numPairWords) : Prop :=\","
+        },
+        {
+          "line": 1804,
+          "pattern": "SampledRankIndex",
+          "text": "\"  exists idx : SampledRankIndex, sampledRankOf idx = rank\","
+        },
+        {
+          "line": 1804,
+          "pattern": "sampledRankOf",
+          "text": "\"  exists idx : SampledRankIndex, sampledRankOf idx = rank\","
+        },
+        {
+          "line": 1833,
+          "pattern": "SampledRankIndex",
+          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace\","
+        },
+        {
+          "line": 1834,
+          "pattern": "sampledRankOf",
+          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf\","
+        },
+        {
+          "line": 1907,
+          "pattern": "sampledRankOf",
+          "text": "\"    \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
+        },
+        {
+          "line": 1937,
+          "pattern": "SampledRankIndex",
+          "text": "\"    (idx : SampledRankIndex)\","
+        },
+        {
+          "line": 1939,
+          "pattern": "sampledRankOf",
+          "text": "\"    (hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)\","
+        },
+        {
+          "line": 1941,
+          "pattern": "sampledRankOf",
+          "text": "\"    sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :=\","
+        },
+        {
+          "line": 1950,
+          "pattern": "SampledRankIndex",
+          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace\","
+        },
+        {
+          "line": 1951,
+          "pattern": "sampledContainsRank",
+          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledContainsRank\","
+        },
+        {
+          "line": 1951,
+          "pattern": "sampledRankOf",
+          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledContainsRank\","
+        },
+        {
+          "line": 1959,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank)\","
+        },
+        {
+          "line": 1967,
+          "pattern": "SampledRankIndex",
+          "text": "\"private def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face\","
+        },
+        {
+          "line": 1971,
+          "pattern": "SampledRankIndex",
+          "text": "f\"  | SampledRankIndex.i{idx:04d} => {info['seq_name']}\""
+        },
+        {
+          "line": 1975,
+          "pattern": "SampledRankIndex",
+          "text": "\"private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=\","
+        },
+        {
+          "line": 1976,
+          "pattern": "sampledRankOf",
+          "text": "\"  AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))\","
+        },
+        {
+          "line": 1978,
+          "pattern": "sampledSmokeNext",
+          "text": "\"    BellmanEvalAccepts graphPotential sampledSmokeNext rootState\","
+        },
+        {
+          "line": 1980,
+          "pattern": "sampledRankOf",
+          "text": "\"      (fun idx => sampledScaledMarginAtRank (sampledRankOf idx))\","
+        },
+        {
+          "line": 1985,
+          "pattern": "SampledRankIndex",
+          "text": "\"  exists idx : SampledRankIndex, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank\","
+        },
+        {
+          "line": 1985,
+          "pattern": "sampledRankOf",
+          "text": "\"  exists idx : SampledRankIndex, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank\","
+        },
+        {
+          "line": 1988,
+          "pattern": "SampledRankIndex",
+          "text": "\"    BellmanRankObjectMembership SampledRankIndex sampledRankOf\","
+        },
+        {
+          "line": 1988,
+          "pattern": "sampledRankOf",
+          "text": "\"    BellmanRankObjectMembership SampledRankIndex sampledRankOf\","
+        },
+        {
+          "line": 1989,
+          "pattern": "sampledContainsRank",
+          "text": "\"      sampledObjectAccepts sampledContainsRank where\","
+        },
+        {
+          "line": 1990,
+          "pattern": "Classical.choose",
+          "text": "\"  objectOf := fun _rank hrank => Classical.choose hrank\","
+        },
+        {
+          "line": 1993,
+          "pattern": "Classical.choose",
+          "text": "\"    let idx := Classical.choose hrank\","
+        },
+        {
+          "line": 2003,
+          "pattern": "sampledSmokeNext",
+          "text": "\"        \u00b7 change evalLabelStepFn sampledSmokeNext rootState\","
+        },
+        {
+          "line": 2009,
+          "pattern": "sampledRankOf",
+          "text": "\"        \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
+        },
+        {
+          "line": 2016,
+          "pattern": "Classical.choose",
+          "text": "\"    exact Classical.choose_spec hrank\","
+        },
+        {
+          "line": 2020,
+          "pattern": "SampledRankIndex",
+          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace\","
+        },
+        {
+          "line": 2021,
+          "pattern": "sampledRankOf",
+          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledObjectAccepts\","
+        },
+        {
+          "line": 2022,
+          "pattern": "sampledContainsRank",
+          "text": "\"      sampledContainsRank sampledScaledMarginAtRank :=\","
+        },
+        {
+          "line": 2040,
+          "pattern": "sampledRankOf",
+          "text": "\"        \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
+        },
+        {
+          "line": 2053,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
+        },
+        {
+          "line": 2060,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
+        },
+        {
+          "line": 2060,
+          "pattern": "SampledRankIndex",
+          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
+        },
+        {
+          "line": 2061,
+          "pattern": "sampledRankOf",
+          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledObjectAccepts\","
+        },
+        {
+          "line": 2062,
+          "pattern": "sampledContainsRank",
+          "text": "\"      sampledContainsRank sampledScaledMarginAtRank :=\","
+        },
+        {
+          "line": 2074,
+          "pattern": "sampledSmokeNext",
+          "text": "\"            evalLabelStepFn sampledSmokeNext rootState\","
+        },
+        {
+          "line": 2080,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"            (Step := SampledSmokeStepEval)\","
+        },
+        {
+          "line": 2081,
+          "pattern": "sampledSmokeNext",
+          "text": "\"            (next := sampledSmokeNext)\","
+        },
+        {
+          "line": 2087,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"              exact SampledSmokeStepEval.sound h)\","
+        },
+        {
+          "line": 2090,
+          "pattern": "sampledRankOf",
+          "text": "\"        \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
+        },
+        {
+          "line": 2098,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"      exact SampledSmokeStepEval.valid h)\","
+        },
+        {
+          "line": 2103,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
+        },
+        {
+          "line": 2109,
+          "pattern": "SampledRankIndex",
+          "text": "\"    (idx : SampledRankIndex) (hAccept : sampledObjectAccepts idx) :\","
+        },
+        {
+          "line": 2110,
+          "pattern": "sampledRankOf",
+          "text": "\"    sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :=\","
+        },
+        {
+          "line": 2115,
+          "pattern": "sampledContainsRank",
+          "text": "\"    forall rank, sampledContainsRank rank ->\","
+        },
+        {
+          "line": 2116,
+          "pattern": "sampledRankOf",
+          "text": "\"      exists idx, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank :=\","
+        },
+        {
+          "line": 2121,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
+        },
+        {
+          "line": 2121,
+          "pattern": "SampledRankIndex",
+          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
+        },
+        {
+          "line": 2122,
+          "pattern": "sampledRankOf",
+          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledObjectAccepts\","
+        },
+        {
+          "line": 2128,
+          "pattern": "SampledSmokeStepEval",
+          "text": "\"      exact SampledSmokeStepEval.sound h)\","
+        },
+        {
+          "line": 2141,
+          "pattern": "sampledRankOf",
+          "text": "\"      exists idx, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank :=\","
+        },
+        {
+          "line": 2147,
+          "pattern": "sampledRankOf",
+          "text": "\"        (sampledRankOf idx)\","
+        },
+        {
+          "line": 2148,
+          "pattern": "sampledRankOf",
+          "text": "\"        (sampledScaledMarginAtRank (sampledRankOf idx))\","
+        },
+        {
+          "line": 2172,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
+        },
+        {
+          "line": 2178,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
+        },
+        {
+          "line": 2190,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
+        },
+        {
+          "line": 2203,
+          "pattern": "sampledRankOf",
+          "text": "\"        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->\","
+        },
+        {
+          "line": 2207,
+          "pattern": "sampledRankOf",
+          "text": "\"        0 < sampledScaledMarginAtRank (sampledRankOf idx))\","
+        },
+        {
+          "line": 2208,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
+        },
+        {
+          "line": 2216,
+          "pattern": "sampledRankOf",
+          "text": "\"        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->\","
+        },
+        {
+          "line": 2220,
+          "pattern": "sampledRankOf",
+          "text": "\"        0 < sampledScaledMarginAtRank (sampledRankOf idx))\","
+        },
+        {
+          "line": 2221,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
+        },
+        {
+          "line": 2227,
+          "pattern": "SampledRankIndex",
+          "text": "\"    (idx : SampledRankIndex)\","
+        },
+        {
+          "line": 2229,
+          "pattern": "sampledRankOf",
+          "text": "\"    (hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)\","
+        },
+        {
+          "line": 2233,
+          "pattern": "sampledRankOf",
+          "text": "\"    0 < sampledScaledMarginAtRank (sampledRankOf idx) := by\","
+        },
+        {
+          "line": 2253,
+          "pattern": "sampledContainsRank",
+          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
+        },
+        {
+          "line": 2273,
+          "pattern": "SampledRankIndex",
+          "text": "\"SampledRankIndex\","
+        },
+        {
+          "line": 2274,
+          "pattern": "sampledRankOf",
+          "text": "\"sampledRankOf\","
+        },
+        {
+          "line": 2275,
+          "pattern": "sampledContainsRank",
+          "text": "\"sampledContainsRank\","
+        },
+        {
+          "line": 2393,
+          "pattern": "sampledRankOf",
+          "text": "\"        (sampledRankOf idx)\","
+        },
+        {
+          "line": 2394,
+          "pattern": "sampledRankOf",
+          "text": "\"        (sampledScaledMarginAtRank (sampledRankOf idx))\","
+        },
+        {
+          "line": 2430,
+          "pattern": "sampledRankOf",
+          "text": "\"      rank := sampledRankOf idx,\","
+        }
+      ],
+      "semantic_eval_target": [
+        {
+          "line": 1978,
+          "pattern": "BellmanEvalAccepts",
+          "text": "\"    BellmanEvalAccepts graphPotential sampledSmokeNext rootState\","
+        }
+      ],
+      "semantic_object": []
+    }
+  },
+  "next_required_theorem": "forall obj : TopPairingBellmanObj Face.ym, BellmanEvalAccepts ... obj",
+  "required_emitter_change": "Move deterministic eval from sampledSmokeNext/SampledRankIndex to a theorem over TopPairingBellmanObj and obj.closed.",
+  "totals": {
+    "closed_language_fields": 47,
+    "sampled_eval": 260,
+    "semantic_eval_target": 3,
+    "semantic_object": 15
+  }
+}
