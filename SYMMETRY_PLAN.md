@@ -56488,3 +56488,61 @@ Next implementation target:
     TopPairingBellmanEvalLanguageAtRank ... rank Face.ym`;
 3. reject the Bellman route if the proof still requires branching over sampled
    ranks/paths rather than closed-language automaton facts.
+
+### Holonomy/Bellman Pivot - graph determinism audit
+
+Added:
+
+```text
+scripts/audit_bellman_graph_determinism.py
+docs/bellman_graph_determinism_top_pairing_1M_step_face_linear_tri_source.md
+docs/bellman_graph_determinism_top_pairing_5M_step_tri_source.md
+docs/bellman_graph_determinism_top_pairing_10M_step_tri_source.md
+scripts/generated/bellman_graph_determinism_top_pairing_1M_step_face_linear_tri_source.json
+scripts/generated/bellman_graph_determinism_top_pairing_5M_step_tri_source.json
+scripts/generated/bellman_graph_determinism_top_pairing_10M_step_tri_source.json
+```
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_bellman_graph_determinism.py
+
+python3 scripts/audit_bellman_graph_determinism.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --json scripts/generated/bellman_graph_determinism_top_pairing_1M_step_face_linear_tri_source.json \
+  --markdown docs/bellman_graph_determinism_top_pairing_1M_step_face_linear_tri_source.md
+
+python3 scripts/audit_bellman_graph_determinism.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.json \
+  --json scripts/generated/bellman_graph_determinism_top_pairing_5M_step_tri_source.json \
+  --markdown docs/bellman_graph_determinism_top_pairing_5M_step_tri_source.md
+
+python3 scripts/audit_bellman_graph_determinism.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --json scripts/generated/bellman_graph_determinism_top_pairing_10M_step_tri_source.json \
+  --markdown docs/bellman_graph_determinism_top_pairing_10M_step_tri_source.md
+```
+
+Results:
+
+| graph profile | states | edges | labels | full transition keys | conflict keys |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `1M step_face_linear_tri_source` | `223` | `229` | `14` | `229` | `0` |
+| `5M step_tri_source` | `789` | `863` | `14` | `863` | `0` |
+| `10M step_tri_source` | `970` | `1054` | `14` | `1054` | `0` |
+
+Decision: accepted.  The current Bellman graph state is deterministic by
+`(State, Label)` across the full graph in all checked profiles, not merely
+along sampled paths.  This supports the next emitter change: emit a global
+deterministic
+
+```lean
+topPairingNext : State -> SmokeLabel -> Option (State × Int)
+```
+
+from all graph edges, with `next_sound` and `step_valid`, and then prove
+closed-language evaluation against that global `next`.  Since the graph is
+deterministic, the Bellman route remains viable at this gate; the next blocker
+is the semantic proof that `TopPairingClosedLanguageAtRank` labels stay inside
+the graph's accepted language and satisfy the generated margin bound.

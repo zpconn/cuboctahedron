@@ -1,0 +1,24 @@
+{
+  "decision": "full-graph-deterministic",
+  "edge_count": 229,
+  "final_count": 29,
+  "full_graph": {
+    "conflict_entry_count": 0,
+    "conflict_key_count": 0,
+    "sample_conflicts": [],
+    "transition_count": 229,
+    "unique_state_label_keys": 229
+  },
+  "input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "label_count": 14,
+  "label_faces_known": 14,
+  "root_count": 1,
+  "sampled_paths": {
+    "conflict_entry_count": 0,
+    "conflict_key_count": 0,
+    "sample_conflicts": [],
+    "transition_count": 518,
+    "unique_state_label_keys": 229
+  },
+  "state_count": 223
+}
