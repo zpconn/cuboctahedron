@@ -832,7 +832,10 @@ Generated-style Bellman graph smoke:
   match for `graphPotential` was rejected: the focused build hit recursion
   depth first, then heartbeat timeouts, while checking individual edge facts.
   The accepted emitter uses one inductive constructor per state and an
-  inductive `GraphEdge` proposition for graph membership.
+  inductive `GraphEdge` proposition for graph membership.  A constructor-state
+  version using `norm_num` edge facts built but was heavier (`0:25.03`,
+  `6,036,172 kB` max RSS), so the emitter now generates explicit closed
+  integer inequalities and closes each with `decide`.
 - Focused build passed:
 
   ```bash
@@ -840,7 +843,8 @@ Generated-style Bellman graph smoke:
     Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
   ```
 
-  Result: `0:25.03` wall time, `6,036,172 kB` max RSS.
+  Result after the `change ...; decide` edge-proof optimization: `0:03.18`
+  wall time, `3,361,800 kB` max RSS.
 - Public theorem exposed by the smoke:
 
   ```lean

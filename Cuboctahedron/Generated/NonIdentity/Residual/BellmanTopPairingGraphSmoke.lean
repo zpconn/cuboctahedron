@@ -470,1375 +470,1604 @@ private def edge0000 : BellmanEdge State :=
   { src := State.s0000, gain := 103, dst := State.s0142 }
 
 private theorem edge0000_valid : edge0000.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0000]
+  change (103 : Int) + graphPotential State.s0142 <= graphPotential State.s0000
+  decide
 
 private def edge0001 : BellmanEdge State :=
   { src := State.s0001, gain := -36, dst := State.s0029 }
 
 private theorem edge0001_valid : edge0001.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0001]
+  change (-36 : Int) + graphPotential State.s0029 <= graphPotential State.s0001
+  decide
 
 private def edge0002 : BellmanEdge State :=
   { src := State.s0002, gain := -36, dst := State.s0031 }
 
 private theorem edge0002_valid : edge0002.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0002]
+  change (-36 : Int) + graphPotential State.s0031 <= graphPotential State.s0002
+  decide
 
 private def edge0003 : BellmanEdge State :=
   { src := State.s0003, gain := -36, dst := State.s0032 }
 
 private theorem edge0003_valid : edge0003.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0003]
+  change (-36 : Int) + graphPotential State.s0032 <= graphPotential State.s0003
+  decide
 
 private def edge0004 : BellmanEdge State :=
   { src := State.s0004, gain := -36, dst := State.s0033 }
 
 private theorem edge0004_valid : edge0004.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0004]
+  change (-36 : Int) + graphPotential State.s0033 <= graphPotential State.s0004
+  decide
 
 private def edge0005 : BellmanEdge State :=
   { src := State.s0005, gain := -36, dst := State.s0034 }
 
 private theorem edge0005_valid : edge0005.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0005]
+  change (-36 : Int) + graphPotential State.s0034 <= graphPotential State.s0005
+  decide
 
 private def edge0006 : BellmanEdge State :=
   { src := State.s0006, gain := -36, dst := State.s0036 }
 
 private theorem edge0006_valid : edge0006.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0006]
+  change (-36 : Int) + graphPotential State.s0036 <= graphPotential State.s0006
+  decide
 
 private def edge0007 : BellmanEdge State :=
   { src := State.s0007, gain := -18, dst := State.s0023 }
 
 private theorem edge0007_valid : edge0007.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0007]
+  change (-18 : Int) + graphPotential State.s0023 <= graphPotential State.s0007
+  decide
 
 private def edge0008 : BellmanEdge State :=
   { src := State.s0008, gain := -18, dst := State.s0030 }
 
 private theorem edge0008_valid : edge0008.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0008]
+  change (-18 : Int) + graphPotential State.s0030 <= graphPotential State.s0008
+  decide
 
 private def edge0009 : BellmanEdge State :=
   { src := State.s0009, gain := 96, dst := State.s0039 }
 
 private theorem edge0009_valid : edge0009.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0009]
+  change (96 : Int) + graphPotential State.s0039 <= graphPotential State.s0009
+  decide
 
 private def edge0010 : BellmanEdge State :=
   { src := State.s0010, gain := 96, dst := State.s0040 }
 
 private theorem edge0010_valid : edge0010.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0010]
+  change (96 : Int) + graphPotential State.s0040 <= graphPotential State.s0010
+  decide
 
 private def edge0011 : BellmanEdge State :=
   { src := State.s0011, gain := 96, dst := State.s0041 }
 
 private theorem edge0011_valid : edge0011.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0011]
+  change (96 : Int) + graphPotential State.s0041 <= graphPotential State.s0011
+  decide
 
 private def edge0012 : BellmanEdge State :=
   { src := State.s0012, gain := 114, dst := State.s0037 }
 
 private theorem edge0012_valid : edge0012.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0012]
+  change (114 : Int) + graphPotential State.s0037 <= graphPotential State.s0012
+  decide
 
 private def edge0013 : BellmanEdge State :=
   { src := State.s0012, gain := -124, dst := State.s0043 }
 
 private theorem edge0013_valid : edge0013.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0013]
+  change (-124 : Int) + graphPotential State.s0043 <= graphPotential State.s0012
+  decide
 
 private def edge0014 : BellmanEdge State :=
   { src := State.s0013, gain := 114, dst := State.s0038 }
 
 private theorem edge0014_valid : edge0014.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0014]
+  change (114 : Int) + graphPotential State.s0038 <= graphPotential State.s0013
+  decide
 
 private def edge0015 : BellmanEdge State :=
   { src := State.s0013, gain := -124, dst := State.s0044 }
 
 private theorem edge0015_valid : edge0015.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0015]
+  change (-124 : Int) + graphPotential State.s0044 <= graphPotential State.s0013
+  decide
 
 private def edge0016 : BellmanEdge State :=
   { src := State.s0014, gain := -117, dst := State.s0023 }
 
 private theorem edge0016_valid : edge0016.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0016]
+  change (-117 : Int) + graphPotential State.s0023 <= graphPotential State.s0014
+  decide
 
 private def edge0017 : BellmanEdge State :=
   { src := State.s0014, gain := 96, dst := State.s0045 }
 
 private theorem edge0017_valid : edge0017.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0017]
+  change (96 : Int) + graphPotential State.s0045 <= graphPotential State.s0014
+  decide
 
 private def edge0018 : BellmanEdge State :=
   { src := State.s0015, gain := -117, dst := State.s0024 }
 
 private theorem edge0018_valid : edge0018.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0018]
+  change (-117 : Int) + graphPotential State.s0024 <= graphPotential State.s0015
+  decide
 
 private def edge0019 : BellmanEdge State :=
   { src := State.s0015, gain := 96, dst := State.s0046 }
 
 private theorem edge0019_valid : edge0019.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0019]
+  change (96 : Int) + graphPotential State.s0046 <= graphPotential State.s0015
+  decide
 
 private def edge0020 : BellmanEdge State :=
   { src := State.s0016, gain := -117, dst := State.s0025 }
 
 private theorem edge0020_valid : edge0020.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0020]
+  change (-117 : Int) + graphPotential State.s0025 <= graphPotential State.s0016
+  decide
 
 private def edge0021 : BellmanEdge State :=
   { src := State.s0016, gain := 96, dst := State.s0047 }
 
 private theorem edge0021_valid : edge0021.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0021]
+  change (96 : Int) + graphPotential State.s0047 <= graphPotential State.s0016
+  decide
 
 private def edge0022 : BellmanEdge State :=
   { src := State.s0017, gain := -117, dst := State.s0026 }
 
 private theorem edge0022_valid : edge0022.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0022]
+  change (-117 : Int) + graphPotential State.s0026 <= graphPotential State.s0017
+  decide
 
 private def edge0023 : BellmanEdge State :=
   { src := State.s0017, gain := 96, dst := State.s0048 }
 
 private theorem edge0023_valid : edge0023.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0023]
+  change (96 : Int) + graphPotential State.s0048 <= graphPotential State.s0017
+  decide
 
 private def edge0024 : BellmanEdge State :=
   { src := State.s0018, gain := -117, dst := State.s0027 }
 
 private theorem edge0024_valid : edge0024.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0024]
+  change (-117 : Int) + graphPotential State.s0027 <= graphPotential State.s0018
+  decide
 
 private def edge0025 : BellmanEdge State :=
   { src := State.s0018, gain := 96, dst := State.s0049 }
 
 private theorem edge0025_valid : edge0025.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0025]
+  change (96 : Int) + graphPotential State.s0049 <= graphPotential State.s0018
+  decide
 
 private def edge0026 : BellmanEdge State :=
   { src := State.s0019, gain := -117, dst := State.s0028 }
 
 private theorem edge0026_valid : edge0026.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0026]
+  change (-117 : Int) + graphPotential State.s0028 <= graphPotential State.s0019
+  decide
 
 private def edge0027 : BellmanEdge State :=
   { src := State.s0020, gain := -117, dst := State.s0035 }
 
 private theorem edge0027_valid : edge0027.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0027]
+  change (-117 : Int) + graphPotential State.s0035 <= graphPotential State.s0020
+  decide
 
 private def edge0028 : BellmanEdge State :=
   { src := State.s0020, gain := 96, dst := State.s0050 }
 
 private theorem edge0028_valid : edge0028.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0028]
+  change (96 : Int) + graphPotential State.s0050 <= graphPotential State.s0020
+  decide
 
 private def edge0029 : BellmanEdge State :=
   { src := State.s0021, gain := -124, dst := State.s0052 }
 
 private theorem edge0029_valid : edge0029.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0029]
+  change (-124 : Int) + graphPotential State.s0052 <= graphPotential State.s0021
+  decide
 
 private def edge0030 : BellmanEdge State :=
   { src := State.s0022, gain := 103, dst := State.s0042 }
 
 private theorem edge0030_valid : edge0030.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0030]
+  change (103 : Int) + graphPotential State.s0042 <= graphPotential State.s0022
+  decide
 
 private def edge0031 : BellmanEdge State :=
   { src := State.s0022, gain := -10, dst := State.s0051 }
 
 private theorem edge0031_valid : edge0031.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0031]
+  change (-10 : Int) + graphPotential State.s0051 <= graphPotential State.s0022
+  decide
 
 private def edge0032 : BellmanEdge State :=
   { src := State.s0023, gain := 96, dst := State.s0053 }
 
 private theorem edge0032_valid : edge0032.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0032]
+  change (96 : Int) + graphPotential State.s0053 <= graphPotential State.s0023
+  decide
 
 private def edge0033 : BellmanEdge State :=
   { src := State.s0024, gain := 96, dst := State.s0055 }
 
 private theorem edge0033_valid : edge0033.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0033]
+  change (96 : Int) + graphPotential State.s0055 <= graphPotential State.s0024
+  decide
 
 private def edge0034 : BellmanEdge State :=
   { src := State.s0025, gain := 96, dst := State.s0056 }
 
 private theorem edge0034_valid : edge0034.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0034]
+  change (96 : Int) + graphPotential State.s0056 <= graphPotential State.s0025
+  decide
 
 private def edge0035 : BellmanEdge State :=
   { src := State.s0026, gain := 96, dst := State.s0057 }
 
 private theorem edge0035_valid : edge0035.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0035]
+  change (96 : Int) + graphPotential State.s0057 <= graphPotential State.s0026
+  decide
 
 private def edge0036 : BellmanEdge State :=
   { src := State.s0027, gain := 96, dst := State.s0058 }
 
 private theorem edge0036_valid : edge0036.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0036]
+  change (96 : Int) + graphPotential State.s0058 <= graphPotential State.s0027
+  decide
 
 private def edge0037 : BellmanEdge State :=
   { src := State.s0028, gain := 96, dst := State.s0059 }
 
 private theorem edge0037_valid : edge0037.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0037]
+  change (96 : Int) + graphPotential State.s0059 <= graphPotential State.s0028
+  decide
 
 private def edge0038 : BellmanEdge State :=
   { src := State.s0029, gain := 96, dst := State.s0060 }
 
 private theorem edge0038_valid : edge0038.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0038]
+  change (96 : Int) + graphPotential State.s0060 <= graphPotential State.s0029
+  decide
 
 private def edge0039 : BellmanEdge State :=
   { src := State.s0030, gain := 96, dst := State.s0061 }
 
 private theorem edge0039_valid : edge0039.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0039]
+  change (96 : Int) + graphPotential State.s0061 <= graphPotential State.s0030
+  decide
 
 private def edge0040 : BellmanEdge State :=
   { src := State.s0031, gain := 96, dst := State.s0063 }
 
 private theorem edge0040_valid : edge0040.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0040]
+  change (96 : Int) + graphPotential State.s0063 <= graphPotential State.s0031
+  decide
 
 private def edge0041 : BellmanEdge State :=
   { src := State.s0032, gain := 96, dst := State.s0064 }
 
 private theorem edge0041_valid : edge0041.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0041]
+  change (96 : Int) + graphPotential State.s0064 <= graphPotential State.s0032
+  decide
 
 private def edge0042 : BellmanEdge State :=
   { src := State.s0033, gain := 96, dst := State.s0065 }
 
 private theorem edge0042_valid : edge0042.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0042]
+  change (96 : Int) + graphPotential State.s0065 <= graphPotential State.s0033
+  decide
 
 private def edge0043 : BellmanEdge State :=
   { src := State.s0034, gain := 96, dst := State.s0067 }
 
 private theorem edge0043_valid : edge0043.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0043]
+  change (96 : Int) + graphPotential State.s0067 <= graphPotential State.s0034
+  decide
 
 private def edge0044 : BellmanEdge State :=
   { src := State.s0035, gain := 96, dst := State.s0068 }
 
 private theorem edge0044_valid : edge0044.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0044]
+  change (96 : Int) + graphPotential State.s0068 <= graphPotential State.s0035
+  decide
 
 private def edge0045 : BellmanEdge State :=
   { src := State.s0036, gain := 96, dst := State.s0069 }
 
 private theorem edge0045_valid : edge0045.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0045]
+  change (96 : Int) + graphPotential State.s0069 <= graphPotential State.s0036
+  decide
 
 private def edge0046 : BellmanEdge State :=
   { src := State.s0037, gain := 114, dst := State.s0054 }
 
 private theorem edge0046_valid : edge0046.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0046]
+  change (114 : Int) + graphPotential State.s0054 <= graphPotential State.s0037
+  decide
 
 private def edge0047 : BellmanEdge State :=
   { src := State.s0038, gain := 114, dst := State.s0062 }
 
 private theorem edge0047_valid : edge0047.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0047]
+  change (114 : Int) + graphPotential State.s0062 <= graphPotential State.s0038
+  decide
 
 private def edge0048 : BellmanEdge State :=
   { src := State.s0039, gain := 114, dst := State.s0066 }
 
 private theorem edge0048_valid : edge0048.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0048]
+  change (114 : Int) + graphPotential State.s0066 <= graphPotential State.s0039
+  decide
 
 private def edge0049 : BellmanEdge State :=
   { src := State.s0040, gain := -124, dst := State.s0073 }
 
 private theorem edge0049_valid : edge0049.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0049]
+  change (-124 : Int) + graphPotential State.s0073 <= graphPotential State.s0040
+  decide
 
 private def edge0050 : BellmanEdge State :=
   { src := State.s0041, gain := -124, dst := State.s0075 }
 
 private theorem edge0050_valid : edge0050.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0050]
+  change (-124 : Int) + graphPotential State.s0075 <= graphPotential State.s0041
+  decide
 
 private def edge0051 : BellmanEdge State :=
   { src := State.s0042, gain := -10, dst := State.s0070 }
 
 private theorem edge0051_valid : edge0051.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0051]
+  change (-10 : Int) + graphPotential State.s0070 <= graphPotential State.s0042
+  decide
 
 private def edge0052 : BellmanEdge State :=
   { src := State.s0043, gain := -10, dst := State.s0071 }
 
 private theorem edge0052_valid : edge0052.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0052]
+  change (-10 : Int) + graphPotential State.s0071 <= graphPotential State.s0043
+  decide
 
 private def edge0053 : BellmanEdge State :=
   { src := State.s0044, gain := -10, dst := State.s0072 }
 
 private theorem edge0053_valid : edge0053.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0053]
+  change (-10 : Int) + graphPotential State.s0072 <= graphPotential State.s0044
+  decide
 
 private def edge0054 : BellmanEdge State :=
   { src := State.s0045, gain := -124, dst := State.s0076 }
 
 private theorem edge0054_valid : edge0054.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0054]
+  change (-124 : Int) + graphPotential State.s0076 <= graphPotential State.s0045
+  decide
 
 private def edge0055 : BellmanEdge State :=
   { src := State.s0046, gain := -124, dst := State.s0078 }
 
 private theorem edge0055_valid : edge0055.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0055]
+  change (-124 : Int) + graphPotential State.s0078 <= graphPotential State.s0046
+  decide
 
 private def edge0056 : BellmanEdge State :=
   { src := State.s0047, gain := -124, dst := State.s0079 }
 
 private theorem edge0056_valid : edge0056.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0056]
+  change (-124 : Int) + graphPotential State.s0079 <= graphPotential State.s0047
+  decide
 
 private def edge0057 : BellmanEdge State :=
   { src := State.s0048, gain := -124, dst := State.s0080 }
 
 private theorem edge0057_valid : edge0057.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0057]
+  change (-124 : Int) + graphPotential State.s0080 <= graphPotential State.s0048
+  decide
 
 private def edge0058 : BellmanEdge State :=
   { src := State.s0049, gain := -124, dst := State.s0081 }
 
 private theorem edge0058_valid : edge0058.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0058]
+  change (-124 : Int) + graphPotential State.s0081 <= graphPotential State.s0049
+  decide
 
 private def edge0059 : BellmanEdge State :=
   { src := State.s0050, gain := -124, dst := State.s0083 }
 
 private theorem edge0059_valid : edge0059.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0059]
+  change (-124 : Int) + graphPotential State.s0083 <= graphPotential State.s0050
+  decide
 
 private def edge0060 : BellmanEdge State :=
   { src := State.s0051, gain := 103, dst := State.s0070 }
 
 private theorem edge0060_valid : edge0060.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0060]
+  change (103 : Int) + graphPotential State.s0070 <= graphPotential State.s0051
+  decide
 
 private def edge0061 : BellmanEdge State :=
   { src := State.s0051, gain := -10, dst := State.s0077 }
 
 private theorem edge0061_valid : edge0061.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0061]
+  change (-10 : Int) + graphPotential State.s0077 <= graphPotential State.s0051
+  decide
 
 private def edge0062 : BellmanEdge State :=
   { src := State.s0052, gain := 103, dst := State.s0074 }
 
 private theorem edge0062_valid : edge0062.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0062]
+  change (103 : Int) + graphPotential State.s0074 <= graphPotential State.s0052
+  decide
 
 private def edge0063 : BellmanEdge State :=
   { src := State.s0052, gain := -10, dst := State.s0082 }
 
 private theorem edge0063_valid : edge0063.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0063]
+  change (-10 : Int) + graphPotential State.s0082 <= graphPotential State.s0052
+  decide
 
 private def edge0064 : BellmanEdge State :=
   { src := State.s0053, gain := -124, dst := State.s0085 }
 
 private theorem edge0064_valid : edge0064.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0064]
+  change (-124 : Int) + graphPotential State.s0085 <= graphPotential State.s0053
+  decide
 
 private def edge0065 : BellmanEdge State :=
   { src := State.s0054, gain := -124, dst := State.s0088 }
 
 private theorem edge0065_valid : edge0065.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0065]
+  change (-124 : Int) + graphPotential State.s0088 <= graphPotential State.s0054
+  decide
 
 private def edge0066 : BellmanEdge State :=
   { src := State.s0055, gain := -124, dst := State.s0090 }
 
 private theorem edge0066_valid : edge0066.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0066]
+  change (-124 : Int) + graphPotential State.s0090 <= graphPotential State.s0055
+  decide
 
 private def edge0067 : BellmanEdge State :=
   { src := State.s0056, gain := -124, dst := State.s0092 }
 
 private theorem edge0067_valid : edge0067.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0067]
+  change (-124 : Int) + graphPotential State.s0092 <= graphPotential State.s0056
+  decide
 
 private def edge0068 : BellmanEdge State :=
   { src := State.s0057, gain := -124, dst := State.s0094 }
 
 private theorem edge0068_valid : edge0068.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0068]
+  change (-124 : Int) + graphPotential State.s0094 <= graphPotential State.s0057
+  decide
 
 private def edge0069 : BellmanEdge State :=
   { src := State.s0058, gain := -124, dst := State.s0096 }
 
 private theorem edge0069_valid : edge0069.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0069]
+  change (-124 : Int) + graphPotential State.s0096 <= graphPotential State.s0058
+  decide
 
 private def edge0070 : BellmanEdge State :=
   { src := State.s0059, gain := -124, dst := State.s0097 }
 
 private theorem edge0070_valid : edge0070.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0070]
+  change (-124 : Int) + graphPotential State.s0097 <= graphPotential State.s0059
+  decide
 
 private def edge0071 : BellmanEdge State :=
   { src := State.s0060, gain := -124, dst := State.s0098 }
 
 private theorem edge0071_valid : edge0071.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0071]
+  change (-124 : Int) + graphPotential State.s0098 <= graphPotential State.s0060
+  decide
 
 private def edge0072 : BellmanEdge State :=
   { src := State.s0061, gain := -124, dst := State.s0099 }
 
 private theorem edge0072_valid : edge0072.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0072]
+  change (-124 : Int) + graphPotential State.s0099 <= graphPotential State.s0061
+  decide
 
 private def edge0073 : BellmanEdge State :=
   { src := State.s0062, gain := -124, dst := State.s0101 }
 
 private theorem edge0073_valid : edge0073.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0073]
+  change (-124 : Int) + graphPotential State.s0101 <= graphPotential State.s0062
+  decide
 
 private def edge0074 : BellmanEdge State :=
   { src := State.s0063, gain := -124, dst := State.s0102 }
 
 private theorem edge0074_valid : edge0074.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0074]
+  change (-124 : Int) + graphPotential State.s0102 <= graphPotential State.s0063
+  decide
 
 private def edge0075 : BellmanEdge State :=
   { src := State.s0064, gain := -124, dst := State.s0103 }
 
 private theorem edge0075_valid : edge0075.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0075]
+  change (-124 : Int) + graphPotential State.s0103 <= graphPotential State.s0064
+  decide
 
 private def edge0076 : BellmanEdge State :=
   { src := State.s0065, gain := -124, dst := State.s0104 }
 
 private theorem edge0076_valid : edge0076.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0076]
+  change (-124 : Int) + graphPotential State.s0104 <= graphPotential State.s0065
+  decide
 
 private def edge0077 : BellmanEdge State :=
   { src := State.s0066, gain := -124, dst := State.s0105 }
 
 private theorem edge0077_valid : edge0077.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0077]
+  change (-124 : Int) + graphPotential State.s0105 <= graphPotential State.s0066
+  decide
 
 private def edge0078 : BellmanEdge State :=
   { src := State.s0067, gain := -124, dst := State.s0106 }
 
 private theorem edge0078_valid : edge0078.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0078]
+  change (-124 : Int) + graphPotential State.s0106 <= graphPotential State.s0067
+  decide
 
 private def edge0079 : BellmanEdge State :=
   { src := State.s0068, gain := -124, dst := State.s0111 }
 
 private theorem edge0079_valid : edge0079.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0079]
+  change (-124 : Int) + graphPotential State.s0111 <= graphPotential State.s0068
+  decide
 
 private def edge0080 : BellmanEdge State :=
   { src := State.s0069, gain := -124, dst := State.s0112 }
 
 private theorem edge0080_valid : edge0080.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0080]
+  change (-124 : Int) + graphPotential State.s0112 <= graphPotential State.s0069
+  decide
 
 private def edge0081 : BellmanEdge State :=
   { src := State.s0070, gain := -10, dst := State.s0086 }
 
 private theorem edge0081_valid : edge0081.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0081]
+  change (-10 : Int) + graphPotential State.s0086 <= graphPotential State.s0070
+  decide
 
 private def edge0082 : BellmanEdge State :=
   { src := State.s0071, gain := -10, dst := State.s0087 }
 
 private theorem edge0082_valid : edge0082.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0082]
+  change (-10 : Int) + graphPotential State.s0087 <= graphPotential State.s0071
+  decide
 
 private def edge0083 : BellmanEdge State :=
   { src := State.s0072, gain := -10, dst := State.s0100 }
 
 private theorem edge0083_valid : edge0083.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0083]
+  change (-10 : Int) + graphPotential State.s0100 <= graphPotential State.s0072
+  decide
 
 private def edge0084 : BellmanEdge State :=
   { src := State.s0073, gain := -10, dst := State.s0107 }
 
 private theorem edge0084_valid : edge0084.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0084]
+  change (-10 : Int) + graphPotential State.s0107 <= graphPotential State.s0073
+  decide
 
 private def edge0085 : BellmanEdge State :=
   { src := State.s0074, gain := -10, dst := State.s0108 }
 
 private theorem edge0085_valid : edge0085.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0085]
+  change (-10 : Int) + graphPotential State.s0108 <= graphPotential State.s0074
+  decide
 
 private def edge0086 : BellmanEdge State :=
   { src := State.s0075, gain := -10, dst := State.s0109 }
 
 private theorem edge0086_valid : edge0086.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0086]
+  change (-10 : Int) + graphPotential State.s0109 <= graphPotential State.s0075
+  decide
 
 private def edge0087 : BellmanEdge State :=
   { src := State.s0076, gain := 103, dst := State.s0084 }
 
 private theorem edge0087_valid : edge0087.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0087]
+  change (103 : Int) + graphPotential State.s0084 <= graphPotential State.s0076
+  decide
 
 private def edge0088 : BellmanEdge State :=
   { src := State.s0077, gain := 103, dst := State.s0086 }
 
 private theorem edge0088_valid : edge0088.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0088]
+  change (103 : Int) + graphPotential State.s0086 <= graphPotential State.s0077
+  decide
 
 private def edge0089 : BellmanEdge State :=
   { src := State.s0078, gain := 103, dst := State.s0089 }
 
 private theorem edge0089_valid : edge0089.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0089]
+  change (103 : Int) + graphPotential State.s0089 <= graphPotential State.s0078
+  decide
 
 private def edge0090 : BellmanEdge State :=
   { src := State.s0079, gain := 103, dst := State.s0091 }
 
 private theorem edge0090_valid : edge0090.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0090]
+  change (103 : Int) + graphPotential State.s0091 <= graphPotential State.s0079
+  decide
 
 private def edge0091 : BellmanEdge State :=
   { src := State.s0080, gain := 103, dst := State.s0093 }
 
 private theorem edge0091_valid : edge0091.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0091]
+  change (103 : Int) + graphPotential State.s0093 <= graphPotential State.s0080
+  decide
 
 private def edge0092 : BellmanEdge State :=
   { src := State.s0081, gain := 103, dst := State.s0095 }
 
 private theorem edge0092_valid : edge0092.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0092]
+  change (103 : Int) + graphPotential State.s0095 <= graphPotential State.s0081
+  decide
 
 private def edge0093 : BellmanEdge State :=
   { src := State.s0082, gain := 103, dst := State.s0108 }
 
 private theorem edge0093_valid : edge0093.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0093]
+  change (103 : Int) + graphPotential State.s0108 <= graphPotential State.s0082
+  decide
 
 private def edge0094 : BellmanEdge State :=
   { src := State.s0083, gain := 103, dst := State.s0110 }
 
 private theorem edge0094_valid : edge0094.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0094]
+  change (103 : Int) + graphPotential State.s0110 <= graphPotential State.s0083
+  decide
 
 private def edge0095 : BellmanEdge State :=
   { src := State.s0084, gain := -73, dst := State.s0113 }
 
 private theorem edge0095_valid : edge0095.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0095]
+  change (-73 : Int) + graphPotential State.s0113 <= graphPotential State.s0084
+  decide
 
 private def edge0096 : BellmanEdge State :=
   { src := State.s0085, gain := -73, dst := State.s0114 }
 
 private theorem edge0096_valid : edge0096.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0096]
+  change (-73 : Int) + graphPotential State.s0114 <= graphPotential State.s0085
+  decide
 
 private def edge0097 : BellmanEdge State :=
   { src := State.s0086, gain := -73, dst := State.s0115 }
 
 private theorem edge0097_valid : edge0097.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0097]
+  change (-73 : Int) + graphPotential State.s0115 <= graphPotential State.s0086
+  decide
 
 private def edge0098 : BellmanEdge State :=
   { src := State.s0087, gain := -73, dst := State.s0116 }
 
 private theorem edge0098_valid : edge0098.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0098]
+  change (-73 : Int) + graphPotential State.s0116 <= graphPotential State.s0087
+  decide
 
 private def edge0099 : BellmanEdge State :=
   { src := State.s0088, gain := -73, dst := State.s0117 }
 
 private theorem edge0099_valid : edge0099.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0099]
+  change (-73 : Int) + graphPotential State.s0117 <= graphPotential State.s0088
+  decide
 
 private def edge0100 : BellmanEdge State :=
   { src := State.s0089, gain := -73, dst := State.s0118 }
 
 private theorem edge0100_valid : edge0100.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0100]
+  change (-73 : Int) + graphPotential State.s0118 <= graphPotential State.s0089
+  decide
 
 private def edge0101 : BellmanEdge State :=
   { src := State.s0090, gain := -73, dst := State.s0119 }
 
 private theorem edge0101_valid : edge0101.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0101]
+  change (-73 : Int) + graphPotential State.s0119 <= graphPotential State.s0090
+  decide
 
 private def edge0102 : BellmanEdge State :=
   { src := State.s0091, gain := -73, dst := State.s0120 }
 
 private theorem edge0102_valid : edge0102.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0102]
+  change (-73 : Int) + graphPotential State.s0120 <= graphPotential State.s0091
+  decide
 
 private def edge0103 : BellmanEdge State :=
   { src := State.s0092, gain := -73, dst := State.s0121 }
 
 private theorem edge0103_valid : edge0103.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0103]
+  change (-73 : Int) + graphPotential State.s0121 <= graphPotential State.s0092
+  decide
 
 private def edge0104 : BellmanEdge State :=
   { src := State.s0093, gain := -73, dst := State.s0122 }
 
 private theorem edge0104_valid : edge0104.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0104]
+  change (-73 : Int) + graphPotential State.s0122 <= graphPotential State.s0093
+  decide
 
 private def edge0105 : BellmanEdge State :=
   { src := State.s0094, gain := -73, dst := State.s0123 }
 
 private theorem edge0105_valid : edge0105.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0105]
+  change (-73 : Int) + graphPotential State.s0123 <= graphPotential State.s0094
+  decide
 
 private def edge0106 : BellmanEdge State :=
   { src := State.s0095, gain := -73, dst := State.s0124 }
 
 private theorem edge0106_valid : edge0106.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0106]
+  change (-73 : Int) + graphPotential State.s0124 <= graphPotential State.s0095
+  decide
 
 private def edge0107 : BellmanEdge State :=
   { src := State.s0096, gain := -73, dst := State.s0125 }
 
 private theorem edge0107_valid : edge0107.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0107]
+  change (-73 : Int) + graphPotential State.s0125 <= graphPotential State.s0096
+  decide
 
 private def edge0108 : BellmanEdge State :=
   { src := State.s0097, gain := -73, dst := State.s0126 }
 
 private theorem edge0108_valid : edge0108.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0108]
+  change (-73 : Int) + graphPotential State.s0126 <= graphPotential State.s0097
+  decide
 
 private def edge0109 : BellmanEdge State :=
   { src := State.s0098, gain := -73, dst := State.s0127 }
 
 private theorem edge0109_valid : edge0109.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0109]
+  change (-73 : Int) + graphPotential State.s0127 <= graphPotential State.s0098
+  decide
 
 private def edge0110 : BellmanEdge State :=
   { src := State.s0099, gain := -73, dst := State.s0128 }
 
 private theorem edge0110_valid : edge0110.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0110]
+  change (-73 : Int) + graphPotential State.s0128 <= graphPotential State.s0099
+  decide
 
 private def edge0111 : BellmanEdge State :=
   { src := State.s0100, gain := -73, dst := State.s0129 }
 
 private theorem edge0111_valid : edge0111.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0111]
+  change (-73 : Int) + graphPotential State.s0129 <= graphPotential State.s0100
+  decide
 
 private def edge0112 : BellmanEdge State :=
   { src := State.s0101, gain := -73, dst := State.s0130 }
 
 private theorem edge0112_valid : edge0112.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0112]
+  change (-73 : Int) + graphPotential State.s0130 <= graphPotential State.s0101
+  decide
 
 private def edge0113 : BellmanEdge State :=
   { src := State.s0102, gain := -73, dst := State.s0131 }
 
 private theorem edge0113_valid : edge0113.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0113]
+  change (-73 : Int) + graphPotential State.s0131 <= graphPotential State.s0102
+  decide
 
 private def edge0114 : BellmanEdge State :=
   { src := State.s0103, gain := -73, dst := State.s0132 }
 
 private theorem edge0114_valid : edge0114.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0114]
+  change (-73 : Int) + graphPotential State.s0132 <= graphPotential State.s0103
+  decide
 
 private def edge0115 : BellmanEdge State :=
   { src := State.s0104, gain := -73, dst := State.s0133 }
 
 private theorem edge0115_valid : edge0115.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0115]
+  change (-73 : Int) + graphPotential State.s0133 <= graphPotential State.s0104
+  decide
 
 private def edge0116 : BellmanEdge State :=
   { src := State.s0105, gain := -73, dst := State.s0134 }
 
 private theorem edge0116_valid : edge0116.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0116]
+  change (-73 : Int) + graphPotential State.s0134 <= graphPotential State.s0105
+  decide
 
 private def edge0117 : BellmanEdge State :=
   { src := State.s0106, gain := -73, dst := State.s0135 }
 
 private theorem edge0117_valid : edge0117.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0117]
+  change (-73 : Int) + graphPotential State.s0135 <= graphPotential State.s0106
+  decide
 
 private def edge0118 : BellmanEdge State :=
   { src := State.s0107, gain := -73, dst := State.s0136 }
 
 private theorem edge0118_valid : edge0118.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0118]
+  change (-73 : Int) + graphPotential State.s0136 <= graphPotential State.s0107
+  decide
 
 private def edge0119 : BellmanEdge State :=
   { src := State.s0108, gain := -73, dst := State.s0137 }
 
 private theorem edge0119_valid : edge0119.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0119]
+  change (-73 : Int) + graphPotential State.s0137 <= graphPotential State.s0108
+  decide
 
 private def edge0120 : BellmanEdge State :=
   { src := State.s0109, gain := -73, dst := State.s0138 }
 
 private theorem edge0120_valid : edge0120.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0120]
+  change (-73 : Int) + graphPotential State.s0138 <= graphPotential State.s0109
+  decide
 
 private def edge0121 : BellmanEdge State :=
   { src := State.s0110, gain := -73, dst := State.s0139 }
 
 private theorem edge0121_valid : edge0121.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0121]
+  change (-73 : Int) + graphPotential State.s0139 <= graphPotential State.s0110
+  decide
 
 private def edge0122 : BellmanEdge State :=
   { src := State.s0111, gain := -73, dst := State.s0140 }
 
 private theorem edge0122_valid : edge0122.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0122]
+  change (-73 : Int) + graphPotential State.s0140 <= graphPotential State.s0111
+  decide
 
 private def edge0123 : BellmanEdge State :=
   { src := State.s0112, gain := -73, dst := State.s0141 }
 
 private theorem edge0123_valid : edge0123.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0123]
+  change (-73 : Int) + graphPotential State.s0141 <= graphPotential State.s0112
+  decide
 
 private def edge0124 : BellmanEdge State :=
   { src := State.s0142, gain := -73, dst := State.s0143 }
 
 private theorem edge0124_valid : edge0124.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0124]
+  change (-73 : Int) + graphPotential State.s0143 <= graphPotential State.s0142
+  decide
 
 private def edge0125 : BellmanEdge State :=
   { src := State.s0143, gain := -73, dst := State.s0144 }
 
 private theorem edge0125_valid : edge0125.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0125]
+  change (-73 : Int) + graphPotential State.s0144 <= graphPotential State.s0143
+  decide
 
 private def edge0126 : BellmanEdge State :=
   { src := State.s0143, gain := -10, dst := State.s0145 }
 
 private theorem edge0126_valid : edge0126.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0126]
+  change (-10 : Int) + graphPotential State.s0145 <= graphPotential State.s0143
+  decide
 
 private def edge0127 : BellmanEdge State :=
   { src := State.s0143, gain := -124, dst := State.s0146 }
 
 private theorem edge0127_valid : edge0127.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0127]
+  change (-124 : Int) + graphPotential State.s0146 <= graphPotential State.s0143
+  decide
 
 private def edge0128 : BellmanEdge State :=
   { src := State.s0144, gain := -10, dst := State.s0147 }
 
 private theorem edge0128_valid : edge0128.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0128]
+  change (-10 : Int) + graphPotential State.s0147 <= graphPotential State.s0144
+  decide
 
 private def edge0129 : BellmanEdge State :=
   { src := State.s0144, gain := -124, dst := State.s0148 }
 
 private theorem edge0129_valid : edge0129.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0129]
+  change (-124 : Int) + graphPotential State.s0148 <= graphPotential State.s0144
+  decide
 
 private def edge0130 : BellmanEdge State :=
   { src := State.s0145, gain := -73, dst := State.s0147 }
 
 private theorem edge0130_valid : edge0130.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0130]
+  change (-73 : Int) + graphPotential State.s0147 <= graphPotential State.s0145
+  decide
 
 private def edge0131 : BellmanEdge State :=
   { src := State.s0145, gain := -10, dst := State.s0149 }
 
 private theorem edge0131_valid : edge0131.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0131]
+  change (-10 : Int) + graphPotential State.s0149 <= graphPotential State.s0145
+  decide
 
 private def edge0132 : BellmanEdge State :=
   { src := State.s0145, gain := -124, dst := State.s0151 }
 
 private theorem edge0132_valid : edge0132.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0132]
+  change (-124 : Int) + graphPotential State.s0151 <= graphPotential State.s0145
+  decide
 
 private def edge0133 : BellmanEdge State :=
   { src := State.s0146, gain := 114, dst := State.s0150 }
 
 private theorem edge0133_valid : edge0133.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0133]
+  change (114 : Int) + graphPotential State.s0150 <= graphPotential State.s0146
+  decide
 
 private def edge0134 : BellmanEdge State :=
   { src := State.s0146, gain := 96, dst := State.s0152 }
 
 private theorem edge0134_valid : edge0134.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0134]
+  change (96 : Int) + graphPotential State.s0152 <= graphPotential State.s0146
+  decide
 
 private def edge0135 : BellmanEdge State :=
   { src := State.s0147, gain := -10, dst := State.s0153 }
 
 private theorem edge0135_valid : edge0135.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0135]
+  change (-10 : Int) + graphPotential State.s0153 <= graphPotential State.s0147
+  decide
 
 private def edge0136 : BellmanEdge State :=
   { src := State.s0147, gain := -124, dst := State.s0155 }
 
 private theorem edge0136_valid : edge0136.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0136]
+  change (-124 : Int) + graphPotential State.s0155 <= graphPotential State.s0147
+  decide
 
 private def edge0137 : BellmanEdge State :=
   { src := State.s0148, gain := 114, dst := State.s0154 }
 
 private theorem edge0137_valid : edge0137.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0137]
+  change (114 : Int) + graphPotential State.s0154 <= graphPotential State.s0148
+  decide
 
 private def edge0138 : BellmanEdge State :=
   { src := State.s0148, gain := 96, dst := State.s0156 }
 
 private theorem edge0138_valid : edge0138.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0138]
+  change (96 : Int) + graphPotential State.s0156 <= graphPotential State.s0148
+  decide
 
 private def edge0139 : BellmanEdge State :=
   { src := State.s0149, gain := -73, dst := State.s0153 }
 
 private theorem edge0139_valid : edge0139.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0139]
+  change (-73 : Int) + graphPotential State.s0153 <= graphPotential State.s0149
+  decide
 
 private def edge0140 : BellmanEdge State :=
   { src := State.s0149, gain := -124, dst := State.s0158 }
 
 private theorem edge0140_valid : edge0140.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0140]
+  change (-124 : Int) + graphPotential State.s0158 <= graphPotential State.s0149
+  decide
 
 private def edge0141 : BellmanEdge State :=
   { src := State.s0150, gain := 114, dst := State.s0157 }
 
 private theorem edge0141_valid : edge0141.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0141]
+  change (114 : Int) + graphPotential State.s0157 <= graphPotential State.s0150
+  decide
 
 private def edge0142 : BellmanEdge State :=
   { src := State.s0151, gain := 96, dst := State.s0159 }
 
 private theorem edge0142_valid : edge0142.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0142]
+  change (96 : Int) + graphPotential State.s0159 <= graphPotential State.s0151
+  decide
 
 private def edge0143 : BellmanEdge State :=
   { src := State.s0152, gain := -18, dst := State.s0160 }
 
 private theorem edge0143_valid : edge0143.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0143]
+  change (-18 : Int) + graphPotential State.s0160 <= graphPotential State.s0152
+  decide
 
 private def edge0144 : BellmanEdge State :=
   { src := State.s0152, gain := -36, dst := State.s0161 }
 
 private theorem edge0144_valid : edge0144.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0144]
+  change (-36 : Int) + graphPotential State.s0161 <= graphPotential State.s0152
+  decide
 
 private def edge0145 : BellmanEdge State :=
   { src := State.s0153, gain := -124, dst := State.s0163 }
 
 private theorem edge0145_valid : edge0145.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0145]
+  change (-124 : Int) + graphPotential State.s0163 <= graphPotential State.s0153
+  decide
 
 private def edge0146 : BellmanEdge State :=
   { src := State.s0154, gain := 114, dst := State.s0162 }
 
 private theorem edge0146_valid : edge0146.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0146]
+  change (114 : Int) + graphPotential State.s0162 <= graphPotential State.s0154
+  decide
 
 private def edge0147 : BellmanEdge State :=
   { src := State.s0154, gain := 96, dst := State.s0164 }
 
 private theorem edge0147_valid : edge0147.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0147]
+  change (96 : Int) + graphPotential State.s0164 <= graphPotential State.s0154
+  decide
 
 private def edge0148 : BellmanEdge State :=
   { src := State.s0155, gain := 96, dst := State.s0166 }
 
 private theorem edge0148_valid : edge0148.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0148]
+  change (96 : Int) + graphPotential State.s0166 <= graphPotential State.s0155
+  decide
 
 private def edge0149 : BellmanEdge State :=
   { src := State.s0156, gain := -18, dst := State.s0165 }
 
 private theorem edge0149_valid : edge0149.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0149]
+  change (-18 : Int) + graphPotential State.s0165 <= graphPotential State.s0156
+  decide
 
 private def edge0150 : BellmanEdge State :=
   { src := State.s0156, gain := -36, dst := State.s0167 }
 
 private theorem edge0150_valid : edge0150.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0150]
+  change (-36 : Int) + graphPotential State.s0167 <= graphPotential State.s0156
+  decide
 
 private def edge0151 : BellmanEdge State :=
   { src := State.s0157, gain := 96, dst := State.s0169 }
 
 private theorem edge0151_valid : edge0151.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0151]
+  change (96 : Int) + graphPotential State.s0169 <= graphPotential State.s0157
+  decide
 
 private def edge0152 : BellmanEdge State :=
   { src := State.s0158, gain := 96, dst := State.s0170 }
 
 private theorem edge0152_valid : edge0152.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0152]
+  change (96 : Int) + graphPotential State.s0170 <= graphPotential State.s0158
+  decide
 
 private def edge0153 : BellmanEdge State :=
   { src := State.s0159, gain := -36, dst := State.s0171 }
 
 private theorem edge0153_valid : edge0153.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0153]
+  change (-36 : Int) + graphPotential State.s0171 <= graphPotential State.s0159
+  decide
 
 private def edge0154 : BellmanEdge State :=
   { src := State.s0160, gain := -18, dst := State.s0168 }
 
 private theorem edge0154_valid : edge0154.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0154]
+  change (-18 : Int) + graphPotential State.s0168 <= graphPotential State.s0160
+  decide
 
 private def edge0155 : BellmanEdge State :=
   { src := State.s0161, gain := -54, dst := State.s0172 }
 
 private theorem edge0155_valid : edge0155.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0155]
+  change (-54 : Int) + graphPotential State.s0172 <= graphPotential State.s0161
+  decide
 
 private def edge0156 : BellmanEdge State :=
   { src := State.s0161, gain := -144, dst := State.s0173 }
 
 private theorem edge0156_valid : edge0156.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0156]
+  change (-144 : Int) + graphPotential State.s0173 <= graphPotential State.s0161
+  decide
 
 private def edge0157 : BellmanEdge State :=
   { src := State.s0162, gain := 96, dst := State.s0175 }
 
 private theorem edge0157_valid : edge0157.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0157]
+  change (96 : Int) + graphPotential State.s0175 <= graphPotential State.s0162
+  decide
 
 private def edge0158 : BellmanEdge State :=
   { src := State.s0163, gain := 96, dst := State.s0176 }
 
 private theorem edge0158_valid : edge0158.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0158]
+  change (96 : Int) + graphPotential State.s0176 <= graphPotential State.s0163
+  decide
 
 private def edge0159 : BellmanEdge State :=
   { src := State.s0164, gain := -36, dst := State.s0177 }
 
 private theorem edge0159_valid : edge0159.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0159]
+  change (-36 : Int) + graphPotential State.s0177 <= graphPotential State.s0164
+  decide
 
 private def edge0160 : BellmanEdge State :=
   { src := State.s0165, gain := -18, dst := State.s0174 }
 
 private theorem edge0160_valid : edge0160.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0160]
+  change (-18 : Int) + graphPotential State.s0174 <= graphPotential State.s0165
+  decide
 
 private def edge0161 : BellmanEdge State :=
   { src := State.s0166, gain := -36, dst := State.s0178 }
 
 private theorem edge0161_valid : edge0161.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0161]
+  change (-36 : Int) + graphPotential State.s0178 <= graphPotential State.s0166
+  decide
 
 private def edge0162 : BellmanEdge State :=
   { src := State.s0167, gain := -54, dst := State.s0179 }
 
 private theorem edge0162_valid : edge0162.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0162]
+  change (-54 : Int) + graphPotential State.s0179 <= graphPotential State.s0167
+  decide
 
 private def edge0163 : BellmanEdge State :=
   { src := State.s0167, gain := -144, dst := State.s0180 }
 
 private theorem edge0163_valid : edge0163.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0163]
+  change (-144 : Int) + graphPotential State.s0180 <= graphPotential State.s0167
+  decide
 
 private def edge0164 : BellmanEdge State :=
   { src := State.s0168, gain := -36, dst := State.s0182 }
 
 private theorem edge0164_valid : edge0164.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0164]
+  change (-36 : Int) + graphPotential State.s0182 <= graphPotential State.s0168
+  decide
 
 private def edge0165 : BellmanEdge State :=
   { src := State.s0169, gain := -36, dst := State.s0183 }
 
 private theorem edge0165_valid : edge0165.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0165]
+  change (-36 : Int) + graphPotential State.s0183 <= graphPotential State.s0169
+  decide
 
 private def edge0166 : BellmanEdge State :=
   { src := State.s0170, gain := -36, dst := State.s0184 }
 
 private theorem edge0166_valid : edge0166.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0166]
+  change (-36 : Int) + graphPotential State.s0184 <= graphPotential State.s0170
+  decide
 
 private def edge0167 : BellmanEdge State :=
   { src := State.s0171, gain := -144, dst := State.s0186 }
 
 private theorem edge0167_valid : edge0167.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0167]
+  change (-144 : Int) + graphPotential State.s0186 <= graphPotential State.s0171
+  decide
 
 private def edge0168 : BellmanEdge State :=
   { src := State.s0172, gain := -54, dst := State.s0181 }
 
 private theorem edge0168_valid : edge0168.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0168]
+  change (-54 : Int) + graphPotential State.s0181 <= graphPotential State.s0172
+  decide
 
 private def edge0169 : BellmanEdge State :=
   { src := State.s0173, gain := 90, dst := State.s0185 }
 
 private theorem edge0169_valid : edge0169.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0169]
+  change (90 : Int) + graphPotential State.s0185 <= graphPotential State.s0173
+  decide
 
 private def edge0170 : BellmanEdge State :=
   { src := State.s0173, gain := -144, dst := State.s0187 }
 
 private theorem edge0170_valid : edge0170.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0170]
+  change (-144 : Int) + graphPotential State.s0187 <= graphPotential State.s0173
+  decide
 
 private def edge0171 : BellmanEdge State :=
   { src := State.s0174, gain := -36, dst := State.s0189 }
 
 private theorem edge0171_valid : edge0171.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0171]
+  change (-36 : Int) + graphPotential State.s0189 <= graphPotential State.s0174
+  decide
 
 private def edge0172 : BellmanEdge State :=
   { src := State.s0175, gain := -36, dst := State.s0190 }
 
 private theorem edge0172_valid : edge0172.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0172]
+  change (-36 : Int) + graphPotential State.s0190 <= graphPotential State.s0175
+  decide
 
 private def edge0173 : BellmanEdge State :=
   { src := State.s0176, gain := -36, dst := State.s0191 }
 
 private theorem edge0173_valid : edge0173.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0173]
+  change (-36 : Int) + graphPotential State.s0191 <= graphPotential State.s0176
+  decide
 
 private def edge0174 : BellmanEdge State :=
   { src := State.s0177, gain := -144, dst := State.s0192 }
 
 private theorem edge0174_valid : edge0174.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0174]
+  change (-144 : Int) + graphPotential State.s0192 <= graphPotential State.s0177
+  decide
 
 private def edge0175 : BellmanEdge State :=
   { src := State.s0178, gain := -144, dst := State.s0194 }
 
 private theorem edge0175_valid : edge0175.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0175]
+  change (-144 : Int) + graphPotential State.s0194 <= graphPotential State.s0178
+  decide
 
 private def edge0176 : BellmanEdge State :=
   { src := State.s0179, gain := -54, dst := State.s0188 }
 
 private theorem edge0176_valid : edge0176.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0176]
+  change (-54 : Int) + graphPotential State.s0188 <= graphPotential State.s0179
+  decide
 
 private def edge0177 : BellmanEdge State :=
   { src := State.s0180, gain := 90, dst := State.s0193 }
 
 private theorem edge0177_valid : edge0177.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0177]
+  change (90 : Int) + graphPotential State.s0193 <= graphPotential State.s0180
+  decide
 
 private def edge0178 : BellmanEdge State :=
   { src := State.s0180, gain := -144, dst := State.s0195 }
 
 private theorem edge0178_valid : edge0178.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0178]
+  change (-144 : Int) + graphPotential State.s0195 <= graphPotential State.s0180
+  decide
 
 private def edge0179 : BellmanEdge State :=
   { src := State.s0181, gain := -144, dst := State.s0197 }
 
 private theorem edge0179_valid : edge0179.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0179]
+  change (-144 : Int) + graphPotential State.s0197 <= graphPotential State.s0181
+  decide
 
 private def edge0180 : BellmanEdge State :=
   { src := State.s0182, gain := -144, dst := State.s0198 }
 
 private theorem edge0180_valid : edge0180.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0180]
+  change (-144 : Int) + graphPotential State.s0198 <= graphPotential State.s0182
+  decide
 
 private def edge0181 : BellmanEdge State :=
   { src := State.s0183, gain := -144, dst := State.s0199 }
 
 private theorem edge0181_valid : edge0181.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0181]
+  change (-144 : Int) + graphPotential State.s0199 <= graphPotential State.s0183
+  decide
 
 private def edge0182 : BellmanEdge State :=
   { src := State.s0184, gain := -144, dst := State.s0200 }
 
 private theorem edge0182_valid : edge0182.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0182]
+  change (-144 : Int) + graphPotential State.s0200 <= graphPotential State.s0184
+  decide
 
 private def edge0183 : BellmanEdge State :=
   { src := State.s0185, gain := 90, dst := State.s0196 }
 
 private theorem edge0183_valid : edge0183.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0183]
+  change (90 : Int) + graphPotential State.s0196 <= graphPotential State.s0185
+  decide
 
 private def edge0184 : BellmanEdge State :=
   { src := State.s0186, gain := -144, dst := State.s0202 }
 
 private theorem edge0184_valid : edge0184.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0184]
+  change (-144 : Int) + graphPotential State.s0202 <= graphPotential State.s0186
+  decide
 
 private def edge0185 : BellmanEdge State :=
   { src := State.s0187, gain := -54, dst := State.s0201 }
 
 private theorem edge0185_valid : edge0185.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0185]
+  change (-54 : Int) + graphPotential State.s0201 <= graphPotential State.s0187
+  decide
 
 private def edge0186 : BellmanEdge State :=
   { src := State.s0187, gain := -36, dst := State.s0203 }
 
 private theorem edge0186_valid : edge0186.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0186]
+  change (-36 : Int) + graphPotential State.s0203 <= graphPotential State.s0187
+  decide
 
 private def edge0187 : BellmanEdge State :=
   { src := State.s0188, gain := -144, dst := State.s0205 }
 
 private theorem edge0187_valid : edge0187.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0187]
+  change (-144 : Int) + graphPotential State.s0205 <= graphPotential State.s0188
+  decide
 
 private def edge0188 : BellmanEdge State :=
   { src := State.s0189, gain := -144, dst := State.s0206 }
 
 private theorem edge0188_valid : edge0188.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0188]
+  change (-144 : Int) + graphPotential State.s0206 <= graphPotential State.s0189
+  decide
 
 private def edge0189 : BellmanEdge State :=
   { src := State.s0190, gain := -144, dst := State.s0207 }
 
 private theorem edge0189_valid : edge0189.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0189]
+  change (-144 : Int) + graphPotential State.s0207 <= graphPotential State.s0190
+  decide
 
 private def edge0190 : BellmanEdge State :=
   { src := State.s0191, gain := -144, dst := State.s0208 }
 
 private theorem edge0190_valid : edge0190.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0190]
+  change (-144 : Int) + graphPotential State.s0208 <= graphPotential State.s0191
+  decide
 
 private def edge0191 : BellmanEdge State :=
   { src := State.s0192, gain := -144, dst := State.s0209 }
 
 private theorem edge0191_valid : edge0191.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0191]
+  change (-144 : Int) + graphPotential State.s0209 <= graphPotential State.s0192
+  decide
 
 private def edge0192 : BellmanEdge State :=
   { src := State.s0193, gain := 90, dst := State.s0204 }
 
 private theorem edge0192_valid : edge0192.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0192]
+  change (90 : Int) + graphPotential State.s0204 <= graphPotential State.s0193
+  decide
 
 private def edge0193 : BellmanEdge State :=
   { src := State.s0194, gain := -144, dst := State.s0211 }
 
 private theorem edge0193_valid : edge0193.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0193]
+  change (-144 : Int) + graphPotential State.s0211 <= graphPotential State.s0194
+  decide
 
 private def edge0194 : BellmanEdge State :=
   { src := State.s0195, gain := -54, dst := State.s0210 }
 
 private theorem edge0194_valid : edge0194.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0194]
+  change (-54 : Int) + graphPotential State.s0210 <= graphPotential State.s0195
+  decide
 
 private def edge0195 : BellmanEdge State :=
   { src := State.s0195, gain := -36, dst := State.s0213 }
 
 private theorem edge0195_valid : edge0195.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0195]
+  change (-36 : Int) + graphPotential State.s0213 <= graphPotential State.s0195
+  decide
 
 private def edge0196 : BellmanEdge State :=
   { src := State.s0196, gain := -144, dst := State.s0215 }
 
 private theorem edge0196_valid : edge0196.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0196]
+  change (-144 : Int) + graphPotential State.s0215 <= graphPotential State.s0196
+  decide
 
 private def edge0197 : BellmanEdge State :=
   { src := State.s0197, gain := -144, dst := State.s0216 }
 
 private theorem edge0197_valid : edge0197.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0197]
+  change (-144 : Int) + graphPotential State.s0216 <= graphPotential State.s0197
+  decide
 
 private def edge0198 : BellmanEdge State :=
   { src := State.s0198, gain := -144, dst := State.s0217 }
 
 private theorem edge0198_valid : edge0198.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0198]
+  change (-144 : Int) + graphPotential State.s0217 <= graphPotential State.s0198
+  decide
 
 private def edge0199 : BellmanEdge State :=
   { src := State.s0199, gain := -144, dst := State.s0218 }
 
 private theorem edge0199_valid : edge0199.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0199]
+  change (-144 : Int) + graphPotential State.s0218 <= graphPotential State.s0199
+  decide
 
 private def edge0200 : BellmanEdge State :=
   { src := State.s0200, gain := -144, dst := State.s0219 }
 
 private theorem edge0200_valid : edge0200.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0200]
+  change (-144 : Int) + graphPotential State.s0219 <= graphPotential State.s0200
+  decide
 
 private def edge0201 : BellmanEdge State :=
   { src := State.s0201, gain := -54, dst := State.s0214 }
 
 private theorem edge0201_valid : edge0201.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0201]
+  change (-54 : Int) + graphPotential State.s0214 <= graphPotential State.s0201
+  decide
 
 private def edge0202 : BellmanEdge State :=
   { src := State.s0202, gain := -36, dst := State.s0221 }
 
 private theorem edge0202_valid : edge0202.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0202]
+  change (-36 : Int) + graphPotential State.s0221 <= graphPotential State.s0202
+  decide
 
 private def edge0203 : BellmanEdge State :=
   { src := State.s0203, gain := -117, dst := State.s0212 }
 
 private theorem edge0203_valid : edge0203.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0203]
+  change (-117 : Int) + graphPotential State.s0212 <= graphPotential State.s0203
+  decide
 
 private def edge0204 : BellmanEdge State :=
   { src := State.s0203, gain := -18, dst := State.s0220 }
 
 private theorem edge0204_valid : edge0204.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0204]
+  change (-18 : Int) + graphPotential State.s0220 <= graphPotential State.s0203
+  decide
 
 private def edge0205 : BellmanEdge State :=
   { src := State.s0203, gain := 96, dst := State.s0222 }
 
 private theorem edge0205_valid : edge0205.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0205]
+  change (96 : Int) + graphPotential State.s0222 <= graphPotential State.s0203
+  decide
 
 private def edge0206 : BellmanEdge State :=
   { src := State.s0204, gain := -144, dst := State.s0002 }
 
 private theorem edge0206_valid : edge0206.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0206]
+  change (-144 : Int) + graphPotential State.s0002 <= graphPotential State.s0204
+  decide
 
 private def edge0207 : BellmanEdge State :=
   { src := State.s0205, gain := -144, dst := State.s0003 }
 
 private theorem edge0207_valid : edge0207.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0207]
+  change (-144 : Int) + graphPotential State.s0003 <= graphPotential State.s0205
+  decide
 
 private def edge0208 : BellmanEdge State :=
   { src := State.s0206, gain := -144, dst := State.s0004 }
 
 private theorem edge0208_valid : edge0208.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0208]
+  change (-144 : Int) + graphPotential State.s0004 <= graphPotential State.s0206
+  decide
 
 private def edge0209 : BellmanEdge State :=
   { src := State.s0207, gain := -144, dst := State.s0005 }
 
 private theorem edge0209_valid : edge0209.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0209]
+  change (-144 : Int) + graphPotential State.s0005 <= graphPotential State.s0207
+  decide
 
 private def edge0210 : BellmanEdge State :=
   { src := State.s0208, gain := -144, dst := State.s0006 }
 
 private theorem edge0210_valid : edge0210.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0210]
+  change (-144 : Int) + graphPotential State.s0006 <= graphPotential State.s0208
+  decide
 
 private def edge0211 : BellmanEdge State :=
   { src := State.s0209, gain := -36, dst := State.s0009 }
 
 private theorem edge0211_valid : edge0211.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0211]
+  change (-36 : Int) + graphPotential State.s0009 <= graphPotential State.s0209
+  decide
 
 private def edge0212 : BellmanEdge State :=
   { src := State.s0210, gain := -54, dst := State.s0001 }
 
 private theorem edge0212_valid : edge0212.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0212]
+  change (-54 : Int) + graphPotential State.s0001 <= graphPotential State.s0210
+  decide
 
 private def edge0213 : BellmanEdge State :=
   { src := State.s0211, gain := -36, dst := State.s0011 }
 
 private theorem edge0213_valid : edge0213.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0213]
+  change (-36 : Int) + graphPotential State.s0011 <= graphPotential State.s0211
+  decide
 
 private def edge0214 : BellmanEdge State :=
   { src := State.s0212, gain := -18, dst := State.s0007 }
 
 private theorem edge0214_valid : edge0214.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0214]
+  change (-18 : Int) + graphPotential State.s0007 <= graphPotential State.s0212
+  decide
 
 private def edge0215 : BellmanEdge State :=
   { src := State.s0212, gain := 96, dst := State.s0012 }
 
 private theorem edge0215_valid : edge0215.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0215]
+  change (96 : Int) + graphPotential State.s0012 <= graphPotential State.s0212
+  decide
 
 private def edge0216 : BellmanEdge State :=
   { src := State.s0213, gain := -18, dst := State.s0008 }
 
 private theorem edge0216_valid : edge0216.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0216]
+  change (-18 : Int) + graphPotential State.s0008 <= graphPotential State.s0213
+  decide
 
 private def edge0217 : BellmanEdge State :=
   { src := State.s0213, gain := 96, dst := State.s0013 }
 
 private theorem edge0217_valid : edge0217.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0217]
+  change (96 : Int) + graphPotential State.s0013 <= graphPotential State.s0213
+  decide
 
 private def edge0218 : BellmanEdge State :=
   { src := State.s0214, gain := -36, dst := State.s0015 }
 
 private theorem edge0218_valid : edge0218.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0218]
+  change (-36 : Int) + graphPotential State.s0015 <= graphPotential State.s0214
+  decide
 
 private def edge0219 : BellmanEdge State :=
   { src := State.s0215, gain := -36, dst := State.s0016 }
 
 private theorem edge0219_valid : edge0219.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0219]
+  change (-36 : Int) + graphPotential State.s0016 <= graphPotential State.s0215
+  decide
 
 private def edge0220 : BellmanEdge State :=
   { src := State.s0216, gain := -36, dst := State.s0017 }
 
 private theorem edge0220_valid : edge0220.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0220]
+  change (-36 : Int) + graphPotential State.s0017 <= graphPotential State.s0216
+  decide
 
 private def edge0221 : BellmanEdge State :=
   { src := State.s0217, gain := -36, dst := State.s0018 }
 
 private theorem edge0221_valid : edge0221.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0221]
+  change (-36 : Int) + graphPotential State.s0018 <= graphPotential State.s0217
+  decide
 
 private def edge0222 : BellmanEdge State :=
   { src := State.s0218, gain := -36, dst := State.s0019 }
 
 private theorem edge0222_valid : edge0222.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0222]
+  change (-36 : Int) + graphPotential State.s0019 <= graphPotential State.s0218
+  decide
 
 private def edge0223 : BellmanEdge State :=
   { src := State.s0219, gain := -36, dst := State.s0020 }
 
 private theorem edge0223_valid : edge0223.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0223]
+  change (-36 : Int) + graphPotential State.s0020 <= graphPotential State.s0219
+  decide
 
 private def edge0224 : BellmanEdge State :=
   { src := State.s0220, gain := -117, dst := State.s0007 }
 
 private theorem edge0224_valid : edge0224.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0224]
+  change (-117 : Int) + graphPotential State.s0007 <= graphPotential State.s0220
+  decide
 
 private def edge0225 : BellmanEdge State :=
   { src := State.s0220, gain := -18, dst := State.s0014 }
 
 private theorem edge0225_valid : edge0225.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0225]
+  change (-18 : Int) + graphPotential State.s0014 <= graphPotential State.s0220
+  decide
 
 private def edge0226 : BellmanEdge State :=
   { src := State.s0221, gain := -117, dst := State.s0010 }
 
 private theorem edge0226_valid : edge0226.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0226]
+  change (-117 : Int) + graphPotential State.s0010 <= graphPotential State.s0221
+  decide
 
 private def edge0227 : BellmanEdge State :=
   { src := State.s0221, gain := 96, dst := State.s0021 }
 
 private theorem edge0227_valid : edge0227.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0227]
+  change (96 : Int) + graphPotential State.s0021 <= graphPotential State.s0221
+  decide
 
 private def edge0228 : BellmanEdge State :=
   { src := State.s0222, gain := -124, dst := State.s0022 }
 
 private theorem edge0228_valid : edge0228.Valid graphPotential := by
-  norm_num [BellmanEdge.Valid, graphPotential, edge0228]
+  change (-124 : Int) + graphPotential State.s0022 <= graphPotential State.s0222
+  decide
 
 private inductive GraphEdge : BellmanEdge State -> Prop where
   | e0000 : GraphEdge edge0000
@@ -2307,7 +2536,7 @@ private theorem GraphEdge.valid {e : BellmanEdge State} :
 
 private theorem root_bound :
     (176 : Int) + graphPotential rootState <= 0 := by
-  norm_num [rootState, graphPotential]
+  decide
 
 theorem graphSmoke_path_scaled_margin_nonpos
     {finish : State} {edges : List (BellmanEdge State)}

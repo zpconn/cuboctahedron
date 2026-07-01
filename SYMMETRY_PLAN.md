@@ -1929,12 +1929,18 @@ Bellman profiler prototype checkpoint:
   state and an inductive `GraphEdge` predicate for finite graph membership.
   This is an important Lean-engineering rule for Bellman generation: avoid
   large `Fin`/Nat lookup tables in proof-facing generated graph certificates.
-  Focused build passed:
+  A first constructor-state build using `norm_num` edge proofs passed in
+  `0:25.03` wall time with `6,036,172 kB` max RSS; the emitter was then
+  improved to generate explicit closed integer inequalities followed by
+  `decide`, reducing the focused build to:
   `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
-  in `0:25.03` wall time with `6,036,172 kB` max RSS.  This is stronger than
+  in `0:03.18` wall time with `3,361,800 kB` max RSS.  This is stronger than
   the path smoke because it verifies all emitted edges for the bounded graph
   and exposes `graphSmoke_path_scaled_margin_nonpos`, but it is still a
-  bounded diagnostic module, not full generated coverage.
+  bounded diagnostic module, not full generated coverage.  Production
+  Bellman leaves should therefore emit shallow constructor states plus
+  explicit integer inequalities, not large table lookups or tactic-heavy
+  arithmetic.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

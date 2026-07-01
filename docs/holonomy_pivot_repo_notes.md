@@ -373,10 +373,13 @@ Top margin+cancellation-pairing checkpoint:
   `with-step-tri-source`, the exported graph has `223` states, `229` edges,
   and `29` final states.  The Lean graph smoke
   `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
-  builds in `0:25.03` wall time at `6,036,172 kB` max RSS.  A previous
-  Fin/Nat-table encoding was rejected after recursion-depth and heartbeat
-  failures, so generated Bellman graph certificates should use constructor
-  states or similarly shallow proof-facing lookup surfaces.
+  now builds in `0:03.18` wall time at `3,361,800 kB` max RSS after emitting
+  explicit closed integer edge inequalities and closing them with `decide`.
+  A previous Fin/Nat-table encoding was rejected after recursion-depth and
+  heartbeat failures, and a constructor-state `norm_num` version was accepted
+  but much heavier.  Generated Bellman graph certificates should therefore use
+  constructor states or similarly shallow proof-facing lookup surfaces plus
+  tiny explicit integer inequality proofs.
 
 ## Explicit Non-Goals
 

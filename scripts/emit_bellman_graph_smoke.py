@@ -77,7 +77,10 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             f"dst := {state_ctor(edge['dst'])}" + " }",
             "",
             f"private theorem {name}_valid : {name}.Valid graphPotential := by",
-            f"  norm_num [BellmanEdge.Valid, graphPotential, {name}]",
+            "  change "
+            f"({edge['gain_scaled']} : Int) + graphPotential {state_ctor(edge['dst'])} "
+            f"<= graphPotential {state_ctor(edge['src'])}",
+            f"  decide",
             "",
         ])
 
@@ -95,7 +98,7 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "",
         "private theorem root_bound :",
         f"    ({const_scaled} : Int) + graphPotential rootState <= 0 := by",
-        "  norm_num [rootState, graphPotential]",
+        "  decide",
         "",
         "theorem graphSmoke_path_scaled_margin_nonpos",
         "    {finish : State} {edges : List (BellmanEdge State)}",
