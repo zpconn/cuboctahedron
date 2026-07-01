@@ -233,3 +233,16 @@ Signed-prefix empty-cone checkpoint:
   standalone low-thousands family coordinate.  Use it as a front-end filter
   combined with forced-axis/reduced-shadow/holonomy signatures before emitting
   Lean proof leaves.
+
+Combined forced-axis/cone checkpoint:
+
+- `scripts/nonidentity_forced_cone_profile.py` tests empty-cone certificates
+  only after the nonidentity forced-axis filter has selected the forced signed
+  lift.
+- On `[0,100000)`, the combined profiler found `9,036` forced-balance
+  survivors and `0` cone-killed survivors.  It ran in `2:53.82` with
+  `24,796 KiB` max RSS.
+- Conclusion: empty-cone/Gordan is not the residual nonidentity cure.  The
+  active residual route should focus on cheaper integer/projective
+  local-axis-family theorems and quotienting by reduced shadow, primitive axis,
+  solve shape, and terminal source signature.

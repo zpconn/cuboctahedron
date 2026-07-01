@@ -97,6 +97,17 @@ Decision:
   classifiers already available, and profile whether the post-cone frontier
   collapses once nontranslation holonomy signatures are used.
 
+Follow-up combined test:
+
+- `scripts/nonidentity_forced_cone_profile.py` tested the post-forced-axis
+  residual branch directly on `[0,100000)`.
+- Result: `0 / 9,036` forced-balance survivors were killed by empty-cone
+  certificates.
+- Therefore signed-prefix cone pruning is not currently the residual
+  nonidentity proof-compression route.  It remains a front-end obstruction and
+  a useful diagnostic, but the residual branch needs cheaper axis-family
+  theorem surfaces or stronger holonomy quotienting.
+
 ## Artifacts
 
 - `scripts/signed_prefix_empty_cone_profile.py`

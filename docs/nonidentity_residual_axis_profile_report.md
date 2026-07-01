@@ -148,11 +148,24 @@ Decision from this gate:
 - if local axis certificates are revisited, first replace the Rat-heavy
   theorem surface with a much cheaper integer/projective instantiation.
 
+Follow-up correction:
+
+- The broader signed-prefix empty-cone profiler showed that cone pruning is a
+  real front-end obstruction, but the combined forced-axis/cone profiler found
+  `0 / 9,036` cone-killed forced-balance survivors on `[0,100000)`.
+- Empty-cone/Gordan should therefore not be treated as the residual
+  nontranslation cure after the forced-axis filter.  The residual route should
+  return to cheaper local-axis-family theorem surfaces and stronger quotienting
+  by reduced shadow, primitive axis, solve shape, and terminal source
+  signature.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
 - `scripts/generated/nonidentity_residual_family_gate_000000000_000100000.json`
 - `scripts/generated/nonidentity_residual_family_gate_000000000_000100000.md`
+- `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.json`
+- `scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.md`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000000100.json`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000000100.md`
 - `scripts/generated/nonidentity_residual_axis_profile_000000000_000010000.json`

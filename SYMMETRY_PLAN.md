@@ -1147,6 +1147,45 @@ Signed-prefix depth-7 frontier checkpoint:
   front-end filter composed with forced-axis/reduced-shadow/holonomy
   signatures.  Do not emit cone leaves yet.
 
+Forced-axis plus empty-cone combined checkpoint:
+
+- Added `scripts/nonidentity_forced_cone_profile.py` to test the relevant
+  residual question: after the nonidentity forced-axis filter chooses the only
+  possible signed lift, does an empty-cone/Gordan certificate kill any
+  remaining forced-balance survivor?
+- Calibration:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/nonidentity_forced_cone_profile.py \
+    --start 0 --end 100000 \
+    --jobs 4 \
+    --chunk-size 25000 \
+    --min-check-depth 2 \
+    --max-support 4 \
+    --top 30 \
+    --sample-limit 8 \
+    --json scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.json \
+    --markdown scripts/generated/nonidentity_forced_cone_profile_000000000_000100000.md
+  ```
+
+- Telemetry:
+
+  | metric | value |
+  | --- | ---: |
+  | elapsed | `2:53.82` |
+  | peak RSS | `24,796 KiB` |
+  | forced-balance survivors | `9,036` |
+  | cone killed | `0` |
+  | cone survivors | `9,036` |
+
+- Decision: rejected as the next residual proof-compression route.  The
+  empty-cone obstruction is real for arbitrary signed prefixes, but after a
+  valid forced-axis orientation exists, that axis itself witnesses consistency
+  of the prefix direction inequalities.  The nonidentity residual branch must
+  now focus on cheaper integer/projective local axis-family theorem surfaces
+  and stronger quotienting by reduced shadow, primitive axis, solve shape, and
+  terminal source signature.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
