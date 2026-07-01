@@ -52388,3 +52388,89 @@ Results:
 | --- | ---: | ---: | ---: | ---: | --- |
 | `generated-trace` | `18` fresh `.olean`s | `8.01s` | `3976 MiB` | `46163 MiB` | passed |
 | `axis-forces-pairsign` | `21` fresh `.olean`s | `2.00s` | `3562 MiB` | `46335 MiB` | passed |
+
+### Holonomy/Bellman Pivot - split composition root accepted
+
+Added the tiny composition root:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSplitCompositionSmoke.lean
+```
+
+It imports the two accepted split leaves:
+
+```lean
+import Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanAxisForcesPairSignSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedLanguageGeneratedTraceSmoke
+```
+
+and proves:
+
+```lean
+generatedClosedLanguageForSeqOfAxisForcesSplit :
+  SeqRealizesPairWord (unrankPairWord traceRank) seq ->
+  NonIdentityAxisConstraints seq ->
+  checkKernelLineWitness ... axis kernel = true ->
+  AxisForcesForcedSeq (unrankPairWord traceRank) axis traceForcedSeq ->
+  TopPairingClosedLanguageForSeq traceRank seq Face.ym
+```
+
+This is the intended production composition pattern in miniature: ordinary
+trace leaves stop at `PairSignLanguageAtRank`; an axis-forces family bridge
+proves the pair-sign fact; a small root composes them.
+
+The first composition dry-run correctly refused before launching Lean because
+the imported generated smoke artifacts were not both fresh:
+
+```text
+missing .olean:
+  BellmanAxisForcesPairSignSmoke
+stale .olean:
+  BellmanTopPairingClosedLanguageGeneratedTraceSmoke
+```
+
+This validates the import preflight's purpose.  The imported smoke leaves were
+then emitted explicitly under the strict guard:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --target generated-trace \
+  --emit-olean \
+  --json /tmp/bellman_generated_trace_emit_olean_for_split.json
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --target axis-forces-pairsign \
+  --emit-olean \
+  --json /tmp/bellman_axis_forces_pairsign_emit_olean_for_split.json
+```
+
+Leaf artifact telemetry:
+
+| target | elapsed | peak tree RSS | minimum available | status |
+| --- | ---: | ---: | ---: | --- |
+| `generated-trace --emit-olean` | `8.51s` | `3989.25 MiB` | `46235.35 MiB` | passed |
+| `axis-forces-pairsign --emit-olean` | `2.00s` | `3941.01 MiB` | `46305.75 MiB` | passed |
+
+After the artifacts were fresh, the composition root preflight passed with
+`26` fresh local imports, and the strict direct-Lean check passed:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --target split-composition \
+  --json /tmp/bellman_split_composition_guard_retry3.json
+```
+
+Composition telemetry:
+
+| target | imports | elapsed | peak tree RSS | minimum available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `split-composition` | `26` fresh `.olean`s | `2.50s` | `3576.13 MiB` | `46414.23 MiB` | passed |
+
+Decision: accepted.  The split architecture is now Lean-checked end to end on
+one sampled Bellman path: separate leaf checks, separate axis-forces bridge,
+and a tiny composition root.  This is still a smoke, not exhaustive coverage,
+but it is stronger evidence for the final generated architecture than a
+monolithic trace leaf importing the axis stack.

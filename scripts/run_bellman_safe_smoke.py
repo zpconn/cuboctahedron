@@ -59,6 +59,17 @@ TARGETS = {
         ),
         "description": "standalone generated Bellman closed-language trace shard",
     },
+    "split-composition": {
+        "module": (
+            "Cuboctahedron.Generated.NonIdentity.Residual."
+            "BellmanTopPairingSplitCompositionSmoke"
+        ),
+        "path": (
+            "Cuboctahedron/Generated/NonIdentity/Residual/"
+            "BellmanTopPairingSplitCompositionSmoke.lean"
+        ),
+        "description": "tiny root composing trace and axis-forces split bridge",
+    },
 }
 
 
@@ -165,6 +176,14 @@ def parse_args() -> argparse.Namespace:
         "--dry-run",
         action="store_true",
         help="Print the guarded command without launching it.",
+    )
+    parser.add_argument(
+        "--emit-olean",
+        action="store_true",
+        help=(
+            "Emit the target .olean under the same guard instead of only "
+            "type-checking the source. Imports are still preflighted first."
+        ),
     )
     return parser.parse_args()
 
@@ -329,6 +348,9 @@ def main() -> int:
 
     target = TARGETS[args.target]
     import_preflight = local_import_preflight(target["path"])
+    output_olean = module_olean_path(target["module"]) if args.emit_olean else None
+    if output_olean is not None:
+        output_olean.parent.mkdir(parents=True, exist_ok=True)
     guard_json = args.json if args.json is not None else default_json_path(args.target)
     checked_command = [
         "lake",
@@ -339,8 +361,10 @@ def main() -> int:
         "-j" + str(args.lean_threads),
         "-s",
         str(args.lean_tstack_kib),
-        target["path"],
     ]
+    if output_olean is not None:
+        checked_command.extend(["-o", str(output_olean)])
+    checked_command.append(target["path"])
     command = [
         sys.executable,
         "scripts/run_memory_guarded.py",
@@ -377,6 +401,8 @@ def main() -> int:
             "lean_memory_mib": args.lean_memory_mib,
             "lean_threads": args.lean_threads,
             "lean_tstack_kib": args.lean_tstack_kib,
+            "emit_olean": args.emit_olean,
+            "output_olean": None if output_olean is None else str(output_olean),
             "import_preflight": import_preflight,
             "command": command,
         },

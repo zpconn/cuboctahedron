@@ -3384,3 +3384,19 @@ Trace/axis split checkpoint:
   `generated-trace` target passed in `8.01s` at `3976 MiB` peak RSS with `18`
   fresh imports; the `axis-forces-pairsign` target passed in `2.00s` at
   `3562 MiB` peak RSS with `21` fresh imports.
+
+Split-composition checkpoint:
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplitCompositionSmoke.lean`.
+  It imports the two split leaves and proves
+  `generatedClosedLanguageForSeqOfAxisForcesSplit`, composing
+  `pairSign_of_axisForces_smoke` with
+  `generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation`.
+- The first composition preflight refused correctly because one imported
+  generated smoke `.olean` was missing and the other was stale.  The two leaf
+  artifacts were then emitted explicitly under the wrapper:
+  `generated-trace --emit-olean` passed in `8.51s` at `3989.25 MiB`; and
+  `axis-forces-pairsign --emit-olean` passed in `2.00s` at `3941.01 MiB`.
+- With fresh artifacts, `--target split-composition` passed in `2.50s` at
+  `3576.13 MiB` peak RSS with `26` fresh local imports.
