@@ -1488,10 +1488,23 @@ Concrete face-sequence bridge smoke:
   `rankPairWord?_eq_some_iff_unrank` theorem.
 - Added the reusable core module `Cuboctahedron.Search.FaceLabelLanguage` with
   `contributionOrderSteps`, `faceLabelsInContributionOrder`, `SameFaceSeq`,
-  and `faceLabelsInContributionOrder_eq_of_same`.  The generated graph smoke
-  now imports this module and uses its shared theorem for the
+  `sameFaceSeq_of_pair_and_sign`,
+  `sameFaceSeq_of_pairWordMatchesSeq_and_sign`, and
+  `faceLabelsInContributionOrder_eq_of_same`.  The generated graph smoke now
+  imports this module and uses its shared theorem for the
   sequence-language-to-label-equality step instead of carrying private
   per-step rewrite boilerplate.
+- The emitter now also generates the stronger sampled language
+  `cls0000PairSignLanguage`.  This predicate assumes
+  `PairWordMatchesSeq (unrankPairWord cls0000Rank) seq`, equality of the
+  actual face signs with the generated representative, and the started face.
+  The generated theorem `cls0000PairSignLanguage_same` uses
+  `sameFaceSeq_of_pairWordMatchesSeq_and_sign` to recover `SameFaceSeq`, and
+  `graphSmoke_cls0000_pair_sign_language_scaled_margin_nonpos` then applies
+  the Bellman bound.  This is closer to the production obligation than the toy
+  pointwise-equality language: a holonomy/cancellation family theorem should
+  eventually produce pair-word matching plus forced-sign facts, not an explicit
+  equality proof for every `Step14`.
 - Focused build passed:
 
   ```bash
@@ -1499,16 +1512,21 @@ Concrete face-sequence bridge smoke:
 
   /usr/bin/time -v lake build \
     Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+
+  /usr/bin/time -v lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean
   ```
 
-  Results: core `0:02.48` wall time, `3,266,508 kB` max RSS; graph smoke
-  `0:08.96` wall time, `3,965,756 kB` max RSS.
+  Results: core `0:02.43` wall time, `3,274,564 kB` max RSS; cached Lake graph
+  smoke replay `0:00.88` wall time, `852,860 kB` max RSS; direct generated-file
+  typecheck `0:06.28` wall time, `3,779,592 kB` max RSS.
 - Decision: accepted as the first Lean-checked bridge from actual
   `Step14 -> Face` itineraries to the Bellman trie language through rank/unrank,
-  pair-word matching, reusable label equality, and a sequence-language theorem.
-  The remaining production gap is to replace this toy pointwise-equality
-  language by a theorem that the holonomy/cancellation top-family predicate
-  determines the same face-label language/trie branch.
+  pair-word matching, forced face signs, reusable label equality, and a
+  pair/sign language theorem.  The remaining production gap is to replace the
+  sampled `cls0000PairSignLanguage` by a theorem that the
+  holonomy/cancellation top-family predicate determines the same pair/sign
+  language and trie branch.
 
 ## Artifacts
 
@@ -1536,6 +1554,7 @@ Concrete face-sequence bridge smoke:
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json`
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.md`
 - `Cuboctahedron/Search/BellmanPotential.lean`
+- `Cuboctahedron/Search/FaceLabelLanguage.lean`
 - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSmoke.lean`
 - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`
 - `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph5MSmoke.lean`

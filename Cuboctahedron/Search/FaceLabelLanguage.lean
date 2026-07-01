@@ -25,6 +25,42 @@ def faceLabelsInContributionOrder {α : Type}
 def SameFaceSeq (template seq : Step14 -> Face) : Prop :=
   forall i : Step14, seq i = template i
 
+theorem sameFaceSeq_of_pair_and_sign
+    {template seq : Step14 -> Face}
+    (hpair : forall i : Step14, pairOfFace (seq i) = pairOfFace (template i))
+    (hsign : forall i : Step14,
+      positiveSignOfFace (seq i) = positiveSignOfFace (template i)) :
+    SameFaceSeq template seq := by
+  intro i
+  calc
+    seq i =
+        faceOfPairSign (pairOfFace (seq i)) (positiveSignOfFace (seq i)) := by
+          exact (faceOfPairSign_pairOfFace_positiveSignOfFace (seq i)).symm
+    _ = faceOfPairSign (pairOfFace (template i))
+        (positiveSignOfFace (template i)) := by
+          rw [hpair i, hsign i]
+    _ = template i := by
+          exact faceOfPairSign_pairOfFace_positiveSignOfFace (template i)
+
+theorem sameFaceSeq_of_pairWordMatchesSeq_and_sign
+    {template seq : Step14 -> Face} {w : PairWord}
+    (htemplate : PairWordMatchesSeq w template)
+    (hseq : PairWordMatchesSeq w seq)
+    (hstart : seq 0 = template 0)
+    (hsign : forall i : Step14,
+      positiveSignOfFace (seq i) = positiveSignOfFace (template i)) :
+    SameFaceSeq template seq := by
+  apply sameFaceSeq_of_pair_and_sign
+  · intro i
+    by_cases hi : i = 0
+    · subst i
+      simp [hstart]
+    · have hs := hseq (dropStart i hi)
+      have ht := htemplate (dropStart i hi)
+      rw [afterStart_dropStart i hi] at hs ht
+      exact hs.symm.trans ht
+  · exact hsign
+
 theorem faceLabelsInContributionOrder_eq_of_same
     {α : Type} (labelOfFace : Face -> α)
     {template seq : Step14 -> Face}

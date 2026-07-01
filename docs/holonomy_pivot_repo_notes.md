@@ -558,12 +558,26 @@ Top margin+cancellation-pairing checkpoint:
   `cls0000FaceSeq_unrank_pairword`, and `cls0000FaceSeq_matches_unrank`.  The
   reusable core `Cuboctahedron.Search.FaceLabelLanguage` now provides
   `contributionOrderSteps`, `faceLabelsInContributionOrder`, `SameFaceSeq`,
-  and `faceLabelsInContributionOrder_eq_of_same`; the graph smoke imports it
-  for the sequence-language-to-label-equality step.  Focused builds passed for
-  the core in `0:02.48` wall / `3,266,508 kB` max RSS and for the graph smoke
-  in `0:08.96` wall / `3,965,756 kB` max RSS.  The
-  next production gap is now precise: replace that toy language with the top
-  holonomy/cancellation family predicate.
+  `sameFaceSeq_of_pair_and_sign`,
+  `sameFaceSeq_of_pairWordMatchesSeq_and_sign`, and
+  `faceLabelsInContributionOrder_eq_of_same`; the graph smoke imports it for
+  the sequence-language-to-label-equality step.  The emitter now also produces
+  `cls0000PairSignLanguage`, which assumes only
+  `PairWordMatchesSeq (unrankPairWord cls0000Rank) seq`, equality of the
+  actual face signs with the generated representative, and the started face.
+  The theorem `cls0000PairSignLanguage_same` turns those facts into
+  `SameFaceSeq`, and
+  `graphSmoke_cls0000_pair_sign_language_scaled_margin_nonpos` then obtains
+  the Bellman margin bound.  Focused builds passed for the core in `0:02.43`
+  wall / `3,274,564 kB` max RSS; direct typechecking of the generated graph
+  smoke passed via
+  `/usr/bin/time -v lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`
+  in `0:06.28` wall / `3,779,592 kB` max RSS, and the cached Lake target
+  replayed in `0:00.88` wall / `852,860 kB` max RSS.  The next production gap
+  is now precise: replace the sampled `cls0000PairSignLanguage` with the real
+  holonomy/cancellation top-family predicate, proving the pair-word matching
+  and forced-sign hypotheses from that semantic state rather than enumerating
+  exact face sequences.
 
 ## Explicit Non-Goals
 

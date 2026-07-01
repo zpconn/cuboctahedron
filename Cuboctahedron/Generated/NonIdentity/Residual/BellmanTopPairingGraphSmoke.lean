@@ -22195,6 +22195,20 @@ private theorem cls0000FaceSeq_matches_unrank :
   rw [cls0000FaceSeq_unrank_pairword]
   exact pairWordOfSeq_matches cls0000FaceSeq
 
+private def cls0000PairSignLanguage (seq : Step14 -> Face) : Prop :=
+  PairWordMatchesSeq (unrankPairWord cls0000Rank) seq /\
+    (forall i : Step14,
+      positiveSignOfFace (seq i) = positiveSignOfFace (cls0000FaceSeq i)) /\
+    seq 0 = cls0000FaceSeq 0
+
+private theorem cls0000PairSignLanguage_same
+    (seq : Step14 -> Face)
+    (hseq : cls0000PairSignLanguage seq) :
+    cls0000FaceSeqLanguage seq := by
+  rcases hseq with ⟨hmatch, hsign, hstart⟩
+  exact sameFaceSeq_of_pairWordMatchesSeq_and_sign
+    cls0000FaceSeq_matches_unrank hmatch hstart hsign
+
 private def cls0000TraceOfSeq (seq : Step14 -> Face) : SmokeLabelStepTrace where
   finish := trieNode0014State
   labels := smokeLabelsOfSeq seq
@@ -22230,6 +22244,13 @@ theorem graphSmoke_cls0000_seq_language_scaled_margin_nonpos
     smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq seq) <= 0 :=
   graphSmoke_cls0000_seq_of_trie_labels_scaled_margin_nonpos
     seq (cls0000FaceSeqLanguage_labels_eq seq hseq)
+
+theorem graphSmoke_cls0000_pair_sign_language_scaled_margin_nonpos
+    (seq : Step14 -> Face)
+    (hseq : cls0000PairSignLanguage seq) :
+    smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq seq) <= 0 :=
+  graphSmoke_cls0000_seq_language_scaled_margin_nonpos
+    seq (cls0000PairSignLanguage_same seq hseq)
 
 theorem graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos :
     smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq cls0000FaceSeq) <= 0 :=

@@ -2236,16 +2236,27 @@ Bellman profiler prototype checkpoint:
   in `0:09.35` wall time with `3,951,928 kB` max RSS.  Follow-up core
   checkpoint: added `Cuboctahedron.Search.FaceLabelLanguage` with
   `contributionOrderSteps`, `faceLabelsInContributionOrder`, `SameFaceSeq`,
-  and `faceLabelsInContributionOrder_eq_of_same`; the generator now imports
-  this module and uses the shared theorem for the toy sequence-language bridge.
-  Focused builds passed for the core in `0:02.48` wall / `3,266,508 kB` max RSS
-  and for the graph smoke in `0:08.96` wall / `3,965,756 kB` max RSS.
+  `sameFaceSeq_of_pair_and_sign`,
+  `sameFaceSeq_of_pairWordMatchesSeq_and_sign`, and
+  `faceLabelsInContributionOrder_eq_of_same`; the generator now imports this
+  module and uses the shared theorems for the sequence-language and pair/sign
+  bridges.  The smoke now also emits `cls0000PairSignLanguage`, which assumes
+  only `PairWordMatchesSeq (unrankPairWord cls0000Rank) seq`, equality of the
+  actual face signs with the generated representative, and the started face.
+  `cls0000PairSignLanguage_same` upgrades those facts to `SameFaceSeq`, and
+  `graphSmoke_cls0000_pair_sign_language_scaled_margin_nonpos` obtains the
+  Bellman margin bound.  Focused builds passed for the core in `0:02.43` wall /
+  `3,274,564 kB` max RSS; direct generated-file typechecking passed via
+  `/usr/bin/time -v lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`
+  in `0:06.28` wall / `3,779,592 kB` max RSS, while the cached Lake target
+  replayed in `0:00.88` wall / `852,860 kB` max RSS.
   Decision: this is the
   first Lean-checked smoke connecting actual `Step14 -> Face` itineraries to
-  the Bellman trie language through rank/unrank, pair-word matching, reusable
-  label equality, and a sequence-language bridge.  It is not full membership
-  yet; the production bridge still needs to replace the toy pointwise-equality
-  language with the holonomy/cancellation top-family predicate.
+  the Bellman trie language through rank/unrank, pair-word matching, forced
+  face signs, reusable face-sequence equality, and a pair/sign language bridge.
+  It is not full membership yet; the production bridge still needs to replace
+  the sampled `cls0000PairSignLanguage` with the holonomy/cancellation
+  top-family predicate.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

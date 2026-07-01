@@ -1149,6 +1149,20 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
                 f"  rw [{seq_name}_unrank_pairword]",
                 f"  exact pairWordOfSeq_matches {seq_name}",
                 "",
+                f"private def {obj_name}PairSignLanguage (seq : Step14 -> Face) : Prop :=",
+                f"  PairWordMatchesSeq (unrankPairWord {rank_name}) seq /\\",
+                f"    (forall i : Step14,",
+                f"      positiveSignOfFace (seq i) = positiveSignOfFace ({seq_name} i)) /\\",
+                f"    seq 0 = {seq_name} 0",
+                "",
+                f"private theorem {obj_name}PairSignLanguage_same",
+                "    (seq : Step14 -> Face)",
+                f"    (hseq : {obj_name}PairSignLanguage seq) :",
+                f"    {seq_name}Language seq := by",
+                "  rcases hseq with ⟨hmatch, hsign, hstart⟩",
+                "  exact sameFaceSeq_of_pairWordMatchesSeq_and_sign",
+                f"    {seq_name}_matches_unrank hmatch hstart hsign",
+                "",
             ])
         lines.extend([
             f"private def {trace_of_seq_name} (seq : Step14 -> Face) : SmokeLabelStepTrace where",
@@ -1187,6 +1201,18 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             f"  graphSmoke_{obj_name}_seq_of_trie_labels_scaled_margin_nonpos",
             f"    seq ({seq_name}Language_labels_eq seq hseq)",
             "",
+        ])
+        if can_emit_rank_sequence_bridge:
+            lines.extend([
+                f"theorem graphSmoke_{obj_name}_pair_sign_language_scaled_margin_nonpos",
+                "    (seq : Step14 -> Face)",
+                f"    (hseq : {obj_name}PairSignLanguage seq) :",
+                f"    smokeLabelStepTraceScaledMargin ({trace_of_seq_name} seq) <= 0 :=",
+                f"  graphSmoke_{obj_name}_seq_language_scaled_margin_nonpos",
+                f"    seq ({obj_name}PairSignLanguage_same seq hseq)",
+                "",
+            ])
+        lines.extend([
             f"theorem graphSmoke_{obj_name}_face_seq_trace_scaled_margin_nonpos :",
             f"    smokeLabelStepTraceScaledMargin ({trace_of_seq_name} {seq_name}) <= 0 :=",
             f"  graphSmoke_{obj_name}_seq_language_scaled_margin_nonpos",
