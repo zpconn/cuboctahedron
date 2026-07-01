@@ -50289,3 +50289,58 @@ Decision: accepted.  The active nonidentity residual strategy is now:
    certificate values or exact path classes;
 4. postpone `StateKilled`/root assembly until these terminal family theorems
    are real and measured.
+
+### Holonomy/Bellman Pivot - terminal predicate is now object-shaped
+
+Follow-up cleanup: the split terminal/root smoke no longer exports
+`terminalContainsRank` as an alias for `sampledAcceptedContainsRank`.  Instead
+it exports the production-shaped predicate:
+
+```lean
+abbrev TerminalNonposStartViolationObject : Type :=
+  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.BellmanNonposStartViolationObject
+    sampledScaledMarginAtRank
+
+def terminalContainsRank (rank : Fin numPairWords) : Prop :=
+  exists obj : TerminalNonposStartViolationObject, True /\ obj.rank = rank
+```
+
+The sampled-index predicate remains only as a private smoke constructor:
+
+```lean
+private theorem terminalContainsRank_of_sampledAccepted
+    {rank : Fin numPairWords} (hrank : sampledAcceptedContainsRank rank) :
+    terminalContainsRank rank
+```
+
+This is a better rehearsal for production Bellman families: the root theorem
+now consumes semantic object membership, not a finite sampled-rank enum.  A
+future family shard can replace the private sampled constructor with a real
+holonomy/cancellation membership theorem without changing the public terminal
+or root surface.
+
+Focused checks:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean` | `0:54.25` | `7,669,008 kB` | passed |
+| `lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke` | `0:54.56` | `7,677,592 kB` | passed |
+| split-boundary audit | n/a | n/a | passed |
+
+The updated split-boundary audit is:
+
+```json
+{"graph_lines": 24423, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 765, "terminal_positive_payloads": 2}
+```
+
+Decision: accepted.  The next implementation step is not more bridge plumbing;
+it is a first real semantic membership theorem for a bounded Bellman language:
+
+```text
+target-pairing/local-axis/canonical-bad-face/reduced-shadow language
+  -> terminalContainsRank rank
+```
+
+The smoke may continue to use the sampled constructor as a regression test,
+but production progress must replace it with a holonomy/cancellation language
+membership proof.

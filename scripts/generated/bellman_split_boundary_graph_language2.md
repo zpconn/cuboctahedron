@@ -4,7 +4,7 @@
 - Graph file: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2GraphSmoke.lean`
 - Terminal file: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean`
 - Graph lines: `24423`
-- Terminal lines: `759`
+- Terminal lines: `765`
 - Graph `PositiveCert` mentions: `0`
 - Terminal `NonIdCert` payloads: `2`
 

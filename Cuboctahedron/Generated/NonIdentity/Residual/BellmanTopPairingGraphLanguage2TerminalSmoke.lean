@@ -726,15 +726,16 @@ private def sampledObjectStartViolationCert :
         change cls0001Word = unrankPairWord cls0001Rank
         exact cls0001_unrank_word.symm
 
-def terminalContainsRank (rank : Fin numPairWords) : Prop :=
-  sampledAcceptedContainsRank rank
+abbrev TerminalNonposStartViolationObject : Type :=
+  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.BellmanNonposStartViolationObject
+    sampledScaledMarginAtRank
 
-private theorem terminalNonposStartViolationObjectExists
-    {rank : Fin numPairWords} (hrank : terminalContainsRank rank) :
-    exists obj :
-      Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.BellmanNonposStartViolationObject
-        sampledScaledMarginAtRank,
-      True /\ obj.rank = rank := by
+def terminalContainsRank (rank : Fin numPairWords) : Prop :=
+  exists obj : TerminalNonposStartViolationObject, True /\ obj.rank = rank
+
+private theorem terminalContainsRank_of_sampledAccepted
+    {rank : Fin numPairWords} (hrank : sampledAcceptedContainsRank rank) :
+    terminalContainsRank rank := by
   rcases graphSmoke_sampled_accepted_axis_object_cover_eval_covers rank hrank with
     ⟨idx, hAccept, hidx⟩
   refine ⟨{
@@ -745,6 +746,11 @@ private theorem terminalNonposStartViolationObjectExists
   · exact graphSmoke_sampled_axis_object_eval_scaled_margin_nonpos_at_object
       idx hAccept
   · exact sampledObjectStartViolationCert idx hAccept
+
+private theorem terminalNonposStartViolationObjectExists
+    {rank : Fin numPairWords} (hrank : terminalContainsRank rank) :
+    exists obj : TerminalNonposStartViolationObject, True /\ obj.rank = rank :=
+  hrank
 
 theorem graphSmoke_sampled_axis_rank_killed
     {rank : Fin numPairWords} (hrank : terminalContainsRank rank) :

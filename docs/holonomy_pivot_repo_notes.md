@@ -2214,3 +2214,46 @@ Current GPT5.5 pivot priority:
    when Bellman state/edge growth requires shrinkers.
 4. Do not return to ordinary checked `NonIdCert` packing or exact affine-RHS
    keys for the final nonidentity residual route.
+
+Object-shaped terminal predicate:
+
+- The split terminal/root smoke now exports object membership directly:
+
+  ```lean
+  abbrev TerminalNonposStartViolationObject : Type :=
+    BellmanNonposStartViolationObject sampledScaledMarginAtRank
+
+  def terminalContainsRank (rank : Fin numPairWords) : Prop :=
+    exists obj : TerminalNonposStartViolationObject, True /\ obj.rank = rank
+  ```
+
+- The sampled accepted-rank predicate remains only in the private theorem
+  `terminalContainsRank_of_sampledAccepted`, which constructs those objects
+  for the two-rank smoke.
+- The public root smoke consumes `terminalContainsRank`, so production shards
+  can replace the sampled constructor with a real holonomy/cancellation
+  membership proof without changing the downstream killed theorem.
+- Focused checks:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `lake env lean Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean` | `0:54.25` | `7,669,008 kB` |
+  | `lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke` | `0:54.56` | `7,677,592 kB` |
+
+- Split-boundary audit:
+
+  ```json
+  {"graph_lines": 24423, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 765, "terminal_positive_payloads": 2}
+  ```
+
+Next concrete nonidentity work: prove a first bounded semantic membership
+theorem of the shape
+
+```text
+target-pairing/local-axis/canonical-bad-face/reduced-shadow language
+  -> terminalContainsRank rank
+```
+
+for the current top-pairing Bellman smoke.  This is the point where the
+GPT5.5 Bellman/potential recommendation stops being bridge plumbing and starts
+replacing sampled rank enumeration with holonomy language membership.
