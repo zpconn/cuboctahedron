@@ -3076,3 +3076,30 @@ trie-only sampled object cover.  The production route should not scale this
 exact all-node smoke.  The next emitter should either generate eval facts only
 for terminal/sampled object-family nodes or shard each finite-horizon Bellman
 family so that broad roots import only small semantic theorem surfaces.
+
+### Sampled-only eval-node pruning
+
+The emitter was then changed to emit eval lemmas only for trie nodes on the
+sampled object-cover paths.  In the current bounded smoke this leaves `25`
+sampled eval trie nodes including the root.
+
+Focused run:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Result:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` sampled-only eval nodes | `2:24.17` | `9,997,752 kB` | passed |
+
+Interpretation: sampled-only eval lemmas preserve the proof shape but do not
+materially improve the build profile.  The dominant cost is likely the full
+transition table / broad `SmokeStepEval.valid` proof and the imported
+start-violation certificate bridge, not the number of node eval lemmas.  The
+next route should use family-local or terminal-local transition tables and
+validity proofs, then export one small semantic killed theorem per Bellman
+family.

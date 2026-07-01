@@ -748,12 +748,6 @@ def emit(
         f"  unfold {trie_node_state_name(0)} {trie_node_labels_name(0)} {trie_node_gain_name(0)}",
         "  exact BellmanLabelStepRun.nil rootState",
         "",
-        f"private theorem {trie_node_name(0)}Eval :",
-        f"    evalLabelStepFn smokeNext rootState {trie_node_labels_name(0)} =",
-        f"      some ({trie_node_state_name(0)}, {trie_node_gain_name(0)}) := by",
-        f"  unfold {trie_node_state_name(0)} {trie_node_labels_name(0)} {trie_node_gain_name(0)}",
-        "  simp [evalLabelStepFn]",
-        "",
     ])
     for node_idx, node in enumerate(trie_nodes[1:], start=1):
         parent = int(node["parent"])  # type: ignore[arg-type]
@@ -785,20 +779,6 @@ def emit(
             f"      {trie_node_labels_name(node_idx)} {trie_node_gain_name(node_idx)} := by",
             f"  unfold {trie_node_labels_name(node_idx)} {trie_node_gain_name(node_idx)}",
             f"  exact BellmanLabelStepRun.append {trie_node_run_name(parent)} {trie_node_step_run_name(node_idx)}",
-            "",
-            f"private theorem {trie_node_name(node_idx)}StepEval :",
-            f"    evalLabelStepFn smokeNext {trie_node_state_name(parent)}",
-            f"      {trie_node_step_labels_name(node_idx)} =",
-            f"        some ({trie_node_state_name(node_idx)}, {trie_node_step_gain_name(node_idx)}) := by",
-            f"  change evalLabelStepFn smokeNext {state_ctor(int(edges[edge_idx]['src']))}",
-            f"    [{label_ctor(label_idx)}] = some ({state_ctor(int(edges[edge_idx]['dst']))}, {int(edges[edge_idx]['gain_scaled'])})",
-            "  rfl",
-            "",
-            f"private theorem {trie_node_name(node_idx)}Eval :",
-            f"    evalLabelStepFn smokeNext rootState {trie_node_labels_name(node_idx)} =",
-            f"      some ({trie_node_state_name(node_idx)}, {trie_node_gain_name(node_idx)}) := by",
-            f"  unfold {trie_node_labels_name(node_idx)} {trie_node_gain_name(node_idx)}",
-            f"  exact evalLabelStepFn_append {trie_node_name(parent)}Eval {trie_node_name(node_idx)}StepEval",
             "",
         ])
     for obj in path_objects:
@@ -1737,6 +1717,47 @@ def emit(
             info for info in rank_bridge_infos if info["axis_value"] == first_axis
         ]
         if len(same_axis_infos) >= 2:
+            needed_eval_nodes: set[int] = set()
+            for info in same_axis_infos:
+                needed_eval_nodes.update(trie_ancestors(int(info["trie_node"])))
+            needed_eval_nodes_sorted = sorted(
+                needed_eval_nodes, key=lambda node_idx: len(trie_ancestors(node_idx))
+            )
+            lines.extend([
+                f"-- sampled eval trie nodes, including root: {len(needed_eval_nodes_sorted)}",
+            ])
+            for node_idx in needed_eval_nodes_sorted:
+                if node_idx == 0:
+                    lines.extend([
+                        f"private theorem {trie_node_name(0)}Eval :",
+                        f"    evalLabelStepFn smokeNext rootState {trie_node_labels_name(0)} =",
+                        f"      some ({trie_node_state_name(0)}, {trie_node_gain_name(0)}) := by",
+                        f"  unfold {trie_node_state_name(0)} {trie_node_labels_name(0)} {trie_node_gain_name(0)}",
+                        "  simp [evalLabelStepFn]",
+                        "",
+                    ])
+                    continue
+                node = trie_nodes[node_idx]
+                parent = int(node["parent"])  # type: ignore[arg-type]
+                edge_idx = int(node["edge"])  # type: ignore[arg-type]
+                label_idx = int(node["label"])  # type: ignore[arg-type]
+                edge = edges[edge_idx]
+                lines.extend([
+                    f"private theorem {trie_node_name(node_idx)}StepEval :",
+                    f"    evalLabelStepFn smokeNext {trie_node_state_name(parent)}",
+                    f"      {trie_node_step_labels_name(node_idx)} =",
+                    f"        some ({trie_node_state_name(node_idx)}, {trie_node_step_gain_name(node_idx)}) := by",
+                    f"  change evalLabelStepFn smokeNext {state_ctor(int(edge['src']))}",
+                    f"    [{label_ctor(label_idx)}] = some ({state_ctor(int(edge['dst']))}, {int(edge['gain_scaled'])})",
+                    "  rfl",
+                    "",
+                    f"private theorem {trie_node_name(node_idx)}Eval :",
+                    f"    evalLabelStepFn smokeNext rootState {trie_node_labels_name(node_idx)} =",
+                    f"      some ({trie_node_state_name(node_idx)}, {trie_node_gain_name(node_idx)}) := by",
+                    f"  unfold {trie_node_labels_name(node_idx)} {trie_node_gain_name(node_idx)}",
+                    f"  exact evalLabelStepFn_append {trie_node_name(parent)}Eval {trie_node_name(node_idx)}StepEval",
+                    "",
+                ])
             lines.extend([
                 "private inductive SampledRankIndex where",
             ])

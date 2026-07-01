@@ -7384,12 +7384,6 @@ private theorem trieNode0000Run :
   unfold trieNode0000State trieNode0000Labels trieNode0000Gain
   exact BellmanLabelStepRun.nil rootState
 
-private theorem trieNode0000Eval :
-    evalLabelStepFn smokeNext rootState trieNode0000Labels =
-      some (trieNode0000State, trieNode0000Gain) := by
-  unfold trieNode0000State trieNode0000Labels trieNode0000Gain
-  simp [evalLabelStepFn]
-
 private def trieNode0001State : State := edge0000.dst
 private def trieNode0001StepLabels : List SmokeLabel :=
   [SmokeLabel.l0008]
@@ -7413,20 +7407,6 @@ private theorem trieNode0001Run :
       trieNode0001Labels trieNode0001Gain := by
   unfold trieNode0001Labels trieNode0001Gain
   exact BellmanLabelStepRun.append trieNode0000Run trieNode0001StepRun
-
-private theorem trieNode0001StepEval :
-    evalLabelStepFn smokeNext trieNode0000State
-      trieNode0001StepLabels =
-        some (trieNode0001State, trieNode0001StepGain) := by
-  change evalLabelStepFn smokeNext State.s0000
-    [SmokeLabel.l0008] = some (State.s0142, 103)
-  rfl
-
-private theorem trieNode0001Eval :
-    evalLabelStepFn smokeNext rootState trieNode0001Labels =
-      some (trieNode0001State, trieNode0001Gain) := by
-  unfold trieNode0001Labels trieNode0001Gain
-  exact evalLabelStepFn_append trieNode0000Eval trieNode0001StepEval
 
 private def trieNode0002State : State := edge0124.dst
 private def trieNode0002StepLabels : List SmokeLabel :=
@@ -7452,20 +7432,6 @@ private theorem trieNode0002Run :
   unfold trieNode0002Labels trieNode0002Gain
   exact BellmanLabelStepRun.append trieNode0001Run trieNode0002StepRun
 
-private theorem trieNode0002StepEval :
-    evalLabelStepFn smokeNext trieNode0001State
-      trieNode0002StepLabels =
-        some (trieNode0002State, trieNode0002StepGain) := by
-  change evalLabelStepFn smokeNext State.s0142
-    [SmokeLabel.l0010] = some (State.s0143, -73)
-  rfl
-
-private theorem trieNode0002Eval :
-    evalLabelStepFn smokeNext rootState trieNode0002Labels =
-      some (trieNode0002State, trieNode0002Gain) := by
-  unfold trieNode0002Labels trieNode0002Gain
-  exact evalLabelStepFn_append trieNode0001Eval trieNode0002StepEval
-
 private def trieNode0003State : State := edge0125.dst
 private def trieNode0003StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -7489,20 +7455,6 @@ private theorem trieNode0003Run :
       trieNode0003Labels trieNode0003Gain := by
   unfold trieNode0003Labels trieNode0003Gain
   exact BellmanLabelStepRun.append trieNode0002Run trieNode0003StepRun
-
-private theorem trieNode0003StepEval :
-    evalLabelStepFn smokeNext trieNode0002State
-      trieNode0003StepLabels =
-        some (trieNode0003State, trieNode0003StepGain) := by
-  change evalLabelStepFn smokeNext State.s0143
-    [SmokeLabel.l0011] = some (State.s0144, -73)
-  rfl
-
-private theorem trieNode0003Eval :
-    evalLabelStepFn smokeNext rootState trieNode0003Labels =
-      some (trieNode0003State, trieNode0003Gain) := by
-  unfold trieNode0003Labels trieNode0003Gain
-  exact evalLabelStepFn_append trieNode0002Eval trieNode0003StepEval
 
 private def trieNode0004State : State := edge0128.dst
 private def trieNode0004StepLabels : List SmokeLabel :=
@@ -7528,20 +7480,6 @@ private theorem trieNode0004Run :
   unfold trieNode0004Labels trieNode0004Gain
   exact BellmanLabelStepRun.append trieNode0003Run trieNode0004StepRun
 
-private theorem trieNode0004StepEval :
-    evalLabelStepFn smokeNext trieNode0003State
-      trieNode0004StepLabels =
-        some (trieNode0004State, trieNode0004StepGain) := by
-  change evalLabelStepFn smokeNext State.s0144
-    [SmokeLabel.l0012] = some (State.s0147, -10)
-  rfl
-
-private theorem trieNode0004Eval :
-    evalLabelStepFn smokeNext rootState trieNode0004Labels =
-      some (trieNode0004State, trieNode0004Gain) := by
-  unfold trieNode0004Labels trieNode0004Gain
-  exact evalLabelStepFn_append trieNode0003Eval trieNode0004StepEval
-
 private def trieNode0005State : State := edge0135.dst
 private def trieNode0005StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -7565,20 +7503,6 @@ private theorem trieNode0005Run :
       trieNode0005Labels trieNode0005Gain := by
   unfold trieNode0005Labels trieNode0005Gain
   exact BellmanLabelStepRun.append trieNode0004Run trieNode0005StepRun
-
-private theorem trieNode0005StepEval :
-    evalLabelStepFn smokeNext trieNode0004State
-      trieNode0005StepLabels =
-        some (trieNode0005State, trieNode0005StepGain) := by
-  change evalLabelStepFn smokeNext State.s0147
-    [SmokeLabel.l0013] = some (State.s0153, -10)
-  rfl
-
-private theorem trieNode0005Eval :
-    evalLabelStepFn smokeNext rootState trieNode0005Labels =
-      some (trieNode0005State, trieNode0005Gain) := by
-  unfold trieNode0005Labels trieNode0005Gain
-  exact evalLabelStepFn_append trieNode0004Eval trieNode0005StepEval
 
 private def trieNode0006State : State := edge0145.dst
 private def trieNode0006StepLabels : List SmokeLabel :=
@@ -7604,20 +7528,6 @@ private theorem trieNode0006Run :
   unfold trieNode0006Labels trieNode0006Gain
   exact BellmanLabelStepRun.append trieNode0005Run trieNode0006StepRun
 
-private theorem trieNode0006StepEval :
-    evalLabelStepFn smokeNext trieNode0005State
-      trieNode0006StepLabels =
-        some (trieNode0006State, trieNode0006StepGain) := by
-  change evalLabelStepFn smokeNext State.s0153
-    [SmokeLabel.l0000] = some (State.s0163, -124)
-  rfl
-
-private theorem trieNode0006Eval :
-    evalLabelStepFn smokeNext rootState trieNode0006Labels =
-      some (trieNode0006State, trieNode0006Gain) := by
-  unfold trieNode0006Labels trieNode0006Gain
-  exact evalLabelStepFn_append trieNode0005Eval trieNode0006StepEval
-
 private def trieNode0007State : State := edge0158.dst
 private def trieNode0007StepLabels : List SmokeLabel :=
   [SmokeLabel.l0004]
@@ -7641,20 +7551,6 @@ private theorem trieNode0007Run :
       trieNode0007Labels trieNode0007Gain := by
   unfold trieNode0007Labels trieNode0007Gain
   exact BellmanLabelStepRun.append trieNode0006Run trieNode0007StepRun
-
-private theorem trieNode0007StepEval :
-    evalLabelStepFn smokeNext trieNode0006State
-      trieNode0007StepLabels =
-        some (trieNode0007State, trieNode0007StepGain) := by
-  change evalLabelStepFn smokeNext State.s0163
-    [SmokeLabel.l0004] = some (State.s0176, 96)
-  rfl
-
-private theorem trieNode0007Eval :
-    evalLabelStepFn smokeNext rootState trieNode0007Labels =
-      some (trieNode0007State, trieNode0007Gain) := by
-  unfold trieNode0007Labels trieNode0007Gain
-  exact evalLabelStepFn_append trieNode0006Eval trieNode0007StepEval
 
 private def trieNode0008State : State := edge0173.dst
 private def trieNode0008StepLabels : List SmokeLabel :=
@@ -7680,20 +7576,6 @@ private theorem trieNode0008Run :
   unfold trieNode0008Labels trieNode0008Gain
   exact BellmanLabelStepRun.append trieNode0007Run trieNode0008StepRun
 
-private theorem trieNode0008StepEval :
-    evalLabelStepFn smokeNext trieNode0007State
-      trieNode0008StepLabels =
-        some (trieNode0008State, trieNode0008StepGain) := by
-  change evalLabelStepFn smokeNext State.s0176
-    [SmokeLabel.l0006] = some (State.s0191, -36)
-  rfl
-
-private theorem trieNode0008Eval :
-    evalLabelStepFn smokeNext rootState trieNode0008Labels =
-      some (trieNode0008State, trieNode0008Gain) := by
-  unfold trieNode0008Labels trieNode0008Gain
-  exact evalLabelStepFn_append trieNode0007Eval trieNode0008StepEval
-
 private def trieNode0009State : State := edge0190.dst
 private def trieNode0009StepLabels : List SmokeLabel :=
   [SmokeLabel.l0005]
@@ -7717,20 +7599,6 @@ private theorem trieNode0009Run :
       trieNode0009Labels trieNode0009Gain := by
   unfold trieNode0009Labels trieNode0009Gain
   exact BellmanLabelStepRun.append trieNode0008Run trieNode0009StepRun
-
-private theorem trieNode0009StepEval :
-    evalLabelStepFn smokeNext trieNode0008State
-      trieNode0009StepLabels =
-        some (trieNode0009State, trieNode0009StepGain) := by
-  change evalLabelStepFn smokeNext State.s0191
-    [SmokeLabel.l0005] = some (State.s0208, -144)
-  rfl
-
-private theorem trieNode0009Eval :
-    evalLabelStepFn smokeNext rootState trieNode0009Labels =
-      some (trieNode0009State, trieNode0009Gain) := by
-  unfold trieNode0009Labels trieNode0009Gain
-  exact evalLabelStepFn_append trieNode0008Eval trieNode0009StepEval
 
 private def trieNode0010State : State := edge0210.dst
 private def trieNode0010StepLabels : List SmokeLabel :=
@@ -7756,20 +7624,6 @@ private theorem trieNode0010Run :
   unfold trieNode0010Labels trieNode0010Gain
   exact BellmanLabelStepRun.append trieNode0009Run trieNode0010StepRun
 
-private theorem trieNode0010StepEval :
-    evalLabelStepFn smokeNext trieNode0009State
-      trieNode0010StepLabels =
-        some (trieNode0010State, trieNode0010StepGain) := by
-  change evalLabelStepFn smokeNext State.s0208
-    [SmokeLabel.l0002] = some (State.s0006, -144)
-  rfl
-
-private theorem trieNode0010Eval :
-    evalLabelStepFn smokeNext rootState trieNode0010Labels =
-      some (trieNode0010State, trieNode0010Gain) := by
-  unfold trieNode0010Labels trieNode0010Gain
-  exact evalLabelStepFn_append trieNode0009Eval trieNode0010StepEval
-
 private def trieNode0011State : State := edge0006.dst
 private def trieNode0011StepLabels : List SmokeLabel :=
   [SmokeLabel.l0007]
@@ -7793,20 +7647,6 @@ private theorem trieNode0011Run :
       trieNode0011Labels trieNode0011Gain := by
   unfold trieNode0011Labels trieNode0011Gain
   exact BellmanLabelStepRun.append trieNode0010Run trieNode0011StepRun
-
-private theorem trieNode0011StepEval :
-    evalLabelStepFn smokeNext trieNode0010State
-      trieNode0011StepLabels =
-        some (trieNode0011State, trieNode0011StepGain) := by
-  change evalLabelStepFn smokeNext State.s0006
-    [SmokeLabel.l0007] = some (State.s0036, -36)
-  rfl
-
-private theorem trieNode0011Eval :
-    evalLabelStepFn smokeNext rootState trieNode0011Labels =
-      some (trieNode0011State, trieNode0011Gain) := by
-  unfold trieNode0011Labels trieNode0011Gain
-  exact evalLabelStepFn_append trieNode0010Eval trieNode0011StepEval
 
 private def trieNode0012State : State := edge0045.dst
 private def trieNode0012StepLabels : List SmokeLabel :=
@@ -7832,20 +7672,6 @@ private theorem trieNode0012Run :
   unfold trieNode0012Labels trieNode0012Gain
   exact BellmanLabelStepRun.append trieNode0011Run trieNode0012StepRun
 
-private theorem trieNode0012StepEval :
-    evalLabelStepFn smokeNext trieNode0011State
-      trieNode0012StepLabels =
-        some (trieNode0012State, trieNode0012StepGain) := by
-  change evalLabelStepFn smokeNext State.s0036
-    [SmokeLabel.l0003] = some (State.s0069, 96)
-  rfl
-
-private theorem trieNode0012Eval :
-    evalLabelStepFn smokeNext rootState trieNode0012Labels =
-      some (trieNode0012State, trieNode0012Gain) := by
-  unfold trieNode0012Labels trieNode0012Gain
-  exact evalLabelStepFn_append trieNode0011Eval trieNode0012StepEval
-
 private def trieNode0013State : State := edge0080.dst
 private def trieNode0013StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -7869,20 +7695,6 @@ private theorem trieNode0013Run :
       trieNode0013Labels trieNode0013Gain := by
   unfold trieNode0013Labels trieNode0013Gain
   exact BellmanLabelStepRun.append trieNode0012Run trieNode0013StepRun
-
-private theorem trieNode0013StepEval :
-    evalLabelStepFn smokeNext trieNode0012State
-      trieNode0013StepLabels =
-        some (trieNode0013State, trieNode0013StepGain) := by
-  change evalLabelStepFn smokeNext State.s0069
-    [SmokeLabel.l0001] = some (State.s0112, -124)
-  rfl
-
-private theorem trieNode0013Eval :
-    evalLabelStepFn smokeNext rootState trieNode0013Labels =
-      some (trieNode0013State, trieNode0013Gain) := by
-  unfold trieNode0013Labels trieNode0013Gain
-  exact evalLabelStepFn_append trieNode0012Eval trieNode0013StepEval
 
 private def trieNode0014State : State := edge0123.dst
 private def trieNode0014StepLabels : List SmokeLabel :=
@@ -7908,20 +7720,6 @@ private theorem trieNode0014Run :
   unfold trieNode0014Labels trieNode0014Gain
   exact BellmanLabelStepRun.append trieNode0013Run trieNode0014StepRun
 
-private theorem trieNode0014StepEval :
-    evalLabelStepFn smokeNext trieNode0013State
-      trieNode0014StepLabels =
-        some (trieNode0014State, trieNode0014StepGain) := by
-  change evalLabelStepFn smokeNext State.s0112
-    [SmokeLabel.l0009] = some (State.s0141, -73)
-  rfl
-
-private theorem trieNode0014Eval :
-    evalLabelStepFn smokeNext rootState trieNode0014Labels =
-      some (trieNode0014State, trieNode0014Gain) := by
-  unfold trieNode0014Labels trieNode0014Gain
-  exact evalLabelStepFn_append trieNode0013Eval trieNode0014StepEval
-
 private def trieNode0015State : State := edge0136.dst
 private def trieNode0015StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -7945,20 +7743,6 @@ private theorem trieNode0015Run :
       trieNode0015Labels trieNode0015Gain := by
   unfold trieNode0015Labels trieNode0015Gain
   exact BellmanLabelStepRun.append trieNode0004Run trieNode0015StepRun
-
-private theorem trieNode0015StepEval :
-    evalLabelStepFn smokeNext trieNode0004State
-      trieNode0015StepLabels =
-        some (trieNode0015State, trieNode0015StepGain) := by
-  change evalLabelStepFn smokeNext State.s0147
-    [SmokeLabel.l0001] = some (State.s0155, -124)
-  rfl
-
-private theorem trieNode0015Eval :
-    evalLabelStepFn smokeNext rootState trieNode0015Labels =
-      some (trieNode0015State, trieNode0015Gain) := by
-  unfold trieNode0015Labels trieNode0015Gain
-  exact evalLabelStepFn_append trieNode0004Eval trieNode0015StepEval
 
 private def trieNode0016State : State := edge0148.dst
 private def trieNode0016StepLabels : List SmokeLabel :=
@@ -7984,20 +7768,6 @@ private theorem trieNode0016Run :
   unfold trieNode0016Labels trieNode0016Gain
   exact BellmanLabelStepRun.append trieNode0015Run trieNode0016StepRun
 
-private theorem trieNode0016StepEval :
-    evalLabelStepFn smokeNext trieNode0015State
-      trieNode0016StepLabels =
-        some (trieNode0016State, trieNode0016StepGain) := by
-  change evalLabelStepFn smokeNext State.s0155
-    [SmokeLabel.l0005] = some (State.s0166, 96)
-  rfl
-
-private theorem trieNode0016Eval :
-    evalLabelStepFn smokeNext rootState trieNode0016Labels =
-      some (trieNode0016State, trieNode0016Gain) := by
-  unfold trieNode0016Labels trieNode0016Gain
-  exact evalLabelStepFn_append trieNode0015Eval trieNode0016StepEval
-
 private def trieNode0017State : State := edge0161.dst
 private def trieNode0017StepLabels : List SmokeLabel :=
   [SmokeLabel.l0007]
@@ -8021,20 +7791,6 @@ private theorem trieNode0017Run :
       trieNode0017Labels trieNode0017Gain := by
   unfold trieNode0017Labels trieNode0017Gain
   exact BellmanLabelStepRun.append trieNode0016Run trieNode0017StepRun
-
-private theorem trieNode0017StepEval :
-    evalLabelStepFn smokeNext trieNode0016State
-      trieNode0017StepLabels =
-        some (trieNode0017State, trieNode0017StepGain) := by
-  change evalLabelStepFn smokeNext State.s0166
-    [SmokeLabel.l0007] = some (State.s0179, -36)
-  rfl
-
-private theorem trieNode0017Eval :
-    evalLabelStepFn smokeNext rootState trieNode0017Labels =
-      some (trieNode0017State, trieNode0017Gain) := by
-  unfold trieNode0017Labels trieNode0017Gain
-  exact evalLabelStepFn_append trieNode0016Eval trieNode0017StepEval
 
 private def trieNode0018State : State := edge0176.dst
 private def trieNode0018StepLabels : List SmokeLabel :=
@@ -8060,20 +7816,6 @@ private theorem trieNode0018Run :
   unfold trieNode0018Labels trieNode0018Gain
   exact BellmanLabelStepRun.append trieNode0017Run trieNode0018StepRun
 
-private theorem trieNode0018StepEval :
-    evalLabelStepFn smokeNext trieNode0017State
-      trieNode0018StepLabels =
-        some (trieNode0018State, trieNode0018StepGain) := by
-  change evalLabelStepFn smokeNext State.s0179
-    [SmokeLabel.l0004] = some (State.s0194, -144)
-  rfl
-
-private theorem trieNode0018Eval :
-    evalLabelStepFn smokeNext rootState trieNode0018Labels =
-      some (trieNode0018State, trieNode0018Gain) := by
-  unfold trieNode0018Labels trieNode0018Gain
-  exact evalLabelStepFn_append trieNode0017Eval trieNode0018StepEval
-
 private def trieNode0019State : State := edge0193.dst
 private def trieNode0019StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -8097,20 +7839,6 @@ private theorem trieNode0019Run :
       trieNode0019Labels trieNode0019Gain := by
   unfold trieNode0019Labels trieNode0019Gain
   exact BellmanLabelStepRun.append trieNode0018Run trieNode0019StepRun
-
-private theorem trieNode0019StepEval :
-    evalLabelStepFn smokeNext trieNode0018State
-      trieNode0019StepLabels =
-        some (trieNode0019State, trieNode0019StepGain) := by
-  change evalLabelStepFn smokeNext State.s0194
-    [SmokeLabel.l0003] = some (State.s0211, -144)
-  rfl
-
-private theorem trieNode0019Eval :
-    evalLabelStepFn smokeNext rootState trieNode0019Labels =
-      some (trieNode0019State, trieNode0019Gain) := by
-  unfold trieNode0019Labels trieNode0019Gain
-  exact evalLabelStepFn_append trieNode0018Eval trieNode0019StepEval
 
 private def trieNode0020State : State := edge0213.dst
 private def trieNode0020StepLabels : List SmokeLabel :=
@@ -8136,20 +7864,6 @@ private theorem trieNode0020Run :
   unfold trieNode0020Labels trieNode0020Gain
   exact BellmanLabelStepRun.append trieNode0019Run trieNode0020StepRun
 
-private theorem trieNode0020StepEval :
-    evalLabelStepFn smokeNext trieNode0019State
-      trieNode0020StepLabels =
-        some (trieNode0020State, trieNode0020StepGain) := by
-  change evalLabelStepFn smokeNext State.s0211
-    [SmokeLabel.l0006] = some (State.s0011, -36)
-  rfl
-
-private theorem trieNode0020Eval :
-    evalLabelStepFn smokeNext rootState trieNode0020Labels =
-      some (trieNode0020State, trieNode0020Gain) := by
-  unfold trieNode0020Labels trieNode0020Gain
-  exact evalLabelStepFn_append trieNode0019Eval trieNode0020StepEval
-
 private def trieNode0021State : State := edge0011.dst
 private def trieNode0021StepLabels : List SmokeLabel :=
   [SmokeLabel.l0002]
@@ -8173,20 +7887,6 @@ private theorem trieNode0021Run :
       trieNode0021Labels trieNode0021Gain := by
   unfold trieNode0021Labels trieNode0021Gain
   exact BellmanLabelStepRun.append trieNode0020Run trieNode0021StepRun
-
-private theorem trieNode0021StepEval :
-    evalLabelStepFn smokeNext trieNode0020State
-      trieNode0021StepLabels =
-        some (trieNode0021State, trieNode0021StepGain) := by
-  change evalLabelStepFn smokeNext State.s0011
-    [SmokeLabel.l0002] = some (State.s0041, 96)
-  rfl
-
-private theorem trieNode0021Eval :
-    evalLabelStepFn smokeNext rootState trieNode0021Labels =
-      some (trieNode0021State, trieNode0021Gain) := by
-  unfold trieNode0021Labels trieNode0021Gain
-  exact evalLabelStepFn_append trieNode0020Eval trieNode0021StepEval
 
 private def trieNode0022State : State := edge0050.dst
 private def trieNode0022StepLabels : List SmokeLabel :=
@@ -8212,20 +7912,6 @@ private theorem trieNode0022Run :
   unfold trieNode0022Labels trieNode0022Gain
   exact BellmanLabelStepRun.append trieNode0021Run trieNode0022StepRun
 
-private theorem trieNode0022StepEval :
-    evalLabelStepFn smokeNext trieNode0021State
-      trieNode0022StepLabels =
-        some (trieNode0022State, trieNode0022StepGain) := by
-  change evalLabelStepFn smokeNext State.s0041
-    [SmokeLabel.l0000] = some (State.s0075, -124)
-  rfl
-
-private theorem trieNode0022Eval :
-    evalLabelStepFn smokeNext rootState trieNode0022Labels =
-      some (trieNode0022State, trieNode0022Gain) := by
-  unfold trieNode0022Labels trieNode0022Gain
-  exact evalLabelStepFn_append trieNode0021Eval trieNode0022StepEval
-
 private def trieNode0023State : State := edge0086.dst
 private def trieNode0023StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -8249,20 +7935,6 @@ private theorem trieNode0023Run :
       trieNode0023Labels trieNode0023Gain := by
   unfold trieNode0023Labels trieNode0023Gain
   exact BellmanLabelStepRun.append trieNode0022Run trieNode0023StepRun
-
-private theorem trieNode0023StepEval :
-    evalLabelStepFn smokeNext trieNode0022State
-      trieNode0023StepLabels =
-        some (trieNode0023State, trieNode0023StepGain) := by
-  change evalLabelStepFn smokeNext State.s0075
-    [SmokeLabel.l0013] = some (State.s0109, -10)
-  rfl
-
-private theorem trieNode0023Eval :
-    evalLabelStepFn smokeNext rootState trieNode0023Labels =
-      some (trieNode0023State, trieNode0023Gain) := by
-  unfold trieNode0023Labels trieNode0023Gain
-  exact evalLabelStepFn_append trieNode0022Eval trieNode0023StepEval
 
 private def trieNode0024State : State := edge0120.dst
 private def trieNode0024StepLabels : List SmokeLabel :=
@@ -8288,20 +7960,6 @@ private theorem trieNode0024Run :
   unfold trieNode0024Labels trieNode0024Gain
   exact BellmanLabelStepRun.append trieNode0023Run trieNode0024StepRun
 
-private theorem trieNode0024StepEval :
-    evalLabelStepFn smokeNext trieNode0023State
-      trieNode0024StepLabels =
-        some (trieNode0024State, trieNode0024StepGain) := by
-  change evalLabelStepFn smokeNext State.s0109
-    [SmokeLabel.l0009] = some (State.s0138, -73)
-  rfl
-
-private theorem trieNode0024Eval :
-    evalLabelStepFn smokeNext rootState trieNode0024Labels =
-      some (trieNode0024State, trieNode0024Gain) := by
-  unfold trieNode0024Labels trieNode0024Gain
-  exact evalLabelStepFn_append trieNode0023Eval trieNode0024StepEval
-
 private def trieNode0025State : State := edge0129.dst
 private def trieNode0025StepLabels : List SmokeLabel :=
   [SmokeLabel.l0000]
@@ -8325,20 +7983,6 @@ private theorem trieNode0025Run :
       trieNode0025Labels trieNode0025Gain := by
   unfold trieNode0025Labels trieNode0025Gain
   exact BellmanLabelStepRun.append trieNode0003Run trieNode0025StepRun
-
-private theorem trieNode0025StepEval :
-    evalLabelStepFn smokeNext trieNode0003State
-      trieNode0025StepLabels =
-        some (trieNode0025State, trieNode0025StepGain) := by
-  change evalLabelStepFn smokeNext State.s0144
-    [SmokeLabel.l0000] = some (State.s0148, -124)
-  rfl
-
-private theorem trieNode0025Eval :
-    evalLabelStepFn smokeNext rootState trieNode0025Labels =
-      some (trieNode0025State, trieNode0025Gain) := by
-  unfold trieNode0025Labels trieNode0025Gain
-  exact evalLabelStepFn_append trieNode0003Eval trieNode0025StepEval
 
 private def trieNode0026State : State := edge0137.dst
 private def trieNode0026StepLabels : List SmokeLabel :=
@@ -8364,20 +8008,6 @@ private theorem trieNode0026Run :
   unfold trieNode0026Labels trieNode0026Gain
   exact BellmanLabelStepRun.append trieNode0025Run trieNode0026StepRun
 
-private theorem trieNode0026StepEval :
-    evalLabelStepFn smokeNext trieNode0025State
-      trieNode0026StepLabels =
-        some (trieNode0026State, trieNode0026StepGain) := by
-  change evalLabelStepFn smokeNext State.s0148
-    [SmokeLabel.l0012] = some (State.s0154, 114)
-  rfl
-
-private theorem trieNode0026Eval :
-    evalLabelStepFn smokeNext rootState trieNode0026Labels =
-      some (trieNode0026State, trieNode0026Gain) := by
-  unfold trieNode0026Labels trieNode0026Gain
-  exact evalLabelStepFn_append trieNode0025Eval trieNode0026StepEval
-
 private def trieNode0027State : State := edge0146.dst
 private def trieNode0027StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -8401,20 +8031,6 @@ private theorem trieNode0027Run :
       trieNode0027Labels trieNode0027Gain := by
   unfold trieNode0027Labels trieNode0027Gain
   exact BellmanLabelStepRun.append trieNode0026Run trieNode0027StepRun
-
-private theorem trieNode0027StepEval :
-    evalLabelStepFn smokeNext trieNode0026State
-      trieNode0027StepLabels =
-        some (trieNode0027State, trieNode0027StepGain) := by
-  change evalLabelStepFn smokeNext State.s0154
-    [SmokeLabel.l0013] = some (State.s0162, 114)
-  rfl
-
-private theorem trieNode0027Eval :
-    evalLabelStepFn smokeNext rootState trieNode0027Labels =
-      some (trieNode0027State, trieNode0027Gain) := by
-  unfold trieNode0027Labels trieNode0027Gain
-  exact evalLabelStepFn_append trieNode0026Eval trieNode0027StepEval
 
 private def trieNode0028State : State := edge0157.dst
 private def trieNode0028StepLabels : List SmokeLabel :=
@@ -8440,20 +8056,6 @@ private theorem trieNode0028Run :
   unfold trieNode0028Labels trieNode0028Gain
   exact BellmanLabelStepRun.append trieNode0027Run trieNode0028StepRun
 
-private theorem trieNode0028StepEval :
-    evalLabelStepFn smokeNext trieNode0027State
-      trieNode0028StepLabels =
-        some (trieNode0028State, trieNode0028StepGain) := by
-  change evalLabelStepFn smokeNext State.s0162
-    [SmokeLabel.l0004] = some (State.s0175, 96)
-  rfl
-
-private theorem trieNode0028Eval :
-    evalLabelStepFn smokeNext rootState trieNode0028Labels =
-      some (trieNode0028State, trieNode0028Gain) := by
-  unfold trieNode0028Labels trieNode0028Gain
-  exact evalLabelStepFn_append trieNode0027Eval trieNode0028StepEval
-
 private def trieNode0029State : State := edge0172.dst
 private def trieNode0029StepLabels : List SmokeLabel :=
   [SmokeLabel.l0006]
@@ -8477,20 +8079,6 @@ private theorem trieNode0029Run :
       trieNode0029Labels trieNode0029Gain := by
   unfold trieNode0029Labels trieNode0029Gain
   exact BellmanLabelStepRun.append trieNode0028Run trieNode0029StepRun
-
-private theorem trieNode0029StepEval :
-    evalLabelStepFn smokeNext trieNode0028State
-      trieNode0029StepLabels =
-        some (trieNode0029State, trieNode0029StepGain) := by
-  change evalLabelStepFn smokeNext State.s0175
-    [SmokeLabel.l0006] = some (State.s0190, -36)
-  rfl
-
-private theorem trieNode0029Eval :
-    evalLabelStepFn smokeNext rootState trieNode0029Labels =
-      some (trieNode0029State, trieNode0029Gain) := by
-  unfold trieNode0029Labels trieNode0029Gain
-  exact evalLabelStepFn_append trieNode0028Eval trieNode0029StepEval
 
 private def trieNode0030State : State := edge0189.dst
 private def trieNode0030StepLabels : List SmokeLabel :=
@@ -8516,20 +8104,6 @@ private theorem trieNode0030Run :
   unfold trieNode0030Labels trieNode0030Gain
   exact BellmanLabelStepRun.append trieNode0029Run trieNode0030StepRun
 
-private theorem trieNode0030StepEval :
-    evalLabelStepFn smokeNext trieNode0029State
-      trieNode0030StepLabels =
-        some (trieNode0030State, trieNode0030StepGain) := by
-  change evalLabelStepFn smokeNext State.s0190
-    [SmokeLabel.l0005] = some (State.s0207, -144)
-  rfl
-
-private theorem trieNode0030Eval :
-    evalLabelStepFn smokeNext rootState trieNode0030Labels =
-      some (trieNode0030State, trieNode0030Gain) := by
-  unfold trieNode0030Labels trieNode0030Gain
-  exact evalLabelStepFn_append trieNode0029Eval trieNode0030StepEval
-
 private def trieNode0031State : State := edge0209.dst
 private def trieNode0031StepLabels : List SmokeLabel :=
   [SmokeLabel.l0002]
@@ -8553,20 +8127,6 @@ private theorem trieNode0031Run :
       trieNode0031Labels trieNode0031Gain := by
   unfold trieNode0031Labels trieNode0031Gain
   exact BellmanLabelStepRun.append trieNode0030Run trieNode0031StepRun
-
-private theorem trieNode0031StepEval :
-    evalLabelStepFn smokeNext trieNode0030State
-      trieNode0031StepLabels =
-        some (trieNode0031State, trieNode0031StepGain) := by
-  change evalLabelStepFn smokeNext State.s0207
-    [SmokeLabel.l0002] = some (State.s0005, -144)
-  rfl
-
-private theorem trieNode0031Eval :
-    evalLabelStepFn smokeNext rootState trieNode0031Labels =
-      some (trieNode0031State, trieNode0031Gain) := by
-  unfold trieNode0031Labels trieNode0031Gain
-  exact evalLabelStepFn_append trieNode0030Eval trieNode0031StepEval
 
 private def trieNode0032State : State := edge0005.dst
 private def trieNode0032StepLabels : List SmokeLabel :=
@@ -8592,20 +8152,6 @@ private theorem trieNode0032Run :
   unfold trieNode0032Labels trieNode0032Gain
   exact BellmanLabelStepRun.append trieNode0031Run trieNode0032StepRun
 
-private theorem trieNode0032StepEval :
-    evalLabelStepFn smokeNext trieNode0031State
-      trieNode0032StepLabels =
-        some (trieNode0032State, trieNode0032StepGain) := by
-  change evalLabelStepFn smokeNext State.s0005
-    [SmokeLabel.l0007] = some (State.s0034, -36)
-  rfl
-
-private theorem trieNode0032Eval :
-    evalLabelStepFn smokeNext rootState trieNode0032Labels =
-      some (trieNode0032State, trieNode0032Gain) := by
-  unfold trieNode0032Labels trieNode0032Gain
-  exact evalLabelStepFn_append trieNode0031Eval trieNode0032StepEval
-
 private def trieNode0033State : State := edge0043.dst
 private def trieNode0033StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -8629,20 +8175,6 @@ private theorem trieNode0033Run :
       trieNode0033Labels trieNode0033Gain := by
   unfold trieNode0033Labels trieNode0033Gain
   exact BellmanLabelStepRun.append trieNode0032Run trieNode0033StepRun
-
-private theorem trieNode0033StepEval :
-    evalLabelStepFn smokeNext trieNode0032State
-      trieNode0033StepLabels =
-        some (trieNode0033State, trieNode0033StepGain) := by
-  change evalLabelStepFn smokeNext State.s0034
-    [SmokeLabel.l0003] = some (State.s0067, 96)
-  rfl
-
-private theorem trieNode0033Eval :
-    evalLabelStepFn smokeNext rootState trieNode0033Labels =
-      some (trieNode0033State, trieNode0033Gain) := by
-  unfold trieNode0033Labels trieNode0033Gain
-  exact evalLabelStepFn_append trieNode0032Eval trieNode0033StepEval
 
 private def trieNode0034State : State := edge0078.dst
 private def trieNode0034StepLabels : List SmokeLabel :=
@@ -8668,20 +8200,6 @@ private theorem trieNode0034Run :
   unfold trieNode0034Labels trieNode0034Gain
   exact BellmanLabelStepRun.append trieNode0033Run trieNode0034StepRun
 
-private theorem trieNode0034StepEval :
-    evalLabelStepFn smokeNext trieNode0033State
-      trieNode0034StepLabels =
-        some (trieNode0034State, trieNode0034StepGain) := by
-  change evalLabelStepFn smokeNext State.s0067
-    [SmokeLabel.l0001] = some (State.s0106, -124)
-  rfl
-
-private theorem trieNode0034Eval :
-    evalLabelStepFn smokeNext rootState trieNode0034Labels =
-      some (trieNode0034State, trieNode0034Gain) := by
-  unfold trieNode0034Labels trieNode0034Gain
-  exact evalLabelStepFn_append trieNode0033Eval trieNode0034StepEval
-
 private def trieNode0035State : State := edge0117.dst
 private def trieNode0035StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -8705,20 +8223,6 @@ private theorem trieNode0035Run :
       trieNode0035Labels trieNode0035Gain := by
   unfold trieNode0035Labels trieNode0035Gain
   exact BellmanLabelStepRun.append trieNode0034Run trieNode0035StepRun
-
-private theorem trieNode0035StepEval :
-    evalLabelStepFn smokeNext trieNode0034State
-      trieNode0035StepLabels =
-        some (trieNode0035State, trieNode0035StepGain) := by
-  change evalLabelStepFn smokeNext State.s0106
-    [SmokeLabel.l0009] = some (State.s0135, -73)
-  rfl
-
-private theorem trieNode0035Eval :
-    evalLabelStepFn smokeNext rootState trieNode0035Labels =
-      some (trieNode0035State, trieNode0035Gain) := by
-  unfold trieNode0035Labels trieNode0035Gain
-  exact evalLabelStepFn_append trieNode0034Eval trieNode0035StepEval
 
 private def trieNode0036State : State := edge0147.dst
 private def trieNode0036StepLabels : List SmokeLabel :=
@@ -8744,20 +8248,6 @@ private theorem trieNode0036Run :
   unfold trieNode0036Labels trieNode0036Gain
   exact BellmanLabelStepRun.append trieNode0026Run trieNode0036StepRun
 
-private theorem trieNode0036StepEval :
-    evalLabelStepFn smokeNext trieNode0026State
-      trieNode0036StepLabels =
-        some (trieNode0036State, trieNode0036StepGain) := by
-  change evalLabelStepFn smokeNext State.s0154
-    [SmokeLabel.l0005] = some (State.s0165, 96)
-  rfl
-
-private theorem trieNode0036Eval :
-    evalLabelStepFn smokeNext rootState trieNode0036Labels =
-      some (trieNode0036State, trieNode0036Gain) := by
-  unfold trieNode0036Labels trieNode0036Gain
-  exact evalLabelStepFn_append trieNode0026Eval trieNode0036StepEval
-
 private def trieNode0037State : State := edge0160.dst
 private def trieNode0037StepLabels : List SmokeLabel :=
   [SmokeLabel.l0007]
@@ -8781,20 +8271,6 @@ private theorem trieNode0037Run :
       trieNode0037Labels trieNode0037Gain := by
   unfold trieNode0037Labels trieNode0037Gain
   exact BellmanLabelStepRun.append trieNode0036Run trieNode0037StepRun
-
-private theorem trieNode0037StepEval :
-    evalLabelStepFn smokeNext trieNode0036State
-      trieNode0037StepLabels =
-        some (trieNode0037State, trieNode0037StepGain) := by
-  change evalLabelStepFn smokeNext State.s0165
-    [SmokeLabel.l0007] = some (State.s0178, -36)
-  rfl
-
-private theorem trieNode0037Eval :
-    evalLabelStepFn smokeNext rootState trieNode0037Labels =
-      some (trieNode0037State, trieNode0037Gain) := by
-  unfold trieNode0037Labels trieNode0037Gain
-  exact evalLabelStepFn_append trieNode0036Eval trieNode0037StepEval
 
 private def trieNode0038State : State := edge0175.dst
 private def trieNode0038StepLabels : List SmokeLabel :=
@@ -8820,20 +8296,6 @@ private theorem trieNode0038Run :
   unfold trieNode0038Labels trieNode0038Gain
   exact BellmanLabelStepRun.append trieNode0037Run trieNode0038StepRun
 
-private theorem trieNode0038StepEval :
-    evalLabelStepFn smokeNext trieNode0037State
-      trieNode0038StepLabels =
-        some (trieNode0038State, trieNode0038StepGain) := by
-  change evalLabelStepFn smokeNext State.s0178
-    [SmokeLabel.l0004] = some (State.s0193, -144)
-  rfl
-
-private theorem trieNode0038Eval :
-    evalLabelStepFn smokeNext rootState trieNode0038Labels =
-      some (trieNode0038State, trieNode0038Gain) := by
-  unfold trieNode0038Labels trieNode0038Gain
-  exact evalLabelStepFn_append trieNode0037Eval trieNode0038StepEval
-
 private def trieNode0039State : State := edge0192.dst
 private def trieNode0039StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -8857,20 +8319,6 @@ private theorem trieNode0039Run :
       trieNode0039Labels trieNode0039Gain := by
   unfold trieNode0039Labels trieNode0039Gain
   exact BellmanLabelStepRun.append trieNode0038Run trieNode0039StepRun
-
-private theorem trieNode0039StepEval :
-    evalLabelStepFn smokeNext trieNode0038State
-      trieNode0039StepLabels =
-        some (trieNode0039State, trieNode0039StepGain) := by
-  change evalLabelStepFn smokeNext State.s0193
-    [SmokeLabel.l0003] = some (State.s0210, -144)
-  rfl
-
-private theorem trieNode0039Eval :
-    evalLabelStepFn smokeNext rootState trieNode0039Labels =
-      some (trieNode0039State, trieNode0039Gain) := by
-  unfold trieNode0039Labels trieNode0039Gain
-  exact evalLabelStepFn_append trieNode0038Eval trieNode0039StepEval
 
 private def trieNode0040State : State := edge0212.dst
 private def trieNode0040StepLabels : List SmokeLabel :=
@@ -8896,20 +8344,6 @@ private theorem trieNode0040Run :
   unfold trieNode0040Labels trieNode0040Gain
   exact BellmanLabelStepRun.append trieNode0039Run trieNode0040StepRun
 
-private theorem trieNode0040StepEval :
-    evalLabelStepFn smokeNext trieNode0039State
-      trieNode0040StepLabels =
-        some (trieNode0040State, trieNode0040StepGain) := by
-  change evalLabelStepFn smokeNext State.s0210
-    [SmokeLabel.l0006] = some (State.s0009, -36)
-  rfl
-
-private theorem trieNode0040Eval :
-    evalLabelStepFn smokeNext rootState trieNode0040Labels =
-      some (trieNode0040State, trieNode0040Gain) := by
-  unfold trieNode0040Labels trieNode0040Gain
-  exact evalLabelStepFn_append trieNode0039Eval trieNode0040StepEval
-
 private def trieNode0041State : State := edge0009.dst
 private def trieNode0041StepLabels : List SmokeLabel :=
   [SmokeLabel.l0002]
@@ -8933,20 +8367,6 @@ private theorem trieNode0041Run :
       trieNode0041Labels trieNode0041Gain := by
   unfold trieNode0041Labels trieNode0041Gain
   exact BellmanLabelStepRun.append trieNode0040Run trieNode0041StepRun
-
-private theorem trieNode0041StepEval :
-    evalLabelStepFn smokeNext trieNode0040State
-      trieNode0041StepLabels =
-        some (trieNode0041State, trieNode0041StepGain) := by
-  change evalLabelStepFn smokeNext State.s0009
-    [SmokeLabel.l0002] = some (State.s0039, 96)
-  rfl
-
-private theorem trieNode0041Eval :
-    evalLabelStepFn smokeNext rootState trieNode0041Labels =
-      some (trieNode0041State, trieNode0041Gain) := by
-  unfold trieNode0041Labels trieNode0041Gain
-  exact evalLabelStepFn_append trieNode0040Eval trieNode0041StepEval
 
 private def trieNode0042State : State := edge0048.dst
 private def trieNode0042StepLabels : List SmokeLabel :=
@@ -8972,20 +8392,6 @@ private theorem trieNode0042Run :
   unfold trieNode0042Labels trieNode0042Gain
   exact BellmanLabelStepRun.append trieNode0041Run trieNode0042StepRun
 
-private theorem trieNode0042StepEval :
-    evalLabelStepFn smokeNext trieNode0041State
-      trieNode0042StepLabels =
-        some (trieNode0042State, trieNode0042StepGain) := by
-  change evalLabelStepFn smokeNext State.s0039
-    [SmokeLabel.l0013] = some (State.s0066, 114)
-  rfl
-
-private theorem trieNode0042Eval :
-    evalLabelStepFn smokeNext rootState trieNode0042Labels =
-      some (trieNode0042State, trieNode0042Gain) := by
-  unfold trieNode0042Labels trieNode0042Gain
-  exact evalLabelStepFn_append trieNode0041Eval trieNode0042StepEval
-
 private def trieNode0043State : State := edge0077.dst
 private def trieNode0043StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -9009,20 +8415,6 @@ private theorem trieNode0043Run :
       trieNode0043Labels trieNode0043Gain := by
   unfold trieNode0043Labels trieNode0043Gain
   exact BellmanLabelStepRun.append trieNode0042Run trieNode0043StepRun
-
-private theorem trieNode0043StepEval :
-    evalLabelStepFn smokeNext trieNode0042State
-      trieNode0043StepLabels =
-        some (trieNode0043State, trieNode0043StepGain) := by
-  change evalLabelStepFn smokeNext State.s0066
-    [SmokeLabel.l0001] = some (State.s0105, -124)
-  rfl
-
-private theorem trieNode0043Eval :
-    evalLabelStepFn smokeNext rootState trieNode0043Labels =
-      some (trieNode0043State, trieNode0043Gain) := by
-  unfold trieNode0043Labels trieNode0043Gain
-  exact evalLabelStepFn_append trieNode0042Eval trieNode0043StepEval
 
 private def trieNode0044State : State := edge0116.dst
 private def trieNode0044StepLabels : List SmokeLabel :=
@@ -9048,20 +8440,6 @@ private theorem trieNode0044Run :
   unfold trieNode0044Labels trieNode0044Gain
   exact BellmanLabelStepRun.append trieNode0043Run trieNode0044StepRun
 
-private theorem trieNode0044StepEval :
-    evalLabelStepFn smokeNext trieNode0043State
-      trieNode0044StepLabels =
-        some (trieNode0044State, trieNode0044StepGain) := by
-  change evalLabelStepFn smokeNext State.s0105
-    [SmokeLabel.l0009] = some (State.s0134, -73)
-  rfl
-
-private theorem trieNode0044Eval :
-    evalLabelStepFn smokeNext rootState trieNode0044Labels =
-      some (trieNode0044State, trieNode0044Gain) := by
-  unfold trieNode0044Labels trieNode0044Gain
-  exact evalLabelStepFn_append trieNode0043Eval trieNode0044StepEval
-
 private def trieNode0045State : State := edge0138.dst
 private def trieNode0045StepLabels : List SmokeLabel :=
   [SmokeLabel.l0004]
@@ -9085,20 +8463,6 @@ private theorem trieNode0045Run :
       trieNode0045Labels trieNode0045Gain := by
   unfold trieNode0045Labels trieNode0045Gain
   exact BellmanLabelStepRun.append trieNode0025Run trieNode0045StepRun
-
-private theorem trieNode0045StepEval :
-    evalLabelStepFn smokeNext trieNode0025State
-      trieNode0045StepLabels =
-        some (trieNode0045State, trieNode0045StepGain) := by
-  change evalLabelStepFn smokeNext State.s0148
-    [SmokeLabel.l0004] = some (State.s0156, 96)
-  rfl
-
-private theorem trieNode0045Eval :
-    evalLabelStepFn smokeNext rootState trieNode0045Labels =
-      some (trieNode0045State, trieNode0045Gain) := by
-  unfold trieNode0045Labels trieNode0045Gain
-  exact evalLabelStepFn_append trieNode0025Eval trieNode0045StepEval
 
 private def trieNode0046State : State := edge0149.dst
 private def trieNode0046StepLabels : List SmokeLabel :=
@@ -9124,20 +8488,6 @@ private theorem trieNode0046Run :
   unfold trieNode0046Labels trieNode0046Gain
   exact BellmanLabelStepRun.append trieNode0045Run trieNode0046StepRun
 
-private theorem trieNode0046StepEval :
-    evalLabelStepFn smokeNext trieNode0045State
-      trieNode0046StepLabels =
-        some (trieNode0046State, trieNode0046StepGain) := by
-  change evalLabelStepFn smokeNext State.s0156
-    [SmokeLabel.l0013] = some (State.s0164, -18)
-  rfl
-
-private theorem trieNode0046Eval :
-    evalLabelStepFn smokeNext rootState trieNode0046Labels =
-      some (trieNode0046State, trieNode0046Gain) := by
-  unfold trieNode0046Labels trieNode0046Gain
-  exact evalLabelStepFn_append trieNode0045Eval trieNode0046StepEval
-
 private def trieNode0047State : State := edge0159.dst
 private def trieNode0047StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
@@ -9161,20 +8511,6 @@ private theorem trieNode0047Run :
       trieNode0047Labels trieNode0047Gain := by
   unfold trieNode0047Labels trieNode0047Gain
   exact BellmanLabelStepRun.append trieNode0046Run trieNode0047StepRun
-
-private theorem trieNode0047StepEval :
-    evalLabelStepFn smokeNext trieNode0046State
-      trieNode0047StepLabels =
-        some (trieNode0047State, trieNode0047StepGain) := by
-  change evalLabelStepFn smokeNext State.s0164
-    [SmokeLabel.l0012] = some (State.s0174, -18)
-  rfl
-
-private theorem trieNode0047Eval :
-    evalLabelStepFn smokeNext rootState trieNode0047Labels =
-      some (trieNode0047State, trieNode0047Gain) := by
-  unfold trieNode0047Labels trieNode0047Gain
-  exact evalLabelStepFn_append trieNode0046Eval trieNode0047StepEval
 
 private def trieNode0048State : State := edge0171.dst
 private def trieNode0048StepLabels : List SmokeLabel :=
@@ -9200,20 +8536,6 @@ private theorem trieNode0048Run :
   unfold trieNode0048Labels trieNode0048Gain
   exact BellmanLabelStepRun.append trieNode0047Run trieNode0048StepRun
 
-private theorem trieNode0048StepEval :
-    evalLabelStepFn smokeNext trieNode0047State
-      trieNode0048StepLabels =
-        some (trieNode0048State, trieNode0048StepGain) := by
-  change evalLabelStepFn smokeNext State.s0174
-    [SmokeLabel.l0006] = some (State.s0189, -36)
-  rfl
-
-private theorem trieNode0048Eval :
-    evalLabelStepFn smokeNext rootState trieNode0048Labels =
-      some (trieNode0048State, trieNode0048Gain) := by
-  unfold trieNode0048Labels trieNode0048Gain
-  exact evalLabelStepFn_append trieNode0047Eval trieNode0048StepEval
-
 private def trieNode0049State : State := edge0188.dst
 private def trieNode0049StepLabels : List SmokeLabel :=
   [SmokeLabel.l0005]
@@ -9237,20 +8559,6 @@ private theorem trieNode0049Run :
       trieNode0049Labels trieNode0049Gain := by
   unfold trieNode0049Labels trieNode0049Gain
   exact BellmanLabelStepRun.append trieNode0048Run trieNode0049StepRun
-
-private theorem trieNode0049StepEval :
-    evalLabelStepFn smokeNext trieNode0048State
-      trieNode0049StepLabels =
-        some (trieNode0049State, trieNode0049StepGain) := by
-  change evalLabelStepFn smokeNext State.s0189
-    [SmokeLabel.l0005] = some (State.s0206, -144)
-  rfl
-
-private theorem trieNode0049Eval :
-    evalLabelStepFn smokeNext rootState trieNode0049Labels =
-      some (trieNode0049State, trieNode0049Gain) := by
-  unfold trieNode0049Labels trieNode0049Gain
-  exact evalLabelStepFn_append trieNode0048Eval trieNode0049StepEval
 
 private def trieNode0050State : State := edge0208.dst
 private def trieNode0050StepLabels : List SmokeLabel :=
@@ -9276,20 +8584,6 @@ private theorem trieNode0050Run :
   unfold trieNode0050Labels trieNode0050Gain
   exact BellmanLabelStepRun.append trieNode0049Run trieNode0050StepRun
 
-private theorem trieNode0050StepEval :
-    evalLabelStepFn smokeNext trieNode0049State
-      trieNode0050StepLabels =
-        some (trieNode0050State, trieNode0050StepGain) := by
-  change evalLabelStepFn smokeNext State.s0206
-    [SmokeLabel.l0002] = some (State.s0004, -144)
-  rfl
-
-private theorem trieNode0050Eval :
-    evalLabelStepFn smokeNext rootState trieNode0050Labels =
-      some (trieNode0050State, trieNode0050Gain) := by
-  unfold trieNode0050Labels trieNode0050Gain
-  exact evalLabelStepFn_append trieNode0049Eval trieNode0050StepEval
-
 private def trieNode0051State : State := edge0004.dst
 private def trieNode0051StepLabels : List SmokeLabel :=
   [SmokeLabel.l0007]
@@ -9313,20 +8607,6 @@ private theorem trieNode0051Run :
       trieNode0051Labels trieNode0051Gain := by
   unfold trieNode0051Labels trieNode0051Gain
   exact BellmanLabelStepRun.append trieNode0050Run trieNode0051StepRun
-
-private theorem trieNode0051StepEval :
-    evalLabelStepFn smokeNext trieNode0050State
-      trieNode0051StepLabels =
-        some (trieNode0051State, trieNode0051StepGain) := by
-  change evalLabelStepFn smokeNext State.s0004
-    [SmokeLabel.l0007] = some (State.s0033, -36)
-  rfl
-
-private theorem trieNode0051Eval :
-    evalLabelStepFn smokeNext rootState trieNode0051Labels =
-      some (trieNode0051State, trieNode0051Gain) := by
-  unfold trieNode0051Labels trieNode0051Gain
-  exact evalLabelStepFn_append trieNode0050Eval trieNode0051StepEval
 
 private def trieNode0052State : State := edge0042.dst
 private def trieNode0052StepLabels : List SmokeLabel :=
@@ -9352,20 +8632,6 @@ private theorem trieNode0052Run :
   unfold trieNode0052Labels trieNode0052Gain
   exact BellmanLabelStepRun.append trieNode0051Run trieNode0052StepRun
 
-private theorem trieNode0052StepEval :
-    evalLabelStepFn smokeNext trieNode0051State
-      trieNode0052StepLabels =
-        some (trieNode0052State, trieNode0052StepGain) := by
-  change evalLabelStepFn smokeNext State.s0033
-    [SmokeLabel.l0003] = some (State.s0065, 96)
-  rfl
-
-private theorem trieNode0052Eval :
-    evalLabelStepFn smokeNext rootState trieNode0052Labels =
-      some (trieNode0052State, trieNode0052Gain) := by
-  unfold trieNode0052Labels trieNode0052Gain
-  exact evalLabelStepFn_append trieNode0051Eval trieNode0052StepEval
-
 private def trieNode0053State : State := edge0076.dst
 private def trieNode0053StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -9389,20 +8655,6 @@ private theorem trieNode0053Run :
       trieNode0053Labels trieNode0053Gain := by
   unfold trieNode0053Labels trieNode0053Gain
   exact BellmanLabelStepRun.append trieNode0052Run trieNode0053StepRun
-
-private theorem trieNode0053StepEval :
-    evalLabelStepFn smokeNext trieNode0052State
-      trieNode0053StepLabels =
-        some (trieNode0053State, trieNode0053StepGain) := by
-  change evalLabelStepFn smokeNext State.s0065
-    [SmokeLabel.l0001] = some (State.s0104, -124)
-  rfl
-
-private theorem trieNode0053Eval :
-    evalLabelStepFn smokeNext rootState trieNode0053Labels =
-      some (trieNode0053State, trieNode0053Gain) := by
-  unfold trieNode0053Labels trieNode0053Gain
-  exact evalLabelStepFn_append trieNode0052Eval trieNode0053StepEval
 
 private def trieNode0054State : State := edge0115.dst
 private def trieNode0054StepLabels : List SmokeLabel :=
@@ -9428,20 +8680,6 @@ private theorem trieNode0054Run :
   unfold trieNode0054Labels trieNode0054Gain
   exact BellmanLabelStepRun.append trieNode0053Run trieNode0054StepRun
 
-private theorem trieNode0054StepEval :
-    evalLabelStepFn smokeNext trieNode0053State
-      trieNode0054StepLabels =
-        some (trieNode0054State, trieNode0054StepGain) := by
-  change evalLabelStepFn smokeNext State.s0104
-    [SmokeLabel.l0009] = some (State.s0133, -73)
-  rfl
-
-private theorem trieNode0054Eval :
-    evalLabelStepFn smokeNext rootState trieNode0054Labels =
-      some (trieNode0054State, trieNode0054Gain) := by
-  unfold trieNode0054Labels trieNode0054Gain
-  exact evalLabelStepFn_append trieNode0053Eval trieNode0054StepEval
-
 private def trieNode0055State : State := edge0150.dst
 private def trieNode0055StepLabels : List SmokeLabel :=
   [SmokeLabel.l0006]
@@ -9465,20 +8703,6 @@ private theorem trieNode0055Run :
       trieNode0055Labels trieNode0055Gain := by
   unfold trieNode0055Labels trieNode0055Gain
   exact BellmanLabelStepRun.append trieNode0045Run trieNode0055StepRun
-
-private theorem trieNode0055StepEval :
-    evalLabelStepFn smokeNext trieNode0045State
-      trieNode0055StepLabels =
-        some (trieNode0055State, trieNode0055StepGain) := by
-  change evalLabelStepFn smokeNext State.s0156
-    [SmokeLabel.l0006] = some (State.s0167, -36)
-  rfl
-
-private theorem trieNode0055Eval :
-    evalLabelStepFn smokeNext rootState trieNode0055Labels =
-      some (trieNode0055State, trieNode0055Gain) := by
-  unfold trieNode0055Labels trieNode0055Gain
-  exact evalLabelStepFn_append trieNode0045Eval trieNode0055StepEval
 
 private def trieNode0056State : State := edge0162.dst
 private def trieNode0056StepLabels : List SmokeLabel :=
@@ -9504,20 +8728,6 @@ private theorem trieNode0056Run :
   unfold trieNode0056Labels trieNode0056Gain
   exact BellmanLabelStepRun.append trieNode0055Run trieNode0056StepRun
 
-private theorem trieNode0056StepEval :
-    evalLabelStepFn smokeNext trieNode0055State
-      trieNode0056StepLabels =
-        some (trieNode0056State, trieNode0056StepGain) := by
-  change evalLabelStepFn smokeNext State.s0167
-    [SmokeLabel.l0013] = some (State.s0177, -54)
-  rfl
-
-private theorem trieNode0056Eval :
-    evalLabelStepFn smokeNext rootState trieNode0056Labels =
-      some (trieNode0056State, trieNode0056Gain) := by
-  unfold trieNode0056Labels trieNode0056Gain
-  exact evalLabelStepFn_append trieNode0055Eval trieNode0056StepEval
-
 private def trieNode0057State : State := edge0174.dst
 private def trieNode0057StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
@@ -9541,20 +8751,6 @@ private theorem trieNode0057Run :
       trieNode0057Labels trieNode0057Gain := by
   unfold trieNode0057Labels trieNode0057Gain
   exact BellmanLabelStepRun.append trieNode0056Run trieNode0057StepRun
-
-private theorem trieNode0057StepEval :
-    evalLabelStepFn smokeNext trieNode0056State
-      trieNode0057StepLabels =
-        some (trieNode0057State, trieNode0057StepGain) := by
-  change evalLabelStepFn smokeNext State.s0177
-    [SmokeLabel.l0012] = some (State.s0188, -54)
-  rfl
-
-private theorem trieNode0057Eval :
-    evalLabelStepFn smokeNext rootState trieNode0057Labels =
-      some (trieNode0057State, trieNode0057Gain) := by
-  unfold trieNode0057Labels trieNode0057Gain
-  exact evalLabelStepFn_append trieNode0056Eval trieNode0057StepEval
 
 private def trieNode0058State : State := edge0187.dst
 private def trieNode0058StepLabels : List SmokeLabel :=
@@ -9580,20 +8776,6 @@ private theorem trieNode0058Run :
   unfold trieNode0058Labels trieNode0058Gain
   exact BellmanLabelStepRun.append trieNode0057Run trieNode0058StepRun
 
-private theorem trieNode0058StepEval :
-    evalLabelStepFn smokeNext trieNode0057State
-      trieNode0058StepLabels =
-        some (trieNode0058State, trieNode0058StepGain) := by
-  change evalLabelStepFn smokeNext State.s0188
-    [SmokeLabel.l0005] = some (State.s0205, -144)
-  rfl
-
-private theorem trieNode0058Eval :
-    evalLabelStepFn smokeNext rootState trieNode0058Labels =
-      some (trieNode0058State, trieNode0058Gain) := by
-  unfold trieNode0058Labels trieNode0058Gain
-  exact evalLabelStepFn_append trieNode0057Eval trieNode0058StepEval
-
 private def trieNode0059State : State := edge0207.dst
 private def trieNode0059StepLabels : List SmokeLabel :=
   [SmokeLabel.l0002]
@@ -9617,20 +8799,6 @@ private theorem trieNode0059Run :
       trieNode0059Labels trieNode0059Gain := by
   unfold trieNode0059Labels trieNode0059Gain
   exact BellmanLabelStepRun.append trieNode0058Run trieNode0059StepRun
-
-private theorem trieNode0059StepEval :
-    evalLabelStepFn smokeNext trieNode0058State
-      trieNode0059StepLabels =
-        some (trieNode0059State, trieNode0059StepGain) := by
-  change evalLabelStepFn smokeNext State.s0205
-    [SmokeLabel.l0002] = some (State.s0003, -144)
-  rfl
-
-private theorem trieNode0059Eval :
-    evalLabelStepFn smokeNext rootState trieNode0059Labels =
-      some (trieNode0059State, trieNode0059Gain) := by
-  unfold trieNode0059Labels trieNode0059Gain
-  exact evalLabelStepFn_append trieNode0058Eval trieNode0059StepEval
 
 private def trieNode0060State : State := edge0003.dst
 private def trieNode0060StepLabels : List SmokeLabel :=
@@ -9656,20 +8824,6 @@ private theorem trieNode0060Run :
   unfold trieNode0060Labels trieNode0060Gain
   exact BellmanLabelStepRun.append trieNode0059Run trieNode0060StepRun
 
-private theorem trieNode0060StepEval :
-    evalLabelStepFn smokeNext trieNode0059State
-      trieNode0060StepLabels =
-        some (trieNode0060State, trieNode0060StepGain) := by
-  change evalLabelStepFn smokeNext State.s0003
-    [SmokeLabel.l0007] = some (State.s0032, -36)
-  rfl
-
-private theorem trieNode0060Eval :
-    evalLabelStepFn smokeNext rootState trieNode0060Labels =
-      some (trieNode0060State, trieNode0060Gain) := by
-  unfold trieNode0060Labels trieNode0060Gain
-  exact evalLabelStepFn_append trieNode0059Eval trieNode0060StepEval
-
 private def trieNode0061State : State := edge0041.dst
 private def trieNode0061StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -9693,20 +8847,6 @@ private theorem trieNode0061Run :
       trieNode0061Labels trieNode0061Gain := by
   unfold trieNode0061Labels trieNode0061Gain
   exact BellmanLabelStepRun.append trieNode0060Run trieNode0061StepRun
-
-private theorem trieNode0061StepEval :
-    evalLabelStepFn smokeNext trieNode0060State
-      trieNode0061StepLabels =
-        some (trieNode0061State, trieNode0061StepGain) := by
-  change evalLabelStepFn smokeNext State.s0032
-    [SmokeLabel.l0003] = some (State.s0064, 96)
-  rfl
-
-private theorem trieNode0061Eval :
-    evalLabelStepFn smokeNext rootState trieNode0061Labels =
-      some (trieNode0061State, trieNode0061Gain) := by
-  unfold trieNode0061Labels trieNode0061Gain
-  exact evalLabelStepFn_append trieNode0060Eval trieNode0061StepEval
 
 private def trieNode0062State : State := edge0075.dst
 private def trieNode0062StepLabels : List SmokeLabel :=
@@ -9732,20 +8872,6 @@ private theorem trieNode0062Run :
   unfold trieNode0062Labels trieNode0062Gain
   exact BellmanLabelStepRun.append trieNode0061Run trieNode0062StepRun
 
-private theorem trieNode0062StepEval :
-    evalLabelStepFn smokeNext trieNode0061State
-      trieNode0062StepLabels =
-        some (trieNode0062State, trieNode0062StepGain) := by
-  change evalLabelStepFn smokeNext State.s0064
-    [SmokeLabel.l0001] = some (State.s0103, -124)
-  rfl
-
-private theorem trieNode0062Eval :
-    evalLabelStepFn smokeNext rootState trieNode0062Labels =
-      some (trieNode0062State, trieNode0062Gain) := by
-  unfold trieNode0062Labels trieNode0062Gain
-  exact evalLabelStepFn_append trieNode0061Eval trieNode0062StepEval
-
 private def trieNode0063State : State := edge0114.dst
 private def trieNode0063StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -9769,20 +8895,6 @@ private theorem trieNode0063Run :
       trieNode0063Labels trieNode0063Gain := by
   unfold trieNode0063Labels trieNode0063Gain
   exact BellmanLabelStepRun.append trieNode0062Run trieNode0063StepRun
-
-private theorem trieNode0063StepEval :
-    evalLabelStepFn smokeNext trieNode0062State
-      trieNode0063StepLabels =
-        some (trieNode0063State, trieNode0063StepGain) := by
-  change evalLabelStepFn smokeNext State.s0103
-    [SmokeLabel.l0009] = some (State.s0132, -73)
-  rfl
-
-private theorem trieNode0063Eval :
-    evalLabelStepFn smokeNext rootState trieNode0063Labels =
-      some (trieNode0063State, trieNode0063Gain) := by
-  unfold trieNode0063Labels trieNode0063Gain
-  exact evalLabelStepFn_append trieNode0062Eval trieNode0063StepEval
 
 private def trieNode0064State : State := edge0163.dst
 private def trieNode0064StepLabels : List SmokeLabel :=
@@ -9808,20 +8920,6 @@ private theorem trieNode0064Run :
   unfold trieNode0064Labels trieNode0064Gain
   exact BellmanLabelStepRun.append trieNode0055Run trieNode0064StepRun
 
-private theorem trieNode0064StepEval :
-    evalLabelStepFn smokeNext trieNode0055State
-      trieNode0064StepLabels =
-        some (trieNode0064State, trieNode0064StepGain) := by
-  change evalLabelStepFn smokeNext State.s0167
-    [SmokeLabel.l0005] = some (State.s0180, -144)
-  rfl
-
-private theorem trieNode0064Eval :
-    evalLabelStepFn smokeNext rootState trieNode0064Labels =
-      some (trieNode0064State, trieNode0064Gain) := by
-  unfold trieNode0064Labels trieNode0064Gain
-  exact evalLabelStepFn_append trieNode0055Eval trieNode0064StepEval
-
 private def trieNode0065State : State := edge0177.dst
 private def trieNode0065StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -9845,20 +8943,6 @@ private theorem trieNode0065Run :
       trieNode0065Labels trieNode0065Gain := by
   unfold trieNode0065Labels trieNode0065Gain
   exact BellmanLabelStepRun.append trieNode0064Run trieNode0065StepRun
-
-private theorem trieNode0065StepEval :
-    evalLabelStepFn smokeNext trieNode0064State
-      trieNode0065StepLabels =
-        some (trieNode0065State, trieNode0065StepGain) := by
-  change evalLabelStepFn smokeNext State.s0180
-    [SmokeLabel.l0013] = some (State.s0192, 90)
-  rfl
-
-private theorem trieNode0065Eval :
-    evalLabelStepFn smokeNext rootState trieNode0065Labels =
-      some (trieNode0065State, trieNode0065Gain) := by
-  unfold trieNode0065Labels trieNode0065Gain
-  exact evalLabelStepFn_append trieNode0064Eval trieNode0065StepEval
 
 private def trieNode0066State : State := edge0191.dst
 private def trieNode0066StepLabels : List SmokeLabel :=
@@ -9884,20 +8968,6 @@ private theorem trieNode0066Run :
   unfold trieNode0066Labels trieNode0066Gain
   exact BellmanLabelStepRun.append trieNode0065Run trieNode0066StepRun
 
-private theorem trieNode0066StepEval :
-    evalLabelStepFn smokeNext trieNode0065State
-      trieNode0066StepLabels =
-        some (trieNode0066State, trieNode0066StepGain) := by
-  change evalLabelStepFn smokeNext State.s0192
-    [SmokeLabel.l0012] = some (State.s0204, 90)
-  rfl
-
-private theorem trieNode0066Eval :
-    evalLabelStepFn smokeNext rootState trieNode0066Labels =
-      some (trieNode0066State, trieNode0066Gain) := by
-  unfold trieNode0066Labels trieNode0066Gain
-  exact evalLabelStepFn_append trieNode0065Eval trieNode0066StepEval
-
 private def trieNode0067State : State := edge0206.dst
 private def trieNode0067StepLabels : List SmokeLabel :=
   [SmokeLabel.l0002]
@@ -9921,20 +8991,6 @@ private theorem trieNode0067Run :
       trieNode0067Labels trieNode0067Gain := by
   unfold trieNode0067Labels trieNode0067Gain
   exact BellmanLabelStepRun.append trieNode0066Run trieNode0067StepRun
-
-private theorem trieNode0067StepEval :
-    evalLabelStepFn smokeNext trieNode0066State
-      trieNode0067StepLabels =
-        some (trieNode0067State, trieNode0067StepGain) := by
-  change evalLabelStepFn smokeNext State.s0204
-    [SmokeLabel.l0002] = some (State.s0002, -144)
-  rfl
-
-private theorem trieNode0067Eval :
-    evalLabelStepFn smokeNext rootState trieNode0067Labels =
-      some (trieNode0067State, trieNode0067Gain) := by
-  unfold trieNode0067Labels trieNode0067Gain
-  exact evalLabelStepFn_append trieNode0066Eval trieNode0067StepEval
 
 private def trieNode0068State : State := edge0002.dst
 private def trieNode0068StepLabels : List SmokeLabel :=
@@ -9960,20 +9016,6 @@ private theorem trieNode0068Run :
   unfold trieNode0068Labels trieNode0068Gain
   exact BellmanLabelStepRun.append trieNode0067Run trieNode0068StepRun
 
-private theorem trieNode0068StepEval :
-    evalLabelStepFn smokeNext trieNode0067State
-      trieNode0068StepLabels =
-        some (trieNode0068State, trieNode0068StepGain) := by
-  change evalLabelStepFn smokeNext State.s0002
-    [SmokeLabel.l0007] = some (State.s0031, -36)
-  rfl
-
-private theorem trieNode0068Eval :
-    evalLabelStepFn smokeNext rootState trieNode0068Labels =
-      some (trieNode0068State, trieNode0068Gain) := by
-  unfold trieNode0068Labels trieNode0068Gain
-  exact evalLabelStepFn_append trieNode0067Eval trieNode0068StepEval
-
 private def trieNode0069State : State := edge0040.dst
 private def trieNode0069StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -9997,20 +9039,6 @@ private theorem trieNode0069Run :
       trieNode0069Labels trieNode0069Gain := by
   unfold trieNode0069Labels trieNode0069Gain
   exact BellmanLabelStepRun.append trieNode0068Run trieNode0069StepRun
-
-private theorem trieNode0069StepEval :
-    evalLabelStepFn smokeNext trieNode0068State
-      trieNode0069StepLabels =
-        some (trieNode0069State, trieNode0069StepGain) := by
-  change evalLabelStepFn smokeNext State.s0031
-    [SmokeLabel.l0003] = some (State.s0063, 96)
-  rfl
-
-private theorem trieNode0069Eval :
-    evalLabelStepFn smokeNext rootState trieNode0069Labels =
-      some (trieNode0069State, trieNode0069Gain) := by
-  unfold trieNode0069Labels trieNode0069Gain
-  exact evalLabelStepFn_append trieNode0068Eval trieNode0069StepEval
 
 private def trieNode0070State : State := edge0074.dst
 private def trieNode0070StepLabels : List SmokeLabel :=
@@ -10036,20 +9064,6 @@ private theorem trieNode0070Run :
   unfold trieNode0070Labels trieNode0070Gain
   exact BellmanLabelStepRun.append trieNode0069Run trieNode0070StepRun
 
-private theorem trieNode0070StepEval :
-    evalLabelStepFn smokeNext trieNode0069State
-      trieNode0070StepLabels =
-        some (trieNode0070State, trieNode0070StepGain) := by
-  change evalLabelStepFn smokeNext State.s0063
-    [SmokeLabel.l0001] = some (State.s0102, -124)
-  rfl
-
-private theorem trieNode0070Eval :
-    evalLabelStepFn smokeNext rootState trieNode0070Labels =
-      some (trieNode0070State, trieNode0070Gain) := by
-  unfold trieNode0070Labels trieNode0070Gain
-  exact evalLabelStepFn_append trieNode0069Eval trieNode0070StepEval
-
 private def trieNode0071State : State := edge0113.dst
 private def trieNode0071StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -10073,20 +9087,6 @@ private theorem trieNode0071Run :
       trieNode0071Labels trieNode0071Gain := by
   unfold trieNode0071Labels trieNode0071Gain
   exact BellmanLabelStepRun.append trieNode0070Run trieNode0071StepRun
-
-private theorem trieNode0071StepEval :
-    evalLabelStepFn smokeNext trieNode0070State
-      trieNode0071StepLabels =
-        some (trieNode0071State, trieNode0071StepGain) := by
-  change evalLabelStepFn smokeNext State.s0102
-    [SmokeLabel.l0009] = some (State.s0131, -73)
-  rfl
-
-private theorem trieNode0071Eval :
-    evalLabelStepFn smokeNext rootState trieNode0071Labels =
-      some (trieNode0071State, trieNode0071Gain) := by
-  unfold trieNode0071Labels trieNode0071Gain
-  exact evalLabelStepFn_append trieNode0070Eval trieNode0071StepEval
 
 private def trieNode0072State : State := edge0178.dst
 private def trieNode0072StepLabels : List SmokeLabel :=
@@ -10112,20 +9112,6 @@ private theorem trieNode0072Run :
   unfold trieNode0072Labels trieNode0072Gain
   exact BellmanLabelStepRun.append trieNode0064Run trieNode0072StepRun
 
-private theorem trieNode0072StepEval :
-    evalLabelStepFn smokeNext trieNode0064State
-      trieNode0072StepLabels =
-        some (trieNode0072State, trieNode0072StepGain) := by
-  change evalLabelStepFn smokeNext State.s0180
-    [SmokeLabel.l0002] = some (State.s0195, -144)
-  rfl
-
-private theorem trieNode0072Eval :
-    evalLabelStepFn smokeNext rootState trieNode0072Labels =
-      some (trieNode0072State, trieNode0072Gain) := by
-  unfold trieNode0072Labels trieNode0072Gain
-  exact evalLabelStepFn_append trieNode0064Eval trieNode0072StepEval
-
 private def trieNode0073State : State := edge0194.dst
 private def trieNode0073StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -10149,20 +9135,6 @@ private theorem trieNode0073Run :
       trieNode0073Labels trieNode0073Gain := by
   unfold trieNode0073Labels trieNode0073Gain
   exact BellmanLabelStepRun.append trieNode0072Run trieNode0073StepRun
-
-private theorem trieNode0073StepEval :
-    evalLabelStepFn smokeNext trieNode0072State
-      trieNode0073StepLabels =
-        some (trieNode0073State, trieNode0073StepGain) := by
-  change evalLabelStepFn smokeNext State.s0195
-    [SmokeLabel.l0013] = some (State.s0209, -54)
-  rfl
-
-private theorem trieNode0073Eval :
-    evalLabelStepFn smokeNext rootState trieNode0073Labels =
-      some (trieNode0073State, trieNode0073Gain) := by
-  unfold trieNode0073Labels trieNode0073Gain
-  exact evalLabelStepFn_append trieNode0072Eval trieNode0073StepEval
 
 private def trieNode0074State : State := edge0211.dst
 private def trieNode0074StepLabels : List SmokeLabel :=
@@ -10188,20 +9160,6 @@ private theorem trieNode0074Run :
   unfold trieNode0074Labels trieNode0074Gain
   exact BellmanLabelStepRun.append trieNode0073Run trieNode0074StepRun
 
-private theorem trieNode0074StepEval :
-    evalLabelStepFn smokeNext trieNode0073State
-      trieNode0074StepLabels =
-        some (trieNode0074State, trieNode0074StepGain) := by
-  change evalLabelStepFn smokeNext State.s0209
-    [SmokeLabel.l0012] = some (State.s0001, -54)
-  rfl
-
-private theorem trieNode0074Eval :
-    evalLabelStepFn smokeNext rootState trieNode0074Labels =
-      some (trieNode0074State, trieNode0074Gain) := by
-  unfold trieNode0074Labels trieNode0074Gain
-  exact evalLabelStepFn_append trieNode0073Eval trieNode0074StepEval
-
 private def trieNode0075State : State := edge0001.dst
 private def trieNode0075StepLabels : List SmokeLabel :=
   [SmokeLabel.l0007]
@@ -10225,20 +9183,6 @@ private theorem trieNode0075Run :
       trieNode0075Labels trieNode0075Gain := by
   unfold trieNode0075Labels trieNode0075Gain
   exact BellmanLabelStepRun.append trieNode0074Run trieNode0075StepRun
-
-private theorem trieNode0075StepEval :
-    evalLabelStepFn smokeNext trieNode0074State
-      trieNode0075StepLabels =
-        some (trieNode0075State, trieNode0075StepGain) := by
-  change evalLabelStepFn smokeNext State.s0001
-    [SmokeLabel.l0007] = some (State.s0029, -36)
-  rfl
-
-private theorem trieNode0075Eval :
-    evalLabelStepFn smokeNext rootState trieNode0075Labels =
-      some (trieNode0075State, trieNode0075Gain) := by
-  unfold trieNode0075Labels trieNode0075Gain
-  exact evalLabelStepFn_append trieNode0074Eval trieNode0075StepEval
 
 private def trieNode0076State : State := edge0038.dst
 private def trieNode0076StepLabels : List SmokeLabel :=
@@ -10264,20 +9208,6 @@ private theorem trieNode0076Run :
   unfold trieNode0076Labels trieNode0076Gain
   exact BellmanLabelStepRun.append trieNode0075Run trieNode0076StepRun
 
-private theorem trieNode0076StepEval :
-    evalLabelStepFn smokeNext trieNode0075State
-      trieNode0076StepLabels =
-        some (trieNode0076State, trieNode0076StepGain) := by
-  change evalLabelStepFn smokeNext State.s0029
-    [SmokeLabel.l0003] = some (State.s0060, 96)
-  rfl
-
-private theorem trieNode0076Eval :
-    evalLabelStepFn smokeNext rootState trieNode0076Labels =
-      some (trieNode0076State, trieNode0076Gain) := by
-  unfold trieNode0076Labels trieNode0076Gain
-  exact evalLabelStepFn_append trieNode0075Eval trieNode0076StepEval
-
 private def trieNode0077State : State := edge0071.dst
 private def trieNode0077StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -10301,20 +9231,6 @@ private theorem trieNode0077Run :
       trieNode0077Labels trieNode0077Gain := by
   unfold trieNode0077Labels trieNode0077Gain
   exact BellmanLabelStepRun.append trieNode0076Run trieNode0077StepRun
-
-private theorem trieNode0077StepEval :
-    evalLabelStepFn smokeNext trieNode0076State
-      trieNode0077StepLabels =
-        some (trieNode0077State, trieNode0077StepGain) := by
-  change evalLabelStepFn smokeNext State.s0060
-    [SmokeLabel.l0001] = some (State.s0098, -124)
-  rfl
-
-private theorem trieNode0077Eval :
-    evalLabelStepFn smokeNext rootState trieNode0077Labels =
-      some (trieNode0077State, trieNode0077Gain) := by
-  unfold trieNode0077Labels trieNode0077Gain
-  exact evalLabelStepFn_append trieNode0076Eval trieNode0077StepEval
 
 private def trieNode0078State : State := edge0109.dst
 private def trieNode0078StepLabels : List SmokeLabel :=
@@ -10340,20 +9256,6 @@ private theorem trieNode0078Run :
   unfold trieNode0078Labels trieNode0078Gain
   exact BellmanLabelStepRun.append trieNode0077Run trieNode0078StepRun
 
-private theorem trieNode0078StepEval :
-    evalLabelStepFn smokeNext trieNode0077State
-      trieNode0078StepLabels =
-        some (trieNode0078State, trieNode0078StepGain) := by
-  change evalLabelStepFn smokeNext State.s0098
-    [SmokeLabel.l0009] = some (State.s0127, -73)
-  rfl
-
-private theorem trieNode0078Eval :
-    evalLabelStepFn smokeNext rootState trieNode0078Labels =
-      some (trieNode0078State, trieNode0078Gain) := by
-  unfold trieNode0078Labels trieNode0078Gain
-  exact evalLabelStepFn_append trieNode0077Eval trieNode0078StepEval
-
 private def trieNode0079State : State := edge0195.dst
 private def trieNode0079StepLabels : List SmokeLabel :=
   [SmokeLabel.l0007]
@@ -10377,20 +9279,6 @@ private theorem trieNode0079Run :
       trieNode0079Labels trieNode0079Gain := by
   unfold trieNode0079Labels trieNode0079Gain
   exact BellmanLabelStepRun.append trieNode0072Run trieNode0079StepRun
-
-private theorem trieNode0079StepEval :
-    evalLabelStepFn smokeNext trieNode0072State
-      trieNode0079StepLabels =
-        some (trieNode0079State, trieNode0079StepGain) := by
-  change evalLabelStepFn smokeNext State.s0195
-    [SmokeLabel.l0007] = some (State.s0213, -36)
-  rfl
-
-private theorem trieNode0079Eval :
-    evalLabelStepFn smokeNext rootState trieNode0079Labels =
-      some (trieNode0079State, trieNode0079Gain) := by
-  unfold trieNode0079Labels trieNode0079Gain
-  exact evalLabelStepFn_append trieNode0072Eval trieNode0079StepEval
 
 private def trieNode0080State : State := edge0216.dst
 private def trieNode0080StepLabels : List SmokeLabel :=
@@ -10416,20 +9304,6 @@ private theorem trieNode0080Run :
   unfold trieNode0080Labels trieNode0080Gain
   exact BellmanLabelStepRun.append trieNode0079Run trieNode0080StepRun
 
-private theorem trieNode0080StepEval :
-    evalLabelStepFn smokeNext trieNode0079State
-      trieNode0080StepLabels =
-        some (trieNode0080State, trieNode0080StepGain) := by
-  change evalLabelStepFn smokeNext State.s0213
-    [SmokeLabel.l0013] = some (State.s0008, -18)
-  rfl
-
-private theorem trieNode0080Eval :
-    evalLabelStepFn smokeNext rootState trieNode0080Labels =
-      some (trieNode0080State, trieNode0080Gain) := by
-  unfold trieNode0080Labels trieNode0080Gain
-  exact evalLabelStepFn_append trieNode0079Eval trieNode0080StepEval
-
 private def trieNode0081State : State := edge0008.dst
 private def trieNode0081StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
@@ -10453,20 +9327,6 @@ private theorem trieNode0081Run :
       trieNode0081Labels trieNode0081Gain := by
   unfold trieNode0081Labels trieNode0081Gain
   exact BellmanLabelStepRun.append trieNode0080Run trieNode0081StepRun
-
-private theorem trieNode0081StepEval :
-    evalLabelStepFn smokeNext trieNode0080State
-      trieNode0081StepLabels =
-        some (trieNode0081State, trieNode0081StepGain) := by
-  change evalLabelStepFn smokeNext State.s0008
-    [SmokeLabel.l0012] = some (State.s0030, -18)
-  rfl
-
-private theorem trieNode0081Eval :
-    evalLabelStepFn smokeNext rootState trieNode0081Labels =
-      some (trieNode0081State, trieNode0081Gain) := by
-  unfold trieNode0081Labels trieNode0081Gain
-  exact evalLabelStepFn_append trieNode0080Eval trieNode0081StepEval
 
 private def trieNode0082State : State := edge0039.dst
 private def trieNode0082StepLabels : List SmokeLabel :=
@@ -10492,20 +9352,6 @@ private theorem trieNode0082Run :
   unfold trieNode0082Labels trieNode0082Gain
   exact BellmanLabelStepRun.append trieNode0081Run trieNode0082StepRun
 
-private theorem trieNode0082StepEval :
-    evalLabelStepFn smokeNext trieNode0081State
-      trieNode0082StepLabels =
-        some (trieNode0082State, trieNode0082StepGain) := by
-  change evalLabelStepFn smokeNext State.s0030
-    [SmokeLabel.l0003] = some (State.s0061, 96)
-  rfl
-
-private theorem trieNode0082Eval :
-    evalLabelStepFn smokeNext rootState trieNode0082Labels =
-      some (trieNode0082State, trieNode0082Gain) := by
-  unfold trieNode0082Labels trieNode0082Gain
-  exact evalLabelStepFn_append trieNode0081Eval trieNode0082StepEval
-
 private def trieNode0083State : State := edge0072.dst
 private def trieNode0083StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -10529,20 +9375,6 @@ private theorem trieNode0083Run :
       trieNode0083Labels trieNode0083Gain := by
   unfold trieNode0083Labels trieNode0083Gain
   exact BellmanLabelStepRun.append trieNode0082Run trieNode0083StepRun
-
-private theorem trieNode0083StepEval :
-    evalLabelStepFn smokeNext trieNode0082State
-      trieNode0083StepLabels =
-        some (trieNode0083State, trieNode0083StepGain) := by
-  change evalLabelStepFn smokeNext State.s0061
-    [SmokeLabel.l0001] = some (State.s0099, -124)
-  rfl
-
-private theorem trieNode0083Eval :
-    evalLabelStepFn smokeNext rootState trieNode0083Labels =
-      some (trieNode0083State, trieNode0083Gain) := by
-  unfold trieNode0083Labels trieNode0083Gain
-  exact evalLabelStepFn_append trieNode0082Eval trieNode0083StepEval
 
 private def trieNode0084State : State := edge0110.dst
 private def trieNode0084StepLabels : List SmokeLabel :=
@@ -10568,20 +9400,6 @@ private theorem trieNode0084Run :
   unfold trieNode0084Labels trieNode0084Gain
   exact BellmanLabelStepRun.append trieNode0083Run trieNode0084StepRun
 
-private theorem trieNode0084StepEval :
-    evalLabelStepFn smokeNext trieNode0083State
-      trieNode0084StepLabels =
-        some (trieNode0084State, trieNode0084StepGain) := by
-  change evalLabelStepFn smokeNext State.s0099
-    [SmokeLabel.l0009] = some (State.s0128, -73)
-  rfl
-
-private theorem trieNode0084Eval :
-    evalLabelStepFn smokeNext rootState trieNode0084Labels =
-      some (trieNode0084State, trieNode0084Gain) := by
-  unfold trieNode0084Labels trieNode0084Gain
-  exact evalLabelStepFn_append trieNode0083Eval trieNode0084StepEval
-
 private def trieNode0085State : State := edge0217.dst
 private def trieNode0085StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -10605,20 +9423,6 @@ private theorem trieNode0085Run :
       trieNode0085Labels trieNode0085Gain := by
   unfold trieNode0085Labels trieNode0085Gain
   exact BellmanLabelStepRun.append trieNode0079Run trieNode0085StepRun
-
-private theorem trieNode0085StepEval :
-    evalLabelStepFn smokeNext trieNode0079State
-      trieNode0085StepLabels =
-        some (trieNode0085State, trieNode0085StepGain) := by
-  change evalLabelStepFn smokeNext State.s0213
-    [SmokeLabel.l0003] = some (State.s0013, 96)
-  rfl
-
-private theorem trieNode0085Eval :
-    evalLabelStepFn smokeNext rootState trieNode0085Labels =
-      some (trieNode0085State, trieNode0085Gain) := by
-  unfold trieNode0085Labels trieNode0085Gain
-  exact evalLabelStepFn_append trieNode0079Eval trieNode0085StepEval
 
 private def trieNode0086State : State := edge0014.dst
 private def trieNode0086StepLabels : List SmokeLabel :=
@@ -10644,20 +9448,6 @@ private theorem trieNode0086Run :
   unfold trieNode0086Labels trieNode0086Gain
   exact BellmanLabelStepRun.append trieNode0085Run trieNode0086StepRun
 
-private theorem trieNode0086StepEval :
-    evalLabelStepFn smokeNext trieNode0085State
-      trieNode0086StepLabels =
-        some (trieNode0086State, trieNode0086StepGain) := by
-  change evalLabelStepFn smokeNext State.s0013
-    [SmokeLabel.l0012] = some (State.s0038, 114)
-  rfl
-
-private theorem trieNode0086Eval :
-    evalLabelStepFn smokeNext rootState trieNode0086Labels =
-      some (trieNode0086State, trieNode0086Gain) := by
-  unfold trieNode0086Labels trieNode0086Gain
-  exact evalLabelStepFn_append trieNode0085Eval trieNode0086StepEval
-
 private def trieNode0087State : State := edge0047.dst
 private def trieNode0087StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -10681,20 +9471,6 @@ private theorem trieNode0087Run :
       trieNode0087Labels trieNode0087Gain := by
   unfold trieNode0087Labels trieNode0087Gain
   exact BellmanLabelStepRun.append trieNode0086Run trieNode0087StepRun
-
-private theorem trieNode0087StepEval :
-    evalLabelStepFn smokeNext trieNode0086State
-      trieNode0087StepLabels =
-        some (trieNode0087State, trieNode0087StepGain) := by
-  change evalLabelStepFn smokeNext State.s0038
-    [SmokeLabel.l0013] = some (State.s0062, 114)
-  rfl
-
-private theorem trieNode0087Eval :
-    evalLabelStepFn smokeNext rootState trieNode0087Labels =
-      some (trieNode0087State, trieNode0087Gain) := by
-  unfold trieNode0087Labels trieNode0087Gain
-  exact evalLabelStepFn_append trieNode0086Eval trieNode0087StepEval
 
 private def trieNode0088State : State := edge0073.dst
 private def trieNode0088StepLabels : List SmokeLabel :=
@@ -10720,20 +9496,6 @@ private theorem trieNode0088Run :
   unfold trieNode0088Labels trieNode0088Gain
   exact BellmanLabelStepRun.append trieNode0087Run trieNode0088StepRun
 
-private theorem trieNode0088StepEval :
-    evalLabelStepFn smokeNext trieNode0087State
-      trieNode0088StepLabels =
-        some (trieNode0088State, trieNode0088StepGain) := by
-  change evalLabelStepFn smokeNext State.s0062
-    [SmokeLabel.l0001] = some (State.s0101, -124)
-  rfl
-
-private theorem trieNode0088Eval :
-    evalLabelStepFn smokeNext rootState trieNode0088Labels =
-      some (trieNode0088State, trieNode0088Gain) := by
-  unfold trieNode0088Labels trieNode0088Gain
-  exact evalLabelStepFn_append trieNode0087Eval trieNode0088StepEval
-
 private def trieNode0089State : State := edge0112.dst
 private def trieNode0089StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -10757,20 +9519,6 @@ private theorem trieNode0089Run :
       trieNode0089Labels trieNode0089Gain := by
   unfold trieNode0089Labels trieNode0089Gain
   exact BellmanLabelStepRun.append trieNode0088Run trieNode0089StepRun
-
-private theorem trieNode0089StepEval :
-    evalLabelStepFn smokeNext trieNode0088State
-      trieNode0089StepLabels =
-        some (trieNode0089State, trieNode0089StepGain) := by
-  change evalLabelStepFn smokeNext State.s0101
-    [SmokeLabel.l0009] = some (State.s0130, -73)
-  rfl
-
-private theorem trieNode0089Eval :
-    evalLabelStepFn smokeNext rootState trieNode0089Labels =
-      some (trieNode0089State, trieNode0089Gain) := by
-  unfold trieNode0089Labels trieNode0089Gain
-  exact evalLabelStepFn_append trieNode0088Eval trieNode0089StepEval
 
 private def trieNode0090State : State := edge0015.dst
 private def trieNode0090StepLabels : List SmokeLabel :=
@@ -10796,20 +9544,6 @@ private theorem trieNode0090Run :
   unfold trieNode0090Labels trieNode0090Gain
   exact BellmanLabelStepRun.append trieNode0085Run trieNode0090StepRun
 
-private theorem trieNode0090StepEval :
-    evalLabelStepFn smokeNext trieNode0085State
-      trieNode0090StepLabels =
-        some (trieNode0090State, trieNode0090StepGain) := by
-  change evalLabelStepFn smokeNext State.s0013
-    [SmokeLabel.l0001] = some (State.s0044, -124)
-  rfl
-
-private theorem trieNode0090Eval :
-    evalLabelStepFn smokeNext rootState trieNode0090Labels =
-      some (trieNode0090State, trieNode0090Gain) := by
-  unfold trieNode0090Labels trieNode0090Gain
-  exact evalLabelStepFn_append trieNode0085Eval trieNode0090StepEval
-
 private def trieNode0091State : State := edge0053.dst
 private def trieNode0091StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
@@ -10833,20 +9567,6 @@ private theorem trieNode0091Run :
       trieNode0091Labels trieNode0091Gain := by
   unfold trieNode0091Labels trieNode0091Gain
   exact BellmanLabelStepRun.append trieNode0090Run trieNode0091StepRun
-
-private theorem trieNode0091StepEval :
-    evalLabelStepFn smokeNext trieNode0090State
-      trieNode0091StepLabels =
-        some (trieNode0091State, trieNode0091StepGain) := by
-  change evalLabelStepFn smokeNext State.s0044
-    [SmokeLabel.l0012] = some (State.s0072, -10)
-  rfl
-
-private theorem trieNode0091Eval :
-    evalLabelStepFn smokeNext rootState trieNode0091Labels =
-      some (trieNode0091State, trieNode0091Gain) := by
-  unfold trieNode0091Labels trieNode0091Gain
-  exact evalLabelStepFn_append trieNode0090Eval trieNode0091StepEval
 
 private def trieNode0092State : State := edge0083.dst
 private def trieNode0092StepLabels : List SmokeLabel :=
@@ -10872,20 +9592,6 @@ private theorem trieNode0092Run :
   unfold trieNode0092Labels trieNode0092Gain
   exact BellmanLabelStepRun.append trieNode0091Run trieNode0092StepRun
 
-private theorem trieNode0092StepEval :
-    evalLabelStepFn smokeNext trieNode0091State
-      trieNode0092StepLabels =
-        some (trieNode0092State, trieNode0092StepGain) := by
-  change evalLabelStepFn smokeNext State.s0072
-    [SmokeLabel.l0013] = some (State.s0100, -10)
-  rfl
-
-private theorem trieNode0092Eval :
-    evalLabelStepFn smokeNext rootState trieNode0092Labels =
-      some (trieNode0092State, trieNode0092Gain) := by
-  unfold trieNode0092Labels trieNode0092Gain
-  exact evalLabelStepFn_append trieNode0091Eval trieNode0092StepEval
-
 private def trieNode0093State : State := edge0111.dst
 private def trieNode0093StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -10909,20 +9615,6 @@ private theorem trieNode0093Run :
       trieNode0093Labels trieNode0093Gain := by
   unfold trieNode0093Labels trieNode0093Gain
   exact BellmanLabelStepRun.append trieNode0092Run trieNode0093StepRun
-
-private theorem trieNode0093StepEval :
-    evalLabelStepFn smokeNext trieNode0092State
-      trieNode0093StepLabels =
-        some (trieNode0093State, trieNode0093StepGain) := by
-  change evalLabelStepFn smokeNext State.s0100
-    [SmokeLabel.l0009] = some (State.s0129, -73)
-  rfl
-
-private theorem trieNode0093Eval :
-    evalLabelStepFn smokeNext rootState trieNode0093Labels =
-      some (trieNode0093State, trieNode0093Gain) := by
-  unfold trieNode0093Labels trieNode0093Gain
-  exact evalLabelStepFn_append trieNode0092Eval trieNode0093StepEval
 
 private def trieNode0094State : State := edge0126.dst
 private def trieNode0094StepLabels : List SmokeLabel :=
@@ -10948,20 +9640,6 @@ private theorem trieNode0094Run :
   unfold trieNode0094Labels trieNode0094Gain
   exact BellmanLabelStepRun.append trieNode0002Run trieNode0094StepRun
 
-private theorem trieNode0094StepEval :
-    evalLabelStepFn smokeNext trieNode0002State
-      trieNode0094StepLabels =
-        some (trieNode0094State, trieNode0094StepGain) := by
-  change evalLabelStepFn smokeNext State.s0143
-    [SmokeLabel.l0012] = some (State.s0145, -10)
-  rfl
-
-private theorem trieNode0094Eval :
-    evalLabelStepFn smokeNext rootState trieNode0094Labels =
-      some (trieNode0094State, trieNode0094Gain) := by
-  unfold trieNode0094Labels trieNode0094Gain
-  exact evalLabelStepFn_append trieNode0002Eval trieNode0094StepEval
-
 private def trieNode0095State : State := edge0130.dst
 private def trieNode0095StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -10985,20 +9663,6 @@ private theorem trieNode0095Run :
       trieNode0095Labels trieNode0095Gain := by
   unfold trieNode0095Labels trieNode0095Gain
   exact BellmanLabelStepRun.append trieNode0094Run trieNode0095StepRun
-
-private theorem trieNode0095StepEval :
-    evalLabelStepFn smokeNext trieNode0094State
-      trieNode0095StepLabels =
-        some (trieNode0095State, trieNode0095StepGain) := by
-  change evalLabelStepFn smokeNext State.s0145
-    [SmokeLabel.l0011] = some (State.s0147, -73)
-  rfl
-
-private theorem trieNode0095Eval :
-    evalLabelStepFn smokeNext rootState trieNode0095Labels =
-      some (trieNode0095State, trieNode0095Gain) := by
-  unfold trieNode0095Labels trieNode0095Gain
-  exact evalLabelStepFn_append trieNode0094Eval trieNode0095StepEval
 
 private def trieNode0096State : State := edge0135.dst
 private def trieNode0096StepLabels : List SmokeLabel :=
@@ -11024,20 +9688,6 @@ private theorem trieNode0096Run :
   unfold trieNode0096Labels trieNode0096Gain
   exact BellmanLabelStepRun.append trieNode0095Run trieNode0096StepRun
 
-private theorem trieNode0096StepEval :
-    evalLabelStepFn smokeNext trieNode0095State
-      trieNode0096StepLabels =
-        some (trieNode0096State, trieNode0096StepGain) := by
-  change evalLabelStepFn smokeNext State.s0147
-    [SmokeLabel.l0013] = some (State.s0153, -10)
-  rfl
-
-private theorem trieNode0096Eval :
-    evalLabelStepFn smokeNext rootState trieNode0096Labels =
-      some (trieNode0096State, trieNode0096Gain) := by
-  unfold trieNode0096Labels trieNode0096Gain
-  exact evalLabelStepFn_append trieNode0095Eval trieNode0096StepEval
-
 private def trieNode0097State : State := edge0145.dst
 private def trieNode0097StepLabels : List SmokeLabel :=
   [SmokeLabel.l0000]
@@ -11061,20 +9711,6 @@ private theorem trieNode0097Run :
       trieNode0097Labels trieNode0097Gain := by
   unfold trieNode0097Labels trieNode0097Gain
   exact BellmanLabelStepRun.append trieNode0096Run trieNode0097StepRun
-
-private theorem trieNode0097StepEval :
-    evalLabelStepFn smokeNext trieNode0096State
-      trieNode0097StepLabels =
-        some (trieNode0097State, trieNode0097StepGain) := by
-  change evalLabelStepFn smokeNext State.s0153
-    [SmokeLabel.l0000] = some (State.s0163, -124)
-  rfl
-
-private theorem trieNode0097Eval :
-    evalLabelStepFn smokeNext rootState trieNode0097Labels =
-      some (trieNode0097State, trieNode0097Gain) := by
-  unfold trieNode0097Labels trieNode0097Gain
-  exact evalLabelStepFn_append trieNode0096Eval trieNode0097StepEval
 
 private def trieNode0098State : State := edge0158.dst
 private def trieNode0098StepLabels : List SmokeLabel :=
@@ -11100,20 +9736,6 @@ private theorem trieNode0098Run :
   unfold trieNode0098Labels trieNode0098Gain
   exact BellmanLabelStepRun.append trieNode0097Run trieNode0098StepRun
 
-private theorem trieNode0098StepEval :
-    evalLabelStepFn smokeNext trieNode0097State
-      trieNode0098StepLabels =
-        some (trieNode0098State, trieNode0098StepGain) := by
-  change evalLabelStepFn smokeNext State.s0163
-    [SmokeLabel.l0004] = some (State.s0176, 96)
-  rfl
-
-private theorem trieNode0098Eval :
-    evalLabelStepFn smokeNext rootState trieNode0098Labels =
-      some (trieNode0098State, trieNode0098Gain) := by
-  unfold trieNode0098Labels trieNode0098Gain
-  exact evalLabelStepFn_append trieNode0097Eval trieNode0098StepEval
-
 private def trieNode0099State : State := edge0173.dst
 private def trieNode0099StepLabels : List SmokeLabel :=
   [SmokeLabel.l0006]
@@ -11137,20 +9759,6 @@ private theorem trieNode0099Run :
       trieNode0099Labels trieNode0099Gain := by
   unfold trieNode0099Labels trieNode0099Gain
   exact BellmanLabelStepRun.append trieNode0098Run trieNode0099StepRun
-
-private theorem trieNode0099StepEval :
-    evalLabelStepFn smokeNext trieNode0098State
-      trieNode0099StepLabels =
-        some (trieNode0099State, trieNode0099StepGain) := by
-  change evalLabelStepFn smokeNext State.s0176
-    [SmokeLabel.l0006] = some (State.s0191, -36)
-  rfl
-
-private theorem trieNode0099Eval :
-    evalLabelStepFn smokeNext rootState trieNode0099Labels =
-      some (trieNode0099State, trieNode0099Gain) := by
-  unfold trieNode0099Labels trieNode0099Gain
-  exact evalLabelStepFn_append trieNode0098Eval trieNode0099StepEval
 
 private def trieNode0100State : State := edge0190.dst
 private def trieNode0100StepLabels : List SmokeLabel :=
@@ -11176,20 +9784,6 @@ private theorem trieNode0100Run :
   unfold trieNode0100Labels trieNode0100Gain
   exact BellmanLabelStepRun.append trieNode0099Run trieNode0100StepRun
 
-private theorem trieNode0100StepEval :
-    evalLabelStepFn smokeNext trieNode0099State
-      trieNode0100StepLabels =
-        some (trieNode0100State, trieNode0100StepGain) := by
-  change evalLabelStepFn smokeNext State.s0191
-    [SmokeLabel.l0005] = some (State.s0208, -144)
-  rfl
-
-private theorem trieNode0100Eval :
-    evalLabelStepFn smokeNext rootState trieNode0100Labels =
-      some (trieNode0100State, trieNode0100Gain) := by
-  unfold trieNode0100Labels trieNode0100Gain
-  exact evalLabelStepFn_append trieNode0099Eval trieNode0100StepEval
-
 private def trieNode0101State : State := edge0210.dst
 private def trieNode0101StepLabels : List SmokeLabel :=
   [SmokeLabel.l0002]
@@ -11213,20 +9807,6 @@ private theorem trieNode0101Run :
       trieNode0101Labels trieNode0101Gain := by
   unfold trieNode0101Labels trieNode0101Gain
   exact BellmanLabelStepRun.append trieNode0100Run trieNode0101StepRun
-
-private theorem trieNode0101StepEval :
-    evalLabelStepFn smokeNext trieNode0100State
-      trieNode0101StepLabels =
-        some (trieNode0101State, trieNode0101StepGain) := by
-  change evalLabelStepFn smokeNext State.s0208
-    [SmokeLabel.l0002] = some (State.s0006, -144)
-  rfl
-
-private theorem trieNode0101Eval :
-    evalLabelStepFn smokeNext rootState trieNode0101Labels =
-      some (trieNode0101State, trieNode0101Gain) := by
-  unfold trieNode0101Labels trieNode0101Gain
-  exact evalLabelStepFn_append trieNode0100Eval trieNode0101StepEval
 
 private def trieNode0102State : State := edge0006.dst
 private def trieNode0102StepLabels : List SmokeLabel :=
@@ -11252,20 +9832,6 @@ private theorem trieNode0102Run :
   unfold trieNode0102Labels trieNode0102Gain
   exact BellmanLabelStepRun.append trieNode0101Run trieNode0102StepRun
 
-private theorem trieNode0102StepEval :
-    evalLabelStepFn smokeNext trieNode0101State
-      trieNode0102StepLabels =
-        some (trieNode0102State, trieNode0102StepGain) := by
-  change evalLabelStepFn smokeNext State.s0006
-    [SmokeLabel.l0007] = some (State.s0036, -36)
-  rfl
-
-private theorem trieNode0102Eval :
-    evalLabelStepFn smokeNext rootState trieNode0102Labels =
-      some (trieNode0102State, trieNode0102Gain) := by
-  unfold trieNode0102Labels trieNode0102Gain
-  exact evalLabelStepFn_append trieNode0101Eval trieNode0102StepEval
-
 private def trieNode0103State : State := edge0045.dst
 private def trieNode0103StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -11289,20 +9855,6 @@ private theorem trieNode0103Run :
       trieNode0103Labels trieNode0103Gain := by
   unfold trieNode0103Labels trieNode0103Gain
   exact BellmanLabelStepRun.append trieNode0102Run trieNode0103StepRun
-
-private theorem trieNode0103StepEval :
-    evalLabelStepFn smokeNext trieNode0102State
-      trieNode0103StepLabels =
-        some (trieNode0103State, trieNode0103StepGain) := by
-  change evalLabelStepFn smokeNext State.s0036
-    [SmokeLabel.l0003] = some (State.s0069, 96)
-  rfl
-
-private theorem trieNode0103Eval :
-    evalLabelStepFn smokeNext rootState trieNode0103Labels =
-      some (trieNode0103State, trieNode0103Gain) := by
-  unfold trieNode0103Labels trieNode0103Gain
-  exact evalLabelStepFn_append trieNode0102Eval trieNode0103StepEval
 
 private def trieNode0104State : State := edge0080.dst
 private def trieNode0104StepLabels : List SmokeLabel :=
@@ -11328,20 +9880,6 @@ private theorem trieNode0104Run :
   unfold trieNode0104Labels trieNode0104Gain
   exact BellmanLabelStepRun.append trieNode0103Run trieNode0104StepRun
 
-private theorem trieNode0104StepEval :
-    evalLabelStepFn smokeNext trieNode0103State
-      trieNode0104StepLabels =
-        some (trieNode0104State, trieNode0104StepGain) := by
-  change evalLabelStepFn smokeNext State.s0069
-    [SmokeLabel.l0001] = some (State.s0112, -124)
-  rfl
-
-private theorem trieNode0104Eval :
-    evalLabelStepFn smokeNext rootState trieNode0104Labels =
-      some (trieNode0104State, trieNode0104Gain) := by
-  unfold trieNode0104Labels trieNode0104Gain
-  exact evalLabelStepFn_append trieNode0103Eval trieNode0104StepEval
-
 private def trieNode0105State : State := edge0123.dst
 private def trieNode0105StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -11365,20 +9903,6 @@ private theorem trieNode0105Run :
       trieNode0105Labels trieNode0105Gain := by
   unfold trieNode0105Labels trieNode0105Gain
   exact BellmanLabelStepRun.append trieNode0104Run trieNode0105StepRun
-
-private theorem trieNode0105StepEval :
-    evalLabelStepFn smokeNext trieNode0104State
-      trieNode0105StepLabels =
-        some (trieNode0105State, trieNode0105StepGain) := by
-  change evalLabelStepFn smokeNext State.s0112
-    [SmokeLabel.l0009] = some (State.s0141, -73)
-  rfl
-
-private theorem trieNode0105Eval :
-    evalLabelStepFn smokeNext rootState trieNode0105Labels =
-      some (trieNode0105State, trieNode0105Gain) := by
-  unfold trieNode0105Labels trieNode0105Gain
-  exact evalLabelStepFn_append trieNode0104Eval trieNode0105StepEval
 
 private def trieNode0106State : State := edge0136.dst
 private def trieNode0106StepLabels : List SmokeLabel :=
@@ -11404,20 +9928,6 @@ private theorem trieNode0106Run :
   unfold trieNode0106Labels trieNode0106Gain
   exact BellmanLabelStepRun.append trieNode0095Run trieNode0106StepRun
 
-private theorem trieNode0106StepEval :
-    evalLabelStepFn smokeNext trieNode0095State
-      trieNode0106StepLabels =
-        some (trieNode0106State, trieNode0106StepGain) := by
-  change evalLabelStepFn smokeNext State.s0147
-    [SmokeLabel.l0001] = some (State.s0155, -124)
-  rfl
-
-private theorem trieNode0106Eval :
-    evalLabelStepFn smokeNext rootState trieNode0106Labels =
-      some (trieNode0106State, trieNode0106Gain) := by
-  unfold trieNode0106Labels trieNode0106Gain
-  exact evalLabelStepFn_append trieNode0095Eval trieNode0106StepEval
-
 private def trieNode0107State : State := edge0148.dst
 private def trieNode0107StepLabels : List SmokeLabel :=
   [SmokeLabel.l0005]
@@ -11441,20 +9951,6 @@ private theorem trieNode0107Run :
       trieNode0107Labels trieNode0107Gain := by
   unfold trieNode0107Labels trieNode0107Gain
   exact BellmanLabelStepRun.append trieNode0106Run trieNode0107StepRun
-
-private theorem trieNode0107StepEval :
-    evalLabelStepFn smokeNext trieNode0106State
-      trieNode0107StepLabels =
-        some (trieNode0107State, trieNode0107StepGain) := by
-  change evalLabelStepFn smokeNext State.s0155
-    [SmokeLabel.l0005] = some (State.s0166, 96)
-  rfl
-
-private theorem trieNode0107Eval :
-    evalLabelStepFn smokeNext rootState trieNode0107Labels =
-      some (trieNode0107State, trieNode0107Gain) := by
-  unfold trieNode0107Labels trieNode0107Gain
-  exact evalLabelStepFn_append trieNode0106Eval trieNode0107StepEval
 
 private def trieNode0108State : State := edge0161.dst
 private def trieNode0108StepLabels : List SmokeLabel :=
@@ -11480,20 +9976,6 @@ private theorem trieNode0108Run :
   unfold trieNode0108Labels trieNode0108Gain
   exact BellmanLabelStepRun.append trieNode0107Run trieNode0108StepRun
 
-private theorem trieNode0108StepEval :
-    evalLabelStepFn smokeNext trieNode0107State
-      trieNode0108StepLabels =
-        some (trieNode0108State, trieNode0108StepGain) := by
-  change evalLabelStepFn smokeNext State.s0166
-    [SmokeLabel.l0007] = some (State.s0179, -36)
-  rfl
-
-private theorem trieNode0108Eval :
-    evalLabelStepFn smokeNext rootState trieNode0108Labels =
-      some (trieNode0108State, trieNode0108Gain) := by
-  unfold trieNode0108Labels trieNode0108Gain
-  exact evalLabelStepFn_append trieNode0107Eval trieNode0108StepEval
-
 private def trieNode0109State : State := edge0176.dst
 private def trieNode0109StepLabels : List SmokeLabel :=
   [SmokeLabel.l0004]
@@ -11517,20 +9999,6 @@ private theorem trieNode0109Run :
       trieNode0109Labels trieNode0109Gain := by
   unfold trieNode0109Labels trieNode0109Gain
   exact BellmanLabelStepRun.append trieNode0108Run trieNode0109StepRun
-
-private theorem trieNode0109StepEval :
-    evalLabelStepFn smokeNext trieNode0108State
-      trieNode0109StepLabels =
-        some (trieNode0109State, trieNode0109StepGain) := by
-  change evalLabelStepFn smokeNext State.s0179
-    [SmokeLabel.l0004] = some (State.s0194, -144)
-  rfl
-
-private theorem trieNode0109Eval :
-    evalLabelStepFn smokeNext rootState trieNode0109Labels =
-      some (trieNode0109State, trieNode0109Gain) := by
-  unfold trieNode0109Labels trieNode0109Gain
-  exact evalLabelStepFn_append trieNode0108Eval trieNode0109StepEval
 
 private def trieNode0110State : State := edge0193.dst
 private def trieNode0110StepLabels : List SmokeLabel :=
@@ -11556,20 +10024,6 @@ private theorem trieNode0110Run :
   unfold trieNode0110Labels trieNode0110Gain
   exact BellmanLabelStepRun.append trieNode0109Run trieNode0110StepRun
 
-private theorem trieNode0110StepEval :
-    evalLabelStepFn smokeNext trieNode0109State
-      trieNode0110StepLabels =
-        some (trieNode0110State, trieNode0110StepGain) := by
-  change evalLabelStepFn smokeNext State.s0194
-    [SmokeLabel.l0003] = some (State.s0211, -144)
-  rfl
-
-private theorem trieNode0110Eval :
-    evalLabelStepFn smokeNext rootState trieNode0110Labels =
-      some (trieNode0110State, trieNode0110Gain) := by
-  unfold trieNode0110Labels trieNode0110Gain
-  exact evalLabelStepFn_append trieNode0109Eval trieNode0110StepEval
-
 private def trieNode0111State : State := edge0213.dst
 private def trieNode0111StepLabels : List SmokeLabel :=
   [SmokeLabel.l0006]
@@ -11593,20 +10047,6 @@ private theorem trieNode0111Run :
       trieNode0111Labels trieNode0111Gain := by
   unfold trieNode0111Labels trieNode0111Gain
   exact BellmanLabelStepRun.append trieNode0110Run trieNode0111StepRun
-
-private theorem trieNode0111StepEval :
-    evalLabelStepFn smokeNext trieNode0110State
-      trieNode0111StepLabels =
-        some (trieNode0111State, trieNode0111StepGain) := by
-  change evalLabelStepFn smokeNext State.s0211
-    [SmokeLabel.l0006] = some (State.s0011, -36)
-  rfl
-
-private theorem trieNode0111Eval :
-    evalLabelStepFn smokeNext rootState trieNode0111Labels =
-      some (trieNode0111State, trieNode0111Gain) := by
-  unfold trieNode0111Labels trieNode0111Gain
-  exact evalLabelStepFn_append trieNode0110Eval trieNode0111StepEval
 
 private def trieNode0112State : State := edge0011.dst
 private def trieNode0112StepLabels : List SmokeLabel :=
@@ -11632,20 +10072,6 @@ private theorem trieNode0112Run :
   unfold trieNode0112Labels trieNode0112Gain
   exact BellmanLabelStepRun.append trieNode0111Run trieNode0112StepRun
 
-private theorem trieNode0112StepEval :
-    evalLabelStepFn smokeNext trieNode0111State
-      trieNode0112StepLabels =
-        some (trieNode0112State, trieNode0112StepGain) := by
-  change evalLabelStepFn smokeNext State.s0011
-    [SmokeLabel.l0002] = some (State.s0041, 96)
-  rfl
-
-private theorem trieNode0112Eval :
-    evalLabelStepFn smokeNext rootState trieNode0112Labels =
-      some (trieNode0112State, trieNode0112Gain) := by
-  unfold trieNode0112Labels trieNode0112Gain
-  exact evalLabelStepFn_append trieNode0111Eval trieNode0112StepEval
-
 private def trieNode0113State : State := edge0050.dst
 private def trieNode0113StepLabels : List SmokeLabel :=
   [SmokeLabel.l0000]
@@ -11669,20 +10095,6 @@ private theorem trieNode0113Run :
       trieNode0113Labels trieNode0113Gain := by
   unfold trieNode0113Labels trieNode0113Gain
   exact BellmanLabelStepRun.append trieNode0112Run trieNode0113StepRun
-
-private theorem trieNode0113StepEval :
-    evalLabelStepFn smokeNext trieNode0112State
-      trieNode0113StepLabels =
-        some (trieNode0113State, trieNode0113StepGain) := by
-  change evalLabelStepFn smokeNext State.s0041
-    [SmokeLabel.l0000] = some (State.s0075, -124)
-  rfl
-
-private theorem trieNode0113Eval :
-    evalLabelStepFn smokeNext rootState trieNode0113Labels =
-      some (trieNode0113State, trieNode0113Gain) := by
-  unfold trieNode0113Labels trieNode0113Gain
-  exact evalLabelStepFn_append trieNode0112Eval trieNode0113StepEval
 
 private def trieNode0114State : State := edge0086.dst
 private def trieNode0114StepLabels : List SmokeLabel :=
@@ -11708,20 +10120,6 @@ private theorem trieNode0114Run :
   unfold trieNode0114Labels trieNode0114Gain
   exact BellmanLabelStepRun.append trieNode0113Run trieNode0114StepRun
 
-private theorem trieNode0114StepEval :
-    evalLabelStepFn smokeNext trieNode0113State
-      trieNode0114StepLabels =
-        some (trieNode0114State, trieNode0114StepGain) := by
-  change evalLabelStepFn smokeNext State.s0075
-    [SmokeLabel.l0013] = some (State.s0109, -10)
-  rfl
-
-private theorem trieNode0114Eval :
-    evalLabelStepFn smokeNext rootState trieNode0114Labels =
-      some (trieNode0114State, trieNode0114Gain) := by
-  unfold trieNode0114Labels trieNode0114Gain
-  exact evalLabelStepFn_append trieNode0113Eval trieNode0114StepEval
-
 private def trieNode0115State : State := edge0120.dst
 private def trieNode0115StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -11745,20 +10143,6 @@ private theorem trieNode0115Run :
       trieNode0115Labels trieNode0115Gain := by
   unfold trieNode0115Labels trieNode0115Gain
   exact BellmanLabelStepRun.append trieNode0114Run trieNode0115StepRun
-
-private theorem trieNode0115StepEval :
-    evalLabelStepFn smokeNext trieNode0114State
-      trieNode0115StepLabels =
-        some (trieNode0115State, trieNode0115StepGain) := by
-  change evalLabelStepFn smokeNext State.s0109
-    [SmokeLabel.l0009] = some (State.s0138, -73)
-  rfl
-
-private theorem trieNode0115Eval :
-    evalLabelStepFn smokeNext rootState trieNode0115Labels =
-      some (trieNode0115State, trieNode0115Gain) := by
-  unfold trieNode0115Labels trieNode0115Gain
-  exact evalLabelStepFn_append trieNode0114Eval trieNode0115StepEval
 
 private def trieNode0116State : State := edge0131.dst
 private def trieNode0116StepLabels : List SmokeLabel :=
@@ -11784,20 +10168,6 @@ private theorem trieNode0116Run :
   unfold trieNode0116Labels trieNode0116Gain
   exact BellmanLabelStepRun.append trieNode0094Run trieNode0116StepRun
 
-private theorem trieNode0116StepEval :
-    evalLabelStepFn smokeNext trieNode0094State
-      trieNode0116StepLabels =
-        some (trieNode0116State, trieNode0116StepGain) := by
-  change evalLabelStepFn smokeNext State.s0145
-    [SmokeLabel.l0013] = some (State.s0149, -10)
-  rfl
-
-private theorem trieNode0116Eval :
-    evalLabelStepFn smokeNext rootState trieNode0116Labels =
-      some (trieNode0116State, trieNode0116Gain) := by
-  unfold trieNode0116Labels trieNode0116Gain
-  exact evalLabelStepFn_append trieNode0094Eval trieNode0116StepEval
-
 private def trieNode0117State : State := edge0139.dst
 private def trieNode0117StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -11821,20 +10191,6 @@ private theorem trieNode0117Run :
       trieNode0117Labels trieNode0117Gain := by
   unfold trieNode0117Labels trieNode0117Gain
   exact BellmanLabelStepRun.append trieNode0116Run trieNode0117StepRun
-
-private theorem trieNode0117StepEval :
-    evalLabelStepFn smokeNext trieNode0116State
-      trieNode0117StepLabels =
-        some (trieNode0117State, trieNode0117StepGain) := by
-  change evalLabelStepFn smokeNext State.s0149
-    [SmokeLabel.l0011] = some (State.s0153, -73)
-  rfl
-
-private theorem trieNode0117Eval :
-    evalLabelStepFn smokeNext rootState trieNode0117Labels =
-      some (trieNode0117State, trieNode0117Gain) := by
-  unfold trieNode0117Labels trieNode0117Gain
-  exact evalLabelStepFn_append trieNode0116Eval trieNode0117StepEval
 
 private def trieNode0118State : State := edge0145.dst
 private def trieNode0118StepLabels : List SmokeLabel :=
@@ -11860,20 +10216,6 @@ private theorem trieNode0118Run :
   unfold trieNode0118Labels trieNode0118Gain
   exact BellmanLabelStepRun.append trieNode0117Run trieNode0118StepRun
 
-private theorem trieNode0118StepEval :
-    evalLabelStepFn smokeNext trieNode0117State
-      trieNode0118StepLabels =
-        some (trieNode0118State, trieNode0118StepGain) := by
-  change evalLabelStepFn smokeNext State.s0153
-    [SmokeLabel.l0000] = some (State.s0163, -124)
-  rfl
-
-private theorem trieNode0118Eval :
-    evalLabelStepFn smokeNext rootState trieNode0118Labels =
-      some (trieNode0118State, trieNode0118Gain) := by
-  unfold trieNode0118Labels trieNode0118Gain
-  exact evalLabelStepFn_append trieNode0117Eval trieNode0118StepEval
-
 private def trieNode0119State : State := edge0158.dst
 private def trieNode0119StepLabels : List SmokeLabel :=
   [SmokeLabel.l0004]
@@ -11897,20 +10239,6 @@ private theorem trieNode0119Run :
       trieNode0119Labels trieNode0119Gain := by
   unfold trieNode0119Labels trieNode0119Gain
   exact BellmanLabelStepRun.append trieNode0118Run trieNode0119StepRun
-
-private theorem trieNode0119StepEval :
-    evalLabelStepFn smokeNext trieNode0118State
-      trieNode0119StepLabels =
-        some (trieNode0119State, trieNode0119StepGain) := by
-  change evalLabelStepFn smokeNext State.s0163
-    [SmokeLabel.l0004] = some (State.s0176, 96)
-  rfl
-
-private theorem trieNode0119Eval :
-    evalLabelStepFn smokeNext rootState trieNode0119Labels =
-      some (trieNode0119State, trieNode0119Gain) := by
-  unfold trieNode0119Labels trieNode0119Gain
-  exact evalLabelStepFn_append trieNode0118Eval trieNode0119StepEval
 
 private def trieNode0120State : State := edge0173.dst
 private def trieNode0120StepLabels : List SmokeLabel :=
@@ -11936,20 +10264,6 @@ private theorem trieNode0120Run :
   unfold trieNode0120Labels trieNode0120Gain
   exact BellmanLabelStepRun.append trieNode0119Run trieNode0120StepRun
 
-private theorem trieNode0120StepEval :
-    evalLabelStepFn smokeNext trieNode0119State
-      trieNode0120StepLabels =
-        some (trieNode0120State, trieNode0120StepGain) := by
-  change evalLabelStepFn smokeNext State.s0176
-    [SmokeLabel.l0006] = some (State.s0191, -36)
-  rfl
-
-private theorem trieNode0120Eval :
-    evalLabelStepFn smokeNext rootState trieNode0120Labels =
-      some (trieNode0120State, trieNode0120Gain) := by
-  unfold trieNode0120Labels trieNode0120Gain
-  exact evalLabelStepFn_append trieNode0119Eval trieNode0120StepEval
-
 private def trieNode0121State : State := edge0190.dst
 private def trieNode0121StepLabels : List SmokeLabel :=
   [SmokeLabel.l0005]
@@ -11973,20 +10287,6 @@ private theorem trieNode0121Run :
       trieNode0121Labels trieNode0121Gain := by
   unfold trieNode0121Labels trieNode0121Gain
   exact BellmanLabelStepRun.append trieNode0120Run trieNode0121StepRun
-
-private theorem trieNode0121StepEval :
-    evalLabelStepFn smokeNext trieNode0120State
-      trieNode0121StepLabels =
-        some (trieNode0121State, trieNode0121StepGain) := by
-  change evalLabelStepFn smokeNext State.s0191
-    [SmokeLabel.l0005] = some (State.s0208, -144)
-  rfl
-
-private theorem trieNode0121Eval :
-    evalLabelStepFn smokeNext rootState trieNode0121Labels =
-      some (trieNode0121State, trieNode0121Gain) := by
-  unfold trieNode0121Labels trieNode0121Gain
-  exact evalLabelStepFn_append trieNode0120Eval trieNode0121StepEval
 
 private def trieNode0122State : State := edge0210.dst
 private def trieNode0122StepLabels : List SmokeLabel :=
@@ -12012,20 +10312,6 @@ private theorem trieNode0122Run :
   unfold trieNode0122Labels trieNode0122Gain
   exact BellmanLabelStepRun.append trieNode0121Run trieNode0122StepRun
 
-private theorem trieNode0122StepEval :
-    evalLabelStepFn smokeNext trieNode0121State
-      trieNode0122StepLabels =
-        some (trieNode0122State, trieNode0122StepGain) := by
-  change evalLabelStepFn smokeNext State.s0208
-    [SmokeLabel.l0002] = some (State.s0006, -144)
-  rfl
-
-private theorem trieNode0122Eval :
-    evalLabelStepFn smokeNext rootState trieNode0122Labels =
-      some (trieNode0122State, trieNode0122Gain) := by
-  unfold trieNode0122Labels trieNode0122Gain
-  exact evalLabelStepFn_append trieNode0121Eval trieNode0122StepEval
-
 private def trieNode0123State : State := edge0006.dst
 private def trieNode0123StepLabels : List SmokeLabel :=
   [SmokeLabel.l0007]
@@ -12049,20 +10335,6 @@ private theorem trieNode0123Run :
       trieNode0123Labels trieNode0123Gain := by
   unfold trieNode0123Labels trieNode0123Gain
   exact BellmanLabelStepRun.append trieNode0122Run trieNode0123StepRun
-
-private theorem trieNode0123StepEval :
-    evalLabelStepFn smokeNext trieNode0122State
-      trieNode0123StepLabels =
-        some (trieNode0123State, trieNode0123StepGain) := by
-  change evalLabelStepFn smokeNext State.s0006
-    [SmokeLabel.l0007] = some (State.s0036, -36)
-  rfl
-
-private theorem trieNode0123Eval :
-    evalLabelStepFn smokeNext rootState trieNode0123Labels =
-      some (trieNode0123State, trieNode0123Gain) := by
-  unfold trieNode0123Labels trieNode0123Gain
-  exact evalLabelStepFn_append trieNode0122Eval trieNode0123StepEval
 
 private def trieNode0124State : State := edge0045.dst
 private def trieNode0124StepLabels : List SmokeLabel :=
@@ -12088,20 +10360,6 @@ private theorem trieNode0124Run :
   unfold trieNode0124Labels trieNode0124Gain
   exact BellmanLabelStepRun.append trieNode0123Run trieNode0124StepRun
 
-private theorem trieNode0124StepEval :
-    evalLabelStepFn smokeNext trieNode0123State
-      trieNode0124StepLabels =
-        some (trieNode0124State, trieNode0124StepGain) := by
-  change evalLabelStepFn smokeNext State.s0036
-    [SmokeLabel.l0003] = some (State.s0069, 96)
-  rfl
-
-private theorem trieNode0124Eval :
-    evalLabelStepFn smokeNext rootState trieNode0124Labels =
-      some (trieNode0124State, trieNode0124Gain) := by
-  unfold trieNode0124Labels trieNode0124Gain
-  exact evalLabelStepFn_append trieNode0123Eval trieNode0124StepEval
-
 private def trieNode0125State : State := edge0080.dst
 private def trieNode0125StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -12125,20 +10383,6 @@ private theorem trieNode0125Run :
       trieNode0125Labels trieNode0125Gain := by
   unfold trieNode0125Labels trieNode0125Gain
   exact BellmanLabelStepRun.append trieNode0124Run trieNode0125StepRun
-
-private theorem trieNode0125StepEval :
-    evalLabelStepFn smokeNext trieNode0124State
-      trieNode0125StepLabels =
-        some (trieNode0125State, trieNode0125StepGain) := by
-  change evalLabelStepFn smokeNext State.s0069
-    [SmokeLabel.l0001] = some (State.s0112, -124)
-  rfl
-
-private theorem trieNode0125Eval :
-    evalLabelStepFn smokeNext rootState trieNode0125Labels =
-      some (trieNode0125State, trieNode0125Gain) := by
-  unfold trieNode0125Labels trieNode0125Gain
-  exact evalLabelStepFn_append trieNode0124Eval trieNode0125StepEval
 
 private def trieNode0126State : State := edge0123.dst
 private def trieNode0126StepLabels : List SmokeLabel :=
@@ -12164,20 +10408,6 @@ private theorem trieNode0126Run :
   unfold trieNode0126Labels trieNode0126Gain
   exact BellmanLabelStepRun.append trieNode0125Run trieNode0126StepRun
 
-private theorem trieNode0126StepEval :
-    evalLabelStepFn smokeNext trieNode0125State
-      trieNode0126StepLabels =
-        some (trieNode0126State, trieNode0126StepGain) := by
-  change evalLabelStepFn smokeNext State.s0112
-    [SmokeLabel.l0009] = some (State.s0141, -73)
-  rfl
-
-private theorem trieNode0126Eval :
-    evalLabelStepFn smokeNext rootState trieNode0126Labels =
-      some (trieNode0126State, trieNode0126Gain) := by
-  unfold trieNode0126Labels trieNode0126Gain
-  exact evalLabelStepFn_append trieNode0125Eval trieNode0126StepEval
-
 private def trieNode0127State : State := edge0140.dst
 private def trieNode0127StepLabels : List SmokeLabel :=
   [SmokeLabel.l0002]
@@ -12201,20 +10431,6 @@ private theorem trieNode0127Run :
       trieNode0127Labels trieNode0127Gain := by
   unfold trieNode0127Labels trieNode0127Gain
   exact BellmanLabelStepRun.append trieNode0116Run trieNode0127StepRun
-
-private theorem trieNode0127StepEval :
-    evalLabelStepFn smokeNext trieNode0116State
-      trieNode0127StepLabels =
-        some (trieNode0127State, trieNode0127StepGain) := by
-  change evalLabelStepFn smokeNext State.s0149
-    [SmokeLabel.l0002] = some (State.s0158, -124)
-  rfl
-
-private theorem trieNode0127Eval :
-    evalLabelStepFn smokeNext rootState trieNode0127Labels =
-      some (trieNode0127State, trieNode0127Gain) := by
-  unfold trieNode0127Labels trieNode0127Gain
-  exact evalLabelStepFn_append trieNode0116Eval trieNode0127StepEval
 
 private def trieNode0128State : State := edge0152.dst
 private def trieNode0128StepLabels : List SmokeLabel :=
@@ -12240,20 +10456,6 @@ private theorem trieNode0128Run :
   unfold trieNode0128Labels trieNode0128Gain
   exact BellmanLabelStepRun.append trieNode0127Run trieNode0128StepRun
 
-private theorem trieNode0128StepEval :
-    evalLabelStepFn smokeNext trieNode0127State
-      trieNode0128StepLabels =
-        some (trieNode0128State, trieNode0128StepGain) := by
-  change evalLabelStepFn smokeNext State.s0158
-    [SmokeLabel.l0006] = some (State.s0170, 96)
-  rfl
-
-private theorem trieNode0128Eval :
-    evalLabelStepFn smokeNext rootState trieNode0128Labels =
-      some (trieNode0128State, trieNode0128Gain) := by
-  unfold trieNode0128Labels trieNode0128Gain
-  exact evalLabelStepFn_append trieNode0127Eval trieNode0128StepEval
-
 private def trieNode0129State : State := edge0166.dst
 private def trieNode0129StepLabels : List SmokeLabel :=
   [SmokeLabel.l0004]
@@ -12277,20 +10479,6 @@ private theorem trieNode0129Run :
       trieNode0129Labels trieNode0129Gain := by
   unfold trieNode0129Labels trieNode0129Gain
   exact BellmanLabelStepRun.append trieNode0128Run trieNode0129StepRun
-
-private theorem trieNode0129StepEval :
-    evalLabelStepFn smokeNext trieNode0128State
-      trieNode0129StepLabels =
-        some (trieNode0129State, trieNode0129StepGain) := by
-  change evalLabelStepFn smokeNext State.s0170
-    [SmokeLabel.l0004] = some (State.s0184, -36)
-  rfl
-
-private theorem trieNode0129Eval :
-    evalLabelStepFn smokeNext rootState trieNode0129Labels =
-      some (trieNode0129State, trieNode0129Gain) := by
-  unfold trieNode0129Labels trieNode0129Gain
-  exact evalLabelStepFn_append trieNode0128Eval trieNode0129StepEval
 
 private def trieNode0130State : State := edge0182.dst
 private def trieNode0130StepLabels : List SmokeLabel :=
@@ -12316,20 +10504,6 @@ private theorem trieNode0130Run :
   unfold trieNode0130Labels trieNode0130Gain
   exact BellmanLabelStepRun.append trieNode0129Run trieNode0130StepRun
 
-private theorem trieNode0130StepEval :
-    evalLabelStepFn smokeNext trieNode0129State
-      trieNode0130StepLabels =
-        some (trieNode0130State, trieNode0130StepGain) := by
-  change evalLabelStepFn smokeNext State.s0184
-    [SmokeLabel.l0007] = some (State.s0200, -144)
-  rfl
-
-private theorem trieNode0130Eval :
-    evalLabelStepFn smokeNext rootState trieNode0130Labels =
-      some (trieNode0130State, trieNode0130Gain) := by
-  unfold trieNode0130Labels trieNode0130Gain
-  exact evalLabelStepFn_append trieNode0129Eval trieNode0130StepEval
-
 private def trieNode0131State : State := edge0200.dst
 private def trieNode0131StepLabels : List SmokeLabel :=
   [SmokeLabel.l0000]
@@ -12353,20 +10527,6 @@ private theorem trieNode0131Run :
       trieNode0131Labels trieNode0131Gain := by
   unfold trieNode0131Labels trieNode0131Gain
   exact BellmanLabelStepRun.append trieNode0130Run trieNode0131StepRun
-
-private theorem trieNode0131StepEval :
-    evalLabelStepFn smokeNext trieNode0130State
-      trieNode0131StepLabels =
-        some (trieNode0131State, trieNode0131StepGain) := by
-  change evalLabelStepFn smokeNext State.s0200
-    [SmokeLabel.l0000] = some (State.s0219, -144)
-  rfl
-
-private theorem trieNode0131Eval :
-    evalLabelStepFn smokeNext rootState trieNode0131Labels =
-      some (trieNode0131State, trieNode0131Gain) := by
-  unfold trieNode0131Labels trieNode0131Gain
-  exact evalLabelStepFn_append trieNode0130Eval trieNode0131StepEval
 
 private def trieNode0132State : State := edge0223.dst
 private def trieNode0132StepLabels : List SmokeLabel :=
@@ -12392,20 +10552,6 @@ private theorem trieNode0132Run :
   unfold trieNode0132Labels trieNode0132Gain
   exact BellmanLabelStepRun.append trieNode0131Run trieNode0132StepRun
 
-private theorem trieNode0132StepEval :
-    evalLabelStepFn smokeNext trieNode0131State
-      trieNode0132StepLabels =
-        some (trieNode0132State, trieNode0132StepGain) := by
-  change evalLabelStepFn smokeNext State.s0219
-    [SmokeLabel.l0005] = some (State.s0020, -36)
-  rfl
-
-private theorem trieNode0132Eval :
-    evalLabelStepFn smokeNext rootState trieNode0132Labels =
-      some (trieNode0132State, trieNode0132Gain) := by
-  unfold trieNode0132Labels trieNode0132Gain
-  exact evalLabelStepFn_append trieNode0131Eval trieNode0132StepEval
-
 private def trieNode0133State : State := edge0027.dst
 private def trieNode0133StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -12429,20 +10575,6 @@ private theorem trieNode0133Run :
       trieNode0133Labels trieNode0133Gain := by
   unfold trieNode0133Labels trieNode0133Gain
   exact BellmanLabelStepRun.append trieNode0132Run trieNode0133StepRun
-
-private theorem trieNode0133StepEval :
-    evalLabelStepFn smokeNext trieNode0132State
-      trieNode0133StepLabels =
-        some (trieNode0133State, trieNode0133StepGain) := by
-  change evalLabelStepFn smokeNext State.s0020
-    [SmokeLabel.l0011] = some (State.s0035, -117)
-  rfl
-
-private theorem trieNode0133Eval :
-    evalLabelStepFn smokeNext rootState trieNode0133Labels =
-      some (trieNode0133State, trieNode0133Gain) := by
-  unfold trieNode0133Labels trieNode0133Gain
-  exact evalLabelStepFn_append trieNode0132Eval trieNode0133StepEval
 
 private def trieNode0134State : State := edge0044.dst
 private def trieNode0134StepLabels : List SmokeLabel :=
@@ -12468,20 +10600,6 @@ private theorem trieNode0134Run :
   unfold trieNode0134Labels trieNode0134Gain
   exact BellmanLabelStepRun.append trieNode0133Run trieNode0134StepRun
 
-private theorem trieNode0134StepEval :
-    evalLabelStepFn smokeNext trieNode0133State
-      trieNode0134StepLabels =
-        some (trieNode0134State, trieNode0134StepGain) := by
-  change evalLabelStepFn smokeNext State.s0035
-    [SmokeLabel.l0003] = some (State.s0068, 96)
-  rfl
-
-private theorem trieNode0134Eval :
-    evalLabelStepFn smokeNext rootState trieNode0134Labels =
-      some (trieNode0134State, trieNode0134Gain) := by
-  unfold trieNode0134Labels trieNode0134Gain
-  exact evalLabelStepFn_append trieNode0133Eval trieNode0134StepEval
-
 private def trieNode0135State : State := edge0079.dst
 private def trieNode0135StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -12505,20 +10623,6 @@ private theorem trieNode0135Run :
       trieNode0135Labels trieNode0135Gain := by
   unfold trieNode0135Labels trieNode0135Gain
   exact BellmanLabelStepRun.append trieNode0134Run trieNode0135StepRun
-
-private theorem trieNode0135StepEval :
-    evalLabelStepFn smokeNext trieNode0134State
-      trieNode0135StepLabels =
-        some (trieNode0135State, trieNode0135StepGain) := by
-  change evalLabelStepFn smokeNext State.s0068
-    [SmokeLabel.l0001] = some (State.s0111, -124)
-  rfl
-
-private theorem trieNode0135Eval :
-    evalLabelStepFn smokeNext rootState trieNode0135Labels =
-      some (trieNode0135State, trieNode0135Gain) := by
-  unfold trieNode0135Labels trieNode0135Gain
-  exact evalLabelStepFn_append trieNode0134Eval trieNode0135StepEval
 
 private def trieNode0136State : State := edge0122.dst
 private def trieNode0136StepLabels : List SmokeLabel :=
@@ -12544,20 +10648,6 @@ private theorem trieNode0136Run :
   unfold trieNode0136Labels trieNode0136Gain
   exact BellmanLabelStepRun.append trieNode0135Run trieNode0136StepRun
 
-private theorem trieNode0136StepEval :
-    evalLabelStepFn smokeNext trieNode0135State
-      trieNode0136StepLabels =
-        some (trieNode0136State, trieNode0136StepGain) := by
-  change evalLabelStepFn smokeNext State.s0111
-    [SmokeLabel.l0009] = some (State.s0140, -73)
-  rfl
-
-private theorem trieNode0136Eval :
-    evalLabelStepFn smokeNext rootState trieNode0136Labels =
-      some (trieNode0136State, trieNode0136Gain) := by
-  unfold trieNode0136Labels trieNode0136Gain
-  exact evalLabelStepFn_append trieNode0135Eval trieNode0136StepEval
-
 private def trieNode0137State : State := edge0028.dst
 private def trieNode0137StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -12581,20 +10671,6 @@ private theorem trieNode0137Run :
       trieNode0137Labels trieNode0137Gain := by
   unfold trieNode0137Labels trieNode0137Gain
   exact BellmanLabelStepRun.append trieNode0132Run trieNode0137StepRun
-
-private theorem trieNode0137StepEval :
-    evalLabelStepFn smokeNext trieNode0132State
-      trieNode0137StepLabels =
-        some (trieNode0137State, trieNode0137StepGain) := by
-  change evalLabelStepFn smokeNext State.s0020
-    [SmokeLabel.l0001] = some (State.s0050, 96)
-  rfl
-
-private theorem trieNode0137Eval :
-    evalLabelStepFn smokeNext rootState trieNode0137Labels =
-      some (trieNode0137State, trieNode0137Gain) := by
-  unfold trieNode0137Labels trieNode0137Gain
-  exact evalLabelStepFn_append trieNode0132Eval trieNode0137StepEval
 
 private def trieNode0138State : State := edge0059.dst
 private def trieNode0138StepLabels : List SmokeLabel :=
@@ -12620,20 +10696,6 @@ private theorem trieNode0138Run :
   unfold trieNode0138Labels trieNode0138Gain
   exact BellmanLabelStepRun.append trieNode0137Run trieNode0138StepRun
 
-private theorem trieNode0138StepEval :
-    evalLabelStepFn smokeNext trieNode0137State
-      trieNode0138StepLabels =
-        some (trieNode0138State, trieNode0138StepGain) := by
-  change evalLabelStepFn smokeNext State.s0050
-    [SmokeLabel.l0003] = some (State.s0083, -124)
-  rfl
-
-private theorem trieNode0138Eval :
-    evalLabelStepFn smokeNext rootState trieNode0138Labels =
-      some (trieNode0138State, trieNode0138Gain) := by
-  unfold trieNode0138Labels trieNode0138Gain
-  exact evalLabelStepFn_append trieNode0137Eval trieNode0138StepEval
-
 private def trieNode0139State : State := edge0094.dst
 private def trieNode0139StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -12657,20 +10719,6 @@ private theorem trieNode0139Run :
       trieNode0139Labels trieNode0139Gain := by
   unfold trieNode0139Labels trieNode0139Gain
   exact BellmanLabelStepRun.append trieNode0138Run trieNode0139StepRun
-
-private theorem trieNode0139StepEval :
-    evalLabelStepFn smokeNext trieNode0138State
-      trieNode0139StepLabels =
-        some (trieNode0139State, trieNode0139StepGain) := by
-  change evalLabelStepFn smokeNext State.s0083
-    [SmokeLabel.l0011] = some (State.s0110, 103)
-  rfl
-
-private theorem trieNode0139Eval :
-    evalLabelStepFn smokeNext rootState trieNode0139Labels =
-      some (trieNode0139State, trieNode0139Gain) := by
-  unfold trieNode0139Labels trieNode0139Gain
-  exact evalLabelStepFn_append trieNode0138Eval trieNode0139StepEval
 
 private def trieNode0140State : State := edge0121.dst
 private def trieNode0140StepLabels : List SmokeLabel :=
@@ -12696,20 +10744,6 @@ private theorem trieNode0140Run :
   unfold trieNode0140Labels trieNode0140Gain
   exact BellmanLabelStepRun.append trieNode0139Run trieNode0140StepRun
 
-private theorem trieNode0140StepEval :
-    evalLabelStepFn smokeNext trieNode0139State
-      trieNode0140StepLabels =
-        some (trieNode0140State, trieNode0140StepGain) := by
-  change evalLabelStepFn smokeNext State.s0110
-    [SmokeLabel.l0009] = some (State.s0139, -73)
-  rfl
-
-private theorem trieNode0140Eval :
-    evalLabelStepFn smokeNext rootState trieNode0140Labels =
-      some (trieNode0140State, trieNode0140Gain) := by
-  unfold trieNode0140Labels trieNode0140Gain
-  exact evalLabelStepFn_append trieNode0139Eval trieNode0140StepEval
-
 private def trieNode0141State : State := edge0132.dst
 private def trieNode0141StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -12733,20 +10767,6 @@ private theorem trieNode0141Run :
       trieNode0141Labels trieNode0141Gain := by
   unfold trieNode0141Labels trieNode0141Gain
   exact BellmanLabelStepRun.append trieNode0094Run trieNode0141StepRun
-
-private theorem trieNode0141StepEval :
-    evalLabelStepFn smokeNext trieNode0094State
-      trieNode0141StepLabels =
-        some (trieNode0141State, trieNode0141StepGain) := by
-  change evalLabelStepFn smokeNext State.s0145
-    [SmokeLabel.l0003] = some (State.s0151, -124)
-  rfl
-
-private theorem trieNode0141Eval :
-    evalLabelStepFn smokeNext rootState trieNode0141Labels =
-      some (trieNode0141State, trieNode0141Gain) := by
-  unfold trieNode0141Labels trieNode0141Gain
-  exact evalLabelStepFn_append trieNode0094Eval trieNode0141StepEval
 
 private def trieNode0142State : State := edge0142.dst
 private def trieNode0142StepLabels : List SmokeLabel :=
@@ -12772,20 +10792,6 @@ private theorem trieNode0142Run :
   unfold trieNode0142Labels trieNode0142Gain
   exact BellmanLabelStepRun.append trieNode0141Run trieNode0142StepRun
 
-private theorem trieNode0142StepEval :
-    evalLabelStepFn smokeNext trieNode0141State
-      trieNode0142StepLabels =
-        some (trieNode0142State, trieNode0142StepGain) := by
-  change evalLabelStepFn smokeNext State.s0151
-    [SmokeLabel.l0007] = some (State.s0160, 96)
-  rfl
-
-private theorem trieNode0142Eval :
-    evalLabelStepFn smokeNext rootState trieNode0142Labels =
-      some (trieNode0142State, trieNode0142Gain) := by
-  unfold trieNode0142Labels trieNode0142Gain
-  exact evalLabelStepFn_append trieNode0141Eval trieNode0142StepEval
-
 private def trieNode0143State : State := edge0154.dst
 private def trieNode0143StepLabels : List SmokeLabel :=
   [SmokeLabel.l0005]
@@ -12809,20 +10815,6 @@ private theorem trieNode0143Run :
       trieNode0143Labels trieNode0143Gain := by
   unfold trieNode0143Labels trieNode0143Gain
   exact BellmanLabelStepRun.append trieNode0142Run trieNode0143StepRun
-
-private theorem trieNode0143StepEval :
-    evalLabelStepFn smokeNext trieNode0142State
-      trieNode0143StepLabels =
-        some (trieNode0143State, trieNode0143StepGain) := by
-  change evalLabelStepFn smokeNext State.s0160
-    [SmokeLabel.l0005] = some (State.s0172, -36)
-  rfl
-
-private theorem trieNode0143Eval :
-    evalLabelStepFn smokeNext rootState trieNode0143Labels =
-      some (trieNode0143State, trieNode0143Gain) := by
-  unfold trieNode0143Labels trieNode0143Gain
-  exact evalLabelStepFn_append trieNode0142Eval trieNode0143StepEval
 
 private def trieNode0144State : State := edge0168.dst
 private def trieNode0144StepLabels : List SmokeLabel :=
@@ -12848,20 +10840,6 @@ private theorem trieNode0144Run :
   unfold trieNode0144Labels trieNode0144Gain
   exact BellmanLabelStepRun.append trieNode0143Run trieNode0144StepRun
 
-private theorem trieNode0144StepEval :
-    evalLabelStepFn smokeNext trieNode0143State
-      trieNode0144StepLabels =
-        some (trieNode0144State, trieNode0144StepGain) := by
-  change evalLabelStepFn smokeNext State.s0172
-    [SmokeLabel.l0006] = some (State.s0186, -144)
-  rfl
-
-private theorem trieNode0144Eval :
-    evalLabelStepFn smokeNext rootState trieNode0144Labels =
-      some (trieNode0144State, trieNode0144Gain) := by
-  unfold trieNode0144Labels trieNode0144Gain
-  exact evalLabelStepFn_append trieNode0143Eval trieNode0144StepEval
-
 private def trieNode0145State : State := edge0184.dst
 private def trieNode0145StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -12885,20 +10863,6 @@ private theorem trieNode0145Run :
       trieNode0145Labels trieNode0145Gain := by
   unfold trieNode0145Labels trieNode0145Gain
   exact BellmanLabelStepRun.append trieNode0144Run trieNode0145StepRun
-
-private theorem trieNode0145StepEval :
-    evalLabelStepFn smokeNext trieNode0144State
-      trieNode0145StepLabels =
-        some (trieNode0145State, trieNode0145StepGain) := by
-  change evalLabelStepFn smokeNext State.s0186
-    [SmokeLabel.l0001] = some (State.s0202, -144)
-  rfl
-
-private theorem trieNode0145Eval :
-    evalLabelStepFn smokeNext rootState trieNode0145Labels =
-      some (trieNode0145State, trieNode0145Gain) := by
-  unfold trieNode0145Labels trieNode0145Gain
-  exact evalLabelStepFn_append trieNode0144Eval trieNode0145StepEval
 
 private def trieNode0146State : State := edge0202.dst
 private def trieNode0146StepLabels : List SmokeLabel :=
@@ -12924,20 +10888,6 @@ private theorem trieNode0146Run :
   unfold trieNode0146Labels trieNode0146Gain
   exact BellmanLabelStepRun.append trieNode0145Run trieNode0146StepRun
 
-private theorem trieNode0146StepEval :
-    evalLabelStepFn smokeNext trieNode0145State
-      trieNode0146StepLabels =
-        some (trieNode0146State, trieNode0146StepGain) := by
-  change evalLabelStepFn smokeNext State.s0202
-    [SmokeLabel.l0004] = some (State.s0221, -36)
-  rfl
-
-private theorem trieNode0146Eval :
-    evalLabelStepFn smokeNext rootState trieNode0146Labels =
-      some (trieNode0146State, trieNode0146Gain) := by
-  unfold trieNode0146Labels trieNode0146Gain
-  exact evalLabelStepFn_append trieNode0145Eval trieNode0146StepEval
-
 private def trieNode0147State : State := edge0226.dst
 private def trieNode0147StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -12961,20 +10911,6 @@ private theorem trieNode0147Run :
       trieNode0147Labels trieNode0147Gain := by
   unfold trieNode0147Labels trieNode0147Gain
   exact BellmanLabelStepRun.append trieNode0146Run trieNode0147StepRun
-
-private theorem trieNode0147StepEval :
-    evalLabelStepFn smokeNext trieNode0146State
-      trieNode0147StepLabels =
-        some (trieNode0147State, trieNode0147StepGain) := by
-  change evalLabelStepFn smokeNext State.s0221
-    [SmokeLabel.l0011] = some (State.s0010, -117)
-  rfl
-
-private theorem trieNode0147Eval :
-    evalLabelStepFn smokeNext rootState trieNode0147Labels =
-      some (trieNode0147State, trieNode0147Gain) := by
-  unfold trieNode0147Labels trieNode0147Gain
-  exact evalLabelStepFn_append trieNode0146Eval trieNode0147StepEval
 
 private def trieNode0148State : State := edge0010.dst
 private def trieNode0148StepLabels : List SmokeLabel :=
@@ -13000,20 +10936,6 @@ private theorem trieNode0148Run :
   unfold trieNode0148Labels trieNode0148Gain
   exact BellmanLabelStepRun.append trieNode0147Run trieNode0148StepRun
 
-private theorem trieNode0148StepEval :
-    evalLabelStepFn smokeNext trieNode0147State
-      trieNode0148StepLabels =
-        some (trieNode0148State, trieNode0148StepGain) := by
-  change evalLabelStepFn smokeNext State.s0010
-    [SmokeLabel.l0002] = some (State.s0040, 96)
-  rfl
-
-private theorem trieNode0148Eval :
-    evalLabelStepFn smokeNext rootState trieNode0148Labels =
-      some (trieNode0148State, trieNode0148Gain) := by
-  unfold trieNode0148Labels trieNode0148Gain
-  exact evalLabelStepFn_append trieNode0147Eval trieNode0148StepEval
-
 private def trieNode0149State : State := edge0049.dst
 private def trieNode0149StepLabels : List SmokeLabel :=
   [SmokeLabel.l0000]
@@ -13037,20 +10959,6 @@ private theorem trieNode0149Run :
       trieNode0149Labels trieNode0149Gain := by
   unfold trieNode0149Labels trieNode0149Gain
   exact BellmanLabelStepRun.append trieNode0148Run trieNode0149StepRun
-
-private theorem trieNode0149StepEval :
-    evalLabelStepFn smokeNext trieNode0148State
-      trieNode0149StepLabels =
-        some (trieNode0149State, trieNode0149StepGain) := by
-  change evalLabelStepFn smokeNext State.s0040
-    [SmokeLabel.l0000] = some (State.s0073, -124)
-  rfl
-
-private theorem trieNode0149Eval :
-    evalLabelStepFn smokeNext rootState trieNode0149Labels =
-      some (trieNode0149State, trieNode0149Gain) := by
-  unfold trieNode0149Labels trieNode0149Gain
-  exact evalLabelStepFn_append trieNode0148Eval trieNode0149StepEval
 
 private def trieNode0150State : State := edge0084.dst
 private def trieNode0150StepLabels : List SmokeLabel :=
@@ -13076,20 +10984,6 @@ private theorem trieNode0150Run :
   unfold trieNode0150Labels trieNode0150Gain
   exact BellmanLabelStepRun.append trieNode0149Run trieNode0150StepRun
 
-private theorem trieNode0150StepEval :
-    evalLabelStepFn smokeNext trieNode0149State
-      trieNode0150StepLabels =
-        some (trieNode0150State, trieNode0150StepGain) := by
-  change evalLabelStepFn smokeNext State.s0073
-    [SmokeLabel.l0013] = some (State.s0107, -10)
-  rfl
-
-private theorem trieNode0150Eval :
-    evalLabelStepFn smokeNext rootState trieNode0150Labels =
-      some (trieNode0150State, trieNode0150Gain) := by
-  unfold trieNode0150Labels trieNode0150Gain
-  exact evalLabelStepFn_append trieNode0149Eval trieNode0150StepEval
-
 private def trieNode0151State : State := edge0118.dst
 private def trieNode0151StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -13113,20 +11007,6 @@ private theorem trieNode0151Run :
       trieNode0151Labels trieNode0151Gain := by
   unfold trieNode0151Labels trieNode0151Gain
   exact BellmanLabelStepRun.append trieNode0150Run trieNode0151StepRun
-
-private theorem trieNode0151StepEval :
-    evalLabelStepFn smokeNext trieNode0150State
-      trieNode0151StepLabels =
-        some (trieNode0151State, trieNode0151StepGain) := by
-  change evalLabelStepFn smokeNext State.s0107
-    [SmokeLabel.l0009] = some (State.s0136, -73)
-  rfl
-
-private theorem trieNode0151Eval :
-    evalLabelStepFn smokeNext rootState trieNode0151Labels =
-      some (trieNode0151State, trieNode0151Gain) := by
-  unfold trieNode0151Labels trieNode0151Gain
-  exact evalLabelStepFn_append trieNode0150Eval trieNode0151StepEval
 
 private def trieNode0152State : State := edge0227.dst
 private def trieNode0152StepLabels : List SmokeLabel :=
@@ -13152,20 +11032,6 @@ private theorem trieNode0152Run :
   unfold trieNode0152Labels trieNode0152Gain
   exact BellmanLabelStepRun.append trieNode0146Run trieNode0152StepRun
 
-private theorem trieNode0152StepEval :
-    evalLabelStepFn smokeNext trieNode0146State
-      trieNode0152StepLabels =
-        some (trieNode0152State, trieNode0152StepGain) := by
-  change evalLabelStepFn smokeNext State.s0221
-    [SmokeLabel.l0000] = some (State.s0021, 96)
-  rfl
-
-private theorem trieNode0152Eval :
-    evalLabelStepFn smokeNext rootState trieNode0152Labels =
-      some (trieNode0152State, trieNode0152Gain) := by
-  unfold trieNode0152Labels trieNode0152Gain
-  exact evalLabelStepFn_append trieNode0146Eval trieNode0152StepEval
-
 private def trieNode0153State : State := edge0029.dst
 private def trieNode0153StepLabels : List SmokeLabel :=
   [SmokeLabel.l0002]
@@ -13189,20 +11055,6 @@ private theorem trieNode0153Run :
       trieNode0153Labels trieNode0153Gain := by
   unfold trieNode0153Labels trieNode0153Gain
   exact BellmanLabelStepRun.append trieNode0152Run trieNode0153StepRun
-
-private theorem trieNode0153StepEval :
-    evalLabelStepFn smokeNext trieNode0152State
-      trieNode0153StepLabels =
-        some (trieNode0153State, trieNode0153StepGain) := by
-  change evalLabelStepFn smokeNext State.s0021
-    [SmokeLabel.l0002] = some (State.s0052, -124)
-  rfl
-
-private theorem trieNode0153Eval :
-    evalLabelStepFn smokeNext rootState trieNode0153Labels =
-      some (trieNode0153State, trieNode0153Gain) := by
-  unfold trieNode0153Labels trieNode0153Gain
-  exact evalLabelStepFn_append trieNode0152Eval trieNode0153StepEval
 
 private def trieNode0154State : State := edge0062.dst
 private def trieNode0154StepLabels : List SmokeLabel :=
@@ -13228,20 +11080,6 @@ private theorem trieNode0154Run :
   unfold trieNode0154Labels trieNode0154Gain
   exact BellmanLabelStepRun.append trieNode0153Run trieNode0154StepRun
 
-private theorem trieNode0154StepEval :
-    evalLabelStepFn smokeNext trieNode0153State
-      trieNode0154StepLabels =
-        some (trieNode0154State, trieNode0154StepGain) := by
-  change evalLabelStepFn smokeNext State.s0052
-    [SmokeLabel.l0011] = some (State.s0074, 103)
-  rfl
-
-private theorem trieNode0154Eval :
-    evalLabelStepFn smokeNext rootState trieNode0154Labels =
-      some (trieNode0154State, trieNode0154Gain) := by
-  unfold trieNode0154Labels trieNode0154Gain
-  exact evalLabelStepFn_append trieNode0153Eval trieNode0154StepEval
-
 private def trieNode0155State : State := edge0085.dst
 private def trieNode0155StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -13265,20 +11103,6 @@ private theorem trieNode0155Run :
       trieNode0155Labels trieNode0155Gain := by
   unfold trieNode0155Labels trieNode0155Gain
   exact BellmanLabelStepRun.append trieNode0154Run trieNode0155StepRun
-
-private theorem trieNode0155StepEval :
-    evalLabelStepFn smokeNext trieNode0154State
-      trieNode0155StepLabels =
-        some (trieNode0155State, trieNode0155StepGain) := by
-  change evalLabelStepFn smokeNext State.s0074
-    [SmokeLabel.l0013] = some (State.s0108, -10)
-  rfl
-
-private theorem trieNode0155Eval :
-    evalLabelStepFn smokeNext rootState trieNode0155Labels =
-      some (trieNode0155State, trieNode0155Gain) := by
-  unfold trieNode0155Labels trieNode0155Gain
-  exact evalLabelStepFn_append trieNode0154Eval trieNode0155StepEval
 
 private def trieNode0156State : State := edge0119.dst
 private def trieNode0156StepLabels : List SmokeLabel :=
@@ -13304,20 +11128,6 @@ private theorem trieNode0156Run :
   unfold trieNode0156Labels trieNode0156Gain
   exact BellmanLabelStepRun.append trieNode0155Run trieNode0156StepRun
 
-private theorem trieNode0156StepEval :
-    evalLabelStepFn smokeNext trieNode0155State
-      trieNode0156StepLabels =
-        some (trieNode0156State, trieNode0156StepGain) := by
-  change evalLabelStepFn smokeNext State.s0108
-    [SmokeLabel.l0009] = some (State.s0137, -73)
-  rfl
-
-private theorem trieNode0156Eval :
-    evalLabelStepFn smokeNext rootState trieNode0156Labels =
-      some (trieNode0156State, trieNode0156Gain) := by
-  unfold trieNode0156Labels trieNode0156Gain
-  exact evalLabelStepFn_append trieNode0155Eval trieNode0156StepEval
-
 private def trieNode0157State : State := edge0063.dst
 private def trieNode0157StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -13341,20 +11151,6 @@ private theorem trieNode0157Run :
       trieNode0157Labels trieNode0157Gain := by
   unfold trieNode0157Labels trieNode0157Gain
   exact BellmanLabelStepRun.append trieNode0153Run trieNode0157StepRun
-
-private theorem trieNode0157StepEval :
-    evalLabelStepFn smokeNext trieNode0153State
-      trieNode0157StepLabels =
-        some (trieNode0157State, trieNode0157StepGain) := by
-  change evalLabelStepFn smokeNext State.s0052
-    [SmokeLabel.l0013] = some (State.s0082, -10)
-  rfl
-
-private theorem trieNode0157Eval :
-    evalLabelStepFn smokeNext rootState trieNode0157Labels =
-      some (trieNode0157State, trieNode0157Gain) := by
-  unfold trieNode0157Labels trieNode0157Gain
-  exact evalLabelStepFn_append trieNode0153Eval trieNode0157StepEval
 
 private def trieNode0158State : State := edge0093.dst
 private def trieNode0158StepLabels : List SmokeLabel :=
@@ -13380,20 +11176,6 @@ private theorem trieNode0158Run :
   unfold trieNode0158Labels trieNode0158Gain
   exact BellmanLabelStepRun.append trieNode0157Run trieNode0158StepRun
 
-private theorem trieNode0158StepEval :
-    evalLabelStepFn smokeNext trieNode0157State
-      trieNode0158StepLabels =
-        some (trieNode0158State, trieNode0158StepGain) := by
-  change evalLabelStepFn smokeNext State.s0082
-    [SmokeLabel.l0011] = some (State.s0108, 103)
-  rfl
-
-private theorem trieNode0158Eval :
-    evalLabelStepFn smokeNext rootState trieNode0158Labels =
-      some (trieNode0158State, trieNode0158Gain) := by
-  unfold trieNode0158Labels trieNode0158Gain
-  exact evalLabelStepFn_append trieNode0157Eval trieNode0158StepEval
-
 private def trieNode0159State : State := edge0119.dst
 private def trieNode0159StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -13417,20 +11199,6 @@ private theorem trieNode0159Run :
       trieNode0159Labels trieNode0159Gain := by
   unfold trieNode0159Labels trieNode0159Gain
   exact BellmanLabelStepRun.append trieNode0158Run trieNode0159StepRun
-
-private theorem trieNode0159StepEval :
-    evalLabelStepFn smokeNext trieNode0158State
-      trieNode0159StepLabels =
-        some (trieNode0159State, trieNode0159StepGain) := by
-  change evalLabelStepFn smokeNext State.s0108
-    [SmokeLabel.l0009] = some (State.s0137, -73)
-  rfl
-
-private theorem trieNode0159Eval :
-    evalLabelStepFn smokeNext rootState trieNode0159Labels =
-      some (trieNode0159State, trieNode0159Gain) := by
-  unfold trieNode0159Labels trieNode0159Gain
-  exact evalLabelStepFn_append trieNode0158Eval trieNode0159StepEval
 
 private def trieNode0160State : State := edge0127.dst
 private def trieNode0160StepLabels : List SmokeLabel :=
@@ -13456,20 +11224,6 @@ private theorem trieNode0160Run :
   unfold trieNode0160Labels trieNode0160Gain
   exact BellmanLabelStepRun.append trieNode0002Run trieNode0160StepRun
 
-private theorem trieNode0160StepEval :
-    evalLabelStepFn smokeNext trieNode0002State
-      trieNode0160StepLabels =
-        some (trieNode0160State, trieNode0160StepGain) := by
-  change evalLabelStepFn smokeNext State.s0143
-    [SmokeLabel.l0002] = some (State.s0146, -124)
-  rfl
-
-private theorem trieNode0160Eval :
-    evalLabelStepFn smokeNext rootState trieNode0160Labels =
-      some (trieNode0160State, trieNode0160Gain) := by
-  unfold trieNode0160Labels trieNode0160Gain
-  exact evalLabelStepFn_append trieNode0002Eval trieNode0160StepEval
-
 private def trieNode0161State : State := edge0133.dst
 private def trieNode0161StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
@@ -13493,20 +11247,6 @@ private theorem trieNode0161Run :
       trieNode0161Labels trieNode0161Gain := by
   unfold trieNode0161Labels trieNode0161Gain
   exact BellmanLabelStepRun.append trieNode0160Run trieNode0161StepRun
-
-private theorem trieNode0161StepEval :
-    evalLabelStepFn smokeNext trieNode0160State
-      trieNode0161StepLabels =
-        some (trieNode0161State, trieNode0161StepGain) := by
-  change evalLabelStepFn smokeNext State.s0146
-    [SmokeLabel.l0012] = some (State.s0150, 114)
-  rfl
-
-private theorem trieNode0161Eval :
-    evalLabelStepFn smokeNext rootState trieNode0161Labels =
-      some (trieNode0161State, trieNode0161Gain) := by
-  unfold trieNode0161Labels trieNode0161Gain
-  exact evalLabelStepFn_append trieNode0160Eval trieNode0161StepEval
 
 private def trieNode0162State : State := edge0141.dst
 private def trieNode0162StepLabels : List SmokeLabel :=
@@ -13532,20 +11272,6 @@ private theorem trieNode0162Run :
   unfold trieNode0162Labels trieNode0162Gain
   exact BellmanLabelStepRun.append trieNode0161Run trieNode0162StepRun
 
-private theorem trieNode0162StepEval :
-    evalLabelStepFn smokeNext trieNode0161State
-      trieNode0162StepLabels =
-        some (trieNode0162State, trieNode0162StepGain) := by
-  change evalLabelStepFn smokeNext State.s0150
-    [SmokeLabel.l0013] = some (State.s0157, 114)
-  rfl
-
-private theorem trieNode0162Eval :
-    evalLabelStepFn smokeNext rootState trieNode0162Labels =
-      some (trieNode0162State, trieNode0162Gain) := by
-  unfold trieNode0162Labels trieNode0162Gain
-  exact evalLabelStepFn_append trieNode0161Eval trieNode0162StepEval
-
 private def trieNode0163State : State := edge0151.dst
 private def trieNode0163StepLabels : List SmokeLabel :=
   [SmokeLabel.l0006]
@@ -13569,20 +11295,6 @@ private theorem trieNode0163Run :
       trieNode0163Labels trieNode0163Gain := by
   unfold trieNode0163Labels trieNode0163Gain
   exact BellmanLabelStepRun.append trieNode0162Run trieNode0163StepRun
-
-private theorem trieNode0163StepEval :
-    evalLabelStepFn smokeNext trieNode0162State
-      trieNode0163StepLabels =
-        some (trieNode0163State, trieNode0163StepGain) := by
-  change evalLabelStepFn smokeNext State.s0157
-    [SmokeLabel.l0006] = some (State.s0169, 96)
-  rfl
-
-private theorem trieNode0163Eval :
-    evalLabelStepFn smokeNext rootState trieNode0163Labels =
-      some (trieNode0163State, trieNode0163Gain) := by
-  unfold trieNode0163Labels trieNode0163Gain
-  exact evalLabelStepFn_append trieNode0162Eval trieNode0163StepEval
 
 private def trieNode0164State : State := edge0165.dst
 private def trieNode0164StepLabels : List SmokeLabel :=
@@ -13608,20 +11320,6 @@ private theorem trieNode0164Run :
   unfold trieNode0164Labels trieNode0164Gain
   exact BellmanLabelStepRun.append trieNode0163Run trieNode0164StepRun
 
-private theorem trieNode0164StepEval :
-    evalLabelStepFn smokeNext trieNode0163State
-      trieNode0164StepLabels =
-        some (trieNode0164State, trieNode0164StepGain) := by
-  change evalLabelStepFn smokeNext State.s0169
-    [SmokeLabel.l0004] = some (State.s0183, -36)
-  rfl
-
-private theorem trieNode0164Eval :
-    evalLabelStepFn smokeNext rootState trieNode0164Labels =
-      some (trieNode0164State, trieNode0164Gain) := by
-  unfold trieNode0164Labels trieNode0164Gain
-  exact evalLabelStepFn_append trieNode0163Eval trieNode0164StepEval
-
 private def trieNode0165State : State := edge0181.dst
 private def trieNode0165StepLabels : List SmokeLabel :=
   [SmokeLabel.l0007]
@@ -13645,20 +11343,6 @@ private theorem trieNode0165Run :
       trieNode0165Labels trieNode0165Gain := by
   unfold trieNode0165Labels trieNode0165Gain
   exact BellmanLabelStepRun.append trieNode0164Run trieNode0165StepRun
-
-private theorem trieNode0165StepEval :
-    evalLabelStepFn smokeNext trieNode0164State
-      trieNode0165StepLabels =
-        some (trieNode0165State, trieNode0165StepGain) := by
-  change evalLabelStepFn smokeNext State.s0183
-    [SmokeLabel.l0007] = some (State.s0199, -144)
-  rfl
-
-private theorem trieNode0165Eval :
-    evalLabelStepFn smokeNext rootState trieNode0165Labels =
-      some (trieNode0165State, trieNode0165Gain) := by
-  unfold trieNode0165Labels trieNode0165Gain
-  exact evalLabelStepFn_append trieNode0164Eval trieNode0165StepEval
 
 private def trieNode0166State : State := edge0199.dst
 private def trieNode0166StepLabels : List SmokeLabel :=
@@ -13684,20 +11368,6 @@ private theorem trieNode0166Run :
   unfold trieNode0166Labels trieNode0166Gain
   exact BellmanLabelStepRun.append trieNode0165Run trieNode0166StepRun
 
-private theorem trieNode0166StepEval :
-    evalLabelStepFn smokeNext trieNode0165State
-      trieNode0166StepLabels =
-        some (trieNode0166State, trieNode0166StepGain) := by
-  change evalLabelStepFn smokeNext State.s0199
-    [SmokeLabel.l0000] = some (State.s0218, -144)
-  rfl
-
-private theorem trieNode0166Eval :
-    evalLabelStepFn smokeNext rootState trieNode0166Labels =
-      some (trieNode0166State, trieNode0166Gain) := by
-  unfold trieNode0166Labels trieNode0166Gain
-  exact evalLabelStepFn_append trieNode0165Eval trieNode0166StepEval
-
 private def trieNode0167State : State := edge0222.dst
 private def trieNode0167StepLabels : List SmokeLabel :=
   [SmokeLabel.l0005]
@@ -13721,20 +11391,6 @@ private theorem trieNode0167Run :
       trieNode0167Labels trieNode0167Gain := by
   unfold trieNode0167Labels trieNode0167Gain
   exact BellmanLabelStepRun.append trieNode0166Run trieNode0167StepRun
-
-private theorem trieNode0167StepEval :
-    evalLabelStepFn smokeNext trieNode0166State
-      trieNode0167StepLabels =
-        some (trieNode0167State, trieNode0167StepGain) := by
-  change evalLabelStepFn smokeNext State.s0218
-    [SmokeLabel.l0005] = some (State.s0019, -36)
-  rfl
-
-private theorem trieNode0167Eval :
-    evalLabelStepFn smokeNext rootState trieNode0167Labels =
-      some (trieNode0167State, trieNode0167Gain) := by
-  unfold trieNode0167Labels trieNode0167Gain
-  exact evalLabelStepFn_append trieNode0166Eval trieNode0167StepEval
 
 private def trieNode0168State : State := edge0026.dst
 private def trieNode0168StepLabels : List SmokeLabel :=
@@ -13760,20 +11416,6 @@ private theorem trieNode0168Run :
   unfold trieNode0168Labels trieNode0168Gain
   exact BellmanLabelStepRun.append trieNode0167Run trieNode0168StepRun
 
-private theorem trieNode0168StepEval :
-    evalLabelStepFn smokeNext trieNode0167State
-      trieNode0168StepLabels =
-        some (trieNode0168State, trieNode0168StepGain) := by
-  change evalLabelStepFn smokeNext State.s0019
-    [SmokeLabel.l0011] = some (State.s0028, -117)
-  rfl
-
-private theorem trieNode0168Eval :
-    evalLabelStepFn smokeNext rootState trieNode0168Labels =
-      some (trieNode0168State, trieNode0168Gain) := by
-  unfold trieNode0168Labels trieNode0168Gain
-  exact evalLabelStepFn_append trieNode0167Eval trieNode0168StepEval
-
 private def trieNode0169State : State := edge0037.dst
 private def trieNode0169StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -13797,20 +11439,6 @@ private theorem trieNode0169Run :
       trieNode0169Labels trieNode0169Gain := by
   unfold trieNode0169Labels trieNode0169Gain
   exact BellmanLabelStepRun.append trieNode0168Run trieNode0169StepRun
-
-private theorem trieNode0169StepEval :
-    evalLabelStepFn smokeNext trieNode0168State
-      trieNode0169StepLabels =
-        some (trieNode0169State, trieNode0169StepGain) := by
-  change evalLabelStepFn smokeNext State.s0028
-    [SmokeLabel.l0003] = some (State.s0059, 96)
-  rfl
-
-private theorem trieNode0169Eval :
-    evalLabelStepFn smokeNext rootState trieNode0169Labels =
-      some (trieNode0169State, trieNode0169Gain) := by
-  unfold trieNode0169Labels trieNode0169Gain
-  exact evalLabelStepFn_append trieNode0168Eval trieNode0169StepEval
 
 private def trieNode0170State : State := edge0070.dst
 private def trieNode0170StepLabels : List SmokeLabel :=
@@ -13836,20 +11464,6 @@ private theorem trieNode0170Run :
   unfold trieNode0170Labels trieNode0170Gain
   exact BellmanLabelStepRun.append trieNode0169Run trieNode0170StepRun
 
-private theorem trieNode0170StepEval :
-    evalLabelStepFn smokeNext trieNode0169State
-      trieNode0170StepLabels =
-        some (trieNode0170State, trieNode0170StepGain) := by
-  change evalLabelStepFn smokeNext State.s0059
-    [SmokeLabel.l0001] = some (State.s0097, -124)
-  rfl
-
-private theorem trieNode0170Eval :
-    evalLabelStepFn smokeNext rootState trieNode0170Labels =
-      some (trieNode0170State, trieNode0170Gain) := by
-  unfold trieNode0170Labels trieNode0170Gain
-  exact evalLabelStepFn_append trieNode0169Eval trieNode0170StepEval
-
 private def trieNode0171State : State := edge0108.dst
 private def trieNode0171StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -13873,20 +11487,6 @@ private theorem trieNode0171Run :
       trieNode0171Labels trieNode0171Gain := by
   unfold trieNode0171Labels trieNode0171Gain
   exact BellmanLabelStepRun.append trieNode0170Run trieNode0171StepRun
-
-private theorem trieNode0171StepEval :
-    evalLabelStepFn smokeNext trieNode0170State
-      trieNode0171StepLabels =
-        some (trieNode0171State, trieNode0171StepGain) := by
-  change evalLabelStepFn smokeNext State.s0097
-    [SmokeLabel.l0009] = some (State.s0126, -73)
-  rfl
-
-private theorem trieNode0171Eval :
-    evalLabelStepFn smokeNext rootState trieNode0171Labels =
-      some (trieNode0171State, trieNode0171Gain) := by
-  unfold trieNode0171Labels trieNode0171Gain
-  exact evalLabelStepFn_append trieNode0170Eval trieNode0171StepEval
 
 private def trieNode0172State : State := edge0134.dst
 private def trieNode0172StepLabels : List SmokeLabel :=
@@ -13912,20 +11512,6 @@ private theorem trieNode0172Run :
   unfold trieNode0172Labels trieNode0172Gain
   exact BellmanLabelStepRun.append trieNode0160Run trieNode0172StepRun
 
-private theorem trieNode0172StepEval :
-    evalLabelStepFn smokeNext trieNode0160State
-      trieNode0172StepLabels =
-        some (trieNode0172State, trieNode0172StepGain) := by
-  change evalLabelStepFn smokeNext State.s0146
-    [SmokeLabel.l0006] = some (State.s0152, 96)
-  rfl
-
-private theorem trieNode0172Eval :
-    evalLabelStepFn smokeNext rootState trieNode0172Labels =
-      some (trieNode0172State, trieNode0172Gain) := by
-  unfold trieNode0172Labels trieNode0172Gain
-  exact evalLabelStepFn_append trieNode0160Eval trieNode0172StepEval
-
 private def trieNode0173State : State := edge0143.dst
 private def trieNode0173StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -13949,20 +11535,6 @@ private theorem trieNode0173Run :
       trieNode0173Labels trieNode0173Gain := by
   unfold trieNode0173Labels trieNode0173Gain
   exact BellmanLabelStepRun.append trieNode0172Run trieNode0173StepRun
-
-private theorem trieNode0173StepEval :
-    evalLabelStepFn smokeNext trieNode0172State
-      trieNode0173StepLabels =
-        some (trieNode0173State, trieNode0173StepGain) := by
-  change evalLabelStepFn smokeNext State.s0152
-    [SmokeLabel.l0013] = some (State.s0159, -18)
-  rfl
-
-private theorem trieNode0173Eval :
-    evalLabelStepFn smokeNext rootState trieNode0173Labels =
-      some (trieNode0173State, trieNode0173Gain) := by
-  unfold trieNode0173Labels trieNode0173Gain
-  exact evalLabelStepFn_append trieNode0172Eval trieNode0173StepEval
 
 private def trieNode0174State : State := edge0153.dst
 private def trieNode0174StepLabels : List SmokeLabel :=
@@ -13988,20 +11560,6 @@ private theorem trieNode0174Run :
   unfold trieNode0174Labels trieNode0174Gain
   exact BellmanLabelStepRun.append trieNode0173Run trieNode0174StepRun
 
-private theorem trieNode0174StepEval :
-    evalLabelStepFn smokeNext trieNode0173State
-      trieNode0174StepLabels =
-        some (trieNode0174State, trieNode0174StepGain) := by
-  change evalLabelStepFn smokeNext State.s0159
-    [SmokeLabel.l0012] = some (State.s0168, -18)
-  rfl
-
-private theorem trieNode0174Eval :
-    evalLabelStepFn smokeNext rootState trieNode0174Labels =
-      some (trieNode0174State, trieNode0174Gain) := by
-  unfold trieNode0174Labels trieNode0174Gain
-  exact evalLabelStepFn_append trieNode0173Eval trieNode0174StepEval
-
 private def trieNode0175State : State := edge0164.dst
 private def trieNode0175StepLabels : List SmokeLabel :=
   [SmokeLabel.l0004]
@@ -14025,20 +11583,6 @@ private theorem trieNode0175Run :
       trieNode0175Labels trieNode0175Gain := by
   unfold trieNode0175Labels trieNode0175Gain
   exact BellmanLabelStepRun.append trieNode0174Run trieNode0175StepRun
-
-private theorem trieNode0175StepEval :
-    evalLabelStepFn smokeNext trieNode0174State
-      trieNode0175StepLabels =
-        some (trieNode0175State, trieNode0175StepGain) := by
-  change evalLabelStepFn smokeNext State.s0168
-    [SmokeLabel.l0004] = some (State.s0182, -36)
-  rfl
-
-private theorem trieNode0175Eval :
-    evalLabelStepFn smokeNext rootState trieNode0175Labels =
-      some (trieNode0175State, trieNode0175Gain) := by
-  unfold trieNode0175Labels trieNode0175Gain
-  exact evalLabelStepFn_append trieNode0174Eval trieNode0175StepEval
 
 private def trieNode0176State : State := edge0180.dst
 private def trieNode0176StepLabels : List SmokeLabel :=
@@ -14064,20 +11608,6 @@ private theorem trieNode0176Run :
   unfold trieNode0176Labels trieNode0176Gain
   exact BellmanLabelStepRun.append trieNode0175Run trieNode0176StepRun
 
-private theorem trieNode0176StepEval :
-    evalLabelStepFn smokeNext trieNode0175State
-      trieNode0176StepLabels =
-        some (trieNode0176State, trieNode0176StepGain) := by
-  change evalLabelStepFn smokeNext State.s0182
-    [SmokeLabel.l0007] = some (State.s0198, -144)
-  rfl
-
-private theorem trieNode0176Eval :
-    evalLabelStepFn smokeNext rootState trieNode0176Labels =
-      some (trieNode0176State, trieNode0176Gain) := by
-  unfold trieNode0176Labels trieNode0176Gain
-  exact evalLabelStepFn_append trieNode0175Eval trieNode0176StepEval
-
 private def trieNode0177State : State := edge0198.dst
 private def trieNode0177StepLabels : List SmokeLabel :=
   [SmokeLabel.l0000]
@@ -14101,20 +11631,6 @@ private theorem trieNode0177Run :
       trieNode0177Labels trieNode0177Gain := by
   unfold trieNode0177Labels trieNode0177Gain
   exact BellmanLabelStepRun.append trieNode0176Run trieNode0177StepRun
-
-private theorem trieNode0177StepEval :
-    evalLabelStepFn smokeNext trieNode0176State
-      trieNode0177StepLabels =
-        some (trieNode0177State, trieNode0177StepGain) := by
-  change evalLabelStepFn smokeNext State.s0198
-    [SmokeLabel.l0000] = some (State.s0217, -144)
-  rfl
-
-private theorem trieNode0177Eval :
-    evalLabelStepFn smokeNext rootState trieNode0177Labels =
-      some (trieNode0177State, trieNode0177Gain) := by
-  unfold trieNode0177Labels trieNode0177Gain
-  exact evalLabelStepFn_append trieNode0176Eval trieNode0177StepEval
 
 private def trieNode0178State : State := edge0221.dst
 private def trieNode0178StepLabels : List SmokeLabel :=
@@ -14140,20 +11656,6 @@ private theorem trieNode0178Run :
   unfold trieNode0178Labels trieNode0178Gain
   exact BellmanLabelStepRun.append trieNode0177Run trieNode0178StepRun
 
-private theorem trieNode0178StepEval :
-    evalLabelStepFn smokeNext trieNode0177State
-      trieNode0178StepLabels =
-        some (trieNode0178State, trieNode0178StepGain) := by
-  change evalLabelStepFn smokeNext State.s0217
-    [SmokeLabel.l0005] = some (State.s0018, -36)
-  rfl
-
-private theorem trieNode0178Eval :
-    evalLabelStepFn smokeNext rootState trieNode0178Labels =
-      some (trieNode0178State, trieNode0178Gain) := by
-  unfold trieNode0178Labels trieNode0178Gain
-  exact evalLabelStepFn_append trieNode0177Eval trieNode0178StepEval
-
 private def trieNode0179State : State := edge0024.dst
 private def trieNode0179StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -14177,20 +11679,6 @@ private theorem trieNode0179Run :
       trieNode0179Labels trieNode0179Gain := by
   unfold trieNode0179Labels trieNode0179Gain
   exact BellmanLabelStepRun.append trieNode0178Run trieNode0179StepRun
-
-private theorem trieNode0179StepEval :
-    evalLabelStepFn smokeNext trieNode0178State
-      trieNode0179StepLabels =
-        some (trieNode0179State, trieNode0179StepGain) := by
-  change evalLabelStepFn smokeNext State.s0018
-    [SmokeLabel.l0011] = some (State.s0027, -117)
-  rfl
-
-private theorem trieNode0179Eval :
-    evalLabelStepFn smokeNext rootState trieNode0179Labels =
-      some (trieNode0179State, trieNode0179Gain) := by
-  unfold trieNode0179Labels trieNode0179Gain
-  exact evalLabelStepFn_append trieNode0178Eval trieNode0179StepEval
 
 private def trieNode0180State : State := edge0036.dst
 private def trieNode0180StepLabels : List SmokeLabel :=
@@ -14216,20 +11704,6 @@ private theorem trieNode0180Run :
   unfold trieNode0180Labels trieNode0180Gain
   exact BellmanLabelStepRun.append trieNode0179Run trieNode0180StepRun
 
-private theorem trieNode0180StepEval :
-    evalLabelStepFn smokeNext trieNode0179State
-      trieNode0180StepLabels =
-        some (trieNode0180State, trieNode0180StepGain) := by
-  change evalLabelStepFn smokeNext State.s0027
-    [SmokeLabel.l0003] = some (State.s0058, 96)
-  rfl
-
-private theorem trieNode0180Eval :
-    evalLabelStepFn smokeNext rootState trieNode0180Labels =
-      some (trieNode0180State, trieNode0180Gain) := by
-  unfold trieNode0180Labels trieNode0180Gain
-  exact evalLabelStepFn_append trieNode0179Eval trieNode0180StepEval
-
 private def trieNode0181State : State := edge0069.dst
 private def trieNode0181StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -14253,20 +11727,6 @@ private theorem trieNode0181Run :
       trieNode0181Labels trieNode0181Gain := by
   unfold trieNode0181Labels trieNode0181Gain
   exact BellmanLabelStepRun.append trieNode0180Run trieNode0181StepRun
-
-private theorem trieNode0181StepEval :
-    evalLabelStepFn smokeNext trieNode0180State
-      trieNode0181StepLabels =
-        some (trieNode0181State, trieNode0181StepGain) := by
-  change evalLabelStepFn smokeNext State.s0058
-    [SmokeLabel.l0001] = some (State.s0096, -124)
-  rfl
-
-private theorem trieNode0181Eval :
-    evalLabelStepFn smokeNext rootState trieNode0181Labels =
-      some (trieNode0181State, trieNode0181Gain) := by
-  unfold trieNode0181Labels trieNode0181Gain
-  exact evalLabelStepFn_append trieNode0180Eval trieNode0181StepEval
 
 private def trieNode0182State : State := edge0107.dst
 private def trieNode0182StepLabels : List SmokeLabel :=
@@ -14292,20 +11752,6 @@ private theorem trieNode0182Run :
   unfold trieNode0182Labels trieNode0182Gain
   exact BellmanLabelStepRun.append trieNode0181Run trieNode0182StepRun
 
-private theorem trieNode0182StepEval :
-    evalLabelStepFn smokeNext trieNode0181State
-      trieNode0182StepLabels =
-        some (trieNode0182State, trieNode0182StepGain) := by
-  change evalLabelStepFn smokeNext State.s0096
-    [SmokeLabel.l0009] = some (State.s0125, -73)
-  rfl
-
-private theorem trieNode0182Eval :
-    evalLabelStepFn smokeNext rootState trieNode0182Labels =
-      some (trieNode0182State, trieNode0182Gain) := by
-  unfold trieNode0182Labels trieNode0182Gain
-  exact evalLabelStepFn_append trieNode0181Eval trieNode0182StepEval
-
 private def trieNode0183State : State := edge0025.dst
 private def trieNode0183StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -14329,20 +11775,6 @@ private theorem trieNode0183Run :
       trieNode0183Labels trieNode0183Gain := by
   unfold trieNode0183Labels trieNode0183Gain
   exact BellmanLabelStepRun.append trieNode0178Run trieNode0183StepRun
-
-private theorem trieNode0183StepEval :
-    evalLabelStepFn smokeNext trieNode0178State
-      trieNode0183StepLabels =
-        some (trieNode0183State, trieNode0183StepGain) := by
-  change evalLabelStepFn smokeNext State.s0018
-    [SmokeLabel.l0001] = some (State.s0049, 96)
-  rfl
-
-private theorem trieNode0183Eval :
-    evalLabelStepFn smokeNext rootState trieNode0183Labels =
-      some (trieNode0183State, trieNode0183Gain) := by
-  unfold trieNode0183Labels trieNode0183Gain
-  exact evalLabelStepFn_append trieNode0178Eval trieNode0183StepEval
 
 private def trieNode0184State : State := edge0058.dst
 private def trieNode0184StepLabels : List SmokeLabel :=
@@ -14368,20 +11800,6 @@ private theorem trieNode0184Run :
   unfold trieNode0184Labels trieNode0184Gain
   exact BellmanLabelStepRun.append trieNode0183Run trieNode0184StepRun
 
-private theorem trieNode0184StepEval :
-    evalLabelStepFn smokeNext trieNode0183State
-      trieNode0184StepLabels =
-        some (trieNode0184State, trieNode0184StepGain) := by
-  change evalLabelStepFn smokeNext State.s0049
-    [SmokeLabel.l0003] = some (State.s0081, -124)
-  rfl
-
-private theorem trieNode0184Eval :
-    evalLabelStepFn smokeNext rootState trieNode0184Labels =
-      some (trieNode0184State, trieNode0184Gain) := by
-  unfold trieNode0184Labels trieNode0184Gain
-  exact evalLabelStepFn_append trieNode0183Eval trieNode0184StepEval
-
 private def trieNode0185State : State := edge0092.dst
 private def trieNode0185StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -14405,20 +11823,6 @@ private theorem trieNode0185Run :
       trieNode0185Labels trieNode0185Gain := by
   unfold trieNode0185Labels trieNode0185Gain
   exact BellmanLabelStepRun.append trieNode0184Run trieNode0185StepRun
-
-private theorem trieNode0185StepEval :
-    evalLabelStepFn smokeNext trieNode0184State
-      trieNode0185StepLabels =
-        some (trieNode0185State, trieNode0185StepGain) := by
-  change evalLabelStepFn smokeNext State.s0081
-    [SmokeLabel.l0011] = some (State.s0095, 103)
-  rfl
-
-private theorem trieNode0185Eval :
-    evalLabelStepFn smokeNext rootState trieNode0185Labels =
-      some (trieNode0185State, trieNode0185Gain) := by
-  unfold trieNode0185Labels trieNode0185Gain
-  exact evalLabelStepFn_append trieNode0184Eval trieNode0185StepEval
 
 private def trieNode0186State : State := edge0106.dst
 private def trieNode0186StepLabels : List SmokeLabel :=
@@ -14444,20 +11848,6 @@ private theorem trieNode0186Run :
   unfold trieNode0186Labels trieNode0186Gain
   exact BellmanLabelStepRun.append trieNode0185Run trieNode0186StepRun
 
-private theorem trieNode0186StepEval :
-    evalLabelStepFn smokeNext trieNode0185State
-      trieNode0186StepLabels =
-        some (trieNode0186State, trieNode0186StepGain) := by
-  change evalLabelStepFn smokeNext State.s0095
-    [SmokeLabel.l0009] = some (State.s0124, -73)
-  rfl
-
-private theorem trieNode0186Eval :
-    evalLabelStepFn smokeNext rootState trieNode0186Labels =
-      some (trieNode0186State, trieNode0186Gain) := by
-  unfold trieNode0186Labels trieNode0186Gain
-  exact evalLabelStepFn_append trieNode0185Eval trieNode0186StepEval
-
 private def trieNode0187State : State := edge0144.dst
 private def trieNode0187StepLabels : List SmokeLabel :=
   [SmokeLabel.l0004]
@@ -14481,20 +11871,6 @@ private theorem trieNode0187Run :
       trieNode0187Labels trieNode0187Gain := by
   unfold trieNode0187Labels trieNode0187Gain
   exact BellmanLabelStepRun.append trieNode0172Run trieNode0187StepRun
-
-private theorem trieNode0187StepEval :
-    evalLabelStepFn smokeNext trieNode0172State
-      trieNode0187StepLabels =
-        some (trieNode0187State, trieNode0187StepGain) := by
-  change evalLabelStepFn smokeNext State.s0152
-    [SmokeLabel.l0004] = some (State.s0161, -36)
-  rfl
-
-private theorem trieNode0187Eval :
-    evalLabelStepFn smokeNext rootState trieNode0187Labels =
-      some (trieNode0187State, trieNode0187Gain) := by
-  unfold trieNode0187Labels trieNode0187Gain
-  exact evalLabelStepFn_append trieNode0172Eval trieNode0187StepEval
 
 private def trieNode0188State : State := edge0155.dst
 private def trieNode0188StepLabels : List SmokeLabel :=
@@ -14520,20 +11896,6 @@ private theorem trieNode0188Run :
   unfold trieNode0188Labels trieNode0188Gain
   exact BellmanLabelStepRun.append trieNode0187Run trieNode0188StepRun
 
-private theorem trieNode0188StepEval :
-    evalLabelStepFn smokeNext trieNode0187State
-      trieNode0188StepLabels =
-        some (trieNode0188State, trieNode0188StepGain) := by
-  change evalLabelStepFn smokeNext State.s0161
-    [SmokeLabel.l0013] = some (State.s0171, -54)
-  rfl
-
-private theorem trieNode0188Eval :
-    evalLabelStepFn smokeNext rootState trieNode0188Labels =
-      some (trieNode0188State, trieNode0188Gain) := by
-  unfold trieNode0188Labels trieNode0188Gain
-  exact evalLabelStepFn_append trieNode0187Eval trieNode0188StepEval
-
 private def trieNode0189State : State := edge0167.dst
 private def trieNode0189StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
@@ -14557,20 +11919,6 @@ private theorem trieNode0189Run :
       trieNode0189Labels trieNode0189Gain := by
   unfold trieNode0189Labels trieNode0189Gain
   exact BellmanLabelStepRun.append trieNode0188Run trieNode0189StepRun
-
-private theorem trieNode0189StepEval :
-    evalLabelStepFn smokeNext trieNode0188State
-      trieNode0189StepLabels =
-        some (trieNode0189State, trieNode0189StepGain) := by
-  change evalLabelStepFn smokeNext State.s0171
-    [SmokeLabel.l0012] = some (State.s0181, -54)
-  rfl
-
-private theorem trieNode0189Eval :
-    evalLabelStepFn smokeNext rootState trieNode0189Labels =
-      some (trieNode0189State, trieNode0189Gain) := by
-  unfold trieNode0189Labels trieNode0189Gain
-  exact evalLabelStepFn_append trieNode0188Eval trieNode0189StepEval
 
 private def trieNode0190State : State := edge0179.dst
 private def trieNode0190StepLabels : List SmokeLabel :=
@@ -14596,20 +11944,6 @@ private theorem trieNode0190Run :
   unfold trieNode0190Labels trieNode0190Gain
   exact BellmanLabelStepRun.append trieNode0189Run trieNode0190StepRun
 
-private theorem trieNode0190StepEval :
-    evalLabelStepFn smokeNext trieNode0189State
-      trieNode0190StepLabels =
-        some (trieNode0190State, trieNode0190StepGain) := by
-  change evalLabelStepFn smokeNext State.s0181
-    [SmokeLabel.l0007] = some (State.s0197, -144)
-  rfl
-
-private theorem trieNode0190Eval :
-    evalLabelStepFn smokeNext rootState trieNode0190Labels =
-      some (trieNode0190State, trieNode0190Gain) := by
-  unfold trieNode0190Labels trieNode0190Gain
-  exact evalLabelStepFn_append trieNode0189Eval trieNode0190StepEval
-
 private def trieNode0191State : State := edge0197.dst
 private def trieNode0191StepLabels : List SmokeLabel :=
   [SmokeLabel.l0000]
@@ -14633,20 +11967,6 @@ private theorem trieNode0191Run :
       trieNode0191Labels trieNode0191Gain := by
   unfold trieNode0191Labels trieNode0191Gain
   exact BellmanLabelStepRun.append trieNode0190Run trieNode0191StepRun
-
-private theorem trieNode0191StepEval :
-    evalLabelStepFn smokeNext trieNode0190State
-      trieNode0191StepLabels =
-        some (trieNode0191State, trieNode0191StepGain) := by
-  change evalLabelStepFn smokeNext State.s0197
-    [SmokeLabel.l0000] = some (State.s0216, -144)
-  rfl
-
-private theorem trieNode0191Eval :
-    evalLabelStepFn smokeNext rootState trieNode0191Labels =
-      some (trieNode0191State, trieNode0191Gain) := by
-  unfold trieNode0191Labels trieNode0191Gain
-  exact evalLabelStepFn_append trieNode0190Eval trieNode0191StepEval
 
 private def trieNode0192State : State := edge0220.dst
 private def trieNode0192StepLabels : List SmokeLabel :=
@@ -14672,20 +11992,6 @@ private theorem trieNode0192Run :
   unfold trieNode0192Labels trieNode0192Gain
   exact BellmanLabelStepRun.append trieNode0191Run trieNode0192StepRun
 
-private theorem trieNode0192StepEval :
-    evalLabelStepFn smokeNext trieNode0191State
-      trieNode0192StepLabels =
-        some (trieNode0192State, trieNode0192StepGain) := by
-  change evalLabelStepFn smokeNext State.s0216
-    [SmokeLabel.l0005] = some (State.s0017, -36)
-  rfl
-
-private theorem trieNode0192Eval :
-    evalLabelStepFn smokeNext rootState trieNode0192Labels =
-      some (trieNode0192State, trieNode0192Gain) := by
-  unfold trieNode0192Labels trieNode0192Gain
-  exact evalLabelStepFn_append trieNode0191Eval trieNode0192StepEval
-
 private def trieNode0193State : State := edge0022.dst
 private def trieNode0193StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -14709,20 +12015,6 @@ private theorem trieNode0193Run :
       trieNode0193Labels trieNode0193Gain := by
   unfold trieNode0193Labels trieNode0193Gain
   exact BellmanLabelStepRun.append trieNode0192Run trieNode0193StepRun
-
-private theorem trieNode0193StepEval :
-    evalLabelStepFn smokeNext trieNode0192State
-      trieNode0193StepLabels =
-        some (trieNode0193State, trieNode0193StepGain) := by
-  change evalLabelStepFn smokeNext State.s0017
-    [SmokeLabel.l0011] = some (State.s0026, -117)
-  rfl
-
-private theorem trieNode0193Eval :
-    evalLabelStepFn smokeNext rootState trieNode0193Labels =
-      some (trieNode0193State, trieNode0193Gain) := by
-  unfold trieNode0193Labels trieNode0193Gain
-  exact evalLabelStepFn_append trieNode0192Eval trieNode0193StepEval
 
 private def trieNode0194State : State := edge0035.dst
 private def trieNode0194StepLabels : List SmokeLabel :=
@@ -14748,20 +12040,6 @@ private theorem trieNode0194Run :
   unfold trieNode0194Labels trieNode0194Gain
   exact BellmanLabelStepRun.append trieNode0193Run trieNode0194StepRun
 
-private theorem trieNode0194StepEval :
-    evalLabelStepFn smokeNext trieNode0193State
-      trieNode0194StepLabels =
-        some (trieNode0194State, trieNode0194StepGain) := by
-  change evalLabelStepFn smokeNext State.s0026
-    [SmokeLabel.l0003] = some (State.s0057, 96)
-  rfl
-
-private theorem trieNode0194Eval :
-    evalLabelStepFn smokeNext rootState trieNode0194Labels =
-      some (trieNode0194State, trieNode0194Gain) := by
-  unfold trieNode0194Labels trieNode0194Gain
-  exact evalLabelStepFn_append trieNode0193Eval trieNode0194StepEval
-
 private def trieNode0195State : State := edge0068.dst
 private def trieNode0195StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -14785,20 +12063,6 @@ private theorem trieNode0195Run :
       trieNode0195Labels trieNode0195Gain := by
   unfold trieNode0195Labels trieNode0195Gain
   exact BellmanLabelStepRun.append trieNode0194Run trieNode0195StepRun
-
-private theorem trieNode0195StepEval :
-    evalLabelStepFn smokeNext trieNode0194State
-      trieNode0195StepLabels =
-        some (trieNode0195State, trieNode0195StepGain) := by
-  change evalLabelStepFn smokeNext State.s0057
-    [SmokeLabel.l0001] = some (State.s0094, -124)
-  rfl
-
-private theorem trieNode0195Eval :
-    evalLabelStepFn smokeNext rootState trieNode0195Labels =
-      some (trieNode0195State, trieNode0195Gain) := by
-  unfold trieNode0195Labels trieNode0195Gain
-  exact evalLabelStepFn_append trieNode0194Eval trieNode0195StepEval
 
 private def trieNode0196State : State := edge0105.dst
 private def trieNode0196StepLabels : List SmokeLabel :=
@@ -14824,20 +12088,6 @@ private theorem trieNode0196Run :
   unfold trieNode0196Labels trieNode0196Gain
   exact BellmanLabelStepRun.append trieNode0195Run trieNode0196StepRun
 
-private theorem trieNode0196StepEval :
-    evalLabelStepFn smokeNext trieNode0195State
-      trieNode0196StepLabels =
-        some (trieNode0196State, trieNode0196StepGain) := by
-  change evalLabelStepFn smokeNext State.s0094
-    [SmokeLabel.l0009] = some (State.s0123, -73)
-  rfl
-
-private theorem trieNode0196Eval :
-    evalLabelStepFn smokeNext rootState trieNode0196Labels =
-      some (trieNode0196State, trieNode0196Gain) := by
-  unfold trieNode0196Labels trieNode0196Gain
-  exact evalLabelStepFn_append trieNode0195Eval trieNode0196StepEval
-
 private def trieNode0197State : State := edge0023.dst
 private def trieNode0197StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -14861,20 +12111,6 @@ private theorem trieNode0197Run :
       trieNode0197Labels trieNode0197Gain := by
   unfold trieNode0197Labels trieNode0197Gain
   exact BellmanLabelStepRun.append trieNode0192Run trieNode0197StepRun
-
-private theorem trieNode0197StepEval :
-    evalLabelStepFn smokeNext trieNode0192State
-      trieNode0197StepLabels =
-        some (trieNode0197State, trieNode0197StepGain) := by
-  change evalLabelStepFn smokeNext State.s0017
-    [SmokeLabel.l0001] = some (State.s0048, 96)
-  rfl
-
-private theorem trieNode0197Eval :
-    evalLabelStepFn smokeNext rootState trieNode0197Labels =
-      some (trieNode0197State, trieNode0197Gain) := by
-  unfold trieNode0197Labels trieNode0197Gain
-  exact evalLabelStepFn_append trieNode0192Eval trieNode0197StepEval
 
 private def trieNode0198State : State := edge0057.dst
 private def trieNode0198StepLabels : List SmokeLabel :=
@@ -14900,20 +12136,6 @@ private theorem trieNode0198Run :
   unfold trieNode0198Labels trieNode0198Gain
   exact BellmanLabelStepRun.append trieNode0197Run trieNode0198StepRun
 
-private theorem trieNode0198StepEval :
-    evalLabelStepFn smokeNext trieNode0197State
-      trieNode0198StepLabels =
-        some (trieNode0198State, trieNode0198StepGain) := by
-  change evalLabelStepFn smokeNext State.s0048
-    [SmokeLabel.l0003] = some (State.s0080, -124)
-  rfl
-
-private theorem trieNode0198Eval :
-    evalLabelStepFn smokeNext rootState trieNode0198Labels =
-      some (trieNode0198State, trieNode0198Gain) := by
-  unfold trieNode0198Labels trieNode0198Gain
-  exact evalLabelStepFn_append trieNode0197Eval trieNode0198StepEval
-
 private def trieNode0199State : State := edge0091.dst
 private def trieNode0199StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -14937,20 +12159,6 @@ private theorem trieNode0199Run :
       trieNode0199Labels trieNode0199Gain := by
   unfold trieNode0199Labels trieNode0199Gain
   exact BellmanLabelStepRun.append trieNode0198Run trieNode0199StepRun
-
-private theorem trieNode0199StepEval :
-    evalLabelStepFn smokeNext trieNode0198State
-      trieNode0199StepLabels =
-        some (trieNode0199State, trieNode0199StepGain) := by
-  change evalLabelStepFn smokeNext State.s0080
-    [SmokeLabel.l0011] = some (State.s0093, 103)
-  rfl
-
-private theorem trieNode0199Eval :
-    evalLabelStepFn smokeNext rootState trieNode0199Labels =
-      some (trieNode0199State, trieNode0199Gain) := by
-  unfold trieNode0199Labels trieNode0199Gain
-  exact evalLabelStepFn_append trieNode0198Eval trieNode0199StepEval
 
 private def trieNode0200State : State := edge0104.dst
 private def trieNode0200StepLabels : List SmokeLabel :=
@@ -14976,20 +12184,6 @@ private theorem trieNode0200Run :
   unfold trieNode0200Labels trieNode0200Gain
   exact BellmanLabelStepRun.append trieNode0199Run trieNode0200StepRun
 
-private theorem trieNode0200StepEval :
-    evalLabelStepFn smokeNext trieNode0199State
-      trieNode0200StepLabels =
-        some (trieNode0200State, trieNode0200StepGain) := by
-  change evalLabelStepFn smokeNext State.s0093
-    [SmokeLabel.l0009] = some (State.s0122, -73)
-  rfl
-
-private theorem trieNode0200Eval :
-    evalLabelStepFn smokeNext rootState trieNode0200Labels =
-      some (trieNode0200State, trieNode0200Gain) := by
-  unfold trieNode0200Labels trieNode0200Gain
-  exact evalLabelStepFn_append trieNode0199Eval trieNode0200StepEval
-
 private def trieNode0201State : State := edge0156.dst
 private def trieNode0201StepLabels : List SmokeLabel :=
   [SmokeLabel.l0007]
@@ -15013,20 +12207,6 @@ private theorem trieNode0201Run :
       trieNode0201Labels trieNode0201Gain := by
   unfold trieNode0201Labels trieNode0201Gain
   exact BellmanLabelStepRun.append trieNode0187Run trieNode0201StepRun
-
-private theorem trieNode0201StepEval :
-    evalLabelStepFn smokeNext trieNode0187State
-      trieNode0201StepLabels =
-        some (trieNode0201State, trieNode0201StepGain) := by
-  change evalLabelStepFn smokeNext State.s0161
-    [SmokeLabel.l0007] = some (State.s0173, -144)
-  rfl
-
-private theorem trieNode0201Eval :
-    evalLabelStepFn smokeNext rootState trieNode0201Labels =
-      some (trieNode0201State, trieNode0201Gain) := by
-  unfold trieNode0201Labels trieNode0201Gain
-  exact evalLabelStepFn_append trieNode0187Eval trieNode0201StepEval
 
 private def trieNode0202State : State := edge0169.dst
 private def trieNode0202StepLabels : List SmokeLabel :=
@@ -15052,20 +12232,6 @@ private theorem trieNode0202Run :
   unfold trieNode0202Labels trieNode0202Gain
   exact BellmanLabelStepRun.append trieNode0201Run trieNode0202StepRun
 
-private theorem trieNode0202StepEval :
-    evalLabelStepFn smokeNext trieNode0201State
-      trieNode0202StepLabels =
-        some (trieNode0202State, trieNode0202StepGain) := by
-  change evalLabelStepFn smokeNext State.s0173
-    [SmokeLabel.l0013] = some (State.s0185, 90)
-  rfl
-
-private theorem trieNode0202Eval :
-    evalLabelStepFn smokeNext rootState trieNode0202Labels =
-      some (trieNode0202State, trieNode0202Gain) := by
-  unfold trieNode0202Labels trieNode0202Gain
-  exact evalLabelStepFn_append trieNode0201Eval trieNode0202StepEval
-
 private def trieNode0203State : State := edge0183.dst
 private def trieNode0203StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
@@ -15089,20 +12255,6 @@ private theorem trieNode0203Run :
       trieNode0203Labels trieNode0203Gain := by
   unfold trieNode0203Labels trieNode0203Gain
   exact BellmanLabelStepRun.append trieNode0202Run trieNode0203StepRun
-
-private theorem trieNode0203StepEval :
-    evalLabelStepFn smokeNext trieNode0202State
-      trieNode0203StepLabels =
-        some (trieNode0203State, trieNode0203StepGain) := by
-  change evalLabelStepFn smokeNext State.s0185
-    [SmokeLabel.l0012] = some (State.s0196, 90)
-  rfl
-
-private theorem trieNode0203Eval :
-    evalLabelStepFn smokeNext rootState trieNode0203Labels =
-      some (trieNode0203State, trieNode0203Gain) := by
-  unfold trieNode0203Labels trieNode0203Gain
-  exact evalLabelStepFn_append trieNode0202Eval trieNode0203StepEval
 
 private def trieNode0204State : State := edge0196.dst
 private def trieNode0204StepLabels : List SmokeLabel :=
@@ -15128,20 +12280,6 @@ private theorem trieNode0204Run :
   unfold trieNode0204Labels trieNode0204Gain
   exact BellmanLabelStepRun.append trieNode0203Run trieNode0204StepRun
 
-private theorem trieNode0204StepEval :
-    evalLabelStepFn smokeNext trieNode0203State
-      trieNode0204StepLabels =
-        some (trieNode0204State, trieNode0204StepGain) := by
-  change evalLabelStepFn smokeNext State.s0196
-    [SmokeLabel.l0000] = some (State.s0215, -144)
-  rfl
-
-private theorem trieNode0204Eval :
-    evalLabelStepFn smokeNext rootState trieNode0204Labels =
-      some (trieNode0204State, trieNode0204Gain) := by
-  unfold trieNode0204Labels trieNode0204Gain
-  exact evalLabelStepFn_append trieNode0203Eval trieNode0204StepEval
-
 private def trieNode0205State : State := edge0219.dst
 private def trieNode0205StepLabels : List SmokeLabel :=
   [SmokeLabel.l0005]
@@ -15165,20 +12303,6 @@ private theorem trieNode0205Run :
       trieNode0205Labels trieNode0205Gain := by
   unfold trieNode0205Labels trieNode0205Gain
   exact BellmanLabelStepRun.append trieNode0204Run trieNode0205StepRun
-
-private theorem trieNode0205StepEval :
-    evalLabelStepFn smokeNext trieNode0204State
-      trieNode0205StepLabels =
-        some (trieNode0205State, trieNode0205StepGain) := by
-  change evalLabelStepFn smokeNext State.s0215
-    [SmokeLabel.l0005] = some (State.s0016, -36)
-  rfl
-
-private theorem trieNode0205Eval :
-    evalLabelStepFn smokeNext rootState trieNode0205Labels =
-      some (trieNode0205State, trieNode0205Gain) := by
-  unfold trieNode0205Labels trieNode0205Gain
-  exact evalLabelStepFn_append trieNode0204Eval trieNode0205StepEval
 
 private def trieNode0206State : State := edge0020.dst
 private def trieNode0206StepLabels : List SmokeLabel :=
@@ -15204,20 +12328,6 @@ private theorem trieNode0206Run :
   unfold trieNode0206Labels trieNode0206Gain
   exact BellmanLabelStepRun.append trieNode0205Run trieNode0206StepRun
 
-private theorem trieNode0206StepEval :
-    evalLabelStepFn smokeNext trieNode0205State
-      trieNode0206StepLabels =
-        some (trieNode0206State, trieNode0206StepGain) := by
-  change evalLabelStepFn smokeNext State.s0016
-    [SmokeLabel.l0011] = some (State.s0025, -117)
-  rfl
-
-private theorem trieNode0206Eval :
-    evalLabelStepFn smokeNext rootState trieNode0206Labels =
-      some (trieNode0206State, trieNode0206Gain) := by
-  unfold trieNode0206Labels trieNode0206Gain
-  exact evalLabelStepFn_append trieNode0205Eval trieNode0206StepEval
-
 private def trieNode0207State : State := edge0034.dst
 private def trieNode0207StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -15241,20 +12351,6 @@ private theorem trieNode0207Run :
       trieNode0207Labels trieNode0207Gain := by
   unfold trieNode0207Labels trieNode0207Gain
   exact BellmanLabelStepRun.append trieNode0206Run trieNode0207StepRun
-
-private theorem trieNode0207StepEval :
-    evalLabelStepFn smokeNext trieNode0206State
-      trieNode0207StepLabels =
-        some (trieNode0207State, trieNode0207StepGain) := by
-  change evalLabelStepFn smokeNext State.s0025
-    [SmokeLabel.l0003] = some (State.s0056, 96)
-  rfl
-
-private theorem trieNode0207Eval :
-    evalLabelStepFn smokeNext rootState trieNode0207Labels =
-      some (trieNode0207State, trieNode0207Gain) := by
-  unfold trieNode0207Labels trieNode0207Gain
-  exact evalLabelStepFn_append trieNode0206Eval trieNode0207StepEval
 
 private def trieNode0208State : State := edge0067.dst
 private def trieNode0208StepLabels : List SmokeLabel :=
@@ -15280,20 +12376,6 @@ private theorem trieNode0208Run :
   unfold trieNode0208Labels trieNode0208Gain
   exact BellmanLabelStepRun.append trieNode0207Run trieNode0208StepRun
 
-private theorem trieNode0208StepEval :
-    evalLabelStepFn smokeNext trieNode0207State
-      trieNode0208StepLabels =
-        some (trieNode0208State, trieNode0208StepGain) := by
-  change evalLabelStepFn smokeNext State.s0056
-    [SmokeLabel.l0001] = some (State.s0092, -124)
-  rfl
-
-private theorem trieNode0208Eval :
-    evalLabelStepFn smokeNext rootState trieNode0208Labels =
-      some (trieNode0208State, trieNode0208Gain) := by
-  unfold trieNode0208Labels trieNode0208Gain
-  exact evalLabelStepFn_append trieNode0207Eval trieNode0208StepEval
-
 private def trieNode0209State : State := edge0103.dst
 private def trieNode0209StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -15317,20 +12399,6 @@ private theorem trieNode0209Run :
       trieNode0209Labels trieNode0209Gain := by
   unfold trieNode0209Labels trieNode0209Gain
   exact BellmanLabelStepRun.append trieNode0208Run trieNode0209StepRun
-
-private theorem trieNode0209StepEval :
-    evalLabelStepFn smokeNext trieNode0208State
-      trieNode0209StepLabels =
-        some (trieNode0209State, trieNode0209StepGain) := by
-  change evalLabelStepFn smokeNext State.s0092
-    [SmokeLabel.l0009] = some (State.s0121, -73)
-  rfl
-
-private theorem trieNode0209Eval :
-    evalLabelStepFn smokeNext rootState trieNode0209Labels =
-      some (trieNode0209State, trieNode0209Gain) := by
-  unfold trieNode0209Labels trieNode0209Gain
-  exact evalLabelStepFn_append trieNode0208Eval trieNode0209StepEval
 
 private def trieNode0210State : State := edge0021.dst
 private def trieNode0210StepLabels : List SmokeLabel :=
@@ -15356,20 +12424,6 @@ private theorem trieNode0210Run :
   unfold trieNode0210Labels trieNode0210Gain
   exact BellmanLabelStepRun.append trieNode0205Run trieNode0210StepRun
 
-private theorem trieNode0210StepEval :
-    evalLabelStepFn smokeNext trieNode0205State
-      trieNode0210StepLabels =
-        some (trieNode0210State, trieNode0210StepGain) := by
-  change evalLabelStepFn smokeNext State.s0016
-    [SmokeLabel.l0001] = some (State.s0047, 96)
-  rfl
-
-private theorem trieNode0210Eval :
-    evalLabelStepFn smokeNext rootState trieNode0210Labels =
-      some (trieNode0210State, trieNode0210Gain) := by
-  unfold trieNode0210Labels trieNode0210Gain
-  exact evalLabelStepFn_append trieNode0205Eval trieNode0210StepEval
-
 private def trieNode0211State : State := edge0056.dst
 private def trieNode0211StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -15393,20 +12447,6 @@ private theorem trieNode0211Run :
       trieNode0211Labels trieNode0211Gain := by
   unfold trieNode0211Labels trieNode0211Gain
   exact BellmanLabelStepRun.append trieNode0210Run trieNode0211StepRun
-
-private theorem trieNode0211StepEval :
-    evalLabelStepFn smokeNext trieNode0210State
-      trieNode0211StepLabels =
-        some (trieNode0211State, trieNode0211StepGain) := by
-  change evalLabelStepFn smokeNext State.s0047
-    [SmokeLabel.l0003] = some (State.s0079, -124)
-  rfl
-
-private theorem trieNode0211Eval :
-    evalLabelStepFn smokeNext rootState trieNode0211Labels =
-      some (trieNode0211State, trieNode0211Gain) := by
-  unfold trieNode0211Labels trieNode0211Gain
-  exact evalLabelStepFn_append trieNode0210Eval trieNode0211StepEval
 
 private def trieNode0212State : State := edge0090.dst
 private def trieNode0212StepLabels : List SmokeLabel :=
@@ -15432,20 +12472,6 @@ private theorem trieNode0212Run :
   unfold trieNode0212Labels trieNode0212Gain
   exact BellmanLabelStepRun.append trieNode0211Run trieNode0212StepRun
 
-private theorem trieNode0212StepEval :
-    evalLabelStepFn smokeNext trieNode0211State
-      trieNode0212StepLabels =
-        some (trieNode0212State, trieNode0212StepGain) := by
-  change evalLabelStepFn smokeNext State.s0079
-    [SmokeLabel.l0011] = some (State.s0091, 103)
-  rfl
-
-private theorem trieNode0212Eval :
-    evalLabelStepFn smokeNext rootState trieNode0212Labels =
-      some (trieNode0212State, trieNode0212Gain) := by
-  unfold trieNode0212Labels trieNode0212Gain
-  exact evalLabelStepFn_append trieNode0211Eval trieNode0212StepEval
-
 private def trieNode0213State : State := edge0102.dst
 private def trieNode0213StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -15469,20 +12495,6 @@ private theorem trieNode0213Run :
       trieNode0213Labels trieNode0213Gain := by
   unfold trieNode0213Labels trieNode0213Gain
   exact BellmanLabelStepRun.append trieNode0212Run trieNode0213StepRun
-
-private theorem trieNode0213StepEval :
-    evalLabelStepFn smokeNext trieNode0212State
-      trieNode0213StepLabels =
-        some (trieNode0213State, trieNode0213StepGain) := by
-  change evalLabelStepFn smokeNext State.s0091
-    [SmokeLabel.l0009] = some (State.s0120, -73)
-  rfl
-
-private theorem trieNode0213Eval :
-    evalLabelStepFn smokeNext rootState trieNode0213Labels =
-      some (trieNode0213State, trieNode0213Gain) := by
-  unfold trieNode0213Labels trieNode0213Gain
-  exact evalLabelStepFn_append trieNode0212Eval trieNode0213StepEval
 
 private def trieNode0214State : State := edge0170.dst
 private def trieNode0214StepLabels : List SmokeLabel :=
@@ -15508,20 +12520,6 @@ private theorem trieNode0214Run :
   unfold trieNode0214Labels trieNode0214Gain
   exact BellmanLabelStepRun.append trieNode0201Run trieNode0214StepRun
 
-private theorem trieNode0214StepEval :
-    evalLabelStepFn smokeNext trieNode0201State
-      trieNode0214StepLabels =
-        some (trieNode0214State, trieNode0214StepGain) := by
-  change evalLabelStepFn smokeNext State.s0173
-    [SmokeLabel.l0000] = some (State.s0187, -144)
-  rfl
-
-private theorem trieNode0214Eval :
-    evalLabelStepFn smokeNext rootState trieNode0214Labels =
-      some (trieNode0214State, trieNode0214Gain) := by
-  unfold trieNode0214Labels trieNode0214Gain
-  exact evalLabelStepFn_append trieNode0201Eval trieNode0214StepEval
-
 private def trieNode0215State : State := edge0185.dst
 private def trieNode0215StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -15545,20 +12543,6 @@ private theorem trieNode0215Run :
       trieNode0215Labels trieNode0215Gain := by
   unfold trieNode0215Labels trieNode0215Gain
   exact BellmanLabelStepRun.append trieNode0214Run trieNode0215StepRun
-
-private theorem trieNode0215StepEval :
-    evalLabelStepFn smokeNext trieNode0214State
-      trieNode0215StepLabels =
-        some (trieNode0215State, trieNode0215StepGain) := by
-  change evalLabelStepFn smokeNext State.s0187
-    [SmokeLabel.l0013] = some (State.s0201, -54)
-  rfl
-
-private theorem trieNode0215Eval :
-    evalLabelStepFn smokeNext rootState trieNode0215Labels =
-      some (trieNode0215State, trieNode0215Gain) := by
-  unfold trieNode0215Labels trieNode0215Gain
-  exact evalLabelStepFn_append trieNode0214Eval trieNode0215StepEval
 
 private def trieNode0216State : State := edge0201.dst
 private def trieNode0216StepLabels : List SmokeLabel :=
@@ -15584,20 +12568,6 @@ private theorem trieNode0216Run :
   unfold trieNode0216Labels trieNode0216Gain
   exact BellmanLabelStepRun.append trieNode0215Run trieNode0216StepRun
 
-private theorem trieNode0216StepEval :
-    evalLabelStepFn smokeNext trieNode0215State
-      trieNode0216StepLabels =
-        some (trieNode0216State, trieNode0216StepGain) := by
-  change evalLabelStepFn smokeNext State.s0201
-    [SmokeLabel.l0012] = some (State.s0214, -54)
-  rfl
-
-private theorem trieNode0216Eval :
-    evalLabelStepFn smokeNext rootState trieNode0216Labels =
-      some (trieNode0216State, trieNode0216Gain) := by
-  unfold trieNode0216Labels trieNode0216Gain
-  exact evalLabelStepFn_append trieNode0215Eval trieNode0216StepEval
-
 private def trieNode0217State : State := edge0218.dst
 private def trieNode0217StepLabels : List SmokeLabel :=
   [SmokeLabel.l0005]
@@ -15621,20 +12591,6 @@ private theorem trieNode0217Run :
       trieNode0217Labels trieNode0217Gain := by
   unfold trieNode0217Labels trieNode0217Gain
   exact BellmanLabelStepRun.append trieNode0216Run trieNode0217StepRun
-
-private theorem trieNode0217StepEval :
-    evalLabelStepFn smokeNext trieNode0216State
-      trieNode0217StepLabels =
-        some (trieNode0217State, trieNode0217StepGain) := by
-  change evalLabelStepFn smokeNext State.s0214
-    [SmokeLabel.l0005] = some (State.s0015, -36)
-  rfl
-
-private theorem trieNode0217Eval :
-    evalLabelStepFn smokeNext rootState trieNode0217Labels =
-      some (trieNode0217State, trieNode0217Gain) := by
-  unfold trieNode0217Labels trieNode0217Gain
-  exact evalLabelStepFn_append trieNode0216Eval trieNode0217StepEval
 
 private def trieNode0218State : State := edge0018.dst
 private def trieNode0218StepLabels : List SmokeLabel :=
@@ -15660,20 +12616,6 @@ private theorem trieNode0218Run :
   unfold trieNode0218Labels trieNode0218Gain
   exact BellmanLabelStepRun.append trieNode0217Run trieNode0218StepRun
 
-private theorem trieNode0218StepEval :
-    evalLabelStepFn smokeNext trieNode0217State
-      trieNode0218StepLabels =
-        some (trieNode0218State, trieNode0218StepGain) := by
-  change evalLabelStepFn smokeNext State.s0015
-    [SmokeLabel.l0011] = some (State.s0024, -117)
-  rfl
-
-private theorem trieNode0218Eval :
-    evalLabelStepFn smokeNext rootState trieNode0218Labels =
-      some (trieNode0218State, trieNode0218Gain) := by
-  unfold trieNode0218Labels trieNode0218Gain
-  exact evalLabelStepFn_append trieNode0217Eval trieNode0218StepEval
-
 private def trieNode0219State : State := edge0033.dst
 private def trieNode0219StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -15697,20 +12639,6 @@ private theorem trieNode0219Run :
       trieNode0219Labels trieNode0219Gain := by
   unfold trieNode0219Labels trieNode0219Gain
   exact BellmanLabelStepRun.append trieNode0218Run trieNode0219StepRun
-
-private theorem trieNode0219StepEval :
-    evalLabelStepFn smokeNext trieNode0218State
-      trieNode0219StepLabels =
-        some (trieNode0219State, trieNode0219StepGain) := by
-  change evalLabelStepFn smokeNext State.s0024
-    [SmokeLabel.l0003] = some (State.s0055, 96)
-  rfl
-
-private theorem trieNode0219Eval :
-    evalLabelStepFn smokeNext rootState trieNode0219Labels =
-      some (trieNode0219State, trieNode0219Gain) := by
-  unfold trieNode0219Labels trieNode0219Gain
-  exact evalLabelStepFn_append trieNode0218Eval trieNode0219StepEval
 
 private def trieNode0220State : State := edge0066.dst
 private def trieNode0220StepLabels : List SmokeLabel :=
@@ -15736,20 +12664,6 @@ private theorem trieNode0220Run :
   unfold trieNode0220Labels trieNode0220Gain
   exact BellmanLabelStepRun.append trieNode0219Run trieNode0220StepRun
 
-private theorem trieNode0220StepEval :
-    evalLabelStepFn smokeNext trieNode0219State
-      trieNode0220StepLabels =
-        some (trieNode0220State, trieNode0220StepGain) := by
-  change evalLabelStepFn smokeNext State.s0055
-    [SmokeLabel.l0001] = some (State.s0090, -124)
-  rfl
-
-private theorem trieNode0220Eval :
-    evalLabelStepFn smokeNext rootState trieNode0220Labels =
-      some (trieNode0220State, trieNode0220Gain) := by
-  unfold trieNode0220Labels trieNode0220Gain
-  exact evalLabelStepFn_append trieNode0219Eval trieNode0220StepEval
-
 private def trieNode0221State : State := edge0101.dst
 private def trieNode0221StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -15773,20 +12687,6 @@ private theorem trieNode0221Run :
       trieNode0221Labels trieNode0221Gain := by
   unfold trieNode0221Labels trieNode0221Gain
   exact BellmanLabelStepRun.append trieNode0220Run trieNode0221StepRun
-
-private theorem trieNode0221StepEval :
-    evalLabelStepFn smokeNext trieNode0220State
-      trieNode0221StepLabels =
-        some (trieNode0221State, trieNode0221StepGain) := by
-  change evalLabelStepFn smokeNext State.s0090
-    [SmokeLabel.l0009] = some (State.s0119, -73)
-  rfl
-
-private theorem trieNode0221Eval :
-    evalLabelStepFn smokeNext rootState trieNode0221Labels =
-      some (trieNode0221State, trieNode0221Gain) := by
-  unfold trieNode0221Labels trieNode0221Gain
-  exact evalLabelStepFn_append trieNode0220Eval trieNode0221StepEval
 
 private def trieNode0222State : State := edge0019.dst
 private def trieNode0222StepLabels : List SmokeLabel :=
@@ -15812,20 +12712,6 @@ private theorem trieNode0222Run :
   unfold trieNode0222Labels trieNode0222Gain
   exact BellmanLabelStepRun.append trieNode0217Run trieNode0222StepRun
 
-private theorem trieNode0222StepEval :
-    evalLabelStepFn smokeNext trieNode0217State
-      trieNode0222StepLabels =
-        some (trieNode0222State, trieNode0222StepGain) := by
-  change evalLabelStepFn smokeNext State.s0015
-    [SmokeLabel.l0001] = some (State.s0046, 96)
-  rfl
-
-private theorem trieNode0222Eval :
-    evalLabelStepFn smokeNext rootState trieNode0222Labels =
-      some (trieNode0222State, trieNode0222Gain) := by
-  unfold trieNode0222Labels trieNode0222Gain
-  exact evalLabelStepFn_append trieNode0217Eval trieNode0222StepEval
-
 private def trieNode0223State : State := edge0055.dst
 private def trieNode0223StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -15849,20 +12735,6 @@ private theorem trieNode0223Run :
       trieNode0223Labels trieNode0223Gain := by
   unfold trieNode0223Labels trieNode0223Gain
   exact BellmanLabelStepRun.append trieNode0222Run trieNode0223StepRun
-
-private theorem trieNode0223StepEval :
-    evalLabelStepFn smokeNext trieNode0222State
-      trieNode0223StepLabels =
-        some (trieNode0223State, trieNode0223StepGain) := by
-  change evalLabelStepFn smokeNext State.s0046
-    [SmokeLabel.l0003] = some (State.s0078, -124)
-  rfl
-
-private theorem trieNode0223Eval :
-    evalLabelStepFn smokeNext rootState trieNode0223Labels =
-      some (trieNode0223State, trieNode0223Gain) := by
-  unfold trieNode0223Labels trieNode0223Gain
-  exact evalLabelStepFn_append trieNode0222Eval trieNode0223StepEval
 
 private def trieNode0224State : State := edge0089.dst
 private def trieNode0224StepLabels : List SmokeLabel :=
@@ -15888,20 +12760,6 @@ private theorem trieNode0224Run :
   unfold trieNode0224Labels trieNode0224Gain
   exact BellmanLabelStepRun.append trieNode0223Run trieNode0224StepRun
 
-private theorem trieNode0224StepEval :
-    evalLabelStepFn smokeNext trieNode0223State
-      trieNode0224StepLabels =
-        some (trieNode0224State, trieNode0224StepGain) := by
-  change evalLabelStepFn smokeNext State.s0078
-    [SmokeLabel.l0011] = some (State.s0089, 103)
-  rfl
-
-private theorem trieNode0224Eval :
-    evalLabelStepFn smokeNext rootState trieNode0224Labels =
-      some (trieNode0224State, trieNode0224Gain) := by
-  unfold trieNode0224Labels trieNode0224Gain
-  exact evalLabelStepFn_append trieNode0223Eval trieNode0224StepEval
-
 private def trieNode0225State : State := edge0100.dst
 private def trieNode0225StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -15925,20 +12783,6 @@ private theorem trieNode0225Run :
       trieNode0225Labels trieNode0225Gain := by
   unfold trieNode0225Labels trieNode0225Gain
   exact BellmanLabelStepRun.append trieNode0224Run trieNode0225StepRun
-
-private theorem trieNode0225StepEval :
-    evalLabelStepFn smokeNext trieNode0224State
-      trieNode0225StepLabels =
-        some (trieNode0225State, trieNode0225StepGain) := by
-  change evalLabelStepFn smokeNext State.s0089
-    [SmokeLabel.l0009] = some (State.s0118, -73)
-  rfl
-
-private theorem trieNode0225Eval :
-    evalLabelStepFn smokeNext rootState trieNode0225Labels =
-      some (trieNode0225State, trieNode0225Gain) := by
-  unfold trieNode0225Labels trieNode0225Gain
-  exact evalLabelStepFn_append trieNode0224Eval trieNode0225StepEval
 
 private def trieNode0226State : State := edge0186.dst
 private def trieNode0226StepLabels : List SmokeLabel :=
@@ -15964,20 +12808,6 @@ private theorem trieNode0226Run :
   unfold trieNode0226Labels trieNode0226Gain
   exact BellmanLabelStepRun.append trieNode0214Run trieNode0226StepRun
 
-private theorem trieNode0226StepEval :
-    evalLabelStepFn smokeNext trieNode0214State
-      trieNode0226StepLabels =
-        some (trieNode0226State, trieNode0226StepGain) := by
-  change evalLabelStepFn smokeNext State.s0187
-    [SmokeLabel.l0005] = some (State.s0203, -36)
-  rfl
-
-private theorem trieNode0226Eval :
-    evalLabelStepFn smokeNext rootState trieNode0226Labels =
-      some (trieNode0226State, trieNode0226Gain) := by
-  unfold trieNode0226Labels trieNode0226Gain
-  exact evalLabelStepFn_append trieNode0214Eval trieNode0226StepEval
-
 private def trieNode0227State : State := edge0203.dst
 private def trieNode0227StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -16001,20 +12831,6 @@ private theorem trieNode0227Run :
       trieNode0227Labels trieNode0227Gain := by
   unfold trieNode0227Labels trieNode0227Gain
   exact BellmanLabelStepRun.append trieNode0226Run trieNode0227StepRun
-
-private theorem trieNode0227StepEval :
-    evalLabelStepFn smokeNext trieNode0226State
-      trieNode0227StepLabels =
-        some (trieNode0227State, trieNode0227StepGain) := by
-  change evalLabelStepFn smokeNext State.s0203
-    [SmokeLabel.l0011] = some (State.s0212, -117)
-  rfl
-
-private theorem trieNode0227Eval :
-    evalLabelStepFn smokeNext rootState trieNode0227Labels =
-      some (trieNode0227State, trieNode0227Gain) := by
-  unfold trieNode0227Labels trieNode0227Gain
-  exact evalLabelStepFn_append trieNode0226Eval trieNode0227StepEval
 
 private def trieNode0228State : State := edge0214.dst
 private def trieNode0228StepLabels : List SmokeLabel :=
@@ -16040,20 +12856,6 @@ private theorem trieNode0228Run :
   unfold trieNode0228Labels trieNode0228Gain
   exact BellmanLabelStepRun.append trieNode0227Run trieNode0228StepRun
 
-private theorem trieNode0228StepEval :
-    evalLabelStepFn smokeNext trieNode0227State
-      trieNode0228StepLabels =
-        some (trieNode0228State, trieNode0228StepGain) := by
-  change evalLabelStepFn smokeNext State.s0212
-    [SmokeLabel.l0013] = some (State.s0007, -18)
-  rfl
-
-private theorem trieNode0228Eval :
-    evalLabelStepFn smokeNext rootState trieNode0228Labels =
-      some (trieNode0228State, trieNode0228Gain) := by
-  unfold trieNode0228Labels trieNode0228Gain
-  exact evalLabelStepFn_append trieNode0227Eval trieNode0228StepEval
-
 private def trieNode0229State : State := edge0007.dst
 private def trieNode0229StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
@@ -16077,20 +12879,6 @@ private theorem trieNode0229Run :
       trieNode0229Labels trieNode0229Gain := by
   unfold trieNode0229Labels trieNode0229Gain
   exact BellmanLabelStepRun.append trieNode0228Run trieNode0229StepRun
-
-private theorem trieNode0229StepEval :
-    evalLabelStepFn smokeNext trieNode0228State
-      trieNode0229StepLabels =
-        some (trieNode0229State, trieNode0229StepGain) := by
-  change evalLabelStepFn smokeNext State.s0007
-    [SmokeLabel.l0012] = some (State.s0023, -18)
-  rfl
-
-private theorem trieNode0229Eval :
-    evalLabelStepFn smokeNext rootState trieNode0229Labels =
-      some (trieNode0229State, trieNode0229Gain) := by
-  unfold trieNode0229Labels trieNode0229Gain
-  exact evalLabelStepFn_append trieNode0228Eval trieNode0229StepEval
 
 private def trieNode0230State : State := edge0032.dst
 private def trieNode0230StepLabels : List SmokeLabel :=
@@ -16116,20 +12904,6 @@ private theorem trieNode0230Run :
   unfold trieNode0230Labels trieNode0230Gain
   exact BellmanLabelStepRun.append trieNode0229Run trieNode0230StepRun
 
-private theorem trieNode0230StepEval :
-    evalLabelStepFn smokeNext trieNode0229State
-      trieNode0230StepLabels =
-        some (trieNode0230State, trieNode0230StepGain) := by
-  change evalLabelStepFn smokeNext State.s0023
-    [SmokeLabel.l0003] = some (State.s0053, 96)
-  rfl
-
-private theorem trieNode0230Eval :
-    evalLabelStepFn smokeNext rootState trieNode0230Labels =
-      some (trieNode0230State, trieNode0230Gain) := by
-  unfold trieNode0230Labels trieNode0230Gain
-  exact evalLabelStepFn_append trieNode0229Eval trieNode0230StepEval
-
 private def trieNode0231State : State := edge0064.dst
 private def trieNode0231StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -16153,20 +12927,6 @@ private theorem trieNode0231Run :
       trieNode0231Labels trieNode0231Gain := by
   unfold trieNode0231Labels trieNode0231Gain
   exact BellmanLabelStepRun.append trieNode0230Run trieNode0231StepRun
-
-private theorem trieNode0231StepEval :
-    evalLabelStepFn smokeNext trieNode0230State
-      trieNode0231StepLabels =
-        some (trieNode0231State, trieNode0231StepGain) := by
-  change evalLabelStepFn smokeNext State.s0053
-    [SmokeLabel.l0001] = some (State.s0085, -124)
-  rfl
-
-private theorem trieNode0231Eval :
-    evalLabelStepFn smokeNext rootState trieNode0231Labels =
-      some (trieNode0231State, trieNode0231Gain) := by
-  unfold trieNode0231Labels trieNode0231Gain
-  exact evalLabelStepFn_append trieNode0230Eval trieNode0231StepEval
 
 private def trieNode0232State : State := edge0096.dst
 private def trieNode0232StepLabels : List SmokeLabel :=
@@ -16192,20 +12952,6 @@ private theorem trieNode0232Run :
   unfold trieNode0232Labels trieNode0232Gain
   exact BellmanLabelStepRun.append trieNode0231Run trieNode0232StepRun
 
-private theorem trieNode0232StepEval :
-    evalLabelStepFn smokeNext trieNode0231State
-      trieNode0232StepLabels =
-        some (trieNode0232State, trieNode0232StepGain) := by
-  change evalLabelStepFn smokeNext State.s0085
-    [SmokeLabel.l0009] = some (State.s0114, -73)
-  rfl
-
-private theorem trieNode0232Eval :
-    evalLabelStepFn smokeNext rootState trieNode0232Labels =
-      some (trieNode0232State, trieNode0232Gain) := by
-  unfold trieNode0232Labels trieNode0232Gain
-  exact evalLabelStepFn_append trieNode0231Eval trieNode0232StepEval
-
 private def trieNode0233State : State := edge0215.dst
 private def trieNode0233StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -16229,20 +12975,6 @@ private theorem trieNode0233Run :
       trieNode0233Labels trieNode0233Gain := by
   unfold trieNode0233Labels trieNode0233Gain
   exact BellmanLabelStepRun.append trieNode0227Run trieNode0233StepRun
-
-private theorem trieNode0233StepEval :
-    evalLabelStepFn smokeNext trieNode0227State
-      trieNode0233StepLabels =
-        some (trieNode0233State, trieNode0233StepGain) := by
-  change evalLabelStepFn smokeNext State.s0212
-    [SmokeLabel.l0003] = some (State.s0012, 96)
-  rfl
-
-private theorem trieNode0233Eval :
-    evalLabelStepFn smokeNext rootState trieNode0233Labels =
-      some (trieNode0233State, trieNode0233Gain) := by
-  unfold trieNode0233Labels trieNode0233Gain
-  exact evalLabelStepFn_append trieNode0227Eval trieNode0233StepEval
 
 private def trieNode0234State : State := edge0012.dst
 private def trieNode0234StepLabels : List SmokeLabel :=
@@ -16268,20 +13000,6 @@ private theorem trieNode0234Run :
   unfold trieNode0234Labels trieNode0234Gain
   exact BellmanLabelStepRun.append trieNode0233Run trieNode0234StepRun
 
-private theorem trieNode0234StepEval :
-    evalLabelStepFn smokeNext trieNode0233State
-      trieNode0234StepLabels =
-        some (trieNode0234State, trieNode0234StepGain) := by
-  change evalLabelStepFn smokeNext State.s0012
-    [SmokeLabel.l0012] = some (State.s0037, 114)
-  rfl
-
-private theorem trieNode0234Eval :
-    evalLabelStepFn smokeNext rootState trieNode0234Labels =
-      some (trieNode0234State, trieNode0234Gain) := by
-  unfold trieNode0234Labels trieNode0234Gain
-  exact evalLabelStepFn_append trieNode0233Eval trieNode0234StepEval
-
 private def trieNode0235State : State := edge0046.dst
 private def trieNode0235StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -16305,20 +13023,6 @@ private theorem trieNode0235Run :
       trieNode0235Labels trieNode0235Gain := by
   unfold trieNode0235Labels trieNode0235Gain
   exact BellmanLabelStepRun.append trieNode0234Run trieNode0235StepRun
-
-private theorem trieNode0235StepEval :
-    evalLabelStepFn smokeNext trieNode0234State
-      trieNode0235StepLabels =
-        some (trieNode0235State, trieNode0235StepGain) := by
-  change evalLabelStepFn smokeNext State.s0037
-    [SmokeLabel.l0013] = some (State.s0054, 114)
-  rfl
-
-private theorem trieNode0235Eval :
-    evalLabelStepFn smokeNext rootState trieNode0235Labels =
-      some (trieNode0235State, trieNode0235Gain) := by
-  unfold trieNode0235Labels trieNode0235Gain
-  exact evalLabelStepFn_append trieNode0234Eval trieNode0235StepEval
 
 private def trieNode0236State : State := edge0065.dst
 private def trieNode0236StepLabels : List SmokeLabel :=
@@ -16344,20 +13048,6 @@ private theorem trieNode0236Run :
   unfold trieNode0236Labels trieNode0236Gain
   exact BellmanLabelStepRun.append trieNode0235Run trieNode0236StepRun
 
-private theorem trieNode0236StepEval :
-    evalLabelStepFn smokeNext trieNode0235State
-      trieNode0236StepLabels =
-        some (trieNode0236State, trieNode0236StepGain) := by
-  change evalLabelStepFn smokeNext State.s0054
-    [SmokeLabel.l0001] = some (State.s0088, -124)
-  rfl
-
-private theorem trieNode0236Eval :
-    evalLabelStepFn smokeNext rootState trieNode0236Labels =
-      some (trieNode0236State, trieNode0236Gain) := by
-  unfold trieNode0236Labels trieNode0236Gain
-  exact evalLabelStepFn_append trieNode0235Eval trieNode0236StepEval
-
 private def trieNode0237State : State := edge0099.dst
 private def trieNode0237StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -16381,20 +13071,6 @@ private theorem trieNode0237Run :
       trieNode0237Labels trieNode0237Gain := by
   unfold trieNode0237Labels trieNode0237Gain
   exact BellmanLabelStepRun.append trieNode0236Run trieNode0237StepRun
-
-private theorem trieNode0237StepEval :
-    evalLabelStepFn smokeNext trieNode0236State
-      trieNode0237StepLabels =
-        some (trieNode0237State, trieNode0237StepGain) := by
-  change evalLabelStepFn smokeNext State.s0088
-    [SmokeLabel.l0009] = some (State.s0117, -73)
-  rfl
-
-private theorem trieNode0237Eval :
-    evalLabelStepFn smokeNext rootState trieNode0237Labels =
-      some (trieNode0237State, trieNode0237Gain) := by
-  unfold trieNode0237Labels trieNode0237Gain
-  exact evalLabelStepFn_append trieNode0236Eval trieNode0237StepEval
 
 private def trieNode0238State : State := edge0013.dst
 private def trieNode0238StepLabels : List SmokeLabel :=
@@ -16420,20 +13096,6 @@ private theorem trieNode0238Run :
   unfold trieNode0238Labels trieNode0238Gain
   exact BellmanLabelStepRun.append trieNode0233Run trieNode0238StepRun
 
-private theorem trieNode0238StepEval :
-    evalLabelStepFn smokeNext trieNode0233State
-      trieNode0238StepLabels =
-        some (trieNode0238State, trieNode0238StepGain) := by
-  change evalLabelStepFn smokeNext State.s0012
-    [SmokeLabel.l0001] = some (State.s0043, -124)
-  rfl
-
-private theorem trieNode0238Eval :
-    evalLabelStepFn smokeNext rootState trieNode0238Labels =
-      some (trieNode0238State, trieNode0238Gain) := by
-  unfold trieNode0238Labels trieNode0238Gain
-  exact evalLabelStepFn_append trieNode0233Eval trieNode0238StepEval
-
 private def trieNode0239State : State := edge0052.dst
 private def trieNode0239StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
@@ -16457,20 +13119,6 @@ private theorem trieNode0239Run :
       trieNode0239Labels trieNode0239Gain := by
   unfold trieNode0239Labels trieNode0239Gain
   exact BellmanLabelStepRun.append trieNode0238Run trieNode0239StepRun
-
-private theorem trieNode0239StepEval :
-    evalLabelStepFn smokeNext trieNode0238State
-      trieNode0239StepLabels =
-        some (trieNode0239State, trieNode0239StepGain) := by
-  change evalLabelStepFn smokeNext State.s0043
-    [SmokeLabel.l0012] = some (State.s0071, -10)
-  rfl
-
-private theorem trieNode0239Eval :
-    evalLabelStepFn smokeNext rootState trieNode0239Labels =
-      some (trieNode0239State, trieNode0239Gain) := by
-  unfold trieNode0239Labels trieNode0239Gain
-  exact evalLabelStepFn_append trieNode0238Eval trieNode0239StepEval
 
 private def trieNode0240State : State := edge0082.dst
 private def trieNode0240StepLabels : List SmokeLabel :=
@@ -16496,20 +13144,6 @@ private theorem trieNode0240Run :
   unfold trieNode0240Labels trieNode0240Gain
   exact BellmanLabelStepRun.append trieNode0239Run trieNode0240StepRun
 
-private theorem trieNode0240StepEval :
-    evalLabelStepFn smokeNext trieNode0239State
-      trieNode0240StepLabels =
-        some (trieNode0240State, trieNode0240StepGain) := by
-  change evalLabelStepFn smokeNext State.s0071
-    [SmokeLabel.l0013] = some (State.s0087, -10)
-  rfl
-
-private theorem trieNode0240Eval :
-    evalLabelStepFn smokeNext rootState trieNode0240Labels =
-      some (trieNode0240State, trieNode0240Gain) := by
-  unfold trieNode0240Labels trieNode0240Gain
-  exact evalLabelStepFn_append trieNode0239Eval trieNode0240StepEval
-
 private def trieNode0241State : State := edge0098.dst
 private def trieNode0241StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -16533,20 +13167,6 @@ private theorem trieNode0241Run :
       trieNode0241Labels trieNode0241Gain := by
   unfold trieNode0241Labels trieNode0241Gain
   exact BellmanLabelStepRun.append trieNode0240Run trieNode0241StepRun
-
-private theorem trieNode0241StepEval :
-    evalLabelStepFn smokeNext trieNode0240State
-      trieNode0241StepLabels =
-        some (trieNode0241State, trieNode0241StepGain) := by
-  change evalLabelStepFn smokeNext State.s0087
-    [SmokeLabel.l0009] = some (State.s0116, -73)
-  rfl
-
-private theorem trieNode0241Eval :
-    evalLabelStepFn smokeNext rootState trieNode0241Labels =
-      some (trieNode0241State, trieNode0241Gain) := by
-  unfold trieNode0241Labels trieNode0241Gain
-  exact evalLabelStepFn_append trieNode0240Eval trieNode0241StepEval
 
 private def trieNode0242State : State := edge0204.dst
 private def trieNode0242StepLabels : List SmokeLabel :=
@@ -16572,20 +13192,6 @@ private theorem trieNode0242Run :
   unfold trieNode0242Labels trieNode0242Gain
   exact BellmanLabelStepRun.append trieNode0226Run trieNode0242StepRun
 
-private theorem trieNode0242StepEval :
-    evalLabelStepFn smokeNext trieNode0226State
-      trieNode0242StepLabels =
-        some (trieNode0242State, trieNode0242StepGain) := by
-  change evalLabelStepFn smokeNext State.s0203
-    [SmokeLabel.l0013] = some (State.s0220, -18)
-  rfl
-
-private theorem trieNode0242Eval :
-    evalLabelStepFn smokeNext rootState trieNode0242Labels =
-      some (trieNode0242State, trieNode0242Gain) := by
-  unfold trieNode0242Labels trieNode0242Gain
-  exact evalLabelStepFn_append trieNode0226Eval trieNode0242StepEval
-
 private def trieNode0243State : State := edge0224.dst
 private def trieNode0243StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -16609,20 +13215,6 @@ private theorem trieNode0243Run :
       trieNode0243Labels trieNode0243Gain := by
   unfold trieNode0243Labels trieNode0243Gain
   exact BellmanLabelStepRun.append trieNode0242Run trieNode0243StepRun
-
-private theorem trieNode0243StepEval :
-    evalLabelStepFn smokeNext trieNode0242State
-      trieNode0243StepLabels =
-        some (trieNode0243State, trieNode0243StepGain) := by
-  change evalLabelStepFn smokeNext State.s0220
-    [SmokeLabel.l0011] = some (State.s0007, -117)
-  rfl
-
-private theorem trieNode0243Eval :
-    evalLabelStepFn smokeNext rootState trieNode0243Labels =
-      some (trieNode0243State, trieNode0243Gain) := by
-  unfold trieNode0243Labels trieNode0243Gain
-  exact evalLabelStepFn_append trieNode0242Eval trieNode0243StepEval
 
 private def trieNode0244State : State := edge0007.dst
 private def trieNode0244StepLabels : List SmokeLabel :=
@@ -16648,20 +13240,6 @@ private theorem trieNode0244Run :
   unfold trieNode0244Labels trieNode0244Gain
   exact BellmanLabelStepRun.append trieNode0243Run trieNode0244StepRun
 
-private theorem trieNode0244StepEval :
-    evalLabelStepFn smokeNext trieNode0243State
-      trieNode0244StepLabels =
-        some (trieNode0244State, trieNode0244StepGain) := by
-  change evalLabelStepFn smokeNext State.s0007
-    [SmokeLabel.l0012] = some (State.s0023, -18)
-  rfl
-
-private theorem trieNode0244Eval :
-    evalLabelStepFn smokeNext rootState trieNode0244Labels =
-      some (trieNode0244State, trieNode0244Gain) := by
-  unfold trieNode0244Labels trieNode0244Gain
-  exact evalLabelStepFn_append trieNode0243Eval trieNode0244StepEval
-
 private def trieNode0245State : State := edge0032.dst
 private def trieNode0245StepLabels : List SmokeLabel :=
   [SmokeLabel.l0003]
@@ -16685,20 +13263,6 @@ private theorem trieNode0245Run :
       trieNode0245Labels trieNode0245Gain := by
   unfold trieNode0245Labels trieNode0245Gain
   exact BellmanLabelStepRun.append trieNode0244Run trieNode0245StepRun
-
-private theorem trieNode0245StepEval :
-    evalLabelStepFn smokeNext trieNode0244State
-      trieNode0245StepLabels =
-        some (trieNode0245State, trieNode0245StepGain) := by
-  change evalLabelStepFn smokeNext State.s0023
-    [SmokeLabel.l0003] = some (State.s0053, 96)
-  rfl
-
-private theorem trieNode0245Eval :
-    evalLabelStepFn smokeNext rootState trieNode0245Labels =
-      some (trieNode0245State, trieNode0245Gain) := by
-  unfold trieNode0245Labels trieNode0245Gain
-  exact evalLabelStepFn_append trieNode0244Eval trieNode0245StepEval
 
 private def trieNode0246State : State := edge0064.dst
 private def trieNode0246StepLabels : List SmokeLabel :=
@@ -16724,20 +13288,6 @@ private theorem trieNode0246Run :
   unfold trieNode0246Labels trieNode0246Gain
   exact BellmanLabelStepRun.append trieNode0245Run trieNode0246StepRun
 
-private theorem trieNode0246StepEval :
-    evalLabelStepFn smokeNext trieNode0245State
-      trieNode0246StepLabels =
-        some (trieNode0246State, trieNode0246StepGain) := by
-  change evalLabelStepFn smokeNext State.s0053
-    [SmokeLabel.l0001] = some (State.s0085, -124)
-  rfl
-
-private theorem trieNode0246Eval :
-    evalLabelStepFn smokeNext rootState trieNode0246Labels =
-      some (trieNode0246State, trieNode0246Gain) := by
-  unfold trieNode0246Labels trieNode0246Gain
-  exact evalLabelStepFn_append trieNode0245Eval trieNode0246StepEval
-
 private def trieNode0247State : State := edge0096.dst
 private def trieNode0247StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -16761,20 +13311,6 @@ private theorem trieNode0247Run :
       trieNode0247Labels trieNode0247Gain := by
   unfold trieNode0247Labels trieNode0247Gain
   exact BellmanLabelStepRun.append trieNode0246Run trieNode0247StepRun
-
-private theorem trieNode0247StepEval :
-    evalLabelStepFn smokeNext trieNode0246State
-      trieNode0247StepLabels =
-        some (trieNode0247State, trieNode0247StepGain) := by
-  change evalLabelStepFn smokeNext State.s0085
-    [SmokeLabel.l0009] = some (State.s0114, -73)
-  rfl
-
-private theorem trieNode0247Eval :
-    evalLabelStepFn smokeNext rootState trieNode0247Labels =
-      some (trieNode0247State, trieNode0247Gain) := by
-  unfold trieNode0247Labels trieNode0247Gain
-  exact evalLabelStepFn_append trieNode0246Eval trieNode0247StepEval
 
 private def trieNode0248State : State := edge0225.dst
 private def trieNode0248StepLabels : List SmokeLabel :=
@@ -16800,20 +13336,6 @@ private theorem trieNode0248Run :
   unfold trieNode0248Labels trieNode0248Gain
   exact BellmanLabelStepRun.append trieNode0242Run trieNode0248StepRun
 
-private theorem trieNode0248StepEval :
-    evalLabelStepFn smokeNext trieNode0242State
-      trieNode0248StepLabels =
-        some (trieNode0248State, trieNode0248StepGain) := by
-  change evalLabelStepFn smokeNext State.s0220
-    [SmokeLabel.l0012] = some (State.s0014, -18)
-  rfl
-
-private theorem trieNode0248Eval :
-    evalLabelStepFn smokeNext rootState trieNode0248Labels =
-      some (trieNode0248State, trieNode0248Gain) := by
-  unfold trieNode0248Labels trieNode0248Gain
-  exact evalLabelStepFn_append trieNode0242Eval trieNode0248StepEval
-
 private def trieNode0249State : State := edge0016.dst
 private def trieNode0249StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -16837,20 +13359,6 @@ private theorem trieNode0249Run :
       trieNode0249Labels trieNode0249Gain := by
   unfold trieNode0249Labels trieNode0249Gain
   exact BellmanLabelStepRun.append trieNode0248Run trieNode0249StepRun
-
-private theorem trieNode0249StepEval :
-    evalLabelStepFn smokeNext trieNode0248State
-      trieNode0249StepLabels =
-        some (trieNode0249State, trieNode0249StepGain) := by
-  change evalLabelStepFn smokeNext State.s0014
-    [SmokeLabel.l0011] = some (State.s0023, -117)
-  rfl
-
-private theorem trieNode0249Eval :
-    evalLabelStepFn smokeNext rootState trieNode0249Labels =
-      some (trieNode0249State, trieNode0249Gain) := by
-  unfold trieNode0249Labels trieNode0249Gain
-  exact evalLabelStepFn_append trieNode0248Eval trieNode0249StepEval
 
 private def trieNode0250State : State := edge0032.dst
 private def trieNode0250StepLabels : List SmokeLabel :=
@@ -16876,20 +13384,6 @@ private theorem trieNode0250Run :
   unfold trieNode0250Labels trieNode0250Gain
   exact BellmanLabelStepRun.append trieNode0249Run trieNode0250StepRun
 
-private theorem trieNode0250StepEval :
-    evalLabelStepFn smokeNext trieNode0249State
-      trieNode0250StepLabels =
-        some (trieNode0250State, trieNode0250StepGain) := by
-  change evalLabelStepFn smokeNext State.s0023
-    [SmokeLabel.l0003] = some (State.s0053, 96)
-  rfl
-
-private theorem trieNode0250Eval :
-    evalLabelStepFn smokeNext rootState trieNode0250Labels =
-      some (trieNode0250State, trieNode0250Gain) := by
-  unfold trieNode0250Labels trieNode0250Gain
-  exact evalLabelStepFn_append trieNode0249Eval trieNode0250StepEval
-
 private def trieNode0251State : State := edge0064.dst
 private def trieNode0251StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -16913,20 +13407,6 @@ private theorem trieNode0251Run :
       trieNode0251Labels trieNode0251Gain := by
   unfold trieNode0251Labels trieNode0251Gain
   exact BellmanLabelStepRun.append trieNode0250Run trieNode0251StepRun
-
-private theorem trieNode0251StepEval :
-    evalLabelStepFn smokeNext trieNode0250State
-      trieNode0251StepLabels =
-        some (trieNode0251State, trieNode0251StepGain) := by
-  change evalLabelStepFn smokeNext State.s0053
-    [SmokeLabel.l0001] = some (State.s0085, -124)
-  rfl
-
-private theorem trieNode0251Eval :
-    evalLabelStepFn smokeNext rootState trieNode0251Labels =
-      some (trieNode0251State, trieNode0251Gain) := by
-  unfold trieNode0251Labels trieNode0251Gain
-  exact evalLabelStepFn_append trieNode0250Eval trieNode0251StepEval
 
 private def trieNode0252State : State := edge0096.dst
 private def trieNode0252StepLabels : List SmokeLabel :=
@@ -16952,20 +13432,6 @@ private theorem trieNode0252Run :
   unfold trieNode0252Labels trieNode0252Gain
   exact BellmanLabelStepRun.append trieNode0251Run trieNode0252StepRun
 
-private theorem trieNode0252StepEval :
-    evalLabelStepFn smokeNext trieNode0251State
-      trieNode0252StepLabels =
-        some (trieNode0252State, trieNode0252StepGain) := by
-  change evalLabelStepFn smokeNext State.s0085
-    [SmokeLabel.l0009] = some (State.s0114, -73)
-  rfl
-
-private theorem trieNode0252Eval :
-    evalLabelStepFn smokeNext rootState trieNode0252Labels =
-      some (trieNode0252State, trieNode0252Gain) := by
-  unfold trieNode0252Labels trieNode0252Gain
-  exact evalLabelStepFn_append trieNode0251Eval trieNode0252StepEval
-
 private def trieNode0253State : State := edge0017.dst
 private def trieNode0253StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -16989,20 +13455,6 @@ private theorem trieNode0253Run :
       trieNode0253Labels trieNode0253Gain := by
   unfold trieNode0253Labels trieNode0253Gain
   exact BellmanLabelStepRun.append trieNode0248Run trieNode0253StepRun
-
-private theorem trieNode0253StepEval :
-    evalLabelStepFn smokeNext trieNode0248State
-      trieNode0253StepLabels =
-        some (trieNode0253State, trieNode0253StepGain) := by
-  change evalLabelStepFn smokeNext State.s0014
-    [SmokeLabel.l0001] = some (State.s0045, 96)
-  rfl
-
-private theorem trieNode0253Eval :
-    evalLabelStepFn smokeNext rootState trieNode0253Labels =
-      some (trieNode0253State, trieNode0253Gain) := by
-  unfold trieNode0253Labels trieNode0253Gain
-  exact evalLabelStepFn_append trieNode0248Eval trieNode0253StepEval
 
 private def trieNode0254State : State := edge0054.dst
 private def trieNode0254StepLabels : List SmokeLabel :=
@@ -17028,20 +13480,6 @@ private theorem trieNode0254Run :
   unfold trieNode0254Labels trieNode0254Gain
   exact BellmanLabelStepRun.append trieNode0253Run trieNode0254StepRun
 
-private theorem trieNode0254StepEval :
-    evalLabelStepFn smokeNext trieNode0253State
-      trieNode0254StepLabels =
-        some (trieNode0254State, trieNode0254StepGain) := by
-  change evalLabelStepFn smokeNext State.s0045
-    [SmokeLabel.l0003] = some (State.s0076, -124)
-  rfl
-
-private theorem trieNode0254Eval :
-    evalLabelStepFn smokeNext rootState trieNode0254Labels =
-      some (trieNode0254State, trieNode0254Gain) := by
-  unfold trieNode0254Labels trieNode0254Gain
-  exact evalLabelStepFn_append trieNode0253Eval trieNode0254StepEval
-
 private def trieNode0255State : State := edge0087.dst
 private def trieNode0255StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -17065,20 +13503,6 @@ private theorem trieNode0255Run :
       trieNode0255Labels trieNode0255Gain := by
   unfold trieNode0255Labels trieNode0255Gain
   exact BellmanLabelStepRun.append trieNode0254Run trieNode0255StepRun
-
-private theorem trieNode0255StepEval :
-    evalLabelStepFn smokeNext trieNode0254State
-      trieNode0255StepLabels =
-        some (trieNode0255State, trieNode0255StepGain) := by
-  change evalLabelStepFn smokeNext State.s0076
-    [SmokeLabel.l0011] = some (State.s0084, 103)
-  rfl
-
-private theorem trieNode0255Eval :
-    evalLabelStepFn smokeNext rootState trieNode0255Labels =
-      some (trieNode0255State, trieNode0255Gain) := by
-  unfold trieNode0255Labels trieNode0255Gain
-  exact evalLabelStepFn_append trieNode0254Eval trieNode0255StepEval
 
 private def trieNode0256State : State := edge0095.dst
 private def trieNode0256StepLabels : List SmokeLabel :=
@@ -17104,20 +13528,6 @@ private theorem trieNode0256Run :
   unfold trieNode0256Labels trieNode0256Gain
   exact BellmanLabelStepRun.append trieNode0255Run trieNode0256StepRun
 
-private theorem trieNode0256StepEval :
-    evalLabelStepFn smokeNext trieNode0255State
-      trieNode0256StepLabels =
-        some (trieNode0256State, trieNode0256StepGain) := by
-  change evalLabelStepFn smokeNext State.s0084
-    [SmokeLabel.l0009] = some (State.s0113, -73)
-  rfl
-
-private theorem trieNode0256Eval :
-    evalLabelStepFn smokeNext rootState trieNode0256Labels =
-      some (trieNode0256State, trieNode0256Gain) := by
-  unfold trieNode0256Labels trieNode0256Gain
-  exact evalLabelStepFn_append trieNode0255Eval trieNode0256StepEval
-
 private def trieNode0257State : State := edge0205.dst
 private def trieNode0257StepLabels : List SmokeLabel :=
   [SmokeLabel.l0001]
@@ -17141,20 +13551,6 @@ private theorem trieNode0257Run :
       trieNode0257Labels trieNode0257Gain := by
   unfold trieNode0257Labels trieNode0257Gain
   exact BellmanLabelStepRun.append trieNode0226Run trieNode0257StepRun
-
-private theorem trieNode0257StepEval :
-    evalLabelStepFn smokeNext trieNode0226State
-      trieNode0257StepLabels =
-        some (trieNode0257State, trieNode0257StepGain) := by
-  change evalLabelStepFn smokeNext State.s0203
-    [SmokeLabel.l0001] = some (State.s0222, 96)
-  rfl
-
-private theorem trieNode0257Eval :
-    evalLabelStepFn smokeNext rootState trieNode0257Labels =
-      some (trieNode0257State, trieNode0257Gain) := by
-  unfold trieNode0257Labels trieNode0257Gain
-  exact evalLabelStepFn_append trieNode0226Eval trieNode0257StepEval
 
 private def trieNode0258State : State := edge0228.dst
 private def trieNode0258StepLabels : List SmokeLabel :=
@@ -17180,20 +13576,6 @@ private theorem trieNode0258Run :
   unfold trieNode0258Labels trieNode0258Gain
   exact BellmanLabelStepRun.append trieNode0257Run trieNode0258StepRun
 
-private theorem trieNode0258StepEval :
-    evalLabelStepFn smokeNext trieNode0257State
-      trieNode0258StepLabels =
-        some (trieNode0258State, trieNode0258StepGain) := by
-  change evalLabelStepFn smokeNext State.s0222
-    [SmokeLabel.l0003] = some (State.s0022, -124)
-  rfl
-
-private theorem trieNode0258Eval :
-    evalLabelStepFn smokeNext rootState trieNode0258Labels =
-      some (trieNode0258State, trieNode0258Gain) := by
-  unfold trieNode0258Labels trieNode0258Gain
-  exact evalLabelStepFn_append trieNode0257Eval trieNode0258StepEval
-
 private def trieNode0259State : State := edge0030.dst
 private def trieNode0259StepLabels : List SmokeLabel :=
   [SmokeLabel.l0011]
@@ -17217,20 +13599,6 @@ private theorem trieNode0259Run :
       trieNode0259Labels trieNode0259Gain := by
   unfold trieNode0259Labels trieNode0259Gain
   exact BellmanLabelStepRun.append trieNode0258Run trieNode0259StepRun
-
-private theorem trieNode0259StepEval :
-    evalLabelStepFn smokeNext trieNode0258State
-      trieNode0259StepLabels =
-        some (trieNode0259State, trieNode0259StepGain) := by
-  change evalLabelStepFn smokeNext State.s0022
-    [SmokeLabel.l0011] = some (State.s0042, 103)
-  rfl
-
-private theorem trieNode0259Eval :
-    evalLabelStepFn smokeNext rootState trieNode0259Labels =
-      some (trieNode0259State, trieNode0259Gain) := by
-  unfold trieNode0259Labels trieNode0259Gain
-  exact evalLabelStepFn_append trieNode0258Eval trieNode0259StepEval
 
 private def trieNode0260State : State := edge0051.dst
 private def trieNode0260StepLabels : List SmokeLabel :=
@@ -17256,20 +13624,6 @@ private theorem trieNode0260Run :
   unfold trieNode0260Labels trieNode0260Gain
   exact BellmanLabelStepRun.append trieNode0259Run trieNode0260StepRun
 
-private theorem trieNode0260StepEval :
-    evalLabelStepFn smokeNext trieNode0259State
-      trieNode0260StepLabels =
-        some (trieNode0260State, trieNode0260StepGain) := by
-  change evalLabelStepFn smokeNext State.s0042
-    [SmokeLabel.l0012] = some (State.s0070, -10)
-  rfl
-
-private theorem trieNode0260Eval :
-    evalLabelStepFn smokeNext rootState trieNode0260Labels =
-      some (trieNode0260State, trieNode0260Gain) := by
-  unfold trieNode0260Labels trieNode0260Gain
-  exact evalLabelStepFn_append trieNode0259Eval trieNode0260StepEval
-
 private def trieNode0261State : State := edge0081.dst
 private def trieNode0261StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -17293,20 +13647,6 @@ private theorem trieNode0261Run :
       trieNode0261Labels trieNode0261Gain := by
   unfold trieNode0261Labels trieNode0261Gain
   exact BellmanLabelStepRun.append trieNode0260Run trieNode0261StepRun
-
-private theorem trieNode0261StepEval :
-    evalLabelStepFn smokeNext trieNode0260State
-      trieNode0261StepLabels =
-        some (trieNode0261State, trieNode0261StepGain) := by
-  change evalLabelStepFn smokeNext State.s0070
-    [SmokeLabel.l0013] = some (State.s0086, -10)
-  rfl
-
-private theorem trieNode0261Eval :
-    evalLabelStepFn smokeNext rootState trieNode0261Labels =
-      some (trieNode0261State, trieNode0261Gain) := by
-  unfold trieNode0261Labels trieNode0261Gain
-  exact evalLabelStepFn_append trieNode0260Eval trieNode0261StepEval
 
 private def trieNode0262State : State := edge0097.dst
 private def trieNode0262StepLabels : List SmokeLabel :=
@@ -17332,20 +13672,6 @@ private theorem trieNode0262Run :
   unfold trieNode0262Labels trieNode0262Gain
   exact BellmanLabelStepRun.append trieNode0261Run trieNode0262StepRun
 
-private theorem trieNode0262StepEval :
-    evalLabelStepFn smokeNext trieNode0261State
-      trieNode0262StepLabels =
-        some (trieNode0262State, trieNode0262StepGain) := by
-  change evalLabelStepFn smokeNext State.s0086
-    [SmokeLabel.l0009] = some (State.s0115, -73)
-  rfl
-
-private theorem trieNode0262Eval :
-    evalLabelStepFn smokeNext rootState trieNode0262Labels =
-      some (trieNode0262State, trieNode0262Gain) := by
-  unfold trieNode0262Labels trieNode0262Gain
-  exact evalLabelStepFn_append trieNode0261Eval trieNode0262StepEval
-
 private def trieNode0263State : State := edge0031.dst
 private def trieNode0263StepLabels : List SmokeLabel :=
   [SmokeLabel.l0012]
@@ -17369,20 +13695,6 @@ private theorem trieNode0263Run :
       trieNode0263Labels trieNode0263Gain := by
   unfold trieNode0263Labels trieNode0263Gain
   exact BellmanLabelStepRun.append trieNode0258Run trieNode0263StepRun
-
-private theorem trieNode0263StepEval :
-    evalLabelStepFn smokeNext trieNode0258State
-      trieNode0263StepLabels =
-        some (trieNode0263State, trieNode0263StepGain) := by
-  change evalLabelStepFn smokeNext State.s0022
-    [SmokeLabel.l0012] = some (State.s0051, -10)
-  rfl
-
-private theorem trieNode0263Eval :
-    evalLabelStepFn smokeNext rootState trieNode0263Labels =
-      some (trieNode0263State, trieNode0263Gain) := by
-  unfold trieNode0263Labels trieNode0263Gain
-  exact evalLabelStepFn_append trieNode0258Eval trieNode0263StepEval
 
 private def trieNode0264State : State := edge0060.dst
 private def trieNode0264StepLabels : List SmokeLabel :=
@@ -17408,20 +13720,6 @@ private theorem trieNode0264Run :
   unfold trieNode0264Labels trieNode0264Gain
   exact BellmanLabelStepRun.append trieNode0263Run trieNode0264StepRun
 
-private theorem trieNode0264StepEval :
-    evalLabelStepFn smokeNext trieNode0263State
-      trieNode0264StepLabels =
-        some (trieNode0264State, trieNode0264StepGain) := by
-  change evalLabelStepFn smokeNext State.s0051
-    [SmokeLabel.l0011] = some (State.s0070, 103)
-  rfl
-
-private theorem trieNode0264Eval :
-    evalLabelStepFn smokeNext rootState trieNode0264Labels =
-      some (trieNode0264State, trieNode0264Gain) := by
-  unfold trieNode0264Labels trieNode0264Gain
-  exact evalLabelStepFn_append trieNode0263Eval trieNode0264StepEval
-
 private def trieNode0265State : State := edge0081.dst
 private def trieNode0265StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -17445,20 +13743,6 @@ private theorem trieNode0265Run :
       trieNode0265Labels trieNode0265Gain := by
   unfold trieNode0265Labels trieNode0265Gain
   exact BellmanLabelStepRun.append trieNode0264Run trieNode0265StepRun
-
-private theorem trieNode0265StepEval :
-    evalLabelStepFn smokeNext trieNode0264State
-      trieNode0265StepLabels =
-        some (trieNode0265State, trieNode0265StepGain) := by
-  change evalLabelStepFn smokeNext State.s0070
-    [SmokeLabel.l0013] = some (State.s0086, -10)
-  rfl
-
-private theorem trieNode0265Eval :
-    evalLabelStepFn smokeNext rootState trieNode0265Labels =
-      some (trieNode0265State, trieNode0265Gain) := by
-  unfold trieNode0265Labels trieNode0265Gain
-  exact evalLabelStepFn_append trieNode0264Eval trieNode0265StepEval
 
 private def trieNode0266State : State := edge0097.dst
 private def trieNode0266StepLabels : List SmokeLabel :=
@@ -17484,20 +13768,6 @@ private theorem trieNode0266Run :
   unfold trieNode0266Labels trieNode0266Gain
   exact BellmanLabelStepRun.append trieNode0265Run trieNode0266StepRun
 
-private theorem trieNode0266StepEval :
-    evalLabelStepFn smokeNext trieNode0265State
-      trieNode0266StepLabels =
-        some (trieNode0266State, trieNode0266StepGain) := by
-  change evalLabelStepFn smokeNext State.s0086
-    [SmokeLabel.l0009] = some (State.s0115, -73)
-  rfl
-
-private theorem trieNode0266Eval :
-    evalLabelStepFn smokeNext rootState trieNode0266Labels =
-      some (trieNode0266State, trieNode0266Gain) := by
-  unfold trieNode0266Labels trieNode0266Gain
-  exact evalLabelStepFn_append trieNode0265Eval trieNode0266StepEval
-
 private def trieNode0267State : State := edge0061.dst
 private def trieNode0267StepLabels : List SmokeLabel :=
   [SmokeLabel.l0013]
@@ -17521,20 +13791,6 @@ private theorem trieNode0267Run :
       trieNode0267Labels trieNode0267Gain := by
   unfold trieNode0267Labels trieNode0267Gain
   exact BellmanLabelStepRun.append trieNode0263Run trieNode0267StepRun
-
-private theorem trieNode0267StepEval :
-    evalLabelStepFn smokeNext trieNode0263State
-      trieNode0267StepLabels =
-        some (trieNode0267State, trieNode0267StepGain) := by
-  change evalLabelStepFn smokeNext State.s0051
-    [SmokeLabel.l0013] = some (State.s0077, -10)
-  rfl
-
-private theorem trieNode0267Eval :
-    evalLabelStepFn smokeNext rootState trieNode0267Labels =
-      some (trieNode0267State, trieNode0267Gain) := by
-  unfold trieNode0267Labels trieNode0267Gain
-  exact evalLabelStepFn_append trieNode0263Eval trieNode0267StepEval
 
 private def trieNode0268State : State := edge0088.dst
 private def trieNode0268StepLabels : List SmokeLabel :=
@@ -17560,20 +13816,6 @@ private theorem trieNode0268Run :
   unfold trieNode0268Labels trieNode0268Gain
   exact BellmanLabelStepRun.append trieNode0267Run trieNode0268StepRun
 
-private theorem trieNode0268StepEval :
-    evalLabelStepFn smokeNext trieNode0267State
-      trieNode0268StepLabels =
-        some (trieNode0268State, trieNode0268StepGain) := by
-  change evalLabelStepFn smokeNext State.s0077
-    [SmokeLabel.l0011] = some (State.s0086, 103)
-  rfl
-
-private theorem trieNode0268Eval :
-    evalLabelStepFn smokeNext rootState trieNode0268Labels =
-      some (trieNode0268State, trieNode0268Gain) := by
-  unfold trieNode0268Labels trieNode0268Gain
-  exact evalLabelStepFn_append trieNode0267Eval trieNode0268StepEval
-
 private def trieNode0269State : State := edge0097.dst
 private def trieNode0269StepLabels : List SmokeLabel :=
   [SmokeLabel.l0009]
@@ -17597,20 +13839,6 @@ private theorem trieNode0269Run :
       trieNode0269Labels trieNode0269Gain := by
   unfold trieNode0269Labels trieNode0269Gain
   exact BellmanLabelStepRun.append trieNode0268Run trieNode0269StepRun
-
-private theorem trieNode0269StepEval :
-    evalLabelStepFn smokeNext trieNode0268State
-      trieNode0269StepLabels =
-        some (trieNode0269State, trieNode0269StepGain) := by
-  change evalLabelStepFn smokeNext State.s0086
-    [SmokeLabel.l0009] = some (State.s0115, -73)
-  rfl
-
-private theorem trieNode0269Eval :
-    evalLabelStepFn smokeNext rootState trieNode0269Labels =
-      some (trieNode0269State, trieNode0269Gain) := by
-  unfold trieNode0269Labels trieNode0269Gain
-  exact evalLabelStepFn_append trieNode0268Eval trieNode0269StepEval
 
 private def cls0000Labels : List SmokeLabel :=
   [SmokeLabel.l0008
@@ -28404,6 +24632,349 @@ theorem graphSmoke_cls0001_face_seq_trace_scaled_margin_nonpos :
     smokeLabelStepTraceScaledMargin (cls0001TraceOfSeq cls0001FaceSeq) <= 0 :=
   graphSmoke_cls0001_seq_language_scaled_margin_nonpos
     cls0001FaceSeq (fun _ => rfl)
+
+-- sampled eval trie nodes, including root: 25
+private theorem trieNode0000Eval :
+    evalLabelStepFn smokeNext rootState trieNode0000Labels =
+      some (trieNode0000State, trieNode0000Gain) := by
+  unfold trieNode0000State trieNode0000Labels trieNode0000Gain
+  simp [evalLabelStepFn]
+
+private theorem trieNode0001StepEval :
+    evalLabelStepFn smokeNext trieNode0000State
+      trieNode0001StepLabels =
+        some (trieNode0001State, trieNode0001StepGain) := by
+  change evalLabelStepFn smokeNext State.s0000
+    [SmokeLabel.l0008] = some (State.s0142, 103)
+  rfl
+
+private theorem trieNode0001Eval :
+    evalLabelStepFn smokeNext rootState trieNode0001Labels =
+      some (trieNode0001State, trieNode0001Gain) := by
+  unfold trieNode0001Labels trieNode0001Gain
+  exact evalLabelStepFn_append trieNode0000Eval trieNode0001StepEval
+
+private theorem trieNode0002StepEval :
+    evalLabelStepFn smokeNext trieNode0001State
+      trieNode0002StepLabels =
+        some (trieNode0002State, trieNode0002StepGain) := by
+  change evalLabelStepFn smokeNext State.s0142
+    [SmokeLabel.l0010] = some (State.s0143, -73)
+  rfl
+
+private theorem trieNode0002Eval :
+    evalLabelStepFn smokeNext rootState trieNode0002Labels =
+      some (trieNode0002State, trieNode0002Gain) := by
+  unfold trieNode0002Labels trieNode0002Gain
+  exact evalLabelStepFn_append trieNode0001Eval trieNode0002StepEval
+
+private theorem trieNode0003StepEval :
+    evalLabelStepFn smokeNext trieNode0002State
+      trieNode0003StepLabels =
+        some (trieNode0003State, trieNode0003StepGain) := by
+  change evalLabelStepFn smokeNext State.s0143
+    [SmokeLabel.l0011] = some (State.s0144, -73)
+  rfl
+
+private theorem trieNode0003Eval :
+    evalLabelStepFn smokeNext rootState trieNode0003Labels =
+      some (trieNode0003State, trieNode0003Gain) := by
+  unfold trieNode0003Labels trieNode0003Gain
+  exact evalLabelStepFn_append trieNode0002Eval trieNode0003StepEval
+
+private theorem trieNode0004StepEval :
+    evalLabelStepFn smokeNext trieNode0003State
+      trieNode0004StepLabels =
+        some (trieNode0004State, trieNode0004StepGain) := by
+  change evalLabelStepFn smokeNext State.s0144
+    [SmokeLabel.l0012] = some (State.s0147, -10)
+  rfl
+
+private theorem trieNode0004Eval :
+    evalLabelStepFn smokeNext rootState trieNode0004Labels =
+      some (trieNode0004State, trieNode0004Gain) := by
+  unfold trieNode0004Labels trieNode0004Gain
+  exact evalLabelStepFn_append trieNode0003Eval trieNode0004StepEval
+
+private theorem trieNode0005StepEval :
+    evalLabelStepFn smokeNext trieNode0004State
+      trieNode0005StepLabels =
+        some (trieNode0005State, trieNode0005StepGain) := by
+  change evalLabelStepFn smokeNext State.s0147
+    [SmokeLabel.l0013] = some (State.s0153, -10)
+  rfl
+
+private theorem trieNode0005Eval :
+    evalLabelStepFn smokeNext rootState trieNode0005Labels =
+      some (trieNode0005State, trieNode0005Gain) := by
+  unfold trieNode0005Labels trieNode0005Gain
+  exact evalLabelStepFn_append trieNode0004Eval trieNode0005StepEval
+
+private theorem trieNode0015StepEval :
+    evalLabelStepFn smokeNext trieNode0004State
+      trieNode0015StepLabels =
+        some (trieNode0015State, trieNode0015StepGain) := by
+  change evalLabelStepFn smokeNext State.s0147
+    [SmokeLabel.l0001] = some (State.s0155, -124)
+  rfl
+
+private theorem trieNode0015Eval :
+    evalLabelStepFn smokeNext rootState trieNode0015Labels =
+      some (trieNode0015State, trieNode0015Gain) := by
+  unfold trieNode0015Labels trieNode0015Gain
+  exact evalLabelStepFn_append trieNode0004Eval trieNode0015StepEval
+
+private theorem trieNode0006StepEval :
+    evalLabelStepFn smokeNext trieNode0005State
+      trieNode0006StepLabels =
+        some (trieNode0006State, trieNode0006StepGain) := by
+  change evalLabelStepFn smokeNext State.s0153
+    [SmokeLabel.l0000] = some (State.s0163, -124)
+  rfl
+
+private theorem trieNode0006Eval :
+    evalLabelStepFn smokeNext rootState trieNode0006Labels =
+      some (trieNode0006State, trieNode0006Gain) := by
+  unfold trieNode0006Labels trieNode0006Gain
+  exact evalLabelStepFn_append trieNode0005Eval trieNode0006StepEval
+
+private theorem trieNode0016StepEval :
+    evalLabelStepFn smokeNext trieNode0015State
+      trieNode0016StepLabels =
+        some (trieNode0016State, trieNode0016StepGain) := by
+  change evalLabelStepFn smokeNext State.s0155
+    [SmokeLabel.l0005] = some (State.s0166, 96)
+  rfl
+
+private theorem trieNode0016Eval :
+    evalLabelStepFn smokeNext rootState trieNode0016Labels =
+      some (trieNode0016State, trieNode0016Gain) := by
+  unfold trieNode0016Labels trieNode0016Gain
+  exact evalLabelStepFn_append trieNode0015Eval trieNode0016StepEval
+
+private theorem trieNode0007StepEval :
+    evalLabelStepFn smokeNext trieNode0006State
+      trieNode0007StepLabels =
+        some (trieNode0007State, trieNode0007StepGain) := by
+  change evalLabelStepFn smokeNext State.s0163
+    [SmokeLabel.l0004] = some (State.s0176, 96)
+  rfl
+
+private theorem trieNode0007Eval :
+    evalLabelStepFn smokeNext rootState trieNode0007Labels =
+      some (trieNode0007State, trieNode0007Gain) := by
+  unfold trieNode0007Labels trieNode0007Gain
+  exact evalLabelStepFn_append trieNode0006Eval trieNode0007StepEval
+
+private theorem trieNode0017StepEval :
+    evalLabelStepFn smokeNext trieNode0016State
+      trieNode0017StepLabels =
+        some (trieNode0017State, trieNode0017StepGain) := by
+  change evalLabelStepFn smokeNext State.s0166
+    [SmokeLabel.l0007] = some (State.s0179, -36)
+  rfl
+
+private theorem trieNode0017Eval :
+    evalLabelStepFn smokeNext rootState trieNode0017Labels =
+      some (trieNode0017State, trieNode0017Gain) := by
+  unfold trieNode0017Labels trieNode0017Gain
+  exact evalLabelStepFn_append trieNode0016Eval trieNode0017StepEval
+
+private theorem trieNode0008StepEval :
+    evalLabelStepFn smokeNext trieNode0007State
+      trieNode0008StepLabels =
+        some (trieNode0008State, trieNode0008StepGain) := by
+  change evalLabelStepFn smokeNext State.s0176
+    [SmokeLabel.l0006] = some (State.s0191, -36)
+  rfl
+
+private theorem trieNode0008Eval :
+    evalLabelStepFn smokeNext rootState trieNode0008Labels =
+      some (trieNode0008State, trieNode0008Gain) := by
+  unfold trieNode0008Labels trieNode0008Gain
+  exact evalLabelStepFn_append trieNode0007Eval trieNode0008StepEval
+
+private theorem trieNode0018StepEval :
+    evalLabelStepFn smokeNext trieNode0017State
+      trieNode0018StepLabels =
+        some (trieNode0018State, trieNode0018StepGain) := by
+  change evalLabelStepFn smokeNext State.s0179
+    [SmokeLabel.l0004] = some (State.s0194, -144)
+  rfl
+
+private theorem trieNode0018Eval :
+    evalLabelStepFn smokeNext rootState trieNode0018Labels =
+      some (trieNode0018State, trieNode0018Gain) := by
+  unfold trieNode0018Labels trieNode0018Gain
+  exact evalLabelStepFn_append trieNode0017Eval trieNode0018StepEval
+
+private theorem trieNode0009StepEval :
+    evalLabelStepFn smokeNext trieNode0008State
+      trieNode0009StepLabels =
+        some (trieNode0009State, trieNode0009StepGain) := by
+  change evalLabelStepFn smokeNext State.s0191
+    [SmokeLabel.l0005] = some (State.s0208, -144)
+  rfl
+
+private theorem trieNode0009Eval :
+    evalLabelStepFn smokeNext rootState trieNode0009Labels =
+      some (trieNode0009State, trieNode0009Gain) := by
+  unfold trieNode0009Labels trieNode0009Gain
+  exact evalLabelStepFn_append trieNode0008Eval trieNode0009StepEval
+
+private theorem trieNode0019StepEval :
+    evalLabelStepFn smokeNext trieNode0018State
+      trieNode0019StepLabels =
+        some (trieNode0019State, trieNode0019StepGain) := by
+  change evalLabelStepFn smokeNext State.s0194
+    [SmokeLabel.l0003] = some (State.s0211, -144)
+  rfl
+
+private theorem trieNode0019Eval :
+    evalLabelStepFn smokeNext rootState trieNode0019Labels =
+      some (trieNode0019State, trieNode0019Gain) := by
+  unfold trieNode0019Labels trieNode0019Gain
+  exact evalLabelStepFn_append trieNode0018Eval trieNode0019StepEval
+
+private theorem trieNode0010StepEval :
+    evalLabelStepFn smokeNext trieNode0009State
+      trieNode0010StepLabels =
+        some (trieNode0010State, trieNode0010StepGain) := by
+  change evalLabelStepFn smokeNext State.s0208
+    [SmokeLabel.l0002] = some (State.s0006, -144)
+  rfl
+
+private theorem trieNode0010Eval :
+    evalLabelStepFn smokeNext rootState trieNode0010Labels =
+      some (trieNode0010State, trieNode0010Gain) := by
+  unfold trieNode0010Labels trieNode0010Gain
+  exact evalLabelStepFn_append trieNode0009Eval trieNode0010StepEval
+
+private theorem trieNode0020StepEval :
+    evalLabelStepFn smokeNext trieNode0019State
+      trieNode0020StepLabels =
+        some (trieNode0020State, trieNode0020StepGain) := by
+  change evalLabelStepFn smokeNext State.s0211
+    [SmokeLabel.l0006] = some (State.s0011, -36)
+  rfl
+
+private theorem trieNode0020Eval :
+    evalLabelStepFn smokeNext rootState trieNode0020Labels =
+      some (trieNode0020State, trieNode0020Gain) := by
+  unfold trieNode0020Labels trieNode0020Gain
+  exact evalLabelStepFn_append trieNode0019Eval trieNode0020StepEval
+
+private theorem trieNode0011StepEval :
+    evalLabelStepFn smokeNext trieNode0010State
+      trieNode0011StepLabels =
+        some (trieNode0011State, trieNode0011StepGain) := by
+  change evalLabelStepFn smokeNext State.s0006
+    [SmokeLabel.l0007] = some (State.s0036, -36)
+  rfl
+
+private theorem trieNode0011Eval :
+    evalLabelStepFn smokeNext rootState trieNode0011Labels =
+      some (trieNode0011State, trieNode0011Gain) := by
+  unfold trieNode0011Labels trieNode0011Gain
+  exact evalLabelStepFn_append trieNode0010Eval trieNode0011StepEval
+
+private theorem trieNode0021StepEval :
+    evalLabelStepFn smokeNext trieNode0020State
+      trieNode0021StepLabels =
+        some (trieNode0021State, trieNode0021StepGain) := by
+  change evalLabelStepFn smokeNext State.s0011
+    [SmokeLabel.l0002] = some (State.s0041, 96)
+  rfl
+
+private theorem trieNode0021Eval :
+    evalLabelStepFn smokeNext rootState trieNode0021Labels =
+      some (trieNode0021State, trieNode0021Gain) := by
+  unfold trieNode0021Labels trieNode0021Gain
+  exact evalLabelStepFn_append trieNode0020Eval trieNode0021StepEval
+
+private theorem trieNode0012StepEval :
+    evalLabelStepFn smokeNext trieNode0011State
+      trieNode0012StepLabels =
+        some (trieNode0012State, trieNode0012StepGain) := by
+  change evalLabelStepFn smokeNext State.s0036
+    [SmokeLabel.l0003] = some (State.s0069, 96)
+  rfl
+
+private theorem trieNode0012Eval :
+    evalLabelStepFn smokeNext rootState trieNode0012Labels =
+      some (trieNode0012State, trieNode0012Gain) := by
+  unfold trieNode0012Labels trieNode0012Gain
+  exact evalLabelStepFn_append trieNode0011Eval trieNode0012StepEval
+
+private theorem trieNode0022StepEval :
+    evalLabelStepFn smokeNext trieNode0021State
+      trieNode0022StepLabels =
+        some (trieNode0022State, trieNode0022StepGain) := by
+  change evalLabelStepFn smokeNext State.s0041
+    [SmokeLabel.l0000] = some (State.s0075, -124)
+  rfl
+
+private theorem trieNode0022Eval :
+    evalLabelStepFn smokeNext rootState trieNode0022Labels =
+      some (trieNode0022State, trieNode0022Gain) := by
+  unfold trieNode0022Labels trieNode0022Gain
+  exact evalLabelStepFn_append trieNode0021Eval trieNode0022StepEval
+
+private theorem trieNode0013StepEval :
+    evalLabelStepFn smokeNext trieNode0012State
+      trieNode0013StepLabels =
+        some (trieNode0013State, trieNode0013StepGain) := by
+  change evalLabelStepFn smokeNext State.s0069
+    [SmokeLabel.l0001] = some (State.s0112, -124)
+  rfl
+
+private theorem trieNode0013Eval :
+    evalLabelStepFn smokeNext rootState trieNode0013Labels =
+      some (trieNode0013State, trieNode0013Gain) := by
+  unfold trieNode0013Labels trieNode0013Gain
+  exact evalLabelStepFn_append trieNode0012Eval trieNode0013StepEval
+
+private theorem trieNode0023StepEval :
+    evalLabelStepFn smokeNext trieNode0022State
+      trieNode0023StepLabels =
+        some (trieNode0023State, trieNode0023StepGain) := by
+  change evalLabelStepFn smokeNext State.s0075
+    [SmokeLabel.l0013] = some (State.s0109, -10)
+  rfl
+
+private theorem trieNode0023Eval :
+    evalLabelStepFn smokeNext rootState trieNode0023Labels =
+      some (trieNode0023State, trieNode0023Gain) := by
+  unfold trieNode0023Labels trieNode0023Gain
+  exact evalLabelStepFn_append trieNode0022Eval trieNode0023StepEval
+
+private theorem trieNode0014StepEval :
+    evalLabelStepFn smokeNext trieNode0013State
+      trieNode0014StepLabels =
+        some (trieNode0014State, trieNode0014StepGain) := by
+  change evalLabelStepFn smokeNext State.s0112
+    [SmokeLabel.l0009] = some (State.s0141, -73)
+  rfl
+
+private theorem trieNode0014Eval :
+    evalLabelStepFn smokeNext rootState trieNode0014Labels =
+      some (trieNode0014State, trieNode0014Gain) := by
+  unfold trieNode0014Labels trieNode0014Gain
+  exact evalLabelStepFn_append trieNode0013Eval trieNode0014StepEval
+
+private theorem trieNode0024StepEval :
+    evalLabelStepFn smokeNext trieNode0023State
+      trieNode0024StepLabels =
+        some (trieNode0024State, trieNode0024StepGain) := by
+  change evalLabelStepFn smokeNext State.s0109
+    [SmokeLabel.l0009] = some (State.s0138, -73)
+  rfl
+
+private theorem trieNode0024Eval :
+    evalLabelStepFn smokeNext rootState trieNode0024Labels =
+      some (trieNode0024State, trieNode0024Gain) := by
+  unfold trieNode0024Labels trieNode0024Gain
+  exact evalLabelStepFn_append trieNode0023Eval trieNode0024StepEval
 
 private inductive SampledRankIndex where
   | i0000

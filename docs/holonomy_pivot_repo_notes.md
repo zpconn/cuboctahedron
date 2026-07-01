@@ -1641,3 +1641,22 @@ that the all-trie-node smoke is too heavy to scale without more sharding or
 pruning: production should emit eval facts only for terminal object-family
 nodes, or split each Bellman family into small modules that export semantic
 killed theorems.
+
+Sampled-only eval-node follow-up:
+
+- `scripts/emit_bellman_graph_smoke.py` now emits eval lemmas only for trie
+  nodes on the sampled object-cover paths.
+- Current bounded smoke: `25` sampled eval trie nodes including the root.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+  ```
+
+  passed in `2:24.17` wall time with `9,997,752 kB` max RSS.
+
+This did not materially improve the build profile relative to the all-node eval
+smoke.  The next optimization should target the full transition table and
+`SmokeStepEval.valid` proof shape, likely by emitting family-local or
+terminal-local tables rather than one broad table/validity proof.

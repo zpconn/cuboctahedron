@@ -49057,3 +49057,35 @@ scaling this exact smoke shape blindly.  Next steps should either emit eval
 facts only for terminal/sampled object-family nodes or split Bellman family
 modules so each one checks a small table and exports only semantic killed
 theorems.
+
+### Holonomy/Bellman Pivot - sampled-only eval-node pruning
+
+The emitter was tightened so eval lemmas are emitted only for trie nodes on the
+sampled object-cover paths.  For the current `--rank-bridge-limit 2` smoke this
+reduces generated eval-node lemmas to:
+
+```text
+sampled eval trie nodes, including root: 25
+```
+
+Command:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2Smoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2Smoke` sampled-only eval nodes | `2:24.17` | `9,997,752 kB` | passed |
+
+Interpretation: this preserves the eval-backed semantic object-cover route,
+but it does **not** materially improve the build profile.  The cost is not
+primarily the number of node eval lemmas.  It is more likely dominated by the
+full `smokeNext` table / broad `SmokeStepEval.valid` case split and the
+sampled start-violation certificate bridge imports.  The next optimization
+should not spend more time pruning trie eval facts; it should make the
+transition table and validity proof family-local, terminal-local, or otherwise
+sharded so each generated module checks a much smaller table.
