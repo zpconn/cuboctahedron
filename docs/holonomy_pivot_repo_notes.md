@@ -2129,3 +2129,16 @@ Next proof-bearing generator step: emit a small smoke where rank membership
 constructs `BellmanEvalStartViolationObject`s from semantic target-pairing,
 local-axis, canonical-bad-face, and closed transition-language invariants
 rather than from a bare sampled-index enumeration.
+
+Split-boundary caveat:
+
+- `BellmanEvalStartViolationObject` is for a generated shard that owns both
+  Bellman automaton data and terminal start-violation payloads.
+- The current graph/terminal split intentionally keeps `State`, `SmokeLabel`,
+  `graphPotential`, and `sampledSmokeNext` private in the graph shard.  A
+  terminal shard should not export or depend on those private internals just to
+  construct the combined object.
+- For split production, use the existing state-erased theorem
+  `nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs`: graph
+  shards export object-level nonpositivity; terminal shards own local
+  start-violation payloads.
