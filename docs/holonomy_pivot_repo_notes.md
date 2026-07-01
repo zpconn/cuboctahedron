@@ -3893,6 +3893,33 @@ Rebase recheck plus twenty-fifth split path:
 Decision: accepted.  The rebase only forced a freshness recheck; all
 proof-bearing checks stayed inside the strict post-crash guard.
 
+Rebase recheck plus twenty-sixth split path:
+
+- Another concurrent README-only update required a clean rebase of the path-24
+  checkpoint.  As before, the replay changed local source mtimes, so path `24`
+  needed a local `.olean` freshness recheck before the selector advanced.
+- Path object index `24` recheck:
+  - trace: passed in `7.51s`, peak RSS `4013 MiB`, hard-AS cap `6144 MiB`,
+    minimum available `46084 MiB`;
+  - split: passed in `2.00s`, peak RSS `3971 MiB`, hard-AS cap `6144 MiB`,
+    minimum available `46155 MiB`.
+- Path object index `25` / rank `946779` was then run as a single guarded path
+  with `--check-stage missing`.
+  - trace: passed in `5.01s`, peak RSS `4044 MiB`, hard-AS cap `6144 MiB`,
+    minimum available `46075 MiB`;
+  - split: passed in `2.00s`, peak RSS `3641 MiB`, hard-AS cap `6144 MiB`,
+    minimum available `46262 MiB`.
+- Refreshed strict `[0,16)` dry-run guard remains `accepted-dry-run` with `0`
+  blocked entries and `0` total blockers.
+- Refreshed `[0,37)` planner summary: `0` over budget, `26` fresh trace
+  artifacts, `26` fresh split artifacts, `1184 KiB` planned trace source, and
+  `74 KiB` planned split source.
+- Refreshed selector chose path index `26`, rank `947437`, as the next possible
+  single-path target.
+
+Decision: accepted.  The proof-bearing checks continue to stay within the
+strict post-crash guard.
+
 Twenty-fourth split path:
 
 - The selected next target, path object index `23` / rank `944199`, was run as

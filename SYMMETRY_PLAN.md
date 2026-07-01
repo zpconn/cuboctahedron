@@ -54775,3 +54775,86 @@ Refreshed accounting:
 Decision: accepted.  The rebase did not invalidate the architecture; it only
 required a local `.olean` freshness recheck for the replayed path-23 source.
 Path `24` then passed under the same strict post-crash memory guard.
+
+### Holonomy/Bellman Pivot - rebase recheck and twenty-sixth split path accepted
+
+Another concurrent README-only remote update required a clean rebase of the
+path-24 checkpoint.  As before, the rebase replay made the just-checked source
+newer than its local `.olean`, so path object index `24` needed a freshness
+recheck before the selector advanced.  After that, checked path object index
+`25`, rank `946779`.
+
+Commands run:
+
+```bash
+git fetch origin
+git log --oneline --left-right --cherry-pick HEAD...origin/main
+git rebase origin/main
+git push
+
+python3 scripts/run_bellman_split_smoke_path.py 24 \
+  --check \
+  --check-stage missing \
+  --json scripts/generated/bellman_split_path_24_rebase_recheck_run.json
+
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+
+python3 scripts/run_bellman_split_smoke_path.py 25 \
+  --check \
+  --check-stage missing \
+  --dry-run \
+  --json scripts/generated/bellman_split_path_25_missing_dry_run.json
+
+python3 scripts/run_bellman_split_smoke_path.py 25 \
+  --check \
+  --check-stage missing \
+  --json scripts/generated/bellman_split_path_25_missing_run.json
+
+python3 scripts/plan_bellman_split_batch_guard.py \
+  --start-index 0 \
+  --count 16 \
+  --require-fresh-artifacts \
+  --require-checked-summaries \
+  --json scripts/generated/bellman_split_batch_guard_000_016.json \
+  --markdown docs/bellman_split_batch_guard_000_016.md
+
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+
+python3 scripts/plan_bellman_split_smokes.py \
+  --count 37 \
+  --json scripts/generated/bellman_split_smoke_batch_plan_000_037.json \
+  --markdown docs/bellman_split_smoke_batch_plan_000_037.md
+```
+
+Proof-bearing results:
+
+| component | elapsed | peak tree RSS | hard-AS cap | min available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| path `24` recheck `generated-trace-24 --emit-olean` | `7.51s` | `4013 MiB` | `6144 MiB` | `46084 MiB` | passed |
+| path `24` recheck `split-composition-24 --emit-olean` | `2.00s` | `3971 MiB` | `6144 MiB` | `46155 MiB` | passed |
+| `generated-trace-25 --emit-olean` | `5.01s` | `4044 MiB` | `6144 MiB` | `46075 MiB` | passed |
+| `split-composition-25 --emit-olean` | `2.00s` | `3641 MiB` | `6144 MiB` | `46262 MiB` | passed |
+
+Refreshed accounting:
+
+- strict `[0,16)` batch guard remains `accepted-dry-run`, with `0` blocked
+  entries and `0` total blockers;
+- `[0,37)` source/artifact plan reports `0` over budget, `26` fresh trace
+  artifacts, `26` fresh split artifacts, `1184 KiB` total trace source, and
+  `74 KiB` total split source;
+- the next dry-run-selected single-path candidate is path object index `26`,
+  rank `947437`, with both trace and split artifacts missing/stale.
+
+Decision: accepted.  The second rebase also only required a local `.olean`
+freshness recheck for the replayed source.  Path `25` then passed under the
+same strict post-crash memory guard.
