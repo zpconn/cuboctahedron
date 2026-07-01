@@ -61,6 +61,28 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
     argmax_rhs_scaled = const_scaled + sum(
         int(edges[idx]["gain_scaled"]) for idx in argmax_edge_indices
     )
+    path_objects = graph.get("path_objects")
+    if path_objects is None:
+        path_objects = [
+            {
+                "name": "argmax",
+                "rank": argmax.get("realizing_ranks", ["argmax"])[0],
+                "final": argmax_final,
+                "margin_scaled": argmax_margin_scaled,
+                "edge_indices": argmax_edge_indices,
+            }
+        ]
+    else:
+        path_objects = [
+            {
+                "name": f"obj{idx:04d}",
+                "rank": obj["rank"],
+                "final": int(obj["final"]),
+                "margin_scaled": int(obj["margin_scaled"]),
+                "edge_indices": [int(edge_idx) for edge_idx in obj["edge_indices"]],
+            }
+            for idx, obj in enumerate(path_objects)
+        ]
 
     lines: list[str] = [
         "import Cuboctahedron.Search.BellmanPotential",
@@ -160,73 +182,97 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "    htrace",
         "",
         "private inductive SmokeObj where",
-        "  | argmax",
+    ])
+    for obj in path_objects:
+        lines.append(f"  | {obj['name']}")
+    lines.extend([
         "",
         "private def smokeScaledMargin : SmokeObj -> Int",
-        f"  | SmokeObj.argmax => {argmax_margin_scaled}",
-        "",
-        f"private def argmaxFinalState : State := {state_ctor(argmax_final)}",
-        "",
-        "private def argmaxEdges : List (BellmanEdge State) :=",
     ])
-    if argmax_edge_indices:
-        edge_terms = [edge_name(idx) for idx in argmax_edge_indices]
-        lines.append("  [" + edge_terms[0])
-        for edge_term in edge_terms[1:]:
-            lines.append("  , " + edge_term)
-        lines[-1] += "]"
-    else:
-        lines.append("  []")
-    lines.extend([
-        "",
-        "private theorem argmaxPath :",
-        "    BellmanPath rootState argmaxFinalState argmaxEdges := by",
-        "  unfold argmaxEdges rootState argmaxFinalState",
-    ])
-    for _idx in argmax_edge_indices:
+    for obj in path_objects:
+        lines.append(f"  | SmokeObj.{obj['name']} => {obj['margin_scaled']}")
+    lines.append("")
+    for obj in path_objects:
+        obj_name = obj["name"]
+        final_state = int(obj["final"])
+        edge_indices = obj["edge_indices"]
+        rhs_scaled = const_scaled + sum(int(edges[idx]["gain_scaled"]) for idx in edge_indices)
         lines.extend([
-            "  apply BellmanPath.cons",
-            "  · rfl",
-            "  · rfl",
+            f"-- rank: {obj['rank']}",
+            f"private def {obj_name}FinalState : State := {state_ctor(final_state)}",
+            "",
+            f"private def {obj_name}Edges : List (BellmanEdge State) :=",
         ])
-    lines.append(f"  exact BellmanPath.nil {state_ctor(argmax_final)}")
+        if edge_indices:
+            edge_terms = [edge_name(idx) for idx in edge_indices]
+            lines.append("  [" + edge_terms[0])
+            for edge_term in edge_terms[1:]:
+                lines.append("  , " + edge_term)
+            lines[-1] += "]"
+        else:
+            lines.append("  []")
+        lines.extend([
+            "",
+            f"private theorem {obj_name}Path :",
+            f"    BellmanPath rootState {obj_name}FinalState {obj_name}Edges := by",
+            f"  unfold {obj_name}Edges rootState {obj_name}FinalState",
+        ])
+        for _idx in edge_indices:
+            lines.extend([
+                "  apply BellmanPath.cons",
+                "  · rfl",
+                "  · rfl",
+            ])
+        lines.append(f"  exact BellmanPath.nil {state_ctor(final_state)}")
+        lines.extend([
+            "",
+            f"private theorem {obj_name}Graph :",
+            f"    forall e, e ∈ {obj_name}Edges -> GraphEdge e := by",
+            "  intro e he",
+            f"  simp [{obj_name}Edges] at he",
+        ])
+        if edge_indices:
+            case_names = [f"h{idx:04d}" for idx in range(len(edge_indices))]
+            lines.extend(lean_or_cases(case_names))
+            for case_idx, edge_idx in enumerate(edge_indices):
+                lines.append(f"  · subst e; exact GraphEdge.e{edge_idx:04d}")
+        else:
+            lines.append("  exact False.elim he")
+        lines.extend([
+            "",
+            f"private theorem {obj_name}Final_nonneg :",
+            f"    0 <= graphPotential {obj_name}FinalState := by",
+            "  decide",
+            "",
+            f"private theorem {obj_name}Margin_bound :",
+            f"    smokeScaledMargin SmokeObj.{obj_name} <= ({const_scaled} : Int) + bellmanGainSum {obj_name}Edges := by",
+            f"  change ({obj['margin_scaled']} : Int) <= {rhs_scaled}",
+            "  decide",
+            "",
+        ])
     lines.extend([
-        "",
-        "private theorem argmaxGraph :",
-        "    forall e, e ∈ argmaxEdges -> GraphEdge e := by",
-        "  intro e he",
-        "  simp [argmaxEdges] at he",
-    ])
-    if argmax_edge_indices:
-        case_names = [f"h{idx:04d}" for idx in range(len(argmax_edge_indices))]
-        lines.extend(lean_or_cases(case_names))
-        for case_idx, edge_idx in enumerate(argmax_edge_indices):
-            lines.append(f"  · subst e; exact GraphEdge.e{edge_idx:04d}")
-    else:
-        lines.append("  exact False.elim he")
-    lines.extend([
-        "",
-        "private theorem argmaxFinal_nonneg :",
-        "    0 <= graphPotential argmaxFinalState := by",
-        "  decide",
-        "",
-        "private theorem argmaxMargin_bound :",
-        f"    smokeScaledMargin SmokeObj.argmax <= ({const_scaled} : Int) + bellmanGainSum argmaxEdges := by",
-        f"  change ({argmax_margin_scaled} : Int) <= {argmax_rhs_scaled}",
-        "  decide",
-        "",
         "private theorem smokeTraceBound :",
         "    BellmanTraceBound",
         "      graphPotential GraphEdge rootState",
         f"      ({const_scaled} : Int) smokeScaledMargin := by",
         "  intro obj",
         "  cases obj",
-        "  exact ⟨argmaxFinalState, argmaxEdges, argmaxPath,",
-        "    argmaxGraph, argmaxFinal_nonneg, argmaxMargin_bound⟩",
+    ])
+    for obj in path_objects:
+        obj_name = obj["name"]
+        lines.extend([
+            f"  · exact ⟨{obj_name}FinalState, {obj_name}Edges, {obj_name}Path,",
+            f"      {obj_name}Graph, {obj_name}Final_nonneg, {obj_name}Margin_bound⟩",
+        ])
+    lines.extend([
+        "",
+        "theorem graphSmoke_observed_objects_scaled_margin_nonpos :",
+        "    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=",
+        "  graphSmoke_family_scaled_margin_nonpos smokeTraceBound",
         "",
         "theorem graphSmoke_argmax_object_scaled_margin_nonpos :",
         "    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=",
-        "  graphSmoke_family_scaled_margin_nonpos smokeTraceBound",
+        "  graphSmoke_observed_objects_scaled_margin_nonpos",
         "",
         "theorem bellmanGraphSmoke_builds : True := by",
         "  exact True.intro",

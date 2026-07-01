@@ -985,6 +985,44 @@ Membership-to-path smoke:
   with the generated semantic family language and prove each accepted word has
   a corresponding graph path and margin bound.
 
+Observed-family bridge smoke:
+
+- Extended `--include-graph` output with `path_objects`, one object for each
+  matched observed path.  Each object records:
+  - the source rank;
+  - the graph final state;
+  - the integer-scaled margin;
+  - the graph edge indices for the observed path.
+- Reran the `[0,1000000)` graph export.  It now contains `37` path objects
+  over the existing `223` states and `229` edges.
+- Regenerated
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean`.
+  The generated module now proves per object:
+  - `BellmanPath rootState objFinalState objEdges`;
+  - `forall e, e ∈ objEdges -> GraphEdge e`;
+  - `0 <= graphPotential objFinalState`;
+  - `smokeScaledMargin obj <= const + bellmanGainSum objEdges`.
+- These are assembled into `smokeTraceBound : BellmanTraceBound ...`, then
+  discharged by:
+
+  ```lean
+  theorem graphSmoke_observed_objects_scaled_margin_nonpos :
+      forall obj : SmokeObj, smokeScaledMargin obj <= 0
+  ```
+
+- Focused build passed:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  Result: `0:05.08` wall time, `3,437,864 kB` max RSS.
+- Decision: accepted as bounded observed-family evidence.  It validates the
+  production proof shape for a semantic Bellman family, but it is not yet a
+  full family-language theorem because `SmokeObj` still enumerates observed
+  paths from the diagnostic window.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`

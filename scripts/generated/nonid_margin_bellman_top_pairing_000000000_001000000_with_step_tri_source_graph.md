@@ -4,7 +4,7 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 
 - Range: `[0, 1,000,000)`
 - Jobs: `8`
-- Elapsed seconds: `81.748`
+- Elapsed seconds: `79.846`
 - Target bad face: `yp`
 - Target D4 axis: `1,-3,-1`
 - Target margin+cancellation pairing: `ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1`

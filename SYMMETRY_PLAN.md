@@ -1997,6 +1997,23 @@ Bellman profiler prototype checkpoint:
   membership, final-potential proof, and scaled-margin inequality to the
   generic theorem.  The warning-free 10M focused build passed after this
   addition in `0:19.73` wall time with `4,494,640 kB` max RSS.
+- Observed-family bridge smoke: extended `--include-graph` output with
+  `path_objects`, one object for each matched observed path, carrying its
+  rank, final state, scaled margin, and graph edge indices.  The emitter now
+  builds a finite `SmokeObj` family from all exported observed paths rather
+  than only the argmax path when this data is present.  For the `[0,1000000)`
+  graph this produced `37` observed objects over the existing `223` states and
+  `229` edges.  The generated smoke proves one `BellmanPath`, graph-edge
+  membership theorem, final-potential theorem, and scaled-margin-bound theorem
+  for each object, then discharges the whole finite family through
+  `BellmanTraceBound` as
+  `graphSmoke_observed_objects_scaled_margin_nonpos`.  Focused build passed:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`
+  in `0:05.08` wall time with `3,437,864 kB` max RSS.  This is still bounded
+  observed-family evidence, not full language coverage, but it validates the
+  exact proof shape production generation should use for each semantic
+  Bellman family: member -> path -> graph membership -> margin bound ->
+  semantic nonpositivity.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

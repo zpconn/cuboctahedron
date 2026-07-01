@@ -406,6 +406,15 @@ Top margin+cancellation-pairing checkpoint:
   The 10M smoke with this extra object/path/margin bridge builds in `0:19.73`
   wall time with `4,494,640 kB` max RSS.  This validates the theorem shape for
   replacing the one-object smoke with a generated family-language bridge.
+- Observed-family bridge status: the profiler graph export now includes
+  `path_objects`.  The `[0,1000000)` graph smoke has been regenerated with all
+  `37` observed paths as `SmokeObj` constructors, and proves
+  `graphSmoke_observed_objects_scaled_margin_nonpos` by producing a
+  `BellmanTraceBound` for each object.  The focused build passed in `0:05.08`
+  wall time with `3,437,864 kB` max RSS.  This is the current best bridge
+  smoke toward production: it validates member-to-path/margin-bound assembly
+  for a finite observed family, while the remaining gap is replacing observed
+  path enumeration with a semantic family-language theorem.
 
 ## Explicit Non-Goals
 

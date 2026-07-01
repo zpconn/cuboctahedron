@@ -652,6 +652,12 @@ def bellman_payload(
     if include_graph:
         states_sorted = sorted(potential)
         state_index = {state: idx for idx, state in enumerate(states_sorted)}
+        edge_tuples = sorted(edges, key=lambda edge: (
+            state_index[edge[0]], state_index[edge[2]], edge[1]
+        ))
+        edge_index = {
+            edge_key(edge): idx for idx, edge in enumerate(edge_tuples)
+        }
         payload["graph"] = {
             "state_count": len(states_sorted),
             "scale": scale,
@@ -672,9 +678,18 @@ def bellman_payload(
                     "dst": state_index[dst],
                     "gain_scaled": int(gain * scale),
                 }
-                for src, gain, dst in sorted(edges, key=lambda edge: (
-                    state_index[edge[0]], state_index[edge[2]], edge[1]
-                ))
+                for src, gain, dst in edge_tuples
+            ],
+            "path_objects": [
+                {
+                    "rank": path["rank"],
+                    "final": state_index[path["states"][-1]],
+                    "margin_scaled": int(Fraction(path["margin_value"]) * scale),
+                    "edge_indices": [
+                        edge_index[edge_key(edge)] for edge in path["edges"]
+                    ],
+                }
+                for path in sorted(stats.paths, key=lambda path: path["rank"])
             ],
         }
     return payload
