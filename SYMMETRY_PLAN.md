@@ -55844,3 +55844,79 @@ or the equivalent `BellmanRankObjectMembership` package.  The point is not
 that these exact private names are final; the point is that the next generated
 leaf must derive the object and start-violation certificate from the closed
 language predicate, instead of choosing one of finitely listed sampled ranks.
+
+### Holonomy/Bellman Pivot - closed-language object-cover bridge accepted
+
+Added a tiny hand-written Lean bridge:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean
+```
+
+Purpose: record the production theorem surface without emitting generated
+data.  The bridge defines:
+
+```lean
+abbrev ClosedTopPairingContainsRank (badFace : Face) :
+    Fin numPairWords -> Prop :=
+  fun rank => TopPairingClosedLanguageAtRank rank badFace
+```
+
+and proves:
+
+```lean
+theorem nonIdentityRankKilled_of_closed_top_pairing_object_cover
+theorem nonIdentityRankKilled_of_closed_top_pairing_ym_object_cover
+```
+
+These theorems say: if a generated family supplies a
+`BellmanAxisRankObjectCover` whose `ContainsRank` predicate is the closed
+top-pairing semantic language, and supplies one start-violation margin
+certificate per accepted object, then the existing
+`nonIdentityRankKilled_of_object_cover_start_violation_margin_certs` bridge
+immediately yields `Generated.Coverage.NonIdentityRankKilled`.
+
+This does **not** prove the missing membership theorem yet.  It makes the
+missing theorem’s target precise and Lean-checked: future generated leaves must
+construct the object-cover `covers` field from
+`TopPairingClosedLanguageAtRank rank Face.ym`, not from exact sampled path
+classes.
+
+Commands run:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean || true
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 90 \
+  --hard-address-space-mib 6144 \
+  --json scripts/generated/bellman_closed_language_bridge_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 90 \
+  --json scripts/generated/bellman_closed_language_bridge_guard_no_as.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean
+```
+
+Results:
+
+- forbidden-token scan over the new Lean file: no hits;
+- source size: `75` lines / `3120` bytes;
+- hard-address-space-capped check: failed in `8.01s`, peak tree RSS
+  `1223 MiB`, no guard kill, because direct Lean failed to read an existing
+  mathlib `.olean` under the `6144 MiB` virtual-address cap;
+- RSS-guarded check without hard-AS cap: passed in `8.00s`, peak process-tree
+  RSS `3850 MiB`, minimum MemAvailable `46367 MiB`, no guard kill.
+
+Decision: accepted as a small Lean-checked semantic bridge.  It is safe under
+the RSS/MemAvailable guard and introduces no generated data.  The next
+implementation step remains the real membership proof: construct
+`BellmanAxisRankObjectCover.covers` for the closed top-pairing language.

@@ -5242,3 +5242,24 @@ Bellman production gate and next membership target:
     The next generated/handwritten slice must replace this sampled object
     membership proof with one derived from `TopPairingClosedLanguageAtRank`
     (or an equivalent closed-language predicate).
+
+Closed-language object-cover bridge:
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean`.
+- It defines `ClosedTopPairingContainsRank badFace := fun rank =>
+  TopPairingClosedLanguageAtRank rank badFace`.
+- It proves the generic bridge:
+  if a generated leaf supplies a `BellmanAxisRankObjectCover` over that closed
+  language plus `ObjectStartViolationMarginCert`s for accepted objects, then
+  `Generated.Coverage.NonIdentityRankKilled rank` follows for every closed
+  language rank.
+- This does not prove the missing object membership theorem; it fixes the
+  production contract that future generated leaves must satisfy.
+- Validation:
+  - forbidden-token scan over the new file had no hits;
+  - file size is `75` lines / `3120` bytes;
+  - hard-AS-capped direct Lean check failed early while reading an existing
+    mathlib `.olean` (`8.01s`, peak RSS `1223 MiB`, no guard kill);
+  - RSS-guarded direct Lean check without hard-AS cap passed in `8.00s`, peak
+    tree RSS `3850 MiB`, minimum MemAvailable `46367 MiB`, no guard kill.
