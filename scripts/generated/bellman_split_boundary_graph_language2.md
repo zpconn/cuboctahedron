@@ -3,7 +3,7 @@
 - Status: `passed`
 - Graph file: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2GraphSmoke.lean`
 - Terminal file: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean`
-- Graph lines: `24430`
+- Graph lines: `24432`
 - Terminal lines: `743`
 - Graph `PositiveCert` mentions: `0`
 - Terminal `NonIdCert` payloads: `2`

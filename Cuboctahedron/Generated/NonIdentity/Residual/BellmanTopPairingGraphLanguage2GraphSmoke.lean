@@ -24223,7 +24223,12 @@ def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face
 
 def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=
   AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))
-    cls0000Axis (sampledObjectForcedSeq idx)
+      cls0000Axis (sampledObjectForcedSeq idx) /\
+    BellmanEvalAccepts graphPotential sampledSmokeNext rootState
+      (176 : Int)
+      (fun idx => sampledScaledMarginAtRank (sampledRankOf idx))
+      (fun idx => faceLabelsInContributionOrder smokeLabelOfFace (sampledObjectForcedSeq idx))
+      idx
 
 def sampledAcceptedContainsRank (rank : Fin numPairWords) : Prop :=
   exists idx : SampledRankIndex, sampledObjectAccepts idx /\ sampledRankOf idx = rank
@@ -24237,12 +24242,32 @@ private noncomputable def sampledObjectMembership :
     let idx := Classical.choose hrank
     change sampledObjectAccepts idx
     cases idx
-    · change AxisForcesForcedSeq (unrankPairWord cls0000Rank)
-        cls0000Axis cls0000FaceSeq
-      exact cls0000AxisForces
-    · change AxisForcesForcedSeq (unrankPairWord cls0001Rank)
-        cls0000Axis cls0001FaceSeq
-      exact cls0001AxisForces
+    · refine ⟨?_, ?_⟩
+      · change AxisForcesForcedSeq (unrankPairWord cls0000Rank) cls0000Axis cls0000FaceSeq
+        exact cls0000AxisForces
+      · refine ⟨(trieNode0014State, trieNode0014Gain), ?_, ?_, ?_⟩
+        · change evalLabelStepFn sampledSmokeNext rootState
+            (smokeLabelsOfSeq cls0000FaceSeq) =
+              some (trieNode0014State, trieNode0014Gain)
+          rw [cls0000FaceSeqLabels_eq]
+          exact trieNode0014Eval
+        · exact cls0000TrieFinal_nonneg
+        · unfold sampledRankOf sampledScaledMarginAtRank
+          simp
+          exact cls0000TrieMargin_bound_gain
+    · refine ⟨?_, ?_⟩
+      · change AxisForcesForcedSeq (unrankPairWord cls0001Rank) cls0000Axis cls0001FaceSeq
+        exact cls0001AxisForces
+      · refine ⟨(trieNode0024State, trieNode0024Gain), ?_, ?_, ?_⟩
+        · change evalLabelStepFn sampledSmokeNext rootState
+            (smokeLabelsOfSeq cls0001FaceSeq) =
+              some (trieNode0024State, trieNode0024Gain)
+          rw [cls0001FaceSeqLabels_eq]
+          exact trieNode0024Eval
+        · exact cls0001TrieFinal_nonneg
+        · unfold sampledRankOf sampledScaledMarginAtRank
+          simp
+          exact cls0001TrieMargin_bound_gain
   object_rank := by
     intro rank hrank
     exact Classical.choose_spec hrank
@@ -24373,7 +24398,7 @@ private noncomputable def sampledAcceptedAxisRankObjectCoverEval :
       sampledAcceptedContainsRank sampledScaledMarginAtRank :=
   BellmanAxisRankObjectCover.ofExistsMembership
     sampledObjectForcedSeq
-    (bellmanLabelStepRunLanguageBound_of_evalLabelStepFn
+    (bellmanLabelStepRunLanguageBound_of_evalAccepts
       (V := graphPotential)
       (Step := SampledSmokeStepEval)
       (next := sampledSmokeNext)
@@ -24385,30 +24410,7 @@ private noncomputable def sampledAcceptedAxisRankObjectCoverEval :
       (by
         intro s label t gain h
         exact SampledSmokeStepEval.sound h)
-      (by
-        intro idx _hAccept
-        cases idx
-        · refine ⟨(trieNode0014State, trieNode0014Gain), ?_, ?_, ?_⟩
-          · change evalLabelStepFn sampledSmokeNext rootState
-              (smokeLabelsOfSeq cls0000FaceSeq) =
-                some (trieNode0014State, trieNode0014Gain)
-            rw [cls0000FaceSeqLabels_eq]
-            exact trieNode0014Eval
-          · exact cls0000TrieFinal_nonneg
-          · unfold sampledRankOf sampledScaledMarginAtRank
-            simp
-            exact cls0000TrieMargin_bound_gain
-        · refine ⟨(trieNode0024State, trieNode0024Gain), ?_, ?_, ?_⟩
-          · change evalLabelStepFn sampledSmokeNext rootState
-              (smokeLabelsOfSeq cls0001FaceSeq) =
-                some (trieNode0024State, trieNode0024Gain)
-            rw [cls0001FaceSeqLabels_eq]
-            exact trieNode0024Eval
-          · exact cls0001TrieFinal_nonneg
-          · unfold sampledRankOf sampledScaledMarginAtRank
-            simp
-            exact cls0001TrieMargin_bound_gain
-      ))
+      (fun idx hAccept => hAccept.2))
     sampledAxisRankObjectCoverEval.step_valid
     sampledAxisRankObjectCoverEval.root_bound
 

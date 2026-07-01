@@ -2027,3 +2027,44 @@ Evaluator-derived accepted-object trace bound:
 Next Bellman slice: generate a real closed-language object whose `Accepts`
 predicate is built from target-pairing/local-axis/canonical-bad-face invariants
 and feeds the evaluator theorem directly.
+
+Bellman eval evidence carried by `Accepts`:
+
+- Added `BellmanEvalAccepts` and
+  `bellmanLabelStepRunLanguageBound_of_evalAccepts` to
+  `Cuboctahedron.Search.BellmanPotential`.
+- `BellmanEvalAccepts` is an existential `Prop` carrying deterministic
+  evaluator success, final nonnegative potential, and the integer scaled-margin
+  bound for one accepted semantic object.
+- Rejected mini-attempt: making this a `Prop`-valued structure with a
+  computational `result : State × Int` field failed, because Lean cannot
+  project computational data from proof-irrelevant `Prop` fields.
+- The generated graph smoke now makes `sampledObjectAccepts` a conjunction of
+  `AxisForcesForcedSeq` and `BellmanEvalAccepts`, then builds
+  `sampledAcceptedAxisRankObjectCoverEval` through
+  `bellmanLabelStepRunLanguageBound_of_evalAccepts`.
+- Focused checks:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `Cuboctahedron.Search.BellmanPotential` | `0:00.90` | `830,588 kB` |
+  | `BellmanTopPairingGraphLanguage2AllSmoke` | `1:16.40` | `7,576,044 kB` |
+
+- Split-boundary audit remains passed with `graph_positive_mentions = 0` and
+  `terminal_positive_payloads = 2`.
+- The aggregate planner still chooses
+  `implement-semantic-membership-then-scale`.
+
+Next theorem target:
+
+```text
+rank satisfies closed Bellman language
+  -> exists accepted Bellman object for rank
+  -> object carries axis-forces + evaluator/margin evidence
+  -> Bellman cover gives scaledMargin <= 0
+  -> terminal start-violation theorem gives NonIdentityRankKilled
+```
+
+Do not scale `SampledRankIndex`.  Replace it with a semantic object type whose
+membership proof comes from target-pairing, local-axis, canonical-bad-face, and
+closed transition-language invariants.

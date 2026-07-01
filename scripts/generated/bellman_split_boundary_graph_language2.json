@@ -8,7 +8,7 @@
     "status": "passed"
   },
   "graph_forbidden_present": [],
-  "graph_lines": 24430,
+  "graph_lines": 24432,
   "graph_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2GraphSmoke.lean",
   "graph_positive_mentions": 0,
   "graph_required_missing": [],

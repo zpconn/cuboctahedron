@@ -49962,3 +49962,76 @@ Decision: accepted.  The next Bellman slice should define a generated
 closed-language object whose `Accepts` proof supplies this evaluator/margin
 package directly from the target-pairing, local-axis, and canonical-bad-face
 state invariants.
+
+### Holonomy/Bellman Pivot - accepted objects now carry eval evidence
+
+Implemented the next GPT5.5 Bellman/potential refinement: the accepted-object
+predicate itself now carries the deterministic evaluator result and the
+integer margin bound, instead of keeping those facts as a separate callback.
+
+Added to `Cuboctahedron.Search.BellmanPotential`:
+
+```lean
+def BellmanEvalAccepts
+
+theorem bellmanLabelStepRunLanguageBound_of_evalAccepts
+```
+
+`BellmanEvalAccepts` is a `Prop` saying that the deterministic Bellman
+evaluator accepts an object's label word, ends in a nonnegative-potential
+state, and bounds that object's scaled margin by `const + gain`.  The theorem
+turns this accepted-object evidence into the existing
+`BellmanLabelStepRunLanguageBound` surface.
+
+Rejected mini-attempt: defining `BellmanEvalAccepts` as a `Prop`-valued
+structure with a computational `result : State × Int` field does not work in
+Lean, because fields of a `Prop` structure are proof-irrelevant and cannot be
+projected as computational data.  The accepted version is therefore an
+existential `Prop`.
+
+The generated graph smoke now defines:
+
+```lean
+def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=
+  AxisForcesForcedSeq ... /\
+    BellmanEvalAccepts graphPotential sampledSmokeNext rootState ...
+```
+
+and builds `sampledAcceptedAxisRankObjectCoverEval` through
+`bellmanLabelStepRunLanguageBound_of_evalAccepts`.  This is closer to the
+intended production theorem surface:
+
+```text
+rank belongs to semantic closed language
+  -> exists accepted Bellman object for rank
+  -> accepted object carries axis-forces + evaluator/margin evidence
+  -> private Bellman cover proves scaledMargin <= 0
+  -> terminal payload proves NonIdentityRankKilled
+```
+
+Focused checks:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanPotential` | `0:00.90` | `830,588 kB` | passed |
+| `BellmanTopPairingGraphLanguage2AllSmoke` eval-carried accepted-object route | `1:16.40` | `7,576,044 kB` | passed |
+
+The split-boundary audit still passes:
+
+```json
+{"graph_lines": 24432, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 743, "terminal_positive_payloads": 2}
+```
+
+The aggregate next-action planner still returns
+`implement-semantic-membership-then-scale`, with `223` states, `229` edges,
+bounded integer sizes, and `transition_closed_after_bad_face = true`.
+
+Decision: accepted.  This is the current preferred nonidentity residual
+surface under the GPT5.5/Gemini holonomy pivot.  The next implementation
+frontier is not another certificate-packing layer; it is a generated
+closed-language membership theorem replacing `SampledRankIndex` with a
+semantic object type whose `Accepts` proof is derived from the target-pairing,
+local-axis, canonical-bad-face, and closed Bellman transition-language
+invariants.  Cocycle gauges, cancellation-summary DAGs, and larger
+StateKilled assembly remain conditional shrinkers/assemblers after that
+membership theorem exists.

@@ -1974,7 +1974,12 @@ def emit(
                 "",
                 "private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=",
                 "  AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))",
-                f"    {same_axis_infos[0]['axis_name']} (sampledObjectForcedSeq idx)",
+                f"      {same_axis_infos[0]['axis_name']} (sampledObjectForcedSeq idx) /\\",
+                "    BellmanEvalAccepts graphPotential sampledSmokeNext rootState",
+                "      (" + str(const_scaled) + " : Int)",
+                "      (fun idx => sampledScaledMarginAtRank (sampledRankOf idx))",
+                "      (fun idx => faceLabelsInContributionOrder smokeLabelOfFace (sampledObjectForcedSeq idx))",
+                "      idx",
                 "",
                 "def sampledAcceptedContainsRank (rank : Fin numPairWords) : Prop :=",
                 "  exists idx : SampledRankIndex, sampledObjectAccepts idx /\\ sampledRankOf idx = rank",
@@ -1991,9 +1996,19 @@ def emit(
             ])
             for info in same_axis_infos:
                 lines.extend([
-                    f"    · change AxisForcesForcedSeq (unrankPairWord {info['rank_name']})",
-                    f"        {same_axis_infos[0]['axis_name']} {info['seq_name']}",
-                    f"      exact {info['obj_name']}AxisForces",
+                    "    · refine ⟨?_, ?_⟩",
+                    f"      · change AxisForcesForcedSeq (unrankPairWord {info['rank_name']}) {same_axis_infos[0]['axis_name']} {info['seq_name']}",
+                    f"        exact {info['obj_name']}AxisForces",
+                    f"      · refine ⟨({trie_node_state_name(int(info['trie_node']))}, {trie_node_gain_name(int(info['trie_node']))}), ?_, ?_, ?_⟩",
+                    "        · change evalLabelStepFn sampledSmokeNext rootState",
+                    f"            (smokeLabelsOfSeq {info['seq_name']}) =",
+                    f"              some ({trie_node_state_name(int(info['trie_node']))}, {trie_node_gain_name(int(info['trie_node']))})",
+                    f"          rw [{info['seq_name']}Labels_eq]",
+                    f"          exact {trie_node_name(int(info['trie_node']))}Eval",
+                    f"        · exact {info['obj_name']}TrieFinal_nonneg",
+                    "        · unfold sampledRankOf sampledScaledMarginAtRank",
+                    "          simp",
+                    f"          exact {info['obj_name']}TrieMargin_bound_gain",
                 ])
             lines.extend([
                 "  object_rank := by",
@@ -2108,7 +2123,7 @@ def emit(
                 "      sampledAcceptedContainsRank sampledScaledMarginAtRank :=",
                 "  BellmanAxisRankObjectCover.ofExistsMembership",
                 "    sampledObjectForcedSeq",
-                "    (bellmanLabelStepRunLanguageBound_of_evalLabelStepFn",
+                "    (bellmanLabelStepRunLanguageBound_of_evalAccepts",
                 "      (V := graphPotential)",
                 "      (Step := SampledSmokeStepEval)",
                 "      (next := sampledSmokeNext)",
@@ -2120,26 +2135,7 @@ def emit(
                 "      (by",
                 "        intro s label t gain h",
                 "        exact SampledSmokeStepEval.sound h)",
-                "      (by",
-                "        intro idx _hAccept",
-                "        cases idx",
-            ])
-            for info in same_axis_infos:
-                trie_node = int(info["trie_node"])
-                lines.extend([
-                    f"        · refine ⟨({trie_node_state_name(trie_node)}, {trie_node_gain_name(trie_node)}), ?_, ?_, ?_⟩",
-                    "          · change evalLabelStepFn sampledSmokeNext rootState",
-                    f"              (smokeLabelsOfSeq {info['seq_name']}) =",
-                    f"                some ({trie_node_state_name(trie_node)}, {trie_node_gain_name(trie_node)})",
-                    f"            rw [{info['seq_name']}Labels_eq]",
-                    f"            exact {trie_node_name(trie_node)}Eval",
-                    f"          · exact {info['obj_name']}TrieFinal_nonneg",
-                    "          · unfold sampledRankOf sampledScaledMarginAtRank",
-                    "            simp",
-                    f"            exact {info['obj_name']}TrieMargin_bound_gain",
-                ])
-            lines.extend([
-                "      ))",
+                "      (fun idx hAccept => hAccept.2))",
                 "    sampledAxisRankObjectCoverEval.step_valid",
                 "    sampledAxisRankObjectCoverEval.root_bound",
                 "",
