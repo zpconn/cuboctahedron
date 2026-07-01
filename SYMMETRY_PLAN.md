@@ -56619,6 +56619,35 @@ right warning: the next-to-step/validity bridge must be emitted in bounded
 chunks or proved via the existing `SmokeStep` edge constructors, not as one
 large state-label case split.
 
+Second failed micro-attempt: the emitter generated one theorem per source state
+for
+
+```lean
+graphSmokeNext State.sNNNN label = some (t, gain) ->
+  SmokeStep State.sNNNN label t gain
+```
+
+plus a shallow dispatcher over states.  This was much closer to the desired
+shape, but because it lived in the same already-large smoke file it still
+crossed the guard:
+
+```text
+memory guard terminating command: process-tree RSS 4521 MiB exceeded 4500 MiB cap
+```
+
+The working tree was reverted to the passing global-next-only emission and
+rechecked:
+
+```text
+memory guard summary: exit=0 elapsed=7.01s peak_tree_rss=4445 MiB
+```
+
+Conclusion: the next-to-step soundness bridge should be emitted as a separate
+lighter module/output mode, ideally importing a small graph-core module or
+containing only the state/label table and `SmokeStep` constructors it needs.
+Merely adding even chunked soundness to the full smoke file leaves too little
+headroom for the later `closed -> eval` theorem.
+
 Decision: accepted with caveat.  Bellman remains the active route for exactly
 the semantic-membership experiment recommended above.  The next implementation
 task is **not** another sampled potential and not a rank-indexed object table;

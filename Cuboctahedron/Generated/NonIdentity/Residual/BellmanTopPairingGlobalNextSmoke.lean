@@ -7315,8 +7315,8 @@ private def graphSmokeNext : State -> SmokeLabel -> Option (State × Int)
 /--
 The global evaluator table is intentionally emitted separately from the
 `SmokeStep` proof relation. A later semantic-membership leaf should prove
-`graphSmokeNext ... = some ... -> SmokeStep ...` in bounded chunks, rather
-than by one large state/label case split.
+`graphSmokeNext ... = some ... -> SmokeStep ...` in a lighter split module,
+rather than inside this already-large graph smoke.
 -/
 
 -- shared prefix length: 2
