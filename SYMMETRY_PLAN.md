@@ -53519,3 +53519,75 @@ Refreshed accounting:
 Decision: accepted as the ninth checked split path under the strict post-crash
 guard.  The sampled split Bellman checks remain below the `4500 MiB`
 process-tree RSS cap.  Batch execution remains quarantined.
+
+### Holonomy/Bellman Pivot - tenth split path accepted
+
+Ran one more single-path check under the strict post-crash envelope: path object
+index `9`, rank `43203`, selected by the dry-run single-path selector.  No batch
+execution or parallel Lean execution was used.
+
+Commands run:
+
+```bash
+free -h
+git status --short
+
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+
+python3 scripts/run_bellman_split_smoke_path.py 9 \
+  --check \
+  --check-stage missing \
+  --dry-run \
+  --json scripts/generated/bellman_split_path_09_missing_dry_run.json
+
+python3 scripts/run_bellman_split_smoke_path.py 9 \
+  --check \
+  --check-stage missing \
+  --json scripts/generated/bellman_split_path_09_missing_run.json
+
+python3 scripts/plan_bellman_split_batch_guard.py \
+  --start-index 0 \
+  --count 16 \
+  --require-fresh-artifacts \
+  --require-checked-summaries \
+  --json scripts/generated/bellman_split_batch_guard_000_016.json \
+  --markdown docs/bellman_split_batch_guard_000_016.md
+
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+
+python3 scripts/plan_bellman_split_smokes.py \
+  --count 37 \
+  --json scripts/generated/bellman_split_smoke_batch_plan_000_037.json \
+  --markdown docs/bellman_split_smoke_batch_plan_000_037.md
+```
+
+Proof-bearing results for path object index `9`:
+
+| component | elapsed | peak tree RSS | hard-AS cap | min available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `generated-trace-09 --emit-olean` | `8.51s` | `4016 MiB` | `6144 MiB` | `46113 MiB` | passed |
+| `split-composition-09 --emit-olean` | `2.00s` | `3601 MiB` | `6144 MiB` | `46313 MiB` | passed |
+
+Refreshed accounting:
+
+- strict `[0,16)` batch guard is rejected, with `8` blocked entries and
+  `15` total blockers;
+- `[0,37)` source/artifact plan reports `0` over budget, `10` fresh trace
+  artifacts, `10` fresh split artifacts, `1184 KiB` total trace source, and
+  `74 KiB` total split source;
+- the next dry-run-selected single-path candidate is path object index `10`,
+  rank `43205`, with both trace and split artifacts missing/stale.
+
+Decision: accepted as the tenth checked split path under the strict post-crash
+guard.  The sampled split Bellman checks remain below the `4500 MiB`
+process-tree RSS cap.  Batch execution remains quarantined.

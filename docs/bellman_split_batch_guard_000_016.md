@@ -6,11 +6,11 @@ and is not proof evidence.
 - graph: `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json`
 - planned range: `0..16`
 - status: `rejected-dry-run`
-- current MemAvailable: `46573 MiB`
+- current MemAvailable: `46622 MiB`
 - required MemAvailable: `36864 MiB`
 - entries: `16`
-- blocked entries: `9`
-- total blockers: `17`
+- blocked entries: `8`
+- total blockers: `15`
 
 | index | rank | trace KiB | split KiB | trace artifact | split artifact | run summary | blockers |
 | ---: | ---: | ---: | ---: | --- | --- | --- | --- |
@@ -23,7 +23,7 @@ and is not proof evidence.
 | `6` | `42943` | `32` | `2` | fresh | fresh | `checked` | none |
 | `7` | `43171` | `32` | `2` | fresh | fresh | `checked` | none |
 | `8` | `43195` | `32` | `2` | fresh | fresh | `checked` | none |
-| `9` | `43203` | `32` | `2` | missing/stale | missing/stale | `None` | trace .olean is missing or stale<br>split .olean is missing or stale |
+| `9` | `43203` | `32` | `2` | fresh | fresh | `checked` | none |
 | `10` | `43205` | `32` | `2` | missing/stale | missing/stale | `None` | trace .olean is missing or stale<br>split .olean is missing or stale |
 | `11` | `113917` | `32` | `2` | missing/stale | missing/stale | `None` | trace .olean is missing or stale<br>split .olean is missing or stale |
 | `12` | `124013` | `32` | `2` | missing/stale | missing/stale | `None` | trace .olean is missing or stale<br>split .olean is missing or stale |
