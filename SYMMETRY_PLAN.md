@@ -993,13 +993,51 @@ Residual local-certificate kind audit checkpoint:
   Lean semantic certificate structure, and the certificate-template key count
   remains small in sampled windows.
 - Not yet accepted as full coverage: this is still a profiler
-  classification.  The next gate is an emission smoke over a tiny bounded
-  range that proves real local certificates end-to-end, followed by a
-  family-count profiler that estimates whether reusable local facts stay under
-  the low-thousands gate.
+  classification.  The next gate is a family-count profiler that estimates
+  whether reusable local facts stay under the low-thousands gate.
 - If that profiler fails the gate, signed-state empty-cone/Gordan pruning is
   promoted from fallback to the primary nontranslation residual compression
   tool before any large residual Lean generation.
+
+Residual local-certificate emission smoke checkpoint:
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/LocalCertSmoke.lean`.
+- The smoke proves a real generated-style semantic residual obstruction for
+  rank `12` using `AxisStartViolationCert`:
+
+  ```lean
+  theorem Cuboctahedron.Generated.NonIdentity.Residual.LocalCertSmoke.rank12_no_axis_constraints :
+      ¬ NonIdentityAxisConstraints rank12Seq
+  ```
+
+- The proof is semantic and goes through
+  `AxisStartViolationCert.no_axis_constraints`; it does not replay the legacy
+  residual checker path or export a raw per-rank proof certificate.
+- Focused validation:
+
+  ```bash
+  lake build Cuboctahedron.Generated.NonIdentity.Residual.LocalCertSmoke
+  rg -n "sorry|admit|axiom|native_decide|unsafe|checkNonIdCert|NonIdCert" \
+    Cuboctahedron/Generated/NonIdentity/Residual/LocalCertSmoke.lean
+  ```
+
+  The focused build passed.  The targeted scan had no hits.
+- Timing/memory calibration from `/usr/bin/time -v` before the final
+  warning-clean rebuild:
+
+  ```text
+  Built Cuboctahedron.Generated.NonIdentity.Residual.LocalCertSmoke (44s)
+  elapsed wall time: 0:45.24
+  user time: 72.88s
+  max RSS: 5,184,428 KiB
+  ```
+
+- Decision: accepted as a correctness/API smoke only.  The 44s / ~5.2 GiB
+  measurement is too heavy for a production residual emitter at large leaf
+  counts.  The next nontranslation gate must estimate reusable
+  local-certificate families and/or move the same obstructions to integer
+  normalized, smaller theorem surfaces before any broad generation.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

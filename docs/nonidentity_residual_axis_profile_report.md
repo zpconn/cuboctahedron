@@ -122,15 +122,24 @@ Rejected for direct Lean emission:
 
 - The current terminal-family key is not compressed enough.  It remains a
   diagnostic coordinate, not a final generated theorem coordinate.
+- A single generated-style `AxisStartViolationCert` smoke builds and proves a
+  real semantic obstruction, but its calibration cost is too high for direct
+  broad emission:
+
+  ```text
+  target: Cuboctahedron.Generated.NonIdentity.Residual.LocalCertSmoke
+  theorem: rank12_no_axis_constraints
+  elapsed: 0:45.24
+  max RSS: 5,184,428 KiB
+  ```
 
 Next nontranslation work:
 
-1. Build a Lean theorem layer for the coarse terminal-template shapes:
-   start-interior separation, first-hit mismatch, and hit tie/nonsingularity.
-2. Design a local certificate format that instantiates those templates without
-   exposing exact margins in public theorem statements.
+1. Profile reusable local-certificate family counts for the three existing
+   Lean certificate surfaces, avoiding exact-margin keys.
 2. Keep the forced-axis sign filter as a cheap front-end filter.
 3. Use signed-state empty-cone/Gordan prefix pruning as the next fallback if
    local template certificates still produce too many generated leaves.
 4. Do not generate terminal residual Lean leaves until the planned semantic
-   family count is below the low-thousands gate.
+   family count is below the low-thousands gate and representative leaves build
+   substantially cheaper than the current smoke.

@@ -170,13 +170,30 @@ The following approaches are archived as diagnostics, not the active route to
 Since the shadow profiler and Lean classifier have already validated the
 identity split, the next interfaces are:
 
-1. a residual local-certificate emission smoke for a tiny bounded
-   nontranslation window, using `AxisStartViolationCert`,
-   `PreImpactPointViolationCert`, and `OpenSegmentViolationCert`;
-2. a profiler that estimates the full local-certificate family count by
+1. a profiler that estimates the full local-certificate family count by
    semantic template and reusable local fact, not exact margin;
-3. signed-state empty-cone/Gordan certificates if the residual local
+2. signed-state empty-cone/Gordan certificates if the residual local
    certificate family count remains too high;
-4. translation GoodDirection survivor mining by cancellation tree and
+3. translation GoodDirection survivor mining by cancellation tree and
    projective integer row signatures, after the nontranslation residual
    family gate is understood.
+
+Recent checkpoint:
+
+- `Cuboctahedron/Generated/NonIdentity/Residual/LocalCertSmoke.lean` now
+  proves one generated-style semantic residual obstruction end-to-end with
+  `AxisStartViolationCert`.
+- The public theorem is
+  `Cuboctahedron.Generated.NonIdentity.Residual.LocalCertSmoke.rank12_no_axis_constraints`.
+- Focused build:
+
+  ```bash
+  lake build Cuboctahedron.Generated.NonIdentity.Residual.LocalCertSmoke
+  ```
+
+  passed.  A timed run measured about `45.24s` wall time and
+  `5,184,428 KiB` max RSS.
+- This validates the local-certificate API but is too expensive to scale
+  directly; the next residual work must profile reusable family counts and
+  consider integer-normalized or empty-cone/Gordan theorem surfaces before
+  broad generation.
