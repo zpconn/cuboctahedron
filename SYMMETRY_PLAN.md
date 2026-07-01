@@ -56260,3 +56260,91 @@ Next required emitter/generalization work:
    `ObjectStartViolationMarginCert`;
 4. keep representative leaves behind the memory guard before considering any
    broad emission.
+
+### Holonomy/Bellman Pivot - semantic object-cover membership experiment
+
+Updated strategy after the GPT5.5 recommendation: continue Bellman for exactly
+one more semantic-membership experiment, and make the Bellman object itself
+semantic rather than sampled.
+
+Added:
+
+```text
+Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+New Lean surface:
+
+```lean
+abbrev TopPairingClosedContainsRank (badFace : Face) :
+  Fin numPairWords -> Prop
+
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+
+def TopPairingBellmanObj.closedMembership ...
+def TopPairingBellmanObj.objectCoverOfEvalAccepts ...
+```
+
+Meaning:
+
+- the object type is exactly a rank plus a proof of
+  `TopPairingClosedLanguageAtRank rank badFace`;
+- `BellmanRankObjectMembership` is proved constructively by building that
+  object from the semantic closed-language proof;
+- no `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, or
+  `Classical.choose` is needed;
+- if a deterministic generated theorem proves `BellmanEvalAccepts` for every
+  semantic object, the new `objectCoverOfEvalAccepts` assembles a
+  `BellmanAxisRankObjectCover` over `TopPairingClosedContainsRank`.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 4500 \
+  --min-available-mib 36864 \
+  --timeout-seconds 90 \
+  --json scripts/generated/top_pairing_bellman_object_guard.json \
+  -- lake env lean Cuboctahedron/Search/TopPairingBellmanObject.lean
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|Classical\\.choose" \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean || true
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean || true
+```
+
+Results:
+
+- guarded direct Lean check passed in `2.00s`;
+- peak process-tree RSS `3552.79 MiB`;
+- minimum MemAvailable observed `46229.75 MiB`;
+- sampled-token audit over the new module: no hits;
+- forbidden-token scan over the new module: no hits.
+
+Decision: accepted as the next Bellman go/no-go scaffold.  This proves the
+membership half of the recommendation: the `covers` obligation can be semantic
+and cheap.  It does **not** prove the hard evaluator theorem yet.
+
+Next go/no-go theorem:
+
+```lean
+forall obj : TopPairingBellmanObj Face.ym,
+  BellmanEvalAccepts
+    topPairingV
+    topPairingNext
+    topPairingStart
+    topPairingConst
+    (fun obj => topPairingScaledMargin obj.rank)
+    (fun obj =>
+      faceLabelsInContributionOrder topPairingLabelOfFace
+        (TopPairingBellmanObj.forcedSeq obj))
+    obj
+```
+
+If this can be proved from `obj.closed` and finite deterministic automaton
+facts without sampled paths/ranks, Bellman remains the active route.  If it
+requires one branch per sampled path or rank, this route must pivot to a more
+honest cancellation-tree/semantic-state automaton.
