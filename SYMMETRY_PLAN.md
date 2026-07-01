@@ -55704,3 +55704,87 @@ Proof status: this aggregate report is not proof evidence.  It is hardware and
 source-size evidence for the sampled checker shape only.  Exhaustive generated
 coverage still requires Lean-checked membership/coverage theorems connecting
 arbitrary ranks or semantic states to these killed-language families.
+
+### Holonomy/Bellman Pivot - production gate and next membership target
+
+Ran the existing Bellman production-gate audit on the active top-pairing graph:
+
+```bash
+python3 scripts/audit_bellman_production_gates.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --json scripts/generated/bellman_production_gate_audit_top_pairing_000000000_001000000.json \
+  --markdown docs/bellman_production_gate_audit_top_pairing_000000000_001000000.md
+```
+
+Result:
+
+- decision: `candidate-needs-coarser-membership`;
+- matched paths: `37`;
+- graph states: `223`;
+- graph edges: `229`;
+- roots: `1`;
+- final states: `29`;
+- scale bit length: `7`;
+- scaled potential bit length: `10`;
+- fraction bit length: `9`;
+- observed margin bound passes;
+- fixed-point/boundedness gate passes;
+- state, edge, and bit-length gates all pass;
+- exact path class ratio fails: `37` path classes for `37` paths, ratio
+  `1.0` against the warning gate `0.25`.
+
+The gate audit confirms the same lesson as the aggregate split-smoke metrics:
+the Bellman graph and arithmetic are small enough, but the current path-class
+membership coordinate is still singleton-like.  It must not become the
+production family coordinate.
+
+Existing route-profile evidence:
+
+```text
+scripts/generated/bellman_object_family_route_profile_1M.md
+scripts/generated/bellman_object_family_route_profile_1M.json
+```
+
+records decision `candidate-next-lean-family-smoke` for the same active graph.
+Its transition-language accounting is:
+
+- observed transitions: `229`;
+- legal transitions after target pairing / observed schedule / local-axis
+  filters: `230`;
+- local-axis rejected transitions: `14`;
+- missing before canonical bad-face filter: `1`;
+- missing completions checked: `1`;
+- missing completions matching the top family: `0`;
+- truncated missing gaps: `0`;
+- canonical bad-face filter would close: `True`;
+- legal transitions after canonical bad-face filter: `229`;
+- missing after canonical bad-face filter: `0`;
+- illegal after canonical bad-face filter: `0`;
+- closed after canonical bad-face filter: `True`.
+
+Decision: the next Bellman task is no longer another exact-path smoke.  The
+next trustworthy slice is a semantic object-family membership theorem for the
+closed transition language, using the accepted predicate stack:
+
+1. target cancellation pairing;
+2. observed schedule / square-gap language;
+3. oriented local forced-axis next-face compatibility;
+4. canonical bad-face compatibility;
+5. object-level start-violation certificate;
+6. private Bellman object-cover trace bound.
+
+The theorem surface should construct accepted Bellman objects and
+start-violation margin certificates for all members of that closed language,
+without exact path classes or rank-local certificate replay.  The existing
+Lean surfaces to reuse are:
+
+- `BellmanAxisRankObjectCover`;
+- `ObjectStartViolationMarginCert`;
+- `nonIdentityRankKilled_of_object_cover_start_violation_margin_certs`;
+- `graphSmoke_sampled_axis_object_cover_rank_killed_of_start_violation`.
+
+Open requirement: identify the smallest hand-written/generated Lean module
+that proves membership in this object-family language for a nontrivial
+coarser class, then run it under the same guarded single-target build
+discipline.  Until that membership theorem exists, the Bellman route remains
+promising but not production-ready.

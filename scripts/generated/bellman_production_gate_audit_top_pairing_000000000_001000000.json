@@ -1,0 +1,68 @@
+{
+  "checks": [
+    {
+      "detail": "Bellman max_const + root_bound is nonpositive on the observed artifact.",
+      "name": "observed_margin_bound",
+      "passed": true
+    },
+    {
+      "detail": "The profile solver did not detect a cycle in the chosen state abstraction.",
+      "name": "acyclic_or_bounded_fixed_point",
+      "passed": true
+    },
+    {
+      "detail": "states=223, gate=10000",
+      "name": "state_count_gate",
+      "passed": true
+    },
+    {
+      "detail": "edges=229, gate=100000",
+      "name": "edge_count_gate",
+      "passed": true
+    },
+    {
+      "detail": "scaled_bits=10, gate=256",
+      "name": "scaled_integer_bit_gate",
+      "passed": true
+    },
+    {
+      "detail": "fraction_bits=9, gate=256",
+      "name": "fraction_bit_gate",
+      "passed": true
+    },
+    {
+      "detail": "path_classes=37, paths=37, ratio=1.0000, warning_gate=0.2500",
+      "name": "exact_path_classes_not_family_coordinate",
+      "passed": false
+    }
+  ],
+  "decision": "candidate-needs-coarser-membership",
+  "gates": {
+    "max_edges": 100000,
+    "max_exact_path_class_ratio": 0.25,
+    "max_fraction_bits": 256,
+    "max_scaled_bits": 256,
+    "max_states": 10000
+  },
+  "input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "metrics": {
+    "bounded_fixed_point": true,
+    "edges": 229,
+    "exact_path_class_ratio": 1.0,
+    "final_states": 29,
+    "fraction_bit_length": 9,
+    "matched": 37,
+    "max_const": "2",
+    "max_margin_bound": "0",
+    "path_class_count": 37,
+    "paths": 37,
+    "proves_observed_nonpositive": true,
+    "root_bound": "-2",
+    "root_states": 1,
+    "scale_bit_length": 7,
+    "scaled_bit_length": 10,
+    "states": 223
+  },
+  "mode": "bellman-production-gate-audit",
+  "recommendation": "The numerical Bellman gates pass, but exact path classes are too close to singleton coverage.  Do not emit exact-path families; prove a coarser holonomy/cancellation-language membership theorem or add gauge/summary coordinates first."
+}

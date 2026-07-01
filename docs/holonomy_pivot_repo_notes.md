@@ -5202,3 +5202,31 @@ Aggregate split-smoke metrics:
 
 This report remains untrusted diagnostic aggregation.  It does not establish
 exhaustive generated coverage.
+
+Bellman production gate and next membership target:
+
+- Ran:
+
+  ```bash
+  python3 scripts/audit_bellman_production_gates.py \
+    --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+    --json scripts/generated/bellman_production_gate_audit_top_pairing_000000000_001000000.json \
+    --markdown docs/bellman_production_gate_audit_top_pairing_000000000_001000000.md
+  ```
+
+- Result: `candidate-needs-coarser-membership`.
+- Bellman graph metrics: `223` states, `229` edges, `1` root, `29` final
+  states, scale bit length `7`, scaled-potential bit length `10`, fraction
+  bit length `9`.
+- Numerical gates passed: observed margin bound, bounded fixed point, state
+  count, edge count, scaled integer bits, and fraction bits.
+- Warning gate failed: exact path classes are `37/37`, ratio `1.0`, so exact
+  path classes remain singleton-like and must not be the production coordinate.
+- Existing `scripts/generated/bellman_object_family_route_profile_1M.md`
+  still gives the positive next target: `candidate-next-lean-family-smoke`.
+  It reports the sampled transition language closes after the canonical
+  bad-face filter (`229` legal transitions after the filter, `0` missing,
+  `0` illegal).
+- Next Lean task: prove a semantic object-family membership theorem for that
+  closed language, reusing the existing object-cover/start-violation surfaces,
+  instead of emitting another exact-path smoke.
