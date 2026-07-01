@@ -52279,3 +52279,112 @@ Next step: keep the ordinary generated trace shard at the
 `PairSignLanguageAtRank` boundary, and compose this split bridge only through
 small family/root modules whose import fan-in can be preflighted and measured
 independently.
+
+### Holonomy/Bellman Pivot - normal trace shard returned to PairSign boundary
+
+Refactored the trace emitter so the axis-forces bridge is optional and off by
+default:
+
+```text
+scripts/emit_bellman_closed_language_trace_smoke.py
+  --include-axis-forces-bridge
+```
+
+Without that flag, the generated trace shard imports only:
+
+```lean
+import Cuboctahedron.Search.BellmanTopPairingLanguage
+```
+
+and stops at:
+
+```lean
+generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation :
+  PairSignLanguageAtRank generatedRank generatedForcedSeq seq ->
+  TopPairingClosedLanguageForSeq generatedRank seq Face.ym
+```
+
+The theorem `generatedClosedLanguageForSeqOfAxisForces` is no longer emitted
+in the normal trace shard.  The axis-forces route is now represented by the
+separate `BellmanAxisForcesPairSignSmoke` target accepted above.
+
+Regeneration command:
+
+```bash
+python3 scripts/emit_bellman_closed_language_trace_smoke.py \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedLanguageGeneratedTraceSmoke \
+  --name generated \
+  --graph-json scripts/generated/\
+nonid_margin_bellman_top_pairing_000000000_001000000_\
+with_step_face_linear_tri_source_graph.json \
+  --path-object-index 0 \
+  --concrete-local-axis \
+  --report scripts/generated/bellman_closed_language_generated_trace_smoke.json
+```
+
+Validation:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_bellman_closed_language_trace_smoke.py \
+  scripts/run_bellman_safe_smoke.py \
+  scripts/run_memory_guarded.py
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --target generated-trace \
+  --dry-run \
+  --json /tmp/bellman_generated_trace_pairsign_boundary_dry_run.json
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --target generated-trace \
+  --json /tmp/bellman_generated_trace_pairsign_boundary_guard.json
+
+git diff --check
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|epsilon" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean \
+  scripts/emit_bellman_closed_language_trace_smoke.py
+```
+
+Result:
+
+| command | status / telemetry |
+| --- | --- |
+| Python compile | passed |
+| dry-run preflight | passed; direct import `Cuboctahedron.Search.BellmanTopPairingLanguage`, `18` fresh local `.olean` artifacts |
+| strict direct-Lean generated trace | passed, `8.01s`, `3957.87 MiB` peak tree RSS, `8192 MiB` hard-AS, `46164.75 MiB` minimum available |
+| `git diff --check` | passed |
+| forbidden-token scan | no hits |
+
+Generated trace shard size after the split: `899` lines.  The generated report
+records `"include_axis_forces_bridge": false`.
+
+Decision: accepted.  This restores the intended two-layer architecture:
+ordinary Bellman trace leaves prove trace/cancellation/local-axis membership
+at the `PairSignLanguageAtRank` boundary, while axis-forces-to-pair-sign is a
+separate, measured bridge.
+
+Post-remote-rebase validation: after integrating remote commit
+`8fb69642f` (`Update README.md`), the current tree was rechecked under the
+same strict wrapper:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --target generated-trace \
+  --json /tmp/bellman_generated_trace_pairsign_boundary_guard_rebased.json
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --target axis-forces-pairsign \
+  --json /tmp/bellman_axis_forces_pairsign_guard_rebased.json
+```
+
+Results:
+
+| target | local imports | elapsed | peak tree RSS | minimum available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `generated-trace` | `18` fresh `.olean`s | `8.01s` | `3976 MiB` | `46163 MiB` | passed |
+| `axis-forces-pairsign` | `21` fresh `.olean`s | `2.00s` | `3562 MiB` | `46335 MiB` | passed |

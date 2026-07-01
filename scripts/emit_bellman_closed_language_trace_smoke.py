@@ -480,13 +480,16 @@ def emit_module(
     faces: list[str],
     *,
     concrete_local_axis: bool,
+    include_axis_forces_bridge: bool,
     selected_rank: int | None,
     selected_bad_face: str | None,
 ) -> list[str]:
     labels = ", ".join(face_ctor(face) for face in faces)
+    imports = ["import Cuboctahedron.Search.BellmanTopPairingLanguage"]
+    if include_axis_forces_bridge:
+        imports.insert(0, "import Cuboctahedron.Search.AxisForcedRankLanguage")
     lines = [
-        "import Cuboctahedron.Search.AxisForcedRankLanguage",
-        "import Cuboctahedron.Search.BellmanTopPairingLanguage",
+        *imports,
         "",
         "/-!",
         "Generated-style closed-language trace smoke for the top-pairing",
@@ -858,27 +861,32 @@ def emit_module(
                             "    pairSign",
                             f"    {name}TopPairingLanguageAtRank",
                             "",
-                            f"theorem {name}ClosedLanguageForSeqOfAxisForces",
-                            "    {axis : Vec3 Rat} {kernel : KernelLineWitness}",
-                            "    {seq : Step14 -> Face}",
-                            "    (hRealize :",
-                            f"      SeqRealizesPairWord (unrankPairWord {name}Rank) seq)",
-                            "    (hAxisConstraints :",
-                            "      NonIdentityAxisConstraints seq)",
-                            "    (hKernel :",
-                            "      checkKernelLineWitness",
-                            f"        (totalLinearOfPairWord (unrankPairWord {name}Rank))",
-                            "        axis kernel = true)",
-                            "    (hForces :",
-                            f"      AxisForcesForcedSeq (unrankPairWord {name}Rank)",
-                            f"        axis {name}ForcedSeq) :",
-                            f"    TopPairingClosedLanguageForSeq {name}Rank seq {face_ctor(selected_bad_face)} :=",
-                            f"  {name}ClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation",
-                            "    (pairSignLanguageAtRank_of_axisForces",
-                            "      hRealize hAxisConstraints hKernel hForces)",
-                            "",
                         ]
                     )
+                    if include_axis_forces_bridge:
+                        lines.extend(
+                            [
+                                f"theorem {name}ClosedLanguageForSeqOfAxisForces",
+                                "    {axis : Vec3 Rat} {kernel : KernelLineWitness}",
+                                "    {seq : Step14 -> Face}",
+                                "    (hRealize :",
+                                f"      SeqRealizesPairWord (unrankPairWord {name}Rank) seq)",
+                                "    (hAxisConstraints :",
+                                "      NonIdentityAxisConstraints seq)",
+                                "    (hKernel :",
+                                "      checkKernelLineWitness",
+                                f"        (totalLinearOfPairWord (unrankPairWord {name}Rank))",
+                                "        axis kernel = true)",
+                                "    (hForces :",
+                                f"      AxisForcesForcedSeq (unrankPairWord {name}Rank)",
+                                f"        axis {name}ForcedSeq) :",
+                                f"    TopPairingClosedLanguageForSeq {name}Rank seq {face_ctor(selected_bad_face)} :=",
+                                f"  {name}ClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation",
+                                "    (pairSignLanguageAtRank_of_axisForces",
+                                "      hRealize hAxisConstraints hKernel hForces)",
+                                "",
+                            ]
+                        )
     lines.extend(
         [
             f"theorem {name}GeneratedTraceSmoke_builds : True := by",
@@ -919,6 +927,14 @@ def main() -> None:
         action="store_true",
         help="Emit literal prefix matrices/dot values and a concrete local-axis trace theorem.",
     )
+    parser.add_argument(
+        "--include-axis-forces-bridge",
+        action="store_true",
+        help=(
+            "Also import AxisForcedRankLanguage and emit the axis-forces bridge. "
+            "Off by default so normal trace shards stay at the PairSignLanguageAtRank boundary."
+        ),
+    )
     args = parser.parse_args()
 
     source: dict[str, Any] = {"kind": "built-in-default"}
@@ -933,6 +949,7 @@ def main() -> None:
         args.name,
         faces,
         concrete_local_axis=args.concrete_local_axis,
+        include_axis_forces_bridge=args.include_axis_forces_bridge,
         selected_rank=source.get("rank") if isinstance(source.get("rank"), int) else None,
         selected_bad_face=(
             source.get("bad_face") if isinstance(source.get("bad_face"), str) else None
@@ -951,9 +968,10 @@ def main() -> None:
             "faces": faces,
             "face_count": len(faces),
             "concrete_local_axis": args.concrete_local_axis,
+            "include_axis_forces_bridge": args.include_axis_forces_bridge,
             "proof_strategy": (
                 "literal schedule/square-gap traces plus explicit local-axis "
-                "state/dot facts and a positive-template label bridge"
+                "state/dot facts at the PairSignLanguageAtRank boundary"
             ),
         }
         args.report.parent.mkdir(parents=True, exist_ok=True)

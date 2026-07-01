@@ -3359,3 +3359,28 @@ Split axis-forces bridge checkpoint:
   Telemetry: `11.51s`, `3900 MiB` peak process-tree RSS, `8192 MiB` hard-AS
   cap, and `46210 MiB` minimum available memory.  The import preflight found
   `21` fresh local `.olean` artifacts.
+
+Trace/axis split checkpoint:
+
+- `scripts/emit_bellman_closed_language_trace_smoke.py` now emits the
+  axis-forces bridge only with explicit `--include-axis-forces-bridge`.
+- The normal generated trace shard has been regenerated without that flag.  It
+  imports only `Cuboctahedron.Search.BellmanTopPairingLanguage`, stops at
+  `PairSignLanguageAtRank`, and no longer exports
+  `generatedClosedLanguageForSeqOfAxisForces`.
+- Strict guarded validation of the normal trace target passed:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --target generated-trace \
+    --json /tmp/bellman_generated_trace_pairsign_boundary_guard.json
+  ```
+
+  Telemetry: `8.01s`, `3957.87 MiB` peak process-tree RSS, `8192 MiB`
+  hard-AS cap, and `46164.75 MiB` minimum available memory.  The import
+  preflight dropped to `18` fresh local `.olean` artifacts.
+- After rebasing over remote commit `8fb69642f` (`Update README.md`), both
+  allowlisted targets were rechecked under the strict wrapper.  The
+  `generated-trace` target passed in `8.01s` at `3976 MiB` peak RSS with `18`
+  fresh imports; the `axis-forces-pairsign` target passed in `2.00s` at
+  `3562 MiB` peak RSS with `21` fresh imports.

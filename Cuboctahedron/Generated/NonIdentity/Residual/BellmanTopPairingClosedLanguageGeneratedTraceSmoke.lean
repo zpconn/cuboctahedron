@@ -1,4 +1,3 @@
-import Cuboctahedron.Search.AxisForcedRankLanguage
 import Cuboctahedron.Search.BellmanTopPairingLanguage
 
 /-!
@@ -893,25 +892,6 @@ theorem generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellati
   generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFace
     pairSign
     generatedTopPairingLanguageAtRank
-
-theorem generatedClosedLanguageForSeqOfAxisForces
-    {axis : Vec3 Rat} {kernel : KernelLineWitness}
-    {seq : Step14 -> Face}
-    (hRealize :
-      SeqRealizesPairWord (unrankPairWord generatedRank) seq)
-    (hAxisConstraints :
-      NonIdentityAxisConstraints seq)
-    (hKernel :
-      checkKernelLineWitness
-        (totalLinearOfPairWord (unrankPairWord generatedRank))
-        axis kernel = true)
-    (hForces :
-      AxisForcesForcedSeq (unrankPairWord generatedRank)
-        axis generatedForcedSeq) :
-    TopPairingClosedLanguageForSeq generatedRank seq Face.ym :=
-  generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFaceAndCancellation
-    (pairSignLanguageAtRank_of_axisForces
-      hRealize hAxisConstraints hKernel hForces)
 
 theorem generatedGeneratedTraceSmoke_builds : True := by
   exact True.intro
