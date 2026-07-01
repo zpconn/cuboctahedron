@@ -215,3 +215,47 @@ Build completed successfully
 Remaining Lean proof gates are now the valid-count parity theorem, triangular
 adjacent-cancellation/product theorem, and the mod-3 nonidentity theorem for
 nonempty reduced triangular shadows.
+
+## Square-Parity List Checkpoint
+
+`Cuboctahedron/Search/ShadowNormalForm.lean` now also proves the list-level
+square-parity invariant.  The key theorem is:
+
+```lean
+theorem shadowStateOfPairList_parity (pairs : List PairId) :
+    (shadowStateOfPairList pairs).parity =
+      { x := pairOccursOdd PairId.x pairs
+        y := pairOccursOdd PairId.y pairs
+        z := pairOccursOdd PairId.z pairs }
+```
+
+with the immediate identity corollary:
+
+```lean
+theorem finalSquareParityOfPairList_eq_id_of_not_occurs_odd
+    {pairs : List PairId}
+    (hx : pairOccursOdd PairId.x pairs = false)
+    (hy : pairOccursOdd PairId.y pairs = false)
+    (hz : pairOccursOdd PairId.z pairs = false) :
+    (shadowStateOfPairList pairs).parity = SqParity.id
+```
+
+Focused builds:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalForm
+lake build Cuboctahedron.Search.ShadowNormalFormLinear
+```
+
+Results:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalForm (1.9s)
+Built Cuboctahedron.Search.ShadowNormalFormLinear (1.3s)
+Build completed successfully
+```
+
+This proves that the scanner's square-parity component is exactly the parity
+of square-pair occurrences in its input list.  The remaining parity gate is to
+connect `ValidPairWord w` to even `x/y/z` occurrence in
+`startedPairFactors w`.

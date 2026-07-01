@@ -234,6 +234,33 @@ gates are valid-count square parity, triangular cancellation/product
 preservation, and the mod-3 proof that nonempty reduced triangular shadows are
 nonidentity.
 
+Lean square-parity list checkpoint:
+
+- Extended `Cuboctahedron/Search/ShadowNormalForm.lean` with a list-level
+  parity invariant.
+- New definitions/theorems include `pairOccursOddFrom`, `pairOccursOdd`,
+  `shadowStateOfPairList_parity`, and
+  `finalSquareParityOfPairList_eq_id_of_not_occurs_odd`.
+- Focused builds:
+
+  ```bash
+  lake build Cuboctahedron.Search.ShadowNormalForm
+  lake build Cuboctahedron.Search.ShadowNormalFormLinear
+  ```
+
+  passed with:
+
+  ```text
+  Built Cuboctahedron.Search.ShadowNormalForm (1.9s)
+  Built Cuboctahedron.Search.ShadowNormalFormLinear (1.3s)
+  Build completed successfully
+  ```
+
+Accepted: the scanner's square-parity field is now Lean-proved to be the odd
+occurrence parity of `x/y/z` in the scanned factor list.  Remaining parity
+work: prove that `ValidPairWord w` implies even square occurrence in
+`startedPairFactors w`, hence `finalSquareParityOfPairWord w = SqParity.id`.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded

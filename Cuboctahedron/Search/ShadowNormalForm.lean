@@ -27,6 +27,13 @@ deriving DecidableEq, Repr
 
 namespace SqParity
 
+@[ext] theorem ext {p q : SqParity}
+    (hx : p.x = q.x) (hy : p.y = q.y) (hz : p.z = q.z) :
+    p = q := by
+  cases p
+  cases q
+  simp_all
+
 def id : SqParity where
   x := false
   y := false
@@ -209,6 +216,93 @@ def startedPairFactors (w : PairWord) : List PairId :=
 
 def shadowStateOfPairList (pairs : List PairId) : ShadowState :=
   pairs.foldl ShadowState.scanPair ShadowState.initial
+
+def pairOccursOddFrom (start : Bool) (target : PairId) : List PairId -> Bool
+  | [] => start
+  | p :: ps =>
+      pairOccursOddFrom (if p = target then !start else start) target ps
+
+def pairOccursOdd (target : PairId) (pairs : List PairId) : Bool :=
+  pairOccursOddFrom false target pairs
+
+theorem foldl_scanPair_parity_x
+    (pairs : List PairId) (state : ShadowState) :
+    ((pairs.foldl ShadowState.scanPair state).parity).x =
+      pairOccursOddFrom state.parity.x PairId.x pairs := by
+  induction pairs generalizing state with
+  | nil => rfl
+  | cons p ps ih =>
+      rw [List.foldl_cons, ih]
+      cases p <;>
+        cases state with
+        | mk parity shadowRev reducedRev =>
+            cases parity with
+            | mk px py pz =>
+                cases px <;> cases py <;> cases pz <;>
+                  simp [pairOccursOddFrom, ShadowState.scanPair,
+                    TriLetter.ofPairId?, SqParity.applyPair,
+                    SqParity.toggleForPair, SqParity.toggleX,
+                    SqParity.toggleY, SqParity.toggleZ, SqParity.xor]
+
+theorem foldl_scanPair_parity_y
+    (pairs : List PairId) (state : ShadowState) :
+    ((pairs.foldl ShadowState.scanPair state).parity).y =
+      pairOccursOddFrom state.parity.y PairId.y pairs := by
+  induction pairs generalizing state with
+  | nil => rfl
+  | cons p ps ih =>
+      rw [List.foldl_cons, ih]
+      cases p <;>
+        cases state with
+        | mk parity shadowRev reducedRev =>
+            cases parity with
+            | mk px py pz =>
+                cases px <;> cases py <;> cases pz <;>
+                  simp [pairOccursOddFrom, ShadowState.scanPair,
+                    TriLetter.ofPairId?, SqParity.applyPair,
+                    SqParity.toggleForPair, SqParity.toggleX,
+                    SqParity.toggleY, SqParity.toggleZ, SqParity.xor]
+
+theorem foldl_scanPair_parity_z
+    (pairs : List PairId) (state : ShadowState) :
+    ((pairs.foldl ShadowState.scanPair state).parity).z =
+      pairOccursOddFrom state.parity.z PairId.z pairs := by
+  induction pairs generalizing state with
+  | nil => rfl
+  | cons p ps ih =>
+      rw [List.foldl_cons, ih]
+      cases p <;>
+        cases state with
+        | mk parity shadowRev reducedRev =>
+            cases parity with
+            | mk px py pz =>
+                cases px <;> cases py <;> cases pz <;>
+                  simp [pairOccursOddFrom, ShadowState.scanPair,
+                    TriLetter.ofPairId?, SqParity.applyPair,
+                    SqParity.toggleForPair, SqParity.toggleX,
+                    SqParity.toggleY, SqParity.toggleZ, SqParity.xor]
+
+theorem shadowStateOfPairList_parity (pairs : List PairId) :
+    (shadowStateOfPairList pairs).parity =
+      { x := pairOccursOdd PairId.x pairs
+        y := pairOccursOdd PairId.y pairs
+        z := pairOccursOdd PairId.z pairs } := by
+  ext
+  · simp [shadowStateOfPairList, pairOccursOdd, ShadowState.initial, SqParity.id,
+      foldl_scanPair_parity_x]
+  · simp [shadowStateOfPairList, pairOccursOdd, ShadowState.initial, SqParity.id,
+      foldl_scanPair_parity_y]
+  · simp [shadowStateOfPairList, pairOccursOdd, ShadowState.initial, SqParity.id,
+      foldl_scanPair_parity_z]
+
+theorem finalSquareParityOfPairList_eq_id_of_not_occurs_odd
+    {pairs : List PairId}
+    (hx : pairOccursOdd PairId.x pairs = false)
+    (hy : pairOccursOdd PairId.y pairs = false)
+    (hz : pairOccursOdd PairId.z pairs = false) :
+    (shadowStateOfPairList pairs).parity = SqParity.id := by
+  rw [shadowStateOfPairList_parity]
+  simp [SqParity.id, hx, hy, hz]
 
 def shadowStateOfPairWord (w : PairWord) : ShadowState :=
   shadowStateOfPairList (startedPairFactors w)
