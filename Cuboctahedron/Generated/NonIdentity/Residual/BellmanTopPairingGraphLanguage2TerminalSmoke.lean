@@ -752,12 +752,16 @@ private theorem terminalNonposStartViolationObjectExists
     exists obj : TerminalNonposStartViolationObject, True /\ obj.rank = rank :=
   hrank
 
+private noncomputable def terminalObjectMembership :
+    Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.BellmanNonposStartViolationObjectMembership
+      sampledScaledMarginAtRank terminalContainsRank :=
+  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.BellmanNonposStartViolationObjectMembership.ofExists
+
 theorem graphSmoke_sampled_axis_rank_killed
     {rank : Fin numPairWords} (hrank : terminalContainsRank rank) :
     Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
-  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.nonIdentityRankKilled_of_nonpos_start_violation_objects
-    (scaledMargin := sampledScaledMarginAtRank)
-    (terminalNonposStartViolationObjectExists hrank)
+  Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge.BellmanNonposStartViolationObjectMembership.rankKilled
+    terminalObjectMembership hrank
 
 theorem bellmanGraphTerminalSmoke_builds : True := by
   exact True.intro

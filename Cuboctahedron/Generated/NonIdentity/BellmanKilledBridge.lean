@@ -323,6 +323,60 @@ structure BellmanNonposStartViolationObject
   startViolation :
     ObjectStartViolationMarginCert rank (scaledMargin rank)
 
+structure BellmanNonposStartViolationObjectMembership
+    (scaledMargin : Fin numPairWords -> Int)
+    (ContainsRank : Fin numPairWords -> Prop) where
+  objectOf :
+    forall rank, ContainsRank rank ->
+      BellmanNonposStartViolationObject scaledMargin
+  object_rank :
+    forall rank hrank, (objectOf rank hrank).rank = rank
+
+namespace BellmanNonposStartViolationObjectMembership
+
+noncomputable def ofExists
+    {scaledMargin : Fin numPairWords -> Int} :
+    BellmanNonposStartViolationObjectMembership scaledMargin
+      (fun rank =>
+        exists obj : BellmanNonposStartViolationObject scaledMargin,
+          True /\ obj.rank = rank) where
+  objectOf := fun _rank hrank => Classical.choose hrank
+  object_rank := by
+    intro rank hrank
+    exact (Classical.choose_spec hrank).2
+
+theorem covers
+    {scaledMargin : Fin numPairWords -> Int}
+    {ContainsRank : Fin numPairWords -> Prop}
+    (membership :
+      BellmanNonposStartViolationObjectMembership scaledMargin ContainsRank) :
+    forall rank, ContainsRank rank ->
+      exists obj : BellmanNonposStartViolationObject scaledMargin,
+        True /\ obj.rank = rank := by
+  intro rank hrank
+  exact ⟨membership.objectOf rank hrank, True.intro,
+    membership.object_rank rank hrank⟩
+
+theorem rankKilled
+    {scaledMargin : Fin numPairWords -> Int}
+    {ContainsRank : Fin numPairWords -> Prop}
+    (membership :
+      BellmanNonposStartViolationObjectMembership scaledMargin ContainsRank)
+    {rank : Fin numPairWords} (hrank : ContainsRank rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
+    (Obj := BellmanNonposStartViolationObject scaledMargin)
+    (rankOf := fun obj => obj.rank)
+    (Accepts := fun _obj => True)
+    (ContainsRank := ContainsRank)
+    (scaledMargin := scaledMargin)
+    (BellmanNonposStartViolationObjectMembership.covers membership)
+    (fun obj _hAccept => obj.nonpos)
+    (fun obj _hAccept => obj.startViolation)
+    hrank
+
+end BellmanNonposStartViolationObjectMembership
+
 theorem nonIdentityRankKilled_of_nonpos_start_violation_objects
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -330,17 +384,9 @@ theorem nonIdentityRankKilled_of_nonpos_start_violation_objects
       exists obj : BellmanNonposStartViolationObject scaledMargin,
         True /\ obj.rank = rank) :
     Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
-  nonIdentityRankKilled_of_object_nonpos_start_violation_margin_certs
-    (Obj := BellmanNonposStartViolationObject scaledMargin)
-    (rankOf := fun obj => obj.rank)
-    (Accepts := fun _obj => True)
-    (ContainsRank := fun rank =>
-      exists obj : BellmanNonposStartViolationObject scaledMargin,
-        True /\ obj.rank = rank)
-    (scaledMargin := scaledMargin)
-    (fun _rank hrank => hrank)
-    (fun obj _hAccept => obj.nonpos)
-    (fun obj _hAccept => obj.startViolation)
+  BellmanNonposStartViolationObjectMembership.rankKilled
+    (BellmanNonposStartViolationObjectMembership.ofExists
+      (scaledMargin := scaledMargin))
     hrank
 
 end Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge

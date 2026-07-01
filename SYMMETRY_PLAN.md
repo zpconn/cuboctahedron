@@ -50344,3 +50344,78 @@ target-pairing/local-axis/canonical-bad-face/reduced-shadow language
 The smoke may continue to use the sampled constructor as a regression test,
 but production progress must replace it with a holonomy/cancellation language
 membership proof.
+
+### Holonomy/Bellman Pivot - reusable terminal membership record accepted
+
+Added a hand-written membership surface in
+`Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`:
+
+```lean
+structure BellmanNonposStartViolationObjectMembership
+    (scaledMargin : Fin numPairWords -> Int)
+    (ContainsRank : Fin numPairWords -> Prop)
+
+theorem BellmanNonposStartViolationObjectMembership.covers
+theorem BellmanNonposStartViolationObjectMembership.rankKilled
+noncomputable def BellmanNonposStartViolationObjectMembership.ofExists
+```
+
+This record is the production-shaped object-family theorem target.  A future
+generated Bellman shard should prove:
+
+```lean
+BellmanNonposStartViolationObjectMembership
+  scaledMargin semanticContainsRank
+```
+
+where `semanticContainsRank` is a holonomy/cancellation language predicate,
+not a sampled rank set.  The generic `rankKilled` theorem then proves
+`NonIdentityRankKilled` without any exposed graph state, path class, or
+ordinary `NonIdCert`.
+
+The split terminal smoke now rehearses this exact surface:
+
+```lean
+private noncomputable def terminalObjectMembership :
+    BellmanNonposStartViolationObjectMembership
+      sampledScaledMarginAtRank terminalContainsRank :=
+  BellmanNonposStartViolationObjectMembership.ofExists
+
+theorem graphSmoke_sampled_axis_rank_killed
+    {rank : Fin numPairWords} (hrank : terminalContainsRank rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  BellmanNonposStartViolationObjectMembership.rankKilled
+    terminalObjectMembership hrank
+```
+
+For the smoke, `ofExists` is acceptable because `terminalContainsRank` is
+already the object-existence predicate.  For production, `ofExists` is only a
+fallback; the meaningful proof is the generated semantic membership record
+that constructs the object from the accepted holonomy language.
+
+Focused checks:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `lake build Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:05.81` | `3,305,892 kB` | passed |
+| `lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke` | `1:14.48` | `7,707,960 kB` | passed |
+| split-boundary audit | n/a | n/a | passed |
+
+Updated split-boundary audit:
+
+```json
+{"graph_lines": 24423, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 769, "terminal_positive_payloads": 2}
+```
+
+Decision: accepted.  The next nonidentity Bellman slice should generate a
+bounded semantic-membership smoke for the current top-pairing family:
+
+```text
+semanticContainsRank rank
+  -> objectOf rank : BellmanNonposStartViolationObject scaledMargin
+```
+
+where `semanticContainsRank` encodes the already-profiled closed language:
+target cancellation pairing, observed schedule/square-gap, local forced-axis
+compatibility, and canonical bad-face compatibility.  Exact path classes and
+sampled rank indices remain diagnostics only.

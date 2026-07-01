@@ -13,7 +13,7 @@
   "graph_positive_mentions": 0,
   "graph_required_missing": [],
   "terminal_forbidden_present": [],
-  "terminal_lines": 765,
+  "terminal_lines": 769,
   "terminal_path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2TerminalSmoke.lean",
   "terminal_positive_payloads": 2,
   "terminal_required_missing": []

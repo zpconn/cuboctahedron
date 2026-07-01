@@ -2257,3 +2257,46 @@ target-pairing/local-axis/canonical-bad-face/reduced-shadow language
 for the current top-pairing Bellman smoke.  This is the point where the
 GPT5.5 Bellman/potential recommendation stops being bridge plumbing and starts
 replacing sampled rank enumeration with holonomy language membership.
+
+Reusable terminal membership record:
+
+- Added `BellmanNonposStartViolationObjectMembership` in
+  `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`.
+- It packages the exact theorem surface production shards should prove:
+
+  ```lean
+  BellmanNonposStartViolationObjectMembership
+    scaledMargin semanticContainsRank
+  ```
+
+  where `semanticContainsRank` is a holonomy/cancellation language predicate.
+- The namespace provides:
+
+  ```lean
+  BellmanNonposStartViolationObjectMembership.covers
+  BellmanNonposStartViolationObjectMembership.rankKilled
+  BellmanNonposStartViolationObjectMembership.ofExists
+  ```
+
+- The split terminal smoke now defines `terminalObjectMembership` and proves
+  `graphSmoke_sampled_axis_rank_killed` through
+  `BellmanNonposStartViolationObjectMembership.rankKilled`.
+- Focused checks:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `lake build Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:05.81` | `3,305,892 kB` |
+  | `lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke` | `1:14.48` | `7,707,960 kB` |
+
+- Split-boundary audit:
+
+  ```json
+  {"graph_lines": 24423, "graph_positive_mentions": 0, "status": "passed", "terminal_lines": 769, "terminal_positive_payloads": 2}
+  ```
+
+Next implementation frontier: replace `ofExists`/sampled construction with a
+bounded generated semantic membership record for the top-pairing language.
+That record should construct
+`BellmanNonposStartViolationObject`s from target cancellation pairing,
+observed schedule/square-gap, local forced-axis compatibility, and canonical
+bad-face compatibility.
