@@ -424,3 +424,53 @@ Accepted: the full shadow scanner is now Lean-proved to preserve triangular
 linear product under adjacent stack cancellation.  The remaining Track 1
 algebra gate is the mod-3 theorem that a nonempty reduced triangular product
 cannot be identity.
+
+## Mod-3 Triangular Core Checkpoint
+
+The finite-field core of the mod-3 argument is now Lean-checked in:
+
+- `Cuboctahedron/Search/ShadowNormalFormMod3.lean`
+
+It defines the rank-one mod-3 triangular matrices:
+
+```lean
+def triNormalZ3 : TriLetter -> Vec3 (ZMod 3)
+def triMod3Linear (t : TriLetter) : Mat3 (ZMod 3)
+def triMod3Product : List TriLetter -> Mat3 (ZMod 3)
+def NoAdjacentEq : List TriLetter -> Prop
+```
+
+and proves:
+
+```lean
+theorem triMod3Product_rankOne_from_head :
+    ∀ (head : TriLetter) (tail : List TriLetter),
+      NoAdjacentEq (head :: tail) ->
+        ∃ (last : TriLetter) (q : ZMod 3),
+          q ≠ 0 ∧
+            triMod3Product (head :: tail) =
+              scalarMat q (outer (triNormalZ3 head) (triNormalZ3 last))
+
+theorem triMod3Product_ne_zero_of_noAdjacent
+    (head : TriLetter) (tail : List TriLetter)
+    (hred : NoAdjacentEq (head :: tail)) :
+    triMod3Product (head :: tail) ≠ (matZero : Mat3 (ZMod 3))
+```
+
+Focused build:
+
+```bash
+lake build Cuboctahedron.Search.ShadowNormalFormMod3
+```
+
+Result:
+
+```text
+Built Cuboctahedron.Search.ShadowNormalFormMod3 (1.9s)
+Build completed successfully
+```
+
+Accepted: the central mod-3 rank-one product argument is Lean-proved.  The
+remaining Track 1 work is to connect this finite-field product to the
+integer-scaled triangular reflection product, then bridge back to the rational
+`triProduct`/`totalLinearOfPairWord` identity classifier.
