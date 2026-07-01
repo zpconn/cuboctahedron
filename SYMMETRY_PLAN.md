@@ -49746,3 +49746,23 @@ Decision: accepted as the next proof surface for semantic Bellman membership.
 This is still bounded smoke, not full coverage.  The next production step is
 to replace the sampled `BellmanRankObjectMembership` proof with a generated
 semantic object-family membership theorem for the closed transition language.
+
+Follow-up proof-surface refinement: added
+
+```lean
+def BellmanAxisRankObjectCover.ofMembership
+```
+
+in `Cuboctahedron.Search.BellmanAxisBridge`.  This constructor packages a
+Bellman trace bound, step/root inequalities, and a
+`BellmanRankObjectMembership` proof into a full `BellmanAxisRankObjectCover`.
+It is small handwritten infrastructure, but it matters for production
+generation: future semantic family shards can expose membership as a separate
+theorem and instantiate object covers without repeating the same `covers`
+plumbing.
+
+Focused build:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` after `ofMembership` | `0:02.72` | `3,292,116 kB` | passed |

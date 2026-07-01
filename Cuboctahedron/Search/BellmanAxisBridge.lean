@@ -443,6 +443,37 @@ structure BellmanAxisRankObjectCover
 
 namespace BellmanAxisRankObjectCover
 
+def ofMembership
+    {Obj State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {rankOf : Obj -> Fin numPairWords}
+    {Accepts : Obj -> Prop}
+    {ContainsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (forcedSeq : Obj -> Step14 -> Face)
+    (trace_bound :
+      BellmanLabelStepRunLanguageBound V Step start const
+        (fun obj => scaledMargin (rankOf obj))
+        (fun obj => faceLabelsInContributionOrder labelOfFace (forcedSeq obj))
+        Accepts)
+    (step_valid :
+      forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (root_bound : const + V start <= 0)
+    (membership :
+      BellmanRankObjectMembership Obj rankOf Accepts ContainsRank) :
+    BellmanAxisRankObjectCover
+      Obj State Label V Step labelOfFace start const rankOf
+      Accepts ContainsRank scaledMargin where
+  forcedSeq := forcedSeq
+  trace_bound := trace_bound
+  step_valid := step_valid
+  root_bound := root_bound
+  covers := BellmanRankObjectMembership.covers membership
+
 theorem scaledMargin_nonpos_at_object
     {Obj State Label : Type}
     {V : State -> Int}

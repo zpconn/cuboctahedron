@@ -1847,6 +1847,16 @@ This is the current Lean theorem surface for the next real membership step:
 replace the sampled membership proof with a generated semantic membership proof
 for the closed Bellman language.
 
+Object-cover constructor:
+
+- Added `BellmanAxisRankObjectCover.ofMembership`.
+- It packages a trace bound, local Bellman inequalities, and a
+  `BellmanRankObjectMembership` proof into a full object cover.
+- Focused build of `Cuboctahedron.Search.BellmanAxisBridge` passed in
+  `0:02.72` wall time with `3,292,116 kB` max RSS.
+- This is intended for future generated family shards: prove semantic
+  membership once, then instantiate the object cover through this constructor.
+
 Split terminal bridge:
 
 - Added to `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`:
