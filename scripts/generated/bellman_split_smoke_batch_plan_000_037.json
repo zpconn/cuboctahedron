@@ -134,18 +134,18 @@
       "rank": 10613,
       "split": {
         "artifact_status": {
-          "fresh_olean": false,
+          "fresh_olean": true,
           "olean": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 17936,
+            "exists": true,
+            "kib": 18,
+            "mtime": 1782930001.7335768
           },
           "source": {
-            "bytes": 2050,
+            "bytes": 1927,
             "exists": true,
-            "kib": 3,
-            "mtime": 1782928208.8024414
+            "kib": 2,
+            "mtime": 1782929937.0823267
           }
         },
         "import_budget": 26,
@@ -310,18 +310,18 @@
       "rank": 25555,
       "split": {
         "artifact_status": {
-          "fresh_olean": false,
+          "fresh_olean": true,
           "olean": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 17936,
+            "exists": true,
+            "kib": 18,
+            "mtime": 1782930290.5929697
           },
           "source": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 1927,
+            "exists": true,
+            "kib": 2,
+            "mtime": 1782930263.6558473
           }
         },
         "import_budget": 26,
@@ -335,18 +335,18 @@
       },
       "trace": {
         "artifact_status": {
-          "fresh_olean": false,
+          "fresh_olean": true,
           "olean": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 2504280,
+            "exists": true,
+            "kib": 2446,
+            "mtime": 1782930289.0153708
           },
           "source": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 32592,
+            "exists": true,
+            "kib": 32,
+            "mtime": 1782930263.6558473
           }
         },
         "import_budget": 18,
@@ -3270,8 +3270,8 @@
   "start_index": 0,
   "summary": {
     "entries_over_budget": 0,
-    "fresh_split_artifacts": 2,
-    "fresh_trace_artifacts": 3,
+    "fresh_split_artifacts": 4,
+    "fresh_trace_artifacts": 4,
     "planned_entries": 37,
     "total_split_source_kib": 74,
     "total_trace_source_kib": 1184

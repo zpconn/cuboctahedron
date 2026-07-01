@@ -53085,3 +53085,74 @@ next possible single-path target, but it has **not** been run.
 Decision: accepted.  This advances one path component under the strict
 post-crash envelope and makes the next proof-bearing step smaller and explicit.
 Batch execution remains quarantined.
+
+### Holonomy/Bellman Pivot - fourth split path accepted
+
+Ran exactly one additional single-path check under the strict post-crash
+envelope.  This was the candidate selected by the dry-run selector in the
+previous checkpoint: path object index `3`, rank `25555`.  No batch execution
+or parallel Lean execution was used.
+
+Commands run:
+
+```bash
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+
+python3 scripts/run_bellman_split_smoke_path.py 3 \
+  --check \
+  --check-stage missing \
+  --dry-run \
+  --json scripts/generated/bellman_split_path_03_missing_dry_run.json
+
+python3 scripts/run_bellman_split_smoke_path.py 3 \
+  --check \
+  --check-stage missing \
+  --json scripts/generated/bellman_split_path_03_missing_run.json
+
+python3 scripts/plan_bellman_split_batch_guard.py \
+  --start-index 0 \
+  --count 4 \
+  --require-fresh-artifacts \
+  --require-checked-summaries \
+  --json scripts/generated/bellman_split_batch_guard_000_004.json \
+  --markdown docs/bellman_split_batch_guard_000_004.md
+
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+
+python3 scripts/plan_bellman_split_smokes.py \
+  --count 37 \
+  --json scripts/generated/bellman_split_smoke_batch_plan_000_037.json \
+  --markdown docs/bellman_split_smoke_batch_plan_000_037.md
+```
+
+Proof-bearing results for path object index `3`:
+
+| component | elapsed | peak tree RSS | hard-AS cap | min available | status |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `generated-trace-03 --emit-olean` | `8.51s` | `4005 MiB` | `6144 MiB` | `46243 MiB` | passed |
+| `split-composition-03 --emit-olean` | `1.50s` | `3627 MiB` | `6144 MiB` | `46430 MiB` | passed |
+
+Refreshed accounting:
+
+- strict `[0,4)` batch guard remains rejected, with `2` blocked entries and
+  `3` total blockers;
+- `[0,37)` source/artifact plan reports `0` over budget, `4` fresh trace
+  artifacts, `4` fresh split artifacts, `1184 KiB` total trace source, and
+  `74 KiB` total split source;
+- the next dry-run-selected single-path candidate is path object index `4`,
+  rank `40387`, with both trace and split artifacts missing/stale.
+
+Decision: accepted as the fourth checked split path under the strict post-crash
+guard.  This strengthens the evidence that the split Bellman route checks
+comfortably below the current memory cap for small representative paths, while
+batch execution remains quarantined.
