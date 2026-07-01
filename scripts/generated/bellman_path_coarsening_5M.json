@@ -1,0 +1,2193 @@
+{
+  "decision": "diagnostic-only-coarse-signature-profile",
+  "edge_count": 863,
+  "input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.json",
+  "label_count": 14,
+  "path_count": 194,
+  "state_count": 789,
+  "summaries": [
+    {
+      "group_count": 1,
+      "max_group_size": 194,
+      "max_margin_spread": 552,
+      "max_multi_margin_spread": 552,
+      "mode": "label-multiset",
+      "multi_member_groups": 1,
+      "path_count": 194,
+      "size_histogram": {
+        "194": 1
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 194,
+          "finals": [
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            418,
+            419,
+            420,
+            421,
+            422,
+            423,
+            424,
+            425,
+            426,
+            427,
+            428,
+            429,
+            430,
+            431,
+            432,
+            433,
+            434,
+            435,
+            436,
+            437,
+            438,
+            439,
+            440,
+            441,
+            442,
+            443,
+            444,
+            445,
+            446,
+            447,
+            448,
+            449,
+            450,
+            451,
+            452,
+            453,
+            454,
+            455,
+            456,
+            457,
+            458,
+            459,
+            460,
+            461,
+            462,
+            463,
+            464,
+            465,
+            466,
+            467,
+            468,
+            469,
+            470,
+            471,
+            472,
+            473,
+            474,
+            475,
+            476,
+            477,
+            478,
+            479,
+            480,
+            481,
+            482,
+            483,
+            484,
+            485,
+            486,
+            487,
+            488,
+            489,
+            490,
+            491,
+            492,
+            493,
+            494,
+            495,
+            496,
+            497,
+            498,
+            499,
+            500
+          ],
+          "margin": {
+            "max": 0,
+            "min": -552,
+            "spread": 552
+          },
+          "rank_samples": [
+            517,
+            10613,
+            23197,
+            25555,
+            40387,
+            42247,
+            42943,
+            43171,
+            43195,
+            43203,
+            43205,
+            113917
+          ],
+          "size": 194
+        }
+      ]
+    },
+    {
+      "group_count": 38,
+      "max_group_size": 31,
+      "max_margin_spread": 0,
+      "max_multi_margin_spread": 0,
+      "mode": "label-multiset-margin",
+      "multi_member_groups": 32,
+      "path_count": 194,
+      "size_histogram": {
+        "1": 6,
+        "10": 1,
+        "13": 1,
+        "14": 1,
+        "2": 12,
+        "20": 1,
+        "3": 4,
+        "31": 1,
+        "4": 3,
+        "5": 2,
+        "6": 2,
+        "7": 2,
+        "8": 2
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 31,
+          "finals": [
+            406,
+            424,
+            425,
+            431,
+            434,
+            439,
+            440
+          ],
+          "margin": {
+            "max": -156,
+            "min": -156,
+            "spread": 0
+          },
+          "rank_samples": [
+            3515467,
+            3518275,
+            3520507,
+            3521767,
+            3527833,
+            3527953,
+            3560827,
+            3562087,
+            3568153,
+            3568273,
+            3570907,
+            3628837
+          ],
+          "size": 31
+        },
+        {
+          "distinct_label_sequences": 20,
+          "finals": [
+            410,
+            411,
+            449,
+            454,
+            462,
+            487
+          ],
+          "margin": {
+            "max": -24,
+            "min": -24,
+            "spread": 0
+          },
+          "rank_samples": [
+            1517405,
+            1975617,
+            1975618,
+            1975619,
+            2787483,
+            2877798,
+            2877800,
+            2877804,
+            3667470,
+            3667473,
+            3667475,
+            3667482
+          ],
+          "size": 20
+        },
+        {
+          "distinct_label_sequences": 14,
+          "finals": [
+            416,
+            427,
+            432,
+            438,
+            454,
+            458,
+            459
+          ],
+          "margin": {
+            "max": -84,
+            "min": -84,
+            "spread": 0
+          },
+          "rank_samples": [
+            2495317,
+            2497675,
+            2515323,
+            2517997,
+            2520355,
+            2523037,
+            2722117,
+            2724475,
+            2727157,
+            2767477,
+            3572767,
+            3573691
+          ],
+          "size": 14
+        },
+        {
+          "distinct_label_sequences": 13,
+          "finals": [
+            443,
+            468,
+            472,
+            492,
+            496,
+            498
+          ],
+          "margin": {
+            "max": -200,
+            "min": -200,
+            "spread": 0
+          },
+          "rank_samples": [
+            151569,
+            312772,
+            312773,
+            947625,
+            947626,
+            947627,
+            1285569,
+            1446772,
+            1446773,
+            1489689,
+            1499077,
+            1829873
+          ],
+          "size": 13
+        },
+        {
+          "distinct_label_sequences": 10,
+          "finals": [
+            487,
+            497,
+            500
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            517,
+            10613,
+            43205,
+            113917,
+            124013,
+            136597,
+            1247917,
+            1258013,
+            1270597,
+            1474717
+          ],
+          "size": 10
+        },
+        {
+          "distinct_label_sequences": 8,
+          "finals": [
+            451,
+            456,
+            473,
+            495,
+            499
+          ],
+          "margin": {
+            "max": -420,
+            "min": -420,
+            "spread": 0
+          },
+          "rank_samples": [
+            151567,
+            312761,
+            947591,
+            1285567,
+            1446761,
+            1489687,
+            2514367,
+            2515291
+          ],
+          "size": 8
+        },
+        {
+          "distinct_label_sequences": 8,
+          "finals": [
+            414,
+            436,
+            441,
+            445,
+            475,
+            479
+          ],
+          "margin": {
+            "max": -288,
+            "min": -288,
+            "spread": 0
+          },
+          "rank_samples": [
+            944199,
+            947439,
+            2620837,
+            2621761,
+            2622097,
+            2622457,
+            3573723,
+            3667413
+          ],
+          "size": 8
+        },
+        {
+          "distinct_label_sequences": 7,
+          "finals": [
+            414,
+            442,
+            447,
+            448,
+            452,
+            470,
+            481
+          ],
+          "margin": {
+            "max": -216,
+            "min": -216,
+            "spread": 0
+          },
+          "rank_samples": [
+            914499,
+            947601,
+            2592757,
+            2621785,
+            2787475,
+            2877754,
+            3667329
+          ],
+          "size": 7
+        },
+        {
+          "distinct_label_sequences": 7,
+          "finals": [
+            408,
+            434
+          ],
+          "margin": {
+            "max": -480,
+            "min": -480,
+            "spread": 0
+          },
+          "rank_samples": [
+            3573715,
+            3667321,
+            3667333,
+            3667339,
+            3667381,
+            3667387,
+            3667405
+          ],
+          "size": 7
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            417,
+            428,
+            464,
+            466,
+            484,
+            490
+          ],
+          "margin": {
+            "max": -68,
+            "min": -68,
+            "spread": 0
+          },
+          "rank_samples": [
+            1516447,
+            1517371,
+            1965953,
+            1975337,
+            3629795,
+            3666635
+          ],
+          "size": 6
+        }
+      ]
+    },
+    {
+      "group_count": 95,
+      "max_group_size": 6,
+      "max_margin_spread": 468,
+      "max_multi_margin_spread": 468,
+      "mode": "final-label-multiset",
+      "multi_member_groups": 48,
+      "path_count": 194,
+      "size_histogram": {
+        "1": 47,
+        "2": 26,
+        "3": 11,
+        "4": 2,
+        "6": 9
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            500
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            517,
+            113917,
+            136597,
+            1247917,
+            1270597,
+            1474717
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            459
+          ],
+          "margin": {
+            "max": -84,
+            "min": -84,
+            "spread": 0
+          },
+          "rank_samples": [
+            2495317,
+            2517997,
+            2523037,
+            2722117,
+            2727157,
+            2767477
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            440
+          ],
+          "margin": {
+            "max": -156,
+            "min": -156,
+            "spread": 0
+          },
+          "rank_samples": [
+            3515467,
+            3520507,
+            3521767,
+            3560827,
+            3562087,
+            3570907
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            431
+          ],
+          "margin": {
+            "max": -156,
+            "min": -156,
+            "spread": 0
+          },
+          "rank_samples": [
+            3628837,
+            3630097,
+            3630457,
+            3638917,
+            3639277,
+            3641437
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            424
+          ],
+          "margin": {
+            "max": -156,
+            "min": -156,
+            "spread": 0
+          },
+          "rank_samples": [
+            3659053,
+            3659413,
+            3659533,
+            3661573,
+            3661693,
+            3662293
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            406
+          ],
+          "margin": {
+            "max": -156,
+            "min": -156,
+            "spread": 0
+          },
+          "rank_samples": [
+            3666601,
+            3666661,
+            3666685,
+            3666961,
+            3666985,
+            3667081
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            408
+          ],
+          "margin": {
+            "max": -480,
+            "min": -480,
+            "spread": 0
+          },
+          "rank_samples": [
+            3667321,
+            3667333,
+            3667339,
+            3667381,
+            3667387,
+            3667405
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            410
+          ],
+          "margin": {
+            "max": -24,
+            "min": -24,
+            "spread": 0
+          },
+          "rank_samples": [
+            3667470,
+            3667473,
+            3667475,
+            3667482,
+            3667484,
+            3667488
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            411
+          ],
+          "margin": {
+            "max": -24,
+            "min": -24,
+            "spread": 0
+          },
+          "rank_samples": [
+            3667494,
+            3667495,
+            3667496,
+            3667497,
+            3667498,
+            3667499
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 4,
+          "finals": [
+            496
+          ],
+          "margin": {
+            "max": -200,
+            "min": -200,
+            "spread": 0
+          },
+          "rank_samples": [
+            312772,
+            312773,
+            1446772,
+            1446773
+          ],
+          "size": 4
+        }
+      ]
+    },
+    {
+      "group_count": 118,
+      "max_group_size": 6,
+      "max_margin_spread": 0,
+      "max_multi_margin_spread": 0,
+      "mode": "final-label-multiset-margin",
+      "multi_member_groups": 25,
+      "path_count": 194,
+      "size_histogram": {
+        "1": 93,
+        "2": 3,
+        "3": 11,
+        "4": 2,
+        "6": 9
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            500
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            517,
+            113917,
+            136597,
+            1247917,
+            1270597,
+            1474717
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            459
+          ],
+          "margin": {
+            "max": -84,
+            "min": -84,
+            "spread": 0
+          },
+          "rank_samples": [
+            2495317,
+            2517997,
+            2523037,
+            2722117,
+            2727157,
+            2767477
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            440
+          ],
+          "margin": {
+            "max": -156,
+            "min": -156,
+            "spread": 0
+          },
+          "rank_samples": [
+            3515467,
+            3520507,
+            3521767,
+            3560827,
+            3562087,
+            3570907
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            431
+          ],
+          "margin": {
+            "max": -156,
+            "min": -156,
+            "spread": 0
+          },
+          "rank_samples": [
+            3628837,
+            3630097,
+            3630457,
+            3638917,
+            3639277,
+            3641437
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            424
+          ],
+          "margin": {
+            "max": -156,
+            "min": -156,
+            "spread": 0
+          },
+          "rank_samples": [
+            3659053,
+            3659413,
+            3659533,
+            3661573,
+            3661693,
+            3662293
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            406
+          ],
+          "margin": {
+            "max": -156,
+            "min": -156,
+            "spread": 0
+          },
+          "rank_samples": [
+            3666601,
+            3666661,
+            3666685,
+            3666961,
+            3666985,
+            3667081
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            408
+          ],
+          "margin": {
+            "max": -480,
+            "min": -480,
+            "spread": 0
+          },
+          "rank_samples": [
+            3667321,
+            3667333,
+            3667339,
+            3667381,
+            3667387,
+            3667405
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            410
+          ],
+          "margin": {
+            "max": -24,
+            "min": -24,
+            "spread": 0
+          },
+          "rank_samples": [
+            3667470,
+            3667473,
+            3667475,
+            3667482,
+            3667484,
+            3667488
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 6,
+          "finals": [
+            411
+          ],
+          "margin": {
+            "max": -24,
+            "min": -24,
+            "spread": 0
+          },
+          "rank_samples": [
+            3667494,
+            3667495,
+            3667496,
+            3667497,
+            3667498,
+            3667499
+          ],
+          "size": 6
+        },
+        {
+          "distinct_label_sequences": 4,
+          "finals": [
+            496
+          ],
+          "margin": {
+            "max": -200,
+            "min": -200,
+            "spread": 0
+          },
+          "rank_samples": [
+            312772,
+            312773,
+            1446772,
+            1446773
+          ],
+          "size": 4
+        }
+      ]
+    },
+    {
+      "group_count": 194,
+      "max_group_size": 1,
+      "max_margin_spread": 0,
+      "max_multi_margin_spread": 0,
+      "mode": "label-sequence",
+      "multi_member_groups": 0,
+      "path_count": 194,
+      "size_histogram": {
+        "1": 194
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            500
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            517
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            497
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            10613
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            494
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            23197
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            493
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            25555
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            491
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            40387
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            490
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            42247
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            489
+          ],
+          "margin": {
+            "max": -176,
+            "min": -176,
+            "spread": 0
+          },
+          "rank_samples": [
+            42943
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            484
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            43171
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            486
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            43195
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            488
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            43203
+          ],
+          "size": 1
+        }
+      ]
+    },
+    {
+      "group_count": 194,
+      "max_group_size": 1,
+      "max_margin_spread": 0,
+      "max_multi_margin_spread": 0,
+      "mode": "label-sequence-margin",
+      "multi_member_groups": 0,
+      "path_count": 194,
+      "size_histogram": {
+        "1": 194
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            500
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            517
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            497
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            10613
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            494
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            23197
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            493
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            25555
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            491
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            40387
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            490
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            42247
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            489
+          ],
+          "margin": {
+            "max": -176,
+            "min": -176,
+            "spread": 0
+          },
+          "rank_samples": [
+            42943
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            484
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            43171
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            486
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            43195
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            488
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            43203
+          ],
+          "size": 1
+        }
+      ]
+    },
+    {
+      "group_count": 194,
+      "max_group_size": 1,
+      "max_margin_spread": 0,
+      "max_multi_margin_spread": 0,
+      "mode": "state-multiset-no-stack-triSrc",
+      "multi_member_groups": 0,
+      "path_count": 194,
+      "size_histogram": {
+        "1": 194
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            500
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            517
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            497
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            10613
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            494
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            23197
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            493
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            25555
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            491
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            40387
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            490
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            42247
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            489
+          ],
+          "margin": {
+            "max": -176,
+            "min": -176,
+            "spread": 0
+          },
+          "rank_samples": [
+            42943
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            484
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            43171
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            486
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            43195
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            488
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            43203
+          ],
+          "size": 1
+        }
+      ]
+    },
+    {
+      "group_count": 194,
+      "max_group_size": 1,
+      "max_margin_spread": 0,
+      "max_multi_margin_spread": 0,
+      "mode": "state-multiset-no-triSrc",
+      "multi_member_groups": 0,
+      "path_count": 194,
+      "size_histogram": {
+        "1": 194
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            500
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            517
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            497
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            10613
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            494
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            23197
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            493
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            25555
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            491
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            40387
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            490
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            42247
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            489
+          ],
+          "margin": {
+            "max": -176,
+            "min": -176,
+            "spread": 0
+          },
+          "rank_samples": [
+            42943
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            484
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            43171
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            486
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            43195
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            488
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            43203
+          ],
+          "size": 1
+        }
+      ]
+    },
+    {
+      "group_count": 194,
+      "max_group_size": 1,
+      "max_margin_spread": 0,
+      "max_multi_margin_spread": 0,
+      "mode": "state-path-no-stack-triSrc",
+      "multi_member_groups": 0,
+      "path_count": 194,
+      "size_histogram": {
+        "1": 194
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            500
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            517
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            497
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            10613
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            494
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            23197
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            493
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            25555
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            491
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            40387
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            490
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            42247
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            489
+          ],
+          "margin": {
+            "max": -176,
+            "min": -176,
+            "spread": 0
+          },
+          "rank_samples": [
+            42943
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            484
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            43171
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            486
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            43195
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            488
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            43203
+          ],
+          "size": 1
+        }
+      ]
+    },
+    {
+      "group_count": 194,
+      "max_group_size": 1,
+      "max_margin_spread": 0,
+      "max_multi_margin_spread": 0,
+      "mode": "state-path-no-triSrc",
+      "multi_member_groups": 0,
+      "path_count": 194,
+      "size_histogram": {
+        "1": 194
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            500
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            517
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            497
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            10613
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            494
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            23197
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            493
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            25555
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            491
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            40387
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            490
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            42247
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            489
+          ],
+          "margin": {
+            "max": -176,
+            "min": -176,
+            "spread": 0
+          },
+          "rank_samples": [
+            42943
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            484
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            43171
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            486
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            43195
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            488
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            43203
+          ],
+          "size": 1
+        }
+      ]
+    },
+    {
+      "group_count": 194,
+      "max_group_size": 1,
+      "max_margin_spread": 0,
+      "max_multi_margin_spread": 0,
+      "mode": "state-path-step-rem-parity",
+      "multi_member_groups": 0,
+      "path_count": 194,
+      "size_histogram": {
+        "1": 194
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            500
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            517
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            497
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            10613
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            494
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            23197
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            493
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            25555
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            491
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            40387
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            490
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            42247
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            489
+          ],
+          "margin": {
+            "max": -176,
+            "min": -176,
+            "spread": 0
+          },
+          "rank_samples": [
+            42943
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            484
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            43171
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            486
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            43195
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            488
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            43203
+          ],
+          "size": 1
+        }
+      ]
+    },
+    {
+      "group_count": 194,
+      "max_group_size": 1,
+      "max_margin_spread": 0,
+      "max_multi_margin_spread": 0,
+      "mode": "step-label-pair-multiset",
+      "multi_member_groups": 0,
+      "path_count": 194,
+      "size_histogram": {
+        "1": 194
+      },
+      "top_groups": [
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            500
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            517
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            497
+          ],
+          "margin": {
+            "max": -376,
+            "min": -376,
+            "spread": 0
+          },
+          "rank_samples": [
+            10613
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            494
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            23197
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            493
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            25555
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            491
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            40387
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            490
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            42247
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            489
+          ],
+          "margin": {
+            "max": -176,
+            "min": -176,
+            "spread": 0
+          },
+          "rank_samples": [
+            42943
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            484
+          ],
+          "margin": {
+            "max": -464,
+            "min": -464,
+            "spread": 0
+          },
+          "rank_samples": [
+            43171
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            486
+          ],
+          "margin": {
+            "max": -392,
+            "min": -392,
+            "spread": 0
+          },
+          "rank_samples": [
+            43195
+          ],
+          "size": 1
+        },
+        {
+          "distinct_label_sequences": 1,
+          "finals": [
+            488
+          ],
+          "margin": {
+            "max": -128,
+            "min": -128,
+            "spread": 0
+          },
+          "rank_samples": [
+            43203
+          ],
+          "size": 1
+        }
+      ]
+    }
+  ]
+}

@@ -2145,3 +2145,62 @@ Decision: exact Bellman path classes are all singleton in this `[0,1M)`
 artifact and must not be used as the production family partition.  The next
 residual route is a coarser holonomy/cancellation state-language family
 predicate that can still supply the accepted `BellmanAxisRankFamily` fields.
+
+## Bellman Coarsening And Closure Audits
+
+The exact-path singleton audit was rerun on larger existing graph artifacts:
+
+| graph | classes | singletons | multi-member classes | max class |
+| --- | ---: | ---: | ---: | ---: |
+| `1M` | `37` | `37` | `0` | `1` |
+| `5M` | `194` | `194` | `0` | `1` |
+| `10M` | `273` | `273` | `0` | `1` |
+
+Added:
+
+```text
+scripts/profile_bellman_path_coarsening.py
+```
+
+The 10M coarsening profile shows observed compression only after erasing exact
+path order:
+
+| signature | groups | multi groups | max group | max margin spread |
+| --- | ---: | ---: | ---: | ---: |
+| `label-multiset` | `1` | `1` | `273` | `684` |
+| `label-multiset-margin` | `46` | `40` | `31` | `0` |
+| `final-label-multiset` | `116` | `64` | `13` | `468` |
+| `final-label-multiset-margin` | `139` | `49` | `13` | `0` |
+
+Decision: this is useful diagnostic evidence, not a proof coordinate yet.
+`label-multiset-margin` groups merge paths, but keying by exact margin values
+would repeat the old exact-RHS mistake.  The Bellman potential should prove the
+margin bound over a semantic language instead.
+
+Added:
+
+```text
+scripts/audit_bellman_transition_closure.py
+```
+
+The signed-face state profile
+`with-step-face-tri-source` rebuilt the 1M graph with signed-face counts in
+the state key.  It retained the same observed Bellman size (`223` states,
+`229` edges, max margin bound `0`) and ran in `1:19.62` wall time with only
+`27,124 kB` max RSS.
+
+The naive transition closure audit then rejected the overly broad language
+"any remaining signed face may be next":
+
+| metric | value |
+| --- | ---: |
+| states with face counts | `223` |
+| total legal naive transitions | `867` |
+| observed label transitions | `229` |
+| missing naive transitions | `638` |
+| states with missing transitions | `165` |
+| illegal observed transitions | `0` |
+
+Decision: the next membership theorem must encode top-pairing
+cancellation/tri-source constraints.  Signed-face counts are useful supporting
+state, but not sufficient as the family language.

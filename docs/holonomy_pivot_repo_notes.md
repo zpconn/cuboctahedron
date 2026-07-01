@@ -957,3 +957,27 @@ Exact path-class family audit:
   this artifact.  They are useful for smoke tests, but the next implementation
   must quotient by a coarser holonomy/cancellation state language rather than
   scaling exact edge/label path membership.
+
+Bellman coarsening/closure notes:
+
+- The exact-path class-size audit was extended to the existing `5M` and `10M`
+  top-pairing graphs.  Both remained fully singleton:
+  `194 / 194` singleton classes at `5M`, and `273 / 273` singleton classes at
+  `10M`.
+- Added `scripts/profile_bellman_path_coarsening.py`.  On the `10M` graph,
+  `label-multiset` collapses all `273` observed paths into one group, while
+  `label-multiset-margin` gives `46` groups with max group size `31`.  This is
+  diagnostic only: exact margin value is not an acceptable production key, and
+  bare label multiset is too broad without a transition-closure theorem.
+- Rebuilt the 1M Bellman graph with `--state-key-mode with-step-face-tri-source`.
+  This adds signed-face remaining counts while keeping the observed Bellman
+  certificate size unchanged (`223` states, `229` edges, max margin bound `0`).
+  The profiler ran in `1:19.62` wall time with `27,124 kB` max RSS.
+- Added `scripts/audit_bellman_transition_closure.py`.  The naive signed-face
+  language is not closed for the signed-face graph: `867` naive legal
+  transitions vs `229` observed label transitions, with `638` missing
+  transitions and no illegal observed transitions.
+- Decision: the next candidate family language is not "all remaining signed
+  face permutations."  It must include the top-pairing cancellation/tri-source
+  constraints that explain why the missing transitions are not actually in the
+  family.

@@ -47578,3 +47578,103 @@ triangular stack/cancellation source, axis D4 class, margin form, and
 coarsened Bellman state transitions, while explicitly excluding exact affine
 RHS, solved start point, total affine offset, or full exact Bellman path from
 the state key.
+
+### Holonomy/Bellman Pivot - coarsening and transition-closure audits
+
+The exact-path singleton rejection was extended beyond the 1M graph:
+
+```bash
+python3 scripts/audit_bellman_family_class_sizes.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source_graph.json \
+  --json scripts/generated/bellman_family_class_size_audit_5M.json \
+  --md scripts/generated/bellman_family_class_size_audit_5M.md
+
+python3 scripts/audit_bellman_family_class_sizes.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --json scripts/generated/bellman_family_class_size_audit_10M.json \
+  --md scripts/generated/bellman_family_class_size_audit_10M.md
+```
+
+Results:
+
+| graph | path classes | singleton classes | multi-member classes | max class |
+| --- | ---: | ---: | ---: | ---: |
+| `1M` | `37` | `37` | `0` | `1` |
+| `5M` | `194` | `194` | `0` | `1` |
+| `10M` | `273` | `273` | `0` | `1` |
+
+Added an untrusted coarsening profiler:
+
+```text
+scripts/profile_bellman_path_coarsening.py
+```
+
+It groups observed Bellman paths by signatures that erase exact edge/path
+identity.  On the 10M graph:
+
+| signature | groups | multi groups | max group | max margin spread |
+| --- | ---: | ---: | ---: | ---: |
+| `label-multiset` | `1` | `1` | `273` | `684` |
+| `label-multiset-margin` | `46` | `40` | `31` | `0` |
+| `final-label-multiset` | `116` | `64` | `13` | `468` |
+| `final-label-multiset-margin` | `139` | `49` | `13` | `0` |
+
+Decision: label-multiset-style signatures show real observed compression, but
+`margin`-keyed variants still depend on exact proof-local numeric values and
+the bare label multiset is too broad to be a Lean language by itself.  These
+are diagnostics only.  They support a state-language route whose Bellman
+potential proves the margin bound, not a route that keys families by exact
+margin values.
+
+Also profiled a signed-face-count Bellman graph:
+
+```bash
+/usr/bin/time -v python3 scripts/nonidentity_margin_bellman_profile.py \
+  --start 0 --end 1000000 \
+  --jobs 4 --chunk-size 250000 \
+  --state-key-mode with-step-face-tri-source \
+  --include-graph \
+  --json scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_tri_source_graph.json \
+  --markdown scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_tri_source_graph.md
+```
+
+Result: `1:19.62` wall time, `27,124 kB` max RSS, exit `0`; same observed
+Bellman size as the pair-count graph (`223` states, `229` edges, max margin
+bound `0`).  This means adding signed-face counts is cheap and useful for
+future semantic closure checks.
+
+Added an untrusted transition-closure audit:
+
+```text
+scripts/audit_bellman_transition_closure.py
+```
+
+On the signed-face graph, the naive language "any remaining signed face may be
+next" is not closed:
+
+| metric | value |
+| --- | ---: |
+| states with face counts | `223` |
+| total legal naive transitions | `867` |
+| observed label transitions | `229` |
+| missing naive transitions | `638` |
+| states with missing transitions | `165` |
+| illegal observed transitions | `0` |
+
+Decision: signed-face remaining counts alone are too broad.  The next semantic
+membership predicate must include the top-pairing cancellation/tri-source
+constraints.  The production candidate is now:
+
+```text
+signed face counts
++ step
++ square parity / reduced stack
++ tri-source cancellation pairing constraints
++ Bellman graph transition relation
+```
+
+and not:
+
+```text
+all permutations of the remaining signed faces.
+```

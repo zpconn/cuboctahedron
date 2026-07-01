@@ -1,0 +1,15 @@
+{
+  "class_count": 37,
+  "decision": "exact-path-classes-are-singletons",
+  "graph_path_class_count": 37,
+  "input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_tri_source_graph.json",
+  "max_class_size": 1,
+  "multi_member_classes": 0,
+  "recommendation": "Do not scale exact path classes as coverage families.  Move to a coarser holonomy/cancellation state-language predicate.",
+  "singleton_classes": 37,
+  "size_histogram": {
+    "1": 37
+  },
+  "top_multi_member_classes": [],
+  "total_members": 37
+}
