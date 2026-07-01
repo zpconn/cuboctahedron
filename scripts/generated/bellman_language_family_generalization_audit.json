@@ -1,0 +1,607 @@
+{
+  "files": [
+    {
+      "exists": true,
+      "path": "scripts/emit_bellman_graph_smoke.py",
+      "patterns": {
+        "axis_forces_field": {
+          "count": 11,
+          "examples": [
+            {
+              "line": 1253,
+              "text": "\"positive_axis_forces_theorem\": f\"{positive_cert_payload['name']}_axisForces\","
+            },
+            {
+              "line": 1505,
+              "text": "f\"theorem graphSmoke_{obj_name}_axis_forces_scaled_margin_nonpos\","
+            },
+            {
+              "line": 1522,
+              "text": "f\"theorem graphSmoke_{obj_name}_generated_axis_forces_scaled_margin_nonpos\","
+            },
+            {
+              "line": 1527,
+              "text": "f\"  graphSmoke_{obj_name}_axis_forces_scaled_margin_nonpos\","
+            },
+            {
+              "line": 1531,
+              "text": "f\"theorem graphSmoke_{obj_name}_generated_axis_forces_bridge_scaled_margin_nonpos\","
+            }
+          ]
+        },
+        "closed_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "closed_language_predicate": {
+          "count": 0,
+          "examples": []
+        },
+        "exact_contains_rank_def": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 1803,
+              "text": "\"private def sampledContainsRank (rank : Fin numPairWords) : Prop :=\","
+            },
+            {
+              "line": 1984,
+              "text": "\"def sampledAcceptedContainsRank (rank : Fin numPairWords) : Prop :=\","
+            },
+            {
+              "line": 2421,
+              "text": "\"def terminalContainsRank (rank : Fin numPairWords) : Prop :=\","
+            }
+          ]
+        },
+        "exact_rank_eq": {
+          "count": 0,
+          "examples": []
+        },
+        "kernel_check_field": {
+          "count": 5,
+          "examples": [
+            {
+              "line": 1599,
+              "text": "\"  kernel_check := by\","
+            },
+            {
+              "line": 1658,
+              "text": "\"  kernel_check := by\","
+            },
+            {
+              "line": 1912,
+              "text": "\"  kernel_check := by\","
+            },
+            {
+              "line": 2159,
+              "text": "f\"          kernel_check := {positive_name}_kernelCheck,\","
+            },
+            {
+              "line": 2405,
+              "text": "f\"          kernel_check := {positive_name}_kernelCheck,\","
+            }
+          ]
+        },
+        "margin_bound_field": {
+          "count": 4,
+          "examples": [
+            {
+              "line": 157,
+              "text": "argmax_margin_scaled = int(Fraction(argmax.get(\"margin_bound\", \"0\")) * scale)"
+            },
+            {
+              "line": 1595,
+              "text": "\"  margin_bound := by\","
+            },
+            {
+              "line": 1654,
+              "text": "\"  margin_bound := by\","
+            },
+            {
+              "line": 1901,
+              "text": "\"  margin_bound := by\","
+            }
+          ]
+        },
+        "rank_language_family": {
+          "count": 2,
+          "examples": [
+            {
+              "line": 1623,
+              "text": "\"    BellmanAxisRankLanguageFamily\","
+            },
+            {
+              "line": 1673,
+              "text": "\"  exact BellmanAxisRankLanguageFamily.scaledMargin_nonpos\","
+            }
+          ]
+        },
+        "rw_hrank": {
+          "count": 4,
+          "examples": [
+            {
+              "line": 1601,
+              "text": "\"    rw [hrank]\","
+            },
+            {
+              "line": 1605,
+              "text": "\"    rw [hrank]\","
+            },
+            {
+              "line": 1660,
+              "text": "\"    rw [hrank]\","
+            },
+            {
+              "line": 1664,
+              "text": "\"    rw [hrank]\","
+            }
+          ]
+        }
+      }
+    },
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2GraphSmoke.lean",
+      "patterns": {
+        "axis_forces_field": {
+          "count": 13,
+          "examples": [
+            {
+              "line": 22750,
+              "text": "theorem graphSmoke_cls0000_axis_forces_scaled_margin_nonpos"
+            },
+            {
+              "line": 22767,
+              "text": "theorem graphSmoke_cls0000_generated_axis_forces_scaled_margin_nonpos"
+            },
+            {
+              "line": 22772,
+              "text": "graphSmoke_cls0000_axis_forces_scaled_margin_nonpos"
+            },
+            {
+              "line": 22776,
+              "text": "theorem graphSmoke_cls0000_generated_axis_forces_bridge_scaled_margin_nonpos"
+            },
+            {
+              "line": 22848,
+              "text": "axis_forces := by"
+            }
+          ]
+        },
+        "closed_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "closed_language_predicate": {
+          "count": 0,
+          "examples": []
+        },
+        "exact_contains_rank_def": {
+          "count": 4,
+          "examples": [
+            {
+              "line": 22813,
+              "text": "private def cls0000ContainsRank (rank : Fin numPairWords) : Prop :="
+            },
+            {
+              "line": 23589,
+              "text": "private def cls0001ContainsRank (rank : Fin numPairWords) : Prop :="
+            },
+            {
+              "line": 24103,
+              "text": "def sampledContainsRank (rank : Fin numPairWords) : Prop :="
+            },
+            {
+              "line": 24233,
+              "text": "def sampledAcceptedContainsRank (rank : Fin numPairWords) : Prop :="
+            }
+          ]
+        },
+        "exact_rank_eq": {
+          "count": 4,
+          "examples": [
+            {
+              "line": 22814,
+              "text": "rank = cls0000Rank"
+            },
+            {
+              "line": 23590,
+              "text": "rank = cls0001Rank"
+            },
+            {
+              "line": 24107,
+              "text": "if rank = cls0000Rank then smokeScaledMargin SmokeObj.cls0000 else"
+            },
+            {
+              "line": 24108,
+              "text": "if rank = cls0001Rank then smokeScaledMargin SmokeObj.cls0001 else"
+            }
+          ]
+        },
+        "kernel_check_field": {
+          "count": 5,
+          "examples": [
+            {
+              "line": 22844,
+              "text": "kernel_check := by"
+            },
+            {
+              "line": 22903,
+              "text": "kernel_check := by"
+            },
+            {
+              "line": 23620,
+              "text": "kernel_check := by"
+            },
+            {
+              "line": 23679,
+              "text": "kernel_check := by"
+            },
+            {
+              "line": 24168,
+              "text": "kernel_check := by"
+            }
+          ]
+        },
+        "margin_bound_field": {
+          "count": 5,
+          "examples": [
+            {
+              "line": 22840,
+              "text": "margin_bound := by"
+            },
+            {
+              "line": 22899,
+              "text": "margin_bound := by"
+            },
+            {
+              "line": 23616,
+              "text": "margin_bound := by"
+            },
+            {
+              "line": 23675,
+              "text": "margin_bound := by"
+            },
+            {
+              "line": 24159,
+              "text": "margin_bound := by"
+            }
+          ]
+        },
+        "rank_language_family": {
+          "count": 4,
+          "examples": [
+            {
+              "line": 22868,
+              "text": "BellmanAxisRankLanguageFamily"
+            },
+            {
+              "line": 22918,
+              "text": "exact BellmanAxisRankLanguageFamily.scaledMargin_nonpos"
+            },
+            {
+              "line": 23644,
+              "text": "BellmanAxisRankLanguageFamily"
+            },
+            {
+              "line": 23694,
+              "text": "exact BellmanAxisRankLanguageFamily.scaledMargin_nonpos"
+            }
+          ]
+        },
+        "rw_hrank": {
+          "count": 8,
+          "examples": [
+            {
+              "line": 22846,
+              "text": "rw [hrank]"
+            },
+            {
+              "line": 22850,
+              "text": "rw [hrank]"
+            },
+            {
+              "line": 22905,
+              "text": "rw [hrank]"
+            },
+            {
+              "line": 22909,
+              "text": "rw [hrank]"
+            },
+            {
+              "line": 23622,
+              "text": "rw [hrank]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean",
+      "patterns": {
+        "axis_forces_field": {
+          "count": 17,
+          "examples": [
+            {
+              "line": 23090,
+              "text": "theorem graphSmoke_cls0000_axis_forces_scaled_margin_nonpos"
+            },
+            {
+              "line": 23107,
+              "text": "theorem graphSmoke_cls0000_generated_axis_forces_scaled_margin_nonpos"
+            },
+            {
+              "line": 23112,
+              "text": "graphSmoke_cls0000_axis_forces_scaled_margin_nonpos"
+            },
+            {
+              "line": 23116,
+              "text": "theorem graphSmoke_cls0000_generated_axis_forces_bridge_scaled_margin_nonpos"
+            },
+            {
+              "line": 23188,
+              "text": "axis_forces := by"
+            }
+          ]
+        },
+        "closed_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "closed_language_predicate": {
+          "count": 0,
+          "examples": []
+        },
+        "exact_contains_rank_def": {
+          "count": 4,
+          "examples": [
+            {
+              "line": 23153,
+              "text": "private def cls0000ContainsRank (rank : Fin numPairWords) : Prop :="
+            },
+            {
+              "line": 24269,
+              "text": "private def cls0001ContainsRank (rank : Fin numPairWords) : Prop :="
+            },
+            {
+              "line": 24783,
+              "text": "private def sampledContainsRank (rank : Fin numPairWords) : Prop :="
+            },
+            {
+              "line": 24931,
+              "text": "def sampledAcceptedContainsRank (rank : Fin numPairWords) : Prop :="
+            }
+          ]
+        },
+        "exact_rank_eq": {
+          "count": 4,
+          "examples": [
+            {
+              "line": 23154,
+              "text": "rank = cls0000Rank"
+            },
+            {
+              "line": 24270,
+              "text": "rank = cls0001Rank"
+            },
+            {
+              "line": 24787,
+              "text": "if rank = cls0000Rank then smokeScaledMargin SmokeObj.cls0000 else"
+            },
+            {
+              "line": 24788,
+              "text": "if rank = cls0001Rank then smokeScaledMargin SmokeObj.cls0001 else"
+            }
+          ]
+        },
+        "kernel_check_field": {
+          "count": 7,
+          "examples": [
+            {
+              "line": 23184,
+              "text": "kernel_check := by"
+            },
+            {
+              "line": 23243,
+              "text": "kernel_check := by"
+            },
+            {
+              "line": 24300,
+              "text": "kernel_check := by"
+            },
+            {
+              "line": 24359,
+              "text": "kernel_check := by"
+            },
+            {
+              "line": 24866,
+              "text": "kernel_check := by"
+            }
+          ]
+        },
+        "margin_bound_field": {
+          "count": 5,
+          "examples": [
+            {
+              "line": 23180,
+              "text": "margin_bound := by"
+            },
+            {
+              "line": 23239,
+              "text": "margin_bound := by"
+            },
+            {
+              "line": 24296,
+              "text": "margin_bound := by"
+            },
+            {
+              "line": 24355,
+              "text": "margin_bound := by"
+            },
+            {
+              "line": 24857,
+              "text": "margin_bound := by"
+            }
+          ]
+        },
+        "rank_language_family": {
+          "count": 4,
+          "examples": [
+            {
+              "line": 23208,
+              "text": "BellmanAxisRankLanguageFamily"
+            },
+            {
+              "line": 23258,
+              "text": "exact BellmanAxisRankLanguageFamily.scaledMargin_nonpos"
+            },
+            {
+              "line": 24324,
+              "text": "BellmanAxisRankLanguageFamily"
+            },
+            {
+              "line": 24374,
+              "text": "exact BellmanAxisRankLanguageFamily.scaledMargin_nonpos"
+            }
+          ]
+        },
+        "rw_hrank": {
+          "count": 8,
+          "examples": [
+            {
+              "line": 23186,
+              "text": "rw [hrank]"
+            },
+            {
+              "line": 23190,
+              "text": "rw [hrank]"
+            },
+            {
+              "line": 23245,
+              "text": "rw [hrank]"
+            },
+            {
+              "line": 23249,
+              "text": "rw [hrank]"
+            },
+            {
+              "line": 24302,
+              "text": "rw [hrank]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedLanguageBridge.lean",
+      "patterns": {
+        "axis_forces_field": {
+          "count": 0,
+          "examples": []
+        },
+        "closed_contains_rank": {
+          "count": 5,
+          "examples": [
+            {
+              "line": 16,
+              "text": "abbrev ClosedTopPairingContainsRank (badFace : Face) :"
+            },
+            {
+              "line": 65,
+              "text": "Accepts (ClosedTopPairingContainsRank badFace) scaledMargin)"
+            },
+            {
+              "line": 90,
+              "text": "Accepts (ClosedTopPairingContainsRank Face.ym) scaledMargin)"
+            },
+            {
+              "line": 114,
+              "text": "(ClosedTopPairingContainsRank badFace) scaledMargin)"
+            },
+            {
+              "line": 144,
+              "text": "(ClosedTopPairingContainsRank Face.ym) scaledMargin)"
+            }
+          ]
+        },
+        "closed_language_predicate": {
+          "count": 7,
+          "examples": [
+            {
+              "line": 19,
+              "text": "_root_.Cuboctahedron.TopPairingClosedLanguageAtRank rank badFace"
+            },
+            {
+              "line": 72,
+              "text": "_root_.Cuboctahedron.TopPairingClosedLanguageAtRank rank badFace) :"
+            },
+            {
+              "line": 97,
+              "text": "_root_.Cuboctahedron.TopPairingClosedLanguageAtRank rank Face.ym) :"
+            },
+            {
+              "line": 117,
+              "text": "_root_.Cuboctahedron.TopPairingClosedLanguageAtRank rank badFace ->"
+            },
+            {
+              "line": 122,
+              "text": "_root_.Cuboctahedron.TopPairingClosedLanguageAtRank rank badFace) :"
+            }
+          ]
+        },
+        "exact_contains_rank_def": {
+          "count": 0,
+          "examples": []
+        },
+        "exact_rank_eq": {
+          "count": 0,
+          "examples": []
+        },
+        "kernel_check_field": {
+          "count": 0,
+          "examples": []
+        },
+        "margin_bound_field": {
+          "count": 1,
+          "examples": [
+            {
+              "line": 44,
+              "text": "family.margin_bound obj.1 obj.2\u27e9"
+            }
+          ]
+        },
+        "rank_language_family": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 31,
+              "text": "_root_.Cuboctahedron.BellmanAxisRankLanguageFamily"
+            },
+            {
+              "line": 112,
+              "text": "_root_.Cuboctahedron.BellmanAxisRankLanguageFamily"
+            },
+            {
+              "line": 142,
+              "text": "_root_.Cuboctahedron.BellmanAxisRankLanguageFamily"
+            }
+          ]
+        },
+        "rw_hrank": {
+          "count": 0,
+          "examples": []
+        }
+      }
+    }
+  ],
+  "summary": {
+    "closed_language_mentions": 12,
+    "decision": "rank-language-family-exists-but-exact-rank-bound",
+    "exact_rank_dependency_mentions": 28,
+    "rank_language_family_mentions": 13,
+    "recommended_next_step": "Change the generated family instantiation from singleton `rank = clsNNNNRank` predicates to `ClosedTopPairingContainsRank Face.ym`, and replace `rw [hrank]` field proofs with proofs from closed-language components: canonical sequence, cancellation summary, schedule/square-gap/local-axis traces, kernel check, axis-forces, margin bound, and start-violation certificate."
+  }
+}

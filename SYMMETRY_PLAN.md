@@ -56117,3 +56117,75 @@ semantic theorem surface: future generated closed-language leaves can target
 and invoke the new closed-language family bridge.  Remaining production work
 is to generate/prove the fields of that language family and the corresponding
 rank-indexed start-violation certificates from the closed-language predicate.
+
+### Holonomy/Bellman Pivot - language-family generalization audit
+
+Added another Python/text-only audit:
+
+```text
+scripts/audit_bellman_language_family_generalization.py
+```
+
+and ran:
+
+```bash
+python3 -m py_compile scripts/audit_bellman_language_family_generalization.py
+python3 scripts/audit_bellman_language_family_generalization.py
+```
+
+The audit writes:
+
+```text
+scripts/generated/bellman_language_family_generalization_audit.json
+docs/bellman_language_family_generalization_audit.md
+```
+
+Result:
+
+- decision: `rank-language-family-exists-but-exact-rank-bound`;
+- `BellmanAxisRankLanguageFamily` mentions: `13`;
+- exact-rank dependency mentions: `28`;
+- closed-language mentions: `12`;
+- memory remained healthy (`45 GiB` available after the run).
+
+Interpretation: the generated smokes already use the right *structure*
+(`BellmanAxisRankLanguageFamily`), but they instantiate it with singleton
+predicates such as:
+
+```lean
+private def cls0000ContainsRank (rank : Fin numPairWords) : Prop :=
+  rank = cls0000Rank
+```
+
+and prove core fields by rewriting that exact equality:
+
+```lean
+kernel_check := by
+  intro rank hrank
+  rw [hrank]
+  exact cls0000KernelCheck
+
+axis_forces := by
+  intro rank hrank
+  rw [hrank]
+  exact cls0000AxisForces
+```
+
+Decision: this confirms the next emitter/generalization task.  The generated
+family instantiation must switch from singleton `rank = clsNNNNRank`
+predicates to `ClosedTopPairingContainsRank Face.ym`, and the `rw [hrank]`
+proofs must be replaced by proofs from the semantic closed-language
+components:
+
+1. canonical sequence adapter;
+2. cancellation summary;
+3. schedule / square-gap / local-axis traces;
+4. kernel check;
+5. axis-forces;
+6. Bellman run/margin bound;
+7. start-violation certificate.
+
+The new `BellmanAxisRankLanguageFamily.toObjectCover` and closed-language
+family bridge mean that once those fields are generated/proved semantically,
+the route to `Generated.Coverage.NonIdentityRankKilled` no longer needs
+sampled object membership.

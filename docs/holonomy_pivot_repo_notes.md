@@ -5338,3 +5338,29 @@ Rank-language family to object-cover adapter:
   replayed too much and was safely killed by the guard at `6444.44 MiB`; do
   not use that runner for this checkpoint.  Direct guarded Lean checks remain
   the accepted validation path for these small bridge modules.
+
+Bellman language-family generalization audit:
+
+- Added `scripts/audit_bellman_language_family_generalization.py`.
+- Ran:
+
+  ```bash
+  python3 -m py_compile scripts/audit_bellman_language_family_generalization.py
+  python3 scripts/audit_bellman_language_family_generalization.py
+  ```
+
+- Output:
+  - `docs/bellman_language_family_generalization_audit.md`;
+  - `scripts/generated/bellman_language_family_generalization_audit.json`.
+- Result: `rank-language-family-exists-but-exact-rank-bound`.
+- Counts: `13` `BellmanAxisRankLanguageFamily` mentions, `28` exact-rank
+  dependency mentions, and `12` closed-language mentions.
+- Interpretation: the generated smokes already use the correct family
+  structure, but the emitted `ContainsRank` predicates are still singleton
+  facts like `rank = cls0000Rank`, and fields such as `kernel_check` and
+  `axis_forces` are still proved by `rw [hrank]`.
+- Next emitter target: instantiate the family with
+  `ClosedTopPairingContainsRank Face.ym` and prove its fields from the
+  semantic closed-language components: canonical sequence, cancellation
+  summary, schedule/square-gap/local-axis traces, kernel check, axis-forces,
+  Bellman run/margin bound, and start-violation certificate.
