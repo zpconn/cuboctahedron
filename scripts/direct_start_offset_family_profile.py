@@ -199,6 +199,7 @@ class OffsetFamilyStats:
     target_exact_axis: str | None
     target_reduced_shadow: str | None
     target_margin_linear_form: str | None
+    target_margin_cancellation_pairing: str | None
     scanned: int = 0
     nonidentity: int = 0
     forced_balance_survivors: int = 0
@@ -324,6 +325,7 @@ class OffsetFamilyStats:
                 "exact_axis": self.target_exact_axis,
                 "reduced_shadow": self.target_reduced_shadow,
                 "margin_linear_form": self.target_margin_linear_form,
+                "margin_cancellation_pairing": self.target_margin_cancellation_pairing,
             },
             "counts": {
                 "scanned": self.scanned,
@@ -398,7 +400,6 @@ def classify_leaf(stats: OffsetFamilyStats, *, rank: int, word: tuple[str, ...],
     margin_key = margin_linear_form_key(aff, actual_bad_face, rows)
     if stats.target_margin_linear_form is not None and margin_key != stats.target_margin_linear_form:
         return
-    stats.matched += 1
 
     const, coeff_b = form
     _aff_matrix, aff_offset = aff
@@ -409,6 +410,15 @@ def classify_leaf(stats: OffsetFamilyStats, *, rank: int, word: tuple[str, ...],
         stats.offset_sum_mismatches += 1
     margin_value = const + contrib_sum
 
+    cancel_keys = shadow_cancellation_keys(word)
+    margin_cancellation_pairing_key = f"{margin_key}|{cancel_keys['cancellation_pairing']}"
+    if (
+        stats.target_margin_cancellation_pairing is not None
+        and margin_cancellation_pairing_key != stats.target_margin_cancellation_pairing
+    ):
+        return
+    stats.matched += 1
+
     exact_axis_reduced = f"axis={oriented_axis_key}|reduced={reduced_key}"
     assert stats.exact_axis_reduced_shadow_keys is not None
     assert stats.margin_linear_form_keys is not None
@@ -418,6 +428,14 @@ def classify_leaf(stats: OffsetFamilyStats, *, rank: int, word: tuple[str, ...],
     assert stats.contribution_by_pair_keys is not None
     assert stats.contribution_by_pair_sign_keys is not None
     assert stats.contribution_sign_pattern_keys is not None
+    assert stats.square_parity_path_keys is not None
+    assert stats.tri_shadow_keys is not None
+    assert stats.tri_source_keys is not None
+    assert stats.cancellation_pairing_keys is not None
+    assert stats.cancellation_shape_keys is not None
+    assert stats.reduced_position_keys is not None
+    assert stats.margin_cancellation_pairing_keys is not None
+    assert stats.margin_cancellation_shape_keys is not None
     assert stats.margin_value_keys is not None
     stats.exact_axis_reduced_shadow_keys.add(exact_axis_reduced)
     stats.margin_linear_form_keys.add(margin_key)
@@ -427,24 +445,13 @@ def classify_leaf(stats: OffsetFamilyStats, *, rank: int, word: tuple[str, ...],
     stats.contribution_by_pair_keys.add(aggregate_key(contributions, "pair", PAIR_IDS))
     stats.contribution_by_pair_sign_keys.add(aggregate_pair_sign_key(contributions))
     stats.contribution_sign_pattern_keys.add(sign_pattern_key(contributions))
-    cancel_keys = shadow_cancellation_keys(word)
-    assert stats.square_parity_path_keys is not None
-    assert stats.tri_shadow_keys is not None
-    assert stats.tri_source_keys is not None
-    assert stats.cancellation_pairing_keys is not None
-    assert stats.cancellation_shape_keys is not None
-    assert stats.reduced_position_keys is not None
-    assert stats.margin_cancellation_pairing_keys is not None
-    assert stats.margin_cancellation_shape_keys is not None
     stats.square_parity_path_keys.add(cancel_keys["square_parity_path"])
     stats.tri_shadow_keys.add(cancel_keys["tri_shadow"])
     stats.tri_source_keys.add(cancel_keys["tri_sources"])
     stats.cancellation_pairing_keys.add(cancel_keys["cancellation_pairing"])
     stats.cancellation_shape_keys.add(cancel_keys["cancellation_shape"])
     stats.reduced_position_keys.add(cancel_keys["reduced_positions"])
-    stats.margin_cancellation_pairing_keys.add(
-        f"{margin_key}|{cancel_keys['cancellation_pairing']}"
-    )
+    stats.margin_cancellation_pairing_keys.add(margin_cancellation_pairing_key)
     stats.margin_cancellation_shape_keys.add(
         f"{margin_key}|{cancel_keys['cancellation_shape']}"
     )
@@ -459,6 +466,7 @@ def classify_leaf(stats: OffsetFamilyStats, *, rank: int, word: tuple[str, ...],
             "reduced": reduced_key,
             "bad_face": actual_bad_face,
             "margin_linear_form": margin_key,
+            "margin_cancellation_pairing": margin_cancellation_pairing_key,
             "margin_value": qkey(margin_value),
             "contrib_sum": qkey(contrib_sum),
             "top_contribs": [
@@ -482,6 +490,7 @@ def profile_range(
     target_exact_axis: str | None,
     target_reduced_shadow: str | None,
     target_margin_linear_form: str | None,
+    target_margin_cancellation_pairing: str | None,
     max_distinct: int,
     sample_limit: int,
     progress: int | None,
@@ -496,6 +505,7 @@ def profile_range(
         target_exact_axis=target_exact_axis,
         target_reduced_shadow=target_reduced_shadow,
         target_margin_linear_form=target_margin_linear_form,
+        target_margin_cancellation_pairing=target_margin_cancellation_pairing,
     )
     remaining = dict(PAIR_COUNTS)
     prefix: list[str] = []
@@ -564,6 +574,7 @@ def profile_maybe_parallel(
     target_exact_axis: str | None,
     target_reduced_shadow: str | None,
     target_margin_linear_form: str | None,
+    target_margin_cancellation_pairing: str | None,
     max_distinct: int,
     sample_limit: int,
     progress: int | None,
@@ -578,6 +589,7 @@ def profile_maybe_parallel(
             target_exact_axis=target_exact_axis,
             target_reduced_shadow=target_reduced_shadow,
             target_margin_linear_form=target_margin_linear_form,
+            target_margin_cancellation_pairing=target_margin_cancellation_pairing,
             max_distinct=max_distinct,
             sample_limit=sample_limit,
             progress=progress,
@@ -592,6 +604,7 @@ def profile_maybe_parallel(
         target_exact_axis=target_exact_axis,
         target_reduced_shadow=target_reduced_shadow,
         target_margin_linear_form=target_margin_linear_form,
+        target_margin_cancellation_pairing=target_margin_cancellation_pairing,
     )
     with ProcessPoolExecutor(max_workers=jobs) as executor:
         futures = [
@@ -604,6 +617,7 @@ def profile_maybe_parallel(
                 target_exact_axis=target_exact_axis,
                 target_reduced_shadow=target_reduced_shadow,
                 target_margin_linear_form=target_margin_linear_form,
+                target_margin_cancellation_pairing=target_margin_cancellation_pairing,
                 max_distinct=max_distinct,
                 sample_limit=sample_limit,
                 progress=progress,
@@ -635,6 +649,7 @@ def write_md(path: Path, payload: dict[str, Any], top: int) -> None:
         f"- Target exact axis: `{payload['target']['exact_axis']}`",
         f"- Target reduced shadow: `{payload['target']['reduced_shadow']}`",
         f"- Target margin linear form: `{payload['target']['margin_linear_form']}`",
+        f"- Target margin+cancellation pairing: `{payload['target']['margin_cancellation_pairing']}`",
         "",
         "## Counts",
         "",
@@ -664,6 +679,7 @@ def write_md(path: Path, payload: dict[str, Any], top: int) -> None:
             f"- rank `{sample['rank']}` bad face `{sample['bad_face']}` "
             f"margin `{sample['margin_value']}` form `{sample['margin_linear_form']}`"
         )
+        lines.append(f"  - margin+cancellation `{sample['margin_cancellation_pairing']}`")
         for contrib in sample["top_contribs"]:
             lines.append(
                 f"  - step `{contrib['index']}` face `{contrib['face']}` "
@@ -683,6 +699,7 @@ def main() -> None:
     parser.add_argument("--target-exact-axis", default=None)
     parser.add_argument("--target-reduced-shadow", default=None)
     parser.add_argument("--target-margin-linear-form", default=None)
+    parser.add_argument("--target-margin-cancellation-pairing", default=None)
     parser.add_argument("--max-distinct", type=int, default=50_000)
     parser.add_argument("--sample-limit", type=int, default=10)
     parser.add_argument("--top", type=int, default=20)
@@ -707,6 +724,7 @@ def main() -> None:
         target_exact_axis=args.target_exact_axis,
         target_reduced_shadow=args.target_reduced_shadow,
         target_margin_linear_form=args.target_margin_linear_form,
+        target_margin_cancellation_pairing=args.target_margin_cancellation_pairing,
         max_distinct=args.max_distinct,
         sample_limit=args.sample_limit,
         progress=args.progress,

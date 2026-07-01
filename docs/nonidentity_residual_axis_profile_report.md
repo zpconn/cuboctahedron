@@ -486,6 +486,57 @@ Direct-start offset-family profile:
   experiment should target one high-count margin+cancellation-pairing family
   and prove the margin bound from that semantic state.
 
+Top margin+cancellation-pairing extraction and Lean smoke:
+
+- Added a focused filter to `scripts/direct_start_offset_family_profile.py`:
+  `--target-margin-cancellation-pairing`.
+- Target family:
+
+  ```text
+  ym|const=2|b=-103/176,73/176,5/88|
+  pairs=3-4:d11m;
+  survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1
+  ```
+
+- Extraction command:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/direct_start_offset_family_profile.py \
+    --start 0 --end 1000000 --jobs 4 --chunk-size 250000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1 \
+    --target-margin-cancellation-pairing \
+      "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1" \
+    --sample-limit 50 \
+    --json-out scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.json \
+    --md-out scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.md \
+    --top 30
+  ```
+
+- Result: `37` matched residuals, `1:23.01` wall time, and
+  `25,816 KiB` max RSS.
+- The extraction has one exact-axis/reduced-shadow key, one margin linear
+  form, one triangular shadow, one ordered cancellation pairing, and one
+  reduced-position key.  It still has `37` square-parity paths, `29`
+  tri-source keys, `18` contribution-by-pair keys, and `14` margin values.
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/DirectStartTopPairingSmoke.lean`.
+  It proves `top_no_axis_constraints : ¬ NonIdentityAxisConstraints topSeq`
+  for a representative by assuming the fixed linear part plus the
+  affine-offset margin bound
+  `2 - 103/176*b.x + 73/176*b.y + 5/88*b.z <= 0`.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.DirectStartTopPairingSmoke
+  ```
+
+  passed in `0:11.09` wall time with `3,367,100 KiB` max RSS.
+- Decision: the theorem surface is accepted, but the family is not covered
+  yet.  The next required proof object is a Lean-checkable
+  cancellation/margin-bound certificate for the full family, avoiding
+  per-rank `totalAff` normalization.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -509,6 +560,9 @@ Direct-start offset-family profile:
 - `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_margin_yp_m2_000000000_000100000.md`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.json`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.md`
+- `scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.json`
+- `scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.md`
+- `Cuboctahedron/Generated/NonIdentity/Residual/DirectStartTopPairingSmoke.lean`
 - `scripts/generated/direct_start_linear_yp_1_m3_m1_000000000_000100000.json`
 - `scripts/generated/direct_start_linear_yp_1_m3_m1_000000000_000100000.md`
 - `scripts/generated/direct_start_linear_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.json`

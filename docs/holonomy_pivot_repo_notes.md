@@ -283,6 +283,30 @@ memory-light (`1:21.69`, `31,684 KiB` max RSS) and produced:
 This keeps margin+cancellation-pairing families as the next nonidentity
 residual interface to test in Lean.
 
+Top margin+cancellation-pairing checkpoint:
+
+- The leading focused `[0,1000000)` family is:
+
+  ```text
+  ym|const=2|b=-103/176,73/176,5/88|
+  pairs=3-4:d11m;
+  survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1
+  ```
+
+- `scripts/direct_start_offset_family_profile.py` now has
+  `--target-margin-cancellation-pairing` to extract exactly this style of
+  family.  The extraction matched `37` cases, ran in `1:23.01`, and peaked at
+  `25,816 KiB` RSS.
+- Added
+  `Cuboctahedron.Generated.NonIdentity.Residual.DirectStartTopPairingSmoke`.
+  It proves `¬ NonIdentityAxisConstraints topSeq` for a representative from
+  fixed linear part plus the offset-margin bound
+  `2 - 103/176*b.x + 73/176*b.y + 5/88*b.z <= 0`.
+- Focused build passed in `0:11.09` wall time with `3,367,100 KiB` max RSS.
+- This is accepted as a theorem-surface smoke only.  The production gap is a
+  Lean-checkable cancellation/margin-bound certificate for the whole family;
+  do not scale by unfolding concrete `totalAff` values for each rank.
+
 ## Explicit Non-Goals
 
 The following approaches are archived as diagnostics, not the active route to

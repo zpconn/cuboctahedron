@@ -1588,6 +1588,69 @@ Direct-start offset-family profile:
   is to choose one high-count margin+cancellation-pairing family and design a
   small Lean theorem that derives the margin bound from that semantic state.
 
+Top margin+cancellation-pairing theorem-surface smoke:
+
+- Added `--target-margin-cancellation-pairing` to
+  `scripts/direct_start_offset_family_profile.py` and extracted the leading
+  family from the `[0,1000000)` focused D4-axis run:
+
+  ```text
+  ym|const=2|b=-103/176,73/176,5/88|
+  pairs=3-4:d11m;
+  survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1
+  ```
+
+- Extraction command:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/direct_start_offset_family_profile.py \
+    --start 0 --end 1000000 --jobs 4 --chunk-size 250000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1 \
+    --target-margin-cancellation-pairing \
+      "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1" \
+    --sample-limit 50 \
+    --json-out scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.json \
+    --md-out scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.md \
+    --top 30
+  ```
+
+- Result: `37` matched residuals, `1:23.01` wall time, and
+  `25,816 KiB` max RSS.  The extraction has one exact-axis/reduced-shadow key,
+  one margin linear form, one triangular shadow, one ordered cancellation
+  pairing, and one reduced-position key.  It still has `37` square-parity
+  paths, `29` tri-source keys, `18` contribution-by-pair keys, and `14`
+  margin values.
+- Added
+  `Cuboctahedron.Generated.NonIdentity.Residual.DirectStartTopPairingSmoke`.
+  It proves the theorem surface for one representative:
+
+  ```lean
+  theorem top_no_axis_constraints :
+      ¬ NonIdentityAxisConstraints topSeq
+  ```
+
+  The proof assumes only the fixed linear part and the affine-offset margin
+  bound
+
+  ```text
+  2 - 103/176*b.x + 73/176*b.y + 5/88*b.z <= 0
+  ```
+
+  before applying the direct start-violation hook.
+- Focused build:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.DirectStartTopPairingSmoke
+  ```
+
+  passed in `0:11.09` wall time with `3,367,100 KiB` max RSS.
+- Decision: accepted as a theorem-surface smoke, not as family coverage.
+  The missing production ingredient is now precise: a Lean-checkable
+  cancellation/margin-bound certificate that proves the displayed margin
+  inequality for the whole family without concrete per-rank `totalAff`
+  normalization.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
