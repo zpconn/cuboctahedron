@@ -57711,3 +57711,83 @@ for the corresponding closed top-pairing family.  If either theorem requires a
 `SampledRankIndex` or one branch per rank/path, stop this Bellman route and
 replace the current closed-language predicate with a stronger
 cancellation-tree/evaluator semantic object.
+
+Rank-cancellation to face-label bridge checkpoint:
+
+- Added a small hand-written bridge in
+  `Cuboctahedron/Search/BellmanTopPairingLanguage.lean` so the next
+  two-trace theorem can reason about one label list rather than switching
+  between rank/pair-word cancellation and face-label schedule/axis predicates.
+- New definitions/theorems:
+  - `triangularCancellationSummaryOfFaceLabels`;
+  - `canonicalContributionPairs_eq_startedPairFactors`;
+  - `map_pairOfFace_faceLabelsInContributionOrder`;
+  - `triangularCancellationSummaryOfCanonicalLabels`.
+- The key theorem is:
+
+```lean
+theorem triangularCancellationSummaryOfCanonicalLabels
+    (rank : Fin numPairWords) :
+    triangularCancellationSummaryOfFaceLabels
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank))) =
+      triangularCancellationSummaryOfPairWord (unrankPairWord rank)
+```
+
+This is the missing alignment fact for the next classification theorem.  From
+`h.cancellation : TopPairingLanguageAtRank rank`, the future proof can now
+derive the target cancellation summary for the same canonical contribution
+label list already constrained by `h.schedule`, `h.squareGap`, and
+`h.localAxis`.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_language_face_summary_bridge_guard.json \
+  -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+```
+
+Result:
+
+```text
+passed
+peak_tree_rss = 4074.9 MiB
+elapsed = 3.00s
+```
+
+Dependent smoke validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_closed_eval_trace_smoke_after_bridge_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalTraceSmoke
+```
+
+Result:
+
+```text
+passed
+peak_tree_rss = 4124.1 MiB
+elapsed = 5.03s
+```
+
+Decision: continue to the actual finite trace classification theorem.  The
+proof target should now be list-level first:
+
+```lean
+TopPairingStepScheduleLabels labels ->
+TopPairingSquareGapLabels labels ->
+TopPairingLocalAxisLabels labels ->
+triangularCancellationSummaryOfFaceLabels labels = topPairingTargetSummary ->
+  labels = closedFaceTraceA \/ labels = closedFaceTraceB
+```
+
+and only then specialize it to `TopPairingClosedLanguageAtRank` using
+`triangularCancellationSummaryOfCanonicalLabels`.

@@ -150,6 +150,46 @@ def TopPairingLocalAxisLabels (labels : List Face) : Prop :=
 def TopPairingLocalAxisSeq (seq : Step14 -> Face) : Prop :=
   TopPairingLocalAxisLabels (faceLabelsInContributionOrder (fun f => f) seq)
 
+def triangularCancellationSummaryOfFaceLabels (labels : List Face) :
+    TriCancellationSummary :=
+  triangularCancellationSummaryOfShadow
+    ((shadowStateOfPairList (labels.map pairOfFace)).shadow)
+
+set_option linter.unusedTactic false in
+set_option linter.unreachableTactic false in
+theorem canonicalContributionPairs_eq_startedPairFactors
+    (w : PairWord) :
+    faceLabelsInContributionOrder (fun f => pairOfFace f)
+        (canonicalSeqOfPairWord w) =
+      startedPairFactors w := by
+  unfold faceLabelsInContributionOrder contributionOrderSteps
+  unfold startedPairFactors
+  simp [canonicalSeqOfPairWord, pairAtStartedIndex, List.finRange]
+  repeat' constructor
+  all_goals
+    apply congrArg (fun i : WordIndex => w.get i) <;>
+    apply Fin.ext <;>
+    decide
+
+theorem map_pairOfFace_faceLabelsInContributionOrder
+    (seq : Step14 -> Face) :
+    (faceLabelsInContributionOrder (fun f => f) seq).map pairOfFace =
+      faceLabelsInContributionOrder (fun f => pairOfFace f) seq := by
+  unfold faceLabelsInContributionOrder
+  simp
+
+theorem triangularCancellationSummaryOfCanonicalLabels
+    (rank : Fin numPairWords) :
+    triangularCancellationSummaryOfFaceLabels
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank))) =
+      triangularCancellationSummaryOfPairWord (unrankPairWord rank) := by
+  unfold triangularCancellationSummaryOfFaceLabels
+  unfold triangularCancellationSummaryOfPairWord triangularShadowOfPairWord
+  unfold shadowStateOfPairWord
+  rw [map_pairOfFace_faceLabelsInContributionOrder]
+  rw [canonicalContributionPairs_eq_startedPairFactors]
+
 theorem faceLabelsInContributionOrder_eq_of_positive_template
     {rank : Fin numPairWords} {template : Step14 -> Face} {labels : List Face}
     (htemplate : PairWordMatchesSeq (unrankPairWord rank) template)
