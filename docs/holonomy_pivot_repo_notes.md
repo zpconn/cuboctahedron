@@ -353,6 +353,10 @@ Top margin+cancellation-pairing checkpoint:
   `273` matched paths, `970` states, `1,054` edges, maximum margin bound `0`,
   and `28,780 kB` max RSS.  The 5M-to-10M state growth is mild enough to keep
   the tri-source Bellman coordinate as the active nonidentity margin route.
+- Disjoint status: `[10000000,20000000)` succeeded with `100` matched paths,
+  `417` states, `457` edges, and maximum margin bound `-16/11`.  This supports
+  tri-source Bellman as a real semantic coordinate rather than an initial
+  rank-window accident.
 
 ## Explicit Non-Goals
 

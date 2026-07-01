@@ -729,6 +729,37 @@ nonpositive Bellman bound and a real argmax path.  Continue with this
 tri-source coordinate unless a later disjoint-window test shows very different
 behavior.
 
+Disjoint `[10000000,20000000)` validation:
+
+```bash
+/usr/bin/time -v python3 scripts/nonidentity_margin_bellman_profile.py \
+  --start 10000000 --end 20000000 \
+  --jobs 8 --chunk-size 250000 \
+  --state-key-mode with-step-tri-source \
+  --json scripts/generated/nonid_margin_bellman_top_pairing_010000000_020000000_with_step_tri_source.json \
+  --markdown scripts/generated/nonid_margin_bellman_top_pairing_010000000_020000000_with_step_tri_source.md
+```
+
+| metric | value |
+| --- | ---: |
+| scanned | `10,000,000` |
+| matched paths | `100` |
+| states | `417` |
+| edges | `457` |
+| final states | `51` |
+| margin values | `21` |
+| root bound | `-38/11` |
+| max margin bound | `-16/11` |
+| Bellman-max observed? | `true`, rank `15543335` |
+| elapsed | `5:10.35` |
+| max RSS | `26,648 kB` |
+
+Decision: the disjoint window also validates the tri-source coordinate and is
+strictly negative.  The active next step is to either run a few more disjoint
+windows to estimate full-family state count, or begin designing the small
+generic Lean Bellman theorem while the external profiler continues gathering
+coverage data.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -767,6 +798,8 @@ behavior.
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_005000000_with_step_tri_source.md`
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source.json`
 - `scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source.md`
+- `scripts/generated/nonid_margin_bellman_top_pairing_010000000_020000000_with_step_tri_source.json`
+- `scripts/generated/nonid_margin_bellman_top_pairing_010000000_020000000_with_step_tri_source.md`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.json`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.md`
 - `scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.json`

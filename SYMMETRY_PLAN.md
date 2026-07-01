@@ -1882,6 +1882,13 @@ Bellman profiler prototype checkpoint:
   only from `789` to `970` when doubling from 5M to 10M, which is a strong
   signal that triangular source progress is capturing a reusable semantic
   family rather than simply replaying exact prefixes.
+- Disjoint-window validation: `with-step-tri-source` on `[10000000,20000000)`
+  with eight workers also succeeded.  It scanned `10,000,000` ranks, found
+  `100` matched paths, and produced `417` states, `457` edges, and `51` final
+  states.  The maximum margin bound was strictly negative (`-16/11`), and the
+  Bellman-max path was a real observed path at rank `15543335`.  Runtime was
+  `5:10.35` wall with `26,648 kB` max RSS.  This reduces the risk that the
+  first-window success was an early-rank artifact.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
