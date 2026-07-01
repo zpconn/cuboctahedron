@@ -18,6 +18,8 @@ import time
 from typing import Any
 
 
+LOCAL_MODULE_PREFIX = "Cuboctahedron."
+LEAN_BUILD_DIR = Path(".lake/build/lib/lean")
 DEFAULT_RSS_CAP_MIB = 6_000.0
 MAX_RSS_CAP_MIB = 6_000.0
 DEFAULT_HARD_ADDRESS_SPACE_MIB = 8_192.0
@@ -210,11 +212,86 @@ def write_wrapper_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def module_source_path(module: str) -> Path:
+    return Path(*module.split(".")).with_suffix(".lean")
+
+
+def module_olean_path(module: str) -> Path:
+    return LEAN_BUILD_DIR.joinpath(*module.split(".")).with_suffix(".olean")
+
+
+def parse_imports(path: Path) -> list[str]:
+    imports: list[str] = []
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError as exc:
+        raise SystemExit(f"Could not read Lean file {path}: {exc}") from exc
+    for line in lines:
+        stripped = line.strip()
+        if not stripped.startswith("import "):
+            continue
+        for token in stripped[len("import ") :].split():
+            if token.startswith("--"):
+                break
+            imports.append(token)
+    return imports
+
+
+def local_import_preflight(target_path: str) -> dict[str, Any]:
+    target = Path(target_path)
+    direct_imports = parse_imports(target)
+    local_seen: set[str] = set()
+    source_missing: list[str] = []
+    olean_missing: list[str] = []
+    stack = [module for module in direct_imports if module.startswith(LOCAL_MODULE_PREFIX)]
+
+    while stack:
+        module = stack.pop()
+        if module in local_seen:
+            continue
+        local_seen.add(module)
+        source_path = module_source_path(module)
+        olean_path = module_olean_path(module)
+        if not source_path.exists():
+            source_missing.append(f"{module} ({source_path})")
+            continue
+        if not olean_path.exists():
+            olean_missing.append(f"{module} ({olean_path})")
+        for imported in parse_imports(source_path):
+            if imported.startswith(LOCAL_MODULE_PREFIX) and imported not in local_seen:
+                stack.append(imported)
+
+    if source_missing or olean_missing:
+        details: list[str] = []
+        if source_missing:
+            details.append(
+                "missing local source files:\n  - " + "\n  - ".join(sorted(source_missing)[:20])
+            )
+        if olean_missing:
+            details.append(
+                "missing local .olean files:\n  - " + "\n  - ".join(sorted(olean_missing)[:20])
+            )
+            if len(olean_missing) > 20:
+                details.append(f"... and {len(olean_missing) - 20} more missing .olean files")
+        raise SystemExit(
+            "Refusing Bellman smoke run before Lean launch; direct Lean would "
+            "load local imports whose build artifacts are absent.\n" + "\n".join(details)
+        )
+
+    return {
+        "direct_imports": direct_imports,
+        "local_import_count": len(local_seen),
+        "local_imports": sorted(local_seen),
+        "checked_olean_count": len(local_seen),
+    }
+
+
 def main() -> int:
     args = parse_args()
     reject_if_not_strict(args)
 
     target = TARGETS[args.target]
+    import_preflight = local_import_preflight(target["path"])
     guard_json = args.json if args.json is not None else default_json_path(args.target)
     checked_command = [
         "lake",
@@ -263,8 +340,13 @@ def main() -> int:
             "lean_memory_mib": args.lean_memory_mib,
             "lean_threads": args.lean_threads,
             "lean_tstack_kib": args.lean_tstack_kib,
+            "import_preflight": import_preflight,
             "command": command,
         },
+    )
+    print(
+        f"preflight: {import_preflight['local_import_count']} local imports have .olean files",
+        file=sys.stderr,
     )
     print(" ".join(command))
     if args.dry_run:

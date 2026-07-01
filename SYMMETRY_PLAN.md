@@ -52058,3 +52058,58 @@ Immediate safe next step is documentation/profiler work only, or a dry-run /
 syntax-level validation of the wrapper.  The next proof-bearing step must be a
 new tiny target that does not import the heavier axis-forces stack and does not
 trigger dependency compilation as a side effect.
+
+### Holonomy/Bellman Pivot - import preflight guard accepted
+
+Added a direct-Lean import preflight to:
+
+```text
+scripts/run_bellman_safe_smoke.py
+```
+
+Before launching Lean, the wrapper now parses the allowlisted target's direct
+imports, recursively follows local `Cuboctahedron.*` imports through source
+files, and refuses to run if any corresponding local `.olean` artifact is
+missing.  This is operational safety tooling: it prevents a generated-shard
+smoke from quietly becoming a dependency-compilation task after a clean or
+fresh checkout.  It does not certify any mathematical claim.
+
+Validation performed without launching Lean:
+
+```bash
+python3 -m py_compile scripts/run_bellman_safe_smoke.py
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --dry-run \
+  --json /tmp/bellman_safe_smoke_import_preflight_dry_run.json
+
+git diff --check
+```
+
+Result:
+
+| command | status |
+| --- | --- |
+| Python compile | passed |
+| import-preflight dry run | passed; found `24` transitive local imports with `.olean` files |
+| `git diff --check` | passed |
+
+The dry-run wrapper JSON recorded direct imports:
+
+```text
+Cuboctahedron.Search.AxisForcedRankLanguage
+Cuboctahedron.Search.BellmanTopPairingLanguage
+```
+
+and `24` checked local imports total.  The printed command still launches only
+the strict direct-Lean runner:
+
+```text
+lake env lean -M 6000 -j1 -s 2048 \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean
+```
+
+No Lean proof check was run for this checkpoint.  The next proof-bearing
+Bellman step remains quarantined until it is split into a tiny target whose
+dependency artifacts are preflighted first.

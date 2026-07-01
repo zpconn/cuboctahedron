@@ -3307,3 +3307,18 @@ Latest crash-safety note:
   `lake env lean -M 6000 -j1 -s 2048`, process-tree RSS cap `6000 MiB`, hard
   address-space cap `8192 MiB`, available-memory floor `24576 MiB`, and timeout
   `60s`.
+
+Import-preflight checkpoint:
+
+- `scripts/run_bellman_safe_smoke.py` now parses the allowlisted target's
+  direct imports and recursively follows local `Cuboctahedron.*` source
+  imports before launching Lean.
+- If any corresponding local `.olean` file is absent under
+  `.lake/build/lib/lean`, the wrapper refuses to run.  This prevents a
+  generated-shard check from being confused with dependency compilation after a
+  clean checkout or failed artifact cleanup.
+- Dry-run validation of the current target found direct imports
+  `Cuboctahedron.Search.AxisForcedRankLanguage` and
+  `Cuboctahedron.Search.BellmanTopPairingLanguage`, with `24` transitive local
+  imports whose `.olean` artifacts were present.  No Lean proof check was run
+  for this checkpoint.
