@@ -5,7 +5,7 @@ This report is planning/accounting only. It does not invoke Lean.
 - graph: `scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json`
 - scanned range: `0..37`
 - status: `selected`
-- current MemAvailable: `46628 MiB`
+- current MemAvailable: `46689 MiB`
 - required MemAvailable: `36864 MiB`
 
 Selected candidate:

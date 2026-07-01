@@ -3904,6 +3904,41 @@ Twenty-eighth split path:
 Decision: accepted as another proof-bearing sampled path under the strict
 post-crash guard.
 
+Twenty-ninth split path preflight only:
+
+- After committing and pushing the path-object-index `27` checkpoint, ran only
+  the selector and path-object-index `28` dry run.  This was deliberately not a
+  proof-bearing Lean run.
+- Selector command:
+
+  ```bash
+  python3 scripts/select_bellman_split_single_path_candidate.py \
+    --start-index 0 \
+    --count 37 \
+    --skip-fresh-artifacts \
+    --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+    --markdown docs/bellman_split_single_path_candidate_000_037.md
+  ```
+
+- Dry-run command:
+
+  ```bash
+  python3 scripts/run_bellman_split_smoke_path.py 28 \
+    --check \
+    --check-stage missing \
+    --dry-run \
+    --json scripts/generated/bellman_split_path_28_missing_dry_run.json
+  ```
+
+- Result:
+  - selected path object index `28`, rank `947581`;
+  - available memory before dry-run planning was `46689 MiB`;
+  - dry-run source stubs were emitted for trace (`32 KiB`) and split (`2 KiB`);
+  - no `.olean` was emitted, and no Lean proof check was run.
+
+Decision: keep this as a planning artifact only.  It is not checked Bellman
+evidence until the guarded trace and split commands pass.
+
 Rebase recheck plus twenty-fifth split path:
 
 - The path-23 checkpoint push was rejected because `origin/main` had a

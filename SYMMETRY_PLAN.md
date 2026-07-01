@@ -55002,3 +55002,47 @@ Refreshed accounting:
 Decision: accepted as the twenty-eighth checked split path under the strict
 post-crash guard.  The sampled split Bellman checks remain below the
 `4500 MiB` process-tree RSS cap.
+
+### Holonomy/Bellman Pivot - twenty-ninth split path preflight only
+
+After the twenty-eighth checked-path checkpoint was pushed, prepared the next
+candidate without launching Lean.  This was intentionally limited to selector
+and dry-run planning after the recent machine crash/OOM concern.
+
+Commands run:
+
+```bash
+free -m
+git status --short --branch
+
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+
+python3 scripts/run_bellman_split_smoke_path.py 28 \
+  --check \
+  --check-stage missing \
+  --dry-run \
+  --json scripts/generated/bellman_split_path_28_missing_dry_run.json
+```
+
+Preflight result:
+
+- selector chose path object index `28`, rank `947581`;
+- available memory before the dry run was `46689 MiB`;
+- the dry run emitted source stubs only:
+  `BellmanTopPairingClosedLanguageGeneratedTraceSmoke28.lean` (`32 KiB`) and
+  `BellmanTopPairingSplitCompositionSmoke28.lean` (`2 KiB`);
+- the dry run printed the guarded proof-bearing commands it would use, with
+  `45s` timeout, `4500 MiB` process-tree RSS cap, `36864 MiB` minimum available
+  memory, `6144 MiB` hard address-space cap, and `lake env lean -M 6000 -j1
+  -s 2048`;
+- no `.olean` emission or proof-bearing Lean check was run for path object
+  index `28`.
+
+Decision: keep this as a preflight artifact only.  It is useful for the next
+safe step, but it is not counted as checked Bellman evidence until the two
+guarded Lean commands pass and the measured RSS/time are recorded.
