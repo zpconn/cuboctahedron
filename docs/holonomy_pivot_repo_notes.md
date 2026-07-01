@@ -361,6 +361,12 @@ Top margin+cancellation-pairing checkpoint:
   generic integer-potential path telescoping theorem and builds in focused
   mode.  Generated Bellman families should target this surface rather than
   replaying concrete affine offsets.
+- Generated-style smoke status:
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSmoke`
+  instantiates the Bellman core with private scaled edge/potential data and
+  builds in `0:08.50` wall time at `3,242,260 kB` max RSS.  It is path-level
+  only, but validates the generated-data-to-Bellman theorem connection.  A
+  cached rerun built in `0:00.98` wall time at `811,536 kB` max RSS.
 
 ## Explicit Non-Goals
 

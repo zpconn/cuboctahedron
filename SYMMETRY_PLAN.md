@@ -1899,6 +1899,20 @@ Bellman profiler prototype checkpoint:
   `lake build Cuboctahedron.Search.BellmanPotential`.  This is not generated
   coverage yet; it is the core induction theorem that generated Bellman
   families should instantiate after the profiler has enough scale evidence.
+- Generated-style Bellman smoke checkpoint: added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSmoke.lean`.
+  It uses the scaled 10M tri-source argmax path (`scale = 88`, `const = 176`)
+  as private generated-style data, proves each edge satisfies the integer
+  potential inequality, and applies
+  `const_add_bellmanGainSum_nonpos_of_path` to prove
+  `topPairingSmoke_scaled_margin_nonpos`.  This smoke is path-level only, not
+  coverage for the full family, but it proves the data-to-Bellman theorem
+  connection builds.  Focused build:
+  `/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSmoke`
+  passed first in `0:08.50` wall time with `3,242,260 kB` max RSS; an
+  immediate cached rerun passed in `0:00.98` wall time with `811,536 kB` max
+  RSS.  A forbidden-key scan over the Bellman core and smoke found no `sorry`,
+  `admit`, `axiom`, `native_decide`, or `unsafe`.
 
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest

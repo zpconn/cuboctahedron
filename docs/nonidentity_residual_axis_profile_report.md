@@ -777,6 +777,35 @@ Lean Bellman core:
 - Keyword scan on the new file found no `sorry`, `admit`, `axiom`,
   `native_decide`, or `unsafe`.
 
+Generated-style Bellman smoke:
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSmoke.lean`.
+- The smoke uses private generated-style integer data from the scaled
+  tri-source Bellman argmax path and applies
+  `const_add_bellmanGainSum_nonpos_of_path` to prove:
+
+  ```lean
+  theorem topPairingSmoke_scaled_margin_nonpos :
+      (176 : Int) + bellmanGainSum smokeEdges <= 0
+  ```
+
+- This is path-level only; it does not prove coverage for the top family.
+  Its purpose is to validate that emitted Bellman edge/potential data can
+  instantiate the trusted theorem surface cheaply.
+- Focused build passed:
+
+  ```bash
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSmoke
+  ```
+
+  First measurement: `0:08.50` wall time, `3,242,260 kB` max RSS.
+  Immediate cached rerun: `0:00.98` wall time, `811,536 kB` max RSS.
+- Keyword scan over `BellmanPotential.lean` and
+  `BellmanTopPairingSmoke.lean` found no `sorry`, `admit`, `axiom`,
+  `native_decide`, or `unsafe`.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -818,6 +847,7 @@ Lean Bellman core:
 - `scripts/generated/nonid_margin_bellman_top_pairing_010000000_020000000_with_step_tri_source.json`
 - `scripts/generated/nonid_margin_bellman_top_pairing_010000000_020000000_with_step_tri_source.md`
 - `Cuboctahedron/Search/BellmanPotential.lean`
+- `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSmoke.lean`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.json`
 - `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_001000000.md`
 - `scripts/generated/direct_start_offset_family_top_pairing_ym_const2_000000000_001000000.json`
