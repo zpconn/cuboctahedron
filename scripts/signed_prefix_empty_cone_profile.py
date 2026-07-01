@@ -39,6 +39,7 @@ from exact_profile import (  # noqa: E402
     Vec,
     dot,
     face_reflection,
+    mat_key,
     mat_mul,
     mat_vec,
     vec,
@@ -93,6 +94,11 @@ def clear_denominators(values: list[Fraction]) -> list[int]:
     if first < 0:
         ints = [-value for value in ints]
     return ints
+
+
+def primitive_signed_vec_key(value: Vec) -> str:
+    ints = clear_denominators(list(value))
+    return ",".join(str(entry) for entry in ints)
 
 
 def factorial(n: int) -> int:
@@ -154,6 +160,41 @@ class ConeCert:
         return f"support={len(self.support)}|weights={','.join(str(w) for w in self.weights)}"
 
 
+@dataclass
+class CappedCounter:
+    limit: int
+    counts: Counter[str] = field(default_factory=Counter)
+    overflow_cases: int = 0
+    exact: bool = True
+
+    def add(self, key: str, count: int = 1) -> None:
+        if key in self.counts or len(self.counts) < self.limit:
+            self.counts[key] += count
+        else:
+            self.exact = False
+            self.overflow_cases += count
+
+    def merge(self, other: "CappedCounter") -> None:
+        for key, count in other.counts.items():
+            self.add(key, count)
+        if other.overflow_cases:
+            self.exact = False
+            self.overflow_cases += other.overflow_cases
+        if not other.exact:
+            self.exact = False
+
+    def payload(self, *, top: int) -> dict[str, Any]:
+        return {
+            "exact": self.exact,
+            "stored_distinct": len(self.counts),
+            "overflow_cases": self.overflow_cases,
+            "top": [
+                {"key": key, "count": count}
+                for key, count in self.counts.most_common(top)
+            ],
+        }
+
+
 def find_cone_cert(normals: list[Vec], *, max_support: int) -> ConeCert | None:
     """Find a small positive dependence among active normals, if one exists."""
 
@@ -183,6 +224,7 @@ class ConeStats:
     max_depth: int
     min_check_depth: int
     max_support: int
+    max_distinct: int
     sample_limit: int
     nodes: int = 0
     pruned: int = 0
@@ -195,7 +237,15 @@ class ConeStats:
     frontier_by_depth: Counter[int] = field(default_factory=Counter)
     support_sizes: Counter[int] = field(default_factory=Counter)
     cert_keys: Counter[str] = field(default_factory=Counter)
+    frontier_holonomy_keys: CappedCounter | None = None
+    frontier_cone_keys: CappedCounter | None = None
     examples: list[dict[str, Any]] = field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        if self.frontier_holonomy_keys is None:
+            self.frontier_holonomy_keys = CappedCounter(self.max_distinct)
+        if self.frontier_cone_keys is None:
+            self.frontier_cone_keys = CappedCounter(self.max_distinct)
 
     def merge(self, other: "ConeStats") -> None:
         self.nodes += other.nodes
@@ -209,6 +259,10 @@ class ConeStats:
         self.frontier_by_depth.update(other.frontier_by_depth)
         self.support_sizes.update(other.support_sizes)
         self.cert_keys.update(other.cert_keys)
+        assert self.frontier_holonomy_keys is not None and other.frontier_holonomy_keys is not None
+        assert self.frontier_cone_keys is not None and other.frontier_cone_keys is not None
+        self.frontier_holonomy_keys.merge(other.frontier_holonomy_keys)
+        self.frontier_cone_keys.merge(other.frontier_cone_keys)
         room = self.sample_limit - len(self.examples)
         if room > 0:
             self.examples.extend(other.examples[:room])
@@ -224,8 +278,22 @@ class ConeStats:
             "support_normals": [vec_key(normals[index]) for index in cert.support],
         })
 
+    def add_frontier_cluster(self, remaining: tuple[str, ...], pref: Mat, normals: list[Vec], mass: int) -> None:
+        assert self.frontier_holonomy_keys is not None
+        assert self.frontier_cone_keys is not None
+        remaining_key = ",".join(remaining)
+        holonomy_key = f"remaining={remaining_key}|lin={mat_key(pref)}"
+        cone_key = (
+            f"{holonomy_key}|cone="
+            + ";".join(sorted(primitive_signed_vec_key(normal) for normal in normals))
+        )
+        self.frontier_holonomy_keys.add(holonomy_key, mass)
+        self.frontier_cone_keys.add(cone_key, mass)
+
     def payload(self, *, elapsed: float, jobs: int, split_depth: int, top: int) -> dict[str, Any]:
         total_signed = factorial(len(SIGNED_FACES))
+        assert self.frontier_holonomy_keys is not None
+        assert self.frontier_cone_keys is not None
         return {
             "mode": "signed-prefix-empty-cone-profile",
             "arithmetic": "exact Fraction/integer arithmetic; no floating point",
@@ -249,6 +317,8 @@ class ConeStats:
             "frontier_by_depth": dict(sorted(self.frontier_by_depth.items())),
             "support_sizes": dict(sorted(self.support_sizes.items())),
             "top_cert_keys": self.cert_keys.most_common(top),
+            "frontier_holonomy_keys": self.frontier_holonomy_keys.payload(top=top),
+            "frontier_cone_keys": self.frontier_cone_keys.payload(top=top),
             "examples": self.examples,
             "decision_hint": (
                 "If pruning removes most signed completions by shallow depth with few certificate "
@@ -267,6 +337,7 @@ def profile_subtree(
     max_depth: int,
     min_check_depth: int,
     max_support: int,
+    max_distinct: int,
     sample_limit: int,
     progress: int | None = None,
 ) -> ConeStats:
@@ -274,6 +345,7 @@ def profile_subtree(
         max_depth=max_depth,
         min_check_depth=min_check_depth,
         max_support=max_support,
+        max_distinct=max_distinct,
         sample_limit=sample_limit,
     )
 
@@ -309,6 +381,7 @@ def profile_subtree(
             stats.frontier += 1
             stats.frontier_by_depth[depth] += 1
             stats.frontier_signed_completions += mass
+            stats.add_frontier_cluster(remaining, pref, normals, mass)
             if depth == 13:
                 stats.full_survivors += 1
             return
@@ -342,6 +415,7 @@ def profile_maybe_parallel(
     max_depth: int,
     min_check_depth: int,
     max_support: int,
+    max_distinct: int,
     sample_limit: int,
     jobs: int,
     split_depth: int,
@@ -356,6 +430,7 @@ def profile_maybe_parallel(
             max_depth=max_depth,
             min_check_depth=min_check_depth,
             max_support=max_support,
+            max_distinct=max_distinct,
             sample_limit=sample_limit,
             progress=progress,
         )
@@ -365,6 +440,7 @@ def profile_maybe_parallel(
         max_depth=max_depth,
         min_check_depth=min_check_depth,
         max_support=max_support,
+        max_distinct=max_distinct,
         sample_limit=sample_limit,
     )
     with ProcessPoolExecutor(max_workers=jobs) as pool:
@@ -378,6 +454,7 @@ def profile_maybe_parallel(
                 max_depth=max_depth,
                 min_check_depth=min_check_depth,
                 max_support=max_support,
+                max_distinct=max_distinct,
                 sample_limit=sample_limit,
                 progress=None,
             )
@@ -455,6 +532,26 @@ def render_markdown(payload: dict[str, Any]) -> str:
     ])
     for key, count in payload["top_cert_keys"]:
         lines.append(f"| `{key}` | `{count:,}` |")
+    lines.extend([
+        "",
+        "## Frontier Clusters",
+        "",
+    ])
+    for section in ["frontier_holonomy_keys", "frontier_cone_keys"]:
+        data = payload[section]
+        lines.extend([
+            f"### `{section}`",
+            "",
+            f"- Exact distinct count stored: `{data['exact']}`",
+            f"- Stored distinct keys: `{data['stored_distinct']:,}`",
+            f"- Overflow cases: `{data['overflow_cases']:,}`",
+            "",
+            "| key | signed completions |",
+            "| --- | ---: |",
+        ])
+        for row in data["top"]:
+            lines.append(f"| `{row['key']}` | `{row['count']:,}` |")
+        lines.append("")
     if payload["examples"]:
         lines.extend(["", "## Examples", ""])
         for example in payload["examples"]:
@@ -474,6 +571,7 @@ def main() -> None:
     parser.add_argument("--max-support", type=int, default=4)
     parser.add_argument("--jobs", type=int, default=1)
     parser.add_argument("--split-depth", type=int, default=1)
+    parser.add_argument("--max-distinct", type=int, default=20000)
     parser.add_argument("--top", type=int, default=30)
     parser.add_argument("--sample-limit", type=int, default=10)
     parser.add_argument("--progress", type=int, default=0)
@@ -493,6 +591,7 @@ def main() -> None:
         max_depth=args.max_depth,
         min_check_depth=args.min_check_depth,
         max_support=args.max_support,
+        max_distinct=args.max_distinct,
         sample_limit=args.sample_limit,
         jobs=max(1, args.jobs),
         split_depth=args.split_depth,

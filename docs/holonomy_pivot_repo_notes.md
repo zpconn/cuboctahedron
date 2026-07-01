@@ -224,6 +224,12 @@ Signed-prefix empty-cone checkpoint:
 - Depth `4`, `5`, and `6` calibration runs are memory-light.  The depth-6 run
   used `8` workers, completed in `1:32.20`, peaked at `23,808 KiB` RSS, and
   killed `3,685,893,120 / 6,227,020,800` signed started itineraries (`293/495`).
-- This confirms empty-cone pruning is a real and cheap obstruction, but not yet
-  complete enough alone.  The next step should add frontier-state clustering
-  and test deeper signed prefixes before emitting Lean proof leaves.
+- The depth-7 clustered run used `8` workers, completed in `14:17.21`, peaked
+  at `674,452 KiB` RSS, and killed
+  `4,378,360,320 / 6,227,020,800` signed started itineraries
+  (`190033/270270`).  The frontier still overflowed the `50,000` key cap for
+  both tested coordinates (`remaining+linear` and `remaining+linear+cone`).
+- This confirms empty-cone pruning is a real and cheap obstruction, but not a
+  standalone low-thousands family coordinate.  Use it as a front-end filter
+  combined with forced-axis/reduced-shadow/holonomy signatures before emitting
+  Lean proof leaves.

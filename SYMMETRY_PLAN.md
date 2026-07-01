@@ -1103,6 +1103,50 @@ Signed-prefix empty-cone profiler checkpoint:
   meaningful but insufficient by itself.  The next gate should add
   frontier-state clustering and test depth `7`/`8` before any Lean emission.
 
+Signed-prefix depth-7 frontier checkpoint:
+
+- Added capped frontier clustering to the profiler:
+  `remaining faces + current linear holonomy` and
+  `remaining faces + current linear holonomy + sorted active cone normals`.
+- Depth-7 clustered calibration:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/signed_prefix_empty_cone_profile.py \
+    --max-depth 7 \
+    --min-check-depth 2 \
+    --jobs 8 \
+    --split-depth 2 \
+    --max-distinct 50000 \
+    --top 25 \
+    --sample-limit 8 \
+    --json scripts/generated/signed_prefix_empty_cone_depth07_clustered.json \
+    --markdown scripts/generated/signed_prefix_empty_cone_depth07_clustered.md
+  ```
+
+- Telemetry:
+
+  | metric | value |
+  | --- | ---: |
+  | elapsed | `14:17.21` |
+  | peak RSS | `674,452 KiB` |
+  | nodes visited | `4,331,716` |
+  | pruned nodes | `1,161,608` |
+  | killed signed completions | `4,378,360,320` |
+  | killed fraction | `190033/270270` |
+  | frontier signed completions | `1,848,660,480` |
+
+- Frontier clustering result:
+
+  | coordinate | exact? | stored keys | overflow signed completions |
+  | --- | --- | ---: | ---: |
+  | `frontier_holonomy_keys` | `false` | `50,000` | `963,456,480` |
+  | `frontier_cone_keys` | `false` | `50,000` | `1,726,660,800` |
+
+- Decision: empty-cone pruning is useful and memory-safe, but it is not a
+  standalone low-thousands production coordinate.  It should become a
+  front-end filter composed with forced-axis/reduced-shadow/holonomy
+  signatures.  Do not emit cone leaves yet.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
