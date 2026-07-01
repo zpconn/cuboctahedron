@@ -48429,3 +48429,54 @@ implementation priorities are:
    Bellman and translation circuit families are real;
 5. when translation resumes, test the 2D Helly / two-or-three-row oriented
    circuit route for `GoodDirection` survivors, not BadDirection mask data.
+
+### Holonomy/Bellman Pivot - object-language cover bridge added
+
+The corrected closure-gap audit says the missing production ingredient is a
+semantic forced-sequence membership theorem, not another rank/path-class
+certificate layer.  Added a reusable object-language Bellman cover in:
+
+```text
+Cuboctahedron/Search/BellmanAxisBridge.lean
+```
+
+New surface:
+
+```lean
+structure BellmanAxisRankObjectCover
+
+theorem BellmanAxisRankObjectCover.scaledMargin_nonpos_at_object
+theorem BellmanAxisRankObjectCover.scaledMargin_nonpos
+```
+
+This structure lets a generated family choose semantic objects whose accepted
+label word is
+
+```lean
+faceLabelsInContributionOrder labelOfFace (forcedSeq obj)
+```
+
+and prove a `BellmanLabelStepRunLanguageBound` for those objects.  A separate
+`covers` field maps public ranks into accepted objects.  This is the intended
+middle ground between the too-narrow exact path-class index and an over-broad
+signed-face language: the object can encode the forced-axis/holonomy
+membership theorem while the Bellman potential table stays private.
+
+Focused builds:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Search.BellmanAxisBridge
+/usr/bin/time -v lake build Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+```
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:12.75` | `3,283,864 kB` | passed |
+| `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:02.06` | `3,293,920 kB` | passed |
+
+Next implementation step: update the Bellman graph emitter or add a new small
+emitter mode that instantiates `BellmanAxisRankObjectCover` for the sampled
+top-pairing family.  The smoke should prove the same sampled
+`NonIdentityRankKilled` theorem through object-language acceptance rather than
+through exact rank/path-class indexing.  If that works, the production family
+generator can target semantic objects and forced-sequence membership directly.

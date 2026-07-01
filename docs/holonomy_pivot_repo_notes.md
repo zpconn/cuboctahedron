@@ -1314,3 +1314,30 @@ Current strategic priority after GPT5.5 Pro's Bellman recommendation:
    coordinate.
 6. When translation resumes, test GoodDirection survivors with integer
    two/three-row Helly/Farkas circuits before any larger Walsh-Farkas fallback.
+
+Object-language Bellman cover:
+
+- Added `BellmanAxisRankObjectCover` in
+  `Cuboctahedron/Search/BellmanAxisBridge.lean`.
+- It packages the next production-shaped route:
+  semantic objects accepted by a private Bellman label language cover public
+  ranks, while the Bellman proof itself works over
+  `faceLabelsInContributionOrder labelOfFace (forcedSeq obj)`.
+- New theorem names:
+
+  ```lean
+  BellmanAxisRankObjectCover.scaledMargin_nonpos_at_object
+  BellmanAxisRankObjectCover.scaledMargin_nonpos
+  ```
+
+- Focused builds passed:
+
+  | target | wall | max RSS |
+  | --- | ---: | ---: |
+  | `Cuboctahedron.Search.BellmanAxisBridge` | `0:12.75` | `3,283,864 kB` |
+  | `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:02.06` | `3,293,920 kB` |
+
+- Consequence: the next emitter smoke should instantiate this object cover for
+  the sampled top-pairing family.  That will test the GPT5.5 Bellman route
+  more faithfully than exact path-class indexing: semantic object membership
+  first, Bellman accepted forced labels second, public killed theorem last.

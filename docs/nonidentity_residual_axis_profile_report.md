@@ -2637,3 +2637,38 @@ the family but whose actual forced contribution labels differ.  This supports
 the current GPT5.5-style finite-horizon Bellman route: private potential table
 plus semantic forced-sequence membership, not exact path or certificate
 packing.
+
+## Object-Language Bellman Cover Bridge
+
+The bridge module now has a production-shaped object-language cover:
+
+```lean
+structure BellmanAxisRankObjectCover
+
+theorem BellmanAxisRankObjectCover.scaledMargin_nonpos_at_object
+theorem BellmanAxisRankObjectCover.scaledMargin_nonpos
+```
+
+File:
+
+```text
+Cuboctahedron/Search/BellmanAxisBridge.lean
+```
+
+This lets a generated family use semantic objects rather than exact path
+classes.  Each object supplies a forced sequence; the Bellman language bound
+is over that object's forced contribution-label word, and a cover theorem maps
+public ranks to accepted objects.  This is the intended Lean surface for the
+next top-pairing smoke after the corrected closure-gap audit.
+
+Focused builds:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:12.75` | `3,283,864 kB` | passed |
+| `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge` | `0:02.06` | `3,293,920 kB` | passed |
+
+Next gate: instantiate this object cover in generated smoke for the sampled
+top-pairing family, then compare build time/RSS against the existing
+rank-indexed smoke.  If it stays in the same memory envelope, use it as the
+production target for forced-sequence membership.

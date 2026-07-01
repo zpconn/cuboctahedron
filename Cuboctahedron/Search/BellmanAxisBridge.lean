@@ -392,4 +392,85 @@ theorem scaledMargin_nonpos
 
 end BellmanAxisRankIndexedCover
 
+structure BellmanAxisRankObjectCover
+    (Obj State Label : Type)
+    (V : State -> Int)
+    (Step : State -> Label -> State -> Int -> Prop)
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (rankOf : Obj -> Fin numPairWords)
+    (Accepts : Obj -> Prop)
+    (ContainsRank : Fin numPairWords -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) where
+  forcedSeq : Obj -> Step14 -> Face
+  trace_bound :
+    BellmanLabelStepRunLanguageBound V Step start const
+      (fun obj => scaledMargin (rankOf obj))
+      (fun obj => faceLabelsInContributionOrder labelOfFace (forcedSeq obj))
+      Accepts
+  step_valid :
+    forall s label t gain, Step s label t gain -> gain + V t <= V s
+  root_bound : const + V start <= 0
+  covers :
+    forall rank, ContainsRank rank -> exists obj, Accepts obj /\ rankOf obj = rank
+
+namespace BellmanAxisRankObjectCover
+
+theorem scaledMargin_nonpos_at_object
+    {Obj State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {rankOf : Obj -> Fin numPairWords}
+    {Accepts : Obj -> Prop}
+    {ContainsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (cover :
+      BellmanAxisRankObjectCover
+        Obj State Label V Step labelOfFace start const rankOf
+        Accepts ContainsRank scaledMargin)
+    (obj : Obj) (hobj : Accepts obj) :
+    scaledMargin (rankOf obj) <= 0 :=
+  scaledMargin_nonpos_of_bellmanLabelStepRunLanguageBound
+    (V := V)
+    (Step := Step)
+    (start := start)
+    (const := const)
+    (scaledMargin := fun obj => scaledMargin (rankOf obj))
+    (wordOf := fun obj =>
+      faceLabelsInContributionOrder labelOfFace (cover.forcedSeq obj))
+    (Accepts := Accepts)
+    cover.step_valid
+    cover.root_bound
+    cover.trace_bound
+    obj
+    hobj
+
+theorem scaledMargin_nonpos
+    {Obj State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {rankOf : Obj -> Fin numPairWords}
+    {Accepts : Obj -> Prop}
+    {ContainsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (cover :
+      BellmanAxisRankObjectCover
+        Obj State Label V Step labelOfFace start const rankOf
+        Accepts ContainsRank scaledMargin)
+    {rank : Fin numPairWords}
+    (hrank : ContainsRank rank) :
+    scaledMargin rank <= 0 := by
+  rcases cover.covers rank hrank with ⟨obj, hobj, hidx⟩
+  rw [← hidx]
+  exact cover.scaledMargin_nonpos_at_object obj hobj
+
+end BellmanAxisRankObjectCover
+
 end Cuboctahedron
