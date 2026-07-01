@@ -50845,3 +50845,35 @@ top-pairing ranks/objects, then assemble
 `TopPairingClosedLanguageAtRank` through `ofComponents`, and only after that
 feed the resulting closed-language object into
 `BellmanNonposStartViolationObjectMembership`.
+
+### Holonomy/Bellman Pivot - concrete field reductions banned after OOM
+
+Follow-up postmortem after the user-reported machine crash: even the narrower
+"prove the non-local fields concretely, leave local-axis as a premise" variant
+is not safe.  The experiment tried to prove sampled `cancellation`,
+`schedule`, and `squareGap` fields from local rank/word literals using
+fieldwise `decide`, while keeping the expensive local-axis field abstract.  The
+guard killed it before completion:
+
+| command | elapsed | peak process-tree RSS | min available memory | status |
+| --- | ---: | ---: | ---: | --- |
+| `lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke` with concrete non-axis fields | `11.52s` | `12853.04 MiB` | `37286.30 MiB` | killed by guard |
+| reverted constructor-only smoke, same target | `2.50s` | `4042.77 MiB` | `46130.52 MiB` | passed |
+
+Decision: concrete fieldwise reduction is rejected, including for the
+apparently cheap non-axis fields.  Future Bellman membership work must emit
+proof-carrying component traces or direct object constructors.  The accepted
+surface remains:
+
+```text
+generated component facts / traces
+  -> TopPairingClosedLanguageAtRank.ofComponents
+  -> BellmanNonposStartViolationObjectMembership
+```
+
+Do not use local `decide` over sampled rank/word literals to fill
+`TopPairingLanguageAtRank`, `TopPairingStepScheduleLabels`, or
+`TopPairingSquareGapLabels`.  Any test that might elaborate generated
+membership evidence must stay behind the timeout/RSS/MemAvailable guard, and
+the next cap should be lower than the previous 12 GiB trial unless there is a
+specific reason to spend more memory.

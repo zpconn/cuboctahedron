@@ -2571,3 +2571,21 @@ Closed-language constructor surface:
 - Next generator task: emit explicit component facts for sampled top-pairing
   objects and call `TopPairingClosedLanguageAtRank.ofComponents`; do not use
   local fieldwise `decide` as a substitute for those component facts.
+
+Concrete non-axis field reduction postmortem:
+
+- A follow-up attempted to prove only the sampled `cancellation`, `schedule`,
+  and `squareGap` fields concretely from local rank/word literals, leaving
+  `localAxis` as an abstract generated premise.
+- This was still too expensive.  The timeout/RSS guard killed
+  `lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedLanguageFieldSmoke`
+  after `11.52s` at `12853.04 MiB` process-tree RSS, with
+  `37286.30 MiB` minimum available memory.
+- Reverting the file to the constructor-only theorem shape revalidated the
+  safe surface: the same guarded target passed in `2.50s` at `4042.77 MiB`
+  process-tree RSS and `46130.52 MiB` minimum available memory.
+- Decision: reject concrete fieldwise `decide` for Bellman closed-language
+  membership, including for the non-local fields.  Future generated shards
+  should emit explicit component trace proofs or direct
+  `BellmanNonposStartViolationObject` constructors, then assemble with
+  `TopPairingClosedLanguageAtRank.ofComponents`.
