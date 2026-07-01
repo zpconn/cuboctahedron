@@ -403,6 +403,24 @@ end TopPairingScheduleLanguageAtRank
 
 namespace TopPairingClosedLanguageAtRank
 
+theorem pairCounts
+    {rank : Fin numPairWords} {badFace : Face}
+    (_h : TopPairingClosedLanguageAtRank rank badFace) :
+    TopPairingPairCountsLabels
+      (faceLabelsInContributionOrder (fun f => f)
+        (canonicalSeqOfPairWord (unrankPairWord rank))) :=
+  topPairingPairCountsCanonicalLabels rank
+
+theorem cancellationLabels
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    triangularCancellationSummaryOfFaceLabels
+        (faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank))) =
+      topPairingTargetSummary := by
+  rw [triangularCancellationSummaryOfCanonicalLabels]
+  exact h.cancellation
+
 theorem ofComponents
     {rank : Fin numPairWords} {badFace : Face}
     (cancellation :

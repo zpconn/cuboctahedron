@@ -57956,3 +57956,64 @@ passed
 peak_tree_rss = 4027.4 MiB
 elapsed = 5.00s
 ```
+
+Closed-language accessor checkpoint:
+
+- Added namespace accessors in
+  `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`:
+  - `TopPairingClosedLanguageAtRank.pairCounts`;
+  - `TopPairingClosedLanguageAtRank.cancellationLabels`.
+- These package the two canonical-label facts needed by the next generated
+  classifier directly from a closed top-pairing hypothesis:
+  pair counts for the canonical contribution labels, and the target
+  triangular cancellation summary for the same label list.
+- This keeps the next semantic-membership theorem focused on the finite
+  face-label classifier.  A future generated proof should consume:
+
+```lean
+h.pairCounts
+h.cancellationLabels
+h.schedule
+h.squareGap
+h.localAxis
+```
+
+  and prove the two-trace disjunction without introducing `SampledRankIndex`
+  or any sampled rank/path table.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_language_closed_accessors_guard.json \
+  -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_closed_eval_trace_smoke_after_accessors_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalTraceSmoke
+```
+
+Result:
+
+```text
+Cuboctahedron.Search.BellmanTopPairingLanguage:
+  passed
+  peak_tree_rss = 4082.9 MiB
+  elapsed = 4.02s
+
+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalTraceSmoke:
+  passed
+  peak_tree_rss = 4051.2 MiB
+  elapsed = 4.00s
+```
+
+Decision: accepted.  The Bellman route still remains on the GPT5.5 go/no-go
+line: continue only if the next classifier is semantic in
+`TopPairingClosedLanguageAtRank`; reject any implementation that falls back to
+sampled object/rank membership.
