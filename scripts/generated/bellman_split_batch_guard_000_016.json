@@ -1243,10 +1243,7 @@
       }
     },
     {
-      "blockers": [
-        "trace .olean is missing or stale",
-        "split .olean is missing or stale"
-      ],
+      "blockers": [],
       "faces": [
         "xm",
         "ym",
@@ -1283,32 +1280,58 @@
       "margin_scaled": -376,
       "path_object_index": 10,
       "path_run_summary": {
-        "exists": false,
+        "exists": true,
+        "invalid": [],
         "paths": [
           "scripts/generated/bellman_split_path_10_run.json",
           "scripts/generated/bellman_split_path_10_trace_only_run.json",
           "scripts/generated/bellman_split_path_10_split_only_run.json",
           "scripts/generated/bellman_split_path_10_missing_run.json"
         ],
-        "split_checked": false,
-        "status": null,
-        "trace_checked": false
+        "split_checked": true,
+        "status": "checked",
+        "summaries": [
+          {
+            "commands": [
+              {
+                "elapsed_seconds": 8.50811035300103,
+                "exit_code": 0,
+                "killed_reason": null,
+                "kind": "trace",
+                "max_tree_rss_kib": 4110088,
+                "min_available_seen_kib": 47255384
+              },
+              {
+                "elapsed_seconds": 2.003072035000514,
+                "exit_code": 0,
+                "killed_reason": null,
+                "kind": "split",
+                "max_tree_rss_kib": 4042896,
+                "min_available_seen_kib": 47349284
+              }
+            ],
+            "guard_dir": "/tmp/cuboctahedron_bellman_guards",
+            "path": "scripts/generated/bellman_split_path_10_missing_run.json",
+            "status": "checked"
+          }
+        ],
+        "trace_checked": true
       },
       "rank": 43205,
       "split": {
         "artifact_status": {
-          "fresh_olean": false,
+          "fresh_olean": true,
           "olean": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 17936,
+            "exists": true,
+            "kib": 18,
+            "mtime": 1782932399.5976484
           },
           "source": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 1927,
+            "exists": true,
+            "kib": 2,
+            "mtime": 1782932375.7190678
           }
         },
         "import_budget": 26,
@@ -1322,18 +1345,18 @@
       },
       "trace": {
         "artifact_status": {
-          "fresh_olean": false,
+          "fresh_olean": true,
           "olean": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 2510552,
+            "exists": true,
+            "kib": 2452,
+            "mtime": 1782932397.4839547
           },
           "source": {
-            "bytes": null,
-            "exists": false,
-            "kib": null,
-            "mtime": null
+            "bytes": 32634,
+            "exists": true,
+            "kib": 32,
+            "mtime": 1782932375.7190678
           }
         },
         "import_budget": 18,
@@ -1870,7 +1893,7 @@
   "global_blockers": [],
   "graph_json": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
   "graph_path_object_count": 37,
-  "mem_available_mib": 46622,
+  "mem_available_mib": 46588,
   "min_available_mib": 36864,
   "mode": "bellman-split-batch-dry-run-guard",
   "options": {
@@ -1880,9 +1903,9 @@
   "start_index": 0,
   "status": "rejected-dry-run",
   "summary": {
-    "blocked_entries": 8,
+    "blocked_entries": 7,
     "entries": 16,
-    "total_blockers": 15,
+    "total_blockers": 13,
     "total_split_source_kib": 32,
     "total_trace_source_kib": 512
   }
