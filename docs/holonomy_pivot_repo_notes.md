@@ -771,3 +771,37 @@ Direct theorem-surface checkpoint:
   emitting a concrete solved `p0` or checking an `AffineAxisSolveWitness`.
 - Focused build of `Cuboctahedron.Search.TerminalNonidentityTemplates`
   succeeded in `0:10.09` wall time with `3,249,292 KiB` max RSS.
+
+Bellman/potential residual pivot:
+
+- The current nonidentity residual route is no longer to emit one direct
+  affine-axis certificate per exact start-margin class.  Following the
+  holonomy-normal-form/Bellman advice, the preferred certificate is a
+  finite-horizon potential over a semantic state graph:
+  local gains plus future potential are bounded at each transition, and the
+  final potential/constant bound proves the whole language margin is
+  nonpositive.
+- `Cuboctahedron.Search.BellmanPotential` contains the reusable theorem
+  surface for these generated graph/language proofs.
+- `Cuboctahedron.Search.RankFaceLabelLanguage` and
+  `Cuboctahedron.Search.AxisForcedRankLanguage` bridge rank-local feasible
+  nonidentity witnesses to pair-sign/face-label languages from generated
+  axis-forcing facts.
+- `scripts/emit_bellman_graph_smoke.py` now emits a concrete sampled
+  axis-forces membership bridge for
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke`.
+  The generated theorem
+  `graphSmoke_cls0000_generated_axis_forces_scaled_margin_nonpos` proves the
+  Bellman margin bound from only `SeqRealizesPairWord` and
+  `NonIdentityAxisConstraints`; the sampled axis, kernel witness, forced
+  sequence, and prefix-linear facts are generated privately in the leaf.
+- Focused build:
+
+  ```text
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+  ```
+
+  passed in `0:12.49` wall time with `4,294,092 kB` max RSS.  The corresponding
+  forbidden-keyword scan over the emitter and generated smoke module found no
+  `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe`.

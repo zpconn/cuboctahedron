@@ -13,6 +13,22 @@ import json
 from fractions import Fraction
 from pathlib import Path
 
+from generate_exact_certificates import (
+    append_pair_word_get_theorems,
+    final_axis_dot,
+    forced_sequence_from_axis,
+    kernel_line_cross_factor,
+    lean_pair_word_literal,
+    lean_mat3,
+    lean_rat,
+    lean_vec,
+    oriented_fixed_axis,
+    pair_word_at_rank,
+    prefix_matrices,
+    total_linear,
+    word_get_simp_names,
+)
+
 
 def state_ctor(index: int) -> str:
     return f"State.s{index:04d}"
@@ -1090,6 +1106,9 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         trie_node = int(obj["trie_node"])
         seq_name = f"{obj_name}FaceSeq"
         rank_name = f"{obj_name}Rank"
+        word_name = f"{obj_name}Word"
+        axis_name = f"{obj_name}Axis"
+        kernel_name = f"{obj_name}Kernel"
         trace_of_seq_name = f"{obj_name}TraceOfSeq"
         label_indices = [int(idx) for idx in obj["label_indices"]]
         seq_faces = {
@@ -1131,8 +1150,32 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         ])
         if can_emit_rank_sequence_bridge:
             rank_sample = int(obj["rank_sample"])
+            sample_word = pair_word_at_rank(rank_sample)
+            sample_linear = total_linear(sample_word)
+            sample_axis = oriented_fixed_axis(sample_word, sample_linear)
+            sample_kernel = kernel_line_cross_factor(sample_linear, sample_axis)
+            sample_forced_seq = forced_sequence_from_axis(sample_word, sample_axis)
+            sample_prefix_mats = prefix_matrices(sample_word)
+            sample_seq_faces = [seq_faces[index] for index in range(14)]
+            if sample_forced_seq != sample_seq_faces:
+                raise ValueError(
+                    "sample forced sequence does not match emitted Bellman face sequence: "
+                    f"forced={sample_forced_seq}, emitted={sample_seq_faces}"
+                )
+            sample_final_axis_dot = final_axis_dot(sample_word, sample_axis)
             lines.extend([
                 f"private def {rank_name} : Fin numPairWords := ⟨{rank_sample}, by decide⟩",
+                "",
+                f"private def {word_name} : PairWord :=",
+                lean_pair_word_literal(sample_word),
+                "",
+            ])
+            append_pair_word_get_theorems(lines, word_name, sample_word)
+            word_simp_names = ", ".join(word_get_simp_names(word_name))
+            lines.extend([
+                f"private theorem {word_name}_eq_pairWordOfSeq :",
+                f"    {word_name} = pairWordOfSeq {seq_name} := by",
+                "  decide",
                 "",
                 f"private theorem {seq_name}_rank :",
                 f"    rankPairWord? (pairWordOfSeq {seq_name}) = some {rank_name} := by",
@@ -1148,6 +1191,84 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
                 f"    PairWordMatchesSeq (unrankPairWord {rank_name}) {seq_name} := by",
                 f"  rw [{seq_name}_unrank_pairword]",
                 f"  exact pairWordOfSeq_matches {seq_name}",
+                "",
+                f"private theorem {obj_name}_unrank_word :",
+                f"    unrankPairWord {rank_name} = {word_name} := by",
+                f"  rw [{seq_name}_unrank_pairword]",
+                f"  exact {word_name}_eq_pairWordOfSeq.symm",
+                "",
+                f"private def {axis_name} : Vec3 Rat := {lean_vec(sample_axis)}",
+                "",
+                f"private def {kernel_name} : KernelLineWitness :=",
+                f"  {{ crossFactor := {lean_mat3(sample_kernel)} }}",
+                "",
+                f"private theorem {obj_name}KernelCheck :",
+                f"    checkKernelLineWitness (totalLinearOfPairWord (unrankPairWord {rank_name}))",
+                f"      {axis_name} {kernel_name} = true := by",
+                f"  rw [{obj_name}_unrank_word]",
+                f"  norm_num [{axis_name}, {kernel_name}, checkKernelLineWitness,",
+                "    checkVec3NonzeroQ, totalLinearOfPairWord, pairLinearProductRight,",
+                f"    pairLinearSuffixNat, {word_simp_names}, fixedPart, crossLeftMatrix,",
+                "    matSub, matId, matMul, matVec, canonicalNormalQ, normalQ,",
+                "    reflM, dot, scalarMat, outer]",
+                "",
+                f"private theorem {obj_name}FinalAxisDot :",
+                f"    finalAxisDotQ (unrankPairWord {rank_name}) {axis_name} =",
+                f"      {lean_rat(sample_final_axis_dot)} := by",
+                f"  rw [{obj_name}_unrank_word]",
+                f"  norm_num [{axis_name}, finalAxisDotQ, pairPrefixLinearNat,",
+                f"    {word_simp_names}, canonicalNormalQ, normalQ, matId, matMul,",
+                "    reflM, dot, matSub, scalarMat, outer, matVec]",
+                "",
+            ])
+            for prefix_i in range(13):
+                theorem_name = f"{obj_name}PrefixLinear{prefix_i:02d}"
+                lines.extend([
+                    f"private theorem {theorem_name} :",
+                    f"    pairPrefixLinearNat {word_name} {prefix_i} =",
+                    f"      {lean_mat3(sample_prefix_mats[prefix_i])} := by",
+                    f"  norm_num [pairPrefixLinearNat, {word_simp_names},",
+                    "    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,",
+                    "    matSub, scalarMat, outer]",
+                    "",
+                ])
+            for axis_i in range(13):
+                theorem_name = f"{obj_name}AxisForcesAt{axis_i:02d}"
+                lines.extend([
+                    f"private theorem {theorem_name} (f : Face)",
+                    f"    (hf : pairOfFace f = {word_name}.get ({axis_i} : WordIndex))",
+                    "    (hpos : 0 <",
+                    f"      dot (matVec (pairPrefixLinearNat {word_name} {axis_i})",
+                    f"        (normalQ f)) {axis_name}) :",
+                    f"    normalQ ({seq_name} (afterStart ({axis_i} : WordIndex))) =",
+                    "      normalQ f := by",
+                    f"  rw [{obj_name}PrefixLinear{axis_i:02d}] at hpos",
+                    "  cases f <;>",
+                    f"    simp [{axis_name}, {seq_name}, {word_name}_get{axis_i:02d}_num,",
+                    "      afterStart, pairOfFace, normalQ, dot, matVec]",
+                    "      at hf hpos ⊢ <;>",
+                    "    first | contradiction | linarith | rfl",
+                    "",
+                ])
+            lines.extend([
+                f"private theorem {obj_name}AxisForces :",
+                f"    AxisForcesForcedSeq (unrankPairWord {rank_name})",
+                f"      {axis_name} {seq_name} := by",
+                "  constructor",
+                f"  · unfold StartsXp {seq_name}",
+                "    decide",
+                "  constructor",
+                f"  · exact {seq_name}_matches_unrank",
+                "  constructor",
+                f"  · rw [{obj_name}FinalAxisDot]",
+                "    norm_num",
+                "  · intro i f hf hpos",
+                f"    rw [{obj_name}_unrank_word] at hf hpos",
+                "    fin_cases i",
+                *[
+                    f"    · exact {obj_name}AxisForcesAt{axis_i:02d} f hf hpos"
+                    for axis_i in range(13)
+                ],
                 "",
                 f"private def {obj_name}PairSignLanguage (seq : Step14 -> Face) : Prop :=",
                 f"  PairSignLanguageAtRank {rank_name} {seq_name} seq",
@@ -1223,6 +1344,15 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
                 "    seq",
                 "    (pairSignLanguageAtRank_of_axisForces",
                 "      hRealize hAxisConstraints hKernel hForces)",
+                "",
+                f"theorem graphSmoke_{obj_name}_generated_axis_forces_scaled_margin_nonpos",
+                "    (seq : Step14 -> Face)",
+                f"    (hRealize : SeqRealizesPairWord (unrankPairWord {rank_name}) seq)",
+                "    (hAxisConstraints : NonIdentityAxisConstraints seq) :",
+                f"    smokeLabelStepTraceScaledMargin ({trace_of_seq_name} seq) <= 0 :=",
+                f"  graphSmoke_{obj_name}_axis_forces_scaled_margin_nonpos",
+                f"    seq {axis_name} {kernel_name} hRealize hAxisConstraints",
+                f"    {obj_name}KernelCheck {obj_name}AxisForces",
                 "",
             ])
         lines.extend([

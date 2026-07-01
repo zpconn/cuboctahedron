@@ -22180,6 +22180,169 @@ private theorem cls0000FaceSeqLanguage_labels_eq
 
 private def cls0000Rank : Fin numPairWords := ⟨517, by decide⟩
 
+private def cls0000Word : PairWord :=
+  ⟨#[PairId.x, PairId.y, PairId.y, PairId.z, PairId.z, PairId.d111, PairId.dm11, PairId.d11m, PairId.d1m1, PairId.d1m1, PairId.d111, PairId.dm11, PairId.d11m], by decide⟩
+
+@[simp] theorem cls0000Word_get00_num :
+    cls0000Word.get (0 : WordIndex) = PairId.x := by
+  decide
+
+@[simp] theorem cls0000Word_get00_mk (h : 0 < 13) :
+    cls0000Word.get ⟨0, h⟩ = PairId.x := by
+  have hi : (⟨0, h⟩ : WordIndex) = (0 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get01_num :
+    cls0000Word.get (1 : WordIndex) = PairId.y := by
+  decide
+
+@[simp] theorem cls0000Word_get01_mk (h : 1 < 13) :
+    cls0000Word.get ⟨1, h⟩ = PairId.y := by
+  have hi : (⟨1, h⟩ : WordIndex) = (1 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get02_num :
+    cls0000Word.get (2 : WordIndex) = PairId.y := by
+  decide
+
+@[simp] theorem cls0000Word_get02_mk (h : 2 < 13) :
+    cls0000Word.get ⟨2, h⟩ = PairId.y := by
+  have hi : (⟨2, h⟩ : WordIndex) = (2 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get03_num :
+    cls0000Word.get (3 : WordIndex) = PairId.z := by
+  decide
+
+@[simp] theorem cls0000Word_get03_mk (h : 3 < 13) :
+    cls0000Word.get ⟨3, h⟩ = PairId.z := by
+  have hi : (⟨3, h⟩ : WordIndex) = (3 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get04_num :
+    cls0000Word.get (4 : WordIndex) = PairId.z := by
+  decide
+
+@[simp] theorem cls0000Word_get04_mk (h : 4 < 13) :
+    cls0000Word.get ⟨4, h⟩ = PairId.z := by
+  have hi : (⟨4, h⟩ : WordIndex) = (4 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get05_num :
+    cls0000Word.get (5 : WordIndex) = PairId.d111 := by
+  decide
+
+@[simp] theorem cls0000Word_get05_mk (h : 5 < 13) :
+    cls0000Word.get ⟨5, h⟩ = PairId.d111 := by
+  have hi : (⟨5, h⟩ : WordIndex) = (5 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get06_num :
+    cls0000Word.get (6 : WordIndex) = PairId.dm11 := by
+  decide
+
+@[simp] theorem cls0000Word_get06_mk (h : 6 < 13) :
+    cls0000Word.get ⟨6, h⟩ = PairId.dm11 := by
+  have hi : (⟨6, h⟩ : WordIndex) = (6 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get07_num :
+    cls0000Word.get (7 : WordIndex) = PairId.d11m := by
+  decide
+
+@[simp] theorem cls0000Word_get07_mk (h : 7 < 13) :
+    cls0000Word.get ⟨7, h⟩ = PairId.d11m := by
+  have hi : (⟨7, h⟩ : WordIndex) = (7 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get08_num :
+    cls0000Word.get (8 : WordIndex) = PairId.d1m1 := by
+  decide
+
+@[simp] theorem cls0000Word_get08_mk (h : 8 < 13) :
+    cls0000Word.get ⟨8, h⟩ = PairId.d1m1 := by
+  have hi : (⟨8, h⟩ : WordIndex) = (8 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get09_num :
+    cls0000Word.get (9 : WordIndex) = PairId.d1m1 := by
+  decide
+
+@[simp] theorem cls0000Word_get09_mk (h : 9 < 13) :
+    cls0000Word.get ⟨9, h⟩ = PairId.d1m1 := by
+  have hi : (⟨9, h⟩ : WordIndex) = (9 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get10_num :
+    cls0000Word.get (10 : WordIndex) = PairId.d111 := by
+  decide
+
+@[simp] theorem cls0000Word_get10_mk (h : 10 < 13) :
+    cls0000Word.get ⟨10, h⟩ = PairId.d111 := by
+  have hi : (⟨10, h⟩ : WordIndex) = (10 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get11_num :
+    cls0000Word.get (11 : WordIndex) = PairId.dm11 := by
+  decide
+
+@[simp] theorem cls0000Word_get11_mk (h : 11 < 13) :
+    cls0000Word.get ⟨11, h⟩ = PairId.dm11 := by
+  have hi : (⟨11, h⟩ : WordIndex) = (11 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+@[simp] theorem cls0000Word_get12_num :
+    cls0000Word.get (12 : WordIndex) = PairId.d11m := by
+  decide
+
+@[simp] theorem cls0000Word_get12_mk (h : 12 < 13) :
+    cls0000Word.get ⟨12, h⟩ = PairId.d11m := by
+  have hi : (⟨12, h⟩ : WordIndex) = (12 : WordIndex) := by
+    ext
+    rfl
+  rw [hi]
+  decide
+
+private theorem cls0000Word_eq_pairWordOfSeq :
+    cls0000Word = pairWordOfSeq cls0000FaceSeq := by
+  decide
+
 private theorem cls0000FaceSeq_rank :
     rankPairWord? (pairWordOfSeq cls0000FaceSeq) = some cls0000Rank := by
   decide
@@ -22194,6 +22357,335 @@ private theorem cls0000FaceSeq_matches_unrank :
     PairWordMatchesSeq (unrankPairWord cls0000Rank) cls0000FaceSeq := by
   rw [cls0000FaceSeq_unrank_pairword]
   exact pairWordOfSeq_matches cls0000FaceSeq
+
+private theorem cls0000_unrank_word :
+    unrankPairWord cls0000Rank = cls0000Word := by
+  rw [cls0000FaceSeq_unrank_pairword]
+  exact cls0000Word_eq_pairWordOfSeq.symm
+
+private def cls0000Axis : Vec3 Rat := { x := (-1/3), y := (-1/3), z := -1 }
+
+private def cls0000Kernel : KernelLineWitness :=
+  { crossFactor := { m00 := (7/144), m01 := (-5/9), m02 := 0, m10 := (5/9), m11 := (23/144), m12 := 0, m20 := (-29/144), m21 := (19/144), m22 := 0 } }
+
+private theorem cls0000KernelCheck :
+    checkKernelLineWitness (totalLinearOfPairWord (unrankPairWord cls0000Rank))
+      cls0000Axis cls0000Kernel = true := by
+  rw [cls0000_unrank_word]
+  norm_num [cls0000Axis, cls0000Kernel, checkKernelLineWitness,
+    checkVec3NonzeroQ, totalLinearOfPairWord, pairLinearProductRight,
+    pairLinearSuffixNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num, fixedPart, crossLeftMatrix,
+    matSub, matId, matMul, matVec, canonicalNormalQ, normalQ,
+    reflM, dot, scalarMat, outer]
+
+private theorem cls0000FinalAxisDot :
+    finalAxisDotQ (unrankPairWord cls0000Rank) cls0000Axis =
+      (1/3) := by
+  rw [cls0000_unrank_word]
+  norm_num [cls0000Axis, finalAxisDotQ, pairPrefixLinearNat,
+    cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num, canonicalNormalQ, normalQ, matId, matMul,
+    reflM, dot, matSub, scalarMat, outer, matVec]
+
+private theorem cls0000PrefixLinear00 :
+    pairPrefixLinearNat cls0000Word 0 =
+      { m00 := 1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear01 :
+    pairPrefixLinearNat cls0000Word 1 =
+      { m00 := -1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear02 :
+    pairPrefixLinearNat cls0000Word 2 =
+      { m00 := -1, m01 := 0, m02 := 0, m10 := 0, m11 := -1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear03 :
+    pairPrefixLinearNat cls0000Word 3 =
+      { m00 := -1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear04 :
+    pairPrefixLinearNat cls0000Word 4 =
+      { m00 := -1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := -1 } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear05 :
+    pairPrefixLinearNat cls0000Word 5 =
+      { m00 := -1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear06 :
+    pairPrefixLinearNat cls0000Word 6 =
+      { m00 := (-1/3), m01 := (2/3), m02 := (2/3), m10 := (-2/3), m11 := (1/3), m12 := (-2/3), m20 := (-2/3), m21 := (-2/3), m22 := (1/3) } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear07 :
+    pairPrefixLinearNat cls0000Word 7 =
+      { m00 := (7/9), m01 := (-4/9), m02 := (-4/9), m10 := (-4/9), m11 := (1/9), m12 := (-8/9), m20 := (-4/9), m21 := (-8/9), m22 := (1/9) } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear08 :
+    pairPrefixLinearNat cls0000Word 8 =
+      { m00 := (7/27), m01 := (-26/27), m02 := (2/27), m10 := (-22/27), m11 := (-7/27), m12 := (-14/27), m20 := (14/27), m21 := (2/27), m22 := (-23/27) } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear09 :
+    pairPrefixLinearNat cls0000Word 9 =
+      { m00 := (-49/81), m01 := (-8/81), m02 := (-64/81), m10 := (-8/81), m11 := (-79/81), m12 := (16/81), m20 := (64/81), m21 := (-16/81), m22 := (-47/81) } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear10 :
+    pairPrefixLinearNat cls0000Word 10 =
+      { m00 := (7/27), m01 := (-26/27), m02 := (2/27), m10 := (-22/27), m11 := (-7/27), m12 := (-14/27), m20 := (14/27), m21 := (2/27), m22 := (-23/27) } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear11 :
+    pairPrefixLinearNat cls0000Word 11 =
+      { m00 := (55/81), m01 := (-44/81), m02 := (40/81), m10 := (20/81), m11 := (65/81), m12 := (44/81), m20 := (56/81), m21 := (20/81), m22 := (-55/81) } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000PrefixLinear12 :
+    pairPrefixLinearNat cls0000Word 12 =
+      { m00 := (47/243), m01 := (-14/243), m02 := (238/243), m10 := (238/243), m11 := (17/243), m12 := (-46/243), m20 := (-14/243), m21 := (242/243), m22 := (17/243) } := by
+  norm_num [pairPrefixLinearNat, cls0000Word_get00_num, cls0000Word_get01_num, cls0000Word_get02_num, cls0000Word_get03_num, cls0000Word_get04_num, cls0000Word_get05_num, cls0000Word_get06_num, cls0000Word_get07_num, cls0000Word_get08_num, cls0000Word_get09_num, cls0000Word_get10_num, cls0000Word_get11_num, cls0000Word_get12_num,
+    canonicalNormalQ, normalQ, matId, matMul, reflM, dot,
+    matSub, scalarMat, outer]
+
+private theorem cls0000AxisForcesAt00 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (0 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 0)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (0 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear00] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get00_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt01 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (1 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 1)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (1 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear01] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get01_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt02 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (2 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 2)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (2 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear02] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get02_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt03 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (3 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 3)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (3 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear03] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get03_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt04 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (4 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 4)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (4 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear04] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get04_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt05 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (5 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 5)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (5 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear05] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get05_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt06 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (6 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 6)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (6 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear06] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get06_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt07 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (7 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 7)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (7 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear07] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get07_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt08 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (8 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 8)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (8 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear08] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get08_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt09 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (9 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 9)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (9 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear09] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get09_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt10 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (10 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 10)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (10 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear10] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get10_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt11 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (11 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 11)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (11 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear11] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get11_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForcesAt12 (f : Face)
+    (hf : pairOfFace f = cls0000Word.get (12 : WordIndex))
+    (hpos : 0 <
+      dot (matVec (pairPrefixLinearNat cls0000Word 12)
+        (normalQ f)) cls0000Axis) :
+    normalQ (cls0000FaceSeq (afterStart (12 : WordIndex))) =
+      normalQ f := by
+  rw [cls0000PrefixLinear12] at hpos
+  cases f <;>
+    simp [cls0000Axis, cls0000FaceSeq, cls0000Word_get12_num,
+      afterStart, pairOfFace, normalQ, dot, matVec]
+      at hf hpos ⊢ <;>
+    first | contradiction | linarith | rfl
+
+private theorem cls0000AxisForces :
+    AxisForcesForcedSeq (unrankPairWord cls0000Rank)
+      cls0000Axis cls0000FaceSeq := by
+  constructor
+  · unfold StartsXp cls0000FaceSeq
+    decide
+  constructor
+  · exact cls0000FaceSeq_matches_unrank
+  constructor
+  · rw [cls0000FinalAxisDot]
+    norm_num
+  · intro i f hf hpos
+    rw [cls0000_unrank_word] at hf hpos
+    fin_cases i
+    · exact cls0000AxisForcesAt00 f hf hpos
+    · exact cls0000AxisForcesAt01 f hf hpos
+    · exact cls0000AxisForcesAt02 f hf hpos
+    · exact cls0000AxisForcesAt03 f hf hpos
+    · exact cls0000AxisForcesAt04 f hf hpos
+    · exact cls0000AxisForcesAt05 f hf hpos
+    · exact cls0000AxisForcesAt06 f hf hpos
+    · exact cls0000AxisForcesAt07 f hf hpos
+    · exact cls0000AxisForcesAt08 f hf hpos
+    · exact cls0000AxisForcesAt09 f hf hpos
+    · exact cls0000AxisForcesAt10 f hf hpos
+    · exact cls0000AxisForcesAt11 f hf hpos
+    · exact cls0000AxisForcesAt12 f hf hpos
 
 private def cls0000PairSignLanguage (seq : Step14 -> Face) : Prop :=
   PairSignLanguageAtRank cls0000Rank cls0000FaceSeq seq
@@ -22264,6 +22756,15 @@ theorem graphSmoke_cls0000_axis_forces_scaled_margin_nonpos
     seq
     (pairSignLanguageAtRank_of_axisForces
       hRealize hAxisConstraints hKernel hForces)
+
+theorem graphSmoke_cls0000_generated_axis_forces_scaled_margin_nonpos
+    (seq : Step14 -> Face)
+    (hRealize : SeqRealizesPairWord (unrankPairWord cls0000Rank) seq)
+    (hAxisConstraints : NonIdentityAxisConstraints seq) :
+    smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq seq) <= 0 :=
+  graphSmoke_cls0000_axis_forces_scaled_margin_nonpos
+    seq cls0000Axis cls0000Kernel hRealize hAxisConstraints
+    cls0000KernelCheck cls0000AxisForces
 
 theorem graphSmoke_cls0000_face_seq_trace_scaled_margin_nonpos :
     smokeLabelStepTraceScaledMargin (cls0000TraceOfSeq cls0000FaceSeq) <= 0 :=

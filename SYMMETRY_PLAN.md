@@ -47132,3 +47132,65 @@ Remaining issue in this bounded DU9IQ batch: rank `911` still cannot be counted
 closed, because the current nonpositive-mask cover is missing masks `32`, `34`,
 and `41`.  The next step is a focused repair for those nonpositive masks, not a
 larger generated root.
+
+### Holonomy/Bellman Pivot - generated axis-forces smoke accepted
+
+The nonidentity residual strategy is now explicitly pivoted toward the
+GPT5.5-style Bellman/potential certificate, not another certificate-packing
+layer.  The target is a semantic finite-state margin proof: generated leaves
+should prove local integer transition inequalities and a potential bound over
+a holonomy/cancellation language, then bridge feasible nonidentity witnesses
+into that language through forced-axis facts.
+
+This checkpoint strengthens the current top-pairing Bellman smoke from an
+object/trace proof into a sampled rank-language bridge.  The graph emitter now
+generates private concrete facts for the sampled top-family rank:
+
+- the sampled `PairWord`;
+- the primitive forced axis;
+- a `KernelLineWitness` and checked kernel theorem;
+- precomputed `pairPrefixLinearNat` matrix theorems;
+- per-position `AxisForcesForcedSeq` facts.
+
+The generated module exports the semantic theorem:
+
+```lean
+graphSmoke_cls0000_generated_axis_forces_scaled_margin_nonpos
+```
+
+It proves the Bellman-scaled margin bound from only:
+
+```lean
+SeqRealizesPairWord (unrankPairWord cls0000Rank) seq
+NonIdentityAxisConstraints seq
+```
+
+so callers no longer supply the sampled axis, kernel, or forced sequence.
+Those facts are checked privately inside the generated leaf.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/emit_bellman_graph_smoke.py
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/emit_bellman_graph_smoke.py \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSmoke.lean
+```
+
+Results:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `BellmanTopPairingGraphSmoke` | `0:12.49` | `4,294,092 kB` | `0` |
+
+The forbidden-keyword scan produced no matches.  This is accepted as the first
+generated bridge from concrete axis-forced membership into the Bellman
+margin route.
+
+Next nonidentity work: generalize this sampled bridge into a true
+language-level membership theorem for the top Bellman family.  The production
+shape should not enumerate exact affine RHS values; it should show that a
+semantic domain of ranks/words satisfies the generated `AxisForces` and
+label-language premises needed by the Bellman theorem.
