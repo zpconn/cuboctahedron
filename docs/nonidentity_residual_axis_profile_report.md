@@ -1970,3 +1970,44 @@ The next nonidentity Bellman work must implement a semantic
 holonomy/cancellation-language membership bridge that proves arbitrary family
 members map into the Bellman label-step language and satisfy the generated
 axis-forcing premises.
+
+## Reusable Axis-to-Bellman Bridge Checkpoint
+
+Added:
+
+```text
+Cuboctahedron/Search/BellmanAxisBridge.lean
+```
+
+The module exposes reusable theorem surfaces for generated Bellman margin
+families:
+
+```lean
+bellmanLabelStepRun_of_sameFaceSeq
+bellmanLabelStepRun_of_pairSignLanguageAtRank
+bellmanLabelStepRun_of_axisForces
+scaledMargin_nonpos_of_axisForces_labelStepRun
+```
+
+These theorems are the intended production hook after the sampled-class smoke:
+a generated family supplies a label-step run for its forced/template sequence,
+plus checked axis-forcing facts; the bridge transports the run to any feasible
+sequence forced to that template and applies the Bellman potential bound.
+
+Focused build:
+
+```text
+/usr/bin/time -v lake build Cuboctahedron.Search.BellmanAxisBridge
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:02.10` | `3,298,336 kB` | `0` |
+
+Decision: accepted.  This is a small hand-written bridge, not generated
+coverage.  The next checkpoint should make the Bellman graph smoke emitter use
+`scaledMargin_nonpos_of_axisForces_labelStepRun` directly, proving that future
+generated family leaves can rely on this shared adapter instead of bespoke
+pair-sign-language plumbing.

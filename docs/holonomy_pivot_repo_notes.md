@@ -876,3 +876,22 @@ Bounded multi-class Bellman bridge:
   next implementation step is a semantic holonomy/cancellation-language bridge
   that proves arbitrary family members construct the same Bellman label-step
   run and axis-forcing premises.
+
+Reusable Bellman/axis adapter:
+
+- Added `Cuboctahedron.Search.BellmanAxisBridge`.
+- Main theorem surfaces:
+  `bellmanLabelStepRun_of_sameFaceSeq`,
+  `bellmanLabelStepRun_of_pairSignLanguageAtRank`,
+  `bellmanLabelStepRun_of_axisForces`, and
+  `scaledMargin_nonpos_of_axisForces_labelStepRun`.
+- Focused build:
+
+  ```text
+  /usr/bin/time -v lake build Cuboctahedron.Search.BellmanAxisBridge
+  ```
+
+  Result: `0:02.10` wall time, `3,298,336 kB` max RSS, exit `0`.
+- This is the reusable hook that future generated nonidentity Bellman leaves
+  should call after proving their semantic label-step run and generated
+  axis-forcing facts.

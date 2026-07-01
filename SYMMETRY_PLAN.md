@@ -47381,3 +47381,41 @@ limit.  This should be the last sampled-class ramp: the next proof work must
 replace sampled rank bridges with a semantic holonomy/cancellation-language
 membership theorem that constructs the same Bellman label-step run and
 `AxisForces` premises for arbitrary members of the family.
+
+### Holonomy/Bellman Pivot - reusable axis-to-Bellman bridge accepted
+
+Added a small hand-written adapter module:
+
+```text
+Cuboctahedron/Search/BellmanAxisBridge.lean
+```
+
+It packages the common production proof step that every generated Bellman
+family will need: transport a Bellman label-step run for a forced/template
+sequence to any actual sequence whose nonidentity feasible direction is forced
+to that template.  Main theorem surfaces:
+
+```lean
+bellmanLabelStepRun_of_sameFaceSeq
+bellmanLabelStepRun_of_pairSignLanguageAtRank
+bellmanLabelStepRun_of_axisForces
+scaledMargin_nonpos_of_axisForces_labelStepRun
+```
+
+Focused build:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Search.BellmanAxisBridge
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `Cuboctahedron.Search.BellmanAxisBridge` | `0:02.10` | `3,298,336 kB` | `0` |
+
+Decision: accepted as the reusable production bridge hook.  The next generated
+checkpoint should update `scripts/emit_bellman_graph_smoke.py` to use
+`scaledMargin_nonpos_of_axisForces_labelStepRun` directly in a small smoke,
+then remove the bespoke pair-sign-language plumbing from future generated
+family leaves where possible.
