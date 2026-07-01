@@ -226,6 +226,33 @@ class).  This rejects concrete RHS as a production key but promotes
 margin-linear-form plus cancellation/offset-family certificates as the next
 theorem surface.
 
+The offset-family follow-up
+`scripts/direct_start_offset_family_profile.py` decomposes the total affine
+offset into transported reflection deltas and pushes each margin functional
+through that sum.  On the same focused D4-axis window it is memory-light
+(`0:09.48`, `26,520 KiB` max RSS) and internally consistent
+(`offset_sum_mismatches = 0`), but it rejects direct contribution-value
+aggregation as the production partition:
+
+- full focused D4-axis class: `1,427` matches, `60` margin forms, `235`
+  contribution multisets, and `881` contribution-by-face/pair keys;
+- largest exact-axis/reduced-shadow key: `107` matches, `3` margin forms,
+  `78` contribution multisets, and `94` contribution-by-face/pair keys;
+- largest key plus dominant margin form: `72` matches, but still `52`
+  contribution multisets and `63` contribution-by-face/pair keys.
+
+So the accepted theorem hook remains:
+
+```text
+fixed linear coefficient matrix
++ bad-face margin linear form in total affine offset b
++ semantic proof that the margin form is <= 0
+-> start-interior contradiction
+```
+
+but the semantic proof should be based on a coarser cancellation-tree or
+holonomy-state relation, not on exact transported contribution signatures.
+
 ## Explicit Non-Goals
 
 The following approaches are archived as diagnostics, not the active route to

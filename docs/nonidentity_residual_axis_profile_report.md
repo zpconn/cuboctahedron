@@ -414,6 +414,44 @@ Largest exact-axis/reduced-shadow refinement:
   The next viable route is an offset-family theorem proving each margin linear
   form is nonpositive over a cancellation/translation family.
 
+Direct-start offset-family profile:
+
+- Added `scripts/direct_start_offset_family_profile.py`.
+- This exact untrusted diagnostic decomposes `totalAff(seq).b` as the sum of
+  transported reflection deltas and evaluates the accepted bad-face margin
+  linear forms contribution-by-contribution.
+- Full focused D4-axis command:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/direct_start_offset_family_profile.py \
+    --start 0 --end 100000 --jobs 4 --chunk-size 25000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1 --top 20
+  ```
+
+- Result: success, `0:09.48` wall time, `26,520 KiB` max RSS, and zero
+  offset-sum mismatches.
+- Counts:
+
+  | coordinate | distinct |
+  | --- | ---: |
+  | matched residuals | `1,427` |
+  | margin linear forms | `60` |
+  | contribution sequences | `1,427` |
+  | contribution multisets | `235` |
+  | contribution-by-face keys | `881` |
+  | contribution-by-pair keys | `881` |
+  | contribution sign patterns | `225` |
+
+- Focused largest exact-axis/reduced-shadow key: `107` matches, `3` margin
+  forms, `78` contribution multisets, and `94` contribution-by-face/pair keys.
+- Focused dominant margin form
+  `yp|const=-2|b=269/176,-73/176,-25/88`: `72` matches, but still `52`
+  contribution multisets and `63` contribution-by-face/pair keys.
+- Decision: direct transported-delta aggregation is rejected as the production
+  partition.  The margin-linear-form theorem hook remains accepted, but the
+  margin bound needs a coarser cancellation-tree / holonomy-state explanation
+  rather than a family keyed by exact contribution values.
+
 ## Artifacts
 
 - `scripts/nonidentity_residual_axis_profile.py`
@@ -428,6 +466,13 @@ Largest exact-axis/reduced-shadow refinement:
 - `scripts/generated/axis_start_focus_yp_1_m3_m1_000000000_000100000.md`
 - `Cuboctahedron/Generated/NonIdentity/Residual/DirectStartSmoke.lean`
 - `scripts/direct_start_linear_profile.py`
+- `scripts/direct_start_offset_family_profile.py`
+- `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_000100000.json`
+- `scripts/generated/direct_start_offset_family_yp_1_m3_m1_000000000_000100000.md`
+- `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.json`
+- `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.md`
+- `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_margin_yp_m2_000000000_000100000.json`
+- `scripts/generated/direct_start_offset_family_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_margin_yp_m2_000000000_000100000.md`
 - `scripts/generated/direct_start_linear_yp_1_m3_m1_000000000_000100000.json`
 - `scripts/generated/direct_start_linear_yp_1_m3_m1_000000000_000100000.md`
 - `scripts/generated/direct_start_linear_exact_axis_1_3_1_shadow_d11m_d111_dm11_x2_000000000_000100000.json`

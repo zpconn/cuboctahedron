@@ -1476,6 +1476,76 @@ Largest-pair direct-start refinement:
 
   Do not emit direct-start leaves keyed by total affine map or RHS.
 
+Direct-start offset-family profile:
+
+- Added `scripts/direct_start_offset_family_profile.py`, an exact untrusted
+  diagnostic that decomposes the affine offset in the accepted margin theorem
+  surface:
+
+  ```text
+  totalAff(seq).b = sum_i prefixLinear_i * reflectionDelta(face_i)
+  ```
+
+  It then pushes a bad-face margin functional through that sum and counts
+  contribution signatures.  This asks whether the affine-offset margin bound
+  can be proved by a simple transported-delta family.
+- Bounded D4-axis run:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/direct_start_offset_family_profile.py \
+    --start 0 --end 100000 --jobs 4 --chunk-size 25000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1 --top 20
+  ```
+
+  Result: success, `0:09.48` wall time, `26,520 KiB` max RSS, and zero
+  offset-sum mismatches.
+- Counts for the full focused D4-axis class:
+
+  | coordinate | distinct |
+  | --- | ---: |
+  | matched residuals | `1,427` |
+  | margin linear forms | `60` |
+  | contribution sequences | `1,427` |
+  | contribution multisets | `235` |
+  | contribution-by-face keys | `881` |
+  | contribution-by-pair keys | `881` |
+  | contribution sign patterns | `225` |
+
+- Focused largest-key run:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/direct_start_offset_family_profile.py \
+    --start 0 --end 100000 --jobs 4 --chunk-size 25000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1 \
+    --target-exact-axis 1,3,1 \
+    --target-reduced-shadow "d11m d111 dm11 d11m d111 dm11" \
+    --top 20
+  ```
+
+  Result: `107` matches, `3` margin forms, `78` contribution multisets,
+  `94` contribution-by-face/pair keys.
+- Dominant margin-form run:
+
+  ```bash
+  /usr/bin/time -v python3 scripts/direct_start_offset_family_profile.py \
+    --start 0 --end 100000 --jobs 4 --chunk-size 25000 \
+    --target-bad-face yp --target-axis-d4 1,-3,-1 \
+    --target-exact-axis 1,3,1 \
+    --target-reduced-shadow "d11m d111 dm11 d11m d111 dm11" \
+    --target-margin-linear-form "yp|const=-2|b=269/176,-73/176,-25/88" \
+    --top 20
+  ```
+
+  Result: `72` matches, but still `52` contribution multisets and `63`
+  contribution-by-face/pair keys.
+- Decision: the transported-delta decomposition is valuable as a theorem
+  explanation and a check that the margin form is computed correctly, but it is
+  rejected as the final production partition.  Even after fixing exact axis,
+  reduced shadow, and one margin form, the contribution signatures fragment too
+  much.  The next viable compression layer must explain these offset margins
+  by a coarser cancellation tree / holonomy-state relation, not by direct
+  aggregation of transported contribution values.
+
 The current evidence strongly suggests that the previous generated-evidence
 path was organized around the wrong proof coordinates. Gemini's latest
 assessment names four distinct failure modes, and the repository's bounded
