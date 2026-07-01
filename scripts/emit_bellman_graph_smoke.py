@@ -72,7 +72,14 @@ def lean_or_cases(names: list[str], *, indent: str = "  ") -> list[str]:
     return lines
 
 
-def emit(input_path: Path, output_path: Path, namespace: str) -> None:
+def emit(
+    input_path: Path,
+    output_path: Path,
+    namespace: str,
+    rank_bridge_limit: int = 1,
+) -> None:
+    if rank_bridge_limit < 0:
+        raise SystemExit("--rank-bridge-limit must be nonnegative")
     data = json.loads(input_path.read_text())
     graph = data["graph"]
     state_count = int(graph["state_count"])
@@ -231,18 +238,20 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
     face_label_by_name = {
         face: label_ctor(label_idx) for label_idx, face in label_face_by_index.items()
     }
+    bridge_objects = path_objects[:rank_bridge_limit] if rank_bridge_limit > 0 else []
     can_emit_face_sequence_bridge = (
-        bool(path_objects)
+        bool(bridge_objects)
         and all(face in face_label_by_name for face in face_order)
         and all(
             label_idx in label_face_by_index
-            for obj in path_objects[:1]
+            for obj in bridge_objects
             for label_idx in obj["label_indices"]
         )
-        and len(path_objects[0]["label_indices"]) == 14
+        and all(len(obj["label_indices"]) == 14 for obj in bridge_objects)
     )
     can_emit_rank_sequence_bridge = (
-        can_emit_face_sequence_bridge and path_objects[0].get("rank_sample") is not None
+        can_emit_face_sequence_bridge
+        and all(obj.get("rank_sample") is not None for obj in bridge_objects)
     )
 
     def trie_node_name(index: int) -> str:
@@ -1100,8 +1109,7 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
         "    smokeObservedTrieLabelStepRunLanguageBound",
         "",
     ])
-    if can_emit_face_sequence_bridge:
-        obj = path_objects[0]
+    def emit_face_sequence_bridge(obj: dict[str, object]) -> None:
         obj_name = str(obj["name"])
         trie_node = int(obj["trie_node"])
         seq_name = f"{obj_name}FaceSeq"
@@ -1362,6 +1370,9 @@ def emit(input_path: Path, output_path: Path, namespace: str) -> None:
             f"    {seq_name} (fun _ => rfl)",
             "",
         ])
+    if can_emit_face_sequence_bridge:
+        for obj in bridge_objects:
+            emit_face_sequence_bridge(obj)
     lines.extend([
         "theorem graphSmoke_argmax_object_scaled_margin_nonpos :",
         "    forall obj : SmokeObj, smokeScaledMargin obj <= 0 :=",
@@ -1385,8 +1396,22 @@ def main() -> None:
         "--namespace",
         default="Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSmoke",
     )
+    parser.add_argument(
+        "--rank-bridge-limit",
+        type=int,
+        default=1,
+        help=(
+            "Number of sampled path classes for which to emit the exact "
+            "rank/forced-axis bridge.  Use 0 for graph-only smoke."
+        ),
+    )
     args = parser.parse_args()
-    emit(args.input, args.output, args.namespace)
+    emit(
+        args.input,
+        args.output,
+        args.namespace,
+        rank_bridge_limit=args.rank_bridge_limit,
+    )
 
 
 if __name__ == "__main__":

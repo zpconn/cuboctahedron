@@ -1818,3 +1818,51 @@ Next nontranslation work:
 6. Do not generate terminal residual Lean leaves until the planned semantic
    family count is below the low-thousands gate and representative leaves build
    substantially cheaper than the current smoke.
+
+## Bellman Multi-Class Bridge Checkpoint
+
+`scripts/emit_bellman_graph_smoke.py` now accepts `--rank-bridge-limit N`.
+The default remains `1`, so the existing
+`BellmanTopPairingGraphSmoke` output is unchanged.  Larger values emit the
+exact rank/forced-axis bridge for the first `N` sampled path classes while
+reusing the same Bellman graph and label-step trie.
+
+A two-class module was generated as:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphBridge2Smoke.lean
+```
+
+with namespace:
+
+```text
+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge2Smoke
+```
+
+It exports the sampled semantic bridge theorems:
+
+```lean
+graphSmoke_cls0000_generated_axis_forces_scaled_margin_nonpos
+graphSmoke_cls0001_generated_axis_forces_scaled_margin_nonpos
+```
+
+Focused build:
+
+```text
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge2Smoke
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `BellmanTopPairingGraphBridge2Smoke` | `0:22.20` | `4,519,740 kB` | `0` |
+
+Decision: accepted as the first multi-class Lean bridge smoke.  The second
+rank/axis bridge added only a modest memory increase over the one-class
+checkpoint (`4.29 GiB` to `4.52 GiB`).  The next safe ramp is to test
+`--rank-bridge-limit 4`, then `8`, then all `37` sampled classes, stopping if
+RSS or elapsed time stops scaling gently.  This remains smoke/proof-shape
+validation; final coverage requires replacing sampled class bridges with a
+semantic holonomy/cancellation-language membership theorem.

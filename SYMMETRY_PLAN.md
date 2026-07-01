@@ -47226,3 +47226,48 @@ multi-class Lean bridge smoke.  The next emitter step should add an explicit
 small `--rank-bridge-limit` or equivalent and first check a handful of classes
 before attempting all `37`.  This remains a smoke/proof-shape validation, not
 final coverage, because the external audit does not prove completeness.
+
+### Holonomy/Bellman Pivot - two-class axis bridge smoke accepted
+
+The Bellman graph smoke emitter now has the bounded bridge switch requested by
+the previous checkpoint:
+
+```bash
+python3 scripts/emit_bellman_graph_smoke.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_tri_source_graph.json \
+  --output Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphBridge2Smoke.lean \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge2Smoke \
+  --rank-bridge-limit 2
+```
+
+The default remains `--rank-bridge-limit 1`, and regenerating
+`BellmanTopPairingGraphSmoke.lean` produced no source diff.  The two-class
+module reuses the same private Bellman graph/trie and emits exact sampled
+rank/axis-force bridges for `cls0000` and `cls0001`, exporting:
+
+```lean
+graphSmoke_cls0000_generated_axis_forces_scaled_margin_nonpos
+graphSmoke_cls0001_generated_axis_forces_scaled_margin_nonpos
+```
+
+Focused build:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge2Smoke
+```
+
+Result:
+
+| target | elapsed | max RSS | exit |
+| --- | ---: | ---: | ---: |
+| `BellmanTopPairingGraphBridge2Smoke` | `0:22.20` | `4,519,740 kB` | `0` |
+
+Decision: accepted.  The second sampled rank bridge increases peak RSS only
+modestly compared with the one-class smoke (`4.29 GiB` -> `4.52 GiB`).  This
+supports a memory-safe bounded ramp to bridge limits `4`, `8`, and then all
+`37` sampled path classes, with focused builds after each step.  This is still
+not final coverage: the final theorem needs a semantic holonomy/cancellation
+language bridge that proves arbitrary family members satisfy the same
+label-language and `AxisForces` premises, not one sampled rank per observed
+class.

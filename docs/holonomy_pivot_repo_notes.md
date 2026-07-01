@@ -813,3 +813,25 @@ Bellman/potential residual pivot:
   `-1/3,-1/3,-1` and final axis dot `1/3`.  This is not proof evidence, but it
   is the preflight gate for emitting bounded multi-class axis-forces bridge
   modules next.
+
+Bounded multi-class Bellman bridge:
+
+- `scripts/emit_bellman_graph_smoke.py` now accepts
+  `--rank-bridge-limit N`.  The default is `1` and preserves the existing
+  `BellmanTopPairingGraphSmoke` output.
+- `--rank-bridge-limit 2` generated
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge2Smoke`.
+  The module exports sampled generated-axis theorems for both `cls0000` and
+  `cls0001`.
+- Focused build:
+
+  ```text
+  /usr/bin/time -v lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphBridge2Smoke
+  ```
+
+  passed in `0:22.20` wall time with `4,519,740 kB` max RSS.
+- This is still a smoke bridge over sampled path classes.  The final
+  production bridge must be a semantic holonomy/cancellation-language theorem,
+  but the measured RSS supports the next bounded ramp to `4`, `8`, and
+  eventually all `37` sampled classes if focused builds remain stable.
