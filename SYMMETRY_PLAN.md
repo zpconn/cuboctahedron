@@ -58232,3 +58232,70 @@ ClosedEvalTraceSmoke after prefix lemma:
 Decision: accepted.  The next generated classifier should extend this style
 from the fixed first-two-face prefix to the full state-DAG proof, rather than
 trying another monolithic list classifier.
+
+Generated classifier-prefix smoke:
+
+- Added the first production-shaped generated classifier module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/PrefixSmoke.lean
+```
+
+- It imports `Cuboctahedron.Search.TopPairingBellmanObject` and proves:
+
+```lean
+theorem closedRank_prefix_xm_ym
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    ∃ rest : List Face,
+      faceLabelsInContributionOrder (fun f : Face => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        Face.xm :: Face.ym :: rest
+
+theorem closedObj_prefix_xm_ym
+    {badFace : Face}
+    (obj : TopPairingBellmanObj badFace) :
+    ∃ rest : List Face,
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        Face.xm :: Face.ym :: rest
+```
+
+- This verifies the exact module surface the full generated state-DAG
+  classifier should use: semantic closed rank/object membership in, face-label
+  prefix information out, with no sampled rank/path table.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_trace_classifier_prefix_smoke_guard.json \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/PrefixSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_trace_classifier_prefix_smoke_olean_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.PrefixSmoke
+```
+
+Result:
+
+```text
+PrefixSmoke lean check:
+  passed
+  peak_tree_rss = 3931.3 MiB
+  elapsed = 5.00s
+
+PrefixSmoke Lake module:
+  passed
+  peak_tree_rss = 4064.3 MiB
+  elapsed = 4.00s
+```
+
+Decision: accepted as the first production-shaped generated classifier shard.
+The next generator work should emit more of the `7387`-state DAG, grouped into
+small shards, rather than adding only hand-written prefix lemmas.
