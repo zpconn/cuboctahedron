@@ -140,6 +140,55 @@ emitter, prefer:
 - serial Lean smoke builds first, then only measured low-parallel Lean builds
   if peak memory leaves a wide margin under the 45 GiB practical budget.
 
+### 2026-07-01 OOM Safety Revision
+
+The machine crashed during the current Bellman/Lean work.  Treat that as a
+process-safety failure, even if the last recorded JSON smoke summary stayed
+near `4.1 GiB` RSS.  A polling RSS guard can miss a fast allocation spike, so
+new generated/Bellman Lean checks must use a hard OS-enforced address-space
+cap in addition to the process-tree RSS and `MemAvailable` polling guard.
+
+Updated tooling:
+
+- `scripts/run_memory_guarded.py` now accepts
+  `--hard-address-space-mib`, inherited by the wrapped process tree through
+  `RLIMIT_AS`.
+- `scripts/run_bellman_safe_smoke.py` now passes
+  `--hard-address-space-mib 8192.0` by default and refuses larger values.
+- The Bellman safe wrapper still refuses RSS caps above `6000 MiB`, available
+  memory floors below `24576 MiB`, and timeouts above `60s`.
+
+Validation performed without launching Lean:
+
+```bash
+python3 -m py_compile \
+  scripts/run_memory_guarded.py \
+  scripts/run_bellman_safe_smoke.py \
+  scripts/emit_bellman_closed_language_trace_smoke.py
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --dry-run \
+  --json /tmp/bellman_safe_smoke_dry_run_hardcap.json
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 5 \
+  --max-tree-rss-mib 128 \
+  --min-available-mib 1 \
+  --hard-address-space-mib 128 \
+  --json /tmp/memory_guard_hardcap_tiny.json \
+  -- python3 -c 'print("hardcap-ok")'
+```
+
+Result: all three checks passed.  The dry-run command includes
+`--hard-address-space-mib 8192.0`, and the tiny hard-cap smoke reported
+`peak_tree_rss=1 MiB`, `hard_as=128 MiB`, and exit `0`.
+
+Decision: accepted as the new minimum safety posture.  Do not run additional
+Lean generated/Bellman smokes unless they go through this hard-cap wrapper, or
+through an equally strict target-specific wrapper.  If an `8192 MiB`
+address-space cap causes a false failure, treat that as a signal to make the
+target smaller before considering any cap adjustment.
+
 ## Success Criteria
 
 1. Dry-run compression profiler reports:

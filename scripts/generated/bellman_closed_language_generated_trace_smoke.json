@@ -41,6 +41,8 @@
     ],
     "final": 141,
     "margin_scaled": -376,
+    "canonical_bad_face": "yp",
+    "bad_face": "ym",
     "kind": "bellman-graph-path-object"
   },
   "faces": [

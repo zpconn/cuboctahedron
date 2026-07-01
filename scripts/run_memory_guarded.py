@@ -14,6 +14,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import resource
 import signal
 import subprocess
 import sys
@@ -134,6 +135,17 @@ def parse_args() -> argparse.Namespace:
         help="Terminate if wall-clock runtime exceeds this many seconds.",
     )
     parser.add_argument(
+        "--hard-address-space-mib",
+        type=float,
+        default=None,
+        help=(
+            "Optional inherited RLIMIT_AS cap in MiB. This is a hard OS limit "
+            "on each process's virtual address space; it may reject targets "
+            "that reserve much more virtual memory than RSS, but prevents "
+            "runaway allocation from reaching host OOM."
+        ),
+    )
+    parser.add_argument(
         "--json",
         type=Path,
         default=None,
@@ -158,7 +170,19 @@ def parse_args() -> argparse.Namespace:
         parser.error("--poll-seconds must be positive")
     if args.timeout_seconds is not None and args.timeout_seconds <= 0:
         parser.error("--timeout-seconds must be positive when provided")
+    if args.hard_address_space_mib is not None and args.hard_address_space_mib <= 0:
+        parser.error("--hard-address-space-mib must be positive when provided")
     return args
+
+
+def make_preexec(hard_address_space_mib: float | None):
+    def preexec() -> None:
+        os.setsid()
+        if hard_address_space_mib is not None:
+            hard_bytes = int(hard_address_space_mib * 1024 * 1024)
+            resource.setrlimit(resource.RLIMIT_AS, (hard_bytes, hard_bytes))
+
+    return preexec
 
 
 def main() -> int:
@@ -166,7 +190,10 @@ def main() -> int:
     max_tree_rss_kib = int(args.max_tree_rss_mib * 1024)
     min_available_kib = int(args.min_available_mib * 1024)
     started = time.monotonic()
-    proc = subprocess.Popen(args.command, start_new_session=True)
+    proc = subprocess.Popen(
+        args.command,
+        preexec_fn=make_preexec(args.hard_address_space_mib),
+    )
     pgid = os.getpgid(proc.pid)
     peak_tree_rss_kib = 0
     min_available_seen_kib: int | None = None
@@ -238,6 +265,7 @@ def main() -> int:
         "rss_cap_mib": args.max_tree_rss_mib,
         "available_floor_mib": args.min_available_mib,
         "timeout_seconds": args.timeout_seconds,
+        "hard_address_space_mib": args.hard_address_space_mib,
     }
     if args.json is not None:
         write_json(args.json, payload)
@@ -245,6 +273,8 @@ def main() -> int:
         "memory guard summary: "
         f"exit={rc} elapsed={elapsed:.2f}s "
         f"peak_tree_rss={peak_tree_rss_kib // 1024} MiB "
+        f"hard_as="
+        f"{'none' if args.hard_address_space_mib is None else str(int(args.hard_address_space_mib)) + ' MiB'} "
         f"min_available="
         f"{'unknown' if min_available_seen_kib is None else str(min_available_seen_kib // 1024) + ' MiB'}",
         file=sys.stderr,

@@ -20,6 +20,8 @@ from typing import Any
 
 DEFAULT_RSS_CAP_MIB = 6_000.0
 MAX_RSS_CAP_MIB = 6_000.0
+DEFAULT_HARD_ADDRESS_SPACE_MIB = 8_192.0
+MAX_HARD_ADDRESS_SPACE_MIB = 8_192.0
 DEFAULT_MIN_AVAILABLE_MIB = 24_576.0
 MIN_AVAILABLE_FLOOR_MIB = 24_576.0
 DEFAULT_TIMEOUT_SECONDS = 60.0
@@ -73,6 +75,15 @@ def parse_args() -> argparse.Namespace:
         help=f"Process-tree RSS cap.  Must be <= {MAX_RSS_CAP_MIB:.0f} MiB.",
     )
     parser.add_argument(
+        "--hard-address-space-mib",
+        type=positive_float,
+        default=DEFAULT_HARD_ADDRESS_SPACE_MIB,
+        help=(
+            "Inherited per-process RLIMIT_AS cap. Must be <= "
+            f"{MAX_HARD_ADDRESS_SPACE_MIB:.0f} MiB."
+        ),
+    )
+    parser.add_argument(
         "--min-available-mib",
         type=positive_float,
         default=DEFAULT_MIN_AVAILABLE_MIB,
@@ -113,6 +124,11 @@ def reject_if_not_strict(args: argparse.Namespace) -> None:
         errors.append(
             f"--max-tree-rss-mib {args.max_tree_rss_mib:g} exceeds "
             f"{MAX_RSS_CAP_MIB:g}"
+        )
+    if args.hard_address_space_mib > MAX_HARD_ADDRESS_SPACE_MIB:
+        errors.append(
+            f"--hard-address-space-mib {args.hard_address_space_mib:g} exceeds "
+            f"{MAX_HARD_ADDRESS_SPACE_MIB:g}"
         )
     if args.min_available_mib < MIN_AVAILABLE_FLOOR_MIB:
         errors.append(
@@ -159,6 +175,8 @@ def main() -> int:
         str(args.max_tree_rss_mib),
         "--min-available-mib",
         str(args.min_available_mib),
+        "--hard-address-space-mib",
+        str(args.hard_address_space_mib),
         "--poll-seconds",
         str(args.poll_seconds),
         "--json",
@@ -177,6 +195,7 @@ def main() -> int:
             "module": target["module"],
             "guard_json": str(guard_json),
             "max_tree_rss_mib": args.max_tree_rss_mib,
+            "hard_address_space_mib": args.hard_address_space_mib,
             "min_available_mib": args.min_available_mib,
             "timeout_seconds": args.timeout_seconds,
             "poll_seconds": args.poll_seconds,

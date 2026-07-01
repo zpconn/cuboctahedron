@@ -3144,3 +3144,45 @@ Generated rank/word match checkpoint:
   rank/forced-sequence matching fact.  Remaining local facts are
   `PairSignLanguageAtRank`, `TopPairingLanguageAtRank`, and canonical bad-face
   compatibility.
+
+Generated canonical bad-face checkpoint:
+
+- The emitter now reads the selected Bellman family bad face from the graph
+  metadata and emits the local compatibility theorem:
+
+  ```lean
+  generatedCanonicalBadFaceCompatible :
+    TopPairingCanonicalBadFaceCompatible Face.ym
+  ```
+
+- The generated shard exports:
+
+  ```lean
+  generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFace
+  ```
+
+  whose remaining assumptions are now only:
+
+  ```text
+  PairSignLanguageAtRank generatedRank generatedForcedSeq seq
+  TopPairingLanguageAtRank generatedRank
+  ```
+
+- Strict wrapper check before the machine-crash report:
+
+  ```bash
+  python3 scripts/run_bellman_safe_smoke.py \
+    --json /tmp/bellman_safe_smoke_generated_trace_bad_face_6g.json
+  ```
+
+  Result: passed in `6.51s`, with `4131.42 MiB` peak process-tree RSS and
+  `46107.76 MiB` minimum available memory.
+
+- After the crash report, the guard tooling was strengthened: future
+  generated/Bellman Lean checks must inherit a hard `RLIMIT_AS` address-space
+  cap through `scripts/run_memory_guarded.py --hard-address-space-mib`, and
+  `scripts/run_bellman_safe_smoke.py` now defaults to
+  `--hard-address-space-mib 8192.0` while continuing to enforce the `6000 MiB`
+  RSS polling cap, `24576 MiB` available-memory floor, and `60s` timeout.
+  The hard-cap wrapper was validated only with `py_compile`, a dry-run, and a
+  tiny `python3 -c` child; no post-crash Lean run has been launched yet.

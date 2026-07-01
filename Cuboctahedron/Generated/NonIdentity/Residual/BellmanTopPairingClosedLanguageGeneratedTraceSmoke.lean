@@ -273,6 +273,10 @@ private theorem generatedForcedSeq_matches_unrank :
   rw [generatedForcedSeq_unrank_pairword]
   exact pairWordOfSeq_matches generatedForcedSeq
 
+private theorem generatedCanonicalBadFaceCompatible :
+    TopPairingCanonicalBadFaceCompatible Face.ym := by
+  rfl
+
 
 private def generatedM01 : Mat3 Rat :=
   { m00 := -1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 }
@@ -861,6 +865,18 @@ theorem generatedClosedLanguageForSeqOfGeneratedRankPairSign
     pairSign
     cancellation
     canonicalBadFace
+
+theorem generatedClosedLanguageForSeqOfGeneratedRankPairSignBadFace
+    {seq : Step14 -> Face}
+    (pairSign :
+      PairSignLanguageAtRank generatedRank generatedForcedSeq seq)
+    (cancellation :
+      TopPairingLanguageAtRank generatedRank) :
+    TopPairingClosedLanguageForSeq generatedRank seq Face.ym :=
+  generatedClosedLanguageForSeqOfGeneratedRankPairSign
+    pairSign
+    cancellation
+    generatedCanonicalBadFaceCompatible
 
 theorem generatedGeneratedTraceSmoke_builds : True := by
   exact True.intro

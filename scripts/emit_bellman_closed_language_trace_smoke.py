@@ -223,6 +223,17 @@ def load_faces_from_graph(path: Path, path_object_index: int) -> tuple[list[str]
         "final": path_object.get("final"),
         "margin_scaled": path_object.get("margin_scaled"),
     }
+    target = payload.get("target")
+    if isinstance(target, dict):
+        source["canonical_bad_face"] = target.get("canonical_bad_face")
+    families = payload.get("top_margin_families")
+    if isinstance(families, list) and families:
+        family0 = families[0]
+        if isinstance(family0, dict) and isinstance(family0.get("key"), str):
+            for part in family0["key"].split("|"):
+                if part in VALID_FACES:
+                    source["bad_face"] = part
+                    break
     return faces, source
 
 
@@ -443,6 +454,15 @@ def emit_rank_match(name: str, rank: int) -> list[str]:
     ]
 
 
+def emit_bad_face(name: str, bad_face: str) -> list[str]:
+    return [
+        f"private theorem {name}CanonicalBadFaceCompatible :",
+        f"    TopPairingCanonicalBadFaceCompatible {face_ctor(bad_face)} := by",
+        "  rfl",
+        "",
+    ]
+
+
 def emit_module(
     namespace: str,
     name: str,
@@ -450,6 +470,7 @@ def emit_module(
     *,
     concrete_local_axis: bool,
     selected_rank: int | None,
+    selected_bad_face: str | None,
 ) -> list[str]:
     labels = ", ".join(face_ctor(face) for face in faces)
     lines = [
@@ -500,6 +521,8 @@ def emit_module(
     lines.extend(emit_forced_sequence(name, faces))
     if selected_rank is not None:
         lines.extend(emit_rank_match(name, selected_rank))
+    if selected_bad_face is not None:
+        lines.extend(emit_bad_face(name, selected_bad_face))
     if concrete_local_axis:
         lines.extend([""])
         lines.extend(emit_concrete_local_axis(name, faces))
@@ -793,6 +816,23 @@ def emit_module(
                     "",
                 ]
             )
+            if selected_bad_face is not None:
+                lines.extend(
+                    [
+                        f"theorem {name}ClosedLanguageForSeqOfGeneratedRankPairSignBadFace",
+                        "    {seq : Step14 -> Face}",
+                        "    (pairSign :",
+                        f"      PairSignLanguageAtRank {name}Rank {name}ForcedSeq seq)",
+                        "    (cancellation :",
+                        f"      TopPairingLanguageAtRank {name}Rank) :",
+                        f"    TopPairingClosedLanguageForSeq {name}Rank seq {face_ctor(selected_bad_face)} :=",
+                        f"  {name}ClosedLanguageForSeqOfGeneratedRankPairSign",
+                        "    pairSign",
+                        "    cancellation",
+                        f"    {name}CanonicalBadFaceCompatible",
+                        "",
+                    ]
+                )
     lines.extend(
         [
             f"theorem {name}GeneratedTraceSmoke_builds : True := by",
@@ -848,6 +888,9 @@ def main() -> None:
         faces,
         concrete_local_axis=args.concrete_local_axis,
         selected_rank=source.get("rank") if isinstance(source.get("rank"), int) else None,
+        selected_bad_face=(
+            source.get("bad_face") if isinstance(source.get("bad_face"), str) else None
+        ),
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text("\n".join(lines))
