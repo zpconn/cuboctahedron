@@ -9,12 +9,7 @@ face, return periodically, and then repeat forever?
 
 The intended theorem says **no**.
 
-The project is built so the answer is not trusted because a Python or C++
-program searched many cases. External programs may discover patterns and
-propose generated evidence, but Lean must check the geometry, enumeration,
-certificate soundness, and final coverage theorem.
-
-<img width="500" height="490" alt="cuboctahedron" src="https://github.com/user-attachments/assets/896ae16c-8587-4926-8cee-da614f5b7c38" />
+The proof splits into two cases based on the structure of an affine map associated to each candidate billiard path. In the so-called identity case, a novel holonomy normal form structural theorem rules out all possible paths in that case. In the translation case (terminology explained below), all possible paths are ruled out by studying a Bellman potential flow on a certain finite graph. Together, these two arguments, each fully formalized in Lean 4, rule out all possible omnihedral paths in the cuboctahedron. As far as the author knows, this is a novel result in pure mathematics as of July 2026.
 
 ## Current Status
 
