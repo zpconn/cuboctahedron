@@ -51468,3 +51468,51 @@ Decision: accepted.  The remaining one-object facts are now exactly:
   route rather than positive-template assumptions;
 - produce `TopPairingLanguageAtRank rank` for the selected graph path;
 - produce `TopPairingCanonicalBadFaceCompatible badFace`.
+
+### Holonomy/Bellman Pivot - second OOM incident and stricter next step
+
+After the label-equality trace checkpoint, a later run crashed the machine
+again, almost certainly from memory pressure.  The worktree was clean after
+restart and no lingering Lean/Python job was visible, but this must still be
+treated as a hard process failure.
+
+The likely strategic mistake is clear enough: the accepted graph path contains
+negative signed faces, while the last accepted theorem still talks about the
+labels of `canonicalSeqOfPairWord (unrankPairWord rank)`.  That canonical
+sequence is the all-positive representative, so pushing further on direct
+canonical-label reduction risks asking Lean to normalize or refute the wrong
+thing.  The next proof surface must be signed-sequence based, not
+canonical-sequence based.
+
+New rule before any more Bellman proof checks:
+
+- Do not run `lake build` or `lake env lean` directly on Bellman/generated
+  modules.
+- Do not combine a support-module API edit and a generated-shard scale-up in
+  the same proof check.
+- First add a small signed-sequence language surface in
+  `Cuboctahedron.Search.BellmanTopPairingLanguage`, with theorem statements
+  over an arbitrary `seq : Step14 -> Face`.
+- Then teach the generated trace emitter to target that signed-sequence
+  surface.  The generated theorem should require a label equality for the
+  chosen signed sequence, not for `canonicalSeqOfPairWord`.
+- The first Lean check after that must use only
+  `scripts/run_bellman_safe_smoke.py` with the existing `6000 MiB` RSS cap,
+  `24576 MiB` availability floor, and `60s` timeout.
+- If that strict smoke fails by memory, stop immediately and shrink the theorem
+  surface.  Do not raise the cap.
+
+This makes the next implementation target:
+
+```text
+TopPairingClosedLanguageForSeq rank seq badFace
+  from:
+    TopPairingLanguageAtRank rank
+    faceLabelsInContributionOrder (fun f => f) seq = generatedContributionLabels
+    generated schedule / square-gap / local-axis facts
+    TopPairingCanonicalBadFaceCompatible badFace
+```
+
+Only after that signed-sequence surface passes under the strict wrapper should
+the route reconnect to `AxisForcesForcedSeq` or
+`faceLabelsInContributionOrder_eq_of_axisForces`.

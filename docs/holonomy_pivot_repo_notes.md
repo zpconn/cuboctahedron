@@ -2921,3 +2921,34 @@ Label-equality trace surface:
 - Decision: accepted.  The next membership step should produce this direct
   label equality, preferably through the existing `PairSignLanguageAtRank` or
   axis-forces label bridge, not through all-positive assumptions.
+
+Latest crash safety note:
+
+- A subsequent run crashed the machine again.  The restarted workspace was
+  clean and memory was normal, but Bellman generated work must now assume that
+  even seemingly focused proof checks can cross the practical memory boundary.
+- The accepted graph path has negative signed faces.  Therefore the
+  canonical-sequence label theorem is only a diagnostic compatibility surface
+  for this path; it is not the next production bridge.
+- The next API should be sequence-parametric:
+
+  ```lean
+  TopPairingClosedLanguageForSeq rank seq badFace
+  ```
+
+  where `seq : Step14 -> Face` is the signed sequence whose contribution
+  labels match the private Bellman trace.
+- The generated theorem should consume
+
+  ```lean
+  faceLabelsInContributionOrder (fun f => f) seq =
+    generatedContributionLabels
+  ```
+
+  plus generated schedule, square-gap, and local-axis facts.  It should not
+  ask Lean to prove the same equality for
+  `canonicalSeqOfPairWord (unrankPairWord rank)` for this negative trace.
+- The next proof check must go through `scripts/run_bellman_safe_smoke.py`,
+  preserving the `6000 MiB` process-tree RSS cap, `24576 MiB` availability
+  floor, and `60s` timeout.  If the signed-sequence smoke exceeds that cap,
+  stop and shrink the theorem surface rather than raising the cap.
