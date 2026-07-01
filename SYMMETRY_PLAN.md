@@ -52967,3 +52967,46 @@ quarantined; this script only makes the refusal/accounting state explicit.  The
 next proof-bearing action, if any, must be one additional single-path check
 under the strict guard, and only after the dry-run guard says the candidate is
 eligible.
+
+### Holonomy/Bellman Pivot - dry-run single-path candidate selector accepted
+
+Added:
+
+```text
+scripts/select_bellman_split_single_path_candidate.py
+```
+
+This is another crash-recovery planning helper.  It scans a bounded range of
+cached Bellman graph path objects, applies the dry-run guard's memory,
+source-budget, source-path, and generated-module allowlist checks, and selects
+at most one candidate for a future **single-path** guarded check.  It does not
+invoke Lean, Lake, or `run_memory_guarded.py`.
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/select_bellman_split_single_path_candidate.py
+
+python3 scripts/select_bellman_split_single_path_candidate.py \
+  --start-index 0 \
+  --count 37 \
+  --skip-fresh-artifacts \
+  --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+  --markdown docs/bellman_split_single_path_candidate_000_037.md
+```
+
+Result:
+
+| field | value |
+| --- | --- |
+| status | `selected` |
+| selected path object index | `1` |
+| selected rank | `10613` |
+| reason | trace artifact fresh; split artifact missing/stale |
+| current `MemAvailable` | `46748 MiB` |
+| trace source | `32 KiB` |
+| split source | `2 KiB` |
+
+Decision: accepted as planning/accounting only.  It identifies the next possible
+single-path proof-bearing action without widening to a batch.  It does not
+change proof coverage.

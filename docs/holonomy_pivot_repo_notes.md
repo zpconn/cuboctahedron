@@ -3710,3 +3710,29 @@ Dry-run batch guard after crash quarantine:
 Decision: accepted as crash-recovery tooling.  It does not advance Lean proof
 coverage by itself, but it prevents accidental batch execution from being
 mistaken for the next proof step.
+
+Single-path candidate selector:
+
+- Added `scripts/select_bellman_split_single_path_candidate.py`.
+- The selector is also dry-run-only: it scans planned Bellman path objects,
+  applies the same memory/source/allowlist checks, and recommends at most one
+  candidate for a future guarded single-path check.  It never invokes Lean,
+  Lake, or `scripts/run_memory_guarded.py`.
+- Command run:
+
+  ```bash
+  python3 scripts/select_bellman_split_single_path_candidate.py \
+    --start-index 0 \
+    --count 37 \
+    --skip-fresh-artifacts \
+    --json scripts/generated/bellman_split_single_path_candidate_000_037.json \
+    --markdown docs/bellman_split_single_path_candidate_000_037.md
+  ```
+
+- Result: selected path object index `1`, rank `10613`, because its trace
+  artifact is fresh while its split artifact is missing/stale.  Current
+  `MemAvailable` was `46748 MiB`.
+
+Decision: accepted as planning/accounting only.  The next proof-bearing action,
+if resumed, should be this one selected single-path target under the strict
+guard, not a batch.
