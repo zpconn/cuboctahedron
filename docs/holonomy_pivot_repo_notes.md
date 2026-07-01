@@ -3431,3 +3431,20 @@ Latest crash report and tightened quarantine:
 - If a generated/Bellman target cannot pass under this stricter envelope, it is
   considered too large for the current production-safe proof path and must be
   split further before promotion.
+
+Per-target budget preflight:
+
+- `scripts/run_bellman_safe_smoke.py` now also enforces target-specific local
+  import and target-source-size budgets before launching Lean.
+- Current budgets:
+  - `generated-trace`: at most `18` local imports and `40 KiB` target source;
+  - `axis-forces-pairsign`: at most `21` local imports and `8 KiB` target source;
+  - `split-composition`: at most `26` local imports and `8 KiB` target source.
+- Dry-run validation launched no Lean proof checks and passed for all three
+  targets:
+  - `generated-trace`: `18 / 18` local imports, `32 / 40 KiB` source;
+  - `axis-forces-pairsign`: `21 / 21` local imports, `2 / 8 KiB` source;
+  - `split-composition`: `26 / 26` local imports, `2 / 8 KiB` source.
+- The wrapper JSON records these under `target_budget`.  This is an operational
+  guardrail only; proof-bearing promotion still requires a strict guarded Lean
+  check under the current memory envelope.

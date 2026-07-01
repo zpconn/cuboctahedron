@@ -47,6 +47,8 @@ TARGETS = {
             "BellmanAxisForcesPairSignSmoke.lean"
         ),
         "description": "axis-forces to pair-sign split bridge smoke",
+        "max_local_imports": 21,
+        "max_target_source_kib": 8,
     },
     "generated-trace": {
         "module": (
@@ -58,6 +60,8 @@ TARGETS = {
             "BellmanTopPairingClosedLanguageGeneratedTraceSmoke.lean"
         ),
         "description": "standalone generated Bellman closed-language trace shard",
+        "max_local_imports": 18,
+        "max_target_source_kib": 40,
     },
     "split-composition": {
         "module": (
@@ -69,6 +73,8 @@ TARGETS = {
             "BellmanTopPairingSplitCompositionSmoke.lean"
         ),
         "description": "tiny root composing trace and axis-forces split bridge",
+        "max_local_imports": 26,
+        "max_target_source_kib": 8,
     },
 }
 
@@ -342,12 +348,50 @@ def local_import_preflight(target_path: str) -> dict[str, Any]:
     }
 
 
+def enforce_target_budget(target: dict[str, Any], import_preflight: dict[str, Any]) -> dict[str, Any]:
+    target_path = Path(target["path"])
+    try:
+        target_source_bytes = target_path.stat().st_size
+    except OSError as exc:
+        raise SystemExit(f"Could not stat target source {target_path}: {exc}") from exc
+    target_source_kib = (target_source_bytes + 1023) // 1024
+    max_local_imports = int(target["max_local_imports"])
+    max_target_source_kib = int(target["max_target_source_kib"])
+    local_import_count = int(import_preflight["local_import_count"])
+    errors: list[str] = []
+    if local_import_count > max_local_imports:
+        errors.append(
+            f"local import count {local_import_count} exceeds target budget "
+            f"{max_local_imports}"
+        )
+    if target_source_kib > max_target_source_kib:
+        errors.append(
+            f"target source size {target_source_kib} KiB exceeds target budget "
+            f"{max_target_source_kib} KiB"
+        )
+    budget = {
+        "max_local_imports": max_local_imports,
+        "max_target_source_kib": max_target_source_kib,
+        "target_source_bytes": target_source_bytes,
+        "target_source_kib": target_source_kib,
+        "local_import_count": local_import_count,
+    }
+    if errors:
+        raise SystemExit(
+            "Refusing Bellman smoke run before Lean launch; target exceeded "
+            "its allowlisted size/import budget.\n- "
+            + "\n- ".join(errors)
+        )
+    return budget
+
+
 def main() -> int:
     args = parse_args()
     reject_if_not_strict(args)
 
     target = TARGETS[args.target]
     import_preflight = local_import_preflight(target["path"])
+    target_budget = enforce_target_budget(target, import_preflight)
     output_olean = module_olean_path(target["module"]) if args.emit_olean else None
     if output_olean is not None:
         output_olean.parent.mkdir(parents=True, exist_ok=True)
@@ -404,11 +448,13 @@ def main() -> int:
             "emit_olean": args.emit_olean,
             "output_olean": None if output_olean is None else str(output_olean),
             "import_preflight": import_preflight,
+            "target_budget": target_budget,
             "command": command,
         },
     )
     print(
-        f"preflight: {import_preflight['local_import_count']} local imports have fresh .olean files",
+        f"preflight: {import_preflight['local_import_count']} local imports have "
+        f"fresh .olean files; target source {target_budget['target_source_kib']} KiB",
         file=sys.stderr,
     )
     print(" ".join(command))

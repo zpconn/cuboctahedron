@@ -52549,3 +52549,49 @@ Static verification for the safety patch passed:
 Decision: pause proof-bearing Bellman checks until they can pass this stricter
 envelope, or shrink the theorem surface further.  If a target needs the old
 `6 GiB` envelope to pass, it is no longer accepted as a production-safe smoke.
+
+### Holonomy/Bellman Pivot - per-target import/source budgets added
+
+The Bellman safe wrapper now also enforces allowlisted per-target budgets before
+launching Lean.  This catches accidental target growth or import-stack growth
+at dry-run/preflight time, instead of letting a nominally small target become a
+large proof check.
+
+Current target budgets:
+
+| target | max local imports | max target source |
+| --- | ---: | ---: |
+| `generated-trace` | `18` | `40 KiB` |
+| `axis-forces-pairsign` | `21` | `8 KiB` |
+| `split-composition` | `26` | `8 KiB` |
+
+Dry-run validation, with no Lean proof check launched:
+
+```bash
+python3 scripts/run_bellman_safe_smoke.py \
+  --target generated-trace \
+  --dry-run \
+  --json /tmp/bellman_budgeted_generated_trace_dry_run.json
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --target axis-forces-pairsign \
+  --dry-run \
+  --json /tmp/bellman_budgeted_axis_forces_dry_run.json
+
+python3 scripts/run_bellman_safe_smoke.py \
+  --target split-composition \
+  --dry-run \
+  --json /tmp/bellman_budgeted_split_composition_dry_run.json
+```
+
+Results:
+
+| target | local imports | target source | status |
+| --- | ---: | ---: | --- |
+| `generated-trace` | `18 / 18` | `32 / 40 KiB` | dry-run passed |
+| `axis-forces-pairsign` | `21 / 21` | `2 / 8 KiB` | dry-run passed |
+| `split-composition` | `26 / 26` | `2 / 8 KiB` | dry-run passed |
+
+The wrapper JSON now records the budget and observed values under
+`target_budget`.  This is operational safety evidence only; it does not prove
+any Lean theorem.
