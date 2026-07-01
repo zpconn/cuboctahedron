@@ -49451,3 +49451,45 @@ Result:
 Decision: accepted as an engineering gate for the Bellman/potential production
 emitter.  Future generated graph/terminal shards should pass this audit before
 any broad group/root composition or memory-heavy Lean build.
+
+### Holonomy/Bellman Pivot - terminal-only root smoke accepted
+
+Added a tiny root/group-style smoke module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2AllSmoke.lean
+```
+
+It directly imports only:
+
+```lean
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke
+```
+
+and re-exports the semantic killed theorem as:
+
+```lean
+theorem graphLanguage2AllSmoke_rank_killed
+```
+
+Focused build:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke
+```
+
+Telemetry:
+
+| target | wall | max RSS | status |
+| --- | ---: | ---: | --- |
+| `BellmanTopPairingGraphLanguage2AllSmoke` | `0:02.07` | `3,277,908 kB` | passed |
+
+Direct-import scan confirms the root smoke imports the terminal shard only.
+Forbidden-token scan over the new Lean file found no `sorry`, `admit`,
+`axiom`, `native_decide`, or `unsafe`.
+
+Decision: accepted.  This is the import pattern for generated group/root
+assembly: import terminal semantic killed shards directly, rely on transitive
+imports for graph names if a theorem parameter still mentions them, and do not
+directly import graph/potential shards above the terminal layer.

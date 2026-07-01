@@ -1730,6 +1730,19 @@ Bellman split-boundary audit:
   shards.  It is not Lean proof evidence, but it catches the exact regression
   that would make production graph shards import or expose terminal payloads.
 
+Bellman terminal-only root smoke:
+
+- Added
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2AllSmoke`.
+- It directly imports only
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke`.
+- It re-exports `graphLanguage2AllSmoke_rank_killed`.
+- Focused build passed in `0:02.07` wall time with `3,277,908 kB` max RSS.
+
+This validates the group/root import rule for generated Bellman coverage:
+above the leaf layer, import terminal semantic killed shards rather than
+graph/potential shards.
+
 Split terminal bridge:
 
 - Added to `Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge`:

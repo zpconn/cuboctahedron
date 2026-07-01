@@ -3293,3 +3293,33 @@ Result:
 Decision: accepted as a pre-build guard.  This audit is not proof evidence,
 but it should run before scaling graph/terminal shard emission so terminal
 payloads do not drift back into graph/potential modules.
+
+### Terminal-only root smoke
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2AllSmoke.lean
+```
+
+The file directly imports only the terminal shard and re-exports:
+
+```lean
+theorem graphLanguage2AllSmoke_rank_killed
+```
+
+Focused build passed:
+
+| target | wall | max RSS |
+| --- | ---: | ---: |
+| `BellmanTopPairingGraphLanguage2AllSmoke` | `0:02.07` | `3,277,908 kB` |
+
+Direct-import scan found only:
+
+```lean
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphLanguage2TerminalSmoke
+```
+
+Decision: accepted.  This validates the intended group/root import pattern for
+Bellman production shards: import terminal semantic killed surfaces, not graph
+or potential shards.
