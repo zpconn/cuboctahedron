@@ -82983,3 +82983,138 @@ rejected prefixes above to identify the missing compact state field, then rerun
 the closed-graph acceptance audit before emitting another Lean membership
 module.
 ```
+
+#### Closed-Language Bellman Closure Audit: Plain Predicate Is Too Weak
+
+The next GPT5.5 pivot was tested directly: keep Bellman, but make the object a
+semantic deterministic evaluator theorem rather than a selected-prefix cover.
+To separate "the current split graph is not closed" from "the plain semantic
+predicate is too weak", a new exact diagnostic was added:
+
+```text
+scripts/audit_top_pairing_closed_bellman_closure.py
+```
+
+This script enumerates the same `47` visible top-pairing closed candidates,
+converts contribution-order labels back to the started sequence, computes the
+exact top-pairing margin contributions with the existing affine-offset
+decomposition, and builds a Bellman graph over those closed candidates for a
+chosen semantic state key.  It does not emit Lean evidence.
+
+Guarded command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_closed_bellman_closure_guard.json \
+  --verbose \
+  -- python3 scripts/audit_top_pairing_closed_bellman_closure.py \
+    --state-key-mode with-step-tri-source \
+    --json scripts/generated/\
+top_pairing_closed_bellman_closure_with_step_tri_source.json \
+    --markdown scripts/generated/\
+top_pairing_closed_bellman_closure_with_step_tri_source.md
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| closed Bellman closure audit | pass | `1.00s` | `2 MiB` | `46553 MiB` |
+
+Counts:
+
+| Metric | Value |
+|---|---:|
+| DFS nodes | `11318` |
+| closed candidates | `47` |
+| usable candidates | `47` |
+| semantic states | `269` |
+| semantic edges | `276` |
+| final states | `37` |
+| margin keys | `1` |
+| margin values | `19` |
+| existing split graph accepted | `37` |
+| existing split graph rejected | `10` |
+
+Bellman result:
+
+| Metric | Value |
+|---|---:|
+| bounded fixed point | `true` |
+| root bound | `-16/11` |
+| max const | `2` |
+| max margin bound | `6/11` |
+| proves closed nonpositive | `false` |
+| scale | `88` |
+
+The Bellman argmax is not a spurious recombination: it is an observed closed
+candidate, candidate `21`, with contribution labels
+
+```text
+xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp tmmp tmpp yp xp
+```
+
+and started sequence
+
+```text
+xp xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp tmmp tmpp yp
+```
+
+Its exact margin bound is `6/11`.  Therefore no Bellman potential can prove
+nonpositivity for the plain visible closed-language approximation used by this
+audit.  Adding a richer state key cannot fix that particular target; the target
+predicate itself is too broad for this direct-start margin family.
+
+This confirms the latest strategic pivot:
+
+```text
+Keep Bellman.
+Reject selected-prefix membership.
+Do not target plain TopPairingClosedLanguageAtRank alone for this margin proof.
+Target the strengthened semantic gate.
+```
+
+In repo terms, production top-pairing Bellman work should use the already
+available strengthened surface:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  AcceptedSequenceBadFaceAtRank rank Face.ym
+```
+
+or an equivalent semantic evaluator predicate.  The plain closed fields
+(`cancellation`, schedule, square gap, local axis, canonical bad-face class)
+are useful cursor invariants, but they do not assert that the selected bad-face
+margin obstruction is actually the relevant one for the sequence.  The
+`AcceptedSequenceBadFaceAtRank`/`SequenceBadFaceLabels` filter is not optional:
+it excludes the one `Nodup` graph-rejected trace whose direct-start margin is
+positive.  The other graph-rejected traces are excluded by
+`TopPairingActualFaceOmniAtRank`.
+
+Immediate next theorem target:
+
+```lean
+TopPairingStrengthenedToEvalGate
+  graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+  scaledMargin AcceptedSequenceBadFaceAtRank Face.ym
+```
+
+The generated/proved membership route should be:
+
+```text
+strengthened closed language
+  -> terminal/accepted trace classifier or graph-accepted suffix predicate
+  -> deterministic eval gate
+  -> Bellman bound / direct start-violation killed theorem
+```
+
+Do not replace the missing membership theorem with sampled paths, selected
+prefix covers, exact affine RHS keys, or raw accepted trace tables as the final
+surface.  If a finite terminal classifier is used, its theorem must be a
+semantic filter theorem of the form already present in
+`TopPairingTraceClassifier.Accepted.graphAcceptedTraceLabels_of_terminalOk_filters`:
+terminal trace plus actual-face omni plus sequence-bad-face compatibility
+implies graph acceptance.
