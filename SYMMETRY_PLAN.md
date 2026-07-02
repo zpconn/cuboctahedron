@@ -84632,3 +84632,173 @@ Decision: accepted.  Existing rank-component producers may be reused only when
 their `containsRank` predicate is exactly the semantic closed-language
 predicate.  They must not be generated from sampled ranks or selected-prefix
 tables.
+
+### 2026-07-02 Closed Transducer Pivot Checkpoint
+
+GPT5.5's latest recommendation is now the controlling strategy for the
+top-pairing Bellman residual:
+
+1. keep Bellman potentials;
+2. reject selected-prefix/rank-path membership as the production proof;
+3. prove a deterministic semantic transducer theorem from
+   `TopPairingClosedLanguageAtRank rank Face.ym` to `evalLabelStepFn`;
+4. use selected-prefix/state-DAG smokes only as diagnostics or downstream
+   bounded witnesses, not as the final coverage coordinate.
+
+The repository already contains the core hand-written surfaces for that pivot.
+The important names are:
+
+```lean
+theorem Cuboctahedron.topPairingTargetShadow_of_summary
+theorem Cuboctahedron.topPairingTriShadow_eq_target
+theorem Cuboctahedron.topPairingTriShadow_eq_target_of_closed
+theorem Cuboctahedron.topPairingActedTriLetters_eq_target_of_closed
+inductive Cuboctahedron.TopPairingTriCursorFrom
+abbrev Cuboctahedron.TopPairingTargetCursorAtRank
+theorem Cuboctahedron.topPairingTriCursor_of_closed
+```
+
+in `Cuboctahedron/Search/TopPairingTargetCursor.lean`, and:
+
+```lean
+def Cuboctahedron.TopPairingTransducerState.next?
+theorem Cuboctahedron.TopPairingTransducerState.start_tail_of_closed
+theorem Cuboctahedron.TopPairingTransducerState.next?_tail
+def Cuboctahedron.TopPairingTransducerEvalState.next?
+theorem Cuboctahedron.TopPairingTransducerEvalState.evalLabelStepFn_exists_of_tail_and_localGraph
+theorem Cuboctahedron.TopPairingTransducerEvalState.evalLabelStepFn_exists_of_tail_and_invariantLocal
+theorem Cuboctahedron.TopPairingTransducerEvalState.evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix
+theorem Cuboctahedron.TopPairingTransducerEvalState.evalLanguageAtRank_of_faceEval
+theorem Cuboctahedron.TopPairingTransducerEvalState.evalLanguageAtRank_of_localGraph
+theorem Cuboctahedron.TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocal
+theorem Cuboctahedron.TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocalWithSuffix
+```
+
+in `Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean`.
+
+The current generated gate layer still exposes a simpler two-trace smoke
+interface:
+
+```lean
+structure Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalGate.ClosedEvalFamily
+theorem Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalGate.closedToEvalLanguage_of_closedEvalFamily
+theorem Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalGate.scaledMargin_nonpos_of_closedToEvalLanguage
+```
+
+This remains useful, but it should be treated as a bounded smoke/gate.  The
+production theorem should target the transducer bridge above:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> TopPairingBellmanEvalLanguageAtRank
+       V next labelOfFace graphStart const scaledMargin rank Face.ym
+```
+
+or an equivalent `ClosedEvalFamily` whose proof is generated from semantic
+local transition closure over `TopPairingTransducerEvalState`, not from
+selected-prefix membership.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_target_cursor_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_transducer_eval_bridge_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_closed_eval_gate_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedEvalGate.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| `TopPairingTargetCursor.lean` | pass | `3.01s` | `3977 MiB` | `45915 MiB` |
+| `TopPairingTransducerEvalBridge.lean` | pass | `2.00s` | `3592 MiB` | `46043 MiB` |
+| `BellmanTopPairingClosedEvalGate.lean` | pass | `2.00s` | `3621 MiB` | `46032 MiB` |
+
+This validates the hand-written closed-language cursor/evaluator pivot.  The
+remaining hard theorem is not another graph smoke and not another
+selected-prefix cover.  It is a generated semantic local-transition family for
+`TopPairingTransducerEvalState.next?`, preferably using
+`evalLanguageAtRank_of_invariantLocalWithSuffix`.
+
+Build-discipline note: broad Lake validation of generated classifier roots is
+unsafe in the current environment.  This command was intentionally guarded:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_trace_classifier_depth8_all_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+TopPairingTraceClassifier.Depth8.All
+```
+
+It was terminated by the guard, not by the OS:
+
+| Target | Result | Time | Peak tree RSS | Min available | Reason |
+|---|---:|---:|---:|---:|---|
+| `lake build ...Depth8.All` | guard-killed | `30.05s` | `67948 MiB` | `40710 MiB` | Lake fan-out exceeded `6500 MiB` cap |
+
+A direct serial check of `Depth8/All.lean` was safe but blocked by stale/missing
+object files:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_trace_classifier_depth8_all_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Depth8/All.lean
+```
+
+Result: failed in `1.00s`, peak `1 MiB`, because
+`.lake/build/lib/lean/.../TopPairingTraceClassifier/Depth7/All.olean` was
+missing.  The next classifier-root validation must either rebuild dependencies
+serially under the guard or reorganize roots so they do not force broad Lake
+fan-out.
+
+Decision:
+
+- production Bellman membership target =
+  closed-language deterministic transducer evaluator;
+- forbidden production coordinates =
+  `SampledRankIndex`, selected-prefix cover membership, exact affine RHS,
+  solved start-point keys, per-rank/path trace equality;
+- next implementation target =
+  generate a compact local-transition/suffix-closure family consumed by
+  `TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocalWithSuffix`;
+- stop and strengthen the semantic state, or run the cocycle quotient profiler,
+  if the local theorem needs selected-prefix/rank/path enumeration.
