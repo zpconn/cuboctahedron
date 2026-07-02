@@ -85713,3 +85713,125 @@ The next work should not expand per-trace Bellman proofs.  It should either:
 If either route requires selected-prefix trace ids, sampled ranks, exact affine
 RHS, or exact full Bellman path identity as the core membership key, reject it
 and strengthen the semantic state or cocycle quotient.
+
+#### Strengthened Terminal Trace To Depth-11 Producer Bridge Accepted
+
+Added a tiny semantic composition bridge from the existing strengthened
+terminal-trace classifier to the depth-11 graph-state producer socket.
+
+This implements the current Bellman pivot boundary:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  AcceptedSequenceBadFaceAtRank rank Face.ym
+  ->
+TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+  (topPairingRankFaceLabels rank)
+  ->
+Split10MDepth11GraphPathProducer rank
+```
+
+and also exposes the corresponding `Split10MGraphSuffixProducer` theorem.  It
+does not use sampled rank/path objects, selected-prefix ids, exact affine RHS
+keys, solved start points, or exact Bellman path ids.  The object remains the
+semantic rank plus strengthened closed-language proof; the remaining production
+membership gate is now precisely the terminal classifier theorem.
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingStrengthenedTerminalDepth11ProducerBridge.lean
+```
+
+New theorem surface:
+
+```lean
+theorem BellmanTopPairingStrengthenedTerminalDepth11ProducerBridge.
+  split10MDepth11GraphPathProducer_of_strengthenedTerminalTrace :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) ->
+      Split10MDepth11GraphPathProducer rank
+
+theorem BellmanTopPairingStrengthenedTerminalDepth11ProducerBridge.
+  split10MGraphSuffixProducer_of_strengthenedTerminalTrace :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) ->
+      Split10MGraphSuffixProducer rank
+
+def BellmanTopPairingStrengthenedTerminalDepth11ProducerBridge.
+  StrengthenedTerminalDepth11ProducerFamily :
+    Fin numPairWords -> Prop
+
+theorem BellmanTopPairingStrengthenedTerminalDepth11ProducerBridge.
+  split10MDepth11GraphPathProducer_of_family
+
+theorem BellmanTopPairingStrengthenedTerminalDepth11ProducerBridge.
+  split10MGraphSuffixProducer_of_family
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_strengthened_terminal_depth11_producer_bridge_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedTerminalDepth11ProducerBridge.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_strengthened_terminal_depth11_producer_bridge_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedTerminalDepth11ProducerBridge
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `BellmanTopPairingStrengthenedTerminalDepth11ProducerBridge.lean` | pass | `4.02s` | `3992 MiB` | `46131 MiB` |
+| Lake `BellmanTopPairingStrengthenedTerminalDepth11ProducerBridge` | pass | `6.01s` | `4071 MiB` | `46017 MiB` |
+
+Hygiene:
+
+```bash
+rg "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedTerminalDepth11ProducerBridge.lean
+```
+
+returned no matches.  `git diff --check` passed.
+
+Decision: accepted as a memory-safe semantic connector.  It confirms that the
+next breakthrough is not more Bellman graph data; it is:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  AcceptedSequenceBadFaceAtRank rank Face.ym
+  ->
+TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+  (topPairingRankFaceLabels rank)
+```
+
+or a direct deterministic-state theorem that produces
+`Split10MDepth11GraphPathProducer rank`.  That theorem should be proved from
+target-shadow cursor, schedule, pair counts, local-axis/canonical bad-face
+filters, square-gap, and tri-source progress.  If the proof wants selected
+trace ids, sampled ranks, exact affine RHS, solved start points, or exact
+full Bellman path identity, reject the state and strengthen the semantic
+transducer or cocycle quotient instead.
