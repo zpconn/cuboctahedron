@@ -71261,3 +71261,55 @@ Revised immediate implementation target:
    or per-rank solved `p0` data into the state, mark the Bellman provider gate
    failed and pivot to a cancellation-tree summary automaton where the missing
    margin progress is part of the formal semantic state.
+
+Additional margin-semantics audit:
+
+```text
+Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTraceStartViolationBridge.lean
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphAcceptedEvalGate.lean
+Cuboctahedron/Search/BellmanAxisBridge.lean
+```
+
+show that `scaledMargin : Fin numPairWords -> Int` is deliberately abstract in
+the reusable Bellman APIs.  This is good for reuse, but it means the production
+provider has two obligations for the **same** semantic margin function:
+
+1. Bellman/nonpositive side:
+
+   ```lean
+   scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId
+   ```
+
+   or equivalently the `BellmanEvalAccepts` margin-bound field.
+
+2. Start-violation/positive side:
+
+   ```lean
+   ObjectStartViolationMarginCert rank (scaledMargin rank)
+   ```
+
+   which then gives `0 < scaledMargin rank` under
+   `NonIdentityAxisConstraints`.
+
+The all-trace start-violation providers already package the positive side by
+accepted trace id, but they are still parameterized over `scaledMargin`.  The
+Bellman graph-accepted trace gate packages the nonpositive side by accepted
+trace id, but it also requires the margin inequality as an input.
+
+Therefore the next provider module must not merely prove that a rank belongs to
+an accepted trace bucket.  It must also choose or expose the concrete
+top-pairing scaled-margin expression and prove:
+
+```lean
+sameConcreteScaledMargin :
+  positive-side margin expression =
+  Bellman additive margin expression
+```
+
+or avoid the equality by deriving both the positive cert and the Bellman bound
+from one shared semantic margin record.  If the only available way to produce
+this shared margin is to replay exact affine solves per rank, Bellman fails the
+production gate.
