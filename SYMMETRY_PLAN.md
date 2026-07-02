@@ -73690,3 +73690,74 @@ full semantic provider for the intended top-pairing residual language, or prove
 that the existing `TopPairingClosedLanguageAtRank` fields imply an accepted
 prefix/trace-margin producer.  If the next step requires sampled paths or exact
 affine RHS keys, Bellman should stop being the production route.
+
+### Follow-up: Closed-Language Provider Audit
+
+Repository inspection and the existing exact diagnostic audit show that a
+direct theorem
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  AcceptedPrefix13EvalFamily scaledMargin rank
+```
+
+is not the right next production theorem.  The closed-language structure only
+contains:
+
+- top-pairing cancellation summary;
+- step schedule;
+- square-gap schedule;
+- local-axis positivity;
+- canonical bad-face compatibility.
+
+The accepted-trace/direct-kill consumers require stronger semantic fields:
+
+- `TopPairingActualFaceOmniAtRank rank`;
+- `AcceptedSequenceBadFaceAtRank rank Face.ym`;
+- `TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+  (topPairingRankFaceLabels rank)`;
+- and, for Bellman-margin routes, the relevant trace/prefix margin bound.
+
+The existing exact audit
+`scripts/generated/top_pairing_closed_graph_acceptance_lean_aligned.md`
+already records the obstruction:
+
+```text
+decision: closed-components-too-weak
+closed_candidates: 47
+accepted: 37
+rejected: 10
+prefix_graph_rejects: 197
+```
+
+and the rejection diagnosis reports that the graph-accepted traces are exact
+top-family matches while graph-rejected closed candidates are excluded by
+additional semantic conditions, especially actual omnihedral face uniqueness
+and canonical bad-face compatibility checks.
+
+Strategic consequence:
+
+- Do not spend time trying to prove the accepted evaluator from
+  `TopPairingClosedLanguageAtRank` alone.
+- The production provider target should be the existing strengthened/direct
+  semantic family:
+
+```lean
+TerminalDirectClosedFamily rank
+```
+
+which packages closed language, actual-face omnihedral usage, accepted
+bad-face labels, and terminal classifier membership.  This already has a
+checked consumer:
+
+```lean
+theorem nonIdentityRankKilled_of_terminalDirectClosedFamily
+```
+
+- For Bellman-specific assembly, the analogous production provider should
+  prove a strengthened selected-prefix/trace-margin family, not a bare closed
+  language theorem.
+- If a generated provider for these strengthened semantic fields stays compact,
+  continue the Bellman/top-pairing line.  If it needs sampled paths or exact
+  affine RHS keys, pivot to a cancellation-tree summary automaton whose state
+  includes the missing terminal/evaluator progress explicitly.
