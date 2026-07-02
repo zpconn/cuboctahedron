@@ -62469,3 +62469,133 @@ subfamily.  Start with a single accepted terminal trace or a compact
 trace-family bucket.  The required output should be a strengthened-language
 theorem feeding `strengthenedTraceMarginBounds_scaledMargin_nonpos`; it should
 not enumerate accepted ranks or replay one margin branch per rank.
+
+Trace-000 bounds bucket checkpoint:
+
+Added:
+
+- `Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000BoundsSmoke.lean`
+
+This is the first concrete non-sampled accepted-trace bucket for the
+bounds-based Bellman socket.  It defines a small semantic sequence/bad-face
+predicate:
+
+```lean
+def Trace000MarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  badFace = Face.ym /\
+    topPairingRankFaceLabels rank = acceptedFaceTrace_000 /\
+    scaledMargin rank <= (176 : Int) + (-376 : Int)
+```
+
+and proves:
+
+```lean
+theorem terminalTraceMarginBoundsSequenceBadFace_of_trace000
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hseq : Trace000MarginSequenceBadFace scaledMargin rank Face.ym) :
+    TerminalTraceMarginBoundsSequenceBadFace scaledMargin rank Face.ym
+```
+
+The final smoke theorem is:
+
+```lean
+theorem trace000_scaledMargin_nonpos
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (Trace000MarginSequenceBadFace scaledMargin) rank Face.ym) :
+    scaledMargin rank <= 0
+```
+
+This is still not full production coverage.  It validates the intended
+per-trace bucket shape: a generated classifier may prove trace equality and the
+trace-specific margin inequality, then reuse the semantic Bellman socket to get
+the rank-level nonpositive margin.  The proof branches over the 37 accepted
+trace constructors only inside the small `GraphAcceptedTraceMarginBounds`
+adapter; it does not branch over ranks or sampled paths.
+
+Guarded direct Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace000_bounds_smoke_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000BoundsSmoke.lean
+```
+
+result:
+
+```text
+first run failed on a local proof-script placeholder in the rejected-trace
+compatibility proof; after replacing `exact` with `refine`, passed
+elapsed = 2.00s
+peak_tree_rss = 3567 MiB
+hard_as = 8192 MiB
+min_available = 46291 MiB
+```
+
+Focused Lake target:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace000_bounds_smoke_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTrace000BoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 3.01s
+peak_tree_rss = 4056 MiB
+hard_as = 32768 MiB
+min_available = 46075 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000BoundsSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+Both checks passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept this as a first bucket-level theorem shape.  It is useful because it
+shows the production classifier can target semantic trace buckets rather than
+`GraphAcceptedTraceMargin` directly.  It is not sufficient for the final route
+until a compact classifier covers all intended top-pairing ranks or a bounded
+family of trace buckets with measured source/RSS/build-time projections.
+
+Next action:
+
+Generalize the trace-000 bucket pattern so it does not require writing 36
+separate contradiction fields per trace by hand.  Either add a reusable
+`GraphAcceptedTraceMarginBounds` constructor from a single accepted trace index,
+or generate the 37 trace-bucket modules and measure aggregate source size and
+checking cost.  The generator must keep the bucket count trace/family-level,
+not rank-level.
