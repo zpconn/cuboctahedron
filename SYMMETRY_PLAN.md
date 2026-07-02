@@ -70753,3 +70753,79 @@ membership/object layer again.  It already has the correct shape.  The next
 implementation must prove a compact provider theorem that supplies
 `SelectedPrefixCoverSequenceBadFace` or `GraphAcceptedEvalSequenceBadFace`
 from closed-language/provider facts.
+
+Follow-up audit: the selected-prefix membership bridge is also already present.
+The closest existing theorem is:
+
+```lean
+selectedPrefixCoverSequenceBadFace_of_terminalAcceptedEval :
+  TopPairingStrengthenedClosedLanguageAtRank
+    (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym ->
+  SelectedPrefixCoverSequenceBadFace scaledMargin rank Face.ym
+```
+
+from:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean
+```
+
+The bridge then provides:
+
+```lean
+selectedPrefixCover_evalLanguage_of_terminalAcceptedEval
+selectedPrefixCover_scaledMargin_nonpos_of_terminalAcceptedEval
+```
+
+Guarded check:
+
+```text
+BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean:
+  passed
+  elapsed: 4.00s
+  peak process-tree RSS: 3837 MiB
+  hard address-space cap: 8192 MiB
+```
+
+The sampled-token scan over the terminal bridge, graph-accepted trace-margin
+bridge, and selected-prefix cover membership bridge had no hits for:
+
+```text
+SampledRankIndex
+sampledContainsRank
+sampledRankOf
+sampledSmokeNext
+sorry
+admit
+axiom
+native_decide
+unsafe
+Float / Float32 / Float64 / Double
+```
+
+Refined next target:
+
+```lean
+-- schematic
+theorem compactProvider_to_terminalAcceptedEval
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hprovider : CompactTerminalAcceptedProvider scaledMargin rank) :
+    TerminalAcceptedEvalSequenceBadFace scaledMargin rank Face.ym
+```
+
+This is now the precise next semantic-provider obligation.  It must supply:
+
+1. `AcceptedSequenceBadFaceAtRank rank Face.ym`;
+2. `TerminalTraceLabels (topPairingRankFaceLabels rank)`;
+3. a closed proof and `GraphAcceptedTraceMargin` for the
+   `TopPairingBellmanObj`.
+
+Everything downstream from this predicate to
+`TopPairingBellmanEvalLanguageAtRank` and `scaledMargin rank <= 0` is already
+Lean-checked and small under the current guard.  Therefore the next work should
+not touch `TopPairingBellmanObj`, `SelectedPrefixCoverSequenceBadFace`, or the
+selected-prefix membership bridge except as consumers.
