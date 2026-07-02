@@ -49,6 +49,9 @@ LEAN_FILES = {
     "graph_accepted_prefix_frontier": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraphAcceptedPrefixFrontier.lean",
+    "graph_accepted_suffix_bridge": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraphAcceptedSuffixBridge.lean",
     "strengthened_local": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedLocal1MSmoke.lean",
@@ -73,6 +76,10 @@ GUARDS = {
     / "scripts/generated/bellman_graph_accepted_prefix_frontier_guard.json",
     "graph_accepted_prefix_frontier_lake": ROOT
     / "scripts/generated/bellman_graph_accepted_prefix_frontier_lake_guard.json",
+    "graph_accepted_suffix_bridge_direct": ROOT
+    / "scripts/generated/bellman_graph_accepted_suffix_bridge_guard.json",
+    "graph_accepted_suffix_bridge_lake": ROOT
+    / "scripts/generated/bellman_graph_accepted_suffix_bridge_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -105,6 +112,9 @@ REQUIRED_SYMBOLS = {
     "GraphPrefix4FrontierLabels": "graph-accepted prefix-4 frontier predicate",
     "graphPrefix4Frontier_of_graphAcceptedTraceLabels": "graph accepted traces imply graph prefix-4 frontier",
     "graphPrefix4Frontier_of_strengthened_terminal": "strengthened terminal traces imply graph prefix-4 frontier",
+    "graphPrefix4FrontierLabels_of_cons2": "prefix-4 frontier grouped for depth-2 suffix emission",
+    "graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier": "prefix-4 frontier feeds graph suffix emitter",
+    "graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal": "strengthened terminal traces feed graph suffix emitter",
 }
 
 FORBIDDEN_TOKENS = [
@@ -236,6 +246,9 @@ def render_markdown(report: dict[str, Any]) -> str:
             "GraphPrefix4FrontierLabels",
             "graphPrefix4Frontier_of_graphAcceptedTraceLabels",
             "graphPrefix4Frontier_of_strengthened_terminal",
+            "graphPrefix4FrontierLabels_of_cons2",
+            "graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier",
+            "graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal",
             "```",
             "",
             "## Remaining Production Theorem",

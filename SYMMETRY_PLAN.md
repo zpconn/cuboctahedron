@@ -81996,6 +81996,96 @@ classifier as the production frontier, and do not route this through the old
 full `faceEvalNext` theorem.
 ```
 
+### Graph-Accepted Prefix Frontier Feeds Graph Suffix Emitter
+
+Added the adapter:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphAcceptedSuffixBridge
+```
+
+Accepted theorem surface:
+
+```lean
+graphPrefix4FrontierLabels_of_cons2
+graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier
+graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal
+```
+
+This connects the graph-accepted prefix-4 theorem to the graph suffix emitter:
+the prefix classifier states the accepted frontier as `labels.take 4 = ...`,
+while the graph suffix emitter consumes a grouped local proposition over
+`face₀` and `face₁`.  The bridge proves that conversion and then invokes:
+
+```lean
+graphBranchTableSuffixOk_s0143_depth2_of_frontier
+```
+
+The resulting path is now:
+
+```text
+strengthened terminal / graph-accepted trace
+  -> GraphPrefix4FrontierLabels
+  -> grouped state-143 depth-2 frontier
+  -> GraphBranchTableSuffixOk rank 143 (face₀ :: face₁ :: rest)
+```
+
+Again, this is not selected-prefix membership and it does not construct
+sampled rank/path objects.  The remaining production work is to prove the
+upstream strengthened-terminal/graph-accepted trace predicate for the intended
+residual family, plus the suffix continuation after the first two graph
+frontier steps.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_graph_accepted_suffix_bridge_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedSuffixBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_graph_accepted_suffix_bridge_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphAcceptedSuffixBridge
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| graph-accepted suffix bridge direct Lean | pass | `3.00s` | `3950 MiB` |
+| graph-accepted suffix bridge Lake target | pass | `3.00s` | `4088 MiB` |
+| membership-frontier audit | pass | `1.00s` | `0-1 MiB` |
+| forbidden/sampled scan on new module | pass | no hits | n/a |
+
+Decision:
+
+```text
+Promote the graph-accepted suffix bridge as the accepted adapter from semantic
+accepted traces into the graph-only suffix emitter.  The next theorem should
+avoid `GraphPrefix4FrontierLabels` as a terminal proof artifact and instead
+use it internally to build the `GraphBranchTableSuffixOk` continuation needed
+by the Bellman evaluator bridge.
+```
+
 ### Branch-Table Third-Face Lift Added
 
 Extended the branch-table suffix predicate one semantic branch past the
