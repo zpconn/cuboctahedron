@@ -1,0 +1,40 @@
+{
+  "consumers": {
+    "branch_suffix": {
+      "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSuffix1MSmoke.lean",
+      "imports": [
+        "1m_face_linear_tri_source"
+      ]
+    },
+    "closed_eval_gate": {
+      "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean",
+      "imports": [
+        "split_10m"
+      ]
+    },
+    "graph_accepted_branch_suffix": {
+      "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedBranchSuffix1MSmoke.lean",
+      "imports": [
+        "1m_face_linear_tri_source"
+      ]
+    },
+    "graph_accepted_eval_gate": {
+      "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalGate.lean",
+      "imports": [
+        "split_10m"
+      ]
+    }
+  },
+  "decision": "graph-families-not-aligned-for-direct-eval-adapter",
+  "families": {
+    "1m_face_linear_tri_source": {
+      "base": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke/Base.lean",
+      "state_count": 223
+    },
+    "split_10m": {
+      "base": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Base.lean",
+      "state_count": 970
+    }
+  },
+  "mode": "top-pairing-bellman-graph-family-alignment"
+}

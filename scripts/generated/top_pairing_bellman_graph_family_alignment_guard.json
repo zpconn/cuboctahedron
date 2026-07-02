@@ -1,0 +1,17 @@
+{
+  "available_floor_mib": 24576.0,
+  "command": [
+    "python3",
+    "scripts/audit_top_pairing_bellman_graph_family_alignment.py"
+  ],
+  "elapsed_seconds": 1.002240283996798,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 768,
+  "max_tree_rss_mib": 0.75,
+  "min_available_seen_kib": 47668536,
+  "min_available_seen_mib": 46551.3046875,
+  "rss_cap_mib": 512.0,
+  "timeout_seconds": 60.0
+}

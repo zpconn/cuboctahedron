@@ -82209,6 +82209,65 @@ or the same theorem through the existing `BranchTableSuffixOk` /
 semantic states and faces, not on ranks, sampled paths, exact prefixes,
 observed traces, or affine-offset keys.
 
+#### Graph-Family Alignment Gate
+
+Added an explicit graph-family alignment audit:
+
+```text
+scripts/audit_top_pairing_bellman_graph_family_alignment.py
+scripts/generated/top_pairing_bellman_graph_family_alignment.json
+scripts/generated/top_pairing_bellman_graph_family_alignment.md
+```
+
+Focused check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_bellman_graph_family_alignment_guard.json \
+  -- python3 scripts/audit_top_pairing_bellman_graph_family_alignment.py
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| graph-family alignment audit | pass | `1.00s` | `<1 MiB` |
+
+The audit reports:
+
+```text
+decision = graph-families-not-aligned-for-direct-eval-adapter
+```
+
+Current graph families:
+
+| Consumer | Graph family | States |
+|---|---|---:|
+| `BellmanTopPairingBranchTableSuffix1MSmoke` | `1m_face_linear_tri_source` | `223` |
+| `BellmanTopPairingGraphAcceptedBranchSuffix1MSmoke` | `1m_face_linear_tri_source` | `223` |
+| `BellmanTopPairingGraphAcceptedEvalGate` | `split_10m` | `970` |
+| `BellmanTopPairingClosedEvalGate` | `split_10m` | `970` |
+
+Decision:
+
+```text
+Do not directly compose the new full-suffix theorem with the existing
+graph-accepted eval/margin gate.  They are over different finite Bellman
+automata.  The next implementation step must choose one graph family and
+regenerate the other socket against it.
+```
+
+Preferred next move:
+
+```text
+Regenerate the strengthened branch table and graph-accepted full-suffix socket
+for the split-10M graph, because that is the graph family currently used by
+the accepted margin/eval gates.
+```
+
 ### Branch-Table Third-Face Lift Added
 
 Extended the branch-table suffix predicate one semantic branch past the
