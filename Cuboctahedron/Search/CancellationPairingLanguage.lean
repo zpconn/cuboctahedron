@@ -45,6 +45,9 @@ def initial : TriCancellationState where
   stack := []
   cancellationsRev := []
 
+def sizeInvariant (state : TriCancellationState) : Prop :=
+  state.stack.length + 2 * state.cancellationsRev.length = state.shadowLen
+
 def push (state : TriCancellationState) (tri : TriLetter) :
     TriCancellationState :=
   let idx := state.shadowLen
@@ -71,15 +74,103 @@ def summary (state : TriCancellationState) : TriCancellationSummary where
     state.stack.reverse.map
       (fun item => { index := item.2, tri := item.1 })
 
+theorem initial_sizeInvariant : sizeInvariant initial := by
+  rfl
+
+theorem push_shadowLen (state : TriCancellationState) (tri : TriLetter) :
+    (push state tri).shadowLen = state.shadowLen + 1 := by
+  unfold push
+  cases state with
+  | mk shadowLen stack cancellationsRev =>
+      cases stack with
+      | nil => rfl
+      | cons item rest =>
+          cases item with
+          | mk top topIdx =>
+              by_cases h : tri = top <;> simp [h]
+
+theorem push_sizeInvariant
+    {state : TriCancellationState} {tri : TriLetter}
+    (hstate : sizeInvariant state) :
+    sizeInvariant (push state tri) := by
+  unfold sizeInvariant at hstate ⊢
+  unfold push
+  cases state with
+  | mk shadowLen stack cancellationsRev =>
+      cases stack with
+      | nil =>
+          simp at hstate ⊢
+          omega
+      | cons item rest =>
+          cases item with
+          | mk top topIdx =>
+              by_cases h : tri = top
+              · simp [h] at hstate ⊢
+                omega
+              · simp [h] at hstate ⊢
+                omega
+
 end TriCancellationState
 
 def triangularCancellationStateOfShadow (shadow : List TriLetter) :
     TriCancellationState :=
   shadow.foldl TriCancellationState.push TriCancellationState.initial
 
+theorem triangularCancellationStateOfShadow_shadowLen
+    (shadow : List TriLetter) :
+    (triangularCancellationStateOfShadow shadow).shadowLen = shadow.length := by
+  unfold triangularCancellationStateOfShadow
+  have h :
+      forall state : TriCancellationState,
+        (shadow.foldl TriCancellationState.push state).shadowLen =
+          state.shadowLen + shadow.length := by
+    induction shadow with
+    | nil =>
+        intro state
+        rfl
+    | cons tri rest ih =>
+        intro state
+        simp [List.foldl_cons, ih, TriCancellationState.push_shadowLen,
+          Nat.add_comm, Nat.add_left_comm]
+  simpa [TriCancellationState.initial] using
+    h TriCancellationState.initial
+
+theorem foldl_push_sizeInvariant
+    (shadow : List TriLetter) {state : TriCancellationState}
+    (hstate : TriCancellationState.sizeInvariant state) :
+    TriCancellationState.sizeInvariant
+      (shadow.foldl TriCancellationState.push state) := by
+  induction shadow generalizing state with
+  | nil =>
+      simpa using hstate
+  | cons tri rest ih =>
+      simp [List.foldl_cons]
+      exact ih (TriCancellationState.push_sizeInvariant hstate)
+
+theorem triangularCancellationStateOfShadow_sizeInvariant
+    (shadow : List TriLetter) :
+    TriCancellationState.sizeInvariant
+      (triangularCancellationStateOfShadow shadow) := by
+  unfold triangularCancellationStateOfShadow
+  exact foldl_push_sizeInvariant shadow
+    TriCancellationState.initial_sizeInvariant
+
 def triangularCancellationSummaryOfShadow (shadow : List TriLetter) :
     TriCancellationSummary :=
   (triangularCancellationStateOfShadow shadow).summary
+
+theorem triangularCancellationSummaryOfShadow_count
+    (shadow : List TriLetter) :
+    (triangularCancellationSummaryOfShadow shadow).survivors.length +
+        2 * (triangularCancellationSummaryOfShadow shadow).cancellations.length =
+      shadow.length := by
+  have hinv := triangularCancellationStateOfShadow_sizeInvariant shadow
+  have hlen := triangularCancellationStateOfShadow_shadowLen shadow
+  unfold triangularCancellationSummaryOfShadow
+  unfold TriCancellationState.summary
+  unfold TriCancellationState.sizeInvariant at hinv
+  simp [List.length_reverse, hlen] at hinv ⊢
+  omega
 
 def triangularCancellationSummaryOfPairWord (w : PairWord) :
     TriCancellationSummary :=

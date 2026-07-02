@@ -21,6 +21,18 @@ def topPairingTargetShadowLength : Nat :=
 theorem topPairingTargetShadowLength_eq : topPairingTargetShadowLength = 8 := by
   rfl
 
+theorem topPairingTargetShadow_length_of_summary
+    {shadow : List TriLetter}
+    (hsummary :
+      triangularCancellationSummaryOfShadow shadow =
+        topPairingTargetSummary) :
+    shadow.length = topPairingTargetShadow.length := by
+  have hcount := triangularCancellationSummaryOfShadow_count shadow
+  rw [hsummary] at hcount
+  have hlen : 8 = shadow.length := by
+    simpa [topPairingTargetSummary] using hcount
+  simpa [topPairingTargetShadow] using hlen.symm
+
 def triLetterOfFace? (face : Face) : Option TriLetter :=
   TriLetter.ofPairId? (pairOfFace face)
 

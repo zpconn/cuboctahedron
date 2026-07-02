@@ -77263,3 +77263,107 @@ Next Lean slice: prove the summary-to-target-shadow theorem using a small
 stack/index invariant, not a `4^8` case split.  If that invariant becomes too
 large, fall back to a generated-but-small specialized theorem for this one
 target summary, then continue to the closed-language cursor proof.
+
+## 2026-07-02 Checkpoint: Cancellation Size Invariant Accepted
+
+Added the first reusable stack invariant needed for
+`topPairingTargetShadow_of_summary`:
+
+```lean
+def TriCancellationState.sizeInvariant (state : TriCancellationState) : Prop :=
+  state.stack.length + 2 * state.cancellationsRev.length = state.shadowLen
+
+theorem TriCancellationState.push_sizeInvariant :
+  TriCancellationState.sizeInvariant state ->
+    TriCancellationState.sizeInvariant (TriCancellationState.push state tri)
+
+theorem triangularCancellationStateOfShadow_shadowLen :
+  (triangularCancellationStateOfShadow shadow).shadowLen = shadow.length
+
+theorem triangularCancellationStateOfShadow_sizeInvariant :
+  TriCancellationState.sizeInvariant
+    (triangularCancellationStateOfShadow shadow)
+
+theorem triangularCancellationSummaryOfShadow_count :
+  (triangularCancellationSummaryOfShadow shadow).survivors.length +
+      2 * (triangularCancellationSummaryOfShadow shadow).cancellations.length =
+    shadow.length
+```
+
+Then `TopPairingTargetCursor.lean` proves the target-length consequence:
+
+```lean
+theorem topPairingTargetShadow_length_of_summary
+    {shadow : List TriLetter}
+    (hsummary :
+      triangularCancellationSummaryOfShadow shadow =
+        topPairingTargetSummary) :
+    shadow.length = topPairingTargetShadow.length
+```
+
+This does not prove full target-shadow inversion yet, but it removes the first
+important obligation: the target summary forces length `8` without any finite
+shadow enumeration or rank/path data.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/cancellation_pairing_language_size_invariant_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/CancellationPairingLanguage.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/cancellation_pairing_language_size_invariant_lake_guard_no_as.json \
+  -- lake build Cuboctahedron.Search.CancellationPairingLanguage
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_target_cursor_lake_guard_no_as.json \
+  -- lake build Cuboctahedron.Search.TopPairingTargetCursor
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_target_cursor_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `CancellationPairingLanguage.lean` direct | pass | `2.00s` | `3470 MiB` | hard AS `12288 MiB` |
+| `Cuboctahedron.Search.CancellationPairingLanguage` Lake | pass | `4.00s` | `3871 MiB` | RSS guard, no hard AS |
+| `Cuboctahedron.Search.TopPairingTargetCursor` Lake | pass | `5.01s` | `3954 MiB` | RSS guard, no hard AS |
+| `TopPairingTargetCursor.lean` direct | pass | `2.00s` | `3552 MiB` | hard AS `12288 MiB` |
+
+Engineering note: focused `lake build` with `RLIMIT_AS = 12288 MiB` failed
+early with Lean/Lake thread creation under the hard address-space cap, despite
+sub-`1 GiB` observed RSS.  For small focused Lake builds, use the RSS guard and
+available-memory floor; keep hard address-space caps on direct `lake env lean`
+checks and on risky generated leaves when feasible.
+
+Next invariant: prove that the target summary also fixes each indexed
+triangular letter.  The desired statement remains:
+
+```lean
+theorem topPairingTargetShadow_of_summary
+    {shadow : List TriLetter}
+    (h :
+      triangularCancellationSummaryOfShadow shadow =
+        topPairingTargetSummary) :
+    shadow = topPairingTargetShadow
+```
