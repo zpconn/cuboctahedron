@@ -73156,3 +73156,109 @@ No-go condition:
   rank-indexed objects, stop Bellman as a production route and pivot to a
   stronger cancellation-summary automaton whose state directly carries the
   evaluator progress and margin summary.
+
+## 2026-07-02 Checkpoint: Accepted-Prefix Bellman Eval Socket
+
+Added the first bounded semantic closed-to-eval slice:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingAcceptedPrefixEvalSocket.lean
+```
+
+This module stays in the semantic object-cover lane.  It does not introduce
+sampled rank/path objects or exact affine-RHS lookup tables.  It proves that a
+closed rank in an accepted length-13 prefix state has exactly the corresponding
+accepted full trace: the schedule forces the only remaining label to be `X+`.
+That exact trace id then feeds the existing Bellman trace-margin socket.
+
+New theorem surface:
+
+```lean
+theorem acceptedTrace_eq_of_acceptedPrefix13State
+    {id : AcceptedTraceId} {rank : Fin numPairWords}
+    (hstate : ClosedRankInAcceptedPrefix13State id rank) :
+    topPairingRankFaceLabels rank = acceptedTraceOfId id
+
+theorem evalLanguage_of_acceptedPrefix13State_components
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {id : AcceptedTraceId}
+    (hstate : ClosedRankInAcceptedPrefix13State id rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hmargin : scaledMargin rank <= (176 : Int) + acceptedTraceGain id) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem scaledMargin_nonpos_of_acceptedPrefix13State_components
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {id : AcceptedTraceId}
+    (hstate : ClosedRankInAcceptedPrefix13State id rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hmargin : scaledMargin rank <= (176 : Int) + acceptedTraceGain id) :
+    scaledMargin rank <= 0
+```
+
+Guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_accepted_prefix_eval_socket_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingAcceptedPrefixEvalSocket.lean
+```
+
+Result:
+
+```text
+BellmanTopPairingAcceptedPrefixEvalSocket.lean: pass
+elapsed: 6.03s
+peak_tree_rss: 3295 MiB
+hard_as: 12288 MiB
+min_available: 46326 MiB
+```
+
+Forbidden-token scan over the new Lean file found no matches for
+`SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, `sampledSmokeNext`,
+`sampledObject`, `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+`Float`, `Float32`, `Float64`, or `Double`.
+
+Interpretation:
+
+This is a real positive result for the GPT5.5 go/no-go test, but it is still
+bounded.  It proves that once the semantic provider has reduced a rank to an
+accepted length-13 prefix plus a margin inequality, Lean can recover the
+deterministic evaluator acceptance without sampled paths.  The remaining
+production theorem is not the Bellman evaluator; it is now the semantic
+provider that covers the top-pairing residual by accepted prefix states and
+margin bounds.
+
+Next step:
+
+Generalize the accepted-prefix provider from "rank is in one accepted
+length-13 prefix state" to a generated family/root that proves:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> TopPairingActualFaceOmniAtRank rank
+  -> AcceptedSequenceBadFaceAtRank rank Face.ym
+  -> exists id,
+       ClosedRankInAcceptedPrefix13State id rank /\
+       scaledMargin rank <= (176 : Int) + acceptedTraceGain id
+```
+
+or split this into two semantic producers:
+
+1. terminal/accepted prefix membership, using `TopPairingTraceTail` states;
+2. accepted-trace margin bounds, grouped by trace id or cancellation-summary
+   state.
+
+If either producer requires sampled rank/path objects, stop this route before
+emitting broad depth shards.
