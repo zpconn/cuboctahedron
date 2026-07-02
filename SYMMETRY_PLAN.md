@@ -84116,3 +84116,89 @@ uses `top_pairing_trace_state_dag_minimized_detailed.json` to prove one
 nontrivial `StrengthenedSemanticStateDAGFamily` instance from semantic
 quotient-state facts, then measures source size/build time before any full
 emission.
+
+#### Representative Semantic State-DAG Suffix Cone Accepted
+
+Added the first local quotient-suffix proof shape:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticStateDAGRepresentativeSmoke.lean
+```
+
+It encodes one nontrivial cone from the minimized semantic state-DAG:
+
+```text
+class 34 --zm--> class 10 --zp--> class 4 --xp--> closed
+```
+
+The Lean predicates are deliberately local and recursive:
+
+```lean
+Class004Suffix
+Class010Suffix
+Class034Suffix
+```
+
+and the proof exports:
+
+```lean
+graphBranchTableSuffixOk_class004
+graphBranchTableSuffixOk_class010
+graphBranchTableSuffixOk_class034
+```
+
+These theorems produce split-10M `GraphBranchTableSuffixOk` evidence from the
+local quotient-suffix predicates using the generated branch-table constructors.
+This is not full coverage and not yet a `StrengthenedSemanticStateDAGFamily`
+producer.  It is accepted as a representative local state-DAG emission shape:
+the proof is over quotient-state suffix constructors, not a sampled rank,
+sampled path, full trace id, exact affine RHS, or solved start point.
+
+Focused commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/semantic_state_dag_producer_socket_olean_for_representative_guard.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGProducerSocket.olean \
+    -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGProducerSocket.ilean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGProducerSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/semantic_state_dag_representative_smoke_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGRepresentativeSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| producer socket `.olean` refresh | pass | `7.01s` | `3758 MiB` | `46224 MiB` |
+| representative suffix cone | pass | `2.00s` | `3614 MiB` | `46239 MiB` |
+
+Size:
+
+| Artifact | Size |
+|---|---:|
+| `BellmanTopPairingSemanticStateDAGRepresentativeSmoke.lean` | `3290` bytes |
+
+Decision: promote the local quotient-suffix emission pattern to the next
+generator target.  The next slice should connect such local suffix cones to a
+representative `StrengthenedSemanticStateDAGFamily` producer by adding the
+missing semantic prefix/frontier and final-margin fields for one family.  If
+that connection requires exact full trace equality or a branch per observed
+path, reject and move to the cancellation-segment/cocycle fallback before
+emitting more of the state-DAG.
