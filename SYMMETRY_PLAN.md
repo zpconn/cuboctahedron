@@ -79662,3 +79662,70 @@ Build the first strengthened suffix-local-progress module around
 case for graph state `19` and face `tmmp` should close by
 `strengthened_no_missingState19TmmpSemanticTail`; all ordinary graph edges
 should continue to close by the generated transition table.
+
+### Follow-up: Strengthened Local Missing-Transition Progress Accepted
+
+Added the first production-shaped local-progress smoke:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  strengthened_missing_tmmp_local_progress
+```
+
+Shape:
+
+```lean
+StrengthenedMissingSuffixOk rank
+  missingState19TmmpSemanticEvalState (Face.tmmp :: rest) ->
+missingState19TmmpSemanticEvalState.Tail (Face.tmmp :: rest) ->
+exists nextState gain,
+  faceEvalNext missingState19TmmpSemanticEvalState Face.tmmp =
+    some (nextState, gain)
+```
+
+The proof is intentionally ex-falso and semantic: the strengthened closed
+language plus the deterministic transducer tail forces the unique rejected
+completion, then `strengthened_no_missingState19TmmpSemanticTail` excludes it.
+There is no sampled rank index, selected-prefix object, packed table, or raw
+rank/path list.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedLocal1MSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingStrengthenedLocal1MSmoke.lean` direct | pass | `5.00s` | `3630 MiB` |
+| `BellmanTopPairingStrengthenedLocal1MSmoke` Lake | pass | `4.00s` | `3857 MiB` |
+
+Next step:
+
+Lift this socket from the isolated missing transition into a suffix-carrying
+local closure predicate.  Ordinary graph-table transitions should reuse the
+existing generated local theorem; the unique `state 19 / tmmp` hole should use
+`strengthened_missing_tmmp_local_progress`, with the suffix predicate carrying
+the strengthened rank, current semantic state, remaining label suffix, and
+rank-label prefix equality.
