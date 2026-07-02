@@ -1,0 +1,293 @@
+{
+  "base": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Base.lean",
+  "decision": "closed-components-too-weak",
+  "first_accepted": [
+    {
+      "final_state": 558,
+      "gain": -376,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "zm",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 558,
+      "gain": -376,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "yp",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 558,
+      "gain": -376,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "zp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 559,
+      "gain": -596,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 560,
+      "gain": -348,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp",
+        "xp"
+      ]
+    }
+  ],
+  "first_rejections": [
+    {
+      "first_graph_reject": {
+        "face": "tpmm",
+        "label": 4,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "zp",
+          "tpmm"
+        ],
+        "state": 851,
+        "step": 8
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "zp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "zp",
+          "tmmp"
+        ],
+        "state": 777,
+        "step": 7
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "yp",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "zp",
+          "tmmp"
+        ],
+        "state": 777,
+        "step": 7
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "zp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "zp",
+          "tmmp"
+        ],
+        "state": 777,
+        "step": 7
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "tmmp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "zm",
+          "zp",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "tmmp"
+        ],
+        "state": 81,
+        "step": 10
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "zm",
+        "zp",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ]
+    }
+  ],
+  "limits": {
+    "max_examples": 5,
+    "max_nodes": null
+  },
+  "stats": {
+    "accepted": 37,
+    "closed_candidates": 47,
+    "dfs_nodes": 11318,
+    "prefix_graph_rejects": 197,
+    "rejected": 10
+  }
+}

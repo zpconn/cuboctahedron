@@ -60915,3 +60915,109 @@ semantic-membership gate described above:
 3. if the proof of `BellmanEvalAccepts` needs one branch per rank/path, stop
    this route and pivot to a stronger cancellation-tree/evaluator semantic
    object whose fields directly provide the run and margin agreement.
+
+Closed-to-graph audit and eval-language adapter checkpoint:
+
+Added exact diagnostic outputs:
+
+```text
+scripts/generated/top_pairing_closed_graph_acceptance_audit_latest.json
+docs/top_pairing_closed_graph_acceptance_audit_latest.md
+```
+
+Command:
+
+```bash
+python3 scripts/audit_top_pairing_closed_graph_acceptance.py \
+  --max-examples 5 \
+  --json scripts/generated/top_pairing_closed_graph_acceptance_audit_latest.json \
+  --markdown docs/top_pairing_closed_graph_acceptance_audit_latest.md
+```
+
+Result:
+
+```text
+decision = closed-components-too-weak
+dfs_nodes = 11318
+closed_candidates = 47
+accepted = 37
+rejected = 10
+prefix_graph_rejects = 197
+```
+
+Interpretation:
+
+Plain `TopPairingClosedLanguageAtRank` is too broad to prove
+`TopPairingClosedLanguageAtRank -> BellmanEvalAccepts`.  This confirms the
+strategic adjustment: the next production theorem must target a strengthened
+semantic language that includes graph acceptance and margin agreement.  It
+must not try to treat all closed candidates as graph accepted, and it must not
+construct `SampledRankIndex` or sampled path/rank objects.
+
+Added the small Lean socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphAcceptedEvalLanguage.lean
+```
+
+It proves:
+
+```lean
+theorem evalLanguageAtRank_of_graphAcceptedTraceMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hgraph :
+      GraphAcceptedTraceMargin scaledMargin
+        ({ rank := rank, closed := hclosed } :
+          TopPairingBellmanObj Face.ym)) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+Focused validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_graph_accepted_eval_language_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalLanguage.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 4.00s
+peak_tree_rss = 1227 MiB
+hard_as = 8192 MiB
+min_available = 46435 MiB
+```
+
+Next theorem target:
+
+Generate or hand-prove a semantic theorem of the form:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank ... rank Face.ym ->
+  GraphAcceptedTraceMargin scaledMargin
+    ({ rank := rank, closed := hclosed } : TopPairingBellmanObj Face.ym)
+```
+
+or an equivalent theorem that directly supplies
+`TopPairingBellmanEvalLanguageAtRank` through
+`evalLanguageAtRank_of_graphAcceptedTraceMargin`.  The proof obligation should
+range over the 37 graph-accepted terminal traces and the matching margin bounds.
+The 10 graph-rejected closed traces are already known diagnostically and must
+be excluded by strengthened semantic filters such as actual-face omnihedrality
+and sequence/bad-face compatibility, as in
+`TopPairingTraceClassifier.Accepted.graphAcceptedTraceLabels_of_terminalOk_filters`.
