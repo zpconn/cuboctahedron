@@ -1,0 +1,86 @@
+import Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.PrefixSmoke
+
+/-!
+Generated grouped depth-9 top-pairing trace-classifier shard.
+
+This shard consumes semantic depth-8 parent prefixes and proves the
+local depth-9 alternatives for a bounded parent group.  It contains no
+sampled rank or path table.
+-/
+
+namespace Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Depth9.Shard000
+
+open Cuboctahedron
+
+set_option linter.unusedTactic false
+set_option linter.unreachableTactic false
+set_option linter.unnecessarySeqFocus false
+set_option linter.unusedSimpArgs false
+set_option maxHeartbeats 0
+
+def Depth8ParentShard000Labels (labels : List Face) : Prop :=
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tpmm] ++ rest)
+
+def Depth9Shard000Labels (labels : List Face) : Prop :=
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tpmm, Face.tmpp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tpmm, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tpmm, Face.yp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tpmm, Face.zm] ++ rest)
+
+theorem labels_prefix9_shard_000
+    {labels : List Face}
+    (hs : TopPairingStepScheduleLabels labels)
+    (hg : TopPairingSquareGapLabels labels)
+    (ha : TopPairingLocalAxisLabels labels)
+    (hc : TopPairingPairCountsLabels labels)
+    (hparent : Depth8ParentShard000Labels labels) :
+    Depth9Shard000Labels labels := by
+  unfold Depth8ParentShard000Labels at hparent
+  unfold Depth9Shard000Labels
+
+  have h0 := hparent
+  have hprefix := h0
+  have hchild :
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tpmm, Face.tmpp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tpmm, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tpmm, Face.yp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tpmm, Face.zm] ++ rest) := by
+      rcases hprefix with ⟨rest2, rfl⟩
+      cases rest2 with
+      | nil =>
+          rcases hs with ⟨hlen, _⟩
+          norm_num at hlen
+      | cons f8 rest =>
+          cases f8 <;>
+            try simp
+          all_goals
+            unfold TopPairingStepScheduleLabels at hs
+            unfold TopPairingLocalAxisLabels at ha
+            simp [TopPairingStepScheduleFrom, topPairingAllowedFacesAtStep,
+              pairOfFace, TopPairingLocalAxisFrom,
+              TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
+              matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs ha ⊢
+            try norm_num at ha
+
+            try
+              unfold TopPairingPairCountsLabels at hc
+              simp [pairOfFace] at hc
+  rcases hchild with hchild_0 | hchild_1 | hchild_2 | hchild_3
+  · exact Or.inl hchild_0
+  · exact Or.inr (Or.inl hchild_1)
+  · exact Or.inr (Or.inr (Or.inl hchild_2))
+  · exact Or.inr (Or.inr (Or.inr (hchild_3)))
+
+theorem shard_builds : True := by
+  exact True.intro
+
+end Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Depth9.Shard000

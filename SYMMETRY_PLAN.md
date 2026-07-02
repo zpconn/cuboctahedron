@@ -61765,3 +61765,163 @@ scheduling just to obtain a timing baseline.  The next safe step is either:
 The go/no-go rule remains unchanged: if the terminal membership bridge needs
 sampled rank/path objects or one branch per rank/path, stop Bellman production
 and pivot to the cancellation-tree summary automaton fallback.
+
+Generic grouped-depth classifier emitter checkpoint:
+
+Added:
+
+```text
+scripts/emit_top_pairing_trace_classifier_grouped_depth.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Depth9/Shard000.lean
+scripts/generated/top_pairing_trace_classifier_depth9_grouped_summary.json
+scripts/generated/top_pairing_trace_classifier_depth9_grouped_size1_summary.json
+scripts/generated/top_pairing_trace_classifier_depth9_grouped_size1_nosquare_summary.json
+```
+
+The new emitter parameterizes the depth-8 grouped-shard proof shape over a
+target depth.  It consumes semantic parent-prefix predicates and generates
+local child-prefix theorem shards.  It records exact prefix counts from the
+same semantic prefix enumerator and emits no sampled rank/path data.
+
+Generation/count commands:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_trace_classifier_grouped_depth.py
+
+PYTHONPATH=scripts python3 scripts/emit_top_pairing_trace_classifier_grouped_depth.py \
+  --depth 9 \
+  --expected-parent-count 595 \
+  --expected-prefix-count 1585 \
+  --max-shards 1
+
+PYTHONPATH=scripts python3 scripts/emit_top_pairing_trace_classifier_grouped_depth.py \
+  --depth 9 \
+  --expected-parent-count 595 \
+  --expected-prefix-count 1585 \
+  --parent-group-size 1 \
+  --max-shards 1 \
+  --summary-json \
+    scripts/generated/top_pairing_trace_classifier_depth9_grouped_size1_summary.json
+
+PYTHONPATH=scripts python3 scripts/emit_top_pairing_trace_classifier_grouped_depth.py \
+  --depth 9 \
+  --expected-parent-count 595 \
+  --expected-prefix-count 1585 \
+  --parent-group-size 1 \
+  --max-shards 1 \
+  --omit-squaregap-simp \
+  --summary-json \
+    scripts/generated/top_pairing_trace_classifier_depth9_grouped_size1_nosquare_summary.json
+```
+
+The first depth-9 generation attempt found an important semantic feature:
+`3` of the `595` depth-8 parent prefixes have no depth-9 semantic extension.
+The emitter now supports this by treating empty child sets as local
+contradiction branches (`False`), rather than assuming every parent has a
+child.
+
+Depth-9 grouped-shard measurements:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_classifier_depth9_shard000_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Depth9/Shard000.lean
+```
+
+with default `parent-group-size = 4`:
+
+```text
+failed
+exit = 134
+elapsed = 133.23s
+peak_tree_rss = 6778 MiB
+hard_as = 8192 MiB
+min_available = 43146 MiB
+Lean error = lean::memory_exception: excessive memory consumption detected
+```
+
+Then with `parent-group-size = 1` and square-gap unfolding still enabled:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_classifier_depth9_shard000_size1_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Depth9/Shard000.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 50.07s
+peak_tree_rss = 5248 MiB
+hard_as = 8192 MiB
+min_available = 44727 MiB
+```
+
+Finally with `parent-group-size = 1` and the faster depth-8-style local proof
+that omits square-gap unfolding:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_classifier_depth9_shard000_size1_nosquare_final_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Depth9/Shard000.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 50.11s
+peak_tree_rss = 5244 MiB
+hard_as = 8192 MiB
+min_available = 44737 MiB
+```
+
+Decision:
+
+The generic emitter is useful as a diagnostic and may remain available for
+small bounded shards, but the local `simp`/face-case depth-by-depth classifier
+is **rejected as the production terminal-membership strategy**.  Even the
+one-parent shard costs about `50s` and `5.24 GiB`; a full depth-9 layer alone
+would project to hundreds of such shards.  The four-parent grouped shard
+already hits Lean's memory threshold.  Omitting square-gap unfolding does not
+materially improve the cost.
+
+This is a no-go for the current proof template, not for Bellman itself.  The
+next Bellman semantic-membership attempt should stop replaying local
+`TopPairingLocalAxisLabels`/reflection arithmetic at each extension and should
+instead use a compact terminal-language certificate:
+
+1. either a generated terminal-trace membership theorem whose local facts are
+   prechecked once per terminal trace/source-position pattern; or
+2. the cancellation-tree summary automaton fallback, where Lean checks
+   constructor-level summary transitions rather than re-simplifying the
+   geometric local-axis predicate at every prefix split.
+
+Do not emit depth 9-14 with the current grouped-depth proof template.
