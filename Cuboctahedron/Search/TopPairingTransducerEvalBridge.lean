@@ -138,6 +138,40 @@ theorem next?_tail
   · simp [next?, htransducer, hgraph]
   · exact htailNext
 
+/--
+If a local graph-transition table covers every semantic head step, then the
+combined face evaluator succeeds on the whole semantic tail.  This is the core
+production target for generated top-pairing Bellman membership: generated code
+should prove the local graph-transition premise over semantic states, not a
+selected-prefix or sampled-rank trace equality.
+-/
+theorem evalLabelStepFn_exists_of_tail_and_localGraph
+    {State Label : Type}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    (hlocal :
+      forall {state : TopPairingTransducerEvalState State}
+        {face : Face} {rest : List Face},
+        state.Tail (face :: rest) ->
+          exists graphNext gain,
+            next state.graph (labelOfFace face) = some (graphNext, gain))
+    {state : TopPairingTransducerEvalState State}
+    {faces : List Face}
+    (htail : state.Tail faces) :
+    exists finish gain,
+      evalLabelStepFn (next? next labelOfFace) state faces =
+        some (finish, gain) ∧ finish.Tail [] := by
+  induction faces generalizing state with
+  | nil =>
+      exact ⟨state, 0, by simp [evalLabelStepFn], htail⟩
+  | cons face rest ih =>
+      rcases hlocal htail with ⟨graphNext, gain, hgraph⟩
+      rcases next?_tail htail hgraph with
+        ⟨mid, hnext, hmidTail, _hmidGraph⟩
+      rcases ih hmidTail with ⟨finish, tailGain, htailEval, hfinishTail⟩
+      refine ⟨finish, gain + tailGain, ?_, hfinishTail⟩
+      simp [evalLabelStepFn, hnext, htailEval]
+
 theorem graph_next_of_next?
     {State Label : Type}
     {next : State -> Label -> Option (State × Int)}
@@ -238,6 +272,43 @@ theorem evalLanguageAtRank_of_faceEval
         (faceLabelsInContributionOrder_map labelOfFace (fun f : Face => f)
           (canonicalSeqOfPairWord (unrankPairWord rank)))
     simpa [TopPairingTransducerEvalState.start, hlabels] using hgraphEval
+
+theorem evalLanguageAtRank_of_localGraph
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {graphStart : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {badFace : Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace)
+    (hlocal :
+      forall {state : TopPairingTransducerEvalState State}
+        {face : Face} {rest : List Face},
+        state.Tail (face :: rest) ->
+          exists graphNext gain,
+            next state.graph (labelOfFace face) = some (graphNext, gain))
+    (hfinish :
+      forall {finish : TopPairingTransducerEvalState State} {gain : Int},
+        evalLabelStepFn (next? next labelOfFace)
+          (TopPairingTransducerEvalState.start graphStart)
+          (topPairingRankFaceLabels rank) = some (finish, gain) ->
+        finish.Tail [] ->
+          0 <= V finish.graph ∧ scaledMargin rank <= const + gain) :
+    TopPairingBellmanEvalLanguageAtRank
+      V next labelOfFace graphStart const scaledMargin rank badFace := by
+  have htail :
+      (TopPairingTransducerEvalState.start graphStart).Tail
+        (topPairingRankFaceLabels rank) := by
+    simpa [Tail, TopPairingTransducerEvalState.start] using
+      TopPairingTransducerState.start_tail_of_closed hclosed
+  rcases evalLabelStepFn_exists_of_tail_and_localGraph
+      (next := next) (labelOfFace := labelOfFace) hlocal htail with
+    ⟨finish, gain, heval, hfinishTail⟩
+  rcases hfinish heval hfinishTail with ⟨hfinal, hmargin⟩
+  exact evalLanguageAtRank_of_faceEval hclosed heval hfinal hmargin
 
 end TopPairingTransducerEvalState
 

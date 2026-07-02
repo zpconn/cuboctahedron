@@ -77924,3 +77924,87 @@ transition table over reachable semantic transducer states.  The generated
 theorem should prove a face-eval language theorem from
 `TopPairingClosedLanguageAtRank` or a documented strengthening, not from
 selected-prefix/root-trace membership.
+
+## 2026-07-02 Checkpoint: Local Graph Transition Surface Accepted
+
+Extended the semantic face-eval bridge with the reusable theorem surface needed
+by a generated finite transition table:
+
+```text
+Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean
+```
+
+New theorem names:
+
+```lean
+theorem TopPairingTransducerEvalState.evalLabelStepFn_exists_of_tail_and_localGraph
+
+theorem TopPairingTransducerEvalState.evalLanguageAtRank_of_localGraph
+```
+
+The first theorem proves that if every semantic head step covered by
+`TopPairingTransducerEvalState.Tail` has a graph transition, then
+`evalLabelStepFn` succeeds over the whole face-label suffix and leaves a final
+semantic tail over `[]`.
+
+The second theorem packages that into the production Bellman target:
+
+```lean
+TopPairingBellmanEvalLanguageAtRank
+  V next labelOfFace graphStart const scaledMargin rank badFace
+```
+
+from:
+
+- `TopPairingClosedLanguageAtRank rank badFace`;
+- a generated/local graph-transition table over semantic transducer tails;
+- a generated/family final-state theorem proving final potential nonnegativity
+  and the scaled margin bound for the successful face eval.
+
+This is a stronger and cleaner generator target than the previous one-trace
+face-eval smoke.  A production generated leaf no longer needs to expose an
+accepted trace equality; it can instead prove local graph-step coverage over
+the semantic state language.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_transducer_eval_bridge_local_graph_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_transducer_eval_bridge_local_graph_lake_guard.json \
+  -- lake build Cuboctahedron.Search.TopPairingTransducerEvalBridge
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_transducer_face_eval_smoke_after_local_graph_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTransducerFaceEvalSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `TopPairingTransducerEvalBridge.lean` direct | pass | `7.01s` | `3772 MiB` | hard AS `12288 MiB` |
+| `Cuboctahedron.Search.TopPairingTransducerEvalBridge` Lake | pass | `3.00s` | `4029 MiB` | RSS guard, no hard AS |
+| `BellmanTopPairingTransducerFaceEvalSmoke` Lake | pass | `3.00s` | `4099 MiB` | RSS guard, no hard AS |
+
+Next gate: emit a tiny generated transition-table smoke that proves the
+`hlocal` premise of `evalLanguageAtRank_of_localGraph` for a bounded semantic
+state family.  The table should be keyed by semantic transducer state fields
+and graph state, not by exact trace equality, sampled rank, exact affine RHS,
+or selected-prefix membership.
