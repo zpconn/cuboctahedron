@@ -74672,3 +74672,72 @@ Go/no-go rule:
 - stop and pivot to a cancellation-tree summary automaton if the proof needs
   sampled ranks, sampled paths, exact affine-RHS keys, one generated branch per
   rank, or a giant Boolean checker over accepted paths.
+
+## 2026-07-02 Checkpoint: Concrete Upstream Predicate Selection
+
+Added a second lightweight audit to replace the schematic
+`FullTopPairingResidualLanguageAtRank` name with the concrete predicate chain
+already present in the repo:
+
+```text
+scripts/audit_top_pairing_upstream_predicate_selector.py
+scripts/generated/top_pairing_upstream_predicate_selector.json
+scripts/generated/top_pairing_upstream_predicate_selector.md
+```
+
+Commands:
+
+```bash
+python3 scripts/audit_top_pairing_upstream_predicate_selector.py
+python3 -m py_compile scripts/audit_top_pairing_upstream_predicate_selector.py
+```
+
+Result:
+
+```text
+decision=target-selected-prefix-cover-family
+sampled-token hits in selected surfaces: 0
+```
+
+Concrete bounded predicate selected:
+
+```lean
+SelectedPrefixCoverFamily scaledMargin rank
+```
+
+Existing bridge chain:
+
+```lean
+SelectedPrefixCoverFamily scaledMargin rank
+  -> SelectedPrefixTraceMarginFamily scaledMargin rank
+  -> SelectedPrefixTraceMarginSequenceBadFace scaledMargin rank Face.ym
+  -> TopPairingBellmanEvalLanguageAtRank ... scaledMargin rank Face.ym
+  -> scaledMargin rank <= 0
+```
+
+The strengthened socket target is therefore:
+
+```lean
+forall rank,
+  ProductionTopPairingResidualAtRank rank ->
+    TopPairingStrengthenedClosedLanguageAtRank
+      (SelectedPrefixCoverSequenceBadFace scaledMargin)
+      rank Face.ym
+```
+
+Equivalently, if the production residual classifier already separately
+provides closed-language and actual-omni fields, the key new membership theorem
+can be narrower:
+
+```lean
+forall rank,
+  ProductionTopPairingResidualAtRank rank ->
+    SelectedPrefixCoverFamily scaledMargin rank
+```
+
+`ProductionTopPairingResidualAtRank` is still the only schematic part: the next
+implementation step is to select or define the actual residual classifier
+surface that the final nonidentity generated coverage layer will use.  The
+target below that classifier is no longer schematic: it is
+`SelectedPrefixCoverFamily`, with `TerminalTracePrefixSharedGainClosedMarginFamily`
+as the direct fallback if the selected-prefix cover proves too narrow.

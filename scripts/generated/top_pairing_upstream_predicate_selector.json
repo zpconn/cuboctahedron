@@ -1,0 +1,119 @@
+{
+  "decision": "target-selected-prefix-cover-family",
+  "files": {
+    "selected_prefix_cover_root": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 66,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/All.lean",
+      "symbols": {
+        "SelectedPrefixCoverFamily": 3,
+        "selectedPrefixCover_evalLanguage": 1,
+        "selectedPrefixCover_scaledMargin_nonpos": 1
+      }
+    },
+    "selected_prefix_cover_socket": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 50,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverSocket.lean",
+      "symbols": {
+        "SelectedPrefixCoverFamily": 2,
+        "SelectedPrefixCoverSequenceBadFace": 3,
+        "evalLanguage_of_strengthenedSelectedPrefixCover": 1,
+        "selectedPrefixCover_evalLanguage": 1,
+        "selectedPrefixCover_scaledMargin_nonpos": 1,
+        "strengthenedSelectedPrefixCover_scaledMargin_nonpos": 1
+      }
+    },
+    "selected_prefix_killed_socket": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 65,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginKilledSocket.lean",
+      "symbols": {
+        "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": 1
+      }
+    },
+    "selected_prefix_trace_margin_cover_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 417,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginCoverBridge.lean",
+      "symbols": {
+        "SelectedPrefixCoverFamily": 3,
+        "SelectedPrefixCoverSequenceBadFace": 3,
+        "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": 2,
+        "selectedPrefixTraceMarginSequenceBadFace_of_selectedPrefixCoverFamily": 2,
+        "strengthenedTraceMargin_of_strengthenedSelectedPrefixCover": 3
+      }
+    },
+    "selected_prefix_trace_margin_socket": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 57,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginSocket.lean",
+      "symbols": {}
+    },
+    "terminal_direct_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 163,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean",
+      "symbols": {
+        "SelectedPrefixCoverFamily": 2,
+        "TerminalDirectClosedFamily": 4,
+        "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": 1
+      }
+    }
+  },
+  "missing_required_symbols": [],
+  "mode": "top-pairing-upstream-predicate-selector",
+  "next_theorem": {
+    "preferred": "forall rank, ProductionTopPairingResidualAtRank rank -> SelectedPrefixCoverFamily scaledMargin rank",
+    "strengthened_socket": "forall rank, ProductionTopPairingResidualAtRank rank -> TopPairingStrengthenedClosedLanguageAtRank (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym"
+  },
+  "sampled_hit_count": 0,
+  "symbol_locations": {
+    "SelectedPrefixCoverFamily": [
+      "selected_prefix_cover_root",
+      "selected_prefix_cover_socket",
+      "selected_prefix_trace_margin_cover_bridge",
+      "terminal_direct_bridge"
+    ],
+    "SelectedPrefixCoverSequenceBadFace": [
+      "selected_prefix_cover_socket",
+      "selected_prefix_trace_margin_cover_bridge"
+    ],
+    "TerminalDirectClosedFamily": [
+      "terminal_direct_bridge"
+    ],
+    "evalLanguage_of_strengthenedSelectedPrefixCover": [
+      "selected_prefix_cover_socket"
+    ],
+    "selectedPrefixCover_evalLanguage": [
+      "selected_prefix_cover_root",
+      "selected_prefix_cover_socket"
+    ],
+    "selectedPrefixCover_scaledMargin_nonpos": [
+      "selected_prefix_cover_root",
+      "selected_prefix_cover_socket"
+    ],
+    "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": [
+      "selected_prefix_trace_margin_cover_bridge",
+      "terminal_direct_bridge"
+    ],
+    "selectedPrefixTraceMarginSequenceBadFace_of_selectedPrefixCoverFamily": [
+      "selected_prefix_trace_margin_cover_bridge"
+    ],
+    "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": [
+      "selected_prefix_killed_socket"
+    ],
+    "strengthenedSelectedPrefixCover_scaledMargin_nonpos": [
+      "selected_prefix_cover_socket"
+    ],
+    "strengthenedTraceMargin_of_strengthenedSelectedPrefixCover": [
+      "selected_prefix_trace_margin_cover_bridge"
+    ]
+  }
+}
