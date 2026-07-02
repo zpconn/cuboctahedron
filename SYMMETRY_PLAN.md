@@ -74319,3 +74319,71 @@ This supersedes the previous immediate "provider discovery" next step.  The
 provider-family surface remains a checked and useful consumer, but it is not
 the next proof risk.  The next proof risk is whether the semantic closed
 language can drive the deterministic evaluator directly.
+
+Post-adjustment inspection found that the exact evaluator socket already
+exists.  The next implementation should reuse these names rather than creating
+a parallel cover layer:
+
+```lean
+theorem evalLanguageAtRank_of_graphAcceptedTraceMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hgraph :
+      GraphAcceptedTraceMargin scaledMargin
+        ({ rank := rank, closed := hclosed } :
+          TopPairingBellmanObj Face.ym)) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+from:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphAcceptedEvalLanguage.lean
+```
+
+and the bounds/socket layer already packages useful semantic family targets:
+
+```lean
+def GraphAcceptedTraceMarginClosedFamily ...
+theorem evalLanguage_of_graphAcceptedTraceMarginClosedFamily ...
+
+structure TerminalTraceMarginBoundsComponentFamily ...
+theorem evalLanguage_of_terminalTraceMarginBoundsComponentFamily ...
+
+structure TerminalTraceMarginIdBoundComponentFamily ...
+theorem evalLanguage_of_terminalTraceMarginIdBoundComponentFamily ...
+
+def TerminalTracePrefixSharedGainClosedMarginFamily ...
+theorem evalLanguage_of_terminalTracePrefixSharedGainClosedMarginFamily ...
+```
+
+from:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+Therefore the next concrete target is even narrower than the generic
+`topPairingClosed_to_eval` placeholder above:
+
+1. For a nontrivial semantic top-pairing family, prove one of the existing
+   family predicates above, preferably the weakest one that still keeps the
+   proof semantic and compact.
+2. The first candidate should be
+   `TerminalTracePrefixSharedGainClosedMarginFamily`, because it packages a
+   shared accepted-trace prefix, a shared gain, and a margin bound without
+   requiring an exact trace id per rank in the public theorem.
+3. If prefix/shared-gain is too weak, move one step stronger to
+   `TerminalTraceMarginIdBoundComponentFamily`; if that requires sampled ranks
+   or exact affine-RHS keys, reject this Bellman semantic-membership route and
+   pivot.
+
+This means the next generated leaf should not prove a fresh
+`TerminalDirectProviderFamily` first.  It should prove a semantic
+trace-margin/eval-language family that can feed the already-checked evaluator
+socket.
