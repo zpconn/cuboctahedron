@@ -83630,3 +83630,85 @@ Result:
 | Target | Result | Time | Peak RSS | Min available |
 |---|---:|---:|---:|---:|
 | prefix eval wrappers | pass | `5.01s` | `4088 MiB` | `45932 MiB` |
+
+#### Split-10M Graph-Accepted Suffix Bridge Accepted
+
+Added a split-10M counterpart to the older 1M graph-accepted suffix adapter:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphAcceptedSuffixSplit10MBridge.lean
+```
+
+The bridge proves that strengthened terminal/frontier evidence can expose the
+actual prefix-4 branch and then hand the remaining proof to graph-only
+`GraphBranchTableSuffixOk` evidence over the split-10M graph.
+
+New theorem surfaces:
+
+```lean
+Split10MPrefix4FrontierCons2
+graphPrefix4FrontierLabels_of_cons2
+graphPrefix4FrontierLabels_exists_cons2
+graphBranchTableSuffixOk_of_strengthenedTerminalFrontier
+evalLanguageAtRank_of_strengthenedTerminalFrontier
+```
+
+The important theorem is:
+
+```lean
+evalLanguageAtRank_of_strengthenedTerminalFrontier
+```
+
+It takes:
+
+1. `TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank rank Face.ym`;
+2. `TerminalOkTraceLabels (topPairingRankFaceLabels rank)`;
+3. graph-only suffix evidence after the actual prefix-4 frontier branch;
+4. the final Bellman potential/margin obligation;
+
+and returns `TopPairingBellmanEvalLanguageAtRank` for the split-10M graph.
+
+This is closer to the desired production shape than selected-prefix coverage:
+the generated membership producer can prove a graph suffix after a semantic
+frontier, while the Lean bridge supplies the closed-language transducer prefix.
+
+Guarded commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/branch_table_suffix_split10m_olean_refresh_for_bridge_guard.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffixSplit10MSmoke.olean \
+    -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffixSplit10MSmoke.ilean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffixSplit10MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/graph_accepted_suffix_split10m_bridge_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedSuffixSplit10MBridge.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| split-10M branch suffix `.olean` refresh | pass | `5.00s` | `3907 MiB` | `46074 MiB` |
+| split-10M graph-accepted suffix bridge | pass | `2.00s` | `2583 MiB` | `46265 MiB` |
+
+Decision: accepted as the current graph-accepted suffix bridge.  The next
+remaining producer target is now precise: emit or prove graph-only
+`GraphBranchTableSuffixOk` for the remaining suffix of a representative
+strengthened terminal family, plus the final margin obligation, without using
+selected-prefix equality or exact trace identity as the coverage coordinate.
