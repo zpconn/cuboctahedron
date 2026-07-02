@@ -86610,3 +86610,98 @@ Decision: accepted as the current top-pairing production socket.  Do not add
 more selected-prefix producer bridges.  The next implementation target is the
 local deterministic semantic membership theorem feeding
 `Split10MClosedToEvalGate` or `Split10MStrengthenedToEvalGate`.
+
+#### Split-10M Semantic Transducer Socket
+
+Added the generated-side specialization that turns local deterministic
+transducer closure into the split-10M semantic gate:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticTransducerSocket.lean
+```
+
+The module fixes the face-level evaluator:
+
+```lean
+abbrev FaceEvalState : Type :=
+  TopPairingTransducerEvalState State
+
+def faceEvalNext :
+    FaceEvalState -> Face -> Option (FaceEvalState × Int) :=
+  TopPairingTransducerEvalState.next? graphSmokeNext smokeLabelOfFace
+```
+
+and exposes the theorem surfaces future generated finite-state modules should
+target:
+
+```lean
+theorem split10MClosedGate_of_invariantLocalWithSuffix
+
+theorem split10MStrengthenedGate_of_invariantLocalWithSuffix
+
+theorem scaledMargin_nonpos_of_split10MInvariantLocalWithSuffix
+
+theorem scaledMargin_nonpos_of_split10MStrengthenedInvariantLocalWithSuffix
+```
+
+The required local premises have exactly the intended semantic shape:
+
+```lean
+Inv state ->
+state.Tail (face :: rest) ->
+SuffixOk state (face :: rest) ->
+  exists nextState gain,
+    faceEvalNext state face = some (nextState, gain) /\
+    nextState.Tail rest /\ Inv nextState /\ SuffixOk nextState rest
+```
+
+This is the current production socket for the local membership theorem.  It
+keeps the Bellman graph and potential proof separate from the semantic
+closed-language transition proof.
+
+Commands:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticTransducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_transducer_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticTransducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_transducer_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticTransducerSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| hygiene scan | pass | n/a | n/a | n/a |
+| direct `BellmanTopPairingSemanticTransducerSocket.lean` | pass | `5.00s` | `3570 MiB` | `45923 MiB` |
+| Lake `BellmanTopPairingSemanticTransducerSocket` | pass | `3.00s` | `4087 MiB` | `45686 MiB` |
+
+Decision: accepted.  The next generated/hand-written slice should instantiate
+`Inv` and `SuffixOk` with finite semantic state IDs/projections for the
+`with-step-tri-source`/state-DAG candidate, prove the local step theorem above
+for a small representative subgraph, and then scale only if the local proof
+does not expand into selected prefixes or exact trace ids.
