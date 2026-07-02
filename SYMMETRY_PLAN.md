@@ -61607,3 +61607,116 @@ classifier/membership theorem: prove
 `TerminalAcceptedEvalSequenceBadFace scaledMargin rank Face.ym` or an equivalent
 `TopPairingBellmanEvalLanguageAtRank` from compact closed-language data.  Do
 not add sampled rank/path objects to do this.
+
+GPT5.5 compact semantic-membership re-gate:
+
+The latest recommendation is now the explicit Bellman decision rule:
+continue the Bellman route for exactly one more production-shaped
+semantic-membership experiment, and do not pivot before that experiment.  The
+Bellman potential and graph are still mathematically appropriate for this
+residual margin problem; the remaining risk is not the potential but the
+object-cover theorem.
+
+The accepted object shape is:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+```
+
+or an equivalent subtype.  The object must not be a sampled path, sampled rank
+index, list of stored labels, or one constructor per rank.  The evaluator run
+must be computed from
+
+```lean
+evalLabelStepFn graphSmokeNext rootState
+  (faceLabelsInContributionOrder smokeLabelOfFace
+    (canonicalSeqOfPairWord (unrankPairWord rank)))
+```
+
+through semantic trace/margin facts, not stored as generated path data.
+
+Implementation adjustment:
+
+`BellmanTopPairingTerminalAcceptedBridge.lean` now exposes the small semantic
+constructor:
+
+```lean
+theorem terminalAcceptedEvalSequenceBadFace_of_graphAcceptedTraceMargin
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (topPairingRankFaceLabels rank))
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hgraph :
+      GraphAcceptedTraceMargin scaledMargin
+        ({ rank := rank, closed := hclosed } : TopPairingBellmanObj Face.ym)) :
+    TerminalAcceptedEvalSequenceBadFace scaledMargin rank Face.ym
+```
+
+This theorem deliberately does not solve the hard membership problem.  It
+clarifies the exact next generated/semantic obligation: given a compact
+top-pairing closed-language rank, prove terminal trace membership and one
+accepted trace-margin fact for the rank object.  Then
+`strengthenedTerminalAcceptedEval_scaledMargin_nonpos` supplies the Bellman
+margin contradiction.
+
+Go condition:
+
+- prove a nontrivial family theorem whose `ContainsRank` is semantic, e.g.
+  `TopPairingClosedLanguageAtRank` plus documented strengthened fields, and
+  whose conclusion is `TerminalAcceptedEvalSequenceBadFace` or
+  `TopPairingBellmanEvalLanguageAtRank`;
+- the theorem cost scales with graph/terminal-language size, not with the
+  number of accepted ranks;
+- the new module contains no `SampledRankIndex`, `sampledContainsRank`,
+  `sampledRankOf`, `sampledSmokeNext`, sampled path objects, or one branch per
+  rank/path.
+
+No-go condition:
+
+- if the proof of the closed-language-to-evaluator theorem requires sampled
+  membership, one stored object per rank/path, or raw rank/path enumeration,
+  stop the Bellman production route and pivot to the cancellation-tree summary
+  automaton fallback.  Do not respond by adding another potential, another
+  sampled smoke, or another rank-indexed certificate layer.
+
+Focused validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_accepted_bridge_semantic_constructor_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3594 MiB
+hard_as = 8192 MiB
+min_available = 46244 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n \
+  "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.lean
+```
+
+Both checks passed; the focused Lean-source `rg` audit returned no matches.

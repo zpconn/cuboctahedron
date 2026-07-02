@@ -62,6 +62,20 @@ def TerminalAcceptedEvalSequenceBadFace
         GraphAcceptedTraceMargin scaledMargin
           ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym)
 
+theorem terminalAcceptedEvalSequenceBadFace_of_graphAcceptedTraceMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (topPairingRankFaceLabels rank))
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hgraph :
+      GraphAcceptedTraceMargin scaledMargin
+        ({ rank := rank, closed := hclosed } : TopPairingBellmanObj Face.ym)) :
+    TerminalAcceptedEvalSequenceBadFace scaledMargin rank Face.ym :=
+  ⟨hbad, hterm, hclosed, hgraph⟩
+
 theorem graphAcceptedTraceLabels_of_strengthenedTerminalAcceptedEval
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
