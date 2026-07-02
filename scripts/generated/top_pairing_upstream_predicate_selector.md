@@ -4,13 +4,13 @@ This audit is diagnostic status evidence, not proof.  It replaces the
 schematic next-target name `FullTopPairingResidualLanguageAtRank` with
 the concrete predicate chain currently available in the repo.
 
-- decision: `target-terminal-direct-selected-prefix-cover`
+- decision: `target-root-trace-margin-to-strengthened-selected-prefix`
 - sampled-token hits in selected surfaces: `0`
 
 ## Selected Predicate Chain
 
-The preferred checked consumer is now the direct start-violation
-surface:
+The preferred downstream killed consumer is still the direct
+start-violation surface:
 
 ```lean
 TerminalDirectClosedFamily rank
@@ -33,13 +33,15 @@ SelectedPrefixCoverFamily scaledMargin rank ->
   Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
 ```
 
-The Bellman-margin fallback consumer remains:
+The active Bellman producer frontier is:
 
 ```lean
 RootTraceMarginProducer scaledMargin rank
+TopPairingActualFaceOmniAtRank rank
+AcceptedSequenceBadFaceAtRank rank Face.ym
 ```
 
-which bridges to:
+Those three semantic ingredients already bridge to:
 
 ```lean
 TopPairingStrengthenedClosedLanguageAtRank
@@ -82,14 +84,27 @@ TopPairingBellmanEvalLanguageAtRank ... scaledMargin rank Face.ym
 scaledMargin rank <= 0
 ```
 
-The next production theorem should therefore be stated against the
-actual upstream residual classifier once selected, with this preferred
-shape:
+The next Bellman semantic-membership theorem should therefore be
+stated against the actual upstream residual classifier once selected,
+with this preferred producer shape:
 
 ```lean
 forall rank,
   ProductionTopPairingResidualAtRank rank ->
-    TerminalDirectClosedFamily rank
+    RootTraceMarginProducer scaledMargin rank /\
+    TopPairingActualFaceOmniAtRank rank /\
+    AcceptedSequenceBadFaceAtRank rank Face.ym
+```
+
+The strongest acceptable version is the direct strengthened selected-
+prefix socket:
+
+```lean
+forall rank,
+  ProductionTopPairingResidualAtRank rank ->
+    TopPairingStrengthenedClosedLanguageAtRank
+      (SelectedPrefixCoverSequenceBadFace scaledMargin)
+      rank Face.ym
 ```
 
 A direct theorem to the selected-prefix cover is also acceptable:
@@ -100,28 +115,14 @@ forall rank,
     SelectedPrefixCoverFamily scaledMargin rank
 ```
 
-The Bellman-margin fallback shape is:
+The downstream direct-killed target remains valid after producer
+membership is established:
 
 ```lean
 forall rank,
   ProductionTopPairingResidualAtRank rank ->
-    RootTraceMarginProducer scaledMargin rank
+    TerminalDirectClosedFamily rank
 ```
-
-If the production residual classifier already carries closed-language
-and actual-omni fields, the stronger socket target is:
-
-```lean
-forall rank,
-  ProductionTopPairingResidualAtRank rank ->
-    TopPairingStrengthenedClosedLanguageAtRank
-      (SelectedPrefixCoverSequenceBadFace scaledMargin)
-      rank Face.ym
-```
-
-Use `RootTraceMarginProducer` when a subfamily lacks direct
-start-violation evidence but still has a compact Bellman trace-margin
-producer.
 
 The theorem must remain semantic.  It should not introduce a sampled
 rank/path object or one branch per concrete rank.
@@ -183,8 +184,9 @@ rank/path object or one branch per concrete rank.
 
 Do not build another Bellman potential or sampled smoke next.  The
 next useful Lean/generator work is a semantic producer theorem into
-`TerminalDirectClosedFamily`, or into `SelectedPrefixCoverFamily`
-followed by the checked direct bridge.  Keep `RootTraceMarginProducer`
-as the Bellman-margin fallback for families without direct
-start-violation certificates.
+`RootTraceMarginProducer` plus the actual/bad-face facts, or directly
+into `TopPairingStrengthenedClosedLanguageAtRank
+(SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym`.
+The terminal-direct bridge remains the downstream killed consumer, not
+the producer-side membership proof.
 

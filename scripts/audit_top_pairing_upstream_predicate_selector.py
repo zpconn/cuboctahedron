@@ -5,11 +5,13 @@ This is a lightweight repository audit.  It records the current predicate chain
 around the selected-prefix Bellman cover so the next proof does not keep using
 the schematic name `FullTopPairingResidualLanguageAtRank`.
 
-Current strategy note: the preferred checked consumer is now the direct
-start-violation surface `TerminalDirectClosedFamily`, because it yields the
-semantic killed predicate without needing the Bellman nonpositive-margin route.
-The Bellman `RootTraceMarginProducer` route remains a fallback/diagnostic
-consumer for pockets that lack direct start-violation certificates.
+Current strategy note: the direct start-violation surface remains the preferred
+downstream killed consumer, but the active Bellman experiment is now the
+producer-side semantic evaluator gate.  The immediate frontier is the theorem
+that turns an upstream residual classifier into either the strengthened
+selected-prefix semantic predicate directly, or into the ingredients
+`RootTraceMarginProducer`, `TopPairingActualFaceOmniAtRank`, and
+`AcceptedSequenceBadFaceAtRank` consumed by the existing selected-prefix bridge.
 """
 
 from __future__ import annotations
@@ -152,8 +154,8 @@ def render(report: dict[str, Any]) -> str:
         "",
         "## Selected Predicate Chain",
         "",
-        "The preferred checked consumer is now the direct start-violation",
-        "surface:",
+        "The preferred downstream killed consumer is still the direct",
+        "start-violation surface:",
         "",
         "```lean",
         "TerminalDirectClosedFamily rank",
@@ -176,13 +178,15 @@ def render(report: dict[str, Any]) -> str:
         "  Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank",
         "```",
         "",
-        "The Bellman-margin fallback consumer remains:",
+        "The active Bellman producer frontier is:",
         "",
         "```lean",
         "RootTraceMarginProducer scaledMargin rank",
+        "TopPairingActualFaceOmniAtRank rank",
+        "AcceptedSequenceBadFaceAtRank rank Face.ym",
         "```",
         "",
-        "which bridges to:",
+        "Those three semantic ingredients already bridge to:",
         "",
         "```lean",
         "TopPairingStrengthenedClosedLanguageAtRank",
@@ -225,14 +229,27 @@ def render(report: dict[str, Any]) -> str:
         "scaledMargin rank <= 0",
         "```",
         "",
-        "The next production theorem should therefore be stated against the",
-        "actual upstream residual classifier once selected, with this preferred",
-        "shape:",
+        "The next Bellman semantic-membership theorem should therefore be",
+        "stated against the actual upstream residual classifier once selected,",
+        "with this preferred producer shape:",
         "",
         "```lean",
         "forall rank,",
         "  ProductionTopPairingResidualAtRank rank ->",
-        "    TerminalDirectClosedFamily rank",
+        "    RootTraceMarginProducer scaledMargin rank /\\",
+        "    TopPairingActualFaceOmniAtRank rank /\\",
+        "    AcceptedSequenceBadFaceAtRank rank Face.ym",
+        "```",
+        "",
+        "The strongest acceptable version is the direct strengthened selected-",
+        "prefix socket:",
+        "",
+        "```lean",
+        "forall rank,",
+        "  ProductionTopPairingResidualAtRank rank ->",
+        "    TopPairingStrengthenedClosedLanguageAtRank",
+        "      (SelectedPrefixCoverSequenceBadFace scaledMargin)",
+        "      rank Face.ym",
         "```",
         "",
         "A direct theorem to the selected-prefix cover is also acceptable:",
@@ -243,28 +260,14 @@ def render(report: dict[str, Any]) -> str:
         "    SelectedPrefixCoverFamily scaledMargin rank",
         "```",
         "",
-        "The Bellman-margin fallback shape is:",
+        "The downstream direct-killed target remains valid after producer",
+        "membership is established:",
         "",
         "```lean",
         "forall rank,",
         "  ProductionTopPairingResidualAtRank rank ->",
-        "    RootTraceMarginProducer scaledMargin rank",
+        "    TerminalDirectClosedFamily rank",
         "```",
-        "",
-        "If the production residual classifier already carries closed-language",
-        "and actual-omni fields, the stronger socket target is:",
-        "",
-        "```lean",
-        "forall rank,",
-        "  ProductionTopPairingResidualAtRank rank ->",
-        "    TopPairingStrengthenedClosedLanguageAtRank",
-        "      (SelectedPrefixCoverSequenceBadFace scaledMargin)",
-        "      rank Face.ym",
-        "```",
-        "",
-        "Use `RootTraceMarginProducer` when a subfamily lacks direct",
-        "start-violation evidence but still has a compact Bellman trace-margin",
-        "producer.",
         "",
         "The theorem must remain semantic.  It should not introduce a sampled",
         "rank/path object or one branch per concrete rank.",
@@ -299,10 +302,11 @@ def render(report: dict[str, Any]) -> str:
             "",
         "Do not build another Bellman potential or sampled smoke next.  The",
         "next useful Lean/generator work is a semantic producer theorem into",
-        "`TerminalDirectClosedFamily`, or into `SelectedPrefixCoverFamily`",
-        "followed by the checked direct bridge.  Keep `RootTraceMarginProducer`",
-        "as the Bellman-margin fallback for families without direct",
-        "start-violation certificates.",
+        "`RootTraceMarginProducer` plus the actual/bad-face facts, or directly",
+        "into `TopPairingStrengthenedClosedLanguageAtRank",
+        "(SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym`.",
+        "The terminal-direct bridge remains the downstream killed consumer, not",
+        "the producer-side membership proof.",
             "",
         ]
     )
@@ -319,6 +323,7 @@ def main() -> None:
         "SelectedPrefixCoverSequenceBadFace",
         "evalLanguage_of_strengthenedSelectedPrefixCover",
         "RootTraceMarginProducer",
+        "strengthenedTerminalAcceptedEval_of_rootTraceMarginProducer",
         "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer",
         "rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily",
         "rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily",
@@ -330,7 +335,7 @@ def main() -> None:
     ]
     missing = [symbol for symbol in required if symbol not in symbol_locations]
     decision = (
-        "target-terminal-direct-selected-prefix-cover"
+        "target-root-trace-margin-to-strengthened-selected-prefix"
         if not missing and sampled_hit_count == 0
         else "review-selected-prefix-predicate-chain"
     )
@@ -345,15 +350,22 @@ def main() -> None:
         "next_theorem": {
             "preferred": (
                 "forall rank, ProductionTopPairingResidualAtRank rank -> "
-                "TerminalDirectClosedFamily rank"
+                "RootTraceMarginProducer scaledMargin rank /\\ "
+                "TopPairingActualFaceOmniAtRank rank /\\ "
+                "AcceptedSequenceBadFaceAtRank rank Face.ym"
             ),
-            "selected_prefix": (
+            "strengthened_selected_prefix": (
+                "forall rank, ProductionTopPairingResidualAtRank rank -> "
+                "TopPairingStrengthenedClosedLanguageAtRank "
+                "(SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym"
+            ),
+            "selected_prefix_cover": (
                 "forall rank, ProductionTopPairingResidualAtRank rank -> "
                 "SelectedPrefixCoverFamily scaledMargin rank"
             ),
-            "bellman_fallback": (
+            "downstream_killed_consumer": (
                 "forall rank, ProductionTopPairingResidualAtRank rank -> "
-                "RootTraceMarginProducer scaledMargin rank"
+                "TerminalDirectClosedFamily rank"
             ),
         },
     }

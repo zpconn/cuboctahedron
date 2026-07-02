@@ -1,5 +1,5 @@
 {
-  "decision": "target-terminal-direct-selected-prefix-cover",
+  "decision": "target-root-trace-margin-to-strengthened-selected-prefix",
   "files": {
     "root_trace_margin_selected_prefix_bridge": {
       "exists": true,
@@ -165,9 +165,10 @@
   "missing_required_symbols": [],
   "mode": "top-pairing-upstream-predicate-selector",
   "next_theorem": {
-    "bellman_fallback": "forall rank, ProductionTopPairingResidualAtRank rank -> RootTraceMarginProducer scaledMargin rank",
-    "preferred": "forall rank, ProductionTopPairingResidualAtRank rank -> TerminalDirectClosedFamily rank",
-    "selected_prefix": "forall rank, ProductionTopPairingResidualAtRank rank -> SelectedPrefixCoverFamily scaledMargin rank"
+    "downstream_killed_consumer": "forall rank, ProductionTopPairingResidualAtRank rank -> TerminalDirectClosedFamily rank",
+    "preferred": "forall rank, ProductionTopPairingResidualAtRank rank -> RootTraceMarginProducer scaledMargin rank /\\ TopPairingActualFaceOmniAtRank rank /\\ AcceptedSequenceBadFaceAtRank rank Face.ym",
+    "selected_prefix_cover": "forall rank, ProductionTopPairingResidualAtRank rank -> SelectedPrefixCoverFamily scaledMargin rank",
+    "strengthened_selected_prefix": "forall rank, ProductionTopPairingResidualAtRank rank -> TopPairingStrengthenedClosedLanguageAtRank (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym"
   },
   "sampled_hit_count": 0,
   "symbol_locations": {

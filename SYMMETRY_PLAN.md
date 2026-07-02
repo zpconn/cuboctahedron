@@ -76866,10 +76866,63 @@ classifier/state facts; it must not be supplied by sampled path membership,
 exact affine-RHS lookup, or one generated branch per rank.
 
 Compatibility note: the upstream predicate selector still reports
-`target-terminal-direct-selected-prefix-cover`.  That is the preferred killed
-consumer once selected-prefix membership is established.  It does not replace
-the Bellman evaluator gate above; it sits downstream of the same
+`target-root-trace-margin-to-strengthened-selected-prefix`.  The old
+terminal-direct target is still the preferred downstream killed consumer once
+selected-prefix membership is established.  It does not replace the Bellman
+evaluator gate above; it sits downstream of the same
 `SelectedPrefixCoverFamily`/strengthened selected-prefix semantic producer.
+
+Latest upstream-selector command:
+
+```bash
+python3 scripts/audit_top_pairing_upstream_predicate_selector.py
+```
+
+recorded:
+
+```text
+decision=target-root-trace-margin-to-strengthened-selected-prefix
+sampled-token hits=0
+missing required symbols=[]
+```
+
+The exact current producer frontier is:
+
+```lean
+forall rank,
+  ProductionTopPairingResidualAtRank rank ->
+    RootTraceMarginProducer scaledMargin rank /\
+    TopPairingActualFaceOmniAtRank rank /\
+    AcceptedSequenceBadFaceAtRank rank Face.ym
+```
+
+The strongest acceptable theorem is:
+
+```lean
+forall rank,
+  ProductionTopPairingResidualAtRank rank ->
+    TopPairingStrengthenedClosedLanguageAtRank
+      (SelectedPrefixCoverSequenceBadFace scaledMargin)
+      rank Face.ym
+```
+
+Existing checked bridge:
+
+```lean
+strengthenedSelectedPrefixCover_of_rootTraceMarginProducer :
+  RootTraceMarginProducer scaledMargin rank ->
+  TopPairingActualFaceOmniAtRank rank ->
+  AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    TopPairingStrengthenedClosedLanguageAtRank
+      (SelectedPrefixCoverSequenceBadFace scaledMargin)
+      rank Face.ym
+```
+
+So the next implementation move is to identify or generate
+`ProductionTopPairingResidualAtRank` as a semantic residual-classifier
+predicate with fields strong enough to supply those three producer ingredients,
+not to build another potential, sampled trace smoke, or one-rank interval
+shard.
 
 Fresh guarded object-layer check:
 
