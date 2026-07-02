@@ -71313,3 +71313,80 @@ or avoid the equality by deriving both the positive cert and the Bellman bound
 from one shared semantic margin record.  If the only available way to produce
 this shared margin is to replay exact affine solves per rank, Bellman fails the
 production gate.
+
+Direct accepted-trace start-violation checkpoint:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTraceStartViolationDirectKilledBridge.lean
+```
+
+implements the smallest semantic consequence of the GPT5.5 recommendation:
+use the object as a rank plus semantic accepted-trace evidence, not as a sampled
+rank/path index.  The new bridge proves:
+
+```lean
+TraceIdStartViolationFamily
+nonIdentityRankKilled_of_acceptedTraceId_startViolation
+nonIdentityRankKilled_of_traceIdStartViolationFamily
+TerminalTraceIdBucketStartViolationFamily
+traceIdStartViolationFamily_of_terminalTraceIdBucket
+nonIdentityRankKilled_of_terminalTraceIdBucketStartViolationFamily
+TerminalTracePrefixStartViolationFamily
+terminalTraceIdBucketStartViolationFamily_of_prefix
+nonIdentityRankKilled_of_terminalTracePrefixStartViolationFamily
+```
+
+The key observation is that
+`ObjectStartViolationMarginCert.positive` derives positivity by contradiction
+from the start-violation geometry under `NonIdentityAxisConstraints`; it does
+not use arithmetic content of the supplied integer margin.  Instantiating
+`scaledMargin := fun _ => 0` therefore yields `0 < 0`, which directly kills
+`NonIdentityAxisConstraints` for any accepted trace id with an existing
+start-violation provider.  This bypasses the Bellman nonpositive-margin half
+for those accepted traces.
+
+This is not global coverage.  It proves the consumer side of the semantic
+object-cover experiment is viable and cheap.  The remaining production question
+is now more precise:
+
+1. Can the semantic closed/terminal classifier cover large top-pairing buckets
+   by accepted trace id or prefix without sampled rank/path objects?
+2. Do all needed accepted trace ids have start-violation providers?
+3. For any accepted traces not covered by direct start violation, can the
+   Bellman margin provider be proved semantically without exact affine RHS
+   keys?
+
+Checked commands:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|sampledObject|sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceStartViolationDirectKilledBridge.lean
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_trace_start_violation_direct_killed_bridge_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceStartViolationDirectKilledBridge.lean
+```
+
+Result:
+
+```text
+token scan: clean
+guarded Lean check: pass
+elapsed: 12.01s
+peak_tree_rss: 4025 MiB
+hard_as: 8192 MiB
+min_available: 46193 MiB
+```
+
+Strategy adjustment: continue Bellman only for the semantic object-cover gate,
+but prioritize direct start-violation accepted-trace coverage first.  This is a
+strictly cheaper semantic route for the accepted traces already supported by
+the trace providers.  If trace/provider coverage is broad, the Bellman
+nonpositive-margin provider becomes a fallback for remaining traces rather
+than the central production blocker.
