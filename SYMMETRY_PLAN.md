@@ -80041,3 +80041,151 @@ zm   -> graph state 145, gain  -10
 The acceptance criterion remains unchanged: the constructors must be driven by
 schedule/target-shadow cursor/square-gap/local-axis fields and finite graph
 transition facts, not by terminal accepted trace membership or sampled paths.
+
+### Strategic Pivot: Deterministic Closed-Language Evaluator, Not Selected Prefixes
+
+GPT-5.5's latest advice is accepted as the active strategy constraint:
+
+```text
+Keep Bellman.
+Reject selected-prefix membership.
+Prove closed semantic language -> deterministic evalLabelStepFn progress.
+```
+
+Concretely, future nonidentity Bellman work should keep moving theorem
+surfaces from:
+
+```text
+rank belongs to one of these observed terminal traces / sampled prefixes
+```
+
+to:
+
+```text
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> target-shadow cursor, square-gap, schedule, local-axis, and graph table
+     determine the next evaluator transition
+```
+
+The accepted implementation pattern is now:
+
+1. Use the closed-language transducer tail to expose local facts.
+2. Exclude impossible faces by semantic fields:
+   schedule, square-gap, target-shadow cursor, or local-axis.
+3. For possible faces, use one finite `graphSmokeNext` transition and
+   `TopPairingTransducerEvalState.next?_tail` to produce the next tail.
+4. Compose these local constructors into `StrengthenedSuffixOk`, still with
+   no sampled rank index, selected prefix membership table, exact affine RHS
+   key, or per-rank path object.
+
+This is the finite semantic transducer route requested by the pivot.  If a
+future branch theorem requires one generated case per observed rank/path, that
+route should be rejected and the state should be strengthened semantically
+instead.
+
+### Follow-up: Post-`tmpm` Semantic Branch Constructor Accepted
+
+Added the first post-prefix3 branch constructor:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  closedPrefix3TmpmTransducerState
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  closedPrefix3TmpmEvalState
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  closed_prefix3_tmpm_next
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  closed_prefix3_tmpm_tail
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  closed_prefix3_tmpm_branch_faceEval
+```
+
+Also added the sibling post-prefix3 state/tail scaffolding for the two other
+third-face branches:
+
+```lean
+closedPrefix3YpTransducerState
+closedPrefix3YpEvalState
+closed_prefix3_yp_next
+closed_prefix3_yp_tail
+
+closedPrefix3ZmTransducerState
+closedPrefix3ZmEvalState
+closed_prefix3_zm_next
+closed_prefix3_zm_tail
+```
+
+Semantic content of `closed_prefix3_tmpm_branch_faceEval`:
+
+```text
+after xm, ym, tmpm:
+  schedule excludes xp/xm/ym/tmmp/tmpm/tpmm/tpmp/tppp;
+  square-gap excludes yp;
+  local-axis excludes zp;
+  target-shadow cursor excludes tmmm and tmpp;
+  graph table accepts zm -> state 150, gain 114;
+  graph table accepts tppm -> state 152, gain 96.
+```
+
+This is the first local theorem in this file that proves a whole
+closed-language branch by the deterministic semantic transducer, rather than
+by terminal accepted trace classes.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedLocal1MSmoke
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingStrengthenedLocal1MSmoke.lean` direct | pass | `6.00s` | `4202 MiB` |
+| `BellmanTopPairingStrengthenedLocal1MSmoke` Lake | pass | `7.01s` | `4331 MiB` |
+| forbidden-token scan on touched Lean file | pass | n/a | n/a |
+
+Next step:
+
+Repeat the same semantic branch-constructor pattern for:
+
+```text
+yp -> graph state 144
+zm -> graph state 145
+```
+
+Then add a single post-prefix3 dispatcher that reduces the third-face suffix
+obligation to the appropriate branch constructor.  This remains the immediate
+test of the Bellman pivot: branch coverage must be expressed as a deterministic
+closed-language evaluator theorem, not as a sampled trace cover.

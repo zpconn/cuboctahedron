@@ -248,6 +248,244 @@ theorem strengthenedSuffixOk_root_of_closedPrefix3_forall
         (fun nextState gain hnext htailNext =>
           hsuffix Face.zm rest nextState gain hlabels hnext htailNext))
 
+def closedPrefix3TmpmTransducerState : TopPairingTransducerState where
+  step := 3
+  gap := topPairingNextGap
+    (topPairingNextGap (topPairingNextGap 0 Face.xm) Face.ym) Face.tmpm
+  k := 1
+  parity := (SqParity.id.applyPair (pairOfFace Face.xm)).applyPair
+    (pairOfFace Face.ym)
+  linear := topPairingNextLinear
+    (topPairingNextLinear
+      (topPairingNextLinear (matId : Mat3 Rat) Face.xm) Face.ym)
+    Face.tmpm
+
+def closedPrefix3TmpmEvalState : FaceEvalState where
+  transducer := closedPrefix3TmpmTransducerState
+  graph := (146 : State)
+
+def closedPrefix3YpTransducerState : TopPairingTransducerState where
+  step := 3
+  gap := topPairingNextGap
+    (topPairingNextGap (topPairingNextGap 0 Face.xm) Face.ym) Face.yp
+  k := 0
+  parity := ((SqParity.id.applyPair (pairOfFace Face.xm)).applyPair
+    (pairOfFace Face.ym)).applyPair (pairOfFace Face.yp)
+  linear := topPairingNextLinear
+    (topPairingNextLinear
+      (topPairingNextLinear (matId : Mat3 Rat) Face.xm) Face.ym)
+    Face.yp
+
+def closedPrefix3YpEvalState : FaceEvalState where
+  transducer := closedPrefix3YpTransducerState
+  graph := (144 : State)
+
+def closedPrefix3ZmTransducerState : TopPairingTransducerState where
+  step := 3
+  gap := topPairingNextGap
+    (topPairingNextGap (topPairingNextGap 0 Face.xm) Face.ym) Face.zm
+  k := 0
+  parity := ((SqParity.id.applyPair (pairOfFace Face.xm)).applyPair
+    (pairOfFace Face.ym)).applyPair (pairOfFace Face.zm)
+  linear := topPairingNextLinear
+    (topPairingNextLinear
+      (topPairingNextLinear (matId : Mat3 Rat) Face.xm) Face.ym)
+    Face.zm
+
+def closedPrefix3ZmEvalState : FaceEvalState where
+  transducer := closedPrefix3ZmTransducerState
+  graph := (145 : State)
+
+theorem closed_prefix3_tmpm_next :
+    faceEvalNext closedPrefix2EvalState Face.tmpm =
+      some (closedPrefix3TmpmEvalState, (-124 : Int)) := by
+  rfl
+
+theorem closed_prefix3_yp_next :
+    faceEvalNext closedPrefix2EvalState Face.yp =
+      some (closedPrefix3YpEvalState, (-73 : Int)) := by
+  rfl
+
+theorem closed_prefix3_zm_next :
+    faceEvalNext closedPrefix2EvalState Face.zm =
+      some (closedPrefix3ZmEvalState, (-10 : Int)) := by
+  rfl
+
+private theorem closed_prefix3_tmpm_tail
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: Face.tmpm :: rest) :
+    closedPrefix3TmpmEvalState.Tail rest := by
+  have htail2 : closedPrefix2EvalState.Tail (Face.tmpm :: rest) :=
+    closed_prefix2_tail hclosed hlabels
+  have hgraph :
+      graphSmokeNext closedPrefix2EvalState.graph
+          (smokeLabelOfFace Face.tmpm) =
+        some ((146 : State), (-124 : Int)) := by
+    rfl
+  rcases TopPairingTransducerEvalState.next?_tail
+      (next := graphSmokeNext) (labelOfFace := smokeLabelOfFace)
+      htail2 hgraph with
+    ⟨nextState, hnext, htailNext, _hgraphNext⟩
+  change faceEvalNext closedPrefix2EvalState Face.tmpm =
+    some (nextState, (-124 : Int)) at hnext
+  rw [closed_prefix3_tmpm_next] at hnext
+  cases hnext
+  exact htailNext
+
+private theorem closed_prefix3_yp_tail
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: Face.yp :: rest) :
+    closedPrefix3YpEvalState.Tail rest := by
+  have htail2 : closedPrefix2EvalState.Tail (Face.yp :: rest) :=
+    closed_prefix2_tail hclosed hlabels
+  have hgraph :
+      graphSmokeNext closedPrefix2EvalState.graph
+          (smokeLabelOfFace Face.yp) =
+        some ((144 : State), (-73 : Int)) := by
+    rfl
+  rcases TopPairingTransducerEvalState.next?_tail
+      (next := graphSmokeNext) (labelOfFace := smokeLabelOfFace)
+      htail2 hgraph with
+    ⟨nextState, hnext, htailNext, _hgraphNext⟩
+  change faceEvalNext closedPrefix2EvalState Face.yp =
+    some (nextState, (-73 : Int)) at hnext
+  rw [closed_prefix3_yp_next] at hnext
+  cases hnext
+  exact htailNext
+
+private theorem closed_prefix3_zm_tail
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: Face.zm :: rest) :
+    closedPrefix3ZmEvalState.Tail rest := by
+  have htail2 : closedPrefix2EvalState.Tail (Face.zm :: rest) :=
+    closed_prefix2_tail hclosed hlabels
+  have hgraph :
+      graphSmokeNext closedPrefix2EvalState.graph
+          (smokeLabelOfFace Face.zm) =
+        some ((145 : State), (-10 : Int)) := by
+    rfl
+  rcases TopPairingTransducerEvalState.next?_tail
+      (next := graphSmokeNext) (labelOfFace := smokeLabelOfFace)
+      htail2 hgraph with
+    ⟨nextState, hnext, htailNext, _hgraphNext⟩
+  change faceEvalNext closedPrefix2EvalState Face.zm =
+    some (nextState, (-10 : Int)) at hnext
+  rw [closed_prefix3_zm_next] at hnext
+  cases hnext
+  exact htailNext
+
+theorem closed_prefix3_tmpm_branch_faceEval
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {face : Face} {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: Face.tmpm :: face :: rest) :
+    ∃ nextState : FaceEvalState, ∃ gain : Int,
+      faceEvalNext closedPrefix3TmpmEvalState face =
+        some (nextState, gain) ∧
+        nextState.Tail rest := by
+  have htail : closedPrefix3TmpmEvalState.Tail (face :: rest) :=
+    closed_prefix3_tmpm_tail hclosed hlabels
+  have htailRaw :
+      TopPairingTransducerTail
+        closedPrefix3TmpmEvalState.transducer.step
+        closedPrefix3TmpmEvalState.transducer.gap
+        closedPrefix3TmpmEvalState.transducer.k
+        closedPrefix3TmpmEvalState.transducer.parity
+        closedPrefix3TmpmEvalState.transducer.linear (face :: rest) := by
+    simpa [TopPairingTransducerEvalState.Tail,
+      TopPairingTransducerState.Tail] using htail
+  have hcons := TopPairingTransducerTail.cons htailRaw
+  cases face
+  · -- xp
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · -- xm
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · -- yp
+    have hsquare := htailRaw.trace.squareGap
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      topPairingNextGap, TopPairingSquareGapFrom,
+      topPairingAllowedSquareFacesAtGap,
+      pairOfFace, isSquarePair] at hsquare
+  · -- ym
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · -- zp
+    have haxis := hcons.2.1
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,
+      normalQ, matVec,
+      matMul, reflM, matSub, scalarMat, outer, dot, matId] at haxis
+    norm_num at haxis
+  · -- zm
+    have hgraph :
+        graphSmokeNext closedPrefix3TmpmEvalState.graph
+            (smokeLabelOfFace Face.zm) =
+          some ((150 : State), (114 : Int)) := by
+      rfl
+    rcases TopPairingTransducerEvalState.next?_tail
+        (next := graphSmokeNext) (labelOfFace := smokeLabelOfFace)
+        htail hgraph with
+      ⟨nextState, hnext, htailNext, _hgraphNext⟩
+    exact ⟨nextState, (114 : Int), hnext, htailNext⟩
+  · -- tmmm
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      triLetterOfFace?, TriLetter.act, TriLetter.ofPairId?,
+      TriLetter.ofSigns, TriLetter.yNeg, TriLetter.zNeg,
+      SqParity.applyPair, SqParity.toggleForPair, SqParity.toggleX,
+      SqParity.toggleY, SqParity.xor, SqParity.id,
+      pairOfFace,
+      topPairingTargetShadow] at hcons
+  · -- tmmp
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · -- tmpm
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · -- tmpp
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      triLetterOfFace?, TriLetter.act, TriLetter.ofPairId?,
+      TriLetter.ofSigns, TriLetter.yNeg, TriLetter.zNeg,
+      SqParity.applyPair, SqParity.toggleForPair, SqParity.toggleX,
+      SqParity.toggleY, SqParity.xor, SqParity.id,
+      pairOfFace,
+      topPairingTargetShadow] at hcons
+  · -- tpmm
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · -- tpmp
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · -- tppm
+    have hgraph :
+        graphSmokeNext closedPrefix3TmpmEvalState.graph
+            (smokeLabelOfFace Face.tppm) =
+          some ((152 : State), (96 : Int)) := by
+      rfl
+    rcases TopPairingTransducerEvalState.next?_tail
+        (next := graphSmokeNext) (labelOfFace := smokeLabelOfFace)
+        htail hgraph with
+      ⟨nextState, hnext, htailNext, _hgraphNext⟩
+    exact ⟨nextState, (96 : Int), hnext, htailNext⟩
+  · -- tppp
+    simp [closedPrefix3TmpmEvalState, closedPrefix3TmpmTransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+
 theorem strengthenedSuffixOk_local
     {rank : Fin numPairWords}
     {state : FaceEvalState} {face : Face} {rest : List Face}
