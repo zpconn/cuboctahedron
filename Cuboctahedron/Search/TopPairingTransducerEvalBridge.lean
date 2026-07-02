@@ -209,6 +209,56 @@ theorem evalLabelStepFn_exists_of_tail_and_invariantLocal
       refine ⟨finish, gain + tailGain, ?_, hfinishTail, hfinishInv⟩
       simp [evalLabelStepFn, hnext, htailEval]
 
+/--
+Suffix-carrying version of
+`evalLabelStepFn_exists_of_tail_and_invariantLocal`.
+
+Some production top-pairing invariants are not properties of a graph state
+alone.  In particular, the sequence bad-face filter rules out an
+over-approximate local transition only because no accepted full suffix can use
+it.  This theorem threads a semantic suffix predicate through the evaluator, so
+generated code can prove local transition closure from the strengthened
+language without falling back to sampled ranks or selected paths.
+-/
+theorem evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix
+    {State Label : Type}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    (Inv : TopPairingTransducerEvalState State -> Prop)
+    (SuffixOk :
+      TopPairingTransducerEvalState State -> List Face -> Prop)
+    (hlocal :
+      forall {state : TopPairingTransducerEvalState State}
+        {face : Face} {rest : List Face},
+        Inv state ->
+        state.Tail (face :: rest) ->
+        SuffixOk state (face :: rest) ->
+          exists nextState gain,
+            next? next labelOfFace state face = some (nextState, gain) ∧
+              nextState.Tail rest ∧ Inv nextState ∧
+                SuffixOk nextState rest)
+    {state : TopPairingTransducerEvalState State}
+    {faces : List Face}
+    (hinv : Inv state)
+    (htail : state.Tail faces)
+    (hsuffix : SuffixOk state faces) :
+    exists finish gain,
+      evalLabelStepFn (next? next labelOfFace) state faces =
+        some (finish, gain) ∧ finish.Tail [] ∧ Inv finish ∧
+          SuffixOk finish [] := by
+  induction faces generalizing state with
+  | nil =>
+      exact ⟨state, 0, by simp [evalLabelStepFn], htail, hinv, hsuffix⟩
+  | cons face rest ih =>
+      rcases hlocal hinv htail hsuffix with
+        ⟨mid, gain, hnext, hmidTail, hmidInv, hmidSuffix⟩
+      rcases ih hmidInv hmidTail hmidSuffix with
+        ⟨finish, tailGain, htailEval, hfinishTail, hfinishInv,
+          hfinishSuffix⟩
+      refine ⟨finish, gain + tailGain, ?_, hfinishTail, hfinishInv,
+        hfinishSuffix⟩
+      simp [evalLabelStepFn, hnext, htailEval]
+
 theorem graph_next_of_next?
     {State Label : Type}
     {next : State -> Label -> Option (State × Int)}
@@ -387,6 +437,65 @@ theorem evalLanguageAtRank_of_invariantLocal
       (next := next) (labelOfFace := labelOfFace) Inv hlocal hstart htail with
     ⟨finish, gain, heval, hfinishTail, hfinishInv⟩
   rcases hfinish heval hfinishTail hfinishInv with ⟨hfinal, hmargin⟩
+  exact evalLanguageAtRank_of_faceEval hclosed heval hfinal hmargin
+
+/--
+Rank-level eval-language bridge for suffix-carrying semantic invariants.
+
+This is the production socket for strengthened top-pairing Bellman languages:
+the start object supplies both the ordinary closed-language tail and an
+additional suffix predicate, such as the generated sequence bad-face filter.
+-/
+theorem evalLanguageAtRank_of_invariantLocalWithSuffix
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {graphStart : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {badFace : Face}
+    (Inv : TopPairingTransducerEvalState State -> Prop)
+    (SuffixOk :
+      TopPairingTransducerEvalState State -> List Face -> Prop)
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace)
+    (hstart : Inv (TopPairingTransducerEvalState.start graphStart))
+    (hsuffixStart :
+      SuffixOk (TopPairingTransducerEvalState.start graphStart)
+        (topPairingRankFaceLabels rank))
+    (hlocal :
+      forall {state : TopPairingTransducerEvalState State}
+        {face : Face} {rest : List Face},
+        Inv state ->
+        state.Tail (face :: rest) ->
+        SuffixOk state (face :: rest) ->
+          exists nextState gain,
+            next? next labelOfFace state face = some (nextState, gain) ∧
+              nextState.Tail rest ∧ Inv nextState ∧
+                SuffixOk nextState rest)
+    (hfinish :
+      forall {finish : TopPairingTransducerEvalState State} {gain : Int},
+        evalLabelStepFn (next? next labelOfFace)
+          (TopPairingTransducerEvalState.start graphStart)
+          (topPairingRankFaceLabels rank) = some (finish, gain) ->
+        finish.Tail [] ->
+        Inv finish ->
+        SuffixOk finish [] ->
+          0 <= V finish.graph ∧ scaledMargin rank <= const + gain) :
+    TopPairingBellmanEvalLanguageAtRank
+      V next labelOfFace graphStart const scaledMargin rank badFace := by
+  have htail :
+      (TopPairingTransducerEvalState.start graphStart).Tail
+        (topPairingRankFaceLabels rank) := by
+    simpa [Tail, TopPairingTransducerEvalState.start] using
+      TopPairingTransducerState.start_tail_of_closed hclosed
+  rcases evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix
+      (next := next) (labelOfFace := labelOfFace)
+      Inv SuffixOk hlocal hstart htail hsuffixStart with
+    ⟨finish, gain, heval, hfinishTail, hfinishInv, hfinishSuffix⟩
+  rcases hfinish heval hfinishTail hfinishInv hfinishSuffix with
+    ⟨hfinal, hmargin⟩
   exact evalLanguageAtRank_of_faceEval hclosed heval hfinal hmargin
 
 end TopPairingTransducerEvalState

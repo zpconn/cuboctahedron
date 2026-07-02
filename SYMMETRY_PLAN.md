@@ -78729,3 +78729,106 @@ and prove the local step theorem needed by
 `evalLanguageAtRank_of_invariantLocal`.  The invariant must use the strengthened
 semantic premise and sequence bad-face filter; it must not mention sampled
 rank/path objects.
+
+## 2026-07-02 Checkpoint: Suffix-Carrying Transducer Bridge
+
+The plain invariant theorem:
+
+```lean
+TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocal
+```
+
+only threads:
+
+```lean
+Inv state
+state.Tail remainingFaces
+```
+
+This is too weak for the production top-pairing route, because the exact
+closure audit showed one over-approximate local transition (`state=19`,
+`face=tmmp`) that is removed only by the sequence bad-face predicate.  That
+predicate is a property of the remaining suffix / full semantic object, not of
+the graph state alone.
+
+Added suffix-carrying bridge theorems in:
+
+```text
+Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean
+```
+
+New theorem surfaces:
+
+```lean
+TopPairingTransducerEvalState.\
+evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix
+
+TopPairingTransducerEvalState.\
+evalLanguageAtRank_of_invariantLocalWithSuffix
+```
+
+The new local premise has the shape:
+
+```lean
+Inv state ->
+state.Tail (face :: rest) ->
+SuffixOk state (face :: rest) ->
+  exists nextState gain,
+    next? next labelOfFace state face = some (nextState, gain) ∧
+      nextState.Tail rest ∧ Inv nextState ∧ SuffixOk nextState rest
+```
+
+This is the intended formal socket for:
+
+```text
+target cancellation pairing
++ schedule / square-gap
++ local forced-axis compatibility
++ sequence bad-face filter
+```
+
+without sampled rank/path membership.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_transducer_eval_bridge_suffix_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_transducer_eval_bridge_suffix_lake_guard.json \
+  -- lake build Cuboctahedron.Search.TopPairingTransducerEvalBridge
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_transducer_face_eval_1m_after_suffix_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTransducerFaceEval1MSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `TopPairingTransducerEvalBridge.lean` direct | pass | `4.00s` | `3569 MiB` |
+| `TopPairingTransducerEvalBridge` Lake | pass | `3.00s` | `4030 MiB` |
+| `BellmanTopPairingTransducerFaceEval1MSmoke` after suffix bridge | pass | `3.00s` | `4077 MiB` |
+
+Next generator task:
+
+Emit the first table-backed `Inv` plus `SuffixOk` smoke for the 223-state graph.
+The generated local theorem should consume the suffix predicate to reject the
+single bad-face over-approximation, rather than pretending `Inv state` alone is
+closed.
