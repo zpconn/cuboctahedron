@@ -80189,3 +80189,86 @@ Then add a single post-prefix3 dispatcher that reduces the third-face suffix
 obligation to the appropriate branch constructor.  This remains the immediate
 test of the Bellman pivot: branch coverage must be expressed as a deterministic
 closed-language evaluator theorem, not as a sampled trace cover.
+
+### Follow-up: Post-`yp` and Post-`zm` Semantic Branch Constructors Accepted
+
+Added the two sibling post-prefix3 branch constructors:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  closed_prefix3_yp_branch_faceEval
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  closed_prefix3_zm_branch_faceEval
+```
+
+Semantic content:
+
+```text
+after xm, ym, yp:
+  schedule excludes xp/xm/ym/tmmp/tmpm/tpmm/tpmp/tppp;
+  local-axis excludes yp and zp;
+  target-shadow cursor excludes tmpp and tppm;
+  graph table accepts tmmm -> state 148, gain -124;
+  graph table accepts zm   -> state 147, gain  -10.
+
+after xm, ym, zm:
+  schedule excludes xp/xm/ym/tmmp/tmpm/tpmm/tpmp/tppp;
+  local-axis excludes zm, tmmm, and tppm;
+  graph table accepts yp   -> state 147, gain  -73;
+  graph table accepts zp   -> state 149, gain  -10;
+  graph table accepts tmpp -> state 151, gain -124.
+```
+
+The `zm` branch is a useful design signal: the target-shadow cursor permits
+some triangular faces there, so the deterministic evaluator proof really needs
+the product of semantic fields (`schedule`, `target-shadow cursor`,
+`square-gap`, and `local-axis`) rather than any single coordinate.  This
+supports the current pivot away from selected-prefix membership and toward a
+closed-language transducer theorem.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedLocal1MSmoke
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingStrengthenedLocal1MSmoke.lean` direct | pass | `7.01s` | `4290 MiB` |
+| `BellmanTopPairingStrengthenedLocal1MSmoke` Lake | pass | `7.01s` | `4365 MiB` |
+| forbidden-token scan on touched Lean file | pass | n/a | n/a |
+
+Next step:
+
+Add the post-prefix3 dispatcher theorem that consumes
+`topPairingStepScheduleLabels_prefix3`, chooses one of the three accepted
+third-face branch constructors (`tmpm`, `yp`, `zm`), and reduces the root
+suffix obligation to the post-fourth-face suffix.  This should still be purely
+semantic and deterministic; no terminal accepted trace class should be used.
