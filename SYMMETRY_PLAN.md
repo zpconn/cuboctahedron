@@ -70340,3 +70340,81 @@ transition provider carries/checks the finite linear state by a cheap
 integer/projective transition relation, or if the state equality is amortized
 inside a much smaller semantic state DAG.  This is now a hard requirement for
 scaling the Bellman provider.
+
+Integer local-axis bridge checkpoint:
+
+Added
+
+```text
+Cuboctahedron/Search/TopPairingIntLocalAxis.lean
+```
+
+with integer normal/axis data and the generic bridge:
+
+```lean
+intLocalAxisDot_scaled_eq
+not_localAxisAllows_of_scaled_int_dot_nonpos
+```
+
+This theorem says: if an integer matrix is a positive scale multiple of the
+rational linear state, then a nonpositive integer local-axis dot product
+contradicts `TopPairingLocalAxisAllows`.  This is the intended substrate for
+generated local-axis finite facts.
+
+Guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 120 \
+  --json scripts/generated/top_pairing_int_local_axis_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     Cuboctahedron/Search/TopPairingIntLocalAxis.lean
+```
+
+Result:
+
+```text
+passed
+elapsed: 8.02s
+peak process-tree RSS: 3951 MiB
+minimum available memory observed: 46167 MiB
+hard address-space cap: 8192 MiB
+```
+
+The updated module was also compiled to `.olean` under the guard:
+
+```text
+passed
+elapsed: 8.00s
+peak process-tree RSS: 3950 MiB
+```
+
+`TransitionSmoke.lean` now states the three no-go facts through the integer
+bridge using a scaled integer matrix:
+
+```lean
+depth8Parent000ScaledLinear
+depth8Parent000_scaledLinear_eq
+```
+
+and was rechecked:
+
+```text
+passed
+elapsed: 18.04s
+peak process-tree RSS: 4003 MiB
+```
+
+Decision: accept the integer local-axis bridge as a reusable proof substrate,
+but do **not** accept the current transition smoke as a scalable production
+cost model.  The bridge made the local dot facts small; the remaining cost is
+the Rat-heavy proof that a face-prefix product equals the literal linear
+state.  The next production-facing theorem must either:
+
+1. carry the integer linear state in the semantic transition object and check
+   state updates by cheap integer matrix multiplication; or
+2. prove prefix-to-state equality once per minimized state-DAG node, not once
+   per parent transition.

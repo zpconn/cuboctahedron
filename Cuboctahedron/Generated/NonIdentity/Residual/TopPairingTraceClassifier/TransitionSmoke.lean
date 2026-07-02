@@ -1,4 +1,4 @@
-import Cuboctahedron.Search.TopPairingBellmanObject
+import Cuboctahedron.Search.TopPairingIntLocalAxis
 
 /-!
 Small transition-surface smoke for the top-pairing trace classifier.
@@ -33,6 +33,24 @@ def depth8Parent000Linear : Mat3 Rat where
   m20 := -4 / 9
   m21 := -8 / 9
   m22 := 1 / 9
+
+def depth8Parent000ScaledLinear : Mat3 Int where
+  m00 := 7
+  m01 := -4
+  m02 := -4
+  m10 := 4
+  m11 := -1
+  m12 := 8
+  m20 := -4
+  m21 := -8
+  m22 := 1
+
+theorem depth8Parent000_scaledLinear_eq :
+    depth8Parent000ScaledLinear.map (fun z : Int => (z : Rat)) =
+      scalarMat (9 : Rat) depth8Parent000Linear := by
+  apply Mat3.ext <;>
+    norm_num [depth8Parent000ScaledLinear, depth8Parent000Linear, Mat3.map,
+      scalarMat]
 
 theorem depth8Parent000_linear_eq :
     topPairingLinearAfterFaces (matId : Mat3 Rat)
@@ -91,21 +109,39 @@ theorem depth8_parent000_next_obligations
 
 theorem not_depth8_parent000_axis_tmmm :
     ¬ TopPairingLocalAxisAllows depth8Parent000Linear Face.tmmm := by
-  intro h
-  norm_num [TopPairingLocalAxisAllows, depth8Parent000Linear, normalQ,
-    topPairingLocalAxis, matVec, dot] at h
+  exact not_localAxisAllows_of_scaled_int_dot_nonpos
+    (linear := depth8Parent000Linear)
+    (scaled := depth8Parent000ScaledLinear)
+    (scale := 9)
+    (face := Face.tmmm)
+    (by norm_num)
+    depth8Parent000_scaledLinear_eq
+    (by norm_num [intLocalAxisDot, depth8Parent000ScaledLinear, normalInt,
+      topPairingLocalAxisInt, matVec, dot])
 
 theorem not_depth8_parent000_axis_tpmm :
     ¬ TopPairingLocalAxisAllows depth8Parent000Linear Face.tpmm := by
-  intro h
-  norm_num [TopPairingLocalAxisAllows, depth8Parent000Linear, normalQ,
-    topPairingLocalAxis, matVec, dot] at h
+  exact not_localAxisAllows_of_scaled_int_dot_nonpos
+    (linear := depth8Parent000Linear)
+    (scaled := depth8Parent000ScaledLinear)
+    (scale := 9)
+    (face := Face.tpmm)
+    (by norm_num)
+    depth8Parent000_scaledLinear_eq
+    (by norm_num [intLocalAxisDot, depth8Parent000ScaledLinear, normalInt,
+      topPairingLocalAxisInt, matVec, dot])
 
 theorem not_depth8_parent000_axis_zp :
     ¬ TopPairingLocalAxisAllows depth8Parent000Linear Face.zp := by
-  intro h
-  norm_num [TopPairingLocalAxisAllows, depth8Parent000Linear, normalQ,
-    topPairingLocalAxis, matVec, dot] at h
+  exact not_localAxisAllows_of_scaled_int_dot_nonpos
+    (linear := depth8Parent000Linear)
+    (scaled := depth8Parent000ScaledLinear)
+    (scale := 9)
+    (face := Face.zp)
+    (by norm_num)
+    depth8Parent000_scaledLinear_eq
+    (by norm_num [intLocalAxisDot, depth8Parent000ScaledLinear, normalInt,
+      topPairingLocalAxisInt, matVec, dot])
 
 theorem depth8_parent000_transition_children
     {labels : List Face}
