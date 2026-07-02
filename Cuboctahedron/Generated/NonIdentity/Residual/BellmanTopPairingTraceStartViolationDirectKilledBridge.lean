@@ -49,6 +49,16 @@ theorem nonIdentityRankKilled_of_traceIdStartViolationFamily
   rcases hrank with ⟨traceId, _hallowed, htrace⟩
   exact nonIdentityRankKilled_of_acceptedTraceId_startViolation htrace
 
+theorem nonIdentityRankKilled_of_graphAcceptedTraceLabels
+    {rank : Fin numPairWords}
+    (hgraph :
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalGate.GraphAcceptedTraceLabels
+        (topPairingRankFaceLabels rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank := by
+  rcases acceptedTraceId_of_graphAcceptedTraceLabels hgraph with
+    ⟨traceId, htrace⟩
+  exact nonIdentityRankKilled_of_acceptedTraceId_startViolation htrace
+
 def TerminalTraceIdBucketStartViolationFamily
     (allowedTraceId : AcceptedTraceId -> Prop)
     (rank : Fin numPairWords) : Prop :=

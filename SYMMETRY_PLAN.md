@@ -71606,3 +71606,98 @@ Updated strategy:
    prefixes cover only a bounded diagnostic slice or can be expanded
    mechanically to the remaining top-pairing accepted traces without returning
    to sampled rank/path membership.
+
+Terminal graph-accepted direct bridge:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean
+```
+
+adds the still smaller consumer theorem:
+
+```lean
+nonIdentityRankKilled_of_graphAcceptedTraceLabels
+nonIdentityRankKilled_of_strengthenedTerminalTrace
+nonIdentityRankKilled_of_strengthenedTerminalAcceptedLabels
+```
+
+The selected-prefix bridge above remains useful as a checked bounded cover
+slice, but it is no longer the minimal consumer route.  Once a terminal
+classifier has produced:
+
+```lean
+GraphAcceptedTraceLabels (topPairingRankFaceLabels rank)
+```
+
+the direct bridge chooses the corresponding `AcceptedTraceId` and applies the
+all-trace start-violation provider.  This avoids both:
+
+```text
+SelectedPrefixCoverFamily
+GraphAcceptedTraceMargin
+```
+
+for the final killed predicate.
+
+Checked commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 90 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_trace_start_violation_direct_killed_bridge_olean_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceStartViolationDirectKilledBridge.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceStartViolationDirectKilledBridge.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceStartViolationDirectKilledBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 90 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_direct_start_violation_killed_bridge_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean
+```
+
+Result:
+
+```text
+updated TraceStartViolationDirectKilledBridge.olean: pass, 5.00s,
+  peak_tree_rss 3663 MiB
+TerminalDirectStartViolationKilledBridge.lean: pass, 2.00s,
+  peak_tree_rss 3162 MiB
+token scan: clean
+git diff --check: clean
+```
+
+Revised next target:
+
+The production nonidentity top-pairing route should now aim for:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+TopPairingActualFaceOmniAtRank rank
+AcceptedSequenceBadFaceAtRank rank Face.ym
+TerminalTraceLabels (topPairingRankFaceLabels rank)
+---------------------------------------------------
+Coverage.NonIdentityRankKilled rank
+```
+
+with the proof path:
+
+```text
+terminal trace + cancellation -> TerminalOkTraceLabels
+TerminalOkTraceLabels + accepted bad face -> GraphAcceptedTraceLabels
+GraphAcceptedTraceLabels -> accepted trace id
+accepted trace id -> all-trace start violation provider
+start violation -> NonIdentityRankKilled
+```
+
+Bellman potentials and selected-prefix covers are now best understood as
+classifier/profiling scaffolding unless a later residual family lacks a direct
+start-violation provider.

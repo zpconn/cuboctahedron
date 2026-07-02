@@ -15,14 +15,14 @@
     ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceStartViolationDirectKilledBridge.ilean",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceStartViolationDirectKilledBridge.lean"
   ],
-  "elapsed_seconds": 3.002275984006701,
+  "elapsed_seconds": 5.003948843994294,
   "exit_code": 0,
   "hard_address_space_mib": 8192.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 3361100,
-  "max_tree_rss_mib": 3282.32421875,
-  "min_available_seen_kib": 47478116,
-  "min_available_seen_mib": 46365.34765625,
+  "max_tree_rss_kib": 3751144,
+  "max_tree_rss_mib": 3663.2265625,
+  "min_available_seen_kib": 47417648,
+  "min_available_seen_mib": 46306.296875,
   "rss_cap_mib": 6000.0,
   "timeout_seconds": 90.0
 }
