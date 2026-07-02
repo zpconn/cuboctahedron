@@ -75894,12 +75894,33 @@ killedResidualBridge_of_selectedPrefixInterval :
       Cuboctahedron.Generated.NonIdentity.KilledResidualBridge
 ```
 
+The same file also exposes portfolio-friendly lemmas:
+
+```lean
+residualRankKilled_of_terminalDirectResidualRankCovered :
+  TerminalDirectResidualRankCovered r ->
+    Cuboctahedron.Generated.NonIdentity.Coverage.ResidualRankKilled r
+
+residualRankKilled_of_selectedPrefixResidualRankCovered :
+  SelectedPrefixResidualRankCovered scaledMargin r ->
+    Cuboctahedron.Generated.NonIdentity.Coverage.ResidualRankKilled r
+```
+
 This is the formal version of the current strategy:
 
 ```text
 residual early-family rank
-  -> SelectedPrefixCoverFamily
   -> TerminalDirectClosedFamily
+  -> NonIdentityRankKilled
+  -> NonIdentity.KilledResidualBridge
+```
+
+or, when the selected-prefix Bellman fallback is needed:
+
+```text
+residual early-family rank
+  -> SelectedPrefixCoverFamily
+  -> TerminalDirectClosedFamily / Bellman nonpositive-margin socket
   -> NonIdentityRankKilled
   -> NonIdentity.KilledResidualBridge
 ```
@@ -75908,8 +75929,9 @@ The theorem is intentionally only an adapter.  It does not enumerate ranks,
 does not introduce sampled membership, does not revive certificate-checker
 fallbacks, and does not replay a Bellman path evaluator.  It gives the next
 generated producer an exact semantic target: prove interval/state coverage of
-`SelectedPrefixResidualRankCovered`, preferably by a compact closed-language or
-cancellation-tree producer, not by sampled paths.
+`TerminalDirectResidualRankCovered` or `SelectedPrefixResidualRankCovered`,
+preferably by a compact closed-language or cancellation-tree producer, not by
+sampled paths.
 
 Focused check run:
 
@@ -75927,6 +75949,7 @@ Result:
 | --- | --- | ---: | ---: | --- |
 | `BellmanTopPairingSelectedPrefixResidualBridge.lean` | pass | `5.57s` | `3320644 KB` | single Lean process, `-M8192` |
 | `BellmanTopPairingSelectedPrefixResidualBridge.lean` after direct target | pass | `4.42s` | `3337820 KB` | single Lean process, `-M8192` |
+| same file after portfolio lemmas | pass | `3.35s` | `3316264 KB` | single Lean process, `-M8192` |
 | forbidden/sampled token scan | pass | `<1s` | n/a | no hits |
 
 Current next task:
@@ -75937,7 +75960,69 @@ Current next task:
 2. Where direct start-violation evidence is unavailable, target
    `SelectedPrefixResidualRankCovered scaledMargin` as the Bellman-margin
    fallback.
-3. If proving this producer requires exact affine-RHS keys, sampled rank/path
+3. If the residual layer is covered by several semantic families, compose them
+   through `ResidualRankKilled`; the selected-prefix and terminal-direct routes
+   are now portfolio components, not necessarily the only residual route.
+4. If proving this producer requires exact affine-RHS keys, sampled rank/path
    objects, one branch per concrete rank/path, or a giant Boolean evaluator,
    stop this Bellman membership surface and pivot to the cancellation-tree
    summary automaton.
+
+## 2026-07-02 Checkpoint: Direct Residual Producer Audit
+
+Added and ran:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_direct_residual_producer.py
+python3 scripts/audit_top_pairing_direct_residual_producer.py
+```
+
+Outputs:
+
+```text
+scripts/generated/top_pairing_direct_residual_producer.json
+scripts/generated/top_pairing_direct_residual_producer.md
+```
+
+Audit decision:
+
+```text
+decision=generate-semantic-terminal-classifier-producer
+sampled-token hits=0
+```
+
+The producer-side status is now precise:
+
+- `closedRank_prefix7` exists.
+- `closedRank_prefix8` exists.
+- The only depth-9 rank bridge found is the bounded
+  `depth9Shard000Labels_of_closed_parent` smoke.
+- `TerminalTraceLabels` and
+  `terminalOk_of_terminalTrace_and_cancellation` exist.
+- `nonIdentityRankKilled_of_terminalTraceSemanticComponents` exists.
+
+Therefore the next production theorem is not another Bellman potential or
+another sampled membership smoke.  It is the semantic classifier producer:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+  TopPairingActualFaceOmniAtRank rank ->
+  AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank)
+```
+
+followed by the residual bridge producer:
+
+```lean
+forall r hlt,
+  nonIdEarlyFamilyClassOfRank ⟨r, hlt⟩ = NonIdFamilyClass.residual ->
+  totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠ (matId : Mat3 Rat) ->
+    TerminalDirectClosedFamily ⟨r, hlt⟩
+```
+
+The first implementation slice should extend the existing depth-9 smoke into a
+bounded grouped depth-9/terminal producer and measure it.  If a full producer
+requires huge nested OR terms or one branch per concrete rank/path, switch to a
+more compact cancellation-tree summary automaton for the terminal classifier.

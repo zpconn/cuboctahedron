@@ -1,0 +1,97 @@
+{
+  "decision": "generate-semantic-terminal-classifier-producer",
+  "files": {
+    "accepted": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 159,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Accepted.lean",
+      "symbols": {}
+    },
+    "depth7_all": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 1633,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth7/All.lean",
+      "symbols": {
+        "closedRank_prefix7": 2
+      }
+    },
+    "depth8_all": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 366,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth8/All.lean",
+      "symbols": {
+        "Depth8TraceLabels": 5,
+        "closedRank_prefix8": 2
+      }
+    },
+    "depth9_root_smoke": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 50,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth9/RootSmoke.lean",
+      "symbols": {
+        "Depth9Shard000Labels": 2,
+        "depth9Shard000Labels_of_closed_parent": 2
+      }
+    },
+    "producer_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 112,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerCoverageBridge.lean",
+      "symbols": {
+        "TerminalTraceLabels": 2,
+        "graphAcceptedTraceLabels_of_terminalOkSemanticComponents": 2,
+        "nonIdentityRankKilled_of_terminalTraceSemanticComponents": 1,
+        "rootFamily_of_terminalTraceSemanticComponents": 2,
+        "terminalOk_of_terminalTrace_and_cancellation": 1
+      }
+    },
+    "residual_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 89,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixResidualBridge.lean",
+      "symbols": {
+        "SelectedPrefixResidualRankCovered": 3,
+        "TerminalDirectClosedFamily": 1,
+        "TerminalDirectResidualRankCovered": 3,
+        "nonIdentityRankKilled_of_terminalDirectClosedFamily": 2,
+        "residualRankKilled_of_selectedPrefixResidualRankCovered": 1,
+        "residualRankKilled_of_terminalDirectResidualRankCovered": 1
+      }
+    },
+    "terminal_all": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 449,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Terminal/All.lean",
+      "symbols": {}
+    },
+    "terminal_direct_socket": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 46,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.lean",
+      "symbols": {
+        "TerminalDirectClosedFamily": 3,
+        "TerminalTraceLabels": 1,
+        "nonIdentityRankKilled_of_terminalDirectClosedFamily": 1
+      }
+    },
+    "terminal_ok": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 37,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/TerminalOk.lean",
+      "symbols": {
+        "TerminalTraceLabels": 4,
+        "terminalOk_of_terminalTrace_and_cancellation": 1
+      }
+    }
+  },
+  "sampled_hit_count": 0
+}
