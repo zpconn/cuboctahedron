@@ -37,6 +37,9 @@ CONSUMERS = {
     "graph_accepted_branch_suffix": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraphAcceptedBranchSuffix1MSmoke.lean",
+    "graph_accepted_branch_suffix_split10m": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke.lean",
     "graph_accepted_eval_gate": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraphAcceptedEvalGate.lean",
@@ -115,27 +118,44 @@ def render_markdown(report: dict[str, Any]) -> str:
         imports = ", ".join(f"`{item}`" for item in consumer["imports"]) or "none"
         lines.append(f"| `{name}` | {imports} | `{consumer['file']}` |")
 
-    lines.extend(
-        [
-            "",
-            "## Consequence",
-            "",
-            "The current branch-suffix sockets are over the 1M face-linear-tri-source",
-            "graph, while the accepted eval/margin gates are over the split-10M graph.",
-            "Do not directly compose those theorem surfaces.  The next Bellman",
-            "membership slice must choose one graph family and regenerate the",
-            "other socket against it.",
-            "",
-            "Preferred next options:",
-            "",
-            "1. regenerate the strengthened branch table / graph-accepted full",
-            "   suffix socket for the split-10M graph; or",
-            "2. regenerate the accepted eval/margin gate for the 1M graph.",
-            "",
-            "The split-10M graph is the more production-relevant candidate because",
-            "it is the one currently used by the accepted margin/eval gates.",
-        ]
-    )
+    if report["split10m_suffix_aligned_with_eval"]:
+        lines.extend(
+            [
+                "",
+                "## Consequence",
+                "",
+                "The original 1M branch-suffix sockets are still not compatible with",
+                "the accepted split-10M eval/margin gates.  A new split-10M",
+                "graph-accepted branch-suffix socket is now aligned with those gates.",
+                "",
+                "The aligned split-10M socket remains bounded smoke: it consumes the",
+                "current generated graph-accepted terminal traces.  The production",
+                "frontier is still the semantic closed-language-to-evaluator theorem,",
+                "not a trace-class cover.",
+            ]
+        )
+    else:
+        lines.extend(
+            [
+                "",
+                "## Consequence",
+                "",
+                "The current branch-suffix sockets are over the 1M face-linear-tri-source",
+                "graph, while the accepted eval/margin gates are over the split-10M graph.",
+                "Do not directly compose those theorem surfaces.  The next Bellman",
+                "membership slice must choose one graph family and regenerate the",
+                "other socket against it.",
+                "",
+                "Preferred next options:",
+                "",
+                "1. regenerate the strengthened branch table / graph-accepted full",
+                "   suffix socket for the split-10M graph; or",
+                "2. regenerate the accepted eval/margin gate for the 1M graph.",
+                "",
+                "The split-10M graph is the more production-relevant candidate because",
+                "it is the one currently used by the accepted margin/eval gates.",
+            ]
+        )
     return "\n".join(lines)
 
 
@@ -156,10 +176,16 @@ def main() -> int:
     }
 
     suffix_families = set(consumers["graph_accepted_branch_suffix"]["imports"])
+    split_suffix_families = set(
+        consumers["graph_accepted_branch_suffix_split10m"]["imports"]
+    )
     eval_families = set(consumers["graph_accepted_eval_gate"]["imports"])
     aligned = bool(suffix_families & eval_families)
+    split_aligned = bool(split_suffix_families & eval_families)
     decision = (
-        "graph-families-aligned"
+        "split10m-graph-accepted-suffix-aligned-with-eval-gate"
+        if split_aligned
+        else "graph-families-aligned"
         if aligned
         else "graph-families-not-aligned-for-direct-eval-adapter"
     )
@@ -167,6 +193,8 @@ def main() -> int:
     report = {
         "mode": "top-pairing-bellman-graph-family-alignment",
         "decision": decision,
+        "legacy_suffix_aligned_with_eval": aligned,
+        "split10m_suffix_aligned_with_eval": split_aligned,
         "families": families,
         "consumers": consumers,
     }

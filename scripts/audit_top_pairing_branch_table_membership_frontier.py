@@ -37,6 +37,9 @@ LEAN_FILES = {
     "branch_table": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedBranchTable1MSmoke.lean",
+    "branch_table_split10m": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingStrengthenedBranchTableSplit10MSmoke.lean",
     "branch_table_progress": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedBranchTableProgress1MSmoke.lean",
@@ -55,6 +58,9 @@ LEAN_FILES = {
     "graph_accepted_branch_suffix": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraphAcceptedBranchSuffix1MSmoke.lean",
+    "graph_accepted_branch_suffix_split10m": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke.lean",
     "strengthened_local": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedLocal1MSmoke.lean",
@@ -63,6 +69,10 @@ LEAN_FILES = {
 GUARDS = {
     "branch_table_lake": ROOT
     / "scripts/generated/bellman_strengthened_branch_table_1m_smoke_lake_guard.json",
+    "split10m_branch_table_direct": ROOT
+    / "scripts/generated/bellman_split10m_branch_table_guard.json",
+    "split10m_branch_table_lake": ROOT
+    / "scripts/generated/bellman_split10m_branch_table_lake_guard.json",
     "branch_table_progress_direct": ROOT
     / "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_guard.json",
     "branch_table_progress_lake": ROOT
@@ -87,6 +97,10 @@ GUARDS = {
     / "scripts/generated/bellman_graph_accepted_branch_suffix_guard.json",
     "graph_accepted_branch_suffix_lake": ROOT
     / "scripts/generated/bellman_graph_accepted_branch_suffix_lake_guard.json",
+    "graph_accepted_branch_suffix_split10m_direct": ROOT
+    / "scripts/generated/bellman_split10m_graph_accepted_branch_suffix_guard.json",
+    "graph_accepted_branch_suffix_split10m_lake": ROOT
+    / "scripts/generated/bellman_split10m_graph_accepted_branch_suffix_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -109,6 +123,7 @@ REQUIRED_SYMBOLS = {
     "branchTableSuffixOk_closedPrefix2_branch_of_closed": "closed third-face branch lift into branch-table suffix",
     "branchTableSuffixOk_root_of_closedPrefix3_forall": "closed-rank third-face lift into branch-table suffix",
     "GraphBranchTableSuffixOk": "lightweight graph-indexed suffix predicate",
+    "strengthenedBranchTableSplit10MSmoke_builds": "split-10M branch table build sentinel",
     "branchTableSuffixOk_of_graphBranchTableSuffixOk": "graph suffix conversion to semantic suffix",
     "graphBranchTableSuffixOk_closedPrefix2_branch_of_closed": "closed third-face graph suffix lift",
     "branchTableSuffixOk_root_of_graphClosedPrefix3_forall": "closed-rank graph suffix root lift",
@@ -128,6 +143,7 @@ REQUIRED_SYMBOLS = {
     "graphBranchTableSuffixOk_of_graphAcceptedTraceLabels": "graph accepted traces produce graph branch-table suffix evidence",
     "branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace": "strengthened terminal traces lift to Bellman root through full graph suffix",
     "graphAcceptedBranchSuffix1MSmoke_builds": "graph-accepted branch suffix build sentinel",
+    "graphAcceptedBranchSuffixSplit10MSmoke_builds": "split-10M graph-accepted branch suffix build sentinel",
 }
 
 FORBIDDEN_TOKENS = [
@@ -249,6 +265,7 @@ def render_markdown(report: dict[str, Any]) -> str:
             "branchTableSuffixOk_closedPrefix2_branch_of_closed",
             "branchTableSuffixOk_root_of_closedPrefix3_forall",
             "GraphBranchTableSuffixOk",
+            "strengthenedBranchTableSplit10MSmoke_builds",
             "branchTableSuffixOk_of_graphBranchTableSuffixOk",
             "graphBranchTableSuffixOk_closedPrefix2_branch_of_closed",
             "branchTableSuffixOk_root_of_graphClosedPrefix3_forall",
@@ -268,7 +285,11 @@ def render_markdown(report: dict[str, Any]) -> str:
             "graphBranchTableSuffixOk_of_graphAcceptedTraceLabels",
             "branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace",
             "graphAcceptedBranchSuffix1MSmoke_builds",
+            "graphAcceptedBranchSuffixSplit10MSmoke_builds",
             "```",
+            "",
+            "The split-10M branch-table / graph-accepted suffix socket is the",
+            "current graph-family-aligned bounded smoke for the eval/margin gate.",
             "",
             "## Remaining Production Theorem",
             "",

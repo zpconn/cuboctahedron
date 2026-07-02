@@ -18,6 +18,12 @@
         "1m_face_linear_tri_source"
       ]
     },
+    "graph_accepted_branch_suffix_split10m": {
+      "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke.lean",
+      "imports": [
+        "split_10m"
+      ]
+    },
     "graph_accepted_eval_gate": {
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalGate.lean",
       "imports": [
@@ -25,7 +31,7 @@
       ]
     }
   },
-  "decision": "graph-families-not-aligned-for-direct-eval-adapter",
+  "decision": "split10m-graph-accepted-suffix-aligned-with-eval-gate",
   "families": {
     "1m_face_linear_tri_source": {
       "base": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke/Base.lean",
@@ -36,5 +42,7 @@
       "state_count": 970
     }
   },
-  "mode": "top-pairing-bellman-graph-family-alignment"
+  "legacy_suffix_aligned_with_eval": false,
+  "mode": "top-pairing-bellman-graph-family-alignment",
+  "split10m_suffix_aligned_with_eval": true
 }

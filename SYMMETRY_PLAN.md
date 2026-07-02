@@ -82236,10 +82236,10 @@ Result:
 |---|---:|---:|---:|
 | graph-family alignment audit | pass | `1.00s` | `<1 MiB` |
 
-The audit reports:
+The audit now reports:
 
 ```text
-decision = graph-families-not-aligned-for-direct-eval-adapter
+decision = split10m-graph-accepted-suffix-aligned-with-eval-gate
 ```
 
 Current graph families:
@@ -82248,24 +82248,134 @@ Current graph families:
 |---|---|---:|
 | `BellmanTopPairingBranchTableSuffix1MSmoke` | `1m_face_linear_tri_source` | `223` |
 | `BellmanTopPairingGraphAcceptedBranchSuffix1MSmoke` | `1m_face_linear_tri_source` | `223` |
+| `BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke` | `split_10m` | `970` |
 | `BellmanTopPairingGraphAcceptedEvalGate` | `split_10m` | `970` |
 | `BellmanTopPairingClosedEvalGate` | `split_10m` | `970` |
 
 Decision:
 
 ```text
-Do not directly compose the new full-suffix theorem with the existing
-graph-accepted eval/margin gate.  They are over different finite Bellman
-automata.  The next implementation step must choose one graph family and
-regenerate the other socket against it.
+The original 1M full-suffix theorem still must not be composed with the
+split-10M graph-accepted eval/margin gate.  A new split-10M full-suffix
+socket is now graph-family aligned with that gate.
 ```
 
-Preferred next move:
+#### Split-10M Graph-Accepted Suffix Socket
+
+Implemented the preferred next move from the graph-family audit by generating:
 
 ```text
-Regenerate the strengthened branch table and graph-accepted full-suffix socket
-for the split-10M graph, because that is the graph family currently used by
-the accepted margin/eval gates.
+scripts/emit_split10m_graph_accepted_branch_suffix_smoke.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedBranchTableSplit10MSmoke.lean
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke.lean
+```
+
+The split branch table records:
+
+```lean
+realGraphTransitionBranchCount = 1054
+remainingUncoveredAuditedBranchCount = 0
+strengthenedBranchTableSplit10MSmoke_builds
+```
+
+The split suffix module proves:
+
+```lean
+graphBranchTableSuffixOk_of_graphAcceptedTraceLabels
+graphAcceptedBranchSuffixSplit10MSmoke_builds
+```
+
+This is still bounded trace-class smoke, not final production coverage.  Its
+value is graph-family alignment: the suffix socket now uses the same split-10M
+Bellman graph family as the accepted eval/margin gate.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_split10m_branch_table_guard.json \
+  --verbose \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedBranchTableSplit10MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_split10m_branch_table_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedBranchTableSplit10MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_split10m_graph_accepted_branch_suffix_guard.json \
+  --verbose \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_split10m_graph_accepted_branch_suffix_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| split-10M branch table direct Lean | pass | `12.03s` | `4182 MiB` | `45858 MiB` |
+| split-10M branch table Lake target | pass | `9.01s` | `4794 MiB` | `45294 MiB` |
+| split-10M graph-accepted suffix direct Lean | pass | `7.01s` | `4744 MiB` | `45355 MiB` |
+| split-10M graph-accepted suffix Lake target | pass | `7.01s` | `4825 MiB` | `45276 MiB` |
+
+Updated audits:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_bellman_graph_family_alignment_guard.json \
+  -- python3 scripts/audit_top_pairing_bellman_graph_family_alignment.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| graph-family alignment audit | pass | `1.02s` | `2 MiB` |
+| branch-table membership frontier audit | pass | `1.00s` | `<1 MiB` |
+
+Production interpretation:
+
+```text
+Keep Bellman, and keep the split-10M graph as the current production candidate.
+Do not scale graph-accepted trace classes.  The next proof obligation remains
+the deterministic semantic closed-language-to-evaluator theorem, now targeting
+the split-10M graph/socket surface.
 ```
 
 ### Branch-Table Third-Face Lift Added
