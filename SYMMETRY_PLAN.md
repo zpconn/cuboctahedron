@@ -71766,3 +71766,91 @@ consumer.  The remaining producer problem is to prove or generate the four
 semantic premises above for the full intended residual family, especially
 `TerminalTraceLabels (topPairingRankFaceLabels rank)`, in a way that scales
 without sampled rank/path membership.
+
+Direct strengthened sequence target:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean
+```
+
+now also defines:
+
+```lean
+def TerminalDirectSequenceBadFace
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  AcceptedSequenceBadFaceAtRank rank badFace /\
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank)
+
+theorem nonIdentityRankKilled_of_strengthenedTerminalDirect
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        TerminalDirectSequenceBadFace rank Face.ym) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+This gives future generated producers a single semantic target:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  TerminalDirectSequenceBadFace rank Face.ym
+```
+
+rather than the old Bellman target:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym
+```
+
+The new target contains no `scaledMargin` parameter and no
+`GraphAcceptedTraceMargin` obligation.  It asks generated/semantic producer
+modules only to prove:
+
+```text
+closed top-pairing language
+actual-face omni data
+accepted bad-face compatibility
+terminal trace classifier membership
+```
+
+Checked commands:
+
+```bash
+git diff --check
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|sampledObject|sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 90 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_direct_start_violation_killed_bridge_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean
+```
+
+Result:
+
+```text
+guarded Lean check: pass
+elapsed: 3.00s
+peak_tree_rss: 2897 MiB
+hard_as: 12288 MiB
+min_available: 46363 MiB
+token scan: clean
+git diff --check: clean
+```
+
+Next producer-side audit:
+
+Compare existing producer modules against `TerminalDirectSequenceBadFace`.
+The selected-prefix cover is a bounded diagnostic cover over the 37 accepted
+trace ids.  The real production question is whether the terminal classifier can
+prove `TerminalTraceLabels (topPairingRankFaceLabels rank)` for the full
+top-pairing residual language, or whether another semantic automaton/DAG is
+needed to produce that terminal-trace premise without sampled rank membership.

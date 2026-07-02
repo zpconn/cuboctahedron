@@ -18,6 +18,12 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAccepted
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalAcceptedBridge
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTraceStartViolationDirectKilledBridge
 
+def TerminalDirectSequenceBadFace
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  AcceptedSequenceBadFaceAtRank rank badFace /\
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank)
+
 theorem nonIdentityRankKilled_of_strengthenedTerminalTrace
     {rank : Fin numPairWords}
     (hstrengthened :
@@ -57,6 +63,16 @@ theorem nonIdentityRankKilled_of_terminalSemanticComponents
     (TopPairingStrengthenedClosedLanguageAtRank.ofComponents
       hclosed hactual hbad)
     hterm
+
+theorem nonIdentityRankKilled_of_strengthenedTerminalDirect
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        TerminalDirectSequenceBadFace rank Face.ym) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank := by
+  rcases hstrengthened.sequenceBadFace_ok with ⟨hbad, hterm⟩
+  exact nonIdentityRankKilled_of_terminalSemanticComponents
+    hstrengthened.closed hstrengthened.actualFaceOmni hbad hterm
 
 theorem terminal_direct_start_violation_killed_bridge_builds : True := by
   exact True.intro
