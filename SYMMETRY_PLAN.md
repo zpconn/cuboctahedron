@@ -72920,3 +72920,116 @@ rank-path sampling, continue this route.  If it collapses back to
 `SampledRankIndex`, exact affine-RHS tables, or one path per rank, reject this
 Bellman/top-pairing production route and pivot to a cancellation-summary
 automaton with a stronger semantic state.
+
+## 2026-07-02 Checkpoint: Depth-9 Semantic Provider Slice
+
+Added a narrow depth-9 classifier provider smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  TopPairingTraceClassifier/Depth9/RootSmoke.lean
+```
+
+This file deliberately avoids importing the full `Depth8.All` root.  The first
+attempt to do so immediately tried to pull in the whole depth-7/depth-8 root
+tree, which is the wrong fan-in shape for this experiment.  The accepted smoke
+imports only:
+
+```lean
+import Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Depth9.Shard000
+```
+
+and treats the shard's parent predicate as the semantic input.
+
+New semantic provider surface:
+
+```lean
+def ClosedRankInDepth9Shard000Parent (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    Depth8ParentShard000Labels (topPairingRankFaceLabels rank)
+
+theorem depth9Shard000Labels_of_closed_parent
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hparent : Depth8ParentShard000Labels (topPairingRankFaceLabels rank)) :
+    Depth9Shard000Labels (topPairingRankFaceLabels rank)
+
+theorem depth9Shard000Labels_of_parent_family
+    {rank : Fin numPairWords}
+    (hfamily : ClosedRankInDepth9Shard000Parent rank) :
+    Depth9Shard000Labels (topPairingRankFaceLabels rank)
+```
+
+Guarded commands:
+
+```bash
+mkdir -p \
+  .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth9
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_trace_classifier_depth9_shard000_olean_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth9/Shard000.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth9/Shard000.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth9/Shard000.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_trace_classifier_depth9_root_smoke_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth9/RootSmoke.lean
+```
+
+Results:
+
+```text
+Depth9.Shard000 .olean refresh: pass
+elapsed: 51.04s
+peak_tree_rss: 5249 MiB
+hard_as: 12288 MiB
+min_available: 44892 MiB
+
+Depth9.RootSmoke: pass
+elapsed: 2.00s
+peak_tree_rss: 3596 MiB
+hard_as: 12288 MiB
+min_available: 46300 MiB
+```
+
+Strategic interpretation:
+
+This is the next semantic-membership experiment requested by the GPT5.5 gate.
+The theorem is still semantic: a closed rank plus a depth-8 parent language
+predicate deterministically yields a depth-9 child language predicate.  It does
+not mention sampled ranks, sampled paths, exact affine RHS, or Bellman-margin
+tables.
+
+The measured cost also says something important.  The local provider theorem is
+cheap once its shard `.olean` exists, but the shard itself is not free:
+`Shard000` took `51.04s` and `5.25 GiB` RSS.  This is acceptable for a bounded
+leaf, but it means the next generator step must preserve leaf-local imports
+and avoid roots that import all depth-7/depth-8 shards into ordinary consumer
+modules.
+
+Next provider task:
+
+Generate the remaining depth-9 parent shards in the same leaf-local style, then
+add a shallow group/root that exposes a semantic theorem of the shape:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> Depth8TraceLabels (topPairingRankFaceLabels rank)
+  -> Depth9TraceLabels (topPairingRankFaceLabels rank)
+```
+
+or, preferably, a grouped family predicate that keeps root imports bounded.  Do
+not let this become a rank/path table.  If the depth-9 shard count or aggregate
+RSS projects beyond the generated-checking budget, switch to a smaller
+cancellation-summary state before expanding to terminal depth.
