@@ -14,24 +14,25 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `topPairingTargetShadow_of_summary` | target-shadow inverse | `target_cursor` |
 | `topPairingTriCursor_of_closed` | closed language to target cursor | `target_cursor`, `transducer_tail` |
 | `TopPairingTransducerTail.ofClosedRank` | closed language to combined semantic tail | `eval_bridge`, `face_eval_split10m` |
-| `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` | generic suffix evaluator | `eval_bridge`, `branch_table_suffix`, `strengthened_local` |
+| `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` | generic suffix evaluator | `eval_bridge`, `branch_table_suffix`, `branch_table_suffix_split10m`, `strengthened_local` |
 | `transducer_face_eval_split10m_smoke_builds` | split-10M semantic prefix evaluator build sentinel | `face_eval_split10m` |
 | `closed_prefix2_branch_faceEval` | closed prefix-2 semantic branch evaluator | `face_eval_split10m`, `strengthened_local` |
-| `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_split10m`, `branch_table_progress`, `branch_table_progress_split10m`, `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
+| `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_split10m`, `branch_table_progress`, `branch_table_progress_split10m`, `branch_table_suffix`, `branch_table_suffix_split10m`, `graph_suffix_emitter`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
 | `strengthenedBranchKind?` | finite graph/socket branch classifier | `branch_table` |
 | `branchKind?_of_branchTable` | branch-table entry computes to classifier | `branch_table` |
 | `graph_next_of_graphBranch` | branch-table graph transition extractor | `branch_table`, `branch_table_split10m`, `branch_table_progress`, `branch_table_progress_split10m` |
-| `faceEvalNext_of_graphBranchTable` | graph branch local evaluator progress | `branch_table_progress`, `branch_table_progress_split10m`, `branch_table_suffix` |
+| `faceEvalNext_of_graphBranchTable` | graph branch local evaluator progress | `branch_table_progress`, `branch_table_progress_split10m`, `branch_table_suffix`, `branch_table_suffix_split10m` |
 | `branchTableProgressSplit10MSmoke_builds` | split-10M graph branch local-progress sentinel | `branch_table_progress_split10m` |
 | `socket19TmmpBranch_impossible` | state19/tmmp semantic socket | `branch_table_progress`, `branch_table_suffix` |
 | `socket150TpppBranch_impossible` | state150/tppp semantic socket | `branch_table_progress`, `branch_table_suffix` |
-| `BranchTableSuffixOk` | suffix predicate storing branch-table evidence | `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
-| `branchTableSuffixOk_local` | local progress from branch-table suffix | `branch_table_suffix` |
-| `eval_exists_of_branchTableSuffixOk` | whole-suffix evaluator from branch-table suffix | `branch_table_suffix` |
-| `branchTableSuffixOk_root_of_closedPrefix2` | semantic root-prefix lift into branch-table suffix | `branch_table_suffix`, `graph_accepted_suffix_bridge` |
-| `branchTableSuffixOk_root_of_closedPrefix2_forall` | closed-rank root-prefix lift into branch-table suffix | `branch_table_suffix` |
-| `branchTableSuffixOk_closedPrefix2_branch_of_closed` | closed third-face branch lift into branch-table suffix | `branch_table_suffix` |
-| `branchTableSuffixOk_root_of_closedPrefix3_forall` | closed-rank third-face lift into branch-table suffix | `branch_table_suffix` |
+| `BranchTableSuffixOk` | suffix predicate storing branch-table evidence | `branch_table_suffix`, `branch_table_suffix_split10m`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
+| `branchTableSuffixOk_local` | local progress from branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m` |
+| `eval_exists_of_branchTableSuffixOk` | whole-suffix evaluator from branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m` |
+| `branchTableSuffixOk_root_of_closedPrefix2` | semantic root-prefix lift into branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m`, `graph_accepted_suffix_bridge` |
+| `branchTableSuffixOk_root_of_closedPrefix2_forall` | closed-rank root-prefix lift into branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m` |
+| `branchTableSuffixOk_closedPrefix2_branch_of_closed` | closed third-face branch lift into branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m` |
+| `branchTableSuffixOk_root_of_closedPrefix3_forall` | closed-rank third-face lift into branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m` |
+| `branchTableSuffixSplit10MSmoke_builds` | split-10M branch-table suffix sentinel | `branch_table_suffix_split10m` |
 | `GraphBranchTableSuffixOk` | lightweight graph-indexed suffix predicate | `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
 | `strengthenedBranchTableSplit10MSmoke_builds` | split-10M branch table build sentinel | `branch_table_split10m` |
 | `branchTableSuffixOk_of_graphBranchTableSuffixOk` | graph suffix conversion to semantic suffix | `branch_table_suffix`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix` |
@@ -60,8 +61,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | guard | exit | elapsed | peak RSS | killed |
 | --- | ---: | ---: | ---: | --- |
 | `branch_table_lake` | `0` | `6.01s` | `4296 MiB` | `None` |
-| `face_eval_split10m_direct` | `0` | `4.00s` | `4028 MiB` | `None` |
-| `face_eval_split10m_lake` | `0` | `3.00s` | `3993 MiB` | `None` |
+| `face_eval_split10m_direct` | `0` | `4.01s` | `3856 MiB` | `None` |
+| `face_eval_split10m_lake` | `0` | `4.00s` | `3978 MiB` | `None` |
 | `split10m_branch_table_direct` | `0` | `63.13s` | `7123 MiB` | `None` |
 | `split10m_branch_table_lake` | `0` | `67.09s` | `7213 MiB` | `None` |
 | `branch_table_progress_direct` | `0` | `2.00s` | `3544 MiB` | `None` |
@@ -70,6 +71,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `split10m_branch_table_progress_lake` | `0` | `3.00s` | `1445 MiB` | `None` |
 | `branch_table_suffix_direct` | `0` | `3.00s` | `3921 MiB` | `None` |
 | `branch_table_suffix_lake` | `0` | `1.00s` | `1 MiB` | `None` |
+| `split10m_branch_table_suffix_direct` | `0` | `2.00s` | `3589 MiB` | `None` |
+| `split10m_branch_table_suffix_lake` | `0` | `4.00s` | `4109 MiB` | `None` |
 | `graph_suffix_emitter_direct` | `0` | `10.05s` | `3867 MiB` | `None` |
 | `graph_suffix_emitter_lake` | `0` | `3.00s` | `3900 MiB` | `None` |
 | `graph_accepted_prefix_frontier_direct` | `0` | `6.04s` | `3944 MiB` | `None` |
@@ -102,6 +105,7 @@ branchTableSuffixOk_root_of_closedPrefix2
 branchTableSuffixOk_root_of_closedPrefix2_forall
 branchTableSuffixOk_closedPrefix2_branch_of_closed
 branchTableSuffixOk_root_of_closedPrefix3_forall
+branchTableSuffixSplit10MSmoke_builds
 GraphBranchTableSuffixOk
 strengthenedBranchTableSplit10MSmoke_builds
 branchTableSuffixOk_of_graphBranchTableSuffixOk

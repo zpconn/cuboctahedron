@@ -52,6 +52,9 @@ LEAN_FILES = {
     "branch_table_suffix": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingBranchTableSuffix1MSmoke.lean",
+    "branch_table_suffix_split10m": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingBranchTableSuffixSplit10MSmoke.lean",
     "graph_suffix_emitter": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraphSuffixEmitter1MSmoke.lean",
@@ -95,6 +98,10 @@ GUARDS = {
     / "scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json",
     "branch_table_suffix_lake": ROOT
     / "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json",
+    "split10m_branch_table_suffix_direct": ROOT
+    / "scripts/generated/bellman_split10m_branch_table_suffix_guard.json",
+    "split10m_branch_table_suffix_lake": ROOT
+    / "scripts/generated/bellman_split10m_branch_table_suffix_lake_guard.json",
     "graph_suffix_emitter_direct": ROOT
     / "scripts/generated/bellman_graph_suffix_emitter_1m_smoke_guard.json",
     "graph_suffix_emitter_lake": ROOT
@@ -139,6 +146,7 @@ REQUIRED_SYMBOLS = {
     "branchTableSuffixOk_root_of_closedPrefix2_forall": "closed-rank root-prefix lift into branch-table suffix",
     "branchTableSuffixOk_closedPrefix2_branch_of_closed": "closed third-face branch lift into branch-table suffix",
     "branchTableSuffixOk_root_of_closedPrefix3_forall": "closed-rank third-face lift into branch-table suffix",
+    "branchTableSuffixSplit10MSmoke_builds": "split-10M branch-table suffix sentinel",
     "GraphBranchTableSuffixOk": "lightweight graph-indexed suffix predicate",
     "strengthenedBranchTableSplit10MSmoke_builds": "split-10M branch table build sentinel",
     "branchTableSuffixOk_of_graphBranchTableSuffixOk": "graph suffix conversion to semantic suffix",
@@ -284,6 +292,7 @@ def render_markdown(report: dict[str, Any]) -> str:
             "branchTableSuffixOk_root_of_closedPrefix2_forall",
             "branchTableSuffixOk_closedPrefix2_branch_of_closed",
             "branchTableSuffixOk_root_of_closedPrefix3_forall",
+            "branchTableSuffixSplit10MSmoke_builds",
             "GraphBranchTableSuffixOk",
             "strengthenedBranchTableSplit10MSmoke_builds",
             "branchTableSuffixOk_of_graphBranchTableSuffixOk",

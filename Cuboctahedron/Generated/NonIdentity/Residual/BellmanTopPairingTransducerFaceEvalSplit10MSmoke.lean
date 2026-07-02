@@ -24,6 +24,17 @@ def faceEvalNext :
     FaceEvalState -> Face -> Option (FaceEvalState × Int) :=
   TopPairingTransducerEvalState.next? graphSmokeNext smokeLabelOfFace
 
+def closedPrefix1TransducerState : TopPairingTransducerState where
+  step := 1
+  gap := topPairingNextGap 0 Face.xm
+  k := 0
+  parity := SqParity.id.applyPair (pairOfFace Face.xm)
+  linear := topPairingNextLinear (matId : Mat3 Rat) Face.xm
+
+def closedPrefix1EvalState : FaceEvalState where
+  transducer := closedPrefix1TransducerState
+  graph := (608 : State)
+
 def closedPrefix2TransducerState : TopPairingTransducerState where
   step := 2
   gap := topPairingNextGap (topPairingNextGap 0 Face.xm) Face.ym
@@ -36,6 +47,16 @@ def closedPrefix2TransducerState : TopPairingTransducerState where
 def closedPrefix2EvalState : FaceEvalState where
   transducer := closedPrefix2TransducerState
   graph := (610 : State)
+
+theorem closed_prefix1_next :
+    faceEvalNext (TopPairingTransducerEvalState.start rootState) Face.xm =
+      some (closedPrefix1EvalState, (103 : Int)) := by
+  rfl
+
+theorem closed_prefix2_next_from_prefix1 :
+    faceEvalNext closedPrefix1EvalState Face.ym =
+      some (closedPrefix2EvalState, (-73 : Int)) := by
+  rfl
 
 theorem closed_prefix2_eval_eq :
     evalLabelStepFn faceEvalNext

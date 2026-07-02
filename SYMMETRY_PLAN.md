@@ -82462,8 +82462,8 @@ Results:
 
 | Target | Result | Time | Peak RSS | Min available |
 |---|---:|---:|---:|---:|
-| split-10M semantic prefix evaluator direct Lean | pass | `4.00s` | `4028 MiB` | `46059 MiB` |
-| split-10M semantic prefix evaluator Lake target | pass | `3.00s` | `3993 MiB` | `46051 MiB` |
+| split-10M semantic prefix evaluator direct Lean | pass | `4.01s` | `3856 MiB` | `46185 MiB` |
+| split-10M semantic prefix evaluator Lake target | pass | `4.00s` | `3978 MiB` | `46051 MiB` |
 | branch-table membership frontier audit | pass | `1.00s` | `1 MiB` | `46546 MiB` |
 
 Next production target:
@@ -82472,6 +82472,16 @@ Next production target:
 Extend the same split-10M semantic evaluator past the third face by consuming
 finite branch-table evidence and semantic socket contradictions, rather than
 graph-accepted terminal traces.
+```
+
+The split prefix evaluator also now exposes the one-step root names needed by
+the branch-table suffix bridge:
+
+```lean
+closedPrefix1TransducerState
+closedPrefix1EvalState
+closed_prefix1_next
+closed_prefix2_next_from_prefix1
 ```
 
 #### Split-10M Branch-Table Local Progress
@@ -82653,4 +82663,99 @@ Construct the post-third-face `BranchTableSuffixOk` continuation from semantic
 transducer/cursor state.  The next bounded slice can mirror the existing
 closed-prefix-4 direct theorem, but must store `StrengthenedBranchTable`
 constructors rather than direct `faceEvalNext` equations.
+```
+
+### Split-10M Branch-Table Suffix Predicate Added
+
+Implemented the split-10M analogue of the semantic branch-table suffix
+predicate:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffixSplit10MSmoke.lean
+```
+
+The module imports the split-10M branch table and local progress bridge, then
+stores branch-table evidence instead of graph-accepted terminal traces.  It
+proves the same local shape as the 1M suffix smoke, but with split graph
+states:
+
+```lean
+BranchInv
+BranchTableSuffixOk
+branchTableSuffixOk_local
+eval_exists_of_branchTableSuffixOk
+branchTableSuffixOk_root_of_closedPrefix2
+branchTableSuffixOk_root_of_closedPrefix2_forall
+branchTableSuffixOk_closedPrefix2_branch_of_closed
+branchTableSuffixOk_root_of_closedPrefix3_forall
+branchTableSuffixSplit10MSmoke_builds
+```
+
+The bridge uses the split graph root prefix:
+
+```text
+0 --xm/103--> 608 --ym/-73--> 610
+```
+
+and stores finite branch-table constructors for the semantic third-face
+alternatives out of state `610`:
+
+```text
+tmpm -> state 618, gain -124
+yp   -> state 615, gain -73
+zm   -> state 616, gain -10
+```
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_split10m_branch_table_suffix_guard.json \
+  --verbose \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffixSplit10MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_split10m_branch_table_suffix_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingBranchTableSuffixSplit10MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| split-10M branch-table suffix direct Lean | pass | `2.00s` | `3589 MiB` | `46247 MiB` |
+| split-10M branch-table suffix Lake target | pass | `4.00s` | `4109 MiB` | `45990 MiB` |
+| branch-table membership frontier audit | pass | `1.00s` | `2 MiB` | `46563 MiB` |
+
+Decision:
+
+```text
+Accepted as the split-10M semantic suffix checkpoint.  This is still not final
+closed-language coverage, but the checked theorem surface is now the intended
+production shape: semantic closed prefix -> finite branch-table evidence ->
+deterministic evaluator progress.  The next theorem should generate/prove
+membership into this suffix predicate from the closed top-pairing
+target-shadow/tri-source state beyond the third face, without sampled traces
+or graph-accepted terminal disjunctions.
 ```

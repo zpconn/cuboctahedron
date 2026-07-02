@@ -6,14 +6,14 @@
     "lean",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTransducerFaceEvalSplit10MSmoke.lean"
   ],
-  "elapsed_seconds": 4.0035719939915,
+  "elapsed_seconds": 4.008144163992256,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4124868,
-  "max_tree_rss_mib": 4028.19140625,
-  "min_available_seen_kib": 47164816,
-  "min_available_seen_mib": 46059.390625,
+  "max_tree_rss_kib": 3948192,
+  "max_tree_rss_mib": 3855.65625,
+  "min_available_seen_kib": 47293524,
+  "min_available_seen_mib": 46185.08203125,
   "rss_cap_mib": 10000.0,
   "timeout_seconds": 300.0
 }
