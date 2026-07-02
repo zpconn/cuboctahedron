@@ -44,6 +44,20 @@ theorem nonIdentityRankKilled_of_strengthenedTerminalAcceptedLabels
     (graphAcceptedTraceLabels_of_strengthenedTerminalOk
       hstrengthened haccepted)
 
+theorem nonIdentityRankKilled_of_terminalSemanticComponents
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (topPairingRankFaceLabels rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_strengthenedTerminalTrace
+    (TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+      hclosed hactual hbad)
+    hterm
+
 theorem terminal_direct_start_violation_killed_bridge_builds : True := by
   exact True.intro
 

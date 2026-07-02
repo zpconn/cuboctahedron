@@ -71701,3 +71701,68 @@ start violation -> NonIdentityRankKilled
 Bellman potentials and selected-prefix covers are now best understood as
 classifier/profiling scaffolding unless a later residual family lacks a direct
 start-violation provider.
+
+Production-shaped terminal semantic theorem:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean
+```
+
+now exposes the exact four-premise surface identified above:
+
+```lean
+theorem nonIdentityRankKilled_of_terminalSemanticComponents
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (topPairingRankFaceLabels rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+This is now the preferred consumer theorem for the current top-pairing
+nonidentity residual route.  It packages `hclosed`, `hactual`, and `hbad` into
+`TopPairingStrengthenedClosedLanguageAtRank.ofComponents`, converts terminal
+labels to accepted graph labels via the existing terminal bridge, then applies
+the accepted-trace start-violation provider dispatcher.
+
+Checked commands:
+
+```bash
+git diff --check
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|sampledObject|sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 90 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_direct_start_violation_killed_bridge_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean
+```
+
+Result:
+
+```text
+guarded Lean check: pass
+elapsed: 5.00s
+peak_tree_rss: 3571 MiB
+hard_as: 12288 MiB
+min_available: 46350 MiB
+token scan: clean
+git diff --check: clean
+```
+
+Next frontier:
+
+The top-pairing residual no longer needs a selected-prefix or Bellman-margin
+consumer.  The remaining producer problem is to prove or generate the four
+semantic premises above for the full intended residual family, especially
+`TerminalTraceLabels (topPairingRankFaceLabels rank)`, in a way that scales
+without sampled rank/path membership.
