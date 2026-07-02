@@ -85285,3 +85285,117 @@ Immediate next gate:
 3. Keep final margins separate until a Bellman/cocycle/segment integer producer
    proves `Split10MFinalMarginProducer` without exact affine RHS or full path
    keys.
+
+#### Depth-11 Graph-State Suffix Smoke Accepted
+
+Added
+`scripts/emit_top_pairing_depth11_graph_state_suffix_smoke.py`, which emits:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingDepth11GraphStateSuffixSmoke.lean
+```
+
+This is still a bounded diagnostic smoke, not final coverage.  It consumes the
+provider-gap audit and emits graph-state-indexed suffix predicates/theorems for
+the observed depth-11 obligations.  The generated module deliberately proves
+only graph branch-table suffix evidence; it does not prove that every closed
+rank reaches the listed suffix states, and it does not prove
+`Split10MFinalMarginProducer`.
+
+Generated public/local theorem surface:
+
+```lean
+def Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingDepth11GraphStateSuffixSmoke.
+  depth11GraphStateSuffixObligationCount : Nat
+
+def Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingDepth11GraphStateSuffixSmoke.
+  depth11GraphStateSuffixProviderCount : Nat
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingDepth11GraphStateSuffixSmoke.
+  depth11GraphStateSuffixCount_audit :
+    depth11GraphStateSuffixObligationCount = 32 /\
+      depth11GraphStateSuffixProviderCount = 30
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingDepth11GraphStateSuffixSmoke.
+  graphBranchTableSuffixOk_class034_state0197
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingDepth11GraphStateSuffixSmoke.
+  graphBranchTableSuffixOk_class034_state0198
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingDepth11GraphStateSuffixSmoke.
+  graphBranchTableSuffixOk_class034_state0201
+
+-- plus analogous graphBranchTableSuffixOk_classNNN_stateSSSS
+-- theorems for classes 35, 36, 37, 38, and 39.
+```
+
+The emitter also generated one predicate per observed
+`(semantic class, graph state)` depth-11 provider, for example:
+
+```lean
+inductive Depth11Class034State0197Suffix : List Face -> Prop
+inductive Depth11Class034State0198Suffix : List Face -> Prop
+inductive Depth11Class034State0201Suffix : List Face -> Prop
+```
+
+This directly fixes the class-034 audit issue: class `34` at suffix
+`zm, zp, xp` occurs at graph states `197`, `198`, and `201`, so a production
+provider must be graph-state-indexed.
+
+Commands:
+
+```bash
+python3 scripts/emit_top_pairing_depth11_graph_state_suffix_smoke.py
+```
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_graph_state_suffix_smoke.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_graph_state_suffix_smoke_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphStateSuffixSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_graph_state_suffix_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphStateSuffixSmoke
+```
+
+Result:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `BellmanTopPairingDepth11GraphStateSuffixSmoke.lean` | pass | `13.02s` | `3944 MiB` | `46098 MiB` |
+| Lake `BellmanTopPairingDepth11GraphStateSuffixSmoke` | pass | `4.00s` | `4286 MiB` | `45751 MiB` |
+
+Decision: accepted as the right bounded Lean shape for graph-state-indexed late
+suffix providers.  The next theorem is not another suffix smoke.  It is the
+semantic bridge that takes a strengthened closed top-pairing rank, uses the
+target cursor/schedule/count/local-axis/tri-source facts to reach one of these
+depth-11 `(class, graph state)` predicates, then delegates the suffix theorem.
+If that bridge starts requiring selected prefix traces, sampled ranks, exact
+affine RHS, or full path keys, stop and refine the semantic transducer state or
+cocycle quotient.
