@@ -60784,3 +60784,35 @@ current generator to all depths until the local child-step proof is factored
 into a cheaper reusable transition theorem or an even smaller parent-local
 proof surface.  The next implementation step should optimize the semantic
 extension proof, not increase the generated depth.
+
+Inspection after this checkpoint:
+
+`Cuboctahedron/Search/BellmanTopPairingLanguage.lean` already exposes the
+semantic components consumed by the classifier:
+
+```lean
+TopPairingStepScheduleLabels
+TopPairingSquareGapLabels
+TopPairingLocalAxisLabels
+TopPairingPairCountsLabels
+TopPairingClosedLanguageAtRank.cancellationLabels
+```
+
+The slow generated proof currently unfolds the first four predicates and
+re-simplifies them for every parent prefix.  The next optimization should
+introduce a small reusable transition surface, for example a theorem-valued
+predicate saying that a semantic prefix state has exactly a bounded list of
+legal next labels.  Generated shards should then consume those prechecked
+transition facts instead of replaying:
+
+```lean
+unfold TopPairingStepScheduleLabels
+unfold TopPairingSquareGapLabels
+unfold TopPairingLocalAxisLabels
+simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom, ...]
+```
+
+for every parent.  If such a transition theorem cannot be made substantially
+cheaper, stop the prefix-depth route and strengthen the Bellman semantic object
+with a deterministic trace/evaluator field rather than proving terminal
+membership by repeated list-prefix case analysis.
