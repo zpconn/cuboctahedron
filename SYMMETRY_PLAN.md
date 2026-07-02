@@ -87166,3 +87166,119 @@ The next generated slice should instantiate `TerminalStepStateProducer` for a
 small finite semantic terminal state reached by repeated `TerminalStepState.nextStep`,
 then use `terminalTraceLabels_of_terminalStepStateProducer` to produce the
 terminal premise consumed by the split-10M semantic producer path.
+
+#### GPT5.5 Semantic-Evaluator Pivot
+
+New strategic constraint: keep Bellman, but do not scale any selected-prefix
+producer as production coverage.  The relevant positive evidence is the small
+Bellman graph; the remaining risk is the membership theorem.  Production must
+prove a deterministic closed-language-to-evaluator theorem:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  ∃ result,
+    evalLabelStepFn next root (labelsOfRank rank) = some result ∧
+    0 <= V result.1 ∧
+    scaledMargin rank <= const + result.2
+```
+
+or an equivalent `TopPairingEvalGate` theorem.  Generated trace ids,
+selected-prefix ids, sampled ranks, exact affine RHS keys, and stored Bellman
+paths are diagnostic only.  The next production-facing work should build:
+
+1. a target-shadow / tri-source cursor theorem from
+   `TopPairingClosedLanguageAtRank`;
+2. a deterministic semantic terminal classifier whose local steps are
+   `TerminalStepState.nextStep`;
+3. a closed-language evaluator bridge that composes these local steps into
+   `evalLabelStepFn`.
+
+The current terminal-state sockets are accepted because they expose the right
+shape: a semantic state contains any closed rank with that prefix/tail
+invariant, and a terminal-state producer turns that state into terminal trace
+membership.  They are not yet complete production membership.
+
+#### Terminal-State Producer Smoke
+
+Added the first bounded instantiation of the terminal-state producer socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalStateProducerSmoke.lean
+```
+
+The smoke constructs `smokeStep13` by repeatedly applying
+`TerminalStepState.nextStep` to the first thirteen labels of accepted trace
+`t000`, packages it as:
+
+```lean
+def smokeStep13Producer : TerminalStepStateProducer smokeStep13
+```
+
+and proves the semantic bridge:
+
+```lean
+theorem terminalTraceLabels_of_smokeStep13Producer
+```
+
+with theorem shape:
+
+```lean
+TopPairingClosedLanguageAtRank rank badFace ->
+TerminalStepState.Contains smokeStep13 rank ->
+  TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+    (topPairingRankFaceLabels rank)
+```
+
+This is a bounded smoke only.  It uses accepted trace `t000` to prove the
+terminal state itself is classified, so it must not be mistaken for production
+coverage.  The accepted production direction is to replace that bounded
+terminal-state proof with a generated semantic terminal classifier over state
+constructors/cursors, while keeping the same socket theorem surface.
+
+Commands:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateProducerSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_producer_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateProducerSmoke
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_producer_smoke_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateProducerSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| hygiene scan | pass | n/a | n/a | n/a |
+| Lake `BellmanTopPairingTerminalStateProducerSmoke` | pass | `9.01s` | `4079 MiB` | `45055 MiB` |
+| direct `BellmanTopPairingTerminalStateProducerSmoke.lean` | pass | `2.00s` | `3592 MiB` | `45345 MiB` |
+
+Decision: accepted as a bounded ergonomic smoke for the semantic state
+producer socket.  Next: generate a small terminal-state classifier with a
+finite state enum and local `nextStep` transitions, then prove the same
+terminal premise without mentioning `AcceptedTraceId` in the generated
+membership theorem.  If that still collapses to trace enumeration, switch to
+the target-shadow cursor / summary automaton before adding more graph data.
