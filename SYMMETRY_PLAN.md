@@ -58577,3 +58577,50 @@ next Lean experiment with bounded shards, probably 64-prefix shards first
 because the depth-10 peak would then be about 50 shards.  Only increase to
 128- or 256-prefix shards after representative guarded builds show RSS and
 elapsed time are still comfortable.
+
+Generated depth-5 sharded classifier smoke:
+
+- Extended `scripts/emit_top_pairing_trace_classifier_prefix_smoke.py` to emit
+  `labels_prefix5`, `closedRank_prefix5`, and `closedObj_prefix5`.
+- The first monolithic depth-5 theorem was rejected by Lean heartbeats even
+  though RSS stayed safe.  The successful version emits eight
+  `labels_prefix5_shard_*` theorems, one for each depth-4 parent prefix, and a
+  shallow group theorem.
+- Depth 5 also forced an important semantic correction: the Python prefix
+  enumerator had been using remaining pair counts, but the Lean theorem was
+  only assuming schedule, square-gap, and local-axis facts.  The depth-5
+  theorem now includes `TopPairingPairCountsLabels`, supplied for closed ranks
+  by `TopPairingClosedLanguageAtRank.pairCounts`.
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+python3 scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 300 \
+  --json scripts/generated/top_pairing_trace_classifier_prefix5_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.PrefixSmoke
+```
+
+Result:
+
+```text
+PrefixSmoke sharded depth-5:
+  passed
+  peak_tree_rss = 4726 MiB
+  elapsed = 10.01s
+  generated module size = 987 lines
+  depth-4 prefixes = 8
+  depth-5 prefixes = 24
+  sampled_rank_or_path_data = false
+```
+
+Decision: accepted, with a sharper rule for the next stages.  Prefix expansion
+must carry every semantic field used by the exact enumerator.  For depth 5 this
+means pair counts; later depths will likely need cancellation-summary facts as
+well.  Continue with parent-prefix shards rather than monolithic depth
+theorems.
