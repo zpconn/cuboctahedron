@@ -81065,3 +81065,98 @@ branches should call the existing semantic impossibility theorems.  The next
 module should move from “table smoke” to a local-progress theorem whose cases
 are driven by this finite relation.
 ```
+
+### Lean Branch-Table Local Progress Smoke
+
+Added the first consumer of the finite strengthened branch table:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingStrengthenedBranchTableProgress1MSmoke.lean
+scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_guard.json
+scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_lake_guard.json
+```
+
+New theorem surface:
+
+```lean
+faceEvalNext_of_graphBranchTable
+socket19TmmpBranch_impossible
+socket150TpppBranch_impossible
+branchTableProgress1MSmoke_builds
+```
+
+Meaning:
+
+```text
+graph branch:
+  StrengthenedBranchTable state.graph face BranchKind.graph
+  + semantic transducer tail
+  + graph-state range invariant
+  -> faceEvalNext succeeds, preserves the tail, and stays in range
+
+socket branch:
+  StrengthenedBranchTable socket-state socket-face socket-kind
+  + strengthened semantic rank hypotheses
+  + semantic transducer tail
+  -> contradiction
+```
+
+This is still not the final closed-language membership theorem.  It is a
+production-shaped bridge that proves the emitted finite relation can drive
+local evaluator progress without selected prefixes, sampled ranks, sampled
+paths, exact affine RHS keys, packed blobs, or large Boolean reductions.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_strengthened_branch_table_progress_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedBranchTableProgress1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_strengthened_branch_table_progress_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedBranchTableProgress1MSmoke
+
+grep -R \
+  "sorry\|admit\|axiom\|native_decide\|unsafe\|SelectedPrefix\|SampledRankIndex\|sampledContainsRank\|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedBranchTableProgress1MSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| direct Lean check | pass | `2.00s` | `3543 MiB` |
+| Lake target | pass | `4.01s` | `4067 MiB` |
+| forbidden/sampled scan | pass | no hits | n/a |
+
+Accepted gate:
+
+```text
+The branch-table relation is now Lean-consumable as local evaluator progress.
+The two non-graph branches remain semantic sockets, not generated path objects.
+```
+
+Remaining gap:
+
+```text
+Prove or emit the closed-language-to-branch-table membership theorem:
+TopPairingClosedLanguageAtRank rank Face.ym should imply that each local
+head step is classified by the finite StrengthenedBranchTable relation, with
+ordinary graph cases routed through `faceEvalNext_of_graphBranchTable` and the
+two socket cases routed through their semantic contradiction theorems.
+```
