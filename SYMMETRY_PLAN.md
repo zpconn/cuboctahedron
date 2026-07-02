@@ -79878,3 +79878,86 @@ the top-pairing closed language.  The immediate target is a small generated
 or hand-written theorem that proves root `StrengthenedSuffixOk` from
 target-shadow cursor/schedule/square-gap/local-axis fields, with the graph
 table and the one missing-transition contradiction as local consequences.
+
+### Follow-up: Closed-Language Prefix Lift Accepted
+
+Added the first root-to-semantic-suffix constructor for
+`StrengthenedSuffixOk`:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  closedPrefix1TransducerState
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  closedPrefix1EvalState
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  closed_prefix1_next
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  closed_prefix2_next_from_prefix1
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  strengthenedSuffixOk_root_of_closedPrefix2
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  strengthenedSuffixOk_root_of_closedPrefix2_forall
+```
+
+This is a small but important semantic constructor.  The top-pairing schedule
+already proves that every closed rank begins with `xm, ym`; the new theorem
+therefore reduces root `StrengthenedSuffixOk` coverage to coverage of the
+remaining suffix from `closedPrefix2EvalState`.  Future generated semantic
+constructors can start after the Lean-proved deterministic prefix, rather than
+carrying a sampled root trace or terminal class.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedLocal1MSmoke
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingStrengthenedLocal1MSmoke.lean` direct | pass | `9.01s` | `4044 MiB` |
+| `BellmanTopPairingStrengthenedLocal1MSmoke` Lake | pass | `7.01s` | `4285 MiB` |
+| forbidden-token scan on touched Lean file | pass | n/a | n/a |
+
+Next step:
+
+Add the analogous semantic branch constructor after `closedPrefix2EvalState`.
+The existing schedule field restricts the third face to `tmpm`, `yp`, or `zm`
+and the 1M graph table has all three transitions.  A useful next theorem should
+say: if each of those semantic branch suffixes is covered, then the
+post-prefix2 suffix is covered, again without terminal trace classes or sampled
+rank/path objects.

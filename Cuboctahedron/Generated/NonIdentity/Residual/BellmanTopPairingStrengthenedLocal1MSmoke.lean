@@ -129,6 +129,64 @@ inductive StrengthenedSuffixOk (rank : Fin numPairWords) :
       StrengthenedSuffixOk rank
         missingState19TmmpSemanticEvalState (Face.tmmp :: rest)
 
+def closedPrefix1TransducerState : TopPairingTransducerState where
+  step := 1
+  gap := topPairingNextGap 0 Face.xm
+  k := 0
+  parity := SqParity.id.applyPair (pairOfFace Face.xm)
+  linear := topPairingNextLinear (matId : Mat3 Rat) Face.xm
+
+def closedPrefix1EvalState : FaceEvalState where
+  transducer := closedPrefix1TransducerState
+  graph := (142 : State)
+
+theorem closed_prefix1_next :
+    faceEvalNext (TopPairingTransducerEvalState.start rootState) Face.xm =
+      some (closedPrefix1EvalState, (103 : Int)) := by
+  rfl
+
+theorem closed_prefix2_next_from_prefix1 :
+    faceEvalNext closedPrefix1EvalState Face.ym =
+      some (closedPrefix2EvalState, (-73 : Int)) := by
+  rfl
+
+/--
+Semantic root-prefix lift for the strengthened suffix predicate.
+
+The top-pairing schedule already proves that every closed rank begins with
+`xm, ym`; this theorem turns coverage of the remaining suffix from
+`closedPrefix2EvalState` into root coverage.  Future generated semantic
+constructors can therefore start after the Lean-proved deterministic prefix
+instead of carrying a sampled root trace.
+-/
+theorem strengthenedSuffixOk_root_of_closedPrefix2
+    {rank : Fin numPairWords}
+    {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank = Face.xm :: Face.ym :: rest)
+    (hsuffix : StrengthenedSuffixOk rank closedPrefix2EvalState rest) :
+    StrengthenedSuffixOk rank
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) := by
+  rw [hlabels]
+  exact StrengthenedSuffixOk.table closed_prefix1_next
+    (StrengthenedSuffixOk.table closed_prefix2_next_from_prefix1 hsuffix)
+
+theorem strengthenedSuffixOk_root_of_closedPrefix2_forall
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix :
+      ∀ rest : List Face,
+        topPairingRankFaceLabels rank = Face.xm :: Face.ym :: rest ->
+          StrengthenedSuffixOk rank closedPrefix2EvalState rest) :
+    StrengthenedSuffixOk rank
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) := by
+  rcases topPairingStepScheduleLabels_prefix_xm_ym hclosed.schedule with
+    ⟨rest, hlabels⟩
+  exact strengthenedSuffixOk_root_of_closedPrefix2 hlabels
+    (hsuffix rest hlabels)
+
 theorem strengthenedSuffixOk_local
     {rank : Fin numPairWords}
     {state : FaceEvalState} {face : Face} {rest : List Face}
