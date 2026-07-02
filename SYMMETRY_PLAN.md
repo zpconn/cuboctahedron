@@ -78832,3 +78832,123 @@ Emit the first table-backed `Inv` plus `SuffixOk` smoke for the 223-state graph.
 The generated local theorem should consume the suffix predicate to reject the
 single bad-face over-approximation, rather than pretending `Inv state` alone is
 closed.
+
+## 2026-07-02 Checkpoint: First Table-Backed `Inv + SuffixOk` Smoke
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingInvariantSuffix1MSmoke.lean
+```
+
+This is the first Lean-checked table-backed socket for the aligned 223-state
+graph.  It defines:
+
+```lean
+def Inv (state : FaceEvalState) : Prop :=
+  state.graph < stateCount
+
+inductive SuffixOk : FaceEvalState -> List Face -> Prop
+```
+
+`SuffixOk` is rank-free and path-object-free: it records that the remaining
+face suffix is accepted by the deterministic face evaluator table.  It is not
+yet the final membership theorem from the strengthened closed language.
+
+The key theorem is:
+
+```lean
+suffixOk_local :
+  Inv state ->
+  state.Tail (face :: rest) ->
+  SuffixOk state (face :: rest) ->
+    exists nextState gain,
+      faceEvalNext state face = some (nextState, gain) ∧
+        nextState.Tail rest ∧ Inv nextState ∧ SuffixOk nextState rest
+```
+
+This is exactly the local premise shape required by:
+
+```lean
+TopPairingTransducerEvalState.\
+evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix
+```
+
+It derives `Inv nextState` from the generated graph root theorem:
+
+```lean
+BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke.Root.transition_ok_of_lt
+```
+
+and derives the next semantic tail from:
+
+```lean
+TopPairingTransducerEvalState.next?_tail
+```
+
+Additional theorem:
+
+```lean
+eval_exists_of_suffixOk
+```
+
+which packages the local theorem through the generic suffix-carrying evaluator
+bridge.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/bellman_top_pairing_invariant_suffix_1m_smoke_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingInvariantSuffix1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_invariant_suffix_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingInvariantSuffix1MSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingInvariantSuffix1MSmoke.lean` direct | pass | `3.00s` | `2614 MiB` |
+| `BellmanTopPairingInvariantSuffix1MSmoke` Lake | pass | `3.00s` | `4007 MiB` |
+
+What this proves now:
+
+- the finite graph table can serve as the local evaluator transition oracle;
+- the graph-root transition theorem preserves a compact invariant;
+- a suffix acceptance predicate composes with the semantic transducer tail;
+- the proof surface no longer needs sampled rank/path objects for local eval.
+
+What remains:
+
+- prove, generate, or otherwise Lean-check the actual membership theorem:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank
+  rank Face.ym ->
+SuffixOk (TopPairingTransducerEvalState.start rootState)
+  (topPairingRankFaceLabels rank)
+```
+
+- add final-state/margin bounds for the table-backed suffix language, then
+  feed them into `evalLanguageAtRank_of_invariantLocalWithSuffix`.
+
+Next step:
+
+Generate the first bounded strengthened-language-to-`SuffixOk` membership
+socket.  The initial version should target the already-audited 223-state graph
+and must fail loudly if it needs exact sampled rank/path constructors.

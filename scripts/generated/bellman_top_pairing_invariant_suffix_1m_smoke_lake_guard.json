@@ -1,0 +1,18 @@
+{
+  "available_floor_mib": 24576.0,
+  "command": [
+    "lake",
+    "build",
+    "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingInvariantSuffix1MSmoke"
+  ],
+  "elapsed_seconds": 3.003194965000148,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4103312,
+  "max_tree_rss_mib": 4007.140625,
+  "min_available_seen_kib": 47132556,
+  "min_available_seen_mib": 46027.88671875,
+  "rss_cap_mib": 7000.0,
+  "timeout_seconds": 180.0
+}
