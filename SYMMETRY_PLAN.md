@@ -71515,3 +71515,94 @@ Next strategy checkpoint:
    start-violation providers alone.
 3. Treat Bellman margin nonpositive providers as needed only for groups whose
    accepted traces lack direct start-violation coverage.
+
+Full bounded selected-prefix direct bridge:
+
+```text
+scripts/emit_top_pairing_selected_prefix_direct_start_violation_killed_bridge.py
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSelectedPrefixDirectStartViolationKilledBridge.lean
+scripts/generated/
+  top_pairing_selected_prefix_direct_start_violation_killed_bridge.{json,md}
+```
+
+implements the direct-kill route for the entire bounded selected-prefix cover:
+
+```lean
+nonIdentityRankKilled_of_selectedPrefixCoverFamily
+```
+
+The source cover has:
+
+```text
+bucket_count: 31
+group_count: 7
+accepted_trace_count covered by selected prefixes: 37
+```
+
+For each `GroupNNN.PrefixMMMShardFamily`, the generated proof extracts the
+semantic closed-language fields, terminal trace label proof, actual-face omni
+proof, accepted bad-face proof, and prefix witness.  It then uses
+`GroupNNN.PrefixMMMPrefix_gain` only for the prefix-to-allowed-trace-id fact:
+the accepted-trace gain is ignored by the direct theorem.
+
+This means the current bounded selected-prefix cover can be turned into
+`Coverage.NonIdentityRankKilled` without using:
+
+```text
+scaledMargin rank <= 0
+BellmanEvalAccepts margin_bound
+TraceIdMarginSequenceBadFace
+TerminalTracePrefixSharedGainClosedMarginFamily_scaledMargin_nonpos
+```
+
+The Bellman margin provider is therefore no longer the central blocker for
+this bounded selected-prefix slice.  The remaining question is whether the
+selected-prefix cover itself can be scaled/extended to production coverage, or
+whether additional semantic families are needed for ranks outside these 31
+prefix buckets.
+
+Checked commands:
+
+```bash
+python3 scripts/emit_top_pairing_selected_prefix_direct_start_violation_killed_bridge.py
+
+git diff --check
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|sampledObject|sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixDirectStartViolationKilledBridge.lean \
+  scripts/emit_top_pairing_selected_prefix_direct_start_violation_killed_bridge.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_selected_prefix_direct_start_violation_killed_bridge_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixDirectStartViolationKilledBridge.lean
+```
+
+Result:
+
+```text
+guarded Lean check: pass
+elapsed: 2.00s
+peak_tree_rss: 3698 MiB
+hard_as: 12288 MiB
+min_available: 46318 MiB
+token scan: clean
+git diff --check: clean
+```
+
+Updated strategy:
+
+1. Use accepted-trace start-violation direct kill as the default consumer for
+   selected-prefix families.
+2. Keep Bellman margin potentials only as a producer/discovery tool or as a
+   fallback for semantic families that cannot be killed by trace-level
+   start-violation providers.
+3. Next, audit the coverage frontier: determine whether existing selected
+   prefixes cover only a bounded diagnostic slice or can be expanded
+   mechanically to the remaining top-pairing accepted traces without returning
+   to sampled rank/path membership.
