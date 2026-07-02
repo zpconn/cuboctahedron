@@ -182,6 +182,30 @@ theorem terminalTraceMarginBounds_family_evalLanguage_smoke
   evalLanguage_of_terminalTraceMarginBoundsComponentFamily
     family hrank
 
+theorem terminalTraceMarginIdBound_family_scaledMargin_nonpos_smoke
+    {containsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      TerminalTraceMarginIdBoundComponentFamily containsRank scaledMargin)
+    {rank : Fin numPairWords}
+    (hrank : containsRank rank) :
+    scaledMargin rank <= 0 :=
+  terminalTraceMarginIdBoundComponentFamily_scaledMargin_nonpos
+    family hrank
+
+theorem terminalTraceMarginIdBound_family_evalLanguage_smoke
+    {containsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      TerminalTraceMarginIdBoundComponentFamily containsRank scaledMargin)
+    {rank : Fin numPairWords}
+    (hrank : containsRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_terminalTraceMarginIdBoundComponentFamily
+    family hrank
+
 theorem trace_id_bounds_smoke_builds : True := by
   exact True.intro
 

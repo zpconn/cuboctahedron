@@ -64349,3 +64349,178 @@ Attempt one real family bucket that exports
 singleton/rank-indexed exact affine data, reject the Bellman production route
 and pivot to the cancellation-tree summary automaton described earlier in this
 plan.
+
+### 2026-07-02 Terminal trace-id-bound component family socket
+
+GPT5.5's sharpened Bellman gate says to keep Bellman for exactly one more
+semantic-membership experiment, but only if the object remains semantic and the
+checked cost scales with a compact family object rather than sampled ranks.  The
+new socket narrows the generated target one more step.
+
+The previous terminal-bounds component family required both:
+
+```text
+actualFaceOmni : TopPairingActualFaceOmniAtRank rank
+marginBounds   : GraphAcceptedTraceMarginBounds scaledMargin obj
+```
+
+The new id-bound family only asks generated buckets for one accepted trace id
+and that trace's margin inequality.  The actual-face omni fact is derived from
+the accepted trace equality:
+
+```lean
+theorem actualFaceOmni_of_graphAcceptedTraceMarginIdBound :
+    GraphAcceptedTraceMarginIdBound scaledMargin
+      ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym) ->
+    TopPairingActualFaceOmniAtRank rank
+```
+
+New theorem-valued family object:
+
+```lean
+structure TerminalTraceMarginIdBoundComponentFamily
+    (containsRank : Fin numPairWords -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  closed :
+    forall rank, containsRank rank ->
+      TopPairingClosedLanguageAtRank rank Face.ym
+  sequenceBadFace :
+    forall rank, containsRank rank ->
+      AcceptedSequenceBadFaceAtRank rank Face.ym
+  terminalTrace :
+    forall rank, containsRank rank ->
+      TerminalTraceLabels (topPairingRankFaceLabels rank)
+  marginIdBound :
+    forall rank, (hrank : containsRank rank) ->
+      GraphAcceptedTraceMarginIdBound scaledMargin
+        ({ rank := rank, closed := closed rank hrank } :
+          TopPairingBellmanObj Face.ym)
+```
+
+New consumers:
+
+```lean
+theorem terminalTraceMarginIdBoundSequenceBadFace_of_componentFamily :
+    TerminalTraceMarginIdBoundComponentFamily containsRank scaledMargin ->
+    containsRank rank ->
+    TerminalTraceMarginIdBoundSequenceBadFace scaledMargin rank Face.ym
+
+theorem evalLanguage_of_terminalTraceMarginIdBoundComponentFamily :
+    TerminalTraceMarginIdBoundComponentFamily containsRank scaledMargin ->
+    containsRank rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem terminalTraceMarginIdBoundComponentFamily_scaledMargin_nonpos :
+    TerminalTraceMarginIdBoundComponentFamily containsRank scaledMargin ->
+    containsRank rank ->
+    scaledMargin rank <= 0
+```
+
+Smoke wrappers were added to `BellmanTopPairingTraceIdBoundsSmoke.lean`.
+
+Guarded focused Lake check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_id_bound_component_family_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceIdBoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 9.01s
+peak_tree_rss = 4006 MiB
+hard_as = 32768 MiB
+min_available = 46114 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_id_bound_component_family_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 4.00s
+peak_tree_rss = 3962 MiB
+hard_as = 8192 MiB
+min_available = 46193 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingTraceMarginBoundsSocket.lean        = 659 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean             = 212 lines
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 644 lines
+BellmanTopPairingTrace000ComponentFamilySmoke.lean   = 77 lines
+TopPairingBellmanObject.lean                         = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+`git diff --check` passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept this as the lightest current Bellman component-family socket.  It aligns
+with the GPT5.5 recommendation: the Bellman object remains
+`rank + TopPairingClosedLanguageAtRank`, the accepted run is computed through
+the trace/evaluator bridge, and generated proof obligations are family facts,
+not sampled rank/path objects.
+
+Production generated buckets should now target:
+
+```text
+TerminalTraceMarginIdBoundComponentFamily containsRank scaledMargin
+```
+
+rather than `TerminalTraceMarginBoundsComponentFamily` when each bucket has a
+single accepted trace id/margin bound.  This avoids an all-traces margin-bounds
+object and removes the explicit `actualFaceOmni` field from the generated
+family surface.
+
+Next action:
+
+Attempt one real compact family bucket proving
+`TerminalTraceMarginIdBoundComponentFamily`.  The decisive subgoal is
+`marginIdBound`.  If proving it requires an exact affine-RHS table,
+`SampledRankIndex`, or one branch per accepted rank/path, stop Bellman
+production and pivot to the cancellation-tree summary automaton.  If it proves
+from terminal trace/source-position facts plus a compact margin inequality,
+continue Bellman.
