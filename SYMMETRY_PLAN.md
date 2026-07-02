@@ -72204,3 +72204,105 @@ guarded Lean check <= 10s
 peak RSS <= 5 GiB
 theorem surface feeds TerminalDirectClosedFamily
 ```
+
+## 2026-07-02 Checkpoint: Three-Branch Accepted Prefix Membership
+
+Promoted the single-prefix terminal membership smoke into a reusable accepted
+trace-prefix theorem and a tiny three-branch state family in:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalTraceMembershipSmoke.lean
+```
+
+New reusable state predicate:
+
+```lean
+def AcceptedPrefix13 (id : AcceptedTraceId) : List Face :=
+  (acceptedTraceOfId id).take 13
+
+def ClosedRankInAcceptedPrefix13State
+    (id : AcceptedTraceId) (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    ∃ rest : List Face,
+      topPairingRankFaceLabels rank = AcceptedPrefix13 id ++ rest
+```
+
+New generic membership theorem:
+
+```lean
+theorem terminalTraceLabels_of_acceptedPrefix13State
+    {id : AcceptedTraceId} {rank : Fin numPairWords}
+    (hstate : ClosedRankInAcceptedPrefix13State id rank) :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank)
+```
+
+The proof is uniform in `AcceptedTraceId`: it uses
+`acceptedPrefix13_length`, the closed rank schedule length, and the step-13
+schedule rule to force the final label to `Face.xp`; then
+`acceptedPrefix13_append_xp` reconstructs `acceptedTraceOfId id`.
+
+Tiny branch family:
+
+```lean
+def SmokeAcceptedBranchId (id : AcceptedTraceId) : Prop :=
+  id = AcceptedTraceId.t000 \/
+    id = AcceptedTraceId.t001 \/
+      id = AcceptedTraceId.t002
+
+def ClosedRankInSmokeAcceptedBranchState (rank : Fin numPairWords) : Prop :=
+  ∃ id : AcceptedTraceId,
+    SmokeAcceptedBranchId id /\
+      ClosedRankInAcceptedPrefix13State id rank
+```
+
+Consumer theorem:
+
+```lean
+theorem nonIdentityRankKilled_of_smokeAcceptedBranchState
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInSmokeAcceptedBranchState rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+Guarded command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_trace_membership_branch_smoke_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalTraceMembershipSmoke.lean
+```
+
+Result:
+
+```text
+three-branch terminal membership smoke: pass
+elapsed: 3.00s
+peak_tree_rss: 4039 MiB
+hard_as: 12288 MiB
+min_available: 46227 MiB
+```
+
+Forbidden/sample-token scan on the smoke was clean for:
+
+```text
+sorry, admit, axiom, native_decide, unsafe,
+SampledRankIndex, sampledContainsRank, sampledRankOf,
+Float, Float32, Float64, Double
+```
+
+Strategic interpretation:
+
+The semantic terminal-membership line scaled from one accepted prefix to a
+small multi-prefix branch without increasing check time.  This supports the
+next step: generate a real terminal-membership state-DAG shard over all 37
+accepted prefixes, still using `ClosedRankInAcceptedPrefix13State`-style
+semantic states and no sampled rank/path objects.
