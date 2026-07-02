@@ -70418,3 +70418,88 @@ state.  The next production-facing theorem must either:
    state updates by cheap integer matrix multiplication; or
 2. prove prefix-to-state equality once per minimized state-DAG node, not once
    per parent transition.
+
+Scaled integer state-transition checkpoint:
+
+`TopPairingIntLocalAxis.lean` now also defines all-face scaled reflection
+state transitions:
+
+```lean
+faceLinearScale
+faceScaledLinearInt
+scaledLinearAfterFaces
+linearScaleAfterFaces
+faceScaledLinearInt_cast
+scaledLinearAfterFaces_cast
+scaledLinearAfterFaces_from_identity_cast
+```
+
+These theorems bridge an integer scaled linear state to
+`topPairingLinearAfterFaces`, while keeping generated transition facts in
+integer arithmetic.
+
+Guarded check of the updated bridge:
+
+```text
+passed
+elapsed: 19.02s
+peak process-tree RSS: 4063 MiB
+hard address-space cap: 8192 MiB
+```
+
+The transition smoke was then rewritten so the depth-8 parent uses the
+unreduced integer scaled state and scale:
+
+```lean
+depth8Parent000ScaledLinear
+depth8Parent000_scaledProduct_eq
+depth8Parent000_scale_eq
+depth8Parent000_scaledLinear_cast
+```
+
+The first attempt used the gcd-reduced denominator-9 matrix; the generic
+`scaledLinearAfterFaces` product correctly produced the unreduced scale
+`729`, so the smoke was corrected to use the unreduced matrix.
+
+Guarded check:
+
+```text
+passed
+elapsed: 15.01s
+peak process-tree RSS: 3978 MiB
+hard address-space cap: 8192 MiB
+```
+
+Then four integer one-step child transition facts were added:
+
+```lean
+depth8_parent000_step_tmpp
+depth8_parent000_step_tppp
+depth8_parent000_step_yp
+depth8_parent000_step_zm
+```
+
+These prove the accepted child state updates by integer matrix multiplication
+only.  The smoke with all four facts checked as:
+
+```text
+passed
+elapsed: 16.01s
+peak process-tree RSS: 3995 MiB
+hard address-space cap: 8192 MiB
+```
+
+Interpretation:
+
+- The generic bridge costs about 19s once for the module.
+- The parent prefix-to-integer-state proof still costs meaningful time, but it
+  is integer-only and already cheaper than the previous Rat literal-state
+  smoke.
+- The one-step integer transition facts are cheap enough to be plausible
+  generated provider facts.
+
+Decision: production provider should carry an integer scaled linear state and
+prove one-step updates, not reconstruct the full prefix state from scratch in
+every parent theorem.  The next semantic-membership slice should introduce a
+small state object containing this integer linear state and use the one-step
+transition facts to feed the deterministic evaluator.

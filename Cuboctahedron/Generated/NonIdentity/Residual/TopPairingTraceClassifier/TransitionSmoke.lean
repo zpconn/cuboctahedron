@@ -23,42 +23,117 @@ def depth8Parent000Prefix : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp,
     Face.tmmm, Face.tpmm]
 
-def depth8Parent000Linear : Mat3 Rat where
-  m00 := 7 / 9
-  m01 := -4 / 9
-  m02 := -4 / 9
-  m10 := 4 / 9
-  m11 := -1 / 9
-  m12 := 8 / 9
-  m20 := -4 / 9
-  m21 := -8 / 9
-  m22 := 1 / 9
-
 def depth8Parent000ScaledLinear : Mat3 Int where
-  m00 := 7
-  m01 := -4
-  m02 := -4
-  m10 := 4
-  m11 := -1
-  m12 := 8
-  m20 := -4
-  m21 := -8
-  m22 := 1
+  m00 := 567
+  m01 := -324
+  m02 := -324
+  m10 := 324
+  m11 := -81
+  m12 := 648
+  m20 := -324
+  m21 := -648
+  m22 := 81
 
-theorem depth8Parent000_scaledLinear_eq :
+theorem depth8Parent000_scaledProduct_eq :
+    scaledLinearAfterFaces (matId : Mat3 Int) depth8Parent000Prefix =
+      depth8Parent000ScaledLinear := by
+  apply Mat3.ext <;>
+    norm_num [scaledLinearAfterFaces, faceScaledLinearInt, faceLinearScale,
+      depth8Parent000Prefix, depth8Parent000ScaledLinear, normalInt, matMul,
+      matSub, scalarMat, outer, matId, dot]
+
+theorem depth8Parent000_scale_eq :
+    linearScaleAfterFaces 1 depth8Parent000Prefix = 729 := by
+  norm_num [linearScaleAfterFaces, faceLinearScale, depth8Parent000Prefix]
+
+theorem depth8Parent000_scaledLinear_cast :
     depth8Parent000ScaledLinear.map (fun z : Int => (z : Rat)) =
-      scalarMat (9 : Rat) depth8Parent000Linear := by
-  apply Mat3.ext <;>
-    norm_num [depth8Parent000ScaledLinear, depth8Parent000Linear, Mat3.map,
-      scalarMat]
+      scalarMat (729 : Rat)
+        (topPairingLinearAfterFaces (matId : Mat3 Rat)
+          depth8Parent000Prefix) := by
+  have h := scaledLinearAfterFaces_from_identity_cast depth8Parent000Prefix
+  rw [depth8Parent000_scaledProduct_eq, depth8Parent000_scale_eq] at h
+  exact h
 
-theorem depth8Parent000_linear_eq :
-    topPairingLinearAfterFaces (matId : Mat3 Rat)
-      depth8Parent000Prefix = depth8Parent000Linear := by
+def depth9Parent000TmppScaledLinear : Mat3 Int where
+  m00 := -729
+  m01 := 1458
+  m02 := 1458
+  m10 := 1458
+  m11 := -729
+  m12 := 1458
+  m20 := -1458
+  m21 := -1458
+  m22 := 729
+
+def depth9Parent000TpppScaledLinear : Mat3 Int where
+  m00 := 1863
+  m01 := -810
+  m02 := -810
+  m10 := -810
+  m11 := -2025
+  m12 := 162
+  m20 := 810
+  m21 := -162
+  m22 := 2025
+
+def depth9Parent000YpScaledLinear : Mat3 Int where
+  m00 := 567
+  m01 := 324
+  m02 := -324
+  m10 := 324
+  m11 := 81
+  m12 := 648
+  m20 := -324
+  m21 := 648
+  m22 := 81
+
+def depth9Parent000ZmScaledLinear : Mat3 Int where
+  m00 := 567
+  m01 := -324
+  m02 := 324
+  m10 := 324
+  m11 := -81
+  m12 := -648
+  m20 := -324
+  m21 := -648
+  m22 := -81
+
+theorem depth8_parent000_step_tmpp :
+    matMul depth8Parent000ScaledLinear
+        (faceScaledLinearInt Face.tmpp) =
+      depth9Parent000TmppScaledLinear := by
   apply Mat3.ext <;>
-    norm_num [topPairingLinearAfterFaces, depth8Parent000Prefix,
-      depth8Parent000Linear, normalQ, matId, matMul, reflM, matSub,
-      scalarMat, outer, dot]
+    norm_num [depth8Parent000ScaledLinear, depth9Parent000TmppScaledLinear,
+      faceScaledLinearInt, faceLinearScale, normalInt, matMul, matSub,
+      scalarMat, outer, matId, dot]
+
+theorem depth8_parent000_step_tppp :
+    matMul depth8Parent000ScaledLinear
+        (faceScaledLinearInt Face.tppp) =
+      depth9Parent000TpppScaledLinear := by
+  apply Mat3.ext <;>
+    norm_num [depth8Parent000ScaledLinear, depth9Parent000TpppScaledLinear,
+      faceScaledLinearInt, faceLinearScale, normalInt, matMul, matSub,
+      scalarMat, outer, matId, dot]
+
+theorem depth8_parent000_step_yp :
+    matMul depth8Parent000ScaledLinear
+        (faceScaledLinearInt Face.yp) =
+      depth9Parent000YpScaledLinear := by
+  apply Mat3.ext <;>
+    norm_num [depth8Parent000ScaledLinear, depth9Parent000YpScaledLinear,
+      faceScaledLinearInt, faceLinearScale, normalInt, matMul, matSub,
+      scalarMat, outer, matId, dot]
+
+theorem depth8_parent000_step_zm :
+    matMul depth8Parent000ScaledLinear
+        (faceScaledLinearInt Face.zm) =
+      depth9Parent000ZmScaledLinear := by
+  apply Mat3.ext <;>
+    norm_num [depth8Parent000ScaledLinear, depth9Parent000ZmScaledLinear,
+      faceScaledLinearInt, faceLinearScale, normalInt, matMul, matSub,
+      scalarMat, outer, matId, dot]
 
 def Depth8Parent000Labels (labels : List Face) : Prop :=
   ∃ rest : List Face, labels = depth8Parent000Prefix ++ rest
@@ -108,38 +183,50 @@ theorem depth8_parent000_next_obligations
           (pfx := depth8Parent000Prefix) (rest := rest) ha rfl
 
 theorem not_depth8_parent000_axis_tmmm :
-    ¬ TopPairingLocalAxisAllows depth8Parent000Linear Face.tmmm := by
+    ¬ TopPairingLocalAxisAllows
+      (topPairingLinearAfterFaces (matId : Mat3 Rat)
+        depth8Parent000Prefix)
+      Face.tmmm := by
   exact not_localAxisAllows_of_scaled_int_dot_nonpos
-    (linear := depth8Parent000Linear)
+    (linear := topPairingLinearAfterFaces (matId : Mat3 Rat)
+      depth8Parent000Prefix)
     (scaled := depth8Parent000ScaledLinear)
-    (scale := 9)
+    (scale := 729)
     (face := Face.tmmm)
     (by norm_num)
-    depth8Parent000_scaledLinear_eq
+    depth8Parent000_scaledLinear_cast
     (by norm_num [intLocalAxisDot, depth8Parent000ScaledLinear, normalInt,
       topPairingLocalAxisInt, matVec, dot])
 
 theorem not_depth8_parent000_axis_tpmm :
-    ¬ TopPairingLocalAxisAllows depth8Parent000Linear Face.tpmm := by
+    ¬ TopPairingLocalAxisAllows
+      (topPairingLinearAfterFaces (matId : Mat3 Rat)
+        depth8Parent000Prefix)
+      Face.tpmm := by
   exact not_localAxisAllows_of_scaled_int_dot_nonpos
-    (linear := depth8Parent000Linear)
+    (linear := topPairingLinearAfterFaces (matId : Mat3 Rat)
+      depth8Parent000Prefix)
     (scaled := depth8Parent000ScaledLinear)
-    (scale := 9)
+    (scale := 729)
     (face := Face.tpmm)
     (by norm_num)
-    depth8Parent000_scaledLinear_eq
+    depth8Parent000_scaledLinear_cast
     (by norm_num [intLocalAxisDot, depth8Parent000ScaledLinear, normalInt,
       topPairingLocalAxisInt, matVec, dot])
 
 theorem not_depth8_parent000_axis_zp :
-    ¬ TopPairingLocalAxisAllows depth8Parent000Linear Face.zp := by
+    ¬ TopPairingLocalAxisAllows
+      (topPairingLinearAfterFaces (matId : Mat3 Rat)
+        depth8Parent000Prefix)
+      Face.zp := by
   exact not_localAxisAllows_of_scaled_int_dot_nonpos
-    (linear := depth8Parent000Linear)
+    (linear := topPairingLinearAfterFaces (matId : Mat3 Rat)
+      depth8Parent000Prefix)
     (scaled := depth8Parent000ScaledLinear)
-    (scale := 9)
+    (scale := 729)
     (face := Face.zp)
     (by norm_num)
-    depth8Parent000_scaledLinear_eq
+    depth8Parent000_scaledLinear_cast
     (by norm_num [intLocalAxisDot, depth8Parent000ScaledLinear, normalInt,
       topPairingLocalAxisInt, matVec, dot])
 
@@ -171,7 +258,6 @@ theorem depth8_parent000_transition_children
       exfalso
       simpa [depth8Parent000Prefix, topPairingAllowedFacesAtStep] using hsched
   | zp =>
-      rw [depth8Parent000_linear_eq] at haxis
       exact False.elim (not_depth8_parent000_axis_zp haxis)
   | zm =>
       right
@@ -179,7 +265,6 @@ theorem depth8_parent000_transition_children
       right
       exact ⟨rest, rfl⟩
   | tmmm =>
-      rw [depth8Parent000_linear_eq] at haxis
       exact False.elim (not_depth8_parent000_axis_tmmm haxis)
   | tmmp =>
       unfold TopPairingPairCountsLabels at hc
@@ -191,7 +276,6 @@ theorem depth8_parent000_transition_children
       left
       exact ⟨rest, rfl⟩
   | tpmm =>
-      rw [depth8Parent000_linear_eq] at haxis
       exact False.elim (not_depth8_parent000_axis_tpmm haxis)
   | tpmp =>
       unfold TopPairingPairCountsLabels at hc
