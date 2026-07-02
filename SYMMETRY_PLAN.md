@@ -85835,3 +85835,107 @@ filters, square-gap, and tri-source progress.  If the proof wants selected
 trace ids, sampled ranks, exact affine RHS, solved start points, or exact
 full Bellman path identity, reject the state and strengthen the semantic
 transducer or cocycle quotient instead.
+
+#### Strengthened Terminal Trace Membership Socket Accepted
+
+Added a small socket naming the exact remaining non-sampled membership theorem:
+
+```lean
+def BellmanTopPairingStrengthenedTerminalTraceMembershipSocket.
+  StrengthenedTerminalTraceMembership : Prop :=
+  ∀ rank : Fin numPairWords,
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (topPairingRankFaceLabels rank)
+```
+
+This socket composes that future theorem into the already checked
+strengthened-terminal depth-11 producer bridge:
+
+```lean
+theorem BellmanTopPairingStrengthenedTerminalTraceMembershipSocket.
+  split10MDepth11GraphPathProducer_of_membership :
+    StrengthenedTerminalTraceMembership ->
+    StrengthenedClosedDepth11ProducerFamily rank ->
+      Split10MDepth11GraphPathProducer rank
+
+theorem BellmanTopPairingStrengthenedTerminalTraceMembershipSocket.
+  split10MGraphSuffixProducer_of_membership :
+    StrengthenedTerminalTraceMembership ->
+    StrengthenedClosedDepth11ProducerFamily rank ->
+      Split10MGraphSuffixProducer rank
+```
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingStrengthenedTerminalTraceMembershipSocket.lean
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_strengthened_terminal_trace_membership_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedTerminalTraceMembershipSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_strengthened_terminal_trace_membership_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedTerminalTraceMembershipSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `BellmanTopPairingStrengthenedTerminalTraceMembershipSocket.lean` | pass | `4.00s` | `3972 MiB` | `46134 MiB` |
+| Lake `BellmanTopPairingStrengthenedTerminalTraceMembershipSocket` | pass | `3.00s` | `3348 MiB` | `46138 MiB` |
+
+Hygiene:
+
+```bash
+rg "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedTerminalTraceMembershipSocket.lean
+```
+
+returned no matches.  `git diff --check` passed.
+
+Decision: accepted as the production API boundary for the current Bellman
+pivot.  The next implementation step is to prove
+`StrengthenedTerminalTraceMembership` from a deterministic semantic
+transducer over the strengthened closed language.
+
+The existing `BellmanTopPairingTerminalTraceMembershipSmoke.lean` is useful but
+not enough by itself: it proves terminal membership from accepted prefix-13
+states, which are still trace-id shaped.  Do not scale that state directly
+unless a semantic classifier first proves that strengthened closed ranks enter
+one of those states.  Preferred next route:
+
+1. define a reachable terminal-state cursor from target shadow, schedule,
+   square gap, local-axis/canonical bad-face filters, pair counts, and
+   tri-source progress;
+2. prove local deterministic transitions on that cursor;
+3. prove every strengthened closed rank reaches a terminal cursor state whose
+   labels satisfy `TerminalTraceLabels`;
+4. then apply this socket to obtain `Split10MDepth11GraphPathProducer`.
+
+No-go signs remain: selected trace ids as the primary membership coordinate,
+sampled ranks/paths, exact affine RHS, solved start points, or exact full
+Bellman path identity.
