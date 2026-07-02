@@ -1,0 +1,138 @@
+{
+  "decision": "graph-suffix-emitter-target-ready",
+  "mode": "top-pairing-graph-suffix-emitter-target",
+  "next_lean_target": "GraphBranchTableSuffixOk rank graph rest",
+  "root_prefix": [
+    "xm",
+    "ym"
+  ],
+  "source_files": {
+    "base": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke/Base.lean",
+    "branch_table": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedBranchTable1MSmoke.lean"
+  },
+  "successor_records": [
+    {
+      "branch_ctor": "graph_129_s0144_tmmm",
+      "face": "tmmm",
+      "graph_next": {
+        "dst": 148,
+        "gain": -124
+      },
+      "label": 0,
+      "ok": true,
+      "state": 144
+    },
+    {
+      "branch_ctor": "graph_128_s0144_zm",
+      "face": "zm",
+      "graph_next": {
+        "dst": 147,
+        "gain": -10
+      },
+      "label": 12,
+      "ok": true,
+      "state": 144
+    },
+    {
+      "branch_ctor": "graph_132_s0145_tmpp",
+      "face": "tmpp",
+      "graph_next": {
+        "dst": 151,
+        "gain": -124
+      },
+      "label": 3,
+      "ok": true,
+      "state": 145
+    },
+    {
+      "branch_ctor": "graph_130_s0145_yp",
+      "face": "yp",
+      "graph_next": {
+        "dst": 147,
+        "gain": -73
+      },
+      "label": 11,
+      "ok": true,
+      "state": 145
+    },
+    {
+      "branch_ctor": "graph_131_s0145_zp",
+      "face": "zp",
+      "graph_next": {
+        "dst": 149,
+        "gain": -10
+      },
+      "label": 13,
+      "ok": true,
+      "state": 145
+    },
+    {
+      "branch_ctor": "graph_134_s0146_tppm",
+      "face": "tppm",
+      "graph_next": {
+        "dst": 152,
+        "gain": 96
+      },
+      "label": 6,
+      "ok": true,
+      "state": 146
+    },
+    {
+      "branch_ctor": "graph_133_s0146_zm",
+      "face": "zm",
+      "graph_next": {
+        "dst": 150,
+        "gain": 114
+      },
+      "label": 12,
+      "ok": true,
+      "state": 146
+    }
+  ],
+  "successor_states": [
+    144,
+    145,
+    146
+  ],
+  "third_face_records": [
+    {
+      "branch_ctor": "graph_127_s0143_tmpm",
+      "face": "tmpm",
+      "graph_next": {
+        "dst": 146,
+        "gain": -124
+      },
+      "label": 2,
+      "ok": true,
+      "state": 143
+    },
+    {
+      "branch_ctor": "graph_125_s0143_yp",
+      "face": "yp",
+      "graph_next": {
+        "dst": 144,
+        "gain": -73
+      },
+      "label": 11,
+      "ok": true,
+      "state": 143
+    },
+    {
+      "branch_ctor": "graph_126_s0143_zm",
+      "face": "zm",
+      "graph_next": {
+        "dst": 145,
+        "gain": -10
+      },
+      "label": 12,
+      "ok": true,
+      "state": 143
+    }
+  ],
+  "third_face_state": 143,
+  "third_faces": [
+    "tmpm",
+    "yp",
+    "zm"
+  ]
+}

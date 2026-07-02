@@ -81786,6 +81786,51 @@ from small graph ids and a semantic classifier/report, rather than routing
 through concrete `faceEvalNext` evidence for prefix-3 states.
 ```
 
+### Graph-Suffix Emitter Target Audited
+
+Added a tiny diagnostic audit for the next membership emitter:
+
+```bash
+python3 scripts/audit_top_pairing_graph_suffix_emitter_target.py
+```
+
+The audit parses the generated Bellman graph table and strengthened branch
+table without enumerating ranks, sampled paths, selected prefixes, or affine
+RHS keys.  It records the graph-only finite target immediately after the
+Lean-proved `xm, ym` root prefix:
+
+```text
+decision = graph-suffix-emitter-target-ready
+third-face graph state = 143
+```
+
+Third-face graph branches:
+
+| State | Face | Label | Graph next | Branch constructor |
+|---:|---|---:|---|---|
+| `143` | `Face.tmpm` | `2` | `146 / gain -124` | `graph_127_s0143_tmpm` |
+| `143` | `Face.yp` | `11` | `144 / gain -73` | `graph_125_s0143_yp` |
+| `143` | `Face.zm` | `12` | `145 / gain -10` | `graph_126_s0143_zm` |
+
+Immediate successor frontier:
+
+| State | Faces with graph branches |
+|---:|---|
+| `144` | `Face.tmmm`, `Face.zm` |
+| `145` | `Face.tmpp`, `Face.yp`, `Face.zp` |
+| `146` | `Face.tppm`, `Face.zm` |
+
+This converts the rejected Lean experiment into an explicit emitter contract:
+
+```lean
+GraphBranchTableSuffixOk rank graph rest
+```
+
+should be produced directly from semantic closed-language/cursor state.  The
+future Lean/emitter slice should consume the graph ids and branch constructors
+above, not call `closed_prefix3_tmpm_branch_faceEval` or any full semantic
+`faceEvalNext` theorem to recover graph membership.
+
 ### Branch-Table Third-Face Lift Added
 
 Extended the branch-table suffix predicate one semantic branch past the
