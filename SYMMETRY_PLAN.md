@@ -75594,3 +75594,89 @@ This is a refinement of the previous gate, not a retreat from Bellman.  The
 Bellman potential and evaluator are still valid; the formal membership theorem
 must target the semantic language that is actually strong enough to imply
 graph acceptance and the margin bound.
+
+## 2026-07-02 Strategy Adjustment: One Semantic Bellman Experiment, Then Decide
+
+In response to the latest GPT5.5 review, the Bellman route remains active, but
+only for one sharply scoped semantic-membership experiment.  The mathematical
+potential is not the current bottleneck.  The bottleneck is whether the
+accepted-language proof can be semantic rather than sampled.
+
+The object surface is already the right compact shape:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+```
+
+and the semantic object-cover scaffolding already exists in
+`Cuboctahedron/Search/TopPairingBellmanObject.lean`:
+
+```lean
+topPairingClosedMembership
+topPairingClosedObjectCoverOfEvalAccepts
+topPairingBellmanEvalObjectCoverOfClosedToEval
+topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+```
+
+Therefore the next task is not another potential, not another sampled smoke,
+and not another rank-indexed certificate.  The next task is the hard evaluator
+theorem:
+
+```lean
+forall obj : TopPairingBellmanObj Face.ym,
+  BellmanEvalAccepts ...
+    (fun obj => topPairingScaledMargin obj.rank)
+    (fun obj => TopPairingBellmanObj.labels ... obj)
+    obj
+```
+
+or equivalently:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank ... rank Face.ym
+```
+
+Inspection still indicates that the minimal closed predicate is probably too
+weak by itself: the classifier has `47` terminal-ok closed traces, but only
+`37` graph-accepted traces after the actual-face and bad-face filters.  The
+allowed fix is exactly one stronger semantic predicate, not sampled data:
+
+```lean
+forall rank,
+  TopPairingStrengthenedClosedLanguageAtRank
+    sequenceBadFace rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank ... rank Face.ym
+```
+
+The strengthened predicate may carry the existing semantic ingredients
+`TopPairingActualFaceOmniAtRank`, `AcceptedSequenceBadFaceAtRank`, or
+`GraphAcceptedTraceMargin`.  It must not be `SampledRankIndex`, a sampled path
+list, an exact affine-RHS key, or one generated branch per rank/path.
+
+Go/no-go rule:
+
+- **Continue Bellman** if this evaluator theorem builds from
+  `rank + closed proof` or from one compact strengthened semantic predicate.
+- **Stop this Bellman surface as production proof** if the proof requires
+  sampled rank/path membership, exact affine-offset keys, a per-rank/per-path
+  branch table, or a giant Boolean evaluator.
+- If stopped, demote Bellman to discovery infrastructure and promote the
+  cancellation-tree summary automaton, making the semantic state carry the
+  cancellation progress needed by the evaluator.
+
+Updated audit command:
+
+```bash
+python3 scripts/audit_top_pairing_bellman_eval_contract.py
+```
+
+Current audit result:
+
+```text
+decision=continue-one-semantic-bellman-experiment-hard-eval-theorem-open
+sampled-eval mentions=0
+```

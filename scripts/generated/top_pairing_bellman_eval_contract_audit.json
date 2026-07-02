@@ -1,7 +1,21 @@
 {
-  "decision": "closed-to-eval-socket-built-trace-margin-premises-remain",
+  "allowed_strengthened_form": "forall rank, TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym -> TopPairingBellmanEvalLanguageAtRank ... rank Face.ym",
+  "allowed_strengthening_mentions": 22,
+  "decision": "continue-one-semantic-bellman-experiment-hard-eval-theorem-open",
   "files": {
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean": {
+      "allowed_strengthening": [
+        {
+          "line": 66,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 130,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        }
+      ],
       "closed_language_fields": [
         {
           "line": 8,
@@ -253,6 +267,7 @@
       ]
     },
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean": {
+      "allowed_strengthening": [],
       "closed_language_fields": [],
       "closed_to_eval_socket": [],
       "eval_accepts": [
@@ -355,6 +370,33 @@
       ]
     },
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalLanguage.lean": {
+      "allowed_strengthening": [
+        {
+          "line": 9,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "bound, it becomes a `TopPairingBellmanEvalLanguageAtRank`.  The hard generated"
+        },
+        {
+          "line": 28,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "TopPairingStrengthenedClosedLanguageAtRank"
+        },
+        {
+          "line": 46,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 62,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "TopPairingStrengthenedClosedLanguageAtRank"
+        },
+        {
+          "line": 68,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        }
+      ],
       "closed_language_fields": [
         {
           "line": 42,
@@ -471,6 +513,38 @@
       ]
     },
     "Cuboctahedron/Search/BellmanTopPairingLanguage.lean": {
+      "allowed_strengthening": [
+        {
+          "line": 591,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "structure TopPairingStrengthenedClosedLanguageAtRank"
+        },
+        {
+          "line": 704,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "namespace TopPairingStrengthenedClosedLanguageAtRank"
+        },
+        {
+          "line": 709,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "(h : TopPairingStrengthenedClosedLanguageAtRank"
+        },
+        {
+          "line": 717,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "(h : TopPairingStrengthenedClosedLanguageAtRank"
+        },
+        {
+          "line": 728,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "TopPairingStrengthenedClosedLanguageAtRank"
+        },
+        {
+          "line": 734,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "end TopPairingStrengthenedClosedLanguageAtRank"
+        }
+      ],
       "closed_language_fields": [
         {
           "line": 44,
@@ -746,12 +820,75 @@
       "closed_to_eval_socket": [],
       "eval_accepts": [],
       "exists": true,
-      "remaining_premises": [],
+      "remaining_premises": [
+        {
+          "line": 367,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "def TopPairingActualFaceOmniAtRank (rank : Fin numPairWords) : Prop :="
+        },
+        {
+          "line": 596,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank"
+        },
+        {
+          "line": 726,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "(actualFaceOmni : TopPairingActualFaceOmniAtRank rank)"
+        }
+      ],
       "sampled_eval": [],
       "semantic_eval_language": [],
       "semantic_object": []
     },
     "Cuboctahedron/Search/TopPairingBellmanObject.lean": {
+      "allowed_strengthening": [
+        {
+          "line": 24,
+          "pattern": "TopPairingStrengthenedClosedContainsRank",
+          "text": "abbrev TopPairingStrengthenedClosedContainsRank"
+        },
+        {
+          "line": 28,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "TopPairingStrengthenedClosedLanguageAtRank"
+        },
+        {
+          "line": 244,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "structure TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 273,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 287,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 467,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 522,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "TopPairingStrengthenedClosedLanguageAtRank"
+        },
+        {
+          "line": 524,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 541,
+          "pattern": "TopPairingStrengthenedClosedContainsRank",
+          "text": "(TopPairingStrengthenedClosedContainsRank sequenceBadFace badFace)"
+        }
+      ],
       "closed_language_fields": [
         {
           "line": 18,
@@ -799,6 +936,11 @@
           "line": 451,
           "pattern": "topPairingBellmanEvalObjectCoverOfClosedToEval",
           "text": "def topPairingBellmanEvalObjectCoverOfClosedToEval"
+        },
+        {
+          "line": 506,
+          "pattern": "topPairingBellmanEvalObjectCoverOfStrengthenedToEval",
+          "text": "def topPairingBellmanEvalObjectCoverOfStrengthenedToEval"
         }
       ],
       "eval_accepts": [
@@ -1100,6 +1242,11 @@
           "text": "end TopPairingBellmanObj"
         },
         {
+          "line": 153,
+          "pattern": "topPairingClosedMembership",
+          "text": "def topPairingClosedMembership (badFace : Face) :"
+        },
+        {
           "line": 155,
           "pattern": "TopPairingBellmanObj",
           "text": "(TopPairingBellmanObj badFace)"
@@ -1120,6 +1267,11 @@
           "text": "TopPairingBellmanObj.closedMembership badFace"
         },
         {
+          "line": 161,
+          "pattern": "topPairingClosedMembership",
+          "text": "theorem topPairingClosedMembership_covers"
+        },
+        {
           "line": 164,
           "pattern": "TopPairingBellmanObj",
           "text": "exists obj : TopPairingBellmanObj badFace,"
@@ -1133,6 +1285,21 @@
           "line": 166,
           "pattern": "TopPairingBellmanObj",
           "text": "TopPairingBellmanObj.rankOf obj = rank :="
+        },
+        {
+          "line": 168,
+          "pattern": "topPairingClosedMembership",
+          "text": "(topPairingClosedMembership badFace) rank hclosed"
+        },
+        {
+          "line": 170,
+          "pattern": "topPairingClosedMembership",
+          "text": "theorem topPairingClosedMembership_object"
+        },
+        {
+          "line": 173,
+          "pattern": "topPairingClosedMembership",
+          "text": "(topPairingClosedMembership badFace).objectOf rank hclosed ="
         },
         {
           "line": 175,
@@ -1237,15 +1404,17 @@
       ]
     }
   },
-  "next_required_theorem": "forall rank, TopPairingClosedLanguageAtRank rank Face.ym -> TopPairingBellmanEvalLanguageAtRank ... rank Face.ym",
-  "required_emitter_change": "Prove the trace and margin premises from the semantic closed language, or generate one compact semantic family theorem that does so. Do not reintroduce sampled rank/path objects.",
+  "next_required_theorem": "forall obj : TopPairingBellmanObj Face.ym, BellmanEvalAccepts ... (fun obj => topPairingScaledMargin obj.rank) (fun obj => TopPairingBellmanObj.labels ... obj) obj",
+  "rank_form": "forall rank, TopPairingClosedLanguageAtRank rank Face.ym -> TopPairingBellmanEvalLanguageAtRank ... rank Face.ym",
+  "required_emitter_change": "Prove deterministic evaluator acceptance from rank plus a closed-language proof, or from one stronger semantic predicate that carries exactly the missing evaluator/margin facts. Do not reintroduce sampled rank/path objects.",
   "totals": {
+    "allowed_strengthening": 22,
     "closed_language_fields": 68,
-    "closed_to_eval_socket": 6,
+    "closed_to_eval_socket": 7,
     "eval_accepts": 16,
-    "remaining_premises": 17,
+    "remaining_premises": 20,
     "sampled_eval": 0,
     "semantic_eval_language": 35,
-    "semantic_object": 91
+    "semantic_object": 96
   }
 }

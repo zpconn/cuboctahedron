@@ -1,10 +1,19 @@
 #!/usr/bin/env python3
 """Audit the top-pairing Bellman semantic-evaluator frontier.
 
-This is a text-only diagnostic.  It checks whether the current generated
-Bellman graph route already exposes a semantic closed-language evaluator
-theorem, or whether deterministic evaluation is still tied to sampled rank
-objects.
+This is a text-only diagnostic.  It records the precise go/no-go gate from the
+latest strategy review:
+
+* keep Bellman for exactly one more semantic-membership experiment;
+* the object must be compact and semantic, namely rank plus
+  `TopPairingClosedLanguageAtRank`;
+* the hard theorem must turn that semantic object into deterministic evaluator
+  acceptance or into one explicitly strengthened semantic predicate;
+* if the proof falls back to sampled ranks/paths, rank-indexed cases, or exact
+  affine-RHS keys, stop using this Bellman surface as the production proof
+  route.
+
+The audit deliberately does not enumerate ranks or build generated evidence.
 """
 
 from __future__ import annotations
@@ -28,6 +37,7 @@ PATTERNS = {
         "TopPairingBellmanObj",
         "TopPairingClosedContainsRank",
         "objectCoverOfEvalAccepts",
+        "topPairingClosedMembership",
     ],
     "closed_language_fields": [
         "TopPairingClosedLanguageAtRank",
@@ -51,6 +61,7 @@ PATTERNS = {
         "evalLanguageAtRank_of_graphAcceptedTraceMargin",
         "evalLanguageAtRank_of_strengthened_graphAcceptedTraceMargin",
         "topPairingBellmanEvalObjectCoverOfClosedToEval",
+        "topPairingBellmanEvalObjectCoverOfStrengthenedToEval",
     ],
     "eval_accepts": [
         "evalAccepts_of_closedTraceAndMargin",
@@ -70,6 +81,12 @@ PATTERNS = {
         "GraphAcceptedTraceMargin",
         "TerminalOkTraceLabels",
         "AcceptedSequenceBadFaceAtRank",
+        "TopPairingActualFaceOmniAtRank",
+    ],
+    "allowed_strengthening": [
+        "TopPairingStrengthenedClosedLanguageAtRank",
+        "TopPairingStrengthenedClosedContainsRank",
+        "TopPairingBellmanEvalLanguageAtRank",
     ],
 }
 
@@ -108,13 +125,14 @@ def main() -> None:
     semantic_eval_language = totals["semantic_eval_language"]
     closed_to_eval_socket = totals["closed_to_eval_socket"]
     remaining_premises = totals["remaining_premises"]
+    allowed_strengthening = totals["allowed_strengthening"]
     decision = (
-        "closed-to-eval-socket-built-trace-margin-premises-remain"
+        "continue-one-semantic-bellman-experiment-hard-eval-theorem-open"
         if semantic_eval_language and closed_to_eval_socket and remaining_premises
         and not sampled_eval
-        else "closed-to-eval-socket-built-but-sampled-risk-present"
+        else "semantic-bellman-socket-built-but-sampled-risk-present"
         if semantic_eval_language and closed_to_eval_socket and sampled_eval
-        else "stronger-eval-predicate-built-closed-to-eval-missing"
+        else "eval-predicate-built-object-cover-socket-missing"
         if semantic_eval_language and not closed_to_eval_socket
         else
         "semantic-object-built-eval-still-sampled"
@@ -127,14 +145,27 @@ def main() -> None:
         "totals": totals,
         "files": by_file,
         "next_required_theorem": (
+            "forall obj : TopPairingBellmanObj Face.ym, "
+            "BellmanEvalAccepts ... "
+            "(fun obj => topPairingScaledMargin obj.rank) "
+            "(fun obj => TopPairingBellmanObj.labels ... obj) obj"
+        ),
+        "rank_form": (
             "forall rank, TopPairingClosedLanguageAtRank rank Face.ym -> "
             "TopPairingBellmanEvalLanguageAtRank ... rank Face.ym"
         ),
-        "required_emitter_change": (
-            "Prove the trace and margin premises from the semantic closed "
-            "language, or generate one compact semantic family theorem that "
-            "does so. Do not reintroduce sampled rank/path objects."
+        "allowed_strengthened_form": (
+            "forall rank, TopPairingStrengthenedClosedLanguageAtRank "
+            "sequenceBadFace rank Face.ym -> "
+            "TopPairingBellmanEvalLanguageAtRank ... rank Face.ym"
         ),
+        "required_emitter_change": (
+            "Prove deterministic evaluator acceptance from rank plus a "
+            "closed-language proof, or from one stronger semantic predicate "
+            "that carries exactly the missing evaluator/margin facts. Do not "
+            "reintroduce sampled rank/path objects."
+        ),
+        "allowed_strengthening_mentions": allowed_strengthening,
     }
 
     out_json = ROOT / "scripts/generated/top_pairing_bellman_eval_contract_audit.json"
@@ -160,14 +191,33 @@ def main() -> None:
         f"- semantic eval-language mentions: `{totals['semantic_eval_language']}`",
         f"- closed-to-eval socket mentions: `{totals['closed_to_eval_socket']}`",
         f"- remaining-premise mentions: `{totals['remaining_premises']}`",
+        f"- allowed-strengthening mentions: `{totals['allowed_strengthening']}`",
         "",
         "## Interpretation",
         "",
-        "The semantic object/membership layer exists, and the current generated",
-        "route has a conditional closed-to-eval socket.  The remaining proof",
-        "obligation is not another wrapper: it is to prove the trace and margin",
-        "premises from the semantic closed-language predicate, or generate one",
-        "compact semantic family theorem that provides them.",
+        "The semantic object/membership layer exists.  In particular, the",
+        "object surface is `TopPairingBellmanObj`, whose data is only a rank",
+        "and a proof of `TopPairingClosedLanguageAtRank`; the membership proof",
+        "does not need a sampled rank/path table.",
+        "",
+        "```lean",
+        "structure TopPairingBellmanObj (badFace : Face) where",
+        "  rank : Fin numPairWords",
+        "  closed : TopPairingClosedLanguageAtRank rank badFace",
+        "```",
+        "",
+        "The remaining proof obligation is the hard deterministic evaluator",
+        "theorem:",
+        "",
+        "```lean",
+        "forall obj : TopPairingBellmanObj Face.ym,",
+        "  BellmanEvalAccepts ...",
+        "    (fun obj => topPairingScaledMargin obj.rank)",
+        "    (fun obj => TopPairingBellmanObj.labels ... obj)",
+        "    obj",
+        "```",
+        "",
+        "Equivalently, in rank form:",
         "",
         "```lean",
         "forall rank,",
@@ -175,10 +225,30 @@ def main() -> None:
         "    TopPairingBellmanEvalLanguageAtRank ... rank Face.ym",
         "```",
         "",
-        "Equivalently, the next theorem can provide",
-        "`GraphAcceptedTraceMargin` for the semantic closed object.  It must be",
-        "proved from `TopPairingClosedLanguageAtRank` and finite automaton facts,",
-        "not by case-splitting on `SampledRankIndex` or sampled paths.",
+        "If the plain closed predicate is too weak, the allowed adjustment is",
+        "one stronger semantic predicate, for example:",
+        "",
+        "```lean",
+        "forall rank,",
+        "  TopPairingStrengthenedClosedLanguageAtRank",
+        "    sequenceBadFace rank Face.ym ->",
+        "    TopPairingBellmanEvalLanguageAtRank ... rank Face.ym",
+        "```",
+        "",
+        "That strengthening may carry `GraphAcceptedTraceMargin`,",
+        "`TopPairingActualFaceOmniAtRank`, or the corresponding sequence",
+        "bad-face evidence.  It must still be semantic.  It must not be a",
+        "`SampledRankIndex`, a sampled path list, an exact affine-RHS key, or",
+        "one generated branch per rank/path.",
+        "",
+        "## Go/No-Go Rule",
+        "",
+        "Continue Bellman only if the next implementation proves this evaluator",
+        "slice from the semantic object or from one compact strengthened",
+        "semantic predicate.  If the theorem collapses back into sampled",
+        "membership, rank/path enumeration, or exact affine-offset keys, demote",
+        "this Bellman route to discovery infrastructure and pivot to the",
+        "cancellation-tree summary automaton.",
         "",
         "## Files",
         "",

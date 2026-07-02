@@ -7,21 +7,40 @@ sampled-object-bound.
 
 ## Summary
 
-- decision: `closed-to-eval-socket-built-trace-margin-premises-remain`
-- semantic-object mentions: `91`
+- decision: `continue-one-semantic-bellman-experiment-hard-eval-theorem-open`
+- semantic-object mentions: `96`
 - closed-language field mentions: `68`
 - sampled-eval mentions: `0`
 - semantic eval-language mentions: `35`
-- closed-to-eval socket mentions: `6`
-- remaining-premise mentions: `17`
+- closed-to-eval socket mentions: `7`
+- remaining-premise mentions: `20`
+- allowed-strengthening mentions: `22`
 
 ## Interpretation
 
-The semantic object/membership layer exists, and the current generated
-route has a conditional closed-to-eval socket.  The remaining proof
-obligation is not another wrapper: it is to prove the trace and margin
-premises from the semantic closed-language predicate, or generate one
-compact semantic family theorem that provides them.
+The semantic object/membership layer exists.  In particular, the
+object surface is `TopPairingBellmanObj`, whose data is only a rank
+and a proof of `TopPairingClosedLanguageAtRank`; the membership proof
+does not need a sampled rank/path table.
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+```
+
+The remaining proof obligation is the hard deterministic evaluator
+theorem:
+
+```lean
+forall obj : TopPairingBellmanObj Face.ym,
+  BellmanEvalAccepts ...
+    (fun obj => topPairingScaledMargin obj.rank)
+    (fun obj => TopPairingBellmanObj.labels ... obj)
+    obj
+```
+
+Equivalently, in rank form:
 
 ```lean
 forall rank,
@@ -29,17 +48,37 @@ forall rank,
     TopPairingBellmanEvalLanguageAtRank ... rank Face.ym
 ```
 
-Equivalently, the next theorem can provide
-`GraphAcceptedTraceMargin` for the semantic closed object.  It must be
-proved from `TopPairingClosedLanguageAtRank` and finite automaton facts,
-not by case-splitting on `SampledRankIndex` or sampled paths.
+If the plain closed predicate is too weak, the allowed adjustment is
+one stronger semantic predicate, for example:
+
+```lean
+forall rank,
+  TopPairingStrengthenedClosedLanguageAtRank
+    sequenceBadFace rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank ... rank Face.ym
+```
+
+That strengthening may carry `GraphAcceptedTraceMargin`,
+`TopPairingActualFaceOmniAtRank`, or the corresponding sequence
+bad-face evidence.  It must still be semantic.  It must not be a
+`SampledRankIndex`, a sampled path list, an exact affine-RHS key, or
+one generated branch per rank/path.
+
+## Go/No-Go Rule
+
+Continue Bellman only if the next implementation proves this evaluator
+slice from the semantic object or from one compact strengthened
+semantic predicate.  If the theorem collapses back into sampled
+membership, rank/path enumeration, or exact affine-offset keys, demote
+this Bellman route to discovery infrastructure and pivot to the
+cancellation-tree summary automaton.
 
 ## Files
 
 ### `Cuboctahedron/Search/TopPairingBellmanObject.lean`
 
 - exists: `True`
-- `semantic_object`: `49`
+- `semantic_object`: `54`
   - line `16`: `abbrev TopPairingClosedContainsRank (badFace : Face) :`
   - line `22`: `TopPairingClosedContainsRank badFace`
   - line `31`: `structure TopPairingBellmanObj (badFace : Face) where`
@@ -48,7 +87,7 @@ not by case-splitting on `SampledRankIndex` or sampled paths.
   - line `41`: `def Accepts {badFace : Face} (_obj : TopPairingBellmanObj badFace) :`
   - line `45`: `theorem accepts {badFace : Face} (obj : TopPairingBellmanObj badFace) :`
   - line `49`: `def forcedSeq {badFace : Face} (obj : TopPairingBellmanObj badFace) :`
-  - ... `41` more
+  - ... `46` more
 - `closed_language_fields`: `8`
   - line `18`: `fun rank => TopPairingClosedLanguageAtRank rank badFace`
   - line `33`: `closed : TopPairingClosedLanguageAtRank rank badFace`
@@ -59,8 +98,9 @@ not by case-splitting on `SampledRankIndex` or sampled paths.
   - line `349`: `TopPairingClosedLanguageAtRank obj.rank badFace :=`
   - line `466`: `TopPairingClosedLanguageAtRank rank badFace ->`
 - `sampled_eval`: `0`
-- `closed_to_eval_socket`: `1`
+- `closed_to_eval_socket`: `2`
   - line `451`: `def topPairingBellmanEvalObjectCoverOfClosedToEval`
+  - line `506`: `def topPairingBellmanEvalObjectCoverOfStrengthenedToEval`
 - `eval_accepts`: `6`
   - line `99`: `BellmanEvalAccepts V next start const`
   - line `129`: `BellmanEvalAccepts V next start const`
@@ -79,6 +119,16 @@ not by case-splitting on `SampledRankIndex` or sampled paths.
   - line `317`: `TopPairingBellmanEvalObj`
   - ... `22` more
 - `remaining_premises`: `0`
+- `allowed_strengthening`: `9`
+  - line `24`: `abbrev TopPairingStrengthenedClosedContainsRank`
+  - line `28`: `TopPairingStrengthenedClosedLanguageAtRank`
+  - line `244`: `structure TopPairingBellmanEvalLanguageAtRank`
+  - line `273`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `287`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `467`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `522`: `TopPairingStrengthenedClosedLanguageAtRank`
+  - line `524`: `TopPairingBellmanEvalLanguageAtRank`
+  - ... `1` more
 
 ### `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`
 
@@ -98,7 +148,17 @@ not by case-splitting on `SampledRankIndex` or sampled paths.
 - `closed_to_eval_socket`: `0`
 - `eval_accepts`: `0`
 - `semantic_eval_language`: `0`
-- `remaining_premises`: `0`
+- `remaining_premises`: `3`
+  - line `367`: `def TopPairingActualFaceOmniAtRank (rank : Fin numPairWords) : Prop :=`
+  - line `596`: `TopPairingActualFaceOmniAtRank rank`
+  - line `726`: `(actualFaceOmni : TopPairingActualFaceOmniAtRank rank)`
+- `allowed_strengthening`: `6`
+  - line `591`: `structure TopPairingStrengthenedClosedLanguageAtRank`
+  - line `704`: `namespace TopPairingStrengthenedClosedLanguageAtRank`
+  - line `709`: `(h : TopPairingStrengthenedClosedLanguageAtRank`
+  - line `717`: `(h : TopPairingStrengthenedClosedLanguageAtRank`
+  - line `728`: `TopPairingStrengthenedClosedLanguageAtRank`
+  - line `734`: `end TopPairingStrengthenedClosedLanguageAtRank`
 
 ### `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean`
 
@@ -123,6 +183,7 @@ not by case-splitting on `SampledRankIndex` or sampled paths.
   - line `99`: `BellmanEvalAccepts graphPotential graphSmokeNext rootState (176 : Int)`
 - `semantic_eval_language`: `0`
 - `remaining_premises`: `0`
+- `allowed_strengthening`: `0`
 
 ### `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean`
 
@@ -166,6 +227,9 @@ not by case-splitting on `SampledRankIndex` or sampled paths.
   - line `84`: `ClosedTraceOr obj)`
   - line `87`: `ClosedMarginBound scaledMargin obj)`
   - ... `2` more
+- `allowed_strengthening`: `2`
+  - line `66`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `130`: `TopPairingBellmanEvalLanguageAtRank`
 
 ### `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalLanguage.lean`
 
@@ -197,4 +261,10 @@ not by case-splitting on `SampledRankIndex` or sampled paths.
   - line `44`: `GraphAcceptedTraceMargin scaledMargin`
   - line `63`: `AcceptedSequenceBadFaceAtRank rank Face.ym)`
   - line `65`: `GraphAcceptedTraceMargin scaledMargin`
+- `allowed_strengthening`: `5`
+  - line `9`: `bound, it becomes a `TopPairingBellmanEvalLanguageAtRank`.  The hard generated`
+  - line `28`: `TopPairingStrengthenedClosedLanguageAtRank`
+  - line `46`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `62`: `TopPairingStrengthenedClosedLanguageAtRank`
+  - line `68`: `TopPairingBellmanEvalLanguageAtRank`
 
