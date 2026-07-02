@@ -1,0 +1,65 @@
+{
+  "alphabet_size": 4,
+  "distinct_summaries": 65536,
+  "max_preimages_per_summary": 1,
+  "shadow_length": 8,
+  "target_shadow": [
+    "dm11",
+    "d111",
+    "d1m1",
+    "d11m",
+    "d11m",
+    "dm11",
+    "d111",
+    "d1m1"
+  ],
+  "target_summary": {
+    "cancellations": [
+      {
+        "left": 3,
+        "right": 4,
+        "tri": "d11m"
+      }
+    ],
+    "survivors": [
+      {
+        "index": 0,
+        "tri": "dm11"
+      },
+      {
+        "index": 1,
+        "tri": "d111"
+      },
+      {
+        "index": 2,
+        "tri": "d1m1"
+      },
+      {
+        "index": 5,
+        "tri": "dm11"
+      },
+      {
+        "index": 6,
+        "tri": "d111"
+      },
+      {
+        "index": 7,
+        "tri": "d1m1"
+      }
+    ]
+  },
+  "target_summary_matches": [
+    [
+      "dm11",
+      "d111",
+      "d1m1",
+      "d11m",
+      "d11m",
+      "dm11",
+      "d111",
+      "d1m1"
+    ]
+  ],
+  "target_summary_unique": true,
+  "total_shadows": 65536
+}

@@ -77037,6 +77037,32 @@ theorem topPairingTriShadow_eq_target
       topPairingTargetShadow
 ```
 
+Diagnostic pre-check for this theorem:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_target_shadow.py
+python3 scripts/audit_top_pairing_target_shadow.py
+```
+
+Result:
+
+```text
+target_summary_unique=True
+shadow_length=8
+total_shadows=65536
+distinct_summaries=65536
+max_preimages_per_summary=1
+target_matches=1
+```
+
+Interpretation: the specialized target-summary inversion theorem is the right
+next Lean slice.  The audit is not proof, but it confirms there is no second
+length-8 triangular shadow with the same target cancellation summary.  In fact,
+for length 8 the current summary convention is injective in the audit.  The
+Lean proof should still avoid a giant `4^8` case split; prove a small
+stack/index invariant for `triangularCancellationSummaryOfShadow`, then
+specialize it to `topPairingTargetSummary`.
+
 Then define a semantic cursor over face labels:
 
 ```lean
