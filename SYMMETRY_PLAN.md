@@ -80347,3 +80347,97 @@ the current reachable post-fourth states, then add a depth-5 dispatcher.  Keep
 the go/no-go gate strict: if a branch requires exact affine RHS, sampled trace
 IDs, or one constructor per observed rank/path, stop and strengthen the
 semantic state instead.
+
+### Diagnostic: Plain Closed-Language Depth-5 Cut Rejected
+
+Tested the first reachable post-fourth state:
+
+```text
+prefix: xm, ym, tmpm, zm
+graph state: 150
+graph edge present:
+  zp -> state 157, gain 114
+```
+
+The attempted local theorem had the intended shape:
+
+```lean
+closed language
+  -> prefix = [xm, ym, tmpm, zm] ++ face :: rest
+  -> ∃ nextState gain,
+       faceEvalNext state150 face = some (nextState, gain) ∧
+       nextState.Tail rest
+```
+
+Lean reduced the impossible branches by schedule, square-gap, target-shadow
+cursor, and local-axis exactly as expected, but one remaining branch survived:
+
+```text
+face = tppp
+```
+
+At this state the semantic transducer facts prove that `tppp` is allowed:
+
+```text
+step schedule: allowed at step 4
+local-axis: allowed
+target-shadow cursor: allowed
+square-gap: irrelevant because tppp is triangular
+```
+
+However, the current 1M graph table has no edge:
+
+```lean
+graphSmokeNext (150 : State) (smokeLabelOfFace Face.tppp) = none
+```
+
+Decision:
+
+```text
+Reject the plain closed-language depth-5 cut for this graph/state key.
+```
+
+This is not a Lean proof failure to patch with sampled membership.  It is a
+state adequacy signal.  The deterministic closed-language evaluator cannot
+advance through depth 5 using only the current graph state and the current
+closed transducer fields.  The next accepted route must do one of:
+
+1. Regenerate or extend the Bellman graph/state key so the `state150/tppp`
+   semantic transition is represented and Bellman-bounded.
+2. Prove a strengthened semantic exclusion for this specific branch from the
+   bad-face predicate or another non-sampled family field.
+3. Add a genuine semantic field to the transducer state that excludes the
+   branch locally without exact affine RHS, sampled trace IDs, or rank/path
+   enumeration.
+
+The attempted Lean block was removed after this diagnostic; the repository
+remains at the stable depth-4 dispatcher checkpoint.
+
+Focused guarded check after removing the rejected slice:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingStrengthenedLocal1MSmoke.lean` direct | pass | `7.00s` | `4113 MiB` |
+
+Next step:
+
+Use this counterexample to revise the next profiler/generator target.  The
+most direct experiment is to extend the graph/state key with the missing
+semantic coordinate that distinguishes the `state150/tppp` branch, or to run a
+graph-closure profiler that includes this transition and reports whether the
+Bellman potential still has nonpositive maximum.  Do not revive selected-prefix
+coverage for this branch.
