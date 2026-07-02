@@ -76487,3 +76487,105 @@ Implications:
 - The next production classifier should produce a compact semantic gate theorem
   at the search/core boundary, or a separately measured producer root.  It
   should not widen the public residual bridge with these generated imports.
+
+## 2026-07-02 Strategy Adjustment: Bellman Semantic Membership Decision Gate
+
+The latest GPT5.5 review sharpens the Bellman decision point.  The current
+work has already completed the cheap part of the recommendation:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+```
+
+and the lightweight semantic gate:
+
+```lean
+TopPairingClosedToEvalGate
+TopPairingStrengthenedToEvalGate
+closedObjectCoverOfSemanticGate
+strengthenedObjectCoverOfSemanticGate
+```
+
+Those surfaces prove that object membership can be semantic and cheap.  They do
+**not** by themselves prove the production membership theorem.  The real
+remaining theorem is the deterministic evaluator contract:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+or the allowed strengthened form:
+
+```lean
+forall rank,
+  TopPairingStrengthenedClosedLanguageAtRank
+    sequenceBadFace rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+This theorem must supply, for the rank-derived label list:
+
+```lean
+evalLabelStepFn graphSmokeNext rootState labels = some result
+0 <= graphPotential result.1
+scaledMargin rank <= (176 : Int) + result.2
+```
+
+The next Bellman task is therefore exactly one semantic-membership experiment:
+prove or generate that evaluator contract from a compact semantic language
+predicate.  Do not spend another cycle on a new potential, a sampled smoke, a
+rank-indexed certificate, a root-producer import shortcut, or a grouped OR
+prefix shard.
+
+Allowed implementation shapes:
+
+1. Prove the contract directly from `TopPairingClosedLanguageAtRank` if its
+   fields are sufficient.
+2. If they are not sufficient, add exactly one stronger semantic predicate
+   carrying closed-run/state-summary facts, such as deterministic
+   `eval_ok`, final potential nonnegativity, and the scaled-margin bound.
+3. Cover that stronger predicate by cancellation-tree or state-summary
+   families, not by sampled ranks, exact affine RHS keys, solved start-point
+   keys, or one constructor per accepted path.
+
+Go/no-go rule:
+
+```text
+continue Bellman as production proof only if the evaluator contract is proved
+from closed/strengthened semantic language data with cost proportional to the
+automaton/family size;
+reject Bellman as the production coverage route if the proof collapses back
+to sampled paths, exact RHS keys, root-trace-margin producer imports, or
+large OR-prefix/rank routing.
+```
+
+If rejected, the immediate replacement is not translation-style Farkas for the
+nonidentity residual.  It is the cancellation-tree/state-summary automaton:
+make the semantic state strong enough that the run through the evaluator is
+Lean-provable by local transitions.  Bellman potentials may still be used
+inside that automaton, but not as a sampled trace database.
+
+OOM-safe execution rule for this experiment:
+
+```bash
+/usr/bin/time -v lake env lean -j1 -M8192 <single-target-file>.lean
+```
+
+Do not run broad generated `lake build` targets for this slice.  Any candidate
+module that imports split graph smokes, terminal trace shard forests, or the
+root trace-margin producer hierarchy must first pass an import-fan-in audit
+like:
+
+```bash
+python3 scripts/audit_top_pairing_semantic_gate_imports.py
+```
+
+before it is allowed onto the public residual bridge path.
