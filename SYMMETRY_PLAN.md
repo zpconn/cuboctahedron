@@ -71161,3 +71161,103 @@ Immediate adjusted task:
    prefix/state information rather than assumed as a free field.
 5. Any Lean check for this slice must use the hard memory guard; no broad
    `lake build` while exploring this provider.
+
+### 2026-07-02 Provider-surface inspection after the gate update
+
+Inspection of the current provider-facing modules clarifies the next blocker.
+
+Existing checked consumer path:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingStateDAGPrefixSmoke.lean
+  BellmanTopPairingStateDAGSelectedPrefixCover/Group000.lean
+  BellmanTopPairingSelectedPrefixTraceMarginAdapter.lean
+  BellmanTopPairingSelectedPrefixTraceStartViolationKilledBridge.lean
+```
+
+Important definitions:
+
+```lean
+StateDAGPrefixClosedMarginFamily
+Prefix000ShardFamily
+TerminalTracePrefixSharedGainClosedMarginFamily
+SelectedPrefixTraceMarginFamily
+nonIdentityRankKilled_of_selectedPrefixTraceMarginFamily
+```
+
+Finding:
+
+`StateDAGPrefixClosedMarginFamily` and the generated `Prefix000ShardFamily`
+still include the critical margin bound as a premise:
+
+```lean
+scaledMargin rank <= (176 : Int) + gain
+```
+
+They correctly package closed-language membership, actual-face omni data,
+accepted bad-face data, terminal trace labels, and prefix/tail membership.
+They do **not** yet prove the margin bound from those semantic fields.  This is
+exactly the place where the route can accidentally collapse back into
+rank-indexed affine RHS evidence.
+
+The integer prefix-state module:
+
+```text
+Cuboctahedron/Search/TopPairingIntLocalAxis.lean
+```
+
+currently provides:
+
+```lean
+TopPairingIntPrefixState
+TopPairingIntPrefixState.Sound
+TopPairingIntPrefixState.step_sound
+not_localAxisAllows_of_scaled_int_dot_nonpos
+```
+
+This is a good linear/local-axis substrate, but it tracks only:
+
+```lean
+faces : List Face
+scaled : Mat3 Int
+scale : Nat
+```
+
+It does not track the additive Bellman margin or contribution gain.  Therefore
+`TopPairingIntPrefixState` alone cannot discharge the provider gate.  The next
+provider slice must extend the semantic state with an additive margin/gain
+component or introduce a companion cancellation/Bellman summary state whose
+soundness theorem proves the bound.
+
+Revised immediate implementation target:
+
+1. Define a tiny hand-written socket for an additive prefix-margin state, with
+   integer gain accumulation and a theorem of the schematic form:
+
+   ```lean
+   semanticPrefixMarginBound :
+     PrefixMarginStateSound state rank ->
+       scaledMargin rank <= (176 : Int) + state.gain
+   ```
+
+   The first version may be specialized to the top-pairing `Face.ym` family and
+   the existing `graphPotential / graphSmokeNext / smokeLabelOfFace` evaluator.
+
+2. Connect that socket to `TerminalTracePrefixSharedGainClosedMarginFamily`
+   for the largest diagnostic bucket:
+
+   ```text
+   Group000.Prefix000Prefix
+   gain -376
+   traces t000/t001/t002
+   ```
+
+3. The generated/provider proof may use prefix facts, accepted trace ids,
+   deterministic evaluator facts, and small integer transition facts.  It must
+   not use sampled ranks, sampled paths, or exact affine-RHS lookup keys.
+
+4. If this additive state cannot be specified without putting exact affine RHS
+   or per-rank solved `p0` data into the state, mark the Bellman provider gate
+   failed and pivot to a cancellation-tree summary automaton where the missing
+   margin progress is part of the formal semantic state.
