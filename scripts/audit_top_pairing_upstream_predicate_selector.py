@@ -4,6 +4,12 @@
 This is a lightweight repository audit.  It records the current predicate chain
 around the selected-prefix Bellman cover so the next proof does not keep using
 the schematic name `FullTopPairingResidualLanguageAtRank`.
+
+Current strategy note: the preferred checked consumer is now the direct
+start-violation surface `TerminalDirectClosedFamily`, because it yields the
+semantic killed predicate without needing the Bellman nonpositive-margin route.
+The Bellman `RootTraceMarginProducer` route remains a fallback/diagnostic
+consumer for pockets that lack direct start-violation certificates.
 """
 
 from __future__ import annotations
@@ -53,6 +59,12 @@ FILES = {
     "terminal_direct_bridge": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean",
+    "terminal_direct_killed_bridge": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean",
+    "selected_prefix_direct_killed_bridge": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSelectedPrefixDirectStartViolationKilledBridge.lean",
 }
 
 SYMBOLS = {
@@ -82,6 +94,10 @@ SYMBOLS = {
     "rootTraceMarginProducer_of_selectedPrefixCoverFamily": "selected-prefix cover -> root trace-margin producer",
     "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": "trace-margin object cover + certs -> killed predicate",
     "TerminalDirectClosedFamily": "terminal direct semantic alternative",
+    "terminalDirectClosedFamily_of_selectedPrefixTraceMarginFamily": "trace-margin family -> terminal direct",
+    "terminalDirectClosedFamily_of_selectedPrefixCoverFamily": "selected-prefix cover -> terminal direct",
+    "nonIdentityRankKilled_of_terminalDirectClosedFamily": "terminal direct -> killed predicate",
+    "nonIdentityRankKilled_of_selectedPrefixCoverFamily": "selected-prefix cover -> killed predicate",
 }
 
 FORBIDDEN_TOKENS = [
@@ -136,7 +152,31 @@ def render(report: dict[str, Any]) -> str:
         "",
         "## Selected Predicate Chain",
         "",
-        "The current bounded upstream predicate is:",
+        "The preferred checked consumer is now the direct start-violation",
+        "surface:",
+        "",
+        "```lean",
+        "TerminalDirectClosedFamily rank",
+        "```",
+        "",
+        "It is consumed by:",
+        "",
+        "```lean",
+        "nonIdentityRankKilled_of_terminalDirectClosedFamily :",
+        "  TerminalDirectClosedFamily rank ->",
+        "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank",
+        "```",
+        "",
+        "The current bounded selected-prefix cover already feeds it:",
+        "",
+        "```lean",
+        "SelectedPrefixCoverFamily scaledMargin rank ->",
+        "  TerminalDirectClosedFamily rank",
+        "SelectedPrefixCoverFamily scaledMargin rank ->",
+        "  Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank",
+        "```",
+        "",
+        "The Bellman-margin fallback consumer remains:",
         "",
         "```lean",
         "RootTraceMarginProducer scaledMargin rank",
@@ -186,7 +226,24 @@ def render(report: dict[str, Any]) -> str:
         "```",
         "",
         "The next production theorem should therefore be stated against the",
-        "actual upstream residual classifier once selected, with this shape:",
+        "actual upstream residual classifier once selected, with this preferred",
+        "shape:",
+        "",
+        "```lean",
+        "forall rank,",
+        "  ProductionTopPairingResidualAtRank rank ->",
+        "    TerminalDirectClosedFamily rank",
+        "```",
+        "",
+        "A direct theorem to the selected-prefix cover is also acceptable:",
+        "",
+        "```lean",
+        "forall rank,",
+        "  ProductionTopPairingResidualAtRank rank ->",
+        "    SelectedPrefixCoverFamily scaledMargin rank",
+        "```",
+        "",
+        "The Bellman-margin fallback shape is:",
         "",
         "```lean",
         "forall rank,",
@@ -205,10 +262,9 @@ def render(report: dict[str, Any]) -> str:
         "      rank Face.ym",
         "```",
         "",
-        "A direct theorem into `SelectedPrefixCoverFamily scaledMargin rank` is",
-        "also acceptable, but the root trace-margin producer is now the preferred",
-        "upstream socket because it carries accepted-prefix membership and the",
-        "per-trace margin inequality in one compact semantic predicate.",
+        "Use `RootTraceMarginProducer` when a subfamily lacks direct",
+        "start-violation evidence but still has a compact Bellman trace-margin",
+        "producer.",
         "",
         "The theorem must remain semantic.  It should not introduce a sampled",
         "rank/path object or one branch per concrete rank.",
@@ -243,9 +299,10 @@ def render(report: dict[str, Any]) -> str:
             "",
         "Do not build another Bellman potential or sampled smoke next.  The",
         "next useful Lean/generator work is a semantic producer theorem into",
-        "`RootTraceMarginProducer`, or a proof that this cover is too narrow",
-        "and must be replaced by the direct `TerminalTracePrefixSharedGain`",
-            "family surface.",
+        "`TerminalDirectClosedFamily`, or into `SelectedPrefixCoverFamily`",
+        "followed by the checked direct bridge.  Keep `RootTraceMarginProducer`",
+        "as the Bellman-margin fallback for families without direct",
+        "start-violation certificates.",
             "",
         ]
     )
@@ -267,10 +324,13 @@ def main() -> None:
         "rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily",
         "rootTraceMarginProducer_of_selectedPrefixCoverFamily",
         "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation",
+        "TerminalDirectClosedFamily",
+        "terminalDirectClosedFamily_of_selectedPrefixCoverFamily",
+        "nonIdentityRankKilled_of_selectedPrefixCoverFamily",
     ]
     missing = [symbol for symbol in required if symbol not in symbol_locations]
     decision = (
-        "target-selected-prefix-cover-family"
+        "target-terminal-direct-selected-prefix-cover"
         if not missing and sampled_hit_count == 0
         else "review-selected-prefix-predicate-chain"
     )
@@ -285,12 +345,15 @@ def main() -> None:
         "next_theorem": {
             "preferred": (
                 "forall rank, ProductionTopPairingResidualAtRank rank -> "
-                "RootTraceMarginProducer scaledMargin rank"
+                "TerminalDirectClosedFamily rank"
             ),
-            "strengthened_socket": (
+            "selected_prefix": (
                 "forall rank, ProductionTopPairingResidualAtRank rank -> "
-                "TopPairingStrengthenedClosedLanguageAtRank "
-                "(SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym"
+                "SelectedPrefixCoverFamily scaledMargin rank"
+            ),
+            "bellman_fallback": (
+                "forall rank, ProductionTopPairingResidualAtRank rank -> "
+                "RootTraceMarginProducer scaledMargin rank"
             ),
         },
     }

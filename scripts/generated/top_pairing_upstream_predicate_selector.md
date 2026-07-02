@@ -4,12 +4,36 @@ This audit is diagnostic status evidence, not proof.  It replaces the
 schematic next-target name `FullTopPairingResidualLanguageAtRank` with
 the concrete predicate chain currently available in the repo.
 
-- decision: `target-selected-prefix-cover-family`
+- decision: `target-terminal-direct-selected-prefix-cover`
 - sampled-token hits in selected surfaces: `0`
 
 ## Selected Predicate Chain
 
-The current bounded upstream predicate is:
+The preferred checked consumer is now the direct start-violation
+surface:
+
+```lean
+TerminalDirectClosedFamily rank
+```
+
+It is consumed by:
+
+```lean
+nonIdentityRankKilled_of_terminalDirectClosedFamily :
+  TerminalDirectClosedFamily rank ->
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+The current bounded selected-prefix cover already feeds it:
+
+```lean
+SelectedPrefixCoverFamily scaledMargin rank ->
+  TerminalDirectClosedFamily rank
+SelectedPrefixCoverFamily scaledMargin rank ->
+  Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+The Bellman-margin fallback consumer remains:
 
 ```lean
 RootTraceMarginProducer scaledMargin rank
@@ -59,7 +83,24 @@ scaledMargin rank <= 0
 ```
 
 The next production theorem should therefore be stated against the
-actual upstream residual classifier once selected, with this shape:
+actual upstream residual classifier once selected, with this preferred
+shape:
+
+```lean
+forall rank,
+  ProductionTopPairingResidualAtRank rank ->
+    TerminalDirectClosedFamily rank
+```
+
+A direct theorem to the selected-prefix cover is also acceptable:
+
+```lean
+forall rank,
+  ProductionTopPairingResidualAtRank rank ->
+    SelectedPrefixCoverFamily scaledMargin rank
+```
+
+The Bellman-margin fallback shape is:
 
 ```lean
 forall rank,
@@ -78,10 +119,9 @@ forall rank,
       rank Face.ym
 ```
 
-A direct theorem into `SelectedPrefixCoverFamily scaledMargin rank` is
-also acceptable, but the root trace-margin producer is now the preferred
-upstream socket because it carries accepted-prefix membership and the
-per-trace margin inequality in one compact semantic predicate.
+Use `RootTraceMarginProducer` when a subfamily lacks direct
+start-violation evidence but still has a compact Bellman trace-margin
+producer.
 
 The theorem must remain semantic.  It should not introduce a sampled
 rank/path object or one branch per concrete rank.
@@ -90,7 +130,7 @@ rank/path object or one branch per concrete rank.
 
 | symbol | role | files |
 | --- | --- | --- |
-| `SelectedPrefixCoverFamily` | bounded selected-prefix state-DAG cover | `selected_prefix_cover_root`, `selected_prefix_cover_socket`, `selected_prefix_trace_margin_cover_bridge`, `selected_prefix_cover_membership_bridge`, `selected_prefix_cover_root_producer_bridge`, `terminal_direct_bridge` |
+| `SelectedPrefixCoverFamily` | bounded selected-prefix state-DAG cover | `selected_prefix_cover_root`, `selected_prefix_cover_socket`, `selected_prefix_trace_margin_cover_bridge`, `selected_prefix_cover_membership_bridge`, `selected_prefix_cover_root_producer_bridge`, `terminal_direct_bridge`, `selected_prefix_direct_killed_bridge` |
 | `selectedPrefixCover_evalLanguage` | cover -> Bellman eval language | `selected_prefix_cover_root`, `selected_prefix_cover_socket` |
 | `selectedPrefixCover_scaledMargin_nonpos` | cover -> nonpositive margin | `selected_prefix_cover_root`, `selected_prefix_cover_socket` |
 | `SelectedPrefixCoverSequenceBadFace` | strengthened-language payload for cover | `selected_prefix_cover_socket`, `selected_prefix_trace_margin_cover_bridge`, `selected_prefix_cover_membership_bridge`, `root_trace_margin_selected_prefix_bridge` |
@@ -116,6 +156,10 @@ rank/path object or one branch per concrete rank.
 | `rootTraceMarginProducer_of_selectedPrefixCoverFamily` | selected-prefix cover -> root trace-margin producer | `selected_prefix_cover_root_producer_bridge` |
 | `selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation` | trace-margin object cover + certs -> killed predicate | `selected_prefix_killed_socket` |
 | `TerminalDirectClosedFamily` | terminal direct semantic alternative | `terminal_direct_bridge` |
+| `terminalDirectClosedFamily_of_selectedPrefixTraceMarginFamily` | trace-margin family -> terminal direct | `terminal_direct_bridge` |
+| `terminalDirectClosedFamily_of_selectedPrefixCoverFamily` | selected-prefix cover -> terminal direct | `terminal_direct_bridge` |
+| `nonIdentityRankKilled_of_terminalDirectClosedFamily` | terminal direct -> killed predicate | `terminal_direct_bridge` |
+| `nonIdentityRankKilled_of_selectedPrefixCoverFamily` | selected-prefix cover -> killed predicate | `terminal_direct_bridge`, `selected_prefix_direct_killed_bridge` |
 
 ## Selected Files
 
@@ -131,13 +175,16 @@ rank/path object or one branch per concrete rank.
 | `selected_prefix_cover_root_producer_bridge` | `31` | `0` | `RootTraceMarginProducer`, `SelectedPrefixCoverFamily`, `rootTraceMarginProducer_of_selectedPrefixCoverFamily`, `rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily`, `selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily` |
 | `selected_prefix_trace_margin_socket` | `57` | `0` | `SelectedPrefixTraceMarginFamily` |
 | `selected_prefix_killed_socket` | `65` | `0` | `selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation` |
-| `terminal_direct_bridge` | `163` | `0` | `SelectedPrefixCoverFamily`, `SelectedPrefixTraceMarginFamily`, `TerminalDirectClosedFamily`, `selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily` |
+| `terminal_direct_bridge` | `163` | `0` | `SelectedPrefixCoverFamily`, `SelectedPrefixTraceMarginFamily`, `TerminalDirectClosedFamily`, `nonIdentityRankKilled_of_selectedPrefixCoverFamily`, `nonIdentityRankKilled_of_terminalDirectClosedFamily`, `selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily`, `terminalDirectClosedFamily_of_selectedPrefixCoverFamily`, `terminalDirectClosedFamily_of_selectedPrefixTraceMarginFamily` |
+| `terminal_direct_killed_bridge` | `80` | `0` | none |
+| `selected_prefix_direct_killed_bridge` | `657` | `0` | `SelectedPrefixCoverFamily`, `nonIdentityRankKilled_of_selectedPrefixCoverFamily` |
 
 ## Strategy Implication
 
 Do not build another Bellman potential or sampled smoke next.  The
 next useful Lean/generator work is a semantic producer theorem into
-`RootTraceMarginProducer`, or a proof that this cover is too narrow
-and must be replaced by the direct `TerminalTracePrefixSharedGain`
-family surface.
+`TerminalDirectClosedFamily`, or into `SelectedPrefixCoverFamily`
+followed by the checked direct bridge.  Keep `RootTraceMarginProducer`
+as the Bellman-margin fallback for families without direct
+start-violation certificates.
 

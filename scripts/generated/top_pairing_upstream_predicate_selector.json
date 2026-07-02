@@ -1,5 +1,5 @@
 {
-  "decision": "target-selected-prefix-cover-family",
+  "decision": "target-terminal-direct-selected-prefix-cover",
   "files": {
     "root_trace_margin_selected_prefix_bridge": {
       "exists": true,
@@ -71,6 +71,16 @@
         "strengthenedSelectedPrefixCover_scaledMargin_nonpos": 1
       }
     },
+    "selected_prefix_direct_killed_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 657,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixDirectStartViolationKilledBridge.lean",
+      "symbols": {
+        "SelectedPrefixCoverFamily": 2,
+        "nonIdentityRankKilled_of_selectedPrefixCoverFamily": 1
+      }
+    },
     "selected_prefix_killed_socket": {
       "exists": true,
       "forbidden_hits": {},
@@ -124,8 +134,19 @@
         "SelectedPrefixCoverFamily": 2,
         "SelectedPrefixTraceMarginFamily": 2,
         "TerminalDirectClosedFamily": 4,
-        "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": 1
+        "nonIdentityRankKilled_of_selectedPrefixCoverFamily": 1,
+        "nonIdentityRankKilled_of_terminalDirectClosedFamily": 1,
+        "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": 1,
+        "terminalDirectClosedFamily_of_selectedPrefixCoverFamily": 2,
+        "terminalDirectClosedFamily_of_selectedPrefixTraceMarginFamily": 2
       }
+    },
+    "terminal_direct_killed_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 80,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean",
+      "symbols": {}
     },
     "trace_margin_root_producer_bridge": {
       "exists": true,
@@ -144,8 +165,9 @@
   "missing_required_symbols": [],
   "mode": "top-pairing-upstream-predicate-selector",
   "next_theorem": {
-    "preferred": "forall rank, ProductionTopPairingResidualAtRank rank -> RootTraceMarginProducer scaledMargin rank",
-    "strengthened_socket": "forall rank, ProductionTopPairingResidualAtRank rank -> TopPairingStrengthenedClosedLanguageAtRank (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym"
+    "bellman_fallback": "forall rank, ProductionTopPairingResidualAtRank rank -> RootTraceMarginProducer scaledMargin rank",
+    "preferred": "forall rank, ProductionTopPairingResidualAtRank rank -> TerminalDirectClosedFamily rank",
+    "selected_prefix": "forall rank, ProductionTopPairingResidualAtRank rank -> SelectedPrefixCoverFamily scaledMargin rank"
   },
   "sampled_hit_count": 0,
   "symbol_locations": {
@@ -161,7 +183,8 @@
       "selected_prefix_trace_margin_cover_bridge",
       "selected_prefix_cover_membership_bridge",
       "selected_prefix_cover_root_producer_bridge",
-      "terminal_direct_bridge"
+      "terminal_direct_bridge",
+      "selected_prefix_direct_killed_bridge"
     ],
     "SelectedPrefixCoverSequenceBadFace": [
       "selected_prefix_cover_socket",
@@ -185,6 +208,13 @@
     ],
     "graphAcceptedTraceMargin_exists_of_rootTraceMarginProducer": [
       "root_trace_margin_selected_prefix_bridge"
+    ],
+    "nonIdentityRankKilled_of_selectedPrefixCoverFamily": [
+      "terminal_direct_bridge",
+      "selected_prefix_direct_killed_bridge"
+    ],
+    "nonIdentityRankKilled_of_terminalDirectClosedFamily": [
+      "terminal_direct_bridge"
     ],
     "rootTraceMarginProducer_of_selectedPrefixCoverFamily": [
       "selected_prefix_cover_root_producer_bridge"
@@ -248,6 +278,12 @@
     ],
     "terminalAcceptedEvalSequenceBadFace_of_rootTraceMarginProducer": [
       "root_trace_margin_selected_prefix_bridge"
+    ],
+    "terminalDirectClosedFamily_of_selectedPrefixCoverFamily": [
+      "terminal_direct_bridge"
+    ],
+    "terminalDirectClosedFamily_of_selectedPrefixTraceMarginFamily": [
+      "terminal_direct_bridge"
     ],
     "terminalProducerRootFamily_of_terminalTraceIdBucketClosedMarginFamily": [
       "trace_margin_root_producer_bridge"

@@ -75784,3 +75784,58 @@ Updated next implementation target:
 3. If that upstream theorem requires exact affine-RHS keys, sampled paths, or
    one branch per rank/path, reject this Bellman membership surface and pivot
    to the cancellation-tree summary automaton.
+
+## 2026-07-02 Checkpoint: Upstream Predicate Selector Retargeted
+
+The upstream predicate selector audit has been updated to match the checked
+consumer hierarchy above.  Its decision is now:
+
+```text
+decision=target-terminal-direct-selected-prefix-cover
+sampled-token hits=0
+```
+
+The preferred next production theorem is:
+
+```lean
+forall rank,
+  ProductionTopPairingResidualAtRank rank ->
+    TerminalDirectClosedFamily rank
+```
+
+An equivalent theorem into the bounded selected-prefix cover is also accepted,
+because that cover has a checked direct bridge:
+
+```lean
+forall rank,
+  ProductionTopPairingResidualAtRank rank ->
+    SelectedPrefixCoverFamily scaledMargin rank
+```
+
+followed by:
+
+```lean
+nonIdentityRankKilled_of_selectedPrefixCoverFamily :
+  SelectedPrefixCoverFamily scaledMargin rank ->
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+The Bellman-margin producer remains available as a fallback for subfamilies
+without direct start-violation evidence:
+
+```lean
+forall rank,
+  ProductionTopPairingResidualAtRank rank ->
+    RootTraceMarginProducer scaledMargin rank
+```
+
+but it is no longer the preferred upstream socket.  The preferred route is:
+
+```text
+production residual language
+  -> TerminalDirectClosedFamily
+  -> NonIdentityRankKilled
+```
+
+with the selected-prefix cover as the currently checked bounded witness for
+that route.
