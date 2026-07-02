@@ -77563,3 +77563,86 @@ TopPairingClosedLanguageAtRank rank Face.ym
 
 Reject the route if that proof reintroduces selected-prefix/rank-path
 membership instead of local deterministic state transitions.
+
+## 2026-07-02 Checkpoint: Combined Transducer Tail Accepted
+
+Added the first combined semantic state for the deterministic evaluator route:
+
+```text
+Cuboctahedron/Search/TopPairingTransducerTail.lean
+```
+
+It packages the existing trace-tail state with the new target-shadow cursor:
+
+```lean
+structure TopPairingTransducerTail
+    (step gap k : Nat) (parity : SqParity) (linear : Mat3 Rat)
+    (labels : List Face) : Prop where
+  trace : TopPairingTraceTail step gap linear labels
+  cursor : TopPairingTriCursorFrom k parity labels
+```
+
+Accepted theorem surface:
+
+```lean
+theorem TopPairingTransducerTail.ofClosedRank
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    TopPairingTransducerTail 0 0 0 SqParity.id (matId : Mat3 Rat)
+      (topPairingRankFaceLabels rank)
+
+theorem TopPairingTransducerTail.ofClosedObj
+
+theorem TopPairingTransducerTail.cons_square_tail
+
+theorem TopPairingTransducerTail.cons_tri_tail
+
+theorem TopPairingTransducerTail.cons
+```
+
+This is the intended local semantic state for generated evaluator gates.  It
+advances, in one face step:
+
+- schedule position;
+- square-gap counter;
+- local linear/axis state;
+- target-shadow cursor position;
+- square parity.
+
+The theorem surface is deliberately independent of selected-prefix membership,
+sampled rank/path objects, exact affine RHS keys, and per-path constructors.
+Generated Bellman/evaluator leaves should now consume this tail state instead
+of rebuilding `TopPairingTraceTail` and cursor progress separately.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_transducer_tail_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTransducerTail.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_transducer_tail_lake_guard_no_as.json \
+  -- lake build Cuboctahedron.Search.TopPairingTransducerTail
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `TopPairingTransducerTail.lean` direct | pass | `6.04s` | `3470 MiB` | hard AS `12288 MiB` |
+| `Cuboctahedron.Search.TopPairingTransducerTail` Lake | pass | `6.00s` | `3934 MiB` | RSS guard, no hard AS |
+
+Next Lean/generated slice: make a small generated evaluator-gate smoke whose
+private graph transition consumes `TopPairingTransducerTail.cons` rather than a
+selected-prefix/root-trace membership theorem.  The gate should expose
+`TopPairingClosedToEvalGate ... Face.ym` or a documented strengthening, and
+must fail the route if it needs exact affine RHS, sampled paths, or one branch
+per rank.
