@@ -197,6 +197,44 @@ theorem labels_prefix5_shard_000
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm] ++ rest) \/
     (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.zp] ++ rest) := by
+  rcases hprefix with ⟨rest2, rfl⟩
+  cases rest2 with
+  | nil =>
+      rcases hs with ⟨hlen, _⟩
+      norm_num at hlen
+  | cons f4 rest =>
+      cases f4 <;>
+        try simp
+      all_goals
+        unfold TopPairingStepScheduleLabels at hs
+        unfold TopPairingSquareGapLabels at hg
+        unfold TopPairingLocalAxisLabels at ha
+        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
+          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
+          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+        try norm_num at ha
+
+        try
+          unfold TopPairingPairCountsLabels at hc
+          simp [pairOfFace] at hc
+
+
+theorem labels_prefix5_lift_000
+    {labels : List Face} :
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.zp] ++ rest) ->
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.zp] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.tpmm] ++ rest) \/
@@ -240,28 +278,11 @@ theorem labels_prefix5_shard_000
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tpmm] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp] ++ rest) := by
-  rcases hprefix with ⟨rest2, rfl⟩
-  cases rest2 with
-  | nil =>
-      rcases hs with ⟨hlen, _⟩
-      norm_num at hlen
-  | cons f4 rest =>
-      cases f4 <;>
-        try simp
-      all_goals
-        unfold TopPairingStepScheduleLabels at hs
-        unfold TopPairingSquareGapLabels at hg
-        unfold TopPairingLocalAxisLabels at ha
-        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
-          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
-        try norm_num at ha
-
-        try
-          unfold TopPairingPairCountsLabels at hc
-          simp [pairOfFace] at hc
+  intro h
+  rcases h with h0 | h1 | h2
+  · exact Or.inl h0
+  · exact Or.inr (Or.inl h1)
+  · exact Or.inr (Or.inr (Or.inl h2))
 
 theorem labels_prefix5_shard_001
     {labels : List Face}
@@ -271,6 +292,44 @@ theorem labels_prefix5_shard_001
     (hc : TopPairingPairCountsLabels labels)
     (hprefix : ∃ rest : List Face, labels = [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest) :
     (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.zp] ++ rest) := by
+  rcases hprefix with ⟨rest2, rfl⟩
+  cases rest2 with
+  | nil =>
+      rcases hs with ⟨hlen, _⟩
+      norm_num at hlen
+  | cons f4 rest =>
+      cases f4 <;>
+        try simp
+      all_goals
+        unfold TopPairingStepScheduleLabels at hs
+        unfold TopPairingSquareGapLabels at hg
+        unfold TopPairingLocalAxisLabels at ha
+        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
+          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
+          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+        try norm_num at ha
+
+        try
+          unfold TopPairingPairCountsLabels at hc
+          simp [pairOfFace] at hc
+
+
+theorem labels_prefix5_lift_001
+    {labels : List Face} :
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.zp] ++ rest) ->
+    (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm] ++ rest) \/
@@ -318,28 +377,11 @@ theorem labels_prefix5_shard_001
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tpmm] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp] ++ rest) := by
-  rcases hprefix with ⟨rest2, rfl⟩
-  cases rest2 with
-  | nil =>
-      rcases hs with ⟨hlen, _⟩
-      norm_num at hlen
-  | cons f4 rest =>
-      cases f4 <;>
-        try simp
-      all_goals
-        unfold TopPairingStepScheduleLabels at hs
-        unfold TopPairingSquareGapLabels at hg
-        unfold TopPairingLocalAxisLabels at ha
-        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
-          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
-        try norm_num at ha
-
-        try
-          unfold TopPairingPairCountsLabels at hc
-          simp [pairOfFace] at hc
+  intro h
+  rcases h with h0 | h1 | h2
+  · exact Or.inr (Or.inr (Or.inr (Or.inl h0)))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h1))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h2)))))
 
 theorem labels_prefix5_shard_002
     {labels : List Face}
@@ -349,6 +391,44 @@ theorem labels_prefix5_shard_002
     (hc : TopPairingPairCountsLabels labels)
     (hprefix : ∃ rest : List Face, labels = [Face.xm, Face.ym, Face.yp, Face.tmmm] ++ rest) :
     (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.zm] ++ rest) := by
+  rcases hprefix with ⟨rest2, rfl⟩
+  cases rest2 with
+  | nil =>
+      rcases hs with ⟨hlen, _⟩
+      norm_num at hlen
+  | cons f4 rest =>
+      cases f4 <;>
+        try simp
+      all_goals
+        unfold TopPairingStepScheduleLabels at hs
+        unfold TopPairingSquareGapLabels at hg
+        unfold TopPairingLocalAxisLabels at ha
+        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
+          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
+          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+        try norm_num at ha
+
+        try
+          unfold TopPairingPairCountsLabels at hc
+          simp [pairOfFace] at hc
+
+
+theorem labels_prefix5_lift_002
+    {labels : List Face} :
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.zm] ++ rest) ->
+    (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm] ++ rest) \/
@@ -396,28 +476,11 @@ theorem labels_prefix5_shard_002
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tpmm] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp] ++ rest) := by
-  rcases hprefix with ⟨rest2, rfl⟩
-  cases rest2 with
-  | nil =>
-      rcases hs with ⟨hlen, _⟩
-      norm_num at hlen
-  | cons f4 rest =>
-      cases f4 <;>
-        try simp
-      all_goals
-        unfold TopPairingStepScheduleLabels at hs
-        unfold TopPairingSquareGapLabels at hg
-        unfold TopPairingLocalAxisLabels at ha
-        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
-          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
-        try norm_num at ha
-
-        try
-          unfold TopPairingPairCountsLabels at hc
-          simp [pairOfFace] at hc
+  intro h
+  rcases h with h0 | h1 | h2
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h0))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h1)))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h2))))))))
 
 theorem labels_prefix5_shard_003
     {labels : List Face}
@@ -427,6 +490,44 @@ theorem labels_prefix5_shard_003
     (hc : TopPairingPairCountsLabels labels)
     (hprefix : ∃ rest : List Face, labels = [Face.xm, Face.ym, Face.yp, Face.tppm] ++ rest) :
     (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tppm, Face.tmmp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tppm, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tppm, Face.zm] ++ rest) := by
+  rcases hprefix with ⟨rest2, rfl⟩
+  cases rest2 with
+  | nil =>
+      rcases hs with ⟨hlen, _⟩
+      norm_num at hlen
+  | cons f4 rest =>
+      cases f4 <;>
+        try simp
+      all_goals
+        unfold TopPairingStepScheduleLabels at hs
+        unfold TopPairingSquareGapLabels at hg
+        unfold TopPairingLocalAxisLabels at ha
+        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
+          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
+          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+        try norm_num at ha
+
+        try
+          unfold TopPairingPairCountsLabels at hc
+          simp [pairOfFace] at hc
+
+
+theorem labels_prefix5_lift_003
+    {labels : List Face} :
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tppm, Face.tmmp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tppm, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.tppm, Face.zm] ++ rest) ->
+    (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm] ++ rest) \/
@@ -474,28 +575,11 @@ theorem labels_prefix5_shard_003
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tpmm] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp] ++ rest) := by
-  rcases hprefix with ⟨rest2, rfl⟩
-  cases rest2 with
-  | nil =>
-      rcases hs with ⟨hlen, _⟩
-      norm_num at hlen
-  | cons f4 rest =>
-      cases f4 <;>
-        try simp
-      all_goals
-        unfold TopPairingStepScheduleLabels at hs
-        unfold TopPairingSquareGapLabels at hg
-        unfold TopPairingLocalAxisLabels at ha
-        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
-          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
-        try norm_num at ha
-
-        try
-          unfold TopPairingPairCountsLabels at hc
-          simp [pairOfFace] at hc
+  intro h
+  rcases h with h0 | h1 | h2
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h0)))))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h1))))))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h2)))))))))))
 
 theorem labels_prefix5_shard_004
     {labels : List Face}
@@ -505,6 +589,44 @@ theorem labels_prefix5_shard_004
     (hc : TopPairingPairCountsLabels labels)
     (hprefix : ∃ rest : List Face, labels = [Face.xm, Face.ym, Face.yp, Face.zm] ++ rest) :
     (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.zm, Face.tmmp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.zm, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.zm, Face.zp] ++ rest) := by
+  rcases hprefix with ⟨rest2, rfl⟩
+  cases rest2 with
+  | nil =>
+      rcases hs with ⟨hlen, _⟩
+      norm_num at hlen
+  | cons f4 rest =>
+      cases f4 <;>
+        try simp
+      all_goals
+        unfold TopPairingStepScheduleLabels at hs
+        unfold TopPairingSquareGapLabels at hg
+        unfold TopPairingLocalAxisLabels at ha
+        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
+          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
+          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+        try norm_num at ha
+
+        try
+          unfold TopPairingPairCountsLabels at hc
+          simp [pairOfFace] at hc
+
+
+theorem labels_prefix5_lift_004
+    {labels : List Face} :
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.zm, Face.tmmp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.zm, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.yp, Face.zm, Face.zp] ++ rest) ->
+    (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm] ++ rest) \/
@@ -552,28 +674,11 @@ theorem labels_prefix5_shard_004
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tpmm] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp] ++ rest) := by
-  rcases hprefix with ⟨rest2, rfl⟩
-  cases rest2 with
-  | nil =>
-      rcases hs with ⟨hlen, _⟩
-      norm_num at hlen
-  | cons f4 rest =>
-      cases f4 <;>
-        try simp
-      all_goals
-        unfold TopPairingStepScheduleLabels at hs
-        unfold TopPairingSquareGapLabels at hg
-        unfold TopPairingLocalAxisLabels at ha
-        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
-          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
-        try norm_num at ha
-
-        try
-          unfold TopPairingPairCountsLabels at hc
-          simp [pairOfFace] at hc
+  intro h
+  rcases h with h0 | h1 | h2
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h0))))))))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h1)))))))))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h2))))))))))))))
 
 theorem labels_prefix5_shard_005
     {labels : List Face}
@@ -583,6 +688,44 @@ theorem labels_prefix5_shard_005
     (hc : TopPairingPairCountsLabels labels)
     (hprefix : ∃ rest : List Face, labels = [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest) :
     (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.zp] ++ rest) := by
+  rcases hprefix with ⟨rest2, rfl⟩
+  cases rest2 with
+  | nil =>
+      rcases hs with ⟨hlen, _⟩
+      norm_num at hlen
+  | cons f4 rest =>
+      cases f4 <;>
+        try simp
+      all_goals
+        unfold TopPairingStepScheduleLabels at hs
+        unfold TopPairingSquareGapLabels at hg
+        unfold TopPairingLocalAxisLabels at ha
+        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
+          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
+          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+        try norm_num at ha
+
+        try
+          unfold TopPairingPairCountsLabels at hc
+          simp [pairOfFace] at hc
+
+
+theorem labels_prefix5_lift_005
+    {labels : List Face} :
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.zp] ++ rest) ->
+    (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm] ++ rest) \/
@@ -630,28 +773,11 @@ theorem labels_prefix5_shard_005
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tpmm] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp] ++ rest) := by
-  rcases hprefix with ⟨rest2, rfl⟩
-  cases rest2 with
-  | nil =>
-      rcases hs with ⟨hlen, _⟩
-      norm_num at hlen
-  | cons f4 rest =>
-      cases f4 <;>
-        try simp
-      all_goals
-        unfold TopPairingStepScheduleLabels at hs
-        unfold TopPairingSquareGapLabels at hg
-        unfold TopPairingLocalAxisLabels at ha
-        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
-          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
-        try norm_num at ha
-
-        try
-          unfold TopPairingPairCountsLabels at hc
-          simp [pairOfFace] at hc
+  intro h
+  rcases h with h0 | h1 | h2
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h0)))))))))))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h1))))))))))))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h2)))))))))))))))))
 
 theorem labels_prefix5_shard_006
     {labels : List Face}
@@ -661,6 +787,44 @@ theorem labels_prefix5_shard_006
     (hc : TopPairingPairCountsLabels labels)
     (hprefix : ∃ rest : List Face, labels = [Face.xm, Face.ym, Face.zm, Face.yp] ++ rest) :
     (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.yp, Face.tmmp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.yp, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.yp, Face.zp] ++ rest) := by
+  rcases hprefix with ⟨rest2, rfl⟩
+  cases rest2 with
+  | nil =>
+      rcases hs with ⟨hlen, _⟩
+      norm_num at hlen
+  | cons f4 rest =>
+      cases f4 <;>
+        try simp
+      all_goals
+        unfold TopPairingStepScheduleLabels at hs
+        unfold TopPairingSquareGapLabels at hg
+        unfold TopPairingLocalAxisLabels at ha
+        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
+          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
+          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+        try norm_num at ha
+
+        try
+          unfold TopPairingPairCountsLabels at hc
+          simp [pairOfFace] at hc
+
+
+theorem labels_prefix5_lift_006
+    {labels : List Face} :
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.yp, Face.tmmp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.yp, Face.tppp] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.yp, Face.zp] ++ rest) ->
+    (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm] ++ rest) \/
@@ -708,28 +872,11 @@ theorem labels_prefix5_shard_006
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tpmm] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp] ++ rest) := by
-  rcases hprefix with ⟨rest2, rfl⟩
-  cases rest2 with
-  | nil =>
-      rcases hs with ⟨hlen, _⟩
-      norm_num at hlen
-  | cons f4 rest =>
-      cases f4 <;>
-        try simp
-      all_goals
-        unfold TopPairingStepScheduleLabels at hs
-        unfold TopPairingSquareGapLabels at hg
-        unfold TopPairingLocalAxisLabels at ha
-        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
-          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
-        try norm_num at ha
-
-        try
-          unfold TopPairingPairCountsLabels at hc
-          simp [pairOfFace] at hc
+  intro h
+  rcases h with h0 | h1 | h2
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h0))))))))))))))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h1)))))))))))))))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h2))))))))))))))))))))
 
 theorem labels_prefix5_shard_007
     {labels : List Face}
@@ -739,6 +886,44 @@ theorem labels_prefix5_shard_007
     (hc : TopPairingPairCountsLabels labels)
     (hprefix : ∃ rest : List Face, labels = [Face.xm, Face.ym, Face.zm, Face.zp] ++ rest) :
     (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tmpm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp] ++ rest) := by
+  rcases hprefix with ⟨rest2, rfl⟩
+  cases rest2 with
+  | nil =>
+      rcases hs with ⟨hlen, _⟩
+      norm_num at hlen
+  | cons f4 rest =>
+      cases f4 <;>
+        try simp
+      all_goals
+        unfold TopPairingStepScheduleLabels at hs
+        unfold TopPairingSquareGapLabels at hg
+        unfold TopPairingLocalAxisLabels at ha
+        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
+          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
+          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+        try norm_num at ha
+
+        try
+          unfold TopPairingPairCountsLabels at hc
+          simp [pairOfFace] at hc
+
+
+theorem labels_prefix5_lift_007
+    {labels : List Face} :
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tmpm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tpmm] ++ rest) \/
+    (∃ rest : List Face,
+      labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp] ++ rest) ->
+    (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm] ++ rest) \/
@@ -786,28 +971,11 @@ theorem labels_prefix5_shard_007
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.tpmm] ++ rest) \/
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp] ++ rest) := by
-  rcases hprefix with ⟨rest2, rfl⟩
-  cases rest2 with
-  | nil =>
-      rcases hs with ⟨hlen, _⟩
-      norm_num at hlen
-  | cons f4 rest =>
-      cases f4 <;>
-        try simp
-      all_goals
-        unfold TopPairingStepScheduleLabels at hs
-        unfold TopPairingSquareGapLabels at hg
-        unfold TopPairingLocalAxisLabels at ha
-        simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-          topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-          isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
-          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
-        try norm_num at ha
-
-        try
-          unfold TopPairingPairCountsLabels at hc
-          simp [pairOfFace] at hc
+  intro h
+  rcases h with h0 | h1 | h2
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h0)))))))))))))))))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h1))))))))))))))))))))))
+  · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (h2)))))))))))))))))))))))
 
 theorem labels_prefix5
     {labels : List Face}
@@ -864,14 +1032,14 @@ theorem labels_prefix5
     (∃ rest : List Face,
       labels = [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp] ++ rest) := by
   rcases labels_prefix4 hs hg ha with h0 | h1 | h2 | h3 | h4 | h5 | h6 | h7
-  · exact labels_prefix5_shard_000 hs hg ha hc h0
-  · exact labels_prefix5_shard_001 hs hg ha hc h1
-  · exact labels_prefix5_shard_002 hs hg ha hc h2
-  · exact labels_prefix5_shard_003 hs hg ha hc h3
-  · exact labels_prefix5_shard_004 hs hg ha hc h4
-  · exact labels_prefix5_shard_005 hs hg ha hc h5
-  · exact labels_prefix5_shard_006 hs hg ha hc h6
-  · exact labels_prefix5_shard_007 hs hg ha hc h7
+  · exact labels_prefix5_lift_000 (labels_prefix5_shard_000 hs hg ha hc h0)
+  · exact labels_prefix5_lift_001 (labels_prefix5_shard_001 hs hg ha hc h1)
+  · exact labels_prefix5_lift_002 (labels_prefix5_shard_002 hs hg ha hc h2)
+  · exact labels_prefix5_lift_003 (labels_prefix5_shard_003 hs hg ha hc h3)
+  · exact labels_prefix5_lift_004 (labels_prefix5_shard_004 hs hg ha hc h4)
+  · exact labels_prefix5_lift_005 (labels_prefix5_shard_005 hs hg ha hc h5)
+  · exact labels_prefix5_lift_006 (labels_prefix5_shard_006 hs hg ha hc h6)
+  · exact labels_prefix5_lift_007 (labels_prefix5_shard_007 hs hg ha hc h7)
 
 
 theorem closedRank_prefix5

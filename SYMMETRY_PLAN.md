@@ -58624,3 +58624,46 @@ must carry every semantic field used by the exact enumerator.  For depth 5 this
 means pair counts; later depths will likely need cancellation-summary facts as
 well.  Continue with parent-prefix shards rather than monolithic depth
 theorems.
+
+Depth-5 local-lift shard refinement:
+
+- Refactored `scripts/emit_top_pairing_trace_classifier_prefix_smoke.py` so
+  each depth-5 parent shard proves only the alternatives under that parent,
+  then a generated `labels_prefix5_lift_*` theorem embeds the local disjunction
+  into the global depth-5 disjunction.
+- This replaces the temporary smoke shape where every shard repeated the full
+  depth-5 conclusion.  That repetition is acceptable at depth 5 but not at the
+  depth-10 peak, so the local-lift shape is the scalable one to carry forward.
+- The generated theorem still consumes only semantic closed-language fields:
+  schedule, square-gap, local-axis, and pair-count facts.  No sampled ranks or
+  sampled paths are introduced.
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+python3 scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 300 \
+  --json scripts/generated/top_pairing_trace_classifier_prefix5_local_lift_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.PrefixSmoke
+```
+
+Result:
+
+```text
+PrefixSmoke depth-5 local-lift:
+  passed
+  peak_tree_rss = 4506 MiB
+  elapsed = 8.01s
+  generated module size = 1155 lines
+  generated depth-5 shard theorems = 8
+  generated depth-5 lift theorems = 8
+```
+
+Decision: accepted.  The next experiment should extend the same local-lift
+shape to depth 6 (68 prefixes, 24 parent shards), still under a single
+guarded target before introducing multi-file shard layout.

@@ -123,6 +123,15 @@ def branch_count(prefixes: list[tuple[str, ...]], depth: int) -> int:
     return len({prefix[:depth] for prefix in prefixes})
 
 
+def prefixes_by_parent(
+    prefixes: list[tuple[str, ...]], parent_depth: int
+) -> dict[tuple[str, ...], list[tuple[str, ...]]]:
+    grouped: dict[tuple[str, ...], list[tuple[str, ...]]] = {}
+    for prefix in prefixes:
+        grouped.setdefault(prefix[:parent_depth], []).append(prefix)
+    return grouped
+
+
 def summary_payload(
     prefixes4: list[tuple[str, ...]],
     prefixes5: list[tuple[str, ...]],
@@ -298,6 +307,46 @@ theorem {theorem_name}
 """
 
 
+def or_injection(term: str, index: int, total: int) -> str:
+    if total == 1:
+        return term
+    if index == 0:
+        return f"Or.inl {term}"
+    return f"Or.inr ({or_injection(term, index - 1, total - 1)})"
+
+
+def render_lift_theorem(
+    theorem_name: str,
+    index: int,
+    local_prefixes: list[tuple[str, ...]],
+    global_prefixes: list[tuple[str, ...]],
+) -> str:
+    local = disjunction("labels", local_prefixes)
+    global_ = disjunction("labels", global_prefixes)
+    global_index = {prefix: i for i, prefix in enumerate(global_prefixes)}
+    if len(local_prefixes) == 1:
+        body = f"  intro h\n  exact {or_injection('h', global_index[local_prefixes[0]], len(global_prefixes))}"
+    else:
+        patterns = " | ".join(f"h{i}" for i in range(len(local_prefixes)))
+        branches = []
+        for local_index, prefix in enumerate(local_prefixes):
+            branches.append(
+                "  · exact "
+                + or_injection(
+                    f"h{local_index}", global_index[prefix], len(global_prefixes)
+                )
+            )
+        body = f"  intro h\n  rcases h with {patterns}\n" + "\n".join(branches)
+    return f"""
+
+theorem {theorem_name}_lift_{index:03d}
+    {{labels : List Face}} :
+{local} ->
+{global_} := by
+{body}
+"""
+
+
 def render_extension_sharded_theorem(
     depth: int,
     theorem_name: str,
@@ -307,8 +356,11 @@ def render_extension_sharded_theorem(
 ) -> str:
     labels = disjunction("labels", prefixes)
     next_face = f"f{depth - 1}"
+    grouped = prefixes_by_parent(prefixes, depth - 1)
     shards = []
     for index, parent in enumerate(parent_prefixes):
+        child_prefixes = grouped[parent]
+        child_labels = disjunction("labels", child_prefixes)
         parent_hyp = (
             f"∃ rest : List Face, labels = {lean_face_list(parent)} ++ rest"
         )
@@ -321,13 +373,14 @@ theorem {theorem_name}_shard_{index:03d}
     (ha : TopPairingLocalAxisLabels labels)
     (hc : TopPairingPairCountsLabels labels)
     (hprefix : {parent_hyp}) :
-{labels} := by
+{child_labels} := by
 {local_split_branch(next_face, use_pair_counts=True)}
 """
         )
+        shards.append(render_lift_theorem(theorem_name, index, child_prefixes, prefixes))
     rcases_patterns = " | ".join(f"h{index}" for index in range(len(parent_prefixes)))
     group_branches = "\n".join(
-        f"  · exact {theorem_name}_shard_{index:03d} hs hg ha hc h{index}"
+        f"  · exact {theorem_name}_lift_{index:03d} ({theorem_name}_shard_{index:03d} hs hg ha hc h{index})"
         for index in range(len(parent_prefixes))
     )
     group = f"""
