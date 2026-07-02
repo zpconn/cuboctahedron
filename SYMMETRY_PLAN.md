@@ -83279,6 +83279,68 @@ Results:
 | socket `.olean` refresh | pass | `3.00s` | `3950 MiB` | `45930 MiB` |
 | `BellmanTopPairingTraceIdBoundsSmoke.lean` | pass | `2.00s` | `3602 MiB` | `46020 MiB` |
 
+Additional semantic-bucket adapters accepted:
+
+```lean
+traceIdExistsMarginSequenceBadFace_of_traceIdBucketClosedMarginFamily
+traceIdExistsMarginSequenceBadFace_of_terminalTraceIdBucketClosedMarginFamily
+traceIdExistsMarginSequenceBadFace_of_terminalTraceIdSharedGainBucketClosedMarginFamily
+traceIdExistsMarginSequenceBadFace_of_terminalTracePrefixSharedGainClosedMarginFamily
+```
+
+These theorems push the existing trace-id bucket, terminal bucket,
+shared-gain bucket, and prefix/shared-gain family predicates into the new
+existential trace-id sequence surface.  This matters because the next producer
+can prove one semantic bucket predicate, then reuse the strengthened Bellman
+socket through `TraceIdExistsMarginSequenceBadFace`, instead of exposing a fixed
+trace id, a sampled path, or an exact full trace class as the public family
+coordinate.
+
+Regression smoke:
+
+```lean
+BellmanTopPairingTraceBucketComponentFamilySmoke.
+  trace000001Family_traceIdExistsMarginSequence
+BellmanTopPairingTraceBucketComponentFamilySmoke.
+  trace000001TerminalFamily_traceIdExistsMarginSequence
+BellmanTopPairingTraceBucketComponentFamilySmoke.
+  trace000001SharedGainTerminalFamily_traceIdExistsMarginSequence
+```
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/trace_margin_bounds_socket_olean_guard.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.olean \
+    -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.ilean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/trace_bucket_component_family_smoke_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceBucketComponentFamilySmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| socket `.olean` refresh | pass | `5.00s` | `3959 MiB` | `45942 MiB` |
+| `BellmanTopPairingTraceBucketComponentFamilySmoke.lean` | pass | `2.00s` | `3608 MiB` | `46036 MiB` |
+
 Next implementation target: produce, for one compact semantic classifier
 family, the existential trace-id/margin predicate above from strengthened
 closed-language cursor/state facts.  Avoid exact-prefix, exact affine RHS,

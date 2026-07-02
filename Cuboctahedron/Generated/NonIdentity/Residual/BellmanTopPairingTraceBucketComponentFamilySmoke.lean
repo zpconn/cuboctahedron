@@ -59,6 +59,13 @@ theorem trace000001Family_scaledMargin_nonpos
     scaledMargin rank <= 0 :=
   traceIdBucketClosedMarginFamily_scaledMargin_nonpos hrank
 
+theorem trace000001Family_traceIdExistsMarginSequence
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : Trace000001ClosedMarginFamily scaledMargin rank) :
+    TraceIdExistsMarginSequenceBadFace scaledMargin rank Face.ym :=
+  traceIdExistsMarginSequenceBadFace_of_traceIdBucketClosedMarginFamily hrank
+
 theorem trace000001TerminalFamily_evalLanguage
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -74,6 +81,14 @@ theorem trace000001TerminalFamily_scaledMargin_nonpos
     (hrank : Trace000001TerminalClosedMarginFamily scaledMargin rank) :
     scaledMargin rank <= 0 :=
   terminalTraceIdBucketClosedMarginFamily_scaledMargin_nonpos hrank
+
+theorem trace000001TerminalFamily_traceIdExistsMarginSequence
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : Trace000001TerminalClosedMarginFamily scaledMargin rank) :
+    TraceIdExistsMarginSequenceBadFace scaledMargin rank Face.ym :=
+  traceIdExistsMarginSequenceBadFace_of_terminalTraceIdBucketClosedMarginFamily
+    hrank
 
 theorem trace000001SharedGainTerminalFamily_evalLanguage
     {scaledMargin : Fin numPairWords -> Int}
@@ -92,6 +107,15 @@ theorem trace000001SharedGainTerminalFamily_scaledMargin_nonpos
       Trace000001SharedGainTerminalClosedMarginFamily scaledMargin rank) :
     scaledMargin rank <= 0 :=
   terminalTraceIdSharedGainBucketClosedMarginFamily_scaledMargin_nonpos hrank
+
+theorem trace000001SharedGainTerminalFamily_traceIdExistsMarginSequence
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      Trace000001SharedGainTerminalClosedMarginFamily scaledMargin rank) :
+    TraceIdExistsMarginSequenceBadFace scaledMargin rank Face.ym :=
+  traceIdExistsMarginSequenceBadFace_of_terminalTraceIdSharedGainBucketClosedMarginFamily
+    hrank
 
 theorem trace_bucket_component_family_smoke_builds : True := by
   exact True.intro

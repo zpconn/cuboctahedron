@@ -762,6 +762,16 @@ theorem traceIdBucketClosedMarginFamily_scaledMargin_nonpos
   terminalTraceMarginIdBoundComponentFamily_scaledMargin_nonpos
     traceIdBucketTerminalTraceMarginIdBoundComponentFamily hrank
 
+theorem traceIdExistsMarginSequenceBadFace_of_traceIdBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TraceIdBucketClosedMarginFamily allowedTraceId scaledMargin rank) :
+    TraceIdExistsMarginSequenceBadFace scaledMargin rank Face.ym := by
+  rcases hrank with ⟨_hclosed, traceId, _hallowed, htrace, hmargin⟩
+  exact ⟨rfl, traceId, htrace, hmargin⟩
+
 def TerminalTraceIdBucketClosedMarginFamily
     (allowedTraceId : AcceptedTraceId -> Prop)
     (scaledMargin : Fin numPairWords -> Int)
@@ -838,6 +848,18 @@ theorem terminalTraceIdBucketClosedMarginFamily_scaledMargin_nonpos
     (traceIdBucketClosedMarginFamily_of_terminalTraceIdBucketClosedMarginFamily
       hrank)
 
+theorem traceIdExistsMarginSequenceBadFace_of_terminalTraceIdBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdBucketClosedMarginFamily
+        allowedTraceId scaledMargin rank) :
+    TraceIdExistsMarginSequenceBadFace scaledMargin rank Face.ym :=
+  traceIdExistsMarginSequenceBadFace_of_traceIdBucketClosedMarginFamily
+    (traceIdBucketClosedMarginFamily_of_terminalTraceIdBucketClosedMarginFamily
+      hrank)
+
 def TerminalTraceIdSharedGainBucketClosedMarginFamily
     (allowedTraceId : AcceptedTraceId -> Prop)
     (gain : Int)
@@ -898,6 +920,19 @@ theorem terminalTraceIdSharedGainBucketClosedMarginFamily_scaledMargin_nonpos
         allowedTraceId gain scaledMargin rank) :
     scaledMargin rank <= 0 :=
   terminalTraceIdBucketClosedMarginFamily_scaledMargin_nonpos
+    (terminalTraceIdBucketClosedMarginFamily_of_sharedGainBucket
+      hrank)
+
+theorem traceIdExistsMarginSequenceBadFace_of_terminalTraceIdSharedGainBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdSharedGainBucketClosedMarginFamily
+        allowedTraceId gain scaledMargin rank) :
+    TraceIdExistsMarginSequenceBadFace scaledMargin rank Face.ym :=
+  traceIdExistsMarginSequenceBadFace_of_terminalTraceIdBucketClosedMarginFamily
     (terminalTraceIdBucketClosedMarginFamily_of_sharedGainBucket
       hrank)
 
@@ -975,6 +1010,25 @@ theorem terminalTracePrefixSharedGainClosedMarginFamily_scaledMargin_nonpos
         pfx gain scaledMargin rank) :
     scaledMargin rank <= 0 :=
   terminalTraceIdSharedGainBucketClosedMarginFamily_scaledMargin_nonpos
+    (terminalTraceIdSharedGainBucketClosedMarginFamily_of_prefix
+      hprefixGain hrank)
+
+theorem traceIdExistsMarginSequenceBadFace_of_terminalTracePrefixSharedGainClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {pfx : List Face}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hprefixGain :
+      forall traceId : AcceptedTraceId,
+        (acceptedTraceOfId traceId).take pfx.length = pfx ->
+          allowedTraceId traceId /\
+            acceptedTraceGain traceId = gain)
+    (hrank :
+      TerminalTracePrefixSharedGainClosedMarginFamily
+        pfx gain scaledMargin rank) :
+    TraceIdExistsMarginSequenceBadFace scaledMargin rank Face.ym :=
+  traceIdExistsMarginSequenceBadFace_of_terminalTraceIdSharedGainBucketClosedMarginFamily
     (terminalTraceIdSharedGainBucketClosedMarginFamily_of_prefix
       hprefixGain hrank)
 

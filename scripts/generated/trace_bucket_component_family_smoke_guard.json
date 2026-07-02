@@ -1,0 +1,19 @@
+{
+  "available_floor_mib": 24576.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceBucketComponentFamilySmoke.lean"
+  ],
+  "elapsed_seconds": 2.0021677810000256,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 3695044,
+  "max_tree_rss_mib": 3608.44140625,
+  "min_available_seen_kib": 47141380,
+  "min_available_seen_mib": 46036.50390625,
+  "rss_cap_mib": 6000.0,
+  "timeout_seconds": 180.0
+}
