@@ -690,6 +690,93 @@ theorem closed_prefix3_zm_branch_faceEval
     simp [closedPrefix3ZmEvalState, closedPrefix3ZmTransducerState,
       topPairingAllowedFacesAtStep] at hcons
 
+theorem strengthenedSuffixOk_closedPrefix3_branch_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {third fourth : Face} {rest : List Face}
+    {next3 : FaceEvalState} {gain3 : Int}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: third :: fourth :: rest)
+    (hnext3 :
+      faceEvalNext closedPrefix2EvalState third =
+        some (next3, gain3))
+    (hsuffix :
+      ∀ next4 gain4,
+        faceEvalNext next3 fourth = some (next4, gain4) ->
+        next4.Tail rest ->
+          StrengthenedSuffixOk rank next4 rest) :
+    StrengthenedSuffixOk rank next3 (fourth :: rest) := by
+  have hschedule :
+      TopPairingStepScheduleLabels (topPairingRankFaceLabels rank) := by
+    simpa [topPairingRankFaceLabels] using hclosed.schedule
+  have hthird :
+      third ∈ topPairingAllowedFacesAtStep 2 := by
+    simpa using
+      (topPairingStepScheduleLabels_allows_next_of_prefix
+        (labels := topPairingRankFaceLabels rank)
+        (pfx := [Face.xm, Face.ym])
+        (rest := fourth :: rest)
+        hschedule
+        (by simpa using hlabels))
+  simp [topPairingAllowedFacesAtStep] at hthird
+  rcases hthird with rfl | rfl | rfl
+  · change faceEvalNext closedPrefix2EvalState Face.tmpm =
+        some (next3, gain3) at hnext3
+    rw [closed_prefix3_tmpm_next] at hnext3
+    cases hnext3
+    rcases closed_prefix3_tmpm_branch_faceEval hclosed hlabels with
+      ⟨next4, gain4, hnext4, htail4⟩
+    exact StrengthenedSuffixOk.table hnext4
+      (hsuffix next4 gain4 hnext4 htail4)
+  · change faceEvalNext closedPrefix2EvalState Face.yp =
+        some (next3, gain3) at hnext3
+    rw [closed_prefix3_yp_next] at hnext3
+    cases hnext3
+    rcases closed_prefix3_yp_branch_faceEval hclosed hlabels with
+      ⟨next4, gain4, hnext4, htail4⟩
+    exact StrengthenedSuffixOk.table hnext4
+      (hsuffix next4 gain4 hnext4 htail4)
+  · change faceEvalNext closedPrefix2EvalState Face.zm =
+        some (next3, gain3) at hnext3
+    rw [closed_prefix3_zm_next] at hnext3
+    cases hnext3
+    rcases closed_prefix3_zm_branch_faceEval hclosed hlabels with
+      ⟨next4, gain4, hnext4, htail4⟩
+    exact StrengthenedSuffixOk.table hnext4
+      (hsuffix next4 gain4 hnext4 htail4)
+
+theorem strengthenedSuffixOk_root_of_closedPrefix4_forall
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix :
+      ∀ third fourth rest next3 gain3 next4 gain4,
+        topPairingRankFaceLabels rank =
+          Face.xm :: Face.ym :: third :: fourth :: rest ->
+        faceEvalNext closedPrefix2EvalState third =
+          some (next3, gain3) ->
+        faceEvalNext next3 fourth = some (next4, gain4) ->
+        next4.Tail rest ->
+          StrengthenedSuffixOk rank next4 rest) :
+    StrengthenedSuffixOk rank
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) := by
+  exact strengthenedSuffixOk_root_of_closedPrefix3_forall hclosed
+    (fun third rest next3 gain3 hlabels hnext3 _htail3 =>
+      match rest with
+      | [] =>
+          False.elim <| by
+            have hlenRank : (topPairingRankFaceLabels rank).length = 14 := by
+              simpa [topPairingRankFaceLabels] using hclosed.schedule.1
+            rw [hlabels] at hlenRank
+            norm_num at hlenRank
+      | fourth :: restTail =>
+          strengthenedSuffixOk_closedPrefix3_branch_of_closed
+            hclosed hlabels hnext3
+            (fun next4 gain4 hnext4 htail4 =>
+              hsuffix third fourth restTail next3 gain3 next4 gain4
+                hlabels hnext3 hnext4 htail4))
+
 theorem strengthenedSuffixOk_local
     {rank : Fin numPairWords}
     {state : FaceEvalState} {face : Face} {rest : List Face}

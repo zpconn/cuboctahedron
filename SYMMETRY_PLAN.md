@@ -80272,3 +80272,78 @@ Add the post-prefix3 dispatcher theorem that consumes
 third-face branch constructors (`tmpm`, `yp`, `zm`), and reduces the root
 suffix obligation to the post-fourth-face suffix.  This should still be purely
 semantic and deterministic; no terminal accepted trace class should be used.
+
+### Follow-up: Post-Prefix3 Dispatcher Accepted
+
+Added the dispatcher layer:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  strengthenedSuffixOk_closedPrefix3_branch_of_closed
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  strengthenedSuffixOk_root_of_closedPrefix4_forall
+```
+
+Meaning:
+
+```text
+closed language
+  -> schedule forces third face in {tmpm, yp, zm}
+  -> length=14 rules out an empty suffix after the third face
+  -> the appropriate post-prefix3 branch constructor consumes the fourth face
+  -> root StrengthenedSuffixOk reduces to a post-fourth-face suffix theorem
+```
+
+This is the first composed deterministic closed-language evaluator theorem in
+the strengthened local smoke.  It still does not prove full family coverage,
+but it moves the production shape one step farther away from terminal accepted
+trace classes: the remaining generated obligation is now a suffix theorem
+after four semantic faces, not membership in an observed prefix bucket.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedLocal1MSmoke
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingStrengthenedLocal1MSmoke.lean` direct | pass | `6.00s` | `4238 MiB` |
+| `BellmanTopPairingStrengthenedLocal1MSmoke` Lake | pass | `7.01s` | `4375 MiB` |
+| forbidden-token scan on touched Lean file | pass | n/a | n/a |
+
+Next step:
+
+Decide the next semantic cut for the suffix after four faces.  The preferred
+route is to generate the same kind of finite local branch constructors from
+the current reachable post-fourth states, then add a depth-5 dispatcher.  Keep
+the go/no-go gate strict: if a branch requires exact affine RHS, sampled trace
+IDs, or one constructor per observed rank/path, stop and strengthen the
+semantic state instead.
