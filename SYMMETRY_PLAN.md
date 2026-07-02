@@ -65502,3 +65502,158 @@ candidate parent is depth-8 parent index `35`, group-size-4 shard `8`.  Do not
 generate a broad depth-9 root just to test this.  Either emit/import a narrow
 candidate shard, or write a small hand-targeted source-position discriminator
 smoke for this one prefix.
+
+### 2026-07-02 Bellman semantic object-cover gate
+
+GPT5.5 Pro's latest recommendation changes the Bellman decision gate:
+
+```text
+Continue Bellman for exactly one more semantic-membership experiment.
+Do not pivot yet, but do not run another sampled-path, sampled-rank, or
+rank-indexed certificate experiment.  The next valid Bellman experiment must
+use a compact semantic object, essentially rank plus a proof of
+TopPairingClosedLanguageAtRank, and prove a deterministic
+closed-language-to-evaluator theorem.
+```
+
+Repository inspection shows that the core object layer already exists:
+
+```lean
+Cuboctahedron.Search.TopPairingBellmanObject
+
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+
+def topPairingBellmanEvalObjectCoverOfClosedToEval ...
+```
+
+The important production premise is therefore not a new membership data table.
+It is the uniform semantic bridge:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank badFace ->
+    TopPairingBellmanEvalLanguageAtRank
+      V next labelOfFace start const scaledMargin rank badFace
+```
+
+Equivalently, for each semantic object:
+
+```lean
+forall obj : TopPairingBellmanObj badFace,
+  BellmanEvalAccepts V next start const
+    (fun obj => scaledMargin obj.rank)
+    (fun obj => TopPairingBellmanObj.labels labelOfFace obj)
+    obj
+```
+
+The existing helpers already turn such a theorem into a
+`BellmanAxisRankObjectCover` without `SampledRankIndex`,
+`sampledContainsRank`, or `sampledRankOf`.  That is now the required Bellman
+surface.
+
+Narrow depth-9 shard diagnostic:
+
+The grouped depth-9 emitter was extended with a diagnostic-only option:
+
+```bash
+python3 scripts/emit_top_pairing_trace_classifier_grouped_depth.py \
+  --depth 9 --only-shard 8 --parent-group-size 4 \
+  --expected-parent-count 595 --expected-prefix-count 1585 \
+  --omit-squaregap-simp \
+  --summary-json \
+    scripts/generated/top_pairing_trace_classifier_depth9_shard008_summary.json
+```
+
+The first attempt with the older expected prefix count `1518` correctly failed;
+the current exact depth-9 prefix count is `1585`.  With the corrected count the
+script emitted only shard `8`, and the JSON reported:
+
+```text
+depth = 9
+parent_prefix_count = 595
+prefix_count = 1585
+shard_count = 149
+emitted_shard_indices = [8]
+sampled_rank_or_path_data = false
+```
+
+The generated shard had the right logical shape: a semantic depth-8 parent
+predicate and a semantic depth-9 child predicate, including the child prefix
+
+```text
+xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp
+```
+
+But the guarded direct Lean check did not scale:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_depth9_shard008_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Depth9/Shard008.lean
+```
+
+Result:
+
+```text
+failed
+exit = 134
+elapsed = 163.60s
+peak_tree_rss = 6761 MiB
+hard_as = 8192 MiB
+min_available = 43187 MiB
+Lean error = std::bad_alloc
+```
+
+This was a controlled failure under the guard, not a machine OOM.  It rejects
+the current generated schedule/local-axis depth-shard proof shape as a
+production strategy.  Raising the cap would hide the problem, not solve it.
+The failed shard source was not kept in the repository.
+
+Decision:
+
+Keep Bellman, but only through the semantic object-cover path already present
+in `Search.TopPairingBellmanObject`.  Stop trying to grow generated
+depth-prefix classifier shards as the membership proof.  The next accepted
+work item is one of:
+
+1. prove a closed-language-to-evaluator theorem directly from
+   `TopPairingClosedLanguageAtRank` for a real top-pairing family; or
+2. if the current closed predicate is too weak, add exactly one compact
+   semantic strengthening such as `eval_ok` / `closedRun` / cancellation-tree
+   progress, then prove the old closed predicate implies that strengthening.
+
+No-go rule:
+
+If the next theorem still requires sampled ranks, sampled paths, one generated
+branch per rank/path, or another heavyweight prefix classifier shard, Bellman is
+not yet a formalization strategy.  Pivot then to a cancellation-tree summary
+automaton whose semantic run is Lean-provable by construction.
+
+Immediate next task:
+
+Write a small theorem-facing module or plan section that targets the exact
+surface:
+
+```lean
+theorem topPairingClosed_to_evalLanguage
+    {scaledMargin : Fin numPairWords -> Int}
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+For a first nontrivial slice, the theorem may include one documented semantic
+strengthening premise, but it must not mention sampled indexes or generated
+rank/path objects.

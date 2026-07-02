@@ -363,6 +363,11 @@ def main() -> None:
         type=int,
         help="emit only the first N grouped shards for bounded smoke generation",
     )
+    parser.add_argument(
+        "--only-shard",
+        type=int,
+        help="emit exactly one grouped shard by index, without emitting the root",
+    )
     parser.add_argument("--expected-parent-count", type=int)
     parser.add_argument("--expected-prefix-count", type=int)
     parser.add_argument(
@@ -400,16 +405,26 @@ def main() -> None:
 
     grouped_children = prefix_smoke.prefixes_by_parent(prefixes, args.depth - 1)
     parent_groups = chunks(parent_prefixes, args.parent_group_size)
-    emit_groups = (
-        parent_groups
-        if args.max_shards is None
-        else parent_groups[: args.max_shards]
-    )
+    if args.only_shard is not None and args.max_shards is not None:
+        raise SystemExit("--only-shard and --max-shards cannot be combined")
+    if args.only_shard is not None:
+        if args.only_shard < 0 or args.only_shard >= len(parent_groups):
+            raise SystemExit(
+                f"--only-shard must be between 0 and {len(parent_groups) - 1}"
+            )
+        emit_groups = [(args.only_shard, parent_groups[args.only_shard])]
+    else:
+        grouped = (
+            parent_groups
+            if args.max_shards is None
+            else parent_groups[: args.max_shards]
+        )
+        emit_groups = list(enumerate(grouped))
 
     out_dir = args.output_dir or output_dir(args.depth)
     summary = args.summary_json or summary_path(args.depth)
     out_dir.mkdir(parents=True, exist_ok=True)
-    for shard_index, parents in enumerate(emit_groups):
+    for shard_index, parents in emit_groups:
         (out_dir / f"{shard_module(shard_index)}.lean").write_text(
             render_shard(
                 args.depth,
@@ -419,7 +434,8 @@ def main() -> None:
                 use_squaregap_simp=not args.omit_squaregap_simp,
             )
         )
-    if len(emit_groups) == len(parent_groups):
+    root_emitted = args.only_shard is None and len(emit_groups) == len(parent_groups)
+    if root_emitted:
         (out_dir / "All.lean").write_text(
             render_root(args.depth, parent_prefixes, parent_groups)
         )
@@ -434,7 +450,8 @@ def main() -> None:
         use_squaregap_simp=not args.omit_squaregap_simp,
     )
     payload["emitted_shards"] = len(emit_groups)
-    payload["root_emitted"] = len(emit_groups) == len(parent_groups)
+    payload["emitted_shard_indices"] = [index for index, _parents in emit_groups]
+    payload["root_emitted"] = root_emitted
     summary.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
     print(f"wrote {len(emit_groups)} grouped depth-{args.depth} shard(s) to {out_dir}")
     print(f"wrote {summary}")
