@@ -79804,3 +79804,77 @@ ranks into `StrengthenedSuffixOk` for a nontrivial accepted suffix.  The key
 condition remains: do not introduce `SampledRankIndex`, selected-prefix trace
 membership, or rank/path object tables.  If the constructor needs more fields,
 add semantic cursor/cancellation fields rather than exact affine RHS data.
+
+### Follow-up: Accepted Terminal Traces Routed Through Strengthened Suffix
+
+Adapted the existing bounded accepted-terminal suffix smoke into the new
+strengthened suffix surface:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  strengthenedSuffixOk_of_graphAcceptedTraceLabels
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  strengthenedSuffixOk_of_strengthenedTerminalOk
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  eval_exists_of_strengthenedTerminalOk
+```
+
+This keeps the old bounded terminal-class smoke useful while moving it onto
+the same suffix predicate that also handles the semantic missing-transition
+exception.  It is still a bounded terminal-class adapter, not final production
+coverage, but the evaluator surface is now unified:
+
+```text
+strengthened closed rank + terminal accepted trace
+  -> StrengthenedSuffixOk at the root
+  -> suffix-carrying deterministic face evaluator succeeds
+```
+
+Focused guarded checks after the adapter:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedLocal1MSmoke
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingStrengthenedLocal1MSmoke.lean` direct | pass | `7.00s` | `4192 MiB` |
+| `BellmanTopPairingStrengthenedLocal1MSmoke` Lake | pass | `7.01s` | `4291 MiB` |
+| forbidden-token scan on touched Lean file | pass | n/a | n/a |
+
+Next step:
+
+Replace the terminal-class premise with a genuinely semantic constructor for
+the top-pairing closed language.  The immediate target is a small generated
+or hand-written theorem that proves root `StrengthenedSuffixOk` from
+target-shadow cursor/schedule/square-gap/local-axis fields, with the graph
+table and the one missing-transition contradiction as local consequences.

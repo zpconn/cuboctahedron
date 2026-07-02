@@ -5,14 +5,14 @@
     "build",
     "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingStrengthenedLocal1MSmoke"
   ],
-  "elapsed_seconds": 3.003047209989745,
+  "elapsed_seconds": 7.006535671011079,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4136956,
-  "max_tree_rss_mib": 4039.99609375,
-  "min_available_seen_kib": 47013272,
-  "min_available_seen_mib": 45911.3984375,
+  "max_tree_rss_kib": 4394176,
+  "max_tree_rss_mib": 4291.1875,
+  "min_available_seen_kib": 46788004,
+  "min_available_seen_mib": 45691.41015625,
   "rss_cap_mib": 10000.0,
-  "timeout_seconds": 240.0
+  "timeout_seconds": 300.0
 }
