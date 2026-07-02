@@ -65470,3 +65470,35 @@ to the existing top-pairing tail/cancellation state language.  If the tail/state
 language can prove the same trace-id bucket without rank/path sampling, continue
 Bellman.  If it needs one theorem per full trace or per rank, stop and promote a
 cancellation-tree summary automaton as the main nonidentity residual route.
+
+Additional diagnostic:
+
+The relevant depth-8 parent prefix is:
+
+```text
+xm ym tmpm tppm tpmm tppp tmmm tpmp
+```
+
+It is not enough to select the `t000/t001/t002` bucket.  Filtering the existing
+accepted-trace JSON by that parent yields accepted traces with gains:
+
+```text
+t000,t001,t002: -376
+t003:          -596
+t004:          -348
+t005,t006,t008:-612
+t007:          -392
+```
+
+So the next semantic theorem must include at least the depth-9 child/source
+position discriminator:
+
+```text
+xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp
+```
+
+The existing grouped depth-9 emitter currently has only `Shard000`; this
+candidate parent is depth-8 parent index `35`, group-size-4 shard `8`.  Do not
+generate a broad depth-9 root just to test this.  Either emit/import a narrow
+candidate shard, or write a small hand-targeted source-position discriminator
+smoke for this one prefix.
