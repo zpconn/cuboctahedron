@@ -75680,3 +75680,107 @@ Current audit result:
 decision=continue-one-semantic-bellman-experiment-hard-eval-theorem-open
 sampled-eval mentions=0
 ```
+
+## 2026-07-02 Checkpoint: Strengthened Terminal Consumer Verified
+
+The next semantic Bellman endpoint already exists in the repo in a checked
+form.  The terminal-accepted strengthened predicate:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym
+```
+
+is consumed by:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual
+  .BellmanTopPairingTerminalAcceptedObjectCover
+  .strengthenedTerminalAcceptedEval_scaledMargin_nonpos
+```
+
+which proves:
+
+```lean
+scaledMargin rank <= 0
+```
+
+from the deterministic Bellman evaluator and the split graph-validity root.
+This is the allowed "one stronger semantic predicate" route from the previous
+gate: it does not introduce sampled ranks or sampled path objects.
+
+The even stronger current preferred consumer, when available, is the direct
+start-violation route:
+
+```lean
+BellmanTopPairingTerminalDirectStartViolationKilledBridge
+BellmanTopPairingSelectedPrefixDirectStartViolationKilledBridge
+```
+
+These avoid relying on the Bellman nonpositive-margin conclusion for the
+accepted traces that already carry a direct `ObjectStartViolationMarginCert`.
+
+Focused checks run:
+
+```bash
+/usr/bin/time -v lake env lean -j1 -M8192 \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalAcceptedObjectCover.lean
+
+/usr/bin/time -v lake env lean -j1 -M8192 \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean
+
+/usr/bin/time -v lake env lean -j1 -M8192 \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixDirectStartViolationKilledBridge.lean
+```
+
+Results:
+
+| target | result | wall | max RSS |
+| --- | --- | ---: | ---: |
+| `BellmanTopPairingTerminalAcceptedObjectCover.lean` | pass | `1.90s` | `3277128 KB` |
+| `BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean` | pass | `1.90s` | `3295920 KB` |
+| `BellmanTopPairingSelectedPrefixDirectStartViolationKilledBridge.lean` | pass | `2.02s` | `3316468 KB` |
+
+Important engineering note: the generic `BellmanAxisRankObjectCover` adapter is
+not the right immediate endpoint for this graph evaluator, because its step
+validity surface is total over states while the split graph validity root is
+range-indexed:
+
+```lean
+transition_ok_of_lt :
+  s < stateCount ->
+  graphSmokeNext s label = some (t, gain) ->
+    t < stateCount /\ gain + graphPotential t <= graphPotential s
+```
+
+A tiny probe attempting to prove the missing total source-range lemma by
+unfolding `graphSmokeNext` and splitting all states hit Lean's recursion-depth
+limit.  That reinforces the current architecture choice: use the
+`scaledMargin_nonpos_of_bellmanEvalAccepts_invariant` route, which carries the
+state-range invariant explicitly, rather than forcing the graph into a total
+object-cover API that was designed for already-total step relations.
+
+Updated next implementation target:
+
+1. Treat `TerminalAcceptedEvalSequenceBadFace` and the direct
+   `TerminalDirectClosedFamily`/selected-prefix direct-kill predicates as the
+   current checked consumer surfaces.
+2. Prove or generate compact upstream semantic coverage into one of these
+   surfaces:
+
+   ```lean
+   FullTopPairingResidualLanguageAtRank rank ->
+     TerminalDirectClosedFamily rank
+   ```
+
+   or:
+
+   ```lean
+   FullTopPairingResidualLanguageAtRank rank ->
+     TopPairingStrengthenedClosedLanguageAtRank
+       (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym
+   ```
+
+3. If that upstream theorem requires exact affine-RHS keys, sampled paths, or
+   one branch per rank/path, reject this Bellman membership surface and pivot
+   to the cancellation-tree summary automaton.
