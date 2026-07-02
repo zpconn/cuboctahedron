@@ -79479,3 +79479,115 @@ square-gap state from gap=6
 ```
 
 and then return the unique suffix `[tmpp, yp, xp]`.
+
+## 2026-07-02 Checkpoint: Semantic Missing-Transition Tail Accepted
+
+The narrow missing-transition theorem has now been proved without selected
+prefix membership and without broad face-triple simplification.
+
+New generic cursor fact:
+
+```lean
+Cuboctahedron.TopPairingTriCursorFrom.actedTriLetters_eq_drop
+```
+
+This is the soundness direction for the target-shadow cursor: a cursor proof
+determines the remaining acted triangular letters as
+`topPairingTargetShadow.drop k`.  It is the compact deterministic-transducer
+bridge requested by the latest GPT5.5/Gemini advice: closed language drives a
+cursor/evaluator, rather than selecting an observed trace.
+
+New generated socket facts:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingMissingTransition1MSocket.
+  missingState19TmmpSemanticTransducerState
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingMissingTransition1MSocket.
+  missingState19TmmpSemanticEvalState
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingMissingTransition1MSocket.
+  missingState19TmmpPrefix_tail_tmmp_rest_of_length
+```
+
+The tail theorem has the semantic shape:
+
+```lean
+missingState19TmmpSemanticEvalState.Tail (Face.tmmp :: rest) ->
+  rest.length = 3 ->
+  rest = [Face.tmpp, Face.yp, Face.xp]
+```
+
+It uses:
+
+- schedule at steps `11`, `12`, and `13`;
+- the target-shadow cursor at `k = 7`;
+- square-gap state `7`;
+- a small integer-scaled local-axis bridge after the semantic prefix
+  `[... tmmp, tmpp]`.
+
+The local-axis exclusion is now checked with integer data:
+
+```lean
+missingState19TmmpTmppScaledLinear
+missingState19TmmpTmpp_scaledLinear_cast
+not_missingState19TmmpTmpp_axis_tmmp
+not_missingState19TmmpTmpp_axis_zp
+```
+
+This deliberately avoids reducing the rational evaluator state in the kernel.
+The computed evaluator result is still recorded separately by
+`missingState19TmmpPrefix_eval_eq`; the suffix theorem reasons over the named
+semantic state, which is the production direction.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_missing_transition_1m_socket_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_missing_transition_1m_socket_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingMissingTransition1MSocket
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Search/TopPairingTargetCursor.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingMissingTransition1MSocket.lean` direct | pass | `7.01s` | `4173 MiB` |
+| `BellmanTopPairingMissingTransition1MSocket` Lake, 7 GiB cap | guarded stop | `7.01s` | `7150 MiB` |
+| `BellmanTopPairingMissingTransition1MSocket` Lake, 10 GiB cap | pass | `26.05s` | `7202 MiB` |
+| forbidden-token scan on touched Lean files | pass | n/a | n/a |
+
+The 7 GiB Lake result was a controlled guard termination during dependency
+replay, not an OS OOM.  The target is accepted with the 10 GiB guard because it
+still leaves a wide margin under the 45 GiB practical RAM budget.
+
+Next step:
+
+Use the semantic tail theorem together with
+`strengthened_not_missingState19TmmpCompletion` to prove that the sole missing
+`state 19 / tmmp` transition is impossible for strengthened closed-language
+ranks.  Then wire that fact into the suffix-carrying local-progress theorem
+for the 1M graph evaluator, still without `SampledRankIndex`,
+`sampledContainsRank`, or selected-prefix coverage.

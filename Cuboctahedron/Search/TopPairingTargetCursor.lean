@@ -236,6 +236,26 @@ theorem nil_id :
     TopPairingTriCursorFrom topPairingTargetShadowLength SqParity.id [] :=
   TopPairingTriCursorFrom.nil
 
+theorem actedTriLetters_eq_drop
+    {labels : List Face} {parity : SqParity} {k : Nat}
+    (h : TopPairingTriCursorFrom k parity labels) :
+    actedTriLettersFrom parity labels = topPairingTargetShadow.drop k := by
+  induction h with
+  | nil =>
+      simp [actedTriLettersFrom, topPairingTargetShadowLength,
+        topPairingTargetShadow]
+  | square hsquare _hrest ih =>
+      simp [actedTriLettersFrom, hsquare, ih]
+  | tri htri hk hletter _hrest ih =>
+      rename_i k' parity' face' rest' tri'
+      simp [actedTriLettersFrom, htri, ih]
+      have hk8 : k' < 8 := by
+        simpa [topPairingTargetShadowLength, topPairingTargetShadow] using hk
+      interval_cases k' <;>
+        simp [topPairingTargetShadow] at hletter ⊢
+      all_goals
+        simp [hletter]
+
 theorem of_actedTriLetters_eq_drop
     {labels : List Face} {parity : SqParity} {k : Nat}
     (hk : k ≤ topPairingTargetShadowLength)
