@@ -61121,3 +61121,132 @@ or split it into:
 This is now the active Bellman frontier.  Do not resume the depth-8/9 prefix
 tactic expansion unless this graph-margin route fails; its last measured
 representative shard was already too slow for the build target.
+
+Terminal-to-accepted semantic bridge checkpoint:
+
+GPT5.5's latest advice is accepted as the Bellman rule for the next slice:
+continue Bellman for exactly the semantic-membership experiment, but make the
+object-cover theorem semantic.  The next theorem must not introduce
+`SampledRankIndex`, sampled paths, or one object constructor per rank.
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalAcceptedBridge.lean
+```
+
+New theorem surfaces:
+
+```lean
+theorem terminalOkTraceLabels_of_strengthenedTerminalTrace
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (topPairingRankFaceLabels rank)) :
+    TopPairingTraceClassifier.Accepted.TerminalOkTraceLabels
+      (topPairingRankFaceLabels rank)
+
+theorem graphAcceptedTraceLabels_of_strengthenedTerminalTrace
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (topPairingRankFaceLabels rank)) :
+    GraphAcceptedTraceLabels (topPairingRankFaceLabels rank)
+```
+
+The first theorem uses the closed-language cancellation equality to rule out
+the generated terminal-reject side via
+`TopPairingTraceClassifier.TerminalOk.terminalOk_of_terminalTrace_and_cancellation`.
+The second theorem then applies the strengthened actual-face and
+sequence/bad-face filters from the accepted-trace classifier.
+
+Focused validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_accepted_bridge_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.01s
+peak_tree_rss = 3593.74 MiB
+hard_as = 8192 MiB
+min_available = 46254 MiB
+```
+
+Before that strict direct-Lean check, the local `.olean` dependency chain was
+refreshed with the module-only Lake target:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --timeout-seconds 900 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_accepted_bridge_lake_olean.json \
+  --verbose \
+  -- lake build \
+     +Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalAcceptedBridge:olean
+```
+
+That target passed in `3.00s`, with `1608.29 MiB` peak RSS and
+`46240 MiB` minimum available memory.  The earlier attempt to run the same
+Lake target under `--hard-address-space-mib 8192` failed safely with Lean's
+`failed to create thread` at only `779 MiB` RSS; this is another reminder that
+Lake artifact refreshes may need an RSS/MemAvailable guard, while direct Lean
+proof checks remain the preferred hard-address-space validation once imports
+exist.
+
+Audit:
+
+```bash
+git diff --check
+
+rg -n \
+  "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalLanguage.lean
+```
+
+Both checks passed; the `rg` audit returned no matches.
+
+Decision:
+
+Accept this as the next semantic Bellman membership bridge.  The classifier
+chain is now factored as:
+
+```text
+TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank
+  + TerminalTraceLabels
+  -> TerminalOkTraceLabels
+  -> GraphAcceptedTraceLabels
+```
+
+The remaining production theorem is now exactly the hard part GPT5.5 pointed
+at: the generated full-terminal classifier and accepted-trace margin theorem
+must produce `GraphAcceptedTraceMargin` semantically for graph-accepted
+terminal traces.  Continue only if that theorem remains proportional to the
+37 accepted traces / small graph data, not to sampled ranks or paths.
