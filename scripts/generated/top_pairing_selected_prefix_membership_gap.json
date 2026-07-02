@@ -1,6 +1,24 @@
 {
-  "decision": "selected-prefix-evaluator-path-accepted-membership-gap-remains",
+  "decision": "selected-prefix-cover-accepted-residual-interval-gap-remains",
   "guards": {
+    "selected_prefix_cover_membership_bridge": {
+      "elapsed_seconds": 13.018119562999345,
+      "exists": true,
+      "exit_code": 0,
+      "hard_address_space_mib": 8192.0,
+      "max_tree_rss_mib": 3931.3984375,
+      "min_available_seen_mib": 46219.93359375,
+      "path": "scripts/generated/top_pairing_selected_prefix_cover_membership_bridge_guard.json"
+    },
+    "selected_prefix_cover_root_producer_bridge": {
+      "elapsed_seconds": 2.0025510150007904,
+      "exists": true,
+      "exit_code": 0,
+      "hard_address_space_mib": 8192.0,
+      "max_tree_rss_mib": 3685.296875,
+      "min_available_seen_mib": 46306.58984375,
+      "path": "scripts/generated/top_pairing_selected_prefix_cover_root_producer_bridge_guard.json"
+    },
     "selected_prefix_trace_margin_killed_socket": {
       "elapsed_seconds": 2.0020291560067562,
       "exists": true,
@@ -34,6 +52,7 @@
       "bytes": 3386,
       "exists": true,
       "expected_surface_hits": {
+        "SelectedPrefixCoverFamily": 3,
         "TopPairingBellmanEvalLanguageAtRank": 1
       },
       "forbidden_membership_hits": {},
@@ -60,10 +79,38 @@
       "lines": 176,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean"
     },
+    "selected_prefix_residual_bridge": {
+      "bytes": 3691,
+      "exists": true,
+      "expected_surface_hits": {
+        "KilledResidualBridge": 3,
+        "SelectedPrefixCoverFamily": 1,
+        "SelectedPrefixResidualRankCovered": 3,
+        "TerminalDirectClosedFamily": 1
+      },
+      "forbidden_membership_hits": {},
+      "lines": 89,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixResidualBridge.lean"
+    },
+    "selected_prefix_terminal_direct_bridge": {
+      "bytes": 6619,
+      "exists": true,
+      "expected_surface_hits": {
+        "Coverage.NonIdentityRankKilled": 1,
+        "SelectedPrefixCoverFamily": 2,
+        "SelectedPrefixTraceMarginFamily": 2,
+        "TerminalDirectClosedFamily": 4,
+        "TerminalTracePrefixSharedGainClosedMarginFamily": 1
+      },
+      "forbidden_membership_hits": {},
+      "lines": 163,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean"
+    },
     "selected_prefix_trace_margin_adapter": {
       "bytes": 31557,
       "exists": true,
       "expected_surface_hits": {
+        "SelectedPrefixCoverFamily": 32,
         "SelectedPrefixTraceMarginFamily": 5,
         "TerminalTracePrefixSharedGainClosedMarginFamily": 62,
         "TopPairingBellmanEvalLanguageAtRank": 1
@@ -98,7 +145,7 @@
   "mode": "top-pairing-selected-prefix-membership-gap-audit",
   "remaining_production_theorem": {
     "status": "missing",
-    "target": "semantic membership from the full top-pairing residual language into SelectedPrefixTraceMarginFamily or TerminalTracePrefixSharedGainClosedMarginFamily"
+    "target": "CoversInterval (SelectedPrefixResidualRankCovered scaledMargin) 0 numPairWords"
   },
   "sampled_membership_hits": {},
   "selected_prefix_cover": {

@@ -4,7 +4,7 @@ This audit is diagnostic status evidence, not proof.  It records that
 the selected-prefix prefix/shared-gain Bellman evaluator path is
 Lean-checked, then isolates the remaining production membership theorem.
 
-- decision: `selected-prefix-evaluator-path-accepted-membership-gap-remains`
+- decision: `selected-prefix-cover-accepted-residual-interval-gap-remains`
 - accepted traces in diagnostic cover: `37`
 - prefix buckets: `31`
 - singleton buckets: `26`
@@ -17,6 +17,8 @@ Lean-checked, then isolates the remaining production membership theorem.
 | `shared_gain_prefix_bucket_smoke` | `0` | `10.01s` | `3644 MiB` | `12288 MiB` |
 | `selected_prefix_trace_margin_object_cover` | `0` | `2.00s` | `3600 MiB` | `12288 MiB` |
 | `selected_prefix_trace_margin_killed_socket` | `0` | `2.00s` | `3602 MiB` | `12288 MiB` |
+| `selected_prefix_cover_membership_bridge` | `0` | `13.02s` | `3931 MiB` | `8192 MiB` |
+| `selected_prefix_cover_root_producer_bridge` | `0` | `2.00s` | `3685 MiB` | `8192 MiB` |
 
 ## Current Lean Surfaces
 
@@ -24,37 +26,52 @@ Lean-checked, then isolates the remaining production membership theorem.
 | --- | ---: | --- | --- |
 | `shared_gain_prefix_bucket_smoke` | `98` | `none` | `TerminalTracePrefixSharedGainClosedMarginFamily, TopPairingBellmanEvalLanguageAtRank` |
 | `trace_margin_bounds_socket` | `936` | `none` | `TerminalTracePrefixSharedGainClosedMarginFamily, TopPairingBellmanEvalLanguageAtRank` |
-| `selected_prefix_trace_margin_adapter` | `559` | `none` | `TerminalTracePrefixSharedGainClosedMarginFamily, SelectedPrefixTraceMarginFamily, TopPairingBellmanEvalLanguageAtRank` |
-| `selected_prefix_cover_root` | `66` | `none` | `TopPairingBellmanEvalLanguageAtRank` |
+| `selected_prefix_trace_margin_adapter` | `559` | `none` | `TerminalTracePrefixSharedGainClosedMarginFamily, SelectedPrefixTraceMarginFamily, SelectedPrefixCoverFamily, TopPairingBellmanEvalLanguageAtRank` |
+| `selected_prefix_cover_root` | `66` | `none` | `SelectedPrefixCoverFamily, TopPairingBellmanEvalLanguageAtRank` |
 | `selected_prefix_object_cover` | `176` | `none` | `BellmanAxisRankObjectCover` |
 | `selected_prefix_killed_socket` | `65` | `none` | `Coverage.NonIdentityRankKilled` |
+| `selected_prefix_terminal_direct_bridge` | `163` | `none` | `TerminalTracePrefixSharedGainClosedMarginFamily, SelectedPrefixTraceMarginFamily, SelectedPrefixCoverFamily, Coverage.NonIdentityRankKilled, TerminalDirectClosedFamily` |
+| `selected_prefix_residual_bridge` | `89` | `none` | `SelectedPrefixCoverFamily, SelectedPrefixResidualRankCovered, KilledResidualBridge, TerminalDirectClosedFamily` |
 
 ## Remaining Production Theorem
 
 The selected-prefix evaluator/killed path is not the remaining blocker.
-The remaining blocker is semantic membership into the selected-prefix
-trace-margin families for the full intended top-pairing residual
-language:
+The current residual bridge has already made the production theorem
+concrete.  The remaining generated coverage target is:
 
 ```lean
-forall rank,
-  FullTopPairingResidualLanguageAtRank rank ->
-    SelectedPrefixTraceMarginFamily scaledMargin rank
+CoversInterval
+  (SelectedPrefixResidualRankCovered scaledMargin)
+  0 numPairWords
 ```
 
-or, if the selected-prefix cover is too narrow:
+Equivalently, the generated semantic residual classifier must prove:
 
 ```lean
-forall rank,
-  FullTopPairingResidualLanguageAtRank rank ->
-    exists pfx gain,
-      TerminalTracePrefixSharedGainClosedMarginFamily
-        pfx gain scaledMargin rank
+forall r (hlt : r < numPairWords),
+  nonIdEarlyFamilyClassOfRank ⟨r, hlt⟩ =
+      NonIdFamilyClass.residual ->
+  totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠
+      (matId : Mat3 Rat) ->
+    SelectedPrefixCoverFamily scaledMargin ⟨r, hlt⟩
 ```
 
-The upstream `FullTopPairingResidualLanguageAtRank` name is schematic:
-the actual theorem should use the existing residual classifier
-predicate once it is selected.  The proof must be semantic and must
-not use sampled ranks, sampled paths, exact affine-RHS keys, or one
+This exact theorem feeds:
+
+```lean
+killedResidualBridge_of_selectedPrefixInterval
+residualRankKilled_of_selectedPrefixResidualRankCovered
+```
+
+The preferred direct semantic consumer remains:
+
+```lean
+SelectedPrefixCoverFamily scaledMargin rank ->
+  TerminalDirectClosedFamily rank ->
+    Coverage.NonIdentityRankKilled rank
+```
+
+The proof must stay semantic.  It must not use sampled ranks, sampled
+paths, exact affine-RHS keys, broad generated root imports, or one
 branch per concrete rank.
 

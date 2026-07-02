@@ -76668,3 +76668,88 @@ coverage boundary, while preserving the same constraints:
 - no broad root import that triggers uncontrolled parallel generated builds;
 - every proposed producer root gets import-fan-in and guarded serial-build
   measurements before it is allowed to feed a public coverage theorem.
+
+## 2026-07-02 Checkpoint: Selected-Prefix Residual Interval Gap Named
+
+Refreshed the selected-prefix membership-gap audit so it names the exact
+residual-boundary theorem required by the current Lean bridge:
+
+```text
+scripts/audit_top_pairing_selected_prefix_membership_gap.py
+scripts/generated/top_pairing_selected_prefix_membership_gap.json
+scripts/generated/top_pairing_selected_prefix_membership_gap.md
+```
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_selected_prefix_membership_gap.py
+python3 scripts/audit_top_pairing_selected_prefix_membership_gap.py
+```
+
+Decision:
+
+```text
+selected-prefix-cover-accepted-residual-interval-gap-remains
+```
+
+The selected-prefix evaluator and killed paths are not the blocker.  The
+checked bridge in
+`BellmanTopPairingSelectedPrefixResidualBridge.lean` already makes the
+remaining theorem concrete:
+
+```lean
+CoversInterval
+  (SelectedPrefixResidualRankCovered scaledMargin)
+  0 numPairWords
+```
+
+Equivalently, a generated semantic residual classifier must prove:
+
+```lean
+forall r (hlt : r < numPairWords),
+  nonIdEarlyFamilyClassOfRank ⟨r, hlt⟩ =
+      NonIdFamilyClass.residual ->
+  totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠
+      (matId : Mat3 Rat) ->
+    SelectedPrefixCoverFamily scaledMargin ⟨r, hlt⟩
+```
+
+This feeds the existing checked bridge:
+
+```lean
+killedResidualBridge_of_selectedPrefixInterval
+residualRankKilled_of_selectedPrefixResidualRankCovered
+```
+
+The refreshed audit also records the existing guarded checks that support this
+boundary:
+
+```text
+shared_gain_prefix_bucket_smoke:
+  exit=0, elapsed=10.01s, max RSS=3644 MiB, hard AS=12288 MiB
+selected_prefix_trace_margin_object_cover:
+  exit=0, elapsed=2.00s, max RSS=3600 MiB, hard AS=12288 MiB
+selected_prefix_trace_margin_killed_socket:
+  exit=0, elapsed=2.00s, max RSS=3602 MiB, hard AS=12288 MiB
+selected_prefix_cover_membership_bridge:
+  exit=0, elapsed=13.02s, max RSS=3931 MiB, hard AS=8192 MiB
+selected_prefix_cover_root_producer_bridge:
+  exit=0, elapsed=2.00s, max RSS=3685 MiB, hard AS=8192 MiB
+```
+
+Next target:
+
+Generate the first bounded interval/state shard proving
+`SelectedPrefixResidualRankCovered scaledMargin` for a real semantic slice of
+the residual classifier.  The shard must prove membership in
+`SelectedPrefixCoverFamily` from semantic classifier data.  It must not import
+the state-DAG selected-prefix cover root through a public residual bridge until
+that producer root has been serially prebuilt and import-audited.
+
+No-go rule:
+
+If the interval/state shard requires sampled ranks, one branch per concrete
+rank, exact affine-RHS keys, or a broad generated root import to prove
+membership, reject that shard shape and refine the residual classifier state
+before scaling.

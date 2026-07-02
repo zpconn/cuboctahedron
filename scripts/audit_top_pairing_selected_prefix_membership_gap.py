@@ -28,6 +28,10 @@ GUARDS = {
     / "scripts/generated/selected_prefix_trace_margin_object_cover_guard.json",
     "selected_prefix_trace_margin_killed_socket": ROOT
     / "scripts/generated/selected_prefix_trace_margin_killed_socket_guard.json",
+    "selected_prefix_cover_membership_bridge": ROOT
+    / "scripts/generated/top_pairing_selected_prefix_cover_membership_bridge_guard.json",
+    "selected_prefix_cover_root_producer_bridge": ROOT
+    / "scripts/generated/top_pairing_selected_prefix_cover_root_producer_bridge_guard.json",
 }
 
 LEAN_SURFACES = {
@@ -49,6 +53,12 @@ LEAN_SURFACES = {
     "selected_prefix_killed_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSelectedPrefixTraceMarginKilledSocket.lean",
+    "selected_prefix_terminal_direct_bridge": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean",
+    "selected_prefix_residual_bridge": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSelectedPrefixResidualBridge.lean",
 }
 
 FORBIDDEN_MEMBERSHIP_TOKENS = [
@@ -61,9 +71,13 @@ FORBIDDEN_MEMBERSHIP_TOKENS = [
 EXPECTED_SURFACE_TOKENS = [
     "TerminalTracePrefixSharedGainClosedMarginFamily",
     "SelectedPrefixTraceMarginFamily",
+    "SelectedPrefixCoverFamily",
+    "SelectedPrefixResidualRankCovered",
     "TopPairingBellmanEvalLanguageAtRank",
     "BellmanAxisRankObjectCover",
+    "KilledResidualBridge",
     "Coverage.NonIdentityRankKilled",
+    "TerminalDirectClosedFamily",
 ]
 
 
@@ -166,33 +180,46 @@ def render_markdown(report: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
-            "## Remaining Production Theorem",
-            "",
+        "## Remaining Production Theorem",
+        "",
             "The selected-prefix evaluator/killed path is not the remaining blocker.",
-            "The remaining blocker is semantic membership into the selected-prefix",
-            "trace-margin families for the full intended top-pairing residual",
-            "language:",
+            "The current residual bridge has already made the production theorem",
+            "concrete.  The remaining generated coverage target is:",
             "",
             "```lean",
-            "forall rank,",
-            "  FullTopPairingResidualLanguageAtRank rank ->",
-            "    SelectedPrefixTraceMarginFamily scaledMargin rank",
+            "CoversInterval",
+            "  (SelectedPrefixResidualRankCovered scaledMargin)",
+            "  0 numPairWords",
             "```",
             "",
-            "or, if the selected-prefix cover is too narrow:",
+            "Equivalently, the generated semantic residual classifier must prove:",
             "",
             "```lean",
-            "forall rank,",
-            "  FullTopPairingResidualLanguageAtRank rank ->",
-            "    exists pfx gain,",
-            "      TerminalTracePrefixSharedGainClosedMarginFamily",
-            "        pfx gain scaledMargin rank",
+            "forall r (hlt : r < numPairWords),",
+            "  nonIdEarlyFamilyClassOfRank ⟨r, hlt⟩ =",
+            "      NonIdFamilyClass.residual ->",
+            "  totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠",
+            "      (matId : Mat3 Rat) ->",
+            "    SelectedPrefixCoverFamily scaledMargin ⟨r, hlt⟩",
             "```",
             "",
-            "The upstream `FullTopPairingResidualLanguageAtRank` name is schematic:",
-            "the actual theorem should use the existing residual classifier",
-            "predicate once it is selected.  The proof must be semantic and must",
-            "not use sampled ranks, sampled paths, exact affine-RHS keys, or one",
+            "This exact theorem feeds:",
+            "",
+            "```lean",
+            "killedResidualBridge_of_selectedPrefixInterval",
+            "residualRankKilled_of_selectedPrefixResidualRankCovered",
+            "```",
+            "",
+            "The preferred direct semantic consumer remains:",
+            "",
+            "```lean",
+            "SelectedPrefixCoverFamily scaledMargin rank ->",
+            "  TerminalDirectClosedFamily rank ->",
+            "    Coverage.NonIdentityRankKilled rank",
+            "```",
+            "",
+            "The proof must stay semantic.  It must not use sampled ranks, sampled",
+            "paths, exact affine-RHS keys, broad generated root imports, or one",
             "branch per concrete rank.",
             "",
         ]
@@ -219,7 +246,7 @@ def main() -> None:
         if surface.get("forbidden_membership_hits")
     }
     decision = (
-        "selected-prefix-evaluator-path-accepted-membership-gap-remains"
+        "selected-prefix-cover-accepted-residual-interval-gap-remains"
         if guard_ok and not sampled_hits
         else "selected-prefix-evaluator-path-needs-review"
     )
@@ -234,9 +261,9 @@ def main() -> None:
         "remaining_production_theorem": {
             "status": "missing",
             "target": (
-                "semantic membership from the full top-pairing residual language "
-                "into SelectedPrefixTraceMarginFamily or "
-                "TerminalTracePrefixSharedGainClosedMarginFamily"
+                "CoversInterval "
+                "(SelectedPrefixResidualRankCovered scaledMargin) "
+                "0 numPairWords"
             ),
         },
     }
