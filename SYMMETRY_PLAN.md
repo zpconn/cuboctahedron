@@ -66610,3 +66610,157 @@ shards from the state-DAG planner and measure whether proof size/RSS scales
 with semantic shard count rather than accepted trace count.  Stop if that
 grouped emitter reintroduces sampled rank/path objects, exact affine RHS
 membership, or one theorem per full accepted trace.
+
+### 2026-07-02 Five-prefix state-DAG shard group
+
+Implemented the next semantic Bellman scaling slice:
+
+```text
+scripts/emit_top_pairing_state_dag_selected_prefix_group.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGSelectedPrefixGroup.lean
+scripts/generated/top_pairing_state_dag_selected_prefix_group.json
+scripts/generated/top_pairing_state_dag_selected_prefix_group.md
+```
+
+The emitter reads `top_pairing_shared_gain_prefix_cover_plan.json` and emits a
+bounded group of selected-prefix semantic shard theorems.  For this first
+group, it used the first five buckets:
+
+```text
+emitted buckets = 5
+accepted traces covered = 11 / 37
+generated Lean size = 1104 lines
+```
+
+Each emitted bucket has the same proof shape as the single selected-prefix
+shard:
+
+```lean
+PrefixNNNAllowed
+PrefixNNNPrefix
+PrefixNNNGap
+PrefixNNNLinear
+PrefixNNNPrefix_gain
+PrefixNNN_tail_of_closed_labels
+PrefixNNNShardFamily
+stateDAGPrefixFamily_of_PrefixNNNShardFamily
+PrefixNNNShard_evalLanguage
+PrefixNNNShard_scaledMargin_nonpos
+```
+
+The group file also exports:
+
+```lean
+SelectedPrefixGroupFamily
+
+selectedPrefixGroup_evalLanguage :
+  SelectedPrefixGroupFamily scaledMargin rank ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState
+    (176 : Int) scaledMargin rank Face.ym
+
+selectedPrefixGroup_scaledMargin_nonpos :
+  SelectedPrefixGroupFamily scaledMargin rank ->
+  scaledMargin rank <= 0
+```
+
+Generation command:
+
+```bash
+python3 scripts/emit_top_pairing_state_dag_selected_prefix_group.py --count 5
+```
+
+Python syntax check:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_state_dag_selected_prefix_group.py
+```
+
+Result: passed.
+
+Focused guarded Lake build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_state_dag_selected_prefix_group_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStateDAGSelectedPrefixGroup
+```
+
+Result:
+
+```text
+passed
+elapsed = 9.01s
+peak_tree_rss = 4017 MiB
+hard_as = 32768 MiB
+min_available = 46114 MiB
+```
+
+Direct guarded Lean check after dependencies were available:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_state_dag_selected_prefix_group_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGSelectedPrefixGroup.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 3.02s
+peak_tree_rss = 4016 MiB
+hard_as = 8192 MiB
+min_available = 46162 MiB
+```
+
+Audit:
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGSelectedPrefixGroup.lean \
+  scripts/emit_top_pairing_state_dag_selected_prefix_group.py
+
+git diff --check
+```
+
+Both checks passed with no output.
+
+Decision:
+
+Accept this as the first multi-prefix Bellman semantic-membership scaling
+checkpoint.  It is still bounded evidence, not full coverage.  The important
+signal is that direct Lean checking grew from the one-prefix shard's
+`2.00s / 3615 MiB` to `3.02s / 4016 MiB` for five prefixes and 11 accepted
+traces.  That is consistent with theorem-surface scaling by semantic bucket,
+not with the rejected sampled-path regime.
+
+Next:
+
+Generate the remaining selected-prefix cover in bounded group modules, ideally
+splitting the 31 buckets into small groups so broad imports stay shallow.  The
+next gate is a full 31-bucket semantic prefix cover root proving the same
+`TopPairingBellmanEvalLanguageAtRank` / `scaledMargin <= 0` result for the
+union of the shared-gain prefix cover, still with no sampled membership,
+rank/path tables, exact affine RHS keys, or one theorem per full accepted
+trace.

@@ -1,0 +1,893 @@
+{
+  "accepted_trace_count": 11,
+  "bucket_count": 5,
+  "buckets": [
+    {
+      "accepted_indices": [
+        0,
+        1,
+        2
+      ],
+      "depth": 9,
+      "gain": -376,
+      "index": 0,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp"
+      ],
+      "state_after_prefix": {
+        "local_axis_linear_matrix": [
+          [
+            [
+              47,
+              243
+            ],
+            [
+              14,
+              243
+            ],
+            [
+              238,
+              243
+            ]
+          ],
+          [
+            [
+              238,
+              243
+            ],
+            [
+              -17,
+              243
+            ],
+            [
+              -46,
+              243
+            ]
+          ],
+          [
+            [
+              -14,
+              243
+            ],
+            [
+              -242,
+              243
+            ],
+            [
+              17,
+              243
+            ]
+          ]
+        ],
+        "remaining_pair_counts": {
+          "d111": 0,
+          "d11m": 0,
+          "d1m1": 0,
+          "dm11": 1,
+          "x": 0,
+          "y": 1,
+          "z": 2
+        },
+        "square_gap": 7,
+        "square_parity": {
+          "x": true,
+          "y": true,
+          "z": false
+        },
+        "step": 9,
+        "triangular_cancellation_stack": {
+          "cancellations_rev": [
+            [
+              "d11m",
+              3,
+              4
+            ]
+          ],
+          "shadow_len": 7,
+          "stack": [
+            [
+              "d111",
+              6
+            ],
+            [
+              "dm11",
+              5
+            ],
+            [
+              "d1m1",
+              2
+            ],
+            [
+              "d111",
+              1
+            ],
+            [
+              "dm11",
+              0
+            ]
+          ]
+        }
+      },
+      "terminal_examples": {
+        "cancellation_reject": [],
+        "closed": [
+          [
+            "xm",
+            "ym",
+            "tmpm",
+            "tppm",
+            "tpmm",
+            "tppp",
+            "tmmm",
+            "tpmp",
+            "tmmp",
+            "tmpp",
+            "yp",
+            "zm",
+            "zp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "tmpm",
+            "tppm",
+            "tpmm",
+            "tppp",
+            "tmmm",
+            "tpmp",
+            "tmmp",
+            "tmpp",
+            "zm",
+            "yp",
+            "zp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "tmpm",
+            "tppm",
+            "tpmm",
+            "tppp",
+            "tmmm",
+            "tpmp",
+            "tmmp",
+            "tmpp",
+            "zm",
+            "zp",
+            "yp",
+            "xp"
+          ]
+        ],
+        "count_reject": []
+      },
+      "terminal_path_histogram_below_prefix": {
+        "closed": 3
+      }
+    },
+    {
+      "accepted_indices": [
+        27,
+        28
+      ],
+      "depth": 4,
+      "gain": -552,
+      "index": 1,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "zm"
+      ],
+      "state_after_prefix": {
+        "local_axis_linear_matrix": [
+          [
+            [
+              -1,
+              1
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              -1,
+              1
+            ]
+          ]
+        ],
+        "remaining_pair_counts": {
+          "d111": 2,
+          "d11m": 2,
+          "d1m1": 2,
+          "dm11": 2,
+          "x": 0,
+          "y": 0,
+          "z": 1
+        },
+        "square_gap": 0,
+        "square_parity": {
+          "x": true,
+          "y": false,
+          "z": true
+        },
+        "step": 4,
+        "triangular_cancellation_stack": {
+          "cancellations_rev": [],
+          "shadow_len": 0,
+          "stack": []
+        }
+      },
+      "terminal_examples": {
+        "cancellation_reject": [
+          [
+            "xm",
+            "ym",
+            "yp",
+            "zm",
+            "tmmp",
+            "tpmp",
+            "tppp",
+            "tmpm",
+            "tpmm",
+            "tmpp",
+            "tppp",
+            "zp",
+            "tmmp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "yp",
+            "zm",
+            "tmmp",
+            "tpmp",
+            "tppp",
+            "tpmm",
+            "tmmm",
+            "tppm",
+            "tmpm",
+            "tmpp",
+            "zp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "yp",
+            "zm",
+            "tmmp",
+            "tpmp",
+            "tppp",
+            "tpmm",
+            "tmpp",
+            "tmpm",
+            "tppp",
+            "zp",
+            "tmmp",
+            "xp"
+          ]
+        ],
+        "closed": [
+          [
+            "xm",
+            "ym",
+            "yp",
+            "zm",
+            "tmmp",
+            "tpmp",
+            "tppp",
+            "tpmm",
+            "tmpp",
+            "tppm",
+            "tmpm",
+            "tmmm",
+            "zp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "yp",
+            "zm",
+            "tmmp",
+            "tpmp",
+            "tppp",
+            "tpmm",
+            "zm",
+            "tmpm",
+            "tppp",
+            "tmpp",
+            "tmmp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "yp",
+            "zm",
+            "zp",
+            "tmmm",
+            "tpmm",
+            "tppm",
+            "tpmp",
+            "tmpm",
+            "tppp",
+            "tmpp",
+            "tmmp",
+            "xp"
+          ]
+        ],
+        "count_reject": []
+      },
+      "terminal_path_histogram_below_prefix": {
+        "cancellation_reject": 19,
+        "closed": 3
+      }
+    },
+    {
+      "accepted_indices": [
+        32,
+        33
+      ],
+      "depth": 4,
+      "gain": -552,
+      "index": 2,
+      "prefix": [
+        "xm",
+        "ym",
+        "zm",
+        "yp"
+      ],
+      "state_after_prefix": {
+        "local_axis_linear_matrix": [
+          [
+            [
+              -1,
+              1
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              -1,
+              1
+            ]
+          ]
+        ],
+        "remaining_pair_counts": {
+          "d111": 2,
+          "d11m": 2,
+          "d1m1": 2,
+          "dm11": 2,
+          "x": 0,
+          "y": 0,
+          "z": 1
+        },
+        "square_gap": 0,
+        "square_parity": {
+          "x": true,
+          "y": false,
+          "z": true
+        },
+        "step": 4,
+        "triangular_cancellation_stack": {
+          "cancellations_rev": [],
+          "shadow_len": 0,
+          "stack": []
+        }
+      },
+      "terminal_examples": {
+        "cancellation_reject": [
+          [
+            "xm",
+            "ym",
+            "zm",
+            "yp",
+            "tmmp",
+            "tpmp",
+            "tppp",
+            "tmpm",
+            "tpmm",
+            "tmpp",
+            "tppp",
+            "zp",
+            "tmmp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "zm",
+            "yp",
+            "tmmp",
+            "tpmp",
+            "tppp",
+            "tpmm",
+            "tmmm",
+            "tppm",
+            "tmpm",
+            "tmpp",
+            "zp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "zm",
+            "yp",
+            "tmmp",
+            "tpmp",
+            "tppp",
+            "tpmm",
+            "tmpp",
+            "tmpm",
+            "tppp",
+            "zp",
+            "tmmp",
+            "xp"
+          ]
+        ],
+        "closed": [
+          [
+            "xm",
+            "ym",
+            "zm",
+            "yp",
+            "tmmp",
+            "tpmp",
+            "tppp",
+            "tpmm",
+            "tmpp",
+            "tppm",
+            "tmpm",
+            "tmmm",
+            "zp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "zm",
+            "yp",
+            "tmmp",
+            "tpmp",
+            "tppp",
+            "tpmm",
+            "zm",
+            "tmpm",
+            "tppp",
+            "tmpp",
+            "tmmp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "zm",
+            "yp",
+            "zp",
+            "tmmm",
+            "tpmm",
+            "tppm",
+            "tpmp",
+            "tmpm",
+            "tppp",
+            "tmpp",
+            "tmmp",
+            "xp"
+          ]
+        ],
+        "count_reject": []
+      },
+      "terminal_path_histogram_below_prefix": {
+        "cancellation_reject": 19,
+        "closed": 3
+      }
+    },
+    {
+      "accepted_indices": [
+        25,
+        26
+      ],
+      "depth": 5,
+      "gain": -304,
+      "index": 3,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm"
+      ],
+      "state_after_prefix": {
+        "local_axis_linear_matrix": [
+          [
+            [
+              -1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              -2,
+              3
+            ]
+          ],
+          [
+            [
+              -2,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          [
+            [
+              -2,
+              3
+            ],
+            [
+              -2,
+              3
+            ],
+            [
+              -1,
+              3
+            ]
+          ]
+        ],
+        "remaining_pair_counts": {
+          "d111": 1,
+          "d11m": 2,
+          "d1m1": 2,
+          "dm11": 2,
+          "x": 0,
+          "y": 0,
+          "z": 1
+        },
+        "square_gap": 1,
+        "square_parity": {
+          "x": true,
+          "y": false,
+          "z": true
+        },
+        "step": 5,
+        "triangular_cancellation_stack": {
+          "cancellations_rev": [],
+          "shadow_len": 1,
+          "stack": [
+            [
+              "dm11",
+              0
+            ]
+          ]
+        }
+      },
+      "terminal_examples": {
+        "cancellation_reject": [
+          [
+            "xm",
+            "ym",
+            "yp",
+            "tmmm",
+            "zm",
+            "tpmp",
+            "tppm",
+            "zp",
+            "tpmm",
+            "tmpp",
+            "tmpm",
+            "tmmm",
+            "tmmp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "yp",
+            "tmmm",
+            "zm",
+            "tppm",
+            "tppp",
+            "tpmm",
+            "tmpp",
+            "tpmp",
+            "tmpm",
+            "zp",
+            "tmmp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "yp",
+            "tmmm",
+            "zm",
+            "tppm",
+            "tppp",
+            "tpmm",
+            "tpmp",
+            "tmpp",
+            "tmpm",
+            "zm",
+            "tmmp",
+            "xp"
+          ]
+        ],
+        "closed": [
+          [
+            "xm",
+            "ym",
+            "yp",
+            "tmmm",
+            "zm",
+            "tpmp",
+            "tppp",
+            "tpmm",
+            "tmpp",
+            "tppm",
+            "tmpm",
+            "zp",
+            "tmmp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "yp",
+            "tmmm",
+            "zm",
+            "zp",
+            "tpmm",
+            "tppm",
+            "tpmp",
+            "tmpm",
+            "tppp",
+            "tmpp",
+            "tmmp",
+            "xp"
+          ]
+        ],
+        "count_reject": []
+      },
+      "terminal_path_histogram_below_prefix": {
+        "cancellation_reject": 10,
+        "closed": 2
+      }
+    },
+    {
+      "accepted_indices": [
+        29,
+        30
+      ],
+      "depth": 10,
+      "gain": -376,
+      "index": 4,
+      "prefix": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm"
+      ],
+      "state_after_prefix": {
+        "local_axis_linear_matrix": [
+          [
+            [
+              47,
+              243
+            ],
+            [
+              14,
+              243
+            ],
+            [
+              -238,
+              243
+            ]
+          ],
+          [
+            [
+              238,
+              243
+            ],
+            [
+              -17,
+              243
+            ],
+            [
+              46,
+              243
+            ]
+          ],
+          [
+            [
+              -14,
+              243
+            ],
+            [
+              -242,
+              243
+            ],
+            [
+              -17,
+              243
+            ]
+          ]
+        ],
+        "remaining_pair_counts": {
+          "d111": 0,
+          "d11m": 0,
+          "d1m1": 1,
+          "dm11": 0,
+          "x": 0,
+          "y": 1,
+          "z": 1
+        },
+        "square_gap": 7,
+        "square_parity": {
+          "x": true,
+          "y": true,
+          "z": true
+        },
+        "step": 10,
+        "triangular_cancellation_stack": {
+          "cancellations_rev": [
+            [
+              "d11m",
+              3,
+              4
+            ]
+          ],
+          "shadow_len": 7,
+          "stack": [
+            [
+              "d111",
+              6
+            ],
+            [
+              "dm11",
+              5
+            ],
+            [
+              "d1m1",
+              2
+            ],
+            [
+              "d111",
+              1
+            ],
+            [
+              "dm11",
+              0
+            ]
+          ]
+        }
+      },
+      "terminal_examples": {
+        "cancellation_reject": [],
+        "closed": [
+          [
+            "xm",
+            "ym",
+            "zm",
+            "tmpp",
+            "tppp",
+            "tpmp",
+            "tppm",
+            "tmmp",
+            "tpmm",
+            "tmmm",
+            "tmpm",
+            "yp",
+            "zp",
+            "xp"
+          ],
+          [
+            "xm",
+            "ym",
+            "zm",
+            "tmpp",
+            "tppp",
+            "tpmp",
+            "tppm",
+            "tmmp",
+            "tpmm",
+            "tmmm",
+            "tmpm",
+            "zp",
+            "yp",
+            "xp"
+          ]
+        ],
+        "count_reject": []
+      },
+      "terminal_path_histogram_below_prefix": {
+        "closed": 2
+      }
+    }
+  ],
+  "lean_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixGroup.lean",
+  "source_cover": "scripts/generated/top_pairing_shared_gain_prefix_cover_plan.json"
+}
