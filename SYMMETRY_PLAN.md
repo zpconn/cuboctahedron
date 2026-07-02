@@ -73199,6 +73199,29 @@ theorem scaledMargin_nonpos_of_acceptedPrefix13State_components
     (hactual : TopPairingActualFaceOmniAtRank rank)
     (hmargin : scaledMargin rank <= (176 : Int) + acceptedTraceGain id) :
     scaledMargin rank <= 0
+
+def AcceptedPrefix13EvalFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  ∃ id : AcceptedTraceId,
+    ClosedRankInAcceptedPrefix13ProducerState id rank /\
+      scaledMargin rank <= (176 : Int) + acceptedTraceGain id
+
+theorem evalLanguage_of_acceptedPrefix13EvalFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily : AcceptedPrefix13EvalFamily scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem scaledMargin_nonpos_of_acceptedPrefix13EvalFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily : AcceptedPrefix13EvalFamily scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    scaledMargin rank <= 0
 ```
 
 Guarded check:
@@ -73219,10 +73242,10 @@ Result:
 
 ```text
 BellmanTopPairingAcceptedPrefixEvalSocket.lean: pass
-elapsed: 6.03s
-peak_tree_rss: 3295 MiB
+elapsed: 4.00s
+peak_tree_rss: 3770 MiB
 hard_as: 12288 MiB
-min_available: 46326 MiB
+min_available: 46284 MiB
 ```
 
 Forbidden-token scan over the new Lean file found no matches for
@@ -73234,11 +73257,11 @@ Interpretation:
 
 This is a real positive result for the GPT5.5 go/no-go test, but it is still
 bounded.  It proves that once the semantic provider has reduced a rank to an
-accepted length-13 prefix plus a margin inequality, Lean can recover the
-deterministic evaluator acceptance without sampled paths.  The remaining
-production theorem is not the Bellman evaluator; it is now the semantic
-provider that covers the top-pairing residual by accepted prefix states and
-margin bounds.
+accepted length-13 prefix producer state plus a trace-id margin inequality,
+Lean can recover the deterministic evaluator acceptance without sampled paths.
+The remaining production theorem is not the Bellman evaluator; it is now the
+semantic provider that covers the top-pairing residual by
+`AcceptedPrefix13EvalFamily`.
 
 Next step:
 
@@ -73249,9 +73272,7 @@ length-13 prefix state" to a generated family/root that proves:
 TopPairingClosedLanguageAtRank rank Face.ym
   -> TopPairingActualFaceOmniAtRank rank
   -> AcceptedSequenceBadFaceAtRank rank Face.ym
-  -> exists id,
-       ClosedRankInAcceptedPrefix13State id rank /\
-       scaledMargin rank <= (176 : Int) + acceptedTraceGain id
+  -> AcceptedPrefix13EvalFamily scaledMargin rank
 ```
 
 or split this into two semantic producers:

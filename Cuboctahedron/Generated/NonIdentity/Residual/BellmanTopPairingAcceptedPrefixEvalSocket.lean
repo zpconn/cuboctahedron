@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalTraceMembershipSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalProducerSmoke
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTraceMarginBoundsSocket
 
 /-!
@@ -18,6 +19,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingAccepted
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedTraceMarginBridge
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalProducerSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalTraceMembershipSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTraceMarginBoundsSocket
 
@@ -84,6 +86,41 @@ theorem scaledMargin_nonpos_of_acceptedPrefix13State_components
     hstate.1 hactual
     (acceptedTrace_eq_of_acceptedPrefix13State hstate)
     hmargin
+
+def AcceptedPrefix13EvalFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  ∃ id : AcceptedTraceId,
+    ClosedRankInAcceptedPrefix13ProducerState id rank /\
+      scaledMargin rank <= (176 : Int) + acceptedTraceGain id
+
+theorem evalLanguage_of_acceptedPrefix13EvalFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily : AcceptedPrefix13EvalFamily scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases hfamily with ⟨id, hproducer, hmargin⟩
+  exact
+    evalLanguage_of_acceptedPrefix13State_components
+      (acceptedPrefix13State_of_producerState hproducer)
+      hactual
+      hmargin
+
+theorem scaledMargin_nonpos_of_acceptedPrefix13EvalFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily : AcceptedPrefix13EvalFamily scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    scaledMargin rank <= 0 := by
+  rcases hfamily with ⟨id, hproducer, hmargin⟩
+  exact
+    scaledMargin_nonpos_of_acceptedPrefix13State_components
+      (acceptedPrefix13State_of_producerState hproducer)
+      hactual
+      hmargin
 
 theorem accepted_prefix_eval_socket_builds : True := by
   exact True.intro
