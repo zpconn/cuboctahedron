@@ -72530,3 +72530,118 @@ accepted terminal prefixes.  It is to generate a compact semantic state-DAG
 whose terminal states imply `ClosedRankInAnyAcceptedPrefix13ProducerState rank`
 for all ranks in the top-pairing residual family, and to prove the state-DAG
 covers the intended residual language without sampled rank/path objects.
+
+## 2026-07-02 Checkpoint: Explicit Terminal Producer Shard
+
+Added a generated-style terminal producer shard smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalProducerShardSmoke.lean
+```
+
+This models the next emitted layer: finite semantic state ids whose membership
+predicates imply the generic accepted-prefix producer state.
+
+Shard state surface:
+
+```lean
+inductive SmokeProducerState where
+  | s000
+  | s001
+  | s002
+
+def SmokeProducerState.acceptedTraceId :
+    SmokeProducerState -> AcceptedTraceId
+
+def SmokeProducerState.Contains
+    (state : SmokeProducerState) (rank : Fin numPairWords) : Prop :=
+  ClosedRankInAcceptedPrefix13ProducerState
+    state.acceptedTraceId rank
+
+def SmokeProducerShardFamily (rank : Fin numPairWords) : Prop :=
+  ∃ state : SmokeProducerState,
+    state.Contains rank
+```
+
+Bridge from the prior three-branch semantic state:
+
+```lean
+theorem shardFamily_of_smokeAcceptedBranchState
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInSmokeAcceptedBranchState rank) :
+    SmokeProducerShardFamily rank
+```
+
+Shard-level consumer:
+
+```lean
+theorem nonIdentityRankKilled_of_shardFamily
+    {rank : Fin numPairWords}
+    (hshard : SmokeProducerShardFamily rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+Guarded commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_producer_smoke_olean_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerSmoke.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerSmoke.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_producer_shard_smoke_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerShardSmoke.lean
+```
+
+Results:
+
+```text
+producer smoke .olean refresh: pass
+elapsed: 4.00s
+peak_tree_rss: 3665 MiB
+hard_as: 12288 MiB
+min_available: 46314 MiB
+
+terminal producer shard smoke: pass
+elapsed: 2.00s
+peak_tree_rss: 3677 MiB
+hard_as: 12288 MiB
+min_available: 46322 MiB
+```
+
+Forbidden/sample-token scan on the shard was clean.
+
+Strategic interpretation:
+
+The finite state layer itself is cheap.  The accepted terminal-prefix chain now
+has a measured, shard-shaped route:
+
+```text
+SmokeProducerShardFamily rank
+  -> ClosedRankInAnyAcceptedPrefix13ProducerState rank
+  -> ClosedRankInAnyAcceptedPrefix13State rank
+  -> TerminalDirectClosedFamily rank
+  -> NonIdentityRankKilled rank
+```
+
+The next scaling risk is not this consumer chain; it is generating the
+semantic coverage proof that the intended top-pairing residual language enters
+enough such producer states.  The next experiment should emit a small real
+terminal producer shard over more accepted states, ideally all 37 accepted
+prefix states, and measure whether the root/group import pattern stays under
+the RSS/time gates.
