@@ -67944,3 +67944,91 @@ TopPairingClosedLanguageAtRank rank Face.ym
 or an equivalent state-DAG/cancellation-tree classifier theorem.  If that proof
 requires sampled membership or exact affine-RHS tables, stop the Bellman
 production route and pivot to cancellation-tree summary algebra.
+
+### 2026-07-02 Post-object-cover inspection: exact remaining Bellman gap
+
+After adding the object-cover wrapper, inspected the relevant predicates:
+
+```lean
+TopPairingClosedLanguageAtRank
+TopPairingStrengthenedClosedLanguageAtRank
+SelectedPrefixCoverFamily
+SelectedPrefixTraceMarginFamily
+TerminalAcceptedEvalSequenceBadFace
+```
+
+Conclusion:
+
+`TopPairingClosedLanguageAtRank rank Face.ym` is intentionally only the
+front-door closed-language predicate.  It provides:
+
+```text
+top-pairing cancellation language
+step schedule
+square-gap schedule
+local-axis schedule
+canonical bad-face compatibility
+```
+
+It does **not** by itself provide:
+
+```text
+TopPairingActualFaceOmniAtRank rank
+TerminalTraceLabels (topPairingRankFaceLabels rank)
+SelectedPrefixCoverFamily scaledMargin rank
+SelectedPrefixTraceMarginFamily scaledMargin rank
+GraphAcceptedTraceMargin scaledMargin obj
+scaledMargin rank <= 176 + gain
+```
+
+The existing generated bridge modules are therefore correctly shaped but not
+yet complete:
+
+```text
+BellmanTopPairingTerminalAcceptedBridge.lean
+BellmanTopPairingTerminalAcceptedObjectCover.lean
+BellmanTopPairingSelectedPrefixCoverSocket.lean
+BellmanTopPairingSelectedPrefixTraceMarginSocket.lean
+BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean
+```
+
+They prove that, once the semantic terminal/selected-prefix/margin evidence is
+available, the Bellman route yields `scaledMargin rank <= 0` cheaply and without
+sampled objects.  They do not prove that the current closed-language predicate
+supplies the evidence.
+
+Immediate strategy adjustment:
+
+1. Do not add more object-cover wrappers unless they expose a genuinely new
+   semantic membership target.  The cover plumbing is solved for the bounded
+   selected-prefix/terminal-accepted surfaces.
+2. Try exactly one production-style closed-classifier experiment:
+
+   ```lean
+   theorem closed_to_selectedPrefixTraceMargin
+       {scaledMargin : Fin numPairWords -> Int}
+       {rank : Fin numPairWords}
+       (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+       (hactual : TopPairingActualFaceOmniAtRank rank) :
+       SelectedPrefixTraceMarginSequenceBadFace
+         scaledMargin rank Face.ym
+   ```
+
+   The exact statement may need a stronger semantic predicate if the margin
+   proof is not derivable from current fields.  The key test is whether it is
+   proved by a compact state-DAG/cancellation-tree theorem, not by sampled
+   membership.
+3. If the proof of the margin premise
+
+   ```lean
+   scaledMargin rank <= 176 + gain
+   ```
+
+   requires exact affine-RHS tables, one branch per accepted rank/path, or
+   sampled objects, stop this Bellman production route.  Pivot to the
+   cancellation-tree summary algebra described above, where the margin bound is
+   itself the semantic family theorem.
+
+This matches the latest GPT5.5 guidance: Bellman remains mathematically right,
+but the decisive proof is now the semantic closed-language-to-evaluator/margin
+classifier, not the potential or object-cover layer.
