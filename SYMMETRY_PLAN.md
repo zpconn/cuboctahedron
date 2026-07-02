@@ -62079,3 +62079,94 @@ TopPairingClosedLanguageAtRank rank Face.ym
 or an equivalent theorem factored through `TopPairingTraceTail`.  The route
 must continue to avoid `SampledRankIndex`, sampled rank/path membership, and
 one branch per rank.
+
+Tail-state to accepted-eval socket checkpoint:
+
+Added one more bounded semantic smoke:
+
+- `Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTailAcceptedEvalSmoke.lean`
+
+This module connects the new tail-state primitive to the existing graph-accepted
+Bellman evaluator socket for one accepted trace (`acceptedFaceTrace_000`).  It
+does not prove production coverage, but it verifies the intended local shape:
+
+```lean
+theorem tail_and_eval_of_trace000_margin
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (htrace : topPairingRankFaceLabels rank = acceptedFaceTrace_000)
+    (hmargin : scaledMargin rank <= (176 : Int) + (-376 : Int)) :
+    TopPairingTraceTail ... acceptedTrace000Tail ∧
+      TopPairingBellmanEvalLanguageAtRank
+        graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+        scaledMargin rank Face.ym
+```
+
+The proof uses:
+
+- `TopPairingTraceTail.cons_tail` twice, to carry the closed semantic suffix
+  state past `xm, ym`;
+- `graphAcceptedTraceMargin_000`, to package semantic trace equality plus the
+  matching margin inequality;
+- `evalLanguageAtRank_of_graphAcceptedTraceMargin`, to feed the existing
+  deterministic Bellman evaluator.
+
+Guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_tail_accepted_eval_smoke_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTailAcceptedEvalSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 7.00s
+peak_tree_rss = 3542 MiB
+hard_as = 8192 MiB
+min_available = 46200 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTailAcceptedEvalSmoke.lean
+```
+
+Both checks passed; the `rg` audit found no matches in the new file.
+
+Decision:
+
+Keep the Bellman route alive for the semantic-membership experiment.  The
+current evidence says the evaluator socket is not the blocker: once a compact
+classifier supplies graph-accepted trace equality and the corresponding margin
+inequality, Lean can assemble `TopPairingBellmanEvalLanguageAtRank` cheaply.
+
+The remaining production blocker is precise:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> GraphAcceptedTraceMargin scaledMargin
+       ({ rank := rank, closed := ... } : TopPairingBellmanObj Face.ym)
+```
+
+or the existing strengthened-language equivalent.  The next implementation
+should therefore generate or prove a compact terminal/source-position classifier
+that produces `GraphAcceptedTraceMargin`, using `TopPairingTraceTail` or a
+cancellation-tree summary automaton.  Do not return to sampled rank/path
+objects, depth-by-depth local-axis `simp` replay, or rank-indexed certificate
+tables.
