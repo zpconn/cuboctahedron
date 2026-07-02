@@ -67667,3 +67667,142 @@ depth_state_histogram =
 
 The profiler's large graph JSON remains scratch/on-demand and is not committed.
 The tracked JSON/Markdown reports are the durable checkpoint.
+
+### 2026-07-02 Selected-prefix cover to trace-margin socket bridge
+
+Implemented the next semantic Bellman bridge:
+
+```text
+scripts/emit_top_pairing_selected_prefix_trace_margin_cover_bridge.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginCoverBridge.lean
+scripts/generated/top_pairing_selected_prefix_trace_margin_cover_bridge.json
+scripts/generated/top_pairing_selected_prefix_trace_margin_cover_bridge.md
+```
+
+The generated bridge proves that the already checked selected-prefix cover
+family is not merely an eval-language surface; it also lands in the new
+trace-margin socket:
+
+```text
+SelectedPrefixCoverFamily
+  -> SelectedPrefixTraceMarginFamily
+  -> SelectedPrefixTraceMarginSequenceBadFace
+```
+
+Main theorem names:
+
+```lean
+selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily
+
+selectedPrefixTraceMarginSequenceBadFace_of_selectedPrefixCoverFamily
+
+strengthenedTraceMargin_of_strengthenedSelectedPrefixCover :
+  TopPairingStrengthenedClosedLanguageAtRank
+    (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym ->
+  TopPairingStrengthenedClosedLanguageAtRank
+    (SelectedPrefixTraceMarginSequenceBadFace scaledMargin) rank Face.ym
+
+evalLanguage_of_strengthenedSelectedPrefixCover_viaTraceMargin
+
+strengthenedSelectedPrefixCover_scaledMargin_nonpos_viaTraceMargin
+```
+
+This is still a bounded top-pairing subproblem, not global generated coverage.
+But it is precisely the semantic-membership direction requested by the
+GPT5.5 gate: state-DAG/selected-prefix membership can be upgraded into the
+trace-margin Bellman socket without sampled objects or exact affine-RHS tables.
+
+Generation and syntax check:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_selected_prefix_trace_margin_cover_bridge.py
+
+python3 scripts/emit_top_pairing_selected_prefix_trace_margin_cover_bridge.py
+```
+
+Result: passed.
+
+Direct guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_selected_prefix_trace_margin_cover_bridge_direct_lean_retry1.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginCoverBridge.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 3974 MiB
+hard_as = 8192 MiB
+min_available = 46191 MiB
+```
+
+Focused guarded Lake target build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_selected_prefix_trace_margin_cover_bridge_lake_build.json \
+  --verbose \
+  -- lake --log-level=error build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSelectedPrefixTraceMarginCoverBridge
+```
+
+Result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 3990 MiB
+hard_as = 32768 MiB
+min_available = 46122 MiB
+```
+
+Audit:
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginCoverBridge.lean \
+  scripts/emit_top_pairing_selected_prefix_trace_margin_cover_bridge.py
+
+git diff --check
+```
+
+Both checks passed with no output.
+
+Decision:
+
+Accept this bridge.  It means the next production classifier may target either
+the selected-prefix cover surface or the trace-margin socket surface; Lean can
+transport the former into the latter cheaply.  The next real gap remains the
+same, but it is now narrower:
+
+```text
+actual closed top-pairing language/state-DAG classifier
+  -> SelectedPrefixCoverFamily or SelectedPrefixTraceMarginFamily
+```
+
+The proof must stay semantic.  If it requires `SampledRankIndex`,
+`sampledContainsRank`, `sampledRankOf`, one branch per accepted rank/path, or
+an exact affine-RHS table, reject Bellman production for this residual family
+and pivot to cancellation-tree summary algebra.
