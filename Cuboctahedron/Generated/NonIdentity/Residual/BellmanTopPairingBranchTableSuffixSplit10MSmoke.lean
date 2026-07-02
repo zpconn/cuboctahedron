@@ -806,6 +806,34 @@ theorem branchTableSuffixOk_root_of_graphClosedPrefix3_forall
           (fun graphNext gain hgraph =>
             hsuffix Face.zm rest graphNext gain hlabels hgraph)))
 
+theorem evalLanguageAtRank_of_graphClosedPrefix3_forall
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix :
+      ∀ face rest graphNext gain,
+        topPairingRankFaceLabels rank =
+          Face.xm :: Face.ym :: face :: rest ->
+        graphSmokeNext (610 : State) (smokeLabelOfFace face) =
+          some (graphNext, gain) ->
+        GraphBranchTableSuffixOk rank graphNext rest)
+    (hfinish :
+      forall {finish : FaceEvalState} {gain : Int},
+        evalLabelStepFn faceEvalNext
+          (TopPairingTransducerEvalState.start rootState)
+          (topPairingRankFaceLabels rank) = some (finish, gain) ->
+        finish.Tail [] ->
+        BranchInv finish ->
+        BranchTableSuffixOk rank finish [] ->
+          0 <= graphPotential finish.graph ∧
+            scaledMargin rank <= (176 : Int) + gain) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_branchTableSuffixOk hclosed
+    (branchTableSuffixOk_root_of_graphClosedPrefix3_forall hclosed hsuffix)
+    hfinish
+
 theorem branchTableSuffixOk_root_of_graphClosedPrefix4_forall
     {rank : Fin numPairWords}
     (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
@@ -836,6 +864,36 @@ theorem branchTableSuffixOk_root_of_graphClosedPrefix4_forall
             (fun graph4 gain4 hgraph4 =>
               hsuffix third fourth restTail graph3 gain3 graph4 gain4
                 hlabels hgraph3 hgraph4))
+
+theorem evalLanguageAtRank_of_graphClosedPrefix4_forall
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix :
+      ∀ third fourth rest graph3 gain3 graph4 gain4,
+        topPairingRankFaceLabels rank =
+          Face.xm :: Face.ym :: third :: fourth :: rest ->
+        graphSmokeNext (610 : State) (smokeLabelOfFace third) =
+          some (graph3, gain3) ->
+        graphSmokeNext graph3 (smokeLabelOfFace fourth) =
+          some (graph4, gain4) ->
+        GraphBranchTableSuffixOk rank graph4 rest)
+    (hfinish :
+      forall {finish : FaceEvalState} {gain : Int},
+        evalLabelStepFn faceEvalNext
+          (TopPairingTransducerEvalState.start rootState)
+          (topPairingRankFaceLabels rank) = some (finish, gain) ->
+        finish.Tail [] ->
+        BranchInv finish ->
+        BranchTableSuffixOk rank finish [] ->
+          0 <= graphPotential finish.graph ∧
+            scaledMargin rank <= (176 : Int) + gain) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_branchTableSuffixOk hclosed
+    (branchTableSuffixOk_root_of_graphClosedPrefix4_forall hclosed hsuffix)
+    hfinish
 
 theorem branchTableSuffixSplit10MSmoke_builds : True := by
   exact True.intro

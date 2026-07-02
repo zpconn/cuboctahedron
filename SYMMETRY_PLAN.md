@@ -83597,3 +83597,36 @@ facts, plus the corresponding final margin obligation.  If that producer
 requires selected-prefix equality, sampled rank/path objects, exact affine RHS
 keys, solved start points, or exact full Bellman trace identity, reject the
 producer shape and strengthen the semantic state instead.
+
+Follow-up wrapper checkpoint: the same split-10M suffix module now also exposes
+closed-prefix convenience wrappers:
+
+```lean
+evalLanguageAtRank_of_graphClosedPrefix3_forall
+evalLanguageAtRank_of_graphClosedPrefix4_forall
+```
+
+These theorems combine the existing Lean-proved closed-prefix branch lifts with
+`evalLanguageAtRank_of_branchTableSuffixOk`.  Future generated membership
+code can therefore prove only graph-only suffix evidence after the first three
+or four semantic faces, rather than rebuilding the root transducer/evaluator
+prefix each time.
+
+Guarded command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/branch_table_suffix_split10m_prefix_eval_wrappers_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffixSplit10MSmoke.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| prefix eval wrappers | pass | `5.01s` | `4088 MiB` | `45932 MiB` |
