@@ -21,7 +21,26 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSelected
 open Cuboctahedron
 open Cuboctahedron.Generated.Coverage
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingStateDAGSelectedPrefixCover
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalDirectSequenceSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSelectedPrefixTerminalDirectBridge
+
+def TerminalDirectResidualRankCovered
+    (r : Nat) : Prop :=
+  forall hlt : r < numPairWords,
+    nonIdEarlyFamilyClassOfRank ⟨r, hlt⟩ =
+        NonIdFamilyClass.residual ->
+      totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠
+          (matId : Mat3 Rat) ->
+        TerminalDirectClosedFamily ⟨r, hlt⟩
+
+theorem killedResidualBridge_of_terminalDirectInterval
+    (h :
+      CoversInterval TerminalDirectResidualRankCovered 0 numPairWords) :
+    Cuboctahedron.Generated.NonIdentity.KilledResidualBridge := by
+  intro r hclass hM
+  exact
+    nonIdentityRankKilled_of_terminalDirectClosedFamily
+      ((h r.val (Nat.zero_le r.val) r.isLt) r.isLt hclass hM)
 
 def SelectedPrefixResidualRankCovered
     (scaledMargin : Fin numPairWords -> Int)

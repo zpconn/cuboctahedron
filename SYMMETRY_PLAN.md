@@ -75852,6 +75852,21 @@ Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixResi
 introduces the proof-facing upstream target:
 
 ```lean
+TerminalDirectResidualRankCovered (r : Nat) : Prop
+```
+
+with meaning:
+
+```lean
+forall hlt : r < numPairWords,
+  nonIdEarlyFamilyClassOfRank ⟨r, hlt⟩ = NonIdFamilyClass.residual ->
+  totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠ (matId : Mat3 Rat) ->
+    TerminalDirectClosedFamily ⟨r, hlt⟩
+```
+
+and:
+
+```lean
 SelectedPrefixResidualRankCovered
   (scaledMargin : Fin numPairWords -> Int)
   (r : Nat) : Prop
@@ -75869,6 +75884,10 @@ forall hlt : r < numPairWords,
 and the adapter theorem:
 
 ```lean
+killedResidualBridge_of_terminalDirectInterval :
+  CoversInterval TerminalDirectResidualRankCovered 0 numPairWords ->
+    Cuboctahedron.Generated.NonIdentity.KilledResidualBridge
+
 killedResidualBridge_of_selectedPrefixInterval :
   CoversInterval
     (SelectedPrefixResidualRankCovered scaledMargin) 0 numPairWords ->
@@ -75907,16 +75926,17 @@ Result:
 | target | result | wall | max RSS | notes |
 | --- | --- | ---: | ---: | --- |
 | `BellmanTopPairingSelectedPrefixResidualBridge.lean` | pass | `5.57s` | `3320644 KB` | single Lean process, `-M8192` |
+| `BellmanTopPairingSelectedPrefixResidualBridge.lean` after direct target | pass | `4.42s` | `3337820 KB` | single Lean process, `-M8192` |
 | forbidden/sampled token scan | pass | `<1s` | n/a | no hits |
 
 Current next task:
 
 1. Identify or generate the concrete semantic producer for
-   `SelectedPrefixResidualRankCovered scaledMargin`; this replaces the
-   schematic `ProductionTopPairingResidualAtRank` wording.
-2. The producer may target the selected-prefix cover directly, or target
-   `TerminalDirectClosedFamily` and then be wrapped into the selected-prefix
-   residual bridge only where the selected-prefix cover is available.
+   `TerminalDirectResidualRankCovered`; this replaces the schematic
+   `ProductionTopPairingResidualAtRank` wording.
+2. Where direct start-violation evidence is unavailable, target
+   `SelectedPrefixResidualRankCovered scaledMargin` as the Bellman-margin
+   fallback.
 3. If proving this producer requires exact affine-RHS keys, sampled rank/path
    objects, one branch per concrete rank/path, or a giant Boolean evaluator,
    stop this Bellman membership surface and pivot to the cancellation-tree
