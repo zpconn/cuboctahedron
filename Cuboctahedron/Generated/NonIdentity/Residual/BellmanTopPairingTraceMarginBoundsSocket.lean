@@ -550,6 +550,65 @@ theorem graphAcceptedClosedEvalFamily_scaledMargin_nonpos
     (graphAcceptedTraceMarginClosedFamily_of_graphAcceptedClosedEvalFamily
       family closed)
 
+/--
+Object-level component target for generated semantic producers.
+
+This is one step below `GraphAcceptedClosedEvalFamily`: a generated module may
+prove the four semantic components that the graph-accepted trace-margin bridge
+needs, without choosing trace ids or exposing sampled paths.
+-/
+structure GraphAcceptedClosedEvalComponentFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  terminalTrace :
+    forall obj : TopPairingBellmanObj Face.ym,
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (TopPairingBellmanObj.labels (fun f : Face => f) obj)
+  actualFaceOmni :
+    forall obj : TopPairingBellmanObj Face.ym,
+      TopPairingActualFaceOmniLabels
+        (TopPairingBellmanObj.labels (fun f : Face => f) obj)
+  sequenceBadFace :
+    forall obj : TopPairingBellmanObj Face.ym,
+      TopPairingTraceClassifier.Accepted.SequenceBadFaceLabels
+        (TopPairingBellmanObj.labels (fun f : Face => f) obj) Face.ym
+  marginBounds :
+    forall obj : TopPairingBellmanObj Face.ym,
+      GraphAcceptedTraceMarginBounds scaledMargin obj
+
+theorem graphAcceptedClosedEvalFamily_of_componentFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (family : GraphAcceptedClosedEvalComponentFamily scaledMargin) :
+    GraphAcceptedClosedEvalFamily scaledMargin :=
+  ⟨fun obj =>
+    graphAcceptedTraceMargin_of_terminalTrace_filters_and_bounds
+      obj
+      (family.terminalTrace obj)
+      (family.actualFaceOmni obj)
+      (family.sequenceBadFace obj)
+      (family.marginBounds obj)⟩
+
+theorem evalLanguage_of_graphAcceptedClosedEvalComponentFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (family : GraphAcceptedClosedEvalComponentFamily scaledMargin)
+    {rank : Fin numPairWords}
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_graphAcceptedClosedEvalFamily
+    (graphAcceptedClosedEvalFamily_of_componentFamily family)
+    closed
+
+theorem graphAcceptedClosedEvalComponentFamily_scaledMargin_nonpos
+    {scaledMargin : Fin numPairWords -> Int}
+    (family : GraphAcceptedClosedEvalComponentFamily scaledMargin)
+    {rank : Fin numPairWords}
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  graphAcceptedClosedEvalFamily_scaledMargin_nonpos
+    (graphAcceptedClosedEvalFamily_of_componentFamily family)
+    closed
+
 theorem graphAcceptedTraceMarginClosedFamily_of_terminalTraceMarginBounds
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}

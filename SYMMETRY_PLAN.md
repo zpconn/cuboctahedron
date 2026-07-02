@@ -84519,3 +84519,69 @@ smoke; it is a semantic producer whose final theorem is
 `TopPairingClosedLanguageAtRank` starts to require sampled ranks, exact affine
 RHS keys, or per-path trace enumeration, stop and move to the
 cancellation-segment/cocycle-quotient fallback.
+
+#### GraphAcceptedClosedEvalComponentFamily Socket Added
+
+The graph-accepted closed-eval socket now also has an object-level component
+target:
+
+```lean
+structure GraphAcceptedClosedEvalComponentFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  terminalTrace :
+    forall obj : TopPairingBellmanObj Face.ym,
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (TopPairingBellmanObj.labels (fun f : Face => f) obj)
+  actualFaceOmni :
+    forall obj : TopPairingBellmanObj Face.ym,
+      TopPairingActualFaceOmniLabels
+        (TopPairingBellmanObj.labels (fun f : Face => f) obj)
+  sequenceBadFace :
+    forall obj : TopPairingBellmanObj Face.ym,
+      TopPairingTraceClassifier.Accepted.SequenceBadFaceLabels
+        (TopPairingBellmanObj.labels (fun f : Face => f) obj) Face.ym
+  marginBounds :
+    forall obj : TopPairingBellmanObj Face.ym,
+      GraphAcceptedTraceMarginBounds scaledMargin obj
+```
+
+and consequences:
+
+```lean
+theorem graphAcceptedClosedEvalFamily_of_componentFamily
+theorem evalLanguage_of_graphAcceptedClosedEvalComponentFamily
+theorem graphAcceptedClosedEvalComponentFamily_scaledMargin_nonpos
+```
+
+This is the next preferred generated target if proving
+`GraphAcceptedClosedEvalFamily` directly is awkward.  It asks generated code
+for four semantic object-level facts and then uses the existing
+`graphAcceptedTraceMargin_of_terminalTrace_filters_and_bounds` bridge.  It
+still does not expose trace-id choices, sampled ranks, sampled paths, exact
+affine RHS keys, or a selected-prefix cover.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph_accepted_closed_eval_component_family_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `TraceMarginBoundsSocket.lean` with component family | pass | `3.00s` | `3623 MiB` | `46108 MiB` |
+
+Decision: accepted.  The next producer should target either
+`GraphAcceptedClosedEvalFamily scaledMargin` directly or the four fields of
+`GraphAcceptedClosedEvalComponentFamily scaledMargin`, whichever yields the
+smaller semantic proof.  Both are acceptable production surfaces; neither is a
+selected-prefix/rank-sample surface.
