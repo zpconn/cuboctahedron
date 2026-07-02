@@ -79390,3 +79390,92 @@ missingState19TmmpPrefixEval.1.Tail (Face.tmmp :: rest) ->
 Then combine it with `strengthened_not_missingState19TmmpCompletion` to rule
 out the sole missing transition as a local-progress case for strengthened
 closed ranks.
+
+## 2026-07-02 Checkpoint: Missing Prefix State Projections Accepted
+
+The missing-prefix socket now also exposes the semantic transducer coordinates
+of the computed 1M evaluator state:
+
+```lean
+missingState19TmmpPrefix_eval_step :
+  missingState19TmmpPrefixEval.1.transducer.step = 10
+
+missingState19TmmpPrefix_eval_gap :
+  missingState19TmmpPrefixEval.1.transducer.gap = 6
+
+missingState19TmmpPrefix_eval_k :
+  missingState19TmmpPrefixEval.1.transducer.k = 6
+
+missingState19TmmpPrefix_eval_parity :
+  missingState19TmmpPrefixEval.1.transducer.parity =
+    ({ x := true, y := true, z := false } : SqParity)
+```
+
+These are cheap `rfl` facts over the computed evaluator result.  They are meant
+to feed the next small generated tail-destruction lemma without making the
+public theorem mention an exact prefix object.
+
+No-go recorded:
+
+The attempted direct proof of
+
+```lean
+missingState19TmmpPrefixEval.1.Tail (Face.tmmp :: rest) ->
+  rest.length = 3 ->
+  rest = [Face.tmpp, Face.yp, Face.xp]
+```
+
+by a length-3 face case split plus broad `simp` timed out at the Lean heartbeat
+limit (`200000` heartbeats) while staying memory-safe (`~4178 MiB` RSS).  The
+theorem was backed out.  Do not reattempt it with a larger heartbeat as the
+production method; the proof should be generated from the relevant destructors
+(`schedule`, `cursor`, and `squareGap`) or proved by a purpose-built local
+tail-destructor lemma.
+
+Focused guarded checks after backing out the broad proof:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_missing_transition_1m_socket_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_missing_transition_1m_socket_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingMissingTransition1MSocket
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingMissingTransition1MSocket.lean` direct | pass | `2.00s` | `3590 MiB` |
+| `BellmanTopPairingMissingTransition1MSocket` Lake | pass | `3.00s` | `3972 MiB` |
+| forbidden-token scan on new module | pass | n/a | n/a |
+
+Next step:
+
+Generate a narrow theorem for the state `(step=10, gap=6, k=6, parity=110)`
+instead of asking `simp` to solve all length-3 face triples.  The theorem should
+destructure only the fields actually needed:
+
+```text
+schedule at steps 11-13
+target cursor from k=6 after tmmp
+square-gap state from gap=6
+```
+
+and then return the unique suffix `[tmpp, yp, xp]`.

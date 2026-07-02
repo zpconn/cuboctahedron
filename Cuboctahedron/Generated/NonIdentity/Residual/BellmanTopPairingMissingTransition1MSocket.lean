@@ -59,6 +59,23 @@ theorem missingState19TmmpPrefix_eval_gain :
     missingState19TmmpPrefixEval.2 = (-130 : Int) := by
   rfl
 
+theorem missingState19TmmpPrefix_eval_step :
+    missingState19TmmpPrefixEval.1.transducer.step = 10 := by
+  rfl
+
+theorem missingState19TmmpPrefix_eval_gap :
+    missingState19TmmpPrefixEval.1.transducer.gap = 6 := by
+  rfl
+
+theorem missingState19TmmpPrefix_eval_k :
+    missingState19TmmpPrefixEval.1.transducer.k = 6 := by
+  rfl
+
+theorem missingState19TmmpPrefix_eval_parity :
+    missingState19TmmpPrefixEval.1.transducer.parity =
+      ({ x := true, y := true, z := false } : SqParity) := by
+  rfl
+
 theorem missingState19TmmpPrefix_eval_exists_graph :
     ∃ state gain,
       evalLabelStepFn faceEvalNext
