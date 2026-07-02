@@ -59491,3 +59491,96 @@ work should target one of these equivalent routes:
 The old two-trace gate is retired as a production target.  The current
 `TopPairingClosedLanguageAtRank` predicate remains useful context, but it is
 not sufficient by itself for this Bellman graph.
+
+Top-pairing graph rejection diagnosis checkpoint:
+
+GPT5.5's updated recommendation is now the active Bellman rule: continue the
+Bellman route for exactly the semantic-membership experiment, but make the
+Bellman object/accepted-language theorem semantic.  Do not add another
+potential, another sampled smoke, or another rank-indexed membership table.
+The theorem we need is the compact bridge from a strengthened top-pairing
+language to deterministic evaluator acceptance:
+
+```lean
+forall obj : TopPairingBellmanObj Face.ym,
+  StrengthenedTopPairingBellmanLanguage obj ->
+    GraphAcceptedTraceMargin topPairingScaledMargin obj
+```
+
+or the equivalent packaged as
+`TopPairingBellmanEvalLanguageAtRank`.  The existing
+`BellmanTopPairingGraphAcceptedEvalGate` then turns that premise into
+`BellmanEvalAccepts`.  If this bridge collapses back into sampled rank/path
+enumeration, the Bellman production route should stop.
+
+Added an exact diagnostic script:
+
+```text
+scripts/diagnose_top_pairing_graph_rejections.py
+```
+
+It compares the Lean-aligned graph-accepted/rejected closed candidates against
+the exact top-family classifier.  This is diagnostic infrastructure, not
+proof.  Commands:
+
+```bash
+python3 -m py_compile scripts/diagnose_top_pairing_graph_rejections.py
+python3 scripts/diagnose_top_pairing_graph_rejections.py
+```
+
+Outputs:
+
+```text
+scripts/generated/top_pairing_graph_rejection_diagnosis.json
+scripts/generated/top_pairing_graph_rejection_diagnosis.md
+```
+
+Result:
+
+```text
+decision = strengthen_language_not_graph
+accepted_classification_histogram = { matched_top_family: 37 }
+rejected_classification_histogram =
+  { not_omni_contribution_sequence: 9,
+    canonical_bad_face_mismatch: 1 }
+face_omnihedral_gaps = 9
+canonical_bad_face_gaps = 1
+rejected_step_histogram = { 7: 5, 8: 4, 10: 1 }
+rejected_state_histogram = { 777: 3, 831: 2, 778: 2,
+                             851: 1, 81: 1, 829: 1 }
+rejected_face_histogram = { tmmp: 4, zm: 4, tpmm: 1, tmpp: 1 }
+```
+
+Interpretation:
+
+The 10 graph-rejected "closed" candidates are not evidence that the Bellman
+graph omitted legitimate transitions.  All 37 graph-accepted candidates are
+exact top-family matches.  Every graph-rejected candidate is excluded by an
+extra semantic condition: nine fail actual omnihedral face uniqueness for the
+contribution sequence, and one has the wrong canonical bad-face/margin-family
+compatibility.
+
+Therefore the next production move is **not** to repair the graph or widen the
+automaton.  The next production move is to strengthen the semantic membership
+predicate used by the Bellman object cover:
+
+1. add/identify a compact actual-face omnihedral predicate for the Bellman
+   label sequence;
+2. add/identify a sequence-level canonical-bad-face compatibility predicate
+   for the `Face.ym` top-pairing family;
+3. prove or generate a theorem that these strengthened fields imply
+   `GraphAcceptedTraceMargin topPairingScaledMargin obj`;
+4. feed that theorem through the existing
+   `bellmanEvalAccepts_of_graphAcceptedTraceMargin` and
+   `topPairingBellmanEvalObjectCoverOfClosedToEval` sockets.
+
+The old `TopPairingClosedLanguageAtRank` remains a useful front-door predicate,
+but it is too broad to be the production accepted-language predicate.  Do not
+mutate it into evaluator acceptance without proof.  Add a strengthened
+language such as `TopPairingBellmanEvalLanguageAtRank`, or prove a theorem from
+the old closed predicate plus the two missing compact semantic fields.
+
+No broad Lean build is needed for this checkpoint.  The next Lean slice should
+be small and hard-capped: define/check the actual-face and canonical-bad-face
+language predicates, then build one tiny generated classifier theorem showing
+that the 10 rejected traces are excluded by those predicates.
