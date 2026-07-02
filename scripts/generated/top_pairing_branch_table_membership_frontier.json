@@ -70,6 +70,17 @@
         "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": 2
       }
     },
+    "face_eval_split10m": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 157,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTransducerFaceEvalSplit10MSmoke.lean",
+      "symbol_hits": {
+        "TopPairingTransducerTail.ofClosedRank": 1,
+        "closed_prefix2_branch_faceEval": 1,
+        "transducer_face_eval_split10m_smoke_builds": 1
+      }
+    },
     "graph_accepted_branch_suffix": {
       "exists": true,
       "forbidden_hits": {},
@@ -152,6 +163,7 @@
       "lines": 905,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedLocal1MSmoke.lean",
       "symbol_hits": {
+        "closed_prefix2_branch_faceEval": 2,
         "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": 1
       }
     },
@@ -216,6 +228,22 @@
       "killed_reason": null,
       "max_tree_rss_mib": 0.9375,
       "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json"
+    },
+    "face_eval_split10m_direct": {
+      "elapsed_seconds": 4.0035719939915,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 4028.19140625,
+      "path": "scripts/generated/bellman_transducer_face_eval_split10m_smoke_guard.json"
+    },
+    "face_eval_split10m_lake": {
+      "elapsed_seconds": 3.003073685991694,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3993.17578125,
+      "path": "scripts/generated/bellman_transducer_face_eval_split10m_smoke_lake_guard.json"
     },
     "graph_accepted_branch_suffix_direct": {
       "elapsed_seconds": 3.0029864530079067,
@@ -346,7 +374,8 @@
       "graph_accepted_branch_suffix_split10m"
     ],
     "TopPairingTransducerTail.ofClosedRank": [
-      "eval_bridge"
+      "eval_bridge",
+      "face_eval_split10m"
     ],
     "branchKind?_of_branchTable": [
       "branch_table"
@@ -384,6 +413,10 @@
     ],
     "branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace": [
       "graph_accepted_branch_suffix"
+    ],
+    "closed_prefix2_branch_faceEval": [
+      "face_eval_split10m",
+      "strengthened_local"
     ],
     "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": [
       "eval_bridge",
@@ -466,6 +499,9 @@
     "topPairingTriCursor_of_closed": [
       "target_cursor",
       "transducer_tail"
+    ],
+    "transducer_face_eval_split10m_smoke_builds": [
+      "face_eval_split10m"
     ]
   }
 }

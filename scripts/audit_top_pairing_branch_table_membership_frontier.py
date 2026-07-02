@@ -34,6 +34,9 @@ LEAN_FILES = {
     "target_cursor": ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean",
     "transducer_tail": ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean",
     "eval_bridge": ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean",
+    "face_eval_split10m": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingTransducerFaceEvalSplit10MSmoke.lean",
     "branch_table": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedBranchTable1MSmoke.lean",
@@ -69,6 +72,10 @@ LEAN_FILES = {
 GUARDS = {
     "branch_table_lake": ROOT
     / "scripts/generated/bellman_strengthened_branch_table_1m_smoke_lake_guard.json",
+    "face_eval_split10m_direct": ROOT
+    / "scripts/generated/bellman_transducer_face_eval_split10m_smoke_guard.json",
+    "face_eval_split10m_lake": ROOT
+    / "scripts/generated/bellman_transducer_face_eval_split10m_smoke_lake_guard.json",
     "split10m_branch_table_direct": ROOT
     / "scripts/generated/bellman_split10m_branch_table_guard.json",
     "split10m_branch_table_lake": ROOT
@@ -108,6 +115,8 @@ REQUIRED_SYMBOLS = {
     "topPairingTriCursor_of_closed": "closed language to target cursor",
     "TopPairingTransducerTail.ofClosedRank": "closed language to combined semantic tail",
     "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": "generic suffix evaluator",
+    "transducer_face_eval_split10m_smoke_builds": "split-10M semantic prefix evaluator build sentinel",
+    "closed_prefix2_branch_faceEval": "closed prefix-2 semantic branch evaluator",
     "StrengthenedBranchTable": "finite graph/socket branch relation",
     "strengthenedBranchKind?": "finite graph/socket branch classifier",
     "branchKind?_of_branchTable": "branch-table entry computes to classifier",
@@ -252,6 +261,8 @@ def render_markdown(report: dict[str, Any]) -> str:
             "entry is usable:",
             "",
             "```lean",
+            "transducer_face_eval_split10m_smoke_builds",
+            "closed_prefix2_branch_faceEval",
             "faceEvalNext_of_graphBranchTable",
             "strengthenedBranchKind?",
             "branchKind?_of_branchTable",

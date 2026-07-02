@@ -13,8 +13,10 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | --- | --- | --- |
 | `topPairingTargetShadow_of_summary` | target-shadow inverse | `target_cursor` |
 | `topPairingTriCursor_of_closed` | closed language to target cursor | `target_cursor`, `transducer_tail` |
-| `TopPairingTransducerTail.ofClosedRank` | closed language to combined semantic tail | `eval_bridge` |
+| `TopPairingTransducerTail.ofClosedRank` | closed language to combined semantic tail | `eval_bridge`, `face_eval_split10m` |
 | `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` | generic suffix evaluator | `eval_bridge`, `branch_table_suffix`, `strengthened_local` |
+| `transducer_face_eval_split10m_smoke_builds` | split-10M semantic prefix evaluator build sentinel | `face_eval_split10m` |
+| `closed_prefix2_branch_faceEval` | closed prefix-2 semantic branch evaluator | `face_eval_split10m`, `strengthened_local` |
 | `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_split10m`, `branch_table_progress`, `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
 | `strengthenedBranchKind?` | finite graph/socket branch classifier | `branch_table` |
 | `branchKind?_of_branchTable` | branch-table entry computes to classifier | `branch_table` |
@@ -57,6 +59,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | guard | exit | elapsed | peak RSS | killed |
 | --- | ---: | ---: | ---: | --- |
 | `branch_table_lake` | `0` | `6.01s` | `4296 MiB` | `None` |
+| `face_eval_split10m_direct` | `0` | `4.00s` | `4028 MiB` | `None` |
+| `face_eval_split10m_lake` | `0` | `3.00s` | `3993 MiB` | `None` |
 | `split10m_branch_table_direct` | `0` | `12.03s` | `4182 MiB` | `None` |
 | `split10m_branch_table_lake` | `0` | `9.01s` | `4794 MiB` | `None` |
 | `branch_table_progress_direct` | `0` | `2.00s` | `3544 MiB` | `None` |
@@ -80,6 +84,8 @@ The current Lean surface proves that a supplied finite branch-table
 entry is usable:
 
 ```lean
+transducer_face_eval_split10m_smoke_builds
+closed_prefix2_branch_faceEval
 faceEvalNext_of_graphBranchTable
 strengthenedBranchKind?
 branchKind?_of_branchTable

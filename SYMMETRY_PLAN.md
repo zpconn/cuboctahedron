@@ -82378,6 +82378,95 @@ the deterministic semantic closed-language-to-evaluator theorem, now targeting
 the split-10M graph/socket surface.
 ```
 
+#### Split-10M Semantic Prefix Evaluator
+
+Added the first deterministic semantic evaluator slice for the split-10M graph:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTransducerFaceEvalSplit10MSmoke.lean
+```
+
+This mirrors the older 1M `TransducerFaceEval` smoke but points at the graph
+used by the accepted split-10M eval/margin gate.  It proves, from
+`TopPairingClosedLanguageAtRank rank Face.ym` and the semantic schedule/tail
+predicates, that:
+
+```lean
+closed_prefix2_eval_eq
+closed_prefix2_faceEval
+closed_prefix2_branch_faceEval
+transducer_face_eval_split10m_smoke_builds
+```
+
+The split-10M graph prefix differs from the old 1M graph:
+
+```text
+rootState 0 --xm/103--> 608 --ym/-73--> 610
+```
+
+and the semantic third-face branches from graph state `610` are:
+
+```text
+tmpm -> state 618, gain -124
+yp   -> state 615, gain -73
+zm   -> state 616, gain -10
+```
+
+This is not trace-class evidence.  It is a semantic closed-prefix evaluator
+bridge over the split graph and therefore moves the production route in the
+right direction: closed-language tail -> deterministic face evaluator ->
+ordinary Bellman graph evaluator.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_transducer_face_eval_split10m_smoke_guard.json \
+  --verbose \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTransducerFaceEvalSplit10MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_transducer_face_eval_split10m_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTransducerFaceEvalSplit10MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| split-10M semantic prefix evaluator direct Lean | pass | `4.00s` | `4028 MiB` | `46059 MiB` |
+| split-10M semantic prefix evaluator Lake target | pass | `3.00s` | `3993 MiB` | `46051 MiB` |
+| branch-table membership frontier audit | pass | `1.00s` | `1 MiB` | `46546 MiB` |
+
+Next production target:
+
+```text
+Extend the same split-10M semantic evaluator past the third face by consuming
+finite branch-table evidence and semantic socket contradictions, rather than
+graph-accepted terminal traces.
+```
+
 ### Branch-Table Third-Face Lift Added
 
 Extended the branch-table suffix predicate one semantic branch past the
