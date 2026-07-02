@@ -43,6 +43,9 @@ LEAN_FILES = {
     "branch_table_suffix": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingBranchTableSuffix1MSmoke.lean",
+    "graph_suffix_emitter": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraphSuffixEmitter1MSmoke.lean",
     "strengthened_local": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedLocal1MSmoke.lean",
@@ -59,6 +62,10 @@ GUARDS = {
     / "scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json",
     "branch_table_suffix_lake": ROOT
     / "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json",
+    "graph_suffix_emitter_direct": ROOT
+    / "scripts/generated/bellman_graph_suffix_emitter_1m_smoke_guard.json",
+    "graph_suffix_emitter_lake": ROOT
+    / "scripts/generated/bellman_graph_suffix_emitter_1m_smoke_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -84,6 +91,10 @@ REQUIRED_SYMBOLS = {
     "branchTableSuffixOk_of_graphBranchTableSuffixOk": "graph suffix conversion to semantic suffix",
     "graphBranchTableSuffixOk_closedPrefix2_branch_of_closed": "closed third-face graph suffix lift",
     "branchTableSuffixOk_root_of_graphClosedPrefix3_forall": "closed-rank graph suffix root lift",
+    "graphBranchTableSuffixOk_s0143_depth2_of_frontier": "graph-only depth-2 frontier suffix emitter",
+    "graphBranchTableSuffixOk_s0144_branch_of_frontier": "graph-only successor state 144 emitter",
+    "graphBranchTableSuffixOk_s0145_branch_of_frontier": "graph-only successor state 145 emitter",
+    "graphBranchTableSuffixOk_s0146_branch_of_frontier": "graph-only successor state 146 emitter",
 }
 
 FORBIDDEN_TOKENS = [
@@ -208,6 +219,10 @@ def render_markdown(report: dict[str, Any]) -> str:
             "branchTableSuffixOk_of_graphBranchTableSuffixOk",
             "graphBranchTableSuffixOk_closedPrefix2_branch_of_closed",
             "branchTableSuffixOk_root_of_graphClosedPrefix3_forall",
+            "graphBranchTableSuffixOk_s0143_depth2_of_frontier",
+            "graphBranchTableSuffixOk_s0144_branch_of_frontier",
+            "graphBranchTableSuffixOk_s0145_branch_of_frontier",
+            "graphBranchTableSuffixOk_s0146_branch_of_frontier",
             "```",
             "",
             "## Remaining Production Theorem",

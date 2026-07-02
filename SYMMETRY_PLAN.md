@@ -81831,6 +81831,89 @@ future Lean/emitter slice should consume the graph ids and branch constructors
 above, not call `closed_prefix3_tmpm_branch_faceEval` or any full semantic
 `faceEvalNext` theorem to recover graph membership.
 
+### Graph-Suffix Emitter Lean Smoke Accepted
+
+Added a generated-style Lean smoke for the graph-only emitter contract:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphSuffixEmitter1MSmoke
+```
+
+Accepted theorem surface:
+
+```lean
+graphBranchTableSuffixOk_s0144_branch_of_frontier
+graphBranchTableSuffixOk_s0145_branch_of_frontier
+graphBranchTableSuffixOk_s0146_branch_of_frontier
+graphBranchTableSuffixOk_s0143_depth2_of_frontier
+```
+
+The depth-2 theorem proves that the graph-only third-face frontier can be
+emitted as `GraphBranchTableSuffixOk` evidence through one successor branch,
+still without calling the full semantic `faceEvalNext` bridge:
+
+```lean
+GraphBranchTableSuffixOk rank (143 : State) (face₀ :: face₁ :: rest)
+```
+
+from the finite graph frontier:
+
+```text
+tmpm -> state 146 -> tppm | zm
+yp   -> state 144 -> tmmm | zm
+zm   -> state 145 -> tmpp | yp | zp
+```
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_graph_suffix_emitter_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphSuffixEmitter1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_graph_suffix_emitter_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphSuffixEmitter1MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| graph-suffix emitter direct Lean | pass | `10.05s` | `3867 MiB` |
+| graph-suffix emitter Lake target | pass | `3.00s` | `3900 MiB` |
+| membership-frontier audit | pass | `1.00s` | `2 MiB` |
+| forbidden/sampled scan | pass | no hits | n/a |
+
+Decision:
+
+```text
+Promote graph-indexed suffix emission as the accepted local proof shape for the
+post-third Bellman membership emitter.  The remaining production theorem is now
+not "can Lean consume graph suffixes"; it is the semantic classifier that maps
+closed top-pairing cursor/transducer state to these graph frontier alternatives
+and the two semantic sockets.
+```
+
 ### Branch-Table Third-Face Lift Added
 
 Extended the branch-table suffix predicate one semantic branch past the

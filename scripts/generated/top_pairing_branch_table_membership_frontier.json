@@ -60,6 +60,21 @@
         "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": 2
       }
     },
+    "graph_suffix_emitter": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 135,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphSuffixEmitter1MSmoke.lean",
+      "symbol_hits": {
+        "BranchTableSuffixOk": 26,
+        "GraphBranchTableSuffixOk": 19,
+        "StrengthenedBranchTable": 11,
+        "graphBranchTableSuffixOk_s0143_depth2_of_frontier": 1,
+        "graphBranchTableSuffixOk_s0144_branch_of_frontier": 2,
+        "graphBranchTableSuffixOk_s0145_branch_of_frontier": 2,
+        "graphBranchTableSuffixOk_s0146_branch_of_frontier": 2
+      }
+    },
     "strengthened_local": {
       "exists": true,
       "forbidden_hits": {},
@@ -130,6 +145,22 @@
       "killed_reason": null,
       "max_tree_rss_mib": 0.9375,
       "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json"
+    },
+    "graph_suffix_emitter_direct": {
+      "elapsed_seconds": 10.047268371999962,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3866.59375,
+      "path": "scripts/generated/bellman_graph_suffix_emitter_1m_smoke_guard.json"
+    },
+    "graph_suffix_emitter_lake": {
+      "elapsed_seconds": 3.00345750899578,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3899.890625,
+      "path": "scripts/generated/bellman_graph_suffix_emitter_1m_smoke_lake_guard.json"
     }
   },
   "mode": "top-pairing-branch-table-membership-frontier",
@@ -137,15 +168,18 @@
   "required_symbols_present": true,
   "symbol_locations": {
     "BranchTableSuffixOk": [
-      "branch_table_suffix"
+      "branch_table_suffix",
+      "graph_suffix_emitter"
     ],
     "GraphBranchTableSuffixOk": [
-      "branch_table_suffix"
+      "branch_table_suffix",
+      "graph_suffix_emitter"
     ],
     "StrengthenedBranchTable": [
       "branch_table",
       "branch_table_progress",
-      "branch_table_suffix"
+      "branch_table_suffix",
+      "graph_suffix_emitter"
     ],
     "TopPairingTransducerTail.ofClosedRank": [
       "eval_bridge"
@@ -188,6 +222,18 @@
     ],
     "graphBranchTableSuffixOk_closedPrefix2_branch_of_closed": [
       "branch_table_suffix"
+    ],
+    "graphBranchTableSuffixOk_s0143_depth2_of_frontier": [
+      "graph_suffix_emitter"
+    ],
+    "graphBranchTableSuffixOk_s0144_branch_of_frontier": [
+      "graph_suffix_emitter"
+    ],
+    "graphBranchTableSuffixOk_s0145_branch_of_frontier": [
+      "graph_suffix_emitter"
+    ],
+    "graphBranchTableSuffixOk_s0146_branch_of_frontier": [
+      "graph_suffix_emitter"
     ],
     "graph_next_of_graphBranch": [
       "branch_table",
