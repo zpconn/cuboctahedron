@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 import Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.TerminalOk
+import Cuboctahedron.Search.TopPairingBellmanSemanticGate
 
 /-!
 Semantic terminal-to-accepted bridge for top-pairing Bellman traces.
@@ -113,6 +114,16 @@ theorem evalLanguage_of_strengthenedTerminalAcceptedEval
     graphAcceptedTraceLabels_of_strengthenedTerminalTrace
       hacceptedStrengthened hterm
   exact evalLanguageAtRank_of_graphAcceptedTraceMargin closed hgraph
+
+theorem strengthenedTerminalAcceptedEval_semanticGate
+    {scaledMargin : Fin numPairWords -> Int} :
+    TopPairingStrengthenedToEvalGate
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin
+      (TerminalAcceptedEvalSequenceBadFace scaledMargin)
+      Face.ym := by
+  intro rank hstrengthened
+  exact evalLanguage_of_strengthenedTerminalAcceptedEval hstrengthened
 
 theorem terminalAcceptedBridge_builds : True := by
   exact True.intro

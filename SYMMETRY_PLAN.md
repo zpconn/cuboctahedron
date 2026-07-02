@@ -76330,3 +76330,77 @@ affine-RHS keys, broad OR-prefix routing, or import the root trace-margin
 hierarchy into the residual bridge.  If the next producer still needs those
 rejected shapes, Bellman should be demoted to discovery infrastructure and the
 cancellation-tree/state-summary automaton should become the proof architecture.
+
+## 2026-07-02 Checkpoint: Terminal-Accepted Bridge Exposes Semantic Gate
+
+Extended:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalAcceptedBridge.lean
+```
+
+with the explicit semantic-gate theorem:
+
+```lean
+theorem strengthenedTerminalAcceptedEval_semanticGate
+    {scaledMargin : Fin numPairWords -> Int} :
+    TopPairingStrengthenedToEvalGate
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin
+      (TerminalAcceptedEvalSequenceBadFace scaledMargin)
+      Face.ym
+```
+
+This theorem simply packages the already-checked
+`evalLanguage_of_strengthenedTerminalAcceptedEval` in the new lightweight
+gate form.  It does not add a sampled object, sampled path, rank table, or
+new generated proof search.
+
+Focused validation:
+
+```bash
+/usr/bin/time -v lake build Cuboctahedron.Search.TopPairingBellmanSemanticGate
+
+/usr/bin/time -v lake env lean -j1 -M8192 \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalAcceptedBridge.lean
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalAcceptedBridge.lean
+```
+
+Results:
+
+```text
+TopPairingBellmanSemanticGate Lake build:
+  exit=0, wall=3.98s, max RSS=3257060 KB
+
+BellmanTopPairingTerminalAcceptedBridge.lean:
+  exit=0, wall=1.61s, max RSS=3246752 KB
+
+sampled/forbidden token scan:
+  exit=1, no hits
+```
+
+Decision:
+
+```text
+accept-terminal-accepted-semantic-gate-surface
+```
+
+Updated next target:
+
+Do not try to prove the Bellman evaluator by importing root trace-margin
+producer hierarchies into residual coverage.  Instead, the production
+classifier should prove the strengthened semantic predicate consumed by
+`strengthenedTerminalAcceptedEval_semanticGate`:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym
+```
+
+or a compact state-summary predicate that implies it.  That predicate must be
+covered by semantic families with measured import fan-in.  If the proof of this
+strengthening requires sampled paths, exact RHS keys, or the rejected grouped
+depth-9 OR proof shape, reject this Bellman membership surface and pivot to a
+cancellation-tree/state-summary automaton as the production proof coordinate.
