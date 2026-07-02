@@ -58667,3 +58667,50 @@ PrefixSmoke depth-5 local-lift:
 Decision: accepted.  The next experiment should extend the same local-lift
 shape to depth 6 (68 prefixes, 24 parent shards), still under a single
 guarded target before introducing multi-file shard layout.
+
+Generated depth-6 local-lift classifier smoke:
+
+- Extended `scripts/emit_top_pairing_trace_classifier_prefix_smoke.py` to emit
+  `labels_prefix6`, `closedRank_prefix6`, and `closedObj_prefix6`.
+- The generated depth-6 layer has 68 prefixes grouped under 24 depth-5 parent
+  shards, using the same local child theorem plus lift theorem shape accepted
+  at depth 5.
+- First guarded run failed with a generator arity bug: the depth-6 combiner
+  called `labels_prefix5` without its required `TopPairingPairCountsLabels`
+  argument.  This was a generator defect, not a memory failure
+  (`peak_tree_rss = 5276 MiB`).
+- After fixing the generated previous-theorem argument list, the same target
+  built successfully under the guard.
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+python3 scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 420 \
+  --json scripts/generated/top_pairing_trace_classifier_prefix6_retry_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.PrefixSmoke
+```
+
+Result:
+
+```text
+PrefixSmoke depth-6 local-lift:
+  passed
+  peak_tree_rss = 5354 MiB
+  elapsed = 20.02s
+  generated module size = 6075 lines
+  depth-5 prefixes = 24
+  depth-6 prefixes = 68
+  sampled_rank_or_path_data = false
+```
+
+Decision: accepted as a single-file smoke, but this is close enough to the
+memory guard that the next scaling step should be multi-file shard layout, not
+a monolithic depth-7 file.  Depth 7 has 209 prefixes and 68 parent shards; if
+kept in one module, lift/disjunction overhead will likely dominate before the
+semantic proof itself does.

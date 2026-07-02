@@ -135,6 +135,7 @@ def prefixes_by_parent(
 def summary_payload(
     prefixes4: list[tuple[str, ...]],
     prefixes5: list[tuple[str, ...]],
+    prefixes6: list[tuple[str, ...]],
 ) -> dict[str, object]:
     return {
         "source": "exact semantic prefix enumerator",
@@ -147,6 +148,11 @@ def summary_payload(
                 "prefix_count": len(prefixes5),
                 "parent_prefix_count": branch_count(prefixes5, 4),
                 "prefixes": [list(prefix) for prefix in prefixes5],
+            },
+            "6": {
+                "prefix_count": len(prefixes6),
+                "parent_prefix_count": branch_count(prefixes6, 5),
+                "prefixes": [list(prefix) for prefix in prefixes6],
             },
         },
         "semantic_components": [
@@ -383,6 +389,7 @@ theorem {theorem_name}_shard_{index:03d}
         f"  · exact {theorem_name}_lift_{index:03d} ({theorem_name}_shard_{index:03d} hs hg ha hc h{index})"
         for index in range(len(parent_prefixes))
     )
+    previous_args = "hs hg ha" if depth == 5 else "hs hg ha hc"
     group = f"""
 theorem {theorem_name}
     {{labels : List Face}}
@@ -391,7 +398,7 @@ theorem {theorem_name}
     (ha : TopPairingLocalAxisLabels labels)
     (hc : TopPairingPairCountsLabels labels) :
 {labels} := by
-  rcases {previous_theorem} hs hg ha with {rcases_patterns}
+  rcases {previous_theorem} {previous_args} with {rcases_patterns}
 {group_branches}
 """
     return "".join(shards) + group
@@ -433,7 +440,11 @@ theorem closedObj_prefix{depth}
 """
 
 
-def render(prefixes4: list[tuple[str, ...]], prefixes5: list[tuple[str, ...]]) -> str:
+def render(
+    prefixes4: list[tuple[str, ...]],
+    prefixes5: list[tuple[str, ...]],
+    prefixes6: list[tuple[str, ...]],
+) -> str:
     labels4 = disjunction("labels", prefixes4)
     rank4 = disjunction(
         "faceLabelsInContributionOrder (fun f : Face => f) "
@@ -449,6 +460,11 @@ def render(prefixes4: list[tuple[str, ...]], prefixes5: list[tuple[str, ...]]) -
     )
     rank5_theorem = render_closed_rank_theorem(5, "labels_prefix5", prefixes5)
     obj5_theorem = render_closed_obj_theorem(5, prefixes5)
+    labels6_theorem = render_extension_sharded_theorem(
+        6, "labels_prefix6", "labels_prefix5", prefixes5, prefixes6
+    )
+    rank6_theorem = render_closed_rank_theorem(6, "labels_prefix6", prefixes6)
+    obj6_theorem = render_closed_obj_theorem(6, prefixes6)
 
     return (
         STATIC_PREFIX
@@ -531,6 +547,9 @@ theorem closedObj_prefix4
         + labels5_theorem
         + rank5_theorem
         + obj5_theorem
+        + labels6_theorem
+        + rank6_theorem
+        + obj6_theorem
         + STATIC_SUFFIX
     )
 
@@ -543,16 +562,23 @@ def main() -> None:
 
     prefixes4 = enumerate_semantic_prefixes(4)
     prefixes5 = enumerate_semantic_prefixes(5)
+    prefixes6 = enumerate_semantic_prefixes(6)
     if len(prefixes4) != 8:
         raise RuntimeError(f"expected 8 depth-4 prefixes, got {len(prefixes4)}")
     if len(prefixes5) != 24:
         raise RuntimeError(f"expected 24 depth-5 prefixes, got {len(prefixes5)}")
+    if len(prefixes6) != 68:
+        raise RuntimeError(f"expected 68 depth-6 prefixes, got {len(prefixes6)}")
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(render(prefixes4, prefixes5))
+    args.output.write_text(render(prefixes4, prefixes5, prefixes6))
     args.summary_json.parent.mkdir(parents=True, exist_ok=True)
     args.summary_json.write_text(
-        json.dumps(summary_payload(prefixes4, prefixes5), indent=2, sort_keys=True)
+        json.dumps(
+            summary_payload(prefixes4, prefixes5, prefixes6),
+            indent=2,
+            sort_keys=True,
+        )
         + "\n"
     )
     print(f"wrote {args.output}")
