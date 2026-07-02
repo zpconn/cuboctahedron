@@ -62693,3 +62693,109 @@ generate or hand-add the remaining `graphAcceptedTraceMarginBounds_00k`
 constructors, then refactor the trace bucket smoke to use those constructors.
 Measure the aggregate bridge source/check cost before generating all bucket
 modules.
+
+Trace-000 bucket refactor checkpoint:
+
+Refactored:
+
+- `Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000BoundsSmoke.lean`
+
+The bucket now calls the shared constructor:
+
+```lean
+graphAcceptedTraceMarginBounds_000
+```
+
+instead of rebuilding all 37 `GraphAcceptedTraceMarginBounds` fields locally.
+The only trace-specific proof left in the bucket is the semantic predicate and
+the one rejected-bad-face compatibility fact:
+
+```lean
+def Trace000MarginSequenceBadFace ...
+
+theorem terminalTraceMarginBoundsSequenceBadFace_of_trace000 ...
+
+theorem trace000_scaledMargin_nonpos ...
+```
+
+Source impact:
+
+```text
+wc -l BellmanTopPairingTrace000BoundsSmoke.lean = 83 lines
+git diff --numstat for the refactor = 9 added, 237 deleted
+```
+
+Guarded direct Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace000_bounds_smoke_direct_lean_refactored.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000BoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 5.00s
+peak_tree_rss = 3989 MiB
+hard_as = 8192 MiB
+min_available = 46169 MiB
+```
+
+Guarded focused Lake target:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace000_bounds_smoke_lake_build_refactored.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTrace000BoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 4125 MiB
+hard_as = 32768 MiB
+min_available = 46003 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000BoundsSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean
+```
+
+Both checks passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept the refactored bucket shape.  A trace bucket can now be around 80-100
+lines instead of hundreds of lines, assuming each trace has a shared
+`graphAcceptedTraceMarginBounds_00k` constructor.  This keeps the trace-bucket
+route plausible as a semantic family layer, but the bridge still needs the
+remaining 36 constructors and a measured aggregate check before promotion.
