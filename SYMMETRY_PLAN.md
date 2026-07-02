@@ -84812,8 +84812,12 @@ so generated producer modules can target local closure directly:
 ```lean
 theorem Cuboctahedron.closedToEvalGate_of_transducerInvariantLocalWithSuffix
 theorem Cuboctahedron.strengthenedToEvalGate_of_transducerInvariantLocalWithSuffix
+theorem Cuboctahedron.closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+theorem Cuboctahedron.strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
 theorem Cuboctahedron.scaledMargin_nonpos_of_transducerClosedGate
 theorem Cuboctahedron.scaledMargin_nonpos_of_transducerStrengthenedGate
+theorem Cuboctahedron.scaledMargin_nonpos_of_rankedTransducerClosedGate
+theorem Cuboctahedron.scaledMargin_nonpos_of_rankedTransducerStrengthenedGate
 ```
 
 The intended generated obligation is now explicit:
@@ -84882,8 +84886,24 @@ Result:
 | Lake `Cuboctahedron.Search.TopPairingBellmanSemanticGate` | pass | `4.00s` | `4019 MiB` | `45926 MiB` |
 | direct `TopPairingTransducerSemanticGate.lean` | pass | `2.00s` | `3596 MiB` | `46101 MiB` |
 | Lake `Cuboctahedron.Search.TopPairingTransducerSemanticGate` | pass | `3.00s` | `1647 MiB` | `46138 MiB` |
+| Lake `TopPairingTransducerSemanticGate` after ranked-suffix adapters | pass | `7.01s` | `4047 MiB` | `45922 MiB` |
 
 Decision: accepted.  The next generated producer should target
-`strengthenedToEvalGate_of_transducerInvariantLocalWithSuffix` first, because
-the suffix predicate can carry sequence-bad-face or terminal-accepted filters
-without turning them into selected-prefix/path membership.
+`strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix` first,
+because the existing generated suffix producers naturally use rank-indexed
+suffix predicates such as `BranchTableSuffixOk rank` and
+`StrengthenedSuffixOk rank`.  The rank parameter is only a semantic parameter
+inside the suffix predicate; it is not a sampled-rank table or selected-prefix
+membership object.
+
+Validation for the ranked adapter:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_transducer_semantic_gate_ranked_lake_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.TopPairingTransducerSemanticGate
+```
