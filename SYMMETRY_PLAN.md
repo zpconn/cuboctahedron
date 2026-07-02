@@ -78478,3 +78478,75 @@ total_illegal_transitions = 0
 3. If that passes, emit the first finite invariant table for the top-pairing
    face evaluator and prove the `hlocal` premise for
    `TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocal`.
+
+## 2026-07-02 Checkpoint: Closure After Sequence Bad-Face Filter
+
+Added diagnostic composition script:
+
+```text
+scripts/audit_bellman_target_pairing_closure_with_bad_face.py
+```
+
+This script does not redo the expensive completion classification.  It composes
+the raw target-pairing/local-axis closure audit with the missing-transition
+completion audit, then reports the adjusted transition language after applying
+the generated sequence bad-face predicate.
+
+Guarded command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_target_pairing_closure_with_bad_face_1m_guard.json \
+  -- python3 scripts/audit_bellman_target_pairing_closure_with_bad_face.py \
+    --closure scripts/generated/bellman_target_pairing_closure_1m_step_face_linear_tri_source_localaxis_lean.json \
+    --missing scripts/generated/bellman_missing_transition_completions_1m_step_face_linear_tri_source_localaxis_lean.json \
+    --json scripts/generated/bellman_target_pairing_closure_with_bad_face_1m.json \
+    --markdown scripts/generated/bellman_target_pairing_closure_with_bad_face_1m.md
+```
+
+Result:
+
+| Metric | Value |
+|---|---:|
+| Time | `1.00s` |
+| Peak RSS | `1 MiB` |
+| States | `223` |
+| Observed transitions | `229` |
+| Legal before sequence bad-face | `230` |
+| Missing before sequence bad-face | `1` |
+| Illegal before sequence bad-face | `0` |
+| Missing completions checked | `1` |
+| Missing completions matching top family | `0` |
+| Truncated gaps | `0` |
+| Legal after sequence bad-face | `229` |
+| Missing after sequence bad-face | `0` |
+| Illegal after sequence bad-face | `0` |
+| Closed after sequence bad-face | `True` |
+
+Decision:
+
+```text
+closed-after-sequence-bad-face
+```
+
+This is the first evidence-backed version of the desired production invariant:
+
+```text
+target cancellation pairing
++ observed schedule / square-gap
++ local forced-axis compatibility
++ sequence bad-face filter
+= closed finite transition language for the 1M top-pairing graph
+```
+
+Next Lean/generator slice:
+
+1. Emit a finite invariant table for this 223-state / 229-edge graph.
+2. Prove the `hlocal` premise for
+   `TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocal`
+   over the strengthened semantic premise, with no sampled rank/path objects.
+3. Use the resulting evaluator existence theorem to replace the bounded
+   prefix/branch smokes with a semantic whole-tail eval smoke for this graph.
