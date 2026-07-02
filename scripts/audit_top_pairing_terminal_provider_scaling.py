@@ -28,6 +28,8 @@ FORBIDDEN_RE = re.compile(
 
 LEAN_FILES = [
     "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingTerminalDirectProviderSurface.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean",
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingTerminalDirectSequenceSocket.lean",
@@ -76,6 +78,40 @@ def render_md(payload: dict[str, Any]) -> str:
         f"- closed-language candidates in exact graph audit: `{payload['closed_graph_audit']['closed_candidates']}`",
         f"- graph accepted in exact graph audit: `{payload['closed_graph_audit']['accepted']}`",
         f"- graph rejected in exact graph audit: `{payload['closed_graph_audit']['rejected']}`",
+        "",
+        "## Generic Provider Surface",
+        "",
+        "Future generated leaves should prove this structure for a semantic",
+        "`containsRank` predicate:",
+        "",
+        "```lean",
+        "structure TerminalDirectProviderFamily",
+        "    (containsRank : Fin numPairWords -> Prop) : Prop where",
+        "  closed : forall rank, containsRank rank ->",
+        "    TopPairingClosedLanguageAtRank rank Face.ym",
+        "  actualFaceOmni : forall rank, containsRank rank ->",
+        "    TopPairingActualFaceOmniAtRank rank",
+        "  sequenceBadFace : forall rank, containsRank rank ->",
+        "    AcceptedSequenceBadFaceAtRank rank Face.ym",
+        "  terminalTrace : forall rank, containsRank rank ->",
+        "    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels",
+        "      (topPairingRankFaceLabels rank)",
+        "```",
+        "",
+        "Checked consumers:",
+        "",
+        "```lean",
+        "theorem terminalDirectClosedFamily_of_providerFamily ...",
+        "theorem nonIdentityRankKilled_of_providerFamily ...",
+        "```",
+        "",
+        "Provider-surface guarded check:",
+        "",
+        f"- exit: `{payload['provider_surface_guard']['exit_code']}`",
+        f"- elapsed seconds: `{payload['provider_surface_guard']['elapsed_seconds']}`",
+        f"- peak RSS MiB: `{payload['provider_surface_guard']['max_tree_rss_mib']}`",
+        f"- hard address-space MiB: `{payload['provider_surface_guard']['hard_address_space_mib']}`",
+        f"- killed reason: `{payload['provider_surface_guard']['killed_reason']}`",
         "",
         "## Checked Bounded Provider",
         "",
@@ -183,6 +219,9 @@ def main() -> None:
     guard = load_json(
         "scripts/generated/top_pairing_selected_prefix_terminal_direct_bridge_guard.json"
     )
+    surface_guard = load_json(
+        "scripts/generated/top_pairing_terminal_direct_provider_surface_guard.json"
+    )
 
     hits = [hit for rel in LEAN_FILES for hit in forbidden_hits(rel)]
     stats = closed.get("stats", {})
@@ -208,6 +247,22 @@ def main() -> None:
             "max_tree_rss_mib": guard.get("max_tree_rss_mib"),
             "hard_address_space_mib": guard.get("hard_address_space_mib"),
             "killed_reason": guard.get("killed_reason"),
+        },
+        "provider_surface_guard": {
+            "exit_code": surface_guard.get("exit_code"),
+            "elapsed_seconds": surface_guard.get("elapsed_seconds"),
+            "max_tree_rss_mib": surface_guard.get("max_tree_rss_mib"),
+            "hard_address_space_mib": surface_guard.get("hard_address_space_mib"),
+            "killed_reason": surface_guard.get("killed_reason"),
+        },
+        "provider_surface": {
+            "lean_file": (
+                "Cuboctahedron/Generated/NonIdentity/Residual/"
+                "BellmanTopPairingTerminalDirectProviderSurface.lean"
+            ),
+            "structure": "TerminalDirectProviderFamily",
+            "provider_theorem": "terminalDirectClosedFamily_of_providerFamily",
+            "consumer_theorem": "nonIdentityRankKilled_of_providerFamily",
         },
         "lean_file_stats": [stat_file(rel) for rel in LEAN_FILES],
         "forbidden_hit_count": len(hits),

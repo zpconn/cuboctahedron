@@ -13,6 +13,40 @@ selected-prefix provider bridge was Lean-checked.
 - graph accepted in exact graph audit: `37`
 - graph rejected in exact graph audit: `10`
 
+## Generic Provider Surface
+
+Future generated leaves should prove this structure for a semantic
+`containsRank` predicate:
+
+```lean
+structure TerminalDirectProviderFamily
+    (containsRank : Fin numPairWords -> Prop) : Prop where
+  closed : forall rank, containsRank rank ->
+    TopPairingClosedLanguageAtRank rank Face.ym
+  actualFaceOmni : forall rank, containsRank rank ->
+    TopPairingActualFaceOmniAtRank rank
+  sequenceBadFace : forall rank, containsRank rank ->
+    AcceptedSequenceBadFaceAtRank rank Face.ym
+  terminalTrace : forall rank, containsRank rank ->
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank)
+```
+
+Checked consumers:
+
+```lean
+theorem terminalDirectClosedFamily_of_providerFamily ...
+theorem nonIdentityRankKilled_of_providerFamily ...
+```
+
+Provider-surface guarded check:
+
+- exit: `0`
+- elapsed seconds: `3.012929842006997`
+- peak RSS MiB: `2177.84375`
+- hard address-space MiB: `12288.0`
+- killed reason: `None`
+
 ## Checked Bounded Provider
 
 The selected-prefix source now feeds the terminal-direct provider:
@@ -43,13 +77,14 @@ Guarded check:
 
 | file | lines | bytes |
 | --- | ---: | ---: |
+| `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectProviderSurface.lean` | `73` | `3094` |
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean` | `163` | `6619` |
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.lean` | `46` | `2108` |
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/All.lean` | `66` | `3386` |
 
 ## Forbidden Token Scan
 
-- scanned files: `3`
+- scanned files: `4`
 - forbidden hits: `0`
 
 No forbidden tokens were found in the scanned files.

@@ -74002,3 +74002,104 @@ Next gate:
 4. Continue only if projected full provider families stay in the low-thousands
    range and representative checks fit the hardware budget.  Otherwise pivot to
    the cancellation-tree summary automaton described above.
+
+## 2026-07-02 Checkpoint: Generic Terminal-Direct Provider Surface
+
+Added the generic Lean surface that future generated terminal/direct provider
+leaves should target:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalDirectProviderSurface.lean
+```
+
+The core contract is:
+
+```lean
+structure TerminalDirectProviderFamily
+    (containsRank : Fin numPairWords -> Prop) : Prop where
+  closed :
+    forall rank, containsRank rank ->
+      TopPairingClosedLanguageAtRank rank Face.ym
+  actualFaceOmni :
+    forall rank, containsRank rank ->
+      TopPairingActualFaceOmniAtRank rank
+  sequenceBadFace :
+    forall rank, containsRank rank ->
+      AcceptedSequenceBadFaceAtRank rank Face.ym
+  terminalTrace :
+    forall rank, containsRank rank ->
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (topPairingRankFaceLabels rank)
+```
+
+The checked consumers are:
+
+```lean
+theorem terminalDirectClosedFamily_of_providerFamily
+    {containsRank : Fin numPairWords -> Prop}
+    (family : TerminalDirectProviderFamily containsRank)
+    {rank : Fin numPairWords}
+    (hrank : containsRank rank) :
+    TerminalDirectClosedFamily rank
+
+theorem nonIdentityRankKilled_of_providerFamily
+    {containsRank : Fin numPairWords -> Prop}
+    (family : TerminalDirectProviderFamily containsRank)
+    {rank : Fin numPairWords}
+    (hrank : containsRank rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+OOM-safe direct check:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_direct_provider_surface_guard.json \
+  -- lake env lean -R . -M 7000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectProviderSurface.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectProviderSurface.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectProviderSurface.lean
+```
+
+Result:
+
+```text
+exit: 0
+elapsed: 3.01s
+peak_tree_rss: 2178 MiB
+hard_as: 12288 MiB
+min_available: 46373 MiB
+```
+
+The scaling audit was updated to include this provider surface:
+
+```text
+scripts/generated/top_pairing_terminal_provider_scaling.json
+scripts/generated/top_pairing_terminal_provider_scaling.md
+```
+
+Source-size measurement:
+
+```text
+BellmanTopPairingTerminalDirectProviderSurface.lean: 73 lines, 3094 bytes
+```
+
+Strategic consequence:
+
+- Future provider leaves should avoid re-proving the terminal/direct consumer
+  chain.  They only need to prove `TerminalDirectProviderFamily containsRank`
+  for a semantic `containsRank` predicate.
+- This is still a theorem-surface checkpoint, not full coverage.  The next
+  required artifact remains a representative full-provider semantic leaf:
+  a generated or hand-written bounded family whose `containsRank` is closer to
+  the intended residual state language than the current 37-trace selected
+  prefix smoke.
+- If such leaves remain compact and low-memory, this becomes the production
+  provider architecture.  If the family proofs need sampled ranks, exact affine
+  RHS keys, or rank-by-rank branching, reject the Bellman terminal/direct route
+  and pivot to the cancellation-tree summary automaton.

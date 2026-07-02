@@ -19,6 +19,11 @@
   },
   "lean_file_stats": [
     {
+      "bytes": 3094,
+      "lines": 73,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectProviderSurface.lean"
+    },
+    {
       "bytes": 6619,
       "lines": 163,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean"
@@ -35,6 +40,19 @@
     }
   ],
   "next_required_artifact": "representative full-provider semantic leaf for TerminalDirectClosedFamily",
+  "provider_surface": {
+    "consumer_theorem": "nonIdentityRankKilled_of_providerFamily",
+    "lean_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectProviderSurface.lean",
+    "provider_theorem": "terminalDirectClosedFamily_of_providerFamily",
+    "structure": "TerminalDirectProviderFamily"
+  },
+  "provider_surface_guard": {
+    "elapsed_seconds": 3.012929842006997,
+    "exit_code": 0,
+    "hard_address_space_mib": 12288.0,
+    "killed_reason": null,
+    "max_tree_rss_mib": 2177.84375
+  },
   "selected_prefix_cover": {
     "accepted_trace_count": 37,
     "bucket_count": 31,
