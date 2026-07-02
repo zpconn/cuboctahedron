@@ -68032,3 +68032,147 @@ Immediate strategy adjustment:
 This matches the latest GPT5.5 guidance: Bellman remains mathematically right,
 but the decisive proof is now the semantic closed-language-to-evaluator/margin
 classifier, not the potential or object-cover layer.
+
+### 2026-07-02 Selected-prefix trace-margin killed socket
+
+Implemented the next small production-facing Bellman socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginKilledSocket.lean
+```
+
+The module instantiates the public nonidentity killed bridge at the selected
+prefix trace-margin object-cover surface.  Its main theorem is:
+
+```lean
+selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation
+```
+
+The theorem has the intended final shape for this bounded family:
+
+```text
+TopPairingStrengthenedClosedContainsRank
+  (SelectedPrefixTraceMarginSequenceBadFace scaledMargin) Face.ym rank
+
+forall accepted semantic evaluator objects,
+  ObjectStartViolationMarginCert for the same scaled margin
+
+---------------------------------------------------------------
+Coverage.NonIdentityRankKilled rank
+```
+
+This is deliberately not a sampled-rank theorem.  The object type is still the
+semantic evaluator object from the selected-prefix trace-margin object-cover
+module:
+
+```lean
+TopPairingBellmanEvalObj
+  graphPotential graphSmokeNext smokeLabelOfFace rootState 176
+  scaledMargin Face.ym
+```
+
+No `SampledRankIndex`, sampled membership predicate, sampled rank function, raw
+path table, or rank/path database was introduced.
+
+Guarded direct Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/selected_prefix_trace_margin_killed_socket_guard.json \
+  -- lake env lean \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginKilledSocket.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 7.01s
+peak_tree_rss = 3492.96 MiB
+min_available = 46336.14 MiB
+```
+
+Focused guarded Lake target:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/selected_prefix_trace_margin_killed_socket_lake_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSelectedPrefixTraceMarginKilledSocket
+```
+
+Result:
+
+```text
+passed
+elapsed = 5.00s
+peak_tree_rss = 4070.86 MiB
+min_available = 46040.84 MiB
+```
+
+Hygiene checks:
+
+```bash
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginKilledSocket.lean || true
+
+grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginKilledSocket.lean || true
+
+git diff --check
+```
+
+All passed with no output.
+
+Decision:
+
+Accept this socket.  It confirms that the Bellman plumbing can reach the public
+semantic killed predicate cheaply once two semantic providers exist:
+
+1. the strengthened selected-prefix trace-margin language for the rank; and
+2. the corresponding `ObjectStartViolationMarginCert` provider for accepted
+   semantic evaluator objects.
+
+This also sharpens the remaining Bellman question.  The potential, evaluator,
+object cover, and killed bridge are now small enough.  The remaining production
+proof is not another potential experiment.  It is the semantic membership
+experiment recommended by GPT5.5:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> deterministic selected-prefix / trace-margin evaluator evidence
+  -> ObjectStartViolationMarginCert for the same scaled margin
+  -> NonIdentityRankKilled rank
+```
+
+The next implementation attempt should therefore prove a compact theorem from
+`TopPairingClosedLanguageAtRank` plus documented strengthened semantic fields to
+the selected-prefix trace-margin language and positive-margin certificate
+provider.  The proof must be over a semantic state/cancellation-tree family.  It
+must not introduce:
+
+```text
+SampledRankIndex
+sampledContainsRank
+sampledRankOf
+one constructor per rank/path
+exact affine-RHS membership tables
+```
+
+Go/no-go gate:
+
+Continue Bellman if the next theorem is compact and semantic.  Stop the Bellman
+production route, and pivot to cancellation-tree summary algebra, if the
+closed-language-to-selected-prefix/margin proof collapses back into sampled
+paths, exact affine-RHS tables, or one branch per accepted rank.
