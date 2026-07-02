@@ -61342,3 +61342,145 @@ top-pairing family.  If that theorem needs one branch per rank/path, stop the
 Bellman production route.  If it only branches over the 37 accepted terminal
 traces and local integer margin facts, continue and wire it through
 `evalLanguage_of_strengthenedTerminalAcceptedEval`.
+
+Accepted trace-margin constructor checkpoint:
+
+GPT5.5's latest Bellman recommendation is now the active strategy gate.  The
+Bellman potential and accepted finite graph are not the blocker.  The only
+reason to continue this route is if the semantic object,
+
+```lean
+TopPairingBellmanObj Face.ym
+```
+
+that is, a rank plus `TopPairingClosedLanguageAtRank rank Face.ym`, can drive a
+deterministic evaluator theorem without sampled rank/path objects.  To make the
+next generated semantic-membership experiment smaller, the accepted-eval gate
+now exports one constructor per accepted terminal face trace:
+
+```lean
+theorem graphAcceptedTraceMargin_000
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_000)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-376 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj
+
+...
+
+theorem graphAcceptedTraceMargin_036
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_036)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-552 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj
+```
+
+This is intentionally a small proof-surface change, not a new potential, not a
+sampled smoke, and not a rank-indexed certificate.  Future generated membership
+code can prove `GraphAcceptedTraceMargin` by selecting one of the 37 accepted
+trace constructors plus a local integer margin inequality.  It should not need
+to unfold the whole accepted-trace disjunction, and it must not introduce
+`SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, sampled paths, or
+one object constructor per rank.
+
+Changed files:
+
+```text
+scripts/emit_top_pairing_graph_accepted_eval_gate.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalGate.lean
+scripts/generated/top_pairing_graph_accepted_eval_gate_summary.json
+```
+
+The generated summary now records:
+
+```json
+"accepted_trace_count": 37,
+"exports_trace_margin_constructors": true,
+"sampled_rank_or_path_data": false
+```
+
+Focused validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_graph_accepted_eval_gate_constructors_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalGate.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 14.01s
+peak_tree_rss = 4094 MiB
+hard_as = 8192 MiB
+min_available = 46024 MiB
+```
+
+Dependent bridge validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_accepted_bridge_after_constructors_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3594 MiB
+hard_as = 8192 MiB
+min_available = 46264 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n \
+  "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalGate.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.lean \
+  scripts/emit_top_pairing_graph_accepted_eval_gate.py
+```
+
+Both checks passed; the `rg` audit returned no matches.
+
+Decision:
+
+Accept this checkpoint and continue Bellman for exactly the semantic-membership
+experiment.  The next proof-producing step should generate a compact theorem
+that supplies `TerminalAcceptedEvalSequenceBadFace` or the equivalent
+`TopPairingBellmanEvalLanguageAtRank` from semantic closed-language predicates.
+If that theorem requires sampled rank/path membership or one branch per
+rank/path, stop the Bellman production route and switch to the fallback
+cancellation-tree/state-language pivot described above.

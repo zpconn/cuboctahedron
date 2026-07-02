@@ -620,6 +620,451 @@ def GraphAcceptedTraceMargin
     (TopPairingBellmanObj.labels (fun f : Face => f) obj = acceptedFaceTrace_036 /\
       scaledMargin obj.rank <= (176 : Int) + (-552 : Int))
 
+
+theorem graphAcceptedTraceMargin_000
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_000)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-376 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inl ⟨htrace, hmargin⟩
+
+theorem graphAcceptedTraceMargin_001
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_001)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-376 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inl ⟨htrace, hmargin⟩)
+
+theorem graphAcceptedTraceMargin_002
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_002)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-376 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))
+
+theorem graphAcceptedTraceMargin_003
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_003)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-596 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))
+
+theorem graphAcceptedTraceMargin_004
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_004)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-348 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))
+
+theorem graphAcceptedTraceMargin_005
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_005)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-612 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))
+
+theorem graphAcceptedTraceMargin_006
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_006)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-612 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))
+
+theorem graphAcceptedTraceMargin_007
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_007)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-392 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))
+
+theorem graphAcceptedTraceMargin_008
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_008)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-612 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))
+
+theorem graphAcceptedTraceMargin_009
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_009)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-464 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))
+
+theorem graphAcceptedTraceMargin_010
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_010)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-684 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))
+
+theorem graphAcceptedTraceMargin_011
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_011)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-176 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))
+
+theorem graphAcceptedTraceMargin_012
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_012)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-396 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))
+
+theorem graphAcceptedTraceMargin_013
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_013)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-464 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))
+
+theorem graphAcceptedTraceMargin_014
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_014)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-684 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))))
+
+theorem graphAcceptedTraceMargin_015
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_015)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-392 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))))
+
+theorem graphAcceptedTraceMargin_016
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_016)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-612 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))))))
+
+theorem graphAcceptedTraceMargin_017
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_017)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-348 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))))))
+
+theorem graphAcceptedTraceMargin_018
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_018)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-552 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_019
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_019)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-304 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_020
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_020)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-568 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_021
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_021)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-640 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_022
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_022)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-352 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_023
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_023)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-640 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_024
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_024)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-568 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_025
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_025)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-304 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_026
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_026)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-304 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_027
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_027)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-552 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_028
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_028)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-552 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_029
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_029)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-376 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_030
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_030)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-376 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_031
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_031)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-596 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_032
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_032)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-552 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_033
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_033)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-552 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_034
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_034)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-376 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩))))))))))))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_035
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_035)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-596 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨htrace, hmargin⟩)))))))))))))))))))))))))))))))))))
+
+theorem graphAcceptedTraceMargin_036
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_036)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-552 : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (⟨htrace, hmargin⟩))))))))))))))))))))))))))))))))))))
+
 theorem graphAcceptedTraceLabels_of_graphAcceptedTraceMargin
     {scaledMargin : Fin numPairWords -> Int}
     {obj : TopPairingBellmanObj Face.ym}

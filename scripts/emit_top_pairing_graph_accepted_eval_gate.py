@@ -136,6 +136,23 @@ def render_branch(index: int, final_state: int, gain: int) -> str:
 """
 
 
+def render_margin_constructor(index: int, total: int, gain: int) -> str:
+    injected = prefix_smoke.or_injection("⟨htrace, hmargin⟩", index, total)
+    return f"""
+theorem graphAcceptedTraceMargin_{index:03d}
+    {{scaledMargin : Fin numPairWords -> Int}}
+    {{obj : TopPairingBellmanObj Face.ym}}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        {trace_name(index)})
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + ({gain} : Int)) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin
+  exact {injected}
+"""
+
+
 def render_module(
     cases: list[dict[str, object]],
     potential_values: dict[int, int],
@@ -163,6 +180,10 @@ def render_module(
     labels_branches = "\n".join(
         render_trace_labels_branch(index, len(cases))
         for index, _case in enumerate(cases)
+    )
+    margin_constructors = "".join(
+        render_margin_constructor(index, len(cases), int(case["gain"]))
+        for index, case in enumerate(cases)
     )
     return f"""import {BASE_IMPORT}
 import {OBJECT_IMPORT}
@@ -196,6 +217,7 @@ def GraphAcceptedTraceMargin
     (obj : TopPairingBellmanObj Face.ym) : Prop :=
 {disj}
 
+{margin_constructors}
 theorem graphAcceptedTraceLabels_of_graphAcceptedTraceMargin
     {{scaledMargin : Fin numPairWords -> Int}}
     {{obj : TopPairingBellmanObj Face.ym}}
@@ -267,6 +289,7 @@ def main() -> None:
         "max_gain": max(int(case["gain"]) for case in cases),
         "public_trace_defs": True,
         "exports_trace_labels_predicate": True,
+        "exports_trace_margin_constructors": True,
         "sampled_rank_or_path_data": False,
         "proof_shape": (
             "semantic face-trace disjunction plus matching margin bound "
