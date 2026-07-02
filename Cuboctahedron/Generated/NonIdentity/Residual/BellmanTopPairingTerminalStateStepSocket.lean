@@ -59,6 +59,12 @@ def triStep (state : TerminalStepState) (face : Face) :
   parity := state.parity
   linear := topPairingNextLinear state.linear face
 
+def nextStep (state : TerminalStepState) (face : Face) :
+    TerminalStepState :=
+  match triLetterOfFace? face with
+  | none => state.squareStep face
+  | some _tri => state.triStep face
+
 end TerminalStepState
 
 private theorem append_left_cancel_face
@@ -116,6 +122,21 @@ theorem contains_triStep
     rcases TopPairingTransducerTail.cons_tri_tail htail htri with
       ⟨_hk, _hletter, htail'⟩
     simpa [TerminalStepState.triStep] using htail'
+
+theorem contains_nextStep
+    {rank : Fin numPairWords}
+    {state : TerminalStepState} {face : Face} {rest : List Face}
+    (hcontains : TerminalStepState.Contains state rank)
+    (hlabels :
+      topPairingRankFaceLabels rank = state.pfx ++ face :: rest) :
+    TerminalStepState.Contains
+      (TerminalStepState.nextStep state face) rank := by
+  unfold TerminalStepState.nextStep
+  cases htri : triLetterOfFace? face with
+  | none =>
+      exact contains_squareStep hcontains hlabels htri
+  | some tri =>
+      exact contains_triStep hcontains hlabels htri
 
 theorem terminalStateStepSocket_builds : True := by
   exact True.intro

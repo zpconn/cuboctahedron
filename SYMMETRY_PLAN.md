@@ -86949,3 +86949,120 @@ one finite semantic state/class proof for one of those three producer premises,
 preferably terminal classification from `TopPairingTransducerTail` and target
 cursor fields, and reject any implementation that has to enumerate observed
 rank traces.
+
+#### Generic Terminal-State One-Face Step
+
+Added the first reusable local terminal-state transition theorem for the
+closed-language membership route:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalStateStepSocket.lean
+```
+
+New definitions/theorems:
+
+```lean
+def TerminalStepState.nextStep
+
+theorem contains_nextStep
+```
+
+The theorem packages the square/triangular split:
+
+```lean
+TerminalStepState.Contains state rank ->
+topPairingRankFaceLabels rank = state.pfx ++ face :: rest ->
+  TerminalStepState.Contains (TerminalStepState.nextStep state face) rank
+```
+
+This is a small but important part of the deterministic semantic transducer
+route.  A future generated terminal classifier can now case-split on finite
+semantic states and the local next face, then call one theorem rather than
+re-emitting separate square/tri tail proofs.  The theorem is over
+`TopPairingTransducerTail`; it is not a sampled rank/path object and it does
+not mention accepted trace ids, selected-prefix roots, affine RHS keys, or
+Bellman trace ids.
+
+One attempted cleanup, refactoring
+`BellmanTopPairingTerminalStateGenericStepSmoke.lean` to use the new theorem,
+was not kept.  The theorem itself typechecked, but the old smoke's
+constant-face states need extra reduction lemmas to simplify
+`triLetterOfFace? Face...` through `pairOfFace` and `TriLetter.ofPairId?`.
+That simplification noise is diagnostic only; the production-facing theorem is
+the generic `contains_nextStep` theorem above.
+
+Commands:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateStepSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateGenericStepSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_step_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateStepSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_step_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateStepSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_generic_step_smoke_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateGenericStepSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_generic_step_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateGenericStepSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| hygiene scan | pass | n/a | n/a | n/a |
+| direct `BellmanTopPairingTerminalStateStepSocket.lean` | pass | `5.00s` | `3663 MiB` | `45528 MiB` |
+| Lake `BellmanTopPairingTerminalStateStepSocket` | pass | `3.01s` | `4040 MiB` | `45367 MiB` |
+| direct `BellmanTopPairingTerminalStateGenericStepSmoke.lean` | pass | `3.00s` | `3462 MiB` | `45641 MiB` |
+| Lake `BellmanTopPairingTerminalStateGenericStepSmoke` | pass | `3.01s` | `4098 MiB` | `45339 MiB` |
+
+Decision: accepted as a reusable local semantic step.  Next, either add the
+constant-face reduction lemmas needed to make old finite-state smokes consume
+`contains_nextStep` ergonomically, or more importantly, generate a small
+terminal-state module whose states use `TerminalStepState.nextStep` from the
+start.  That next module must prove a real terminal producer premise from
+semantic state/cursor fields, not from accepted trace ids.
