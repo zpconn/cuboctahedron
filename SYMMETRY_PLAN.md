@@ -58768,3 +58768,113 @@ yet accepted as a build target: before building `Depth7.All`, add a serial or
 otherwise memory-bounded shard build workflow so Lake does not accidentally
 compile many imported shard modules concurrently.  This is an engineering
 build-order issue, not a semantic coverage issue.
+
+GPT5.5 semantic-membership gate revision:
+
+The latest recommendation changes the immediate priority.  Continue Bellman
+for exactly one more semantic-membership experiment, but do not deepen the
+prefix classifier or accept `Depth7.All` as the next proof target yet.  The
+Bellman potential and generated evaluator are not the current blocker; the
+blocker is the closed-language-to-evaluator theorem.
+
+Current Lean surface:
+
+- `Cuboctahedron/Search/TopPairingBellmanObject.lean` already defines the
+  compact semantic object:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+```
+
+- The same file already exposes
+  `topPairingClosedObjectCoverOfEvalAccepts`,
+  `TopPairingBellmanEvalLanguageAtRank`, `TopPairingBellmanEvalObj`, and
+  `topPairingBellmanEvalObjectCoverOfClosedToEval`.
+- `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean`
+  proves that if a semantic object has one of the two closed traces and the
+  margin bound, then the deterministic generated evaluator supplies
+  `BellmanEvalAccepts`.
+- The new audit:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_bellman_eval_contract.py
+python3 scripts/audit_top_pairing_bellman_eval_contract.py
+```
+
+reports:
+
+```text
+decision: stronger-eval-predicate-built-closed-to-eval-missing
+semantic-object mentions: 42
+closed-language field mentions: 54
+sampled-eval mentions: 260
+semantic eval-language mentions: 24
+```
+
+and writes:
+
+```text
+docs/top_pairing_bellman_eval_contract_audit.md
+scripts/generated/top_pairing_bellman_eval_contract_audit.json
+```
+
+Interpretation: the semantic object and stronger eval-language predicate are
+already in place, but old generated smokes still contain sampled evaluator
+machinery.  The production go/no-go theorem is:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState graphConst
+      scaledMargin rank Face.ym
+```
+
+or equivalently:
+
+```lean
+forall obj : TopPairingBellmanObj Face.ym,
+  BellmanEvalAccepts graphPotential graphSmokeNext rootState graphConst
+    (fun obj => scaledMargin obj.rank)
+    (fun obj => TopPairingBellmanObj.labels smokeLabelOfFace obj)
+    obj
+```
+
+Next action:
+
+1. Stop expanding the prefix classifier beyond the already accepted depth-7
+   local shard layout until this gate is resolved.
+2. Reuse the accepted `BellmanTopPairingClosedEvalTraceSmoke` theorem shape,
+   but replace its two remaining premises with semantic theorems:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  TopPairingBellmanObj.labels (fun f : Face => f) obj =
+      topPairingClosedFaceTraceA \/
+    TopPairingBellmanObj.labels (fun f : Face => f) obj =
+      topPairingClosedFaceTraceB
+
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  scaledMargin rank <= (176 : Int) + (-376 : Int)
+```
+
+3. If those facts require a compact strengthening of the semantic predicate,
+   add a theorem-valued field such as `eval_ok` / `margin_bound` to a
+   strengthened semantic language predicate.  Do not introduce sampled rank
+   indices, sampled paths, or one branch per rank/path.
+4. Go if the next module provides:
+
+```lean
+#check topPairingClosedMembership
+#check topPairingBellmanEvalObjectCoverOfClosedToEval
+#check topPairing_closed_nonidentity_killed -- or the local equivalent
+```
+
+with no `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, or
+`sampledSmokeNext` in the new production module.
+5. No-go if the proof still needs sampled membership or exact path/rank
+   objects.  In that case, stop this Bellman production route and replace the
+   automaton with a stronger cancellation-tree/evaluator semantic object before
+   returning to Lean emission.
