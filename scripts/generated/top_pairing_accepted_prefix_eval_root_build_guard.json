@@ -1,0 +1,18 @@
+{
+  "available_floor_mib": 24576.0,
+  "command": [
+    "lake",
+    "build",
+    "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingAcceptedPrefixEvalRoot"
+  ],
+  "elapsed_seconds": 7.035206893007853,
+  "exit_code": -15,
+  "hard_address_space_mib": null,
+  "killed_reason": "process-tree RSS 22556 MiB exceeded 7000 MiB cap",
+  "max_tree_rss_kib": 23097632,
+  "max_tree_rss_mib": 22556.28125,
+  "min_available_seen_kib": 44585080,
+  "min_available_seen_mib": 43540.1171875,
+  "rss_cap_mib": 7000.0,
+  "timeout_seconds": 180.0
+}

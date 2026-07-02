@@ -73283,3 +73283,139 @@ or split this into two semantic producers:
 
 If either producer requires sampled rank/path objects, stop this route before
 emitting broad depth shards.
+
+## 2026-07-02 Checkpoint: Root Trace-Margin Producer Socket
+
+Added the next semantic Bellman socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingAcceptedPrefixEvalRoot.lean
+```
+
+This module implements the GPT5.5 go/no-go refinement at the root-producer
+level.  It does not add sampled objects, sampled ranks, sampled paths, exact
+affine-RHS lookup, or broad Boolean reduction.  Instead it isolates the
+remaining production obligation as a semantic per-state margin producer:
+
+```lean
+def RootTraceMarginProducer
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TerminalProducerRootFamily rank /\
+    forall state : AllAcceptedProducerState,
+      state.Contains rank ->
+        scaledMargin rank <= (176 : Int) + acceptedTraceGain state.acceptedTraceId
+```
+
+The new bridge proves that this root producer implies the accepted-prefix
+Bellman eval family and therefore the nonpositive scaled-margin conclusion:
+
+```lean
+theorem acceptedPrefix13EvalFamily_of_rootTraceMarginProducer
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hproducer : RootTraceMarginProducer scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank
+
+theorem evalLanguage_of_rootTraceMarginProducer
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hproducer : RootTraceMarginProducer scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem scaledMargin_nonpos_of_rootTraceMarginProducer
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hproducer : RootTraceMarginProducer scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    scaledMargin rank <= 0
+```
+
+Guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_accepted_prefix_eval_root_direct_guard.json \
+  -- lake env lean -R . -M 7000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingAcceptedPrefixEvalRoot.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingAcceptedPrefixEvalRoot.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingAcceptedPrefixEvalRoot.lean
+```
+
+Result:
+
+```text
+BellmanTopPairingAcceptedPrefixEvalRoot.lean: pass
+elapsed: 2.00s
+peak_tree_rss: 3550.57 MiB
+hard_as: 12288 MiB
+min_available: 46298.60 MiB
+```
+
+The accepted-prefix eval socket was also rebuilt directly:
+
+```text
+BellmanTopPairingAcceptedPrefixEvalSocket.lean: pass
+elapsed: 2.00s
+peak_tree_rss: 3226 MiB
+hard_as: 12288 MiB
+```
+
+Cache/build-discipline note:
+
+- A focused `lake build
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingAcceptedPrefixEvalRoot`
+  without a hard address-space cap fanned out through Lake's scheduler and was
+  killed by the guard at `22556 MiB` process-tree RSS.  This did not OOM the
+  machine, but it is not an acceptable validation path for these Bellman socket
+  checks.
+- A `12288 MiB` hard address-space cap can also make Lake fail while creating
+  threads, even when RSS is low.  The safe validation path for these narrow
+  sockets is serial direct `lake env lean -R . -M 7000 -j1 ... -o ...`, with
+  missing small shard `.olean`s rebuilt serially under the same guard.
+- Missing graph-eval split shards `048` through `070` were rebuilt serially.
+  Each shard stayed around `3.8 GiB` RSS and about `3s` elapsed.
+
+Forbidden-token scan over the accepted-prefix eval socket and the new root
+socket found no matches for `SampledRankIndex`, `sampledContainsRank`,
+`sampledRankOf`, `sampledSmokeNext`, `sampledObject`, `sorry`, `admit`,
+`axiom`, `native_decide`, `unsafe`, `Float`, `Float32`, `Float64`, or `Double`.
+
+Interpretation:
+
+This keeps Bellman alive for exactly the intended reason: the remaining hard
+work is no longer a potential table or a sampled membership table.  The next
+formal target is a semantic `RootTraceMarginProducer`, ideally generated from
+accepted trace/cancellation-summary state families, proving the per-state
+margin bound above.  If that producer can be built without sampled paths, the
+Bellman route remains a production candidate.  If it collapses back to
+rank/path samples, pivot to a stronger cancellation-summary automaton whose
+state carries evaluator progress and margin summary.
+
+Next step:
+
+Build the smallest non-sampled margin producer for `RootTraceMarginProducer`.
+Start with a profiler/generator that groups by accepted trace id and
+cancellation-summary state, and emit one tiny representative Lean family that
+proves:
+
+```lean
+forall state : AllAcceptedProducerState,
+  state.Contains rank ->
+    scaledMargin rank <= (176 : Int) + acceptedTraceGain state.acceptedTraceId
+```
+
+for a semantic family of ranks.  Do not use `SampledRankIndex`, sampled paths,
+one object constructor per rank/path, exact affine-RHS lookup, or a broad
+Boolean checker.
