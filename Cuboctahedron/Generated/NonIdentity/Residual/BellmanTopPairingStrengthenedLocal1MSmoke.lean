@@ -187,6 +187,67 @@ theorem strengthenedSuffixOk_root_of_closedPrefix2_forall
   exact strengthenedSuffixOk_root_of_closedPrefix2 hlabels
     (hsuffix rest hlabels)
 
+theorem strengthenedSuffixOk_closedPrefix2_branch_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {face : Face} {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: face :: rest)
+    (hsuffix :
+      ∀ nextState gain,
+        faceEvalNext closedPrefix2EvalState face = some (nextState, gain) ->
+        nextState.Tail rest ->
+          StrengthenedSuffixOk rank nextState rest) :
+    StrengthenedSuffixOk rank closedPrefix2EvalState (face :: rest) := by
+  rcases closed_prefix2_branch_faceEval hclosed hlabels with
+    ⟨nextState, gain, hnext, htailNext⟩
+  exact StrengthenedSuffixOk.table hnext
+    (hsuffix nextState gain hnext htailNext)
+
+/--
+Semantic branch lift after the Lean-proved `xm, ym` prefix.
+
+The schedule restricts the third face to `tmpm`, `yp`, or `zm`, and
+`closed_prefix2_branch_faceEval` proves that each such semantic branch follows
+the 1M graph table.  This theorem makes those branch suffixes the next
+generated obligation, without terminal trace classes or selected-prefix
+objects.
+-/
+theorem strengthenedSuffixOk_root_of_closedPrefix3_forall
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix :
+      ∀ face rest nextState gain,
+        topPairingRankFaceLabels rank =
+          Face.xm :: Face.ym :: face :: rest ->
+        faceEvalNext closedPrefix2EvalState face = some (nextState, gain) ->
+        nextState.Tail rest ->
+          StrengthenedSuffixOk rank nextState rest) :
+    StrengthenedSuffixOk rank
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) := by
+  rcases topPairingStepScheduleLabels_prefix3 hclosed.schedule with
+    htmpm | hyp | hzm
+  · rcases htmpm with ⟨rest, hlabels⟩
+    exact strengthenedSuffixOk_root_of_closedPrefix2 hlabels
+      (strengthenedSuffixOk_closedPrefix2_branch_of_closed
+        hclosed hlabels
+        (fun nextState gain hnext htailNext =>
+          hsuffix Face.tmpm rest nextState gain hlabels hnext htailNext))
+  · rcases hyp with ⟨rest, hlabels⟩
+    exact strengthenedSuffixOk_root_of_closedPrefix2 hlabels
+      (strengthenedSuffixOk_closedPrefix2_branch_of_closed
+        hclosed hlabels
+        (fun nextState gain hnext htailNext =>
+          hsuffix Face.yp rest nextState gain hlabels hnext htailNext))
+  · rcases hzm with ⟨rest, hlabels⟩
+    exact strengthenedSuffixOk_root_of_closedPrefix2 hlabels
+      (strengthenedSuffixOk_closedPrefix2_branch_of_closed
+        hclosed hlabels
+        (fun nextState gain hnext htailNext =>
+          hsuffix Face.zm rest nextState gain hlabels hnext htailNext))
+
 theorem strengthenedSuffixOk_local
     {rank : Fin numPairWords}
     {state : FaceEvalState} {face : Face} {rest : List Face}

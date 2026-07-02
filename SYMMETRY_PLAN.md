@@ -79961,3 +79961,83 @@ and the 1M graph table has all three transitions.  A useful next theorem should
 say: if each of those semantic branch suffixes is covered, then the
 post-prefix2 suffix is covered, again without terminal trace classes or sampled
 rank/path objects.
+
+### Follow-up: Closed-Language Third-Face Branch Lift Accepted
+
+Added the next semantic constructor layer:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  strengthenedSuffixOk_closedPrefix2_branch_of_closed
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  strengthenedSuffixOk_root_of_closedPrefix3_forall
+```
+
+Meaning:
+
+```text
+closed language
+  -> schedule forces third face in {tmpm, yp, zm}
+  -> closed_prefix2_branch_faceEval supplies the corresponding graph step
+  -> root StrengthenedSuffixOk reduces to one of the three post-branch suffixes
+```
+
+This is still deliberately conditional on suffix coverage after the branch,
+but the condition is now local and semantic: it is indexed by the actual
+`faceEvalNext closedPrefix2EvalState face` result and the deterministic
+transducer tail, not by a terminal trace class, sampled rank, selected prefix,
+or exact affine RHS key.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedLocal1MSmoke
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingStrengthenedLocal1MSmoke.lean` direct | pass | `8.01s` | `4020 MiB` |
+| `BellmanTopPairingStrengthenedLocal1MSmoke` Lake | pass | `7.01s` | `4254 MiB` |
+| forbidden-token scan on touched Lean file | pass | n/a | n/a |
+
+Next step:
+
+Generate or hand-write the next semantic suffix constructors for the three
+post-prefix2 states:
+
+```text
+tmpm -> graph state 146, gain -124
+yp   -> graph state 144, gain  -73
+zm   -> graph state 145, gain  -10
+```
+
+The acceptance criterion remains unchanged: the constructors must be driven by
+schedule/target-shadow cursor/square-gap/local-axis fields and finite graph
+transition facts, not by terminal accepted trace membership or sampled paths.
