@@ -1,4 +1,4 @@
-import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplit10MTransducerSemanticGateSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplit10MSemanticProducerSocket
 
 /-!
 Semantic state-DAG producer socket for the split-10M top-pairing Bellman route.
@@ -20,6 +20,7 @@ open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedSuffixSplit10MBridge
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplit10MSemanticProducerSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplit10MTransducerSemanticGateSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Accepted
 
@@ -94,7 +95,7 @@ theorem strengthenedToEvalGate_of_semanticStateDAGAllFamily
     TopPairingStrengthenedToEvalGate
       graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
       scaledMargin AcceptedSequenceBadFaceAtRank Face.ym :=
-  strengthenedToEvalGate_of_split10MProducers
+  split10MStrengthenedGate_of_producers_viaSemanticSocket
     (scaledMargin := scaledMargin)
     (terminal := fun rank hstrengthened =>
       (hfamily.family rank hstrengthened).terminalOk)
@@ -111,7 +112,7 @@ theorem scaledMargin_nonpos_of_semanticStateDAGAllFamily
       TopPairingStrengthenedClosedLanguageAtRank
         AcceptedSequenceBadFaceAtRank rank Face.ym) :
     scaledMargin rank <= 0 :=
-  scaledMargin_nonpos_of_split10MProducers
+  scaledMargin_nonpos_of_split10MProducers_viaSemanticSocket
     (scaledMargin := scaledMargin)
     (terminal := fun rank hstrengthened =>
       (hfamily.family rank hstrengthened).terminalOk)
@@ -119,6 +120,7 @@ theorem scaledMargin_nonpos_of_semanticStateDAGAllFamily
       (hfamily.family rank hstrengthened).graphSuffix)
     (finish := fun rank hstrengthened =>
       (hfamily.family rank hstrengthened).finalMargin)
+    rank
     hstrengthened
 
 theorem semanticStateDAGProducerSocket_builds : True := by

@@ -86865,3 +86865,87 @@ production, and final-margin production follow from finite semantic
 state/class fields.  If that proof wants selected prefix ids, sampled ranks,
 exact affine RHS, or full trace-path enumeration, stop and refine the
 semantic state or try the cocycle quotient route before scaling.
+
+#### Semantic State-DAG Socket Rerouted Through Ranked Producer Socket
+
+Rerouted the existing semantic state-DAG producer socket so it uses the new
+ranked semantic producer front door instead of calling the older split-10M
+producer bridge directly.
+
+Changed:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticStateDAGProducerSocket.lean
+```
+
+The all-family theorem now calls:
+
+```lean
+split10MStrengthenedGate_of_producers_viaSemanticSocket
+```
+
+and the nonpositive-margin theorem now calls:
+
+```lean
+scaledMargin_nonpos_of_split10MProducers_viaSemanticSocket
+```
+
+This keeps the state-DAG route aligned with the current pivot:
+
+```text
+semantic state/class producers
+  -> ranked semantic transducer socket
+  -> semantic closed/eval gate
+  -> checked Bellman potential contradiction
+```
+
+There is still no selected-prefix membership, sampled path object, exact affine
+RHS key, or Bellman trace-id disjunction in the theorem surface.
+
+Commands:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_state_dag_producer_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_state_dag_producer_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGProducerSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| hygiene scan | pass | n/a | n/a | n/a |
+| direct `BellmanTopPairingSemanticStateDAGProducerSocket.lean` | pass | `2.00s` | `3602 MiB` | `45515 MiB` |
+| Lake `BellmanTopPairingSemanticStateDAGProducerSocket` | pass | `3.00s` | `4039 MiB` | `45340 MiB` |
+
+Decision: accepted.  This does not solve terminal/suffix/final-margin
+membership by itself; it makes the socket hierarchy consistent.  Next, produce
+one finite semantic state/class proof for one of those three producer premises,
+preferably terminal classification from `TopPairingTransducerTail` and target
+cursor fields, and reject any implementation that has to enumerate observed
+rank traces.
