@@ -80987,3 +80987,81 @@ separate from the existing hand-grown strengthened local smoke and should prove
 the local `StrengthenedSuffixOk` progress theorem by finite state/face
 classification, not by adding another hard-coded depth layer.
 ```
+
+### Lean Branch-Table Smoke Emitted
+
+Added a producer-shaped Lean branch-table smoke:
+
+```text
+scripts/emit_bellman_strengthened_branch_table_smoke.py
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingStrengthenedBranchTable1MSmoke.lean
+scripts/generated/bellman_strengthened_branch_table_1m_smoke_guard.json
+scripts/generated/bellman_strengthened_branch_table_1m_smoke_lake_guard.json
+```
+
+The generated Lean module contains:
+
+```lean
+BranchKind.graph
+BranchKind.socket19Tmmp
+BranchKind.socket150Tppp
+
+StrengthenedBranchTable : State -> Face -> BranchKind -> Prop
+
+branchCount_audit
+graph_next_of_graphBranch
+socketBranches_present
+```
+
+This is still a smoke object, not the final closed-language membership theorem.
+Its job is to make the next proof consume a finite semantic table instead of a
+hand-grown depth branch.
+
+Generation command:
+
+```bash
+python3 scripts/emit_bellman_strengthened_branch_table_smoke.py
+```
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_strengthened_branch_table_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedBranchTable1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_strengthened_branch_table_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedBranchTable1MSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| direct Lean check | pass | `11.03s` | `4019 MiB` |
+| Lake target | pass | `5.00s` | `4248 MiB` |
+
+The generated file is `514` lines and contains no selected-prefix, sampled
+rank, `sorry`, `admit`, `axiom`, `native_decide`, or `unsafe` hits.
+
+Next implementation step:
+
+```text
+Use `StrengthenedBranchTable` as the generated local classification source:
+ordinary graph branches should call `graph_next_of_graphBranch`; socket
+branches should call the existing semantic impossibility theorems.  The next
+module should move from “table smoke” to a local-progress theorem whose cases
+are driven by this finite relation.
+```
