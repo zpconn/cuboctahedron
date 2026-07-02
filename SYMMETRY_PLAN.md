@@ -75409,3 +75409,106 @@ This is the known process-level address-space/thread-creation interaction, not
 a Lean theorem failure and not an OOM event.  For this target, use direct
 `lake env lean -j1 -M8192`; reserve the external guard for targets where it
 does not trip thread creation.
+
+## 2026-07-02 Checkpoint: Bellman Eval-Contract Audit Refreshed
+
+Updated `scripts/audit_top_pairing_bellman_eval_contract.py` so it reflects
+the current semantic evaluator boundary rather than the older sampled-smoke
+state.
+
+The current diagnosis is:
+
+```text
+decision=closed-to-eval-socket-built-trace-margin-premises-remain
+```
+
+This means:
+
+- `TopPairingBellmanObj` and `TopPairingBellmanEvalLanguageAtRank` exist;
+- `topPairingBellmanEvalObjectCoverOfClosedToEval` exists;
+- the closed-eval gate builds;
+- the remaining gap is not object membership and not another wrapper;
+- the remaining gap is proving the trace/margin premises from the semantic
+  closed-language predicate.
+
+The existing checked gate is:
+
+```lean
+theorem closedToEvalLanguage_of_traceAndMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (htrace :
+      forall obj : TopPairingBellmanObj Face.ym,
+        ClosedTraceOr obj)
+    (hmargin :
+      forall obj : TopPairingBellmanObj Face.ym,
+        ClosedMarginBound scaledMargin obj)
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+and the graph-accepted variant is:
+
+```lean
+theorem evalLanguageAtRank_of_graphAcceptedTraceMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hgraph :
+      GraphAcceptedTraceMargin scaledMargin
+        ({ rank := rank, closed := hclosed } :
+          TopPairingBellmanObj Face.ym)) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_bellman_eval_contract.py
+python3 scripts/audit_top_pairing_bellman_eval_contract.py
+lake env lean -j1 -M8192 \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe" \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalLanguage.lean
+```
+
+Results:
+
+```text
+py_compile: exit=0
+audit: exit=0, decision=closed-to-eval-socket-built-trace-margin-premises-remain
+ClosedEvalGate Lean check: exit=0, elapsed=4.16s
+sampled/forbidden token scan: exit=1, no hits
+```
+
+Immediate next theorem target:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    GraphAcceptedTraceMargin scaledMargin
+      ({ rank := rank, closed := hclosed } :
+        TopPairingBellmanObj Face.ym)
+```
+
+or equivalently separate semantic proofs of:
+
+```lean
+ClosedTraceOr ({ rank := rank, closed := hclosed } :
+  TopPairingBellmanObj Face.ym)
+
+ClosedMarginBound scaledMargin ({ rank := rank, closed := hclosed } :
+  TopPairingBellmanObj Face.ym)
+```
+
+If those can be proved/generator-emitted from the closed-language components
+without sampled rank/path objects, continue Bellman.  If they require sampled
+membership or one branch per accepted path, reject this surface for production
+and move to the cancellation-tree summary automaton.

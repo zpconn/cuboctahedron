@@ -1,855 +1,474 @@
 {
-  "decision": "stronger-eval-predicate-built-closed-to-eval-missing",
+  "decision": "closed-to-eval-socket-built-trace-margin-premises-remain",
   "files": {
-    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean": {
-      "closed_language_fields": [],
-      "exists": true,
-      "sampled_eval": [
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean": {
+      "closed_language_fields": [
         {
-          "line": 24388,
-          "pattern": "sampledSmokeNext",
-          "text": "private def sampledSmokeNext : State -> SmokeLabel -> Option (State \u00d7 Int)"
+          "line": 8,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "`TopPairingClosedLanguageAtRank`, not from sampled rank/path objects.  This file"
         },
         {
-          "line": 24415,
-          "pattern": "SampledSmokeStepEval",
-          "text": "private def SampledSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :="
+          "line": 65,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
         },
         {
-          "line": 24416,
-          "pattern": "sampledSmokeNext",
-          "text": "sampledSmokeNext s label = some (t, gain)"
+          "line": 118,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
         },
         {
-          "line": 24418,
-          "pattern": "SampledSmokeStepEval",
-          "text": "private theorem SampledSmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :"
+          "line": 129,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank Face.ym ->"
         },
         {
-          "line": 24419,
-          "pattern": "SampledSmokeStepEval",
-          "text": "SampledSmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by"
-        },
-        {
-          "line": 24422,
-          "pattern": "sampledSmokeNext",
-          "text": "cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction"
-        },
-        {
-          "line": 24422,
-          "pattern": "SampledSmokeStepEval",
-          "text": "cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction"
-        },
-        {
-          "line": 24427,
-          "pattern": "SampledSmokeStepEval",
-          "text": "private theorem SampledSmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :"
-        },
-        {
-          "line": 24428,
-          "pattern": "sampledSmokeNext",
-          "text": "sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by"
-        },
-        {
-          "line": 24428,
-          "pattern": "SampledSmokeStepEval",
-          "text": "sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by"
-        },
-        {
-          "line": 24434,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0000Labels ="
-        },
-        {
-          "line": 24440,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0000State"
-        },
-        {
-          "line": 24443,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0000"
-        },
-        {
-          "line": 24448,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0001Labels ="
-        },
-        {
-          "line": 24454,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0001State"
-        },
-        {
-          "line": 24457,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0142"
-        },
-        {
-          "line": 24462,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0002Labels ="
-        },
-        {
-          "line": 24468,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0002State"
-        },
-        {
-          "line": 24471,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0143"
-        },
-        {
-          "line": 24476,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0003Labels ="
-        },
-        {
-          "line": 24482,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0003State"
-        },
-        {
-          "line": 24485,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0144"
-        },
-        {
-          "line": 24490,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0004Labels ="
-        },
-        {
-          "line": 24496,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0004State"
-        },
-        {
-          "line": 24499,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0147"
-        },
-        {
-          "line": 24504,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0005Labels ="
-        },
-        {
-          "line": 24510,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0004State"
-        },
-        {
-          "line": 24513,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0147"
-        },
-        {
-          "line": 24518,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0015Labels ="
-        },
-        {
-          "line": 24524,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0005State"
-        },
-        {
-          "line": 24527,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0153"
-        },
-        {
-          "line": 24532,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0006Labels ="
-        },
-        {
-          "line": 24538,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0015State"
-        },
-        {
-          "line": 24541,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0155"
-        },
-        {
-          "line": 24546,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0016Labels ="
-        },
-        {
-          "line": 24552,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0006State"
-        },
-        {
-          "line": 24555,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0163"
-        },
-        {
-          "line": 24560,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0007Labels ="
-        },
-        {
-          "line": 24566,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0016State"
-        },
-        {
-          "line": 24569,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0166"
-        },
-        {
-          "line": 24574,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0017Labels ="
-        },
-        {
-          "line": 24580,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0007State"
-        },
-        {
-          "line": 24583,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0176"
-        },
-        {
-          "line": 24588,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0008Labels ="
-        },
-        {
-          "line": 24594,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0017State"
-        },
-        {
-          "line": 24597,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0179"
-        },
-        {
-          "line": 24602,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0018Labels ="
-        },
-        {
-          "line": 24608,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0008State"
-        },
-        {
-          "line": 24611,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0191"
-        },
-        {
-          "line": 24616,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0009Labels ="
-        },
-        {
-          "line": 24622,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0018State"
-        },
-        {
-          "line": 24625,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0194"
-        },
-        {
-          "line": 24630,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0019Labels ="
-        },
-        {
-          "line": 24636,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0009State"
-        },
-        {
-          "line": 24639,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0208"
-        },
-        {
-          "line": 24644,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0010Labels ="
-        },
-        {
-          "line": 24650,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0019State"
-        },
-        {
-          "line": 24653,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0211"
-        },
-        {
-          "line": 24658,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0020Labels ="
-        },
-        {
-          "line": 24664,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0010State"
-        },
-        {
-          "line": 24667,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0006"
-        },
-        {
-          "line": 24672,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0011Labels ="
-        },
-        {
-          "line": 24678,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0020State"
-        },
-        {
-          "line": 24681,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0011"
-        },
-        {
-          "line": 24686,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0021Labels ="
-        },
-        {
-          "line": 24692,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0011State"
-        },
-        {
-          "line": 24695,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0036"
-        },
-        {
-          "line": 24700,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0012Labels ="
-        },
-        {
-          "line": 24706,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0021State"
-        },
-        {
-          "line": 24709,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0041"
-        },
-        {
-          "line": 24714,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0022Labels ="
-        },
-        {
-          "line": 24720,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0012State"
-        },
-        {
-          "line": 24723,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0069"
-        },
-        {
-          "line": 24728,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0013Labels ="
-        },
-        {
-          "line": 24734,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0022State"
-        },
-        {
-          "line": 24737,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0075"
-        },
-        {
-          "line": 24742,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0023Labels ="
-        },
-        {
-          "line": 24748,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0013State"
-        },
-        {
-          "line": 24751,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0112"
-        },
-        {
-          "line": 24756,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0014Labels ="
-        },
-        {
-          "line": 24762,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext trieNode0023State"
-        },
-        {
-          "line": 24765,
-          "pattern": "sampledSmokeNext",
-          "text": "change evalLabelStepFn sampledSmokeNext State.s0109"
-        },
-        {
-          "line": 24770,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState trieNode0024Labels ="
-        },
-        {
-          "line": 24775,
-          "pattern": "SampledRankIndex",
-          "text": "private inductive SampledRankIndex where"
-        },
-        {
-          "line": 24779,
-          "pattern": "SampledRankIndex",
-          "text": "private def sampledRankOf : SampledRankIndex -> Fin numPairWords"
-        },
-        {
-          "line": 24779,
-          "pattern": "sampledRankOf",
-          "text": "private def sampledRankOf : SampledRankIndex -> Fin numPairWords"
-        },
-        {
-          "line": 24780,
-          "pattern": "SampledRankIndex",
-          "text": "| SampledRankIndex.i0000 => cls0000Rank"
-        },
-        {
-          "line": 24781,
-          "pattern": "SampledRankIndex",
-          "text": "| SampledRankIndex.i0001 => cls0001Rank"
-        },
-        {
-          "line": 24783,
-          "pattern": "sampledContainsRank",
-          "text": "private def sampledContainsRank (rank : Fin numPairWords) : Prop :="
-        },
-        {
-          "line": 24784,
-          "pattern": "SampledRankIndex",
-          "text": "exists idx : SampledRankIndex, sampledRankOf idx = rank"
-        },
-        {
-          "line": 24784,
-          "pattern": "sampledRankOf",
-          "text": "exists idx : SampledRankIndex, sampledRankOf idx = rank"
-        },
-        {
-          "line": 24811,
-          "pattern": "SampledRankIndex",
-          "text": "SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace"
-        },
-        {
-          "line": 24812,
-          "pattern": "sampledRankOf",
-          "text": "rootState (176 : Int) sampledRankOf"
-        },
-        {
-          "line": 24860,
-          "pattern": "sampledRankOf",
-          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
-        },
-        {
-          "line": 24863,
-          "pattern": "sampledRankOf",
-          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
-        },
-        {
-          "line": 24888,
-          "pattern": "SampledRankIndex",
-          "text": "(idx : SampledRankIndex)"
-        },
-        {
-          "line": 24890,
-          "pattern": "sampledRankOf",
-          "text": "(hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)"
-        },
-        {
-          "line": 24892,
-          "pattern": "sampledRankOf",
-          "text": "sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :="
-        },
-        {
-          "line": 24901,
-          "pattern": "SampledRankIndex",
-          "text": "SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace"
-        },
-        {
-          "line": 24902,
-          "pattern": "sampledContainsRank",
-          "text": "rootState (176 : Int) sampledRankOf sampledContainsRank"
-        },
-        {
-          "line": 24902,
-          "pattern": "sampledRankOf",
-          "text": "rootState (176 : Int) sampledRankOf sampledContainsRank"
-        },
-        {
-          "line": 24910,
-          "pattern": "sampledContainsRank",
-          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank)"
-        },
-        {
-          "line": 24918,
-          "pattern": "SampledRankIndex",
-          "text": "private def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face"
-        },
-        {
-          "line": 24919,
-          "pattern": "SampledRankIndex",
-          "text": "| SampledRankIndex.i0000 => cls0000FaceSeq"
-        },
-        {
-          "line": 24920,
-          "pattern": "SampledRankIndex",
-          "text": "| SampledRankIndex.i0001 => cls0001FaceSeq"
-        },
-        {
-          "line": 24922,
-          "pattern": "SampledRankIndex",
-          "text": "private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :="
-        },
-        {
-          "line": 24923,
-          "pattern": "sampledRankOf",
-          "text": "AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))"
-        },
-        {
-          "line": 24925,
-          "pattern": "sampledSmokeNext",
-          "text": "BellmanEvalAccepts graphPotential sampledSmokeNext rootState"
-        },
-        {
-          "line": 24927,
-          "pattern": "sampledRankOf",
-          "text": "(fun idx => sampledScaledMarginAtRank (sampledRankOf idx))"
-        },
-        {
-          "line": 24932,
-          "pattern": "SampledRankIndex",
-          "text": "exists idx : SampledRankIndex, sampledObjectAccepts idx /\\ sampledRankOf idx = rank"
-        },
-        {
-          "line": 24932,
-          "pattern": "sampledRankOf",
-          "text": "exists idx : SampledRankIndex, sampledObjectAccepts idx /\\ sampledRankOf idx = rank"
-        },
-        {
-          "line": 24935,
-          "pattern": "SampledRankIndex",
-          "text": "BellmanRankObjectMembership SampledRankIndex sampledRankOf"
-        },
-        {
-          "line": 24935,
-          "pattern": "sampledRankOf",
-          "text": "BellmanRankObjectMembership SampledRankIndex sampledRankOf"
-        },
-        {
-          "line": 24936,
-          "pattern": "sampledContainsRank",
-          "text": "sampledObjectAccepts sampledContainsRank where"
-        },
-        {
-          "line": 24937,
-          "pattern": "Classical.choose",
-          "text": "objectOf := fun _rank hrank => Classical.choose hrank"
-        },
-        {
-          "line": 24940,
-          "pattern": "Classical.choose",
-          "text": "let idx := Classical.choose hrank"
-        },
-        {
-          "line": 24947,
-          "pattern": "sampledSmokeNext",
-          "text": "\u00b7 change evalLabelStepFn sampledSmokeNext rootState"
-        },
-        {
-          "line": 24953,
-          "pattern": "sampledRankOf",
-          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
-        },
-        {
-          "line": 24960,
-          "pattern": "sampledSmokeNext",
-          "text": "\u00b7 change evalLabelStepFn sampledSmokeNext rootState"
-        },
-        {
-          "line": 24966,
-          "pattern": "sampledRankOf",
-          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
-        },
-        {
-          "line": 24971,
-          "pattern": "Classical.choose",
-          "text": "exact Classical.choose_spec hrank"
-        },
-        {
-          "line": 24975,
-          "pattern": "SampledRankIndex",
-          "text": "SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace"
-        },
-        {
-          "line": 24976,
-          "pattern": "sampledRankOf",
-          "text": "rootState (176 : Int) sampledRankOf sampledObjectAccepts"
-        },
-        {
-          "line": 24977,
-          "pattern": "sampledContainsRank",
-          "text": "sampledContainsRank sampledScaledMarginAtRank :="
-        },
-        {
-          "line": 24990,
-          "pattern": "sampledRankOf",
-          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
-        },
-        {
-          "line": 25000,
-          "pattern": "sampledRankOf",
-          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
-        },
-        {
-          "line": 25011,
-          "pattern": "sampledContainsRank",
-          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
-        },
-        {
-          "line": 25018,
-          "pattern": "SampledSmokeStepEval",
-          "text": "SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace"
-        },
-        {
-          "line": 25018,
-          "pattern": "SampledRankIndex",
-          "text": "SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace"
-        },
-        {
-          "line": 25019,
-          "pattern": "sampledRankOf",
-          "text": "rootState (176 : Int) sampledRankOf sampledObjectAccepts"
-        },
-        {
-          "line": 25020,
-          "pattern": "sampledContainsRank",
-          "text": "sampledContainsRank sampledScaledMarginAtRank :="
-        },
-        {
-          "line": 25028,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState"
-        },
-        {
-          "line": 25034,
-          "pattern": "SampledSmokeStepEval",
-          "text": "(Step := SampledSmokeStepEval)"
-        },
-        {
-          "line": 25035,
-          "pattern": "sampledSmokeNext",
-          "text": "(next := sampledSmokeNext)"
-        },
-        {
-          "line": 25041,
-          "pattern": "SampledSmokeStepEval",
-          "text": "exact SampledSmokeStepEval.sound h)"
-        },
-        {
-          "line": 25044,
-          "pattern": "sampledRankOf",
-          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
-        },
-        {
-          "line": 25049,
-          "pattern": "sampledSmokeNext",
-          "text": "evalLabelStepFn sampledSmokeNext rootState"
-        },
-        {
-          "line": 25055,
-          "pattern": "SampledSmokeStepEval",
-          "text": "(Step := SampledSmokeStepEval)"
-        },
-        {
-          "line": 25056,
-          "pattern": "sampledSmokeNext",
-          "text": "(next := sampledSmokeNext)"
-        },
-        {
-          "line": 25062,
-          "pattern": "SampledSmokeStepEval",
-          "text": "exact SampledSmokeStepEval.sound h)"
-        },
-        {
-          "line": 25065,
-          "pattern": "sampledRankOf",
-          "text": "\u00b7 unfold sampledRankOf sampledScaledMarginAtRank"
-        },
-        {
-          "line": 25071,
-          "pattern": "SampledSmokeStepEval",
-          "text": "exact SampledSmokeStepEval.valid h)"
-        },
-        {
-          "line": 25076,
-          "pattern": "sampledContainsRank",
-          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
-        },
-        {
-          "line": 25082,
-          "pattern": "SampledRankIndex",
-          "text": "(idx : SampledRankIndex) (hAccept : sampledObjectAccepts idx) :"
-        },
-        {
-          "line": 25083,
-          "pattern": "sampledRankOf",
-          "text": "sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :="
-        },
-        {
-          "line": 25088,
-          "pattern": "sampledContainsRank",
-          "text": "forall rank, sampledContainsRank rank ->"
-        },
-        {
-          "line": 25089,
-          "pattern": "sampledRankOf",
-          "text": "exists idx, sampledObjectAccepts idx /\\ sampledRankOf idx = rank :="
-        },
-        {
-          "line": 25094,
-          "pattern": "SampledSmokeStepEval",
-          "text": "SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace"
-        },
-        {
-          "line": 25094,
-          "pattern": "SampledRankIndex",
-          "text": "SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace"
-        },
-        {
-          "line": 25095,
-          "pattern": "sampledRankOf",
-          "text": "rootState (176 : Int) sampledRankOf sampledObjectAccepts"
-        },
-        {
-          "line": 25101,
-          "pattern": "SampledSmokeStepEval",
-          "text": "exact SampledSmokeStepEval.sound h)"
-        },
-        {
-          "line": 25114,
-          "pattern": "sampledRankOf",
-          "text": "exists idx, sampledObjectAccepts idx /\\ sampledRankOf idx = rank :="
-        },
-        {
-          "line": 25120,
-          "pattern": "sampledRankOf",
-          "text": "(sampledRankOf idx)"
-        },
-        {
-          "line": 25121,
-          "pattern": "sampledRankOf",
-          "text": "(sampledScaledMarginAtRank (sampledRankOf idx))"
-        },
-        {
-          "line": 25150,
-          "pattern": "sampledContainsRank",
-          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
-        },
-        {
-          "line": 25156,
-          "pattern": "sampledContainsRank",
-          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
-        },
-        {
-          "line": 25168,
-          "pattern": "sampledContainsRank",
-          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
-        },
-        {
-          "line": 25181,
-          "pattern": "sampledRankOf",
-          "text": "SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->"
-        },
-        {
-          "line": 25185,
-          "pattern": "sampledRankOf",
-          "text": "0 < sampledScaledMarginAtRank (sampledRankOf idx))"
-        },
-        {
-          "line": 25186,
-          "pattern": "sampledContainsRank",
-          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
-        },
-        {
-          "line": 25194,
-          "pattern": "sampledRankOf",
-          "text": "SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->"
-        },
-        {
-          "line": 25198,
-          "pattern": "sampledRankOf",
-          "text": "0 < sampledScaledMarginAtRank (sampledRankOf idx))"
-        },
-        {
-          "line": 25199,
-          "pattern": "sampledContainsRank",
-          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
-        },
-        {
-          "line": 25205,
-          "pattern": "SampledRankIndex",
-          "text": "(idx : SampledRankIndex)"
-        },
-        {
-          "line": 25207,
-          "pattern": "sampledRankOf",
-          "text": "(hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)"
-        },
-        {
-          "line": 25211,
-          "pattern": "sampledRankOf",
-          "text": "0 < sampledScaledMarginAtRank (sampledRankOf idx) := by"
-        },
-        {
-          "line": 25233,
-          "pattern": "sampledContainsRank",
-          "text": "{rank : Fin numPairWords} (hrank : sampledContainsRank rank) :"
+          "line": 134,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
         }
       ],
-      "semantic_eval_language": [],
-      "semantic_eval_target": [
+      "closed_to_eval_socket": [
         {
-          "line": 24925,
+          "line": 56,
+          "pattern": "closedToEvalLanguage_of_traceAndMargin",
+          "text": "theorem closedToEvalLanguage_of_traceAndMargin"
+        },
+        {
+          "line": 125,
+          "pattern": "scaledMargin_nonpos_of_closedToEvalLanguage",
+          "text": "theorem scaledMargin_nonpos_of_closedToEvalLanguage"
+        }
+      ],
+      "eval_accepts": [
+        {
+          "line": 40,
+          "pattern": "evalAccepts_of_closedTraceAndMargin",
+          "text": "theorem evalAccepts_of_closedTraceAndMargin"
+        },
+        {
+          "line": 49,
           "pattern": "BellmanEvalAccepts",
-          "text": "BellmanEvalAccepts graphPotential sampledSmokeNext rootState"
+          "text": "BellmanEvalAccepts graphPotential graphSmokeNext rootState (176 : Int)"
+        },
+        {
+          "line": 53,
+          "pattern": "bellmanEvalAccepts_of_closedFaceTraceA_or_closedFaceTraceB",
+          "text": "_root_.Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalTraceSmoke.bellmanEvalAccepts_of_closedFaceTraceA_or_closedFaceTraceB"
+        },
+        {
+          "line": 70,
+          "pattern": "evalAccepts_of_closedTraceAndMargin",
+          "text": "have heval := evalAccepts_of_closedTraceAndMargin"
+        },
+        {
+          "line": 106,
+          "pattern": "evalAccepts_of_closedTraceAndMargin",
+          "text": "evalAccepts_of_closedTraceAndMargin"
         }
       ],
-      "semantic_object": []
+      "exists": true,
+      "remaining_premises": [
+        {
+          "line": 19,
+          "pattern": "ClosedTraceOr",
+          "text": "def ClosedTraceOr (obj : TopPairingBellmanObj Face.ym) : Prop :="
+        },
+        {
+          "line": 25,
+          "pattern": "ClosedMarginBound",
+          "text": "def ClosedMarginBound"
+        },
+        {
+          "line": 44,
+          "pattern": "ClosedTraceOr",
+          "text": "ClosedTraceOr obj)"
+        },
+        {
+          "line": 47,
+          "pattern": "ClosedMarginBound",
+          "text": "ClosedMarginBound scaledMargin obj)"
+        },
+        {
+          "line": 60,
+          "pattern": "ClosedTraceOr",
+          "text": "ClosedTraceOr obj)"
+        },
+        {
+          "line": 63,
+          "pattern": "ClosedMarginBound",
+          "text": "ClosedMarginBound scaledMargin obj)"
+        },
+        {
+          "line": 84,
+          "pattern": "ClosedTraceOr",
+          "text": "ClosedTraceOr obj)"
+        },
+        {
+          "line": 87,
+          "pattern": "ClosedMarginBound",
+          "text": "ClosedMarginBound scaledMargin obj)"
+        },
+        {
+          "line": 113,
+          "pattern": "ClosedTraceOr",
+          "text": "ClosedTraceOr obj)"
+        },
+        {
+          "line": 116,
+          "pattern": "ClosedMarginBound",
+          "text": "ClosedMarginBound scaledMargin obj)"
+        }
+      ],
+      "sampled_eval": [],
+      "semantic_eval_language": [
+        {
+          "line": 66,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 130,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        }
+      ],
+      "semantic_object": [
+        {
+          "line": 19,
+          "pattern": "TopPairingBellmanObj",
+          "text": "def ClosedTraceOr (obj : TopPairingBellmanObj Face.ym) : Prop :="
+        },
+        {
+          "line": 20,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels (fun f : Face => f) obj ="
+        },
+        {
+          "line": 22,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels (fun f : Face => f) obj ="
+        },
+        {
+          "line": 27,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj Face.ym) : Prop :="
+        },
+        {
+          "line": 43,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 46,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 48,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj Face.ym) :"
+        },
+        {
+          "line": 50,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj Face.ym => scaledMargin obj.rank)"
+        },
+        {
+          "line": 51,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels smokeLabelOfFace obj)"
+        },
+        {
+          "line": 59,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 62,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 69,
+          "pattern": "TopPairingBellmanObj",
+          "text": "let obj : TopPairingBellmanObj Face.ym := \u27e8rank, hclosed\u27e9"
+        },
+        {
+          "line": 77,
+          "pattern": "TopPairingBellmanObj",
+          "text": "simpa [obj, TopPairingBellmanObj.labels,"
+        },
+        {
+          "line": 78,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.forcedSeq] using hevalRun }"
+        },
+        {
+          "line": 83,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 86,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 88,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj Face.ym) :"
+        },
+        {
+          "line": 97,
+          "pattern": "TopPairingBellmanObj",
+          "text": "fun obj : TopPairingBellmanObj Face.ym => scaledMargin obj.rank)"
+        },
+        {
+          "line": 98,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(wordOf := fun obj : TopPairingBellmanObj Face.ym =>"
+        },
+        {
+          "line": 99,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels smokeLabelOfFace obj)"
+        },
+        {
+          "line": 112,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 115,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 120,
+          "pattern": "TopPairingBellmanObj",
+          "text": "let obj : TopPairingBellmanObj Face.ym := \u27e8rank, hclosed\u27e9"
+        }
+      ]
+    },
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean": {
+      "closed_language_fields": [],
+      "closed_to_eval_socket": [],
+      "eval_accepts": [
+        {
+          "line": 14,
+          "pattern": "BellmanEvalAccepts",
+          "text": "`BellmanEvalAccepts` without a sampled rank/path index."
+        },
+        {
+          "line": 74,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts graphPotential graphSmokeNext rootState (176 : Int)"
+        },
+        {
+          "line": 89,
+          "pattern": "bellmanEvalAccepts_of_closedFaceTraceA_or_closedFaceTraceB",
+          "text": "theorem bellmanEvalAccepts_of_closedFaceTraceA_or_closedFaceTraceB"
+        },
+        {
+          "line": 99,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts graphPotential graphSmokeNext rootState (176 : Int)"
+        }
+      ],
+      "exists": true,
+      "remaining_premises": [],
+      "sampled_eval": [],
+      "semantic_eval_language": [],
+      "semantic_object": [
+        {
+          "line": 2,
+          "pattern": "TopPairingBellmanObj",
+          "text": "import Cuboctahedron.Search.TopPairingBellmanObject"
+        },
+        {
+          "line": 69,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj badFace)"
+        },
+        {
+          "line": 71,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels smokeLabelOfFace obj = closedTraceA \\/"
+        },
+        {
+          "line": 72,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels smokeLabelOfFace obj = closedTraceB)"
+        },
+        {
+          "line": 75,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)"
+        },
+        {
+          "line": 76,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels smokeLabelOfFace obj)"
+        },
+        {
+          "line": 81,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(TopPairingBellmanObj.labels smokeLabelOfFace obj) ="
+        },
+        {
+          "line": 92,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj badFace)"
+        },
+        {
+          "line": 94,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels (fun f : Face => f) obj ="
+        },
+        {
+          "line": 96,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels (fun f : Face => f) obj ="
+        },
+        {
+          "line": 100,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)"
+        },
+        {
+          "line": 101,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels smokeLabelOfFace obj)"
+        },
+        {
+          "line": 106,
+          "pattern": "TopPairingBellmanObj",
+          "text": "rw [TopPairingBellmanObj.labels_map"
+        },
+        {
+          "line": 111,
+          "pattern": "TopPairingBellmanObj",
+          "text": "rw [TopPairingBellmanObj.labels_map"
+        }
+      ]
+    },
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalLanguage.lean": {
+      "closed_language_fields": [
+        {
+          "line": 42,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        }
+      ],
+      "closed_to_eval_socket": [
+        {
+          "line": 39,
+          "pattern": "evalLanguageAtRank_of_graphAcceptedTraceMargin",
+          "text": "theorem evalLanguageAtRank_of_graphAcceptedTraceMargin"
+        },
+        {
+          "line": 58,
+          "pattern": "evalLanguageAtRank_of_strengthened_graphAcceptedTraceMargin",
+          "text": "theorem evalLanguageAtRank_of_strengthened_graphAcceptedTraceMargin"
+        },
+        {
+          "line": 71,
+          "pattern": "evalLanguageAtRank_of_graphAcceptedTraceMargin",
+          "text": "evalLanguageAtRank_of_graphAcceptedTraceMargin"
+        }
+      ],
+      "eval_accepts": [
+        {
+          "line": 51,
+          "pattern": "bellmanEvalAccepts_of_graphAcceptedTraceMargin",
+          "text": "rcases bellmanEvalAccepts_of_graphAcceptedTraceMargin"
+        }
+      ],
+      "exists": true,
+      "remaining_premises": [
+        {
+          "line": 10,
+          "pattern": "GraphAcceptedTraceMargin",
+          "text": "task is therefore to prove `GraphAcceptedTraceMargin` semantically, not to"
+        },
+        {
+          "line": 20,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "def AcceptedSequenceBadFaceAtRank"
+        },
+        {
+          "line": 29,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "AcceptedSequenceBadFaceAtRank rank Face.ym)"
+        },
+        {
+          "line": 31,
+          "pattern": "TerminalOkTraceLabels",
+          "text": "TopPairingTraceClassifier.Accepted.TerminalOkTraceLabels"
+        },
+        {
+          "line": 44,
+          "pattern": "GraphAcceptedTraceMargin",
+          "text": "GraphAcceptedTraceMargin scaledMargin"
+        },
+        {
+          "line": 63,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "AcceptedSequenceBadFaceAtRank rank Face.ym)"
+        },
+        {
+          "line": 65,
+          "pattern": "GraphAcceptedTraceMargin",
+          "text": "GraphAcceptedTraceMargin scaledMargin"
+        }
+      ],
+      "sampled_eval": [],
+      "semantic_eval_language": [
+        {
+          "line": 9,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "bound, it becomes a `TopPairingBellmanEvalLanguageAtRank`.  The hard generated"
+        },
+        {
+          "line": 46,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 68,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        }
+      ],
+      "semantic_object": [
+        {
+          "line": 45,
+          "pattern": "TopPairingBellmanObj",
+          "text": "({ rank := rank, closed := hclosed } : TopPairingBellmanObj Face.ym)) :"
+        },
+        {
+          "line": 52,
+          "pattern": "TopPairingBellmanObj",
+          "text": "({ rank := rank, closed := hclosed } : TopPairingBellmanObj Face.ym)"
+        },
+        {
+          "line": 55,
+          "pattern": "TopPairingBellmanObj",
+          "text": "exact \u27e8result, by simpa [TopPairingBellmanObj.labels,"
+        },
+        {
+          "line": 56,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.forcedSeq] using heval, hfinish, hmargin\u27e9"
+        },
+        {
+          "line": 67,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj Face.ym)) :"
+        }
+      ]
     },
     "Cuboctahedron/Search/BellmanTopPairingLanguage.lean": {
       "closed_language_fields": [
@@ -869,225 +488,267 @@
           "text": "TopPairingStepScheduleLabels labels :="
         },
         {
-          "line": 70,
+          "line": 93,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "(hs : TopPairingStepScheduleLabels labels)"
+        },
+        {
+          "line": 104,
           "pattern": "TopPairingStepScheduleLabels",
           "text": "(h : TopPairingStepScheduleLabels labels) :"
         },
         {
-          "line": 95,
+          "line": 129,
           "pattern": "TopPairingStepScheduleLabels",
           "text": "(h : TopPairingStepScheduleLabels labels) :"
         },
         {
-          "line": 169,
+          "line": 203,
           "pattern": "TopPairingSquareGapLabels",
           "text": "def TopPairingSquareGapLabels (labels : List Face) : Prop :="
         },
         {
-          "line": 173,
+          "line": 207,
           "pattern": "TopPairingSquareGapLabels",
           "text": "TopPairingSquareGapLabels (faceLabelsInContributionOrder (fun f => f) seq)"
         },
         {
-          "line": 201,
+          "line": 235,
           "pattern": "TopPairingSquareGapLabels",
           "text": "TopPairingSquareGapLabels labels :="
         },
         {
-          "line": 219,
+          "line": 279,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "(hg : TopPairingSquareGapLabels labels)"
+        },
+        {
+          "line": 303,
           "pattern": "TopPairingLocalAxisLabels",
           "text": "def TopPairingLocalAxisLabels (labels : List Face) : Prop :="
         },
         {
-          "line": 223,
+          "line": 307,
           "pattern": "TopPairingLocalAxisLabels",
           "text": "TopPairingLocalAxisLabels (faceLabelsInContributionOrder (fun f => f) seq)"
         },
         {
-          "line": 376,
+          "line": 497,
           "pattern": "TopPairingLocalAxisLabels",
           "text": "TopPairingLocalAxisLabels labels :="
         },
         {
-          "line": 414,
+          "line": 533,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "(ha : TopPairingLocalAxisLabels labels)"
+        },
+        {
+          "line": 576,
           "pattern": "TopPairingStepScheduleLabels",
           "text": "TopPairingStepScheduleLabels"
         },
         {
-          "line": 417,
+          "line": 579,
           "pattern": "TopPairingSquareGapLabels",
           "text": "TopPairingSquareGapLabels"
         },
         {
-          "line": 420,
+          "line": 582,
           "pattern": "TopPairingLocalAxisLabels",
           "text": "TopPairingLocalAxisLabels"
         },
         {
-          "line": 423,
+          "line": 585,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "structure TopPairingClosedLanguageAtRank"
         },
         {
-          "line": 434,
-          "pattern": "TopPairingStepScheduleLabels",
-          "text": "TopPairingStepScheduleLabels"
-        },
-        {
-          "line": 437,
-          "pattern": "TopPairingSquareGapLabels",
-          "text": "TopPairingSquareGapLabels"
-        },
-        {
-          "line": 440,
-          "pattern": "TopPairingLocalAxisLabels",
-          "text": "TopPairingLocalAxisLabels"
-        },
-        {
-          "line": 443,
-          "pattern": "TopPairingClosedLanguageForSeq",
-          "text": "structure TopPairingClosedLanguageForSeq"
-        },
-        {
-          "line": 456,
-          "pattern": "TopPairingStepScheduleLabels",
-          "text": "TopPairingStepScheduleLabels"
-        },
-        {
-          "line": 460,
-          "pattern": "TopPairingSquareGapLabels",
-          "text": "TopPairingSquareGapLabels"
-        },
-        {
-          "line": 464,
-          "pattern": "TopPairingLocalAxisLabels",
-          "text": "TopPairingLocalAxisLabels"
-        },
-        {
-          "line": 475,
-          "pattern": "TopPairingClosedLanguageAtRank",
-          "text": "namespace TopPairingClosedLanguageAtRank"
-        },
-        {
-          "line": 479,
-          "pattern": "TopPairingClosedLanguageAtRank",
-          "text": "(_h : TopPairingClosedLanguageAtRank rank badFace) :"
-        },
-        {
-          "line": 487,
-          "pattern": "TopPairingClosedLanguageAtRank",
-          "text": "(h : TopPairingClosedLanguageAtRank rank badFace) :"
-        },
-        {
-          "line": 500,
-          "pattern": "TopPairingStepScheduleLabels",
-          "text": "TopPairingStepScheduleLabels"
-        },
-        {
-          "line": 504,
-          "pattern": "TopPairingSquareGapLabels",
-          "text": "TopPairingSquareGapLabels"
-        },
-        {
-          "line": 508,
-          "pattern": "TopPairingLocalAxisLabels",
-          "text": "TopPairingLocalAxisLabels"
-        },
-        {
-          "line": 513,
+          "line": 594,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "TopPairingClosedLanguageAtRank rank badFace where"
         },
         {
-          "line": 520,
-          "pattern": "forCanonicalSeq",
-          "text": "theorem forCanonicalSeq"
+          "line": 605,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "TopPairingStepScheduleLabels"
         },
         {
-          "line": 522,
+          "line": 608,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 611,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 614,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "structure TopPairingClosedLanguageForSeq"
+        },
+        {
+          "line": 627,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 631,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 635,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 646,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "namespace TopPairingClosedLanguageAtRank"
+        },
+        {
+          "line": 650,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(_h : TopPairingClosedLanguageAtRank rank badFace) :"
+        },
+        {
+          "line": 658,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "(h : TopPairingClosedLanguageAtRank rank badFace) :"
         },
         {
-          "line": 523,
+          "line": 671,
+          "pattern": "TopPairingStepScheduleLabels",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 675,
+          "pattern": "TopPairingSquareGapLabels",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 679,
+          "pattern": "TopPairingLocalAxisLabels",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 684,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank badFace where"
+        },
+        {
+          "line": 691,
+          "pattern": "forCanonicalSeq",
+          "text": "theorem forCanonicalSeq"
+        },
+        {
+          "line": 693,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(h : TopPairingClosedLanguageAtRank rank badFace) :"
+        },
+        {
+          "line": 694,
           "pattern": "TopPairingClosedLanguageForSeq",
           "text": "TopPairingClosedLanguageForSeq"
         },
         {
-          "line": 531,
+          "line": 702,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "end TopPairingClosedLanguageAtRank"
         },
         {
-          "line": 540,
+          "line": 711,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank badFace :="
+        },
+        {
+          "line": 712,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "h.toTopPairingClosedLanguageAtRank"
+        },
+        {
+          "line": 725,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(closed : TopPairingClosedLanguageAtRank rank badFace)"
+        },
+        {
+          "line": 730,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "toTopPairingClosedLanguageAtRank := closed"
+        },
+        {
+          "line": 743,
           "pattern": "TopPairingStepScheduleLabels",
           "text": "TopPairingStepScheduleLabels"
         },
         {
-          "line": 543,
+          "line": 746,
           "pattern": "TopPairingSquareGapLabels",
           "text": "TopPairingSquareGapLabels"
         },
         {
-          "line": 546,
+          "line": 749,
           "pattern": "TopPairingLocalAxisLabels",
           "text": "TopPairingLocalAxisLabels"
         },
         {
-          "line": 556,
+          "line": 759,
           "pattern": "TopPairingClosedLanguageForSeq",
           "text": "namespace TopPairingClosedLanguageForSeq"
         },
         {
-          "line": 563,
+          "line": 766,
           "pattern": "TopPairingStepScheduleLabels",
           "text": "TopPairingStepScheduleLabels"
         },
         {
-          "line": 566,
+          "line": 769,
           "pattern": "TopPairingSquareGapLabels",
           "text": "TopPairingSquareGapLabels"
         },
         {
-          "line": 569,
+          "line": 772,
           "pattern": "TopPairingLocalAxisLabels",
           "text": "TopPairingLocalAxisLabels"
         },
         {
-          "line": 573,
+          "line": 776,
           "pattern": "TopPairingClosedLanguageForSeq",
           "text": "TopPairingClosedLanguageForSeq rank seq badFace where"
         },
         {
-          "line": 586,
+          "line": 789,
           "pattern": "TopPairingClosedLanguageForSeq",
           "text": "(h : TopPairingClosedLanguageForSeq rank template badFace) :"
         },
         {
-          "line": 587,
+          "line": 790,
           "pattern": "TopPairingClosedLanguageForSeq",
           "text": "TopPairingClosedLanguageForSeq rank seq badFace :="
         },
         {
-          "line": 606,
+          "line": 809,
           "pattern": "TopPairingClosedLanguageForSeq",
           "text": "(h : TopPairingClosedLanguageForSeq rank template badFace) :"
         },
         {
-          "line": 607,
+          "line": 810,
           "pattern": "TopPairingClosedLanguageForSeq",
           "text": "TopPairingClosedLanguageForSeq rank seq badFace :="
         },
         {
-          "line": 613,
+          "line": 816,
           "pattern": "TopPairingClosedLanguageForSeq",
           "text": "end TopPairingClosedLanguageForSeq"
         }
       ],
+      "closed_to_eval_socket": [],
+      "eval_accepts": [],
       "exists": true,
+      "remaining_premises": [],
       "sampled_eval": [],
       "semantic_eval_language": [],
-      "semantic_eval_target": [],
       "semantic_object": []
     },
     "Cuboctahedron/Search/TopPairingBellmanObject.lean": {
@@ -1098,83 +759,113 @@
           "text": "fun rank => TopPairingClosedLanguageAtRank rank badFace"
         },
         {
-          "line": 26,
+          "line": 33,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "closed : TopPairingClosedLanguageAtRank rank badFace"
         },
         {
-          "line": 60,
+          "line": 67,
           "pattern": "TopPairingClosedLanguageForSeq",
           "text": "TopPairingClosedLanguageForSeq obj.rank (forcedSeq obj) badFace :="
         },
         {
-          "line": 61,
+          "line": 68,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed"
         },
         {
-          "line": 61,
+          "line": 68,
           "pattern": "forCanonicalSeq",
           "text": "TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed"
         },
         {
-          "line": 224,
+          "line": 254,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "closed : TopPairingClosedLanguageAtRank rank badFace"
         },
         {
-          "line": 319,
+          "line": 349,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "TopPairingClosedLanguageAtRank obj.rank badFace :="
         },
         {
-          "line": 436,
+          "line": 466,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "TopPairingClosedLanguageAtRank rank badFace ->"
         }
       ],
+      "closed_to_eval_socket": [
+        {
+          "line": 451,
+          "pattern": "topPairingBellmanEvalObjectCoverOfClosedToEval",
+          "text": "def topPairingBellmanEvalObjectCoverOfClosedToEval"
+        }
+      ],
+      "eval_accepts": [
+        {
+          "line": 99,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        },
+        {
+          "line": 129,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        },
+        {
+          "line": 199,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        },
+        {
+          "line": 226,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        },
+        {
+          "line": 256,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        },
+        {
+          "line": 364,
+          "pattern": "BellmanEvalAccepts",
+          "text": "BellmanEvalAccepts V next start const"
+        }
+      ],
       "exists": true,
+      "remaining_premises": [],
       "sampled_eval": [],
       "semantic_eval_language": [
         {
-          "line": 214,
+          "line": 244,
           "pattern": "TopPairingBellmanEvalLanguageAtRank",
           "text": "structure TopPairingBellmanEvalLanguageAtRank"
         },
         {
-          "line": 233,
+          "line": 263,
           "pattern": "TopPairingBellmanEvalContainsRank",
           "text": "abbrev TopPairingBellmanEvalContainsRank"
         },
         {
-          "line": 243,
+          "line": 273,
           "pattern": "TopPairingBellmanEvalLanguageAtRank",
           "text": "TopPairingBellmanEvalLanguageAtRank"
         },
         {
-          "line": 246,
+          "line": 276,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "structure TopPairingBellmanEvalObj"
         },
         {
-          "line": 257,
+          "line": 287,
           "pattern": "TopPairingBellmanEvalLanguageAtRank",
           "text": "TopPairingBellmanEvalLanguageAtRank"
         },
         {
-          "line": 260,
+          "line": 290,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "namespace TopPairingBellmanEvalObj"
-        },
-        {
-          "line": 272,
-          "pattern": "TopPairingBellmanEvalObj",
-          "text": "TopPairingBellmanEvalObj"
-        },
-        {
-          "line": 287,
-          "pattern": "TopPairingBellmanEvalObj",
-          "text": "TopPairingBellmanEvalObj"
         },
         {
           "line": 302,
@@ -1192,101 +883,109 @@
           "text": "TopPairingBellmanEvalObj"
         },
         {
-          "line": 336,
+          "line": 347,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "TopPairingBellmanEvalObj"
         },
         {
-          "line": 356,
+          "line": 362,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 366,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 386,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj"
         },
         {
-          "line": 364,
+          "line": 394,
           "pattern": "TopPairingBellmanEvalContainsRank",
           "text": "(TopPairingBellmanEvalContainsRank"
         },
         {
-          "line": 391,
+          "line": 421,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj"
         },
         {
-          "line": 400,
+          "line": 430,
           "pattern": "TopPairingBellmanEvalContainsRank",
           "text": "(TopPairingBellmanEvalContainsRank"
         },
         {
-          "line": 419,
+          "line": 449,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "end TopPairingBellmanEvalObj"
         },
         {
-          "line": 421,
+          "line": 451,
           "pattern": "topPairingBellmanEvalObjectCoverOfClosedToEval",
           "text": "def topPairingBellmanEvalObjectCoverOfClosedToEval"
         },
         {
-          "line": 437,
+          "line": 467,
           "pattern": "TopPairingBellmanEvalLanguageAtRank",
           "text": "TopPairingBellmanEvalLanguageAtRank"
         },
         {
-          "line": 443,
+          "line": 473,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj"
         },
         {
-          "line": 446,
+          "line": 476,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj.rankOf"
         },
         {
-          "line": 450,
+          "line": 480,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj.Accepts"
         },
         {
-          "line": 457,
+          "line": 487,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "(TopPairingBellmanEvalObj.forcedSeq"
         },
         {
-          "line": 465,
+          "line": 495,
           "pattern": "TopPairingBellmanEvalObj",
           "text": "exact TopPairingBellmanEvalObj.evalAccepts obj))"
-        }
-      ],
-      "semantic_eval_target": [
-        {
-          "line": 92,
-          "pattern": "BellmanEvalAccepts",
-          "text": "BellmanEvalAccepts V next start const"
         },
         {
-          "line": 122,
-          "pattern": "BellmanEvalAccepts",
-          "text": "BellmanEvalAccepts V next start const"
+          "line": 524,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
         },
         {
-          "line": 169,
-          "pattern": "BellmanEvalAccepts",
-          "text": "BellmanEvalAccepts V next start const"
+          "line": 530,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
         },
         {
-          "line": 196,
-          "pattern": "BellmanEvalAccepts",
-          "text": "BellmanEvalAccepts V next start const"
+          "line": 533,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.rankOf"
         },
         {
-          "line": 226,
-          "pattern": "BellmanEvalAccepts",
-          "text": "BellmanEvalAccepts V next start const"
+          "line": 537,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.Accepts"
         },
         {
-          "line": 334,
-          "pattern": "BellmanEvalAccepts",
-          "text": "BellmanEvalAccepts V next start const"
+          "line": 544,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.forcedSeq"
+        },
+        {
+          "line": 552,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "exact TopPairingBellmanEvalObj.evalAccepts obj))"
         }
       ],
       "semantic_object": [
@@ -1301,44 +1000,39 @@
           "text": "TopPairingClosedContainsRank badFace"
         },
         {
-          "line": 24,
+          "line": 31,
           "pattern": "TopPairingBellmanObj",
           "text": "structure TopPairingBellmanObj (badFace : Face) where"
         },
         {
-          "line": 28,
+          "line": 35,
           "pattern": "TopPairingBellmanObj",
           "text": "namespace TopPairingBellmanObj"
         },
         {
-          "line": 30,
+          "line": 37,
           "pattern": "TopPairingBellmanObj",
           "text": "def rankOf {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
         },
         {
-          "line": 34,
+          "line": 41,
           "pattern": "TopPairingBellmanObj",
           "text": "def Accepts {badFace : Face} (_obj : TopPairingBellmanObj badFace) :"
         },
         {
-          "line": 38,
+          "line": 45,
           "pattern": "TopPairingBellmanObj",
           "text": "theorem accepts {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
         },
         {
-          "line": 42,
+          "line": 49,
           "pattern": "TopPairingBellmanObj",
           "text": "def forcedSeq {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
         },
         {
-          "line": 47,
+          "line": 54,
           "pattern": "TopPairingBellmanObj",
           "text": "(obj : TopPairingBellmanObj badFace) : List Label :="
-        },
-        {
-          "line": 52,
-          "pattern": "TopPairingBellmanObj",
-          "text": "(obj : TopPairingBellmanObj badFace) :"
         },
         {
           "line": 59,
@@ -1346,650 +1040,212 @@
           "text": "(obj : TopPairingBellmanObj badFace) :"
         },
         {
-          "line": 65,
+          "line": 66,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 72,
           "pattern": "TopPairingBellmanObj",
           "text": "(TopPairingBellmanObj badFace)"
         },
         {
-          "line": 68,
+          "line": 75,
           "pattern": "TopPairingClosedContainsRank",
           "text": "(TopPairingClosedContainsRank badFace) where"
         },
         {
-          "line": 91,
+          "line": 98,
           "pattern": "TopPairingBellmanObj",
           "text": "forall obj : TopPairingBellmanObj badFace,"
         },
         {
-          "line": 93,
+          "line": 100,
           "pattern": "TopPairingBellmanObj",
           "text": "(fun obj : TopPairingBellmanObj badFace =>"
         },
         {
-          "line": 98,
+          "line": 105,
           "pattern": "TopPairingBellmanObj",
           "text": "(fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)"
         },
         {
-          "line": 107,
+          "line": 114,
           "pattern": "objectCoverOfEvalAccepts",
           "text": "def objectCoverOfEvalAccepts"
         },
         {
-          "line": 121,
+          "line": 128,
           "pattern": "TopPairingBellmanObj",
           "text": "forall obj : TopPairingBellmanObj badFace,"
         },
         {
-          "line": 123,
+          "line": 130,
           "pattern": "TopPairingBellmanObj",
           "text": "(fun obj : TopPairingBellmanObj badFace =>"
         },
         {
-          "line": 131,
+          "line": 138,
           "pattern": "TopPairingBellmanObj",
           "text": "(TopPairingBellmanObj badFace)"
         },
         {
-          "line": 135,
+          "line": 142,
           "pattern": "TopPairingClosedContainsRank",
           "text": "(TopPairingClosedContainsRank badFace)"
         },
         {
-          "line": 144,
+          "line": 151,
           "pattern": "TopPairingBellmanObj",
           "text": "end TopPairingBellmanObj"
         },
         {
-          "line": 148,
+          "line": 155,
           "pattern": "TopPairingBellmanObj",
           "text": "(TopPairingBellmanObj badFace)"
         },
         {
-          "line": 149,
+          "line": 156,
           "pattern": "TopPairingBellmanObj",
           "text": "TopPairingBellmanObj.rankOf"
         },
         {
-          "line": 150,
+          "line": 157,
           "pattern": "TopPairingBellmanObj",
           "text": "TopPairingBellmanObj.Accepts"
         },
         {
-          "line": 152,
+          "line": 159,
           "pattern": "TopPairingBellmanObj",
           "text": "TopPairingBellmanObj.closedMembership badFace"
         },
         {
-          "line": 168,
+          "line": 164,
           "pattern": "TopPairingBellmanObj",
-          "text": "forall obj : TopPairingBellmanObj badFace,"
+          "text": "exists obj : TopPairingBellmanObj badFace,"
         },
         {
-          "line": 170,
+          "line": 165,
           "pattern": "TopPairingBellmanObj",
-          "text": "(fun obj : TopPairingBellmanObj badFace =>"
+          "text": "TopPairingBellmanObj.Accepts obj /\\"
         },
         {
-          "line": 172,
+          "line": 166,
           "pattern": "TopPairingBellmanObj",
-          "text": "(fun obj => TopPairingBellmanObj.labels labelOfFace obj)"
+          "text": "TopPairingBellmanObj.rankOf obj = rank :="
         },
         {
           "line": 175,
           "pattern": "TopPairingBellmanObj",
-          "text": "(fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)"
-        },
-        {
-          "line": 176,
-          "pattern": "TopPairingBellmanObj",
-          "text": "(fun obj => TopPairingBellmanObj.labels labelOfFace obj)"
-        },
-        {
-          "line": 177,
-          "pattern": "TopPairingBellmanObj",
-          "text": "TopPairingBellmanObj.Accepts :="
+          "text": "TopPairingBellmanObj badFace) :="
         },
         {
           "line": 178,
           "pattern": "TopPairingBellmanObj",
-          "text": "TopPairingBellmanObj.traceBoundOfEvalAccepts"
+          "text": "theorem TopPairingBellmanObj.labels_id_eq_rankFaceLabels"
         },
         {
-          "line": 195,
+          "line": 179,
+          "pattern": "TopPairingBellmanObj",
+          "text": "{badFace : Face} (obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 180,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels (fun f : Face => f) obj ="
+        },
+        {
+          "line": 198,
           "pattern": "TopPairingBellmanObj",
           "text": "forall obj : TopPairingBellmanObj badFace,"
         },
         {
-          "line": 197,
+          "line": 200,
           "pattern": "TopPairingBellmanObj",
           "text": "(fun obj : TopPairingBellmanObj badFace =>"
         },
         {
-          "line": 199,
+          "line": 202,
           "pattern": "TopPairingBellmanObj",
           "text": "(fun obj => TopPairingBellmanObj.labels labelOfFace obj)"
         },
         {
           "line": 205,
           "pattern": "TopPairingBellmanObj",
-          "text": "(TopPairingBellmanObj badFace)"
+          "text": "(fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)"
+        },
+        {
+          "line": 206,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels labelOfFace obj)"
         },
         {
           "line": 207,
           "pattern": "TopPairingBellmanObj",
-          "text": "TopPairingBellmanObj.rankOf"
+          "text": "TopPairingBellmanObj.Accepts :="
         },
         {
           "line": 208,
           "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.traceBoundOfEvalAccepts"
+        },
+        {
+          "line": 225,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj badFace,"
+        },
+        {
+          "line": 227,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace =>"
+        },
+        {
+          "line": 229,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels labelOfFace obj)"
+        },
+        {
+          "line": 235,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(TopPairingBellmanObj badFace)"
+        },
+        {
+          "line": 237,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.rankOf"
+        },
+        {
+          "line": 238,
+          "pattern": "TopPairingBellmanObj",
           "text": "TopPairingBellmanObj.Accepts"
         },
         {
-          "line": 211,
+          "line": 241,
           "pattern": "TopPairingBellmanObj",
           "text": "TopPairingBellmanObj.objectCoverOfEvalAccepts"
         },
         {
-          "line": 211,
+          "line": 241,
           "pattern": "objectCoverOfEvalAccepts",
           "text": "TopPairingBellmanObj.objectCoverOfEvalAccepts"
         },
         {
-          "line": 454,
+          "line": 484,
           "pattern": "TopPairingClosedContainsRank",
           "text": "(TopPairingClosedContainsRank badFace)"
         }
       ]
-    },
-    "scripts/emit_bellman_graph_smoke.py": {
-      "closed_language_fields": [],
-      "exists": true,
-      "sampled_eval": [
-        {
-          "line": 1745,
-          "pattern": "sampledSmokeNext",
-          "text": "\"private def sampledSmokeNext : State -> SmokeLabel -> Option (State \u00d7 Int)\","
-        },
-        {
-          "line": 1757,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"private def SampledSmokeStepEval (s : State) (label : SmokeLabel) (t : State) (gain : Int) : Prop :=\","
-        },
-        {
-          "line": 1758,
-          "pattern": "sampledSmokeNext",
-          "text": "\"  sampledSmokeNext s label = some (t, gain)\","
-        },
-        {
-          "line": 1760,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"private theorem SampledSmokeStepEval.valid {s : State} {label : SmokeLabel} {t : State} {gain : Int} :\","
-        },
-        {
-          "line": 1761,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"    SampledSmokeStepEval s label t gain -> gain + graphPotential t <= graphPotential s := by\","
-        },
-        {
-          "line": 1764,
-          "pattern": "sampledSmokeNext",
-          "text": "\"  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction\","
-        },
-        {
-          "line": 1764,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"  cases s <;> cases label <;> intro t gain h <;> simp [SampledSmokeStepEval, sampledSmokeNext] at h <;> try contradiction\","
-        },
-        {
-          "line": 1769,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"private theorem SampledSmokeStepEval.sound {s : State} {label : SmokeLabel} {t : State} {gain : Int} :\","
-        },
-        {
-          "line": 1770,
-          "pattern": "sampledSmokeNext",
-          "text": "\"    sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by\","
-        },
-        {
-          "line": 1770,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"    sampledSmokeNext s label = some (t, gain) -> SampledSmokeStepEval s label t gain := by\","
-        },
-        {
-          "line": 1780,
-          "pattern": "sampledSmokeNext",
-          "text": "f\"    evalLabelStepFn sampledSmokeNext rootState {trie_node_labels_name(0)} =\","
-        },
-        {
-          "line": 1794,
-          "pattern": "sampledSmokeNext",
-          "text": "f\"    evalLabelStepFn sampledSmokeNext {trie_node_state_name(parent)}\","
-        },
-        {
-          "line": 1797,
-          "pattern": "sampledSmokeNext",
-          "text": "f\"  change evalLabelStepFn sampledSmokeNext {state_ctor(int(edge['src']))}\","
-        },
-        {
-          "line": 1802,
-          "pattern": "sampledSmokeNext",
-          "text": "f\"    evalLabelStepFn sampledSmokeNext rootState {trie_node_labels_name(node_idx)} =\","
-        },
-        {
-          "line": 1809,
-          "pattern": "SampledRankIndex",
-          "text": "\"private inductive SampledRankIndex where\","
-        },
-        {
-          "line": 1815,
-          "pattern": "SampledRankIndex",
-          "text": "\"private def sampledRankOf : SampledRankIndex -> Fin numPairWords\","
-        },
-        {
-          "line": 1815,
-          "pattern": "sampledRankOf",
-          "text": "\"private def sampledRankOf : SampledRankIndex -> Fin numPairWords\","
-        },
-        {
-          "line": 1819,
-          "pattern": "SampledRankIndex",
-          "text": "f\"  | SampledRankIndex.i{idx:04d} => {info['rank_name']}\""
-        },
-        {
-          "line": 1823,
-          "pattern": "sampledContainsRank",
-          "text": "\"private def sampledContainsRank (rank : Fin numPairWords) : Prop :=\","
-        },
-        {
-          "line": 1824,
-          "pattern": "SampledRankIndex",
-          "text": "\"  exists idx : SampledRankIndex, sampledRankOf idx = rank\","
-        },
-        {
-          "line": 1824,
-          "pattern": "sampledRankOf",
-          "text": "\"  exists idx : SampledRankIndex, sampledRankOf idx = rank\","
-        },
-        {
-          "line": 1853,
-          "pattern": "SampledRankIndex",
-          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace\","
-        },
-        {
-          "line": 1854,
-          "pattern": "sampledRankOf",
-          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf\","
-        },
-        {
-          "line": 1927,
-          "pattern": "sampledRankOf",
-          "text": "\"    \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
-        },
-        {
-          "line": 1957,
-          "pattern": "SampledRankIndex",
-          "text": "\"    (idx : SampledRankIndex)\","
-        },
-        {
-          "line": 1959,
-          "pattern": "sampledRankOf",
-          "text": "\"    (hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)\","
-        },
-        {
-          "line": 1961,
-          "pattern": "sampledRankOf",
-          "text": "\"    sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :=\","
-        },
-        {
-          "line": 1970,
-          "pattern": "SampledRankIndex",
-          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace\","
-        },
-        {
-          "line": 1971,
-          "pattern": "sampledContainsRank",
-          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledContainsRank\","
-        },
-        {
-          "line": 1971,
-          "pattern": "sampledRankOf",
-          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledContainsRank\","
-        },
-        {
-          "line": 1979,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank)\","
-        },
-        {
-          "line": 1987,
-          "pattern": "SampledRankIndex",
-          "text": "\"private def sampledObjectForcedSeq : SampledRankIndex -> Step14 -> Face\","
-        },
-        {
-          "line": 1991,
-          "pattern": "SampledRankIndex",
-          "text": "f\"  | SampledRankIndex.i{idx:04d} => {info['seq_name']}\""
-        },
-        {
-          "line": 1995,
-          "pattern": "SampledRankIndex",
-          "text": "\"private def sampledObjectAccepts (idx : SampledRankIndex) : Prop :=\","
-        },
-        {
-          "line": 1996,
-          "pattern": "sampledRankOf",
-          "text": "\"  AxisForcesForcedSeq (unrankPairWord (sampledRankOf idx))\","
-        },
-        {
-          "line": 1998,
-          "pattern": "sampledSmokeNext",
-          "text": "\"    BellmanEvalAccepts graphPotential sampledSmokeNext rootState\","
-        },
-        {
-          "line": 2000,
-          "pattern": "sampledRankOf",
-          "text": "\"      (fun idx => sampledScaledMarginAtRank (sampledRankOf idx))\","
-        },
-        {
-          "line": 2005,
-          "pattern": "SampledRankIndex",
-          "text": "\"  exists idx : SampledRankIndex, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank\","
-        },
-        {
-          "line": 2005,
-          "pattern": "sampledRankOf",
-          "text": "\"  exists idx : SampledRankIndex, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank\","
-        },
-        {
-          "line": 2008,
-          "pattern": "SampledRankIndex",
-          "text": "\"    BellmanRankObjectMembership SampledRankIndex sampledRankOf\","
-        },
-        {
-          "line": 2008,
-          "pattern": "sampledRankOf",
-          "text": "\"    BellmanRankObjectMembership SampledRankIndex sampledRankOf\","
-        },
-        {
-          "line": 2009,
-          "pattern": "sampledContainsRank",
-          "text": "\"      sampledObjectAccepts sampledContainsRank where\","
-        },
-        {
-          "line": 2010,
-          "pattern": "Classical.choose",
-          "text": "\"  objectOf := fun _rank hrank => Classical.choose hrank\","
-        },
-        {
-          "line": 2013,
-          "pattern": "Classical.choose",
-          "text": "\"    let idx := Classical.choose hrank\","
-        },
-        {
-          "line": 2023,
-          "pattern": "sampledSmokeNext",
-          "text": "\"        \u00b7 change evalLabelStepFn sampledSmokeNext rootState\","
-        },
-        {
-          "line": 2029,
-          "pattern": "sampledRankOf",
-          "text": "\"        \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
-        },
-        {
-          "line": 2036,
-          "pattern": "Classical.choose",
-          "text": "\"    exact Classical.choose_spec hrank\","
-        },
-        {
-          "line": 2040,
-          "pattern": "SampledRankIndex",
-          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SmokeStep smokeLabelOfFace\","
-        },
-        {
-          "line": 2041,
-          "pattern": "sampledRankOf",
-          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledObjectAccepts\","
-        },
-        {
-          "line": 2042,
-          "pattern": "sampledContainsRank",
-          "text": "\"      sampledContainsRank sampledScaledMarginAtRank :=\","
-        },
-        {
-          "line": 2060,
-          "pattern": "sampledRankOf",
-          "text": "\"        \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
-        },
-        {
-          "line": 2073,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
-        },
-        {
-          "line": 2080,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
-        },
-        {
-          "line": 2080,
-          "pattern": "SampledRankIndex",
-          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
-        },
-        {
-          "line": 2081,
-          "pattern": "sampledRankOf",
-          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledObjectAccepts\","
-        },
-        {
-          "line": 2082,
-          "pattern": "sampledContainsRank",
-          "text": "\"      sampledContainsRank sampledScaledMarginAtRank :=\","
-        },
-        {
-          "line": 2094,
-          "pattern": "sampledSmokeNext",
-          "text": "\"            evalLabelStepFn sampledSmokeNext rootState\","
-        },
-        {
-          "line": 2100,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"            (Step := SampledSmokeStepEval)\","
-        },
-        {
-          "line": 2101,
-          "pattern": "sampledSmokeNext",
-          "text": "\"            (next := sampledSmokeNext)\","
-        },
-        {
-          "line": 2107,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"              exact SampledSmokeStepEval.sound h)\","
-        },
-        {
-          "line": 2110,
-          "pattern": "sampledRankOf",
-          "text": "\"        \u00b7 unfold sampledRankOf sampledScaledMarginAtRank\","
-        },
-        {
-          "line": 2118,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"      exact SampledSmokeStepEval.valid h)\","
-        },
-        {
-          "line": 2123,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
-        },
-        {
-          "line": 2129,
-          "pattern": "SampledRankIndex",
-          "text": "\"    (idx : SampledRankIndex) (hAccept : sampledObjectAccepts idx) :\","
-        },
-        {
-          "line": 2130,
-          "pattern": "sampledRankOf",
-          "text": "\"    sampledScaledMarginAtRank (sampledRankOf idx) <= 0 :=\","
-        },
-        {
-          "line": 2135,
-          "pattern": "sampledContainsRank",
-          "text": "\"    forall rank, sampledContainsRank rank ->\","
-        },
-        {
-          "line": 2136,
-          "pattern": "sampledRankOf",
-          "text": "\"      exists idx, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank :=\","
-        },
-        {
-          "line": 2141,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
-        },
-        {
-          "line": 2141,
-          "pattern": "SampledRankIndex",
-          "text": "\"      SampledRankIndex State SmokeLabel graphPotential SampledSmokeStepEval smokeLabelOfFace\","
-        },
-        {
-          "line": 2142,
-          "pattern": "sampledRankOf",
-          "text": "\"      rootState (\" + str(const_scaled) + \" : Int) sampledRankOf sampledObjectAccepts\","
-        },
-        {
-          "line": 2148,
-          "pattern": "SampledSmokeStepEval",
-          "text": "\"      exact SampledSmokeStepEval.sound h)\","
-        },
-        {
-          "line": 2161,
-          "pattern": "sampledRankOf",
-          "text": "\"      exists idx, sampledObjectAccepts idx /\\\\ sampledRankOf idx = rank :=\","
-        },
-        {
-          "line": 2167,
-          "pattern": "sampledRankOf",
-          "text": "\"        (sampledRankOf idx)\","
-        },
-        {
-          "line": 2168,
-          "pattern": "sampledRankOf",
-          "text": "\"        (sampledScaledMarginAtRank (sampledRankOf idx))\","
-        },
-        {
-          "line": 2192,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
-        },
-        {
-          "line": 2198,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
-        },
-        {
-          "line": 2210,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
-        },
-        {
-          "line": 2223,
-          "pattern": "sampledRankOf",
-          "text": "\"        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->\","
-        },
-        {
-          "line": 2227,
-          "pattern": "sampledRankOf",
-          "text": "\"        0 < sampledScaledMarginAtRank (sampledRankOf idx))\","
-        },
-        {
-          "line": 2228,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
-        },
-        {
-          "line": 2236,
-          "pattern": "sampledRankOf",
-          "text": "\"        SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq ->\","
-        },
-        {
-          "line": 2240,
-          "pattern": "sampledRankOf",
-          "text": "\"        0 < sampledScaledMarginAtRank (sampledRankOf idx))\","
-        },
-        {
-          "line": 2241,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
-        },
-        {
-          "line": 2247,
-          "pattern": "SampledRankIndex",
-          "text": "\"    (idx : SampledRankIndex)\","
-        },
-        {
-          "line": 2249,
-          "pattern": "sampledRankOf",
-          "text": "\"    (hRealize : SeqRealizesPairWord (unrankPairWord (sampledRankOf idx)) seq)\","
-        },
-        {
-          "line": 2253,
-          "pattern": "sampledRankOf",
-          "text": "\"    0 < sampledScaledMarginAtRank (sampledRankOf idx) := by\","
-        },
-        {
-          "line": 2273,
-          "pattern": "sampledContainsRank",
-          "text": "\"    {rank : Fin numPairWords} (hrank : sampledContainsRank rank) :\","
-        },
-        {
-          "line": 2293,
-          "pattern": "SampledRankIndex",
-          "text": "\"SampledRankIndex\","
-        },
-        {
-          "line": 2294,
-          "pattern": "sampledRankOf",
-          "text": "\"sampledRankOf\","
-        },
-        {
-          "line": 2295,
-          "pattern": "sampledContainsRank",
-          "text": "\"sampledContainsRank\","
-        },
-        {
-          "line": 2413,
-          "pattern": "sampledRankOf",
-          "text": "\"        (sampledRankOf idx)\","
-        },
-        {
-          "line": 2414,
-          "pattern": "sampledRankOf",
-          "text": "\"        (sampledScaledMarginAtRank (sampledRankOf idx))\","
-        },
-        {
-          "line": 2450,
-          "pattern": "sampledRankOf",
-          "text": "\"      rank := sampledRankOf idx,\","
-        }
-      ],
-      "semantic_eval_language": [],
-      "semantic_eval_target": [
-        {
-          "line": 1998,
-          "pattern": "BellmanEvalAccepts",
-          "text": "\"    BellmanEvalAccepts graphPotential sampledSmokeNext rootState\","
-        }
-      ],
-      "semantic_object": []
     }
   },
-  "next_required_theorem": "forall obj : TopPairingBellmanObj Face.ym, BellmanEvalAccepts ... obj",
-  "required_emitter_change": "Move deterministic eval from sampledSmokeNext/SampledRankIndex to a theorem over TopPairingBellmanObj and obj.closed.",
+  "next_required_theorem": "forall rank, TopPairingClosedLanguageAtRank rank Face.ym -> TopPairingBellmanEvalLanguageAtRank ... rank Face.ym",
+  "required_emitter_change": "Prove the trace and margin premises from the semantic closed language, or generate one compact semantic family theorem that does so. Do not reintroduce sampled rank/path objects.",
   "totals": {
-    "closed_language_fields": 54,
-    "sampled_eval": 260,
-    "semantic_eval_language": 24,
-    "semantic_eval_target": 8,
-    "semantic_object": 42
+    "closed_language_fields": 68,
+    "closed_to_eval_socket": 6,
+    "eval_accepts": 16,
+    "remaining_premises": 17,
+    "sampled_eval": 0,
+    "semantic_eval_language": 35,
+    "semantic_object": 91
   }
 }

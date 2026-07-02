@@ -18,8 +18,9 @@ ROOT = Path(__file__).resolve().parents[1]
 FILES = [
     ROOT / "Cuboctahedron/Search/TopPairingBellmanObject.lean",
     ROOT / "Cuboctahedron/Search/BellmanTopPairingLanguage.lean",
-    ROOT / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphLanguage2Smoke.lean",
-    ROOT / "scripts/emit_bellman_graph_smoke.py",
+    ROOT / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean",
+    ROOT / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean",
+    ROOT / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalLanguage.lean",
 ]
 
 PATTERNS = {
@@ -44,9 +45,17 @@ PATTERNS = {
         "sampledRankOf",
         "Classical.choose",
     ],
-    "semantic_eval_target": [
-        "topPairingClosed_eval",
-        "topPairingClosed_evalAccepts",
+    "closed_to_eval_socket": [
+        "closedToEvalLanguage_of_traceAndMargin",
+        "scaledMargin_nonpos_of_closedToEvalLanguage",
+        "evalLanguageAtRank_of_graphAcceptedTraceMargin",
+        "evalLanguageAtRank_of_strengthened_graphAcceptedTraceMargin",
+        "topPairingBellmanEvalObjectCoverOfClosedToEval",
+    ],
+    "eval_accepts": [
+        "evalAccepts_of_closedTraceAndMargin",
+        "bellmanEvalAccepts_of_closedFaceTraceA_or_closedFaceTraceB",
+        "bellmanEvalAccepts_of_graphAcceptedTraceMargin",
         "BellmanEvalAccepts",
     ],
     "semantic_eval_language": [
@@ -54,6 +63,13 @@ PATTERNS = {
         "TopPairingBellmanEvalContainsRank",
         "TopPairingBellmanEvalObj",
         "topPairingBellmanEvalObjectCoverOfClosedToEval",
+    ],
+    "remaining_premises": [
+        "ClosedTraceOr",
+        "ClosedMarginBound",
+        "GraphAcceptedTraceMargin",
+        "TerminalOkTraceLabels",
+        "AcceptedSequenceBadFaceAtRank",
     ],
 }
 
@@ -90,18 +106,19 @@ def main() -> None:
     sampled_eval = totals["sampled_eval"]
     semantic_object = totals["semantic_object"]
     semantic_eval_language = totals["semantic_eval_language"]
-    semantic_eval_names = [
-        match
-        for info in by_file.values()
-        for match in info["semantic_eval_target"]  # type: ignore[index]
-        if match["pattern"] in {"topPairingClosed_eval", "topPairingClosed_evalAccepts"}
-    ]
+    closed_to_eval_socket = totals["closed_to_eval_socket"]
+    remaining_premises = totals["remaining_premises"]
     decision = (
-        "stronger-eval-predicate-built-closed-to-eval-missing"
-        if semantic_eval_language and sampled_eval and not semantic_eval_names
+        "closed-to-eval-socket-built-trace-margin-premises-remain"
+        if semantic_eval_language and closed_to_eval_socket and remaining_premises
+        and not sampled_eval
+        else "closed-to-eval-socket-built-but-sampled-risk-present"
+        if semantic_eval_language and closed_to_eval_socket and sampled_eval
+        else "stronger-eval-predicate-built-closed-to-eval-missing"
+        if semantic_eval_language and not closed_to_eval_socket
         else
         "semantic-object-built-eval-still-sampled"
-        if semantic_object and sampled_eval and not semantic_eval_names
+        if semantic_object and sampled_eval
         else "needs-manual-review"
     )
 
@@ -110,12 +127,13 @@ def main() -> None:
         "totals": totals,
         "files": by_file,
         "next_required_theorem": (
-            "forall obj : TopPairingBellmanObj Face.ym, "
-            "BellmanEvalAccepts ... obj"
+            "forall rank, TopPairingClosedLanguageAtRank rank Face.ym -> "
+            "TopPairingBellmanEvalLanguageAtRank ... rank Face.ym"
         ),
         "required_emitter_change": (
-            "Move deterministic eval from sampledSmokeNext/SampledRankIndex to "
-            "a theorem over TopPairingBellmanObj and obj.closed."
+            "Prove the trace and margin premises from the semantic closed "
+            "language, or generate one compact semantic family theorem that "
+            "does so. Do not reintroduce sampled rank/path objects."
         ),
     }
 
@@ -140,21 +158,27 @@ def main() -> None:
         f"- closed-language field mentions: `{totals['closed_language_fields']}`",
         f"- sampled-eval mentions: `{totals['sampled_eval']}`",
         f"- semantic eval-language mentions: `{totals['semantic_eval_language']}`",
-        f"- semantic closed-eval theorem mentions: `{len(semantic_eval_names)}`",
+        f"- closed-to-eval socket mentions: `{totals['closed_to_eval_socket']}`",
+        f"- remaining-premise mentions: `{totals['remaining_premises']}`",
         "",
         "## Interpretation",
         "",
-        "The semantic object/membership layer exists, but the generated",
-        "deterministic evaluator is still emitted inside the sampled block.",
-        "The next go/no-go theorem remains:",
+        "The semantic object/membership layer exists, and the current generated",
+        "route has a conditional closed-to-eval socket.  The remaining proof",
+        "obligation is not another wrapper: it is to prove the trace and margin",
+        "premises from the semantic closed-language predicate, or generate one",
+        "compact semantic family theorem that provides them.",
         "",
         "```lean",
-        "forall obj : TopPairingBellmanObj Face.ym,",
-        "  BellmanEvalAccepts ... obj",
+        "forall rank,",
+        "  TopPairingClosedLanguageAtRank rank Face.ym ->",
+        "    TopPairingBellmanEvalLanguageAtRank ... rank Face.ym",
         "```",
         "",
-        "That theorem must be proved from `obj.closed` and finite automaton facts,",
-        "not by case-splitting on `SampledRankIndex`.",
+        "Equivalently, the next theorem can provide",
+        "`GraphAcceptedTraceMargin` for the semantic closed object.  It must be",
+        "proved from `TopPairingClosedLanguageAtRank` and finite automaton facts,",
+        "not by case-splitting on `SampledRankIndex` or sampled paths.",
         "",
         "## Files",
         "",
