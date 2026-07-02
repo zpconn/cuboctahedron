@@ -1,0 +1,163 @@
+{
+  "max_depth": 14,
+  "peak": {
+    "depth": 10,
+    "estimated_shards": {
+      "128": 25,
+      "256": 13,
+      "64": 50
+    },
+    "prefix_count": 3186
+  },
+  "rows": [
+    {
+      "depth": 0,
+      "estimated_shards": {
+        "128": 1,
+        "256": 1,
+        "64": 1
+      },
+      "prefix_count": 1
+    },
+    {
+      "depth": 1,
+      "estimated_shards": {
+        "128": 1,
+        "256": 1,
+        "64": 1
+      },
+      "prefix_count": 1
+    },
+    {
+      "depth": 2,
+      "estimated_shards": {
+        "128": 1,
+        "256": 1,
+        "64": 1
+      },
+      "prefix_count": 1
+    },
+    {
+      "depth": 3,
+      "estimated_shards": {
+        "128": 1,
+        "256": 1,
+        "64": 1
+      },
+      "prefix_count": 3
+    },
+    {
+      "depth": 4,
+      "estimated_shards": {
+        "128": 1,
+        "256": 1,
+        "64": 1
+      },
+      "prefix_count": 8
+    },
+    {
+      "depth": 5,
+      "estimated_shards": {
+        "128": 1,
+        "256": 1,
+        "64": 1
+      },
+      "prefix_count": 24
+    },
+    {
+      "depth": 6,
+      "estimated_shards": {
+        "128": 1,
+        "256": 1,
+        "64": 2
+      },
+      "prefix_count": 68
+    },
+    {
+      "depth": 7,
+      "estimated_shards": {
+        "128": 2,
+        "256": 1,
+        "64": 4
+      },
+      "prefix_count": 209
+    },
+    {
+      "depth": 8,
+      "estimated_shards": {
+        "128": 5,
+        "256": 3,
+        "64": 10
+      },
+      "prefix_count": 595
+    },
+    {
+      "depth": 9,
+      "estimated_shards": {
+        "128": 13,
+        "256": 7,
+        "64": 25
+      },
+      "prefix_count": 1585
+    },
+    {
+      "depth": 10,
+      "estimated_shards": {
+        "128": 25,
+        "256": 13,
+        "64": 50
+      },
+      "prefix_count": 3186
+    },
+    {
+      "depth": 11,
+      "estimated_shards": {
+        "128": 25,
+        "256": 13,
+        "64": 49
+      },
+      "prefix_count": 3082
+    },
+    {
+      "depth": 12,
+      "estimated_shards": {
+        "128": 13,
+        "256": 7,
+        "64": 26
+      },
+      "prefix_count": 1631
+    },
+    {
+      "depth": 13,
+      "estimated_shards": {
+        "128": 4,
+        "256": 2,
+        "64": 8
+      },
+      "prefix_count": 482
+    },
+    {
+      "depth": 14,
+      "estimated_shards": {
+        "128": 4,
+        "256": 2,
+        "64": 7
+      },
+      "prefix_count": 442
+    }
+  ],
+  "sampled_rank_or_path_data": false,
+  "semantic_components": [
+    "TopPairingStepScheduleLabels",
+    "TopPairingSquareGapLabels",
+    "TopPairingLocalAxisLabels",
+    "remaining pair counts",
+    "triangular cancellation stack shadow bound"
+  ],
+  "shard_sizes": [
+    64,
+    128,
+    256
+  ],
+  "source": "exact semantic prefix enumerator"
+}

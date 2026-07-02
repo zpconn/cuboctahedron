@@ -58538,3 +58538,42 @@ the generated membership theorem is selected from semantic closed-language
 state, not from a sampled rank/path table.  The next step is to extend the
 emitter from one depth-4 theorem to bounded prefix-depth shards, keeping each
 shard small and guarded.
+
+Prefix-depth shard sizing:
+
+- Added `scripts/profile_top_pairing_trace_prefix_depths.py`.
+- The profiler reuses the exact semantic prefix enumerator from the generated
+  smoke emitter and reports depth counts plus shard-count estimates.
+- It writes:
+  - `scripts/generated/top_pairing_trace_prefix_depth_profile.json`
+  - `docs/top_pairing_trace_prefix_depth_profile.md`
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/profile_top_pairing_trace_prefix_depths.py
+python3 scripts/profile_top_pairing_trace_prefix_depths.py
+```
+
+Result:
+
+```text
+depth  4:    8 prefixes
+depth  5:   24 prefixes
+depth  6:   68 prefixes
+depth  7:  209 prefixes
+depth  8:  595 prefixes
+depth  9: 1585 prefixes
+depth 10: 3186 prefixes
+depth 11: 3082 prefixes
+depth 12: 1631 prefixes
+depth 13:  482 prefixes
+depth 14:  442 prefixes
+peak: depth 10 with 3186 prefixes
+```
+
+Decision: do not emit one monolithic theorem per deep prefix level.  Start the
+next Lean experiment with bounded shards, probably 64-prefix shards first
+because the depth-10 peak would then be about 50 shards.  Only increase to
+128- or 256-prefix shards after representative guarded builds show RSS and
+elapsed time are still comfortable.
