@@ -1,0 +1,30 @@
+{
+  "available_floor_mib": 4096.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "-j1",
+    "-M",
+    "6000",
+    "-s",
+    "2048",
+    "-o",
+    ".lake/build/lib/lean/Cuboctahedron/Search/BellmanTopPairingLanguage.olean",
+    "-i",
+    ".lake/build/lib/lean/Cuboctahedron/Search/BellmanTopPairingLanguage.ilean",
+    "-c",
+    ".lake/build/ir/Cuboctahedron/Search/BellmanTopPairingLanguage.c",
+    "Cuboctahedron/Search/BellmanTopPairingLanguage.lean"
+  ],
+  "elapsed_seconds": 3.019453289001831,
+  "exit_code": 0,
+  "hard_address_space_mib": 8192.0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4042760,
+  "max_tree_rss_mib": 3948.0078125,
+  "min_available_seen_kib": 47289436,
+  "min_available_seen_mib": 46181.08984375,
+  "rss_cap_mib": 12000.0,
+  "timeout_seconds": 120.0
+}

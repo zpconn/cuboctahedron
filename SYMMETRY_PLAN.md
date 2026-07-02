@@ -70089,3 +70089,90 @@ transition fact that uses these extractors.  If that fact still needs the old
 large `simp [normalQ, matVec, dot, matMul, reflM, ...]` proof at every parent,
 the Bellman provider gate fails and the plan pivots to cancellation-tree
 summary algebra.
+
+Concrete transition-smoke checkpoint:
+
+Added
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  TopPairingTraceClassifier/TransitionSmoke.lean
+```
+
+with a single semantic parent-prefix theorem:
+
+```lean
+depth8_parent000_next_obligations
+```
+
+For the depth-8 parent prefix
+
+```lean
+[Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp,
+  Face.tmmm, Face.tpmm]
+```
+
+the theorem extracts the next face, schedule membership, square-gap membership
+when the next face is square, and the local-axis obligation from the semantic
+language predicates.  It does **not** classify the final child list yet, and it
+does not unfold the rational local-axis matrix arithmetic inside the transition
+proof.  This is deliberately just the provider-facing transition surface that
+later finite transition facts should consume.
+
+Because direct Lean checks do not update imported `.olean` files, the updated
+dependency cache had to be rebuilt explicitly before checking the new smoke:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 120 \
+  --json scripts/generated/bellman_top_pairing_language_extractors_olean_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Search/BellmanTopPairingLanguage.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Search/BellmanTopPairingLanguage.ilean \
+     -c .lake/build/ir/Cuboctahedron/Search/BellmanTopPairingLanguage.c \
+     Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+```
+
+Result:
+
+```text
+passed
+elapsed: 3.02s
+peak process-tree RSS: 3948 MiB
+minimum available memory observed: 46181 MiB
+hard address-space cap: 8192 MiB
+```
+
+Then the transition smoke was checked:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 120 \
+  --json scripts/generated/top_pairing_transition_smoke_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TransitionSmoke.lean
+```
+
+Result:
+
+```text
+passed
+elapsed: 2.00s
+peak process-tree RSS: 3548 MiB
+minimum available memory observed: 46320 MiB
+hard address-space cap: 8192 MiB
+```
+
+Decision: keep Bellman alive for the planned single semantic-membership
+experiment.  The extraction/provider surface is cheap enough for the next
+slice.  The next theorem must extend this from "extract next-step obligations"
+to a finite checked transition fact that proves the child prefix set for this
+same parent, still without sampled ranks/paths and without broad rational
+simplification in every generated shard.
