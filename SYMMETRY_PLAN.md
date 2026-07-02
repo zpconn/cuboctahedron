@@ -60683,3 +60683,104 @@ Immediate next action:
 4. only after `TerminalTraceLabels` is proven, generate the trace-specific
    margin-bound layer from `GraphAcceptedTraceLabels` to
    `GraphAcceptedTraceMargin`.
+
+Depth-8 grouped classifier slice checkpoint:
+
+Added:
+
+```text
+scripts/emit_top_pairing_trace_classifier_depth8_grouped.py
+
+Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/
+  Depth8/Shard000.lean
+  ...
+  Depth8/Shard052.lean
+  Depth8/All.lean
+
+scripts/generated/top_pairing_trace_classifier_depth8_grouped_summary.json
+```
+
+The generator emits a grouped semantic depth-8 predicate:
+
+```lean
+def Depth8TraceLabels (labels : List Face) : Prop := ...
+
+theorem labels_prefix8
+    (hs : TopPairingStepScheduleLabels labels)
+    (hg : TopPairingSquareGapLabels labels)
+    (ha : TopPairingLocalAxisLabels labels)
+    (hc : TopPairingPairCountsLabels labels) :
+    Depth8TraceLabels labels
+```
+
+It still consumes only semantic schedule, square-gap, local-axis, and pair-count
+predicates.  It contains no sampled rank/path table.
+
+Generator summary:
+
+```text
+depth = 8
+previous_depth = 7
+prefix_count = 595
+parent_prefix_count = 209
+parent_group_size = 4
+shard_count = 53
+sampled_rank_or_path_data = false
+```
+
+Engineering findings:
+
+- The existing depth-7 generated modules needed local generated-file options
+  `set_option maxHeartbeats 0` and
+  `set_option linter.unnecessarySeqFocus false`.  Without the first, Lake's
+  default 200k heartbeat limit fails on `Depth7.Shard000`; without the second,
+  Batteries' sequence-focus linter can recurse deeply on generated tactic
+  trees.
+- Depth-8 parent group size `64` was manually stopped after climbing past
+  roughly `6.2 GiB` RSS without finishing.
+- Depth-8 parent group size `16` was manually stopped after climbing past
+  roughly `5.6 GiB` RSS without finishing.
+- Depth-8 parent group size `4` produced a representative shard that completed
+  under the hard guard.
+
+Validation command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_depth8_shard000_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Depth8/Shard000.lean
+```
+
+Result:
+
+```text
+Depth8.Shard000 direct Lean:
+  passed
+  elapsed = 102.12s
+  peak_tree_rss = 5555.59 MiB
+  hard_as = 8192 MiB
+  min_available = 44453.26 MiB
+
+Sampled-membership scan:
+  passed, no matches
+```
+
+Decision:
+
+Accept this as a semantic-membership slice, not as the final production
+classifier shape.  The theorem is Lean-checkable and memory-safe, but the
+current proof repeats a heavy local `simp` extension for each parent prefix.
+At roughly `25s` per parent in the representative shard, extending this tactic
+style through depths 9-14 would miss the build-time target.  Do not broaden the
+current generator to all depths until the local child-step proof is factored
+into a cheaper reusable transition theorem or an even smaller parent-local
+proof surface.  The next implementation step should optimize the semantic
+extension proof, not increase the generated depth.

@@ -1,0 +1,15 @@
+{
+  "depth": 8,
+  "emitted_shards": 53,
+  "max_children_per_parent": 4,
+  "min_children_per_parent": 1,
+  "parent_group_size": 4,
+  "parent_prefix_count": 209,
+  "prefix_count": 595,
+  "previous_depth": 7,
+  "proof_shape": "semantic depth-7 prefix theorem routed through grouped parent predicates to grouped depth-8 trace predicates",
+  "root_emitted": true,
+  "sampled_rank_or_path_data": false,
+  "shard_count": 53,
+  "source": "exact semantic prefix enumerator"
+}

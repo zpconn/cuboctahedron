@@ -78,6 +78,9 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier
 
 open Cuboctahedron
 
+set_option linter.unnecessarySeqFocus false
+set_option maxHeartbeats 0
+
 theorem labels_prefix7
     {labels : List Face}
     (hs : TopPairingStepScheduleLabels labels)

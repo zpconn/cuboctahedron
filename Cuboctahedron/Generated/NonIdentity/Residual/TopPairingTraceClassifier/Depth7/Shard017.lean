@@ -14,6 +14,8 @@ open Cuboctahedron
 
 set_option linter.unusedTactic false
 set_option linter.unreachableTactic false
+set_option linter.unnecessarySeqFocus false
+set_option maxHeartbeats 0
 
 theorem labels_prefix7_shard_017
     {labels : List Face}

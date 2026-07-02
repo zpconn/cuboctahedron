@@ -73,6 +73,8 @@ open Cuboctahedron
 
 set_option linter.unusedTactic false
 set_option linter.unreachableTactic false
+set_option linter.unnecessarySeqFocus false
+set_option maxHeartbeats 0
 
 theorem {shard_theorem(index)}
     {{labels : List Face}}
@@ -136,6 +138,9 @@ disjunction.  It is still a bounded smoke module, not final generated coverage.
 namespace {NAMESPACE}
 
 open Cuboctahedron
+
+set_option linter.unnecessarySeqFocus false
+set_option maxHeartbeats 0
 
 theorem labels_prefix7
     {{labels : List Face}}
