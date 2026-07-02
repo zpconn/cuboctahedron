@@ -68262,3 +68262,137 @@ Updated next task:
 This is the concrete implementation of the latest GPT5.5 recommendation:
 Bellman gets exactly one more semantic-membership/provider experiment.  The next
 Lean work must be a semantic provider, not more wrapper infrastructure.
+
+### 2026-07-02 Bellman semantic-membership gate, sharpened
+
+GPT5.5's latest recommendation changes the near-term strategy in one important
+way: do not pivot away from Bellman yet, but also do not do another potential,
+sampled smoke, or rank-indexed certificate.  The next Bellman step is a single
+production-relevant semantic-membership experiment.
+
+The object must stay compact:
+
+```lean
+TopPairingBellmanObj badFace
+-- morally:
+-- { rank : Fin numPairWords //
+--     TopPairingClosedLanguageAtRank rank badFace }
+```
+
+or, for the strengthened selected-prefix/trace-margin route:
+
+```lean
+TopPairingBellmanEvalObj
+  graphPotential graphSmokeNext smokeLabelOfFace rootState 176
+  scaledMargin Face.ym
+```
+
+The accepted run must be computed from the rank's canonical contribution-order
+labels:
+
+```lean
+evalLabelStepFn graphSmokeNext rootState
+  (TopPairingBellmanObj.labels smokeLabelOfFace obj)
+```
+
+and not stored as a sampled path object.
+
+Current repo state after inspection:
+
+* `Cuboctahedron/Search/TopPairingBellmanObject.lean` already contains the
+  semantic object type, semantic membership, and evaluator-to-object-cover
+  helpers:
+
+  ```lean
+  TopPairingBellmanObj
+  topPairingClosedMembership
+  topPairingClosedObjectCoverOfEvalAccepts
+  TopPairingBellmanEvalObj
+  topPairingBellmanEvalObjectCoverOfClosedToEval
+  topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+  ```
+
+* `BellmanTopPairingClosedEvalTraceSmoke.lean` already demonstrates the exact
+  evaluator theorem shape for two accepted traces:
+
+  ```lean
+  BellmanEvalAccepts graphPotential graphSmokeNext rootState 176 ...
+  ```
+
+  from trace classification plus a margin inequality.
+
+* `BellmanTopPairingTraceIdBoundsSmoke.lean` and
+  `BellmanTopPairingTraceMarginBoundsSocket.lean` already expose trace-id and
+  terminal trace-margin buckets that prove:
+
+  ```lean
+  TopPairingBellmanEvalLanguageAtRank ...
+  scaledMargin rank <= 0
+  ```
+
+  from semantic trace/margin predicates.
+
+* `BellmanTopPairingClosedLanguageBridge.lean` already exposes the final
+  closed-language/public-killed bridge shape.
+
+Therefore the remaining Bellman bottleneck is not the finite potential graph and
+not generic object-cover plumbing.  It is exactly the semantic provider theorem:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> TopPairingStrengthenedClosedLanguageAtRank
+       (TerminalTraceMarginIdBoundSequenceBadFace scaledMargin)
+       rank Face.ym
+```
+
+or a documented strengthening that is still semantic and family-based.  That
+provider must simultaneously supply:
+
+1. accepted trace id or deterministic evaluator acceptance for the rank's
+   canonical labels;
+2. the trace-specific scaled margin bound;
+3. the `ObjectStartViolationMarginCert` bridge needed to turn the nonpositive
+   Bellman margin into `Coverage.NonIdentityRankKilled`.
+
+The experiment is accepted only if the provider is compact and semantic:
+
+```text
+no SampledRankIndex
+no sampledContainsRank
+no sampledRankOf
+no one constructor per accepted rank/path
+no exact affine-RHS membership table
+no rank/path database
+```
+
+The experiment is rejected if the proof of closed-language-to-evaluator or
+closed-language-to-start-violation requires sampled objects, exact path classes,
+or one generated branch per accepted rank.  In that case the Bellman route is
+still useful as a discovery tool, but not yet a production proof architecture;
+the plan then pivots immediately to cancellation-tree summary algebra so that
+the margin bound and start-violation certificate are produced by the same
+semantic family object.
+
+Immediate implementation order:
+
+1. Test the trace-level uniqueness bridge: if a rank's
+   `topPairingRankFaceLabels` equals an accepted trace, prove enough word/seq
+   equality to reuse one trace-level `ObjectStartViolationMarginCert` without a
+   sampled rank index.
+2. If that succeeds, generate or hand-build one accepted-trace provider:
+
+   ```lean
+   forall obj,
+     GraphAcceptedTraceMarginIdBound scaledMargin obj ->
+       ObjectStartViolationMarginCert obj.rank (scaledMargin obj.rank)
+   ```
+
+   where the proof branches only by accepted trace id, not by rank/path.
+3. Compose that provider through the existing selected-prefix
+   trace-margin killed socket and run guarded focused builds.
+4. If step 1 or 2 collapses to rank-specific evidence, stop Bellman production
+   work and open the cancellation-summary pivot.
+
+This is now the next go/no-go gate for Bellman.  All future Bellman work must be
+measured against this semantic-membership gate rather than against the existence
+of another small potential graph.
