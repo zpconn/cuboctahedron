@@ -76083,3 +76083,110 @@ Next strategy adjustment:
 3. Keep the direct residual bridge targets
    `TerminalDirectResidualRankCovered` and
    `SelectedPrefixResidualRankCovered`; only the producer feeding them changes.
+
+## 2026-07-02 Strategy Adjustment: Bellman Gets One More Semantic Membership Experiment
+
+GPT5.5 Pro's latest review refines the decision above.  The rejected depth-9
+producer slice is still rejected, but this does **not** mean abandoning the
+Bellman proof shape immediately.  The right interpretation is narrower:
+
+```text
+continue Bellman for exactly one more semantic-membership experiment;
+do not try another potential, sampled smoke, rank-indexed certificate,
+or grouped OR-prefix shard.
+```
+
+The repo already has the compact object surface requested by that review:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+```
+
+and the reusable object-cover sockets:
+
+```lean
+topPairingClosedMembership
+topPairingBellmanEvalObjectCoverOfClosedToEval
+topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+```
+
+The refreshed audit says:
+
+```text
+decision=continue-one-semantic-bellman-experiment-hard-eval-theorem-open
+```
+
+So the next admissible Bellman work is exactly the deterministic evaluator
+membership theorem, in one of these shapes:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+or, if the plain closed predicate is too weak, the allowed stronger semantic
+form:
+
+```lean
+forall rank,
+  TopPairingStrengthenedClosedLanguageAtRank
+    sequenceBadFace rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+This theorem must be driven by the semantic fields already present in the
+closed/strengthened language and by deterministic evaluation:
+
+```lean
+evalLabelStepFn graphSmokeNext rootState
+  (faceLabelsInContributionOrder smokeLabelOfFace
+    (canonicalSeqOfPairWord (unrankPairWord rank)))
+```
+
+It must not introduce:
+
+- `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, or sampled path
+  objects;
+- one branch per concrete rank/path;
+- exact affine-RHS or solved-start-point keys as membership data;
+- a giant Boolean evaluator or any packed/blob/predecoded checker route.
+
+If this theorem can be proved or generated as a compact semantic family theorem,
+Bellman remains the active nonidentity residual architecture.  If it collapses
+back into sampled paths, exact RHS keys, or OR forests like the rejected
+depth-9 shard, stop using this Bellman surface as the production proof route
+and promote the cancellation-tree/state-summary automaton as the replacement
+membership theorem.  In that fallback, Bellman may still be used internally as
+a potential over the honest state-summary automaton, but not as a sampled trace
+database.
+
+Commands run for this checkpoint:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_bellman_eval_contract.py
+python3 scripts/audit_top_pairing_bellman_eval_contract.py
+/usr/bin/time -v lake env lean -j1 -M8192 \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe" \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalAcceptedObjectCover.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean
+```
+
+Results:
+
+```text
+py_compile: exit=0
+Bellman eval-contract audit: exit=0,
+  decision=continue-one-semantic-bellman-experiment-hard-eval-theorem-open
+TopPairingBellmanObject.lean: exit=0, wall=1.77s, max RSS=3222724 KB
+sampled/forbidden token scan: exit=1, no hits
+```
