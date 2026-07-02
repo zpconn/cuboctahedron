@@ -78550,3 +78550,105 @@ Next Lean/generator slice:
    over the strengthened semantic premise, with no sampled rank/path objects.
 3. Use the resulting evaluator existence theorem to replace the bounded
    prefix/branch smokes with a semantic whole-tail eval smoke for this graph.
+
+## 2026-07-02 Checkpoint: Aligned 1M Rich-State Graph Smoke
+
+The previous top-pairing Lean graph base is the 10M `with-step-tri-source`
+graph:
+
+```text
+stateCount = 970
+```
+
+but the closure-after-sequence-bad-face audit that actually exposes the needed
+local invariant uses the richer 1M graph:
+
+```text
+with-step-face-linear-tri-source
+stateCount = 223
+```
+
+Generated a separate aligned graph smoke from:
+
+```text
+scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_\
+with_step_face_linear_tri_source_graph.json
+```
+
+into:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke/
+```
+
+Files emitted:
+
+```text
+Base.lean
+Root.lean
+Shard000.lean
+Shard001.lean
+Shard002.lean
+Shard003.lean
+Shard004.lean
+Shard005.lean
+Shard006.lean
+```
+
+Generator command:
+
+```bash
+python3 scripts/emit_bellman_graph_eval_split.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+  --output-dir Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke \
+  --module-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke \
+  --namespace-prefix Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke \
+  --all-shards \
+  --shard-size 32
+```
+
+Memory lesson:
+
+- A direct guarded `lake build ...Root` before prebuilding shards was stopped
+  by the guard at `20244 MiB` tree RSS.
+- This was Lake fan-out across shards, not a single huge file.
+- Serial per-shard Lake builds are safe and steady at about `4.1 GiB` peak.
+- After shard `.olean`s exist, the root builds at `1.7 GiB` peak.
+
+Focused guarded results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| Root, no prebuilt shards | guard stopped | `13.04s` | `20244 MiB` | prevented unsafe fan-out |
+| Base direct Lean | pass | `3.00s` | `3959 MiB` | hard AS `12288 MiB` |
+| Shard000 direct Lean | pass | `4.01s` | `4031 MiB` | direct check only |
+| Shard000 Lake | pass | `3.00s` | `4133 MiB` | wrote `.olean` |
+| Shard001 Lake | pass | `3.00s` | `4129 MiB` | wrote `.olean` |
+| Shard002 Lake | pass | `3.01s` | `4141 MiB` | wrote `.olean` |
+| Shard003 Lake | pass | `3.00s` | `4160 MiB` | wrote `.olean` |
+| Shard004 Lake | pass | `3.00s` | `4144 MiB` | wrote `.olean` |
+| Shard005 Lake | pass | `3.01s` | `4164 MiB` | wrote `.olean` |
+| Shard006 Lake | pass | `3.00s` | `4168 MiB` | wrote `.olean` |
+| Root after serial shards | pass | `3.00s` | `1701 MiB` | normal root build |
+
+Next rule for this route:
+
+```text
+Do not broad-build generated Bellman graph roots until their shards have been
+built serially or through an explicit memory-safe scheduler.
+```
+
+Next Lean/generator slice:
+
+1. Point the transducer face-eval smoke at the aligned 1M graph base/root.
+2. Generate the first `Inv` table over the 223 graph states and semantic
+   transducer fields audited above.
+3. Prove the local premise:
+
+```lean
+TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocal
+```
+
+for the strengthened semantic language, still with no sampled rank/path
+objects.
