@@ -67249,3 +67249,106 @@ membership obligation is to prove that the actual strengthened top-pairing
 closed family supplies `TerminalAcceptedEvalSequenceBadFace` or directly
 supplies `SelectedPrefixCoverSequenceBadFace`, again without sampled
 rank/path objects.
+
+### 2026-07-02 Trace-margin bounds socket accepted as reusable layer
+
+After adding the selected-prefix membership bridge, re-inspected the existing
+trace-margin socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+This module should be treated as a reusable semantic layer, not a discarded
+older path.  It already exposes the compact family surfaces that the
+selected-prefix cover is refining:
+
+```lean
+TerminalTraceMarginBoundsSequenceBadFace
+TerminalTraceMarginIdBoundSequenceBadFace
+TraceIdMarginSequenceBadFace
+TraceIdClosedMarginFamily
+TraceIdBucketClosedMarginFamily
+TerminalTraceIdBucketClosedMarginFamily
+TerminalTraceIdSharedGainBucketClosedMarginFamily
+TerminalTracePrefixSharedGainClosedMarginFamily
+
+terminalTracePrefixSharedGainClosedMarginFamily_scaledMargin_nonpos
+evalLanguage_of_terminalTracePrefixSharedGainClosedMarginFamily
+```
+
+The important architectural point is that these are semantic family surfaces:
+they use closed-language predicates, terminal-trace predicates, accepted
+bad-face filters, trace ids/prefixes, and integer margin bounds.  They do not
+require sampled rank/path objects or raw per-rank certificates.
+
+Direct guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_margin_bounds_socket_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 8.01s
+peak_tree_rss = 3984 MiB
+hard_as = 8192 MiB
+min_available = 46177 MiB
+```
+
+Focused guarded Lake target build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_margin_bounds_socket_lake_build.json \
+  --verbose \
+  -- lake --log-level=error build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceMarginBoundsSocket
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 842 MiB
+hard_as = 32768 MiB
+min_available = 46397 MiB
+```
+
+Decision:
+
+Accept the trace-margin bounds socket as the lower semantic algebra for the
+top-pairing Bellman route.  Do not duplicate these definitions.  Future work
+should either:
+
+1. generate production families directly against
+   `TerminalTracePrefixSharedGainClosedMarginFamily` or
+   `TerminalTraceIdSharedGainBucketClosedMarginFamily`; or
+2. prove a small adapter from those family predicates into
+   `SelectedPrefixCoverFamily` when the selected-prefix root is the preferred
+   public proof path.
+
+The real remaining gap is not the Bellman potential, nor the trace-id margin
+bound algebra.  It is the semantic membership theorem that classifies the
+actual top-pairing closed-language ranks into one of these compact family
+predicates without falling back to sampled ranks or full path enumeration.
