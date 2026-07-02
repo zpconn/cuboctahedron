@@ -75839,3 +75839,85 @@ production residual language
 
 with the selected-prefix cover as the currently checked bounded witness for
 that route.
+
+## 2026-07-02 Checkpoint: Selected-Prefix Residual Bridge Target Added
+
+The GPT5.5 guidance has now been folded into the actual Lean interface, not
+just the written strategy.  The new module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixResidualBridge.lean
+```
+
+introduces the proof-facing upstream target:
+
+```lean
+SelectedPrefixResidualRankCovered
+  (scaledMargin : Fin numPairWords -> Int)
+  (r : Nat) : Prop
+```
+
+with meaning:
+
+```lean
+forall hlt : r < numPairWords,
+  nonIdEarlyFamilyClassOfRank ⟨r, hlt⟩ = NonIdFamilyClass.residual ->
+  totalLinearOfPairWord (unrankPairWord ⟨r, hlt⟩) ≠ (matId : Mat3 Rat) ->
+    SelectedPrefixCoverFamily scaledMargin ⟨r, hlt⟩
+```
+
+and the adapter theorem:
+
+```lean
+killedResidualBridge_of_selectedPrefixInterval :
+  CoversInterval
+    (SelectedPrefixResidualRankCovered scaledMargin) 0 numPairWords ->
+      Cuboctahedron.Generated.NonIdentity.KilledResidualBridge
+```
+
+This is the formal version of the current strategy:
+
+```text
+residual early-family rank
+  -> SelectedPrefixCoverFamily
+  -> TerminalDirectClosedFamily
+  -> NonIdentityRankKilled
+  -> NonIdentity.KilledResidualBridge
+```
+
+The theorem is intentionally only an adapter.  It does not enumerate ranks,
+does not introduce sampled membership, does not revive certificate-checker
+fallbacks, and does not replay a Bellman path evaluator.  It gives the next
+generated producer an exact semantic target: prove interval/state coverage of
+`SelectedPrefixResidualRankCovered`, preferably by a compact closed-language or
+cancellation-tree producer, not by sampled paths.
+
+Focused check run:
+
+```bash
+/usr/bin/time -v lake env lean -j1 -M8192 \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixResidualBridge.lean
+
+grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf\|native_decide\|unsafe\|sorry\|admit" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixResidualBridge.lean || true
+```
+
+Result:
+
+| target | result | wall | max RSS | notes |
+| --- | --- | ---: | ---: | --- |
+| `BellmanTopPairingSelectedPrefixResidualBridge.lean` | pass | `5.57s` | `3320644 KB` | single Lean process, `-M8192` |
+| forbidden/sampled token scan | pass | `<1s` | n/a | no hits |
+
+Current next task:
+
+1. Identify or generate the concrete semantic producer for
+   `SelectedPrefixResidualRankCovered scaledMargin`; this replaces the
+   schematic `ProductionTopPairingResidualAtRank` wording.
+2. The producer may target the selected-prefix cover directly, or target
+   `TerminalDirectClosedFamily` and then be wrapped into the selected-prefix
+   residual bridge only where the selected-prefix cover is available.
+3. If proving this producer requires exact affine-RHS keys, sampled rank/path
+   objects, one branch per concrete rank/path, or a giant Boolean evaluator,
+   stop this Bellman membership surface and pivot to the cancellation-tree
+   summary automaton.
