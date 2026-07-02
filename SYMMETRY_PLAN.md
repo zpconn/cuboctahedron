@@ -63568,3 +63568,155 @@ generated or hand-generated compact family predicate whose exported theorem is
 a `TraceIdComponentFamily` proof.  It should reuse the existing closed-language
 generated traces and terminal/accepted trace classifier where possible, and it
 must not encode exact affine RHS or sampled rank/path tables.
+
+### 2026-07-02 Trace-000 component family smoke
+
+GPT5.5's sharpened Bellman gate is now being tested at the right object level:
+not "does a potential exist?" and not "can a sampled rank be replayed?", but
+"can a compact semantic family predicate supply the deterministic evaluator
+socket?"  The first concrete slice is trace 000.
+
+New file:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000ComponentFamilySmoke.lean
+```
+
+New semantic family predicate:
+
+```lean
+def Trace000ClosedMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    topPairingRankFaceLabels rank = acceptedTraceOfId AcceptedTraceId.t000 /\
+      scaledMargin rank <= (176 : Int) + acceptedTraceGain AcceptedTraceId.t000
+```
+
+New theorem surface:
+
+```lean
+theorem trace000_actualFaceOmni_of_trace :
+    topPairingRankFaceLabels rank =
+      acceptedTraceOfId AcceptedTraceId.t000 ->
+    TopPairingActualFaceOmniAtRank rank
+
+theorem trace000ComponentFamily :
+    TraceIdComponentFamily
+      (Trace000ClosedMarginFamily scaledMargin)
+      (fun _rank => AcceptedTraceId.t000)
+      scaledMargin
+
+theorem trace000Family_evalLanguage :
+    Trace000ClosedMarginFamily scaledMargin rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem trace000Family_scaledMargin_nonpos :
+    Trace000ClosedMarginFamily scaledMargin rank ->
+    scaledMargin rank <= 0
+```
+
+This is intentionally small but important: `actualFaceOmni` is derived from the
+accepted trace equality by exact Lean checking (`List.Nodup` over the concrete
+trace), not supplied by a sampled rank object.  The family object now packages
+the four production facts required by `TraceIdComponentFamily`:
+
+- closed-language membership;
+- actual-face omni;
+- trace-id equality;
+- trace-id Bellman margin bound.
+
+Guarded focused Lake check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace000_component_family_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTrace000ComponentFamilySmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 7.03s
+peak_tree_rss = 3928 MiB
+hard_as = 32768 MiB
+min_available = 46124 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace000_component_family_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000ComponentFamilySmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 2999 MiB
+hard_as = 8192 MiB
+min_available = 46327 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingTrace000ComponentFamilySmoke.lean = 77 lines
+BellmanTopPairingTraceMarginBoundsSocket.lean       = 315 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean            = 94 lines
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 596 lines
+TopPairingBellmanObject.lean                        = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000ComponentFamilySmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+`git diff --check` passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept this concrete trace-000 component-family smoke.  Bellman remains alive
+for the semantic-membership experiment because the proof cost scales with one
+accepted trace family theorem, not with sampled ranks or sampled paths.  This
+still is not full coverage: the next production step is to make the generator
+emit analogous `TraceIdComponentFamily` families for real classifier buckets,
+or a small all-trace-id family layer, while preserving the same theorem shape.
+
+No-go condition remains unchanged: if the next classifier family needs
+`SampledRankIndex`, sampled rank objects, one constructor per rank/path, or an
+exact affine-RHS table, stop this Bellman production route and pivot to the
+cancellation-tree summary automaton.
