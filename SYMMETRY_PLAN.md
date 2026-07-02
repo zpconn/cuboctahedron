@@ -86337,3 +86337,106 @@ classifier states.  Future generated modules should emit finite constructors
 or state IDs and apply `contains_squareStep` / `contains_triStep` locally.
 They should not re-expand the full grouped depth-prefix disjunction, whose
 depth-9 shard already failed the time gate.
+
+#### Generic Step Reproduces Prefix-3 State Slice
+
+Added a bounded smoke proving that the generic state-step socket can reproduce
+the existing prefix-2 and prefix-3 deterministic-state slices.
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalStateGenericStepSmoke.lean
+```
+
+The smoke defines generic states:
+
+```lean
+def genericPrefix2State : TerminalStepState
+def genericPrefix3TmpmState : TerminalStepState
+def genericPrefix3YpState : TerminalStepState
+def genericPrefix3ZmState : TerminalStepState
+```
+
+and proves:
+
+```lean
+theorem prefix2Family_of_genericPrefix2State
+theorem genericPrefix2State_of_closed
+theorem prefix2Family_of_genericSteps
+
+theorem prefix3Tmpm_of_genericState
+theorem prefix3Yp_of_genericState
+theorem prefix3Zm_of_genericState
+
+theorem prefix3Family_of_genericSteps :
+  TopPairingClosedLanguageAtRank rank badFace ->
+    Prefix3TerminalStateFamily rank
+
+theorem prefix3Family_of_genericSteps_strengthened :
+  TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    Prefix3TerminalStateFamily rank
+```
+
+This is still bounded, but it demonstrates the desired implementation pattern:
+state IDs can be advanced by `contains_squareStep` / `contains_triStep`, then
+projected to whatever family predicate the next socket needs.  The proof does
+not use accepted trace ids or sampled rank/path objects.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_generic_step_smoke_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateGenericStepSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_generic_step_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateGenericStepSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `BellmanTopPairingTerminalStateGenericStepSmoke.lean` | pass | `5.02s` | `3823 MiB` | `46232 MiB` |
+| Lake `BellmanTopPairingTerminalStateGenericStepSmoke` | pass | `3.00s` | `3943 MiB` | `46113 MiB` |
+
+Hygiene:
+
+```bash
+rg "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateGenericStepSmoke.lean
+```
+
+returned no matches.  `git diff --check` passed.
+
+Decision: accepted as an architectural smoke.  The next production generator
+should emit a finite terminal-state graph over this generic state socket, with
+small state IDs/projections and local transition facts.  It should not emit
+large prefix disjunction roots.  A useful next profiler/generator target is:
+
+```text
+semantic terminal state graph:
+  key = step, gap, k, parity, local-axis class, pair-count remainder,
+        tri-source progress, canonical-bad-face class
+  edge = local face transition checked by contains_squareStep/contains_triStep
+  terminal = small class proving TerminalTraceLabels
+```
