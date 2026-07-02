@@ -13,133 +13,133 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier
 
 open Cuboctahedron
 
-private def terminalTrace_000 : List Face :=
+def terminalTrace_000 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tppp, Face.tpmm, Face.tmpp, Face.yp, Face.zm, Face.zp, Face.xp]
-private def terminalTrace_001 : List Face :=
+def terminalTrace_001 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tppp, Face.tpmm, Face.tmpp, Face.zm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_002 : List Face :=
+def terminalTrace_002 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tmmm, Face.tppp, Face.tpmm, Face.tmpp, Face.zm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_003 : List Face :=
+def terminalTrace_003 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tpmm, Face.tppp, Face.tmmm, Face.tmpp, Face.yp, Face.zm, Face.zp, Face.xp]
-private def terminalTrace_004 : List Face :=
+def terminalTrace_004 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tpmm, Face.tppp, Face.tmmm, Face.tmpp, Face.zm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_005 : List Face :=
+def terminalTrace_005 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tpmm, Face.tppp, Face.tmmm, Face.tmpp, Face.zm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_006 : List Face :=
+def terminalTrace_006 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tpmm, Face.tppp, Face.tmpp, Face.tmmm, Face.yp, Face.zm, Face.zp, Face.xp]
-private def terminalTrace_007 : List Face :=
+def terminalTrace_007 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tpmm, Face.tppp, Face.tmpp, Face.tmmm, Face.zm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_008 : List Face :=
+def terminalTrace_008 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.tpmm, Face.tppp, Face.tmpp, Face.tmmm, Face.zm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_009 : List Face :=
+def terminalTrace_009 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp, Face.zm, Face.tppp, Face.tpmm, Face.tmpp, Face.zm, Face.tmmm, Face.yp, Face.xp]
-private def terminalTrace_010 : List Face :=
+def terminalTrace_010 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tmmm, Face.tpmm, Face.tmpp, Face.tpmp, Face.yp, Face.zm, Face.zp, Face.xp]
-private def terminalTrace_011 : List Face :=
+def terminalTrace_011 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tmmm, Face.tpmm, Face.tmpp, Face.tpmp, Face.zm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_012 : List Face :=
+def terminalTrace_012 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tmmm, Face.tpmm, Face.tmpp, Face.tpmp, Face.zm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_013 : List Face :=
+def terminalTrace_013 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tmmm, Face.tpmp, Face.tpmm, Face.tmpp, Face.yp, Face.zm, Face.zp, Face.xp]
-private def terminalTrace_014 : List Face :=
+def terminalTrace_014 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tmmm, Face.tpmp, Face.tpmm, Face.tmpp, Face.zm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_015 : List Face :=
+def terminalTrace_015 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tmmm, Face.tpmp, Face.tpmm, Face.tmpp, Face.zm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_016 : List Face :=
+def terminalTrace_016 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tpmm, Face.tmpm, Face.zp, Face.tmmm, Face.zm, Face.tmpp, Face.yp, Face.xp]
-private def terminalTrace_017 : List Face :=
+def terminalTrace_017 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tpmm, Face.zp, Face.tmpp, Face.tmmm, Face.tmpm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_018 : List Face :=
+def terminalTrace_018 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tpmm, Face.zp, Face.tmpp, Face.tmmm, Face.tmpm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_019 : List Face :=
+def terminalTrace_019 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tpmm, Face.zp, Face.tmpp, Face.yp, Face.tmpm, Face.tmmm, Face.zp, Face.xp]
-private def terminalTrace_020 : List Face :=
+def terminalTrace_020 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tpmp, Face.tpmm, Face.tmpp, Face.tmmm, Face.yp, Face.zm, Face.zp, Face.xp]
-private def terminalTrace_021 : List Face :=
+def terminalTrace_021 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tpmp, Face.tpmm, Face.tmpp, Face.tmmm, Face.zm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_022 : List Face :=
+def terminalTrace_022 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.tpmp, Face.tpmm, Face.tmpp, Face.tmmm, Face.zm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_023 : List Face :=
+def terminalTrace_023 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tppp, Face.zm, Face.tpmp, Face.tmpp, Face.tmmm, Face.zm, Face.tmpp, Face.yp, Face.xp]
-private def terminalTrace_024 : List Face :=
+def terminalTrace_024 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.zm, Face.tpmm, Face.tppp, Face.tpmm, Face.zm, Face.tmpm, Face.tmmm, Face.yp, Face.xp]
-private def terminalTrace_025 : List Face :=
+def terminalTrace_025 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.zm, Face.tppp, Face.tpmm, Face.zp, Face.tmmm, Face.tmpm, Face.tmpp, Face.yp, Face.xp]
-private def terminalTrace_026 : List Face :=
+def terminalTrace_026 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tmmp, Face.tmpp, Face.tmmm, Face.yp, Face.zm, Face.zp, Face.xp]
-private def terminalTrace_027 : List Face :=
+def terminalTrace_027 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tmmp, Face.tmpp, Face.tmmm, Face.zm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_028 : List Face :=
+def terminalTrace_028 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tmmp, Face.tmpp, Face.tmmm, Face.zm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_029 : List Face :=
+def terminalTrace_029 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tppp, Face.tmmp, Face.tmpp, Face.yp, Face.zm, Face.zp, Face.xp]
-private def terminalTrace_030 : List Face :=
+def terminalTrace_030 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tppp, Face.tmmp, Face.tmpp, Face.zm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_031 : List Face :=
+def terminalTrace_031 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tppp, Face.tmmp, Face.tmpp, Face.zm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_032 : List Face :=
+def terminalTrace_032 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tppp, Face.tmpp, Face.zm, Face.tmmp, Face.zm, Face.yp, Face.xp]
-private def terminalTrace_033 : List Face :=
+def terminalTrace_033 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tppp, Face.yp, Face.tmpp, Face.tmmp, Face.zm, Face.zp, Face.xp]
-private def terminalTrace_034 : List Face :=
+def terminalTrace_034 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tppp, Face.yp, Face.tmpp, Face.zm, Face.zp, Face.tmmp, Face.xp]
-private def terminalTrace_035 : List Face :=
+def terminalTrace_035 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tppp, Face.yp, Face.zp, Face.zm, Face.tmpp, Face.tmmp, Face.xp]
-private def terminalTrace_036 : List Face :=
+def terminalTrace_036 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tppp, Face.zp, Face.yp, Face.zm, Face.tmpp, Face.tmmp, Face.xp]
-private def terminalTrace_037 : List Face :=
+def terminalTrace_037 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tppp, Face.zp, Face.zm, Face.tmmp, Face.tmpp, Face.yp, Face.xp]
-private def terminalTrace_038 : List Face :=
+def terminalTrace_038 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tpmp, Face.tmmm, Face.tppp, Face.zp, Face.zm, Face.yp, Face.tmpp, Face.tmmp, Face.xp]
-private def terminalTrace_039 : List Face :=
+def terminalTrace_039 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tmmp, Face.tpmm, Face.zm, Face.tmpm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_040 : List Face :=
+def terminalTrace_040 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tmmp, Face.tpmm, Face.zm, Face.tmpm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_041 : List Face :=
+def terminalTrace_041 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tmmp, Face.yp, Face.tpmp, Face.zm, Face.tmpp, Face.zp, Face.xp]
-private def terminalTrace_042 : List Face :=
+def terminalTrace_042 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.tmpp, Face.zm, Face.tmmp, Face.zm, Face.yp, Face.xp]
-private def terminalTrace_043 : List Face :=
+def terminalTrace_043 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.zp, Face.tpmm, Face.tmpm, Face.tmmp, Face.zm, Face.yp, Face.xp]
-private def terminalTrace_044 : List Face :=
+def terminalTrace_044 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tpmp, Face.tmmp, Face.tmpp, Face.tmmm, Face.yp, Face.zm, Face.zp, Face.xp]
-private def terminalTrace_045 : List Face :=
+def terminalTrace_045 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tpmp, Face.tmmp, Face.tmpp, Face.tmmm, Face.zm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_046 : List Face :=
+def terminalTrace_046 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tpmp, Face.tmmp, Face.tmpp, Face.tmmm, Face.zm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_047 : List Face :=
+def terminalTrace_047 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tpmp, Face.tmmp, Face.tppp, Face.tmpp, Face.yp, Face.zm, Face.zp, Face.xp]
-private def terminalTrace_048 : List Face :=
+def terminalTrace_048 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tpmp, Face.tmmp, Face.tppp, Face.tmpp, Face.zm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_049 : List Face :=
+def terminalTrace_049 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tpmp, Face.tmmp, Face.tppp, Face.tmpp, Face.zm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_050 : List Face :=
+def terminalTrace_050 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tpmp, Face.tmmp, Face.zm, Face.zp, Face.tppp, Face.tmpp, Face.yp, Face.xp]
-private def terminalTrace_051 : List Face :=
+def terminalTrace_051 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tpmp, Face.zp, Face.tmmp, Face.tmmm, Face.zm, Face.tmpp, Face.yp, Face.xp]
-private def terminalTrace_052 : List Face :=
+def terminalTrace_052 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tpmp, Face.zp, Face.zm, Face.tmmm, Face.tmmp, Face.tmpp, Face.yp, Face.xp]
-private def terminalTrace_053 : List Face :=
+def terminalTrace_053 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tpmp, Face.zp, Face.zm, Face.tmmm, Face.yp, Face.tmpp, Face.tmmp, Face.xp]
-private def terminalTrace_054 : List Face :=
+def terminalTrace_054 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tpmp, Face.zp, Face.zm, Face.tmpp, Face.tmmp, Face.tmmm, Face.yp, Face.xp]
-private def terminalTrace_055 : List Face :=
+def terminalTrace_055 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.zp, Face.tmpm, Face.tpmm, Face.tmmm, Face.tmmp, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_056 : List Face :=
+def terminalTrace_056 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.zp, Face.tmpm, Face.tpmm, Face.tmmm, Face.tmmp, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_057 : List Face :=
+def terminalTrace_057 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.zp, Face.tmpm, Face.tpmm, Face.zp, Face.tmmp, Face.tmmm, Face.yp, Face.xp]
-private def terminalTrace_058 : List Face :=
+def terminalTrace_058 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.zp, Face.tpmm, Face.tmmm, Face.tmpm, Face.tmmp, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_059 : List Face :=
+def terminalTrace_059 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.zp, Face.tpmm, Face.tmmm, Face.tmpm, Face.tmmp, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_060 : List Face :=
+def terminalTrace_060 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.zp, Face.tpmm, Face.tmmm, Face.tppm, Face.tmpm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_061 : List Face :=
+def terminalTrace_061 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.zp, Face.tpmm, Face.tmmm, Face.tppm, Face.tmpm, Face.zp, Face.yp, Face.xp]
-private def terminalTrace_062 : List Face :=
+def terminalTrace_062 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.zp, Face.tpmm, Face.tmmp, Face.tmmm, Face.tmpm, Face.yp, Face.zp, Face.xp]
-private def terminalTrace_063 : List Face :=
+def terminalTrace_063 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.zp, Face.tpmm, Face.tmmp, Face.tmmm, Face.tmpm, Face.zp, Face.yp, Face.xp]
 
 

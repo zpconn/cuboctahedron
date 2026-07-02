@@ -60139,3 +60139,131 @@ is to generate or prove the classifier theorem that supplies
 that classifier requires sampled rank/path membership, stop this Bellman
 production route and replace the top-pairing language object with a stronger
 cancellation-tree/evaluator semantic object.
+
+Terminal trace-classifier root checkpoint:
+
+Updated:
+
+```text
+scripts/emit_top_pairing_trace_classifier_terminal_shards.py
+
+Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Terminal/
+  Shard000.lean
+  Shard001.lean
+  Shard002.lean
+  Shard003.lean
+  Shard004.lean
+  Shard005.lean
+  Shard006.lean
+  All.lean
+
+scripts/generated/top_pairing_trace_classifier_terminal_summary.json
+```
+
+The terminal classifier now emits all seven cancellation-reject shards plus a
+root theorem:
+
+```lean
+def TerminalRejectTraceLabels (labels : List Face) : Prop := ...
+
+theorem terminal_rejects_false
+    {labels : List Face}
+    (hc :
+      triangularCancellationSummaryOfFaceLabels labels =
+        topPairingTargetSummary)
+    (hterm : TerminalRejectTraceLabels labels) :
+    False
+```
+
+This theorem is still not the full graph-accepted classifier.  It is the
+negative half of the terminal trace classifier: if a terminal full trace is in
+the cancellation-reject set, the semantic cancellation equality rules it out.
+It contains no sampled rank/path data.
+
+Important Lean-engineering result:
+
+- A first generated root used one flat 395-way disjunction and failed to be a
+  practical root: it hit recursion-depth first, and after raising
+  `maxRecDepth`, it remained elaboration-slow while RSS stayed around
+  `4.1-4.3 GiB`.
+- The generator was changed to use a two-level root:
+  seven shard-level disjunctions, then a seven-way root split.
+- The balanced/grouped root built quickly and safely.
+
+Validation commands:
+
+```bash
+python3 scripts/emit_top_pairing_trace_classifier_terminal_shards.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_terminal_shard006_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Terminal/Shard006.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --timeout-seconds 900 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_terminal_all_lake_balanced.json \
+  --verbose \
+  -- env LEAN_NUM_THREADS=1 lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+TopPairingTraceClassifier.Terminal.All
+```
+
+Results:
+
+```text
+Terminal shard 006 direct Lean:
+  passed
+  elapsed = 6.00s
+  peak_tree_rss = 3562 MiB
+  hard_as = 8192 MiB
+  min_available = 46241 MiB
+
+Initial flat terminal root:
+  failed first with maxRecDepth
+  after raising maxRecDepth, remained too slow and was stopped manually
+  observed RSS = about 4.29 GiB, so this was proof-shape slow, not OOM
+
+Balanced terminal root lake target:
+  passed
+  elapsed = 4.00s
+  peak_tree_rss = 4074 MiB
+  min_available = 46032 MiB
+
+Terminal summary:
+  terminal_trace_count = 442
+  cancellation_ok_trace_count = 47
+  cancellation_reject_trace_count = 395
+  shard_count = 7
+  emitted_shards = 7
+  root_emitted = true
+  sampled_rank_or_path_data = false
+
+Forbidden-token scan:
+  passed, no matches
+
+Sampled-membership scan:
+  passed, no matches
+```
+
+Decision:
+
+Accept the terminal root as the correct composition style for generated
+classifier roots.  Future full-trace and graph-accepted classifier roots must
+use grouped/balanced disjunctions or DAG-style composition, never a single
+hundreds-way `rcases`.  The next Bellman classifier step is to emit the
+positive companion: a semantic terminal/full-trace theorem that turns the
+closed-language prefix information, cancellation equality, actual-face
+omnihedrality, and bad-face compatibility into either
+`GraphAcceptedEvalSequenceBadFace` or a small accepted-trace disjunction that
+feeds it.

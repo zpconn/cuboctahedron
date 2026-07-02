@@ -55,7 +55,7 @@ def trace_def_name(global_index: int) -> str:
 
 def render_trace_def(global_index: int, trace: tuple[str, ...]) -> str:
     return (
-        f"private def {trace_def_name(global_index)} : List Face :=\n"
+        f"def {trace_def_name(global_index)} : List Face :=\n"
         f"  {prefix_smoke.lean_face_list(trace)}\n"
     )
 
@@ -233,6 +233,78 @@ end {NAMESPACE}.Shard{shard_index:03d}
 """
 
 
+def shard_namespace(index: int) -> str:
+    return f"Shard{index:03d}"
+
+
+def root_trace_name(global_index: int, shard_size: int) -> str:
+    shard_index = global_index // shard_size
+    return f"{shard_namespace(shard_index)}.{trace_def_name(global_index)}"
+
+
+def render_reject_root(
+    reject_traces: list[tuple[str, ...]],
+    shard_size: int,
+) -> str:
+    shard_count = (len(reject_traces) + shard_size - 1) // shard_size
+    imports = "\n".join(
+        f"import {NAMESPACE}.Shard{index:03d}" for index in range(shard_count)
+    )
+    group_parts: list[str] = []
+    branches: list[str] = []
+    for shard_index in range(shard_count):
+        start = shard_index * shard_size
+        stop = min(len(reject_traces), start + shard_size)
+        trace_names = [
+            root_trace_name(global_index, shard_size)
+            for global_index in range(start, stop)
+        ]
+        group_parts.append("  (\n" + render_disjunction("labels", trace_names) + ")")
+        branches.append(
+            f"  · exact {shard_namespace(shard_index)}."
+            f"{theorem_name(shard_index)} hc h{shard_index}"
+        )
+    terminal_reject_trace = " \\/\n".join(group_parts)
+    hpatterns = " | ".join(f"h{index}" for index in range(shard_count))
+    return f"""{imports}
+
+/-!
+Generated terminal top-pairing trace-classifier root.
+
+This root combines all cancellation-reject shards into a single semantic
+theorem.  It still consumes a terminal full-trace disjunction; it contains no
+sampled rank or path table.
+-/
+
+namespace {NAMESPACE}
+
+open Cuboctahedron
+
+set_option maxRecDepth 4096
+set_option linter.unusedTactic false
+set_option linter.unreachableTactic false
+
+def TerminalRejectTraceLabels (labels : List Face) : Prop :=
+{terminal_reject_trace}
+
+theorem terminal_rejects_false
+    {{labels : List Face}}
+    (hc :
+      triangularCancellationSummaryOfFaceLabels labels =
+        topPairingTargetSummary)
+    (hterm : TerminalRejectTraceLabels labels) :
+    False := by
+  unfold TerminalRejectTraceLabels at hterm
+  rcases hterm with {hpatterns}
+{"\n".join(branches)}
+
+theorem root_builds : True := by
+  exact True.intro
+
+end {NAMESPACE}
+"""
+
+
 def summary_payload(
     all_traces: list[tuple[str, ...]],
     reject_traces: list[tuple[str, ...]],
@@ -295,9 +367,14 @@ def main() -> None:
         (args.output_dir / f"Shard{shard_index:03d}.lean").write_text(
             render_reject_shard(shard_index, start, reject_traces[start:stop])
         )
+    if emit_count == shard_count:
+        (args.output_dir / "All.lean").write_text(
+            render_reject_root(reject_traces, args.shard_size)
+        )
 
     summary = summary_payload(traces, reject_traces, args.shard_size)
     summary["emitted_shards"] = emit_count
+    summary["root_emitted"] = emit_count == shard_count
     args.summary_json.parent.mkdir(parents=True, exist_ok=True)
     args.summary_json.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
     print(f"wrote {emit_count} terminal shard(s) to {args.output_dir}")
