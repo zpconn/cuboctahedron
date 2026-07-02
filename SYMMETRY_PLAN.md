@@ -73638,3 +73638,55 @@ Strategic update:
   fields and collapses back to sampled paths or exact affine RHS keys, stop the
   Bellman production route and pivot to a stronger cancellation-tree summary
   automaton whose state carries evaluator progress explicitly.
+
+### Follow-up: Selected-Prefix Cover Accepted-Eval Bridge
+
+Extended the same bridge module so the bounded selected-prefix root itself now
+feeds the accepted-prefix Bellman eval surface:
+
+```lean
+theorem acceptedPrefix13EvalFamily_of_selectedPrefixCoverFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank
+
+theorem evalLanguage_of_selectedPrefixCoverFamily ...
+theorem scaledMargin_nonpos_of_selectedPrefixCoverFamily ...
+```
+
+This composes the existing generated semantic adapter:
+
+```lean
+selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily
+```
+
+with the new selected-prefix accepted-eval bridge.  It means the bounded
+selected-prefix cover root, not only the lower trace-margin family, can now be
+treated as an `AcceptedPrefix13EvalFamily` producer.
+
+Guarded direct check:
+
+```text
+BellmanTopPairingSelectedPrefixAcceptedPrefixEvalBridge.lean: pass
+elapsed: 6.02s
+peak_tree_rss: 4001 MiB
+hard_as: 12288 MiB
+min_available: 46202 MiB
+```
+
+Forbidden-token scan over the bridge found no matches for `SampledRankIndex`,
+`sampledContainsRank`, `sampledRankOf`, `sampledSmokeNext`, `sampledObject`,
+`sorry`, `admit`, `axiom`, `native_decide`, `unsafe`, `Float`, `Float32`,
+`Float64`, or `Double`.
+
+Interpretation:
+
+This satisfies the bounded version of the GPT5.5 semantic-membership gate:
+`SelectedPrefixCoverFamily` is a semantic generated family predicate and now
+drives the accepted-prefix evaluator without sampled membership.  The remaining
+production gap is coverage: replace this bounded selected-prefix cover with a
+full semantic provider for the intended top-pairing residual language, or prove
+that the existing `TopPairingClosedLanguageAtRank` fields imply an accepted
+prefix/trace-margin producer.  If the next step requires sampled paths or exact
+affine RHS keys, Bellman should stop being the production route.

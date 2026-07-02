@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingAcceptedPrefixEvalRoot
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSelectedPrefixTraceMarginAdapter
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSelectedPrefixTraceMarginCoverBridge
 
 /-!
 Bridge from the bounded selected-prefix trace-margin family into the
@@ -21,6 +22,7 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingAcceptedPrefi
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingAcceptedPrefixEvalRoot
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSelectedPrefixTraceMarginAdapter
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSelectedPrefixTraceMarginCoverBridge
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingStateDAGSelectedPrefixCover
 
 theorem acceptedPrefix13EvalFamily_of_selectedPrefixTraceMarginFamily
@@ -271,6 +273,36 @@ theorem scaledMargin_nonpos_of_selectedPrefixTraceMarginFamily
     scaledMargin rank <= 0 :=
   scaledMargin_nonpos_of_acceptedPrefix13EvalFamily
     (acceptedPrefix13EvalFamily_of_selectedPrefixTraceMarginFamily hrank)
+    hactual
+
+theorem acceptedPrefix13EvalFamily_of_selectedPrefixCoverFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank :=
+  acceptedPrefix13EvalFamily_of_selectedPrefixTraceMarginFamily
+    (selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily hrank)
+
+theorem evalLanguage_of_selectedPrefixCoverFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_acceptedPrefix13EvalFamily
+    (acceptedPrefix13EvalFamily_of_selectedPrefixCoverFamily hrank)
+    hactual
+
+theorem scaledMargin_nonpos_of_selectedPrefixCoverFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_acceptedPrefix13EvalFamily
+    (acceptedPrefix13EvalFamily_of_selectedPrefixCoverFamily hrank)
     hactual
 
 theorem selected_prefix_accepted_prefix_eval_bridge_builds : True := by
