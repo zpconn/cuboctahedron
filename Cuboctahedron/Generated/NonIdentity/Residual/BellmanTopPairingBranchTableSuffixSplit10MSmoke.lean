@@ -76,6 +76,41 @@ theorem eval_exists_of_branchTableSuffixOk
     hinv htail hsuffix
 
 /--
+Rank-level Bellman eval language from semantic branch-table suffix evidence.
+
+This is the production-shaped bridge for this smoke: the generated membership
+emitter should prove `BranchTableSuffixOk` from closed transducer/cursor state
+and a strengthened suffix predicate; this theorem then invokes the generic
+deterministic evaluator socket, without selected-prefix or sampled-rank
+membership.
+-/
+theorem evalLanguageAtRank_of_branchTableSuffixOk
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix :
+      BranchTableSuffixOk rank
+        (TopPairingTransducerEvalState.start rootState)
+        (topPairingRankFaceLabels rank))
+    (hfinish :
+      forall {finish : FaceEvalState} {gain : Int},
+        evalLabelStepFn faceEvalNext
+          (TopPairingTransducerEvalState.start rootState)
+          (topPairingRankFaceLabels rank) = some (finish, gain) ->
+        finish.Tail [] ->
+        BranchInv finish ->
+        BranchTableSuffixOk rank finish [] ->
+          0 <= graphPotential finish.graph ∧
+            scaledMargin rank <= (176 : Int) + gain) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocalWithSuffix
+    (next := graphSmokeNext) (labelOfFace := smokeLabelOfFace)
+    BranchInv (BranchTableSuffixOk rank) hclosed start_inv hsuffix
+    branchTableSuffixOk_local hfinish
+
+/--
 Semantic root-prefix lift for the split branch-table suffix predicate.
 -/
 theorem branchTableSuffixOk_root_of_closedPrefix2
@@ -243,6 +278,39 @@ theorem branchTableSuffixOk_of_graphBranchTableSuffixOk
     (hsuffix : GraphBranchTableSuffixOk rank state.graph faces) :
     BranchTableSuffixOk rank state faces :=
   branchTableSuffixOk_of_graphBranchTableSuffixOk_aux hsuffix state rfl
+
+/--
+Rank-level Bellman eval language from graph-only branch-table suffix evidence.
+
+This is a lighter generated target than storing full transducer states in every
+suffix node: graph-only suffix evidence is converted to the full semantic
+suffix at the bridge boundary, where the closed transducer tail supplies the
+missing cursor/schedule/local-axis facts.
+-/
+theorem evalLanguageAtRank_of_graphBranchTableSuffixOk
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix :
+      GraphBranchTableSuffixOk rank rootState
+        (topPairingRankFaceLabels rank))
+    (hfinish :
+      forall {finish : FaceEvalState} {gain : Int},
+        evalLabelStepFn faceEvalNext
+          (TopPairingTransducerEvalState.start rootState)
+          (topPairingRankFaceLabels rank) = some (finish, gain) ->
+        finish.Tail [] ->
+        BranchInv finish ->
+        BranchTableSuffixOk rank finish [] ->
+          0 <= graphPotential finish.graph ∧
+            scaledMargin rank <= (176 : Int) + gain) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_branchTableSuffixOk hclosed
+    (branchTableSuffixOk_of_graphBranchTableSuffixOk
+      (state := TopPairingTransducerEvalState.start rootState) hsuffix)
+    hfinish
 
 def closedPrefix3TmpmTransducerState : TopPairingTransducerState where
   step := 3

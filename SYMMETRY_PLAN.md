@@ -83536,3 +83536,64 @@ The generated family must express coverage as deterministic local transition
 closure from the closed-language transducer tail and strengthened suffix
 predicate.  If it falls back to selected-prefix or sampled trace membership,
 reject that route immediately.
+
+#### Branch-Table Suffix To Eval-Language Bridge Accepted
+
+The split-10M branch-table suffix smoke now exposes the rank-level Bellman
+eval-language bridge that the semantic membership emitter should target.
+
+Updated file:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingBranchTableSuffixSplit10MSmoke.lean
+```
+
+New theorem surfaces:
+
+```lean
+evalLanguageAtRank_of_branchTableSuffixOk
+evalLanguageAtRank_of_graphBranchTableSuffixOk
+```
+
+The first theorem proves `TopPairingBellmanEvalLanguageAtRank` from:
+
+1. `TopPairingClosedLanguageAtRank rank Face.ym`;
+2. full semantic `BranchTableSuffixOk` evidence rooted at
+   `TopPairingTransducerEvalState.start rootState`;
+3. a final-state/margin obligation.
+
+The second theorem is the lighter generated target: it accepts graph-only
+`GraphBranchTableSuffixOk` evidence and converts it to the full transducer
+suffix at the bridge boundary.  This matters because generated membership
+modules can avoid storing full transducer states in every suffix node while
+still relying on the Lean-checked closed transducer tail for schedule,
+square-gap, local-axis, and target-shadow cursor facts.
+
+Guarded command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/branch_table_suffix_split10m_eval_language_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffixSplit10MSmoke.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| `BellmanTopPairingBranchTableSuffixSplit10MSmoke.lean` | pass | `5.01s` | `4078 MiB` | `45932 MiB` |
+
+Decision: accepted as the current production-shaped evaluator socket.  The
+next implementation target is not another eval bridge.  It is a semantic
+membership producer that proves graph-only `GraphBranchTableSuffixOk` for a
+representative minimized state-DAG family from closed-language/cursor/suffix
+facts, plus the corresponding final margin obligation.  If that producer
+requires selected-prefix equality, sampled rank/path objects, exact affine RHS
+keys, solved start points, or exact full Bellman trace identity, reject the
+producer shape and strengthen the semantic state instead.
