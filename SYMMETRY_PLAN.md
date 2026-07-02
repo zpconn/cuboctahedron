@@ -86026,3 +86026,107 @@ If `terminalState_of_strengthenedClosed` needs exact prefix equality as the
 main state key, reject that state and add only semantic fields: target-shadow
 cursor, square-gap counter, pair-count remainder, local-axis class,
 tri-source progress, and canonical bad-face class.
+
+#### Prefix-2 Deterministic Terminal-State Socket Accepted
+
+Added the first concrete replacement-transducer state socket.  It proves that
+any closed top-pairing rank deterministically enters a compact semantic tail
+state after the forced `xm, ym` prefix.  This is **not** a terminal trace-id
+state and does not use sampled rank/path data.
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalStatePrefix2Socket.lean
+```
+
+New theorem surface:
+
+```lean
+inductive BellmanTopPairingTerminalStatePrefix2Socket.
+  TopPairingPrefix2State
+  | afterXmYm
+
+def BellmanTopPairingTerminalStatePrefix2Socket.
+  TopPairingPrefix2State.Contains :
+    TopPairingPrefix2State -> Fin numPairWords -> Prop
+
+def BellmanTopPairingTerminalStatePrefix2Socket.
+  Prefix2TerminalStateFamily :
+    Fin numPairWords -> Prop
+
+theorem BellmanTopPairingTerminalStatePrefix2Socket.
+  prefix2State_of_closed :
+    TopPairingClosedLanguageAtRank rank badFace ->
+      Prefix2TerminalStateFamily rank
+
+theorem BellmanTopPairingTerminalStatePrefix2Socket.
+  prefix2State_of_strengthenedClosed :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Prefix2TerminalStateFamily rank
+```
+
+The state contains:
+
+```lean
+∃ rest : List Face,
+  topPairingRankFaceLabels rank = [Face.xm, Face.ym] ++ rest ∧
+    TopPairingTransducerTail 2
+      (topPairingNextGap (topPairingNextGap 0 Face.xm) Face.ym)
+      0
+      ((SqParity.id.applyPair (pairOfFace Face.xm)).applyPair
+        (pairOfFace Face.ym))
+      (topPairingNextLinear
+        (topPairingNextLinear (matId : Mat3 Rat) Face.xm) Face.ym)
+      rest
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_prefix2_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePrefix2Socket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_prefix2_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePrefix2Socket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `BellmanTopPairingTerminalStatePrefix2Socket.lean` | pass | `8.00s` | `3640 MiB` | `46237 MiB` |
+| Lake `BellmanTopPairingTerminalStatePrefix2Socket` | pass | `3.00s` | `3953 MiB` | `46071 MiB` |
+
+Hygiene:
+
+```bash
+rg "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePrefix2Socket.lean
+```
+
+returned no matches.  `git diff --check` passed.
+
+Decision: accepted as the first deterministic-state building block.  The next
+state should advance from `afterXmYm` by local `(state, face)` transitions
+derived from `TopPairingTransducerTail.cons`, not by generating a disjunction
+of all depth-3 or deeper prefixes.
