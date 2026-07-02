@@ -69926,3 +69926,166 @@ Build discipline remains unchanged: do not run a cold `lake build` over this
 import neighborhood.  Use direct Lean checks or a serial guarded cache builder
 until the generated dependencies are reorganized so Lake cannot fan out into a
 large memory spike.
+
+### 2026-07-02 Bellman semantic-membership gate refined
+
+The latest GPT5.5 recommendation is now accepted as the immediate strategy:
+continue the Bellman route for **exactly one more semantic-membership
+experiment**, but do not run another sampled smoke, another potential search,
+or another broad rank/depth classifier emission.  The potential itself is not
+the bottleneck.  The remaining question is whether the closed top-pairing
+language can drive the deterministic Bellman evaluator without materializing
+sampled ranks or sampled paths.
+
+Repo-specific correction: the boring semantic object and membership layer
+already exists in
+
+```text
+Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+with names such as:
+
+```lean
+TopPairingBellmanObj
+topPairingClosedMembership
+TopPairingBellmanObj.traceBoundOfEvalAccepts
+TopPairingBellmanObj.objectCoverOfEvalAccepts
+topPairingBellmanEvalObjectCoverOfClosedToEval
+topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+```
+
+Therefore the next task is **not** to recreate `TopPairingBellmanObj`.  The
+next task is to prove or generate the missing deterministic provider from the
+closed semantic language to evaluator evidence:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> TopPairingBellmanEvalLanguageAtRank
+       V next labelOfFace start const scaledMargin rank Face.ym
+```
+
+or, if the existing closed predicate is one field too weak, the smallest
+documented strengthening:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  sequenceBadFace rank Face.ym
+  -> TopPairingBellmanEvalLanguageAtRank
+       V next labelOfFace start const scaledMargin rank Face.ym
+```
+
+The generated/provider theorem must supply the same information as
+`BellmanEvalAccepts`:
+
+```lean
+∃ result,
+  evalLabelStepFn next start
+    (faceLabelsInContributionOrder labelOfFace
+      (canonicalSeqOfPairWord (unrankPairWord rank))) = some result
+  ∧ 0 <= V result.1
+  ∧ scaledMargin rank <= const + result.2
+```
+
+This is the real gate.  It is acceptable for the proof to use a compact
+finite-state transition table, terminal trace family ids, selected-prefix
+families, and integer potential facts.  It is not acceptable for the proof to
+reintroduce:
+
+```text
+SampledRankIndex
+sampledContainsRank
+sampledRankOf
+one object constructor per rank/path
+exact affine-RHS or solved-p0 membership tables
+large local simplification of rational matrix products in every shard
+```
+
+Immediate implementation target:
+
+1. Build a tiny transition/provider module that factors the expensive
+   depth-shard local proof into a finite prechecked fact:
+
+   ```lean
+   parent prefix + closed-language fields
+     -> accepted next-face / evaluator transition fact
+   ```
+
+   The theorem may be generated, but its public statement must mention only the
+   semantic prefix/state, not sampled ranks.
+
+2. Use that fact to prove one nontrivial closed-language-to-evaluator slice for
+   the top-pairing family, preferably routed through the existing
+   `topPairingBellmanEvalObjectCoverOfClosedToEval` or
+   `topPairingBellmanEvalObjectCoverOfStrengthenedToEval` bridge.
+
+3. Direct-check the slice under the hard memory guard.  A successful slice must
+   build with no sampled objects and without repeating the old
+   `cases nextFace <;> simp [normalQ, matVec, dot, matMul, reflM, ...]`
+   body across many generated branches.
+
+Go/no-go:
+
+- **Go:** the theorem surface proves a semantic closed/strengthened
+  language-to-evaluator bridge for a nontrivial family, and the guarded Lean
+  smoke is cheap enough to extrapolate to the build-time budget.
+- **No-go:** the proof requires sampled paths/ranks, exact affine-RHS tables,
+  one generated branch per accepted rank/path, or the same slow rational
+  local-axis simplification in each shard.  If this happens, stop Bellman as a
+  production route and pivot to cancellation-tree summary algebra as the
+  next nonidentity provider architecture.
+
+Transition-extraction helper checkpoint:
+
+`Cuboctahedron/Search/BellmanTopPairingLanguage.lean` now exposes small
+append/extraction lemmas for the semantic language predicates:
+
+```lean
+topPairingStepScheduleFrom_append
+topPairingStepScheduleAllows_next_of_append
+topPairingStepScheduleLabels_allows_next_of_prefix
+topPairingSquareGapAfter
+topPairingSquareGapFrom_append
+topPairingSquareGapAllows_next_of_append
+topPairingSquareGapLabels_allows_next_of_prefix
+topPairingLinearAfterFaces
+topPairingLocalAxisFrom_append
+topPairingLocalAxisAllows_next_of_append
+topPairingLocalAxisLabels_allows_next_of_prefix
+```
+
+These lemmas do not prove the full provider yet.  They are the first small
+surface for replacing the slow local shard body.  A future generated transition
+fact can use them to extract the next-face schedule, square-gap, and local-axis
+requirements after a known semantic prefix, then discharge membership using
+prechecked finite facts instead of recomputing the prefix's rational matrix
+products in every shard.
+
+Guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 120 \
+  --json scripts/generated/bellman_top_pairing_language_extractors_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+```
+
+Result:
+
+```text
+passed
+elapsed: 3.00s
+peak process-tree RSS: 3943.8 MiB
+minimum available memory observed: 46182.5 MiB
+hard address-space cap: 8192 MiB
+```
+
+Next implementation step: generate or hand-write one nontrivial prefix
+transition fact that uses these extractors.  If that fact still needs the old
+large `simp [normalQ, matVec, dot, matMul, reflM, ...]` proof at every parent,
+the Bellman provider gate fails and the plan pivots to cancellation-tree
+summary algebra.

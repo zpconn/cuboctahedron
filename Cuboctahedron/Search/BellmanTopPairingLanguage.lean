@@ -65,6 +65,40 @@ theorem topPairingStepScheduleLabels_ofFrom
     TopPairingStepScheduleLabels labels :=
   And.intro hlen hfrom
 
+theorem topPairingStepScheduleFrom_append
+    {step : Nat} {pfx rest : List Face}
+    (h : TopPairingStepScheduleFrom step (pfx ++ rest)) :
+    TopPairingStepScheduleFrom (step + pfx.length) rest := by
+  induction pfx generalizing step with
+  | nil =>
+      simpa using h
+  | cons face pfx ih =>
+      unfold TopPairingStepScheduleFrom at h
+      rcases h with ⟨_hface, hrest⟩
+      simpa [Nat.add_assoc, Nat.add_comm, Nat.add_left_comm] using
+        ih (step := step + 1) hrest
+
+theorem topPairingStepScheduleAllows_next_of_append
+    {step : Nat} {pfx rest : List Face} {face : Face}
+    (h : TopPairingStepScheduleFrom step (pfx ++ face :: rest)) :
+    face ∈ topPairingAllowedFacesAtStep (step + pfx.length) := by
+  have htail :=
+    topPairingStepScheduleFrom_append
+      (step := step) (pfx := pfx) (rest := face :: rest) h
+  unfold TopPairingStepScheduleFrom at htail
+  exact htail.1
+
+theorem topPairingStepScheduleLabels_allows_next_of_prefix
+    {labels pfx rest : List Face} {face : Face}
+    (hs : TopPairingStepScheduleLabels labels)
+    (hlabels : labels = pfx ++ face :: rest) :
+    face ∈ topPairingAllowedFacesAtStep pfx.length := by
+  rcases hs with ⟨_hlen, hfrom⟩
+  subst labels
+  simpa using
+    topPairingStepScheduleAllows_next_of_append
+      (step := 0) (pfx := pfx) (rest := rest) hfrom
+
 theorem topPairingStepScheduleLabels_prefix_xm_ym
     {labels : List Face}
     (h : TopPairingStepScheduleLabels labels) :
@@ -200,6 +234,56 @@ theorem topPairingSquareGapLabels_ofFrom
     (hfrom : TopPairingSquareGapFrom 0 labels) :
     TopPairingSquareGapLabels labels :=
   hfrom
+
+def topPairingSquareGapAfter : Nat -> List Face -> Nat
+  | gap, [] => gap
+  | gap, face :: rest =>
+      if isSquarePair (pairOfFace face) then
+        topPairingSquareGapAfter gap rest
+      else
+        topPairingSquareGapAfter (gap + 1) rest
+
+theorem topPairingSquareGapFrom_append
+    {gap : Nat} {pfx rest : List Face}
+    (h : TopPairingSquareGapFrom gap (pfx ++ rest)) :
+    TopPairingSquareGapFrom (topPairingSquareGapAfter gap pfx) rest := by
+  induction pfx generalizing gap with
+  | nil =>
+      simpa [topPairingSquareGapAfter] using h
+  | cons face pfx ih =>
+      unfold TopPairingSquareGapFrom at h
+      unfold topPairingSquareGapAfter
+      by_cases hpair : isSquarePair (pairOfFace face) = true
+      · simp [hpair] at h ⊢
+        exact ih h.2
+      · have hpair_false : isSquarePair (pairOfFace face) = false := by
+          cases hpair_value : isSquarePair (pairOfFace face) <;> simp [hpair_value] at hpair ⊢
+        simp [hpair_false] at h ⊢
+        exact ih h
+
+theorem topPairingSquareGapAllows_next_of_append
+    {gap : Nat} {pfx rest : List Face} {face : Face}
+    (h : TopPairingSquareGapFrom gap (pfx ++ face :: rest))
+    (hpair : isSquarePair (pairOfFace face) = true) :
+    face ∈ topPairingAllowedSquareFacesAtGap
+      (topPairingSquareGapAfter gap pfx) := by
+  have htail :=
+    topPairingSquareGapFrom_append
+      (gap := gap) (pfx := pfx) (rest := face :: rest) h
+  unfold TopPairingSquareGapFrom at htail
+  rw [hpair] at htail
+  exact htail.1
+
+theorem topPairingSquareGapLabels_allows_next_of_prefix
+    {labels pfx rest : List Face} {face : Face}
+    (hg : TopPairingSquareGapLabels labels)
+    (hlabels : labels = pfx ++ face :: rest)
+    (hpair : isSquarePair (pairOfFace face) = true) :
+    face ∈ topPairingAllowedSquareFacesAtGap
+      (topPairingSquareGapAfter 0 pfx) := by
+  subst labels
+  exact topPairingSquareGapAllows_next_of_append
+    (gap := 0) (pfx := pfx) (rest := rest) hg hpair
 
 def topPairingLocalAxis : Vec3 Rat where
   x := -1
@@ -412,6 +496,47 @@ theorem topPairingLocalAxisLabels_ofFrom
     (hfrom : TopPairingLocalAxisFrom (matId : Mat3 Rat) labels) :
     TopPairingLocalAxisLabels labels :=
   hfrom
+
+def topPairingLinearAfterFaces : Mat3 Rat -> List Face -> Mat3 Rat
+  | linear, [] => linear
+  | linear, face :: rest =>
+      topPairingLinearAfterFaces
+        (matMul linear (reflM (normalQ face))) rest
+
+theorem topPairingLocalAxisFrom_append
+    {linear : Mat3 Rat} {pfx rest : List Face}
+    (h : TopPairingLocalAxisFrom linear (pfx ++ rest)) :
+    TopPairingLocalAxisFrom
+      (topPairingLinearAfterFaces linear pfx) rest := by
+  induction pfx generalizing linear with
+  | nil =>
+      simpa [topPairingLinearAfterFaces] using h
+  | cons face pfx ih =>
+      unfold TopPairingLocalAxisFrom at h
+      rcases h with ⟨_hface, hrest⟩
+      simpa [topPairingLinearAfterFaces] using
+        ih (linear := matMul linear (reflM (normalQ face))) hrest
+
+theorem topPairingLocalAxisAllows_next_of_append
+    {linear : Mat3 Rat} {pfx rest : List Face} {face : Face}
+    (h : TopPairingLocalAxisFrom linear (pfx ++ face :: rest)) :
+    TopPairingLocalAxisAllows
+      (topPairingLinearAfterFaces linear pfx) face := by
+  have htail :=
+    topPairingLocalAxisFrom_append
+      (linear := linear) (pfx := pfx) (rest := face :: rest) h
+  unfold TopPairingLocalAxisFrom at htail
+  exact htail.1
+
+theorem topPairingLocalAxisLabels_allows_next_of_prefix
+    {labels pfx rest : List Face} {face : Face}
+    (ha : TopPairingLocalAxisLabels labels)
+    (hlabels : labels = pfx ++ face :: rest) :
+    TopPairingLocalAxisAllows
+      (topPairingLinearAfterFaces (matId : Mat3 Rat) pfx) face := by
+  subst labels
+  exact topPairingLocalAxisAllows_next_of_append
+    (linear := (matId : Mat3 Rat)) (pfx := pfx) (rest := rest) ha
 
 def startedCanonicalSingleFace : Face -> Face
   | Face.xp => Face.xp
