@@ -61250,3 +61250,95 @@ at: the generated full-terminal classifier and accepted-trace margin theorem
 must produce `GraphAcceptedTraceMargin` semantically for graph-accepted
 terminal traces.  Continue only if that theorem remains proportional to the
 37 accepted traces / small graph data, not to sampled ranks or paths.
+
+Refined terminal-accepted eval socket checkpoint:
+
+Extended the same bridge with a single production-facing strengthened
+predicate:
+
+```lean
+def TerminalAcceptedEvalSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  AcceptedSequenceBadFaceAtRank rank badFace /\
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) /\
+      ∃ closed : TopPairingClosedLanguageAtRank rank Face.ym,
+        GraphAcceptedTraceMargin scaledMargin
+          ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym)
+```
+
+New theorem surfaces:
+
+```lean
+theorem graphAcceptedTraceLabels_of_strengthenedTerminalAcceptedEval
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym) :
+    GraphAcceptedTraceLabels (topPairingRankFaceLabels rank)
+
+theorem evalLanguage_of_strengthenedTerminalAcceptedEval
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+This is the cleanest current socket for the future generator: it must prove
+accepted-sequence filters, terminal trace membership, and the trace-specific
+margin bound as semantic facts.  The Bellman object remains `rank + closed`;
+there is still no sampled object table.
+
+Focused validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_accepted_bridge_refined_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.01s
+peak_tree_rss = 3594.06 MiB
+hard_as = 8192 MiB
+min_available = 46264 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n \
+  "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.lean
+```
+
+Both checks passed; the `rg` audit returned no matches.
+
+Next action:
+
+Generate the smallest non-sampled theorem that proves
+`TerminalAcceptedEvalSequenceBadFace scaledMargin rank Face.ym` for the current
+top-pairing family.  If that theorem needs one branch per rank/path, stop the
+Bellman production route.  If it only branches over the 37 accepted terminal
+traces and local integer margin facts, continue and wire it through
+`evalLanguage_of_strengthenedTerminalAcceptedEval`.

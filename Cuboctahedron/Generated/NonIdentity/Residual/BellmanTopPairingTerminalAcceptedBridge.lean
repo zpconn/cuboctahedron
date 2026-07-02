@@ -18,6 +18,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminal
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalGate
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 
 theorem terminalOkTraceLabels_of_strengthenedTerminalTrace
     {rank : Fin numPairWords}
@@ -50,6 +51,54 @@ theorem graphAcceptedTraceLabels_of_strengthenedTerminalTrace
   graphAcceptedTraceLabels_of_strengthenedTerminalOk
     hstrengthened
     (terminalOkTraceLabels_of_strengthenedTerminalTrace hstrengthened hterm)
+
+def TerminalAcceptedEvalSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  AcceptedSequenceBadFaceAtRank rank badFace /\
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) /\
+      ∃ closed : TopPairingClosedLanguageAtRank rank Face.ym,
+        GraphAcceptedTraceMargin scaledMargin
+          ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym)
+
+theorem graphAcceptedTraceLabels_of_strengthenedTerminalAcceptedEval
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym) :
+    GraphAcceptedTraceLabels (topPairingRankFaceLabels rank) := by
+  rcases hstrengthened.sequenceBadFace_ok with ⟨hbad, hterm, _hgraph⟩
+  have hacceptedStrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym :=
+    TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+      hstrengthened.closed hstrengthened.actualFaceOmni hbad
+  exact
+    graphAcceptedTraceLabels_of_strengthenedTerminalTrace
+      hacceptedStrengthened hterm
+
+theorem evalLanguage_of_strengthenedTerminalAcceptedEval
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases hstrengthened.sequenceBadFace_ok with ⟨hbad, hterm, closed, hgraph⟩
+  have hacceptedStrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym :=
+    TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+      hstrengthened.closed hstrengthened.actualFaceOmni hbad
+  have _haccepted :
+      GraphAcceptedTraceLabels (topPairingRankFaceLabels rank) :=
+    graphAcceptedTraceLabels_of_strengthenedTerminalTrace
+      hacceptedStrengthened hterm
+  exact evalLanguageAtRank_of_graphAcceptedTraceMargin closed hgraph
 
 theorem terminalAcceptedBridge_builds : True := by
   exact True.intro
