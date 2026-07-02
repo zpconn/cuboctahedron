@@ -9,6 +9,7 @@ records the current Lean theorem surface:
 
 * target-shadow and semantic transducer-tail front doors exist;
 * the generated finite branch table exists;
+* the generated finite branch classifier exists;
 * graph branches now drive local evaluator progress;
 * socket branches are semantic contradictions;
 * the remaining open theorem is closed-language-to-branch-table membership.
@@ -66,6 +67,8 @@ REQUIRED_SYMBOLS = {
     "TopPairingTransducerTail.ofClosedRank": "closed language to combined semantic tail",
     "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": "generic suffix evaluator",
     "StrengthenedBranchTable": "finite graph/socket branch relation",
+    "strengthenedBranchKind?": "finite graph/socket branch classifier",
+    "branchKind?_of_branchTable": "branch-table entry computes to classifier",
     "graph_next_of_graphBranch": "branch-table graph transition extractor",
     "faceEvalNext_of_graphBranchTable": "graph branch local evaluator progress",
     "socket19TmmpBranch_impossible": "state19/tmmp semantic socket",
@@ -182,6 +185,8 @@ def render_markdown(report: dict[str, Any]) -> str:
             "",
             "```lean",
             "faceEvalNext_of_graphBranchTable",
+            "strengthenedBranchKind?",
+            "branchKind?_of_branchTable",
             "socket19TmmpBranch_impossible",
             "socket150TpppBranch_impossible",
             "BranchTableSuffixOk",
@@ -221,6 +226,13 @@ def render_markdown(report: dict[str, Any]) -> str:
             "`TopPairingClosedStateAt` is schematic here: the next emitter should",
             "use the existing semantic transducer state fields, not a sampled",
             "rank/path object or exact affine RHS key.",
+            "",
+            "The generated `strengthenedBranchKind?` classifier is available as",
+            "the small finite state/face target for that emitter.  Current Lean",
+            "proves only the cheap direction",
+            "`branchKind?_of_branchTable`; a generic classifier-to-table converse",
+            "should be emitted in shards or avoided in the hot path if it causes",
+            "heartbeat blowups.",
             "",
         ]
     )

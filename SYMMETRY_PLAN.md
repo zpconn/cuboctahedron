@@ -81350,3 +81350,104 @@ direct `faceEvalNext` steps.  The future closed-language theorem should build a
 `BranchTableSuffixOk rank state suffix` from semantic transducer/cursor state
 and finite branch-table classification.
 ```
+
+### Branch-Table Classifier Added
+
+Updated the strengthened branch-table emitter to expose a finite computable
+classifier alongside the inductive relation:
+
+```lean
+strengthenedBranchKind? : State -> Face -> Option BranchKind
+branchKind?_of_branchTable :
+  StrengthenedBranchTable s face kind ->
+    strengthenedBranchKind? s face = some kind
+```
+
+This is the right side of the GPT-5.5 pivot: Bellman stays, selected-prefix
+membership stays rejected, and the next semantic membership theorem gets a
+small state/face classifier target instead of sampled rank/path objects.
+
+The generated module remains proof-shaped, not blob-shaped:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingStrengthenedBranchTable1MSmoke.lean
+```
+
+Focused checks after regeneration:
+
+```bash
+python3 scripts/emit_bellman_strengthened_branch_table_smoke.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_strengthened_branch_table_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedBranchTable1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_strengthened_branch_table_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedBranchTable1MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingBranchTableSuffix1MSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| branch-table direct Lean | pass | `5.00s` | `4318 MiB` |
+| branch-table Lake target | pass | `6.01s` | `4296 MiB` |
+| branch-table suffix Lake target | pass | `8.01s` | `4267 MiB` |
+
+The cheap theorem direction is accepted:
+
+```text
+StrengthenedBranchTable evidence -> strengthenedBranchKind? computes to it.
+```
+
+The converse direction:
+
+```text
+strengthenedBranchKind? s face = some kind -> StrengthenedBranchTable s face kind
+```
+
+was deliberately not kept as one generic hot-path theorem.  A monolithic
+version caused deterministic heartbeat/isDefEq stress in local experiments.
+If production needs the converse, emit it in small shards or have the semantic
+membership emitter construct the `StrengthenedBranchTable` relation directly
+while using `strengthenedBranchKind?` only as its finite classifier/audit target.
+
+The branch-table membership frontier audit was updated to record the classifier:
+
+```lean
+strengthenedBranchKind?
+branchKind?_of_branchTable
+```
+
+Next theorem target remains unchanged but sharper:
+
+```text
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> semantic transducer/cursor local state
+  -> BranchTableSuffixOk rank state suffix
+```
+
+The proof must continue to avoid sampled ranks, selected-prefix covers, exact
+affine RHS keys, packed blobs, large Boolean reductions, and broad unguarded
+builds.

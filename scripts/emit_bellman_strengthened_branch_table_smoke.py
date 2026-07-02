@@ -131,6 +131,25 @@ def emit_module(*, graph_path: Path, audit_path: Path) -> str:
             "  | socket150Tppp :",
             "      StrengthenedBranchTable (150 : State) Face.tppp BranchKind.socket150Tppp",
             "",
+            "def strengthenedBranchKind? : State -> Face -> Option BranchKind",
+        ]
+    )
+    for edge in edges:
+        lines.append(
+            f"  | {edge['src']}, {face_ctor(edge['face'])} => some BranchKind.graph"
+        )
+    lines.extend(
+        [
+            "  | 19, Face.tmmp => some BranchKind.socket19Tmmp",
+            "  | 150, Face.tppp => some BranchKind.socket150Tppp",
+            "  | _, _ => none",
+            "",
+            "theorem branchKind?_of_branchTable",
+            "    {s : State} {face : Face} {kind : BranchKind}",
+            "    (h : StrengthenedBranchTable s face kind) :",
+            "    strengthenedBranchKind? s face = some kind := by",
+            "  cases h <;> rfl",
+            "",
             "theorem graph_next_of_graphBranch",
             "    {s : State} {face : Face}",
             "    (h : StrengthenedBranchTable s face BranchKind.graph) :",

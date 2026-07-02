@@ -4,11 +4,13 @@
     "branch_table": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 514,
+      "lines": 754,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedBranchTable1MSmoke.lean",
       "symbol_hits": {
-        "StrengthenedBranchTable": 239,
-        "graph_next_of_graphBranch": 1
+        "StrengthenedBranchTable": 240,
+        "branchKind?_of_branchTable": 1,
+        "graph_next_of_graphBranch": 1,
+        "strengthenedBranchKind?": 2
       }
     },
     "branch_table_progress": {
@@ -82,11 +84,11 @@
   "forbidden_hit_count": 0,
   "guards": {
     "branch_table_lake": {
-      "elapsed_seconds": 5.004304679998313,
+      "elapsed_seconds": 6.0053817389998585,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 4248.4375,
+      "max_tree_rss_mib": 4295.84375,
       "path": "scripts/generated/bellman_strengthened_branch_table_1m_smoke_lake_guard.json"
     },
     "branch_table_progress_direct": {
@@ -114,11 +116,11 @@
       "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json"
     },
     "branch_table_suffix_lake": {
-      "elapsed_seconds": 3.0070425020094262,
+      "elapsed_seconds": 8.008691057999386,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 4053.8359375,
+      "max_tree_rss_mib": 4267.01953125,
       "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json"
     }
   },
@@ -136,6 +138,9 @@
     ],
     "TopPairingTransducerTail.ofClosedRank": [
       "eval_bridge"
+    ],
+    "branchKind?_of_branchTable": [
+      "branch_table"
     ],
     "branchTableSuffixOk_local": [
       "branch_table_suffix"
@@ -163,6 +168,9 @@
     "socket19TmmpBranch_impossible": [
       "branch_table_progress",
       "branch_table_suffix"
+    ],
+    "strengthenedBranchKind?": [
+      "branch_table"
     ],
     "topPairingTargetShadow_of_summary": [
       "target_cursor"

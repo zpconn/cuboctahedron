@@ -16,6 +16,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `TopPairingTransducerTail.ofClosedRank` | closed language to combined semantic tail | `eval_bridge` |
 | `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` | generic suffix evaluator | `eval_bridge`, `branch_table_suffix`, `strengthened_local` |
 | `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_progress`, `branch_table_suffix` |
+| `strengthenedBranchKind?` | finite graph/socket branch classifier | `branch_table` |
+| `branchKind?_of_branchTable` | branch-table entry computes to classifier | `branch_table` |
 | `graph_next_of_graphBranch` | branch-table graph transition extractor | `branch_table`, `branch_table_progress` |
 | `faceEvalNext_of_graphBranchTable` | graph branch local evaluator progress | `branch_table_progress`, `branch_table_suffix` |
 | `socket19TmmpBranch_impossible` | state19/tmmp semantic socket | `branch_table_progress`, `branch_table_suffix` |
@@ -28,11 +30,11 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 
 | guard | exit | elapsed | peak RSS | killed |
 | --- | ---: | ---: | ---: | --- |
-| `branch_table_lake` | `0` | `5.00s` | `4248 MiB` | `None` |
+| `branch_table_lake` | `0` | `6.01s` | `4296 MiB` | `None` |
 | `branch_table_progress_direct` | `0` | `2.00s` | `3544 MiB` | `None` |
 | `branch_table_progress_lake` | `0` | `4.01s` | `4067 MiB` | `None` |
 | `branch_table_suffix_direct` | `0` | `8.00s` | `3686 MiB` | `None` |
-| `branch_table_suffix_lake` | `0` | `3.01s` | `4054 MiB` | `None` |
+| `branch_table_suffix_lake` | `0` | `8.01s` | `4267 MiB` | `None` |
 
 ## Accepted Local Surface
 
@@ -41,6 +43,8 @@ entry is usable:
 
 ```lean
 faceEvalNext_of_graphBranchTable
+strengthenedBranchKind?
+branchKind?_of_branchTable
 socket19TmmpBranch_impossible
 socket150TpppBranch_impossible
 BranchTableSuffixOk
@@ -80,4 +84,11 @@ theorem topPairingClosed_head_branchTable
 `TopPairingClosedStateAt` is schematic here: the next emitter should
 use the existing semantic transducer state fields, not a sampled
 rank/path object or exact affine RHS key.
+
+The generated `strengthenedBranchKind?` classifier is available as
+the small finite state/face target for that emitter.  Current Lean
+proves only the cheap direction
+`branchKind?_of_branchTable`; a generic classifier-to-table converse
+should be emitted in shards or avoided in the hot path if it causes
+heartbeat blowups.
 
