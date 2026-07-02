@@ -83022,7 +83022,7 @@ Result:
 
 | Target | Result | Time | Peak RSS | Min available |
 |---|---:|---:|---:|---:|
-| closed Bellman closure audit | pass | `1.00s` | `2 MiB` | `46553 MiB` |
+| closed Bellman closure audit | pass | `1.00s` | `3 MiB` | `46426 MiB` |
 
 Counts:
 
@@ -83038,6 +83038,11 @@ Counts:
 | margin values | `19` |
 | existing split graph accepted | `37` |
 | existing split graph rejected | `10` |
+| actual-face omni candidates | `38` |
+| accepted-sequence bad-face candidates | `46` |
+| strengthened candidates | `37` |
+| rejected by actual-face omni | `9` |
+| rejected by accepted-sequence bad-face | `1` |
 
 Bellman result:
 
@@ -83047,7 +83052,7 @@ Bellman result:
 | root bound | `-16/11` |
 | max const | `2` |
 | max margin bound | `6/11` |
-| proves closed nonpositive | `false` |
+| proves nonpositive | `false` |
 | scale | `88` |
 
 The Bellman argmax is not a spurious recombination: it is an observed closed
@@ -83067,6 +83072,25 @@ Its exact margin bound is `6/11`.  Therefore no Bellman potential can prove
 nonpositivity for the plain visible closed-language approximation used by this
 audit.  Adding a richer state key cannot fix that particular target; the target
 predicate itself is too broad for this direct-start margin family.
+
+The same audit now also computes the strengthened subset
+`actual-face omni` plus `AcceptedSequenceBadFaceAtRank` / `SequenceBadFaceLabels`.
+That subset is exactly the semantic filter used by the current strengthened
+Lean bridge.  It has `37` candidates, `223` states, `229` edges, and `29`
+final states.  Its Bellman root bound is `-2`, the max const is `2`, the max
+margin bound is exactly `0`, and `proves_nonpositive = true`.  The
+strengthened argmax is also an observed path, candidate `15`, with total gain
+`-2` and margin bound `0`.
+
+Decision: the audit now distinguishes the two objects cleanly:
+
+- plain `TopPairingClosedLanguageAtRank rank Face.ym` is a useful cursor and
+  schedule invariant, but it is too broad to be the final Bellman membership
+  predicate for this direct-start margin;
+- `TopPairingStrengthenedClosedLanguageAtRank
+  AcceptedSequenceBadFaceAtRank rank Face.ym` is the current production target
+  for this family, because its exact semantic subset has a nonpositive Bellman
+  bound while remaining small.
 
 This confirms the latest strategic pivot:
 
@@ -83149,9 +83173,11 @@ Results:
 | `BellmanTopPairingTraceMarginBoundsSocket.lean` | pass | `2.00s` | `3601 MiB` | `46252 MiB` |
 
 These checks confirm that the strengthened semantic gate is already buildable
-inside the current memory discipline.  The next implementation target is
-therefore not another Bellman graph or potential, but a semantic membership
-producer for one of the existing socket predicates, preferably:
+inside the current memory discipline, and the strengthened closure audit shows
+that it is mathematically the right semantic target for this family.  The next
+implementation target is therefore not another Bellman graph or potential, and
+not any selected-prefix cover.  It is a semantic membership producer for one of
+the existing socket predicates, preferably:
 
 ```lean
 TerminalTraceMarginIdBoundSequenceBadFace scaledMargin rank Face.ym

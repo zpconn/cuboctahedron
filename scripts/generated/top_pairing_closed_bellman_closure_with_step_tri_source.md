@@ -2,9 +2,9 @@
 
 Untrusted exact diagnostic profile.  It emits no Lean evidence.
 
-- Decision: `closed-bellman-bound-positive`
+- Decision: `plain-too-weak-strengthened-nonpositive`
 - State key mode: `with-step-tri-source`
-- Elapsed seconds: `0.510`
+- Elapsed seconds: `0.502`
 - Target margin+cancellation pairing: `ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1`
 
 ## Counts
@@ -23,6 +23,11 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 | `margin_values` | `19` |
 | `existing_graph_accepted` | `37` |
 | `existing_graph_rejected` | `10` |
+| `actual_face_omni` | `38` |
+| `accepted_sequence_bad_face` | `46` |
+| `strengthened_candidate` | `37` |
+| `not_actual_face_omni` | `9` |
+| `not_accepted_sequence_bad_face` | `1` |
 
 ## Bellman
 
@@ -32,7 +37,7 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 | `root_bound` | `-16/11` |
 | `max_const` | `2` |
 | `max_margin_bound` | `6/11` |
-| `proves_closed_nonpositive` | `False` |
+| `proves_nonpositive` | `False` |
 | `scale` | `88` |
 | `gain_fraction_bit_length` | `7` |
 | `potential_fraction_bit_length` | `9` |
@@ -62,6 +67,40 @@ Untrusted exact diagnostic profile.  It emits no Lean evidence.
 | `12` | `-31/22` | `[21]` | `step=12|rem=1,1,0,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|5:d11m->d111@110|6:dm11->d1m1@110|7:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@11...` |
 | `13` | `103/88` | `[21]` | `step=13|rem=1,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|5:d11m->d111@110|6:dm11->d1m1@110|7:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@11...` |
 | `14` | `-73/88` | `[21]` | `step=14|rem=0,0,0,0,0,0,0|par=000|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|5:d11m->d111@110|6:dm11->d1m1@110|7:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@11...` |
+
+## Strengthened Subset
+
+### Counts
+
+| metric | value |
+| --- | ---: |
+| `candidates` | `37` |
+| `root_states` | `1` |
+| `states` | `223` |
+| `edges` | `229` |
+| `final_states` | `29` |
+
+### Bellman
+
+| metric | value |
+| --- | ---: |
+| `bounded_fixed_point` | `True` |
+| `root_bound` | `-2` |
+| `max_const` | `2` |
+| `max_margin_bound` | `0` |
+| `proves_nonpositive` | `True` |
+| `scale` | `88` |
+| `gain_fraction_bit_length` | `7` |
+| `potential_fraction_bit_length` | `9` |
+| `scaled_potential_bit_length` | `10` |
+
+### Strengthened Argmax Path
+
+- Edge count: `14`
+- Total gain: `-2`
+- Margin bound: `0`
+- Is observed path: `True`
+- Realizing candidates: `[15]`
 
 ## Existing Split Graph Rejects
 

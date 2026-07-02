@@ -10,14 +10,14 @@
     "--markdown",
     "scripts/generated/top_pairing_closed_bellman_closure_with_step_tri_source.md"
   ],
-  "elapsed_seconds": 1.0017703730118228,
+  "elapsed_seconds": 1.0018864379962906,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 2496,
-  "max_tree_rss_mib": 2.4375,
-  "min_available_seen_kib": 47671036,
-  "min_available_seen_mib": 46553.74609375,
+  "max_tree_rss_kib": 3456,
+  "max_tree_rss_mib": 3.375,
+  "min_available_seen_kib": 47540428,
+  "min_available_seen_mib": 46426.19921875,
   "rss_cap_mib": 1000.0,
   "timeout_seconds": 60.0
 }

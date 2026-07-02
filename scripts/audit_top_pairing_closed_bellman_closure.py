@@ -67,6 +67,31 @@ STATE_KEY_CHOICES = [
     "with-prefix",
 ]
 
+REJECTED_GRAPH_BAD_FACE_TRACE_004 = [
+    "xm",
+    "ym",
+    "tmpm",
+    "zm",
+    "zp",
+    "tppm",
+    "tpmm",
+    "tppp",
+    "tmmm",
+    "tpmp",
+    "tmmp",
+    "tmpp",
+    "yp",
+    "xp",
+]
+
+
+def actual_face_omni(labels: list[str]) -> bool:
+    return len(labels) == 14 and len(set(labels)) == 14
+
+
+def accepted_sequence_bad_face(labels: list[str], bad_face: str) -> bool:
+    return bad_face == "ym" and labels != REJECTED_GRAPH_BAD_FACE_TRACE_004
+
 
 def enumerate_closed_label_words(max_nodes: int | None) -> tuple[list[list[str]], dict[str, Any]]:
     stats: dict[str, Any] = {
@@ -241,6 +266,70 @@ def argmax_path(
     }
 
 
+def summarize_bellman_paths(paths: list[dict[str, Any]]) -> dict[str, Any]:
+    edges: set[tuple[str, Fraction, str]] = set()
+    root_states: set[str] = set()
+    final_states: set[str] = set()
+    edge_candidates: dict[tuple[str, str, str], list[int]] = defaultdict(list)
+    observed_sequences: dict[tuple[tuple[str, str, str], ...], list[int]] = defaultdict(list)
+    denominators = [1]
+    gain_bits = 0
+
+    for path in paths:
+        if path["states"]:
+            root_states.add(path["states"][0])
+            final_states.add(path["states"][-1])
+        denominators.append(path["const"].denominator)
+        keyed_path = tuple(edge_key(edge) for edge in path["edges"])
+        observed_sequences[keyed_path].append(path["candidate"])
+        for src, gain, dst in path["edges"]:
+            edge = (src, gain, dst)
+            edges.add(edge)
+            key = edge_key(edge)
+            if len(edge_candidates[key]) < 20:
+                edge_candidates[key].append(path["candidate"])
+            denominators.append(gain.denominator)
+            gain_bits = max(gain_bits, fraction_bit_length(gain))
+
+    potential, bounded = solve_bellman(edges, final_states)
+    root_bound = max((potential[root] for root in root_states), default=Fraction(0))
+    max_const = max((path["const"] for path in paths), default=Fraction(0))
+    max_margin_bound = max_const + root_bound
+    scale = lcm(denominators + [value.denominator for value in potential.values()])
+    potential_bits = max((fraction_bit_length(value) for value in potential.values()), default=0)
+    scaled_bits = max(
+        [abs(int(value * scale)).bit_length() for value in potential.values()] + [scale.bit_length(), 0]
+    )
+    return {
+        "counts": {
+            "candidates": len(paths),
+            "root_states": len(root_states),
+            "states": len(potential),
+            "edges": len(edges),
+            "final_states": len(final_states),
+        },
+        "bellman": {
+            "bounded_fixed_point": bounded,
+            "root_bound": qkey(root_bound),
+            "max_const": qkey(max_const),
+            "max_margin_bound": qkey(max_margin_bound),
+            "proves_nonpositive": max_margin_bound <= 0,
+            "scale": scale,
+            "gain_fraction_bit_length": gain_bits,
+            "potential_fraction_bit_length": potential_bits,
+            "scaled_potential_bit_length": scaled_bits,
+        },
+        "argmax_path": argmax_path(
+            root_states=root_states,
+            edges=edges,
+            potential=potential,
+            max_const=max_const,
+            observed_sequences=observed_sequences,
+            edge_candidates=edge_candidates,
+        ),
+    }
+
+
 def build_payload(args: argparse.Namespace) -> dict[str, Any]:
     t0 = time.perf_counter()
     candidates, enum_stats = enumerate_closed_label_words(args.max_nodes)
@@ -251,18 +340,12 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         label_of_face, transitions = closed.parse_graph(args.compare_base)
 
     paths: list[dict[str, Any]] = []
-    edges: set[tuple[str, Fraction, str]] = set()
-    root_states: set[str] = set()
-    final_states: set[str] = set()
-    edge_candidates: dict[tuple[str, str, str], list[int]] = defaultdict(list)
-    observed_sequences: dict[tuple[tuple[str, str, str], ...], list[int]] = defaultdict(list)
-    denominators = [1]
-    gain_bits = 0
     margin_key_counts: Counter[str] = Counter()
     mismatch_samples: list[dict[str, Any]] = []
     margin_values: Counter[str] = Counter()
     existing_graph_counts: Counter[str] = Counter()
     existing_rejects: Counter[tuple[int, int, str]] = Counter()
+    strengthened_filter_counts: Counter[str] = Counter()
 
     for candidate_index, labels in enumerate(candidates):
         seq = seq_of_contribution_labels(labels)
@@ -307,18 +390,18 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         contrib_sum = sum(gains, Fraction(0))
         margin_value = const + contrib_sum
         margin_values[qkey(margin_value)] += 1
-        denominators.append(const.denominator)
-        denominators.extend(gain.denominator for gain in gains)
-        gain_bits = max(gain_bits, *(fraction_bit_length(gain) for gain in gains))
-        root_states.add(states[0])
-        final_states.add(states[-1])
-        keyed_path = tuple(edge_key(edge) for edge in path_edges)
-        observed_sequences[keyed_path].append(candidate_index)
-        for edge in path_edges:
-            edges.add(edge)
-            key = edge_key(edge)
-            if len(edge_candidates[key]) < 20:
-                edge_candidates[key].append(candidate_index)
+        hactual = actual_face_omni(labels)
+        hbad = accepted_sequence_bad_face(labels, args.bad_face)
+        if hactual:
+            strengthened_filter_counts["actual_face_omni"] += 1
+        else:
+            strengthened_filter_counts["not_actual_face_omni"] += 1
+        if hbad:
+            strengthened_filter_counts["accepted_sequence_bad_face"] += 1
+        else:
+            strengthened_filter_counts["not_accepted_sequence_bad_face"] += 1
+        if hactual and hbad:
+            strengthened_filter_counts["strengthened_candidate"] += 1
 
         existing_graph = None
         if label_of_face:
@@ -338,7 +421,10 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
                 "candidate": candidate_index,
                 "labels": labels,
                 "seq": seq,
+                "const": const,
                 "margin_value": qkey(margin_value),
+                "actual_face_omni": hactual,
+                "accepted_sequence_bad_face": hbad,
                 "states": states,
                 "edges": path_edges,
                 "edge_labels": edge_labels,
@@ -346,37 +432,26 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
             }
         )
 
-    potential, bounded = solve_bellman(edges, final_states)
-    root_bound = max((potential[root] for root in root_states), default=Fraction(0))
-    const_values = {Fraction(path["margin_value"]) - sum(edge[1] for edge in path["edges"]) for path in paths}
-    max_const = max(const_values, default=Fraction(0))
-    max_margin_bound = max_const + root_bound
-    scale = lcm(denominators + [value.denominator for value in potential.values()])
-    potential_bits = max((fraction_bit_length(value) for value in potential.values()), default=0)
-    scaled_bits = max(
-        [abs(int(value * scale)).bit_length() for value in potential.values()] + [scale.bit_length(), 0]
-    )
+    all_summary = summarize_bellman_paths(paths)
+    strengthened_paths = [
+        path for path in paths
+        if path["actual_face_omni"] and path["accepted_sequence_bad_face"]
+    ]
+    strengthened_summary = summarize_bellman_paths(strengthened_paths)
     elapsed = time.perf_counter() - t0
-
-    argmax = argmax_path(
-        root_states=root_states,
-        edges=edges,
-        potential=potential,
-        max_const=max_const,
-        observed_sequences=observed_sequences,
-        edge_candidates=edge_candidates,
-    )
 
     decision = "closed-bellman-bound-nonpositive"
     if enum_stats["max_nodes_hit"]:
         decision = "incomplete-max-nodes-hit"
     elif mismatch_samples:
         decision = "target-margin-mismatch"
-    elif not bounded:
+    elif not all_summary["bellman"]["bounded_fixed_point"]:
         decision = "state-key-cyclic"
-    elif max_margin_bound > 0:
+    elif not all_summary["bellman"]["proves_nonpositive"] and strengthened_summary["bellman"]["proves_nonpositive"]:
+        decision = "plain-too-weak-strengthened-nonpositive"
+    elif not all_summary["bellman"]["proves_nonpositive"]:
         decision = "closed-bellman-bound-positive"
-    elif argmax is not None and not argmax["is_observed_path"]:
+    elif all_summary["argmax_path"] is not None and not all_summary["argmax_path"]["is_observed_path"]:
         decision = "nonpositive-with-spurious-argmax"
 
     return {
@@ -391,27 +466,21 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         "counts": {
             **enum_stats,
             "usable_candidates": len(paths),
-            "root_states": len(root_states),
-            "states": len(potential),
-            "edges": len(edges),
-            "final_states": len(final_states),
+            "root_states": all_summary["counts"]["root_states"],
+            "states": all_summary["counts"]["states"],
+            "edges": all_summary["counts"]["edges"],
+            "final_states": all_summary["counts"]["final_states"],
             "margin_keys": len(margin_key_counts),
             "margin_values": len(margin_values),
             "existing_graph_accepted": existing_graph_counts.get("accepted", 0),
             "existing_graph_rejected": existing_graph_counts.get("rejected", 0),
+            **dict(strengthened_filter_counts),
         },
-        "bellman": {
-            "bounded_fixed_point": bounded,
-            "root_bound": qkey(root_bound),
-            "max_const": qkey(max_const),
-            "max_margin_bound": qkey(max_margin_bound),
-            "proves_closed_nonpositive": max_margin_bound <= 0,
-            "scale": scale,
-            "gain_fraction_bit_length": gain_bits,
-            "potential_fraction_bit_length": potential_bits,
-            "scaled_potential_bit_length": scaled_bits,
-        },
-        "argmax_path": argmax,
+        "bellman": all_summary["bellman"],
+        "argmax_path": all_summary["argmax_path"],
+        "strengthened_counts": strengthened_summary["counts"],
+        "strengthened_bellman": strengthened_summary["bellman"],
+        "strengthened_argmax_path": strengthened_summary["argmax_path"],
         "margin_key_counts": [
             {"key": key, "count": count}
             for key, count in margin_key_counts.most_common()
@@ -430,6 +499,8 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
                 "candidate": path["candidate"],
                 "labels": path["labels"],
                 "margin_value": path["margin_value"],
+                "actual_face_omni": path["actual_face_omni"],
+                "accepted_sequence_bad_face": path["accepted_sequence_bad_face"],
                 "existing_graph": path["existing_graph"],
             }
             for path in paths[: args.max_examples]
@@ -472,6 +543,20 @@ def write_markdown(payload: dict[str, Any], path: Path) -> None:
                 f"| `{edge['step']}` | `{edge['gain']}` | "
                 f"`{edge['edge_realizing_candidates']}` | `{edge['dst_short']}` |"
             )
+    lines.extend(["", "## Strengthened Subset", "", "### Counts", "", "| metric | value |", "| --- | ---: |"])
+    for key, value in payload["strengthened_counts"].items():
+        lines.append(f"| `{key}` | `{value}` |")
+    lines.extend(["", "### Bellman", "", "| metric | value |", "| --- | ---: |"])
+    for key, value in payload["strengthened_bellman"].items():
+        lines.append(f"| `{key}` | `{value}` |")
+    strengthened_argmax = payload.get("strengthened_argmax_path")
+    if strengthened_argmax:
+        lines.extend(["", "### Strengthened Argmax Path", ""])
+        lines.append(f"- Edge count: `{strengthened_argmax['edge_count']}`")
+        lines.append(f"- Total gain: `{strengthened_argmax['total_gain']}`")
+        lines.append(f"- Margin bound: `{strengthened_argmax['margin_bound']}`")
+        lines.append(f"- Is observed path: `{strengthened_argmax['is_observed_path']}`")
+        lines.append(f"- Realizing candidates: `{strengthened_argmax['realizing_candidates']}`")
     if payload["existing_graph_rejects"]:
         lines.extend(
             [

@@ -180,12 +180,14 @@
     "max_const": "2",
     "max_margin_bound": "6/11",
     "potential_fraction_bit_length": 9,
-    "proves_closed_nonpositive": false,
+    "proves_nonpositive": false,
     "root_bound": "-16/11",
     "scale": 88,
     "scaled_potential_bit_length": 9
   },
   "counts": {
+    "accepted_sequence_bad_face": 46,
+    "actual_face_omni": 38,
     "closed_candidates": 47,
     "dfs_nodes": 11318,
     "edges": 276,
@@ -195,12 +197,15 @@
     "margin_keys": 1,
     "margin_values": 19,
     "max_nodes_hit": false,
+    "not_accepted_sequence_bad_face": 1,
+    "not_actual_face_omni": 9,
     "root_states": 1,
     "states": 269,
+    "strengthened_candidate": 37,
     "usable_candidates": 47
   },
-  "decision": "closed-bellman-bound-positive",
-  "elapsed_seconds": 0.5104798980028136,
+  "decision": "plain-too-weak-strengthened-nonpositive",
+  "elapsed_seconds": 0.5022424679918913,
   "existing_graph_rejects": [
     {
       "count": 3,
@@ -327,6 +332,8 @@
   "mode": "top-pairing-closed-bellman-closure-audit",
   "sample_paths": [
     {
+      "accepted_sequence_bad_face": true,
+      "actual_face_omni": true,
       "candidate": 0,
       "existing_graph": {
         "accepted": true,
@@ -352,6 +359,8 @@
       "margin_value": "-25/11"
     },
     {
+      "accepted_sequence_bad_face": true,
+      "actual_face_omni": true,
       "candidate": 1,
       "existing_graph": {
         "accepted": true,
@@ -377,6 +386,8 @@
       "margin_value": "-25/11"
     },
     {
+      "accepted_sequence_bad_face": true,
+      "actual_face_omni": true,
       "candidate": 2,
       "existing_graph": {
         "accepted": true,
@@ -402,6 +413,8 @@
       "margin_value": "-25/11"
     },
     {
+      "accepted_sequence_bad_face": true,
+      "actual_face_omni": true,
       "candidate": 3,
       "existing_graph": {
         "accepted": true,
@@ -427,6 +440,8 @@
       "margin_value": "-105/22"
     },
     {
+      "accepted_sequence_bad_face": true,
+      "actual_face_omni": true,
       "candidate": 4,
       "existing_graph": {
         "accepted": true,
@@ -454,5 +469,220 @@
   ],
   "schema_version": 1,
   "state_key_mode": "with-step-tri-source",
+  "strengthened_argmax_path": {
+    "edge_count": 14,
+    "edges": [
+      {
+        "dst_short": "step=1|rem=1,2,2,2,2,2,2|par=100|stack=<empty>|triSrc=",
+        "edge_realizing_candidates": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "gain": "103/88",
+        "src_short": "step=0|rem=2,2,2,2,2,2,2|par=000|stack=<empty>|triSrc=",
+        "step": 1
+      },
+      {
+        "dst_short": "step=2|rem=1,1,2,2,2,2,2|par=110|stack=<empty>|triSrc=",
+        "edge_realizing_candidates": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "gain": "-73/88",
+        "src_short": "step=1|rem=1,2,2,2,2,2,2|par=100|stack=<empty>|triSrc=",
+        "step": 2
+      },
+      {
+        "dst_short": "step=3|rem=1,1,2,2,2,1,2|par=110|stack=dm11|triSrc=2:d1m1->dm11@110",
+        "edge_realizing_candidates": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "gain": "-31/22",
+        "src_short": "step=2|rem=1,1,2,2,2,2,2|par=110|stack=<empty>|triSrc=",
+        "step": 3
+      },
+      {
+        "dst_short": "step=4|rem=1,1,2,2,1,1,2|par=110|stack=dm11 d111|triSrc=2:d1m1->dm11@110|3:d11m->d111@110",
+        "edge_realizing_candidates": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "gain": "12/11",
+        "src_short": "step=3|rem=1,1,2,2,2,1,2|par=110|stack=dm11|triSrc=2:d1m1->dm11@110",
+        "step": 4
+      },
+      {
+        "dst_short": "step=5|rem=1,1,2,2,1,1,1|par=110|stack=dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110",
+        "edge_realizing_candidates": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "gain": "-9/22",
+        "src_short": "step=4|rem=1,1,2,2,1,1,2|par=110|stack=dm11 d111|triSrc=2:d1m1->dm11@110|3:d11m->d111@110",
+        "step": 5
+      },
+      {
+        "dst_short": "step=6|rem=1,1,2,1,1,1,1|par=110|stack=dm11 d111 d1m1 d11m|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110",
+        "edge_realizing_candidates": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "gain": "-18/11",
+        "src_short": "step=5|rem=1,1,2,2,1,1,1|par=110|stack=dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110",
+        "step": 6
+      },
+      {
+        "dst_short": "step=7|rem=1,1,1,1,1,1,1|par=111|stack=dm11 d111 d1m1 d11m|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110",
+        "edge_realizing_candidates": [
+          15,
+          16
+        ],
+        "gain": "45/44",
+        "src_short": "step=6|rem=1,1,2,1,1,1,1|par=110|stack=dm11 d111 d1m1 d11m|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110",
+        "step": 7
+      },
+      {
+        "dst_short": "step=8|rem=1,1,0,1,1,1,1|par=110|stack=dm11 d111 d1m1 d11m|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110",
+        "edge_realizing_candidates": [
+          15,
+          16
+        ],
+        "gain": "45/44",
+        "src_short": "step=7|rem=1,1,1,1,1,1,1|par=111|stack=dm11 d111 d1m1 d11m|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110",
+        "step": 8
+      },
+      {
+        "dst_short": "step=9|rem=1,1,0,0,1,1,1|par=110|stack=dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110",
+        "edge_realizing_candidates": [
+          15,
+          16
+        ],
+        "gain": "-18/11",
+        "src_short": "step=8|rem=1,1,0,1,1,1,1|par=110|stack=dm11 d111 d1m1 d11m|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110",
+        "step": 9
+      },
+      {
+        "dst_short": "step=10|rem=1,1,0,0,1,0,1|par=110|stack=dm11 d111 d1m1 dm11|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@110",
+        "edge_realizing_candidates": [
+          15,
+          16
+        ],
+        "gain": "-9/22",
+        "src_short": "step=9|rem=1,1,0,0,1,1,1|par=110|stack=dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110",
+        "step": 10
+      },
+      {
+        "dst_short": "step=11|rem=1,1,0,0,0,0,1|par=110|stack=dm11 d111 d1m1 dm11 d111|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@110|10:...",
+        "edge_realizing_candidates": [
+          15
+        ],
+        "gain": "12/11",
+        "src_short": "step=10|rem=1,1,0,0,1,0,1|par=110|stack=dm11 d111 d1m1 dm11|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@110",
+        "step": 11
+      },
+      {
+        "dst_short": "step=12|rem=1,1,0,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@11...",
+        "edge_realizing_candidates": [
+          15
+        ],
+        "gain": "-31/22",
+        "src_short": "step=11|rem=1,1,0,0,0,0,1|par=110|stack=dm11 d111 d1m1 dm11 d111|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@110|10:...",
+        "step": 12
+      },
+      {
+        "dst_short": "step=13|rem=1,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@11...",
+        "edge_realizing_candidates": [
+          15
+        ],
+        "gain": "103/88",
+        "src_short": "step=12|rem=1,1,0,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@11...",
+        "step": 13
+      },
+      {
+        "dst_short": "step=14|rem=0,0,0,0,0,0,0|par=000|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@11...",
+        "edge_realizing_candidates": [
+          15
+        ],
+        "gain": "-73/88",
+        "src_short": "step=13|rem=1,0,0,0,0,0,0|par=100|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@11...",
+        "step": 14
+      }
+    ],
+    "final_state": "step=14|rem=0,0,0,0,0,0,0|par=000|stack=dm11 d111 d1m1 dm11 d111 d1m1|triSrc=2:d1m1->dm11@110|3:d11m->d111@110|4:dm11->d1m1@110|5:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@110|10:d11m->d111@110|11:dm11->d1m1@110",
+    "is_observed_path": true,
+    "margin_bound": "0",
+    "realizing_candidates": [
+      15
+    ],
+    "root_state": "step=0|rem=2,2,2,2,2,2,2|par=000|stack=<empty>|triSrc=",
+    "total_gain": "-2"
+  },
+  "strengthened_bellman": {
+    "bounded_fixed_point": true,
+    "gain_fraction_bit_length": 7,
+    "max_const": "2",
+    "max_margin_bound": "0",
+    "potential_fraction_bit_length": 9,
+    "proves_nonpositive": true,
+    "root_bound": "-2",
+    "scale": 88,
+    "scaled_potential_bit_length": 10
+  },
+  "strengthened_counts": {
+    "candidates": 37,
+    "edges": 229,
+    "final_states": 29,
+    "root_states": 1,
+    "states": 223
+  },
   "target_margin_cancellation_pairing": "ym|const=2|b=-103/176,73/176,5/88|pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1"
 }
