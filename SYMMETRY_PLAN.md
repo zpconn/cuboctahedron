@@ -62944,3 +62944,216 @@ Generate or hand-add a multi-trace bucket smoke using
 trace ids in one small theorem.  Measure whether one bucket per trace or a
 grouped bucket by common margin/source family gives the better source/check
 profile before committing to full trace-bucket emission.
+
+### 2026-07-01 GPT5.5 Bellman semantic-membership gate
+
+The latest GPT5.5 recommendation is accepted with one repo-specific update:
+the “smallest safe slice” it describes is already partially implemented in
+`Cuboctahedron/Search/TopPairingBellmanObject.lean`.  The scalable Bellman
+object is not a sampled path and not a sampled rank index; it is:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+```
+
+The semantic membership and evaluator/object-cover adapters already exist:
+
+```lean
+def topPairingClosedMembership
+def topPairingClosedTraceBound_of_evalAccepts
+def topPairingClosedObjectCoverOfEvalAccepts
+def topPairingBellmanEvalObjectCoverOfClosedToEval
+def topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+```
+
+Decision: continue Bellman for exactly this semantic-membership experiment.
+The potential graph is not the blocker; the blocker is proving or generating a
+compact theorem that turns the closed language into deterministic evaluator
+acceptance and a margin bound.  Production Bellman must target one of these
+surfaces:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      V next labelOfFace start const scaledMargin rank Face.ym
+```
+
+or a strengthened, still semantic, predicate:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  sequenceBadFace rank Face.ym
+```
+
+where `sequenceBadFace` contains compact terminal/evaluator/margin facts, not
+a sampled rank/path object.
+
+Accepted current slice:
+
+- `BellmanTopPairingTraceMarginBoundsSocket.lean` converts terminal accepted
+  trace plus margin-bound facts into the existing Bellman terminal object-cover
+  consequence.
+- `BellmanTopPairingGraphAcceptedTraceMarginBridge.lean` now contains the
+  indexed accepted-trace surface:
+
+  ```lean
+  theorem graphAcceptedTraceLabels_of_id
+  theorem acceptedTraceOfId_ne_rejectedGraphTrace_004
+  def GraphAcceptedTraceMarginIdBound
+  theorem graphAcceptedTraceMargin_of_id_bound
+  ```
+
+- `BellmanTopPairingTraceIdBoundsSmoke.lean` validates the generic bucket
+  theorem:
+
+  ```lean
+  theorem traceId_scaledMargin_nonpos
+  ```
+
+  from a semantic strengthened rank predicate carrying only:
+
+  ```lean
+  badFace = Face.ym
+  topPairingRankFaceLabels rank = acceptedTraceOfId traceId
+  scaledMargin rank <= 176 + acceptedTraceGain traceId
+  ```
+
+This is preferred over one wrapper per accepted trace.  Future generated
+families should emit semantic trace-id/margin facts, grouped by trace id and
+margin/source family, then reuse `traceId_scaledMargin_nonpos`.
+
+Measured smoke for the generic trace-id bucket:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_bounds_smoke_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceIdBoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 8.01s
+peak_tree_rss = 4079 MiB
+hard_as = 32768 MiB
+min_available = 45922 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_bounds_smoke_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3527 MiB
+hard_as = 8192 MiB
+min_available = 46289 MiB
+```
+
+Current rerun after this strategy update:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_bounds_smoke_direct_lean_rerun.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 5.04s
+peak_tree_rss = 3843 MiB
+hard_as = 8192 MiB
+min_available = 46198 MiB
+```
+
+Focused Lake target rerun also passed under `32768 MiB` hard-AS:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_bounds_smoke_lake_build_rerun.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceIdBoundsSmoke
+```
+
+It replayed cached artifacts and completed in `2.00s`, with
+`peak_tree_rss = 828 MiB` and `min_available = 46364 MiB`.  Treat the direct
+Lean rerun above as the representative check for this small module.
+
+Current source-size checkpoint:
+
+```text
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 596 lines
+BellmanTopPairingTraceMarginBoundsSocket.lean       = 158 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean            = 75 lines
+BellmanTopPairingTrace000BoundsSmoke.lean           = 78 lines
+TopPairingBellmanObject.lean                        = 541 lines
+```
+
+Go gate:
+
+- Continue Bellman if the next generated/handwritten production-shaped slice
+  proves a real family-level theorem through `TopPairingBellmanObj` or
+  `TopPairingBellmanEvalLanguageAtRank`, with `rank +
+  TopPairingClosedLanguageAtRank` as the object and no sampled membership.
+- The next preferred experiment is a compact classifier-family theorem that
+  assigns closed ranks to `AcceptedTraceId` plus the corresponding integer
+  margin bound, then invokes `traceId_scaledMargin_nonpos`.
+- Cost must scale with accepted trace ids, terminal classes, states, and
+  transition/margin facts, not with accepted ranks.
+
+No-go gate:
+
+- If the next proof requires `SampledRankIndex`, `sampledContainsRank`,
+  `sampledRankOf`, a private object constructor per rank/path, or a generated
+  branch per accepted rank/path, stop Bellman production.
+- If `TopPairingClosedLanguageAtRank` cannot drive the deterministic evaluator
+  because it lacks cancellation progress, promote that missing progress into a
+  stronger semantic closed-language predicate or cancellation-tree summary
+  automaton.  Do not fall back to sampled paths.
+- If the stronger semantic predicate must include exact affine RHS / solved
+  `p0` data, reject it as a compression coordinate and pivot to the
+  cancellation-tree summary algebra described above.

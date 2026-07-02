@@ -106,6 +106,20 @@ def acceptedTraceGain : AcceptedTraceId -> Int
   | .t035 => -596
   | .t036 => -552
 
+theorem graphAcceptedTraceLabels_of_id
+    {labels : List Face}
+    (id : AcceptedTraceId)
+    (hlabels : labels = acceptedTraceOfId id) :
+    GraphAcceptedTraceLabels labels := by
+  subst labels
+  cases id <;> simp [GraphAcceptedTraceLabels, acceptedTraceOfId]
+
+theorem acceptedTraceOfId_ne_rejectedGraphTrace_004
+    (id : AcceptedTraceId) :
+    acceptedTraceOfId id ≠
+      TopPairingTraceClassifier.Accepted.rejectedGraphTrace_004 := by
+  cases id <;> decide
+
 def GraphAcceptedTraceMarginIdBound
     (scaledMargin : Fin numPairWords -> Int)
     (obj : TopPairingBellmanObj Face.ym) : Prop :=
