@@ -75512,3 +75512,85 @@ If those can be proved/generator-emitted from the closed-language components
 without sampled rank/path objects, continue Bellman.  If they require sampled
 membership or one branch per accepted path, reject this surface for production
 and move to the cancellation-tree summary automaton.
+
+## 2026-07-02 Follow-Up: Closed Alone Is Too Weak; Strengthen Semantically
+
+Inspection of the current evaluator boundary shows that the literal theorem:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  TopPairingBellmanEvalLanguageAtRank ... rank Face.ym
+```
+
+is probably too strong as stated.  The reason is semantic, not an engineering
+failure:
+
+- `TopPairingClosedLanguageAtRank` contains cancellation, schedule, square-gap,
+  local-axis, and canonical-bad-face compatibility.
+- The generated classifier records `47` terminal-ok closed traces.
+- Of those, `37` are graph-accepted and `10` are graph-rejected.
+- `TopPairingTraceClassifier.Accepted.graphAcceptedTraceLabels_of_terminalOk_filters`
+  rules out the rejected traces using extra semantic filters:
+
+```lean
+TopPairingActualFaceOmniLabels labels
+SequenceBadFaceLabels labels badFace
+```
+
+Therefore the accepted Bellman go/no-go theorem should not insist that the
+minimal closed predicate alone implies evaluator acceptance.  The accepted
+shape is the "one stronger semantic predicate" allowed by the GPT5.5 guidance,
+already present in the repo:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  sequenceBadFace rank Face.ym
+```
+
+or, for the current root producer route:
+
+```lean
+RootTraceMarginProducer scaledMargin rank
+TopPairingActualFaceOmniAtRank rank
+```
+
+The current checked root socket is:
+
+```lean
+theorem evalLanguage_of_rootTraceMarginProducer
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hproducer : RootTraceMarginProducer scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+So the adjusted Bellman continuation criterion is:
+
+1. Do not prove a false or overstrong `Closed -> Eval` theorem.
+2. Prove/generate one compact semantic strengthening that supplies:
+
+   ```lean
+   TopPairingClosedLanguageAtRank rank Face.ym
+   TopPairingActualFaceOmniAtRank rank
+   AcceptedSequenceBadFaceAtRank rank Face.ym
+   TerminalOkTraceLabels (topPairingRankFaceLabels rank)
+   RootTraceMarginProducer scaledMargin rank
+   ```
+
+   or an equivalent package already consumed by the root socket.
+3. The object may still be rank plus semantic proof, but the proof field must
+   be this strengthened semantic language, not `SampledRankIndex` and not an
+   exact sampled path.
+4. Continue Bellman only if the strengthened semantic predicate can be covered
+   by low-thousands-or-fewer generated families with bounded representative
+   checks.
+5. If the strengthening requires exact affine RHS keys, sampled paths, or
+   one branch per rank, pivot to the cancellation-tree summary automaton.
+
+This is a refinement of the previous gate, not a retreat from Bellman.  The
+Bellman potential and evaluator are still valid; the formal membership theorem
+must target the semantic language that is actually strong enough to imply
+graph acceptance and the margin bound.
