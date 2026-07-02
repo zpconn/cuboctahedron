@@ -46,6 +46,9 @@ LEAN_FILES = {
     "graph_suffix_emitter": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraphSuffixEmitter1MSmoke.lean",
+    "graph_accepted_prefix_frontier": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraphAcceptedPrefixFrontier.lean",
     "strengthened_local": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedLocal1MSmoke.lean",
@@ -66,6 +69,10 @@ GUARDS = {
     / "scripts/generated/bellman_graph_suffix_emitter_1m_smoke_guard.json",
     "graph_suffix_emitter_lake": ROOT
     / "scripts/generated/bellman_graph_suffix_emitter_1m_smoke_lake_guard.json",
+    "graph_accepted_prefix_frontier_direct": ROOT
+    / "scripts/generated/bellman_graph_accepted_prefix_frontier_guard.json",
+    "graph_accepted_prefix_frontier_lake": ROOT
+    / "scripts/generated/bellman_graph_accepted_prefix_frontier_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -95,6 +102,9 @@ REQUIRED_SYMBOLS = {
     "graphBranchTableSuffixOk_s0144_branch_of_frontier": "graph-only successor state 144 emitter",
     "graphBranchTableSuffixOk_s0145_branch_of_frontier": "graph-only successor state 145 emitter",
     "graphBranchTableSuffixOk_s0146_branch_of_frontier": "graph-only successor state 146 emitter",
+    "GraphPrefix4FrontierLabels": "graph-accepted prefix-4 frontier predicate",
+    "graphPrefix4Frontier_of_graphAcceptedTraceLabels": "graph accepted traces imply graph prefix-4 frontier",
+    "graphPrefix4Frontier_of_strengthened_terminal": "strengthened terminal traces imply graph prefix-4 frontier",
 }
 
 FORBIDDEN_TOKENS = [
@@ -223,6 +233,9 @@ def render_markdown(report: dict[str, Any]) -> str:
             "graphBranchTableSuffixOk_s0144_branch_of_frontier",
             "graphBranchTableSuffixOk_s0145_branch_of_frontier",
             "graphBranchTableSuffixOk_s0146_branch_of_frontier",
+            "GraphPrefix4FrontierLabels",
+            "graphPrefix4Frontier_of_graphAcceptedTraceLabels",
+            "graphPrefix4Frontier_of_strengthened_terminal",
             "```",
             "",
             "## Remaining Production Theorem",

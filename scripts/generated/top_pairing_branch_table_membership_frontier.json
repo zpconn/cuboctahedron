@@ -60,6 +60,17 @@
         "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": 2
       }
     },
+    "graph_accepted_prefix_frontier": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 72,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedPrefixFrontier.lean",
+      "symbol_hits": {
+        "GraphPrefix4FrontierLabels": 4,
+        "graphPrefix4Frontier_of_graphAcceptedTraceLabels": 2,
+        "graphPrefix4Frontier_of_strengthened_terminal": 1
+      }
+    },
     "graph_suffix_emitter": {
       "exists": true,
       "forbidden_hits": {},
@@ -146,6 +157,22 @@
       "max_tree_rss_mib": 0.9375,
       "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json"
     },
+    "graph_accepted_prefix_frontier_direct": {
+      "elapsed_seconds": 6.035024302997044,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3943.5078125,
+      "path": "scripts/generated/bellman_graph_accepted_prefix_frontier_guard.json"
+    },
+    "graph_accepted_prefix_frontier_lake": {
+      "elapsed_seconds": 3.002807217009831,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 4017.82421875,
+      "path": "scripts/generated/bellman_graph_accepted_prefix_frontier_lake_guard.json"
+    },
     "graph_suffix_emitter_direct": {
       "elapsed_seconds": 10.047268371999962,
       "exists": true,
@@ -174,6 +201,9 @@
     "GraphBranchTableSuffixOk": [
       "branch_table_suffix",
       "graph_suffix_emitter"
+    ],
+    "GraphPrefix4FrontierLabels": [
+      "graph_accepted_prefix_frontier"
     ],
     "StrengthenedBranchTable": [
       "branch_table",
@@ -234,6 +264,12 @@
     ],
     "graphBranchTableSuffixOk_s0146_branch_of_frontier": [
       "graph_suffix_emitter"
+    ],
+    "graphPrefix4Frontier_of_graphAcceptedTraceLabels": [
+      "graph_accepted_prefix_frontier"
+    ],
+    "graphPrefix4Frontier_of_strengthened_terminal": [
+      "graph_accepted_prefix_frontier"
     ],
     "graph_next_of_graphBranch": [
       "branch_table",

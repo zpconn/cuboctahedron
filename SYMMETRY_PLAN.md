@@ -81914,6 +81914,88 @@ closed top-pairing cursor/transducer state to these graph frontier alternatives
 and the two semantic sockets.
 ```
 
+### Graph-Accepted Prefix-4 Frontier Bridge Accepted
+
+Added the graph-accepted prefix-frontier bridge:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphAcceptedPrefixFrontier
+```
+
+Accepted theorem surface:
+
+```lean
+GraphPrefix4FrontierLabels
+graphPrefix4Frontier_of_graphAcceptedTraceLabels
+graphPrefix4Frontier_of_strengthened_terminal
+```
+
+This is the first small theorem slice that directly reflects the GPT5.5
+Bellman pivot: keep Bellman, but do not prove membership by selected prefixes
+or sampled paths.  The plain closed top-pairing language is a broad semantic
+front door; its prefix-4 classifier can still allow a branch such as
+
+```text
+xm, ym, yp, tppm
+```
+
+which is not present in the graph frontier out of successor state `144`.
+The graph-accepted/strengthened-terminal filter removes that over-broad
+branch and proves that any accepted trace has one of the exact seven graph
+prefix-4 alternatives consumed by the graph suffix emitter:
+
+```text
+xm, ym, tmpm, tppm
+xm, ym, tmpm, zm
+xm, ym, yp,   tmmm
+xm, ym, yp,   zm
+xm, ym, zm,   tmpp
+xm, ym, zm,   yp
+xm, ym, zm,   zp
+```
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_graph_accepted_prefix_frontier_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedPrefixFrontier.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_graph_accepted_prefix_frontier_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphAcceptedPrefixFrontier
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| graph-accepted prefix frontier direct Lean | pass | `6.04s` | `3943 MiB` |
+| graph-accepted prefix frontier Lake target | pass | `3.00s` | `4017 MiB` |
+| forbidden/sampled scan on new module | pass | no hits | n/a |
+
+Decision:
+
+```text
+Promote the graph-accepted prefix frontier as the next semantic membership
+coordinate.  The production classifier should prove strengthened-terminal /
+graph-accepted membership first, then derive this prefix-4 graph frontier and
+feed the graph-only suffix emitter.  Do not use the plain closed prefix-4
+classifier as the production frontier, and do not route this through the old
+full `faceEvalNext` theorem.
+```
+
 ### Branch-Table Third-Face Lift Added
 
 Extended the branch-table suffix predicate one semantic branch past the

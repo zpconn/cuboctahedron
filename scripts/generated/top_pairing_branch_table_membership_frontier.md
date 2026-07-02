@@ -37,6 +37,9 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `graphBranchTableSuffixOk_s0144_branch_of_frontier` | graph-only successor state 144 emitter | `graph_suffix_emitter` |
 | `graphBranchTableSuffixOk_s0145_branch_of_frontier` | graph-only successor state 145 emitter | `graph_suffix_emitter` |
 | `graphBranchTableSuffixOk_s0146_branch_of_frontier` | graph-only successor state 146 emitter | `graph_suffix_emitter` |
+| `GraphPrefix4FrontierLabels` | graph-accepted prefix-4 frontier predicate | `graph_accepted_prefix_frontier` |
+| `graphPrefix4Frontier_of_graphAcceptedTraceLabels` | graph accepted traces imply graph prefix-4 frontier | `graph_accepted_prefix_frontier` |
+| `graphPrefix4Frontier_of_strengthened_terminal` | strengthened terminal traces imply graph prefix-4 frontier | `graph_accepted_prefix_frontier` |
 
 ## Guards
 
@@ -49,6 +52,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `branch_table_suffix_lake` | `0` | `1.00s` | `1 MiB` | `None` |
 | `graph_suffix_emitter_direct` | `0` | `10.05s` | `3867 MiB` | `None` |
 | `graph_suffix_emitter_lake` | `0` | `3.00s` | `3900 MiB` | `None` |
+| `graph_accepted_prefix_frontier_direct` | `0` | `6.04s` | `3944 MiB` | `None` |
+| `graph_accepted_prefix_frontier_lake` | `0` | `3.00s` | `4018 MiB` | `None` |
 
 ## Accepted Local Surface
 
@@ -76,6 +81,9 @@ graphBranchTableSuffixOk_s0143_depth2_of_frontier
 graphBranchTableSuffixOk_s0144_branch_of_frontier
 graphBranchTableSuffixOk_s0145_branch_of_frontier
 graphBranchTableSuffixOk_s0146_branch_of_frontier
+GraphPrefix4FrontierLabels
+graphPrefix4Frontier_of_graphAcceptedTraceLabels
+graphPrefix4Frontier_of_strengthened_terminal
 ```
 
 ## Remaining Production Theorem
