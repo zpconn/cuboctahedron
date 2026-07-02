@@ -67352,3 +67352,153 @@ The real remaining gap is not the Bellman potential, nor the trace-id margin
 bound algebra.  It is the semantic membership theorem that classifies the
 actual top-pairing closed-language ranks into one of these compact family
 predicates without falling back to sampled ranks or full path enumeration.
+
+### 2026-07-02 Trace-margin prefix adapter into selected-prefix cover
+
+Implemented the adapter promised by the previous checkpoint:
+
+```text
+scripts/emit_top_pairing_selected_prefix_trace_margin_adapter.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginAdapter.lean
+scripts/generated/top_pairing_selected_prefix_trace_margin_adapter.json
+scripts/generated/top_pairing_selected_prefix_trace_margin_adapter.md
+```
+
+The generated report records:
+
+```text
+source cover = scripts/generated/top_pairing_shared_gain_prefix_cover_plan.json
+prefix buckets = 31
+```
+
+The Lean module defines:
+
+```lean
+SelectedPrefixTraceMarginFamily
+```
+
+as the 31-way disjunction of
+`TerminalTracePrefixSharedGainClosedMarginFamily pfx gain scaledMargin rank`
+for the selected shared-gain prefixes, and proves:
+
+```lean
+selectedPrefixCoverFamily_of_traceMarginFamily :
+  SelectedPrefixTraceMarginFamily scaledMargin rank ->
+  SelectedPrefixCoverFamily scaledMargin rank
+
+selectedPrefixTraceMarginFamily_evalLanguage :
+  SelectedPrefixTraceMarginFamily scaledMargin rank ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState
+    (176 : Int) scaledMargin rank Face.ym
+
+selectedPrefixTraceMarginFamily_scaledMargin_nonpos :
+  SelectedPrefixTraceMarginFamily scaledMargin rank ->
+  scaledMargin rank <= 0
+```
+
+The only generic proof step is the small list lemma:
+
+```lean
+labels.take pfx.length = pfx ->
+  ∃ rest, labels = pfx ++ rest
+```
+
+which converts the trace-margin socket's prefix predicate into the
+selected-prefix cover's explicit prefix/tail witness.
+
+Generation and syntax check:
+
+```bash
+python3 scripts/emit_top_pairing_selected_prefix_trace_margin_adapter.py
+python3 -m py_compile \
+  scripts/emit_top_pairing_selected_prefix_trace_margin_adapter.py
+```
+
+Result: passed.
+
+Direct guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_selected_prefix_trace_margin_adapter_direct_lean_retry1.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginAdapter.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 3997 MiB
+hard_as = 8192 MiB
+min_available = 46180 MiB
+```
+
+Focused guarded Lake target build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_selected_prefix_trace_margin_adapter_lake_build.json \
+  --verbose \
+  -- lake --log-level=error build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSelectedPrefixTraceMarginAdapter
+```
+
+Result:
+
+```text
+passed
+elapsed = 3.01s
+peak_tree_rss = 4117 MiB
+hard_as = 32768 MiB
+min_available = 46043 MiB
+```
+
+Audit:
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginAdapter.lean \
+  scripts/emit_top_pairing_selected_prefix_trace_margin_adapter.py
+
+git diff --check
+```
+
+Both checks passed with no output.
+
+Decision:
+
+Accept this adapter.  The top-pairing Bellman stack now has a checked semantic
+path from the older trace-margin prefix/gain family surface into the newer
+selected-prefix cover root:
+
+```text
+TerminalTracePrefixSharedGainClosedMarginFamily
+  -> SelectedPrefixCoverFamily
+  -> TopPairingBellmanEvalLanguageAtRank
+  -> scaledMargin <= 0
+```
+
+The next proof-engineering task remains the same but is now sharper: generate
+or prove production membership into `SelectedPrefixTraceMarginFamily` (or an
+equivalent selected-prefix cover predicate) from the actual closed-language
+top-pairing classifier.  That membership theorem must be semantic over prefix
+and trace-family predicates, not sampled rank/path enumeration.
