@@ -78952,3 +78952,127 @@ Next step:
 Generate the first bounded strengthened-language-to-`SuffixOk` membership
 socket.  The initial version should target the already-audited 223-state graph
 and must fail loudly if it needs exact sampled rank/path constructors.
+
+## 2026-07-02 Checkpoint: Accepted-Trace to 1M Suffix Socket
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingAcceptedTraceSuffix1MSmoke.lean
+```
+
+This implements the first bounded strengthened-language-to-`SuffixOk` socket
+around the aligned 223-state 1M graph.  It deliberately does **not** introduce
+rank samples, path samples, raw trace databases, or selected-prefix objects.
+Instead, it connects the existing generated terminal trace classifier to the
+new suffix-carrying deterministic evaluator.
+
+The exact preflight checked the 37 existing graph-accepted terminal trace
+representatives from:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalGate.lean
+```
+
+against the aligned 1M `with-step-face-linear-tri-source` graph JSON:
+
+```text
+scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_\
+with_step_face_linear_tri_source_graph.json
+```
+
+Preflight result:
+
+```text
+root 0
+labels 14
+transitions 229
+traces 37
+ok 37
+fail 0
+```
+
+New theorem names:
+
+```lean
+suffixOk_of_graphAcceptedTraceLabels :
+  GraphAcceptedTraceLabels labels ->
+    SuffixOk (TopPairingTransducerEvalState.start rootState) labels
+
+suffixOk_of_strengthenedTerminalOk :
+  TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+  TerminalOkTraceLabels (topPairingRankFaceLabels rank) ->
+    SuffixOk (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank)
+
+eval_exists_of_strengthenedTerminalOk :
+  TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+  TerminalOkTraceLabels (topPairingRankFaceLabels rank) ->
+    exists finish gain,
+      evalLabelStepFn faceEvalNext
+        (TopPairingTransducerEvalState.start rootState)
+        (topPairingRankFaceLabels rank) =
+          some (finish, gain) ∧
+        finish.Tail [] ∧ Inv finish ∧ SuffixOk finish []
+```
+
+The last theorem is the current bounded semantic eval bridge: once the
+strengthened closed rank is known to be terminal-ok, the deterministic
+face-level evaluator succeeds through the aligned Bellman table.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_accepted_trace_suffix_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingAcceptedTraceSuffix1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_accepted_trace_suffix_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingAcceptedTraceSuffix1MSmoke
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingAcceptedTraceSuffix1MSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingAcceptedTraceSuffix1MSmoke.lean` direct | pass | `6.00s` | `4160 MiB` |
+| `BellmanTopPairingAcceptedTraceSuffix1MSmoke` Lake | pass | `7.01s` | `4287 MiB` |
+| forbidden-token scan on new module | pass | n/a | n/a |
+
+Interpretation:
+
+- The aligned 1M graph can evaluate all 37 accepted terminal trace classes.
+- The semantic bad-face filter still enters through
+  `graphAcceptedTraceLabels_of_strengthenedTerminalOk`.
+- This is not final production membership yet, because it still assumes:
+
+```lean
+TerminalOkTraceLabels (topPairingRankFaceLabels rank)
+```
+
+Next step:
+
+Replace this remaining terminal-ok premise by a compact semantic theorem from
+the closed top-pairing language, or prove that the existing terminal trace
+classifier covers the closed language without sampled ranks/selected prefixes.
+If that proof collapses into rank/path enumeration, pivot to the target-shadow
+cursor / deterministic semantic state machine described above.
