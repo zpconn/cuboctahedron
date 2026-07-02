@@ -53,7 +53,7 @@ BRANCH_NS = (
 )
 SUFFIX_NS = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
-    "BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke"
+    "BellmanTopPairingBranchTableSuffixSplit10MSmoke"
 )
 
 
@@ -254,7 +254,7 @@ def emit(report: dict[str, Any]) -> str:
     groups = grouped_obligations(report)
 
     lines: list[str] = [
-        "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke",
+        "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingBranchTableSuffixSplit10MSmoke",
         "",
         "/-!",
         "Generated graph-state-indexed depth-11 suffix smoke for top-pairing Bellman.",

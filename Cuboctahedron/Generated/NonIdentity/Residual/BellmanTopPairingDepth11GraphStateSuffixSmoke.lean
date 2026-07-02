@@ -1,4 +1,4 @@
-import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingBranchTableSuffixSplit10MSmoke
 
 /-!
 Generated graph-state-indexed depth-11 suffix smoke for top-pairing Bellman.
@@ -18,7 +18,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11G
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingStrengthenedBranchTableSplit10MSmoke
-open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingBranchTableSuffixSplit10MSmoke
 
 def depth11GraphStateSuffixObligationCount : Nat := 32
 def depth11GraphStateSuffixProviderCount : Nat := 30

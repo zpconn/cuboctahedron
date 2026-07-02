@@ -85399,3 +85399,187 @@ depth-11 `(class, graph state)` predicates, then delegates the suffix theorem.
 If that bridge starts requiring selected prefix traces, sampled ranks, exact
 affine RHS, or full path keys, stop and refine the semantic transducer state or
 cocycle quotient.
+
+#### Depth-11 Graph-State Suffix Socket Accepted
+
+The latest GPT5.5 guidance sharpened the Bellman plan again:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> evalLabelStepFn graphNext rootState (labelsOfRank rank) = some result
+```
+
+must be proved by a deterministic semantic transducer theorem, not by selected
+prefix membership.  The correct immediate socket is therefore:
+
+1. closed semantic producer proves a graph path from the split-10M prefix
+   frontier to a depth-11 graph state;
+2. the graph state plus remaining suffix selects one of the checked depth-11
+   suffix predicates;
+3. the existing split-10M graph-suffix bridge consumes that evidence;
+4. final margin evidence remains a separate Bellman/cocycle/segment producer.
+
+Two implementation details matter:
+
+- The depth-11 smoke was realigned from the older
+  `BellmanTopPairingGraphAcceptedBranchSuffixSplit10MSmoke.GraphBranchTableSuffixOk`
+  type to the production-facing
+  `BellmanTopPairingBranchTableSuffixSplit10MSmoke.GraphBranchTableSuffixOk`
+  type consumed by `Split10MGraphSuffixProducer`.
+- The socket deliberately exposes a graph-state-indexed obligation rather than
+  any sampled rank, selected prefix trace, exact affine RHS, solved start point,
+  or exact full Bellman trace key.
+
+Added:
+
+```text
+scripts/emit_top_pairing_depth11_graph_state_suffix_socket.py
+
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingDepth11GraphStateSuffixSocket.lean
+```
+
+Regenerated:
+
+```text
+scripts/emit_top_pairing_depth11_graph_state_suffix_smoke.py
+
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingDepth11GraphStateSuffixSmoke.lean
+```
+
+New theorem surface:
+
+```lean
+inductive BellmanTopPairingDepth11GraphStateSuffixSocket.GraphPathTo
+  (rank : Fin numPairWords) : State -> List Face -> State -> Prop
+
+inductive BellmanTopPairingDepth11GraphStateSuffixSocket.
+  Depth11ObservedGraphStateSuffixOk : State -> List Face -> Prop
+
+def BellmanTopPairingDepth11GraphStateSuffixSocket.
+  depth11ObservedGraphStateSuffixProviderCount : Nat
+
+theorem BellmanTopPairingDepth11GraphStateSuffixSocket.
+  depth11ObservedGraphStateSuffixProviderCount_audit
+
+theorem BellmanTopPairingDepth11GraphStateSuffixSocket.
+  graphBranchTableSuffixOk_of_depth11Observed
+
+theorem BellmanTopPairingDepth11GraphStateSuffixSocket.
+  graphBranchTableSuffixOk_of_graphPathTo_append
+
+theorem BellmanTopPairingDepth11GraphStateSuffixSocket.
+  graphBranchTableSuffixOk_of_graphPathTo_depth11Observed
+
+def BellmanTopPairingDepth11GraphStateSuffixSocket.
+  Split10MDepth11GraphPathProducer (rank : Fin numPairWords) : Prop
+
+theorem BellmanTopPairingDepth11GraphStateSuffixSocket.
+  split10MGraphSuffixProducer_of_depth11GraphPathProducer :
+    Split10MDepth11GraphPathProducer rank ->
+      Split10MGraphSuffixProducer rank
+```
+
+Commands:
+
+```bash
+python3 scripts/emit_top_pairing_depth11_graph_state_suffix_smoke.py
+```
+
+```bash
+python3 scripts/emit_top_pairing_depth11_graph_state_suffix_socket.py
+```
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_graph_state_suffix_smoke.py
+```
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_graph_state_suffix_socket.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_graph_state_suffix_smoke_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphStateSuffixSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_graph_state_suffix_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphStateSuffixSmoke
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_graph_state_suffix_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphStateSuffixSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_graph_state_suffix_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphStateSuffixSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct aligned `BellmanTopPairingDepth11GraphStateSuffixSmoke.lean` | pass | `4.00s` | `3989 MiB` | `46105 MiB` |
+| Lake aligned `BellmanTopPairingDepth11GraphStateSuffixSmoke` | pass | `4.01s` | `4099 MiB` | `45924 MiB` |
+| direct `BellmanTopPairingDepth11GraphStateSuffixSocket.lean` | pass | `2.00s` | `3592 MiB` | `46233 MiB` |
+| Lake `BellmanTopPairingDepth11GraphStateSuffixSocket` | pass | `3.00s` | `4133 MiB` | `45933 MiB` |
+
+Hygiene checks:
+
+```bash
+rg "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphStateSuffixSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphStateSuffixSocket.lean \
+  scripts/emit_top_pairing_depth11_graph_state_suffix_smoke.py \
+  scripts/emit_top_pairing_depth11_graph_state_suffix_socket.py
+```
+
+returned no matches.  `git diff --check` passed.
+
+Decision: accepted as a bounded production-shaped socket.  It does not prove
+coverage and should not be mistaken for final top-pairing family membership.
+The next implementation target is:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank ... Face.ym
+  -> Split10MDepth11GraphPathProducer rank
+```
+
+using target-shadow cursor, schedule, pair-count, local-axis, square-gap, and
+tri-source progress.  If that theorem requires selected trace ids, sampled
+ranks, exact affine RHS, solved start points, or exact Bellman path identity,
+reject the provider and strengthen the semantic state or cocycle quotient.
