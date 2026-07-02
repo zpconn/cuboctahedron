@@ -21,6 +21,13 @@ abbrev ClosedTopPairingContainsRank (badFace : Face) :
     Fin numPairWords -> Prop :=
   TopPairingClosedContainsRank badFace
 
+abbrev TopPairingStrengthenedClosedContainsRank
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (badFace : Face) : Fin numPairWords -> Prop :=
+  fun rank =>
+    TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank badFace
+
 structure TopPairingBellmanObj (badFace : Face) where
   rank : Fin numPairWords
   closed : TopPairingClosedLanguageAtRank rank badFace
@@ -471,6 +478,64 @@ def topPairingBellmanEvalObjectCoverOfClosedToEval
         exact True.intro
       object_rank := by
         intro _rank _hclosed
+        rfl }
+
+def topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+    {badFace : Face}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    (next_sound :
+      forall s label t gain,
+        next s label = some (t, gain) -> Step s label t gain)
+    (strengthened_to_eval :
+      forall rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+            sequenceBadFace rank badFace ->
+          TopPairingBellmanEvalLanguageAtRank
+            V next labelOfFace start const scaledMargin rank badFace)
+    (step_valid :
+      forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (root_bound : const + V start <= 0) :
+    BellmanAxisRankObjectCover
+      (TopPairingBellmanEvalObj
+        V next labelOfFace start const scaledMargin badFace)
+      State Label V Step labelOfFace start const
+      (TopPairingBellmanEvalObj.rankOf
+        (V := V) (next := next) (labelOfFace := labelOfFace)
+        (start := start) (const := const) (scaledMargin := scaledMargin)
+        (badFace := badFace))
+      (TopPairingBellmanEvalObj.Accepts
+        (V := V) (next := next) (labelOfFace := labelOfFace)
+        (start := start) (const := const) (scaledMargin := scaledMargin)
+        (badFace := badFace))
+      (TopPairingStrengthenedClosedContainsRank sequenceBadFace badFace)
+      scaledMargin :=
+  BellmanAxisRankObjectCover.ofMembership
+    (TopPairingBellmanEvalObj.forcedSeq
+      (V := V) (next := next) (labelOfFace := labelOfFace)
+      (start := start) (const := const) (scaledMargin := scaledMargin)
+      (badFace := badFace))
+    (bellmanLabelStepRunLanguageBound_of_evalAccepts
+      next_sound
+      (by
+        intro obj _hAccept
+        exact TopPairingBellmanEvalObj.evalAccepts obj))
+    step_valid
+    root_bound
+    { objectOf := fun rank hstrengthened =>
+        ⟨rank, strengthened_to_eval rank hstrengthened⟩
+      object_accepts := by
+        intro _rank _hstrengthened
+        exact True.intro
+      object_rank := by
+        intro _rank _hstrengthened
         rfl }
 
 end Cuboctahedron

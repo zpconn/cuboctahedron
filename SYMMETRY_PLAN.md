@@ -59584,3 +59584,139 @@ No broad Lean build is needed for this checkpoint.  The next Lean slice should
 be small and hard-capped: define/check the actual-face and canonical-bad-face
 language predicates, then build one tiny generated classifier theorem showing
 that the 10 rejected traces are excluded by those predicates.
+
+Strengthened top-pairing language surface checkpoint:
+
+Implemented the first Lean-side part of that strengthened language surface.
+The hand-written module now exposes:
+
+```lean
+def topPairingRankFaceLabels (rank : Fin numPairWords) : List Face
+
+def TopPairingActualFaceOmniLabels (labels : List Face) : Prop :=
+  labels.Nodup
+
+def TopPairingActualFaceOmniAtRank (rank : Fin numPairWords) : Prop :=
+  TopPairingActualFaceOmniLabels (topPairingRankFaceLabels rank)
+
+structure TopPairingStrengthenedClosedLanguageAtRank
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (rank : Fin numPairWords) (badFace : Face) : Prop extends
+    TopPairingClosedLanguageAtRank rank badFace where
+  actualFaceOmni : TopPairingActualFaceOmniAtRank rank
+  sequenceBadFace_ok : sequenceBadFace rank badFace
+```
+
+This is deliberately parameterized by `sequenceBadFace`.  We are not inventing
+an unproved sequence-derived bad-face classifier in the hand-written core.
+Generated or later hand-written classifier code must supply that predicate and
+prove it for the accepted semantic language.  The point of this layer is to
+prevent the production Bellman object cover from treating all old
+`TopPairingClosedLanguageAtRank` ranks as accepted graph obligations.
+
+The Bellman object bridge now also exposes:
+
+```lean
+abbrev TopPairingStrengthenedClosedContainsRank
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (badFace : Face) : Fin numPairWords -> Prop
+
+def topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+    ...
+    (strengthened_to_eval :
+      forall rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+            sequenceBadFace rank badFace ->
+          TopPairingBellmanEvalLanguageAtRank
+            V next labelOfFace start const scaledMargin rank badFace)
+    ...
+```
+
+This is the production socket requested by the semantic-membership strategy:
+if generated code proves a compact `strengthened_to_eval` theorem for the
+refined language, the existing `BellmanEvalAccepts`/potential machinery gives a
+`BellmanAxisRankObjectCover` without `SampledRankIndex`, sampled paths, or
+one branch per rank.
+
+Validation commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_language_strengthening_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_language_strengthening_olean_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Search/\
+BellmanTopPairingLanguage.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Search/\
+BellmanTopPairingLanguage.ilean \
+     Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_bellman_object_strengthened_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Search/TopPairingBellmanObject.lean
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Search/BellmanTopPairingLanguage.lean \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+Results:
+
+```text
+BellmanTopPairingLanguage direct Lean: passed
+elapsed = 8.01s
+peak_tree_rss = 3787 MiB
+hard_as = 8192 MiB
+
+BellmanTopPairingLanguage direct olean refresh: passed
+elapsed = 4.00s
+peak_tree_rss = 3964 MiB
+hard_as = 8192 MiB
+
+TopPairingBellmanObject direct Lean: passed
+elapsed = 2.00s
+peak_tree_rss = 3582 MiB
+hard_as = 8192 MiB
+
+forbidden-token scan: no hits in the modified Lean files
+```
+
+One attempted focused `lake build Cuboctahedron.Search.BellmanTopPairingLanguage`
+under the same hard address-space cap failed before useful checking with
+`failed to create thread`, at only `783 MiB` RSS.  This is a Lake/threading
+interaction with the hard cap, not a Lean proof failure.  For this Bellman
+stack, direct `lake env lean ...` checks with explicit `-o` for changed imports
+remain the safe validation path until the build scheduler is separately
+controlled.
+
+Next production step:
+
+Generate a tiny classifier smoke that targets the new strengthened language:
+
+1. prove the nine `not_omni_contribution_sequence` rejected traces fail
+   `TopPairingActualFaceOmniLabels`;
+2. supply a compact `sequenceBadFace` predicate or generated theorem that
+   excludes the single `canonical_bad_face_mismatch` trace;
+3. prove `strengthened_to_eval` into
+   `TopPairingBellmanEvalLanguageAtRank` by applying
+   `bellmanEvalAccepts_of_graphAcceptedTraceMargin`.
+
+If step 3 requires sampled rank/path objects, stop the Bellman production route
+and pivot to a stronger cancellation-tree/evaluator semantic automaton.

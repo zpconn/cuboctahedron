@@ -246,6 +246,16 @@ def TopPairingPairCountsLabels (labels : List Face) : Prop :=
             (labels.map pairOfFace).count PairId.d1m1 = 2 /\
               (labels.map pairOfFace).count PairId.dm11 = 2
 
+def topPairingRankFaceLabels (rank : Fin numPairWords) : List Face :=
+  faceLabelsInContributionOrder (fun f => f)
+    (canonicalSeqOfPairWord (unrankPairWord rank))
+
+def TopPairingActualFaceOmniLabels (labels : List Face) : Prop :=
+  labels.Nodup
+
+def TopPairingActualFaceOmniAtRank (rank : Fin numPairWords) : Prop :=
+  TopPairingActualFaceOmniLabels (topPairingRankFaceLabels rank)
+
 set_option linter.unusedTactic false in
 set_option linter.unreachableTactic false in
 theorem canonicalContributionPairs_eq_startedPairFactors
@@ -426,6 +436,15 @@ structure TopPairingClosedLanguageAtRank
   canonicalBadFace :
     TopPairingCanonicalBadFaceCompatible badFace
 
+structure TopPairingStrengthenedClosedLanguageAtRank
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (rank : Fin numPairWords) (badFace : Face) : Prop extends
+    TopPairingClosedLanguageAtRank rank badFace where
+  actualFaceOmni :
+    TopPairingActualFaceOmniAtRank rank
+  sequenceBadFace_ok :
+    sequenceBadFace rank badFace
+
 structure TopPairingScheduleLanguageForSeq
     (rank : Fin numPairWords) (seq : Step14 -> Face) : Prop where
   cancellation :
@@ -529,6 +548,38 @@ theorem forCanonicalSeq
   canonicalBadFace := h.canonicalBadFace
 
 end TopPairingClosedLanguageAtRank
+
+namespace TopPairingStrengthenedClosedLanguageAtRank
+
+theorem closed
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank badFace) :
+    TopPairingClosedLanguageAtRank rank badFace :=
+  h.toTopPairingClosedLanguageAtRank
+
+theorem actualFaceOmniLabels
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank badFace) :
+    TopPairingActualFaceOmniLabels (topPairingRankFaceLabels rank) :=
+  h.actualFaceOmni
+
+theorem ofComponents
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {badFace : Face}
+    (closed : TopPairingClosedLanguageAtRank rank badFace)
+    (actualFaceOmni : TopPairingActualFaceOmniAtRank rank)
+    (sequenceBadFace_ok : sequenceBadFace rank badFace) :
+    TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank badFace where
+  toTopPairingClosedLanguageAtRank := closed
+  actualFaceOmni := actualFaceOmni
+  sequenceBadFace_ok := sequenceBadFace_ok
+
+end TopPairingStrengthenedClosedLanguageAtRank
 
 namespace TopPairingScheduleLanguageForSeq
 
