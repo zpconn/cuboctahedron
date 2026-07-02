@@ -70829,3 +70829,71 @@ Everything downstream from this predicate to
 Lean-checked and small under the current guard.  Therefore the next work should
 not touch `TopPairingBellmanObj`, `SelectedPrefixCoverSequenceBadFace`, or the
 selected-prefix membership bridge except as consumers.
+
+Further upstream audit: the terminal-accepted provider surface is already
+factored once more in:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+The important reusable interfaces are:
+
+```lean
+TerminalTraceMarginBoundsComponentFamily
+TerminalTraceMarginIdBoundComponentFamily
+TraceIdBucketClosedMarginFamily
+TerminalTraceIdBucketClosedMarginFamily
+TerminalTraceIdSharedGainBucketClosedMarginFamily
+traceIdBucketTerminalTraceMarginIdBoundComponentFamily
+evalLanguage_of_terminalTraceMarginIdBoundComponentFamily
+terminalTraceMarginIdBoundComponentFamily_scaledMargin_nonpos
+evalLanguage_of_terminalTraceIdSharedGainBucketClosedMarginFamily
+terminalTraceIdSharedGainBucketClosedMarginFamily_scaledMargin_nonpos
+```
+
+These are even closer to the desired compact-provider theorem.  A provider
+family now only needs to prove:
+
+1. `TopPairingClosedLanguageAtRank rank Face.ym`;
+2. `AcceptedSequenceBadFaceAtRank rank Face.ym`;
+3. `TerminalTraceLabels (topPairingRankFaceLabels rank)`;
+4. a trace-id equality or trace-id bucket membership;
+5. the matching integer margin inequality.
+
+The socket then derives the actual-face omni field when it can from the
+accepted trace id, packages the graph-accepted trace margin, and routes to the
+Bellman evaluator.
+
+Guarded check:
+
+```text
+BellmanTopPairingTraceMarginBoundsSocket.lean:
+  passed
+  elapsed: 4.01s
+  peak process-tree RSS: 3923 MiB
+  hard address-space cap: 8192 MiB
+```
+
+The token scan over the trace-margin bounds socket and the trace-000 /
+trace-bucket component-family smokes had no hits for the sampled/forbidden
+tokens listed above.
+
+Refined next implementation target:
+
+Generate or prove one compact semantic bucket family of the form:
+
+```lean
+TerminalTraceIdSharedGainBucketClosedMarginFamily
+  allowedTraceId sharedGain scaledMargin rank
+```
+
+for a nontrivial accepted-trace bucket, using the existing closed-language
+classifier and integer prefix-state facts.  This is the current smallest
+production-shaped Bellman experiment:
+
+- it is semantic;
+- it does not mention sampled rank/path objects;
+- it feeds the existing trace-margin bounds socket;
+- it should scale by trace bucket / shared-gain family, not by individual rank.
