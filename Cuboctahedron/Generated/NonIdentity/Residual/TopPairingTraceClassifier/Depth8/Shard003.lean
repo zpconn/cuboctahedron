@@ -78,13 +78,11 @@ theorem labels_prefix8_shard_003
             try simp
           all_goals
             unfold TopPairingStepScheduleLabels at hs
-            unfold TopPairingSquareGapLabels at hg
             unfold TopPairingLocalAxisLabels at ha
-            simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-              topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-              isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+            simp [TopPairingStepScheduleFrom, topPairingAllowedFacesAtStep,
+              pairOfFace, TopPairingLocalAxisFrom,
               TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-              matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+              matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs ha ⊢
             try norm_num at ha
 
             try
@@ -111,13 +109,11 @@ theorem labels_prefix8_shard_003
             try simp
           all_goals
             unfold TopPairingStepScheduleLabels at hs
-            unfold TopPairingSquareGapLabels at hg
             unfold TopPairingLocalAxisLabels at ha
-            simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-              topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-              isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+            simp [TopPairingStepScheduleFrom, topPairingAllowedFacesAtStep,
+              pairOfFace, TopPairingLocalAxisFrom,
               TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-              matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+              matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs ha ⊢
             try norm_num at ha
 
             try
@@ -143,13 +139,11 @@ theorem labels_prefix8_shard_003
             try simp
           all_goals
             unfold TopPairingStepScheduleLabels at hs
-            unfold TopPairingSquareGapLabels at hg
             unfold TopPairingLocalAxisLabels at ha
-            simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-              topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-              isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+            simp [TopPairingStepScheduleFrom, topPairingAllowedFacesAtStep,
+              pairOfFace, TopPairingLocalAxisFrom,
               TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-              matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+              matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs ha ⊢
             try norm_num at ha
 
             try
@@ -178,13 +172,11 @@ theorem labels_prefix8_shard_003
             try simp
           all_goals
             unfold TopPairingStepScheduleLabels at hs
-            unfold TopPairingSquareGapLabels at hg
             unfold TopPairingLocalAxisLabels at ha
-            simp [TopPairingStepScheduleFrom, TopPairingSquareGapFrom,
-              topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
-              isSquarePair, pairOfFace, TopPairingLocalAxisFrom,
+            simp [TopPairingStepScheduleFrom, topPairingAllowedFacesAtStep,
+              pairOfFace, TopPairingLocalAxisFrom,
               TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
-              matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs hg ha ⊢
+              matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs ha ⊢
             try norm_num at ha
 
             try

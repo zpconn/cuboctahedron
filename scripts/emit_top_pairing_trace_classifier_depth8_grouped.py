@@ -68,6 +68,29 @@ def indent(text: str, spaces: int) -> str:
     return "\n".join(prefix + line if line else line for line in text.splitlines())
 
 
+def local_split_branch_without_square(next_face: str) -> str:
+    return f"""  rcases hprefix with ⟨rest2, rfl⟩
+  cases rest2 with
+  | nil =>
+      rcases hs with ⟨hlen, _⟩
+      norm_num at hlen
+  | cons {next_face} rest =>
+      cases {next_face} <;>
+        try simp
+      all_goals
+        unfold TopPairingStepScheduleLabels at hs
+        unfold TopPairingLocalAxisLabels at ha
+        simp [TopPairingStepScheduleFrom, topPairingAllowedFacesAtStep,
+          pairOfFace, TopPairingLocalAxisFrom,
+          TopPairingLocalAxisAllows, normalQ, topPairingLocalAxis, matId,
+          matVec, dot, matMul, reflM, matSub, scalarMat, outer] at hs ha ⊢
+        try norm_num at ha
+
+        try
+          unfold TopPairingPairCountsLabels at hc
+          simp [pairOfFace] at hc"""
+
+
 def local_lift_cases(
     term_prefix: str,
     child_prefixes: list[tuple[str, ...]],
@@ -115,7 +138,7 @@ def render_shard(
             f"""  · have hprefix := h{index}
     have hchild :
 {local_child_disj} := by
-{indent(prefix_smoke.local_split_branch("f7", use_pair_counts=True), 4)}
+{indent(local_split_branch_without_square("f7"), 4)}
 {lift}"""
         )
     branches_text = "\n".join(branches)

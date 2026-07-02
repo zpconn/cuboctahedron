@@ -60816,3 +60816,102 @@ for every parent.  If such a transition theorem cannot be made substantially
 cheaper, stop the prefix-depth route and strengthen the Bellman semantic object
 with a deterministic trace/evaluator field rather than proving terminal
 membership by repeated list-prefix case analysis.
+
+Depth-8 square-gap removal checkpoint:
+
+GPT5.5's latest recommendation sharpens the Bellman decision gate: continue
+Bellman for exactly one more semantic-membership experiment, but do not keep
+adding potentials, sampled smokes, or rank-indexed certificates.  The decisive
+question is whether the compact semantic object
+
+```lean
+TopPairingBellmanObj badFace
+```
+
+whose data is just
+
+```lean
+rank : Fin numPairWords
+closed : TopPairingClosedLanguageAtRank rank badFace
+```
+
+can drive the deterministic evaluator theorem needed for `BellmanEvalAccepts`.
+The existing `Cuboctahedron/Search/TopPairingBellmanObject.lean` already has the
+right object-cover API:
+
+```lean
+topPairingClosedMembership
+topPairingClosedTraceBound_of_evalAccepts
+topPairingClosedObjectCoverOfEvalAccepts
+```
+
+The missing production theorem remains:
+
+```lean
+forall obj : TopPairingBellmanObj Face.ym,
+  BellmanEvalAccepts ... obj
+```
+
+or an equivalent theorem for a documented strengthening of
+`TopPairingClosedLanguageAtRank`.
+
+As a final cheap prefix-classifier experiment, the depth-8 grouped emitter was
+changed to stop replaying `TopPairingSquareGapLabels` inside each parent-local
+split.  A separate exact diagnostic had shown that the depth-8 child set is
+determined by schedule, pair counts, and local-axis data; square-gap is
+redundant for this transition.
+
+Changed:
+
+```text
+scripts/emit_top_pairing_trace_classifier_depth8_grouped.py
+Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth8/*.lean
+```
+
+Validation command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_depth8_shard000_thin_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Depth8/Shard000.lean
+```
+
+Result:
+
+```text
+Depth8.Shard000 thin direct Lean:
+  passed
+  elapsed = 104.03s
+  peak_tree_rss = 5531 MiB
+  hard_as = 8192 MiB
+  min_available = 44452 MiB
+
+Prior depth-8 Shard000 baseline:
+  passed
+  elapsed = 102.12s
+  peak_tree_rss = 5555.59 MiB
+```
+
+Decision:
+
+This is a useful negative result.  Removing square-gap replay does not change
+the timing materially; the repeated `TopPairingLocalAxisLabels` rational matrix
+simplification is the cost center.  Do not extend this prefix-depth tactic
+style to depths 9-14.  The Bellman route remains alive only for the exact
+semantic-membership gate described above:
+
+1. use `TopPairingBellmanObj` or a small strengthened semantic subtype, never
+   `SampledRankIndex`;
+2. prove deterministic evaluator acceptance from the semantic language, not
+   from sampled paths;
+3. if the proof of `BellmanEvalAccepts` needs one branch per rank/path, stop
+   this route and pivot to a stronger cancellation-tree/evaluator semantic
+   object whose fields directly provide the run and margin agreement.
