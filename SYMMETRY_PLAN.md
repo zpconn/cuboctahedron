@@ -68176,3 +68176,89 @@ Continue Bellman if the next theorem is compact and semantic.  Stop the Bellman
 production route, and pivot to cancellation-tree summary algebra, if the
 closed-language-to-selected-prefix/margin proof collapses back into sampled
 paths, exact affine-RHS tables, or one branch per accepted rank.
+
+### 2026-07-02 Post-socket inspection: no more generic plumbing
+
+After committing the selected-prefix trace-margin killed socket, inspected the
+existing bridge layer again:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedLanguageBridge.lean
+
+Cuboctahedron/Search/TopPairingBellmanObject.lean
+
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphLanguage2Smoke.lean
+
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphLanguage2TerminalSmoke.lean
+```
+
+Conclusion:
+
+The generic closed-language/public-killed bridge surface already exists.  In
+particular, `BellmanTopPairingClosedLanguageBridge.lean` already defines the
+closed-family bundle shape:
+
+```lean
+ClosedTopPairingLanguageFamily
+nonIdentityRankKilled_of_closed_top_pairing_language_family
+nonIdentityRankKilled_of_closed_top_pairing_ym_family_bundle
+```
+
+and `TopPairingBellmanObject.lean` already provides the semantic object
+machinery:
+
+```lean
+TopPairingBellmanObj
+TopPairingBellmanEvalObj
+topPairingBellmanEvalObjectCoverOfClosedToEval
+topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+```
+
+Therefore the strategy should not spend more effort on generic object-cover or
+killed-predicate sockets unless a new socket exposes a genuinely new semantic
+target.  The plumbing is not the bottleneck anymore.
+
+The remaining sampled leakage is concentrated in the positive-margin side.  The
+currently visible start-violation providers are still sampled:
+
+```text
+SampledRankIndex
+sampledRankOf
+sampledContainsRank
+sampledObjectStartViolationCert
+```
+
+inside the graph-language smoke modules.  Those modules are useful witnesses
+for the theorem shape, but they are not production architecture.
+
+Updated next task:
+
+1. Produce a compact semantic provider for
+
+   ```lean
+   ObjectStartViolationMarginCert
+     (TopPairingBellmanEvalObj.rankOf obj)
+     (scaledMargin (TopPairingBellmanEvalObj.rankOf obj))
+   ```
+
+   over accepted selected-prefix trace-margin objects, without `SampledRankIndex`
+   or one object constructor per rank.
+2. In parallel, produce or reject the closed-language classifier:
+
+   ```lean
+   TopPairingClosedLanguageAtRank rank Face.ym
+     -> SelectedPrefixTraceMarginSequenceBadFace scaledMargin rank Face.ym
+   ```
+
+   or a documented strengthening that is still semantic and family-based.
+3. If either provider needs exact affine-RHS/rank membership tables, that is the
+   Bellman no-go condition.  Pivot immediately to cancellation-tree summary
+   algebra, where the margin bound and start-violation certificate are produced
+   by the same semantic family rather than bolted on after sampled discovery.
+
+This is the concrete implementation of the latest GPT5.5 recommendation:
+Bellman gets exactly one more semantic-membership/provider experiment.  The next
+Lean work must be a semantic provider, not more wrapper infrastructure.
