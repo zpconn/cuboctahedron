@@ -70567,3 +70567,189 @@ closed-language state transition simultaneously updates:
 1. face-prefix membership;
 2. integer scaled linear state;
 3. Bellman evaluator state/gain.
+
+### 2026-07-02 GPT5.5 semantic Bellman object-cover adjustment
+
+GPT5.5's latest recommendation is accepted, with one important repo-specific
+correction: the compact semantic Bellman object layer already exists.  The
+next work should not recreate it, and should not produce another sampled
+Bellman smoke.  The current audited surfaces are:
+
+```text
+Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+This file already defines the scalable object shape:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+```
+
+It also already provides:
+
+```lean
+TopPairingBellmanObj.closedMembership
+TopPairingBellmanObj.traceBoundOfEvalAccepts
+TopPairingBellmanObj.objectCoverOfEvalAccepts
+topPairingBellmanEvalObjectCoverOfClosedToEval
+topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+```
+
+So the Bellman object membership problem is not the current blocker.  The
+current blocker is the production semantic implication feeding that object:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -- plus the exact strengthened semantic fields needed for actual-face
+  -- omnihedral consistency and graph-accepted trace/margin evidence
+  ->
+GraphAcceptedEvalSequenceBadFace scaledMargin rank Face.ym
+```
+
+or the equivalent selected-prefix route:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym
+```
+
+The existing semantic evaluator socket is:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticEvalSocket.lean
+```
+
+It defines:
+
+```lean
+GraphAcceptedEvalSequenceBadFace
+evalLanguage_of_strengthenedGraphAcceptedEval
+strengthenedGraphAcceptedEval_scaledMargin_nonpos
+```
+
+This is exactly the deterministic closed-language-to-evaluator shape requested
+by the latest Bellman advice: the object is `TopPairingBellmanObj Face.ym`,
+the run is produced by the graph evaluator, and the theorem concludes
+`scaledMargin rank <= 0`.  It does not introduce `SampledRankIndex`,
+`sampledContainsRank`, `sampledRankOf`, sampled paths, raw rank tables, or one
+constructor per accepted rank.
+
+The selected-prefix bridge is also already in the right semantic direction:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSelectedPrefixTraceMarginCoverBridge.lean
+```
+
+It proves selected-prefix cover facts imply trace-margin family facts, and
+then routes through the existing trace-margin/evaluator socket.  This confirms
+the near-term Bellman strategy:
+
+1. keep Bellman for exactly one more production semantic-membership
+   experiment;
+2. do not build another sampled-path or sampled-rank object;
+3. prove compact selected-prefix / graph-accepted coverage from the
+   closed-language semantic fields;
+4. compose it through the already-existing
+   `TopPairingBellmanObj` / `BellmanEvalAccepts` socket.
+
+Historical sampled smoke modules may remain in the repository as regression
+artifacts, especially:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphLanguage2GraphSmoke.lean
+```
+
+but production Bellman modules must not import or depend on them.  The active
+audit should target the new semantic modules, not every historical smoke file.
+
+Go condition:
+
+```lean
+-- schematic target
+theorem closed_or_selectedPrefix_to_graphAcceptedEval
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hprovider : CompactTopPairingProviderFacts scaledMargin rank) :
+    GraphAcceptedEvalSequenceBadFace scaledMargin rank Face.ym
+```
+
+The actual theorem may use the selected-prefix sequence-bad-face predicate
+instead of `GraphAcceptedEvalSequenceBadFace`, but it must remain semantic:
+rank plus closed-language/provider facts in, evaluator/margin evidence out.
+
+No-go condition:
+
+```text
+SampledRankIndex
+sampledContainsRank
+sampledRankOf
+sampledSmokeNext
+one object constructor per sampled rank/path
+exact affine RHS keys as membership objects
+```
+
+If any of those reappear in the production membership theorem, stop this
+Bellman route and pivot to a cancellation-tree summary automaton whose
+membership predicate is stronger and Lean-provable.
+
+Immediate implementation target:
+
+1. keep using `TopPairingIntPrefixState.step_sound` for generated provider
+   state updates;
+2. add a small generated/provider theorem that takes a compact selected-prefix
+   semantic state and produces `SelectedPrefixCoverSequenceBadFace`;
+3. bridge it through
+   `evalLanguage_of_strengthenedSelectedPrefixCover_viaTraceMargin` or through
+   `evalLanguage_of_strengthenedGraphAcceptedEval`;
+4. guard-check only the small provider module and semantic socket under
+   `scripts/run_memory_guarded.py`, not a broad `lake build`.
+
+Focused verification for this adjustment:
+
+```bash
+rg -n \
+  "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticEvalSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginCoverBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/TransitionSmoke.lean || true
+```
+
+Result: no hits in the active semantic modules checked above.
+
+Guarded Lean checks:
+
+```text
+TopPairingBellmanObject.lean:
+  passed
+  elapsed: 7.01s
+  peak process-tree RSS: 3662 MiB
+  hard address-space cap: 8192 MiB
+
+BellmanTopPairingSemanticEvalSocket.lean:
+  passed
+  elapsed: 2.00s
+  peak process-tree RSS: 3520 MiB
+  hard address-space cap: 8192 MiB
+
+BellmanTopPairingSelectedPrefixTraceMarginCoverBridge.lean:
+  passed
+  elapsed: 2.00s
+  peak process-tree RSS: 3541 MiB
+  hard address-space cap: 8192 MiB
+```
+
+Decision: the latest GPT5.5 gate is now reconciled with the actual repo.  Keep
+Bellman for one more semantic-provider experiment, but do not work on the
+membership/object layer again.  It already has the correct shape.  The next
+implementation must prove a compact provider theorem that supplies
+`SelectedPrefixCoverSequenceBadFace` or `GraphAcceptedEvalSequenceBadFace`
+from closed-language/provider facts.
