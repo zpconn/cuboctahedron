@@ -84585,3 +84585,50 @@ Decision: accepted.  The next producer should target either
 `GraphAcceptedClosedEvalComponentFamily scaledMargin`, whichever yields the
 smaller semantic proof.  Both are acceptable production surfaces; neither is a
 selected-prefix/rank-sample surface.
+
+#### Rank Component Adapter To Object Component Family
+
+The object-level component family now has a compatibility adapter from the
+older rank-family contract:
+
+```lean
+theorem graphAcceptedClosedEvalComponentFamily_of_rankComponentFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      TerminalTraceMarginBoundsComponentFamily
+        (fun rank => TopPairingClosedLanguageAtRank rank Face.ym)
+        scaledMargin) :
+    GraphAcceptedClosedEvalComponentFamily scaledMargin
+```
+
+This is not a return to rank-space compression.  It says that if an existing
+generator already proves the component facts for the semantic closed-language
+predicate as a rank-indexed family, the result can be lifted to the object
+surface consumed by `GraphAcceptedClosedEvalFamily`.  The adapter transports
+through `TopPairingBellmanObj.rank`; the labels and margin-bound obligations do
+not depend on the proof object stored in `obj.closed`.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph_accepted_closed_eval_rank_component_adapter_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `TraceMarginBoundsSocket.lean` with rank-component adapter | pass | `3.01s` | `3984 MiB` | `45920 MiB` |
+
+Decision: accepted.  Existing rank-component producers may be reused only when
+their `containsRank` predicate is exactly the semantic closed-language
+predicate.  They must not be generated from sampled ranks or selected-prefix
+tables.

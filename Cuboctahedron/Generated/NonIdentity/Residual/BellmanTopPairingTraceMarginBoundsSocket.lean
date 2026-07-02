@@ -736,6 +736,35 @@ theorem terminalTraceMarginBoundsComponentFamily_scaledMargin_nonpos
       (terminalTraceMarginBoundsSequenceBadFace_of_componentFamily
         family hrank))
 
+theorem graphAcceptedClosedEvalComponentFamily_of_rankComponentFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      TerminalTraceMarginBoundsComponentFamily
+        (fun rank => TopPairingClosedLanguageAtRank rank Face.ym)
+        scaledMargin) :
+    GraphAcceptedClosedEvalComponentFamily scaledMargin where
+  terminalTrace := by
+    intro obj
+    simpa [TopPairingBellmanObj.labels, TopPairingBellmanObj.forcedSeq,
+      topPairingRankFaceLabels] using
+      family.terminalTrace obj.rank obj.closed
+  actualFaceOmni := by
+    intro obj
+    simpa [TopPairingBellmanObj.labels, TopPairingBellmanObj.forcedSeq,
+      topPairingRankFaceLabels, TopPairingActualFaceOmniAtRank] using
+      family.actualFaceOmni obj.rank obj.closed
+  sequenceBadFace := by
+    intro obj
+    simpa [TopPairingBellmanObj.labels, TopPairingBellmanObj.forcedSeq,
+      topPairingRankFaceLabels,
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank]
+      using family.sequenceBadFace obj.rank obj.closed
+  marginBounds := by
+    intro obj
+    simpa [TopPairingBellmanObj.labels, TopPairingBellmanObj.forcedSeq,
+      topPairingRankFaceLabels] using
+      family.marginBounds obj.rank obj.closed
+
 theorem actualFaceOmni_of_graphAcceptedTraceMarginIdBound
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
