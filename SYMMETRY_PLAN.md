@@ -81244,3 +81244,109 @@ theorem topPairingClosed_head_branchTable
 semantic transducer state/cursor/schedule/local-axis fields.  It must not
 become a sampled rank/path object, a selected-prefix cover, an exact affine-RHS
 key, or a large Boolean evaluator.
+
+### Branch-Table Suffix Predicate Smoke
+
+Added a relation-driven suffix predicate smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingBranchTableSuffix1MSmoke.lean
+scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json
+scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json
+```
+
+New theorem surface:
+
+```lean
+BranchTableSuffixOk
+branchTableSuffixOk_local
+eval_exists_of_branchTableSuffixOk
+branchTableSuffix1MSmoke_builds
+```
+
+This moves one level closer to the desired production emitter shape.  The old
+`StrengthenedSuffixOk.table` constructor stores a direct `faceEvalNext` proof.
+The new `BranchTableSuffixOk.graph` constructor stores
+`StrengthenedBranchTable state.graph face BranchKind.graph` and derives
+`faceEvalNext` through `faceEvalNext_of_graphBranchTable`.
+
+Socket constructors store the finite socket branch and the strengthened
+semantic hypotheses, then discharge locally through:
+
+```lean
+socket19TmmpBranch_impossible
+socket150TpppBranch_impossible
+```
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffix1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingBranchTableSuffix1MSmoke
+
+grep -R \
+  "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|SelectedPrefix" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffix1MSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| direct Lean check | pass | `8.00s` | `3685 MiB` |
+| Lake target | pass | `3.01s` | `4053 MiB` |
+| forbidden/sampled scan | pass | no hits | n/a |
+
+The branch-table membership frontier audit was updated and rerun:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Result:
+
+```text
+decision=local-branch-table-progress-accepted-membership-open
+```
+
+The audit now records:
+
+```lean
+BranchTableSuffixOk
+branchTableSuffixOk_local
+eval_exists_of_branchTableSuffixOk
+```
+
+as accepted local theorem surfaces.
+
+Remaining gap:
+
+```text
+Emit or prove semantic membership into `BranchTableSuffixOk`, rather than into
+direct `faceEvalNext` steps.  The future closed-language theorem should build a
+`BranchTableSuffixOk rank state suffix` from semantic transducer/cursor state
+and finite branch-table classification.
+```

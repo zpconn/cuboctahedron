@@ -39,6 +39,9 @@ LEAN_FILES = {
     "branch_table_progress": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedBranchTableProgress1MSmoke.lean",
+    "branch_table_suffix": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingBranchTableSuffix1MSmoke.lean",
     "strengthened_local": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedLocal1MSmoke.lean",
@@ -51,6 +54,10 @@ GUARDS = {
     / "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_guard.json",
     "branch_table_progress_lake": ROOT
     / "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_lake_guard.json",
+    "branch_table_suffix_direct": ROOT
+    / "scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json",
+    "branch_table_suffix_lake": ROOT
+    / "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -63,6 +70,9 @@ REQUIRED_SYMBOLS = {
     "faceEvalNext_of_graphBranchTable": "graph branch local evaluator progress",
     "socket19TmmpBranch_impossible": "state19/tmmp semantic socket",
     "socket150TpppBranch_impossible": "state150/tppp semantic socket",
+    "BranchTableSuffixOk": "suffix predicate storing branch-table evidence",
+    "branchTableSuffixOk_local": "local progress from branch-table suffix",
+    "eval_exists_of_branchTableSuffixOk": "whole-suffix evaluator from branch-table suffix",
 }
 
 FORBIDDEN_TOKENS = [
@@ -174,6 +184,9 @@ def render_markdown(report: dict[str, Any]) -> str:
             "faceEvalNext_of_graphBranchTable",
             "socket19TmmpBranch_impossible",
             "socket150TpppBranch_impossible",
+            "BranchTableSuffixOk",
+            "branchTableSuffixOk_local",
+            "eval_exists_of_branchTableSuffixOk",
             "```",
             "",
             "## Remaining Production Theorem",

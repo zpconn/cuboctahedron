@@ -24,6 +24,22 @@
         "socket19TmmpBranch_impossible": 1
       }
     },
+    "branch_table_suffix": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 124,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSuffix1MSmoke.lean",
+      "symbol_hits": {
+        "BranchTableSuffixOk": 11,
+        "StrengthenedBranchTable": 7,
+        "branchTableSuffixOk_local": 2,
+        "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": 1,
+        "eval_exists_of_branchTableSuffixOk": 1,
+        "faceEvalNext_of_graphBranchTable": 2,
+        "socket150TpppBranch_impossible": 1,
+        "socket19TmmpBranch_impossible": 1
+      }
+    },
     "eval_bridge": {
       "exists": true,
       "forbidden_hits": {},
@@ -88,35 +104,65 @@
       "killed_reason": null,
       "max_tree_rss_mib": 4067.25390625,
       "path": "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_lake_guard.json"
+    },
+    "branch_table_suffix_direct": {
+      "elapsed_seconds": 8.00495544000296,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3685.58984375,
+      "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json"
+    },
+    "branch_table_suffix_lake": {
+      "elapsed_seconds": 3.0070425020094262,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 4053.8359375,
+      "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json"
     }
   },
   "mode": "top-pairing-branch-table-membership-frontier",
   "next_theorem": "topPairingClosed_head_branchTable",
   "required_symbols_present": true,
   "symbol_locations": {
+    "BranchTableSuffixOk": [
+      "branch_table_suffix"
+    ],
     "StrengthenedBranchTable": [
       "branch_table",
-      "branch_table_progress"
+      "branch_table_progress",
+      "branch_table_suffix"
     ],
     "TopPairingTransducerTail.ofClosedRank": [
       "eval_bridge"
     ],
+    "branchTableSuffixOk_local": [
+      "branch_table_suffix"
+    ],
     "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": [
       "eval_bridge",
+      "branch_table_suffix",
       "strengthened_local"
     ],
+    "eval_exists_of_branchTableSuffixOk": [
+      "branch_table_suffix"
+    ],
     "faceEvalNext_of_graphBranchTable": [
-      "branch_table_progress"
+      "branch_table_progress",
+      "branch_table_suffix"
     ],
     "graph_next_of_graphBranch": [
       "branch_table",
       "branch_table_progress"
     ],
     "socket150TpppBranch_impossible": [
-      "branch_table_progress"
+      "branch_table_progress",
+      "branch_table_suffix"
     ],
     "socket19TmmpBranch_impossible": [
-      "branch_table_progress"
+      "branch_table_progress",
+      "branch_table_suffix"
     ],
     "topPairingTargetShadow_of_summary": [
       "target_cursor"

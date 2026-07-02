@@ -14,12 +14,15 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `topPairingTargetShadow_of_summary` | target-shadow inverse | `target_cursor` |
 | `topPairingTriCursor_of_closed` | closed language to target cursor | `target_cursor`, `transducer_tail` |
 | `TopPairingTransducerTail.ofClosedRank` | closed language to combined semantic tail | `eval_bridge` |
-| `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` | generic suffix evaluator | `eval_bridge`, `strengthened_local` |
-| `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_progress` |
+| `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` | generic suffix evaluator | `eval_bridge`, `branch_table_suffix`, `strengthened_local` |
+| `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_progress`, `branch_table_suffix` |
 | `graph_next_of_graphBranch` | branch-table graph transition extractor | `branch_table`, `branch_table_progress` |
-| `faceEvalNext_of_graphBranchTable` | graph branch local evaluator progress | `branch_table_progress` |
-| `socket19TmmpBranch_impossible` | state19/tmmp semantic socket | `branch_table_progress` |
-| `socket150TpppBranch_impossible` | state150/tppp semantic socket | `branch_table_progress` |
+| `faceEvalNext_of_graphBranchTable` | graph branch local evaluator progress | `branch_table_progress`, `branch_table_suffix` |
+| `socket19TmmpBranch_impossible` | state19/tmmp semantic socket | `branch_table_progress`, `branch_table_suffix` |
+| `socket150TpppBranch_impossible` | state150/tppp semantic socket | `branch_table_progress`, `branch_table_suffix` |
+| `BranchTableSuffixOk` | suffix predicate storing branch-table evidence | `branch_table_suffix` |
+| `branchTableSuffixOk_local` | local progress from branch-table suffix | `branch_table_suffix` |
+| `eval_exists_of_branchTableSuffixOk` | whole-suffix evaluator from branch-table suffix | `branch_table_suffix` |
 
 ## Guards
 
@@ -28,6 +31,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `branch_table_lake` | `0` | `5.00s` | `4248 MiB` | `None` |
 | `branch_table_progress_direct` | `0` | `2.00s` | `3544 MiB` | `None` |
 | `branch_table_progress_lake` | `0` | `4.01s` | `4067 MiB` | `None` |
+| `branch_table_suffix_direct` | `0` | `8.00s` | `3686 MiB` | `None` |
+| `branch_table_suffix_lake` | `0` | `3.01s` | `4054 MiB` | `None` |
 
 ## Accepted Local Surface
 
@@ -38,6 +43,9 @@ entry is usable:
 faceEvalNext_of_graphBranchTable
 socket19TmmpBranch_impossible
 socket150TpppBranch_impossible
+BranchTableSuffixOk
+branchTableSuffixOk_local
+eval_exists_of_branchTableSuffixOk
 ```
 
 ## Remaining Production Theorem
