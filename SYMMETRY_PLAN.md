@@ -65308,3 +65308,165 @@ classifier can prove its trace-id restriction without enumerating ranks.  If
 that proof collapses into exact accepted-trace casework or rank-indexed affine
 RHS tables, stop Bellman production and pivot to the cancellation-tree summary
 automaton as the primary nonidentity residual route.
+
+### 2026-07-02 Shared-gain prefix bucket smoke
+
+Added a first non-sampled same-gain bucket family:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSharedGainPrefixBucketSmoke.lean
+```
+
+It targets the largest homogeneous prefix bucket from the diagnostic report:
+
+```text
+accepted trace ids: t000, t001, t002
+gain: -376
+prefix depth: 9
+prefix:
+  xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp
+```
+
+New local smoke surface:
+
+```lean
+def Trace000001002PrefixSharedGainFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    TopPairingActualFaceOmniAtRank rank /\
+      AcceptedSequenceBadFaceAtRank rank Face.ym /\
+        TerminalTraceLabels (topPairingRankFaceLabels rank) /\
+          (topPairingRankFaceLabels rank).take 9 =
+            Trace000001002Prefix /\
+            scaledMargin rank <= 176 + (-376)
+```
+
+The finite trace-id theorem:
+
+```lean
+theorem trace000001002Prefix_gain
+    (traceId : AcceptedTraceId)
+    (hprefix :
+      (acceptedTraceOfId traceId).take 9 = Trace000001002Prefix) :
+    Trace000001002Allowed traceId /\
+      acceptedTraceGain traceId = (-376 : Int)
+```
+
+The proof handles `t000`, `t001`, and `t002` by direct constructor equality and
+discharges every other trace id by deciding the small prefix-inequality
+implication.  The first attempt used a broad `simp` over generated trace
+literals; it left the nonmatching trace-id contradictions unsolved.  The
+explicit constructor proof is both faster and clearer.
+
+The family then feeds the shared-gain terminal bucket socket:
+
+```lean
+theorem trace000001002PrefixFamily_evalLanguage :
+    Trace000001002PrefixSharedGainFamily scaledMargin rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem trace000001002PrefixFamily_scaledMargin_nonpos :
+    Trace000001002PrefixSharedGainFamily scaledMargin rank ->
+    scaledMargin rank <= 0
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_shared_gain_prefix_bucket_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSharedGainPrefixBucketSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.01s
+peak_tree_rss = 2665 MiB
+hard_as = 8192 MiB
+min_available = 46334 MiB
+```
+
+Guarded Lake build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_shared_gain_prefix_bucket_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSharedGainPrefixBucketSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 4020 MiB
+hard_as = 32768 MiB
+min_available = 46044 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingSharedGainPrefixBucketSmoke.lean = 94 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSharedGainPrefixBucketSmoke.lean
+```
+
+`git diff --check` passed; the forbidden-term audit found no matches.
+
+Decision:
+
+Accept this as a valid semantic-family smoke for the shared-gain Bellman
+socket.  It proves that a compact non-sampled label-prefix fact can select a
+same-gain accepted-trace bucket and feed the deterministic Bellman evaluator.
+
+This still does not solve the production membership problem.  Prefix-only
+buckets are small, so the production route must replace the prefix premise with
+a stronger source-position/cancellation-summary premise that covers many ranks.
+The useful part of this checkpoint is the theorem shape:
+
+```text
+semantic family facts
+  -> accepted trace ids in same-gain bucket
+  -> one shared margin inequality
+  -> Bellman eval language
+  -> scaledMargin <= 0
+```
+
+Next action:
+
+Try to lift `Trace000001002PrefixSharedGainFamily` from a raw prefix condition
+to the existing top-pairing tail/cancellation state language.  If the tail/state
+language can prove the same trace-id bucket without rank/path sampling, continue
+Bellman.  If it needs one theorem per full trace or per rank, stop and promote a
+cancellation-tree summary automaton as the main nonidentity residual route.
