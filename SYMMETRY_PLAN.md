@@ -79184,3 +79184,14 @@ If this theorem needs a constructor/proof branch per accepted trace, selected
 prefix, sampled path, or rank, stop and refine the semantic state
 (`triCursor`, `squareGap`, `pairCounts`, `localAxis`, `sequenceBadFace`) instead
 of adding more trace enumeration.
+
+Micro no-go observed:
+
+An attempted optional extension of
+`BellmanTopPairingAcceptedTraceSuffix1MSmoke.lean` to also prove final
+potential nonnegativity for each accepted trace class hit an elaboration
+heartbeat timeout around the existential final-state statement.  The change was
+backed out.  This reinforces the strategy boundary: the accepted-trace suffix
+module should stay a bounded eval/suffix smoke, while final potential and
+margin bounds should be handled by the generic semantic evaluator/Bellman-bound
+bridge over the deterministic state machine.
