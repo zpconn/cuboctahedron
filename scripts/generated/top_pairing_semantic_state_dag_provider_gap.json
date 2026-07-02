@@ -1,0 +1,1721 @@
+{
+  "accepted_traces": 37,
+  "boundaries": [
+    {
+      "class_graph_histogram": [
+        {
+          "graph_state": 610,
+          "semantic_class": 1023,
+          "traces": 37
+        }
+      ],
+      "class_graph_pairs": 1,
+      "class_graph_suffix_obligations": 37,
+      "depth": 2,
+      "graph_state_histogram": {
+        "610": 37
+      },
+      "graph_states": 1,
+      "semantic_class_histogram": {
+        "1023": 37
+      },
+      "semantic_classes": 1
+    },
+    {
+      "class_graph_histogram": [
+        {
+          "graph_state": 635,
+          "semantic_class": 1013,
+          "traces": 17
+        },
+        {
+          "graph_state": 631,
+          "semantic_class": 1014,
+          "traces": 1
+        },
+        {
+          "graph_state": 627,
+          "semantic_class": 1015,
+          "traces": 9
+        },
+        {
+          "graph_state": 625,
+          "semantic_class": 1017,
+          "traces": 4
+        },
+        {
+          "graph_state": 632,
+          "semantic_class": 1018,
+          "traces": 3
+        },
+        {
+          "graph_state": 628,
+          "semantic_class": 1019,
+          "traces": 3
+        }
+      ],
+      "class_graph_pairs": 6,
+      "class_graph_suffix_obligations": 35,
+      "depth": 4,
+      "graph_state_histogram": {
+        "625": 4,
+        "627": 9,
+        "628": 3,
+        "631": 1,
+        "632": 3,
+        "635": 17
+      },
+      "graph_states": 6,
+      "semantic_class_histogram": {
+        "1013": 17,
+        "1014": 1,
+        "1015": 9,
+        "1017": 4,
+        "1018": 3,
+        "1019": 3
+      },
+      "semantic_classes": 6
+    },
+    {
+      "class_graph_histogram": [
+        {
+          "graph_state": 856,
+          "semantic_class": 575,
+          "traces": 9
+        },
+        {
+          "graph_state": 851,
+          "semantic_class": 576,
+          "traces": 2
+        },
+        {
+          "graph_state": 852,
+          "semantic_class": 579,
+          "traces": 3
+        },
+        {
+          "graph_state": 845,
+          "semantic_class": 582,
+          "traces": 2
+        },
+        {
+          "graph_state": 846,
+          "semantic_class": 582,
+          "traces": 2
+        },
+        {
+          "graph_state": 847,
+          "semantic_class": 582,
+          "traces": 2
+        },
+        {
+          "graph_state": 848,
+          "semantic_class": 582,
+          "traces": 1
+        },
+        {
+          "graph_state": 850,
+          "semantic_class": 582,
+          "traces": 2
+        },
+        {
+          "graph_state": 839,
+          "semantic_class": 657,
+          "traces": 4
+        },
+        {
+          "graph_state": 829,
+          "semantic_class": 659,
+          "traces": 1
+        },
+        {
+          "graph_state": 831,
+          "semantic_class": 659,
+          "traces": 2
+        },
+        {
+          "graph_state": 809,
+          "semantic_class": 666,
+          "traces": 1
+        },
+        {
+          "graph_state": 810,
+          "semantic_class": 666,
+          "traces": 1
+        },
+        {
+          "graph_state": 812,
+          "semantic_class": 666,
+          "traces": 1
+        },
+        {
+          "graph_state": 814,
+          "semantic_class": 666,
+          "traces": 3
+        },
+        {
+          "graph_state": 817,
+          "semantic_class": 694,
+          "traces": 1
+        }
+      ],
+      "class_graph_pairs": 16,
+      "class_graph_suffix_obligations": 34,
+      "depth": 8,
+      "graph_state_histogram": {
+        "809": 1,
+        "810": 1,
+        "812": 1,
+        "814": 3,
+        "817": 1,
+        "829": 1,
+        "831": 2,
+        "839": 4,
+        "845": 2,
+        "846": 2,
+        "847": 2,
+        "848": 1,
+        "850": 2,
+        "851": 2,
+        "852": 3,
+        "856": 9
+      },
+      "graph_states": 16,
+      "semantic_class_histogram": {
+        "575": 9,
+        "576": 2,
+        "579": 3,
+        "582": 9,
+        "657": 4,
+        "659": 3,
+        "666": 6,
+        "694": 1
+      },
+      "semantic_classes": 8
+    },
+    {
+      "class_graph_histogram": [
+        {
+          "graph_state": 197,
+          "semantic_class": 34,
+          "traces": 1
+        },
+        {
+          "graph_state": 198,
+          "semantic_class": 34,
+          "traces": 1
+        },
+        {
+          "graph_state": 201,
+          "semantic_class": 34,
+          "traces": 1
+        },
+        {
+          "graph_state": 227,
+          "semantic_class": 35,
+          "traces": 2
+        },
+        {
+          "graph_state": 228,
+          "semantic_class": 35,
+          "traces": 2
+        },
+        {
+          "graph_state": 172,
+          "semantic_class": 36,
+          "traces": 1
+        },
+        {
+          "graph_state": 174,
+          "semantic_class": 36,
+          "traces": 1
+        },
+        {
+          "graph_state": 175,
+          "semantic_class": 36,
+          "traces": 1
+        },
+        {
+          "graph_state": 142,
+          "semantic_class": 37,
+          "traces": 3
+        },
+        {
+          "graph_state": 143,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 144,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 145,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 146,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 147,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 154,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 155,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 156,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 157,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 158,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 160,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 161,
+          "semantic_class": 37,
+          "traces": 1
+        },
+        {
+          "graph_state": 163,
+          "semantic_class": 37,
+          "traces": 3
+        },
+        {
+          "graph_state": 207,
+          "semantic_class": 38,
+          "traces": 1
+        },
+        {
+          "graph_state": 208,
+          "semantic_class": 38,
+          "traces": 1
+        },
+        {
+          "graph_state": 209,
+          "semantic_class": 38,
+          "traces": 1
+        },
+        {
+          "graph_state": 210,
+          "semantic_class": 38,
+          "traces": 1
+        },
+        {
+          "graph_state": 211,
+          "semantic_class": 38,
+          "traces": 1
+        },
+        {
+          "graph_state": 213,
+          "semantic_class": 38,
+          "traces": 1
+        },
+        {
+          "graph_state": 185,
+          "semantic_class": 39,
+          "traces": 1
+        },
+        {
+          "graph_state": 186,
+          "semantic_class": 39,
+          "traces": 2
+        }
+      ],
+      "class_graph_pairs": 30,
+      "class_graph_suffix_obligations": 32,
+      "depth": 11,
+      "graph_state_histogram": {
+        "142": 3,
+        "143": 1,
+        "144": 1,
+        "145": 1,
+        "146": 1,
+        "147": 1,
+        "154": 1,
+        "155": 1,
+        "156": 1,
+        "157": 1,
+        "158": 1,
+        "160": 1,
+        "161": 1,
+        "163": 3,
+        "172": 1,
+        "174": 1,
+        "175": 1,
+        "185": 1,
+        "186": 2,
+        "197": 1,
+        "198": 1,
+        "201": 1,
+        "207": 1,
+        "208": 1,
+        "209": 1,
+        "210": 1,
+        "211": 1,
+        "213": 1,
+        "227": 2,
+        "228": 2
+      },
+      "graph_states": 30,
+      "semantic_class_histogram": {
+        "34": 3,
+        "35": 4,
+        "36": 3,
+        "37": 18,
+        "38": 6,
+        "39": 3
+      },
+      "semantic_classes": 6
+    },
+    {
+      "class_graph_histogram": [
+        {
+          "graph_state": 556,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 557,
+          "semantic_class": 1,
+          "traces": 3
+        },
+        {
+          "graph_state": 558,
+          "semantic_class": 1,
+          "traces": 3
+        },
+        {
+          "graph_state": 559,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 560,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 561,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 562,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 563,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 564,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 565,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 566,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 567,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 568,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 569,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 587,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 589,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 590,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 591,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 592,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 593,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 594,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 596,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 597,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 600,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 601,
+          "semantic_class": 1,
+          "traces": 2
+        },
+        {
+          "graph_state": 602,
+          "semantic_class": 1,
+          "traces": 2
+        },
+        {
+          "graph_state": 603,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 604,
+          "semantic_class": 1,
+          "traces": 1
+        },
+        {
+          "graph_state": 607,
+          "semantic_class": 1,
+          "traces": 3
+        }
+      ],
+      "class_graph_pairs": 29,
+      "class_graph_suffix_obligations": 29,
+      "depth": 14,
+      "graph_state_histogram": {
+        "556": 1,
+        "557": 3,
+        "558": 3,
+        "559": 1,
+        "560": 1,
+        "561": 1,
+        "562": 1,
+        "563": 1,
+        "564": 1,
+        "565": 1,
+        "566": 1,
+        "567": 1,
+        "568": 1,
+        "569": 1,
+        "587": 1,
+        "589": 1,
+        "590": 1,
+        "591": 1,
+        "592": 1,
+        "593": 1,
+        "594": 1,
+        "596": 1,
+        "597": 1,
+        "600": 1,
+        "601": 2,
+        "602": 2,
+        "603": 1,
+        "604": 1,
+        "607": 3
+      },
+      "graph_states": 29,
+      "semantic_class_histogram": {
+        "1": 37
+      },
+      "semantic_classes": 1
+    }
+  ],
+  "class034_currently_covered_traces": 1,
+  "class034_matches": [
+    {
+      "covered_by_current_graph_state": true,
+      "depth": 11,
+      "graph_state": 197,
+      "semantic_class": 34,
+      "suffix": [
+        "zm",
+        "zp",
+        "xp"
+      ],
+      "trace": 0
+    },
+    {
+      "covered_by_current_graph_state": false,
+      "depth": 11,
+      "graph_state": 198,
+      "semantic_class": 34,
+      "suffix": [
+        "zm",
+        "zp",
+        "xp"
+      ],
+      "trace": 3
+    },
+    {
+      "covered_by_current_graph_state": false,
+      "depth": 11,
+      "graph_state": 201,
+      "semantic_class": 34,
+      "suffix": [
+        "zm",
+        "zp",
+        "xp"
+      ],
+      "trace": 18
+    }
+  ],
+  "decision": "provider-gap-audited-needs-graph-state-indexed-suffix-emitters",
+  "known_class034": {
+    "graph_state": 197,
+    "semantic_class": 34,
+    "suffix": [
+      "zm",
+      "zp",
+      "xp"
+    ]
+  },
+  "minimized_classes": 1026,
+  "mode": "top-pairing-semantic-state-dag-provider-gap",
+  "semantic_graph": {
+    "edges": 6089,
+    "states": 5347,
+    "terminals": 98
+  },
+  "source_files": {
+    "eval_gate": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalGate.lean",
+    "minimized_detail": "scripts/generated/top_pairing_trace_state_dag_minimized_detailed.json",
+    "semantic_graph": "scripts/generated/top_pairing_trace_state_dag_lean_aligned_graph.json",
+    "split_base": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Base.lean"
+  },
+  "trace_table": [
+    {
+      "depth11": {
+        "graph_state": 197,
+        "semantic_class": 34,
+        "suffix": [
+          "zm",
+          "zp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "tmmp",
+          "tmpp",
+          "yp",
+          "zm",
+          "zp",
+          "xp"
+        ]
+      },
+      "gain": -376,
+      "trace": 0
+    },
+    {
+      "depth11": {
+        "graph_state": 227,
+        "semantic_class": 35,
+        "suffix": [
+          "yp",
+          "zp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "tmmp",
+          "tmpp",
+          "zm",
+          "yp",
+          "zp",
+          "xp"
+        ]
+      },
+      "gain": -376,
+      "trace": 1
+    },
+    {
+      "depth11": {
+        "graph_state": 227,
+        "semantic_class": 35,
+        "suffix": [
+          "zp",
+          "yp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "tmmp",
+          "tmpp",
+          "zm",
+          "zp",
+          "yp",
+          "xp"
+        ]
+      },
+      "gain": -376,
+      "trace": 2
+    },
+    {
+      "depth11": {
+        "graph_state": 198,
+        "semantic_class": 34,
+        "suffix": [
+          "zm",
+          "zp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "yp",
+          "tmpp",
+          "tmmp",
+          "zm",
+          "zp",
+          "xp"
+        ]
+      },
+      "gain": -596,
+      "trace": 3
+    },
+    {
+      "depth11": {
+        "graph_state": 172,
+        "semantic_class": 36,
+        "suffix": [
+          "zp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "yp",
+          "tmpp",
+          "zm",
+          "zp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -348,
+      "trace": 4
+    },
+    {
+      "depth11": {
+        "graph_state": 142,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "yp",
+          "zp",
+          "zm",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -612,
+      "trace": 5
+    },
+    {
+      "depth11": {
+        "graph_state": 142,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "zp",
+          "yp",
+          "zm",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -612,
+      "trace": 6
+    },
+    {
+      "depth11": {
+        "graph_state": 207,
+        "semantic_class": 38,
+        "suffix": [
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "zp",
+          "zm",
+          "tmmp",
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "gain": -392,
+      "trace": 7
+    },
+    {
+      "depth11": {
+        "graph_state": 142,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "zp",
+          "zm",
+          "yp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -612,
+      "trace": 8
+    },
+    {
+      "depth11": {
+        "graph_state": 208,
+        "semantic_class": 38,
+        "suffix": [
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "zp",
+          "zm",
+          "tpmp",
+          "tmmp",
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "gain": -464,
+      "trace": 9
+    },
+    {
+      "depth11": {
+        "graph_state": 143,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "zp",
+          "zm",
+          "tpmp",
+          "yp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -684,
+      "trace": 10
+    },
+    {
+      "depth11": {
+        "graph_state": 209,
+        "semantic_class": 38,
+        "suffix": [
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "zp",
+          "zm",
+          "tmmm",
+          "tpmp",
+          "tmmp",
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "gain": -176,
+      "trace": 11
+    },
+    {
+      "depth11": {
+        "graph_state": 144,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "tppp",
+          "zp",
+          "zm",
+          "tmmm",
+          "tpmp",
+          "yp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -396,
+      "trace": 12
+    },
+    {
+      "depth11": {
+        "graph_state": 210,
+        "semantic_class": 38,
+        "suffix": [
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "zp",
+          "zm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "tmmp",
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "gain": -464,
+      "trace": 13
+    },
+    {
+      "depth11": {
+        "graph_state": 145,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "tpmm",
+          "zp",
+          "zm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "yp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -684,
+      "trace": 14
+    },
+    {
+      "depth11": {
+        "graph_state": 211,
+        "semantic_class": 38,
+        "suffix": [
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "zp",
+          "zm",
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "tmmp",
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "gain": -392,
+      "trace": 15
+    },
+    {
+      "depth11": {
+        "graph_state": 146,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 635,
+        "semantic_class": 1013,
+        "suffix": [
+          "zp",
+          "zm",
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "yp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -612,
+      "trace": 16
+    },
+    {
+      "depth11": {
+        "graph_state": 147,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 631,
+        "semantic_class": 1014,
+        "suffix": [
+          "zp",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "yp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -348,
+      "trace": 17
+    },
+    {
+      "depth11": {
+        "graph_state": 201,
+        "semantic_class": 34,
+        "suffix": [
+          "zm",
+          "zp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 627,
+        "semantic_class": 1015,
+        "suffix": [
+          "tpmm",
+          "tppm",
+          "tpmp",
+          "tmpm",
+          "tppp",
+          "tmpp",
+          "tmmp",
+          "zm",
+          "zp",
+          "xp"
+        ]
+      },
+      "gain": -552,
+      "trace": 18
+    },
+    {
+      "depth11": {
+        "graph_state": 174,
+        "semantic_class": 36,
+        "suffix": [
+          "zp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 627,
+        "semantic_class": 1015,
+        "suffix": [
+          "tpmm",
+          "tppm",
+          "tpmp",
+          "tmpm",
+          "tppp",
+          "tmpp",
+          "zm",
+          "zp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -304,
+      "trace": 19
+    },
+    {
+      "depth11": {
+        "graph_state": 155,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 627,
+        "semantic_class": 1015,
+        "suffix": [
+          "tpmm",
+          "tppm",
+          "tpmp",
+          "tmpm",
+          "tppp",
+          "zp",
+          "zm",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -568,
+      "trace": 20
+    },
+    {
+      "depth11": {
+        "graph_state": 154,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 627,
+        "semantic_class": 1015,
+        "suffix": [
+          "tpmm",
+          "tppm",
+          "tpmp",
+          "tmpm",
+          "zp",
+          "zm",
+          "tppp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -640,
+      "trace": 21
+    },
+    {
+      "depth11": {
+        "graph_state": 156,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 627,
+        "semantic_class": 1015,
+        "suffix": [
+          "tpmm",
+          "tppm",
+          "tpmp",
+          "zp",
+          "zm",
+          "tmpm",
+          "tppp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -352,
+      "trace": 22
+    },
+    {
+      "depth11": {
+        "graph_state": 157,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 627,
+        "semantic_class": 1015,
+        "suffix": [
+          "tpmm",
+          "tppm",
+          "zp",
+          "zm",
+          "tpmp",
+          "tmpm",
+          "tppp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -640,
+      "trace": 23
+    },
+    {
+      "depth11": {
+        "graph_state": 158,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 627,
+        "semantic_class": 1015,
+        "suffix": [
+          "tpmm",
+          "zp",
+          "zm",
+          "tppm",
+          "tpmp",
+          "tmpm",
+          "tppp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -568,
+      "trace": 24
+    },
+    {
+      "depth11": {
+        "graph_state": 175,
+        "semantic_class": 36,
+        "suffix": [
+          "zp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 627,
+        "semantic_class": 1015,
+        "suffix": [
+          "zm",
+          "tpmp",
+          "tppp",
+          "tpmm",
+          "tmpp",
+          "tppm",
+          "tmpm",
+          "zp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -304,
+      "trace": 25
+    },
+    {
+      "depth11": {
+        "graph_state": 160,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 627,
+        "semantic_class": 1015,
+        "suffix": [
+          "zm",
+          "zp",
+          "tpmm",
+          "tppm",
+          "tpmp",
+          "tmpm",
+          "tppp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -304,
+      "trace": 26
+    },
+    {
+      "depth11": {
+        "graph_state": 186,
+        "semantic_class": 39,
+        "suffix": [
+          "tmmm",
+          "zp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 625,
+        "semantic_class": 1017,
+        "suffix": [
+          "tmmp",
+          "tpmp",
+          "tppp",
+          "tpmm",
+          "tmpp",
+          "tppm",
+          "tmpm",
+          "tmmm",
+          "zp",
+          "xp"
+        ]
+      },
+      "gain": -552,
+      "trace": 27
+    },
+    {
+      "depth11": {
+        "graph_state": 163,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 625,
+        "semantic_class": 1017,
+        "suffix": [
+          "zp",
+          "tmmm",
+          "tpmm",
+          "tppm",
+          "tpmp",
+          "tmpm",
+          "tppp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -552,
+      "trace": 28
+    },
+    {
+      "depth11": {
+        "graph_state": 228,
+        "semantic_class": 35,
+        "suffix": [
+          "yp",
+          "zp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 632,
+        "semantic_class": 1018,
+        "suffix": [
+          "tppp",
+          "tpmp",
+          "tppm",
+          "tmmp",
+          "tpmm",
+          "tmmm",
+          "tmpm",
+          "yp",
+          "zp",
+          "xp"
+        ]
+      },
+      "gain": -376,
+      "trace": 29
+    },
+    {
+      "depth11": {
+        "graph_state": 228,
+        "semantic_class": 35,
+        "suffix": [
+          "zp",
+          "yp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 632,
+        "semantic_class": 1018,
+        "suffix": [
+          "tppp",
+          "tpmp",
+          "tppm",
+          "tmmp",
+          "tpmm",
+          "tmmm",
+          "tmpm",
+          "zp",
+          "yp",
+          "xp"
+        ]
+      },
+      "gain": -376,
+      "trace": 30
+    },
+    {
+      "depth11": {
+        "graph_state": 185,
+        "semantic_class": 39,
+        "suffix": [
+          "tmmm",
+          "zp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 632,
+        "semantic_class": 1018,
+        "suffix": [
+          "tppp",
+          "tpmp",
+          "tppm",
+          "tmmp",
+          "tpmm",
+          "yp",
+          "tmpm",
+          "tmmm",
+          "zp",
+          "xp"
+        ]
+      },
+      "gain": -596,
+      "trace": 31
+    },
+    {
+      "depth11": {
+        "graph_state": 186,
+        "semantic_class": 39,
+        "suffix": [
+          "tmmm",
+          "zp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 625,
+        "semantic_class": 1017,
+        "suffix": [
+          "tmmp",
+          "tpmp",
+          "tppp",
+          "tpmm",
+          "tmpp",
+          "tppm",
+          "tmpm",
+          "tmmm",
+          "zp",
+          "xp"
+        ]
+      },
+      "gain": -552,
+      "trace": 32
+    },
+    {
+      "depth11": {
+        "graph_state": 163,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 625,
+        "semantic_class": 1017,
+        "suffix": [
+          "zp",
+          "tmmm",
+          "tpmm",
+          "tppm",
+          "tpmp",
+          "tmpm",
+          "tppp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -552,
+      "trace": 33
+    },
+    {
+      "depth11": {
+        "graph_state": 213,
+        "semantic_class": 38,
+        "suffix": [
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 628,
+        "semantic_class": 1019,
+        "suffix": [
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "tmmp",
+          "tmpp",
+          "yp",
+          "xp"
+        ]
+      },
+      "gain": -376,
+      "trace": 34
+    },
+    {
+      "depth11": {
+        "graph_state": 161,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 628,
+        "semantic_class": 1019,
+        "suffix": [
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "yp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -596,
+      "trace": 35
+    },
+    {
+      "depth11": {
+        "graph_state": 163,
+        "semantic_class": 37,
+        "suffix": [
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "depth4": {
+        "graph_state": 628,
+        "semantic_class": 1019,
+        "suffix": [
+          "yp",
+          "tmmm",
+          "tpmm",
+          "tppm",
+          "tpmp",
+          "tmpm",
+          "tppp",
+          "tmpp",
+          "tmmp",
+          "xp"
+        ]
+      },
+      "gain": -552,
+      "trace": 36
+    }
+  ]
+}

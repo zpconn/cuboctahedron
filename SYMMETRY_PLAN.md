@@ -85196,3 +85196,92 @@ useful gate is a profiler/emitter pass that reports:
 - which classes still lack `Split10MFinalMarginProducer`;
 - whether final margins can be proved by the Bellman/cocycle/segment integer
   route without exact affine RHS or exact full path keys.
+
+#### Semantic State-DAG Provider Gap Audit Accepted
+
+Added
+`scripts/audit_top_pairing_semantic_state_dag_provider_gap.py` and generated:
+
+```text
+scripts/generated/top_pairing_semantic_state_dag_provider_gap.json
+scripts/generated/top_pairing_semantic_state_dag_provider_gap.md
+```
+
+This audit is diagnostic only; it does not prove coverage and it does not
+enumerate ranks.  It compares the 37 split-10M graph-accepted traces against
+the minimized semantic trace DAG and the split-10M Bellman graph.  The purpose
+is to pin down the production emitter target after the GPT5.5 pivot: keep
+Bellman, reject selected-prefix membership, and prove deterministic semantic
+state-machine membership.
+
+Command:
+
+```bash
+python3 scripts/audit_top_pairing_semantic_state_dag_provider_gap.py
+```
+
+Result:
+
+```text
+decision=provider-gap-audited-needs-graph-state-indexed-suffix-emitters
+wrote scripts/generated/top_pairing_semantic_state_dag_provider_gap.json
+wrote scripts/generated/top_pairing_semantic_state_dag_provider_gap.md
+```
+
+The audit reports:
+
+| Boundary depth | Semantic classes | Graph states | Class+graph pairs | Class+graph+suffix obligations |
+|---:|---:|---:|---:|---:|
+| `2` | `1` | `1` | `1` | `37` |
+| `4` | `6` | `6` | `6` | `35` |
+| `8` | `8` | `16` | `16` | `34` |
+| `11` | `6` | `30` | `30` | `32` |
+| `14` | `1` | `29` | `29` | `29` |
+
+Depth `11` is the best current suffix boundary for this accepted-trace
+artifact:
+
+| Depth-11 semantic class | Accepted traces |
+|---:|---:|
+| `34` | `3` |
+| `35` | `4` |
+| `36` | `3` |
+| `37` | `18` |
+| `38` | `6` |
+| `39` | `3` |
+
+The important correction is that a semantic suffix class alone is not enough.
+The existing class-034 Lean smoke proves:
+
+```lean
+Class034Suffix rest ->
+  GraphBranchTableSuffixOk rank (197 : State) rest
+```
+
+but the audit found class `34` with suffix `zm, zp, xp` at three graph states:
+
+| Trace | Depth | Graph state | Covered by current class-034 theorem |
+|---:|---:|---:|---:|
+| `000` | `11` | `197` | `True` |
+| `003` | `11` | `198` | `False` |
+| `018` | `11` | `201` | `False` |
+
+Decision: accepted.  The class-034 provider smoke remains valuable because it
+checks the local theorem shape, but it is not a production cover.  The next
+emitter must produce graph-state-indexed suffix providers, at least by
+`(semantic class, graph state)` at the suffix boundary, and still keep
+`Split10MFinalMarginProducer` as a separate semantic integer/cocycle/Bellman
+obligation.  Do not scale the class-034 shape by pretending that one semantic
+class theorem covers all graph states.
+
+Immediate next gate:
+
+1. Emit graph-state-indexed late suffix provider smokes for the six depth-11
+   semantic classes and their observed graph states.
+2. Prove or smoke the semantic bridge that every
+   `TopPairingStrengthenedClosedLanguageAtRank ... Face.ym` reaches one of
+   those depth-11 suffix states using `TopPairingTargetCursorAtRank`,
+   square-gap schedule, pair counts, local-axis data, and tri-source progress.
+3. Keep final margins separate until a Bellman/cocycle/segment integer producer
+   proves `Split10MFinalMarginProducer` without exact affine RHS or full path
+   keys.
