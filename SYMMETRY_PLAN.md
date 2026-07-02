@@ -67106,3 +67106,146 @@ actual strengthened top-pairing closed family
 Equivalently, the next theorem must show that the strengthened family supplies
 one of the 31 selected-prefix cover predicates, using semantic trace/prefix
 facts and margin bounds, without sampled rank/path objects.
+
+### 2026-07-02 Selected-prefix cover membership bridge
+
+Implemented the first semantic membership bridge from the existing
+graph-accepted trace-margin surface into the new selected-prefix cover:
+
+```text
+scripts/emit_top_pairing_selected_prefix_cover_membership_bridge.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean
+scripts/generated/top_pairing_selected_prefix_cover_membership_bridge.json
+scripts/generated/top_pairing_selected_prefix_cover_membership_bridge.md
+```
+
+The generated report records:
+
+```text
+accepted trace ids = 37
+selected-prefix cover buckets = 31
+```
+
+The Lean module proves:
+
+```lean
+selectedPrefixCoverFamily_of_graphAcceptedTraceMargin :
+  GraphAcceptedTraceMargin scaledMargin
+    ({ rank := rank, closed := hclosed } : TopPairingBellmanObj Face.ym) ->
+  SelectedPrefixCoverFamily scaledMargin rank
+
+selectedPrefixCoverSequenceBadFace_of_terminalAcceptedEval :
+  TopPairingStrengthenedClosedLanguageAtRank
+    (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym ->
+  SelectedPrefixCoverSequenceBadFace scaledMargin rank Face.ym
+
+selectedPrefixCover_evalLanguage_of_terminalAcceptedEval :
+  TopPairingStrengthenedClosedLanguageAtRank
+    (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState
+    (176 : Int) scaledMargin rank Face.ym
+
+selectedPrefixCover_scaledMargin_nonpos_of_terminalAcceptedEval :
+  TopPairingStrengthenedClosedLanguageAtRank
+    (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym ->
+  scaledMargin rank <= 0
+```
+
+Generation and syntax check:
+
+```bash
+python3 scripts/emit_top_pairing_selected_prefix_cover_membership_bridge.py
+python3 -m py_compile \
+  scripts/emit_top_pairing_selected_prefix_cover_membership_bridge.py
+```
+
+Result: passed.
+
+Direct guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_selected_prefix_cover_membership_bridge_direct_lean_clean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 5.00s
+peak_tree_rss = 4000 MiB
+hard_as = 8192 MiB
+min_available = 46180 MiB
+```
+
+Focused guarded Lake target build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_selected_prefix_cover_membership_bridge_build_clean.json \
+  --verbose \
+  -- lake --log-level=error build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSelectedPrefixCoverMembershipBridge
+```
+
+Result:
+
+```text
+passed
+elapsed = 4.00s
+peak_tree_rss = 4137 MiB
+hard_as = 32768 MiB
+min_available = 46031 MiB
+```
+
+Audit:
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean \
+  scripts/emit_top_pairing_selected_prefix_cover_membership_bridge.py
+
+git diff --check
+```
+
+Both checks passed with no output.
+
+Decision:
+
+Accept this as the Bellman semantic-membership gate requested by the latest
+GPT5.5 Pro guidance, for the current top-pairing subproblem.  The bridge does
+not use sampled rank/path objects.  It proves that the older terminal
+accepted-eval surface lands in the selected-prefix semantic cover, so this
+chain is Lean-checked:
+
+```text
+TerminalAcceptedEvalSequenceBadFace
+  -> SelectedPrefixCoverSequenceBadFace
+  -> TopPairingBellmanEvalLanguageAtRank
+  -> scaledMargin <= 0
+```
+
+This still is not global generated coverage.  The next remaining semantic
+membership obligation is to prove that the actual strengthened top-pairing
+closed family supplies `TerminalAcceptedEvalSequenceBadFace` or directly
+supplies `SelectedPrefixCoverSequenceBadFace`, again without sampled
+rank/path objects.
