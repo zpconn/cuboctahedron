@@ -72645,3 +72645,141 @@ enough such producer states.  The next experiment should emit a small real
 terminal producer shard over more accepted states, ideally all 37 accepted
 prefix states, and measure whether the root/group import pattern stays under
 the RSS/time gates.
+
+## 2026-07-02 Checkpoint: All-Accepted Producer Shard And Root
+
+Added the all-accepted-prefix producer shard:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalProducerAllAcceptedShardSmoke.lean
+```
+
+This shard uses the existing `AcceptedTraceId` enumeration as the finite state
+space for all 37 graph-accepted terminal traces:
+
+```lean
+structure AllAcceptedProducerState where
+  acceptedTraceId : AcceptedTraceId
+
+def AllAcceptedProducerState.Contains
+    (state : AllAcceptedProducerState) (rank : Fin numPairWords) : Prop :=
+  ClosedRankInAcceptedPrefix13ProducerState
+    state.acceptedTraceId rank
+
+def AllAcceptedProducerShardFamily (rank : Fin numPairWords) : Prop :=
+  ∃ state : AllAcceptedProducerState,
+    state.Contains rank
+```
+
+It exports:
+
+```lean
+theorem allAcceptedShardFamily_of_anyAcceptedPrefix13State
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInAnyAcceptedPrefix13State rank) :
+    AllAcceptedProducerShardFamily rank
+
+theorem nonIdentityRankKilled_of_allAcceptedShardFamily
+    {rank : Fin numPairWords}
+    (hshard : AllAcceptedProducerShardFamily rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+Added a tiny root smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalProducerRootSmoke.lean
+```
+
+Root family:
+
+```lean
+def TerminalProducerRootFamily (rank : Fin numPairWords) : Prop :=
+  AllAcceptedProducerShardFamily rank
+
+theorem nonIdentityRankKilled_of_rootFamily
+    {rank : Fin numPairWords}
+    (hroot : TerminalProducerRootFamily rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+Guarded commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_producer_all_accepted_shard_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerAllAcceptedShardSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_producer_all_accepted_shard_olean_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerAllAcceptedShardSmoke.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerAllAcceptedShardSmoke.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerAllAcceptedShardSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_producer_root_smoke_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerRootSmoke.lean
+```
+
+Results:
+
+```text
+all accepted producer shard: pass
+elapsed: 7.01s
+peak_tree_rss: 3913 MiB
+hard_as: 12288 MiB
+min_available: 46295 MiB
+
+all accepted producer shard .olean refresh: pass
+elapsed: 2.00s
+peak_tree_rss: 3682 MiB
+hard_as: 12288 MiB
+min_available: 46315 MiB
+
+terminal producer root smoke: pass
+elapsed: 2.00s
+peak_tree_rss: 3684 MiB
+hard_as: 12288 MiB
+min_available: 46306 MiB
+```
+
+Forbidden/sample-token scan on the shard and root was clean.
+
+Strategic interpretation:
+
+The all-37 accepted terminal-prefix producer layer is memory-safe and cheap.
+The root import also stays cheap once the shard `.olean` exists.  This means
+the accepted-prefix consumer/root layer is no longer the limiting unknown.
+
+The remaining proof-strategy risk is coverage into this root:
+
+```lean
+<top-pairing residual semantic coverage> ->
+  TerminalProducerRootFamily rank
+```
+
+The next experiment should therefore focus on the semantic state-DAG coverage
+theorem that maps closed top-pairing residual ranks into
+`TerminalProducerRootFamily`, rather than adding more wrappers around the
+accepted-prefix consumer.
