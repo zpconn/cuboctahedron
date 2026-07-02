@@ -63157,3 +63157,154 @@ No-go gate:
 - If the stronger semantic predicate must include exact affine RHS / solved
   `p0` data, reject it as a compression coordinate and pivot to the
   cancellation-tree summary algebra described above.
+
+### 2026-07-01 Trace-id socket promoted to production surface
+
+The generic trace-id predicate and evaluator bridge have been moved out of the
+smoke file and into the reusable socket:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceMarginBoundsSocket
+```
+
+New production-facing names:
+
+```lean
+def TraceIdMarginSequenceBadFace
+
+theorem terminalTraceMarginIdBoundSequenceBadFace_of_traceId
+
+theorem strengthenedTraceMarginIdBound_of_traceId
+
+theorem evalLanguage_of_traceMarginIdBound
+
+theorem evalLanguage_of_traceId
+
+theorem traceId_scaledMargin_nonpos
+```
+
+The important new theorem for the GPT5.5 semantic-membership gate is:
+
+```lean
+theorem evalLanguage_of_traceId
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TraceIdMarginSequenceBadFace traceId scaledMargin) rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+This shows the compact trace-id facts feed the deterministic Bellman evaluator
+surface directly.  The final inequality theorem remains:
+
+```lean
+theorem traceId_scaledMargin_nonpos
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TraceIdMarginSequenceBadFace traceId scaledMargin) rank Face.ym) :
+    scaledMargin rank <= 0
+```
+
+`BellmanTopPairingTraceIdBoundsSmoke.lean` is now only a thin regression check
+around the reusable socket.  It no longer owns the production predicate.
+
+Guarded focused Lake check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_socket_eval_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceIdBoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 5.00s
+peak_tree_rss = 3631 MiB
+hard_as = 32768 MiB
+min_available = 46194 MiB
+```
+
+Guarded direct Lean after Lake refreshed dependency artifacts:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_socket_eval_direct_lean_after_lake.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.01s
+peak_tree_rss = 3564 MiB
+hard_as = 8192 MiB
+min_available = 46272 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingTraceMarginBoundsSocket.lean       = 238 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean            = 44 lines
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 596 lines
+TopPairingBellmanObject.lean                        = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+Both checks passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept this as the production Bellman trace-id socket.  It advances the
+remaining Bellman task from “prove a sampled object exists” to:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  (TraceIdMarginSequenceBadFace traceId scaledMargin) rank Face.ym
+```
+
+for semantic trace/margin families.  Future generated classifier families
+should target this predicate or a group-level theorem that implies it.
+
+Next action:
+
+Build the first non-smoke semantic classifier-family bridge that produces
+`TraceIdMarginSequenceBadFace traceId scaledMargin rank Face.ym` for a compact
+family of closed ranks.  The bridge may use terminal trace classifier facts,
+accepted trace id, and an integer margin-bound family; it must not use
+`SampledRankIndex`, exact affine RHS keys, or one constructor per rank/path.
