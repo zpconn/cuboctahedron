@@ -60489,3 +60489,111 @@ Bellman classifier gap is now narrower: connect the depth-7/full-terminal
 prefix classifier to `TerminalOkTraceLabels`, and separately generate/prove the
 trace-specific margin bounds required to upgrade `GraphAcceptedTraceLabels` to
 `GraphAcceptedTraceMargin`.
+
+Terminal split bridge checkpoint:
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/
+  TerminalOk.lean
+```
+
+This small connector composes the terminal rejection root with the accepted
+trace classifier:
+
+```lean
+def TerminalTraceLabels (labels : List Face) : Prop :=
+  Terminal.TerminalRejectTraceLabels labels \/
+    Accepted.TerminalOkTraceLabels labels
+
+theorem terminalOk_of_terminalTrace_and_cancellation
+    {labels : List Face}
+    (hc :
+      triangularCancellationSummaryOfFaceLabels labels =
+        topPairingTargetSummary)
+    (hterm : TerminalTraceLabels labels) :
+    Accepted.TerminalOkTraceLabels labels
+```
+
+Interpretation:
+
+The future full-terminal enumerator should prove `TerminalTraceLabels`.  This
+bridge then uses the semantic cancellation equality to rule out the
+`TerminalRejectTraceLabels` branch via
+`Terminal.terminal_rejects_false`, leaving exactly the
+`Accepted.TerminalOkTraceLabels` surface required by the positive classifier.
+This keeps the full terminal enumeration separate from the graph-accepted and
+margin-bound layers.
+
+Validation commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_terminal_ok_bridge_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TerminalOk.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_terminal_ok_bridge_lake.json \
+  --verbose \
+  -- env LEAN_NUM_THREADS=1 lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+TopPairingTraceClassifier.TerminalOk
+```
+
+Results:
+
+```text
+TerminalOk direct Lean:
+  passed
+  elapsed = 4.00s
+  peak_tree_rss = 3683 MiB
+  hard_as = 8192 MiB
+  min_available = 46259 MiB
+
+TerminalOk lake target:
+  passed
+  elapsed = 4.02s
+  peak_tree_rss = 4047 MiB
+  min_available = 46076 MiB
+
+Forbidden-token scan:
+  passed, no matches
+
+Sampled-membership scan:
+  passed, no matches
+```
+
+Decision:
+
+Accept the terminal split bridge.  The classifier chain is now factored into
+small Lean-checked layers:
+
+```text
+full terminal trace predicate
+  -> TerminalTraceLabels
+  -> TerminalOkTraceLabels
+  -> GraphAcceptedTraceLabels
+  -> GraphAcceptedTraceMargin, once trace-specific margin bounds are generated
+  -> BellmanEvalAccepts
+  -> scaledMargin <= 0
+```
+
+The two remaining top-pairing classifier tasks are:
+
+1. generate the full terminal trace predicate/root that proves
+   `TerminalTraceLabels` from the depth/prefix semantic classifier; and
+2. generate the trace-specific margin-bound layer that upgrades
+   `GraphAcceptedTraceLabels` to `GraphAcceptedTraceMargin`.
