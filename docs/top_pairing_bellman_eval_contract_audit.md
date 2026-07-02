@@ -7,14 +7,15 @@ sampled-object-bound.
 
 ## Summary
 
-- decision: `continue-one-semantic-bellman-experiment-hard-eval-theorem-open`
+- decision: `continue-one-semantic-bellman-experiment-via-strengthened-predicate`
 - semantic-object mentions: `96`
-- closed-language field mentions: `68`
+- closed-language field mentions: `78`
 - sampled-eval mentions: `0`
-- semantic eval-language mentions: `35`
+- semantic eval-language mentions: `52`
 - closed-to-eval socket mentions: `7`
-- remaining-premise mentions: `20`
-- allowed-strengthening mentions: `22`
+- remaining-premise mentions: `31`
+- allowed-strengthening mentions: `33`
+- strengthened-slice field mentions: `52`
 
 ## Interpretation
 
@@ -63,6 +64,14 @@ That strengthening may carry `GraphAcceptedTraceMargin`,
 bad-face evidence.  It must still be semantic.  It must not be a
 `SampledRankIndex`, a sampled path list, an exact affine-RHS key, or
 one generated branch per rank/path.
+
+The selected-prefix Bellman route is already using this allowed
+strengthened shape.  Its shard predicates include closed-language
+membership, actual-face omnihedral evidence, accepted sequence/bad-face
+membership, terminal trace labels, prefix membership, and the scaled
+margin bound.  Therefore the next proof obligation is not another
+potential or sampled smoke; it is an upstream residual-classifier
+membership theorem into this strengthened semantic slice.
 
 ## Go/No-Go Rule
 
@@ -129,6 +138,7 @@ cancellation-tree summary automaton.
   - line `522`: `TopPairingStrengthenedClosedLanguageAtRank`
   - line `524`: `TopPairingBellmanEvalLanguageAtRank`
   - ... `1` more
+- `strengthened_slice_fields`: `0`
 
 ### `Cuboctahedron/Search/BellmanTopPairingLanguage.lean`
 
@@ -159,6 +169,10 @@ cancellation-tree summary automaton.
   - line `717`: `(h : TopPairingStrengthenedClosedLanguageAtRank`
   - line `728`: `TopPairingStrengthenedClosedLanguageAtRank`
   - line `734`: `end TopPairingStrengthenedClosedLanguageAtRank`
+- `strengthened_slice_fields`: `3`
+  - line `367`: `def TopPairingActualFaceOmniAtRank (rank : Fin numPairWords) : Prop :=`
+  - line `596`: `TopPairingActualFaceOmniAtRank rank`
+  - line `726`: `(actualFaceOmni : TopPairingActualFaceOmniAtRank rank)`
 
 ### `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean`
 
@@ -184,6 +198,7 @@ cancellation-tree summary automaton.
 - `semantic_eval_language`: `0`
 - `remaining_premises`: `0`
 - `allowed_strengthening`: `0`
+- `strengthened_slice_fields`: `0`
 
 ### `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean`
 
@@ -230,6 +245,9 @@ cancellation-tree summary automaton.
 - `allowed_strengthening`: `2`
   - line `66`: `TopPairingBellmanEvalLanguageAtRank`
   - line `130`: `TopPairingBellmanEvalLanguageAtRank`
+- `strengthened_slice_fields`: `2`
+  - line `119`: `scaledMargin rank <= 0 := by`
+  - line `135`: `scaledMargin rank <= 0 := by`
 
 ### `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalLanguage.lean`
 
@@ -267,4 +285,111 @@ cancellation-tree summary automaton.
   - line `46`: `TopPairingBellmanEvalLanguageAtRank`
   - line `62`: `TopPairingStrengthenedClosedLanguageAtRank`
   - line `68`: `TopPairingBellmanEvalLanguageAtRank`
+- `strengthened_slice_fields`: `3`
+  - line `20`: `def AcceptedSequenceBadFaceAtRank`
+  - line `29`: `AcceptedSequenceBadFaceAtRank rank Face.ym)`
+  - line `63`: `AcceptedSequenceBadFaceAtRank rank Face.ym)`
+
+### `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginSocket.lean`
+
+- exists: `True`
+- `semantic_object`: `0`
+- `closed_language_fields`: `0`
+- `sampled_eval`: `0`
+- `closed_to_eval_socket`: `0`
+- `eval_accepts`: `0`
+- `semantic_eval_language`: `1`
+  - line `38`: `TopPairingBellmanEvalLanguageAtRank`
+- `remaining_premises`: `0`
+- `allowed_strengthening`: `3`
+  - line `36`: `TopPairingStrengthenedClosedLanguageAtRank`
+  - line `38`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `48`: `TopPairingStrengthenedClosedLanguageAtRank`
+- `strengthened_slice_fields`: `7`
+  - line `18`: `def SelectedPrefixTraceMarginSequenceBadFace`
+  - line `22`: `SelectedPrefixTraceMarginFamily scaledMargin rank`
+  - line `28`: `SelectedPrefixTraceMarginSequenceBadFace scaledMargin rank Face.ym) :`
+  - line `29`: `SelectedPrefixTraceMarginFamily scaledMargin rank :=`
+  - line `37`: `(SelectedPrefixTraceMarginSequenceBadFace scaledMargin) rank Face.ym) :`
+  - line `49`: `(SelectedPrefixTraceMarginSequenceBadFace scaledMargin) rank Face.ym) :`
+  - line `50`: `scaledMargin rank <= 0 :=`
+
+### `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean`
+
+- exists: `True`
+- `semantic_object`: `0`
+- `closed_language_fields`: `0`
+- `sampled_eval`: `0`
+- `closed_to_eval_socket`: `0`
+- `eval_accepts`: `0`
+- `semantic_eval_language`: `10`
+  - line `91`: `TopPairingBellmanEvalObj`
+  - line `94`: `scaledMargin (TopPairingBellmanEvalObj.rankOf obj))`
+  - line `96`: `TopPairingBellmanEvalObj`
+  - line `100`: `(TopPairingBellmanEvalObj.forcedSeq obj))`
+  - line `101`: `(TopPairingBellmanEvalObj.Accepts`
+  - line `110`: `rcases TopPairingBellmanEvalObj.evalAccepts obj with`
+  - line `118`: `(TopPairingBellmanEvalObj`
+  - line `123`: `(TopPairingBellmanEvalObj.rankOf`
+  - ... `2` more
+- `remaining_premises`: `0`
+- `allowed_strengthening`: `2`
+  - line `139`: `(TopPairingStrengthenedClosedContainsRank`
+  - line `167`: `TopPairingStrengthenedClosedLanguageAtRank`
+- `strengthened_slice_fields`: `3`
+  - line `140`: `(SelectedPrefixTraceMarginSequenceBadFace scaledMargin) Face.ym)`
+  - line `168`: `(SelectedPrefixTraceMarginSequenceBadFace scaledMargin) rank Face.ym) :`
+  - line `169`: `scaledMargin rank <= 0 :=`
+
+### `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/Group000.lean`
+
+- exists: `True`
+- `semantic_object`: `0`
+- `closed_language_fields`: `10`
+  - line `151`: `(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)`
+  - line `177`: `TopPairingClosedLanguageAtRank rank Face.ym /\`
+  - line `363`: `(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)`
+  - line `384`: `TopPairingClosedLanguageAtRank rank Face.ym /\`
+  - line `570`: `(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)`
+  - line `591`: `TopPairingClosedLanguageAtRank rank Face.ym /\`
+  - line `777`: `(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)`
+  - line `799`: `TopPairingClosedLanguageAtRank rank Face.ym /\`
+  - ... `2` more
+- `sampled_eval`: `0`
+- `closed_to_eval_socket`: `0`
+- `eval_accepts`: `0`
+- `semantic_eval_language`: `6`
+  - line `205`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `412`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `619`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `827`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `1040`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `1079`: `TopPairingBellmanEvalLanguageAtRank`
+- `remaining_premises`: `11`
+  - line `17`: `open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedTraceMarginBridge`
+  - line `178`: `TopPairingActualFaceOmniAtRank rank /\`
+  - line `179`: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank`
+  - line `385`: `TopPairingActualFaceOmniAtRank rank /\`
+  - line `386`: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank`
+  - line `592`: `TopPairingActualFaceOmniAtRank rank /\`
+  - line `593`: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank`
+  - line `800`: `TopPairingActualFaceOmniAtRank rank /\`
+  - ... `3` more
+- `allowed_strengthening`: `6`
+  - line `205`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `412`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `619`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `827`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `1040`: `TopPairingBellmanEvalLanguageAtRank`
+  - line `1079`: `TopPairingBellmanEvalLanguageAtRank`
+- `strengthened_slice_fields`: `34`
+  - line `174`: `def Prefix000ShardFamily`
+  - line `178`: `TopPairingActualFaceOmniAtRank rank /\`
+  - line `179`: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank`
+  - line `181`: `TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels`
+  - line `185`: `scaledMargin rank <= (176 : Int) + (-376 : Int)`
+  - line `187`: `theorem stateDAGPrefixFamily_of_Prefix000ShardFamily`
+  - line `190`: `(hrank : Prefix000ShardFamily scaledMargin rank) :`
+  - line `204`: `(hrank : Prefix000ShardFamily scaledMargin rank) :`
+  - ... `26` more
 

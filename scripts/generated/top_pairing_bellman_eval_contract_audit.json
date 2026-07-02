@@ -1,7 +1,8 @@
 {
   "allowed_strengthened_form": "forall rank, TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym -> TopPairingBellmanEvalLanguageAtRank ... rank Face.ym",
-  "allowed_strengthening_mentions": 22,
-  "decision": "continue-one-semantic-bellman-experiment-hard-eval-theorem-open",
+  "allowed_strengthening_mentions": 33,
+  "current_slice_assessment": "The selected-prefix Bellman route already uses the allowed strengthened semantic-predicate shape. Closed language alone is still only the front door; the current semantic slice also carries actual-face omnihedral evidence, accepted sequence/bad-face membership, terminal trace labels, prefix membership, and a scaled-margin bound. The remaining production task is to prove that strengthened predicate from the upstream residual classifier without sampled rank/path objects.",
+  "decision": "continue-one-semantic-bellman-experiment-via-strengthened-predicate",
   "files": {
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean": {
       "allowed_strengthening": [
@@ -264,6 +265,18 @@
           "pattern": "TopPairingBellmanObj",
           "text": "let obj : TopPairingBellmanObj Face.ym := \u27e8rank, hclosed\u27e9"
         }
+      ],
+      "strengthened_slice_fields": [
+        {
+          "line": 119,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= 0 := by"
+        },
+        {
+          "line": 135,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= 0 := by"
+        }
       ]
     },
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean": {
@@ -367,7 +380,8 @@
           "pattern": "TopPairingBellmanObj",
           "text": "rw [TopPairingBellmanObj.labels_map"
         }
-      ]
+      ],
+      "strengthened_slice_fields": []
     },
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalLanguage.lean": {
       "allowed_strengthening": [
@@ -509,6 +523,535 @@
           "line": 67,
           "pattern": "TopPairingBellmanObj",
           "text": "TopPairingBellmanObj Face.ym)) :"
+        }
+      ],
+      "strengthened_slice_fields": [
+        {
+          "line": 20,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "def AcceptedSequenceBadFaceAtRank"
+        },
+        {
+          "line": 29,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "AcceptedSequenceBadFaceAtRank rank Face.ym)"
+        },
+        {
+          "line": 63,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "AcceptedSequenceBadFaceAtRank rank Face.ym)"
+        }
+      ]
+    },
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean": {
+      "allowed_strengthening": [
+        {
+          "line": 139,
+          "pattern": "TopPairingStrengthenedClosedContainsRank",
+          "text": "(TopPairingStrengthenedClosedContainsRank"
+        },
+        {
+          "line": 167,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "TopPairingStrengthenedClosedLanguageAtRank"
+        }
+      ],
+      "closed_language_fields": [],
+      "closed_to_eval_socket": [],
+      "eval_accepts": [],
+      "exists": true,
+      "remaining_premises": [],
+      "sampled_eval": [],
+      "semantic_eval_language": [
+        {
+          "line": 91,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 94,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "scaledMargin (TopPairingBellmanEvalObj.rankOf obj))"
+        },
+        {
+          "line": 96,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 100,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.forcedSeq obj))"
+        },
+        {
+          "line": 101,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.Accepts"
+        },
+        {
+          "line": 110,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "rcases TopPairingBellmanEvalObj.evalAccepts obj with"
+        },
+        {
+          "line": 118,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 123,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.rankOf"
+        },
+        {
+          "line": 131,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.Accepts"
+        },
+        {
+          "line": 143,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj.forcedSeq"
+        }
+      ],
+      "semantic_object": [],
+      "strengthened_slice_fields": [
+        {
+          "line": 140,
+          "pattern": "SelectedPrefixTraceMarginSequenceBadFace",
+          "text": "(SelectedPrefixTraceMarginSequenceBadFace scaledMargin) Face.ym)"
+        },
+        {
+          "line": 168,
+          "pattern": "SelectedPrefixTraceMarginSequenceBadFace",
+          "text": "(SelectedPrefixTraceMarginSequenceBadFace scaledMargin) rank Face.ym) :"
+        },
+        {
+          "line": 169,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= 0 :="
+        }
+      ]
+    },
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginSocket.lean": {
+      "allowed_strengthening": [
+        {
+          "line": 36,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "TopPairingStrengthenedClosedLanguageAtRank"
+        },
+        {
+          "line": 38,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 48,
+          "pattern": "TopPairingStrengthenedClosedLanguageAtRank",
+          "text": "TopPairingStrengthenedClosedLanguageAtRank"
+        }
+      ],
+      "closed_language_fields": [],
+      "closed_to_eval_socket": [],
+      "eval_accepts": [],
+      "exists": true,
+      "remaining_premises": [],
+      "sampled_eval": [],
+      "semantic_eval_language": [
+        {
+          "line": 38,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        }
+      ],
+      "semantic_object": [],
+      "strengthened_slice_fields": [
+        {
+          "line": 18,
+          "pattern": "SelectedPrefixTraceMarginSequenceBadFace",
+          "text": "def SelectedPrefixTraceMarginSequenceBadFace"
+        },
+        {
+          "line": 22,
+          "pattern": "SelectedPrefixTraceMarginFamily",
+          "text": "SelectedPrefixTraceMarginFamily scaledMargin rank"
+        },
+        {
+          "line": 28,
+          "pattern": "SelectedPrefixTraceMarginSequenceBadFace",
+          "text": "SelectedPrefixTraceMarginSequenceBadFace scaledMargin rank Face.ym) :"
+        },
+        {
+          "line": 29,
+          "pattern": "SelectedPrefixTraceMarginFamily",
+          "text": "SelectedPrefixTraceMarginFamily scaledMargin rank :="
+        },
+        {
+          "line": 37,
+          "pattern": "SelectedPrefixTraceMarginSequenceBadFace",
+          "text": "(SelectedPrefixTraceMarginSequenceBadFace scaledMargin) rank Face.ym) :"
+        },
+        {
+          "line": 49,
+          "pattern": "SelectedPrefixTraceMarginSequenceBadFace",
+          "text": "(SelectedPrefixTraceMarginSequenceBadFace scaledMargin) rank Face.ym) :"
+        },
+        {
+          "line": 50,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= 0 :="
+        }
+      ]
+    },
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/Group000.lean": {
+      "allowed_strengthening": [
+        {
+          "line": 205,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 412,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 619,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 827,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 1040,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 1079,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        }
+      ],
+      "closed_language_fields": [
+        {
+          "line": 151,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 177,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank Face.ym /\\"
+        },
+        {
+          "line": 363,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 384,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank Face.ym /\\"
+        },
+        {
+          "line": 570,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 591,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank Face.ym /\\"
+        },
+        {
+          "line": 777,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 799,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank Face.ym /\\"
+        },
+        {
+          "line": 985,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 1012,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank Face.ym /\\"
+        }
+      ],
+      "closed_to_eval_socket": [],
+      "eval_accepts": [],
+      "exists": true,
+      "remaining_premises": [
+        {
+          "line": 17,
+          "pattern": "GraphAcceptedTraceMargin",
+          "text": "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedTraceMarginBridge"
+        },
+        {
+          "line": 178,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank /\\"
+        },
+        {
+          "line": 179,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank"
+        },
+        {
+          "line": 385,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank /\\"
+        },
+        {
+          "line": 386,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank"
+        },
+        {
+          "line": 592,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank /\\"
+        },
+        {
+          "line": 593,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank"
+        },
+        {
+          "line": 800,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank /\\"
+        },
+        {
+          "line": 801,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank"
+        },
+        {
+          "line": 1013,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank /\\"
+        },
+        {
+          "line": 1014,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank"
+        }
+      ],
+      "sampled_eval": [],
+      "semantic_eval_language": [
+        {
+          "line": 205,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 412,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 619,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 827,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 1040,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 1079,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        }
+      ],
+      "semantic_object": [],
+      "strengthened_slice_fields": [
+        {
+          "line": 174,
+          "pattern": "Prefix000ShardFamily",
+          "text": "def Prefix000ShardFamily"
+        },
+        {
+          "line": 178,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank /\\"
+        },
+        {
+          "line": 179,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank"
+        },
+        {
+          "line": 181,
+          "pattern": "TerminalTraceLabels",
+          "text": "TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels"
+        },
+        {
+          "line": 185,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= (176 : Int) + (-376 : Int)"
+        },
+        {
+          "line": 187,
+          "pattern": "Prefix000ShardFamily",
+          "text": "theorem stateDAGPrefixFamily_of_Prefix000ShardFamily"
+        },
+        {
+          "line": 190,
+          "pattern": "Prefix000ShardFamily",
+          "text": "(hrank : Prefix000ShardFamily scaledMargin rank) :"
+        },
+        {
+          "line": 204,
+          "pattern": "Prefix000ShardFamily",
+          "text": "(hrank : Prefix000ShardFamily scaledMargin rank) :"
+        },
+        {
+          "line": 215,
+          "pattern": "Prefix000ShardFamily",
+          "text": "(stateDAGPrefixFamily_of_Prefix000ShardFamily hrank)"
+        },
+        {
+          "line": 220,
+          "pattern": "Prefix000ShardFamily",
+          "text": "(hrank : Prefix000ShardFamily scaledMargin rank) :"
+        },
+        {
+          "line": 221,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= 0 :="
+        },
+        {
+          "line": 229,
+          "pattern": "Prefix000ShardFamily",
+          "text": "(stateDAGPrefixFamily_of_Prefix000ShardFamily hrank)"
+        },
+        {
+          "line": 385,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank /\\"
+        },
+        {
+          "line": 386,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank"
+        },
+        {
+          "line": 388,
+          "pattern": "TerminalTraceLabels",
+          "text": "TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels"
+        },
+        {
+          "line": 392,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= (176 : Int) + (-552 : Int)"
+        },
+        {
+          "line": 428,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= 0 :="
+        },
+        {
+          "line": 592,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank /\\"
+        },
+        {
+          "line": 593,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank"
+        },
+        {
+          "line": 595,
+          "pattern": "TerminalTraceLabels",
+          "text": "TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels"
+        },
+        {
+          "line": 599,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= (176 : Int) + (-552 : Int)"
+        },
+        {
+          "line": 635,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= 0 :="
+        },
+        {
+          "line": 800,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank /\\"
+        },
+        {
+          "line": 801,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank"
+        },
+        {
+          "line": 803,
+          "pattern": "TerminalTraceLabels",
+          "text": "TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels"
+        },
+        {
+          "line": 807,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= (176 : Int) + (-304 : Int)"
+        },
+        {
+          "line": 843,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= 0 :="
+        },
+        {
+          "line": 1013,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank /\\"
+        },
+        {
+          "line": 1014,
+          "pattern": "AcceptedSequenceBadFaceAtRank",
+          "text": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank"
+        },
+        {
+          "line": 1016,
+          "pattern": "TerminalTraceLabels",
+          "text": "TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels"
+        },
+        {
+          "line": 1020,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= (176 : Int) + (-376 : Int)"
+        },
+        {
+          "line": 1056,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= 0 :="
+        },
+        {
+          "line": 1069,
+          "pattern": "Prefix000ShardFamily",
+          "text": "Prefix000ShardFamily scaledMargin rank \\/"
+        },
+        {
+          "line": 1093,
+          "pattern": "scaledMargin rank <=",
+          "text": "scaledMargin rank <= 0 := by"
         }
       ]
     },
@@ -839,7 +1382,24 @@
       ],
       "sampled_eval": [],
       "semantic_eval_language": [],
-      "semantic_object": []
+      "semantic_object": [],
+      "strengthened_slice_fields": [
+        {
+          "line": 367,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "def TopPairingActualFaceOmniAtRank (rank : Fin numPairWords) : Prop :="
+        },
+        {
+          "line": 596,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "TopPairingActualFaceOmniAtRank rank"
+        },
+        {
+          "line": 726,
+          "pattern": "TopPairingActualFaceOmniAtRank",
+          "text": "(actualFaceOmni : TopPairingActualFaceOmniAtRank rank)"
+        }
+      ]
     },
     "Cuboctahedron/Search/TopPairingBellmanObject.lean": {
       "allowed_strengthening": [
@@ -1401,20 +1961,23 @@
           "pattern": "TopPairingClosedContainsRank",
           "text": "(TopPairingClosedContainsRank badFace)"
         }
-      ]
+      ],
+      "strengthened_slice_fields": []
     }
   },
   "next_required_theorem": "forall obj : TopPairingBellmanObj Face.ym, BellmanEvalAccepts ... (fun obj => topPairingScaledMargin obj.rank) (fun obj => TopPairingBellmanObj.labels ... obj) obj",
   "rank_form": "forall rank, TopPairingClosedLanguageAtRank rank Face.ym -> TopPairingBellmanEvalLanguageAtRank ... rank Face.ym",
   "required_emitter_change": "Prove deterministic evaluator acceptance from rank plus a closed-language proof, or from one stronger semantic predicate that carries exactly the missing evaluator/margin facts. Do not reintroduce sampled rank/path objects.",
+  "strengthened_slice_field_mentions": 52,
   "totals": {
-    "allowed_strengthening": 22,
-    "closed_language_fields": 68,
+    "allowed_strengthening": 33,
+    "closed_language_fields": 78,
     "closed_to_eval_socket": 7,
     "eval_accepts": 16,
-    "remaining_premises": 20,
+    "remaining_premises": 31,
     "sampled_eval": 0,
-    "semantic_eval_language": 35,
-    "semantic_object": 96
+    "semantic_eval_language": 52,
+    "semantic_object": 96,
+    "strengthened_slice_fields": 52
   }
 }

@@ -76830,12 +76830,46 @@ python3 scripts/audit_top_pairing_bellman_eval_contract.py
 recorded:
 
 ```text
-decision=continue-one-semantic-bellman-experiment-hard-eval-theorem-open
+decision=continue-one-semantic-bellman-experiment-via-strengthened-predicate
 sampled-eval mentions=0
-semantic eval-language mentions=35
+semantic eval-language mentions=52
 closed-to-eval socket mentions=7
-remaining-premise mentions=20
+remaining-premise mentions=31
+allowed-strengthening mentions=33
+strengthened-slice field mentions=52
 ```
+
+Interpretation: the selected-prefix Bellman route already uses the permitted
+strengthened semantic shape.  Closed-language membership is still the front
+door, but the accepted evaluator slice additionally carries:
+
+- `TopPairingActualFaceOmniAtRank rank`;
+- accepted sequence/bad-face membership;
+- terminal trace labels;
+- prefix membership;
+- the scaled-margin bound.
+
+So the next implementation target is now precise:
+
+```lean
+forall rank,
+  UpstreamResidualClassifierAtRank rank ->
+    TopPairingStrengthenedClosedLanguageAtRank
+      (SelectedPrefixTraceMarginSequenceBadFace scaledMargin)
+      rank Face.ym
+```
+
+where `UpstreamResidualClassifierAtRank` must be replaced by the existing
+residual classifier predicate selected for this top-pairing slice.  This theorem
+is the semantic object-cover experiment.  It must be proved by semantic
+classifier/state facts; it must not be supplied by sampled path membership,
+exact affine-RHS lookup, or one generated branch per rank.
+
+Compatibility note: the upstream predicate selector still reports
+`target-terminal-direct-selected-prefix-cover`.  That is the preferred killed
+consumer once selected-prefix membership is established.  It does not replace
+the Bellman evaluator gate above; it sits downstream of the same
+`SelectedPrefixCoverFamily`/strengthened selected-prefix semantic producer.
 
 Fresh guarded object-layer check:
 

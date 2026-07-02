@@ -30,6 +30,9 @@ FILES = [
     ROOT / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalTraceSmoke.lean",
     ROOT / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean",
     ROOT / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalLanguage.lean",
+    ROOT / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginSocket.lean",
+    ROOT / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean",
+    ROOT / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/Group000.lean",
 ]
 
 PATTERNS = {
@@ -88,6 +91,15 @@ PATTERNS = {
         "TopPairingStrengthenedClosedContainsRank",
         "TopPairingBellmanEvalLanguageAtRank",
     ],
+    "strengthened_slice_fields": [
+        "SelectedPrefixTraceMarginSequenceBadFace",
+        "SelectedPrefixTraceMarginFamily",
+        "Prefix000ShardFamily",
+        "TopPairingActualFaceOmniAtRank",
+        "AcceptedSequenceBadFaceAtRank",
+        "TerminalTraceLabels",
+        "scaledMargin rank <=",
+    ],
 }
 
 
@@ -126,12 +138,16 @@ def main() -> None:
     closed_to_eval_socket = totals["closed_to_eval_socket"]
     remaining_premises = totals["remaining_premises"]
     allowed_strengthening = totals["allowed_strengthening"]
+    strengthened_slice_fields = totals["strengthened_slice_fields"]
     decision = (
-        "continue-one-semantic-bellman-experiment-hard-eval-theorem-open"
+        "continue-one-semantic-bellman-experiment-via-strengthened-predicate"
         if semantic_eval_language and closed_to_eval_socket and remaining_premises
-        and not sampled_eval
+        and strengthened_slice_fields and not sampled_eval
         else "semantic-bellman-socket-built-but-sampled-risk-present"
         if semantic_eval_language and closed_to_eval_socket and sampled_eval
+        else "continue-one-semantic-bellman-experiment-hard-eval-theorem-open"
+        if semantic_eval_language and closed_to_eval_socket and remaining_premises
+        and not sampled_eval
         else "eval-predicate-built-object-cover-socket-missing"
         if semantic_eval_language and not closed_to_eval_socket
         else
@@ -166,6 +182,17 @@ def main() -> None:
             "reintroduce sampled rank/path objects."
         ),
         "allowed_strengthening_mentions": allowed_strengthening,
+        "strengthened_slice_field_mentions": strengthened_slice_fields,
+        "current_slice_assessment": (
+            "The selected-prefix Bellman route already uses the allowed "
+            "strengthened semantic-predicate shape. Closed language alone "
+            "is still only the front door; the current semantic slice also "
+            "carries actual-face omnihedral evidence, accepted sequence/bad-face "
+            "membership, terminal trace labels, prefix membership, and a "
+            "scaled-margin bound. The remaining production task is to prove "
+            "that strengthened predicate from the upstream residual classifier "
+            "without sampled rank/path objects."
+        ),
     }
 
     out_json = ROOT / "scripts/generated/top_pairing_bellman_eval_contract_audit.json"
@@ -192,6 +219,7 @@ def main() -> None:
         f"- closed-to-eval socket mentions: `{totals['closed_to_eval_socket']}`",
         f"- remaining-premise mentions: `{totals['remaining_premises']}`",
         f"- allowed-strengthening mentions: `{totals['allowed_strengthening']}`",
+        f"- strengthened-slice field mentions: `{totals['strengthened_slice_fields']}`",
         "",
         "## Interpretation",
         "",
@@ -240,6 +268,14 @@ def main() -> None:
         "bad-face evidence.  It must still be semantic.  It must not be a",
         "`SampledRankIndex`, a sampled path list, an exact affine-RHS key, or",
         "one generated branch per rank/path.",
+        "",
+        "The selected-prefix Bellman route is already using this allowed",
+        "strengthened shape.  Its shard predicates include closed-language",
+        "membership, actual-face omnihedral evidence, accepted sequence/bad-face",
+        "membership, terminal trace labels, prefix membership, and the scaled",
+        "margin bound.  Therefore the next proof obligation is not another",
+        "potential or sampled smoke; it is an upstream residual-classifier",
+        "membership theorem into this strengthened semantic slice.",
         "",
         "## Go/No-Go Rule",
         "",
