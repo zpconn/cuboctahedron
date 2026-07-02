@@ -86440,3 +86440,77 @@ semantic terminal state graph:
   edge = local face transition checked by contains_squareStep/contains_triStep
   terminal = small class proving TerminalTraceLabels
 ```
+
+#### Semantic State-DAG Candidate Reproduced
+
+Re-ran the exact top-pairing trace state-DAG profiler as a checkpoint for the
+new GPT pivot: keep Bellman, but replace selected-prefix membership with a
+deterministic semantic state machine from the closed language to
+`evalLabelStepFn`.
+
+Command:
+
+```bash
+/usr/bin/time -v python3 scripts/profile_top_pairing_trace_state_dag.py \
+  --json scripts/generated/top_pairing_trace_state_dag_profile_current.json \
+  --markdown docs/top_pairing_trace_state_dag_profile_current.md \
+  --graph-json scripts/generated/top_pairing_trace_state_dag_graph_current.json \
+  --max-states 10000 \
+  --max-edges 100000
+```
+
+Result: passed in `0.67s`, peak RSS `90816 kB`, with decision
+`semantic-state-dag-candidate`.
+
+The current profile was byte-for-byte identical to the already tracked
+`scripts/generated/top_pairing_trace_state_dag_profile.json`, and the current
+graph was byte-for-byte identical to the already tracked
+`scripts/generated/top_pairing_trace_state_dag_lean_aligned_graph.json`; the
+duplicate `*_current` artifacts are not part of the proof path.
+
+Reproduced counts:
+
+| Metric | Count |
+|---|---:|
+| semantic states | `5347` |
+| semantic edges | `6089` |
+| terminal states | `98` |
+| terminal `closed` states | `1` |
+| terminal `cancellation_reject` states | `97` |
+| terminal closed paths | `47` |
+| terminal cancellation-reject paths | `395` |
+
+State key:
+
+```text
+step,
+remaining_pair_counts,
+square_gap,
+local_axis_linear_matrix,
+square_parity,
+triangular_cancellation_stack
+```
+
+Depth histogram:
+
+```text
+0:1, 1:1, 2:1, 3:3, 4:7, 5:19, 6:50, 7:139,
+8:367, 9:877, 10:1613, 11:1426, 12:630, 13:115, 14:98
+```
+
+Decision: keep the Bellman route, but do not scale any selected-prefix
+producer.  The next implementation target is a deterministic closed-language
+evaluator over this semantic state shape:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  exists result,
+    evalLabelStepFn graphNext rootState (labelsOfRank rank) = some result /\
+    0 <= graphPotential result.1 /\
+    scaledMargin rank <= const + result.2
+```
+
+The proof should proceed through a target-shadow / cancellation cursor and
+local state transitions.  A generated module may expose finite state IDs and
+local edge facts, but it must not expose selected trace IDs, sampled ranks, or
+a rank/path disjunction.
