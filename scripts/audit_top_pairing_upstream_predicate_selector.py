@@ -41,6 +41,9 @@ FILES = {
     "selected_prefix_trace_margin_root_producer_bridge": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean",
+    "selected_prefix_cover_root_producer_bridge": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSelectedPrefixCoverRootProducerBridge.lean",
     "selected_prefix_trace_margin_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSelectedPrefixTraceMarginSocket.lean",
@@ -76,6 +79,7 @@ SYMBOLS = {
     "rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily": "prefix shared-gain family -> root trace-margin producer",
     "SelectedPrefixTraceMarginFamily": "selected prefix trace-margin OR-family",
     "rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily": "selected prefix trace-margin family -> root trace-margin producer",
+    "rootTraceMarginProducer_of_selectedPrefixCoverFamily": "selected-prefix cover -> root trace-margin producer",
     "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": "trace-margin object cover + certs -> killed predicate",
     "TerminalDirectClosedFamily": "terminal direct semantic alternative",
 }
@@ -159,6 +163,8 @@ def render(report: dict[str, Any]) -> str:
         "",
         "```lean",
         "SelectedPrefixTraceMarginFamily scaledMargin rank",
+        "  -> RootTraceMarginProducer scaledMargin rank",
+        "SelectedPrefixCoverFamily scaledMargin rank",
         "  -> RootTraceMarginProducer scaledMargin rank",
         "```",
         "",
@@ -259,6 +265,7 @@ def main() -> None:
         "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer",
         "rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily",
         "rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily",
+        "rootTraceMarginProducer_of_selectedPrefixCoverFamily",
         "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation",
     ]
     missing = [symbol for symbol in required if symbol not in symbol_locations]

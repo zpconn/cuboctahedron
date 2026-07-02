@@ -75118,3 +75118,85 @@ SelectedPrefixTraceMarginFamily
 - If that coverage profiler/theorem explodes in family count or requires exact
   affine-RHS/rank objects, reject this Bellman surface for final coverage and
   switch to the cancellation-tree summary automaton fallback.
+
+## 2026-07-02 Checkpoint: Selected-Prefix Cover Also Produces Root Producer
+
+Added a small composition adapter:
+
+```lean
+theorem rootTraceMarginProducer_of_selectedPrefixCoverFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :
+    RootTraceMarginProducer scaledMargin rank
+```
+
+File:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverRootProducerBridge.lean
+```
+
+It composes the already checked path:
+
+```lean
+SelectedPrefixCoverFamily
+  -> SelectedPrefixTraceMarginFamily
+  -> RootTraceMarginProducer
+```
+
+This is useful because the next production classifier may naturally prove
+either `SelectedPrefixTraceMarginFamily` or `SelectedPrefixCoverFamily`.  Both
+now feed the same preferred root trace-margin producer socket.
+
+Memory-safe Lean checks:
+
+```bash
+lake env lean -j1 -M8192 -o \
+  .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.olean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean
+
+lake env lean -j1 -M8192 \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverRootProducerBridge.lean
+```
+
+Results:
+
+```text
+selected-prefix trace-margin root-producer olean refresh:
+  exit=0, elapsed=5.75s, peak RSS=3450172 KiB
+selected-prefix cover root-producer bridge:
+  exit=0, elapsed=1.59s, peak RSS=3363056 KiB
+```
+
+Updated the predicate selector audit:
+
+```bash
+python3 scripts/audit_top_pairing_upstream_predicate_selector.py
+python3 -m py_compile scripts/audit_top_pairing_upstream_predicate_selector.py
+```
+
+Result:
+
+```text
+decision=target-selected-prefix-cover-family
+```
+
+Current interpretation:
+
+- The socket layer for the current bounded selected-prefix route is now
+  complete enough for the next meaningful experiment.
+- The next work should be a coverage/profile gate for the actual production
+  top-pairing residual language into either:
+
+```lean
+SelectedPrefixTraceMarginFamily scaledMargin rank
+```
+
+or:
+
+```lean
+SelectedPrefixCoverFamily scaledMargin rank
+```
+
+- Do not add more wrapper bridges until that coverage question is answered.

@@ -44,6 +44,19 @@
         "selectedPrefixCover_scaledMargin_nonpos": 1
       }
     },
+    "selected_prefix_cover_root_producer_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 31,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverRootProducerBridge.lean",
+      "symbols": {
+        "RootTraceMarginProducer": 2,
+        "SelectedPrefixCoverFamily": 1,
+        "rootTraceMarginProducer_of_selectedPrefixCoverFamily": 1,
+        "rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily": 1,
+        "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": 1
+      }
+    },
     "selected_prefix_cover_socket": {
       "exists": true,
       "forbidden_hits": {},
@@ -139,13 +152,15 @@
     "RootTraceMarginProducer": [
       "root_trace_margin_selected_prefix_bridge",
       "trace_margin_root_producer_bridge",
-      "selected_prefix_trace_margin_root_producer_bridge"
+      "selected_prefix_trace_margin_root_producer_bridge",
+      "selected_prefix_cover_root_producer_bridge"
     ],
     "SelectedPrefixCoverFamily": [
       "selected_prefix_cover_root",
       "selected_prefix_cover_socket",
       "selected_prefix_trace_margin_cover_bridge",
       "selected_prefix_cover_membership_bridge",
+      "selected_prefix_cover_root_producer_bridge",
       "terminal_direct_bridge"
     ],
     "SelectedPrefixCoverSequenceBadFace": [
@@ -171,8 +186,12 @@
     "graphAcceptedTraceMargin_exists_of_rootTraceMarginProducer": [
       "root_trace_margin_selected_prefix_bridge"
     ],
+    "rootTraceMarginProducer_of_selectedPrefixCoverFamily": [
+      "selected_prefix_cover_root_producer_bridge"
+    ],
     "rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily": [
-      "selected_prefix_trace_margin_root_producer_bridge"
+      "selected_prefix_trace_margin_root_producer_bridge",
+      "selected_prefix_cover_root_producer_bridge"
     ],
     "rootTraceMarginProducer_of_terminalTraceIdBucketClosedMarginFamily": [
       "trace_margin_root_producer_bridge"
@@ -200,6 +219,7 @@
     ],
     "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": [
       "selected_prefix_trace_margin_cover_bridge",
+      "selected_prefix_cover_root_producer_bridge",
       "terminal_direct_bridge"
     ],
     "selectedPrefixTraceMarginSequenceBadFace_of_selectedPrefixCoverFamily": [
