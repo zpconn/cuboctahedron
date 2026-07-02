@@ -65657,3 +65657,179 @@ theorem topPairingClosed_to_evalLanguage
 For a first nontrivial slice, the theorem may include one documented semantic
 strengthening premise, but it must not mention sampled indexes or generated
 rank/path objects.
+
+### 2026-07-02 Closed-eval rank nonpositivity gate
+
+Added the next small theorem-facing layer to:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedEvalGate.lean
+```
+
+New theorem names:
+
+```lean
+theorem closedRank_scaledMargin_nonpos_of_traceAndMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (htrace :
+      forall obj : TopPairingBellmanObj Face.ym,
+        ClosedTraceOr obj)
+    (hmargin :
+      forall obj : TopPairingBellmanObj Face.ym,
+        ClosedMarginBound scaledMargin obj)
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0
+
+theorem scaledMargin_nonpos_of_closedToEvalLanguage
+    {scaledMargin : Fin numPairWords -> Int}
+    (closed_to_eval :
+      forall rank,
+        TopPairingClosedLanguageAtRank rank Face.ym ->
+          TopPairingBellmanEvalLanguageAtRank
+            graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+            scaledMargin rank Face.ym)
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0
+```
+
+This checkpoint deliberately uses the invariant Bellman theorem:
+
+```lean
+scaledMargin_nonpos_of_bellmanEvalAccepts_invariant
+```
+
+rather than trying to assemble a full `BellmanAxisRankObjectCover` for the
+current generated evaluator.  The reason is engineering, not mathematical:
+`BellmanAxisRankObjectCover` requires a global `next_sound` proof from
+`graphSmokeNext s label = some (t, gain)` to the step relation.  For the current
+generated graph, that means proving the source state is inside `stateCount`.
+A temporary guarded test of the obvious proof shape,
+
+```lean
+by_cases hs : s < stateCount
+· exact hs
+· exfalso
+  unfold graphSmokeNext at h
+  split at h <;> try contradiction
+  all_goals omega
+```
+
+failed before acceptance:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/test_next_sound.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 /tmp/test_next_sound.lean
+```
+
+result:
+
+```text
+failed
+elapsed = 25.01s
+peak_tree_rss = 5061 MiB
+error = maximum recursion depth reached
+```
+
+This is another warning against proving global facts by unfolding the full
+generated evaluator.  The accepted theorem above avoids that by carrying the
+range invariant through `scaledMargin_nonpos_of_bellmanEvalAccepts_invariant`
+and using the existing generated root theorem:
+
+```lean
+transition_ok_of_lt :
+  s < stateCount ->
+    graphSmokeNext s label = some (t, gain) ->
+      t < stateCount /\ gain + graphPotential t <= graphPotential s
+```
+
+Focused direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_closed_eval_gate_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedEvalGate.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.01s
+peak_tree_rss = 3594 MiB
+hard_as = 8192 MiB
+min_available = 46282 MiB
+```
+
+Focused Lake build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_closed_eval_gate_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedEvalGate
+```
+
+result:
+
+```text
+passed
+elapsed = 5.00s
+peak_tree_rss = 3956 MiB
+hard_as = 32768 MiB
+min_available = 46094 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedEvalGate.lean
+```
+
+Both checks passed; the forbidden-term scan found no matches.
+
+Decision:
+
+Accept this as the current safe Bellman gate.  The remaining production premise
+is now sharply isolated:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+or, if the current closed predicate is too weak, the same theorem from a single
+compact semantic strengthening.  Do not attempt a global evaluator-range proof
+by unfolding `graphSmokeNext`; use state-range invariants or generated local
+transition lemmas instead.

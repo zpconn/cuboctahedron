@@ -106,6 +106,51 @@ theorem scaledMargin_nonpos_of_closedTraceAndMargin
       evalAccepts_of_closedTraceAndMargin
         (scaledMargin := scaledMargin) htrace hmargin obj)
 
+theorem closedRank_scaledMargin_nonpos_of_traceAndMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (htrace :
+      forall obj : TopPairingBellmanObj Face.ym,
+        ClosedTraceOr obj)
+    (hmargin :
+      forall obj : TopPairingBellmanObj Face.ym,
+        ClosedMarginBound scaledMargin obj)
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0 := by
+  let obj : TopPairingBellmanObj Face.ym := ⟨rank, hclosed⟩
+  simpa [obj] using
+    scaledMargin_nonpos_of_closedTraceAndMargin
+      (scaledMargin := scaledMargin) htrace hmargin obj
+
+theorem scaledMargin_nonpos_of_closedToEvalLanguage
+    {scaledMargin : Fin numPairWords -> Int}
+    (closed_to_eval :
+      forall rank,
+        TopPairingClosedLanguageAtRank rank Face.ym ->
+          TopPairingBellmanEvalLanguageAtRank
+            graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+            scaledMargin rank Face.ym)
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0 := by
+  have hevalLanguage := closed_to_eval rank hclosed
+  exact scaledMargin_nonpos_of_bellmanEvalAccepts_invariant
+    (V := graphPotential)
+    (next := graphSmokeNext)
+    (InRange := fun s : State => s < stateCount)
+    (start := rootState)
+    (const := (176 : Int))
+    (scaledMargin := scaledMargin)
+    (wordOf := fun rank : Fin numPairWords =>
+      faceLabelsInContributionOrder smokeLabelOfFace
+        (canonicalSeqOfPairWord (unrankPairWord rank)))
+    (hnext := by
+      intro s label t gain hs hnext
+      exact _root_.Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Root.transition_ok_of_lt hs hnext)
+    (hstart := graphStartInRange)
+    (hroot := graphRootBound)
+    (heval := hevalLanguage.eval_accepts)
+
 theorem gate_builds : True := by
   exact True.intro
 
