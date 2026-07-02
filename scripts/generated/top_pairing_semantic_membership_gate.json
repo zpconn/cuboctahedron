@@ -1,0 +1,150 @@
+{
+  "decision": "continue-bellman-for-one-semantic-membership-slice",
+  "files": {
+    "language": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 818,
+      "path": "Cuboctahedron/Search/BellmanTopPairingLanguage.lean",
+      "symbols": {
+        "TopPairingClosedLanguageAtRank": 10,
+        "TopPairingStrengthenedClosedLanguageAtRank": 6
+      }
+    },
+    "selected_prefix_killed_socket": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 65,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginKilledSocket.lean",
+      "symbols": {
+        "SelectedPrefixTraceMarginSequenceBadFace": 1,
+        "selectedPrefixTraceMarginObjectCover": 1,
+        "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": 1
+      }
+    },
+    "selected_prefix_object_cover": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 176,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean",
+      "symbols": {
+        "SelectedPrefixTraceMarginSequenceBadFace": 2,
+        "TopPairingStrengthenedClosedLanguageAtRank": 1,
+        "evalLanguage_of_strengthenedSelectedPrefixTraceMargin": 1,
+        "selectedPrefixTraceMarginObjectCover": 2
+      }
+    },
+    "selected_prefix_socket": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 57,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginSocket.lean",
+      "symbols": {
+        "SelectedPrefixTraceMarginFamily": 2,
+        "SelectedPrefixTraceMarginSequenceBadFace": 4,
+        "TopPairingStrengthenedClosedLanguageAtRank": 2,
+        "evalLanguage_of_strengthenedSelectedPrefixTraceMargin": 1,
+        "strengthenedSelectedPrefixTraceMargin_scaledMargin_nonpos": 1
+      }
+    },
+    "semantic_eval_socket": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 96,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticEvalSocket.lean",
+      "symbols": {
+        "GraphAcceptedEvalSequenceBadFace": 3,
+        "TopPairingClosedLanguageAtRank": 1,
+        "TopPairingStrengthenedClosedLanguageAtRank": 2
+      }
+    },
+    "terminal_direct_socket": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 46,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.lean",
+      "symbols": {
+        "TerminalDirectClosedFamily": 3,
+        "TopPairingClosedLanguageAtRank": 1,
+        "TopPairingStrengthenedClosedLanguageAtRank": 2
+      }
+    },
+    "top_pairing_object": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 564,
+      "path": "Cuboctahedron/Search/TopPairingBellmanObject.lean",
+      "symbols": {
+        "TopPairingClosedLanguageAtRank": 6,
+        "TopPairingStrengthenedClosedLanguageAtRank": 2
+      }
+    },
+    "trace_margin_bounds_socket": {
+      "exists": true,
+      "forbidden_membership_hits": {},
+      "lines": 936,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceMarginBoundsSocket.lean",
+      "symbols": {
+        "TerminalTracePrefixSharedGainClosedMarginFamily": 4,
+        "TopPairingClosedLanguageAtRank": 17,
+        "TopPairingStrengthenedClosedLanguageAtRank": 21
+      }
+    }
+  },
+  "mode": "top-pairing-semantic-membership-gate-audit",
+  "next_theorem": {
+    "fallback": "forall rank, FullTopPairingResidualLanguageAtRank rank -> exists pfx gain, TerminalTracePrefixSharedGainClosedMarginFamily pfx gain scaledMargin rank",
+    "preferred": "forall rank, FullTopPairingResidualLanguageAtRank rank -> TopPairingStrengthenedClosedLanguageAtRank (SelectedPrefixTraceMarginSequenceBadFace scaledMargin) rank Face.ym",
+    "status": "upstream residual classifier predicate still must be selected"
+  },
+  "sampled_hit_count": 0,
+  "symbol_locations": {
+    "GraphAcceptedEvalSequenceBadFace": [
+      "semantic_eval_socket"
+    ],
+    "SelectedPrefixTraceMarginFamily": [
+      "selected_prefix_socket"
+    ],
+    "SelectedPrefixTraceMarginSequenceBadFace": [
+      "selected_prefix_socket",
+      "selected_prefix_object_cover",
+      "selected_prefix_killed_socket"
+    ],
+    "TerminalDirectClosedFamily": [
+      "terminal_direct_socket"
+    ],
+    "TerminalTracePrefixSharedGainClosedMarginFamily": [
+      "trace_margin_bounds_socket"
+    ],
+    "TopPairingClosedLanguageAtRank": [
+      "language",
+      "top_pairing_object",
+      "semantic_eval_socket",
+      "terminal_direct_socket",
+      "trace_margin_bounds_socket"
+    ],
+    "TopPairingStrengthenedClosedLanguageAtRank": [
+      "language",
+      "top_pairing_object",
+      "semantic_eval_socket",
+      "selected_prefix_socket",
+      "selected_prefix_object_cover",
+      "terminal_direct_socket",
+      "trace_margin_bounds_socket"
+    ],
+    "evalLanguage_of_strengthenedSelectedPrefixTraceMargin": [
+      "selected_prefix_socket",
+      "selected_prefix_object_cover"
+    ],
+    "selectedPrefixTraceMarginObjectCover": [
+      "selected_prefix_object_cover",
+      "selected_prefix_killed_socket"
+    ],
+    "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": [
+      "selected_prefix_killed_socket"
+    ],
+    "strengthenedSelectedPrefixTraceMargin_scaledMargin_nonpos": [
+      "selected_prefix_socket"
+    ]
+  }
+}

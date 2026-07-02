@@ -74579,3 +74579,96 @@ residual classifier.  The proof must stay semantic; if it needs sampled ranks,
 sampled paths, exact affine-RHS keys, or one branch per concrete rank, this
 Bellman route should be rejected for final generated coverage and the
 cancellation-tree summary automaton should become primary.
+
+## 2026-07-02 Checkpoint: Bellman Semantic-Membership Gate
+
+Incorporated the GPT5.5 Pro review recommendation:
+
+```text
+continue Bellman for exactly one more semantic-membership experiment;
+do not pivot yet, but reject Bellman if the next theorem collapses back
+to sampled rank/path membership
+```
+
+Added a lightweight selector audit:
+
+```text
+scripts/audit_top_pairing_semantic_membership_gate.py
+scripts/generated/top_pairing_semantic_membership_gate.json
+scripts/generated/top_pairing_semantic_membership_gate.md
+```
+
+Commands:
+
+```bash
+python3 scripts/audit_top_pairing_semantic_membership_gate.py
+python3 -m py_compile scripts/audit_top_pairing_semantic_membership_gate.py
+```
+
+Result:
+
+```text
+decision=continue-bellman-for-one-semantic-membership-slice
+sampled membership hits in selected surfaces: 0
+```
+
+The audit confirms that the Lean-side sockets needed for the semantic route are
+already present:
+
+- `TopPairingClosedLanguageAtRank`
+- `TopPairingStrengthenedClosedLanguageAtRank`
+- `SelectedPrefixTraceMarginSequenceBadFace`
+- `SelectedPrefixTraceMarginFamily`
+- `evalLanguage_of_strengthenedSelectedPrefixTraceMargin`
+- `strengthenedSelectedPrefixTraceMargin_scaledMargin_nonpos`
+- `selectedPrefixTraceMarginObjectCover`
+- `selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation`
+- `TerminalTracePrefixSharedGainClosedMarginFamily`
+
+The next production theorem should target the selected-prefix strengthened
+language socket directly:
+
+```lean
+forall rank,
+  FullTopPairingResidualLanguageAtRank rank ->
+    TopPairingStrengthenedClosedLanguageAtRank
+      (SelectedPrefixTraceMarginSequenceBadFace scaledMargin)
+      rank Face.ym
+```
+
+Here `FullTopPairingResidualLanguageAtRank` is still schematic; the next
+implementation step is to choose the existing upstream residual classifier
+predicate and prove membership into this strengthened selected-prefix socket.
+
+Why this is stronger than the closed-language front door:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+```
+
+is not enough by itself.  The selected-prefix killed path also needs:
+
+```lean
+TopPairingActualFaceOmniAtRank rank
+SelectedPrefixTraceMarginSequenceBadFace scaledMargin rank Face.ym
+```
+
+Those fields are exactly what
+`TopPairingStrengthenedClosedLanguageAtRank` carries.
+
+Fallback theorem if the selected-prefix family is too narrow:
+
+```lean
+forall rank,
+  FullTopPairingResidualLanguageAtRank rank ->
+    exists pfx gain,
+      TerminalTracePrefixSharedGainClosedMarginFamily
+        pfx gain scaledMargin rank
+```
+
+Go/no-go rule:
+
+- continue Bellman if the next theorem is semantic and family-level;
+- stop and pivot to a cancellation-tree summary automaton if the proof needs
+  sampled ranks, sampled paths, exact affine-RHS keys, one generated branch per
+  rank, or a giant Boolean checker over accepted paths.
