@@ -38,6 +38,9 @@ FILES = {
     "trace_margin_root_producer_bridge": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingTraceMarginRootProducerBridge.lean",
+    "selected_prefix_trace_margin_root_producer_bridge": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean",
     "selected_prefix_trace_margin_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSelectedPrefixTraceMarginSocket.lean",
@@ -71,6 +74,8 @@ SYMBOLS = {
     "rootTraceMarginProducer_of_terminalTraceIdBucketClosedMarginFamily": "trace-id bucket -> root trace-margin producer",
     "rootTraceMarginProducer_of_terminalTraceIdSharedGainBucketClosedMarginFamily": "shared-gain bucket -> root trace-margin producer",
     "rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily": "prefix shared-gain family -> root trace-margin producer",
+    "SelectedPrefixTraceMarginFamily": "selected prefix trace-margin OR-family",
+    "rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily": "selected prefix trace-margin family -> root trace-margin producer",
     "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": "trace-margin object cover + certs -> killed predicate",
     "TerminalDirectClosedFamily": "terminal direct semantic alternative",
 }
@@ -148,6 +153,13 @@ def render(report: dict[str, Any]) -> str:
         "TerminalTraceIdBucketClosedMarginFamily allowedTraceId scaledMargin rank",
         "TerminalTraceIdSharedGainBucketClosedMarginFamily allowedTraceId gain scaledMargin rank",
         "TerminalTracePrefixSharedGainClosedMarginFamily pfx gain scaledMargin rank",
+        "```",
+        "",
+        "and the generated selected-prefix trace-margin family now feeds it:",
+        "",
+        "```lean",
+        "SelectedPrefixTraceMarginFamily scaledMargin rank",
+        "  -> RootTraceMarginProducer scaledMargin rank",
         "```",
         "",
         "The selected-prefix cover itself is:",
@@ -246,6 +258,7 @@ def main() -> None:
         "RootTraceMarginProducer",
         "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer",
         "rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily",
+        "rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily",
         "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation",
     ]
     missing = [symbol for symbol in required if symbol not in symbol_locations]

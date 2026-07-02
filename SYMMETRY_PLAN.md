@@ -75026,3 +75026,95 @@ Current interpretation:
   families at low family count.  If not, promote the cancellation-tree summary
   automaton fallback rather than returning to exact affine-RHS or sampled-path
   membership.
+
+## 2026-07-02 Checkpoint: Selected-Prefix Trace-Margin Family Produces Root Producer
+
+Added a generated-style bridge from the existing selected-prefix trace-margin
+OR-family into the preferred root producer:
+
+```lean
+theorem rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixTraceMarginFamily scaledMargin rank) :
+    RootTraceMarginProducer scaledMargin rank
+```
+
+Files:
+
+```text
+scripts/emit_top_pairing_selected_prefix_trace_margin_root_producer_bridge.py
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean
+```
+
+The emitter parses the 31 existing selected-prefix trace-margin disjuncts from
+`BellmanTopPairingSelectedPrefixTraceMarginAdapter.lean`.  For each
+prefix/gain pair it emits a tiny shared-gain theorem, then case-splits over
+`SelectedPrefixTraceMarginFamily` and applies:
+
+```lean
+rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily
+```
+
+This gives the next generator/profiler target a compact semantic proof socket:
+
+```lean
+SelectedPrefixTraceMarginFamily scaledMargin rank
+  -> RootTraceMarginProducer scaledMargin rank
+  -> TopPairingStrengthenedClosedLanguageAtRank
+       (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym
+```
+
+Memory-safe Lean checks:
+
+```bash
+lake env lean -j1 -M8192 -o \
+  .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceMarginRootProducerBridge.olean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceMarginRootProducerBridge.lean
+
+lake env lean -j1 -M8192 \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean
+```
+
+Results:
+
+```text
+trace-margin root producer olean refresh: exit=0, elapsed=3.42s, peak RSS=3364488 KiB
+selected-prefix trace-margin bridge:      exit=0, elapsed=5.23s, peak RSS=3451868 KiB
+```
+
+Updated the predicate selector audit:
+
+```bash
+python3 scripts/audit_top_pairing_upstream_predicate_selector.py
+python3 -m py_compile \
+  scripts/audit_top_pairing_upstream_predicate_selector.py \
+  scripts/emit_top_pairing_selected_prefix_trace_margin_root_producer_bridge.py
+```
+
+Result:
+
+```text
+decision=target-selected-prefix-cover-family
+```
+
+Current interpretation:
+
+- The Bellman route has a coherent semantic chain for the current bounded
+  selected-prefix surface:
+
+```lean
+SelectedPrefixTraceMarginFamily
+  -> RootTraceMarginProducer
+  -> SelectedPrefixCoverSequenceBadFace
+  -> Bellman eval language
+  -> scaledMargin rank <= 0
+```
+
+- The current missing evidence is not another bridge theorem.  It is coverage:
+  prove or generate that the intended production top-pairing residual language
+  is covered by `SelectedPrefixTraceMarginFamily`, or by a modest extension of
+  the same terminal prefix/shared-gain family surface.
+- If that coverage profiler/theorem explodes in family count or requires exact
+  affine-RHS/rank objects, reject this Bellman surface for final coverage and
+  switch to the cancellation-tree summary automaton fallback.

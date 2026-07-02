@@ -75,9 +75,22 @@
       "symbols": {
         "SelectedPrefixCoverFamily": 3,
         "SelectedPrefixCoverSequenceBadFace": 3,
+        "SelectedPrefixTraceMarginFamily": 70,
         "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": 2,
         "selectedPrefixTraceMarginSequenceBadFace_of_selectedPrefixCoverFamily": 2,
         "strengthenedTraceMargin_of_strengthenedSelectedPrefixCover": 3
+      }
+    },
+    "selected_prefix_trace_margin_root_producer_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 652,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean",
+      "symbols": {
+        "RootTraceMarginProducer": 1,
+        "SelectedPrefixTraceMarginFamily": 2,
+        "rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily": 1,
+        "rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily": 31
       }
     },
     "selected_prefix_trace_margin_socket": {
@@ -85,7 +98,9 @@
       "forbidden_hits": {},
       "lines": 57,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginSocket.lean",
-      "symbols": {}
+      "symbols": {
+        "SelectedPrefixTraceMarginFamily": 2
+      }
     },
     "terminal_direct_bridge": {
       "exists": true,
@@ -94,6 +109,7 @@
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean",
       "symbols": {
         "SelectedPrefixCoverFamily": 2,
+        "SelectedPrefixTraceMarginFamily": 2,
         "TerminalDirectClosedFamily": 4,
         "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": 1
       }
@@ -122,7 +138,8 @@
   "symbol_locations": {
     "RootTraceMarginProducer": [
       "root_trace_margin_selected_prefix_bridge",
-      "trace_margin_root_producer_bridge"
+      "trace_margin_root_producer_bridge",
+      "selected_prefix_trace_margin_root_producer_bridge"
     ],
     "SelectedPrefixCoverFamily": [
       "selected_prefix_cover_root",
@@ -137,6 +154,12 @@
       "selected_prefix_cover_membership_bridge",
       "root_trace_margin_selected_prefix_bridge"
     ],
+    "SelectedPrefixTraceMarginFamily": [
+      "selected_prefix_trace_margin_cover_bridge",
+      "selected_prefix_trace_margin_root_producer_bridge",
+      "selected_prefix_trace_margin_socket",
+      "terminal_direct_bridge"
+    ],
     "TerminalDirectClosedFamily": [
       "terminal_direct_bridge"
     ],
@@ -148,6 +171,9 @@
     "graphAcceptedTraceMargin_exists_of_rootTraceMarginProducer": [
       "root_trace_margin_selected_prefix_bridge"
     ],
+    "rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily": [
+      "selected_prefix_trace_margin_root_producer_bridge"
+    ],
     "rootTraceMarginProducer_of_terminalTraceIdBucketClosedMarginFamily": [
       "trace_margin_root_producer_bridge"
     ],
@@ -155,7 +181,8 @@
       "trace_margin_root_producer_bridge"
     ],
     "rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily": [
-      "trace_margin_root_producer_bridge"
+      "trace_margin_root_producer_bridge",
+      "selected_prefix_trace_margin_root_producer_bridge"
     ],
     "selectedPrefixCover_evalLanguage": [
       "selected_prefix_cover_root",
