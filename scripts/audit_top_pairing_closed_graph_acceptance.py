@@ -162,10 +162,50 @@ class StackState:
 
 
 INITIAL_STACK = StackState(0, (), ())
+PARITY_ID = (False, False, False)
 
 
 def is_square_pair(pair: str) -> bool:
     return pair in {"x", "y", "z"}
+
+
+def parity_apply_pair(
+    parity: tuple[bool, bool, bool], pair: str
+) -> tuple[bool, bool, bool]:
+    x, y, z = parity
+    if pair == "x":
+        return (not x, y, z)
+    if pair == "y":
+        return (x, not y, z)
+    if pair == "z":
+        return (x, y, not z)
+    return parity
+
+
+def tri_y_neg(tri: str) -> bool:
+    return tri in {"d1m1", "dm11"}
+
+
+def tri_z_neg(tri: str) -> bool:
+    return tri in {"d11m", "dm11"}
+
+
+def tri_of_signs(y_neg: bool, z_neg: bool) -> str:
+    if not y_neg and not z_neg:
+        return "d111"
+    if not y_neg and z_neg:
+        return "d11m"
+    if y_neg and not z_neg:
+        return "d1m1"
+    return "dm11"
+
+
+def tri_act(parity: tuple[bool, bool, bool], tri: str) -> str:
+    x, y, z = parity
+    return tri_of_signs(
+        tri_y_neg(tri) ^ (x ^ y),
+        tri_z_neg(tri) ^ (x ^ z),
+    )
 
 
 def dot(a: Iterable[Fraction], b: Iterable[Fraction]) -> Fraction:
@@ -214,6 +254,15 @@ def stack_push(state: StackState, tri: str) -> StackState:
             state.cancellations_rev,
         )
     return StackState(idx + 1, ((tri, idx),), state.cancellations_rev)
+
+
+def scan_pair_stack(
+    state: StackState, parity: tuple[bool, bool, bool], pair: str
+) -> tuple[StackState, tuple[bool, bool, bool]]:
+    tri = TRI_OF_PAIR.get(pair)
+    if tri is not None:
+        return stack_push(state, tri_act(parity, tri)), parity
+    return state, parity_apply_pair(parity, pair)
 
 
 def stack_summary_ok(state: StackState) -> bool:
@@ -273,6 +322,7 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
         square_gap: int,
         linear,
         stack_state: StackState,
+        parity: tuple[bool, bool, bool],
         graph_state: int | None,
         graph_gain: int | None,
         labels: list[str],
@@ -329,14 +379,17 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
             next_linear = mat_mul(linear, REFL[face])
 
             next_stack = stack_state
+            next_parity = parity
             next_counts = counts
+            if step < 14:
+                next_stack, next_parity = scan_pair_stack(
+                    stack_state, parity, pair
+                )
+                if next_stack.shadow_len > 8:
+                    continue
             if step < 13:
                 next_counts = dict(counts)
                 next_counts[pair] -= 1
-                if pair in TRI_OF_PAIR:
-                    next_stack = stack_push(stack_state, TRI_OF_PAIR[pair])
-                    if next_stack.shadow_len > 8:
-                        continue
 
             next_graph_state = graph_state
             next_graph_gain = graph_gain
@@ -365,6 +418,7 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
                 next_square_gap,
                 next_linear,
                 next_stack,
+                next_parity,
                 next_graph_state,
                 next_graph_gain,
                 labels + [face],
@@ -377,6 +431,7 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
         0,
         MAT_ID,
         INITIAL_STACK,
+        PARITY_ID,
         0,
         0,
         [],

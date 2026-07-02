@@ -59130,3 +59130,174 @@ should combine:
 This remains a semantic classifier route.  It still must be emitted and checked
 in bounded shards before it can discharge the production `ClosedTraceOr`
 premise for every `TopPairingBellmanObj Face.ym`.
+
+Lean-aligned top-pairing semantic-membership correction:
+
+The previous terminal/state-DAG diagnostics were superseded after aligning the
+Python trace enumerators with Lean's actual shadow scan.  The important
+correction is that `ShadowState.scanPair` acts on triangular letters by the
+current square parity before stack reduction.  The corrected scripts now carry
+`square_parity` in the state key and use the same triangular action as
+`Cuboctahedron.Search.ShadowNormalForm`.
+
+Updated scripts:
+
+```text
+scripts/audit_top_pairing_closed_graph_acceptance.py
+scripts/profile_top_pairing_trace_state_dag.py
+scripts/profile_top_pairing_trace_prefix_depths.py
+scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+scripts/emit_top_pairing_trace_classifier_terminal_shards.py
+```
+
+Lean-aligned graph-acceptance audit:
+
+```bash
+python3 scripts/audit_top_pairing_closed_graph_acceptance.py \
+  --json scripts/generated/top_pairing_closed_graph_acceptance_lean_aligned.json \
+  --markdown scripts/generated/top_pairing_closed_graph_acceptance_lean_aligned.md \
+  --max-examples 5
+```
+
+Result:
+
+```text
+decision = closed-components-too-weak
+dfs_nodes = 11318
+closed_candidates = 47
+accepted = 37
+rejected = 10
+prefix_graph_rejects = 197
+```
+
+Lean-aligned state-DAG profile:
+
+```bash
+python3 scripts/profile_top_pairing_trace_state_dag.py \
+  --json scripts/generated/top_pairing_trace_state_dag_lean_aligned.json \
+  --markdown scripts/generated/top_pairing_trace_state_dag_lean_aligned.md \
+  --graph-json scripts/generated/top_pairing_trace_state_dag_lean_aligned_graph.json \
+  --max-examples 4
+```
+
+Result:
+
+```text
+decision = unexpected-closed-terminal-count
+states = 5347
+edges = 6089
+terminal states:
+  cancellation_reject = 97
+  closed = 1
+terminal paths:
+  cancellation_reject = 395
+  closed = 47
+```
+
+Lean-aligned prefix-depth profile:
+
+```bash
+python3 scripts/profile_top_pairing_trace_prefix_depths.py \
+  --max-depth 14 \
+  --json scripts/generated/top_pairing_trace_prefix_depths_lean_aligned.json \
+  --markdown scripts/generated/top_pairing_trace_prefix_depths_lean_aligned.md
+```
+
+Result:
+
+```text
+peak prefix count = 3186 at depth 10
+depth 14 prefix count = 442
+```
+
+Interpretation:
+
+- The current visible `TopPairingClosedLanguageAtRank` fields are too weak to
+  imply the old two-trace `ClosedTraceOr` premise.
+- Even more strongly, they are too weak to imply the current generated graph's
+  evaluator acceptance: 10 cancellation-compatible closed candidates are
+  rejected by the graph.
+- Therefore the GPT5.5 gate is now resolved in the "strengthen the semantic
+  object" direction.  Do not keep trying to prove
+  `TopPairingClosedLanguageAtRank -> ClosedTraceOr` for the current two-trace
+  predicate.
+- The next production theorem should instead use a strengthened semantic
+  language such as `TopPairingBellmanEvalLanguageAtRank`, or an equivalent
+  compact `eval_ok` / `closedRun` / `margin_bound` field, and then feed the
+  already accepted `TopPairingBellmanObj` / `BellmanEvalAccepts` bridge.
+- Before strengthening the predicate, diagnose the 10 graph-rejected closed
+  candidates: either the generated evaluator graph is missing legitimate
+  transitions, or the closed-language predicate is missing a semantic
+  constraint.  Do not assume which one without checking.
+
+Accepted local proof shape after the correction:
+
+- `scripts/emit_top_pairing_trace_classifier_terminal_shards.py` now emits
+  cancellation-rejection shards only.
+- The terminal classifier has `442` terminal traces, `395` cancellation
+  rejects, and `47` cancellation-compatible traces.
+- The old two-trace smoke labels are now recorded only as
+  `legacy_two_trace_smoke_*` summary fields.  They are not the corrected
+  graph-accepted production set.
+- `Shard000` is a rejection-only Lean module proving that a full-trace
+  disjunction over 64 rejected traces contradicts the semantic cancellation
+  summary equality.  It contains no sampled rank/path object table.
+
+Validation:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_top_pairing_closed_graph_acceptance.py \
+  scripts/emit_top_pairing_trace_classifier_prefix_smoke.py \
+  scripts/profile_top_pairing_trace_state_dag.py \
+  scripts/profile_top_pairing_trace_prefix_depths.py \
+  scripts/emit_top_pairing_trace_classifier_terminal_shards.py
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Terminal/Shard000.lean \
+  scripts/emit_top_pairing_trace_classifier_terminal_shards.py \
+  scripts/audit_top_pairing_closed_graph_acceptance.py \
+  scripts/profile_top_pairing_trace_state_dag.py \
+  scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_trace_terminal_shard000_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Terminal/Shard000.lean
+```
+
+Result:
+
+```text
+py_compile: passed
+forbidden-pattern scan: no hits
+Shard000 direct Lean: passed
+elapsed = 6.01s
+peak_tree_rss = 3957 MiB
+hard_as = 8192 MiB
+```
+
+Decision:
+
+Continue Bellman for this one semantic-membership experiment, but with the
+correct target.  The potential and evaluator theorem remain useful; the old
+two-trace `ClosedTraceOr` smoke is no longer the production interface.  The
+next useful implementation step is a compact eval-language bridge:
+
+```lean
+TopPairingBellmanEvalLanguageAtRank
+  graphPotential graphSmokeNext smokeLabelOfFace rootState graphConst
+  topPairingScaledMargin rank Face.ym
+```
+
+or an equivalent theorem-valued semantic object, proved from a strengthened
+closed-language predicate.  If this bridge still requires sampled ranks,
+sampled paths, or one branch per rank/path, stop this Bellman production route
+and replace it with a stronger cancellation-tree/evaluator semantic automaton.

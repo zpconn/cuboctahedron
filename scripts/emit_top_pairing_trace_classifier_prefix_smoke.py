@@ -54,6 +54,7 @@ def enumerate_semantic_prefixes(depth: int) -> list[tuple[str, ...]]:
         square_gap: int,
         linear,
         stack_state: audit.StackState,
+        parity: tuple[bool, bool, bool],
         labels: tuple[str, ...],
     ) -> None:
         if step == depth:
@@ -82,13 +83,16 @@ def enumerate_semantic_prefixes(depth: int) -> list[tuple[str, ...]]:
 
             next_counts = counts
             next_stack = stack_state
+            next_parity = parity
+            if step < 14:
+                next_stack, next_parity = audit.scan_pair_stack(
+                    stack_state, parity, pair
+                )
+                if next_stack.shadow_len > 8:
+                    continue
             if step < 13:
                 next_counts = dict(counts)
                 next_counts[pair] -= 1
-                if pair in audit.TRI_OF_PAIR:
-                    next_stack = audit.stack_push(stack_state, audit.TRI_OF_PAIR[pair])
-                    if next_stack.shadow_len > 8:
-                        continue
 
             dfs(
                 step + 1,
@@ -96,6 +100,7 @@ def enumerate_semantic_prefixes(depth: int) -> list[tuple[str, ...]]:
                 next_square_gap,
                 next_linear,
                 next_stack,
+                next_parity,
                 labels + (face,),
             )
 
@@ -105,6 +110,7 @@ def enumerate_semantic_prefixes(depth: int) -> list[tuple[str, ...]]:
         0,
         audit.MAT_ID,
         audit.INITIAL_STACK,
+        audit.PARITY_ID,
         (),
     )
     return prefixes

@@ -6,7 +6,7 @@ This is exact diagnostic evidence, not proof.  It refines
 the future Lean classifier should use:
 
   step, remaining pair counts, square-gap index, exact local-axis linear state,
-  and triangular cancellation stack.
+  square parity, and triangular cancellation stack.
 
 The goal is to size the membership-driven proof DAG that avoids one generated
 rejection branch per excluded face.
@@ -60,6 +60,7 @@ def profile(max_examples: int) -> dict[str, object]:
         counts: dict[str, int],
         square_gap: int,
         linear,
+        parity: tuple[bool, bool, bool],
         stack_state: audit.StackState,
     ) -> tuple[object, ...]:
         return (
@@ -67,6 +68,7 @@ def profile(max_examples: int) -> dict[str, object]:
             counts_key(counts),
             square_gap,
             matrix_key(linear),
+            parity,
             stack_state,
         )
 
@@ -85,10 +87,11 @@ def profile(max_examples: int) -> dict[str, object]:
         counts: dict[str, int],
         square_gap: int,
         linear,
+        parity: tuple[bool, bool, bool],
         stack_state: audit.StackState,
         labels: tuple[str, ...],
     ) -> int:
-        key = state_key(step, counts, square_gap, linear, stack_state)
+        key = state_key(step, counts, square_gap, linear, parity, stack_state)
         ident = state_id(key)
 
         if step == 14:
@@ -138,19 +141,23 @@ def profile(max_examples: int) -> dict[str, object]:
 
             next_counts = counts
             next_stack = stack_state
+            next_parity = parity
+            if step < 14:
+                next_stack, next_parity = audit.scan_pair_stack(
+                    stack_state, parity, pair
+                )
+                if next_stack.shadow_len > 8:
+                    continue
             if step < 13:
                 next_counts = dict(counts)
                 next_counts[pair] -= 1
-                if pair in audit.TRI_OF_PAIR:
-                    next_stack = audit.stack_push(stack_state, audit.TRI_OF_PAIR[pair])
-                    if next_stack.shadow_len > 8:
-                        continue
 
             target = dfs(
                 step + 1,
                 next_counts,
                 next_square_gap,
                 next_linear,
+                next_parity,
                 next_stack,
                 labels + (face,),
             )
@@ -163,6 +170,7 @@ def profile(max_examples: int) -> dict[str, object]:
         dict(audit.REMAINING_COUNTS),
         0,
         audit.MAT_ID,
+        audit.PARITY_ID,
         audit.INITIAL_STACK,
         (),
     )
@@ -201,6 +209,7 @@ def profile(max_examples: int) -> dict[str, object]:
             "remaining_pair_counts",
             "square_gap",
             "local_axis_linear_matrix",
+            "square_parity",
             "triangular_cancellation_stack",
         ],
     }
@@ -226,11 +235,13 @@ def serialize_state_key(ident: int, key: tuple[object, ...]) -> dict[str, object
     counts = key[1]
     square_gap = key[2]
     linear = key[3]
-    stack = key[4]
+    parity = key[4]
+    stack = key[5]
     assert isinstance(step, int)
     assert isinstance(counts, tuple)
     assert isinstance(square_gap, int)
     assert isinstance(linear, tuple)
+    assert isinstance(parity, tuple)
     assert isinstance(stack, audit.StackState)
     return {
         "id": ident,
@@ -238,6 +249,11 @@ def serialize_state_key(ident: int, key: tuple[object, ...]) -> dict[str, object
         "remaining_pair_counts": dict(zip(PAIR_ORDER, counts)),
         "square_gap": square_gap,
         "local_axis_linear_matrix": serialize_matrix(linear),
+        "square_parity": {
+            "x": parity[0],
+            "y": parity[1],
+            "z": parity[2],
+        },
         "triangular_cancellation_stack": serialize_stack(stack),
     }
 
