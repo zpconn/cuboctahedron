@@ -82011,6 +82011,7 @@ Accepted theorem surface:
 graphPrefix4FrontierLabels_of_cons2
 graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier
 graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal
+branchTableSuffixOk_root_of_strengthenedTerminalPrefix4
 ```
 
 This connects the graph-accepted prefix-4 theorem to the graph suffix emitter:
@@ -82029,6 +82030,7 @@ strengthened terminal / graph-accepted trace
   -> GraphPrefix4FrontierLabels
   -> grouped state-143 depth-2 frontier
   -> GraphBranchTableSuffixOk rank 143 (face₀ :: face₁ :: rest)
+  -> BranchTableSuffixOk rank (start rootState) (topPairingRankFaceLabels rank)
 ```
 
 Again, this is not selected-prefix membership and it does not construct
@@ -82071,8 +82073,8 @@ Results:
 
 | Target | Result | Time | Peak RSS |
 |---|---:|---:|---:|
-| graph-accepted suffix bridge direct Lean | pass | `3.00s` | `3950 MiB` |
-| graph-accepted suffix bridge Lake target | pass | `3.00s` | `4088 MiB` |
+| graph-accepted suffix bridge direct Lean | pass | `3.00s` | `2516 MiB` |
+| graph-accepted suffix bridge Lake target | pass | `3.03s` | `4067 MiB` |
 | membership-frontier audit | pass | `1.00s` | `0-1 MiB` |
 | forbidden/sampled scan on new module | pass | no hits | n/a |
 

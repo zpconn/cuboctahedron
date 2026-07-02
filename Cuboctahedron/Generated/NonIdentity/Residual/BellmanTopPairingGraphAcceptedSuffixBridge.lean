@@ -15,6 +15,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcc
 
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke.Base
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTransducerFaceEval1MSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingBranchTableSuffix1MSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedPrefixFrontier
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphSuffixEmitter1MSmoke
@@ -90,6 +91,36 @@ theorem graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal
     hlabels
     (graphPrefix4Frontier_of_strengthened_terminal hstrengthened hterm)
     hsuffix
+
+theorem branchTableSuffixOk_root_of_strengthenedTerminalPrefix4
+    {rank : Fin numPairWords} {face₀ face₁ : Face} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+          rank Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.Accepted.TerminalOkTraceLabels
+        (topPairingRankFaceLabels rank))
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: face₀ :: face₁ :: rest)
+    (hsuffix :
+      ∀ graph₁ gain₁ graph₂ gain₂,
+        graphSmokeNext (143 : State) (smokeLabelOfFace face₀) =
+          some (graph₁, gain₁) ->
+        graphSmokeNext graph₁ (smokeLabelOfFace face₁) =
+          some (graph₂, gain₂) ->
+        GraphBranchTableSuffixOk rank graph₂ rest) :
+    BranchTableSuffixOk rank
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) :=
+  branchTableSuffixOk_root_of_closedPrefix2
+    (rank := rank) (rest := face₀ :: face₁ :: rest)
+    hlabels
+    (branchTableSuffixOk_of_graphBranchTableSuffixOk
+      (state := closedPrefix2EvalState)
+      (graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal
+        hstrengthened hterm hlabels hsuffix))
 
 theorem graphAcceptedSuffixBridge_builds : True := by
   exact True.intro

@@ -115,6 +115,7 @@ REQUIRED_SYMBOLS = {
     "graphPrefix4FrontierLabels_of_cons2": "prefix-4 frontier grouped for depth-2 suffix emission",
     "graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier": "prefix-4 frontier feeds graph suffix emitter",
     "graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal": "strengthened terminal traces feed graph suffix emitter",
+    "branchTableSuffixOk_root_of_strengthenedTerminalPrefix4": "strengthened terminal prefix-4 suffix evidence lifts to Bellman root",
 }
 
 FORBIDDEN_TOKENS = [
@@ -249,6 +250,7 @@ def render_markdown(report: dict[str, Any]) -> str:
             "graphPrefix4FrontierLabels_of_cons2",
             "graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier",
             "graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal",
+            "branchTableSuffixOk_root_of_strengthenedTerminalPrefix4",
             "```",
             "",
             "## Remaining Production Theorem",

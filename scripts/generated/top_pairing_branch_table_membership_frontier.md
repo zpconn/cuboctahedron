@@ -25,12 +25,12 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `BranchTableSuffixOk` | suffix predicate storing branch-table evidence | `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge` |
 | `branchTableSuffixOk_local` | local progress from branch-table suffix | `branch_table_suffix` |
 | `eval_exists_of_branchTableSuffixOk` | whole-suffix evaluator from branch-table suffix | `branch_table_suffix` |
-| `branchTableSuffixOk_root_of_closedPrefix2` | semantic root-prefix lift into branch-table suffix | `branch_table_suffix` |
+| `branchTableSuffixOk_root_of_closedPrefix2` | semantic root-prefix lift into branch-table suffix | `branch_table_suffix`, `graph_accepted_suffix_bridge` |
 | `branchTableSuffixOk_root_of_closedPrefix2_forall` | closed-rank root-prefix lift into branch-table suffix | `branch_table_suffix` |
 | `branchTableSuffixOk_closedPrefix2_branch_of_closed` | closed third-face branch lift into branch-table suffix | `branch_table_suffix` |
 | `branchTableSuffixOk_root_of_closedPrefix3_forall` | closed-rank third-face lift into branch-table suffix | `branch_table_suffix` |
 | `GraphBranchTableSuffixOk` | lightweight graph-indexed suffix predicate | `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge` |
-| `branchTableSuffixOk_of_graphBranchTableSuffixOk` | graph suffix conversion to semantic suffix | `branch_table_suffix` |
+| `branchTableSuffixOk_of_graphBranchTableSuffixOk` | graph suffix conversion to semantic suffix | `branch_table_suffix`, `graph_accepted_suffix_bridge` |
 | `graphBranchTableSuffixOk_closedPrefix2_branch_of_closed` | closed third-face graph suffix lift | `branch_table_suffix` |
 | `branchTableSuffixOk_root_of_graphClosedPrefix3_forall` | closed-rank graph suffix root lift | `branch_table_suffix` |
 | `graphBranchTableSuffixOk_s0143_depth2_of_frontier` | graph-only depth-2 frontier suffix emitter | `graph_suffix_emitter`, `graph_accepted_suffix_bridge` |
@@ -43,6 +43,7 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `graphPrefix4FrontierLabels_of_cons2` | prefix-4 frontier grouped for depth-2 suffix emission | `graph_accepted_suffix_bridge` |
 | `graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier` | prefix-4 frontier feeds graph suffix emitter | `graph_accepted_suffix_bridge` |
 | `graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal` | strengthened terminal traces feed graph suffix emitter | `graph_accepted_suffix_bridge` |
+| `branchTableSuffixOk_root_of_strengthenedTerminalPrefix4` | strengthened terminal prefix-4 suffix evidence lifts to Bellman root | `graph_accepted_suffix_bridge` |
 
 ## Guards
 
@@ -57,8 +58,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `graph_suffix_emitter_lake` | `0` | `3.00s` | `3900 MiB` | `None` |
 | `graph_accepted_prefix_frontier_direct` | `0` | `6.04s` | `3944 MiB` | `None` |
 | `graph_accepted_prefix_frontier_lake` | `0` | `3.00s` | `4018 MiB` | `None` |
-| `graph_accepted_suffix_bridge_direct` | `0` | `3.00s` | `3951 MiB` | `None` |
-| `graph_accepted_suffix_bridge_lake` | `0` | `3.00s` | `4087 MiB` | `None` |
+| `graph_accepted_suffix_bridge_direct` | `0` | `3.00s` | `2516 MiB` | `None` |
+| `graph_accepted_suffix_bridge_lake` | `0` | `3.03s` | `4067 MiB` | `None` |
 
 ## Accepted Local Surface
 
@@ -92,6 +93,7 @@ graphPrefix4Frontier_of_strengthened_terminal
 graphPrefix4FrontierLabels_of_cons2
 graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier
 graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal
+branchTableSuffixOk_root_of_strengthenedTerminalPrefix4
 ```
 
 ## Remaining Production Theorem
