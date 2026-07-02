@@ -80441,3 +80441,151 @@ semantic coordinate that distinguishes the `state150/tppp` branch, or to run a
 graph-closure profiler that includes this transition and reports whether the
 Bellman potential still has nonpositive maximum.  Do not revive selected-prefix
 coverage for this branch.
+
+### Pivot Update: Closed-Language Evaluator Before More Bellman Data
+
+GPT-5.5's follow-up diagnosis is accepted with one important local
+qualification:
+
+```text
+Keep Bellman.
+Reject selected-prefix membership.
+Do not scale the selected-prefix producer as-is.
+Prove a deterministic strengthened closed-language evaluator theorem.
+```
+
+The existing repository already has most of the theorem surface requested by
+this pivot:
+
+```lean
+Cuboctahedron.Search.TopPairingTargetCursor.topPairingTargetShadow_of_summary
+Cuboctahedron.Search.TopPairingTargetCursor.topPairingTriShadow_eq_target_of_closed
+Cuboctahedron.Search.TopPairingTargetCursor.TopPairingTriCursorFrom
+
+Cuboctahedron.Search.TopPairingTransducerEvalBridge.
+  TopPairingTransducerEvalState.evalLabelStepFn_exists_of_tail_and_invariantLocal
+
+Cuboctahedron.Search.TopPairingTransducerEvalBridge.
+  TopPairingTransducerEvalState.
+    evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix
+```
+
+These are the right public coordinates: target triangular-shadow cursor,
+schedule/square-gap/local-axis transducer tail, graph state, and a suffix
+predicate for the sequence bad-face filter.  Production Bellman leaves should
+use these generic evaluator theorems, not a table of selected prefixes.
+
+There is also existing exact diagnostic evidence for the 1M top-pairing graph:
+
+```text
+scripts/generated/bellman_target_pairing_closure_with_bad_face_1m.md
+```
+
+It reports:
+
+| Metric | Value |
+|---|---:|
+| graph states | `223` |
+| graph edges | `229` |
+| legal transitions before sequence bad-face | `230` |
+| missing transitions before sequence bad-face | `1` |
+| legal transitions after sequence bad-face | `229` |
+| missing transitions after sequence bad-face | `0` |
+| closed after sequence bad-face | `True` |
+
+and the corresponding completion audit:
+
+```text
+scripts/generated/\
+bellman_missing_transition_completions_1m_step_face_linear_tri_source_localaxis_lean.md
+```
+
+identifies the known missing transition as:
+
+```text
+state 19, face tmmp, reason canonical_bad_face_mismatch
+```
+
+This means the current 1M graph is closed under the generated sequence
+bad-face predicate for the audited graph language.  It does **not** by itself
+explain the separate hand-proof diagnostic:
+
+```text
+state 150, face tppp
+```
+
+from the plain depth-5 local theorem attempt.  That branch appeared because the
+hand theorem used only a prefix-local closed-language premise at graph state
+`150`; it did not prove that the prefix-local state was aligned with the same
+strengthened graph-language invariant used by the closure audit.  Treat this
+as an invariant-alignment gap, not as a reason to add sampled traces.
+
+The immediate production target is now:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  AcceptedSequenceBadFaceAtRank rank Face.ym
+  ->
+SuffixOk (TopPairingTransducerEvalState.start rootState)
+  (topPairingRankFaceLabels rank)
+```
+
+together with:
+
+```lean
+TopPairingTransducerEvalState.
+  evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix
+```
+
+to obtain:
+
+```lean
+TopPairingBellmanEvalLanguageAtRank rank
+```
+
+The generated part should be a finite invariant table:
+
+```text
+semantic eval state + graph state + strengthened suffix predicate
+  -> local graph transition exists and preserves the invariant/suffix predicate
+```
+
+It may case-split on the finite evaluator state and face.  It must not
+case-split on exact rank, sampled path, accepted trace class, exact affine RHS,
+solved start point, or full Bellman path identity.
+
+Go/no-go gates for the next Bellman step:
+
+```text
+GO:
+  - finite invariant table proves local closure from the strengthened
+    closed-language premise;
+  - `state19/tmmp` is removed by the existing sequence bad-face socket;
+  - any `state150/tppp`-style branch is either proved impossible by the same
+    strengthened suffix invariant, or the graph/state key is regenerated with
+    a real semantic transition and a nonpositive Bellman potential;
+  - representative Lean check stays below 10 GiB RSS, preferably near the
+    current 4-5 GiB band.
+
+NO-GO:
+  - proof needs selected-prefix membership, sampled rank/path objects, exact
+    affine RHS, solved start point, or exact Bellman trace identity;
+  - local closure only works by emitting one branch per observed rank/path;
+  - the added graph/state key grows with accepted paths rather than semantic
+    states.
+```
+
+Next implementation action:
+
+1. Add or adapt a bounded diagnostic for the `state150/tppp` branch that
+   answers exactly one question: is it excluded by the strengthened
+   sequence-bad-face/canonical-bad-face invariant, or is it a real missing
+   graph transition?
+2. If excluded, add a small socket theorem analogous to
+   `BellmanTopPairingMissingTransition1MSocket.lean` and use the suffix-carrying
+   evaluator theorem.
+3. If real, regenerate the finite graph/state key with the added semantic
+   transition and rerun only a bounded Bellman potential/closure check before
+   touching Lean.
+4. Continue to update this file at each checkpoint and use
+   `scripts/run_memory_guarded.py` for all Lean smokes in this route.
