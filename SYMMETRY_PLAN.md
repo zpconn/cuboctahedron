@@ -79076,3 +79076,111 @@ the closed top-pairing language, or prove that the existing terminal trace
 classifier covers the closed language without sampled ranks/selected prefixes.
 If that proof collapses into rank/path enumeration, pivot to the target-shadow
 cursor / deterministic semantic state machine described above.
+
+## 2026-07-02 Checkpoint: Terminal-Ok Gap and Target-Cursor Pivot
+
+After the accepted-trace suffix socket, the remaining premise is:
+
+```lean
+TerminalOkTraceLabels (topPairingRankFaceLabels rank)
+```
+
+Inspection found the existing terminal bridge:
+
+```lean
+TopPairingTraceClassifier.TerminalOk.terminalOk_of_terminalTrace_and_cancellation
+```
+
+which is useful, but only after a theorem has already established:
+
+```lean
+TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+  (topPairingRankFaceLabels rank)
+```
+
+The current terminal producer surfaces can derive this from accepted-prefix or
+selected-prefix states, but that is exactly the route we are now avoiding for
+production.  The selected-prefix route is acceptable as historical smoke
+coverage, not as the final scalable membership theorem.
+
+The semantic route is already present in:
+
+```text
+Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+with the key theorems:
+
+```lean
+topPairingTargetShadow_of_summary
+
+topPairingTriShadow_eq_target_of_closed
+
+topPairingActedTriLetters_eq_target_of_closed
+
+topPairingTriCursor_of_closed :
+  TopPairingClosedLanguageAtRank rank badFace ->
+    TopPairingTargetCursorAtRank rank
+```
+
+This confirms that the target-shadow/cursor insight is not merely a plan item:
+it is already Lean-checked and should become the front-door for the production
+membership theorem.
+
+Guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_target_cursor_guard_check_latest.json \
+  -- lake env lean Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `TopPairingTargetCursor.lean` direct | pass | `4.00s` | `3832 MiB` |
+
+Revised next theorem target:
+
+Do **not** extend the selected-prefix terminal producer.  Instead implement a
+compact deterministic state-machine theorem whose state combines:
+
+```text
+TopPairingTransducerTail
+TopPairingTargetCursorAtRank
+sequence bad-face compatibility
+1M graph state / potential state
+```
+
+and proves, without sampled ranks or accepted-prefix membership:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank
+  rank Face.ym ->
+  SuffixOk (TopPairingTransducerEvalState.start rootState)
+    (topPairingRankFaceLabels rank)
+```
+
+or directly:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank
+  rank Face.ym ->
+  exists finish gain,
+    evalLabelStepFn faceEvalNext
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) =
+        some (finish, gain) ∧
+    finish.Tail [] ∧ Inv finish
+```
+
+No-go rule:
+
+If this theorem needs a constructor/proof branch per accepted trace, selected
+prefix, sampled path, or rank, stop and refine the semantic state
+(`triCursor`, `squareGap`, `pairCounts`, `localAxis`, `sequenceBadFace`) instead
+of adding more trace enumeration.
