@@ -1,6 +1,25 @@
 {
   "decision": "target-selected-prefix-cover-family",
   "files": {
+    "root_trace_margin_selected_prefix_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 123,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingRootTraceMarginSelectedPrefixBridge.lean",
+      "symbols": {
+        "RootTraceMarginProducer": 6,
+        "SelectedPrefixCoverSequenceBadFace": 1,
+        "evalLanguage_of_strengthenedSelectedPrefixCover": 1,
+        "graphAcceptedTraceMargin_exists_of_rootTraceMarginProducer": 3,
+        "selectedPrefixCover_evalLanguage_of_rootTraceMarginProducer": 1,
+        "selectedPrefixCover_scaledMargin_nonpos_of_rootTraceMarginProducer": 1,
+        "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer": 3,
+        "strengthenedSelectedPrefixCover_of_terminalAcceptedEval": 1,
+        "strengthenedSelectedPrefixCover_scaledMargin_nonpos": 1,
+        "strengthenedTerminalAcceptedEval_of_rootTraceMarginProducer": 2,
+        "terminalAcceptedEvalSequenceBadFace_of_rootTraceMarginProducer": 1
+      }
+    },
     "selected_prefix_cover_membership_bridge": {
       "exists": true,
       "forbidden_hits": {},
@@ -83,11 +102,14 @@
   "missing_required_symbols": [],
   "mode": "top-pairing-upstream-predicate-selector",
   "next_theorem": {
-    "preferred": "forall rank, ProductionTopPairingResidualAtRank rank -> SelectedPrefixCoverFamily scaledMargin rank",
+    "preferred": "forall rank, ProductionTopPairingResidualAtRank rank -> RootTraceMarginProducer scaledMargin rank",
     "strengthened_socket": "forall rank, ProductionTopPairingResidualAtRank rank -> TopPairingStrengthenedClosedLanguageAtRank (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym"
   },
   "sampled_hit_count": 0,
   "symbol_locations": {
+    "RootTraceMarginProducer": [
+      "root_trace_margin_selected_prefix_bridge"
+    ],
     "SelectedPrefixCoverFamily": [
       "selected_prefix_cover_root",
       "selected_prefix_cover_socket",
@@ -98,22 +120,33 @@
     "SelectedPrefixCoverSequenceBadFace": [
       "selected_prefix_cover_socket",
       "selected_prefix_trace_margin_cover_bridge",
-      "selected_prefix_cover_membership_bridge"
+      "selected_prefix_cover_membership_bridge",
+      "root_trace_margin_selected_prefix_bridge"
     ],
     "TerminalDirectClosedFamily": [
       "terminal_direct_bridge"
     ],
     "evalLanguage_of_strengthenedSelectedPrefixCover": [
       "selected_prefix_cover_socket",
-      "selected_prefix_cover_membership_bridge"
+      "selected_prefix_cover_membership_bridge",
+      "root_trace_margin_selected_prefix_bridge"
+    ],
+    "graphAcceptedTraceMargin_exists_of_rootTraceMarginProducer": [
+      "root_trace_margin_selected_prefix_bridge"
     ],
     "selectedPrefixCover_evalLanguage": [
       "selected_prefix_cover_root",
       "selected_prefix_cover_socket"
     ],
+    "selectedPrefixCover_evalLanguage_of_rootTraceMarginProducer": [
+      "root_trace_margin_selected_prefix_bridge"
+    ],
     "selectedPrefixCover_scaledMargin_nonpos": [
       "selected_prefix_cover_root",
       "selected_prefix_cover_socket"
+    ],
+    "selectedPrefixCover_scaledMargin_nonpos_of_rootTraceMarginProducer": [
+      "root_trace_margin_selected_prefix_bridge"
     ],
     "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": [
       "selected_prefix_trace_margin_cover_bridge",
@@ -125,15 +158,26 @@
     "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": [
       "selected_prefix_killed_socket"
     ],
+    "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer": [
+      "root_trace_margin_selected_prefix_bridge"
+    ],
     "strengthenedSelectedPrefixCover_of_terminalAcceptedEval": [
-      "selected_prefix_cover_membership_bridge"
+      "selected_prefix_cover_membership_bridge",
+      "root_trace_margin_selected_prefix_bridge"
     ],
     "strengthenedSelectedPrefixCover_scaledMargin_nonpos": [
       "selected_prefix_cover_socket",
-      "selected_prefix_cover_membership_bridge"
+      "selected_prefix_cover_membership_bridge",
+      "root_trace_margin_selected_prefix_bridge"
+    ],
+    "strengthenedTerminalAcceptedEval_of_rootTraceMarginProducer": [
+      "root_trace_margin_selected_prefix_bridge"
     ],
     "strengthenedTraceMargin_of_strengthenedSelectedPrefixCover": [
       "selected_prefix_trace_margin_cover_bridge"
+    ],
+    "terminalAcceptedEvalSequenceBadFace_of_rootTraceMarginProducer": [
+      "root_trace_margin_selected_prefix_bridge"
     ]
   }
 }

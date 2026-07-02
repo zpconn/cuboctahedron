@@ -74827,3 +74827,98 @@ Current interpretation:
   sampled paths, exact affine-RHS keys, or one branch per concrete rank, reject
   Bellman as the final coverage route and promote the cancellation-tree summary
   automaton fallback.
+
+## 2026-07-02 Checkpoint: Root Trace-Margin Producer to Selected-Prefix Cover
+
+Added the next semantic bridge above the terminal-accepted boundary:
+
+```lean
+theorem strengthenedSelectedPrefixCover_of_rootTraceMarginProducer
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hproducer : RootTraceMarginProducer scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    TopPairingStrengthenedClosedLanguageAtRank
+      (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym
+```
+
+File:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingRootTraceMarginSelectedPrefixBridge.lean
+```
+
+The bridge also exports:
+
+```lean
+graphAcceptedTraceMargin_exists_of_rootTraceMarginProducer
+terminalAcceptedEvalSequenceBadFace_of_rootTraceMarginProducer
+strengthenedTerminalAcceptedEval_of_rootTraceMarginProducer
+selectedPrefixCover_evalLanguage_of_rootTraceMarginProducer
+selectedPrefixCover_scaledMargin_nonpos_of_rootTraceMarginProducer
+```
+
+This proves that the compact upstream predicate
+`RootTraceMarginProducer scaledMargin rank` now feeds the selected-prefix
+Bellman cover without sampled rank/path objects.  The object is still semantic:
+an accepted-prefix producer plus a per-trace integer margin inequality.
+
+Memory-safe Lean checks:
+
+```bash
+lake env lean -j1 -M8192 -o \
+  .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverMembershipBridge.olean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean
+
+lake env lean -j1 -M8192 \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingRootTraceMarginSelectedPrefixBridge.lean
+```
+
+Results:
+
+```text
+selected-prefix bridge olean refresh: exit=0, elapsed=4.53s, peak RSS=3320784 KiB
+root trace-margin bridge check:       exit=0, elapsed=1.64s, peak RSS=3379264 KiB
+```
+
+An attempted `lake build ...:olean` under an 8192 MiB virtual address-space cap
+aborted with `failed to create thread` before meaningful checking.  This was a
+guard/cap interaction rather than a Lean memory blow-up; the successful
+single-thread `lean -j1 -M8192` checks above are the preferred workflow for
+these narrow bridge targets.
+
+Updated the predicate selector audit:
+
+```bash
+python3 scripts/audit_top_pairing_upstream_predicate_selector.py
+python3 -m py_compile scripts/audit_top_pairing_upstream_predicate_selector.py
+```
+
+Result:
+
+```text
+decision=target-selected-prefix-cover-family
+```
+
+Current interpretation:
+
+- Bellman is still viable for this one semantic-membership experiment.
+- The preferred upstream socket is now
+  `RootTraceMarginProducer scaledMargin rank`, because it carries both
+  accepted-prefix membership and the per-trace margin inequality.
+- The next production theorem should prove:
+
+```lean
+forall rank,
+  ProductionTopPairingResidualAtRank rank ->
+    RootTraceMarginProducer scaledMargin rank
+```
+
+- A direct theorem into `SelectedPrefixCoverFamily scaledMargin rank` is also
+  acceptable if the production classifier naturally proves the selected-prefix
+  state-DAG membership.
+- If the next classifier proof needs sampled ranks, sampled paths, exact
+  affine-RHS keys, or one branch per concrete rank, stop this Bellman route as
+  a final coverage strategy and move to the cancellation-tree summary automaton
+  fallback.

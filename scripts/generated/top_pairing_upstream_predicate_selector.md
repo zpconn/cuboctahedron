@@ -12,6 +12,21 @@ the concrete predicate chain currently available in the repo.
 The current bounded upstream predicate is:
 
 ```lean
+RootTraceMarginProducer scaledMargin rank
+```
+
+which bridges to:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym
+TopPairingBellmanEvalLanguageAtRank ... scaledMargin rank Face.ym
+scaledMargin rank <= 0
+```
+
+The selected-prefix cover itself is:
+
+```lean
 SelectedPrefixCoverFamily scaledMargin rank
 ```
 
@@ -32,7 +47,7 @@ actual upstream residual classifier once selected, with this shape:
 ```lean
 forall rank,
   ProductionTopPairingResidualAtRank rank ->
-    SelectedPrefixCoverFamily scaledMargin rank
+    RootTraceMarginProducer scaledMargin rank
 ```
 
 If the production residual classifier already carries closed-language
@@ -46,6 +61,11 @@ forall rank,
       rank Face.ym
 ```
 
+A direct theorem into `SelectedPrefixCoverFamily scaledMargin rank` is
+also acceptable, but the root trace-margin producer is now the preferred
+upstream socket because it carries accepted-prefix membership and the
+per-trace margin inequality in one compact semantic predicate.
+
 The theorem must remain semantic.  It should not introduce a sampled
 rank/path object or one branch per concrete rank.
 
@@ -56,13 +76,20 @@ rank/path object or one branch per concrete rank.
 | `SelectedPrefixCoverFamily` | bounded selected-prefix state-DAG cover | `selected_prefix_cover_root`, `selected_prefix_cover_socket`, `selected_prefix_trace_margin_cover_bridge`, `selected_prefix_cover_membership_bridge`, `terminal_direct_bridge` |
 | `selectedPrefixCover_evalLanguage` | cover -> Bellman eval language | `selected_prefix_cover_root`, `selected_prefix_cover_socket` |
 | `selectedPrefixCover_scaledMargin_nonpos` | cover -> nonpositive margin | `selected_prefix_cover_root`, `selected_prefix_cover_socket` |
-| `SelectedPrefixCoverSequenceBadFace` | strengthened-language payload for cover | `selected_prefix_cover_socket`, `selected_prefix_trace_margin_cover_bridge`, `selected_prefix_cover_membership_bridge` |
-| `evalLanguage_of_strengthenedSelectedPrefixCover` | strengthened cover -> eval language | `selected_prefix_cover_socket`, `selected_prefix_cover_membership_bridge` |
-| `strengthenedSelectedPrefixCover_scaledMargin_nonpos` | strengthened cover -> nonpositive margin | `selected_prefix_cover_socket`, `selected_prefix_cover_membership_bridge` |
+| `SelectedPrefixCoverSequenceBadFace` | strengthened-language payload for cover | `selected_prefix_cover_socket`, `selected_prefix_trace_margin_cover_bridge`, `selected_prefix_cover_membership_bridge`, `root_trace_margin_selected_prefix_bridge` |
+| `evalLanguage_of_strengthenedSelectedPrefixCover` | strengthened cover -> eval language | `selected_prefix_cover_socket`, `selected_prefix_cover_membership_bridge`, `root_trace_margin_selected_prefix_bridge` |
+| `strengthenedSelectedPrefixCover_scaledMargin_nonpos` | strengthened cover -> nonpositive margin | `selected_prefix_cover_socket`, `selected_prefix_cover_membership_bridge`, `root_trace_margin_selected_prefix_bridge` |
 | `selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily` | cover -> trace-margin family | `selected_prefix_trace_margin_cover_bridge`, `terminal_direct_bridge` |
 | `selectedPrefixTraceMarginSequenceBadFace_of_selectedPrefixCoverFamily` | cover -> trace-margin payload | `selected_prefix_trace_margin_cover_bridge` |
 | `strengthenedTraceMargin_of_strengthenedSelectedPrefixCover` | strengthened cover -> strengthened trace-margin | `selected_prefix_trace_margin_cover_bridge` |
-| `strengthenedSelectedPrefixCover_of_terminalAcceptedEval` | terminal-accepted eval -> strengthened selected-prefix cover | `selected_prefix_cover_membership_bridge` |
+| `strengthenedSelectedPrefixCover_of_terminalAcceptedEval` | terminal-accepted eval -> strengthened selected-prefix cover | `selected_prefix_cover_membership_bridge`, `root_trace_margin_selected_prefix_bridge` |
+| `RootTraceMarginProducer` | root accepted-prefix producer plus trace margin | `root_trace_margin_selected_prefix_bridge` |
+| `graphAcceptedTraceMargin_exists_of_rootTraceMarginProducer` | root trace-margin producer -> graph margin object | `root_trace_margin_selected_prefix_bridge` |
+| `terminalAcceptedEvalSequenceBadFace_of_rootTraceMarginProducer` | root trace-margin producer -> terminal-accepted eval payload | `root_trace_margin_selected_prefix_bridge` |
+| `strengthenedTerminalAcceptedEval_of_rootTraceMarginProducer` | root trace-margin producer -> strengthened terminal-accepted eval | `root_trace_margin_selected_prefix_bridge` |
+| `strengthenedSelectedPrefixCover_of_rootTraceMarginProducer` | root trace-margin producer -> strengthened selected-prefix cover | `root_trace_margin_selected_prefix_bridge` |
+| `selectedPrefixCover_evalLanguage_of_rootTraceMarginProducer` | root trace-margin producer -> Bellman eval language | `root_trace_margin_selected_prefix_bridge` |
+| `selectedPrefixCover_scaledMargin_nonpos_of_rootTraceMarginProducer` | root trace-margin producer -> nonpositive margin | `root_trace_margin_selected_prefix_bridge` |
 | `selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation` | trace-margin object cover + certs -> killed predicate | `selected_prefix_killed_socket` |
 | `TerminalDirectClosedFamily` | terminal direct semantic alternative | `terminal_direct_bridge` |
 
@@ -74,6 +101,7 @@ rank/path object or one branch per concrete rank.
 | `selected_prefix_cover_socket` | `50` | `0` | `SelectedPrefixCoverFamily`, `SelectedPrefixCoverSequenceBadFace`, `evalLanguage_of_strengthenedSelectedPrefixCover`, `selectedPrefixCover_evalLanguage`, `selectedPrefixCover_scaledMargin_nonpos`, `strengthenedSelectedPrefixCover_scaledMargin_nonpos` |
 | `selected_prefix_trace_margin_cover_bridge` | `417` | `0` | `SelectedPrefixCoverFamily`, `SelectedPrefixCoverSequenceBadFace`, `selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily`, `selectedPrefixTraceMarginSequenceBadFace_of_selectedPrefixCoverFamily`, `strengthenedTraceMargin_of_strengthenedSelectedPrefixCover` |
 | `selected_prefix_cover_membership_bridge` | `279` | `0` | `SelectedPrefixCoverFamily`, `SelectedPrefixCoverSequenceBadFace`, `evalLanguage_of_strengthenedSelectedPrefixCover`, `strengthenedSelectedPrefixCover_of_terminalAcceptedEval`, `strengthenedSelectedPrefixCover_scaledMargin_nonpos` |
+| `root_trace_margin_selected_prefix_bridge` | `123` | `0` | `RootTraceMarginProducer`, `SelectedPrefixCoverSequenceBadFace`, `evalLanguage_of_strengthenedSelectedPrefixCover`, `graphAcceptedTraceMargin_exists_of_rootTraceMarginProducer`, `selectedPrefixCover_evalLanguage_of_rootTraceMarginProducer`, `selectedPrefixCover_scaledMargin_nonpos_of_rootTraceMarginProducer`, `strengthenedSelectedPrefixCover_of_rootTraceMarginProducer`, `strengthenedSelectedPrefixCover_of_terminalAcceptedEval`, `strengthenedSelectedPrefixCover_scaledMargin_nonpos`, `strengthenedTerminalAcceptedEval_of_rootTraceMarginProducer`, `terminalAcceptedEvalSequenceBadFace_of_rootTraceMarginProducer` |
 | `selected_prefix_trace_margin_socket` | `57` | `0` | none |
 | `selected_prefix_killed_socket` | `65` | `0` | `selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation` |
 | `terminal_direct_bridge` | `163` | `0` | `SelectedPrefixCoverFamily`, `TerminalDirectClosedFamily`, `selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily` |
@@ -82,7 +110,7 @@ rank/path object or one branch per concrete rank.
 
 Do not build another Bellman potential or sampled smoke next.  The
 next useful Lean/generator work is a semantic producer theorem into
-`SelectedPrefixCoverFamily`, or a proof that this cover is too narrow
+`RootTraceMarginProducer`, or a proof that this cover is too narrow
 and must be replaced by the direct `TerminalTracePrefixSharedGain`
 family surface.
 

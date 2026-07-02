@@ -32,6 +32,9 @@ FILES = {
     "selected_prefix_cover_membership_bridge": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean",
+    "root_trace_margin_selected_prefix_bridge": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingRootTraceMarginSelectedPrefixBridge.lean",
     "selected_prefix_trace_margin_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSelectedPrefixTraceMarginSocket.lean",
@@ -54,6 +57,13 @@ SYMBOLS = {
     "selectedPrefixTraceMarginSequenceBadFace_of_selectedPrefixCoverFamily": "cover -> trace-margin payload",
     "strengthenedTraceMargin_of_strengthenedSelectedPrefixCover": "strengthened cover -> strengthened trace-margin",
     "strengthenedSelectedPrefixCover_of_terminalAcceptedEval": "terminal-accepted eval -> strengthened selected-prefix cover",
+    "RootTraceMarginProducer": "root accepted-prefix producer plus trace margin",
+    "graphAcceptedTraceMargin_exists_of_rootTraceMarginProducer": "root trace-margin producer -> graph margin object",
+    "terminalAcceptedEvalSequenceBadFace_of_rootTraceMarginProducer": "root trace-margin producer -> terminal-accepted eval payload",
+    "strengthenedTerminalAcceptedEval_of_rootTraceMarginProducer": "root trace-margin producer -> strengthened terminal-accepted eval",
+    "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer": "root trace-margin producer -> strengthened selected-prefix cover",
+    "selectedPrefixCover_evalLanguage_of_rootTraceMarginProducer": "root trace-margin producer -> Bellman eval language",
+    "selectedPrefixCover_scaledMargin_nonpos_of_rootTraceMarginProducer": "root trace-margin producer -> nonpositive margin",
     "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": "trace-margin object cover + certs -> killed predicate",
     "TerminalDirectClosedFamily": "terminal direct semantic alternative",
 }
@@ -113,6 +123,21 @@ def render(report: dict[str, Any]) -> str:
         "The current bounded upstream predicate is:",
         "",
         "```lean",
+        "RootTraceMarginProducer scaledMargin rank",
+        "```",
+        "",
+        "which bridges to:",
+        "",
+        "```lean",
+        "TopPairingStrengthenedClosedLanguageAtRank",
+        "  (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym",
+        "TopPairingBellmanEvalLanguageAtRank ... scaledMargin rank Face.ym",
+        "scaledMargin rank <= 0",
+        "```",
+        "",
+        "The selected-prefix cover itself is:",
+        "",
+        "```lean",
         "SelectedPrefixCoverFamily scaledMargin rank",
         "```",
         "",
@@ -133,7 +158,7 @@ def render(report: dict[str, Any]) -> str:
         "```lean",
         "forall rank,",
         "  ProductionTopPairingResidualAtRank rank ->",
-        "    SelectedPrefixCoverFamily scaledMargin rank",
+        "    RootTraceMarginProducer scaledMargin rank",
         "```",
         "",
         "If the production residual classifier already carries closed-language",
@@ -146,6 +171,11 @@ def render(report: dict[str, Any]) -> str:
         "      (SelectedPrefixCoverSequenceBadFace scaledMargin)",
         "      rank Face.ym",
         "```",
+        "",
+        "A direct theorem into `SelectedPrefixCoverFamily scaledMargin rank` is",
+        "also acceptable, but the root trace-margin producer is now the preferred",
+        "upstream socket because it carries accepted-prefix membership and the",
+        "per-trace margin inequality in one compact semantic predicate.",
         "",
         "The theorem must remain semantic.  It should not introduce a sampled",
         "rank/path object or one branch per concrete rank.",
@@ -180,7 +210,7 @@ def render(report: dict[str, Any]) -> str:
             "",
         "Do not build another Bellman potential or sampled smoke next.  The",
         "next useful Lean/generator work is a semantic producer theorem into",
-        "`SelectedPrefixCoverFamily`, or a proof that this cover is too narrow",
+        "`RootTraceMarginProducer`, or a proof that this cover is too narrow",
         "and must be replaced by the direct `TerminalTracePrefixSharedGain`",
             "family surface.",
             "",
@@ -198,6 +228,8 @@ def main() -> None:
         "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily",
         "SelectedPrefixCoverSequenceBadFace",
         "evalLanguage_of_strengthenedSelectedPrefixCover",
+        "RootTraceMarginProducer",
+        "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer",
         "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation",
     ]
     missing = [symbol for symbol in required if symbol not in symbol_locations]
@@ -217,7 +249,7 @@ def main() -> None:
         "next_theorem": {
             "preferred": (
                 "forall rank, ProductionTopPairingResidualAtRank rank -> "
-                "SelectedPrefixCoverFamily scaledMargin rank"
+                "RootTraceMarginProducer scaledMargin rank"
             ),
             "strengthened_socket": (
                 "forall rank, ProductionTopPairingResidualAtRank rank -> "
