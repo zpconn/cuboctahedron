@@ -68535,3 +68535,144 @@ should use the new word bridge for the `word_eq` field.  If the remaining
 `kernel_check`, `axis_forces`, or `solve_check` facts cannot be transported from
 trace semantics without a sampled rank/path table, that is the Bellman no-go
 signal and the plan pivots to cancellation-tree summary algebra.
+
+### 2026-07-02 Trace-level start-violation bridge implemented
+
+Implemented the next provider-facing bridge.  The sampled positive-cert modules
+currently build `ObjectStartViolationMarginCert` directly and fill `word_eq`
+with rank-specific facts.  Production trace families now have a compact
+semantic target instead.
+
+New structure in
+`Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean`:
+
+```lean
+TraceStartViolationMarginCert
+```
+
+It is the trace-level analogue of `ObjectStartViolationMarginCert`: its word
+field is tied to `pairWordOfSeq template`, not to a sampled rank.  The remaining
+proof fields are the same local exact facts:
+
+```lean
+kernel_check
+solve_check
+axis_forces
+badFace_ne_xp
+badFace_violation
+```
+
+New adapter:
+
+```lean
+TraceStartViolationMarginCert.toObjectStartViolationMarginCert
+```
+
+It converts a trace-level cert to an object/rank-level cert once supplied with:
+
+```lean
+pairWordOfSeq template = unrankPairWord rank
+```
+
+New top-pairing bridge module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceStartViolationBridge.lean
+```
+
+Main adapter:
+
+```lean
+objectStartViolationMarginCert_of_traceCert
+```
+
+Given a trace-level cert and:
+
+```lean
+topPairingRankFaceLabels rank =
+  faceLabelsInContributionOrder (fun f : Face => f) template
+```
+
+it constructs:
+
+```lean
+ObjectStartViolationMarginCert rank margin
+```
+
+using `pairWordOfSeq_eq_unrankPairWord_of_topPairingRankFaceLabels_eq`.
+
+Guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/bellman_killed_bridge_trace_cert_guard.json \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/bellman_killed_bridge_trace_cert_lake_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/bellman_top_pairing_trace_start_violation_bridge_guard.json \
+  -- lake env lean \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceStartViolationBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/bellman_top_pairing_trace_start_violation_bridge_lake_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceStartViolationBridge
+```
+
+Results:
+
+```text
+BellmanKilledBridge direct Lean: passed, 2.00s, peak 3583 MiB
+BellmanKilledBridge Lake: passed, 32.03s, peak 10344 MiB
+TraceStartViolationBridge direct Lean: passed, 2.01s, peak 3591 MiB
+TraceStartViolationBridge Lake: passed, 3.01s, peak 1527 MiB
+```
+
+The 10.3 GiB peak occurred during the focused dependency rebuild for
+`BellmanKilledBridge`; it stayed inside the 12 GiB guard and safely below the
+machine memory ceiling.
+
+Hygiene checks over the edited/new bridge files passed with no output:
+
+```bash
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceStartViolationBridge.lean || true
+
+grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceStartViolationBridge.lean || true
+```
+
+Decision:
+
+Accept this as the second concrete piece of the one-more-Bellman semantic
+experiment.  The route now has:
+
+1. semantic contribution-label equality -> rank word equality;
+2. trace-level start-violation cert -> rank-level
+   `ObjectStartViolationMarginCert`.
+
+The remaining decisive step is not more infrastructure.  It is to generate or
+hand-build one actual trace-level cert, starting with trace `000`, and prove its
+local exact fields against `pairWordOfSeq template`.  If that cert can be
+checked once per trace id and reused through semantic label equality, Bellman
+continues.  If it requires sampled rank/path facts for `kernel_check`,
+`axis_forces`, or `solve_check`, Bellman production stops and the plan pivots.

@@ -157,6 +157,43 @@ structure ObjectStartViolationMarginCert
   badFace_violation :
     offsetR badFace ≤ dot (normalR badFace) (vecRatToReal cert.p0)
 
+structure TraceStartViolationMarginCert
+    (template : Step14 -> Face) (margin : Int) where
+  cert : NonIdCert
+  word_eq : cert.word = pairWordOfSeq template
+  kernel_check :
+    checkKernelLineWitness (totalLinearOfPairWord cert.word)
+      cert.axis cert.kernel = true
+  solve_check :
+    checkAffineAxisSolveWitness (totalAff (faceVectorSeq cert.forcedSeq))
+      cert.axis cert.p0 cert.lambda cert.solve = true
+  axis_forces :
+    AxisForcesForcedSeq cert.word cert.axis
+      (faceVectorSeq cert.forcedSeq)
+  badFace : Face
+  badFace_ne_xp : badFace ≠ Face.xp
+  badFace_violation :
+    offsetR badFace ≤ dot (normalR badFace) (vecRatToReal cert.p0)
+
+namespace TraceStartViolationMarginCert
+
+def toObjectStartViolationMarginCert
+    {template : Step14 -> Face} {margin : Int}
+    {rank : Fin numPairWords}
+    (traceCert : TraceStartViolationMarginCert template margin)
+    (hword : pairWordOfSeq template = unrankPairWord rank) :
+    ObjectStartViolationMarginCert rank margin where
+  cert := traceCert.cert
+  word_eq := traceCert.word_eq.trans hword
+  kernel_check := traceCert.kernel_check
+  solve_check := traceCert.solve_check
+  axis_forces := traceCert.axis_forces
+  badFace := traceCert.badFace
+  badFace_ne_xp := traceCert.badFace_ne_xp
+  badFace_violation := traceCert.badFace_violation
+
+end TraceStartViolationMarginCert
+
 namespace ObjectStartViolationMarginCert
 
 theorem positive
