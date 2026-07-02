@@ -164,6 +164,94 @@ theorem branchTableSuffixOk_root_of_closedPrefix2_forall
   exact branchTableSuffixOk_root_of_closedPrefix2 hlabels
     (hsuffix rest hlabels)
 
+/--
+Semantic branch lift after the Lean-proved `xm, ym` prefix.
+
+The closed top-pairing schedule restricts the third face to `tmpm`, `yp`, or
+`zm`.  Each branch is stored as a finite `StrengthenedBranchTable`
+constructor for graph state `143`; the continuation receives the evaluator
+equation, semantic tail, and graph-range invariant only when the generic local
+progress theorem consumes this suffix.
+-/
+theorem branchTableSuffixOk_closedPrefix2_branch_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {face : Face} {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: face :: rest)
+    (hsuffix :
+      ∀ nextState gain,
+        faceEvalNext closedPrefix2EvalState face = some (nextState, gain) ->
+        nextState.Tail rest ->
+        BranchInv nextState ->
+          BranchTableSuffixOk rank nextState rest) :
+    BranchTableSuffixOk rank closedPrefix2EvalState (face :: rest) := by
+  have hschedule :
+      TopPairingStepScheduleLabels (topPairingRankFaceLabels rank) := by
+    simpa [topPairingRankFaceLabels] using hclosed.schedule
+  have hface :
+      face ∈ topPairingAllowedFacesAtStep 2 := by
+    simpa using
+      (topPairingStepScheduleLabels_allows_next_of_prefix
+        (labels := topPairingRankFaceLabels rank)
+        (pfx := [Face.xm, Face.ym])
+        (rest := rest)
+        hschedule
+        (by simpa using hlabels))
+  simp [topPairingAllowedFacesAtStep] at hface
+  rcases hface with rfl | rfl | rfl
+  · refine BranchTableSuffixOk.graph
+      StrengthenedBranchTable.graph_127_s0143_tmpm ?_
+    intro nextState gain hnext htailNext hinvNext
+    exact hsuffix nextState gain hnext htailNext hinvNext
+  · refine BranchTableSuffixOk.graph
+      StrengthenedBranchTable.graph_125_s0143_yp ?_
+    intro nextState gain hnext htailNext hinvNext
+    exact hsuffix nextState gain hnext htailNext hinvNext
+  · refine BranchTableSuffixOk.graph
+      StrengthenedBranchTable.graph_126_s0143_zm ?_
+    intro nextState gain hnext htailNext hinvNext
+    exact hsuffix nextState gain hnext htailNext hinvNext
+
+theorem branchTableSuffixOk_root_of_closedPrefix3_forall
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix :
+      ∀ face rest nextState gain,
+        topPairingRankFaceLabels rank =
+          Face.xm :: Face.ym :: face :: rest ->
+        faceEvalNext closedPrefix2EvalState face = some (nextState, gain) ->
+        nextState.Tail rest ->
+        BranchInv nextState ->
+          BranchTableSuffixOk rank nextState rest) :
+    BranchTableSuffixOk rank
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) := by
+  rcases topPairingStepScheduleLabels_prefix3 hclosed.schedule with
+    htmpm | hyp | hzm
+  · rcases htmpm with ⟨rest, hlabels⟩
+    exact branchTableSuffixOk_root_of_closedPrefix2 hlabels
+      (branchTableSuffixOk_closedPrefix2_branch_of_closed
+        hclosed hlabels
+        (fun nextState gain hnext htailNext hinvNext =>
+          hsuffix Face.tmpm rest nextState gain hlabels hnext htailNext
+            hinvNext))
+  · rcases hyp with ⟨rest, hlabels⟩
+    exact branchTableSuffixOk_root_of_closedPrefix2 hlabels
+      (branchTableSuffixOk_closedPrefix2_branch_of_closed
+        hclosed hlabels
+        (fun nextState gain hnext htailNext hinvNext =>
+          hsuffix Face.yp rest nextState gain hlabels hnext htailNext
+            hinvNext))
+  · rcases hzm with ⟨rest, hlabels⟩
+    exact branchTableSuffixOk_root_of_closedPrefix2 hlabels
+      (branchTableSuffixOk_closedPrefix2_branch_of_closed
+        hclosed hlabels
+        (fun nextState gain hnext htailNext hinvNext =>
+          hsuffix Face.zm rest nextState gain hlabels hnext htailNext
+            hinvNext))
+
 theorem branchTableSuffix1MSmoke_builds : True := by
   exact True.intro
 

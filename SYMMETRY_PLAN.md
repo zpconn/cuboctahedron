@@ -81540,3 +81540,99 @@ closed top-pairing semantic suffix after the `xm, ym` prefix.
 This should be attacked by generated semantic state/cursor membership into the
 finite branch table, not by a monolithic classifier converse or trace/rank
 enumeration.
+
+### Branch-Table Third-Face Lift Added
+
+Extended the branch-table suffix predicate one semantic branch past the
+Lean-proved `xm, ym` prefix:
+
+```lean
+branchTableSuffixOk_closedPrefix2_branch_of_closed
+branchTableSuffixOk_root_of_closedPrefix3_forall
+```
+
+The theorem uses the closed top-pairing schedule to restrict the third face to:
+
+```text
+tmpm | yp | zm
+```
+
+and stores the corresponding finite branch-table constructor for graph state
+`143`:
+
+```text
+state 143 / tmpm -> graph branch
+state 143 / yp   -> graph branch
+state 143 / zm   -> graph branch
+```
+
+The continuation is still semantic and local:
+
+```lean
+faceEvalNext closedPrefix2EvalState face = some (nextState, gain) ->
+nextState.Tail rest ->
+BranchInv nextState ->
+BranchTableSuffixOk rank nextState rest
+```
+
+This keeps the proof on the intended side of the pivot: it stores finite table
+membership and lets the generic local-progress theorem derive evaluator
+progress later.  It does not use sampled paths, selected-prefix covers,
+rank-indexed objects, exact affine RHS keys, or a classifier-to-table monolith.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffix1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingBranchTableSuffix1MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| branch-table suffix direct Lean | pass | `5.00s` | `3682 MiB` |
+| branch-table suffix Lake target | pass | `3.00s` | `4003 MiB` |
+| membership-frontier audit | pass | `1.00s` | `1 MiB` |
+| forbidden/sampled scan | pass | no hits | n/a |
+
+The audit now records:
+
+```lean
+branchTableSuffixOk_closedPrefix2_branch_of_closed
+branchTableSuffixOk_root_of_closedPrefix3_forall
+```
+
+as accepted local theorem surfaces.
+
+Remaining production gap:
+
+```text
+Construct the post-third-face `BranchTableSuffixOk` continuation from semantic
+transducer/cursor state.  The next bounded slice can mirror the existing
+closed-prefix-4 direct theorem, but must store `StrengthenedBranchTable`
+constructors rather than direct `faceEvalNext` equations.
+```
