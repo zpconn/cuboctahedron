@@ -58878,3 +58878,81 @@ with no `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, or
    objects.  In that case, stop this Bellman production route and replace the
    automaton with a stronger cancellation-tree/evaluator semantic object before
    returning to Lean emission.
+
+Semantic Bellman eval-gate module checkpoint:
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean`.
+- The module does not prove the two remaining semantic premises.  Instead, it
+  makes the exact production socket explicit:
+
+```lean
+ClosedTraceOr obj
+ClosedMarginBound scaledMargin obj
+```
+
+for every compact object
+`obj : TopPairingBellmanObj Face.ym`.
+- From those premises it proves:
+
+```lean
+evalAccepts_of_closedTraceAndMargin
+closedToEvalLanguage_of_traceAndMargin
+scaledMargin_nonpos_of_closedTraceAndMargin
+```
+
+- This is the intended boundary for the next theorem.  A production proof must
+  fill `ClosedTraceOr` and `ClosedMarginBound` from
+  `TopPairingClosedLanguageAtRank`, not from sampled rank/path evidence.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_closed_eval_gate_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedEvalGate.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3603 MiB
+hard_as = 8192 MiB
+```
+
+Attempted broad Lake build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_closed_eval_gate_lake_build_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedEvalGate
+```
+
+Result:
+
+```text
+rejected / guard-killed
+exit = -15
+elapsed = 7.01s
+peak_tree_rss = 65603 MiB
+```
+
+Interpretation: the gate theorem itself is small and direct-Lean checkable, but
+unbounded Lake scheduling remains unsafe for this Bellman import stack.  Do not
+use broad `lake build` to validate the next Bellman semantic-membership slice
+until the heavy imports are prebuilt serially or Lake concurrency is externally
+controlled.  Continue with hard-capped direct Lean checks for the next local
+gate modules.
