@@ -1,0 +1,127 @@
+ℹ [2970/3018] Replayed Cuboctahedron.Geometry.Faces
+info: Cuboctahedron/Geometry/Faces.lean:68:0: { x := 1, y := 0, z := 0 }
+info: Cuboctahedron/Geometry/Faces.lean:69:0: 2
+ℹ [2973/3018] Replayed Cuboctahedron.Geometry.Unfolding
+info: Cuboctahedron/Geometry/Unfolding.lean:94:0: 14
+info: Cuboctahedron/Geometry/Unfolding.lean:95:0: { m00 := -1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 }
+info: Cuboctahedron/Geometry/Unfolding.lean:96:0: { m00 := 1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 }
+ℹ [2974/3018] Replayed Cuboctahedron.Geometry.BilliardOrbit
+info: Cuboctahedron/Geometry/BilliardOrbit.lean:143:0: Cuboctahedron.BilliardOrbit14 : Type
+info: Cuboctahedron/Geometry/BilliardOrbit.lean:144:0: Cuboctahedron.TouchesEachFaceExactlyOnce : BilliardOrbit14 → Prop
+info: Cuboctahedron/Geometry/BilliardOrbit.lean:145:0: Cuboctahedron.can_start_at_xp (o : BilliardOrbit14) (h : TouchesEachFaceExactlyOnce o) :
+  ∃ o', TouchesEachFaceExactlyOnce o' ∧ o'.face 0 = Face.xp
+ℹ [2975/3018] Replayed Cuboctahedron.Search.PairWords
+info: Cuboctahedron/Search/PairWords.lean:105:0: Cuboctahedron.PairId.x
+info: Cuboctahedron/Search/PairWords.lean:106:0: { x := 1, y := 1, z := 1 }
+info: Cuboctahedron/Search/PairWords.lean:107:0: Cuboctahedron.Face.tmpp
+ℹ [2976/3018] Replayed Cuboctahedron.Search.Itineraries
+info: Cuboctahedron/Search/Itineraries.lean:223:0: Cuboctahedron.seq_to_pairword (seq : Fin 14 → Face) (hOmni : IsOmniSeq seq) (hStart : StartsXp seq) :
+  ∃ w, ValidPairWord w ∧ PairWordMatchesSeq w seq
+ℹ [2979/3018] Replayed Cuboctahedron.Search.Enumeration
+info: Cuboctahedron/Search/Enumeration.lean:1855:0: Cuboctahedron.rank_unrank_pairword (r : Fin numPairWords) : rankPairWord? (unrankPairWord r) = some r
+info: Cuboctahedron/Search/Enumeration.lean:1856:0: Cuboctahedron.unrank_rank_pairword (w : PairWord) (h : ValidPairWord w) : ∃ r, unrankPairWord r = w
+info: Cuboctahedron/Search/Enumeration.lean:1857:0: Cuboctahedron.rank_unrank_signMask (r : Fin numSignMasks) : rankSignMask (unrankSignMask r) = r
+info: Cuboctahedron/Search/Enumeration.lean:1858:0: Cuboctahedron.unrank_rank_signMask (mask : SignMask) : unrankSignMask (rankSignMask mask) = mask
+ℹ [2980/3018] Replayed Cuboctahedron.Geometry.UnfoldingFeasible
+info: Cuboctahedron/Geometry/UnfoldingFeasible.lean:883:0: Cuboctahedron.UnfoldedFeasible (seq : Step14 → Face) : Prop
+info: Cuboctahedron/Geometry/UnfoldingFeasible.lean:884:0: Cuboctahedron.billiard_implies_unfolded (o : BilliardOrbit14) (hOmni : TouchesEachFaceExactlyOnce o)
+  (hStart : o.face 0 = Face.xp) : UnfoldedFeasible o.face
+ℹ [2981/3018] Replayed Cuboctahedron.Search.NonIdentityCase
+info: Cuboctahedron/Search/NonIdentityCase.lean:970:0: Cuboctahedron.totalLinearOfPairWord (w : PairWord) : Mat3 ℚ
+info: Cuboctahedron/Search/NonIdentityCase.lean:971:0: Cuboctahedron.totalLinear_eq_totalLinearOfPairWord {seq : Step14 → Face} {w : PairWord} (hStart : StartsXp seq)
+  (hMatch : PairWordMatchesSeq w seq) : totalLinear seq = totalLinearOfPairWord w
+info: Cuboctahedron/Search/NonIdentityCase.lean:972:0: Cuboctahedron.checkKernelLineWitness_real_axisLine {M : Mat3 ℚ} {axis : Vec3 ℚ} {witness : KernelLineWitness}
+  (hcheck : checkKernelLineWitness M axis witness = true) {w : Vec3 ℝ} (hfix : matVec (M.map fun q => ↑q) w = w) :
+  cross (vecRatToReal axis) w = zeroVec3R
+info: Cuboctahedron/Search/NonIdentityCase.lean:973:0: Cuboctahedron.checkAffineAxisSolveWitness_real_unique {A : Aff3 ℚ} {axis p0 : Vec3 ℚ} {lambda : ℚ}
+  {witness : AffineAxisSolveWitness} (hcheck : checkAffineAxisSolveWitness A axis p0 lambda witness = true) {y : Vec4R}
+  (hy : mat4VecR (mat4RatToReal (axisSolveMatrix A axis)) y = vec4RatToReal (axisSolveRhs A)) :
+  y = vec4RatToReal (axisSolveVector p0 lambda)
+info: Cuboctahedron/Search/NonIdentityCase.lean:974:0: Cuboctahedron.unfolded_feasible_nonidentity_forces_axis {seq : Step14 → Face} {axis : Vec3 ℚ}
+  {kernel : KernelLineWitness} (h : NonIdentityAxisConstraints seq)
+  (hKernel : checkKernelLineWitness (totalLinear seq) axis kernel = true) :
+  ∃ data,
+    data.w ≠ zeroVec3R ∧
+      cross (vecRatToReal axis) data.w = zeroVec3R ∧ ∃ lambda, data.w = scalarMul lambda (vecRatToReal axis)
+info: Cuboctahedron/Search/NonIdentityCase.lean:975:0: Cuboctahedron.unfolded_feasible_nonidentity_forces_start_point {seq : Step14 → Face} {axis certP : Vec3 ℚ}
+  {kernel : KernelLineWitness} {certLambda : ℚ} {solve : AffineAxisSolveWitness} (h : NonIdentityAxisConstraints seq)
+  (hStart : StartsXp seq) (hKernel : checkKernelLineWitness (totalLinear seq) axis kernel = true)
+  (hSolve : checkAffineAxisSolveWitness (totalAff seq) axis certP certLambda solve = true) :
+  ∃ data, data.p0 = vecRatToReal certP
+info: Cuboctahedron/Search/NonIdentityCase.lean:976:0: Cuboctahedron.unfolded_feasible_nonidentity_forces_face_signs {seq : Step14 → Face}
+  (h : NonIdentityAxisConstraints seq) : ∃ data, ∀ (i : Impact15), i ≠ 0 → 0 < dot (preImpactNormalR seq i) data.w
+info: Cuboctahedron/Search/NonIdentityCase.lean:977:0: Cuboctahedron.unfolded_feasible_nonidentity_forces_exact_sequence {seq forcedSeq : Step14 → Face}
+  (h : NonIdentityAxisConstraints seq) (hStart : forcedSeq 0 = seq 0)
+  (hNormals : ∀ (i : Step14), i ≠ 0 → normalQ (forcedSeq i) = normalQ (seq i)) :
+  ∃ data, ForcedSignedFaceSequence seq forcedSeq data
+info: Cuboctahedron/Search/NonIdentityCase.lean:978:0: Cuboctahedron.unfolded_feasible_nonidentity_first_hit_data {seq : Step14 → Face} (h : NonIdentityAxisConstraints seq) :
+  ∃ data,
+    (∀ (i : Impact15), InPreUnfoldedImpactFaceInterior seq i (linePoint data.p0 data.w (data.crossing_times i))) ∧
+      PreImpactOpenSegmentInterior seq data.p0 data.w data.crossing_times ∧
+        ∀ (i : Step14), InUnfoldedFaceInterior seq i (linePoint data.p0 data.w (data.crossing_times (Fin.castSucc i)))
+info: Cuboctahedron/Search/NonIdentityCase.lean:979:0: Cuboctahedron.unfolded_feasible_nonidentity_exact_first_hit_sign_data {seq : Step14 → Face}
+  (h : NonIdentityAxisConstraints seq) : ∃ data, ExactFirstHitSignData seq data
+info: Cuboctahedron/Search/NonIdentityCase.lean:980:0: Cuboctahedron.unfolded_feasible_nonidentity_axis_constraints {seq : Step14 → Face} (hFeasible : UnfoldedFeasible seq)
+  (hNonIdentity : totalLinear seq ≠ matId) : NonIdentityAxisConstraints seq
+ℹ [2984/3018] Replayed Cuboctahedron.Search.Farkas2D
+info: Cuboctahedron/Search/Farkas2D.lean:230:0: Cuboctahedron.checkFarkas (constraints : List StrictLin2) (cert : FarkasCert) : Bool
+info: Cuboctahedron/Search/Farkas2D.lean:231:0: Cuboctahedron.checkFarkas_sound {constraints : List StrictLin2} {cert : FarkasCert}
+  (hcheck : checkFarkas constraints cert = true) : ¬∃ y z, ∀ L ∈ constraints, L.Holds y z
+ℹ [2985/3018] Replayed Cuboctahedron.Search.TranslationCase
+info: Cuboctahedron/Search/TranslationCase.lean:443:0: Cuboctahedron.pairword_linear_cases (w : PairWord) : IsIdentityLinear w ∨ IsNonIdentityLinear w
+info: Cuboctahedron/Search/TranslationCase.lean:444:0: Cuboctahedron.unfolded_feasible_cases (seq : Step14 → Face) (h : UnfoldedFeasible seq) :
+  totalLinear seq = matId ∨ totalLinear seq ≠ matId
+info: Cuboctahedron/Search/TranslationCase.lean:445:0: Cuboctahedron.unfolded_feasible_translation_denominators_positive {seq : Step14 → Face} {b : Vec3 ℚ}
+  (h : TranslationUnfoldedFeasible seq b) : TranslationDenominatorsPositive seq b
+info: Cuboctahedron/Search/TranslationCase.lean:446:0: Cuboctahedron.unfolded_feasible_translation_constraints {seq : Step14 → Face} {b : Vec3 ℚ}
+  (h : TranslationUnfoldedFeasible seq b) : ∃ y z, ∀ L ∈ translationConstraints seq b, L.Holds y z
+info: Cuboctahedron/Search/TranslationCase.lean:447:0: Cuboctahedron.translation_feasible_implies_constraints {seq : Step14 → Face} {b : Vec3 ℚ}
+  (h : TranslationUnfoldedFeasible seq b) : ∃ y z, ∀ L ∈ translationConstraints seq b, L.Holds y z
+⚠ [2986/3018] Replayed Cuboctahedron.Search.Certificates
+warning: Cuboctahedron/Search/Certificates.lean:552:7: Variable name `h` is not explicitly referenced.
+
+The binding can be removed (if unused) or named `_` (if used implicitly).
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Cuboctahedron/Search/Certificates.lean:575:15: Variable name `hpair` is not explicitly referenced.
+
+The binding can be removed (if unused) or named `_` (if used implicitly).
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Cuboctahedron/Search/Certificates.lean:576:17: Variable name `hpos` is not explicitly referenced.
+
+The binding can be removed (if unused) or named `_` (if used implicitly).
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Cuboctahedron/Search/Certificates.lean:1123:5: Variable name `h` is not explicitly referenced.
+
+The binding can be removed (if unused) or named `_` (if used implicitly).
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Cuboctahedron/Search/Certificates.lean:1165:8: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+info: Cuboctahedron/Search/Certificates.lean:5896:0: Cuboctahedron.translation_feasible_implies_constraints {seq : Step14 → Face} {b : Vec3 ℚ}
+  (h : TranslationUnfoldedFeasible seq b) : ∃ y z, ∀ L ∈ translationConstraints seq b, L.Holds y z
+info: Cuboctahedron/Search/Certificates.lean:5897:0: Cuboctahedron.checkTranslationCert (cert : TranslationCert) : Bool
+info: Cuboctahedron/Search/Certificates.lean:5898:0: Cuboctahedron.checkTranslationCert_sound (cert : TranslationCert) (hcheck : checkTranslationCert cert = true) :
+  ¬∃ seq, SeqRealizesTranslationChoice cert.word cert.signMask seq ∧ totalLinear seq = matId ∧ UnfoldedFeasible seq
+info: Cuboctahedron/Search/Certificates.lean:5899:0: Cuboctahedron.checkNonIdCert (cert : NonIdCert) : Bool
+info: Cuboctahedron/Search/Certificates.lean:5900:0: Cuboctahedron.checkForcedSeqMatchesWord_sound (cert : NonIdCert) (hcheck : checkForcedSeqMatchesWord cert = true) :
+  StartsXp (faceVectorSeq cert.forcedSeq) ∧ PairWordMatchesSeq cert.word (faceVectorSeq cert.forcedSeq)
+info: Cuboctahedron/Search/Certificates.lean:5901:0: Cuboctahedron.nonIdCert_forcedSeq_exact_of_signed_normals (cert : NonIdCert) {seq : Step14 → Face}
+  (hStart : faceVectorSeq cert.forcedSeq 0 = seq 0)
+  (hNormals : ∀ (i : Step14), i ≠ 0 → normalQ (faceVectorSeq cert.forcedSeq i) = normalQ (seq i)) :
+  faceVectorSeq cert.forcedSeq = seq
+info: Cuboctahedron/Search/Certificates.lean:5902:0: Cuboctahedron.checkNonIdCert_sound (cert : NonIdCert) (hcheck : checkNonIdCert cert = true) :
+  ¬∃ seq, SeqRealizesPairWord cert.word seq ∧ StartsXp seq ∧ totalLinear seq ≠ matId ∧ UnfoldedFeasible seq
+⚠ [3013/3018] Replayed Cuboctahedron.Search.CertificateFormat
+warning: Cuboctahedron/Search/CertificateFormat.lean:548:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Cuboctahedron/Search/CertificateFormat.lean:559:4: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+✔ [3018/3018] Built Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace020StartViolationProvider (43s)
+Build completed successfully (3018 jobs).
+memory guard summary: exit=0 elapsed=45.05s peak_tree_rss=6850 MiB hard_as=none min_available=39307 MiB

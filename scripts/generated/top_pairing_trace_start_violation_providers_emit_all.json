@@ -1,0 +1,453 @@
+{
+  "count": 37,
+  "providers": [
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace000StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace000StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace000",
+      "status": "provider_candidate",
+      "trace_id": "t000",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace001StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace001StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace001",
+      "status": "provider_candidate",
+      "trace_id": "t001",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace002StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace002StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace002",
+      "status": "provider_candidate",
+      "trace_id": "t002",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace003StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace003StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace003",
+      "status": "provider_candidate",
+      "trace_id": "t003",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace004StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace004StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace004",
+      "status": "provider_candidate",
+      "trace_id": "t004",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace005StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace005StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace005",
+      "status": "provider_candidate",
+      "trace_id": "t005",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace006StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace006StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace006",
+      "status": "provider_candidate",
+      "trace_id": "t006",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace007StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace007StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace007",
+      "status": "provider_candidate",
+      "trace_id": "t007",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace008StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace008StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace008",
+      "status": "provider_candidate",
+      "trace_id": "t008",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace009StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace009StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace009",
+      "status": "provider_candidate",
+      "trace_id": "t009",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace010StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace010StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace010",
+      "status": "provider_candidate",
+      "trace_id": "t010",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace011StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace011StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace011",
+      "status": "provider_candidate",
+      "trace_id": "t011",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace012StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace012StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace012",
+      "status": "provider_candidate",
+      "trace_id": "t012",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace013StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace013StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace013",
+      "status": "provider_candidate",
+      "trace_id": "t013",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace014StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace014StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace014",
+      "status": "provider_candidate",
+      "trace_id": "t014",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace015StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace015StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace015",
+      "status": "provider_candidate",
+      "trace_id": "t015",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace016StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace016StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace016",
+      "status": "provider_candidate",
+      "trace_id": "t016",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace017StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace017StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace017",
+      "status": "provider_candidate",
+      "trace_id": "t017",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace018StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace018StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace018",
+      "status": "provider_candidate",
+      "trace_id": "t018",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace019StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace019StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace019",
+      "status": "provider_candidate",
+      "trace_id": "t019",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace020StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace020StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace020",
+      "status": "provider_candidate",
+      "trace_id": "t020",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace021StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace021StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace021",
+      "status": "provider_candidate",
+      "trace_id": "t021",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace022StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace022StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace022",
+      "status": "provider_candidate",
+      "trace_id": "t022",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace023StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace023StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace023",
+      "status": "provider_candidate",
+      "trace_id": "t023",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace024StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace024StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace024",
+      "status": "provider_candidate",
+      "trace_id": "t024",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace025StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace025StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace025",
+      "status": "provider_candidate",
+      "trace_id": "t025",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace026StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace026StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace026",
+      "status": "provider_candidate",
+      "trace_id": "t026",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace027StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace027StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace027",
+      "status": "provider_candidate",
+      "trace_id": "t027",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace028StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace028StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace028",
+      "status": "provider_candidate",
+      "trace_id": "t028",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace029StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace029StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace029",
+      "status": "provider_candidate",
+      "trace_id": "t029",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace030StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace030StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace030",
+      "status": "provider_candidate",
+      "trace_id": "t030",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace031StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace031StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace031",
+      "status": "provider_candidate",
+      "trace_id": "t031",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace032StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace032StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace032",
+      "status": "provider_candidate",
+      "trace_id": "t032",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace033StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace033StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace033",
+      "status": "provider_candidate",
+      "trace_id": "t033",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace034StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace034StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace034",
+      "status": "provider_candidate",
+      "trace_id": "t034",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace035StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace035StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace035",
+      "status": "provider_candidate",
+      "trace_id": "t035",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    },
+    {
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace036StartViolationProvider",
+      "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace036StartViolationProvider.lean",
+      "public_theorem": "objectStartViolationMarginCert_of_trace036",
+      "status": "provider_candidate",
+      "trace_id": "t036",
+      "trusted_as_final_generated_coverage": false,
+      "trusted_as_proof": false
+    }
+  ],
+  "root_module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTraceStartViolationProviders",
+  "root_path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceStartViolationProviders.lean",
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}

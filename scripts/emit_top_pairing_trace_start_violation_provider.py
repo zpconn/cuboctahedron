@@ -74,8 +74,16 @@ def module_name(trace_id: str) -> str:
     return f"{BASE_MODULE}.{module_stem(trace_id)}"
 
 
+ROOT_STEM = "BellmanTopPairingTraceStartViolationProviders"
+ROOT_MODULE = f"{BASE_MODULE}.{ROOT_STEM}"
+
+
 def lean_path(trace_id: str) -> Path:
     return BASE_DIR / f"{module_stem(trace_id)}.lean"
+
+
+def root_lean_path() -> Path:
+    return BASE_DIR / f"{ROOT_STEM}.lean"
 
 
 def lean_face_list(faces: list[str]) -> str:
@@ -437,54 +445,146 @@ def build_module(trace_id: str, result: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def build_root_module(trace_ids: list[str]) -> str:
+    lines: list[str] = []
+    for trace_id in trace_ids:
+        lines.append(f"import {module_name(trace_id)}")
+    lines.extend([
+        "",
+        "/-!",
+        "Generated dispatcher for all graph-accepted top-pairing trace-level",
+        "start-violation providers.",
+        "",
+        "The public entry point is semantic in the accepted trace id.  It does",
+        "not introduce sampled rank/path objects or expose the private",
+        "trace-level `NonIdCert` payloads from the leaf provider modules.",
+        "-/",
+        "",
+        f"namespace {ROOT_MODULE}",
+        "",
+        "open Cuboctahedron",
+        "open Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge",
+        "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedTraceMarginBridge",
+        "",
+        "def objectStartViolationMarginCert_of_acceptedTraceId",
+        "    {scaledMargin : Fin numPairWords -> Int}",
+        "    {rank : Fin numPairWords}",
+        "    (traceId : AcceptedTraceId)",
+        "    (htrace : topPairingRankFaceLabels rank = acceptedTraceOfId traceId) :",
+        "    ObjectStartViolationMarginCert rank (scaledMargin rank) := by",
+        "  cases traceId with",
+    ])
+    for trace_id in trace_ids:
+        num = trace_num(trace_id)
+        lines.extend([
+            f"  | {trace_id} =>",
+            f"      exact BellmanTopPairingTrace{num}StartViolationProvider.objectStartViolationMarginCert_of_trace{num}",
+            "        htrace",
+        ])
+    lines.extend([
+        "",
+        f"end {ROOT_MODULE}",
+        "",
+    ])
+    return "\n".join(lines)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--trace-id", required=True, help="accepted trace id, e.g. t000")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--trace-id", help="accepted trace id, e.g. t000")
+    group.add_argument("--all", action="store_true", help="emit all accepted trace providers and the dispatcher root")
     parser.add_argument("--accepted-gate", type=Path, default=ACCEPTED_GATE)
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     return parser.parse_args()
 
 
-def main() -> None:
-    args = parse_args()
-    traces = parse_accepted_traces(args.accepted_gate)
-    if args.trace_id not in traces:
-        raise SystemExit(f"unknown trace id {args.trace_id}")
-    result = classify_trace(args.trace_id, traces[args.trace_id])
+def emit_one(trace_id: str, traces: dict[str, list[str]]) -> dict[str, Any]:
+    if trace_id not in traces:
+        raise SystemExit(f"unknown trace id {trace_id}")
+    result = classify_trace(trace_id, traces[trace_id])
     if result["status"] != "provider_candidate":
         raise SystemExit(
-            f"{args.trace_id} is not a provider candidate: "
+            f"{trace_id} is not a provider candidate: "
             f"{result.get('reason', result['status'])}"
         )
-    path = lean_path(args.trace_id)
-    path.write_text(build_module(args.trace_id, result), encoding="utf-8")
+    path = lean_path(trace_id)
+    path.write_text(build_module(trace_id, result), encoding="utf-8")
 
-    payload = {
+    return {
         "trusted_as_proof": False,
         "trusted_as_final_generated_coverage": False,
-        "trace_id": args.trace_id,
-        "module": module_name(args.trace_id),
+        "trace_id": trace_id,
+        "module": module_name(trace_id),
         "path": str(path),
         "status": result["status"],
         "failure": result["failure"],
-        "public_theorem": f"objectStartViolationMarginCert_of_{lower_trace(args.trace_id)}",
+        "public_theorem": f"objectStartViolationMarginCert_of_{lower_trace(trace_id)}",
     }
-    args.report.parent.mkdir(parents=True, exist_ok=True)
-    args.report.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    args.report.with_suffix(".md").write_text(
+
+
+def write_single_report(report: Path, payload: dict[str, Any]) -> None:
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    report.with_suffix(".md").write_text(
         "\n".join([
             "# Top-Pairing Trace Start-Violation Provider Emit",
             "",
-            f"- trace id: `{args.trace_id}`",
-            f"- module: `{module_name(args.trace_id)}`",
-            f"- path: `{path}`",
-            f"- failure kind: `{result['failure']['kind']}`",
+            f"- trace id: `{payload['trace_id']}`",
+            f"- module: `{payload['module']}`",
+            f"- path: `{payload['path']}`",
+            f"- failure kind: `{payload['failure']['kind']}`",
             f"- public theorem: `{payload['public_theorem']}`",
             "",
         ]),
         encoding="utf-8",
     )
-    print(f"wrote {path}")
+
+
+def write_all_report(report: Path, payloads: list[dict[str, Any]], root_path: Path) -> None:
+    report.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "trusted_as_proof": False,
+        "trusted_as_final_generated_coverage": False,
+        "count": len(payloads),
+        "root_module": ROOT_MODULE,
+        "root_path": str(root_path),
+        "providers": payloads,
+    }
+    report.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    lines = [
+        "# Top-Pairing Trace Start-Violation Providers Emit",
+        "",
+        f"- provider count: `{len(payloads)}`",
+        f"- root module: `{ROOT_MODULE}`",
+        f"- root path: `{root_path}`",
+        "",
+        "| trace | module | theorem |",
+        "| --- | --- | --- |",
+    ]
+    for entry in payloads:
+        lines.append(
+            f"| `{entry['trace_id']}` | `{entry['module']}` | `{entry['public_theorem']}` |"
+        )
+    lines.append("")
+    report.with_suffix(".md").write_text("\n".join(lines), encoding="utf-8")
+
+
+def main() -> None:
+    args = parse_args()
+    traces = parse_accepted_traces(args.accepted_gate)
+    if args.all:
+        trace_ids = sorted(traces)
+        payloads = [emit_one(trace_id, traces) for trace_id in trace_ids]
+        root_path = root_lean_path()
+        root_path.write_text(build_root_module(trace_ids), encoding="utf-8")
+        write_all_report(args.report, payloads, root_path)
+        print(f"wrote {len(payloads)} providers and {root_path}")
+        return
+
+    payload = emit_one(args.trace_id, traces)
+    write_single_report(args.report, payload)
+    print(f"wrote {payload['path']}")
 
 
 if __name__ == "__main__":

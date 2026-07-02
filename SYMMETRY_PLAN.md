@@ -69162,3 +69162,173 @@ only if the public theorem surfaces remain semantic (`acceptedTraceOfId` or
 selected-prefix membership) and the generated modules avoid `SampledRankIndex`,
 `sampledContainsRank`, `sampledRankOf`, sampled path lists, and exact affine-RHS
 membership tables.
+
+### 2026-07-02 All trace-level semantic providers accepted
+
+Implemented the all-trace scaling step for the Bellman semantic-provider route.
+The emitter now supports `--all` and writes one provider module for each of the
+`37` accepted top-pairing traces, plus a shallow dispatcher root:
+
+```text
+scripts/emit_top_pairing_trace_start_violation_provider.py
+
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000StartViolationProvider.lean
+...
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace036StartViolationProvider.lean
+
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceStartViolationProviders.lean
+```
+
+The provider modules keep the generated `NonIdCert` payloads, concrete trace
+data, and local checking lemmas private.  Each leaf exports exactly one theorem
+of the form:
+
+```lean
+objectStartViolationMarginCert_of_traceNNN :
+  topPairingRankFaceLabels rank =
+      acceptedTraceOfId AcceptedTraceId.tNNN ->
+    ObjectStartViolationMarginCert rank (scaledMargin rank)
+```
+
+The dispatcher root exports:
+
+```lean
+objectStartViolationMarginCert_of_acceptedTraceId :
+  (traceId : AcceptedTraceId) ->
+  topPairingRankFaceLabels rank = acceptedTraceOfId traceId ->
+    ObjectStartViolationMarginCert rank (scaledMargin rank)
+```
+
+This remains a semantic trace-membership API.  It does not introduce sampled
+rank/path membership, exact affine-RHS tables, or a global rank list.
+
+Generation commands:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_trace_start_violation_provider.py
+
+python3 scripts/emit_top_pairing_trace_start_violation_provider.py \
+  --all \
+  --report \
+  scripts/generated/top_pairing_trace_start_violation_providers_emit_all.json
+```
+
+Guarded leaf-build harness:
+
+```text
+scripts/check_top_pairing_trace_start_violation_providers.py
+```
+
+It builds provider modules as individual Lake targets through
+`scripts/run_memory_guarded.py`, captures one JSON/log pair per trace, and writes:
+
+```text
+scripts/generated/trace_provider_lake_guard_summary.json
+scripts/generated/trace_provider_lake_guard_summary.md
+```
+
+The production leaf batch used two workers:
+
+```bash
+python3 scripts/check_top_pairing_trace_start_violation_providers.py \
+  --jobs 2 \
+  --only-missing \
+  --report scripts/generated/trace_provider_lake_guard_summary.json
+```
+
+Result:
+
+```text
+providers: 37
+passed: 37
+failed: 0
+largest single-provider peak RSS: 10223 MiB
+lowest observed available memory: 34354 MiB
+slowest provider: 72.09s
+```
+
+Representative heavy leaves:
+
+```text
+t000: passed, 67.07s, peak 10223 MiB
+t001: passed, 68.10s, peak 10185 MiB
+t002: passed, 72.09s, peak 10119 MiB
+t029: passed, 62.11s, peak 9024 MiB
+t030: passed, 62.09s, peak 8990 MiB
+```
+
+The cached dispatcher root was then checked under the same guard:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json \
+  scripts/generated/trace_start_violation_providers_root_lake_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceStartViolationProviders
+```
+
+Result:
+
+```text
+passed
+elapsed: 3.00s
+peak process-tree RSS: 1955 MiB
+minimum available memory observed: 46315 MiB
+```
+
+The hygiene scan over all generated providers, the dispatcher root, and the
+emitter returned no hits:
+
+```bash
+rg -n \
+  "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledObject|\
+sampledSmokeNext|sorry|admit|axiom|native_decide|unsafe|Float|Float32|\
+Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace[0-9][0-9][0-9]StartViolationProvider.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceStartViolationProviders.lean \
+  scripts/emit_top_pairing_trace_start_violation_provider.py
+```
+
+Decision:
+
+Accept the all-`37` trace provider route as a real positive Bellman signal.
+The checked cost is proportional to the number of semantic accepted traces, not
+to rank/path samples.  Two-way parallelism is safe for this exact provider
+batch under the current 45 GiB practical RAM budget, but do not raise the worker
+count without a fresh calibration because the largest provider is about
+`10.2 GiB`.
+
+This is still not full generated nonidentity coverage.  The remaining proof
+gap is to connect the dispatcher to the selected-prefix/top-pairing killed
+socket in a way that preserves the trace-id membership proof.  The current
+generic killed socket asks for:
+
+```lean
+forall obj, selectedPrefixTraceMarginAccepts obj ->
+  ObjectStartViolationMarginCert ...
+```
+
+but `TopPairingBellmanEvalObj` carries the rank and eval-language proof, not the
+original accepted trace id.  Next work should add a rank-membership-aware object
+or socket that carries:
+
+```lean
+traceId : AcceptedTraceId
+topPairingRankFaceLabels rank = acceptedTraceOfId traceId
+```
+
+and then calls `objectStartViolationMarginCert_of_acceptedTraceId`.  If that
+bridge can be proved from the selected-prefix/top-pairing cover without sampled
+rank/path evidence, Bellman remains the production route for this residual
+family.  If that bridge requires sampled objects or exact affine-RHS membership
+tables, stop Bellman production and pivot to cancellation-tree summary algebra.
