@@ -84802,3 +84802,88 @@ Decision:
   `TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocalWithSuffix`;
 - stop and strengthen the semantic state, or run the cocycle quotient profiler,
   if the local theorem needs selected-prefix/rank/path enumeration.
+
+#### Transducer Semantic Gate Adapter
+
+Added `Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean`.  This file
+packages the transducer evaluator bridge as the generic semantic Bellman gate,
+so generated producer modules can target local closure directly:
+
+```lean
+theorem Cuboctahedron.closedToEvalGate_of_transducerInvariantLocalWithSuffix
+theorem Cuboctahedron.strengthenedToEvalGate_of_transducerInvariantLocalWithSuffix
+theorem Cuboctahedron.scaledMargin_nonpos_of_transducerClosedGate
+theorem Cuboctahedron.scaledMargin_nonpos_of_transducerStrengthenedGate
+```
+
+The intended generated obligation is now explicit:
+
+1. define an invariant `Inv` over `TopPairingTransducerEvalState State`;
+2. define a suffix predicate `SuffixOk`;
+3. prove the start suffix fact from the closed or strengthened language;
+4. prove every semantic head step has a deterministic
+   `TopPairingTransducerEvalState.next?` transition preserving both predicates;
+5. prove the empty-tail finish condition gives final potential nonnegativity
+   and the scaled-margin upper bound.
+
+This theorem surface is deliberately not a selected-prefix cover, not a sampled
+rank object, and not a path table.  It is the formal adapter requested by the
+closed-transducer pivot.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_bellman_semantic_gate_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_bellman_semantic_gate_lake_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.TopPairingBellmanSemanticGate
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_transducer_semantic_gate_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_transducer_semantic_gate_lake_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.TopPairingTransducerSemanticGate
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `TopPairingBellmanSemanticGate.lean` | pass | `3.00s` | `3911 MiB` | `45994 MiB` |
+| Lake `Cuboctahedron.Search.TopPairingBellmanSemanticGate` | pass | `4.00s` | `4019 MiB` | `45926 MiB` |
+| direct `TopPairingTransducerSemanticGate.lean` | pass | `2.00s` | `3596 MiB` | `46101 MiB` |
+| Lake `Cuboctahedron.Search.TopPairingTransducerSemanticGate` | pass | `3.00s` | `1647 MiB` | `46138 MiB` |
+
+Decision: accepted.  The next generated producer should target
+`strengthenedToEvalGate_of_transducerInvariantLocalWithSuffix` first, because
+the suffix predicate can carry sequence-bad-face or terminal-accepted filters
+without turning them into selected-prefix/path membership.
