@@ -68396,3 +68396,142 @@ Immediate implementation order:
 This is now the next go/no-go gate for Bellman.  All future Bellman work must be
 measured against this semantic-membership gate rather than against the existence
 of another small potential graph.
+
+### 2026-07-02 Trace-label word bridge implemented
+
+Implemented the first piece of the Bellman semantic-membership gate: trace/label
+equality can now provide the word equality that sampled positive-cert providers
+previously obtained from rank-specific lemmas such as `cls0000_unrank_word`.
+
+New reusable theorem in `Cuboctahedron/Search/FaceLabelLanguage.lean`:
+
+```lean
+pairWordOfSeq_eq_of_faceLabelsInContributionOrder_eq
+```
+
+If two started face sequences have the same contribution-order face-label list,
+then their derived `PairWord`s are equal.  This uses only the fixed contribution
+order `[1, ..., 13, 0]`; it introduces no generated data.
+
+New reusable theorem in `Cuboctahedron/Search/NonIdentityCase.lean`:
+
+```lean
+pairWordOfSeq_canonicalSeqOfPairWord
+```
+
+The canonical positive-sign sequence of a pair word maps back to the same pair
+word.
+
+New reusable top-pairing bridge in
+`Cuboctahedron/Search/BellmanTopPairingLanguage.lean`:
+
+```lean
+unrankPairWord_eq_pairWordOfSeq_of_topPairingRankFaceLabels_eq
+pairWordOfSeq_eq_unrankPairWord_of_topPairingRankFaceLabels_eq
+```
+
+These say that if a semantic trace template has the same contribution-order
+labels as `topPairingRankFaceLabels rank`, then `pairWordOfSeq template` is
+definitionally tied back to `unrankPairWord rank`.  This is exactly the word
+equality needed by trace-level `ObjectStartViolationMarginCert` providers.
+
+Guarded focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/face_label_language_guard.json \
+  -- lake env lean Cuboctahedron/Search/FaceLabelLanguage.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/nonidentity_case_guard.json \
+  -- lake env lean Cuboctahedron/Search/NonIdentityCase.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/bellman_top_pairing_language_guard.json \
+  -- lake env lean Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+```
+
+Results:
+
+```text
+FaceLabelLanguage direct Lean: passed, 2.00s, peak 3562 MiB
+NonIdentityCase direct Lean: passed, 7.00s, peak 4100 MiB
+BellmanTopPairingLanguage direct Lean: passed, 2.00s, peak 3576 MiB
+```
+
+Focused Lake interface refreshes:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/face_label_language_lake_guard.json \
+  -- lake build Cuboctahedron.Search.FaceLabelLanguage
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/nonidentity_case_lake_guard.json \
+  -- lake build Cuboctahedron.Search.NonIdentityCase
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/bellman_top_pairing_language_lake_guard.json \
+  -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+```
+
+Results:
+
+```text
+FaceLabelLanguage Lake: passed, 3.00s, peak 3900 MiB
+NonIdentityCase Lake: passed, 9.01s, peak 4120 MiB
+BellmanTopPairingLanguage Lake: passed, 4.00s, peak 4061 MiB
+```
+
+Hygiene checks over the edited Lean files passed:
+
+```bash
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Search/FaceLabelLanguage.lean \
+  Cuboctahedron/Search/NonIdentityCase.lean \
+  Cuboctahedron/Search/BellmanTopPairingLanguage.lean || true
+
+grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf" \
+  Cuboctahedron/Search/FaceLabelLanguage.lean \
+  Cuboctahedron/Search/NonIdentityCase.lean \
+  Cuboctahedron/Search/BellmanTopPairingLanguage.lean || true
+
+git diff --check
+```
+
+All returned no output.
+
+Decision:
+
+Accept this bridge as progress on the one-more-Bellman semantic experiment.  It
+does not complete the provider, but it removes one concrete reason the provider
+previously needed sampled rank lemmas: trace-level sequences can now recover the
+rank's pair word from semantic label equality.
+
+Next implementation task:
+
+Construct one trace-id-level start-violation provider, ideally for trace `000`
+first:
+
+```lean
+GraphAcceptedTraceMarginIdBound scaledMargin obj
+  -> ObjectStartViolationMarginCert obj.rank (scaledMargin obj.rank)
+```
+
+The cert may branch by accepted trace id, but not by sampled rank/path.  It
+should use the new word bridge for the `word_eq` field.  If the remaining
+`kernel_check`, `axis_forces`, or `solve_check` facts cannot be transported from
+trace semantics without a sampled rank/path table, that is the Bellman no-go
+signal and the plan pivots to cancellation-tree summary algebra.

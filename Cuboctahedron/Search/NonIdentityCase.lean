@@ -139,6 +139,22 @@ theorem canonicalSeqOfPairWord_matches (w : PairWord) :
   rw [pairOfFace_canonicalSeqOfPairWord]
   simp
 
+@[simp] theorem pairWordOfSeq_canonicalSeqOfPairWord (w : PairWord) :
+    pairWordOfSeq (canonicalSeqOfPairWord w) = w := by
+  apply Vector.ext
+  intro i hi
+  change
+    (pairWordOfSeq (canonicalSeqOfPairWord w)).get ⟨i, hi⟩ =
+      w.get ⟨i, hi⟩
+  rw [pairWordOfSeq_get]
+  change
+    pairOfFace
+      (faceOfPairSign
+        (pairAtStartedIndex w (afterStart ⟨i, hi⟩)) true) =
+      w.get ⟨i, hi⟩
+  rw [pairAtStartedIndex_afterStart]
+  simp
+
 theorem faceReflection_linear_eq_of_pairOfFace_eq {f g : Face}
     (h : pairOfFace f = pairOfFace g) :
     (faceReflectionQ f).M = (faceReflectionQ g).M := by

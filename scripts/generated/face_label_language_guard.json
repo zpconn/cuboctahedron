@@ -1,0 +1,19 @@
+{
+  "available_floor_mib": 4096.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "Cuboctahedron/Search/FaceLabelLanguage.lean"
+  ],
+  "elapsed_seconds": 2.001872430999356,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 3648304,
+  "max_tree_rss_mib": 3562.796875,
+  "min_available_seen_kib": 47082876,
+  "min_available_seen_mib": 45979.37109375,
+  "rss_cap_mib": 12000.0,
+  "timeout_seconds": 300.0
+}

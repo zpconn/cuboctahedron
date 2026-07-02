@@ -92,4 +92,19 @@ theorem faceLabelsInContributionOrder_eq_of_same
   rw [hseq (⟨13, by decide⟩ : Step14)]
   rw [hseq (⟨0, by decide⟩ : Step14)]
 
+theorem pairWordOfSeq_eq_of_faceLabelsInContributionOrder_eq
+    {template seq : Step14 -> Face}
+    (hlabels :
+      faceLabelsInContributionOrder (fun f : Face => f) seq =
+        faceLabelsInContributionOrder (fun f : Face => f) template) :
+    pairWordOfSeq seq = pairWordOfSeq template := by
+  apply Vector.ext
+  intro i hi
+  have hget :=
+    congrArg (fun labels : List Face => labels.getD i Face.xp) hlabels
+  have hpairs := congrArg pairOfFace hget
+  interval_cases i <;>
+    simpa [pairWordOfSeq, faceLabelsInContributionOrder,
+      contributionOrderSteps, afterStart] using hpairs
+
 end Cuboctahedron

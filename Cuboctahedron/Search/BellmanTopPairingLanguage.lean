@@ -250,6 +250,33 @@ def topPairingRankFaceLabels (rank : Fin numPairWords) : List Face :=
   faceLabelsInContributionOrder (fun f => f)
     (canonicalSeqOfPairWord (unrankPairWord rank))
 
+theorem unrankPairWord_eq_pairWordOfSeq_of_topPairingRankFaceLabels_eq
+    {rank : Fin numPairWords} {template : Step14 -> Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        faceLabelsInContributionOrder (fun f : Face => f) template) :
+    unrankPairWord rank = pairWordOfSeq template := by
+  have hlabels' :
+      faceLabelsInContributionOrder (fun f : Face => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        faceLabelsInContributionOrder (fun f : Face => f) template := by
+    simpa [topPairingRankFaceLabels] using hlabels
+  have hword :=
+    pairWordOfSeq_eq_of_faceLabelsInContributionOrder_eq
+      (seq := canonicalSeqOfPairWord (unrankPairWord rank))
+      (template := template)
+      hlabels'
+  simpa using hword
+
+theorem pairWordOfSeq_eq_unrankPairWord_of_topPairingRankFaceLabels_eq
+    {rank : Fin numPairWords} {template : Step14 -> Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        faceLabelsInContributionOrder (fun f : Face => f) template) :
+    pairWordOfSeq template = unrankPairWord rank :=
+  (unrankPairWord_eq_pairWordOfSeq_of_topPairingRankFaceLabels_eq
+    hlabels).symm
+
 def TopPairingActualFaceOmniLabels (labels : List Face) : Prop :=
   labels.Nodup
 
