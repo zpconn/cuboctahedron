@@ -80812,3 +80812,96 @@ number of remaining uncovered state/face branches;
 largest generated local theorem size;
 focused Lake time/RSS under the same guard.
 ```
+
+### Pivot Audit Accepted: Semantic Transducer Before More Depth Cuts
+
+Updated the Bellman pivot audit to incorporate the latest strategy decision:
+
+```text
+scripts/audit_top_pairing_transducer_pivot.py
+scripts/generated/top_pairing_transducer_pivot.json
+scripts/generated/top_pairing_transducer_pivot.md
+scripts/generated/top_pairing_transducer_pivot_audit_guard.json
+```
+
+Command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_transducer_pivot_audit_guard.json \
+  -- python3 scripts/audit_top_pairing_transducer_pivot.py
+```
+
+Result:
+
+| Metric | Value |
+|---|---:|
+| exit code | `0` |
+| elapsed | `1.00s` |
+| peak tree RSS | `1.125 MiB` |
+| minimum available memory | `46533 MiB` |
+
+Decision:
+
+```text
+semantic-transducer-pivot-accepted-next-emit-finite-branch-table
+```
+
+The audit now treats the current accepted route as:
+
+```text
+target-shadow cursor
+  -> suffix-carrying semantic evaluator
+  -> finite strengthened state/face branch table
+  -> Lean sockets for proven impossible semantic branches
+```
+
+Recorded current checkpoint:
+
+| Item | Value |
+|---|---:|
+| 1M Bellman graph states | `223` |
+| 1M Bellman graph edges | `229` |
+| semantic socket branches accepted | `2` |
+| closure after sequence-bad-face filter | `True` |
+| strengthened local Lake smoke passed | `True` |
+| forbidden sampled-surface mentions in audited files | `0` |
+
+Known semantic sockets:
+
+```text
+state19/tmmp  -> canonical-bad-face mismatch
+state150/tppp -> target-pairing completion impossibility
+```
+
+Strategy update from the GPT-5.5/Gemini advice:
+
+```text
+Keep Bellman.  Do not scale selected-prefix membership.  Do not extend the
+current local theorem by hand depth cuts.  The next accepted artifact must be a
+finite strengthened state/face branch-table emitter/report.
+```
+
+The next branch-table checkpoint must report:
+
+```text
+real graph-transition branches;
+semantic socket branches;
+remaining uncovered state/face branches;
+largest generated local theorem size;
+focused Lake time/RSS under the same memory guard.
+```
+
+No-go rules now enforced in the audit:
+
+```text
+no sampled rank/path object;
+no one constructor per rank/path;
+no exact affine RHS or solved start-point key;
+no root selected-prefix producer import as production membership;
+no broad generated Lean build without hard address-space and RSS guard;
+no hand-growing depth cut after this checkpoint without a generated branch-table report.
+```

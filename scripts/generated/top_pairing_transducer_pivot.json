@@ -1,5 +1,65 @@
 {
-  "decision": "pivot-to-deterministic-closed-language-transducer",
+  "decision": "semantic-transducer-pivot-accepted-next-emit-finite-branch-table",
+  "diagnostics": {
+    "closure_with_bad_face_1m": {
+      "closed_after_sequence_bad_face": true,
+      "closure_input": "scripts/generated/bellman_target_pairing_closure_1m_step_face_linear_tri_source_localaxis_lean.json",
+      "decision": "closed-after-sequence-bad-face",
+      "edge_count": 229,
+      "forced_axis": "-1,-1,-3",
+      "illegal_after_sequence_bad_face": 0,
+      "illegal_before_sequence_bad_face": 0,
+      "legal_after_sequence_bad_face": 229,
+      "legal_before_sequence_bad_face": 230,
+      "missing_after_sequence_bad_face": 0,
+      "missing_before_sequence_bad_face": 1,
+      "missing_completion_count": 1,
+      "missing_completion_input": "scripts/generated/bellman_missing_transition_completions_1m_step_face_linear_tri_source_localaxis_lean.json",
+      "missing_completion_matches_top_family": 0,
+      "missing_completion_truncated_gaps": 0,
+      "mode": "bellman-target-pairing-closure-with-sequence-bad-face",
+      "observed_transitions": 229,
+      "recommendation": "The target-pairing/schedule/local-axis language becomes closed after filtering the sole remaining over-approximate transitions by the generated sequence bad-face predicate.  The next Lean step can emit a finite invariant table for the face evaluator with this strengthened semantic premise.",
+      "schedule_mode": "observed+square-gap",
+      "sequence_bad_face_filter_sound_for_gaps": true,
+      "state_count": 223,
+      "target_pairing": "pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1"
+    },
+    "graph_1m": {
+      "edges": 229,
+      "exists": true,
+      "final_states": 29,
+      "margin_families": 1,
+      "matched_paths": 37,
+      "max_margin_bound": "0",
+      "root_bound": "-2",
+      "scale": 88,
+      "states": 223
+    },
+    "state150_tppp_audit": {
+      "decision": "explicit_transition_has_no_target_pairing_completions",
+      "face": "tppp",
+      "graph_input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+      "max_completions": 100000,
+      "mode": "bellman-explicit-transition-completion-audit",
+      "prefix_count": 1,
+      "prefix_samples": [
+        "xm ym tmpm zm"
+      ],
+      "reason_histogram": {},
+      "recommendation": "The target-pairing/schedule language has no completions after this transition.  The next Lean socket should prove the corresponding semantic contradiction, not add a graph edge.",
+      "sample_matches": [],
+      "sample_nonmatches": [],
+      "schedule_mode": "observed+square-gap",
+      "state": 150,
+      "state_key": "step=4|faces=1,0,1,0,1,0,1,1,0,1,1,1,1,1|par=111|stack=dm11|lin=-1/3,-2/3,-2/3;-2/3,-1/3,2/3;-2/3,2/3,-1/3|triSrc=2:d1m1->dm11@110",
+      "state_key_mode": "with-step-face-linear-tri-source",
+      "target_pairing": "pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+      "total_completions": 0,
+      "total_matched_top_family": 0,
+      "truncated": false
+    }
+  },
   "files": {
     "bellman_object": {
       "closed_language_fields": [
@@ -408,6 +468,9 @@
           "text": "exact TopPairingBellmanEvalObj.evalAccepts obj))"
         }
       ],
+      "semantic_socket_core": [],
+      "suffix_eval_core": [],
+      "target_cursor_core": [],
       "target_shadow": []
     },
     "bellman_potential": {
@@ -605,6 +668,9 @@
       "path": "Cuboctahedron/Search/BellmanPotential.lean",
       "selected_prefix_production_risk": [],
       "semantic_eval_gate": [],
+      "semantic_socket_core": [],
+      "suffix_eval_core": [],
+      "target_cursor_core": [],
       "target_shadow": []
     },
     "cancellation_language": {
@@ -612,63 +678,131 @@
       "eval_core": [],
       "exists": true,
       "forbidden_sampled_surface": [],
-      "lines": 118,
+      "lines": 396,
       "path": "Cuboctahedron/Search/CancellationPairingLanguage.lean",
       "selected_prefix_production_risk": [],
       "semantic_eval_gate": [],
+      "semantic_socket_core": [],
+      "suffix_eval_core": [],
+      "target_cursor_core": [],
       "target_shadow": [
         {
-          "line": 80,
+          "line": 296,
           "pattern": "triangularCancellationSummaryOfShadow",
           "text": "def triangularCancellationSummaryOfShadow (shadow : List TriLetter) :"
         },
         {
-          "line": 86,
+          "line": 300,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "theorem triangularCancellationSummaryOfShadow_count"
+        },
+        {
+          "line": 302,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "(triangularCancellationSummaryOfShadow shadow).survivors.length +"
+        },
+        {
+          "line": 303,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "2 * (triangularCancellationSummaryOfShadow shadow).cancellations.length ="
+        },
+        {
+          "line": 307,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "unfold triangularCancellationSummaryOfShadow"
+        },
+        {
+          "line": 313,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "theorem triangularCancellationSummaryOfShadow_survivor_sound"
+        },
+        {
+          "line": 316,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "survivor \u2208 (triangularCancellationSummaryOfShadow shadow).survivors) :"
+        },
+        {
+          "line": 321,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "unfold triangularCancellationSummaryOfShadow at hmem"
+        },
+        {
+          "line": 332,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "theorem triangularCancellationSummaryOfShadow_cancellation_left_sound"
+        },
+        {
+          "line": 335,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "pair \u2208 (triangularCancellationSummaryOfShadow shadow).cancellations) :"
+        },
+        {
+          "line": 340,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "unfold triangularCancellationSummaryOfShadow at hmem"
+        },
+        {
+          "line": 347,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "theorem triangularCancellationSummaryOfShadow_cancellation_right_sound"
+        },
+        {
+          "line": 350,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "pair \u2208 (triangularCancellationSummaryOfShadow shadow).cancellations) :"
+        },
+        {
+          "line": 355,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "unfold triangularCancellationSummaryOfShadow at hmem"
+        },
+        {
+          "line": 364,
           "pattern": "triangularCancellationSummaryOfShadow",
           "text": "triangularCancellationSummaryOfShadow (triangularShadowOfPairWord w)"
         },
         {
-          "line": 92,
+          "line": 370,
           "pattern": "topPairingTargetSummary",
           "text": "def topPairingTargetSummary : TriCancellationSummary where"
         },
         {
-          "line": 105,
+          "line": 383,
           "pattern": "topPairingTargetShadow",
           "text": "def topPairingTargetShadow : List TriLetter :="
         },
         {
-          "line": 109,
+          "line": 387,
           "pattern": "topPairingTargetShadow",
           "text": "theorem topPairingTargetShadow_summary :"
         },
         {
-          "line": 109,
+          "line": 387,
           "pattern": "topPairingTargetShadow_summary",
           "text": "theorem topPairingTargetShadow_summary :"
         },
         {
-          "line": 110,
+          "line": 388,
           "pattern": "topPairingTargetShadow",
           "text": "triangularCancellationSummaryOfShadow topPairingTargetShadow ="
         },
         {
-          "line": 110,
+          "line": 388,
           "pattern": "triangularCancellationSummaryOfShadow",
           "text": "triangularCancellationSummaryOfShadow topPairingTargetShadow ="
         },
         {
-          "line": 111,
+          "line": 389,
           "pattern": "topPairingTargetSummary",
           "text": "topPairingTargetSummary := by"
         },
         {
-          "line": 114,
+          "line": 392,
           "pattern": "TopPairingLanguageAtRank",
           "text": "def TopPairingLanguageAtRank (rank : Fin numPairWords) : Prop :="
         },
         {
-          "line": 116,
+          "line": 394,
           "pattern": "topPairingTargetSummary",
           "text": "topPairingTargetSummary"
         }
@@ -835,7 +969,245 @@
           "text": "TopPairingBellmanEvalLanguageAtRank"
         }
       ],
+      "semantic_socket_core": [],
+      "suffix_eval_core": [],
+      "target_cursor_core": [],
       "target_shadow": []
+    },
+    "missing_transition_socket": {
+      "closed_language_fields": [
+        {
+          "line": 111,
+          "pattern": "TopPairingSquareGap",
+          "text": "(hsquare : TopPairingSquareGapFrom 7 [f0, f1, Face.xp]) :"
+        },
+        {
+          "line": 121,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapFrom, topPairingAllowedSquareFacesAtGap,"
+        },
+        {
+          "line": 173,
+          "pattern": "TopPairingLocalAxis",
+          "text": "\u00ac TopPairingLocalAxisAllows"
+        },
+        {
+          "line": 193,
+          "pattern": "TopPairingLocalAxis",
+          "text": "\u00ac TopPairingLocalAxisAllows"
+        },
+        {
+          "line": 215,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisFrom"
+        },
+        {
+          "line": 221,
+          "pattern": "TopPairingLocalAxis",
+          "text": "unfold TopPairingLocalAxisFrom at hlocal"
+        },
+        {
+          "line": 223,
+          "pattern": "TopPairingLocalAxis",
+          "text": "unfold TopPairingLocalAxisFrom at htail"
+        },
+        {
+          "line": 264,
+          "pattern": "TopPairingStepSchedule",
+          "text": "unfold TopPairingStepScheduleFrom at hsched"
+        },
+        {
+          "line": 266,
+          "pattern": "TopPairingStepSchedule",
+          "text": "unfold TopPairingStepScheduleFrom at hsched"
+        },
+        {
+          "line": 268,
+          "pattern": "TopPairingStepSchedule",
+          "text": "unfold TopPairingStepScheduleFrom at hsched"
+        },
+        {
+          "line": 275,
+          "pattern": "TopPairingSquareGap",
+          "text": "have hsquare : TopPairingSquareGapFrom 7 [f0, f1, Face.xp] := by"
+        }
+      ],
+      "eval_core": [
+        {
+          "line": 54,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn faceEvalNext"
+        },
+        {
+          "line": 61,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn faceEvalNext"
+        },
+        {
+          "line": 94,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn faceEvalNext"
+        }
+      ],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 565,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingMissingTransition1MSocket.lean",
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [],
+      "semantic_socket_core": [
+        {
+          "line": 48,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "def missingState19TmmpSemanticEvalState : FaceEvalState where"
+        },
+        {
+          "line": 158,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "missingState19TmmpSemanticEvalState.transducer.linear Face.tmmp)"
+        },
+        {
+          "line": 169,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "simpa [missingState19TmmpSemanticEvalState,"
+        },
+        {
+          "line": 176,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "missingState19TmmpSemanticEvalState.transducer.linear Face.tmmp)"
+        },
+        {
+          "line": 182,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "missingState19TmmpSemanticEvalState.transducer.linear Face.tmmp)"
+        },
+        {
+          "line": 196,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "missingState19TmmpSemanticEvalState.transducer.linear Face.tmmp)"
+        },
+        {
+          "line": 202,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "missingState19TmmpSemanticEvalState.transducer.linear Face.tmmp)"
+        },
+        {
+          "line": 217,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "missingState19TmmpSemanticEvalState.transducer.linear Face.tmmp)"
+        },
+        {
+          "line": 239,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "(htail : missingState19TmmpSemanticEvalState.Tail (Face.tmmp :: rest))"
+        },
+        {
+          "line": 243,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "simp [missingState19TmmpSemanticEvalState,"
+        },
+        {
+          "line": 314,
+          "pattern": "strengthened_no_missingState19TmmpSemanticTail",
+          "text": "theorem strengthened_no_missingState19TmmpSemanticTail"
+        },
+        {
+          "line": 323,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "(htail : missingState19TmmpSemanticEvalState.Tail (Face.tmmp :: rest))"
+        },
+        {
+          "line": 346,
+          "pattern": "missingState150TpppSemanticEvalState",
+          "text": "def missingState150TpppSemanticEvalState : FaceEvalState where"
+        },
+        {
+          "line": 428,
+          "pattern": "missingState150TpppSemanticEvalState",
+          "text": "(htail : missingState150TpppSemanticEvalState.Tail (Face.tppp :: rest))"
+        },
+        {
+          "line": 432,
+          "pattern": "missingState150TpppSemanticEvalState",
+          "text": "simp [missingState150TpppSemanticEvalState,"
+        },
+        {
+          "line": 548,
+          "pattern": "strengthened_no_missingState150TpppSemanticTail",
+          "text": "theorem strengthened_no_missingState150TpppSemanticTail"
+        },
+        {
+          "line": 557,
+          "pattern": "missingState150TpppSemanticEvalState",
+          "text": "(htail : missingState150TpppSemanticEvalState.Tail (Face.tppp :: rest))"
+        }
+      ],
+      "suffix_eval_core": [
+        {
+          "line": 55,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 58,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "| none => (TopPairingTransducerEvalState.start rootState, 0)"
+        },
+        {
+          "line": 62,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 95,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 242,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "unfold TopPairingTransducerEvalState.Tail TopPairingTransducerState.Tail at htail"
+        },
+        {
+          "line": 431,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "unfold TopPairingTransducerEvalState.Tail TopPairingTransducerState.Tail at htail"
+        }
+      ],
+      "target_cursor_core": [
+        {
+          "line": 106,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom 7"
+        },
+        {
+          "line": 113,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "have hacted := TopPairingTriCursorFrom.actedTriLetters_eq_drop hcursor"
+        },
+        {
+          "line": 518,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom.actedTriLetters_eq_drop"
+        }
+      ],
+      "target_shadow": [
+        {
+          "line": 122,
+          "pattern": "topPairingTargetShadow",
+          "text": "isSquarePair, topPairingTargetShadow] at hacted hf0 hf1 hsquare \u22a2"
+        },
+        {
+          "line": 530,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow.drop 2 := by"
+        },
+        {
+          "line": 533,
+          "pattern": "topPairingTargetShadow",
+          "text": "simp [topPairingTargetShadow]"
+        }
+      ]
     },
     "selected_prefix_root_bridge": {
       "closed_language_fields": [
@@ -914,6 +1286,9 @@
           "text": "TopPairingBellmanEvalLanguageAtRank"
         }
       ],
+      "semantic_socket_core": [],
+      "suffix_eval_core": [],
+      "target_cursor_core": [],
       "target_shadow": []
     },
     "selected_prefix_state_dag_root": {
@@ -947,6 +1322,9 @@
           "text": "TopPairingBellmanEvalLanguageAtRank"
         }
       ],
+      "semantic_socket_core": [],
+      "suffix_eval_core": [],
+      "target_cursor_core": [],
       "target_shadow": []
     },
     "semantic_gate": {
@@ -1045,7 +1423,1081 @@
           "text": "TopPairingStrengthenedToEvalGate"
         }
       ],
+      "semantic_socket_core": [],
+      "suffix_eval_core": [],
+      "target_cursor_core": [],
       "target_shadow": []
+    },
+    "strengthened_local_1m": {
+      "closed_language_fields": [
+        {
+          "line": 187,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 202,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 229,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 326,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 351,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 376,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 401,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 432,
+          "pattern": "TopPairingSquareGap",
+          "text": "topPairingNextGap, TopPairingSquareGapFrom,"
+        },
+        {
+          "line": 441,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 501,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 532,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 542,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 602,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 658,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 665,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 695,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 705,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 721,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleLabels (topPairingRankFaceLabels rank) := by"
+        },
+        {
+          "line": 761,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym)"
+        },
+        {
+          "line": 876,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
+        }
+      ],
+      "eval_core": [
+        {
+          "line": 820,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn faceEvalNext state faces ="
+        },
+        {
+          "line": 824,
+          "pattern": "evalLabelStepFn",
+          "text": "TopPairingTransducerEvalState.evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix"
+        },
+        {
+          "line": 892,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn faceEvalNext"
+        }
+      ],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 905,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedLocal1MSmoke.lean",
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [],
+      "semantic_socket_core": [
+        {
+          "line": 37,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "state = missingState19TmmpSemanticEvalState \u2227"
+        },
+        {
+          "line": 52,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "missingState19TmmpSemanticEvalState (Face.tmmp :: rest))"
+        },
+        {
+          "line": 54,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "missingState19TmmpSemanticEvalState.Tail (Face.tmmp :: rest)) :"
+        },
+        {
+          "line": 56,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "faceEvalNext missingState19TmmpSemanticEvalState Face.tmmp ="
+        },
+        {
+          "line": 62,
+          "pattern": "strengthened_no_missingState19TmmpSemanticTail",
+          "text": "(strengthened_no_missingState19TmmpSemanticTail"
+        },
+        {
+          "line": 130,
+          "pattern": "missingState19TmmpSemanticEvalState",
+          "text": "missingState19TmmpSemanticEvalState (Face.tmmp :: rest)"
+        },
+        {
+          "line": 140,
+          "pattern": "missingState150TpppSemanticEvalState",
+          "text": "missingState150TpppSemanticEvalState (Face.tppp :: rest)"
+        },
+        {
+          "line": 806,
+          "pattern": "strengthened_no_missingState19TmmpSemanticTail",
+          "text": "(strengthened_no_missingState19TmmpSemanticTail"
+        },
+        {
+          "line": 810,
+          "pattern": "strengthened_no_missingState150TpppSemanticTail",
+          "text": "(strengthened_no_missingState150TpppSemanticTail"
+        }
+      ],
+      "suffix_eval_core": [
+        {
+          "line": 70,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "Inv (TopPairingTransducerEvalState.start rootState) := by"
+        },
+        {
+          "line": 71,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "norm_num [Inv, TopPairingTransducerEvalState.start, rootState, stateCount]"
+        },
+        {
+          "line": 80,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "TopPairingTransducerEvalState.graph_next_of_next?"
+        },
+        {
+          "line": 82,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "rcases TopPairingTransducerEvalState.next?_tail"
+        },
+        {
+          "line": 87,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "TopPairingTransducerEvalState.next? graphSmokeNext smokeLabelOfFace"
+        },
+        {
+          "line": 99,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "TopPairingTransducerEvalState.graph_next_of_next?"
+        },
+        {
+          "line": 113,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "inductive StrengthenedSuffixOk (rank : Fin numPairWords) :"
+        },
+        {
+          "line": 115,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "| nil (state : FaceEvalState) : StrengthenedSuffixOk rank state []"
+        },
+        {
+          "line": 119,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "(hrest : StrengthenedSuffixOk rank nextState rest) :"
+        },
+        {
+          "line": 120,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank state (face :: rest)"
+        },
+        {
+          "line": 129,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank"
+        },
+        {
+          "line": 139,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank"
+        },
+        {
+          "line": 154,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "faceEvalNext (TopPairingTransducerEvalState.start rootState) Face.xm ="
+        },
+        {
+          "line": 177,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "(hsuffix : StrengthenedSuffixOk rank closedPrefix2EvalState rest) :"
+        },
+        {
+          "line": 178,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank"
+        },
+        {
+          "line": 179,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 182,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "exact StrengthenedSuffixOk.table closed_prefix1_next"
+        },
+        {
+          "line": 183,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "(StrengthenedSuffixOk.table closed_prefix2_next_from_prefix1 hsuffix)"
+        },
+        {
+          "line": 191,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank closedPrefix2EvalState rest) :"
+        },
+        {
+          "line": 192,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank"
+        },
+        {
+          "line": 193,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 211,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank nextState rest) :"
+        },
+        {
+          "line": 212,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank closedPrefix2EvalState (face :: rest) := by"
+        },
+        {
+          "line": 215,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "exact StrengthenedSuffixOk.table hnext"
+        },
+        {
+          "line": 236,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank nextState rest) :"
+        },
+        {
+          "line": 237,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank"
+        },
+        {
+          "line": 238,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 339,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "rcases TopPairingTransducerEvalState.next?_tail"
+        },
+        {
+          "line": 364,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "rcases TopPairingTransducerEvalState.next?_tail"
+        },
+        {
+          "line": 389,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "rcases TopPairingTransducerEvalState.next?_tail"
+        },
+        {
+          "line": 419,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.Tail,"
+        },
+        {
+          "line": 451,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "rcases TopPairingTransducerEvalState.next?_tail"
+        },
+        {
+          "line": 490,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "rcases TopPairingTransducerEvalState.next?_tail"
+        },
+        {
+          "line": 519,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.Tail,"
+        },
+        {
+          "line": 552,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "rcases TopPairingTransducerEvalState.next?_tail"
+        },
+        {
+          "line": 563,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "rcases TopPairingTransducerEvalState.next?_tail"
+        },
+        {
+          "line": 620,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.Tail,"
+        },
+        {
+          "line": 636,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "rcases TopPairingTransducerEvalState.next?_tail"
+        },
+        {
+          "line": 650,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "rcases TopPairingTransducerEvalState.next?_tail"
+        },
+        {
+          "line": 681,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "rcases TopPairingTransducerEvalState.next?_tail"
+        },
+        {
+          "line": 718,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank next4 rest) :"
+        },
+        {
+          "line": 719,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank next3 (fourth :: rest) := by"
+        },
+        {
+          "line": 740,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "exact StrengthenedSuffixOk.table hnext4"
+        },
+        {
+          "line": 748,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "exact StrengthenedSuffixOk.table hnext4"
+        },
+        {
+          "line": 756,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "exact StrengthenedSuffixOk.table hnext4"
+        },
+        {
+          "line": 770,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank next4 rest) :"
+        },
+        {
+          "line": 771,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank"
+        },
+        {
+          "line": 772,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 795,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "(hsuffix : StrengthenedSuffixOk rank state (face :: rest)) :"
+        },
+        {
+          "line": 799,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank nextState rest := by"
+        },
+        {
+          "line": 818,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "(hsuffix : StrengthenedSuffixOk rank state faces) :"
+        },
+        {
+          "line": 823,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank finish [] :="
+        },
+        {
+          "line": 824,
+          "pattern": "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix",
+          "text": "TopPairingTransducerEvalState.evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix"
+        },
+        {
+          "line": 824,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "TopPairingTransducerEvalState.evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix"
+        },
+        {
+          "line": 826,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "Inv (StrengthenedSuffixOk rank) strengthenedSuffixOk_local"
+        },
+        {
+          "line": 832,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank"
+        },
+        {
+          "line": 833,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState) labels := by"
+        },
+        {
+          "line": 857,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "| exact StrengthenedSuffixOk.nil _"
+        },
+        {
+          "line": 858,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "| refine StrengthenedSuffixOk.table (by rfl) ?_"
+        },
+        {
+          "line": 868,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "StrengthenedSuffixOk rank"
+        },
+        {
+          "line": 869,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 877,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState).Tail"
+        },
+        {
+          "line": 879,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.Tail, TopPairingTransducerEvalState.start,"
+        },
+        {
+          "line": 893,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 896,
+          "pattern": "StrengthenedSuffixOk",
+          "text": "finish.Tail [] \u2227 Inv finish \u2227 StrengthenedSuffixOk rank finish [] :="
+        }
+      ],
+      "target_cursor_core": [],
+      "target_shadow": [
+        {
+          "line": 463,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        },
+        {
+          "line": 477,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        },
+        {
+          "line": 581,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        },
+        {
+          "line": 595,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        }
+      ]
+    },
+    "target_cursor": {
+      "closed_language_fields": [
+        {
+          "line": 11,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "The hard theorem from `TopPairingClosedLanguageAtRank` to this cursor is still"
+        },
+        {
+          "line": 136,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(h : TopPairingClosedLanguageAtRank rank badFace) :"
+        },
+        {
+          "line": 182,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(h : TopPairingClosedLanguageAtRank rank badFace) :"
+        },
+        {
+          "line": 351,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(h : TopPairingClosedLanguageAtRank rank badFace) :"
+        }
+      ],
+      "eval_core": [],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 358,
+      "path": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [],
+      "semantic_socket_core": [],
+      "suffix_eval_core": [],
+      "target_cursor_core": [
+        {
+          "line": 41,
+          "pattern": "topPairingTargetShadow_of_summary",
+          "text": "theorem topPairingTargetShadow_of_summary"
+        },
+        {
+          "line": 126,
+          "pattern": "topPairingTriShadow_eq_target",
+          "text": "theorem topPairingTriShadow_eq_target"
+        },
+        {
+          "line": 131,
+          "pattern": "topPairingTargetShadow_of_summary",
+          "text": "apply topPairingTargetShadow_of_summary"
+        },
+        {
+          "line": 134,
+          "pattern": "topPairingTriShadow_eq_target",
+          "text": "theorem topPairingTriShadow_eq_target_of_closed"
+        },
+        {
+          "line": 139,
+          "pattern": "topPairingTriShadow_eq_target",
+          "text": "topPairingTriShadow_eq_target h.cancellation"
+        },
+        {
+          "line": 186,
+          "pattern": "topPairingTriShadow_eq_target",
+          "text": "have hshadow := topPairingTriShadow_eq_target_of_closed h"
+        },
+        {
+          "line": 205,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "`TopPairingTriCursorFrom k p labels` means that, starting with square parity"
+        },
+        {
+          "line": 213,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "inductive TopPairingTriCursorFrom : Nat -> SqParity -> List Face -> Prop"
+        },
+        {
+          "line": 215,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom topPairingTargetShadowLength parity []"
+        },
+        {
+          "line": 220,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom k"
+        },
+        {
+          "line": 222,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom k parity (face :: rest)"
+        },
+        {
+          "line": 230,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "(hrest : TopPairingTriCursorFrom (k + 1) parity rest) :"
+        },
+        {
+          "line": 231,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom k parity (face :: rest)"
+        },
+        {
+          "line": 233,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "namespace TopPairingTriCursorFrom"
+        },
+        {
+          "line": 236,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom topPairingTargetShadowLength SqParity.id [] :="
+        },
+        {
+          "line": 237,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom.nil"
+        },
+        {
+          "line": 241,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "(h : TopPairingTriCursorFrom k parity labels) :"
+        },
+        {
+          "line": 264,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom k parity labels := by"
+        },
+        {
+          "line": 271,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "exact TopPairingTriCursorFrom.nil"
+        },
+        {
+          "line": 277,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "exact TopPairingTriCursorFrom.square hface (ih hk hacted)"
+        },
+        {
+          "line": 287,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "| exact TopPairingTriCursorFrom.tri hface"
+        },
+        {
+          "line": 297,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom k"
+        },
+        {
+          "line": 299,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom k parity (face :: rest) := by"
+        },
+        {
+          "line": 300,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "apply TopPairingTriCursorFrom.square"
+        },
+        {
+          "line": 311,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "(hrest : TopPairingTriCursorFrom (k + 1) parity rest) :"
+        },
+        {
+          "line": 312,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom k parity (face :: rest) :="
+        },
+        {
+          "line": 313,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom.tri htri hk hletter hrest"
+        },
+        {
+          "line": 317,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "(h : TopPairingTriCursorFrom k parity (face :: rest))"
+        },
+        {
+          "line": 319,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom k"
+        },
+        {
+          "line": 331,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "(h : TopPairingTriCursorFrom k parity (face :: rest))"
+        },
+        {
+          "line": 335,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom (k + 1) parity rest := by"
+        },
+        {
+          "line": 344,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "end TopPairingTriCursorFrom"
+        },
+        {
+          "line": 347,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "TopPairingTriCursorFrom 0 SqParity.id (topPairingRankFaceLabels rank)"
+        },
+        {
+          "line": 349,
+          "pattern": "topPairingTriCursor_of_closed",
+          "text": "theorem topPairingTriCursor_of_closed"
+        },
+        {
+          "line": 354,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "apply TopPairingTriCursorFrom.of_actedTriLetters_eq_drop"
+        }
+      ],
+      "target_shadow": [
+        {
+          "line": 18,
+          "pattern": "topPairingTargetShadow",
+          "text": "def topPairingTargetShadowLength : Nat :="
+        },
+        {
+          "line": 19,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow.length"
+        },
+        {
+          "line": 21,
+          "pattern": "topPairingTargetShadow",
+          "text": "theorem topPairingTargetShadowLength_eq : topPairingTargetShadowLength = 8 := by"
+        },
+        {
+          "line": 24,
+          "pattern": "topPairingTargetShadow",
+          "text": "theorem topPairingTargetShadow_length_of_summary"
+        },
+        {
+          "line": 27,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "triangularCancellationSummaryOfShadow shadow ="
+        },
+        {
+          "line": 28,
+          "pattern": "topPairingTargetSummary",
+          "text": "topPairingTargetSummary) :"
+        },
+        {
+          "line": 29,
+          "pattern": "topPairingTargetShadow",
+          "text": "shadow.length = topPairingTargetShadow.length := by"
+        },
+        {
+          "line": 30,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "have hcount := triangularCancellationSummaryOfShadow_count shadow"
+        },
+        {
+          "line": 33,
+          "pattern": "topPairingTargetSummary",
+          "text": "simpa [topPairingTargetSummary] using hcount"
+        },
+        {
+          "line": 34,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadow] using hlen.symm"
+        },
+        {
+          "line": 41,
+          "pattern": "topPairingTargetShadow",
+          "text": "theorem topPairingTargetShadow_of_summary"
+        },
+        {
+          "line": 44,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "triangularCancellationSummaryOfShadow shadow ="
+        },
+        {
+          "line": 45,
+          "pattern": "topPairingTargetSummary",
+          "text": "topPairingTargetSummary) :"
+        },
+        {
+          "line": 46,
+          "pattern": "topPairingTargetShadow",
+          "text": "shadow = topPairingTargetShadow := by"
+        },
+        {
+          "line": 47,
+          "pattern": "topPairingTargetShadow",
+          "text": "have hlen := topPairingTargetShadow_length_of_summary hsummary"
+        },
+        {
+          "line": 49,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "exact triangularCancellationSummaryOfShadow_survivor_sound"
+        },
+        {
+          "line": 52,
+          "pattern": "topPairingTargetSummary",
+          "text": "simp [topPairingTargetSummary])"
+        },
+        {
+          "line": 54,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "exact triangularCancellationSummaryOfShadow_survivor_sound"
+        },
+        {
+          "line": 57,
+          "pattern": "topPairingTargetSummary",
+          "text": "simp [topPairingTargetSummary])"
+        },
+        {
+          "line": 59,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "exact triangularCancellationSummaryOfShadow_survivor_sound"
+        },
+        {
+          "line": 62,
+          "pattern": "topPairingTargetSummary",
+          "text": "simp [topPairingTargetSummary])"
+        },
+        {
+          "line": 64,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "exact triangularCancellationSummaryOfShadow_cancellation_left_sound"
+        },
+        {
+          "line": 68,
+          "pattern": "topPairingTargetSummary",
+          "text": "simp [topPairingTargetSummary])"
+        },
+        {
+          "line": 70,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "exact triangularCancellationSummaryOfShadow_cancellation_right_sound"
+        },
+        {
+          "line": 74,
+          "pattern": "topPairingTargetSummary",
+          "text": "simp [topPairingTargetSummary])"
+        },
+        {
+          "line": 76,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "exact triangularCancellationSummaryOfShadow_survivor_sound"
+        },
+        {
+          "line": 79,
+          "pattern": "topPairingTargetSummary",
+          "text": "simp [topPairingTargetSummary])"
+        },
+        {
+          "line": 81,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "exact triangularCancellationSummaryOfShadow_survivor_sound"
+        },
+        {
+          "line": 84,
+          "pattern": "topPairingTargetSummary",
+          "text": "simp [topPairingTargetSummary])"
+        },
+        {
+          "line": 86,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "exact triangularCancellationSummaryOfShadow_survivor_sound"
+        },
+        {
+          "line": 89,
+          "pattern": "topPairingTargetSummary",
+          "text": "simp [topPairingTargetSummary])"
+        },
+        {
+          "line": 94,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadow] using h0"
+        },
+        {
+          "line": 98,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadow] using h1"
+        },
+        {
+          "line": 102,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadow] using h2"
+        },
+        {
+          "line": 106,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadow] using h3"
+        },
+        {
+          "line": 110,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadow] using h4"
+        },
+        {
+          "line": 114,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadow] using h5"
+        },
+        {
+          "line": 118,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadow] using h6"
+        },
+        {
+          "line": 122,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadow] using h7"
+        },
+        {
+          "line": 124,
+          "pattern": "topPairingTargetShadow",
+          "text": "simp [topPairingTargetShadow, hlen]"
+        },
+        {
+          "line": 128,
+          "pattern": "TopPairingLanguageAtRank",
+          "text": "(h : TopPairingLanguageAtRank rank) :"
+        },
+        {
+          "line": 130,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow := by"
+        },
+        {
+          "line": 131,
+          "pattern": "topPairingTargetShadow",
+          "text": "apply topPairingTargetShadow_of_summary"
+        },
+        {
+          "line": 132,
+          "pattern": "TopPairingLanguageAtRank",
+          "text": "simpa [TopPairingLanguageAtRank, triangularCancellationSummaryOfPairWord] using h"
+        },
+        {
+          "line": 138,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow :="
+        },
+        {
+          "line": 184,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow := by"
+        },
+        {
+          "line": 207,
+          "pattern": "topPairingTargetShadow",
+          "text": "position `k` to the end of `topPairingTargetShadow`."
+        },
+        {
+          "line": 215,
+          "pattern": "topPairingTargetShadow",
+          "text": "TopPairingTriCursorFrom topPairingTargetShadowLength parity []"
+        },
+        {
+          "line": 227,
+          "pattern": "topPairingTargetShadow",
+          "text": "(hk : k < topPairingTargetShadowLength)"
+        },
+        {
+          "line": 229,
+          "pattern": "topPairingTargetShadow",
+          "text": "tri.act parity = topPairingTargetShadow.get \u27e8k, hk\u27e9)"
+        },
+        {
+          "line": 236,
+          "pattern": "topPairingTargetShadow",
+          "text": "TopPairingTriCursorFrom topPairingTargetShadowLength SqParity.id [] :="
+        },
+        {
+          "line": 242,
+          "pattern": "topPairingTargetShadow",
+          "text": "actedTriLettersFrom parity labels = topPairingTargetShadow.drop k := by"
+        },
+        {
+          "line": 245,
+          "pattern": "topPairingTargetShadow",
+          "text": "simp [actedTriLettersFrom, topPairingTargetShadowLength,"
+        },
+        {
+          "line": 246,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow]"
+        },
+        {
+          "line": 253,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadowLength, topPairingTargetShadow] using hk"
+        },
+        {
+          "line": 255,
+          "pattern": "topPairingTargetShadow",
+          "text": "simp [topPairingTargetShadow] at hletter \u22a2"
+        },
+        {
+          "line": 261,
+          "pattern": "topPairingTargetShadow",
+          "text": "(hk : k \u2264 topPairingTargetShadowLength)"
+        },
+        {
+          "line": 263,
+          "pattern": "topPairingTargetShadow",
+          "text": "actedTriLettersFrom parity labels = topPairingTargetShadow.drop k) :"
+        },
+        {
+          "line": 268,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadowLength, topPairingTargetShadow] using hk"
+        },
+        {
+          "line": 270,
+          "pattern": "topPairingTargetShadow",
+          "text": "simp [actedTriLettersFrom, topPairingTargetShadow] at hacted"
+        },
+        {
+          "line": 281,
+          "pattern": "topPairingTargetShadow",
+          "text": "simpa [topPairingTargetShadowLength, topPairingTargetShadow] using hk"
+        },
+        {
+          "line": 283,
+          "pattern": "topPairingTargetShadow",
+          "text": "simp [topPairingTargetShadow] at hacted"
+        },
+        {
+          "line": 291,
+          "pattern": "topPairingTargetShadow",
+          "text": "(by simpa [topPairingTargetShadow] using hacted.2))"
+        },
+        {
+          "line": 308,
+          "pattern": "topPairingTargetShadow",
+          "text": "(hk : k < topPairingTargetShadowLength)"
+        },
+        {
+          "line": 310,
+          "pattern": "topPairingTargetShadow",
+          "text": "tri.act parity = topPairingTargetShadow.get \u27e8k, hk\u27e9)"
+        },
+        {
+          "line": 333,
+          "pattern": "topPairingTargetShadow",
+          "text": "\u2203 hk : k < topPairingTargetShadowLength,"
+        },
+        {
+          "line": 334,
+          "pattern": "topPairingTargetShadow",
+          "text": "tri.act parity = topPairingTargetShadow.get \u27e8k, hk\u27e9 \u2227"
+        }
+      ]
     },
     "top_pairing_language": {
       "closed_language_fields": [
@@ -1657,6 +3109,9 @@
       "path": "Cuboctahedron/Search/BellmanTopPairingLanguage.lean",
       "selected_prefix_production_risk": [],
       "semantic_eval_gate": [],
+      "semantic_socket_core": [],
+      "suffix_eval_core": [],
+      "target_cursor_core": [],
       "target_shadow": [
         {
           "line": 321,
@@ -1697,6 +3152,538 @@
           "line": 764,
           "pattern": "TopPairingLanguageAtRank",
           "text": "Cuboctahedron.TopPairingLanguageAtRank rank)"
+        }
+      ]
+    },
+    "transducer_eval_bridge": {
+      "closed_language_fields": [
+        {
+          "line": 61,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace) :"
+        },
+        {
+          "line": 338,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace)"
+        },
+        {
+          "line": 373,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace)"
+        },
+        {
+          "line": 411,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace)"
+        },
+        {
+          "line": 462,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace)"
+        }
+      ],
+      "eval_core": [
+        {
+          "line": 148,
+          "pattern": "evalLabelStepFn",
+          "text": "theorem evalLabelStepFn_exists_of_tail_and_localGraph"
+        },
+        {
+          "line": 162,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn (next? next labelOfFace) state faces ="
+        },
+        {
+          "line": 166,
+          "pattern": "evalLabelStepFn",
+          "text": "exact \u27e8state, 0, by simp [evalLabelStepFn], htail\u27e9"
+        },
+        {
+          "line": 173,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn, hnext, htailEval]"
+        },
+        {
+          "line": 177,
+          "pattern": "evalLabelStepFn",
+          "text": "`evalLabelStepFn_exists_of_tail_and_localGraph`.  This is the realistic surface"
+        },
+        {
+          "line": 181,
+          "pattern": "evalLabelStepFn",
+          "text": "theorem evalLabelStepFn_exists_of_tail_and_invariantLocal"
+        },
+        {
+          "line": 199,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn (next? next labelOfFace) state faces ="
+        },
+        {
+          "line": 203,
+          "pattern": "evalLabelStepFn",
+          "text": "exact \u27e8state, 0, by simp [evalLabelStepFn], htail, hinv\u27e9"
+        },
+        {
+          "line": 210,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn, hnext, htailEval]"
+        },
+        {
+          "line": 214,
+          "pattern": "evalLabelStepFn",
+          "text": "`evalLabelStepFn_exists_of_tail_and_invariantLocal`."
+        },
+        {
+          "line": 223,
+          "pattern": "evalLabelStepFn",
+          "text": "theorem evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix"
+        },
+        {
+          "line": 246,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn (next? next labelOfFace) state faces ="
+        },
+        {
+          "line": 251,
+          "pattern": "evalLabelStepFn",
+          "text": "exact \u27e8state, 0, by simp [evalLabelStepFn], htail, hinv, hsuffix\u27e9"
+        },
+        {
+          "line": 260,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn, hnext, htailEval]"
+        },
+        {
+          "line": 287,
+          "pattern": "evalLabelStepFn",
+          "text": "theorem evalLabelStepFn_graph_of_faceEval"
+        },
+        {
+          "line": 294,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn (next? next labelOfFace) start faces ="
+        },
+        {
+          "line": 296,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn next start.graph (faces.map labelOfFace) ="
+        },
+        {
+          "line": 300,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn] at heval"
+        },
+        {
+          "line": 304,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn] at heval \u22a2"
+        },
+        {
+          "line": 313,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn (next? next labelOfFace) mid rest with"
+        },
+        {
+          "line": 340,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn (next? next labelOfFace)"
+        },
+        {
+          "line": 352,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn_graph_of_faceEval"
+        },
+        {
+          "line": 382,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn (next? next labelOfFace)"
+        },
+        {
+          "line": 394,
+          "pattern": "evalLabelStepFn",
+          "text": "rcases evalLabelStepFn_exists_of_tail_and_localGraph"
+        },
+        {
+          "line": 423,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn (next? next labelOfFace)"
+        },
+        {
+          "line": 436,
+          "pattern": "evalLabelStepFn",
+          "text": "rcases evalLabelStepFn_exists_of_tail_and_invariantLocal"
+        },
+        {
+          "line": 479,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn (next? next labelOfFace)"
+        },
+        {
+          "line": 493,
+          "pattern": "evalLabelStepFn",
+          "text": "rcases evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix"
+        }
+      ],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 503,
+      "path": "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean",
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [
+        {
+          "line": 346,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 387,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 429,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 486,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        }
+      ],
+      "semantic_socket_core": [],
+      "suffix_eval_core": [
+        {
+          "line": 94,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "structure TopPairingTransducerEvalState (State : Type) where"
+        },
+        {
+          "line": 98,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "namespace TopPairingTransducerEvalState"
+        },
+        {
+          "line": 101,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "TopPairingTransducerEvalState State where"
+        },
+        {
+          "line": 105,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "def Tail {State : Type} (state : TopPairingTransducerEvalState State)"
+        },
+        {
+          "line": 112,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(state : TopPairingTransducerEvalState State)"
+        },
+        {
+          "line": 113,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(face : Face) : Option (TopPairingTransducerEvalState State \u00d7 Int) :="
+        },
+        {
+          "line": 128,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "{state : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 132,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "\u2203 nextState : TopPairingTransducerEvalState State,"
+        },
+        {
+          "line": 153,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "forall {state : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 158,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "{state : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 185,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(Inv : TopPairingTransducerEvalState State -> Prop)"
+        },
+        {
+          "line": 187,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "forall {state : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 194,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "{state : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 223,
+          "pattern": "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix",
+          "text": "theorem evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix"
+        },
+        {
+          "line": 227,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(Inv : TopPairingTransducerEvalState State -> Prop)"
+        },
+        {
+          "line": 229,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "TopPairingTransducerEvalState State -> List Face -> Prop)"
+        },
+        {
+          "line": 231,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "forall {state : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 240,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "{state : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 266,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "{state nextState : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 291,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "{start finish : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 336,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "{finish : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 341,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start graphStart)"
+        },
+        {
+          "line": 361,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.start, hlabels] using hgraphEval"
+        },
+        {
+          "line": 375,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "forall {state : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 381,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "forall {finish : TopPairingTransducerEvalState State} {gain : Int},"
+        },
+        {
+          "line": 383,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start graphStart)"
+        },
+        {
+          "line": 390,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start graphStart).Tail"
+        },
+        {
+          "line": 392,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [Tail, TopPairingTransducerEvalState.start] using"
+        },
+        {
+          "line": 410,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(Inv : TopPairingTransducerEvalState State -> Prop)"
+        },
+        {
+          "line": 412,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(hstart : Inv (TopPairingTransducerEvalState.start graphStart))"
+        },
+        {
+          "line": 414,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "forall {state : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 422,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "forall {finish : TopPairingTransducerEvalState State} {gain : Int},"
+        },
+        {
+          "line": 424,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start graphStart)"
+        },
+        {
+          "line": 432,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start graphStart).Tail"
+        },
+        {
+          "line": 434,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [Tail, TopPairingTransducerEvalState.start] using"
+        },
+        {
+          "line": 459,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(Inv : TopPairingTransducerEvalState State -> Prop)"
+        },
+        {
+          "line": 461,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "TopPairingTransducerEvalState State -> List Face -> Prop)"
+        },
+        {
+          "line": 463,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(hstart : Inv (TopPairingTransducerEvalState.start graphStart))"
+        },
+        {
+          "line": 465,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "SuffixOk (TopPairingTransducerEvalState.start graphStart)"
+        },
+        {
+          "line": 468,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "forall {state : TopPairingTransducerEvalState State}"
+        },
+        {
+          "line": 478,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "forall {finish : TopPairingTransducerEvalState State} {gain : Int},"
+        },
+        {
+          "line": 480,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start graphStart)"
+        },
+        {
+          "line": 489,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start graphStart).Tail"
+        },
+        {
+          "line": 491,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [Tail, TopPairingTransducerEvalState.start] using"
+        },
+        {
+          "line": 493,
+          "pattern": "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix",
+          "text": "rcases evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix"
+        },
+        {
+          "line": 501,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "end TopPairingTransducerEvalState"
+        }
+      ],
+      "target_cursor_core": [],
+      "target_shadow": [
+        {
+          "line": 46,
+          "pattern": "topPairingTargetShadow",
+          "text": "if hk : state.k < topPairingTargetShadowLength then"
+        },
+        {
+          "line": 47,
+          "pattern": "topPairingTargetShadow",
+          "text": "if tri.act state.parity = topPairingTargetShadow.get \u27e8state.k, hk\u27e9 then"
+        }
+      ]
+    },
+    "transducer_tail": {
+      "closed_language_fields": [
+        {
+          "line": 26,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(h : TopPairingClosedLanguageAtRank rank badFace) :"
+        },
+        {
+          "line": 74,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows linear face \u2227"
+        }
+      ],
+      "eval_core": [],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 97,
+      "path": "Cuboctahedron/Search/TopPairingTransducerTail.lean",
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [
+        {
+          "line": 34,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 36,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(TopPairingBellmanObj.labels (fun f : Face => f) obj) := by"
+        },
+        {
+          "line": 37,
+          "pattern": "TopPairingBellmanObj",
+          "text": "simpa [TopPairingBellmanObj.labels, TopPairingBellmanObj.forcedSeq,"
+        }
+      ],
+      "semantic_socket_core": [],
+      "suffix_eval_core": [],
+      "target_cursor_core": [
+        {
+          "line": 8,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "suffix facts.  `TopPairingTriCursorFrom` carries the target-shadow cursor added"
+        },
+        {
+          "line": 20,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "cursor : TopPairingTriCursorFrom k parity labels"
+        },
+        {
+          "line": 30,
+          "pattern": "topPairingTriCursor_of_closed",
+          "text": "cursor := topPairingTriCursor_of_closed h"
+        },
+        {
+          "line": 50,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "cursor := TopPairingTriCursorFrom.cons_square_tail h.cursor hsquare"
+        },
+        {
+          "line": 62,
+          "pattern": "TopPairingTriCursorFrom",
+          "text": "rcases TopPairingTriCursorFrom.cons_tri_tail h.cursor htri with"
+        }
+      ],
+      "target_shadow": [
+        {
+          "line": 58,
+          "pattern": "topPairingTargetShadow",
+          "text": "\u2203 hk : k < topPairingTargetShadowLength,"
+        },
+        {
+          "line": 59,
+          "pattern": "topPairingTargetShadow",
+          "text": "tri.act parity = topPairingTargetShadow.get \u27e8k, hk\u27e9 \u2227"
+        },
+        {
+          "line": 82,
+          "pattern": "topPairingTargetShadow",
+          "text": "\u2203 hk : k < topPairingTargetShadowLength,"
+        },
+        {
+          "line": 83,
+          "pattern": "topPairingTargetShadow",
+          "text": "tri.act parity = topPairingTargetShadow.get \u27e8k, hk\u27e9 \u2227"
         }
       ]
     }
@@ -1761,11 +3748,67 @@
       "min_available_seen_mib": 44302.11328125,
       "rss_cap_mib": 7000.0,
       "timeout_seconds": 180.0
+    },
+    "state150_socket_direct": {
+      "available_floor_mib": 24576.0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingMissingTransition1MSocket.lean"
+      ],
+      "elapsed_seconds": 8.006485238001915,
+      "exit_code": 0,
+      "hard_address_space_mib": null,
+      "killed_reason": null,
+      "max_tree_rss_kib": 4272264,
+      "max_tree_rss_mib": 4172.1328125,
+      "min_available_seen_kib": 46981248,
+      "min_available_seen_mib": 45880.125,
+      "rss_cap_mib": 10000.0,
+      "timeout_seconds": 240.0
+    },
+    "strengthened_local_direct": {
+      "available_floor_mib": 24576.0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedLocal1MSmoke.lean"
+      ],
+      "elapsed_seconds": 6.004374330994324,
+      "exit_code": 0,
+      "hard_address_space_mib": null,
+      "killed_reason": null,
+      "max_tree_rss_kib": 4321800,
+      "max_tree_rss_mib": 4220.5078125,
+      "min_available_seen_kib": 46947476,
+      "min_available_seen_mib": 45847.14453125,
+      "rss_cap_mib": 10000.0,
+      "timeout_seconds": 240.0
+    },
+    "strengthened_local_lake": {
+      "available_floor_mib": 24576.0,
+      "command": [
+        "lake",
+        "build",
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingStrengthenedLocal1MSmoke"
+      ],
+      "elapsed_seconds": 14.012564142991323,
+      "exit_code": 0,
+      "hard_address_space_mib": null,
+      "killed_reason": null,
+      "max_tree_rss_kib": 4442224,
+      "max_tree_rss_mib": 4338.109375,
+      "min_available_seen_kib": 46761100,
+      "min_available_seen_mib": 45665.13671875,
+      "rss_cap_mib": 10000.0,
+      "timeout_seconds": 300.0
     }
   },
   "next_profiler_experiments": [
-    "target-shadow invertibility audit",
-    "closed-language-to-state transition profiler",
+    "finite strengthened state/face branch-table emitter",
+    "closed-language-to-state transition profiler across disjoint windows",
     "cocycle quotient profiler before adding exact affine state",
     "translation GoodDirection row-template/3-row circuit profiler"
   ],
@@ -1774,6 +3817,7 @@
     "topPairingTriShadow_eq_target",
     "TopPairingTriCursorFrom",
     "topPairingTriCursor_of_closed",
+    "topPairingClosed_to_strengthenedSuffixOk",
     "topPairingClosed_to_eval_gate",
     "topPairingClosed_scaledMargin_nonpos"
   ],
@@ -1782,16 +3826,32 @@
     "no one constructor per rank/path",
     "no exact affine RHS or solved start-point key",
     "no root selected-prefix producer import as production membership",
-    "no broad generated Lean build without hard address-space and RSS guard"
+    "no broad generated Lean build without hard address-space and RSS guard",
+    "no hand-growing depth cut after this checkpoint without a generated branch-table report"
   ],
   "production_rule": "Do not scale selected-prefix/root-trace membership as production. Use it only as a diagnostic/downstream comparison until a compact closed-language-to-eval transducer theorem exists.",
   "selected_prefix_root_bridge_rss_killed": true,
+  "semantic_branch_checkpoint": {
+    "closure_after_sequence_bad_face": true,
+    "graph_states": 223,
+    "known_sockets": [
+      "state19/tmmp canonical-bad-face mismatch",
+      "state150/tppp target-pairing completion impossibility"
+    ],
+    "real_graph_edges": 229,
+    "remaining_uncovered_branch_table": "not yet emitted; next checkpoint must generate/report finite state-face branch categories instead of hand prefix cuts",
+    "semantic_socket_branches": 2,
+    "strengthened_local_smoke_passed": true
+  },
   "totals": {
-    "closed_language_fields": 135,
-    "eval_core": 41,
+    "closed_language_fields": 177,
+    "eval_core": 75,
     "forbidden_sampled_surface": 0,
     "selected_prefix_production_risk": 12,
-    "semantic_eval_gate": 112,
-    "target_shadow": 19
+    "semantic_eval_gate": 119,
+    "semantic_socket_core": 26,
+    "suffix_eval_core": 117,
+    "target_cursor_core": 43,
+    "target_shadow": 112
   }
 }
