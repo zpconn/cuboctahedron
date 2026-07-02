@@ -86705,3 +86705,163 @@ Decision: accepted.  The next generated/hand-written slice should instantiate
 `with-step-tri-source`/state-DAG candidate, prove the local step theorem above
 for a small representative subgraph, and then scale only if the local proof
 does not expand into selected prefixes or exact trace ids.
+
+#### Split-10M Ranked Semantic Producer Socket
+
+Updated the Bellman pivot in response to the latest GPT5.5 recommendation:
+keep the Bellman/state-DAG route, but reject selected-prefix membership and
+make the production proof pass through a deterministic semantic transducer
+theorem.  The concrete Lean front door is now:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  AcceptedSequenceBadFaceAtRank rank Face.ym ->
+  Split10MSemanticSuffixOk scaledMargin rank
+    (TopPairingTransducerEvalState.start rootState)
+    (topPairingRankFaceLabels rank)
+```
+
+followed by a local deterministic step theorem:
+
+```lean
+Inv state ->
+state.Tail (face :: rest) ->
+SuffixOk rank state (face :: rest) ->
+  exists nextState gain,
+    faceEvalNext state face = some (nextState, gain) /\
+      nextState.Tail rest /\ Inv nextState /\
+        SuffixOk rank nextState rest
+```
+
+The `rank` parameter in `SuffixOk` is deliberate.  The split-10M producer
+predicate carries final-margin and suffix information indexed by the current
+rank; the key point is that this is still a semantic rank-indexed predicate,
+not a selected-prefix table, sampled path object, or trace-id disjunction.
+
+Changed:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticTransducerSocket.lean
+```
+
+Added ranked variants:
+
+```lean
+theorem split10MClosedGate_of_rankedInvariantLocalWithSuffix
+
+theorem split10MStrengthenedGate_of_rankedInvariantLocalWithSuffix
+
+theorem scaledMargin_nonpos_of_split10MRankedInvariantLocalWithSuffix
+
+theorem scaledMargin_nonpos_of_split10MStrengthenedRankedInvariantLocalWithSuffix
+```
+
+Added the adapter that routes the existing split-10M semantic producers
+through the current socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSplit10MSemanticProducerSocket.lean
+```
+
+Exported theorem names:
+
+```lean
+theorem split10MStrengthenedGate_of_producers_viaSemanticSocket
+
+theorem scaledMargin_nonpos_of_split10MProducers_viaSemanticSocket
+
+theorem split10MSemanticProducerSocket_builds
+```
+
+This means existing producer premises:
+
+```lean
+TerminalOkTraceLabels (topPairingRankFaceLabels rank)
+Split10MGraphSuffixProducer rank
+Split10MFinalMarginProducer scaledMargin rank
+```
+
+now feed the same semantic-transducer socket rather than a separate ad hoc
+smoke path.  The remaining production work is to replace the current producer
+premises with finite semantic state/class proofs derived from the target-shadow
+cursor and state-DAG/cancellation fields.  Do not reintroduce
+`SampledRankIndex`, selected-prefix roots, exact affine RHS keys, or full
+path disjunctions.
+
+Commands:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticTransducerSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSplit10MSemanticProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_transducer_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticTransducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_transducer_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticTransducerSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_split10m_semantic_producer_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSplit10MSemanticProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_split10m_semantic_producer_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSplit10MSemanticProducerSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| hygiene scan | pass | n/a | n/a | n/a |
+| direct updated `BellmanTopPairingSemanticTransducerSocket.lean` | pass | `2.00s` | `3619 MiB` | `45602 MiB` |
+| Lake updated `BellmanTopPairingSemanticTransducerSocket` | pass | `3.00s` | `4095 MiB` | `45364 MiB` |
+| direct `BellmanTopPairingSplit10MSemanticProducerSocket.lean` | pass | `2.00s` | `3615 MiB` | `45589 MiB` |
+| Lake `BellmanTopPairingSplit10MSemanticProducerSocket` | pass | `3.01s` | `1397 MiB` | `45612 MiB` |
+
+Decision: accepted as the current Bellman pivot checkpoint.  The next step is
+not another Bellman graph smoke.  It is a semantic producer proof that, for the
+top-pairing closed/strengthened language, terminal classification, graph suffix
+production, and final-margin production follow from finite semantic
+state/class fields.  If that proof wants selected prefix ids, sampled ranks,
+exact affine RHS, or full trace-path enumeration, stop and refine the
+semantic state or try the cocycle quotient route before scaling.

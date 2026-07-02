@@ -190,6 +190,178 @@ theorem scaledMargin_nonpos_of_split10MStrengthenedInvariantLocalWithSuffix
       Inv SuffixOk hstart hsuffixStart hlocal hfinish)
     rank hstrengthened
 
+theorem split10MClosedGate_of_rankedInvariantLocalWithSuffix
+    {scaledMargin : Fin numPairWords -> Int}
+    (Inv : FaceEvalState -> Prop)
+    (SuffixOk : Fin numPairWords -> FaceEvalState -> List Face -> Prop)
+    (hstart : Inv (TopPairingTransducerEvalState.start rootState))
+    (hsuffixStart :
+      forall rank,
+        TopPairingClosedLanguageAtRank rank Face.ym ->
+          SuffixOk rank (TopPairingTransducerEvalState.start rootState)
+            (topPairingRankFaceLabels rank))
+    (hlocal :
+      forall {rank : Fin numPairWords}
+        {state : FaceEvalState} {face : Face} {rest : List Face},
+        Inv state ->
+        state.Tail (face :: rest) ->
+        SuffixOk rank state (face :: rest) ->
+          exists nextState gain,
+            faceEvalNext state face = some (nextState, gain) ∧
+              nextState.Tail rest ∧ Inv nextState ∧
+                SuffixOk rank nextState rest)
+    (hfinish :
+      forall {rank : Fin numPairWords}
+        {finish : FaceEvalState} {gain : Int},
+        evalLabelStepFn faceEvalNext
+          (TopPairingTransducerEvalState.start rootState)
+          (topPairingRankFaceLabels rank) = some (finish, gain) ->
+        finish.Tail [] ->
+        Inv finish ->
+        SuffixOk rank finish [] ->
+          0 <= graphPotential finish.graph ∧
+            scaledMargin rank <= (176 : Int) + gain) :
+    Split10MClosedToEvalGate scaledMargin :=
+  closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+    (V := graphPotential)
+    (next := graphSmokeNext)
+    (labelOfFace := smokeLabelOfFace)
+    (graphStart := rootState)
+    (const := (176 : Int))
+    (scaledMargin := scaledMargin)
+    (badFace := Face.ym)
+    Inv SuffixOk hstart hsuffixStart hlocal hfinish
+
+theorem split10MStrengthenedGate_of_rankedInvariantLocalWithSuffix
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (Inv : FaceEvalState -> Prop)
+    (SuffixOk : Fin numPairWords -> FaceEvalState -> List Face -> Prop)
+    (hstart : Inv (TopPairingTransducerEvalState.start rootState))
+    (hsuffixStart :
+      forall rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+          sequenceBadFace rank Face.ym ->
+          SuffixOk rank (TopPairingTransducerEvalState.start rootState)
+            (topPairingRankFaceLabels rank))
+    (hlocal :
+      forall {rank : Fin numPairWords}
+        {state : FaceEvalState} {face : Face} {rest : List Face},
+        Inv state ->
+        state.Tail (face :: rest) ->
+        SuffixOk rank state (face :: rest) ->
+          exists nextState gain,
+            faceEvalNext state face = some (nextState, gain) ∧
+              nextState.Tail rest ∧ Inv nextState ∧
+                SuffixOk rank nextState rest)
+    (hfinish :
+      forall {rank : Fin numPairWords}
+        {finish : FaceEvalState} {gain : Int},
+        evalLabelStepFn faceEvalNext
+          (TopPairingTransducerEvalState.start rootState)
+          (topPairingRankFaceLabels rank) = some (finish, gain) ->
+        finish.Tail [] ->
+        Inv finish ->
+        SuffixOk rank finish [] ->
+          0 <= graphPotential finish.graph ∧
+            scaledMargin rank <= (176 : Int) + gain) :
+    Split10MStrengthenedToEvalGate sequenceBadFace scaledMargin :=
+  strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+    (V := graphPotential)
+    (next := graphSmokeNext)
+    (labelOfFace := smokeLabelOfFace)
+    (graphStart := rootState)
+    (const := (176 : Int))
+    (scaledMargin := scaledMargin)
+    (sequenceBadFace := sequenceBadFace)
+    (badFace := Face.ym)
+    Inv SuffixOk hstart hsuffixStart hlocal hfinish
+
+theorem scaledMargin_nonpos_of_split10MRankedInvariantLocalWithSuffix
+    {scaledMargin : Fin numPairWords -> Int}
+    (Inv : FaceEvalState -> Prop)
+    (SuffixOk : Fin numPairWords -> FaceEvalState -> List Face -> Prop)
+    (hstart : Inv (TopPairingTransducerEvalState.start rootState))
+    (hsuffixStart :
+      forall rank,
+        TopPairingClosedLanguageAtRank rank Face.ym ->
+          SuffixOk rank (TopPairingTransducerEvalState.start rootState)
+            (topPairingRankFaceLabels rank))
+    (hlocal :
+      forall {rank : Fin numPairWords}
+        {state : FaceEvalState} {face : Face} {rest : List Face},
+        Inv state ->
+        state.Tail (face :: rest) ->
+        SuffixOk rank state (face :: rest) ->
+          exists nextState gain,
+            faceEvalNext state face = some (nextState, gain) ∧
+              nextState.Tail rest ∧ Inv nextState ∧
+                SuffixOk rank nextState rest)
+    (hfinish :
+      forall {rank : Fin numPairWords}
+        {finish : FaceEvalState} {gain : Int},
+        evalLabelStepFn faceEvalNext
+          (TopPairingTransducerEvalState.start rootState)
+          (topPairingRankFaceLabels rank) = some (finish, gain) ->
+        finish.Tail [] ->
+        Inv finish ->
+        SuffixOk rank finish [] ->
+          0 <= graphPotential finish.graph ∧
+            scaledMargin rank <= (176 : Int) + gain)
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_split10MClosedToEvalGate
+    (split10MClosedGate_of_rankedInvariantLocalWithSuffix
+      (scaledMargin := scaledMargin)
+      Inv SuffixOk hstart hsuffixStart hlocal hfinish)
+    rank hclosed
+
+theorem scaledMargin_nonpos_of_split10MStrengthenedRankedInvariantLocalWithSuffix
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (Inv : FaceEvalState -> Prop)
+    (SuffixOk : Fin numPairWords -> FaceEvalState -> List Face -> Prop)
+    (hstart : Inv (TopPairingTransducerEvalState.start rootState))
+    (hsuffixStart :
+      forall rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+          sequenceBadFace rank Face.ym ->
+          SuffixOk rank (TopPairingTransducerEvalState.start rootState)
+            (topPairingRankFaceLabels rank))
+    (hlocal :
+      forall {rank : Fin numPairWords}
+        {state : FaceEvalState} {face : Face} {rest : List Face},
+        Inv state ->
+        state.Tail (face :: rest) ->
+        SuffixOk rank state (face :: rest) ->
+          exists nextState gain,
+            faceEvalNext state face = some (nextState, gain) ∧
+              nextState.Tail rest ∧ Inv nextState ∧
+                SuffixOk rank nextState rest)
+    (hfinish :
+      forall {rank : Fin numPairWords}
+        {finish : FaceEvalState} {gain : Int},
+        evalLabelStepFn faceEvalNext
+          (TopPairingTransducerEvalState.start rootState)
+          (topPairingRankFaceLabels rank) = some (finish, gain) ->
+        finish.Tail [] ->
+        Inv finish ->
+        SuffixOk rank finish [] ->
+          0 <= graphPotential finish.graph ∧
+            scaledMargin rank <= (176 : Int) + gain)
+    (rank : Fin numPairWords)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_split10MStrengthenedToEvalGate
+    (split10MStrengthenedGate_of_rankedInvariantLocalWithSuffix
+      (sequenceBadFace := sequenceBadFace)
+      (scaledMargin := scaledMargin)
+      Inv SuffixOk hstart hsuffixStart hlocal hfinish)
+    rank hstrengthened
+
 theorem semanticTransducerSocket_builds : True := by
   exact True.intro
 
