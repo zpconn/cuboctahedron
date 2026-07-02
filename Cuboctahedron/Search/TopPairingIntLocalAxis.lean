@@ -139,6 +139,60 @@ theorem scaledLinearAfterFaces_from_identity_cast (faces : List Face) :
   apply scaledLinearAfterFaces_cast
   apply Mat3.ext <;> simp [Mat3.map, scalarMat, matId]
 
+theorem topPairingLinearAfterFaces_append_singleton
+    (linear : Mat3 Rat) (faces : List Face) (face : Face) :
+    topPairingLinearAfterFaces linear (faces ++ [face]) =
+      matMul (topPairingLinearAfterFaces linear faces)
+        (reflM (normalQ face)) := by
+  induction faces generalizing linear with
+  | nil =>
+      simp [topPairingLinearAfterFaces]
+  | cons head tail ih =>
+      simp [topPairingLinearAfterFaces, ih]
+
+structure TopPairingIntPrefixState where
+  faces : List Face
+  scaled : Mat3 Int
+  scale : Nat
+
+namespace TopPairingIntPrefixState
+
+def Sound (state : TopPairingIntPrefixState) : Prop :=
+  state.scaled.map (fun z : Int => (z : Rat)) =
+    scalarMat (state.scale : Rat)
+      (topPairingLinearAfterFaces (matId : Mat3 Rat) state.faces)
+
+def root : TopPairingIntPrefixState where
+  faces := []
+  scaled := matId
+  scale := 1
+
+def step (state : TopPairingIntPrefixState) (face : Face) :
+    TopPairingIntPrefixState where
+  faces := state.faces ++ [face]
+  scaled := matMul state.scaled (faceScaledLinearInt face)
+  scale := state.scale * faceLinearScale face
+
+theorem root_sound : Sound root := by
+  unfold Sound root
+  apply Mat3.ext <;> simp [Mat3.map, scalarMat, matId,
+    topPairingLinearAfterFaces]
+
+theorem step_sound {state : TopPairingIntPrefixState} {face : Face}
+    (hstate : Sound state) :
+    Sound (step state face) := by
+  unfold Sound step
+  rw [topPairingLinearAfterFaces_append_singleton]
+  rw [matMap_intCast_rat_matMul_local, hstate, faceScaledLinearInt_cast,
+    matMul_scalarMat_scalarMat_rat_local]
+  have hcast :
+      ((state.scale * faceLinearScale face : Nat) : Rat) =
+        (state.scale : Rat) * (faceLinearScale face : Rat) := by
+    norm_num
+  rw [hcast]
+
+end TopPairingIntPrefixState
+
 theorem intLocalAxisDot_scaled_eq
     {linear : Mat3 Rat} {scaled : Mat3 Int} {scale : Nat} {face : Face}
     (hscaled :

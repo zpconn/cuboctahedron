@@ -55,6 +55,16 @@ theorem depth8Parent000_scaledLinear_cast :
   rw [depth8Parent000_scaledProduct_eq, depth8Parent000_scale_eq] at h
   exact h
 
+def depth8Parent000State : TopPairingIntPrefixState where
+  faces := depth8Parent000Prefix
+  scaled := depth8Parent000ScaledLinear
+  scale := 729
+
+theorem depth8Parent000State_sound :
+    TopPairingIntPrefixState.Sound depth8Parent000State := by
+  simpa [TopPairingIntPrefixState.Sound, depth8Parent000State] using
+    depth8Parent000_scaledLinear_cast
+
 def depth9Parent000TmppScaledLinear : Mat3 Int where
   m00 := -729
   m01 := 1458
@@ -107,6 +117,19 @@ theorem depth8_parent000_step_tmpp :
     norm_num [depth8Parent000ScaledLinear, depth9Parent000TmppScaledLinear,
       faceScaledLinearInt, faceLinearScale, normalInt, matMul, matSub,
       scalarMat, outer, matId, dot]
+
+def depth9Parent000TmppState : TopPairingIntPrefixState :=
+  TopPairingIntPrefixState.step depth8Parent000State Face.tmpp
+
+theorem depth9Parent000TmppState_sound :
+    TopPairingIntPrefixState.Sound depth9Parent000TmppState :=
+  TopPairingIntPrefixState.step_sound depth8Parent000State_sound
+
+theorem depth9Parent000TmppState_scaled :
+    depth9Parent000TmppState.scaled =
+      depth9Parent000TmppScaledLinear := by
+  simpa [depth9Parent000TmppState, TopPairingIntPrefixState.step,
+    depth8Parent000State] using depth8_parent000_step_tmpp
 
 theorem depth8_parent000_step_tppp :
     matMul depth8Parent000ScaledLinear

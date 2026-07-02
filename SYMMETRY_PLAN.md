@@ -70503,3 +70503,67 @@ prove one-step updates, not reconstruct the full prefix state from scratch in
 every parent theorem.  The next semantic-membership slice should introduce a
 small state object containing this integer linear state and use the one-step
 transition facts to feed the deterministic evaluator.
+
+Integer prefix-state object checkpoint:
+
+`TopPairingIntLocalAxis.lean` now has the reusable semantic/provider object:
+
+```lean
+structure TopPairingIntPrefixState where
+  faces : List Face
+  scaled : Mat3 Int
+  scale : Nat
+
+def TopPairingIntPrefixState.Sound
+def TopPairingIntPrefixState.root
+def TopPairingIntPrefixState.step
+theorem TopPairingIntPrefixState.root_sound
+theorem TopPairingIntPrefixState.step_sound
+```
+
+`step_sound` is the key production-facing theorem: once a state is known to be
+a sound integer-scaled representation of the rational prefix linear part, a
+one-face transition remains sound by the generic scaled reflection bridge.
+This is the exact surface a generated state-DAG provider should use instead of
+reconstructing each full prefix product.
+
+Guarded checks:
+
+```text
+TopPairingIntLocalAxis.lean source:
+  passed, elapsed 19.03s, peak RSS 4077 MiB
+
+TopPairingIntLocalAxis.olean:
+  passed, elapsed 19.09s, peak RSS 4081 MiB
+```
+
+`TransitionSmoke.lean` now uses the state object for one child:
+
+```lean
+depth8Parent000State
+depth8Parent000State_sound
+depth9Parent000TmppState
+depth9Parent000TmppState_sound
+depth9Parent000TmppState_scaled
+```
+
+Guarded smoke:
+
+```text
+passed
+elapsed: 16.02s
+peak process-tree RSS: 3998 MiB
+hard address-space cap: 8192 MiB
+```
+
+Decision: accept `TopPairingIntPrefixState.step_sound` as the next
+production-shaped proof surface.  This does not yet prove the full
+closed-language-to-evaluator theorem, but it removes the central blocker
+identified by the Bellman gate: generated semantic providers can carry
+integer linear state and update it incrementally.  The next slice should
+combine this with the deterministic Bellman evaluator state, so that a
+closed-language state transition simultaneously updates:
+
+1. face-prefix membership;
+2. integer scaled linear state;
+3. Bellman evaluator state/gain.
