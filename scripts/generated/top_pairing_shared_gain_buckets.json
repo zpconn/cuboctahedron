@@ -1,0 +1,285 @@
+{
+  "accepted_trace_count": 37,
+  "distinct_gain_count": 14,
+  "gain_buckets": [
+    {
+      "accepted_indices": [
+        18,
+        27,
+        28,
+        32,
+        33,
+        36
+      ],
+      "count": 6,
+      "gain": -552
+    },
+    {
+      "accepted_indices": [
+        0,
+        1,
+        2,
+        29,
+        30,
+        34
+      ],
+      "count": 6,
+      "gain": -376
+    },
+    {
+      "accepted_indices": [
+        5,
+        6,
+        8,
+        16
+      ],
+      "count": 4,
+      "gain": -612
+    },
+    {
+      "accepted_indices": [
+        3,
+        31,
+        35
+      ],
+      "count": 3,
+      "gain": -596
+    },
+    {
+      "accepted_indices": [
+        19,
+        25,
+        26
+      ],
+      "count": 3,
+      "gain": -304
+    },
+    {
+      "accepted_indices": [
+        10,
+        14
+      ],
+      "count": 2,
+      "gain": -684
+    },
+    {
+      "accepted_indices": [
+        21,
+        23
+      ],
+      "count": 2,
+      "gain": -640
+    },
+    {
+      "accepted_indices": [
+        20,
+        24
+      ],
+      "count": 2,
+      "gain": -568
+    },
+    {
+      "accepted_indices": [
+        9,
+        13
+      ],
+      "count": 2,
+      "gain": -464
+    },
+    {
+      "accepted_indices": [
+        7,
+        15
+      ],
+      "count": 2,
+      "gain": -392
+    },
+    {
+      "accepted_indices": [
+        4,
+        17
+      ],
+      "count": 2,
+      "gain": -348
+    },
+    {
+      "accepted_indices": [
+        12
+      ],
+      "count": 1,
+      "gain": -396
+    },
+    {
+      "accepted_indices": [
+        22
+      ],
+      "count": 1,
+      "gain": -352
+    },
+    {
+      "accepted_indices": [
+        11
+      ],
+      "count": 1,
+      "gain": -176
+    }
+  ],
+  "homogeneous_prefix_bucket_count": 8,
+  "prefix_buckets": [
+    {
+      "accepted_indices": [
+        0,
+        1,
+        2
+      ],
+      "count": 3,
+      "depth": 9,
+      "gain": -376,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        0,
+        1,
+        2
+      ],
+      "count": 3,
+      "depth": 10,
+      "gain": -376,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        27,
+        28
+      ],
+      "count": 2,
+      "depth": 4,
+      "gain": -552,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "zm"
+      ]
+    },
+    {
+      "accepted_indices": [
+        32,
+        33
+      ],
+      "count": 2,
+      "depth": 4,
+      "gain": -552,
+      "prefix": [
+        "xm",
+        "ym",
+        "zm",
+        "yp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        25,
+        26
+      ],
+      "count": 2,
+      "depth": 5,
+      "gain": -304,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm"
+      ]
+    },
+    {
+      "accepted_indices": [
+        29,
+        30
+      ],
+      "count": 2,
+      "depth": 10,
+      "gain": -376,
+      "prefix": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm"
+      ]
+    },
+    {
+      "accepted_indices": [
+        1,
+        2
+      ],
+      "count": 2,
+      "depth": 11,
+      "gain": -376,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm"
+      ]
+    },
+    {
+      "accepted_indices": [
+        29,
+        30
+      ],
+      "count": 2,
+      "depth": 11,
+      "gain": -376,
+      "prefix": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm"
+      ]
+    }
+  ],
+  "source": "scripts/generated/top_pairing_closed_graph_acceptance_all_examples_lean_aligned.json"
+}

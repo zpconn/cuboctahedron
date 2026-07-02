@@ -65230,3 +65230,81 @@ non-sampled family theorem into this shared-gain socket.  If the required
 bucket/gain or margin proof demands a rank-indexed affine-RHS table or one case
 per accepted rank/path, reject Bellman production and pivot to the
 cancellation-tree summary automaton.
+
+### 2026-07-02 Shared-gain bucket diagnostic
+
+Added a diagnostic-only profiler:
+
+```text
+scripts/profile_top_pairing_shared_gain_buckets.py
+```
+
+It reads the existing exact accepted-trace JSON
+`scripts/generated/top_pairing_closed_graph_acceptance_all_examples_lean_aligned.json`
+and writes:
+
+```text
+scripts/generated/top_pairing_shared_gain_buckets.json
+scripts/generated/top_pairing_shared_gain_buckets.md
+```
+
+Command:
+
+```bash
+python3 scripts/profile_top_pairing_shared_gain_buckets.py
+python3 -m py_compile scripts/profile_top_pairing_shared_gain_buckets.py
+```
+
+result:
+
+```text
+accepted traces = 37
+distinct gains = 14
+homogeneous prefix buckets with size > 1 = 8
+```
+
+Gain buckets:
+
+```text
+-552: 6 traces
+-376: 6 traces
+-612: 4 traces
+-596: 3 traces
+-304: 3 traces
+several 1- or 2-trace gains
+```
+
+Largest homogeneous prefix buckets:
+
+```text
+depth 9, gain -376, count 3:
+  xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp
+
+depth 10, gain -376, count 3:
+  xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp tmpp
+
+depth 4, gain -552, count 2:
+  xm ym yp zm
+
+depth 4, gain -552, count 2:
+  xm ym zm yp
+```
+
+Decision:
+
+Prefix-only shared-gain bucketing is too weak to be the production semantic
+membership theorem.  The largest prefix bucket covers only three accepted
+traces, and the full gain buckets are disconnected in ordinary prefix space.
+This supports the current diagnosis: rank and raw prefix coordinates are not
+the final compression coordinate.  The shared-gain socket remains useful, but
+the next Bellman experiment must prove bucket/gain membership from a stronger
+semantic object such as source-position/cancellation summary state.
+
+Next action:
+
+Implement one actual source-position/cancellation-summary membership slice for
+a same-gain bucket, preferably the `-376` bucket if the existing top-pairing
+classifier can prove its trace-id restriction without enumerating ranks.  If
+that proof collapses into exact accepted-trace casework or rank-indexed affine
+RHS tables, stop Bellman production and pivot to the cancellation-tree summary
+automaton as the primary nonidentity residual route.
