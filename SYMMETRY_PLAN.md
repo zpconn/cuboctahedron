@@ -58956,3 +58956,83 @@ use broad `lake build` to validate the next Bellman semantic-membership slice
 until the heavy imports are prebuilt serially or Lake concurrency is externally
 controlled.  Continue with hard-capped direct Lean checks for the next local
 gate modules.
+
+Semantic trace-DAG gate profile checkpoint:
+
+- Ran the exact semantic state-DAG profiler for the remaining `ClosedTraceOr`
+  premise:
+
+```bash
+python3 scripts/profile_top_pairing_trace_state_dag.py \
+  --json scripts/generated/top_pairing_trace_state_dag_semantic_gate.json \
+  --markdown scripts/generated/top_pairing_trace_state_dag_semantic_gate.md \
+  --graph-json scripts/generated/top_pairing_trace_state_dag_semantic_gate_graph.json \
+  --max-examples 4
+```
+
+- Result:
+
+```text
+decision = semantic-state-dag-candidate
+states = 7387
+edges = 7661
+terminal states = 249
+terminal state histogram:
+  cancellation_reject = 248
+  closed = 1
+terminal path histogram:
+  cancellation_reject = 440
+  closed = 2
+```
+
+- The two closed terminal paths are exactly the two evaluator traces:
+
+```text
+[xm, ym, zm, tmpp, tppp, tpmp, tppm, tmmp, tpmm, tmmm, tmpm, yp, zp, xp]
+[xm, ym, zm, tmpp, tppp, tpmp, tppm, tmmp, tpmm, tmmm, tmpm, zp, yp, xp]
+```
+
+Interpretation: the current semantic fields are strong enough
+diagnostically to isolate the two accepted traces without sampled rank/path
+membership.  This keeps the Bellman route alive for exactly the semantic
+membership experiment GPT-5.5 recommended.
+
+Next implementation target:
+
+1. Emit a bounded Lean classifier for the semantic state DAG, using the state
+   key:
+
+```text
+step
+remaining_pair_counts
+square_gap
+local_axis_linear_matrix
+triangular_cancellation_stack
+```
+
+2. The generated theorem should prove:
+
+```lean
+forall obj : TopPairingBellmanObj Face.ym,
+  ClosedTraceOr obj
+```
+
+or the equivalent rank theorem:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  faceLabelsInContributionOrder (fun f : Face => f)
+      (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        topPairingClosedFaceTraceA \/
+    faceLabelsInContributionOrder (fun f : Face => f)
+      (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        topPairingClosedFaceTraceB
+```
+
+3. Shard the classifier by depth or state-id ranges.  Do not generate one
+   proof branch per accepted rank/path.
+4. Validate leaves with hard-capped direct Lean, not broad `lake build`, until
+   import scheduling is known to be safe.
+5. If this DAG classifier collapses back into sampled rank/path objects, stop
+   the current Bellman production route and strengthen the semantic object
+   instead of emitting more sampled evidence.
