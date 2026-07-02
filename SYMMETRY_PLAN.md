@@ -62170,3 +62170,163 @@ that produces `GraphAcceptedTraceMargin`, using `TopPairingTraceTail` or a
 cancellation-tree summary automaton.  Do not return to sampled rank/path
 objects, depth-by-depth local-axis `simp` replay, or rank-indexed certificate
 tables.
+
+Accepted-trace margin bridge checkpoint:
+
+Added:
+
+- `Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean`
+
+This checkpoint implements GPT5.5's sharpened Bellman gate in a small,
+production-shaped adapter.  The Bellman object remains semantic:
+
+```lean
+TopPairingBellmanObj Face.ym
+```
+
+that is, a rank plus `TopPairingClosedLanguageAtRank rank Face.ym`.  The new
+bridge does not introduce sampled objects.  Instead it factors the remaining
+accepted-trace obligation into:
+
+```lean
+GraphAcceptedTraceLabels
+  (TopPairingBellmanObj.labels (fun f : Face => f) obj)
+```
+
+plus a compact per-accepted-trace conditional margin interface:
+
+```lean
+GraphAcceptedTraceMarginBounds scaledMargin obj
+```
+
+The main new theorem is:
+
+```lean
+theorem graphAcceptedTraceMargin_of_labels_and_bounds
+    (hlabels :
+      GraphAcceptedTraceLabels
+        (TopPairingBellmanObj.labels (fun f : Face => f) obj))
+    (hbounds : GraphAcceptedTraceMarginBounds scaledMargin obj) :
+    GraphAcceptedTraceMargin scaledMargin obj
+```
+
+and the terminal-filter theorem is:
+
+```lean
+theorem graphAcceptedTraceMargin_of_terminalTrace_filters_and_bounds
+    (obj : TopPairingBellmanObj Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (TopPairingBellmanObj.labels (fun f : Face => f) obj))
+    (homni :
+      TopPairingActualFaceOmniLabels
+        (TopPairingBellmanObj.labels (fun f : Face => f) obj))
+    (hbad :
+      TopPairingTraceClassifier.Accepted.SequenceBadFaceLabels
+        (TopPairingBellmanObj.labels (fun f : Face => f) obj) Face.ym)
+    (hbounds : GraphAcceptedTraceMarginBounds scaledMargin obj) :
+    GraphAcceptedTraceMargin scaledMargin obj
+```
+
+This is deliberately smaller than a full `BellmanEvalAccepts` proof.  It says
+the next generated membership layer only has to prove:
+
+1. terminal trace membership;
+2. actual-face omnihedrality and bad-face compatibility;
+3. one conditional integer margin bound for whichever of the 37 accepted traces
+   the rank labels equal.
+
+It must not provide `SampledRankIndex`, sampled paths, sampled rank tables, or
+one object constructor per rank.
+
+Guarded direct Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_graph_accepted_trace_margin_bridge_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 9.01s
+peak_tree_rss = 3703 MiB
+hard_as = 8192 MiB
+min_available = 46241 MiB
+```
+
+Focused Lake target:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_graph_accepted_trace_margin_bridge_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphAcceptedTraceMarginBridge
+```
+
+result:
+
+```text
+passed
+elapsed = 5.03s
+peak_tree_rss = 3876 MiB
+hard_as = 32768 MiB
+min_available = 46093 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean
+```
+
+Both checks passed; the `rg` audit found no matches in the new bridge.
+
+Decision:
+
+Keep Bellman for this exact semantic-membership experiment.  The latest bridge
+is the intended formal cut: the accepted finite graph and evaluator are already
+small enough, while production membership should now target conditional
+trace-margin facts instead of sampled rank/path data.
+
+Next action:
+
+Generate the first non-sampled margin-bound classifier for this bridge.  The
+acceptable next theorem has the shape:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+       (topPairingRankFaceLabels rank)
+  -> TopPairingActualFaceOmniLabels (topPairingRankFaceLabels rank)
+  -> TopPairingTraceClassifier.Accepted.SequenceBadFaceLabels
+       (topPairingRankFaceLabels rank) Face.ym
+  -> GraphAcceptedTraceMarginBounds scaledMargin
+       ({ rank := rank, closed := ... } : TopPairingBellmanObj Face.ym)
+```
+
+or a strengthened-language equivalent.  If proving this requires sampled
+rank/path membership or one branch per accepted rank, stop the Bellman
+production route and pivot to the cancellation-tree summary automaton.
