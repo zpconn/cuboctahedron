@@ -84907,3 +84907,109 @@ python3 scripts/run_memory_guarded.py \
   --verbose \
   -- lake build Cuboctahedron.Search.TopPairingTransducerSemanticGate
 ```
+
+#### Split-10M Transducer Semantic Gate Smoke Accepted
+
+Added
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSplit10MTransducerSemanticGateSmoke.lean`.
+This is the first generated-side smoke that packages the existing split-10M
+terminal/frontier, graph-suffix, and final-margin producers directly into the
+ranked transducer semantic gate:
+
+```lean
+def Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSplit10MTransducerSemanticGateSmoke.
+  Split10MSemanticSuffixOk
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSplit10MTransducerSemanticGateSmoke.
+  strengthenedToEvalGate_of_split10MProducers
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSplit10MTransducerSemanticGateSmoke.
+  scaledMargin_nonpos_of_split10MProducers
+```
+
+The theorem surface matches the latest Bellman pivot:
+
+1. the object is semantic strengthened closed-language evidence at rank;
+2. the suffix predicate is rank-indexed only to carry semantic producer facts;
+3. local progress is through `branchTableSuffixOk_local` and
+   `faceEvalNext`;
+4. the produced result is a deterministic `TopPairingBellmanEvalLanguageAtRank`
+   via `strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix`;
+5. nonpositivity is then discharged by the existing invariant Bellman bridge
+   using `Root.transition_ok_of_lt`.
+
+This checkpoint does not introduce `SampledRankIndex`, selected-prefix
+membership, exact affine RHS keys, solved start-point keys, or per-rank/path
+trace equality as a production theorem surface.  It proves the exact slice the
+current strategy review requested: closed/strengthened semantic producers can
+feed the deterministic evaluator socket.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_split10m_transducer_semantic_gate_smoke_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSplit10MTransducerSemanticGateSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_split10m_transducer_semantic_gate_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSplit10MTransducerSemanticGateSmoke
+```
+
+```bash
+rg "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSplit10MTransducerSemanticGateSmoke.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `BellmanTopPairingSplit10MTransducerSemanticGateSmoke.lean` | pass | `2.00s` | `3458 MiB` | `46194 MiB` |
+| Lake `BellmanTopPairingSplit10MTransducerSemanticGateSmoke` | pass | `6.00s` | `4066 MiB` | `45810 MiB` |
+| forbidden-token scan | pass | n/a | n/a | n/a |
+
+Decision: accepted as the current production-shaped socket.  The next
+generator/proof task is to emit a real semantic producer family for the
+strengthened closed-language subset that proves the three producer premises
+consumed here:
+
+```lean
+∀ rank,
+  TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    TerminalOkTraceLabels (topPairingRankFaceLabels rank)
+
+∀ rank,
+  TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    Split10MGraphSuffixProducer rank
+
+∀ rank,
+  TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    Split10MFinalMarginProducer scaledMargin rank
+```
+
+If any of these producer proofs starts requiring selected-prefix membership,
+sampled ranks, exact affine RHS keys, solved start-point keys, or exact full
+Bellman trace identity, stop and strengthen the semantic state/cocycle quotient
+before emitting more Lean.
