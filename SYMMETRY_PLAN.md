@@ -82861,3 +82861,88 @@ depth-5 graph-suffix membership theorem from the same closed
 target-shadow/tri-source state, preferably with an emitter that produces
 small per-state branch lemmas rather than hand-copying the fourth-face cases.
 ```
+
+#### Split-10M Depth-5 Closed-Graph Rejection
+
+The next semantic-membership attempt was tested against the GPT5.5 guidance:
+keep Bellman, but prove a deterministic closed-language-to-evaluator theorem
+rather than scaling a selected-prefix/trace cover.  A depth-5 graph-suffix
+emitter probe was intentionally not kept because the generated Lean theorem did
+not build: the plain `TopPairingClosedLanguageAtRank rank Face.ym` fields allow
+fifth-face continuations for which the current split-10M Bellman graph has no
+transition.  This is the membership wall in concrete form, not a memory issue.
+
+To make the rejection auditable without committing a failing Lean module, the
+exact closed-language graph-acceptance audit was run against the split-10M graph:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_closed_graph_acceptance_split10m_limited_guard.json \
+  --verbose \
+  -- python3 scripts/audit_top_pairing_closed_graph_acceptance.py \
+    --base Cuboctahedron/Generated/\
+NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Base.lean \
+    --json scripts/generated/\
+top_pairing_closed_graph_acceptance_split10m_limited.json \
+    --markdown scripts/generated/\
+top_pairing_closed_graph_acceptance_split10m_limited.md \
+    --max-nodes 200000 \
+    --max-examples 5
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| split-10M closed-graph acceptance audit | pass | `1.00s` | `2.44 MiB` | `46560 MiB` |
+
+Audit counts:
+
+| Metric | Value |
+|---|---:|
+| DFS nodes | `11318` |
+| closed candidates | `47` |
+| graph accepted | `37` |
+| graph rejected | `10` |
+| prefix graph rejects | `197` |
+
+First rejected prefixes include:
+
+```text
+state 851, step 8, face tpmm, prefix
+  xm ym tmpm tppm tpmm tppp tmmm zp tpmm
+
+state 777, step 7, face tmmp, prefix
+  xm ym tmpm tppm tpmm tppp zp tmmp
+
+state 81, step 10, face tmmp, prefix
+  xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp tmmp
+```
+
+Decision:
+
+```text
+Reject depth-5 emission from the plain closed-language predicate into the
+current split-10M graph.  The graph accepts a semantic sublanguage, not the
+whole visible closed language.  Do not patch this by adding selected traces,
+sampled ranks, or exact prefix disjunctions.  The next proof object must be one
+of:
+
+1. a stronger semantic predicate carrying the missing deterministic evaluator
+   acceptance/margin facts, then a theorem from the upstream residual classifier
+   into that predicate; or
+2. a regenerated Bellman graph/state machine whose state is closed under the
+   semantic fields actually present in `TopPairingClosedLanguageAtRank`
+   (target-shadow cursor, tri-source progress, square-gap, local-axis, and any
+   additional compact field found by the rejection prefixes).
+
+Keep Bellman.  Stop treating this selected split graph as the full
+closed-language evaluator.  The immediate next experiment should mine the
+rejected prefixes above to identify the missing compact state field, then rerun
+the closed-graph acceptance audit before emitting another Lean membership
+module.
+```

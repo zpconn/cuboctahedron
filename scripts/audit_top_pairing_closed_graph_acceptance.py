@@ -445,8 +445,9 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
         if stats["rejected"]
         else "no-closed-candidates-found"
     )
+    base_path = args.base.resolve()
     return {
-        "base": args.base.relative_to(ROOT).as_posix(),
+        "base": base_path.relative_to(ROOT).as_posix(),
         "decision": decision,
         "stats": stats,
         "first_accepted": first_accepted,
