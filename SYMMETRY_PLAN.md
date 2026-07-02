@@ -83194,3 +83194,44 @@ margin inequality from compact semantic state/cursor facts.  The current
 accepted-trace table can remain as a bounded smoke/socket, but production
 membership must be organized as semantic classifier facts rather than sampled
 rank objects.
+
+Checkpoint: the trace-margin socket now exposes an existential trace-id
+sequence predicate, so future semantic classifiers do not need to fix a trace
+id in the theorem statement:
+
+```lean
+TraceIdExistsMarginSequenceBadFace
+evalLanguage_of_traceIdExistsMargin
+traceIdExistsMargin_scaledMargin_nonpos
+```
+
+The new surface says: if a strengthened top-pairing closed rank has some
+accepted trace id matching its labels and the corresponding integer margin
+bound, then it enters the existing Bellman evaluator gate and gets the
+nonpositive scaled-margin theorem.  This is still semantic: the proof object is
+`rank + strengthened closed proof + exists accepted trace id + margin bound`,
+not a sampled path or sampled rank index.
+
+Focused memory-guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/trace_margin_bounds_socket_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| `BellmanTopPairingTraceMarginBoundsSocket.lean` | pass | `6.01s` | `3950 MiB` | `45921 MiB` |
+
+Next implementation target: produce, for one compact semantic classifier
+family, the existential trace-id/margin predicate above from strengthened
+closed-language cursor/state facts.  Avoid exact-prefix, exact affine RHS,
+solved-start-point, or selected trace-path keys.

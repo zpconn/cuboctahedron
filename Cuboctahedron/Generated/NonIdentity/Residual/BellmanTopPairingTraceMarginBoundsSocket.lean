@@ -51,6 +51,14 @@ def TraceIdMarginSequenceBadFace
     topPairingRankFaceLabels rank = acceptedTraceOfId traceId /\
     scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId
 
+def TraceIdExistsMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  badFace = Face.ym /\
+    ∃ traceId : AcceptedTraceId,
+      topPairingRankFaceLabels rank = acceptedTraceOfId traceId /\
+        scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId
+
 theorem terminalAcceptedEvalSequenceBadFace_of_bounds
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -123,6 +131,16 @@ theorem terminalTraceMarginIdBoundSequenceBadFace_of_traceId
     · simpa [TopPairingBellmanObj.labels, TopPairingBellmanObj.forcedSeq,
         topPairingRankFaceLabels] using htrace
     · exact hmargin
+
+theorem terminalTraceMarginIdBoundSequenceBadFace_of_traceIdExists
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hseq : TraceIdExistsMarginSequenceBadFace scaledMargin rank Face.ym) :
+    TerminalTraceMarginIdBoundSequenceBadFace scaledMargin rank Face.ym := by
+  rcases hseq with ⟨_hbadFace, traceId, htrace, hmargin⟩
+  exact terminalTraceMarginIdBoundSequenceBadFace_of_traceId
+    traceId closed ⟨rfl, htrace, hmargin⟩
 
 theorem strengthenedTerminalAcceptedEval_of_bounds
     {scaledMargin : Fin numPairWords -> Int}
@@ -199,6 +217,22 @@ theorem evalLanguage_of_traceId
   evalLanguage_of_traceMarginIdBound
     (strengthenedTraceMarginIdBound_of_traceId h)
 
+theorem evalLanguage_of_traceIdExistsMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TraceIdExistsMarginSequenceBadFace scaledMargin) rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_traceMarginIdBound
+    (TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+      h.closed
+      h.actualFaceOmni
+      (terminalTraceMarginIdBoundSequenceBadFace_of_traceIdExists
+        h.closed h.sequenceBadFace_ok))
+
 theorem strengthenedTraceMarginBounds_scaledMargin_nonpos
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -231,6 +265,20 @@ theorem traceId_scaledMargin_nonpos
     scaledMargin rank <= 0 :=
   strengthenedTraceMarginIdBound_scaledMargin_nonpos
     (strengthenedTraceMarginIdBound_of_traceId h)
+
+theorem traceIdExistsMargin_scaledMargin_nonpos
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TraceIdExistsMarginSequenceBadFace scaledMargin) rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  strengthenedTraceMarginIdBound_scaledMargin_nonpos
+    (TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+      h.closed
+      h.actualFaceOmni
+      (terminalTraceMarginIdBoundSequenceBadFace_of_traceIdExists
+        h.closed h.sequenceBadFace_ok))
 
 theorem evalLanguage_of_traceId_components
     {scaledMargin : Fin numPairWords -> Int}

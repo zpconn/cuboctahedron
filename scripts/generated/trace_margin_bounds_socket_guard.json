@@ -6,14 +6,14 @@
     "lean",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceMarginBoundsSocket.lean"
   ],
-  "elapsed_seconds": 2.0020884449913865,
+  "elapsed_seconds": 6.012803969002562,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 3688096,
-  "max_tree_rss_mib": 3601.65625,
-  "min_available_seen_kib": 47362948,
-  "min_available_seen_mib": 46252.87890625,
+  "max_tree_rss_kib": 4044824,
+  "max_tree_rss_mib": 3950.0234375,
+  "min_available_seen_kib": 47023636,
+  "min_available_seen_mib": 45921.51953125,
   "rss_cap_mib": 6000.0,
   "timeout_seconds": 180.0
 }
