@@ -71968,3 +71968,105 @@ terminal classifier, the Bellman/top-pairing route remains viable.  If it
 requires `SampledRankIndex`, sampled paths, or one constructor per rank/path,
 stop and pivot to a cancellation-tree summary automaton with stronger semantic
 state fields.
+
+## 2026-07-02 Audit: What The Terminal Direct Producer Still Lacks
+
+After adding the terminal direct sequence socket, inspect the existing terminal
+classifier stack before emitting more evidence.
+
+Relevant modules:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  TopPairingTraceClassifier/Terminal/All.lean
+  TopPairingTraceClassifier/TerminalOk.lean
+  TopPairingTraceClassifier/Accepted.lean
+  BellmanTopPairingStateDAGPrefixSmoke.lean
+  BellmanTopPairingStateDAGSelectedPrefixShard.lean
+  BellmanTopPairingStateDAGSelectedPrefixCover/Group000.lean
+```
+
+Current verified/generated terminal-classifier facts:
+
+```text
+terminal full traces: 442
+cancellation-reject traces: 395
+cancellation-ok traces: 47
+graph-accepted traces: 37
+graph-rejected traces after terminal ok: 10
+sampled rank/path data: false
+```
+
+The terminal classifier theorem surface is trace-label based:
+
+```lean
+def TopPairingTraceClassifier.Terminal.TerminalRejectTraceLabels
+    (labels : List Face) : Prop
+
+def TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+    (labels : List Face) : Prop :=
+  Terminal.TerminalRejectTraceLabels labels \/
+    Accepted.TerminalOkTraceLabels labels
+
+theorem terminalOk_of_terminalTrace_and_cancellation
+    {labels : List Face}
+    (hc :
+      triangularCancellationSummaryOfFaceLabels labels =
+        topPairingTargetSummary)
+    (hterm : TerminalTraceLabels labels) :
+    Accepted.TerminalOkTraceLabels labels
+```
+
+The generated terminal root is therefore not itself a rank-coverage theorem.
+It consumes a terminal-trace disjunction for a concrete label list.  The
+unproved production theorem is the semantic membership bridge:
+
+```lean
+theorem terminalTraceLabels_of_closedTopPairingRank
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank)
+```
+
+or a slightly stronger theorem whose conclusion is directly:
+
+```lean
+TerminalDirectClosedFamily rank
+```
+
+when supplied with the other semantic components
+`TopPairingActualFaceOmniAtRank rank` and
+`AcceptedSequenceBadFaceAtRank rank Face.ym`.
+
+Existing selected-prefix/state-DAG smokes are useful but not sufficient for
+production because their families still include an explicit prefix witness:
+
+```lean
+exists rest,
+  topPairingRankFaceLabels rank = PrefixNNNPrefix ++ rest
+```
+
+That is fine for bounded diagnostics, but the production theorem must derive
+terminal membership from the closed-language/cancellation/schedule/local-axis
+predicates themselves, or from a compact semantic automaton whose state fields
+are part of the theorem.  It must not enumerate sampled ranks or accepted paths.
+
+Next implementation target:
+
+1. Add a small `TerminalTraceMembership` bridge module or generator mode.
+2. Define a semantic automaton predicate over the existing closed-language
+   components: schedule, square-gap, local-axis, pair counts, and cancellation
+   summary.
+3. Prove a tiny smoke theorem for one prefix/state:
+
+   ```lean
+   ClosedRankInTerminalState state rank ->
+     TerminalTraceLabels (topPairingRankFaceLabels rank)
+   ```
+
+4. If that smoke requires only semantic state fields and local transition
+   lemmas, scale it as a state-DAG producer for `TerminalDirectClosedFamily`.
+5. If it requires `SampledRankIndex`, sampled paths, or one constructor per
+   rank/path, stop this route and replace the state with an honest
+   cancellation-tree summary automaton.
