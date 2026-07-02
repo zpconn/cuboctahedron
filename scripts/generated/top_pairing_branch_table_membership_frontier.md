@@ -17,11 +17,12 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` | generic suffix evaluator | `eval_bridge`, `branch_table_suffix`, `strengthened_local` |
 | `transducer_face_eval_split10m_smoke_builds` | split-10M semantic prefix evaluator build sentinel | `face_eval_split10m` |
 | `closed_prefix2_branch_faceEval` | closed prefix-2 semantic branch evaluator | `face_eval_split10m`, `strengthened_local` |
-| `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_split10m`, `branch_table_progress`, `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
+| `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_split10m`, `branch_table_progress`, `branch_table_progress_split10m`, `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
 | `strengthenedBranchKind?` | finite graph/socket branch classifier | `branch_table` |
 | `branchKind?_of_branchTable` | branch-table entry computes to classifier | `branch_table` |
-| `graph_next_of_graphBranch` | branch-table graph transition extractor | `branch_table`, `branch_table_progress` |
-| `faceEvalNext_of_graphBranchTable` | graph branch local evaluator progress | `branch_table_progress`, `branch_table_suffix` |
+| `graph_next_of_graphBranch` | branch-table graph transition extractor | `branch_table`, `branch_table_split10m`, `branch_table_progress`, `branch_table_progress_split10m` |
+| `faceEvalNext_of_graphBranchTable` | graph branch local evaluator progress | `branch_table_progress`, `branch_table_progress_split10m`, `branch_table_suffix` |
+| `branchTableProgressSplit10MSmoke_builds` | split-10M graph branch local-progress sentinel | `branch_table_progress_split10m` |
 | `socket19TmmpBranch_impossible` | state19/tmmp semantic socket | `branch_table_progress`, `branch_table_suffix` |
 | `socket150TpppBranch_impossible` | state150/tppp semantic socket | `branch_table_progress`, `branch_table_suffix` |
 | `BranchTableSuffixOk` | suffix predicate storing branch-table evidence | `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
@@ -61,10 +62,12 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `branch_table_lake` | `0` | `6.01s` | `4296 MiB` | `None` |
 | `face_eval_split10m_direct` | `0` | `4.00s` | `4028 MiB` | `None` |
 | `face_eval_split10m_lake` | `0` | `3.00s` | `3993 MiB` | `None` |
-| `split10m_branch_table_direct` | `0` | `12.03s` | `4182 MiB` | `None` |
-| `split10m_branch_table_lake` | `0` | `9.01s` | `4794 MiB` | `None` |
+| `split10m_branch_table_direct` | `0` | `63.13s` | `7123 MiB` | `None` |
+| `split10m_branch_table_lake` | `0` | `67.09s` | `7213 MiB` | `None` |
 | `branch_table_progress_direct` | `0` | `2.00s` | `3544 MiB` | `None` |
 | `branch_table_progress_lake` | `0` | `4.01s` | `4067 MiB` | `None` |
+| `split10m_branch_table_progress_direct` | `0` | `2.00s` | `3529 MiB` | `None` |
+| `split10m_branch_table_progress_lake` | `0` | `3.00s` | `1445 MiB` | `None` |
 | `branch_table_suffix_direct` | `0` | `3.00s` | `3921 MiB` | `None` |
 | `branch_table_suffix_lake` | `0` | `1.00s` | `1 MiB` | `None` |
 | `graph_suffix_emitter_direct` | `0` | `10.05s` | `3867 MiB` | `None` |
@@ -75,8 +78,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `graph_accepted_suffix_bridge_lake` | `0` | `3.00s` | `4098 MiB` | `None` |
 | `graph_accepted_branch_suffix_direct` | `0` | `3.00s` | `4152 MiB` | `None` |
 | `graph_accepted_branch_suffix_lake` | `0` | `4.01s` | `4261 MiB` | `None` |
-| `graph_accepted_branch_suffix_split10m_direct` | `0` | `7.01s` | `4744 MiB` | `None` |
-| `graph_accepted_branch_suffix_split10m_lake` | `0` | `7.01s` | `4825 MiB` | `None` |
+| `graph_accepted_branch_suffix_split10m_direct` | `0` | `6.01s` | `4771 MiB` | `None` |
+| `graph_accepted_branch_suffix_split10m_lake` | `0` | `7.01s` | `4802 MiB` | `None` |
 
 ## Accepted Local Surface
 
@@ -87,6 +90,7 @@ entry is usable:
 transducer_face_eval_split10m_smoke_builds
 closed_prefix2_branch_faceEval
 faceEvalNext_of_graphBranchTable
+branchTableProgressSplit10MSmoke_builds
 strengthenedBranchKind?
 branchKind?_of_branchTable
 socket19TmmpBranch_impossible

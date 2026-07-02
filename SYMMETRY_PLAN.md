@@ -82277,6 +82277,7 @@ The split branch table records:
 ```lean
 realGraphTransitionBranchCount = 1054
 remainingUncoveredAuditedBranchCount = 0
+graph_next_of_graphBranch
 strengthenedBranchTableSplit10MSmoke_builds
 ```
 
@@ -82341,10 +82342,16 @@ Results:
 
 | Target | Result | Time | Peak RSS | Min available |
 |---|---:|---:|---:|---:|
-| split-10M branch table direct Lean | pass | `12.03s` | `4182 MiB` | `45858 MiB` |
-| split-10M branch table Lake target | pass | `9.01s` | `4794 MiB` | `45294 MiB` |
-| split-10M graph-accepted suffix direct Lean | pass | `7.01s` | `4744 MiB` | `45355 MiB` |
-| split-10M graph-accepted suffix Lake target | pass | `7.01s` | `4825 MiB` | `45276 MiB` |
+| split-10M branch table direct Lean | pass | `63.13s` | `7123 MiB` | `42606 MiB` |
+| split-10M branch table Lake target | pass | `67.09s` | `7213 MiB` | `42494 MiB` |
+| split-10M graph-accepted suffix direct Lean | pass | `6.01s` | `4771 MiB` | `45333 MiB` |
+| split-10M graph-accepted suffix Lake target | pass | `7.01s` | `4802 MiB` | `45283 MiB` |
+
+The branch table became heavier after adding `graph_next_of_graphBranch`:
+the theorem has one constructor case per split graph edge.  This cost is still
+bounded and memory-safe, but it is now a producer-level heavy leaf and should
+remain out of broad imports unless a lightweight public bridge imports only
+the checked theorem surface.
 
 Updated audits:
 
@@ -82465,6 +82472,91 @@ Next production target:
 Extend the same split-10M semantic evaluator past the third face by consuming
 finite branch-table evidence and semantic socket contradictions, rather than
 graph-accepted terminal traces.
+```
+
+#### Split-10M Branch-Table Local Progress
+
+Added the split-10M local progress bridge:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedBranchTableProgressSplit10MSmoke.lean
+```
+
+It proves:
+
+```lean
+Inv
+start_inv
+faceEvalNext_of_graphBranchTable
+branchTableProgressSplit10MSmoke_builds
+```
+
+The important theorem is:
+
+```lean
+theorem faceEvalNext_of_graphBranchTable
+    {state : FaceEvalState} {face : Face} {rest : List Face}
+    (hinv : Inv state)
+    (htail : state.Tail (face :: rest))
+    (hbranch : StrengthenedBranchTable state.graph face BranchKind.graph) :
+    ∃ nextState gain,
+      faceEvalNext state face = some (nextState, gain) ∧
+        nextState.Tail rest ∧ Inv nextState
+```
+
+This is the local deterministic step needed by the production
+closed-language-to-evaluator theorem.  It consumes finite split branch-table
+membership and semantic transducer-tail evidence; it does not consume accepted
+terminal traces.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_split10m_branch_table_progress_guard.json \
+  --verbose \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedBranchTableProgressSplit10MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_split10m_branch_table_progress_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedBranchTableProgressSplit10MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| split-10M local progress direct Lean | pass | `2.00s` | `3529 MiB` | `46273 MiB` |
+| split-10M local progress Lake target | pass | `3.00s` | `1445 MiB` | `46010 MiB` |
+| branch-table membership frontier audit | pass | `1.00s` | `2 MiB` | `46559 MiB` |
+
+Next production target:
+
+```text
+Build the split-10M `BranchTableSuffixOk` analogue so semantic closed-prefix
+state can carry finite branch-table evidence through the evaluator without
+using graph-accepted terminal trace classes.
 ```
 
 ### Branch-Table Third-Face Lift Added

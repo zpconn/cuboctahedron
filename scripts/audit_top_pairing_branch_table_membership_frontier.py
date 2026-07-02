@@ -46,6 +46,9 @@ LEAN_FILES = {
     "branch_table_progress": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedBranchTableProgress1MSmoke.lean",
+    "branch_table_progress_split10m": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingStrengthenedBranchTableProgressSplit10MSmoke.lean",
     "branch_table_suffix": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingBranchTableSuffix1MSmoke.lean",
@@ -84,6 +87,10 @@ GUARDS = {
     / "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_guard.json",
     "branch_table_progress_lake": ROOT
     / "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_lake_guard.json",
+    "split10m_branch_table_progress_direct": ROOT
+    / "scripts/generated/bellman_split10m_branch_table_progress_guard.json",
+    "split10m_branch_table_progress_lake": ROOT
+    / "scripts/generated/bellman_split10m_branch_table_progress_lake_guard.json",
     "branch_table_suffix_direct": ROOT
     / "scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json",
     "branch_table_suffix_lake": ROOT
@@ -122,6 +129,7 @@ REQUIRED_SYMBOLS = {
     "branchKind?_of_branchTable": "branch-table entry computes to classifier",
     "graph_next_of_graphBranch": "branch-table graph transition extractor",
     "faceEvalNext_of_graphBranchTable": "graph branch local evaluator progress",
+    "branchTableProgressSplit10MSmoke_builds": "split-10M graph branch local-progress sentinel",
     "socket19TmmpBranch_impossible": "state19/tmmp semantic socket",
     "socket150TpppBranch_impossible": "state150/tppp semantic socket",
     "BranchTableSuffixOk": "suffix predicate storing branch-table evidence",
@@ -264,6 +272,7 @@ def render_markdown(report: dict[str, Any]) -> str:
             "transducer_face_eval_split10m_smoke_builds",
             "closed_prefix2_branch_faceEval",
             "faceEvalNext_of_graphBranchTable",
+            "branchTableProgressSplit10MSmoke_builds",
             "strengthenedBranchKind?",
             "branchKind?_of_branchTable",
             "socket19TmmpBranch_impossible",

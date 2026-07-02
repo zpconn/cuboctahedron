@@ -26,13 +26,26 @@
         "socket19TmmpBranch_impossible": 1
       }
     },
+    "branch_table_progress_split10m": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 56,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedBranchTableProgressSplit10MSmoke.lean",
+      "symbol_hits": {
+        "StrengthenedBranchTable": 6,
+        "branchTableProgressSplit10MSmoke_builds": 1,
+        "faceEvalNext_of_graphBranchTable": 1,
+        "graph_next_of_graphBranch": 1
+      }
+    },
     "branch_table_split10m": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 1088,
+      "lines": 2152,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedBranchTableSplit10MSmoke.lean",
       "symbol_hits": {
-        "StrengthenedBranchTable": 1057,
+        "StrengthenedBranchTable": 1058,
+        "graph_next_of_graphBranch": 1,
         "strengthenedBranchTableSplit10MSmoke_builds": 1
       }
     },
@@ -262,19 +275,19 @@
       "path": "scripts/generated/bellman_graph_accepted_branch_suffix_lake_guard.json"
     },
     "graph_accepted_branch_suffix_split10m_direct": {
-      "elapsed_seconds": 7.007272417002241,
+      "elapsed_seconds": 6.009833078991505,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 4744.03515625,
+      "max_tree_rss_mib": 4770.95703125,
       "path": "scripts/generated/bellman_split10m_graph_accepted_branch_suffix_guard.json"
     },
     "graph_accepted_branch_suffix_split10m_lake": {
-      "elapsed_seconds": 7.006703892999212,
+      "elapsed_seconds": 7.006332129996736,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 4824.5625,
+      "max_tree_rss_mib": 4802.2890625,
       "path": "scripts/generated/bellman_split10m_graph_accepted_branch_suffix_lake_guard.json"
     },
     "graph_accepted_prefix_frontier_direct": {
@@ -326,20 +339,36 @@
       "path": "scripts/generated/bellman_graph_suffix_emitter_1m_smoke_lake_guard.json"
     },
     "split10m_branch_table_direct": {
-      "elapsed_seconds": 12.032309451999026,
+      "elapsed_seconds": 63.13071489801223,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 4182.12890625,
+      "max_tree_rss_mib": 7122.53125,
       "path": "scripts/generated/bellman_split10m_branch_table_guard.json"
     },
     "split10m_branch_table_lake": {
-      "elapsed_seconds": 9.006510334991617,
+      "elapsed_seconds": 67.09268125199014,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 4793.61328125,
+      "max_tree_rss_mib": 7213.43359375,
       "path": "scripts/generated/bellman_split10m_branch_table_lake_guard.json"
+    },
+    "split10m_branch_table_progress_direct": {
+      "elapsed_seconds": 2.002216558001237,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3528.51953125,
+      "path": "scripts/generated/bellman_split10m_branch_table_progress_guard.json"
+    },
+    "split10m_branch_table_progress_lake": {
+      "elapsed_seconds": 3.0028905020008096,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 1445.3984375,
+      "path": "scripts/generated/bellman_split10m_branch_table_progress_lake_guard.json"
     }
   },
   "mode": "top-pairing-branch-table-membership-frontier",
@@ -368,6 +397,7 @@
       "branch_table",
       "branch_table_split10m",
       "branch_table_progress",
+      "branch_table_progress_split10m",
       "branch_table_suffix",
       "graph_suffix_emitter",
       "graph_accepted_branch_suffix",
@@ -379,6 +409,9 @@
     ],
     "branchKind?_of_branchTable": [
       "branch_table"
+    ],
+    "branchTableProgressSplit10MSmoke_builds": [
+      "branch_table_progress_split10m"
     ],
     "branchTableSuffixOk_closedPrefix2_branch_of_closed": [
       "branch_table_suffix"
@@ -428,6 +461,7 @@
     ],
     "faceEvalNext_of_graphBranchTable": [
       "branch_table_progress",
+      "branch_table_progress_split10m",
       "branch_table_suffix"
     ],
     "graphAcceptedBranchSuffix1MSmoke_builds": [
@@ -477,7 +511,9 @@
     ],
     "graph_next_of_graphBranch": [
       "branch_table",
-      "branch_table_progress"
+      "branch_table_split10m",
+      "branch_table_progress",
+      "branch_table_progress_split10m"
     ],
     "socket150TpppBranch_impossible": [
       "branch_table_progress",

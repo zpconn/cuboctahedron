@@ -196,6 +196,9 @@ def emit_branch_table(edges: list[dict[str, int | str]]) -> str:
         "membership theorem.",
         "-/",
         "",
+        "set_option maxHeartbeats 2000000",
+        "set_option maxRecDepth 4096",
+        "",
         f"namespace {BRANCH_NS}",
         "",
         "open Cuboctahedron",
@@ -220,6 +223,21 @@ def emit_branch_table(edges: list[dict[str, int | str]]) -> str:
             f"  | {ctor_name(int(edge['index']), int(edge['src']), str(edge['face']))} : "
             f"StrengthenedBranchTable ({edge['src']} : State) "
             f"{face_ctor(str(edge['face']))} BranchKind.graph"
+        )
+    lines.extend(
+        [
+            "",
+            "theorem graph_next_of_graphBranch",
+            "    {s : State} {face : Face}",
+            "    (h : StrengthenedBranchTable s face BranchKind.graph) :",
+            "    ∃ nextState gain,",
+            "      graphSmokeNext s (smokeLabelOfFace face) = some (nextState, gain) := by",
+            "  cases h",
+        ]
+    )
+    for edge in edges:
+        lines.append(
+            f"  · exact ⟨({edge['dst']} : State), ({edge['gain']} : Int), rfl⟩"
         )
     lines.extend(
         [
