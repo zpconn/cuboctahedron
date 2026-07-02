@@ -63720,3 +63720,157 @@ No-go condition remains unchanged: if the next classifier family needs
 `SampledRankIndex`, sampled rank objects, one constructor per rank/path, or an
 exact affine-RHS table, stop this Bellman production route and pivot to the
 cancellation-tree summary automaton.
+
+### 2026-07-02 Generic accepted-trace-id component family socket
+
+The trace-000 family smoke showed that the semantic family shape works for one
+accepted trace.  The socket now lifts that proof pattern to any accepted trace
+id, so generated classifier families do not need one custom actual-face proof
+per trace.
+
+New generic production-facing predicate:
+
+```lean
+def TraceIdClosedMarginFamily
+    (traceIdOf : Fin numPairWords -> AcceptedTraceId)
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    topPairingRankFaceLabels rank = acceptedTraceOfId (traceIdOf rank) /\
+      scaledMargin rank <= (176 : Int) + acceptedTraceGain (traceIdOf rank)
+```
+
+New theorem surface:
+
+```lean
+theorem actualFaceOmni_of_acceptedTraceId_trace :
+    topPairingRankFaceLabels rank = acceptedTraceOfId traceId ->
+    TopPairingActualFaceOmniAtRank rank
+
+theorem traceIdClosedMarginComponentFamily :
+    TraceIdComponentFamily
+      (TraceIdClosedMarginFamily traceIdOf scaledMargin)
+      traceIdOf
+      scaledMargin
+
+theorem evalLanguage_of_traceIdClosedMarginFamily :
+    TraceIdClosedMarginFamily traceIdOf scaledMargin rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem traceIdClosedMarginFamily_scaledMargin_nonpos :
+    TraceIdClosedMarginFamily traceIdOf scaledMargin rank ->
+    scaledMargin rank <= 0
+```
+
+`actualFaceOmni_of_acceptedTraceId_trace` checks all 37 accepted traces by
+case-splitting on `AcceptedTraceId` and exact `List.Nodup` evaluation.  This is
+small finite proof data, not sampled rank evidence.  The generator target is now
+especially crisp:
+
+```text
+contains rank ->
+  closed-language rank proof,
+  accepted trace id equality,
+  trace-id margin inequality
+```
+
+Those three semantic facts feed `TraceIdClosedMarginFamily`; the socket derives
+the actual-face omni condition and the Bellman evaluator language theorem.
+
+Guarded focused Lake check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_closed_margin_family_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceIdBoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 8.01s
+peak_tree_rss = 4068 MiB
+hard_as = 32768 MiB
+min_available = 46039 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_closed_margin_family_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3617 MiB
+hard_as = 8192 MiB
+min_available = 46283 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingTraceMarginBoundsSocket.lean       = 373 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean            = 112 lines
+BellmanTopPairingTrace000ComponentFamilySmoke.lean  = 77 lines
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 596 lines
+TopPairingBellmanObject.lean                        = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000ComponentFamilySmoke.lean
+```
+
+`git diff --check` passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept the generic trace-id closed-margin family socket.  This is a stronger
+production target than the trace-000 smoke because it covers all accepted trace
+ids uniformly, while still requiring no sampled paths, no sampled ranks, and no
+rank-indexed object table.
+
+Next action:
+
+Generate or hand-build the first nontrivial classifier bucket theorem that
+proves `TraceIdClosedMarginFamily traceIdOf scaledMargin rank` from a compact
+semantic membership predicate.  The natural first target is an all-accepted
+trace classifier bucket that reuses the existing terminal/accepted trace
+classifier, then adds the margin inequality family.  If that margin proof
+cannot be expressed without exact affine-RHS tables or per-rank branches, stop
+the Bellman production route and pivot to the cancellation-tree summary
+automaton.

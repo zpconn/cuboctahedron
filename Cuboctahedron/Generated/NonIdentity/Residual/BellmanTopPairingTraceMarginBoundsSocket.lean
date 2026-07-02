@@ -277,6 +277,44 @@ structure TraceIdComponentFamily
     forall rank, containsRank rank ->
       scaledMargin rank <= (176 : Int) + acceptedTraceGain (traceIdOf rank)
 
+def TraceIdClosedMarginFamily
+    (traceIdOf : Fin numPairWords -> AcceptedTraceId)
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    topPairingRankFaceLabels rank = acceptedTraceOfId (traceIdOf rank) /\
+      scaledMargin rank <= (176 : Int) + acceptedTraceGain (traceIdOf rank)
+
+theorem actualFaceOmni_of_acceptedTraceId_trace
+    {rank : Fin numPairWords}
+    {traceId : AcceptedTraceId}
+    (htrace :
+      topPairingRankFaceLabels rank = acceptedTraceOfId traceId) :
+    TopPairingActualFaceOmniAtRank rank := by
+  unfold TopPairingActualFaceOmniAtRank TopPairingActualFaceOmniLabels
+  rw [htrace]
+  cases traceId <;> decide
+
+theorem traceIdClosedMarginComponentFamily
+    {traceIdOf : Fin numPairWords -> AcceptedTraceId}
+    {scaledMargin : Fin numPairWords -> Int} :
+    TraceIdComponentFamily
+      (TraceIdClosedMarginFamily traceIdOf scaledMargin)
+      traceIdOf
+      scaledMargin where
+  closed := by
+    intro rank h
+    exact h.1
+  actualFaceOmni := by
+    intro rank h
+    exact actualFaceOmni_of_acceptedTraceId_trace h.2.1
+  trace := by
+    intro rank h
+    exact h.2.1
+  margin := by
+    intro rank h
+    exact h.2.2
+
 theorem evalLanguage_of_traceIdComponentFamily
     {containsRank : Fin numPairWords -> Prop}
     {traceIdOf : Fin numPairWords -> AcceptedTraceId}
@@ -308,6 +346,26 @@ theorem traceIdComponentFamily_scaledMargin_nonpos
     (family.actualFaceOmni rank hrank)
     (family.trace rank hrank)
     (family.margin rank hrank)
+
+theorem evalLanguage_of_traceIdClosedMarginFamily
+    {traceIdOf : Fin numPairWords -> AcceptedTraceId}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdClosedMarginFamily traceIdOf scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_traceIdComponentFamily
+    traceIdClosedMarginComponentFamily hrank
+
+theorem traceIdClosedMarginFamily_scaledMargin_nonpos
+    {traceIdOf : Fin numPairWords -> AcceptedTraceId}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdClosedMarginFamily traceIdOf scaledMargin rank) :
+    scaledMargin rank <= 0 :=
+  traceIdComponentFamily_scaledMargin_nonpos
+    traceIdClosedMarginComponentFamily hrank
 
 theorem trace_margin_bounds_socket_builds : True := by
   exact True.intro
