@@ -69706,6 +69706,105 @@ failed to become semantic; at that point pivot to the cancellation-tree summary
 algebra, making cancellation summaries the membership object rather than
 trying to rescue Bellman with more sampled leaves.
 
+### 2026-07-02 Provider reconnaissance after Bellman gate reconciliation
+
+After the reconciliation checkpoint, the existing Lean surfaces were inspected
+again.  The provider gap is narrower than the generic formulation above.
+
+Already present and should be reused:
+
+```lean
+selectedPrefixCoverFamily_of_graphAcceptedTraceMargin
+selectedPrefixCoverSequenceBadFace_of_terminalAcceptedEval
+selectedPrefixCover_evalLanguage_of_terminalAcceptedEval
+selectedPrefixCover_scaledMargin_nonpos_of_terminalAcceptedEval
+```
+
+in
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean
+```
+
+These theorems already prove the bridge:
+
+```lean
+TerminalAcceptedEvalSequenceBadFace scaledMargin rank Face.ym
+  -> SelectedPrefixCoverSequenceBadFace scaledMargin rank Face.ym
+  -> SelectedPrefixCoverFamily scaledMargin rank
+  -> TopPairingBellmanEvalLanguageAtRank ...
+```
+
+and they do so by semantic accepted-trace ids and selected-prefix buckets, not
+by sampled ranks.
+
+Also already present:
+
+```lean
+terminalOk_of_terminalTrace_and_cancellation
+graphAcceptedTraceLabels_of_strengthenedTerminalTrace
+terminalAcceptedEvalSequenceBadFace_of_graphAcceptedTraceMargin
+evalLanguage_of_strengthenedTerminalAcceptedEval
+```
+
+in the terminal/accepted bridge modules.  These consume:
+
+- `TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+    (topPairingRankFaceLabels rank)`;
+- `AcceptedSequenceBadFaceAtRank rank Face.ym`;
+- a closed-language proof;
+- a `GraphAcceptedTraceMargin` proof for the rank object.
+
+Therefore the next implementation target is **not**
+`GraphAcceptedTraceMargin -> SelectedPrefixCoverFamily`; that is done.
+The next target is the real semantic classifier/provider:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> TopPairingActualFaceOmniAtRank rank
+  -> AcceptedSequenceBadFaceAtRank rank Face.ym
+  -> TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+       (topPairingRankFaceLabels rank)
+  -> GraphAcceptedTraceMargin scaledMargin
+       ({ rank := rank, closed := hclosed } : TopPairingBellmanObj Face.ym)
+```
+
+or a packaged equivalent:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym
+```
+
+The terminal trace classifier currently has depth-7/depth-8 grouped prefix
+classifiers, a depth-9 shard, and terminal reject/accepted shards.  What is not
+yet visible is a single theorem proving that an arbitrary closed top-pairing
+rank reaches `TerminalTraceLabels`.  That is now the exact proof-engineering
+hole.
+
+Next safe implementation step:
+
+1. Inspect the terminal/depth classifier generators and decide whether they can
+   emit a bounded, hierarchical theorem:
+
+   ```lean
+   TopPairingClosedLanguageAtRank rank Face.ym ->
+     TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+       (topPairingRankFaceLabels rank)
+   ```
+
+   or whether the theorem must include the current actual-face/bad-face
+   side conditions.
+
+2. If the theorem can be emitted as a bounded state/prefix classifier, generate
+   the smallest next shard/root increment and direct-check it under the memory
+   guard.
+
+3. If the generator would need one branch per accepted rank/path or any exact
+   affine-RHS membership table, declare the Bellman provider gate failed and
+   pivot to cancellation-tree summary algebra.
+
 Build discipline remains unchanged: do not run a cold `lake build` over this
 import neighborhood.  Use direct Lean checks or a serial guarded cache builder
 until the generated dependencies are reorganized so Lake cannot fan out into a
