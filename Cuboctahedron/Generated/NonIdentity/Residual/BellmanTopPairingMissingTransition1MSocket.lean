@@ -332,6 +332,233 @@ theorem strengthened_no_missingState19TmmpSemanticTail
   exact strengthened_not_missingState19TmmpCompletion
     hstrengthened hcompletion
 
+def missingState150TpppPrefix : List Face :=
+  [Face.xm, Face.ym, Face.tmpm, Face.zm]
+
+def missingState150TpppSemanticTransducerState : TopPairingTransducerState where
+  step := 4
+  gap := 2
+  k := 1
+  parity := ({ x := true, y := true, z := true } : SqParity)
+  linear := topPairingLinearAfterFaces (matId : Mat3 Rat)
+    missingState150TpppPrefix
+
+def missingState150TpppSemanticEvalState : FaceEvalState where
+  transducer := missingState150TpppSemanticTransducerState
+  graph := (150 : State)
+
+theorem graph_state150_tppp_missing :
+    graphSmokeNext (150 : State) (smokeLabelOfFace Face.tppp) = none := by
+  rfl
+
+theorem graph_state150_zp_present :
+    graphSmokeNext (150 : State) (smokeLabelOfFace Face.zp) =
+      some ((157 : State), (114 : Int)) := by
+  rfl
+
+private theorem topPairingSquareGapAfter_eq_add_actedTriLetters_length
+    (gap : Nat) (parity : SqParity) (labels : List Face) :
+    topPairingSquareGapAfter gap labels =
+      gap + (actedTriLettersFrom parity labels).length := by
+  induction labels generalizing gap parity with
+  | nil =>
+      simp [topPairingSquareGapAfter, actedTriLettersFrom]
+  | cons face rest ih =>
+      cases htri : triLetterOfFace? face with
+      | none =>
+          have hsquare :
+              isSquarePair (pairOfFace face) = true :=
+            (triLetterOfFace?_eq_none_iff_square face).mp htri
+          simp [topPairingSquareGapAfter, actedTriLettersFrom, htri,
+            hsquare, ih (gap := gap)
+              (parity := parity.applyPair (pairOfFace face))]
+      | some tri =>
+          have htriPair :
+              isSquarePair (pairOfFace face) = false :=
+            triLetterOfFace?_eq_some_iff_tri (face := face) (tri := tri) htri
+          have hih :=
+            ih (gap := gap + 1) (parity := parity)
+          simp [topPairingSquareGapAfter, actedTriLettersFrom, htri,
+            htriPair, hih, Nat.add_comm, Nat.add_left_comm]
+
+private theorem topPairingSquareGapAfter_eq_eight_of_xp_allowed
+    {gap : Nat}
+    (hmem : Face.xp ∈ topPairingAllowedSquareFacesAtGap gap) :
+    gap = 8 := by
+  cases gap with
+  | zero =>
+      simp [topPairingAllowedSquareFacesAtGap] at hmem
+  | succ gap =>
+      cases gap with
+      | zero =>
+          simp [topPairingAllowedSquareFacesAtGap] at hmem
+      | succ gap =>
+          cases gap with
+          | zero =>
+              simp [topPairingAllowedSquareFacesAtGap] at hmem
+          | succ gap =>
+              cases gap with
+              | zero =>
+                  simp [topPairingAllowedSquareFacesAtGap] at hmem
+              | succ gap =>
+                  cases gap with
+                  | zero =>
+                      simp [topPairingAllowedSquareFacesAtGap] at hmem
+                  | succ gap =>
+                      cases gap with
+                      | zero =>
+                          simp [topPairingAllowedSquareFacesAtGap] at hmem
+                      | succ gap =>
+                          cases gap with
+                          | zero =>
+                              simp [topPairingAllowedSquareFacesAtGap] at hmem
+                          | succ gap =>
+                              cases gap with
+                              | zero =>
+                                  simp [topPairingAllowedSquareFacesAtGap] at hmem
+                              | succ gap =>
+                                  cases gap with
+                                  | zero =>
+                                      rfl
+                                  | succ gap =>
+                                      simp [topPairingAllowedSquareFacesAtGap] at hmem
+
+private theorem no_state150_tppp_tail_of_length
+    {rest : List Face}
+    (htail : missingState150TpppSemanticEvalState.Tail (Face.tppp :: rest))
+    (hlen : rest.length = 9) :
+    False := by
+  unfold TopPairingTransducerEvalState.Tail TopPairingTransducerState.Tail at htail
+  simp [missingState150TpppSemanticEvalState,
+    missingState150TpppSemanticTransducerState] at htail
+  rcases (TopPairingTransducerTail.cons htail).2.2 with
+    ⟨_hk, _hletter, hnextTail⟩
+  cases rest with
+  | nil =>
+      simp at hlen
+  | cons f0 rest =>
+      cases rest with
+      | nil =>
+          simp at hlen
+      | cons f1 rest =>
+          cases rest with
+          | nil =>
+              simp at hlen
+          | cons f2 rest =>
+              cases rest with
+              | nil =>
+                  simp at hlen
+              | cons f3 rest =>
+                  cases rest with
+                  | nil =>
+                      simp at hlen
+                  | cons f4 rest =>
+                      cases rest with
+                      | nil =>
+                          simp at hlen
+                      | cons f5 rest =>
+                          cases rest with
+                          | nil =>
+                              simp at hlen
+                          | cons f6 rest =>
+                              cases rest with
+                              | nil =>
+                                  simp at hlen
+                              | cons f7 rest =>
+                                  cases rest with
+                                  | nil =>
+                                      simp at hlen
+                                  | cons f8 rest =>
+                                      cases rest with
+                                      | cons f9 rest =>
+                                          simp at hlen
+                                      | nil =>
+                                          let pfx : List Face :=
+                                            [f0, f1, f2, f3, f4, f5, f6, f7]
+                                          have hsched := hnextTail.trace.schedule
+                                          have hf8_mem :
+                                              f8 ∈ topPairingAllowedFacesAtStep 13 := by
+                                            have hnext :=
+                                              topPairingStepScheduleAllows_next_of_append
+                                                (step := 5) (pfx := pfx)
+                                                (rest := ([] : List Face))
+                                                (face := f8)
+                                                (by simpa [pfx] using hsched)
+                                            simpa [pfx] using hnext
+                                          have hf8 : f8 = Face.xp := by
+                                            simpa [topPairingAllowedFacesAtStep]
+                                              using hf8_mem
+                                          subst f8
+                                          have hsquare := hnextTail.trace.squareGap
+                                          have hxpAllowed :
+                                              Face.xp ∈
+                                                topPairingAllowedSquareFacesAtGap
+                                                  (topPairingSquareGapAfter 3 pfx) := by
+                                            exact
+                                              topPairingSquareGapAllows_next_of_append
+                                                (gap := 3) (pfx := pfx)
+                                                (rest := ([] : List Face))
+                                                (face := Face.xp)
+                                                (by
+                                                  simpa [pfx, topPairingNextGap,
+                                                    pairOfFace, isSquarePair] using
+                                                    hsquare)
+                                                (by decide)
+                                          have hgapPfx :
+                                              topPairingSquareGapAfter 3 pfx = 8 :=
+                                            topPairingSquareGapAfter_eq_eight_of_xp_allowed
+                                              hxpAllowed
+                                          have hgapFull :
+                                              topPairingSquareGapAfter 3
+                                                (pfx ++ [Face.xp]) = 8 := by
+                                            simpa [pfx, topPairingSquareGapAfter,
+                                              hgapPfx, isSquarePair, pairOfFace]
+                                          have hcursor := hnextTail.cursor
+                                          have hacted :=
+                                            TopPairingTriCursorFrom.actedTriLetters_eq_drop
+                                              hcursor
+                                          have hactedLen :
+                                              (actedTriLettersFrom
+                                                ({ x := true, y := true, z := true } :
+                                                  SqParity)
+                                                (pfx ++ [Face.xp])).length = 6 := by
+                                            have hacted' :
+                                                actedTriLettersFrom
+                                                  ({ x := true, y := true, z := true } :
+                                                    SqParity)
+                                                  (pfx ++ [Face.xp]) =
+                                                    topPairingTargetShadow.drop 2 := by
+                                              simpa [pfx] using hacted
+                                            rw [hacted']
+                                            simp [topPairingTargetShadow]
+                                          have hgapFullFromCursor :
+                                              topPairingSquareGapAfter 3
+                                                (pfx ++ [Face.xp]) = 9 := by
+                                            rw [
+                                              topPairingSquareGapAfter_eq_add_actedTriLetters_length
+                                                (gap := 3)
+                                                (parity :=
+                                                  ({ x := true, y := true, z := true } :
+                                                    SqParity))
+                                                (labels := pfx ++ [Face.xp]),
+                                              hactedLen]
+                                          rw [hgapFull] at hgapFullFromCursor
+                                          norm_num at hgapFullFromCursor
+
+theorem strengthened_no_missingState150TpppSemanticTail
+    {rank : Fin numPairWords}
+    (_hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    {rest : List Face}
+    (_hlabels :
+      topPairingRankFaceLabels rank =
+        missingState150TpppPrefix ++ (Face.tppp :: rest))
+    (htail : missingState150TpppSemanticEvalState.Tail (Face.tppp :: rest))
+    (hlen : rest.length = 9) :
+    False :=
+  no_state150_tppp_tail_of_length htail hlen
+
 theorem missingTransition1MSocket_builds : True := by
   exact True.intro
 

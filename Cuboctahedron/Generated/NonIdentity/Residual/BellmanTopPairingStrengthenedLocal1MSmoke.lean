@@ -128,6 +128,16 @@ inductive StrengthenedSuffixOk (rank : Fin numPairWords) :
       (hlen : rest.length = 3) :
       StrengthenedSuffixOk rank
         missingState19TmmpSemanticEvalState (Face.tmmp :: rest)
+  | missing150Tppp {rest : List Face}
+      (hstrengthened :
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym)
+      (hlabels :
+        topPairingRankFaceLabels rank =
+          missingState150TpppPrefix ++ (Face.tppp :: rest))
+      (hlen : rest.length = 9) :
+      StrengthenedSuffixOk rank
+        missingState150TpppSemanticEvalState (Face.tppp :: rest)
 
 def closedPrefix1TransducerState : TopPairingTransducerState where
   step := 1
@@ -794,6 +804,10 @@ theorem strengthenedSuffixOk_local
   | missing19Tmmp hstrengthened hlabels hlen =>
       exact False.elim
         (strengthened_no_missingState19TmmpSemanticTail
+          hstrengthened hlabels htail hlen)
+  | missing150Tppp hstrengthened hlabels hlen =>
+      exact False.elim
+        (strengthened_no_missingState150TpppSemanticTail
           hstrengthened hlabels htail hlen)
 
 theorem eval_exists_of_strengthenedSuffixOk

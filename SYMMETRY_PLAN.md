@@ -80685,3 +80685,130 @@ zp -> state 157, gain 114
 
 Do not add a graph edge for `state150/tppp`, and do not add a sampled trace or
 rank membership fallback for it.
+
+### Lean Socket Accepted: `state150/tppp` Discharged Semantically
+
+Implemented the next Lean socket for the diagnostic above:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingMissingTransition1MSocket.
+  missingState150TpppPrefix
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingMissingTransition1MSocket.
+  missingState150TpppSemanticTransducerState
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingMissingTransition1MSocket.
+  missingState150TpppSemanticEvalState
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingMissingTransition1MSocket.
+  graph_state150_tppp_missing
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingMissingTransition1MSocket.
+  graph_state150_zp_present
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingMissingTransition1MSocket.
+  strengthened_no_missingState150TpppSemanticTail
+```
+
+The key proof is semantic and does not use a sampled trace or rank table.
+After the prefix:
+
+```text
+xm, ym, tmpm, zm, tppp
+```
+
+the target-shadow cursor requires six more triangular letters, but the
+square-gap schedule forces the final `xp` to be available only at square-gap
+`8`, which leaves room for only five more triangular letters.  The local proof
+therefore derives `topPairingSquareGapAfter = 8` from the final `xp` square
+step and `topPairingSquareGapAfter = 9` from the cursor length.
+
+Also wired the socket into the strengthened local evaluator:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  StrengthenedSuffixOk.missing150Tppp
+```
+
+and extended `strengthenedSuffixOk_local` so the suffix-carrying evaluator
+discharges this branch by `strengthened_no_missingState150TpppSemanticTail`.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_missing_transition_1m_socket_state150_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedLocal1MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingMissingTransition1MSocket.lean` direct | pass | `8.01s` | `4172 MiB` |
+| `BellmanTopPairingStrengthenedLocal1MSmoke` Lake | pass | `14.01s` | `4338 MiB` |
+| `BellmanTopPairingStrengthenedLocal1MSmoke.lean` direct | pass | `6.00s` | `4220 MiB` |
+| forbidden-token scan on touched Lean files | pass | n/a | n/a |
+
+Decision:
+
+```text
+Accepted.  The `state150/tppp` diagnostic is now represented as a
+Lean-checked semantic suffix impossibility and is wired into the generic
+suffix-carrying evaluator.
+```
+
+Next step:
+
+Continue replacing hand depth cuts with a generated finite invariant table for
+the strengthened evaluator.  The table should produce `StrengthenedSuffixOk`
+constructors by finite semantic state/face cases, using table edges for real
+graph transitions and semantic sockets for impossible suffix branches.  The
+next profiler/emitter checkpoint should report:
+
+```text
+number of real graph-transition branches;
+number of semantic socket branches;
+number of remaining uncovered state/face branches;
+largest generated local theorem size;
+focused Lake time/RSS under the same guard.
+```
