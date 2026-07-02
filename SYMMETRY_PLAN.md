@@ -66468,3 +66468,145 @@ inside the GPT5.5 semantic-membership gate because the object is still a rank
 plus semantic language proof, and the evaluator proof is reached through a
 deterministic state/tail predicate rather than through `SampledRankIndex` or
 rank/path tables.
+
+### 2026-07-02 First bounded state-DAG shard Lean proof
+
+Implemented the first selected-prefix Lean shard:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGSelectedPrefixShard.lean
+```
+
+It specializes the generic state-DAG socket to the first prefix selected by
+`scripts/plan_top_pairing_state_dag_prefix_shard.py`:
+
+```text
+xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp
+```
+
+The shard defines the selected prefix state:
+
+```lean
+selectedPrefixGap : Nat
+selectedPrefixLinear : Mat3 Rat
+```
+
+and proves the tail-state constructor fact:
+
+```lean
+selectedPrefix_tail_of_closed_labels :
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+  topPairingRankFaceLabels rank = Trace000001002Prefix ++ rest ->
+  TopPairingTraceTail Trace000001002Prefix.length
+    selectedPrefixGap selectedPrefixLinear rest
+```
+
+It then packages semantic constructor facts into the state-DAG family:
+
+```lean
+SelectedPrefixShardFamily
+
+stateDAGPrefixFamily_of_selectedPrefixShardFamily :
+  SelectedPrefixShardFamily scaledMargin rank ->
+  StateDAGPrefixClosedMarginFamily
+    Trace000001002Prefix selectedPrefixGap selectedPrefixLinear
+    (-376) scaledMargin rank
+```
+
+and reuses the already checked Bellman eval-language socket:
+
+```lean
+selectedPrefixShard_evalLanguage :
+  SelectedPrefixShardFamily scaledMargin rank ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState
+    (176 : Int) scaledMargin rank Face.ym
+
+selectedPrefixShard_scaledMargin_nonpos :
+  SelectedPrefixShardFamily scaledMargin rank ->
+  scaledMargin rank <= 0
+```
+
+Focused guarded Lake build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_state_dag_selected_prefix_shard_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStateDAGSelectedPrefixShard
+```
+
+Result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 1687 MiB
+hard_as = 32768 MiB
+min_available = 46321 MiB
+```
+
+Direct guarded Lean check after the dependency `.olean`s were built:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_state_dag_selected_prefix_shard_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGSelectedPrefixShard.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3615 MiB
+hard_as = 8192 MiB
+min_available = 46292 MiB
+```
+
+Audit:
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGSelectedPrefixShard.lean || true
+git diff --check
+```
+
+Both checks passed with no output.
+
+Decision:
+
+Accept this as the first Lean-checked bounded state-DAG shard.  It is still
+not full coverage, but it demonstrates the exact GPT5.5 semantic-membership
+shape:
+
+```text
+closed rank + semantic prefix/tail constructor facts + terminal filters
++ shared margin bound
+  -> TopPairingBellmanEvalLanguageAtRank
+  -> scaledMargin <= 0
+```
+
+The next scalable step is to generate a small group of these selected-prefix
+shards from the state-DAG planner and measure whether proof size/RSS scales
+with semantic shard count rather than accepted trace count.  Stop if that
+grouped emitter reintroduces sampled rank/path objects, exact affine RHS
+membership, or one theorem per full accepted trace.
