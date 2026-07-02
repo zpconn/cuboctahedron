@@ -78195,3 +78195,91 @@ branch.  That table must cover all faces allowed by the semantic transducer
 state, not just one accepted trace.  If it needs exact trace equality, sampled
 rank membership, exact affine RHS, solved start point, or full Bellman path
 identity, reject the invariant key and refine the semantic state instead.
+
+## 2026-07-02 Checkpoint: First Semantic Branch Table Accepted
+
+Extended the non-sampled transducer smoke through the first real branch after
+the forced `Face.xm, Face.ym` prefix.  At this point the semantic schedule
+allows exactly `Face.tmpm`, `Face.yp`, or `Face.zm`; the smoke proves the
+current Bellman graph has transitions for all three and preserves the semantic
+tail.
+
+Updated:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTransducerFaceEvalSmoke.lean
+```
+
+New definitions/theorems:
+
+```lean
+def closedPrefix2TransducerState : TopPairingTransducerState
+def closedPrefix2EvalState : FaceEvalState
+
+theorem closed_prefix2_eval_eq :
+  evalLabelStepFn faceEvalNext
+    (TopPairingTransducerEvalState.start rootState)
+    [Face.xm, Face.ym] =
+      some (closedPrefix2EvalState, (30 : Int))
+
+theorem closed_prefix2_tail :
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+  topPairingRankFaceLabels rank = Face.xm :: Face.ym :: rest ->
+    closedPrefix2EvalState.Tail rest
+
+theorem closed_prefix2_branch_faceEval :
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+  topPairingRankFaceLabels rank =
+    Face.xm :: Face.ym :: face :: rest ->
+    exists nextState gain,
+      faceEvalNext closedPrefix2EvalState face = some (nextState, gain) /\
+      nextState.Tail rest
+```
+
+Meaning:
+
+- The prefix-2 state is now a named semantic/Bellman eval state, rather than an
+  anonymous result of trace replay.
+- `closed_prefix2_branch_faceEval` derives the third-face cases from
+  `TopPairingStepScheduleLabels`, then discharges the three graph transitions
+  at graph state `610`.
+- This is still bounded smoke, not coverage, but it is the first local
+  transition-table shape that covers all semantic choices at a branching point.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/bellman_top_pairing_transducer_face_eval_smoke_branch_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTransducerFaceEvalSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_transducer_face_eval_smoke_branch_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTransducerFaceEvalSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `BellmanTopPairingTransducerFaceEvalSmoke.lean` direct | pass | `3.00s` | `3994 MiB` | hard AS `12288 MiB` |
+| `BellmanTopPairingTransducerFaceEvalSmoke` Lake | pass | `3.00s` | `4078 MiB` | RSS guard, no hard AS |
+
+Next gate: generalize the branch-table pattern into a generated finite
+invariant over reachable semantic eval states.  The desired proof is the
+`hstart`, `hlocal`, and `hfinish` trio for
+`TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocal`.
+Reject the invariant if it requires exact trace equality, sampled rank
+membership, exact affine RHS, solved start point, or full Bellman path identity.
