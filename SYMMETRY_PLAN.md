@@ -60597,3 +60597,89 @@ The two remaining top-pairing classifier tasks are:
    `TerminalTraceLabels` from the depth/prefix semantic classifier; and
 2. generate the trace-specific margin-bound layer that upgrades
    `GraphAcceptedTraceLabels` to `GraphAcceptedTraceMargin`.
+
+GPT5.5 semantic-membership strategy adjustment:
+
+Keep the Bellman route for exactly this semantic-membership production
+experiment, but do not add another Bellman potential, another sampled smoke, or
+another rank-indexed object table.  The successful
+`BellmanTopPairingStrengthenedObjectCoverSmoke` and
+`BellmanTopPairingSemanticEvalSocket` checkpoints show that the right object
+shape is already available:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+```
+
+The production proof must now supply a compact semantic theorem that turns the
+top-pairing strengthened language into evaluator acceptance, not sampled
+membership:
+
+```text
+TopPairingStrengthenedClosedLanguageAtRank rank Face.ym
+  -> GraphAcceptedSequenceBadFace ({ rank := rank, closed := hclosed } : ...)
+  -> TopPairingBellmanEvalLanguageAtRank ...
+```
+
+Equivalently, the generated classifier must land at the existing socket:
+
+```text
+TerminalTraceLabels
+  -> TerminalOkTraceLabels
+  -> GraphAcceptedTraceLabels
+  -> GraphAcceptedTraceMargin
+  -> BellmanEvalAccepts
+  -> scaledMargin <= 0
+```
+
+This is the go/no-go line for Bellman.  If the full-terminal classifier or the
+margin-bound layer requires `SampledRankIndex`, `sampledContainsRank`,
+`sampledRankOf`, `sampledSmokeNext`, one branch per sampled path, or one branch
+per rank, stop this Bellman production route.  The fallback is not another
+packed certificate layer; it is a stronger cancellation-tree/evaluator semantic
+object whose fields directly provide the deterministic run and margin
+agreement.
+
+Full-terminal prefix-depth profile checkpoint:
+
+Added:
+
+```text
+scripts/profile_top_pairing_trace_prefix_depths.py
+docs/top_pairing_trace_prefix_depth_profile.md
+scripts/generated/top_pairing_trace_prefix_depth_profile.json
+```
+
+The exact semantic prefix enumerator reports:
+
+| depth | prefixes | shards @ 64 | shards @ 128 | shards @ 256 |
+|---:|---:|---:|---:|---:|
+| 7 | 209 | 4 | 2 | 1 |
+| 8 | 595 | 10 | 5 | 3 |
+| 9 | 1585 | 25 | 13 | 7 |
+| 10 | 3186 | 50 | 25 | 13 |
+| 11 | 3082 | 49 | 25 | 13 |
+| 12 | 1631 | 26 | 13 | 7 |
+| 13 | 482 | 8 | 4 | 2 |
+| 14 | 442 | 7 | 4 | 2 |
+
+The peak is `3186` prefixes at depth `10`.  This rules out monolithic
+depth-theorem files for the production terminal classifier.  The next generator
+must emit bounded depth shards, preferably in the 64-256 prefix range, with
+balanced/grouped roots and the same hard memory guard used for recent Bellman
+targets.  The full terminal root should export `TerminalTraceLabels`, not a raw
+flat 442-way theorem, so that `TerminalOk.terminalOk_of_terminalTrace_and_cancellation`
+can keep the branch split semantic and small.
+
+Immediate next action:
+
+1. implement a bounded full-terminal classifier emitter that extends the
+   existing depth-7 semantic classifier through depths 8-14 using grouped shards;
+2. validate one representative shard and one grouped depth root with
+   `scripts/run_memory_guarded.py` before attempting the full terminal root;
+3. run the sampled-membership scan on every new production classifier module;
+4. only after `TerminalTraceLabels` is proven, generate the trace-specific
+   margin-bound layer from `GraphAcceptedTraceLabels` to
+   `GraphAcceptedTraceMargin`.
