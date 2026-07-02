@@ -59301,3 +59301,68 @@ or an equivalent theorem-valued semantic object, proved from a strengthened
 closed-language predicate.  If this bridge still requires sampled ranks,
 sampled paths, or one branch per rank/path, stop this Bellman production route
 and replace it with a stronger cancellation-tree/evaluator semantic automaton.
+
+Lean-aligned rejection diagnosis checkpoint:
+
+Reran the graph-acceptance audit with enough examples to retain all 10
+graph-rejected closed candidates:
+
+```bash
+python3 scripts/audit_top_pairing_closed_graph_acceptance.py \
+  --json scripts/generated/top_pairing_closed_graph_acceptance_rejections_lean_aligned.json \
+  --markdown scripts/generated/top_pairing_closed_graph_acceptance_rejections_lean_aligned.md \
+  --max-examples 20
+```
+
+Result:
+
+```text
+decision = closed-components-too-weak
+closed_candidates = 47
+accepted = 37
+rejected = 10
+first rejection steps:
+  step 7: 5
+  step 8: 4
+  step 10: 1
+first rejection states:
+  state 777: 3
+  state 831: 2
+  state 778: 2
+  state 851: 1
+  state 81: 1
+  state 829: 1
+first rejection faces:
+  tmmp: 4
+  zm: 4
+  tpmm: 1
+  tmpp: 1
+```
+
+Interpretation:
+
+The rejections are not late, random terminal disagreements.  Most fail the
+deterministic graph by steps 7-8 at a small set of states and labels.  The next
+implementation step should inspect those states against the generator's
+intended state key:
+
+```text
+remaining counts
+square parity
+reduced triangular stack / cancellation progress
+local-axis matrix
+margin/evaluator state
+```
+
+Two outcomes are possible:
+
+1. The Bellman graph omitted legitimate transitions for closed-language words.
+   Then regenerate/repair the graph and rerun the audit.
+2. `TopPairingClosedLanguageAtRank` is intentionally broader than the Bellman
+   graph language.  Then introduce a compact strengthened predicate, e.g.
+   `TopPairingBellmanEvalLanguageAtRank` or a theorem-valued `eval_ok` field,
+   and use `topPairingBellmanEvalObjectCoverOfClosedToEval` as the production
+   cover surface.
+
+Do not continue with the old two-trace `ClosedTraceOr` route.  It is now a
+historical smoke, not a valid production target.

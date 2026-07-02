@@ -1,0 +1,766 @@
+{
+  "base": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Base.lean",
+  "decision": "closed-components-too-weak",
+  "first_accepted": [
+    {
+      "final_state": 558,
+      "gain": -376,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "zm",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 558,
+      "gain": -376,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "yp",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 558,
+      "gain": -376,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "zp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 559,
+      "gain": -596,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 560,
+      "gain": -348,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 557,
+      "gain": -612,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "zp",
+        "zm",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 557,
+      "gain": -612,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "yp",
+        "zm",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 556,
+      "gain": -392,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 557,
+      "gain": -612,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 561,
+      "gain": -464,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 562,
+      "gain": -684,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 563,
+      "gain": -176,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 564,
+      "gain": -396,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 565,
+      "gain": -464,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 566,
+      "gain": -684,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 567,
+      "gain": -392,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 568,
+      "gain": -612,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 569,
+      "gain": -348,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "zm",
+        "zp",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 590,
+      "gain": -552,
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 591,
+      "gain": -304,
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp",
+        "xp"
+      ]
+    }
+  ],
+  "first_rejections": [
+    {
+      "first_graph_reject": {
+        "face": "tpmm",
+        "label": 4,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "zp",
+          "tpmm"
+        ],
+        "state": 851,
+        "step": 8
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "zp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "zp",
+          "tmmp"
+        ],
+        "state": 777,
+        "step": 7
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "yp",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "zp",
+          "tmmp"
+        ],
+        "state": 777,
+        "step": 7
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "zp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "zp",
+          "tmmp"
+        ],
+        "state": 777,
+        "step": 7
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "tmmp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "zm",
+          "zp",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "tmmp"
+        ],
+        "state": 81,
+        "step": 10
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "zm",
+        "zp",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmpp",
+        "label": 3,
+        "prefix": [
+          "xm",
+          "ym",
+          "yp",
+          "tmmm",
+          "tpmm",
+          "tppm",
+          "tpmp",
+          "zp",
+          "tmpp"
+        ],
+        "state": 829,
+        "step": 8
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "zp",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "zm",
+        "label": 12,
+        "prefix": [
+          "xm",
+          "ym",
+          "yp",
+          "zm",
+          "tmmp",
+          "tpmp",
+          "tppp",
+          "tpmm",
+          "zm"
+        ],
+        "state": 831,
+        "step": 8
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "zm",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "zm",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "zm",
+        "label": 12,
+        "prefix": [
+          "xm",
+          "ym",
+          "zm",
+          "tmpp",
+          "tppp",
+          "tpmp",
+          "tppm",
+          "zm"
+        ],
+        "state": 778,
+        "step": 7
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "zm",
+        "label": 12,
+        "prefix": [
+          "xm",
+          "ym",
+          "zm",
+          "tmpp",
+          "tppp",
+          "tpmp",
+          "tppm",
+          "zm"
+        ],
+        "state": 778,
+        "step": 7
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "zm",
+        "label": 12,
+        "prefix": [
+          "xm",
+          "ym",
+          "zm",
+          "yp",
+          "tmmp",
+          "tpmp",
+          "tppp",
+          "tpmm",
+          "zm"
+        ],
+        "state": 831,
+        "step": 8
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "yp",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "zm",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ]
+    }
+  ],
+  "limits": {
+    "max_examples": 20,
+    "max_nodes": null
+  },
+  "stats": {
+    "accepted": 37,
+    "closed_candidates": 47,
+    "dfs_nodes": 11318,
+    "prefix_graph_rejects": 197,
+    "rejected": 10
+  }
+}
