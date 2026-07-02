@@ -72386,3 +72386,147 @@ This shard should not enumerate rank samples.  It may enumerate a bounded set
 of semantic prefix states, but each state must be defined by schedule/tail or
 cancellation-tree facts over `topPairingRankFaceLabels rank`, not by an
 external rank list.
+
+## 2026-07-02 Checkpoint: Semantic Accepted-Prefix Producer State
+
+Added a producer-side smoke module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalProducerSmoke.lean
+```
+
+This is the first Lean-checked bridge from a generated-style semantic prefix
+state into the all-accepted-prefix direct-kill surface.
+
+Generic prefix-tail theorem:
+
+```lean
+def prefixGap (pfx : List Face) : Nat :=
+  pfx.foldl topPairingNextGap 0
+
+def prefixLinear (pfx : List Face) : Mat3 Rat :=
+  pfx.foldl topPairingNextLinear (matId : Mat3 Rat)
+
+theorem traceTail_after_prefix_from_tail
+    {step gap : Nat} {linear : Mat3 Rat}
+    {pfx rest : List Face}
+    (h : TopPairingTraceTail step gap linear (pfx ++ rest)) :
+    TopPairingTraceTail (step + pfx.length)
+      (pfx.foldl topPairingNextGap gap)
+      (pfx.foldl topPairingNextLinear linear)
+      rest
+
+theorem traceTail_after_prefix_of_closed_labels
+    {rank : Fin numPairWords}
+    {pfx rest : List Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hlabels : topPairingRankFaceLabels rank = pfx ++ rest) :
+    TopPairingTraceTail pfx.length
+      (prefixGap pfx)
+      (prefixLinear pfx)
+      rest
+```
+
+Accepted terminal producer state:
+
+```lean
+def ClosedRankInAcceptedPrefix13ProducerState
+    (id : AcceptedTraceId) (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    ∃ rest : List Face,
+      topPairingRankFaceLabels rank = AcceptedPrefix13 id ++ rest /\
+        TopPairingTraceTail (AcceptedPrefix13 id).length
+          (prefixGap (AcceptedPrefix13 id))
+          (prefixLinear (AcceptedPrefix13 id))
+          rest
+
+def ClosedRankInAnyAcceptedPrefix13ProducerState
+    (rank : Fin numPairWords) : Prop :=
+  ∃ id : AcceptedTraceId,
+    ClosedRankInAcceptedPrefix13ProducerState id rank
+```
+
+Consumer theorems:
+
+```lean
+theorem anyAcceptedPrefix13State_of_producerState
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInAnyAcceptedPrefix13ProducerState rank) :
+    ClosedRankInAnyAcceptedPrefix13State rank
+
+theorem nonIdentityRankKilled_of_anyAcceptedPrefix13ProducerState
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInAnyAcceptedPrefix13ProducerState rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+Why this matters:
+
+The producer state contains only semantic facts about the rank-label list:
+closed top-pairing language, prefix equality, and the derived
+`TopPairingTraceTail` suffix state.  It contains no sampled rank list, no path
+object, and no margin replay.  The generic prefix-tail theorem is a reusable
+local induction that a future state-DAG generator can invoke for terminal
+prefix states.
+
+Guarded commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_trace_membership_any_accepted_olean_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalTraceMembershipSmoke.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalTraceMembershipSmoke.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalTraceMembershipSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_producer_smoke_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerSmoke.lean
+```
+
+Results:
+
+```text
+membership .olean refresh: pass
+elapsed: 5.01s
+peak_tree_rss: 4041 MiB
+hard_as: 12288 MiB
+min_available: 46219 MiB
+
+terminal producer smoke: pass
+elapsed: 3.01s
+peak_tree_rss: 4032 MiB
+hard_as: 12288 MiB
+min_available: 46212 MiB
+```
+
+Forbidden/sample-token scan on the producer smoke was clean.
+
+Strategic interpretation:
+
+The route now has both sides of the next semantic bridge:
+
+```text
+semantic prefix/tail producer state
+  -> ClosedRankInAnyAcceptedPrefix13State
+  -> TerminalDirectClosedFamily
+  -> NonIdentityRankKilled
+```
+
+The remaining full producer problem is no longer theorem-shape feasibility for
+accepted terminal prefixes.  It is to generate a compact semantic state-DAG
+whose terminal states imply `ClosedRankInAnyAcceptedPrefix13ProducerState rank`
+for all ranks in the top-pairing residual family, and to prove the state-DAG
+covers the intended residual language without sampled rank/path objects.
