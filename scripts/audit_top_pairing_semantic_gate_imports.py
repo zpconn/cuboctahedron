@@ -26,6 +26,15 @@ TARGETS = {
     "selected_prefix_residual_bridge":
         "Cuboctahedron.Generated.NonIdentity.Residual."
         "BellmanTopPairingSelectedPrefixResidualBridge",
+    "state_dag_prefix_socket":
+        "Cuboctahedron.Generated.NonIdentity.Residual."
+        "BellmanTopPairingStateDAGPrefixSmoke",
+    "state_dag_selected_prefix_group":
+        "Cuboctahedron.Generated.NonIdentity.Residual."
+        "BellmanTopPairingStateDAGSelectedPrefixGroup",
+    "state_dag_selected_prefix_cover":
+        "Cuboctahedron.Generated.NonIdentity.Residual."
+        "BellmanTopPairingStateDAGSelectedPrefixCover.All",
     "root_trace_margin_bridge":
         "Cuboctahedron.Generated.NonIdentity.Residual."
         "BellmanTopPairingRootTraceMarginSelectedPrefixBridge",
@@ -126,6 +135,12 @@ def decision_for(name: str, stats: dict[str, object]) -> str:
 
     if name == "root_trace_margin_bridge":
         return "heavy-producer-root-keep-downstream"
+    if name == "state_dag_selected_prefix_cover":
+        return "semantic-producer-root-serial-build-required"
+    if name == "state_dag_selected_prefix_group":
+        return "bounded-semantic-producer-group"
+    if name == "state_dag_prefix_socket":
+        return "semantic-socket-ok"
     if split_graph or terminal > 10:
         return "reject-as-lightweight-public-bridge"
     if root_trace:
@@ -192,6 +207,11 @@ def main() -> None:
         "  consumer when its imports remain already-built and bounded.",
         "- `root_trace_margin_bridge` is a producer-root adapter, not a module to",
         "  import from the public residual bridge.",
+        "- `state_dag_prefix_socket` is the accepted semantic Bellman terminal",
+        "  socket.  It is theorem-facing and small enough for focused checks.",
+        "- `state_dag_selected_prefix_cover` is the accepted bounded semantic",
+        "  producer root for the current top-pairing selected-prefix subproblem,",
+        "  but it must be compiled with serial group scheduling before the root.",
         "- Any future public/residual bridge target with split graph smoke shards",
         "  or many terminal shards in its closure should be rejected or moved",
         "  behind a separate measured producer root.",

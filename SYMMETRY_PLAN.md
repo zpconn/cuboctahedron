@@ -76589,3 +76589,82 @@ python3 scripts/audit_top_pairing_semantic_gate_imports.py
 ```
 
 before it is allowed onto the public residual bridge path.
+
+## 2026-07-02 Checkpoint: State-DAG Producer Added To Semantic-Gate Audit
+
+Refreshed the import-fan-in audit to classify the already accepted
+state-DAG selected-prefix Bellman route alongside the lightweight semantic
+gate:
+
+```text
+scripts/audit_top_pairing_semantic_gate_imports.py
+scripts/generated/top_pairing_semantic_gate_imports.json
+scripts/generated/top_pairing_semantic_gate_imports.md
+```
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_semantic_gate_imports.py
+python3 scripts/audit_top_pairing_semantic_gate_imports.py
+```
+
+New audit rows:
+
+```text
+state_dag_prefix_socket:
+  decision=semantic-socket-ok
+  modules=182
+  generated_residual=141
+  split_graph_smoke=124
+  terminal_trace_shards=8
+
+state_dag_selected_prefix_group:
+  decision=bounded-semantic-producer-group
+  modules=183
+  generated_residual=142
+  split_graph_smoke=124
+  terminal_trace_shards=8
+
+state_dag_selected_prefix_cover:
+  decision=semantic-producer-root-serial-build-required
+  modules=190
+  generated_residual=149
+  split_graph_smoke=124
+  terminal_trace_shards=8
+```
+
+Interpretation:
+
+- `Cuboctahedron.Search.TopPairingBellmanSemanticGate` remains the public
+  lightweight theorem surface.
+- `BellmanTopPairingStateDAGPrefixSmoke` is the accepted semantic terminal
+  socket for this Bellman route.
+- `BellmanTopPairingStateDAGSelectedPrefixCover.All` is the accepted bounded
+  semantic producer root for the current top-pairing selected-prefix
+  subproblem, not a module to import blindly from the public residual root.
+- Because the state-DAG producer still imports the split graph smoke base and
+  terminal trace shard infrastructure, it must be built with the measured
+  serial group workflow recorded above:
+
+```text
+Group000..Group006 serial guarded builds, then All.lean root build
+```
+
+Decision:
+
+```text
+accept-state-dag-selected-prefix-cover-as-producer-root
+```
+
+The next proof-architecture step is not another Bellman potential or a sampled
+trace wrapper.  It is to move this state-DAG semantic producer upward from the
+current selected-prefix top-pairing subproblem toward the surrounding residual
+coverage boundary, while preserving the same constraints:
+
+- semantic family predicates only;
+- no sampled rank/path objects;
+- no exact affine-RHS keys;
+- no broad root import that triggers uncontrolled parallel generated builds;
+- every proposed producer root gets import-fan-in and guarded serial-build
+  measurements before it is allowed to feed a public coverage theorem.
