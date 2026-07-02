@@ -70897,3 +70897,132 @@ production-shaped Bellman experiment:
 - it does not mention sampled rank/path objects;
 - it feeds the existing trace-margin bounds socket;
 - it should scale by trace bucket / shared-gain family, not by individual rank.
+
+Shared-gain prefix cover validation:
+
+The existing diagnostic planner was rerun:
+
+```bash
+python3 scripts/plan_top_pairing_shared_gain_prefix_cover.py
+```
+
+Output:
+
+```text
+wrote scripts/generated/top_pairing_shared_gain_prefix_cover_plan.json
+wrote scripts/generated/top_pairing_shared_gain_prefix_cover_plan.md
+cover_size=31 singletons=26 candidates=43
+```
+
+Interpretation:
+
+- this is diagnostic-only evidence, not proof;
+- the 37 accepted top-pairing traces can be covered by 31 homogeneous
+  face-prefix buckets;
+- the largest bucket covers 3 accepted trace ids;
+- the intended Lean consumer is
+  `TerminalTracePrefixSharedGainClosedMarginFamily`;
+- the high singleton count means this prefix cover is a valid semantic
+  surface, but not yet a decisive compression proof by itself.
+
+The important Lean result is that the 31-prefix consumer path is already
+checked and small:
+
+```lean
+SelectedPrefixTraceMarginFamily
+nonIdentityRankKilled_of_selectedPrefixTraceMarginFamily
+nonIdentityRankKilled_of_selectedPrefixCoverFamily
+```
+
+from:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSelectedPrefixTraceMarginAdapter.lean
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSelectedPrefixTraceStartViolationKilledBridge.lean
+```
+
+Focused token scan over:
+
+```text
+BellmanTopPairingSharedGainPrefixBucketSmoke.lean
+BellmanTopPairingStateDAGPrefixSmoke.lean
+BellmanTopPairingSelectedPrefixTraceMarginAdapter.lean
+BellmanTopPairingSelectedPrefixTraceStartViolationKilledBridge.lean
+```
+
+had no hits for sampled/forbidden tokens:
+
+```text
+SampledRankIndex
+sampledContainsRank
+sampledRankOf
+sampledSmokeNext
+sampledObject
+sorry
+admit
+axiom
+native_decide
+unsafe
+Float / Float32 / Float64 / Double
+```
+
+Guarded checks:
+
+```text
+BellmanTopPairingSharedGainPrefixBucketSmoke.lean:
+  passed
+  elapsed: 5.01s
+  peak process-tree RSS: 3761 MiB
+  hard address-space cap: 8192 MiB
+
+BellmanTopPairingSelectedPrefixTraceMarginAdapter.lean:
+  passed
+  elapsed: 2.00s
+  peak process-tree RSS: 3569 MiB
+  hard address-space cap: 8192 MiB
+
+BellmanTopPairingSelectedPrefixTraceStartViolationKilledBridge.lean:
+  passed
+  elapsed: 2.00s
+  peak process-tree RSS: 3271 MiB
+  hard address-space cap: 8192 MiB
+```
+
+Decision:
+
+Accept the `TerminalTracePrefixSharedGainClosedMarginFamily` consumer path as
+Lean-checked proof infrastructure.  It takes semantic prefix/shared-gain
+families to `NonIdentityRankKilled` without sampled rank/path objects and with
+small guarded build costs.
+
+Do **not** yet accept the 31-prefix plan as a full production compression
+solution.  The remaining hard provider obligation is to prove the
+prefix/shared-gain family predicates from compact state-DAG or cancellation
+summary facts without exact rank-indexed affine RHS data.  If the provider
+side stays at one prefix/singleton trace at a time and cannot merge by semantic
+state, it will not meet the 5-6 hour target.
+
+Next implementation target:
+
+Use the existing `TopPairingIntPrefixState` and state-DAG prefix surfaces to
+construct one nontrivial provider bucket whose membership proof supplies:
+
+```lean
+TerminalTracePrefixSharedGainClosedMarginFamily pfx gain scaledMargin rank
+```
+
+from semantic state data.  The best first candidate remains the largest
+diagnostic bucket:
+
+```text
+prefix: xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp
+gain:   -376
+trace ids: 0, 1, 2
+```
+
+The acceptance criterion for that next slice is stronger than the smoke above:
+the provider theorem must avoid rank/path samples and must not simply assume
+the margin inequality as a premise unless the premise is a compact semantic
+state invariant that can plausibly be generated once per state family.
