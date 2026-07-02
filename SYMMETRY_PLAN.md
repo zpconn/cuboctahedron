@@ -61021,3 +61021,103 @@ The 10 graph-rejected closed traces are already known diagnostically and must
 be excluded by strengthened semantic filters such as actual-face omnihedrality
 and sequence/bad-face compatibility, as in
 `TopPairingTraceClassifier.Accepted.graphAcceptedTraceLabels_of_terminalOk_filters`.
+
+Strengthened accepted-trace filter bridge checkpoint:
+
+Extended:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphAcceptedEvalLanguage.lean
+```
+
+New predicate:
+
+```lean
+def AcceptedSequenceBadFaceAtRank
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  TopPairingTraceClassifier.Accepted.SequenceBadFaceLabels
+    (topPairingRankFaceLabels rank) badFace
+```
+
+New theorems:
+
+```lean
+theorem graphAcceptedTraceLabels_of_strengthenedTerminalOk
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.Accepted.TerminalOkTraceLabels
+        (topPairingRankFaceLabels rank)) :
+    GraphAcceptedTraceLabels (topPairingRankFaceLabels rank)
+
+theorem evalLanguageAtRank_of_strengthened_graphAcceptedTraceMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hgraph :
+      GraphAcceptedTraceMargin scaledMargin
+        ({ rank := rank, closed := hstrengthened.closed } :
+          TopPairingBellmanObj Face.ym)) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+Focused validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_graph_accepted_eval_language_filters_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalLanguage.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 6.00s
+peak_tree_rss = 3417 MiB
+hard_as = 8192 MiB
+min_available = 46316 MiB
+```
+
+Decision:
+
+Accept this bridge.  It keeps the proof surface semantic and non-sampled:
+actual-face omnihedrality and sequence/bad-face compatibility eliminate the
+10 graph-rejected terminal traces, while `GraphAcceptedTraceMargin` remains
+the exact generated margin-bound obligation for the 37 accepted traces.
+The next generated theorem should therefore prove:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank
+    rank Face.ym
+  -> TerminalOkTraceLabels (topPairingRankFaceLabels rank)
+  -> GraphAcceptedTraceMargin scaledMargin
+       ({ rank := rank, closed := hstrengthened.closed } :
+         TopPairingBellmanObj Face.ym)
+```
+
+or split it into:
+
+1. terminal/full-trace classifier: strengthened language implies
+   `TerminalOkTraceLabels`;
+2. accepted-trace margin theorem: each of the 37 accepted traces supplies its
+   corresponding integer bound in `GraphAcceptedTraceMargin`.
+
+This is now the active Bellman frontier.  Do not resume the depth-8/9 prefix
+tactic expansion unless this graph-margin route fails; its last measured
+representative shard was already too slow for the build target.
