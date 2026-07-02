@@ -68676,3 +68676,110 @@ local exact fields against `pairWordOfSeq template`.  If that cert can be
 checked once per trace id and reused through semantic label equality, Bellman
 continues.  If it requires sampled rank/path facts for `kernel_check`,
 `axis_forces`, or `solve_check`, Bellman production stops and the plan pivots.
+
+### 2026-07-02 Strategy adjustment after GPT5.5 semantic-provider review
+
+GPT5.5's latest review is accepted as the controlling Bellman gate, with one
+important repo-specific clarification from inspection: the compact semantic
+object layer already exists.  We should not spend more time adding generic
+object-cover wrappers.
+
+Already present and checked into the repo:
+
+```lean
+TopPairingBellmanObj
+topPairingClosedMembership
+topPairingClosedObjectCoverOfEvalAccepts
+TopPairingBellmanEvalObj
+topPairingBellmanEvalObjectCoverOfClosedToEval
+topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+```
+
+The production-relevant question is therefore not "can we make a semantic
+object?"  It is:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> TopPairingBellmanEvalLanguageAtRank
+       graphPotential graphSmokeNext smokeLabelOfFace rootState 176
+       scaledMargin rank Face.ym
+```
+
+or, for the strengthened selected-prefix route already exposed in the repo:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  (SelectedPrefixTraceMarginSequenceBadFace scaledMargin) rank Face.ym
+```
+
+with an accompanying semantic start-violation provider:
+
+```lean
+forall obj : SelectedPrefixTraceMarginObj scaledMargin,
+  selectedPrefixTraceMarginAccepts obj ->
+    ObjectStartViolationMarginCert
+      (selectedPrefixTraceMarginRankOf obj)
+      (scaledMargin (selectedPrefixTraceMarginRankOf obj))
+```
+
+The Bellman graph/potential is still mathematically appropriate.  The graph is
+small enough, and the evaluator sockets already prove the nonpositive margin
+from accepted semantic objects.  The remaining bottleneck is the semantic
+provider theorem: closed language / selected-prefix trace data must supply the
+accepted trace id, trace-specific margin bound, and start-violation cert without
+falling back to sampled rank or path objects.
+
+Concrete strategy from this point:
+
+1. Stop adding generic Bellman plumbing unless a genuinely new semantic target
+   appears.  The existing sockets are enough:
+
+   ```lean
+   BellmanTopPairingTraceMarginBoundsSocket
+   BellmanTopPairingSelectedPrefixTraceMarginObjectCover
+   BellmanTopPairingSelectedPrefixTraceMarginKilledSocket
+   BellmanTopPairingTraceStartViolationBridge
+   ```
+
+2. Perform exactly one decisive semantic-provider experiment, beginning with
+   trace `000` or the smallest selected-prefix bucket:
+
+   ```lean
+   topPairingRankFaceLabels rank = acceptedTraceOfId AcceptedTraceId.t000
+     -> TraceStartViolationMarginCert template margin
+     -> ObjectStartViolationMarginCert rank margin
+   ```
+
+   The trace-level cert must be tied to `pairWordOfSeq template`; the existing
+   `BellmanTopPairingTraceStartViolationBridge` supplies the final rank bridge
+   from semantic contribution-label equality.
+
+3. Accept Bellman for production only if the provider proof scales by semantic
+   trace id / selected-prefix family.  Acceptable dependencies are:
+
+   - `TopPairingClosedLanguageAtRank`;
+   - accepted trace-id equality;
+   - selected-prefix / state-DAG terminal predicates;
+   - one local trace-level exact start-violation cert per trace/family;
+   - integer Bellman transition/margin facts.
+
+4. Reject Bellman production immediately if the provider requires any of:
+
+   ```text
+   SampledRankIndex
+   sampledContainsRank
+   sampledRankOf
+   one constructor per accepted rank/path
+   exact affine-RHS membership tables
+   sampled path lists
+   ```
+
+5. If rejected, pivot to cancellation-tree summary algebra.  The pivot should
+   make the same semantic family produce both the Bellman-style margin bound and
+   the start-violation/positive-margin obstruction, rather than bolting a
+   sampled positive cert onto an otherwise semantic evaluator.
+
+The next implementation step is therefore not another profiler or wrapper.  It
+is to build one actual trace-level start-violation provider and see whether its
+`kernel_check`, `axis_forces`, and `solve_check` fields can be proved from the
+trace/family semantics instead of sampled rank facts.
