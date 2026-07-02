@@ -173,6 +173,54 @@ theorem graphAcceptedTraceMargin_of_id_bound
   · exact graphAcceptedTraceMargin_035 htrace hmargin
   · exact graphAcceptedTraceMargin_036 htrace hmargin
 
+theorem graphAcceptedTraceMarginIdBound_of_graphAcceptedTraceMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (hgraph : GraphAcceptedTraceMargin scaledMargin obj) :
+    GraphAcceptedTraceMarginIdBound scaledMargin obj := by
+  unfold GraphAcceptedTraceMargin at hgraph
+  rcases hgraph with h0 | h1 | h2 | h3 | h4 | h5 | h6 | h7 | h8 |
+      h9 | h10 | h11 | h12 | h13 | h14 | h15 | h16 | h17 | h18 |
+      h19 | h20 | h21 | h22 | h23 | h24 | h25 | h26 | h27 | h28 |
+      h29 | h30 | h31 | h32 | h33 | h34 | h35 | h36
+  · exact ⟨AcceptedTraceId.t000, by simpa [acceptedTraceOfId, acceptedTraceGain] using h0⟩
+  · exact ⟨AcceptedTraceId.t001, by simpa [acceptedTraceOfId, acceptedTraceGain] using h1⟩
+  · exact ⟨AcceptedTraceId.t002, by simpa [acceptedTraceOfId, acceptedTraceGain] using h2⟩
+  · exact ⟨AcceptedTraceId.t003, by simpa [acceptedTraceOfId, acceptedTraceGain] using h3⟩
+  · exact ⟨AcceptedTraceId.t004, by simpa [acceptedTraceOfId, acceptedTraceGain] using h4⟩
+  · exact ⟨AcceptedTraceId.t005, by simpa [acceptedTraceOfId, acceptedTraceGain] using h5⟩
+  · exact ⟨AcceptedTraceId.t006, by simpa [acceptedTraceOfId, acceptedTraceGain] using h6⟩
+  · exact ⟨AcceptedTraceId.t007, by simpa [acceptedTraceOfId, acceptedTraceGain] using h7⟩
+  · exact ⟨AcceptedTraceId.t008, by simpa [acceptedTraceOfId, acceptedTraceGain] using h8⟩
+  · exact ⟨AcceptedTraceId.t009, by simpa [acceptedTraceOfId, acceptedTraceGain] using h9⟩
+  · exact ⟨AcceptedTraceId.t010, by simpa [acceptedTraceOfId, acceptedTraceGain] using h10⟩
+  · exact ⟨AcceptedTraceId.t011, by simpa [acceptedTraceOfId, acceptedTraceGain] using h11⟩
+  · exact ⟨AcceptedTraceId.t012, by simpa [acceptedTraceOfId, acceptedTraceGain] using h12⟩
+  · exact ⟨AcceptedTraceId.t013, by simpa [acceptedTraceOfId, acceptedTraceGain] using h13⟩
+  · exact ⟨AcceptedTraceId.t014, by simpa [acceptedTraceOfId, acceptedTraceGain] using h14⟩
+  · exact ⟨AcceptedTraceId.t015, by simpa [acceptedTraceOfId, acceptedTraceGain] using h15⟩
+  · exact ⟨AcceptedTraceId.t016, by simpa [acceptedTraceOfId, acceptedTraceGain] using h16⟩
+  · exact ⟨AcceptedTraceId.t017, by simpa [acceptedTraceOfId, acceptedTraceGain] using h17⟩
+  · exact ⟨AcceptedTraceId.t018, by simpa [acceptedTraceOfId, acceptedTraceGain] using h18⟩
+  · exact ⟨AcceptedTraceId.t019, by simpa [acceptedTraceOfId, acceptedTraceGain] using h19⟩
+  · exact ⟨AcceptedTraceId.t020, by simpa [acceptedTraceOfId, acceptedTraceGain] using h20⟩
+  · exact ⟨AcceptedTraceId.t021, by simpa [acceptedTraceOfId, acceptedTraceGain] using h21⟩
+  · exact ⟨AcceptedTraceId.t022, by simpa [acceptedTraceOfId, acceptedTraceGain] using h22⟩
+  · exact ⟨AcceptedTraceId.t023, by simpa [acceptedTraceOfId, acceptedTraceGain] using h23⟩
+  · exact ⟨AcceptedTraceId.t024, by simpa [acceptedTraceOfId, acceptedTraceGain] using h24⟩
+  · exact ⟨AcceptedTraceId.t025, by simpa [acceptedTraceOfId, acceptedTraceGain] using h25⟩
+  · exact ⟨AcceptedTraceId.t026, by simpa [acceptedTraceOfId, acceptedTraceGain] using h26⟩
+  · exact ⟨AcceptedTraceId.t027, by simpa [acceptedTraceOfId, acceptedTraceGain] using h27⟩
+  · exact ⟨AcceptedTraceId.t028, by simpa [acceptedTraceOfId, acceptedTraceGain] using h28⟩
+  · exact ⟨AcceptedTraceId.t029, by simpa [acceptedTraceOfId, acceptedTraceGain] using h29⟩
+  · exact ⟨AcceptedTraceId.t030, by simpa [acceptedTraceOfId, acceptedTraceGain] using h30⟩
+  · exact ⟨AcceptedTraceId.t031, by simpa [acceptedTraceOfId, acceptedTraceGain] using h31⟩
+  · exact ⟨AcceptedTraceId.t032, by simpa [acceptedTraceOfId, acceptedTraceGain] using h32⟩
+  · exact ⟨AcceptedTraceId.t033, by simpa [acceptedTraceOfId, acceptedTraceGain] using h33⟩
+  · exact ⟨AcceptedTraceId.t034, by simpa [acceptedTraceOfId, acceptedTraceGain] using h34⟩
+  · exact ⟨AcceptedTraceId.t035, by simpa [acceptedTraceOfId, acceptedTraceGain] using h35⟩
+  · exact ⟨AcceptedTraceId.t036, by simpa [acceptedTraceOfId, acceptedTraceGain] using h36⟩
+
 structure GraphAcceptedTraceMarginBounds
     (scaledMargin : Fin numPairWords -> Int)
     (obj : TopPairingBellmanObj Face.ym) : Prop where

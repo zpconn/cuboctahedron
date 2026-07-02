@@ -106,6 +106,38 @@ theorem traceId_closedMarginFamily_evalLanguage_smoke
       scaledMargin rank Face.ym :=
   evalLanguage_of_traceIdClosedMarginFamily hrank
 
+theorem traceId_existsClosedMarginFamily_scaledMargin_nonpos_smoke
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdExistsClosedMarginFamily scaledMargin rank) :
+    scaledMargin rank <= 0 :=
+  traceIdExistsClosedMarginFamily_scaledMargin_nonpos hrank
+
+theorem traceId_existsClosedMarginFamily_evalLanguage_smoke
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdExistsClosedMarginFamily scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_traceIdExistsClosedMarginFamily hrank
+
+theorem graphAcceptedTraceMarginClosedFamily_scaledMargin_nonpos_smoke
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : GraphAcceptedTraceMarginClosedFamily scaledMargin rank) :
+    scaledMargin rank <= 0 :=
+  graphAcceptedTraceMarginClosedFamily_scaledMargin_nonpos hrank
+
+theorem graphAcceptedTraceMarginClosedFamily_evalLanguage_smoke
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : GraphAcceptedTraceMarginClosedFamily scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_graphAcceptedTraceMarginClosedFamily hrank
+
 theorem trace_id_bounds_smoke_builds : True := by
   exact True.intro
 

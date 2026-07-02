@@ -63874,3 +63874,181 @@ classifier, then adds the margin inequality family.  If that margin proof
 cannot be expressed without exact affine-RHS tables or per-rank branches, stop
 the Bellman production route and pivot to the cancellation-tree summary
 automaton.
+
+### 2026-07-02 Graph-accepted closed-family Bellman socket
+
+The generic trace-id family socket still required a generated family to provide
+an explicit trace-id equality.  The existing graph-accepted margin surface is
+already the compact classifier shape used by the Bellman graph gate:
+
+```lean
+GraphAcceptedTraceMargin scaledMargin
+  ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym)
+```
+
+The socket now bridges that graph-accepted evidence back to trace-id evidence.
+This lets future generated classifier buckets target a closed semantic rank plus
+one graph-accepted margin fact, instead of spelling out a separate trace-id
+function.
+
+New theorem in
+`BellmanTopPairingGraphAcceptedTraceMarginBridge.lean`:
+
+```lean
+theorem graphAcceptedTraceMarginIdBound_of_graphAcceptedTraceMargin :
+    GraphAcceptedTraceMargin scaledMargin obj ->
+    GraphAcceptedTraceMarginIdBound scaledMargin obj
+```
+
+New predicate/theorems in `BellmanTopPairingTraceMarginBoundsSocket.lean`:
+
+```lean
+def GraphAcceptedTraceMarginClosedFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  ∃ closed : TopPairingClosedLanguageAtRank rank Face.ym,
+    GraphAcceptedTraceMargin scaledMargin
+      ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym)
+
+def TraceIdExistsClosedMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  ∃ _closed : TopPairingClosedLanguageAtRank rank Face.ym,
+    ∃ traceId : AcceptedTraceId,
+      topPairingRankFaceLabels rank = acceptedTraceOfId traceId ∧
+        scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId
+
+theorem traceIdExistsClosedMarginFamily_of_graphAcceptedTraceMarginClosedFamily :
+    GraphAcceptedTraceMarginClosedFamily scaledMargin rank ->
+    TraceIdExistsClosedMarginFamily scaledMargin rank
+
+theorem evalLanguage_of_graphAcceptedTraceMarginClosedFamily :
+    GraphAcceptedTraceMarginClosedFamily scaledMargin rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem graphAcceptedTraceMarginClosedFamily_scaledMargin_nonpos :
+    GraphAcceptedTraceMarginClosedFamily scaledMargin rank ->
+    scaledMargin rank <= 0
+```
+
+The first draft build failed narrowly, before any memory danger:
+
+```text
+target = Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceIdBoundsSmoke
+exit = 1
+elapsed = 12.03s
+peak_tree_rss = 4166 MiB
+reason = missing namespace qualification for GraphAcceptedTraceMargin and
+         underconstrained object inference in the existential bridge
+```
+
+Fix:
+
+- qualified `GraphAcceptedTraceMargin` through
+  `BellmanTopPairingGraphAcceptedEvalGate`;
+- introduced a local `obj : TopPairingBellmanObj Face.ym` before applying
+  `graphAcceptedTraceMarginIdBound_of_graphAcceptedTraceMargin`;
+- eliminated the remaining linter warning on the existential closed witness.
+
+Final guarded focused Lake check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_graph_accepted_closed_family_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceIdBoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 4.00s
+peak_tree_rss = 4077 MiB
+hard_as = 32768 MiB
+min_available = 46095 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_graph_accepted_closed_family_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.01s
+peak_tree_rss = 3614 MiB
+hard_as = 8192 MiB
+min_available = 46296 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 644 lines
+BellmanTopPairingTraceMarginBoundsSocket.lean        = 451 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean             = 144 lines
+BellmanTopPairingTrace000ComponentFamilySmoke.lean   = 77 lines
+TopPairingBellmanObject.lean                         = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+`git diff --check` passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept this graph-accepted closed-family socket.  It is the most convenient
+current production surface for Bellman classifier buckets:
+
+```text
+closed semantic rank + GraphAcceptedTraceMargin -> Bellman eval -> margin <= 0
+```
+
+This remains semantic and proof-carrying: the graph-accepted margin fact is a
+Lean-checked finite trace/margin proposition, not a sampled rank object, not a
+packed blob, and not a giant Boolean reduction.
+
+Next action:
+
+Make the first generated/hand-generated bucket theorem that proves
+`GraphAcceptedTraceMarginClosedFamily scaledMargin rank` from a compact
+semantic membership predicate.  The margin side is still the hard part: if it
+requires exact affine-RHS tables or one branch per accepted rank/path, reject
+this Bellman production route and move to the cancellation-tree summary
+automaton.

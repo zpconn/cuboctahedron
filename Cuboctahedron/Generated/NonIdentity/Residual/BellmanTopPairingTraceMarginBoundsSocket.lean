@@ -367,6 +367,84 @@ theorem traceIdClosedMarginFamily_scaledMargin_nonpos
   traceIdComponentFamily_scaledMargin_nonpos
     traceIdClosedMarginComponentFamily hrank
 
+def GraphAcceptedTraceMarginClosedFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  ∃ closed : TopPairingClosedLanguageAtRank rank Face.ym,
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalGate.GraphAcceptedTraceMargin
+      scaledMargin
+      ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym)
+
+def TraceIdExistsClosedMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  ∃ _closed : TopPairingClosedLanguageAtRank rank Face.ym,
+    ∃ traceId : AcceptedTraceId,
+      topPairingRankFaceLabels rank = acceptedTraceOfId traceId ∧
+        scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId
+
+theorem traceIdExistsClosedMarginFamily_of_graphAcceptedTraceMarginClosedFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : GraphAcceptedTraceMarginClosedFamily scaledMargin rank) :
+    TraceIdExistsClosedMarginFamily scaledMargin rank := by
+  rcases hrank with ⟨closed, hgraph⟩
+  let obj : TopPairingBellmanObj Face.ym := { rank := rank, closed := closed }
+  rcases graphAcceptedTraceMarginIdBound_of_graphAcceptedTraceMargin
+      (scaledMargin := scaledMargin) (obj := obj)
+      (by simpa [obj] using hgraph) with
+    ⟨traceId, htrace, hmargin⟩
+  refine ⟨closed, traceId, ?_, ?_⟩
+  · simpa [TopPairingBellmanObj.labels, TopPairingBellmanObj.forcedSeq,
+      topPairingRankFaceLabels, obj] using htrace
+  · simpa [obj] using hmargin
+
+theorem evalLanguage_of_traceIdExistsClosedMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdExistsClosedMarginFamily scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases hrank with ⟨closed, traceId, htrace, hmargin⟩
+  exact evalLanguage_of_traceId_components
+    closed
+    (actualFaceOmni_of_acceptedTraceId_trace htrace)
+    htrace
+    hmargin
+
+theorem traceIdExistsClosedMarginFamily_scaledMargin_nonpos
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdExistsClosedMarginFamily scaledMargin rank) :
+    scaledMargin rank <= 0 := by
+  rcases hrank with ⟨closed, traceId, htrace, hmargin⟩
+  exact traceId_scaledMargin_nonpos_of_components
+    closed
+    (actualFaceOmni_of_acceptedTraceId_trace htrace)
+    htrace
+    hmargin
+
+theorem evalLanguage_of_graphAcceptedTraceMarginClosedFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : GraphAcceptedTraceMarginClosedFamily scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_traceIdExistsClosedMarginFamily
+    (traceIdExistsClosedMarginFamily_of_graphAcceptedTraceMarginClosedFamily
+      hrank)
+
+theorem graphAcceptedTraceMarginClosedFamily_scaledMargin_nonpos
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : GraphAcceptedTraceMarginClosedFamily scaledMargin rank) :
+    scaledMargin rank <= 0 :=
+  traceIdExistsClosedMarginFamily_scaledMargin_nonpos
+    (traceIdExistsClosedMarginFamily_of_graphAcceptedTraceMarginClosedFamily
+      hrank)
+
 theorem trace_margin_bounds_socket_builds : True := by
   exact True.intro
 
