@@ -6,14 +6,14 @@
     "lean",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedSuffixBridge.lean"
   ],
-  "elapsed_seconds": 3.002515949003282,
+  "elapsed_seconds": 5.00501457300561,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 2576664,
-  "max_tree_rss_mib": 2516.2734375,
-  "min_available_seen_kib": 47423144,
-  "min_available_seen_mib": 46311.6640625,
+  "max_tree_rss_kib": 4038420,
+  "max_tree_rss_mib": 3943.76953125,
+  "min_available_seen_kib": 47260388,
+  "min_available_seen_mib": 46152.72265625,
   "rss_cap_mib": 10000.0,
   "timeout_seconds": 240.0
 }

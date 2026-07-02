@@ -44,6 +44,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier` | prefix-4 frontier feeds graph suffix emitter | `graph_accepted_suffix_bridge` |
 | `graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal` | strengthened terminal traces feed graph suffix emitter | `graph_accepted_suffix_bridge` |
 | `branchTableSuffixOk_root_of_strengthenedTerminalPrefix4` | strengthened terminal prefix-4 suffix evidence lifts to Bellman root | `graph_accepted_suffix_bridge` |
+| `graphPrefix4FrontierLabels_exists_cons2` | prefix-4 frontier yields concrete head/tail decomposition | `graph_accepted_suffix_bridge` |
+| `branchTableSuffixOk_root_of_strengthenedTerminal` | strengthened terminal traces lift to Bellman root without explicit prefix equality | `graph_accepted_suffix_bridge` |
 
 ## Guards
 
@@ -58,8 +60,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `graph_suffix_emitter_lake` | `0` | `3.00s` | `3900 MiB` | `None` |
 | `graph_accepted_prefix_frontier_direct` | `0` | `6.04s` | `3944 MiB` | `None` |
 | `graph_accepted_prefix_frontier_lake` | `0` | `3.00s` | `4018 MiB` | `None` |
-| `graph_accepted_suffix_bridge_direct` | `0` | `3.00s` | `2516 MiB` | `None` |
-| `graph_accepted_suffix_bridge_lake` | `0` | `3.03s` | `4067 MiB` | `None` |
+| `graph_accepted_suffix_bridge_direct` | `0` | `5.01s` | `3944 MiB` | `None` |
+| `graph_accepted_suffix_bridge_lake` | `0` | `3.00s` | `4098 MiB` | `None` |
 
 ## Accepted Local Surface
 
@@ -94,6 +96,8 @@ graphPrefix4FrontierLabels_of_cons2
 graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier
 graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal
 branchTableSuffixOk_root_of_strengthenedTerminalPrefix4
+graphPrefix4FrontierLabels_exists_cons2
+branchTableSuffixOk_root_of_strengthenedTerminal
 ```
 
 ## Remaining Production Theorem

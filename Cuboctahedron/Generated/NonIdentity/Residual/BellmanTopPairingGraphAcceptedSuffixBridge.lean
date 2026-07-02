@@ -48,6 +48,61 @@ theorem graphPrefix4FrontierLabels_of_cons2
   · rcases hzmZp with ⟨hface₀, hface₁⟩
     exact Or.inr (Or.inr ⟨hface₀, Or.inr (Or.inr hface₁)⟩)
 
+theorem graphPrefix4FrontierLabels_exists_cons2
+    {labels : List Face}
+    (hfrontier : GraphPrefix4FrontierLabels labels) :
+    ∃ face₀ face₁ rest,
+      labels = Face.xm :: Face.ym :: face₀ :: face₁ :: rest ∧
+      ((face₀ = Face.tmpm ∧ (face₁ = Face.tppm ∨ face₁ = Face.zm)) ∨
+      (face₀ = Face.yp ∧ (face₁ = Face.tmmm ∨ face₁ = Face.zm)) ∨
+      (face₀ = Face.zm ∧
+        (face₁ = Face.tmpp ∨ face₁ = Face.yp ∨ face₁ = Face.zp))) := by
+  unfold GraphPrefix4FrontierLabels at hfrontier
+  rcases hfrontier with htmpmTppm | htmpmZm | hypTmmm | hypZm |
+    hzmTmpp | hzmYp | hzmZp
+  · refine ⟨Face.tmpm, Face.tppm, labels.drop 4, ?_, ?_⟩
+    · have hdecomp : labels = labels.take 4 ++ labels.drop 4 :=
+        (List.take_append_drop 4 labels).symm
+      rw [htmpmTppm] at hdecomp
+      simpa using hdecomp
+    · exact Or.inl ⟨rfl, Or.inl rfl⟩
+  · refine ⟨Face.tmpm, Face.zm, labels.drop 4, ?_, ?_⟩
+    · have hdecomp : labels = labels.take 4 ++ labels.drop 4 :=
+        (List.take_append_drop 4 labels).symm
+      rw [htmpmZm] at hdecomp
+      simpa using hdecomp
+    · exact Or.inl ⟨rfl, Or.inr rfl⟩
+  · refine ⟨Face.yp, Face.tmmm, labels.drop 4, ?_, ?_⟩
+    · have hdecomp : labels = labels.take 4 ++ labels.drop 4 :=
+        (List.take_append_drop 4 labels).symm
+      rw [hypTmmm] at hdecomp
+      simpa using hdecomp
+    · exact Or.inr (Or.inl ⟨rfl, Or.inl rfl⟩)
+  · refine ⟨Face.yp, Face.zm, labels.drop 4, ?_, ?_⟩
+    · have hdecomp : labels = labels.take 4 ++ labels.drop 4 :=
+        (List.take_append_drop 4 labels).symm
+      rw [hypZm] at hdecomp
+      simpa using hdecomp
+    · exact Or.inr (Or.inl ⟨rfl, Or.inr rfl⟩)
+  · refine ⟨Face.zm, Face.tmpp, labels.drop 4, ?_, ?_⟩
+    · have hdecomp : labels = labels.take 4 ++ labels.drop 4 :=
+        (List.take_append_drop 4 labels).symm
+      rw [hzmTmpp] at hdecomp
+      simpa using hdecomp
+    · exact Or.inr (Or.inr ⟨rfl, Or.inl rfl⟩)
+  · refine ⟨Face.zm, Face.yp, labels.drop 4, ?_, ?_⟩
+    · have hdecomp : labels = labels.take 4 ++ labels.drop 4 :=
+        (List.take_append_drop 4 labels).symm
+      rw [hzmYp] at hdecomp
+      simpa using hdecomp
+    · exact Or.inr (Or.inr ⟨rfl, Or.inr (Or.inl rfl)⟩)
+  · refine ⟨Face.zm, Face.zp, labels.drop 4, ?_, ?_⟩
+    · have hdecomp : labels = labels.take 4 ++ labels.drop 4 :=
+        (List.take_append_drop 4 labels).symm
+      rw [hzmZp] at hdecomp
+      simpa using hdecomp
+    · exact Or.inr (Or.inr ⟨rfl, Or.inr (Or.inr rfl)⟩)
+
 theorem graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier
     {rank : Fin numPairWords} {face₀ face₁ : Face} {rest : List Face}
     (hlabels :
@@ -121,6 +176,41 @@ theorem branchTableSuffixOk_root_of_strengthenedTerminalPrefix4
       (state := closedPrefix2EvalState)
       (graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal
         hstrengthened hterm hlabels hsuffix))
+
+theorem branchTableSuffixOk_root_of_strengthenedTerminal
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+          rank Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.Accepted.TerminalOkTraceLabels
+        (topPairingRankFaceLabels rank))
+    (hsuffix :
+      ∀ face₀ face₁ rest graph₁ gain₁ graph₂ gain₂,
+        topPairingRankFaceLabels rank =
+          Face.xm :: Face.ym :: face₀ :: face₁ :: rest ->
+        graphSmokeNext (143 : State) (smokeLabelOfFace face₀) =
+          some (graph₁, gain₁) ->
+        graphSmokeNext graph₁ (smokeLabelOfFace face₁) =
+          some (graph₂, gain₂) ->
+        GraphBranchTableSuffixOk rank graph₂ rest) :
+    BranchTableSuffixOk rank
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) := by
+  rcases graphPrefix4FrontierLabels_exists_cons2
+      (graphPrefix4Frontier_of_strengthened_terminal hstrengthened hterm) with
+    ⟨face₀, face₁, rest, hlabels, hfrontier⟩
+  exact branchTableSuffixOk_root_of_closedPrefix2
+    (rank := rank) (rest := face₀ :: face₁ :: rest)
+    hlabels
+    (branchTableSuffixOk_of_graphBranchTableSuffixOk
+      (state := closedPrefix2EvalState)
+      (graphBranchTableSuffixOk_s0143_depth2_of_frontier
+        hfrontier
+        (fun graph₁ gain₁ graph₂ gain₂ hgraph₁ hgraph₂ =>
+          hsuffix face₀ face₁ rest graph₁ gain₁ graph₂ gain₂
+            hlabels hgraph₁ hgraph₂)))
 
 theorem graphAcceptedSuffixBridge_builds : True := by
   exact True.intro

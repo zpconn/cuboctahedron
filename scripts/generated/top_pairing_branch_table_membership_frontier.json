@@ -74,20 +74,22 @@
     "graph_accepted_suffix_bridge": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 128,
+      "lines": 218,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedSuffixBridge.lean",
       "symbol_hits": {
-        "BranchTableSuffixOk": 12,
-        "GraphBranchTableSuffixOk": 5,
-        "GraphPrefix4FrontierLabels": 3,
-        "branchTableSuffixOk_of_graphBranchTableSuffixOk": 1,
-        "branchTableSuffixOk_root_of_closedPrefix2": 1,
+        "BranchTableSuffixOk": 16,
+        "GraphBranchTableSuffixOk": 6,
+        "GraphPrefix4FrontierLabels": 5,
+        "branchTableSuffixOk_of_graphBranchTableSuffixOk": 2,
+        "branchTableSuffixOk_root_of_closedPrefix2": 2,
+        "branchTableSuffixOk_root_of_strengthenedTerminal": 2,
         "branchTableSuffixOk_root_of_strengthenedTerminalPrefix4": 1,
-        "graphBranchTableSuffixOk_s0143_depth2_of_frontier": 1,
+        "graphBranchTableSuffixOk_s0143_depth2_of_frontier": 2,
         "graphBranchTableSuffixOk_s0143_depth2_of_graphPrefix4Frontier": 2,
         "graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal": 2,
+        "graphPrefix4FrontierLabels_exists_cons2": 2,
         "graphPrefix4FrontierLabels_of_cons2": 2,
-        "graphPrefix4Frontier_of_strengthened_terminal": 1
+        "graphPrefix4Frontier_of_strengthened_terminal": 2
       }
     },
     "graph_suffix_emitter": {
@@ -193,19 +195,19 @@
       "path": "scripts/generated/bellman_graph_accepted_prefix_frontier_lake_guard.json"
     },
     "graph_accepted_suffix_bridge_direct": {
-      "elapsed_seconds": 3.002515949003282,
+      "elapsed_seconds": 5.00501457300561,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 2516.2734375,
+      "max_tree_rss_mib": 3943.76953125,
       "path": "scripts/generated/bellman_graph_accepted_suffix_bridge_guard.json"
     },
     "graph_accepted_suffix_bridge_lake": {
-      "elapsed_seconds": 3.026225160007016,
+      "elapsed_seconds": 3.002713002002565,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 4067.05859375,
+      "max_tree_rss_mib": 4098.4609375,
       "path": "scripts/generated/bellman_graph_accepted_suffix_bridge_lake_guard.json"
     },
     "graph_suffix_emitter_direct": {
@@ -278,6 +280,9 @@
     "branchTableSuffixOk_root_of_graphClosedPrefix3_forall": [
       "branch_table_suffix"
     ],
+    "branchTableSuffixOk_root_of_strengthenedTerminal": [
+      "graph_accepted_suffix_bridge"
+    ],
     "branchTableSuffixOk_root_of_strengthenedTerminalPrefix4": [
       "graph_accepted_suffix_bridge"
     ],
@@ -314,6 +319,9 @@
     ],
     "graphBranchTableSuffixOk_s0146_branch_of_frontier": [
       "graph_suffix_emitter"
+    ],
+    "graphPrefix4FrontierLabels_exists_cons2": [
+      "graph_accepted_suffix_bridge"
     ],
     "graphPrefix4FrontierLabels_of_cons2": [
       "graph_accepted_suffix_bridge"

@@ -5,14 +5,14 @@
     "build",
     "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedSuffixBridge"
   ],
-  "elapsed_seconds": 3.026225160007016,
+  "elapsed_seconds": 3.002713002002565,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4164668,
-  "max_tree_rss_mib": 4067.05859375,
-  "min_available_seen_kib": 47132776,
-  "min_available_seen_mib": 46028.1015625,
+  "max_tree_rss_kib": 4196824,
+  "max_tree_rss_mib": 4098.4609375,
+  "min_available_seen_kib": 47120232,
+  "min_available_seen_mib": 46015.8515625,
   "rss_cap_mib": 10000.0,
   "timeout_seconds": 300.0
 }
