@@ -76404,3 +76404,86 @@ covered by semantic families with measured import fan-in.  If the proof of this
 strengthening requires sampled paths, exact RHS keys, or the rejected grouped
 depth-9 OR proof shape, reject this Bellman membership surface and pivot to a
 cancellation-tree/state-summary automaton as the production proof coordinate.
+
+## 2026-07-02 Checkpoint: Semantic Gate Import Audit
+
+Added and ran:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_semantic_gate_imports.py
+python3 scripts/audit_top_pairing_semantic_gate_imports.py
+```
+
+Outputs:
+
+```text
+scripts/generated/top_pairing_semantic_gate_imports.json
+scripts/generated/top_pairing_semantic_gate_imports.md
+```
+
+Audit table:
+
+```text
+search_semantic_gate:
+  decision=lightweight-boundary-ok
+  modules=40
+  generated_residual=0
+  split_graph_smoke=0
+  terminal_trace_shards=0
+
+terminal_accepted_gate:
+  decision=reject-as-lightweight-public-bridge
+  modules=54
+  generated_residual=14
+  split_graph_smoke=1
+  terminal_trace_shards=8
+
+terminal_direct_socket:
+  decision=reject-as-lightweight-public-bridge
+  modules=227
+  generated_residual=182
+  split_graph_smoke=124
+  terminal_trace_shards=8
+
+selected_prefix_residual_bridge:
+  decision=reject-as-lightweight-public-bridge
+  modules=247
+  generated_residual=197
+  split_graph_smoke=124
+  terminal_trace_shards=8
+
+root_trace_margin_bridge:
+  decision=heavy-producer-root-keep-downstream
+  modules=246
+  generated_residual=200
+  split_graph_smoke=124
+  terminal_trace_shards=8
+  root_trace_margin=1
+```
+
+I also briefly tried a direct-only residual bridge module that imported
+`BellmanTopPairingTerminalDirectSequenceSocket`; it failed to check before
+elaboration because the existing provider cache was incomplete, and the import
+audit showed the underlying socket already pulls in the split graph smoke
+hierarchy.  The experimental file was deleted rather than left in the library
+tree.
+
+Decision:
+
+```text
+keep-semantic-gate-lightweight-and-producer-roots-downstream
+```
+
+Implications:
+
+- `Cuboctahedron.Search.TopPairingBellmanSemanticGate` is the accepted
+  lightweight theorem surface.
+- `BellmanTopPairingTerminalAcceptedBridge` is acceptable as a generated
+  leaf/socket consumer, but not as a public residual bridge dependency.
+- `BellmanTopPairingTerminalDirectSequenceSocket`,
+  `BellmanTopPairingSelectedPrefixResidualBridge`, and root trace-margin
+  producer adapters are all producer-side modules with heavy generated import
+  closures.
+- The next production classifier should produce a compact semantic gate theorem
+  at the search/core boundary, or a separately measured producer root.  It
+  should not widen the public residual bridge with these generated imports.
