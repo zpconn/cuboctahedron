@@ -4,14 +4,14 @@
     "python3",
     "scripts/audit_top_pairing_branch_table_membership_frontier.py"
   ],
-  "elapsed_seconds": 1.001720326996292,
+  "elapsed_seconds": 1.0016465520020574,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 1152,
-  "max_tree_rss_mib": 1.125,
-  "min_available_seen_kib": 47472300,
-  "min_available_seen_mib": 46359.66796875,
+  "max_tree_rss_kib": 960,
+  "max_tree_rss_mib": 0.9375,
+  "min_available_seen_kib": 47673624,
+  "min_available_seen_mib": 46556.2734375,
   "rss_cap_mib": 512.0,
   "timeout_seconds": 60.0
 }

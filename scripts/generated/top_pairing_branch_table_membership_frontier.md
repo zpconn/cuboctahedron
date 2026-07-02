@@ -37,8 +37,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `branch_table_lake` | `0` | `6.01s` | `4296 MiB` | `None` |
 | `branch_table_progress_direct` | `0` | `2.00s` | `3544 MiB` | `None` |
 | `branch_table_progress_lake` | `0` | `4.01s` | `4067 MiB` | `None` |
-| `branch_table_suffix_direct` | `0` | `5.00s` | `3682 MiB` | `None` |
-| `branch_table_suffix_lake` | `0` | `3.00s` | `3725 MiB` | `None` |
+| `branch_table_suffix_direct` | `0` | `2.00s` | `3600 MiB` | `None` |
+| `branch_table_suffix_lake` | `0` | `3.00s` | `4003 MiB` | `None` |
 
 ## Accepted Local Surface
 

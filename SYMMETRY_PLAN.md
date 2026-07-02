@@ -81541,6 +81541,41 @@ This should be attacked by generated semantic state/cursor membership into the
 finite branch table, not by a monolithic classifier converse or trace/rank
 enumeration.
 
+Rejected follow-up experiment:
+
+```text
+monolithic branchTableSuffixOk_closedPrefix3_branch_of_closed
+monolithic branchTableSuffixOk_root_of_closedPrefix4_forall
+```
+
+This attempted to mirror the existing direct closed-prefix-4 theorem while
+storing finite `StrengthenedBranchTable` constructors.  It failed the focused
+direct Lean check with deterministic `isDefEq` heartbeat timeouts at the point
+where the proof identifies the concrete post-third-face evaluator state from a
+generic `faceEvalNext` equality.  The failure was memory-safe but structurally
+wrong for production:
+
+```text
+exit code: 1
+peak RSS: ~4.3 GiB
+failure: deterministic heartbeat timeout at `isDefEq`
+```
+
+Decision:
+
+```text
+Do not grow a monolithic generic prefix-4 lift.
+```
+
+Next accepted shape:
+
+```text
+Emit smaller concrete branch-table suffix shards keyed by the semantic
+post-third-face state, or have the membership emitter construct the concrete
+`BranchTableSuffixOk` continuation directly.  Avoid proving a generic
+next-state identification theorem over arbitrary `next3`/`gain3`.
+```
+
 ### Branch-Table Third-Face Lift Added
 
 Extended the branch-table suffix predicate one semantic branch past the

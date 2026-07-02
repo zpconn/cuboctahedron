@@ -6,14 +6,14 @@
     "lean",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSuffix1MSmoke.lean"
   ],
-  "elapsed_seconds": 5.004604458998074,
+  "elapsed_seconds": 2.0020691660029115,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 3770584,
-  "max_tree_rss_mib": 3682.2109375,
-  "min_available_seen_kib": 47346988,
-  "min_available_seen_mib": 46237.29296875,
+  "max_tree_rss_kib": 3686696,
+  "max_tree_rss_mib": 3600.2890625,
+  "min_available_seen_kib": 47359512,
+  "min_available_seen_mib": 46249.5234375,
   "rss_cap_mib": 10000.0,
   "timeout_seconds": 240.0
 }

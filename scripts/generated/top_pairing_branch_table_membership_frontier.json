@@ -112,19 +112,19 @@
       "path": "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_lake_guard.json"
     },
     "branch_table_suffix_direct": {
-      "elapsed_seconds": 5.004604458998074,
+      "elapsed_seconds": 2.0020691660029115,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 3682.2109375,
+      "max_tree_rss_mib": 3600.2890625,
       "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json"
     },
     "branch_table_suffix_lake": {
-      "elapsed_seconds": 3.0031451269896934,
+      "elapsed_seconds": 3.0026225140027236,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 3725.40234375,
+      "max_tree_rss_mib": 4003.171875,
       "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json"
     }
   },
