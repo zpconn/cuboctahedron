@@ -69608,6 +69608,104 @@ the next attempt to prove this higher classifier requires sampled membership,
 rank/path tables, or exact affine-RHS keys, reject Bellman production for this
 residual family and pivot to cancellation-tree summary algebra as planned.
 
+### 2026-07-02 GPT5.5 Bellman gate reconciliation
+
+GPT5.5's latest recommendation is accepted, with one repo-specific correction:
+the first two requested steps already exist and should not be rebuilt.
+
+Already in place:
+
+```lean
+TopPairingBellmanObj badFace
+```
+
+is the semantic object shape: a rank plus a proof of
+`TopPairingClosedLanguageAtRank rank badFace`.  The membership proof
+
+```lean
+TopPairingBellmanObj.closedMembership
+topPairingClosedMembership
+```
+
+is the deliberately boring no-sample object-cover membership theorem.  It does
+not use `SampledRankIndex`, sampled rank tables, sampled paths, or exact
+affine-RHS membership keys.
+
+The evaluator/object-cover scaffolding is also already present:
+
+```lean
+TopPairingBellmanObj.traceBoundOfEvalAccepts
+TopPairingBellmanObj.objectCoverOfEvalAccepts
+topPairingClosedTraceBound_of_evalAccepts
+topPairingClosedObjectCoverOfEvalAccepts
+```
+
+and the selected-prefix route is already packaged through:
+
+```lean
+SelectedPrefixTraceMarginFamily
+SelectedPrefixCoverFamily
+nonIdentityRankKilled_of_selectedPrefixTraceMarginFamily
+nonIdentityRankKilled_of_selectedPrefixCoverFamily
+```
+
+Therefore the next Bellman experiment is not another potential, another sampled
+smoke, or a new rank-indexed certificate.  The next proof target is the actual
+semantic provider:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  + actual-face omni / accepted bad-face side conditions
+  -> SelectedPrefixTraceMarginFamily scaledMargin rank
+```
+
+or equivalently, if the state-DAG surface remains preferable:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  + actual-face omni / accepted bad-face side conditions
+  -> SelectedPrefixCoverFamily scaledMargin rank
+```
+
+The proof must be over terminal trace classification, accepted trace ids,
+selected prefixes, and the deterministic Bellman evaluator.  Acceptable
+evidence is semantic family evidence:
+
+- terminal trace classifier membership;
+- cancellation equality from the closed language;
+- accepted trace id / selected-prefix bucket facts;
+- actual-face omni and accepted bad-face predicates;
+- integer Bellman gain/margin facts.
+
+Forbidden evidence for this gate:
+
+- `SampledRankIndex`;
+- `sampledContainsRank`;
+- `sampledRankOf`;
+- sampled path lists;
+- one generated constructor per accepted rank/path;
+- exact affine-RHS or solved-start-point membership tables.
+
+Go condition:
+
+```lean
+#check closed_or_strengthened_top_pairing_to_selectedPrefixTraceMarginFamily
+#check closed_or_strengthened_top_pairing_to_selectedPrefixCoverFamily
+#check nonIdentityRankKilled_of_selectedPrefixTraceMarginFamily
+```
+
+where the first theorem is named according to the actual generated module and
+does not mention sampled evidence.
+
+No-go condition:
+
+If proving the closed-language-to-selected-prefix provider requires rank/path
+sampling or exact affine-RHS tables, stop this Bellman production route.  The
+Bellman potential remains mathematically sound, but the provider theorem has
+failed to become semantic; at that point pivot to the cancellation-tree summary
+algebra, making cancellation summaries the membership object rather than
+trying to rescue Bellman with more sampled leaves.
+
 Build discipline remains unchanged: do not run a cold `lake build` over this
 import neighborhood.  Use direct Lean checks or a serial guarded cache builder
 until the generated dependencies are reorganized so Lake cannot fan out into a
