@@ -64052,3 +64052,150 @@ semantic membership predicate.  The margin side is still the hard part: if it
 requires exact affine-RHS tables or one branch per accepted rank/path, reject
 this Bellman production route and move to the cancellation-tree summary
 automaton.
+
+### 2026-07-02 Terminal bounds to graph-accepted closed-family bridge
+
+The existing terminal trace/margin-bounds classifier surface already carries
+the semantic facts needed to construct a graph-accepted margin package:
+
+```lean
+TerminalTraceMarginBoundsSequenceBadFace scaledMargin rank Face.ym
+```
+
+That predicate contains:
+
+- accepted sequence/bad-face compatibility;
+- terminal trace membership;
+- a closed-language witness;
+- `GraphAcceptedTraceMarginBounds`, i.e. conditional bounds for every accepted
+  trace.
+
+The socket now exposes this as the new graph-accepted closed-family surface,
+using the actual-face omni field from the strengthened language.
+
+New theorem surface:
+
+```lean
+theorem graphAcceptedTraceMarginClosedFamily_of_terminalTraceMarginBounds :
+    TopPairingActualFaceOmniAtRank rank ->
+    TerminalTraceMarginBoundsSequenceBadFace scaledMargin rank Face.ym ->
+    GraphAcceptedTraceMarginClosedFamily scaledMargin rank
+
+theorem graphAcceptedTraceMarginClosedFamily_of_strengthenedTerminalTraceMarginBounds :
+    TopPairingStrengthenedClosedLanguageAtRank
+      (TerminalTraceMarginBoundsSequenceBadFace scaledMargin) rank Face.ym ->
+    GraphAcceptedTraceMarginClosedFamily scaledMargin rank
+
+theorem evalLanguage_of_strengthenedTerminalTraceMarginBounds :
+    TopPairingStrengthenedClosedLanguageAtRank
+      (TerminalTraceMarginBoundsSequenceBadFace scaledMargin) rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem strengthenedTerminalTraceMarginBounds_scaledMargin_nonpos :
+    TopPairingStrengthenedClosedLanguageAtRank
+      (TerminalTraceMarginBoundsSequenceBadFace scaledMargin) rank Face.ym ->
+    scaledMargin rank <= 0
+```
+
+Smoke wrappers were added to `BellmanTopPairingTraceIdBoundsSmoke.lean` so the
+new route is checked by the existing lightweight smoke target.
+
+Guarded focused Lake check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_bounds_graph_closed_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceIdBoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 7.01s
+peak_tree_rss = 4051 MiB
+hard_as = 32768 MiB
+min_available = 46055 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_bounds_graph_closed_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.01s
+peak_tree_rss = 3629 MiB
+hard_as = 8192 MiB
+min_available = 46287 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingTraceMarginBoundsSocket.lean        = 512 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean             = 164 lines
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 644 lines
+BellmanTopPairingTrace000ComponentFamilySmoke.lean   = 77 lines
+TopPairingBellmanObject.lean                         = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+`git diff --check` passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept this terminal-bounds to graph-accepted closed-family bridge.  The
+production target can now be phrased as:
+
+```text
+TopPairingStrengthenedClosedLanguageAtRank
+  (TerminalTraceMarginBoundsSequenceBadFace scaledMargin) rank Face.ym
+```
+
+and the socket derives:
+
+```text
+GraphAcceptedTraceMarginClosedFamily -> Bellman eval -> scaledMargin <= 0
+```
+
+This is a useful narrowing of the Bellman go/no-go experiment.  The route still
+depends on proving `TerminalTraceMarginBoundsSequenceBadFace` semantically for
+large rank families.  If that proof requires exact affine-RHS tables or
+rank/path sampling, stop Bellman production and pivot to the cancellation-tree
+summary automaton.

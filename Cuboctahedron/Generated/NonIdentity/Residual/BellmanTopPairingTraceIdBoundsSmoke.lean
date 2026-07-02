@@ -138,6 +138,26 @@ theorem graphAcceptedTraceMarginClosedFamily_evalLanguage_smoke
       scaledMargin rank Face.ym :=
   evalLanguage_of_graphAcceptedTraceMarginClosedFamily hrank
 
+theorem strengthenedTerminalTraceMarginBounds_scaledMargin_nonpos_smoke
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalTraceMarginBoundsSequenceBadFace scaledMargin) rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  strengthenedTerminalTraceMarginBounds_scaledMargin_nonpos h
+
+theorem strengthenedTerminalTraceMarginBounds_evalLanguage_smoke
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalTraceMarginBoundsSequenceBadFace scaledMargin) rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_strengthenedTerminalTraceMarginBounds h
+
 theorem trace_id_bounds_smoke_builds : True := by
   exact True.intro
 

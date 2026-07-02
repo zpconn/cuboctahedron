@@ -445,6 +445,67 @@ theorem graphAcceptedTraceMarginClosedFamily_scaledMargin_nonpos
     (traceIdExistsClosedMarginFamily_of_graphAcceptedTraceMarginClosedFamily
       hrank)
 
+theorem graphAcceptedTraceMarginClosedFamily_of_terminalTraceMarginBounds
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (homni : TopPairingActualFaceOmniAtRank rank)
+    (hbounds :
+      TerminalTraceMarginBoundsSequenceBadFace scaledMargin rank Face.ym) :
+    GraphAcceptedTraceMarginClosedFamily scaledMargin rank := by
+  rcases hbounds with ⟨hbad, hterm, closed, hmarginBounds⟩
+  let obj : TopPairingBellmanObj Face.ym := { rank := rank, closed := closed }
+  refine ⟨closed, ?_⟩
+  exact
+    graphAcceptedTraceMargin_of_terminalTrace_filters_and_bounds
+      obj
+      (by
+        simpa [obj, TopPairingBellmanObj.labels, TopPairingBellmanObj.forcedSeq,
+          topPairingRankFaceLabels] using hterm)
+      (by
+        simpa [obj, TopPairingBellmanObj.labels, TopPairingBellmanObj.forcedSeq,
+          topPairingRankFaceLabels, TopPairingActualFaceOmniAtRank] using homni)
+      (by
+        simpa [obj, TopPairingBellmanObj.labels, TopPairingBellmanObj.forcedSeq,
+          topPairingRankFaceLabels,
+          Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank]
+          using hbad)
+      (by
+        simpa [obj] using hmarginBounds)
+
+theorem graphAcceptedTraceMarginClosedFamily_of_strengthenedTerminalTraceMarginBounds
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalTraceMarginBoundsSequenceBadFace scaledMargin) rank Face.ym) :
+    GraphAcceptedTraceMarginClosedFamily scaledMargin rank :=
+  graphAcceptedTraceMarginClosedFamily_of_terminalTraceMarginBounds
+    h.actualFaceOmni h.sequenceBadFace_ok
+
+theorem evalLanguage_of_strengthenedTerminalTraceMarginBounds
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalTraceMarginBoundsSequenceBadFace scaledMargin) rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_graphAcceptedTraceMarginClosedFamily
+    (graphAcceptedTraceMarginClosedFamily_of_strengthenedTerminalTraceMarginBounds
+      h)
+
+theorem strengthenedTerminalTraceMarginBounds_scaledMargin_nonpos
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalTraceMarginBoundsSequenceBadFace scaledMargin) rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  graphAcceptedTraceMarginClosedFamily_scaledMargin_nonpos
+    (graphAcceptedTraceMarginClosedFamily_of_strengthenedTerminalTraceMarginBounds
+      h)
+
 theorem trace_margin_bounds_socket_builds : True := by
   exact True.intro
 
