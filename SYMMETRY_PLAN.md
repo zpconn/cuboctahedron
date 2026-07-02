@@ -83345,3 +83345,57 @@ Next implementation target: produce, for one compact semantic classifier
 family, the existential trace-id/margin predicate above from strengthened
 closed-language cursor/state facts.  Avoid exact-prefix, exact affine RHS,
 solved-start-point, or selected trace-path keys.
+
+#### Shared-Gain Prefix Buckets Rejected As Final Coordinate
+
+The existing prefix/shared-gain diagnostics were re-audited against the current
+strengthened Bellman socket.  They remain useful as small socket/regression
+tests, especially because
+`traceIdExistsMarginSequenceBadFace_of_terminalTracePrefixSharedGainClosedMarginFamily`
+now turns such a family into the existential trace-id sequence predicate.  They
+should not, however, be promoted as the production coverage coordinate.
+
+Evidence from `scripts/generated/top_pairing_shared_gain_prefix_cover_plan.md`:
+
+| Metric | Value |
+|---|---:|
+| accepted traces | `37` |
+| homogeneous prefix candidates | `43` |
+| minimum prefix-bucket cover | `31` |
+| singleton buckets | `26` |
+| largest bucket | `3` |
+
+Evidence from `scripts/generated/top_pairing_shared_gain_buckets.md`:
+
+| Metric | Value |
+|---|---:|
+| distinct Bellman gains | `14` |
+| homogeneous prefix buckets with size > 1 | `8` |
+
+Decision: prefix/shared-gain buckets are accepted as theorem sockets and smoke
+fixtures, but rejected as the final compression coordinate.  The cover is too
+close to one bucket per accepted trace.  Scaling this route would preserve a
+selected-prefix flavor and would not satisfy the plan's low-leaf semantic
+coverage goal.  The next production candidate should use a semantic state-DAG,
+cancellation-tree summary, or another cursor/transducer proof that classifies
+the strengthened language without exact-prefix or exact-trace membership.
+
+Current semantic state-DAG diagnostic, from
+`scripts/generated/top_pairing_trace_state_dag_semantic_gate.md`, is larger
+but structurally more honest:
+
+| Metric | Value |
+|---|---:|
+| decision | `semantic-state-dag-candidate` |
+| states | `7387` |
+| edges | `7661` |
+| terminal states: cancellation reject | `248` |
+| terminal states: closed | `1` |
+| terminal paths: cancellation reject | `440` |
+| terminal paths: closed | `2` |
+
+This is not yet proof and not yet the final route, but it points in the right
+direction: a deterministic semantic classifier over step, remaining counts,
+square gap, local axis linear matrix, square parity, and triangular
+cancellation stack.  The next Lean slice should target a small state-DAG
+terminal classifier theorem, not another prefix-bucket cover.
