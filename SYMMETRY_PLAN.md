@@ -87282,3 +87282,91 @@ finite state enum and local `nextStep` transitions, then prove the same
 terminal premise without mentioning `AcceptedTraceId` in the generated
 membership theorem.  If that still collapses to trace enumeration, switch to
 the target-shadow cursor / summary automaton before adding more graph data.
+
+#### Terminal-State Machine Socket
+
+Added the generic deterministic state-machine socket for production-style
+terminal classifiers:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalStateMachineSocket.lean
+```
+
+New interface:
+
+```lean
+structure TerminalStepStateMachine (StateId : Type) where
+  stateOf : StateId -> TerminalStepState
+  next : StateId -> Face -> StateId
+  next_sound :
+    ∀ state face,
+      stateOf (next state face) =
+        TerminalStepState.nextStep (stateOf state) face
+  IsTerminal : StateId -> Prop
+  terminalProducer :
+    ∀ state, IsTerminal state ->
+      TerminalStepStateProducer (stateOf state)
+```
+
+New generic theorems:
+
+```lean
+theorem TerminalStepStateMachine.contains_next
+theorem TerminalStepStateMachine.terminalTraceLabels_of_terminal
+```
+
+This lets a generated finite classifier expose compact state IDs and a total
+deterministic transition while the proof still advances through the semantic
+`TerminalStepState.nextStep` theorem.  The socket itself contains no
+`AcceptedTraceId`, no accepted-trace lookup, no sampled rank list, and no
+selected-prefix membership theorem.  A small identity machine over
+`TerminalStepState` is included as an ergonomic check of the interface.
+
+Commands:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf|AcceptedTraceId|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateMachineSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_machine_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateMachineSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_machine_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateMachineSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| hygiene scan, including accepted-trace identifiers | pass | n/a | n/a | n/a |
+| direct `BellmanTopPairingTerminalStateMachineSocket.lean` | pass | `4.00s` | `3580 MiB` | `45400 MiB` |
+| Lake `BellmanTopPairingTerminalStateMachineSocket` | pass | `3.00s` | `3702 MiB` | `45369 MiB` |
+
+Decision: accepted as the lightweight production-facing interface for the
+terminal classifier layer.  Next generated slice should instantiate
+`TerminalStepStateMachine` with a finite generated state enum, prove
+`next_sound` for local transitions, and prove terminal producers from
+semantic classifier state facts.  The resulting membership theorem should use
+`TerminalStepStateMachine.terminalTraceLabels_of_terminal`; it should not
+mention accepted trace IDs.
