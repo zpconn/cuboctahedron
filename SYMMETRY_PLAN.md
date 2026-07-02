@@ -64524,3 +64524,145 @@ Attempt one real compact family bucket proving
 production and pivot to the cancellation-tree summary automaton.  If it proves
 from terminal trace/source-position facts plus a compact margin inequality,
 continue Bellman.
+
+### 2026-07-02 Trace-000 terminal id-bound component family
+
+The first concrete family bucket now targets the new
+`TerminalTraceMarginIdBoundComponentFamily` socket directly.  The existing
+trace-000 semantic predicate is:
+
+```lean
+def Trace000ClosedMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    topPairingRankFaceLabels rank = acceptedTraceOfId AcceptedTraceId.t000 /\
+      scaledMargin rank <= (176 : Int) + acceptedTraceGain AcceptedTraceId.t000
+```
+
+The new family theorem is:
+
+```lean
+theorem trace000TerminalTraceMarginIdBoundComponentFamily :
+    TerminalTraceMarginIdBoundComponentFamily
+      (Trace000ClosedMarginFamily scaledMargin)
+      scaledMargin
+```
+
+It proves the four generated-facing fields without sampled ranks:
+
+1. `closed` is the first component of `Trace000ClosedMarginFamily`;
+2. `sequenceBadFace` follows from the trace equality and the generated proof
+   that accepted trace ids are not the rejected bad-face trace;
+3. `terminalTrace` follows from `graphAcceptedTraceLabels_of_id`;
+4. `marginIdBound` is exactly the accepted trace-id equality plus the compact
+   trace gain inequality.
+
+The smoke also exposes the production consequences through the new socket:
+
+```lean
+theorem trace000TerminalIdBoundFamily_evalLanguage :
+    Trace000ClosedMarginFamily scaledMargin rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem trace000TerminalIdBoundFamily_scaledMargin_nonpos :
+    Trace000ClosedMarginFamily scaledMargin rank ->
+    scaledMargin rank <= 0
+```
+
+Guarded focused Lake check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace000_terminal_id_component_family_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTrace000ComponentFamilySmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 6.01s
+peak_tree_rss = 3936 MiB
+hard_as = 32768 MiB
+min_available = 46129 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace000_terminal_id_component_family_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000ComponentFamilySmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3632 MiB
+hard_as = 8192 MiB
+min_available = 46286 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingTrace000ComponentFamilySmoke.lean  = 121 lines
+BellmanTopPairingTraceMarginBoundsSocket.lean       = 659 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean            = 212 lines
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 644 lines
+TopPairingBellmanObject.lean                        = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000ComponentFamilySmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+`git diff --check` passed; the `rg` audit found no matches.
+
+Decision:
+
+This passes the immediate GPT5.5 semantic-object gate for one compact bucket:
+the proof surface is not sampled, not path-indexed, and not one branch per
+rank.  The margin obligation remains a semantic family predicate, so this is
+not yet a global scaling proof.  But it shows the new
+`TerminalTraceMarginIdBoundComponentFamily` socket is usable by an actual
+family bucket.
+
+Next action:
+
+Scale from the single trace-000 bucket to a generated family-bucket prototype
+with at least two accepted trace ids or one terminal/source-position class.  The
+key measurement is whether `marginIdBound` can still be expressed as a compact
+trace/source-position inequality, rather than as an exact affine-RHS or
+rank-indexed table.
