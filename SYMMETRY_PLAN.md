@@ -72306,3 +72306,83 @@ small multi-prefix branch without increasing check time.  This supports the
 next step: generate a real terminal-membership state-DAG shard over all 37
 accepted prefixes, still using `ClosedRankInAcceptedPrefix13State`-style
 semantic states and no sampled rank/path objects.
+
+## 2026-07-02 Checkpoint: All Accepted Prefix Membership Surface
+
+Extended the terminal membership smoke to expose a compact all-accepted-prefix
+family over `AcceptedTraceId`:
+
+```lean
+def ClosedRankInAnyAcceptedPrefix13State
+    (rank : Fin numPairWords) : Prop :=
+  ∃ id : AcceptedTraceId,
+    ClosedRankInAcceptedPrefix13State id rank
+```
+
+New theorem surface:
+
+```lean
+theorem terminalTraceLabels_of_anyAcceptedPrefix13State
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInAnyAcceptedPrefix13State rank) :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank)
+
+theorem terminalDirectClosedFamily_of_anyAcceptedPrefix13State
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInAnyAcceptedPrefix13State rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    TerminalDirectClosedFamily rank
+
+theorem nonIdentityRankKilled_of_anyAcceptedPrefix13State
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInAnyAcceptedPrefix13State rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+This is still not the full producer theorem, but it removes a layer of
+generation: all 37 graph-accepted terminal traces are handled by one
+parameterized theorem over `AcceptedTraceId`.  The remaining producer
+obligation is now:
+
+```lean
+<top-pairing terminal producer state for rank> ->
+  ClosedRankInAnyAcceptedPrefix13State rank
+```
+
+Guarded command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_trace_membership_any_accepted_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalTraceMembershipSmoke.lean
+```
+
+Result:
+
+```text
+all accepted prefix membership surface: pass
+elapsed: 5.02s
+peak_tree_rss: 4056 MiB
+hard_as: 12288 MiB
+min_available: 46199 MiB
+```
+
+Forbidden/sample-token scan remained clean.
+
+Next required step:
+
+Build a small producer shard whose conclusion is
+`ClosedRankInAnyAcceptedPrefix13State rank` from a semantic terminal state.
+This shard should not enumerate rank samples.  It may enumerate a bounded set
+of semantic prefix states, but each state must be defined by schedule/tail or
+cancellation-tree facts over `topPairingRankFaceLabels rank`, not by an
+external rank list.

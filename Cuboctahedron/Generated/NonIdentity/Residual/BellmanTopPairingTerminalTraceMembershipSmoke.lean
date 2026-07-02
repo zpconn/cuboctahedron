@@ -117,12 +117,25 @@ def ClosedRankInSmokeAcceptedBranchState (rank : Fin numPairWords) : Prop :=
     SmokeAcceptedBranchId id /\
       ClosedRankInAcceptedPrefix13State id rank
 
+def ClosedRankInAnyAcceptedPrefix13State
+    (rank : Fin numPairWords) : Prop :=
+  ∃ id : AcceptedTraceId,
+    ClosedRankInAcceptedPrefix13State id rank
+
 theorem terminalTraceLabels_of_smokeAcceptedBranchState
     {rank : Fin numPairWords}
     (hstate : ClosedRankInSmokeAcceptedBranchState rank) :
     TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
       (topPairingRankFaceLabels rank) := by
   rcases hstate with ⟨id, _hid, hprefix⟩
+  exact terminalTraceLabels_of_acceptedPrefix13State hprefix
+
+theorem terminalTraceLabels_of_anyAcceptedPrefix13State
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInAnyAcceptedPrefix13State rank) :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) := by
+  rcases hstate with ⟨_id, hprefix⟩
   exact terminalTraceLabels_of_acceptedPrefix13State hprefix
 
 theorem terminalDirectClosedFamily_of_smokeAcceptedBranchState
@@ -138,6 +151,19 @@ theorem terminalDirectClosedFamily_of_smokeAcceptedBranchState
     ⟨hprefix.1, hactual, hbad,
       terminalTraceLabels_of_acceptedPrefix13State hprefix⟩
 
+theorem terminalDirectClosedFamily_of_anyAcceptedPrefix13State
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInAnyAcceptedPrefix13State rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad :
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym) :
+    TerminalDirectClosedFamily rank := by
+  rcases hstate with ⟨_id, hprefix⟩
+  exact
+    ⟨hprefix.1, hactual, hbad,
+      terminalTraceLabels_of_acceptedPrefix13State hprefix⟩
+
 theorem nonIdentityRankKilled_of_smokeAcceptedBranchState
     {rank : Fin numPairWords}
     (hstate : ClosedRankInSmokeAcceptedBranchState rank)
@@ -148,6 +174,18 @@ theorem nonIdentityRankKilled_of_smokeAcceptedBranchState
     Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
   nonIdentityRankKilled_of_terminalDirectClosedFamily
     (terminalDirectClosedFamily_of_smokeAcceptedBranchState
+      hstate hactual hbad)
+
+theorem nonIdentityRankKilled_of_anyAcceptedPrefix13State
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInAnyAcceptedPrefix13State rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad :
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_terminalDirectClosedFamily
+    (terminalDirectClosedFamily_of_anyAcceptedPrefix13State
       hstate hactual hbad)
 
 theorem terminalDirectClosedFamily_of_smokeTerminalState
