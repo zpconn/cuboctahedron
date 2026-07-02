@@ -67502,3 +67502,168 @@ or prove production membership into `SelectedPrefixTraceMarginFamily` (or an
 equivalent selected-prefix cover predicate) from the actual closed-language
 top-pairing classifier.  That membership theorem must be semantic over prefix
 and trace-family predicates, not sampled rank/path enumeration.
+
+### 2026-07-02 Selected-prefix trace-margin strengthened-language socket
+
+GPT5.5 Pro's latest Bellman recommendation is accepted as the controlling
+decision gate for the next nonidentity step:
+
+```text
+Continue Bellman for exactly one more semantic-membership experiment.
+```
+
+The object must remain semantic:
+
+```text
+rank + TopPairingClosedLanguageAtRank / strengthened closed-language proof
+```
+
+and must not become another sampled path, sampled rank index, or exact
+affine-RHS table.  The Bellman potential itself is not the current bottleneck;
+the missing theorem is the semantic classifier bridge that lets a closed
+top-pairing language member drive the deterministic Bellman evaluator.
+
+Added the strengthened-language socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginSocket.lean
+```
+
+The module defines the new classifier target:
+
+```lean
+SelectedPrefixTraceMarginSequenceBadFace
+```
+
+with the intended meaning:
+
+```text
+badFace = Face.ym
+and
+SelectedPrefixTraceMarginFamily scaledMargin rank
+```
+
+It then proves:
+
+```lean
+selectedPrefixTraceMarginFamily_of_sequenceBadFace
+
+evalLanguage_of_strengthenedSelectedPrefixTraceMargin :
+  TopPairingStrengthenedClosedLanguageAtRank
+    (SelectedPrefixTraceMarginSequenceBadFace scaledMargin)
+    rank Face.ym ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState
+    (176 : Int) scaledMargin rank Face.ym
+
+strengthenedSelectedPrefixTraceMargin_scaledMargin_nonpos :
+  TopPairingStrengthenedClosedLanguageAtRank
+    (SelectedPrefixTraceMarginSequenceBadFace scaledMargin)
+    rank Face.ym ->
+  scaledMargin rank <= 0
+```
+
+This is deliberately a small socket.  It does not classify any new ranks by
+itself.  Instead, it makes the next production obligation exact:
+
+```text
+actual top-pairing closed-language classifier
+  -> SelectedPrefixTraceMarginSequenceBadFace
+  -> TopPairingBellmanEvalLanguageAtRank
+  -> scaledMargin <= 0
+```
+
+Direct guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_selected_prefix_trace_margin_socket_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginSocket.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 6.00s
+peak_tree_rss = 3622 MiB
+hard_as = 8192 MiB
+min_available = 46314 MiB
+```
+
+Focused guarded Lake target build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_selected_prefix_trace_margin_socket_lake_build.json \
+  --verbose \
+  -- lake --log-level=error build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSelectedPrefixTraceMarginSocket
+```
+
+Result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 4042 MiB
+hard_as = 32768 MiB
+min_available = 46080 MiB
+```
+
+Audit:
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginSocket.lean
+
+git diff --check
+```
+
+Both checks passed with no output.
+
+Decision:
+
+Accept this as the concrete Bellman semantic-membership socket requested by
+the latest GPT5.5 advice.  The next experiment should prove the production
+membership theorem into this socket from state-DAG/cancellation/classifier
+facts.  The no-go rule is now explicit:
+
+```text
+If the production proof needs SampledRankIndex, sampledContainsRank,
+sampledRankOf, one theorem per accepted rank/path, or exact affine-RHS tables,
+stop the Bellman production route and pivot to cancellation-tree summary
+algebra.
+```
+
+Refreshed state-DAG profiler snapshot:
+
+```text
+states = 5347
+edges = 6089
+terminal_histogram = { cancellation_reject = 97, closed = 1 }
+terminal_path_histogram = { cancellation_reject = 395, closed = 47 }
+depth_state_histogram =
+  0:1, 1:1, 2:1, 3:3, 4:7, 5:19, 6:50, 7:139,
+  8:367, 9:877, 10:1613, 11:1426, 12:630, 13:115, 14:98
+```
+
+The profiler's large graph JSON remains scratch/on-demand and is not committed.
+The tracked JSON/Markdown reports are the durable checkpoint.
