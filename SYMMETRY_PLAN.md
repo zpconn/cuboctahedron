@@ -84362,3 +84362,60 @@ ClosedMarginBound scaledMargin obj
 from the semantic closed-language fields.  Any proof route that reintroduces
 selected-prefix coverage as the final theorem surface is rejected, even if the
 local graph smokes continue to pass.
+
+#### ClosedEvalFamily Socket Added
+
+The concrete closed-eval gate now has a single generated-facing package:
+
+```lean
+structure ClosedEvalFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  trace :
+    forall obj : TopPairingBellmanObj Face.ym,
+      ClosedTraceOr obj
+  margin :
+    forall obj : TopPairingBellmanObj Face.ym,
+      ClosedMarginBound scaledMargin obj
+```
+
+and the consequences:
+
+```lean
+theorem evalAccepts_of_closedEvalFamily
+theorem closedToEvalLanguage_of_closedEvalFamily
+theorem closedRank_scaledMargin_nonpos_of_closedEvalFamily
+```
+
+This is now the preferred target for generated top-pairing Bellman production
+modules.  Generated code should prove `ClosedEvalFamily scaledMargin`; the gate
+then supplies the deterministic evaluator and nonpositive-margin theorem.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/pivot_top_pairing_closed_eval_family_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedEvalGate
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| `BellmanTopPairingClosedEvalGate` with `ClosedEvalFamily` | pass | `4.00s` | `2885 MiB` | `46194 MiB` |
+
+Decision: accepted.  The next concrete implementation task is a generated
+semantic classifier/margin module whose final public theorem is:
+
+```lean
+theorem closedEvalFamily :
+    BellmanTopPairingClosedEvalGate.ClosedEvalFamily scaledMargin
+```
+
+not a selected-prefix object cover and not a suffix producer unless that
+producer is internal to proving the two fields of `ClosedEvalFamily`.

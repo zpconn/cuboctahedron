@@ -27,6 +27,23 @@ def ClosedMarginBound
     (obj : TopPairingBellmanObj Face.ym) : Prop :=
   scaledMargin obj.rank <= (176 : Int) + (-376 : Int)
 
+/--
+Production-facing target for generated closed-language Bellman producers.
+
+A generated module should prove this structure semantically from
+`TopPairingClosedLanguageAtRank`, not from sampled ranks, selected-prefix path
+ids, or exact affine keys.  The theorems below then provide the deterministic
+Bellman evaluator and nonpositive-margin consequences.
+-/
+structure ClosedEvalFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  trace :
+    forall obj : TopPairingBellmanObj Face.ym,
+      ClosedTraceOr obj
+  margin :
+    forall obj : TopPairingBellmanObj Face.ym,
+      ClosedMarginBound scaledMargin obj
+
 theorem graphRootBound :
     (176 : Int) + graphPotential rootState <= 0 := by
   change (176 : Int) + (-176 : Int) <= 0
@@ -121,6 +138,37 @@ theorem closedRank_scaledMargin_nonpos_of_traceAndMargin
   simpa [obj] using
     scaledMargin_nonpos_of_closedTraceAndMargin
       (scaledMargin := scaledMargin) htrace hmargin obj
+
+theorem evalAccepts_of_closedEvalFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily : ClosedEvalFamily scaledMargin)
+    (obj : TopPairingBellmanObj Face.ym) :
+    BellmanEvalAccepts graphPotential graphSmokeNext rootState (176 : Int)
+      (fun obj : TopPairingBellmanObj Face.ym => scaledMargin obj.rank)
+      (fun obj => TopPairingBellmanObj.labels smokeLabelOfFace obj)
+      obj :=
+  evalAccepts_of_closedTraceAndMargin
+    (scaledMargin := scaledMargin) hfamily.trace hfamily.margin obj
+
+theorem closedToEvalLanguage_of_closedEvalFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily : ClosedEvalFamily scaledMargin)
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  closedToEvalLanguage_of_traceAndMargin
+    (scaledMargin := scaledMargin) hfamily.trace hfamily.margin rank hclosed
+
+theorem closedRank_scaledMargin_nonpos_of_closedEvalFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily : ClosedEvalFamily scaledMargin)
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  closedRank_scaledMargin_nonpos_of_traceAndMargin
+    (scaledMargin := scaledMargin) hfamily.trace hfamily.margin rank hclosed
 
 theorem scaledMargin_nonpos_of_closedToEvalLanguage
     {scaledMargin : Fin numPairWords -> Int}
