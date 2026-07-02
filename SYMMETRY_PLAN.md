@@ -71390,3 +71390,128 @@ strictly cheaper semantic route for the accepted traces already supported by
 the trace providers.  If trace/provider coverage is broad, the Bellman
 nonpositive-margin provider becomes a fallback for remaining traces rather
 than the central production blocker.
+
+Selected-prefix direct-kill smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingStateDAGSelectedPrefixDirectKilledSmoke.lean
+```
+
+connects the direct accepted-trace bridge to the existing generated
+`Group000` selected-prefix family:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingStateDAGSelectedPrefixCover/Group000.lean
+```
+
+The new smoke exports a margin-free semantic family:
+
+```lean
+SelectedPrefixGroupDirectStartViolationFamily
+selectedPrefixGroupDirect_nonIdentityRankKilled
+```
+
+and a compatibility adapter from the older shared-margin smoke:
+
+```lean
+selectedPrefixGroupDirect_of_selectedPrefixGroup
+selectedPrefixGroup_nonIdentityRankKilled_direct
+```
+
+This is the first checked example of a selected-prefix bucket being killed by
+semantic accepted trace ids and start-violation providers, without consuming
+the Bellman margin inequality.  The proof uses the existing `PrefixNNNPrefix`
+and `PrefixNNNPrefix_gain` facts only to show that any accepted trace under the
+prefix is in the allowed trace-id set; the gain equality is not used by the
+direct-kill theorem.
+
+Build/guard notes:
+
+* A guarded `lake build` for this single target tried to schedule older graph
+  eval smoke dependencies and failed with `failed to create thread` under the
+  address-space cap.  Peak RSS was only 778 MiB, so this was scheduler/thread
+  pressure, not a proof or RSS failure.  That broad Lake route should not be
+  used as the production validation path for this checkpoint.
+* The successful validation compiled only the missing `.olean` dependencies
+  directly, then checked the smoke file with `lake env lean`.
+
+Checked commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 90 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/bellman_top_pairing_language_olean_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Search/BellmanTopPairingLanguage.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Search/BellmanTopPairingLanguage.ilean \
+     Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_graph_eval_split_10m_shard048_olean_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Shard048.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Shard048.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Shard048.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_graph_eval_split_10m_shard049_olean_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Shard049.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Shard049.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Shard049.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 90 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_trace_start_violation_direct_killed_bridge_olean_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceStartViolationDirectKilledBridge.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceStartViolationDirectKilledBridge.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceStartViolationDirectKilledBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 90 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_selected_prefix_direct_killed_smoke_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixDirectKilledSmoke.lean
+```
+
+Result:
+
+```text
+BellmanTopPairingLanguage.olean: pass, 4.01s, peak_tree_rss 3945 MiB
+GraphEvalSplit10MSmoke.Shard048.olean: pass, 3.00s, peak_tree_rss 3935 MiB
+GraphEvalSplit10MSmoke.Shard049.olean: pass, 3.00s, peak_tree_rss 3935 MiB
+TraceStartViolationDirectKilledBridge.olean: pass, 3.00s, peak_tree_rss 3282 MiB
+SelectedPrefixDirectKilledSmoke.lean: pass, 3.00s, peak_tree_rss 3986 MiB
+forbidden token scan: clean
+git diff --check: clean
+```
+
+Next strategy checkpoint:
+
+1. Generate or hand-add the same direct-kill adapters for more selected-prefix
+   groups, but validate with direct guarded file checks rather than broad
+   `lake build`.
+2. Profile how many selected-prefix groups can be killed by accepted trace
+   start-violation providers alone.
+3. Treat Bellman margin nonpositive providers as needed only for groups whose
+   accepted traces lack direct start-violation coverage.
