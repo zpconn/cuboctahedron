@@ -68940,3 +68940,53 @@ experiment" after the `t028` result: the remaining experiment is whether the
 semantic provider can be generated and grouped without collapsing back to the
 sampled machinery.  A second hand-written provider would be useful only as a
 debugging fixture; it is not the production proof strategy.
+
+### 2026-07-02 Trace-provider generation audit
+
+Added a diagnostic-only audit script:
+
+```text
+scripts/audit_top_pairing_trace_provider_generation.py
+```
+
+The script parses the 37 graph-accepted top-pairing traces from
+`BellmanTopPairingGraphAcceptedEvalGate.lean`, converts each contribution-order
+trace back to its started forced sequence, derives the pair word, and reuses the
+archived exact arithmetic helpers to ask whether a trace-level nonidentity
+axis/start-violation payload exists.  It does not emit Lean proof files, does
+not enumerate ranks, and is not trusted as proof.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_trace_provider_generation.py
+python3 scripts/audit_top_pairing_trace_provider_generation.py
+```
+
+Results:
+
+```text
+accepted traces:      37
+provider candidates:  37
+unsupported/errors:   0
+failure kind:         axisMissesStartInterior for all 37
+```
+
+Outputs:
+
+```text
+scripts/generated/top_pairing_trace_provider_generation_audit.json
+scripts/generated/top_pairing_trace_provider_generation_audit.md
+```
+
+Decision:
+
+Accept this as a strong generatorization signal.  The `t028` provider was not a
+one-off: every accepted trace has an exact trace-level provider candidate of
+the same semantic kind.  The next implementation step should be an emitter that
+turns this audit payload into provider modules with the same public theorem
+shape as `objectStartViolationMarginCert_of_trace028`, while keeping any
+certificate data private/local and checking the first newly generated provider
+under the strict `lake env lean` memory guard.  Do not emit a multi-provider
+root until at least one generated provider checks safely and the sampled-token
+audit is clean.

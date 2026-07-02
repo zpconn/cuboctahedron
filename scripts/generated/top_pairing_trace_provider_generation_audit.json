@@ -1,0 +1,4014 @@
+{
+  "accepted_gate": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalGate.lean",
+  "results": [
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "zm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "zm",
+        "zp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-36/11",
+        "-31/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t000",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y",
+        "z",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "yp",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "yp",
+        "zp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-36/11",
+        "-31/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t001",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "z",
+        "y",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "zp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "zp",
+        "yp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-36/11",
+        "-31/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t002",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "z",
+        "z",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-127/22",
+        "-75/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t003",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m",
+        "z",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-65/22",
+        "7/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t004",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "z",
+        "z",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "zp",
+        "zm",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "zp",
+        "zm",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-131/22",
+        "-112/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t005",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "z",
+        "z",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "yp",
+        "zm",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "yp",
+        "zm",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-131/22",
+        "-112/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t006",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "z",
+        "y",
+        "z",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-38/11",
+        "-90/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t007",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "z",
+        "z",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-131/22",
+        "-112/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t008",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "z",
+        "z",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-47/11",
+        "-54/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t009",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "z",
+        "z",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-149/22",
+        "-76/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t010",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "z",
+        "z",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "lambda": "12",
+      "p0": [
+        "1",
+        "-1",
+        "0"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t011",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "z",
+        "z",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "12",
+      "p0": [
+        "1",
+        "-7/2",
+        "-2"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t012",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "z",
+        "z",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-47/11",
+        "-54/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t013",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-149/22",
+        "-76/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t014",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "z",
+        "z",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-38/11",
+        "9/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t015",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "z",
+        "z",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-131/22",
+        "-13/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t016",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "d11m",
+        "z",
+        "z",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "tmpm",
+        "zm",
+        "zp",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "zm",
+        "zp",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-65/22",
+        "-59/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t017",
+      "word": [
+        "x",
+        "y",
+        "d1m1",
+        "z",
+        "z",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-58/11",
+        "-31/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t018",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m",
+        "z",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-27/11",
+        "51/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t019",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "z",
+        "z",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-60/11",
+        "-90/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t020",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "z",
+        "z",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-69/11",
+        "-54/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t021",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "z",
+        "z",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "12",
+      "p0": [
+        "1",
+        "-3",
+        "0"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t022",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "z",
+        "z",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-69/11",
+        "-54/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t023",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "z",
+        "z",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-60/11",
+        "9/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t024",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "dm11",
+        "z",
+        "z",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "zp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "zp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-27/11",
+        "9/11"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t025",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "z",
+        "d1m1",
+        "d111",
+        "dm11",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "z",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm",
+        "zp",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm",
+        "zp",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "116/11",
+      "p0": [
+        "1",
+        "-27/11",
+        "-15/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t026",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "d111",
+        "z",
+        "z",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "zm",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "tmmm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "zm",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-58/11",
+        "-75/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t027",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "d11m",
+        "d1m1",
+        "d111",
+        "dm11",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d111",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "yp",
+        "zm",
+        "zp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "yp",
+        "zm",
+        "zp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-58/11",
+        "-119/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t028",
+      "word": [
+        "x",
+        "y",
+        "y",
+        "z",
+        "z",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "yp",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "yp",
+        "zp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-36/11",
+        "-75/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t029",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "dm11",
+        "d111",
+        "d1m1",
+        "d11m",
+        "d11m",
+        "dm11",
+        "d111",
+        "d1m1",
+        "y",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "zp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "zp",
+        "yp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-36/11",
+        "-75/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t030",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "dm11",
+        "d111",
+        "d1m1",
+        "d11m",
+        "d11m",
+        "dm11",
+        "d111",
+        "d1m1",
+        "z",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "tmmm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-127/22",
+        "-119/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t031",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "dm11",
+        "d111",
+        "d1m1",
+        "d11m",
+        "d11m",
+        "dm11",
+        "y",
+        "d1m1",
+        "d111",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "yp",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "tmmm",
+        "zp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "yp",
+        "tmmp",
+        "tpmp",
+        "tppp",
+        "tpmm",
+        "tmpp",
+        "tppm",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-58/11",
+        "-75/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t032",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "y",
+        "d11m",
+        "d1m1",
+        "d111",
+        "dm11",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d111",
+        "z"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "yp",
+        "zp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "yp",
+        "zp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-58/11",
+        "-119/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t033",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "y",
+        "z",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-36/11",
+        "-119/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t034",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "z",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "y"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-127/22",
+        "-163/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t035",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "z",
+        "d1m1",
+        "d11m",
+        "dm11",
+        "d111",
+        "d111",
+        "d1m1",
+        "y",
+        "dm11",
+        "d11m"
+      ]
+    },
+    {
+      "axis": [
+        "-1/3",
+        "-1/3",
+        "-1"
+      ],
+      "failure": {
+        "kind": "axisMissesStartInterior"
+      },
+      "forced_seq": [
+        "xp",
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ],
+      "kernel_cross_factor": [
+        [
+          "7/144",
+          "-5/9",
+          "0"
+        ],
+        [
+          "5/9",
+          "23/144",
+          "0"
+        ],
+        [
+          "-29/144",
+          "19/144",
+          "0"
+        ]
+      ],
+      "labels": [
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp",
+        "xp"
+      ],
+      "lambda": "140/11",
+      "p0": [
+        "1",
+        "-58/11",
+        "-119/22"
+      ],
+      "solve_left_inverse": [
+        [
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "103/176",
+          "-73/176",
+          "-5/88",
+          "1"
+        ],
+        [
+          "259/176",
+          "25/88",
+          "-103/176",
+          "3"
+        ],
+        [
+          "3/11",
+          "3/11",
+          "9/11",
+          "0"
+        ]
+      ],
+      "status": "provider_candidate",
+      "trace_id": "t036",
+      "word": [
+        "x",
+        "y",
+        "z",
+        "z",
+        "y",
+        "d111",
+        "dm11",
+        "d11m",
+        "d1m1",
+        "d1m1",
+        "d111",
+        "dm11",
+        "d11m"
+      ]
+    }
+  ],
+  "summary": {
+    "accepted_traces": 37,
+    "by_failure": {
+      "axisMissesStartInterior": 37
+    },
+    "by_reason": {},
+    "by_status": {
+      "provider_candidate": 37
+    },
+    "provider_candidates": 37
+  },
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}
