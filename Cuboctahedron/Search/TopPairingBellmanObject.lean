@@ -158,6 +158,29 @@ def topPairingClosedMembership (badFace : Face) :
       (ClosedTopPairingContainsRank badFace) :=
   TopPairingBellmanObj.closedMembership badFace
 
+theorem topPairingClosedMembership_covers
+    {badFace : Face} {rank : Fin numPairWords}
+    (hclosed : ClosedTopPairingContainsRank badFace rank) :
+    exists obj : TopPairingBellmanObj badFace,
+      TopPairingBellmanObj.Accepts obj /\
+        TopPairingBellmanObj.rankOf obj = rank :=
+  BellmanRankObjectMembership.covers
+    (topPairingClosedMembership badFace) rank hclosed
+
+theorem topPairingClosedMembership_object
+    {badFace : Face} {rank : Fin numPairWords}
+    (hclosed : ClosedTopPairingContainsRank badFace rank) :
+    (topPairingClosedMembership badFace).objectOf rank hclosed =
+      ({ rank := rank, closed := hclosed } :
+        TopPairingBellmanObj badFace) :=
+  rfl
+
+theorem TopPairingBellmanObj.labels_id_eq_rankFaceLabels
+    {badFace : Face} (obj : TopPairingBellmanObj badFace) :
+    TopPairingBellmanObj.labels (fun f : Face => f) obj =
+      topPairingRankFaceLabels obj.rank :=
+  rfl
+
 theorem topPairingClosedTraceBound_of_evalAccepts
     {badFace : Face}
     {State Label : Type}

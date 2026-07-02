@@ -73020,8 +73020,14 @@ modules.
 
 Next provider task:
 
-Generate the remaining depth-9 parent shards in the same leaf-local style, then
-add a shallow group/root that exposes a semantic theorem of the shape:
+Paused by the next Bellman semantic-membership gate: do not immediately
+generate the remaining depth-9 parent shards.  First prove that the compact
+semantic Bellman object can be driven by a closed-language-to-evaluator theorem
+without sampled rank/path membership.  If that gate passes, resume depth-9 and
+terminal classifier generation in the same leaf-local style; if it fails, pivot
+to a stronger cancellation-summary state before expanding.
+
+The eventual provider theorem still has the intended shape:
 
 ```lean
 TopPairingClosedLanguageAtRank rank Face.ym
@@ -73033,3 +73039,120 @@ or, preferably, a grouped family predicate that keeps root imports bounded.  Do
 not let this become a rank/path table.  If the depth-9 shard count or aggregate
 RSS projects beyond the generated-checking budget, switch to a smaller
 cancellation-summary state before expanding to terminal depth.
+
+## 2026-07-02 Checkpoint: Semantic Bellman Object Membership Gate
+
+GPT5.5's latest guidance changes the immediate Bellman decision point.  The
+Bellman potential remains mathematically appropriate, but only if the object
+membership is semantic and the accepted evaluator run is supplied by a
+closed-language theorem.  The next experiment must not be another potential,
+another sampled path smoke, another rank-indexed certificate, or another broad
+depth expansion.
+
+Repository inspection showed that the core semantic object scaffold already
+exists in:
+
+```text
+Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+The key existing definitions are:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+
+def topPairingClosedMembership (badFace : Face) :
+  BellmanRankObjectMembership
+    (TopPairingBellmanObj badFace)
+    TopPairingBellmanObj.rankOf
+    TopPairingBellmanObj.Accepts
+    (ClosedTopPairingContainsRank badFace)
+
+def topPairingBellmanEvalObjectCoverOfClosedToEval ...
+```
+
+This is the desired object type: `rank` plus a proof of
+`TopPairingClosedLanguageAtRank`, not a sampled path or sampled rank index.
+
+Added small audit theorems to pin that surface:
+
+```lean
+theorem topPairingClosedMembership_covers
+    {badFace : Face} {rank : Fin numPairWords}
+    (hclosed : ClosedTopPairingContainsRank badFace rank) :
+    exists obj : TopPairingBellmanObj badFace,
+      TopPairingBellmanObj.Accepts obj /\
+        TopPairingBellmanObj.rankOf obj = rank
+
+theorem topPairingClosedMembership_object
+    {badFace : Face} {rank : Fin numPairWords}
+    (hclosed : ClosedTopPairingContainsRank badFace rank) :
+    (topPairingClosedMembership badFace).objectOf rank hclosed =
+      ({ rank := rank, closed := hclosed } :
+        TopPairingBellmanObj badFace)
+
+theorem TopPairingBellmanObj.labels_id_eq_rankFaceLabels
+    {badFace : Face} (obj : TopPairingBellmanObj badFace) :
+    TopPairingBellmanObj.labels (fun f : Face => f) obj =
+      topPairingRankFaceLabels obj.rank
+```
+
+Guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_bellman_object_semantic_membership_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+Result:
+
+```text
+TopPairingBellmanObject.lean: pass
+elapsed: 6.00s
+peak_tree_rss: 3912 MiB
+hard_as: 12288 MiB
+min_available: 46202 MiB
+```
+
+Forbidden-token scan over the touched Lean file found no matches for
+`SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, `sampledSmokeNext`,
+`sampledObject`, `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+`Float`, `Float32`, `Float64`, or `Double`.
+
+Immediate go/no-go theorem:
+
+```lean
+theorem topPairingClosed_eval :
+  forall rank,
+    TopPairingClosedLanguageAtRank rank Face.ym ->
+      TopPairingBellmanEvalLanguageAtRank
+        graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+        scaledMargin rank Face.ym
+```
+
+or an equivalent theorem feeding
+`topPairingBellmanEvalObjectCoverOfClosedToEval`.
+
+Go condition:
+
+- prove the closed-to-eval provider from semantic closed-language,
+  cancellation/schedule/local-axis, terminal classifier, and margin-provider
+  facts;
+- no `SampledRankIndex`, sampled paths, one constructor per rank/path, exact
+  affine-RHS lookup, or broad Boolean reduction;
+- representative guard stays below the 7 GiB RSS / 12 GiB hard-AS caps.
+
+No-go condition:
+
+- if `topPairingClosed_eval` cannot be proved without sampled paths or
+  rank-indexed objects, stop Bellman as a production route and pivot to a
+  stronger cancellation-summary automaton whose state directly carries the
+  evaluator progress and margin summary.
