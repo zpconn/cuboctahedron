@@ -67806,3 +67806,141 @@ The proof must stay semantic.  If it requires `SampledRankIndex`,
 `sampledContainsRank`, `sampledRankOf`, one branch per accepted rank/path, or
 an exact affine-RHS table, reject Bellman production for this residual family
 and pivot to cancellation-tree summary algebra.
+
+### 2026-07-02 Selected-prefix trace-margin semantic object cover
+
+Implemented the exact semantic object-cover wrapper requested by the latest
+GPT5.5 Bellman gate:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean
+```
+
+This module packages the selected-prefix trace-margin strengthened language as
+an actual `BellmanAxisRankObjectCover`.  The objects are not sampled ranks or
+sampled paths; they are the existing semantic evaluator objects:
+
+```lean
+TopPairingBellmanEvalObj
+  graphPotential graphSmokeNext smokeLabelOfFace rootState 176
+  scaledMargin Face.ym
+```
+
+Main theorem/definition names:
+
+```lean
+GraphSmokeStepChecked
+
+checkedRun_of_evalLabelStepFn
+
+selectedPrefixTraceMarginTraceBound
+
+selectedPrefixTraceMarginObjectCover
+
+selectedPrefixTraceMarginObjectCover_scaledMargin_nonpos
+```
+
+Important engineering detail: the object cover deliberately does not require a
+global theorem of the brittle form
+
+```lean
+graphSmokeNext s label = some (t, gain) -> s < stateCount
+```
+
+because proving that theorem by unfolding the 970-state generated evaluator hit
+Lean recursion-depth limits and used about 5.2 GiB RSS even before succeeding.
+Instead, the cover uses a checked step relation carrying:
+
+```lean
+s < stateCount
+t < stateCount
+graphSmokeNext s label = some (t, gain)
+gain + graphPotential t <= graphPotential s
+```
+
+and proves the run by induction from the in-range root using the already
+generated shard theorem `transition_ok_of_lt`.  This keeps the public Bellman
+cover semantic and avoids a large global generated-match proof.
+
+Direct guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/selected_prefix_trace_margin_object_cover_guard.json \
+  -- lake env lean \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3624.73 MiB
+min_available = 46292.71 MiB
+```
+
+Focused guarded Lake target build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/selected_prefix_trace_margin_object_cover_lake_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSelectedPrefixTraceMarginObjectCover
+```
+
+Result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 4137.82 MiB
+min_available = 46041.23 MiB
+```
+
+Audit:
+
+```bash
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean || true
+
+git diff --check
+```
+
+Both checks passed with no output.
+
+Decision:
+
+Accept this object-cover wrapper.  The Bellman route is now packaged in the
+right public shape for this bounded family:
+
+```text
+semantic strengthened language
+  -> semantic evaluator object
+  -> BellmanAxisRankObjectCover
+  -> scaledMargin rank <= 0
+```
+
+This does not finish the full top-pairing residual.  The strengthened
+sequence/bad-face predicate still includes the trace-margin family evidence,
+including the rank-level margin inequality.  The next and decisive experiment
+is therefore still:
+
+```text
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> SelectedPrefixTraceMarginSequenceBadFace scaledMargin rank Face.ym
+```
+
+or an equivalent state-DAG/cancellation-tree classifier theorem.  If that proof
+requires sampled membership or exact affine-RHS tables, stop the Bellman
+production route and pivot to cancellation-tree summary algebra.
