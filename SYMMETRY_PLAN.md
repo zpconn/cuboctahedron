@@ -86233,3 +86233,107 @@ terminal classifier: small local transitions on semantic state constructors.
 The next slice should generate or hand-write the state-step API that generalizes
 these three cases without letting the proof regress into the known-slow
 depth-prefix disjunction shards.
+
+#### Generic Terminal State-Step Socket Accepted
+
+Added a reusable local state API for the deterministic terminal classifier.
+This factors the prefix-2/prefix-3 pattern into one state structure and two
+single-face transition theorems.
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalStateStepSocket.lean
+```
+
+New theorem surface:
+
+```lean
+structure BellmanTopPairingTerminalStateStepSocket.
+  TerminalStepState where
+  pfx    : List Face
+  step   : Nat
+  gap    : Nat
+  k      : Nat
+  parity : SqParity
+  linear : Mat3 Rat
+
+def TerminalStepState.Contains :
+  TerminalStepState -> Fin numPairWords -> Prop
+
+def TerminalStepState.initial : TerminalStepState
+
+def TerminalStepState.squareStep :
+  TerminalStepState -> Face -> TerminalStepState
+
+def TerminalStepState.triStep :
+  TerminalStepState -> Face -> TerminalStepState
+
+theorem initial_contains_of_closed :
+  TopPairingClosedLanguageAtRank rank badFace ->
+    TerminalStepState.Contains TerminalStepState.initial rank
+
+theorem contains_squareStep :
+  TerminalStepState.Contains state rank ->
+  topPairingRankFaceLabels rank = state.pfx ++ face :: rest ->
+  triLetterOfFace? face = none ->
+    TerminalStepState.Contains
+      (TerminalStepState.squareStep state face) rank
+
+theorem contains_triStep :
+  TerminalStepState.Contains state rank ->
+  topPairingRankFaceLabels rank = state.pfx ++ face :: rest ->
+  triLetterOfFace? face = some tri ->
+    TerminalStepState.Contains
+      (TerminalStepState.triStep state face) rank
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_step_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateStepSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_step_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateStepSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `BellmanTopPairingTerminalStateStepSocket.lean` | pass | `2.01s` | `3070 MiB` | `46299 MiB` |
+| Lake `BellmanTopPairingTerminalStateStepSocket` | pass | `3.00s` | `3937 MiB` | `46079 MiB` |
+
+Hygiene:
+
+```bash
+rg "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateStepSocket.lean
+```
+
+returned no matches.  `git diff --check` passed.
+
+Decision: accepted as the reusable API for generated deterministic terminal
+classifier states.  Future generated modules should emit finite constructors
+or state IDs and apply `contains_squareStep` / `contains_triStep` locally.
+They should not re-expand the full grouped depth-prefix disjunction, whose
+depth-9 shard already failed the time gate.
