@@ -63574,7 +63574,10 @@ must not encode exact affine RHS or sampled rank/path tables.
 GPT5.5's sharpened Bellman gate is now being tested at the right object level:
 not "does a potential exist?" and not "can a sampled rank be replayed?", but
 "can a compact semantic family predicate supply the deterministic evaluator
-socket?"  The first concrete slice is trace 000.
+socket?"  This earlier evaluator-socket slice used accepted trace `t000`.
+Later provider work discovered that the first reusable start-violation cert is
+for accepted trace `t028`; do not treat this `t000` smoke as the provider
+target.
 
 New file:
 
@@ -68522,8 +68525,10 @@ rank's pair word from semantic label equality.
 
 Next implementation task:
 
-Construct one trace-id-level start-violation provider, ideally for trace `000`
-first:
+Construct one trace-id-level start-violation provider for the first accepted
+trace whose existing exact local arithmetic can be reused without importing
+sampled modules.  Later inspection showed this first reusable provider target
+is trace `t028`, not trace `t000`:
 
 ```lean
 GraphAcceptedTraceMarginIdBound scaledMargin obj
@@ -68671,11 +68676,14 @@ experiment.  The route now has:
    `ObjectStartViolationMarginCert`.
 
 The remaining decisive step is not more infrastructure.  It is to generate or
-hand-build one actual trace-level cert, starting with trace `000`, and prove its
-local exact fields against `pairWordOfSeq template`.  If that cert can be
-checked once per trace id and reused through semantic label equality, Bellman
-continues.  If it requires sampled rank/path facts for `kernel_check`,
-`axis_forces`, or `solve_check`, Bellman production stops and the plan pivots.
+hand-build one actual trace-level cert for the first reusable accepted trace
+whose exact fields can be inherited from existing local arithmetic, and prove
+those fields against `pairWordOfSeq template`.  Later inspection identified
+that first reusable trace as `t028`, not `t000`.  If such certs can be checked
+once per trace id or semantic trace bucket and reused through semantic label
+equality, Bellman continues.  If they require sampled rank/path facts for
+`kernel_check`, `axis_forces`, or `solve_check`, Bellman production stops and
+the plan pivots.
 
 ### 2026-07-02 Strategy adjustment after GPT5.5 semantic-provider review
 
@@ -68887,3 +68895,48 @@ accepted traces or selected-prefix buckets and connect them to the existing
 `GraphAcceptedTraceMargin` / selected-prefix evaluator sockets.  The no-go gate
 still applies: if the all-trace provider requires sampled ranks or path objects,
 stop and pivot to cancellation-tree summary algebra.
+
+### 2026-07-02 Strategy adjustment after trace028 provider
+
+The semantic-provider experiment changes the next Bellman step again.  The
+question is no longer whether a trace-level provider can exist; trace `t028`
+proved that it can.  The question is whether provider generation can be made
+semantic and compact across all accepted traces or selected-prefix buckets.
+
+The next implementation target is therefore a generatorization/audit step, not
+another hand-written provider:
+
+1. Reuse only the exact arithmetic and proof-emission helpers from the archived
+   `generate_exact_certificates.py` / trace-smoke emitters.  Do not revive their
+   rank-indexed public certificate surface.
+2. Emit trace-level provider modules whose public theorem shape is like:
+
+   ```lean
+   objectStartViolationMarginCert_of_traceNNN :
+     topPairingRankFaceLabels rank =
+       acceptedTraceOfId AcceptedTraceId.tNNN ->
+       ObjectStartViolationMarginCert rank (scaledMargin rank)
+   ```
+
+   or a selected-prefix bucket analogue with the same semantic rank input.
+3. Keep generated `NonIdCert` data, if needed at all, private/local to the
+   provider module.  The exported theorem type must mention semantic trace or
+   bucket membership, not raw certificates, sampled path indices, or affine RHS
+   lookup keys.
+4. Check one new generated provider under `lake env lean` with the same
+   memory guard used for `t028` before trying any multi-provider root.  Do not
+   use ordinary broad `lake build` until the Lake job/concurrency behavior is
+   controlled, because the focused provider target already showed dependency
+   replay can exceed the 12 GiB process-tree guard.
+5. Continue Bellman only if the generated provider route is one theorem per
+   trace id, same-gain trace bucket, selected-prefix bucket, or cancellation
+   summary.  Stop and pivot if it becomes one theorem per rank/path or needs
+   `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`,
+   `sampledSmokeNext`, sampled path lists, or exact affine-RHS membership
+   tables.
+
+This is the precise interpretation of GPT5.5's "one more semantic-membership
+experiment" after the `t028` result: the remaining experiment is whether the
+semantic provider can be generated and grouped without collapsing back to the
+sampled machinery.  A second hand-written provider would be useful only as a
+debugging fixture; it is not the production proof strategy.
