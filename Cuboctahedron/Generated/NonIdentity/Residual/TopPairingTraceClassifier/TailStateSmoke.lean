@@ -1,4 +1,4 @@
-import Cuboctahedron.Search.TopPairingTraceTail
+import Cuboctahedron.Search.TopPairingTransducerTail
 
 /-!
 Smoke checks for the top-pairing tail-state bridge.
@@ -49,5 +49,47 @@ theorem closedRank_tail_after_xm_ym
 
 theorem tailStateSmoke_builds : True := by
   exact True.intro
+
+theorem closedRank_transducerTail_after_xm
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    ∃ rest : List Face,
+      topPairingRankFaceLabels rank = Face.xm :: rest ∧
+        TopPairingTransducerTail 1 (topPairingNextGap 0 Face.xm) 0
+          (SqParity.id.applyPair (pairOfFace Face.xm))
+          (topPairingNextLinear (matId : Mat3 Rat) Face.xm) rest := by
+  rcases topPairingStepScheduleLabels_prefix_xm_ym h.schedule with ⟨rest, hlabels⟩
+  refine ⟨Face.ym :: rest, hlabels, ?_⟩
+  have htail0 : TopPairingTransducerTail 0 0 0 SqParity.id
+      (matId : Mat3 Rat) (Face.xm :: Face.ym :: rest) := by
+    simpa [topPairingRankFaceLabels, hlabels] using
+      TopPairingTransducerTail.ofClosedRank h
+  exact TopPairingTransducerTail.cons_square_tail htail0 (by decide)
+
+theorem closedRank_transducerTail_after_xm_ym
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    ∃ rest : List Face,
+      topPairingRankFaceLabels rank = [Face.xm, Face.ym] ++ rest ∧
+        TopPairingTransducerTail (1 + 1)
+          (topPairingNextGap (topPairingNextGap 0 Face.xm) Face.ym) 0
+          ((SqParity.id.applyPair (pairOfFace Face.xm)).applyPair
+            (pairOfFace Face.ym))
+          (topPairingNextLinear
+            (topPairingNextLinear (matId : Mat3 Rat) Face.xm) Face.ym)
+          rest := by
+  rcases topPairingStepScheduleLabels_prefix_xm_ym h.schedule with ⟨rest, hlabels⟩
+  refine ⟨rest, by simpa [topPairingRankFaceLabels] using hlabels, ?_⟩
+  have htail0 : TopPairingTransducerTail 0 0 0 SqParity.id
+      (matId : Mat3 Rat) (Face.xm :: Face.ym :: rest) := by
+    simpa [topPairingRankFaceLabels, hlabels] using
+      TopPairingTransducerTail.ofClosedRank h
+  have htail1 :
+      TopPairingTransducerTail 1 (topPairingNextGap 0 Face.xm) 0
+        (SqParity.id.applyPair (pairOfFace Face.xm))
+        (topPairingNextLinear (matId : Mat3 Rat) Face.xm)
+        (Face.ym :: rest) :=
+    TopPairingTransducerTail.cons_square_tail htail0 (by decide)
+  exact TopPairingTransducerTail.cons_square_tail htail1 (by decide)
 
 end Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.TailStateSmoke

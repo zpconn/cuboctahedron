@@ -1,0 +1,19 @@
+{
+  "available_floor_mib": 24576.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/TailStateSmoke.lean"
+  ],
+  "elapsed_seconds": 9.006436939991545,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 3605008,
+  "max_tree_rss_mib": 3520.515625,
+  "min_available_seen_kib": 47219948,
+  "min_available_seen_mib": 46113.23046875,
+  "rss_cap_mib": 6000.0,
+  "timeout_seconds": 180.0
+}

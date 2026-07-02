@@ -83467,3 +83467,72 @@ Acceptance gate for this route:
 - a representative quotient-state Lean smoke proves either `dead_reject`,
   `cancellation_reject`, or `closed -> TraceIdExistsMarginSequenceBadFace`
   from semantic cursor/state facts under the memory guard.
+
+#### Closed-Language Transducer Tail Smoke Accepted
+
+The latest GPT5.5 pivot says the next breakthrough is not more Bellman graph
+data.  It is the theorem surface:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> evalLabelStepFn graphNext rootState (labelsOfRank rank) = some result
+```
+
+proved through the deterministic semantic transducer, not through selected
+prefixes, sampled ranks, or exact Bellman traces.
+
+The repo already has the needed generic socket in
+`Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean`, especially:
+
+```lean
+TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocalWithSuffix
+```
+
+which turns a local semantic transition table plus a suffix predicate into the
+rank-level Bellman eval language.  The new checkpoint extends
+`Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/TailStateSmoke.lean`
+so the closed semantic predicate advances not just the older
+schedule/square-gap/local-axis tail, but the combined
+`TopPairingTransducerTail` carrying the target-shadow cursor as well.
+
+New smoke theorems:
+
+```lean
+closedRank_transducerTail_after_xm
+closedRank_transducerTail_after_xm_ym
+```
+
+They start from `TopPairingClosedLanguageAtRank rank badFace`, use the forced
+`xm, ym` prefix, and advance the deterministic transducer tail twice.  This is
+a small but important membership slice: it proves the closed-language fields
+drive the cursor/state machine locally, without introducing a
+`SampledRankIndex`, selected-prefix cover, exact affine RHS, solved start
+point, or full trace-id key.
+
+Guarded command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_trace_classifier_tail_state_smoke_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TailStateSmoke.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| `TailStateSmoke.lean` direct | pass | `9.01s` | `3521 MiB` | `46113 MiB` |
+
+Decision: accepted as the next semantic-membership brick.  Future work should
+now target one representative local transition/terminal theorem in the
+minimized semantic state-DAG using
+`TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocalWithSuffix`.
+The generated family must express coverage as deterministic local transition
+closure from the closed-language transducer tail and strengthened suffix
+predicate.  If it falls back to selected-prefix or sampled trace membership,
+reject that route immediately.
