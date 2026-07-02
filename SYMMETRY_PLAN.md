@@ -73761,3 +73761,88 @@ theorem nonIdentityRankKilled_of_terminalDirectClosedFamily
   continue the Bellman/top-pairing line.  If it needs sampled paths or exact
   affine RHS keys, pivot to a cancellation-tree summary automaton whose state
   includes the missing terminal/evaluator progress explicitly.
+
+## 2026-07-02 Checkpoint: Terminal-Direct Provider Gate Audit
+
+Recorded the corrected provider-gate audit for the latest GPT5.5 Bellman
+guidance:
+
+```text
+scripts/audit_top_pairing_terminal_direct_provider_gate.py
+scripts/generated/top_pairing_terminal_direct_provider_gate.json
+scripts/generated/top_pairing_terminal_direct_provider_gate.md
+```
+
+This audit is diagnostic bookkeeping, not proof.  It consolidates the exact
+closed-language obstruction, the accepted-trace/selected-prefix producer
+counts, the guarded Lean consumer checks, and a forbidden-token scan over the
+current terminal/direct consumer route.
+
+Key results:
+
+```text
+decision: continue-strengthened-terminal-provider
+closed-language audit decision: closed-components-too-weak
+closed candidates: 47
+graph accepted: 37
+graph rejected: 10
+prefix graph rejects: 197
+accepted trace classifier count: 37
+selected-prefix buckets: 31
+selected-prefix groups: 7
+```
+
+Guarded direct checks already recorded by the audit:
+
+| Target | Result | Elapsed | Peak RSS | Hard AS |
+| --- | ---: | ---: | ---: | ---: |
+| `BellmanTopPairingTerminalDirectSequenceSocket.lean` | pass | `2.00s` | `3688 MiB` | `12288 MiB` |
+| `BellmanTopPairingTerminalProducerCoverageBridge.lean` | pass | `2.01s` | `3696 MiB` | `12288 MiB` |
+| `BellmanTopPairingTerminalProducerRootSmoke.lean` | pass | `2.00s` | `3683 MiB` | `12288 MiB` |
+| `BellmanTopPairingSelectedPrefixAcceptedPrefixEvalBridge.lean` | pass | `6.02s` | `4001 MiB` | `12288 MiB` |
+
+The audit scanned four current Lean consumer/bridge files and found no
+forbidden tokens:
+
+```text
+SampledRankIndex
+sampledContainsRank
+sampledRankOf
+sampledSmokeNext
+sampledObject
+sorry
+admit
+axiom
+native_decide
+unsafe
+Float
+Float32
+Float64
+Double
+```
+
+Strategic update:
+
+- Do not attempt a bare theorem from
+  `TopPairingClosedLanguageAtRank rank Face.ym` to accepted-prefix/Bellman
+  evaluation.  The exact closed-language graph audit already shows that those
+  fields are too weak.
+- The next production theorem must be a compact semantic provider for
+  `TerminalDirectClosedFamily rank`, or an equivalent strengthened
+  `TopPairingStrengthenedClosedLanguageAtRank` predicate, over the intended
+  top-pairing residual family.
+- The checked consumer already exists:
+
+```lean
+theorem nonIdentityRankKilled_of_terminalDirectClosedFamily
+    {rank : Fin numPairWords}
+    (h : TerminalDirectClosedFamily rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+- The next generated/provider step must supply the strengthened semantic
+  fields.  It must not introduce sampled rank/path objects, exact affine-RHS
+  keys, broad Boolean reduction, or another Bellman potential experiment.
+- If this strengthened semantic provider cannot be proved compactly, the
+  Bellman route should pivot to a cancellation-tree summary automaton whose
+  state explicitly includes the missing terminal/evaluator progress.

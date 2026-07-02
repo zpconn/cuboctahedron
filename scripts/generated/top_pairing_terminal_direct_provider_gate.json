@@ -1,0 +1,69 @@
+{
+  "accepted_trace_classifier": {
+    "accepted_trace_count": 37,
+    "proof_shape": "TerminalOkTraceLabels plus actual-face omnihedrality and sequence/bad-face compatibility implies GraphAcceptedTraceLabels",
+    "rejected_trace_count": 10,
+    "sampled_rank_or_path_data": false
+  },
+  "closed_language": {
+    "accepted": 37,
+    "closed_candidates": 47,
+    "decision": "closed-components-too-weak",
+    "prefix_graph_rejects": 197,
+    "rejected": 10
+  },
+  "decision": "continue-strengthened-terminal-provider",
+  "forbidden_hit_count": 0,
+  "forbidden_hits": [],
+  "guarded_checks": {
+    "selected_prefix_cover_to_accepted_eval": {
+      "elapsed_seconds": 6.015521445006016,
+      "exit_code": 0,
+      "hard_address_space_mib": 12288.0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 4001.3828125,
+      "min_available_seen_mib": 46202.99609375,
+      "path": "scripts/generated/top_pairing_selected_prefix_cover_accepted_prefix_eval_bridge_direct_guard.json"
+    },
+    "terminal_direct_sequence_socket": {
+      "elapsed_seconds": 2.002223881005193,
+      "exit_code": 0,
+      "hard_address_space_mib": 12288.0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3688.1875,
+      "min_available_seen_mib": 46312.82421875,
+      "path": "scripts/generated/top_pairing_terminal_direct_sequence_socket_guard.json"
+    },
+    "terminal_producer_coverage_bridge": {
+      "elapsed_seconds": 2.0122658479958773,
+      "exit_code": 0,
+      "hard_address_space_mib": 12288.0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3696.015625,
+      "min_available_seen_mib": 46315.078125,
+      "path": "scripts/generated/top_pairing_terminal_producer_coverage_bridge_guard.json"
+    },
+    "terminal_producer_root": {
+      "elapsed_seconds": 2.0019567160052247,
+      "exit_code": 0,
+      "hard_address_space_mib": 12288.0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3683.50390625,
+      "min_available_seen_mib": 46305.953125,
+      "path": "scripts/generated/top_pairing_terminal_producer_root_smoke_guard.json"
+    }
+  },
+  "lean_files": [
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerCoverageBridge.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerRootSmoke.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixAcceptedPrefixEvalBridge.lean"
+  ],
+  "next_required_theorem": "semantic provider for TerminalDirectClosedFamily rank over the intended top-pairing residual family",
+  "selected_prefix_cover": {
+    "accepted_trace_count": 37,
+    "bucket_count": 31,
+    "group_count": 7,
+    "root_lean_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/All.lean"
+  }
+}
