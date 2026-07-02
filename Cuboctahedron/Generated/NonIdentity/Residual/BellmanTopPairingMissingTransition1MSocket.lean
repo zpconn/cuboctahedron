@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke.Base
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTransducerFaceEval1MSmoke
 
 /-!
 Lean socket for the sole missing transition in the aligned 1M Bellman graph.
@@ -17,6 +18,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingMissingT
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke.Base
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTransducerFaceEval1MSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Accepted
 
 def missingState19TmmpPrefix : List Face :=
@@ -33,6 +35,40 @@ theorem missingState19TmmpCompletion_eq_rejectedGraphTrace004 :
 theorem graph_state19_tmmp_missing :
     graphSmokeNext (19 : State) (smokeLabelOfFace Face.tmmp) = none := by
   rfl
+
+def missingState19TmmpPrefixEval : FaceEvalState × Int :=
+  match
+      evalLabelStepFn faceEvalNext
+        (TopPairingTransducerEvalState.start rootState)
+        missingState19TmmpPrefix with
+  | some result => result
+  | none => (TopPairingTransducerEvalState.start rootState, 0)
+
+theorem missingState19TmmpPrefix_eval_eq :
+    evalLabelStepFn faceEvalNext
+      (TopPairingTransducerEvalState.start rootState)
+      missingState19TmmpPrefix =
+        some missingState19TmmpPrefixEval := by
+  rfl
+
+theorem missingState19TmmpPrefix_eval_graph :
+    missingState19TmmpPrefixEval.1.graph = (19 : State) := by
+  rfl
+
+theorem missingState19TmmpPrefix_eval_gain :
+    missingState19TmmpPrefixEval.2 = (-130 : Int) := by
+  rfl
+
+theorem missingState19TmmpPrefix_eval_exists_graph :
+    ∃ state gain,
+      evalLabelStepFn faceEvalNext
+        (TopPairingTransducerEvalState.start rootState)
+        missingState19TmmpPrefix = some (state, gain) ∧
+        state.graph = (19 : State) := by
+  refine ⟨missingState19TmmpPrefixEval.1,
+    missingState19TmmpPrefixEval.2, ?_, ?_⟩
+  · simpa using missingState19TmmpPrefix_eval_eq
+  · exact missingState19TmmpPrefix_eval_graph
 
 theorem missingState19TmmpCompletion_rejectedBadFace :
     GraphRejectedBadFaceTraceLabels missingState19TmmpCompletion := by

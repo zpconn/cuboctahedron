@@ -79310,3 +79310,83 @@ The no-go rule is unchanged: if that theorem needs accepted-prefix,
 selected-prefix, sampled-rank, exact-affine-RHS, or full Bellman-path cases,
 stop and strengthen the semantic state rather than scaling the selected-prefix
 producer.
+
+## 2026-07-02 Checkpoint: Missing Prefix Reaches Graph State 19
+
+The missing-transition socket was sharpened with a Lean-side evaluator anchor.
+The module now imports the aligned 1M face evaluator and proves that the
+ten-face prefix identified by the closure audit reaches graph state `19` with
+gain `-130`:
+
+```lean
+missingState19TmmpPrefixEval
+
+missingState19TmmpPrefix_eval_eq
+
+missingState19TmmpPrefix_eval_graph :
+  missingState19TmmpPrefixEval.1.graph = (19 : State)
+
+missingState19TmmpPrefix_eval_gain :
+  missingState19TmmpPrefixEval.2 = (-130 : Int)
+
+missingState19TmmpPrefix_eval_exists_graph
+```
+
+This is still not the full local-progress theorem.  It proves the Lean
+evaluator agrees with the external diagnostic on the missing prefix, while the
+next generated lemma still needs to show that a semantic tail at this state
+with head `tmmp` has only the rejected completion suffix.
+
+An attempted broad `simp` proof of that suffix uniqueness was rejected: it
+stayed inside the dependent `TopPairingTransducerTail` predicate rather than
+reducing to the suffix equality.  Do not revive that broad proof.  The next
+attempt should be a small generated theorem over the explicit state fields, or
+a dedicated tail-destructor lemma, not a large simplifier call.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_missing_transition_1m_socket_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_missing_transition_1m_socket_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingMissingTransition1MSocket
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingMissingTransition1MSocket.lean` direct | pass | `3.00s` | `3942 MiB` |
+| `BellmanTopPairingMissingTransition1MSocket` Lake | pass | `4.00s` | `4090 MiB` |
+| forbidden-token scan on new module | pass | n/a | n/a |
+
+Next step:
+
+Generate or hand-prove the tiny tail uniqueness lemma for the explicit semantic
+state represented by `missingState19TmmpPrefixEval.1`:
+
+```lean
+missingState19TmmpPrefixEval.1.Tail (Face.tmmp :: rest) ->
+  rest = [Face.tmpp, Face.yp, Face.xp]
+```
+
+Then combine it with `strengthened_not_missingState19TmmpCompletion` to rule
+out the sole missing transition as a local-progress case for strengthened
+closed ranks.
