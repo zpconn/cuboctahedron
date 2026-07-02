@@ -59036,3 +59036,97 @@ TopPairingClosedLanguageAtRank rank Face.ym ->
 5. If this DAG classifier collapses back into sampled rank/path objects, stop
    the current Bellman production route and strengthen the semantic object
    instead of emitting more sampled evidence.
+
+Semantic terminal-classifier smoke checkpoint:
+
+- Ran the exact prefix-depth profiler to size a full closed-trace classifier:
+
+```bash
+python3 scripts/profile_top_pairing_trace_prefix_depths.py \
+  --max-depth 14 \
+  --json scripts/generated/top_pairing_trace_prefix_depths_semantic_gate.json \
+  --markdown scripts/generated/top_pairing_trace_prefix_depths_semantic_gate.md
+```
+
+- Result:
+
+```text
+peak prefix count = 3186 at depth 10
+depth 14 prefix count = 442
+estimated depth-14 shards:
+  shard size 64  -> 7
+  shard size 128 -> 4
+  shard size 256 -> 2
+```
+
+Interpretation: a full terminal trace classifier is not a rank-sized object.
+However, the 442 depth-14 traces include cancellation rejects; the production
+classifier must use `TopPairingClosedLanguageAtRank.cancellationLabels` to
+collapse these to the two accepted traces.
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/TerminalSmoke.lean`.
+- This module verifies the terminal rejection proof shape on one concrete
+  rejected full trace:
+
+```lean
+theorem rejectedTrace0_absurd
+    {rank : Fin numPairWords} {badFace : Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace)
+    (hlabels :
+      faceLabelsInContributionOrder (fun f : Face => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        rejectedTrace0) :
+    False
+```
+
+- It also verifies that accepted terminal traces directly yield the local
+  `ClosedTraceOr` disjunction used by the Bellman eval gate.
+- It imports only `Cuboctahedron.Search.TopPairingBellmanObject`, not the
+  generated eval gate, so it can be checked by direct Lean without requiring a
+  fresh broad Lake build of the gate module.
+- Source audit:
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TerminalSmoke.lean
+```
+
+returns no hits.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 180 \
+  --json scripts/generated/top_pairing_trace_terminal_smoke_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TerminalSmoke.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 6.00s
+peak_tree_rss = 3483 MiB
+hard_as = 8192 MiB
+```
+
+Decision: accept terminal cancellation rejection as a Lean-checkable local
+proof shape for the top-pairing trace classifier.  The next generated slice
+should combine:
+
+1. bounded depth-prefix shards;
+2. terminal cancellation-reject shards for the non-closed full traces; and
+3. the two accepted trace branches feeding `ClosedTraceOr`.
+
+This remains a semantic classifier route.  It still must be emitted and checked
+in bounded shards before it can discharge the production `ClosedTraceOr`
+premise for every `TopPairingBellmanObj Face.ym`.
