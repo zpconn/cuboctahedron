@@ -38,6 +38,31 @@ structure TriCancellationState where
   cancellationsRev : List TriCancellationPair
 deriving DecidableEq, Repr
 
+theorem List.getElem?_append_singleton_of_some
+    {α : Type} {xs : List α} {i : Nat} {x a : α}
+    (h : xs[i]? = some x) :
+    (xs ++ [a])[i]? = some x := by
+  induction xs generalizing i with
+  | nil =>
+      cases i <;> simp at h
+  | cons y ys ih =>
+      cases i with
+      | zero =>
+          simp at h ⊢
+          exact h
+      | succ i =>
+          simp at h ⊢
+          exact ih h
+
+theorem List.getElem?_append_singleton_length
+    {α : Type} (xs : List α) (a : α) :
+    (xs ++ [a])[xs.length]? = some a := by
+  induction xs with
+  | nil =>
+      rfl
+  | cons x xs ih =>
+      exact ih
+
 namespace TriCancellationState
 
 def initial : TriCancellationState where
@@ -47,6 +72,14 @@ def initial : TriCancellationState where
 
 def sizeInvariant (state : TriCancellationState) : Prop :=
   state.stack.length + 2 * state.cancellationsRev.length = state.shadowLen
+
+def indexSound (shadow : List TriLetter) (state : TriCancellationState) : Prop :=
+  (∀ item : TriLetter × Nat,
+      item ∈ state.stack -> shadow[item.2]? = some item.1) /\
+    (∀ pair : TriCancellationPair,
+      pair ∈ state.cancellationsRev ->
+        shadow[pair.left]? = some pair.tri /\
+          shadow[pair.right]? = some pair.tri)
 
 def push (state : TriCancellationState) (tri : TriLetter) :
     TriCancellationState :=
@@ -76,6 +109,9 @@ def summary (state : TriCancellationState) : TriCancellationSummary where
 
 theorem initial_sizeInvariant : sizeInvariant initial := by
   rfl
+
+theorem initial_indexSound : indexSound [] initial := by
+  constructor <;> intro item hmem <;> cases hmem
 
 theorem push_shadowLen (state : TriCancellationState) (tri : TriLetter) :
     (push state tri).shadowLen = state.shadowLen + 1 := by
@@ -109,6 +145,73 @@ theorem push_sizeInvariant
                 omega
               · simp [h] at hstate ⊢
                 omega
+
+theorem push_indexSound
+    {shadow : List TriLetter} {state : TriCancellationState} {tri : TriLetter}
+    (hsound : indexSound shadow state)
+    (hlen : state.shadowLen = shadow.length) :
+    indexSound (shadow ++ [tri]) (push state tri) := by
+  unfold indexSound at hsound ⊢
+  rcases hsound with ⟨hstack, hcancel⟩
+  unfold push
+  cases state with
+  | mk shadowLen stack cancellationsRev =>
+      have hlen' : shadowLen = shadow.length := by
+        simpa using hlen
+      cases stack with
+      | nil =>
+          constructor
+          · intro item hmem
+            simp at hmem
+            rcases hmem with ⟨rfl, rfl⟩
+            rw [hlen']
+            exact List.getElem?_append_singleton_length shadow tri
+          · intro pair hmem
+            rcases hcancel pair hmem with ⟨hleft, hright⟩
+            exact ⟨
+              List.getElem?_append_singleton_of_some hleft,
+              List.getElem?_append_singleton_of_some hright⟩
+      | cons head rest =>
+          cases head with
+          | mk top topIdx =>
+              by_cases htri : tri = top
+              · constructor
+                · intro item hmem
+                  simp [htri] at hmem
+                  exact List.getElem?_append_singleton_of_some
+                    (hstack item (by simp [hmem]))
+                · intro pair hmem
+                  simp [htri] at hmem
+                  rcases hmem with hhead | htail
+                  · cases hhead
+                    constructor
+                    · exact List.getElem?_append_singleton_of_some
+                        (hstack (top, topIdx) (by simp))
+                    · rw [hlen', htri]
+                      exact List.getElem?_append_singleton_length shadow top
+                  · rcases hcancel pair (by simpa using htail) with
+                      ⟨hleft, hright⟩
+                    exact ⟨
+                      List.getElem?_append_singleton_of_some hleft,
+                      List.getElem?_append_singleton_of_some hright⟩
+              · constructor
+                · intro item hmem
+                  simp [htri] at hmem
+                  rcases hmem with hnew | htop | hrest
+                  · cases hnew
+                    rw [hlen']
+                    exact List.getElem?_append_singleton_length shadow tri
+                  · cases htop
+                    exact List.getElem?_append_singleton_of_some
+                      (hstack (top, topIdx) (by simp))
+                  · exact List.getElem?_append_singleton_of_some
+                      (hstack item (by simp [hrest]))
+                · intro pair hmem
+                  simp [htri] at hmem
+                  rcases hcancel pair hmem with ⟨hleft, hright⟩
+                  exact ⟨
+                    List.getElem?_append_singleton_of_some hleft,
+                    List.getElem?_append_singleton_of_some hright⟩
 
 end TriCancellationState
 
@@ -155,6 +258,41 @@ theorem triangularCancellationStateOfShadow_sizeInvariant
   exact foldl_push_sizeInvariant shadow
     TriCancellationState.initial_sizeInvariant
 
+theorem foldl_push_indexSound
+    (rest pfx : List TriLetter) {state : TriCancellationState}
+    (hsound : TriCancellationState.indexSound pfx state)
+    (hlen : state.shadowLen = pfx.length) :
+    TriCancellationState.indexSound (pfx ++ rest)
+      (rest.foldl TriCancellationState.push state) := by
+  induction rest generalizing pfx state with
+  | nil =>
+      simpa using hsound
+  | cons tri rest ih =>
+      simp [List.foldl_cons]
+      have hsound' :
+          TriCancellationState.indexSound (pfx ++ [tri])
+            (TriCancellationState.push state tri) :=
+        TriCancellationState.push_indexSound hsound hlen
+      have hlen' :
+          (TriCancellationState.push state tri).shadowLen =
+            (pfx ++ [tri]).length := by
+        rw [TriCancellationState.push_shadowLen, hlen]
+        simp
+      simpa [List.append_assoc] using
+        ih (pfx := pfx ++ [tri])
+          (state := TriCancellationState.push state tri)
+          hsound' hlen'
+
+theorem triangularCancellationStateOfShadow_indexSound
+    (shadow : List TriLetter) :
+    TriCancellationState.indexSound shadow
+      (triangularCancellationStateOfShadow shadow) := by
+  unfold triangularCancellationStateOfShadow
+  simpa using
+    foldl_push_indexSound shadow []
+      TriCancellationState.initial_indexSound
+      (by rfl)
+
 def triangularCancellationSummaryOfShadow (shadow : List TriLetter) :
     TriCancellationSummary :=
   (triangularCancellationStateOfShadow shadow).summary
@@ -171,6 +309,55 @@ theorem triangularCancellationSummaryOfShadow_count
   unfold TriCancellationState.sizeInvariant at hinv
   simp [List.length_reverse, hlen] at hinv ⊢
   omega
+
+theorem triangularCancellationSummaryOfShadow_survivor_sound
+    {shadow : List TriLetter} {survivor : TriSurvivor}
+    (hmem :
+      survivor ∈ (triangularCancellationSummaryOfShadow shadow).survivors) :
+    shadow[survivor.index]? = some survivor.tri := by
+  have hsound := triangularCancellationStateOfShadow_indexSound shadow
+  unfold TriCancellationState.indexSound at hsound
+  rcases hsound with ⟨hstack, _hcancel⟩
+  unfold triangularCancellationSummaryOfShadow at hmem
+  unfold TriCancellationState.summary at hmem
+  rcases List.mem_map.mp hmem with ⟨item, hitem, hsurvivor⟩
+  have hitem' : item ∈ (triangularCancellationStateOfShadow shadow).stack := by
+    simpa using List.mem_reverse.mp hitem
+  have hlookup := hstack item hitem'
+  cases item with
+  | mk tri index =>
+      cases hsurvivor
+      exact hlookup
+
+theorem triangularCancellationSummaryOfShadow_cancellation_left_sound
+    {shadow : List TriLetter} {pair : TriCancellationPair}
+    (hmem :
+      pair ∈ (triangularCancellationSummaryOfShadow shadow).cancellations) :
+    shadow[pair.left]? = some pair.tri := by
+  have hsound := triangularCancellationStateOfShadow_indexSound shadow
+  unfold TriCancellationState.indexSound at hsound
+  rcases hsound with ⟨_hstack, hcancel⟩
+  unfold triangularCancellationSummaryOfShadow at hmem
+  unfold TriCancellationState.summary at hmem
+  have hmem' : pair ∈
+      (triangularCancellationStateOfShadow shadow).cancellationsRev := by
+    simpa using List.mem_reverse.mp hmem
+  exact (hcancel pair hmem').1
+
+theorem triangularCancellationSummaryOfShadow_cancellation_right_sound
+    {shadow : List TriLetter} {pair : TriCancellationPair}
+    (hmem :
+      pair ∈ (triangularCancellationSummaryOfShadow shadow).cancellations) :
+    shadow[pair.right]? = some pair.tri := by
+  have hsound := triangularCancellationStateOfShadow_indexSound shadow
+  unfold TriCancellationState.indexSound at hsound
+  rcases hsound with ⟨_hstack, hcancel⟩
+  unfold triangularCancellationSummaryOfShadow at hmem
+  unfold TriCancellationState.summary at hmem
+  have hmem' : pair ∈
+      (triangularCancellationStateOfShadow shadow).cancellationsRev := by
+    simpa using List.mem_reverse.mp hmem
+  exact (hcancel pair hmem').2
 
 def triangularCancellationSummaryOfPairWord (w : PairWord) :
     TriCancellationSummary :=

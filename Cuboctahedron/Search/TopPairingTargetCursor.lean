@@ -33,6 +33,111 @@ theorem topPairingTargetShadow_length_of_summary
     simpa [topPairingTargetSummary] using hcount
   simpa [topPairingTargetShadow] using hlen.symm
 
+/--
+The dominant top-pairing cancellation summary is rigid: any triangular shadow
+with that summary is exactly the eight-letter target shadow.  This is the
+specialized semantic inverse needed by the deterministic Bellman cursor route.
+-/
+theorem topPairingTargetShadow_of_summary
+    {shadow : List TriLetter}
+    (hsummary :
+      triangularCancellationSummaryOfShadow shadow =
+        topPairingTargetSummary) :
+    shadow = topPairingTargetShadow := by
+  have hlen := topPairingTargetShadow_length_of_summary hsummary
+  have h0 : shadow[0]? = some TriLetter.dm11 := by
+    exact triangularCancellationSummaryOfShadow_survivor_sound
+      (shadow := shadow) (survivor := { index := 0, tri := TriLetter.dm11 }) (by
+    rw [hsummary]
+    simp [topPairingTargetSummary])
+  have h1 : shadow[1]? = some TriLetter.d111 := by
+    exact triangularCancellationSummaryOfShadow_survivor_sound
+      (shadow := shadow) (survivor := { index := 1, tri := TriLetter.d111 }) (by
+    rw [hsummary]
+    simp [topPairingTargetSummary])
+  have h2 : shadow[2]? = some TriLetter.d1m1 := by
+    exact triangularCancellationSummaryOfShadow_survivor_sound
+      (shadow := shadow) (survivor := { index := 2, tri := TriLetter.d1m1 }) (by
+    rw [hsummary]
+    simp [topPairingTargetSummary])
+  have h3 : shadow[3]? = some TriLetter.d11m := by
+    exact triangularCancellationSummaryOfShadow_cancellation_left_sound
+      (shadow := shadow)
+      (pair := { left := 3, right := 4, tri := TriLetter.d11m }) (by
+    rw [hsummary]
+    simp [topPairingTargetSummary])
+  have h4 : shadow[4]? = some TriLetter.d11m := by
+    exact triangularCancellationSummaryOfShadow_cancellation_right_sound
+      (shadow := shadow)
+      (pair := { left := 3, right := 4, tri := TriLetter.d11m }) (by
+    rw [hsummary]
+    simp [topPairingTargetSummary])
+  have h5 : shadow[5]? = some TriLetter.dm11 := by
+    exact triangularCancellationSummaryOfShadow_survivor_sound
+      (shadow := shadow) (survivor := { index := 5, tri := TriLetter.dm11 }) (by
+    rw [hsummary]
+    simp [topPairingTargetSummary])
+  have h6 : shadow[6]? = some TriLetter.d111 := by
+    exact triangularCancellationSummaryOfShadow_survivor_sound
+      (shadow := shadow) (survivor := { index := 6, tri := TriLetter.d111 }) (by
+    rw [hsummary]
+    simp [topPairingTargetSummary])
+  have h7 : shadow[7]? = some TriLetter.d1m1 := by
+    exact triangularCancellationSummaryOfShadow_survivor_sound
+      (shadow := shadow) (survivor := { index := 7, tri := TriLetter.d1m1 }) (by
+    rw [hsummary]
+    simp [topPairingTargetSummary])
+  apply List.ext_getElem?
+  intro i
+  cases i with
+  | zero =>
+      simpa [topPairingTargetShadow] using h0
+  | succ i =>
+      cases i with
+      | zero =>
+          simpa [topPairingTargetShadow] using h1
+      | succ i =>
+          cases i with
+          | zero =>
+              simpa [topPairingTargetShadow] using h2
+          | succ i =>
+              cases i with
+              | zero =>
+                  simpa [topPairingTargetShadow] using h3
+              | succ i =>
+                  cases i with
+                  | zero =>
+                      simpa [topPairingTargetShadow] using h4
+                  | succ i =>
+                      cases i with
+                      | zero =>
+                          simpa [topPairingTargetShadow] using h5
+                      | succ i =>
+                          cases i with
+                          | zero =>
+                              simpa [topPairingTargetShadow] using h6
+                          | succ i =>
+                              cases i with
+                              | zero =>
+                                  simpa [topPairingTargetShadow] using h7
+                              | succ i =>
+                                  simp [topPairingTargetShadow, hlen]
+
+theorem topPairingTriShadow_eq_target
+    {rank : Fin numPairWords}
+    (h : TopPairingLanguageAtRank rank) :
+    triangularShadowOfPairWord (unrankPairWord rank) =
+      topPairingTargetShadow := by
+  apply topPairingTargetShadow_of_summary
+  simpa [TopPairingLanguageAtRank, triangularCancellationSummaryOfPairWord] using h
+
+theorem topPairingTriShadow_eq_target_of_closed
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    triangularShadowOfPairWord (unrankPairWord rank) =
+      topPairingTargetShadow :=
+  topPairingTriShadow_eq_target h.cancellation
+
 def triLetterOfFace? (face : Face) : Option TriLetter :=
   TriLetter.ofPairId? (pairOfFace face)
 

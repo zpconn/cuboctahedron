@@ -77367,3 +77367,103 @@ theorem topPairingTargetShadow_of_summary
         topPairingTargetSummary) :
     shadow = topPairingTargetShadow
 ```
+
+## 2026-07-02 Checkpoint: Target Summary Inversion Accepted
+
+Completed the next semantic-cursor slice.  `CancellationPairingLanguage.lean`
+now carries an index-soundness invariant for the cancellation stack:
+
+```lean
+def TriCancellationState.indexSound
+theorem TriCancellationState.push_indexSound
+theorem triangularCancellationStateOfShadow_indexSound
+theorem triangularCancellationSummaryOfShadow_survivor_sound
+theorem triangularCancellationSummaryOfShadow_cancellation_left_sound
+theorem triangularCancellationSummaryOfShadow_cancellation_right_sound
+```
+
+These theorems prove that every survivor and cancellation pair reported by a
+summary refers back to the corresponding indexed triangular letter in the
+original shadow.  They are structural stack invariants, not finite enumeration
+over shadows or ranks.
+
+`TopPairingTargetCursor.lean` now proves the specialized inverse and rank-level
+corollaries:
+
+```lean
+theorem topPairingTargetShadow_of_summary
+    {shadow : List TriLetter}
+    (hsummary :
+      triangularCancellationSummaryOfShadow shadow =
+        topPairingTargetSummary) :
+    shadow = topPairingTargetShadow
+
+theorem topPairingTriShadow_eq_target
+    {rank : Fin numPairWords}
+    (h : TopPairingLanguageAtRank rank) :
+    triangularShadowOfPairWord (unrankPairWord rank) =
+      topPairingTargetShadow
+
+theorem topPairingTriShadow_eq_target_of_closed
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    triangularShadowOfPairWord (unrankPairWord rank) =
+      topPairingTargetShadow
+```
+
+This closes the target-shadow part of the latest GPT5.5 transducer pivot:
+closed top-pairing membership gives a fixed triangular shadow cursor target,
+without sampled ranks, selected-prefix traces, exact affine RHS keys, or a
+`4^8` case split.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/cancellation_pairing_language_index_sound_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/CancellationPairingLanguage.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/cancellation_pairing_language_index_sound_lake_guard_no_as.json \
+  -- lake build Cuboctahedron.Search.CancellationPairingLanguage
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_target_cursor_rank_shadow_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_target_cursor_rank_shadow_lake_guard_no_as.json \
+  -- lake build Cuboctahedron.Search.TopPairingTargetCursor
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `CancellationPairingLanguage.lean` direct | pass | `3.00s` | `3541 MiB` | hard AS `12288 MiB` |
+| `Cuboctahedron.Search.CancellationPairingLanguage` Lake | pass | `3.00s` | `3703 MiB` | RSS guard, no hard AS |
+| `TopPairingTargetCursor.lean` direct | pass | `3.01s` | `3937 MiB` | hard AS `12288 MiB` |
+| `Cuboctahedron.Search.TopPairingTargetCursor` Lake | pass | `3.00s` | `4030 MiB` | RSS guard, no hard AS |
+
+Next Lean slice: prove `TopPairingTriCursorFrom 0 SqParity.id
+(topPairingRankFaceLabels rank)` from
+`TopPairingClosedLanguageAtRank rank badFace`.  The proof should use the fixed
+target-shadow theorem above plus the existing schedule/square-gap/local-axis
+fields, and it must remain a deterministic semantic cursor proof rather than a
+selected-prefix or sampled-rank cover.
