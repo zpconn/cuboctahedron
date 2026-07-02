@@ -76946,3 +76946,230 @@ peak_tree_rss=3868 MiB
 hard_as=12288 MiB
 min_available=45975 MiB
 ```
+
+## 2026-07-02 Strategy Pivot: Deterministic Closed-Language Transducer
+
+The latest GPT5.5 review changes the Bellman production target again, in a
+sharper and healthier direction:
+
+```text
+keep Bellman;
+reject selected-prefix/root-trace membership as the production membership proof;
+prove a deterministic semantic state machine from the closed
+holonomy/cancellation language to evalLabelStepFn.
+```
+
+This is not a rejection of the Bellman potential.  The existing measurements
+still support the Bellman graph shape: the `with-step-tri-source` graph killed
+the spurious positive path while staying small, and checked graph smokes are
+plausible under memory guard.  The rejected part is using selected-prefix or
+root-trace producer membership as the public production route.  That route
+keeps pushing Lean toward observed-prefix/rank/path evidence and has already
+shown import/build pressure.
+
+New diagnostic:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_transducer_pivot.py
+python3 scripts/audit_top_pairing_transducer_pivot.py
+```
+
+Result:
+
+```text
+decision=pivot-to-deterministic-closed-language-transducer
+```
+
+The audit recorded:
+
+- target-shadow surface mentions: `19`;
+- closed-language field mentions: `135`;
+- eval-core mentions: `41`;
+- semantic eval-gate mentions: `112`;
+- selected-prefix production-risk mentions: `12`;
+- forbidden sampled-surface mentions: `0`.
+
+Additional guard evidence from the abandoned frontier:
+
+```text
+BellmanTopPairingProductionFrontier.lean direct check:
+  exit=1, elapsed=1.01s, peak RSS=0 MiB
+
+RootTraceMarginSelectedPrefixBridge Lake build with RLIMIT_AS=12288 MiB:
+  exit=-6, elapsed=33.05s, peak RSS=777 MiB
+  failure mode: Lean/Lake failed to create a thread under the address-space cap
+
+RootTraceMarginSelectedPrefixBridge Lake build without RLIMIT_AS:
+  exit=-15, elapsed=7.02s, peak RSS=10334 MiB
+  killed_reason=process-tree RSS 10334 MiB exceeded 7000 MiB cap
+```
+
+Decision: do not make production coverage hinge on importing or scaling the
+selected-prefix/root-trace bridge.  Keep those modules as diagnostic/downstream
+comparison artifacts only.  The unverified
+`BellmanTopPairingProductionFrontier.lean` experiment was removed rather than
+kept as a misleading path-forward module.
+
+### New Top-Pairing Bellman Target
+
+The next proof object is a target-shadow / tri-source cursor feeding a
+deterministic evaluator theorem.  The first Lean module should be small and
+hand-written:
+
+```text
+Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+Target theorem surface:
+
+```lean
+theorem topPairingTargetShadow_of_summary
+    {shadow : List TriLetter}
+    (h :
+      triangularCancellationSummaryOfShadow shadow =
+        topPairingTargetSummary) :
+    shadow = topPairingTargetShadow
+
+theorem topPairingTriShadow_eq_target
+    {rank : Fin numPairWords}
+    (h : TopPairingLanguageAtRank rank) :
+    triangularShadowOfPairWord (unrankPairWord rank) =
+      topPairingTargetShadow
+```
+
+Then define a semantic cursor over face labels:
+
+```lean
+inductive TopPairingTriCursorFrom :
+    Nat -> SquareParity -> List Face -> Prop
+```
+
+and prove:
+
+```lean
+theorem topPairingTriCursor_of_closed
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    TopPairingTriCursorFrom 0 initSquareParity
+      (topPairingRankFaceLabels rank)
+```
+
+The second small hand-written module should package the evaluator rule:
+
+```text
+Cuboctahedron/Search/TopPairingBellmanEvalBridge.lean
+```
+
+Target theorem surface:
+
+```lean
+theorem topPairingClosed_to_eval_gate
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    ∃ result : GraphState × Int,
+      evalLabelStepFn graphNext rootState
+        (topPairingBellmanLabelsAtRank rank) = some result ∧
+      0 <= graphPotential result.1 ∧
+      scaledMargin rank <= (176 : Int) + result.2
+
+theorem topPairingClosed_scaledMargin_nonpos
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0
+```
+
+The proof must be local in the semantic state:
+
+- step index;
+- target triangular cursor;
+- square gap;
+- square parity;
+- pair counts;
+- local linear/axis class;
+- tri-source progress;
+- canonical bad-face class;
+- Bellman graph state.
+
+Generated states may use reachable constructors and cheap projections if the
+full product type is too large, but the proof may not case split on whole
+prefixes, ranks, or sampled paths.
+
+### Segment Algebra Route
+
+If direct cursor induction is too large, the next abstraction is a
+cancellation-tree / segment summary algebra, not prefix buckets.  The already
+checked `BellmanLabelStepRun.append` theorem is the right composition tool.
+
+Target reusable concept:
+
+```lean
+structure CertifiedBellmanSegment
+    (Step : State -> Label -> State -> Int -> Prop)
+    (s t : State)
+    (labels : List Label)
+    (gain : Int) : Prop where
+  run :
+    BellmanLabelStepRun Step s t labels gain
+  potential_bound :
+    gain + graphPotential t <= graphPotential s
+```
+
+Production evidence should be per semantic segment kind:
+
+- square-gap segment;
+- target triangular slot;
+- cancellation-pair segment;
+- tail segment.
+
+It must not be an observed-prefix trie unless the trie is only a smoke test.
+
+### Cocycle Quotient Gate
+
+If the margin gain still requires too much state, run a cocycle/coboundary
+quotient profiler before adding exact affine data:
+
+```text
+rawGain(fullState, label, fullState')
+  =
+smallGain(q fullState, label, q fullState')
+  + gauge(fullState') - gauge(fullState)
+```
+
+Acceptance gate:
+
+- exact integer solution exists;
+- quotient no larger than the tri-source graph;
+- bit length <= `256`;
+- representative Lean smoke <= `10s` and <= `4.5 GiB`;
+- no exact affine RHS, solved start point, or total affine offset in the state
+  key.
+
+### Translation Reminder
+
+Translation remains:
+
+```text
+GoodDirection
+  -> source-indexed row templates
+  -> 2D Helly / support <= 3 oriented-circuit Farkas
+  -> symbolic denominator/signature families only if needed
+```
+
+Walsh certificates are allowed only as sign-certifying subroutines.  They are
+not the outer proof coordinate.
+
+### New No-Go Rules
+
+Reject the next Bellman production attempt if it introduces any of:
+
+- sampled rank/path objects;
+- one constructor per rank/path;
+- exact affine RHS or solved-start-point keys;
+- selected-prefix/root-trace bridge import as the production membership proof;
+- large OR-prefix/rank routing;
+- broad generated Lean builds without both hard address-space and RSS guards.
+
+If the deterministic closed-language transducer theorem cannot be proved
+without those shapes, Bellman should be demoted to discovery infrastructure for
+this top-pairing family and replaced by the cancellation-tree/state-summary
+automaton.

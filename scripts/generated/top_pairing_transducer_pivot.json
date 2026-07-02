@@ -1,0 +1,1797 @@
+{
+  "decision": "pivot-to-deterministic-closed-language-transducer",
+  "files": {
+    "bellman_object": {
+      "closed_language_fields": [
+        {
+          "line": 18,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "fun rank => TopPairingClosedLanguageAtRank rank badFace"
+        },
+        {
+          "line": 33,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "closed : TopPairingClosedLanguageAtRank rank badFace"
+        },
+        {
+          "line": 67,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "TopPairingClosedLanguageForSeq obj.rank (forcedSeq obj) badFace :="
+        },
+        {
+          "line": 68,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed"
+        },
+        {
+          "line": 254,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "closed : TopPairingClosedLanguageAtRank rank badFace"
+        },
+        {
+          "line": 349,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank obj.rank badFace :="
+        },
+        {
+          "line": 466,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank badFace ->"
+        }
+      ],
+      "eval_core": [
+        {
+          "line": 108,
+          "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
+          "text": "bellmanLabelStepRunLanguageBound_of_evalAccepts"
+        },
+        {
+          "line": 437,
+          "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
+          "text": "(bellmanLabelStepRunLanguageBound_of_evalAccepts"
+        },
+        {
+          "line": 491,
+          "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
+          "text": "(bellmanLabelStepRunLanguageBound_of_evalAccepts"
+        },
+        {
+          "line": 548,
+          "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
+          "text": "(bellmanLabelStepRunLanguageBound_of_evalAccepts"
+        }
+      ],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 564,
+      "path": "Cuboctahedron/Search/TopPairingBellmanObject.lean",
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [
+        {
+          "line": 31,
+          "pattern": "TopPairingBellmanObj",
+          "text": "structure TopPairingBellmanObj (badFace : Face) where"
+        },
+        {
+          "line": 35,
+          "pattern": "TopPairingBellmanObj",
+          "text": "namespace TopPairingBellmanObj"
+        },
+        {
+          "line": 37,
+          "pattern": "TopPairingBellmanObj",
+          "text": "def rankOf {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 41,
+          "pattern": "TopPairingBellmanObj",
+          "text": "def Accepts {badFace : Face} (_obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 45,
+          "pattern": "TopPairingBellmanObj",
+          "text": "theorem accepts {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 49,
+          "pattern": "TopPairingBellmanObj",
+          "text": "def forcedSeq {badFace : Face} (obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 54,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj badFace) : List Label :="
+        },
+        {
+          "line": 59,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 66,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 72,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(TopPairingBellmanObj badFace)"
+        },
+        {
+          "line": 98,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj badFace,"
+        },
+        {
+          "line": 100,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace =>"
+        },
+        {
+          "line": 105,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)"
+        },
+        {
+          "line": 128,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj badFace,"
+        },
+        {
+          "line": 130,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace =>"
+        },
+        {
+          "line": 138,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(TopPairingBellmanObj badFace)"
+        },
+        {
+          "line": 151,
+          "pattern": "TopPairingBellmanObj",
+          "text": "end TopPairingBellmanObj"
+        },
+        {
+          "line": 155,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(TopPairingBellmanObj badFace)"
+        },
+        {
+          "line": 156,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.rankOf"
+        },
+        {
+          "line": 157,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.Accepts"
+        },
+        {
+          "line": 159,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.closedMembership badFace"
+        },
+        {
+          "line": 164,
+          "pattern": "TopPairingBellmanObj",
+          "text": "exists obj : TopPairingBellmanObj badFace,"
+        },
+        {
+          "line": 165,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.Accepts obj /\\"
+        },
+        {
+          "line": 166,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.rankOf obj = rank :="
+        },
+        {
+          "line": 175,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj badFace) :="
+        },
+        {
+          "line": 178,
+          "pattern": "TopPairingBellmanObj",
+          "text": "theorem TopPairingBellmanObj.labels_id_eq_rankFaceLabels"
+        },
+        {
+          "line": 179,
+          "pattern": "TopPairingBellmanObj",
+          "text": "{badFace : Face} (obj : TopPairingBellmanObj badFace) :"
+        },
+        {
+          "line": 180,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels (fun f : Face => f) obj ="
+        },
+        {
+          "line": 198,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj badFace,"
+        },
+        {
+          "line": 200,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace =>"
+        },
+        {
+          "line": 202,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels labelOfFace obj)"
+        },
+        {
+          "line": 205,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace => scaledMargin obj.rank)"
+        },
+        {
+          "line": 206,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels labelOfFace obj)"
+        },
+        {
+          "line": 207,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.Accepts :="
+        },
+        {
+          "line": 208,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.traceBoundOfEvalAccepts"
+        },
+        {
+          "line": 225,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj badFace,"
+        },
+        {
+          "line": 227,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj badFace =>"
+        },
+        {
+          "line": 229,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels labelOfFace obj)"
+        },
+        {
+          "line": 235,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(TopPairingBellmanObj badFace)"
+        },
+        {
+          "line": 237,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.rankOf"
+        },
+        {
+          "line": 238,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.Accepts"
+        },
+        {
+          "line": 241,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.objectCoverOfEvalAccepts"
+        },
+        {
+          "line": 244,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "structure TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 273,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 276,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "structure TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 287,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 290,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "namespace TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 302,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 317,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 332,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 347,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 362,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 366,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 386,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 421,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 449,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "end TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 467,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 473,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 476,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.rankOf"
+        },
+        {
+          "line": 480,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.Accepts"
+        },
+        {
+          "line": 487,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.forcedSeq"
+        },
+        {
+          "line": 495,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "exact TopPairingBellmanEvalObj.evalAccepts obj))"
+        },
+        {
+          "line": 524,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 530,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 533,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.rankOf"
+        },
+        {
+          "line": 537,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.Accepts"
+        },
+        {
+          "line": 544,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.forcedSeq"
+        },
+        {
+          "line": 552,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "exact TopPairingBellmanEvalObj.evalAccepts obj))"
+        }
+      ],
+      "target_shadow": []
+    },
+    "bellman_potential": {
+      "closed_language_fields": [],
+      "eval_core": [
+        {
+          "line": 155,
+          "pattern": "evalLabelStepFn",
+          "text": "def evalLabelStepFn {State Label : Type}"
+        },
+        {
+          "line": 163,
+          "pattern": "evalLabelStepFn",
+          "text": "match evalLabelStepFn next t labels with"
+        },
+        {
+          "line": 167,
+          "pattern": "evalLabelStepFn",
+          "text": "theorem evalLabelStepFn_append {State Label : Type}"
+        },
+        {
+          "line": 167,
+          "pattern": "evalLabelStepFn_append",
+          "text": "theorem evalLabelStepFn_append {State Label : Type}"
+        },
+        {
+          "line": 172,
+          "pattern": "evalLabelStepFn",
+          "text": "(h\u2081 : evalLabelStepFn next start labels\u2081 = some (mid, gain\u2081))"
+        },
+        {
+          "line": 173,
+          "pattern": "evalLabelStepFn",
+          "text": "(h\u2082 : evalLabelStepFn next mid labels\u2082 = some (finish, gain\u2082)) :"
+        },
+        {
+          "line": 174,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn next start (labels\u2081 ++ labels\u2082) ="
+        },
+        {
+          "line": 178,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn] at h\u2081"
+        },
+        {
+          "line": 182,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn]"
+        },
+        {
+          "line": 183,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn] at h\u2081"
+        },
+        {
+          "line": 191,
+          "pattern": "evalLabelStepFn",
+          "text": "cases htail : evalLabelStepFn next nextState labels with"
+        },
+        {
+          "line": 208,
+          "pattern": "evalLabelStepFn",
+          "text": "theorem bellmanLabelStepRun_of_evalLabelStepFn"
+        },
+        {
+          "line": 217,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn next start labels = some result) :"
+        },
+        {
+          "line": 221,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn] at h"
+        },
+        {
+          "line": 225,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn] at h"
+        },
+        {
+          "line": 233,
+          "pattern": "evalLabelStepFn",
+          "text": "cases htail : evalLabelStepFn next mid labels with"
+        },
+        {
+          "line": 245,
+          "pattern": "evalLabelStepFn",
+          "text": "theorem evalLabelStepFn_bound_of_next_invariant_aux"
+        },
+        {
+          "line": 245,
+          "pattern": "evalLabelStepFn_bound_of_next_invariant",
+          "text": "theorem evalLabelStepFn_bound_of_next_invariant_aux"
+        },
+        {
+          "line": 257,
+          "pattern": "evalLabelStepFn",
+          "text": "(heval : evalLabelStepFn next start labels = some (finish, totalGain)) :"
+        },
+        {
+          "line": 261,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn] at heval"
+        },
+        {
+          "line": 265,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn] at heval"
+        },
+        {
+          "line": 273,
+          "pattern": "evalLabelStepFn",
+          "text": "cases htail : evalLabelStepFn next mid labels with"
+        },
+        {
+          "line": 291,
+          "pattern": "evalLabelStepFn",
+          "text": "theorem evalLabelStepFn_bound_of_next_invariant"
+        },
+        {
+          "line": 291,
+          "pattern": "evalLabelStepFn_bound_of_next_invariant",
+          "text": "theorem evalLabelStepFn_bound_of_next_invariant"
+        },
+        {
+          "line": 303,
+          "pattern": "evalLabelStepFn",
+          "text": "(heval : evalLabelStepFn next start labels = some result) :"
+        },
+        {
+          "line": 306,
+          "pattern": "evalLabelStepFn",
+          "text": "exact evalLabelStepFn_bound_of_next_invariant_aux"
+        },
+        {
+          "line": 306,
+          "pattern": "evalLabelStepFn_bound_of_next_invariant",
+          "text": "exact evalLabelStepFn_bound_of_next_invariant_aux"
+        },
+        {
+          "line": 674,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn next start (wordOf obj) = some result /\\"
+        },
+        {
+          "line": 678,
+          "pattern": "evalLabelStepFn",
+          "text": "theorem bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
+        },
+        {
+          "line": 678,
+          "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
+          "text": "theorem bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
+        },
+        {
+          "line": 693,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn next start (wordOf obj) = some result /\\"
+        },
+        {
+          "line": 701,
+          "pattern": "evalLabelStepFn",
+          "text": "bellmanLabelStepRun_of_evalLabelStepFn hsound hrunEval,"
+        },
+        {
+          "line": 705,
+          "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
+          "text": "theorem bellmanLabelStepRunLanguageBound_of_evalAccepts"
+        },
+        {
+          "line": 723,
+          "pattern": "evalLabelStepFn",
+          "text": "exact bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
+        },
+        {
+          "line": 723,
+          "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
+          "text": "exact bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
+        },
+        {
+          "line": 778,
+          "pattern": "evalLabelStepFn",
+          "text": "rcases evalLabelStepFn_bound_of_next_invariant"
+        },
+        {
+          "line": 778,
+          "pattern": "evalLabelStepFn_bound_of_next_invariant",
+          "text": "rcases evalLabelStepFn_bound_of_next_invariant"
+        }
+      ],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 787,
+      "path": "Cuboctahedron/Search/BellmanPotential.lean",
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [],
+      "target_shadow": []
+    },
+    "cancellation_language": {
+      "closed_language_fields": [],
+      "eval_core": [],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 118,
+      "path": "Cuboctahedron/Search/CancellationPairingLanguage.lean",
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [],
+      "target_shadow": [
+        {
+          "line": 80,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "def triangularCancellationSummaryOfShadow (shadow : List TriLetter) :"
+        },
+        {
+          "line": 86,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "triangularCancellationSummaryOfShadow (triangularShadowOfPairWord w)"
+        },
+        {
+          "line": 92,
+          "pattern": "topPairingTargetSummary",
+          "text": "def topPairingTargetSummary : TriCancellationSummary where"
+        },
+        {
+          "line": 105,
+          "pattern": "topPairingTargetShadow",
+          "text": "def topPairingTargetShadow : List TriLetter :="
+        },
+        {
+          "line": 109,
+          "pattern": "topPairingTargetShadow",
+          "text": "theorem topPairingTargetShadow_summary :"
+        },
+        {
+          "line": 109,
+          "pattern": "topPairingTargetShadow_summary",
+          "text": "theorem topPairingTargetShadow_summary :"
+        },
+        {
+          "line": 110,
+          "pattern": "topPairingTargetShadow",
+          "text": "triangularCancellationSummaryOfShadow topPairingTargetShadow ="
+        },
+        {
+          "line": 110,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "triangularCancellationSummaryOfShadow topPairingTargetShadow ="
+        },
+        {
+          "line": 111,
+          "pattern": "topPairingTargetSummary",
+          "text": "topPairingTargetSummary := by"
+        },
+        {
+          "line": 114,
+          "pattern": "TopPairingLanguageAtRank",
+          "text": "def TopPairingLanguageAtRank (rank : Fin numPairWords) : Prop :="
+        },
+        {
+          "line": 116,
+          "pattern": "topPairingTargetSummary",
+          "text": "topPairingTargetSummary"
+        }
+      ]
+    },
+    "closed_eval_gate": {
+      "closed_language_fields": [
+        {
+          "line": 8,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "`TopPairingClosedLanguageAtRank`, not from sampled rank/path objects.  This file"
+        },
+        {
+          "line": 65,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
+        },
+        {
+          "line": 118,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
+        },
+        {
+          "line": 129,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank Face.ym ->"
+        },
+        {
+          "line": 134,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
+        }
+      ],
+      "eval_core": [],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 157,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean",
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [
+        {
+          "line": 19,
+          "pattern": "TopPairingBellmanObj",
+          "text": "def ClosedTraceOr (obj : TopPairingBellmanObj Face.ym) : Prop :="
+        },
+        {
+          "line": 20,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels (fun f : Face => f) obj ="
+        },
+        {
+          "line": 22,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels (fun f : Face => f) obj ="
+        },
+        {
+          "line": 27,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj Face.ym) : Prop :="
+        },
+        {
+          "line": 43,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 46,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 48,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj Face.ym) :"
+        },
+        {
+          "line": 50,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj : TopPairingBellmanObj Face.ym => scaledMargin obj.rank)"
+        },
+        {
+          "line": 51,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(fun obj => TopPairingBellmanObj.labels smokeLabelOfFace obj)"
+        },
+        {
+          "line": 59,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 62,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 66,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 69,
+          "pattern": "TopPairingBellmanObj",
+          "text": "let obj : TopPairingBellmanObj Face.ym := \u27e8rank, hclosed\u27e9"
+        },
+        {
+          "line": 77,
+          "pattern": "TopPairingBellmanObj",
+          "text": "simpa [obj, TopPairingBellmanObj.labels,"
+        },
+        {
+          "line": 78,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.forcedSeq] using hevalRun }"
+        },
+        {
+          "line": 83,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 86,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 88,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(obj : TopPairingBellmanObj Face.ym) :"
+        },
+        {
+          "line": 97,
+          "pattern": "TopPairingBellmanObj",
+          "text": "fun obj : TopPairingBellmanObj Face.ym => scaledMargin obj.rank)"
+        },
+        {
+          "line": 98,
+          "pattern": "TopPairingBellmanObj",
+          "text": "(wordOf := fun obj : TopPairingBellmanObj Face.ym =>"
+        },
+        {
+          "line": 99,
+          "pattern": "TopPairingBellmanObj",
+          "text": "TopPairingBellmanObj.labels smokeLabelOfFace obj)"
+        },
+        {
+          "line": 112,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 115,
+          "pattern": "TopPairingBellmanObj",
+          "text": "forall obj : TopPairingBellmanObj Face.ym,"
+        },
+        {
+          "line": 120,
+          "pattern": "TopPairingBellmanObj",
+          "text": "let obj : TopPairingBellmanObj Face.ym := \u27e8rank, hclosed\u27e9"
+        },
+        {
+          "line": 130,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        }
+      ],
+      "target_shadow": []
+    },
+    "selected_prefix_root_bridge": {
+      "closed_language_fields": [
+        {
+          "line": 37,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "\u2203 closed : TopPairingClosedLanguageAtRank rank Face.ym,"
+        }
+      ],
+      "eval_core": [],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 123,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingRootTraceMarginSelectedPrefixBridge.lean",
+      "selected_prefix_production_risk": [
+        {
+          "line": 36,
+          "pattern": "RootTraceMarginProducer",
+          "text": "(hproducer : RootTraceMarginProducer scaledMargin rank) :"
+        },
+        {
+          "line": 54,
+          "pattern": "RootTraceMarginProducer",
+          "text": "(hproducer : RootTraceMarginProducer scaledMargin rank)"
+        },
+        {
+          "line": 69,
+          "pattern": "RootTraceMarginProducer",
+          "text": "(hproducer : RootTraceMarginProducer scaledMargin rank)"
+        },
+        {
+          "line": 84,
+          "pattern": "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer",
+          "text": "theorem strengthenedSelectedPrefixCover_of_rootTraceMarginProducer"
+        },
+        {
+          "line": 87,
+          "pattern": "RootTraceMarginProducer",
+          "text": "(hproducer : RootTraceMarginProducer scaledMargin rank)"
+        },
+        {
+          "line": 99,
+          "pattern": "RootTraceMarginProducer",
+          "text": "(hproducer : RootTraceMarginProducer scaledMargin rank)"
+        },
+        {
+          "line": 106,
+          "pattern": "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer",
+          "text": "(strengthenedSelectedPrefixCover_of_rootTraceMarginProducer"
+        },
+        {
+          "line": 112,
+          "pattern": "RootTraceMarginProducer",
+          "text": "(hproducer : RootTraceMarginProducer scaledMargin rank)"
+        },
+        {
+          "line": 117,
+          "pattern": "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer",
+          "text": "(strengthenedSelectedPrefixCover_of_rootTraceMarginProducer"
+        }
+      ],
+      "semantic_eval_gate": [
+        {
+          "line": 39,
+          "pattern": "TopPairingBellmanObj",
+          "text": "({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym) := by"
+        },
+        {
+          "line": 47,
+          "pattern": "TopPairingBellmanObj",
+          "text": "simpa [TopPairingBellmanObj.labels, TopPairingBellmanObj.forcedSeq,"
+        },
+        {
+          "line": 102,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        }
+      ],
+      "target_shadow": []
+    },
+    "selected_prefix_state_dag_root": {
+      "closed_language_fields": [],
+      "eval_core": [],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 66,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/All.lean",
+      "selected_prefix_production_risk": [
+        {
+          "line": 22,
+          "pattern": "SelectedPrefixCoverFamily",
+          "text": "def SelectedPrefixCoverFamily"
+        },
+        {
+          "line": 36,
+          "pattern": "SelectedPrefixCoverFamily",
+          "text": "(hrank : SelectedPrefixCoverFamily scaledMargin rank) :"
+        },
+        {
+          "line": 52,
+          "pattern": "SelectedPrefixCoverFamily",
+          "text": "(hrank : SelectedPrefixCoverFamily scaledMargin rank) :"
+        }
+      ],
+      "semantic_eval_gate": [
+        {
+          "line": 37,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        }
+      ],
+      "target_shadow": []
+    },
+    "semantic_gate": {
+      "closed_language_fields": [
+        {
+          "line": 24,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank badFace ->"
+        },
+        {
+          "line": 136,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace) :"
+        }
+      ],
+      "eval_core": [],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 177,
+      "path": "Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean",
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [
+        {
+          "line": 1,
+          "pattern": "TopPairingBellmanObj",
+          "text": "import Cuboctahedron.Search.TopPairingBellmanObject"
+        },
+        {
+          "line": 14,
+          "pattern": "TopPairingClosedToEvalGate",
+          "text": "abbrev TopPairingClosedToEvalGate"
+        },
+        {
+          "line": 25,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 28,
+          "pattern": "TopPairingStrengthenedToEvalGate",
+          "text": "abbrev TopPairingStrengthenedToEvalGate"
+        },
+        {
+          "line": 40,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 57,
+          "pattern": "TopPairingClosedToEvalGate",
+          "text": "TopPairingClosedToEvalGate"
+        },
+        {
+          "line": 63,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 66,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.rankOf"
+        },
+        {
+          "line": 70,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.Accepts"
+        },
+        {
+          "line": 94,
+          "pattern": "TopPairingStrengthenedToEvalGate",
+          "text": "TopPairingStrengthenedToEvalGate"
+        },
+        {
+          "line": 100,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 103,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.rankOf"
+        },
+        {
+          "line": 107,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.Accepts"
+        },
+        {
+          "line": 130,
+          "pattern": "TopPairingClosedToEvalGate",
+          "text": "TopPairingClosedToEvalGate"
+        },
+        {
+          "line": 160,
+          "pattern": "TopPairingStrengthenedToEvalGate",
+          "text": "TopPairingStrengthenedToEvalGate"
+        }
+      ],
+      "target_shadow": []
+    },
+    "top_pairing_language": {
+      "closed_language_fields": [
+        {
+          "line": 38,
+          "pattern": "TopPairingStepSchedule",
+          "text": "def TopPairingStepScheduleFrom : Nat -> List Face -> Prop"
+        },
+        {
+          "line": 42,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleFrom (step + 1) rest"
+        },
+        {
+          "line": 44,
+          "pattern": "TopPairingStepSchedule",
+          "text": "def TopPairingStepScheduleLabels (labels : List Face) : Prop :="
+        },
+        {
+          "line": 45,
+          "pattern": "TopPairingStepSchedule",
+          "text": "labels.length = 14 /\\ TopPairingStepScheduleFrom 0 labels"
+        },
+        {
+          "line": 47,
+          "pattern": "TopPairingStepSchedule",
+          "text": "def TopPairingStepScheduleSeq (seq : Step14 -> Face) : Prop :="
+        },
+        {
+          "line": 48,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleLabels (faceLabelsInContributionOrder (fun f => f) seq)"
+        },
+        {
+          "line": 51,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleFrom step [] := by"
+        },
+        {
+          "line": 57,
+          "pattern": "TopPairingStepSchedule",
+          "text": "(hrest : TopPairingStepScheduleFrom (step + 1) rest) :"
+        },
+        {
+          "line": 58,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleFrom step (face :: rest) :="
+        },
+        {
+          "line": 64,
+          "pattern": "TopPairingStepSchedule",
+          "text": "(hfrom : TopPairingStepScheduleFrom 0 labels) :"
+        },
+        {
+          "line": 65,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleLabels labels :="
+        },
+        {
+          "line": 70,
+          "pattern": "TopPairingStepSchedule",
+          "text": "(h : TopPairingStepScheduleFrom step (pfx ++ rest)) :"
+        },
+        {
+          "line": 71,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleFrom (step + pfx.length) rest := by"
+        },
+        {
+          "line": 76,
+          "pattern": "TopPairingStepSchedule",
+          "text": "unfold TopPairingStepScheduleFrom at h"
+        },
+        {
+          "line": 83,
+          "pattern": "TopPairingStepSchedule",
+          "text": "(h : TopPairingStepScheduleFrom step (pfx ++ face :: rest)) :"
+        },
+        {
+          "line": 88,
+          "pattern": "TopPairingStepSchedule",
+          "text": "unfold TopPairingStepScheduleFrom at htail"
+        },
+        {
+          "line": 93,
+          "pattern": "TopPairingStepSchedule",
+          "text": "(hs : TopPairingStepScheduleLabels labels)"
+        },
+        {
+          "line": 104,
+          "pattern": "TopPairingStepSchedule",
+          "text": "(h : TopPairingStepScheduleLabels labels) :"
+        },
+        {
+          "line": 117,
+          "pattern": "TopPairingStepSchedule",
+          "text": "unfold TopPairingStepScheduleFrom at hfrom"
+        },
+        {
+          "line": 121,
+          "pattern": "TopPairingStepSchedule",
+          "text": "unfold TopPairingStepScheduleFrom at hrest0"
+        },
+        {
+          "line": 129,
+          "pattern": "TopPairingStepSchedule",
+          "text": "(h : TopPairingStepScheduleLabels labels) :"
+        },
+        {
+          "line": 152,
+          "pattern": "TopPairingStepSchedule",
+          "text": "unfold TopPairingStepScheduleFrom at hfrom"
+        },
+        {
+          "line": 156,
+          "pattern": "TopPairingStepSchedule",
+          "text": "unfold TopPairingStepScheduleFrom at hrest0"
+        },
+        {
+          "line": 160,
+          "pattern": "TopPairingStepSchedule",
+          "text": "unfold TopPairingStepScheduleFrom at hrest1"
+        },
+        {
+          "line": 194,
+          "pattern": "TopPairingSquareGap",
+          "text": "def TopPairingSquareGapFrom : Nat -> List Face -> Prop"
+        },
+        {
+          "line": 199,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapFrom gap rest"
+        },
+        {
+          "line": 201,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapFrom (gap + 1) rest"
+        },
+        {
+          "line": 203,
+          "pattern": "TopPairingSquareGap",
+          "text": "def TopPairingSquareGapLabels (labels : List Face) : Prop :="
+        },
+        {
+          "line": 204,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapFrom 0 labels"
+        },
+        {
+          "line": 206,
+          "pattern": "TopPairingSquareGap",
+          "text": "def TopPairingSquareGapSeq (seq : Step14 -> Face) : Prop :="
+        },
+        {
+          "line": 207,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapLabels (faceLabelsInContributionOrder (fun f => f) seq)"
+        },
+        {
+          "line": 210,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapFrom gap [] := by"
+        },
+        {
+          "line": 217,
+          "pattern": "TopPairingSquareGap",
+          "text": "(hrest : TopPairingSquareGapFrom gap rest) :"
+        },
+        {
+          "line": 218,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapFrom gap (face :: rest) := by"
+        },
+        {
+          "line": 219,
+          "pattern": "TopPairingSquareGap",
+          "text": "unfold TopPairingSquareGapFrom"
+        },
+        {
+          "line": 226,
+          "pattern": "TopPairingSquareGap",
+          "text": "(hrest : TopPairingSquareGapFrom (gap + 1) rest) :"
+        },
+        {
+          "line": 227,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapFrom gap (face :: rest) := by"
+        },
+        {
+          "line": 228,
+          "pattern": "TopPairingSquareGap",
+          "text": "unfold TopPairingSquareGapFrom"
+        },
+        {
+          "line": 234,
+          "pattern": "TopPairingSquareGap",
+          "text": "(hfrom : TopPairingSquareGapFrom 0 labels) :"
+        },
+        {
+          "line": 235,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapLabels labels :="
+        },
+        {
+          "line": 248,
+          "pattern": "TopPairingSquareGap",
+          "text": "(h : TopPairingSquareGapFrom gap (pfx ++ rest)) :"
+        },
+        {
+          "line": 249,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapFrom (topPairingSquareGapAfter gap pfx) rest := by"
+        },
+        {
+          "line": 254,
+          "pattern": "TopPairingSquareGap",
+          "text": "unfold TopPairingSquareGapFrom at h"
+        },
+        {
+          "line": 266,
+          "pattern": "TopPairingSquareGap",
+          "text": "(h : TopPairingSquareGapFrom gap (pfx ++ face :: rest))"
+        },
+        {
+          "line": 273,
+          "pattern": "TopPairingSquareGap",
+          "text": "unfold TopPairingSquareGapFrom at htail"
+        },
+        {
+          "line": 279,
+          "pattern": "TopPairingSquareGap",
+          "text": "(hg : TopPairingSquareGapLabels labels)"
+        },
+        {
+          "line": 293,
+          "pattern": "TopPairingLocalAxis",
+          "text": "def TopPairingLocalAxisAllows (linear : Mat3 Rat) (face : Face) : Prop :="
+        },
+        {
+          "line": 296,
+          "pattern": "TopPairingLocalAxis",
+          "text": "def TopPairingLocalAxisFrom : Mat3 Rat -> List Face -> Prop"
+        },
+        {
+          "line": 299,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows linear face /\\"
+        },
+        {
+          "line": 300,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisFrom"
+        },
+        {
+          "line": 303,
+          "pattern": "TopPairingLocalAxis",
+          "text": "def TopPairingLocalAxisLabels (labels : List Face) : Prop :="
+        },
+        {
+          "line": 304,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisFrom (matId : Mat3 Rat) labels"
+        },
+        {
+          "line": 306,
+          "pattern": "TopPairingLocalAxis",
+          "text": "def TopPairingLocalAxisSeq (seq : Step14 -> Face) : Prop :="
+        },
+        {
+          "line": 307,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisLabels (faceLabelsInContributionOrder (fun f => f) seq)"
+        },
+        {
+          "line": 463,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisFrom linear [] := by"
+        },
+        {
+          "line": 468,
+          "pattern": "TopPairingLocalAxis",
+          "text": "(hface : TopPairingLocalAxisAllows linear face)"
+        },
+        {
+          "line": 470,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisFrom"
+        },
+        {
+          "line": 472,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisFrom linear (face :: rest) :="
+        },
+        {
+          "line": 480,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows linear face := by"
+        },
+        {
+          "line": 481,
+          "pattern": "TopPairingLocalAxis",
+          "text": "unfold TopPairingLocalAxisAllows"
+        },
+        {
+          "line": 487,
+          "pattern": "TopPairingLocalAxis",
+          "text": "(hface : TopPairingLocalAxisAllows linear face)"
+        },
+        {
+          "line": 489,
+          "pattern": "TopPairingLocalAxis",
+          "text": "(hrest : TopPairingLocalAxisFrom next rest) :"
+        },
+        {
+          "line": 490,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisFrom linear (face :: rest) :="
+        },
+        {
+          "line": 496,
+          "pattern": "TopPairingLocalAxis",
+          "text": "(hfrom : TopPairingLocalAxisFrom (matId : Mat3 Rat) labels) :"
+        },
+        {
+          "line": 497,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisLabels labels :="
+        },
+        {
+          "line": 508,
+          "pattern": "TopPairingLocalAxis",
+          "text": "(h : TopPairingLocalAxisFrom linear (pfx ++ rest)) :"
+        },
+        {
+          "line": 509,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisFrom"
+        },
+        {
+          "line": 515,
+          "pattern": "TopPairingLocalAxis",
+          "text": "unfold TopPairingLocalAxisFrom at h"
+        },
+        {
+          "line": 522,
+          "pattern": "TopPairingLocalAxis",
+          "text": "(h : TopPairingLocalAxisFrom linear (pfx ++ face :: rest)) :"
+        },
+        {
+          "line": 523,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows"
+        },
+        {
+          "line": 528,
+          "pattern": "TopPairingLocalAxis",
+          "text": "unfold TopPairingLocalAxisFrom at htail"
+        },
+        {
+          "line": 533,
+          "pattern": "TopPairingLocalAxis",
+          "text": "(ha : TopPairingLocalAxisLabels labels)"
+        },
+        {
+          "line": 535,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows"
+        },
+        {
+          "line": 576,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 579,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 582,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 585,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "structure TopPairingClosedLanguageAtRank"
+        },
+        {
+          "line": 588,
+          "pattern": "canonicalBadFace",
+          "text": "canonicalBadFace :"
+        },
+        {
+          "line": 594,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank badFace where"
+        },
+        {
+          "line": 605,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 608,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 611,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 614,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "structure TopPairingClosedLanguageForSeq"
+        },
+        {
+          "line": 617,
+          "pattern": "canonicalBadFace",
+          "text": "canonicalBadFace :"
+        },
+        {
+          "line": 627,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 631,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 635,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 646,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "namespace TopPairingClosedLanguageAtRank"
+        },
+        {
+          "line": 650,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(_h : TopPairingClosedLanguageAtRank rank badFace) :"
+        },
+        {
+          "line": 658,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(h : TopPairingClosedLanguageAtRank rank badFace) :"
+        },
+        {
+          "line": 671,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 675,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 679,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 682,
+          "pattern": "canonicalBadFace",
+          "text": "(canonicalBadFace :"
+        },
+        {
+          "line": 684,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank badFace where"
+        },
+        {
+          "line": 689,
+          "pattern": "canonicalBadFace",
+          "text": "canonicalBadFace := canonicalBadFace"
+        },
+        {
+          "line": 693,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(h : TopPairingClosedLanguageAtRank rank badFace) :"
+        },
+        {
+          "line": 694,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "TopPairingClosedLanguageForSeq"
+        },
+        {
+          "line": 700,
+          "pattern": "canonicalBadFace",
+          "text": "canonicalBadFace := h.canonicalBadFace"
+        },
+        {
+          "line": 702,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "end TopPairingClosedLanguageAtRank"
+        },
+        {
+          "line": 711,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank badFace :="
+        },
+        {
+          "line": 712,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "h.toTopPairingClosedLanguageAtRank"
+        },
+        {
+          "line": 725,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(closed : TopPairingClosedLanguageAtRank rank badFace)"
+        },
+        {
+          "line": 730,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "toTopPairingClosedLanguageAtRank := closed"
+        },
+        {
+          "line": 743,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 746,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 749,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 759,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "namespace TopPairingClosedLanguageForSeq"
+        },
+        {
+          "line": 766,
+          "pattern": "TopPairingStepSchedule",
+          "text": "TopPairingStepScheduleLabels"
+        },
+        {
+          "line": 769,
+          "pattern": "TopPairingSquareGap",
+          "text": "TopPairingSquareGapLabels"
+        },
+        {
+          "line": 772,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisLabels"
+        },
+        {
+          "line": 774,
+          "pattern": "canonicalBadFace",
+          "text": "(canonicalBadFace :"
+        },
+        {
+          "line": 776,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "TopPairingClosedLanguageForSeq rank seq badFace where"
+        },
+        {
+          "line": 781,
+          "pattern": "canonicalBadFace",
+          "text": "canonicalBadFace := canonicalBadFace"
+        },
+        {
+          "line": 789,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "(h : TopPairingClosedLanguageForSeq rank template badFace) :"
+        },
+        {
+          "line": 790,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "TopPairingClosedLanguageForSeq rank seq badFace :="
+        },
+        {
+          "line": 802,
+          "pattern": "canonicalBadFace",
+          "text": "h.canonicalBadFace"
+        },
+        {
+          "line": 809,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "(h : TopPairingClosedLanguageForSeq rank template badFace) :"
+        },
+        {
+          "line": 810,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "TopPairingClosedLanguageForSeq rank seq badFace :="
+        },
+        {
+          "line": 816,
+          "pattern": "TopPairingClosedLanguageForSeq",
+          "text": "end TopPairingClosedLanguageForSeq"
+        }
+      ],
+      "eval_core": [],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 818,
+      "path": "Cuboctahedron/Search/BellmanTopPairingLanguage.lean",
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [],
+      "target_shadow": [
+        {
+          "line": 321,
+          "pattern": "triangularCancellationSummaryOfShadow",
+          "text": "triangularCancellationSummaryOfShadow"
+        },
+        {
+          "line": 574,
+          "pattern": "TopPairingLanguageAtRank",
+          "text": "Cuboctahedron.TopPairingLanguageAtRank rank"
+        },
+        {
+          "line": 603,
+          "pattern": "TopPairingLanguageAtRank",
+          "text": "Cuboctahedron.TopPairingLanguageAtRank rank"
+        },
+        {
+          "line": 625,
+          "pattern": "TopPairingLanguageAtRank",
+          "text": "Cuboctahedron.TopPairingLanguageAtRank rank)"
+        },
+        {
+          "line": 662,
+          "pattern": "topPairingTargetSummary",
+          "text": "topPairingTargetSummary := by"
+        },
+        {
+          "line": 669,
+          "pattern": "TopPairingLanguageAtRank",
+          "text": "Cuboctahedron.TopPairingLanguageAtRank rank)"
+        },
+        {
+          "line": 741,
+          "pattern": "TopPairingLanguageAtRank",
+          "text": "Cuboctahedron.TopPairingLanguageAtRank rank)"
+        },
+        {
+          "line": 764,
+          "pattern": "TopPairingLanguageAtRank",
+          "text": "Cuboctahedron.TopPairingLanguageAtRank rank)"
+        }
+      ]
+    }
+  },
+  "guards": {
+    "frontier_direct_check": {
+      "available_floor_mib": 24576.0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "7000",
+        "-j1",
+        "-s",
+        "2048",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingProductionFrontier.lean"
+      ],
+      "elapsed_seconds": 1.0054415670019807,
+      "exit_code": 1,
+      "hard_address_space_mib": 12288.0,
+      "killed_reason": null,
+      "max_tree_rss_kib": 0,
+      "max_tree_rss_mib": 0.0,
+      "min_available_seen_kib": 47491540,
+      "min_available_seen_mib": 46378.45703125,
+      "rss_cap_mib": 7000.0,
+      "timeout_seconds": 120.0
+    },
+    "root_bridge_hard_as": {
+      "available_floor_mib": 24576.0,
+      "command": [
+        "lake",
+        "build",
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingRootTraceMarginSelectedPrefixBridge"
+      ],
+      "elapsed_seconds": 33.05292949700379,
+      "exit_code": -6,
+      "hard_address_space_mib": 12288.0,
+      "killed_reason": null,
+      "max_tree_rss_kib": 795464,
+      "max_tree_rss_mib": 776.8203125,
+      "min_available_seen_kib": 47364456,
+      "min_available_seen_mib": 46254.3515625,
+      "rss_cap_mib": 7000.0,
+      "timeout_seconds": 180.0
+    },
+    "root_bridge_rss_cap": {
+      "available_floor_mib": 24576.0,
+      "command": [
+        "lake",
+        "build",
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingRootTraceMarginSelectedPrefixBridge"
+      ],
+      "elapsed_seconds": 7.017929242996615,
+      "exit_code": -15,
+      "hard_address_space_mib": null,
+      "killed_reason": "process-tree RSS 10334 MiB exceeded 7000 MiB cap",
+      "max_tree_rss_kib": 10582436,
+      "max_tree_rss_mib": 10334.41015625,
+      "min_available_seen_kib": 45365364,
+      "min_available_seen_mib": 44302.11328125,
+      "rss_cap_mib": 7000.0,
+      "timeout_seconds": 180.0
+    }
+  },
+  "next_profiler_experiments": [
+    "target-shadow invertibility audit",
+    "closed-language-to-state transition profiler",
+    "cocycle quotient profiler before adding exact affine state",
+    "translation GoodDirection row-template/3-row circuit profiler"
+  ],
+  "next_theorems": [
+    "topPairingTargetShadow_of_summary",
+    "topPairingTriShadow_eq_target",
+    "TopPairingTriCursorFrom",
+    "topPairingTriCursor_of_closed",
+    "topPairingClosed_to_eval_gate",
+    "topPairingClosed_scaledMargin_nonpos"
+  ],
+  "no_go_rules": [
+    "no sampled rank/path object",
+    "no one constructor per rank/path",
+    "no exact affine RHS or solved start-point key",
+    "no root selected-prefix producer import as production membership",
+    "no broad generated Lean build without hard address-space and RSS guard"
+  ],
+  "production_rule": "Do not scale selected-prefix/root-trace membership as production. Use it only as a diagnostic/downstream comparison until a compact closed-language-to-eval transducer theorem exists.",
+  "selected_prefix_root_bridge_rss_killed": true,
+  "totals": {
+    "closed_language_fields": 135,
+    "eval_core": 41,
+    "forbidden_sampled_surface": 0,
+    "selected_prefix_production_risk": 12,
+    "semantic_eval_gate": 112,
+    "target_shadow": 19
+  }
+}
