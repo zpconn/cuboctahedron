@@ -76190,3 +76190,49 @@ Bellman eval-contract audit: exit=0,
 TopPairingBellmanObject.lean: exit=0, wall=1.77s, max RSS=3222724 KB
 sampled/forbidden token scan: exit=1, no hits
 ```
+
+Follow-up import-cost experiment:
+
+I briefly tried to expose a convenience target
+`RootTraceMarginResidualRankCovered` directly from
+`BellmanTopPairingSelectedPrefixResidualBridge.lean`, adapting
+`RootTraceMarginProducer` plus the actual-face and bad-face semantic filters
+into `SelectedPrefixResidualRankCovered`.  The theorem shape was mathematically
+fine, but operationally wrong: importing
+`BellmanTopPairingRootTraceMarginSelectedPrefixBridge` into the residual bridge
+pulled in the split graph-eval smoke hierarchy and many generated terminal
+shards.
+
+The focused dependency build:
+
+```bash
+/usr/bin/time -v lake build \
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingRootTraceMarginSelectedPrefixBridge
+```
+
+was stopped with `Ctrl-C` after memory availability fell to about `9.8 GiB`
+while the build went quiet.  This was not an accepted proof failure, but it is
+a build-architecture rejection:
+
+```text
+reject-root-trace-margin-import-into-residual-bridge
+```
+
+Decision:
+
+- keep `BellmanTopPairingSelectedPrefixResidualBridge.lean` lightweight;
+- do not make the public residual bridge import the root trace-margin producer
+  hierarchy;
+- keep root-trace-margin / selected-prefix producer adapters downstream of
+  their own generated hierarchy;
+- if a future residual target needs root-trace-margin producer coverage, expose
+  it in a separate leaf/root module with measured import fan-in, then feed the
+  existing lightweight residual bridge through `SelectedPrefixResidualRankCovered`
+  rather than widening the bridge imports.
+
+After stopping the build, memory recovered to roughly `45 GiB` available.  A
+direct re-check of the lightweight residual bridge was not rerun through Lake
+because the interrupted dependency build left a missing existing provider
+`.olean` (`BellmanTopPairingTrace012StartViolationProvider.olean`).  Do not
+start another broad dependency build just to repair that cache unless it is
+needed for the next measured leaf.
