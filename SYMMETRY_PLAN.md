@@ -73932,3 +73932,73 @@ Strategic consequence:
   ranks/paths, exact affine-RHS keys, or one branch per concrete rank, the
   plan must pivot to a cancellation-tree summary automaton with explicit
   terminal/evaluator progress in the state.
+
+## 2026-07-02 Checkpoint: Terminal Provider Scaling Boundary
+
+Added a scaling-boundary audit for the terminal-direct provider route:
+
+```text
+scripts/audit_top_pairing_terminal_provider_scaling.py
+scripts/generated/top_pairing_terminal_provider_scaling.json
+scripts/generated/top_pairing_terminal_provider_scaling.md
+```
+
+Decision:
+
+```text
+bounded-provider-surface-accepted-full-provider-not-yet-proved
+```
+
+The audit records:
+
+```text
+current provider source: SelectedPrefixCoverFamily scaledMargin rank
+selected-prefix buckets: 31
+selected-prefix groups: 7
+accepted trace ids covered by selected-prefix source: 37
+closed-language candidates in exact graph audit: 47
+graph accepted in exact graph audit: 37
+graph rejected in exact graph audit: 10
+```
+
+This is an important boundary: the selected-prefix source is a checked
+theorem-surface smoke over the 37 graph-accepted trace ids, not a
+rank-exhaustive residual provider.  It should not be promoted to production
+coverage unless a separate Lean-checked provider proves that every intended
+top-pairing residual rank belongs to a corresponding semantic family.
+
+The audit also records the source size of the current provider surface:
+
+| file | lines | bytes |
+| --- | ---: | ---: |
+| `BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean` | `163` | `6619` |
+| `BellmanTopPairingTerminalDirectSequenceSocket.lean` | `46` | `2108` |
+| `BellmanTopPairingStateDAGSelectedPrefixCover/All.lean` | `66` | `3386` |
+
+The next production provider must supply, semantically and for every rank in
+the intended top-pairing residual family, these four fields:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+TopPairingActualFaceOmniAtRank rank
+AcceptedSequenceBadFaceAtRank rank Face.ym
+TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+  (topPairingRankFaceLabels rank)
+```
+
+For the direct terminal route, Bellman margin data is not part of the provider
+contract.  That is a useful simplification: the next leaf should prove
+`TerminalDirectClosedFamily rank` for a semantic state/family predicate, then
+reuse the checked consumer theorem.  It must not contain sampled rank/path
+objects, exact affine-RHS keys, or branch-per-rank generated proof cases.
+
+Next gate:
+
+1. Implement a profiler/generator that groups intended residual ranks by
+   semantic terminal/provider state, not by selected trace id alone.
+2. Emit one bounded representative provider leaf whose public theorem is
+   `TerminalDirectClosedFamily rank` for a semantic family predicate.
+3. Guard-check that leaf and record RSS, wall time, and source size.
+4. Continue only if projected full provider families stay in the low-thousands
+   range and representative checks fit the hardware budget.  Otherwise pivot to
+   the cancellation-tree summary automaton described above.

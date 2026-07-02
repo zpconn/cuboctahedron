@@ -1,0 +1,44 @@
+{
+  "closed_graph_audit": {
+    "accepted": 37,
+    "closed_candidates": 47,
+    "decision": "closed-components-too-weak",
+    "prefix_graph_rejects": 197,
+    "rejected": 10
+  },
+  "current_provider_source": "SelectedPrefixCoverFamily scaledMargin rank",
+  "decision": "bounded-provider-surface-accepted-full-provider-not-yet-proved",
+  "forbidden_hit_count": 0,
+  "forbidden_hits": [],
+  "guard": {
+    "elapsed_seconds": 12.015479765002965,
+    "exit_code": 0,
+    "hard_address_space_mib": 12288.0,
+    "killed_reason": null,
+    "max_tree_rss_mib": 3613.453125
+  },
+  "lean_file_stats": [
+    {
+      "bytes": 6619,
+      "lines": 163,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean"
+    },
+    {
+      "bytes": 2108,
+      "lines": 46,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.lean"
+    },
+    {
+      "bytes": 3386,
+      "lines": 66,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/All.lean"
+    }
+  ],
+  "next_required_artifact": "representative full-provider semantic leaf for TerminalDirectClosedFamily",
+  "selected_prefix_cover": {
+    "accepted_trace_count": 37,
+    "bucket_count": 31,
+    "group_count": 7,
+    "root_lean_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/All.lean"
+  }
+}
