@@ -69805,6 +69805,123 @@ Next safe implementation step:
    affine-RHS membership table, declare the Bellman provider gate failed and
    pivot to cancellation-tree summary algebra.
 
+### 2026-07-02 Depth-classifier emission smoke rejected
+
+The grouped depth-classifier generator was inspected and dry-run beyond the
+current checked depth-8 layer.  Its theorem surface is semantically aligned:
+each shard consumes schedule, square-gap, local-axis, and pair-count predicates;
+it does not use sampled ranks, sampled paths, or exact affine-RHS keys.
+
+Dry-run projected shard counts with `--omit-squaregap-simp`:
+
+```text
+depth 9:  prefixes=1585, parents=595,  shards=149
+depth 10: prefixes=3186, parents=1585, shards=397
+depth 11: prefixes=3082, parents=3186, shards=797
+depth 12: prefixes=1631, parents=3082, shards=771
+depth 13: prefixes=482,  parents=1631, shards=408
+depth 14: prefixes=442,  parents=482,  shards=121
+```
+
+This is a plausible semantic classifier size only if individual shards are
+cheap.  They are not cheap with the current local proof generator.
+
+Experiment:
+
+```bash
+python3 scripts/emit_top_pairing_trace_classifier_grouped_depth.py \
+  --depth 9 \
+  --parent-group-size 4 \
+  --omit-squaregap-simp
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 120 \
+  --json scripts/generated/depth9_shard001_direct_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Depth9/Shard001.lean
+```
+
+Result:
+
+```text
+failed safely by timeout
+elapsed: 125.16s
+peak process-tree RSS: 5940.6 MiB
+minimum available memory observed: 44021.8 MiB
+hard address-space cap: 8192 MiB
+```
+
+The alternate proof mode using the square-gap simplifier path was generated in
+`/tmp` and checked with the same guard:
+
+```bash
+python3 scripts/emit_top_pairing_trace_classifier_grouped_depth.py \
+  --depth 9 \
+  --output-dir /tmp/cubo_depth9_sq \
+  --summary-json /tmp/cubo_depth9_sq.json \
+  --parent-group-size 4 \
+  --only-shard 1
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 120 \
+  --json scripts/generated/depth9_shard001_squaregap_direct_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     /tmp/cubo_depth9_sq/Shard001.lean
+```
+
+Result:
+
+```text
+failed safely by timeout
+elapsed: 125.29s
+peak process-tree RSS: 6414.7 MiB
+minimum available memory observed: 43603.3 MiB
+hard address-space cap: 8192 MiB
+```
+
+The full depth-9 source emission was not accepted and was removed before
+commit.  The existing bounded depth-9 `Shard000` smoke remains the only checked
+depth-9 source in the repo.
+
+Decision:
+
+Reject the current grouped depth-expansion proof shape as a production route.
+Even though it is semantically correct in the right coordinate system, one
+small depth-9 shard failing a 120s guarded direct check implies the full
+depth-9-to-14 terminal classifier would exceed the build-time budget by a wide
+margin.  More shards should not be emitted until the local transition proof is
+made cheap.
+
+Next proof-engineering target:
+
+Replace the expensive per-shard local proof body
+
+```lean
+cases nextFace <;>
+  simp [TopPairingStepScheduleFrom, TopPairingLocalAxisFrom,
+        normalQ, matVec, dot, matMul, reflM, ...] at ...
+```
+
+with a small hand-written or generated transition theorem surface.  The theorem
+should expose prechecked finite facts such as:
+
+```lean
+AllowedNextFaces parentPrefix = childPrefixes
+```
+
+and prove the depth step by applying that theorem, not by repeatedly unfolding
+the rational matrix/local-axis machinery inside every shard.  If that local
+transition surface still requires large generated simplification, abandon the
+depth-expansion classifier and move to the cancellation-tree summary algebra
+for the provider object.
+
 Build discipline remains unchanged: do not run a cold `lake build` over this
 import neighborhood.  Use direct Lean checks or a serial guarded cache builder
 until the generated dependencies are reorganized so Lake cannot fan out into a

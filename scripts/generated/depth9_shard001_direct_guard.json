@@ -1,0 +1,24 @@
+{
+  "available_floor_mib": 4096.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "-j1",
+    "-M",
+    "6000",
+    "-s",
+    "2048",
+    "Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth9/Shard001.lean"
+  ],
+  "elapsed_seconds": 125.15712215500389,
+  "exit_code": -15,
+  "hard_address_space_mib": 8192.0,
+  "killed_reason": "wall-clock runtime exceeded 120.00s timeout",
+  "max_tree_rss_kib": 6083168,
+  "max_tree_rss_mib": 5940.59375,
+  "min_available_seen_kib": 45078328,
+  "min_available_seen_mib": 44021.8046875,
+  "rss_cap_mib": 12000.0,
+  "timeout_seconds": 120.0
+}

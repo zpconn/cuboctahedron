@@ -1,0 +1,24 @@
+{
+  "available_floor_mib": 4096.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "-j1",
+    "-M",
+    "6000",
+    "-s",
+    "2048",
+    "/tmp/cubo_depth9_sq/Shard001.lean"
+  ],
+  "elapsed_seconds": 125.28859144000307,
+  "exit_code": -15,
+  "hard_address_space_mib": 8192.0,
+  "killed_reason": "wall-clock runtime exceeded 120.00s timeout",
+  "max_tree_rss_kib": 6568700,
+  "max_tree_rss_mib": 6414.74609375,
+  "min_available_seen_kib": 44649812,
+  "min_available_seen_mib": 43603.33203125,
+  "rss_cap_mib": 12000.0,
+  "timeout_seconds": 120.0
+}
