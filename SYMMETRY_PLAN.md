@@ -83769,3 +83769,155 @@ state-DAG/minimized-class evidence, then measure its source size and build
 cost.  Do not scale until that representative proof avoids selected-prefix
 equality, sampled rank/path objects, exact affine RHS keys, solved start-point
 keys, and exact full Bellman trace identity.
+
+#### Strategic Pivot: Strengthened Semantic Transducer, Not Selected Prefixes
+
+The latest outside-strategy review changes the immediate Bellman plan in a
+useful way.  The diagnosis is accepted:
+
+```text
+Keep Bellman.
+Reject selected-prefix membership.
+Do not scale the selected-prefix producer as-is.
+Prove a deterministic semantic state-machine theorem from the strengthened
+closed holonomy/cancellation language to the evaluator socket.
+```
+
+This is not a pivot away from the Bellman/state-DAG route.  It is a pivot away
+from treating observed prefixes, trace ids, or sampled paths as the membership
+coordinate.  The graph edge/potential checks are already small enough for the
+current hardware; the hard theorem is membership:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  AcceptedSequenceBadFaceAtRank rank Face.ym
+  -> Split10MGraphSuffixMarginFamily scaledMargin rank
+```
+
+or, equivalently, the two producer pieces consumed by that family:
+
+```lean
+Split10MGraphSuffixProducer rank
+Split10MFinalMarginProducer scaledMargin rank
+```
+
+The plain closed predicate is deliberately *not* the target for this direct
+start-violation margin.  The exact closure audit found one observed plain
+closed candidate with positive margin bound `6/11`; the strengthened semantic
+filter excludes that case and has Bellman max bound `0`.  Therefore the
+production theorem must be based on:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  AcceptedSequenceBadFaceAtRank rank Face.ym
+```
+
+not merely:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+```
+
+Current Lean status relative to this pivot:
+
+| Requirement from new strategy | Repo status |
+|---|---|
+| specialized target-summary inverse | implemented in `Cuboctahedron/Search/TopPairingTargetCursor.lean` |
+| fixed triangular target-shadow cursor | implemented as `TopPairingTriCursorFrom` |
+| closed rank -> target cursor | implemented as `topPairingTriCursor_of_closed` |
+| combined schedule/square-gap/local-axis/cursor tail | implemented in `Cuboctahedron/Search/TopPairingTransducerTail.lean` |
+| deterministic evaluator socket | implemented in `Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean` and the split-10M generated bridges |
+| split-10M final-margin producer socket | implemented as `Split10MGraphSuffixMarginFamily` |
+| production semantic membership producer | still missing |
+
+The next proof object is therefore not another graph smoke, another selected
+prefix cover, or another trace-id bucket.  It is one representative semantic
+state-DAG producer theorem with this shape:
+
+```lean
+theorem split10MGraphSuffixMarginFamily_of_semanticStateDAGFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily : StrengthenedSemanticStateDAGFamily scaledMargin rank) :
+    Split10MGraphSuffixMarginFamily scaledMargin rank
+```
+
+The family predicate may be generated, but it must be semantic.  Allowed
+coordinates include:
+
+- strengthened closed-language evidence;
+- target-shadow cursor state;
+- schedule and square-gap state;
+- local-axis/linear class state;
+- finite graph state;
+- cancellation-tree or minimized semantic state-DAG class;
+- integer Bellman gain/potential facts.
+
+Forbidden coordinates for the production family remain:
+
+- `SampledRankIndex` or sampled rank/path membership;
+- selected-prefix equality as the public cover;
+- exact full face trace equality;
+- exact affine RHS;
+- solved start point;
+- total affine map key;
+- per-rank or per-mask singleton fallback.
+
+Go/no-go gate for the next Lean slice:
+
+```text
+GO if one representative semantic state-DAG family proves
+Split10MGraphSuffixMarginFamily and checks under the 6 GiB guard, with source
+size/projected family count compatible with the 5-6 hour build target.
+
+NO-GO if proving the representative family requires a branch per observed
+prefix/path/trace, exact affine RHS, solved p0, or a sampled index.  In that
+case, keep Bellman as the mathematical proof shape but replace the selected
+state predicate with a cancellation-segment summary or cocycle quotient before
+trying more Lean emission.
+```
+
+Fallback order if the semantic state-DAG producer fails:
+
+1. Make the state honest by adding only semantic fields: target cursor,
+   square-gap, pair-count remainder, local-axis class, and tri-source progress.
+2. Try a cancellation-segment summary algebra and compose segments with the
+   existing Bellman run append theorem.
+3. Try a cocycle/coboundary quotient so margin gains factor through the small
+   semantic state rather than exact affine data.
+4. Use empty-cone or other geometric certificates only for stubborn residual
+   pockets, not as a replacement for the strengthened transducer theorem.
+
+Translation remains on its separate track:
+
+```text
+GoodDirection
+  -> source-indexed row templates
+  -> 2D Helly / support-3 oriented-circuit Farkas
+  -> Walsh only as a sign-certifying subroutine
+```
+
+Bad-direction masks must not become generated coverage data again.
+
+Focused recheck after adopting this pivot:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/graph_accepted_suffix_split10m_family_bridge_recheck_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedSuffixSplit10MBridge.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| split-10M graph-suffix margin family bridge recheck | pass | `7.01s` | `3982 MiB` | `46056 MiB` |
+
+This confirms that the current evaluator/socket layer remains memory-safe.
+The next work item is the representative semantic membership producer; do not
+start any broad emission before that single family proof is measured.
