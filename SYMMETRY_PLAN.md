@@ -80589,3 +80589,99 @@ Next implementation action:
    touching Lean.
 4. Continue to update this file at each checkpoint and use
    `scripts/run_memory_guarded.py` for all Lean smokes in this route.
+
+### Diagnostic Accepted: `state150/tppp` Has No Target-Pairing Completions
+
+Added a bounded explicit-transition completion audit:
+
+```text
+scripts/audit_bellman_explicit_transition_completion.py
+```
+
+Purpose:
+
+```text
+given a graph state and a missing/extra face, enumerate only
+target-pairing/schedule-compatible completions from observed prefixes reaching
+that state, then run the existing exact top-family classifier on those
+completions.
+```
+
+This keeps the diagnostic strictly finite and local.  It does not produce
+trusted proof evidence; it only chooses the next semantic Lean socket.
+
+Command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 4000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_state150_tppp_audit_guard.json \
+  -- python3 scripts/audit_bellman_explicit_transition_completion.py \
+    --graph scripts/generated/\
+nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+    --state 150 \
+    --face tppp \
+    --state-key-mode with-step-face-linear-tri-source \
+    --json scripts/generated/\
+bellman_state150_tppp_explicit_transition_audit.json \
+    --markdown scripts/generated/\
+bellman_state150_tppp_explicit_transition_audit.md
+```
+
+Memory guard result:
+
+| Metric | Value |
+|---|---:|
+| exit code | `0` |
+| elapsed | `1.00s` |
+| peak tree RSS | `0.75 MiB` |
+| minimum available memory | `46545 MiB` |
+
+Audit result:
+
+| Metric | Value |
+|---|---:|
+| decision | `explicit_transition_has_no_target_pairing_completions` |
+| graph state | `150` |
+| face | `tppp` |
+| prefix count | `1` |
+| prefix sample | `xm ym tmpm zm` |
+| completions | `0` |
+| matched top family | `0` |
+| truncated | `False` |
+
+Decision:
+
+```text
+The `state150/tppp` branch is not a real missing Bellman edge.  It is a
+target-pairing completion impossibility.
+```
+
+This resolves the ambiguity from the rejected depth-5 hand theorem.  The
+branch survived the local Lean proof because the proof only used head-step
+facts from schedule/square-gap/target-shadow/local-axis.  The completion audit
+shows the needed next invariant is a suffix/target-pairing impossibility
+socket, not graph regeneration and not selected-prefix membership.
+
+Next Lean step:
+
+Add a small socket theorem, analogous in spirit to
+`BellmanTopPairingMissingTransition1MSocket.lean`, proving that the strengthened
+semantic suffix predicate excludes the tail:
+
+```text
+prefix: xm, ym, tmpm, zm, tppp
+graph state: 150
+```
+
+Then the depth-5 deterministic evaluator branch can discharge `tppp` by that
+socket and continue to use the only real graph edge from state `150`:
+
+```text
+zp -> state 157, gain 114
+```
+
+Do not add a graph edge for `state150/tppp`, and do not add a sampled trace or
+rank membership fallback for it.

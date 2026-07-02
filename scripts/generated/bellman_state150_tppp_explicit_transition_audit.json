@@ -1,0 +1,23 @@
+{
+  "decision": "explicit_transition_has_no_target_pairing_completions",
+  "face": "tppp",
+  "graph_input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "max_completions": 100000,
+  "mode": "bellman-explicit-transition-completion-audit",
+  "prefix_count": 1,
+  "prefix_samples": [
+    "xm ym tmpm zm"
+  ],
+  "reason_histogram": {},
+  "recommendation": "The target-pairing/schedule language has no completions after this transition.  The next Lean socket should prove the corresponding semantic contradiction, not add a graph edge.",
+  "sample_matches": [],
+  "sample_nonmatches": [],
+  "schedule_mode": "observed+square-gap",
+  "state": 150,
+  "state_key": "step=4|faces=1,0,1,0,1,0,1,1,0,1,1,1,1,1|par=111|stack=dm11|lin=-1/3,-2/3,-2/3;-2/3,-1/3,2/3;-2/3,2/3,-1/3|triSrc=2:d1m1->dm11@110",
+  "state_key_mode": "with-step-face-linear-tri-source",
+  "target_pairing": "pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+  "total_completions": 0,
+  "total_matched_top_family": 0,
+  "truncated": false
+}
