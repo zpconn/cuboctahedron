@@ -73419,3 +73419,64 @@ forall state : AllAcceptedProducerState,
 for a semantic family of ranks.  Do not use `SampledRankIndex`, sampled paths,
 one object constructor per rank/path, exact affine-RHS lookup, or a broad
 Boolean checker.
+
+### Follow-up: Trace-Id-Exists Adapter
+
+Extended `BellmanTopPairingAcceptedPrefixEvalRoot.lean` with a second semantic
+adapter from the existing trace-margin family surface:
+
+```lean
+theorem acceptedPrefix13EvalFamily_of_traceIdExistsClosedMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdExistsClosedMarginFamily scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank
+
+theorem evalLanguage_of_traceIdExistsClosedMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdExistsClosedMarginFamily scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem scaledMargin_nonpos_of_traceIdExistsClosedMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdExistsClosedMarginFamily scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    scaledMargin rank <= 0
+```
+
+This is useful because `TraceIdExistsClosedMarginFamily` is already an existing
+semantic surface: closed rank, accepted trace-id equality, and trace-id margin
+bound.  The adapter constructs the accepted length-13 prefix producer state
+using `acceptedPrefix13_append_xp`, so it still avoids sampled rank/path
+objects.
+
+Guarded direct check:
+
+```text
+BellmanTopPairingAcceptedPrefixEvalRoot.lean: pass
+elapsed: 6.02s
+peak_tree_rss: 3941.27 MiB
+hard_as: 12288 MiB
+min_available: 46207.77 MiB
+```
+
+Forbidden-token scan over the updated root socket found no matches for
+`SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, `sampledSmokeNext`,
+`sampledObject`, `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+`Float`, `Float32`, `Float64`, or `Double`.
+
+Updated next step:
+
+Prefer reusing existing semantic trace-margin producers first:
+
+1. `TraceIdExistsClosedMarginFamily -> AcceptedPrefix13EvalFamily` is now
+   wired.
+2. `RootTraceMarginProducer -> AcceptedPrefix13EvalFamily` is also wired.
+3. The next producer should either emit/prove `TraceIdExistsClosedMarginFamily`
+   directly or prove `RootTraceMarginProducer` when the family is naturally
+   stated over accepted-prefix producer states.

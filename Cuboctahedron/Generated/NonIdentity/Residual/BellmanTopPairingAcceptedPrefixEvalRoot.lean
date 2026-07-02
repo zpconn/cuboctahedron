@@ -20,6 +20,48 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAccepted
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalProducerAllAcceptedShardSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalProducerRootSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalProducerSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalTraceMembershipSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTraceMarginBoundsSocket
+
+theorem acceptedPrefix13EvalFamily_of_traceIdExistsClosedMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdExistsClosedMarginFamily scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank := by
+  rcases hrank with ⟨closed, traceId, htrace, hmargin⟩
+  have hprefixState : ClosedRankInAcceptedPrefix13State traceId rank := by
+    refine ⟨closed, [Face.xp], ?_⟩
+    calc
+      topPairingRankFaceLabels rank = acceptedTraceOfId traceId := htrace
+      _ = AcceptedPrefix13 traceId ++ [Face.xp] := by
+        exact (acceptedPrefix13_append_xp traceId).symm
+  exact
+    ⟨traceId,
+      acceptedPrefix13ProducerState_of_prefix13State hprefixState,
+      hmargin⟩
+
+theorem evalLanguage_of_traceIdExistsClosedMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdExistsClosedMarginFamily scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_acceptedPrefix13EvalFamily
+    (acceptedPrefix13EvalFamily_of_traceIdExistsClosedMarginFamily hrank)
+    hactual
+
+theorem scaledMargin_nonpos_of_traceIdExistsClosedMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdExistsClosedMarginFamily scaledMargin rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_acceptedPrefix13EvalFamily
+    (acceptedPrefix13EvalFamily_of_traceIdExistsClosedMarginFamily hrank)
+    hactual
 
 def RootTraceMarginProducer
     (scaledMargin : Fin numPairWords -> Int)
