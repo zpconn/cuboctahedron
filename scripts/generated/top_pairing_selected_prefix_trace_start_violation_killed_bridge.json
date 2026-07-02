@@ -1,0 +1,5 @@
+{
+  "bucket_count": 31,
+  "lean_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceStartViolationKilledBridge.lean",
+  "source_cover": "scripts/generated/top_pairing_shared_gain_prefix_cover_plan.json"
+}

@@ -69436,3 +69436,179 @@ to one of the trace-id closed-margin family predicates consumed here, ideally
 `TraceIdExistsClosedMarginFamily` or `TraceIdBucketClosedMarginFamily`, while
 preserving the trace-id membership proof.  Separately, add a safe serial cache
 builder for the generated dependency roots before any future Lake-target smoke.
+
+### 2026-07-02 Selected-prefix trace start-violation killed bridge accepted
+
+Implemented the next no-sampling Bellman bridge requested by the semantic
+membership gate:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceStartViolationKilledBridge.lean
+scripts/emit_top_pairing_selected_prefix_trace_start_violation_killed_bridge.py
+```
+
+The generated bridge consumes the existing semantic family:
+
+```lean
+SelectedPrefixTraceMarginFamily scaledMargin rank
+```
+
+This family is a disjunction of `31` terminal prefix/shared-gain buckets, not a
+sampled rank/path table.  Each bucket is discharged by the previously accepted
+trace-id killed bridge:
+
+```lean
+nonIdentityRankKilled_of_terminalTracePrefixSharedGainClosedMarginFamily
+```
+
+using the corresponding generated prefix theorem such as:
+
+```lean
+Group000.Prefix000Prefix_gain
+```
+
+The main new theorem is:
+
+```lean
+nonIdentityRankKilled_of_selectedPrefixTraceMarginFamily :
+  SelectedPrefixTraceMarginFamily scaledMargin rank ->
+    Coverage.NonIdentityRankKilled rank
+```
+
+The file also exposes the selected-prefix-cover corollary:
+
+```lean
+nonIdentityRankKilled_of_selectedPrefixCoverFamily :
+  SelectedPrefixCoverFamily scaledMargin rank ->
+    Coverage.NonIdentityRankKilled rank
+```
+
+This is the desired semantic connection from the selected-prefix Bellman cover
+surface to the public killed predicate.  It still covers only the current
+top-pairing selected-prefix subproblem; it is not yet global generated
+nonidentity coverage.
+
+Focused checks and cache discipline:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/selected_prefix_trace_start_violation_killed_bridge_direct_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceStartViolationKilledBridge.lean
+```
+
+Result:
+
+```text
+passed
+elapsed: 2.00s
+peak process-tree RSS: 3669.3 MiB
+minimum available memory observed: 46303.2 MiB
+```
+
+The same file was also compiled directly to `.olean` for future import tests:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/selected_prefix_trace_start_violation_killed_bridge_direct_olean_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceStartViolationKilledBridge.olean \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceStartViolationKilledBridge.lean
+```
+
+Result:
+
+```text
+passed
+elapsed: 2.00s
+peak process-tree RSS: 3670.1 MiB
+minimum available memory observed: 46305.4 MiB
+```
+
+The bridge imports the earlier trace-id killed bridge.  Because that earlier
+module had only been direct-checked, it was also compiled directly to `.olean`
+without using a broad Lake target:
+
+```text
+trace_start_violation_killed_bridge_direct_olean_guard.json:
+  passed
+  elapsed: 2.01s
+  peak process-tree RSS: 3283.7 MiB
+  minimum available memory observed: 46346.6 MiB
+```
+
+Before the new direct check could run, the existing graph-eval root required
+additional cached shards.  Missing shards `Shard024`-`Shard047` were cached
+serially under the guard.  The serial cache batch for `Shard025`-`Shard047`
+reported:
+
+```text
+cached shard count: 23
+all exit codes: 0
+maximum elapsed per shard: 3.02s
+maximum process-tree RSS: 4205.1 MiB
+minimum available memory observed: 45866.0 MiB
+```
+
+`Shard024` was cached separately first:
+
+```text
+passed
+elapsed: 5.00s
+peak process-tree RSS: 3918 MiB
+minimum available memory observed: 46148 MiB
+```
+
+Forbidden-key scan over the new Lean bridge and emitter:
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixTraceStartViolationKilledBridge.lean \
+  scripts/emit_top_pairing_selected_prefix_trace_start_violation_killed_bridge.py || true
+```
+
+Result: no matches.
+
+Decision:
+
+Accept this as the first complete selected-prefix Bellman killed bridge for the
+current top-pairing subproblem.  It satisfies the GPT5.5 Bellman gate at this
+level: semantic family membership drives the deterministic Bellman margin and
+the trace-id start-violation contradiction, with no sampled rank/path objects
+and no exact affine-RHS table.
+
+The remaining gap is now one level higher:
+
+```lean
+actual top-pairing closed-language classifier
+  -> SelectedPrefixCoverFamily scaledMargin rank
+```
+
+or equivalently:
+
+```lean
+actual top-pairing closed-language classifier
+  -> SelectedPrefixTraceMarginFamily scaledMargin rank
+```
+
+That theorem must be proved by semantic prefix/state-DAG classification.  If
+the next attempt to prove this higher classifier requires sampled membership,
+rank/path tables, or exact affine-RHS keys, reject Bellman production for this
+residual family and pivot to cancellation-tree summary algebra as planned.
+
+Build discipline remains unchanged: do not run a cold `lake build` over this
+import neighborhood.  Use direct Lean checks or a serial guarded cache builder
+until the generated dependencies are reorganized so Lake cannot fan out into a
+large memory spike.
