@@ -85939,3 +85939,90 @@ one of those states.  Preferred next route:
 No-go signs remain: selected trace ids as the primary membership coordinate,
 sampled ranks/paths, exact affine RHS, solved start points, or exact full
 Bellman path identity.
+
+#### Grouped Prefix Classifier Expansion Rejected As Primary Route
+
+After accepting the terminal-membership socket, inspected the existing semantic
+trace-classifier artifacts:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  TopPairingTraceClassifier/PrefixSmoke.lean
+  TopPairingTraceClassifier/Depth7/All.lean
+  TopPairingTraceClassifier/Depth8/All.lean
+  TopPairingTraceClassifier/Depth9/RootSmoke.lean
+  TopPairingTraceClassifier/TailStateSmoke.lean
+
+scripts/generated/
+  top_pairing_trace_classifier_depth7_summary.json
+  top_pairing_trace_classifier_depth8_grouped_summary.json
+  top_pairing_trace_classifier_depth9_grouped_summary.json
+  top_pairing_trace_classifier_depth9_grouped_size1_summary.json
+  top_pairing_trace_classifier_terminal_summary.json
+```
+
+Important findings:
+
+| Artifact | Finding |
+|---|---:|
+| depth 7 semantic prefixes | `209` prefixes, `68` shards |
+| depth 8 grouped prefixes | `595` prefixes, `53` shards |
+| depth 9 grouped prefixes | `1585` prefixes, projected `149` grouped shards |
+| depth 9 checked shard | stopped after `120s` on one `9390` byte shard |
+| terminal traces | `442` full terminal traces, `47` cancellation-ok traces |
+
+The depth-9 timeout is the decisive signal: do **not** keep scaling the grouped
+prefix disjunction route as the primary terminal membership proof.  It is
+semantic in the sense that it uses schedule/square-gap/local-axis/pair-count
+predicates, but the proof object still expands as prefix disjunctions and the
+local proof is too expensive for the full 5-6 hour target.
+
+Accepted replacement route:
+
+1. keep `StrengthenedTerminalTraceMembership` as the public socket;
+2. prove it with a compact deterministic tail-state/cursor transducer, using
+   `TopPairingTransducerTail` rather than prefix disjunction roots;
+3. represent reachable states by generated constructors/projections, not
+   by raw prefix lists;
+4. local transitions should case-split on `(state, face)`, not on full prefix
+   equality;
+5. terminal states should map to `TerminalTraceLabels` through small state
+   classes or a suffix socket, not through accepted trace-id membership as the
+   primary theorem.
+
+Existing reusable components:
+
+```lean
+TopPairingTriCursorFrom
+topPairingTriCursor_of_closed
+TopPairingTraceTail
+TopPairingTransducerTail
+TopPairingTransducerTail.ofClosedRank
+TopPairingTransducerTail.cons
+```
+
+Next implementation target:
+
+```lean
+inductive TopPairingTerminalState
+  | ...
+
+def TopPairingTerminalState.Contains
+    (state : TopPairingTerminalState) (labels : List Face) : Prop := ...
+
+theorem terminalState_of_strengthenedClosed :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ∃ state,
+        TopPairingTerminalState.Contains state
+          (topPairingRankFaceLabels rank)
+
+theorem terminalTraceLabels_of_terminalState :
+    TopPairingTerminalState.Contains state labels ->
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels labels
+```
+
+If `terminalState_of_strengthenedClosed` needs exact prefix equality as the
+main state key, reject that state and add only semantic fields: target-shadow
+cursor, square-gap counter, pair-count remainder, local-axis class,
+tri-source progress, and canonical bad-face class.
