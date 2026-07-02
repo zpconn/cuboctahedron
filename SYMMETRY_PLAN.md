@@ -83399,3 +83399,71 @@ direction: a deterministic semantic classifier over step, remaining counts,
 square gap, local axis linear matrix, square parity, and triangular
 cancellation stack.  The next Lean slice should target a small state-DAG
 terminal classifier theorem, not another prefix-bucket cover.
+
+#### Semantic State-DAG Behavior Quotient Candidate
+
+Added an exact diagnostic minimizer:
+
+```text
+scripts/minimize_top_pairing_trace_state_dag.py
+```
+
+It reads the Lean-aligned semantic state DAG and quotients states by terminal
+behavior plus sorted outgoing face-labelled transitions.  This is diagnostic
+only, not Lean proof, but it answers whether the raw semantic state graph has a
+smaller deterministic classifier target.
+
+Guarded command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_trace_state_dag_minimized_guard.json \
+  --verbose \
+  -- python3 scripts/minimize_top_pairing_trace_state_dag.py
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| semantic state-DAG minimizer | pass | `1.00s` | `1 MiB` | `46427 MiB` |
+
+Quotient report:
+
+| Metric | Raw | Minimized |
+|---|---:|---:|
+| states | `5347` | `1026` |
+| edges | `6089` | `2486` |
+| terminal states/classes | `98` | `3` |
+| state compression factor |  | `5.212` |
+| edge compression factor |  | `2.449` |
+
+Terminal classes in the quotient:
+
+| Kind | Classes |
+|---|---:|
+| `closed` | `1` |
+| `cancellation_reject` | `1` |
+| `dead_reject` | `1` |
+
+Decision: promote the minimized semantic state-DAG to the next candidate, but
+do not accept it as final architecture yet.  It is far better than prefix
+buckets and sits near the hard scale gate, but `2486` quotient edges is still
+too many to blindly emit as one theorem per edge.  The next Lean slice should
+test a small quotient-state suffix theorem with grouped edge facts or a cheap
+finite table, then measure whether a representative module checks in seconds
+and under the existing `6 GiB` guard.
+
+Acceptance gate for this route:
+
+- generated quotient states stay near `1026`, not raw `5347`;
+- quotient edge proof obligations are grouped or tabled enough that projected
+  generated checking remains within `24 CPU-hours`;
+- no quotient key includes exact affine RHS, solved start point, exact full
+  trace id, or sampled prefix identity;
+- a representative quotient-state Lean smoke proves either `dead_reject`,
+  `cancellation_reject`, or `closed -> TraceIdExistsMarginSequenceBadFace`
+  from semantic cursor/state facts under the memory guard.
