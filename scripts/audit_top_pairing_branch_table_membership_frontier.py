@@ -82,6 +82,8 @@ REQUIRED_SYMBOLS = {
     "branchTableSuffixOk_root_of_closedPrefix3_forall": "closed-rank third-face lift into branch-table suffix",
     "GraphBranchTableSuffixOk": "lightweight graph-indexed suffix predicate",
     "branchTableSuffixOk_of_graphBranchTableSuffixOk": "graph suffix conversion to semantic suffix",
+    "graphBranchTableSuffixOk_closedPrefix2_branch_of_closed": "closed third-face graph suffix lift",
+    "branchTableSuffixOk_root_of_graphClosedPrefix3_forall": "closed-rank graph suffix root lift",
 }
 
 FORBIDDEN_TOKENS = [
@@ -204,6 +206,8 @@ def render_markdown(report: dict[str, Any]) -> str:
             "branchTableSuffixOk_root_of_closedPrefix3_forall",
             "GraphBranchTableSuffixOk",
             "branchTableSuffixOk_of_graphBranchTableSuffixOk",
+            "graphBranchTableSuffixOk_closedPrefix2_branch_of_closed",
+            "branchTableSuffixOk_root_of_graphClosedPrefix3_forall",
             "```",
             "",
             "## Remaining Production Theorem",

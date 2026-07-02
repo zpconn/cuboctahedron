@@ -300,6 +300,83 @@ theorem branchTableSuffixOk_of_graphBranchTableSuffixOk
     BranchTableSuffixOk rank state faces :=
   branchTableSuffixOk_of_graphBranchTableSuffixOk_aux hsuffix state rfl
 
+theorem graphBranchTableSuffixOk_closedPrefix2_branch_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {face : Face} {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: face :: rest)
+    (hsuffix :
+      ∀ graphNext gain,
+        graphSmokeNext (143 : State) (smokeLabelOfFace face) =
+          some (graphNext, gain) ->
+        GraphBranchTableSuffixOk rank graphNext rest) :
+    GraphBranchTableSuffixOk rank (143 : State) (face :: rest) := by
+  have hschedule :
+      TopPairingStepScheduleLabels (topPairingRankFaceLabels rank) := by
+    simpa [topPairingRankFaceLabels] using hclosed.schedule
+  have hface :
+      face ∈ topPairingAllowedFacesAtStep 2 := by
+    simpa using
+      (topPairingStepScheduleLabels_allows_next_of_prefix
+        (labels := topPairingRankFaceLabels rank)
+        (pfx := [Face.xm, Face.ym])
+        (rest := rest)
+        hschedule
+        (by simpa using hlabels))
+  simp [topPairingAllowedFacesAtStep] at hface
+  rcases hface with rfl | rfl | rfl
+  · refine GraphBranchTableSuffixOk.graph
+      StrengthenedBranchTable.graph_127_s0143_tmpm ?_
+    intro graphNext gain hgraph
+    exact hsuffix graphNext gain hgraph
+  · refine GraphBranchTableSuffixOk.graph
+      StrengthenedBranchTable.graph_125_s0143_yp ?_
+    intro graphNext gain hgraph
+    exact hsuffix graphNext gain hgraph
+  · refine GraphBranchTableSuffixOk.graph
+      StrengthenedBranchTable.graph_126_s0143_zm ?_
+    intro graphNext gain hgraph
+    exact hsuffix graphNext gain hgraph
+
+theorem branchTableSuffixOk_root_of_graphClosedPrefix3_forall
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix :
+      ∀ face rest graphNext gain,
+        topPairingRankFaceLabels rank =
+          Face.xm :: Face.ym :: face :: rest ->
+        graphSmokeNext (143 : State) (smokeLabelOfFace face) =
+          some (graphNext, gain) ->
+        GraphBranchTableSuffixOk rank graphNext rest) :
+    BranchTableSuffixOk rank
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) := by
+  rcases topPairingStepScheduleLabels_prefix3 hclosed.schedule with
+    htmpm | hyp | hzm
+  · rcases htmpm with ⟨rest, hlabels⟩
+    exact branchTableSuffixOk_root_of_closedPrefix2 hlabels
+      (branchTableSuffixOk_of_graphBranchTableSuffixOk
+        (graphBranchTableSuffixOk_closedPrefix2_branch_of_closed
+          hclosed hlabels
+          (fun graphNext gain hgraph =>
+            hsuffix Face.tmpm rest graphNext gain hlabels hgraph)))
+  · rcases hyp with ⟨rest, hlabels⟩
+    exact branchTableSuffixOk_root_of_closedPrefix2 hlabels
+      (branchTableSuffixOk_of_graphBranchTableSuffixOk
+        (graphBranchTableSuffixOk_closedPrefix2_branch_of_closed
+          hclosed hlabels
+          (fun graphNext gain hgraph =>
+            hsuffix Face.yp rest graphNext gain hlabels hgraph)))
+  · rcases hzm with ⟨rest, hlabels⟩
+    exact branchTableSuffixOk_root_of_closedPrefix2 hlabels
+      (branchTableSuffixOk_of_graphBranchTableSuffixOk
+        (graphBranchTableSuffixOk_closedPrefix2_branch_of_closed
+          hclosed hlabels
+          (fun graphNext gain hgraph =>
+            hsuffix Face.zm rest graphNext gain hlabels hgraph)))
+
 theorem branchTableSuffix1MSmoke_builds : True := by
   exact True.intro
 

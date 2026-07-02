@@ -81692,6 +81692,100 @@ top-pairing suffix language, then convert it to `BranchTableSuffixOk` using
 This is the first accepted route that directly addresses the prefix-four
 heartbeat issue without weakening the semantic proof architecture.
 
+### Graph-Indexed Third-Face Root Lift Accepted
+
+Added the first membership theorem whose continuation is already graph-indexed:
+
+```lean
+graphBranchTableSuffixOk_closedPrefix2_branch_of_closed
+branchTableSuffixOk_root_of_graphClosedPrefix3_forall
+```
+
+This theorem uses the closed schedule to choose the third face after `xm, ym`,
+constructs a `GraphBranchTableSuffixOk` branch at graph state `143`, and then
+converts it to the full semantic suffix only at the root boundary.  The
+continuation no longer mentions a concrete semantic evaluator state:
+
+```lean
+graphSmokeNext (143 : State) (smokeLabelOfFace face) =
+  some (graphNext, gain) ->
+GraphBranchTableSuffixOk rank graphNext rest
+```
+
+That is the accepted direction for generated membership:
+
+```text
+closed semantic language
+  -> small graph-state suffix object
+  -> semantic suffix converter
+  -> evaluator proof
+```
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffix1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingBranchTableSuffix1MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| graph-root direct Lean | pass | `3.00s` | `3921 MiB` |
+| branch-table suffix Lake target | pass | `1.00s` | cached/replay |
+| membership-frontier audit | pass | `1.00s` | `1 MiB` |
+| forbidden/sampled scan | pass | no hits | n/a |
+
+Rejected follow-up:
+
+```lean
+graphBranchTableSuffixOk_closedPrefix3_tmpm_branch_of_closed
+```
+
+Even with a graph-indexed conclusion, deriving the fourth-face graph branch by
+calling the old full semantic theorem
+`closed_prefix3_tmpm_branch_faceEval` still caused deterministic `isDefEq`
+heartbeat pressure:
+
+```text
+exit code: 1
+peak RSS: ~4.3 GiB
+failure: heartbeat timeout while elaborating the graph-state theorem type/body
+```
+
+Decision:
+
+```text
+Do not derive graph membership through the old full semantic face-eval bridge.
+The next emitter should produce `GraphBranchTableSuffixOk` branches directly
+from small graph ids and a semantic classifier/report, rather than routing
+through concrete `faceEvalNext` evidence for prefix-3 states.
+```
+
 ### Branch-Table Third-Face Lift Added
 
 Extended the branch-table suffix predicate one semantic branch past the
