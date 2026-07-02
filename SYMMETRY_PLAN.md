@@ -61925,3 +61925,157 @@ instead use a compact terminal-language certificate:
    geometric local-axis predicate at every prefix split.
 
 Do not emit depth 9-14 with the current grouped-depth proof template.
+
+Tail-state semantic membership checkpoint:
+
+Implemented the first replacement primitive for the rejected depth-9 local-simp
+classifier:
+
+- `Cuboctahedron/Search/TopPairingTraceTail.lean`
+- `Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/\
+TailStateSmoke.lean`
+
+`TopPairingTraceTail step gap linear labels` packages exactly the suffix facts
+needed by the deterministic top-pairing run:
+
+```lean
+structure TopPairingTraceTail
+    (step gap : Nat) (linear : Mat3 Rat) (labels : List Face) : Prop where
+  schedule : TopPairingStepScheduleFrom step labels
+  squareGap : TopPairingSquareGapFrom gap labels
+  localAxis : TopPairingLocalAxisFrom linear labels
+```
+
+The key theorem is:
+
+```lean
+theorem TopPairingTraceTail.cons
+    (h : TopPairingTraceTail step gap linear (face :: rest)) :
+    face ∈ topPairingAllowedFacesAtStep step ∧
+      TopPairingLocalAxisAllows linear face ∧
+        TopPairingTraceTail (step + 1) (topPairingNextGap gap face)
+          (topPairingNextLinear linear face) rest
+```
+
+This consumes one head face and carries the remaining suffix predicates forward.
+It does not enumerate ranks, does not introduce a sampled object, and does not
+replay the whole `TopPairingLocalAxisLabels` proof at each generated branch.
+
+Guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_tail_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Search/TopPairingTraceTail.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 5.03s
+peak_tree_rss = 3940 MiB
+hard_as = 8192 MiB
+min_available = 45979 MiB
+```
+
+To produce the `.olean` needed by downstream direct-Lean imports, the focused
+Lake build needed a looser address-space cap.  The lower caps failed with
+`failed to create thread` despite RSS staying near 4 GiB, so this was treated as
+an address-space/thread-reservation issue rather than an OOM trend.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_tail_lake_build_32g.json \
+  --verbose \
+  -- env LEAN_NUM_THREADS=1 lake build \
+     Cuboctahedron.Search.TopPairingTraceTail
+```
+
+result:
+
+```text
+passed
+elapsed = 4.00s
+peak_tree_rss = 3978 MiB
+hard_as = 32768 MiB
+min_available = 45973 MiB
+```
+
+The generated-style smoke then checked the semantic closed-language rank through
+the first two deterministic prefix steps:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_tail_smoke_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TailStateSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3564 MiB
+hard_as = 8192 MiB
+min_available = 46164 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Search/TopPairingTraceTail.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TailStateSmoke.lean
+```
+
+Both checks passed; the `rg` audit found no matches in the new files.
+
+Decision:
+
+Accept this as the next Bellman semantic-membership primitive.  It is not the
+final closed-language evaluator theorem, but it demonstrates the right proof
+shape: semantic rank membership gives a compact tail object, and deterministic
+prefix consumption carries the necessary state without sampled ranks or a
+global branch over generated paths.
+
+Next action:
+
+Extend this tail-state interface from the fixed `xm, ym` prefix smoke to a
+small deterministic evaluator-step theorem for one generated terminal trace or
+terminal-source-position pattern.  The target remains:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> BellmanEvalAccepts graphPotential graphSmokeNext rootState (176 : Int)
+      (fun obj => topPairingScaledMargin obj.rank)
+      (fun obj => graph labels computed from the closed rank)
+      obj
+```
+
+or an equivalent theorem factored through `TopPairingTraceTail`.  The route
+must continue to avoid `SampledRankIndex`, sampled rank/path membership, and
+one branch per rank.
