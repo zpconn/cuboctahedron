@@ -86130,3 +86130,106 @@ Decision: accepted as the first deterministic-state building block.  The next
 state should advance from `afterXmYm` by local `(state, face)` transitions
 derived from `TopPairingTransducerTail.cons`, not by generating a disjunction
 of all depth-3 or deeper prefixes.
+
+#### Prefix-3 Local Terminal-State Transition Accepted
+
+Added the next deterministic-state slice: the compact prefix-2 state advances
+one local face step into exactly the three schedule-allowed prefix-3 states.
+This proof uses `TopPairingTransducerTail.cons_square_tail` /
+`TopPairingTransducerTail.cons_tri_tail` and local label equality.  It does not
+use accepted trace ids, sampled paths, or a generated full-prefix classifier
+root.
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalStatePrefix3Socket.lean
+```
+
+New theorem surface:
+
+```lean
+inductive BellmanTopPairingTerminalStatePrefix3Socket.
+  TopPairingPrefix3State
+  | afterTmpm
+  | afterYp
+  | afterZm
+
+def BellmanTopPairingTerminalStatePrefix3Socket.
+  TopPairingPrefix3State.Contains :
+    TopPairingPrefix3State -> Fin numPairWords -> Prop
+
+def BellmanTopPairingTerminalStatePrefix3Socket.
+  Prefix3TerminalStateFamily :
+    Fin numPairWords -> Prop
+
+theorem BellmanTopPairingTerminalStatePrefix3Socket.
+  prefix3State_tmpm_of_prefix2
+
+theorem BellmanTopPairingTerminalStatePrefix3Socket.
+  prefix3State_yp_of_prefix2
+
+theorem BellmanTopPairingTerminalStatePrefix3Socket.
+  prefix3State_zm_of_prefix2
+
+theorem BellmanTopPairingTerminalStatePrefix3Socket.
+  prefix3State_of_closed :
+    TopPairingClosedLanguageAtRank rank badFace ->
+      Prefix3TerminalStateFamily rank
+
+theorem BellmanTopPairingTerminalStatePrefix3Socket.
+  prefix3State_of_strengthenedClosed :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Prefix3TerminalStateFamily rank
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_prefix3_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePrefix3Socket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_prefix3_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePrefix3Socket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `BellmanTopPairingTerminalStatePrefix3Socket.lean` | pass | `9.01s` | `3486 MiB` | `46280 MiB` |
+| Lake `BellmanTopPairingTerminalStatePrefix3Socket` | pass | `3.01s` | `4065 MiB` | `46023 MiB` |
+
+Hygiene:
+
+```bash
+rg "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePrefix3Socket.lean
+```
+
+returned no matches.  `git diff --check` passed.
+
+Decision: accepted.  This gives a concrete pattern for the replacement
+terminal classifier: small local transitions on semantic state constructors.
+The next slice should generate or hand-write the state-step API that generalizes
+these three cases without letting the proof regress into the known-slow
+depth-prefix disjunction shards.
