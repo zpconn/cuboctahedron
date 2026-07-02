@@ -85089,3 +85089,110 @@ must prove its fields from semantic closed-language/cursor/state-DAG facts.  If
 the proof wants trace ids, sampled ranks, selected-prefix membership, exact
 affine RHS, or exact full Bellman paths as its main key, reject that provider
 shape and refine the semantic state or cocycle quotient.
+
+#### Class-034 Semantic State-DAG Provider Smoke Accepted
+
+Added
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean`.
+This is the first nontrivial provider instance for
+`StrengthenedSemanticStateDAGAllFamily`.  It plugs the representative class-034
+suffix cone into the all-family socket by defining:
+
+```lean
+def Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.
+  Class034GraphSuffixProducer
+
+def Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.
+  Class034SequenceBadFace
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.
+  split10MGraphSuffixProducer_of_class034
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.
+  semanticStateDAGFamily_of_class034
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.
+  semanticStateDAGAllFamily_of_class034
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.
+  scaledMargin_nonpos_of_class034AllFamily
+```
+
+The key theorem is `split10MGraphSuffixProducer_of_class034`: once the
+strengthened prefix/frontier split has reached graph state `197`, the semantic
+`Class034Suffix` cone supplies the `Split10MGraphSuffixProducer` field.  This
+uses the previously checked representative suffix facts:
+
+```lean
+Class034Suffix rest ->
+  GraphBranchTableSuffixOk rank (197 : State) rest
+```
+
+The provider still leaves the final-margin theorem as a separate semantic
+producer obligation through `Split10MFinalMarginProducer scaledMargin rank`.
+That is intentional: this smoke validates the graph-suffix/state-DAG side of
+the production socket without pretending to have solved the integer margin
+producer for the full family.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_state_dag_representative_lake_guard_retry.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGRepresentativeSmoke
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_state_dag_class034_provider_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_state_dag_class034_provider_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke
+```
+
+Result:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| Lake `BellmanTopPairingSemanticStateDAGRepresentativeSmoke` dependency retry | pass | `4.02s` | `3578 MiB` | `46133 MiB` |
+| direct `BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean` | pass | `2.00s` | `3484 MiB` | `46208 MiB` |
+| Lake `BellmanTopPairingSemanticStateDAGClass034ProviderSmoke` | pass | `3.00s` | `1516 MiB` | `46239 MiB` |
+
+Decision: accepted as a restricted provider-shape smoke, not as coverage.
+Scale this only if the next emitter can produce many `ClassNNNSuffix` cones and
+the matching final-margin producers from semantic state/cocycle data.  The next
+useful gate is a profiler/emitter pass that reports:
+
+- number of suffix classes needed after the split-10M prefix/frontier split;
+- generated graph-suffix theorem count and largest module size;
+- which classes still lack `Split10MFinalMarginProducer`;
+- whether final margins can be proved by the Bellman/cocycle/segment integer
+  route without exact affine RHS or exact full path keys.
