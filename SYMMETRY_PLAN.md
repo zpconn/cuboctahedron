@@ -66219,3 +66219,82 @@ Decision:
   reject Bellman production for this branch and pivot to a cancellation-tree
   summary automaton where the accepted run and margin bound are proved by
   summary constructors rather than accepted trace ids.
+
+### 2026-07-02 Semantic state-DAG remains the next Bellman candidate
+
+The state-DAG profiler had a stale decision gate that expected an old two-path
+closed-language smoke.  It now gates on actual size instead:
+
+```text
+scripts/profile_top_pairing_trace_state_dag.py
+```
+
+Current command:
+
+```bash
+python3 -m py_compile \
+  scripts/profile_top_pairing_trace_state_dag.py \
+  scripts/plan_top_pairing_shared_gain_prefix_cover.py
+
+python3 scripts/profile_top_pairing_trace_state_dag.py \
+  --json scripts/generated/top_pairing_trace_state_dag_profile.json \
+  --markdown scripts/generated/top_pairing_trace_state_dag_profile.md \
+  --graph-json scripts/generated/top_pairing_trace_state_dag_profile_graph.json \
+  --max-examples 3
+```
+
+Result:
+
+```text
+decision = semantic-state-dag-candidate
+states = 5347
+edges = 6089
+max_states_gate = 10000
+max_edges_gate = 100000
+terminal states: cancellation_reject = 97, closed = 1
+terminal paths: cancellation_reject = 395, closed = 47
+```
+
+State key:
+
+```text
+step
+remaining_pair_counts
+square_gap
+local_axis_linear_matrix
+square_parity
+triangular_cancellation_stack
+```
+
+Interpretation:
+
+- The accepted-trace prefix/gain cover fragments (`31` buckets for `37`
+  accepted traces), so it is only a terminal adapter.
+- The semantic state DAG merges all `47` closed paths into one closed terminal
+  state and keeps the whole closed-language classifier below the current
+  `10k`/`100k` state/edge gate.
+- This is the best next Bellman candidate: prove membership/evaluator
+  acceptance by state-DAG/cancellation constructors, then use the existing
+  `TerminalTracePrefixSharedGainClosedMarginFamily` or
+  `TerminalTraceIdSharedGainBucketClosedMarginFamily` sockets only at terminal
+  leaves.
+
+Next theorem-facing task:
+
+Generate a very small state-DAG Lean smoke for this profile, but **not** the
+full `5347`-state graph yet.  Start with a bounded depth or a single subtree
+whose terminal is the closed state, and prove:
+
+```lean
+StateDAGPrefixFamily rank ->
+  TopPairingStrengthenedClosedLanguageAtRank
+    (TerminalTracePrefixSharedGainClosedMarginFamily pfx gain scaledMargin)
+    rank Face.ym
+```
+
+or an equivalent theorem that feeds
+`evalLanguage_of_terminalTracePrefixSharedGainClosedMarginFamily`.
+
+No-go rule: if the state-DAG smoke needs one theorem per full accepted trace,
+one theorem per rank, or exact affine RHS tables, reject this Bellman route and
+promote a constructor-based cancellation summary automaton instead.

@@ -9,7 +9,7 @@ the future Lean classifier should use:
   square parity, and triangular cancellation stack.
 
 The goal is to size the membership-driven proof DAG that avoids one generated
-rejection branch per excluded face.
+branch per accepted trace or excluded face.
 """
 
 from __future__ import annotations
@@ -37,7 +37,7 @@ def matrix_key(linear) -> tuple[tuple[tuple[int, int], ...], ...]:
     )
 
 
-def profile(max_examples: int) -> dict[str, object]:
+def profile(max_examples: int, max_states: int, max_edges: int) -> dict[str, object]:
     state_ids: dict[tuple[object, ...], int] = {}
     id_to_key: list[tuple[object, ...]] = []
     edges: set[tuple[int, str, int]] = set()
@@ -177,12 +177,19 @@ def profile(max_examples: int) -> dict[str, object]:
     terminal_histogram: dict[str, int] = {}
     for kind in terminal_states.values():
         terminal_histogram[kind] = terminal_histogram.get(kind, 0) + 1
+    closed_paths = terminal_path_histogram.get("closed", 0)
+    if closed_paths == 0:
+        decision = "no-closed-paths"
+    elif len(state_ids) <= max_states and len(edges) <= max_edges:
+        decision = "semantic-state-dag-candidate"
+    else:
+        decision = "semantic-state-dag-too-large"
     return {
-        "decision": (
-            "semantic-state-dag-candidate"
-            if terminal_path_histogram.get("closed", 0) == 2
-            else "unexpected-closed-terminal-count"
-        ),
+        "decision": decision,
+        "gates": {
+            "max_states": max_states,
+            "max_edges": max_edges,
+        },
         "root_state": root,
         "states": len(state_ids),
         "edges": len(edges),
@@ -263,11 +270,13 @@ def write_markdown(report: dict[str, object], path: Path) -> None:
         "# Top-Pairing Trace State-DAG Profile",
         "",
         "This is exact diagnostic evidence, not proof.  It sizes the semantic",
-        "state DAG for the future closed-language two-trace classifier.",
+        "state DAG for the future closed-language classifier.",
         "",
         f"- decision: `{report['decision']}`",
         f"- states: `{report['states']}`",
         f"- edges: `{report['edges']}`",
+        f"- max states gate: `{report['gates']['max_states']}`",
+        f"- max edges gate: `{report['gates']['max_edges']}`",
         "",
         "## State Key",
         "",
@@ -314,9 +323,11 @@ def main() -> None:
         help="optional compact state/edge graph output for later Lean emitters",
     )
     parser.add_argument("--max-examples", type=int, default=3)
+    parser.add_argument("--max-states", type=int, default=10_000)
+    parser.add_argument("--max-edges", type=int, default=100_000)
     args = parser.parse_args()
 
-    report = profile(args.max_examples)
+    report = profile(args.max_examples, args.max_states, args.max_edges)
     args.json.parent.mkdir(parents=True, exist_ok=True)
     args.markdown.parent.mkdir(parents=True, exist_ok=True)
     profile_report = {
