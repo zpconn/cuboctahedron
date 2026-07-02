@@ -74387,3 +74387,120 @@ This means the next generated leaf should not prove a fresh
 `TerminalDirectProviderFamily` first.  It should prove a semantic
 trace-margin/eval-language family that can feed the already-checked evaluator
 socket.
+
+## 2026-07-02 Checkpoint: Prefix/Shared-Gain Evaluator Path Rechecked
+
+The first candidate named above already exists in the current tree and has now
+been rechecked under the current hard memory guard:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSharedGainPrefixBucketSmoke.lean
+```
+
+It defines the non-sampled prefix/shared-gain family:
+
+```lean
+def Trace000001002PrefixSharedGainFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TerminalTracePrefixSharedGainClosedMarginFamily
+    Trace000001002Prefix (-376) scaledMargin rank
+```
+
+and proves:
+
+```lean
+theorem trace000001002PrefixFamily_evalLanguage :
+    Trace000001002PrefixSharedGainFamily scaledMargin rank ->
+      TopPairingBellmanEvalLanguageAtRank
+        graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+        scaledMargin rank Face.ym
+
+theorem trace000001002PrefixFamily_scaledMargin_nonpos :
+    Trace000001002PrefixSharedGainFamily scaledMargin rank ->
+      scaledMargin rank <= 0
+```
+
+The selected-prefix route also already has the semantic object-cover and killed
+socket layers:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean
+  BellmanTopPairingSelectedPrefixTraceMarginKilledSocket.lean
+```
+
+Guarded commands rerun serially:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_shared_gain_prefix_bucket_smoke_guard.json \
+  -- lake env lean -R . -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSharedGainPrefixBucketSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/selected_prefix_trace_margin_object_cover_guard.json \
+  -- lake env lean -R . -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/selected_prefix_trace_margin_killed_socket_guard.json \
+  -- lake env lean -R . -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginKilledSocket.lean
+```
+
+Results:
+
+| target | exit | elapsed | max RSS | hard AS | min available |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `BellmanTopPairingSharedGainPrefixBucketSmoke.lean` | `0` | `10.01s` | `3644 MiB` | `12288 MiB` | `46300 MiB` |
+| `BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean` | `0` | `2.00s` | `3600 MiB` | `12288 MiB` | `46313 MiB` |
+| `BellmanTopPairingSelectedPrefixTraceMarginKilledSocket.lean` | `0` | `2.00s` | `3602 MiB` | `12288 MiB` | `46307 MiB` |
+
+Decision:
+
+```text
+accept the prefix/shared-gain evaluator socket as Lean-checked and
+memory-safe for the selected-prefix boundary
+```
+
+This does not prove full residual coverage.  It does, however, resolve the
+immediate evaluator-socket risk: the existing `TerminalTracePrefixSharedGain`
+route can drive `TopPairingBellmanEvalLanguageAtRank`, an object cover, and the
+nonidentity killed socket without sampled rank/path objects.
+
+The true next gap is now the semantic membership theorem that turns the full
+intended top-pairing residual language into one of the existing prefix/shared
+gain or trace-id margin families:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+-- plus the necessary semantic terminal/actual-face/bad-face/margin fields
+-> SelectedPrefixTraceMarginFamily scaledMargin rank
+```
+
+or, if `SelectedPrefixTraceMarginFamily` is too narrow:
+
+```lean
+-> TerminalTracePrefixSharedGainClosedMarginFamily pfx gain scaledMargin rank
+```
+
+for a generated low-thousands set of semantic prefixes.  The next profiler or
+generated leaf must therefore target semantic membership into these family
+predicates, not the evaluator socket itself.  If that membership proof collapses
+back into sampled paths, exact affine-RHS keys, or one branch per concrete rank,
+the Bellman route should be rejected as a final coverage architecture and the
+cancellation-tree summary automaton should become primary.
