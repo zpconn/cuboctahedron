@@ -79195,3 +79195,118 @@ backed out.  This reinforces the strategy boundary: the accepted-trace suffix
 module should stay a bounded eval/suffix smoke, while final potential and
 margin bounds should be handled by the generic semantic evaluator/Bellman-bound
 bridge over the deterministic state machine.
+
+## 2026-07-02 Checkpoint: 1M Missing-Transition Socket Accepted
+
+The aligned 1M `with-step-face-linear-tri-source` closure audit had exactly one
+legal transition missing before applying the sequence-bad-face filter:
+
+```text
+state = 19
+face  = tmmp
+```
+
+The external completion audit showed that this transition has exactly one
+completion:
+
+```text
+xm ym tmpm zm zp tppm tpmm tppp tmmm tpmp tmmp tmpp yp xp
+```
+
+and that completion is the generated rejected bad-face trace
+`rejectedGraphTrace_004`, not a sequence-bad-face member for bad face `ym`.
+The new Lean socket records this one obstruction without sampled rank objects:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingMissingTransition1MSocket.lean
+```
+
+New theorem names:
+
+```lean
+missingState19TmmpCompletion_eq_rejectedGraphTrace004
+
+graph_state19_tmmp_missing
+
+missingState19TmmpCompletion_rejectedBadFace
+
+missingState19TmmpCompletion_not_sequenceBadFace
+
+strengthened_not_missingState19TmmpCompletion
+```
+
+The last theorem is the useful production socket:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym ->
+  topPairingRankFaceLabels rank ≠ missingState19TmmpCompletion
+```
+
+This means the sole missing graph transition found by the 1M closure diagnostic
+is ruled out by the strengthened semantic bad-face predicate.  It is not yet the
+full closed-language evaluator theorem; it is the small Lean-checked boundary
+fact needed before proving that theorem.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_missing_transition_1m_socket_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_missing_transition_1m_socket_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingMissingTransition1MSocket
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingMissingTransition1MSocket.lean` direct | pass | `4.00s` | `3893 MiB` |
+| `BellmanTopPairingMissingTransition1MSocket` Lake | pass | `3.00s` | `3657 MiB` |
+| forbidden-token scan on new module | pass | n/a | n/a |
+
+Note: the first direct check before the final rewrite failed with a local type
+mismatch while transporting `AcceptedSequenceBadFaceAtRank` across the concrete
+label equality; no memory guard was tripped (`3.01s`, `3944 MiB`).  The proof
+now rewrites by `rw [<- hlabels]` before applying the concrete rejected-trace
+contradiction.
+
+Next step:
+
+Use this socket together with `TopPairingTargetCursor` and the accepted-trace
+suffix socket to prove the deterministic closed-language evaluator theorem for
+the aligned 1M graph:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank
+  rank Face.ym ->
+  exists finish gain,
+    evalLabelStepFn faceEvalNext
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) =
+        some (finish, gain) ∧
+    finish.Tail [] ∧ Inv finish
+```
+
+The no-go rule is unchanged: if that theorem needs accepted-prefix,
+selected-prefix, sampled-rank, exact-affine-RHS, or full Bellman-path cases,
+stop and strengthen the semantic state rather than scaling the selected-prefix
+producer.
