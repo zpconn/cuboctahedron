@@ -77832,3 +77832,95 @@ TopPairingClosedToEvalGate
 ```
 
 or a documented strengthening of `TopPairingClosedLanguageAtRank`.
+
+## 2026-07-02 Checkpoint: Transducer Face-Eval Smoke Accepted
+
+Added a bounded smoke for the new semantic face-eval bridge:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTransducerFaceEvalSmoke.lean
+```
+
+This module imports the new
+`Cuboctahedron.Search.TopPairingTransducerEvalBridge` and the compact generated
+graph base.  It defines:
+
+```lean
+abbrev FaceEvalState
+def faceEvalNext
+
+theorem acceptedTrace000_faceEval_isSome
+theorem acceptedTrace000_faceEval_some
+theorem evalLanguage_of_faceEval
+theorem evalLanguage_of_trace000_faceEval
+```
+
+The important theorem is:
+
+```lean
+theorem evalLanguage_of_faceEval
+```
+
+It specializes `TopPairingTransducerEvalState.evalLanguageAtRank_of_faceEval`
+to the current top-pairing Bellman graph:
+
+```lean
+TopPairingBellmanEvalLanguageAtRank
+  graphPotential graphSmokeNext smokeLabelOfFace rootState
+  (176 : Int) scaledMargin rank Face.ym
+```
+
+from a successful deterministic face-level eval on
+`topPairingRankFaceLabels rank`, final potential nonnegativity, and the margin
+bound.  The bounded `trace000` theorem still uses one accepted trace as a smoke,
+but the adapter now flows through:
+
+```text
+semantic face eval -> graph eval projection -> Bellman eval language
+```
+
+instead of the older:
+
+```text
+accepted trace equality + trace-margin object -> Bellman eval language
+```
+
+This is not coverage.  It is accepted as a small proof that the new production
+socket is Lean-checkable and memory-safe.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/bellman_top_pairing_transducer_face_eval_smoke_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTransducerFaceEvalSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_transducer_face_eval_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTransducerFaceEvalSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `BellmanTopPairingTransducerFaceEvalSmoke.lean` direct | pass | `3.00s` | `3970 MiB` | hard AS `12288 MiB` |
+| `BellmanTopPairingTransducerFaceEvalSmoke` Lake | pass | `3.01s` | `3931 MiB` | RSS guard, no hard AS |
+
+Next gate: replace the one-trace face-eval smoke with a generated finite
+transition table over reachable semantic transducer states.  The generated
+theorem should prove a face-eval language theorem from
+`TopPairingClosedLanguageAtRank` or a documented strengthening, not from
+selected-prefix/root-trace membership.
