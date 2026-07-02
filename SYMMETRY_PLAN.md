@@ -62330,3 +62330,142 @@ TopPairingClosedLanguageAtRank rank Face.ym
 or a strengthened-language equivalent.  If proving this requires sampled
 rank/path membership or one branch per accepted rank, stop the Bellman
 production route and pivot to the cancellation-tree summary automaton.
+
+Trace-margin-bounds Bellman socket checkpoint:
+
+Added:
+
+- `Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean`
+
+This module turns the previous accepted-trace margin bridge into the actual
+strengthened-language socket consumed by the existing Bellman object-cover
+consequence.  It defines the production-facing sequence/bad-face predicate:
+
+```lean
+def TerminalTraceMarginBoundsSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  AcceptedSequenceBadFaceAtRank rank badFace /\
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) /\
+      ∃ closed : TopPairingClosedLanguageAtRank rank Face.ym,
+        GraphAcceptedTraceMarginBounds scaledMargin
+          ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym)
+```
+
+and proves the key adapter:
+
+```lean
+theorem terminalAcceptedEvalSequenceBadFace_of_bounds
+    (homni : TopPairingActualFaceOmniAtRank rank)
+    (hbounds :
+      TerminalTraceMarginBoundsSequenceBadFace scaledMargin rank Face.ym) :
+    TerminalAcceptedEvalSequenceBadFace scaledMargin rank Face.ym
+```
+
+The final rank-level theorem in this socket is:
+
+```lean
+theorem strengthenedTraceMarginBounds_scaledMargin_nonpos
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalTraceMarginBoundsSequenceBadFace scaledMargin) rank Face.ym) :
+    scaledMargin rank <= 0
+```
+
+This means the next generated classifier does not have to package
+`GraphAcceptedTraceMargin` directly.  It can expose the smaller semantic facts:
+
+1. terminal trace labels;
+2. accepted sequence/bad-face compatibility;
+3. closed-language proof;
+4. conditional margin bounds for the 37 accepted traces.
+
+The object remains `rank + TopPairingClosedLanguageAtRank`; no sampled
+rank/path object is introduced.
+
+Guarded focused Lake target:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_margin_bounds_socket_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceMarginBoundsSocket
+```
+
+result:
+
+```text
+passed
+elapsed = 3.00s after the local definitional-unfolding fix
+peak_tree_rss = 1622 MiB
+hard_as = 32768 MiB
+min_available = 46302 MiB
+```
+
+The first direct Lean attempt failed only because
+`BellmanTopPairingTerminalAcceptedObjectCover.olean` had not been built yet.
+After the focused Lake target built the import chain, direct Lean checked the
+new socket:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_margin_bounds_socket_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3612 MiB
+hard_as = 8192 MiB
+min_available = 46274 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean
+```
+
+Both checks passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept this as the bounds-based semantic Bellman socket.  The Bellman route
+still has one active production question: can a compact generated classifier
+prove `TerminalTraceMarginBoundsSequenceBadFace` for the intended top-pairing
+family without sampled rank/path membership?
+
+Next action:
+
+Build the first generated or hand-generated classifier slice that proves
+`TerminalTraceMarginBoundsSequenceBadFace` for a real non-sampled semantic
+subfamily.  Start with a single accepted terminal trace or a compact
+trace-family bucket.  The required output should be a strengthened-language
+theorem feeding `strengthenedTraceMarginBounds_scaledMargin_nonpos`; it should
+not enumerate accepted ranks or replay one margin branch per rank.
