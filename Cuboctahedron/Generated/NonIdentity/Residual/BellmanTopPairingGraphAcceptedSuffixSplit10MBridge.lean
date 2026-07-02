@@ -174,6 +174,87 @@ theorem evalLanguageAtRank_of_strengthenedTerminalFrontier
       hstrengthened hterm hsuffix)
     hfinish
 
+def Split10MGraphSuffixProducer (rank : Fin numPairWords) : Prop :=
+  ∀ face₀ face₁ rest,
+    topPairingRankFaceLabels rank =
+      Face.xm :: Face.ym :: face₀ :: face₁ :: rest ->
+    Split10MPrefix4FrontierCons2 face₀ face₁ ->
+    ∀ graph₁ gain₁ graph₂ gain₂,
+      graphSmokeNext (610 : State) (smokeLabelOfFace face₀) =
+        some (graph₁, gain₁) ->
+      graphSmokeNext graph₁ (smokeLabelOfFace face₁) =
+        some (graph₂, gain₂) ->
+      GraphBranchTableSuffixOk rank graph₂ rest
+
+def Split10MFinalMarginProducer
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  forall {finish : FaceEvalState} {gain : Int},
+    evalLabelStepFn faceEvalNext
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) = some (finish, gain) ->
+    finish.Tail [] ->
+    BranchInv finish ->
+    BranchTableSuffixOk rank finish [] ->
+      0 <= graphPotential finish.graph ∧
+        scaledMargin rank <= (176 : Int) + gain
+
+def Split10MGraphSuffixMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  ∃ _ :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym,
+    TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧
+      Split10MGraphSuffixProducer rank ∧
+        Split10MFinalMarginProducer scaledMargin rank
+
+theorem evalLanguageAtRank_of_split10MGraphSuffixMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily : Split10MGraphSuffixMarginFamily scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases hfamily with ⟨hstrengthened, hterm, hsuffix, hfinish⟩
+  exact evalLanguageAtRank_of_strengthenedTerminalFrontier
+    hstrengthened hterm hsuffix hfinish
+
+theorem split10MGraphRootBound :
+    (176 : Int) + graphPotential rootState <= 0 := by
+  change (176 : Int) + (-176 : Int) <= 0
+  norm_num
+
+theorem split10MGraphStartInRange :
+    rootState < stateCount := by
+  change (0 : Nat) < 970
+  decide
+
+theorem scaledMargin_nonpos_of_split10MGraphSuffixMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily : Split10MGraphSuffixMarginFamily scaledMargin rank) :
+    scaledMargin rank <= 0 := by
+  have hevalLanguage :=
+    evalLanguageAtRank_of_split10MGraphSuffixMarginFamily hfamily
+  exact scaledMargin_nonpos_of_bellmanEvalAccepts_invariant
+    (V := graphPotential)
+    (next := graphSmokeNext)
+    (InRange := fun s : State => s < stateCount)
+    (start := rootState)
+    (const := (176 : Int))
+    (scaledMargin := scaledMargin)
+    (wordOf := fun rank : Fin numPairWords =>
+      faceLabelsInContributionOrder smokeLabelOfFace
+        (canonicalSeqOfPairWord (unrankPairWord rank)))
+    (hnext := by
+      intro s label t gain hs hnext
+      exact _root_.Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Root.transition_ok_of_lt
+        hs hnext)
+    (hstart := split10MGraphStartInRange)
+    (hroot := split10MGraphRootBound)
+    (heval := hevalLanguage.eval_accepts)
+
 theorem graphAcceptedSuffixSplit10MBridge_builds : True := by
   exact True.intro
 

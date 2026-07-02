@@ -83712,3 +83712,60 @@ remaining producer target is now precise: emit or prove graph-only
 `GraphBranchTableSuffixOk` for the remaining suffix of a representative
 strengthened terminal family, plus the final margin obligation, without using
 selected-prefix equality or exact trace identity as the coverage coordinate.
+
+#### Split-10M Graph-Suffix Margin Family Surface Accepted
+
+The split-10M graph-accepted suffix bridge now packages the exact generated
+producer target:
+
+```lean
+Split10MGraphSuffixProducer
+Split10MFinalMarginProducer
+Split10MGraphSuffixMarginFamily
+evalLanguageAtRank_of_split10MGraphSuffixMarginFamily
+scaledMargin_nonpos_of_split10MGraphSuffixMarginFamily
+```
+
+This surface says a generated family should provide:
+
+1. strengthened closed-language evidence for the rank;
+2. terminal-ok trace labels;
+3. graph-only suffix evidence after the actual prefix-4 frontier;
+4. the final Bellman potential/margin obligation.
+
+The theorem `evalLanguageAtRank_of_split10MGraphSuffixMarginFamily` converts
+that package into `TopPairingBellmanEvalLanguageAtRank`; the theorem
+`scaledMargin_nonpos_of_split10MGraphSuffixMarginFamily` immediately gives the
+nonpositive Bellman-scaled margin using the split-10M graph root bound and
+Lean-checked transition invariant.
+
+This does not make trace identity a coverage coordinate.  Trace ids remain
+available as diagnostic/margin smokes, but the accepted producer shape is now
+semantic strengthened language + graph suffix + final margin.
+
+Guarded command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/graph_accepted_suffix_split10m_family_bridge_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedSuffixSplit10MBridge.lean
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| split-10M graph-suffix margin family bridge | pass | `2.00s` | `3596 MiB` | `46208 MiB` |
+
+Decision: accepted as the current final-margin producer socket for the
+top-pairing Bellman route.  The next experiment should generate one
+representative `Split10MGraphSuffixMarginFamily` proof from semantic
+state-DAG/minimized-class evidence, then measure its source size and build
+cost.  Do not scale until that representative proof avoids selected-prefix
+equality, sampled rank/path objects, exact affine RHS keys, solved start-point
+keys, and exact full Bellman trace identity.
