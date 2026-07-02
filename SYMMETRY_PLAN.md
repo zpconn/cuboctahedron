@@ -65833,3 +65833,155 @@ or, if the current closed predicate is too weak, the same theorem from a single
 compact semantic strengthening.  Do not attempt a global evaluator-range proof
 by unfolding `graphSmokeNext`; use state-range invariants or generated local
 transition lemmas instead.
+
+### 2026-07-02 Bellman strategy adjusted to semantic eval-membership
+
+GPT5.5 Pro's latest recommendation is accepted as the controlling Bellman
+gate:
+
+```text
+Continue Bellman for exactly one more semantic-membership experiment.
+Do not emit another potential, sampled smoke, rank-indexed certificate,
+or depth-prefix classifier shard.
+```
+
+The repository now has the right semantic object surface:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+
+structure TopPairingBellmanEvalLanguageAtRank ... where
+  closed : TopPairingClosedLanguageAtRank rank badFace
+  eval_accepts : BellmanEvalAccepts ...
+```
+
+and a generic bridge:
+
+```lean
+topPairingBellmanEvalObjectCoverOfClosedToEval
+```
+
+This means the remaining proof obligation is no longer Bellman arithmetic.
+It is semantic evaluator membership:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+or the same theorem from one compact strengthened semantic predicate.
+
+Fresh audits:
+
+```bash
+python3 scripts/audit_bellman_membership_mode.py \
+  --file Cuboctahedron/Search/TopPairingBellmanObject.lean \
+  --file Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedEvalGate.lean \
+  --file Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  --file Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceBucketComponentFamilySmoke.lean \
+  --file Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSharedGainPrefixBucketSmoke.lean \
+  --json scripts/generated/bellman_semantic_gate_membership_audit.json \
+  --markdown docs/bellman_semantic_gate_membership_audit.md
+```
+
+Result:
+
+```text
+decision = closed-language-surface-present
+sampled membership mentions = 0
+closed-language mentions = 32
+object-cover mentions = 9
+```
+
+The current gate modules therefore pass the "no sampled membership" audit.
+
+The current closed-language predicate itself is not yet strong enough:
+
+```bash
+python3 scripts/audit_top_pairing_closed_graph_acceptance.py \
+  --json scripts/generated/top_pairing_closed_graph_acceptance_audit_latest.json \
+  --markdown scripts/generated/top_pairing_closed_graph_acceptance_lean_aligned.md \
+  --max-examples 5
+```
+
+Result:
+
+```text
+decision = closed-components-too-weak
+dfs_nodes = 11318
+closed_candidates = 47
+accepted = 37
+rejected = 10
+prefix_graph_rejects = 197
+```
+
+The numerical Bellman data still passes the local size/arithmetic gates, but it
+does not justify exact-path or per-rank production:
+
+```bash
+python3 scripts/audit_bellman_production_gates.py \
+  --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_\
+001000000_with_step_tri_source_graph.json \
+  --json scripts/generated/bellman_production_gate_top_pairing_1M.json \
+  --markdown scripts/generated/bellman_production_gate_top_pairing_1M.md
+```
+
+Result:
+
+```text
+decision = candidate-needs-coarser-membership
+states = 223
+edges = 229
+path_class_count = 37
+exact_path_class_ratio = 1.0
+```
+
+Decision:
+
+- Keep Bellman only through the semantic eval-membership route.
+- Do not try to prove `TopPairingClosedLanguageAtRank -> eval` from the
+  current fields blindly; the audit has a concrete counter-signal
+  (`10 / 47` closed candidates rejected by the deterministic graph).
+- The next implementation must introduce or identify exactly one compact
+  semantic strengthening, preferably one of:
+  - `TopPairingBellmanEvalLanguageAtRank` as the production `ContainsRank`;
+  - a `closedRun`/`eval_ok` field;
+  - a cancellation-tree/source-position progress predicate that implies
+    deterministic evaluator acceptance and the trace-id margin bucket.
+- The strengthened predicate must remain semantic and compact: no
+  `SampledRankIndex`, no `sampledContainsRank`, no one constructor per
+  rank/path, no exact affine-RHS table, no broad prefix-classifier shard.
+- If the strengthened predicate cannot be proved from holonomy/cancellation
+  state data without sampled paths, reject Bellman production and pivot to a
+  cancellation-tree summary automaton whose semantic run is built into the
+  state language.
+
+Immediate next task:
+
+Build the smallest theorem-facing slice around the already accepted socket
+
+```lean
+GraphAcceptedTraceMarginClosedFamily
+```
+
+or its terminal trace-id bucket adapter.  The slice should prove:
+
+```lean
+StrengthenedTopPairingFamily rank ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+    scaledMargin rank Face.ym
+```
+
+with `StrengthenedTopPairingFamily` containing only semantic closed-language,
+actual-face omni, trace-id/gain-bucket, and source-position/cancellation
+progress facts.  Treat any need for sampled rank/path membership as a no-go.

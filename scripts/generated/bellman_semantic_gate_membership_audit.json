@@ -1,0 +1,340 @@
+{
+  "files": [
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Search/TopPairingBellmanObject.lean",
+      "patterns": {
+        "bellman_axis_rank_object_cover": {
+          "count": 9,
+          "examples": [
+            {
+              "line": 137,
+              "text": "BellmanAxisRankObjectCover"
+            },
+            {
+              "line": 144,
+              "text": "BellmanAxisRankObjectCover.ofMembership"
+            },
+            {
+              "line": 211,
+              "text": "BellmanAxisRankObjectCover"
+            },
+            {
+              "line": 397,
+              "text": "BellmanAxisRankObjectCover"
+            },
+            {
+              "line": 410,
+              "text": "BellmanAxisRankObjectCover.ofMembership"
+            }
+          ]
+        },
+        "bellman_rank_object_membership": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 71,
+              "text": "BellmanRankObjectMembership"
+            },
+            {
+              "line": 154,
+              "text": "BellmanRankObjectMembership"
+            },
+            {
+              "line": 362,
+              "text": "BellmanRankObjectMembership"
+            }
+          ]
+        },
+        "classical_choose": {
+          "count": 0,
+          "examples": []
+        },
+        "closed_top_pairing_contains_rank": {
+          "count": 3,
+          "examples": [
+            {
+              "line": 20,
+              "text": "abbrev ClosedTopPairingContainsRank (badFace : Face) :"
+            },
+            {
+              "line": 158,
+              "text": "(ClosedTopPairingContainsRank badFace) :="
+            },
+            {
+              "line": 216,
+              "text": "(ClosedTopPairingContainsRank badFace)"
+            }
+          ]
+        },
+        "sampled_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_rank_index": {
+          "count": 0,
+          "examples": []
+        },
+        "terminal_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "top_pairing_closed_language": {
+          "count": 6,
+          "examples": [
+            {
+              "line": 18,
+              "text": "fun rank => TopPairingClosedLanguageAtRank rank badFace"
+            },
+            {
+              "line": 33,
+              "text": "closed : TopPairingClosedLanguageAtRank rank badFace"
+            },
+            {
+              "line": 68,
+              "text": "TopPairingClosedLanguageAtRank.forCanonicalSeq obj.closed"
+            },
+            {
+              "line": 231,
+              "text": "closed : TopPairingClosedLanguageAtRank rank badFace"
+            },
+            {
+              "line": 326,
+              "text": "TopPairingClosedLanguageAtRank obj.rank badFace :="
+            }
+          ]
+        }
+      }
+    },
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean",
+      "patterns": {
+        "bellman_axis_rank_object_cover": {
+          "count": 0,
+          "examples": []
+        },
+        "bellman_rank_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "classical_choose": {
+          "count": 0,
+          "examples": []
+        },
+        "closed_top_pairing_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_rank_index": {
+          "count": 0,
+          "examples": []
+        },
+        "terminal_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "top_pairing_closed_language": {
+          "count": 5,
+          "examples": [
+            {
+              "line": 8,
+              "text": "`TopPairingClosedLanguageAtRank`, not from sampled rank/path objects.  This file"
+            },
+            {
+              "line": 65,
+              "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
+            },
+            {
+              "line": 118,
+              "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
+            },
+            {
+              "line": 129,
+              "text": "TopPairingClosedLanguageAtRank rank Face.ym ->"
+            },
+            {
+              "line": 134,
+              "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceMarginBoundsSocket.lean",
+      "patterns": {
+        "bellman_axis_rank_object_cover": {
+          "count": 0,
+          "examples": []
+        },
+        "bellman_rank_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "classical_choose": {
+          "count": 0,
+          "examples": []
+        },
+        "closed_top_pairing_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_rank_index": {
+          "count": 0,
+          "examples": []
+        },
+        "terminal_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "top_pairing_closed_language": {
+          "count": 16,
+          "examples": [
+            {
+              "line": 31,
+              "text": "\u2203 closed : TopPairingClosedLanguageAtRank rank Face.ym,"
+            },
+            {
+              "line": 42,
+              "text": "\u2203 closed : TopPairingClosedLanguageAtRank rank Face.ym,"
+            },
+            {
+              "line": 111,
+              "text": "(closed : TopPairingClosedLanguageAtRank rank Face.ym)"
+            },
+            {
+              "line": 239,
+              "text": "(closed : TopPairingClosedLanguageAtRank rank Face.ym)"
+            },
+            {
+              "line": 254,
+              "text": "(closed : TopPairingClosedLanguageAtRank rank Face.ym)"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceBucketComponentFamilySmoke.lean",
+      "patterns": {
+        "bellman_axis_rank_object_cover": {
+          "count": 0,
+          "examples": []
+        },
+        "bellman_rank_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "classical_choose": {
+          "count": 0,
+          "examples": []
+        },
+        "closed_top_pairing_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_rank_index": {
+          "count": 0,
+          "examples": []
+        },
+        "terminal_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "top_pairing_closed_language": {
+          "count": 0,
+          "examples": []
+        }
+      }
+    },
+    {
+      "exists": true,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSharedGainPrefixBucketSmoke.lean",
+      "patterns": {
+        "bellman_axis_rank_object_cover": {
+          "count": 0,
+          "examples": []
+        },
+        "bellman_rank_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "classical_choose": {
+          "count": 0,
+          "examples": []
+        },
+        "closed_top_pairing_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_object_membership": {
+          "count": 0,
+          "examples": []
+        },
+        "sampled_rank_index": {
+          "count": 0,
+          "examples": []
+        },
+        "terminal_contains_rank": {
+          "count": 0,
+          "examples": []
+        },
+        "top_pairing_closed_language": {
+          "count": 2,
+          "examples": [
+            {
+              "line": 10,
+              "text": "`rank + TopPairingClosedLanguageAtRank`; there are no sampled ranks or path"
+            },
+            {
+              "line": 48,
+              "text": "TopPairingClosedLanguageAtRank rank Face.ym /\\"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "summary": {
+    "closed_language_mentions": 32,
+    "decision": "closed-language-surface-present",
+    "object_cover_mentions": 9,
+    "recommended_next_step": "Replace generated SampledRankIndex/sampledContainsRank covers with a BellmanAxisRankObjectCover whose ContainsRank is ClosedTopPairingContainsRank Face.ym, and prove the covers field from TopPairingClosedLanguageAtRank rather than Classical.choose over sampled ranks.",
+    "sampled_membership_mentions": 0
+  }
+}
