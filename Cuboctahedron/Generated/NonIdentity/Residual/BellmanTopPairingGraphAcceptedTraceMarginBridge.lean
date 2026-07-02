@@ -273,6 +273,171 @@ theorem graphAcceptedTraceMargin_of_terminalTrace_filters_and_bounds
     graphAcceptedTraceMargin_of_terminalOk_filters_and_bounds
       hok homni hbad hbounds
 
+private theorem graphAcceptedTraceMarginBounds_000_absurd
+    {labels trace : List Face}
+    (h0 : labels = acceptedFaceTrace_000)
+    (hne : acceptedFaceTrace_000 ≠ trace)
+    (htrace : labels = trace) :
+    False :=
+  hne (h0.symm.trans htrace)
+
+theorem graphAcceptedTraceMarginBounds_000
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_000)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-376 : Int)) :
+    GraphAcceptedTraceMarginBounds scaledMargin obj where
+  trace000 := by
+    intro _h
+    exact hmargin
+  trace001 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_001 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace002 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_002 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace003 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_003 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace004 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_004 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace005 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_005 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace006 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_006 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace007 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_007 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace008 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_008 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace009 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_009 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace010 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_010 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace011 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_011 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace012 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_012 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace013 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_013 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace014 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_014 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace015 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_015 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace016 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_016 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace017 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_017 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace018 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_018 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace019 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_019 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace020 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_020 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace021 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_021 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace022 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_022 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace023 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_023 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace024 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_024 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace025 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_025 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace026 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_026 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace027 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_027 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace028 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_028 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace029 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_029 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace030 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_030 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace031 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_031 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace032 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_032 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace033 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_033 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace034 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_034 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace035 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_035 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+  trace036 := by
+    intro h
+    have hne : acceptedFaceTrace_000 ≠ acceptedFaceTrace_036 := by decide
+    exact False.elim (graphAcceptedTraceMarginBounds_000_absurd htrace hne h)
+
 theorem graph_accepted_trace_margin_bridge_builds : True := by
   exact True.intro
 

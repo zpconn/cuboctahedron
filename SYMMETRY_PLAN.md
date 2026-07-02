@@ -62599,3 +62599,97 @@ separate contradiction fields per trace by hand.  Either add a reusable
 or generate the 37 trace-bucket modules and measure aggregate source size and
 checking cost.  The generator must keep the bucket count trace/family-level,
 not rank-level.
+
+Reusable trace-000 bounds constructor checkpoint:
+
+Promoted the trace-000 bounds constructor into the shared bridge:
+
+```lean
+theorem graphAcceptedTraceMarginBounds_000
+    (htrace :
+      TopPairingBellmanObj.labels (fun f : Face => f) obj =
+        acceptedFaceTrace_000)
+    (hmargin :
+      scaledMargin obj.rank <= (176 : Int) + (-376 : Int)) :
+    GraphAcceptedTraceMarginBounds scaledMargin obj
+```
+
+This proves the 36 impossible accepted-trace fields locally from exact list
+disequality checks (`by decide`) and returns the trace-000 margin bound for the
+actual trace field.  It is the reusable constructor shape that future
+trace-bucket modules should call, rather than rebuilding all
+`GraphAcceptedTraceMarginBounds` fields themselves.
+
+Guarded direct Lean check for the shared bridge:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_graph_accepted_trace_margin_bridge_direct_lean_after_ctor.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 5.00s
+peak_tree_rss = 3950 MiB
+hard_as = 8192 MiB
+min_available = 46183 MiB
+```
+
+Guarded focused Lake target after adding the constructor:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace000_bounds_smoke_lake_build_after_ctor.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTrace000BoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 6.01s
+peak_tree_rss = 4029 MiB
+hard_as = 32768 MiB
+min_available = 46083 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000BoundsSmoke.lean
+```
+
+Both checks passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept the trace-000 constructor pattern.  The next productionizing move is to
+generate or hand-add the remaining `graphAcceptedTraceMarginBounds_00k`
+constructors, then refactor the trace bucket smoke to use those constructors.
+Measure the aggregate bridge source/check cost before generating all bucket
+modules.
