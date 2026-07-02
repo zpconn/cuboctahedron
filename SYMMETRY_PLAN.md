@@ -71026,3 +71026,138 @@ The acceptance criterion for that next slice is stronger than the smoke above:
 the provider theorem must avoid rank/path samples and must not simply assume
 the margin inequality as a premise unless the premise is a compact semantic
 state invariant that can plausibly be generated once per state family.
+
+### 2026-07-02 GPT5.5 semantic Bellman provider gate update
+
+The latest GPT5.5 review is accepted with one repo-specific correction from
+inspection: the semantic Bellman object-cover layer already exists and should
+not be rebuilt.  In particular:
+
+```lean
+TopPairingBellmanObj
+TopPairingBellmanObj.closedMembership
+TopPairingBellmanObj.traceBoundOfEvalAccepts
+TopPairingBellmanObj.objectCoverOfEvalAccepts
+TopPairingBellmanEvalLanguageAtRank
+topPairingBellmanEvalObjectCoverOfClosedToEval
+topPairingBellmanEvalObjectCoverOfStrengthenedToEval
+```
+
+are already present in:
+
+```text
+Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+The object is already the intended semantic object:
+
+```lean
+{ rank : Fin numPairWords //
+    TopPairingClosedLanguageAtRank rank badFace }
+```
+
+or the equivalent structure.  Therefore the next step is **not** to introduce a
+new sampled object, sampled rank membership proof, or another potential smoke.
+The Bellman potential graph remains a good compression shape only if the next
+provider theorem proves the evaluator/margin facts from semantic language data.
+
+The exact remaining production gate is:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym
+    -- or a documented selected-prefix/strengthened closed predicate
+    ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+    scaledMargin rank Face.ym
+```
+
+Equivalently, for the selected-prefix path already exposed by the generated
+sockets:
+
+```lean
+forall rank,
+  CompactSelectedPrefixProvider scaledMargin rank ->
+    TerminalTracePrefixSharedGainClosedMarginFamily
+      pfx gain scaledMargin rank
+```
+
+followed by the existing checked adapters:
+
+```lean
+evalLanguage_of_terminalTracePrefixSharedGainClosedMarginFamily
+terminalTracePrefixSharedGainClosedMarginFamily_scaledMargin_nonpos
+nonIdentityRankKilled_of_selectedPrefixTraceMarginFamily
+nonIdentityRankKilled_of_selectedPrefixCoverFamily
+```
+
+The hard part is no longer rank-object membership.  The hard part is the
+semantic provider for the fields that the sockets currently require:
+
+1. `TopPairingClosedLanguageAtRank rank Face.ym`;
+2. `AcceptedSequenceBadFaceAtRank rank Face.ym`;
+3. `TerminalTraceLabels (topPairingRankFaceLabels rank)`;
+4. selected accepted trace id / prefix-bucket membership;
+5. the integer Bellman margin inequality
+   `scaledMargin rank <= 176 + gain`.
+
+The fifth item is the real danger line.  Existing consumer smokes prove that if
+this field is supplied, the route reaches `NonIdentityRankKilled`; they do not
+yet prove that the margin bound follows from a compact semantic state.  The next
+experiment must therefore make this margin bound a consequence of finite
+prefix/state/cancellation facts, not an exact rank-indexed affine RHS lookup.
+
+Accepted dependencies for this one-more-Bellman experiment:
+
+- `TopPairingClosedLanguageAtRank` and
+  `TopPairingStrengthenedClosedLanguageAtRank`;
+- accepted trace ids and shared-gain selected-prefix buckets;
+- cancellation / schedule / square-gap / local-axis semantic fields;
+- deterministic Bellman evaluator facts;
+- integer transition/gain/margin facts generated once per semantic family.
+
+Forbidden dependencies for production Bellman providers:
+
+```text
+SampledRankIndex
+sampledContainsRank
+sampledRankOf
+sampledSmokeNext
+sampledObject
+sampled path lists
+one object constructor per sampled rank/path
+exact affine-RHS membership tables
+```
+
+Go/no-go:
+
+- **Go:** one nontrivial selected-prefix or trace bucket proves the evaluator
+  language and margin bound from compact semantic state facts, checks under the
+  hard memory guard, and its generated theorem count scales with states/traces,
+  not accepted ranks.
+- **No-go:** the proof of the margin/evaluator provider requires sampled
+  ranks, sampled paths, exact affine RHS keys, or per-rank local-axis
+  simplification.  In that case the Bellman potential remains mathematically
+  sound, but this production route is rejected and the plan pivots to a
+  cancellation-tree summary automaton with the missing progress facts promoted
+  into the semantic state.
+
+Immediate adjusted task:
+
+1. Do not edit `TopPairingBellmanObject.lean` except as a consumer.
+2. Inspect or create the smallest provider-facing module whose theorem target
+   is a compact semantic implication into
+   `TerminalTracePrefixSharedGainClosedMarginFamily`.
+3. Start with the largest diagnostic bucket:
+
+   ```text
+   prefix: xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp
+   gain:   -376
+   trace ids: 0, 1, 2
+   ```
+
+4. The slice is accepted only if the margin bound is proved from semantic
+   prefix/state information rather than assumed as a free field.
+5. Any Lean check for this slice must use the hard memory guard; no broad
+   `lake build` while exploring this provider.
