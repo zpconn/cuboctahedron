@@ -61720,3 +61720,48 @@ BellmanTopPairingTerminalAcceptedBridge.lean
 ```
 
 Both checks passed; the focused Lean-source `rg` audit returned no matches.
+
+Terminal classifier size/profile note:
+
+A memory-light exact prefix-count profile using
+`emit_top_pairing_trace_classifier_prefix_smoke.enumerate_semantic_prefixes`
+reported:
+
+```text
+depth 0  = 1
+depth 1  = 1
+depth 2  = 1
+depth 3  = 3
+depth 4  = 8
+depth 5  = 24
+depth 6  = 68
+depth 7  = 209
+depth 8  = 595
+depth 9  = 1585
+depth 10 = 3186
+depth 11 = 3082
+depth 12 = 1631
+depth 13 = 482
+depth 14 = 442
+```
+
+This supports continuing exactly one more semantic-membership experiment: the
+language itself is small enough to finish by grouped terminal/depth
+classification if the Lean proof shape stays bounded.  It does **not** justify
+rank sampling.
+
+An attempted direct recheck of the existing depth-8 root did not reach
+typechecking because the local `.lake` cache is missing
+`Depth7/All.olean`; a direct refresh of `Depth7/All.lean` then reported the
+first missing `Depth7/Shard000.olean`.  This is an artifact-cache gap, not a
+source proof failure.  Do not ask Lake to rebuild this whole tree under broad
+scheduling just to obtain a timing baseline.  The next safe step is either:
+
+1. add a generic grouped-depth emitter and test one bounded depth-9 shard under
+   the hard memory cap; or
+2. emit a direct depth-8-to-terminal bridge only if its proof shape avoids a
+   huge monolithic `rcases` and still consumes only semantic label predicates.
+
+The go/no-go rule remains unchanged: if the terminal membership bridge needs
+sampled rank/path objects or one branch per rank/path, stop Bellman production
+and pivot to the cancellation-tree summary automaton fallback.
