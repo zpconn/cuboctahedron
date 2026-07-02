@@ -1,0 +1,13 @@
+{
+  "accepted_trace_count": 37,
+  "output": "Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Accepted.lean",
+  "proof_shape": "TerminalOkTraceLabels plus actual-face omnihedrality and sequence/bad-face compatibility implies GraphAcceptedTraceLabels",
+  "rejected_bad_face_trace_count": 1,
+  "rejected_bad_face_trace_indices": [
+    4
+  ],
+  "rejected_not_actual_face_omni_count": 9,
+  "rejected_trace_count": 10,
+  "sampled_rank_or_path_data": false,
+  "source": "scripts/generated/top_pairing_closed_graph_acceptance_all_examples_lean_aligned.json"
+}

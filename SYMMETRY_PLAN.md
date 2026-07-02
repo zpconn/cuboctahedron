@@ -60370,3 +60370,122 @@ target `GraphAcceptedTraceLabels` first, then add the trace-specific margin
 bound needed for `GraphAcceptedTraceMargin`.  This keeps graph acceptance,
 margin bounding, and Bellman evaluator soundness separated into small
 Lean-checkable layers.
+
+Positive terminal-to-accepted classifier checkpoint:
+
+Added:
+
+```text
+scripts/emit_top_pairing_accepted_trace_classifier.py
+
+Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/
+  Accepted.lean
+
+scripts/generated/top_pairing_accepted_trace_classifier_summary.json
+```
+
+The generated module proves the positive companion to the terminal rejection
+root:
+
+```lean
+def GraphRejectedTraceLabels (labels : List Face) : Prop := ...
+
+def GraphRejectedBadFaceTraceLabels (labels : List Face) : Prop := ...
+
+def TerminalOkTraceLabels (labels : List Face) : Prop :=
+  GraphAcceptedTraceLabels labels \/
+    GraphRejectedTraceLabels labels
+
+def SequenceBadFaceLabels (labels : List Face) (badFace : Face) : Prop :=
+  badFace = Face.ym /\
+    ¬ GraphRejectedBadFaceTraceLabels labels
+
+theorem graphAcceptedTraceLabels_of_terminalOk_filters
+    {labels : List Face} {badFace : Face}
+    (hterm : TerminalOkTraceLabels labels)
+    (homni : TopPairingActualFaceOmniLabels labels)
+    (hbad : SequenceBadFaceLabels labels badFace) :
+    GraphAcceptedTraceLabels labels
+```
+
+Interpretation:
+
+- The terminal enumerator leaves `47` cancellation-ok traces.
+- `37` are graph-accepted.
+- `10` are graph-rejected.
+- Lean proves that `9` rejected traces fail `TopPairingActualFaceOmniLabels`.
+- The remaining `Nodup` rejected trace is excluded by the
+  `SequenceBadFaceLabels` compatibility predicate.
+
+This is still a bounded top-pairing classifier layer, not full generated
+coverage.  But it is an important semantic bridge: actual-face omnihedrality
+and bad-face compatibility now refine the cancellation-ok terminal language
+down to `GraphAcceptedTraceLabels`, without sampled rank/path objects.
+
+Validation commands:
+
+```bash
+python3 scripts/emit_top_pairing_accepted_trace_classifier.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_accepted_classifier_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/Accepted.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_accepted_classifier_lake.json \
+  --verbose \
+  -- env LEAN_NUM_THREADS=1 lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+TopPairingTraceClassifier.Accepted
+```
+
+Results:
+
+```text
+Accepted classifier direct Lean:
+  passed
+  elapsed = 4.00s
+  peak_tree_rss = 3262 MiB
+  hard_as = 8192 MiB
+  min_available = 46296 MiB
+
+Accepted classifier lake target:
+  passed
+  elapsed = 4.00s
+  peak_tree_rss = 4060 MiB
+  min_available = 46062 MiB
+
+Accepted classifier summary:
+  accepted_trace_count = 37
+  rejected_trace_count = 10
+  rejected_not_actual_face_omni_count = 9
+  rejected_bad_face_trace_count = 1
+  rejected_bad_face_trace_indices = [4]
+  sampled_rank_or_path_data = false
+
+Forbidden-token scan:
+  passed, no matches
+
+Sampled-membership scan:
+  passed, no matches
+```
+
+Decision:
+
+Accept this as the positive graph-accepted trace classifier layer.  The next
+Bellman classifier gap is now narrower: connect the depth-7/full-terminal
+prefix classifier to `TerminalOkTraceLabels`, and separately generate/prove the
+trace-specific margin bounds required to upgrade `GraphAcceptedTraceLabels` to
+`GraphAcceptedTraceMargin`.
