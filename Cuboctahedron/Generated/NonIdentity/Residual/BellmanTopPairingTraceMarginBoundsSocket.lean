@@ -232,6 +232,34 @@ theorem traceId_scaledMargin_nonpos
   strengthenedTraceMarginIdBound_scaledMargin_nonpos
     (strengthenedTraceMarginIdBound_of_traceId h)
 
+theorem evalLanguage_of_traceId_components
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {traceId : AcceptedTraceId}
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (actualFaceOmni : TopPairingActualFaceOmniAtRank rank)
+    (htrace : topPairingRankFaceLabels rank = acceptedTraceOfId traceId)
+    (hmargin : scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_traceId
+    (TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+      closed actualFaceOmni ⟨rfl, htrace, hmargin⟩)
+
+theorem traceId_scaledMargin_nonpos_of_components
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {traceId : AcceptedTraceId}
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (actualFaceOmni : TopPairingActualFaceOmniAtRank rank)
+    (htrace : topPairingRankFaceLabels rank = acceptedTraceOfId traceId)
+    (hmargin : scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId) :
+    scaledMargin rank <= 0 :=
+  traceId_scaledMargin_nonpos
+    (TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+      closed actualFaceOmni ⟨rfl, htrace, hmargin⟩)
+
 theorem trace_margin_bounds_socket_builds : True := by
   exact True.intro
 

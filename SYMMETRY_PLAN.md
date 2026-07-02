@@ -63308,3 +63308,130 @@ Build the first non-smoke semantic classifier-family bridge that produces
 family of closed ranks.  The bridge may use terminal trace classifier facts,
 accepted trace id, and an integer margin-bound family; it must not use
 `SampledRankIndex`, exact affine RHS keys, or one constructor per rank/path.
+
+### 2026-07-01 Component-level trace-id family bridge
+
+The trace-id socket now exposes the exact component-level theorem future
+generated classifier families should target.  A family does not need to build
+`TopPairingStrengthenedClosedLanguageAtRank` directly; it may instead provide
+the four semantic facts:
+
+1. `closed : TopPairingClosedLanguageAtRank rank Face.ym`;
+2. `actualFaceOmni : TopPairingActualFaceOmniAtRank rank`;
+3. `htrace : topPairingRankFaceLabels rank = acceptedTraceOfId traceId`;
+4. `hmargin : scaledMargin rank <= 176 + acceptedTraceGain traceId`.
+
+New theorem surfaces:
+
+```lean
+theorem evalLanguage_of_traceId_components
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (actualFaceOmni : TopPairingActualFaceOmniAtRank rank)
+    (htrace : topPairingRankFaceLabels rank = acceptedTraceOfId traceId)
+    (hmargin :
+      scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem traceId_scaledMargin_nonpos_of_components
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (actualFaceOmni : TopPairingActualFaceOmniAtRank rank)
+    (htrace : topPairingRankFaceLabels rank = acceptedTraceOfId traceId)
+    (hmargin :
+      scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId) :
+    scaledMargin rank <= 0
+```
+
+This is a real interface simplification for the production classifier: the
+next generated family theorem can focus on closed-language membership,
+actual-face omnihedrality, trace-id classification, and an integer margin
+bound.  The Bellman evaluator and root-bound plumbing are hidden behind the
+socket.
+
+Guarded focused Lake check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_components_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceIdBoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 7.02s
+peak_tree_rss = 4079 MiB
+hard_as = 32768 MiB
+min_available = 46009 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_components_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3589 MiB
+hard_as = 8192 MiB
+min_available = 46288 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingTraceMarginBoundsSocket.lean       = 266 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean            = 70 lines
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 596 lines
+TopPairingBellmanObject.lean                        = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+Both checks passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept the component-level trace-id family bridge.  It narrows the next
+production obligation to four semantic facts and removes another layer of
+generated packaging.  This does not prove a full family by itself, so it is not
+the final Bellman gate.  The next checkpoint must produce one non-sampled
+family theorem that supplies those four facts for a compact class of ranks,
+preferably reusing existing terminal trace classifier facts for `htrace`.

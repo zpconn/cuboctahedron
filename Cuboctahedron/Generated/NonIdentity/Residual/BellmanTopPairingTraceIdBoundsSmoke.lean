@@ -38,6 +38,32 @@ theorem traceId_evalLanguage_smoke
       scaledMargin rank Face.ym :=
   evalLanguage_of_traceId h
 
+theorem traceId_components_scaledMargin_nonpos_smoke
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {traceId : AcceptedTraceId}
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (actualFaceOmni : TopPairingActualFaceOmniAtRank rank)
+    (htrace : topPairingRankFaceLabels rank = acceptedTraceOfId traceId)
+    (hmargin : scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId) :
+    scaledMargin rank <= 0 :=
+  traceId_scaledMargin_nonpos_of_components
+    closed actualFaceOmni htrace hmargin
+
+theorem traceId_components_evalLanguage_smoke
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {traceId : AcceptedTraceId}
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (actualFaceOmni : TopPairingActualFaceOmniAtRank rank)
+    (htrace : topPairingRankFaceLabels rank = acceptedTraceOfId traceId)
+    (hmargin : scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_traceId_components
+    closed actualFaceOmni htrace hmargin
+
 theorem trace_id_bounds_smoke_builds : True := by
   exact True.intro
 
