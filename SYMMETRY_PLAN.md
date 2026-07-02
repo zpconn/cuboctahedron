@@ -87459,3 +87459,91 @@ machine with a generated state enum and local `next?` table, then prove a
 state-terminal theorem through
 `TerminalStepStatePartialMachine.terminalTraceLabels_of_terminal` without any
 accepted trace IDs in the membership theorem.
+
+#### Terminal-State Partial Machine Smoke
+
+Added a bounded finite-state instantiation of the partial-machine socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalStatePartialMachineSmoke.lean
+```
+
+The smoke defines a generated-style finite enum:
+
+```lean
+inductive SmokePartialState
+  | s00 | s01 | ... | s13
+```
+
+and a partial transition table following one diagnostic path.  It proves:
+
+```lean
+theorem SmokePartialState.next_sound
+def smokePartialMachine :
+  TerminalStepStatePartialMachine SmokePartialState
+theorem terminalTraceLabels_of_smokePartialTerminal
+```
+
+The exported terminal theorem has only semantic state-machine inputs:
+
+```lean
+TopPairingClosedLanguageAtRank rank badFace ->
+TerminalStepState.Contains
+  (smokePartialMachine.stateOf SmokePartialState.s13) rank ->
+  TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+    (topPairingRankFaceLabels rank)
+```
+
+The file imports the bounded producer smoke, so the terminal producer for this
+single diagnostic path is not production coverage.  The value of the slice is
+that the finite enum, `next?` table, `next_sound`, and terminal-state theorem
+all have the production-shaped API.  The next generated classifier should use
+the same shape but prove terminal producers from semantic classifier/cursor
+facts rather than from an accepted trace smoke.
+
+Commands:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_partial_machine_smoke_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_partial_machine_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| hygiene scan | pass | n/a | n/a | n/a |
+| direct `BellmanTopPairingTerminalStatePartialMachineSmoke.lean` | pass | `5.01s` | `3987 MiB` | `45558 MiB` |
+| Lake `BellmanTopPairingTerminalStatePartialMachineSmoke` | pass | `4.00s` | `4123 MiB` | `45393 MiB` |
+
+Decision: accepted as a generated-shape smoke.  The immediate next real work
+is to replace the imported bounded producer with a terminal classifier derived
+from the closed target-shadow/tri-source cursor state, then connect that
+classifier to the Bellman evaluator gate.  No further selected-prefix scaling
+should be attempted before that membership theorem exists.
