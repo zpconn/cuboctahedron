@@ -66298,3 +66298,94 @@ or an equivalent theorem that feeds
 No-go rule: if the state-DAG smoke needs one theorem per full accepted trace,
 one theorem per rank, or exact affine RHS tables, reject this Bellman route and
 promote a constructor-based cancellation summary automaton instead.
+
+### 2026-07-02 State-DAG prefix socket smoke
+
+Implemented the smallest theorem-facing state-DAG socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGPrefixSmoke.lean
+```
+
+The new semantic predicate is:
+
+```lean
+StateDAGPrefixClosedMarginFamily
+  (pfx : List Face)
+  (gap : Nat)
+  (linear : Mat3 Rat)
+  (gain : Int)
+  (scaledMargin : Fin numPairWords -> Int)
+  (rank : Fin numPairWords)
+```
+
+It carries:
+
+- `TopPairingClosedLanguageAtRank rank Face.ym`;
+- actual-face omnihedrality;
+- accepted sequence/bad-face compatibility;
+- terminal trace-classifier membership;
+- a semantic tail-state witness
+  `TopPairingTraceTail pfx.length gap linear rest`;
+- the shared Bellman margin inequality
+  `scaledMargin rank <= 176 + gain`.
+
+The smoke proves:
+
+```lean
+terminalPrefixFamily_of_stateDAGPrefixFamily
+
+evalLanguage_of_stateDAGPrefixFamily :
+  StateDAGPrefixClosedMarginFamily ... rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState
+      (176 : Int) scaledMargin rank Face.ym
+
+stateDAGPrefixFamily_scaledMargin_nonpos :
+  StateDAGPrefixClosedMarginFamily ... rank ->
+    scaledMargin rank <= 0
+```
+
+This is not a full state-DAG proof yet.  It is the accepted terminal socket:
+a future generated state-DAG shard may prove this semantic family predicate
+from constructor/transition facts, and the existing Bellman eval-language
+machinery then supplies the nonpositive scaled-margin theorem.  It does not
+introduce `SampledRankIndex`, sampled paths, raw rank lists, packed blobs,
+or exact affine RHS tables.
+
+Guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_state_dag_prefix_smoke_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGPrefixSmoke.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3599 MiB
+hard_as = 8192 MiB
+min_available = 46299 MiB
+```
+
+Decision:
+
+Keep Bellman alive for this semantic-membership experiment.  The next task is
+to generate one bounded state-DAG shard, preferably a tiny closed-terminal
+subtree, that proves `StateDAGPrefixClosedMarginFamily` by semantic
+constructor facts rather than by sampled rank/path evidence.  If that proof
+falls back to one theorem per full accepted trace, one theorem per rank, or
+exact affine RHS membership tables, stop this route and promote a
+constructor-based cancellation summary automaton.
