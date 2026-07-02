@@ -72070,3 +72070,137 @@ Next implementation target:
 5. If it requires `SampledRankIndex`, sampled paths, or one constructor per
    rank/path, stop this route and replace the state with an honest
    cancellation-tree summary automaton.
+
+## 2026-07-02 Checkpoint: Terminal Trace Membership Smoke
+
+Implemented the first positive semantic membership smoke for the terminal
+direct route:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalTraceMembershipSmoke.lean
+```
+
+This file deliberately avoids sampled rank/path objects.  It defines a
+bounded semantic terminal state using the length-13 prefix of
+`AcceptedTraceId.t000`:
+
+```lean
+def SmokeTerminalPrefix : List Face :=
+  (acceptedTraceOfId AcceptedTraceId.t000).take 13
+
+def ClosedRankInSmokeTerminalState (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    ∃ rest : List Face,
+      topPairingRankFaceLabels rank = SmokeTerminalPrefix ++ rest
+```
+
+The key smoke theorem is:
+
+```lean
+theorem terminalTraceLabels_of_smokeTerminalState
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInSmokeTerminalState rank) :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank)
+```
+
+Proof shape:
+
+1. `TopPairingClosedLanguageAtRank` supplies the rank-label schedule and
+   length-14 fact.
+2. The semantic prefix state fixes the first 13 labels to the accepted trace
+   prefix.
+3. The schedule rule for step 13 forces the remaining label to be `Face.xp`.
+4. The full label list is therefore `acceptedTraceOfId AcceptedTraceId.t000`.
+5. `graphAcceptedTraceLabels_of_id` places the rank labels in the positive
+   terminal classifier.
+
+The file also proves the direct consumer theorem:
+
+```lean
+theorem nonIdentityRankKilled_of_smokeTerminalState
+    {rank : Fin numPairWords}
+    (hstate : ClosedRankInSmokeTerminalState rank)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+Guarded commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 90 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_direct_sequence_socket_olean_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_trace_membership_smoke_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalTraceMembershipSmoke.lean
+```
+
+Results:
+
+```text
+terminal direct sequence socket .olean refresh: pass
+elapsed: 5.00s
+peak_tree_rss: 4059 MiB
+hard_as: 12288 MiB
+min_available: 46209 MiB
+
+terminal trace membership smoke: pass
+elapsed: 3.00s
+peak_tree_rss: 3679 MiB
+hard_as: 12288 MiB
+min_available: 46309 MiB
+```
+
+Forbidden/sample-token scan on the new smoke and terminal direct socket was
+clean for:
+
+```text
+sorry, admit, axiom, native_decide, unsafe,
+SampledRankIndex, sampledContainsRank, sampledRankOf,
+Float, Float32, Float64, Double
+```
+
+Strategic interpretation:
+
+This is not production coverage, but it passes the intended go/no-go test for
+one nontrivial state: semantic closed-language schedule data can force terminal
+trace membership and feed the direct killed socket without sampled ranks.  The
+Bellman/top-pairing line is still viable for one more scaling step.
+
+Next required scaling step:
+
+Generate a small terminal-membership state-DAG shard whose nodes are semantic
+prefix states, not sampled ranks.  Each terminal state should export a theorem
+of the form:
+
+```lean
+ClosedRankInTerminalState state rank ->
+  TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+    (topPairingRankFaceLabels rank)
+```
+
+The shard should cover several accepted trace prefixes and one branching step.
+Acceptance gate for promotion:
+
+```text
+no sampled rank/path objects
+guarded Lean check <= 10s
+peak RSS <= 5 GiB
+theorem surface feeds TerminalDirectClosedFamily
+```
