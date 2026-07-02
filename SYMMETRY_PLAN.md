@@ -82898,7 +82898,7 @@ Result:
 
 | Target | Result | Time | Peak RSS | Min available |
 |---|---:|---:|---:|---:|
-| split-10M closed-graph acceptance audit | pass | `1.00s` | `2.44 MiB` | `46560 MiB` |
+| split-10M closed-graph acceptance audit | pass | `1.00s` | `1.13 MiB` | `46558 MiB` |
 
 Audit counts:
 
@@ -82909,6 +82909,43 @@ Audit counts:
 | graph accepted | `37` |
 | graph rejected | `10` |
 | prefix graph rejects | `197` |
+
+The enriched audit also records compact semantic state features at graph
+rejection time.  The rejection transition histogram starts with:
+
+| Step | Graph state | Face | Count |
+|---:|---:|---|---:|
+| `7` | `740` | `tmpm` | `3` |
+| `8` | `814` | `tmmp` | `3` |
+| `8` | `814` | `tmpp` | `3` |
+| `10` | `34` | `tmmp` | `3` |
+| `9` | `901` | `tmpp` | `3` |
+| `8` | `814` | `tppp` | `3` |
+| `7` | `740` | `tppp` | `3` |
+| `6` | `683` | `tpmp` | `3` |
+| `6` | `683` | `tppm` | `3` |
+| `6` | `683` | `tppp` | `3` |
+
+The state/step/gap histogram begins:
+
+| Graph state | Step | Square gap | Count |
+|---:|---:|---:|---:|
+| `814` | `8` | `3` | `9` |
+| `683` | `6` | `1` | `9` |
+| `749` | `7` | `3` | `6` |
+| `920` | `9` | `5` | `6` |
+| `650` | `5` | `1` | `6` |
+| `740` | `7` | `2` | `6` |
+
+The rejection stack-shape histogram has only `8` shapes in this bounded audit;
+the top shapes are:
+
+```text
+shadow_len=3, cancellations=[], stack=[dm11@0,d111@1,d1m1@2], count=46
+shadow_len=4, cancellations=[], stack=[dm11@0,d111@1,d1m1@2,d11m@3], count=38
+shadow_len=2, cancellations=[], stack=[dm11@0,d111@1], count=30
+shadow_len=5, cancellations=[d11m@3-4], stack=[dm11@0,d111@1,d1m1@2], count=30
+```
 
 First rejected prefixes include:
 

@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from collections import Counter
 from dataclasses import dataclass
 from fractions import Fraction
 from pathlib import Path
@@ -274,6 +275,28 @@ def stack_summary_ok(state: StackState) -> bool:
     )
 
 
+def stack_summary_payload(state: StackState) -> dict[str, object]:
+    return {
+        "shadow_len": state.shadow_len,
+        "stack": list(reversed(state.stack)),
+        "cancellations": list(reversed(state.cancellations_rev)),
+    }
+
+
+def fraction_payload(q: Fraction) -> str:
+    if q.denominator == 1:
+        return str(q.numerator)
+    return f"{q.numerator}/{q.denominator}"
+
+
+def matrix_payload(m) -> list[list[str]]:
+    return [[fraction_payload(entry) for entry in row] for row in m]
+
+
+def parity_payload(parity: tuple[bool, bool, bool]) -> str:
+    return "".join("1" if bit else "0" for bit in parity)
+
+
 def parse_graph(base_path: Path):
     current_state: int | None = None
     transitions: dict[tuple[int, int], tuple[int, int]] = {}
@@ -315,6 +338,10 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
     }
     first_rejections: list[dict[str, object]] = []
     first_accepted: list[dict[str, object]] = []
+    reject_by_transition: Counter[tuple[int, int, str]] = Counter()
+    reject_by_state_face: Counter[tuple[int, str]] = Counter()
+    reject_by_state_step_gap: Counter[tuple[int, int, int]] = Counter()
+    reject_by_stack_shape: Counter[tuple[int, tuple[tuple[str, int], ...], tuple[tuple[str, int, int], ...]]] = Counter()
 
     def dfs(
         step: int,
@@ -399,6 +426,16 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
                 edge = transitions.get((graph_state, label))
                 if edge is None:
                     stats["prefix_graph_rejects"] += 1
+                    reject_by_transition[(step, graph_state, face)] += 1
+                    reject_by_state_face[(graph_state, face)] += 1
+                    reject_by_state_step_gap[(graph_state, step, square_gap)] += 1
+                    reject_by_stack_shape[
+                        (
+                            stack_state.shadow_len,
+                            tuple(reversed(stack_state.stack)),
+                            tuple(reversed(stack_state.cancellations_rev)),
+                        )
+                    ] += 1
                     next_graph_state = None
                     next_graph_gain = None
                     next_first_reject = {
@@ -407,6 +444,13 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
                         "face": face,
                         "label": label,
                         "prefix": labels + [face],
+                        "semantic_state_before_reject": {
+                            "square_gap": square_gap,
+                            "parity": parity_payload(parity),
+                            "remaining_counts": dict(sorted(counts.items())),
+                            "stack": stack_summary_payload(stack_state),
+                            "linear": matrix_payload(linear),
+                        },
                     }
                 else:
                     next_graph_state, gain = edge
@@ -452,6 +496,39 @@ def audit(args: argparse.Namespace) -> dict[str, object]:
         "stats": stats,
         "first_accepted": first_accepted,
         "first_rejections": first_rejections,
+        "histograms": {
+            "reject_by_transition": [
+                {
+                    "step": step,
+                    "state": state,
+                    "face": face,
+                    "count": count,
+                }
+                for (step, state, face), count in reject_by_transition.most_common()
+            ],
+            "reject_by_state_face": [
+                {"state": state, "face": face, "count": count}
+                for (state, face), count in reject_by_state_face.most_common()
+            ],
+            "reject_by_state_step_gap": [
+                {
+                    "state": state,
+                    "step": step,
+                    "square_gap": square_gap,
+                    "count": count,
+                }
+                for (state, step, square_gap), count in reject_by_state_step_gap.most_common()
+            ],
+            "reject_by_stack_shape": [
+                {
+                    "shadow_len": shadow_len,
+                    "stack": list(stack),
+                    "cancellations": list(cancellations),
+                    "count": count,
+                }
+                for (shadow_len, stack, cancellations), count in reject_by_stack_shape.most_common()
+            ],
+        },
         "limits": {
             "max_nodes": args.max_nodes,
             "max_examples": args.max_examples,
@@ -487,6 +564,51 @@ def write_markdown(report: dict[str, object], path: Path) -> None:
     if rejections:
         lines.extend(["", "## First Rejections", ""])
         for item in rejections:
+            lines.append("```json")
+            lines.append(json.dumps(item, indent=2))
+            lines.append("```")
+    histograms = report.get("histograms", {})  # type: ignore[assignment]
+    reject_by_transition = histograms.get("reject_by_transition", [])  # type: ignore[union-attr]
+    if reject_by_transition:
+        lines.extend(
+            [
+                "",
+                "## Rejection Transition Histogram",
+                "",
+                "| step | graph state | face | count |",
+                "| ---: | ---: | --- | ---: |",
+            ]
+        )
+        for item in reject_by_transition:
+            lines.append(
+                "| `{}` | `{}` | `Face.{}` | `{}` |".format(
+                    item["step"], item["state"], item["face"], item["count"]
+                )
+            )
+    reject_by_state_step_gap = histograms.get("reject_by_state_step_gap", [])  # type: ignore[union-attr]
+    if reject_by_state_step_gap:
+        lines.extend(
+            [
+                "",
+                "## Rejection State/Step/Gap Histogram",
+                "",
+                "| graph state | step | square gap | count |",
+                "| ---: | ---: | ---: | ---: |",
+            ]
+        )
+        for item in reject_by_state_step_gap:
+            lines.append(
+                "| `{}` | `{}` | `{}` | `{}` |".format(
+                    item["state"],
+                    item["step"],
+                    item["square_gap"],
+                    item["count"],
+                )
+            )
+    reject_by_stack_shape = histograms.get("reject_by_stack_shape", [])  # type: ignore[union-attr]
+    if reject_by_stack_shape:
+        lines.extend(["", "## Rejection Stack Shapes", ""])
+        for item in reject_by_stack_shape:
             lines.append("```json")
             lines.append(json.dumps(item, indent=2))
             lines.append("```")
