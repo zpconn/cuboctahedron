@@ -76738,18 +76738,124 @@ selected_prefix_cover_root_producer_bridge:
   exit=0, elapsed=2.00s, max RSS=3685 MiB, hard AS=8192 MiB
 ```
 
-Next target:
+Superseded next target:
 
-Generate the first bounded interval/state shard proving
-`SelectedPrefixResidualRankCovered scaledMargin` for a real semantic slice of
-the residual classifier.  The shard must prove membership in
-`SelectedPrefixCoverFamily` from semantic classifier data.  It must not import
-the state-DAG selected-prefix cover root through a public residual bridge until
-that producer root has been serially prebuilt and import-audited.
+The previously named next step was to generate the first bounded
+interval/state shard proving `SelectedPrefixResidualRankCovered scaledMargin`.
+That remains the residual-boundary theorem eventually needed by
+`killedResidualBridge_of_selectedPrefixInterval`, but it is no longer the next
+experiment.  The GPT5.5 review identified the sharper failure mode: the
+Bellman potential and selected-prefix producer are plausible, but production is
+not justified until the evaluator is driven by compact semantic membership
+rather than sampled traces, rank/path tables, or interval routing.
 
-No-go rule:
+New next target:
 
-If the interval/state shard requires sampled ranks, one branch per concrete
-rank, exact affine-RHS keys, or a broad generated root import to prove
-membership, reject that shard shape and refine the residual classifier state
-before scaling.
+Continue Bellman for exactly one semantic-membership experiment:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+Equivalently, in object form:
+
+```lean
+forall obj : TopPairingBellmanObj Face.ym,
+  BellmanEvalAccepts
+    graphPotential graphSmokeNext rootState (176 : Int)
+    (fun obj : TopPairingBellmanObj Face.ym => scaledMargin obj.rank)
+    (fun obj => TopPairingBellmanObj.labels smokeLabelOfFace obj)
+    obj
+```
+
+The object must remain the existing compact semantic object:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+```
+
+If `TopPairingClosedLanguageAtRank` is too weak to derive deterministic
+evaluator acceptance and the scaled-margin bound, add exactly one stronger
+semantic predicate.  The allowed strengthening is a theorem surface like:
+
+```lean
+forall rank,
+  TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+Such a strengthening may carry closed-run/evaluator facts, final potential
+nonnegativity, actual-face omnihedral evidence, or semantic sequence/bad-face
+membership.  It must not become a sampled-rank object, exact affine-RHS key,
+solved-start-point key, one constructor per path, or one branch per rank.
+
+Go/no-go rule:
+
+Continue Bellman as the production nonidentity residual route only if this
+semantic evaluator-membership slice succeeds with cost proportional to the
+automaton/family size.  If the proof collapses back into sampled paths, sampled
+rank indexes, exact RHS keys, root trace-margin producer imports, or large
+OR-prefix/rank routing, demote the current Bellman route to discovery
+infrastructure and pivot to a cancellation-tree/state-summary automaton whose
+semantic state directly proves the evaluator run.
+
+Only after this evaluator-membership gate succeeds should the plan return to
+the residual interval theorem:
+
+```lean
+CoversInterval
+  (SelectedPrefixResidualRankCovered scaledMargin)
+  0 numPairWords
+```
+
+At that later stage, any interval/state shard must prove membership in the
+accepted semantic evaluator family from residual classifier data.  It must not
+import the state-DAG selected-prefix cover root through a public residual bridge
+until that producer root has been serially prebuilt and import-audited.
+
+Audit evidence for this revised target:
+
+```bash
+python3 scripts/audit_top_pairing_bellman_eval_contract.py
+```
+
+recorded:
+
+```text
+decision=continue-one-semantic-bellman-experiment-hard-eval-theorem-open
+sampled-eval mentions=0
+semantic eval-language mentions=35
+closed-to-eval socket mentions=7
+remaining-premise mentions=20
+```
+
+Fresh guarded object-layer check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_bellman_object_latest_strategy_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+Result:
+
+```text
+exit=0
+elapsed=13.01s
+peak_tree_rss=3868 MiB
+hard_as=12288 MiB
+min_available=45975 MiB
+```
