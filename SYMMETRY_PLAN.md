@@ -83231,6 +83231,54 @@ Result:
 |---|---:|---:|---:|---:|
 | `BellmanTopPairingTraceMarginBoundsSocket.lean` | pass | `6.01s` | `3950 MiB` | `45921 MiB` |
 
+Regression smoke updated:
+
+```lean
+BellmanTopPairingTraceIdBoundsSmoke.
+  traceId_existsMarginSequence_scaledMargin_nonpos_smoke
+BellmanTopPairingTraceIdBoundsSmoke.
+  traceId_existsMarginSequence_evalLanguage_smoke
+```
+
+Because direct `lean` checks import existing `.olean` artifacts, the edited
+socket was first refreshed explicitly:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/trace_margin_bounds_socket_olean_guard.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.olean \
+    -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.ilean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+Then the smoke was checked:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/trace_id_bounds_smoke_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| socket `.olean` refresh | pass | `3.00s` | `3950 MiB` | `45930 MiB` |
+| `BellmanTopPairingTraceIdBoundsSmoke.lean` | pass | `2.00s` | `3602 MiB` | `46020 MiB` |
+
 Next implementation target: produce, for one compact semantic classifier
 family, the existential trace-id/margin predicate above from strengthened
 closed-language cursor/state facts.  Avoid exact-prefix, exact affine RHS,

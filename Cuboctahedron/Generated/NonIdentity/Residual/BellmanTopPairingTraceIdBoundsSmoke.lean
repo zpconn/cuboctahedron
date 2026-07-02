@@ -38,6 +38,26 @@ theorem traceId_evalLanguage_smoke
       scaledMargin rank Face.ym :=
   evalLanguage_of_traceId h
 
+theorem traceId_existsMarginSequence_scaledMargin_nonpos_smoke
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TraceIdExistsMarginSequenceBadFace scaledMargin) rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  traceIdExistsMargin_scaledMargin_nonpos h
+
+theorem traceId_existsMarginSequence_evalLanguage_smoke
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TraceIdExistsMarginSequenceBadFace scaledMargin) rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_traceIdExistsMargin h
+
 theorem traceId_components_scaledMargin_nonpos_smoke
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
