@@ -55,19 +55,39 @@ theorem genericPrefix2State_of_closed
       TerminalStepState.Contains
         (TerminalStepState.squareStep TerminalStepState.initial Face.xm)
         rank :=
-    contains_squareStep h0
-      (rest := Face.ym :: rest)
-      (by simpa [TerminalStepState.initial, topPairingRankFaceLabels]
-        using hlabels)
-      (by decide : triLetterOfFace? Face.xm = none)
+    by
+      have hnext :
+          TerminalStepState.Contains
+            (TerminalStepState.nextStep TerminalStepState.initial Face.xm)
+            rank :=
+        contains_nextStep h0
+          (rest := Face.ym :: rest)
+          (by simpa [TerminalStepState.initial, topPairingRankFaceLabels]
+            using hlabels)
+      simpa [
+        TerminalStepState.nextStep_eq_squareStep
+          TerminalStepState.initial
+          (face := Face.xm)
+          (by decide : triLetterOfFace? Face.xm = none)] using hnext
   have h2 :
       TerminalStepState.Contains genericPrefix2State rank :=
-    contains_squareStep h1
-      (rest := rest)
-      (by simpa [genericPrefix2State, TerminalStepState.squareStep,
-          TerminalStepState.initial, topPairingRankFaceLabels,
-          List.append_assoc] using hlabels)
-      (by decide : triLetterOfFace? Face.ym = none)
+    by
+      have hnext :
+          TerminalStepState.Contains
+            (TerminalStepState.nextStep
+              (TerminalStepState.squareStep TerminalStepState.initial Face.xm)
+              Face.ym)
+            rank :=
+        contains_nextStep h1
+          (rest := rest)
+          (by simpa [genericPrefix2State, TerminalStepState.squareStep,
+              TerminalStepState.initial, topPairingRankFaceLabels,
+              List.append_assoc] using hlabels)
+      simpa [genericPrefix2State,
+        TerminalStepState.nextStep_eq_squareStep
+          (TerminalStepState.squareStep TerminalStepState.initial Face.xm)
+          (face := Face.ym)
+          (by decide : triLetterOfFace? Face.ym = none)] using hnext
   exact h2
 
 theorem prefix2Family_of_genericSteps
@@ -130,32 +150,61 @@ theorem prefix3Family_of_genericSteps
   · rcases htmpm with ⟨rest, hlabels⟩
     have hgeneric :
         TerminalStepState.Contains genericPrefix3TmpmState rank :=
-      contains_triStep hprefix2
-        (rest := rest)
-        (by simpa [genericPrefix2State, TerminalStepState.squareStep,
-            TerminalStepState.initial, topPairingRankFaceLabels,
-            List.append_assoc] using hlabels)
-        (by decide : triLetterOfFace? Face.tmpm = some TriLetter.d1m1)
+      by
+        have hnext :
+            TerminalStepState.Contains
+              (TerminalStepState.nextStep genericPrefix2State Face.tmpm)
+              rank :=
+          contains_nextStep hprefix2
+            (rest := rest)
+            (by simpa [genericPrefix2State, TerminalStepState.squareStep,
+                TerminalStepState.initial, topPairingRankFaceLabels,
+                List.append_assoc] using hlabels)
+        simpa [genericPrefix3TmpmState,
+          TerminalStepState.nextStep_eq_triStep
+            genericPrefix2State
+            (face := Face.tmpm)
+            (tri := TriLetter.d1m1)
+            (by decide : triLetterOfFace? Face.tmpm =
+              some TriLetter.d1m1)] using hnext
     exact Or.inl (prefix3Tmpm_of_genericState hgeneric)
   · rcases hyp with ⟨rest, hlabels⟩
     have hgeneric :
         TerminalStepState.Contains genericPrefix3YpState rank :=
-      contains_squareStep hprefix2
-        (rest := rest)
-        (by simpa [genericPrefix2State, TerminalStepState.squareStep,
-            TerminalStepState.initial, topPairingRankFaceLabels,
-            List.append_assoc] using hlabels)
-        (by decide : triLetterOfFace? Face.yp = none)
+      by
+        have hnext :
+            TerminalStepState.Contains
+              (TerminalStepState.nextStep genericPrefix2State Face.yp)
+              rank :=
+          contains_nextStep hprefix2
+            (rest := rest)
+            (by simpa [genericPrefix2State, TerminalStepState.squareStep,
+                TerminalStepState.initial, topPairingRankFaceLabels,
+                List.append_assoc] using hlabels)
+        simpa [genericPrefix3YpState,
+          TerminalStepState.nextStep_eq_squareStep
+            genericPrefix2State
+            (face := Face.yp)
+            (by decide : triLetterOfFace? Face.yp = none)] using hnext
     exact Or.inr (Or.inl (prefix3Yp_of_genericState hgeneric))
   · rcases hzm with ⟨rest, hlabels⟩
     have hgeneric :
         TerminalStepState.Contains genericPrefix3ZmState rank :=
-      contains_squareStep hprefix2
-        (rest := rest)
-        (by simpa [genericPrefix2State, TerminalStepState.squareStep,
-            TerminalStepState.initial, topPairingRankFaceLabels,
-            List.append_assoc] using hlabels)
-        (by decide : triLetterOfFace? Face.zm = none)
+      by
+        have hnext :
+            TerminalStepState.Contains
+              (TerminalStepState.nextStep genericPrefix2State Face.zm)
+              rank :=
+          contains_nextStep hprefix2
+            (rest := rest)
+            (by simpa [genericPrefix2State, TerminalStepState.squareStep,
+                TerminalStepState.initial, topPairingRankFaceLabels,
+                List.append_assoc] using hlabels)
+        simpa [genericPrefix3ZmState,
+          TerminalStepState.nextStep_eq_squareStep
+            genericPrefix2State
+            (face := Face.zm)
+            (by decide : triLetterOfFace? Face.zm = none)] using hnext
     exact Or.inr (Or.inr (prefix3Zm_of_genericState hgeneric))
 
 theorem prefix3Family_of_genericSteps_strengthened

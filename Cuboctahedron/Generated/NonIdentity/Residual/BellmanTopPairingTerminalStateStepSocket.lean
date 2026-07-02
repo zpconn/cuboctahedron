@@ -65,6 +65,18 @@ def nextStep (state : TerminalStepState) (face : Face) :
   | none => state.squareStep face
   | some _tri => state.triStep face
 
+theorem nextStep_eq_squareStep
+    (state : TerminalStepState) {face : Face}
+    (hsquare : triLetterOfFace? face = none) :
+    state.nextStep face = state.squareStep face := by
+  simp [nextStep, hsquare]
+
+theorem nextStep_eq_triStep
+    (state : TerminalStepState) {face : Face} {tri : TriLetter}
+    (htri : triLetterOfFace? face = some tri) :
+    state.nextStep face = state.triStep face := by
+  simp [nextStep, htri]
+
 end TerminalStepState
 
 private theorem append_left_cancel_face

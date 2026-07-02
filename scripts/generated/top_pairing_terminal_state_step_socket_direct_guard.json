@@ -11,14 +11,14 @@
     "2048",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateStepSocket.lean"
   ],
-  "elapsed_seconds": 5.004585078990203,
+  "elapsed_seconds": 5.004528328994638,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 3751012,
-  "max_tree_rss_mib": 3663.09765625,
-  "min_available_seen_kib": 46620772,
-  "min_available_seen_mib": 45528.09765625,
+  "max_tree_rss_kib": 3973444,
+  "max_tree_rss_mib": 3880.31640625,
+  "min_available_seen_kib": 46669016,
+  "min_available_seen_mib": 45575.2109375,
   "rss_cap_mib": 6500.0,
   "timeout_seconds": 360.0
 }

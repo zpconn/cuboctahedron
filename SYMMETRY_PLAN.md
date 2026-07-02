@@ -86965,6 +86965,10 @@ New definitions/theorems:
 ```lean
 def TerminalStepState.nextStep
 
+theorem TerminalStepState.nextStep_eq_squareStep
+
+theorem TerminalStepState.nextStep_eq_triStep
+
 theorem contains_nextStep
 ```
 
@@ -86984,13 +86988,13 @@ re-emitting separate square/tri tail proofs.  The theorem is over
 not mention accepted trace ids, selected-prefix roots, affine RHS keys, or
 Bellman trace ids.
 
-One attempted cleanup, refactoring
-`BellmanTopPairingTerminalStateGenericStepSmoke.lean` to use the new theorem,
-was not kept.  The theorem itself typechecked, but the old smoke's
-constant-face states need extra reduction lemmas to simplify
-`triLetterOfFace? Face...` through `pairOfFace` and `TriLetter.ofPairId?`.
-That simplification noise is diagnostic only; the production-facing theorem is
-the generic `contains_nextStep` theorem above.
+The first attempt to refactor
+`BellmanTopPairingTerminalStateGenericStepSmoke.lean` exposed an ergonomic
+problem: constant-face states did not simplify `TerminalStepState.nextStep`
+cleanly enough for generated code.  The accepted fix is the two generic
+rewrite lemmas above.  The smoke now consumes `contains_nextStep` through
+`nextStep_eq_squareStep` / `nextStep_eq_triStep`, so future generated
+finite-state modules have a stable local transition API.
 
 Commands:
 
@@ -87055,14 +87059,12 @@ Results:
 | Target | Result | Time | Peak tree RSS | Min available |
 |---|---:|---:|---:|---:|
 | hygiene scan | pass | n/a | n/a | n/a |
-| direct `BellmanTopPairingTerminalStateStepSocket.lean` | pass | `5.00s` | `3663 MiB` | `45528 MiB` |
-| Lake `BellmanTopPairingTerminalStateStepSocket` | pass | `3.01s` | `4040 MiB` | `45367 MiB` |
-| direct `BellmanTopPairingTerminalStateGenericStepSmoke.lean` | pass | `3.00s` | `3462 MiB` | `45641 MiB` |
-| Lake `BellmanTopPairingTerminalStateGenericStepSmoke` | pass | `3.01s` | `4098 MiB` | `45339 MiB` |
+| direct `BellmanTopPairingTerminalStateStepSocket.lean` | pass | `5.00s` | `3880 MiB` | `45575 MiB` |
+| Lake `BellmanTopPairingTerminalStateStepSocket` | pass | `3.01s` | `3706 MiB` | `45553 MiB` |
+| direct refactored `BellmanTopPairingTerminalStateGenericStepSmoke.lean` | pass | `2.00s` | `3581 MiB` | `45678 MiB` |
+| Lake refactored `BellmanTopPairingTerminalStateGenericStepSmoke` | pass | `3.02s` | `4105 MiB` | `45402 MiB` |
 
-Decision: accepted as a reusable local semantic step.  Next, either add the
-constant-face reduction lemmas needed to make old finite-state smokes consume
-`contains_nextStep` ergonomically, or more importantly, generate a small
+Decision: accepted as a reusable local semantic step.  Next, generate a small
 terminal-state module whose states use `TerminalStepState.nextStep` from the
-start.  That next module must prove a real terminal producer premise from
-semantic state/cursor fields, not from accepted trace ids.
+start and prove a real terminal producer premise from semantic state/cursor
+fields, not from accepted trace ids.
