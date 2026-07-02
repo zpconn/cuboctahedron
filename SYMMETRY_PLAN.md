@@ -85583,3 +85583,133 @@ using target-shadow cursor, schedule, pair-count, local-axis, square-gap, and
 tri-source progress.  If that theorem requires selected trace ids, sampled
 ranks, exact affine RHS, solved start points, or exact Bellman path identity,
 reject the provider and strengthen the semantic state or cocycle quotient.
+
+#### Graph-Accepted Terminal Trace To Depth-11 Producer Bridge Accepted
+
+Added a bounded bridge from the existing semantic terminal predicate
+`GraphAcceptedTraceLabels` into the new depth-11 graph-state suffix socket.
+
+This is still **not** final closed-language membership: it consumes the
+accepted terminal trace predicate.  It does, however, prove that once the
+semantic terminal classifier supplies `GraphAcceptedTraceLabels
+(topPairingRankFaceLabels rank)`, the new depth-11 socket can produce
+`Split10MDepth11GraphPathProducer rank` without sampled ranks, selected prefix
+ids, exact affine RHS keys, solved start points, or exact Bellman path ids.
+
+Added:
+
+```text
+scripts/emit_top_pairing_graph_accepted_depth11_producer_bridge.py
+
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphAcceptedDepth11ProducerBridge.lean
+```
+
+The generated Lean file has `2447` lines and emits one private local producer
+for each accepted terminal trace, plus a public bridge over the semantic
+terminal predicate.
+
+New theorem surface:
+
+```lean
+def BellmanTopPairingGraphAcceptedDepth11ProducerBridge.
+  graphAcceptedDepth11ProducerTraceCount : Nat
+
+theorem BellmanTopPairingGraphAcceptedDepth11ProducerBridge.
+  graphAcceptedDepth11ProducerTraceCount_audit
+
+theorem BellmanTopPairingGraphAcceptedDepth11ProducerBridge.
+  split10MDepth11GraphPathProducer_of_graphAcceptedTraceLabels :
+    GraphAcceptedTraceLabels (topPairingRankFaceLabels rank) ->
+      Split10MDepth11GraphPathProducer rank
+```
+
+The proof is graph-state-indexed:
+
+- each accepted trace is decomposed after the split-10M prefix frontier;
+- the generated proof constructs a `GraphPathTo` from the frontier graph state
+  to the observed depth-11 graph state;
+- the corresponding `Depth11ObservedGraphStateSuffixOk` constructor is applied;
+- the previously checked socket converts this to `Split10MGraphSuffixProducer`.
+
+Commands:
+
+```bash
+python3 scripts/emit_top_pairing_graph_accepted_depth11_producer_bridge.py
+```
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_graph_accepted_depth11_producer_bridge.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_graph_accepted_depth11_producer_bridge_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedDepth11ProducerBridge.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_graph_accepted_depth11_producer_bridge_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphAcceptedDepth11ProducerBridge
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `BellmanTopPairingGraphAcceptedDepth11ProducerBridge.lean` | pass | `32.06s` | `4623 MiB` | `45491 MiB` |
+| Lake `BellmanTopPairingGraphAcceptedDepth11ProducerBridge` | pass | `10.01s` | `5139 MiB` | `44795 MiB` |
+
+Hygiene:
+
+```bash
+rg "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedDepth11ProducerBridge.lean \
+  scripts/emit_top_pairing_graph_accepted_depth11_producer_bridge.py
+```
+
+returned no matches.  `git diff --check` passed.
+
+Decision: accepted as a bounded connector between the semantic terminal
+accepted-trace classifier and the depth-11 graph-state socket.  This validates
+the socket plumbing and the graph-state-indexed suffix architecture.
+
+Remaining production gap:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank ... Face.ym
+  -> GraphAcceptedTraceLabels (topPairingRankFaceLabels rank)
+```
+
+or a stronger direct theorem:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank ... Face.ym
+  -> Split10MDepth11GraphPathProducer rank
+```
+
+The next work should not expand per-trace Bellman proofs.  It should either:
+
+1. complete the terminal semantic classifier route from strengthened closed
+   language to `GraphAcceptedTraceLabels`, or
+2. replace the terminal trace disjunction with a more semantic
+   target-cursor/state producer that proves
+   `Split10MDepth11GraphPathProducer` directly.
+
+If either route requires selected-prefix trace ids, sampled ranks, exact affine
+RHS, or exact full Bellman path identity as the core membership key, reject it
+and strengthen the semantic state or cocycle quotient.
