@@ -260,6 +260,55 @@ theorem traceId_scaledMargin_nonpos_of_components
     (TopPairingStrengthenedClosedLanguageAtRank.ofComponents
       closed actualFaceOmni ⟨rfl, htrace, hmargin⟩)
 
+structure TraceIdComponentFamily
+    (containsRank : Fin numPairWords -> Prop)
+    (traceIdOf : Fin numPairWords -> AcceptedTraceId)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  closed :
+    forall rank, containsRank rank ->
+      TopPairingClosedLanguageAtRank rank Face.ym
+  actualFaceOmni :
+    forall rank, containsRank rank ->
+      TopPairingActualFaceOmniAtRank rank
+  trace :
+    forall rank, containsRank rank ->
+      topPairingRankFaceLabels rank = acceptedTraceOfId (traceIdOf rank)
+  margin :
+    forall rank, containsRank rank ->
+      scaledMargin rank <= (176 : Int) + acceptedTraceGain (traceIdOf rank)
+
+theorem evalLanguage_of_traceIdComponentFamily
+    {containsRank : Fin numPairWords -> Prop}
+    {traceIdOf : Fin numPairWords -> AcceptedTraceId}
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      TraceIdComponentFamily containsRank traceIdOf scaledMargin)
+    {rank : Fin numPairWords}
+    (hrank : containsRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_traceId_components
+    (family.closed rank hrank)
+    (family.actualFaceOmni rank hrank)
+    (family.trace rank hrank)
+    (family.margin rank hrank)
+
+theorem traceIdComponentFamily_scaledMargin_nonpos
+    {containsRank : Fin numPairWords -> Prop}
+    {traceIdOf : Fin numPairWords -> AcceptedTraceId}
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      TraceIdComponentFamily containsRank traceIdOf scaledMargin)
+    {rank : Fin numPairWords}
+    (hrank : containsRank rank) :
+    scaledMargin rank <= 0 :=
+  traceId_scaledMargin_nonpos_of_components
+    (family.closed rank hrank)
+    (family.actualFaceOmni rank hrank)
+    (family.trace rank hrank)
+    (family.margin rank hrank)
+
 theorem trace_margin_bounds_socket_builds : True := by
   exact True.intro
 

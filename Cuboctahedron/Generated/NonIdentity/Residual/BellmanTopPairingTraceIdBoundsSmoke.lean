@@ -64,6 +64,30 @@ theorem traceId_components_evalLanguage_smoke
   evalLanguage_of_traceId_components
     closed actualFaceOmni htrace hmargin
 
+theorem traceId_family_scaledMargin_nonpos_smoke
+    {containsRank : Fin numPairWords -> Prop}
+    {traceIdOf : Fin numPairWords -> AcceptedTraceId}
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      TraceIdComponentFamily containsRank traceIdOf scaledMargin)
+    {rank : Fin numPairWords}
+    (hrank : containsRank rank) :
+    scaledMargin rank <= 0 :=
+  traceIdComponentFamily_scaledMargin_nonpos family hrank
+
+theorem traceId_family_evalLanguage_smoke
+    {containsRank : Fin numPairWords -> Prop}
+    {traceIdOf : Fin numPairWords -> AcceptedTraceId}
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      TraceIdComponentFamily containsRank traceIdOf scaledMargin)
+    {rank : Fin numPairWords}
+    (hrank : containsRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_traceIdComponentFamily family hrank
+
 theorem trace_id_bounds_smoke_builds : True := by
   exact True.intro
 

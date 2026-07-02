@@ -63435,3 +63435,136 @@ generated packaging.  This does not prove a full family by itself, so it is not
 the final Bellman gate.  The next checkpoint must produce one non-sampled
 family theorem that supplies those four facts for a compact class of ranks,
 preferably reusing existing terminal trace classifier facts for `htrace`.
+
+### 2026-07-01 Trace-id component family socket
+
+The Bellman trace-id socket now has a true family-level interface.  A generated
+classifier family can prove one `TraceIdComponentFamily` object instead of
+calling the component theorem rank-by-rank.
+
+New theorem/data surface:
+
+```lean
+structure TraceIdComponentFamily
+    (containsRank : Fin numPairWords -> Prop)
+    (traceIdOf : Fin numPairWords -> AcceptedTraceId)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  closed :
+    forall rank, containsRank rank ->
+      TopPairingClosedLanguageAtRank rank Face.ym
+  actualFaceOmni :
+    forall rank, containsRank rank ->
+      TopPairingActualFaceOmniAtRank rank
+  trace :
+    forall rank, containsRank rank ->
+      topPairingRankFaceLabels rank = acceptedTraceOfId (traceIdOf rank)
+  margin :
+    forall rank, containsRank rank ->
+      scaledMargin rank <= (176 : Int) + acceptedTraceGain (traceIdOf rank)
+
+theorem evalLanguage_of_traceIdComponentFamily
+    (family :
+      TraceIdComponentFamily containsRank traceIdOf scaledMargin)
+    (hrank : containsRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem traceIdComponentFamily_scaledMargin_nonpos
+    (family :
+      TraceIdComponentFamily containsRank traceIdOf scaledMargin)
+    (hrank : containsRank rank) :
+    scaledMargin rank <= 0
+```
+
+This is the first accepted family-shaped Bellman socket for the current route.
+It still does not prove a concrete terminal family, but it fixes the
+production theorem shape: full generated families should export a compact
+`TraceIdComponentFamily` proof, and root/group composition should consume that
+family theorem rather than individual rank objects.
+
+Guarded focused Lake check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_family_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceIdBoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 7.01s
+peak_tree_rss = 3999 MiB
+hard_as = 32768 MiB
+min_available = 46113 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_id_family_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.01s
+peak_tree_rss = 3571 MiB
+hard_as = 8192 MiB
+min_available = 46296 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingTraceMarginBoundsSocket.lean       = 315 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean            = 94 lines
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 596 lines
+TopPairingBellmanObject.lean                        = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+Both checks passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept the family-level socket.  The next theorem should now be concrete: a
+generated or hand-generated compact family predicate whose exported theorem is
+a `TraceIdComponentFamily` proof.  It should reuse the existing closed-language
+generated traces and terminal/accepted trace classifier where possible, and it
+must not encode exact affine RHS or sampled rank/path tables.
