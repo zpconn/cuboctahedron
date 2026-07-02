@@ -29,6 +29,11 @@
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean"
     },
     {
+      "bytes": 2763,
+      "lines": 64,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixProviderFamilySmoke.lean"
+    },
+    {
       "bytes": 2108,
       "lines": 46,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.lean"
@@ -52,6 +57,19 @@
     "hard_address_space_mib": 12288.0,
     "killed_reason": null,
     "max_tree_rss_mib": 2177.84375
+  },
+  "representative_provider_guard": {
+    "elapsed_seconds": 6.003465945002972,
+    "exit_code": 0,
+    "hard_address_space_mib": 12288.0,
+    "killed_reason": null,
+    "max_tree_rss_mib": 3984.59765625
+  },
+  "representative_provider_leaf": {
+    "consumer_theorem": "nonIdentityRankKilled_of_selectedPrefixProviderFamily",
+    "lean_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixProviderFamilySmoke.lean",
+    "provider_family": "selectedPrefixTerminalDirectProviderFamily",
+    "source_family": "SelectedPrefixCoverFamily scaledMargin rank"
   },
   "selected_prefix_cover": {
     "accepted_trace_count": 37,

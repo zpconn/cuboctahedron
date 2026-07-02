@@ -74103,3 +74103,84 @@ Strategic consequence:
   provider architecture.  If the family proofs need sampled ranks, exact affine
   RHS keys, or rank-by-rank branching, reject the Bellman terminal/direct route
   and pivot to the cancellation-tree summary automaton.
+
+## 2026-07-02 Checkpoint: Representative Provider-Family Leaf
+
+Added a bounded representative leaf that instantiates the generic
+`TerminalDirectProviderFamily` surface:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSelectedPrefixProviderFamilySmoke.lean
+```
+
+The leaf proves:
+
+```lean
+theorem selectedPrefixTerminalDirectProviderFamily
+    (scaledMargin : Fin numPairWords -> Int) :
+    TerminalDirectProviderFamily
+      (SelectedPrefixCoverFamily scaledMargin)
+
+theorem terminalDirectClosedFamily_of_selectedPrefixProviderFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :
+    TerminalDirectClosedFamily rank
+
+theorem nonIdentityRankKilled_of_selectedPrefixProviderFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+OOM-safe direct check:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_selected_prefix_provider_family_smoke_guard.json \
+  -- lake env lean -R . -M 7000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixProviderFamilySmoke.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixProviderFamilySmoke.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixProviderFamilySmoke.lean
+```
+
+Result:
+
+```text
+exit: 0
+elapsed: 6.00s
+peak_tree_rss: 3985 MiB
+hard_as: 12288 MiB
+min_available: 46197 MiB
+```
+
+The terminal-provider scaling audit now records both:
+
+- the generic provider surface (`3.01s`, `2178 MiB` peak RSS);
+- the representative selected-prefix provider-family leaf (`6.00s`,
+  `3985 MiB` peak RSS).
+
+Source size for the representative leaf:
+
+```text
+BellmanTopPairingSelectedPrefixProviderFamilySmoke.lean: 64 lines, 2763 bytes
+```
+
+Strategic consequence:
+
+- The production theorem shape is now explicit and Lean-checked:
+  generated provider leaves should expose a semantic `containsRank` predicate
+  plus a `TerminalDirectProviderFamily containsRank` theorem.
+- The bounded selected-prefix leaf proves the shape is cheap for one current
+  semantic family.  This does not prove full residual coverage.
+- The next gate is no longer theorem plumbing.  It is provider discovery:
+  group the intended top-pairing residual ranks into semantic terminal/provider
+  states and test whether a representative full-provider family can prove the
+  four fields without sampled paths, exact affine RHS keys, or rank-by-rank
+  branching.

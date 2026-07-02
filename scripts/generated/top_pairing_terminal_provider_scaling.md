@@ -73,18 +73,42 @@ Guarded check:
 - hard address-space MiB: `12288.0`
 - killed reason: `None`
 
+## Representative Provider-Family Leaf
+
+The bounded selected-prefix source also instantiates the generic
+`TerminalDirectProviderFamily` surface:
+
+```lean
+theorem selectedPrefixTerminalDirectProviderFamily
+    (scaledMargin : Fin numPairWords -> Int) :
+    TerminalDirectProviderFamily
+      (SelectedPrefixCoverFamily scaledMargin)
+
+theorem terminalDirectClosedFamily_of_selectedPrefixProviderFamily ...
+theorem nonIdentityRankKilled_of_selectedPrefixProviderFamily ...
+```
+
+Representative leaf guarded check:
+
+- exit: `0`
+- elapsed seconds: `6.003465945002972`
+- peak RSS MiB: `3984.59765625`
+- hard address-space MiB: `12288.0`
+- killed reason: `None`
+
 ## Source Size
 
 | file | lines | bytes |
 | --- | ---: | ---: |
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectProviderSurface.lean` | `73` | `3094` |
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean` | `163` | `6619` |
+| `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixProviderFamilySmoke.lean` | `64` | `2763` |
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.lean` | `46` | `2108` |
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/All.lean` | `66` | `3386` |
 
 ## Forbidden Token Scan
 
-- scanned files: `4`
+- scanned files: `5`
 - forbidden hits: `0`
 
 No forbidden tokens were found in the scanned files.

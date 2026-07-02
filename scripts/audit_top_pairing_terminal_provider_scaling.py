@@ -32,6 +32,8 @@ LEAN_FILES = [
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean",
     "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingSelectedPrefixProviderFamilySmoke.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingTerminalDirectSequenceSocket.lean",
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingStateDAGSelectedPrefixCover/All.lean",
@@ -139,6 +141,29 @@ def render_md(payload: dict[str, Any]) -> str:
         f"- hard address-space MiB: `{payload['guard']['hard_address_space_mib']}`",
         f"- killed reason: `{payload['guard']['killed_reason']}`",
         "",
+        "## Representative Provider-Family Leaf",
+        "",
+        "The bounded selected-prefix source also instantiates the generic",
+        "`TerminalDirectProviderFamily` surface:",
+        "",
+        "```lean",
+        "theorem selectedPrefixTerminalDirectProviderFamily",
+        "    (scaledMargin : Fin numPairWords -> Int) :",
+        "    TerminalDirectProviderFamily",
+        "      (SelectedPrefixCoverFamily scaledMargin)",
+        "",
+        "theorem terminalDirectClosedFamily_of_selectedPrefixProviderFamily ...",
+        "theorem nonIdentityRankKilled_of_selectedPrefixProviderFamily ...",
+        "```",
+        "",
+        "Representative leaf guarded check:",
+        "",
+        f"- exit: `{payload['representative_provider_guard']['exit_code']}`",
+        f"- elapsed seconds: `{payload['representative_provider_guard']['elapsed_seconds']}`",
+        f"- peak RSS MiB: `{payload['representative_provider_guard']['max_tree_rss_mib']}`",
+        f"- hard address-space MiB: `{payload['representative_provider_guard']['hard_address_space_mib']}`",
+        f"- killed reason: `{payload['representative_provider_guard']['killed_reason']}`",
+        "",
         "## Source Size",
         "",
         "| file | lines | bytes |",
@@ -222,6 +247,9 @@ def main() -> None:
     surface_guard = load_json(
         "scripts/generated/top_pairing_terminal_direct_provider_surface_guard.json"
     )
+    representative_guard = load_json(
+        "scripts/generated/top_pairing_selected_prefix_provider_family_smoke_guard.json"
+    )
 
     hits = [hit for rel in LEAN_FILES for hit in forbidden_hits(rel)]
     stats = closed.get("stats", {})
@@ -255,6 +283,13 @@ def main() -> None:
             "hard_address_space_mib": surface_guard.get("hard_address_space_mib"),
             "killed_reason": surface_guard.get("killed_reason"),
         },
+        "representative_provider_guard": {
+            "exit_code": representative_guard.get("exit_code"),
+            "elapsed_seconds": representative_guard.get("elapsed_seconds"),
+            "max_tree_rss_mib": representative_guard.get("max_tree_rss_mib"),
+            "hard_address_space_mib": representative_guard.get("hard_address_space_mib"),
+            "killed_reason": representative_guard.get("killed_reason"),
+        },
         "provider_surface": {
             "lean_file": (
                 "Cuboctahedron/Generated/NonIdentity/Residual/"
@@ -263,6 +298,15 @@ def main() -> None:
             "structure": "TerminalDirectProviderFamily",
             "provider_theorem": "terminalDirectClosedFamily_of_providerFamily",
             "consumer_theorem": "nonIdentityRankKilled_of_providerFamily",
+        },
+        "representative_provider_leaf": {
+            "lean_file": (
+                "Cuboctahedron/Generated/NonIdentity/Residual/"
+                "BellmanTopPairingSelectedPrefixProviderFamilySmoke.lean"
+            ),
+            "source_family": "SelectedPrefixCoverFamily scaledMargin rank",
+            "provider_family": "selectedPrefixTerminalDirectProviderFamily",
+            "consumer_theorem": "nonIdentityRankKilled_of_selectedPrefixProviderFamily",
         },
         "lean_file_stats": [stat_file(rel) for rel in LEAN_FILES],
         "forbidden_hit_count": len(hits),
