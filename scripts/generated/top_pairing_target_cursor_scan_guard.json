@@ -1,0 +1,24 @@
+{
+  "available_floor_mib": 24576.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "-M",
+    "7000",
+    "-j1",
+    "-s",
+    "2048",
+    "Cuboctahedron/Search/TopPairingTargetCursor.lean"
+  ],
+  "elapsed_seconds": 3.002937544006272,
+  "exit_code": 0,
+  "hard_address_space_mib": 12288.0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4021608,
+  "max_tree_rss_mib": 3927.3515625,
+  "min_available_seen_kib": 47259000,
+  "min_available_seen_mib": 46151.3671875,
+  "rss_cap_mib": 7000.0,
+  "timeout_seconds": 120.0
+}

@@ -145,6 +145,50 @@ def actedTriLetterOfFace? (parity : SqParity) (face : Face) :
     Option TriLetter :=
   (triLetterOfFace? face).map fun tri => tri.act parity
 
+def actedTriLettersFrom : SqParity -> List Face -> List TriLetter
+  | _parity, [] => []
+  | parity, face :: rest =>
+      match triLetterOfFace? face with
+      | some tri => tri.act parity :: actedTriLettersFrom parity rest
+      | none =>
+          actedTriLettersFrom (parity.applyPair (pairOfFace face)) rest
+
+theorem foldl_scanPair_shadow_eq_append_acted
+    (state : ShadowState) (labels : List Face) :
+    ((labels.map pairOfFace).foldl ShadowState.scanPair state).shadow =
+      state.shadow ++ actedTriLettersFrom state.parity labels := by
+  induction labels generalizing state with
+  | nil =>
+      simp [actedTriLettersFrom, ShadowState.shadow]
+  | cons face rest ih =>
+      cases state with
+      | mk parity shadowRev reducedRev =>
+          cases face <;>
+            simp [actedTriLettersFrom, triLetterOfFace?, pairOfFace,
+              TriLetter.ofPairId?, ShadowState.scanPair, ih]
+          all_goals
+            simp [ShadowState.shadow, List.append_assoc]
+
+theorem actedTriLettersFrom_eq_shadowStateOfFaceLabels
+    (labels : List Face) :
+    actedTriLettersFrom SqParity.id labels =
+      (shadowStateOfPairList (labels.map pairOfFace)).shadow := by
+  have h :=
+    foldl_scanPair_shadow_eq_append_acted ShadowState.initial labels
+  simpa [shadowStateOfPairList, ShadowState.initial, ShadowState.shadow] using h.symm
+
+theorem topPairingActedTriLetters_eq_target_of_closed
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    actedTriLettersFrom SqParity.id (topPairingRankFaceLabels rank) =
+      topPairingTargetShadow := by
+  rw [actedTriLettersFrom_eq_shadowStateOfFaceLabels]
+  have hshadow := topPairingTriShadow_eq_target_of_closed h
+  unfold topPairingRankFaceLabels
+  rw [map_pairOfFace_faceLabelsInContributionOrder]
+  rw [canonicalContributionPairs_eq_startedPairFactors]
+  exact hshadow
+
 theorem triLetterOfFace?_eq_none_iff_square (face : Face) :
     triLetterOfFace? face = none ↔
       isSquarePair (pairOfFace face) = true := by
@@ -191,6 +235,40 @@ namespace TopPairingTriCursorFrom
 theorem nil_id :
     TopPairingTriCursorFrom topPairingTargetShadowLength SqParity.id [] :=
   TopPairingTriCursorFrom.nil
+
+theorem of_actedTriLetters_eq_drop
+    {labels : List Face} {parity : SqParity} {k : Nat}
+    (hk : k ≤ topPairingTargetShadowLength)
+    (hacted :
+      actedTriLettersFrom parity labels = topPairingTargetShadow.drop k) :
+    TopPairingTriCursorFrom k parity labels := by
+  induction labels generalizing parity k with
+  | nil =>
+      have hk8 : k ≤ 8 := by
+        simpa [topPairingTargetShadowLength, topPairingTargetShadow] using hk
+      interval_cases k <;>
+        simp [actedTriLettersFrom, topPairingTargetShadow] at hacted
+      exact TopPairingTriCursorFrom.nil
+  | cons face rest ih =>
+      unfold actedTriLettersFrom at hacted
+      cases hface : triLetterOfFace? face with
+      | none =>
+          simp [hface] at hacted
+          exact TopPairingTriCursorFrom.square hface (ih hk hacted)
+      | some tri =>
+          simp [hface] at hacted
+          have hk8 : k ≤ 8 := by
+            simpa [topPairingTargetShadowLength, topPairingTargetShadow] using hk
+          interval_cases k <;>
+            simp [topPairingTargetShadow] at hacted
+          all_goals
+            first
+            | contradiction
+            | exact TopPairingTriCursorFrom.tri hface
+                (by decide)
+                hacted.1
+                (ih (by decide)
+                  (by simpa [topPairingTargetShadow] using hacted.2))
 
 theorem square_of_isSquare
     {k : Nat} {parity : SqParity} {face : Face} {rest : List Face}
@@ -247,5 +325,14 @@ end TopPairingTriCursorFrom
 
 abbrev TopPairingTargetCursorAtRank (rank : Fin numPairWords) : Prop :=
   TopPairingTriCursorFrom 0 SqParity.id (topPairingRankFaceLabels rank)
+
+theorem topPairingTriCursor_of_closed
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    TopPairingTargetCursorAtRank rank := by
+  unfold TopPairingTargetCursorAtRank
+  apply TopPairingTriCursorFrom.of_actedTriLetters_eq_drop
+  · decide
+  · simpa using topPairingActedTriLetters_eq_target_of_closed h
 
 end Cuboctahedron

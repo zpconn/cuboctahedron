@@ -77467,3 +77467,99 @@ Next Lean slice: prove `TopPairingTriCursorFrom 0 SqParity.id
 target-shadow theorem above plus the existing schedule/square-gap/local-axis
 fields, and it must remain a deterministic semantic cursor proof rather than a
 selected-prefix or sampled-rank cover.
+
+## 2026-07-02 Checkpoint: Closed-Language Target Cursor Accepted
+
+Completed the next semantic transducer bridge.  `TopPairingTargetCursor.lean`
+now defines the face-label scan used by the cursor:
+
+```lean
+def actedTriLettersFrom : SqParity -> List Face -> List TriLetter
+
+theorem foldl_scanPair_shadow_eq_append_acted
+theorem actedTriLettersFrom_eq_shadowStateOfFaceLabels
+```
+
+The scan theorem proves that the cursor's acted triangular-letter list agrees
+with the existing `ShadowState` scanner over `labels.map pairOfFace`.  This is
+the local semantic bridge from face labels to triangular shadow, not a generated
+rank/path table.
+
+The closed top-pairing language now feeds the target cursor through these
+theorems:
+
+```lean
+theorem topPairingActedTriLetters_eq_target_of_closed
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    actedTriLettersFrom SqParity.id (topPairingRankFaceLabels rank) =
+      topPairingTargetShadow
+
+theorem TopPairingTriCursorFrom.of_actedTriLetters_eq_drop
+    {labels : List Face} {parity : SqParity} {k : Nat}
+    (hk : k <= topPairingTargetShadowLength)
+    (hacted :
+      actedTriLettersFrom parity labels = topPairingTargetShadow.drop k) :
+    TopPairingTriCursorFrom k parity labels
+
+theorem topPairingTriCursor_of_closed
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    TopPairingTargetCursorAtRank rank
+```
+
+This is the first production-shaped theorem from the latest Bellman/transducer
+pivot:
+
+```text
+TopPairingClosedLanguageAtRank rank badFace
+  -> deterministic target-shadow cursor over topPairingRankFaceLabels rank
+```
+
+It still does not prove the Bellman evaluator accepts the labels, but it closes
+the target-shadow/source-position half of that membership bridge without any
+sampled rank objects, selected-prefix objects, exact affine RHS keys, or
+per-path constructors.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_target_cursor_closed_cursor_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_target_cursor_closed_cursor_lake_guard_no_as.json \
+  -- lake build Cuboctahedron.Search.TopPairingTargetCursor
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `TopPairingTargetCursor.lean` direct | pass | `3.00s` | `3846 MiB` | hard AS `12288 MiB` |
+| `Cuboctahedron.Search.TopPairingTargetCursor` Lake | pass | `3.00s` | `3900 MiB` | RSS guard, no hard AS |
+
+Next Lean slice: define the deterministic evaluator-gate theorem that combines
+this cursor with schedule, square-gap, local-axis, and the private Bellman
+graph transition relation.  The admissible theorem shape is still:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> exists result,
+      evalLabelStepFn graphNext rootState
+        (topPairingBellmanLabelsAtRank rank) = some result /\
+      0 <= graphPotential result.1 /\
+      scaledMargin rank <= graphConst + result.2
+```
+
+Reject the route if that proof reintroduces selected-prefix/rank-path
+membership instead of local deterministic state transitions.
