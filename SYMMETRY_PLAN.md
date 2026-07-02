@@ -68742,10 +68742,12 @@ Concrete strategy from this point:
    ```
 
 2. Perform exactly one decisive semantic-provider experiment, beginning with
-   trace `000` or the smallest selected-prefix bucket:
+   the first available reusable trace cert.  Inspection showed that the old
+   `cls0000` positive cert's contribution-order labels match accepted trace
+   `t028`, not `t000`, so the first provider should target `t028`:
 
    ```lean
-   topPairingRankFaceLabels rank = acceptedTraceOfId AcceptedTraceId.t000
+   topPairingRankFaceLabels rank = acceptedTraceOfId AcceptedTraceId.t028
      -> TraceStartViolationMarginCert template margin
      -> ObjectStartViolationMarginCert rank margin
    ```
@@ -68783,3 +68785,105 @@ The next implementation step is therefore not another profiler or wrapper.  It
 is to build one actual trace-level start-violation provider and see whether its
 `kernel_check`, `axis_forces`, and `solve_check` fields can be proved from the
 trace/family semantics instead of sampled rank facts.
+
+### 2026-07-02 Semantic provider experiment: accepted trace `t028`
+
+Implemented the first actual trace-level start-violation provider:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTrace028StartViolationProvider.lean
+```
+
+The provider exports:
+
+```lean
+trace028StartViolationCert :
+  (margin : Int) ->
+    TraceStartViolationMarginCert trace028Seq margin
+
+objectStartViolationMarginCert_of_trace028 :
+  topPairingRankFaceLabels rank = acceptedTraceOfId AcceptedTraceId.t028 ->
+    ObjectStartViolationMarginCert rank (scaledMargin rank)
+```
+
+This is the intended semantic shape: the provider takes only a contribution
+label equality for accepted trace `t028`.  It does not introduce
+`SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, sampled path lists,
+or one object constructor per rank.
+
+The trace-local exact fields are checked locally:
+
+- `trace028_kernel_check`;
+- `trace028_solve_check`;
+- `trace028_axis_forces`;
+- `trace028_badFace_violation`.
+
+The file deliberately does duplicate small local prefix arithmetic from the old
+smoke, because importing the old smoke would also import sampled rank/object
+machinery.  The duplicated file is small:
+
+```text
+914 lines
+40 KiB
+```
+
+Verification:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/trace028_provider_guard.json \
+  -- lake env lean \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace028StartViolationProvider.lean
+```
+
+Result:
+
+```text
+passed
+elapsed: 40.09s
+peak process-tree RSS: 5903 MiB
+minimum available memory observed: 44132 MiB
+```
+
+Hygiene scan over the provider returned no hits:
+
+```bash
+rg -n \
+  "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledObject|sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace028StartViolationProvider.lean
+```
+
+A focused Lake target build was attempted under the same 12 GiB process-tree
+guard:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/trace028_provider_build_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTrace028StartViolationProvider
+```
+
+That command was killed by the guard at 23.28 GiB process-tree RSS while Lake
+was replaying/building dependencies in parallel.  This is a build-driver
+parallelism issue, not a failure of the provider module itself: the direct
+`lake env lean` check passed safely.  Do not retry broad Lake builds for this
+route until the repo has a reliable Lake jobs control or a serialized build
+wrapper for this Lean/Lake version.
+
+Decision:
+
+Accept this as a real positive signal for Bellman, but only for the provider
+shape.  One trace-level cert can be checked once and reused by semantic trace
+membership.  The remaining production work is to generate/provider-cover all
+accepted traces or selected-prefix buckets and connect them to the existing
+`GraphAcceptedTraceMargin` / selected-prefix evaluator sockets.  The no-go gate
+still applies: if the all-trace provider requires sampled ranks or path objects,
+stop and pivot to cancellation-tree summary algebra.
