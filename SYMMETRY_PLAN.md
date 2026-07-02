@@ -77199,3 +77199,67 @@ If the deterministic closed-language transducer theorem cannot be proved
 without those shapes, Bellman should be demoted to discovery infrastructure for
 this top-pairing family and replaced by the cancellation-tree/state-summary
 automaton.
+
+## 2026-07-02 Checkpoint: Target Cursor Core Accepted
+
+Implemented the first Lean slice of the deterministic closed-language
+transducer pivot:
+
+```text
+Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+This module imports only the search-side top-pairing language, not generated
+heavy leaves, and introduces the compact cursor surface:
+
+```lean
+def topPairingTargetShadowLength : Nat
+def triLetterOfFace? : Face -> Option TriLetter
+def actedTriLetterOfFace? : SqParity -> Face -> Option TriLetter
+
+inductive TopPairingTriCursorFrom : Nat -> SqParity -> List Face -> Prop
+
+abbrev TopPairingTargetCursorAtRank (rank : Fin numPairWords) : Prop :=
+  TopPairingTriCursorFrom 0 SqParity.id (topPairingRankFaceLabels rank)
+```
+
+The cursor consumes triangular faces by comparing the square-parity-acted
+triangular letter against `topPairingTargetShadow`; square faces update
+`SqParity` and do not advance the target-shadow position.  This is the intended
+local semantic state for the next evaluator-membership theorem and avoids
+selected-prefix/rank/path membership objects.
+
+Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_target_cursor_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+Result:
+
+```text
+exit=0
+elapsed=13.01s
+peak_tree_rss=3895 MiB
+hard_as=12288 MiB
+min_available=46027 MiB
+```
+
+Current status:
+
+- accepted: target-cursor theorem surface and local constructors;
+- still open: `topPairingTargetShadow_of_summary`;
+- still open: `topPairingTriCursor_of_closed`;
+- still open: deterministic `topPairingClosed_to_eval_gate`.
+
+Next Lean slice: prove the summary-to-target-shadow theorem using a small
+stack/index invariant, not a `4^8` case split.  If that invariant becomes too
+large, fall back to a generated-but-small specialized theorem for this one
+target summary, then continue to the closed-language cursor proof.
