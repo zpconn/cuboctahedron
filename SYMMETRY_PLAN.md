@@ -70232,3 +70232,64 @@ However, production emission must avoid paying roughly this full cost per
 parent.  The next generator/proof step should factor local-axis no-go facts
 into reusable finite transition certificates or an integer/projective table
 before scaling past bounded smokes.
+
+Transition-sharing profiler checkpoint:
+
+Added an exact diagnostic profiler:
+
+```text
+scripts/profile_top_pairing_transition_sharing.py
+```
+
+It reuses the existing exact semantic prefix enumerator and exact rational
+local-axis arithmetic to measure whether transition facts can be shared by
+finite holonomy state.  It is not proof data.  It compares computed children
+against the existing semantic prefix enumerator and reports mismatches.
+
+Command:
+
+```bash
+python3 scripts/profile_top_pairing_transition_sharing.py \
+  --min-depth 8 \
+  --max-depth 13 \
+  --json scripts/generated/top_pairing_transition_sharing_profile.json \
+  --markdown scripts/generated/top_pairing_transition_sharing_profile.md
+```
+
+Result:
+
+```text
+depth 8:  parents=595  transition_sigs=308  axis_facts=685  rejects=336  mismatches=0
+depth 9:  parents=1585 transition_sigs=659  axis_facts=1275 rejects=606  mismatches=0
+depth 10: parents=3186 transition_sigs=1086 axis_facts=1263 rejects=604  mismatches=0
+depth 11: parents=3082 transition_sigs=901  axis_facts=823  rejects=437  mismatches=0
+depth 12: parents=1631 transition_sigs=361  axis_facts=183  rejects=88   mismatches=0
+depth 13: parents=482  transition_sigs=58   axis_facts=58   rejects=13   mismatches=0
+```
+
+Summed over these depths:
+
+```text
+parent prefixes:      10,561
+transition signatures: 3,373
+local-axis facts:      4,287
+local-axis rejects:    2,084
+mismatches:            0
+```
+
+Interpretation:
+
+- There is real sharing: the transition signature count is much smaller than
+  the parent-prefix count, and some signatures cover dozens of parents.
+- The child computation matches the exact semantic enumerator in all profiled
+  depths, which supports using this as the finite transition state.
+- The local-axis fact count is still in the low thousands.  If each fact is
+  proved with the current Rat-heavy `norm_num [normalQ, matVec, dot, matMul,
+  reflM, ...]` style, the build-time target is unlikely to hold.
+
+Decision: promote the shared-transition-table architecture, but require an
+integer/projective or otherwise cached local-axis fact checker before broad
+emission.  Do not generate thousands of parent shards in the old shape.  The
+next Bellman semantic-membership slice should use a small list of transition
+signatures and demonstrate that the evaluator bridge can consume those
+signatures without sampled ranks/paths.

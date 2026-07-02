@@ -1,0 +1,198 @@
+{
+  "depths": [
+    {
+      "axis_rejects_per_parent_hist": {
+        "0": 2,
+        "1": 47,
+        "2": 232,
+        "3": 237,
+        "4": 72,
+        "5": 5
+      },
+      "candidates_per_parent_hist": {
+        "2": 8,
+        "3": 14,
+        "4": 136,
+        "5": 183,
+        "6": 185,
+        "7": 59,
+        "8": 10
+      },
+      "child_count": 1585,
+      "child_set_count": 75,
+      "children_per_parent_hist": {
+        "0": 3,
+        "1": 42,
+        "2": 198,
+        "3": 265,
+        "4": 83,
+        "5": 4
+      },
+      "depth": 8,
+      "linear_state_count": 97,
+      "local_axis_allow_count": 349,
+      "local_axis_fact_count": 685,
+      "local_axis_reject_count": 336,
+      "max_parents_per_child_set": 39,
+      "max_parents_per_transition_signature": 14,
+      "mismatch_count": 0,
+      "mismatch_examples": [],
+      "parent_count": 595,
+      "transition_signature_count": 308
+    },
+    {
+      "axis_rejects_per_parent_hist": {
+        "0": 70,
+        "1": 464,
+        "2": 750,
+        "3": 263,
+        "4": 38
+      },
+      "candidates_per_parent_hist": {
+        "2": 219,
+        "3": 335,
+        "4": 636,
+        "5": 266,
+        "6": 129
+      },
+      "child_count": 3186,
+      "child_set_count": 69,
+      "children_per_parent_hist": {
+        "0": 20,
+        "1": 402,
+        "2": 774,
+        "3": 320,
+        "4": 69
+      },
+      "depth": 9,
+      "linear_state_count": 230,
+      "local_axis_allow_count": 669,
+      "local_axis_fact_count": 1275,
+      "local_axis_reject_count": 606,
+      "max_parents_per_child_set": 134,
+      "max_parents_per_transition_signature": 24,
+      "mismatch_count": 0,
+      "mismatch_examples": [],
+      "parent_count": 1585,
+      "transition_signature_count": 659
+    },
+    {
+      "axis_rejects_per_parent_hist": {
+        "0": 944,
+        "1": 1533,
+        "2": 628,
+        "3": 81
+      },
+      "candidates_per_parent_hist": {
+        "1": 815,
+        "2": 1814,
+        "3": 557
+      },
+      "child_count": 3082,
+      "child_set_count": 21,
+      "children_per_parent_hist": {
+        "0": 870,
+        "1": 1622,
+        "2": 622,
+        "3": 72
+      },
+      "depth": 10,
+      "linear_state_count": 463,
+      "local_axis_allow_count": 659,
+      "local_axis_fact_count": 1263,
+      "local_axis_reject_count": 604,
+      "max_parents_per_child_set": 870,
+      "max_parents_per_transition_signature": 32,
+      "mismatch_count": 0,
+      "mismatch_examples": [],
+      "parent_count": 3186,
+      "transition_signature_count": 1086
+    },
+    {
+      "axis_rejects_per_parent_hist": {
+        "0": 1526,
+        "1": 1342,
+        "2": 214
+      },
+      "candidates_per_parent_hist": {
+        "0": 680,
+        "1": 1663,
+        "2": 479,
+        "3": 260
+      },
+      "child_count": 1631,
+      "child_set_count": 12,
+      "children_per_parent_hist": {
+        "0": 1607,
+        "1": 1319,
+        "2": 156
+      },
+      "depth": 11,
+      "linear_state_count": 493,
+      "local_axis_allow_count": 386,
+      "local_axis_fact_count": 823,
+      "local_axis_reject_count": 437,
+      "max_parents_per_child_set": 1607,
+      "max_parents_per_transition_signature": 74,
+      "mismatch_count": 0,
+      "mismatch_examples": [],
+      "parent_count": 3082,
+      "transition_signature_count": 901
+    },
+    {
+      "axis_rejects_per_parent_hist": {
+        "0": 1348,
+        "1": 283
+      },
+      "candidates_per_parent_hist": {
+        "0": 866,
+        "1": 765
+      },
+      "child_count": 482,
+      "child_set_count": 4,
+      "children_per_parent_hist": {
+        "0": 1149,
+        "1": 482
+      },
+      "depth": 12,
+      "linear_state_count": 271,
+      "local_axis_allow_count": 95,
+      "local_axis_fact_count": 183,
+      "local_axis_reject_count": 88,
+      "max_parents_per_child_set": 1149,
+      "max_parents_per_transition_signature": 55,
+      "mismatch_count": 0,
+      "mismatch_examples": [],
+      "parent_count": 1631,
+      "transition_signature_count": 361
+    },
+    {
+      "axis_rejects_per_parent_hist": {
+        "0": 442,
+        "1": 40
+      },
+      "candidates_per_parent_hist": {
+        "1": 482
+      },
+      "child_count": 442,
+      "child_set_count": 2,
+      "children_per_parent_hist": {
+        "0": 40,
+        "1": 442
+      },
+      "depth": 13,
+      "linear_state_count": 58,
+      "local_axis_allow_count": 45,
+      "local_axis_fact_count": 58,
+      "local_axis_reject_count": 13,
+      "max_parents_per_child_set": 442,
+      "max_parents_per_transition_signature": 93,
+      "mismatch_count": 0,
+      "mismatch_examples": [],
+      "parent_count": 482,
+      "transition_signature_count": 58
+    }
+  ],
+  "sampled_rank_or_path_data": false,
+  "source": "exact semantic prefix enumerator"
+}
