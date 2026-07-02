@@ -81576,6 +81576,39 @@ post-third-face state, or have the membership emitter construct the concrete
 next-state identification theorem over arbitrary `next3`/`gain3`.
 ```
 
+Follow-up rejected micro-shard:
+
+```text
+branchTableSuffixOk_closedPrefix3_tmpm_branch_of_closed
+```
+
+This specialized only the `xm, ym, tmpm` post-third-face state, but still put
+the complex concrete evaluator state directly in the theorem conclusion:
+
+```lean
+BranchTableSuffixOk rank closedPrefix3TmpmEvalState (fourth :: rest)
+```
+
+Lean again hit deterministic `isDefEq` heartbeat pressure while elaborating
+that state-indexed theorem type.  The source was backed out and the accepted
+branch-table suffix module rechecked successfully:
+
+```text
+exit code: 0
+elapsed: 2.01s
+peak RSS: 3593 MiB
+```
+
+Revised next shape:
+
+```text
+Do not continue hand-writing prefix-4 suffix lifts in this module.
+The next emitter should introduce lighter generated state ids/constructors for
+post-third-face suffix membership, or generate direct `BranchTableSuffixOk`
+objects in small concrete shards that avoid theorem conclusions indexed by
+large semantic eval-state definitions.
+```
+
 ### Branch-Table Third-Face Lift Added
 
 Extended the branch-table suffix predicate one semantic branch past the
