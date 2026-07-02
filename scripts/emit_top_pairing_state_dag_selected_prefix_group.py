@@ -27,6 +27,10 @@ DEFAULT_LEAN = (
 )
 DEFAULT_JSON = ROOT / "scripts/generated/top_pairing_state_dag_selected_prefix_group.json"
 DEFAULT_MD = ROOT / "scripts/generated/top_pairing_state_dag_selected_prefix_group.md"
+DEFAULT_NAMESPACE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingStateDAGSelectedPrefixGroup"
+)
 
 
 FACE = {
@@ -230,6 +234,8 @@ def nested_or_type(names: list[str], scaled: str, rank: str) -> str:
 
 
 def emit_or_cases(names: list[str], theorem_suffix: str) -> list[str]:
+    if len(names) == 1:
+        return [f"  exact {names[0]}Shard_{theorem_suffix} hrank"]
     lines = ["  " + f"rcases hrank with " + " | ".join(f"h{i}" for i in range(len(names))) ]
     # The single `rcases` line above is intentionally only used for small groups.
     # For nested Ors Lean's parser accepts this flat pattern.
@@ -267,7 +273,7 @@ def emit_group(names: list[str]) -> list[str]:
     ]
 
 
-def render_lean(buckets: list[dict[str, Any]]) -> str:
+def render_lean(buckets: list[dict[str, Any]], namespace: str = DEFAULT_NAMESPACE) -> str:
     names = [f"Prefix{i:03d}" for i in range(len(buckets))]
     lines = [
         "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingStateDAGPrefixSmoke",
@@ -282,7 +288,7 @@ def render_lean(buckets: list[dict[str, Any]]) -> str:
         "and a shared margin bound.  There are no sampled rank/path objects.",
         "-/",
         "",
-        "namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingStateDAGSelectedPrefixGroup",
+        f"namespace {namespace}",
         "",
         "open Cuboctahedron",
         "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base",
@@ -294,7 +300,7 @@ def render_lean(buckets: list[dict[str, Any]]) -> str:
         lines.extend(emit_bucket(idx, bucket))
     lines.extend(emit_group(names))
     lines.append(
-        "end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingStateDAGSelectedPrefixGroup"
+        f"end {namespace}"
     )
     lines.append("")
     return "\n".join(lines)
@@ -321,7 +327,7 @@ def render_markdown(report: dict[str, Any]) -> str:
     for bucket in report["buckets"]:
         lines.append(
             "| `{index}` | `{depth}` | `{gain}` | `{accepted}` | `{closed}` | `{prefix}` |".format(
-                index=bucket["index"],
+                index=bucket.get("cover_index", bucket["index"]),
                 depth=bucket["depth"],
                 gain=bucket["gain"],
                 accepted=", ".join(str(i) for i in bucket["accepted_indices"]),
@@ -346,19 +352,21 @@ def render_markdown(report: dict[str, Any]) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--cover-json", type=Path, default=DEFAULT_COVER)
+    parser.add_argument("--start", type=int, default=0)
     parser.add_argument("--count", type=int, default=5)
+    parser.add_argument("--namespace", default=DEFAULT_NAMESPACE)
     parser.add_argument("--lean", type=Path, default=DEFAULT_LEAN)
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--markdown", type=Path, default=DEFAULT_MD)
     args = parser.parse_args()
 
     cover = json.loads(args.cover_json.read_text())
-    buckets = cover["cover"][: args.count]
+    buckets = cover["cover"][args.start : args.start + args.count]
     if not buckets:
         raise SystemExit("no buckets selected")
 
     args.lean.parent.mkdir(parents=True, exist_ok=True)
-    args.lean.write_text(render_lean(buckets))
+    args.lean.write_text(render_lean(buckets, namespace=args.namespace))
 
     report_buckets = []
     accepted = set()
@@ -370,6 +378,7 @@ def main() -> None:
         report_buckets.append(
             {
                 "index": idx,
+                "cover_index": args.start + idx,
                 "depth": bucket["depth"],
                 "gain": bucket["gain"],
                 "prefix": bucket["prefix"],

@@ -66764,3 +66764,234 @@ next gate is a full 31-bucket semantic prefix cover root proving the same
 union of the shared-gain prefix cover, still with no sampled membership,
 rank/path tables, exact affine RHS keys, or one theorem per full accepted
 trace.
+
+### 2026-07-02 Full selected-prefix cover root
+
+Implemented a bounded full-cover emitter for the current top-pairing
+selected-prefix Bellman subproblem:
+
+```text
+scripts/emit_top_pairing_state_dag_selected_prefix_cover.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGSelectedPrefixCover/Group000.lean
+...
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGSelectedPrefixCover/Group006.lean
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGSelectedPrefixCover/All.lean
+scripts/generated/top_pairing_state_dag_selected_prefix_cover.json
+scripts/generated/top_pairing_state_dag_selected_prefix_cover.md
+```
+
+The full selected-prefix cover has:
+
+```text
+bucket count = 31
+group size = 5
+group count = 7
+accepted traces covered = 37 / 37
+generated Lean lines:
+  All.lean = 66
+  Group000 = 1104
+  Group001 = 1108
+  Group002 = 1127
+  Group003 = 1133
+  Group004 = 1133
+  Group005 = 1133
+  Group006 = 259
+  total = 7063
+```
+
+The root exposes:
+
+```lean
+SelectedPrefixCoverFamily
+
+selectedPrefixCover_evalLanguage :
+  SelectedPrefixCoverFamily scaledMargin rank ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState
+    (176 : Int) scaledMargin rank Face.ym
+
+selectedPrefixCover_scaledMargin_nonpos :
+  SelectedPrefixCoverFamily scaledMargin rank ->
+  scaledMargin rank <= 0
+```
+
+Generation command:
+
+```bash
+python3 scripts/emit_top_pairing_state_dag_selected_prefix_cover.py \
+  --group-size 5
+```
+
+Python syntax check:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_state_dag_selected_prefix_group.py \
+  scripts/emit_top_pairing_state_dag_selected_prefix_cover.py
+```
+
+Result: passed.
+
+Important build-discipline finding:
+
+A naive root build before the group `.olean`s exist is **not memory-safe** on
+this Lake version, because `lake build` has no usable jobs cap and tries to
+compile independent group imports concurrently:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_state_dag_selected_prefix_cover_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStateDAGSelectedPrefixCover.All
+```
+
+Result:
+
+```text
+guard terminated the command
+elapsed = 9.01s
+peak_tree_rss = 16240 MiB
+hard_as = 32768 MiB
+min_available = 45045 MiB
+reason = process-tree RSS exceeded 12000 MiB cap
+pids near peak = 8
+```
+
+This did not OOM the machine, and it is not a Lean theorem failure.  It means
+the generated coverage build workflow must compile heavy-ish independent
+generated groups serially or with an explicit external scheduler.
+
+Serial group build results, each with:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/<target>.json \
+  --verbose \
+  -- lake --log-level=error build <group-target>
+```
+
+Results:
+
+```text
+Group000: passed, elapsed = 4.01s, peak_tree_rss = 4039 MiB
+Group001: passed, elapsed = 3.00s, peak_tree_rss = 4165 MiB
+Group002: passed, elapsed = 3.00s, peak_tree_rss = 4143 MiB
+Group003: passed, elapsed = 3.02s, peak_tree_rss = 4161 MiB
+Group004: passed, elapsed = 3.00s, peak_tree_rss = 4158 MiB
+Group005: passed, elapsed = 3.00s, peak_tree_rss = 4165 MiB
+Group006: passed, elapsed = 3.01s, peak_tree_rss = 1679 MiB
+```
+
+One negative measurement is also relevant: trying to use a `16384 MiB`
+address-space cap for `Group000` failed with `failed to create thread` even
+though RSS was only about `4054 MiB`.  Keep the RSS cap tight but leave the
+address-space cap at `32768 MiB` for these Lean checks.
+
+Root build after the group `.olean`s were available:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_state_dag_selected_prefix_cover_all_build_serialized.json \
+  --verbose \
+  -- lake --log-level=error build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStateDAGSelectedPrefixCover.All
+```
+
+Result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 1600 MiB
+hard_as = 32768 MiB
+min_available = 46349 MiB
+```
+
+Direct root Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_state_dag_selected_prefix_cover_all_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGSelectedPrefixCover/All.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3618 MiB
+hard_as = 8192 MiB
+min_available = 46298 MiB
+```
+
+Audit:
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStateDAGSelectedPrefixCover \
+  scripts/emit_top_pairing_state_dag_selected_prefix_group.py \
+  scripts/emit_top_pairing_state_dag_selected_prefix_cover.py
+
+git diff --check
+```
+
+Both checks passed with no output.
+
+Decision:
+
+Accept the full selected-prefix cover as the strongest Bellman
+semantic-membership evidence so far.  The selected-prefix cover is still only
+the current top-pairing Bellman subproblem, not global generated coverage, but
+it now covers all `37 / 37` graph-accepted traces in that subproblem through a
+Lean-checked semantic root:
+
+```text
+semantic selected-prefix family
+  -> TopPairingBellmanEvalLanguageAtRank
+  -> scaledMargin <= 0
+```
+
+The accepted build workflow is serial group compilation followed by a tiny root
+build.  A naive broad root build is rejected until we have an external
+memory-safe scheduler or a Lake version/configuration with a reliable jobs cap.
+
+Next:
+
+Connect `SelectedPrefixCoverFamily` to the next higher semantic predicate for
+the top-pairing family.  The missing step is not another Bellman potential or a
+rank sample; it is a semantic membership theorem showing that the actual
+top-pairing closed family implies one of the selected prefix-cover group
+predicates, or else identifying the exact semantic field that must be added to
+make that implication Lean-checkable.

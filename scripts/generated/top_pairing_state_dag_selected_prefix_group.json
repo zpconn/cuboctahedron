@@ -8,6 +8,7 @@
         1,
         2
       ],
+      "cover_index": 0,
       "depth": 9,
       "gain": -376,
       "index": 0,
@@ -179,6 +180,7 @@
         27,
         28
       ],
+      "cover_index": 1,
       "depth": 4,
       "gain": -552,
       "index": 1,
@@ -368,6 +370,7 @@
         32,
         33
       ],
+      "cover_index": 2,
       "depth": 4,
       "gain": -552,
       "index": 2,
@@ -557,6 +560,7 @@
         25,
         26
       ],
+      "cover_index": 3,
       "depth": 5,
       "gain": -304,
       "index": 3,
@@ -736,6 +740,7 @@
         29,
         30
       ],
+      "cover_index": 4,
       "depth": 10,
       "gain": -376,
       "index": 4,
