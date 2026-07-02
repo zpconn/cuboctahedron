@@ -1,9 +1,11 @@
 {
   "accepted_trace_count": 37,
+  "exports_trace_labels_predicate": true,
   "max_gain": -176,
   "min_gain": -684,
   "output": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedEvalGate.lean",
   "proof_shape": "semantic face-trace disjunction plus matching margin bound implies BellmanEvalAccepts",
+  "public_trace_defs": true,
   "sampled_rank_or_path_data": false,
   "source": "scripts/generated/top_pairing_closed_graph_acceptance_all_examples_lean_aligned.json",
   "unique_final_states": [

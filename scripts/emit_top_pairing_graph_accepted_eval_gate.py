@@ -62,7 +62,7 @@ def final_name(index: int) -> str:
 
 def render_trace_def(index: int, labels: list[str]) -> str:
     return (
-        f"private def {trace_name(index)} : List Face :=\n"
+        f"def {trace_name(index)} : List Face :=\n"
         f"  {prefix_smoke.lean_face_list(tuple(labels))}\n"
     )
 
@@ -107,6 +107,21 @@ def render_disjunction(cases: list[dict[str, object]]) -> str:
     return " \\/\n".join(parts)
 
 
+def render_trace_labels_disjunction(cases: list[dict[str, object]]) -> str:
+    parts = [
+        f"    labels = {trace_name(index)}"
+        for index, _case in enumerate(cases)
+    ]
+    return " \\/\n".join(parts)
+
+
+def render_trace_labels_branch(index: int, total: int) -> str:
+    injected = prefix_smoke.or_injection("htrace", index, total)
+    return f"""  · rcases h{index} with ⟨htrace, _hmargin⟩
+    exact {injected}
+"""
+
+
 def render_branch(index: int, final_state: int, gain: int) -> str:
     return f"""  · rcases h{index} with ⟨htrace, hmargin⟩
     refine ⟨(({final_state} : State), ({gain} : Int)), ?_, {final_name(index)}, hmargin⟩
@@ -139,10 +154,15 @@ def render_module(
         for index, case in enumerate(cases)
     )
     disj = render_disjunction(cases)
+    labels_disj = render_trace_labels_disjunction(cases)
     hpatterns = " | ".join(f"h{index}" for index in range(len(cases)))
     branches = "\n".join(
         render_branch(index, int(case["final_state"]), int(case["gain"]))
         for index, case in enumerate(cases)
+    )
+    labels_branches = "\n".join(
+        render_trace_labels_branch(index, len(cases))
+        for index, _case in enumerate(cases)
     )
     return f"""import {BASE_IMPORT}
 import {OBJECT_IMPORT}
@@ -168,10 +188,24 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSpli
 
 {trace_defs}
 {eval_theorems}
+def GraphAcceptedTraceLabels (labels : List Face) : Prop :=
+{labels_disj}
+
 def GraphAcceptedTraceMargin
     (scaledMargin : Fin numPairWords -> Int)
     (obj : TopPairingBellmanObj Face.ym) : Prop :=
 {disj}
+
+theorem graphAcceptedTraceLabels_of_graphAcceptedTraceMargin
+    {{scaledMargin : Fin numPairWords -> Int}}
+    {{obj : TopPairingBellmanObj Face.ym}}
+    (hgraph : GraphAcceptedTraceMargin scaledMargin obj) :
+    GraphAcceptedTraceLabels
+      (TopPairingBellmanObj.labels (fun f : Face => f) obj) := by
+  unfold GraphAcceptedTraceMargin at hgraph
+  unfold GraphAcceptedTraceLabels
+  rcases hgraph with {hpatterns}
+{labels_branches}
 
 theorem bellmanEvalAccepts_of_graphAcceptedTraceMargin
     {{scaledMargin : Fin numPairWords -> Int}}
@@ -231,6 +265,8 @@ def main() -> None:
         "unique_gains": sorted({int(case["gain"]) for case in cases}),
         "min_gain": min(int(case["gain"]) for case in cases),
         "max_gain": max(int(case["gain"]) for case in cases),
+        "public_trace_defs": True,
+        "exports_trace_labels_predicate": True,
         "sampled_rank_or_path_data": False,
         "proof_shape": (
             "semantic face-trace disjunction plus matching margin bound "

@@ -60267,3 +60267,106 @@ closed-language prefix information, cancellation equality, actual-face
 omnihedrality, and bad-face compatibility into either
 `GraphAcceptedEvalSequenceBadFace` or a small accepted-trace disjunction that
 feeds it.
+
+Graph-accepted eval-gate interface checkpoint:
+
+Updated:
+
+```text
+scripts/emit_top_pairing_graph_accepted_eval_gate.py
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraphAcceptedEvalGate.lean
+scripts/generated/top_pairing_graph_accepted_eval_gate_summary.json
+```
+
+The accepted trace gate now exports the accepted face traces and a trace-label
+predicate:
+
+```lean
+def acceptedFaceTrace_000 : List Face := ...
+...
+def acceptedFaceTrace_036 : List Face := ...
+
+def GraphAcceptedTraceLabels (labels : List Face) : Prop := ...
+
+theorem graphAcceptedTraceLabels_of_graphAcceptedTraceMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (hgraph : GraphAcceptedTraceMargin scaledMargin obj) :
+    GraphAcceptedTraceLabels
+      (TopPairingBellmanObj.labels (fun f : Face => f) obj)
+```
+
+This is an interface improvement for the next generated classifier layer.  The
+old file already proved `GraphAcceptedTraceMargin -> BellmanEvalAccepts`, but
+its accepted traces were private, which forced later classifier modules either
+to duplicate trace literals or stay inside the eval-gate module.  Public trace
+definitions and `GraphAcceptedTraceLabels` give the positive classifier a
+stable theorem-valued target without exposing rank/path tables.
+
+Validation commands:
+
+```bash
+python3 scripts/emit_top_pairing_graph_accepted_eval_gate.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_graph_accepted_eval_gate_public_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalGate.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_semantic_eval_socket_after_gate_public_lake.json \
+  --verbose \
+  -- env LEAN_NUM_THREADS=1 lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticEvalSocket
+```
+
+Results:
+
+```text
+BellmanTopPairingGraphAcceptedEvalGate direct Lean:
+  passed
+  elapsed = 16.01s
+  peak_tree_rss = 4048 MiB
+  hard_as = 8192 MiB
+  min_available = 46069 MiB
+
+BellmanTopPairingSemanticEvalSocket lake target after gate change:
+  passed
+  elapsed = 10.00s
+  peak_tree_rss = 4628 MiB
+  min_available = 45430 MiB
+
+Accepted-gate summary:
+  accepted_trace_count = 37
+  public_trace_defs = true
+  exports_trace_labels_predicate = true
+  sampled_rank_or_path_data = false
+  gain range = [-684, -176]
+
+Forbidden-token scan:
+  passed, no matches
+
+Sampled-membership scan:
+  passed, no matches
+```
+
+Decision:
+
+Accept the public trace-label interface.  The next classifier theorem should
+target `GraphAcceptedTraceLabels` first, then add the trace-specific margin
+bound needed for `GraphAcceptedTraceMargin`.  This keeps graph acceptance,
+margin bounding, and Bellman evaluator soundness separated into small
+Lean-checkable layers.

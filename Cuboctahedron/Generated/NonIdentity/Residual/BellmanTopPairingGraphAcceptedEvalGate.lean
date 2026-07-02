@@ -20,79 +20,79 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcc
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 
-private def acceptedFaceTrace_000 : List Face :=
+def acceptedFaceTrace_000 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.tmmp, Face.tmpp, Face.yp, Face.zm, Face.zp, Face.xp]
-private def acceptedFaceTrace_001 : List Face :=
+def acceptedFaceTrace_001 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.tmmp, Face.tmpp, Face.zm, Face.yp, Face.zp, Face.xp]
-private def acceptedFaceTrace_002 : List Face :=
+def acceptedFaceTrace_002 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.tmmp, Face.tmpp, Face.zm, Face.zp, Face.yp, Face.xp]
-private def acceptedFaceTrace_003 : List Face :=
+def acceptedFaceTrace_003 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp, Face.tmmp, Face.zm, Face.zp, Face.xp]
-private def acceptedFaceTrace_004 : List Face :=
+def acceptedFaceTrace_004 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp, Face.zm, Face.zp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_005 : List Face :=
+def acceptedFaceTrace_005 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.zp, Face.zm, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_006 : List Face :=
+def acceptedFaceTrace_006 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.zp, Face.yp, Face.zm, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_007 : List Face :=
+def acceptedFaceTrace_007 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.zp, Face.zm, Face.tmmp, Face.tmpp, Face.yp, Face.xp]
-private def acceptedFaceTrace_008 : List Face :=
+def acceptedFaceTrace_008 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.zp, Face.zm, Face.yp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_009 : List Face :=
+def acceptedFaceTrace_009 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.zp, Face.zm, Face.tpmp, Face.tmmp, Face.tmpp, Face.yp, Face.xp]
-private def acceptedFaceTrace_010 : List Face :=
+def acceptedFaceTrace_010 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.zp, Face.zm, Face.tpmp, Face.yp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_011 : List Face :=
+def acceptedFaceTrace_011 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.zp, Face.zm, Face.tmmm, Face.tpmp, Face.tmmp, Face.tmpp, Face.yp, Face.xp]
-private def acceptedFaceTrace_012 : List Face :=
+def acceptedFaceTrace_012 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.zp, Face.zm, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_013 : List Face :=
+def acceptedFaceTrace_013 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.zp, Face.zm, Face.tppp, Face.tmmm, Face.tpmp, Face.tmmp, Face.tmpp, Face.yp, Face.xp]
-private def acceptedFaceTrace_014 : List Face :=
+def acceptedFaceTrace_014 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.zp, Face.zm, Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_015 : List Face :=
+def acceptedFaceTrace_015 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.zp, Face.zm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.tmmp, Face.tmpp, Face.yp, Face.xp]
-private def acceptedFaceTrace_016 : List Face :=
+def acceptedFaceTrace_016 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.zp, Face.zm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_017 : List Face :=
+def acceptedFaceTrace_017 : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.zp, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_018 : List Face :=
+def acceptedFaceTrace_018 : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.tpmm, Face.tppm, Face.tpmp, Face.tmpm, Face.tppp, Face.tmpp, Face.tmmp, Face.zm, Face.zp, Face.xp]
-private def acceptedFaceTrace_019 : List Face :=
+def acceptedFaceTrace_019 : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.tpmm, Face.tppm, Face.tpmp, Face.tmpm, Face.tppp, Face.tmpp, Face.zm, Face.zp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_020 : List Face :=
+def acceptedFaceTrace_020 : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.tpmm, Face.tppm, Face.tpmp, Face.tmpm, Face.tppp, Face.zp, Face.zm, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_021 : List Face :=
+def acceptedFaceTrace_021 : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.tpmm, Face.tppm, Face.tpmp, Face.tmpm, Face.zp, Face.zm, Face.tppp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_022 : List Face :=
+def acceptedFaceTrace_022 : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.tpmm, Face.tppm, Face.tpmp, Face.zp, Face.zm, Face.tmpm, Face.tppp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_023 : List Face :=
+def acceptedFaceTrace_023 : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.tpmm, Face.tppm, Face.zp, Face.zm, Face.tpmp, Face.tmpm, Face.tppp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_024 : List Face :=
+def acceptedFaceTrace_024 : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.tpmm, Face.zp, Face.zm, Face.tppm, Face.tpmp, Face.tmpm, Face.tppp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_025 : List Face :=
+def acceptedFaceTrace_025 : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.zm, Face.tpmp, Face.tppp, Face.tpmm, Face.tmpp, Face.tppm, Face.tmpm, Face.zp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_026 : List Face :=
+def acceptedFaceTrace_026 : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.tmmm, Face.zm, Face.zp, Face.tpmm, Face.tppm, Face.tpmp, Face.tmpm, Face.tppp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_027 : List Face :=
+def acceptedFaceTrace_027 : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.zm, Face.tmmp, Face.tpmp, Face.tppp, Face.tpmm, Face.tmpp, Face.tppm, Face.tmpm, Face.tmmm, Face.zp, Face.xp]
-private def acceptedFaceTrace_028 : List Face :=
+def acceptedFaceTrace_028 : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.zm, Face.zp, Face.tmmm, Face.tpmm, Face.tppm, Face.tpmp, Face.tmpm, Face.tppp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_029 : List Face :=
+def acceptedFaceTrace_029 : List Face :=
   [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.tppp, Face.tpmp, Face.tppm, Face.tmmp, Face.tpmm, Face.tmmm, Face.tmpm, Face.yp, Face.zp, Face.xp]
-private def acceptedFaceTrace_030 : List Face :=
+def acceptedFaceTrace_030 : List Face :=
   [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.tppp, Face.tpmp, Face.tppm, Face.tmmp, Face.tpmm, Face.tmmm, Face.tmpm, Face.zp, Face.yp, Face.xp]
-private def acceptedFaceTrace_031 : List Face :=
+def acceptedFaceTrace_031 : List Face :=
   [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.tppp, Face.tpmp, Face.tppm, Face.tmmp, Face.tpmm, Face.yp, Face.tmpm, Face.tmmm, Face.zp, Face.xp]
-private def acceptedFaceTrace_032 : List Face :=
+def acceptedFaceTrace_032 : List Face :=
   [Face.xm, Face.ym, Face.zm, Face.yp, Face.tmmp, Face.tpmp, Face.tppp, Face.tpmm, Face.tmpp, Face.tppm, Face.tmpm, Face.tmmm, Face.zp, Face.xp]
-private def acceptedFaceTrace_033 : List Face :=
+def acceptedFaceTrace_033 : List Face :=
   [Face.xm, Face.ym, Face.zm, Face.yp, Face.zp, Face.tmmm, Face.tpmm, Face.tppm, Face.tpmp, Face.tmpm, Face.tppp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_034 : List Face :=
+def acceptedFaceTrace_034 : List Face :=
   [Face.xm, Face.ym, Face.zm, Face.zp, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.tmmp, Face.tmpp, Face.yp, Face.xp]
-private def acceptedFaceTrace_035 : List Face :=
+def acceptedFaceTrace_035 : List Face :=
   [Face.xm, Face.ym, Face.zm, Face.zp, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp, Face.tmmp, Face.xp]
-private def acceptedFaceTrace_036 : List Face :=
+def acceptedFaceTrace_036 : List Face :=
   [Face.xm, Face.ym, Face.zm, Face.zp, Face.yp, Face.tmmm, Face.tpmm, Face.tppm, Face.tpmp, Face.tmpm, Face.tppp, Face.tmpp, Face.tmmp, Face.xp]
 
 
@@ -503,6 +503,45 @@ private theorem acceptedTrace_036_final_nonneg :
   change 0 <= (0 : Int)
   norm_num
 
+def GraphAcceptedTraceLabels (labels : List Face) : Prop :=
+    labels = acceptedFaceTrace_000 \/
+    labels = acceptedFaceTrace_001 \/
+    labels = acceptedFaceTrace_002 \/
+    labels = acceptedFaceTrace_003 \/
+    labels = acceptedFaceTrace_004 \/
+    labels = acceptedFaceTrace_005 \/
+    labels = acceptedFaceTrace_006 \/
+    labels = acceptedFaceTrace_007 \/
+    labels = acceptedFaceTrace_008 \/
+    labels = acceptedFaceTrace_009 \/
+    labels = acceptedFaceTrace_010 \/
+    labels = acceptedFaceTrace_011 \/
+    labels = acceptedFaceTrace_012 \/
+    labels = acceptedFaceTrace_013 \/
+    labels = acceptedFaceTrace_014 \/
+    labels = acceptedFaceTrace_015 \/
+    labels = acceptedFaceTrace_016 \/
+    labels = acceptedFaceTrace_017 \/
+    labels = acceptedFaceTrace_018 \/
+    labels = acceptedFaceTrace_019 \/
+    labels = acceptedFaceTrace_020 \/
+    labels = acceptedFaceTrace_021 \/
+    labels = acceptedFaceTrace_022 \/
+    labels = acceptedFaceTrace_023 \/
+    labels = acceptedFaceTrace_024 \/
+    labels = acceptedFaceTrace_025 \/
+    labels = acceptedFaceTrace_026 \/
+    labels = acceptedFaceTrace_027 \/
+    labels = acceptedFaceTrace_028 \/
+    labels = acceptedFaceTrace_029 \/
+    labels = acceptedFaceTrace_030 \/
+    labels = acceptedFaceTrace_031 \/
+    labels = acceptedFaceTrace_032 \/
+    labels = acceptedFaceTrace_033 \/
+    labels = acceptedFaceTrace_034 \/
+    labels = acceptedFaceTrace_035 \/
+    labels = acceptedFaceTrace_036
+
 def GraphAcceptedTraceMargin
     (scaledMargin : Fin numPairWords -> Int)
     (obj : TopPairingBellmanObj Face.ym) : Prop :=
@@ -580,6 +619,127 @@ def GraphAcceptedTraceMargin
       scaledMargin obj.rank <= (176 : Int) + (-596 : Int)) \/
     (TopPairingBellmanObj.labels (fun f : Face => f) obj = acceptedFaceTrace_036 /\
       scaledMargin obj.rank <= (176 : Int) + (-552 : Int))
+
+theorem graphAcceptedTraceLabels_of_graphAcceptedTraceMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (hgraph : GraphAcceptedTraceMargin scaledMargin obj) :
+    GraphAcceptedTraceLabels
+      (TopPairingBellmanObj.labels (fun f : Face => f) obj) := by
+  unfold GraphAcceptedTraceMargin at hgraph
+  unfold GraphAcceptedTraceLabels
+  rcases hgraph with h0 | h1 | h2 | h3 | h4 | h5 | h6 | h7 | h8 | h9 | h10 | h11 | h12 | h13 | h14 | h15 | h16 | h17 | h18 | h19 | h20 | h21 | h22 | h23 | h24 | h25 | h26 | h27 | h28 | h29 | h30 | h31 | h32 | h33 | h34 | h35 | h36
+  · rcases h0 with ⟨htrace, _hmargin⟩
+    exact Or.inl htrace
+
+  · rcases h1 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inl htrace)
+
+  · rcases h2 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inl htrace))
+
+  · rcases h3 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inl htrace)))
+
+  · rcases h4 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))
+
+  · rcases h5 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))
+
+  · rcases h6 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))
+
+  · rcases h7 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))
+
+  · rcases h8 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))
+
+  · rcases h9 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))
+
+  · rcases h10 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))
+
+  · rcases h11 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))
+
+  · rcases h12 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))
+
+  · rcases h13 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))
+
+  · rcases h14 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))))
+
+  · rcases h15 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))))
+
+  · rcases h16 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))))))
+
+  · rcases h17 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))))))
+
+  · rcases h18 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))))))))
+
+  · rcases h19 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))))))))
+
+  · rcases h20 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))))))))))
+
+  · rcases h21 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))))))))))
+
+  · rcases h22 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))))))))))))
+
+  · rcases h23 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))))))))))))
+
+  · rcases h24 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))))))))))))))
+
+  · rcases h25 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))))))))))))))
+
+  · rcases h26 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))))))))))))))))
+
+  · rcases h27 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))))))))))))))))
+
+  · rcases h28 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))))))))))))))))))
+
+  · rcases h29 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))))))))))))))))))
+
+  · rcases h30 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))))))))))))))))))))
+
+  · rcases h31 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))))))))))))))))))))
+
+  · rcases h32 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))))))))))))))))))))))
+
+  · rcases h33 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))))))))))))))))))))))
+
+  · rcases h34 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace))))))))))))))))))))))))))))))))))
+
+  · rcases h35 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl htrace)))))))))))))))))))))))))))))))))))
+
+  · rcases h36 with ⟨htrace, _hmargin⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (htrace))))))))))))))))))))))))))))))))))))
+
 
 theorem bellmanEvalAccepts_of_graphAcceptedTraceMargin
     {scaledMargin : Fin numPairWords -> Int}
