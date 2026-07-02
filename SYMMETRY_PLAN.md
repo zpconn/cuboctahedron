@@ -59720,3 +59720,158 @@ Generate a tiny classifier smoke that targets the new strengthened language:
 
 If step 3 requires sampled rank/path objects, stop the Bellman production route
 and pivot to a stronger cancellation-tree/evaluator semantic automaton.
+
+Strengthened-language smoke checkpoint:
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingStrengthenedLanguageSmoke.lean
+```
+
+This is a small generated-style theorem-surface smoke, not a full coverage
+claim.  It imports the graph-accepted eval gate and checks the new production
+socket without introducing sampled rank objects.
+
+Main accepted-side predicate:
+
+```lean
+def GraphAcceptedSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (_badFace : Face) : Prop :=
+  ∃ closed : TopPairingClosedLanguageAtRank rank Face.ym,
+    GraphAcceptedTraceMargin scaledMargin
+      ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym)
+```
+
+Main theorem:
+
+```lean
+theorem evalLanguage_of_strengthenedGraphAccepted
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (GraphAcceptedSequenceBadFace scaledMargin) rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+This theorem proves the key object-cover direction requested by the current
+GPT5.5 gate: strengthened semantic membership supplies `GraphAcceptedTraceMargin`,
+and the already checked `bellmanEvalAccepts_of_graphAcceptedTraceMargin` supplies
+the deterministic Bellman evaluator witness.  There is no `SampledRankIndex`,
+no sampled rank table, and no one-branch-per-rank proof surface.
+
+Rejected-side checks:
+
+- The nine `not_omni_contribution_sequence` graph-rejected traces each prove
+  `¬ TopPairingActualFaceOmniLabels rejectedTrace`.
+- The single `canonical_bad_face_mismatch` trace is excluded by a compact
+  smoke `sequenceBadFace` predicate:
+
+```lean
+def SmokeSequenceBadFaceAtRank (rank : Fin numPairWords) (badFace : Face) :
+    Prop :=
+  topPairingRankFaceLabels rank ≠ rejectedFaceTrace_004 /\
+    badFace = Face.ym
+
+theorem rejectedTrace_004_excluded_by_smokeSequenceBadFace
+    {rank : Fin numPairWords}
+    (hlabels : topPairingRankFaceLabels rank = rejectedFaceTrace_004) :
+    ¬ SmokeSequenceBadFaceAtRank rank Face.ym
+```
+
+Validation commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --json scripts/generated/top_pairing_graph_accepted_eval_gate_olean_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalGate.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalGate.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalGate.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --json scripts/generated/top_pairing_strengthened_language_smoke_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLanguageSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --json scripts/generated/top_pairing_strengthened_language_smoke_olean_guard.json \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLanguageSmoke.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLanguageSmoke.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLanguageSmoke.lean
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLanguageSmoke.lean
+```
+
+Results:
+
+```text
+GraphAcceptedEvalGate olean refresh: passed
+elapsed = 18.01s
+peak_tree_rss = 4055 MiB
+hard_as = 8192 MiB
+
+StrengthenedLanguageSmoke direct Lean: passed
+elapsed = 2.00s
+peak_tree_rss = 2852 MiB
+hard_as = 8192 MiB
+
+StrengthenedLanguageSmoke olean refresh: passed
+elapsed = 2.00s
+peak_tree_rss = 3595 MiB
+hard_as = 8192 MiB
+
+forbidden-token scan: no hits
+```
+
+Decision:
+
+Accept this as the first successful strengthened-language Bellman smoke.  It
+does not complete the family membership proof, but it validates the intended
+shape:
+
+```text
+compact strengthened semantic language
+  -> GraphAcceptedTraceMargin
+  -> BellmanEvalAccepts
+  -> TopPairingBellmanEvalLanguageAtRank
+```
+
+The remaining top-pairing production work is now sharply scoped:
+
+1. replace the smoke `GraphAcceptedSequenceBadFace`/`SmokeSequenceBadFaceAtRank`
+   with a real compact generated semantic classifier over accepted graph
+   traces and sequence-derived canonical bad-face compatibility;
+2. prove the classifier covers the intended top-pairing family without sampled
+   rank/path objects;
+3. plug that theorem into
+   `topPairingBellmanEvalObjectCoverOfStrengthenedToEval` once the graph step
+   validity/root-bound imports are available in a memory-safe split layout.
