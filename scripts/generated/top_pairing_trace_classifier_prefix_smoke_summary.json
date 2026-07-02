@@ -1,0 +1,63 @@
+{
+  "depth": 4,
+  "prefix_count": 8,
+  "prefixes": [
+    [
+      "xm",
+      "ym",
+      "tmpm",
+      "tppm"
+    ],
+    [
+      "xm",
+      "ym",
+      "tmpm",
+      "zm"
+    ],
+    [
+      "xm",
+      "ym",
+      "yp",
+      "tmmm"
+    ],
+    [
+      "xm",
+      "ym",
+      "yp",
+      "tppm"
+    ],
+    [
+      "xm",
+      "ym",
+      "yp",
+      "zm"
+    ],
+    [
+      "xm",
+      "ym",
+      "zm",
+      "tmpp"
+    ],
+    [
+      "xm",
+      "ym",
+      "zm",
+      "yp"
+    ],
+    [
+      "xm",
+      "ym",
+      "zm",
+      "zp"
+    ]
+  ],
+  "sampled_rank_or_path_data": false,
+  "semantic_components": [
+    "TopPairingStepScheduleLabels",
+    "TopPairingSquareGapLabels",
+    "TopPairingLocalAxisLabels",
+    "remaining pair counts",
+    "triangular cancellation stack shadow bound"
+  ],
+  "source": "exact semantic prefix enumerator"
+}

@@ -62,6 +62,7 @@ theorem closedObj_prefix3
             Face.xm :: Face.ym :: Face.zm :: rest) :=
   closedRank_prefix3 obj.closed
 
+
 theorem labels_prefix4
     {labels : List Face}
     (hs : TopPairingStepScheduleLabels labels)
@@ -143,66 +144,42 @@ theorem closedRank_prefix4
     {rank : Fin numPairWords} {badFace : Face}
     (h : TopPairingClosedLanguageAtRank rank badFace) :
     (∃ rest : List Face,
-      faceLabelsInContributionOrder (fun f : Face => f)
-          (canonicalSeqOfPairWord (unrankPairWord rank)) =
-        [Face.xm, Face.ym, Face.tmpm, Face.tppm] ++ rest) \/
+      faceLabelsInContributionOrder (fun f : Face => f) (canonicalSeqOfPairWord (unrankPairWord rank)) = [Face.xm, Face.ym, Face.tmpm, Face.tppm] ++ rest) \/
     (∃ rest : List Face,
-      faceLabelsInContributionOrder (fun f : Face => f)
-          (canonicalSeqOfPairWord (unrankPairWord rank)) =
-        [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest) \/
+      faceLabelsInContributionOrder (fun f : Face => f) (canonicalSeqOfPairWord (unrankPairWord rank)) = [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest) \/
     (∃ rest : List Face,
-      faceLabelsInContributionOrder (fun f : Face => f)
-          (canonicalSeqOfPairWord (unrankPairWord rank)) =
-        [Face.xm, Face.ym, Face.yp, Face.tmmm] ++ rest) \/
+      faceLabelsInContributionOrder (fun f : Face => f) (canonicalSeqOfPairWord (unrankPairWord rank)) = [Face.xm, Face.ym, Face.yp, Face.tmmm] ++ rest) \/
     (∃ rest : List Face,
-      faceLabelsInContributionOrder (fun f : Face => f)
-          (canonicalSeqOfPairWord (unrankPairWord rank)) =
-        [Face.xm, Face.ym, Face.yp, Face.tppm] ++ rest) \/
+      faceLabelsInContributionOrder (fun f : Face => f) (canonicalSeqOfPairWord (unrankPairWord rank)) = [Face.xm, Face.ym, Face.yp, Face.tppm] ++ rest) \/
     (∃ rest : List Face,
-      faceLabelsInContributionOrder (fun f : Face => f)
-          (canonicalSeqOfPairWord (unrankPairWord rank)) =
-        [Face.xm, Face.ym, Face.yp, Face.zm] ++ rest) \/
+      faceLabelsInContributionOrder (fun f : Face => f) (canonicalSeqOfPairWord (unrankPairWord rank)) = [Face.xm, Face.ym, Face.yp, Face.zm] ++ rest) \/
     (∃ rest : List Face,
-      faceLabelsInContributionOrder (fun f : Face => f)
-          (canonicalSeqOfPairWord (unrankPairWord rank)) =
-        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest) \/
+      faceLabelsInContributionOrder (fun f : Face => f) (canonicalSeqOfPairWord (unrankPairWord rank)) = [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest) \/
     (∃ rest : List Face,
-      faceLabelsInContributionOrder (fun f : Face => f)
-          (canonicalSeqOfPairWord (unrankPairWord rank)) =
-        [Face.xm, Face.ym, Face.zm, Face.yp] ++ rest) \/
+      faceLabelsInContributionOrder (fun f : Face => f) (canonicalSeqOfPairWord (unrankPairWord rank)) = [Face.xm, Face.ym, Face.zm, Face.yp] ++ rest) \/
     (∃ rest : List Face,
-      faceLabelsInContributionOrder (fun f : Face => f)
-          (canonicalSeqOfPairWord (unrankPairWord rank)) =
-        [Face.xm, Face.ym, Face.zm, Face.zp] ++ rest) :=
+      faceLabelsInContributionOrder (fun f : Face => f) (canonicalSeqOfPairWord (unrankPairWord rank)) = [Face.xm, Face.ym, Face.zm, Face.zp] ++ rest) :=
   labels_prefix4 h.schedule h.squareGap h.localAxis
 
 theorem closedObj_prefix4
     {badFace : Face}
     (obj : TopPairingBellmanObj badFace) :
     (∃ rest : List Face,
-      TopPairingBellmanObj.labels (fun f : Face => f) obj =
-        [Face.xm, Face.ym, Face.tmpm, Face.tppm] ++ rest) \/
+      TopPairingBellmanObj.labels (fun f : Face => f) obj = [Face.xm, Face.ym, Face.tmpm, Face.tppm] ++ rest) \/
     (∃ rest : List Face,
-      TopPairingBellmanObj.labels (fun f : Face => f) obj =
-        [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest) \/
+      TopPairingBellmanObj.labels (fun f : Face => f) obj = [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest) \/
     (∃ rest : List Face,
-      TopPairingBellmanObj.labels (fun f : Face => f) obj =
-        [Face.xm, Face.ym, Face.yp, Face.tmmm] ++ rest) \/
+      TopPairingBellmanObj.labels (fun f : Face => f) obj = [Face.xm, Face.ym, Face.yp, Face.tmmm] ++ rest) \/
     (∃ rest : List Face,
-      TopPairingBellmanObj.labels (fun f : Face => f) obj =
-        [Face.xm, Face.ym, Face.yp, Face.tppm] ++ rest) \/
+      TopPairingBellmanObj.labels (fun f : Face => f) obj = [Face.xm, Face.ym, Face.yp, Face.tppm] ++ rest) \/
     (∃ rest : List Face,
-      TopPairingBellmanObj.labels (fun f : Face => f) obj =
-        [Face.xm, Face.ym, Face.yp, Face.zm] ++ rest) \/
+      TopPairingBellmanObj.labels (fun f : Face => f) obj = [Face.xm, Face.ym, Face.yp, Face.zm] ++ rest) \/
     (∃ rest : List Face,
-      TopPairingBellmanObj.labels (fun f : Face => f) obj =
-        [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest) \/
+      TopPairingBellmanObj.labels (fun f : Face => f) obj = [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest) \/
     (∃ rest : List Face,
-      TopPairingBellmanObj.labels (fun f : Face => f) obj =
-        [Face.xm, Face.ym, Face.zm, Face.yp] ++ rest) \/
+      TopPairingBellmanObj.labels (fun f : Face => f) obj = [Face.xm, Face.ym, Face.zm, Face.yp] ++ rest) \/
     (∃ rest : List Face,
-      TopPairingBellmanObj.labels (fun f : Face => f) obj =
-        [Face.xm, Face.ym, Face.zm, Face.zp] ++ rest) :=
+      TopPairingBellmanObj.labels (fun f : Face => f) obj = [Face.xm, Face.ym, Face.zm, Face.zp] ++ rest) :=
   closedRank_prefix4 obj.closed
 
 theorem prefixSmoke_builds : True := by

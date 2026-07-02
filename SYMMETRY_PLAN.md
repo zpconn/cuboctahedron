@@ -58488,3 +58488,53 @@ Decision: accepted.  Depth-4 is the first nontrivial branch generated from the
 semantic predicates and it remains within the memory envelope.  The next
 emitter improvement should parameterize this pattern from the on-demand
 state-DAG graph, rather than hard-coding the eight prefixes.
+
+Graph-driven depth-4 emitter refactor:
+
+- Reworked `scripts/emit_top_pairing_trace_classifier_prefix_smoke.py` so the
+  depth-4 alternatives are computed by an exact semantic prefix enumerator
+  instead of being copied into the script.
+- The enumerator mirrors the state used by
+  `profile_top_pairing_trace_state_dag.py`:
+  step schedule, remaining pair counts, square-gap state, exact local-axis
+  positivity, and the triangular cancellation stack shadow bound.
+- The generated Lean theorem still proves the result from
+  `TopPairingClosedLanguageAtRank` predicates.  The Python enumerator is only
+  used to choose the finite theorem statement; it is not trusted as proof.
+- The emitter now writes
+  `scripts/generated/top_pairing_trace_classifier_prefix_smoke_summary.json`,
+  recording the computed depth, prefix count, semantic components, and
+  `sampled_rank_or_path_data = false`.
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+python3 scripts/emit_top_pairing_trace_classifier_prefix_smoke.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/top_pairing_trace_classifier_prefix4_graph_emitter_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.PrefixSmoke
+```
+
+Result:
+
+```text
+PrefixSmoke graph-driven depth-4:
+  passed
+  peak_tree_rss = 4067 MiB
+  elapsed = 12.01s
+  generated module size = 188 lines
+  summary prefix_count = 8
+  summary sampled_rank_or_path_data = false
+```
+
+Decision: accepted.  This is still only a smoke slice, but it resolves the
+specific danger called out by GPT5.5 Pro for the first nontrivial prefix layer:
+the generated membership theorem is selected from semantic closed-language
+state, not from a sampled rank/path table.  The next step is to extend the
+emitter from one depth-4 theorem to bounded prefix-depth shards, keeping each
+shard small and guarded.
