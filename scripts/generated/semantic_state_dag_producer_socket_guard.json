@@ -1,0 +1,19 @@
+{
+  "available_floor_mib": 24576.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGProducerSocket.lean"
+  ],
+  "elapsed_seconds": 2.002023391003604,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 3603536,
+  "max_tree_rss_mib": 3519.078125,
+  "min_available_seen_kib": 47364600,
+  "min_available_seen_mib": 46254.4921875,
+  "rss_cap_mib": 6000.0,
+  "timeout_seconds": 240.0
+}

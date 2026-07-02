@@ -1,0 +1,19 @@
+{
+  "available_floor_mib": 24576.0,
+  "command": [
+    "python3",
+    "scripts/minimize_top_pairing_trace_state_dag.py",
+    "--detailed-json",
+    "scripts/generated/top_pairing_trace_state_dag_minimized_detailed.json"
+  ],
+  "elapsed_seconds": 1.00174977700226,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 960,
+  "max_tree_rss_mib": 0.9375,
+  "min_available_seen_kib": 47482680,
+  "min_available_seen_mib": 46369.8046875,
+  "rss_cap_mib": 1000.0,
+  "timeout_seconds": 60.0
+}

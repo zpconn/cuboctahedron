@@ -83995,3 +83995,124 @@ The smallest useful smoke should prove only one subtree/family, then measure:
 If the representative family proof requires exact full trace identity or a
 branch per observed path, reject this state-DAG producer shape and move to the
 cancellation-segment or cocycle-quotient fallback before emitting more Lean.
+
+#### Semantic State-DAG Producer Socket Accepted
+
+Added the concrete Lean socket for the next producer:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticStateDAGProducerSocket.lean
+```
+
+New theorem surface:
+
+```lean
+structure StrengthenedSemanticStateDAGFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop
+
+theorem split10MGraphSuffixMarginFamily_of_semanticStateDAGFamily
+theorem evalLanguageAtRank_of_semanticStateDAGFamily
+theorem scaledMargin_nonpos_of_semanticStateDAGFamily
+```
+
+This is intentionally a socket, not the completed producer.  It packages the
+four obligations required by the split-10M graph-suffix margin bridge:
+
+1. strengthened closed-language evidence;
+2. terminal-ok trace classification;
+3. graph-only split-10M suffix evidence;
+4. final Bellman margin evidence.
+
+The future generated state-DAG/cancellation/cocycle producer should prove
+`StrengthenedSemanticStateDAGFamily`; the socket then gives the existing
+Bellman nonpositive-margin conclusion without exposing trace ids, sampled
+rank/path objects, exact affine RHS values, or solved start points.
+
+Also extended the diagnostic minimizer:
+
+```text
+scripts/minimize_top_pairing_trace_state_dag.py
+```
+
+with an optional detailed quotient graph output:
+
+```bash
+--detailed-json scripts/generated/top_pairing_trace_state_dag_minimized_detailed.json
+```
+
+This detailed JSON records quotient classes, class members, terminal kinds,
+and quotient edges.  It is still diagnostic-only evidence, not proof, but it is
+now the concrete input format for a representative semantic producer emitter.
+
+Sizes:
+
+| Artifact | Size |
+|---|---:|
+| `BellmanTopPairingSemanticStateDAGProducerSocket.lean` | `3430` bytes |
+| `top_pairing_trace_state_dag_minimized_detailed.json` | `816665` bytes |
+
+Focused commands:
+
+```bash
+python3 -m py_compile scripts/minimize_top_pairing_trace_state_dag.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 1000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_trace_state_dag_minimized_detailed_guard.json \
+  --verbose \
+  -- python3 scripts/minimize_top_pairing_trace_state_dag.py \
+    --detailed-json scripts/generated/top_pairing_trace_state_dag_minimized_detailed.json
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/graph_accepted_suffix_split10m_bridge_olean_for_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedSuffixSplit10MBridge.olean \
+    -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedSuffixSplit10MBridge.ilean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedSuffixSplit10MBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/semantic_state_dag_producer_socket_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGProducerSocket.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| minimizer py_compile | pass | - | - | - |
+| detailed minimizer | pass | `1.00s` | `0.94 MiB` | `46369 MiB` |
+| split-10M bridge `.olean` refresh | pass | `6.00s` | `3852 MiB` | `46138 MiB` |
+| semantic state-DAG producer socket | pass | `2.00s` | `3519 MiB` | `46254 MiB` |
+
+Notes:
+
+- The first direct socket check failed before the bridge `.olean` existed;
+  refreshing the dependency fixed that.
+- A namespace ambiguity between graph constants was fixed by opening the
+  split-10M graph base namespace explicitly.
+- A targeted scan of the new Lean socket found no proof-shortcut tokens.  The
+  only hits were explanatory prose saying the socket is not selected-prefix
+  based and does not expose exact affine data.
+
+Decision: accepted as the next generated producer target.  The route is still
+not complete.  The next implementation step is a representative emitter that
+uses `top_pairing_trace_state_dag_minimized_detailed.json` to prove one
+nontrivial `StrengthenedSemanticStateDAGFamily` instance from semantic
+quotient-state facts, then measures source size/build time before any full
+emission.

@@ -37,7 +37,7 @@ def load_graph(path: Path) -> dict[str, Any]:
     return data
 
 
-def minimize(data: dict[str, Any]) -> dict[str, Any]:
+def minimize(data: dict[str, Any], include_details: bool = False) -> dict[str, Any]:
     states = {int(row["id"]): row for row in data["states"]}
     children: dict[int, list[tuple[str, int]]] = defaultdict(list)
     parents: dict[int, list[int]] = defaultdict(list)
@@ -114,7 +114,7 @@ def minimize(data: dict[str, Any]) -> dict[str, Any]:
     raw_edges = len(data["edges"])
     minimized_states = len(class_signature)
     minimized_edges = len(quotient_edges)
-    return {
+    report: dict[str, Any] = {
         "raw": {
             "states": raw_states,
             "edges": raw_edges,
@@ -138,6 +138,39 @@ def minimize(data: dict[str, Any]) -> dict[str, Any]:
             "largest_classes": largest_classes[:20],
         },
     }
+    if include_details:
+        report["detail"] = {
+            "state_class": {
+                str(sid): cid for sid, cid in sorted(class_of.items())
+            },
+            "classes": [
+                {
+                    "id": cid,
+                    "terminal_kind": class_signature[cid][0],
+                    "outgoing": [
+                        {"face": face, "target_class": target}
+                        for face, target in class_signature[cid][1]
+                    ],
+                    "members": sorted(class_members[cid]),
+                    "min_step": min(
+                        int(states[sid]["step"]) for sid in class_members[cid]
+                    ),
+                    "max_step": max(
+                        int(states[sid]["step"]) for sid in class_members[cid]
+                    ),
+                }
+                for cid in range(len(class_signature))
+            ],
+            "edges": [
+                {
+                    "source_class": src,
+                    "face": face,
+                    "target_class": dst,
+                }
+                for src, face, dst in sorted(quotient_edges)
+            ],
+        }
+    return report
 
 
 def render_markdown(report: dict[str, Any], source: Path) -> str:
@@ -221,6 +254,12 @@ def main() -> None:
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
     parser.add_argument("--json", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--markdown", type=Path, default=DEFAULT_MD)
+    parser.add_argument(
+        "--detailed-json",
+        type=Path,
+        default=None,
+        help="Optional diagnostic quotient graph details for future emitters.",
+    )
     args = parser.parse_args()
 
     data = load_graph(args.input)
@@ -229,8 +268,16 @@ def main() -> None:
     args.markdown.parent.mkdir(parents=True, exist_ok=True)
     args.json.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     args.markdown.write_text(render_markdown(report, args.input) + "\n")
+    if args.detailed_json is not None:
+        detailed_report = minimize(data, include_details=True)
+        args.detailed_json.parent.mkdir(parents=True, exist_ok=True)
+        args.detailed_json.write_text(
+            json.dumps(detailed_report, indent=2, sort_keys=True) + "\n"
+        )
     print(f"wrote {args.json.relative_to(ROOT)}")
     print(f"wrote {args.markdown.relative_to(ROOT)}")
+    if args.detailed_json is not None:
+        print(f"wrote {args.detailed_json.resolve().relative_to(ROOT)}")
     print(
         "raw_states={raw} minimized_states={mini} raw_edges={raw_e} "
         "minimized_edges={mini_e}".format(
