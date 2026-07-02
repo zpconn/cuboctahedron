@@ -83921,3 +83921,77 @@ Result:
 This confirms that the current evaluator/socket layer remains memory-safe.
 The next work item is the representative semantic membership producer; do not
 start any broad emission before that single family proof is measured.
+
+#### Representative Producer Target: Minimized Semantic State-DAG
+
+The candidate artifact for the next producer is now explicit:
+
+```text
+scripts/generated/top_pairing_trace_state_dag_minimized.md
+scripts/generated/top_pairing_trace_state_dag_minimized.json
+```
+
+It quotients the Lean-aligned semantic trace state DAG by terminal behavior and
+outgoing face-labelled transitions.  This is diagnostic, not proof, but it is
+the best current source for the representative semantic family because it is
+not keyed by selected prefixes, sampled ranks, exact affine RHS, or solved
+start points.
+
+Current diagnostic counts:
+
+| Metric | Raw | Minimized |
+|---|---:|---:|
+| states | `5347` | `1026` |
+| edges | `6089` | `2486` |
+| terminal states/classes | `98` | `3` |
+| root class | - | `1025` |
+
+Terminal classes:
+
+| Kind | Classes |
+|---|---:|
+| `closed` | `1` |
+| `cancellation_reject` | `1` |
+| `dead_reject` | `1` |
+
+The next generator/Lean slice should not emit all `2486` edges at once.  It
+should pick one representative quotient subtree or terminal-to-root cone and
+prove the production socket:
+
+```lean
+def StrengthenedSemanticStateDAGFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop := ...
+
+theorem split10MGraphSuffixMarginFamily_of_semanticStateDAGFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily : StrengthenedSemanticStateDAGFamily scaledMargin rank) :
+    Split10MGraphSuffixMarginFamily scaledMargin rank
+```
+
+The implementation contract for `StrengthenedSemanticStateDAGFamily` is:
+
+1. It includes or derives
+   `TopPairingStrengthenedClosedLanguageAtRank
+     AcceptedSequenceBadFaceAtRank rank Face.ym`.
+2. It proves `TerminalOkTraceLabels (topPairingRankFaceLabels rank)` through
+   semantic terminal classification, not trace equality.
+3. It proves `Split10MGraphSuffixProducer rank` from quotient-state local
+   transition closure, using the target cursor/schedule/square-gap/local-axis
+   tail facts already in `TopPairingTransducerTail`.
+4. It proves `Split10MFinalMarginProducer scaledMargin rank` from integer
+   Bellman gain/potential facts or a generated final-margin semantic theorem.
+
+The smallest useful smoke should prove only one subtree/family, then measure:
+
+| Gate | Target |
+|---|---:|
+| direct Lean check | `< 30s` |
+| peak RSS | `< 6 GiB` |
+| source for one representative family | small enough to project under `24` CPU-hours |
+| forbidden coordinate scan | no sampled/selected-prefix/exact-affine keys |
+
+If the representative family proof requires exact full trace identity or a
+branch per observed path, reject this state-DAG producer shape and move to the
+cancellation-segment or cocycle-quotient fallback before emitting more Lean.
