@@ -77730,3 +77730,105 @@ TopPairingClosedToEvalGate
 
 or a documented strengthening, with no selected-prefix/root-trace membership
 and no exact affine RHS key.
+
+## 2026-07-02 Checkpoint: Semantic Face-Eval Bridge Accepted
+
+Pivoted the Bellman strategy according to the latest GPT5.5 review:
+
+- keep the Bellman/potential route;
+- reject selected-prefix/root-trace membership as the production proof of
+  membership;
+- make the next generated target a deterministic semantic evaluator over face
+  labels, driven by the closed top-pairing transducer state.
+
+Added:
+
+```text
+Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean
+```
+
+The new bridge introduces:
+
+```lean
+structure TopPairingTransducerState
+
+def TopPairingTransducerState.start
+def TopPairingTransducerState.Tail
+def TopPairingTransducerState.next?
+
+theorem TopPairingTransducerState.start_tail_of_closed
+theorem TopPairingTransducerState.next?_tail
+
+structure TopPairingTransducerEvalState
+
+def TopPairingTransducerEvalState.start
+def TopPairingTransducerEvalState.Tail
+def TopPairingTransducerEvalState.next?
+
+theorem TopPairingTransducerEvalState.next?_tail
+theorem TopPairingTransducerEvalState.graph_next_of_next?
+theorem TopPairingTransducerEvalState.evalLabelStepFn_graph_of_faceEval
+theorem TopPairingTransducerEvalState.evalLanguageAtRank_of_faceEval
+```
+
+The key theorem is:
+
+```lean
+theorem TopPairingTransducerEvalState.evalLanguageAtRank_of_faceEval
+```
+
+It says that if the deterministic face-level evaluator succeeds on
+`topPairingRankFaceLabels rank`, then the ordinary Bellman graph evaluator over
+`faceLabelsInContributionOrder labelOfFace ...` succeeds and yields a
+`TopPairingBellmanEvalLanguageAtRank`.
+
+This is the new production-facing target for generated top-pairing Bellman
+membership leaves.  A generated leaf should now prove a local face-eval theorem
+for a semantic transducer language, then call
+`evalLanguageAtRank_of_faceEval`.  It should not prove membership by:
+
+- `SampledRankIndex`;
+- selected-prefix/root-trace equality;
+- exact affine RHS keys;
+- one branch per rank/path.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_transducer_eval_bridge_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_transducer_eval_bridge_lake_guard.json \
+  -- lake build Cuboctahedron.Search.TopPairingTransducerEvalBridge
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `TopPairingTransducerEvalBridge.lean` direct | pass | `2.00s` | `3589 MiB` | hard AS `12288 MiB` |
+| `Cuboctahedron.Search.TopPairingTransducerEvalBridge` Lake | pass | `3.00s` | `4035 MiB` | RSS guard, no hard AS |
+
+Next gate: generate or hand-build a tiny deterministic face-eval smoke that
+uses `TopPairingTransducerEvalState.next?` directly.  The smoke may still be
+bounded, but its main theorem should have a face-eval premise/object rather
+than a raw accepted trace equality.  After that, move to a finite transition
+table over reachable semantic states and aim at:
+
+```lean
+TopPairingClosedToEvalGate
+  graphPotential graphSmokeNext smokeLabelOfFace rootState
+  (176 : Int) scaledMargin Face.ym
+```
+
+or a documented strengthening of `TopPairingClosedLanguageAtRank`.
