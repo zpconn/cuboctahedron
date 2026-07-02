@@ -71854,3 +71854,117 @@ trace ids.  The real production question is whether the terminal classifier can
 prove `TerminalTraceLabels (topPairingRankFaceLabels rank)` for the full
 top-pairing residual language, or whether another semantic automaton/DAG is
 needed to produce that terminal-trace premise without sampled rank membership.
+
+## 2026-07-02 Checkpoint: Terminal Direct Producer Socket
+
+GPT5.5 Pro's latest assessment changes the immediate Bellman decision gate:
+Bellman should get exactly one more semantic-membership experiment, but the
+experiment must not be another potential, sampled smoke, sampled path object,
+or rank-indexed certificate.  The next producer must show that the compact
+closed-language/top-pairing object can drive the deterministic terminal/eval
+consumer semantically.
+
+Implemented socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalDirectSequenceSocket.lean
+```
+
+New producer-facing predicate:
+
+```lean
+def TerminalDirectClosedFamily (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    TopPairingActualFaceOmniAtRank rank /\
+      AcceptedSequenceBadFaceAtRank rank Face.ym /\
+        TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+          (topPairingRankFaceLabels rank)
+```
+
+New semantic bridge:
+
+```lean
+theorem strengthenedTerminalDirect_of_terminalDirectClosedFamily
+    {rank : Fin numPairWords}
+    (h : TerminalDirectClosedFamily rank) :
+    TopPairingStrengthenedClosedLanguageAtRank
+      TerminalDirectSequenceBadFace rank Face.ym
+
+theorem nonIdentityRankKilled_of_terminalDirectClosedFamily
+    {rank : Fin numPairWords}
+    (h : TerminalDirectClosedFamily rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+This socket is intentionally boring: it packages the object as "rank plus
+semantic closed-language evidence."  The actual accepted run/start-violation
+contradiction is computed by the existing terminal direct bridge, not by a
+sampled rank/path index.
+
+Guarded commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_direct_start_violation_killed_bridge_olean_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectStartViolationKilledBridge.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectStartViolationKilledBridge.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectStartViolationKilledBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 90 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_direct_sequence_socket_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.lean
+```
+
+Results:
+
+```text
+direct bridge .olean refresh: pass
+elapsed: 5.03s
+peak_tree_rss: 3840 MiB
+hard_as: 12288 MiB
+min_available: 46296 MiB
+
+terminal direct sequence socket: pass
+elapsed: 2.00s
+peak_tree_rss: 3688 MiB
+hard_as: 12288 MiB
+min_available: 46312 MiB
+```
+
+Forbidden/sample-token audit on the new socket plus direct bridge was clean
+for:
+
+```text
+sorry, admit, axiom, native_decide, unsafe,
+SampledRankIndex, sampledContainsRank, sampledRankOf
+```
+
+Strategic conclusion:
+
+Continue Bellman only through this semantic object-cover line.  The next real
+producer task is now sharply defined:
+
+```lean
+forall rank,
+  <top-pairing residual membership for rank> ->
+    TerminalDirectClosedFamily rank
+```
+
+or an equivalent theorem whose final consumer is
+`nonIdentityRankKilled_of_terminalDirectClosedFamily`.  If that theorem can be
+proved from closed-language/cancellation/schedule data and the deterministic
+terminal classifier, the Bellman/top-pairing route remains viable.  If it
+requires `SampledRankIndex`, sampled paths, or one constructor per rank/path,
+stop and pivot to a cancellation-tree summary automaton with stronger semantic
+state fields.
