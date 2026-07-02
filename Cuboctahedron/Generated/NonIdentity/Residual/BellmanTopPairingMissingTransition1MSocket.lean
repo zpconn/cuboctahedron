@@ -311,6 +311,27 @@ theorem strengthened_not_missingState19TmmpCompletion
     exact hstrengthened.sequenceBadFace_ok
   exact missingState19TmmpCompletion_not_sequenceBadFace hbad
 
+theorem strengthened_no_missingState19TmmpSemanticTail
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        missingState19TmmpPrefix ++ (Face.tmmp :: rest))
+    (htail : missingState19TmmpSemanticEvalState.Tail (Face.tmmp :: rest))
+    (hlen : rest.length = 3) :
+    False := by
+  have hrest :=
+    missingState19TmmpPrefix_tail_tmmp_rest_of_length htail hlen
+  have hcompletion :
+      topPairingRankFaceLabels rank = missingState19TmmpCompletion := by
+    rw [hlabels, hrest]
+    rfl
+  exact strengthened_not_missingState19TmmpCompletion
+    hstrengthened hcompletion
+
 theorem missingTransition1MSocket_builds : True := by
   exact True.intro
 

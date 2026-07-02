@@ -5,14 +5,14 @@
     "build",
     "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingMissingTransition1MSocket"
   ],
-  "elapsed_seconds": 26.047422233998077,
+  "elapsed_seconds": 8.006890258999192,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 7375488,
-  "max_tree_rss_mib": 7202.625,
-  "min_available_seen_kib": 46531564,
-  "min_available_seen_mib": 45440.98046875,
+  "max_tree_rss_kib": 4348744,
+  "max_tree_rss_mib": 4246.8203125,
+  "min_available_seen_kib": 46716212,
+  "min_available_seen_mib": 45621.30078125,
   "rss_cap_mib": 10000.0,
   "timeout_seconds": 240.0
 }

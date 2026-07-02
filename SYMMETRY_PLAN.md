@@ -79591,3 +79591,74 @@ Use the semantic tail theorem together with
 ranks.  Then wire that fact into the suffix-carrying local-progress theorem
 for the 1M graph evaluator, still without `SampledRankIndex`,
 `sampledContainsRank`, or selected-prefix coverage.
+
+### Follow-up: Strengthened Missing Tail Contradiction Accepted
+
+The socket now proves the promised strengthened contradiction:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingMissingTransition1MSocket.
+  strengthened_no_missingState19TmmpSemanticTail
+```
+
+Shape:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  (AcceptedSequenceBadFaceAtRank rank Face.ym) ->
+topPairingRankFaceLabels rank =
+  missingState19TmmpPrefix ++ (Face.tmmp :: rest) ->
+missingState19TmmpSemanticEvalState.Tail (Face.tmmp :: rest) ->
+rest.length = 3 ->
+False
+```
+
+This combines:
+
+1. the semantic tail uniqueness theorem;
+2. the fact that the forced full trace is `rejectedGraphTrace_004`;
+3. the strengthened `SequenceBadFaceLabels` exclusion.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_missing_transition_1m_socket_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_missing_transition_1m_socket_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingMissingTransition1MSocket
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Search/TopPairingTargetCursor.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingMissingTransition1MSocket.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingMissingTransition1MSocket.lean` direct | pass | `7.02s` | `4190 MiB` |
+| `BellmanTopPairingMissingTransition1MSocket` Lake | pass | `8.01s` | `4246 MiB` |
+| forbidden-token scan on touched Lean files | pass | n/a | n/a |
+
+Next step:
+
+Build the first strengthened suffix-local-progress module around
+`evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix`.  Its local step
+case for graph state `19` and face `tmmp` should close by
+`strengthened_no_missingState19TmmpSemanticTail`; all ordinary graph edges
+should continue to close by the generated transition table.
