@@ -1,6 +1,19 @@
 {
   "decision": "target-selected-prefix-cover-family",
   "files": {
+    "selected_prefix_cover_membership_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 279,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean",
+      "symbols": {
+        "SelectedPrefixCoverFamily": 1,
+        "SelectedPrefixCoverSequenceBadFace": 2,
+        "evalLanguage_of_strengthenedSelectedPrefixCover": 1,
+        "strengthenedSelectedPrefixCover_of_terminalAcceptedEval": 3,
+        "strengthenedSelectedPrefixCover_scaledMargin_nonpos": 1
+      }
+    },
     "selected_prefix_cover_root": {
       "exists": true,
       "forbidden_hits": {},
@@ -79,17 +92,20 @@
       "selected_prefix_cover_root",
       "selected_prefix_cover_socket",
       "selected_prefix_trace_margin_cover_bridge",
+      "selected_prefix_cover_membership_bridge",
       "terminal_direct_bridge"
     ],
     "SelectedPrefixCoverSequenceBadFace": [
       "selected_prefix_cover_socket",
-      "selected_prefix_trace_margin_cover_bridge"
+      "selected_prefix_trace_margin_cover_bridge",
+      "selected_prefix_cover_membership_bridge"
     ],
     "TerminalDirectClosedFamily": [
       "terminal_direct_bridge"
     ],
     "evalLanguage_of_strengthenedSelectedPrefixCover": [
-      "selected_prefix_cover_socket"
+      "selected_prefix_cover_socket",
+      "selected_prefix_cover_membership_bridge"
     ],
     "selectedPrefixCover_evalLanguage": [
       "selected_prefix_cover_root",
@@ -109,8 +125,12 @@
     "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": [
       "selected_prefix_killed_socket"
     ],
+    "strengthenedSelectedPrefixCover_of_terminalAcceptedEval": [
+      "selected_prefix_cover_membership_bridge"
+    ],
     "strengthenedSelectedPrefixCover_scaledMargin_nonpos": [
-      "selected_prefix_cover_socket"
+      "selected_prefix_cover_socket",
+      "selected_prefix_cover_membership_bridge"
     ],
     "strengthenedTraceMargin_of_strengthenedSelectedPrefixCover": [
       "selected_prefix_trace_margin_cover_bridge"

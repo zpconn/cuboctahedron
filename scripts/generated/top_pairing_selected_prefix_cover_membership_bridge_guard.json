@@ -11,14 +11,14 @@
     "2048",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean"
   ],
-  "elapsed_seconds": 4.00470174298971,
+  "elapsed_seconds": 13.018119562999345,
   "exit_code": 0,
   "hard_address_space_mib": 8192.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 3929384,
-  "max_tree_rss_mib": 3837.2890625,
-  "min_available_seen_kib": 47369316,
-  "min_available_seen_mib": 46259.09765625,
+  "max_tree_rss_kib": 4025752,
+  "max_tree_rss_mib": 3931.3984375,
+  "min_available_seen_kib": 47329212,
+  "min_available_seen_mib": 46219.93359375,
   "rss_cap_mib": 12000.0,
   "timeout_seconds": 180.0
 }

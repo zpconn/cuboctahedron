@@ -74741,3 +74741,89 @@ surface that the final nonidentity generated coverage layer will use.  The
 target below that classifier is no longer schematic: it is
 `SelectedPrefixCoverFamily`, with `TerminalTracePrefixSharedGainClosedMarginFamily`
 as the direct fallback if the selected-prefix cover proves too narrow.
+
+## 2026-07-02 Checkpoint: Terminal-Accepted to Strengthened Selected-Prefix Bridge
+
+Added the missing strengthened-language wrapper theorem:
+
+```lean
+theorem strengthenedSelectedPrefixCover_of_terminalAcceptedEval
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym) :
+    TopPairingStrengthenedClosedLanguageAtRank
+      (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym
+```
+
+File:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean
+```
+
+This proves, in Lean, the exact semantic membership slice requested by the
+latest Bellman review at the current terminal-accepted boundary:
+
+```lean
+TerminalAcceptedEvalSequenceBadFace scaledMargin
+  -> SelectedPrefixCoverSequenceBadFace scaledMargin
+```
+
+packaged as a strengthened closed-language theorem.  The existing
+`selectedPrefixCover_evalLanguage_of_terminalAcceptedEval` and
+`selectedPrefixCover_scaledMargin_nonpos_of_terminalAcceptedEval` lemmas now
+use this wrapper.  No sampled rank/path object is introduced.
+
+Guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --hard-address-space-mib 8192 \
+  --min-available-mib 4096 \
+  --timeout-seconds 180 \
+  --poll-seconds 1 \
+  --json scripts/generated/top_pairing_selected_prefix_cover_membership_bridge_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean
+```
+
+Result:
+
+```text
+exit=0
+elapsed=13.02s
+peak_tree_rss=3931 MiB
+hard_address_space=8192 MiB
+min_available=46220 MiB
+```
+
+Updated the predicate selector audit to include the new theorem:
+
+```bash
+python3 scripts/audit_top_pairing_upstream_predicate_selector.py
+python3 -m py_compile scripts/audit_top_pairing_upstream_predicate_selector.py
+```
+
+Result:
+
+```text
+decision=target-selected-prefix-cover-family
+sampled-token hits in selected surfaces: 0
+```
+
+Current interpretation:
+
+- Bellman remains viable for this one semantic-membership experiment.
+- The selected-prefix cover is now a Lean-checked strengthened-language target
+  for the current terminal-accepted eval surface.
+- The remaining schematic part is above this boundary: choose or define the
+  final `ProductionTopPairingResidualAtRank` classifier and prove it implies
+  `TerminalAcceptedEvalSequenceBadFace scaledMargin rank Face.ym`, or directly
+  implies `SelectedPrefixCoverFamily scaledMargin rank`.
+- If that production classifier cannot be expressed without sampled ranks,
+  sampled paths, exact affine-RHS keys, or one branch per concrete rank, reject
+  Bellman as the final coverage route and promote the cancellation-tree summary
+  automaton fallback.

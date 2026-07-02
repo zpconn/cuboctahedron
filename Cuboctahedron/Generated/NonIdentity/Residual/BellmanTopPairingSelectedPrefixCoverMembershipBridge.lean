@@ -239,6 +239,18 @@ theorem selectedPrefixCoverSequenceBadFace_of_terminalAcceptedEval
     selectedPrefixCoverFamily_of_graphAcceptedTraceMargin
       hclosed h.actualFaceOmni hbad hterm hgraph⟩
 
+theorem strengthenedSelectedPrefixCover_of_terminalAcceptedEval
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym) :
+    TopPairingStrengthenedClosedLanguageAtRank
+      (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym :=
+  TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+    h.closed h.actualFaceOmni
+    (selectedPrefixCoverSequenceBadFace_of_terminalAcceptedEval h)
+
 theorem selectedPrefixCover_evalLanguage_of_terminalAcceptedEval
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -249,9 +261,7 @@ theorem selectedPrefixCover_evalLanguage_of_terminalAcceptedEval
       graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
       scaledMargin rank Face.ym := by
   exact evalLanguage_of_strengthenedSelectedPrefixCover
-    (TopPairingStrengthenedClosedLanguageAtRank.ofComponents
-      h.closed h.actualFaceOmni
-      (selectedPrefixCoverSequenceBadFace_of_terminalAcceptedEval h))
+    (strengthenedSelectedPrefixCover_of_terminalAcceptedEval h)
 
 theorem selectedPrefixCover_scaledMargin_nonpos_of_terminalAcceptedEval
     {scaledMargin : Fin numPairWords -> Int}
@@ -261,9 +271,7 @@ theorem selectedPrefixCover_scaledMargin_nonpos_of_terminalAcceptedEval
         (TerminalAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym) :
     scaledMargin rank <= 0 := by
   exact strengthenedSelectedPrefixCover_scaledMargin_nonpos
-    (TopPairingStrengthenedClosedLanguageAtRank.ofComponents
-      h.closed h.actualFaceOmni
-      (selectedPrefixCoverSequenceBadFace_of_terminalAcceptedEval h))
+    (strengthenedSelectedPrefixCover_of_terminalAcceptedEval h)
 
 theorem selected_prefix_cover_membership_bridge_builds : True := by
   exact True.intro

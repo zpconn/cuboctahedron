@@ -29,6 +29,9 @@ FILES = {
     "selected_prefix_trace_margin_cover_bridge": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSelectedPrefixTraceMarginCoverBridge.lean",
+    "selected_prefix_cover_membership_bridge": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean",
     "selected_prefix_trace_margin_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSelectedPrefixTraceMarginSocket.lean",
@@ -50,6 +53,7 @@ SYMBOLS = {
     "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": "cover -> trace-margin family",
     "selectedPrefixTraceMarginSequenceBadFace_of_selectedPrefixCoverFamily": "cover -> trace-margin payload",
     "strengthenedTraceMargin_of_strengthenedSelectedPrefixCover": "strengthened cover -> strengthened trace-margin",
+    "strengthenedSelectedPrefixCover_of_terminalAcceptedEval": "terminal-accepted eval -> strengthened selected-prefix cover",
     "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": "trace-margin object cover + certs -> killed predicate",
     "TerminalDirectClosedFamily": "terminal direct semantic alternative",
 }
@@ -117,6 +121,8 @@ def render(report: dict[str, Any]) -> str:
         "```lean",
         "SelectedPrefixTraceMarginFamily scaledMargin rank",
         "SelectedPrefixTraceMarginSequenceBadFace scaledMargin rank Face.ym",
+        "TopPairingStrengthenedClosedLanguageAtRank",
+        "  (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym",
         "TopPairingBellmanEvalLanguageAtRank ... scaledMargin rank Face.ym",
         "scaledMargin rank <= 0",
         "```",
@@ -172,10 +178,10 @@ def render(report: dict[str, Any]) -> str:
             "",
             "## Strategy Implication",
             "",
-            "Do not build another Bellman potential or sampled smoke next.  The",
-            "next useful Lean/generator work is a semantic producer theorem into",
-            "`SelectedPrefixCoverFamily`, or a proof that this cover is too narrow",
-            "and must be replaced by the direct `TerminalTracePrefixSharedGain`",
+        "Do not build another Bellman potential or sampled smoke next.  The",
+        "next useful Lean/generator work is a semantic producer theorem into",
+        "`SelectedPrefixCoverFamily`, or a proof that this cover is too narrow",
+        "and must be replaced by the direct `TerminalTracePrefixSharedGain`",
             "family surface.",
             "",
         ]
