@@ -64666,3 +64666,163 @@ with at least two accepted trace ids or one terminal/source-position class.  The
 key measurement is whether `marginIdBound` can still be expressed as a compact
 trace/source-position inequality, rather than as an exact affine-RHS or
 rank-indexed table.
+
+### 2026-07-02 Trace-id bucket component family socket
+
+The Bellman route now has a reusable multi-trace bucket surface.  This is the
+next scale step after the trace-000 family: generated buckets can cover ranks
+whose labels land in any trace id from a semantic bucket, as long as the bucket
+also proves the corresponding trace-id margin inequality.
+
+New reusable predicate in
+`BellmanTopPairingTraceMarginBoundsSocket.lean`:
+
+```lean
+def TraceIdBucketClosedMarginFamily
+    (allowedTraceId : AcceptedTraceId -> Prop)
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    ∃ traceId : AcceptedTraceId,
+      allowedTraceId traceId /\
+        topPairingRankFaceLabels rank = acceptedTraceOfId traceId /\
+          scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId
+```
+
+New generic theorem surface:
+
+```lean
+theorem traceIdBucketTerminalTraceMarginIdBoundComponentFamily :
+    TerminalTraceMarginIdBoundComponentFamily
+      (TraceIdBucketClosedMarginFamily allowedTraceId scaledMargin)
+      scaledMargin
+
+theorem evalLanguage_of_traceIdBucketClosedMarginFamily :
+    TraceIdBucketClosedMarginFamily allowedTraceId scaledMargin rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem traceIdBucketClosedMarginFamily_scaledMargin_nonpos :
+    TraceIdBucketClosedMarginFamily allowedTraceId scaledMargin rank ->
+    scaledMargin rank <= 0
+```
+
+Two-trace smoke module added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTraceBucketComponentFamilySmoke.lean
+```
+
+It defines:
+
+```lean
+def Trace000001Allowed (traceId : AcceptedTraceId) : Prop :=
+  traceId = AcceptedTraceId.t000 \/ traceId = AcceptedTraceId.t001
+
+def Trace000001ClosedMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TraceIdBucketClosedMarginFamily Trace000001Allowed scaledMargin rank
+```
+
+and checks that this two-id bucket feeds the new id-bound component-family
+socket without sampled rank/path objects.
+
+Guarded focused Lake check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_bucket_component_family_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceBucketComponentFamilySmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 8.01s
+peak_tree_rss = 4166 MiB
+hard_as = 32768 MiB
+min_available = 45970 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_bucket_component_family_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceBucketComponentFamilySmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3631 MiB
+hard_as = 8192 MiB
+min_available = 46284 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingTraceMarginBoundsSocket.lean         = 720 lines
+BellmanTopPairingTraceBucketComponentFamilySmoke.lean = 54 lines
+BellmanTopPairingTrace000ComponentFamilySmoke.lean    = 121 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean              = 212 lines
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean  = 644 lines
+TopPairingBellmanObject.lean                          = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceBucketComponentFamilySmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000ComponentFamilySmoke.lean
+```
+
+`git diff --check` passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept the trace-id bucket socket as a stronger Bellman family interface than
+single-trace buckets.  It still leaves the core production question open:
+future generated buckets must prove the existential accepted trace id and its
+margin inequality from compact terminal/source-position facts.  But Lean now
+checks the generic multi-id component-family bridge once, with cost independent
+of bucket cardinality.
+
+Next action:
+
+Try a source-position or terminal-pattern bucket that proves
+`TraceIdBucketClosedMarginFamily` for a nontrivial class.  If the existential
+trace id and margin bound can be obtained from compact terminal/source-position
+facts, continue Bellman.  If they require exact affine-RHS or one branch per
+accepted rank/path, reject Bellman production and move to the cancellation-tree
+summary automaton.
