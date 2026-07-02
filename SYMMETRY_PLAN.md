@@ -87068,3 +87068,101 @@ Decision: accepted as a reusable local semantic step.  Next, generate a small
 terminal-state module whose states use `TerminalStepState.nextStep` from the
 start and prove a real terminal producer premise from semantic state/cursor
 fields, not from accepted trace ids.
+
+#### Terminal-State Producer Socket
+
+Added the first generic socket from compact terminal states to the terminal
+trace producer premise:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalStateProducerSocket.lean
+```
+
+New theorem surface:
+
+```lean
+structure TerminalStepStateProducer
+    (state : TerminalStepState) : Prop where
+  prefix_length : state.pfx.length = 13
+  terminalTrace :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (state.pfx ++ [Face.xp])
+
+theorem terminalTraceLabels_of_terminalStepStateProducer
+```
+
+The key theorem proves:
+
+```lean
+TopPairingClosedLanguageAtRank rank badFace ->
+TerminalStepState.Contains state rank ->
+TerminalStepStateProducer state ->
+  TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+    (topPairingRankFaceLabels rank)
+```
+
+This is now a real semantic producer premise: a generated finite-state
+classifier can advance with `TerminalStepState.nextStep`, stop at a terminal
+state with a 13-label prefix, prove the completed 14-label state prefix is in
+`TerminalTraceLabels`, and this socket lifts that state theorem to any closed
+rank contained in the state.  The proof uses the closed schedule to force the
+remaining label to be `Face.xp`; it does not use accepted trace ids, selected
+prefix cover ids, sampled ranks, exact affine RHS keys, or Bellman trace ids.
+
+Rejected variant: the first version also imported
+`BellmanTopPairingTerminalDirectSequenceSocket` and immediately connected to
+`TerminalDirectClosedFamily` / `NonIdentityRankKilled`.  That build crossed the
+conservative 6.5 GiB guard (`7335 MiB`) because it pulled in the heavier
+direct-start bridge.  The theorem was structurally useful but the import path
+was wrong for this lightweight socket.  The accepted module therefore exports
+only the terminal trace producer premise; existing higher-level bridges can
+consume that premise without making every terminal-state leaf import the
+heavier direct-start route.
+
+Commands:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_producer_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateProducerSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_producer_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateProducerSocket.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| hygiene scan | pass | n/a | n/a | n/a |
+| heavy direct-route variant | rejected by guard | `9.02s` | `7335 MiB` | `44756 MiB` |
+| Lake lightweight `BellmanTopPairingTerminalStateProducerSocket` | pass | `3.00s` | `3991 MiB` | `45148 MiB` |
+| direct lightweight `BellmanTopPairingTerminalStateProducerSocket.lean` | pass | `3.02s` | `3920 MiB` | `45236 MiB` |
+
+Decision: accepted.  This is the current terminal-membership producer socket.
+The next generated slice should instantiate `TerminalStepStateProducer` for a
+small finite semantic terminal state reached by repeated `TerminalStepState.nextStep`,
+then use `terminalTraceLabels_of_terminalStepStateProducer` to produce the
+terminal premise consumed by the split-10M semantic producer path.
