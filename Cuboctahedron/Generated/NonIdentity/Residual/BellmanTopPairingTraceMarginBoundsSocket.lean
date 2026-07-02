@@ -503,6 +503,53 @@ theorem graphAcceptedTraceMarginClosedFamily_scaledMargin_nonpos
     (traceIdExistsClosedMarginFamily_of_graphAcceptedTraceMarginClosedFamily
       hrank)
 
+/--
+Production-facing package for the graph-accepted top-pairing Bellman route.
+
+A generated classifier/margin producer should prove this structure from the
+semantic closed-language fields.  It is intentionally stronger and more
+current than the older two-trace smoke gate: the trace surface is
+`GraphAcceptedTraceMargin`, i.e. the 37 graph-accepted traces plus the matching
+margin bound.
+-/
+structure GraphAcceptedClosedEvalFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  graph :
+    forall obj : TopPairingBellmanObj Face.ym,
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalGate.GraphAcceptedTraceMargin
+        scaledMargin obj
+
+theorem graphAcceptedTraceMarginClosedFamily_of_graphAcceptedClosedEvalFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (family : GraphAcceptedClosedEvalFamily scaledMargin)
+    {rank : Fin numPairWords}
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    GraphAcceptedTraceMarginClosedFamily scaledMargin rank :=
+  ⟨closed, family.graph ({ rank := rank, closed := closed } :
+    TopPairingBellmanObj Face.ym)⟩
+
+theorem evalLanguage_of_graphAcceptedClosedEvalFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (family : GraphAcceptedClosedEvalFamily scaledMargin)
+    {rank : Fin numPairWords}
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_graphAcceptedTraceMarginClosedFamily
+    (graphAcceptedTraceMarginClosedFamily_of_graphAcceptedClosedEvalFamily
+      family closed)
+
+theorem graphAcceptedClosedEvalFamily_scaledMargin_nonpos
+    {scaledMargin : Fin numPairWords -> Int}
+    (family : GraphAcceptedClosedEvalFamily scaledMargin)
+    {rank : Fin numPairWords}
+    (closed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  graphAcceptedTraceMarginClosedFamily_scaledMargin_nonpos
+    (graphAcceptedTraceMarginClosedFamily_of_graphAcceptedClosedEvalFamily
+      family closed)
+
 theorem graphAcceptedTraceMarginClosedFamily_of_terminalTraceMarginBounds
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}

@@ -84419,3 +84419,103 @@ theorem closedEvalFamily :
 
 not a selected-prefix object cover and not a suffix producer unless that
 producer is internal to proving the two fields of `ClosedEvalFamily`.
+
+#### GraphAcceptedClosedEvalFamily Socket Added
+
+The two-trace `ClosedEvalFamily` socket is accepted as a small proof pattern,
+but it is not the current production target.  The current graph-accepted route
+already has the stronger 37-trace surface:
+
+```lean
+GraphAcceptedTraceMargin scaledMargin obj
+```
+
+which packages both graph-accepted terminal trace membership and the matching
+margin bound for a closed top-pairing object.  The new production-facing socket
+is therefore:
+
+```lean
+structure GraphAcceptedClosedEvalFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  graph :
+    forall obj : TopPairingBellmanObj Face.ym,
+      GraphAcceptedTraceMargin scaledMargin obj
+```
+
+with consequences:
+
+```lean
+theorem graphAcceptedTraceMarginClosedFamily_of_graphAcceptedClosedEvalFamily
+theorem evalLanguage_of_graphAcceptedClosedEvalFamily
+theorem graphAcceptedClosedEvalFamily_scaledMargin_nonpos
+```
+
+from
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+This is now the preferred generated theorem target for the top-pairing Bellman
+subproblem:
+
+```lean
+theorem graphAcceptedClosedEvalFamily :
+    BellmanTopPairingTraceMarginBoundsSocket.GraphAcceptedClosedEvalFamily
+      scaledMargin
+```
+
+The older `ClosedEvalFamily` target remains useful for experiments that split
+trace and margin fields, but production code should aim at the graph-accepted
+trace-margin package unless a later profiler proves that the split target is
+strictly easier.
+
+Validation notes:
+
+The first guarded `lake build` attempt for
+`BellmanTopPairingTraceMarginBoundsSocket` was intentionally killed by the
+memory guard because Lake fanned out stale/missing dependencies:
+
+```text
+exit = 137
+elapsed = 8.03s
+peak tree RSS = 12381 MiB
+min available = 44977 MiB
+```
+
+This was not a machine OOM, but it showed why this route must avoid broad
+uncontrolled Lake fan-out.  The missing terminal classifier `.olean` files were
+then rebuilt one shard at a time under the same guard.
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| `Terminal.Shard000` | pass | `6.00s` | `4095 MiB` | `45965 MiB` |
+| `Terminal.Shard001` | pass | `4.00s` | `4046 MiB` | `46034 MiB` |
+| `Terminal.Shard002` | pass | `4.00s` | `4037 MiB` | `46054 MiB` |
+| `Terminal.Shard003` | pass | `4.00s` | `4033 MiB` | `46065 MiB` |
+| `Terminal.Shard004` | pass | `3.00s` | `4050 MiB` | `46040 MiB` |
+| `Terminal.Shard005` | pass | `3.00s` | `4059 MiB` | `46036 MiB` |
+| `Terminal.Shard006` | pass | `3.00s` | `1768 MiB` | `46285 MiB` |
+| direct `TraceMarginBoundsSocket.lean` | pass | `3.00s` | `4042 MiB` | `46089 MiB` |
+
+The direct socket check was:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph_accepted_closed_eval_family_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+Decision: accepted.  The next implementation target is no longer more graph
+smoke; it is a semantic producer whose final theorem is
+`GraphAcceptedClosedEvalFamily scaledMargin`.  If proving that theorem from
+`TopPairingClosedLanguageAtRank` starts to require sampled ranks, exact affine
+RHS keys, or per-path trace enumeration, stop and move to the
+cancellation-segment/cocycle-quotient fallback.
