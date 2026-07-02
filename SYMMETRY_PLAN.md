@@ -78652,3 +78652,80 @@ TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocal
 
 for the strengthened semantic language, still with no sampled rank/path
 objects.
+
+## 2026-07-02 Checkpoint: 1M-Aligned Face-Eval Socket
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTransducerFaceEval1MSmoke.lean
+```
+
+This mirrors the earlier 10M face-eval smoke, but points at the aligned
+`with-step-face-linear-tri-source` graph base.  It checks:
+
+- any closed top-pairing rank starts with the scheduled prefix
+  `Face.xm, Face.ym`;
+- those two faces evaluate from root graph state `0` to graph state `143`
+  with total gain `30`;
+- the next semantic branch from graph state `143` covers exactly the
+  schedule-allowed faces:
+
+```text
+tmpm -> state 146, gain -124
+yp   -> state 144, gain -73
+zm   -> state 145, gain -10
+```
+
+The theorem surfaces are:
+
+```lean
+closed_prefix2_eval_eq
+closed_prefix2_tail
+closed_prefix2_faceEval
+closed_prefix2_branch_faceEval
+```
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/bellman_top_pairing_transducer_face_eval_1m_smoke_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTransducerFaceEval1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_transducer_face_eval_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTransducerFaceEval1MSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `BellmanTopPairingTransducerFaceEval1MSmoke.lean` direct | pass | `2.01s` | `3587 MiB` | hard AS `12288 MiB` |
+| `BellmanTopPairingTransducerFaceEval1MSmoke` Lake | pass | `3.00s` | `3970 MiB` | focused module build |
+
+Next step:
+
+Generate the finite invariant table for all 223 aligned graph states:
+
+```lean
+Inv : TopPairingTransducerEvalState State -> Prop
+```
+
+and prove the local step theorem needed by
+`evalLanguageAtRank_of_invariantLocal`.  The invariant must use the strengthened
+semantic premise and sequence bad-face filter; it must not mention sampled
+rank/path objects.
