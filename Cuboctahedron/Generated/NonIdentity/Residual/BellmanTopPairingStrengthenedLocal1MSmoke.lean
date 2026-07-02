@@ -16,6 +16,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingStrength
 
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke.Base
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingMissingTransition1MSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTransducerFaceEval1MSmoke
 
@@ -59,6 +60,108 @@ theorem strengthened_missing_tmmp_local_progress
   exact False.elim
     (strengthened_no_missingState19TmmpSemanticTail
       hstrengthened hlabels htail hrestLen)
+
+/-- The graph-state range invariant reused by the strengthened local smoke. -/
+def Inv (state : FaceEvalState) : Prop :=
+  state.graph < stateCount
+
+theorem start_inv :
+    Inv (TopPairingTransducerEvalState.start rootState) := by
+  norm_num [Inv, TopPairingTransducerEvalState.start, rootState, stateCount]
+
+private theorem tail_of_next
+    {state nextState : FaceEvalState} {face : Face} {rest : List Face}
+    {gain : Int}
+    (htail : state.Tail (face :: rest))
+    (hnext : faceEvalNext state face = some (nextState, gain)) :
+    nextState.Tail rest := by
+  have hgraph :=
+    TopPairingTransducerEvalState.graph_next_of_next?
+      (next := graphSmokeNext) (labelOfFace := smokeLabelOfFace) hnext
+  rcases TopPairingTransducerEvalState.next?_tail
+      (next := graphSmokeNext) (labelOfFace := smokeLabelOfFace)
+      htail hgraph with
+    ⟨tableNextState, htableNext, htailNext, _hgraphNext⟩
+  change
+    TopPairingTransducerEvalState.next? graphSmokeNext smokeLabelOfFace
+      state face = some (nextState, gain) at hnext
+  rw [hnext] at htableNext
+  cases htableNext
+  exact htailNext
+
+private theorem inv_of_next
+    {state nextState : FaceEvalState} {face : Face} {gain : Int}
+    (hinv : Inv state)
+    (hnext : faceEvalNext state face = some (nextState, gain)) :
+    Inv nextState := by
+  have hgraph :=
+    TopPairingTransducerEvalState.graph_next_of_next?
+      (next := graphSmokeNext) (labelOfFace := smokeLabelOfFace) hnext
+  exact
+    (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEval1MFaceLinearTriSourceSmoke.Root.transition_ok_of_lt
+      hinv hgraph).1
+
+/--
+Suffix predicate with the production-shaped strengthened exception.
+
+The `table` branch is the ordinary generated graph suffix.  The
+`missing19Tmmp` branch records the single over-approximate semantic transition
+that the graph table lacks; local closure discharges it from the strengthened
+closed-language contradiction instead of storing a sampled trace.
+-/
+inductive StrengthenedSuffixOk (rank : Fin numPairWords) :
+    FaceEvalState -> List Face -> Prop
+  | nil (state : FaceEvalState) : StrengthenedSuffixOk rank state []
+  | table {state nextState : FaceEvalState} {face : Face} {rest : List Face}
+      {gain : Int}
+      (hnext : faceEvalNext state face = some (nextState, gain))
+      (hrest : StrengthenedSuffixOk rank nextState rest) :
+      StrengthenedSuffixOk rank state (face :: rest)
+  | missing19Tmmp {rest : List Face}
+      (hstrengthened :
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym)
+      (hlabels :
+        topPairingRankFaceLabels rank =
+          missingState19TmmpPrefix ++ (Face.tmmp :: rest))
+      (hlen : rest.length = 3) :
+      StrengthenedSuffixOk rank
+        missingState19TmmpSemanticEvalState (Face.tmmp :: rest)
+
+theorem strengthenedSuffixOk_local
+    {rank : Fin numPairWords}
+    {state : FaceEvalState} {face : Face} {rest : List Face}
+    (hinv : Inv state)
+    (htail : state.Tail (face :: rest))
+    (hsuffix : StrengthenedSuffixOk rank state (face :: rest)) :
+    ∃ nextState gain,
+      faceEvalNext state face = some (nextState, gain) ∧
+        nextState.Tail rest ∧ Inv nextState ∧
+          StrengthenedSuffixOk rank nextState rest := by
+  cases hsuffix with
+  | table hnext hrest =>
+      exact ⟨_, _, hnext, tail_of_next htail hnext, inv_of_next hinv hnext,
+        hrest⟩
+  | missing19Tmmp hstrengthened hlabels hlen =>
+      exact False.elim
+        (strengthened_no_missingState19TmmpSemanticTail
+          hstrengthened hlabels htail hlen)
+
+theorem eval_exists_of_strengthenedSuffixOk
+    {rank : Fin numPairWords}
+    {state : FaceEvalState} {faces : List Face}
+    (hinv : Inv state)
+    (htail : state.Tail faces)
+    (hsuffix : StrengthenedSuffixOk rank state faces) :
+    ∃ finish gain,
+      evalLabelStepFn faceEvalNext state faces =
+        some (finish, gain) ∧
+        finish.Tail [] ∧ Inv finish ∧
+          StrengthenedSuffixOk rank finish [] :=
+  TopPairingTransducerEvalState.evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix
+    (next := graphSmokeNext) (labelOfFace := smokeLabelOfFace)
+    Inv (StrengthenedSuffixOk rank) strengthenedSuffixOk_local
+    hinv htail hsuffix
 
 theorem strengthenedLocal1MSmoke_builds : True := by
   exact True.intro

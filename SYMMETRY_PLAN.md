@@ -79729,3 +79729,78 @@ existing generated local theorem; the unique `state 19 / tmmp` hole should use
 `strengthened_missing_tmmp_local_progress`, with the suffix predicate carrying
 the strengthened rank, current semantic state, remaining label suffix, and
 rank-label prefix equality.
+
+### Follow-up: Strengthened Suffix-Local Evaluator Smoke Accepted
+
+Extended the same module with the suffix-local closure predicate and evaluator
+bridge:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  StrengthenedSuffixOk
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  strengthenedSuffixOk_local
+
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingStrengthenedLocal1MSmoke.
+  eval_exists_of_strengthenedSuffixOk
+```
+
+`StrengthenedSuffixOk` has exactly two productive shapes:
+
+1. `table`, which follows an actual generated graph transition;
+2. `missing19Tmmp`, which records the only known table hole and closes locally
+   from the strengthened semantic contradiction.
+
+The evaluator theorem now instantiates
+`evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` with this
+strengthened suffix predicate.  This is the intended production direction:
+semantic suffix closure first, deterministic evaluator second, Bellman bound
+last.
+
+Focused guarded checks after the extension:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_top_pairing_strengthened_local_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedLocal1MSmoke
+
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedLocal1MSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| `BellmanTopPairingStrengthenedLocal1MSmoke.lean` direct | pass | `5.00s` | `3950 MiB` |
+| `BellmanTopPairingStrengthenedLocal1MSmoke` Lake | pass | `3.00s` | `4039 MiB` |
+| forbidden-token scan on touched Lean file | pass | n/a | n/a |
+
+Next step:
+
+Prove or generate a semantic constructor from strengthened closed-language
+ranks into `StrengthenedSuffixOk` for a nontrivial accepted suffix.  The key
+condition remains: do not introduce `SampledRankIndex`, selected-prefix trace
+membership, or rank/path object tables.  If the constructor needs more fields,
+add semantic cursor/cancellation fields rather than exact affine RHS data.
