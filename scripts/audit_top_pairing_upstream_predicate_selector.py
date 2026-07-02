@@ -35,6 +35,9 @@ FILES = {
     "root_trace_margin_selected_prefix_bridge": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingRootTraceMarginSelectedPrefixBridge.lean",
+    "trace_margin_root_producer_bridge": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingTraceMarginRootProducerBridge.lean",
     "selected_prefix_trace_margin_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSelectedPrefixTraceMarginSocket.lean",
@@ -64,6 +67,10 @@ SYMBOLS = {
     "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer": "root trace-margin producer -> strengthened selected-prefix cover",
     "selectedPrefixCover_evalLanguage_of_rootTraceMarginProducer": "root trace-margin producer -> Bellman eval language",
     "selectedPrefixCover_scaledMargin_nonpos_of_rootTraceMarginProducer": "root trace-margin producer -> nonpositive margin",
+    "terminalProducerRootFamily_of_terminalTraceIdBucketClosedMarginFamily": "trace-id bucket -> accepted-prefix root",
+    "rootTraceMarginProducer_of_terminalTraceIdBucketClosedMarginFamily": "trace-id bucket -> root trace-margin producer",
+    "rootTraceMarginProducer_of_terminalTraceIdSharedGainBucketClosedMarginFamily": "shared-gain bucket -> root trace-margin producer",
+    "rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily": "prefix shared-gain family -> root trace-margin producer",
     "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation": "trace-margin object cover + certs -> killed predicate",
     "TerminalDirectClosedFamily": "terminal direct semantic alternative",
 }
@@ -133,6 +140,14 @@ def render(report: dict[str, Any]) -> str:
         "  (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym",
         "TopPairingBellmanEvalLanguageAtRank ... scaledMargin rank Face.ym",
         "scaledMargin rank <= 0",
+        "```",
+        "",
+        "It can now be produced from:",
+        "",
+        "```lean",
+        "TerminalTraceIdBucketClosedMarginFamily allowedTraceId scaledMargin rank",
+        "TerminalTraceIdSharedGainBucketClosedMarginFamily allowedTraceId gain scaledMargin rank",
+        "TerminalTracePrefixSharedGainClosedMarginFamily pfx gain scaledMargin rank",
         "```",
         "",
         "The selected-prefix cover itself is:",
@@ -230,6 +245,7 @@ def main() -> None:
         "evalLanguage_of_strengthenedSelectedPrefixCover",
         "RootTraceMarginProducer",
         "strengthenedSelectedPrefixCover_of_rootTraceMarginProducer",
+        "rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily",
         "selectedPrefixTraceMargin_nonIdentityRankKilled_of_startViolation",
     ]
     missing = [symbol for symbol in required if symbol not in symbol_locations]

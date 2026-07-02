@@ -74922,3 +74922,107 @@ forall rank,
   affine-RHS keys, or one branch per concrete rank, stop this Bellman route as
   a final coverage strategy and move to the cancellation-tree summary automaton
   fallback.
+
+## 2026-07-02 Checkpoint: Trace-Margin Families Produce Root Trace-Margin Producers
+
+Added the generic upstream bridge from existing trace-margin family sockets into
+the root producer consumed by the selected-prefix cover:
+
+```lean
+theorem rootTraceMarginProducer_of_terminalTraceIdBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdBucketClosedMarginFamily
+        allowedTraceId scaledMargin rank) :
+    RootTraceMarginProducer scaledMargin rank
+
+theorem rootTraceMarginProducer_of_terminalTraceIdSharedGainBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdSharedGainBucketClosedMarginFamily
+        allowedTraceId gain scaledMargin rank) :
+    RootTraceMarginProducer scaledMargin rank
+
+theorem rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {pfx : List Face}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hprefixGain :
+      forall traceId : AcceptedTraceId,
+        (acceptedTraceOfId traceId).take pfx.length = pfx ->
+          allowedTraceId traceId /\
+            acceptedTraceGain traceId = gain)
+    (hrank :
+      TerminalTracePrefixSharedGainClosedMarginFamily
+        pfx gain scaledMargin rank) :
+    RootTraceMarginProducer scaledMargin rank
+```
+
+File:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceMarginRootProducerBridge.lean
+```
+
+This shows that the direct terminal trace-id/shared-gain families are not merely
+fallback consumers.  They can produce the preferred upstream socket:
+
+```lean
+TerminalTracePrefixSharedGainClosedMarginFamily
+  -> RootTraceMarginProducer
+  -> TopPairingStrengthenedClosedLanguageAtRank
+       (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym
+```
+
+The proof remains semantic.  For a trace-id bucket, the terminal classifier
+gives an accepted trace id for the rank labels, which yields
+`TerminalProducerRootFamily`; the bucket's universal margin field then gives
+the per-state margin required by `RootTraceMarginProducer`.
+
+Memory-safe Lean check:
+
+```bash
+lake env lean -j1 -M8192 \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceMarginRootProducerBridge.lean
+```
+
+Result:
+
+```text
+exit=0
+elapsed=4.44s
+peak RSS=3359776 KiB
+```
+
+Updated the predicate selector audit:
+
+```bash
+python3 scripts/audit_top_pairing_upstream_predicate_selector.py
+python3 -m py_compile scripts/audit_top_pairing_upstream_predicate_selector.py
+```
+
+Result:
+
+```text
+decision=target-selected-prefix-cover-family
+```
+
+Current interpretation:
+
+- The next generator-facing target can be
+  `TerminalTracePrefixSharedGainClosedMarginFamily pfx gain scaledMargin rank`
+  plus a small prefix-gain theorem.
+- That target now feeds the preferred `RootTraceMarginProducer` socket and the
+  selected-prefix cover route without sampled rank/path objects.
+- The remaining question is coverage: whether the real production top-pairing
+  residual classifier can be partitioned into these terminal prefix/shared-gain
+  families at low family count.  If not, promote the cancellation-tree summary
+  automaton fallback rather than returning to exact affine-RHS or sampled-path
+  membership.

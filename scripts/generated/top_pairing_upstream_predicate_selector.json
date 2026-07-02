@@ -97,6 +97,19 @@
         "TerminalDirectClosedFamily": 4,
         "selectedPrefixTraceMarginFamily_of_selectedPrefixCoverFamily": 1
       }
+    },
+    "trace_margin_root_producer_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 129,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceMarginRootProducerBridge.lean",
+      "symbols": {
+        "RootTraceMarginProducer": 4,
+        "rootTraceMarginProducer_of_terminalTraceIdBucketClosedMarginFamily": 2,
+        "rootTraceMarginProducer_of_terminalTraceIdSharedGainBucketClosedMarginFamily": 2,
+        "rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily": 1,
+        "terminalProducerRootFamily_of_terminalTraceIdBucketClosedMarginFamily": 2
+      }
     }
   },
   "missing_required_symbols": [],
@@ -108,7 +121,8 @@
   "sampled_hit_count": 0,
   "symbol_locations": {
     "RootTraceMarginProducer": [
-      "root_trace_margin_selected_prefix_bridge"
+      "root_trace_margin_selected_prefix_bridge",
+      "trace_margin_root_producer_bridge"
     ],
     "SelectedPrefixCoverFamily": [
       "selected_prefix_cover_root",
@@ -133,6 +147,15 @@
     ],
     "graphAcceptedTraceMargin_exists_of_rootTraceMarginProducer": [
       "root_trace_margin_selected_prefix_bridge"
+    ],
+    "rootTraceMarginProducer_of_terminalTraceIdBucketClosedMarginFamily": [
+      "trace_margin_root_producer_bridge"
+    ],
+    "rootTraceMarginProducer_of_terminalTraceIdSharedGainBucketClosedMarginFamily": [
+      "trace_margin_root_producer_bridge"
+    ],
+    "rootTraceMarginProducer_of_terminalTracePrefixSharedGainClosedMarginFamily": [
+      "trace_margin_root_producer_bridge"
     ],
     "selectedPrefixCover_evalLanguage": [
       "selected_prefix_cover_root",
@@ -178,6 +201,9 @@
     ],
     "terminalAcceptedEvalSequenceBadFace_of_rootTraceMarginProducer": [
       "root_trace_margin_selected_prefix_bridge"
+    ],
+    "terminalProducerRootFamily_of_terminalTraceIdBucketClosedMarginFamily": [
+      "trace_margin_root_producer_bridge"
     ]
   }
 }
