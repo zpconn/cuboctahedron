@@ -1,0 +1,12 @@
+{
+  "failure": {
+    "kind": "axisMissesStartInterior"
+  },
+  "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace000StartViolationProvider",
+  "path": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace000StartViolationProvider.lean",
+  "public_theorem": "objectStartViolationMarginCert_of_trace000",
+  "status": "provider_candidate",
+  "trace_id": "t000",
+  "trusted_as_final_generated_coverage": false,
+  "trusted_as_proof": false
+}

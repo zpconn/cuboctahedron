@@ -68990,3 +68990,175 @@ certificate data private/local and checking the first newly generated provider
 under the strict `lake env lean` memory guard.  Do not emit a multi-provider
 root until at least one generated provider checks safely and the sampled-token
 audit is clean.
+
+### 2026-07-02 Generated trace000 semantic-provider smoke
+
+Implemented the first generated trace-level provider emitter:
+
+```text
+scripts/emit_top_pairing_trace_start_violation_provider.py
+```
+
+The emitter currently generates one trace provider at a time from the exact
+trace audit payload.  It does not enumerate ranks and it does not introduce a
+sampled rank/path object.  For trace `t000` it wrote:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000StartViolationProvider.lean
+```
+
+The generated provider is 908 lines after privacy cleanup.  Its only exported
+declaration is:
+
+```lean
+objectStartViolationMarginCert_of_trace000 :
+  topPairingRankFaceLabels rank =
+      acceptedTraceOfId AcceptedTraceId.t000 ->
+    ObjectStartViolationMarginCert rank (scaledMargin rank)
+```
+
+The theorem surface is semantic trace membership only.  The generated
+`NonIdCert` payload, trace sequence, pair word, and checking lemmas remain
+private/local to the provider module and are not exposed in the public theorem
+type.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/emit_top_pairing_trace_start_violation_provider.py
+python3 scripts/emit_top_pairing_trace_start_violation_provider.py \
+  --trace-id t000 \
+  --report scripts/generated/top_pairing_trace_start_violation_provider_emit_t000.json
+```
+
+Outputs:
+
+```text
+scripts/generated/top_pairing_trace_start_violation_provider_emit_t000.json
+scripts/generated/top_pairing_trace_start_violation_provider_emit_t000.md
+```
+
+Hygiene scan over the new provider and emitter returned no hits:
+
+```bash
+rg -n \
+  "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledObject|\
+sampledSmokeNext|sorry|admit|axiom|native_decide|unsafe|Float|Float32|\
+Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000StartViolationProvider.lean \
+  scripts/emit_top_pairing_trace_start_violation_provider.py
+```
+
+Before the provider could be checked, several dependency `.olean` files were
+missing after earlier clean/crash cycles.  The safe rebuild pattern was
+serial, targeted dependency caching:
+
+```text
+BellmanTopPairingGraphEvalSplit10MSmoke.Base:
+  elapsed 16.01s, peak tree RSS 4317 MiB
+
+Terminal.Shard000:
+  elapsed 4.00s, peak tree RSS 4136 MiB
+Terminal.Shard001:
+  elapsed 3.00s, peak tree RSS 4099 MiB
+Terminal.Shard002:
+  elapsed 3.01s, peak tree RSS 4104 MiB
+Terminal.Shard003:
+  elapsed 3.00s, peak tree RSS 4109 MiB
+Terminal.Shard004:
+  elapsed 3.00s, peak tree RSS 4116 MiB
+Terminal.Shard005:
+  elapsed 3.00s, peak tree RSS 4119 MiB
+Terminal.Shard006:
+  elapsed 3.00s, peak tree RSS 1848 MiB
+```
+
+The unsafe pattern was the aggregate terminal root:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/top_pairing_trace_classifier_terminal_all_guard_for_trace_provider.json \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+TopPairingTraceClassifier.Terminal.All
+```
+
+Result:
+
+```text
+killed by guard
+elapsed: 7.01s
+peak process-tree RSS: 16522 MiB
+reason: process-tree RSS exceeded 12000 MiB cap
+```
+
+This confirms the build-discipline rule for this route: do not build even small
+aggregate generated roots unless their dependency leaves are already cached, or
+unless Lake parallelism is externally serialized.  The single-shard path is
+safe; the aggregate root can still fan out enough concurrent Lean workers to
+cross the guard.
+
+Focused provider checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/trace000_provider_guard.json \
+  -- lake env lean \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000StartViolationProvider.lean
+```
+
+Result:
+
+```text
+passed
+elapsed: 66.06s
+peak process-tree RSS: 10198 MiB
+minimum available memory observed: 39770 MiB
+```
+
+Then the provider was checked as a Lake target:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/trace000_provider_lake_guard.json \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTrace000StartViolationProvider
+```
+
+Result:
+
+```text
+passed
+elapsed: 67.07s
+peak process-tree RSS: 10222 MiB
+minimum available memory observed: 39709 MiB
+```
+
+Decision:
+
+Accept the Bellman semantic-provider route for one more production step.  The
+new result is stronger than the earlier hand-written `t028` smoke because it
+uses an emitter and Lake-builds the generated provider as a module.  The route
+has still not proved full top-pairing coverage: it has proved that a generated
+trace-level semantic provider can be emitted and checked for `t000` without
+sampled rank/path membership.
+
+Next step:
+
+Generate all 37 trace-level providers or, preferably, a grouped selected-prefix
+provider root if traces can be bucketed without sampled machinery.  Before any
+root build, cache the heavy leaves serially under the memory guard.  Continue
+only if the public theorem surfaces remain semantic (`acceptedTraceOfId` or
+selected-prefix membership) and the generated modules avoid `SampledRankIndex`,
+`sampledContainsRank`, `sampledRankOf`, sampled path lists, and exact affine-RHS
+membership tables.
