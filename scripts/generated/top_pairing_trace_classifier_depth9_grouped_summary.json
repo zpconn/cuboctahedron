@@ -1,5 +1,8 @@
 {
   "depth": 9,
+  "emitted_shard_indices": [
+    1
+  ],
   "emitted_shards": 1,
   "max_children_per_parent": 5,
   "min_children_per_parent": 0,
@@ -11,5 +14,14 @@
   "root_emitted": false,
   "sampled_rank_or_path_data": false,
   "shard_count": 149,
-  "source": "exact semantic prefix enumerator"
+  "source": "exact semantic prefix enumerator",
+  "uses_squaregap_simp": false,
+  "lean_check": {
+    "target": "Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth9/Shard001.lean",
+    "source_bytes": 9390,
+    "command": "/usr/bin/time -v lake env lean -j1 -M8192 Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth9/Shard001.lean",
+    "result": "stopped-after-120s",
+    "exit_status": 130,
+    "reason": "bounded shard did not finish quickly enough for the 5-6 hour proof budget; generated source was deleted from the Lean tree"
+  }
 }

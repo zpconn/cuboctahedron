@@ -76026,3 +76026,60 @@ The first implementation slice should extend the existing depth-9 smoke into a
 bounded grouped depth-9/terminal producer and measure it.  If a full producer
 requires huge nested OR terms or one branch per concrete rank/path, switch to a
 more compact cancellation-tree summary automaton for the terminal classifier.
+
+## 2026-07-02 Checkpoint: Grouped Depth-9 Producer Slice Rejected As-Is
+
+Attempted the next bounded producer slice:
+
+```bash
+python3 scripts/emit_top_pairing_trace_classifier_grouped_depth.py \
+  --depth 9 --only-shard 1 --omit-squaregap-simp
+
+wc -c \
+  Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth9/Shard001.lean \
+  scripts/generated/top_pairing_trace_classifier_depth9_grouped_summary.json
+
+/usr/bin/time -v lake env lean -j1 -M8192 \
+  Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth9/Shard001.lean
+```
+
+Emission summary:
+
+```text
+depth9 prefixes=1585
+parents=595
+shards=149
+Shard001 source size=9390 bytes
+```
+
+The Lean check for the single 9 KiB shard did not complete within the safety
+window and was stopped after roughly two minutes with `Ctrl-C` (`exit_status =
+130`).  The generated Lean source was deleted from the library tree so it will
+not be picked up by broad builds.  The diagnostic JSON remains at:
+
+```text
+scripts/generated/top_pairing_trace_classifier_depth9_grouped_summary.json
+```
+
+Decision:
+
+```text
+reject-current-grouped-depth9-proof-shape-as-production
+```
+
+Reason: even one bounded depth-9 group is too slow relative to the 5-6 hour
+budget.  The problem is not memory in this run; it is proof shape.  The local
+proof still relies on generated nested OR routing plus repeated case/simp over
+trace constraints.  Scaling 149 shards of this form, then later terminal
+stages, would be too risky.
+
+Next strategy adjustment:
+
+1. Do not emit full grouped depth-9/terminal roots in this shape.
+2. Replace the terminal classifier producer with a compact deterministic
+   cancellation-tree/state-summary theorem.  The theorem should carry a small
+   state invariant through the label scan, so each transition proof is local
+   and reusable instead of reconstructing a large nested prefix disjunction.
+3. Keep the direct residual bridge targets
+   `TerminalDirectResidualRankCovered` and
+   `SelectedPrefixResidualRankCovered`; only the producer feeding them changes.
