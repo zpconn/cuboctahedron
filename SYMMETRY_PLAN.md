@@ -87547,3 +87547,89 @@ is to replace the imported bounded producer with a terminal classifier derived
 from the closed target-shadow/tri-source cursor state, then connect that
 classifier to the Bellman evaluator gate.  No further selected-prefix scaling
 should be attempted before that membership theorem exists.
+
+#### Terminal-State Partial Machine Eval Socket
+
+Added the generic evaluator bridge for partial terminal-state machines:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean
+```
+
+New definitions and theorem surfaces:
+
+```lean
+def nextEval
+theorem contains_of_eval_suffix
+theorem terminalTraceLabels_of_eval_terminal
+theorem terminalTraceLabels_of_eval_from_initial
+```
+
+The main theorem proves that if
+
+```lean
+evalLabelStepFn (nextEval machine) state labels = some (finish, gain)
+```
+
+and the current semantic state contains the rank with exactly those suffix
+labels, then the final generated state also semantically contains the same
+rank.  The terminal corollaries then apply the generated terminal producer for
+the final state.
+
+This is the first generic closed-language-to-evaluator socket for terminal
+membership: future generated code can prove an `evalLabelStepFn` fact for a
+finite partial machine and obtain terminal trace membership through semantic
+`TerminalStepState.Contains`, not through selected prefixes or accepted trace
+IDs.
+
+Commands:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf|AcceptedTraceId|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_partial_machine_eval_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_partial_machine_eval_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| hygiene scan, including accepted-trace identifiers | pass | n/a | n/a | n/a |
+| first direct check | failed | `6.00s` | `3928 MiB` | `45669 MiB` |
+| direct `BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean` | pass | `2.02s` | `3562 MiB` | `45798 MiB` |
+| Lake `BellmanTopPairingTerminalStatePartialMachineEvalSocket` | pass | `3.00s` | `3962 MiB` | `45589 MiB` |
+
+The first direct check failed because local namespace declarations accidentally
+created fresh nested namespaces instead of referring to the imported
+partial-machine socket.  The accepted version keeps the eval theorem names
+local and calls the imported socket theorems explicitly.
+
+Decision: accepted as the generic evaluator-containment socket.  Next step:
+instantiate this theorem on the finite partial-machine smoke, then replace the
+diagnostic terminal producer with a semantic terminal classifier derived from
+the target-shadow / tri-source cursor.
