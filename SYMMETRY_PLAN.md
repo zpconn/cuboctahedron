@@ -82766,3 +82766,98 @@ into this suffix predicate from the closed top-pairing target-shadow/tri-source
 state beyond the third face, without sampled traces or graph-accepted terminal
 disjunctions.
 ```
+
+#### Split-10M Fourth-Face Graph Suffix Lift
+
+Extended the split suffix bridge one semantic step farther, still without
+using graph-accepted terminal trace classes.  The module now defines the split
+closed-prefix-3 evaluator states:
+
+```lean
+closedPrefix3TmpmTransducerState
+closedPrefix3TmpmEvalState
+closedPrefix3YpTransducerState
+closedPrefix3YpEvalState
+closedPrefix3ZmTransducerState
+closedPrefix3ZmEvalState
+closed_prefix3_tmpm_next
+closed_prefix3_yp_next
+closed_prefix3_zm_next
+```
+
+and proves the graph-indexed branch-table continuation from the closed
+semantic transducer/cursor tail:
+
+```lean
+graphBranchTableSuffixOk_closedPrefix3_tmpm_branch_of_closed
+graphBranchTableSuffixOk_closedPrefix3_yp_branch_of_closed
+graphBranchTableSuffixOk_closedPrefix3_zm_branch_of_closed
+graphBranchTableSuffixOk_closedPrefix3_branch_of_closed
+branchTableSuffixOk_root_of_graphClosedPrefix4_forall
+```
+
+This uses semantic constraints to narrow the fourth face.  The accepted split
+branches are:
+
+```text
+after tmpm: zm -> 631 / 114, tppm -> 635 / 96
+after yp:   zm -> 625 / -10, tmmm -> 627 / -124
+after zm:   yp -> 625 / -73, zp -> 628 / -10, tmpp -> 632 / -124
+```
+
+Rejected fourth-face alternatives are discharged by the existing
+`TopPairingTransducerTail.cons` semantic fields: schedule, square-gap,
+target-shadow cursor, and local-axis constraints.  This is the important
+proof-shape change: branch membership is now obtained from semantic state,
+not from observed accepted traces.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_split10m_branch_table_suffix_guard.json \
+  --verbose \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffixSplit10MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+bellman_split10m_branch_table_suffix_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingBranchTableSuffixSplit10MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| split-10M fourth-face suffix direct Lean | pass | `3.00s` | `4092 MiB` | `46059 MiB` |
+| split-10M fourth-face suffix Lake target | pass | `4.00s` | `4199 MiB` | `45845 MiB` |
+| branch-table membership frontier audit | pass | `1.00s` | `1 MiB` | `46568 MiB` |
+
+Decision:
+
+```text
+Accepted as a real semantic-membership movement, not merely another graph
+smoke.  The next slice should keep following this route: generate or prove a
+depth-5 graph-suffix membership theorem from the same closed
+target-shadow/tri-source state, preferably with an emitter that produces
+small per-state branch lemmas rather than hand-copying the fourth-face cases.
+```

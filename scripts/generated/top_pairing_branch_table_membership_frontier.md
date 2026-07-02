@@ -38,6 +38,11 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `branchTableSuffixOk_of_graphBranchTableSuffixOk` | graph suffix conversion to semantic suffix | `branch_table_suffix`, `branch_table_suffix_split10m`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix` |
 | `graphBranchTableSuffixOk_closedPrefix2_branch_of_closed` | closed third-face graph suffix lift | `branch_table_suffix`, `branch_table_suffix_split10m` |
 | `branchTableSuffixOk_root_of_graphClosedPrefix3_forall` | closed-rank graph suffix root lift | `branch_table_suffix`, `branch_table_suffix_split10m` |
+| `closed_prefix3_tmpm_next` | split-10M tmpm third-face semantic step | `branch_table_suffix_split10m`, `strengthened_local` |
+| `closed_prefix3_yp_next` | split-10M yp third-face semantic step | `branch_table_suffix_split10m`, `strengthened_local` |
+| `closed_prefix3_zm_next` | split-10M zm third-face semantic step | `branch_table_suffix_split10m`, `strengthened_local` |
+| `graphBranchTableSuffixOk_closedPrefix3_branch_of_closed` | closed fourth-face graph suffix lift | `branch_table_suffix_split10m` |
+| `branchTableSuffixOk_root_of_graphClosedPrefix4_forall` | closed-rank fourth-face graph suffix root lift | `branch_table_suffix_split10m` |
 | `graphBranchTableSuffixOk_s0143_depth2_of_frontier` | graph-only depth-2 frontier suffix emitter | `graph_suffix_emitter`, `graph_accepted_suffix_bridge` |
 | `graphBranchTableSuffixOk_s0144_branch_of_frontier` | graph-only successor state 144 emitter | `graph_suffix_emitter` |
 | `graphBranchTableSuffixOk_s0145_branch_of_frontier` | graph-only successor state 145 emitter | `graph_suffix_emitter` |
@@ -71,8 +76,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `split10m_branch_table_progress_lake` | `0` | `3.00s` | `1445 MiB` | `None` |
 | `branch_table_suffix_direct` | `0` | `3.00s` | `3921 MiB` | `None` |
 | `branch_table_suffix_lake` | `0` | `1.00s` | `1 MiB` | `None` |
-| `split10m_branch_table_suffix_direct` | `0` | `5.01s` | `3868 MiB` | `None` |
-| `split10m_branch_table_suffix_lake` | `0` | `3.00s` | `3648 MiB` | `None` |
+| `split10m_branch_table_suffix_direct` | `0` | `3.00s` | `4092 MiB` | `None` |
+| `split10m_branch_table_suffix_lake` | `0` | `4.00s` | `4199 MiB` | `None` |
 | `graph_suffix_emitter_direct` | `0` | `10.05s` | `3867 MiB` | `None` |
 | `graph_suffix_emitter_lake` | `0` | `3.00s` | `3900 MiB` | `None` |
 | `graph_accepted_prefix_frontier_direct` | `0` | `6.04s` | `3944 MiB` | `None` |
@@ -111,6 +116,11 @@ strengthenedBranchTableSplit10MSmoke_builds
 branchTableSuffixOk_of_graphBranchTableSuffixOk
 graphBranchTableSuffixOk_closedPrefix2_branch_of_closed
 branchTableSuffixOk_root_of_graphClosedPrefix3_forall
+closed_prefix3_tmpm_next
+closed_prefix3_yp_next
+closed_prefix3_zm_next
+graphBranchTableSuffixOk_closedPrefix3_branch_of_closed
+branchTableSuffixOk_root_of_graphClosedPrefix4_forall
 graphBranchTableSuffixOk_s0143_depth2_of_frontier
 graphBranchTableSuffixOk_s0144_branch_of_frontier
 graphBranchTableSuffixOk_s0145_branch_of_frontier
