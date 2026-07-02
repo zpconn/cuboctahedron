@@ -84202,3 +84202,163 @@ missing semantic prefix/frontier and final-margin fields for one family.  If
 that connection requires exact full trace equality or a branch per observed
 path, reject and move to the cancellation-segment/cocycle fallback before
 emitting more of the state-DAG.
+
+#### Pivot: Closed-Language Deterministic Transducer Is the Production Target
+
+GPT5.5's latest review changes the priority ordering.  The Bellman graph and
+state-DAG diagnostics remain promising, but the selected-prefix/suffix producer
+must not be scaled as the production proof coordinate.  The production theorem
+must be a deterministic semantic transducer theorem from the closed
+top-pairing language itself:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+    scaledMargin rank Face.ym
+```
+
+Equivalently, through the current closed-eval gate, the generated producer
+should prove the two compact semantic premises:
+
+```lean
+forall obj : TopPairingBellmanObj Face.ym,
+  BellmanTopPairingClosedEvalGate.ClosedTraceOr obj
+
+forall obj : TopPairingBellmanObj Face.ym,
+  BellmanTopPairingClosedEvalGate.ClosedMarginBound scaledMargin obj
+```
+
+and then use:
+
+```lean
+closedToEvalLanguage_of_traceAndMargin
+closedRank_scaledMargin_nonpos_of_traceAndMargin
+scaledMargin_nonpos_of_closedToEvalLanguage
+```
+
+from
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingClosedEvalGate.lean
+```
+
+Current Lean support already matches this pivot:
+
+| Module | Role |
+|---|---|
+| `Cuboctahedron/Search/TopPairingTargetCursor.lean` | proves the specialized target-summary inverse and `TopPairingClosedLanguageAtRank -> TopPairingTargetCursorAtRank`; this is the target-shadow cursor requested by GPT5.5 |
+| `Cuboctahedron/Search/TopPairingTransducerTail.lean` | packages schedule, square-gap, local-axis, and target-shadow cursor tails |
+| `Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean` | proves generic deterministic face-eval bridges from semantic tails/local transitions to `TopPairingBellmanEvalLanguageAtRank` |
+| `Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean` | packages closed/strengthened semantic gates into Bellman object covers |
+| `BellmanTopPairingClosedEvalGate.lean` | concrete split-10M gate reducing production to `ClosedTraceOr` plus `ClosedMarginBound` |
+
+Decision update:
+
+1. **Keep Bellman.**  The graph sizes and smokes are not the blocker.
+2. **Do not scale selected-prefix membership.**  Existing prefix/suffix
+   modules are diagnostics and local proof-shape experiments unless they are
+   used to prove semantic `ClosedTraceOr` or `ClosedMarginBound`.
+3. **Next production theorem:** generate/prove a semantic state-DAG classifier
+   from the fields of `TopPairingClosedLanguageAtRank` to `ClosedTraceOr`.
+   This proof should consume:
+   - `TopPairingClosedLanguageAtRank.pairCounts`;
+   - `TopPairingClosedLanguageAtRank.cancellationLabels`;
+   - `h.schedule`;
+   - `h.squareGap`;
+   - `h.localAxis`;
+   - the target-shadow cursor from `TopPairingTargetCursor`.
+4. **Next margin theorem:** prove `ClosedMarginBound scaledMargin obj` for the
+   same closed semantic family.  If this requires exact affine RHS, solved
+   start points, full trace equality, or one branch per observed path, stop and
+   move to cancellation-segment/cocycle-quotient margin certificates.
+5. **Representative suffix cones stay bounded.**  They are useful to test edge
+   construction and branch-table composition, but they are not the final
+   coverage surface.
+
+Go/no-go gate:
+
+| Route | Continue if | Reject if |
+|---|---|---|
+| Closed trace classifier | proof is proportional to semantic states/classes and exports `ClosedTraceOr` | proof introduces `SampledRankIndex`, sampled path/rank tables, full-trace equality per path, or exact affine keys |
+| Closed margin bound | integer Bellman/cocycle/segment certificate proves `ClosedMarginBound` semantically | proof needs exact affine RHS/solution keys or rank/path enumeration |
+| State-DAG suffix producer | used only as a local ingredient for the two rows above | treated as standalone selected-prefix coverage |
+
+Immediate implementation order:
+
+1. Guard-build the existing semantic transducer/eval gate modules after this
+   pivot.
+2. Add or regenerate a compact classifier socket whose public target is:
+
+   ```lean
+   theorem closedTraceOr_of_closedLanguage
+       (obj : TopPairingBellmanObj Face.ym) :
+       BellmanTopPairingClosedEvalGate.ClosedTraceOr obj
+   ```
+
+3. Add the analogous margin socket:
+
+   ```lean
+   theorem closedMarginBound_of_closedLanguage
+       (obj : TopPairingBellmanObj Face.ym) :
+       BellmanTopPairingClosedEvalGate.ClosedMarginBound scaledMargin obj
+   ```
+
+4. Compose them with `closedToEvalLanguage_of_traceAndMargin` and measure a
+   focused guarded build before broad generation.
+
+This is the current production path.  The older instruction to connect one
+representative suffix cone to `StrengthenedSemanticStateDAGFamily` is demoted
+to a diagnostic unless it directly proves one of the two closed-eval gate
+premises above.
+
+Validation after the pivot:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/pivot_top_pairing_target_cursor_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.TopPairingTargetCursor
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/pivot_top_pairing_transducer_eval_bridge_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.TopPairingTransducerEvalBridge
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/pivot_top_pairing_closed_eval_gate_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedEvalGate
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| `Cuboctahedron.Search.TopPairingTargetCursor` | pass | `3.00s` | `834 MiB` | `46356 MiB` |
+| `Cuboctahedron.Search.TopPairingTransducerEvalBridge` | pass | `1.00s` | `0.94 MiB` cached/no rebuild | `46533 MiB` |
+| `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedEvalGate` | pass | `8.01s` | `4119 MiB` | `45932 MiB` |
+
+Decision: the pivot boundary itself is buildable under the memory guard.  The
+next work should not be another graph/potential smoke.  It should attack the
+two closed-eval gate premises directly:
+
+```lean
+ClosedTraceOr obj
+ClosedMarginBound scaledMargin obj
+```
+
+from the semantic closed-language fields.  Any proof route that reintroduces
+selected-prefix coverage as the final theorem surface is rejected, even if the
+local graph smokes continue to pass.
