@@ -87562,8 +87562,11 @@ New definitions and theorem surfaces:
 ```lean
 def nextEval
 theorem contains_of_eval_suffix
+theorem contains_of_eval_prefix
 theorem terminalTraceLabels_of_eval_terminal
+theorem terminalTraceLabels_of_eval_prefix_terminal
 theorem terminalTraceLabels_of_eval_from_initial
+theorem terminalTraceLabels_of_eval_prefix_from_initial
 ```
 
 The main theorem proves that if
@@ -87574,8 +87577,11 @@ evalLabelStepFn (nextEval machine) state labels = some (finish, gain)
 
 and the current semantic state contains the rank with exactly those suffix
 labels, then the final generated state also semantically contains the same
-rank.  The terminal corollaries then apply the generated terminal producer for
-the final state.
+rank.  The strengthened prefix theorem proves the production-shaped variant:
+if the rank labels split as `state.pfx ++ labels ++ rest`, evaluating just
+`labels` advances containment to the final generated state while leaving
+`rest` for the terminal producer.  The terminal corollaries then apply the
+generated terminal producer for the final state.
 
 This is the first generic closed-language-to-evaluator socket for terminal
 membership: future generated code can prove an `evalLabelStepFn` fact for a
@@ -87621,15 +87627,107 @@ Results:
 |---|---:|---:|---:|---:|
 | hygiene scan, including accepted-trace identifiers | pass | n/a | n/a | n/a |
 | first direct check | failed | `6.00s` | `3928 MiB` | `45669 MiB` |
-| direct `BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean` | pass | `2.02s` | `3562 MiB` | `45798 MiB` |
-| Lake `BellmanTopPairingTerminalStatePartialMachineEvalSocket` | pass | `3.00s` | `3962 MiB` | `45589 MiB` |
+| direct strengthened `BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean` | pass | `5.00s` | `3708 MiB` | `45791 MiB` |
+| Lake strengthened `BellmanTopPairingTerminalStatePartialMachineEvalSocket` | pass | `3.00s` | `3989 MiB` | `45611 MiB` |
 
 The first direct check failed because local namespace declarations accidentally
 created fresh nested namespaces instead of referring to the imported
 partial-machine socket.  The accepted version keeps the eval theorem names
 local and calls the imported socket theorems explicitly.
 
-Decision: accepted as the generic evaluator-containment socket.  Next step:
-instantiate this theorem on the finite partial-machine smoke, then replace the
-diagnostic terminal producer with a semantic terminal classifier derived from
-the target-shadow / tri-source cursor.
+Decision: accepted as the generic evaluator-containment socket.  The prefix
+variant is the preferred theorem for terminal classifiers because it lets the
+machine consume the semantic prefix and leaves the forced final `xp` label for
+the terminal-state producer.
+
+#### Terminal-State Partial Machine Eval Smoke
+
+Added a bounded smoke that instantiates the prefix-eval theorem on the finite
+partial-machine smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+The smoke defines an explicit thirteen-face prefix:
+
+```lean
+def smokeEvalPrefix : List Face := [...]
+```
+
+and proves:
+
+```lean
+theorem smokePartialMachine_eval_prefix
+theorem terminalTraceLabels_of_smokePartialEval
+```
+
+The exported theorem has the intended evaluator shape:
+
+```lean
+TopPairingClosedLanguageAtRank rank badFace ->
+topPairingRankFaceLabels rank = smokeEvalPrefix ++ [Face.xp] ->
+  TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+    (topPairingRankFaceLabels rank)
+```
+
+This is still bounded diagnostic evidence, because the underlying terminal
+producer for `SmokePartialState.s13` comes from the earlier smoke.  But the
+theorem surface no longer mentions `AcceptedTraceId`; it exercises the generic
+`evalLabelStepFn` bridge through a generated-style `next?` table and an
+explicit semantic prefix.
+
+Commands:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf|AcceptedTraceId|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_partial_machine_eval_smoke_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_state_partial_machine_eval_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| hygiene scan, including accepted-trace identifiers | pass | n/a | n/a | n/a |
+| first direct eval-smoke check | failed | `2.00s` | `2795 MiB` | `45594 MiB` |
+| direct `BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean` | pass | `2.00s` | `3583 MiB` | `45820 MiB` |
+| Lake `BellmanTopPairingTerminalStatePartialMachineEvalSmoke` | pass | `3.01s` | `1473 MiB` | `45861 MiB` |
+
+The first eval-smoke check failed because the smoke did not open the
+terminal-step socket namespace and, when run in parallel with the socket build,
+saw the previous `.olean` before the strengthened prefix theorem was rebuilt.
+The accepted sequential checks passed.
+
+Decision: accepted as a bounded eval-shape smoke.  Next real step remains:
+replace the diagnostic terminal producer with a semantic terminal classifier
+derived from the target-shadow / tri-source cursor, then use this eval socket
+to obtain terminal trace membership from closed-language evaluation rather
+than selected-prefix cover membership.

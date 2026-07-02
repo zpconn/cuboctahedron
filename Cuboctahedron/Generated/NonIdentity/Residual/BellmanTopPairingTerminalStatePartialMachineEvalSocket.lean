@@ -92,6 +92,68 @@ theorem contains_of_eval_suffix
                     simpa [List.append_assoc] using hlabels
                   exact ih hcontainsNext hlabelsNext htail
 
+theorem contains_of_eval_prefix
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords}
+    {state finish : StateId} {labels rest : List Face} {gain : Int}
+    (hcontains :
+      TerminalStepState.Contains (machine.stateOf state) rank)
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        (machine.stateOf state).pfx ++ labels ++ rest)
+    (heval :
+      evalLabelStepFn (nextEval machine) state labels =
+        some (finish, gain)) :
+    TerminalStepState.Contains (machine.stateOf finish) rank := by
+  induction labels generalizing state finish gain with
+  | nil =>
+      simp [evalLabelStepFn] at heval
+      rcases heval with ⟨rfl, _rfl⟩
+      exact hcontains
+  | cons face labels ih =>
+      simp [evalLabelStepFn, nextEval] at heval
+      cases hnext : machine.next? state face with
+      | none =>
+          simp [hnext] at heval
+      | some nextState =>
+          simp [hnext] at heval
+          cases htail :
+              evalLabelStepFn (nextEval machine) nextState labels with
+          | none =>
+              simp [htail] at heval
+          | some tailResult =>
+              cases tailResult with
+              | mk finish' tailGain =>
+                  simp [htail] at heval
+                  rcases heval with ⟨rfl, _rfl⟩
+                  have hlabelsStep :
+                      topPairingRankFaceLabels rank =
+                        (machine.stateOf state).pfx ++
+                          face :: (labels ++ rest) := by
+                    simpa [List.cons_append, List.append_assoc] using hlabels
+                  have hcontainsNext :
+                      TerminalStepState.Contains
+                        (machine.stateOf nextState) rank :=
+                    TerminalStepStatePartialMachine.contains_next?
+                      machine hnext hcontains hlabelsStep
+                  have hstateNext :
+                      machine.stateOf nextState =
+                        TerminalStepState.nextStep
+                          (machine.stateOf state) face :=
+                    machine.next_sound state face nextState hnext
+                  have hlabelsNext :
+                      topPairingRankFaceLabels rank =
+                        (machine.stateOf nextState).pfx ++ labels ++ rest := by
+                    have hpfx :
+                        (machine.stateOf nextState).pfx =
+                          (machine.stateOf state).pfx ++ [face] := by
+                      rw [hstateNext]
+                      exact terminalStepState_nextStep_pfx
+                        (machine.stateOf state) face
+                    rw [hpfx]
+                    simpa [List.append_assoc] using hlabels
+                  exact ih hcontainsNext hlabelsNext htail
+
 theorem terminalTraceLabels_of_eval_terminal
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
     {rank : Fin numPairWords} {badFace : Face}
@@ -112,6 +174,54 @@ theorem terminalTraceLabels_of_eval_terminal
     machine hclosed
       (contains_of_eval_suffix machine hcontains hlabels heval)
       hterminal
+
+theorem terminalTraceLabels_of_eval_prefix_terminal
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords} {badFace : Face}
+    {state finish : StateId} {labels rest : List Face} {gain : Int}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace)
+    (hcontains :
+      TerminalStepState.Contains (machine.stateOf state) rank)
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        (machine.stateOf state).pfx ++ labels ++ rest)
+    (heval :
+      evalLabelStepFn (nextEval machine) state labels =
+        some (finish, gain))
+    (hterminal : machine.IsTerminal finish) :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) :=
+  TerminalStepStatePartialMachine.terminalTraceLabels_of_terminal
+    machine hclosed
+      (contains_of_eval_prefix machine hcontains hlabels heval)
+      hterminal
+
+theorem terminalTraceLabels_of_eval_prefix_from_initial
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords} {badFace : Face}
+    {start finish : StateId} {labels rest : List Face} {gain : Int}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace)
+    (hstart :
+      machine.stateOf start = TerminalStepState.initial)
+    (hlabels :
+      topPairingRankFaceLabels rank = labels ++ rest)
+    (heval :
+      evalLabelStepFn (nextEval machine) start labels =
+        some (finish, gain))
+    (hterminal : machine.IsTerminal finish) :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) := by
+  have hcontains :
+      TerminalStepState.Contains (machine.stateOf start) rank := by
+    rw [hstart]
+    exact initial_contains_of_closed hclosed
+  have hlabels' :
+      topPairingRankFaceLabels rank =
+        (machine.stateOf start).pfx ++ labels ++ rest := by
+    rw [hstart]
+    simpa [TerminalStepState.initial] using hlabels
+  exact terminalTraceLabels_of_eval_prefix_terminal
+    machine hclosed hcontains hlabels' heval hterminal
 
 theorem terminalTraceLabels_of_eval_from_initial
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
