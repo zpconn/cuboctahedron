@@ -60014,3 +60014,128 @@ Updated next production work:
    connect the resulting margin theorem to the nonidentity residual killed
    predicate and then repeat/parameterize the pattern for the remaining
    semantic Bellman families.
+
+Semantic Bellman eval socket checkpoint:
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticEvalSocket.lean
+```
+
+This incorporates the latest GPT5.5 guidance more cleanly than the previous
+smoke module.  The new module names the production socket directly:
+
+```lean
+def GraphAcceptedEvalSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  badFace = Face.ym /\
+    ∃ closed : TopPairingClosedLanguageAtRank rank Face.ym,
+      GraphAcceptedTraceMargin scaledMargin
+        ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym)
+```
+
+and proves the reusable consequences:
+
+```lean
+theorem evalLanguage_of_strengthenedGraphAcceptedEval :
+  TopPairingStrengthenedClosedLanguageAtRank
+    (GraphAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState 176
+    scaledMargin rank Face.ym
+
+theorem strengthenedGraphAcceptedEval_scaledMargin_nonpos :
+  TopPairingStrengthenedClosedLanguageAtRank
+    (GraphAcceptedEvalSequenceBadFace scaledMargin) rank Face.ym ->
+  scaledMargin rank <= 0
+```
+
+This file is deliberately not the classifier.  It is the boundary where a
+future generated semantic classifier must land.  That classifier must prove
+`GraphAcceptedEvalSequenceBadFace` from compact closed-language facts; it must
+not introduce `SampledRankIndex`, sampled paths, sampled rank tables, or one
+object constructor per rank.
+
+Why this matters:
+
+- the Bellman object is still semantic (`rank` plus
+  `TopPairingClosedLanguageAtRank`);
+- the evaluator run is computed by `graphSmokeNext`, not stored as a sampled
+  path;
+- the potential proof is reused through the split root
+  `transition_ok_of_lt`;
+- the remaining go/no-go theorem is now isolated: prove the socket from a
+  generated closed-language classifier, or stop and strengthen the semantic
+  language/cancellation-tree object.
+
+Validation commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_semantic_eval_socket_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_semantic_eval_socket_lake.json \
+  --verbose \
+  -- env LEAN_NUM_THREADS=1 lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticEvalSocket
+
+grep -R \
+  "sorry\|admit\|axiom\|native_decide\|unsafe\|Float\|Float32\|Float64\|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticEvalSocket.lean || true
+
+grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticEvalSocket.lean || true
+```
+
+Results:
+
+```text
+BellmanTopPairingSemanticEvalSocket direct Lean:
+  passed
+  elapsed = 4.00s
+  peak_tree_rss = 2282 MiB
+  hard_as = 8192 MiB
+  min_available = 46290 MiB
+
+BellmanTopPairingSemanticEvalSocket lake target:
+  passed
+  elapsed = 4.01s
+  peak_tree_rss = 3889 MiB
+  min_available = 46168 MiB
+
+Forbidden-token scan:
+  passed, no matches
+
+Sampled-membership scan:
+  passed, no matches
+```
+
+Decision:
+
+Keep Bellman for this semantic-membership experiment.  The new socket is cheap,
+memory-safe, and has the right theorem surface.  The next implementation step
+is to generate or prove the classifier theorem that supplies
+`GraphAcceptedEvalSequenceBadFace` for the intended top-pairing family.  If
+that classifier requires sampled rank/path membership, stop this Bellman
+production route and replace the top-pairing language object with a stronger
+cancellation-tree/evaluator semantic object.
