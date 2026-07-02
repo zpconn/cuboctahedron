@@ -21,6 +21,144 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcc
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalGate
 
+inductive AcceptedTraceId where
+  | t000 | t001 | t002 | t003 | t004 | t005 | t006 | t007 | t008 | t009
+  | t010 | t011 | t012 | t013 | t014 | t015 | t016 | t017 | t018 | t019
+  | t020 | t021 | t022 | t023 | t024 | t025 | t026 | t027 | t028 | t029
+  | t030 | t031 | t032 | t033 | t034 | t035 | t036
+  deriving DecidableEq, Repr
+
+def acceptedTraceOfId : AcceptedTraceId -> List Face
+  | .t000 => acceptedFaceTrace_000
+  | .t001 => acceptedFaceTrace_001
+  | .t002 => acceptedFaceTrace_002
+  | .t003 => acceptedFaceTrace_003
+  | .t004 => acceptedFaceTrace_004
+  | .t005 => acceptedFaceTrace_005
+  | .t006 => acceptedFaceTrace_006
+  | .t007 => acceptedFaceTrace_007
+  | .t008 => acceptedFaceTrace_008
+  | .t009 => acceptedFaceTrace_009
+  | .t010 => acceptedFaceTrace_010
+  | .t011 => acceptedFaceTrace_011
+  | .t012 => acceptedFaceTrace_012
+  | .t013 => acceptedFaceTrace_013
+  | .t014 => acceptedFaceTrace_014
+  | .t015 => acceptedFaceTrace_015
+  | .t016 => acceptedFaceTrace_016
+  | .t017 => acceptedFaceTrace_017
+  | .t018 => acceptedFaceTrace_018
+  | .t019 => acceptedFaceTrace_019
+  | .t020 => acceptedFaceTrace_020
+  | .t021 => acceptedFaceTrace_021
+  | .t022 => acceptedFaceTrace_022
+  | .t023 => acceptedFaceTrace_023
+  | .t024 => acceptedFaceTrace_024
+  | .t025 => acceptedFaceTrace_025
+  | .t026 => acceptedFaceTrace_026
+  | .t027 => acceptedFaceTrace_027
+  | .t028 => acceptedFaceTrace_028
+  | .t029 => acceptedFaceTrace_029
+  | .t030 => acceptedFaceTrace_030
+  | .t031 => acceptedFaceTrace_031
+  | .t032 => acceptedFaceTrace_032
+  | .t033 => acceptedFaceTrace_033
+  | .t034 => acceptedFaceTrace_034
+  | .t035 => acceptedFaceTrace_035
+  | .t036 => acceptedFaceTrace_036
+
+def acceptedTraceGain : AcceptedTraceId -> Int
+  | .t000 => -376
+  | .t001 => -376
+  | .t002 => -376
+  | .t003 => -596
+  | .t004 => -348
+  | .t005 => -612
+  | .t006 => -612
+  | .t007 => -392
+  | .t008 => -612
+  | .t009 => -464
+  | .t010 => -684
+  | .t011 => -176
+  | .t012 => -396
+  | .t013 => -464
+  | .t014 => -684
+  | .t015 => -392
+  | .t016 => -612
+  | .t017 => -348
+  | .t018 => -552
+  | .t019 => -304
+  | .t020 => -568
+  | .t021 => -640
+  | .t022 => -352
+  | .t023 => -640
+  | .t024 => -568
+  | .t025 => -304
+  | .t026 => -304
+  | .t027 => -552
+  | .t028 => -552
+  | .t029 => -376
+  | .t030 => -376
+  | .t031 => -596
+  | .t032 => -552
+  | .t033 => -552
+  | .t034 => -376
+  | .t035 => -596
+  | .t036 => -552
+
+def GraphAcceptedTraceMarginIdBound
+    (scaledMargin : Fin numPairWords -> Int)
+    (obj : TopPairingBellmanObj Face.ym) : Prop :=
+  ∃ id : AcceptedTraceId,
+    TopPairingBellmanObj.labels (fun f : Face => f) obj =
+      acceptedTraceOfId id ∧
+    scaledMargin obj.rank <= (176 : Int) + acceptedTraceGain id
+
+theorem graphAcceptedTraceMargin_of_id_bound
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : TopPairingBellmanObj Face.ym}
+    (hbound : GraphAcceptedTraceMarginIdBound scaledMargin obj) :
+    GraphAcceptedTraceMargin scaledMargin obj := by
+  rcases hbound with ⟨id, htrace, hmargin⟩
+  cases id <;> simp [acceptedTraceOfId, acceptedTraceGain] at htrace hmargin
+  · exact graphAcceptedTraceMargin_000 htrace hmargin
+  · exact graphAcceptedTraceMargin_001 htrace hmargin
+  · exact graphAcceptedTraceMargin_002 htrace hmargin
+  · exact graphAcceptedTraceMargin_003 htrace hmargin
+  · exact graphAcceptedTraceMargin_004 htrace hmargin
+  · exact graphAcceptedTraceMargin_005 htrace hmargin
+  · exact graphAcceptedTraceMargin_006 htrace hmargin
+  · exact graphAcceptedTraceMargin_007 htrace hmargin
+  · exact graphAcceptedTraceMargin_008 htrace hmargin
+  · exact graphAcceptedTraceMargin_009 htrace hmargin
+  · exact graphAcceptedTraceMargin_010 htrace hmargin
+  · exact graphAcceptedTraceMargin_011 htrace hmargin
+  · exact graphAcceptedTraceMargin_012 htrace hmargin
+  · exact graphAcceptedTraceMargin_013 htrace hmargin
+  · exact graphAcceptedTraceMargin_014 htrace hmargin
+  · exact graphAcceptedTraceMargin_015 htrace hmargin
+  · exact graphAcceptedTraceMargin_016 htrace hmargin
+  · exact graphAcceptedTraceMargin_017 htrace hmargin
+  · exact graphAcceptedTraceMargin_018 htrace hmargin
+  · exact graphAcceptedTraceMargin_019 htrace hmargin
+  · exact graphAcceptedTraceMargin_020 htrace hmargin
+  · exact graphAcceptedTraceMargin_021 htrace hmargin
+  · exact graphAcceptedTraceMargin_022 htrace hmargin
+  · exact graphAcceptedTraceMargin_023 htrace hmargin
+  · exact graphAcceptedTraceMargin_024 htrace hmargin
+  · exact graphAcceptedTraceMargin_025 htrace hmargin
+  · exact graphAcceptedTraceMargin_026 htrace hmargin
+  · exact graphAcceptedTraceMargin_027 htrace hmargin
+  · exact graphAcceptedTraceMargin_028 htrace hmargin
+  · exact graphAcceptedTraceMargin_029 htrace hmargin
+  · exact graphAcceptedTraceMargin_030 htrace hmargin
+  · exact graphAcceptedTraceMargin_031 htrace hmargin
+  · exact graphAcceptedTraceMargin_032 htrace hmargin
+  · exact graphAcceptedTraceMargin_033 htrace hmargin
+  · exact graphAcceptedTraceMargin_034 htrace hmargin
+  · exact graphAcceptedTraceMargin_035 htrace hmargin
+  · exact graphAcceptedTraceMargin_036 htrace hmargin
+
 structure GraphAcceptedTraceMarginBounds
     (scaledMargin : Fin numPairWords -> Int)
     (obj : TopPairingBellmanObj Face.ym) : Prop where

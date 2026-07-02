@@ -31,6 +31,17 @@ def TerminalTraceMarginBoundsSequenceBadFace
         GraphAcceptedTraceMarginBounds scaledMargin
           ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym)
 
+def TerminalTraceMarginIdBoundSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+      rank badFace /\
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) /\
+      ∃ closed : TopPairingClosedLanguageAtRank rank Face.ym,
+        GraphAcceptedTraceMarginIdBound scaledMargin
+          ({ rank := rank, closed := closed } : TopPairingBellmanObj Face.ym)
+
 theorem terminalAcceptedEvalSequenceBadFace_of_bounds
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -63,6 +74,27 @@ theorem terminalAcceptedEvalSequenceBadFace_of_bounds
     Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalAcceptedBridge.terminalAcceptedEvalSequenceBadFace_of_graphAcceptedTraceMargin
       hbad hterm closed hgraph
 
+theorem terminalAcceptedEvalSequenceBadFace_of_id_bound
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hbound :
+      TerminalTraceMarginIdBoundSequenceBadFace scaledMargin rank Face.ym) :
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalAcceptedBridge.TerminalAcceptedEvalSequenceBadFace
+      scaledMargin rank Face.ym := by
+  rcases hbound with ⟨hbad, hterm, closed, hmarginBound⟩
+  let obj : TopPairingBellmanObj Face.ym := { rank := rank, closed := closed }
+  have hgraph :
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalGate.GraphAcceptedTraceMargin
+        scaledMargin obj := by
+    simpa [obj] using
+      graphAcceptedTraceMargin_of_id_bound
+        (scaledMargin := scaledMargin)
+        (obj := obj)
+        hmarginBound
+  exact
+    Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalAcceptedBridge.terminalAcceptedEvalSequenceBadFace_of_graphAcceptedTraceMargin
+      hbad hterm closed hgraph
+
 theorem strengthenedTerminalAcceptedEval_of_bounds
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -81,6 +113,23 @@ theorem strengthenedTerminalAcceptedEval_of_bounds
       h.actualFaceOmni
       h.sequenceBadFace_ok)
 
+theorem strengthenedTerminalAcceptedEval_of_id_bound
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalTraceMarginIdBoundSequenceBadFace scaledMargin) rank Face.ym) :
+    TopPairingStrengthenedClosedLanguageAtRank
+      (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalAcceptedBridge.TerminalAcceptedEvalSequenceBadFace
+        scaledMargin) rank Face.ym :=
+  TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+    h.closed
+    h.actualFaceOmni
+    (terminalAcceptedEvalSequenceBadFace_of_id_bound
+      (scaledMargin := scaledMargin)
+      (rank := rank)
+      h.sequenceBadFace_ok)
+
 theorem strengthenedTraceMarginBounds_scaledMargin_nonpos
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -90,6 +139,17 @@ theorem strengthenedTraceMarginBounds_scaledMargin_nonpos
     scaledMargin rank <= 0 :=
   Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalAcceptedObjectCover.strengthenedTerminalAcceptedEval_scaledMargin_nonpos
     (strengthenedTerminalAcceptedEval_of_bounds
+      (scaledMargin := scaledMargin) (rank := rank) h)
+
+theorem strengthenedTraceMarginIdBound_scaledMargin_nonpos
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalTraceMarginIdBoundSequenceBadFace scaledMargin) rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalAcceptedObjectCover.strengthenedTerminalAcceptedEval_scaledMargin_nonpos
+    (strengthenedTerminalAcceptedEval_of_id_bound
       (scaledMargin := scaledMargin) (rank := rank) h)
 
 theorem trace_margin_bounds_socket_builds : True := by

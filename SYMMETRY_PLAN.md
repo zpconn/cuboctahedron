@@ -62799,3 +62799,148 @@ lines instead of hundreds of lines, assuming each trace has a shared
 `graphAcceptedTraceMarginBounds_00k` constructor.  This keeps the trace-bucket
 route plausible as a semantic family layer, but the bridge still needs the
 remaining 36 constructors and a measured aggregate check before promotion.
+
+Accepted-trace id-bound checkpoint:
+
+The previous constructor plan was still too constructor-heavy: it would require
+36 more `graphAcceptedTraceMarginBounds_00k` theorems, each filling the same
+37-field structure.  The bridge now has a smaller indexed surface:
+
+```lean
+inductive AcceptedTraceId where
+  | t000 | ... | t036
+
+def acceptedTraceOfId : AcceptedTraceId -> List Face
+def acceptedTraceGain : AcceptedTraceId -> Int
+
+def GraphAcceptedTraceMarginIdBound
+    (scaledMargin : Fin numPairWords -> Int)
+    (obj : TopPairingBellmanObj Face.ym) : Prop :=
+  ∃ id : AcceptedTraceId,
+    TopPairingBellmanObj.labels (fun f : Face => f) obj =
+      acceptedTraceOfId id ∧
+    scaledMargin obj.rank <= (176 : Int) + acceptedTraceGain id
+```
+
+and the bridge theorem:
+
+```lean
+theorem graphAcceptedTraceMargin_of_id_bound
+    (hbound : GraphAcceptedTraceMarginIdBound scaledMargin obj) :
+    GraphAcceptedTraceMargin scaledMargin obj
+```
+
+The terminal socket now also exposes:
+
+```lean
+def TerminalTraceMarginIdBoundSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop := ...
+
+theorem strengthenedTraceMarginIdBound_scaledMargin_nonpos
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (TerminalTraceMarginIdBoundSequenceBadFace scaledMargin)
+        rank Face.ym) :
+    scaledMargin rank <= 0
+```
+
+The trace-000 bucket was moved onto this id-bound socket.  Its generated-facing
+evidence is now simply:
+
+```lean
+⟨AcceptedTraceId.t000, htrace, hmargin⟩
+```
+
+rather than a 37-field `GraphAcceptedTraceMarginBounds` value.  This is the
+preferred production surface for trace buckets.
+
+Guarded focused Lake target:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace000_bounds_smoke_lake_build_id_socket.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTrace000BoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 6.03s
+peak_tree_rss = 4096 MiB
+hard_as = 32768 MiB
+min_available = 46057 MiB
+```
+
+Guarded direct Lean check after Lake rebuilt the updated imports:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace000_bounds_smoke_direct_lean_id_socket_after_lake.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000BoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3632 MiB
+hard_as = 8192 MiB
+min_available = 46275 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 582 lines
+BellmanTopPairingTraceMarginBoundsSocket.lean       = 158 lines
+BellmanTopPairingTrace000BoundsSmoke.lean           = 78 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTrace000BoundsSmoke.lean
+```
+
+Both checks passed; the `rg` audit found no matches.
+
+Decision:
+
+Promote the id-bound surface over the 37-field constructor route.  The older
+`GraphAcceptedTraceMarginBounds` surface can remain for compatibility, but new
+trace-family buckets should target `GraphAcceptedTraceMarginIdBound`.
+
+Next action:
+
+Generate or hand-add a multi-trace bucket smoke using
+`TerminalTraceMarginIdBoundSequenceBadFace`, ideally covering several accepted
+trace ids in one small theorem.  Measure whether one bucket per trace or a
+grouped bucket by common margin/source family gives the better source/check
+profile before committing to full trace-bucket emission.
