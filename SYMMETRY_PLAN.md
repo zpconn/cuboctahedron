@@ -66995,3 +66995,114 @@ rank sample; it is a semantic membership theorem showing that the actual
 top-pairing closed family implies one of the selected prefix-cover group
 predicates, or else identifying the exact semantic field that must be added to
 make that implication Lean-checkable.
+
+### 2026-07-02 Selected-prefix cover strengthened-language socket
+
+Implemented the next higher semantic adapter:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixCoverSocket.lean
+```
+
+The socket defines:
+
+```lean
+SelectedPrefixCoverSequenceBadFace
+```
+
+and proves:
+
+```lean
+evalLanguage_of_strengthenedSelectedPrefixCover :
+  TopPairingStrengthenedClosedLanguageAtRank
+    (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState
+    (176 : Int) scaledMargin rank Face.ym
+
+strengthenedSelectedPrefixCover_scaledMargin_nonpos :
+  TopPairingStrengthenedClosedLanguageAtRank
+    (SelectedPrefixCoverSequenceBadFace scaledMargin) rank Face.ym ->
+  scaledMargin rank <= 0
+```
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_selected_prefix_cover_socket_build.json \
+  --verbose \
+  -- lake --log-level=error build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSelectedPrefixCoverSocket
+```
+
+Result:
+
+```text
+passed
+elapsed = 5.01s
+peak_tree_rss = 4078 MiB
+hard_as = 32768 MiB
+min_available = 46057 MiB
+```
+
+Direct guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_selected_prefix_cover_socket_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixCoverSocket.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3615 MiB
+hard_as = 8192 MiB
+min_available = 46294 MiB
+```
+
+Audit:
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSelectedPrefixCoverSocket.lean
+
+git diff --check
+```
+
+Both checks passed with no output.
+
+Decision:
+
+Accept this socket as the next semantic bridge above the generated
+selected-prefix cover.  It does not solve final membership by itself; it names
+the precise remaining obligation:
+
+```text
+actual strengthened top-pairing closed family
+  -> SelectedPrefixCoverSequenceBadFace scaledMargin rank Face.ym
+```
+
+Equivalently, the next theorem must show that the strengthened family supplies
+one of the 31 selected-prefix cover predicates, using semantic trace/prefix
+facts and margin bounds, without sampled rank/path objects.
