@@ -81451,3 +81451,92 @@ TopPairingClosedLanguageAtRank rank Face.ym
 The proof must continue to avoid sampled ranks, selected-prefix covers, exact
 affine RHS keys, packed blobs, large Boolean reductions, and broad unguarded
 builds.
+
+### Branch-Table Root-Prefix Lift Added
+
+Added the first semantic membership slice into the branch-table suffix
+predicate:
+
+```lean
+branchTableSuffixOk_root_of_closedPrefix2
+branchTableSuffixOk_root_of_closedPrefix2_forall
+```
+
+These theorems mirror the older direct-step root-prefix lift, but they route
+the deterministic `xm, ym` prefix through the finite `StrengthenedBranchTable`
+relation:
+
+```text
+state 0   / xm -> graph branch
+state 142 / ym -> graph branch
+```
+
+After those Lean-proved root steps, the future membership emitter only needs to
+produce:
+
+```lean
+BranchTableSuffixOk rank closedPrefix2EvalState rest
+```
+
+for the semantic suffix after `xm, ym`.  This is a small but important
+production-shape correction: root progress now stores table evidence, not
+direct evaluator equations and not selected-prefix/sample objects.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffix1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingBranchTableSuffix1MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| branch-table suffix direct Lean | pass | `6.01s` | `3515 MiB` |
+| branch-table suffix Lake target | pass | `3.00s` | `3725 MiB` |
+| membership-frontier audit | pass | `1.00s` | `0-1 MiB` |
+| forbidden/sampled scan | pass | no hits | n/a |
+
+The audit now records:
+
+```lean
+branchTableSuffixOk_root_of_closedPrefix2
+branchTableSuffixOk_root_of_closedPrefix2_forall
+```
+
+as accepted local theorem surfaces.
+
+Remaining production gap:
+
+```text
+Construct `BranchTableSuffixOk rank closedPrefix2EvalState rest` from the
+closed top-pairing semantic suffix after the `xm, ym` prefix.
+```
+
+This should be attacked by generated semantic state/cursor membership into the
+finite branch table, not by a monolithic classifier converse or trace/rank
+enumeration.

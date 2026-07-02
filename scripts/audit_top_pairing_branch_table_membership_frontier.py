@@ -76,6 +76,8 @@ REQUIRED_SYMBOLS = {
     "BranchTableSuffixOk": "suffix predicate storing branch-table evidence",
     "branchTableSuffixOk_local": "local progress from branch-table suffix",
     "eval_exists_of_branchTableSuffixOk": "whole-suffix evaluator from branch-table suffix",
+    "branchTableSuffixOk_root_of_closedPrefix2": "semantic root-prefix lift into branch-table suffix",
+    "branchTableSuffixOk_root_of_closedPrefix2_forall": "closed-rank root-prefix lift into branch-table suffix",
 }
 
 FORBIDDEN_TOKENS = [
@@ -192,6 +194,8 @@ def render_markdown(report: dict[str, Any]) -> str:
             "BranchTableSuffixOk",
             "branchTableSuffixOk_local",
             "eval_exists_of_branchTableSuffixOk",
+            "branchTableSuffixOk_root_of_closedPrefix2",
+            "branchTableSuffixOk_root_of_closedPrefix2_forall",
             "```",
             "",
             "## Remaining Production Theorem",

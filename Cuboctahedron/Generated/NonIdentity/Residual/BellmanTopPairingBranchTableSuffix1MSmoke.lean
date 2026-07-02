@@ -118,6 +118,52 @@ theorem eval_exists_of_branchTableSuffixOk
     BranchInv (BranchTableSuffixOk rank) branchTableSuffixOk_local
     hinv htail hsuffix
 
+/--
+Semantic root-prefix lift for the branch-table suffix predicate.
+
+The top-pairing schedule already proves that every closed rank begins with
+`xm, ym`.  This theorem records those two deterministic root steps through
+`StrengthenedBranchTable`, so future membership emitters can start from the
+semantic suffix after the Lean-proved prefix without storing direct evaluator
+steps or sampled path objects.
+-/
+theorem branchTableSuffixOk_root_of_closedPrefix2
+    {rank : Fin numPairWords}
+    {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank = Face.xm :: Face.ym :: rest)
+    (hsuffix : BranchTableSuffixOk rank closedPrefix2EvalState rest) :
+    BranchTableSuffixOk rank
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) := by
+  rw [hlabels]
+  refine BranchTableSuffixOk.graph
+    StrengthenedBranchTable.graph_000_s0000_xm ?_
+  intro nextState gain hnext _htailNext _hinvNext
+  rw [closed_prefix1_next] at hnext
+  cases hnext
+  refine BranchTableSuffixOk.graph
+    StrengthenedBranchTable.graph_124_s0142_ym ?_
+  intro nextState gain hnext _htailNext _hinvNext
+  rw [closed_prefix2_next_from_prefix1] at hnext
+  cases hnext
+  exact hsuffix
+
+theorem branchTableSuffixOk_root_of_closedPrefix2_forall
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix :
+      ∀ rest : List Face,
+        topPairingRankFaceLabels rank = Face.xm :: Face.ym :: rest ->
+          BranchTableSuffixOk rank closedPrefix2EvalState rest) :
+    BranchTableSuffixOk rank
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) := by
+  rcases topPairingStepScheduleLabels_prefix_xm_ym hclosed.schedule with
+    ⟨rest, hlabels⟩
+  exact branchTableSuffixOk_root_of_closedPrefix2 hlabels
+    (hsuffix rest hlabels)
+
 theorem branchTableSuffix1MSmoke_builds : True := by
   exact True.intro
 

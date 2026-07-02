@@ -25,6 +25,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `BranchTableSuffixOk` | suffix predicate storing branch-table evidence | `branch_table_suffix` |
 | `branchTableSuffixOk_local` | local progress from branch-table suffix | `branch_table_suffix` |
 | `eval_exists_of_branchTableSuffixOk` | whole-suffix evaluator from branch-table suffix | `branch_table_suffix` |
+| `branchTableSuffixOk_root_of_closedPrefix2` | semantic root-prefix lift into branch-table suffix | `branch_table_suffix` |
+| `branchTableSuffixOk_root_of_closedPrefix2_forall` | closed-rank root-prefix lift into branch-table suffix | `branch_table_suffix` |
 
 ## Guards
 
@@ -33,7 +35,7 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `branch_table_lake` | `0` | `6.01s` | `4296 MiB` | `None` |
 | `branch_table_progress_direct` | `0` | `2.00s` | `3544 MiB` | `None` |
 | `branch_table_progress_lake` | `0` | `4.01s` | `4067 MiB` | `None` |
-| `branch_table_suffix_direct` | `0` | `8.00s` | `3686 MiB` | `None` |
+| `branch_table_suffix_direct` | `0` | `6.01s` | `3515 MiB` | `None` |
 | `branch_table_suffix_lake` | `0` | `8.01s` | `4267 MiB` | `None` |
 
 ## Accepted Local Surface
@@ -50,6 +52,8 @@ socket150TpppBranch_impossible
 BranchTableSuffixOk
 branchTableSuffixOk_local
 eval_exists_of_branchTableSuffixOk
+branchTableSuffixOk_root_of_closedPrefix2
+branchTableSuffixOk_root_of_closedPrefix2_forall
 ```
 
 ## Remaining Production Theorem
