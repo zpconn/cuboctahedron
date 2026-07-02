@@ -252,6 +252,54 @@ theorem branchTableSuffixOk_root_of_closedPrefix3_forall
           hsuffix Face.zm rest nextState gain hlabels hnext htailNext
             hinvNext))
 
+/--
+Lightweight graph-indexed suffix predicate.
+
+This is the accepted shape for the next generated membership emitter: store
+finite graph-state branch-table evidence over small graph ids, then convert it
+to the full semantic evaluator suffix only when local evaluator progress is
+needed.
+-/
+inductive GraphBranchTableSuffixOk (rank : Fin numPairWords) :
+    State -> List Face -> Prop
+  | nil (graph : State) : GraphBranchTableSuffixOk rank graph []
+  | graph {graph : State} {face : Face} {rest : List Face}
+      (hbranch : StrengthenedBranchTable graph face BranchKind.graph)
+      (hrest :
+        ∀ graphNext gain,
+          graphSmokeNext graph (smokeLabelOfFace face) =
+            some (graphNext, gain) ->
+          GraphBranchTableSuffixOk rank graphNext rest) :
+      GraphBranchTableSuffixOk rank graph (face :: rest)
+
+theorem branchTableSuffixOk_of_graphBranchTableSuffixOk_aux
+    {rank : Fin numPairWords}
+    {graph : State} {faces : List Face}
+    (hsuffix : GraphBranchTableSuffixOk rank graph faces) :
+    ∀ state : FaceEvalState,
+      state.graph = graph -> BranchTableSuffixOk rank state faces := by
+  induction hsuffix with
+  | nil graph =>
+      intro state hstate
+      cases hstate
+      exact BranchTableSuffixOk.nil state
+  | graph hbranch hrest ih =>
+      intro state hstate
+      cases hstate
+      refine BranchTableSuffixOk.graph (by simpa using hbranch) ?_
+      intro nextState gain hnext _htailNext _hinvNext
+      have hgraph :=
+        TopPairingTransducerEvalState.graph_next_of_next?
+          (next := graphSmokeNext) (labelOfFace := smokeLabelOfFace) hnext
+      exact ih nextState.graph gain hgraph nextState rfl
+
+theorem branchTableSuffixOk_of_graphBranchTableSuffixOk
+    {rank : Fin numPairWords}
+    {state : FaceEvalState} {faces : List Face}
+    (hsuffix : GraphBranchTableSuffixOk rank state.graph faces) :
+    BranchTableSuffixOk rank state faces :=
+  branchTableSuffixOk_of_graphBranchTableSuffixOk_aux hsuffix state rfl
+
 theorem branchTableSuffix1MSmoke_builds : True := by
   exact True.intro
 

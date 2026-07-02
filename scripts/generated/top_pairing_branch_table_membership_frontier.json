@@ -29,13 +29,15 @@
     "branch_table_suffix": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 258,
+      "lines": 306,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSuffix1MSmoke.lean",
       "symbol_hits": {
-        "BranchTableSuffixOk": 24,
-        "StrengthenedBranchTable": 14,
+        "BranchTableSuffixOk": 37,
+        "GraphBranchTableSuffixOk": 6,
+        "StrengthenedBranchTable": 15,
         "branchTableSuffixOk_closedPrefix2_branch_of_closed": 4,
         "branchTableSuffixOk_local": 2,
+        "branchTableSuffixOk_of_graphBranchTableSuffixOk": 3,
         "branchTableSuffixOk_root_of_closedPrefix2": 6,
         "branchTableSuffixOk_root_of_closedPrefix2_forall": 1,
         "branchTableSuffixOk_root_of_closedPrefix3_forall": 1,
@@ -112,11 +114,11 @@
       "path": "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_lake_guard.json"
     },
     "branch_table_suffix_direct": {
-      "elapsed_seconds": 2.0020691660029115,
+      "elapsed_seconds": 2.0022079440095695,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 3600.2890625,
+      "max_tree_rss_mib": 3259.23828125,
       "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json"
     },
     "branch_table_suffix_lake": {
@@ -135,6 +137,9 @@
     "BranchTableSuffixOk": [
       "branch_table_suffix"
     ],
+    "GraphBranchTableSuffixOk": [
+      "branch_table_suffix"
+    ],
     "StrengthenedBranchTable": [
       "branch_table",
       "branch_table_progress",
@@ -150,6 +155,9 @@
       "branch_table_suffix"
     ],
     "branchTableSuffixOk_local": [
+      "branch_table_suffix"
+    ],
+    "branchTableSuffixOk_of_graphBranchTableSuffixOk": [
       "branch_table_suffix"
     ],
     "branchTableSuffixOk_root_of_closedPrefix2": [

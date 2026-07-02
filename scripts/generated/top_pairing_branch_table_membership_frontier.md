@@ -29,6 +29,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `branchTableSuffixOk_root_of_closedPrefix2_forall` | closed-rank root-prefix lift into branch-table suffix | `branch_table_suffix` |
 | `branchTableSuffixOk_closedPrefix2_branch_of_closed` | closed third-face branch lift into branch-table suffix | `branch_table_suffix` |
 | `branchTableSuffixOk_root_of_closedPrefix3_forall` | closed-rank third-face lift into branch-table suffix | `branch_table_suffix` |
+| `GraphBranchTableSuffixOk` | lightweight graph-indexed suffix predicate | `branch_table_suffix` |
+| `branchTableSuffixOk_of_graphBranchTableSuffixOk` | graph suffix conversion to semantic suffix | `branch_table_suffix` |
 
 ## Guards
 
@@ -37,7 +39,7 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `branch_table_lake` | `0` | `6.01s` | `4296 MiB` | `None` |
 | `branch_table_progress_direct` | `0` | `2.00s` | `3544 MiB` | `None` |
 | `branch_table_progress_lake` | `0` | `4.01s` | `4067 MiB` | `None` |
-| `branch_table_suffix_direct` | `0` | `2.00s` | `3600 MiB` | `None` |
+| `branch_table_suffix_direct` | `0` | `2.00s` | `3259 MiB` | `None` |
 | `branch_table_suffix_lake` | `0` | `3.00s` | `4003 MiB` | `None` |
 
 ## Accepted Local Surface
@@ -58,6 +60,8 @@ branchTableSuffixOk_root_of_closedPrefix2
 branchTableSuffixOk_root_of_closedPrefix2_forall
 branchTableSuffixOk_closedPrefix2_branch_of_closed
 branchTableSuffixOk_root_of_closedPrefix3_forall
+GraphBranchTableSuffixOk
+branchTableSuffixOk_of_graphBranchTableSuffixOk
 ```
 
 ## Remaining Production Theorem

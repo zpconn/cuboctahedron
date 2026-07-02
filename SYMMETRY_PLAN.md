@@ -81609,6 +81609,89 @@ objects in small concrete shards that avoid theorem conclusions indexed by
 large semantic eval-state definitions.
 ```
 
+### Graph-Indexed Branch Suffix Accepted
+
+Implemented the lighter suffix object indicated by the prefix-four failures:
+
+```lean
+GraphBranchTableSuffixOk :
+  Fin numPairWords -> State -> List Face -> Prop
+
+branchTableSuffixOk_of_graphBranchTableSuffixOk :
+  GraphBranchTableSuffixOk rank state.graph faces ->
+    BranchTableSuffixOk rank state faces
+```
+
+`GraphBranchTableSuffixOk` stores only the finite Bellman graph state id and
+the `StrengthenedBranchTable` graph branch evidence.  It deliberately avoids
+the earlier failed theorem shape:
+
+```lean
+BranchTableSuffixOk rank closedPrefix3TmpmEvalState (fourth :: rest)
+```
+
+The generic converter uses `graph_next_of_next?` to bridge a full semantic
+`faceEvalNext` step back to the small graph transition expected by the
+graph-indexed suffix.  This means future generated membership emitters can
+construct graph-id suffixes cheaply, then invoke the converter exactly where
+the full semantic evaluator proof needs it.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_branch_table_suffix_1m_smoke_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSuffix1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingBranchTableSuffix1MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| graph-indexed suffix direct Lean | pass | `2.00s` | `3259 MiB` |
+| branch-table suffix Lake target | pass | `4.00s` | `4107 MiB` |
+| membership-frontier audit | pass | `1.00s` | `0-1 MiB` |
+| forbidden/sampled scan | pass | no hits | n/a |
+
+Accepted decision:
+
+```text
+Use graph-indexed suffix objects as the next membership-emitter target.
+```
+
+Remaining production gap:
+
+```text
+Emit `GraphBranchTableSuffixOk rank graph suffix` from the closed semantic
+top-pairing suffix language, then convert it to `BranchTableSuffixOk` using
+`branchTableSuffixOk_of_graphBranchTableSuffixOk`.
+```
+
+This is the first accepted route that directly addresses the prefix-four
+heartbeat issue without weakening the semantic proof architecture.
+
 ### Branch-Table Third-Face Lift Added
 
 Extended the branch-table suffix predicate one semantic branch past the
