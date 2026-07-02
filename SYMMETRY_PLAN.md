@@ -64826,3 +64826,226 @@ trace id and margin bound can be obtained from compact terminal/source-position
 facts, continue Bellman.  If they require exact affine-RHS or one branch per
 accepted rank/path, reject Bellman production and move to the cancellation-tree
 summary automaton.
+
+### 2026-07-02 Terminal trace-id bucket adapter
+
+The trace-id bucket socket now has a terminal-pattern adapter.  This is the
+first bridge whose input shape resembles a real terminal classifier rather than
+an already-selected trace-id bucket.
+
+New finite converse theorem in
+`BellmanTopPairingGraphAcceptedTraceMarginBridge.lean`:
+
+```lean
+theorem acceptedTraceId_of_graphAcceptedTraceLabels :
+    GraphAcceptedTraceLabels labels ->
+    ∃ id : AcceptedTraceId, labels = acceptedTraceOfId id
+```
+
+Important engineering note:
+
+The first version proved each branch with:
+
+```lean
+by simpa [acceptedTraceOfId] using h
+```
+
+That caused the focused build to spend about `81s` in
+`BellmanTopPairingGraphAcceptedTraceMarginBridge.lean` and fail with:
+
+```text
+libc++abi: terminating due to uncaught exception of type lean::exception:
+failed to create thread
+```
+
+RSS stayed flat around `3.8-4.1 GiB`, so this was not an OOM.  It was a Lean
+elaboration/codegen stress point from simplifying full trace list literals in
+37 branches.  Replacing those branches with direct equality forwarding:
+
+```lean
+exact ⟨AcceptedTraceId.t000, h0⟩
+```
+
+made the same module build in `4.1s`.  New rule for generated Bellman trace
+bridges: avoid `simp`/`simpa` over full generated trace literals when a
+definitional equality or precomputed theorem can be forwarded directly.
+
+New terminal bucket predicate in
+`BellmanTopPairingTraceMarginBoundsSocket.lean`:
+
+```lean
+def TerminalTraceIdBucketClosedMarginFamily
+    (allowedTraceId : AcceptedTraceId -> Prop)
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    TopPairingActualFaceOmniAtRank rank /\
+      AcceptedSequenceBadFaceAtRank rank Face.ym /\
+        TerminalTraceLabels (topPairingRankFaceLabels rank) /\
+          ∀ traceId : AcceptedTraceId,
+            topPairingRankFaceLabels rank = acceptedTraceOfId traceId ->
+              allowedTraceId traceId /\
+                scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId
+```
+
+New bridge:
+
+```lean
+theorem traceIdBucketClosedMarginFamily_of_terminalTraceIdBucketClosedMarginFamily :
+    TerminalTraceIdBucketClosedMarginFamily
+      allowedTraceId scaledMargin rank ->
+    TraceIdBucketClosedMarginFamily allowedTraceId scaledMargin rank
+
+theorem evalLanguage_of_terminalTraceIdBucketClosedMarginFamily :
+    TerminalTraceIdBucketClosedMarginFamily
+      allowedTraceId scaledMargin rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem terminalTraceIdBucketClosedMarginFamily_scaledMargin_nonpos :
+    TerminalTraceIdBucketClosedMarginFamily
+      allowedTraceId scaledMargin rank ->
+    scaledMargin rank <= 0
+```
+
+The proof route is:
+
+```text
+closed cancellation + TerminalTraceLabels
+  -> Accepted.TerminalOkTraceLabels
+actual-face + bad-face filters
+  -> GraphAcceptedTraceLabels
+GraphAcceptedTraceLabels
+  -> ∃ AcceptedTraceId
+per-trace compact margin field
+  -> TraceIdBucketClosedMarginFamily
+  -> TerminalTraceMarginIdBoundComponentFamily
+  -> Bellman eval language
+  -> scaledMargin <= 0
+```
+
+The two-trace smoke now checks both direct bucket and terminal bucket consumers:
+
+```lean
+def Trace000001TerminalClosedMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TerminalTraceIdBucketClosedMarginFamily Trace000001Allowed scaledMargin rank
+
+theorem trace000001TerminalFamily_evalLanguage :
+    Trace000001TerminalClosedMarginFamily scaledMargin rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem trace000001TerminalFamily_scaledMargin_nonpos :
+    Trace000001TerminalClosedMarginFamily scaledMargin rank ->
+    scaledMargin rank <= 0
+```
+
+Guarded focused Lake check after the direct-equality fix:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_trace_bucket_component_family_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceBucketComponentFamilySmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 9.02s
+peak_tree_rss = 4149 MiB
+hard_as = 32768 MiB
+min_available = 45994 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_trace_bucket_component_family_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceBucketComponentFamilySmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3634 MiB
+hard_as = 8192 MiB
+min_available = 46282 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 691 lines
+BellmanTopPairingTraceMarginBoundsSocket.lean        = 796 lines
+BellmanTopPairingTraceBucketComponentFamilySmoke.lean = 75 lines
+BellmanTopPairingTrace000ComponentFamilySmoke.lean   = 121 lines
+TopPairingBellmanObject.lean                         = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceBucketComponentFamilySmoke.lean
+```
+
+`git diff --check` passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept the terminal trace-id bucket adapter.  It moves the Bellman experiment
+one layer closer to production: a terminal classifier can supply closed
+language, actual-face, bad-face, terminal trace, and a compact per-trace margin
+condition, and Lean derives the accepted trace id and Bellman consequence.
+
+This does not yet prove that real source-position classes can satisfy the
+per-trace margin condition compactly.  That remains the decisive go/no-go
+subgoal.  The implementation also records a concrete Lean performance rule:
+do not simplify generated trace literals in branch-heavy theorem proofs.
+
+Next action:
+
+Create or profile one actual terminal/source-position class whose generated
+facts imply the final field:
+
+```lean
+∀ traceId,
+  topPairingRankFaceLabels rank = acceptedTraceOfId traceId ->
+    allowedTraceId traceId /\
+      scaledMargin rank <= 176 + acceptedTraceGain traceId
+```
+
+If this field needs a rank-indexed affine table, reject Bellman production.  If
+it can be proved by a compact source-position/margin inequality, continue
+toward full generated family emission.

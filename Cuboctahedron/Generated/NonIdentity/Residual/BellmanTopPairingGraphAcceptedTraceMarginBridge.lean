@@ -114,6 +114,53 @@ theorem graphAcceptedTraceLabels_of_id
   subst labels
   cases id <;> simp [GraphAcceptedTraceLabels, acceptedTraceOfId]
 
+theorem acceptedTraceId_of_graphAcceptedTraceLabels
+    {labels : List Face}
+    (hlabels : GraphAcceptedTraceLabels labels) :
+    ∃ id : AcceptedTraceId, labels = acceptedTraceOfId id := by
+  unfold GraphAcceptedTraceLabels at hlabels
+  rcases hlabels with h0 | h1 | h2 | h3 | h4 | h5 | h6 | h7 | h8 |
+      h9 | h10 | h11 | h12 | h13 | h14 | h15 | h16 | h17 | h18 |
+      h19 | h20 | h21 | h22 | h23 | h24 | h25 | h26 | h27 | h28 |
+      h29 | h30 | h31 | h32 | h33 | h34 | h35 | h36
+  · exact ⟨AcceptedTraceId.t000, h0⟩
+  · exact ⟨AcceptedTraceId.t001, h1⟩
+  · exact ⟨AcceptedTraceId.t002, h2⟩
+  · exact ⟨AcceptedTraceId.t003, h3⟩
+  · exact ⟨AcceptedTraceId.t004, h4⟩
+  · exact ⟨AcceptedTraceId.t005, h5⟩
+  · exact ⟨AcceptedTraceId.t006, h6⟩
+  · exact ⟨AcceptedTraceId.t007, h7⟩
+  · exact ⟨AcceptedTraceId.t008, h8⟩
+  · exact ⟨AcceptedTraceId.t009, h9⟩
+  · exact ⟨AcceptedTraceId.t010, h10⟩
+  · exact ⟨AcceptedTraceId.t011, h11⟩
+  · exact ⟨AcceptedTraceId.t012, h12⟩
+  · exact ⟨AcceptedTraceId.t013, h13⟩
+  · exact ⟨AcceptedTraceId.t014, h14⟩
+  · exact ⟨AcceptedTraceId.t015, h15⟩
+  · exact ⟨AcceptedTraceId.t016, h16⟩
+  · exact ⟨AcceptedTraceId.t017, h17⟩
+  · exact ⟨AcceptedTraceId.t018, h18⟩
+  · exact ⟨AcceptedTraceId.t019, h19⟩
+  · exact ⟨AcceptedTraceId.t020, h20⟩
+  · exact ⟨AcceptedTraceId.t021, h21⟩
+  · exact ⟨AcceptedTraceId.t022, h22⟩
+  · exact ⟨AcceptedTraceId.t023, h23⟩
+  · exact ⟨AcceptedTraceId.t024, h24⟩
+  · exact ⟨AcceptedTraceId.t025, h25⟩
+  · exact ⟨AcceptedTraceId.t026, h26⟩
+  · exact ⟨AcceptedTraceId.t027, h27⟩
+  · exact ⟨AcceptedTraceId.t028, h28⟩
+  · exact ⟨AcceptedTraceId.t029, h29⟩
+  · exact ⟨AcceptedTraceId.t030, h30⟩
+  · exact ⟨AcceptedTraceId.t031, h31⟩
+  · exact ⟨AcceptedTraceId.t032, h32⟩
+  · exact ⟨AcceptedTraceId.t033, h33⟩
+  · exact ⟨AcceptedTraceId.t034, h34⟩
+  · exact ⟨AcceptedTraceId.t035, h35⟩
+  · exact ⟨AcceptedTraceId.t036, h36⟩
+
 theorem acceptedTraceOfId_ne_rejectedGraphTrace_004
     (id : AcceptedTraceId) :
     acceptedTraceOfId id ≠

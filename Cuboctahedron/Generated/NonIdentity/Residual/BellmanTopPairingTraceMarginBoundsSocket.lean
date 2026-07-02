@@ -714,6 +714,82 @@ theorem traceIdBucketClosedMarginFamily_scaledMargin_nonpos
   terminalTraceMarginIdBoundComponentFamily_scaledMargin_nonpos
     traceIdBucketTerminalTraceMarginIdBoundComponentFamily hrank
 
+def TerminalTraceIdBucketClosedMarginFamily
+    (allowedTraceId : AcceptedTraceId -> Prop)
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    TopPairingActualFaceOmniAtRank rank /\
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym /\
+        TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+          (topPairingRankFaceLabels rank) /\
+          ∀ traceId : AcceptedTraceId,
+            topPairingRankFaceLabels rank = acceptedTraceOfId traceId ->
+              allowedTraceId traceId /\
+                scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId
+
+theorem traceIdBucketClosedMarginFamily_of_terminalTraceIdBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdBucketClosedMarginFamily
+        allowedTraceId scaledMargin rank) :
+    TraceIdBucketClosedMarginFamily allowedTraceId scaledMargin rank := by
+  rcases hrank with
+    ⟨hclosed, hactual, hbad, hterminal, hmarginForTrace⟩
+  have hterminalOk :
+      TopPairingTraceClassifier.Accepted.TerminalOkTraceLabels
+        (topPairingRankFaceLabels rank) :=
+    TopPairingTraceClassifier.TerminalOk.terminalOk_of_terminalTrace_and_cancellation
+      (TopPairingClosedLanguageAtRank.cancellationLabels hclosed)
+      hterminal
+  have hactualLabels :
+      TopPairingActualFaceOmniLabels (topPairingRankFaceLabels rank) := by
+    simpa [TopPairingActualFaceOmniAtRank] using hactual
+  have hbadLabels :
+      TopPairingTraceClassifier.Accepted.SequenceBadFaceLabels
+        (topPairingRankFaceLabels rank) Face.ym := by
+    simpa
+      [Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank]
+      using hbad
+  have hgraph :
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalGate.GraphAcceptedTraceLabels
+        (topPairingRankFaceLabels rank) :=
+    TopPairingTraceClassifier.Accepted.graphAcceptedTraceLabels_of_terminalOk_filters
+      hterminalOk hactualLabels hbadLabels
+  rcases acceptedTraceId_of_graphAcceptedTraceLabels hgraph with
+    ⟨traceId, htrace⟩
+  rcases hmarginForTrace traceId htrace with ⟨hallowed, hmargin⟩
+  exact ⟨hclosed, traceId, hallowed, htrace, hmargin⟩
+
+theorem evalLanguage_of_terminalTraceIdBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdBucketClosedMarginFamily
+        allowedTraceId scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_traceIdBucketClosedMarginFamily
+    (traceIdBucketClosedMarginFamily_of_terminalTraceIdBucketClosedMarginFamily
+      hrank)
+
+theorem terminalTraceIdBucketClosedMarginFamily_scaledMargin_nonpos
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdBucketClosedMarginFamily
+        allowedTraceId scaledMargin rank) :
+    scaledMargin rank <= 0 :=
+  traceIdBucketClosedMarginFamily_scaledMargin_nonpos
+    (traceIdBucketClosedMarginFamily_of_terminalTraceIdBucketClosedMarginFamily
+      hrank)
+
 theorem trace_margin_bounds_socket_builds : True := by
   exact True.intro
 
