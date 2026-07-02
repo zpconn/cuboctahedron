@@ -86514,3 +86514,99 @@ The proof should proceed through a target-shadow / cancellation cursor and
 local state transitions.  A generated module may expose finite state IDs and
 local edge facts, but it must not expose selected trace IDs, sampled ranks, or
 a rank/path disjunction.
+
+#### Split-10M Semantic Closed-Gate Socket
+
+Added the generated-side socket that specializes the generic semantic gate to
+the checked split-10M top-pairing Bellman graph:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticClosedGateSocket.lean
+```
+
+The module exposes the exact proposition future generated membership modules
+should prove:
+
+```lean
+abbrev Split10MClosedToEvalGate
+    (scaledMargin : Fin numPairWords -> Int) : Prop :=
+  TopPairingClosedToEvalGate
+    graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+    scaledMargin Face.ym
+
+abbrev Split10MStrengthenedToEvalGate
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop :=
+  TopPairingStrengthenedToEvalGate
+    graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+    scaledMargin sequenceBadFace Face.ym
+```
+
+and composes either semantic gate with the already checked graph transition
+root:
+
+```lean
+theorem scaledMargin_nonpos_of_split10MClosedToEvalGate
+
+theorem scaledMargin_nonpos_of_split10MStrengthenedToEvalGate
+```
+
+This file intentionally does not prove the hard local membership theorem.
+Instead it fixes the production target:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  TopPairingBellmanEvalLanguageAtRank
+    graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+    scaledMargin rank Face.ym
+```
+
+or the strengthened-language analogue.  A future generated module should prove
+that target through deterministic semantic state transitions and then call this
+socket for the Bellman contradiction.
+
+Commands:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|Float|Float32|Float64|Double|SampledRankIndex|sampledContainsRank|sampledRankOf" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticClosedGateSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_closed_gate_socket_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticClosedGateSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_closed_gate_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticClosedGateSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| hygiene scan | pass | n/a | n/a | n/a |
+| direct `BellmanTopPairingSemanticClosedGateSocket.lean` | pass | `8.01s` | `3553 MiB` | `46040 MiB` |
+| Lake `BellmanTopPairingSemanticClosedGateSocket` | pass | `3.00s` | `3955 MiB` | `45857 MiB` |
+
+Decision: accepted as the current top-pairing production socket.  Do not add
+more selected-prefix producer bridges.  The next implementation target is the
+local deterministic semantic membership theorem feeding
+`Split10MClosedToEvalGate` or `Split10MStrengthenedToEvalGate`.
