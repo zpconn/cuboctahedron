@@ -6,8 +6,16 @@
     "prefix_graph_rejects": 197,
     "rejected": 10
   },
+  "cover_root_producer_guard": {
+    "elapsed_seconds": 2.0025510150007904,
+    "exit_code": 0,
+    "hard_address_space_mib": 8192.0,
+    "killed_reason": null,
+    "max_tree_rss_mib": 3685.296875
+  },
   "current_provider_source": "SelectedPrefixCoverFamily scaledMargin rank",
-  "decision": "bounded-provider-surface-accepted-full-provider-not-yet-proved",
+  "current_root_producer_source": "SelectedPrefixTraceMarginFamily or SelectedPrefixCoverFamily",
+  "decision": "bounded-root-producer-and-provider-surfaces-accepted-full-coverage-not-yet-proved",
   "forbidden_hit_count": 0,
   "forbidden_hits": [],
   "guard": {
@@ -34,6 +42,16 @@
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixProviderFamilySmoke.lean"
     },
     {
+      "bytes": 29423,
+      "lines": 652,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean"
+    },
+    {
+      "bytes": 1629,
+      "lines": 31,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverRootProducerBridge.lean"
+    },
+    {
       "bytes": 2108,
       "lines": 46,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.lean"
@@ -44,7 +62,7 @@
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/All.lean"
     }
   ],
-  "next_required_artifact": "representative full-provider semantic leaf for TerminalDirectClosedFamily",
+  "next_required_artifact": "representative production semantic coverage leaf into selected-prefix/root-producer surface",
   "provider_surface": {
     "consumer_theorem": "nonIdentityRankKilled_of_providerFamily",
     "lean_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectProviderSurface.lean",
@@ -71,10 +89,23 @@
     "provider_family": "selectedPrefixTerminalDirectProviderFamily",
     "source_family": "SelectedPrefixCoverFamily scaledMargin rank"
   },
+  "root_producer_leaf": {
+    "consumer_theorem": "RootTraceMarginProducer",
+    "cover_lean_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverRootProducerBridge.lean",
+    "source_family": "SelectedPrefixTraceMarginFamily or SelectedPrefixCoverFamily",
+    "trace_margin_lean_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean"
+  },
   "selected_prefix_cover": {
     "accepted_trace_count": 37,
     "bucket_count": 31,
     "group_count": 7,
     "root_lean_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/All.lean"
+  },
+  "trace_margin_root_producer_guard": {
+    "elapsed_seconds": 7.017178896989208,
+    "exit_code": 0,
+    "hard_address_space_mib": 8192.0,
+    "killed_reason": null,
+    "max_tree_rss_mib": 4129.71875
   }
 }

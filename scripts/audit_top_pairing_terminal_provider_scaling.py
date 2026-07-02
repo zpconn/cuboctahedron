@@ -34,6 +34,10 @@ LEAN_FILES = [
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingSelectedPrefixProviderFamilySmoke.lean",
     "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingSelectedPrefixCoverRootProducerBridge.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingTerminalDirectSequenceSocket.lean",
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingStateDAGSelectedPrefixCover/All.lean",
@@ -74,6 +78,7 @@ def render_md(payload: dict[str, Any]) -> str:
         "",
         f"- decision: `{payload['decision']}`",
         f"- current provider source: `{payload['current_provider_source']}`",
+        f"- current root-producer source: `{payload['current_root_producer_source']}`",
         f"- selected-prefix buckets: `{payload['selected_prefix_cover']['bucket_count']}`",
         f"- selected-prefix groups: `{payload['selected_prefix_cover']['group_count']}`",
         f"- accepted trace ids covered by selected-prefix source: `{payload['selected_prefix_cover']['accepted_trace_count']}`",
@@ -164,6 +169,41 @@ def render_md(payload: dict[str, Any]) -> str:
         f"- hard address-space MiB: `{payload['representative_provider_guard']['hard_address_space_mib']}`",
         f"- killed reason: `{payload['representative_provider_guard']['killed_reason']}`",
         "",
+        "## Root Trace-Margin Producer Chain",
+        "",
+        "The bounded selected-prefix surfaces now also feed the preferred",
+        "`RootTraceMarginProducer` socket:",
+        "",
+        "```lean",
+        "theorem rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily",
+        "    {scaledMargin : Fin numPairWords -> Int}",
+        "    {rank : Fin numPairWords}",
+        "    (hrank : SelectedPrefixTraceMarginFamily scaledMargin rank) :",
+        "    RootTraceMarginProducer scaledMargin rank",
+        "",
+        "theorem rootTraceMarginProducer_of_selectedPrefixCoverFamily",
+        "    {scaledMargin : Fin numPairWords -> Int}",
+        "    {rank : Fin numPairWords}",
+        "    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :",
+        "    RootTraceMarginProducer scaledMargin rank",
+        "```",
+        "",
+        "Selected-prefix trace-margin root-producer guard:",
+        "",
+        f"- exit: `{payload['trace_margin_root_producer_guard']['exit_code']}`",
+        f"- elapsed seconds: `{payload['trace_margin_root_producer_guard']['elapsed_seconds']}`",
+        f"- peak RSS MiB: `{payload['trace_margin_root_producer_guard']['max_tree_rss_mib']}`",
+        f"- hard address-space MiB: `{payload['trace_margin_root_producer_guard']['hard_address_space_mib']}`",
+        f"- killed reason: `{payload['trace_margin_root_producer_guard']['killed_reason']}`",
+        "",
+        "Selected-prefix cover root-producer guard:",
+        "",
+        f"- exit: `{payload['cover_root_producer_guard']['exit_code']}`",
+        f"- elapsed seconds: `{payload['cover_root_producer_guard']['elapsed_seconds']}`",
+        f"- peak RSS MiB: `{payload['cover_root_producer_guard']['max_tree_rss_mib']}`",
+        f"- hard address-space MiB: `{payload['cover_root_producer_guard']['hard_address_space_mib']}`",
+        f"- killed reason: `{payload['cover_root_producer_guard']['killed_reason']}`",
+        "",
         "## Source Size",
         "",
         "| file | lines | bytes |",
@@ -207,9 +247,16 @@ def render_md(payload: dict[str, Any]) -> str:
             "  (topPairingRankFaceLabels rank)",
             "```",
             "",
-            "It does not need to expose Bellman margin data for the direct",
-            "terminal route.  It must also avoid sampled rank/path objects,",
-            "exact affine-RHS keys, and branch-per-rank generated proofs.",
+            "For the root-producer route it may instead prove either:",
+            "",
+            "```lean",
+            "SelectedPrefixTraceMarginFamily scaledMargin rank",
+            "SelectedPrefixCoverFamily scaledMargin rank",
+            "```",
+            "",
+            "Both feed `RootTraceMarginProducer`.  The production proof must",
+            "avoid sampled rank/path objects, exact affine-RHS keys, and",
+            "branch-per-rank generated proofs.",
             "",
             "## Next Gate",
             "",
@@ -217,6 +264,8 @@ def render_md(payload: dict[str, Any]) -> str:
             "  ranks by semantic terminal/provider state, not by selected trace id",
             "  alone.",
             "- Emit a bounded representative provider leaf whose public theorem is",
+            "  either `SelectedPrefixTraceMarginFamily scaledMargin rank`,",
+            "  `SelectedPrefixCoverFamily scaledMargin rank`, or",
             "  `TerminalDirectClosedFamily rank` for a semantic family predicate.",
             "- Guard-check that representative leaf and record RSS/time/source size.",
             "- Continue only if projected full provider families stay in the",
@@ -250,12 +299,24 @@ def main() -> None:
     representative_guard = load_json(
         "scripts/generated/top_pairing_selected_prefix_provider_family_smoke_guard.json"
     )
+    trace_margin_root_guard = load_json(
+        "scripts/generated/"
+        "top_pairing_selected_prefix_trace_margin_root_producer_bridge_guard.json"
+    )
+    cover_root_guard = load_json(
+        "scripts/generated/top_pairing_selected_prefix_cover_root_producer_bridge_guard.json"
+    )
 
     hits = [hit for rel in LEAN_FILES for hit in forbidden_hits(rel)]
     stats = closed.get("stats", {})
     payload: dict[str, Any] = {
-        "decision": "bounded-provider-surface-accepted-full-provider-not-yet-proved",
+        "decision": (
+            "bounded-root-producer-and-provider-surfaces-accepted-full-coverage-not-yet-proved"
+        ),
         "current_provider_source": "SelectedPrefixCoverFamily scaledMargin rank",
+        "current_root_producer_source": (
+            "SelectedPrefixTraceMarginFamily or SelectedPrefixCoverFamily"
+        ),
         "closed_graph_audit": {
             "decision": closed.get("decision"),
             "closed_candidates": stats.get("closed_candidates"),
@@ -290,6 +351,20 @@ def main() -> None:
             "hard_address_space_mib": representative_guard.get("hard_address_space_mib"),
             "killed_reason": representative_guard.get("killed_reason"),
         },
+        "trace_margin_root_producer_guard": {
+            "exit_code": trace_margin_root_guard.get("exit_code"),
+            "elapsed_seconds": trace_margin_root_guard.get("elapsed_seconds"),
+            "max_tree_rss_mib": trace_margin_root_guard.get("max_tree_rss_mib"),
+            "hard_address_space_mib": trace_margin_root_guard.get("hard_address_space_mib"),
+            "killed_reason": trace_margin_root_guard.get("killed_reason"),
+        },
+        "cover_root_producer_guard": {
+            "exit_code": cover_root_guard.get("exit_code"),
+            "elapsed_seconds": cover_root_guard.get("elapsed_seconds"),
+            "max_tree_rss_mib": cover_root_guard.get("max_tree_rss_mib"),
+            "hard_address_space_mib": cover_root_guard.get("hard_address_space_mib"),
+            "killed_reason": cover_root_guard.get("killed_reason"),
+        },
         "provider_surface": {
             "lean_file": (
                 "Cuboctahedron/Generated/NonIdentity/Residual/"
@@ -308,11 +383,25 @@ def main() -> None:
             "provider_family": "selectedPrefixTerminalDirectProviderFamily",
             "consumer_theorem": "nonIdentityRankKilled_of_selectedPrefixProviderFamily",
         },
+        "root_producer_leaf": {
+            "trace_margin_lean_file": (
+                "Cuboctahedron/Generated/NonIdentity/Residual/"
+                "BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean"
+            ),
+            "cover_lean_file": (
+                "Cuboctahedron/Generated/NonIdentity/Residual/"
+                "BellmanTopPairingSelectedPrefixCoverRootProducerBridge.lean"
+            ),
+            "source_family": (
+                "SelectedPrefixTraceMarginFamily or SelectedPrefixCoverFamily"
+            ),
+            "consumer_theorem": "RootTraceMarginProducer",
+        },
         "lean_file_stats": [stat_file(rel) for rel in LEAN_FILES],
         "forbidden_hit_count": len(hits),
         "forbidden_hits": hits,
         "next_required_artifact": (
-            "representative full-provider semantic leaf for TerminalDirectClosedFamily"
+            "representative production semantic coverage leaf into selected-prefix/root-producer surface"
         ),
     }
 

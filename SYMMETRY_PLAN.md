@@ -75200,3 +75200,212 @@ SelectedPrefixCoverFamily scaledMargin rank
 ```
 
 - Do not add more wrapper bridges until that coverage question is answered.
+
+## 2026-07-02 Checkpoint: Root-Producer Scaling Audit Refreshed
+
+Updated the terminal/provider scaling audit so it reflects the current
+root-producer bridge layer rather than the older terminal-direct-only route.
+
+Updated files:
+
+```text
+scripts/audit_top_pairing_terminal_provider_scaling.py
+scripts/generated/top_pairing_terminal_provider_scaling.json
+scripts/generated/top_pairing_terminal_provider_scaling.md
+```
+
+New audit decision:
+
+```text
+bounded-root-producer-and-provider-surfaces-accepted-full-coverage-not-yet-proved
+```
+
+The audit now records these guarded checks:
+
+```text
+selected-prefix trace-margin root-producer guard:
+  exit=0
+  elapsed=7.02s
+  peak_tree_rss=4129 MiB
+  hard_as=8192 MiB
+
+selected-prefix cover root-producer guard:
+  exit=0
+  elapsed=2.00s
+  peak_tree_rss=3685 MiB
+  hard_as=8192 MiB
+```
+
+It also keeps the older provider/direct guarded checks in the same report:
+
+```text
+provider surface:              exit=0, peak RSS=2177.84375 MiB
+selected-prefix direct bridge: exit=0, peak RSS=3613.453125 MiB
+provider-family smoke:         exit=0, peak RSS=3984.59765625 MiB
+```
+
+Current interpretation:
+
+- The bounded root-producer and provider theorem surfaces are accepted.
+- Full production coverage is still not proved.
+- The next artifact must be a representative production semantic coverage
+  leaf into one of:
+
+```lean
+SelectedPrefixTraceMarginFamily scaledMargin rank
+SelectedPrefixCoverFamily scaledMargin rank
+TerminalDirectClosedFamily rank
+```
+
+- It must be grouped by semantic terminal/provider state, not by selected trace
+  id alone, sampled path, exact affine RHS, or one branch per concrete rank.
+
+## 2026-07-02 Strategy Adjustment: One More Bellman Semantic-Membership Gate
+
+GPT5.5 Pro's latest recommendation changes the immediate priority.  The
+Bellman potential itself is still the right mathematical shape for this
+nonidentity margin family, but the decisive blocker is no longer another
+potential, another wrapper, or another sampled smoke.  The decisive blocker is
+whether the semantic closed-language predicate can drive the deterministic
+Bellman evaluator without a sampled rank/path object.
+
+The existing Lean scaffold already has the requested semantic object surface in
+`Cuboctahedron/Search/TopPairingBellmanObject.lean`:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+
+def topPairingClosedMembership ...
+
+structure TopPairingBellmanEvalLanguageAtRank ...
+
+def topPairingBellmanEvalObjectCoverOfClosedToEval ...
+```
+
+So the next hard theorem is not another selected-prefix/root-producer adapter.
+It is the closed-language-to-evaluator theorem:
+
+```lean
+forall rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState graphConst
+      scaledMargin rank Face.ym
+```
+
+or the same theorem with the production `next`, label, constant, and
+`scaledMargin` names after adapting to the actual generated graph.  Expanded,
+the theorem must supply:
+
+```lean
+exists result,
+  evalLabelStepFn next start
+    (faceLabelsInContributionOrder labelOfFace
+      (canonicalSeqOfPairWord (unrankPairWord rank))) = some result /\
+  0 <= V result.1 /\
+  scaledMargin rank <= const + result.2
+```
+
+This theorem is the go/no-go gate for continuing Bellman as a formalization
+strategy.  The object should remain:
+
+```lean
+{ rank : Fin numPairWords //
+    TopPairingClosedLanguageAtRank rank Face.ym }
+```
+
+The run should be computed by `evalLabelStepFn`; it should not be stored as a
+sampled path list or supplied by an indexed sample table.
+
+Immediate adjusted work order:
+
+1. Stop adding wrapper bridges unless they directly simplify the theorem above.
+2. Inspect the existing closed-eval smoke and graph-accepted eval gate to find
+   the smallest nontrivial closed-language evaluator theorem already proved.
+3. Try to lift that theorem to the semantic closed-language surface:
+
+   ```lean
+   TopPairingClosedLanguageAtRank rank Face.ym ->
+     TopPairingBellmanEvalLanguageAtRank ... rank Face.ym
+   ```
+
+   using `TopPairingClosedLanguageAtRank.cancellation`,
+   `TopPairingClosedLanguageAtRank.schedule`,
+   `TopPairingClosedLanguageAtRank.squareGap`,
+   `TopPairingClosedLanguageAtRank.localAxis`, and
+   `TopPairingClosedLanguageAtRank.canonicalBadFace`.
+4. Guard-check the resulting module with `lake env lean -j1 -M8192` under
+   `scripts/run_memory_guarded.py`.
+5. Run the sampled-token audit:
+
+   ```bash
+   rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext" \
+     Cuboctahedron/Search/TopPairingBellmanObject.lean \
+     Cuboctahedron/Generated/NonIdentity/Residual/<new-closed-to-eval-file>.lean
+   ```
+
+Accepted outcome:
+
+- the theorem above builds;
+- no `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`,
+  `sampledSmokeNext`, one-branch-per-rank/path table, exact affine-RHS key, or
+  packed checker path appears in the new theorem module;
+- RSS remains in the same bounded range as the current semantic surfaces
+  (roughly 3-5 GiB for the representative check).
+
+Rejected outcome:
+
+- the theorem requires a sampled rank/path object;
+- the proof degenerates into one generated branch per rank/path;
+- the required semantic fields are too weak and the missing data is essentially
+  a sampled run.
+
+If rejected, do not keep stretching this Bellman membership route.  Promote the
+cancellation-tree summary automaton fallback: make the semantic state carry the
+cancellation progress needed by the evaluator, and prove a state-language
+theorem directly over that automaton.
+
+Validation for this strategy adjustment:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_terminal_provider_scaling.py
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe" \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverRootProducerBridge.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean
+python3 scripts/audit_top_pairing_terminal_provider_scaling.py
+lake env lean -j1 -M8192 Cuboctahedron/Search/TopPairingBellmanObject.lean
+```
+
+Results:
+
+```text
+py_compile: exit=0
+git diff --check: exit=0
+sampled/forbidden token scan over the semantic object and current bridge files:
+  exit=1, no hits
+terminal provider/root-producer audit:
+  decision=bounded-root-producer-and-provider-surfaces-accepted-full-coverage-not-yet-proved
+TopPairingBellmanObject direct Lean check:
+  exit=0, elapsed=1.60s
+```
+
+The hard address-space memory wrapper was also tried on
+`TopPairingBellmanObject.lean`:
+
+```text
+exit=134
+elapsed=19.01s
+peak_tree_rss=3934 MiB
+hard_as=8192 MiB
+min_available=46190 MiB
+error=failed to create thread
+```
+
+This is the known process-level address-space/thread-creation interaction, not
+a Lean theorem failure and not an OOM event.  For this target, use direct
+`lake env lean -j1 -M8192`; reserve the external guard for targets where it
+does not trip thread creation.

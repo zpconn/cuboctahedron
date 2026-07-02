@@ -4,8 +4,9 @@ This is diagnostic evidence, not proof.  It records the current
 scaling boundary for the terminal-direct provider route after the
 selected-prefix provider bridge was Lean-checked.
 
-- decision: `bounded-provider-surface-accepted-full-provider-not-yet-proved`
+- decision: `bounded-root-producer-and-provider-surfaces-accepted-full-coverage-not-yet-proved`
 - current provider source: `SelectedPrefixCoverFamily scaledMargin rank`
+- current root-producer source: `SelectedPrefixTraceMarginFamily or SelectedPrefixCoverFamily`
 - selected-prefix buckets: `31`
 - selected-prefix groups: `7`
 - accepted trace ids covered by selected-prefix source: `37`
@@ -96,6 +97,41 @@ Representative leaf guarded check:
 - hard address-space MiB: `12288.0`
 - killed reason: `None`
 
+## Root Trace-Margin Producer Chain
+
+The bounded selected-prefix surfaces now also feed the preferred
+`RootTraceMarginProducer` socket:
+
+```lean
+theorem rootTraceMarginProducer_of_selectedPrefixTraceMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixTraceMarginFamily scaledMargin rank) :
+    RootTraceMarginProducer scaledMargin rank
+
+theorem rootTraceMarginProducer_of_selectedPrefixCoverFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :
+    RootTraceMarginProducer scaledMargin rank
+```
+
+Selected-prefix trace-margin root-producer guard:
+
+- exit: `0`
+- elapsed seconds: `7.017178896989208`
+- peak RSS MiB: `4129.71875`
+- hard address-space MiB: `8192.0`
+- killed reason: `None`
+
+Selected-prefix cover root-producer guard:
+
+- exit: `0`
+- elapsed seconds: `2.0025510150007904`
+- peak RSS MiB: `3685.296875`
+- hard address-space MiB: `8192.0`
+- killed reason: `None`
+
 ## Source Size
 
 | file | lines | bytes |
@@ -103,12 +139,14 @@ Representative leaf guarded check:
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectProviderSurface.lean` | `73` | `3094` |
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean` | `163` | `6619` |
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixProviderFamilySmoke.lean` | `64` | `2763` |
+| `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginRootProducerBridge.lean` | `652` | `29423` |
+| `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverRootProducerBridge.lean` | `31` | `1629` |
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalDirectSequenceSocket.lean` | `46` | `2108` |
 | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/All.lean` | `66` | `3386` |
 
 ## Forbidden Token Scan
 
-- scanned files: `5`
+- scanned files: `7`
 - forbidden hits: `0`
 
 No forbidden tokens were found in the scanned files.
@@ -132,9 +170,16 @@ TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
   (topPairingRankFaceLabels rank)
 ```
 
-It does not need to expose Bellman margin data for the direct
-terminal route.  It must also avoid sampled rank/path objects,
-exact affine-RHS keys, and branch-per-rank generated proofs.
+For the root-producer route it may instead prove either:
+
+```lean
+SelectedPrefixTraceMarginFamily scaledMargin rank
+SelectedPrefixCoverFamily scaledMargin rank
+```
+
+Both feed `RootTraceMarginProducer`.  The production proof must
+avoid sampled rank/path objects, exact affine-RHS keys, and
+branch-per-rank generated proofs.
 
 ## Next Gate
 
@@ -142,6 +187,8 @@ exact affine-RHS keys, and branch-per-rank generated proofs.
   ranks by semantic terminal/provider state, not by selected trace id
   alone.
 - Emit a bounded representative provider leaf whose public theorem is
+  either `SelectedPrefixTraceMarginFamily scaledMargin rank`,
+  `SelectedPrefixCoverFamily scaledMargin rank`, or
   `TerminalDirectClosedFamily rank` for a semantic family predicate.
 - Guard-check that representative leaf and record RSS/time/source size.
 - Continue only if projected full provider families stay in the
