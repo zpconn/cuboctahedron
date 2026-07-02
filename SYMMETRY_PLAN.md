@@ -58714,3 +58714,57 @@ memory guard that the next scaling step should be multi-file shard layout, not
 a monolithic depth-7 file.  Depth 7 has 209 prefixes and 68 parent shards; if
 kept in one module, lift/disjunction overhead will likely dominate before the
 semantic proof itself does.
+
+Generated depth-7 multi-file layout smoke:
+
+- Added `scripts/emit_top_pairing_trace_classifier_depth7_shards.py`.
+- The emitter writes 68 shard modules under
+  `Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Depth7/`
+  plus a generated `All.lean` root combiner.
+- Each shard proves only the local depth-7 child alternatives for one depth-6
+  parent prefix.  The root is the only generated module that contains the full
+  depth-7 disjunction.
+- The generated summary reports:
+
+```text
+depth = 7
+parent depth = 6
+parent prefix count = 68
+depth-7 prefix count = 209
+shard count = 68
+min children per shard = 1
+max children per shard = 5
+sampled_rank_or_path_data = false
+```
+
+Validation:
+
+```bash
+python3 -m py_compile scripts/emit_top_pairing_trace_classifier_depth7_shards.py
+python3 scripts/emit_top_pairing_trace_classifier_depth7_shards.py
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 35000 \
+  --timeout-seconds 300 \
+  --json scripts/generated/top_pairing_trace_classifier_depth7_shard006_guard.json \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Depth7.Shard006
+```
+
+Result:
+
+```text
+Depth7 Shard006:
+  passed
+  peak_tree_rss = 4076 MiB
+  elapsed = 5.00s
+  largest shard source size = 2426 bytes
+  Shard006 build target source size = 2426 bytes
+  root combiner source size = 320838 bytes / 1630 lines
+```
+
+Decision: local depth-7 shard layout is accepted.  The generated root is not
+yet accepted as a build target: before building `Depth7.All`, add a serial or
+otherwise memory-bounded shard build workflow so Lake does not accidentally
+compile many imported shard modules concurrently.  This is an engineering
+build-order issue, not a semantic coverage issue.

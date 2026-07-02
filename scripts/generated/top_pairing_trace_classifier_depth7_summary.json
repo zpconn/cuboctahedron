@@ -1,0 +1,17 @@
+{
+  "depth": 7,
+  "max_children_per_shard": 5,
+  "min_children_per_shard": 1,
+  "parent_depth": 6,
+  "parent_prefix_count": 68,
+  "prefix_count": 209,
+  "sampled_rank_or_path_data": false,
+  "semantic_components": [
+    "TopPairingStepScheduleLabels",
+    "TopPairingSquareGapLabels",
+    "TopPairingLocalAxisLabels",
+    "TopPairingPairCountsLabels"
+  ],
+  "shard_count": 68,
+  "source": "exact semantic prefix enumerator"
+}
