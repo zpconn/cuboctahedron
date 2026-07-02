@@ -1,0 +1,613 @@
+{
+  "accepted_trace_count": 37,
+  "candidate_count": 43,
+  "cover": [
+    {
+      "accepted_indices": [
+        0,
+        1,
+        2
+      ],
+      "count": 3,
+      "depth": 9,
+      "gain": -376,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        27,
+        28
+      ],
+      "count": 2,
+      "depth": 4,
+      "gain": -552,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "zm"
+      ]
+    },
+    {
+      "accepted_indices": [
+        32,
+        33
+      ],
+      "count": 2,
+      "depth": 4,
+      "gain": -552,
+      "prefix": [
+        "xm",
+        "ym",
+        "zm",
+        "yp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        25,
+        26
+      ],
+      "count": 2,
+      "depth": 5,
+      "gain": -304,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "zm"
+      ]
+    },
+    {
+      "accepted_indices": [
+        29,
+        30
+      ],
+      "count": 2,
+      "depth": 10,
+      "gain": -376,
+      "prefix": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm"
+      ]
+    },
+    {
+      "accepted_indices": [
+        17
+      ],
+      "count": 1,
+      "depth": 4,
+      "gain": -348,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "zm"
+      ]
+    },
+    {
+      "accepted_indices": [
+        36
+      ],
+      "count": 1,
+      "depth": 5,
+      "gain": -552,
+      "prefix": [
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "yp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        24
+      ],
+      "count": 1,
+      "depth": 6,
+      "gain": -568,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "zp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        23
+      ],
+      "count": 1,
+      "depth": 7,
+      "gain": -640,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "zp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        22
+      ],
+      "count": 1,
+      "depth": 8,
+      "gain": -352,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "zp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        21
+      ],
+      "count": 1,
+      "depth": 9,
+      "gain": -640,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "zp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        5
+      ],
+      "count": 1,
+      "depth": 10,
+      "gain": -612,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "zp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        6
+      ],
+      "count": 1,
+      "depth": 10,
+      "gain": -612,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "yp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        31
+      ],
+      "count": 1,
+      "depth": 10,
+      "gain": -596,
+      "prefix": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "yp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        20
+      ],
+      "count": 1,
+      "depth": 10,
+      "gain": -568,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "zp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        10
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -684,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "yp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        14
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -684,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        8
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -612,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "yp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        16
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -612,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        3
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -596,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        35
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -596,
+      "prefix": [
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        18
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -552,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "tmmp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        9
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -464,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "zm",
+        "tpmp",
+        "tmmp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        13
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -464,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "zp",
+        "zm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        12
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -396,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "yp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        7
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -392,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "zp",
+        "zm",
+        "tmmp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        15
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -392,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "zp",
+        "zm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        34
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -376,
+      "prefix": [
+        "xm",
+        "ym",
+        "zm",
+        "zp",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp"
+      ]
+    },
+    {
+      "accepted_indices": [
+        4
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -348,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "zm"
+      ]
+    },
+    {
+      "accepted_indices": [
+        19
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -304,
+      "prefix": [
+        "xm",
+        "ym",
+        "yp",
+        "tmmm",
+        "tpmm",
+        "tppm",
+        "tpmp",
+        "tmpm",
+        "tppp",
+        "tmpp",
+        "zm"
+      ]
+    },
+    {
+      "accepted_indices": [
+        11
+      ],
+      "count": 1,
+      "depth": 11,
+      "gain": -176,
+      "prefix": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "zm",
+        "tmmm",
+        "tpmp",
+        "tmmp"
+      ]
+    }
+  ],
+  "cover_size": 31,
+  "largest_bucket_size": 3,
+  "singleton_bucket_count": 26,
+  "source": "scripts/generated/top_pairing_closed_graph_acceptance_all_examples_lean_aligned.json"
+}

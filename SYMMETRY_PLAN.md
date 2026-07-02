@@ -66154,3 +66154,68 @@ partition stays small and the margin proof is source-position/cancellation
 semantic, continue Bellman.  If it turns into one theorem per full trace or
 rank, reject Bellman production and pivot to the cancellation-tree summary
 automaton.
+
+### 2026-07-02 Shared-gain prefix cover is not enough alone
+
+Added a diagnostic exact set-cover planner:
+
+```text
+scripts/plan_top_pairing_shared_gain_prefix_cover.py
+```
+
+It reads the 37 graph-accepted top-pairing trace ids and computes a
+minimum-cardinality cover by homogeneous Bellman-gain face-label prefixes.
+This directly tests whether the accepted generic socket
+`TerminalTracePrefixSharedGainClosedMarginFamily` is likely to be the main
+production coordinate.
+
+Command:
+
+```bash
+python3 scripts/plan_top_pairing_shared_gain_prefix_cover.py
+python3 -m py_compile scripts/plan_top_pairing_shared_gain_prefix_cover.py
+```
+
+Output:
+
+```text
+scripts/generated/top_pairing_shared_gain_prefix_cover_plan.json
+scripts/generated/top_pairing_shared_gain_prefix_cover_plan.md
+cover_size = 31
+singleton buckets = 26
+homogeneous prefix candidates = 43
+largest bucket size = 3
+```
+
+The rejection diagnosis was also refreshed:
+
+```bash
+python3 scripts/diagnose_top_pairing_graph_rejections.py \
+  --json scripts/generated/top_pairing_graph_rejection_diagnosis.json \
+  --markdown scripts/generated/top_pairing_graph_rejection_diagnosis.md
+```
+
+Result:
+
+```text
+decision = strengthen_language_not_graph
+accepted = 37 matched_top_family
+rejected = 9 not_omni_contribution_sequence + 1 canonical_bad_face_mismatch
+```
+
+Decision:
+
+- Keep the generic shared-gain prefix socket as a useful small adapter.
+- Reject plain face-label prefix/gain buckets as the final Bellman production
+  coordinate.  A `31`-bucket cover with `26` singleton buckets is too close to
+  full-trace enumeration and would not satisfy the low-thousands/low-hours
+  target at full scale.
+- The next Bellman experiment must add a coarser semantic coordinate before
+  prefix/gain, most likely cancellation-tree/source-position summary state.
+  Prefix/gain buckets can remain a terminal adapter for any summary state that
+  implies a compact accepted-trace bucket.
+- If the next summary-state profiler still produces near-singleton terminal
+  trace buckets or needs exact rank/path affine data for the margin inequality,
+  reject Bellman production for this branch and pivot to a cancellation-tree
+  summary automaton where the accepted run and margin bound are proved by
+  summary constructors rather than accepted trace ids.
