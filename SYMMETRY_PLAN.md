@@ -77646,3 +77646,87 @@ selected-prefix/root-trace membership theorem.  The gate should expose
 `TopPairingClosedToEvalGate ... Face.ym` or a documented strengthening, and
 must fail the route if it needs exact affine RHS, sampled paths, or one branch
 per rank.
+
+## 2026-07-02 Checkpoint: Transducer-Tail Eval Smoke Accepted
+
+Added a bounded generated smoke that uses the combined transducer tail:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTransducerTailAcceptedEvalSmoke.lean
+```
+
+It proves, for one accepted graph trace and an explicit margin premise:
+
+```lean
+theorem trace000_transducer_tail_after_xm_ym
+
+theorem evalLanguage_of_trace000_margin
+
+theorem transducer_tail_and_eval_of_trace000_margin
+```
+
+The important change relative to the older `TopPairingTraceTail` smoke is that
+the prefix state now advances through `TopPairingTransducerTail`, so the local
+semantic state includes:
+
+- schedule;
+- square-gap;
+- local-axis linear state;
+- target-shadow cursor;
+- square parity.
+
+This is still a smoke, not coverage.  It has explicit premises:
+
+```lean
+htrace : topPairingRankFaceLabels rank = acceptedFaceTrace_000
+hmargin : scaledMargin rank <= (176 : Int) + (-376 : Int)
+```
+
+Therefore it is accepted only as a socket check that the combined state can feed
+the existing Bellman eval-language adapter.  It does not prove the production
+`TopPairingClosedToEvalGate` yet and must not be treated as an exhaustive
+membership proof.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/bellman_top_pairing_transducer_tail_accepted_eval_smoke_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTransducerTailAcceptedEvalSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_transducer_tail_accepted_eval_smoke_lake_guard_no_as.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTransducerTailAcceptedEvalSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `BellmanTopPairingTransducerTailAcceptedEvalSmoke.lean` direct | pass | `9.01s` | `3869 MiB` | hard AS `12288 MiB` |
+| `BellmanTopPairingTransducerTailAcceptedEvalSmoke` Lake | pass | `12.01s` | `4856 MiB` | RSS guard, no hard AS |
+
+Next gate: remove the exact-trace premise by generating/checking a small
+deterministic transition relation over `TopPairingTransducerTail` states.  The
+next accepted theorem must move toward:
+
+```lean
+TopPairingClosedToEvalGate
+  graphPotential graphSmokeNext smokeLabelOfFace rootState
+  (176 : Int) scaledMargin Face.ym
+```
+
+or a documented strengthening, with no selected-prefix/root-trace membership
+and no exact affine RHS key.
