@@ -72783,3 +72783,140 @@ The next experiment should therefore focus on the semantic state-DAG coverage
 theorem that maps closed top-pairing residual ranks into
 `TerminalProducerRootFamily`, rather than adding more wrappers around the
 accepted-prefix consumer.
+
+## 2026-07-02 Checkpoint: Terminal Classifier To Producer Root Bridge
+
+Added the terminal classifier coverage bridge:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingTerminalProducerCoverageBridge.lean
+```
+
+This module connects the existing graph/terminal trace classifiers to the
+all-accepted terminal producer root.  It does not introduce sampled rank
+objects, sampled path tables, exact affine-RHS keys, or new Bellman potentials.
+The exported bridge facts are semantic adapters:
+
+```lean
+theorem anyAcceptedPrefix13State_of_graphAcceptedTraceLabels
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hgraph :
+      GraphAcceptedTraceLabels (topPairingRankFaceLabels rank)) :
+    ClosedRankInAnyAcceptedPrefix13State rank
+
+theorem rootFamily_of_graphAcceptedTraceLabels
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hgraph :
+      GraphAcceptedTraceLabels (topPairingRankFaceLabels rank)) :
+    TerminalProducerRootFamily rank
+
+theorem rootFamily_of_terminalOkSemanticComponents
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (htermOk :
+      TopPairingTraceClassifier.Accepted.TerminalOkTraceLabels
+        (topPairingRankFaceLabels rank)) :
+    TerminalProducerRootFamily rank
+
+theorem rootFamily_of_terminalTraceSemanticComponents
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (topPairingRankFaceLabels rank)) :
+    TerminalProducerRootFamily rank
+
+theorem nonIdentityRankKilled_of_terminalTraceSemanticComponents
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hactual : TopPairingActualFaceOmniAtRank rank)
+    (hbad : AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hterm :
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (topPairingRankFaceLabels rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+Guarded commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_producer_root_smoke_olean_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerRootSmoke.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerRootSmoke.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerRootSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_terminal_producer_coverage_bridge_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalProducerCoverageBridge.lean
+```
+
+Results:
+
+```text
+terminal producer root .olean refresh: pass
+elapsed: 5.00s
+peak_tree_rss: 4046 MiB
+hard_as: 12288 MiB
+min_available: 46213 MiB
+
+terminal producer coverage bridge: pass
+elapsed: 2.01s
+peak_tree_rss: 3696 MiB
+hard_as: 12288 MiB
+min_available: 46315 MiB
+```
+
+`git diff --check` passed, and a forbidden/sample-token scan over the new bridge
+found no matches for `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+`Float`/`Double`, or sampled-rank/object names.
+
+Strategic interpretation:
+
+The consumer/root side is now a verified semantic chain:
+
+```text
+TerminalTraceLabels (topPairingRankFaceLabels rank)
+  + closed top-pairing language
+  + actual omni face usage
+  + accepted bad-face predicate
+    -> TerminalProducerRootFamily rank
+    -> NonIdentityRankKilled rank
+```
+
+This satisfies the latest GPT5.5 Bellman gate at the consumer level: the object
+is semantic (`rank` plus closed-language/classifier hypotheses), not sampled.
+The remaining hard proof-strategy risk is now sharply isolated:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> TopPairingActualFaceOmniAtRank rank
+  -> AcceptedSequenceBadFaceAtRank rank Face.ym
+  -> TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+       (topPairingRankFaceLabels rank)
+```
+
+or a generated semantic state-DAG theorem that supplies this terminal-trace
+classifier fact for the covered top-pairing residual family.  If that theorem
+can be proved from closed language / cancellation / schedule facts without
+rank-path sampling, continue this route.  If it collapses back to
+`SampledRankIndex`, exact affine-RHS tables, or one path per rank, reject this
+Bellman/top-pairing production route and pivot to a cancellation-summary
+automaton with a stronger semantic state.
