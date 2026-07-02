@@ -69332,3 +69332,107 @@ bridge can be proved from the selected-prefix/top-pairing cover without sampled
 rank/path evidence, Bellman remains the production route for this residual
 family.  If that bridge requires sampled objects or exact affine-RHS membership
 tables, stop Bellman production and pivot to cancellation-tree summary algebra.
+
+### 2026-07-02 Trace-id start-violation killed bridge accepted by direct Lean
+
+Added the first rank-killed bridge that consumes the all-trace provider root:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceStartViolationKilledBridge.lean
+```
+
+The bridge proves `Coverage.NonIdentityRankKilled` from semantic trace-id
+closed-margin families, without sampled rank/path objects.  Its central theorem
+is:
+
+```lean
+nonIdentityRankKilled_of_traceIdExistsClosedMarginFamily :
+  TraceIdExistsClosedMarginFamily scaledMargin rank ->
+    Coverage.NonIdentityRankKilled rank
+```
+
+It destructs the semantic `TraceIdExistsClosedMarginFamily` only inside a
+`Prop` proof, obtains:
+
+```lean
+traceId : AcceptedTraceId
+topPairingRankFaceLabels rank = acceptedTraceOfId traceId
+scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId
+```
+
+then combines:
+
+1. the existing Bellman nonpositive theorem
+   `traceIdExistsClosedMarginFamily_scaledMargin_nonpos`;
+2. the generated provider root
+   `objectStartViolationMarginCert_of_acceptedTraceId`;
+3. the generic positive-margin contradiction in `BellmanKilledBridge`.
+
+Additional convenience theorems route through the same bridge for:
+
+```lean
+GraphAcceptedTraceMarginClosedFamily
+TraceIdClosedMarginFamily
+TraceIdBucketClosedMarginFamily
+TerminalTraceIdBucketClosedMarginFamily
+TerminalTraceIdSharedGainBucketClosedMarginFamily
+TerminalTracePrefixSharedGainClosedMarginFamily
+```
+
+The first attempted implementation tried to build a
+`BellmanNonposStartViolationObjectMembership` by eliminating a `Prop`
+existential into `Type`; Lean rejected it with `propRecLargeElim`.  That was the
+right failure.  The final implementation stays in `Prop` and does not construct
+data from proof-only membership.
+
+Focused direct Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --timeout-seconds 300 \
+  --json scripts/generated/trace_start_violation_killed_bridge_direct_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceStartViolationKilledBridge.lean
+```
+
+Result:
+
+```text
+passed
+elapsed: 2.00s
+peak process-tree RSS: 3710 MiB
+minimum available memory observed: 46278 MiB
+```
+
+Build-path caveat:
+
+The direct Lean target is accepted, but `lake build` for this module is not yet
+an accepted runner.  Twice, Lake attempted to replay/fan out enough generated
+dependencies that the memory guard killed it safely:
+
+```text
+trace_start_violation_killed_bridge_lake_guard.json:
+  killed by guard
+  peak process-tree RSS: 65953 MiB
+  cap: 12000 MiB
+```
+
+Before the direct check could pass, missing
+`BellmanTopPairingGraphEvalSplit10MSmoke.Shard000`-`Shard023` `.olean` files
+were cached serially under the guard.  Each shard checked in about `3s` with
+roughly `4.2 GiB` peak process-tree RSS.  This reinforces the build-discipline
+rule: for this import neighborhood, use direct Lean or a serial external cache
+builder, not a cold `lake build` target, until Lake fan-out is isolated.
+
+Decision:
+
+Accept the theorem surface, but do not wire this module into any broad root yet.
+The next proof task is to connect the existing selected-prefix/top-pairing cover
+to one of the trace-id closed-margin family predicates consumed here, ideally
+`TraceIdExistsClosedMarginFamily` or `TraceIdBucketClosedMarginFamily`, while
+preserving the trace-id membership proof.  Separately, add a safe serial cache
+builder for the generated dependency roots before any future Lake-target smoke.

@@ -1,0 +1,22 @@
+ℹ [2970/2979] Replayed Cuboctahedron.Geometry.Faces
+info: Cuboctahedron/Geometry/Faces.lean:68:0: { x := 1, y := 0, z := 0 }
+info: Cuboctahedron/Geometry/Faces.lean:69:0: 2
+ℹ [2973/2979] Replayed Cuboctahedron.Geometry.Unfolding
+info: Cuboctahedron/Geometry/Unfolding.lean:94:0: 14
+info: Cuboctahedron/Geometry/Unfolding.lean:95:0: { m00 := -1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 }
+info: Cuboctahedron/Geometry/Unfolding.lean:96:0: { m00 := 1, m01 := 0, m02 := 0, m10 := 0, m11 := 1, m12 := 0, m20 := 0, m21 := 0, m22 := 1 }
+ℹ [2974/2979] Replayed Cuboctahedron.Geometry.BilliardOrbit
+info: Cuboctahedron/Geometry/BilliardOrbit.lean:143:0: Cuboctahedron.BilliardOrbit14 : Type
+info: Cuboctahedron/Geometry/BilliardOrbit.lean:144:0: Cuboctahedron.TouchesEachFaceExactlyOnce : BilliardOrbit14 → Prop
+info: Cuboctahedron/Geometry/BilliardOrbit.lean:145:0: Cuboctahedron.can_start_at_xp (o : BilliardOrbit14) (h : TouchesEachFaceExactlyOnce o) :
+  ∃ o', TouchesEachFaceExactlyOnce o' ∧ o'.face 0 = Face.xp
+ℹ [2975/2979] Replayed Cuboctahedron.Search.PairWords
+info: Cuboctahedron/Search/PairWords.lean:105:0: Cuboctahedron.PairId.x
+info: Cuboctahedron/Search/PairWords.lean:106:0: { x := 1, y := 1, z := 1 }
+info: Cuboctahedron/Search/PairWords.lean:107:0: Cuboctahedron.Face.tmpp
+ℹ [2976/2979] Replayed Cuboctahedron.Search.Itineraries
+info: Cuboctahedron/Search/Itineraries.lean:223:0: Cuboctahedron.seq_to_pairword (seq : Fin 14 → Face) (hOmni : IsOmniSeq seq) (hStart : StartsXp seq) :
+  ∃ w, ValidPairWord w ∧ PairWordMatchesSeq w seq
+✔ [2979/2979] Built Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Shard014 (1.4s)
+Build completed successfully (2979 jobs).
+memory guard summary: exit=0 elapsed=3.00s peak_tree_rss=4195 MiB hard_as=none min_available=45912 MiB
