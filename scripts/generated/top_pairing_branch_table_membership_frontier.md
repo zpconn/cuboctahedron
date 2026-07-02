@@ -1,0 +1,75 @@
+# Top-Pairing Branch-Table Membership Frontier
+
+This is diagnostic-only evidence.  It records the current semantic
+Bellman table frontier without enumerating ranks, paths, or prefixes.
+
+- decision: `local-branch-table-progress-accepted-membership-open`
+- required symbols present: `True`
+- forbidden hits: `0`
+
+## Lean Surface
+
+| symbol | role | files |
+| --- | --- | --- |
+| `topPairingTargetShadow_of_summary` | target-shadow inverse | `target_cursor` |
+| `topPairingTriCursor_of_closed` | closed language to target cursor | `target_cursor`, `transducer_tail` |
+| `TopPairingTransducerTail.ofClosedRank` | closed language to combined semantic tail | `eval_bridge` |
+| `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` | generic suffix evaluator | `eval_bridge`, `strengthened_local` |
+| `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_progress` |
+| `graph_next_of_graphBranch` | branch-table graph transition extractor | `branch_table`, `branch_table_progress` |
+| `faceEvalNext_of_graphBranchTable` | graph branch local evaluator progress | `branch_table_progress` |
+| `socket19TmmpBranch_impossible` | state19/tmmp semantic socket | `branch_table_progress` |
+| `socket150TpppBranch_impossible` | state150/tppp semantic socket | `branch_table_progress` |
+
+## Guards
+
+| guard | exit | elapsed | peak RSS | killed |
+| --- | ---: | ---: | ---: | --- |
+| `branch_table_lake` | `0` | `5.00s` | `4248 MiB` | `None` |
+| `branch_table_progress_direct` | `0` | `2.00s` | `3544 MiB` | `None` |
+| `branch_table_progress_lake` | `0` | `4.01s` | `4067 MiB` | `None` |
+
+## Accepted Local Surface
+
+The current Lean surface proves that a supplied finite branch-table
+entry is usable:
+
+```lean
+faceEvalNext_of_graphBranchTable
+socket19TmmpBranch_impossible
+socket150TpppBranch_impossible
+```
+
+## Remaining Production Theorem
+
+The open theorem is the semantic membership classifier.  In words:
+
+```text
+For every closed top-pairing semantic tail and local head face,
+the state/face pair is either one of the finite graph branches
+or one of the two semantic socket branches.
+```
+
+A future Lean/generated theorem should have the shape:
+
+```lean
+theorem topPairingClosed_head_branchTable
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {state : FaceEvalState} {face : Face} {rest : List Face}
+    (hinv : Inv state)
+    (htail : state.Tail (face :: rest))
+    (hsem : TopPairingClosedStateAt rank state (face :: rest)) :
+    (StrengthenedBranchTable state.graph face BranchKind.graph) ∨
+    (state = missingState19TmmpSemanticEvalState ∧
+      face = Face.tmmp ∧
+      StrengthenedBranchTable state.graph face BranchKind.socket19Tmmp) ∨
+    (state = missingState150TpppSemanticEvalState ∧
+      face = Face.tppp ∧
+      StrengthenedBranchTable state.graph face BranchKind.socket150Tppp)
+```
+
+`TopPairingClosedStateAt` is schematic here: the next emitter should
+use the existing semantic transducer state fields, not a sampled
+rank/path object or exact affine RHS key.
+

@@ -81160,3 +81160,87 @@ head step is classified by the finite StrengthenedBranchTable relation, with
 ordinary graph cases routed through `faceEvalNext_of_graphBranchTable` and the
 two socket cases routed through their semantic contradiction theorems.
 ```
+
+### Branch-Table Membership Frontier Audit
+
+Added a small audit for the exact next Bellman membership frontier:
+
+```text
+scripts/audit_top_pairing_branch_table_membership_frontier.py
+scripts/generated/top_pairing_branch_table_membership_frontier.json
+scripts/generated/top_pairing_branch_table_membership_frontier.md
+scripts/generated/top_pairing_branch_table_membership_frontier_guard.json
+```
+
+Command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Result:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| membership-frontier audit | pass | `1.01s` | `0 MiB` reported |
+
+The audit decision is:
+
+```text
+local-branch-table-progress-accepted-membership-open
+```
+
+It verifies the current Lean surface has all required local pieces:
+
+```lean
+topPairingTargetShadow_of_summary
+topPairingTriCursor_of_closed
+TopPairingTransducerTail.ofClosedRank
+evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix
+StrengthenedBranchTable
+graph_next_of_graphBranch
+faceEvalNext_of_graphBranchTable
+socket19TmmpBranch_impossible
+socket150TpppBranch_impossible
+```
+
+The audit also confirms zero forbidden/sampled hits in the scanned Lean
+surfaces.
+
+Accepted status:
+
+```text
+The route is past "can a finite branch table be consumed locally?".
+It is not yet past "can the closed semantic language produce that branch table
+at every local head step?".
+```
+
+Next theorem target:
+
+```lean
+theorem topPairingClosed_head_branchTable
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {state : FaceEvalState} {face : Face} {rest : List Face}
+    (hinv : Inv state)
+    (htail : state.Tail (face :: rest))
+    (hsem : TopPairingClosedStateAt rank state (face :: rest)) :
+    (StrengthenedBranchTable state.graph face BranchKind.graph) ∨
+    (state = missingState19TmmpSemanticEvalState ∧
+      face = Face.tmmp ∧
+      StrengthenedBranchTable state.graph face BranchKind.socket19Tmmp) ∨
+    (state = missingState150TpppSemanticEvalState ∧
+      face = Face.tppp ∧
+      StrengthenedBranchTable state.graph face BranchKind.socket150Tppp)
+```
+
+`TopPairingClosedStateAt` remains schematic.  The production version must use
+semantic transducer state/cursor/schedule/local-axis fields.  It must not
+become a sampled rank/path object, a selected-prefix cover, an exact affine-RHS
+key, or a large Boolean evaluator.

@@ -1,0 +1,129 @@
+{
+  "decision": "local-branch-table-progress-accepted-membership-open",
+  "files": {
+    "branch_table": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 514,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedBranchTable1MSmoke.lean",
+      "symbol_hits": {
+        "StrengthenedBranchTable": 239,
+        "graph_next_of_graphBranch": 1
+      }
+    },
+    "branch_table_progress": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 103,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedBranchTableProgress1MSmoke.lean",
+      "symbol_hits": {
+        "StrengthenedBranchTable": 7,
+        "faceEvalNext_of_graphBranchTable": 1,
+        "graph_next_of_graphBranch": 1,
+        "socket150TpppBranch_impossible": 1,
+        "socket19TmmpBranch_impossible": 1
+      }
+    },
+    "eval_bridge": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 503,
+      "path": "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean",
+      "symbol_hits": {
+        "TopPairingTransducerTail.ofClosedRank": 1,
+        "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": 2
+      }
+    },
+    "strengthened_local": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 905,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedLocal1MSmoke.lean",
+      "symbol_hits": {
+        "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": 1
+      }
+    },
+    "target_cursor": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 358,
+      "path": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
+      "symbol_hits": {
+        "topPairingTargetShadow_of_summary": 2,
+        "topPairingTriCursor_of_closed": 1
+      }
+    },
+    "transducer_tail": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 97,
+      "path": "Cuboctahedron/Search/TopPairingTransducerTail.lean",
+      "symbol_hits": {
+        "topPairingTriCursor_of_closed": 1
+      }
+    }
+  },
+  "forbidden_hit_count": 0,
+  "guards": {
+    "branch_table_lake": {
+      "elapsed_seconds": 5.004304679998313,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 4248.4375,
+      "path": "scripts/generated/bellman_strengthened_branch_table_1m_smoke_lake_guard.json"
+    },
+    "branch_table_progress_direct": {
+      "elapsed_seconds": 2.003287159008323,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3543.5234375,
+      "path": "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_guard.json"
+    },
+    "branch_table_progress_lake": {
+      "elapsed_seconds": 4.00586063398805,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 4067.25390625,
+      "path": "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_lake_guard.json"
+    }
+  },
+  "mode": "top-pairing-branch-table-membership-frontier",
+  "next_theorem": "topPairingClosed_head_branchTable",
+  "required_symbols_present": true,
+  "symbol_locations": {
+    "StrengthenedBranchTable": [
+      "branch_table",
+      "branch_table_progress"
+    ],
+    "TopPairingTransducerTail.ofClosedRank": [
+      "eval_bridge"
+    ],
+    "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": [
+      "eval_bridge",
+      "strengthened_local"
+    ],
+    "faceEvalNext_of_graphBranchTable": [
+      "branch_table_progress"
+    ],
+    "graph_next_of_graphBranch": [
+      "branch_table",
+      "branch_table_progress"
+    ],
+    "socket150TpppBranch_impossible": [
+      "branch_table_progress"
+    ],
+    "socket19TmmpBranch_impossible": [
+      "branch_table_progress"
+    ],
+    "topPairingTargetShadow_of_summary": [
+      "target_cursor"
+    ],
+    "topPairingTriCursor_of_closed": [
+      "target_cursor",
+      "transducer_tail"
+    ]
+  }
+}
