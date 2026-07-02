@@ -59875,3 +59875,142 @@ The remaining top-pairing production work is now sharply scoped:
 3. plug that theorem into
    `topPairingBellmanEvalObjectCoverOfStrengthenedToEval` once the graph step
    validity/root-bound imports are available in a memory-safe split layout.
+
+Strengthened semantic object-cover smoke checkpoint:
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingStrengthenedObjectCoverSmoke.lean
+```
+
+This is the next GPT5.5 go/no-go slice.  It does not use
+`SampledRankIndex`, sampled path objects, sampled rank tables, or a
+one-branch-per-rank proof.  Instead it starts from the strengthened semantic
+predicate already introduced above and proves the actual rank-level Bellman
+margin consequence:
+
+```lean
+theorem strengthenedGraphAccepted_scaledMargin_nonpos
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (GraphAcceptedSequenceBadFace scaledMargin) rank Face.ym) :
+    scaledMargin rank <= 0
+```
+
+Proof architecture:
+
+```text
+TopPairingStrengthenedClosedLanguageAtRank
+  -> evalLanguage_of_strengthenedGraphAccepted
+  -> BellmanEvalAccepts graphPotential graphSmokeNext rootState 176
+  -> generated split-root transition invariant
+  -> generic scaledMargin_nonpos_of_bellmanEvalAccepts_invariant
+  -> scaledMargin rank <= 0
+```
+
+The important implementation detail is that this avoids the older
+`next_sound : graphSmokeNext ... = some ... -> GraphSmokeStepEval ...` API
+problem.  The generated split root proves the invariant form directly:
+
+```lean
+transition_ok_of_lt :
+  s < stateCount ->
+  graphSmokeNext s label = some (t, gain) ->
+    t < stateCount /\ gain + graphPotential t <= graphPotential s
+```
+
+The generic Bellman theorem then carries `s < stateCount` along the evaluator
+run.  This is the right production shape for numeric graph evaluators whose
+source-state range is an invariant rather than a theorem attached to every raw
+`next` result.
+
+Validation commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --timeout-seconds 900 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_split_root_build.json \
+  --verbose \
+  -- env LEAN_NUM_THREADS=1 lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphEvalSplit10MSmoke.Root
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_strengthened_object_cover_smoke.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingStrengthenedObjectCoverSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --timeout-seconds 600 \
+  --poll-seconds 2 \
+  --json /tmp/top_pairing_strengthened_object_cover_lake.json \
+  --verbose \
+  -- env LEAN_NUM_THREADS=1 lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingStrengthenedObjectCoverSmoke
+```
+
+Results:
+
+```text
+BellmanTopPairingGraphEvalSplit10MSmoke.Root:
+  passed
+  elapsed = 206.07s
+  peak_tree_rss = 4347 MiB
+  min_available = 45604 MiB
+
+BellmanTopPairingStrengthenedObjectCoverSmoke direct Lean:
+  passed
+  elapsed = 2.00s
+  peak_tree_rss = 0 MiB reported by guard after cache hit
+  hard_as = 8192 MiB
+
+BellmanTopPairingStrengthenedObjectCoverSmoke lake target:
+  passed
+  elapsed = 14.01s
+  peak_tree_rss = 4698 MiB
+  min_available = 45232 MiB
+```
+
+Decision:
+
+Accept this checkpoint.  The Bellman top-pairing route has now passed the
+semantic-membership smoke requested by the latest GPT5.5 guidance: a compact
+semantic object/predicate can drive the deterministic evaluator and the
+generated potential inequalities to a rank-level nonpositive margin theorem.
+This still is not full family coverage, because
+`GraphAcceptedSequenceBadFace` is a smoke classifier and not yet the generated
+closed-language classifier for all top-pairing ranks.  But the proof no longer
+collapses into sampled rank/path membership at this gate.
+
+Updated next production work:
+
+1. Replace the smoke `GraphAcceptedSequenceBadFace` with a generated semantic
+   classifier that proves graph acceptance and sequence-derived bad-face
+   compatibility for every rank in the intended top-pairing language.
+2. Keep the proof target theorem-valued:
+   `TopPairingStrengthenedClosedLanguageAtRank ... -> scaledMargin rank <= 0`
+   or the equivalent `TopPairingBellmanEvalLanguageAtRank`; do not generate
+   rank/path object tables.
+3. Emit the classifier in the same split style as the graph-validity root:
+   small shards, invariant-style evaluator theorems, and shallow roots.
+4. After the generated classifier covers the intended top-pairing family,
+   connect the resulting margin theorem to the nonidentity residual killed
+   predicate and then repeat/parameterize the pattern for the remaining
+   semantic Bellman families.
