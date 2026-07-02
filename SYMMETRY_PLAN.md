@@ -66389,3 +66389,82 @@ constructor facts rather than by sampled rank/path evidence.  If that proof
 falls back to one theorem per full accepted trace, one theorem per rank, or
 exact affine RHS membership tables, stop this route and promote a
 constructor-based cancellation summary automaton.
+
+### 2026-07-02 First bounded state-DAG shard target
+
+Added a compact planning script:
+
+```text
+scripts/plan_top_pairing_state_dag_prefix_shard.py
+```
+
+It reads the shared-gain prefix cover, selects one bucket, computes the exact
+semantic state after the prefix using the same transition semantics as the
+state-DAG profiler, and counts terminal outcomes below that prefix.  It does
+not emit a graph JSON or Lean data.
+
+Command:
+
+```bash
+python3 -m py_compile scripts/plan_top_pairing_state_dag_prefix_shard.py
+python3 scripts/plan_top_pairing_state_dag_prefix_shard.py
+```
+
+Output:
+
+```text
+scripts/generated/top_pairing_state_dag_prefix_shard_plan.json
+scripts/generated/top_pairing_state_dag_prefix_shard_plan.md
+bucket = 0
+prefix depth = 9
+gain = -376
+accepted trace ids = 0, 1, 2
+```
+
+Selected prefix:
+
+```text
+xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp
+```
+
+State after prefix:
+
+```text
+step = 9
+square_gap = 7
+remaining_pair_counts =
+  x:0 y:1 z:2 d111:0 d11m:0 d1m1:0 dm11:1
+square_parity = x:true y:true z:false
+triangular stack =
+  stack: d111@6, dm11@5, d1m1@2, d111@1, dm11@0
+  cancellations_rev: d11m 3 4
+```
+
+Terminal outcomes below this prefix:
+
+```text
+closed = 3
+cancellation_reject = 0
+count_reject = 0
+```
+
+Decision:
+
+This is the first bounded Lean shard target.  The next Lean file should prove
+the selected-prefix instance of `StateDAGPrefixClosedMarginFamily` from
+semantic constructor facts:
+
+```lean
+closed rank
++ labels have the selected prefix
++ tail state after the prefix
++ shared margin bound
+  -> StateDAGPrefixClosedMarginFamily
+       selectedPrefix selectedGap selectedLinear (-376) scaledMargin rank
+```
+
+Then it should reuse `evalLanguage_of_stateDAGPrefixFamily`.  This remains
+inside the GPT5.5 semantic-membership gate because the object is still a rank
+plus semantic language proof, and the evaluator proof is reached through a
+deterministic state/tail predicate rather than through `SampledRankIndex` or
+rank/path tables.

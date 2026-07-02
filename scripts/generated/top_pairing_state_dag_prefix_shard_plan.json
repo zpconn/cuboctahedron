@@ -1,0 +1,173 @@
+{
+  "accepted_indices": [
+    0,
+    1,
+    2
+  ],
+  "gain": -376,
+  "prefix": [
+    "xm",
+    "ym",
+    "tmpm",
+    "tppm",
+    "tpmm",
+    "tppp",
+    "tmmm",
+    "tpmp",
+    "tmmp"
+  ],
+  "prefix_depth": 9,
+  "selected_bucket_index": 0,
+  "source_cover": "scripts/generated/top_pairing_shared_gain_prefix_cover_plan.json",
+  "state_after_prefix": {
+    "local_axis_linear_matrix": [
+      [
+        [
+          47,
+          243
+        ],
+        [
+          14,
+          243
+        ],
+        [
+          238,
+          243
+        ]
+      ],
+      [
+        [
+          238,
+          243
+        ],
+        [
+          -17,
+          243
+        ],
+        [
+          -46,
+          243
+        ]
+      ],
+      [
+        [
+          -14,
+          243
+        ],
+        [
+          -242,
+          243
+        ],
+        [
+          17,
+          243
+        ]
+      ]
+    ],
+    "remaining_pair_counts": {
+      "d111": 0,
+      "d11m": 0,
+      "d1m1": 0,
+      "dm11": 1,
+      "x": 0,
+      "y": 1,
+      "z": 2
+    },
+    "square_gap": 7,
+    "square_parity": {
+      "x": true,
+      "y": true,
+      "z": false
+    },
+    "step": 9,
+    "triangular_cancellation_stack": {
+      "cancellations_rev": [
+        [
+          "d11m",
+          3,
+          4
+        ]
+      ],
+      "shadow_len": 7,
+      "stack": [
+        [
+          "d111",
+          6
+        ],
+        [
+          "dm11",
+          5
+        ],
+        [
+          "d1m1",
+          2
+        ],
+        [
+          "d111",
+          1
+        ],
+        [
+          "dm11",
+          0
+        ]
+      ]
+    }
+  },
+  "terminal_examples": {
+    "cancellation_reject": [],
+    "closed": [
+      [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "zm",
+        "zp",
+        "xp"
+      ],
+      [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "yp",
+        "zp",
+        "xp"
+      ],
+      [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "zp",
+        "yp",
+        "xp"
+      ]
+    ],
+    "count_reject": []
+  },
+  "terminal_path_histogram_below_prefix": {
+    "closed": 3
+  }
+}
