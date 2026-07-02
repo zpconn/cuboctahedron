@@ -76236,3 +76236,97 @@ because the interrupted dependency build left a missing existing provider
 `.olean` (`BellmanTopPairingTrace012StartViolationProvider.olean`).  Do not
 start another broad dependency build just to repair that cache unless it is
 needed for the next measured leaf.
+
+## 2026-07-02 Checkpoint: Lightweight Semantic Bellman Gate Accepted
+
+Added a small hand-written search-level module:
+
+```text
+Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+```
+
+It imports only:
+
+```lean
+import Cuboctahedron.Search.TopPairingBellmanObject
+```
+
+and names the two allowed semantic Bellman membership targets:
+
+```lean
+abbrev TopPairingClosedToEvalGate
+    (V next labelOfFace start const scaledMargin badFace) : Prop :=
+  forall rank,
+    TopPairingClosedLanguageAtRank rank badFace ->
+      TopPairingBellmanEvalLanguageAtRank
+        V next labelOfFace start const scaledMargin rank badFace
+
+abbrev TopPairingStrengthenedToEvalGate
+    (V next labelOfFace start const scaledMargin sequenceBadFace badFace) : Prop :=
+  forall rank,
+    TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank badFace ->
+      TopPairingBellmanEvalLanguageAtRank
+        V next labelOfFace start const scaledMargin rank badFace
+```
+
+The module also exposes the generic object-cover and nonpositive-margin
+consequences:
+
+```lean
+closedObjectCoverOfSemanticGate
+strengthenedObjectCoverOfSemanticGate
+scaledMargin_nonpos_of_closedSemanticGate
+scaledMargin_nonpos_of_strengthenedSemanticGate
+```
+
+This is the memory-safe version of the latest Bellman recommendation.  It keeps
+the proof obligation at the search/core layer and prevents generated residual
+bridges from importing heavy root-trace-margin producer hierarchies.
+
+Focused validation:
+
+```bash
+/usr/bin/time -v lake env lean -j1 -M8192 \
+  Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe" \
+  Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+```
+
+Results:
+
+```text
+TopPairingBellmanSemanticGate.lean: exit=0, wall=1.62s, max RSS=3231520 KB
+sampled/forbidden token scan: exit=1, no hits
+```
+
+Decision:
+
+```text
+accept-lightweight-semantic-bellman-gate
+```
+
+Next producer target:
+
+Generate or prove a compact family theorem of one of the following forms:
+
+```lean
+TopPairingClosedToEvalGate
+  graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+  scaledMargin Face.ym
+```
+
+or:
+
+```lean
+TopPairingStrengthenedToEvalGate
+  graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+  scaledMargin sequenceBadFace Face.ym
+```
+
+The producer must be semantic and compact.  It may use cancellation-tree or
+state-summary evidence, but it must not use sampled rank/path objects, exact
+affine-RHS keys, broad OR-prefix routing, or import the root trace-margin
+hierarchy into the residual bridge.  If the next producer still needs those
+rejected shapes, Bellman should be demoted to discovery infrastructure and the
+cancellation-tree/state-summary automaton should become the proof architecture.
