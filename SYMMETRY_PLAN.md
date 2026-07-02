@@ -73846,3 +73846,89 @@ theorem nonIdentityRankKilled_of_terminalDirectClosedFamily
 - If this strengthened semantic provider cannot be proved compactly, the
   Bellman route should pivot to a cancellation-tree summary automaton whose
   state explicitly includes the missing terminal/evaluator progress.
+
+## 2026-07-02 Checkpoint: Selected-Prefix Terminal-Direct Provider Smoke
+
+Added a direct semantic-provider bridge:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean
+```
+
+The bridge proves that the existing bounded selected-prefix cover carries
+exactly the strengthened terminal-direct fields:
+
+```lean
+theorem terminalDirectClosedFamily_of_selectedPrefixCoverFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :
+    TerminalDirectClosedFamily rank
+
+theorem nonIdentityRankKilled_of_selectedPrefixCoverFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+The proof is intentionally a forgetful semantic adapter: every
+`SelectedPrefixTraceMarginFamily` branch is already a
+`TerminalTracePrefixSharedGainClosedMarginFamily`, which contains closed
+top-pairing language, actual-face omnihedrality, accepted bad-face labels, and
+terminal trace labels.  The bridge discards only prefix and margin extras.  It
+does not introduce sampled rank/path objects, exact affine RHS keys, or a broad
+Boolean checker.
+
+OOM-safe direct check:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_selected_prefix_terminal_direct_bridge_guard.json \
+  -- lake env lean -R . -M 7000 -j1 -s 2048 \
+     -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.olean \
+     -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.ilean \
+     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean
+```
+
+Result:
+
+```text
+exit: 0
+elapsed: 12.02s
+peak_tree_rss: 3613 MiB
+hard_as: 12288 MiB
+min_available: 46312 MiB
+```
+
+The terminal-direct provider audit was updated to include this bridge:
+
+```text
+scripts/audit_top_pairing_terminal_direct_provider_gate.py
+scripts/generated/top_pairing_terminal_direct_provider_gate.json
+scripts/generated/top_pairing_terminal_direct_provider_gate.md
+```
+
+The forbidden-token scan now covers five terminal/direct files and still has no
+hits for sampled objects, `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+or floating-point types.
+
+Strategic consequence:
+
+- The selected-prefix slice satisfies the latest semantic-provider gate at the
+  theorem-surface level: a generated semantic family predicate can directly
+  produce `TerminalDirectClosedFamily` and therefore
+  `NonIdentityRankKilled`.
+- This is still bounded coverage.  The next production task is to generate or
+  prove the same kind of strengthened terminal/direct provider for the
+  intended full top-pairing residual language.
+- If full provider generation stays in terms of semantic terminal/state fields,
+  Bellman/direct terminal routing remains viable.  If it requires sampled
+  ranks/paths, exact affine-RHS keys, or one branch per concrete rank, the
+  plan must pivot to a cancellation-tree summary automaton with explicit
+  terminal/evaluator progress in the state.

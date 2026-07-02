@@ -34,6 +34,22 @@ which packages closed top-pairing language, actual-face omnihedral
 usage, accepted sequence/bad-face classification, and terminal trace
 classifier membership.
 
+Current bounded semantic-provider smoke:
+
+```lean
+theorem terminalDirectClosedFamily_of_selectedPrefixCoverFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :
+    TerminalDirectClosedFamily rank
+
+theorem nonIdentityRankKilled_of_selectedPrefixCoverFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
 ## Guarded Lean Checks
 
 ### terminal_direct_sequence_socket
@@ -72,9 +88,18 @@ classifier membership.
 - min available MiB: `46202.99609375`
 - killed reason: `None`
 
+### selected_prefix_cover_to_terminal_direct
+
+- exit: `0`
+- elapsed seconds: `12.015479765002965`
+- peak RSS MiB: `3613.453125`
+- hard address-space MiB: `12288.0`
+- min available MiB: `46312.84765625`
+- killed reason: `None`
+
 ## Forbidden Token Scan
 
-- scanned Lean files: `4`
+- scanned Lean files: `5`
 - forbidden hits: `0`
 
 No forbidden tokens were found in the scanned files.

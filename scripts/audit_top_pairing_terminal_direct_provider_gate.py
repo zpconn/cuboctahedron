@@ -37,6 +37,8 @@ RELEVANT_LEAN_FILES = [
     "BellmanTopPairingTerminalProducerRootSmoke.lean",
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingSelectedPrefixAcceptedPrefixEvalBridge.lean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean",
 ]
 
 GUARD_FILES = {
@@ -52,6 +54,9 @@ GUARD_FILES = {
     "selected_prefix_cover_to_accepted_eval": (
         "scripts/generated/"
         "top_pairing_selected_prefix_cover_accepted_prefix_eval_bridge_direct_guard.json"
+    ),
+    "selected_prefix_cover_to_terminal_direct": (
+        "scripts/generated/top_pairing_selected_prefix_terminal_direct_bridge_guard.json"
     ),
 }
 
@@ -129,6 +134,22 @@ def render_md(payload: dict[str, Any]) -> str:
         "which packages closed top-pairing language, actual-face omnihedral",
         "usage, accepted sequence/bad-face classification, and terminal trace",
         "classifier membership.",
+        "",
+        "Current bounded semantic-provider smoke:",
+        "",
+        "```lean",
+        "theorem terminalDirectClosedFamily_of_selectedPrefixCoverFamily",
+        "    {scaledMargin : Fin numPairWords -> Int}",
+        "    {rank : Fin numPairWords}",
+        "    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :",
+        "    TerminalDirectClosedFamily rank",
+        "",
+        "theorem nonIdentityRankKilled_of_selectedPrefixCoverFamily",
+        "    {scaledMargin : Fin numPairWords -> Int}",
+        "    {rank : Fin numPairWords}",
+        "    (hrank : SelectedPrefixCoverFamily scaledMargin rank) :",
+        "    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank",
+        "```",
         "",
         "## Guarded Lean Checks",
         "",
@@ -228,9 +249,20 @@ def main() -> None:
         "forbidden_hit_count": len(hits),
         "forbidden_hits": hits,
         "next_required_theorem": (
-            "semantic provider for TerminalDirectClosedFamily rank over the "
-            "intended top-pairing residual family"
+            "scale the semantic provider pattern from SelectedPrefixCoverFamily "
+            "to the intended top-pairing residual family"
         ),
+        "bounded_semantic_provider_smoke": {
+            "source_family": "SelectedPrefixCoverFamily scaledMargin rank",
+            "provider_theorem": (
+                "terminalDirectClosedFamily_of_selectedPrefixCoverFamily"
+            ),
+            "consumer_theorem": "nonIdentityRankKilled_of_selectedPrefixCoverFamily",
+            "lean_file": (
+                "Cuboctahedron/Generated/NonIdentity/Residual/"
+                "BellmanTopPairingSelectedPrefixTerminalDirectBridge.lean"
+            ),
+        },
     }
 
     args.json.parent.mkdir(parents=True, exist_ok=True)
