@@ -790,6 +790,69 @@ theorem terminalTraceIdBucketClosedMarginFamily_scaledMargin_nonpos
     (traceIdBucketClosedMarginFamily_of_terminalTraceIdBucketClosedMarginFamily
       hrank)
 
+def TerminalTraceIdSharedGainBucketClosedMarginFamily
+    (allowedTraceId : AcceptedTraceId -> Prop)
+    (gain : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    TopPairingActualFaceOmniAtRank rank /\
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym /\
+        TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+          (topPairingRankFaceLabels rank) /\
+          (∀ traceId : AcceptedTraceId,
+            topPairingRankFaceLabels rank = acceptedTraceOfId traceId ->
+              allowedTraceId traceId /\
+                acceptedTraceGain traceId = gain) /\
+            scaledMargin rank <= (176 : Int) + gain
+
+theorem terminalTraceIdBucketClosedMarginFamily_of_sharedGainBucket
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdSharedGainBucketClosedMarginFamily
+        allowedTraceId gain scaledMargin rank) :
+    TerminalTraceIdBucketClosedMarginFamily
+      allowedTraceId scaledMargin rank := by
+  rcases hrank with
+    ⟨hclosed, hactual, hbad, hterminal, hgainForTrace, hmargin⟩
+  refine ⟨hclosed, hactual, hbad, hterminal, ?_⟩
+  intro traceId htrace
+  rcases hgainForTrace traceId htrace with ⟨hallowed, hgain⟩
+  refine ⟨hallowed, ?_⟩
+  simpa [hgain] using hmargin
+
+theorem evalLanguage_of_terminalTraceIdSharedGainBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdSharedGainBucketClosedMarginFamily
+        allowedTraceId gain scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_terminalTraceIdBucketClosedMarginFamily
+    (terminalTraceIdBucketClosedMarginFamily_of_sharedGainBucket
+      hrank)
+
+theorem terminalTraceIdSharedGainBucketClosedMarginFamily_scaledMargin_nonpos
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdSharedGainBucketClosedMarginFamily
+        allowedTraceId gain scaledMargin rank) :
+    scaledMargin rank <= 0 :=
+  terminalTraceIdBucketClosedMarginFamily_scaledMargin_nonpos
+    (terminalTraceIdBucketClosedMarginFamily_of_sharedGainBucket
+      hrank)
+
 theorem trace_margin_bounds_socket_builds : True := by
   exact True.intro
 

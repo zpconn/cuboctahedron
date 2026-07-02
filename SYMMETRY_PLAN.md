@@ -65049,3 +65049,184 @@ facts imply the final field:
 If this field needs a rank-indexed affine table, reject Bellman production.  If
 it can be proved by a compact source-position/margin inequality, continue
 toward full generated family emission.
+
+### 2026-07-02 Shared-gain terminal trace bucket
+
+GPT5.5's latest Bellman advice sharpens the next experiment: the Bellman object
+must stay semantic (`rank + TopPairingClosedLanguageAtRank`), and the next
+production-shaped slice should replace sampled membership with a deterministic
+closed-language/evaluator bridge.  The immediate margin-side subproblem is that
+terminal/source-position classes should not have to prove a separate arithmetic
+bound for every trace id if a small bucket shares one accepted Bellman gain.
+
+New predicate/theorems in
+`BellmanTopPairingTraceMarginBoundsSocket.lean`:
+
+```lean
+def TerminalTraceIdSharedGainBucketClosedMarginFamily
+    (allowedTraceId : AcceptedTraceId -> Prop)
+    (gain : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop
+
+theorem terminalTraceIdBucketClosedMarginFamily_of_sharedGainBucket :
+    TerminalTraceIdSharedGainBucketClosedMarginFamily
+      allowedTraceId gain scaledMargin rank ->
+    TerminalTraceIdBucketClosedMarginFamily
+      allowedTraceId scaledMargin rank
+
+theorem evalLanguage_of_terminalTraceIdSharedGainBucketClosedMarginFamily :
+    TerminalTraceIdSharedGainBucketClosedMarginFamily
+      allowedTraceId gain scaledMargin rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem terminalTraceIdSharedGainBucketClosedMarginFamily_scaledMargin_nonpos :
+    TerminalTraceIdSharedGainBucketClosedMarginFamily
+      allowedTraceId gain scaledMargin rank ->
+    scaledMargin rank <= 0
+```
+
+The shared-gain predicate asks a generated terminal/source-position family to
+prove:
+
+```lean
+∀ traceId,
+  topPairingRankFaceLabels rank = acceptedTraceOfId traceId ->
+    allowedTraceId traceId ∧ acceptedTraceGain traceId = gain
+```
+
+plus a single margin inequality:
+
+```lean
+scaledMargin rank <= 176 + gain
+```
+
+Lean then derives the older per-trace bucket field:
+
+```lean
+scaledMargin rank <= 176 + acceptedTraceGain traceId
+```
+
+This keeps the proof surface compact and semantic.  It is meant for real
+terminal/source-position classes where the accepted trace bucket is determined
+by source-position facts and every trace in the bucket has the same Bellman
+gain.
+
+The two-trace smoke now includes:
+
+```lean
+def Trace000001SharedGainTerminalClosedMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TerminalTraceIdSharedGainBucketClosedMarginFamily
+    Trace000001Allowed (-376) scaledMargin rank
+
+theorem trace000001SharedGainTerminalFamily_evalLanguage :
+    Trace000001SharedGainTerminalClosedMarginFamily scaledMargin rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem trace000001SharedGainTerminalFamily_scaledMargin_nonpos :
+    Trace000001SharedGainTerminalClosedMarginFamily scaledMargin rank ->
+    scaledMargin rank <= 0
+```
+
+Guarded direct Lean for the modified socket:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_shared_gain_socket_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 3632 MiB
+hard_as = 8192 MiB
+min_available = 46302 MiB
+```
+
+Guarded focused Lake smoke:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_shared_gain_terminal_bucket_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceBucketComponentFamilySmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 4.00s
+peak_tree_rss = 4089 MiB
+hard_as = 32768 MiB
+min_available = 46037 MiB
+```
+
+Direct Lean against the smoke before rebuilding the socket artifact failed with
+unknown identifiers for the new shared-gain names.  That was a stale `.olean`
+dependency issue, not a Lean proof failure; after rebuilding through Lake, the
+smoke passed.
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingTraceMarginBoundsSocket.lean         = 859 lines
+BellmanTopPairingTraceBucketComponentFamilySmoke.lean = 99 lines
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean  = 691 lines
+TopPairingBellmanObject.lean                          = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceBucketComponentFamilySmoke.lean
+```
+
+`git diff --check` passed; the forbidden-term audit found no matches.
+
+Decision:
+
+Accept the shared-gain terminal trace bucket as the next semantic Bellman
+adapter.  It is not proof of real coverage yet, but it gives the next emitter a
+more production-shaped target: prove a compact accepted-trace bucket/gain fact
+and one source-position margin inequality, then let Lean assemble the Bellman
+object-cover consequence.
+
+Next action:
+
+Search the current top-pairing profilers/generated metadata for an actual
+terminal/source-position class whose traces form a same-gain bucket.  Emit one
+non-sampled family theorem into this shared-gain socket.  If the required
+bucket/gain or margin proof demands a rank-indexed affine-RHS table or one case
+per accepted rank/path, reject Bellman production and pivot to the
+cancellation-tree summary automaton.
