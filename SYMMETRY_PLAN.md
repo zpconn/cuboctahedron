@@ -70293,3 +70293,50 @@ emission.  Do not generate thousands of parent shards in the old shape.  The
 next Bellman semantic-membership slice should use a small list of transition
 signatures and demonstrate that the evaluator bridge can consume those
 signatures without sampled ranks/paths.
+
+Shared-linear-state smoke checkpoint:
+
+The transition smoke was modified to factor the local-axis no-go facts through
+a literal matrix state:
+
+```lean
+depth8Parent000Linear
+depth8Parent000_linear_eq
+```
+
+and then reuse no-go facts stated over `depth8Parent000Linear`.  This is the
+right conceptual direction if the semantic transition table already carries the
+linear state.  However, proving the prefix product equals the literal matrix
+inside Lean is still Rat-heavy.
+
+Guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 120 \
+  --json scripts/generated/top_pairing_transition_shared_linear_smoke_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TransitionSmoke.lean
+```
+
+Result:
+
+```text
+passed
+elapsed: 18.08s
+peak process-tree RSS: 4012 MiB
+minimum available memory observed: 46110 MiB
+hard address-space cap: 8192 MiB
+```
+
+Decision: reject a production design that proves
+`topPairingLinearAfterFaces ... prefix = literalMatrix` by Rat normalization
+for every parent.  Literal matrix states are still promising, but only if the
+transition provider carries/checks the finite linear state by a cheap
+integer/projective transition relation, or if the state equality is amortized
+inside a much smaller semantic state DAG.  This is now a hard requirement for
+scaling the Bellman provider.

@@ -23,6 +23,25 @@ def depth8Parent000Prefix : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tmmp, Face.tpmp,
     Face.tmmm, Face.tpmm]
 
+def depth8Parent000Linear : Mat3 Rat where
+  m00 := 7 / 9
+  m01 := -4 / 9
+  m02 := -4 / 9
+  m10 := 4 / 9
+  m11 := -1 / 9
+  m12 := 8 / 9
+  m20 := -4 / 9
+  m21 := -8 / 9
+  m22 := 1 / 9
+
+theorem depth8Parent000_linear_eq :
+    topPairingLinearAfterFaces (matId : Mat3 Rat)
+      depth8Parent000Prefix = depth8Parent000Linear := by
+  apply Mat3.ext <;>
+    norm_num [topPairingLinearAfterFaces, depth8Parent000Prefix,
+      depth8Parent000Linear, normalQ, matId, matMul, reflM, matSub,
+      scalarMat, outer, dot]
+
 def Depth8Parent000Labels (labels : List Face) : Prop :=
   ∃ rest : List Face, labels = depth8Parent000Prefix ++ rest
 
@@ -71,34 +90,22 @@ theorem depth8_parent000_next_obligations
           (pfx := depth8Parent000Prefix) (rest := rest) ha rfl
 
 theorem not_depth8_parent000_axis_tmmm :
-    ¬ TopPairingLocalAxisAllows
-      (topPairingLinearAfterFaces (matId : Mat3 Rat)
-        depth8Parent000Prefix)
-      Face.tmmm := by
+    ¬ TopPairingLocalAxisAllows depth8Parent000Linear Face.tmmm := by
   intro h
-  norm_num [TopPairingLocalAxisAllows, topPairingLinearAfterFaces,
-    depth8Parent000Prefix, normalQ, topPairingLocalAxis, matId, matVec,
-    dot, matMul, reflM, matSub, scalarMat, outer] at h
+  norm_num [TopPairingLocalAxisAllows, depth8Parent000Linear, normalQ,
+    topPairingLocalAxis, matVec, dot] at h
 
 theorem not_depth8_parent000_axis_tpmm :
-    ¬ TopPairingLocalAxisAllows
-      (topPairingLinearAfterFaces (matId : Mat3 Rat)
-        depth8Parent000Prefix)
-      Face.tpmm := by
+    ¬ TopPairingLocalAxisAllows depth8Parent000Linear Face.tpmm := by
   intro h
-  norm_num [TopPairingLocalAxisAllows, topPairingLinearAfterFaces,
-    depth8Parent000Prefix, normalQ, topPairingLocalAxis, matId, matVec,
-    dot, matMul, reflM, matSub, scalarMat, outer] at h
+  norm_num [TopPairingLocalAxisAllows, depth8Parent000Linear, normalQ,
+    topPairingLocalAxis, matVec, dot] at h
 
 theorem not_depth8_parent000_axis_zp :
-    ¬ TopPairingLocalAxisAllows
-      (topPairingLinearAfterFaces (matId : Mat3 Rat)
-        depth8Parent000Prefix)
-      Face.zp := by
+    ¬ TopPairingLocalAxisAllows depth8Parent000Linear Face.zp := by
   intro h
-  norm_num [TopPairingLocalAxisAllows, topPairingLinearAfterFaces,
-    depth8Parent000Prefix, normalQ, topPairingLocalAxis, matId, matVec,
-    dot, matMul, reflM, matSub, scalarMat, outer] at h
+  norm_num [TopPairingLocalAxisAllows, depth8Parent000Linear, normalQ,
+    topPairingLocalAxis, matVec, dot] at h
 
 theorem depth8_parent000_transition_children
     {labels : List Face}
@@ -128,6 +135,7 @@ theorem depth8_parent000_transition_children
       exfalso
       simpa [depth8Parent000Prefix, topPairingAllowedFacesAtStep] using hsched
   | zp =>
+      rw [depth8Parent000_linear_eq] at haxis
       exact False.elim (not_depth8_parent000_axis_zp haxis)
   | zm =>
       right
@@ -135,6 +143,7 @@ theorem depth8_parent000_transition_children
       right
       exact ⟨rest, rfl⟩
   | tmmm =>
+      rw [depth8Parent000_linear_eq] at haxis
       exact False.elim (not_depth8_parent000_axis_tmmm haxis)
   | tmmp =>
       unfold TopPairingPairCountsLabels at hc
@@ -146,6 +155,7 @@ theorem depth8_parent000_transition_children
       left
       exact ⟨rest, rfl⟩
   | tpmm =>
+      rw [depth8Parent000_linear_eq] at haxis
       exact False.elim (not_depth8_parent000_axis_tpmm haxis)
   | tpmp =>
       unfold TopPairingPairCountsLabels at hc
