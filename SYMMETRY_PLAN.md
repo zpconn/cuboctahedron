@@ -65985,3 +65985,172 @@ StrengthenedTopPairingFamily rank ->
 with `StrengthenedTopPairingFamily` containing only semantic closed-language,
 actual-face omni, trace-id/gain-bucket, and source-position/cancellation
 progress facts.  Treat any need for sampled rank/path membership as a no-go.
+
+### 2026-07-02 Generic shared-gain prefix socket
+
+The next semantic-membership slice is accepted.  The trace-margin socket now
+has a reusable prefix/gain adapter rather than only a hard-coded smoke:
+
+```lean
+def TerminalTracePrefixSharedGainClosedMarginFamily
+    (pfx : List Face)
+    (gain : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop
+
+theorem terminalTraceIdSharedGainBucketClosedMarginFamily_of_prefix
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {pfx : List Face}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hprefixGain :
+      forall traceId : AcceptedTraceId,
+        (acceptedTraceOfId traceId).take pfx.length = pfx ->
+          allowedTraceId traceId /\
+            acceptedTraceGain traceId = gain)
+    (hrank :
+      TerminalTracePrefixSharedGainClosedMarginFamily
+        pfx gain scaledMargin rank) :
+    TerminalTraceIdSharedGainBucketClosedMarginFamily
+      allowedTraceId gain scaledMargin rank
+
+theorem evalLanguage_of_terminalTracePrefixSharedGainClosedMarginFamily ...
+
+theorem terminalTracePrefixSharedGainClosedMarginFamily_scaledMargin_nonpos ...
+```
+
+The semantic family predicate contains only:
+
+- `TopPairingClosedLanguageAtRank rank Face.ym`;
+- `TopPairingActualFaceOmniAtRank rank`;
+- `AcceptedSequenceBadFaceAtRank rank Face.ym`;
+- terminal trace-label membership;
+- a face-label prefix equality;
+- one shared margin inequality.
+
+It does **not** mention sampled ranks, sampled paths, exact affine RHS tables,
+or one constructor per accepted trace.  The existing
+`BellmanTopPairingSharedGainPrefixBucketSmoke` now consumes this generic
+socket for the three-trace homogeneous prefix bucket
+
+```text
+xm ym tmpm tppm tpmm tppp tmmm tpmp tmmp
+```
+
+whose compatible accepted trace ids are `t000`, `t001`, and `t002`, all with
+Bellman gain `-376`.
+
+Checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_trace_margin_bounds_socket_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 3611 MiB
+hard_as = 8192 MiB
+min_available = 46279 MiB
+```
+
+The first direct smoke check failed because it imported the stale `.olean` for
+the socket.  A focused Lake build rebuilt the dependency and the smoke:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_shared_gain_prefix_bucket_smoke_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSharedGainPrefixBucketSmoke
+```
+
+Result:
+
+```text
+passed
+elapsed = 3.00s
+peak_tree_rss = 1715 MiB
+hard_as = 32768 MiB
+min_available = 46321 MiB
+```
+
+After that rebuild, direct Lean for the smoke also passed:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 300 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_shared_gain_prefix_bucket_smoke_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSharedGainPrefixBucketSmoke.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.01s
+peak_tree_rss = 3615 MiB
+hard_as = 8192 MiB
+min_available = 46278 MiB
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSharedGainPrefixBucketSmoke.lean
+```
+
+Both checks passed; the forbidden-term scan found no matches.
+
+Decision:
+
+Accept the generic shared-gain prefix socket as the next Bellman semantic
+membership surface.  The next generated-family experiment should target this
+shape:
+
+```text
+closed + actualFaceOmni + accepted bad face + terminal trace labels
++ compact prefix bucket + shared margin inequality
+  -> TopPairingBellmanEvalLanguageAtRank
+  -> scaledMargin <= 0
+```
+
+The remaining open question is whether real top-pairing residual coverage can
+be partitioned into a small number of such prefix/gain buckets, or whether the
+margin inequality still requires exact rank/path data.  If the bucket
+partition stays small and the margin proof is source-position/cancellation
+semantic, continue Bellman.  If it turns into one theorem per full trace or
+rank, reject Bellman production and pivot to the cancellation-tree summary
+automaton.

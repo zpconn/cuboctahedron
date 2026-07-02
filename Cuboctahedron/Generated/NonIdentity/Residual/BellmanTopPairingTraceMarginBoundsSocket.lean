@@ -853,6 +853,83 @@ theorem terminalTraceIdSharedGainBucketClosedMarginFamily_scaledMargin_nonpos
     (terminalTraceIdBucketClosedMarginFamily_of_sharedGainBucket
       hrank)
 
+def TerminalTracePrefixSharedGainClosedMarginFamily
+    (pfx : List Face)
+    (gain : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym /\
+    TopPairingActualFaceOmniAtRank rank /\
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym /\
+        TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+          (topPairingRankFaceLabels rank) /\
+          (topPairingRankFaceLabels rank).take pfx.length = pfx /\
+            scaledMargin rank <= (176 : Int) + gain
+
+theorem terminalTraceIdSharedGainBucketClosedMarginFamily_of_prefix
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {pfx : List Face}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hprefixGain :
+      forall traceId : AcceptedTraceId,
+        (acceptedTraceOfId traceId).take pfx.length = pfx ->
+          allowedTraceId traceId /\
+            acceptedTraceGain traceId = gain)
+    (hrank :
+      TerminalTracePrefixSharedGainClosedMarginFamily
+        pfx gain scaledMargin rank) :
+    TerminalTraceIdSharedGainBucketClosedMarginFamily
+      allowedTraceId gain scaledMargin rank := by
+  rcases hrank with
+    ⟨hclosed, hactual, hbad, hterminal, hprefix, hmargin⟩
+  refine ⟨hclosed, hactual, hbad, hterminal, ?_, hmargin⟩
+  intro traceId htrace
+  rw [htrace] at hprefix
+  exact hprefixGain traceId hprefix
+
+theorem evalLanguage_of_terminalTracePrefixSharedGainClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {pfx : List Face}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hprefixGain :
+      forall traceId : AcceptedTraceId,
+        (acceptedTraceOfId traceId).take pfx.length = pfx ->
+          allowedTraceId traceId /\
+            acceptedTraceGain traceId = gain)
+    (hrank :
+      TerminalTracePrefixSharedGainClosedMarginFamily
+        pfx gain scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_terminalTraceIdSharedGainBucketClosedMarginFamily
+    (terminalTraceIdSharedGainBucketClosedMarginFamily_of_prefix
+      hprefixGain hrank)
+
+theorem terminalTracePrefixSharedGainClosedMarginFamily_scaledMargin_nonpos
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {pfx : List Face}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hprefixGain :
+      forall traceId : AcceptedTraceId,
+        (acceptedTraceOfId traceId).take pfx.length = pfx ->
+          allowedTraceId traceId /\
+            acceptedTraceGain traceId = gain)
+    (hrank :
+      TerminalTracePrefixSharedGainClosedMarginFamily
+        pfx gain scaledMargin rank) :
+    scaledMargin rank <= 0 :=
+  terminalTraceIdSharedGainBucketClosedMarginFamily_scaledMargin_nonpos
+    (terminalTraceIdSharedGainBucketClosedMarginFamily_of_prefix
+      hprefixGain hrank)
+
 theorem trace_margin_bounds_socket_builds : True := by
   exact True.intro
 
