@@ -74184,3 +74184,138 @@ Strategic consequence:
   states and test whether a representative full-provider family can prove the
   four fields without sampled paths, exact affine RHS keys, or rank-by-rank
   branching.
+
+## 2026-07-02 Strategy Adjustment: One More Closed-Language Evaluator Gate
+
+GPT5.5 Pro's latest assessment changes the immediate priority.  The Bellman
+potential and object-cover plumbing look mathematically and mechanically
+appropriate, but the critical missing proof is not another provider catalogue,
+another potential, another selected-prefix smoke, or another sampled path.  The
+critical missing proof is the deterministic semantic theorem from the current
+closed top-pairing language to the generated Bellman evaluator.
+
+So the immediate strategy is:
+
+```text
+continue Bellman for exactly one more semantic-membership experiment
+```
+
+and make that experiment the go/no-go gate.
+
+Current accepted infrastructure:
+
+```lean
+structure TopPairingBellmanObj (badFace : Face) where
+  rank : Fin numPairWords
+  closed : TopPairingClosedLanguageAtRank rank badFace
+
+def topPairingClosedMembership ...
+theorem topPairingClosedTraceBound_of_evalAccepts ...
+def topPairingClosedObjectCoverOfEvalAccepts ...
+
+structure TopPairingBellmanEvalLanguageAtRank ...
+
+def topPairingBellmanEvalObjectCoverOfClosedToEval ...
+```
+
+This is the right compact object shape: rank plus a semantic closed-language
+proof.  It does not use `SampledRankIndex`, sampled paths, sampled rank tables,
+or one constructor per rank.  The existing direct-provider surface is useful,
+but it is now secondary.  Provider discovery resumes only after the evaluator
+gate below succeeds.
+
+The next theorem to prove, generated or hand-written in a bounded slice, is:
+
+```lean
+theorem topPairingClosed_to_eval
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TopPairingBellmanEvalLanguageAtRank
+      topPairingV
+      topPairingNext
+      topPairingLabelOfFace
+      topPairingStart
+      topPairingConst
+      topPairingScaledMargin
+      rank
+      Face.ym
+```
+
+where the concrete names should be adapted to the generated graph evaluator
+currently represented by the smoke modules.  Expanded, the theorem must supply:
+
+```lean
+∃ result,
+  evalLabelStepFn topPairingNext topPairingStart
+    (faceLabelsInContributionOrder topPairingLabelOfFace
+      (canonicalSeqOfPairWord (unrankPairWord rank))) = some result
+  ∧ 0 <= topPairingV result.1
+  ∧ topPairingScaledMargin rank <= topPairingConst + result.2
+```
+
+from `TopPairingClosedLanguageAtRank rank Face.ym`, not from a sampled trace
+object.  If the current closed-language fields are too weak, the permitted
+strengthening is one semantic predicate/theorem, for example:
+
+```lean
+TopPairingBellmanLanguageAtRank rank Face.ym
+```
+
+extending `TopPairingClosedLanguageAtRank` with a deterministic `eval_ok` field.
+That strengthening is acceptable only if there is a theorem from the old closed
+predicate to the strengthened one, or if the strengthened predicate becomes the
+documented full semantic language proven by future generated provider leaves.
+It must not be a wrapper around sampled paths/ranks.
+
+Immediate implementation order:
+
+1. Inspect the existing generated evaluator names and margin functions used by
+   `BellmanTopPairingGraphAcceptedEvalGate.lean`,
+   `BellmanTopPairingClosedEvalTraceSmoke.lean`, and
+   `TopPairingBellmanObject.lean`.
+2. Create the smallest nontrivial closed-language-to-evaluator slice:
+   either a theorem from `TopPairingClosedLanguageAtRank rank Face.ym` to
+   `TopPairingBellmanEvalLanguageAtRank ... rank Face.ym`, or a minimal
+   strengthened semantic predicate with that theorem.
+3. The object type must remain `TopPairingBellmanObj Face.ym` or an equivalent
+   semantic subtype.  It must not introduce `SampledRankIndex`,
+   `sampledContainsRank`, `sampledRankOf`, sampled paths, or a one-rank object
+   enum.
+4. Validate with only OOM-safe direct checks, for example:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_closed_to_eval_gate_guard.json \
+  -- lake env lean -R . -M 7000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/<new-file>.lean
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext" \
+  Cuboctahedron/Search/TopPairingBellmanObject.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/<new-file>.lean
+```
+
+Go decision:
+
+```text
+accept Bellman for production provider work only if the closed/eval theorem
+builds for a nontrivial top-pairing family without sampled membership and with
+RSS safely under the 7 GiB guard
+```
+
+No-go decision:
+
+```text
+if the closed/eval theorem still requires SampledRankIndex, sampled paths,
+exact affine-RHS keys, or one generated branch per rank/path, stop this
+Bellman route as a final coverage architecture and pivot to the
+cancellation-tree summary automaton
+```
+
+This supersedes the previous immediate "provider discovery" next step.  The
+provider-family surface remains a checked and useful consumer, but it is not
+the next proof risk.  The next proof risk is whether the semantic closed
+language can drive the deterministic evaluator directly.
