@@ -1,0 +1,29 @@
+{
+  "available_floor_mib": 24576.0,
+  "command": [
+    "python3",
+    "scripts/audit_bellman_missing_transition_completions.py",
+    "--graph",
+    "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+    "--closure",
+    "scripts/generated/bellman_target_pairing_closure_1m_step_face_linear_tri_source_localaxis_lean.json",
+    "--schedule-mode",
+    "observed+square-gap",
+    "--state-key-mode",
+    "with-step-face-linear-tri-source",
+    "--json",
+    "scripts/generated/bellman_missing_transition_completions_1m_step_face_linear_tri_source_localaxis_lean.json",
+    "--markdown",
+    "scripts/generated/bellman_missing_transition_completions_1m_step_face_linear_tri_source_localaxis_lean.md"
+  ],
+  "elapsed_seconds": 1.0030505250033457,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 960,
+  "max_tree_rss_mib": 0.9375,
+  "min_available_seen_kib": 47548172,
+  "min_available_seen_mib": 46433.76171875,
+  "rss_cap_mib": 7000.0,
+  "timeout_seconds": 120.0
+}

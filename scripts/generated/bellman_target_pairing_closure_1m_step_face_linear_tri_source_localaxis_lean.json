@@ -1,0 +1,180 @@
+{
+  "allowed_faces_by_step": [
+    [
+      "xm"
+    ],
+    [
+      "ym"
+    ],
+    [
+      "tmpm",
+      "yp",
+      "zm"
+    ],
+    [
+      "tmmm",
+      "tmpp",
+      "tppm",
+      "yp",
+      "zm",
+      "zp"
+    ],
+    [
+      "tmmp",
+      "tmpm",
+      "tpmm",
+      "tppp",
+      "yp",
+      "zm",
+      "zp"
+    ],
+    [
+      "tmmm",
+      "tpmp",
+      "tppm",
+      "tppp",
+      "zm",
+      "zp"
+    ],
+    [
+      "tmmm",
+      "tpmm",
+      "tpmp",
+      "tppm",
+      "tppp",
+      "zm",
+      "zp"
+    ],
+    [
+      "tmmp",
+      "tmpm",
+      "tpmm",
+      "tpmp",
+      "tppm",
+      "tppp",
+      "zm",
+      "zp"
+    ],
+    [
+      "tmmm",
+      "tmmp",
+      "tmpp",
+      "tpmm",
+      "tpmp",
+      "tppp",
+      "yp",
+      "zm",
+      "zp"
+    ],
+    [
+      "tmmm",
+      "tmpm",
+      "tmpp",
+      "tpmp",
+      "tppm",
+      "yp",
+      "zm",
+      "zp"
+    ],
+    [
+      "tmmp",
+      "tmpm",
+      "tppp",
+      "yp",
+      "zm"
+    ],
+    [
+      "tmmm",
+      "tmpp",
+      "yp",
+      "zm",
+      "zp"
+    ],
+    [
+      "tmmp",
+      "yp",
+      "zp"
+    ],
+    [
+      "xp"
+    ]
+  ],
+  "allowed_square_faces_by_gap": [
+    [
+      "xm",
+      "ym",
+      "yp",
+      "zm",
+      "zp"
+    ],
+    [
+      "zm",
+      "zp"
+    ],
+    [
+      "zm",
+      "zp"
+    ],
+    [
+      "zm",
+      "zp"
+    ],
+    [
+      "zm",
+      "zp"
+    ],
+    [
+      "zm",
+      "zp"
+    ],
+    [
+      "yp",
+      "zm",
+      "zp"
+    ],
+    [
+      "zm",
+      "zp"
+    ],
+    [
+      "xp",
+      "yp",
+      "zm",
+      "zp"
+    ]
+  ],
+  "decision": "target-pairing-language-not-closed",
+  "edge_count": 229,
+  "forced_axis": "-1,-1,-3",
+  "input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "recommendation": "The target pairing alone is still not enough; inspect missing and illegal transitions to identify the next state component.",
+  "require_local_axis_forced": true,
+  "schedule_mode": "observed+square-gap",
+  "state_count": 223,
+  "states_with_face_counts": 223,
+  "states_with_illegal_transitions": 0,
+  "states_with_local_axis_rejections": 13,
+  "states_with_missing_transitions": 1,
+  "target_pairing": "pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1",
+  "top_problem_states": [
+    {
+      "axis_rejected_count": 0,
+      "axis_rejected_faces": [],
+      "illegal_count": 0,
+      "illegal_faces": [],
+      "legal_count": 2,
+      "missing_count": 1,
+      "missing_faces": [
+        "tmmp"
+      ],
+      "observed_count": 1,
+      "state": 19,
+      "state_key": "step=10|faces=1,0,1,0,0,0,0,1,0,1,0,0,0,0|par=110|stack=dm11 d111 d1m1 dm11|lin=55/81,44/81,40/81;20/81,-65/81,44/81;56/81,-20/81,-55/81|triSrc=2:d1m1->dm11@110|5:d11m->d111@110|6:dm11->d1m1@110|7:d111->d11m@110|8:d111->d11m@110|9:d1m1->dm11@110"
+    }
+  ],
+  "total_illegal_transitions": 0,
+  "total_local_axis_rejected_transitions": 14,
+  "total_missing_transitions": 1,
+  "total_observed_face_transitions": 229,
+  "total_target_legal_transitions": 230
+}

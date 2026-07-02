@@ -78283,3 +78283,122 @@ invariant over reachable semantic eval states.  The desired proof is the
 `TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocal`.
 Reject the invariant if it requires exact trace equality, sampled rank
 membership, exact affine RHS, solved start point, or full Bellman path identity.
+
+## 2026-07-02 Checkpoint: Transducer Invariant Closure Audit
+
+Ran the exact finite-state closure audits for the next invariant key instead
+of forcing a fake one-step `Inv` proof.  This audit is diagnostic, not proof,
+but it tells the next Lean/generator slice what semantic field is missing from
+the transducer invariant.
+
+Inputs:
+
+```text
+scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_\
+with_step_face_linear_tri_source_graph.json
+```
+
+The audited state key contains:
+
+```text
+step + remaining signed faces + square parity + reduced stack +
+local linear matrix + tri-source progress + Bellman graph state
+```
+
+The transition language used:
+
+- target cancellation pairing;
+- observed top-pairing step schedule;
+- observed square-gap schedule;
+- Lean local-axis orientation `-1,-1,-3`.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_target_pairing_closure_1m_localaxis_lean_audit_guard.json \
+  -- python3 scripts/audit_bellman_target_pairing_closure.py \
+    --input scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+    --schedule-mode observed+square-gap \
+    --require-local-axis-forced \
+    --axis=-1,-1,-3 \
+    --json scripts/generated/bellman_target_pairing_closure_1m_step_face_linear_tri_source_localaxis_lean.json \
+    --markdown scripts/generated/bellman_target_pairing_closure_1m_step_face_linear_tri_source_localaxis_lean.md
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_missing_transition_completions_1m_localaxis_lean_audit_guard.json \
+  -- python3 scripts/audit_bellman_missing_transition_completions.py \
+    --graph scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json \
+    --closure scripts/generated/bellman_target_pairing_closure_1m_step_face_linear_tri_source_localaxis_lean.json \
+    --schedule-mode observed+square-gap \
+    --state-key-mode with-step-face-linear-tri-source \
+    --json scripts/generated/bellman_missing_transition_completions_1m_step_face_linear_tri_source_localaxis_lean.json \
+    --markdown scripts/generated/bellman_missing_transition_completions_1m_step_face_linear_tri_source_localaxis_lean.md
+```
+
+Results:
+
+| Audit | Result | Time | Peak RSS | Key metrics |
+|---|---:|---:|---:|---|
+| target-pairing closure, Lean local axis | pass/run complete | `1.00s` | `0.94 MiB` | `223` states, `229` observed transitions, `0` illegal transitions, `1` missing transition |
+| missing-transition completions | pass/run complete | `1.00s` | `0.94 MiB` | `1` gap, `1` completion, `0` matched top-family completions |
+
+Decision:
+
+```text
+target-pairing + schedule + square-gap + local-axis is almost closed
+on the 1M exact graph, but one over-approximate missing transition remains.
+```
+
+The sole missing transition is:
+
+```text
+state=19, missing_face=tmmp
+```
+
+The completion audit classifies its only completion as:
+
+```text
+canonical_bad_face_mismatch
+```
+
+with:
+
+```text
+canonical_bad_face=tpmm
+target_bad_face=yp
+```
+
+So the next semantic invariant should not be exact trace, sampled rank,
+affine RHS, solved start point, or full Bellman path identity.  The next
+invariant should be canonical bad-face compatibility, preferably routed through
+the existing strengthened predicate:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+```
+
+or an equivalent production residual predicate that proves the sequence's
+canonical bad face is compatible with `Face.ym`.
+
+Next Lean/generator gate:
+
+1. Add a small theorem/socket showing how canonical bad-face compatibility
+   rules out the `state=19, face=tmmp` over-approximate transition without
+   mentioning a sampled rank or exact trace.
+2. Rerun the closure audit with canonical bad-face filtering encoded in the
+   external diagnostic and require:
+
+```text
+total_missing_transitions = 0
+total_illegal_transitions = 0
+```
+
+3. Only then generate a finite `Inv` table for
+   `evalLanguageAtRank_of_invariantLocal`.
