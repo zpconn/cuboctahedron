@@ -74504,3 +74504,78 @@ predicates, not the evaluator socket itself.  If that membership proof collapses
 back into sampled paths, exact affine-RHS keys, or one branch per concrete rank,
 the Bellman route should be rejected as a final coverage architecture and the
 cancellation-tree summary automaton should become primary.
+
+## 2026-07-02 Checkpoint: Selected-Prefix Membership Gap Audit
+
+Added a lightweight audit for the current Bellman boundary:
+
+```text
+scripts/audit_top_pairing_selected_prefix_membership_gap.py
+scripts/generated/top_pairing_selected_prefix_membership_gap.json
+scripts/generated/top_pairing_selected_prefix_membership_gap.md
+```
+
+Commands:
+
+```bash
+python3 scripts/audit_top_pairing_selected_prefix_membership_gap.py
+python3 -m py_compile scripts/audit_top_pairing_selected_prefix_membership_gap.py
+```
+
+Result:
+
+```text
+decision=selected-prefix-evaluator-path-accepted-membership-gap-remains
+```
+
+The audit consolidates the current state:
+
+```text
+accepted diagnostic traces: 37
+shared-gain prefix buckets: 31
+singleton buckets: 26
+largest bucket: 3
+sampled membership hits in checked surfaces: none
+```
+
+Guarded Lean checks recorded by the audit:
+
+| target | exit | elapsed | max RSS | hard AS |
+| --- | ---: | ---: | ---: | ---: |
+| `shared_gain_prefix_bucket_smoke` | `0` | `10.01s` | `3644 MiB` | `12288 MiB` |
+| `selected_prefix_trace_margin_object_cover` | `0` | `2.00s` | `3600 MiB` | `12288 MiB` |
+| `selected_prefix_trace_margin_killed_socket` | `0` | `2.00s` | `3602 MiB` | `12288 MiB` |
+
+Current interpretation:
+
+- The Bellman evaluator socket and selected-prefix killed surface are
+  Lean-checked and memory-safe at this bounded boundary.
+- This does not prove full residual coverage.
+- The remaining production theorem is semantic membership from the full
+  intended top-pairing residual language into
+  `SelectedPrefixTraceMarginFamily` or directly into
+  `TerminalTracePrefixSharedGainClosedMarginFamily`.
+
+Schematic target:
+
+```lean
+forall rank,
+  FullTopPairingResidualLanguageAtRank rank ->
+    SelectedPrefixTraceMarginFamily scaledMargin rank
+```
+
+or, if the selected-prefix cover is too narrow:
+
+```lean
+forall rank,
+  FullTopPairingResidualLanguageAtRank rank ->
+    exists pfx gain,
+      TerminalTracePrefixSharedGainClosedMarginFamily
+        pfx gain scaledMargin rank
+```
+
+The actual upstream predicate name is still to be selected from the existing
+residual classifier.  The proof must stay semantic; if it needs sampled ranks,
+sampled paths, exact affine-RHS keys, or one branch per concrete rank, this
+Bellman route should be rejected for final generated coverage and the
+cancellation-tree summary automaton should become primary.

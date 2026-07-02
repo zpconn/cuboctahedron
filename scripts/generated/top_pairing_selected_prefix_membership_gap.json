@@ -1,0 +1,111 @@
+{
+  "decision": "selected-prefix-evaluator-path-accepted-membership-gap-remains",
+  "guards": {
+    "selected_prefix_trace_margin_killed_socket": {
+      "elapsed_seconds": 2.0020291560067562,
+      "exists": true,
+      "exit_code": 0,
+      "hard_address_space_mib": 12288.0,
+      "max_tree_rss_mib": 3601.515625,
+      "min_available_seen_mib": 46307.2890625,
+      "path": "scripts/generated/selected_prefix_trace_margin_killed_socket_guard.json"
+    },
+    "selected_prefix_trace_margin_object_cover": {
+      "elapsed_seconds": 2.0024433660000795,
+      "exists": true,
+      "exit_code": 0,
+      "hard_address_space_mib": 12288.0,
+      "max_tree_rss_mib": 3599.51171875,
+      "min_available_seen_mib": 46313.0234375,
+      "path": "scripts/generated/selected_prefix_trace_margin_object_cover_guard.json"
+    },
+    "shared_gain_prefix_bucket_smoke": {
+      "elapsed_seconds": 10.006481828997494,
+      "exists": true,
+      "exit_code": 0,
+      "hard_address_space_mib": 12288.0,
+      "max_tree_rss_mib": 3644.203125,
+      "min_available_seen_mib": 46299.91015625,
+      "path": "scripts/generated/top_pairing_shared_gain_prefix_bucket_smoke_guard.json"
+    }
+  },
+  "lean_surfaces": {
+    "selected_prefix_cover_root": {
+      "bytes": 3386,
+      "exists": true,
+      "expected_surface_hits": {
+        "TopPairingBellmanEvalLanguageAtRank": 1
+      },
+      "forbidden_membership_hits": {},
+      "lines": 66,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStateDAGSelectedPrefixCover/All.lean"
+    },
+    "selected_prefix_killed_socket": {
+      "bytes": 2913,
+      "exists": true,
+      "expected_surface_hits": {
+        "Coverage.NonIdentityRankKilled": 1
+      },
+      "forbidden_membership_hits": {},
+      "lines": 65,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginKilledSocket.lean"
+    },
+    "selected_prefix_object_cover": {
+      "bytes": 6965,
+      "exists": true,
+      "expected_surface_hits": {
+        "BellmanAxisRankObjectCover": 3
+      },
+      "forbidden_membership_hits": {},
+      "lines": 176,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginObjectCover.lean"
+    },
+    "selected_prefix_trace_margin_adapter": {
+      "bytes": 31557,
+      "exists": true,
+      "expected_surface_hits": {
+        "SelectedPrefixTraceMarginFamily": 5,
+        "TerminalTracePrefixSharedGainClosedMarginFamily": 62,
+        "TopPairingBellmanEvalLanguageAtRank": 1
+      },
+      "forbidden_membership_hits": {},
+      "lines": 559,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginAdapter.lean"
+    },
+    "shared_gain_prefix_bucket_smoke": {
+      "bytes": 3708,
+      "exists": true,
+      "expected_surface_hits": {
+        "TerminalTracePrefixSharedGainClosedMarginFamily": 1,
+        "TopPairingBellmanEvalLanguageAtRank": 1
+      },
+      "forbidden_membership_hits": {},
+      "lines": 98,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSharedGainPrefixBucketSmoke.lean"
+    },
+    "trace_margin_bounds_socket": {
+      "bytes": 40509,
+      "exists": true,
+      "expected_surface_hits": {
+        "TerminalTracePrefixSharedGainClosedMarginFamily": 4,
+        "TopPairingBellmanEvalLanguageAtRank": 14
+      },
+      "forbidden_membership_hits": {},
+      "lines": 936,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTraceMarginBoundsSocket.lean"
+    }
+  },
+  "mode": "top-pairing-selected-prefix-membership-gap-audit",
+  "remaining_production_theorem": {
+    "status": "missing",
+    "target": "semantic membership from the full top-pairing residual language into SelectedPrefixTraceMarginFamily or TerminalTracePrefixSharedGainClosedMarginFamily"
+  },
+  "sampled_membership_hits": {},
+  "selected_prefix_cover": {
+    "accepted_trace_count": 37,
+    "cover_size": 31,
+    "largest_bucket_size": 3,
+    "path": "scripts/generated/top_pairing_shared_gain_prefix_cover_plan.json",
+    "singleton_bucket_count": 26
+  }
+}
