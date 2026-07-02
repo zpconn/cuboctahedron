@@ -61484,3 +61484,126 @@ that supplies `TerminalAcceptedEvalSequenceBadFace` or the equivalent
 If that theorem requires sampled rank/path membership or one branch per
 rank/path, stop the Bellman production route and switch to the fallback
 cancellation-tree/state-language pivot described above.
+
+Terminal-accepted Bellman consequence checkpoint:
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedObjectCover.lean
+```
+
+This module keeps the terminal bridge light and imports the heavier split graph
+transition root only at the final consequence layer.  It proves:
+
+```lean
+theorem strengthenedTerminalAcceptedEval_scaledMargin_nonpos
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (h :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (BellmanTopPairingTerminalAcceptedBridge.\
+TerminalAcceptedEvalSequenceBadFace scaledMargin)
+        rank Face.ym) :
+    scaledMargin rank <= 0
+```
+
+The theorem first applies
+`evalLanguage_of_strengthenedTerminalAcceptedEval`, then uses
+`scaledMargin_nonpos_of_bellmanEvalAccepts_invariant` with the split graph
+transition root.  This is still semantic: the object is not a sampled rank/path
+table, and the remaining production obligation is exactly to prove the
+strengthened predicate from compact generated classifiers.
+
+Focused validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 20000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_accepted_object_cover_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedObjectCover.lean
+```
+
+Result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3619 MiB
+hard_as = 8192 MiB
+min_available = 46244 MiB
+```
+
+Artifact refresh discipline:
+
+A focused Lake refresh,
+
+```bash
+lake build +Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalAcceptedBridge:olean
+```
+
+was killed safely by the memory guard at `7014 MiB` because Lake scheduled
+multiple Lean processes.  For this Lake version, `-J` is JSON output for
+`lake query`, not a jobs flag, and `lake build --help` exposes no build
+concurrency flag.  The safe replacement was direct single-module artifact
+refresh with `lean -o/-i`:
+
+```bash
+lake env lean -M 6000 -j1 -s 2048 \
+  -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalLanguage.olean \
+  -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalLanguage.ilean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedEvalLanguage.lean
+
+lake env lean -M 6000 -j1 -s 2048 \
+  -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TerminalOk.olean \
+  -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TerminalOk.ilean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TerminalOk.lean
+
+lake env lean -M 6000 -j1 -s 2048 \
+  -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.olean \
+  -i .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.ilean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.lean
+```
+
+Each direct artifact refresh passed under the hard `8192 MiB` address-space cap
+with about the normal `3.6 GiB` import baseline.
+
+Audit:
+
+```bash
+git diff --check
+rg -n \
+  "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedObjectCover.lean
+```
+
+Both checks passed; the `rg` audit returned no matches.
+
+Decision:
+
+Accept this as the rank-level Bellman consequence socket for the terminal
+accepted route.  The immediate next work remains the actual semantic
+classifier/membership theorem: prove
+`TerminalAcceptedEvalSequenceBadFace scaledMargin rank Face.ym` or an equivalent
+`TopPairingBellmanEvalLanguageAtRank` from compact closed-language data.  Do
+not add sampled rank/path objects to do this.
