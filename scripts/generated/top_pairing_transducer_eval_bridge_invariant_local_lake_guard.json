@@ -1,0 +1,18 @@
+{
+  "available_floor_mib": 24576.0,
+  "command": [
+    "lake",
+    "build",
+    "Cuboctahedron.Search.TopPairingTransducerEvalBridge"
+  ],
+  "elapsed_seconds": 3.0027319919900037,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 3921208,
+  "max_tree_rss_mib": 3829.3046875,
+  "min_available_seen_kib": 46558248,
+  "min_available_seen_mib": 45467.0390625,
+  "rss_cap_mib": 7000.0,
+  "timeout_seconds": 180.0
+}

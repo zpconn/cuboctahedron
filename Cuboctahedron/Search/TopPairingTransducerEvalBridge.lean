@@ -172,6 +172,43 @@ theorem evalLabelStepFn_exists_of_tail_and_localGraph
       refine ⟨finish, gain + tailGain, ?_, hfinishTail⟩
       simp [evalLabelStepFn, hnext, htailEval]
 
+/--
+Invariant-carrying version of
+`evalLabelStepFn_exists_of_tail_and_localGraph`.  This is the realistic surface
+for generated finite transition tables: generated code proves that every local
+semantic transition from an in-family state succeeds and stays in the family.
+-/
+theorem evalLabelStepFn_exists_of_tail_and_invariantLocal
+    {State Label : Type}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    (Inv : TopPairingTransducerEvalState State -> Prop)
+    (hlocal :
+      forall {state : TopPairingTransducerEvalState State}
+        {face : Face} {rest : List Face},
+        Inv state ->
+        state.Tail (face :: rest) ->
+          exists nextState gain,
+            next? next labelOfFace state face = some (nextState, gain) ∧
+              nextState.Tail rest ∧ Inv nextState)
+    {state : TopPairingTransducerEvalState State}
+    {faces : List Face}
+    (hinv : Inv state)
+    (htail : state.Tail faces) :
+    exists finish gain,
+      evalLabelStepFn (next? next labelOfFace) state faces =
+        some (finish, gain) ∧ finish.Tail [] ∧ Inv finish := by
+  induction faces generalizing state with
+  | nil =>
+      exact ⟨state, 0, by simp [evalLabelStepFn], htail, hinv⟩
+  | cons face rest ih =>
+      rcases hlocal hinv htail with
+        ⟨mid, gain, hnext, hmidTail, hmidInv⟩
+      rcases ih hmidInv hmidTail with
+        ⟨finish, tailGain, htailEval, hfinishTail, hfinishInv⟩
+      refine ⟨finish, gain + tailGain, ?_, hfinishTail, hfinishInv⟩
+      simp [evalLabelStepFn, hnext, htailEval]
+
 theorem graph_next_of_next?
     {State Label : Type}
     {next : State -> Label -> Option (State × Int)}
@@ -308,6 +345,48 @@ theorem evalLanguageAtRank_of_localGraph
       (next := next) (labelOfFace := labelOfFace) hlocal htail with
     ⟨finish, gain, heval, hfinishTail⟩
   rcases hfinish heval hfinishTail with ⟨hfinal, hmargin⟩
+  exact evalLanguageAtRank_of_faceEval hclosed heval hfinal hmargin
+
+theorem evalLanguageAtRank_of_invariantLocal
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {graphStart : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {badFace : Face}
+    (Inv : TopPairingTransducerEvalState State -> Prop)
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace)
+    (hstart : Inv (TopPairingTransducerEvalState.start graphStart))
+    (hlocal :
+      forall {state : TopPairingTransducerEvalState State}
+        {face : Face} {rest : List Face},
+        Inv state ->
+        state.Tail (face :: rest) ->
+          exists nextState gain,
+            next? next labelOfFace state face = some (nextState, gain) ∧
+              nextState.Tail rest ∧ Inv nextState)
+    (hfinish :
+      forall {finish : TopPairingTransducerEvalState State} {gain : Int},
+        evalLabelStepFn (next? next labelOfFace)
+          (TopPairingTransducerEvalState.start graphStart)
+          (topPairingRankFaceLabels rank) = some (finish, gain) ->
+        finish.Tail [] ->
+        Inv finish ->
+          0 <= V finish.graph ∧ scaledMargin rank <= const + gain) :
+    TopPairingBellmanEvalLanguageAtRank
+      V next labelOfFace graphStart const scaledMargin rank badFace := by
+  have htail :
+      (TopPairingTransducerEvalState.start graphStart).Tail
+        (topPairingRankFaceLabels rank) := by
+    simpa [Tail, TopPairingTransducerEvalState.start] using
+      TopPairingTransducerState.start_tail_of_closed hclosed
+  rcases evalLabelStepFn_exists_of_tail_and_invariantLocal
+      (next := next) (labelOfFace := labelOfFace) Inv hlocal hstart htail with
+    ⟨finish, gain, heval, hfinishTail, hfinishInv⟩
+  rcases hfinish heval hfinishTail hfinishInv with ⟨hfinal, hmargin⟩
   exact evalLanguageAtRank_of_faceEval hclosed heval hfinal hmargin
 
 end TopPairingTransducerEvalState

@@ -78008,3 +78008,105 @@ Next gate: emit a tiny generated transition-table smoke that proves the
 state family.  The table should be keyed by semantic transducer state fields
 and graph state, not by exact trace equality, sampled rank, exact affine RHS,
 or selected-prefix membership.
+
+## 2026-07-02 Checkpoint: Invariant Local Transition Surface Accepted
+
+Refined the local graph transition surface to match the realistic generated
+table shape.  A full generated table will not prove transitions for every
+possible semantic tail; it will prove transitions for a finite reachable state
+family and preserve that family.  The core bridge now supports that directly.
+
+Updated:
+
+```text
+Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean
+```
+
+New theorem names:
+
+```lean
+theorem TopPairingTransducerEvalState.evalLabelStepFn_exists_of_tail_and_invariantLocal
+
+theorem TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocal
+```
+
+The new production target is:
+
+```lean
+TopPairingBellmanEvalLanguageAtRank
+  V next labelOfFace graphStart const scaledMargin rank badFace
+```
+
+from:
+
+- `TopPairingClosedLanguageAtRank rank badFace`;
+- an invariant `Inv : TopPairingTransducerEvalState State -> Prop`;
+- proof that the initial eval state is in `Inv`;
+- a generated local transition theorem:
+
+```lean
+forall {state face rest},
+  Inv state ->
+  state.Tail (face :: rest) ->
+    exists nextState gain,
+      next? next labelOfFace state face = some (nextState, gain) /\
+      nextState.Tail rest /\
+      Inv nextState
+```
+
+- a generated final theorem over `Inv` finals:
+
+```lean
+evalLabelStepFn ... = some (finish, gain) ->
+finish.Tail [] ->
+Inv finish ->
+  0 <= V finish.graph /\ scaledMargin rank <= const + gain
+```
+
+This is the best current theorem surface for the next generator: finite,
+semantic, table-like, and independent of sampled ranks, selected-prefix
+objects, root-trace equality, exact affine RHS, or exact Bellman path keys.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/top_pairing_transducer_eval_bridge_invariant_local_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/top_pairing_transducer_eval_bridge_invariant_local_lake_guard.json \
+  -- lake build Cuboctahedron.Search.TopPairingTransducerEvalBridge
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_transducer_face_eval_smoke_after_invariant_local_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTransducerFaceEvalSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `TopPairingTransducerEvalBridge.lean` direct | pass | `5.01s` | `3803 MiB` | hard AS `12288 MiB` |
+| `Cuboctahedron.Search.TopPairingTransducerEvalBridge` Lake | pass | `3.00s` | `3829 MiB` | RSS guard, no hard AS |
+| `BellmanTopPairingTransducerFaceEvalSmoke` Lake | pass | `5.00s` | `4107 MiB` | RSS guard, no hard AS |
+
+Next gate: generate a very small invariant table smoke, for example over the
+first few reachable semantic states of the top-pairing graph, and prove the
+`Inv` start/local/final premises needed by
+`evalLanguageAtRank_of_invariantLocal`.  Keep this bounded smoke separate from
+coverage and reject it if the invariant key needs exact trace, rank, affine
+RHS, or solved start-point data.
