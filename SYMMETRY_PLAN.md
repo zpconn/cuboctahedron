@@ -83118,3 +83118,53 @@ semantic filter theorem of the form already present in
 `TopPairingTraceClassifier.Accepted.graphAcceptedTraceLabels_of_terminalOk_filters`:
 terminal trace plus actual-face omni plus sequence-bad-face compatibility
 implies graph acceptance.
+
+Focused build checks for the strengthened route:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/strengthened_terminal_accepted_bridge_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalAcceptedBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/trace_margin_bounds_socket_guard.json \
+  --verbose \
+  -- lake env lean Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Min available |
+|---|---:|---:|---:|---:|
+| `BellmanTopPairingTerminalAcceptedBridge.lean` | pass | `11.03s` | `3899 MiB` | `46136 MiB` |
+| `BellmanTopPairingTraceMarginBoundsSocket.lean` | pass | `2.00s` | `3601 MiB` | `46252 MiB` |
+
+These checks confirm that the strengthened semantic gate is already buildable
+inside the current memory discipline.  The next implementation target is
+therefore not another Bellman graph or potential, but a semantic membership
+producer for one of the existing socket predicates, preferably:
+
+```lean
+TerminalTraceMarginIdBoundSequenceBadFace scaledMargin rank Face.ym
+```
+
+or, if the upstream classifier can package the margin fact directly,
+
+```lean
+TraceIdMarginSequenceBadFace traceId scaledMargin rank Face.ym
+```
+
+The theorem/generator should prove the trace id, actual-face omni property, and
+margin inequality from compact semantic state/cursor facts.  The current
+accepted-trace table can remain as a bounded smoke/socket, but production
+membership must be organized as semantic classifier facts rather than sampled
+rank objects.
