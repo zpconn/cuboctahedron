@@ -82091,6 +82091,124 @@ use it internally to build the `GraphBranchTableSuffixOk` continuation needed
 by the Bellman evaluator bridge.
 ```
 
+### Graph-Accepted Full-Trace Branch Suffix Accepted
+
+Added a bounded graph-only suffix emitter:
+
+```text
+scripts/emit_graph_accepted_branch_suffix_smoke.py
+```
+
+which generates:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphAcceptedBranchSuffix1MSmoke
+```
+
+Accepted theorem surface:
+
+```lean
+graphBranchTableSuffixOk_of_graphAcceptedTraceLabels
+branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace
+graphAcceptedBranchSuffix1MSmoke_builds
+```
+
+This is a sharper Bellman pivot slice than the prefix-frontier adapter.  It
+does not stop at the first four labels: for the current 37 graph-accepted
+terminal trace classes it proves the entire label list has
+`GraphBranchTableSuffixOk` evidence over the strengthened graph branch table,
+then converts that graph-only suffix evidence into the semantic
+`BranchTableSuffixOk` consumed by the evaluator bridge.
+
+The generated theorem is still trace-class bounded smoke evidence, not final
+production coverage.  Its value is that it validates the deterministic
+graph-accepted suffix socket without sampled ranks, sampled objects, selected
+prefix covers, exact affine RHS keys, or direct `faceEvalNext` replay.  In the
+language of the GPT5.5 pivot:
+
+```text
+Keep Bellman.
+Reject selected-prefix membership.
+Prove semantic deterministic evaluator membership.
+Use graph-accepted trace classes only as bounded smoke for the deterministic
+suffix socket, not as the final coverage coordinate.
+```
+
+Focused checks:
+
+```bash
+python3 scripts/emit_graph_accepted_branch_suffix_smoke.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_graph_accepted_branch_suffix_guard.json \
+  -- lake env lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphAcceptedBranchSuffix1MSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_graph_accepted_branch_suffix_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphAcceptedBranchSuffix1MSmoke
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/\
+top_pairing_branch_table_membership_frontier_guard.json \
+  -- python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS |
+|---|---:|---:|---:|
+| graph-accepted full suffix direct Lean | pass | `3.00s` | `4152 MiB` |
+| graph-accepted full suffix Lake target | pass | `4.01s` | `4261 MiB` |
+| membership-frontier audit | pass | `1.00s` | `0.75 MiB` |
+| forbidden/sampled scan on new module and emitter | pass | no hits | n/a |
+
+Decision:
+
+```text
+Accept the graph-accepted full-trace branch suffix smoke as the current
+bounded socket proof.  It shows that once a semantic theorem supplies
+graph-accepted terminal labels, Lean can construct the Bellman branch suffix
+continuation cheaply and memory-safely.
+
+Do not scale this as 37 trace-class disjunctions.  The next production theorem
+must prove closed top-pairing language membership drives a deterministic
+semantic evaluator, preferably through a reachable semantic state machine
+tracking target-shadow cursor / tri-source progress / square-gap or the
+minimal fields needed to make `evalLabelStepFn` defined.
+```
+
+Concrete next theorem target:
+
+```lean
+theorem topPairingClosed_to_eval_gate
+    (rank : Fin numPairWords)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    ∃ result,
+      evalLabelStepFn graphNext rootState
+        (topPairingBellmanLabelsAtRank rank) = some result ∧
+      0 <= graphPotential result.1 ∧
+      scaledMargin rank <= graphConst + result.2
+```
+
+or the same theorem through the existing `BranchTableSuffixOk` /
+`TopPairingEvalGate` bridge.  The implementation must case-split on small
+semantic states and faces, not on ranks, sampled paths, exact prefixes,
+observed traces, or affine-offset keys.
+
 ### Branch-Table Third-Face Lift Added
 
 Extended the branch-table suffix predicate one semantic branch past the

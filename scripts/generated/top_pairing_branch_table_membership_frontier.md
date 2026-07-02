@@ -15,22 +15,22 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `topPairingTriCursor_of_closed` | closed language to target cursor | `target_cursor`, `transducer_tail` |
 | `TopPairingTransducerTail.ofClosedRank` | closed language to combined semantic tail | `eval_bridge` |
 | `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` | generic suffix evaluator | `eval_bridge`, `branch_table_suffix`, `strengthened_local` |
-| `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_progress`, `branch_table_suffix`, `graph_suffix_emitter` |
+| `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_progress`, `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_branch_suffix` |
 | `strengthenedBranchKind?` | finite graph/socket branch classifier | `branch_table` |
 | `branchKind?_of_branchTable` | branch-table entry computes to classifier | `branch_table` |
 | `graph_next_of_graphBranch` | branch-table graph transition extractor | `branch_table`, `branch_table_progress` |
 | `faceEvalNext_of_graphBranchTable` | graph branch local evaluator progress | `branch_table_progress`, `branch_table_suffix` |
 | `socket19TmmpBranch_impossible` | state19/tmmp semantic socket | `branch_table_progress`, `branch_table_suffix` |
 | `socket150TpppBranch_impossible` | state150/tppp semantic socket | `branch_table_progress`, `branch_table_suffix` |
-| `BranchTableSuffixOk` | suffix predicate storing branch-table evidence | `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge` |
+| `BranchTableSuffixOk` | suffix predicate storing branch-table evidence | `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix` |
 | `branchTableSuffixOk_local` | local progress from branch-table suffix | `branch_table_suffix` |
 | `eval_exists_of_branchTableSuffixOk` | whole-suffix evaluator from branch-table suffix | `branch_table_suffix` |
 | `branchTableSuffixOk_root_of_closedPrefix2` | semantic root-prefix lift into branch-table suffix | `branch_table_suffix`, `graph_accepted_suffix_bridge` |
 | `branchTableSuffixOk_root_of_closedPrefix2_forall` | closed-rank root-prefix lift into branch-table suffix | `branch_table_suffix` |
 | `branchTableSuffixOk_closedPrefix2_branch_of_closed` | closed third-face branch lift into branch-table suffix | `branch_table_suffix` |
 | `branchTableSuffixOk_root_of_closedPrefix3_forall` | closed-rank third-face lift into branch-table suffix | `branch_table_suffix` |
-| `GraphBranchTableSuffixOk` | lightweight graph-indexed suffix predicate | `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge` |
-| `branchTableSuffixOk_of_graphBranchTableSuffixOk` | graph suffix conversion to semantic suffix | `branch_table_suffix`, `graph_accepted_suffix_bridge` |
+| `GraphBranchTableSuffixOk` | lightweight graph-indexed suffix predicate | `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix` |
+| `branchTableSuffixOk_of_graphBranchTableSuffixOk` | graph suffix conversion to semantic suffix | `branch_table_suffix`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix` |
 | `graphBranchTableSuffixOk_closedPrefix2_branch_of_closed` | closed third-face graph suffix lift | `branch_table_suffix` |
 | `branchTableSuffixOk_root_of_graphClosedPrefix3_forall` | closed-rank graph suffix root lift | `branch_table_suffix` |
 | `graphBranchTableSuffixOk_s0143_depth2_of_frontier` | graph-only depth-2 frontier suffix emitter | `graph_suffix_emitter`, `graph_accepted_suffix_bridge` |
@@ -45,7 +45,10 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal` | strengthened terminal traces feed graph suffix emitter | `graph_accepted_suffix_bridge` |
 | `branchTableSuffixOk_root_of_strengthenedTerminalPrefix4` | strengthened terminal prefix-4 suffix evidence lifts to Bellman root | `graph_accepted_suffix_bridge` |
 | `graphPrefix4FrontierLabels_exists_cons2` | prefix-4 frontier yields concrete head/tail decomposition | `graph_accepted_suffix_bridge` |
-| `branchTableSuffixOk_root_of_strengthenedTerminal` | strengthened terminal traces lift to Bellman root without explicit prefix equality | `graph_accepted_suffix_bridge` |
+| `branchTableSuffixOk_root_of_strengthenedTerminal` | strengthened terminal traces lift to Bellman root without explicit prefix equality | `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix` |
+| `graphBranchTableSuffixOk_of_graphAcceptedTraceLabels` | graph accepted traces produce graph branch-table suffix evidence | `graph_accepted_branch_suffix` |
+| `branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace` | strengthened terminal traces lift to Bellman root through full graph suffix | `graph_accepted_branch_suffix` |
+| `graphAcceptedBranchSuffix1MSmoke_builds` | graph-accepted branch suffix build sentinel | `graph_accepted_branch_suffix` |
 
 ## Guards
 
@@ -62,6 +65,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `graph_accepted_prefix_frontier_lake` | `0` | `3.00s` | `4018 MiB` | `None` |
 | `graph_accepted_suffix_bridge_direct` | `0` | `5.01s` | `3944 MiB` | `None` |
 | `graph_accepted_suffix_bridge_lake` | `0` | `3.00s` | `4098 MiB` | `None` |
+| `graph_accepted_branch_suffix_direct` | `0` | `3.00s` | `4152 MiB` | `None` |
+| `graph_accepted_branch_suffix_lake` | `0` | `4.01s` | `4261 MiB` | `None` |
 
 ## Accepted Local Surface
 
@@ -98,6 +103,9 @@ graphBranchTableSuffixOk_s0143_depth2_of_strengthenedTerminal
 branchTableSuffixOk_root_of_strengthenedTerminalPrefix4
 graphPrefix4FrontierLabels_exists_cons2
 branchTableSuffixOk_root_of_strengthenedTerminal
+graphBranchTableSuffixOk_of_graphAcceptedTraceLabels
+branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace
+graphAcceptedBranchSuffix1MSmoke_builds
 ```
 
 ## Remaining Production Theorem

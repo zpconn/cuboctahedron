@@ -52,6 +52,9 @@ LEAN_FILES = {
     "graph_accepted_suffix_bridge": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraphAcceptedSuffixBridge.lean",
+    "graph_accepted_branch_suffix": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraphAcceptedBranchSuffix1MSmoke.lean",
     "strengthened_local": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedLocal1MSmoke.lean",
@@ -80,6 +83,10 @@ GUARDS = {
     / "scripts/generated/bellman_graph_accepted_suffix_bridge_guard.json",
     "graph_accepted_suffix_bridge_lake": ROOT
     / "scripts/generated/bellman_graph_accepted_suffix_bridge_lake_guard.json",
+    "graph_accepted_branch_suffix_direct": ROOT
+    / "scripts/generated/bellman_graph_accepted_branch_suffix_guard.json",
+    "graph_accepted_branch_suffix_lake": ROOT
+    / "scripts/generated/bellman_graph_accepted_branch_suffix_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -118,6 +125,9 @@ REQUIRED_SYMBOLS = {
     "branchTableSuffixOk_root_of_strengthenedTerminalPrefix4": "strengthened terminal prefix-4 suffix evidence lifts to Bellman root",
     "graphPrefix4FrontierLabels_exists_cons2": "prefix-4 frontier yields concrete head/tail decomposition",
     "branchTableSuffixOk_root_of_strengthenedTerminal": "strengthened terminal traces lift to Bellman root without explicit prefix equality",
+    "graphBranchTableSuffixOk_of_graphAcceptedTraceLabels": "graph accepted traces produce graph branch-table suffix evidence",
+    "branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace": "strengthened terminal traces lift to Bellman root through full graph suffix",
+    "graphAcceptedBranchSuffix1MSmoke_builds": "graph-accepted branch suffix build sentinel",
 }
 
 FORBIDDEN_TOKENS = [
@@ -255,6 +265,9 @@ def render_markdown(report: dict[str, Any]) -> str:
             "branchTableSuffixOk_root_of_strengthenedTerminalPrefix4",
             "graphPrefix4FrontierLabels_exists_cons2",
             "branchTableSuffixOk_root_of_strengthenedTerminal",
+            "graphBranchTableSuffixOk_of_graphAcceptedTraceLabels",
+            "branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace",
+            "graphAcceptedBranchSuffix1MSmoke_builds",
             "```",
             "",
             "## Remaining Production Theorem",

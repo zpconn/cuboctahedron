@@ -60,6 +60,22 @@
         "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": 2
       }
     },
+    "graph_accepted_branch_suffix": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 1921,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphAcceptedBranchSuffix1MSmoke.lean",
+      "symbol_hits": {
+        "BranchTableSuffixOk": 713,
+        "GraphBranchTableSuffixOk": 116,
+        "StrengthenedBranchTable": 520,
+        "branchTableSuffixOk_of_graphBranchTableSuffixOk": 1,
+        "branchTableSuffixOk_root_of_strengthenedTerminal": 1,
+        "branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace": 1,
+        "graphAcceptedBranchSuffix1MSmoke_builds": 1,
+        "graphBranchTableSuffixOk_of_graphAcceptedTraceLabels": 2
+      }
+    },
     "graph_accepted_prefix_frontier": {
       "exists": true,
       "forbidden_hits": {},
@@ -178,6 +194,22 @@
       "max_tree_rss_mib": 0.9375,
       "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json"
     },
+    "graph_accepted_branch_suffix_direct": {
+      "elapsed_seconds": 3.0029864530079067,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 4152.48828125,
+      "path": "scripts/generated/bellman_graph_accepted_branch_suffix_guard.json"
+    },
+    "graph_accepted_branch_suffix_lake": {
+      "elapsed_seconds": 4.009932917993865,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 4261.265625,
+      "path": "scripts/generated/bellman_graph_accepted_branch_suffix_lake_guard.json"
+    },
     "graph_accepted_prefix_frontier_direct": {
       "elapsed_seconds": 6.035024302997044,
       "exists": true,
@@ -234,12 +266,14 @@
     "BranchTableSuffixOk": [
       "branch_table_suffix",
       "graph_suffix_emitter",
-      "graph_accepted_suffix_bridge"
+      "graph_accepted_suffix_bridge",
+      "graph_accepted_branch_suffix"
     ],
     "GraphBranchTableSuffixOk": [
       "branch_table_suffix",
       "graph_suffix_emitter",
-      "graph_accepted_suffix_bridge"
+      "graph_accepted_suffix_bridge",
+      "graph_accepted_branch_suffix"
     ],
     "GraphPrefix4FrontierLabels": [
       "graph_accepted_prefix_frontier",
@@ -249,7 +283,8 @@
       "branch_table",
       "branch_table_progress",
       "branch_table_suffix",
-      "graph_suffix_emitter"
+      "graph_suffix_emitter",
+      "graph_accepted_branch_suffix"
     ],
     "TopPairingTransducerTail.ofClosedRank": [
       "eval_bridge"
@@ -265,7 +300,8 @@
     ],
     "branchTableSuffixOk_of_graphBranchTableSuffixOk": [
       "branch_table_suffix",
-      "graph_accepted_suffix_bridge"
+      "graph_accepted_suffix_bridge",
+      "graph_accepted_branch_suffix"
     ],
     "branchTableSuffixOk_root_of_closedPrefix2": [
       "branch_table_suffix",
@@ -281,10 +317,14 @@
       "branch_table_suffix"
     ],
     "branchTableSuffixOk_root_of_strengthenedTerminal": [
-      "graph_accepted_suffix_bridge"
+      "graph_accepted_suffix_bridge",
+      "graph_accepted_branch_suffix"
     ],
     "branchTableSuffixOk_root_of_strengthenedTerminalPrefix4": [
       "graph_accepted_suffix_bridge"
+    ],
+    "branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace": [
+      "graph_accepted_branch_suffix"
     ],
     "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": [
       "eval_bridge",
@@ -298,8 +338,14 @@
       "branch_table_progress",
       "branch_table_suffix"
     ],
+    "graphAcceptedBranchSuffix1MSmoke_builds": [
+      "graph_accepted_branch_suffix"
+    ],
     "graphBranchTableSuffixOk_closedPrefix2_branch_of_closed": [
       "branch_table_suffix"
+    ],
+    "graphBranchTableSuffixOk_of_graphAcceptedTraceLabels": [
+      "graph_accepted_branch_suffix"
     ],
     "graphBranchTableSuffixOk_s0143_depth2_of_frontier": [
       "graph_suffix_emitter",
