@@ -64199,3 +64199,153 @@ depends on proving `TerminalTraceMarginBoundsSequenceBadFace` semantically for
 large rank families.  If that proof requires exact affine-RHS tables or
 rank/path sampling, stop Bellman production and pivot to the cancellation-tree
 summary automaton.
+
+### 2026-07-02 Terminal trace-margin-bounds component family socket
+
+The terminal-bounds route now has a family-level theorem surface matching the
+earlier trace-id component family.  Generated classifier buckets can export one
+record of semantic facts instead of repeatedly constructing strengthened
+rank-level predicates.
+
+New theorem-valued family object:
+
+```lean
+structure TerminalTraceMarginBoundsComponentFamily
+    (containsRank : Fin numPairWords -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  closed :
+    forall rank, containsRank rank ->
+      TopPairingClosedLanguageAtRank rank Face.ym
+  actualFaceOmni :
+    forall rank, containsRank rank ->
+      TopPairingActualFaceOmniAtRank rank
+  sequenceBadFace :
+    forall rank, containsRank rank ->
+      AcceptedSequenceBadFaceAtRank rank Face.ym
+  terminalTrace :
+    forall rank, containsRank rank ->
+      TerminalTraceLabels (topPairingRankFaceLabels rank)
+  marginBounds :
+    forall rank, (hrank : containsRank rank) ->
+      GraphAcceptedTraceMarginBounds scaledMargin
+        ({ rank := rank, closed := closed rank hrank } :
+          TopPairingBellmanObj Face.ym)
+```
+
+New consumers:
+
+```lean
+theorem terminalTraceMarginBoundsSequenceBadFace_of_componentFamily :
+    TerminalTraceMarginBoundsComponentFamily containsRank scaledMargin ->
+    containsRank rank ->
+    TerminalTraceMarginBoundsSequenceBadFace scaledMargin rank Face.ym
+
+theorem evalLanguage_of_terminalTraceMarginBoundsComponentFamily :
+    TerminalTraceMarginBoundsComponentFamily containsRank scaledMargin ->
+    containsRank rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+theorem terminalTraceMarginBoundsComponentFamily_scaledMargin_nonpos :
+    TerminalTraceMarginBoundsComponentFamily containsRank scaledMargin ->
+    containsRank rank ->
+    scaledMargin rank <= 0
+```
+
+Smoke wrappers were added to `BellmanTopPairingTraceIdBoundsSmoke.lean`.
+
+Guarded focused Lake check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 32768 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_bounds_component_family_lake_build.json \
+  --verbose \
+  -- lake build \
+     Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTraceIdBoundsSmoke
+```
+
+result:
+
+```text
+passed
+elapsed = 8.01s
+peak_tree_rss = 4024 MiB
+hard_as = 32768 MiB
+min_available = 46096 MiB
+```
+
+Guarded direct Lean:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 16000 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 600 \
+  --poll-seconds 1 \
+  --json /tmp/top_pairing_terminal_bounds_component_family_direct_lean.json \
+  --verbose \
+  -- lake env lean -M 6000 -j1 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+result:
+
+```text
+passed
+elapsed = 2.00s
+peak_tree_rss = 3633 MiB
+hard_as = 8192 MiB
+min_available = 46280 MiB
+```
+
+Source-size checkpoint:
+
+```text
+BellmanTopPairingTraceMarginBoundsSocket.lean        = 578 lines
+BellmanTopPairingTraceIdBoundsSmoke.lean             = 188 lines
+BellmanTopPairingGraphAcceptedTraceMarginBridge.lean = 644 lines
+BellmanTopPairingTrace000ComponentFamilySmoke.lean   = 77 lines
+TopPairingBellmanObject.lean                         = 541 lines
+```
+
+Audit:
+
+```bash
+git diff --check
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceMarginBoundsSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTraceIdBoundsSmoke.lean
+```
+
+`git diff --check` passed; the `rg` audit found no matches.
+
+Decision:
+
+Accept this component-family socket.  The Bellman plumbing is now cheap and
+family-shaped all the way down to the five facts above.  The go/no-go point is
+therefore no longer hidden in object-cover scaffolding:
+
+```text
+Can a compact generated family prove `marginBounds` and the four semantic
+classifier fields without exact affine-RHS tables or one branch per rank/path?
+```
+
+Next action:
+
+Attempt one real family bucket that exports
+`TerminalTraceMarginBoundsComponentFamily`.  If `marginBounds` needs
+singleton/rank-indexed exact affine data, reject the Bellman production route
+and pivot to the cancellation-tree summary automaton described earlier in this
+plan.

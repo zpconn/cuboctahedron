@@ -506,6 +506,72 @@ theorem strengthenedTerminalTraceMarginBounds_scaledMargin_nonpos
     (graphAcceptedTraceMarginClosedFamily_of_strengthenedTerminalTraceMarginBounds
       h)
 
+structure TerminalTraceMarginBoundsComponentFamily
+    (containsRank : Fin numPairWords -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  closed :
+    forall rank, containsRank rank ->
+      TopPairingClosedLanguageAtRank rank Face.ym
+  actualFaceOmni :
+    forall rank, containsRank rank ->
+      TopPairingActualFaceOmniAtRank rank
+  sequenceBadFace :
+    forall rank, containsRank rank ->
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym
+  terminalTrace :
+    forall rank, containsRank rank ->
+      TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+        (topPairingRankFaceLabels rank)
+  marginBounds :
+    forall rank, (hrank : containsRank rank) ->
+      GraphAcceptedTraceMarginBounds scaledMargin
+        ({ rank := rank, closed := closed rank hrank } :
+          TopPairingBellmanObj Face.ym)
+
+theorem terminalTraceMarginBoundsSequenceBadFace_of_componentFamily
+    {containsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      TerminalTraceMarginBoundsComponentFamily containsRank scaledMargin)
+    {rank : Fin numPairWords}
+    (hrank : containsRank rank) :
+    TerminalTraceMarginBoundsSequenceBadFace scaledMargin rank Face.ym :=
+  ⟨family.sequenceBadFace rank hrank,
+    family.terminalTrace rank hrank,
+    family.closed rank hrank,
+    family.marginBounds rank hrank⟩
+
+theorem evalLanguage_of_terminalTraceMarginBoundsComponentFamily
+    {containsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      TerminalTraceMarginBoundsComponentFamily containsRank scaledMargin)
+    {rank : Fin numPairWords}
+    (hrank : containsRank rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguage_of_graphAcceptedTraceMarginClosedFamily
+    (graphAcceptedTraceMarginClosedFamily_of_terminalTraceMarginBounds
+      (family.actualFaceOmni rank hrank)
+      (terminalTraceMarginBoundsSequenceBadFace_of_componentFamily
+        family hrank))
+
+theorem terminalTraceMarginBoundsComponentFamily_scaledMargin_nonpos
+    {containsRank : Fin numPairWords -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (family :
+      TerminalTraceMarginBoundsComponentFamily containsRank scaledMargin)
+    {rank : Fin numPairWords}
+    (hrank : containsRank rank) :
+    scaledMargin rank <= 0 :=
+  graphAcceptedTraceMarginClosedFamily_scaledMargin_nonpos
+    (graphAcceptedTraceMarginClosedFamily_of_terminalTraceMarginBounds
+      (family.actualFaceOmni rank hrank)
+      (terminalTraceMarginBoundsSequenceBadFace_of_componentFamily
+        family hrank))
+
 theorem trace_margin_bounds_socket_builds : True := by
   exact True.intro
 
