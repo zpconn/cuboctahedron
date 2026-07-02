@@ -76,20 +76,24 @@
     "branch_table_suffix_split10m": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 201,
+      "lines": 325,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSuffixSplit10MSmoke.lean",
       "symbol_hits": {
-        "BranchTableSuffixOk": 22,
-        "StrengthenedBranchTable": 11,
+        "BranchTableSuffixOk": 49,
+        "GraphBranchTableSuffixOk": 12,
+        "StrengthenedBranchTable": 15,
         "branchTableSuffixOk_closedPrefix2_branch_of_closed": 4,
         "branchTableSuffixOk_local": 2,
-        "branchTableSuffixOk_root_of_closedPrefix2": 6,
+        "branchTableSuffixOk_of_graphBranchTableSuffixOk": 6,
+        "branchTableSuffixOk_root_of_closedPrefix2": 9,
         "branchTableSuffixOk_root_of_closedPrefix2_forall": 1,
         "branchTableSuffixOk_root_of_closedPrefix3_forall": 1,
+        "branchTableSuffixOk_root_of_graphClosedPrefix3_forall": 1,
         "branchTableSuffixSplit10MSmoke_builds": 1,
         "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": 1,
         "eval_exists_of_branchTableSuffixOk": 1,
-        "faceEvalNext_of_graphBranchTable": 1
+        "faceEvalNext_of_graphBranchTable": 1,
+        "graphBranchTableSuffixOk_closedPrefix2_branch_of_closed": 4
       }
     },
     "eval_bridge": {
@@ -390,19 +394,19 @@
       "path": "scripts/generated/bellman_split10m_branch_table_progress_lake_guard.json"
     },
     "split10m_branch_table_suffix_direct": {
-      "elapsed_seconds": 2.002748373997747,
+      "elapsed_seconds": 5.008160513010807,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 3589.0703125,
+      "max_tree_rss_mib": 3868.2265625,
       "path": "scripts/generated/bellman_split10m_branch_table_suffix_guard.json"
     },
     "split10m_branch_table_suffix_lake": {
-      "elapsed_seconds": 4.00368898799934,
+      "elapsed_seconds": 3.0030418620008277,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 4108.55078125,
+      "max_tree_rss_mib": 3647.96484375,
       "path": "scripts/generated/bellman_split10m_branch_table_suffix_lake_guard.json"
     }
   },
@@ -420,6 +424,7 @@
     ],
     "GraphBranchTableSuffixOk": [
       "branch_table_suffix",
+      "branch_table_suffix_split10m",
       "graph_suffix_emitter",
       "graph_accepted_suffix_bridge",
       "graph_accepted_branch_suffix",
@@ -460,6 +465,7 @@
     ],
     "branchTableSuffixOk_of_graphBranchTableSuffixOk": [
       "branch_table_suffix",
+      "branch_table_suffix_split10m",
       "graph_accepted_suffix_bridge",
       "graph_accepted_branch_suffix"
     ],
@@ -477,7 +483,8 @@
       "branch_table_suffix_split10m"
     ],
     "branchTableSuffixOk_root_of_graphClosedPrefix3_forall": [
-      "branch_table_suffix"
+      "branch_table_suffix",
+      "branch_table_suffix_split10m"
     ],
     "branchTableSuffixOk_root_of_strengthenedTerminal": [
       "graph_accepted_suffix_bridge",
@@ -519,7 +526,8 @@
       "graph_accepted_branch_suffix_split10m"
     ],
     "graphBranchTableSuffixOk_closedPrefix2_branch_of_closed": [
-      "branch_table_suffix"
+      "branch_table_suffix",
+      "branch_table_suffix_split10m"
     ],
     "graphBranchTableSuffixOk_of_graphAcceptedTraceLabels": [
       "graph_accepted_branch_suffix",

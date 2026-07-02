@@ -82689,6 +82689,10 @@ branchTableSuffixOk_root_of_closedPrefix2
 branchTableSuffixOk_root_of_closedPrefix2_forall
 branchTableSuffixOk_closedPrefix2_branch_of_closed
 branchTableSuffixOk_root_of_closedPrefix3_forall
+GraphBranchTableSuffixOk
+branchTableSuffixOk_of_graphBranchTableSuffixOk
+graphBranchTableSuffixOk_closedPrefix2_branch_of_closed
+branchTableSuffixOk_root_of_graphClosedPrefix3_forall
 branchTableSuffixSplit10MSmoke_builds
 ```
 
@@ -82744,9 +82748,9 @@ Results:
 
 | Target | Result | Time | Peak RSS | Min available |
 |---|---:|---:|---:|---:|
-| split-10M branch-table suffix direct Lean | pass | `2.00s` | `3589 MiB` | `46247 MiB` |
-| split-10M branch-table suffix Lake target | pass | `4.00s` | `4109 MiB` | `45990 MiB` |
-| branch-table membership frontier audit | pass | `1.00s` | `2 MiB` | `46563 MiB` |
+| split-10M branch-table suffix direct Lean | pass | `5.01s` | `3868 MiB` | `46209 MiB` |
+| split-10M branch-table suffix Lake target | pass | `3.00s` | `3648 MiB` | `46142 MiB` |
+| branch-table membership frontier audit | pass | `1.00s` | `1 MiB` | `46565 MiB` |
 
 Decision:
 
@@ -82754,8 +82758,11 @@ Decision:
 Accepted as the split-10M semantic suffix checkpoint.  This is still not final
 closed-language coverage, but the checked theorem surface is now the intended
 production shape: semantic closed prefix -> finite branch-table evidence ->
-deterministic evaluator progress.  The next theorem should generate/prove
-membership into this suffix predicate from the closed top-pairing
-target-shadow/tri-source state beyond the third face, without sampled traces
-or graph-accepted terminal disjunctions.
+deterministic evaluator progress.  The lightweight graph-indexed suffix
+predicate is also present, so the next emitter can target graph-state branch
+membership first and convert it to the full transducer/evaluator suffix only
+at the bridge boundary.  The next theorem should generate/prove membership
+into this suffix predicate from the closed top-pairing target-shadow/tri-source
+state beyond the third face, without sampled traces or graph-accepted terminal
+disjunctions.
 ```

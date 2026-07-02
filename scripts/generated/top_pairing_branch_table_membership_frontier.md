@@ -33,11 +33,11 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `branchTableSuffixOk_closedPrefix2_branch_of_closed` | closed third-face branch lift into branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m` |
 | `branchTableSuffixOk_root_of_closedPrefix3_forall` | closed-rank third-face lift into branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m` |
 | `branchTableSuffixSplit10MSmoke_builds` | split-10M branch-table suffix sentinel | `branch_table_suffix_split10m` |
-| `GraphBranchTableSuffixOk` | lightweight graph-indexed suffix predicate | `branch_table_suffix`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
+| `GraphBranchTableSuffixOk` | lightweight graph-indexed suffix predicate | `branch_table_suffix`, `branch_table_suffix_split10m`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
 | `strengthenedBranchTableSplit10MSmoke_builds` | split-10M branch table build sentinel | `branch_table_split10m` |
-| `branchTableSuffixOk_of_graphBranchTableSuffixOk` | graph suffix conversion to semantic suffix | `branch_table_suffix`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix` |
-| `graphBranchTableSuffixOk_closedPrefix2_branch_of_closed` | closed third-face graph suffix lift | `branch_table_suffix` |
-| `branchTableSuffixOk_root_of_graphClosedPrefix3_forall` | closed-rank graph suffix root lift | `branch_table_suffix` |
+| `branchTableSuffixOk_of_graphBranchTableSuffixOk` | graph suffix conversion to semantic suffix | `branch_table_suffix`, `branch_table_suffix_split10m`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix` |
+| `graphBranchTableSuffixOk_closedPrefix2_branch_of_closed` | closed third-face graph suffix lift | `branch_table_suffix`, `branch_table_suffix_split10m` |
+| `branchTableSuffixOk_root_of_graphClosedPrefix3_forall` | closed-rank graph suffix root lift | `branch_table_suffix`, `branch_table_suffix_split10m` |
 | `graphBranchTableSuffixOk_s0143_depth2_of_frontier` | graph-only depth-2 frontier suffix emitter | `graph_suffix_emitter`, `graph_accepted_suffix_bridge` |
 | `graphBranchTableSuffixOk_s0144_branch_of_frontier` | graph-only successor state 144 emitter | `graph_suffix_emitter` |
 | `graphBranchTableSuffixOk_s0145_branch_of_frontier` | graph-only successor state 145 emitter | `graph_suffix_emitter` |
@@ -71,8 +71,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `split10m_branch_table_progress_lake` | `0` | `3.00s` | `1445 MiB` | `None` |
 | `branch_table_suffix_direct` | `0` | `3.00s` | `3921 MiB` | `None` |
 | `branch_table_suffix_lake` | `0` | `1.00s` | `1 MiB` | `None` |
-| `split10m_branch_table_suffix_direct` | `0` | `2.00s` | `3589 MiB` | `None` |
-| `split10m_branch_table_suffix_lake` | `0` | `4.00s` | `4109 MiB` | `None` |
+| `split10m_branch_table_suffix_direct` | `0` | `5.01s` | `3868 MiB` | `None` |
+| `split10m_branch_table_suffix_lake` | `0` | `3.00s` | `3648 MiB` | `None` |
 | `graph_suffix_emitter_direct` | `0` | `10.05s` | `3867 MiB` | `None` |
 | `graph_suffix_emitter_lake` | `0` | `3.00s` | `3900 MiB` | `None` |
 | `graph_accepted_prefix_frontier_direct` | `0` | `6.04s` | `3944 MiB` | `None` |

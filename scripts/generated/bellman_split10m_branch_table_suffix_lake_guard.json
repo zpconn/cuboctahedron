@@ -5,14 +5,14 @@
     "build",
     "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingBranchTableSuffixSplit10MSmoke"
   ],
-  "elapsed_seconds": 4.00368898799934,
+  "elapsed_seconds": 3.0030418620008277,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4207156,
-  "max_tree_rss_mib": 4108.55078125,
-  "min_available_seen_kib": 47093956,
-  "min_available_seen_mib": 45990.19140625,
+  "max_tree_rss_kib": 3735516,
+  "max_tree_rss_mib": 3647.96484375,
+  "min_available_seen_kib": 47249332,
+  "min_available_seen_mib": 46141.92578125,
   "rss_cap_mib": 10000.0,
   "timeout_seconds": 420.0
 }
