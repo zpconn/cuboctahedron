@@ -85013,3 +85013,79 @@ If any of these producer proofs starts requiring selected-prefix membership,
 sampled ranks, exact affine RHS keys, solved start-point keys, or exact full
 Bellman trace identity, stop and strengthen the semantic state/cocycle quotient
 before emitting more Lean.
+
+#### Semantic State-DAG All-Family Socket Accepted
+
+Extended
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGProducerSocket.lean`
+so the existing per-rank producer socket also exposes the all-rank theorem
+surface that a generated minimized state-DAG module should target:
+
+```lean
+structure Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSemanticStateDAGProducerSocket.
+  StrengthenedSemanticStateDAGAllFamily
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSemanticStateDAGProducerSocket.
+  strengthenedToEvalGate_of_semanticStateDAGAllFamily
+
+theorem Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingSemanticStateDAGProducerSocket.
+  scaledMargin_nonpos_of_semanticStateDAGAllFamily
+```
+
+The all-family structure asks for exactly one generated fact:
+
+```lean
+∀ rank,
+  TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    StrengthenedSemanticStateDAGFamily scaledMargin rank
+```
+
+and reuses the split-10M transducer semantic gate smoke to obtain the
+deterministic evaluator gate and Bellman nonpositive conclusion.  This keeps
+the next generated target global and semantic: the generator should prove a
+closed-language/state-DAG family theorem, not emit selected-prefix objects or
+sampled rank/path membership.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_state_dag_socket_all_family_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_state_dag_socket_all_family_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGProducerSocket
+```
+
+Result:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `BellmanTopPairingSemanticStateDAGProducerSocket.lean` | pass | `4.00s` | `3514 MiB` | `46207 MiB` |
+| Lake `BellmanTopPairingSemanticStateDAGProducerSocket` | pass | `3.00s` | `3884 MiB` | `46017 MiB` |
+
+Decision: accepted.  The next implementation step should generate or hand-smoke
+one nontrivial `StrengthenedSemanticStateDAGAllFamily` provider.  The provider
+must prove its fields from semantic closed-language/cursor/state-DAG facts.  If
+the proof wants trace ids, sampled ranks, selected-prefix membership, exact
+affine RHS, or exact full Bellman paths as its main key, reject that provider
+shape and refine the semantic state or cocycle quotient.
