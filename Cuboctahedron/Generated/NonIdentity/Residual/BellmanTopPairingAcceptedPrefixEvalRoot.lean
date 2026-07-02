@@ -63,6 +63,67 @@ theorem scaledMargin_nonpos_of_traceIdExistsClosedMarginFamily
     (acceptedPrefix13EvalFamily_of_traceIdExistsClosedMarginFamily hrank)
     hactual
 
+theorem traceIdExistsClosedMarginFamily_of_traceIdBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdBucketClosedMarginFamily allowedTraceId scaledMargin rank) :
+    TraceIdExistsClosedMarginFamily scaledMargin rank := by
+  rcases hrank with ⟨hclosed, traceId, _hallowed, htrace, hmargin⟩
+  exact ⟨hclosed, traceId, htrace, hmargin⟩
+
+theorem acceptedPrefix13EvalFamily_of_traceIdBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdBucketClosedMarginFamily allowedTraceId scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank :=
+  acceptedPrefix13EvalFamily_of_traceIdExistsClosedMarginFamily
+    (traceIdExistsClosedMarginFamily_of_traceIdBucketClosedMarginFamily hrank)
+
+theorem acceptedPrefix13EvalFamily_of_terminalTraceIdBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdBucketClosedMarginFamily
+        allowedTraceId scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank :=
+  acceptedPrefix13EvalFamily_of_traceIdBucketClosedMarginFamily
+    (traceIdBucketClosedMarginFamily_of_terminalTraceIdBucketClosedMarginFamily
+      hrank)
+
+theorem acceptedPrefix13EvalFamily_of_terminalTraceIdSharedGainBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdSharedGainBucketClosedMarginFamily
+        allowedTraceId gain scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank :=
+  acceptedPrefix13EvalFamily_of_terminalTraceIdBucketClosedMarginFamily
+    (terminalTraceIdBucketClosedMarginFamily_of_sharedGainBucket hrank)
+
+theorem acceptedPrefix13EvalFamily_of_terminalTracePrefixSharedGainClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {pfx : List Face}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hprefixGain :
+      forall traceId : AcceptedTraceId,
+        (acceptedTraceOfId traceId).take pfx.length = pfx ->
+          allowedTraceId traceId /\
+            acceptedTraceGain traceId = gain)
+    (hrank :
+      TerminalTracePrefixSharedGainClosedMarginFamily
+        pfx gain scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank :=
+  acceptedPrefix13EvalFamily_of_terminalTraceIdSharedGainBucketClosedMarginFamily
+    (terminalTraceIdSharedGainBucketClosedMarginFamily_of_prefix
+      hprefixGain hrank)
+
 def RootTraceMarginProducer
     (scaledMargin : Fin numPairWords -> Int)
     (rank : Fin numPairWords) : Prop :=

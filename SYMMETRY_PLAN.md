@@ -73480,3 +73480,161 @@ Prefer reusing existing semantic trace-margin producers first:
 3. The next producer should either emit/prove `TraceIdExistsClosedMarginFamily`
    directly or prove `RootTraceMarginProducer` when the family is naturally
    stated over accepted-prefix producer states.
+
+### Follow-up: Bucket/Prefix Margin Adapters
+
+Extended the same root socket with generic adapters from the existing
+terminal trace-margin bucket and selected-prefix shared-gain surfaces:
+
+```lean
+theorem traceIdExistsClosedMarginFamily_of_traceIdBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdBucketClosedMarginFamily allowedTraceId scaledMargin rank) :
+    TraceIdExistsClosedMarginFamily scaledMargin rank
+
+theorem acceptedPrefix13EvalFamily_of_traceIdBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : TraceIdBucketClosedMarginFamily allowedTraceId scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank
+
+theorem acceptedPrefix13EvalFamily_of_terminalTraceIdBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdBucketClosedMarginFamily
+        allowedTraceId scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank
+
+theorem acceptedPrefix13EvalFamily_of_terminalTraceIdSharedGainBucketClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank :
+      TerminalTraceIdSharedGainBucketClosedMarginFamily
+        allowedTraceId gain scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank
+
+theorem acceptedPrefix13EvalFamily_of_terminalTracePrefixSharedGainClosedMarginFamily
+    {allowedTraceId : AcceptedTraceId -> Prop}
+    {pfx : List Face}
+    {gain : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hprefixGain :
+      forall traceId : AcceptedTraceId,
+        (acceptedTraceOfId traceId).take pfx.length = pfx ->
+          allowedTraceId traceId /\
+            acceptedTraceGain traceId = gain)
+    (hrank :
+      TerminalTracePrefixSharedGainClosedMarginFamily
+        pfx gain scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank
+```
+
+This matters because the selected-prefix producer infrastructure already emits
+semantic `TerminalTracePrefixSharedGainClosedMarginFamily` leaves.  Those
+leaves now have a direct route into the accepted-prefix Bellman eval family,
+without detouring through sampled membership or duplicating trace-id extraction.
+
+Guarded direct check:
+
+```text
+BellmanTopPairingAcceptedPrefixEvalRoot.lean: pass
+elapsed: 5.00s
+peak_tree_rss: 3594.58 MiB
+hard_as: 12288 MiB
+min_available: 46326.83 MiB
+```
+
+Forbidden-token scan over the updated root socket found no matches for
+`SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, `sampledSmokeNext`,
+`sampledObject`, `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+`Float`, `Float32`, `Float64`, or `Double`.
+
+Updated next step:
+
+Use the new generic adapter to add a tiny bridge from
+`SelectedPrefixTraceMarginFamily scaledMargin rank` to
+`AcceptedPrefix13EvalFamily scaledMargin rank`, then check whether the bounded
+selected-prefix root can be treated as the first real non-sampled
+`AcceptedPrefix13EvalFamily` producer.  This still does not prove full
+coverage, but it tightens the accepted Bellman route around existing semantic
+family leaves.
+
+### Follow-up: Selected-Prefix Accepted-Eval Bridge
+
+Implemented the bounded semantic selected-prefix bridge requested by the
+latest Bellman go/no-go guidance:
+
+```lean
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSelectedPrefixAcceptedPrefixEvalBridge.lean
+```
+
+The main theorem is:
+
+```lean
+theorem acceptedPrefix13EvalFamily_of_selectedPrefixTraceMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hrank : SelectedPrefixTraceMarginFamily scaledMargin rank) :
+    AcceptedPrefix13EvalFamily scaledMargin rank
+```
+
+and the module also exports the consumer-facing consequences:
+
+```lean
+theorem evalLanguage_of_selectedPrefixTraceMarginFamily ...
+theorem scaledMargin_nonpos_of_selectedPrefixTraceMarginFamily ...
+```
+
+The bridge expands the existing `SelectedPrefixTraceMarginFamily` disjunction
+into the 31 generated terminal prefix/shared-gain families and routes each
+branch through:
+
+```lean
+acceptedPrefix13EvalFamily_of_terminalTracePrefixSharedGainClosedMarginFamily
+```
+
+This is still a bounded selected-prefix slice, not global coverage.  But it is
+the correct kind of Bellman membership experiment: the object is semantic
+family evidence, not `SampledRankIndex`, a sampled path table, an exact
+affine-RHS lookup, or one constructor per rank/path.
+
+Guarded direct check:
+
+```text
+BellmanTopPairingSelectedPrefixAcceptedPrefixEvalBridge.lean: pass
+elapsed: 2.00s
+peak_tree_rss: 3503 MiB
+hard_as: 12288 MiB
+min_available: 46316 MiB
+```
+
+Forbidden-token scan over the accepted-prefix root and selected-prefix bridge
+found no matches for `SampledRankIndex`, `sampledContainsRank`,
+`sampledRankOf`, `sampledSmokeNext`, `sampledObject`, `sorry`, `admit`,
+`axiom`, `native_decide`, `unsafe`, `Float`, `Float32`, `Float64`, or
+`Double`.
+
+Strategic update:
+
+- Bellman remains viable for one more production-facing experiment, but only
+  along this semantic-membership line.
+- Do not emit another sampled Bellman object, sampled path class, or
+  rank-indexed potential smoke.
+- The next real task is to replace the bounded selected-prefix predicate with
+  a production semantic provider: either a stronger
+  `TopPairingClosedLanguageAtRank -> AcceptedPrefix13EvalFamily` theorem, or a
+  compact cancellation/state-DAG predicate that implies the same accepted-eval
+  family without sampled data.
+- If the next provider cannot be proved from semantic closed-language/state
+  fields and collapses back to sampled paths or exact affine RHS keys, stop the
+  Bellman production route and pivot to a stronger cancellation-tree summary
+  automaton whose state carries evaluator progress explicitly.
