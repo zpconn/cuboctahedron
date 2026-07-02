@@ -78402,3 +78402,79 @@ total_illegal_transitions = 0
 
 3. Only then generate a finite `Inv` table for
    `evalLanguageAtRank_of_invariantLocal`.
+
+## 2026-07-02 Checkpoint: Canonical Bad-Face Socket
+
+Implemented the first Lean socket for the missing canonical bad-face invariant:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingCanonicalBadFaceSocket.lean
+```
+
+Added theorem surfaces:
+
+```lean
+rejectedBadFaceTrace004_not_sequenceBadFace
+strengthened_sequenceBadFaceLabels
+strengthened_notRejectedBadFaceTrace
+strengthened_terminalOk_graphAcceptedTraceLabels
+strengthened_prefix2_faceEval
+strengthened_prefix2_branch_faceEval
+```
+
+What this proves:
+
+- The production premise is the strengthened semantic language
+  `TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank`,
+  not sampled rank/path membership.
+- The generated `SequenceBadFaceLabels` fact rules out the known
+  bad-face-rejected trace.
+- The strengthened premise still feeds the existing non-sampled semantic
+  prefix and first-branch face evaluator.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --hard-address-space-mib 12288 \
+  --json scripts/generated/bellman_top_pairing_canonical_bad_face_socket_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingCanonicalBadFaceSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_top_pairing_canonical_bad_face_socket_lake_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingCanonicalBadFaceSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak RSS | Notes |
+|---|---:|---:|---:|---|
+| `BellmanTopPairingCanonicalBadFaceSocket.lean` direct | pass | `3.01s` | `2245 MiB` | hard AS `12288 MiB` |
+| `BellmanTopPairingCanonicalBadFaceSocket` Lake | pass | `3.00s` | `3821 MiB` | focused module build |
+
+Next gate:
+
+1. Teach the closure audit/generator to use this semantic bad-face predicate as
+   a local filter, rather than treating `state=19, face=tmmp` as a possible
+   production transition.
+2. Require the 1M exact graph to report:
+
+```text
+total_missing_transitions = 0
+total_illegal_transitions = 0
+```
+
+3. If that passes, emit the first finite invariant table for the top-pairing
+   face evaluator and prove the `hlocal` premise for
+   `TopPairingTransducerEvalState.evalLanguageAtRank_of_invariantLocal`.
