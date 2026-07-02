@@ -80905,3 +80905,85 @@ no root selected-prefix producer import as production membership;
 no broad generated Lean build without hard address-space and RSS guard;
 no hand-growing depth cut after this checkpoint without a generated branch-table report.
 ```
+
+### Branch-Table Audit Accepted: Ready For Lean Emitter
+
+Added the finite strengthened branch-table checkpoint required by the pivot:
+
+```text
+scripts/audit_bellman_strengthened_branch_table.py
+scripts/generated/bellman_strengthened_branch_table_audit.json
+scripts/generated/bellman_strengthened_branch_table_audit.md
+scripts/generated/bellman_strengthened_branch_table_audit_guard.json
+```
+
+Command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 60 \
+  --max-tree-rss-mib 512 \
+  --min-available-mib 24576 \
+  --json scripts/generated/bellman_strengthened_branch_table_audit_guard.json \
+  -- python3 scripts/audit_bellman_strengthened_branch_table.py
+```
+
+Result:
+
+| Metric | Value |
+|---|---:|
+| exit code | `0` |
+| elapsed | `1.00s` |
+| peak tree RSS | `2.0625 MiB` |
+| minimum available memory | `46544 MiB` |
+
+Decision:
+
+```text
+finite-branch-table-report-ready-for-lean-emitter
+```
+
+Branch categories:
+
+| Category | Count |
+|---|---:|
+| real graph-transition branches | `229` |
+| semantic socket branches | `2` |
+| remaining uncovered audited branches | `0` |
+
+Graph/proof-shape metrics:
+
+| Metric | Value |
+|---|---:|
+| graph states | `223` |
+| graph final states | `29` |
+| matched diagnostic paths | `37` |
+| Bellman scale | `88` |
+| root bound | `-2` |
+| max margin bound | `0` |
+
+Semantic sockets accepted by the report:
+
+```text
+state19/tmmp  -> canonical-bad-face mismatch
+state150/tppp -> target-pairing completion impossibility
+```
+
+This is still diagnostic/progress tooling, not proof evidence.  Its value is
+that the next Lean emitter now has a small finite target:
+
+```text
+ordinary table constructors for the 229 real graph edges;
+socket constructors for the two impossible semantic branches;
+no selected-prefix membership;
+no per-rank/path branch.
+```
+
+Next implementation step:
+
+```text
+Emit a small Lean branch-table module from this classification.  It should be
+separate from the existing hand-grown strengthened local smoke and should prove
+the local `StrengthenedSuffixOk` progress theorem by finite state/face
+classification, not by adding another hard-coded depth layer.
+```
