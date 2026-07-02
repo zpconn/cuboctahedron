@@ -70176,3 +70176,59 @@ slice.  The next theorem must extend this from "extract next-step obligations"
 to a finite checked transition fact that proves the child prefix set for this
 same parent, still without sampled ranks/paths and without broad rational
 simplification in every generated shard.
+
+Child-set transition smoke checkpoint:
+
+The transition smoke was extended with:
+
+```lean
+Depth9Child000Labels
+not_depth8_parent000_axis_tmmm
+not_depth8_parent000_axis_tpmm
+not_depth8_parent000_axis_zp
+depth8_parent000_transition_children
+```
+
+`depth8_parent000_transition_children` proves the actual child-prefix
+disjunction for the same depth-8 parent.  The proof now uses:
+
+- the extraction lemmas above for schedule, square-gap, and local-axis
+  obligations;
+- pair-count simplification only for duplicate-pair exclusions;
+- three isolated local-axis no-go theorems for the remaining geometric
+  exclusions.
+
+It does not use sampled rank/path data.  It still uses local rational
+normalization in the three isolated no-go facts, so this is a **bounded
+positive smoke**, not yet the production cost model for thousands of parents.
+
+Guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 4096 \
+  --hard-address-space-mib 8192 \
+  --timeout-seconds 120 \
+  --json scripts/generated/top_pairing_transition_children_smoke_guard.json \
+  -- lake env lean -j1 -M 6000 -s 2048 \
+     Cuboctahedron/Generated/NonIdentity/Residual/\
+TopPairingTraceClassifier/TransitionSmoke.lean
+```
+
+Result:
+
+```text
+passed
+elapsed: 14.10s
+peak process-tree RSS: 3986 MiB
+minimum available memory observed: 46142 MiB
+hard address-space cap: 8192 MiB
+```
+
+Decision: continue Bellman for the one promised semantic-membership slice.
+The transition-provider idea is viable enough to test at the evaluator bridge.
+However, production emission must avoid paying roughly this full cost per
+parent.  The next generator/proof step should factor local-axis no-go facts
+into reusable finite transition certificates or an integer/projective table
+before scaling past bounded smokes.
