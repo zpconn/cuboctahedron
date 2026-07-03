@@ -90899,3 +90899,120 @@ generalize this suffix-eval emitter to all depth-11 classes/states or compose
 class `034` with prefix/frontier graph gains to produce one complete
 `Split10MExactGraphFinishFinalMarginProducer` minus only the actual
 family-specific `margin_bound`.
+
+### All-Class Depth-11 Graph Suffix Eval Accepted
+
+Generalized the class-034 hand-shaped suffix-eval smoke into a small exact
+emitter:
+
+```text
+scripts/emit_top_pairing_depth11_graph_suffix_eval_smoke.py
+```
+
+The generated module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean
+```
+
+now covers all current depth-11 graph-state suffix classes:
+
+```text
+6 semantic classes
+30 graph states
+32 suffix constructors
+```
+
+For each class `NNN` it emits:
+
+```lean
+def ClassNNNDepth11GraphFinish
+theorem classNNNDepth11GraphFinish_of_suffix
+theorem graphEval_of_classNNNDepth11GraphFinish
+theorem graphEval_exists_of_classNNNDepth11Suffix
+```
+
+This is still a semantic suffix layer, not a sampled-rank or accepted-trace
+layer.  It derives exact graph evaluator finishes from
+`ClassNNNDepth11Suffix graph rest`, with no `SampledRankIndex`,
+`sampledContainsRank`, `sampledRankOf`, `sampledSmokeNext`,
+`GraphAcceptedTraceLabels`, `AcceptedTraceId`, or `acceptedTraceOfId`.
+
+Generator correction: the first all-class Lean attempt failed safely under the
+memory guard because the emitter split right-associated `Or` hypotheses without
+branch bullets.  Peak RSS was `3978 MiB`, so this was a proof-shape bug, not an
+OOM.  The emitter now follows the already accepted provider-module pattern:
+split the current `Or`, discharge the left branch, and continue splitting the
+right branch.
+
+Commands:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_graph_suffix_eval_smoke.py
+
+python3 scripts/emit_top_pairing_depth11_graph_suffix_eval_smoke.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_suffix_eval_all_dep_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_suffix_eval_all_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_suffix_eval_all_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphSuffixEvalSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| dependency Lake build | pass | `2.00s` | `624 MiB` | `46505 MiB` | none |
+| first generated proof-shape attempt | fail safely | `6.00s` | `3978 MiB` | `46151 MiB` | `8192 MiB` |
+| direct all-class graph suffix eval | pass | `6.00s` | `4078 MiB` | `46057 MiB` | `8192 MiB` |
+| Lake all-class graph suffix eval | pass | `4.00s` | `4338 MiB` | `45744 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted.  The suffix-eval side of the depth-11 graph-exact bridge is
+now generated for every current semantic class.  Next production target: compose
+the prefix/frontier graph gains with these generated suffix finishes to produce
+class-level `ClosedClassNNNExactGraphFinishSuffixMarginFamily` witnesses, then
+feed those through the already accepted graph-exact final-margin socket.
