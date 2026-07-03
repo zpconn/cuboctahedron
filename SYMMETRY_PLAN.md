@@ -91373,3 +91373,151 @@ for each `ClosedClassNNNExactGraphFinishSuffixMarginFamily`.  That bridge must
 come from deterministic closed-language/cursor/cancellation semantics.  It
 must not fall back to sampled traces, exact affine RHS keys, selected-prefix
 covers, or one proof branch per observed rank/path.
+
+### Depth-11 Exact-Graph Margin Socket Accepted
+
+Extended the graph-exact finish emitter:
+
+```text
+scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+```
+
+so the all-class graph-exact module now preserves enough semantic information
+to build the final-margin socket without reintroducing sampled traces.  For
+each class `NNN ∈ {034,035,036,037,038,039}` it now exports:
+
+```lean
+theorem finalPotential_nonneg_of_classNNNGraphSuffixProducer
+```
+
+with theorem shape:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym →
+ClassNNNGraphSuffixProducer rank →
+evalLabelStepFn graphSmokeNext rootState
+  ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
+    some (finalGraph, totalGain) →
+0 <= graphPotential finalGraph
+```
+
+The proof does not inspect sampled paths.  It reuses the semantic
+`ClassNNNGraphSuffixProducer` split, reconstructs the internal
+`ClassNNNDepth11GraphFinish` witness for the suffix, and applies the generated
+terminal-potential theorem from the suffix-eval layer.
+
+The same module now also names the remaining class-local margin obligation:
+
+```lean
+def ClassNNNExactGraphFinishMarginBound
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  ∀ finalGraph totalGain,
+    evalLabelStepFn graphSmokeNext rootState
+      ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
+        some (finalGraph, totalGain) →
+      scaledMargin rank <= (176 : Int) + totalGain
+```
+
+and provides the adapter:
+
+```lean
+theorem closedClassNNNExactGraphFinishSuffixMarginFamily_of_marginBound
+theorem scaledMargin_nonpos_of_classNNNExactGraphFinishMarginBound
+```
+
+This is the intended production socket after the GPT5.5 pivot: prove the
+semantic margin-gain inequality once from the closed cursor/cancellation
+language, then the existing exact graph evaluator and potential facts provide
+`ClosedClassNNNExactGraphFinishSuffixMarginFamily` and `scaledMargin rank <= 0`.
+
+Commands:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+
+python3 scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_final_potential_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_final_potential_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphExactFinishSmoke
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_margin_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_margin_socket_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphExactFinishSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|sampledSmokeNext\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| graph-exact direct with graph-level final potential | pass | `34.02s` | `4098 MiB` | `46035 MiB` | `8192 MiB` |
+| graph-exact Lake with graph-level final potential | pass | `23.02s` | `4443 MiB` | `45633 MiB` | none |
+| graph-exact direct with margin socket adapter | pass | `29.02s` | `4123 MiB` | `46032 MiB` | `8192 MiB` |
+| graph-exact Lake with margin socket adapter | pass | `24.02s` | `4424 MiB` | `45642 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted.  The bounded depth-11 top-pairing layer now has an explicit
+semantic target for the remaining hard theorem:
+
+```lean
+ClassNNNExactGraphFinishMarginBound scaledMargin rank
+```
+
+Next work should attack that predicate directly from
+`TopPairingTargetCursorAtRank`, schedule/square-gap/local-axis information, and
+the cancellation language.  Do not generate more selected-prefix covers or
+trace-id margin tables for this route.
