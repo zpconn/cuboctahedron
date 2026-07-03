@@ -89863,3 +89863,95 @@ construct a semantic depth-11 graph path producer from this state, likely by
 adding a generated transition table whose local transition theorem consumes
 the semantic `TerminalStepState.Contains`/`Head.transducer_cons` state.  It
 should not reuse `GraphAcceptedTraceLabels` as the membership source.
+
+### Closed-Only Split Suffix Bridge
+
+The frontier smoke now removes another graph-accepted/terminal wrapper from
+the split-10M route.  Given a closed top-pairing rank, the semantic
+prefix-4 theorem proves the split frontier directly from the rank labels and
+`Head.transducer_cons`.  A rank-parametric `Split10MGraphSuffixProducer` plus
+the final margin producer is now enough to build the Bellman eval language.
+
+New theorem names:
+
+```lean
+theorem layer4Prefix4FrontierCons2_of_closed_prefix4
+theorem branchTableSuffixOk_of_closedSplit10MGraphSuffixProducer
+theorem evalLanguageAtRank_of_closedSplit10MGraphSuffixProducer
+```
+
+The important theorem surface is:
+
+```lean
+theorem evalLanguageAtRank_of_closedSplit10MGraphSuffixProducer
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix : Split10MGraphSuffixProducer rank)
+    (hfinish : Split10MFinalMarginProducer scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+```
+
+This is not full coverage: `Split10MGraphSuffixProducer` and
+`Split10MFinalMarginProducer` still need generated semantic-family proofs.
+But the bridge no longer requires:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank ...
+TerminalOkTraceLabels ...
+GraphAcceptedTraceLabels ...
+```
+
+for this layer.  That is aligned with the pivot: closed semantic language
+drives a deterministic evaluator; graph-accepted traces are not the
+membership coordinate.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_terminal_layer4_closed_split_suffix_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_layer4_closed_split_suffix_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateFrontierSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct closed split-suffix bridge | pass | `5.00s` | `4089 MiB` | `46046 MiB` | `8192 MiB` |
+| Lake closed split-suffix bridge | pass | `5.01s` | `4286 MiB` | `45824 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted as a stronger semantic bridge.  The next checkpoint should
+move from bridge sockets to an actual generated semantic suffix-family
+producer: for at least one existing suffix class, prove
+`Split10MGraphSuffixProducer` directly from closed semantic state and the
+class predicate, not from `AcceptedSequenceBadFaceAtRank`,
+`TerminalOkTraceLabels`, or `GraphAcceptedTraceLabels`.

@@ -18,6 +18,8 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalState
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateProducerSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateStepSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedSuffixSplit10MBridge
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingBranchTableSuffixSplit10MSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 
 inductive FrontierState where
   | s00 | s01 | s02 | s03Tmpm | s03Yp | s03Zm
@@ -778,6 +780,130 @@ theorem layer4Progress_prefix4_of_split10M_labels
         layer4Progress_prefix4_of_prefix4 hclosed
           (by
             simpa [ThirdBranch.face, FourthBranch.face] using hlabels)⟩
+
+theorem layer4Prefix4FrontierCons2_of_closed_prefix4
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {face₀ face₁ : Face} {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: face₀ :: face₁ :: rest) :
+    Split10MPrefix4FrontierCons2 face₀ face₁ := by
+  rcases topPairingStepScheduleLabels_prefix3 hclosed.schedule with
+    htmpm | hyp | hzm
+  · rcases htmpm with ⟨rest3, hlabels3⟩
+    have hlabels' :
+        faceLabelsInContributionOrder (fun f => f)
+            (canonicalSeqOfPairWord (unrankPairWord rank)) =
+          Face.xm :: Face.ym :: face₀ :: face₁ :: rest := by
+      simpa [topPairingRankFaceLabels] using hlabels
+    rw [hlabels'] at hlabels3
+    simp at hlabels3
+    rcases hlabels3 with ⟨rfl, _hrest3⟩
+    let third : ThirdBranch := .tmpm
+    have hhead3 :
+        TerminalStepState.HeadSome
+          (layer4Machine.stateOf Layer4State.s02) rank third.face :=
+      layer4Step3HeadSome_of_prefix hclosed
+        (by
+          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
+            hlabels)
+    rcases layer4Step4HeadSome_exists_of_head3 hclosed hhead3 with
+      ⟨fourth, hhead4Some⟩
+    rcases hhead4Some with ⟨rest4, hhead4⟩
+    have hlabels4 := hhead4.labels
+    rw [layer4_s03_pfx third] at hlabels4
+    rw [hlabels] at hlabels4
+    simp [third, ThirdBranch.face] at hlabels4
+    rcases hlabels4 with ⟨hface₁, _hrest4⟩
+    subst face₁
+    exact layer4Prefix4FrontierCons2_of_head4
+      ⟨rest4, hhead4⟩
+  · rcases hyp with ⟨rest3, hlabels3⟩
+    have hlabels' :
+        faceLabelsInContributionOrder (fun f => f)
+            (canonicalSeqOfPairWord (unrankPairWord rank)) =
+          Face.xm :: Face.ym :: face₀ :: face₁ :: rest := by
+      simpa [topPairingRankFaceLabels] using hlabels
+    rw [hlabels'] at hlabels3
+    simp at hlabels3
+    rcases hlabels3 with ⟨rfl, _hrest3⟩
+    let third : ThirdBranch := .yp
+    have hhead3 :
+        TerminalStepState.HeadSome
+          (layer4Machine.stateOf Layer4State.s02) rank third.face :=
+      layer4Step3HeadSome_of_prefix hclosed
+        (by
+          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
+            hlabels)
+    rcases layer4Step4HeadSome_exists_of_head3 hclosed hhead3 with
+      ⟨fourth, hhead4Some⟩
+    rcases hhead4Some with ⟨rest4, hhead4⟩
+    have hlabels4 := hhead4.labels
+    rw [layer4_s03_pfx third] at hlabels4
+    rw [hlabels] at hlabels4
+    simp [third, ThirdBranch.face] at hlabels4
+    rcases hlabels4 with ⟨hface₁, _hrest4⟩
+    subst face₁
+    exact layer4Prefix4FrontierCons2_of_head4
+      ⟨rest4, hhead4⟩
+  · rcases hzm with ⟨rest3, hlabels3⟩
+    have hlabels' :
+        faceLabelsInContributionOrder (fun f => f)
+            (canonicalSeqOfPairWord (unrankPairWord rank)) =
+          Face.xm :: Face.ym :: face₀ :: face₁ :: rest := by
+      simpa [topPairingRankFaceLabels] using hlabels
+    rw [hlabels'] at hlabels3
+    simp at hlabels3
+    rcases hlabels3 with ⟨rfl, _hrest3⟩
+    let third : ThirdBranch := .zm
+    have hhead3 :
+        TerminalStepState.HeadSome
+          (layer4Machine.stateOf Layer4State.s02) rank third.face :=
+      layer4Step3HeadSome_of_prefix hclosed
+        (by
+          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
+            hlabels)
+    rcases layer4Step4HeadSome_exists_of_head3 hclosed hhead3 with
+      ⟨fourth, hhead4Some⟩
+    rcases hhead4Some with ⟨rest4, hhead4⟩
+    have hlabels4 := hhead4.labels
+    rw [layer4_s03_pfx third] at hlabels4
+    rw [hlabels] at hlabels4
+    simp [third, ThirdBranch.face] at hlabels4
+    rcases hlabels4 with ⟨hface₁, _hrest4⟩
+    subst face₁
+    exact layer4Prefix4FrontierCons2_of_head4
+      ⟨rest4, hhead4⟩
+
+theorem branchTableSuffixOk_of_closedSplit10MGraphSuffixProducer
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix : Split10MGraphSuffixProducer rank) :
+    BranchTableSuffixOk rank
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) :=
+  branchTableSuffixOk_root_of_graphClosedPrefix4_forall hclosed
+    (fun face₀ face₁ rest graph₁ gain₁ graph₂ gain₂
+      hlabels hgraph₁ hgraph₂ =>
+        hsuffix face₀ face₁ rest hlabels
+          (layer4Prefix4FrontierCons2_of_closed_prefix4
+            hclosed hlabels)
+          graph₁ gain₁ graph₂ gain₂ hgraph₁ hgraph₂)
+
+theorem evalLanguageAtRank_of_closedSplit10MGraphSuffixProducer
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hsuffix : Split10MGraphSuffixProducer rank)
+    (hfinish : Split10MFinalMarginProducer scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_branchTableSuffixOk hclosed
+    (branchTableSuffixOk_of_closedSplit10MGraphSuffixProducer
+      hclosed hsuffix)
+    hfinish
 
 theorem layer4Prefix4FrontierCons2_exists_of_closed
     {rank : Fin numPairWords}
