@@ -90356,3 +90356,119 @@ the semantic family theorem that proves one of these
 `ClassNNNGraphSuffixProducer` predicates, plus the corresponding
 `Split10MFinalMarginProducer`, from the closed holonomy/cancellation language
 for an actual residual family shard.
+
+### Closed Final-Margin Socket Accepted
+
+Checkpoint date: `2026-07-02`.
+
+The Bellman path is still the right nonidentity-margin compression strategy,
+but the production route must not scale selected-prefix or sampled-trace
+membership.  The current pivot is:
+
+```text
+closed holonomy/cancellation language
+  -> deterministic graph suffix producer
+  -> deterministic final graph/gain theorem
+  -> one integer margin bound
+  -> Bellman nonpositive scaled margin
+```
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingClosedFinalMarginSocket.lean
+```
+
+This module factors the remaining `Split10MFinalMarginProducer` obligation into
+a smaller fixed-finish surface:
+
+```lean
+structure Split10MFixedFinishFinalMarginProducer
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finalGraph : State)
+    (totalGain : Int) : Prop
+```
+
+The generated family now has a precise target:
+
+* prove evaluator uniqueness/finality from closed semantic state, not from an
+  accepted trace id;
+* prove `0 <= graphPotential finalGraph`;
+* prove `scaledMargin rank <= 176 + totalGain`;
+* combine those with the already checked graph-suffix producer.
+
+The socket exposes:
+
+```lean
+theorem split10MFinalMarginProducer_of_fixedFinish
+theorem closedSplit10MSuffixMarginFamily_of_fixedFinish
+theorem evalLanguageAtRank_of_closedFixedFinishSuffixMarginFamily
+theorem scaledMargin_nonpos_of_closedFixedFinishSuffixMarginFamily
+theorem closedSplit10MSuffixMarginAllFamily_of_fixedFinish
+theorem scaledMargin_nonpos_of_closedFixedFinishSuffixMarginAllFamily
+```
+
+This is deliberately not a real margin certificate yet.  It is a checked
+production boundary that prevents future generated modules from drifting back
+to:
+
+```text
+SampledRankIndex
+sampledContainsRank / sampledRankOf
+AcceptedTraceId / acceptedTraceOfId
+GraphAcceptedTraceLabels
+selected-prefix rank/path tables
+exact affine RHS keys
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_closed_final_margin_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedFinalMarginSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_closed_final_margin_socket_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedFinalMarginSocket
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedFinalMarginSocket.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct closed final-margin socket | pass | `2.00s` | `3625 MiB` | `46263 MiB` | `8192 MiB` |
+| Lake closed final-margin socket | pass | `3.00s` | `4104 MiB` | `46025 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted as the next production socket.  The next implementation step
+should create one small generated or hand-guided semantic family that proves a
+`ClosedSplit10MFixedFinishSuffixMarginFamily` instance from
+`TopPairingClosedLanguageAtRank rank Face.ym`.  The proof should derive the
+fixed terminal graph/gain from target-shadow cursor, square-gap schedule,
+tri-source progress, and branch-table suffix state.  If it needs an accepted
+trace id, sampled rank object, or selected-prefix trace, the Bellman membership
+route has failed and the state must be strengthened semantically instead.
