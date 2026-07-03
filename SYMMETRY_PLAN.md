@@ -88813,3 +88813,126 @@ state + semantic tail + next face
 with local proofs driven by schedule, target-shadow cursor, pair counts,
 local-axis, and tri-source progress.  The gate remains: no full-rank case
 split, no accepted trace ids, no sampled prefix cover.
+
+#### One-Step Terminal Frontier Accepted
+
+Added the local-edge theorem that generated terminal machines should use as
+their smallest frontier atom:
+
+```lean
+terminalContainedEvalProgressGate_of_next?
+smokeContainedEvalProgressGate_step1
+smokeStep1Contains_of_closed
+```
+
+The generic theorem has the intended production shape:
+
+```lean
+TerminalStepState.Contains (machine.stateOf state) rank
+topPairingRankFaceLabels rank =
+  (machine.stateOf state).pfx ++ face :: rest
+machine.next? state face = some nextState
+------------------------------------------------
+TerminalContainedEvalProgressGate machine state rank nextState
+```
+
+The smoke instantiates this for the first edge of the bounded terminal
+machine, `s00 --xm--> s01`.  The head-face fact comes from the closed
+schedule theorem
+
+```lean
+topPairingStepScheduleLabels_prefix_xm_ym hclosed.schedule
+```
+
+and the evaluator progress itself is provided by the one-step socket.  This is
+still only the first edge, but it is no longer an ad hoc eval-prefix theorem:
+it is the reusable local theorem the generated semantic frontier can apply at
+every state/face case.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_one_step_frontier_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_one_step_frontier_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_one_step_frontier_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_one_step_frontier_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct one-step socket | pass | `5.00s` | `3805 MiB` | `45826 MiB` |
+| first direct one-step smoke | failed | `5.00s` | `3888 MiB` | `45734 MiB` |
+| Lake one-step socket refresh | pass | `3.00s` | `4045 MiB` | `46003 MiB` |
+| direct one-step smoke after refresh | pass | `2.00s` | `3633 MiB` | `46239 MiB` |
+| Lake one-step smoke | pass | `4.00s` | `4087 MiB` | `46025 MiB` |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a |
+
+Failure note:
+
+- The direct smoke failure was a stale `.olean` for the eval socket after
+  adding `terminalContainedEvalProgressGate_of_next?`.  The focused Lake build
+  refreshed the socket and the same smoke then passed.
+
+Decision: accepted.  The next production-facing step is to stop hard-coding
+`prefix_xm_ym` for head-face extraction.  The generated frontier should expose
+state-local predicates proving
+
+```lean
+topPairingRankFaceLabels rank =
+  (machine.stateOf state).pfx ++ face :: rest
+```
+
+from `TerminalStepState.Contains (machine.stateOf state) rank` plus the
+carried `TopPairingTransducerTail` fields.  The actual edge application should
+remain this one-step theorem.

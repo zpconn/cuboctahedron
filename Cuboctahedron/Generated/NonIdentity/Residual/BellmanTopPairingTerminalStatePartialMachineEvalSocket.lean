@@ -97,6 +97,21 @@ def TerminalContainedEvalProgressGate
           evalLabelStepFn (nextEval machine) start labels =
             some (finish, gain)
 
+theorem terminalContainedEvalProgressGate_of_next?
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords}
+    {state nextState : StateId} {face : Face} {rest : List Face}
+    (hcontains :
+      TerminalStepState.Contains (machine.stateOf state) rank)
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        (machine.stateOf state).pfx ++ face :: rest)
+    (hnext : machine.next? state face = some nextState) :
+    TerminalContainedEvalProgressGate machine state rank nextState := by
+  refine ⟨[face], 0, rest, hcontains, ?_, ?_⟩
+  · simpa [List.cons_append, List.append_assoc] using hlabels
+  · simp [evalLabelStepFn, nextEval, hnext]
+
 theorem contains_of_eval_suffix
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
     {rank : Fin numPairWords}
