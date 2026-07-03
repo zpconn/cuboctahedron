@@ -73,6 +73,9 @@ LEAN_FILES = {
     "strengthened_local": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingStrengthenedLocal1MSmoke.lean",
+    "depth11_graph_exact_portfolio": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11GraphExactPortfolioSocket.lean",
 }
 
 GUARDS = {
@@ -174,6 +177,11 @@ REQUIRED_SYMBOLS = {
     "branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace": "strengthened terminal traces lift to Bellman root through full graph suffix",
     "graphAcceptedBranchSuffix1MSmoke_builds": "graph-accepted branch suffix build sentinel",
     "graphAcceptedBranchSuffixSplit10MSmoke_builds": "split-10M graph-accepted branch suffix build sentinel",
+    "Depth11GraphExactClassCase": "depth-11 semantic graph-exact class portfolio",
+    "Depth11GraphExactPortfolioAllFamily": "all-rank depth-11 graph-exact portfolio target",
+    "graphExactEvalGateAtRank_of_depth11GraphExactClassCase": "class case to graph-exact eval gate",
+    "split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio": "portfolio to graph-exact all-family",
+    "scaledMargin_nonpos_of_depth11GraphExactPortfolio": "portfolio to nonpositive scaled margin",
 }
 
 FORBIDDEN_TOKENS = [

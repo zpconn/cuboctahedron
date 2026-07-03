@@ -76,20 +76,20 @@
     "branch_table_suffix_split10m": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 775,
+      "lines": 901,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSuffixSplit10MSmoke.lean",
       "symbol_hits": {
-        "BranchTableSuffixOk": 74,
-        "GraphBranchTableSuffixOk": 28,
+        "BranchTableSuffixOk": 86,
+        "GraphBranchTableSuffixOk": 31,
         "StrengthenedBranchTable": 22,
         "branchTableSuffixOk_closedPrefix2_branch_of_closed": 4,
-        "branchTableSuffixOk_local": 2,
-        "branchTableSuffixOk_of_graphBranchTableSuffixOk": 6,
+        "branchTableSuffixOk_local": 3,
+        "branchTableSuffixOk_of_graphBranchTableSuffixOk": 7,
         "branchTableSuffixOk_root_of_closedPrefix2": 9,
         "branchTableSuffixOk_root_of_closedPrefix2_forall": 1,
         "branchTableSuffixOk_root_of_closedPrefix3_forall": 1,
-        "branchTableSuffixOk_root_of_graphClosedPrefix3_forall": 2,
-        "branchTableSuffixOk_root_of_graphClosedPrefix4_forall": 1,
+        "branchTableSuffixOk_root_of_graphClosedPrefix3_forall": 3,
+        "branchTableSuffixOk_root_of_graphClosedPrefix4_forall": 2,
         "branchTableSuffixSplit10MSmoke_builds": 1,
         "closed_prefix3_tmpm_next": 2,
         "closed_prefix3_yp_next": 2,
@@ -99,6 +99,19 @@
         "faceEvalNext_of_graphBranchTable": 1,
         "graphBranchTableSuffixOk_closedPrefix2_branch_of_closed": 4,
         "graphBranchTableSuffixOk_closedPrefix3_branch_of_closed": 2
+      }
+    },
+    "depth11_graph_exact_portfolio": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 177,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphExactPortfolioSocket.lean",
+      "symbol_hits": {
+        "Depth11GraphExactClassCase": 3,
+        "Depth11GraphExactPortfolioAllFamily": 3,
+        "graphExactEvalGateAtRank_of_depth11GraphExactClassCase": 2,
+        "scaledMargin_nonpos_of_depth11GraphExactPortfolio": 1,
+        "split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio": 2
       }
     },
     "eval_bridge": {
@@ -214,11 +227,11 @@
     "target_cursor": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 358,
+      "lines": 387,
       "path": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
       "symbol_hits": {
         "topPairingTargetShadow_of_summary": 2,
-        "topPairingTriCursor_of_closed": 1
+        "topPairingTriCursor_of_closed": 2
       }
     },
     "transducer_tail": {
@@ -430,6 +443,12 @@
       "graph_accepted_branch_suffix",
       "graph_accepted_branch_suffix_split10m"
     ],
+    "Depth11GraphExactClassCase": [
+      "depth11_graph_exact_portfolio"
+    ],
+    "Depth11GraphExactPortfolioAllFamily": [
+      "depth11_graph_exact_portfolio"
+    ],
     "GraphBranchTableSuffixOk": [
       "branch_table_suffix",
       "branch_table_suffix_split10m",
@@ -578,6 +597,9 @@
     "graphBranchTableSuffixOk_s0146_branch_of_frontier": [
       "graph_suffix_emitter"
     ],
+    "graphExactEvalGateAtRank_of_depth11GraphExactClassCase": [
+      "depth11_graph_exact_portfolio"
+    ],
     "graphPrefix4FrontierLabels_exists_cons2": [
       "graph_accepted_suffix_bridge"
     ],
@@ -597,6 +619,9 @@
       "branch_table_progress",
       "branch_table_progress_split10m"
     ],
+    "scaledMargin_nonpos_of_depth11GraphExactPortfolio": [
+      "depth11_graph_exact_portfolio"
+    ],
     "socket150TpppBranch_impossible": [
       "branch_table_progress",
       "branch_table_suffix"
@@ -604,6 +629,9 @@
     "socket19TmmpBranch_impossible": [
       "branch_table_progress",
       "branch_table_suffix"
+    ],
+    "split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio": [
+      "depth11_graph_exact_portfolio"
     ],
     "strengthenedBranchKind?": [
       "branch_table"

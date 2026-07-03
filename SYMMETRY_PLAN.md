@@ -93164,3 +93164,59 @@ module or deliberately warm only named dependencies under `run_memory_guarded`
 with hard address-space caps.  The proof strategy remains unchanged: the
 classifier surface must be semantic; the dependency lesson is only about build
 hygiene.
+
+### Depth-11 Portfolio Audit Gate
+
+The audit tooling now tracks the depth-11 graph-exact portfolio socket as a
+first-class downstream producer target.
+
+Updated files:
+
+- `scripts/audit_top_pairing_semantic_gate_imports.py`
+- `scripts/audit_top_pairing_branch_table_membership_frontier.py`
+- regenerated reports under `scripts/generated/top_pairing_*`
+
+Commands:
+
+```bash
+python3 scripts/audit_top_pairing_semantic_gate_imports.py
+python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+python3 -m py_compile \
+  scripts/audit_top_pairing_semantic_gate_imports.py \
+  scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Audit | Result |
+|---|---|
+| semantic gate import audit | `keep-semantic-gate-lightweight-and-producer-roots-downstream` |
+| depth-11 portfolio target decision | `producer-portfolio-socket-keep-downstream` |
+| depth-11 portfolio closure size | `207` modules, `157` generated residual modules |
+| branch-table membership frontier | `local-branch-table-progress-accepted-membership-open` |
+| required depth-11 portfolio symbols | present |
+| sampled/forbidden membership tokens | `0` |
+
+This does not prove new mathematical coverage.  It prevents drift in the
+current pivot: the depth-11 graph-exact portfolio is accepted as a measured
+producer socket, but it must remain downstream of the lightweight public gate.
+The open proof step is still the semantic classifier:
+
+```lean
+∀ rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    Depth11GraphExactPortfolioAllFamily.classify scaledMargin rank
+```
+
+or the equivalent field required to build
+`Depth11GraphExactPortfolioAllFamily`.  That classifier must be proved from
+closed-language fields such as target cursor, schedule, pair counts,
+square-gap, tri-source progress, and local axis.  It must not use sampled rank
+membership, selected-prefix object covers, accepted trace identifiers, exact
+affine RHS keys, solved start points, or raw graph paths.
+
+Next implementation move: extend the existing semantic frontier around
+`Layer4State` / terminal partial-machine state toward the depth-11 classifier,
+preferably in a direct-checkable module with guarded Lean invocations.  If a
+new import exposes cold producer dependencies, stop and split the classifier
+socket so the public semantic gate remains light.

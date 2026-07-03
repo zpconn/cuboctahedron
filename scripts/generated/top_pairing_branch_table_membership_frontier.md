@@ -60,6 +60,11 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `branchTableSuffixOk_root_of_strengthenedTerminal_fullTrace` | strengthened terminal traces lift to Bellman root through full graph suffix | `graph_accepted_branch_suffix` |
 | `graphAcceptedBranchSuffix1MSmoke_builds` | graph-accepted branch suffix build sentinel | `graph_accepted_branch_suffix` |
 | `graphAcceptedBranchSuffixSplit10MSmoke_builds` | split-10M graph-accepted branch suffix build sentinel | `graph_accepted_branch_suffix_split10m` |
+| `Depth11GraphExactClassCase` | depth-11 semantic graph-exact class portfolio | `depth11_graph_exact_portfolio` |
+| `Depth11GraphExactPortfolioAllFamily` | all-rank depth-11 graph-exact portfolio target | `depth11_graph_exact_portfolio` |
+| `graphExactEvalGateAtRank_of_depth11GraphExactClassCase` | class case to graph-exact eval gate | `depth11_graph_exact_portfolio` |
+| `split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio` | portfolio to graph-exact all-family | `depth11_graph_exact_portfolio` |
+| `scaledMargin_nonpos_of_depth11GraphExactPortfolio` | portfolio to nonpositive scaled margin | `depth11_graph_exact_portfolio` |
 
 ## Guards
 

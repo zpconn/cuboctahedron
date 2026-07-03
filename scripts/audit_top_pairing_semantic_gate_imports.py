@@ -35,6 +35,9 @@ TARGETS = {
     "state_dag_selected_prefix_cover":
         "Cuboctahedron.Generated.NonIdentity.Residual."
         "BellmanTopPairingStateDAGSelectedPrefixCover.All",
+    "depth11_graph_exact_portfolio_socket":
+        "Cuboctahedron.Generated.NonIdentity.Residual."
+        "BellmanTopPairingDepth11GraphExactPortfolioSocket",
     "root_trace_margin_bridge":
         "Cuboctahedron.Generated.NonIdentity.Residual."
         "BellmanTopPairingRootTraceMarginSelectedPrefixBridge",
@@ -135,6 +138,8 @@ def decision_for(name: str, stats: dict[str, object]) -> str:
 
     if name == "root_trace_margin_bridge":
         return "heavy-producer-root-keep-downstream"
+    if name == "depth11_graph_exact_portfolio_socket":
+        return "producer-portfolio-socket-keep-downstream"
     if name == "state_dag_selected_prefix_cover":
         return "semantic-producer-root-serial-build-required"
     if name == "state_dag_selected_prefix_group":
@@ -212,6 +217,10 @@ def main() -> None:
         "- `state_dag_selected_prefix_cover` is the accepted bounded semantic",
         "  producer root for the current top-pairing selected-prefix subproblem,",
         "  but it must be compiled with serial group scheduling before the root.",
+        "- `depth11_graph_exact_portfolio_socket` is the current Bellman",
+        "  graph-exact producer portfolio.  Its theorem surface is semantic,",
+        "  but it imports generated producer infrastructure, so it belongs",
+        "  downstream of the lightweight public gate.",
         "- Any future public/residual bridge target with split graph smoke shards",
         "  or many terminal shards in its closure should be rejected or moved",
         "  behind a separate measured producer root.",
