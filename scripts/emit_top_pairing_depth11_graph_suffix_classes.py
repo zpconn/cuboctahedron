@@ -17,7 +17,7 @@ from pathlib import Path
 
 DEFAULT_SUFFIX_INPUT = Path(
     "Cuboctahedron/Generated/NonIdentity/Residual/"
-    "BellmanTopPairingDepth11GraphStateSuffixSmoke.lean"
+    "BellmanTopPairingDepth11GraphStateSuffixCore.lean"
 )
 DEFAULT_OUTPUT = Path(
     "Cuboctahedron/Generated/NonIdentity/Residual/"
@@ -59,7 +59,7 @@ def emit_class(class_id: str, states: list[str]) -> list[str]:
 
 def emit_module(classes: dict[str, list[str]]) -> str:
     lines = [
-        "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke",
+        "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixCore",
         "",
         "/-!",
         "Lightweight depth-11 graph suffix class predicates.",
@@ -75,7 +75,7 @@ def emit_module(classes: dict[str, list[str]]) -> str:
         "",
         "open Cuboctahedron",
         "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base",
-        "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke",
+        "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixCore",
         "",
     ]
     for class_id, states in classes.items():

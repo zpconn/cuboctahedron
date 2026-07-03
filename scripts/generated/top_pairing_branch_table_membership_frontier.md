@@ -65,16 +65,16 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `graphExactEvalGateAtRank_of_depth11GraphExactClassCase` | class case to graph-exact eval gate | `depth11_graph_exact_portfolio` |
 | `split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio` | portfolio to graph-exact all-family | `depth11_graph_exact_portfolio` |
 | `scaledMargin_nonpos_of_depth11GraphExactPortfolio` | portfolio to nonpositive scaled margin | `depth11_graph_exact_portfolio` |
-| `Depth11Layer4PrefixAtRank` | first-four closed-language prefix predicate | `depth11_layer4_classifier` |
+| `Depth11Layer4PrefixAtRank` | first-four closed-language prefix predicate | `depth11_layer4_classifier`, `depth11_layer4_mapped_finish` |
 | `Depth11Layer4BranchAllowed` | schedule-allowed first-four branch predicate | `depth11_layer4_classifier` |
-| `Depth11Layer4SemanticFrontierBranch` | semantic seven-way first-four frontier predicate | `depth11_layer4_classifier`, `depth11_suffix_producers` |
+| `Depth11Layer4SemanticFrontierBranch` | semantic seven-way first-four frontier predicate | `depth11_layer4_classifier`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
 | `Depth11Layer4GraphExactEvalAllFamily` | layer-4 graph-exact all-family target | `depth11_layer4_classifier` |
 | `Depth11Layer4BranchGraphExactEvalAllFamily` | branch-aware layer-4 graph-exact all-family target | `depth11_layer4_classifier` |
 | `Depth11Layer4SemanticFrontierGraphExactEvalAllFamily` | semantic-frontier layer-4 graph-exact all-family target | `depth11_layer4_classifier` |
 | `Depth11Layer4SevenBranchGraphExactEvalAllFamily` | seven-field semantic-frontier graph-exact all-family target | `depth11_layer4_classifier` |
 | `Depth11Layer4MappedGraphExactEvalResult` | mapped-label graph-exact eval result | `depth11_layer4_classifier` |
-| `Depth11Layer4MappedGraphExactEvalGateAtRank` | mapped-label graph-exact eval gate | `depth11_layer4_classifier` |
-| `Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily` | seven-field mapped-label graph-exact all-family target | `depth11_layer4_classifier` |
+| `Depth11Layer4MappedGraphExactEvalGateAtRank` | mapped-label graph-exact eval gate | `depth11_layer4_classifier`, `depth11_layer4_mapped_finish` |
+| `Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily` | seven-field mapped-label graph-exact all-family target | `depth11_layer4_classifier`, `depth11_layer4_mapped_finish` |
 | `layer4Classifier_of_branchClassifier` | branch-aware layer-4 classifier to layer-4 classifier | `depth11_layer4_classifier` |
 | `layer4BranchClassifier_of_semanticFrontierClassifier` | semantic-frontier classifier to branch-aware layer-4 classifier | `depth11_layer4_classifier` |
 | `split10MGraphExactEvalGateAtRank_of_mappedLayer4Result` | mapped-label result to public graph-exact eval gate | `depth11_layer4_classifier` |
@@ -84,26 +84,42 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `split10MGraphExactEvalAllFamily_of_layer4BranchClassifier` | branch-aware layer-4 classifier to graph-exact all-family | `depth11_layer4_classifier` |
 | `split10MGraphExactEvalAllFamily_of_layer4SemanticFrontierClassifier` | semantic-frontier classifier to graph-exact all-family | `depth11_layer4_classifier` |
 | `split10MGraphExactEvalAllFamily_of_layer4SevenBranchClassifier` | seven-field classifier to graph-exact all-family | `depth11_layer4_classifier` |
-| `split10MGraphExactEvalAllFamily_of_mappedLayer4SevenBranchClassifier` | mapped seven-field classifier to graph-exact all-family | `depth11_layer4_classifier` |
+| `split10MGraphExactEvalAllFamily_of_mappedLayer4SevenBranchClassifier` | mapped seven-field classifier to graph-exact all-family | `depth11_layer4_classifier`, `depth11_layer4_mapped_finish` |
 | `scaledMargin_nonpos_of_layer4Classifier` | layer-4 classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
 | `scaledMargin_nonpos_of_layer4BranchClassifier` | branch-aware layer-4 classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
 | `scaledMargin_nonpos_of_layer4SemanticFrontierClassifier` | semantic-frontier classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
 | `scaledMargin_nonpos_of_layer4SevenBranchClassifier` | seven-field classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
-| `scaledMargin_nonpos_of_mappedLayer4SevenBranchClassifier` | mapped seven-field classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
+| `scaledMargin_nonpos_of_mappedLayer4SevenBranchClassifier` | mapped seven-field classifier to nonpositive scaled margin | `depth11_layer4_classifier`, `depth11_layer4_mapped_finish` |
 | `depth11GraphSuffixClasses_builds` | lightweight depth-11 suffix class module sentinel | `depth11_suffix_classes` |
-| `Class034Depth11Suffix` | lightweight class034 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
-| `Class035Depth11Suffix` | lightweight class035 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
-| `Class036Depth11Suffix` | lightweight class036 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
-| `Class037Depth11Suffix` | lightweight class037 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
-| `Class038Depth11Suffix` | lightweight class038 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
-| `Class039Depth11Suffix` | lightweight class039 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
+| `depth11GraphStateSuffixCore_builds` | trace-free depth-11 graph-state suffix core sentinel | `depth11_suffix_core` |
+| `Depth11Class034State0197Suffix` | trace-free depth-11 class034/state0197 suffix predicate | `depth11_suffix_core`, `depth11_suffix_classes` |
+| `Class034Depth11Suffix` | lightweight class034 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_eval`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
+| `Class035Depth11Suffix` | lightweight class035 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_eval`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
+| `Class036Depth11Suffix` | lightweight class036 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_eval`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
+| `Class037Depth11Suffix` | lightweight class037 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_eval`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
+| `Class038Depth11Suffix` | lightweight class038 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_eval`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
+| `Class039Depth11Suffix` | lightweight class039 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_eval`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
 | `depth11GraphSuffixProducers_builds` | lightweight depth-11 suffix producer module sentinel | `depth11_suffix_producers` |
-| `Class034GraphSuffixProducer` | lightweight class034 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
-| `Class035GraphSuffixProducer` | lightweight class035 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
-| `Class036GraphSuffixProducer` | lightweight class036 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
-| `Class037GraphSuffixProducer` | lightweight class037 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
-| `Class038GraphSuffixProducer` | lightweight class038 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
-| `Class039GraphSuffixProducer` | lightweight class039 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
+| `Class034GraphSuffixProducer` | lightweight class034 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
+| `Class035GraphSuffixProducer` | lightweight class035 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
+| `Class036GraphSuffixProducer` | lightweight class036 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
+| `Class037GraphSuffixProducer` | lightweight class037 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
+| `Class038GraphSuffixProducer` | lightweight class038 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
+| `Class039GraphSuffixProducer` | lightweight class039 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers`, `depth11_layer4_mapped_finish` |
+| `depth11GraphSuffixEvalSmoke_builds` | depth-11 suffix graph-eval facts sentinel | `depth11_suffix_eval` |
+| `Class034Depth11GraphFinish` | class034 depth-11 graph finish predicate | `depth11_suffix_eval` |
+| `class034Depth11GraphFinish_of_suffix` | class034 suffix to graph finish | `depth11_suffix_eval`, `depth11_layer4_mapped_finish` |
+| `graphEval_of_class034Depth11GraphFinish` | class034 suffix finish to evaluator equation | `depth11_suffix_eval`, `depth11_layer4_mapped_finish` |
+| `finalPotential_nonneg_of_class034Depth11GraphFinish` | class034 suffix finish final potential | `depth11_suffix_eval`, `depth11_layer4_mapped_finish` |
+| `Depth11Layer4MappedClassCase` | direct mapped layer-4 class case | `depth11_layer4_mapped_finish` |
+| `Depth11Layer4SevenBranchMappedPortfolioAllFamily` | direct mapped layer-4 portfolio target | `depth11_layer4_mapped_finish` |
+| `Class034ExactGraphFinishMarginBound` | class034 exact graph finish margin-bound predicate | `depth11_graph_exact_portfolio`, `depth11_layer4_mapped_finish` |
+| `mappedLayer4Result_of_class034` | class034 direct mapped layer-4 result | `depth11_layer4_mapped_finish` |
+| `mappedLayer4Result_of_mappedClassCase` | mapped class case to mapped eval gate | `depth11_layer4_mapped_finish` |
+| `mappedSevenBranchClassifier_of_mappedPortfolio` | mapped portfolio to mapped seven-branch classifier | `depth11_layer4_mapped_finish` |
+| `split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio` | mapped portfolio to split-10M graph-exact family | `depth11_layer4_mapped_finish` |
+| `scaledMargin_nonpos_of_layer4MappedPortfolio` | mapped portfolio to nonpositive scaled margin | `depth11_layer4_mapped_finish` |
+| `depth11Layer4MappedFinish_builds` | direct mapped finish module sentinel | `depth11_layer4_mapped_finish` |
 
 ## Guards
 
@@ -132,6 +148,11 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `graph_accepted_branch_suffix_lake` | `0` | `4.01s` | `4261 MiB` | `None` |
 | `graph_accepted_branch_suffix_split10m_direct` | `0` | `6.01s` | `4771 MiB` | `None` |
 | `graph_accepted_branch_suffix_split10m_lake` | `0` | `7.01s` | `4802 MiB` | `None` |
+| `depth11_suffix_core_olean` | `0` | `7.01s` | `3868 MiB` | `None` |
+| `depth11_suffix_classes_olean` | `0` | `2.00s` | `3522 MiB` | `None` |
+| `depth11_suffix_eval_olean` | `0` | `4.00s` | `3940 MiB` | `None` |
+| `depth11_suffix_producers_olean` | `0` | `2.00s` | `3548 MiB` | `None` |
+| `depth11_layer4_mapped_finish_direct` | `0` | `16.01s` | `4010 MiB` | `None` |
 
 ## Accepted Local Surface
 

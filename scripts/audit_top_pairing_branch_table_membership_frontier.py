@@ -79,12 +79,21 @@ LEAN_FILES = {
     "depth11_layer4_classifier": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4ClassifierSocket.lean",
+    "depth11_suffix_core": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11GraphStateSuffixCore.lean",
     "depth11_suffix_classes": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11GraphSuffixClasses.lean",
+    "depth11_suffix_eval": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean",
     "depth11_suffix_producers": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11GraphSuffixProducers.lean",
+    "depth11_layer4_mapped_finish": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4MappedFinish.lean",
 }
 
 GUARDS = {
@@ -134,6 +143,16 @@ GUARDS = {
     / "scripts/generated/bellman_split10m_graph_accepted_branch_suffix_guard.json",
     "graph_accepted_branch_suffix_split10m_lake": ROOT
     / "scripts/generated/bellman_split10m_graph_accepted_branch_suffix_lake_guard.json",
+    "depth11_suffix_core_olean": ROOT
+    / "scripts/generated/depth11_graph_state_suffix_core_olean_guard.json",
+    "depth11_suffix_classes_olean": ROOT
+    / "scripts/generated/depth11_graph_suffix_classes_olean_guard.json",
+    "depth11_suffix_eval_olean": ROOT
+    / "scripts/generated/depth11_graph_suffix_eval_smoke_olean_guard.json",
+    "depth11_suffix_producers_olean": ROOT
+    / "scripts/generated/depth11_graph_suffix_producers_olean_guard.json",
+    "depth11_layer4_mapped_finish_direct": ROOT
+    / "scripts/generated/depth11_layer4_mapped_finish_lean.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -217,6 +236,8 @@ REQUIRED_SYMBOLS = {
     "scaledMargin_nonpos_of_layer4SevenBranchClassifier": "seven-field classifier to nonpositive scaled margin",
     "scaledMargin_nonpos_of_mappedLayer4SevenBranchClassifier": "mapped seven-field classifier to nonpositive scaled margin",
     "depth11GraphSuffixClasses_builds": "lightweight depth-11 suffix class module sentinel",
+    "depth11GraphStateSuffixCore_builds": "trace-free depth-11 graph-state suffix core sentinel",
+    "Depth11Class034State0197Suffix": "trace-free depth-11 class034/state0197 suffix predicate",
     "Class034Depth11Suffix": "lightweight class034 depth-11 suffix predicate",
     "Class035Depth11Suffix": "lightweight class035 depth-11 suffix predicate",
     "Class036Depth11Suffix": "lightweight class036 depth-11 suffix predicate",
@@ -230,6 +251,20 @@ REQUIRED_SYMBOLS = {
     "Class037GraphSuffixProducer": "lightweight class037 graph suffix producer",
     "Class038GraphSuffixProducer": "lightweight class038 graph suffix producer",
     "Class039GraphSuffixProducer": "lightweight class039 graph suffix producer",
+    "depth11GraphSuffixEvalSmoke_builds": "depth-11 suffix graph-eval facts sentinel",
+    "Class034Depth11GraphFinish": "class034 depth-11 graph finish predicate",
+    "class034Depth11GraphFinish_of_suffix": "class034 suffix to graph finish",
+    "graphEval_of_class034Depth11GraphFinish": "class034 suffix finish to evaluator equation",
+    "finalPotential_nonneg_of_class034Depth11GraphFinish": "class034 suffix finish final potential",
+    "Depth11Layer4MappedClassCase": "direct mapped layer-4 class case",
+    "Depth11Layer4SevenBranchMappedPortfolioAllFamily": "direct mapped layer-4 portfolio target",
+    "Class034ExactGraphFinishMarginBound": "class034 exact graph finish margin-bound predicate",
+    "mappedLayer4Result_of_class034": "class034 direct mapped layer-4 result",
+    "mappedLayer4Result_of_mappedClassCase": "mapped class case to mapped eval gate",
+    "mappedSevenBranchClassifier_of_mappedPortfolio": "mapped portfolio to mapped seven-branch classifier",
+    "split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio": "mapped portfolio to split-10M graph-exact family",
+    "scaledMargin_nonpos_of_layer4MappedPortfolio": "mapped portfolio to nonpositive scaled margin",
+    "depth11Layer4MappedFinish_builds": "direct mapped finish module sentinel",
 }
 
 FORBIDDEN_TOKENS = [

@@ -1,4 +1,4 @@
-import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixCore
 
 /-!
 Lightweight depth-11 graph suffix class predicates.
@@ -14,7 +14,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11G
 
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
-open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixCore
 
 /-- Lightweight depth-11 graph-state suffix alternatives for class 034. -/
 def Class034Depth11Suffix (graph : State) (rest : List Face) : Prop :=

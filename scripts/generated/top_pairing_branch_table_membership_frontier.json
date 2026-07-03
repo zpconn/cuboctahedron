@@ -107,6 +107,7 @@
       "lines": 177,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphExactPortfolioSocket.lean",
       "symbol_hits": {
+        "Class034ExactGraphFinishMarginBound": 2,
         "Class034GraphSuffixProducer": 2,
         "Class035GraphSuffixProducer": 2,
         "Class036GraphSuffixProducer": 2,
@@ -153,6 +154,44 @@
         "split10MGraphExactEvalGateAtRank_of_mappedLayer4Result": 8
       }
     },
+    "depth11_layer4_mapped_finish": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 1494,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4MappedFinish.lean",
+      "symbol_hits": {
+        "Class034Depth11Suffix": 7,
+        "Class034ExactGraphFinishMarginBound": 3,
+        "Class034GraphSuffixProducer": 2,
+        "Class035Depth11Suffix": 7,
+        "Class035GraphSuffixProducer": 2,
+        "Class036Depth11Suffix": 7,
+        "Class036GraphSuffixProducer": 2,
+        "Class037Depth11Suffix": 7,
+        "Class037GraphSuffixProducer": 2,
+        "Class038Depth11Suffix": 7,
+        "Class038GraphSuffixProducer": 2,
+        "Class039Depth11Suffix": 7,
+        "Class039GraphSuffixProducer": 2,
+        "Depth11Layer4MappedClassCase": 9,
+        "Depth11Layer4MappedGraphExactEvalGateAtRank": 7,
+        "Depth11Layer4PrefixAtRank": 20,
+        "Depth11Layer4SemanticFrontierBranch": 7,
+        "Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily": 2,
+        "Depth11Layer4SevenBranchMappedPortfolioAllFamily": 4,
+        "class034Depth11GraphFinish_of_suffix": 7,
+        "depth11Layer4MappedFinish_builds": 1,
+        "finalPotential_nonneg_of_class034Depth11GraphFinish": 7,
+        "graphEval_of_class034Depth11GraphFinish": 7,
+        "mappedLayer4Result_of_class034": 2,
+        "mappedLayer4Result_of_mappedClassCase": 8,
+        "mappedSevenBranchClassifier_of_mappedPortfolio": 3,
+        "scaledMargin_nonpos_of_layer4MappedPortfolio": 1,
+        "scaledMargin_nonpos_of_mappedLayer4SevenBranchClassifier": 1,
+        "split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio": 1,
+        "split10MGraphExactEvalAllFamily_of_mappedLayer4SevenBranchClassifier": 1
+      }
+    },
     "depth11_suffix_classes": {
       "exists": true,
       "forbidden_hits": {},
@@ -165,7 +204,37 @@
         "Class037Depth11Suffix": 1,
         "Class038Depth11Suffix": 1,
         "Class039Depth11Suffix": 1,
+        "Depth11Class034State0197Suffix": 1,
         "depth11GraphSuffixClasses_builds": 1
+      }
+    },
+    "depth11_suffix_core": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 122,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphStateSuffixCore.lean",
+      "symbol_hits": {
+        "Depth11Class034State0197Suffix": 2,
+        "depth11GraphStateSuffixCore_builds": 1
+      }
+    },
+    "depth11_suffix_eval": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 864,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean",
+      "symbol_hits": {
+        "Class034Depth11GraphFinish": 4,
+        "Class034Depth11Suffix": 2,
+        "Class035Depth11Suffix": 2,
+        "Class036Depth11Suffix": 2,
+        "Class037Depth11Suffix": 2,
+        "Class038Depth11Suffix": 2,
+        "Class039Depth11Suffix": 2,
+        "class034Depth11GraphFinish_of_suffix": 2,
+        "depth11GraphSuffixEvalSmoke_builds": 1,
+        "finalPotential_nonneg_of_class034Depth11GraphFinish": 1,
+        "graphEval_of_class034Depth11GraphFinish": 2
       }
     },
     "depth11_suffix_producers": {
@@ -362,6 +431,46 @@
       "max_tree_rss_mib": 0.9375,
       "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json"
     },
+    "depth11_layer4_mapped_finish_direct": {
+      "elapsed_seconds": 16.009850449016085,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 4010.0859375,
+      "path": "scripts/generated/depth11_layer4_mapped_finish_lean.json"
+    },
+    "depth11_suffix_classes_olean": {
+      "elapsed_seconds": 2.002214678010205,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3522.1015625,
+      "path": "scripts/generated/depth11_graph_suffix_classes_olean_guard.json"
+    },
+    "depth11_suffix_core_olean": {
+      "elapsed_seconds": 7.005031266016886,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3868.17578125,
+      "path": "scripts/generated/depth11_graph_state_suffix_core_olean_guard.json"
+    },
+    "depth11_suffix_eval_olean": {
+      "elapsed_seconds": 4.0034399179858156,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3939.73828125,
+      "path": "scripts/generated/depth11_graph_suffix_eval_smoke_olean_guard.json"
+    },
+    "depth11_suffix_producers_olean": {
+      "elapsed_seconds": 2.002351283997996,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3548.421875,
+      "path": "scripts/generated/depth11_graph_suffix_producers_olean_guard.json"
+    },
     "face_eval_split10m_direct": {
       "elapsed_seconds": 4.008144163992256,
       "exists": true,
@@ -519,53 +628,82 @@
       "graph_accepted_branch_suffix",
       "graph_accepted_branch_suffix_split10m"
     ],
+    "Class034Depth11GraphFinish": [
+      "depth11_suffix_eval"
+    ],
     "Class034Depth11Suffix": [
       "depth11_suffix_classes",
-      "depth11_suffix_producers"
+      "depth11_suffix_eval",
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
+    ],
+    "Class034ExactGraphFinishMarginBound": [
+      "depth11_graph_exact_portfolio",
+      "depth11_layer4_mapped_finish"
     ],
     "Class034GraphSuffixProducer": [
       "depth11_graph_exact_portfolio",
-      "depth11_suffix_producers"
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
     ],
     "Class035Depth11Suffix": [
       "depth11_suffix_classes",
-      "depth11_suffix_producers"
+      "depth11_suffix_eval",
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
     ],
     "Class035GraphSuffixProducer": [
       "depth11_graph_exact_portfolio",
-      "depth11_suffix_producers"
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
     ],
     "Class036Depth11Suffix": [
       "depth11_suffix_classes",
-      "depth11_suffix_producers"
+      "depth11_suffix_eval",
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
     ],
     "Class036GraphSuffixProducer": [
       "depth11_graph_exact_portfolio",
-      "depth11_suffix_producers"
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
     ],
     "Class037Depth11Suffix": [
       "depth11_suffix_classes",
-      "depth11_suffix_producers"
+      "depth11_suffix_eval",
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
     ],
     "Class037GraphSuffixProducer": [
       "depth11_graph_exact_portfolio",
-      "depth11_suffix_producers"
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
     ],
     "Class038Depth11Suffix": [
       "depth11_suffix_classes",
-      "depth11_suffix_producers"
+      "depth11_suffix_eval",
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
     ],
     "Class038GraphSuffixProducer": [
       "depth11_graph_exact_portfolio",
-      "depth11_suffix_producers"
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
     ],
     "Class039Depth11Suffix": [
       "depth11_suffix_classes",
-      "depth11_suffix_producers"
+      "depth11_suffix_eval",
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
     ],
     "Class039GraphSuffixProducer": [
       "depth11_graph_exact_portfolio",
-      "depth11_suffix_producers"
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
+    ],
+    "Depth11Class034State0197Suffix": [
+      "depth11_suffix_core",
+      "depth11_suffix_classes"
     ],
     "Depth11GraphExactClassCase": [
       "depth11_graph_exact_portfolio"
@@ -582,18 +720,24 @@
     "Depth11Layer4GraphExactEvalAllFamily": [
       "depth11_layer4_classifier"
     ],
+    "Depth11Layer4MappedClassCase": [
+      "depth11_layer4_mapped_finish"
+    ],
     "Depth11Layer4MappedGraphExactEvalGateAtRank": [
-      "depth11_layer4_classifier"
+      "depth11_layer4_classifier",
+      "depth11_layer4_mapped_finish"
     ],
     "Depth11Layer4MappedGraphExactEvalResult": [
       "depth11_layer4_classifier"
     ],
     "Depth11Layer4PrefixAtRank": [
-      "depth11_layer4_classifier"
+      "depth11_layer4_classifier",
+      "depth11_layer4_mapped_finish"
     ],
     "Depth11Layer4SemanticFrontierBranch": [
       "depth11_layer4_classifier",
-      "depth11_suffix_producers"
+      "depth11_suffix_producers",
+      "depth11_layer4_mapped_finish"
     ],
     "Depth11Layer4SemanticFrontierGraphExactEvalAllFamily": [
       "depth11_layer4_classifier"
@@ -602,7 +746,11 @@
       "depth11_layer4_classifier"
     ],
     "Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily": [
-      "depth11_layer4_classifier"
+      "depth11_layer4_classifier",
+      "depth11_layer4_mapped_finish"
+    ],
+    "Depth11Layer4SevenBranchMappedPortfolioAllFamily": [
+      "depth11_layer4_mapped_finish"
     ],
     "GraphBranchTableSuffixOk": [
       "branch_table_suffix",
@@ -684,6 +832,10 @@
     "branchTableSuffixSplit10MSmoke_builds": [
       "branch_table_suffix_split10m"
     ],
+    "class034Depth11GraphFinish_of_suffix": [
+      "depth11_suffix_eval",
+      "depth11_layer4_mapped_finish"
+    ],
     "closed_prefix2_branch_faceEval": [
       "face_eval_split10m",
       "strengthened_local"
@@ -700,11 +852,20 @@
       "branch_table_suffix_split10m",
       "strengthened_local"
     ],
+    "depth11GraphStateSuffixCore_builds": [
+      "depth11_suffix_core"
+    ],
     "depth11GraphSuffixClasses_builds": [
       "depth11_suffix_classes"
     ],
+    "depth11GraphSuffixEvalSmoke_builds": [
+      "depth11_suffix_eval"
+    ],
     "depth11GraphSuffixProducers_builds": [
       "depth11_suffix_producers"
+    ],
+    "depth11Layer4MappedFinish_builds": [
+      "depth11_layer4_mapped_finish"
     ],
     "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": [
       "eval_bridge",
@@ -721,6 +882,10 @@
       "branch_table_progress_split10m",
       "branch_table_suffix",
       "branch_table_suffix_split10m"
+    ],
+    "finalPotential_nonneg_of_class034Depth11GraphFinish": [
+      "depth11_suffix_eval",
+      "depth11_layer4_mapped_finish"
     ],
     "graphAcceptedBranchSuffix1MSmoke_builds": [
       "graph_accepted_branch_suffix"
@@ -758,6 +923,10 @@
     "graphBranchTableSuffixOk_s0146_branch_of_frontier": [
       "graph_suffix_emitter"
     ],
+    "graphEval_of_class034Depth11GraphFinish": [
+      "depth11_suffix_eval",
+      "depth11_layer4_mapped_finish"
+    ],
     "graphExactEvalGateAtRank_of_depth11GraphExactClassCase": [
       "depth11_graph_exact_portfolio"
     ],
@@ -786,6 +955,15 @@
     "layer4Classifier_of_branchClassifier": [
       "depth11_layer4_classifier"
     ],
+    "mappedLayer4Result_of_class034": [
+      "depth11_layer4_mapped_finish"
+    ],
+    "mappedLayer4Result_of_mappedClassCase": [
+      "depth11_layer4_mapped_finish"
+    ],
+    "mappedSevenBranchClassifier_of_mappedPortfolio": [
+      "depth11_layer4_mapped_finish"
+    ],
     "scaledMargin_nonpos_of_depth11GraphExactPortfolio": [
       "depth11_graph_exact_portfolio"
     ],
@@ -795,6 +973,9 @@
     "scaledMargin_nonpos_of_layer4Classifier": [
       "depth11_layer4_classifier"
     ],
+    "scaledMargin_nonpos_of_layer4MappedPortfolio": [
+      "depth11_layer4_mapped_finish"
+    ],
     "scaledMargin_nonpos_of_layer4SemanticFrontierClassifier": [
       "depth11_layer4_classifier"
     ],
@@ -802,7 +983,8 @@
       "depth11_layer4_classifier"
     ],
     "scaledMargin_nonpos_of_mappedLayer4SevenBranchClassifier": [
-      "depth11_layer4_classifier"
+      "depth11_layer4_classifier",
+      "depth11_layer4_mapped_finish"
     ],
     "semanticFrontierClassifier_of_sevenBranchClassifier": [
       "depth11_layer4_classifier"
@@ -827,6 +1009,9 @@
     "split10MGraphExactEvalAllFamily_of_layer4Classifier": [
       "depth11_layer4_classifier"
     ],
+    "split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio": [
+      "depth11_layer4_mapped_finish"
+    ],
     "split10MGraphExactEvalAllFamily_of_layer4SemanticFrontierClassifier": [
       "depth11_layer4_classifier"
     ],
@@ -834,7 +1019,8 @@
       "depth11_layer4_classifier"
     ],
     "split10MGraphExactEvalAllFamily_of_mappedLayer4SevenBranchClassifier": [
-      "depth11_layer4_classifier"
+      "depth11_layer4_classifier",
+      "depth11_layer4_mapped_finish"
     ],
     "split10MGraphExactEvalGateAtRank_of_mappedLayer4Result": [
       "depth11_layer4_classifier"

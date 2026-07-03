@@ -93,6 +93,88 @@ Immediate Bellman pivot after the latest GPT5.5 review:
   closed-language fields.  They are rejected as production evidence if they
   grow into one branch per observed prefix or path.
 
+2026-07-03 checkpoint after the latest GPT5.5 pivot:
+
+- Accepted: the Bellman graph and potential remain the right compression
+  object.  The current failure mode is not the potential; it is semantic
+  membership.  Continue only along paths that prove deterministic evaluation
+  from the closed holonomy/cancellation language.
+- Rejected: scaling the selected-prefix producer, terminal trace classifier,
+  accepted trace ids, sampled rank objects, or exact affine RHS membership.
+  These may remain as bounded diagnostics, but they are not production proof
+  surfaces.
+- Implemented a trace-free suffix core:
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphStateSuffixCore.lean`.
+  It contains only the `Depth11ClassNNNStateSSSSSuffix : List Face -> Prop`
+  alternatives extracted from the old depth-11 suffix smoke, and deliberately
+  avoids the branch-table suffix / terminal trace-classifier imports.
+- Repointed the lightweight suffix class/eval/producers chain at that core:
+  `BellmanTopPairingDepth11GraphSuffixClasses.lean`,
+  `BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean`, and
+  `BellmanTopPairingDepth11GraphSuffixProducers.lean`.
+- Added the direct mapped finish adapter:
+  `BellmanTopPairingDepth11Layer4MappedFinish.lean`.  Its public surface is
+  still conditional, but it targets
+  `Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily` directly and exports:
+  `Depth11Layer4MappedClassCase`,
+  `Depth11Layer4SevenBranchMappedPortfolioAllFamily`,
+  `mappedLayer4Result_of_mappedClassCase`,
+  `mappedSevenBranchClassifier_of_mappedPortfolio`,
+  `split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio`, and
+  `scaledMargin_nonpos_of_layer4MappedPortfolio`.
+- This adapter is useful because it composes:
+  first-four semantic frontier branches, class-local suffix producers,
+  deterministic `evalLabelStepFn` suffix facts, final-potential facts, and a
+  class-local margin-bound predicate.  It does not prove final production
+  coverage by itself.
+- Build/memory measurements under `scripts/run_memory_guarded.py` with
+  `--hard-address-space-mib 8192`:
+  - `BellmanTopPairingDepth11GraphStateSuffixCore.lean`: passed,
+    `peak_tree_rss=3868 MiB`, `elapsed=7.01s`.
+  - `BellmanTopPairingDepth11GraphSuffixClasses.lean`: passed,
+    `peak_tree_rss=3522 MiB`, `elapsed=2.00s`.
+  - `BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean`: passed,
+    `peak_tree_rss=3939 MiB`, `elapsed=4.00s`.
+  - `BellmanTopPairingDepth11GraphSuffixProducers.lean`: passed,
+    `peak_tree_rss=3548 MiB`, `elapsed=2.00s`.
+  - `BellmanTopPairingDepth11Layer4MappedFinish.lean`: passed,
+    `peak_tree_rss=4010 MiB`, `elapsed=16.01s`.
+- Audit update:
+  `scripts/audit_top_pairing_branch_table_membership_frontier.py` now requires
+  the trace-free suffix core and direct mapped finish symbols.  It reports
+  `decision=local-branch-table-progress-accepted-membership-open`.
+- Next theorem target:
+
+  ```lean
+  theorem topPairingClosed_to_eval_gate
+      (rank : Fin numPairWords)
+      (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+      exists result,
+        evalLabelStepFn graphSmokeNext rootState
+          ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
+            some result /\
+        0 <= graphPotential result.1 /\
+        scaledMargin rank <= (176 : Int) + result.2
+  ```
+
+  The proof must be driven by target-shadow cursor, schedule, square-gap,
+  local-axis, tri-source/cancellation progress, and deterministic finite graph
+  state.  If proving the theorem requires one generated branch per rank,
+  accepted trace, selected prefix, or exact affine RHS, stop and replace the
+  state abstraction rather than emitting more data.
+
+Implementation rule for the next slice:
+
+- Add only semantic object-cover modules such as
+  `TopPairingBellmanClosedObj := { rank // TopPairingClosedLanguageAtRank rank Face.ym }`
+  if an object type is needed by the generic Bellman bridge.
+- Prefer a generated reachable-state enum with cheap projections over a large
+  runtime product state, but its local soundness theorem must case-split on
+  `(state, face)`, not on full prefixes.
+- If the mapped portfolio still needs exact margin-bound predicates that are
+  not derivable from closed-language fields, run the cocycle/gauge quotient
+  profiler before adding exact affine information.
+
 ### Holonomy-Normal-Form Marching Orders
 
 The latest GPT/Gemini prompt is now the controlling strategy description, with

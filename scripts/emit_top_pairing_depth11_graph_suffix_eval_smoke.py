@@ -20,7 +20,7 @@ from pathlib import Path
 
 DEFAULT_SUFFIX_INPUT = Path(
     "Cuboctahedron/Generated/NonIdentity/Residual/"
-    "BellmanTopPairingDepth11GraphStateSuffixSmoke.lean"
+    "BellmanTopPairingDepth11GraphStateSuffixCore.lean"
 )
 DEFAULT_GRAPH_INPUT = Path(
     "Cuboctahedron/Generated/NonIdentity/Residual/"
@@ -354,7 +354,7 @@ def emit_module(classes: dict[str, dict[str, list[SuffixCtor]]]) -> str:
         "",
         "open Cuboctahedron",
         "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base",
-        "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke",
+        "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixCore",
         "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixClasses",
         "",
     ]

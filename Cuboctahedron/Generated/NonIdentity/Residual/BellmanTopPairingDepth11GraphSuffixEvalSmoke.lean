@@ -17,7 +17,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11G
 
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
-open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixCore
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixClasses
 
 /-- Exact graph finishes for class 034 depth-11 suffixes. -/
