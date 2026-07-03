@@ -225,6 +225,29 @@ theorem positive
 
 end ObjectStartViolationMarginCert
 
+/--
+Rank-local Bellman contradiction socket.
+
+This is the production-facing shape for semantic Bellman families: once a
+family proves the scaled margin is nonpositive for the rank, and separately
+supplies the exact start-violation certificate that makes the same margin
+strictly positive under any nonidentity axis witness, the public
+`NonIdentityRankKilled` predicate follows.  No object cover, sampled rank table,
+or selected-prefix witness is involved in this final step.
+-/
+theorem nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hnonpos : scaledMargin rank <= 0)
+    (cert :
+      ObjectStartViolationMarginCert rank (scaledMargin rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank := by
+  apply nonIdentityRankKilled_of_no_axis_constraints
+  intro seq hRealize _hStart _hLinear hAxis
+  have hpos : 0 < scaledMargin rank :=
+    cert.positive hRealize hAxis
+  linarith
+
 theorem nonIdentityRankKilled_of_object_cover_start_violation_margin_certs
     {Obj State Label : Type}
     {V : State -> Int}

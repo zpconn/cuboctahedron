@@ -91719,3 +91719,94 @@ Next work should construct that margin-gain predicate from target-shadow
 cursor/cancellation/schedule/local-axis semantics.  If the proof wants to
 recover an accepted trace id or exact prefix equality, the semantic state is
 not rich enough yet.
+
+### Bellman Rank-Local Kill Socket Accepted
+
+The latest GPT5.5 review correctly identified the next risk: a Bellman
+evaluator theorem alone is not the final nonidentity proof.  The nonidentity
+Bellman contradiction has two independent semantic halves:
+
+1. a Bellman/evaluator or family theorem proving
+   `scaledMargin rank <= 0`;
+2. an exact start-violation certificate proving that any nonidentity
+   axis-constrained witness would force `0 < scaledMargin rank`.
+
+Auditing `Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean` showed
+that `ObjectStartViolationMarginCert.positive` proves strict positivity through
+the exact forced-axis/start-point bridge and the bad-face violation.  The
+numeric margin itself is only the shared carrier that collides with the
+Bellman nonpositive bound.  Therefore production coverage must not stop at
+`TopPairingBellmanEvalLanguageAtRank`; it must also provide a semantic
+`ObjectStartViolationMarginCert rank (scaledMargin rank)` for the same closed
+language, without selected-prefix or accepted-trace membership.
+
+Added the rank-local final socket:
+
+```lean
+theorem nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hnonpos : scaledMargin rank <= 0)
+    (cert :
+      ObjectStartViolationMarginCert rank (scaledMargin rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+```
+
+File:
+
+```text
+Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean
+```
+
+This theorem is intentionally boring and production-facing.  It lets the next
+generated semantic family prove the two rank-local facts directly, instead of
+building a sampled object cover or hiding the start-violation side behind a
+trace object.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/bellman_killed_bridge_rank_local_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/bellman_killed_bridge_rank_local_lake_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct rank-local killed bridge | pass | `5.00s` | `3704 MiB` | `46251 MiB` | `8192 MiB` |
+| Lake rank-local killed bridge | pass | `3.00s` | `4080 MiB` | `46044 MiB` | none |
+
+Decision: accepted.  The next Bellman production target is now sharper:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> ClassNNNGraphSuffixProducer rank
+  -> ClassNNNExactGraphFinishMarginBound scaledMargin rank
+  -> ObjectStartViolationMarginCert rank (scaledMargin rank)
+  -> NonIdentityRankKilled rank
+```
+
+or an equivalent class theorem packaging the same two semantic facts.  The
+start-violation certificate must be derived from the closed
+target-shadow/cancellation/local-axis language, not from
+`acceptedTraceOfId`, `GraphAcceptedTraceLabels`, selected-prefix equality, a
+sampled-rank object, exact affine RHS keys, solved start-point keys, or one
+branch per observed path.
