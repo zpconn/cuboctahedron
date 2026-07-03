@@ -92388,3 +92388,76 @@ should target this predicate, not raw closed language alone.  If proving the
 producer from this predicate still requires selected-prefix classes, accepted
 trace ids, exact word keys, exact affine RHS keys, or solved start-point keys,
 the semantic state is still missing one real finite field.
+
+### Start-Miss Semantic Killed Socket Accepted
+
+Extended the generated-facing killed socket so production modules can target
+the packaged start-miss semantic language directly:
+
+```lean
+abbrev TopPairingStartMissSemanticToStartViolationGate
+
+theorem nonIdentityRankKilled_of_startMissSemanticStartViolationGate
+
+theorem nonIdentityRankKilled_of_closedViaStartMissSemanticGate
+```
+
+This sits between the closed-language/cursor work and the public
+`Coverage.NonIdentityRankKilled` theorem.  It lets a future producer prove:
+
+```lean
+TopPairingStartMissSemanticLanguageAtRank rank badFace ->
+  ObjectStartViolationMarginCert rank (scaledMargin rank)
+```
+
+and then obtain rank-killed coverage without importing trace-provider roots or
+Bellman graph/margin machinery.
+
+File:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticKilledSocket.lean
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_semantic_killed_socket_start_miss_semantic_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticKilledSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_semantic_killed_socket_start_miss_semantic_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticKilledSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct semantic killed socket | pass | `3.00s` | `3578 MiB` | `46258 MiB` | `8192 MiB` |
+| Lake semantic killed socket | pass | `5.00s` | `4036 MiB` | `46037 MiB` | none |
+
+Decision: accepted.  The next real proof obligation is no longer socket
+plumbing: it is the semantic start-miss producer itself, namely constructing
+the shared `ObjectStartViolationMarginCert` from
+`TopPairingStartMissSemanticLanguageAtRank` without exact word/start-point
+singleton keys.

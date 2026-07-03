@@ -1,4 +1,5 @@
 import Cuboctahedron.Search.TopPairingBellmanSemanticGate
+import Cuboctahedron.Search.TopPairingTargetCursor
 import Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
 
 /-!
@@ -31,6 +32,13 @@ abbrev TopPairingStrengthenedToStartViolationGate
   forall rank,
     TopPairingStrengthenedClosedLanguageAtRank
       sequenceBadFace rank badFace ->
+      ObjectStartViolationMarginCert rank (scaledMargin rank)
+
+abbrev TopPairingStartMissSemanticToStartViolationGate
+    (scaledMargin : Fin numPairWords -> Int)
+    (badFace : Face) : Type :=
+  forall rank,
+    TopPairingStartMissSemanticLanguageAtRank rank badFace ->
       ObjectStartViolationMarginCert rank (scaledMargin rank)
 
 theorem nonIdentityRankKilled_of_closedSemanticGates
@@ -75,6 +83,31 @@ theorem nonIdentityRankKilled_of_closedStartViolationGate
     Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
   nonIdentityRankKilled_of_startViolationMarginCert
     (startGate rank hclosed)
+
+theorem nonIdentityRankKilled_of_startMissSemanticStartViolationGate
+    {badFace : Face}
+    {scaledMargin : Fin numPairWords -> Int}
+    (startGate :
+      TopPairingStartMissSemanticToStartViolationGate
+        scaledMargin badFace)
+    {rank : Fin numPairWords}
+    (hsemantic :
+      TopPairingStartMissSemanticLanguageAtRank rank badFace) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_startViolationMarginCert
+    (startGate rank hsemantic)
+
+theorem nonIdentityRankKilled_of_closedViaStartMissSemanticGate
+    {badFace : Face}
+    {scaledMargin : Fin numPairWords -> Int}
+    (startGate :
+      TopPairingStartMissSemanticToStartViolationGate
+        scaledMargin badFace)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_startMissSemanticStartViolationGate
+    startGate (topPairingStartMissSemanticLanguage_of_closed hclosed)
 
 theorem nonIdentityRankKilled_of_strengthenedSemanticGates
     {badFace : Face}
