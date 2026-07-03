@@ -88248,3 +88248,116 @@ where the generated classifier must produce:
   classes/states;
 - final-margin producer facts;
 - a proof that these cases cover the strengthened closed top-pairing family.
+
+#### Terminal-State Route Added To Closed-Transducer Socket
+
+Strengthened the closed-transducer socket so future generated terminal
+classifiers can provide terminal evidence through the semantic
+`TerminalStepState` API, rather than exposing terminal trace lists directly.
+
+New theorem:
+
+```lean
+closedTransducerProducer_of_terminalStepState
+```
+
+The theorem consumes:
+
+```lean
+hstrengthened :
+  TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym
+hcontains : TerminalStepState.Contains state rank
+hterminal : TerminalStepStateProducer state
+hdepth11 : Split10MDepth11GraphPathProducer rank
+hfinal : Split10MFinalMarginProducer scaledMargin rank
+```
+
+and produces:
+
+```lean
+StrengthenedClosedTransducerProducer scaledMargin rank
+```
+
+The first attempt exposed a useful type boundary: `TerminalStepStateProducer`
+proves raw
+
+```lean
+TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+```
+
+while the split-10M strengthened route needs accepted
+
+```lean
+TopPairingTraceClassifier.Accepted.TerminalOkTraceLabels
+```
+
+The accepted theorem bridges the gap with the closed-language cancellation
+summary:
+
+```lean
+TopPairingTraceClassifier.TerminalOk.terminalOk_of_terminalTrace_and_cancellation
+  (TopPairingClosedLanguageAtRank.cancellationLabels hstrengthened.closed)
+  ...
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_closed_transducer_terminal_state_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedTransducerProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_class034_closed_transducer_after_terminal_state_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_closed_transducer_terminal_state_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedTransducerProducerSocket
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedTransducerProducerSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| first direct socket check | failed | `6.00s` | `3907 MiB` | `45668 MiB` |
+| direct terminal-state socket | pass | `2.00s` | `3622 MiB` | `46211 MiB` |
+| direct class-034 representative after socket change | pass | `2.00s` | `3620 MiB` | `46204 MiB` |
+| Lake terminal-state socket | pass | `3.00s` | `3975 MiB` | `46061 MiB` |
+| forbidden-token and accepted-trace-id scan | pass | n/a | n/a | n/a |
+
+Decision: accepted.  This is the preferred terminal sub-route for the next
+generated classifier: produce a terminal state and a
+`TerminalStepStateProducer`, then let the socket derive accepted terminal-ok
+membership using the closed-language cancellation proof.

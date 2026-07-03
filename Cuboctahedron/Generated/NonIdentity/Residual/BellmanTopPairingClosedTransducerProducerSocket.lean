@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplit10MTransducerSemanticGateSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateProducerSocket
 
 /-!
 Production socket for the deterministic closed-language transducer pivot.
@@ -20,6 +21,8 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAccepted
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedSuffixSplit10MBridge
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplit10MTransducerSemanticGateSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateStepSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateProducerSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Accepted
 
 /--
@@ -42,6 +45,27 @@ structure StrengthenedClosedTransducerProducer
     Split10MDepth11GraphPathProducer rank
   finalMargin :
     Split10MFinalMarginProducer scaledMargin rank
+
+theorem closedTransducerProducer_of_terminalStepState
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {state : TerminalStepState}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hcontains : TerminalStepState.Contains state rank)
+    (hterminal : TerminalStepStateProducer state)
+    (hdepth11 : Split10MDepth11GraphPathProducer rank)
+    (hfinal : Split10MFinalMarginProducer scaledMargin rank) :
+    StrengthenedClosedTransducerProducer scaledMargin rank where
+  strengthened := hstrengthened
+  terminalOk :=
+    TopPairingTraceClassifier.TerminalOk.terminalOk_of_terminalTrace_and_cancellation
+      (TopPairingClosedLanguageAtRank.cancellationLabels hstrengthened.closed)
+      (terminalTraceLabels_of_terminalStepStateProducer
+        hstrengthened.closed hcontains hterminal)
+  depth11GraphPath := hdepth11
+  finalMargin := hfinal
 
 theorem split10MGraphSuffixProducer_of_closedTransducerProducer
     {scaledMargin : Fin numPairWords -> Int}
