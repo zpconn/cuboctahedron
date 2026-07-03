@@ -118,6 +118,7 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `mappedLayer4Result_of_mappedClassCase` | mapped class case to mapped eval gate | `depth11_layer4_mapped_finish` |
 | `mappedSevenBranchClassifier_of_mappedPortfolio` | mapped portfolio to mapped seven-branch classifier | `depth11_layer4_mapped_finish` |
 | `split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio` | mapped portfolio to split-10M graph-exact family | `depth11_layer4_mapped_finish` |
+| `closedToEvalGate_of_layer4MappedPortfolio` | mapped portfolio to canonical split-10M closed-to-eval gate | `depth11_layer4_mapped_finish` |
 | `scaledMargin_nonpos_of_layer4MappedPortfolio` | mapped portfolio to nonpositive scaled margin | `depth11_layer4_mapped_finish` |
 | `depth11Layer4MappedFinish_builds` | direct mapped finish module sentinel | `depth11_layer4_mapped_finish` |
 
@@ -152,7 +153,7 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `depth11_suffix_classes_olean` | `0` | `2.00s` | `3522 MiB` | `None` |
 | `depth11_suffix_eval_olean` | `0` | `4.00s` | `3940 MiB` | `None` |
 | `depth11_suffix_producers_olean` | `0` | `2.00s` | `3548 MiB` | `None` |
-| `depth11_layer4_mapped_finish_direct` | `0` | `16.01s` | `4010 MiB` | `None` |
+| `depth11_layer4_mapped_finish_direct` | `0` | `15.01s` | `3998 MiB` | `None` |
 
 ## Accepted Local Surface
 

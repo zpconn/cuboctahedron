@@ -121,6 +121,7 @@ Immediate Bellman pivot after the latest GPT5.5 review:
   `mappedLayer4Result_of_mappedClassCase`,
   `mappedSevenBranchClassifier_of_mappedPortfolio`,
   `split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio`, and
+  `closedToEvalGate_of_layer4MappedPortfolio`, and
   `scaledMargin_nonpos_of_layer4MappedPortfolio`.
 - This adapter is useful because it composes:
   first-four semantic frontier branches, class-local suffix producers,
@@ -137,12 +138,20 @@ Immediate Bellman pivot after the latest GPT5.5 review:
     `peak_tree_rss=3939 MiB`, `elapsed=4.00s`.
   - `BellmanTopPairingDepth11GraphSuffixProducers.lean`: passed,
     `peak_tree_rss=3548 MiB`, `elapsed=2.00s`.
-  - `BellmanTopPairingDepth11Layer4MappedFinish.lean`: passed,
-    `peak_tree_rss=4010 MiB`, `elapsed=16.01s`.
+  - `BellmanTopPairingDepth11Layer4MappedFinish.lean`: passed after adding
+    the canonical `Split10MClosedToEvalGate` adapter theorem
+    `closedToEvalGate_of_layer4MappedPortfolio`,
+    `peak_tree_rss=3997 MiB`, `elapsed=15.01s`.
 - Audit update:
   `scripts/audit_top_pairing_branch_table_membership_frontier.py` now requires
   the trace-free suffix core and direct mapped finish symbols.  It reports
   `decision=local-branch-table-progress-accepted-membership-open`.
+- Promotion decision: the mapped finish adapter is accepted as a lightweight
+  semantic-gate adapter, not as final coverage.  Any future family producer
+  may target `Depth11Layer4SevenBranchMappedPortfolioAllFamily`; the accepted
+  consequence is the canonical
+  `Split10MClosedToEvalGate scaledMargin` theorem
+  `closedToEvalGate_of_layer4MappedPortfolio`.
 - Next theorem target:
 
   ```lean

@@ -157,7 +157,7 @@
     "depth11_layer4_mapped_finish": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 1494,
+      "lines": 1503,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4MappedFinish.lean",
       "symbol_hits": {
         "Class034Depth11Suffix": 7,
@@ -178,8 +178,9 @@
         "Depth11Layer4PrefixAtRank": 20,
         "Depth11Layer4SemanticFrontierBranch": 7,
         "Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily": 2,
-        "Depth11Layer4SevenBranchMappedPortfolioAllFamily": 4,
+        "Depth11Layer4SevenBranchMappedPortfolioAllFamily": 5,
         "class034Depth11GraphFinish_of_suffix": 7,
+        "closedToEvalGate_of_layer4MappedPortfolio": 1,
         "depth11Layer4MappedFinish_builds": 1,
         "finalPotential_nonneg_of_class034Depth11GraphFinish": 7,
         "graphEval_of_class034Depth11GraphFinish": 7,
@@ -188,7 +189,7 @@
         "mappedSevenBranchClassifier_of_mappedPortfolio": 3,
         "scaledMargin_nonpos_of_layer4MappedPortfolio": 1,
         "scaledMargin_nonpos_of_mappedLayer4SevenBranchClassifier": 1,
-        "split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio": 1,
+        "split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio": 2,
         "split10MGraphExactEvalAllFamily_of_mappedLayer4SevenBranchClassifier": 1
       }
     },
@@ -432,11 +433,11 @@
       "path": "scripts/generated/bellman_branch_table_suffix_1m_smoke_lake_guard.json"
     },
     "depth11_layer4_mapped_finish_direct": {
-      "elapsed_seconds": 16.009850449016085,
+      "elapsed_seconds": 15.0092403270246,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 4010.0859375,
+      "max_tree_rss_mib": 3997.5859375,
       "path": "scripts/generated/depth11_layer4_mapped_finish_lean.json"
     },
     "depth11_suffix_classes_olean": {
@@ -834,6 +835,9 @@
     ],
     "class034Depth11GraphFinish_of_suffix": [
       "depth11_suffix_eval",
+      "depth11_layer4_mapped_finish"
+    ],
+    "closedToEvalGate_of_layer4MappedPortfolio": [
       "depth11_layer4_mapped_finish"
     ],
     "closed_prefix2_branch_faceEval": [

@@ -20,6 +20,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11L
 
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticClosedGateSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphExactProducerSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixClasses
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixEvalSmoke
@@ -1475,6 +1476,14 @@ theorem split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio
     Split10MGraphExactEvalAllFamily scaledMargin :=
   split10MGraphExactEvalAllFamily_of_mappedLayer4SevenBranchClassifier
     (mappedSevenBranchClassifier_of_mappedPortfolio hfamily)
+
+theorem closedToEvalGate_of_layer4MappedPortfolio
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Depth11Layer4SevenBranchMappedPortfolioAllFamily scaledMargin) :
+    Split10MClosedToEvalGate scaledMargin :=
+  closedToEvalGate_of_split10MGraphExactEvalAllFamily
+    (split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio hfamily)
 
 theorem scaledMargin_nonpos_of_layer4MappedPortfolio
     {scaledMargin : Fin numPairWords -> Int}

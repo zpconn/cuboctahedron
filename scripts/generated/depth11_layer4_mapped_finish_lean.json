@@ -11,14 +11,14 @@
     "2048",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4MappedFinish.lean"
   ],
-  "elapsed_seconds": 16.009850449016085,
+  "elapsed_seconds": 15.0092403270246,
   "exit_code": 0,
   "hard_address_space_mib": 8192.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 4106328,
-  "max_tree_rss_mib": 4010.0859375,
-  "min_available_seen_kib": 47214984,
-  "min_available_seen_mib": 46108.3828125,
+  "max_tree_rss_kib": 4093528,
+  "max_tree_rss_mib": 3997.5859375,
+  "min_available_seen_kib": 47193276,
+  "min_available_seen_mib": 46087.18359375,
   "rss_cap_mib": 6500.0,
   "timeout_seconds": 240.0
 }

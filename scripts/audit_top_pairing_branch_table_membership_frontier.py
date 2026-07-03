@@ -263,6 +263,7 @@ REQUIRED_SYMBOLS = {
     "mappedLayer4Result_of_mappedClassCase": "mapped class case to mapped eval gate",
     "mappedSevenBranchClassifier_of_mappedPortfolio": "mapped portfolio to mapped seven-branch classifier",
     "split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio": "mapped portfolio to split-10M graph-exact family",
+    "closedToEvalGate_of_layer4MappedPortfolio": "mapped portfolio to canonical split-10M closed-to-eval gate",
     "scaledMargin_nonpos_of_layer4MappedPortfolio": "mapped portfolio to nonpositive scaled margin",
     "depth11Layer4MappedFinish_builds": "direct mapped finish module sentinel",
 }
