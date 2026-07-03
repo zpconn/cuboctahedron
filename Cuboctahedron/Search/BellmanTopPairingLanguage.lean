@@ -353,6 +353,20 @@ def TopPairingLocalAxisLabels (labels : List Face) : Prop :=
 def TopPairingLocalAxisSeq (seq : Step14 -> Face) : Prop :=
   TopPairingLocalAxisLabels (faceLabelsInContributionOrder (fun f => f) seq)
 
+def TopPairingStartMissAxisFrom : Mat3 Rat -> List Face -> Prop
+  | _linear, [] => True
+  | linear, face :: rest =>
+      TopPairingStartMissAxisAllows linear face /\
+        TopPairingStartMissAxisFrom
+          (matMul linear (reflM (normalQ face))) rest
+
+def TopPairingStartMissAxisLabels (labels : List Face) : Prop :=
+  TopPairingStartMissAxisFrom (matId : Mat3 Rat) labels
+
+def TopPairingStartMissAxisSeq (seq : Step14 -> Face) : Prop :=
+  TopPairingStartMissAxisLabels
+    (faceLabelsInContributionOrder (fun f => f) seq)
+
 def topPairingClosedFaceTraceA : List Face :=
   [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.tppp, Face.tpmp,
     Face.tppm, Face.tmmp, Face.tpmm, Face.tmmm, Face.tmpm, Face.yp,
@@ -585,6 +599,33 @@ theorem topPairingLocalAxisLabels_allows_next_of_prefix
   exact topPairingLocalAxisAllows_next_of_append
     (linear := (matId : Mat3 Rat)) (pfx := pfx) (rest := rest) ha
 
+theorem topPairingStartMissAxisFrom_of_localAxisFrom
+    {linear : Mat3 Rat} {labels : List Face}
+    (h : TopPairingLocalAxisFrom linear labels) :
+    TopPairingStartMissAxisFrom linear labels := by
+  induction labels generalizing linear with
+  | nil =>
+      trivial
+  | cons face rest ih =>
+      unfold TopPairingLocalAxisFrom at h
+      unfold TopPairingStartMissAxisFrom
+      exact
+        And.intro
+          (topPairingStartMissAxisAllows_of_localAxisAllows h.1)
+          (ih h.2)
+
+theorem topPairingStartMissAxisLabels_of_localAxisLabels
+    {labels : List Face}
+    (h : TopPairingLocalAxisLabels labels) :
+    TopPairingStartMissAxisLabels labels :=
+  topPairingStartMissAxisFrom_of_localAxisFrom h
+
+theorem topPairingStartMissAxisSeq_of_localAxisSeq
+    {seq : Step14 -> Face}
+    (h : TopPairingLocalAxisSeq seq) :
+    TopPairingStartMissAxisSeq seq :=
+  topPairingStartMissAxisLabels_of_localAxisLabels h
+
 def startedCanonicalSingleFace : Face -> Face
   | Face.xp => Face.xp
   | Face.xm => Face.xm
@@ -663,6 +704,36 @@ structure TopPairingClosedLanguageForSeq
     extends TopPairingScheduleLanguageForSeq rank seq where
   canonicalBadFace :
     TopPairingCanonicalBadFaceCompatible badFace
+
+theorem topPairingStartMissAxisLabels_of_scheduleLanguageAtRank
+    {rank : Fin numPairWords}
+    (h : TopPairingScheduleLanguageAtRank rank) :
+    TopPairingStartMissAxisLabels
+      (faceLabelsInContributionOrder (fun f => f)
+        (canonicalSeqOfPairWord (unrankPairWord rank))) :=
+  topPairingStartMissAxisLabels_of_localAxisLabels h.localAxis
+
+theorem topPairingStartMissAxisLabels_of_closedLanguageAtRank
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    TopPairingStartMissAxisLabels
+      (faceLabelsInContributionOrder (fun f => f)
+        (canonicalSeqOfPairWord (unrankPairWord rank))) :=
+  topPairingStartMissAxisLabels_of_scheduleLanguageAtRank
+    h.toTopPairingScheduleLanguageAtRank
+
+theorem topPairingStartMissAxisSeq_of_scheduleLanguageForSeq
+    {rank : Fin numPairWords} {seq : Step14 -> Face}
+    (h : TopPairingScheduleLanguageForSeq rank seq) :
+    TopPairingStartMissAxisSeq seq :=
+  topPairingStartMissAxisSeq_of_localAxisSeq h.localAxis
+
+theorem topPairingStartMissAxisSeq_of_closedLanguageForSeq
+    {rank : Fin numPairWords} {seq : Step14 -> Face} {badFace : Face}
+    (h : TopPairingClosedLanguageForSeq rank seq badFace) :
+    TopPairingStartMissAxisSeq seq :=
+  topPairingStartMissAxisSeq_of_scheduleLanguageForSeq
+    h.toTopPairingScheduleLanguageForSeq
 
 namespace TopPairingScheduleLanguageAtRank
 

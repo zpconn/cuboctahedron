@@ -92246,3 +92246,82 @@ next producer should construct the shared `axisMissesStartInterior`
 not import `BellmanTopPairingTraceStartViolationProviders` into production
 roots, and it must not key membership by exact word, solved start point,
 selected prefix, accepted trace id, or exact affine RHS.
+
+### Top-Pairing Start-Miss Axis Language Accepted
+
+Extended the normalized start-miss axis bridge from one-step positivity facts
+to a sequence-level semantic language.  This gives future start-miss producers
+a direct closed-language premise in the shared axis coordinate, without
+changing the existing closed-language structures or adding generated trace
+membership.
+
+Added:
+
+```lean
+def TopPairingStartMissAxisFrom
+
+def TopPairingStartMissAxisLabels
+
+def TopPairingStartMissAxisSeq
+
+theorem topPairingStartMissAxisFrom_of_localAxisFrom
+
+theorem topPairingStartMissAxisLabels_of_localAxisLabels
+
+theorem topPairingStartMissAxisSeq_of_localAxisSeq
+
+theorem topPairingStartMissAxisLabels_of_scheduleLanguageAtRank
+
+theorem topPairingStartMissAxisLabels_of_closedLanguageAtRank
+
+theorem topPairingStartMissAxisSeq_of_scheduleLanguageForSeq
+
+theorem topPairingStartMissAxisSeq_of_closedLanguageForSeq
+```
+
+File:
+
+```text
+Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_language_start_miss_axis_language_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_language_start_miss_axis_language_lake_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct start-miss axis language | pass | `6.00s` | `3983 MiB` | `46113 MiB` | `8192 MiB` |
+| Lake start-miss axis language | pass | `3.00s` | `4116 MiB` | `46013 MiB` | none |
+
+Decision: accepted.  The next start-miss producer should consume
+`TopPairingStartMissAxisLabels` or `TopPairingStartMissAxisSeq` from the closed
+language rather than re-proving local-axis positivity with generated rationals.
+The remaining missing semantic ingredients are the affine solve/start-point
+side of the `axisMissesStartInterior` certificate and the bad-face violation,
+preferably as a small family theorem over the target-shadow/cancellation
+cursor.
