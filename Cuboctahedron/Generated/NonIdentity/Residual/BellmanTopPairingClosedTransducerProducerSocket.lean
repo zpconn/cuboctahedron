@@ -1,6 +1,7 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplit10MTransducerSemanticGateSmoke
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateProducerSocket
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
 
 /-!
 Production socket for the deterministic closed-language transducer pivot.
@@ -23,6 +24,8 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphS
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplit10MTransducerSemanticGateSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateStepSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateProducerSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Accepted
 
 /--
@@ -64,6 +67,30 @@ theorem closedTransducerProducer_of_terminalStepState
       (TopPairingClosedLanguageAtRank.cancellationLabels hstrengthened.closed)
       (terminalTraceLabels_of_terminalStepStateProducer
         hstrengthened.closed hcontains hterminal)
+  depth11GraphPath := hdepth11
+  finalMargin := hfinal
+
+theorem closedTransducerProducer_of_terminalEvalPrefixGate
+    {StateId : Type}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hstart :
+      machine.stateOf start = TerminalStepState.initial)
+    (hterminal : TerminalEvalPrefixGate machine start rank)
+    (hdepth11 : Split10MDepth11GraphPathProducer rank)
+    (hfinal : Split10MFinalMarginProducer scaledMargin rank) :
+    StrengthenedClosedTransducerProducer scaledMargin rank where
+  strengthened := hstrengthened
+  terminalOk :=
+    TopPairingTraceClassifier.TerminalOk.terminalOk_of_terminalTrace_and_cancellation
+      (TopPairingClosedLanguageAtRank.cancellationLabels hstrengthened.closed)
+      (terminalTraceLabels_of_evalPrefixGate_from_initial
+        machine hstrengthened.closed hstart hterminal)
   depth11GraphPath := hdepth11
   finalMargin := hfinal
 

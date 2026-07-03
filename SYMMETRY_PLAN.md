@@ -88361,3 +88361,85 @@ Decision: accepted.  This is the preferred terminal sub-route for the next
 generated classifier: produce a terminal state and a
 `TerminalStepStateProducer`, then let the socket derive accepted terminal-ok
 membership using the closed-language cancellation proof.
+
+#### Terminal Eval-Prefix Route Added To Closed-Transducer Socket
+
+Added an alternate terminal input theorem for generated partial terminal
+machines:
+
+```lean
+closedTransducerProducer_of_terminalEvalPrefixGate
+```
+
+It consumes:
+
+```lean
+machine : TerminalStepStatePartialMachine StateId
+hstart : machine.stateOf start = TerminalStepState.initial
+hterminal : TerminalEvalPrefixGate machine start rank
+hdepth11 : Split10MDepth11GraphPathProducer rank
+hfinal : Split10MFinalMarginProducer scaledMargin rank
+```
+
+and produces:
+
+```lean
+StrengthenedClosedTransducerProducer scaledMargin rank
+```
+
+This gives the next generated terminal classifier two acceptable routes:
+
+1. produce an explicit semantic terminal state plus
+   `TerminalStepStateProducer`; or
+2. produce a `TerminalEvalPrefixGate` for a checked partial machine.
+
+Both routes derive accepted terminal-ok using the closed-language cancellation
+proof.  Neither route exposes `AcceptedTraceId` or
+`GraphAcceptedTraceLabels` as the production membership coordinate.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_closed_transducer_terminal_eval_gate_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedTransducerProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_class034_after_terminal_eval_gate_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedTransducerProducerSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct closed-transducer eval-prefix socket | pass | `6.00s` | `3684 MiB` | `46198 MiB` |
+| direct class-034 representative after eval-prefix socket | pass | `2.00s` | `3611 MiB` | `46218 MiB` |
+| forbidden-token and accepted-trace-id scan | pass | n/a | n/a | n/a |
+
+Decision: accepted.  The next generator should prefer the eval-prefix gate if
+it can prove deterministic terminal-machine acceptance from semantic
+closed-language fields without selected prefixes.  If it cannot, use the
+explicit terminal-state route and inspect which semantic field is missing.
