@@ -92540,3 +92540,156 @@ the audited top-pairing start-miss family.  `ObjectStartViolationMarginCert`
 remains available for compatibility and regression smokes, but final
 top-pairing start-miss coverage should aim at the semantic no-axis gate unless
 profiling proves a concrete certificate family is substantially smaller.
+
+### Direct Start-Violation Gate Accepted
+
+Packaged the direct start-miss theorem surface used by
+`DirectStartTopPairingSmoke` into a reusable semantic predicate:
+
+```lean
+structure DirectStartViolation
+
+theorem DirectStartViolation.no_axis_constraints
+```
+
+and exposed a generated-facing top-pairing gate:
+
+```lean
+abbrev TopPairingStartMissSemanticToDirectStartViolationGate
+
+theorem nonIdentityRankKilled_of_startMissSemanticDirectStartViolationGate
+
+theorem nonIdentityRankKilled_of_closedViaStartMissSemanticDirectStartViolationGate
+```
+
+The representative direct-start top-pairing smoke now constructs:
+
+```lean
+top_direct_start_violation :
+  DirectStartViolation topSeq Face.ym
+```
+
+and derives `top_no_axis_constraints` from
+`top_direct_start_violation.no_axis_constraints`.
+
+Files:
+
+```text
+Cuboctahedron/Search/TerminalNonidentityTemplates.lean
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticKilledSocket.lean
+Cuboctahedron/Generated/NonIdentity/Residual/\
+DirectStartTopPairingSmoke.lean
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+terminal_nonidentity_templates_direct_start_violation_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TerminalNonidentityTemplates.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+terminal_nonidentity_templates_direct_start_violation_lake_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.TerminalNonidentityTemplates
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_semantic_killed_socket_direct_start_gate_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticKilledSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_semantic_killed_socket_direct_start_gate_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticKilledSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+direct_start_top_pairing_smoke_direct_start_violation_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+DirectStartTopPairingSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+direct_start_top_pairing_smoke_direct_start_violation_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.DirectStartTopPairingSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct terminal templates | pass | `5.00s` | `3557 MiB` | `46271 MiB` | `8192 MiB` |
+| Lake terminal templates | pass | `3.00s` | `3703 MiB` | `46158 MiB` | none |
+| direct semantic killed socket | pass | `2.00s` | `3598 MiB` | `46282 MiB` | `8192 MiB` |
+| Lake semantic killed socket | pass | `4.00s` | `4080 MiB` | `46068 MiB` | none |
+| direct direct-start smoke | pass | `5.00s` | `4017 MiB` | `46106 MiB` | `8192 MiB` |
+| Lake direct-start smoke | pass | `5.00s` | `4121 MiB` | `45999 MiB` | none |
+
+Note: the first direct socket check failed because the imported
+`TerminalNonidentityTemplates.olean` was stale after adding
+`DirectStartViolation`.  Building `Cuboctahedron.Search.TerminalNonidentityTemplates`
+under the guard refreshed the dependency; the rerun passed.  This is a build
+artifact issue, not a theorem failure.
+
+Decision: accepted.  The recommended production target for the audited
+top-pairing start-miss family is now:
+
+```lean
+TopPairingStartMissSemanticLanguageAtRank rank badFace ->
+  forall seq,
+    SeqRealizesPairWord (unrankPairWord rank) seq ->
+    StartsXp seq ->
+    totalLinear seq != matId ->
+    DirectStartViolation seq badFace
+```
+
+This keeps generated producers focused on proving a bad start-face inequality
+from semantic state/cancellation data, while the common bridge handles the
+conversion to `Coverage.NonIdentityRankKilled`.

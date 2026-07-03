@@ -145,10 +145,15 @@ private theorem top_direct_ym_violation :
 private theorem top_ym_ne_xp : Face.ym ≠ Face.xp := by
   decide
 
+private theorem top_direct_start_violation :
+    DirectStartViolation topSeq Face.ym where
+  startsXp := topSeq_startsXp
+  badFace_ne_xp := top_ym_ne_xp
+  violation := top_direct_ym_violation
+
 theorem top_no_axis_constraints :
     ¬ NonIdentityAxisConstraints topSeq :=
-  no_nonidentity_axis_constraints_of_direct_start_violation
-    topSeq_startsXp top_ym_ne_xp top_direct_ym_violation
+  top_direct_start_violation.no_axis_constraints
 
 theorem directStartTopPairingSmoke_builds : True := by
   exact True.intro

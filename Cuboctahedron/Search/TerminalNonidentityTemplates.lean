@@ -86,6 +86,32 @@ theorem no_nonidentity_axis_constraints_of_direct_start_violation
     (f := Face.xp) (g := badFace) (p := data.p0) hbadFace hbad
     hStartInteriorXp
 
+structure DirectStartViolation
+    (seq : Step14 -> Face) (badFace : Face) : Prop where
+  startsXp :
+    seq 0 = Face.xp
+  badFace_ne_xp :
+    badFace ≠ Face.xp
+  violation :
+    forall data : UnfoldedFeasibleData seq,
+      data.w ≠ zeroVec3R ->
+      InFaceInterior Face.xp data.p0 ->
+      linePoint data.p0 data.w 1 =
+        affApply (affRatToReal (totalAff seq)) data.p0 ->
+      matVec (affRatToReal (totalAff seq)).M data.w = data.w ->
+      offsetR badFace ≤ dot (normalR badFace) data.p0
+
+namespace DirectStartViolation
+
+theorem no_axis_constraints
+    {seq : Step14 -> Face} {badFace : Face}
+    (h : DirectStartViolation seq badFace) :
+    ¬ NonIdentityAxisConstraints seq :=
+  no_nonidentity_axis_constraints_of_direct_start_violation
+    h.startsXp h.badFace_ne_xp h.violation
+
+end DirectStartViolation
+
 def offsetMarginQ (const : Rat) (coeff b : Vec3 Rat) : Rat :=
   const + dot coeff b
 

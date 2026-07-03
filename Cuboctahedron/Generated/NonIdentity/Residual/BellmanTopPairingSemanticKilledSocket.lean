@@ -51,6 +51,16 @@ abbrev TopPairingStartMissSemanticToNoAxisGate
         totalLinear seq ≠ (matId : Mat3 Rat) ->
         ¬ NonIdentityAxisConstraints seq
 
+abbrev TopPairingStartMissSemanticToDirectStartViolationGate
+    (badFace : Face) : Prop :=
+  forall rank,
+    TopPairingStartMissSemanticLanguageAtRank rank badFace ->
+      forall seq : Step14 -> Face,
+        SeqRealizesPairWord (unrankPairWord rank) seq ->
+        StartsXp seq ->
+        totalLinear seq ≠ (matId : Mat3 Rat) ->
+        DirectStartViolation seq badFace
+
 theorem nonIdentityRankKilled_of_closedSemanticGates
     {badFace : Face}
     {State Label : Type}
@@ -138,6 +148,29 @@ theorem nonIdentityRankKilled_of_closedViaStartMissSemanticNoAxisGate
     Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
   nonIdentityRankKilled_of_startMissSemanticNoAxisGate
     noAxisGate (topPairingStartMissSemanticLanguage_of_closed hclosed)
+
+theorem nonIdentityRankKilled_of_startMissSemanticDirectStartViolationGate
+    {badFace : Face}
+    (directGate :
+      TopPairingStartMissSemanticToDirectStartViolationGate badFace)
+    {rank : Fin numPairWords}
+    (hsemantic :
+      TopPairingStartMissSemanticLanguageAtRank rank badFace) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_startMissSemanticNoAxisGate
+    (fun rank hsemantic seq hRealize hStart hLinear =>
+      (directGate rank hsemantic seq hRealize hStart hLinear).no_axis_constraints)
+    hsemantic
+
+theorem nonIdentityRankKilled_of_closedViaStartMissSemanticDirectStartViolationGate
+    {badFace : Face}
+    (directGate :
+      TopPairingStartMissSemanticToDirectStartViolationGate badFace)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_startMissSemanticDirectStartViolationGate
+    directGate (topPairingStartMissSemanticLanguage_of_closed hclosed)
 
 theorem nonIdentityRankKilled_of_strengthenedSemanticGates
     {badFace : Face}
