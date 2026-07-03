@@ -91896,3 +91896,100 @@ coverage.  If either proof needs `acceptedTraceOfId`,
 `GraphAcceptedTraceLabels`, selected-prefix equality, sampled rank/path
 membership, exact affine RHS, or solved start-point keys, refine the
 top-pairing semantic state rather than scaling generated leaves.
+
+### Semantic Start-Violation/Killed Gate Accepted
+
+Audited the existing start-violation provider path.  The available generated
+providers are trace-id based: they turn
+
+```lean
+topPairingRankFaceLabels rank = acceptedTraceOfId traceId
+```
+
+into `ObjectStartViolationMarginCert rank (scaledMargin rank)`.  Those modules
+remain useful diagnostics and bounded regression checks, but they are not a
+production membership route for the Bellman pivot.  Scaling them would recreate
+the selected-trace wall.
+
+Added a generated-side semantic socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticKilledSocket.lean
+```
+
+New theorem surfaces:
+
+```lean
+abbrev TopPairingClosedToStartViolationGate
+
+abbrev TopPairingStrengthenedToStartViolationGate
+
+theorem nonIdentityRankKilled_of_closedSemanticGates
+
+theorem nonIdentityRankKilled_of_strengthenedSemanticGates
+```
+
+The start-violation gate is intentionally `Type`-valued rather than `Prop`:
+`ObjectStartViolationMarginCert` carries exact certificate data checked by
+Lean.  The exported killed theorems still expose only semantic assumptions:
+a closed/strengthened Bellman eval gate, a matching semantic start-violation
+gate, local Bellman step soundness, and the root bound.  No sampled rank
+membership, accepted trace id, selected-prefix equality, exact affine RHS key,
+or raw graph path is part of the theorem surface.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_semantic_killed_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticKilledSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_semantic_killed_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticKilledSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct semantic killed socket | pass | `2.00s` | `3595 MiB` | `46249 MiB` | `8192 MiB` |
+| Lake semantic killed socket | pass | `3.00s` | `1775 MiB` | `46285 MiB` | none |
+
+Decision: accepted.  The next substantive theorem is not another socket.  It
+must be one of the two semantic producers for a real class:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> ClassNNNGraphSuffixProducer rank
+  -> ClassNNNExactGraphFinishMarginBound scaledMargin rank
+```
+
+or
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> ClassNNNGraphSuffixProducer rank
+  -> ObjectStartViolationMarginCert rank (scaledMargin rank)
+```
+
+The second theorem is the likely harder one because current evidence for it is
+trace-id based.  Attack it by deriving the cert fields from target-shadow,
+cancellation, local-axis, and schedule semantics; do not import
+`BellmanTopPairingTraceStartViolationProviders` into production class roots.
