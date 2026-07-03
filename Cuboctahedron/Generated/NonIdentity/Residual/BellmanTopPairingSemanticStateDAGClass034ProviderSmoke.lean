@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGProducerSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGRepresentativeSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket
 
 /-!
 Semantic state-DAG class-034 provider smoke.
@@ -29,6 +30,9 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAccepted
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingBranchTableSuffixSplit10MSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGProducerSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGRepresentativeSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Accepted
 
 /--
@@ -78,6 +82,33 @@ theorem split10MGraphSuffixProducer_of_class034
   subst graph₂
   exact graphBranchTableSuffixOk_class034 hsuffixClass
 
+theorem depth11Class034State0197Suffix_of_class034Suffix
+    {rest : List Face}
+    (hclass : Class034Suffix rest) :
+    Depth11Class034State0197Suffix rest := by
+  cases hclass with
+  | zm hrest =>
+      cases hrest with
+      | zp hrest =>
+          cases hrest
+          exact Depth11Class034State0197Suffix.trace_000
+
+theorem split10MDepth11GraphPathProducer_of_class034
+    {rank : Fin numPairWords}
+    (hclass : Class034GraphSuffixProducer rank) :
+    Split10MDepth11GraphPathProducer rank := by
+  intro face₀ face₁ rest hlabels hfrontier graph₁ gain₁ graph₂ gain₂
+    hgraph₁ hgraph₂
+  rcases hclass face₀ face₁ rest hlabels hfrontier
+      graph₁ gain₁ graph₂ gain₂ hgraph₁ hgraph₂ with
+    ⟨hgraph₂Eq, hsuffixClass⟩
+  subst graph₂
+  refine ⟨[], rest, (197 : State), ?_, ?_, ?_⟩
+  · simp
+  · exact GraphPathTo.nil _
+  · exact Depth11ObservedGraphStateSuffixOk.class034_state0197
+      (depth11Class034State0197Suffix_of_class034Suffix hsuffixClass)
+
 theorem semanticStateDAGFamily_of_class034
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -94,6 +125,52 @@ theorem semanticStateDAGFamily_of_class034
       terminalOk := hterminal
       graphSuffix := split10MGraphSuffixProducer_of_class034 hclass
       finalMargin := hfinalMargin }
+
+theorem closedTransducerProducer_of_class034
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (Class034SequenceBadFace scaledMargin) rank Face.ym) :
+    StrengthenedClosedTransducerProducer scaledMargin rank := by
+  rcases hstrengthened.sequenceBadFace_ok with
+    ⟨hbad, hterminal, hclass, hfinalMargin⟩
+  refine
+    { strengthened :=
+        TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+          hstrengthened.closed hstrengthened.actualFaceOmni hbad
+      terminalOk := hterminal
+      depth11GraphPath := split10MDepth11GraphPathProducer_of_class034 hclass
+      finalMargin := hfinalMargin }
+
+theorem closedTransducerProducerAll_of_class034
+    {scaledMargin : Fin numPairWords -> Int}
+    (hclass :
+      ∀ rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym ->
+        TopPairingStrengthenedClosedLanguageAtRank
+          (Class034SequenceBadFace scaledMargin) rank Face.ym) :
+    StrengthenedClosedTransducerProducerAll scaledMargin where
+  family := by
+    intro rank hstrengthened
+    exact closedTransducerProducer_of_class034 (hclass rank hstrengthened)
+
+theorem scaledMargin_nonpos_of_class034ClosedTransducerAll
+    {scaledMargin : Fin numPairWords -> Int}
+    (hclass :
+      ∀ rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym ->
+        TopPairingStrengthenedClosedLanguageAtRank
+          (Class034SequenceBadFace scaledMargin) rank Face.ym)
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_closedTransducerProducerAll
+    (closedTransducerProducerAll_of_class034 hclass) hstrengthened
 
 theorem semanticStateDAGAllFamily_of_class034
     {scaledMargin : Fin numPairWords -> Int}

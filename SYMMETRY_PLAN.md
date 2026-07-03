@@ -88140,3 +88140,111 @@ or a representative bounded theorem with the same shape.  The proof must build
 If that proof needs `AcceptedTraceId`, `GraphAcceptedTraceLabels`, selected
 prefix ids, exact affine RHS, or one branch per rank/path, the Bellman route
 must pause for the cocycle/cancellation quotient profiler.
+
+#### Class-034 Closed-Transducer Representative Accepted
+
+Adapted the existing class-034 semantic state-DAG provider smoke to the new
+closed-transducer socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+```
+
+New representative bridge theorems:
+
+```lean
+depth11Class034State0197Suffix_of_class034Suffix
+split10MDepth11GraphPathProducer_of_class034
+closedTransducerProducer_of_class034
+closedTransducerProducerAll_of_class034
+scaledMargin_nonpos_of_class034ClosedTransducerAll
+```
+
+This proves that the representative class-034 semantic suffix language can
+produce the new `StrengthenedClosedTransducerProducer` package by routing its
+suffix through the depth-11 graph-path socket.  The depth-11 proof is semantic
+for the class-034 suffix shape:
+
+```lean
+Class034Suffix rest -> Depth11Class034State0197Suffix rest
+```
+
+then chooses `pre = []`, `depth11 = 197`, and the checked
+`Depth11ObservedGraphStateSuffixOk.class034_state0197` provider.
+
+Scope and caveat: this is still a bounded representative.  The theorem assumes
+a strengthened class-034 predicate:
+
+```lean
+Class034SequenceBadFace scaledMargin rank Face.ym
+```
+
+which already contains `TerminalOkTraceLabels`, `Class034GraphSuffixProducer`,
+and `Split10MFinalMarginProducer`.  The next production step must replace that
+assumption by a generated semantic classifier from the ordinary strengthened
+top-pairing closed language, not by `AcceptedTraceId` or trace enumeration.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_class034_closed_transducer_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_class034_closed_transducer_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedTransducerProducerSocket.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct class-034 closed-transducer representative | pass | `6.00s` | `3697 MiB` | `46169 MiB` |
+| Lake class-034 closed-transducer representative | pass | `4.00s` | `4114 MiB` | `45924 MiB` |
+| forbidden-token and accepted-trace-id scan | pass | n/a | n/a | n/a |
+
+Decision: accepted as the first representative theorem at the new production
+boundary.  It confirms that graph-state-indexed depth-11 suffix providers can
+feed `StrengthenedClosedTransducerProducer`.  It does not yet prove the
+ordinary strengthened language belongs to class 034, nor does it cover the
+other depth-11 graph-state classes.
+
+Next implementation target:
+
+```lean
+theorem semanticClosedProducerAll_of_generatedClassifier :
+    StrengthenedClosedTransducerProducerAll scaledMargin
+```
+
+where the generated classifier must produce:
+
+- terminal-state membership via `TerminalStepStateProducer`, not accepted
+  trace ids;
+- graph-state-indexed depth-11 suffix membership for all observed semantic
+  classes/states;
+- final-margin producer facts;
+- a proof that these cases cover the strengthened closed top-pairing family.
