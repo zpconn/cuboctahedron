@@ -99,6 +99,9 @@ LEAN_FILES = {
     "branch_table_semantic_gate_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingBranchTableSemanticGateSocket.lean",
+    "semantic_tail_branch_emitter_smoke": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSemanticTailBranchEmitterSmoke.lean",
 }
 
 GUARDS = {
@@ -160,6 +163,8 @@ GUARDS = {
     / "scripts/generated/depth11_layer4_mapped_finish_lean.json",
     "branch_table_semantic_gate_socket_direct": ROOT
     / "scripts/generated/branch_table_semantic_gate_socket_guard.json",
+    "semantic_tail_branch_emitter_smoke_direct": ROOT
+    / "scripts/generated/semantic_tail_branch_emitter_smoke_guard.json",
     "target_cursor_latest_direct": ROOT
     / "scripts/generated/top_pairing_target_cursor_pivot_latest_guard.json",
     "transducer_tail_latest_direct": ROOT
@@ -295,6 +300,7 @@ REQUIRED_SYMBOLS = {
     "split10MClosedToEvalGate_of_branchTableClosedEvalFamily": "branch-table family to canonical split-10M closed-to-eval gate",
     "scaledMargin_nonpos_of_branchTableClosedEvalFamily": "branch-table family to nonpositive scaled margin",
     "branchTableSemanticGateSocket_builds": "branch-table semantic gate socket sentinel",
+    "semanticTailBranchEmitterSmoke_builds": "generated semantic-tail branch emitter smoke sentinel",
 }
 
 FORBIDDEN_TOKENS = [

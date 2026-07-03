@@ -471,6 +471,7 @@
         }
       ],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [],
       "suffix_eval_core": [],
       "target_cursor_core": [],
@@ -674,6 +675,7 @@
       "selected_prefix_production_risk": [],
       "semantic_eval_gate": [],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [],
       "suffix_eval_core": [],
       "target_cursor_core": [],
@@ -845,6 +847,7 @@
       "selected_prefix_production_risk": [],
       "semantic_eval_gate": [],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [
         {
           "line": 32,
@@ -945,6 +948,7 @@
       "selected_prefix_production_risk": [],
       "semantic_eval_gate": [],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [],
       "suffix_eval_core": [],
       "target_cursor_core": [],
@@ -1280,6 +1284,7 @@
         }
       ],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [],
       "suffix_eval_core": [],
       "target_cursor_core": [],
@@ -1455,6 +1460,7 @@
           "text": "(htail : missingState150TpppSemanticEvalState.Tail (Face.tppp :: rest))"
         }
       ],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [
         {
           "line": 245,
@@ -1614,6 +1620,7 @@
         }
       ],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [],
       "suffix_eval_core": [],
       "target_cursor_core": [],
@@ -1653,6 +1660,7 @@
         }
       ],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [],
       "suffix_eval_core": [],
       "target_cursor_core": [],
@@ -1818,10 +1826,240 @@
         }
       ],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [],
       "suffix_eval_core": [],
       "target_cursor_core": [],
       "target_shadow": []
+    },
+    "semantic_tail_branch_emitter_smoke": {
+      "branch_table_semantic_gate_socket": [
+        {
+          "line": 24,
+          "pattern": "branchTable_of_closedPrefix2_tail",
+          "text": "theorem emitted_branchTable_of_closedPrefix2_tail"
+        },
+        {
+          "line": 50,
+          "pattern": "branchTableSuffixOk_closedPrefix2_branch_of_tail",
+          "text": "theorem emitted_branchTableSuffixOk_closedPrefix2_branch_of_tail"
+        },
+        {
+          "line": 62,
+          "pattern": "branchTable_of_closedPrefix2_tail",
+          "text": "(emitted_branchTable_of_closedPrefix2_tail htail) ?_"
+        },
+        {
+          "line": 67,
+          "pattern": "branchTable_of_closedPrefix3_tmpm_tail",
+          "text": "theorem emitted_branchTable_of_closedPrefix3_tmpm_tail"
+        },
+        {
+          "line": 128,
+          "pattern": "branchTable_of_closedPrefix3_yp_tail",
+          "text": "theorem emitted_branchTable_of_closedPrefix3_yp_tail"
+        },
+        {
+          "line": 190,
+          "pattern": "branchTable_of_closedPrefix3_zm_tail",
+          "text": "theorem emitted_branchTable_of_closedPrefix3_zm_tail"
+        },
+        {
+          "line": 245,
+          "pattern": "branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail",
+          "text": "theorem emitted_branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail"
+        },
+        {
+          "line": 258,
+          "pattern": "branchTable_of_closedPrefix3_tmpm_tail",
+          "text": "(emitted_branchTable_of_closedPrefix3_tmpm_tail htail) ?_"
+        },
+        {
+          "line": 263,
+          "pattern": "branchTableSuffixOk_closedPrefix3_yp_branch_of_tail",
+          "text": "theorem emitted_branchTableSuffixOk_closedPrefix3_yp_branch_of_tail"
+        },
+        {
+          "line": 276,
+          "pattern": "branchTable_of_closedPrefix3_yp_tail",
+          "text": "(emitted_branchTable_of_closedPrefix3_yp_tail htail) ?_"
+        },
+        {
+          "line": 281,
+          "pattern": "branchTableSuffixOk_closedPrefix3_zm_branch_of_tail",
+          "text": "theorem emitted_branchTableSuffixOk_closedPrefix3_zm_branch_of_tail"
+        },
+        {
+          "line": 294,
+          "pattern": "branchTable_of_closedPrefix3_zm_tail",
+          "text": "(emitted_branchTable_of_closedPrefix3_zm_tail htail) ?_"
+        }
+      ],
+      "closed_language_fields": [
+        {
+          "line": 89,
+          "pattern": "TopPairingSquareGap",
+          "text": "topPairingNextGap, TopPairingSquareGapFrom,"
+        },
+        {
+          "line": 96,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 150,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 158,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 216,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 222,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 237,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        }
+      ],
+      "eval_core": [],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 302,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticTailBranchEmitterSmoke.lean",
+      "ranked_semantic_gate_core": [],
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [],
+      "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [
+        {
+          "line": 24,
+          "pattern": "emitted_branchTable_of_closedPrefix2_tail",
+          "text": "theorem emitted_branchTable_of_closedPrefix2_tail"
+        },
+        {
+          "line": 62,
+          "pattern": "emitted_branchTable_of_closedPrefix2_tail",
+          "text": "(emitted_branchTable_of_closedPrefix2_tail htail) ?_"
+        },
+        {
+          "line": 67,
+          "pattern": "emitted_branchTable_of_closedPrefix3_tmpm_tail",
+          "text": "theorem emitted_branchTable_of_closedPrefix3_tmpm_tail"
+        },
+        {
+          "line": 128,
+          "pattern": "emitted_branchTable_of_closedPrefix3_yp_tail",
+          "text": "theorem emitted_branchTable_of_closedPrefix3_yp_tail"
+        },
+        {
+          "line": 190,
+          "pattern": "emitted_branchTable_of_closedPrefix3_zm_tail",
+          "text": "theorem emitted_branchTable_of_closedPrefix3_zm_tail"
+        },
+        {
+          "line": 245,
+          "pattern": "emitted_branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail",
+          "text": "theorem emitted_branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail"
+        },
+        {
+          "line": 258,
+          "pattern": "emitted_branchTable_of_closedPrefix3_tmpm_tail",
+          "text": "(emitted_branchTable_of_closedPrefix3_tmpm_tail htail) ?_"
+        },
+        {
+          "line": 276,
+          "pattern": "emitted_branchTable_of_closedPrefix3_yp_tail",
+          "text": "(emitted_branchTable_of_closedPrefix3_yp_tail htail) ?_"
+        },
+        {
+          "line": 294,
+          "pattern": "emitted_branchTable_of_closedPrefix3_zm_tail",
+          "text": "(emitted_branchTable_of_closedPrefix3_zm_tail htail) ?_"
+        },
+        {
+          "line": 299,
+          "pattern": "semanticTailBranchEmitterSmoke_builds",
+          "text": "theorem semanticTailBranchEmitterSmoke_builds : True := by"
+        }
+      ],
+      "semantic_tail_core": [
+        {
+          "line": 40,
+          "pattern": "TopPairingTransducerTail.cons",
+          "text": "have hlocal := TopPairingTransducerTail.cons htail'"
+        },
+        {
+          "line": 81,
+          "pattern": "TopPairingTransducerTail.cons",
+          "text": "have hcons := TopPairingTransducerTail.cons htailRaw"
+        },
+        {
+          "line": 142,
+          "pattern": "TopPairingTransducerTail.cons",
+          "text": "have hcons := TopPairingTransducerTail.cons htailRaw"
+        },
+        {
+          "line": 204,
+          "pattern": "TopPairingTransducerTail.cons",
+          "text": "have hcons := TopPairingTransducerTail.cons htailRaw"
+        }
+      ],
+      "suffix_eval_core": [
+        {
+          "line": 37,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.Tail,"
+        },
+        {
+          "line": 79,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.Tail,"
+        },
+        {
+          "line": 140,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.Tail,"
+        },
+        {
+          "line": 202,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.Tail,"
+        }
+      ],
+      "target_cursor_core": [],
+      "target_shadow": [
+        {
+          "line": 107,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        },
+        {
+          "line": 118,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        },
+        {
+          "line": 174,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        },
+        {
+          "line": 185,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        }
+      ]
     },
     "strengthened_local_1m": {
       "branch_table_semantic_gate_socket": [],
@@ -1998,6 +2236,7 @@
           "text": "(strengthened_no_missingState150TpppSemanticTail"
         }
       ],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [
         {
           "line": 421,
@@ -2409,6 +2648,7 @@
       "selected_prefix_production_risk": [],
       "semantic_eval_gate": [],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [],
       "suffix_eval_core": [],
       "target_cursor_core": [
@@ -3594,6 +3834,7 @@
       "selected_prefix_production_risk": [],
       "semantic_eval_gate": [],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [],
       "suffix_eval_core": [],
       "target_cursor_core": [],
@@ -3840,6 +4081,7 @@
         }
       ],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [
         {
           "line": 63,
@@ -4284,6 +4526,7 @@
         }
       ],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [],
       "suffix_eval_core": [
         {
@@ -4889,6 +5132,7 @@
         }
       ],
       "semantic_socket_core": [],
+      "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [],
       "suffix_eval_core": [],
       "target_cursor_core": [
@@ -5026,6 +5270,30 @@
       "min_available_seen_mib": 44302.11328125,
       "rss_cap_mib": 7000.0,
       "timeout_seconds": 180.0
+    },
+    "semantic_tail_branch_emitter_smoke_direct": {
+      "available_floor_mib": 30000.0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6500",
+        "-j1",
+        "-s",
+        "2048",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticTailBranchEmitterSmoke.lean"
+      ],
+      "elapsed_seconds": 8.00495894998312,
+      "exit_code": 0,
+      "hard_address_space_mib": 8192.0,
+      "killed_reason": null,
+      "max_tree_rss_kib": 4055332,
+      "max_tree_rss_mib": 3960.28515625,
+      "min_available_seen_kib": 47078700,
+      "min_available_seen_mib": 45975.29296875,
+      "rss_cap_mib": 6500.0,
+      "timeout_seconds": 240.0
     },
     "state150_socket_direct": {
       "available_floor_mib": 24576.0,
@@ -5180,6 +5448,11 @@
     "branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail",
     "branchTableSuffixOk_closedPrefix3_yp_branch_of_tail",
     "branchTableSuffixOk_closedPrefix3_zm_branch_of_tail",
+    "emitted_branchTable_of_closedPrefix2_tail",
+    "emitted_branchTable_of_closedPrefix3_tmpm_tail",
+    "emitted_branchTable_of_closedPrefix3_yp_tail",
+    "emitted_branchTable_of_closedPrefix3_zm_tail",
+    "semanticTailBranchEmitterSmoke_builds",
     "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
     "topPairingClosed_to_strengthenedSuffixOk",
     "topPairingClosed_to_eval_gate",
@@ -5211,17 +5484,18 @@
     "strengthened_local_smoke_passed": true
   },
   "totals": {
-    "branch_table_semantic_gate_socket": 18,
-    "closed_language_fields": 211,
+    "branch_table_semantic_gate_socket": 30,
+    "closed_language_fields": 218,
     "eval_core": 90,
     "forbidden_sampled_surface": 0,
     "ranked_semantic_gate_core": 8,
     "selected_prefix_production_risk": 12,
     "semantic_eval_gate": 136,
     "semantic_socket_core": 26,
-    "semantic_tail_core": 16,
-    "suffix_eval_core": 235,
+    "semantic_tail_branch_emitter_smoke": 10,
+    "semantic_tail_core": 20,
+    "suffix_eval_core": 239,
     "target_cursor_core": 46,
-    "target_shadow": 116
+    "target_shadow": 120
   }
 }

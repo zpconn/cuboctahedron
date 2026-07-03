@@ -42,6 +42,9 @@ FILES = {
     "branch_table_semantic_gate_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingBranchTableSemanticGateSocket.lean",
+    "semantic_tail_branch_emitter_smoke": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSemanticTailBranchEmitterSmoke.lean",
     "missing_transition_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingMissingTransition1MSocket.lean",
@@ -122,6 +125,14 @@ PATTERNS = {
         "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
         "scaledMargin_nonpos_of_branchTableClosedEvalFamily",
     ],
+    "semantic_tail_branch_emitter_smoke": [
+        "emitted_branchTable_of_closedPrefix2_tail",
+        "emitted_branchTable_of_closedPrefix3_tmpm_tail",
+        "emitted_branchTable_of_closedPrefix3_yp_tail",
+        "emitted_branchTable_of_closedPrefix3_zm_tail",
+        "emitted_branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail",
+        "semanticTailBranchEmitterSmoke_builds",
+    ],
     "semantic_socket_core": [
         "strengthened_no_missingState19TmmpSemanticTail",
         "strengthened_no_missingState150TpppSemanticTail",
@@ -164,6 +175,8 @@ GUARD_FILES = {
     / "scripts/generated/top_pairing_transducer_semantic_gate_latest_guard.json",
     "branch_table_semantic_gate_socket_direct": ROOT
     / "scripts/generated/branch_table_semantic_gate_socket_guard.json",
+    "semantic_tail_branch_emitter_smoke_direct": ROOT
+    / "scripts/generated/semantic_tail_branch_emitter_smoke_guard.json",
 }
 
 DIAGNOSTIC_JSON = {
@@ -349,6 +362,11 @@ def main() -> None:
             "branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail",
             "branchTableSuffixOk_closedPrefix3_yp_branch_of_tail",
             "branchTableSuffixOk_closedPrefix3_zm_branch_of_tail",
+            "emitted_branchTable_of_closedPrefix2_tail",
+            "emitted_branchTable_of_closedPrefix3_tmpm_tail",
+            "emitted_branchTable_of_closedPrefix3_yp_tail",
+            "emitted_branchTable_of_closedPrefix3_zm_tail",
+            "semanticTailBranchEmitterSmoke_builds",
             "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
             "topPairingClosed_to_strengthenedSuffixOk",
             "topPairingClosed_to_eval_gate",

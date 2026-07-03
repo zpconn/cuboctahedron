@@ -385,6 +385,26 @@
         "graphBranchTableSuffixOk_s0146_branch_of_frontier": 2
       }
     },
+    "semantic_tail_branch_emitter_smoke": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 302,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticTailBranchEmitterSmoke.lean",
+      "symbol_hits": {
+        "BranchTableSuffixOk": 12,
+        "StrengthenedBranchTable": 17,
+        "TopPairingTransducerTail.cons": 4,
+        "branchTableSuffixOk_closedPrefix2_branch_of_tail": 1,
+        "branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail": 1,
+        "branchTableSuffixOk_closedPrefix3_yp_branch_of_tail": 1,
+        "branchTableSuffixOk_closedPrefix3_zm_branch_of_tail": 1,
+        "branchTable_of_closedPrefix2_tail": 2,
+        "branchTable_of_closedPrefix3_tmpm_tail": 2,
+        "branchTable_of_closedPrefix3_yp_tail": 2,
+        "branchTable_of_closedPrefix3_zm_tail": 2,
+        "semanticTailBranchEmitterSmoke_builds": 1
+      }
+    },
     "strengthened_local": {
       "exists": true,
       "forbidden_hits": {},
@@ -616,6 +636,14 @@
       "max_tree_rss_mib": 3899.890625,
       "path": "scripts/generated/bellman_graph_suffix_emitter_1m_smoke_lake_guard.json"
     },
+    "semantic_tail_branch_emitter_smoke_direct": {
+      "elapsed_seconds": 8.00495894998312,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3960.28515625,
+      "path": "scripts/generated/semantic_tail_branch_emitter_smoke_guard.json"
+    },
     "split10m_branch_table_direct": {
       "elapsed_seconds": 63.13071489801223,
       "exists": true,
@@ -700,7 +728,8 @@
       "graph_accepted_suffix_bridge",
       "graph_accepted_branch_suffix",
       "graph_accepted_branch_suffix_split10m",
-      "branch_table_semantic_gate_socket"
+      "branch_table_semantic_gate_socket",
+      "semantic_tail_branch_emitter_smoke"
     ],
     "Class034Depth11GraphFinish": [
       "depth11_suffix_eval"
@@ -851,14 +880,16 @@
       "graph_suffix_emitter",
       "graph_accepted_branch_suffix",
       "graph_accepted_branch_suffix_split10m",
-      "branch_table_semantic_gate_socket"
+      "branch_table_semantic_gate_socket",
+      "semantic_tail_branch_emitter_smoke"
     ],
     "TopPairingTransducerTail.cons": [
       "eval_bridge",
       "face_eval_split10m",
       "branch_table_suffix_split10m",
       "strengthened_local",
-      "branch_table_semantic_gate_socket"
+      "branch_table_semantic_gate_socket",
+      "semantic_tail_branch_emitter_smoke"
     ],
     "TopPairingTransducerTail.ofClosedRank": [
       "eval_bridge",
@@ -878,16 +909,20 @@
       "branch_table_suffix_split10m"
     ],
     "branchTableSuffixOk_closedPrefix2_branch_of_tail": [
-      "branch_table_semantic_gate_socket"
+      "branch_table_semantic_gate_socket",
+      "semantic_tail_branch_emitter_smoke"
     ],
     "branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail": [
-      "branch_table_semantic_gate_socket"
+      "branch_table_semantic_gate_socket",
+      "semantic_tail_branch_emitter_smoke"
     ],
     "branchTableSuffixOk_closedPrefix3_yp_branch_of_tail": [
-      "branch_table_semantic_gate_socket"
+      "branch_table_semantic_gate_socket",
+      "semantic_tail_branch_emitter_smoke"
     ],
     "branchTableSuffixOk_closedPrefix3_zm_branch_of_tail": [
-      "branch_table_semantic_gate_socket"
+      "branch_table_semantic_gate_socket",
+      "semantic_tail_branch_emitter_smoke"
     ],
     "branchTableSuffixOk_local": [
       "branch_table_suffix",
@@ -934,16 +969,20 @@
       "branch_table_suffix_split10m"
     ],
     "branchTable_of_closedPrefix2_tail": [
-      "branch_table_semantic_gate_socket"
+      "branch_table_semantic_gate_socket",
+      "semantic_tail_branch_emitter_smoke"
     ],
     "branchTable_of_closedPrefix3_tmpm_tail": [
-      "branch_table_semantic_gate_socket"
+      "branch_table_semantic_gate_socket",
+      "semantic_tail_branch_emitter_smoke"
     ],
     "branchTable_of_closedPrefix3_yp_tail": [
-      "branch_table_semantic_gate_socket"
+      "branch_table_semantic_gate_socket",
+      "semantic_tail_branch_emitter_smoke"
     ],
     "branchTable_of_closedPrefix3_zm_tail": [
-      "branch_table_semantic_gate_socket"
+      "branch_table_semantic_gate_socket",
+      "semantic_tail_branch_emitter_smoke"
     ],
     "class034Depth11GraphFinish_of_suffix": [
       "depth11_suffix_eval",
@@ -1117,6 +1156,9 @@
     ],
     "semanticFrontierClassifier_of_sevenBranchClassifier": [
       "depth11_layer4_classifier"
+    ],
+    "semanticTailBranchEmitterSmoke_builds": [
+      "semantic_tail_branch_emitter_smoke"
     ],
     "sevenBranchClassifier_of_mappedSevenBranchClassifier": [
       "depth11_layer4_classifier"

@@ -424,7 +424,12 @@ BellmanTopPairingSemanticTailBranchEmitterSmoke.lean
 
   Result: passed, `elapsed=8.00s`, `peak_tree_rss=3960 MiB`,
   `hard_as=8192 MiB`, minimum available memory `45975 MiB`.  The readiness
-  audit now records both the socket guard and the generated-smoke guard.
+  audit now records both the socket guard and the generated-smoke guard.  The
+  main branch-table frontier and transducer-pivot audits also include the
+  generated smoke and still report
+  `decision=local-branch-table-progress-accepted-membership-open` and
+  `decision=semantic-transducer-pivot-accepted-next-emit-finite-branch-table`,
+  respectively.
 - Next implementation move: stop hand-extending individual prefix layers and
   teach the generated finite-branch-table emitter to produce this tail-facing
   local theorem shape for reachable semantic states.  The generated target is

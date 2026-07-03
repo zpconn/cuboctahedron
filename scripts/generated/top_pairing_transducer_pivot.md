@@ -5,15 +5,15 @@ selected-prefix/root-trace membership to a deterministic semantic
 closed-language transducer theorem.
 
 - decision: `semantic-transducer-pivot-accepted-next-emit-finite-branch-table`
-- target-shadow surface mentions: `116`
-- closed-language field mentions: `211`
+- target-shadow surface mentions: `120`
+- closed-language field mentions: `218`
 - eval-core mentions: `90`
 - semantic eval-gate mentions: `136`
 - target-cursor core mentions: `46`
-- semantic-tail core mentions: `16`
-- suffix-eval core mentions: `235`
+- semantic-tail core mentions: `20`
+- suffix-eval core mentions: `239`
 - ranked semantic-gate core mentions: `8`
-- branch-table semantic-gate socket mentions: `18`
+- branch-table semantic-gate socket mentions: `30`
 - semantic-socket core mentions: `26`
 - selected-prefix production-risk mentions: `12`
 - forbidden sampled-surface mentions: `0`
@@ -48,6 +48,7 @@ the local theorem by hand depth cuts.
 - `transducer_tail_latest_direct`: exit `0`, elapsed `2.00s`, peak RSS `3560 MiB`, hard AS `8192.0`, killed `None`
 - `transducer_semantic_gate_latest_direct`: exit `0`, elapsed `2.00s`, peak RSS `3552 MiB`, hard AS `8192.0`, killed `None`
 - `branch_table_semantic_gate_socket_direct`: exit `0`, elapsed `9.01s`, peak RSS `4009 MiB`, hard AS `8192.0`, killed `None`
+- `semantic_tail_branch_emitter_smoke_direct`: exit `0`, elapsed `8.00s`, peak RSS `3960 MiB`, hard AS `8192.0`, killed `None`
 
 Interpretation: the selected-prefix/root-trace bridge is useful as
 diagnostic or downstream comparison evidence, but the recent guarded
