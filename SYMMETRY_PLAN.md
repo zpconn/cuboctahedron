@@ -88936,3 +88936,183 @@ topPairingRankFaceLabels rank =
 from `TerminalStepState.Contains (machine.stateOf state) rank` plus the
 carried `TopPairingTransducerTail` fields.  The actual edge application should
 remain this one-step theorem.
+
+### Semantic Head Gate For Deterministic Terminal Evaluators
+
+GPT-5.5 Pro's latest recommendation is accepted as a strategy pivot:
+continue Bellman, but reject selected-prefix membership as a production
+coordinate.  The production route must be a deterministic semantic transducer
+theorem:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> evalLabelStepFn graphNext rootState (labelsOfRank rank) = some result
+```
+
+The next local artifact is therefore a state-local head gate.  It separates
+the theorem a generated semantic frontier must prove from the theorem that
+actually consumes one checked machine edge.
+
+Added theorem surfaces:
+
+```lean
+structure TerminalStepState.Head
+abbrev TerminalStepState.HeadSome
+theorem TerminalStepState.Head.contains_nextStep
+theorem terminalContainedEvalProgressGate_of_head_next?
+theorem terminalContainedEvalProgressGate_of_headSome_next?
+theorem smokeStep1HeadSome_of_closed
+theorem smokeContainedEvalProgressGate_step1
+```
+
+Meaning:
+
+- `TerminalStepState.Head state rank face rest` packages semantic containment
+  plus the exposed next-face equation
+  `topPairingRankFaceLabels rank = state.pfx ++ face :: rest`.
+- `TerminalStepState.HeadSome` hides the suffix, which keeps generated
+  frontiers from exporting selected prefixes or trace IDs.
+- `terminalContainedEvalProgressGate_of_headSome_next?` turns a semantic
+  head fact and one deterministic machine edge into a reusable progress gate.
+- The smoke now proves the first `xm` head from
+  `TopPairingClosedLanguageAtRank rank Face.ym`, then applies the generic
+  head-to-edge theorem.  This is still a bounded smoke, but it has the correct
+  production-facing shape.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_head_step_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateStepSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_head_step_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateStepSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_head_eval_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_head_eval_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_head_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_head_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_head_smoke_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateStepSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct semantic-head step socket | pass | `2.00s` | `3395 MiB` | `46282 MiB` |
+| Lake semantic-head step socket | pass | `3.00s` | `1688 MiB` | `46284 MiB` |
+| direct semantic-head eval socket | pass | `2.01s` | `3598 MiB` | `46234 MiB` |
+| Lake semantic-head eval socket | pass | `6.01s` | `4025 MiB` | `46063 MiB` |
+| direct semantic-head smoke | pass | `2.00s` | `3629 MiB` | `46235 MiB` |
+| Lake semantic-head smoke, 6.5 GiB cap | guard-stopped | `7.01s` | `7376 MiB` | `45616 MiB` |
+| Lake semantic-head smoke, 12 GiB cap | pass | `6.01s` | `4133 MiB` | `45871 MiB` |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a |
+
+The first direct step-socket attempt failed before this table because the new
+`Head.contains_nextStep` theorem resolved `contains_nextStep` against the
+local theorem being defined; qualifying the existing outer theorem fixed it.
+
+The 6.5 GiB Lake smoke failure was a conservative guard termination, not a
+machine OOM.  This Lake version exposes no `lake build -J <jobs>` concurrency
+flag; `-J` is JSON output for `lake query`.  The direct Lean smoke and the
+12 GiB guarded Lake smoke both pass.  The plan remains to use direct
+single-file Lean checks for tight generated smokes and to avoid relying on
+broad Lake concurrency for memory-sensitive validation.
+
+Decision: accepted.  This is the first production-shaped local socket for the
+closed-language-to-evaluator theorem.  It still proves only the first semantic
+head in the bounded smoke, so it is not yet a full deterministic evaluator for
+`TopPairingClosedLanguageAtRank`.
+
+Next step: lift the head gate from the first hard-coded `xm` smoke to a
+state-local frontier theorem.  The generated frontier should prove, for each
+reachable terminal-machine state and allowed face,
+
+```lean
+TerminalStepState.HeadSome (machine.stateOf state) rank face
+```
+
+from `TerminalStepState.Contains (machine.stateOf state) rank` plus the
+`TopPairingTransducerTail.cons` fields.  The resulting proof should case-split
+on `(state, face)` and semantic transducer fields, never on full ranks,
+sampled paths, accepted trace IDs, exact affine RHS, or selected prefixes.

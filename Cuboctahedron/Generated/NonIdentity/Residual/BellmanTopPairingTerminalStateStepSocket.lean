@@ -150,6 +150,35 @@ theorem contains_nextStep
   | some tri =>
       exact contains_triStep hcontains hlabels htri
 
+namespace TerminalStepState
+
+/--
+State-local evidence that a contained rank exposes a concrete next face.
+
+Generated deterministic frontiers should prove this shape from the semantic
+tail state (schedule, target-shadow cursor, local-axis data, etc.).  The
+generic evaluator bridge can then consume one machine edge without knowing
+where the head fact came from.
+-/
+structure Head (state : TerminalStepState)
+    (rank : Fin numPairWords) (face : Face) (rest : List Face) : Prop where
+  contains : Contains state rank
+  labels : topPairingRankFaceLabels rank = state.pfx ++ face :: rest
+
+abbrev HeadSome (state : TerminalStepState)
+    (rank : Fin numPairWords) (face : Face) : Prop :=
+  ∃ rest : List Face, Head state rank face rest
+
+theorem Head.contains_nextStep
+    {rank : Fin numPairWords}
+    {state : TerminalStepState} {face : Face} {rest : List Face}
+    (hhead : Head state rank face rest) :
+    Contains (state.nextStep face) rank :=
+  BellmanTopPairingTerminalStateStepSocket.contains_nextStep
+    hhead.contains hhead.labels
+
+end TerminalStepState
+
 theorem terminalStateStepSocket_builds : True := by
   exact True.intro
 

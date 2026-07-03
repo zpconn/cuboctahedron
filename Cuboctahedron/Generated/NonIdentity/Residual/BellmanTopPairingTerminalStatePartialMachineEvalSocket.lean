@@ -112,6 +112,28 @@ theorem terminalContainedEvalProgressGate_of_next?
   · simpa [List.cons_append, List.append_assoc] using hlabels
   · simp [evalLabelStepFn, nextEval, hnext]
 
+theorem terminalContainedEvalProgressGate_of_head_next?
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords}
+    {state nextState : StateId} {face : Face} {rest : List Face}
+    (hhead :
+      TerminalStepState.Head (machine.stateOf state) rank face rest)
+    (hnext : machine.next? state face = some nextState) :
+    TerminalContainedEvalProgressGate machine state rank nextState :=
+  terminalContainedEvalProgressGate_of_next? machine
+    hhead.contains hhead.labels hnext
+
+theorem terminalContainedEvalProgressGate_of_headSome_next?
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords}
+    {state nextState : StateId} {face : Face}
+    (hhead :
+      TerminalStepState.HeadSome (machine.stateOf state) rank face)
+    (hnext : machine.next? state face = some nextState) :
+    TerminalContainedEvalProgressGate machine state rank nextState := by
+  rcases hhead with ⟨rest, hhead⟩
+  exact terminalContainedEvalProgressGate_of_head_next? machine hhead hnext
+
 theorem contains_of_eval_suffix
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
     {rank : Fin numPairWords}
