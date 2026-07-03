@@ -85,6 +85,24 @@ theorem graphEval_of_class034Depth11GraphFinish
     subst suffixGain
     rfl
 
+theorem finalPotential_nonneg_of_class034Depth11GraphFinish
+    {graph : State} {rest : List Face}
+    {finalGraph : State} {suffixGain : Int}
+    (hfinish :
+      Class034Depth11GraphFinish graph rest finalGraph suffixGain) :
+    0 <= graphPotential finalGraph := by
+  rcases hfinish with hfinish_000 | hrest_hfinish_000
+  · rcases hfinish_000 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_000 with hfinish_001 | hfinish_002
+  · rcases hfinish_001 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  · rcases hfinish_002 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+
 theorem graphEval_exists_of_class034Depth11Suffix
     {graph : State} {rest : List Face}
     (hclass : Class034Depth11Suffix graph rest) :
@@ -171,6 +189,28 @@ theorem graphEval_of_class035Depth11GraphFinish
     subst suffixGain
     rfl
 
+theorem finalPotential_nonneg_of_class035Depth11GraphFinish
+    {graph : State} {rest : List Face}
+    {finalGraph : State} {suffixGain : Int}
+    (hfinish :
+      Class035Depth11GraphFinish graph rest finalGraph suffixGain) :
+    0 <= graphPotential finalGraph := by
+  rcases hfinish with hfinish_000 | hrest_hfinish_000
+  · rcases hfinish_000 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_000 with hfinish_001 | hrest_hfinish_001
+  · rcases hfinish_001 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_001 with hfinish_002 | hfinish_003
+  · rcases hfinish_002 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  · rcases hfinish_003 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+
 theorem graphEval_exists_of_class035Depth11Suffix
     {graph : State} {rest : List Face}
     (hclass : Class035Depth11Suffix graph rest) :
@@ -246,6 +286,24 @@ theorem graphEval_of_class036Depth11GraphFinish
     subst finalGraph
     subst suffixGain
     rfl
+
+theorem finalPotential_nonneg_of_class036Depth11GraphFinish
+    {graph : State} {rest : List Face}
+    {finalGraph : State} {suffixGain : Int}
+    (hfinish :
+      Class036Depth11GraphFinish graph rest finalGraph suffixGain) :
+    0 <= graphPotential finalGraph := by
+  rcases hfinish with hfinish_000 | hrest_hfinish_000
+  · rcases hfinish_000 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_000 with hfinish_001 | hfinish_002
+  · rcases hfinish_001 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  · rcases hfinish_002 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
 
 theorem graphEval_exists_of_class036Depth11Suffix
     {graph : State} {rest : List Face}
@@ -499,6 +557,68 @@ theorem graphEval_of_class037Depth11GraphFinish
     subst suffixGain
     rfl
 
+theorem finalPotential_nonneg_of_class037Depth11GraphFinish
+    {graph : State} {rest : List Face}
+    {finalGraph : State} {suffixGain : Int}
+    (hfinish :
+      Class037Depth11GraphFinish graph rest finalGraph suffixGain) :
+    0 <= graphPotential finalGraph := by
+  rcases hfinish with hfinish_000 | hrest_hfinish_000
+  · rcases hfinish_000 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_000 with hfinish_001 | hrest_hfinish_001
+  · rcases hfinish_001 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_001 with hfinish_002 | hrest_hfinish_002
+  · rcases hfinish_002 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_002 with hfinish_003 | hrest_hfinish_003
+  · rcases hfinish_003 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_003 with hfinish_004 | hrest_hfinish_004
+  · rcases hfinish_004 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_004 with hfinish_005 | hrest_hfinish_005
+  · rcases hfinish_005 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_005 with hfinish_006 | hrest_hfinish_006
+  · rcases hfinish_006 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_006 with hfinish_007 | hrest_hfinish_007
+  · rcases hfinish_007 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_007 with hfinish_008 | hrest_hfinish_008
+  · rcases hfinish_008 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_008 with hfinish_009 | hrest_hfinish_009
+  · rcases hfinish_009 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_009 with hfinish_010 | hrest_hfinish_010
+  · rcases hfinish_010 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_010 with hfinish_011 | hrest_hfinish_011
+  · rcases hfinish_011 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_011 with hfinish_012 | hfinish_013
+  · rcases hfinish_012 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  · rcases hfinish_013 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+
 theorem graphEval_exists_of_class037Depth11Suffix
     {graph : State} {rest : List Face}
     (hclass : Class037Depth11Suffix graph rest) :
@@ -623,6 +743,36 @@ theorem graphEval_of_class038Depth11GraphFinish
     subst suffixGain
     rfl
 
+theorem finalPotential_nonneg_of_class038Depth11GraphFinish
+    {graph : State} {rest : List Face}
+    {finalGraph : State} {suffixGain : Int}
+    (hfinish :
+      Class038Depth11GraphFinish graph rest finalGraph suffixGain) :
+    0 <= graphPotential finalGraph := by
+  rcases hfinish with hfinish_000 | hrest_hfinish_000
+  · rcases hfinish_000 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_000 with hfinish_001 | hrest_hfinish_001
+  · rcases hfinish_001 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_001 with hfinish_002 | hrest_hfinish_002
+  · rcases hfinish_002 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_002 with hfinish_003 | hrest_hfinish_003
+  · rcases hfinish_003 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  rcases hrest_hfinish_003 with hfinish_004 | hfinish_005
+  · rcases hfinish_004 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  · rcases hfinish_005 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+
 theorem graphEval_exists_of_class038Depth11Suffix
     {graph : State} {rest : List Face}
     (hclass : Class038Depth11Suffix graph rest) :
@@ -682,6 +832,20 @@ theorem graphEval_of_class039Depth11GraphFinish
     subst finalGraph
     subst suffixGain
     rfl
+
+theorem finalPotential_nonneg_of_class039Depth11GraphFinish
+    {graph : State} {rest : List Face}
+    {finalGraph : State} {suffixGain : Int}
+    (hfinish :
+      Class039Depth11GraphFinish graph rest finalGraph suffixGain) :
+    0 <= graphPotential finalGraph := by
+  rcases hfinish with hfinish_000 | hfinish_001
+  · rcases hfinish_000 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
+  · rcases hfinish_001 with ⟨_hgraph, _hrest, hfinal, _hgain⟩
+    subst finalGraph
+    decide
 
 theorem graphEval_exists_of_class039Depth11Suffix
     {graph : State} {rest : List Face}

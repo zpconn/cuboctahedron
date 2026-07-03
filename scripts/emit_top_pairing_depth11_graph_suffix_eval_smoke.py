@@ -241,6 +241,28 @@ def emit_graph_eval_theorem(class_id: str, ctors: list[SuffixCtor]) -> list[str]
     return lines
 
 
+def emit_final_nonneg_theorem(class_id: str, ctors: list[SuffixCtor]) -> list[str]:
+    names = [f"hfinish_{i:03d}" for i in range(len(ctors))]
+
+    def branch(name: str) -> list[str]:
+        return [
+            f"rcases {name} with ⟨_hgraph, _hrest, hfinal, _hgain⟩",
+            "subst finalGraph",
+            "decide",
+        ]
+
+    lines = [
+        f"theorem finalPotential_nonneg_of_class{class_id}Depth11GraphFinish",
+        "    {graph : State} {rest : List Face}",
+        "    {finalGraph : State} {suffixGain : Int}",
+        "    (hfinish :",
+        f"      Class{class_id}Depth11GraphFinish graph rest finalGraph suffixGain) :",
+        "    0 <= graphPotential finalGraph := by",
+    ]
+    lines.extend(emit_right_assoc_or_cases("hfinish", names, branch))
+    return lines
+
+
 def emit_class_finish_theorem(
     class_id: str,
     states: dict[str, list[SuffixCtor]],
@@ -304,6 +326,8 @@ def emit_class(class_id: str, states: dict[str, list[SuffixCtor]]) -> list[str]:
     lines.extend(emit_class_finish_theorem(class_id, states, ctors))
     lines.append("")
     lines.extend(emit_graph_eval_theorem(class_id, ctors))
+    lines.append("")
+    lines.extend(emit_final_nonneg_theorem(class_id, ctors))
     lines.append("")
     lines.extend(emit_eval_exists_theorem(class_id))
     return lines

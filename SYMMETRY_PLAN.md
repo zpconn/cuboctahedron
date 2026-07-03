@@ -91249,3 +91249,127 @@ terminal nonnegative potential and the family-specific scaled-margin inequality
 to build `ClosedClassNNNExactGraphFinishSuffixMarginFamily` witnesses.  That is
 the remaining piece before the accepted graph-exact final-margin socket can
 turn this bounded top-pairing layer into `scaledMargin rank <= 0`.
+
+### Depth-11 Final Potential Facts Accepted
+
+Extended the suffix-eval emitter:
+
+```text
+scripts/emit_top_pairing_depth11_graph_suffix_eval_smoke.py
+```
+
+so each generated depth-11 class now exports the terminal potential fact:
+
+```lean
+theorem finalPotential_nonneg_of_classNNNDepth11GraphFinish
+```
+
+with theorem shape:
+
+```lean
+ClassNNNDepth11GraphFinish graph rest finalGraph suffixGain →
+  0 <= graphPotential finalGraph
+```
+
+This keeps the final-potential proof tied to the semantic graph finish relation
+rather than to sampled traces, selected prefix ids, or rank-indexed objects.
+The proof is a generated finite case split over the class finish constructors;
+each branch reduces only the displayed terminal graph state and closes by
+`decide`.
+
+Commands:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_graph_suffix_eval_smoke.py
+
+python3 scripts/emit_top_pairing_depth11_graph_suffix_eval_smoke.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_suffix_eval_all_potential_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_suffix_eval_all_potential_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphSuffixEvalSmoke
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_all_after_potential_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_all_after_potential_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphExactFinishSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|sampledSmokeNext\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| suffix direct with final-potential facts | pass | `4.00s` | `4048 MiB` | `46113 MiB` | `8192 MiB` |
+| suffix Lake with final-potential facts | pass | `4.00s` | `4420 MiB` | `45259 MiB` | none |
+| graph-exact direct after suffix potential update | pass | `16.01s` | `4060 MiB` | `45255 MiB` | `8192 MiB` |
+| graph-exact Lake after suffix potential update | pass | `13.01s` | `4357 MiB` | `45749 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted.  The graph-exact socket now has generated ingredients for:
+
+1. graph evaluator success from closed language plus class suffix producer;
+2. terminal `0 <= graphPotential finalGraph`.
+
+The remaining hard obligation is now precisely the semantic margin-gain bridge:
+
+```lean
+scaledMargin rank <= (176 : Int) + totalGain
+```
+
+for each `ClosedClassNNNExactGraphFinishSuffixMarginFamily`.  That bridge must
+come from deterministic closed-language/cursor/cancellation semantics.  It
+must not fall back to sampled traces, exact affine RHS keys, selected-prefix
+covers, or one proof branch per observed rank/path.
