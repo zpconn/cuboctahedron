@@ -90257,3 +90257,102 @@ Decision: accepted as a stronger suffix-provider smoke.  The next step should
 either generate the remaining depth-11 suffix-class provider conversions into
 `ClosedSplit10MSuffixMarginFamily`, or first factor a tiny helper layer for
 multi-state class dispatch so the generated code remains uniform and small.
+
+### Generated Depth-11 Closed Provider Conversions Accepted
+
+Added a narrow emitter:
+
+```text
+scripts/emit_top_pairing_depth11_closed_provider_smoke.py
+```
+
+It reads the already checked depth-11 suffix smoke and emits:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean
+```
+
+The generated module packages every currently exposed depth-11 suffix class
+into the reusable closed split-suffix socket.  It found and emitted:
+
+```text
+6 semantic classes
+30 graph-state suffix alternatives
+586 Lean source lines
+```
+
+The generated theorem pattern for each class is:
+
+```lean
+def ClassNNNDepth11Suffix (graph : State) (rest : List Face) : Prop
+theorem graphBranchTableSuffixOk_of_classNNNDepth11Suffix
+def ClassNNNGraphSuffixProducer
+theorem split10MGraphSuffixProducer_of_classNNN
+def ClosedClassNNNGraphSuffixMarginFamily
+theorem closedSplit10MSuffixMarginFamily_of_classNNN
+theorem evalLanguageAtRank_of_closedClassNNNFamily
+theorem scaledMargin_nonpos_of_closedClassNNNFamily
+```
+
+The largest generated disjunction is class `037`, with `14` depth-11
+graph-state alternatives.  The code still does not use rank tables, sampled
+membership, accepted trace ids, `GraphAcceptedTraceLabels`, exact affine RHS
+keys, or stored Bellman paths.  It only re-expresses checked depth-11 suffix
+predicates as `ClosedSplit10MSuffixMarginFamily` inputs.
+
+Commands:
+
+```bash
+python3 scripts/emit_top_pairing_depth11_closed_provider_smoke.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_depth11_closed_providers_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_closed_providers_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean || true
+
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_closed_provider_smoke.py
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct generated depth-11 closed providers | pass | `3.00s` | `3963 MiB` | `46172 MiB` | `8192 MiB` |
+| Lake generated depth-11 closed providers | pass | `4.00s` | `4005 MiB` | `46057 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+| emitter bytecode compile | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted as the current generated suffix-provider conversion layer.
+The next missing production ingredient is not another suffix conversion; it is
+the semantic family theorem that proves one of these
+`ClassNNNGraphSuffixProducer` predicates, plus the corresponding
+`Split10MFinalMarginProducer`, from the closed holonomy/cancellation language
+for an actual residual family shard.
