@@ -91128,3 +91128,124 @@ same seven prefix/frontier helper lemmas and the already generated
 class-level wrapper that combines graph-exact eval, `0 <= graphPotential
 finalGraph`, and the family-specific `scaledMargin` inequality into
 `ClosedClassNNNExactGraphFinishSuffixMarginFamily`.
+
+### All-Class Depth-11 Graph-Exact Finish Composition Accepted
+
+Added the all-class graph-exact finish emitter:
+
+```text
+scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+```
+
+It regenerates:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingDepth11GraphExactFinishSmoke.lean
+```
+
+for all current depth-11 classes exposed by the suffix-eval module:
+
+```text
+classes: 034, 035, 036, 037, 038, 039
+generated Lean lines: 1109
+```
+
+For each class `NNN` it proves:
+
+```lean
+private theorem graphEval_exists_of_classNNN_prefix4
+theorem graphEval_exists_of_classNNNGraphSuffixProducer
+```
+
+The proof remains rank-semantic rather than trace-sampled:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+ClassNNNGraphSuffixProducer rank
+```
+
+are enough to produce:
+
+```lean
+∃ finalGraph totalGain,
+  evalLabelStepFn graphSmokeNext rootState
+    ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
+      some (finalGraph, totalGain)
+```
+
+Shared prefix lemmas cover the seven split-10M frontier pairs:
+
+```text
+tmpm/tppm, tmpm/zm, yp/tmmm, yp/zm, zm/tmpp, zm/yp, zm/zp
+```
+
+Each class theorem then uses the generated
+`graphEval_exists_of_classNNNDepth11Suffix` theorem for the remaining depth-11
+suffix.  This is the deterministic closed-language-to-graph-evaluator bridge
+the recent pivot asked for, at least for the current bounded top-pairing class
+frontier.
+
+Commands:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+
+python3 scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_all_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_all_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphExactFinishSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|sampledSmokeNext\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| emitter bytecode compile | pass | n/a | n/a | n/a | n/a |
+| generated all-class direct Lean | pass | `18.01s` | `4045 MiB` | `46101 MiB` | `8192 MiB` |
+| generated all-class Lake build | pass | `13.01s` | `4345 MiB` | `45722 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted.  The top-pairing depth-11 class layer now has:
+
+1. semantic class suffix producers,
+2. generated graph suffix evaluator finishes,
+3. generated full graph evaluator finishes from closed language plus class
+   producer.
+
+Next production target: combine these graph-exact evaluator results with
+terminal nonnegative potential and the family-specific scaled-margin inequality
+to build `ClosedClassNNNExactGraphFinishSuffixMarginFamily` witnesses.  That is
+the remaining piece before the accepted graph-exact final-margin socket can
+turn this bounded top-pairing layer into `scaledMargin rank <= 0`.
