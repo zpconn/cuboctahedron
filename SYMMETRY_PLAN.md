@@ -93535,3 +93535,57 @@ Promoted target: the next generated/semantic producer should prove
 over `Depth11Layer4SevenBranchGraphExactEvalAllFamily` because it keeps branch
 leaves aligned with the graph evaluator's native mapped-label input while the
 shared adapter handles the public-label bridge once.
+
+Rejected adapter experiment: a downstream adapter from the old
+`Split10MExactGraphFinishFinalMarginProducer` surface to the new mapped
+layer-4 target was attempted and backed out.  The theorem itself would have
+been a thin wrapper around the same mapped graph equation, final-potential
+fact, and margin bound, but importing
+`BellmanTopPairingClosedFinalMarginSocket` pulls in the stale terminal trace
+classifier path:
+
+```text
+Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Terminal.Shard000
+```
+
+The guarded check failed immediately because that `.olean` was absent:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_layer4_final_margin_adapter_lean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4FinalMarginAdapter.lean
+```
+
+Result: fail, `1.00s`, `0.94 MiB` peak tree RSS, no memory kill.  This is a
+build-path rejection, not a proof rejection.  Keep the old final-margin socket
+downstream, and do not import it into the production layer-4 route.  The next
+emitter should target `Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily`
+directly.
+
+The classifier socket was also materialized as an `.olean` under the guard for
+dependency testing:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_layer4_classifier_socket_olean_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4ClassifierSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4ClassifierSocket.lean
+```
+
+Result: pass, `8.01s`, `3862.0 MiB` peak tree RSS, `46085.9 MiB` minimum
+available memory, `8192 MiB` hard address-space cap, no kill reason.
