@@ -15,6 +15,7 @@ or raw graph paths.
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket
 
 open Cuboctahedron
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphExactProducerSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateStepSocket
 
@@ -221,6 +222,81 @@ structure Depth11Layer4SevenBranchGraphExactEvalAllFamily
           Depth11Layer4PrefixAtRank rank Face.zm Face.zp rest ->
           Split10MGraphExactEvalGateAtRank scaledMargin rank
 
+/--
+Mapped-label graph-exact result for the split-10M graph.
+
+Generated graph modules usually compute on
+`(topPairingRankFaceLabels rank).map smokeLabelOfFace`.  This structure keeps
+that emitter-facing equation while the adapter below rewrites it to the public
+Bellman label word once.
+-/
+structure Depth11Layer4MappedGraphExactEvalResult
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finish : State) (gain : Int) : Prop where
+  closed :
+    TopPairingClosedLanguageAtRank rank Face.ym
+  eval_eq :
+    evalLabelStepFn graphSmokeNext rootState
+      ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
+        some (finish, gain)
+  final_nonneg :
+    0 <= graphPotential finish
+  margin_bound :
+    scaledMargin rank <= (176 : Int) + gain
+
+abbrev Depth11Layer4MappedGraphExactEvalGateAtRank
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  ∃ finish gain,
+    Depth11Layer4MappedGraphExactEvalResult
+      scaledMargin rank finish gain
+
+structure Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  tmpm_tppm :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.tmpm Face.tppm rest ->
+          Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank
+  tmpm_zm :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+          Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank
+  yp_tmmm :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.yp Face.tmmm rest ->
+          Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank
+  yp_zm :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+          Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank
+  zm_tmpp :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+          Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank
+  zm_yp :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+          Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank
+  zm_zp :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.zm Face.zp rest ->
+          Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank
+
 theorem layer4Classifier_of_branchClassifier
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily : Depth11Layer4BranchGraphExactEvalAllFamily scaledMargin) :
@@ -239,6 +315,64 @@ theorem layer4BranchClassifier_of_semanticFrontierClassifier
     intro rank hclosed face₀ face₁ rest hprefix _hbranch
     exact hfamily.classify rank hclosed face₀ face₁ rest hprefix
       (depth11Layer4SemanticFrontierBranch_of_closed_prefix hclosed hprefix)
+
+theorem split10MGraphExactEvalGateAtRank_of_mappedLayer4Result
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hresult :
+      Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank) :
+    Split10MGraphExactEvalGateAtRank scaledMargin rank := by
+  rcases hresult with ⟨finish, gain, hresult⟩
+  exact graphExactEvalGateAtRank_of_evalLanguageAtRank
+    (evalLanguageAtRank_of_mappedRankLabelsGraphExact
+      (V := graphPotential)
+      (next := graphSmokeNext)
+      (labelOfFace := smokeLabelOfFace)
+      (start := rootState)
+      (const := (176 : Int))
+      (scaledMargin := scaledMargin)
+      (rank := rank)
+      (badFace := Face.ym)
+      (finish := finish)
+      (gain := gain)
+      hresult.closed
+      hresult.eval_eq
+      hresult.final_nonneg
+      hresult.margin_bound)
+
+theorem sevenBranchClassifier_of_mappedSevenBranchClassifier
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily scaledMargin) :
+    Depth11Layer4SevenBranchGraphExactEvalAllFamily scaledMargin where
+  tmpm_tppm := by
+    intro rank hclosed rest hprefix
+    exact split10MGraphExactEvalGateAtRank_of_mappedLayer4Result
+      (hfamily.tmpm_tppm rank hclosed rest hprefix)
+  tmpm_zm := by
+    intro rank hclosed rest hprefix
+    exact split10MGraphExactEvalGateAtRank_of_mappedLayer4Result
+      (hfamily.tmpm_zm rank hclosed rest hprefix)
+  yp_tmmm := by
+    intro rank hclosed rest hprefix
+    exact split10MGraphExactEvalGateAtRank_of_mappedLayer4Result
+      (hfamily.yp_tmmm rank hclosed rest hprefix)
+  yp_zm := by
+    intro rank hclosed rest hprefix
+    exact split10MGraphExactEvalGateAtRank_of_mappedLayer4Result
+      (hfamily.yp_zm rank hclosed rest hprefix)
+  zm_tmpp := by
+    intro rank hclosed rest hprefix
+    exact split10MGraphExactEvalGateAtRank_of_mappedLayer4Result
+      (hfamily.zm_tmpp rank hclosed rest hprefix)
+  zm_yp := by
+    intro rank hclosed rest hprefix
+    exact split10MGraphExactEvalGateAtRank_of_mappedLayer4Result
+      (hfamily.zm_yp rank hclosed rest hprefix)
+  zm_zp := by
+    intro rank hclosed rest hprefix
+    exact split10MGraphExactEvalGateAtRank_of_mappedLayer4Result
+      (hfamily.zm_zp rank hclosed rest hprefix)
 
 theorem semanticFrontierClassifier_of_sevenBranchClassifier
     {scaledMargin : Fin numPairWords -> Int}
@@ -348,6 +482,14 @@ theorem split10MGraphExactEvalAllFamily_of_layer4SevenBranchClassifier
   split10MGraphExactEvalAllFamily_of_layer4SemanticFrontierClassifier
     (semanticFrontierClassifier_of_sevenBranchClassifier hfamily)
 
+theorem split10MGraphExactEvalAllFamily_of_mappedLayer4SevenBranchClassifier
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily scaledMargin) :
+    Split10MGraphExactEvalAllFamily scaledMargin :=
+  split10MGraphExactEvalAllFamily_of_layer4SevenBranchClassifier
+    (sevenBranchClassifier_of_mappedSevenBranchClassifier hfamily)
+
 theorem scaledMargin_nonpos_of_layer4BranchClassifier
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily : Depth11Layer4BranchGraphExactEvalAllFamily scaledMargin)
@@ -377,6 +519,17 @@ theorem scaledMargin_nonpos_of_layer4SevenBranchClassifier
     scaledMargin rank <= 0 :=
   scaledMargin_nonpos_of_layer4SemanticFrontierClassifier
     (semanticFrontierClassifier_of_sevenBranchClassifier hfamily)
+    hclosed
+
+theorem scaledMargin_nonpos_of_mappedLayer4SevenBranchClassifier
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily scaledMargin)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_layer4SevenBranchClassifier
+    (sevenBranchClassifier_of_mappedSevenBranchClassifier hfamily)
     hclosed
 
 theorem depth11Layer4ClassifierSocket_builds : True := by

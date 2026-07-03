@@ -93472,3 +93472,66 @@ available memory, `8192 MiB` hard address-space cap.  The semantic import audit
 still reports `lightweight-semantic-classifier-socket-ok`, with `0` terminal
 trace shards and `0` selected-prefix modules.  The membership frontier audit
 sees the seven-field symbols and reports forbidden hit count `0`.
+
+Mapped-label refinement: the socket now exposes the exact target shape the
+generated graph leaves naturally produce.  Rather than forcing every branch
+emitter to rewrite from mapped face labels to the public Bellman label word,
+each branch may prove the mapped-label equation and margin facts:
+
+```lean
+structure Depth11Layer4MappedGraphExactEvalResult
+abbrev Depth11Layer4MappedGraphExactEvalGateAtRank
+structure Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily
+theorem split10MGraphExactEvalGateAtRank_of_mappedLayer4Result
+theorem sevenBranchClassifier_of_mappedSevenBranchClassifier
+theorem split10MGraphExactEvalAllFamily_of_mappedLayer4SevenBranchClassifier
+theorem scaledMargin_nonpos_of_mappedLayer4SevenBranchClassifier
+```
+
+This incorporates the current GPT5.5 recommendation in a concrete way: keep
+Bellman, but make the checked object a deterministic semantic evaluator result
+over the closed top-pairing language.  The generated proof obligation is now:
+
+```lean
+evalLabelStepFn graphSmokeNext rootState
+  ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
+    some (finish, gain)
+0 <= graphPotential finish
+scaledMargin rank <= 176 + gain
+```
+
+for each of the seven semantic first-four branches, plus the existing
+`TopPairingClosedLanguageAtRank` and branch prefix hypotheses.  Lean then
+rewrites this mapped-label result once through the public semantic gate and
+derives both `Split10MGraphExactEvalAllFamily` and `scaledMargin rank <= 0`.
+
+Rechecked command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_layer4_classifier_socket_lean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4ClassifierSocket.lean
+```
+
+Result: pass, `10.01s`, `4029.0 MiB` peak tree RSS, `46104.9 MiB` minimum
+available memory, `8192 MiB` hard address-space cap, no kill reason.  The
+semantic import audit still reports `lightweight-semantic-classifier-socket-ok`
+with `0` terminal trace shards and `0` selected-prefix modules for this socket.
+The branch-table membership frontier audit sees the mapped-label symbols and
+reports forbidden hit count `0`.  A direct forbidden-token scan over the socket
+found no matches for `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+sampled rank membership, accepted trace IDs, graph accepted trace labels, or
+selected prefixes.
+
+Promoted target: the next generated/semantic producer should prove
+`Depth11Layer4SevenBranchMappedGraphExactEvalAllFamily`.  This is now preferred
+over `Depth11Layer4SevenBranchGraphExactEvalAllFamily` because it keeps branch
+leaves aligned with the graph evaluator's native mapped-label input while the
+shared adapter handles the public-label bridge once.
