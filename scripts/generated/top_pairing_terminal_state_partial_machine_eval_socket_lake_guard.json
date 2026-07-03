@@ -5,14 +5,14 @@
     "build",
     "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket"
   ],
-  "elapsed_seconds": 3.002780657989206,
+  "elapsed_seconds": 4.004046841990203,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4157332,
-  "max_tree_rss_mib": 4059.89453125,
-  "min_available_seen_kib": 46769220,
-  "min_available_seen_mib": 45673.06640625,
+  "max_tree_rss_kib": 2511552,
+  "max_tree_rss_mib": 2452.6875,
+  "min_available_seen_kib": 47032412,
+  "min_available_seen_mib": 45930.08984375,
   "rss_cap_mib": 6500.0,
   "timeout_seconds": 360.0
 }

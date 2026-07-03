@@ -62,6 +62,31 @@ theorem terminalTraceLabels_of_smokePartialEvalPrefix
     smokePartialMachine_eval_prefix
     True.intro
 
+theorem smokePartialEvalPrefixGate
+    {rank : Fin numPairWords}
+    (hprefix :
+      ∃ rest : List Face,
+        topPairingRankFaceLabels rank = smokeEvalPrefix ++ rest) :
+    TerminalEvalPrefixGate
+      smokePartialMachine SmokePartialState.s00 rank := by
+  rcases hprefix with ⟨rest, hprefix⟩
+  exact ⟨smokeEvalPrefix, SmokePartialState.s13, 0,
+    rest, hprefix, smokePartialMachine_eval_prefix, True.intro⟩
+
+theorem terminalTraceLabels_of_smokePartialEvalPrefixGate
+    {rank : Fin numPairWords} {badFace : Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace)
+    (hprefix :
+      ∃ rest : List Face,
+        topPairingRankFaceLabels rank = smokeEvalPrefix ++ rest) :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) :=
+  terminalTraceLabels_of_evalPrefixGate_from_initial
+    smokePartialMachine
+    hclosed
+    smokePartialMachine_start_state
+    (smokePartialEvalPrefixGate hprefix)
+
 theorem terminalStatePartialMachineEvalSmoke_builds : True := by
   exact True.intro
 

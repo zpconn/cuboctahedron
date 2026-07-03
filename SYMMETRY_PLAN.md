@@ -87561,6 +87561,7 @@ New definitions and theorem surfaces:
 
 ```lean
 def nextEval
+def TerminalEvalPrefixGate
 theorem contains_of_eval_suffix
 theorem contains_of_eval_prefix
 theorem terminalTraceLabels_of_eval_terminal
@@ -87568,6 +87569,7 @@ theorem terminalTraceLabels_of_eval_prefix_terminal
 theorem terminalTraceLabels_of_eval_from_initial
 theorem terminalTraceLabels_of_eval_prefix_from_initial
 theorem terminalTraceLabels_of_eval_prefix_exists_from_initial
+theorem terminalTraceLabels_of_evalPrefixGate_from_initial
 ```
 
 The main theorem proves that if
@@ -87656,6 +87658,15 @@ language has the Bellman/evaluator prefix, not that it belongs to an observed
 selected-prefix table.  The terminal-state producer still supplies the final
 terminal trace conclusion once the partial evaluator reaches a terminal state.
 
+Follow-up gate: added proof-shaped `TerminalEvalPrefixGate`, an existential
+`Prop` bundling exactly the data a generated semantic classifier should prove:
+an evaluator prefix, the prefix split of `topPairingRankFaceLabels`, an
+`evalLabelStepFn` success, and a terminal final state.  The theorem
+`terminalTraceLabels_of_evalPrefixGate_from_initial` consumes that gate plus
+`TopPairingClosedLanguageAtRank`.  This is the preferred production handoff
+surface because generated family modules can expose one compact gate proof
+instead of leaking evaluator witnesses into downstream APIs.
+
 #### Terminal-State Partial Machine Eval Smoke
 
 Added a bounded smoke that instantiates the prefix-eval theorem on the finite
@@ -87676,8 +87687,10 @@ and proves:
 
 ```lean
 theorem smokePartialMachine_eval_prefix
+theorem smokePartialEvalPrefixGate
 theorem terminalTraceLabels_of_smokePartialEval
 theorem terminalTraceLabels_of_smokePartialEvalPrefix
+theorem terminalTraceLabels_of_smokePartialEvalPrefixGate
 ```
 
 The exported theorem has the intended evaluator shape:
@@ -87744,10 +87757,10 @@ Results:
 |---|---:|---:|---:|---:|
 | hygiene scan, including accepted-trace identifiers | pass | n/a | n/a | n/a |
 | first direct eval-smoke check | failed | `2.00s` | `2795 MiB` | `45594 MiB` |
-| direct prefix-only `BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean` | pass | `6.01s` | `3619 MiB` | `45538 MiB` |
-| Lake prefix-only `BellmanTopPairingTerminalStatePartialMachineEvalSocket` | pass | `3.00s` | `4059 MiB` | `45673 MiB` |
-| direct prefix-only `BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean` | pass | `2.01s` | `3577 MiB` | `45738 MiB` |
-| Lake prefix-only `BellmanTopPairingTerminalStatePartialMachineEvalSmoke` | pass | `3.01s` | `4023 MiB` | `45663 MiB` |
+| direct prefix-gate `BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean` | pass | `3.00s` | `2562 MiB` | `46036 MiB` |
+| Lake prefix-gate `BellmanTopPairingTerminalStatePartialMachineEvalSocket` | pass | `4.00s` | `2452 MiB` | `45930 MiB` |
+| direct prefix-gate `BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean` | pass | `2.01s` | `3583 MiB` | `45999 MiB` |
+| Lake prefix-gate `BellmanTopPairingTerminalStatePartialMachineEvalSmoke` | pass | `3.00s` | `1513 MiB` | `46045 MiB` |
 
 The first eval-smoke check failed because the smoke did not open the
 terminal-step socket namespace and, when run in parallel with the socket build,

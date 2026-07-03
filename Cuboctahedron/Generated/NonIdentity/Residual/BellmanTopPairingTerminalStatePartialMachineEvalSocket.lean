@@ -35,6 +35,25 @@ def nextEval {StateId : Type}
   | none => none
   | some nextState => some (nextState, 0)
 
+/--
+Proof-shaped evidence that a generated partial terminal-state evaluator accepts
+a semantic prefix of a closed rank.
+
+The gate deliberately contains only an evaluator prefix and a terminal state.
+It does not contain sampled ranks, accepted trace identifiers, or
+selected-prefix table membership.
+-/
+def TerminalEvalPrefixGate
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (start : StateId) (rank : Fin numPairWords) : Prop :=
+  ∃ (labels : List Face) (finish : StateId) (gain : Int),
+    ∃ rest : List Face,
+      topPairingRankFaceLabels rank = labels ++ rest ∧
+        evalLabelStepFn (nextEval machine) start labels =
+          some (finish, gain) ∧
+          machine.IsTerminal finish
+
 theorem contains_of_eval_suffix
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
     {rank : Fin numPairWords}
@@ -242,6 +261,21 @@ theorem terminalTraceLabels_of_eval_prefix_exists_from_initial
   rcases hprefix with ⟨rest, hlabels⟩
   exact terminalTraceLabels_of_eval_prefix_from_initial
     machine hclosed hstart hlabels heval hterminal
+
+theorem terminalTraceLabels_of_evalPrefixGate_from_initial
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords} {badFace : Face}
+    {start : StateId}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace)
+    (hstart :
+      machine.stateOf start = TerminalStepState.initial)
+    (hgate : TerminalEvalPrefixGate machine start rank) :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) := by
+  rcases hgate with
+    ⟨labels, finish, gain, rest, hprefix, heval, hterminal⟩
+  exact terminalTraceLabels_of_eval_prefix_exists_from_initial
+    machine hclosed hstart ⟨rest, hprefix⟩ heval hterminal
 
 theorem terminalTraceLabels_of_eval_from_initial
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
