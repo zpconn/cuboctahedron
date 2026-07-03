@@ -93154,3 +93154,13 @@ closed-language target cursor / schedule / pair-count / square-gap /
 tri-source / local-axis semantic state.  Do not add exact affine RHS, solved
 start-point, accepted-trace, selected-prefix, or sampled-rank fields to make
 that proof go through.
+
+Follow-up dependency note: a separate semantic-classifier socket that imported
+the portfolio socket immediately required a fresh `.olean` for the portfolio
+and then exposed cold transitive dependencies through older accepted-trace /
+terminal-shard modules.  Do not chase that by running broad Lake.  The next
+classifier attempt should either live inside a currently direct-checkable
+module or deliberately warm only named dependencies under `run_memory_guarded`
+with hard address-space caps.  The proof strategy remains unchanged: the
+classifier surface must be semantic; the dependency lesson is only about build
+hygiene.
