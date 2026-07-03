@@ -160,6 +160,58 @@ theorem scaledMargin_nonpos_of_closedClass034ExactFinishFamily
   scaledMargin_nonpos_of_closedExactFinishSuffixMarginFamily
     (closedSplit10MExactFinishSuffixMarginFamily_of_class034 hfamily)
 
+def ClosedClass034ExactGraphFinishSuffixMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finalGraph : State)
+    (totalGain : Int) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym ∧
+    Class034GraphSuffixProducer rank ∧
+      Split10MExactGraphFinishFinalMarginProducer
+        scaledMargin rank finalGraph totalGain
+
+theorem closedSplit10MExactGraphFinishSuffixMarginFamily_of_class034
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass034ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    ClosedSplit10MExactGraphFinishSuffixMarginFamily
+      scaledMargin rank finalGraph totalGain := by
+  rcases hfamily with ⟨hclosed, hclass, hexact⟩
+  exact
+    { closed := hclosed
+      graphSuffix := split10MGraphSuffixProducer_of_class034 hclass
+      exactGraphFinalMargin := hexact }
+
+theorem evalLanguageAtRank_of_closedClass034ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass034ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class034 hfamily)
+
+theorem scaledMargin_nonpos_of_closedClass034ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass034ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class034 hfamily)
+
 /-- Depth-11 graph-state suffix alternatives for class 035. -/
 def Class035Depth11Suffix (graph : State) (rest : List Face) : Prop :=
   (graph = (227 : State) ∧ Depth11Class035State0227Suffix rest) ∨
@@ -289,6 +341,58 @@ theorem scaledMargin_nonpos_of_closedClass035ExactFinishFamily
     scaledMargin rank <= 0 :=
   scaledMargin_nonpos_of_closedExactFinishSuffixMarginFamily
     (closedSplit10MExactFinishSuffixMarginFamily_of_class035 hfamily)
+
+def ClosedClass035ExactGraphFinishSuffixMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finalGraph : State)
+    (totalGain : Int) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym ∧
+    Class035GraphSuffixProducer rank ∧
+      Split10MExactGraphFinishFinalMarginProducer
+        scaledMargin rank finalGraph totalGain
+
+theorem closedSplit10MExactGraphFinishSuffixMarginFamily_of_class035
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass035ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    ClosedSplit10MExactGraphFinishSuffixMarginFamily
+      scaledMargin rank finalGraph totalGain := by
+  rcases hfamily with ⟨hclosed, hclass, hexact⟩
+  exact
+    { closed := hclosed
+      graphSuffix := split10MGraphSuffixProducer_of_class035 hclass
+      exactGraphFinalMargin := hexact }
+
+theorem evalLanguageAtRank_of_closedClass035ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass035ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class035 hfamily)
+
+theorem scaledMargin_nonpos_of_closedClass035ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass035ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class035 hfamily)
 
 /-- Depth-11 graph-state suffix alternatives for class 036. -/
 def Class036Depth11Suffix (graph : State) (rest : List Face) : Prop :=
@@ -424,6 +528,58 @@ theorem scaledMargin_nonpos_of_closedClass036ExactFinishFamily
     scaledMargin rank <= 0 :=
   scaledMargin_nonpos_of_closedExactFinishSuffixMarginFamily
     (closedSplit10MExactFinishSuffixMarginFamily_of_class036 hfamily)
+
+def ClosedClass036ExactGraphFinishSuffixMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finalGraph : State)
+    (totalGain : Int) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym ∧
+    Class036GraphSuffixProducer rank ∧
+      Split10MExactGraphFinishFinalMarginProducer
+        scaledMargin rank finalGraph totalGain
+
+theorem closedSplit10MExactGraphFinishSuffixMarginFamily_of_class036
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass036ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    ClosedSplit10MExactGraphFinishSuffixMarginFamily
+      scaledMargin rank finalGraph totalGain := by
+  rcases hfamily with ⟨hclosed, hclass, hexact⟩
+  exact
+    { closed := hclosed
+      graphSuffix := split10MGraphSuffixProducer_of_class036 hclass
+      exactGraphFinalMargin := hexact }
+
+theorem evalLanguageAtRank_of_closedClass036ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass036ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class036 hfamily)
+
+theorem scaledMargin_nonpos_of_closedClass036ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass036ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class036 hfamily)
 
 /-- Depth-11 graph-state suffix alternatives for class 037. -/
 def Class037Depth11Suffix (graph : State) (rest : List Face) : Prop :=
@@ -615,6 +771,58 @@ theorem scaledMargin_nonpos_of_closedClass037ExactFinishFamily
   scaledMargin_nonpos_of_closedExactFinishSuffixMarginFamily
     (closedSplit10MExactFinishSuffixMarginFamily_of_class037 hfamily)
 
+def ClosedClass037ExactGraphFinishSuffixMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finalGraph : State)
+    (totalGain : Int) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym ∧
+    Class037GraphSuffixProducer rank ∧
+      Split10MExactGraphFinishFinalMarginProducer
+        scaledMargin rank finalGraph totalGain
+
+theorem closedSplit10MExactGraphFinishSuffixMarginFamily_of_class037
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass037ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    ClosedSplit10MExactGraphFinishSuffixMarginFamily
+      scaledMargin rank finalGraph totalGain := by
+  rcases hfamily with ⟨hclosed, hclass, hexact⟩
+  exact
+    { closed := hclosed
+      graphSuffix := split10MGraphSuffixProducer_of_class037 hclass
+      exactGraphFinalMargin := hexact }
+
+theorem evalLanguageAtRank_of_closedClass037ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass037ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class037 hfamily)
+
+theorem scaledMargin_nonpos_of_closedClass037ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass037ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class037 hfamily)
+
 /-- Depth-11 graph-state suffix alternatives for class 038. -/
 def Class038Depth11Suffix (graph : State) (rest : List Face) : Prop :=
   (graph = (207 : State) ∧ Depth11Class038State0207Suffix rest) ∨
@@ -765,6 +973,58 @@ theorem scaledMargin_nonpos_of_closedClass038ExactFinishFamily
   scaledMargin_nonpos_of_closedExactFinishSuffixMarginFamily
     (closedSplit10MExactFinishSuffixMarginFamily_of_class038 hfamily)
 
+def ClosedClass038ExactGraphFinishSuffixMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finalGraph : State)
+    (totalGain : Int) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym ∧
+    Class038GraphSuffixProducer rank ∧
+      Split10MExactGraphFinishFinalMarginProducer
+        scaledMargin rank finalGraph totalGain
+
+theorem closedSplit10MExactGraphFinishSuffixMarginFamily_of_class038
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass038ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    ClosedSplit10MExactGraphFinishSuffixMarginFamily
+      scaledMargin rank finalGraph totalGain := by
+  rcases hfamily with ⟨hclosed, hclass, hexact⟩
+  exact
+    { closed := hclosed
+      graphSuffix := split10MGraphSuffixProducer_of_class038 hclass
+      exactGraphFinalMargin := hexact }
+
+theorem evalLanguageAtRank_of_closedClass038ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass038ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class038 hfamily)
+
+theorem scaledMargin_nonpos_of_closedClass038ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass038ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class038 hfamily)
+
 /-- Depth-11 graph-state suffix alternatives for class 039. -/
 def Class039Depth11Suffix (graph : State) (rest : List Face) : Prop :=
   (graph = (185 : State) ∧ Depth11Class039State0185Suffix rest) ∨
@@ -894,6 +1154,58 @@ theorem scaledMargin_nonpos_of_closedClass039ExactFinishFamily
     scaledMargin rank <= 0 :=
   scaledMargin_nonpos_of_closedExactFinishSuffixMarginFamily
     (closedSplit10MExactFinishSuffixMarginFamily_of_class039 hfamily)
+
+def ClosedClass039ExactGraphFinishSuffixMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finalGraph : State)
+    (totalGain : Int) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym ∧
+    Class039GraphSuffixProducer rank ∧
+      Split10MExactGraphFinishFinalMarginProducer
+        scaledMargin rank finalGraph totalGain
+
+theorem closedSplit10MExactGraphFinishSuffixMarginFamily_of_class039
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass039ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    ClosedSplit10MExactGraphFinishSuffixMarginFamily
+      scaledMargin rank finalGraph totalGain := by
+  rcases hfamily with ⟨hclosed, hclass, hexact⟩
+  exact
+    { closed := hclosed
+      graphSuffix := split10MGraphSuffixProducer_of_class039 hclass
+      exactGraphFinalMargin := hexact }
+
+theorem evalLanguageAtRank_of_closedClass039ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass039ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class039 hfamily)
+
+theorem scaledMargin_nonpos_of_closedClass039ExactGraphFinishFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalGraph : State}
+    {totalGain : Int}
+    (hfamily :
+      ClosedClass039ExactGraphFinishSuffixMarginFamily
+        scaledMargin rank finalGraph totalGain) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_closedExactGraphFinishSuffixMarginFamily
+    (closedSplit10MExactGraphFinishSuffixMarginFamily_of_class039 hfamily)
 
 theorem depth11ClosedProvidersSmoke_builds : True := by
   exact True.intro

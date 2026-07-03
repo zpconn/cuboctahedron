@@ -90658,3 +90658,140 @@ Decision: accepted.  The next genuinely mathematical experiment is unchanged:
 derive one exact evaluator finish and margin inequality from closed semantic
 fields.  The wrapper layer is now ready to consume that proof without widening
 back to sampled traces or raw prefix tables.
+
+### Graph-Exact Final-Margin Wrapper Accepted
+
+Added a graph-level exact-finish socket:
+
+```lean
+structure Split10MExactGraphFinishFinalMarginProducer
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finalGraph : State)
+    (totalGain : Int) : Prop
+```
+
+This is a better production target than exact `FaceEvalState` equality because
+the Bellman potential and transition graph live on `State`, while the
+closed-language face evaluator carries additional transducer bookkeeping.  The
+new socket proves that any matching face-evaluator finish has the same graph
+state/gain by applying `evalLabelStepFn_graph_of_faceEval`.
+
+New socket theorem surfaces:
+
+```lean
+theorem split10MFixedFinishFinalMarginProducer_of_exactGraphFinish
+theorem split10MFinalMarginProducer_of_exactGraphFinish
+theorem closedSplit10MFixedFinishSuffixMarginFamily_of_exactGraphFinish
+theorem closedSplit10MSuffixMarginFamily_of_exactGraphFinish
+theorem evalLanguageAtRank_of_closedExactGraphFinishSuffixMarginFamily
+theorem scaledMargin_nonpos_of_closedExactGraphFinishSuffixMarginFamily
+```
+
+The depth-11 provider emitter now also emits graph-exact class wrappers:
+
+```lean
+def ClosedClassNNNExactGraphFinishSuffixMarginFamily
+theorem closedSplit10MExactGraphFinishSuffixMarginFamily_of_classNNN
+theorem evalLanguageAtRank_of_closedClassNNNExactGraphFinishFamily
+theorem scaledMargin_nonpos_of_closedClassNNNExactGraphFinishFamily
+```
+
+Regenerated source sizes:
+
+```text
+BellmanTopPairingClosedFinalMarginSocket.lean                 432 lines
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke  1213 lines
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_closed_final_margin_socket_graph_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedFinalMarginSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_closed_final_margin_socket_graph_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedFinalMarginSocket
+```
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_closed_provider_smoke.py
+
+python3 scripts/emit_top_pairing_depth11_closed_provider_smoke.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_depth11_closed_providers_graph_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_closed_providers_graph_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedFinalMarginSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct graph-exact final-margin socket | pass | `2.00s` | `3630 MiB` | `46281 MiB` | `8192 MiB` |
+| Lake graph-exact final-margin socket | pass | `3.00s` | `4129 MiB` | `46031 MiB` | none |
+| direct graph-exact depth-11 providers | pass | `2.00s` | `3632 MiB` | `46268 MiB` | `8192 MiB` |
+| Lake graph-exact depth-11 providers | pass | `3.00s` | `4114 MiB` | `46031 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+| emitter bytecode compile | pass | n/a | n/a | n/a | n/a |
+
+Operational note: the first direct check of the regenerated depth-11 provider
+failed with unknown graph-exact identifiers because the imported socket `.olean`
+was stale.  A focused Lake build of
+`BellmanTopPairingClosedFinalMarginSocket` refreshed the dependency, after
+which both direct Lean and Lake provider checks passed.  Future direct checks
+after editing imported modules should either build the dependency first or use
+the focused Lake target.
+
+Decision: accepted.  The next production theorem should target
+`ClosedClassNNNExactGraphFinishSuffixMarginFamily`: derive the graph evaluator
+finish from closed semantic cursor/state facts, then prove the margin
+inequality.  This keeps the proof coordinate at the Bellman graph level and
+avoids requiring exact `FaceEvalState` data in generated family statements.
