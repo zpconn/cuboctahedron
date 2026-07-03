@@ -87842,3 +87842,187 @@ next generated producer cannot prove `hlocal` and `hfinish` without selected
 prefix membership or sampled path/rank cases, then the Bellman state is still
 too weak and the next move should be the cocycle/cancellation quotient
 profiler, not another graph smoke.
+
+#### Strategy Pivot Refreshed: Deterministic Closed-Language Evaluator Or Stop
+
+The latest GPT5.5 review sharpens the Bellman decision point.  The Bellman
+state-DAG route remains the active nonidentity margin strategy, but only as a
+deterministic semantic transducer theorem.  Scaling any selected-prefix cover
+as production coverage is now explicitly rejected.
+
+Current Lean inventory relative to this pivot:
+
+- `Cuboctahedron/Search/TopPairingTargetCursor.lean` already proves the
+  specialized target-summary inverse:
+
+  ```lean
+  topPairingTargetShadow_of_summary
+  topPairingTriShadow_eq_target_of_closed
+  topPairingActedTriLetters_eq_target_of_closed
+  topPairingTriCursor_of_closed
+  ```
+
+  This means the top-pairing closed language already supplies the fixed
+  target-shadow cursor needed by the deterministic evaluator route.
+
+- `Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean` already exposes
+  the generic ranked transducer gate:
+
+  ```lean
+  strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+  scaledMargin_nonpos_of_rankedTransducerStrengthenedGate
+  ```
+
+  This is the public socket production should consume.
+
+- `BellmanTopPairingGraphAcceptedDepth11ProducerBridge.lean` and
+  `BellmanTopPairingGraphAcceptedTraceMarginBridge.lean` remain useful bounded
+  diagnostics, but they still enumerate the 37 graph-accepted traces through
+  `GraphAcceptedTraceLabels` / `AcceptedTraceId`.  They are not the final
+  membership proof.  Their role is to validate graph-state suffix tables and
+  margin constants while the closed-language transducer theorem is built.
+
+New production obligation:
+
+```lean
+theorem topPairingClosed_to_rankedTransducerProducer
+    (rank : Fin numPairWords)
+    (hclosed :
+      TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym) :
+    RankedTransducerProducer rank
+```
+
+where `RankedTransducerProducer` is the existing or generated package of the
+three premises required by
+`strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix`:
+
+```lean
+hsuffixStart :
+  SuffixOk rank (TopPairingTransducerEvalState.start graphStart)
+    (topPairingRankFaceLabels rank)
+
+hlocal :
+  forall {state face rest},
+    Inv state ->
+    state.Tail (face :: rest) ->
+    SuffixOk rank state (face :: rest) ->
+      exists nextState gain,
+        TopPairingTransducerEvalState.next? next labelOfFace state face =
+          some (nextState, gain) /\
+        nextState.Tail rest /\ Inv nextState /\ SuffixOk rank nextState rest
+
+hfinish :
+  forall {finish gain},
+    evalLabelStepFn
+      (TopPairingTransducerEvalState.next? next labelOfFace)
+      (TopPairingTransducerEvalState.start graphStart)
+      (topPairingRankFaceLabels rank) = some (finish, gain) ->
+    finish.Tail [] ->
+    Inv finish ->
+    SuffixOk rank finish [] ->
+      0 <= V finish.graph /\ scaledMargin rank <= const + gain
+```
+
+The proof must be driven by semantic fields:
+
+- target-shadow cursor from `topPairingTriCursor_of_closed`;
+- square-gap schedule;
+- pair-count remainder;
+- local-axis / sequence-bad-face compatibility;
+- tri-source progress;
+- graph-state suffix table.
+
+It must not be driven by:
+
+- `SampledRankIndex`, sampled rank/path objects, or sampled `next`;
+- `AcceptedTraceId` as the production membership coordinate;
+- one branch per rank/path/selected prefix;
+- exact affine RHS keys, solved start points, or full exact Bellman path ids.
+
+Immediate implementation order:
+
+1. Recheck the small cursor and transducer semantic-gate modules under the
+   memory guard, to keep the trusted socket fresh.
+2. Add a new generated/handwritten representative producer smoke whose
+   theorem statement consumes
+   `TopPairingStrengthenedClosedLanguageAtRank ... Face.ym` and produces the
+   ranked transducer-gate premises directly.  It may use graph-state suffix
+   tables, but not `GraphAcceptedTraceLabels` as the top-level membership
+   proof.
+3. If the representative producer's `hlocal` proof collapses back to
+   enumerating accepted traces or selected prefixes, stop the Bellman scaling
+   attempt and run the cocycle/cancellation quotient profiler before adding
+   more graph data.
+4. If the representative producer succeeds, replace the diagnostic
+   graph-accepted/depth-11 bridge with generated semantic state-DAG producer
+   shards and only then scale the Bellman graph.
+
+Go/no-go gate:
+
+```text
+GO:
+  closed/strengthened language -> ranked transducer producer builds
+  without selected-prefix or accepted-trace membership,
+  representative check <= 30s and <= 6.5 GiB tree RSS.
+
+NO-GO:
+  proof needs one constructor per observed trace/path/rank,
+  exact affine RHS or solved p0 appears in state keys,
+  graph-positive path disappears only after adding exact prefix identity.
+```
+
+Translation remains on the separate path:
+
+```text
+GoodDirection
+  -> source-indexed row templates
+  -> support <= 3 Helly/Farkas row circuits
+  -> Walsh only as a denominator/sign subroutine
+```
+
+Do not resume BadDirection mask tiling or global mask tables.
+
+Pivot-support checks run immediately after the strategy refresh:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_target_cursor_pivot_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_transducer_semantic_gate_pivot_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double" \
+  Cuboctahedron/Search/TopPairingTargetCursor.lean \
+  Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct `TopPairingTargetCursor.lean` | pass | `9.01s` | `3886 MiB` | `45775 MiB` |
+| direct `TopPairingTransducerSemanticGate.lean` | pass | `8.00s` | `3725 MiB` | `45759 MiB` |
+| forbidden-token scan on pivot sockets | pass | n/a | n/a | n/a |
+
+Decision: pivot support is accepted.  The remaining hard theorem is not another
+Bellman graph or trace-list bridge; it is a generated/semantic producer that
+turns strengthened top-pairing closed-language evidence into the ranked
+transducer-gate premises directly.
