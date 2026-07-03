@@ -700,6 +700,85 @@ theorem layer4Prefix4FrontierCons2_of_head4
       matSub, scalarMat, outer, dot, matId] at hcons
     try norm_num at hcons
 
+theorem layer4Progress_prefix4_of_prefix4
+    {rank : Fin numPairWords} {third : ThirdBranch}
+    {fourth : FourthBranch} {rest : List Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: third.face :: fourth.face :: rest) :
+    TerminalContainedEvalProgressGate
+      layer4Machine Layer4State.s00 rank
+        (Layer4State.s04 third fourth) := by
+  have hhead3 :
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf Layer4State.s02) rank third.face :=
+    layer4Step3HeadSome_of_prefix hclosed
+      (by
+        simpa [topPairingRankFaceLabels] using hlabels)
+  have hhead4 :
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf (Layer4State.s03 third))
+        rank fourth.face :=
+    layer4Step4HeadSome_of_prefix4 hclosed hlabels
+  exact terminalContainedEvalProgressGate_trans
+    layer4Machine
+    (layer4Progress_prefix3_of_head hclosed hhead3)
+    (layer4Progress_step4_of_head hhead4)
+
+theorem layer4Progress_prefix4_of_split10M_labels
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {face₀ face₁ : Face} {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: face₀ :: face₁ :: rest)
+    (hfrontier : Split10MPrefix4FrontierCons2 face₀ face₁) :
+    ∃ third : ThirdBranch, ∃ fourth : FourthBranch,
+      face₀ = third.face ∧ face₁ = fourth.face ∧
+        TerminalContainedEvalProgressGate
+          layer4Machine Layer4State.s00 rank
+            (Layer4State.s04 third fourth) := by
+  rcases hfrontier with htmpm | hyp | hzm
+  · rcases htmpm with ⟨rfl, htppm | hzm⟩
+    · subst face₁
+      exact ⟨ThirdBranch.tmpm, FourthBranch.tppm, rfl, rfl,
+        layer4Progress_prefix4_of_prefix4 hclosed
+          (by
+            simpa [ThirdBranch.face, FourthBranch.face] using hlabels)⟩
+    · subst face₁
+      exact ⟨ThirdBranch.tmpm, FourthBranch.zm, rfl, rfl,
+        layer4Progress_prefix4_of_prefix4 hclosed
+          (by
+            simpa [ThirdBranch.face, FourthBranch.face] using hlabels)⟩
+  · rcases hyp with ⟨rfl, htmmm | hzm⟩
+    · subst face₁
+      exact ⟨ThirdBranch.yp, FourthBranch.tmmm, rfl, rfl,
+        layer4Progress_prefix4_of_prefix4 hclosed
+          (by
+            simpa [ThirdBranch.face, FourthBranch.face] using hlabels)⟩
+    · subst face₁
+      exact ⟨ThirdBranch.yp, FourthBranch.zm, rfl, rfl,
+        layer4Progress_prefix4_of_prefix4 hclosed
+          (by
+            simpa [ThirdBranch.face, FourthBranch.face] using hlabels)⟩
+  · rcases hzm with ⟨rfl, htmpp | hyp | hzp⟩
+    · subst face₁
+      exact ⟨ThirdBranch.zm, FourthBranch.tmpp, rfl, rfl,
+        layer4Progress_prefix4_of_prefix4 hclosed
+          (by
+            simpa [ThirdBranch.face, FourthBranch.face] using hlabels)⟩
+    · subst face₁
+      exact ⟨ThirdBranch.zm, FourthBranch.yp, rfl, rfl,
+        layer4Progress_prefix4_of_prefix4 hclosed
+          (by
+            simpa [ThirdBranch.face, FourthBranch.face] using hlabels)⟩
+    · subst face₁
+      exact ⟨ThirdBranch.zm, FourthBranch.zp, rfl, rfl,
+        layer4Progress_prefix4_of_prefix4 hclosed
+          (by
+            simpa [ThirdBranch.face, FourthBranch.face] using hlabels)⟩
+
 theorem layer4Prefix4FrontierCons2_exists_of_closed
     {rank : Fin numPairWords}
     (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :

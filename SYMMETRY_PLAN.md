@@ -89777,3 +89777,89 @@ replacement semantic depth-11 producer, while preserving the same rule: every
 next graph/state transition must be derived from local semantic state
 (`Head.transducer_cons`, target cursor, square-gap, pair counts, local-axis,
 tri-source progress), not from accepted trace ids or sampled rank objects.
+
+### Universal Split-10M Prefix-Label Progress Bridge
+
+The frontier smoke now has a theorem shaped for the downstream universal
+producer obligations.  Instead of merely proving that some split-frontier
+fourth branch exists, it accepts an arbitrary split-10M prefix equation and
+returns the matching semantic layer-4 progress state.
+
+New theorem names:
+
+```lean
+theorem layer4Progress_prefix4_of_prefix4
+theorem layer4Progress_prefix4_of_split10M_labels
+```
+
+The production-facing theorem is:
+
+```lean
+theorem layer4Progress_prefix4_of_split10M_labels
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    {face₀ face₁ : Face} {rest : List Face}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: face₀ :: face₁ :: rest)
+    (hfrontier : Split10MPrefix4FrontierCons2 face₀ face₁) :
+    ∃ third : ThirdBranch, ∃ fourth : FourthBranch,
+      face₀ = third.face ∧ face₁ = fourth.face ∧
+        TerminalContainedEvalProgressGate
+          layer4Machine Layer4State.s00 rank
+            (Layer4State.s04 third fourth)
+```
+
+This is a cleaner handoff shape for
+`Split10MDepth11GraphPathProducer`: that downstream socket is universal in
+`face₀ face₁ rest`, and this theorem proves that any labels satisfying its
+split-frontier preconditions correspond to the semantic partial-machine state
+after four consumed faces.  It still does not provide the depth-11 graph path;
+that remains the next missing producer theorem.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_terminal_layer4_frontier_split10m_labels_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_layer4_frontier_split10m_labels_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateFrontierSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct split-10M prefix-label bridge | pass | `6.00s` | `4107 MiB` | `46009 MiB` | `8192 MiB` |
+| Lake split-10M prefix-label bridge | pass | `5.00s` | `4231 MiB` | `45850 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted as a useful socket theorem.  The next implementation should
+construct a semantic depth-11 graph path producer from this state, likely by
+adding a generated transition table whose local transition theorem consumes
+the semantic `TerminalStepState.Contains`/`Head.transducer_cons` state.  It
+should not reuse `GraphAcceptedTraceLabels` as the membership source.
