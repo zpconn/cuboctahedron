@@ -89595,3 +89595,83 @@ closed-language-to-`evalLabelStepFn` gate.  If that theorem degenerates into
 one branch per rank, observed path, selected prefix, exact affine RHS, or exact
 solved start point, stop the Bellman scaling and refine the semantic state
 or try the cocycle quotient experiment.
+
+### Head-Driven Layer-4 Frontier
+
+The layer-4 frontier has been tightened so the fourth head is no longer chosen
+by re-reading the global schedule from scratch.  It now consumes the third
+semantic head, advances containment with `Head.contains_nextStep`, and reads
+the next head from the carried `TopPairingTransducerTail`:
+
+```lean
+theorem layer4_s03_pfx
+theorem layer4_s03_step
+theorem layer4Step4HeadSome_exists_of_head3
+```
+
+The production-relevant theorem is:
+
+```lean
+theorem layer4Step4HeadSome_exists_of_head3
+    {rank : Fin numPairWords} {third : ThirdBranch}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hhead3 :
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf Layer4State.s02) rank third.face) :
+    ∃ fourth : FourthBranch,
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf (Layer4State.s03 third)) rank fourth.face
+```
+
+`layer4Progress_prefix4_exists_of_closed` now calls this theorem in all three
+third-branch cases.  This is a small but important shift in proof shape:
+the state after the third face supplies the suffix transducer tail, including
+target-shadow cursor, schedule, square-gap, and local-axis state, before the
+fourth transition is selected.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_terminal_layer4_frontier_head_driven_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_layer4_frontier_head_driven_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateFrontierSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct head-driven layer-4 frontier | pass | `3.00s` | `4017 MiB` | `46095 MiB` | `8192 MiB` |
+| Lake head-driven layer-4 frontier | pass | `4.00s` | `4183 MiB` | `45886 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted as a better semantic-evaluator slice.  The next checkpoint
+should factor the head-driven pattern into a reusable local theorem or a
+generated state table whose `SuffixOk`/`Inv` predicates are explicit enough to
+feed `closedToEvalGate_of_transducerInvariantLocalWithSuffix`.  Adding more
+schedule-only frontier depth is no longer sufficient evidence.

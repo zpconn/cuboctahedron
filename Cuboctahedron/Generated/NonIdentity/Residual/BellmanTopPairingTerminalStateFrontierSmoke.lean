@@ -389,6 +389,15 @@ theorem layer4_next?_s03_fourth
       some (Layer4State.s04 third fourth) := by
   cases fourth <;> rfl
 
+theorem layer4_s03_pfx (third : ThirdBranch) :
+    (layer4Machine.stateOf (Layer4State.s03 third)).pfx =
+      [Face.xm, Face.ym, third.face] := by
+  cases third <;> rfl
+
+theorem layer4_s03_step (third : ThirdBranch) :
+    (layer4Machine.stateOf (Layer4State.s03 third)).step = 3 := by
+  cases third <;> rfl
+
 theorem layer4Step1HeadSome_of_closed
     {rank : Fin numPairWords}
     (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
@@ -582,6 +591,64 @@ theorem layer4Step4HeadSome_exists_of_prefix3
   exact ⟨fourth, layer4Step4HeadSome_of_prefix4 hclosed
     (by simpa [topPairingRankFaceLabels] using hlabels4)⟩
 
+theorem layer4Step4HeadSome_exists_of_head3
+    {rank : Fin numPairWords} {third : ThirdBranch}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hhead3 :
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf Layer4State.s02) rank third.face) :
+    ∃ fourth : FourthBranch,
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf (Layer4State.s03 third)) rank fourth.face := by
+  rcases hhead3 with ⟨_rest3, hhead3⟩
+  have hcontains3Raw :
+      TerminalStepState.Contains
+        ((layer4Machine.stateOf Layer4State.s02).nextStep third.face) rank :=
+    hhead3.contains_nextStep
+  have hstate3 :
+      layer4Machine.stateOf (Layer4State.s03 third) =
+        (layer4Machine.stateOf Layer4State.s02).nextStep third.face := by
+    cases third <;> rfl
+  have hcontains3 :
+      TerminalStepState.Contains
+        (layer4Machine.stateOf (Layer4State.s03 third)) rank := by
+    rw [hstate3]
+    exact hcontains3Raw
+  have hcontains3Keep := hcontains3
+  rcases hcontains3 with ⟨rest0, hlabels0, htail0⟩
+  cases rest0 with
+  | nil =>
+      have hlen : (topPairingRankFaceLabels rank).length = 14 := by
+        simpa [topPairingRankFaceLabels] using hclosed.schedule.1
+      rw [hlabels0] at hlen
+      rw [layer4_s03_pfx third] at hlen
+      simp at hlen
+  | cons face4 rest4 =>
+      have hfrom := htail0.trace.schedule
+      unfold TopPairingStepScheduleFrom at hfrom
+      rcases hfrom with ⟨hface4, _hrest4⟩
+      rw [layer4_s03_step third] at hface4
+      simp [topPairingAllowedFacesAtStep] at hface4
+      rcases hface4 with rfl | rfl | rfl | rfl | rfl | rfl
+      · exact ⟨FourthBranch.tmmm, rest4,
+          ⟨hcontains3Keep, by
+            simpa [FourthBranch.face] using hlabels0⟩⟩
+      · exact ⟨FourthBranch.tmpp, rest4,
+          ⟨hcontains3Keep, by
+            simpa [FourthBranch.face] using hlabels0⟩⟩
+      · exact ⟨FourthBranch.tppm, rest4,
+          ⟨hcontains3Keep, by
+            simpa [FourthBranch.face] using hlabels0⟩⟩
+      · exact ⟨FourthBranch.yp, rest4,
+          ⟨hcontains3Keep, by
+            simpa [FourthBranch.face] using hlabels0⟩⟩
+      · exact ⟨FourthBranch.zm, rest4,
+          ⟨hcontains3Keep, by
+            simpa [FourthBranch.face] using hlabels0⟩⟩
+      · exact ⟨FourthBranch.zp, rest4,
+          ⟨hcontains3Keep, by
+            simpa [FourthBranch.face] using hlabels0⟩⟩
+
 theorem layer4Progress_step4_of_head
     {rank : Fin numPairWords} {third : ThirdBranch}
     {fourth : FourthBranch}
@@ -619,11 +686,7 @@ theorem layer4Progress_prefix4_exists_of_closed
         (by
           simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
             hlabels3)
-    rcases layer4Step4HeadSome_exists_of_prefix3
-        (third := third) hclosed
-        (by
-          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
-            hlabels3) with
+    rcases layer4Step4HeadSome_exists_of_head3 hclosed hhead3 with
       ⟨fourth, hhead4⟩
     exact ⟨third, fourth,
       terminalContainedEvalProgressGate_trans
@@ -639,11 +702,7 @@ theorem layer4Progress_prefix4_exists_of_closed
         (by
           simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
             hlabels3)
-    rcases layer4Step4HeadSome_exists_of_prefix3
-        (third := third) hclosed
-        (by
-          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
-            hlabels3) with
+    rcases layer4Step4HeadSome_exists_of_head3 hclosed hhead3 with
       ⟨fourth, hhead4⟩
     exact ⟨third, fourth,
       terminalContainedEvalProgressGate_trans
@@ -659,11 +718,7 @@ theorem layer4Progress_prefix4_exists_of_closed
         (by
           simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
             hlabels3)
-    rcases layer4Step4HeadSome_exists_of_prefix3
-        (third := third) hclosed
-        (by
-          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
-            hlabels3) with
+    rcases layer4Step4HeadSome_exists_of_head3 hclosed hhead3 with
       ⟨fourth, hhead4⟩
     exact ⟨third, fourth,
       terminalContainedEvalProgressGate_trans
