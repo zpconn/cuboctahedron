@@ -178,6 +178,16 @@ theorem smokeContainedEvalProgressGate_step2
     (smokeStep2HeadSome_of_closed hclosed)
     rfl
 
+theorem smokeContainedEvalProgressGate_prefix2_of_steps
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalProgressGate
+      smokePartialMachine SmokePartialState.s00 rank SmokePartialState.s02 :=
+  terminalContainedEvalProgressGate_trans
+    smokePartialMachine
+    (smokeContainedEvalProgressGate_step1 hclosed)
+    (smokeContainedEvalProgressGate_step2 hclosed)
+
 theorem smokeStep1Contains_of_closed
     {rank : Fin numPairWords}
     (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :

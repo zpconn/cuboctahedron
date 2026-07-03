@@ -134,6 +134,68 @@ theorem terminalContainedEvalProgressGate_of_headSome_next?
   rcases hhead with ⟨rest, hhead⟩
   exact terminalContainedEvalProgressGate_of_head_next? machine hhead hnext
 
+theorem pfx_of_eval_prefix
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {state finish : StateId} {labels : List Face} {gain : Int}
+    (heval :
+      evalLabelStepFn (nextEval machine) state labels =
+        some (finish, gain)) :
+    (machine.stateOf finish).pfx =
+      (machine.stateOf state).pfx ++ labels := by
+  induction labels generalizing state finish gain with
+  | nil =>
+      simp [evalLabelStepFn] at heval
+      rcases heval with ⟨rfl, _rfl⟩
+      simp
+  | cons face labels ih =>
+      simp [evalLabelStepFn, nextEval] at heval
+      cases hnext : machine.next? state face with
+      | none =>
+          simp [hnext] at heval
+      | some nextState =>
+          simp [hnext] at heval
+          cases htail :
+              evalLabelStepFn (nextEval machine) nextState labels with
+          | none =>
+              simp [htail] at heval
+          | some tailResult =>
+              cases tailResult with
+              | mk finish' tailGain =>
+                  simp [htail] at heval
+                  rcases heval with ⟨rfl, _rfl⟩
+                  have hpfxNext :
+                      (machine.stateOf nextState).pfx =
+                        (machine.stateOf state).pfx ++ [face] := by
+                    rw [machine.next_sound state face nextState hnext]
+                    exact terminalStepState_nextStep_pfx
+                      (machine.stateOf state) face
+                  have hpfxTail :
+                      (machine.stateOf finish').pfx =
+                        (machine.stateOf nextState).pfx ++ labels :=
+                    ih htail
+                  rw [hpfxTail, hpfxNext]
+                  simp [List.append_assoc]
+
+theorem terminalContainedEvalProgressGate_trans
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords}
+    {start middle finish : StateId}
+    (hfirst :
+      TerminalContainedEvalProgressGate machine start rank middle)
+    (hsecond :
+      TerminalContainedEvalProgressGate machine middle rank finish) :
+    TerminalContainedEvalProgressGate machine start rank finish := by
+  rcases hfirst with
+    ⟨labels₁, gain₁, _rest₁, hcontainsStart, _hlabels₁, heval₁⟩
+  rcases hsecond with
+    ⟨labels₂, gain₂, rest₂, _hcontainsMiddle, hlabels₂, heval₂⟩
+  refine ⟨labels₁ ++ labels₂, gain₁ + gain₂, rest₂,
+    hcontainsStart, ?_, ?_⟩
+  · have hpfxMiddle := pfx_of_eval_prefix machine heval₁
+    rw [hpfxMiddle] at hlabels₂
+    simpa [List.append_assoc] using hlabels₂
+  · exact evalLabelStepFn_append heval₁ heval₂
+
 theorem contains_of_eval_suffix
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
     {rank : Fin numPairWords}

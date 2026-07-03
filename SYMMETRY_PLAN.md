@@ -89267,3 +89267,101 @@ after a `TerminalContainedEvalProgressGate`, prove the finish state's prefix is
 the start prefix plus the consumed labels.  That would let generated frontier
 tables compose many `HeadSome` entries into one eval gate without rebuilding
 the prefix equation manually at every step.
+
+### Progress Gate Composition
+
+The generic progress-composition socket is complete.
+
+Added theorem surfaces:
+
+```lean
+theorem pfx_of_eval_prefix
+theorem terminalContainedEvalProgressGate_trans
+theorem smokeContainedEvalProgressGate_prefix2_of_steps
+```
+
+Meaning:
+
+- `pfx_of_eval_prefix` proves that a successful partial-machine evaluation
+  consumes exactly the evaluated label prefix in the semantic
+  `TerminalStepState.pfx`.
+- `terminalContainedEvalProgressGate_trans` composes two checked progress
+  gates by appending labels and gains, using the generic
+  `evalLabelStepFn_append` theorem from `BellmanPotential`.
+- The smoke now recovers the two-face prefix gate from two one-step
+  `HeadSome` gates rather than from a direct two-label proof.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_progress_trans_eval_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_progress_trans_eval_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_progress_trans_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_progress_trans_smoke_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct progress-trans eval socket | pass | `4.00s` | `3661 MiB` | `46241 MiB` |
+| Lake progress-trans eval socket | pass | `3.00s` | `3987 MiB` | `46050 MiB` |
+| direct progress-trans smoke | pass | `2.00s` | `3626 MiB` | `46233 MiB` |
+| Lake progress-trans smoke, 12 GiB cap | pass | `4.00s` | `4041 MiB` | `46070 MiB` |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a |
+
+Decision: accepted.  The current Bellman terminal-eval socket now has the
+three local ingredients needed for a generated deterministic evaluator:
+state-local head facts, semantic tail facts from each head, and compositional
+progress gates.  The next step is a small generated frontier module with a
+finite state/face table that proves several `HeadSome` entries from semantic
+state projections and composes them to a terminal or deeper nonterminal gate.
