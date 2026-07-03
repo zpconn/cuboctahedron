@@ -385,6 +385,23 @@ BellmanTopPairingBranchTableSemanticGateSocket.lean
   `decision=semantic-transducer-pivot-accepted-next-emit-finite-branch-table`,
   and `scripts/generated/top_pairing_branch_table_membership_frontier.md` with
   `decision=local-branch-table-progress-accepted-membership-open`.
+- Added the proof-neutral readiness audit
+  `scripts/audit_top_pairing_semantic_tail_branch_emitters.py`.  It reads the
+  semantic socket and its guard JSON, verifies that the tail-facing local
+  branch classifiers all use `TopPairingTransducerTail.cons`, verifies that
+  those classifier bodies do not mention rank-prefix labels, and scans for
+  sampled-rank / selected-prefix / accepted-trace / exact-affine key tokens.
+  Generated report:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_tail_branch_emitters.py
+  ```
+
+  Result:
+  `decision=semantic-tail-branch-emitter-shape-accepted`, written to
+  `scripts/generated/top_pairing_semantic_tail_branch_emitters.md` and
+  `.json`.  It found four tail branch classifiers and four suffix adapters
+  accepted under the existing guarded Lean check.
 - Next implementation move: stop hand-extending individual prefix layers and
   teach the generated finite-branch-table emitter to produce this tail-facing
   local theorem shape for reachable semantic states.  The generated target is

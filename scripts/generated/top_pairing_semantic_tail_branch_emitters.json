@@ -1,0 +1,68 @@
+{
+  "branch_constructors_used": [
+    "graph_0539_s0610_yp",
+    "graph_0540_s0610_zm",
+    "graph_0541_s0610_tmpm",
+    "graph_0552_s0615_zm",
+    "graph_0553_s0615_tmmm",
+    "graph_0554_s0616_yp",
+    "graph_0555_s0616_zp",
+    "graph_0556_s0616_tmpp",
+    "graph_0560_s0618_zm",
+    "graph_0561_s0618_tppm"
+  ],
+  "classifier_mentions_rank_prefix_terms": {
+    "branchTable_of_closedPrefix2_tail": false,
+    "branchTable_of_closedPrefix3_tmpm_tail": false,
+    "branchTable_of_closedPrefix3_yp_tail": false,
+    "branchTable_of_closedPrefix3_zm_tail": false
+  },
+  "decision": "semantic-tail-branch-emitter-shape-accepted",
+  "forbidden_hits": [],
+  "guard": "scripts/generated/branch_table_semantic_gate_socket_guard.json",
+  "guard_summary": {
+    "available_floor_mib": 30000.0,
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-M",
+      "6500",
+      "-j1",
+      "-s",
+      "2048",
+      "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean"
+    ],
+    "elapsed_seconds": 9.00624660999165,
+    "exit_code": 0,
+    "hard_address_space_mib": 8192.0,
+    "killed_reason": null,
+    "max_tree_rss_kib": 4105016,
+    "max_tree_rss_mib": 4008.8046875,
+    "min_available_seen_kib": 47247208,
+    "min_available_seen_mib": 46139.8515625,
+    "rss_cap_mib": 6500.0,
+    "timeout_seconds": 240.0
+  },
+  "mode": "top-pairing-semantic-tail-branch-emitter-readiness",
+  "next_target": "Generate these tail-facing local branch classifiers for all reachable semantic states needed by Split10MBranchTableClosedEvalFamily.suffix; do not emit sampled-rank, selected-prefix, accepted-trace, or exact-affine membership data.",
+  "socket": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean",
+  "tail_branch_classifiers": [
+    "branchTable_of_closedPrefix2_tail",
+    "branchTable_of_closedPrefix3_tmpm_tail",
+    "branchTable_of_closedPrefix3_yp_tail",
+    "branchTable_of_closedPrefix3_zm_tail"
+  ],
+  "tail_suffix_adapters": [
+    "branchTableSuffixOk_closedPrefix2_branch_of_tail",
+    "branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail",
+    "branchTableSuffixOk_closedPrefix3_yp_branch_of_tail",
+    "branchTableSuffixOk_closedPrefix3_zm_branch_of_tail"
+  ],
+  "uses_semantic_tail_cons": {
+    "branchTable_of_closedPrefix2_tail": true,
+    "branchTable_of_closedPrefix3_tmpm_tail": true,
+    "branchTable_of_closedPrefix3_yp_tail": true,
+    "branchTable_of_closedPrefix3_zm_tail": true
+  }
+}
