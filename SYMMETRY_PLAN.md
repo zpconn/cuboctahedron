@@ -92941,3 +92941,106 @@ If this local obligation requires trace ids or prefix equality tables, the
 state abstraction is still too weak and must gain semantic fields such as
 tri-source progress, pair-count remainder, or a cocycle quotient.  It must not
 fall back to sampled paths.
+
+### Bounded Branch-Table Graph-Exact Instantiation Accepted
+
+Instantiated the graph-exact producer target for the existing bounded
+branch-table suffix family.  This is the first checked bridge of the form:
+
+```lean
+graph-only semantic suffix evidence
+  + closed top-pairing transducer tail
+  + final margin producer
+  -> Split10MGraphExactEvalAllFamily
+```
+
+The key point is that suffix evidence is over graph states and semantic branch
+tables.  The proof does not expose sampled ranks, accepted trace ids,
+selected-prefix membership, exact affine RHS keys, or solved start-point keys.
+
+New file:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableGraphExactSocket.lean
+```
+
+New theorem surface:
+
+```lean
+theorem graphExactEvalGateAtRank_of_branchTableSuffixOk
+
+theorem graphExactEvalGateAtRank_of_graphBranchTableSuffixOk
+
+structure GraphBranchTableSuffixAllFamily
+
+theorem split10MGraphExactEvalAllFamily_of_graphBranchTableSuffixAllFamily
+
+theorem scaledMargin_nonpos_of_graphBranchTableSuffixAllFamily
+
+structure GraphClosedPrefix4BranchTableAllFamily
+
+theorem split10MGraphExactEvalAllFamily_of_graphClosedPrefix4AllFamily
+
+theorem scaledMargin_nonpos_of_graphClosedPrefix4AllFamily
+```
+
+The `GraphClosedPrefix4BranchTableAllFamily` variant matches the current
+checked decomposition: Lean proves the fixed `xm, ym` prefix and the semantic
+third/fourth-face branch split, and generated evidence only has to supply the
+post-prefix graph suffix plus final margin bound.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_branch_table_graph_exact_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableGraphExactSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_branch_table_graph_exact_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingBranchTableGraphExactSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct branch-table graph-exact socket | pass | `2.00s` | `3533 MiB` | `46295 MiB` | `8192 MiB` |
+| Lake branch-table graph-exact socket | pass | `7.01s` | `4086 MiB` | `45982 MiB` | none |
+
+Hygiene check:
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|\
+SampledRankIndex\|sampledContainsRank\|sampledRankOf\|sampledSmokeNext\|\
+GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableGraphExactSocket.lean
+```
+
+returned no matches.
+
+Decision: accepted as a bounded instantiation of the semantic Bellman
+membership pivot.  The remaining non-diagnostic work is now to generate or
+prove `GraphClosedPrefix4BranchTableAllFamily` for a substantial semantic
+family from closed target-cursor / schedule / pair-count / local-axis /
+tri-source state, and to measure whether the number of such families projects
+within the 5-6 hour / 24 CPU-hour budget.
