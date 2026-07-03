@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket
 
 /-!
 Bounded evaluator smoke for the terminal-state partial machine.
@@ -15,10 +16,17 @@ open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateStepSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedSuffixSplit10MBridge
 
 def smokeEvalPrefix : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.tppm, Face.tpmm, Face.tppp,
     Face.tmmm, Face.tpmp, Face.tmmp, Face.tmpp, Face.yp, Face.zm, Face.zp]
+
+abbrev GraphEvalAcceptedSequenceBadFaceAtRank :
+    Fin numPairWords -> Face -> Prop :=
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
 
 theorem smokePartialMachine_eval_prefix :
     evalLabelStepFn (nextEval smokePartialMachine)
@@ -86,6 +94,33 @@ theorem terminalTraceLabels_of_smokePartialEvalPrefixGate
     hclosed
     smokePartialMachine_start_state
     (smokePartialEvalPrefixGate hprefix)
+
+/--
+The bounded partial-machine eval smoke feeds the closed-transducer producer
+socket.  This is a representative semantic route for generated terminal
+machines: prove a checked eval-prefix gate, then supply the independent
+depth-11 graph suffix and final-margin producer facts.
+-/
+theorem closedTransducerProducer_of_smokePartialEvalPrefixGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        GraphEvalAcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      ∃ rest : List Face,
+        topPairingRankFaceLabels rank = smokeEvalPrefix ++ rest)
+    (hdepth11 : Split10MDepth11GraphPathProducer rank)
+    (hfinal : Split10MFinalMarginProducer scaledMargin rank) :
+    StrengthenedClosedTransducerProducer scaledMargin rank :=
+  closedTransducerProducer_of_terminalEvalPrefixGate
+    (machine := smokePartialMachine)
+    (start := SmokePartialState.s00)
+    hstrengthened
+    smokePartialMachine_start_state
+    (smokePartialEvalPrefixGate hprefix)
+    hdepth11
+    hfinal
 
 theorem terminalStatePartialMachineEvalSmoke_builds : True := by
   exact True.intro

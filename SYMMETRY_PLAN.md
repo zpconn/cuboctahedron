@@ -88443,3 +88443,104 @@ Decision: accepted.  The next generator should prefer the eval-prefix gate if
 it can prove deterministic terminal-machine acceptance from semantic
 closed-language fields without selected prefixes.  If it cannot, use the
 explicit terminal-state route and inspect which semantic field is missing.
+
+#### Terminal Eval Smoke Feeds Closed-Transducer Producer
+
+Added a representative theorem showing that the bounded terminal partial
+machine eval-prefix smoke can feed the production closed-transducer producer
+socket:
+
+```lean
+GraphEvalAcceptedSequenceBadFaceAtRank
+
+closedTransducerProducer_of_smokePartialEvalPrefixGate
+```
+
+This is the concrete small slice requested by the deterministic transducer
+pivot.  The route is:
+
+1. prove a checked `TerminalEvalPrefixGate` for a semantic terminal partial
+   machine;
+2. combine it with a strengthened closed-language proof, a depth-11 graph-path
+   producer, and a final-margin producer;
+3. produce `StrengthenedClosedTransducerProducer scaledMargin rank`.
+
+The theorem still uses the bounded smoke prefix, so it is not production
+coverage by itself.  Its significance is architectural: future generated
+terminal machines can now supply eval-prefix gates directly to the semantic
+closed-transducer package, with no accepted-trace id, no sampled rank object,
+and no selected-prefix cover in the public proof surface.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_eval_smoke_closed_transducer_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_closed_transducer_socket_for_eval_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedTransducerProducerSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_eval_smoke_closed_transducer_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedTransducerProducerSocket.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| first direct eval-smoke bridge check | failed | `6.00s` | `3635 MiB` | `46228 MiB` |
+| Lake closed-transducer socket refresh | pass | `3.00s` | `3576 MiB` | `46140 MiB` |
+| direct eval-smoke bridge after namespace opens | failed | `2.00s` | `3614 MiB` | `46224 MiB` |
+| direct eval-smoke bridge after predicate qualification | pass | `2.00s` | `3615 MiB` | `46227 MiB` |
+| Lake eval-smoke bridge | pass | `3.00s` | `1392 MiB` | `46207 MiB` |
+| forbidden-token and accepted-trace-id scan | pass | n/a | n/a | n/a |
+
+Failure notes:
+
+- The first direct check loaded a stale closed-transducer `.olean` and lacked
+  the new eval-prefix theorem in the import environment.  A focused Lake build
+  of the socket refreshed the target.
+- The second direct failure was a same-name predicate mismatch.  The final
+  theorem explicitly uses the graph-eval-language
+  `AcceptedSequenceBadFaceAtRank` through the local abbrev
+  `GraphEvalAcceptedSequenceBadFaceAtRank`.
+
+Decision: accepted as a small production-shaped bridge.  The next step is to
+replace the bounded smoke prefix with a generated deterministic terminal
+machine whose accepted prefixes are proved from the top-pairing closed
+language fields: target-shadow cursor, schedule, pair-count constraints,
+local-axis class, and tri-source progress.  The generator should produce
+`TerminalEvalPrefixGate` facts, not trace ids or sampled rank objects.
