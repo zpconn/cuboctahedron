@@ -87567,6 +87567,7 @@ theorem terminalTraceLabels_of_eval_terminal
 theorem terminalTraceLabels_of_eval_prefix_terminal
 theorem terminalTraceLabels_of_eval_from_initial
 theorem terminalTraceLabels_of_eval_prefix_from_initial
+theorem terminalTraceLabels_of_eval_prefix_exists_from_initial
 ```
 
 The main theorem proves that if
@@ -87640,6 +87641,21 @@ variant is the preferred theorem for terminal classifiers because it lets the
 machine consume the semantic prefix and leaves the forced final `xp` label for
 the terminal-state producer.
 
+Follow-up strengthening: added
+`terminalTraceLabels_of_eval_prefix_exists_from_initial`, which replaces the
+explicit split equation `labelsOfRank = state.pfx ++ labels ++ rest` with the
+weaker semantic premise
+
+```lean
+∃ rest : List Face, topPairingRankFaceLabels rank = labels ++ rest
+```
+
+for machines started in `TerminalStepState.initial`.  This is closer to the
+GPT5.5 gate: downstream generated family modules should prove that the closed
+language has the Bellman/evaluator prefix, not that it belongs to an observed
+selected-prefix table.  The terminal-state producer still supplies the final
+terminal trace conclusion once the partial evaluator reaches a terminal state.
+
 #### Terminal-State Partial Machine Eval Smoke
 
 Added a bounded smoke that instantiates the prefix-eval theorem on the finite
@@ -87661,6 +87677,7 @@ and proves:
 ```lean
 theorem smokePartialMachine_eval_prefix
 theorem terminalTraceLabels_of_smokePartialEval
+theorem terminalTraceLabels_of_smokePartialEvalPrefix
 ```
 
 The exported theorem has the intended evaluator shape:
@@ -87670,13 +87687,22 @@ TopPairingClosedLanguageAtRank rank badFace ->
 topPairingRankFaceLabels rank = smokeEvalPrefix ++ [Face.xp] ->
   TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
     (topPairingRankFaceLabels rank)
+
+TopPairingClosedLanguageAtRank rank badFace ->
+(∃ rest : List Face,
+  topPairingRankFaceLabels rank = smokeEvalPrefix ++ rest) ->
+  TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+    (topPairingRankFaceLabels rank)
 ```
 
 This is still bounded diagnostic evidence, because the underlying terminal
 producer for `SmokePartialState.s13` comes from the earlier smoke.  But the
 theorem surface no longer mentions `AcceptedTraceId`; it exercises the generic
 `evalLabelStepFn` bridge through a generated-style `next?` table and an
-explicit semantic prefix.
+explicit semantic prefix.  The newer prefix-only theorem is the one production
+classifiers should emulate: closed-language evidence should imply the evaluator
+prefix exists, then the generic socket and terminal producer should finish the
+trace conclusion.
 
 Commands:
 
@@ -87718,8 +87744,10 @@ Results:
 |---|---:|---:|---:|---:|
 | hygiene scan, including accepted-trace identifiers | pass | n/a | n/a | n/a |
 | first direct eval-smoke check | failed | `2.00s` | `2795 MiB` | `45594 MiB` |
-| direct `BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean` | pass | `2.00s` | `3583 MiB` | `45820 MiB` |
-| Lake `BellmanTopPairingTerminalStatePartialMachineEvalSmoke` | pass | `3.01s` | `1473 MiB` | `45861 MiB` |
+| direct prefix-only `BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean` | pass | `6.01s` | `3619 MiB` | `45538 MiB` |
+| Lake prefix-only `BellmanTopPairingTerminalStatePartialMachineEvalSocket` | pass | `3.00s` | `4059 MiB` | `45673 MiB` |
+| direct prefix-only `BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean` | pass | `2.01s` | `3577 MiB` | `45738 MiB` |
+| Lake prefix-only `BellmanTopPairingTerminalStatePartialMachineEvalSmoke` | pass | `3.01s` | `4023 MiB` | `45663 MiB` |
 
 The first eval-smoke check failed because the smoke did not open the
 terminal-step socket namespace and, when run in parallel with the socket build,

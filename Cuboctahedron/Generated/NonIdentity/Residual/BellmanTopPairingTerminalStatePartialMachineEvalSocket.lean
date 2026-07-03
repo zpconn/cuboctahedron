@@ -223,6 +223,26 @@ theorem terminalTraceLabels_of_eval_prefix_from_initial
   exact terminalTraceLabels_of_eval_prefix_terminal
     machine hclosed hcontains hlabels' heval hterminal
 
+theorem terminalTraceLabels_of_eval_prefix_exists_from_initial
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords} {badFace : Face}
+    {start finish : StateId} {labels : List Face} {gain : Int}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace)
+    (hstart :
+      machine.stateOf start = TerminalStepState.initial)
+    (hprefix :
+      ∃ rest : List Face,
+        topPairingRankFaceLabels rank = labels ++ rest)
+    (heval :
+      evalLabelStepFn (nextEval machine) start labels =
+        some (finish, gain))
+    (hterminal : machine.IsTerminal finish) :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) := by
+  rcases hprefix with ⟨rest, hlabels⟩
+  exact terminalTraceLabels_of_eval_prefix_from_initial
+    machine hclosed hstart hlabels heval hterminal
+
 theorem terminalTraceLabels_of_eval_from_initial
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
     {rank : Fin numPairWords} {badFace : Face}
