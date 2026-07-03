@@ -697,32 +697,77 @@
           "text": "(branchTable_of_closedPrefix2_tail htail) ?_"
         },
         {
-          "line": 89,
+          "line": 86,
+          "pattern": "branchTable_of_closedPrefix3_tmpm_tail",
+          "text": "theorem branchTable_of_closedPrefix3_tmpm_tail"
+        },
+        {
+          "line": 149,
+          "pattern": "branchTable_of_closedPrefix3_yp_tail",
+          "text": "theorem branchTable_of_closedPrefix3_yp_tail"
+        },
+        {
+          "line": 213,
+          "pattern": "branchTable_of_closedPrefix3_zm_tail",
+          "text": "theorem branchTable_of_closedPrefix3_zm_tail"
+        },
+        {
+          "line": 270,
+          "pattern": "branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail",
+          "text": "theorem branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail"
+        },
+        {
+          "line": 283,
+          "pattern": "branchTable_of_closedPrefix3_tmpm_tail",
+          "text": "(branchTable_of_closedPrefix3_tmpm_tail htail) ?_"
+        },
+        {
+          "line": 290,
+          "pattern": "branchTableSuffixOk_closedPrefix3_yp_branch_of_tail",
+          "text": "theorem branchTableSuffixOk_closedPrefix3_yp_branch_of_tail"
+        },
+        {
+          "line": 303,
+          "pattern": "branchTable_of_closedPrefix3_yp_tail",
+          "text": "(branchTable_of_closedPrefix3_yp_tail htail) ?_"
+        },
+        {
+          "line": 310,
+          "pattern": "branchTableSuffixOk_closedPrefix3_zm_branch_of_tail",
+          "text": "theorem branchTableSuffixOk_closedPrefix3_zm_branch_of_tail"
+        },
+        {
+          "line": 323,
+          "pattern": "branchTable_of_closedPrefix3_zm_tail",
+          "text": "(branchTable_of_closedPrefix3_zm_tail htail) ?_"
+        },
+        {
+          "line": 336,
           "pattern": "Split10MBranchTableClosedEvalFamily",
           "text": "structure Split10MBranchTableClosedEvalFamily"
         },
         {
-          "line": 110,
+          "line": 357,
           "pattern": "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
           "text": "theorem split10MClosedToEvalGate_of_branchTableClosedEvalFamily"
         },
         {
-          "line": 112,
+          "line": 359,
           "pattern": "Split10MBranchTableClosedEvalFamily",
           "text": "(hfamily : Split10MBranchTableClosedEvalFamily scaledMargin) :"
         },
         {
-          "line": 136,
+          "line": 383,
           "pattern": "scaledMargin_nonpos_of_branchTableClosedEvalFamily",
           "text": "theorem scaledMargin_nonpos_of_branchTableClosedEvalFamily"
         },
         {
-          "line": 138,
+          "line": 385,
           "pattern": "Split10MBranchTableClosedEvalFamily",
           "text": "(hfamily : Split10MBranchTableClosedEvalFamily scaledMargin)"
         },
         {
-          "line": 143,
+          "line": 390,
           "pattern": "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
           "text": "(split10MClosedToEvalGate_of_branchTableClosedEvalFamily hfamily)"
         }
@@ -734,30 +779,65 @@
           "text": "final-margin facts from `TopPairingClosedLanguageAtRank`, not from sampled"
         },
         {
-          "line": 93,
+          "line": 108,
+          "pattern": "TopPairingSquareGap",
+          "text": "topPairingNextGap, TopPairingSquareGapFrom,"
+        },
+        {
+          "line": 115,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 171,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 179,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 239,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 245,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 260,
+          "pattern": "TopPairingLocalAxis",
+          "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
+        },
+        {
+          "line": 340,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "TopPairingClosedLanguageAtRank rank Face.ym ->"
         },
         {
-          "line": 140,
+          "line": 387,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
         }
       ],
       "eval_core": [
         {
-          "line": 100,
+          "line": 347,
           "pattern": "evalLabelStepFn",
           "text": "evalLabelStepFn faceEvalNext"
         }
       ],
       "exists": true,
       "forbidden_sampled_surface": [],
-      "lines": 149,
+      "lines": 396,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean",
       "ranked_semantic_gate_core": [
         {
-          "line": 114,
+          "line": 361,
           "pattern": "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
           "text": "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix"
         }
@@ -777,7 +857,22 @@
           "text": "have hlocal := TopPairingTransducerTail.cons htail'"
         },
         {
-          "line": 86,
+          "line": 100,
+          "pattern": "TopPairingTransducerTail.cons",
+          "text": "have hcons := TopPairingTransducerTail.cons htailRaw"
+        },
+        {
+          "line": 163,
+          "pattern": "TopPairingTransducerTail.cons",
+          "text": "have hcons := TopPairingTransducerTail.cons htailRaw"
+        },
+        {
+          "line": 227,
+          "pattern": "TopPairingTransducerTail.cons",
+          "text": "have hcons := TopPairingTransducerTail.cons htailRaw"
+        },
+        {
+          "line": 333,
           "pattern": "TopPairingTransducerTail.cons",
           "text": "intended proof uses `TopPairingTransducerTail.cons` plus a finite state/face"
         }
@@ -789,18 +884,54 @@
           "text": "simpa [TopPairingTransducerEvalState.Tail,"
         },
         {
-          "line": 95,
+          "line": 98,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.Tail,"
+        },
+        {
+          "line": 161,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.Tail,"
+        },
+        {
+          "line": 225,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "simpa [TopPairingTransducerEvalState.Tail,"
+        },
+        {
+          "line": 342,
           "pattern": "TopPairingTransducerEvalState",
           "text": "(TopPairingTransducerEvalState.start rootState)"
         },
         {
-          "line": 101,
+          "line": 348,
           "pattern": "TopPairingTransducerEvalState",
           "text": "(TopPairingTransducerEvalState.start rootState)"
         }
       ],
       "target_cursor_core": [],
-      "target_shadow": []
+      "target_shadow": [
+        {
+          "line": 126,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        },
+        {
+          "line": 137,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        },
+        {
+          "line": 195,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        },
+        {
+          "line": 206,
+          "pattern": "topPairingTargetShadow",
+          "text": "topPairingTargetShadow] at hcons"
+        }
+      ]
     },
     "cancellation_language": {
       "branch_table_semantic_gate_socket": [],
@@ -4825,16 +4956,16 @@
         "2048",
         "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean"
       ],
-      "elapsed_seconds": 2.002276732993778,
+      "elapsed_seconds": 9.00624660999165,
       "exit_code": 0,
       "hard_address_space_mib": 8192.0,
       "killed_reason": null,
-      "max_tree_rss_kib": 3696756,
-      "max_tree_rss_mib": 3610.11328125,
-      "min_available_seen_kib": 47379580,
-      "min_available_seen_mib": 46269.12109375,
+      "max_tree_rss_kib": 4105016,
+      "max_tree_rss_mib": 4008.8046875,
+      "min_available_seen_kib": 47247208,
+      "min_available_seen_mib": 46139.8515625,
       "rss_cap_mib": 6500.0,
-      "timeout_seconds": 180.0
+      "timeout_seconds": 240.0
     },
     "frontier_direct_check": {
       "available_floor_mib": 24576.0,
@@ -5043,6 +5174,12 @@
     "Split10MBranchTableClosedEvalFamily",
     "branchTable_of_closedPrefix2_tail",
     "branchTableSuffixOk_closedPrefix2_branch_of_tail",
+    "branchTable_of_closedPrefix3_tmpm_tail",
+    "branchTable_of_closedPrefix3_yp_tail",
+    "branchTable_of_closedPrefix3_zm_tail",
+    "branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail",
+    "branchTableSuffixOk_closedPrefix3_yp_branch_of_tail",
+    "branchTableSuffixOk_closedPrefix3_zm_branch_of_tail",
     "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
     "topPairingClosed_to_strengthenedSuffixOk",
     "topPairingClosed_to_eval_gate",
@@ -5074,17 +5211,17 @@
     "strengthened_local_smoke_passed": true
   },
   "totals": {
-    "branch_table_semantic_gate_socket": 9,
-    "closed_language_fields": 204,
+    "branch_table_semantic_gate_socket": 18,
+    "closed_language_fields": 211,
     "eval_core": 90,
     "forbidden_sampled_surface": 0,
     "ranked_semantic_gate_core": 8,
     "selected_prefix_production_risk": 12,
     "semantic_eval_gate": 136,
     "semantic_socket_core": 26,
-    "semantic_tail_core": 13,
-    "suffix_eval_core": 232,
+    "semantic_tail_core": 16,
+    "suffix_eval_core": 235,
     "target_cursor_core": 46,
-    "target_shadow": 112
+    "target_shadow": 116
   }
 }

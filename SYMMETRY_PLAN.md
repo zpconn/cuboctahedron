@@ -329,6 +329,68 @@ BellmanTopPairingBranchTableSemanticGateSocket.lean
   prototype was added: `elapsed=2.00s`, `peak_tree_rss=3610 MiB`,
   `hard_as=8192 MiB`.
 
+2026-07-03 follow-up after the newest semantic-transducer pivot:
+
+- Extended the same socket one layer deeper, still with tail-facing local
+  theorems rather than prefix/rank/path membership:
+
+  ```lean
+  theorem branchTable_of_closedPrefix3_tmpm_tail
+      {face : Face} {rest : List Face}
+      (htail : closedPrefix3TmpmEvalState.Tail (face :: rest)) :
+      StrengthenedBranchTable closedPrefix3TmpmEvalState.graph face
+        BranchKind.graph
+
+  theorem branchTable_of_closedPrefix3_yp_tail
+      {face : Face} {rest : List Face}
+      (htail : closedPrefix3YpEvalState.Tail (face :: rest)) :
+      StrengthenedBranchTable closedPrefix3YpEvalState.graph face
+        BranchKind.graph
+
+  theorem branchTable_of_closedPrefix3_zm_tail
+      {face : Face} {rest : List Face}
+      (htail : closedPrefix3ZmEvalState.Tail (face :: rest)) :
+      StrengthenedBranchTable closedPrefix3ZmEvalState.graph face
+        BranchKind.graph
+  ```
+
+  and the corresponding suffix-step adapters:
+  `branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail`,
+  `branchTableSuffixOk_closedPrefix3_yp_branch_of_tail`, and
+  `branchTableSuffixOk_closedPrefix3_zm_branch_of_tail`.
+- These lemmas are deliberately local: they consume the semantic tail for one
+  generated transducer state, use `TopPairingTransducerTail.cons`, and emit the
+  split-10M branch-table constructor.  They still do not inspect accepted trace
+  ids, selected prefixes, sampled ranks, exact affine RHS keys, solved start
+  points, or whole-rank paths.
+- Guarded direct Lean check:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 240 \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 \
+    --hard-address-space-mib 8192 \
+    --json scripts/generated/branch_table_semantic_gate_socket_guard.json \
+    --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSemanticGateSocket.lean
+  ```
+
+  Result: passed, `elapsed=9.01s`, `peak_tree_rss=4008 MiB`,
+  `hard_as=8192 MiB`, minimum available memory `46139 MiB`.
+- Audit scripts now require these prefix-3 semantic-tail theorem names.  The
+  regenerated reports remain:
+  `scripts/generated/top_pairing_transducer_pivot.md` with
+  `decision=semantic-transducer-pivot-accepted-next-emit-finite-branch-table`,
+  and `scripts/generated/top_pairing_branch_table_membership_frontier.md` with
+  `decision=local-branch-table-progress-accepted-membership-open`.
+- Next implementation move: stop hand-extending individual prefix layers and
+  teach the generated finite-branch-table emitter to produce this tail-facing
+  local theorem shape for reachable semantic states.  The generated target is
+  still `Split10MBranchTableClosedEvalFamily`; the missing production pieces
+  are the all-rank `suffix` field and the terminal `finish` margin field.
+
 ### Holonomy-Normal-Form Marching Orders
 
 The latest GPT/Gemini prompt is now the controlling strategy description, with

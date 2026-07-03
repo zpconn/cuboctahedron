@@ -41,17 +41,23 @@
     "branch_table_semantic_gate_socket": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 149,
+      "lines": 396,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean",
       "symbol_hits": {
-        "BranchTableSuffixOk": 6,
+        "BranchTableSuffixOk": 15,
         "Split10MBranchTableClosedEvalFamily": 3,
-        "StrengthenedBranchTable": 7,
-        "TopPairingTransducerTail.cons": 3,
+        "StrengthenedBranchTable": 17,
+        "TopPairingTransducerTail.cons": 6,
         "branchTableSemanticGateSocket_builds": 1,
         "branchTableSuffixOk_closedPrefix2_branch_of_tail": 1,
+        "branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail": 1,
+        "branchTableSuffixOk_closedPrefix3_yp_branch_of_tail": 1,
+        "branchTableSuffixOk_closedPrefix3_zm_branch_of_tail": 1,
         "branchTableSuffixOk_local": 1,
         "branchTable_of_closedPrefix2_tail": 2,
+        "branchTable_of_closedPrefix3_tmpm_tail": 2,
+        "branchTable_of_closedPrefix3_yp_tail": 2,
+        "branchTable_of_closedPrefix3_zm_tail": 2,
         "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": 1,
         "scaledMargin_nonpos_of_branchTableClosedEvalFamily": 1,
         "split10MClosedToEvalGate_of_branchTableClosedEvalFamily": 2
@@ -451,11 +457,11 @@
       "path": "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_lake_guard.json"
     },
     "branch_table_semantic_gate_socket_direct": {
-      "elapsed_seconds": 2.002276732993778,
+      "elapsed_seconds": 9.00624660999165,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 3610.11328125,
+      "max_tree_rss_mib": 4008.8046875,
       "path": "scripts/generated/branch_table_semantic_gate_socket_guard.json"
     },
     "branch_table_suffix_direct": {
@@ -874,6 +880,15 @@
     "branchTableSuffixOk_closedPrefix2_branch_of_tail": [
       "branch_table_semantic_gate_socket"
     ],
+    "branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail": [
+      "branch_table_semantic_gate_socket"
+    ],
+    "branchTableSuffixOk_closedPrefix3_yp_branch_of_tail": [
+      "branch_table_semantic_gate_socket"
+    ],
+    "branchTableSuffixOk_closedPrefix3_zm_branch_of_tail": [
+      "branch_table_semantic_gate_socket"
+    ],
     "branchTableSuffixOk_local": [
       "branch_table_suffix",
       "branch_table_suffix_split10m",
@@ -919,6 +934,15 @@
       "branch_table_suffix_split10m"
     ],
     "branchTable_of_closedPrefix2_tail": [
+      "branch_table_semantic_gate_socket"
+    ],
+    "branchTable_of_closedPrefix3_tmpm_tail": [
+      "branch_table_semantic_gate_socket"
+    ],
+    "branchTable_of_closedPrefix3_yp_tail": [
+      "branch_table_semantic_gate_socket"
+    ],
+    "branchTable_of_closedPrefix3_zm_tail": [
       "branch_table_semantic_gate_socket"
     ],
     "class034Depth11GraphFinish_of_suffix": [
