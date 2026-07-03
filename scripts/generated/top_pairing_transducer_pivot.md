@@ -6,11 +6,13 @@ closed-language transducer theorem.
 
 - decision: `semantic-transducer-pivot-accepted-next-emit-finite-branch-table`
 - target-shadow surface mentions: `112`
-- closed-language field mentions: `177`
-- eval-core mentions: `75`
-- semantic eval-gate mentions: `119`
-- target-cursor core mentions: `43`
-- suffix-eval core mentions: `117`
+- closed-language field mentions: `201`
+- eval-core mentions: `89`
+- semantic eval-gate mentions: `136`
+- target-cursor core mentions: `46`
+- semantic-tail core mentions: `10`
+- suffix-eval core mentions: `229`
+- ranked semantic-gate core mentions: `7`
 - semantic-socket core mentions: `26`
 - selected-prefix production-risk mentions: `12`
 - forbidden sampled-surface mentions: `0`
@@ -41,6 +43,9 @@ the local theorem by hand depth cuts.
 - `state150_socket_direct`: exit `0`, elapsed `8.01s`, peak RSS `4172 MiB`, hard AS `None`, killed `None`
 - `strengthened_local_lake`: exit `0`, elapsed `14.01s`, peak RSS `4338 MiB`, hard AS `None`, killed `None`
 - `strengthened_local_direct`: exit `0`, elapsed `6.00s`, peak RSS `4221 MiB`, hard AS `None`, killed `None`
+- `target_cursor_latest_direct`: exit `0`, elapsed `6.00s`, peak RSS `3907 MiB`, hard AS `8192.0`, killed `None`
+- `transducer_tail_latest_direct`: exit `0`, elapsed `2.00s`, peak RSS `3560 MiB`, hard AS `8192.0`, killed `None`
+- `transducer_semantic_gate_latest_direct`: exit `0`, elapsed `2.00s`, peak RSS `3552 MiB`, hard AS `8192.0`, killed `None`
 
 Interpretation: the selected-prefix/root-trace bridge is useful as
 diagnostic or downstream comparison evidence, but the recent guarded
@@ -67,6 +72,15 @@ theorem topPairingTriShadow_eq_target
     (h : TopPairingLanguageAtRank rank) :
     triangularShadowOfPairWord (unrankPairWord rank) =
       topPairingTargetShadow
+
+theorem TopPairingTransducerTail.ofClosedRank
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    TopPairingTransducerTail 0 0 0 SqParity.id
+      (matId : Mat3 Rat) (topPairingRankFaceLabels rank)
+
+theorem closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+    ...
 
 theorem topPairingClosed_to_eval_gate
     (rank : Fin numPairWords)

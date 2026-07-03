@@ -82,6 +82,7 @@
         "BranchTableSuffixOk": 86,
         "GraphBranchTableSuffixOk": 31,
         "StrengthenedBranchTable": 22,
+        "TopPairingTransducerTail.cons": 3,
         "branchTableSuffixOk_closedPrefix2_branch_of_closed": 4,
         "branchTableSuffixOk_local": 3,
         "branchTableSuffixOk_of_graphBranchTableSuffixOk": 7,
@@ -266,6 +267,7 @@
       "lines": 503,
       "path": "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean",
       "symbol_hits": {
+        "TopPairingTransducerTail.cons": 2,
         "TopPairingTransducerTail.ofClosedRank": 1,
         "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": 2
       }
@@ -276,6 +278,7 @@
       "lines": 178,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTransducerFaceEvalSplit10MSmoke.lean",
       "symbol_hits": {
+        "TopPairingTransducerTail.cons": 2,
         "TopPairingTransducerTail.ofClosedRank": 1,
         "closed_prefix2_branch_faceEval": 1,
         "transducer_face_eval_split10m_smoke_builds": 1
@@ -363,6 +366,7 @@
       "lines": 905,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedLocal1MSmoke.lean",
       "symbol_hits": {
+        "TopPairingTransducerTail.cons": 3,
         "closed_prefix2_branch_faceEval": 2,
         "closed_prefix3_tmpm_next": 3,
         "closed_prefix3_yp_next": 3,
@@ -378,6 +382,17 @@
       "symbol_hits": {
         "topPairingTargetShadow_of_summary": 2,
         "topPairingTriCursor_of_closed": 2
+      }
+    },
+    "transducer_semantic_gate": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 692,
+      "path": "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean",
+      "symbol_hits": {
+        "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": 3,
+        "closedToEvalGate_of_transducerInvariantLocalWithSuffix": 3,
+        "scaledMargin_nonpos_of_rankedTransducerClosedGate": 1
       }
     },
     "transducer_tail": {
@@ -615,6 +630,30 @@
       "killed_reason": null,
       "max_tree_rss_mib": 4199.36328125,
       "path": "scripts/generated/bellman_split10m_branch_table_suffix_lake_guard.json"
+    },
+    "target_cursor_latest_direct": {
+      "elapsed_seconds": 6.004643902997486,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3906.8828125,
+      "path": "scripts/generated/top_pairing_target_cursor_pivot_latest_guard.json"
+    },
+    "transducer_semantic_gate_latest_direct": {
+      "elapsed_seconds": 2.0022658579982817,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3552.0,
+      "path": "scripts/generated/top_pairing_transducer_semantic_gate_latest_guard.json"
+    },
+    "transducer_tail_latest_direct": {
+      "elapsed_seconds": 2.0021066020126455,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3559.5,
+      "path": "scripts/generated/top_pairing_transducer_tail_pivot_latest_guard.json"
     }
   },
   "mode": "top-pairing-branch-table-membership-frontier",
@@ -776,6 +815,12 @@
       "graph_accepted_branch_suffix",
       "graph_accepted_branch_suffix_split10m"
     ],
+    "TopPairingTransducerTail.cons": [
+      "eval_bridge",
+      "face_eval_split10m",
+      "branch_table_suffix_split10m",
+      "strengthened_local"
+    ],
     "TopPairingTransducerTail.ofClosedRank": [
       "eval_bridge",
       "face_eval_split10m"
@@ -839,6 +884,12 @@
     ],
     "closedToEvalGate_of_layer4MappedPortfolio": [
       "depth11_layer4_mapped_finish"
+    ],
+    "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": [
+      "transducer_semantic_gate"
+    ],
+    "closedToEvalGate_of_transducerInvariantLocalWithSuffix": [
+      "transducer_semantic_gate"
     ],
     "closed_prefix2_branch_faceEval": [
       "face_eval_split10m",
@@ -989,6 +1040,9 @@
     "scaledMargin_nonpos_of_mappedLayer4SevenBranchClassifier": [
       "depth11_layer4_classifier",
       "depth11_layer4_mapped_finish"
+    ],
+    "scaledMargin_nonpos_of_rankedTransducerClosedGate": [
+      "transducer_semantic_gate"
     ],
     "semanticFrontierClassifier_of_sevenBranchClassifier": [
       "depth11_layer4_classifier"

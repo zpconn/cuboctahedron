@@ -184,6 +184,79 @@ Implementation rule for the next slice:
   not derivable from closed-language fields, run the cocycle/gauge quotient
   profiler before adding exact affine information.
 
+2026-07-03 refinement after the newest GPT5.5 review:
+
+- The target-summary inverse is no longer an open strategic question.  The
+  repo already has the specialized semantic cursor stack in
+  `Cuboctahedron/Search/TopPairingTargetCursor.lean`:
+  `topPairingTargetShadow_of_summary`,
+  `topPairingActedTriLetters_eq_target_of_closed`, and
+  `topPairingTriCursor_of_closed`.
+- The production front door should use
+  `Cuboctahedron/Search/TopPairingTransducerTail.lean`, especially
+  `TopPairingTransducerTail.ofClosedRank` and
+  `TopPairingTransducerTail.cons`, as the local progress invariant.  This
+  combines schedule, square-gap, local-axis, and target-shadow cursor facts.
+- The generic gate to target is already hand-written in
+  `Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean`:
+  `closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix` and
+  `scaledMargin_nonpos_of_rankedTransducerClosedGate`.
+- Therefore the next generated proof obligation is not another graph smoke.
+  It is a semantic `SuffixOk`/`hlocal`/`hfinish` family for the ranked
+  transducer gate.  The local proof must case-split on `(state, face)` and
+  consume `TopPairingTransducerTail.cons`; it must not case-split on whole
+  prefixes, sampled ranks, selected traces, exact affine RHS, solved start
+  point, or exact Bellman paths.
+- The current mapped finish adapter
+  `closedToEvalGate_of_layer4MappedPortfolio` remains useful, but its
+  remaining premise
+  `Depth11Layer4SevenBranchMappedPortfolioAllFamily scaledMargin` is exactly
+  the semantic-membership/margin family to prove.  If the class-local
+  `ClassNNNExactGraphFinishMarginBound` obligations cannot be derived from
+  `TopPairingTransducerTail` state plus a small integer margin invariant, run
+  the cocycle/gauge quotient experiment before adding any finer key.
+- Focused hard-capped checks of the semantic front door passed:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 \
+    --hard-address-space-mib 8192 \
+    --json scripts/generated/top_pairing_target_cursor_pivot_latest_guard.json \
+    --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Search/TopPairingTargetCursor.lean
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 \
+    --hard-address-space-mib 8192 \
+    --json scripts/generated/top_pairing_transducer_tail_pivot_latest_guard.json \
+    --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Search/TopPairingTransducerTail.lean
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 \
+    --hard-address-space-mib 8192 \
+    --json scripts/generated/top_pairing_transducer_semantic_gate_latest_guard.json \
+    --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+  ```
+
+  Results: target cursor passed in `6.00s` with `3906 MiB` peak tree RSS;
+  transducer tail passed in `2.00s` with `3559 MiB` peak tree RSS; transducer
+  semantic gate passed in `2.00s` with `3552 MiB` peak tree RSS.  All three
+  used the `8192 MiB` hard address-space cap and kept `MemAvailable` above
+  `46 GiB`.
+- Audit reports regenerated:
+  `scripts/audit_top_pairing_transducer_pivot.py` now reports
+  `decision=semantic-transducer-pivot-accepted-next-emit-finite-branch-table`,
+  and `scripts/audit_top_pairing_branch_table_membership_frontier.py` reports
+  `decision=local-branch-table-progress-accepted-membership-open`.
+
 ### Holonomy-Normal-Form Marching Orders
 
 The latest GPT/Gemini prompt is now the controlling strategy description, with

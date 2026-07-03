@@ -34,6 +34,8 @@ LEAN_FILES = {
     "target_cursor": ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean",
     "transducer_tail": ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean",
     "eval_bridge": ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean",
+    "transducer_semantic_gate": ROOT
+    / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean",
     "face_eval_split10m": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingTransducerFaceEvalSplit10MSmoke.lean",
@@ -153,12 +155,22 @@ GUARDS = {
     / "scripts/generated/depth11_graph_suffix_producers_olean_guard.json",
     "depth11_layer4_mapped_finish_direct": ROOT
     / "scripts/generated/depth11_layer4_mapped_finish_lean.json",
+    "target_cursor_latest_direct": ROOT
+    / "scripts/generated/top_pairing_target_cursor_pivot_latest_guard.json",
+    "transducer_tail_latest_direct": ROOT
+    / "scripts/generated/top_pairing_transducer_tail_pivot_latest_guard.json",
+    "transducer_semantic_gate_latest_direct": ROOT
+    / "scripts/generated/top_pairing_transducer_semantic_gate_latest_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
     "topPairingTargetShadow_of_summary": "target-shadow inverse",
     "topPairingTriCursor_of_closed": "closed language to target cursor",
     "TopPairingTransducerTail.ofClosedRank": "closed language to combined semantic tail",
+    "TopPairingTransducerTail.cons": "local semantic tail progress theorem",
+    "closedToEvalGate_of_transducerInvariantLocalWithSuffix": "unranked semantic transducer gate",
+    "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": "ranked semantic transducer gate",
+    "scaledMargin_nonpos_of_rankedTransducerClosedGate": "ranked semantic transducer nonpositive margin theorem",
     "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": "generic suffix evaluator",
     "transducer_face_eval_split10m_smoke_builds": "split-10M semantic prefix evaluator build sentinel",
     "closed_prefix2_branch_faceEval": "closed prefix-2 semantic branch evaluator",
@@ -374,6 +386,12 @@ def render_markdown(report: dict[str, Any]) -> str:
             "entry is usable:",
             "",
             "```lean",
+            "topPairingTargetShadow_of_summary",
+            "topPairingTriCursor_of_closed",
+            "TopPairingTransducerTail.ofClosedRank",
+            "TopPairingTransducerTail.cons",
+            "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+            "scaledMargin_nonpos_of_rankedTransducerClosedGate",
             "transducer_face_eval_split10m_smoke_builds",
             "closed_prefix2_branch_faceEval",
             "faceEvalNext_of_graphBranchTable",

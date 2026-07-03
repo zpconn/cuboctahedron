@@ -35,6 +35,8 @@ FILES = {
     "target_cursor": ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean",
     "transducer_tail": ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean",
     "transducer_eval_bridge": ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean",
+    "transducer_semantic_gate": ROOT
+    / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean",
     "closed_eval_gate": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean",
     "missing_transition_socket": ROOT
@@ -84,13 +86,25 @@ PATTERNS = {
     "target_cursor_core": [
         "topPairingTargetShadow_of_summary",
         "topPairingTriShadow_eq_target",
+        "topPairingActedTriLetters_eq_target_of_closed",
         "TopPairingTriCursorFrom",
         "topPairingTriCursor_of_closed",
+    ],
+    "semantic_tail_core": [
+        "TopPairingTransducerTail.ofClosedRank",
+        "TopPairingTransducerTail.cons",
+        "TopPairingTransducerTail.cons_square_tail",
+        "TopPairingTransducerTail.cons_tri_tail",
     ],
     "suffix_eval_core": [
         "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix",
         "TopPairingTransducerEvalState",
         "StrengthenedSuffixOk",
+    ],
+    "ranked_semantic_gate_core": [
+        "closedToEvalGate_of_transducerInvariantLocalWithSuffix",
+        "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+        "scaledMargin_nonpos_of_rankedTransducerClosedGate",
     ],
     "semantic_socket_core": [
         "strengthened_no_missingState19TmmpSemanticTail",
@@ -126,6 +140,12 @@ GUARD_FILES = {
     / "scripts/generated/bellman_top_pairing_strengthened_local_1m_smoke_lake_guard.json",
     "strengthened_local_direct": ROOT
     / "scripts/generated/bellman_top_pairing_strengthened_local_1m_smoke_guard.json",
+    "target_cursor_latest_direct": ROOT
+    / "scripts/generated/top_pairing_target_cursor_pivot_latest_guard.json",
+    "transducer_tail_latest_direct": ROOT
+    / "scripts/generated/top_pairing_transducer_tail_pivot_latest_guard.json",
+    "transducer_semantic_gate_latest_direct": ROOT
+    / "scripts/generated/top_pairing_transducer_semantic_gate_latest_guard.json",
 }
 
 DIAGNOSTIC_JSON = {
@@ -228,7 +248,9 @@ def main() -> None:
     eval_core_ready = totals["eval_core"] >= 3
     semantic_gate_ready = totals["semantic_eval_gate"] >= 5
     target_cursor_core_ready = totals["target_cursor_core"] >= 4
+    semantic_tail_core_ready = totals["semantic_tail_core"] >= 4
     suffix_eval_core_ready = totals["suffix_eval_core"] >= 3
+    ranked_semantic_gate_core_ready = totals["ranked_semantic_gate_core"] >= 3
     semantic_socket_core_ready = totals["semantic_socket_core"] >= 4
     closure_closed = bool(closure and closure.get("closed_after_sequence_bad_face"))
     state150_socket_needed = bool(
@@ -243,7 +265,8 @@ def main() -> None:
     decision = (
         "semantic-transducer-pivot-accepted-next-emit-finite-branch-table"
         if target_shadow_ready and eval_core_ready and semantic_gate_ready
-        and target_cursor_core_ready and suffix_eval_core_ready
+        and target_cursor_core_ready and semantic_tail_core_ready
+        and suffix_eval_core_ready and ranked_semantic_gate_core_ready
         and semantic_socket_core_ready and closure_closed
         and state150_socket_needed and strengthened_smoke_passed
         and selected_prefix_risk and not sampled_hits
@@ -264,6 +287,8 @@ def main() -> None:
         "semantic_branch_checkpoint": {
             "real_graph_edges": graph.get("edges"),
             "graph_states": graph.get("states"),
+            "semantic_tail_core_ready": semantic_tail_core_ready,
+            "ranked_semantic_gate_core_ready": ranked_semantic_gate_core_ready,
             "semantic_socket_branches": 2,
             "known_sockets": [
                 "state19/tmmp canonical-bad-face mismatch",
@@ -286,6 +311,10 @@ def main() -> None:
             "topPairingTriShadow_eq_target",
             "TopPairingTriCursorFrom",
             "topPairingTriCursor_of_closed",
+            "TopPairingTransducerTail.ofClosedRank",
+            "TopPairingTransducerTail.cons",
+            "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+            "scaledMargin_nonpos_of_rankedTransducerClosedGate",
             "topPairingClosed_to_strengthenedSuffixOk",
             "topPairingClosed_to_eval_gate",
             "topPairingClosed_scaledMargin_nonpos",
@@ -323,7 +352,9 @@ def main() -> None:
         f"- eval-core mentions: `{totals['eval_core']}`",
         f"- semantic eval-gate mentions: `{totals['semantic_eval_gate']}`",
         f"- target-cursor core mentions: `{totals['target_cursor_core']}`",
+        f"- semantic-tail core mentions: `{totals['semantic_tail_core']}`",
         f"- suffix-eval core mentions: `{totals['suffix_eval_core']}`",
+        f"- ranked semantic-gate core mentions: `{totals['ranked_semantic_gate_core']}`",
         f"- semantic-socket core mentions: `{totals['semantic_socket_core']}`",
         f"- selected-prefix production-risk mentions: `{totals['selected_prefix_production_risk']}`",
         f"- forbidden sampled-surface mentions: `{totals['forbidden_sampled_surface']}`",
@@ -389,6 +420,15 @@ def main() -> None:
             "    (h : TopPairingLanguageAtRank rank) :",
             "    triangularShadowOfPairWord (unrankPairWord rank) =",
             "      topPairingTargetShadow",
+            "",
+            "theorem TopPairingTransducerTail.ofClosedRank",
+            "    {rank : Fin numPairWords} {badFace : Face}",
+            "    (h : TopPairingClosedLanguageAtRank rank badFace) :",
+            "    TopPairingTransducerTail 0 0 0 SqParity.id",
+            "      (matId : Mat3 Rat) (topPairingRankFaceLabels rank)",
+            "",
+            "theorem closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+            "    ...",
             "",
             "theorem topPairingClosed_to_eval_gate",
             "    (rank : Fin numPairWords)",

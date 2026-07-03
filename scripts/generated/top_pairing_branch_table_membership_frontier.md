@@ -14,6 +14,10 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `topPairingTargetShadow_of_summary` | target-shadow inverse | `target_cursor` |
 | `topPairingTriCursor_of_closed` | closed language to target cursor | `target_cursor`, `transducer_tail` |
 | `TopPairingTransducerTail.ofClosedRank` | closed language to combined semantic tail | `eval_bridge`, `face_eval_split10m` |
+| `TopPairingTransducerTail.cons` | local semantic tail progress theorem | `eval_bridge`, `face_eval_split10m`, `branch_table_suffix_split10m`, `strengthened_local` |
+| `closedToEvalGate_of_transducerInvariantLocalWithSuffix` | unranked semantic transducer gate | `transducer_semantic_gate` |
+| `closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix` | ranked semantic transducer gate | `transducer_semantic_gate` |
+| `scaledMargin_nonpos_of_rankedTransducerClosedGate` | ranked semantic transducer nonpositive margin theorem | `transducer_semantic_gate` |
 | `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` | generic suffix evaluator | `eval_bridge`, `branch_table_suffix`, `branch_table_suffix_split10m`, `strengthened_local` |
 | `transducer_face_eval_split10m_smoke_builds` | split-10M semantic prefix evaluator build sentinel | `face_eval_split10m` |
 | `closed_prefix2_branch_faceEval` | closed prefix-2 semantic branch evaluator | `face_eval_split10m`, `strengthened_local` |
@@ -154,6 +158,9 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `depth11_suffix_eval_olean` | `0` | `4.00s` | `3940 MiB` | `None` |
 | `depth11_suffix_producers_olean` | `0` | `2.00s` | `3548 MiB` | `None` |
 | `depth11_layer4_mapped_finish_direct` | `0` | `15.01s` | `3998 MiB` | `None` |
+| `target_cursor_latest_direct` | `0` | `6.00s` | `3907 MiB` | `None` |
+| `transducer_tail_latest_direct` | `0` | `2.00s` | `3560 MiB` | `None` |
+| `transducer_semantic_gate_latest_direct` | `0` | `2.00s` | `3552 MiB` | `None` |
 
 ## Accepted Local Surface
 
@@ -161,6 +168,12 @@ The current Lean surface proves that a supplied finite branch-table
 entry is usable:
 
 ```lean
+topPairingTargetShadow_of_summary
+topPairingTriCursor_of_closed
+TopPairingTransducerTail.ofClosedRank
+TopPairingTransducerTail.cons
+closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+scaledMargin_nonpos_of_rankedTransducerClosedGate
 transducer_face_eval_split10m_smoke_builds
 closed_prefix2_branch_faceEval
 faceEvalNext_of_graphBranchTable
