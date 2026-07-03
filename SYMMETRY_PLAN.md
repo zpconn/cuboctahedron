@@ -89116,3 +89116,90 @@ from `TerminalStepState.Contains (machine.stateOf state) rank` plus the
 `TopPairingTransducerTail.cons` fields.  The resulting proof should case-split
 on `(state, face)` and semantic transducer fields, never on full ranks,
 sampled paths, accepted trace IDs, exact affine RHS, or selected prefixes.
+
+### Head Gate Exposes Semantic Tail Facts
+
+The next small lift is complete.  `TerminalStepState.Head` now exposes the
+same semantic step facts carried by `TopPairingTransducerTail.cons`.
+
+Added theorem surfaces:
+
+```lean
+theorem TerminalStepState.Head.transducer_cons
+theorem TerminalStepState.Head.allowed
+theorem TerminalStepState.Head.localAxis
+```
+
+Meaning:
+
+- Once a generated frontier proves
+  `TerminalStepState.Head state rank face rest`, Lean can recover:
+  - schedule admissibility of `face` at `state.step`;
+  - local-axis admissibility for `state.linear`;
+  - the correct next `TopPairingTransducerTail`, including target-shadow
+    cursor advancement in triangular cases.
+- This keeps the next generated edge proofs focused on `(state, face)` and the
+  small semantic transducer state.  They do not need selected prefixes,
+  accepted trace IDs, exact affine RHS, or rank/path tables.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_head_transducer_cons_step_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateStepSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_head_transducer_cons_step_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateStepSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_head_transducer_cons_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateStepSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct head-transducer step socket | pass | `4.00s` | `3066 MiB` | `46265 MiB` |
+| Lake head-transducer step socket | pass | `3.00s` | `3825 MiB` | `46109 MiB` |
+| downstream direct smoke | pass | `2.00s` | `3622 MiB` | `46228 MiB` |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a |
+
+Decision: accepted.  The next frontier is to generate or hand-smoke a small
+reachable-state frontier table whose entries prove `HeadSome` for more than
+the initial `xm` step, then fold those entries through
+`terminalContainedEvalProgressGate_of_headSome_next?`.  The gate remains:
+if the frontier proof starts enumerating ranks, observed prefixes, or exact
+affine values, reject it and strengthen the semantic state instead.

@@ -177,6 +177,45 @@ theorem Head.contains_nextStep
   BellmanTopPairingTerminalStateStepSocket.contains_nextStep
     hhead.contains hhead.labels
 
+theorem Head.transducer_cons
+    {rank : Fin numPairWords}
+    {state : TerminalStepState} {face : Face} {rest : List Face}
+    (hhead : Head state rank face rest) :
+    face ∈ topPairingAllowedFacesAtStep state.step ∧
+      TopPairingLocalAxisAllows state.linear face ∧
+        match triLetterOfFace? face with
+        | none =>
+            TopPairingTransducerTail (state.step + 1)
+              (topPairingNextGap state.gap face) state.k
+              (state.parity.applyPair (pairOfFace face))
+              (topPairingNextLinear state.linear face) rest
+        | some tri =>
+            ∃ hk : state.k < topPairingTargetShadowLength,
+              tri.act state.parity =
+                  topPairingTargetShadow.get ⟨state.k, hk⟩ ∧
+                TopPairingTransducerTail (state.step + 1)
+                  (topPairingNextGap state.gap face) (state.k + 1)
+                  state.parity (topPairingNextLinear state.linear face) rest := by
+  rcases hhead.contains with ⟨rest₀, hlabels₀, htail⟩
+  have hrest₀ : rest₀ = face :: rest := by
+    exact List.append_cancel_left (by rw [← hlabels₀, hhead.labels])
+  subst rest₀
+  exact TopPairingTransducerTail.cons htail
+
+theorem Head.allowed
+    {rank : Fin numPairWords}
+    {state : TerminalStepState} {face : Face} {rest : List Face}
+    (hhead : Head state rank face rest) :
+    face ∈ topPairingAllowedFacesAtStep state.step :=
+  hhead.transducer_cons.1
+
+theorem Head.localAxis
+    {rank : Fin numPairWords}
+    {state : TerminalStepState} {face : Face} {rest : List Face}
+    (hhead : Head state rank face rest) :
+    TopPairingLocalAxisAllows state.linear face :=
+  hhead.transducer_cons.2.1
+
 end TerminalStepState
 
 theorem terminalStateStepSocket_builds : True := by
