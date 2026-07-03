@@ -54,6 +54,29 @@ def TerminalEvalPrefixGate
           some (finish, gain) ∧
           machine.IsTerminal finish
 
+/--
+Semantic eval-prefix evidence from an arbitrary contained terminal-machine
+state.
+
+Unlike `TerminalEvalPrefixGate`, this gate records that the start state already
+semantically contains the rank.  This is the shape a deterministic
+closed-language classifier should prove while consuming the target cursor,
+schedule, pair-count, local-axis, and tri-source fields.  When the start state
+is the machine's initial semantic state, it collapses to `TerminalEvalPrefixGate`.
+-/
+def TerminalContainedEvalPrefixGate
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (start : StateId) (rank : Fin numPairWords) : Prop :=
+  ∃ (labels : List Face) (finish : StateId) (gain : Int),
+    ∃ rest : List Face,
+      TerminalStepState.Contains (machine.stateOf start) rank ∧
+        topPairingRankFaceLabels rank =
+          (machine.stateOf start).pfx ++ labels ++ rest ∧
+          evalLabelStepFn (nextEval machine) start labels =
+            some (finish, gain) ∧
+            machine.IsTerminal finish
+
 theorem contains_of_eval_suffix
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
     {rank : Fin numPairWords}
@@ -214,6 +237,35 @@ theorem terminalTraceLabels_of_eval_prefix_terminal
     machine hclosed
       (contains_of_eval_prefix machine hcontains hlabels heval)
       hterminal
+
+theorem terminalTraceLabels_of_containedEvalPrefixGate
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords} {badFace : Face}
+    {start : StateId}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace)
+    (hgate : TerminalContainedEvalPrefixGate machine start rank) :
+    TopPairingTraceClassifier.TerminalOk.TerminalTraceLabels
+      (topPairingRankFaceLabels rank) := by
+  rcases hgate with
+    ⟨labels, finish, gain, rest, hcontains, hlabels, heval, hterminal⟩
+  exact terminalTraceLabels_of_eval_prefix_terminal
+    machine hclosed hcontains hlabels heval hterminal
+
+theorem terminalEvalPrefixGate_of_containedEvalPrefixGate_from_initial
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords}
+    {start : StateId}
+    (hstart :
+      machine.stateOf start = TerminalStepState.initial)
+    (hgate : TerminalContainedEvalPrefixGate machine start rank) :
+    TerminalEvalPrefixGate machine start rank := by
+  rcases hgate with
+    ⟨labels, finish, gain, rest, _hcontains, hlabels, heval, hterminal⟩
+  refine ⟨labels, finish, gain, rest, ?_, heval, hterminal⟩
+  have hpfx : (machine.stateOf start).pfx = [] := by
+    rw [hstart]
+    rfl
+  simpa [hpfx] using hlabels
 
 theorem terminalTraceLabels_of_eval_prefix_from_initial
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)

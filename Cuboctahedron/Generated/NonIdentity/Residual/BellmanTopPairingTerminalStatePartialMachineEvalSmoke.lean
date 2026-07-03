@@ -81,6 +81,35 @@ theorem smokePartialEvalPrefixGate
   exact ⟨smokeEvalPrefix, SmokePartialState.s13, 0,
     rest, hprefix, smokePartialMachine_eval_prefix, True.intro⟩
 
+theorem smokeContainedEvalPrefixGate
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hprefix :
+      ∃ rest : List Face,
+        topPairingRankFaceLabels rank = smokeEvalPrefix ++ rest) :
+    TerminalContainedEvalPrefixGate
+      smokePartialMachine SmokePartialState.s00 rank := by
+  rcases hprefix with ⟨rest, hprefix⟩
+  refine ⟨smokeEvalPrefix, SmokePartialState.s13, 0,
+    rest, ?_, ?_, smokePartialMachine_eval_prefix, True.intro⟩
+  · rw [smokePartialMachine_start_state]
+    exact initial_contains_of_closed hclosed
+  · rw [smokePartialMachine_start_state]
+    simpa [TerminalStepState.initial] using hprefix
+
+theorem smokePartialEvalPrefixGate_of_contained
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hprefix :
+      ∃ rest : List Face,
+        topPairingRankFaceLabels rank = smokeEvalPrefix ++ rest) :
+    TerminalEvalPrefixGate
+      smokePartialMachine SmokePartialState.s00 rank :=
+  terminalEvalPrefixGate_of_containedEvalPrefixGate_from_initial
+    smokePartialMachine
+    smokePartialMachine_start_state
+    (smokeContainedEvalPrefixGate hclosed hprefix)
+
 theorem terminalTraceLabels_of_smokePartialEvalPrefixGate
     {rank : Fin numPairWords} {badFace : Face}
     (hclosed : TopPairingClosedLanguageAtRank rank badFace)
@@ -119,6 +148,27 @@ theorem closedTransducerProducer_of_smokePartialEvalPrefixGate
     hstrengthened
     smokePartialMachine_start_state
     (smokePartialEvalPrefixGate hprefix)
+    hdepth11
+    hfinal
+
+theorem closedTransducerProducer_of_smokeContainedEvalPrefixGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        GraphEvalAcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      ∃ rest : List Face,
+        topPairingRankFaceLabels rank = smokeEvalPrefix ++ rest)
+    (hdepth11 : Split10MDepth11GraphPathProducer rank)
+    (hfinal : Split10MFinalMarginProducer scaledMargin rank) :
+    StrengthenedClosedTransducerProducer scaledMargin rank :=
+  closedTransducerProducer_of_terminalContainedEvalPrefixGate
+    (machine := smokePartialMachine)
+    (start := SmokePartialState.s00)
+    hstrengthened
+    smokePartialMachine_start_state
+    (smokeContainedEvalPrefixGate hstrengthened.closed hprefix)
     hdepth11
     hfinal
 

@@ -88544,3 +88544,149 @@ machine whose accepted prefixes are proved from the top-pairing closed
 language fields: target-shadow cursor, schedule, pair-count constraints,
 local-axis class, and tri-source progress.  The generator should produce
 `TerminalEvalPrefixGate` facts, not trace ids or sampled rank objects.
+
+#### Contained Terminal Eval Gate Accepted
+
+Added a packed semantic eval-prefix gate for partial terminal machines:
+
+```lean
+TerminalContainedEvalPrefixGate
+terminalTraceLabels_of_containedEvalPrefixGate
+terminalEvalPrefixGate_of_containedEvalPrefixGate_from_initial
+closedTransducerProducer_of_terminalContainedEvalPrefixGate
+smokeContainedEvalPrefixGate
+closedTransducerProducer_of_smokeContainedEvalPrefixGate
+```
+
+This is a stronger interface than the previous bounded prefix theorem.  A
+generated deterministic terminal classifier can now prove a single semantic
+package:
+
+```lean
+TerminalContainedEvalPrefixGate machine start rank
+```
+
+whose fields are:
+
+1. the current machine state semantically contains the rank;
+2. the rank labels split as the state's consumed prefix plus a checked eval
+   prefix plus a remainder;
+3. `evalLabelStepFn (nextEval machine)` reaches a generated terminal state;
+4. that terminal state carries `TerminalStepStateProducer`.
+
+For the initial state, this package automatically becomes the existing
+`TerminalEvalPrefixGate`, so the closed-transducer producer socket can consume
+it.  This moves the target one step closer to the GPT5.5 Pro pivot:
+membership should be proved by a deterministic semantic machine over
+`TopPairingTransducerTail`/target-cursor state, not by accepted trace ids,
+sampled ranks, or a selected-prefix cover.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_contained_eval_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_contained_eval_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_contained_eval_closed_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedTransducerProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_contained_eval_closed_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedTransducerProducerSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_contained_eval_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_contained_eval_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedTransducerProducerSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct contained-eval socket | pass | `7.01s` | `3493 MiB` | `45934 MiB` |
+| first direct closed socket after edit | failed | `6.00s` | `3537 MiB` | `45898 MiB` |
+| Lake contained-eval socket refresh | pass | `3.00s` | `1707 MiB` | `46263 MiB` |
+| direct closed socket after refresh | pass | `2.00s` | `3623 MiB` | `45956 MiB` |
+| first direct contained-eval smoke | failed | `2.00s` | `3625 MiB` | `45894 MiB` |
+| Lake closed socket refresh | pass | `3.00s` | `1485 MiB` | `46257 MiB` |
+| direct contained-eval smoke after refresh | pass | `2.00s` | `3625 MiB` | `46231 MiB` |
+| Lake contained-eval smoke | pass | `3.00s` | `1528 MiB` | `46277 MiB` |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a |
+
+Failure notes:
+
+- Both failures were stale-import failures after adding new theorem names to
+  upstream sockets.  Focused Lake builds refreshed the corresponding `.olean`
+  targets.  No proof route failed after the imports were current.
+
+Decision: accepted.  The next production slice should build a generated
+terminal-machine frontier that proves `TerminalContainedEvalPrefixGate` from
+semantic fields.  The local proof should case-split only on generated machine
+state and the next face, using `TopPairingTransducerTail.cons`; it must not
+case-split on full ranks, accepted traces, or observed prefix classes.

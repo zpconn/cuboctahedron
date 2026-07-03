@@ -94,6 +94,29 @@ theorem closedTransducerProducer_of_terminalEvalPrefixGate
   depth11GraphPath := hdepth11
   finalMargin := hfinal
 
+theorem closedTransducerProducer_of_terminalContainedEvalPrefixGate
+    {StateId : Type}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hstart :
+      machine.stateOf start = TerminalStepState.initial)
+    (hterminal : TerminalContainedEvalPrefixGate machine start rank)
+    (hdepth11 : Split10MDepth11GraphPathProducer rank)
+    (hfinal : Split10MFinalMarginProducer scaledMargin rank) :
+    StrengthenedClosedTransducerProducer scaledMargin rank :=
+  closedTransducerProducer_of_terminalEvalPrefixGate
+    hstrengthened
+    hstart
+    (terminalEvalPrefixGate_of_containedEvalPrefixGate_from_initial
+      machine hstart hterminal)
+    hdepth11
+    hfinal
+
 theorem split10MGraphSuffixProducer_of_closedTransducerProducer
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
