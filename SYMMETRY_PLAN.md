@@ -92052,3 +92052,111 @@ try to prove a parametric start-miss theorem from the closed target-shadow,
 schedule, cancellation, and local-axis fields, using the shared axis/failure
 signature as the semantic invariant.  If that theorem still needs exact `p0`
 or exact word keys, the semantic state is missing one honest finite field.
+
+### Direct Start-Violation Kill Socket Accepted
+
+The trace-provider clustering audit showed that the current top-pairing
+positive side is not a generic margin argument: every accepted trace is an
+`axisMissesStartInterior` case.  The existing
+`ObjectStartViolationMarginCert.positive` theorem was already deriving its
+arbitrary `0 < margin` conclusion from an actual start-interior contradiction.
+
+Exposed that contradiction directly:
+
+```lean
+theorem ObjectStartViolationMarginCert.no_axis_constraints
+
+theorem nonIdentityRankKilled_of_startViolationMarginCert
+```
+
+and added direct semantic start-violation gates:
+
+```lean
+theorem nonIdentityRankKilled_of_closedStartViolationGate
+
+theorem nonIdentityRankKilled_of_strengthenedStartViolationGate
+```
+
+Files:
+
+```text
+Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticKilledSocket.lean
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/bellman_killed_bridge_start_violation_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/BellmanKilledBridge.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/bellman_killed_bridge_start_violation_direct_lake_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_semantic_killed_socket_start_violation_direct_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticKilledSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_semantic_killed_socket_start_violation_direct_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticKilledSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct killed bridge | pass | `6.00s` | `3752 MiB` | `46253 MiB` | `8192 MiB` |
+| Lake killed bridge | pass | `3.00s` | `3969 MiB` | `46098 MiB` | none |
+| direct semantic killed socket | pass | `2.00s` | `3595 MiB` | `46258 MiB` | `8192 MiB` |
+| Lake semantic killed socket | pass | `3.00s` | `1650 MiB` | `46296 MiB` | none |
+
+Decision: accepted.  For any top-pairing class whose obstruction is truly
+semantic `axisMissesStartInterior`, the production route can bypass the
+Bellman margin-gain theorem entirely:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> ObjectStartViolationMarginCert rank margin
+  -> Coverage.NonIdentityRankKilled rank
+```
+
+The next substantive target is therefore a **semantic start-miss producer** for
+the shared axis/failure family, not another Bellman graph or trace-margin
+producer.  Bellman remains the right tool for residuals whose obstruction is a
+real additive margin bound, but the current audited top-pairing start-miss
+family should be attacked directly.

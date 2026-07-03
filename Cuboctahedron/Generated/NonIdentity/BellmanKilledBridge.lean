@@ -196,13 +196,13 @@ end TraceStartViolationMarginCert
 
 namespace ObjectStartViolationMarginCert
 
-theorem positive
+theorem no_axis_constraints
     {rank : Fin numPairWords} {margin : Int}
     (cert : ObjectStartViolationMarginCert rank margin)
     {seq : Step14 -> Face}
-    (hRealize : SeqRealizesPairWord (unrankPairWord rank) seq)
-    (hAxisConstraints : NonIdentityAxisConstraints seq) :
-    0 < margin := by
+    (hRealize : SeqRealizesPairWord (unrankPairWord rank) seq) :
+    ¬ NonIdentityAxisConstraints seq := by
+  intro hAxisConstraints
   have hRealizeCert : SeqRealizesPairWord cert.cert.word seq := by
     simpa [cert.word_eq] using hRealize
   rcases
@@ -221,9 +221,35 @@ theorem positive
       (f := Face.xp) (g := cert.badFace)
       (p := vecRatToReal cert.cert.p0)
       cert.badFace_ne_xp cert.badFace_violation
-  exact False.elim (hnot hp0Interior)
+  exact hnot hp0Interior
+
+theorem positive
+    {rank : Fin numPairWords} {margin : Int}
+    (cert : ObjectStartViolationMarginCert rank margin)
+    {seq : Step14 -> Face}
+    (hRealize : SeqRealizesPairWord (unrankPairWord rank) seq)
+    (hAxisConstraints : NonIdentityAxisConstraints seq) :
+    0 < margin := by
+  exact False.elim (cert.no_axis_constraints hRealize hAxisConstraints)
 
 end ObjectStartViolationMarginCert
+
+/--
+Rank-local start-violation socket.
+
+An `ObjectStartViolationMarginCert` already proves that the rank has no
+compatible nonidentity axis witness: the forced start point would both lie in
+the relative interior of `X+` and violate a non-`X+` face inequality.  This
+stronger socket is useful for start-miss families where the Bellman margin
+nonpositive fact is not needed.
+-/
+theorem nonIdentityRankKilled_of_startViolationMarginCert
+    {rank : Fin numPairWords} {margin : Int}
+    (cert : ObjectStartViolationMarginCert rank margin) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank := by
+  apply nonIdentityRankKilled_of_no_axis_constraints
+  intro seq hRealize _hStart _hLinear hAxis
+  exact cert.no_axis_constraints hRealize hAxis
 
 /--
 Rank-local Bellman contradiction socket.

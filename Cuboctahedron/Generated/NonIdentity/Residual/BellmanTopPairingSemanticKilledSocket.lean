@@ -65,6 +65,17 @@ theorem nonIdentityRankKilled_of_closedSemanticGates
       next_sound evalGate step_valid root_bound hclosed)
     (startGate rank hclosed)
 
+theorem nonIdentityRankKilled_of_closedStartViolationGate
+    {badFace : Face}
+    {scaledMargin : Fin numPairWords -> Int}
+    (startGate :
+      TopPairingClosedToStartViolationGate scaledMargin badFace)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_startViolationMarginCert
+    (startGate rank hclosed)
+
 theorem nonIdentityRankKilled_of_strengthenedSemanticGates
     {badFace : Face}
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
@@ -99,6 +110,21 @@ theorem nonIdentityRankKilled_of_strengthenedSemanticGates
       (labelOfFace := labelOfFace) (start := start) (const := const)
       (scaledMargin := scaledMargin)
       next_sound evalGate step_valid root_bound hstrengthened)
+    (startGate rank hstrengthened)
+
+theorem nonIdentityRankKilled_of_strengthenedStartViolationGate
+    {badFace : Face}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (startGate :
+      TopPairingStrengthenedToStartViolationGate
+        scaledMargin sequenceBadFace badFace)
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank badFace) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_startViolationMarginCert
     (startGate rank hstrengthened)
 
 theorem semanticKilledSocket_builds : True := by
