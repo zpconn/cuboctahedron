@@ -16,7 +16,7 @@ a target is lightweight enough to sit on a public/residual bridge path.
 | `state_dag_selected_prefix_group` | `bounded-semantic-producer-group` | `183` | `142` | `124` | `8` | `0` |
 | `state_dag_selected_prefix_cover` | `semantic-producer-root-serial-build-required` | `190` | `149` | `124` | `8` | `0` |
 | `depth11_graph_exact_portfolio_socket` | `producer-portfolio-socket-keep-downstream` | `207` | `157` | `124` | `8` | `0` |
-| `depth11_layer4_classifier_socket` | `lightweight-semantic-classifier-socket-ok` | `172` | `127` | `124` | `0` | `0` |
+| `depth11_layer4_classifier_socket` | `lightweight-semantic-classifier-socket-ok` | `173` | `128` | `124` | `0` | `0` |
 | `root_trace_margin_bridge` | `heavy-producer-root-keep-downstream` | `246` | `200` | `124` | `8` | `1` |
 
 ## Interpretation
@@ -121,7 +121,7 @@ a target is lightweight enough to sit on a public/residual bridge path.
 - module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket`
 - decision: `lightweight-semantic-classifier-socket-ok`
 - missing imports: `11`
-- generated residual modules: `127`
+- generated residual modules: `128`
 - split graph smoke modules: `124`
 - terminal trace modules: `0`
 

@@ -324,8 +324,8 @@
     },
     "depth11_layer4_classifier_socket": {
       "decision": "lightweight-semantic-classifier-socket-ok",
-      "generated_count": 127,
-      "generated_residual_count": 127,
+      "generated_count": 128,
+      "generated_residual_count": 128,
       "generated_residual_modules": [
         "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket",
         "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base",
@@ -453,7 +453,8 @@
         "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Shard120",
         "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Shard121",
         "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphExactProducerSocket",
-        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticClosedGateSocket"
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticClosedGateSocket",
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateStepSocket"
       ],
       "missing_imports": [
         "Batteries.Data.Vector.Lemmas",
@@ -469,7 +470,7 @@
         "Mathlib.Tactic"
       ],
       "module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket",
-      "module_count": 172,
+      "module_count": 173,
       "root_trace_margin_count": 0,
       "root_trace_margin_modules": [],
       "sampled_or_smoke_name_count": 124,

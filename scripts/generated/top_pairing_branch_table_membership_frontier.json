@@ -117,18 +117,23 @@
     "depth11_layer4_classifier": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 180,
+      "lines": 298,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4ClassifierSocket.lean",
       "symbol_hits": {
-        "Depth11Layer4BranchAllowed": 3,
-        "Depth11Layer4BranchGraphExactEvalAllFamily": 4,
+        "Depth11Layer4BranchAllowed": 4,
+        "Depth11Layer4BranchGraphExactEvalAllFamily": 5,
         "Depth11Layer4GraphExactEvalAllFamily": 4,
-        "Depth11Layer4PrefixAtRank": 8,
+        "Depth11Layer4PrefixAtRank": 10,
+        "Depth11Layer4SemanticFrontierBranch": 4,
+        "Depth11Layer4SemanticFrontierGraphExactEvalAllFamily": 4,
+        "layer4BranchClassifier_of_semanticFrontierClassifier": 3,
         "layer4Classifier_of_branchClassifier": 3,
-        "scaledMargin_nonpos_of_layer4BranchClassifier": 1,
+        "scaledMargin_nonpos_of_layer4BranchClassifier": 2,
         "scaledMargin_nonpos_of_layer4Classifier": 2,
-        "split10MGraphExactEvalAllFamily_of_layer4BranchClassifier": 1,
-        "split10MGraphExactEvalAllFamily_of_layer4Classifier": 3
+        "scaledMargin_nonpos_of_layer4SemanticFrontierClassifier": 1,
+        "split10MGraphExactEvalAllFamily_of_layer4BranchClassifier": 2,
+        "split10MGraphExactEvalAllFamily_of_layer4Classifier": 3,
+        "split10MGraphExactEvalAllFamily_of_layer4SemanticFrontierClassifier": 1
       }
     },
     "eval_bridge": {
@@ -478,6 +483,12 @@
     "Depth11Layer4PrefixAtRank": [
       "depth11_layer4_classifier"
     ],
+    "Depth11Layer4SemanticFrontierBranch": [
+      "depth11_layer4_classifier"
+    ],
+    "Depth11Layer4SemanticFrontierGraphExactEvalAllFamily": [
+      "depth11_layer4_classifier"
+    ],
     "GraphBranchTableSuffixOk": [
       "branch_table_suffix",
       "branch_table_suffix_split10m",
@@ -648,6 +659,9 @@
       "branch_table_progress",
       "branch_table_progress_split10m"
     ],
+    "layer4BranchClassifier_of_semanticFrontierClassifier": [
+      "depth11_layer4_classifier"
+    ],
     "layer4Classifier_of_branchClassifier": [
       "depth11_layer4_classifier"
     ],
@@ -658,6 +672,9 @@
       "depth11_layer4_classifier"
     ],
     "scaledMargin_nonpos_of_layer4Classifier": [
+      "depth11_layer4_classifier"
+    ],
+    "scaledMargin_nonpos_of_layer4SemanticFrontierClassifier": [
       "depth11_layer4_classifier"
     ],
     "socket150TpppBranch_impossible": [
@@ -675,6 +692,9 @@
       "depth11_layer4_classifier"
     ],
     "split10MGraphExactEvalAllFamily_of_layer4Classifier": [
+      "depth11_layer4_classifier"
+    ],
+    "split10MGraphExactEvalAllFamily_of_layer4SemanticFrontierClassifier": [
       "depth11_layer4_classifier"
     ],
     "strengthenedBranchKind?": [

@@ -93364,3 +93364,65 @@ available memory, `8192 MiB` hard address-space cap.  The semantic import audit
 still reports `lightweight-semantic-classifier-socket-ok` with `0` terminal
 trace shards and `0` selected-prefix modules in the closure, and the membership
 frontier audit sees all branch-aware symbols with forbidden hit count `0`.
+
+Further refinement: the socket now proves the actual seven-way first-four
+semantic frontier from the closed language, using the lightweight
+`TerminalStepState` step socket rather than importing the old generated
+terminal/frontier trace closure.
+
+New theorem surface:
+
+```lean
+def Depth11Layer4SemanticFrontierBranch
+structure Depth11Layer4SemanticFrontierGraphExactEvalAllFamily
+theorem layer4BranchClassifier_of_semanticFrontierClassifier
+theorem split10MGraphExactEvalAllFamily_of_layer4SemanticFrontierClassifier
+theorem scaledMargin_nonpos_of_layer4SemanticFrontierClassifier
+```
+
+The semantic frontier is exactly:
+
+```lean
+(face₀ = Face.tmpm ∧ (face₁ = Face.tppm ∨ face₁ = Face.zm)) ∨
+(face₀ = Face.yp ∧ (face₁ = Face.tmmm ∨ face₁ = Face.zm)) ∨
+(face₀ = Face.zm ∧
+  (face₁ = Face.tmpp ∨ face₁ = Face.yp ∨ face₁ = Face.zp))
+```
+
+The proof uses:
+
+- `TopPairingClosedLanguageAtRank`
+- `TerminalStepState.Contains`
+- `TerminalStepState.Head.transducer_cons`
+- the first-four prefix equality
+
+and avoids selected-prefix/rank membership, accepted trace IDs, terminal trace
+shards, exact affine RHS keys, solved start points, and raw graph paths.
+
+Rechecked command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_layer4_classifier_socket_lean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4ClassifierSocket.lean
+```
+
+Result: pass, `6.00s`, `4079.5 MiB` peak tree RSS, `46074.5 MiB` minimum
+available memory, `8192 MiB` hard address-space cap.  The semantic import audit
+still reports `lightweight-semantic-classifier-socket-ok`, now with `173`
+modules, `128` generated residual modules, `124` split graph modules, `0`
+terminal trace shards, and `0` selected-prefix modules.  The membership
+frontier audit sees all semantic-frontier symbols with forbidden hit count `0`.
+
+Promoted target: the next generated/semantic instance should prove
+`Depth11Layer4SemanticFrontierGraphExactEvalAllFamily`.  This is a strictly
+better target than the looser branch-aware classifier because Lean has already
+proved that every closed top-pairing rank is in one of the seven semantic
+frontier branches.
