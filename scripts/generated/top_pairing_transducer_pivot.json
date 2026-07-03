@@ -62,6 +62,7 @@
   },
   "files": {
     "bellman_object": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [
         {
           "line": 18,
@@ -476,6 +477,7 @@
       "target_shadow": []
     },
     "bellman_potential": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [],
       "eval_core": [
         {
@@ -677,7 +679,101 @@
       "target_cursor_core": [],
       "target_shadow": []
     },
+    "branch_table_semantic_gate_socket": {
+      "branch_table_semantic_gate_socket": [
+        {
+          "line": 34,
+          "pattern": "Split10MBranchTableClosedEvalFamily",
+          "text": "structure Split10MBranchTableClosedEvalFamily"
+        },
+        {
+          "line": 55,
+          "pattern": "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
+          "text": "theorem split10MClosedToEvalGate_of_branchTableClosedEvalFamily"
+        },
+        {
+          "line": 57,
+          "pattern": "Split10MBranchTableClosedEvalFamily",
+          "text": "(hfamily : Split10MBranchTableClosedEvalFamily scaledMargin) :"
+        },
+        {
+          "line": 81,
+          "pattern": "scaledMargin_nonpos_of_branchTableClosedEvalFamily",
+          "text": "theorem scaledMargin_nonpos_of_branchTableClosedEvalFamily"
+        },
+        {
+          "line": 83,
+          "pattern": "Split10MBranchTableClosedEvalFamily",
+          "text": "(hfamily : Split10MBranchTableClosedEvalFamily scaledMargin)"
+        },
+        {
+          "line": 88,
+          "pattern": "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
+          "text": "(split10MClosedToEvalGate_of_branchTableClosedEvalFamily hfamily)"
+        }
+      ],
+      "closed_language_fields": [
+        {
+          "line": 8,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "final-margin facts from `TopPairingClosedLanguageAtRank`, not from sampled"
+        },
+        {
+          "line": 38,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank Face.ym ->"
+        },
+        {
+          "line": 85,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
+        }
+      ],
+      "eval_core": [
+        {
+          "line": 45,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn faceEvalNext"
+        }
+      ],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 94,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean",
+      "ranked_semantic_gate_core": [
+        {
+          "line": 59,
+          "pattern": "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+          "text": "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix"
+        }
+      ],
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [],
+      "semantic_socket_core": [],
+      "semantic_tail_core": [
+        {
+          "line": 31,
+          "pattern": "TopPairingTransducerTail.cons",
+          "text": "intended proof uses `TopPairingTransducerTail.cons` plus a finite state/face"
+        }
+      ],
+      "suffix_eval_core": [
+        {
+          "line": 40,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 46,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        }
+      ],
+      "target_cursor_core": [],
+      "target_shadow": []
+    },
     "cancellation_language": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [],
       "eval_core": [],
       "exists": true,
@@ -815,6 +911,7 @@
       ]
     },
     "closed_eval_gate": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [
         {
           "line": 8,
@@ -1028,6 +1125,7 @@
       "target_shadow": []
     },
     "missing_transition_socket": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [
         {
           "line": 111,
@@ -1276,6 +1374,7 @@
       ]
     },
     "selected_prefix_root_bridge": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [
         {
           "line": 37,
@@ -1360,6 +1459,7 @@
       "target_shadow": []
     },
     "selected_prefix_state_dag_root": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [],
       "eval_core": [],
       "exists": true,
@@ -1398,6 +1498,7 @@
       "target_shadow": []
     },
     "semantic_gate": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [
         {
           "line": 24,
@@ -1562,6 +1663,7 @@
       "target_shadow": []
     },
     "strengthened_local_1m": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [
         {
           "line": 187,
@@ -2104,6 +2206,7 @@
       ]
     },
     "target_cursor": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [
         {
           "line": 11,
@@ -2678,6 +2781,7 @@
       ]
     },
     "top_pairing_language": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [
         {
           "line": 38,
@@ -3376,6 +3480,7 @@
       ]
     },
     "transducer_eval_bridge": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [
         {
           "line": 61,
@@ -3848,6 +3953,7 @@
       ]
     },
     "transducer_semantic_gate": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [
         {
           "line": 31,
@@ -4584,6 +4690,7 @@
       "target_shadow": []
     },
     "transducer_tail": {
+      "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [
         {
           "line": 26,
@@ -4675,6 +4782,30 @@
     }
   },
   "guards": {
+    "branch_table_semantic_gate_socket_direct": {
+      "available_floor_mib": 30000.0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6500",
+        "-j1",
+        "-s",
+        "2048",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean"
+      ],
+      "elapsed_seconds": 2.002111144014634,
+      "exit_code": 0,
+      "hard_address_space_mib": 8192.0,
+      "killed_reason": null,
+      "max_tree_rss_kib": 3691776,
+      "max_tree_rss_mib": 3605.25,
+      "min_available_seen_kib": 47369488,
+      "min_available_seen_mib": 46259.265625,
+      "rss_cap_mib": 6500.0,
+      "timeout_seconds": 180.0
+    },
     "frontier_direct_check": {
       "available_floor_mib": 24576.0,
       "command": [
@@ -4879,6 +5010,8 @@
     "TopPairingTransducerTail.cons",
     "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
     "scaledMargin_nonpos_of_rankedTransducerClosedGate",
+    "Split10MBranchTableClosedEvalFamily",
+    "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
     "topPairingClosed_to_strengthenedSuffixOk",
     "topPairingClosed_to_eval_gate",
     "topPairingClosed_scaledMargin_nonpos"
@@ -4894,6 +5027,7 @@
   "production_rule": "Do not scale selected-prefix/root-trace membership as production. Use it only as a diagnostic/downstream comparison until a compact closed-language-to-eval transducer theorem exists.",
   "selected_prefix_root_bridge_rss_killed": true,
   "semantic_branch_checkpoint": {
+    "branch_table_semantic_gate_socket_ready": true,
     "closure_after_sequence_bad_face": true,
     "graph_states": 223,
     "known_sockets": [
@@ -4908,15 +5042,16 @@
     "strengthened_local_smoke_passed": true
   },
   "totals": {
-    "closed_language_fields": 201,
-    "eval_core": 89,
+    "branch_table_semantic_gate_socket": 6,
+    "closed_language_fields": 204,
+    "eval_core": 90,
     "forbidden_sampled_surface": 0,
-    "ranked_semantic_gate_core": 7,
+    "ranked_semantic_gate_core": 8,
     "selected_prefix_production_risk": 12,
     "semantic_eval_gate": 136,
     "semantic_socket_core": 26,
-    "semantic_tail_core": 10,
-    "suffix_eval_core": 229,
+    "semantic_tail_core": 11,
+    "suffix_eval_core": 231,
     "target_cursor_core": 46,
     "target_shadow": 112
   }

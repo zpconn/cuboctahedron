@@ -39,6 +39,9 @@ FILES = {
     / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean",
     "closed_eval_gate": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedEvalGate.lean",
+    "branch_table_semantic_gate_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingBranchTableSemanticGateSocket.lean",
     "missing_transition_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingMissingTransition1MSocket.lean",
@@ -106,6 +109,11 @@ PATTERNS = {
         "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
         "scaledMargin_nonpos_of_rankedTransducerClosedGate",
     ],
+    "branch_table_semantic_gate_socket": [
+        "Split10MBranchTableClosedEvalFamily",
+        "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
+        "scaledMargin_nonpos_of_branchTableClosedEvalFamily",
+    ],
     "semantic_socket_core": [
         "strengthened_no_missingState19TmmpSemanticTail",
         "strengthened_no_missingState150TpppSemanticTail",
@@ -146,6 +154,8 @@ GUARD_FILES = {
     / "scripts/generated/top_pairing_transducer_tail_pivot_latest_guard.json",
     "transducer_semantic_gate_latest_direct": ROOT
     / "scripts/generated/top_pairing_transducer_semantic_gate_latest_guard.json",
+    "branch_table_semantic_gate_socket_direct": ROOT
+    / "scripts/generated/branch_table_semantic_gate_socket_guard.json",
 }
 
 DIAGNOSTIC_JSON = {
@@ -251,6 +261,9 @@ def main() -> None:
     semantic_tail_core_ready = totals["semantic_tail_core"] >= 4
     suffix_eval_core_ready = totals["suffix_eval_core"] >= 3
     ranked_semantic_gate_core_ready = totals["ranked_semantic_gate_core"] >= 3
+    branch_table_semantic_gate_socket_ready = (
+        totals["branch_table_semantic_gate_socket"] >= 3
+    )
     semantic_socket_core_ready = totals["semantic_socket_core"] >= 4
     closure_closed = bool(closure and closure.get("closed_after_sequence_bad_face"))
     state150_socket_needed = bool(
@@ -267,6 +280,7 @@ def main() -> None:
         if target_shadow_ready and eval_core_ready and semantic_gate_ready
         and target_cursor_core_ready and semantic_tail_core_ready
         and suffix_eval_core_ready and ranked_semantic_gate_core_ready
+        and branch_table_semantic_gate_socket_ready
         and semantic_socket_core_ready and closure_closed
         and state150_socket_needed and strengthened_smoke_passed
         and selected_prefix_risk and not sampled_hits
@@ -289,6 +303,9 @@ def main() -> None:
             "graph_states": graph.get("states"),
             "semantic_tail_core_ready": semantic_tail_core_ready,
             "ranked_semantic_gate_core_ready": ranked_semantic_gate_core_ready,
+            "branch_table_semantic_gate_socket_ready": (
+                branch_table_semantic_gate_socket_ready
+            ),
             "semantic_socket_branches": 2,
             "known_sockets": [
                 "state19/tmmp canonical-bad-face mismatch",
@@ -315,6 +332,8 @@ def main() -> None:
             "TopPairingTransducerTail.cons",
             "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
             "scaledMargin_nonpos_of_rankedTransducerClosedGate",
+            "Split10MBranchTableClosedEvalFamily",
+            "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
             "topPairingClosed_to_strengthenedSuffixOk",
             "topPairingClosed_to_eval_gate",
             "topPairingClosed_scaledMargin_nonpos",
@@ -355,6 +374,7 @@ def main() -> None:
         f"- semantic-tail core mentions: `{totals['semantic_tail_core']}`",
         f"- suffix-eval core mentions: `{totals['suffix_eval_core']}`",
         f"- ranked semantic-gate core mentions: `{totals['ranked_semantic_gate_core']}`",
+        f"- branch-table semantic-gate socket mentions: `{totals['branch_table_semantic_gate_socket']}`",
         f"- semantic-socket core mentions: `{totals['semantic_socket_core']}`",
         f"- selected-prefix production-risk mentions: `{totals['selected_prefix_production_risk']}`",
         f"- forbidden sampled-surface mentions: `{totals['forbidden_sampled_surface']}`",

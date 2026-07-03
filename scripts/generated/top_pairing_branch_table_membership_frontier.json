@@ -38,6 +38,23 @@
         "graph_next_of_graphBranch": 1
       }
     },
+    "branch_table_semantic_gate_socket": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 94,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean",
+      "symbol_hits": {
+        "BranchTableSuffixOk": 3,
+        "Split10MBranchTableClosedEvalFamily": 3,
+        "StrengthenedBranchTable": 1,
+        "TopPairingTransducerTail.cons": 1,
+        "branchTableSemanticGateSocket_builds": 1,
+        "branchTableSuffixOk_local": 1,
+        "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": 1,
+        "scaledMargin_nonpos_of_branchTableClosedEvalFamily": 1,
+        "split10MClosedToEvalGate_of_branchTableClosedEvalFamily": 2
+      }
+    },
     "branch_table_split10m": {
       "exists": true,
       "forbidden_hits": {},
@@ -431,6 +448,14 @@
       "max_tree_rss_mib": 4067.25390625,
       "path": "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_lake_guard.json"
     },
+    "branch_table_semantic_gate_socket_direct": {
+      "elapsed_seconds": 2.002111144014634,
+      "exists": true,
+      "exit_code": 0,
+      "killed_reason": null,
+      "max_tree_rss_mib": 3605.25,
+      "path": "scripts/generated/branch_table_semantic_gate_socket_guard.json"
+    },
     "branch_table_suffix_direct": {
       "elapsed_seconds": 3.002494137996109,
       "exists": true,
@@ -666,7 +691,8 @@
       "graph_suffix_emitter",
       "graph_accepted_suffix_bridge",
       "graph_accepted_branch_suffix",
-      "graph_accepted_branch_suffix_split10m"
+      "graph_accepted_branch_suffix_split10m",
+      "branch_table_semantic_gate_socket"
     ],
     "Class034Depth11GraphFinish": [
       "depth11_suffix_eval"
@@ -804,6 +830,9 @@
       "graph_accepted_prefix_frontier",
       "graph_accepted_suffix_bridge"
     ],
+    "Split10MBranchTableClosedEvalFamily": [
+      "branch_table_semantic_gate_socket"
+    ],
     "StrengthenedBranchTable": [
       "branch_table",
       "branch_table_split10m",
@@ -813,13 +842,15 @@
       "branch_table_suffix_split10m",
       "graph_suffix_emitter",
       "graph_accepted_branch_suffix",
-      "graph_accepted_branch_suffix_split10m"
+      "graph_accepted_branch_suffix_split10m",
+      "branch_table_semantic_gate_socket"
     ],
     "TopPairingTransducerTail.cons": [
       "eval_bridge",
       "face_eval_split10m",
       "branch_table_suffix_split10m",
-      "strengthened_local"
+      "strengthened_local",
+      "branch_table_semantic_gate_socket"
     ],
     "TopPairingTransducerTail.ofClosedRank": [
       "eval_bridge",
@@ -831,13 +862,17 @@
     "branchTableProgressSplit10MSmoke_builds": [
       "branch_table_progress_split10m"
     ],
+    "branchTableSemanticGateSocket_builds": [
+      "branch_table_semantic_gate_socket"
+    ],
     "branchTableSuffixOk_closedPrefix2_branch_of_closed": [
       "branch_table_suffix",
       "branch_table_suffix_split10m"
     ],
     "branchTableSuffixOk_local": [
       "branch_table_suffix",
-      "branch_table_suffix_split10m"
+      "branch_table_suffix_split10m",
+      "branch_table_semantic_gate_socket"
     ],
     "branchTableSuffixOk_of_graphBranchTableSuffixOk": [
       "branch_table_suffix",
@@ -886,7 +921,8 @@
       "depth11_layer4_mapped_finish"
     ],
     "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": [
-      "transducer_semantic_gate"
+      "transducer_semantic_gate",
+      "branch_table_semantic_gate_socket"
     ],
     "closedToEvalGate_of_transducerInvariantLocalWithSuffix": [
       "transducer_semantic_gate"
@@ -1019,6 +1055,9 @@
     "mappedSevenBranchClassifier_of_mappedPortfolio": [
       "depth11_layer4_mapped_finish"
     ],
+    "scaledMargin_nonpos_of_branchTableClosedEvalFamily": [
+      "branch_table_semantic_gate_socket"
+    ],
     "scaledMargin_nonpos_of_depth11GraphExactPortfolio": [
       "depth11_graph_exact_portfolio"
     ],
@@ -1057,6 +1096,9 @@
     "socket19TmmpBranch_impossible": [
       "branch_table_progress",
       "branch_table_suffix"
+    ],
+    "split10MClosedToEvalGate_of_branchTableClosedEvalFamily": [
+      "branch_table_semantic_gate_socket"
     ],
     "split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio": [
       "depth11_graph_exact_portfolio"

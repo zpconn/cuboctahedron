@@ -96,6 +96,9 @@ LEAN_FILES = {
     "depth11_layer4_mapped_finish": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4MappedFinish.lean",
+    "branch_table_semantic_gate_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingBranchTableSemanticGateSocket.lean",
 }
 
 GUARDS = {
@@ -155,6 +158,8 @@ GUARDS = {
     / "scripts/generated/depth11_graph_suffix_producers_olean_guard.json",
     "depth11_layer4_mapped_finish_direct": ROOT
     / "scripts/generated/depth11_layer4_mapped_finish_lean.json",
+    "branch_table_semantic_gate_socket_direct": ROOT
+    / "scripts/generated/branch_table_semantic_gate_socket_guard.json",
     "target_cursor_latest_direct": ROOT
     / "scripts/generated/top_pairing_target_cursor_pivot_latest_guard.json",
     "transducer_tail_latest_direct": ROOT
@@ -278,6 +283,10 @@ REQUIRED_SYMBOLS = {
     "closedToEvalGate_of_layer4MappedPortfolio": "mapped portfolio to canonical split-10M closed-to-eval gate",
     "scaledMargin_nonpos_of_layer4MappedPortfolio": "mapped portfolio to nonpositive scaled margin",
     "depth11Layer4MappedFinish_builds": "direct mapped finish module sentinel",
+    "Split10MBranchTableClosedEvalFamily": "branch-table semantic eval-family target",
+    "split10MClosedToEvalGate_of_branchTableClosedEvalFamily": "branch-table family to canonical split-10M closed-to-eval gate",
+    "scaledMargin_nonpos_of_branchTableClosedEvalFamily": "branch-table family to nonpositive scaled margin",
+    "branchTableSemanticGateSocket_builds": "branch-table semantic gate socket sentinel",
 }
 
 FORBIDDEN_TOKENS = [

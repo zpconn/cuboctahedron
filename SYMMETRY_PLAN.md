@@ -256,6 +256,46 @@ Implementation rule for the next slice:
   `decision=semantic-transducer-pivot-accepted-next-emit-finite-branch-table`,
   and `scripts/audit_top_pairing_branch_table_membership_frontier.py` reports
   `decision=local-branch-table-progress-accepted-membership-open`.
+- Added the explicit branch-table semantic gate socket:
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean`.
+  It exposes the exact next generated target and consequences:
+
+  ```lean
+  structure Split10MBranchTableClosedEvalFamily
+      (scaledMargin : Fin numPairWords -> Int) : Prop
+
+  theorem split10MClosedToEvalGate_of_branchTableClosedEvalFamily
+      {scaledMargin : Fin numPairWords -> Int}
+      (hfamily : Split10MBranchTableClosedEvalFamily scaledMargin) :
+      Split10MClosedToEvalGate scaledMargin
+
+  theorem scaledMargin_nonpos_of_branchTableClosedEvalFamily
+      {scaledMargin : Fin numPairWords -> Int}
+      (hfamily : Split10MBranchTableClosedEvalFamily scaledMargin)
+      (rank : Fin numPairWords)
+      (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+      scaledMargin rank <= 0
+  ```
+
+  This socket is intentionally conditional: a future generated family must
+  prove the `suffix` and `finish` fields from semantic state, but once it does
+  the public consequence is the canonical `Split10MClosedToEvalGate` with no
+  selected-prefix or sampled-rank object.  Guarded direct Lean check:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 \
+    --hard-address-space-mib 8192 \
+    --json scripts/generated/branch_table_semantic_gate_socket_guard.json \
+    --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSemanticGateSocket.lean
+  ```
+
+  Result: passed in `2.00s`, `peak_tree_rss=3605 MiB`, hard address-space cap
+  `8192 MiB`, minimum available memory `46259 MiB`.
 
 ### Holonomy-Normal-Form Marching Orders
 

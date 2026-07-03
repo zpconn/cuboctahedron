@@ -14,14 +14,14 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `topPairingTargetShadow_of_summary` | target-shadow inverse | `target_cursor` |
 | `topPairingTriCursor_of_closed` | closed language to target cursor | `target_cursor`, `transducer_tail` |
 | `TopPairingTransducerTail.ofClosedRank` | closed language to combined semantic tail | `eval_bridge`, `face_eval_split10m` |
-| `TopPairingTransducerTail.cons` | local semantic tail progress theorem | `eval_bridge`, `face_eval_split10m`, `branch_table_suffix_split10m`, `strengthened_local` |
+| `TopPairingTransducerTail.cons` | local semantic tail progress theorem | `eval_bridge`, `face_eval_split10m`, `branch_table_suffix_split10m`, `strengthened_local`, `branch_table_semantic_gate_socket` |
 | `closedToEvalGate_of_transducerInvariantLocalWithSuffix` | unranked semantic transducer gate | `transducer_semantic_gate` |
-| `closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix` | ranked semantic transducer gate | `transducer_semantic_gate` |
+| `closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix` | ranked semantic transducer gate | `transducer_semantic_gate`, `branch_table_semantic_gate_socket` |
 | `scaledMargin_nonpos_of_rankedTransducerClosedGate` | ranked semantic transducer nonpositive margin theorem | `transducer_semantic_gate` |
 | `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` | generic suffix evaluator | `eval_bridge`, `branch_table_suffix`, `branch_table_suffix_split10m`, `strengthened_local` |
 | `transducer_face_eval_split10m_smoke_builds` | split-10M semantic prefix evaluator build sentinel | `face_eval_split10m` |
 | `closed_prefix2_branch_faceEval` | closed prefix-2 semantic branch evaluator | `face_eval_split10m`, `strengthened_local` |
-| `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_split10m`, `branch_table_progress`, `branch_table_progress_split10m`, `branch_table_suffix`, `branch_table_suffix_split10m`, `graph_suffix_emitter`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
+| `StrengthenedBranchTable` | finite graph/socket branch relation | `branch_table`, `branch_table_split10m`, `branch_table_progress`, `branch_table_progress_split10m`, `branch_table_suffix`, `branch_table_suffix_split10m`, `graph_suffix_emitter`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m`, `branch_table_semantic_gate_socket` |
 | `strengthenedBranchKind?` | finite graph/socket branch classifier | `branch_table` |
 | `branchKind?_of_branchTable` | branch-table entry computes to classifier | `branch_table` |
 | `graph_next_of_graphBranch` | branch-table graph transition extractor | `branch_table`, `branch_table_split10m`, `branch_table_progress`, `branch_table_progress_split10m` |
@@ -29,8 +29,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `branchTableProgressSplit10MSmoke_builds` | split-10M graph branch local-progress sentinel | `branch_table_progress_split10m` |
 | `socket19TmmpBranch_impossible` | state19/tmmp semantic socket | `branch_table_progress`, `branch_table_suffix` |
 | `socket150TpppBranch_impossible` | state150/tppp semantic socket | `branch_table_progress`, `branch_table_suffix` |
-| `BranchTableSuffixOk` | suffix predicate storing branch-table evidence | `branch_table_suffix`, `branch_table_suffix_split10m`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m` |
-| `branchTableSuffixOk_local` | local progress from branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m` |
+| `BranchTableSuffixOk` | suffix predicate storing branch-table evidence | `branch_table_suffix`, `branch_table_suffix_split10m`, `graph_suffix_emitter`, `graph_accepted_suffix_bridge`, `graph_accepted_branch_suffix`, `graph_accepted_branch_suffix_split10m`, `branch_table_semantic_gate_socket` |
+| `branchTableSuffixOk_local` | local progress from branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m`, `branch_table_semantic_gate_socket` |
 | `eval_exists_of_branchTableSuffixOk` | whole-suffix evaluator from branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m` |
 | `branchTableSuffixOk_root_of_closedPrefix2` | semantic root-prefix lift into branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m`, `graph_accepted_suffix_bridge` |
 | `branchTableSuffixOk_root_of_closedPrefix2_forall` | closed-rank root-prefix lift into branch-table suffix | `branch_table_suffix`, `branch_table_suffix_split10m` |
@@ -125,6 +125,10 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `closedToEvalGate_of_layer4MappedPortfolio` | mapped portfolio to canonical split-10M closed-to-eval gate | `depth11_layer4_mapped_finish` |
 | `scaledMargin_nonpos_of_layer4MappedPortfolio` | mapped portfolio to nonpositive scaled margin | `depth11_layer4_mapped_finish` |
 | `depth11Layer4MappedFinish_builds` | direct mapped finish module sentinel | `depth11_layer4_mapped_finish` |
+| `Split10MBranchTableClosedEvalFamily` | branch-table semantic eval-family target | `branch_table_semantic_gate_socket` |
+| `split10MClosedToEvalGate_of_branchTableClosedEvalFamily` | branch-table family to canonical split-10M closed-to-eval gate | `branch_table_semantic_gate_socket` |
+| `scaledMargin_nonpos_of_branchTableClosedEvalFamily` | branch-table family to nonpositive scaled margin | `branch_table_semantic_gate_socket` |
+| `branchTableSemanticGateSocket_builds` | branch-table semantic gate socket sentinel | `branch_table_semantic_gate_socket` |
 
 ## Guards
 
@@ -158,6 +162,7 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `depth11_suffix_eval_olean` | `0` | `4.00s` | `3940 MiB` | `None` |
 | `depth11_suffix_producers_olean` | `0` | `2.00s` | `3548 MiB` | `None` |
 | `depth11_layer4_mapped_finish_direct` | `0` | `15.01s` | `3998 MiB` | `None` |
+| `branch_table_semantic_gate_socket_direct` | `0` | `2.00s` | `3605 MiB` | `None` |
 | `target_cursor_latest_direct` | `0` | `6.00s` | `3907 MiB` | `None` |
 | `transducer_tail_latest_direct` | `0` | `2.00s` | `3560 MiB` | `None` |
 | `transducer_semantic_gate_latest_direct` | `0` | `2.00s` | `3552 MiB` | `None` |
