@@ -93044,3 +93044,113 @@ prove `GraphClosedPrefix4BranchTableAllFamily` for a substantial semantic
 family from closed target-cursor / schedule / pair-count / local-axis /
 tri-source state, and to measure whether the number of such families projects
 within the 5-6 hour / 24 CPU-hour budget.
+
+### Depth-11 Graph-Exact Portfolio Socket Accepted
+
+The latest GPT5.5 pivot sharpened the rule again: keep Bellman, but do not let
+the class/membership proof mean "this rank followed one selected prefix or
+observed trace."  The next production surface should be a deterministic
+closed-language-to-graph-evaluator theorem with a semantic class portfolio.
+
+Added:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactPortfolioSocket.lean
+```
+
+This socket wraps the existing graph-exact finish surfaces for the generated
+depth-11 semantic classes `034` through `039`.  It introduces:
+
+```lean
+theorem graphExactEvalGateAtRank_of_class034ExactGraphFinishMarginBound
+theorem graphExactEvalGateAtRank_of_class035ExactGraphFinishMarginBound
+theorem graphExactEvalGateAtRank_of_class036ExactGraphFinishMarginBound
+theorem graphExactEvalGateAtRank_of_class037ExactGraphFinishMarginBound
+theorem graphExactEvalGateAtRank_of_class038ExactGraphFinishMarginBound
+theorem graphExactEvalGateAtRank_of_class039ExactGraphFinishMarginBound
+
+inductive Depth11GraphExactClassCase
+
+theorem graphExactEvalGateAtRank_of_depth11GraphExactClassCase
+
+structure Depth11GraphExactPortfolioAllFamily
+
+theorem split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio
+
+theorem scaledMargin_nonpos_of_depth11GraphExactPortfolio
+```
+
+The generated emitter target is now explicit:
+
+```lean
+∀ rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    Depth11GraphExactClassCase scaledMargin rank
+```
+
+That statement is still rank-parametric, but its proof obligations are the
+semantic class predicates and graph-exact margin bounds, not sampled rank
+objects, accepted trace ids, selected-prefix covers, exact affine RHS keys, or
+raw graph paths.  This is the portfolio form of the closed-language evaluator
+pivot.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_graph_exact_portfolio_socket_lean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactPortfolioSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/depth11_graph_exact_portfolio_socket_lake.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphExactPortfolioSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct depth-11 graph-exact portfolio socket | pass | `2.00s` | `3585 MiB` | `46270 MiB` | `8192 MiB` |
+| Lake depth-11 graph-exact portfolio socket | guard-killed | `7.01s` | `21482 MiB` | `44471 MiB` | none |
+
+The Lake target did not fail in Lean.  The memory guard terminated it because
+this Lake version has no `lake build` job-throttle flag and cold dependency
+replay spawned too much concurrent work for the `12000 MiB` cap.  Treat the
+direct `lake env lean` check as the focused proof check for this small module
+until the surrounding `.olean` cache is warm or the build can be run under an
+external job limiter.
+
+Hygiene check:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|\
+sampledContainsRank|sampledRankOf|sampledSmokeNext|\
+GraphAcceptedTraceLabels|AcceptedTraceId|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactPortfolioSocket.lean
+```
+
+returned no matches.
+
+Decision: accepted as the next graph-exact Bellman portfolio socket.  Next
+work should prove the `Depth11GraphExactPortfolioAllFamily.classify` field from
+closed-language target cursor / schedule / pair-count / square-gap /
+tri-source / local-axis semantic state.  Do not add exact affine RHS, solved
+start-point, accepted-trace, selected-prefix, or sampled-rank fields to make
+that proof go through.
