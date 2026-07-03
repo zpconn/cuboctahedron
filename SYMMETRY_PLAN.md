@@ -92461,3 +92461,82 @@ plumbing: it is the semantic start-miss producer itself, namely constructing
 the shared `ObjectStartViolationMarginCert` from
 `TopPairingStartMissSemanticLanguageAtRank` without exact word/start-point
 singleton keys.
+
+### Start-Miss Semantic No-Axis Socket Accepted
+
+The direct-start smokes show a better final target than manufacturing a full
+`ObjectStartViolationMarginCert`: prove the start-miss contradiction directly
+as a semantic `¬ NonIdentityAxisConstraints seq` theorem for any sequence
+realizing the rank.  Added a gate for exactly that shape:
+
+```lean
+abbrev TopPairingStartMissSemanticToNoAxisGate
+
+theorem nonIdentityRankKilled_of_startMissSemanticNoAxisGate
+
+theorem nonIdentityRankKilled_of_closedViaStartMissSemanticNoAxisGate
+```
+
+This route avoids `NonIdCert`, `KernelLineWitness`, `AffineAxisSolveWitness`,
+solved `p0`, accepted trace ids, and selected-prefix tables in the production
+theorem surface.  A future family producer can now target:
+
+```lean
+TopPairingStartMissSemanticLanguageAtRank rank badFace ->
+  forall seq,
+    SeqRealizesPairWord (unrankPairWord rank) seq ->
+    StartsXp seq ->
+    totalLinear seq != matId ->
+    ¬ NonIdentityAxisConstraints seq
+```
+
+and immediately obtain `Coverage.NonIdentityRankKilled rank`.
+
+File:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticKilledSocket.lean
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_semantic_killed_socket_start_miss_noaxis_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticKilledSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_semantic_killed_socket_start_miss_noaxis_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticKilledSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct semantic no-axis socket | pass | `4.00s` | `3569 MiB` | `46282 MiB` | `8192 MiB` |
+| Lake semantic no-axis socket | pass | `3.00s` | `1753 MiB` | `46313 MiB` | none |
+
+Decision: accepted.  This is the preferred next production theorem surface for
+the audited top-pairing start-miss family.  `ObjectStartViolationMarginCert`
+remains available for compatibility and regression smokes, but final
+top-pairing start-miss coverage should aim at the semantic no-axis gate unless
+profiling proves a concrete certificate family is substantially smaller.

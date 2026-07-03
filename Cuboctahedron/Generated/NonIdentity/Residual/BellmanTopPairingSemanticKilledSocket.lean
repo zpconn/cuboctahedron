@@ -41,6 +41,16 @@ abbrev TopPairingStartMissSemanticToStartViolationGate
     TopPairingStartMissSemanticLanguageAtRank rank badFace ->
       ObjectStartViolationMarginCert rank (scaledMargin rank)
 
+abbrev TopPairingStartMissSemanticToNoAxisGate
+    (badFace : Face) : Prop :=
+  forall rank,
+    TopPairingStartMissSemanticLanguageAtRank rank badFace ->
+      forall seq : Step14 -> Face,
+        SeqRealizesPairWord (unrankPairWord rank) seq ->
+        StartsXp seq ->
+        totalLinear seq ≠ (matId : Mat3 Rat) ->
+        ¬ NonIdentityAxisConstraints seq
+
 theorem nonIdentityRankKilled_of_closedSemanticGates
     {badFace : Face}
     {State Label : Type}
@@ -108,6 +118,26 @@ theorem nonIdentityRankKilled_of_closedViaStartMissSemanticGate
     Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
   nonIdentityRankKilled_of_startMissSemanticStartViolationGate
     startGate (topPairingStartMissSemanticLanguage_of_closed hclosed)
+
+theorem nonIdentityRankKilled_of_startMissSemanticNoAxisGate
+    {badFace : Face}
+    (noAxisGate : TopPairingStartMissSemanticToNoAxisGate badFace)
+    {rank : Fin numPairWords}
+    (hsemantic :
+      TopPairingStartMissSemanticLanguageAtRank rank badFace) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_no_axis_constraints
+    (fun seq hRealize hStart hLinear hAxis =>
+      noAxisGate rank hsemantic seq hRealize hStart hLinear hAxis)
+
+theorem nonIdentityRankKilled_of_closedViaStartMissSemanticNoAxisGate
+    {badFace : Face}
+    (noAxisGate : TopPairingStartMissSemanticToNoAxisGate badFace)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_startMissSemanticNoAxisGate
+    noAxisGate (topPairingStartMissSemanticLanguage_of_closed hclosed)
 
 theorem nonIdentityRankKilled_of_strengthenedSemanticGates
     {badFace : Face}
