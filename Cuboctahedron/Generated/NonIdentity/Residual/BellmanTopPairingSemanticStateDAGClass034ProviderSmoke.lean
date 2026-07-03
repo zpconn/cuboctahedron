@@ -1,7 +1,7 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGProducerSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGRepresentativeSmoke
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket
-import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedSplitSuffixProducerSocket
 
 /-!
 Semantic state-DAG class-034 provider smoke.
@@ -37,7 +37,7 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticState
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket
-open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedSplitSuffixProducerSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Accepted
 
 /--
@@ -222,6 +222,18 @@ def ClosedClass034GraphSuffixMarginFamily
     Class034GraphSuffixProducer rank ∧
       Split10MFinalMarginProducer scaledMargin rank
 
+theorem closedSplit10MSuffixMarginFamily_of_class034
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      ClosedClass034GraphSuffixMarginFamily scaledMargin rank) :
+    ClosedSplit10MSuffixMarginFamily scaledMargin rank := by
+  rcases hfamily with ⟨hclosed, hclass, hfinish⟩
+  exact
+    { closed := hclosed
+      graphSuffix := split10MGraphSuffixProducer_of_class034 hclass
+      finalMargin := hfinish }
+
 theorem evalLanguageAtRank_of_closedClass034Family
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -229,36 +241,18 @@ theorem evalLanguageAtRank_of_closedClass034Family
       ClosedClass034GraphSuffixMarginFamily scaledMargin rank) :
     TopPairingBellmanEvalLanguageAtRank
       graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
-      scaledMargin rank Face.ym := by
-  rcases hfamily with ⟨hclosed, hclass, hfinish⟩
-  exact evalLanguageAtRank_of_closedSplit10MGraphSuffixProducer
-    hclosed (split10MGraphSuffixProducer_of_class034 hclass) hfinish
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_closedSplit10MSuffixMarginFamily
+    (closedSplit10MSuffixMarginFamily_of_class034 hfamily)
 
 theorem scaledMargin_nonpos_of_closedClass034Family
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
     (hfamily :
       ClosedClass034GraphSuffixMarginFamily scaledMargin rank) :
-    scaledMargin rank <= 0 := by
-  have hevalLanguage :=
-    evalLanguageAtRank_of_closedClass034Family hfamily
-  exact scaledMargin_nonpos_of_bellmanEvalAccepts_invariant
-    (V := graphPotential)
-    (next := graphSmokeNext)
-    (InRange := fun s : State => s < stateCount)
-    (start := rootState)
-    (const := (176 : Int))
-    (scaledMargin := scaledMargin)
-    (wordOf := fun rank : Fin numPairWords =>
-      faceLabelsInContributionOrder smokeLabelOfFace
-        (canonicalSeqOfPairWord (unrankPairWord rank)))
-    (hnext := by
-      intro s label t gain hs hnext
-      exact _root_.Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Root.transition_ok_of_lt
-        hs hnext)
-    (hstart := split10MGraphStartInRange)
-    (hroot := split10MGraphRootBound)
-    (heval := hevalLanguage.eval_accepts)
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_closedSplit10MSuffixMarginFamily
+    (closedSplit10MSuffixMarginFamily_of_class034 hfamily)
 
 theorem semanticStateDAGClass034ProviderSmoke_builds : True := by
   exact True.intro

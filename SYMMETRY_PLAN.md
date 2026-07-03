@@ -90041,3 +90041,129 @@ family table: generate several `ClosedClassXXXGraphSuffixMarginFamily`-style
 providers from the depth-11 suffix classes, or factor the common closed-only
 wrapper so generated class modules only supply graph-suffix and final-margin
 fields.
+
+### Closed Split-Suffix Producer Socket Factored
+
+Factored the common closed-only Bellman wrapper out of the class-034 smoke into
+a reusable socket:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingClosedSplitSuffixProducerSocket.lean
+```
+
+New theorem and structure names:
+
+```lean
+structure ClosedSplit10MSuffixMarginFamily
+theorem evalLanguageAtRank_of_closedSplit10MSuffixMarginFamily
+theorem scaledMargin_nonpos_of_closedSplit10MSuffixMarginFamily
+structure ClosedSplit10MSuffixMarginAllFamily
+theorem closedToEvalGate_of_closedSplit10MSuffixMarginAllFamily
+theorem scaledMargin_nonpos_of_closedSplit10MSuffixMarginAllFamily
+```
+
+The socket is now the preferred target for generated split-suffix classes:
+
+```lean
+ClosedSplit10MSuffixMarginFamily scaledMargin rank
+```
+
+contains exactly:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+Split10MGraphSuffixProducer rank
+Split10MFinalMarginProducer scaledMargin rank
+```
+
+and proves both the Bellman eval-language theorem and
+`scaledMargin rank <= 0`.  It does not mention
+`AcceptedSequenceBadFaceAtRank`, `TerminalOkTraceLabels`,
+`GraphAcceptedTraceLabels`, selected prefixes, sampled ranks, exact affine
+RHS keys, or Bellman trace ids.
+
+The class-034 smoke now consumes the socket via:
+
+```lean
+theorem closedSplit10MSuffixMarginFamily_of_class034
+```
+
+so future generated class modules only need to prove a class-specific
+conversion into `ClosedSplit10MSuffixMarginFamily`.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_closed_split_suffix_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedSplitSuffixProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_closed_split_suffix_socket_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedSplitSuffixProducerSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_class034_closed_provider_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_class034_closed_provider_socket_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedSplitSuffixProducerSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct closed split-suffix socket | pass | `2.01s` | `3631 MiB` | `46256 MiB` | `8192 MiB` |
+| Lake closed split-suffix socket | pass | `3.00s` | `4035 MiB` | `46059 MiB` | none |
+| direct class-034 via socket | pass | `2.00s` | `3634 MiB` | `46260 MiB` | `8192 MiB` |
+| Lake class-034 via socket | pass | `3.00s` | `1549 MiB` | `46298 MiB` | none |
+| forbidden-token scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted.  This is the reusable socket requested by the previous
+checkpoint.  The next implementation step should generate or hand-smoke more
+suffix-class conversions into `ClosedSplit10MSuffixMarginFamily`, while keeping
+the theorem surface closed-language driven and avoiding any accepted-trace or
+sampled-prefix membership coordinate.
