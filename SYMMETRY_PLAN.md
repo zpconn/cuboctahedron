@@ -89675,3 +89675,105 @@ should factor the head-driven pattern into a reusable local theorem or a
 generated state table whose `SuffixOk`/`Inv` predicates are explicit enough to
 feed `closedToEvalGate_of_transducerInvariantLocalWithSuffix`.  Adding more
 schedule-only frontier depth is no longer sufficient evidence.
+
+### Semantic Split-10M Fourth-Frontier Bridge
+
+The head-driven layer-4 frontier now also proves that the fourth semantic head
+falls in the exact split-10M graph frontier consumed by the downstream
+depth-11 suffix socket.  This is the first bridge from the closed semantic
+transducer state to the existing split graph-frontier predicate without using
+accepted traces, selected prefixes, sampled ranks, or graph-trace membership.
+
+New theorem names:
+
+```lean
+theorem layer4Prefix4FrontierCons2_of_head4
+theorem layer4Prefix4FrontierCons2_exists_of_closed
+```
+
+The key local theorem is:
+
+```lean
+theorem layer4Prefix4FrontierCons2_of_head4
+    {rank : Fin numPairWords} {third : ThirdBranch}
+    {fourth : FourthBranch}
+    (hhead :
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf (Layer4State.s03 third))
+        rank fourth.face) :
+    Split10MPrefix4FrontierCons2 third.face fourth.face
+```
+
+The proof deliberately uses the whole `Head.transducer_cons` semantic fact,
+not only `Head.localAxis`.  That matters: local-axis alone admitted the
+`(yp, tppm)` fourth-branch pair, while the target-shadow/tri-source cursor in
+the full transducer state eliminates it.  This matches the current Bellman
+pivot: production membership must be a deterministic semantic transducer
+theorem, not a selected-prefix cover.
+
+The closed-rank existential packaging is:
+
+```lean
+theorem layer4Prefix4FrontierCons2_exists_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    ∃ third : ThirdBranch, ∃ fourth : FourthBranch,
+      TerminalContainedEvalProgressGate
+        layer4Machine Layer4State.s00 rank
+          (Layer4State.s04 third fourth) ∧
+        Split10MPrefix4FrontierCons2 third.face fourth.face
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_terminal_layer4_frontier_split10m_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_layer4_frontier_split10m_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateFrontierSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct split-10M semantic frontier smoke | pass | `5.00s` | `4084 MiB` | `46038 MiB` | `8192 MiB` |
+| Lake split-10M semantic frontier smoke | pass | `5.00s` | `4205 MiB` | `45846 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Several earlier direct attempts with the same guard failed before this final
+proof shape, but all failed safely below roughly `4.11 GiB` tree RSS.  The
+useful lesson from those failed attempts is now encoded in the theorem:
+`Head.localAxis` is not strong enough for the split frontier; the proof must
+carry the full target-cursor/tri-source transducer invariant.
+
+Decision: accepted as a production-relevant local bridge.  The next checkpoint
+should wire this theorem toward `Split10MDepth11GraphPathProducer` or a
+replacement semantic depth-11 producer, while preserving the same rule: every
+next graph/state transition must be derived from local semantic state
+(`Head.transducer_cons`, target cursor, square-gap, pair counts, local-axis,
+tri-source progress), not from accepted trace ids or sampled rank objects.
