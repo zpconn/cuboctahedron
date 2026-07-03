@@ -93589,3 +93589,155 @@ BellmanTopPairingDepth11Layer4ClassifierSocket.lean
 
 Result: pass, `8.01s`, `3862.0 MiB` peak tree RSS, `46085.9 MiB` minimum
 available memory, `8192 MiB` hard address-space cap, no kill reason.
+
+Follow-up dependency split: the depth-11 graph suffix class predicates and
+graph-suffix producer predicates have been separated from the old closed
+final-margin provider module.
+
+New generated files/scripts:
+
+```text
+scripts/emit_top_pairing_depth11_graph_suffix_classes.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphSuffixClasses.lean
+
+scripts/emit_top_pairing_depth11_graph_suffix_producers.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphSuffixProducers.lean
+```
+
+`BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean` now imports
+`BellmanTopPairingDepth11GraphSuffixClasses` instead of the old
+`BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke`, removing the
+closed/final-margin socket from the suffix-eval import path.
+
+New theorem/definition surface:
+
+```lean
+def Class034Depth11Suffix
+def Class035Depth11Suffix
+def Class036Depth11Suffix
+def Class037Depth11Suffix
+def Class038Depth11Suffix
+def Class039Depth11Suffix
+theorem depth11GraphSuffixClasses_builds
+
+def Class034GraphSuffixProducer
+def Class035GraphSuffixProducer
+def Class036GraphSuffixProducer
+def Class037GraphSuffixProducer
+def Class038GraphSuffixProducer
+def Class039GraphSuffixProducer
+theorem depth11GraphSuffixProducers_builds
+```
+
+The lightweight producer predicates use
+`Depth11Layer4SemanticFrontierBranch` instead of the old
+`Split10MPrefix4FrontierCons2`, so they can be fed directly by the closed
+language -> seven-branch classifier socket.
+
+Guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_graph_state_suffix_smoke_olean_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphStateSuffixSmoke.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphStateSuffixSmoke.lean
+```
+
+Result: pass, `7.00s`, `3905.8 MiB` peak tree RSS, `46151.4 MiB` minimum
+available memory, `8192 MiB` hard address-space cap.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_graph_suffix_classes_lean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphSuffixClasses.lean
+```
+
+Result: pass, `2.00s`, `3539.9 MiB` peak tree RSS, `46274.0 MiB` minimum
+available memory, `8192 MiB` hard address-space cap.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_graph_suffix_eval_smoke_lean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean
+```
+
+Result: pass, `4.00s`, `3956.9 MiB` peak tree RSS, `46123.0 MiB` minimum
+available memory, `8192 MiB` hard address-space cap.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_graph_suffix_producers_lean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphSuffixProducers.lean
+```
+
+Result: pass, `2.00s`, `3541.3 MiB` peak tree RSS, `46267.4 MiB` minimum
+available memory, `8192 MiB` hard address-space cap.
+
+Audit result: the branch-table membership frontier audit now sees the
+lightweight suffix class and producer symbols and still reports forbidden hit
+count `0`.  Direct scans over the new suffix class/producer/eval path found no
+imports or tokens for `ClosedFinalMarginSocket`,
+`SemanticStateDAGDepth11ClosedProvidersSmoke`, `TopPairingTraceClassifier`,
+selected prefixes, sampled rank membership, accepted trace ids, `sorry`,
+`admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Rejected mapped-portfolio import experiment: importing
+`BellmanTopPairingDepth11GraphExactFinishSmoke` from a new mapped portfolio
+socket also reaches the stale closed-provider chain, so that wrapper is not a
+safe production dependency.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_layer4_mapped_portfolio_socket_lean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4MappedPortfolioSocket.lean
+```
+
+Result: fail, `3.00s`, `1577.7 MiB` peak tree RSS, no memory kill, because the
+transitive import path again required
+`TopPairingTraceClassifier.Terminal.Shard000.olean`.  The file was backed out.
+
+Promoted dependency rule: the next direct mapped layer-4 emitter must import
+`BellmanTopPairingDepth11GraphSuffixClasses`,
+`BellmanTopPairingDepth11GraphSuffixProducers`,
+`BellmanTopPairingDepth11GraphSuffixEvalSmoke`, and the layer-4 classifier
+socket.  It must not import `BellmanTopPairingDepth11GraphExactFinishSmoke`,
+`BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke`, or
+`BellmanTopPairingClosedFinalMarginSocket`.

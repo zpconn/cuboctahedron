@@ -1,4 +1,4 @@
-import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixClasses
 
 /-!
 Generated graph-eval finish facts for depth-11 top-pairing Bellman suffixes.
@@ -18,7 +18,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11G
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke
-open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixClasses
 
 /-- Exact graph finishes for class 034 depth-11 suffixes. -/
 def Class034Depth11GraphFinish

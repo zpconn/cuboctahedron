@@ -335,7 +335,7 @@ def emit_class(class_id: str, states: dict[str, list[SuffixCtor]]) -> list[str]:
 
 def emit_module(classes: dict[str, dict[str, list[SuffixCtor]]]) -> str:
     lines = [
-        "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke",
+        "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixClasses",
         "",
         "/-!",
         "Generated graph-eval finish facts for depth-11 top-pairing Bellman suffixes.",
@@ -355,7 +355,7 @@ def emit_module(classes: dict[str, dict[str, list[SuffixCtor]]]) -> str:
         "open Cuboctahedron",
         "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base",
         "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke",
-        "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke",
+        "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixClasses",
         "",
     ]
     for class_id, states in classes.items():

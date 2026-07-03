@@ -67,7 +67,7 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `scaledMargin_nonpos_of_depth11GraphExactPortfolio` | portfolio to nonpositive scaled margin | `depth11_graph_exact_portfolio` |
 | `Depth11Layer4PrefixAtRank` | first-four closed-language prefix predicate | `depth11_layer4_classifier` |
 | `Depth11Layer4BranchAllowed` | schedule-allowed first-four branch predicate | `depth11_layer4_classifier` |
-| `Depth11Layer4SemanticFrontierBranch` | semantic seven-way first-four frontier predicate | `depth11_layer4_classifier` |
+| `Depth11Layer4SemanticFrontierBranch` | semantic seven-way first-four frontier predicate | `depth11_layer4_classifier`, `depth11_suffix_producers` |
 | `Depth11Layer4GraphExactEvalAllFamily` | layer-4 graph-exact all-family target | `depth11_layer4_classifier` |
 | `Depth11Layer4BranchGraphExactEvalAllFamily` | branch-aware layer-4 graph-exact all-family target | `depth11_layer4_classifier` |
 | `Depth11Layer4SemanticFrontierGraphExactEvalAllFamily` | semantic-frontier layer-4 graph-exact all-family target | `depth11_layer4_classifier` |
@@ -90,6 +90,20 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `scaledMargin_nonpos_of_layer4SemanticFrontierClassifier` | semantic-frontier classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
 | `scaledMargin_nonpos_of_layer4SevenBranchClassifier` | seven-field classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
 | `scaledMargin_nonpos_of_mappedLayer4SevenBranchClassifier` | mapped seven-field classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
+| `depth11GraphSuffixClasses_builds` | lightweight depth-11 suffix class module sentinel | `depth11_suffix_classes` |
+| `Class034Depth11Suffix` | lightweight class034 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
+| `Class035Depth11Suffix` | lightweight class035 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
+| `Class036Depth11Suffix` | lightweight class036 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
+| `Class037Depth11Suffix` | lightweight class037 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
+| `Class038Depth11Suffix` | lightweight class038 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
+| `Class039Depth11Suffix` | lightweight class039 depth-11 suffix predicate | `depth11_suffix_classes`, `depth11_suffix_producers` |
+| `depth11GraphSuffixProducers_builds` | lightweight depth-11 suffix producer module sentinel | `depth11_suffix_producers` |
+| `Class034GraphSuffixProducer` | lightweight class034 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
+| `Class035GraphSuffixProducer` | lightweight class035 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
+| `Class036GraphSuffixProducer` | lightweight class036 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
+| `Class037GraphSuffixProducer` | lightweight class037 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
+| `Class038GraphSuffixProducer` | lightweight class038 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
+| `Class039GraphSuffixProducer` | lightweight class039 graph suffix producer | `depth11_graph_exact_portfolio`, `depth11_suffix_producers` |
 
 ## Guards
 

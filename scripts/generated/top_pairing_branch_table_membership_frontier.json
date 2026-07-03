@@ -107,6 +107,12 @@
       "lines": 177,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphExactPortfolioSocket.lean",
       "symbol_hits": {
+        "Class034GraphSuffixProducer": 2,
+        "Class035GraphSuffixProducer": 2,
+        "Class036GraphSuffixProducer": 2,
+        "Class037GraphSuffixProducer": 2,
+        "Class038GraphSuffixProducer": 2,
+        "Class039GraphSuffixProducer": 2,
         "Depth11GraphExactClassCase": 3,
         "Depth11GraphExactPortfolioAllFamily": 3,
         "graphExactEvalGateAtRank_of_depth11GraphExactClassCase": 2,
@@ -145,6 +151,43 @@
         "split10MGraphExactEvalAllFamily_of_layer4SevenBranchClassifier": 2,
         "split10MGraphExactEvalAllFamily_of_mappedLayer4SevenBranchClassifier": 1,
         "split10MGraphExactEvalGateAtRank_of_mappedLayer4Result": 8
+      }
+    },
+    "depth11_suffix_classes": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 70,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphSuffixClasses.lean",
+      "symbol_hits": {
+        "Class034Depth11Suffix": 1,
+        "Class035Depth11Suffix": 1,
+        "Class036Depth11Suffix": 1,
+        "Class037Depth11Suffix": 1,
+        "Class038Depth11Suffix": 1,
+        "Class039Depth11Suffix": 1,
+        "depth11GraphSuffixClasses_builds": 1
+      }
+    },
+    "depth11_suffix_producers": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 102,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphSuffixProducers.lean",
+      "symbol_hits": {
+        "Class034Depth11Suffix": 1,
+        "Class034GraphSuffixProducer": 1,
+        "Class035Depth11Suffix": 1,
+        "Class035GraphSuffixProducer": 1,
+        "Class036Depth11Suffix": 1,
+        "Class036GraphSuffixProducer": 1,
+        "Class037Depth11Suffix": 1,
+        "Class037GraphSuffixProducer": 1,
+        "Class038Depth11Suffix": 1,
+        "Class038GraphSuffixProducer": 1,
+        "Class039Depth11Suffix": 1,
+        "Class039GraphSuffixProducer": 1,
+        "Depth11Layer4SemanticFrontierBranch": 6,
+        "depth11GraphSuffixProducers_builds": 1
       }
     },
     "eval_bridge": {
@@ -476,6 +519,54 @@
       "graph_accepted_branch_suffix",
       "graph_accepted_branch_suffix_split10m"
     ],
+    "Class034Depth11Suffix": [
+      "depth11_suffix_classes",
+      "depth11_suffix_producers"
+    ],
+    "Class034GraphSuffixProducer": [
+      "depth11_graph_exact_portfolio",
+      "depth11_suffix_producers"
+    ],
+    "Class035Depth11Suffix": [
+      "depth11_suffix_classes",
+      "depth11_suffix_producers"
+    ],
+    "Class035GraphSuffixProducer": [
+      "depth11_graph_exact_portfolio",
+      "depth11_suffix_producers"
+    ],
+    "Class036Depth11Suffix": [
+      "depth11_suffix_classes",
+      "depth11_suffix_producers"
+    ],
+    "Class036GraphSuffixProducer": [
+      "depth11_graph_exact_portfolio",
+      "depth11_suffix_producers"
+    ],
+    "Class037Depth11Suffix": [
+      "depth11_suffix_classes",
+      "depth11_suffix_producers"
+    ],
+    "Class037GraphSuffixProducer": [
+      "depth11_graph_exact_portfolio",
+      "depth11_suffix_producers"
+    ],
+    "Class038Depth11Suffix": [
+      "depth11_suffix_classes",
+      "depth11_suffix_producers"
+    ],
+    "Class038GraphSuffixProducer": [
+      "depth11_graph_exact_portfolio",
+      "depth11_suffix_producers"
+    ],
+    "Class039Depth11Suffix": [
+      "depth11_suffix_classes",
+      "depth11_suffix_producers"
+    ],
+    "Class039GraphSuffixProducer": [
+      "depth11_graph_exact_portfolio",
+      "depth11_suffix_producers"
+    ],
     "Depth11GraphExactClassCase": [
       "depth11_graph_exact_portfolio"
     ],
@@ -501,7 +592,8 @@
       "depth11_layer4_classifier"
     ],
     "Depth11Layer4SemanticFrontierBranch": [
-      "depth11_layer4_classifier"
+      "depth11_layer4_classifier",
+      "depth11_suffix_producers"
     ],
     "Depth11Layer4SemanticFrontierGraphExactEvalAllFamily": [
       "depth11_layer4_classifier"
@@ -607,6 +699,12 @@
     "closed_prefix3_zm_next": [
       "branch_table_suffix_split10m",
       "strengthened_local"
+    ],
+    "depth11GraphSuffixClasses_builds": [
+      "depth11_suffix_classes"
+    ],
+    "depth11GraphSuffixProducers_builds": [
+      "depth11_suffix_producers"
     ],
     "evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix": [
       "eval_bridge",

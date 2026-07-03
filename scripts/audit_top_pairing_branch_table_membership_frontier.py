@@ -79,6 +79,12 @@ LEAN_FILES = {
     "depth11_layer4_classifier": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4ClassifierSocket.lean",
+    "depth11_suffix_classes": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11GraphSuffixClasses.lean",
+    "depth11_suffix_producers": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11GraphSuffixProducers.lean",
 }
 
 GUARDS = {
@@ -210,6 +216,20 @@ REQUIRED_SYMBOLS = {
     "scaledMargin_nonpos_of_layer4SemanticFrontierClassifier": "semantic-frontier classifier to nonpositive scaled margin",
     "scaledMargin_nonpos_of_layer4SevenBranchClassifier": "seven-field classifier to nonpositive scaled margin",
     "scaledMargin_nonpos_of_mappedLayer4SevenBranchClassifier": "mapped seven-field classifier to nonpositive scaled margin",
+    "depth11GraphSuffixClasses_builds": "lightweight depth-11 suffix class module sentinel",
+    "Class034Depth11Suffix": "lightweight class034 depth-11 suffix predicate",
+    "Class035Depth11Suffix": "lightweight class035 depth-11 suffix predicate",
+    "Class036Depth11Suffix": "lightweight class036 depth-11 suffix predicate",
+    "Class037Depth11Suffix": "lightweight class037 depth-11 suffix predicate",
+    "Class038Depth11Suffix": "lightweight class038 depth-11 suffix predicate",
+    "Class039Depth11Suffix": "lightweight class039 depth-11 suffix predicate",
+    "depth11GraphSuffixProducers_builds": "lightweight depth-11 suffix producer module sentinel",
+    "Class034GraphSuffixProducer": "lightweight class034 graph suffix producer",
+    "Class035GraphSuffixProducer": "lightweight class035 graph suffix producer",
+    "Class036GraphSuffixProducer": "lightweight class036 graph suffix producer",
+    "Class037GraphSuffixProducer": "lightweight class037 graph suffix producer",
+    "Class038GraphSuffixProducer": "lightweight class038 graph suffix producer",
+    "Class039GraphSuffixProducer": "lightweight class039 graph suffix producer",
 }
 
 FORBIDDEN_TOKENS = [
