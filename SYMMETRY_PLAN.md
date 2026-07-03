@@ -88690,3 +88690,126 @@ terminal-machine frontier that proves `TerminalContainedEvalPrefixGate` from
 semantic fields.  The local proof should case-split only on generated machine
 state and the next face, using `TopPairingTransducerTail.cons`; it must not
 case-split on full ranks, accepted traces, or observed prefix classes.
+
+#### Nonterminal Contained Eval Progress Accepted
+
+Added the nonterminal progress form of the contained terminal-machine
+evaluator:
+
+```lean
+TerminalContainedEvalProgressGate
+contains_of_containedEvalProgressGate
+terminalContainedEvalPrefixGate_of_progress_terminal
+smokePartialMachine_eval_prefix2
+smokeContainedEvalProgressGate_prefix2
+smokeStep2Contains_of_closed
+```
+
+This is the first checked slice that derives machine progress from a semantic
+closed-language field rather than from an externally supplied prefix equality.
+The smoke proof uses:
+
+```lean
+topPairingStepScheduleLabels_prefix_xm_ym hclosed.schedule
+```
+
+to prove the first two labels are `xm, ym`, evaluates the generated partial
+terminal machine from `s00` to `s02`, and then derives:
+
+```lean
+TerminalStepState.Contains
+  (smokePartialMachine.stateOf SmokePartialState.s02) rank
+```
+
+via the generic progress containment theorem.  This is still a bounded smoke,
+but the proof shape is now the one the production generator should repeat:
+semantic field -> local deterministic machine progress -> contained state.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_contained_eval_progress_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_contained_eval_progress_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_contained_eval_progress_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_contained_eval_progress_smoke_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct progress socket | pass | `5.00s` | `3860 MiB` | `46201 MiB` |
+| Lake progress socket | pass | `3.00s` | `4037 MiB` | `46022 MiB` |
+| first direct progress smoke | failed | `2.00s` | `3632 MiB` | `46231 MiB` |
+| direct progress smoke after abbreviation fix | pass | `2.00s` | `3632 MiB` | `46229 MiB` |
+| Lake progress smoke | pass | `4.00s` | `4066 MiB` | `46041 MiB` |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a |
+
+Failure note:
+
+- The direct smoke failure was only an abbreviation mismatch:
+  `topPairingStepScheduleLabels_prefix_xm_ym` returned the raw
+  `faceLabelsInContributionOrder` expression.  Adding
+  `topPairingRankFaceLabels` to the local simplification fixed it.
+
+Decision: accepted.  The next generator-facing step is to generalize this from
+the forced two-face prefix to a generated local frontier:
+
+```lean
+state + semantic tail + next face
+  -> next? state face = some nextState
+  -> TerminalContainedEvalProgressGate ... nextState
+```
+
+with local proofs driven by schedule, target-shadow cursor, pair counts,
+local-axis, and tri-source progress.  The gate remains: no full-rank case
+split, no accepted trace ids, no sampled prefix cover.

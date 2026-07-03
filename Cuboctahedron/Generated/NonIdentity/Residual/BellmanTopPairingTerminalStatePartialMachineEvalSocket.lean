@@ -77,6 +77,26 @@ def TerminalContainedEvalPrefixGate
             some (finish, gain) ∧
             machine.IsTerminal finish
 
+/--
+Nonterminal version of `TerminalContainedEvalPrefixGate`.
+
+This is the small compositional object needed for semantic deterministic
+frontiers: prove that a closed-language state can take a checked evaluator
+prefix to an intermediate generated state, then continue from the resulting
+semantic containment.
+-/
+def TerminalContainedEvalProgressGate
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (start : StateId) (rank : Fin numPairWords) (finish : StateId) : Prop :=
+  ∃ (labels : List Face) (gain : Int),
+    ∃ rest : List Face,
+      TerminalStepState.Contains (machine.stateOf start) rank ∧
+        topPairingRankFaceLabels rank =
+          (machine.stateOf start).pfx ++ labels ++ rest ∧
+          evalLabelStepFn (nextEval machine) start labels =
+            some (finish, gain)
+
 theorem contains_of_eval_suffix
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
     {rank : Fin numPairWords}
@@ -250,6 +270,29 @@ theorem terminalTraceLabels_of_containedEvalPrefixGate
     ⟨labels, finish, gain, rest, hcontains, hlabels, heval, hterminal⟩
   exact terminalTraceLabels_of_eval_prefix_terminal
     machine hclosed hcontains hlabels heval hterminal
+
+theorem contains_of_containedEvalProgressGate
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords}
+    {start finish : StateId}
+    (hgate :
+      TerminalContainedEvalProgressGate machine start rank finish) :
+    TerminalStepState.Contains (machine.stateOf finish) rank := by
+  rcases hgate with
+    ⟨labels, gain, rest, hcontains, hlabels, heval⟩
+  exact contains_of_eval_prefix machine hcontains hlabels heval
+
+theorem terminalContainedEvalPrefixGate_of_progress_terminal
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords}
+    {start finish : StateId}
+    (hprogress :
+      TerminalContainedEvalProgressGate machine start rank finish)
+    (hterminal : machine.IsTerminal finish) :
+    TerminalContainedEvalPrefixGate machine start rank := by
+  rcases hprogress with
+    ⟨labels, gain, rest, hcontains, hlabels, heval⟩
+  exact ⟨labels, finish, gain, rest, hcontains, hlabels, heval, hterminal⟩
 
 theorem terminalEvalPrefixGate_of_containedEvalPrefixGate_from_initial
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)

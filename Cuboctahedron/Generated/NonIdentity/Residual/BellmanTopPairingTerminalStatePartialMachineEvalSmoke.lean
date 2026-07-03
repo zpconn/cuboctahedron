@@ -34,6 +34,12 @@ theorem smokePartialMachine_eval_prefix :
       some (SmokePartialState.s13, 0) := by
   rfl
 
+theorem smokePartialMachine_eval_prefix2 :
+    evalLabelStepFn (nextEval smokePartialMachine)
+        SmokePartialState.s00 [Face.xm, Face.ym] =
+      some (SmokePartialState.s02, 0) := by
+  rfl
+
 theorem smokePartialMachine_start_state :
     smokePartialMachine.stateOf SmokePartialState.s00 =
       TerminalStepState.initial := by
@@ -96,6 +102,28 @@ theorem smokeContainedEvalPrefixGate
     exact initial_contains_of_closed hclosed
   · rw [smokePartialMachine_start_state]
     simpa [TerminalStepState.initial] using hprefix
+
+theorem smokeContainedEvalProgressGate_prefix2
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalProgressGate
+      smokePartialMachine SmokePartialState.s00 rank SmokePartialState.s02 := by
+  rcases topPairingStepScheduleLabels_prefix_xm_ym hclosed.schedule with
+    ⟨rest, hlabels⟩
+  refine ⟨[Face.xm, Face.ym], 0, rest, ?_, ?_,
+    smokePartialMachine_eval_prefix2⟩
+  · rw [smokePartialMachine_start_state]
+    exact initial_contains_of_closed hclosed
+  · rw [smokePartialMachine_start_state]
+    simpa [TerminalStepState.initial, topPairingRankFaceLabels] using hlabels
+
+theorem smokeStep2Contains_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalStepState.Contains
+      (smokePartialMachine.stateOf SmokePartialState.s02) rank :=
+  contains_of_containedEvalProgressGate smokePartialMachine
+    (smokeContainedEvalProgressGate_prefix2 hclosed)
 
 theorem smokePartialEvalPrefixGate_of_contained
     {rank : Fin numPairWords}
