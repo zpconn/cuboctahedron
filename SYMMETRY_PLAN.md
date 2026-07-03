@@ -87772,3 +87772,73 @@ replace the diagnostic terminal producer with a semantic terminal classifier
 derived from the target-shadow / tri-source cursor, then use this eval socket
 to obtain terminal trace membership from closed-language evaluation rather
 than selected-prefix cover membership.
+
+#### Bellman Semantic Gate Audit After Terminal Eval Gate
+
+After adding the terminal prefix gate, re-audited the actual Bellman evaluator
+surface.  No new Bellman object wrapper should be added: the repo already has
+the required proof-shaped semantic endpoints in:
+
+```text
+Cuboctahedron/Search/TopPairingBellmanObject.lean
+Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+```
+
+The relevant existing theorem surface is:
+
+```lean
+TopPairingBellmanEvalLanguageAtRank
+TopPairingClosedToEvalGate
+TopPairingStrengthenedToEvalGate
+closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+scaledMargin_nonpos_of_rankedTransducerClosedGate
+scaledMargin_nonpos_of_rankedTransducerStrengthenedGate
+```
+
+So the exact next production obligation is not another socket.  It is a
+generated semantic producer for the ranked transducer gate:
+
+```lean
+Inv : TopPairingTransducerEvalState State -> Prop
+SuffixOk :
+  Fin numPairWords -> TopPairingTransducerEvalState State ->
+    List Face -> Prop
+
+hsuffixStart :
+  forall rank,
+    TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank Face.ym ->
+      SuffixOk rank (TopPairingTransducerEvalState.start graphStart)
+        (topPairingRankFaceLabels rank)
+
+hlocal :
+  forall {rank state face rest},
+    Inv state ->
+    state.Tail (face :: rest) ->
+    SuffixOk rank state (face :: rest) ->
+      exists nextState gain,
+        TopPairingTransducerEvalState.next? next labelOfFace state face =
+          some (nextState, gain) /\
+        nextState.Tail rest /\ Inv nextState /\ SuffixOk rank nextState rest
+
+hfinish :
+  forall {rank finish gain},
+    evalLabelStepFn
+      (TopPairingTransducerEvalState.next? next labelOfFace)
+      (TopPairingTransducerEvalState.start graphStart)
+      (topPairingRankFaceLabels rank) = some (finish, gain) ->
+    finish.Tail [] ->
+    Inv finish ->
+    SuffixOk rank finish [] ->
+      0 <= V finish.graph /\ scaledMargin rank <= const + gain
+```
+
+The terminal eval prefix gate added above is a useful sub-socket for proving
+terminal trace membership inside such a suffix producer, but the final Bellman
+margin route should consume the existing transducer semantic gate.  If the
+next generated producer cannot prove `hlocal` and `hfinish` without selected
+prefix membership or sampled path/rank cases, then the Bellman state is still
+too weak and the next move should be the cocycle/cancellation quotient
+profiler, not another graph smoke.
