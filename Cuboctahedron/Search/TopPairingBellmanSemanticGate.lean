@@ -186,6 +186,28 @@ theorem evalLanguageAtRank_of_mappedRankLabelsGraphExact
           (canonicalSeqOfPairWord (unrankPairWord rank)))
     simpa [hlabels] using heval
 
+theorem graphExactEvalGateAtRank_of_evalLanguageAtRank
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {badFace : Face}
+    (h :
+      TopPairingBellmanEvalLanguageAtRank
+        V next labelOfFace start const scaledMargin rank badFace) :
+    TopPairingGraphExactEvalGateAtRank
+      V next labelOfFace start const scaledMargin rank badFace := by
+  rcases h.eval_accepts with ⟨result, heval, hfinal, hmargin⟩
+  exact ⟨result.1, result.2,
+    { closed := h.closed
+      eval_eq := heval
+      final_nonneg := hfinal
+      margin_bound := hmargin }⟩
+
 theorem closedToEvalGate_of_graphExactEvalGate
     {State Label : Type}
     {V : State -> Int}
@@ -220,6 +242,44 @@ theorem strengthenedToEvalGate_of_graphExactEvalGate
       V next labelOfFace start const scaledMargin sequenceBadFace badFace := by
   intro rank hstrengthened
   exact evalLanguageAtRank_of_graphExactEvalGate
+    (gate rank hstrengthened)
+
+theorem closedToGraphExactEvalGate_of_evalGate
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {badFace : Face}
+    (gate :
+      TopPairingClosedToEvalGate
+        V next labelOfFace start const scaledMargin badFace) :
+    TopPairingClosedToGraphExactEvalGate
+      V next labelOfFace start const scaledMargin badFace := by
+  intro rank hclosed
+  exact graphExactEvalGateAtRank_of_evalLanguageAtRank (gate rank hclosed)
+
+theorem strengthenedToGraphExactEvalGate_of_evalGate
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {badFace : Face}
+    (gate :
+      TopPairingStrengthenedToEvalGate
+        V next labelOfFace start const scaledMargin sequenceBadFace
+        badFace) :
+    TopPairingStrengthenedToGraphExactEvalGate
+      V next labelOfFace start const scaledMargin sequenceBadFace
+      badFace := by
+  intro rank hstrengthened
+  exact graphExactEvalGateAtRank_of_evalLanguageAtRank
     (gate rank hstrengthened)
 
 def closedObjectCoverOfSemanticGate

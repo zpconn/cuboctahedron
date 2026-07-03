@@ -92792,3 +92792,152 @@ with a family theorem derived from closed target-cursor / schedule / pair-count
 / local-axis / tri-source semantics.  Any proof that requires
 `SampledRankIndex`, `sampledRankOf`, selected-prefix trace classes, or one
 branch per observed rank/path must be rejected as a diagnostic-only route.
+
+### Graph-Exact Transducer Adapter Accepted
+
+Exposed the graph-exact Bellman obligation directly from the transducer
+semantic gate.  This keeps the recommended producer theorem focused on the
+deterministic closed-language evaluator, rather than on a wrapper that merely
+later happens to contain such an evaluator witness.
+
+New generic adapters:
+
+```lean
+theorem graphExactEvalGateAtRank_of_evalLanguageAtRank
+
+theorem closedToGraphExactEvalGate_of_evalGate
+
+theorem strengthenedToGraphExactEvalGate_of_evalGate
+```
+
+New transducer-specific adapters:
+
+```lean
+theorem closedToGraphExactEvalGate_of_transducerInvariantLocalWithSuffix
+
+theorem strengthenedToGraphExactEvalGate_of_transducerInvariantLocalWithSuffix
+
+theorem closedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+
+theorem strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+```
+
+Files:
+
+```text
+Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+```
+
+These theorems make the intended next emitter target precise:
+
+```lean
+closed-language semantic invariant
+  -> local deterministic transducer closure
+  -> TopPairingClosedToGraphExactEvalGate
+  -> Split10MGraphExactEvalAllFamily
+```
+
+No sampled object constructor, accepted-trace id, selected prefix table, exact
+affine RHS key, or solved start-point key appears in the new theorem surface.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_bellman_semantic_gate_graph_exact_adapter_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_bellman_semantic_gate_graph_exact_adapter_lake_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.TopPairingBellmanSemanticGate
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_transducer_semantic_gate_graph_exact_adapter_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_transducer_semantic_gate_graph_exact_adapter_lake_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.TopPairingTransducerSemanticGate
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_graph_exact_producer_socket_after_adapter_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphExactProducerSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct Bellman semantic gate | pass | `7.01s` | `3944 MiB` | `46175 MiB` | `8192 MiB` |
+| Lake Bellman semantic gate | pass | `3.00s` | `3945 MiB` | `46134 MiB` | none |
+| direct transducer semantic gate | pass | `2.00s` | `3600 MiB` | `46274 MiB` | `8192 MiB` |
+| Lake transducer semantic gate | pass | `3.00s` | `1688 MiB` | `46162 MiB` | none |
+| Lake graph-exact producer socket | pass | `4.00s` | `4061 MiB` | `46090 MiB` | none |
+
+Note: the first direct transducer check saw a stale
+`TopPairingBellmanSemanticGate.olean` and failed with unknown identifiers for
+the new graph-exact adapters.  The guarded Lake build of
+`Cuboctahedron.Search.TopPairingBellmanSemanticGate` refreshed the dependency;
+the transducer direct check and downstream Lake checks then passed.
+
+Decision: accepted.  The next proof-producing slice should instantiate
+`closedToGraphExactEvalGate_of_transducerInvariantLocalWithSuffix` or its
+ranked variant for a bounded semantic family.  The remaining hard local
+obligation is exactly:
+
+```lean
+Inv state ->
+state.Tail (face :: rest) ->
+SuffixOk state (face :: rest) ->
+  exists nextState gain,
+    TopPairingTransducerEvalState.next? graphSmokeNext smokeLabelOfFace
+      state face = some (nextState, gain) /\
+    nextState.Tail rest /\
+    Inv nextState /\
+    SuffixOk nextState rest
+```
+
+If this local obligation requires trace ids or prefix equality tables, the
+state abstraction is still too weak and must gain semantic fields such as
+tri-source progress, pair-count remainder, or a cocycle quotient.  It must not
+fall back to sampled paths.
