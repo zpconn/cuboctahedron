@@ -5,14 +5,14 @@
     "build",
     "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSplit10MTransducerSemanticGateSmoke"
   ],
-  "elapsed_seconds": 6.004610515999957,
+  "elapsed_seconds": 1.0017063099949155,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4164272,
-  "max_tree_rss_mib": 4066.671875,
-  "min_available_seen_kib": 46910260,
-  "min_available_seen_mib": 45810.80078125,
+  "max_tree_rss_kib": 1536,
+  "max_tree_rss_mib": 1.5,
+  "min_available_seen_kib": 47504376,
+  "min_available_seen_mib": 46390.9921875,
   "rss_cap_mib": 6500.0,
   "timeout_seconds": 360.0
 }

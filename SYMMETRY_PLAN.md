@@ -84983,8 +84983,8 @@ Result:
 
 | Target | Result | Time | Peak tree RSS | Min available |
 |---|---:|---:|---:|---:|
-| direct `BellmanTopPairingSplit10MTransducerSemanticGateSmoke.lean` | pass | `2.00s` | `3458 MiB` | `46194 MiB` |
-| Lake `BellmanTopPairingSplit10MTransducerSemanticGateSmoke` | pass | `6.00s` | `4066 MiB` | `45810 MiB` |
+| direct `BellmanTopPairingSplit10MTransducerSemanticGateSmoke.lean` | pass | `6.00s` | `3600 MiB` | `46083 MiB` |
+| Lake `BellmanTopPairingSplit10MTransducerSemanticGateSmoke` | pass | `1.00s` | `1 MiB` | `46390 MiB` |
 | forbidden-token scan | pass | n/a | n/a | n/a |
 
 Decision: accepted as the current production-shaped socket.  The next
