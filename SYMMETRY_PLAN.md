@@ -88026,3 +88026,117 @@ Decision: pivot support is accepted.  The remaining hard theorem is not another
 Bellman graph or trace-list bridge; it is a generated/semantic producer that
 turns strengthened top-pairing closed-language evidence into the ranked
 transducer-gate premises directly.
+
+#### Closed Transducer Producer Socket Accepted
+
+Added the socket that names the refreshed production theorem boundary:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingClosedTransducerProducerSocket.lean
+```
+
+The new rank-local package is:
+
+```lean
+structure StrengthenedClosedTransducerProducer
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop where
+  strengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym
+  terminalOk :
+    TerminalOkTraceLabels (topPairingRankFaceLabels rank)
+  depth11GraphPath :
+    Split10MDepth11GraphPathProducer rank
+  finalMargin :
+    Split10MFinalMarginProducer scaledMargin rank
+```
+
+and the all-rank package is:
+
+```lean
+structure StrengthenedClosedTransducerProducerAll
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  family :
+    forall rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+        StrengthenedClosedTransducerProducer scaledMargin rank
+```
+
+The socket proves:
+
+```lean
+split10MGraphSuffixProducer_of_closedTransducerProducer
+evalLanguageAtRank_of_closedTransducerProducer
+scaledMargin_nonpos_of_closedTransducerProducer
+strengthenedToEvalGate_of_closedTransducerProducerAll
+scaledMargin_nonpos_of_closedTransducerProducerAll
+```
+
+This makes the pivot concrete: future generated family modules should prove
+`StrengthenedClosedTransducerProducerAll` from semantic closed-language facts.
+`TerminalOkTraceLabels` is still a required fact, but it must be produced by a
+semantic terminal classifier using the target cursor / schedule / pair-count /
+local-axis / tri-source state, not by the 37 accepted-trace id enumeration.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_closed_transducer_producer_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedTransducerProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_closed_transducer_producer_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedTransducerProducerSocket
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedTransducerProducerSocket.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| first direct check | failed | `4.00s` | `3600 MiB` | `46164 MiB` |
+| direct closed-transducer socket | pass | `3.01s` | `2499 MiB` | `46217 MiB` |
+| Lake closed-transducer socket | pass | `3.00s` | `3962 MiB` | `45998 MiB` |
+| forbidden-token and accepted-trace-id scan | pass | n/a | n/a | n/a |
+
+The first direct check failed because the rank-local theorem accidentally used
+an all-rank producer adapter, which forced unrelated rank variables into the
+terminal and final-margin fields.  The accepted version uses the rank-local
+`evalLanguageAtRank_of_strengthenedTerminalFrontier` and
+`scaledMargin_nonpos_of_split10MGraphSuffixMarginFamily` bridges.
+
+Next implementation target:
+
+```lean
+theorem semanticClosedProducerAll :
+    StrengthenedClosedTransducerProducerAll scaledMargin
+```
+
+or a representative bounded theorem with the same shape.  The proof must build
+`terminalOk`, `depth11GraphPath`, and `finalMargin` from semantic state facts.
+If that proof needs `AcceptedTraceId`, `GraphAcceptedTraceLabels`, selected
+prefix ids, exact affine RHS, or one branch per rank/path, the Bellman route
+must pause for the cocycle/cancellation quotient profiler.
