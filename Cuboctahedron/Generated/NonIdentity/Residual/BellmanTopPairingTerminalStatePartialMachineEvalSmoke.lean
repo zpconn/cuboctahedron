@@ -15,6 +15,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminal
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateProducerSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateStepSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSocket
@@ -143,6 +144,38 @@ theorem smokeContainedEvalProgressGate_step1
     (nextState := SmokePartialState.s01)
     (face := Face.xm)
     (smokeStep1HeadSome_of_closed hclosed)
+    rfl
+
+theorem smokeStep2HeadSome_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalStepState.HeadSome
+      (smokePartialMachine.stateOf SmokePartialState.s01) rank Face.ym := by
+  rcases topPairingStepScheduleLabels_prefix_xm_ym hclosed.schedule with
+    ⟨rest, hlabels⟩
+  refine ⟨rest, ?_⟩
+  refine ⟨?_, ?_⟩
+  · exact contains_of_containedEvalProgressGate smokePartialMachine
+      (smokeContainedEvalProgressGate_step1 hclosed)
+  · have hpfx :
+        (smokePartialMachine.stateOf SmokePartialState.s01).pfx =
+          [Face.xm] := by
+      rfl
+    rw [hpfx]
+    simpa [topPairingRankFaceLabels] using hlabels
+
+theorem smokeContainedEvalProgressGate_step2
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalProgressGate
+      smokePartialMachine SmokePartialState.s01 rank SmokePartialState.s02 :=
+  terminalContainedEvalProgressGate_of_headSome_next?
+    (machine := smokePartialMachine)
+    (rank := rank)
+    (state := SmokePartialState.s01)
+    (nextState := SmokePartialState.s02)
+    (face := Face.ym)
+    (smokeStep2HeadSome_of_closed hclosed)
     rfl
 
 theorem smokeStep1Contains_of_closed

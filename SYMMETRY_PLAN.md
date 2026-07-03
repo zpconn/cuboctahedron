@@ -89203,3 +89203,67 @@ the initial `xm` step, then fold those entries through
 `terminalContainedEvalProgressGate_of_headSome_next?`.  The gate remains:
 if the frontier proof starts enumerating ranks, observed prefixes, or exact
 affine values, reject it and strengthen the semantic state instead.
+
+### Two-Head Reachable Frontier Smoke
+
+The reachable-frontier smoke now proves two state-local heads:
+
+```lean
+theorem smokeStep1HeadSome_of_closed
+theorem smokeContainedEvalProgressGate_step1
+theorem smokeStep2HeadSome_of_closed
+theorem smokeContainedEvalProgressGate_step2
+```
+
+The second head is proved at `SmokePartialState.s01`, exposing `Face.ym` from
+the same closed schedule.  Its containment premise is obtained by applying the
+first one-edge progress gate, not by consulting an accepted trace, sampled rank,
+or selected-prefix table.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_two_head_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_two_head_smoke_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStatePartialMachineEvalSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct two-head smoke | pass | `3.00s` | `2279 MiB` | `46307 MiB` |
+| Lake two-head smoke, 12 GiB cap | pass | `9.01s` | `6747 MiB` | `45824 MiB` |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a |
+
+Decision: accepted as a bounded reachable-frontier smoke.  This is still not a
+complete deterministic evaluator, because the second head is manually named.
+The next useful theorem is a generic progress composition/prefix theorem:
+after a `TerminalContainedEvalProgressGate`, prove the finish state's prefix is
+the start prefix plus the consumed labels.  That would let generated frontier
+tables compose many `HeadSome` entries into one eval gate without rebuilding
+the prefix equation manually at every step.
