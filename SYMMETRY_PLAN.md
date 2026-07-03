@@ -92325,3 +92325,66 @@ The remaining missing semantic ingredients are the affine solve/start-point
 side of the `axisMissesStartInterior` certificate and the bad-face violation,
 preferably as a small family theorem over the target-shadow/cancellation
 cursor.
+
+### Top-Pairing Start-Miss Semantic Language Accepted
+
+Added a compact semantic predicate that packages the exact non-sampled inputs
+the future start-miss producer should consume:
+
+```lean
+structure TopPairingStartMissSemanticLanguageAtRank
+
+theorem topPairingStartMissSemanticLanguage_of_closed
+```
+
+It contains:
+
+- the original `TopPairingClosedLanguageAtRank` proof;
+- the target-shadow cursor `TopPairingTargetCursorAtRank`;
+- the normalized start-miss axis language
+  `TopPairingStartMissAxisLabels (topPairingRankFaceLabels rank)`.
+
+File:
+
+```text
+Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_target_cursor_start_miss_semantic_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_target_cursor_start_miss_semantic_lake_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.TopPairingTargetCursor
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct target cursor semantic language | pass | `3.00s` | `3942 MiB` | `46155 MiB` | `8192 MiB` |
+| Lake target cursor semantic language | pass | `3.00s` | `4064 MiB` | `46020 MiB` | none |
+
+Decision: accepted.  The next generated or hand-written start-miss producer
+should target this predicate, not raw closed language alone.  If proving the
+producer from this predicate still requires selected-prefix classes, accepted
+trace ids, exact word keys, exact affine RHS keys, or solved start-point keys,
+the semantic state is still missing one real finite field.

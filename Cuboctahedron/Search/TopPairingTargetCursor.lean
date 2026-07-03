@@ -355,4 +355,33 @@ theorem topPairingTriCursor_of_closed
   · decide
   · simpa using topPairingActedTriLetters_eq_target_of_closed h
 
+/--
+Compact semantic input for the top-pairing start-miss producer.
+
+This is deliberately a language predicate, not generated evidence: it packages
+the closed-language proof together with the target-shadow cursor and the
+normalized start-miss axis language derived from it.  A production
+`axisMissesStartInterior` producer should consume this surface instead of a
+sampled trace id, selected prefix, exact affine RHS key, or solved start point
+key.
+-/
+structure TopPairingStartMissSemanticLanguageAtRank
+    (rank : Fin numPairWords) (badFace : Face) : Prop where
+  closed :
+    TopPairingClosedLanguageAtRank rank badFace
+  targetCursor :
+    TopPairingTargetCursorAtRank rank
+  startMissAxis :
+    TopPairingStartMissAxisLabels (topPairingRankFaceLabels rank)
+
+theorem topPairingStartMissSemanticLanguage_of_closed
+    {rank : Fin numPairWords} {badFace : Face}
+    (h : TopPairingClosedLanguageAtRank rank badFace) :
+    TopPairingStartMissSemanticLanguageAtRank rank badFace where
+  closed := h
+  targetCursor := topPairingTriCursor_of_closed h
+  startMissAxis := by
+    simpa [topPairingRankFaceLabels] using
+      topPairingStartMissAxisLabels_of_closedLanguageAtRank h
+
 end Cuboctahedron
