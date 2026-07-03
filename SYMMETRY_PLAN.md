@@ -90795,3 +90795,107 @@ Decision: accepted.  The next production theorem should target
 finish from closed semantic cursor/state facts, then prove the margin
 inequality.  This keeps the proof coordinate at the Bellman graph level and
 avoids requiring exact `FaceEvalState` data in generated family statements.
+
+### Class-034 Depth-11 Graph Suffix Eval Accepted
+
+Added the first local graph-evaluator smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean
+```
+
+This is the first checked theorem slice that turns a semantic depth-11 suffix
+class into a concrete Bellman graph evaluator result.  For class `034` it
+defines:
+
+```lean
+def Class034Depth11GraphFinish
+```
+
+and proves:
+
+```lean
+theorem class034Depth11GraphFinish_of_suffix
+theorem graphEval_of_class034Depth11GraphFinish
+theorem graphEval_exists_of_class034Depth11Suffix
+```
+
+The checked facts are:
+
+```text
+state 197 + [zm, zp, xp] -> final graph 558, suffix gain -93
+state 198 + [zm, zp, xp] -> final graph 559, suffix gain -93
+state 201 + [zm, zp, xp] -> final graph 590, suffix gain -93
+```
+
+This still is not a full rank-level exact graph finish theorem; it proves the
+local suffix evaluator ingredient needed by the graph-exact final-margin
+socket.  The remaining composition step is to combine:
+
+```text
+closed prefix [xm, ym]
+  + split prefix/frontier face0/face1 graph gains
+  + class depth-11 suffix graph gain
+  -> full graph_eval_eq for Split10MExactGraphFinishFinalMarginProducer
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_suffix_eval_dep_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_depth11_graph_suffix_eval_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_graph_suffix_eval_smoke_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphSuffixEvalSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| dependency Lake build | pass | `2.00s` | `776 MiB` | `46481 MiB` | none |
+| direct class-034 graph suffix eval smoke | pass | `5.00s` | `3992 MiB` | `46148 MiB` | `8192 MiB` |
+| Lake class-034 graph suffix eval smoke | pass | `3.00s` | `4141 MiB` | `46015 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted as a local ingredient.  The next step should either
+generalize this suffix-eval emitter to all depth-11 classes/states or compose
+class `034` with prefix/frontier graph gains to produce one complete
+`Split10MExactGraphFinishFinalMarginProducer` minus only the actual
+family-specific `margin_bound`.
