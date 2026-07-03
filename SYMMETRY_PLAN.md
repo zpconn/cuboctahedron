@@ -91610,3 +91610,112 @@ TopPairingClosedLanguageAtRank rank Face.ym
 for the current depth-11 classes, with the margin bound derived from the
 target-shadow cursor, cancellation data, square-gap/schedule fields, and
 local-axis semantics rather than trace tables.
+
+### Depth-11 Graph-Exact Eval-Language Adapter Accepted
+
+Extended the depth-11 graph-exact finish emitter:
+
+```text
+scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+```
+
+so the generated graph-exact module imports the small semantic gate explicitly
+and exports one direct eval-language theorem per current class:
+
+```lean
+theorem evalLanguageAtRank_of_classNNNExactGraphFinishMarginBound
+```
+
+with theorem shape:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+ClassNNNGraphSuffixProducer rank ->
+ClassNNNExactGraphFinishMarginBound scaledMargin rank ->
+TopPairingBellmanEvalLanguageAtRank
+  graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+  scaledMargin rank Face.ym
+```
+
+This theorem is still conditional on the semantic margin-gain predicate, but it
+now composes the exact graph evaluator equation and terminal potential fact
+through `evalLanguageAtRank_of_mappedRankLabelsGraphExact`.  Future generated
+family code can therefore target the margin-gain theorem directly and then
+obtain the public Bellman eval-language object without going through
+selected-prefix or accepted-trace layers.
+
+Commands:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+
+python3 scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_bellman_semantic_gate_graph_exact_lake_guard_12g.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.TopPairingBellmanSemanticGate
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_eval_language_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_eval_language_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphExactFinishSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|sampledSmokeNext\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| semantic gate Lake refresh | pass | `3.00s` | `3966 MiB` | `46079 MiB` | none |
+| graph-exact direct with eval-language adapters | pass | `30.02s` | `4120 MiB` | `46026 MiB` | `8192 MiB` |
+| graph-exact Lake with eval-language adapters | pass | `31.02s` | `4469 MiB` | `45599 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted.  The current depth-11 class layer now exposes exactly the
+semantic evaluator theorem demanded by the Bellman pivot, modulo the one
+remaining mathematical obligation:
+
+```lean
+ClassNNNExactGraphFinishMarginBound scaledMargin rank
+```
+
+Next work should construct that margin-gain predicate from target-shadow
+cursor/cancellation/schedule/local-axis semantics.  If the proof wants to
+recover an accepted trace id or exact prefix equality, the semantic state is
+not rich enough yet.

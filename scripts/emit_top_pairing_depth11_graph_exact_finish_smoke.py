@@ -542,6 +542,34 @@ def Class{class_id}ExactGraphFinishMarginBound
         some (finalGraph, totalGain) ->
       scaledMargin rank <= (176 : Int) + totalGain
 
+theorem evalLanguageAtRank_of_class{class_id}ExactGraphFinishMarginBound
+    {{scaledMargin : Fin numPairWords -> Int}}
+    {{rank : Fin numPairWords}}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class{class_id}GraphSuffixProducer rank)
+    (hmargin :
+      Class{class_id}ExactGraphFinishMarginBound scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases graphEval_exists_of_class{class_id}GraphSuffixProducer
+      hclosed hclass with
+    ⟨finalGraph, totalGain, heval⟩
+  exact
+    evalLanguageAtRank_of_mappedRankLabelsGraphExact
+      (V := graphPotential)
+      (next := graphSmokeNext)
+      (labelOfFace := smokeLabelOfFace)
+      (start := rootState)
+      (const := (176 : Int))
+      (scaledMargin := scaledMargin)
+      (hclosed := hclosed)
+      (heval := heval)
+      (hfinal :=
+        finalPotential_nonneg_of_class{class_id}GraphSuffixProducer
+          hclosed hclass heval)
+      (hmargin := hmargin finalGraph totalGain heval)
+
 theorem closedClass{class_id}ExactGraphFinishSuffixMarginFamily_of_marginBound
     {{scaledMargin : Fin numPairWords -> Int}}
     {{rank : Fin numPairWords}}
@@ -584,6 +612,7 @@ theorem scaledMargin_nonpos_of_class{class_id}ExactGraphFinishMarginBound
 
 def emit_module(classes: list[str]) -> str:
     lines = [
+        "import Cuboctahedron.Search.TopPairingBellmanSemanticGate",
         "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixEvalSmoke",
         "",
         "/-!",

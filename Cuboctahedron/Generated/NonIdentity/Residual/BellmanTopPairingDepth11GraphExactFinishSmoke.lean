@@ -1,3 +1,4 @@
+import Cuboctahedron.Search.TopPairingBellmanSemanticGate
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixEvalSmoke
 
 /-!
@@ -531,6 +532,34 @@ def Class034ExactGraphFinishMarginBound
         some (finalGraph, totalGain) ->
       scaledMargin rank <= (176 : Int) + totalGain
 
+theorem evalLanguageAtRank_of_class034ExactGraphFinishMarginBound
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class034GraphSuffixProducer rank)
+    (hmargin :
+      Class034ExactGraphFinishMarginBound scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases graphEval_exists_of_class034GraphSuffixProducer
+      hclosed hclass with
+    ⟨finalGraph, totalGain, heval⟩
+  exact
+    evalLanguageAtRank_of_mappedRankLabelsGraphExact
+      (V := graphPotential)
+      (next := graphSmokeNext)
+      (labelOfFace := smokeLabelOfFace)
+      (start := rootState)
+      (const := (176 : Int))
+      (scaledMargin := scaledMargin)
+      (hclosed := hclosed)
+      (heval := heval)
+      (hfinal :=
+        finalPotential_nonneg_of_class034GraphSuffixProducer
+          hclosed hclass heval)
+      (hmargin := hmargin finalGraph totalGain heval)
+
 theorem closedClass034ExactGraphFinishSuffixMarginFamily_of_marginBound
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -956,6 +985,34 @@ def Class035ExactGraphFinishMarginBound
       ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
         some (finalGraph, totalGain) ->
       scaledMargin rank <= (176 : Int) + totalGain
+
+theorem evalLanguageAtRank_of_class035ExactGraphFinishMarginBound
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class035GraphSuffixProducer rank)
+    (hmargin :
+      Class035ExactGraphFinishMarginBound scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases graphEval_exists_of_class035GraphSuffixProducer
+      hclosed hclass with
+    ⟨finalGraph, totalGain, heval⟩
+  exact
+    evalLanguageAtRank_of_mappedRankLabelsGraphExact
+      (V := graphPotential)
+      (next := graphSmokeNext)
+      (labelOfFace := smokeLabelOfFace)
+      (start := rootState)
+      (const := (176 : Int))
+      (scaledMargin := scaledMargin)
+      (hclosed := hclosed)
+      (heval := heval)
+      (hfinal :=
+        finalPotential_nonneg_of_class035GraphSuffixProducer
+          hclosed hclass heval)
+      (hmargin := hmargin finalGraph totalGain heval)
 
 theorem closedClass035ExactGraphFinishSuffixMarginFamily_of_marginBound
     {scaledMargin : Fin numPairWords -> Int}
@@ -1383,6 +1440,34 @@ def Class036ExactGraphFinishMarginBound
         some (finalGraph, totalGain) ->
       scaledMargin rank <= (176 : Int) + totalGain
 
+theorem evalLanguageAtRank_of_class036ExactGraphFinishMarginBound
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class036GraphSuffixProducer rank)
+    (hmargin :
+      Class036ExactGraphFinishMarginBound scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases graphEval_exists_of_class036GraphSuffixProducer
+      hclosed hclass with
+    ⟨finalGraph, totalGain, heval⟩
+  exact
+    evalLanguageAtRank_of_mappedRankLabelsGraphExact
+      (V := graphPotential)
+      (next := graphSmokeNext)
+      (labelOfFace := smokeLabelOfFace)
+      (start := rootState)
+      (const := (176 : Int))
+      (scaledMargin := scaledMargin)
+      (hclosed := hclosed)
+      (heval := heval)
+      (hfinal :=
+        finalPotential_nonneg_of_class036GraphSuffixProducer
+          hclosed hclass heval)
+      (hmargin := hmargin finalGraph totalGain heval)
+
 theorem closedClass036ExactGraphFinishSuffixMarginFamily_of_marginBound
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -1808,6 +1893,34 @@ def Class037ExactGraphFinishMarginBound
       ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
         some (finalGraph, totalGain) ->
       scaledMargin rank <= (176 : Int) + totalGain
+
+theorem evalLanguageAtRank_of_class037ExactGraphFinishMarginBound
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class037GraphSuffixProducer rank)
+    (hmargin :
+      Class037ExactGraphFinishMarginBound scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases graphEval_exists_of_class037GraphSuffixProducer
+      hclosed hclass with
+    ⟨finalGraph, totalGain, heval⟩
+  exact
+    evalLanguageAtRank_of_mappedRankLabelsGraphExact
+      (V := graphPotential)
+      (next := graphSmokeNext)
+      (labelOfFace := smokeLabelOfFace)
+      (start := rootState)
+      (const := (176 : Int))
+      (scaledMargin := scaledMargin)
+      (hclosed := hclosed)
+      (heval := heval)
+      (hfinal :=
+        finalPotential_nonneg_of_class037GraphSuffixProducer
+          hclosed hclass heval)
+      (hmargin := hmargin finalGraph totalGain heval)
 
 theorem closedClass037ExactGraphFinishSuffixMarginFamily_of_marginBound
     {scaledMargin : Fin numPairWords -> Int}
@@ -2235,6 +2348,34 @@ def Class038ExactGraphFinishMarginBound
         some (finalGraph, totalGain) ->
       scaledMargin rank <= (176 : Int) + totalGain
 
+theorem evalLanguageAtRank_of_class038ExactGraphFinishMarginBound
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class038GraphSuffixProducer rank)
+    (hmargin :
+      Class038ExactGraphFinishMarginBound scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases graphEval_exists_of_class038GraphSuffixProducer
+      hclosed hclass with
+    ⟨finalGraph, totalGain, heval⟩
+  exact
+    evalLanguageAtRank_of_mappedRankLabelsGraphExact
+      (V := graphPotential)
+      (next := graphSmokeNext)
+      (labelOfFace := smokeLabelOfFace)
+      (start := rootState)
+      (const := (176 : Int))
+      (scaledMargin := scaledMargin)
+      (hclosed := hclosed)
+      (heval := heval)
+      (hfinal :=
+        finalPotential_nonneg_of_class038GraphSuffixProducer
+          hclosed hclass heval)
+      (hmargin := hmargin finalGraph totalGain heval)
+
 theorem closedClass038ExactGraphFinishSuffixMarginFamily_of_marginBound
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -2660,6 +2801,34 @@ def Class039ExactGraphFinishMarginBound
       ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
         some (finalGraph, totalGain) ->
       scaledMargin rank <= (176 : Int) + totalGain
+
+theorem evalLanguageAtRank_of_class039ExactGraphFinishMarginBound
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class039GraphSuffixProducer rank)
+    (hmargin :
+      Class039ExactGraphFinishMarginBound scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases graphEval_exists_of_class039GraphSuffixProducer
+      hclosed hclass with
+    ⟨finalGraph, totalGain, heval⟩
+  exact
+    evalLanguageAtRank_of_mappedRankLabelsGraphExact
+      (V := graphPotential)
+      (next := graphSmokeNext)
+      (labelOfFace := smokeLabelOfFace)
+      (start := rootState)
+      (const := (176 : Int))
+      (scaledMargin := scaledMargin)
+      (hclosed := hclosed)
+      (heval := heval)
+      (hfinal :=
+        finalPotential_nonneg_of_class039GraphSuffixProducer
+          hclosed hclass heval)
+      (hmargin := hmargin finalGraph totalGain heval)
 
 theorem closedClass039ExactGraphFinishSuffixMarginFamily_of_marginBound
     {scaledMargin : Fin numPairWords -> Int}
