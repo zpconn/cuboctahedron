@@ -18,9 +18,64 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingBranchTa
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTransducerFaceEvalSplit10MSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingStrengthenedBranchTableSplit10MSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingStrengthenedBranchTableProgressSplit10MSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingBranchTableSuffixSplit10MSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticClosedGateSocket
+
+/--
+Semantic local branch-table classifier for the first open step after the
+Lean-proved `xm, ym` prefix.
+
+Unlike the older prefix-equality helper, this theorem consumes only the
+semantic transducer tail.  It is the small prototype for the production
+emitter: derive the table branch from `TopPairingTransducerTail.cons`, then
+case-split on the finite local face alternatives.
+-/
+theorem branchTable_of_closedPrefix2_tail
+    {face : Face} {rest : List Face}
+    (htail : closedPrefix2EvalState.Tail (face :: rest)) :
+    StrengthenedBranchTable closedPrefix2EvalState.graph face
+      BranchKind.graph := by
+  have htail' :
+      TopPairingTransducerTail 2
+        (topPairingNextGap (topPairingNextGap 0 Face.xm) Face.ym) 0
+        ((SqParity.id.applyPair (pairOfFace Face.xm)).applyPair
+          (pairOfFace Face.ym))
+        (topPairingNextLinear
+          (topPairingNextLinear (matId : Mat3 Rat) Face.xm) Face.ym)
+        (face :: rest) := by
+    simpa [TopPairingTransducerEvalState.Tail,
+      TopPairingTransducerState.Tail, closedPrefix2EvalState,
+      closedPrefix2TransducerState] using htail
+  have hlocal := TopPairingTransducerTail.cons htail'
+  have hface : face ∈ topPairingAllowedFacesAtStep 2 := hlocal.1
+  change StrengthenedBranchTable (610 : State) face BranchKind.graph
+  simp [topPairingAllowedFacesAtStep] at hface
+  rcases hface with rfl | rfl | rfl
+  · exact StrengthenedBranchTable.graph_0541_s0610_tmpm
+  · exact StrengthenedBranchTable.graph_0539_s0610_yp
+  · exact StrengthenedBranchTable.graph_0540_s0610_zm
+
+/--
+Branch-table suffix step after the Lean-proved `xm, ym` prefix, driven by the
+semantic tail rather than by re-reading the whole rank prefix.
+-/
+theorem branchTableSuffixOk_closedPrefix2_branch_of_tail
+    {rank : Fin numPairWords}
+    {face : Face} {rest : List Face}
+    (htail : closedPrefix2EvalState.Tail (face :: rest))
+    (hsuffix :
+      ∀ nextState gain,
+        faceEvalNext closedPrefix2EvalState face = some (nextState, gain) ->
+        nextState.Tail rest ->
+        BranchInv nextState ->
+          BranchTableSuffixOk rank nextState rest) :
+    BranchTableSuffixOk rank closedPrefix2EvalState (face :: rest) := by
+  refine BranchTableSuffixOk.graph
+    (branchTable_of_closedPrefix2_tail htail) ?_
+  intro nextState gain hnext htailNext hinvNext
+  exact hsuffix nextState gain hnext htailNext hinvNext
 
 /--
 Generated production target for branch-table semantic membership.

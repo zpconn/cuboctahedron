@@ -41,15 +41,17 @@
     "branch_table_semantic_gate_socket": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 94,
+      "lines": 149,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean",
       "symbol_hits": {
-        "BranchTableSuffixOk": 3,
+        "BranchTableSuffixOk": 6,
         "Split10MBranchTableClosedEvalFamily": 3,
-        "StrengthenedBranchTable": 1,
-        "TopPairingTransducerTail.cons": 1,
+        "StrengthenedBranchTable": 7,
+        "TopPairingTransducerTail.cons": 3,
         "branchTableSemanticGateSocket_builds": 1,
+        "branchTableSuffixOk_closedPrefix2_branch_of_tail": 1,
         "branchTableSuffixOk_local": 1,
+        "branchTable_of_closedPrefix2_tail": 2,
         "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix": 1,
         "scaledMargin_nonpos_of_branchTableClosedEvalFamily": 1,
         "split10MClosedToEvalGate_of_branchTableClosedEvalFamily": 2
@@ -449,11 +451,11 @@
       "path": "scripts/generated/bellman_strengthened_branch_table_progress_1m_smoke_lake_guard.json"
     },
     "branch_table_semantic_gate_socket_direct": {
-      "elapsed_seconds": 2.002111144014634,
+      "elapsed_seconds": 2.002276732993778,
       "exists": true,
       "exit_code": 0,
       "killed_reason": null,
-      "max_tree_rss_mib": 3605.25,
+      "max_tree_rss_mib": 3610.11328125,
       "path": "scripts/generated/branch_table_semantic_gate_socket_guard.json"
     },
     "branch_table_suffix_direct": {
@@ -869,6 +871,9 @@
       "branch_table_suffix",
       "branch_table_suffix_split10m"
     ],
+    "branchTableSuffixOk_closedPrefix2_branch_of_tail": [
+      "branch_table_semantic_gate_socket"
+    ],
     "branchTableSuffixOk_local": [
       "branch_table_suffix",
       "branch_table_suffix_split10m",
@@ -912,6 +917,9 @@
     ],
     "branchTableSuffixSplit10MSmoke_builds": [
       "branch_table_suffix_split10m"
+    ],
+    "branchTable_of_closedPrefix2_tail": [
+      "branch_table_semantic_gate_socket"
     ],
     "class034Depth11GraphFinish_of_suffix": [
       "depth11_suffix_eval",

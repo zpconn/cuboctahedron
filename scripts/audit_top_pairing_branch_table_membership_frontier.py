@@ -284,6 +284,8 @@ REQUIRED_SYMBOLS = {
     "scaledMargin_nonpos_of_layer4MappedPortfolio": "mapped portfolio to nonpositive scaled margin",
     "depth11Layer4MappedFinish_builds": "direct mapped finish module sentinel",
     "Split10MBranchTableClosedEvalFamily": "branch-table semantic eval-family target",
+    "branchTable_of_closedPrefix2_tail": "semantic-tail local branch-table prototype",
+    "branchTableSuffixOk_closedPrefix2_branch_of_tail": "semantic-tail branch-table suffix prototype",
     "split10MClosedToEvalGate_of_branchTableClosedEvalFamily": "branch-table family to canonical split-10M closed-to-eval gate",
     "scaledMargin_nonpos_of_branchTableClosedEvalFamily": "branch-table family to nonpositive scaled margin",
     "branchTableSemanticGateSocket_builds": "branch-table semantic gate socket sentinel",

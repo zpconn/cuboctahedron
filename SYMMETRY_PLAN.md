@@ -296,6 +296,38 @@ BellmanTopPairingBranchTableSemanticGateSocket.lean
 
   Result: passed in `2.00s`, `peak_tree_rss=3605 MiB`, hard address-space cap
   `8192 MiB`, minimum available memory `46259 MiB`.
+- Strengthened the socket with the first semantic-tail local branch-table
+  prototype:
+
+  ```lean
+  theorem branchTable_of_closedPrefix2_tail
+      {face : Face} {rest : List Face}
+      (htail : closedPrefix2EvalState.Tail (face :: rest)) :
+      StrengthenedBranchTable closedPrefix2EvalState.graph face
+        BranchKind.graph
+
+  theorem branchTableSuffixOk_closedPrefix2_branch_of_tail
+      {rank : Fin numPairWords}
+      {face : Face} {rest : List Face}
+      (htail : closedPrefix2EvalState.Tail (face :: rest))
+      (hsuffix :
+        ∀ nextState gain,
+          faceEvalNext closedPrefix2EvalState face =
+            some (nextState, gain) ->
+          nextState.Tail rest ->
+          BranchInv nextState ->
+            BranchTableSuffixOk rank nextState rest) :
+      BranchTableSuffixOk rank closedPrefix2EvalState (face :: rest)
+  ```
+
+  This is the exact local proof shape the full finite emitter should scale:
+  consume `TopPairingTransducerTail.cons`, case-split on the local semantic
+  face alternatives, and emit a branch-table constructor.  It does not inspect
+  a full prefix, accepted trace, sampled rank, or affine key.  The same guarded
+  Lean check of
+  `BellmanTopPairingBranchTableSemanticGateSocket.lean` passed after the
+  prototype was added: `elapsed=2.00s`, `peak_tree_rss=3610 MiB`,
+  `hard_as=8192 MiB`.
 
 ### Holonomy-Normal-Form Marching Orders
 

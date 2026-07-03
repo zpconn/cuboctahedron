@@ -111,6 +111,8 @@ PATTERNS = {
     ],
     "branch_table_semantic_gate_socket": [
         "Split10MBranchTableClosedEvalFamily",
+        "branchTable_of_closedPrefix2_tail",
+        "branchTableSuffixOk_closedPrefix2_branch_of_tail",
         "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
         "scaledMargin_nonpos_of_branchTableClosedEvalFamily",
     ],
@@ -262,7 +264,7 @@ def main() -> None:
     suffix_eval_core_ready = totals["suffix_eval_core"] >= 3
     ranked_semantic_gate_core_ready = totals["ranked_semantic_gate_core"] >= 3
     branch_table_semantic_gate_socket_ready = (
-        totals["branch_table_semantic_gate_socket"] >= 3
+        totals["branch_table_semantic_gate_socket"] >= 5
     )
     semantic_socket_core_ready = totals["semantic_socket_core"] >= 4
     closure_closed = bool(closure and closure.get("closed_after_sequence_bad_face"))
@@ -333,6 +335,8 @@ def main() -> None:
             "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
             "scaledMargin_nonpos_of_rankedTransducerClosedGate",
             "Split10MBranchTableClosedEvalFamily",
+            "branchTable_of_closedPrefix2_tail",
+            "branchTableSuffixOk_closedPrefix2_branch_of_tail",
             "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
             "topPairingClosed_to_strengthenedSuffixOk",
             "topPairingClosed_to_eval_gate",

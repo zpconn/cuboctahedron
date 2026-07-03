@@ -126,6 +126,8 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `scaledMargin_nonpos_of_layer4MappedPortfolio` | mapped portfolio to nonpositive scaled margin | `depth11_layer4_mapped_finish` |
 | `depth11Layer4MappedFinish_builds` | direct mapped finish module sentinel | `depth11_layer4_mapped_finish` |
 | `Split10MBranchTableClosedEvalFamily` | branch-table semantic eval-family target | `branch_table_semantic_gate_socket` |
+| `branchTable_of_closedPrefix2_tail` | semantic-tail local branch-table prototype | `branch_table_semantic_gate_socket` |
+| `branchTableSuffixOk_closedPrefix2_branch_of_tail` | semantic-tail branch-table suffix prototype | `branch_table_semantic_gate_socket` |
 | `split10MClosedToEvalGate_of_branchTableClosedEvalFamily` | branch-table family to canonical split-10M closed-to-eval gate | `branch_table_semantic_gate_socket` |
 | `scaledMargin_nonpos_of_branchTableClosedEvalFamily` | branch-table family to nonpositive scaled margin | `branch_table_semantic_gate_socket` |
 | `branchTableSemanticGateSocket_builds` | branch-table semantic gate socket sentinel | `branch_table_semantic_gate_socket` |
@@ -162,7 +164,7 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `depth11_suffix_eval_olean` | `0` | `4.00s` | `3940 MiB` | `None` |
 | `depth11_suffix_producers_olean` | `0` | `2.00s` | `3548 MiB` | `None` |
 | `depth11_layer4_mapped_finish_direct` | `0` | `15.01s` | `3998 MiB` | `None` |
-| `branch_table_semantic_gate_socket_direct` | `0` | `2.00s` | `3605 MiB` | `None` |
+| `branch_table_semantic_gate_socket_direct` | `0` | `2.00s` | `3610 MiB` | `None` |
 | `target_cursor_latest_direct` | `0` | `6.00s` | `3907 MiB` | `None` |
 | `transducer_tail_latest_direct` | `0` | `2.00s` | `3560 MiB` | `None` |
 | `transducer_semantic_gate_latest_direct` | `0` | `2.00s` | `3552 MiB` | `None` |
