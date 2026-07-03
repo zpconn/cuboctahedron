@@ -40,6 +40,188 @@ abbrev TopPairingStrengthenedToEvalGate
       TopPairingBellmanEvalLanguageAtRank
         V next labelOfFace start const scaledMargin rank badFace
 
+/--
+Graph-exact semantic eval gate result for one rank and one concrete graph
+finish.
+
+The graph finish and gain are explicit parameters so this remains a
+`Prop`-valued proof object.  Generated code should prove one such result from
+closed-language/cursor semantics, not from sampled traces or selected prefixes.
+-/
+structure TopPairingGraphExactEvalGateResult
+    {State Label : Type}
+    (V : State -> Int)
+    (next : State -> Label -> Option (State × Int))
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (badFace : Face)
+    (finish : State)
+    (gain : Int) : Prop where
+  closed :
+    TopPairingClosedLanguageAtRank rank badFace
+  eval_eq :
+    evalLabelStepFn next start
+      (faceLabelsInContributionOrder labelOfFace
+        (canonicalSeqOfPairWord (unrankPairWord rank))) =
+        some (finish, gain)
+  final_nonneg :
+    0 <= V finish
+  margin_bound :
+    scaledMargin rank <= const + gain
+
+/--
+Graph-exact semantic eval gate for one rank.
+
+This is the production-facing target for deterministic Bellman families once a
+closed top-pairing language theorem supplies the graph evaluator result.  It
+keeps the obligation semantic: generated code proves the evaluator equation,
+the terminal potential fact, and the margin-gain inequality, without storing a
+selected prefix, accepted trace id, sampled path, or rank table.
+-/
+abbrev TopPairingGraphExactEvalGateAtRank
+    {State Label : Type}
+    (V : State -> Int)
+    (next : State -> Label -> Option (State × Int))
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (badFace : Face) : Prop :=
+  exists finish gain,
+    TopPairingGraphExactEvalGateResult
+      V next labelOfFace start const scaledMargin rank badFace finish gain
+
+abbrev TopPairingClosedToGraphExactEvalGate
+    {State Label : Type}
+    (V : State -> Int)
+    (next : State -> Label -> Option (State × Int))
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (badFace : Face) : Prop :=
+  forall rank,
+    TopPairingClosedLanguageAtRank rank badFace ->
+      TopPairingGraphExactEvalGateAtRank
+        V next labelOfFace start const scaledMargin rank badFace
+
+abbrev TopPairingStrengthenedToGraphExactEvalGate
+    {State Label : Type}
+    (V : State -> Int)
+    (next : State -> Label -> Option (State × Int))
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (badFace : Face) : Prop :=
+  forall rank,
+    TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank badFace ->
+      TopPairingGraphExactEvalGateAtRank
+        V next labelOfFace start const scaledMargin rank badFace
+
+theorem evalLanguageAtRank_of_graphExactEvalGate
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {badFace : Face}
+    (gate :
+      TopPairingGraphExactEvalGateAtRank
+        V next labelOfFace start const scaledMargin rank badFace) :
+    TopPairingBellmanEvalLanguageAtRank
+      V next labelOfFace start const scaledMargin rank badFace where
+  closed := by
+    rcases gate with ⟨finish, gain, gate⟩
+    exact gate.closed
+  eval_accepts := by
+    rcases gate with ⟨finish, gain, gate⟩
+    exact ⟨(finish, gain), gate.eval_eq, gate.final_nonneg,
+      gate.margin_bound⟩
+
+/--
+Variant of `evalLanguageAtRank_of_graphExactEvalGate` matching the graph
+equations emitted by the current deterministic top-pairing graph modules.
+Those modules evaluate `(topPairingRankFaceLabels rank).map labelOfFace`; this
+adapter performs the small, shared rewrite to the public Bellman word.
+-/
+theorem evalLanguageAtRank_of_mappedRankLabelsGraphExact
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {badFace : Face}
+    {finish : State}
+    {gain : Int}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace)
+    (heval :
+      evalLabelStepFn next start
+        ((topPairingRankFaceLabels rank).map labelOfFace) =
+          some (finish, gain))
+    (hfinal : 0 <= V finish)
+    (hmargin : scaledMargin rank <= const + gain) :
+    TopPairingBellmanEvalLanguageAtRank
+      V next labelOfFace start const scaledMargin rank badFace where
+  closed := hclosed
+  eval_accepts := by
+    refine ⟨(finish, gain), ?_, hfinal, hmargin⟩
+    have hlabels :
+        faceLabelsInContributionOrder labelOfFace
+            (canonicalSeqOfPairWord (unrankPairWord rank)) =
+          (topPairingRankFaceLabels rank).map labelOfFace := by
+      simpa [topPairingRankFaceLabels] using
+        (faceLabelsInContributionOrder_map labelOfFace (fun f : Face => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)))
+    simpa [hlabels] using heval
+
+theorem closedToEvalGate_of_graphExactEvalGate
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {badFace : Face}
+    (gate :
+      TopPairingClosedToGraphExactEvalGate
+        V next labelOfFace start const scaledMargin badFace) :
+    TopPairingClosedToEvalGate
+      V next labelOfFace start const scaledMargin badFace := by
+  intro rank hclosed
+  exact evalLanguageAtRank_of_graphExactEvalGate (gate rank hclosed)
+
+theorem strengthenedToEvalGate_of_graphExactEvalGate
+    {State Label : Type}
+    {V : State -> Int}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {badFace : Face}
+    (gate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        V next labelOfFace start const scaledMargin sequenceBadFace badFace) :
+    TopPairingStrengthenedToEvalGate
+      V next labelOfFace start const scaledMargin sequenceBadFace badFace := by
+  intro rank hstrengthened
+  exact evalLanguageAtRank_of_graphExactEvalGate
+    (gate rank hstrengthened)
+
 def closedObjectCoverOfSemanticGate
     {badFace : Face}
     {State Label : Type}

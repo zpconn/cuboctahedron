@@ -91521,3 +91521,92 @@ Next work should attack that predicate directly from
 `TopPairingTargetCursorAtRank`, schedule/square-gap/local-axis information, and
 the cancellation language.  Do not generate more selected-prefix covers or
 trace-id margin tables for this route.
+
+### Graph-Exact Semantic Gate Core Accepted
+
+The latest GPT5.5 review sharpens the Bellman rule again: keep Bellman, but
+only if the object-cover theorem is a deterministic semantic transducer theorem
+from the closed top-pairing language to `evalLabelStepFn`.  Do not scale the
+selected-prefix producer; do not let membership mean "this rank followed one
+observed prefix trace".
+
+This checkpoint factors the graph-exact target into the small search/core
+layer:
+
+```text
+Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+```
+
+New theorem surfaces:
+
+```lean
+structure TopPairingGraphExactEvalGateResult
+
+abbrev TopPairingGraphExactEvalGateAtRank
+
+abbrev TopPairingClosedToGraphExactEvalGate
+
+abbrev TopPairingStrengthenedToGraphExactEvalGate
+
+theorem evalLanguageAtRank_of_graphExactEvalGate
+
+theorem evalLanguageAtRank_of_mappedRankLabelsGraphExact
+
+theorem closedToEvalGate_of_graphExactEvalGate
+
+theorem strengthenedToEvalGate_of_graphExactEvalGate
+```
+
+`TopPairingGraphExactEvalGateResult` keeps the concrete graph finish and gain
+as explicit parameters, so the proposition remains proof-only and does not
+store computational data inside a `Prop` structure.  The mapped-rank-label
+adapter matches the shape already emitted by the depth-11 graph-exact module:
+
+```lean
+evalLabelStepFn graphSmokeNext rootState
+  ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
+    some (finalGraph, totalGain)
+```
+
+and rewrites it once to the public Bellman word
+`faceLabelsInContributionOrder smokeLabelOfFace
+  (canonicalSeqOfPairWord (unrankPairWord rank))`.
+
+Command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_bellman_semantic_gate_graph_exact_mapped_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+```
+
+Result: passed in `2.00s`, peak tree RSS `2910 MiB`, minimum available memory
+`46288 MiB`, hard address-space cap `8192 MiB`.
+
+Decision: accepted.  This is the production theorem boundary for the next
+Bellman step.  A generated family may prove a graph-exact gate from
+`TopPairingClosedLanguageAtRank rank Face.ym`, class suffix membership, and the
+semantic margin-gain inequality, then the existing Bellman object-cover layer
+derives `scaledMargin rank <= 0`.  If proving the graph-exact gate requires an
+accepted trace id, sampled rank object, selected-prefix equality, exact affine
+RHS key, or branch per observed path, stop and refine the semantic transducer
+state instead.
+
+Next implementation target:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+  -> ClassNNNGraphSuffixProducer rank
+  -> ClassNNNExactGraphFinishMarginBound scaledMargin rank
+```
+
+for the current depth-11 classes, with the margin bound derived from the
+target-shadow cursor, cancellation data, square-gap/schedule fields, and
+local-axis semantics rather than trace tables.
