@@ -114,6 +114,18 @@
         "split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio": 2
       }
     },
+    "depth11_layer4_classifier": {
+      "exists": true,
+      "forbidden_hits": {},
+      "lines": 105,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4ClassifierSocket.lean",
+      "symbol_hits": {
+        "Depth11Layer4GraphExactEvalAllFamily": 3,
+        "Depth11Layer4PrefixAtRank": 5,
+        "scaledMargin_nonpos_of_layer4Classifier": 1,
+        "split10MGraphExactEvalAllFamily_of_layer4Classifier": 2
+      }
+    },
     "eval_bridge": {
       "exists": true,
       "forbidden_hits": {},
@@ -449,6 +461,12 @@
     "Depth11GraphExactPortfolioAllFamily": [
       "depth11_graph_exact_portfolio"
     ],
+    "Depth11Layer4GraphExactEvalAllFamily": [
+      "depth11_layer4_classifier"
+    ],
+    "Depth11Layer4PrefixAtRank": [
+      "depth11_layer4_classifier"
+    ],
     "GraphBranchTableSuffixOk": [
       "branch_table_suffix",
       "branch_table_suffix_split10m",
@@ -622,6 +640,9 @@
     "scaledMargin_nonpos_of_depth11GraphExactPortfolio": [
       "depth11_graph_exact_portfolio"
     ],
+    "scaledMargin_nonpos_of_layer4Classifier": [
+      "depth11_layer4_classifier"
+    ],
     "socket150TpppBranch_impossible": [
       "branch_table_progress",
       "branch_table_suffix"
@@ -632,6 +653,9 @@
     ],
     "split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio": [
       "depth11_graph_exact_portfolio"
+    ],
+    "split10MGraphExactEvalAllFamily_of_layer4Classifier": [
+      "depth11_layer4_classifier"
     ],
     "strengthenedBranchKind?": [
       "branch_table"

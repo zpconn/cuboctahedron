@@ -76,6 +76,9 @@ LEAN_FILES = {
     "depth11_graph_exact_portfolio": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11GraphExactPortfolioSocket.lean",
+    "depth11_layer4_classifier": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4ClassifierSocket.lean",
 }
 
 GUARDS = {
@@ -182,6 +185,10 @@ REQUIRED_SYMBOLS = {
     "graphExactEvalGateAtRank_of_depth11GraphExactClassCase": "class case to graph-exact eval gate",
     "split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio": "portfolio to graph-exact all-family",
     "scaledMargin_nonpos_of_depth11GraphExactPortfolio": "portfolio to nonpositive scaled margin",
+    "Depth11Layer4PrefixAtRank": "first-four closed-language prefix predicate",
+    "Depth11Layer4GraphExactEvalAllFamily": "layer-4 graph-exact all-family target",
+    "split10MGraphExactEvalAllFamily_of_layer4Classifier": "layer-4 classifier to graph-exact all-family",
+    "scaledMargin_nonpos_of_layer4Classifier": "layer-4 classifier to nonpositive scaled margin",
 }
 
 FORBIDDEN_TOKENS = [

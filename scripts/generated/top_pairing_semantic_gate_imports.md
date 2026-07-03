@@ -16,6 +16,7 @@ a target is lightweight enough to sit on a public/residual bridge path.
 | `state_dag_selected_prefix_group` | `bounded-semantic-producer-group` | `183` | `142` | `124` | `8` | `0` |
 | `state_dag_selected_prefix_cover` | `semantic-producer-root-serial-build-required` | `190` | `149` | `124` | `8` | `0` |
 | `depth11_graph_exact_portfolio_socket` | `producer-portfolio-socket-keep-downstream` | `207` | `157` | `124` | `8` | `0` |
+| `depth11_layer4_classifier_socket` | `lightweight-semantic-classifier-socket-ok` | `172` | `127` | `124` | `0` | `0` |
 | `root_trace_margin_bridge` | `heavy-producer-root-keep-downstream` | `246` | `200` | `124` | `8` | `1` |
 
 ## Interpretation
@@ -35,6 +36,10 @@ a target is lightweight enough to sit on a public/residual bridge path.
   graph-exact producer portfolio.  Its theorem surface is semantic,
   but it imports generated producer infrastructure, so it belongs
   downstream of the lightweight public gate.
+- `depth11_layer4_classifier_socket` is the current lightweight
+  semantic classifier target.  It factors the graph-exact all-family
+  obligation through the first-four closed-language prefix and should
+  remain free of terminal shard / selected-prefix producer imports.
 - Any future public/residual bridge target with split graph smoke shards
   or many terminal shards in its closure should be rejected or moved
   behind a separate measured producer root.
@@ -110,6 +115,15 @@ a target is lightweight enough to sit on a public/residual bridge path.
 - generated residual modules: `157`
 - split graph smoke modules: `124`
 - terminal trace modules: `8`
+
+## `depth11_layer4_classifier_socket`
+
+- module: `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket`
+- decision: `lightweight-semantic-classifier-socket-ok`
+- missing imports: `11`
+- generated residual modules: `127`
+- split graph smoke modules: `124`
+- terminal trace modules: `0`
 
 ## `root_trace_margin_bridge`
 

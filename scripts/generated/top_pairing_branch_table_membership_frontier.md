@@ -65,6 +65,10 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `graphExactEvalGateAtRank_of_depth11GraphExactClassCase` | class case to graph-exact eval gate | `depth11_graph_exact_portfolio` |
 | `split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio` | portfolio to graph-exact all-family | `depth11_graph_exact_portfolio` |
 | `scaledMargin_nonpos_of_depth11GraphExactPortfolio` | portfolio to nonpositive scaled margin | `depth11_graph_exact_portfolio` |
+| `Depth11Layer4PrefixAtRank` | first-four closed-language prefix predicate | `depth11_layer4_classifier` |
+| `Depth11Layer4GraphExactEvalAllFamily` | layer-4 graph-exact all-family target | `depth11_layer4_classifier` |
+| `split10MGraphExactEvalAllFamily_of_layer4Classifier` | layer-4 classifier to graph-exact all-family | `depth11_layer4_classifier` |
+| `scaledMargin_nonpos_of_layer4Classifier` | layer-4 classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
 
 ## Guards
 

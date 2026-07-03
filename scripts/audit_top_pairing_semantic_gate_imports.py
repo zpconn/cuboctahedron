@@ -38,6 +38,9 @@ TARGETS = {
     "depth11_graph_exact_portfolio_socket":
         "Cuboctahedron.Generated.NonIdentity.Residual."
         "BellmanTopPairingDepth11GraphExactPortfolioSocket",
+    "depth11_layer4_classifier_socket":
+        "Cuboctahedron.Generated.NonIdentity.Residual."
+        "BellmanTopPairingDepth11Layer4ClassifierSocket",
     "root_trace_margin_bridge":
         "Cuboctahedron.Generated.NonIdentity.Residual."
         "BellmanTopPairingRootTraceMarginSelectedPrefixBridge",
@@ -138,6 +141,8 @@ def decision_for(name: str, stats: dict[str, object]) -> str:
 
     if name == "root_trace_margin_bridge":
         return "heavy-producer-root-keep-downstream"
+    if name == "depth11_layer4_classifier_socket":
+        return "lightweight-semantic-classifier-socket-ok"
     if name == "depth11_graph_exact_portfolio_socket":
         return "producer-portfolio-socket-keep-downstream"
     if name == "state_dag_selected_prefix_cover":
@@ -221,6 +226,10 @@ def main() -> None:
         "  graph-exact producer portfolio.  Its theorem surface is semantic,",
         "  but it imports generated producer infrastructure, so it belongs",
         "  downstream of the lightweight public gate.",
+        "- `depth11_layer4_classifier_socket` is the current lightweight",
+        "  semantic classifier target.  It factors the graph-exact all-family",
+        "  obligation through the first-four closed-language prefix and should",
+        "  remain free of terminal shard / selected-prefix producer imports.",
         "- Any future public/residual bridge target with split graph smoke shards",
         "  or many terminal shards in its closure should be rejected or moved",
         "  behind a separate measured producer root.",

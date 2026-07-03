@@ -93220,3 +93220,108 @@ Next implementation move: extend the existing semantic frontier around
 preferably in a direct-checkable module with guarded Lean invocations.  If a
 new import exposes cold producer dependencies, stop and split the classifier
 socket so the public semantic gate remains light.
+
+### Depth-11 Layer-4 Classifier Socket
+
+Added:
+
+- `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4ClassifierSocket.lean`
+
+New theorem surface:
+
+```lean
+def Depth11Layer4PrefixAtRank
+structure Depth11Layer4GraphExactEvalAllFamily
+theorem split10MGraphExactEvalAllFamily_of_layer4Classifier
+theorem scaledMargin_nonpos_of_layer4Classifier
+```
+
+This socket is the current dependency-safe target for the closed-language
+Bellman classifier.  It does not import the depth-11 portfolio wrapper or the
+terminal/frontier generated trace closure.  Instead it exposes the producer
+obligation directly:
+
+```lean
+∀ rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+  ∀ face₀ face₁ rest,
+    Depth11Layer4PrefixAtRank rank face₀ face₁ rest ->
+      Split10MGraphExactEvalGateAtRank scaledMargin rank
+```
+
+The adapter theorem derives the first-four prefix from the hand-written
+closed-language schedule theorem and converts the classifier into
+`Split10MGraphExactEvalAllFamily`.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_layer4_classifier_socket_lean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4ClassifierSocket.lean
+```
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|\
+sampledContainsRank|sampledRankOf|AcceptedTraceId|\
+GraphAcceptedTraceLabels|SelectedPrefix" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4ClassifierSocket.lean
+```
+
+```bash
+python3 scripts/audit_top_pairing_semantic_gate_imports.py
+python3 scripts/audit_top_pairing_branch_table_membership_frontier.py
+python3 -m py_compile \
+  scripts/audit_top_pairing_semantic_gate_imports.py \
+  scripts/audit_top_pairing_branch_table_membership_frontier.py
+```
+
+Results:
+
+| Check | Result |
+|---|---|
+| direct guarded Lean check | pass, `2.00s`, `3611.9 MiB` peak tree RSS, `46268.9 MiB` min available, `8192 MiB` hard AS |
+| strict hygiene grep | no matches |
+| semantic import audit decision | `lightweight-semantic-classifier-socket-ok` |
+| layer-4 socket closure | `172` modules, `127` generated residual modules, `124` split graph modules, `0` terminal trace shards, `0` selected-prefix modules |
+| branch-table membership audit | required layer-4 socket symbols present, forbidden hit count `0` |
+
+The earlier attempt to import/warm the portfolio socket directly from the new
+classifier was rejected by the build hygiene gate:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_graph_exact_portfolio_socket_oLean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactPortfolioSocket.lean
+```
+
+Result: failed quickly (`4.00s`, `1454.6 MiB` peak tree RSS) because the
+portfolio import path required missing old
+`TopPairingTraceClassifier.Terminal.Shard000.olean`.  That confirms the split:
+use the layer-4 classifier socket as the lightweight production target, and
+keep the portfolio wrapper as a downstream measured producer socket.
+
+Next work: generate or prove the first actual
+`Depth11Layer4GraphExactEvalAllFamily` instance for a bounded semantic family.
+The instance should consume the first-four prefix proposition plus closed
+language fields, then produce `Split10MGraphExactEvalGateAtRank`.  It should
+not reintroduce selected-prefix/rank membership, accepted-trace identifiers,
+terminal trace shards, exact affine RHS keys, solved start points, or raw graph
+paths.
