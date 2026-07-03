@@ -90167,3 +90167,93 @@ checkpoint.  The next implementation step should generate or hand-smoke more
 suffix-class conversions into `ClosedSplit10MSuffixMarginFamily`, while keeping
 the theorem surface closed-language driven and avoiding any accepted-trace or
 sampled-prefix membership coordinate.
+
+### Closed Class-035 Split-Suffix Provider Smoke Accepted
+
+Added a second closed-only suffix provider smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticStateDAGClass035ProviderSmoke.lean
+```
+
+This checks that the closed split-suffix socket is not merely tailored to the
+single-state class-034 case.  Class 035 can dispatch to two depth-11 graph
+states, `227` or `228`, each with its own suffix predicate.  The provider
+converts that small semantic graph-state disjunction into the reusable socket.
+
+New theorem and predicate names:
+
+```lean
+def Class035GraphSuffixProducer
+theorem split10MGraphSuffixProducer_of_class035
+def ClosedClass035GraphSuffixMarginFamily
+theorem closedSplit10MSuffixMarginFamily_of_class035
+theorem evalLanguageAtRank_of_closedClass035Family
+theorem scaledMargin_nonpos_of_closedClass035Family
+```
+
+The class-specific payload is:
+
+```lean
+(graph₂ = (227 : State) /\ Depth11Class035State0227Suffix rest) \/
+  (graph₂ = (228 : State) /\ Depth11Class035State0228Suffix rest)
+```
+
+and the final route is still:
+
+```lean
+ClosedClass035GraphSuffixMarginFamily scaledMargin rank
+  -> ClosedSplit10MSuffixMarginFamily scaledMargin rank
+  -> scaledMargin rank <= 0
+```
+
+The module does not mention `AcceptedSequenceBadFaceAtRank`,
+`TerminalOkTraceLabels`, `GraphAcceptedTraceLabels`, selected prefixes,
+sampled ranks, exact affine RHS keys, or Bellman trace ids.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_class035_closed_provider_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass035ProviderSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_class035_closed_provider_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGClass035ProviderSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass035ProviderSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct class-035 provider | pass | `5.00s` | `3791 MiB` | `46244 MiB` | `8192 MiB` |
+| Lake class-035 provider | pass | `3.00s` | `4011 MiB` | `46065 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted as a stronger suffix-provider smoke.  The next step should
+either generate the remaining depth-11 suffix-class provider conversions into
+`ClosedSplit10MSuffixMarginFamily`, or first factor a tiny helper layer for
+multi-state class dispatch so the generated code remains uniform and small.
