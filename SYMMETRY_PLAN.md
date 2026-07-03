@@ -89955,3 +89955,89 @@ producer: for at least one existing suffix class, prove
 `Split10MGraphSuffixProducer` directly from closed semantic state and the
 class predicate, not from `AcceptedSequenceBadFaceAtRank`,
 `TerminalOkTraceLabels`, or `GraphAcceptedTraceLabels`.
+
+### Closed-Only Class-034 Provider Smoke
+
+The class-034 provider now has a closed-only path that uses the new split
+suffix bridge.  This is the first suffix-family provider shape that no longer
+requires the strengthened/accepted wrapper at this layer.
+
+New theorem and predicate names:
+
+```lean
+def ClosedClass034GraphSuffixMarginFamily
+theorem evalLanguageAtRank_of_closedClass034Family
+theorem scaledMargin_nonpos_of_closedClass034Family
+```
+
+The key route is:
+
+```lean
+ClosedClass034GraphSuffixMarginFamily scaledMargin rank
+  -> TopPairingBellmanEvalLanguageAtRank
+       graphPotential graphSmokeNext smokeLabelOfFace rootState 176
+       scaledMargin rank Face.ym
+  -> scaledMargin rank <= 0
+```
+
+`ClosedClass034GraphSuffixMarginFamily` contains only:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym
+Class034GraphSuffixProducer rank
+Split10MFinalMarginProducer scaledMargin rank
+```
+
+It does not carry `AcceptedSequenceBadFaceAtRank`,
+`TerminalOkTraceLabels`, or `GraphAcceptedTraceLabels`.  The older
+strengthened class-034 theorems remain in the file as regression and
+compatibility context, but the new theorem demonstrates the production-facing
+closed semantic shape.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_class034_closed_provider_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_class034_closed_provider_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct closed class-034 provider | pass | `5.00s` | `3978 MiB` | `46151 MiB` | `8192 MiB` |
+| Lake closed class-034 provider | pass | `3.00s` | `1467 MiB` | `46289 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted as a suffix-family provider template.  The next checkpoint
+should move this from a hand-written class-034 representative to an emitted
+family table: generate several `ClosedClassXXXGraphSuffixMarginFamily`-style
+providers from the depth-11 suffix classes, or factor the common closed-only
+wrapper so generated class modules only supply graph-suffix and final-margin
+fields.

@@ -1,6 +1,7 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGProducerSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGRepresentativeSmoke
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
 
 /-!
 Semantic state-DAG class-034 provider smoke.
@@ -16,6 +17,9 @@ the intended production shape for one nontrivial semantic suffix class:
   after the split-10M prefix/frontier split;
 * the socket turns those fields into `StrengthenedSemanticStateDAGFamily` and
   the existing deterministic Bellman nonpositive conclusion.
+* the closed-only smoke at the bottom now checks the newer route where a
+  plain `TopPairingClosedLanguageAtRank` plus class-034 suffix/final-margin
+  producers is enough to derive the Bellman eval language.
 
 No sampled rank/path index, selected-prefix cover, exact affine RHS key, or
 full Bellman trace equality is introduced here.
@@ -33,6 +37,7 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticState
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Accepted
 
 /--
@@ -200,6 +205,60 @@ theorem scaledMargin_nonpos_of_class034AllFamily
     scaledMargin rank <= 0 :=
   scaledMargin_nonpos_of_semanticStateDAGAllFamily
     (semanticStateDAGAllFamily_of_class034 hclass) hstrengthened
+
+/--
+Closed-only class-034 family predicate for the newer semantic Bellman route.
+
+This is deliberately smaller than `Class034SequenceBadFace`: it does not carry
+`AcceptedSequenceBadFaceAtRank`, `TerminalOkTraceLabels`, or a strengthened
+closed wrapper.  The split-frontier membership is supplied by
+`TopPairingClosedLanguageAtRank` through
+`evalLanguageAtRank_of_closedSplit10MGraphSuffixProducer`.
+-/
+def ClosedClass034GraphSuffixMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop :=
+  TopPairingClosedLanguageAtRank rank Face.ym ∧
+    Class034GraphSuffixProducer rank ∧
+      Split10MFinalMarginProducer scaledMargin rank
+
+theorem evalLanguageAtRank_of_closedClass034Family
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      ClosedClass034GraphSuffixMarginFamily scaledMargin rank) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym := by
+  rcases hfamily with ⟨hclosed, hclass, hfinish⟩
+  exact evalLanguageAtRank_of_closedSplit10MGraphSuffixProducer
+    hclosed (split10MGraphSuffixProducer_of_class034 hclass) hfinish
+
+theorem scaledMargin_nonpos_of_closedClass034Family
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      ClosedClass034GraphSuffixMarginFamily scaledMargin rank) :
+    scaledMargin rank <= 0 := by
+  have hevalLanguage :=
+    evalLanguageAtRank_of_closedClass034Family hfamily
+  exact scaledMargin_nonpos_of_bellmanEvalAccepts_invariant
+    (V := graphPotential)
+    (next := graphSmokeNext)
+    (InRange := fun s : State => s < stateCount)
+    (start := rootState)
+    (const := (176 : Int))
+    (scaledMargin := scaledMargin)
+    (wordOf := fun rank : Fin numPairWords =>
+      faceLabelsInContributionOrder smokeLabelOfFace
+        (canonicalSeqOfPairWord (unrankPairWord rank)))
+    (hnext := by
+      intro s label t gain hs hnext
+      exact _root_.Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Root.transition_ok_of_lt
+        hs hnext)
+    (hstart := split10MGraphStartInRange)
+    (hroot := split10MGraphRootBound)
+    (heval := hevalLanguage.eval_accepts)
 
 theorem semanticStateDAGClass034ProviderSmoke_builds : True := by
   exact True.intro
