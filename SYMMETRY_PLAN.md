@@ -63,6 +63,36 @@ shadows and zero mismatches, and the Lean theorem
 place.  Future steps should build from that theorem rather than regenerate
 rank-local evidence.
 
+Immediate Bellman pivot after the latest GPT5.5 review:
+
+- Keep the Bellman/state-DAG route, but reject any production path whose
+  membership theorem is a selected-prefix, observed-trace, sampled-rank, or
+  rank-table cover.
+- The required next theorem shape is a deterministic semantic evaluator:
+
+  ```lean
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    exists result,
+      evalLabelStepFn next root (topPairingRankFaceLabels rank) =
+        some result /\
+      0 <= V result.1 /\
+      scaledMargin rank <= const + result.2
+  ```
+
+- The rank object, if needed at all, should be just a semantic subtype such as
+  `{ rank // TopPairingClosedLanguageAtRank rank Face.ym }`.  It must not
+  store a sampled path, selected prefix, accepted trace id, exact affine RHS,
+  or exact solved start point.
+- The target-shadow inverse and cursor are the front-door compact state:
+  `topPairingTargetShadow_of_summary`,
+  `topPairingTriShadow_eq_target_of_closed`, and
+  `topPairingTriCursor_of_closed` in
+  `Cuboctahedron/Search/TopPairingTargetCursor.lean`.
+- Generated terminal/frontier modules may still be useful as local smoke tests,
+  but only if they prove state-local `HeadSome`/progress facts from semantic
+  closed-language fields.  They are rejected as production evidence if they
+  grow into one branch per observed prefix or path.
+
 ### Holonomy-Normal-Form Marching Orders
 
 The latest GPT/Gemini prompt is now the controlling strategy description, with
@@ -89453,3 +89483,115 @@ branch, using `Head.transducer_cons` to determine whether each branch is square
 or triangular and to carry the target-shadow cursor/gap/local-axis state
 forward.  If branch count or proof shape starts tracking full prefixes or rank
 tables, reject and strengthen/minimize the semantic state.
+
+### Layer-4 Indexed Frontier And Bellman Pivot Reaffirmed
+
+The latest GPT5.5 review sharpens the acceptance criterion: continue Bellman,
+but only as a deterministic closed-language evaluator.  Do not scale
+selected-prefix or observed-trace membership.  The repo already has the
+target-shadow cursor core needed for this route:
+
+```lean
+theorem topPairingTargetShadow_of_summary
+theorem topPairingTriShadow_eq_target_of_closed
+theorem topPairingTriCursor_of_closed
+```
+
+in `Cuboctahedron/Search/TopPairingTargetCursor.lean`.  These theorems are now
+the preferred semantic cursor inputs for future generated evaluator gates.
+
+This checkpoint extends the generated-style frontier smoke one layer further
+while keeping it indexed by small semantic branch types rather than selected
+paths:
+
+```lean
+inductive ThirdBranch
+inductive FourthBranch
+inductive Layer4State
+
+theorem layer4Progress_step3_of_head
+theorem layer4Progress_prefix3_of_head
+theorem layer4Step4HeadSome_exists_of_prefix3
+theorem layer4Progress_step4_of_head
+theorem layer4Progress_prefix4_exists_of_closed
+```
+
+The key theorem is:
+
+```lean
+theorem layer4Progress_prefix4_exists_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    ∃ third : ThirdBranch, ∃ fourth : FourthBranch,
+      TerminalContainedEvalProgressGate
+        layer4Machine Layer4State.s00 rank
+          (Layer4State.s04 third fourth)
+```
+
+This is still a bounded smoke, not a final family proof.  It shows that the
+frontier can branch through the fourth face using semantic closed-language
+facts and the partial-machine eval socket.  It does not introduce sampled
+ranks, accepted trace ids, or selected-prefix tables.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_terminal_layer4_frontier_smoke_direct_hardcap_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_layer4_frontier_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_layer4_frontier_smoke_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateFrontierSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct layer-4 frontier smoke, hard-capped | pass | `3.00s` | `4021 MiB` | `46105 MiB` | `8192 MiB` |
+| direct layer-4 frontier smoke | pass | `3.00s` | `4023 MiB` | `46107 MiB` | none |
+| Lake layer-4 frontier smoke, 12 GiB RSS cap | pass | `4.00s` | `4155 MiB` | `45918 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted as a local deterministic-frontier smoke.  The next work
+must not merely add more branch layers from schedule.  It should connect the
+frontier state to the existing target-shadow cursor, square-gap, pair-count,
+local-axis, and tri-source progress fields, then prove a real
+closed-language-to-`evalLabelStepFn` gate.  If that theorem degenerates into
+one branch per rank, observed path, selected prefix, exact affine RHS, or exact
+solved start point, stop the Bellman scaling and refine the semantic state
+or try the cocycle quotient experiment.

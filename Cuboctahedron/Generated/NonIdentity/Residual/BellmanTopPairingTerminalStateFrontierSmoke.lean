@@ -262,6 +262,415 @@ theorem frontierProgress_prefix3_cases
       (terminalContainedEvalProgressGate_trans
         frontierMachine hprefix2 hzm))
 
+/-!
+The next smoke uses compact branch indices instead of a constructor for every
+path.  This is closer to what a generated frontier emitter should produce:
+small finite semantic indices plus a partial transition function.
+-/
+
+inductive ThirdBranch where
+  | tmpm | yp | zm
+  deriving DecidableEq, Repr
+
+namespace ThirdBranch
+
+def face : ThirdBranch -> Face
+  | .tmpm => Face.tmpm
+  | .yp => Face.yp
+  | .zm => Face.zm
+
+end ThirdBranch
+
+inductive FourthBranch where
+  | tmmm | tmpp | tppm | yp | zm | zp
+  deriving DecidableEq, Repr
+
+namespace FourthBranch
+
+def face : FourthBranch -> Face
+  | .tmmm => Face.tmmm
+  | .tmpp => Face.tmpp
+  | .tppm => Face.tppm
+  | .yp => Face.yp
+  | .zm => Face.zm
+  | .zp => Face.zp
+
+end FourthBranch
+
+inductive Layer4State where
+  | s00 | s01 | s02
+  | s03 (third : ThirdBranch)
+  | s04 (third : ThirdBranch) (fourth : FourthBranch)
+  deriving DecidableEq, Repr
+
+namespace Layer4State
+
+def step0 : TerminalStepState :=
+  TerminalStepState.initial
+
+def step1 : TerminalStepState :=
+  step0.nextStep Face.xm
+
+def step2 : TerminalStepState :=
+  step1.nextStep Face.ym
+
+def step3 (third : ThirdBranch) : TerminalStepState :=
+  step2.nextStep third.face
+
+def step4 (third : ThirdBranch) (fourth : FourthBranch) :
+    TerminalStepState :=
+  (step3 third).nextStep fourth.face
+
+def stateOf : Layer4State -> TerminalStepState
+  | .s00 => step0
+  | .s01 => step1
+  | .s02 => step2
+  | .s03 third => step3 third
+  | .s04 third fourth => step4 third fourth
+
+def next? : Layer4State -> Face -> Option Layer4State
+  | .s00, Face.xm => some .s01
+  | .s01, Face.ym => some .s02
+  | .s02, Face.tmpm => some (.s03 .tmpm)
+  | .s02, Face.yp => some (.s03 .yp)
+  | .s02, Face.zm => some (.s03 .zm)
+  | .s03 third, Face.tmmm => some (.s04 third .tmmm)
+  | .s03 third, Face.tmpp => some (.s04 third .tmpp)
+  | .s03 third, Face.tppm => some (.s04 third .tppm)
+  | .s03 third, Face.yp => some (.s04 third .yp)
+  | .s03 third, Face.zm => some (.s04 third .zm)
+  | .s03 third, Face.zp => some (.s04 third .zp)
+  | _, _ => none
+
+def IsTerminal (_state : Layer4State) : Prop :=
+  False
+
+theorem next_sound :
+    ∀ state face nextState,
+      next? state face = some nextState ->
+        stateOf nextState =
+          TerminalStepState.nextStep (stateOf state) face := by
+  intro state face nextState hnext
+  cases state <;> cases face <;> cases nextState <;>
+    simp [next?, stateOf, step0, step1, step2, step3, step4] at hnext ⊢
+  all_goals
+    rcases hnext with ⟨rfl, rfl⟩
+    rfl
+
+theorem terminalProducer :
+    ∀ state, IsTerminal state ->
+      TerminalStepStateProducer (stateOf state) := by
+  intro state hterminal
+  cases hterminal
+
+end Layer4State
+
+def layer4Machine :
+    TerminalStepStatePartialMachine Layer4State where
+  stateOf := Layer4State.stateOf
+  next? := Layer4State.next?
+  next_sound := Layer4State.next_sound
+  IsTerminal := Layer4State.IsTerminal
+  terminalProducer := Layer4State.terminalProducer
+
+theorem layer4_start_state :
+    layer4Machine.stateOf Layer4State.s00 =
+      TerminalStepState.initial := by
+  rfl
+
+theorem layer4_next?_s02_third (third : ThirdBranch) :
+    layer4Machine.next? Layer4State.s02 third.face =
+      some (Layer4State.s03 third) := by
+  cases third <;> rfl
+
+theorem layer4_next?_s03_fourth
+    (third : ThirdBranch) (fourth : FourthBranch) :
+    layer4Machine.next? (Layer4State.s03 third) fourth.face =
+      some (Layer4State.s04 third fourth) := by
+  cases fourth <;> rfl
+
+theorem layer4Step1HeadSome_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalStepState.HeadSome
+      (layer4Machine.stateOf Layer4State.s00) rank Face.xm := by
+  rcases topPairingStepScheduleLabels_prefix_xm_ym hclosed.schedule with
+    ⟨rest, hlabels⟩
+  refine ⟨Face.ym :: rest, ?_⟩
+  refine ⟨?_, ?_⟩
+  · rw [layer4_start_state]
+    exact initial_contains_of_closed hclosed
+  · rw [layer4_start_state]
+    simpa [TerminalStepState.initial, topPairingRankFaceLabels] using hlabels
+
+theorem layer4Progress_step1
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalProgressGate
+      layer4Machine Layer4State.s00 rank Layer4State.s01 :=
+  terminalContainedEvalProgressGate_of_headSome_next?
+    (machine := layer4Machine)
+    (rank := rank)
+    (state := Layer4State.s00)
+    (nextState := Layer4State.s01)
+    (face := Face.xm)
+    (layer4Step1HeadSome_of_closed hclosed)
+    rfl
+
+theorem layer4Step2HeadSome_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalStepState.HeadSome
+      (layer4Machine.stateOf Layer4State.s01) rank Face.ym := by
+  rcases topPairingStepScheduleLabels_prefix_xm_ym hclosed.schedule with
+    ⟨rest, hlabels⟩
+  refine ⟨rest, ?_⟩
+  refine ⟨?_, ?_⟩
+  · exact contains_of_containedEvalProgressGate layer4Machine
+      (layer4Progress_step1 hclosed)
+  · have hpfx :
+        (layer4Machine.stateOf Layer4State.s01).pfx =
+          [Face.xm] := by
+      rfl
+    rw [hpfx]
+    simpa [topPairingRankFaceLabels] using hlabels
+
+theorem layer4Progress_step2
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalProgressGate
+      layer4Machine Layer4State.s01 rank Layer4State.s02 :=
+  terminalContainedEvalProgressGate_of_headSome_next?
+    (machine := layer4Machine)
+    (rank := rank)
+    (state := Layer4State.s01)
+    (nextState := Layer4State.s02)
+    (face := Face.ym)
+    (layer4Step2HeadSome_of_closed hclosed)
+    rfl
+
+theorem layer4Progress_prefix2
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalProgressGate
+      layer4Machine Layer4State.s00 rank Layer4State.s02 :=
+  terminalContainedEvalProgressGate_trans
+    layer4Machine
+    (layer4Progress_step1 hclosed)
+    (layer4Progress_step2 hclosed)
+
+private theorem layer4Step3HeadSome_of_prefix
+    {rank : Fin numPairWords} {third : ThirdBranch} {rest : List Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: third.face :: rest) :
+    TerminalStepState.HeadSome
+      (layer4Machine.stateOf Layer4State.s02) rank third.face := by
+  refine ⟨rest, ?_⟩
+  refine ⟨?_, ?_⟩
+  · exact contains_of_containedEvalProgressGate layer4Machine
+      (layer4Progress_prefix2 hclosed)
+  · have hpfx :
+        (layer4Machine.stateOf Layer4State.s02).pfx =
+          [Face.xm, Face.ym] := by
+      rfl
+    rw [hpfx]
+    simpa [topPairingRankFaceLabels] using hlabels
+
+theorem layer4Progress_step3_of_head
+    {rank : Fin numPairWords} {third : ThirdBranch}
+    (hhead :
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf Layer4State.s02) rank third.face) :
+    TerminalContainedEvalProgressGate
+      layer4Machine Layer4State.s02 rank (Layer4State.s03 third) :=
+  terminalContainedEvalProgressGate_of_headSome_next?
+    (machine := layer4Machine)
+    (rank := rank)
+    (state := Layer4State.s02)
+    (nextState := Layer4State.s03 third)
+    (face := third.face)
+    hhead
+    (layer4_next?_s02_third third)
+
+theorem layer4Progress_prefix3_of_head
+    {rank : Fin numPairWords} {third : ThirdBranch}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hhead :
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf Layer4State.s02) rank third.face) :
+    TerminalContainedEvalProgressGate
+      layer4Machine Layer4State.s00 rank (Layer4State.s03 third) :=
+  terminalContainedEvalProgressGate_trans
+    layer4Machine
+    (layer4Progress_prefix2 hclosed)
+    (layer4Progress_step3_of_head hhead)
+
+private theorem layer4StepSchedulePrefix4_cases_of_prefix3
+    {labels : List Face} {third : ThirdBranch} {rest3 : List Face}
+    (hschedule : TopPairingStepScheduleLabels labels)
+    (hlabels :
+      labels = Face.xm :: Face.ym :: third.face :: rest3) :
+    ∃ fourth : FourthBranch, ∃ rest4 : List Face,
+      labels =
+        Face.xm :: Face.ym :: third.face :: fourth.face :: rest4 := by
+  cases rest3 with
+  | nil =>
+      rcases hschedule with ⟨hlen, _hfrom⟩
+      rw [hlabels] at hlen
+      simp at hlen
+  | cons face4 rest4 =>
+      rcases hschedule with ⟨_hlen, hfrom⟩
+      subst labels
+      unfold TopPairingStepScheduleFrom at hfrom
+      rcases hfrom with ⟨_h0, hfrom1⟩
+      unfold TopPairingStepScheduleFrom at hfrom1
+      rcases hfrom1 with ⟨_h1, hfrom2⟩
+      unfold TopPairingStepScheduleFrom at hfrom2
+      rcases hfrom2 with ⟨_h2, hfrom3⟩
+      unfold TopPairingStepScheduleFrom at hfrom3
+      rcases hfrom3 with ⟨hface4, _hrest4⟩
+      simp [topPairingAllowedFacesAtStep] at hface4
+      rcases hface4 with rfl | rfl | rfl | rfl | rfl | rfl
+      · exact ⟨FourthBranch.tmmm, rest4, rfl⟩
+      · exact ⟨FourthBranch.tmpp, rest4, rfl⟩
+      · exact ⟨FourthBranch.tppm, rest4, rfl⟩
+      · exact ⟨FourthBranch.yp, rest4, rfl⟩
+      · exact ⟨FourthBranch.zm, rest4, rfl⟩
+      · exact ⟨FourthBranch.zp, rest4, rfl⟩
+
+private theorem layer4Step4HeadSome_of_prefix4
+    {rank : Fin numPairWords} {third : ThirdBranch}
+    {fourth : FourthBranch} {rest4 : List Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: third.face :: fourth.face :: rest4) :
+    TerminalStepState.HeadSome
+      (layer4Machine.stateOf (Layer4State.s03 third)) rank fourth.face := by
+  have hhead3 :
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf Layer4State.s02) rank third.face :=
+    layer4Step3HeadSome_of_prefix hclosed
+      (by
+        simpa [topPairingRankFaceLabels] using hlabels)
+  refine ⟨rest4, ?_⟩
+  refine ⟨?_, ?_⟩
+  · exact contains_of_containedEvalProgressGate layer4Machine
+      (layer4Progress_prefix3_of_head hclosed hhead3)
+  · have hpfx :
+        (layer4Machine.stateOf (Layer4State.s03 third)).pfx =
+          [Face.xm, Face.ym, third.face] := by
+      cases third <;> rfl
+    rw [hpfx]
+    simpa [topPairingRankFaceLabels] using hlabels
+
+theorem layer4Step4HeadSome_exists_of_prefix3
+    {rank : Fin numPairWords} {third : ThirdBranch} {rest3 : List Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        Face.xm :: Face.ym :: third.face :: rest3) :
+    ∃ fourth : FourthBranch,
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf (Layer4State.s03 third)) rank fourth.face := by
+  rcases layer4StepSchedulePrefix4_cases_of_prefix3
+      hclosed.schedule
+      (by simpa [topPairingRankFaceLabels] using hlabels) with
+    ⟨fourth, rest4, hlabels4⟩
+  exact ⟨fourth, layer4Step4HeadSome_of_prefix4 hclosed
+    (by simpa [topPairingRankFaceLabels] using hlabels4)⟩
+
+theorem layer4Progress_step4_of_head
+    {rank : Fin numPairWords} {third : ThirdBranch}
+    {fourth : FourthBranch}
+    (hhead :
+      TerminalStepState.HeadSome
+        (layer4Machine.stateOf (Layer4State.s03 third))
+        rank fourth.face) :
+    TerminalContainedEvalProgressGate
+      layer4Machine (Layer4State.s03 third) rank
+        (Layer4State.s04 third fourth) :=
+  terminalContainedEvalProgressGate_of_headSome_next?
+    (machine := layer4Machine)
+    (rank := rank)
+    (state := Layer4State.s03 third)
+    (nextState := Layer4State.s04 third fourth)
+    (face := fourth.face)
+    hhead
+    (layer4_next?_s03_fourth third fourth)
+
+theorem layer4Progress_prefix4_exists_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    ∃ third : ThirdBranch, ∃ fourth : FourthBranch,
+      TerminalContainedEvalProgressGate
+        layer4Machine Layer4State.s00 rank
+          (Layer4State.s04 third fourth) := by
+  rcases topPairingStepScheduleLabels_prefix3 hclosed.schedule with
+    htmpm | hyp | hzm
+  · rcases htmpm with ⟨rest3, hlabels3⟩
+    let third : ThirdBranch := .tmpm
+    have hhead3 :
+        TerminalStepState.HeadSome
+          (layer4Machine.stateOf Layer4State.s02) rank third.face :=
+      layer4Step3HeadSome_of_prefix hclosed
+        (by
+          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
+            hlabels3)
+    rcases layer4Step4HeadSome_exists_of_prefix3
+        (third := third) hclosed
+        (by
+          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
+            hlabels3) with
+      ⟨fourth, hhead4⟩
+    exact ⟨third, fourth,
+      terminalContainedEvalProgressGate_trans
+        layer4Machine
+        (layer4Progress_prefix3_of_head hclosed hhead3)
+        (layer4Progress_step4_of_head hhead4)⟩
+  · rcases hyp with ⟨rest3, hlabels3⟩
+    let third : ThirdBranch := .yp
+    have hhead3 :
+        TerminalStepState.HeadSome
+          (layer4Machine.stateOf Layer4State.s02) rank third.face :=
+      layer4Step3HeadSome_of_prefix hclosed
+        (by
+          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
+            hlabels3)
+    rcases layer4Step4HeadSome_exists_of_prefix3
+        (third := third) hclosed
+        (by
+          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
+            hlabels3) with
+      ⟨fourth, hhead4⟩
+    exact ⟨third, fourth,
+      terminalContainedEvalProgressGate_trans
+        layer4Machine
+        (layer4Progress_prefix3_of_head hclosed hhead3)
+        (layer4Progress_step4_of_head hhead4)⟩
+  · rcases hzm with ⟨rest3, hlabels3⟩
+    let third : ThirdBranch := .zm
+    have hhead3 :
+        TerminalStepState.HeadSome
+          (layer4Machine.stateOf Layer4State.s02) rank third.face :=
+      layer4Step3HeadSome_of_prefix hclosed
+        (by
+          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
+            hlabels3)
+    rcases layer4Step4HeadSome_exists_of_prefix3
+        (third := third) hclosed
+        (by
+          simpa [third, ThirdBranch.face, topPairingRankFaceLabels] using
+            hlabels3) with
+      ⟨fourth, hhead4⟩
+    exact ⟨third, fourth,
+      terminalContainedEvalProgressGate_trans
+        layer4Machine
+        (layer4Progress_prefix3_of_head hclosed hhead3)
+        (layer4Progress_step4_of_head hhead4)⟩
+
 theorem terminalStateFrontierSmoke_builds : True := by
   exact True.intro
 
