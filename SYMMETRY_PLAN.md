@@ -89365,3 +89365,91 @@ state-local head facts, semantic tail facts from each head, and compositional
 progress gates.  The next step is a small generated frontier module with a
 finite state/face table that proves several `HeadSome` entries from semantic
 state projections and composes them to a terminal or deeper nonterminal gate.
+
+### Branching Frontier Smoke
+
+The first generated-style finite frontier smoke is complete:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateFrontierSmoke
+```
+
+The module defines a tiny partial machine with states
+
+```lean
+s00 -> s01 -> s02 -> {s03Tmpm, s03Yp, s03Zm}
+```
+
+and no terminal states.  This intentionally avoids the bounded accepted-trace
+terminal producer route.  Its purpose is to validate a semantic frontier table:
+the closed language forces the first two heads `xm` and `ym`, then the schedule
+allows exactly the three third-step branches `tmpm`, `yp`, and `zm`.  Lean
+checks that each branch becomes a `TerminalContainedEvalProgressGate` and that
+the start-to-third-step gate is obtained by composing progress gates.
+
+Added theorem surfaces:
+
+```lean
+theorem frontierStep1HeadSome_of_closed
+theorem frontierProgress_step1
+theorem frontierStep2HeadSome_of_closed
+theorem frontierProgress_step2
+theorem frontierProgress_prefix2
+theorem frontierStep3HeadSome_cases_of_closed
+theorem frontierProgress_step3_cases
+theorem frontierProgress_prefix3_cases
+```
+
+This is the first smoke that rejects the single selected path at the third
+step: `TopPairingClosedLanguageAtRank` does not determine `tmpm` uniquely from
+the current fields.  The frontier therefore branches semantically instead of
+pretending the old smoke path is exhaustive.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_branching_frontier_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_terminal_branching_frontier_smoke_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTerminalStateFrontierSmoke
+```
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|sampledSmokeNext|native_decide|sorry|admit|unsafe|Float|Float32|Float64|Double|AcceptedTraceId|acceptedTraceOfId|GraphAcceptedTraceLabels" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingTerminalStateFrontierSmoke.lean
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available |
+|---|---:|---:|---:|---:|
+| direct branching frontier smoke | pass | `2.00s` | `3602 MiB` | `46244 MiB` |
+| Lake branching frontier smoke, 12 GiB cap | pass | `3.00s` | `4101 MiB` | `46017 MiB` |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a |
+
+Decision: accepted as the next production-shaped local socket.  It shows the
+frontier should branch on semantic state rather than encode a selected prefix.
+The next frontier experiment should extend this table one more layer per
+branch, using `Head.transducer_cons` to determine whether each branch is square
+or triangular and to carry the target-shadow cursor/gap/local-axis state
+forward.  If branch count or proof shape starts tracking full prefixes or rank
+tables, reject and strengthen/minimize the semantic state.
