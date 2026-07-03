@@ -18,6 +18,42 @@
     "branchTable_of_closedPrefix3_zm_tail": false
   },
   "decision": "semantic-tail-branch-emitter-shape-accepted",
+  "emitted_theorems": [
+    "emitted_branchTable_of_closedPrefix2_tail",
+    "emitted_branchTableSuffixOk_closedPrefix2_branch_of_tail",
+    "emitted_branchTable_of_closedPrefix3_tmpm_tail",
+    "emitted_branchTable_of_closedPrefix3_yp_tail",
+    "emitted_branchTable_of_closedPrefix3_zm_tail",
+    "emitted_branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail",
+    "emitted_branchTableSuffixOk_closedPrefix3_yp_branch_of_tail",
+    "emitted_branchTableSuffixOk_closedPrefix3_zm_branch_of_tail"
+  ],
+  "emitter_guard": "scripts/generated/semantic_tail_branch_emitter_smoke_guard.json",
+  "emitter_guard_summary": {
+    "available_floor_mib": 30000.0,
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-M",
+      "6500",
+      "-j1",
+      "-s",
+      "2048",
+      "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticTailBranchEmitterSmoke.lean"
+    ],
+    "elapsed_seconds": 8.00495894998312,
+    "exit_code": 0,
+    "hard_address_space_mib": 8192.0,
+    "killed_reason": null,
+    "max_tree_rss_kib": 4055332,
+    "max_tree_rss_mib": 3960.28515625,
+    "min_available_seen_kib": 47078700,
+    "min_available_seen_mib": 45975.29296875,
+    "rss_cap_mib": 6500.0,
+    "timeout_seconds": 240.0
+  },
+  "emitter_smoke": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticTailBranchEmitterSmoke.lean",
   "forbidden_hits": [],
   "guard": "scripts/generated/branch_table_semantic_gate_socket_guard.json",
   "guard_summary": {

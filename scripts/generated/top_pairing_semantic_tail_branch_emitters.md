@@ -1,7 +1,9 @@
 # Top-Pairing Semantic Tail Branch Emitter Readiness
 
 - Socket: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean`
+- Emitter smoke: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticTailBranchEmitterSmoke.lean`
 - Guard: `scripts/generated/branch_table_semantic_gate_socket_guard.json`
+- Emitter guard: `scripts/generated/semantic_tail_branch_emitter_smoke_guard.json`
 - Decision: `semantic-tail-branch-emitter-shape-accepted`
 
 ## Tail Branch Classifiers
@@ -17,6 +19,17 @@
 - `branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail`
 - `branchTableSuffixOk_closedPrefix3_yp_branch_of_tail`
 - `branchTableSuffixOk_closedPrefix3_zm_branch_of_tail`
+
+## Emitted Theorems
+
+- `emitted_branchTable_of_closedPrefix2_tail`
+- `emitted_branchTableSuffixOk_closedPrefix2_branch_of_tail`
+- `emitted_branchTable_of_closedPrefix3_tmpm_tail`
+- `emitted_branchTable_of_closedPrefix3_yp_tail`
+- `emitted_branchTable_of_closedPrefix3_zm_tail`
+- `emitted_branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail`
+- `emitted_branchTableSuffixOk_closedPrefix3_yp_branch_of_tail`
+- `emitted_branchTableSuffixOk_closedPrefix3_zm_branch_of_tail`
 
 ## Constructors Used
 
@@ -37,6 +50,13 @@
 - Exit code: `0`
 - Elapsed seconds: `9.00624660999165`
 - Peak tree RSS MiB: `4008.8046875`
+- Hard address-space MiB: `8192.0`
+
+## Emitter Guard
+
+- Exit code: `0`
+- Elapsed seconds: `8.00495894998312`
+- Peak tree RSS MiB: `3960.28515625`
 - Hard address-space MiB: `8192.0`
 
 ## Forbidden Hits

@@ -402,6 +402,29 @@ BellmanTopPairingBranchTableSemanticGateSocket.lean
   `scripts/generated/top_pairing_semantic_tail_branch_emitters.md` and
   `.json`.  It found four tail branch classifiers and four suffix adapters
   accepted under the existing guarded Lean check.
+- Added the bounded emitter
+  `scripts/emit_top_pairing_semantic_tail_branch_smoke.py`, which emits
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticTailBranchEmitterSmoke.lean`.
+  The generated smoke re-emits the accepted tail-facing theorem blocks under
+  fresh `emitted_*` names without importing the semantic gate socket itself:
+
+  ```bash
+  python3 scripts/emit_top_pairing_semantic_tail_branch_smoke.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 240 \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 \
+    --hard-address-space-mib 8192 \
+    --json scripts/generated/semantic_tail_branch_emitter_smoke_guard.json \
+    --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticTailBranchEmitterSmoke.lean
+  ```
+
+  Result: passed, `elapsed=8.00s`, `peak_tree_rss=3960 MiB`,
+  `hard_as=8192 MiB`, minimum available memory `45975 MiB`.  The readiness
+  audit now records both the socket guard and the generated-smoke guard.
 - Next implementation move: stop hand-extending individual prefix layers and
   teach the generated finite-branch-table emitter to produce this tail-facing
   local theorem shape for reachable semantic states.  The generated target is

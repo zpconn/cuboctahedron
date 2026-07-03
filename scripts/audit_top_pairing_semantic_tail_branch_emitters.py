@@ -26,7 +26,13 @@ SOCKET = (
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingBranchTableSemanticGateSocket.lean"
 )
+EMITTER_SMOKE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSemanticTailBranchEmitterSmoke.lean"
+)
 GUARD = ROOT / "scripts/generated/branch_table_semantic_gate_socket_guard.json"
+EMITTER_GUARD = ROOT / "scripts/generated/semantic_tail_branch_emitter_smoke_guard.json"
 OUT_JSON = ROOT / "scripts/generated/top_pairing_semantic_tail_branch_emitters.json"
 OUT_MD = ROOT / "scripts/generated/top_pairing_semantic_tail_branch_emitters.md"
 
@@ -73,6 +79,7 @@ def theorem_body(text: str, name: str) -> str:
 
 def main() -> int:
     text = read_text(SOCKET)
+    emitter_text = read_text(EMITTER_SMOKE)
     classifier_names = theorem_names(text, "branchTable_of_closedPrefix")
     suffix_names = theorem_names(text, "branchTableSuffixOk_closedPrefix")
     tail_classifier_names = [
@@ -104,27 +111,36 @@ def main() -> int:
 
     guard = load_json(GUARD)
     guard_ok = bool(guard and guard.get("exit_code") == 0)
+    emitter_guard = load_json(EMITTER_GUARD)
+    emitter_guard_ok = bool(emitter_guard and emitter_guard.get("exit_code") == 0)
+    emitted_theorems = theorem_names(emitter_text, "emitted_")
 
     accepted = (
         len(tail_classifier_names) >= 4
         and len(tail_suffix_names) >= 4
+        and len(emitted_theorems) >= len(tail_classifier_names) + len(tail_suffix_names)
         and all(uses_semantic_tail.values())
         and not any(has_rank_prefix_terms.values())
         and not forbidden_hits
         and guard_ok
+        and emitter_guard_ok
     )
 
     payload: dict[str, Any] = {
         "mode": "top-pairing-semantic-tail-branch-emitter-readiness",
         "socket": rel(SOCKET),
+        "emitter_smoke": rel(EMITTER_SMOKE),
         "guard": rel(GUARD),
+        "emitter_guard": rel(EMITTER_GUARD),
         "tail_branch_classifiers": tail_classifier_names,
         "tail_suffix_adapters": tail_suffix_names,
+        "emitted_theorems": emitted_theorems,
         "branch_constructors_used": constructors,
         "uses_semantic_tail_cons": uses_semantic_tail,
         "classifier_mentions_rank_prefix_terms": has_rank_prefix_terms,
         "forbidden_hits": forbidden_hits,
         "guard_summary": guard,
+        "emitter_guard_summary": emitter_guard,
         "decision": (
             "semantic-tail-branch-emitter-shape-accepted"
             if accepted
@@ -145,7 +161,9 @@ def main() -> int:
         "# Top-Pairing Semantic Tail Branch Emitter Readiness",
         "",
         f"- Socket: `{payload['socket']}`",
+        f"- Emitter smoke: `{payload['emitter_smoke']}`",
         f"- Guard: `{payload['guard']}`",
+        f"- Emitter guard: `{payload['emitter_guard']}`",
         f"- Decision: `{payload['decision']}`",
         "",
         "## Tail Branch Classifiers",
@@ -158,6 +176,10 @@ def main() -> int:
 
     lines.extend(["", "## Tail Suffix Adapters", ""])
     for name in tail_suffix_names:
+        lines.append(f"- `{name}`")
+
+    lines.extend(["", "## Emitted Theorems", ""])
+    for name in emitted_theorems:
         lines.append(f"- `{name}`")
 
     lines.extend(
@@ -180,6 +202,13 @@ def main() -> int:
             f"- Elapsed seconds: `{guard.get('elapsed_seconds') if guard else 'missing'}`",
             f"- Peak tree RSS MiB: `{guard.get('max_tree_rss_mib') if guard else 'missing'}`",
             f"- Hard address-space MiB: `{guard.get('hard_address_space_mib') if guard else 'missing'}`",
+            "",
+            "## Emitter Guard",
+            "",
+            f"- Exit code: `{emitter_guard.get('exit_code') if emitter_guard else 'missing'}`",
+            f"- Elapsed seconds: `{emitter_guard.get('elapsed_seconds') if emitter_guard else 'missing'}`",
+            f"- Peak tree RSS MiB: `{emitter_guard.get('max_tree_rss_mib') if emitter_guard else 'missing'}`",
+            f"- Hard address-space MiB: `{emitter_guard.get('hard_address_space_mib') if emitter_guard else 'missing'}`",
             "",
             "## Forbidden Hits",
             "",
