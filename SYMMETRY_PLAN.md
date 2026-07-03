@@ -90560,3 +90560,101 @@ from closed semantic fields.  That experiment should not use a raw prefix list;
 if the evaluator equation cannot be proved from target-shadow cursor,
 square-gap schedule, tri-source progress, and branch-table state, the semantic
 state needs one more honest field before further Bellman scaling.
+
+### Generated Depth-11 Exact-Finish Class Wrappers Accepted
+
+Extended:
+
+```text
+scripts/emit_top_pairing_depth11_closed_provider_smoke.py
+```
+
+and regenerated:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean
+```
+
+The emitter now packages each checked depth-11 suffix class into both theorem
+surfaces:
+
+```lean
+ClosedSplit10MSuffixMarginFamily
+ClosedSplit10MExactFinishSuffixMarginFamily
+```
+
+For each class `NNN`, the generated module now exposes:
+
+```lean
+def ClosedClassNNNExactFinishSuffixMarginFamily
+theorem closedSplit10MExactFinishSuffixMarginFamily_of_classNNN
+theorem evalLanguageAtRank_of_closedClassNNNExactFinishFamily
+theorem scaledMargin_nonpos_of_closedClassNNNExactFinishFamily
+```
+
+This keeps the class layer aligned with the new pivot: generated semantic
+families should provide an exact evaluator finish and one margin inequality,
+not a broad `Split10MFinalMarginProducer` proof and not a selected trace.
+
+Regeneration summary:
+
+```text
+6 semantic classes
+30 graph-state suffix alternatives
+901 Lean source lines
+```
+
+Commands:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_closed_provider_smoke.py
+
+python3 scripts/emit_top_pairing_depth11_closed_provider_smoke.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_depth11_closed_providers_exact_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_closed_providers_exact_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct generated exact-finish class wrappers | pass | `5.00s` | `3980 MiB` | `46148 MiB` | `8192 MiB` |
+| Lake generated exact-finish class wrappers | pass | `3.00s` | `4083 MiB` | `46024 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+| emitter bytecode compile | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted.  The next genuinely mathematical experiment is unchanged:
+derive one exact evaluator finish and margin inequality from closed semantic
+fields.  The wrapper layer is now ready to consume that proof without widening
+back to sampled traces or raw prefix tables.
