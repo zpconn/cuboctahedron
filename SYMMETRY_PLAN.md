@@ -92693,3 +92693,102 @@ TopPairingStartMissSemanticLanguageAtRank rank badFace ->
 This keeps generated producers focused on proving a bad start-face inequality
 from semantic state/cancellation data, while the common bridge handles the
 conversion to `Coverage.NonIdentityRankKilled`.
+
+### Graph-Exact Bellman Producer Socket Accepted
+
+GPT5.5's latest review sharpened the Bellman decision point: keep Bellman, but
+reject selected-prefix membership.  The production theorem must be a
+deterministic closed-language-to-evaluator theorem:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  exists result,
+    evalLabelStepFn graphSmokeNext rootState
+      (faceLabelsInContributionOrder smokeLabelOfFace
+        (canonicalSeqOfPairWord (unrankPairWord rank))) = some result /\
+    0 <= graphPotential result.1 /\
+    scaledMargin rank <= 176 + result.2
+```
+
+Added a split-10M graph-exact producer socket making that obligation explicit:
+
+```lean
+abbrev Split10MGraphExactEvalGateAtRank
+
+abbrev Split10MClosedToGraphExactEvalGate
+
+theorem evalLanguageAtRank_of_split10MGraphExactEvalGate
+
+theorem split10MClosedToEvalGate_of_graphExactEvalGate
+
+theorem scaledMargin_nonpos_of_split10MGraphExactEvalGate
+
+structure Split10MGraphExactEvalAllFamily
+
+theorem closedToEvalGate_of_split10MGraphExactEvalAllFamily
+
+theorem scaledMargin_nonpos_of_split10MGraphExactEvalAllFamily
+```
+
+File:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphExactProducerSocket.lean
+```
+
+This is the preferred next emitter target for top-pairing Bellman coverage.
+Generated modules may use finite semantic transducer state internally, but their
+public theorem should prove `Split10MGraphExactEvalAllFamily` from
+`TopPairingClosedLanguageAtRank`; it should not expose sampled rank objects,
+accepted trace ids, selected prefixes, exact affine RHS keys, or solved start
+point keys.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_graph_exact_producer_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraphExactProducerSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_graph_exact_producer_socket_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraphExactProducerSocket
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct graph-exact socket | pass | `6.00s` | `3919 MiB` | `46210 MiB` | `8192 MiB` |
+| Lake graph-exact socket | pass | `9.01s` | `4105 MiB` | `46061 MiB` | none |
+
+Decision: accepted.  The Bellman route remains viable only if the next
+generated/theorem-producing slice targets this graph-exact semantic socket.
+The immediate go/no-go gate is:
+
+```lean
+#check Split10MGraphExactEvalAllFamily
+```
+
+with a family theorem derived from closed target-cursor / schedule / pair-count
+/ local-axis / tri-source semantics.  Any proof that requires
+`SampledRankIndex`, `sampledRankOf`, selected-prefix trace classes, or one
+branch per observed rank/path must be rejected as a diagnostic-only route.
