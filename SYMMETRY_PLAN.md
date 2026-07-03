@@ -430,6 +430,25 @@ BellmanTopPairingSemanticTailBranchEmitterSmoke.lean
   `decision=local-branch-table-progress-accepted-membership-open` and
   `decision=semantic-transducer-pivot-accepted-next-emit-finite-branch-table`,
   respectively.
+- Added the scale estimator
+  `scripts/estimate_semantic_tail_branch_emitter_scale.py`, combining the
+  generated-smoke guard with the full split-10M branch-table constructor count.
+  Report:
+
+  ```bash
+  python3 scripts/estimate_semantic_tail_branch_emitter_scale.py
+  ```
+
+  Result:
+  `decision=local-tail-branch-layer-projected-safe-if-sharded`, written to
+  `scripts/generated/semantic_tail_branch_emitter_scale_estimate.md` and
+  `.json`.  The full split-10M branch table has `1054` graph constructors; the
+  generated smoke used `10` constructors and checked in `8.00s` with
+  `3960 MiB` peak tree RSS.  Linear projection for this **local branch layer
+  only** is about `14.1` serial minutes and `1.4 MiB` generated source, with
+  `22` to `106` shards for shard sizes from `50` down to `10` constructors.
+  This is accepted only for the local tail-facing branch-table layer; it does
+  not prove closed-language suffix coverage or terminal margin finish facts.
 - Next implementation move: stop hand-extending individual prefix layers and
   teach the generated finite-branch-table emitter to produce this tail-facing
   local theorem shape for reachable semantic states.  The generated target is

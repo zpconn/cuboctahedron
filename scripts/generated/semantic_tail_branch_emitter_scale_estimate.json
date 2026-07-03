@@ -1,0 +1,52 @@
+{
+  "caveat": "This estimates only the local tail-facing branch-table layer.  It does not prove closed-language suffix coverage or terminal margin finish facts.",
+  "decision": "local-tail-branch-layer-projected-safe-if-sharded",
+  "full_branch_table": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingStrengthenedBranchTableSplit10MSmoke.lean",
+  "full_graph_constructor_count": 1054,
+  "mode": "semantic-tail-branch-emitter-scale-estimate",
+  "projected_serial_minutes": 14.062044555470347,
+  "projected_serial_seconds": 843.7226733282208,
+  "projected_source_kib": 1468.4978515625,
+  "projected_source_mib": 1.434079933166504,
+  "seconds_per_constructor_observed": 0.800495894998312,
+  "shard_projection": [
+    {
+      "constructors_per_shard": 10,
+      "estimated_seconds_per_shard": 8.00495894998312,
+      "estimated_serial_seconds": 843.7226733282208,
+      "shards": 106
+    },
+    {
+      "constructors_per_shard": 20,
+      "estimated_seconds_per_shard": 16.00991789996624,
+      "estimated_serial_seconds": 843.7226733282208,
+      "shards": 53
+    },
+    {
+      "constructors_per_shard": 30,
+      "estimated_seconds_per_shard": 24.01487684994936,
+      "estimated_serial_seconds": 843.7226733282208,
+      "shards": 36
+    },
+    {
+      "constructors_per_shard": 40,
+      "estimated_seconds_per_shard": 32.01983579993248,
+      "estimated_serial_seconds": 843.7226733282208,
+      "shards": 27
+    },
+    {
+      "constructors_per_shard": 50,
+      "estimated_seconds_per_shard": 40.0247947499156,
+      "estimated_serial_seconds": 843.7226733282208,
+      "shards": 22
+    }
+  ],
+  "smoke": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticTailBranchEmitterSmoke.lean",
+  "smoke_constructor_count": 10,
+  "smoke_elapsed_seconds": 8.00495894998312,
+  "smoke_guard": "scripts/generated/semantic_tail_branch_emitter_smoke_guard.json",
+  "smoke_peak_tree_rss_mib": 3960.28515625,
+  "smoke_source_kib": 13.9326171875,
+  "smoke_theorem_count": 10,
+  "source_kib_per_constructor_observed": 1.39326171875
+}
