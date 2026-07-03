@@ -4007,7 +4007,188 @@
     "by_status": {
       "provider_candidate": 37
     },
-    "provider_candidates": 37
+    "provider_candidates": 37,
+    "signature_groups": {
+      "axis_failure": {
+        "groups": 1,
+        "largest": 37,
+        "singleton_groups": 0,
+        "top_trace_id_groups": [
+          [
+            "t000",
+            "t001",
+            "t002",
+            "t003",
+            "t004",
+            "t005",
+            "t006",
+            "t007",
+            "t008",
+            "t009",
+            "t010",
+            "t011",
+            "t012",
+            "t013",
+            "t014",
+            "t015",
+            "t016",
+            "t017",
+            "t018",
+            "t019",
+            "t020",
+            "t021",
+            "t022",
+            "t023",
+            "t024",
+            "t025",
+            "t026",
+            "t027",
+            "t028",
+            "t029",
+            "t030",
+            "t031",
+            "t032",
+            "t033",
+            "t034",
+            "t035",
+            "t036"
+          ]
+        ]
+      },
+      "cert": {
+        "groups": 26,
+        "largest": 3,
+        "singleton_groups": 18,
+        "top_trace_id_groups": [
+          [
+            "t000",
+            "t001",
+            "t002"
+          ],
+          [
+            "t005",
+            "t006",
+            "t008"
+          ],
+          [
+            "t028",
+            "t033",
+            "t036"
+          ],
+          [
+            "t009",
+            "t013"
+          ],
+          [
+            "t010",
+            "t014"
+          ],
+          [
+            "t021",
+            "t023"
+          ],
+          [
+            "t027",
+            "t032"
+          ],
+          [
+            "t029",
+            "t030"
+          ],
+          [
+            "t003"
+          ],
+          [
+            "t004"
+          ]
+        ]
+      },
+      "p0_failure": {
+        "groups": 26,
+        "largest": 3,
+        "singleton_groups": 18,
+        "top_trace_id_groups": [
+          [
+            "t000",
+            "t001",
+            "t002"
+          ],
+          [
+            "t005",
+            "t006",
+            "t008"
+          ],
+          [
+            "t028",
+            "t033",
+            "t036"
+          ],
+          [
+            "t009",
+            "t013"
+          ],
+          [
+            "t010",
+            "t014"
+          ],
+          [
+            "t021",
+            "t023"
+          ],
+          [
+            "t027",
+            "t032"
+          ],
+          [
+            "t029",
+            "t030"
+          ],
+          [
+            "t003"
+          ],
+          [
+            "t004"
+          ]
+        ]
+      },
+      "word_failure": {
+        "groups": 37,
+        "largest": 1,
+        "singleton_groups": 37,
+        "top_trace_id_groups": [
+          [
+            "t000"
+          ],
+          [
+            "t001"
+          ],
+          [
+            "t002"
+          ],
+          [
+            "t003"
+          ],
+          [
+            "t004"
+          ],
+          [
+            "t005"
+          ],
+          [
+            "t006"
+          ],
+          [
+            "t007"
+          ],
+          [
+            "t008"
+          ],
+          [
+            "t009"
+          ]
+        ]
+      }
+    }
   },
   "trusted_as_final_generated_coverage": false,
   "trusted_as_proof": false

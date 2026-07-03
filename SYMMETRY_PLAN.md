@@ -91993,3 +91993,62 @@ The second theorem is the likely harder one because current evidence for it is
 trace-id based.  Attack it by deriving the cert fields from target-shadow,
 cancellation, local-axis, and schedule semantics; do not import
 `BellmanTopPairingTraceStartViolationProviders` into production class roots.
+
+### Start-Violation Trace Provider Clustering Audit
+
+Extended the diagnostic trace-provider audit:
+
+```text
+scripts/audit_top_pairing_trace_provider_generation.py
+```
+
+It now groups the existing trace-based start-violation payloads by:
+
+- full certificate signature;
+- axis plus failure kind;
+- solved start point plus failure kind;
+- word plus failure kind.
+
+This is still diagnostic only.  It is not trusted proof and does not justify
+using accepted trace ids in production.
+
+Command:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_trace_provider_generation.py
+
+python3 scripts/audit_top_pairing_trace_provider_generation.py \
+  --json scripts/generated/top_pairing_trace_provider_generation_audit.json \
+  --markdown scripts/generated/top_pairing_trace_provider_generation_audit.md
+```
+
+Results:
+
+```text
+provider candidates: 37/37
+```
+
+Signature summary:
+
+| Signature | Groups | Largest group | Singleton groups |
+|---|---:|---:|---:|
+| full cert | `26` | `3` | `18` |
+| axis + failure | `1` | `37` | `0` |
+| p0 + failure | `26` | `3` | `18` |
+| word + failure | `37` | `1` | `37` |
+
+Every accepted trace is an `axisMissesStartInterior` provider candidate, and
+all share the same axis/failure signature.  The shared axis is:
+
+```text
+[-1/3, -1/3, -1]
+```
+
+Decision: accepted as a diagnostic.  The important signal is that exact words
+and solved start points fragment, but the semantic obstruction appears to be a
+single local-axis/start-miss family.  The next production theorem should
+therefore not emit one `ObjectStartViolationMarginCert` per trace.  It should
+try to prove a parametric start-miss theorem from the closed target-shadow,
+schedule, cancellation, and local-axis fields, using the shared axis/failure
+signature as the semantic invariant.  If that theorem still needs exact `p0`
+or exact word keys, the semantic state is missing one honest finite field.

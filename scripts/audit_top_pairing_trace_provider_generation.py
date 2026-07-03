@@ -70,6 +70,55 @@ def vec_json(vec: exact.Vec) -> list[str]:
     return [rat_json(Fraction(value)) for value in vec]
 
 
+def freeze_json(value: Any) -> Any:
+    """Convert JSON-like values to hashable tuples for diagnostic grouping."""
+    if isinstance(value, dict):
+        return tuple((key, freeze_json(value[key])) for key in sorted(value))
+    if isinstance(value, list):
+        return tuple(freeze_json(item) for item in value)
+    return value
+
+
+def provider_signature(result: dict[str, Any], mode: str) -> Any:
+    if result["status"] != "provider_candidate":
+        return None
+    if mode == "cert":
+        fields = (
+            "axis",
+            "kernel_cross_factor",
+            "p0",
+            "lambda",
+            "solve_left_inverse",
+            "failure",
+        )
+    elif mode == "axis_failure":
+        fields = ("axis", "failure")
+    elif mode == "p0_failure":
+        fields = ("p0", "failure")
+    elif mode == "word_failure":
+        fields = ("word", "failure")
+    else:
+        raise ValueError(f"unknown signature mode {mode!r}")
+    return freeze_json({field: result[field] for field in fields})
+
+
+def signature_summary(results: list[dict[str, Any]], mode: str) -> dict[str, Any]:
+    groups: dict[Any, list[str]] = {}
+    for result in results:
+        key = provider_signature(result, mode)
+        if key is None:
+            continue
+        groups.setdefault(key, []).append(result["trace_id"])
+    sizes = sorted((len(trace_ids) for trace_ids in groups.values()), reverse=True)
+    top = sorted(groups.values(), key=lambda xs: (-len(xs), xs))[:10]
+    return {
+        "groups": len(groups),
+        "largest": sizes[0] if sizes else 0,
+        "singleton_groups": sum(1 for size in sizes if size == 1),
+        "top_trace_id_groups": top,
+    }
+
+
 def trace_labels_to_forced_seq(labels: list[str]) -> list[str]:
     if len(labels) != 14:
         raise ValueError(f"expected 14 contribution labels, got {len(labels)}")
@@ -218,6 +267,15 @@ def write_markdown(path: Path, payload: dict[str, Any]) -> None:
             lines.append(f"- `{key}`: `{count}`")
     else:
         lines.append("- none")
+    lines.extend(["", "### Provider Signature Groups", ""])
+    for mode, summary in payload["summary"]["signature_groups"].items():
+        lines.append(
+            f"- `{mode}`: groups `{summary['groups']}`, "
+            f"largest `{summary['largest']}`, "
+            f"singleton groups `{summary['singleton_groups']}`"
+        )
+        for group in summary["top_trace_id_groups"][:3]:
+            lines.append("  - " + ", ".join(f"`{trace_id}`" for trace_id in group))
     lines.extend(["", "## Provider Candidate Trace IDs", ""])
     candidates = [
         result["trace_id"]
@@ -271,6 +329,10 @@ def main() -> None:
             "by_status": dict(status_counts),
             "by_reason": dict(reason_counts),
             "by_failure": dict(failure_counts),
+            "signature_groups": {
+                mode: signature_summary(results, mode)
+                for mode in ("cert", "axis_failure", "p0_failure", "word_failure")
+            },
         },
         "results": results,
     }
