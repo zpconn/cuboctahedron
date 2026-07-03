@@ -176,6 +176,51 @@ structure Depth11Layer4SemanticFrontierGraphExactEvalAllFamily
           Depth11Layer4SemanticFrontierBranch face₀ face₁ ->
           Split10MGraphExactEvalGateAtRank scaledMargin rank
 
+structure Depth11Layer4SevenBranchGraphExactEvalAllFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  tmpm_tppm :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.tmpm Face.tppm rest ->
+          Split10MGraphExactEvalGateAtRank scaledMargin rank
+  tmpm_zm :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+          Split10MGraphExactEvalGateAtRank scaledMargin rank
+  yp_tmmm :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.yp Face.tmmm rest ->
+          Split10MGraphExactEvalGateAtRank scaledMargin rank
+  yp_zm :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+          Split10MGraphExactEvalGateAtRank scaledMargin rank
+  zm_tmpp :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+          Split10MGraphExactEvalGateAtRank scaledMargin rank
+  zm_yp :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+          Split10MGraphExactEvalGateAtRank scaledMargin rank
+  zm_zp :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.zm Face.zp rest ->
+          Split10MGraphExactEvalGateAtRank scaledMargin rank
+
 theorem layer4Classifier_of_branchClassifier
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily : Depth11Layer4BranchGraphExactEvalAllFamily scaledMargin) :
@@ -194,6 +239,31 @@ theorem layer4BranchClassifier_of_semanticFrontierClassifier
     intro rank hclosed face₀ face₁ rest hprefix _hbranch
     exact hfamily.classify rank hclosed face₀ face₁ rest hprefix
       (depth11Layer4SemanticFrontierBranch_of_closed_prefix hclosed hprefix)
+
+theorem semanticFrontierClassifier_of_sevenBranchClassifier
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily : Depth11Layer4SevenBranchGraphExactEvalAllFamily scaledMargin) :
+    Depth11Layer4SemanticFrontierGraphExactEvalAllFamily scaledMargin where
+  classify := by
+    intro rank hclosed face₀ face₁ rest hprefix hfrontier
+    rcases hfrontier with htmpm | hyp | hzm
+    · rcases htmpm with ⟨rfl, htppm | hzm⟩
+      · subst face₁
+        exact hfamily.tmpm_tppm rank hclosed rest hprefix
+      · subst face₁
+        exact hfamily.tmpm_zm rank hclosed rest hprefix
+    · rcases hyp with ⟨rfl, htmmm | hzm⟩
+      · subst face₁
+        exact hfamily.yp_tmmm rank hclosed rest hprefix
+      · subst face₁
+        exact hfamily.yp_zm rank hclosed rest hprefix
+    · rcases hzm with ⟨rfl, htmpp | hyp | hzp⟩
+      · subst face₁
+        exact hfamily.zm_tmpp rank hclosed rest hprefix
+      · subst face₁
+        exact hfamily.zm_yp rank hclosed rest hprefix
+      · subst face₁
+        exact hfamily.zm_zp rank hclosed rest hprefix
 
 theorem split10MGraphExactEvalAllFamily_of_layer4Classifier
     {scaledMargin : Fin numPairWords -> Int}
@@ -271,6 +341,13 @@ theorem split10MGraphExactEvalAllFamily_of_layer4SemanticFrontierClassifier
   split10MGraphExactEvalAllFamily_of_layer4BranchClassifier
     (layer4BranchClassifier_of_semanticFrontierClassifier hfamily)
 
+theorem split10MGraphExactEvalAllFamily_of_layer4SevenBranchClassifier
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily : Depth11Layer4SevenBranchGraphExactEvalAllFamily scaledMargin) :
+    Split10MGraphExactEvalAllFamily scaledMargin :=
+  split10MGraphExactEvalAllFamily_of_layer4SemanticFrontierClassifier
+    (semanticFrontierClassifier_of_sevenBranchClassifier hfamily)
+
 theorem scaledMargin_nonpos_of_layer4BranchClassifier
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily : Depth11Layer4BranchGraphExactEvalAllFamily scaledMargin)
@@ -290,6 +367,16 @@ theorem scaledMargin_nonpos_of_layer4SemanticFrontierClassifier
     scaledMargin rank <= 0 :=
   scaledMargin_nonpos_of_layer4BranchClassifier
     (layer4BranchClassifier_of_semanticFrontierClassifier hfamily)
+    hclosed
+
+theorem scaledMargin_nonpos_of_layer4SevenBranchClassifier
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily : Depth11Layer4SevenBranchGraphExactEvalAllFamily scaledMargin)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_layer4SemanticFrontierClassifier
+    (semanticFrontierClassifier_of_sevenBranchClassifier hfamily)
     hclosed
 
 theorem depth11Layer4ClassifierSocket_builds : True := by

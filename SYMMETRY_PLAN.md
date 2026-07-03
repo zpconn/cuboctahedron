@@ -93426,3 +93426,49 @@ Promoted target: the next generated/semantic instance should prove
 better target than the looser branch-aware classifier because Lean has already
 proved that every closed top-pairing rank is in one of the seven semantic
 frontier branches.
+
+Final refinement for this socket: the producer target is now split into seven
+explicit semantic-frontier fields:
+
+```lean
+structure Depth11Layer4SevenBranchGraphExactEvalAllFamily
+theorem semanticFrontierClassifier_of_sevenBranchClassifier
+theorem split10MGraphExactEvalAllFamily_of_layer4SevenBranchClassifier
+theorem scaledMargin_nonpos_of_layer4SevenBranchClassifier
+```
+
+The seven fields correspond exactly to:
+
+- `tmpm/tppm`
+- `tmpm/zm`
+- `yp/tmmm`
+- `yp/zm`
+- `zm/tmpp`
+- `zm/yp`
+- `zm/zp`
+
+This is now the preferred emitter target.  It removes the need for generated
+code to destruct the semantic-frontier disjunction, while Lean still proves
+that every closed top-pairing rank reaches one of these seven branches before
+the generated branch theorem is used.
+
+Rechecked command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_layer4_classifier_socket_lean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4ClassifierSocket.lean
+```
+
+Result: pass, `8.01s`, `3997.5 MiB` peak tree RSS, `46096.7 MiB` minimum
+available memory, `8192 MiB` hard address-space cap.  The semantic import audit
+still reports `lightweight-semantic-classifier-socket-ok`, with `0` terminal
+trace shards and `0` selected-prefix modules.  The membership frontier audit
+sees the seven-field symbols and reports forbidden hit count `0`.

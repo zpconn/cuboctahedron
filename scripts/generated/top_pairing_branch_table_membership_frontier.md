@@ -71,14 +71,18 @@ Bellman table frontier without enumerating ranks, paths, or prefixes.
 | `Depth11Layer4GraphExactEvalAllFamily` | layer-4 graph-exact all-family target | `depth11_layer4_classifier` |
 | `Depth11Layer4BranchGraphExactEvalAllFamily` | branch-aware layer-4 graph-exact all-family target | `depth11_layer4_classifier` |
 | `Depth11Layer4SemanticFrontierGraphExactEvalAllFamily` | semantic-frontier layer-4 graph-exact all-family target | `depth11_layer4_classifier` |
+| `Depth11Layer4SevenBranchGraphExactEvalAllFamily` | seven-field semantic-frontier graph-exact all-family target | `depth11_layer4_classifier` |
 | `layer4Classifier_of_branchClassifier` | branch-aware layer-4 classifier to layer-4 classifier | `depth11_layer4_classifier` |
 | `layer4BranchClassifier_of_semanticFrontierClassifier` | semantic-frontier classifier to branch-aware layer-4 classifier | `depth11_layer4_classifier` |
+| `semanticFrontierClassifier_of_sevenBranchClassifier` | seven-field classifier to semantic-frontier classifier | `depth11_layer4_classifier` |
 | `split10MGraphExactEvalAllFamily_of_layer4Classifier` | layer-4 classifier to graph-exact all-family | `depth11_layer4_classifier` |
 | `split10MGraphExactEvalAllFamily_of_layer4BranchClassifier` | branch-aware layer-4 classifier to graph-exact all-family | `depth11_layer4_classifier` |
 | `split10MGraphExactEvalAllFamily_of_layer4SemanticFrontierClassifier` | semantic-frontier classifier to graph-exact all-family | `depth11_layer4_classifier` |
+| `split10MGraphExactEvalAllFamily_of_layer4SevenBranchClassifier` | seven-field classifier to graph-exact all-family | `depth11_layer4_classifier` |
 | `scaledMargin_nonpos_of_layer4Classifier` | layer-4 classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
 | `scaledMargin_nonpos_of_layer4BranchClassifier` | branch-aware layer-4 classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
 | `scaledMargin_nonpos_of_layer4SemanticFrontierClassifier` | semantic-frontier classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
+| `scaledMargin_nonpos_of_layer4SevenBranchClassifier` | seven-field classifier to nonpositive scaled margin | `depth11_layer4_classifier` |
 
 ## Guards
 
