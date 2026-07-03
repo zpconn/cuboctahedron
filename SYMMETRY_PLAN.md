@@ -93325,3 +93325,42 @@ language fields, then produce `Split10MGraphExactEvalGateAtRank`.  It should
 not reintroduce selected-prefix/rank membership, accepted-trace identifiers,
 terminal trace shards, exact affine RHS keys, solved start points, or raw graph
 paths.
+
+Follow-up refinement: the socket now also exposes a branch-aware classifier
+target:
+
+```lean
+def Depth11Layer4ThirdAllowed
+def Depth11Layer4FourthAllowed
+def Depth11Layer4BranchAllowed
+structure Depth11Layer4BranchGraphExactEvalAllFamily
+theorem layer4Classifier_of_branchClassifier
+theorem split10MGraphExactEvalAllFamily_of_layer4BranchClassifier
+theorem scaledMargin_nonpos_of_layer4BranchClassifier
+```
+
+The branch-aware target receives the first-four prefix plus the schedule-proved
+third/fourth allowed branch.  It is now the preferred emitter target: prove one
+`Depth11Layer4BranchGraphExactEvalAllFamily` instance, and the socket derives
+the ordinary layer-4 classifier and graph-exact all-family.
+
+Rechecked command:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_layer4_classifier_socket_lean.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4ClassifierSocket.lean
+```
+
+Result: pass, `7.01s`, `3626.7 MiB` peak tree RSS, `46284.6 MiB` minimum
+available memory, `8192 MiB` hard address-space cap.  The semantic import audit
+still reports `lightweight-semantic-classifier-socket-ok` with `0` terminal
+trace shards and `0` selected-prefix modules in the closure, and the membership
+frontier audit sees all branch-aware symbols with forbidden hit count `0`.

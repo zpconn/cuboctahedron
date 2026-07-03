@@ -117,13 +117,18 @@
     "depth11_layer4_classifier": {
       "exists": true,
       "forbidden_hits": {},
-      "lines": 105,
+      "lines": 180,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4ClassifierSocket.lean",
       "symbol_hits": {
-        "Depth11Layer4GraphExactEvalAllFamily": 3,
-        "Depth11Layer4PrefixAtRank": 5,
-        "scaledMargin_nonpos_of_layer4Classifier": 1,
-        "split10MGraphExactEvalAllFamily_of_layer4Classifier": 2
+        "Depth11Layer4BranchAllowed": 3,
+        "Depth11Layer4BranchGraphExactEvalAllFamily": 4,
+        "Depth11Layer4GraphExactEvalAllFamily": 4,
+        "Depth11Layer4PrefixAtRank": 8,
+        "layer4Classifier_of_branchClassifier": 3,
+        "scaledMargin_nonpos_of_layer4BranchClassifier": 1,
+        "scaledMargin_nonpos_of_layer4Classifier": 2,
+        "split10MGraphExactEvalAllFamily_of_layer4BranchClassifier": 1,
+        "split10MGraphExactEvalAllFamily_of_layer4Classifier": 3
       }
     },
     "eval_bridge": {
@@ -461,6 +466,12 @@
     "Depth11GraphExactPortfolioAllFamily": [
       "depth11_graph_exact_portfolio"
     ],
+    "Depth11Layer4BranchAllowed": [
+      "depth11_layer4_classifier"
+    ],
+    "Depth11Layer4BranchGraphExactEvalAllFamily": [
+      "depth11_layer4_classifier"
+    ],
     "Depth11Layer4GraphExactEvalAllFamily": [
       "depth11_layer4_classifier"
     ],
@@ -637,8 +648,14 @@
       "branch_table_progress",
       "branch_table_progress_split10m"
     ],
+    "layer4Classifier_of_branchClassifier": [
+      "depth11_layer4_classifier"
+    ],
     "scaledMargin_nonpos_of_depth11GraphExactPortfolio": [
       "depth11_graph_exact_portfolio"
+    ],
+    "scaledMargin_nonpos_of_layer4BranchClassifier": [
+      "depth11_layer4_classifier"
     ],
     "scaledMargin_nonpos_of_layer4Classifier": [
       "depth11_layer4_classifier"
@@ -653,6 +670,9 @@
     ],
     "split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio": [
       "depth11_graph_exact_portfolio"
+    ],
+    "split10MGraphExactEvalAllFamily_of_layer4BranchClassifier": [
+      "depth11_layer4_classifier"
     ],
     "split10MGraphExactEvalAllFamily_of_layer4Classifier": [
       "depth11_layer4_classifier"

@@ -22,6 +22,40 @@ def Depth11Layer4PrefixAtRank
   topPairingRankFaceLabels rank =
     Face.xm :: Face.ym :: face₀ :: face₁ :: rest
 
+def Depth11Layer4ThirdAllowed (face₀ : Face) : Prop :=
+  face₀ = Face.tmpm ∨ face₀ = Face.yp ∨ face₀ = Face.zm
+
+def Depth11Layer4FourthAllowed (face₁ : Face) : Prop :=
+  face₁ = Face.tmmm ∨ face₁ = Face.tmpp ∨ face₁ = Face.tppm ∨
+    face₁ = Face.yp ∨ face₁ = Face.zm ∨ face₁ = Face.zp
+
+def Depth11Layer4BranchAllowed (face₀ face₁ : Face) : Prop :=
+  Depth11Layer4ThirdAllowed face₀ ∧ Depth11Layer4FourthAllowed face₁
+
+private theorem depth11Layer4BranchAllowed_of_closed_prefix
+    {rank : Fin numPairWords} {face₀ face₁ : Face} {rest : List Face}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank face₀ face₁ rest) :
+    Depth11Layer4BranchAllowed face₀ face₁ := by
+  have hlabels :
+      faceLabelsInContributionOrder (fun f => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        Face.xm :: Face.ym :: face₀ :: face₁ :: rest := by
+    simpa [Depth11Layer4PrefixAtRank, topPairingRankFaceLabels] using
+      hprefix
+  rcases hclosed.schedule with ⟨_hlen, hfrom⟩
+  rw [hlabels] at hfrom
+  unfold TopPairingStepScheduleFrom at hfrom
+  rcases hfrom with ⟨_h0, hfrom1⟩
+  unfold TopPairingStepScheduleFrom at hfrom1
+  rcases hfrom1 with ⟨_h1, hfrom2⟩
+  unfold TopPairingStepScheduleFrom at hfrom2
+  rcases hfrom2 with ⟨hface₀, hfrom3⟩
+  unfold TopPairingStepScheduleFrom at hfrom3
+  rcases hfrom3 with ⟨hface₁, _hrest⟩
+  simp [topPairingAllowedFacesAtStep] at hface₀ hface₁
+  exact ⟨hface₀, hface₁⟩
+
 /--
 Emitter-facing first-four classifier obligation.
 
@@ -37,6 +71,30 @@ structure Depth11Layer4GraphExactEvalAllFamily
         ∀ face₀ face₁ rest,
           Depth11Layer4PrefixAtRank rank face₀ face₁ rest ->
           Split10MGraphExactEvalGateAtRank scaledMargin rank
+
+/--
+Sharper emitter-facing obligation that also receives the schedule-allowed
+first-four branch.  This is the better production target when the generated
+classifier wants to case-split by the local semantic branch.
+-/
+structure Depth11Layer4BranchGraphExactEvalAllFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  classify :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∀ face₀ face₁ rest,
+          Depth11Layer4PrefixAtRank rank face₀ face₁ rest ->
+          Depth11Layer4BranchAllowed face₀ face₁ ->
+          Split10MGraphExactEvalGateAtRank scaledMargin rank
+
+theorem layer4Classifier_of_branchClassifier
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily : Depth11Layer4BranchGraphExactEvalAllFamily scaledMargin) :
+    Depth11Layer4GraphExactEvalAllFamily scaledMargin where
+  classify := by
+    intro rank hclosed face₀ face₁ rest hprefix
+    exact hfamily.classify rank hclosed face₀ face₁ rest hprefix
+      (depth11Layer4BranchAllowed_of_closed_prefix hclosed hprefix)
 
 theorem split10MGraphExactEvalAllFamily_of_layer4Classifier
     {scaledMargin : Fin numPairWords -> Int}
@@ -97,6 +155,23 @@ theorem scaledMargin_nonpos_of_layer4Classifier
     scaledMargin rank <= 0 :=
   scaledMargin_nonpos_of_split10MGraphExactEvalAllFamily
     (split10MGraphExactEvalAllFamily_of_layer4Classifier hfamily)
+    hclosed
+
+theorem split10MGraphExactEvalAllFamily_of_layer4BranchClassifier
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily : Depth11Layer4BranchGraphExactEvalAllFamily scaledMargin) :
+    Split10MGraphExactEvalAllFamily scaledMargin :=
+  split10MGraphExactEvalAllFamily_of_layer4Classifier
+    (layer4Classifier_of_branchClassifier hfamily)
+
+theorem scaledMargin_nonpos_of_layer4BranchClassifier
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily : Depth11Layer4BranchGraphExactEvalAllFamily scaledMargin)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_layer4Classifier
+    (layer4Classifier_of_branchClassifier hfamily)
     hclosed
 
 theorem depth11Layer4ClassifierSocket_builds : True := by

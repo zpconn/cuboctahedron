@@ -186,9 +186,14 @@ REQUIRED_SYMBOLS = {
     "split10MGraphExactEvalAllFamily_of_depth11GraphExactPortfolio": "portfolio to graph-exact all-family",
     "scaledMargin_nonpos_of_depth11GraphExactPortfolio": "portfolio to nonpositive scaled margin",
     "Depth11Layer4PrefixAtRank": "first-four closed-language prefix predicate",
+    "Depth11Layer4BranchAllowed": "schedule-allowed first-four branch predicate",
     "Depth11Layer4GraphExactEvalAllFamily": "layer-4 graph-exact all-family target",
+    "Depth11Layer4BranchGraphExactEvalAllFamily": "branch-aware layer-4 graph-exact all-family target",
+    "layer4Classifier_of_branchClassifier": "branch-aware layer-4 classifier to layer-4 classifier",
     "split10MGraphExactEvalAllFamily_of_layer4Classifier": "layer-4 classifier to graph-exact all-family",
+    "split10MGraphExactEvalAllFamily_of_layer4BranchClassifier": "branch-aware layer-4 classifier to graph-exact all-family",
     "scaledMargin_nonpos_of_layer4Classifier": "layer-4 classifier to nonpositive scaled margin",
+    "scaledMargin_nonpos_of_layer4BranchClassifier": "branch-aware layer-4 classifier to nonpositive scaled margin",
 }
 
 FORBIDDEN_TOKENS = [
