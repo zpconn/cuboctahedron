@@ -91016,3 +91016,115 @@ now generated for every current semantic class.  Next production target: compose
 the prefix/frontier graph gains with these generated suffix finishes to produce
 class-level `ClosedClassNNNExactGraphFinishSuffixMarginFamily` witnesses, then
 feed those through the already accepted graph-exact final-margin socket.
+
+### Class-034 Graph-Exact Finish Composition Accepted
+
+Added the next graph-only composition smoke:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingDepth11GraphExactFinishSmoke.lean
+```
+
+This module proves the first semantic composition theorem:
+
+```lean
+theorem graphEval_exists_of_class034GraphSuffixProducer
+```
+
+The theorem starts from:
+
+```lean
+hclosed : TopPairingClosedLanguageAtRank rank Face.ym
+hclass : Class034GraphSuffixProducer rank
+```
+
+and proves that the graph evaluator has an exact result:
+
+```lean
+∃ finalGraph totalGain,
+  evalLabelStepFn graphSmokeNext rootState
+    ((topPairingRankFaceLabels rank).map smokeLabelOfFace) =
+      some (finalGraph, totalGain)
+```
+
+The proof is still intentionally semantic:
+
+- `hclosed.schedule` supplies the `xm :: ym :: face₀ :: face₁ :: rest`
+  decomposition;
+- `layer4Prefix4FrontierCons2_of_closed_prefix4` validates the split-10M
+  frontier pair;
+- `Class034GraphSuffixProducer` supplies the depth-11 suffix class for the
+  computed graph state after the two frontier graph steps;
+- `graphEval_exists_of_class034Depth11Suffix` supplies the generated suffix
+  evaluator result;
+- seven tiny prefix lemmas compose the fixed graph prefix and frontier pair
+  with the suffix result via `evalLabelStepFn_append`.
+
+This avoids selected-prefix membership, sampled ranks, accepted-trace ids,
+direct `faceEvalNext` replay, exact affine RHS keys, and raw graph path tables.
+It also confirms that the graph-exact final-margin socket can be fed by
+ordinary graph evaluator equalities, without exposing the heavier
+`FaceEvalState` object.
+
+Failed-safe proof attempts:
+
+- The first prototype used `subst hlabels` on an expression equality and failed
+  safely under the guard (`3984 MiB` peak).
+- The second prototype asked `simp` to unfold the global `graphSmokeNext`
+  dispatcher and failed safely (`4024 MiB` peak).
+- The accepted version uses local four-label prefix lemmas and
+  `evalLabelStepFn_append`.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_class034_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+top_pairing_depth11_graph_exact_finish_class034_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphExactFinishSmoke
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|sampledSmokeNext\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| first prototype, bad `subst` | fail safely | `7.01s` | `3984 MiB` | `46145 MiB` | `8192 MiB` |
+| second prototype, global dispatcher simplification | fail safely | `4.00s` | `4024 MiB` | `46121 MiB` | `8192 MiB` |
+| direct class-034 graph-exact composition | pass | `6.00s` | `4020 MiB` | `46118 MiB` | `8192 MiB` |
+| Lake class-034 graph-exact composition | pass | `5.00s` | `4257 MiB` | `45855 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted as the first graph-exact composition slice.  Next generator
+target: generalize this module across classes `034` through `039`, using the
+same seven prefix/frontier helper lemmas and the already generated
+`graphEval_exists_of_classNNNDepth11Suffix` theorems.  After that, add the
+class-level wrapper that combines graph-exact eval, `0 <= graphPotential
+finalGraph`, and the family-specific `scaledMargin` inequality into
+`ClosedClassNNNExactGraphFinishSuffixMarginFamily`.
