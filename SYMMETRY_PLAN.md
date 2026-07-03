@@ -92160,3 +92160,89 @@ the shared axis/failure family, not another Bellman graph or trace-margin
 producer.  Bellman remains the right tool for residuals whose obstruction is a
 real additive margin bound, but the current audited top-pairing start-miss
 family should be attacked directly.
+
+### Top-Pairing Start-Miss Axis Normalization Accepted
+
+The latest GPT5.5 review sharpened the Bellman rule again: keep Bellman for
+genuine additive margin residuals, but stop scaling any selected-prefix or
+observed-trace membership proof.  For the audited top-pairing family, the next
+semantic object is the shared start-miss obstruction, not another graph path.
+
+The trace-provider audit found one shared axis/failure signature:
+
+```text
+axis = [-1/3, -1/3, -1]
+failure = axisMissesStartInterior
+```
+
+The closed top-pairing language was already expressed using the projectively
+equivalent local axis:
+
+```lean
+topPairingLocalAxis = {-1, -1, -3}
+```
+
+Added a normalized start-miss axis and positivity-preserving bridge:
+
+```lean
+def topPairingStartMissAxis : Vec3 Rat
+
+theorem scalarMul_topPairingStartMissAxis_eq_localAxis
+
+theorem dot_topPairingLocalAxis_eq_three_dot_startMissAxis
+
+theorem topPairingStartMissAxis_dot_pos_of_localAxis_dot_pos
+
+theorem topPairingLocalAxis_dot_pos_of_startMissAxis_dot_pos
+
+def TopPairingStartMissAxisAllows
+
+theorem topPairingStartMissAxisAllows_of_localAxisAllows
+
+theorem topPairingLocalAxisAllows_of_startMissAxisAllows
+```
+
+File:
+
+```text
+Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+```
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_language_start_miss_axis_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/BellmanTopPairingLanguage.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_language_start_miss_axis_lake_guard.json \
+  --verbose \
+  -- lake build Cuboctahedron.Search.BellmanTopPairingLanguage
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct top-pairing language | pass | `3.00s` | `3980 MiB` | `46133 MiB` | `8192 MiB` |
+| Lake top-pairing language | pass | `3.00s` | `4110 MiB` | `45989 MiB` | none |
+
+Decision: accepted as a small semantic bridge, not as final coverage.  The
+next producer should construct the shared `axisMissesStartInterior`
+`ObjectStartViolationMarginCert` from closed-language fields using
+`topPairingStartMissAxis` and the local-axis/cursor/schedule facts.  It must
+not import `BellmanTopPairingTraceStartViolationProviders` into production
+roots, and it must not key membership by exact word, solved start point,
+selected prefix, accepted trace id, or exact affine RHS.

@@ -290,8 +290,55 @@ def topPairingLocalAxis : Vec3 Rat where
   y := -1
   z := -3
 
+def topPairingStartMissAxis : Vec3 Rat where
+  x := -1 / 3
+  y := -1 / 3
+  z := -1
+
+theorem scalarMul_topPairingStartMissAxis_eq_localAxis :
+    scalarMul (3 : Rat) topPairingStartMissAxis = topPairingLocalAxis := by
+  apply Vec3.ext <;>
+    norm_num [scalarMul, topPairingStartMissAxis, topPairingLocalAxis]
+
+theorem dot_topPairingLocalAxis_eq_three_dot_startMissAxis
+    (v : Vec3 Rat) :
+    dot v topPairingLocalAxis =
+      (3 : Rat) * dot v topPairingStartMissAxis := by
+  cases v
+  simp [dot, topPairingLocalAxis, topPairingStartMissAxis]
+  ring
+
+theorem topPairingStartMissAxis_dot_pos_of_localAxis_dot_pos
+    {v : Vec3 Rat}
+    (h : 0 < dot v topPairingLocalAxis) :
+    0 < dot v topPairingStartMissAxis := by
+  rw [dot_topPairingLocalAxis_eq_three_dot_startMissAxis] at h
+  nlinarith
+
+theorem topPairingLocalAxis_dot_pos_of_startMissAxis_dot_pos
+    {v : Vec3 Rat}
+    (h : 0 < dot v topPairingStartMissAxis) :
+    0 < dot v topPairingLocalAxis := by
+  rw [dot_topPairingLocalAxis_eq_three_dot_startMissAxis]
+  nlinarith
+
 def TopPairingLocalAxisAllows (linear : Mat3 Rat) (face : Face) : Prop :=
   0 < dot (matVec linear (normalQ face)) topPairingLocalAxis
+
+def TopPairingStartMissAxisAllows (linear : Mat3 Rat) (face : Face) : Prop :=
+  0 < dot (matVec linear (normalQ face)) topPairingStartMissAxis
+
+theorem topPairingStartMissAxisAllows_of_localAxisAllows
+    {linear : Mat3 Rat} {face : Face}
+    (h : TopPairingLocalAxisAllows linear face) :
+    TopPairingStartMissAxisAllows linear face := by
+  exact topPairingStartMissAxis_dot_pos_of_localAxis_dot_pos h
+
+theorem topPairingLocalAxisAllows_of_startMissAxisAllows
+    {linear : Mat3 Rat} {face : Face}
+    (h : TopPairingStartMissAxisAllows linear face) :
+    TopPairingLocalAxisAllows linear face := by
+  exact topPairingLocalAxis_dot_pos_of_startMissAxis_dot_pos h
 
 def TopPairingLocalAxisFrom : Mat3 Rat -> List Face -> Prop
   | _linear, [] => True
