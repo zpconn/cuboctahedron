@@ -52,6 +52,48 @@ structure Split10MFixedFinishFinalMarginProducer
   margin_bound :
     scaledMargin rank <= (176 : Int) + totalGain
 
+/--
+Exact-finish final-margin obligation for one rank.
+
+This is the most convenient target for deterministic semantic evaluator
+families: prove the closed-language evaluator computes a concrete terminal
+state and gain, then prove the terminal potential and margin inequalities.  The
+universal final-margin producer follows from determinism of equality with the
+same `evalLabelStepFn` result.
+-/
+structure Split10MExactFinishFinalMarginProducer
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finalState : FaceEvalState)
+    (totalGain : Int) : Prop where
+  eval_eq :
+    evalLabelStepFn faceEvalNext
+      (TopPairingTransducerEvalState.start rootState)
+      (topPairingRankFaceLabels rank) = some (finalState, totalGain)
+  final_nonneg :
+    0 <= graphPotential finalState.graph
+  margin_bound :
+    scaledMargin rank <= (176 : Int) + totalGain
+
+theorem split10MFixedFinishFinalMarginProducer_of_exactFinish
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalState : FaceEvalState}
+    {totalGain : Int}
+    (hexact :
+      Split10MExactFinishFinalMarginProducer
+        scaledMargin rank finalState totalGain) :
+    Split10MFixedFinishFinalMarginProducer
+      scaledMargin rank finalState.graph totalGain where
+  eval_unique := by
+    intro finish gain heval _htail _hinv _hsuffix
+    have hsome : some (finish, gain) = some (finalState, totalGain) := by
+      rw [← heval, hexact.eval_eq]
+    cases hsome
+    exact ⟨rfl, rfl⟩
+  final_nonneg := hexact.final_nonneg
+  margin_bound := hexact.margin_bound
+
 theorem split10MFinalMarginProducer_of_fixedFinish
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -67,6 +109,18 @@ theorem split10MFinalMarginProducer_of_fixedFinish
   constructor
   · simpa [hgraph] using hfixed.final_nonneg
   · simpa [hgain] using hfixed.margin_bound
+
+theorem split10MFinalMarginProducer_of_exactFinish
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalState : FaceEvalState}
+    {totalGain : Int}
+    (hexact :
+      Split10MExactFinishFinalMarginProducer
+        scaledMargin rank finalState totalGain) :
+    Split10MFinalMarginProducer scaledMargin rank :=
+  split10MFinalMarginProducer_of_fixedFinish
+    (split10MFixedFinishFinalMarginProducer_of_exactFinish hexact)
 
 /--
 Rank-local closed suffix plus fixed-finish final-margin family.
@@ -89,6 +143,26 @@ structure ClosedSplit10MFixedFinishSuffixMarginFamily
     Split10MFixedFinishFinalMarginProducer
       scaledMargin rank finalGraph totalGain
 
+/--
+Rank-local closed suffix plus exact-finish final-margin family.
+
+This wrapper is often the smallest generated theorem surface: the family proves
+the evaluator equation and margin inequality directly, then this file converts
+it to the universal fixed-finish socket.
+-/
+structure ClosedSplit10MExactFinishSuffixMarginFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finalState : FaceEvalState)
+    (totalGain : Int) : Prop where
+  closed :
+    TopPairingClosedLanguageAtRank rank Face.ym
+  graphSuffix :
+    Split10MGraphSuffixProducer rank
+  exactFinalMargin :
+    Split10MExactFinishFinalMarginProducer
+      scaledMargin rank finalState totalGain
+
 theorem closedSplit10MSuffixMarginFamily_of_fixedFinish
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -103,6 +177,34 @@ theorem closedSplit10MSuffixMarginFamily_of_fixedFinish
   finalMargin :=
     split10MFinalMarginProducer_of_fixedFinish
       hfamily.fixedFinalMargin
+
+theorem closedSplit10MFixedFinishSuffixMarginFamily_of_exactFinish
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalState : FaceEvalState}
+    {totalGain : Int}
+    (hfamily :
+      ClosedSplit10MExactFinishSuffixMarginFamily
+        scaledMargin rank finalState totalGain) :
+    ClosedSplit10MFixedFinishSuffixMarginFamily
+      scaledMargin rank finalState.graph totalGain where
+  closed := hfamily.closed
+  graphSuffix := hfamily.graphSuffix
+  fixedFinalMargin :=
+    split10MFixedFinishFinalMarginProducer_of_exactFinish
+      hfamily.exactFinalMargin
+
+theorem closedSplit10MSuffixMarginFamily_of_exactFinish
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalState : FaceEvalState}
+    {totalGain : Int}
+    (hfamily :
+      ClosedSplit10MExactFinishSuffixMarginFamily
+        scaledMargin rank finalState totalGain) :
+    ClosedSplit10MSuffixMarginFamily scaledMargin rank :=
+  closedSplit10MSuffixMarginFamily_of_fixedFinish
+    (closedSplit10MFixedFinishSuffixMarginFamily_of_exactFinish hfamily)
 
 theorem evalLanguageAtRank_of_closedFixedFinishSuffixMarginFamily
     {scaledMargin : Fin numPairWords -> Int}
@@ -129,6 +231,32 @@ theorem scaledMargin_nonpos_of_closedFixedFinishSuffixMarginFamily
     scaledMargin rank <= 0 :=
   scaledMargin_nonpos_of_closedSplit10MSuffixMarginFamily
     (closedSplit10MSuffixMarginFamily_of_fixedFinish hfamily)
+
+theorem evalLanguageAtRank_of_closedExactFinishSuffixMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalState : FaceEvalState}
+    {totalGain : Int}
+    (hfamily :
+      ClosedSplit10MExactFinishSuffixMarginFamily
+        scaledMargin rank finalState totalGain) :
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym :=
+  evalLanguageAtRank_of_closedSplit10MSuffixMarginFamily
+    (closedSplit10MSuffixMarginFamily_of_exactFinish hfamily)
+
+theorem scaledMargin_nonpos_of_closedExactFinishSuffixMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {finalState : FaceEvalState}
+    {totalGain : Int}
+    (hfamily :
+      ClosedSplit10MExactFinishSuffixMarginFamily
+        scaledMargin rank finalState totalGain) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_closedSplit10MSuffixMarginFamily
+    (closedSplit10MSuffixMarginFamily_of_exactFinish hfamily)
 
 /--
 All-rank form of the fixed-finish socket.  A production family may choose the

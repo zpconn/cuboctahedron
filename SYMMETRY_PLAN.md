@@ -90472,3 +90472,91 @@ fixed terminal graph/gain from target-shadow cursor, square-gap schedule,
 tri-source progress, and branch-table suffix state.  If it needs an accepted
 trace id, sampled rank object, or selected-prefix trace, the Bellman membership
 route has failed and the state must be strengthened semantically instead.
+
+### Exact-Finish Final-Margin Wrapper Accepted
+
+Added an exact-evaluator wrapper to the closed final-margin socket.  The
+smallest generated target can now be:
+
+```lean
+structure Split10MExactFinishFinalMarginProducer
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (finalState : FaceEvalState)
+    (totalGain : Int) : Prop
+```
+
+with fields:
+
+```lean
+eval_eq :
+  evalLabelStepFn faceEvalNext
+    (TopPairingTransducerEvalState.start rootState)
+    (topPairingRankFaceLabels rank) = some (finalState, totalGain)
+final_nonneg : 0 <= graphPotential finalState.graph
+margin_bound : scaledMargin rank <= (176 : Int) + totalGain
+```
+
+The socket now proves:
+
+```lean
+theorem split10MFixedFinishFinalMarginProducer_of_exactFinish
+theorem split10MFinalMarginProducer_of_exactFinish
+theorem closedSplit10MFixedFinishSuffixMarginFamily_of_exactFinish
+theorem closedSplit10MSuffixMarginFamily_of_exactFinish
+theorem evalLanguageAtRank_of_closedExactFinishSuffixMarginFamily
+theorem scaledMargin_nonpos_of_closedExactFinishSuffixMarginFamily
+```
+
+This makes the deterministic closed-language evaluator theorem the next real
+frontier.  A production family can prove one evaluator equation from semantic
+state, then the fixed-finish and final-margin obligations are discharged by the
+socket.
+
+Commands:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_closed_final_margin_socket_exact_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedFinalMarginSocket.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_closed_final_margin_socket_exact_lake_guard_12g.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedFinalMarginSocket
+```
+
+```bash
+grep -n "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|sampledContainsRank\|sampledRankOf\|GraphAcceptedTraceLabels\|AcceptedTraceId\|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedFinalMarginSocket.lean || true
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct exact-finish wrapper | pass | `5.00s` | `3773 MiB` | `46254 MiB` | `8192 MiB` |
+| Lake exact-finish wrapper | pass | `3.00s` | `4059 MiB` | `46046 MiB` | none |
+| forbidden-token and old-route scan | pass | n/a | n/a | n/a | n/a |
+
+Decision: accepted.  The next production experiment should pick one depth-11
+closed class and prove a `ClosedSplit10MExactFinishSuffixMarginFamily` theorem
+from closed semantic fields.  That experiment should not use a raw prefix list;
+if the evaluator equation cannot be proved from target-shadow cursor,
+square-gap schedule, tri-source progress, and branch-table state, the semantic
+state needs one more honest field before further Bellman scaling.
