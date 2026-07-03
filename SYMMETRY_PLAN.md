@@ -91810,3 +91810,89 @@ target-shadow/cancellation/local-axis language, not from
 `acceptedTraceOfId`, `GraphAcceptedTraceLabels`, selected-prefix equality, a
 sampled-rank object, exact affine RHS keys, solved start-point keys, or one
 branch per observed path.
+
+### Depth-11 Conditional Killed Surface Accepted
+
+Extended the depth-11 graph-exact finish emitter again:
+
+```text
+scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+```
+
+The generated module now imports the rank-local killed bridge and exposes one
+conditional public killed theorem per current depth-11 class:
+
+```lean
+theorem nonIdentityRankKilled_of_classNNNExactGraphFinishStartViolation
+```
+
+with theorem shape:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+ClassNNNGraphSuffixProducer rank ->
+ClassNNNExactGraphFinishMarginBound scaledMargin rank ->
+ObjectStartViolationMarginCert rank (scaledMargin rank) ->
+Coverage.NonIdentityRankKilled rank
+```
+
+This is the intended end-of-line socket for a production semantic family: the
+Bellman graph and class suffix producer supply the evaluator/nonpositive side,
+while a separate closed-language start-violation producer must supply the
+positive-margin side.  The generated theorem does not accept sampled ranks,
+accepted trace ids, selected prefixes, exact affine RHS keys, solved start
+point keys, or raw graph path tables.
+
+Commands:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+
+python3 scripts/emit_top_pairing_depth11_graph_exact_finish_smoke.py
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_depth11_graph_exact_finish_killed_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11GraphExactFinishSmoke.lean
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 12000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_depth11_graph_exact_finish_killed_lake_guard.json \
+  --verbose \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11GraphExactFinishSmoke
+```
+
+Results:
+
+| Target | Result | Time | Peak tree RSS | Min available | Hard AS |
+|---|---:|---:|---:|---:|---:|
+| direct depth-11 conditional killed surface | pass | `29.02s` | `4123 MiB` | `46040 MiB` | `8192 MiB` |
+| Lake depth-11 conditional killed surface | pass | `23.02s` | `4415 MiB` | `45689 MiB` | none |
+
+Decision: accepted.  The remaining top-pairing work is now cleanly split:
+
+1. prove `ClassNNNExactGraphFinishMarginBound` from closed
+   target-shadow/cancellation/schedule/local-axis semantics; and
+2. prove `ObjectStartViolationMarginCert rank (scaledMargin rank)` from the
+   same closed semantic family.
+
+Only after both are semantic should this class be wired into nonidentity
+coverage.  If either proof needs `acceptedTraceOfId`,
+`GraphAcceptedTraceLabels`, selected-prefix equality, sampled rank/path
+membership, exact affine RHS, or solved start-point keys, refine the
+top-pairing semantic state rather than scaling generated leaves.

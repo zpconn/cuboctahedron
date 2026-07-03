@@ -607,12 +607,28 @@ theorem scaledMargin_nonpos_of_class{class_id}ExactGraphFinishMarginBound
   exact
     scaledMargin_nonpos_of_closedClass{class_id}ExactGraphFinishFamily
       hfamily
+
+theorem nonIdentityRankKilled_of_class{class_id}ExactGraphFinishStartViolation
+    {{scaledMargin : Fin numPairWords -> Int}}
+    {{rank : Fin numPairWords}}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class{class_id}GraphSuffixProducer rank)
+    (hmargin :
+      Class{class_id}ExactGraphFinishMarginBound scaledMargin rank)
+    (hstart :
+      ObjectStartViolationMarginCert rank (scaledMargin rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    (scaledMargin_nonpos_of_class{class_id}ExactGraphFinishMarginBound
+      hclosed hclass hmargin)
+    hstart
 """
 
 
 def emit_module(classes: list[str]) -> str:
     lines = [
         "import Cuboctahedron.Search.TopPairingBellmanSemanticGate",
+        "import Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge",
         "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixEvalSmoke",
         "",
         "/-!",
@@ -638,6 +654,7 @@ def emit_module(classes: list[str]) -> str:
         "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke",
         "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke",
         "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixEvalSmoke",
+        "open Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge",
         "",
         PREFIX_HELPERS.strip(),
         "",

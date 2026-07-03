@@ -1,4 +1,5 @@
 import Cuboctahedron.Search.TopPairingBellmanSemanticGate
+import Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixEvalSmoke
 
 /-!
@@ -24,6 +25,7 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAccepted
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphSuffixEvalSmoke
+open Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
 
 private theorem graphEval_prefix_tmpm_tppm
     {rest : List Face} {finalGraph : State} {suffixGain : Int}
@@ -598,6 +600,21 @@ theorem scaledMargin_nonpos_of_class034ExactGraphFinishMarginBound
     scaledMargin_nonpos_of_closedClass034ExactGraphFinishFamily
       hfamily
 
+theorem nonIdentityRankKilled_of_class034ExactGraphFinishStartViolation
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class034GraphSuffixProducer rank)
+    (hmargin :
+      Class034ExactGraphFinishMarginBound scaledMargin rank)
+    (hstart :
+      ObjectStartViolationMarginCert rank (scaledMargin rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    (scaledMargin_nonpos_of_class034ExactGraphFinishMarginBound
+      hclosed hclass hmargin)
+    hstart
+
 private theorem graphEval_exists_of_class035_prefix4
     {rank : Fin numPairWords}
     (hclass : Class035GraphSuffixProducer rank)
@@ -1051,6 +1068,21 @@ theorem scaledMargin_nonpos_of_class035ExactGraphFinishMarginBound
   exact
     scaledMargin_nonpos_of_closedClass035ExactGraphFinishFamily
       hfamily
+
+theorem nonIdentityRankKilled_of_class035ExactGraphFinishStartViolation
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class035GraphSuffixProducer rank)
+    (hmargin :
+      Class035ExactGraphFinishMarginBound scaledMargin rank)
+    (hstart :
+      ObjectStartViolationMarginCert rank (scaledMargin rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    (scaledMargin_nonpos_of_class035ExactGraphFinishMarginBound
+      hclosed hclass hmargin)
+    hstart
 
 private theorem graphEval_exists_of_class036_prefix4
     {rank : Fin numPairWords}
@@ -1506,6 +1538,21 @@ theorem scaledMargin_nonpos_of_class036ExactGraphFinishMarginBound
     scaledMargin_nonpos_of_closedClass036ExactGraphFinishFamily
       hfamily
 
+theorem nonIdentityRankKilled_of_class036ExactGraphFinishStartViolation
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class036GraphSuffixProducer rank)
+    (hmargin :
+      Class036ExactGraphFinishMarginBound scaledMargin rank)
+    (hstart :
+      ObjectStartViolationMarginCert rank (scaledMargin rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    (scaledMargin_nonpos_of_class036ExactGraphFinishMarginBound
+      hclosed hclass hmargin)
+    hstart
+
 private theorem graphEval_exists_of_class037_prefix4
     {rank : Fin numPairWords}
     (hclass : Class037GraphSuffixProducer rank)
@@ -1959,6 +2006,21 @@ theorem scaledMargin_nonpos_of_class037ExactGraphFinishMarginBound
   exact
     scaledMargin_nonpos_of_closedClass037ExactGraphFinishFamily
       hfamily
+
+theorem nonIdentityRankKilled_of_class037ExactGraphFinishStartViolation
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class037GraphSuffixProducer rank)
+    (hmargin :
+      Class037ExactGraphFinishMarginBound scaledMargin rank)
+    (hstart :
+      ObjectStartViolationMarginCert rank (scaledMargin rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    (scaledMargin_nonpos_of_class037ExactGraphFinishMarginBound
+      hclosed hclass hmargin)
+    hstart
 
 private theorem graphEval_exists_of_class038_prefix4
     {rank : Fin numPairWords}
@@ -2414,6 +2476,21 @@ theorem scaledMargin_nonpos_of_class038ExactGraphFinishMarginBound
     scaledMargin_nonpos_of_closedClass038ExactGraphFinishFamily
       hfamily
 
+theorem nonIdentityRankKilled_of_class038ExactGraphFinishStartViolation
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class038GraphSuffixProducer rank)
+    (hmargin :
+      Class038ExactGraphFinishMarginBound scaledMargin rank)
+    (hstart :
+      ObjectStartViolationMarginCert rank (scaledMargin rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    (scaledMargin_nonpos_of_class038ExactGraphFinishMarginBound
+      hclosed hclass hmargin)
+    hstart
+
 private theorem graphEval_exists_of_class039_prefix4
     {rank : Fin numPairWords}
     (hclass : Class039GraphSuffixProducer rank)
@@ -2867,6 +2944,21 @@ theorem scaledMargin_nonpos_of_class039ExactGraphFinishMarginBound
   exact
     scaledMargin_nonpos_of_closedClass039ExactGraphFinishFamily
       hfamily
+
+theorem nonIdentityRankKilled_of_class039ExactGraphFinishStartViolation
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hclass : Class039GraphSuffixProducer rank)
+    (hmargin :
+      Class039ExactGraphFinishMarginBound scaledMargin rank)
+    (hstart :
+      ObjectStartViolationMarginCert rank (scaledMargin rank)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    (scaledMargin_nonpos_of_class039ExactGraphFinishMarginBound
+      hclosed hclass hmargin)
+    hstart
 
 theorem depth11GraphExactFinishSmoke_builds : True := by
   exact True.intro
