@@ -100723,3 +100723,74 @@ local tables.
   `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer`.
 - Focused guarded Lake build result: passed with `elapsed_seconds=2.00`,
   `peak_tree_rss_mib=806`, and `min_available_mib=46227`.
+
+### 2026-07-04 graph183 accepted-tail margin frontier profiled
+
+- Ran exact diagnostic profiling for the current graph183 accepted-tail margin
+  frontier.  This is **not proof evidence**; it is a hardware/scaling signal
+  for the next Lean producer.
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 900 \
+    --max-tree-rss-mib 8000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/nonid_margin_bellman_graph183_frontier_0_100k_guard.json \
+    --verbose -- python3 scripts/nonidentity_margin_bellman_profile.py \
+      --start 0 --end 100000 --jobs 1 \
+      --state-key-mode with-step-tri-source --include-graph \
+      --json scripts/generated/nonid_margin_bellman_graph183_frontier_0_100k.json \
+      --markdown scripts/generated/nonid_margin_bellman_graph183_frontier_0_100k.md
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 1200 \
+    --max-tree-rss-mib 4000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M_guard.json \
+    --verbose -- python3 scripts/nonidentity_margin_bellman_profile.py \
+      --start 0 --end 1000000 --jobs 4 --chunk-size 250000 \
+      --state-key-mode with-step-tri-source --include-graph \
+      --json scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json \
+      --markdown scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.md
+  ```
+
+- Results:
+
+  | range | jobs | matched | states | edges | finals | margin families | margin values | max bound | peak RSS | elapsed |
+  | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+  | `[0,100k)` | 1 | 11 | 94 | 93 | 11 | 1 | 5 | `-16/11` | 25.38 MiB | 37.04s |
+  | `[0,1M)` | 4 | 37 | 223 | 229 | 29 | 1 | 14 | `0` | 106.72 MiB | 82.05s |
+
+- Added `scripts/audit_graph183_accepted_tail_margin_frontier.py`, which reads
+  these exact diagnostic profiles plus the graph183 socket and verifies:
+  - graph183 stays on `closedBellmanNext`;
+  - no sampled rank / selected prefix / accepted trace-id tokens are present
+    in the graph183 socket;
+  - both profiles have zero offset-sum mismatches;
+  - both profiles have one margin family;
+  - the 1M graph remains tiny against the current gate (`223` states,
+    `229` edges);
+  - the observed Bellman bound is nonpositive.
+- Audit commands:
+
+  ```bash
+  python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  ```
+
+- Audit decision:
+
+  ```text
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+  ```
+
+- Interpretation: this supports trying a small Lean producer for:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
+  ```
+
+  It does not prove the family.  The next Lean slice must either prove this
+  accepted-tail margin semantically, or introduce the cancellation-segment /
+  cocycle quotient theorem surface needed to make that proof rank-free.

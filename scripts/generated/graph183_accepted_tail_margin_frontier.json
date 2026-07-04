@@ -1,0 +1,243 @@
+{
+  "arithmetic": "untrusted diagnostics only; final evidence must be Lean-checked",
+  "checks": [
+    {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean",
+      "name": "graph183_socket_exists",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedSequenceGraph183AcceptedTailMarginFamily",
+      "name": "socket_symbol:AcceptedSequenceGraph183AcceptedTailMarginFamily",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
+      "name": "socket_symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
+      "passed": true
+    },
+    {
+      "detail": "graph183ForcedTail",
+      "name": "socket_symbol:graph183ForcedTail",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailEval",
+      "name": "socket_symbol:graph183TailEval",
+      "passed": true
+    },
+    {
+      "detail": "closedBellmanNext",
+      "name": "socket_symbol:closedBellmanNext",
+      "passed": true
+    },
+    {
+      "detail": "graphSmokeNext",
+      "name": "socket_forbidden_absent:graphSmokeNext",
+      "passed": true
+    },
+    {
+      "detail": "Split10MGraphExactEvalGateAtRank",
+      "name": "socket_forbidden_absent:Split10MGraphExactEvalGateAtRank",
+      "passed": true
+    },
+    {
+      "detail": "ExactGraphFinishMarginBound",
+      "name": "socket_forbidden_absent:ExactGraphFinishMarginBound",
+      "passed": true
+    },
+    {
+      "detail": "Split10MExactGraphFinishFinalMarginProducer",
+      "name": "socket_forbidden_absent:Split10MExactGraphFinishFinalMarginProducer",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "socket_forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "socket_forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "socket_forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "socket_forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "socket_forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "socket_forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
+      "detail": "semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer",
+      "name": "semantic_audit_accepts_margin_target",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin",
+      "name": "semantic_audit_target_is_accepted_tail_margin",
+      "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "profile_100k:offset_sum_mismatches_zero",
+      "passed": true
+    },
+    {
+      "detail": 1,
+      "name": "profile_100k:single_margin_family",
+      "passed": true
+    },
+    {
+      "detail": 94,
+      "name": "profile_100k:states_under_2000",
+      "passed": true
+    },
+    {
+      "detail": 93,
+      "name": "profile_100k:edges_under_5000",
+      "passed": true
+    },
+    {
+      "detail": true,
+      "name": "profile_100k:bounded_fixed_point",
+      "passed": true
+    },
+    {
+      "detail": "-16/11",
+      "name": "profile_100k:observed_nonpositive",
+      "passed": true
+    },
+    {
+      "detail": "-16/11",
+      "name": "profile_100k:max_margin_bound_nonpositive",
+      "passed": true
+    },
+    {
+      "detail": "with-step-tri-source",
+      "name": "profile_100k:with_step_tri_source_mode",
+      "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "profile_1m:offset_sum_mismatches_zero",
+      "passed": true
+    },
+    {
+      "detail": 1,
+      "name": "profile_1m:single_margin_family",
+      "passed": true
+    },
+    {
+      "detail": 223,
+      "name": "profile_1m:states_under_2000",
+      "passed": true
+    },
+    {
+      "detail": 229,
+      "name": "profile_1m:edges_under_5000",
+      "passed": true
+    },
+    {
+      "detail": true,
+      "name": "profile_1m:bounded_fixed_point",
+      "passed": true
+    },
+    {
+      "detail": "0",
+      "name": "profile_1m:observed_nonpositive",
+      "passed": true
+    },
+    {
+      "detail": "0",
+      "name": "profile_1m:max_margin_bound_nonpositive",
+      "passed": true
+    },
+    {
+      "detail": "with-step-tri-source",
+      "name": "profile_1m:with_step_tri_source_mode",
+      "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "profile_100k:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 25.3828125,
+      "name": "profile_100k:rss_under_512_mib",
+      "passed": true
+    },
+    {
+      "detail": 45027.44140625,
+      "name": "profile_100k:available_above_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "profile_1m:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 106.72265625,
+      "name": "profile_1m:rss_under_512_mib",
+      "passed": true
+    },
+    {
+      "detail": 46248.05078125,
+      "name": "profile_1m:available_above_30000_mib",
+      "passed": true
+    }
+  ],
+  "decision": "diagnostic_supports_graph183_accepted_tail_margin_bellman_route",
+  "failed_checks": [],
+  "metrics": {
+    "profile_100k": {
+      "edges": 93,
+      "elapsed_seconds": 36.14832109300187,
+      "final_states": 11,
+      "guard_elapsed_seconds": 37.035643451003125,
+      "guard_min_available_mib": 45027.44140625,
+      "guard_peak_rss_mib": 25.3828125,
+      "jobs": 1,
+      "margin_families": 1,
+      "margin_values": 5,
+      "matched": 11,
+      "max_margin_bound": "-16/11",
+      "range": "[0,100000)",
+      "scale": 88,
+      "states": 94
+    },
+    "profile_1m": {
+      "edges": 229,
+      "elapsed_seconds": 81.78529524100304,
+      "final_states": 29,
+      "guard_elapsed_seconds": 82.05425142998865,
+      "guard_min_available_mib": 46248.05078125,
+      "guard_peak_rss_mib": 106.72265625,
+      "jobs": 4,
+      "margin_families": 1,
+      "margin_values": 14,
+      "matched": 37,
+      "max_margin_bound": "0",
+      "range": "[0,1000000)",
+      "scale": 88,
+      "states": 223
+    }
+  },
+  "mode": "graph183_accepted_tail_margin_frontier",
+  "next_lean_target": "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
+}

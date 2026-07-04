@@ -1,0 +1,30 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "python3",
+    "scripts/nonidentity_margin_bellman_profile.py",
+    "--start",
+    "0",
+    "--end",
+    "100000",
+    "--jobs",
+    "1",
+    "--state-key-mode",
+    "with-step-tri-source",
+    "--include-graph",
+    "--json",
+    "scripts/generated/nonid_margin_bellman_graph183_frontier_0_100k.json",
+    "--markdown",
+    "scripts/generated/nonid_margin_bellman_graph183_frontier_0_100k.md"
+  ],
+  "elapsed_seconds": 37.035643451003125,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 25992,
+  "max_tree_rss_mib": 25.3828125,
+  "min_available_seen_kib": 46108100,
+  "min_available_seen_mib": 45027.44140625,
+  "rss_cap_mib": 8000.0,
+  "timeout_seconds": 900.0
+}

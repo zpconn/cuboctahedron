@@ -42,7 +42,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph150_direct_eval_socket_lake`: exit `0`, elapsed `3.002738071998465`, peak RSS MiB `4050.12890625`
 - `graph157_continuation_socket_lake`: exit `0`, elapsed `5.004316574006225`, peak RSS MiB `4337.02734375`
 - `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
-- `graph183_tail_table_socket_lake`: exit `0`, elapsed `5.00525775400456`, peak RSS MiB `4226.296875`
+- `graph183_tail_table_socket_lake`: exit `0`, elapsed `2.0020755500008818`, peak RSS MiB `806.3515625`
 
 ## Forbidden Production Hits
 
