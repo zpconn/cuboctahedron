@@ -95777,3 +95777,101 @@ emit one local branch table per reachable semantic transducer/graph state,
 prove `branch_of_tail` by semantic state constraints, prove `branch_sound` by
 local graph edges, and let the existing transducer eval bridge assemble the
 full evaluator theorem.
+
+### Holonomy/Bellman Pivot - reusable local branch-table interface
+
+Factored the prefix-2 finite table into the reusable interface that the
+production emitter should target:
+
+```lean
+structure StrengthenedLocalBranchTable
+    (state : StrengthenedClosedEvalState) where
+  Branch : Type
+  face : Branch -> Face
+  nextGraph : Branch -> Nat
+  gain : Branch -> Int
+  step :
+    ∀ branch,
+      ClosedBellmanStep state.graph (face branch)
+        (nextGraph branch) (gain branch)
+  branch_of_tail :
+    ∀ {face0 : Face} {rest : List Face},
+      state.Tail (face0 :: rest) ->
+        ∃ branch : Branch, face branch = face0
+
+theorem StrengthenedLocalBranchTable.localTransition
+    (table : StrengthenedLocalBranchTable state)
+    (htail : state.Tail (face0 :: rest)) :
+    ∃ branch : table.Branch,
+      table.face branch = face0 ∧
+        ∃ nextState : StrengthenedClosedEvalState,
+          strengthenedClosedEvalNext state face0 =
+              some (nextState, table.gain branch) ∧
+            nextState.Tail rest ∧
+              nextState.graph = table.nextGraph branch
+```
+
+The prefix-2 table is now an instance of that generic surface:
+
+```lean
+def strengthenedPrefix2LocalBranchTable :
+    StrengthenedLocalBranchTable strengthenedClosedPrefix2EvalState
+
+theorem strengthenedClosedPrefix2LocalTransition_genericTable :
+    strengthenedClosedPrefix2EvalState.Tail (face :: rest) ->
+    ∃ branch : strengthenedPrefix2LocalBranchTable.Branch,
+      strengthenedPrefix2LocalBranchTable.face branch = face ∧
+        ∃ nextState : StrengthenedClosedEvalState,
+          strengthenedClosedEvalNext strengthenedClosedPrefix2EvalState
+              face = some
+                (nextState, strengthenedPrefix2LocalBranchTable.gain branch) ∧
+            nextState.Tail rest ∧
+              nextState.graph =
+                strengthenedPrefix2LocalBranchTable.nextGraph branch
+```
+
+This is a stronger accepted theorem surface than the raw prefix-2 smoke:
+future generated modules can emit `StrengthenedLocalBranchTable state`
+instances for reachable semantic states, while the generic theorem supplies the
+local evaluator progress.  The generated proof burden is now localized to:
+
+1. a tiny branch enum;
+2. the branch face/next/gain maps;
+3. one `ClosedBellmanStep` proof per branch;
+4. `branch_of_tail` from semantic transducer constraints.
+
+Focused guarded check:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 120 \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 \
+    --json scripts/generated/closed_bellman_strengthened_local_branch_table_interface_guard.json \
+    --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+
+result:
+  pass, elapsed 5.00s,
+  peak_tree_rss 3933 MiB,
+  min_available_seen 45990 MiB
+```
+
+Forbidden-token/sampled-membership scan:
+
+```text
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|\
+sampledContainsRank\|sampledRankOf\|AcceptedTraceId\|acceptedTrace" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean || true
+
+result: no matches
+```
+
+Decision: accepted.  Next, add an exact emitter/profiler mode that reads the
+strengthened graph and semantic-state descriptions and emits a bounded shard
+of `StrengthenedLocalBranchTable` instances.  The first emitted shard should
+cover the reachable states immediately after the prefix-2 branch, then build
+under the same memory guard before scaling.

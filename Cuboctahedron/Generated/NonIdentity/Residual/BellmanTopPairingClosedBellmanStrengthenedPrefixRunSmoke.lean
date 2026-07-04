@@ -340,6 +340,45 @@ theorem step (branch : StrengthenedPrefix2Branch) :
 
 end StrengthenedPrefix2Branch
 
+structure StrengthenedLocalBranchTable
+    (state : StrengthenedClosedEvalState) where
+  Branch : Type
+  face : Branch -> Face
+  nextGraph : Branch -> Nat
+  gain : Branch -> Int
+  step :
+    ∀ branch,
+      ClosedBellmanStep state.graph (face branch)
+        (nextGraph branch) (gain branch)
+  branch_of_tail :
+    ∀ {face0 : Face} {rest : List Face},
+      state.Tail (face0 :: rest) ->
+        ∃ branch : Branch, face branch = face0
+
+namespace StrengthenedLocalBranchTable
+
+theorem localTransition
+    {state : StrengthenedClosedEvalState}
+    (table : StrengthenedLocalBranchTable state)
+    {face0 : Face} {rest : List Face}
+    (htail : state.Tail (face0 :: rest)) :
+    ∃ branch : table.Branch,
+      table.face branch = face0 ∧
+        ∃ nextState : StrengthenedClosedEvalState,
+          strengthenedClosedEvalNext state face0 =
+              some (nextState, table.gain branch) ∧
+            nextState.Tail rest ∧
+              nextState.graph = table.nextGraph branch := by
+  rcases table.branch_of_tail htail with ⟨branch, hface⟩
+  subst face0
+  rcases strengthenedClosedEvalNext_of_closedBellmanStep
+      (state := state) (face := table.face branch) (rest := rest)
+      htail (table.step branch) with
+    ⟨nextState, hnext, htailNext, hgraphNext⟩
+  exact ⟨branch, rfl, nextState, hnext, htailNext, hgraphNext⟩
+
+end StrengthenedLocalBranchTable
+
 theorem strengthenedPrefix2Branch_of_tail
     {face : Face} {rest : List Face}
     (htail :
@@ -378,6 +417,23 @@ theorem strengthenedPrefix2Branch_sound
   exact strengthenedClosedEvalNext_of_closedBellmanStep htail
     (StrengthenedPrefix2Branch.step branch)
 
+def strengthenedPrefix2LocalBranchTable :
+    StrengthenedLocalBranchTable strengthenedClosedPrefix2EvalState where
+  Branch := StrengthenedPrefix2Branch
+  face := StrengthenedPrefix2Branch.face
+  nextGraph := StrengthenedPrefix2Branch.nextGraph
+  gain := StrengthenedPrefix2Branch.gain
+  step := by
+    intro branch
+    change ClosedBellmanStep 143
+      (StrengthenedPrefix2Branch.face branch)
+      (StrengthenedPrefix2Branch.nextGraph branch)
+      (StrengthenedPrefix2Branch.gain branch)
+    exact StrengthenedPrefix2Branch.step branch
+  branch_of_tail := by
+    intro face rest htail
+    exact strengthenedPrefix2Branch_of_tail htail
+
 theorem strengthenedClosedPrefix2LocalTransition_table
     {face : Face} {rest : List Face}
     (htail :
@@ -395,6 +451,22 @@ theorem strengthenedClosedPrefix2LocalTransition_table
       (branch := branch) htail with
     ⟨nextState, hnext, htailNext, hgraphNext⟩
   exact ⟨branch, rfl, nextState, hnext, htailNext, hgraphNext⟩
+
+theorem strengthenedClosedPrefix2LocalTransition_genericTable
+    {face : Face} {rest : List Face}
+    (htail :
+      strengthenedClosedPrefix2EvalState.Tail (face :: rest)) :
+    ∃ branch : strengthenedPrefix2LocalBranchTable.Branch,
+      strengthenedPrefix2LocalBranchTable.face branch = face ∧
+        ∃ nextState : StrengthenedClosedEvalState,
+          strengthenedClosedEvalNext strengthenedClosedPrefix2EvalState
+              face = some
+                (nextState, strengthenedPrefix2LocalBranchTable.gain branch) ∧
+            nextState.Tail rest ∧
+              nextState.graph =
+                strengthenedPrefix2LocalBranchTable.nextGraph branch :=
+  StrengthenedLocalBranchTable.localTransition
+    strengthenedPrefix2LocalBranchTable htail
 
 theorem closedPrefix3GraphRun_cases
     {rank : Fin numPairWords} {badFace : Face}
