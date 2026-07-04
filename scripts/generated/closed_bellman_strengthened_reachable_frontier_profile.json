@@ -39,6 +39,14 @@
       "input_branch_count": 2,
       "matches_checked_graph": true,
       "table_kind": "used-face"
+    },
+    {
+      "constructor": "prefix4YpZm",
+      "graph": 147,
+      "graph_branch_count": 2,
+      "input_branch_count": 2,
+      "matches_checked_graph": true,
+      "table_kind": "graph-only"
     }
   ],
   "covered_graphs": [
@@ -46,39 +54,21 @@
     144,
     145,
     146,
+    147,
     148
   ],
-  "covered_state_count": 5,
+  "covered_state_count": 6,
   "decision": "next-frontier-ready-for-semantic-state-emission",
   "graph_source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/All.lean",
   "input": [
     "scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json",
-    "scripts/generated/closed_bellman_strengthened_used_face_local_branch_table_shard000_input.json"
+    "scripts/generated/closed_bellman_strengthened_used_face_local_branch_table_shard000_input.json",
+    "scripts/generated/closed_bellman_strengthened_next_frontier_local_branch_table_shard001_input.json"
   ],
   "mismatch_count": 0,
   "mismatches": [],
   "mode": "closed-bellman-strengthened-reachable-frontier-profile",
   "next_frontier": [
-    {
-      "graph": 147,
-      "outgoing": [
-        {
-          "constructor": "e0136_l01",
-          "dst": 155,
-          "face": "tmmp",
-          "gain": -124,
-          "src": 147
-        },
-        {
-          "constructor": "e0135_l13",
-          "dst": 153,
-          "face": "zp",
-          "gain": -10,
-          "src": 147
-        }
-      ],
-      "outgoing_branch_count": 2
-    },
     {
       "graph": 149,
       "outgoing": [
@@ -146,6 +136,19 @@
       "outgoing_branch_count": 2
     },
     {
+      "graph": 153,
+      "outgoing": [
+        {
+          "constructor": "e0145_l00",
+          "dst": 163,
+          "face": "tmmm",
+          "gain": -124,
+          "src": 153
+        }
+      ],
+      "outgoing_branch_count": 1
+    },
+    {
       "graph": 154,
       "outgoing": [
         {
@@ -164,6 +167,19 @@
         }
       ],
       "outgoing_branch_count": 2
+    },
+    {
+      "graph": 155,
+      "outgoing": [
+        {
+          "constructor": "e0148_l05",
+          "dst": 166,
+          "face": "tpmp",
+          "gain": 96,
+          "src": 155
+        }
+      ],
+      "outgoing_branch_count": 1
     },
     {
       "graph": 156,
@@ -189,25 +205,27 @@
   "next_frontier_existing_semantic_graphs": [],
   "next_frontier_existing_semantic_state_count": 0,
   "next_frontier_graphs": [
-    147,
     149,
     150,
     151,
     152,
+    153,
     154,
+    155,
     156
   ],
   "next_frontier_missing_semantic_graphs": [
-    147,
     149,
     150,
     151,
     152,
+    153,
     154,
+    155,
     156
   ],
-  "next_frontier_missing_semantic_state_count": 7,
-  "next_frontier_state_count": 7,
+  "next_frontier_missing_semantic_state_count": 8,
+  "next_frontier_state_count": 8,
   "next_frontier_terminal_graphs": [],
   "next_frontier_terminal_state_count": 0,
   "proof_status": "Diagnostic only. The checked graph source gives local graph edges, but the next frontier still needs semantic eval-state definitions and Lean local branch tables.",

@@ -1,0 +1,31 @@
+{
+  "branch_count": 2,
+  "forbidden_coordinates": [
+    "sampled ranks",
+    "selected prefixes",
+    "accepted trace ids",
+    "exact affine RHS keys"
+  ],
+  "import_module": "BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke",
+  "input": "scripts/generated/closed_bellman_strengthened_next_frontier_local_branch_table_shard001_input.json",
+  "lean_output": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard001.lean",
+  "mode": "closed-bellman-strengthened-local-branch-table-shard",
+  "namespace_suffix": "BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard001",
+  "proof_shape": "Each generated table is a StrengthenedLocalBranchTable instance; localTransition is proved by the generic table theorem, not by rank/path enumeration.",
+  "shard": 0,
+  "state_count": 1,
+  "states": [
+    {
+      "branch_count": 2,
+      "branches": [
+        "zp -> graph 153, gain -10",
+        "tmmp -> graph 155, gain -124"
+      ],
+      "constructor": "prefix4YpZm",
+      "eval_state": "strengthenedClosedPrefix4YpZmEvalState",
+      "table": "strengthenedPrefix4Graph147LocalBranchTable",
+      "table_kind": "graph-only"
+    }
+  ],
+  "table_kind": "graph-only"
+}

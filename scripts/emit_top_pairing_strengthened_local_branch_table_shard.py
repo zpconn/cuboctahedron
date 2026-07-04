@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any
 
@@ -274,6 +274,8 @@ def payload(
         "input": rel(input_path),
         "lean_output": rel(lean_out),
         "table_kind": config.kind,
+        "import_module": config.import_module,
+        "namespace_suffix": config.namespace_suffix,
         "state_count": len(states),
         "branch_count": sum(state.branch_count for state in states),
         "states": [
@@ -347,6 +349,22 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lean-out", type=Path, default=OUT_LEAN)
     parser.add_argument("--json-out", type=Path, default=OUT_JSON)
     parser.add_argument("--markdown-out", type=Path, default=OUT_MD)
+    parser.add_argument(
+        "--import-module",
+        default=None,
+        help=(
+            "Override the generated Cuboctahedron.Generated.NonIdentity."
+            "Residual import module suffix."
+        ),
+    )
+    parser.add_argument(
+        "--namespace-suffix",
+        default=None,
+        help=(
+            "Override the generated Cuboctahedron.Generated.NonIdentity."
+            "Residual namespace suffix."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -354,6 +372,10 @@ def main() -> int:
     args = parse_args()
     states = load_states(args.input)
     config = config_for_states(states)
+    if args.import_module is not None:
+        config = replace(config, import_module=args.import_module)
+    if args.namespace_suffix is not None:
+        config = replace(config, namespace_suffix=args.namespace_suffix)
     args.lean_out.parent.mkdir(parents=True, exist_ok=True)
     args.json_out.parent.mkdir(parents=True, exist_ok=True)
     args.markdown_out.parent.mkdir(parents=True, exist_ok=True)

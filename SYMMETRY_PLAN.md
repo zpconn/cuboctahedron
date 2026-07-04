@@ -97165,3 +97165,110 @@ Next checkpoint: generate semantic eval states and a local table for graph
 branch proof leaves an already-used actual face as a spurious head, switch that
 state to `used-face`.  Keep the same bounded loop: source-derived input,
 generated shard, guarded Lean check, reachable-frontier update.
+
+Graph-147 graph-only shard checkpoint:
+
+```text
+New source-derived input:
+  scripts/generated/
+    closed_bellman_strengthened_next_frontier_local_branch_table_shard001_input.json
+  scripts/generated/
+    closed_bellman_strengthened_next_frontier_local_branch_table_shard001_input.md
+
+New generated shard:
+  Cuboctahedron/Generated/NonIdentity/Residual/
+    BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard001.lean
+  scripts/generated/
+    closed_bellman_strengthened_next_frontier_local_branch_table_shard001.json
+  scripts/generated/
+    closed_bellman_strengthened_next_frontier_local_branch_table_shard001.md
+```
+
+Emitter change:
+
+```text
+scripts/emit_top_pairing_strengthened_local_branch_table_shard.py
+```
+
+now accepts:
+
+```text
+--import-module
+--namespace-suffix
+```
+
+so later graph-only shards can import the source module that actually contains
+their checked table definitions.  This was needed because graph `147` lives in
+the next-frontier smoke, not the original prefix-run smoke.
+
+Shard001 covers:
+
+```text
+graph 147 / prefix4YpZm / graph-only
+  zp   -> graph 153, gain  -10
+  tmmp -> graph 155, gain -124
+```
+
+Command:
+
+```text
+python3 scripts/profile_top_pairing_strengthened_local_branch_table_shard.py \
+  --source Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean \
+  --table-kind graph-only \
+  --json-out scripts/generated/\
+closed_bellman_strengthened_next_frontier_local_branch_table_shard001_input.json \
+  --markdown-out scripts/generated/\
+closed_bellman_strengthened_next_frontier_local_branch_table_shard001_input.md
+
+python3 scripts/emit_top_pairing_strengthened_local_branch_table_shard.py \
+  --input scripts/generated/\
+closed_bellman_strengthened_next_frontier_local_branch_table_shard001_input.json \
+  --lean-out Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard001.lean \
+  --json-out scripts/generated/\
+closed_bellman_strengthened_next_frontier_local_branch_table_shard001.json \
+  --markdown-out scripts/generated/\
+closed_bellman_strengthened_next_frontier_local_branch_table_shard001.md \
+  --import-module BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke \
+  --namespace-suffix BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard001
+```
+
+Guarded check:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+closed_bellman_strengthened_next_frontier_local_branch_table_shard001_guard.json \
+  --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard001.lean
+
+result:
+  pass, elapsed 2.00s,
+  peak_tree_rss 3593 MiB,
+  min_available_seen 46097 MiB
+```
+
+Updated reachable-frontier profile, using graph-only shard000, used-face
+shard000, and graph-only shard001:
+
+```text
+covered graph states:
+  [143, 144, 145, 146, 147, 148]
+
+mismatch count: 0
+
+next frontier graphs:
+  [149, 150, 151, 152, 153, 154, 155, 156]
+```
+
+Safety scans over the new shard and touched scripts report no forbidden Lean
+constructs and no sampled-rank/selected-prefix hook names.
+
+Next checkpoint: attempt graph `149` or `150`.  Use the selector loop:
+profile a source-derived candidate, try graph-only first, and switch to
+used-face only when the checked branch proof needs actual-face disjointness.
