@@ -95140,3 +95140,129 @@ Decision:
   instance for the strengthened socket.  Start with a bounded strengthened
   family whose local transition proof case-splits on semantic state and next
   face, not on full ranks or observed prefixes.
+
+### Holonomy/Bellman Pivot - step-run socket accepted, dispatcher inverse rejected
+
+Follow-up experiment on the strengthened graph socket:
+
+- Tried to make the graph emitter prove a total theorem of the form
+
+  ```lean
+  closedBellmanNext state face = some (nextState, gain) ->
+    gain + graphPotential nextState <= graphPotential state
+  ```
+
+  by generating a shard-local inverse/`next_bound` theorem over every source
+  state and face.
+- Rejected this proof shape.  It is graph-local and sound in principle, but
+  the generated total inverse theorem timed out in `Shard000`:
+
+  ```text
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 420 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --json scripts/generated/closed_bellman_strengthened_next_bound_serial_guard.json \
+      --verbose -- python3 scripts/build_closed_state_dag_shards_serial.py \
+        --source-dir Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingClosedBellmanStrengthenedShardedSmoke \
+        --build-dir .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingClosedBellmanStrengthenedShardedSmoke \
+        --json scripts/generated/closed_bellman_strengthened_next_bound_serial_build.json
+
+  result:
+    fail, exit 1,
+    elapsed 122.14s,
+    peak_tree_rss about 4245 MiB,
+    min_available_seen 45351 MiB,
+    Shard000 elapsed 112.35s,
+    error: simp timeout at maxHeartbeats 2000000 while proving total next_bound
+  ```
+
+The important conclusion is not mathematical failure; it is a Lean proof-shape
+constraint.  A total inverse theorem for the `Nat` dispatcher asks `simp` to
+normalize too much generated pattern-matching context.
+
+Accepted replacement:
+
+- Extended
+  `BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean` with a
+  step-run production target:
+
+  ```lean
+  structure StrengthenedClosedBellmanStepRunFamily
+      (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+      (scaledMargin : Fin numPairWords -> Int) : Prop where
+    run :
+      forall rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+          sequenceBadFace rank Face.ym ->
+          exists finish gain,
+            BellmanLabelStepRun ClosedBellmanStep graphRoot finish
+                (topPairingRankFaceLabels rank) gain /\
+              0 <= graphPotential finish /\
+                scaledMargin rank <= graphConst + gain
+
+  theorem scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily :
+      StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin ->
+        TopPairingStrengthenedClosedLanguageAtRank
+          sequenceBadFace rank Face.ym ->
+          scaledMargin rank <= 0
+  ```
+
+- This uses the generated inductive graph relation directly:
+  `ClosedBellmanStep` plus `closedBellmanStep_valid`.  No inverse theorem from
+  `closedBellmanNext = some ...` is needed.
+- This is aligned with the newest strategy: semantic membership should produce
+  a deterministic step/run certificate from closed-language fields, not a
+  sampled path or selected-prefix object.
+
+Build results after reverting the total inverse emitter:
+
+```text
+serial strengthened graph support:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 300 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --json scripts/generated/closed_bellman_strengthened_step_run_serial_guard.json \
+      --verbose -- python3 scripts/build_closed_state_dag_shards_serial.py \
+        --source-dir Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedShardedSmoke \
+        --build-dir .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedShardedSmoke \
+        --json scripts/generated/closed_bellman_strengthened_step_run_serial_build.json
+  result:
+    pass, elapsed 18.01s,
+    peak_tree_rss 4145 MiB,
+    min_available_seen 45200 MiB
+
+step-run semantic socket:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 180 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --hard-address-space-mib 8192 \
+      --json scripts/generated/closed_bellman_strengthened_step_run_socket_guard.json \
+      --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+        Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean
+  result:
+    pass, elapsed 2.00s,
+    peak_tree_rss 3469 MiB,
+    min_available_seen 45379 MiB,
+    hard address-space cap 8192 MiB
+```
+
+Next implementation target:
+
+- Generate/prove a first bounded
+  `StrengthenedClosedBellmanStepRunFamily` instance.  The proof should build a
+  `BellmanLabelStepRun ClosedBellmanStep` from semantic state/cursor fields.
+- Do not revive total dispatcher inverse proofs unless they are sharded into
+  tiny graph-local facts with measured heartbeats/RSS.
+- Do not use sampled paths, selected prefixes, accepted trace ids, exact
+  affine RHS keys, or solved start-point keys to construct the run.

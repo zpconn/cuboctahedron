@@ -1,0 +1,27 @@
+{
+  "build_dir": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke",
+  "elapsed_seconds": 121.31163214999833,
+  "exit_code": 1,
+  "root": null,
+  "shard_count": 4,
+  "shards": [
+    {
+      "elapsed_seconds": 112.35389313699852,
+      "exit_code": 1,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard000.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard000.lean",
+      "stdout_tail": "/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard000.lean:1069:6: error: Tactic `simp` failed with a nested error:\n(deterministic) timeout at `transform`, maximum number of heartbeats (2000000) has been reached\n\nNote: Use `set_option maxHeartbeats <num>` to set the limit.\n\nHint: Additional diagnostic information may be available using the `set_option diagnostics true` command.\n/home/zpconn/code/cuboctahedron/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard000.lean:626:0: error: (deterministic) timeout at `\u00absynthesize pending MVars\u00bb`, maximum number of heartbeats (2000000) has been reached\n\nNote: Use `set_option maxHeartbeats <num>` to set the limit.\n\nHint: Additional diagnostic information may be available using the `set_option diagnostics true` command.\n"
+    }
+  ],
+  "source_dir": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke",
+  "support": [
+    {
+      "elapsed_seconds": 8.957308423006907,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Potential.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Potential.lean",
+      "stdout_tail": ""
+    }
+  ],
+  "support_count": 1
+}

@@ -65,6 +65,27 @@ structure StrengthenedClosedBellmanGraphExactFamily
       closedBellmanNext state face = some (nextState, gain) ->
         gain + graphPotential nextState <= graphPotential state
 
+/--
+Step-run variant of the production target.
+
+This is often the best target for semantic transducer membership: the proof
+constructs a `BellmanLabelStepRun ClosedBellmanStep` from closed-language
+fields.  The generated graph already proves `closedBellmanStep_valid`, so this
+route avoids a global inverse theorem for the `closedBellmanNext` dispatcher.
+-/
+structure StrengthenedClosedBellmanStepRunFamily
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  run :
+    forall rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        exists finish gain,
+          BellmanLabelStepRun ClosedBellmanStep graphRoot finish
+              (topPairingRankFaceLabels rank) gain /\
+            0 <= graphPotential finish /\
+              scaledMargin rank <= graphConst + gain
+
 def evalFamily_of_graphExactFamily
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
     {scaledMargin : Fin numPairWords -> Int}
@@ -148,6 +169,28 @@ theorem scaledMargin_nonpos_of_strengthenedClosedBellmanGraphExactFamily
     scaledMargin rank <= 0 :=
   scaledMargin_nonpos_of_strengthenedClosedBellmanEvalFamily
     (evalFamily_of_graphExactFamily hfamily) hstrengthened
+
+theorem scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin)
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    scaledMargin rank <= 0 := by
+  rcases hfamily.run rank hstrengthened with
+    ⟨finish, gain, hrun, hfinal, hmargin⟩
+  have hconst : graphConst + gain <= 0 :=
+    const_add_labelStepRunGain_nonpos
+      (V := graphPotential) (Step := ClosedBellmanStep)
+      (const := graphConst) hrun
+      (by
+        intro state face nextState gain hstep
+        exact closedBellmanStep_valid hstep)
+      hfinal strengthenedBellmanRootBound
+  omega
 
 theorem strengthenedClosedBellmanSemanticGateSocket_builds : True := by
   exact True.intro
