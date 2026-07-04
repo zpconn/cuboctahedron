@@ -96618,3 +96618,104 @@ result:
 
 Safety scans over the next-frontier smoke still report no forbidden constructs
 and no sampled/selected-prefix membership hooks.
+
+Used-face semantic tail checkpoint:
+
+```text
+New hand-written core:
+  Cuboctahedron/Search/TopPairingUsedFaceTail.lean
+
+Added theorem/data surface:
+  structure TopPairingUsedFaceTail
+  theorem TopPairingUsedFaceTail.nil
+  theorem TopPairingUsedFaceTail.head_not_used
+  theorem TopPairingUsedFaceTail.cons_tail
+  theorem TopPairingUsedFaceTail.of_nodup_append
+  theorem TopPairingUsedFaceTail.of_actualFaceOmni_append
+
+Generated smoke hook:
+  def strengthenedClosedPrefix4YpTmmmUsedFaces
+  theorem strengthenedPrefix4Graph148Branch_of_tail_and_usedFaceTail
+```
+
+Interpretation:
+
+```text
+TopPairingUsedFaceTail used labels
+```
+
+packages the small suffix invariant needed by graph `148`: the remaining
+labels are duplicate-free and disjoint from the already consumed actual faces.
+For the prefix `[xm, ym, yp, tmmm]`, this derives
+
+```text
+Face.yp ∉ face :: rest
+```
+
+and reuses the existing graph-148 split:
+
+```text
+zm   -> graph 154, gain 114, edge e0137_l12
+tpmm -> graph 156, gain  96, edge e0138_l04
+```
+
+This is the intended pivot from selected-prefix membership toward a
+deterministic semantic evaluator theorem: the branch split is now explained by
+a semantic used-face invariant, not by a sampled path or rank object.
+
+Focused guarded checks:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 5000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/top_pairing_used_face_tail_build_guard.json \
+    --verbose -- lake build Cuboctahedron.Search.TopPairingUsedFaceTail
+
+result:
+  pass, elapsed 3.00s,
+  peak_tree_rss 3710 MiB,
+  min_available_seen 45270 MiB
+
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+closed_bellman_strengthened_next_frontier_smoke_guard.json \
+    --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+result:
+  pass, elapsed 4.00s,
+  peak_tree_rss 3997 MiB,
+  min_available_seen 45262 MiB
+```
+
+Safety scans:
+
+```text
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Search/TopPairingUsedFaceTail.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|\
+selected-prefix|SelectedPrefix" \
+  Cuboctahedron/Search/TopPairingUsedFaceTail.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+result: no matches
+```
+
+Next checkpoint: lift `TopPairingUsedFaceTail` into a combined strengthened
+eval state interface, rather than passing it as an ad hoc premise, and then
+retry the next frontier tables.  If a later graph needs more than used-face
+disjointness, add semantic fields in this order: target-shadow cursor state,
+tri-source progress, then local-axis class.  Do not add exact affine RHS,
+solved start points, sampled prefixes, or rank-indexed objects.

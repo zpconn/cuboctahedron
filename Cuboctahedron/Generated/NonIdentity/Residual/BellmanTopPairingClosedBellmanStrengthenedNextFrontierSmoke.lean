@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
+import Cuboctahedron.Search.TopPairingUsedFaceTail
 
 set_option linter.unusedSimpArgs false
 
@@ -481,5 +482,22 @@ theorem strengthenedPrefix4Graph148Branch_of_tail_and_yp_used
       SqParity.toggleY, SqParity.toggleZ, SqParity.xor, SqParity.id,
       pairOfFace, topPairingTargetShadowLength,
       topPairingTargetShadow] at hcons
+
+def strengthenedClosedPrefix4YpTmmmUsedFaces : List Face :=
+  [Face.xm, Face.ym, Face.yp, Face.tmmm]
+
+theorem strengthenedPrefix4Graph148Branch_of_tail_and_usedFaceTail
+    {face : Face} {rest : List Face}
+    (htail :
+      strengthenedClosedPrefix4YpTmmmEvalState.Tail (face :: rest))
+    (hused :
+      TopPairingUsedFaceTail strengthenedClosedPrefix4YpTmmmUsedFaces
+        (face :: rest)) :
+    ∃ branch : StrengthenedPrefix4Graph148Branch,
+      branch.face = face := by
+  apply strengthenedPrefix4Graph148Branch_of_tail_and_yp_used htail
+  intro hyp
+  exact hused.disjoint Face.yp hyp (by
+    simp [strengthenedClosedPrefix4YpTmmmUsedFaces])
 
 end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
