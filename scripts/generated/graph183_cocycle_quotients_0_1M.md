@@ -20,6 +20,17 @@ Untrusted diagnostic output.  This file is not Lean proof evidence.
 | `step-stack` | `True` | `37` | `94` | `0` | `0.166` | `0.410` |
 | `step-par` | `True` | `43` | `93` | `1` | `0.193` | `0.406` |
 
+## Best Quotient Solution
+
+- mode: `step-par`
+- quotient states: `43`
+- quotient edges: `93`
+- gauge entries: `223`
+- small-gain entries: `93`
+- nonzero values: `222`
+- max rational bit length: `9`
+
+
 ## Interpretation
 
 A `consistent` quotient means the observed scaled edge gains factor

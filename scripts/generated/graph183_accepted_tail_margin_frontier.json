@@ -433,6 +433,31 @@
       "detail": 93,
       "name": "cocycle_quotient_1m:best_edges_under_150",
       "passed": true
+    },
+    {
+      "detail": [
+        "gauge",
+        "gauge_count",
+        "max_bit_length",
+        "nonzero_values",
+        "small_gain_count",
+        "small_gains"
+      ],
+      "name": "cocycle_quotient_1m:solution_exists",
+      "passed": true
+    },
+    {
+      "detail": 9,
+      "name": "cocycle_quotient_1m:solution_bit_length_under_16",
+      "passed": true
+    },
+    {
+      "detail": {
+        "quotient_edges": 93,
+        "small_gain_count": 93
+      },
+      "name": "cocycle_quotient_1m:solution_small_gains_match_edges",
+      "passed": true
     }
   ],
   "decision": "diagnostic_supports_graph183_accepted_tail_margin_bellman_route",
@@ -444,7 +469,11 @@
       "best_quotient_edges": 93,
       "best_quotient_states": 43,
       "best_state_ratio": 0.19282511210762332,
-      "decision": "cocycle_quotient_candidates_found"
+      "decision": "cocycle_quotient_candidates_found",
+      "solution_gauge_count": 223,
+      "solution_max_bit_length": 9,
+      "solution_nonzero_values": 222,
+      "solution_small_gain_count": 93
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,

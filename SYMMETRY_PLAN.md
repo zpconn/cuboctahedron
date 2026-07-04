@@ -101266,3 +101266,65 @@ local tables.
   `AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin`.
   The displayed diagnostic argmax bound `0` is not the graph183 accepted-branch
   target.
+
+### 2026-07-04 graph183 cocycle quotient now emits an explicit solution
+
+- Extended `scripts/profile_graph183_cocycle_quotients.py` so the selected best
+  quotient no longer reports only consistency.  It now computes one exact
+  rational gauge/small-gain solution by row reduction, setting free variables
+  to zero.
+
+- Regenerated:
+
+  ```bash
+  python3 scripts/profile_graph183_cocycle_quotients.py \
+    --input scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json \
+    --json scripts/generated/graph183_cocycle_quotients_0_1M.json \
+    --markdown scripts/generated/graph183_cocycle_quotients_0_1M.md
+  ```
+
+- Result:
+
+  ```text
+  decision: cocycle_quotient_candidates_found
+  best: step-par states=43 edges=93
+  gauge entries: 223
+  small-gain entries: 93
+  nonzero values: 222
+  max rational bit length: 9
+  ```
+
+- Updated `scripts/audit_graph183_accepted_tail_margin_frontier.py` to require:
+  - a concrete quotient solution;
+  - solution max bit length ≤ `16`;
+  - the number of small-gain solution entries equals the quotient edge count.
+
+- Commands:
+
+  ```bash
+  python3 -m py_compile \
+    scripts/profile_graph183_cocycle_quotients.py \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py
+
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  ```
+
+- Result:
+
+  ```text
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+  ```
+
+- Next implementation target:
+  emit a small Lean smoke from the `step-par` solution: generated local facts
+  of the form
+
+  ```lean
+  rawGain = smallGain + gauge dst - gauge src
+  ```
+
+  plus a direct application of
+  `BellmanLabelStepRun.quotient_of_step_gain_eq` on a bounded semantic run.
+  This still does not prove full graph183 coverage, but it is the next
+  Lean-checkable step toward using the quotient/gauge route for the actual
+  accepted-branch margin family.

@@ -67,6 +67,10 @@ cocycle/coboundary quotient.
 | `best_quotient_edges` | `93` |
 | `best_state_ratio` | `0.19282511210762332` |
 | `best_edge_ratio` | `0.40611353711790393` |
+| `solution_gauge_count` | `223` |
+| `solution_small_gain_count` | `93` |
+| `solution_nonzero_values` | `222` |
+| `solution_max_bit_length` | `9` |
 
 ### graph183_scaling_contract
 
@@ -180,6 +184,9 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:best_exists` | `True` | `step-par` |
 | `cocycle_quotient_1m:best_states_under_100` | `True` | `43` |
 | `cocycle_quotient_1m:best_edges_under_150` | `True` | `93` |
+| `cocycle_quotient_1m:solution_exists` | `True` | `['gauge', 'gauge_count', 'max_bit_length', 'nonzero_values', 'small_gain_count', 'small_gains']` |
+| `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
+| `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
 
 ## Next Lean Target
 

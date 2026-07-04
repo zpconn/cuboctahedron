@@ -230,6 +230,7 @@ def quotient_checks(profile: dict[str, Any] | None) -> list[dict[str, Any]]:
             }
         ]
     best = profile.get("best_consistent")
+    solution = (best or {}).get("solution", {})
     return [
         {
             "name": "cocycle_quotient_1m:decision_candidate_found",
@@ -250,6 +251,30 @@ def quotient_checks(profile: dict[str, Any] | None) -> list[dict[str, Any]]:
             "name": "cocycle_quotient_1m:best_edges_under_150",
             "passed": bool(best) and int(best.get("quotient_edges", 10**9)) <= 150,
             "detail": None if best is None else best.get("quotient_edges"),
+        },
+        {
+            "name": "cocycle_quotient_1m:solution_exists",
+            "passed": bool(solution),
+            "detail": None if not solution else sorted(solution.keys()),
+        },
+        {
+            "name": "cocycle_quotient_1m:solution_bit_length_under_16",
+            "passed": bool(solution)
+            and int(solution.get("max_bit_length", 10**9)) <= 16,
+            "detail": None if not solution else solution.get("max_bit_length"),
+        },
+        {
+            "name": "cocycle_quotient_1m:solution_small_gains_match_edges",
+            "passed": bool(best)
+            and bool(solution)
+            and int(solution.get("small_gain_count", -1))
+            == int(best.get("quotient_edges", -2)),
+            "detail": None
+            if not solution
+            else {
+                "small_gain_count": solution.get("small_gain_count"),
+                "quotient_edges": None if best is None else best.get("quotient_edges"),
+            },
         },
     ]
 
@@ -444,6 +469,7 @@ def quotient_metrics(profile: dict[str, Any] | None) -> dict[str, Any]:
     if profile is None:
         return {}
     best = profile.get("best_consistent") or {}
+    solution = best.get("solution") or {}
     return {
         "decision": profile.get("decision"),
         "best_mode": best.get("mode"),
@@ -451,6 +477,10 @@ def quotient_metrics(profile: dict[str, Any] | None) -> dict[str, Any]:
         "best_quotient_edges": best.get("quotient_edges"),
         "best_state_ratio": (best.get("compression") or {}).get("state_ratio"),
         "best_edge_ratio": (best.get("compression") or {}).get("edge_ratio"),
+        "solution_gauge_count": solution.get("gauge_count"),
+        "solution_small_gain_count": solution.get("small_gain_count"),
+        "solution_nonzero_values": solution.get("nonzero_values"),
+        "solution_max_bit_length": solution.get("max_bit_length"),
     }
 
 
