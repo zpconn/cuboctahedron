@@ -99910,3 +99910,115 @@ local tables.
   closed-language semantics.  If the blocked branch cannot be ruled out from
   the existing fields, add a missing semantic state field or run the cocycle
   quotient/cancellation-summary experiment before adding any exact affine key.
+
+### 2026-07-04 graph183 blocked branch discharged by bad-face semantics
+
+- Pivot incorporated from the latest GPT5.5 Pro guidance:
+  keep Bellman, but do not scale selected-prefix membership.  The proof should
+  become a deterministic semantic transducer theorem.  For graph183, the first
+  non-deterministic target-completion branch was not a Bellman arithmetic
+  failure; it was exactly the sequence-bad-face rejected trace.
+- Updated
+  `Cuboctahedron/Generated/NonIdentity/Residual/`
+  `BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean`.
+- New exact theorem names:
+
+  ```lean
+  theorem graph183_blocked_restTail_eq :
+      TopPairingTargetCompletionTail
+        (graph19TargetCompletionState.next Face.tmmp) restTail ->
+      restTail = [Face.tmpp, Face.yp, Face.xp]
+
+  theorem graph183_blocked_branch_labels_eq_rejectedGraphTrace004 :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: Face.tppp ::
+          Face.tmmm :: Face.tpmp :: Face.tmmp :: restTail) ->
+      TopPairingTargetCompletionTail
+        (graph19TargetCompletionState.next Face.tmmp) restTail ->
+      topPairingRankFaceLabels rank = rejectedGraphTrace_004
+
+  theorem graph183_blocked_branch_not_sequenceBadFace :
+      ... -> ¬ AcceptedSequenceBadFaceAtRank rank Face.ym
+
+  theorem graph183_blocked_branch_absurd_of_acceptedSequenceBadFace :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ... ->
+      False
+  ```
+
+- Added a narrower producer target:
+
+  ```lean
+  structure AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily
+      (scaledMargin : Fin numPairWords -> Int) : Prop
+
+  theorem graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch :
+      AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin ->
+      StrengthenedGraph183TailFinalMarginFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank
+
+  theorem graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedBranch :
+      AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin ->
+      StrengthenedGraph169AfterTpmmGraphExactContinuationFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank
+  ```
+
+- Meaning: the blocked `tmmp,tmpp,yp,xp` branch is now closed by semantic
+  `sequenceBadFace_ok`; the next graph183 producer only has to prove
+  `completionTail` and the accepted `yp,tmpp,tmmp,xp` margin inequality.
+  This keeps the proof on the closed-language/evaluator route and avoids
+  sampled ranks, selected-prefix traces, exact affine RHS keys, and exact path
+  tables.
+- Focused guarded direct Lean check:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_direct_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 lake env lean \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+  ```
+
+  passed with `elapsed_seconds=3.00`, `peak_tree_rss_mib=4152`, and
+  `min_available_mib=45764`.
+- Focused guarded Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+  ```
+
+  passed with `elapsed_seconds=4.00`, `peak_tree_rss_mib=4203`, and
+  `min_available_mib=45694`.
+- Updated and reran:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The audit decision remains:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- Next target:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin
+  ```
+
+  If proving its accepted-branch margin field requires exact affine RHS or
+  one branch per rank/path, stop and run the cocycle quotient/cancellation
+  segment experiment before adding more state.

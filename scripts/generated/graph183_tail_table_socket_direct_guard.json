@@ -8,14 +8,14 @@
     "lean",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean"
   ],
-  "elapsed_seconds": 3.003318513990962,
+  "elapsed_seconds": 3.003254323004512,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4217496,
-  "max_tree_rss_mib": 4118.6484375,
-  "min_available_seen_kib": 46042012,
-  "min_available_seen_mib": 44962.90234375,
+  "max_tree_rss_kib": 4238744,
+  "max_tree_rss_mib": 4139.3984375,
+  "min_available_seen_kib": 46879300,
+  "min_available_seen_mib": 45780.56640625,
   "rss_cap_mib": 12000.0,
   "timeout_seconds": 420.0
 }

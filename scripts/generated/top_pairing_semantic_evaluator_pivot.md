@@ -25,7 +25,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph150_direct_eval_socket` | `127` | none |
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
-| `graph183_tail_table_socket` | `518` | none |
+| `graph183_tail_table_socket` | `746` | none |
 | `target_completion_local_branch_table_shard000` | `63` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -41,7 +41,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph150_direct_eval_socket_lake`: exit `0`, elapsed `3.002738071998465`, peak RSS MiB `4050.12890625`
 - `graph157_continuation_socket_lake`: exit `0`, elapsed `5.004316574006225`, peak RSS MiB `4337.02734375`
 - `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
-- `graph183_tail_table_socket_lake`: exit `0`, elapsed `4.003500427003019`, peak RSS MiB `4214.35546875`
+- `graph183_tail_table_socket_lake`: exit `0`, elapsed `4.0042921919957735`, peak RSS MiB `4224.3046875`
 
 ## Forbidden Production Hits
 
@@ -117,6 +117,26 @@ to `(126, -542)`, while the `tmmp,tmpp,yp,xp` tail reaches graph
 none`.  The production obligation is therefore a final-margin
 proof for the accepted `yp` branch plus a semantic impossibility
 proof for the blocked `tmmp` branch.
+
+The blocked `tmmp` branch is now discharged semantically for the
+generated accepted bad-face predicate.  The socket proves that the
+blocked target-completion tail is `[tmpp, yp, xp]`, hence the full
+rank label list is exactly `rejectedGraphTrace_004`, and then uses
+`AcceptedSequenceBadFaceAtRank` / `sequenceBadFace_ok` to rule it
+out:
+
+```lean
+theorem graph183_blocked_branch_absurd_of_acceptedSequenceBadFace
+structure AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily
+theorem graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch
+```
+
+So the next producer for this branch should target only the
+accepted-tail margin field:
+
+```lean
+AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin
+```
 
 ## Go/No-Go Gate
 

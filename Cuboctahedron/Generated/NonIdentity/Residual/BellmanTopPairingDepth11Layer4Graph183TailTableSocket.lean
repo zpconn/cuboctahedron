@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph169ContinuationSocket
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 
 set_option linter.unusedSimpArgs false
 
@@ -26,6 +27,8 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph169ContinuationSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
+open Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Accepted
 
 def graph199TargetCompletionState : TopPairingTargetCompletionState :=
   graph183TargetCompletionState.next Face.tppp
@@ -436,6 +439,183 @@ private theorem graph126Potential_nonneg :
     0 <= graphPotential 126 := by
   decide
 
+private theorem graph19_tmmp_head_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail :
+      TopPairingTargetCompletionTail
+        (graph19TargetCompletionState.next Face.tmmp) (face :: rest)) :
+    face = Face.tmpp := by
+  have hremaining := TopPairingTargetCompletionTail.head_remaining htail
+  have hschedule := TopPairingTargetCompletionTail.head_schedule htail
+  have hsquare := TopPairingTargetCompletionTail.head_squareAllowed htail
+  cases face <;>
+    simp [graph19TargetCompletionState, graph218TargetCompletionState,
+      graph199TargetCompletionState, graph183TargetCompletionState,
+      graph169TargetCompletionState, graph157TargetCompletionState,
+      graph150TargetCompletionState, TopPairingTargetCompletionState.next,
+      TopPairingTargetCompletionState.squareAllowed,
+      topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+      topPairingNextGap, pairOfFace, isSquarePair, triLetterOfFace?,
+      TriLetter.ofPairId?] at hremaining hschedule hsquare ⊢
+
+private theorem graph19_tmmp_tmpp_head_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail :
+      TopPairingTargetCompletionTail
+        ((graph19TargetCompletionState.next Face.tmmp).next Face.tmpp)
+          (face :: rest)) :
+    face = Face.yp := by
+  have hremaining := TopPairingTargetCompletionTail.head_remaining htail
+  have hschedule := TopPairingTargetCompletionTail.head_schedule htail
+  have hsquare := TopPairingTargetCompletionTail.head_squareAllowed htail
+  cases face <;>
+    simp [graph19TargetCompletionState, graph218TargetCompletionState,
+      graph199TargetCompletionState, graph183TargetCompletionState,
+      graph169TargetCompletionState, graph157TargetCompletionState,
+      graph150TargetCompletionState, TopPairingTargetCompletionState.next,
+      TopPairingTargetCompletionState.squareAllowed,
+      topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+      topPairingNextGap, pairOfFace, isSquarePair, triLetterOfFace?,
+      TriLetter.ofPairId?] at hremaining hschedule hsquare ⊢
+
+private theorem graph19_tmmp_tmpp_yp_head_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail :
+      TopPairingTargetCompletionTail
+        (((graph19TargetCompletionState.next Face.tmmp).next Face.tmpp).next
+          Face.yp) (face :: rest)) :
+    face = Face.xp := by
+  have hremaining := TopPairingTargetCompletionTail.head_remaining htail
+  have hschedule := TopPairingTargetCompletionTail.head_schedule htail
+  have hsquare := TopPairingTargetCompletionTail.head_squareAllowed htail
+  cases face <;>
+    simp [graph19TargetCompletionState, graph218TargetCompletionState,
+      graph199TargetCompletionState, graph183TargetCompletionState,
+      graph169TargetCompletionState, graph157TargetCompletionState,
+      graph150TargetCompletionState, TopPairingTargetCompletionState.next,
+      TopPairingTargetCompletionState.squareAllowed,
+      topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+      topPairingNextGap, pairOfFace, isSquarePair, triLetterOfFace?,
+      TriLetter.ofPairId?] at hremaining hschedule hsquare ⊢
+
+private theorem graph19_tmmp_tmpp_yp_xp_tail_nil
+    {rest : List Face}
+    (htail :
+      TopPairingTargetCompletionTail
+        ((((graph19TargetCompletionState.next Face.tmmp).next Face.tmpp).next
+          Face.yp).next Face.xp) rest) :
+    rest = [] := by
+  cases rest with
+  | nil => rfl
+  | cons face tail =>
+      have hremaining := TopPairingTargetCompletionTail.head_remaining htail
+      cases face <;>
+        simp [graph19TargetCompletionState, graph218TargetCompletionState,
+          graph199TargetCompletionState, graph183TargetCompletionState,
+          graph169TargetCompletionState, graph157TargetCompletionState,
+          graph150TargetCompletionState, TopPairingTargetCompletionState.next]
+          at hremaining
+
+theorem graph183_blocked_restTail_eq
+    {restTail : List Face}
+    (htail :
+      TopPairingTargetCompletionTail
+        (graph19TargetCompletionState.next Face.tmmp) restTail) :
+    restTail = [Face.tmpp, Face.yp, Face.xp] := by
+  cases restTail with
+  | nil =>
+      cases htail with
+      | nil hremaining _hsummary =>
+          simp [graph19TargetCompletionState, graph218TargetCompletionState,
+            graph199TargetCompletionState, graph183TargetCompletionState,
+            graph169TargetCompletionState, graph157TargetCompletionState,
+            graph150TargetCompletionState, TopPairingTargetCompletionState.next]
+            at hremaining
+  | cons face1 rest1 =>
+      have hface1 := graph19_tmmp_head_of_targetCompletionTail htail
+      subst face1
+      have htail1 := TopPairingTargetCompletionTail.tail_next htail
+      cases rest1 with
+      | nil =>
+          cases htail1 with
+          | nil hremaining _hsummary =>
+              simp [graph19TargetCompletionState, graph218TargetCompletionState,
+                graph199TargetCompletionState, graph183TargetCompletionState,
+                graph169TargetCompletionState, graph157TargetCompletionState,
+                graph150TargetCompletionState,
+                TopPairingTargetCompletionState.next] at hremaining
+      | cons face2 rest2 =>
+          have hface2 := graph19_tmmp_tmpp_head_of_targetCompletionTail htail1
+          subst face2
+          have htail2 := TopPairingTargetCompletionTail.tail_next htail1
+          cases rest2 with
+          | nil =>
+              cases htail2 with
+              | nil hremaining _hsummary =>
+                  simp [graph19TargetCompletionState,
+                    graph218TargetCompletionState, graph199TargetCompletionState,
+                    graph183TargetCompletionState, graph169TargetCompletionState,
+                    graph157TargetCompletionState, graph150TargetCompletionState,
+                    TopPairingTargetCompletionState.next] at hremaining
+          | cons face3 rest3 =>
+              have hface3 :=
+                graph19_tmmp_tmpp_yp_head_of_targetCompletionTail htail2
+              subst face3
+              have htail3 := TopPairingTargetCompletionTail.tail_next htail2
+              have hrest3 := graph19_tmmp_tmpp_yp_xp_tail_nil htail3
+              subst rest3
+              rfl
+
+theorem graph183_blocked_branch_labels_eq_rejectedGraphTrace004
+    {rank : Fin numPairWords} {restTail : List Face}
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: Face.tppp ::
+          Face.tmmm :: Face.tpmp :: Face.tmmp :: restTail))
+    (htail :
+      TopPairingTargetCompletionTail
+        (graph19TargetCompletionState.next Face.tmmp) restTail) :
+    topPairingRankFaceLabels rank = rejectedGraphTrace_004 := by
+  have hrestTail := graph183_blocked_restTail_eq htail
+  rw [hprefix, hrestTail]
+  rfl
+
+theorem graph183_blocked_branch_not_sequenceBadFace
+    {rank : Fin numPairWords} {restTail : List Face}
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: Face.tppp ::
+          Face.tmmm :: Face.tpmp :: Face.tmmp :: restTail))
+    (htail :
+      TopPairingTargetCompletionTail
+        (graph19TargetCompletionState.next Face.tmmp) restTail) :
+    ¬ AcceptedSequenceBadFaceAtRank rank Face.ym := by
+  intro hbad
+  have hlabels :=
+    graph183_blocked_branch_labels_eq_rejectedGraphTrace004
+      hprefix htail
+  have hbadRejected :
+      SequenceBadFaceLabels rejectedGraphTrace_004 Face.ym := by
+    rw [← hlabels]
+    exact hbad
+  exact hbadRejected.2 rfl
+
+theorem graph183_blocked_branch_absurd_of_acceptedSequenceBadFace
+    {rank : Fin numPairWords} {restTail : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: Face.tppp ::
+          Face.tmmm :: Face.tpmp :: Face.tmmp :: restTail))
+    (htail :
+      TopPairingTargetCompletionTail
+        (graph19TargetCompletionState.next Face.tmmp) restTail) :
+    False :=
+  graph183_blocked_branch_not_sequenceBadFace hprefix htail
+    hstrengthened.sequenceBadFace_ok
+
 /--
 Graph-183 tail table family.
 
@@ -472,6 +652,45 @@ structure StrengthenedGraph183TailFinalMarginFamily
           (graph19TargetCompletionState.next Face.tmmp) restTail ->
         False
 
+/--
+Graph-183 family specialized to the generated accepted bad-face predicate.
+
+For this production route the blocked `tmmp` branch is no longer an emitter
+obligation: `graph183_blocked_branch_absurd_of_acceptedSequenceBadFace` proves
+that it is exactly the generated bad-face-rejected trace.  A future family
+producer only needs to prove the semantic target-completion tail and the
+integer margin bound on the accepted `yp` branch.
+-/
+structure AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  completionTail :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ∀ rest,
+        Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+        Graph150TargetCompletionTail rest
+  final_margin_yp_branch :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      scaledMargin rank <= graphConst + ((194 : Int) + (-542 : Int))
+
+theorem graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin) :
+    StrengthenedGraph183TailFinalMarginFamily
+      scaledMargin AcceptedSequenceBadFaceAtRank where
+  completionTail := hfamily.completionTail
+  final_margin_yp_branch := hfamily.final_margin_yp_branch
+  tmmp_branch_absurd := by
+    intro rank hstrengthened restTail hprefix htail
+    exact graph183_blocked_branch_absurd_of_acceptedSequenceBadFace
+      hstrengthened hprefix htail
+
 theorem graph169ContinuationFamily_of_graph183TailFinalMargin
     {scaledMargin : Fin numPairWords -> Int}
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
@@ -493,6 +712,15 @@ theorem graph169ContinuationFamily_of_graph183TailFinalMargin
       exact False.elim
         (hfamily.tmmp_branch_absurd rank hstrengthened blockedTail
           hprefix hblockedTail)
+
+theorem graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedBranch
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin) :
+    StrengthenedGraph169AfterTpmmGraphExactContinuationFamily
+      scaledMargin AcceptedSequenceBadFaceAtRank :=
+  graph169ContinuationFamily_of_graph183TailFinalMargin
+    (graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch hfamily)
 
 theorem graphExactEvalGateAtRank_of_graph183TailFinalMargin
     {scaledMargin : Fin numPairWords -> Int}
