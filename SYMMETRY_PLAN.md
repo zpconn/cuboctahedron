@@ -99591,3 +99591,95 @@ local tables.
   graph-suffix predicate.  If that proof needs observed trace IDs or sampled
   membership, stop and add the missing semantic cursor/state field or run the
   cocycle-quotient experiment.
+
+### 2026-07-04 graph157 second local-step continuation socket
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph157ContinuationSocket.lean`.
+  This consumes one more deterministic local semantic step after graph150:
+  `Graph150TargetCompletionTail` forces `zp`, then the post-`zp`
+  target-completion state forces `tppm`.
+- New target-completion state and theorem surface:
+
+  ```lean
+  def graph157TargetCompletionState : TopPairingTargetCompletionState :=
+    graph150TargetCompletionState.next Face.zp
+
+  abbrev Graph157TargetCompletionTail (labels : List Face) : Prop :=
+    TopPairingTargetCompletionTail graph157TargetCompletionState labels
+
+  theorem graph157_head_of_targetCompletionTail :
+      Graph157TargetCompletionTail (face :: rest) ->
+      face = Face.tppm
+  ```
+
+- New continuation structure:
+
+  ```lean
+  structure StrengthenedGraph157AfterTppmGraphExactContinuationFamily
+      (scaledMargin : Fin numPairWords -> Int)
+      (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop
+  ```
+
+  It requires the same graph150 target-completion tail, but its hard suffix
+  field starts after `tppm` from graph `169`.
+- New adapter theorem:
+
+  ```lean
+  theorem graph150ContinuationFamily_of_graph157AfterTppm :
+      StrengthenedGraph157AfterTppmGraphExactContinuationFamily
+        scaledMargin sequenceBadFace ->
+      StrengthenedGraph150AfterZpGraphExactContinuationFamily
+        scaledMargin sequenceBadFace
+  ```
+
+  The proof wraps the graph169 suffix back through the deterministic graph157
+  step:
+
+  ```lean
+  closedBellmanNext 157 Face.tppm = some (169, 96)
+  ```
+
+  so the accumulated direct evaluator prefix is:
+
+  ```lean
+  evalLabelStepFn closedBellmanNext graphRoot
+    [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.zp, Face.tppm]
+    = some (169, 230)
+  ```
+
+- Focused guarded Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph157_continuation_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph157ContinuationSocket
+  ```
+
+  passed with `elapsed_seconds=5.00`, `peak_tree_rss_mib=4337`, and
+  `min_available_mib=45488`.
+- Updated and reran:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The decision remains:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- Next implementation target: continue this local semantic-step descent from
+  graph `169`, or switch to a generated finite target-completion local table
+  that emits the remaining steps as a small deterministic state machine.  The
+  same go/no-go rule applies: no sampled ranks, selected-prefix membership,
+  accepted trace ids, exact affine RHS keys, solved start-point keys, or raw
+  path tables.  If the graph169 suffix cannot be driven by
+  target-completion/tri-source state alone, add the missing semantic state or
+  test the cocycle quotient before proceeding.

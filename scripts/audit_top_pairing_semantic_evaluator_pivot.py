@@ -52,6 +52,9 @@ FILES = {
     "graph150_direct_eval_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph150DirectEvalSocket.lean",
+    "graph157_continuation_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph157ContinuationSocket.lean",
     "target_completion_local_branch_table_shard000": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
@@ -77,6 +80,8 @@ GUARDS = {
     / "scripts/generated/graph150_continuation_socket_lake_guard.json",
     "graph150_direct_eval_socket_lake": ROOT
     / "scripts/generated/graph150_direct_eval_socket_lake_guard.json",
+    "graph157_continuation_socket_lake": ROOT
+    / "scripts/generated/graph157_continuation_socket_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -143,6 +148,14 @@ REQUIRED_SYMBOLS = {
         "graphExactEvalGateAtRank_of_graph150AfterZpGraphExactContinuation",
         "graph150DirectEvalSocket_builds",
     ],
+    "graph157_continuation_socket": [
+        "Graph157TargetCompletionTail",
+        "graph157_head_of_targetCompletionTail",
+        "StrengthenedGraph157AfterTppmGraphExactContinuationFamily",
+        "graph150ContinuationFamily_of_graph157AfterTppm",
+        "graphExactEvalGateAtRank_of_graph157AfterTppm",
+        "graph157DirectEvalSocket_builds",
+    ],
     "target_completion_local_branch_table_shard000": [
         "ShardState",
         "completionState",
@@ -171,6 +184,7 @@ PRODUCTION_SCAN_FILES = [
     "target_completion_local_step_socket",
     "graph150_continuation_socket",
     "graph150_direct_eval_socket",
+    "graph157_continuation_socket",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
 ]
@@ -321,6 +335,12 @@ def render_markdown(report: dict[str, Any]) -> str:
             "graph `157`, and a semantic post-`zp` suffix continuation supplies",
             "the final evaluator result and margin bound.  This is the preferred",
             "surface for the closed-language-to-evaluator pivot.",
+            "",
+            "The graph-157 continuation socket consumes one more semantic",
+            "target-completion step.  After graph `150` forces `zp`, target",
+            "completion forces `tppm`, the strengthened graph reaches `169`,",
+            "and the remaining proof obligation is a still-smaller graph-169",
+            "semantic suffix continuation.",
             "",
             "## Go/No-Go Gate",
             "",
