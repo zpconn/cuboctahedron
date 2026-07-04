@@ -95485,3 +95485,90 @@ from the first semantic fork to a real deterministic closed-language evaluator:
 use the target-shadow / tri-source cursor and local schedule fields to produce
 a full `StrengthenedClosedBellmanStepRunFamily` instance, still without
 sampled rank tables or exact affine RHS keys.
+
+### Holonomy/Bellman Pivot - transducer prefix eval smoke
+
+Extended the semantic prefix-run smoke so it now threads the top-pairing
+transducer tail through the strengthened graph evaluator.  This is the first
+closed-language-to-evaluator slice using the target-shadow/cursor machinery,
+not only the schedule prefix.
+
+New theorem surface in
+`BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean`:
+
+```lean
+abbrev StrengthenedClosedEvalState :=
+  TopPairingTransducerEvalState Nat
+
+def strengthenedClosedEvalStart : StrengthenedClosedEvalState
+
+def strengthenedClosedEvalNext :
+    StrengthenedClosedEvalState -> Face ->
+      Option (StrengthenedClosedEvalState × Int)
+
+abbrev StrengthenedClosedPrefixTransducerEval
+    (rank : Fin numPairWords) (finish : Nat)
+    (pfx : List Face) (gain : Int) : Prop
+
+theorem strengthenedClosedPrefix2TransducerEval :
+    TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank Face.ym ->
+    StrengthenedClosedPrefixTransducerEval rank 143
+      [Face.xm, Face.ym] (30 : Int)
+```
+
+The proof uses:
+
+```lean
+TopPairingTransducerState.start_tail_of_closed
+TopPairingTransducerEvalState.next?_tail
+closedBellmanStep_next ClosedBellmanStep.e0000_l08
+closedBellmanStep_next ClosedBellmanStep.e0124_l10
+```
+
+So the semantic closed-language tail supplies the transducer/cursor progress,
+and the graph contributes only local deterministic edge facts.  This is the
+right shape for the production theorem:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank ... rank Face.ym
+  -> evalLabelStepFn strengthenedClosedEvalNext
+       strengthenedClosedEvalStart (topPairingRankFaceLabels rank)
+       = some ...
+```
+
+Focused guarded check:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 120 \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 \
+    --json scripts/generated/closed_bellman_strengthened_prefix_transducer_eval_smoke_guard.json \
+    --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+
+result:
+  pass, elapsed 2.00s,
+  peak_tree_rss 3565 MiB,
+  min_available_seen 45999 MiB
+```
+
+Forbidden-token/sampled-membership scan on the updated smoke file:
+
+```text
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|\
+sampledContainsRank\|sampledRankOf\|AcceptedTraceId\|acceptedTrace" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean || true
+
+result: no matches
+```
+
+Decision: accepted.  The next production slice should extend this from the
+fixed two-step prefix to a local semantic transition theorem over reachable
+transducer/graph states.  The local theorem should case-split on semantic
+state and next face, not on rank, full prefix, sampled trace, exact affine RHS,
+or accepted path id.

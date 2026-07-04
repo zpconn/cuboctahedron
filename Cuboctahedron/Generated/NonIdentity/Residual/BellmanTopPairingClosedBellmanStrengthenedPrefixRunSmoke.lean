@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket
+import Cuboctahedron.Search.TopPairingTransducerEvalBridge
 
 /-!
 Semantic prefix-run smoke for the strengthened top-pairing Bellman graph.
@@ -24,11 +25,45 @@ abbrev StrengthenedClosedPrefixGraphRun
     topPairingRankFaceLabels rank = pfx ++ rest /\
       BellmanLabelStepRun ClosedBellmanStep graphRoot finish pfx gain
 
+abbrev StrengthenedClosedEvalState :=
+  TopPairingTransducerEvalState Nat
+
+def strengthenedClosedEvalStart : StrengthenedClosedEvalState :=
+  TopPairingTransducerEvalState.start graphRoot
+
+def strengthenedClosedEvalNext :
+    StrengthenedClosedEvalState -> Face ->
+      Option (StrengthenedClosedEvalState × Int) :=
+  TopPairingTransducerEvalState.next? closedBellmanNext (fun face : Face => face)
+
+abbrev StrengthenedClosedPrefixTransducerEval
+    (rank : Fin numPairWords) (finish : Nat)
+    (pfx : List Face) (gain : Int) : Prop :=
+  exists rest : List Face,
+    exists state : StrengthenedClosedEvalState,
+      topPairingRankFaceLabels rank = pfx ++ rest /\
+        evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+          pfx = some (state, gain) /\
+        state.graph = finish /\ state.Tail rest
+
 private theorem closedScheduleLabels
     {rank : Fin numPairWords} {badFace : Face}
     (hclosed : TopPairingClosedLanguageAtRank rank badFace) :
     TopPairingStepScheduleLabels (topPairingRankFaceLabels rank) := by
   simpa [topPairingRankFaceLabels] using hclosed.schedule
+
+private theorem strengthenedClosedStartTail
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    strengthenedClosedEvalStart.Tail (topPairingRankFaceLabels rank) := by
+  change TopPairingTransducerState.start.Tail
+    (topPairingRankFaceLabels rank)
+  exact
+    TopPairingTransducerState.start_tail_of_closed
+      hstrengthened.toTopPairingClosedLanguageAtRank
 
 theorem graphStepRun_prefix2_expr :
     BellmanLabelStepRun ClosedBellmanStep graphRoot 143
@@ -126,6 +161,47 @@ theorem strengthenedClosedPrefix2GraphRun
     StrengthenedClosedPrefixGraphRun rank 143
       [Face.xm, Face.ym] (30 : Int) :=
   closedPrefix2GraphRun hstrengthened.toTopPairingClosedLanguageAtRank
+
+theorem strengthenedClosedPrefix2TransducerEval
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    StrengthenedClosedPrefixTransducerEval rank 143
+      [Face.xm, Face.ym] (30 : Int) := by
+  rcases topPairingStepScheduleLabels_prefix_xm_ym
+      (closedScheduleLabels
+        hstrengthened.toTopPairingClosedLanguageAtRank) with
+    ⟨rest, hlabels⟩
+  have htail0 :
+      strengthenedClosedEvalStart.Tail
+        (Face.xm :: Face.ym :: rest) := by
+    simpa [hlabels] using strengthenedClosedStartTail hstrengthened
+  have hgraph0 :
+      closedBellmanNext strengthenedClosedEvalStart.graph Face.xm =
+        some (142, (103 : Int)) := by
+    change closedBellmanNext graphRoot Face.xm = some (142, (103 : Int))
+    exact closedBellmanStep_next ClosedBellmanStep.e0000_l08
+  rcases TopPairingTransducerEvalState.next?_tail
+      (next := closedBellmanNext) (labelOfFace := fun face : Face => face)
+      (state := strengthenedClosedEvalStart)
+      (face := Face.xm) (rest := Face.ym :: rest)
+      htail0 hgraph0 with
+    ⟨state1, hnext1, htail1, hstate1Graph⟩
+  have hgraph1 :
+      closedBellmanNext state1.graph Face.ym = some (143, (-73 : Int)) := by
+    rw [hstate1Graph]
+    exact closedBellmanStep_next ClosedBellmanStep.e0124_l10
+  rcases TopPairingTransducerEvalState.next?_tail
+      (next := closedBellmanNext) (labelOfFace := fun face : Face => face)
+      (state := state1)
+      (face := Face.ym) (rest := rest)
+      htail1 hgraph1 with
+    ⟨state2, hnext2, htail2, hstate2Graph⟩
+  refine ⟨rest, state2, ?_, ?_, hstate2Graph, htail2⟩
+  · simpa using hlabels
+  · simp [evalLabelStepFn, strengthenedClosedEvalNext, hnext1, hnext2]
 
 theorem closedPrefix3GraphRun_cases
     {rank : Fin numPairWords} {badFace : Face}
