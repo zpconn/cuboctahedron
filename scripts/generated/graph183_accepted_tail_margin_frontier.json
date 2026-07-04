@@ -267,6 +267,131 @@
       "passed": true
     },
     {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean",
+      "name": "graph183_quotient_smoke:exists",
+      "passed": true
+    },
+    {
+      "detail": "graph183AcceptedBranchRawGain",
+      "name": "graph183_quotient_smoke:symbol:graph183AcceptedBranchRawGain",
+      "passed": true
+    },
+    {
+      "detail": "graph183AcceptedBranchRawGain_contract",
+      "name": "graph183_quotient_smoke:symbol:graph183AcceptedBranchRawGain_contract",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientAcceptedBranchSmoke",
+      "name": "graph183_quotient_smoke:symbol:graph183QuotientAcceptedBranchSmoke",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientStep",
+      "name": "graph183_quotient_smoke:symbol:graph183QuotientStep",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "graph183_quotient_smoke:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "graph183_quotient_smoke:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "graph183_quotient_smoke:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "graph183_quotient_smoke:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "graph183_quotient_smoke:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "graph183_quotient_smoke:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean",
+      "name": "graph183_quotient_socket:exists",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily",
+      "name": "graph183_quotient_socket:symbol:AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin",
+      "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin",
+      "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin",
+      "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin",
+      "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin",
+      "passed": true
+    },
+    {
+      "detail": "graph169ContinuationFamily_of_acceptedSequenceGraph183QuotientMargin",
+      "name": "graph183_quotient_socket:symbol:graph169ContinuationFamily_of_acceptedSequenceGraph183QuotientMargin",
+      "passed": true
+    },
+    {
+      "detail": "graphExactEvalGateAtRank_of_acceptedSequenceGraph183QuotientMargin",
+      "name": "graph183_quotient_socket:symbol:graphExactEvalGateAtRank_of_acceptedSequenceGraph183QuotientMargin",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "graph183_quotient_socket:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "graph183_quotient_socket:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "graph183_quotient_socket:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "graph183_quotient_socket:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "graph183_quotient_socket:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "graph183_quotient_socket:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
       "detail": "semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer",
       "name": "semantic_audit_accepts_margin_target",
       "passed": true
@@ -458,6 +583,21 @@
       },
       "name": "cocycle_quotient_1m:solution_small_gains_match_edges",
       "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "graph183_quotient_margin_socket:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 4094.24609375,
+      "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
+      "passed": true
+    },
+    {
+      "detail": 46069.546875,
+      "name": "graph183_quotient_margin_socket:available_above_30000_mib",
+      "passed": true
     }
   ],
   "decision": "diagnostic_supports_graph183_accepted_tail_margin_bellman_route",
@@ -474,6 +614,11 @@
       "solution_max_bit_length": 9,
       "solution_nonzero_values": 222,
       "solution_small_gain_count": 93
+    },
+    "graph183_quotient_margin_socket_guard": {
+      "elapsed_seconds": 3.0032297620055033,
+      "min_available_mib": 46069.546875,
+      "peak_rss_mib": 4094.24609375
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,
@@ -515,5 +660,5 @@
     }
   },
   "mode": "graph183_accepted_tail_margin_frontier",
-  "next_lean_target": "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin"
+  "next_lean_target": "AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin"
 }

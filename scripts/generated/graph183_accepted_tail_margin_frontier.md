@@ -72,6 +72,14 @@ cocycle/coboundary quotient.
 | `solution_nonzero_values` | `222` |
 | `solution_max_bit_length` | `9` |
 
+### graph183_quotient_margin_socket_guard
+
+| metric | value |
+| --- | ---: |
+| `elapsed_seconds` | `3.0032297620055033` |
+| `peak_rss_mib` | `4094.24609375` |
+| `min_available_mib` | `46069.546875` |
+
 ### graph183_scaling_contract
 
 | metric | value |
@@ -151,6 +159,31 @@ must still be Lean-checked through the graph183 family theorem.
 | `bellman_object:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `bellman_object:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `bellman_object:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_quotient_smoke:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean` |
+| `graph183_quotient_smoke:symbol:graph183AcceptedBranchRawGain` | `True` | `graph183AcceptedBranchRawGain` |
+| `graph183_quotient_smoke:symbol:graph183AcceptedBranchRawGain_contract` | `True` | `graph183AcceptedBranchRawGain_contract` |
+| `graph183_quotient_smoke:symbol:graph183QuotientAcceptedBranchSmoke` | `True` | `graph183QuotientAcceptedBranchSmoke` |
+| `graph183_quotient_smoke:symbol:graph183QuotientStep` | `True` | `graph183QuotientStep` |
+| `graph183_quotient_smoke:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_quotient_smoke:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_quotient_smoke:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_quotient_smoke:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_quotient_smoke:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_quotient_smoke:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_quotient_socket:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean` |
+| `graph183_quotient_socket:symbol:AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily` | `True` | `AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily` |
+| `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin` |
+| `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin` |
+| `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin` |
+| `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin` |
+| `graph183_quotient_socket:symbol:graph169ContinuationFamily_of_acceptedSequenceGraph183QuotientMargin` | `True` | `graph169ContinuationFamily_of_acceptedSequenceGraph183QuotientMargin` |
+| `graph183_quotient_socket:symbol:graphExactEvalGateAtRank_of_acceptedSequenceGraph183QuotientMargin` | `True` | `graphExactEvalGateAtRank_of_acceptedSequenceGraph183QuotientMargin` |
+| `graph183_quotient_socket:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_quotient_socket:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_quotient_socket:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_quotient_socket:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_quotient_socket:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_quotient_socket:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `semantic_audit_accepts_margin_target` | `True` | `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer` |
 | `semantic_audit_target_is_accepted_tail_margin` | `True` | `AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin` |
 | `profile_100k:offset_sum_mismatches_zero` | `True` | `0` |
@@ -187,21 +220,21 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:solution_exists` | `True` | `['gauge', 'gauge_count', 'max_bit_length', 'nonzero_values', 'small_gain_count', 'small_gains']` |
 | `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
 | `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
+| `graph183_quotient_margin_socket:guard_exit_zero` | `True` | `0` |
+| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `4094.24609375` |
+| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46069.546875` |
 
 ## Next Lean Target
 
 ```lean
-AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin
+AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin
 ```
 
 The graph183 completion-tail component is already available via
 `acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.
-The exact eval surface adapts to the graph183 label-margin family
-through
-`acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval`,
-and then to `AcceptedSequenceGraph183AcceptedTailMarginFamily` through
-`acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin`.
-The next Lean smoke should prove the accepted-branch exact evaluator
-component from semantic closed-language/evaluator state.  The quotient
-profile is a fallback signal only: any quotient/gauge equations must
-still become Lean-checked local facts.
+The quotient-margin socket adapts this single family to the graph183
+label-margin, exact-eval, tail-margin, and graph169 continuation
+surfaces.  The next Lean smoke should prove the quotient margin from
+semantic closed-language/evaluator state.  The profile remains
+diagnostic only; quotient/gauge equations used by the proof must stay
+Lean-checked local facts.

@@ -18,8 +18,11 @@ key.
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183QuotientMarginSocket
 
 open Cuboctahedron
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph169ContinuationSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 
@@ -70,6 +73,51 @@ theorem acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin
   acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin
     (acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin
       hfamily)
+
+/--
+Graph183 final-margin family from the checked quotient-gain margin target.
+
+The completion-tail component is already semantic
+(`acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`); this theorem
+makes the remaining graph183 production premise exactly the quotient-margin
+family above.
+-/
+theorem acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin :=
+  acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components
+    acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor
+    (acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin
+      hfamily)
+
+theorem graph169ContinuationFamily_of_acceptedSequenceGraph183QuotientMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin) :
+    StrengthenedGraph169AfterTpmmGraphExactContinuationFamily
+      scaledMargin AcceptedSequenceBadFaceAtRank :=
+  graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedBranch
+    (acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin
+      hfamily)
+
+theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183QuotientMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TopPairingGraphExactEvalGateAtRank
+      graphPotential closedBellmanNext (fun face : Face => face)
+      graphRoot graphConst scaledMargin rank Face.ym :=
+  graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch
+    (acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin
+      hfamily)
+    hstrengthened hprefix
 
 theorem graph183QuotientMarginSocket_builds : True := by
   exact True.intro

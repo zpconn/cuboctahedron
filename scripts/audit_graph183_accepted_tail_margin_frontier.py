@@ -33,6 +33,14 @@ GRAPH183_SOCKET = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean"
 )
+GRAPH183_QUOTIENT_SOCKET = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183QuotientMarginSocket.lean"
+)
+GRAPH183_QUOTIENT_SMOKE = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183CocycleQuotientSmoke.lean"
+)
 BELLMAN_POTENTIAL = ROOT / "Cuboctahedron/Search/BellmanPotential.lean"
 TOP_PAIRING_TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TOP_PAIRING_BELLMAN_OBJECT = ROOT / "Cuboctahedron/Search/TopPairingBellmanObject.lean"
@@ -53,6 +61,9 @@ GUARD_1M = (
 )
 COCYCLE_QUOTIENT_1M = (
     ROOT / "scripts/generated/graph183_cocycle_quotients_0_1M.json"
+)
+GUARD_QUOTIENT_SOCKET = (
+    ROOT / "scripts/generated/graph183_quotient_margin_socket_guard.json"
 )
 
 REQUIRED_SOCKET_SYMBOLS = [
@@ -105,6 +116,23 @@ REQUIRED_BELLMAN_OBJECT_SYMBOLS = [
     "topPairingClosedMembership",
     "TopPairingBellmanEvalLanguageAtRank",
     "topPairingBellmanEvalObjectCoverOfClosedToEval",
+]
+
+REQUIRED_QUOTIENT_SMOKE_SYMBOLS = [
+    "graph183AcceptedBranchRawGain",
+    "graph183AcceptedBranchRawGain_contract",
+    "graph183QuotientAcceptedBranchSmoke",
+    "graph183QuotientStep",
+]
+
+REQUIRED_QUOTIENT_SOCKET_SYMBOLS = [
+    "AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily",
+    "acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin",
+    "acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin",
+    "acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin",
+    "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin",
+    "graph169ContinuationFamily_of_acceptedSequenceGraph183QuotientMargin",
+    "graphExactEvalGateAtRank_of_acceptedSequenceGraph183QuotientMargin",
 ]
 
 FORBIDDEN_SEMANTIC_TOKENS = [
@@ -358,6 +386,36 @@ def guard_checks(name: str, guard: dict[str, Any] | None) -> list[dict[str, Any]
     ]
 
 
+def lean_smoke_guard_checks(
+    name: str, guard: dict[str, Any] | None, rss_limit_mib: float
+) -> list[dict[str, Any]]:
+    if guard is None:
+        return [
+            {
+                "name": f"{name}:guard_exists",
+                "passed": False,
+                "detail": "missing guard json",
+            }
+        ]
+    return [
+        {
+            "name": f"{name}:guard_exit_zero",
+            "passed": guard.get("exit_code") == 0,
+            "detail": guard.get("exit_code"),
+        },
+        {
+            "name": f"{name}:rss_under_{int(rss_limit_mib)}_mib",
+            "passed": float(guard.get("max_tree_rss_mib", 10**9)) <= rss_limit_mib,
+            "detail": guard.get("max_tree_rss_mib"),
+        },
+        {
+            "name": f"{name}:available_above_30000_mib",
+            "passed": float(guard.get("min_available_seen_mib", 0)) >= 30000.0,
+            "detail": guard.get("min_available_seen_mib"),
+        },
+    ]
+
+
 def profile_checks(name: str, profile: dict[str, Any] | None) -> list[dict[str, Any]]:
     if profile is None:
         return [
@@ -559,20 +617,17 @@ def render_markdown(report: dict[str, Any]) -> str:
         "## Next Lean Target",
         "",
         "```lean",
-        "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin",
+        "AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin",
         "```",
         "",
         "The graph183 completion-tail component is already available via",
         "`acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.",
-        "The exact eval surface adapts to the graph183 label-margin family",
-        "through",
-        "`acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval`,",
-        "and then to `AcceptedSequenceGraph183AcceptedTailMarginFamily` through",
-        "`acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin`.",
-        "The next Lean smoke should prove the accepted-branch exact evaluator",
-        "component from semantic closed-language/evaluator state.  The quotient",
-        "profile is a fallback signal only: any quotient/gauge equations must",
-        "still become Lean-checked local facts.",
+        "The quotient-margin socket adapts this single family to the graph183",
+        "label-margin, exact-eval, tail-margin, and graph169 continuation",
+        "surfaces.  The next Lean smoke should prove the quotient margin from",
+        "semantic closed-language/evaluator state.  The profile remains",
+        "diagnostic only; quotient/gauge equations used by the proof must stay",
+        "Lean-checked local facts.",
         "",
     ]
     )
@@ -586,6 +641,7 @@ def main() -> int:
     guard_100k = read_json(GUARD_100K)
     guard_1m = read_json(GUARD_1M)
     quotient_1m = read_json(COCYCLE_QUOTIENT_1M)
+    guard_quotient_socket = read_json(GUARD_QUOTIENT_SOCKET)
 
     checks: list[dict[str, Any]] = []
     checks.extend(socket_checks())
@@ -606,6 +662,22 @@ def main() -> int:
             FORBIDDEN_SEMANTIC_TOKENS,
         )
     )
+    checks.extend(
+        text_symbol_checks(
+            "graph183_quotient_smoke",
+            GRAPH183_QUOTIENT_SMOKE,
+            REQUIRED_QUOTIENT_SMOKE_SYMBOLS,
+            FORBIDDEN_SEMANTIC_TOKENS,
+        )
+    )
+    checks.extend(
+        text_symbol_checks(
+            "graph183_quotient_socket",
+            GRAPH183_QUOTIENT_SOCKET,
+            REQUIRED_QUOTIENT_SOCKET_SYMBOLS,
+            FORBIDDEN_SEMANTIC_TOKENS,
+        )
+    )
     checks.extend(semantic_audit_checks(semantic))
     checks.extend(profile_checks("profile_100k", profile_100k))
     checks.extend(profile_checks("profile_1m", profile_1m))
@@ -613,6 +685,11 @@ def main() -> int:
     checks.extend(guard_checks("profile_100k", guard_100k))
     checks.extend(guard_checks("profile_1m", guard_1m))
     checks.extend(quotient_checks(quotient_1m))
+    checks.extend(
+        lean_smoke_guard_checks(
+            "graph183_quotient_margin_socket", guard_quotient_socket, 6000.0
+        )
+    )
 
     failed = [row for row in checks if not row["passed"]]
     decision = (
@@ -630,11 +707,20 @@ def main() -> int:
             "profile_100k": metrics(profile_100k, guard_100k),
             "profile_1m": metrics(profile_1m, guard_1m),
             "cocycle_quotient_1m": quotient_metrics(quotient_1m),
+            "graph183_quotient_margin_socket_guard": {
+                "elapsed_seconds": None
+                if guard_quotient_socket is None
+                else guard_quotient_socket.get("elapsed_seconds"),
+                "peak_rss_mib": None
+                if guard_quotient_socket is None
+                else guard_quotient_socket.get("max_tree_rss_mib"),
+                "min_available_mib": None
+                if guard_quotient_socket is None
+                else guard_quotient_socket.get("min_available_seen_mib"),
+            },
             "graph183_scaling_contract": contract_metrics(profile_1m),
         },
-        "next_lean_target": (
-            "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin"
-        ),
+        "next_lean_target": "AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin",
     }
 
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)

@@ -101607,3 +101607,83 @@ local tables.
 
   from strengthened closed-language semantics, without exact affine RHS keys or
   selected-prefix/rank-path tables.
+
+### 2026-07-04 graph183 quotient-margin composition socket
+
+- Extended
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean`
+  so the quotient-margin family composes directly with the already-semantic
+  graph183 completion-tail proof.
+
+- New theorem surfaces:
+
+  ```lean
+  acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin :
+    AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin ->
+      AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin
+
+  graph169ContinuationFamily_of_acceptedSequenceGraph183QuotientMargin :
+    AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin ->
+      StrengthenedGraph169AfterTpmmGraphExactContinuationFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank
+
+  graphExactEvalGateAtRank_of_acceptedSequenceGraph183QuotientMargin :
+    AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin ->
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+        TopPairingGraphExactEvalGateAtRank ...
+  ```
+
+- Updated `scripts/audit_graph183_accepted_tail_margin_frontier.py` to require:
+  - the quotient smoke exports `graph183AcceptedBranchRawGain`,
+    `graph183AcceptedBranchRawGain_contract`,
+    `graph183QuotientAcceptedBranchSmoke`, and `graph183QuotientStep`;
+  - the quotient-margin socket exports all adapter/composition theorem
+    surfaces above;
+  - the guarded Lean build for the quotient-margin socket passes under a
+    `6000 MiB` RSS threshold.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 360 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_quotient_margin_socket_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183QuotientMarginSocket
+
+  python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  ```
+
+- Results:
+  - Guarded build passed in `3.00s` after cached dependencies.
+  - Peak guarded tree RSS: `4094.25 MiB`.
+  - Minimum available memory observed: `46069.55 MiB`.
+  - Updated audit passed with `0` failed checks and decision
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+  - The audit's next Lean target is now:
+
+    ```lean
+    AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin
+    ```
+
+- Interpretation:
+  graph183 now has a clean semantic composition chain:
+
+  ```text
+  semantic target cursor/completion tail
+    + quotient-margin family
+    -> graph183 final-margin family
+    -> graph169 continuation / graph exact eval gate
+  ```
+
+  The remaining hard part is no longer graph183 tail classification or
+  evaluator plumbing.  It is the semantic proof of the quotient-margin
+  inequality itself, without exact affine RHS keys or selected-prefix/rank-path
+  tables.
