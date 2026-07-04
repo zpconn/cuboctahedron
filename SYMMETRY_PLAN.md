@@ -101328,3 +101328,114 @@ local tables.
   This still does not prove full graph183 coverage, but it is the next
   Lean-checkable step toward using the quotient/gauge route for the actual
   accepted-branch margin family.
+
+### 2026-07-04 graph183 cocycle quotient Lean smoke
+
+- Pivot decision from the latest GPT5.5/Gemini advice:
+  - keep Bellman;
+  - reject selected-prefix/rank-object membership as a production route;
+  - use the existing semantic target-cursor/transducer bridge;
+  - use cocycle/gauge quotienting only when it is Lean-checkable and keeps the
+    state independent of exact affine RHS / solved start-point keys.
+
+- Repo status after inspection:
+  - `Cuboctahedron/Search/TopPairingTargetCursor.lean` already proves the
+    specialized target-summary inverse and derives
+    `TopPairingTargetCursorAtRank` from `TopPairingClosedLanguageAtRank`.
+  - `Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean` and
+    `Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean` already expose
+    the deterministic closed-language-to-evaluator theorem surfaces.
+  - Therefore the immediate next safe slice was not another selected-prefix
+    producer.  It was to make the graph183 `step-par` cocycle quotient
+    Lean-visible.
+
+- Added generator:
+
+  ```text
+  scripts/emit_graph183_cocycle_quotient_smoke.py
+  ```
+
+  It reads:
+
+  ```text
+  scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json
+  scripts/generated/graph183_cocycle_quotients_0_1M.json
+  ```
+
+  and emits:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean
+  ```
+
+- The emitted diagnostic module checks:
+  - `229` graph183 full edges;
+  - `223` full-state gauge values;
+  - `43` quotient states;
+  - local equations
+
+    ```lean
+    rawGain i = smallGain i + gauge (fullDst i) - gauge (fullSrc i)
+    ```
+
+  - a direct one-edge application of
+    `BellmanLabelStepRun.quotient_of_step_gain_eq`.
+
+- Theorems added:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientSmoke.graph183QuotientStep
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientSmoke.graph183QuotientOneStepSmoke
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientSmoke.graph183LocalEquationsChecked
+  ```
+
+- Commands:
+
+  ```bash
+  python3 -m py_compile scripts/emit_graph183_cocycle_quotient_smoke.py
+  python3 scripts/emit_graph183_cocycle_quotient_smoke.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 300 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_cocycle_quotient_smoke_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientSmoke
+
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+
+  grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean \
+    scripts/emit_graph183_cocycle_quotient_smoke.py || true
+  ```
+
+- Results:
+  - Lean smoke passed in `12.02s`.
+  - Peak guarded tree RSS: `5068.62 MiB`.
+  - Minimum available memory observed: `44897.64 MiB`.
+  - Frontier audit still passed with
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+  - The sampled-rank grep returned no matches.
+
+- Interpretation:
+  this proves the cocycle quotient equations are cheap enough and
+  Lean-checkable for graph183, but it is still diagnostic.  It does not prove
+  `TopPairingClosedLanguageAtRank -> evalLabelStepFn ... = some result`.
+
+- Next implementation target:
+  connect the existing `TopPairingTargetCursorAtRank` and deterministic
+  transducer tail to a graph183 accepted-branch margin family:
+
+  ```lean
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    graph183 accepted-branch labels/eval/margin gate
+  ```
+
+  The proof must case-split on semantic transducer state/face transitions, not
+  on sampled ranks, selected prefixes, exact affine RHS, or solved start-point
+  keys.  If the graph gain still needs more state, promote the new
+  `step-par` quotient smoke from a one-edge diagnostic to a bounded semantic
+  run theorem before adding any exact affine data.
