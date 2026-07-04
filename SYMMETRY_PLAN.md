@@ -96562,9 +96562,10 @@ strengthenedClosedPrefix4YpTmmmEvalState.Tail (face :: rest)
   -> face is either zm or tpmm
 ```
 
-from the current transducer fields.  The failed proof left semantically
-possible heads such as `yp`, `zp`, `tmpm`, and `tppp`, while the checked
-Bellman graph at state `148` has only:
+from the current transducer fields.  A first attempt left possible heads such
+as `yp`, `zp`, `tmpm`, and `tppp`.  Retrying with the local-axis contradiction
+eliminated `zp` and `tmpm`, but `yp` and `tppp` remained semantically possible
+under the current state.  The checked Bellman graph at state `148` has only:
 
 ```text
 zm   -> graph 154, gain 114, edge e0137_l12
@@ -96573,10 +96574,22 @@ tpmm -> graph 156, gain  96, edge e0138_l04
 
 This is a real strategy signal, not a Lean nuisance.  Graph id plus the current
 transducer tuple `(step, gap, k, parity, linear)` is not strong enough past the
-first confluence.  The next semantic state must add the missing discriminator
-that the strengthened profiler called `tri-source` / source-position progress
-(or an equivalent deterministic schedule/cancellation cursor), then retry graph
-`148` before emitting more tables.
+first confluence.  The exact graph key for state `148` also carries remaining
+face counts and
+
+```text
+triSrc=3:d111->dm11@100
+```
+
+so the next semantic state must add:
+
+```text
+1. actual-face/remaining-face information, to rule out already-used `yp`;
+2. tri-source/source-position cancellation progress, to rule out `tppp`
+   while keeping `tpmm`.
+```
+
+Then retry graph `148` before emitting more tables.
 
 Additional guarded check after adding the named states:
 
@@ -96594,8 +96607,8 @@ BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
 
 result:
   pass, elapsed 4.00s,
-  peak_tree_rss 3966.3 MiB,
-  min_available_seen 46160.8 MiB
+  peak_tree_rss 3992.0 MiB,
+  min_available_seen 46133.0 MiB
 ```
 
 Safety scans over the next-frontier smoke still report no forbidden constructs
