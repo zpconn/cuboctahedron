@@ -94444,3 +94444,85 @@ closed-language-to-`GraphBranchTableSuffixOk` membership emitter/proof.  If
 that theorem needs sampled paths, exact affine RHS keys, or one constructor per
 rank/path, stop and pivot to a cancellation-tree summary automaton or cocycle
 quotient instead of continuing Bellman in name only.
+
+### Holonomy/Bellman Pivot - layer-4 mapped portfolio gate
+
+Checked the direct mapped layer-4 graph-finish composition module and added a
+dedicated readiness audit for its producer contract:
+
+```text
+scripts/audit_top_pairing_layer4_mapped_portfolio_gate.py
+scripts/generated/top_pairing_layer4_mapped_portfolio_gate.json
+scripts/generated/top_pairing_layer4_mapped_portfolio_gate.md
+scripts/generated/depth11_layer4_mapped_finish_latest_guard.json
+```
+
+The audited producer target is:
+
+```lean
+Depth11Layer4SevenBranchMappedPortfolioAllFamily scaledMargin
+```
+
+For each of the seven semantic layer-4 branches:
+
+```text
+tmpm_tppm, tmpm_zm, yp_tmmm, yp_zm, zm_tmpp, zm_yp, zm_zp
+```
+
+the next generated proof must produce:
+
+```lean
+Depth11Layer4MappedClassCase scaledMargin rank
+```
+
+which means one of the six checked suffix classes `034` through `039`, paired
+with:
+
+```lean
+ClassNNNGraphSuffixProducer rank
+ClassNNNExactGraphFinishMarginBound scaledMargin rank
+```
+
+The existing consumer chain is already present:
+
+```lean
+mappedSevenBranchClassifier_of_mappedPortfolio
+split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio
+closedToEvalGate_of_layer4MappedPortfolio
+scaledMargin_nonpos_of_layer4MappedPortfolio
+```
+
+Checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_layer4_mapped_finish_latest_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4MappedFinish.lean
+
+python3 -m py_compile \
+  scripts/audit_top_pairing_layer4_mapped_portfolio_gate.py
+
+python3 scripts/audit_top_pairing_layer4_mapped_portfolio_gate.py
+```
+
+Results:
+
+```text
+BellmanTopPairingDepth11Layer4MappedFinish: pass, 18.01s, peak RSS 4048 MiB
+py_compile: pass
+mapped portfolio audit: pass
+decision: mapped-portfolio-gate-ready-next-prove-semantic-classification
+```
+
+Decision: the Bellman route should now aim at semantic portfolio
+classification, not raw branch-table facts.  If the producer of
+`Depth11Layer4SevenBranchMappedPortfolioAllFamily` requires sampled traces,
+selected-prefix coverage, exact affine RHS keys, or rank-by-rank constructors,
+reject it and move to the cancellation-tree/cocycle quotient fallback.

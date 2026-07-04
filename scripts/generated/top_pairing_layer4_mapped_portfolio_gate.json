@@ -1,0 +1,104 @@
+{
+  "branch_fields": {
+    "tmpm_tppm": 3,
+    "tmpm_zm": 3,
+    "yp_tmmm": 3,
+    "yp_zm": 3,
+    "zm_tmpp": 3,
+    "zm_yp": 3,
+    "zm_zp": 3
+  },
+  "class_cases": {
+    "034": {
+      "adapter": 2,
+      "margin_bound": 3,
+      "producer": 2
+    },
+    "035": {
+      "adapter": 2,
+      "margin_bound": 3,
+      "producer": 2
+    },
+    "036": {
+      "adapter": 2,
+      "margin_bound": 3,
+      "producer": 2
+    },
+    "037": {
+      "adapter": 2,
+      "margin_bound": 3,
+      "producer": 2
+    },
+    "038": {
+      "adapter": 2,
+      "margin_bound": 3,
+      "producer": 2
+    },
+    "039": {
+      "adapter": 2,
+      "margin_bound": 3,
+      "producer": 2
+    }
+  },
+  "consuming_theorems": [
+    "mappedSevenBranchClassifier_of_mappedPortfolio",
+    "split10MGraphExactEvalAllFamily_of_layer4MappedPortfolio",
+    "closedToEvalGate_of_layer4MappedPortfolio",
+    "scaledMargin_nonpos_of_layer4MappedPortfolio"
+  ],
+  "decision": "mapped-portfolio-gate-ready-next-prove-semantic-classification",
+  "files": {
+    "layer4_socket": {
+      "exists": true,
+      "lines": 538,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4ClassifierSocket.lean"
+    },
+    "mapped_finish": {
+      "exists": true,
+      "lines": 1503,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4MappedFinish.lean"
+    },
+    "suffix_classes": {
+      "exists": true,
+      "lines": 70,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphSuffixClasses.lean"
+    },
+    "suffix_eval": {
+      "exists": true,
+      "lines": 864,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphSuffixEvalSmoke.lean"
+    },
+    "suffix_producers": {
+      "exists": true,
+      "lines": 102,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphSuffixProducers.lean"
+    }
+  },
+  "forbidden_hits": [],
+  "guard": {
+    "available_floor_mib": 30000.0,
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-M",
+      "6500",
+      "-j1",
+      "-s",
+      "2048",
+      "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4MappedFinish.lean"
+    ],
+    "elapsed_seconds": 18.009754205995705,
+    "exit_code": 0,
+    "hard_address_space_mib": 8192.0,
+    "killed_reason": null,
+    "max_tree_rss_kib": 4145872,
+    "max_tree_rss_mib": 4048.703125,
+    "min_available_seen_kib": 47057568,
+    "min_available_seen_mib": 45954.65625,
+    "rss_cap_mib": 6500.0,
+    "timeout_seconds": 360.0
+  },
+  "mode": "top-pairing-layer4-mapped-portfolio-gate-audit",
+  "next_target": "Depth11Layer4SevenBranchMappedPortfolioAllFamily scaledMargin"
+}
