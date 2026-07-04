@@ -81,6 +81,7 @@ cocycle/coboundary quotient.
 | `socket_symbol:graph183AcceptedBranchEvalGateAtRank_of_labels` | `True` | `graph183AcceptedBranchEvalGateAtRank_of_labels` |
 | `socket_symbol:AcceptedSequenceGraph183AcceptedBranchExactEvalFamily` | `True` | `AcceptedSequenceGraph183AcceptedBranchExactEvalFamily` |
 | `socket_symbol:acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval` | `True` | `acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval` |
+| `socket_symbol:acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_labelMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_labelMargin` |
 | `socket_symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin` | `True` | `acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin` |
 | `socket_symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components` | `True` | `acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components` |
 | `socket_symbol:acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor` | `True` | `acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor` |

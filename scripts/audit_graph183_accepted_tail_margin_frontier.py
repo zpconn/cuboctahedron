@@ -63,6 +63,7 @@ REQUIRED_SOCKET_SYMBOLS = [
     "graph183AcceptedBranchEvalGateAtRank_of_labels",
     "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily",
     "acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval",
+    "acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_labelMargin",
     "acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin",
     "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
     "acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor",

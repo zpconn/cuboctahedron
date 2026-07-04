@@ -101154,3 +101154,67 @@ local tables.
   semantic completion state, the next experiment should make the
   `with-step-tri-source` cocycle quotient Lean-checkable rather than adding
   rank/path membership.
+
+### 2026-07-04 graph183 exact-eval and label-margin surfaces are equivalent
+
+- Added the converse adapter:
+
+  ```lean
+  theorem acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_labelMargin :
+      AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin ->
+      AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin
+  ```
+
+- Meaning: for this fixed graph183 accepted branch, the deterministic evaluator
+  result and final nonnegative potential are no longer independent blockers.
+  Once the label-margin theorem is proved, exact eval follows from the fixed
+  labels and checked graph evaluator equation; conversely, exact eval already
+  gives the label-margin theorem through
+  `acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval`.
+
+- Updated both audits to require the converse adapter.  The guarded theorem
+  surface now says the only real graph183 arithmetic gap is:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin
+  ```
+
+  while the preferred public producer target can remain:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin
+  ```
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+
+  python3 -m py_compile \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py \
+    scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  ```
+
+- Results:
+  - Focused graph183 build passed in `4.01s`, peak tree RSS `4253 MiB`, min
+    available `45786 MiB`.
+  - Semantic evaluator pivot audit passed with
+    `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer`.
+  - Graph183 frontier audit passed with
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+
+- Next implementation target:
+  prove `AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin`
+  semantically.  If direct proof wants exact affine RHS or solved start-point
+  keys, use the observed `step-par` cocycle quotient to produce Lean-checked
+  quotient/gauge local facts; do not add selected-prefix or rank/path
+  membership.

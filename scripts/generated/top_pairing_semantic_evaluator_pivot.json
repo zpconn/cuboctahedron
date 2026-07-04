@@ -69,7 +69,7 @@
     },
     "graph183_tail_table_socket": {
       "exists": true,
-      "lines": 1335,
+      "lines": 1346,
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean"
     },
@@ -282,14 +282,14 @@
         "build",
         "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket"
       ],
-      "elapsed_seconds": 4.003880784002831,
+      "elapsed_seconds": 4.005158314001164,
       "exit_code": 0,
       "hard_address_space_mib": null,
       "killed_reason": null,
-      "max_tree_rss_kib": 4337120,
-      "max_tree_rss_mib": 4235.46875,
-      "min_available_seen_kib": 46862624,
-      "min_available_seen_mib": 45764.28125,
+      "max_tree_rss_kib": 4355180,
+      "max_tree_rss_mib": 4253.10546875,
+      "min_available_seen_kib": 46885688,
+      "min_available_seen_mib": 45786.8046875,
       "rss_cap_mib": 10000.0,
       "timeout_seconds": 420.0
     },

@@ -1232,6 +1232,17 @@ theorem acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval
     intro rank hstrengthened hlabels
     exact (hfamily.exact_eval_of_labels rank hstrengthened hlabels).margin_bound
 
+theorem acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_labelMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin where
+  exact_eval_of_labels := by
+    intro rank hstrengthened hlabels
+    exact graph183AcceptedBranchEvalGateResult_of_labels
+      hstrengthened.toTopPairingClosedLanguageAtRank hlabels
+      (hfamily.final_margin_of_labels rank hstrengthened hlabels)
+
 theorem acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily :
