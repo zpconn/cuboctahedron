@@ -94331,3 +94331,116 @@ support shard.  The remaining hard work is the semantic proof that
 `TopPairingClosedLanguageAtRank` can only take these local transitions and that
 terminal/final margin facts follow from semantic fields.  Do not confuse this
 checked transition table with closed-language membership coverage.
+
+### Holonomy/Bellman Pivot - graph-suffix membership is the next gate
+
+Updated the transducer-pivot audit to incorporate the GPT5.5 recommendation:
+keep Bellman for exactly the semantic membership experiment, but reject
+selected-prefix/root-trace coverage as the production proof surface.
+
+Updated/generated:
+
+```text
+scripts/audit_top_pairing_transducer_pivot.py
+scripts/generated/top_pairing_transducer_pivot.json
+scripts/generated/top_pairing_transducer_pivot.md
+scripts/generated/branch_table_graph_exact_socket_guard.json
+scripts/generated/branch_table_semantic_gate_socket_latest_guard.json
+scripts/generated/depth11_layer4_classifier_socket_latest_guard.json
+```
+
+The audit now records the accepted target as:
+
+```text
+semantic-transducer-pivot-accepted-next-prove-graph-suffix-membership
+```
+
+The production theorem target is no longer "emit a bigger finite branch
+table".  It is:
+
+```lean
+∀ rank,
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    GraphBranchTableSuffixOk rank rootState
+      (topPairingRankFaceLabels rank)
+```
+
+This is consumed by the existing graph-exact socket:
+
+```lean
+structure GraphBranchTableSuffixAllFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  suffix :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        GraphBranchTableSuffixOk rank rootState
+          (topPairingRankFaceLabels rank)
+  finish : ...
+```
+
+Important interpretation:
+
+- `GraphBranchTableSuffixOk` is graph-only suffix evidence; the semantic
+  closed transducer tail supplies schedule/cursor/local-axis facts at the
+  bridge boundary.
+- The full transition table support shard is checked, but it is still only
+  support evidence.  It does not prove closed-language membership.
+- Selected-prefix/root-trace coverage remains useful as diagnostic comparison
+  evidence, but must not be scaled as the production proof surface.
+
+Checks:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_transducer_pivot.py
+
+python3 scripts/audit_top_pairing_transducer_pivot.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/branch_table_graph_exact_socket_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableGraphExactSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/branch_table_semantic_gate_socket_latest_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingBranchTableSemanticGateSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/depth11_layer4_classifier_socket_latest_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4ClassifierSocket.lean
+```
+
+Results:
+
+```text
+py_compile: pass
+pivot audit: pass, decision semantic-transducer-pivot-accepted-next-prove-graph-suffix-membership
+BellmanTopPairingBranchTableGraphExactSocket: pass, 5.00s, peak RSS 3752 MiB
+BellmanTopPairingBranchTableSemanticGateSocket: pass, 3.01s, peak RSS 4002 MiB
+BellmanTopPairingDepth11Layer4ClassifierSocket: pass, 6.00s, peak RSS 4066 MiB
+```
+
+Decision: the next implementation step should build the
+closed-language-to-`GraphBranchTableSuffixOk` membership emitter/proof.  If
+that theorem needs sampled paths, exact affine RHS keys, or one constructor per
+rank/path, stop and pivot to a cancellation-tree summary automaton or cocycle
+quotient instead of continuing Bellman in name only.

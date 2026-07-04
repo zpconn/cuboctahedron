@@ -4,16 +4,18 @@ This is diagnostic-only evidence. It records the strategy pivot from
 selected-prefix/root-trace membership to a deterministic semantic
 closed-language transducer theorem.
 
-- decision: `semantic-transducer-pivot-accepted-next-emit-finite-branch-table`
+- decision: `semantic-transducer-pivot-accepted-next-prove-graph-suffix-membership`
 - target-shadow surface mentions: `120`
-- closed-language field mentions: `218`
-- eval-core mentions: `90`
+- closed-language field mentions: `226`
+- eval-core mentions: `94`
 - semantic eval-gate mentions: `136`
 - target-cursor core mentions: `46`
 - semantic-tail core mentions: `20`
-- suffix-eval core mentions: `239`
+- suffix-eval core mentions: `244`
 - ranked semantic-gate core mentions: `8`
 - branch-table semantic-gate socket mentions: `30`
+- branch-table graph-exact socket mentions: `14`
+- full transition support mentions: `3242`
 - semantic-socket core mentions: `26`
 - selected-prefix production-risk mentions: `12`
 - forbidden sampled-surface mentions: `0`
@@ -31,10 +33,11 @@ Known semantic sockets:
 - `state19/tmmp`: canonical-bad-face mismatch.
 - `state150/tppp`: target-pairing completion impossibility.
 
-Next checkpoint: emit/report a finite strengthened state-face branch
-table.  It must count real graph-transition branches, semantic socket
-branches, and remaining uncovered branches.  Do not keep extending
-the local theorem by hand depth cuts.
+Next checkpoint: prove or generate the closed-language-to-graph-suffix
+membership theorem.  The target is `GraphBranchTableSuffixOk rank
+rootState (topPairingRankFaceLabels rank)`, consumed by
+`GraphBranchTableSuffixAllFamily`.  Do not scale selected-prefix
+coverage as the production proof surface.
 
 ## Guard Evidence
 
@@ -49,6 +52,7 @@ the local theorem by hand depth cuts.
 - `transducer_semantic_gate_latest_direct`: exit `0`, elapsed `2.00s`, peak RSS `3552 MiB`, hard AS `8192.0`, killed `None`
 - `branch_table_semantic_gate_socket_direct`: exit `0`, elapsed `9.01s`, peak RSS `4009 MiB`, hard AS `8192.0`, killed `None`
 - `semantic_tail_branch_emitter_smoke_direct`: exit `0`, elapsed `8.00s`, peak RSS `3960 MiB`, hard AS `8192.0`, killed `None`
+- `semantic_state_transitions_full_direct`: exit `0`, elapsed `40.03s`, peak RSS `4063 MiB`, hard AS `8192.0`, killed `None`
 
 Interpretation: the selected-prefix/root-trace bridge is useful as
 diagnostic or downstream comparison evidence, but the recent guarded
@@ -56,10 +60,10 @@ attempts show it is not the next production membership surface. The
 RSS-capped bridge build exceeded `7 GiB` and was terminated at about
 `10.3 GiB` peak RSS.
 
-The current accepted route is therefore: target cursor + suffix-carrying
-semantic evaluator + finite branch table + sockets for proven
-impossible semantic branches.  This keeps rank as an address, not as
-the compression coordinate.
+The current accepted route is therefore: target cursor + semantic
+tail + graph-only branch suffix evidence + finite transition facts
++ terminal margin facts. This keeps rank as an address, not as the
+compression coordinate.
 
 ## Next Theorem Targets
 
@@ -85,6 +89,15 @@ theorem TopPairingTransducerTail.ofClosedRank
 theorem closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
     ...
 
+structure GraphBranchTableSuffixAllFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  suffix :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        GraphBranchTableSuffixOk rank rootState
+          (topPairingRankFaceLabels rank)
+  finish : ...
+
 theorem topPairingClosed_to_eval_gate
     (rank : Fin numPairWords)
     (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
@@ -103,10 +116,11 @@ theorem topPairingClosed_to_eval_gate
 - no root selected-prefix producer import as production membership
 - no broad generated Lean build without hard address-space and RSS guard
 - no hand-growing depth cut after this checkpoint without a generated branch-table report
+- no selected-prefix cover scaling as a production proof surface
 
 ## Required Experiments
 
-- finite strengthened state/face branch-table emitter
+- closed-language-to-graph-branch-suffix membership emitter
 - closed-language-to-state transition profiler across disjoint windows
 - cocycle quotient profiler before adding exact affine state
 - translation GoodDirection row-template/3-row circuit profiler

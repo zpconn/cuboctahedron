@@ -42,6 +42,12 @@ FILES = {
     "branch_table_semantic_gate_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingBranchTableSemanticGateSocket.lean",
+    "branch_table_graph_exact_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingBranchTableGraphExactSocket.lean",
+    "semantic_state_transitions": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSemanticStateTransitions.lean",
     "semantic_tail_branch_emitter_smoke": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSemanticTailBranchEmitterSmoke.lean",
@@ -125,6 +131,21 @@ PATTERNS = {
         "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
         "scaledMargin_nonpos_of_branchTableClosedEvalFamily",
     ],
+    "branch_table_graph_exact_socket": [
+        "GraphBranchTableSuffixAllFamily",
+        "GraphClosedPrefix4BranchTableAllFamily",
+        "graphExactEvalGateAtRank_of_graphBranchTableSuffixOk",
+        "split10MGraphExactEvalAllFamily_of_graphBranchTableSuffixAllFamily",
+        "split10MGraphExactEvalAllFamily_of_graphClosedPrefix4AllFamily",
+        "scaledMargin_nonpos_of_graphBranchTableSuffixAllFamily",
+        "scaledMargin_nonpos_of_graphClosedPrefix4AllFamily",
+    ],
+    "semantic_state_transition_support": [
+        "emitted_transition_",
+        "semanticStateTransitions_builds",
+        "graphSmokeNext",
+        "smokeLabelOfFace",
+    ],
     "semantic_tail_branch_emitter_smoke": [
         "emitted_branchTable_of_closedPrefix2_tail",
         "emitted_branchTable_of_closedPrefix3_tmpm_tail",
@@ -177,6 +198,8 @@ GUARD_FILES = {
     / "scripts/generated/branch_table_semantic_gate_socket_guard.json",
     "semantic_tail_branch_emitter_smoke_direct": ROOT
     / "scripts/generated/semantic_tail_branch_emitter_smoke_guard.json",
+    "semantic_state_transitions_full_direct": ROOT
+    / "scripts/generated/semantic_state_transitions_full_guard.json",
 }
 
 DIAGNOSTIC_JSON = {
@@ -285,6 +308,12 @@ def main() -> None:
     branch_table_semantic_gate_socket_ready = (
         totals["branch_table_semantic_gate_socket"] >= 5
     )
+    branch_table_graph_exact_socket_ready = (
+        totals["branch_table_graph_exact_socket"] >= 5
+    )
+    semantic_state_transition_support_ready = (
+        totals["semantic_state_transition_support"] >= 1000
+    )
     semantic_socket_core_ready = totals["semantic_socket_core"] >= 4
     closure_closed = bool(closure and closure.get("closed_after_sequence_bad_face"))
     state150_socket_needed = bool(
@@ -297,11 +326,13 @@ def main() -> None:
     )
 
     decision = (
-        "semantic-transducer-pivot-accepted-next-emit-finite-branch-table"
+        "semantic-transducer-pivot-accepted-next-prove-graph-suffix-membership"
         if target_shadow_ready and eval_core_ready and semantic_gate_ready
         and target_cursor_core_ready and semantic_tail_core_ready
         and suffix_eval_core_ready and ranked_semantic_gate_core_ready
         and branch_table_semantic_gate_socket_ready
+        and branch_table_graph_exact_socket_ready
+        and semantic_state_transition_support_ready
         and semantic_socket_core_ready and closure_closed
         and state150_socket_needed and strengthened_smoke_passed
         and selected_prefix_risk and not sampled_hits
@@ -327,6 +358,12 @@ def main() -> None:
             "branch_table_semantic_gate_socket_ready": (
                 branch_table_semantic_gate_socket_ready
             ),
+            "branch_table_graph_exact_socket_ready": (
+                branch_table_graph_exact_socket_ready
+            ),
+            "semantic_state_transition_support_ready": (
+                semantic_state_transition_support_ready
+            ),
             "semantic_socket_branches": 2,
             "known_sockets": [
                 "state19/tmmp canonical-bad-face mismatch",
@@ -335,8 +372,9 @@ def main() -> None:
             "closure_after_sequence_bad_face": closure_closed,
             "strengthened_local_smoke_passed": strengthened_smoke_passed,
             "remaining_uncovered_branch_table": (
-                "not yet emitted; next checkpoint must generate/report finite "
-                "state-face branch categories instead of hand prefix cuts"
+                "not yet proved semantically; next checkpoint must prove "
+                "closed-language-to-GraphBranchTableSuffixOk membership, "
+                "or explain the missing semantic field"
             ),
         },
         "production_rule": (
@@ -354,6 +392,8 @@ def main() -> None:
             "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
             "scaledMargin_nonpos_of_rankedTransducerClosedGate",
             "Split10MBranchTableClosedEvalFamily",
+            "GraphBranchTableSuffixAllFamily",
+            "GraphClosedPrefix4BranchTableAllFamily",
             "branchTable_of_closedPrefix2_tail",
             "branchTableSuffixOk_closedPrefix2_branch_of_tail",
             "branchTable_of_closedPrefix3_tmpm_tail",
@@ -367,13 +407,16 @@ def main() -> None:
             "emitted_branchTable_of_closedPrefix3_yp_tail",
             "emitted_branchTable_of_closedPrefix3_zm_tail",
             "semanticTailBranchEmitterSmoke_builds",
+            "semanticStateTransitions_builds",
             "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
+            "split10MGraphExactEvalAllFamily_of_graphBranchTableSuffixAllFamily",
+            "split10MGraphExactEvalAllFamily_of_graphClosedPrefix4AllFamily",
             "topPairingClosed_to_strengthenedSuffixOk",
             "topPairingClosed_to_eval_gate",
             "topPairingClosed_scaledMargin_nonpos",
         ],
         "next_profiler_experiments": [
-            "finite strengthened state/face branch-table emitter",
+            "closed-language-to-graph-branch-suffix membership emitter",
             "closed-language-to-state transition profiler across disjoint windows",
             "cocycle quotient profiler before adding exact affine state",
             "translation GoodDirection row-template/3-row circuit profiler",
@@ -385,6 +428,7 @@ def main() -> None:
             "no root selected-prefix producer import as production membership",
             "no broad generated Lean build without hard address-space and RSS guard",
             "no hand-growing depth cut after this checkpoint without a generated branch-table report",
+            "no selected-prefix cover scaling as a production proof surface",
         ],
     }
 
@@ -409,6 +453,8 @@ def main() -> None:
         f"- suffix-eval core mentions: `{totals['suffix_eval_core']}`",
         f"- ranked semantic-gate core mentions: `{totals['ranked_semantic_gate_core']}`",
         f"- branch-table semantic-gate socket mentions: `{totals['branch_table_semantic_gate_socket']}`",
+        f"- branch-table graph-exact socket mentions: `{totals['branch_table_graph_exact_socket']}`",
+        f"- full transition support mentions: `{totals['semantic_state_transition_support']}`",
         f"- semantic-socket core mentions: `{totals['semantic_socket_core']}`",
         f"- selected-prefix production-risk mentions: `{totals['selected_prefix_production_risk']}`",
         f"- forbidden sampled-surface mentions: `{totals['forbidden_sampled_surface']}`",
@@ -426,10 +472,11 @@ def main() -> None:
         "- `state19/tmmp`: canonical-bad-face mismatch.",
         "- `state150/tppp`: target-pairing completion impossibility.",
         "",
-        "Next checkpoint: emit/report a finite strengthened state-face branch",
-        "table.  It must count real graph-transition branches, semantic socket",
-        "branches, and remaining uncovered branches.  Do not keep extending",
-        "the local theorem by hand depth cuts.",
+        "Next checkpoint: prove or generate the closed-language-to-graph-suffix",
+        "membership theorem.  The target is `GraphBranchTableSuffixOk rank",
+        "rootState (topPairingRankFaceLabels rank)`, consumed by",
+        "`GraphBranchTableSuffixAllFamily`.  Do not scale selected-prefix",
+        "coverage as the production proof surface.",
         "",
         "## Guard Evidence",
         "",
@@ -455,10 +502,10 @@ def main() -> None:
             "RSS-capped bridge build exceeded `7 GiB` and was terminated at about",
             "`10.3 GiB` peak RSS.",
             "",
-            "The current accepted route is therefore: target cursor + suffix-carrying",
-            "semantic evaluator + finite branch table + sockets for proven",
-            "impossible semantic branches.  This keeps rank as an address, not as",
-            "the compression coordinate.",
+            "The current accepted route is therefore: target cursor + semantic",
+            "tail + graph-only branch suffix evidence + finite transition facts",
+            "+ terminal margin facts. This keeps rank as an address, not as the",
+            "compression coordinate.",
             "",
             "## Next Theorem Targets",
             "",
@@ -483,6 +530,15 @@ def main() -> None:
             "",
             "theorem closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
             "    ...",
+            "",
+            "structure GraphBranchTableSuffixAllFamily",
+            "    (scaledMargin : Fin numPairWords -> Int) : Prop where",
+            "  suffix :",
+            "    ∀ rank,",
+            "      TopPairingClosedLanguageAtRank rank Face.ym ->",
+            "        GraphBranchTableSuffixOk rank rootState",
+            "          (topPairingRankFaceLabels rank)",
+            "  finish : ...",
             "",
             "theorem topPairingClosed_to_eval_gate",
             "    (rank : Fin numPairWords)",
