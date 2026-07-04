@@ -14,6 +14,8 @@ This input is a source-derived bounded frontier contract for generated Strengthe
 
 - Eval state: `strengthenedClosedPrefix2EvalState`
 - Graph state: `143`
+- Table kind: `graph-only`
+- Table class: `StrengthenedLocalBranchTable`
 - Table: `strengthenedPrefix2LocalBranchTable`
 - Branch type: `StrengthenedPrefix2Branch`
 - Branch count: `3`
@@ -26,6 +28,8 @@ This input is a source-derived bounded frontier contract for generated Strengthe
 
 - Eval state: `strengthenedClosedPrefix3TmpmEvalState`
 - Graph state: `146`
+- Table kind: `graph-only`
+- Table class: `StrengthenedLocalBranchTable`
 - Table: `strengthenedPrefix3TmpmLocalBranchTable`
 - Branch type: `StrengthenedPrefix3TmpmBranch`
 - Branch count: `2`
@@ -37,6 +41,8 @@ This input is a source-derived bounded frontier contract for generated Strengthe
 
 - Eval state: `strengthenedClosedPrefix3YpEvalState`
 - Graph state: `144`
+- Table kind: `graph-only`
+- Table class: `StrengthenedLocalBranchTable`
 - Table: `strengthenedPrefix3YpLocalBranchTable`
 - Branch type: `StrengthenedPrefix3YpBranch`
 - Branch count: `2`
@@ -48,6 +54,8 @@ This input is a source-derived bounded frontier contract for generated Strengthe
 
 - Eval state: `strengthenedClosedPrefix3ZmEvalState`
 - Graph state: `145`
+- Table kind: `graph-only`
+- Table class: `StrengthenedLocalBranchTable`
 - Table: `strengthenedPrefix3ZmLocalBranchTable`
 - Branch type: `StrengthenedPrefix3ZmBranch`
 - Branch count: `3`

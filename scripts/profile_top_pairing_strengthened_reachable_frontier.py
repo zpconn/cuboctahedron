@@ -134,6 +134,19 @@ def covered_state_rows(input_data: dict[str, Any]) -> list[dict[str, Any]]:
     return rows
 
 
+def input_payload(paths: tuple[Path, ...]) -> str | list[str]:
+    def one(path: Path) -> str:
+        resolved = path.resolve()
+        try:
+            return resolved.relative_to(ROOT).as_posix()
+        except ValueError:
+            return resolved.as_posix()
+
+    if len(paths) == 1:
+        return one(paths[0])
+    return [one(path) for path in paths]
+
+
 def branch_detail_key(detail: dict[str, Any]) -> tuple[str, int, int]:
     return (
         str(detail["face"]),
@@ -146,8 +159,10 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
     edges = parse_edges(args.graph_source)
     eval_state_graphs = parse_eval_state_graphs(args.semantic_source)
     outgoing = outgoing_by_src(edges)
-    input_data = read_json(args.input)
-    covered_rows = covered_state_rows(input_data)
+    input_paths = tuple(args.input) if args.input else (DEFAULT_INPUT,)
+    covered_rows: list[dict[str, Any]] = []
+    for input_path in input_paths:
+        covered_rows.extend(covered_state_rows(read_json(input_path)))
     covered_graphs = sorted(int(row["graph"]) for row in covered_rows)
     covered_graph_set = set(covered_graphs)
 
@@ -181,6 +196,7 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         covered_audit.append(
             {
                 "constructor": row["constructor"],
+                "table_kind": row.get("table_kind", "graph-only"),
                 "graph": graph,
                 "input_branch_count": int(row["branch_count"]),
                 "graph_branch_count": len(graph_edges),
@@ -226,7 +242,7 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         "mode": "closed-bellman-strengthened-reachable-frontier-profile",
         "decision": decision,
         "graph_source": rel(args.graph_source),
-        "input": rel(args.input),
+        "input": input_payload(input_paths),
         "semantic_source": rel(args.semantic_source),
         "total_checked_graph_edges": len(edges),
         "total_checked_graph_states_with_outgoing": len(outgoing),
@@ -256,6 +272,11 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def emit_markdown(payload: dict[str, Any], path: Path) -> None:
+    input_field = payload["input"]
+    if isinstance(input_field, list):
+        input_text = ", ".join(f"`{item}`" for item in input_field)
+    else:
+        input_text = f"`{input_field}`"
     lines = [
         "# Closed Bellman Strengthened Reachable Frontier Profile",
         "",
@@ -265,7 +286,7 @@ def emit_markdown(payload: dict[str, Any], path: Path) -> None:
         "",
         f"- decision: `{payload['decision']}`",
         f"- graph source: `{payload['graph_source']}`",
-        f"- input: `{payload['input']}`",
+        f"- input: {input_text}",
         f"- semantic source: `{payload['semantic_source']}`",
         f"- checked graph edges: `{payload['total_checked_graph_edges']}`",
         f"- checked graph states with outgoing edges: "
@@ -282,12 +303,13 @@ def emit_markdown(payload: dict[str, Any], path: Path) -> None:
         "",
         "## Covered State Audit",
         "",
-        "| constructor | graph | input branches | graph branches | matches |",
-        "| --- | ---: | ---: | ---: | ---: |",
+        "| constructor | table kind | graph | input branches | graph branches | matches |",
+        "| --- | --- | ---: | ---: | ---: | ---: |",
     ]
     for row in payload["covered_audit"]:
         lines.append(
-            f"| `{row['constructor']}` | `{row['graph']}` | "
+            f"| `{row['constructor']}` | `{row['table_kind']}` | "
+            f"`{row['graph']}` | "
             f"`{row['input_branch_count']}` | `{row['graph_branch_count']}` | "
             f"`{row['matches_checked_graph']}` |"
         )
@@ -333,7 +355,13 @@ def emit_markdown(payload: dict[str, Any], path: Path) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--graph-source", type=Path, default=DEFAULT_GRAPH_SOURCE)
-    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument(
+        "--input",
+        type=Path,
+        action="append",
+        default=None,
+        help="Shard input JSON to treat as covered. May be passed more than once.",
+    )
     parser.add_argument("--semantic-source", type=Path, default=DEFAULT_SEMANTIC_SOURCE)
     parser.add_argument("--json-out", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--markdown-out", type=Path, default=DEFAULT_MD)

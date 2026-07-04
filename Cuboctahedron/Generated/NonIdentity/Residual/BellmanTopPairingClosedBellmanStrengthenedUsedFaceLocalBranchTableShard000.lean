@@ -3,10 +3,10 @@ import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellm
 /-!
 Generated strengthened used-face local branch-table shard 000.
 
-This bounded shard packages the first used-face-aware local branch table behind
-the same kind of uniform shard API as the graph-only local branch-table shards.
-It is not rank coverage; it is an emitter-facing semantic transition object for
-the deterministic closed-language evaluator route.
+This bounded generated shard packages semantic Bellman local branch
+tables behind one uniform shard-state API.  It is not rank coverage;
+it is the production-shaped local-transition object that future
+generated suffix evidence should consume.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedUsedFaceLocalBranchTableShard000

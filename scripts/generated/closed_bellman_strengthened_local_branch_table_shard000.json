@@ -22,7 +22,8 @@
       ],
       "constructor": "prefix2",
       "eval_state": "strengthenedClosedPrefix2EvalState",
-      "table": "strengthenedPrefix2LocalBranchTable"
+      "table": "strengthenedPrefix2LocalBranchTable",
+      "table_kind": "graph-only"
     },
     {
       "branch_count": 2,
@@ -32,7 +33,8 @@
       ],
       "constructor": "prefix3Tmpm",
       "eval_state": "strengthenedClosedPrefix3TmpmEvalState",
-      "table": "strengthenedPrefix3TmpmLocalBranchTable"
+      "table": "strengthenedPrefix3TmpmLocalBranchTable",
+      "table_kind": "graph-only"
     },
     {
       "branch_count": 2,
@@ -42,7 +44,8 @@
       ],
       "constructor": "prefix3Yp",
       "eval_state": "strengthenedClosedPrefix3YpEvalState",
-      "table": "strengthenedPrefix3YpLocalBranchTable"
+      "table": "strengthenedPrefix3YpLocalBranchTable",
+      "table_kind": "graph-only"
     },
     {
       "branch_count": 3,
@@ -53,7 +56,9 @@
       ],
       "constructor": "prefix3Zm",
       "eval_state": "strengthenedClosedPrefix3ZmEvalState",
-      "table": "strengthenedPrefix3ZmLocalBranchTable"
+      "table": "strengthenedPrefix3ZmLocalBranchTable",
+      "table_kind": "graph-only"
     }
-  ]
+  ],
+  "table_kind": "graph-only"
 }

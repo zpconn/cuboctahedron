@@ -37,8 +37,8 @@ DEFAULT_SOURCE = (
 
 TABLE_RE = re.compile(
     r"def (strengthenedPrefix[0-9A-Za-z]+LocalBranchTable)\s*:\s*\n"
-    r"\s*StrengthenedLocalBranchTable "
-    r"(strengthenedClosedPrefix[0-9A-Za-z]+EvalState) where\s*\n"
+    r"\s*(Strengthened(?:UsedFace)?LocalBranchTable)\s+"
+    r"(strengthenedClosedPrefix[0-9A-Za-z]+(?:Used)?EvalState) where\s*\n"
     r"\s*Branch := (StrengthenedPrefix[0-9A-Za-z]+Branch)"
 )
 
@@ -47,6 +47,8 @@ TABLE_RE = re.compile(
 class FrontierState:
     constructor: str
     eval_state: str
+    table_kind: str
+    table_class: str
     graph: int
     table: str
     branch_type: str
@@ -54,14 +56,26 @@ class FrontierState:
 
 
 def rel(path: Path) -> str:
-    return path.relative_to(ROOT).as_posix()
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(ROOT).as_posix()
+    except ValueError:
+        return resolved.as_posix()
+
+
+def table_kind_of_class(table_class: str) -> str:
+    if table_class == "StrengthenedLocalBranchTable":
+        return "graph-only"
+    if table_class == "StrengthenedUsedFaceLocalBranchTable":
+        return "used-face"
+    raise ValueError(f"unexpected local table class: {table_class}")
 
 
 def constructor_of_eval_state(name: str) -> str:
     prefix = "strengthenedClosed"
-    suffix = "EvalState"
-    if not name.startswith(prefix) or not name.endswith(suffix):
+    if not name.startswith(prefix) or not name.endswith("EvalState"):
         raise ValueError(f"unexpected eval-state name: {name}")
+    suffix = "UsedEvalState" if name.endswith("UsedEvalState") else "EvalState"
     stem = name[len(prefix) : -len(suffix)]
     return stem[:1].lower() + stem[1:]
 
@@ -79,6 +93,17 @@ def branch_namespace_block(source: str, branch_type: str) -> str:
 
 
 def eval_state_graph(source: str, eval_state: str) -> int:
+    if eval_state.endswith("UsedEvalState"):
+        pat = re.compile(
+            rf"def {re.escape(eval_state)}\s*:\s*\n"
+            r"\s*TopPairingUsedFaceEvalState Nat where\n"
+            r"\s*eval := ([^\n]+)\n"
+            r"\s*used := [^\n]+"
+        )
+        match = pat.search(source)
+        if match is None:
+            raise ValueError(f"missing used eval field for {eval_state}")
+        return eval_state_graph(source, match.group(1).strip())
     pat = re.compile(
         rf"def {re.escape(eval_state)} : StrengthenedClosedEvalState where\n"
         r"\s*transducer := [^\n]+\n"
@@ -150,51 +175,68 @@ def parse_face_value(value: str) -> str:
     return value.removeprefix("Face.")
 
 
-def extract_frontier(source_path: Path) -> tuple[FrontierState, ...]:
-    source = source_path.read_text(encoding="utf-8")
+def extract_frontier(
+    source_paths: tuple[Path, ...], table_kind_filter: str
+) -> tuple[FrontierState, ...]:
     states: list[FrontierState] = []
-    for match in TABLE_RE.finditer(source):
-        table, eval_state, branch_type = match.groups()
-        block = branch_namespace_block(source, branch_type)
-        ctors = branch_constructors(source, branch_type)
-        faces = definition_cases(block, "face")
-        graphs = definition_cases(block, "nextGraph")
-        gains = definition_cases(block, "gain")
-        branches: list[dict[str, int | str]] = []
-        for ctor in ctors:
-            face = parse_face_value(faces[ctor])
-            graph = parse_nat_literal(graphs[ctor])
-            gain = parse_int_literal(gains[ctor])
-            branches.append(
-                {
-                    "constructor": ctor,
-                    "face": face,
-                    "next_graph": graph,
-                    "gain": gain,
-                    "description": f"{face} -> graph {graph}, gain {gain}",
-                }
+    for source_path in source_paths:
+        source = source_path.read_text(encoding="utf-8")
+        for match in TABLE_RE.finditer(source):
+            table, table_class, eval_state, branch_type = match.groups()
+            table_kind = table_kind_of_class(table_class)
+            if table_kind_filter != "all" and table_kind != table_kind_filter:
+                continue
+            block = branch_namespace_block(source, branch_type)
+            ctors = branch_constructors(source, branch_type)
+            faces = definition_cases(block, "face")
+            graphs = definition_cases(block, "nextGraph")
+            gains = definition_cases(block, "gain")
+            branches: list[dict[str, int | str]] = []
+            for ctor in ctors:
+                face = parse_face_value(faces[ctor])
+                graph = parse_nat_literal(graphs[ctor])
+                gain = parse_int_literal(gains[ctor])
+                branches.append(
+                    {
+                        "constructor": ctor,
+                        "face": face,
+                        "next_graph": graph,
+                        "gain": gain,
+                        "description": f"{face} -> graph {graph}, gain {gain}",
+                    }
+                )
+            states.append(
+                FrontierState(
+                    constructor=constructor_of_eval_state(eval_state),
+                    eval_state=eval_state,
+                    table_kind=table_kind,
+                    table_class=table_class,
+                    graph=eval_state_graph(source, eval_state),
+                    table=table,
+                    branch_type=branch_type,
+                    branches=tuple(branches),
+                )
             )
-        states.append(
-            FrontierState(
-                constructor=constructor_of_eval_state(eval_state),
-                eval_state=eval_state,
-                graph=eval_state_graph(source, eval_state),
-                table=table,
-                branch_type=branch_type,
-                branches=tuple(branches),
-            )
-        )
     if not states:
-        raise ValueError(f"no local branch tables found in {source_path}")
+        source_list = ", ".join(str(path) for path in source_paths)
+        raise ValueError(f"no local branch tables found in {source_list}")
     return tuple(states)
 
 
-def payload(source_path: Path) -> dict[str, object]:
-    frontier = extract_frontier(source_path)
+def source_payload(source_paths: tuple[Path, ...]) -> str | list[str]:
+    if len(source_paths) == 1:
+        return rel(source_paths[0])
+    return [rel(path) for path in source_paths]
+
+
+def payload(source_paths: tuple[Path, ...], table_kind_filter: str) -> dict[str, object]:
+    frontier = extract_frontier(source_paths, table_kind_filter)
     states = [
         {
             "constructor": state.constructor,
             "eval_state": state.eval_state,
+            "table_kind": state.table_kind,
+            "table_class": state.table_class,
             "graph": state.graph,
             "table": state.table,
             "branch_type": state.branch_type,
@@ -207,7 +249,8 @@ def payload(source_path: Path) -> dict[str, object]:
     return {
         "mode": "closed-bellman-strengthened-local-branch-table-frontier",
         "shard": 0,
-        "source": rel(source_path),
+        "source": source_payload(source_paths),
+        "table_kind_filter": table_kind_filter,
         "decision": "source-derived-bounded-frontier-ready-for-emitter",
         "state_count": len(states),
         "branch_count": sum(state["branch_count"] for state in states),
@@ -246,6 +289,8 @@ def emit_markdown(data: dict[str, object], json_out: Path) -> str:
                 "",
                 f"- Eval state: `{state['eval_state']}`",  # type: ignore[index]
                 f"- Graph state: `{state['graph']}`",  # type: ignore[index]
+                f"- Table kind: `{state['table_kind']}`",  # type: ignore[index]
+                f"- Table class: `{state['table_class']}`",  # type: ignore[index]
                 f"- Table: `{state['table']}`",  # type: ignore[index]
                 f"- Branch type: `{state['branch_type']}`",  # type: ignore[index]
                 f"- Branch count: `{state['branch_count']}`",  # type: ignore[index]
@@ -268,7 +313,22 @@ def emit_markdown(data: dict[str, object], json_out: Path) -> str:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
+    parser.add_argument(
+        "--source",
+        type=Path,
+        action="append",
+        default=None,
+        help=(
+            "Lean source to scan. May be passed more than once. Defaults to "
+            "the graph-only prefix-run smoke."
+        ),
+    )
+    parser.add_argument(
+        "--table-kind",
+        choices=("graph-only", "used-face", "all"),
+        default="graph-only",
+        help="Which local branch-table backend to extract.",
+    )
     parser.add_argument("--json-out", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--markdown-out", type=Path, default=DEFAULT_MD)
     return parser.parse_args()
@@ -278,7 +338,8 @@ def main() -> int:
     args = parse_args()
     args.json_out.parent.mkdir(parents=True, exist_ok=True)
     args.markdown_out.parent.mkdir(parents=True, exist_ok=True)
-    data = payload(args.source)
+    sources = tuple(args.source) if args.source else (DEFAULT_SOURCE,)
+    data = payload(sources, args.table_kind)
     args.json_out.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
     args.markdown_out.write_text(emit_markdown(data, args.json_out), encoding="utf-8")
     print(f"wrote {rel(args.json_out)}")

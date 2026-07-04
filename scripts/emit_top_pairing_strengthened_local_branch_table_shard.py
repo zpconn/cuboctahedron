@@ -49,13 +49,80 @@ NS = (
 class ShardState:
     ctor: str
     eval_state: str
+    table_kind: str
     table: str
     branch_count: int
     branches: tuple[str, ...]
 
 
+@dataclass(frozen=True)
+class TableConfig:
+    kind: str
+    import_module: str
+    namespace_suffix: str
+    title: str
+    eval_state_type: str
+    table_type: str
+    next_fn: str
+    next_state_type: str
+    next_graph_projection: str
+    transition_theorem: str
+    extra_transition_lines: tuple[str, ...]
+    proof_shape: str
+
+
+TABLE_CONFIGS: dict[str, TableConfig] = {
+    "graph-only": TableConfig(
+        kind="graph-only",
+        import_module="BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke",
+        namespace_suffix=(
+            "BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000"
+        ),
+        title="Generated strengthened local branch-table shard 000.",
+        eval_state_type="StrengthenedClosedEvalState",
+        table_type="StrengthenedLocalBranchTable",
+        next_fn="strengthenedClosedEvalNext",
+        next_state_type="StrengthenedClosedEvalState",
+        next_graph_projection="nextState.graph",
+        transition_theorem="StrengthenedLocalBranchTable.localTransition",
+        extra_transition_lines=(),
+        proof_shape=(
+            "Each generated table is a StrengthenedLocalBranchTable instance; "
+            "localTransition is proved by the generic table theorem, not by "
+            "rank/path enumeration."
+        ),
+    ),
+    "used-face": TableConfig(
+        kind="used-face",
+        import_module="BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke",
+        namespace_suffix=(
+            "BellmanTopPairingClosedBellmanStrengthenedUsedFaceLocalBranchTableShard000"
+        ),
+        title="Generated strengthened used-face local branch-table shard 000.",
+        eval_state_type="TopPairingUsedFaceEvalState Nat",
+        table_type="StrengthenedUsedFaceLocalBranchTable",
+        next_fn="strengthenedClosedUsedEvalNext",
+        next_state_type="TopPairingUsedFaceEvalState Nat",
+        next_graph_projection="nextState.eval.graph",
+        transition_theorem="StrengthenedUsedFaceLocalBranchTable.localTransition",
+        extra_transition_lines=(
+            "                nextState.used = face :: (evalState state).used",
+        ),
+        proof_shape=(
+            "Each generated table is a StrengthenedUsedFaceLocalBranchTable "
+            "instance; localTransition is proved by the generic used-face "
+            "table theorem, not by rank/path enumeration."
+        ),
+    ),
+}
+
+
 def rel(path: Path) -> str:
-    return path.relative_to(ROOT).as_posix()
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(ROOT).as_posix()
+    except ValueError:
+        return resolved.as_posix()
 
 
 def state_from_json(entry: dict[str, Any]) -> ShardState:
@@ -65,6 +132,7 @@ def state_from_json(entry: dict[str, Any]) -> ShardState:
     return ShardState(
         ctor=str(entry["constructor"]),
         eval_state=str(entry["eval_state"]),
+        table_kind=str(entry.get("table_kind", "graph-only")),
         table=str(entry["table"]),
         branch_count=int(entry["branch_count"]),
         branches=tuple(str(branch) for branch in branches),
@@ -80,30 +148,49 @@ def load_states(path: Path) -> tuple[ShardState, ...]:
     if not states:
         raise ValueError("input must contain at least one shard state")
     for state in states:
+        if state.table_kind not in TABLE_CONFIGS:
+            raise ValueError(f"{state.ctor}: unknown table_kind {state.table_kind!r}")
         if state.branch_count != len(state.branches):
             raise ValueError(
                 f"{state.ctor}: branch_count {state.branch_count} "
                 f"does not match {len(state.branches)} branches"
             )
+    kinds = {state.table_kind for state in states}
+    if len(kinds) != 1:
+        raise ValueError(
+            "mixed table_kind shards are not supported yet; split by table_kind"
+        )
     return states
 
 
-def emit_lean(states: tuple[ShardState, ...]) -> str:
+def config_for_states(states: tuple[ShardState, ...]) -> TableConfig:
+    return TABLE_CONFIGS[states[0].table_kind]
+
+
+def namespace_for(config: TableConfig) -> str:
+    return (
+        "Cuboctahedron.Generated.NonIdentity.Residual."
+        f"{config.namespace_suffix}"
+    )
+
+
+def emit_lean(states: tuple[ShardState, ...], config: TableConfig) -> str:
     total_branches = sum(state.branch_count for state in states)
+    namespace = namespace_for(config)
     lines: list[str] = [
         "import Cuboctahedron.Generated.NonIdentity.Residual."
-        "BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke",
+        f"{config.import_module}",
         "",
         "/-!",
-        "Generated strengthened local branch-table shard 000.",
+        config.title,
         "",
-        "This bounded generated shard packages the first semantic Bellman",
-        "local branch tables behind one uniform shard-state API.  It is not",
-        "rank coverage; it is the production-shaped local-transition object",
-        "that future generated suffix evidence should consume.",
+        "This bounded generated shard packages semantic Bellman local branch",
+        "tables behind one uniform shard-state API.  It is not rank coverage;",
+        "it is the production-shaped local-transition object that future",
+        "generated suffix evidence should consume.",
         "-/",
         "",
-        f"namespace {NS}",
+        f"namespace {namespace}",
         "",
         "open Cuboctahedron",
         "open Cuboctahedron.Generated.NonIdentity.Residual."
@@ -125,7 +212,7 @@ def emit_lean(states: tuple[ShardState, ...]) -> str:
             f"      emittedShardBranchCount = {total_branches} := by",
             "  decide",
             "",
-            "def evalState : ShardState -> StrengthenedClosedEvalState",
+            f"def evalState : ShardState -> {config.eval_state_type}",
         ]
     )
     for state in states:
@@ -135,7 +222,7 @@ def emit_lean(states: tuple[ShardState, ...]) -> str:
             "",
             "def localBranchTable :",
             "    (state : ShardState) ->",
-            "      StrengthenedLocalBranchTable (evalState state)",
+            f"      {config.table_type} (evalState state)",
         ]
     )
     for state in states:
@@ -148,18 +235,27 @@ def emit_lean(states: tuple[ShardState, ...]) -> str:
             "    (htail : (evalState state).Tail (face :: rest)) :",
             "    ∃ branch : (localBranchTable state).Branch,",
             "      (localBranchTable state).face branch = face ∧",
-            "        ∃ nextState : StrengthenedClosedEvalState,",
-            "          strengthenedClosedEvalNext (evalState state) face =",
+            f"        ∃ nextState : {config.next_state_type},",
+            f"          {config.next_fn} (evalState state) face =",
             "              some (nextState, (localBranchTable state).gain branch) ∧",
             "            nextState.Tail rest ∧",
-            "              nextState.graph = (localBranchTable state).nextGraph branch :=",
-            "  StrengthenedLocalBranchTable.localTransition",
+            f"              {config.next_graph_projection} = "
+            "(localBranchTable state).nextGraph branch"
+            + (" ∧" if config.extra_transition_lines else " :="),
+        ]
+    )
+    if config.extra_transition_lines:
+        lines.extend(config.extra_transition_lines)
+        lines[-1] += " :="
+    lines.extend(
+        [
+            f"  {config.transition_theorem}",
             "    (localBranchTable state) htail",
             "",
             "theorem shard000_builds : True := by",
             "  exact True.intro",
             "",
-            f"end {NS}",
+            f"end {namespace}",
             "",
         ]
     )
@@ -170,29 +266,28 @@ def payload(
     states: tuple[ShardState, ...],
     input_path: Path,
     lean_out: Path,
+    config: TableConfig,
 ) -> dict[str, object]:
     return {
         "mode": "closed-bellman-strengthened-local-branch-table-shard",
         "shard": 0,
         "input": rel(input_path),
         "lean_output": rel(lean_out),
+        "table_kind": config.kind,
         "state_count": len(states),
         "branch_count": sum(state.branch_count for state in states),
         "states": [
             {
                 "constructor": state.ctor,
                 "eval_state": state.eval_state,
+                "table_kind": state.table_kind,
                 "table": state.table,
                 "branch_count": state.branch_count,
                 "branches": list(state.branches),
             }
             for state in states
         ],
-        "proof_shape": (
-            "Each generated table is a StrengthenedLocalBranchTable instance; "
-            "localTransition is proved by the generic table theorem, not by "
-            "rank/path enumeration."
-        ),
+        "proof_shape": config.proof_shape,
         "forbidden_coordinates": [
             "sampled ranks",
             "selected prefixes",
@@ -221,6 +316,7 @@ def emit_markdown(data: dict[str, object]) -> str:
                 f"### `{state['constructor']}`",  # type: ignore[index]
                 "",
                 f"- Eval state: `{state['eval_state']}`",  # type: ignore[index]
+                f"- Table kind: `{state['table_kind']}`",  # type: ignore[index]
                 f"- Table: `{state['table']}`",  # type: ignore[index]
                 f"- Branch count: `{state['branch_count']}`",  # type: ignore[index]
                 "",
@@ -257,11 +353,12 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     states = load_states(args.input)
+    config = config_for_states(states)
     args.lean_out.parent.mkdir(parents=True, exist_ok=True)
     args.json_out.parent.mkdir(parents=True, exist_ok=True)
     args.markdown_out.parent.mkdir(parents=True, exist_ok=True)
-    data = payload(states, args.input, args.lean_out)
-    args.lean_out.write_text(emit_lean(states), encoding="utf-8")
+    data = payload(states, args.input, args.lean_out, config)
+    args.lean_out.write_text(emit_lean(states, config), encoding="utf-8")
     args.json_out.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
     args.markdown_out.write_text(emit_markdown(data), encoding="utf-8")
     print(f"wrote {rel(args.lean_out)}")

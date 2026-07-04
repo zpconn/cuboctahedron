@@ -3,10 +3,10 @@ import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellm
 /-!
 Generated strengthened local branch-table shard 000.
 
-This bounded generated shard packages the first semantic Bellman
-local branch tables behind one uniform shard-state API.  It is not
-rank coverage; it is the production-shaped local-transition object
-that future generated suffix evidence should consume.
+This bounded generated shard packages semantic Bellman local branch
+tables behind one uniform shard-state API.  It is not rank coverage;
+it is the production-shaped local-transition object that future
+generated suffix evidence should consume.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000

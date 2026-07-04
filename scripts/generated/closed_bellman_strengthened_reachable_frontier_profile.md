@@ -6,41 +6,43 @@ and local branch tables.
 
 - decision: `next-frontier-ready-for-semantic-state-emission`
 - graph source: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/All.lean`
-- input: `scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json`
+- input: `scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json`, `scripts/generated/closed_bellman_strengthened_used_face_local_branch_table_shard000_input.json`
 - semantic source: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean`
 - checked graph edges: `229`
 - checked graph states with outgoing edges: `194`
-- covered graph states: `4`
+- covered graph states: `5`
 - mismatch count: `0`
-- next frontier states: `6`
+- next frontier states: `7`
 - next frontier terminal states: `0`
 - next frontier states with existing semantic eval states: `0`
-- next frontier states missing semantic eval states: `6`
+- next frontier states missing semantic eval states: `7`
 
 ## Covered State Audit
 
-| constructor | graph | input branches | graph branches | matches |
-| --- | ---: | ---: | ---: | ---: |
-| `prefix2` | `143` | `3` | `3` | `True` |
-| `prefix3Tmpm` | `146` | `2` | `2` | `True` |
-| `prefix3Yp` | `144` | `2` | `2` | `True` |
-| `prefix3Zm` | `145` | `3` | `3` | `True` |
+| constructor | table kind | graph | input branches | graph branches | matches |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `prefix2` | `graph-only` | `143` | `3` | `3` | `True` |
+| `prefix3Tmpm` | `graph-only` | `146` | `2` | `2` | `True` |
+| `prefix3Yp` | `graph-only` | `144` | `2` | `2` | `True` |
+| `prefix3Zm` | `graph-only` | `145` | `3` | `3` | `True` |
+| `prefix4YpTmmm` | `used-face` | `148` | `2` | `2` | `True` |
 
 ## Next Frontier
 
 | graph | outgoing branches | outgoing |
 | ---: | ---: | --- |
 | `147` | `2` | tmmp -> 155 (-124), zp -> 153 (-10) |
-| `148` | `2` | tpmm -> 156 (96), zm -> 154 (114) |
 | `149` | `2` | tmpm -> 158 (-124), yp -> 153 (-73) |
 | `150` | `1` | zp -> 157 (114) |
 | `151` | `1` | tppp -> 159 (96) |
 | `152` | `2` | tpmm -> 161 (-36), zp -> 160 (-18) |
+| `154` | `2` | tpmp -> 164 (96), zp -> 162 (114) |
+| `156` | `2` | tppm -> 167 (-36), zp -> 165 (-18) |
 
 ## Semantic Eval-State Availability
 
 - existing next-frontier semantic graph states: `[]`
-- missing next-frontier semantic graph states: `[147, 148, 149, 150, 151, 152]`
+- missing next-frontier semantic graph states: `[147, 149, 150, 151, 152, 154, 156]`
 
 ## Proof Status
 

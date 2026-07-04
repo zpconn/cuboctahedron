@@ -5,40 +5,56 @@
       "graph": 143,
       "graph_branch_count": 3,
       "input_branch_count": 3,
-      "matches_checked_graph": true
+      "matches_checked_graph": true,
+      "table_kind": "graph-only"
     },
     {
       "constructor": "prefix3Tmpm",
       "graph": 146,
       "graph_branch_count": 2,
       "input_branch_count": 2,
-      "matches_checked_graph": true
+      "matches_checked_graph": true,
+      "table_kind": "graph-only"
     },
     {
       "constructor": "prefix3Yp",
       "graph": 144,
       "graph_branch_count": 2,
       "input_branch_count": 2,
-      "matches_checked_graph": true
+      "matches_checked_graph": true,
+      "table_kind": "graph-only"
     },
     {
       "constructor": "prefix3Zm",
       "graph": 145,
       "graph_branch_count": 3,
       "input_branch_count": 3,
-      "matches_checked_graph": true
+      "matches_checked_graph": true,
+      "table_kind": "graph-only"
+    },
+    {
+      "constructor": "prefix4YpTmmm",
+      "graph": 148,
+      "graph_branch_count": 2,
+      "input_branch_count": 2,
+      "matches_checked_graph": true,
+      "table_kind": "used-face"
     }
   ],
   "covered_graphs": [
     143,
     144,
     145,
-    146
+    146,
+    148
   ],
-  "covered_state_count": 4,
+  "covered_state_count": 5,
   "decision": "next-frontier-ready-for-semantic-state-emission",
   "graph_source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/All.lean",
-  "input": "scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json",
+  "input": [
+    "scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json",
+    "scripts/generated/closed_bellman_strengthened_used_face_local_branch_table_shard000_input.json"
+  ],
   "mismatch_count": 0,
   "mismatches": [],
   "mode": "closed-bellman-strengthened-reachable-frontier-profile",
@@ -59,26 +75,6 @@
           "face": "zp",
           "gain": -10,
           "src": 147
-        }
-      ],
-      "outgoing_branch_count": 2
-    },
-    {
-      "graph": 148,
-      "outgoing": [
-        {
-          "constructor": "e0138_l04",
-          "dst": 156,
-          "face": "tpmm",
-          "gain": 96,
-          "src": 148
-        },
-        {
-          "constructor": "e0137_l12",
-          "dst": 154,
-          "face": "zm",
-          "gain": 114,
-          "src": 148
         }
       ],
       "outgoing_branch_count": 2
@@ -148,28 +144,70 @@
         }
       ],
       "outgoing_branch_count": 2
+    },
+    {
+      "graph": 154,
+      "outgoing": [
+        {
+          "constructor": "e0147_l05",
+          "dst": 164,
+          "face": "tpmp",
+          "gain": 96,
+          "src": 154
+        },
+        {
+          "constructor": "e0146_l13",
+          "dst": 162,
+          "face": "zp",
+          "gain": 114,
+          "src": 154
+        }
+      ],
+      "outgoing_branch_count": 2
+    },
+    {
+      "graph": 156,
+      "outgoing": [
+        {
+          "constructor": "e0150_l06",
+          "dst": 167,
+          "face": "tppm",
+          "gain": -36,
+          "src": 156
+        },
+        {
+          "constructor": "e0149_l13",
+          "dst": 165,
+          "face": "zp",
+          "gain": -18,
+          "src": 156
+        }
+      ],
+      "outgoing_branch_count": 2
     }
   ],
   "next_frontier_existing_semantic_graphs": [],
   "next_frontier_existing_semantic_state_count": 0,
   "next_frontier_graphs": [
     147,
-    148,
     149,
     150,
     151,
-    152
+    152,
+    154,
+    156
   ],
   "next_frontier_missing_semantic_graphs": [
     147,
-    148,
     149,
     150,
     151,
-    152
+    152,
+    154,
+    156
   ],
-  "next_frontier_missing_semantic_state_count": 6,
-  "next_frontier_state_count": 6,
+  "next_frontier_missing_semantic_state_count": 7,
+  "next_frontier_state_count": 7,
   "next_frontier_terminal_graphs": [],
   "next_frontier_terminal_state_count": 0,
   "proof_status": "Diagnostic only. The checked graph source gives local graph edges, but the next frontier still needs semantic eval-state definitions and Lean local branch tables.",

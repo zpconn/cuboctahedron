@@ -11,6 +11,7 @@ This is generated local-transition evidence, not rank coverage.
 ### `prefix2`
 
 - Eval state: `strengthenedClosedPrefix2EvalState`
+- Table kind: `graph-only`
 - Table: `strengthenedPrefix2LocalBranchTable`
 - Branch count: `3`
 
@@ -21,6 +22,7 @@ This is generated local-transition evidence, not rank coverage.
 ### `prefix3Tmpm`
 
 - Eval state: `strengthenedClosedPrefix3TmpmEvalState`
+- Table kind: `graph-only`
 - Table: `strengthenedPrefix3TmpmLocalBranchTable`
 - Branch count: `2`
 
@@ -30,6 +32,7 @@ This is generated local-transition evidence, not rank coverage.
 ### `prefix3Yp`
 
 - Eval state: `strengthenedClosedPrefix3YpEvalState`
+- Table kind: `graph-only`
 - Table: `strengthenedPrefix3YpLocalBranchTable`
 - Branch count: `2`
 
@@ -39,6 +42,7 @@ This is generated local-transition evidence, not rank coverage.
 ### `prefix3Zm`
 
 - Eval state: `strengthenedClosedPrefix3ZmEvalState`
+- Table kind: `graph-only`
 - Table: `strengthenedPrefix3ZmLocalBranchTable`
 - Branch count: `3`
 
