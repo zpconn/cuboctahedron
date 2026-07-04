@@ -97899,3 +97899,118 @@ Decision: accepted as the first generated-shaped semantic completion shard.
 The next emitter target should produce these target-completion shard states
 from exact semantic frontier data.  This remains a deterministic evaluator
 membership route, not selected-prefix or sampled-rank evidence.
+
+### Holonomy/Bellman Pivot - target-completion emitter mode accepted
+
+The local-branch-table profiler/emitter now has a third table kind:
+`target-completion`.  This converts graph150's completion-aware local table
+from a hand-shaped shard into an emitter-supported shard surface.
+
+Updated scripts:
+
+```text
+scripts/profile_top_pairing_strengthened_local_branch_table_shard.py
+scripts/emit_top_pairing_strengthened_local_branch_table_shard.py
+```
+
+New generated metadata:
+
+```text
+scripts/generated/closed_bellman_strengthened_target_completion_local_branch_table_shard000_input.json
+scripts/generated/closed_bellman_strengthened_target_completion_local_branch_table_shard000_input.md
+scripts/generated/closed_bellman_strengthened_target_completion_local_branch_table_shard000.json
+scripts/generated/closed_bellman_strengthened_target_completion_local_branch_table_shard000.md
+```
+
+Profiler command:
+
+```bash
+python3 scripts/profile_top_pairing_strengthened_local_branch_table_shard.py \
+  --source Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean \
+  --table-kind target-completion \
+  --json-out scripts/generated/\
+closed_bellman_strengthened_target_completion_local_branch_table_shard000_input.json \
+  --markdown-out scripts/generated/\
+closed_bellman_strengthened_target_completion_local_branch_table_shard000_input.md
+```
+
+Profiler output:
+
+```text
+state_count = 1
+branch_count = 1
+state = prefix4TmpmZm
+eval_state = strengthenedClosedPrefix4TmpmZmEvalState
+completion_state = graph150TargetCompletionState
+table = strengthenedPrefix4Graph150TargetCompletionLocalBranchTable
+branch = zp -> graph 157, gain 114
+```
+
+Emitter command:
+
+```bash
+python3 scripts/emit_top_pairing_strengthened_local_branch_table_shard.py \
+  --input scripts/generated/\
+closed_bellman_strengthened_target_completion_local_branch_table_shard000_input.json \
+  --lean-out Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean \
+  --json-out scripts/generated/\
+closed_bellman_strengthened_target_completion_local_branch_table_shard000.json \
+  --markdown-out scripts/generated/\
+closed_bellman_strengthened_target_completion_local_branch_table_shard000.md
+```
+
+Regression check: the same emitter still reproduces the existing graph-only and
+used-face shards byte-identically when pointed at their existing input JSONs.
+
+Guarded checks for the regenerated target-completion shard:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/target_completion_local_branch_table_shard000_guard.json \
+  --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean
+```
+
+Result:
+
+```text
+exit_code = 0
+elapsed_seconds = 2.00
+peak_tree_rss_mib = 3585
+hard_address_space_mib = none
+min_available_seen_mib = 46277
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/target_completion_local_branch_table_shard000_build_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000
+```
+
+Result:
+
+```text
+exit_code = 0
+elapsed_seconds = 3.00
+peak_tree_rss_mib = 1233
+hard_address_space_mib = none
+min_available_seen_mib = 46072
+```
+
+Decision: accepted as an emitter-surface checkpoint.  Important limitation:
+the input is still source-derived from the checked graph150 module; it is not
+yet a discovered semantic frontier over the full closed language.  Next
+required work is to replace this bounded source scan with exact discovered
+reachable semantic states whose table proofs are emitted through the same
+`target-completion` API.

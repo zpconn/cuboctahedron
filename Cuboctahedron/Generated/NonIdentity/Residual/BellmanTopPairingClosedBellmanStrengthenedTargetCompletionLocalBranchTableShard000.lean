@@ -3,11 +3,10 @@ import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellm
 /-!
 Generated strengthened target-completion local branch-table shard 000.
 
-This bounded generated-style shard packages the graph-150 semantic completion
-table behind the same kind of uniform shard-state API used by the plain and
-used-face branch-table shards.  It is not rank coverage; it is the
-production-shaped local-transition object for deterministic closed-language
-evaluator membership.
+This bounded generated shard packages semantic Bellman local branch
+tables behind one uniform shard-state API.  It is not rank coverage;
+it is the production-shaped local-transition object that future
+generated suffix evidence should consume.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000
@@ -37,8 +36,7 @@ def localBranchTable :
     (state : ShardState) ->
       StrengthenedTargetCompletionLocalBranchTable
         (evalState state) (completionState state)
-  | .prefix4TmpmZm =>
-      strengthenedPrefix4Graph150TargetCompletionLocalBranchTable
+  | .prefix4TmpmZm => strengthenedPrefix4Graph150TargetCompletionLocalBranchTable
 
 theorem localTransition
     {state : ShardState} {face : Face} {rest : List Face}

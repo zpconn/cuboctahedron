@@ -42,11 +42,20 @@ TABLE_RE = re.compile(
     r"\s*Branch := (StrengthenedPrefix[0-9A-Za-z]+Branch)"
 )
 
+TARGET_COMPLETION_TABLE_RE = re.compile(
+    r"def (strengthenedPrefix[0-9A-Za-z]+TargetCompletionLocalBranchTable)\s*:\s*\n"
+    r"\s*(StrengthenedTargetCompletionLocalBranchTable)\s*\n"
+    r"\s*(strengthenedClosedPrefix[0-9A-Za-z]+EvalState)\s+"
+    r"([0-9A-Za-z_]+) where\s*\n"
+    r"\s*Branch := (StrengthenedPrefix[0-9A-Za-z]+Branch)"
+)
+
 
 @dataclass(frozen=True)
 class FrontierState:
     constructor: str
     eval_state: str
+    completion_state: str | None
     table_kind: str
     table_class: str
     graph: int
@@ -68,6 +77,8 @@ def table_kind_of_class(table_class: str) -> str:
         return "graph-only"
     if table_class == "StrengthenedUsedFaceLocalBranchTable":
         return "used-face"
+    if table_class == "StrengthenedTargetCompletionLocalBranchTable":
+        return "target-completion"
     raise ValueError(f"unexpected local table class: {table_class}")
 
 
@@ -209,6 +220,46 @@ def extract_frontier(
                 FrontierState(
                     constructor=constructor_of_eval_state(eval_state),
                     eval_state=eval_state,
+                    completion_state=None,
+                    table_kind=table_kind,
+                    table_class=table_class,
+                    graph=eval_state_graph(source, eval_state),
+                    table=table,
+                    branch_type=branch_type,
+                    branches=tuple(branches),
+                )
+            )
+        for match in TARGET_COMPLETION_TABLE_RE.finditer(source):
+            table, table_class, eval_state, completion_state, branch_type = (
+                match.groups()
+            )
+            table_kind = table_kind_of_class(table_class)
+            if table_kind_filter != "all" and table_kind != table_kind_filter:
+                continue
+            block = branch_namespace_block(source, branch_type)
+            ctors = branch_constructors(source, branch_type)
+            faces = definition_cases(block, "face")
+            graphs = definition_cases(block, "nextGraph")
+            gains = definition_cases(block, "gain")
+            branches: list[dict[str, int | str]] = []
+            for ctor in ctors:
+                face = parse_face_value(faces[ctor])
+                graph = parse_nat_literal(graphs[ctor])
+                gain = parse_int_literal(gains[ctor])
+                branches.append(
+                    {
+                        "constructor": ctor,
+                        "face": face,
+                        "next_graph": graph,
+                        "gain": gain,
+                        "description": f"{face} -> graph {graph}, gain {gain}",
+                    }
+                )
+            states.append(
+                FrontierState(
+                    constructor=constructor_of_eval_state(eval_state),
+                    eval_state=eval_state,
+                    completion_state=completion_state,
                     table_kind=table_kind,
                     table_class=table_class,
                     graph=eval_state_graph(source, eval_state),
@@ -235,6 +286,7 @@ def payload(source_paths: tuple[Path, ...], table_kind_filter: str) -> dict[str,
         {
             "constructor": state.constructor,
             "eval_state": state.eval_state,
+            "completion_state": state.completion_state,
             "table_kind": state.table_kind,
             "table_class": state.table_class,
             "graph": state.graph,
@@ -288,6 +340,7 @@ def emit_markdown(data: dict[str, object], json_out: Path) -> str:
                 f"### `{state['constructor']}`",  # type: ignore[index]
                 "",
                 f"- Eval state: `{state['eval_state']}`",  # type: ignore[index]
+                f"- Completion state: `{state['completion_state']}`",  # type: ignore[index]
                 f"- Graph state: `{state['graph']}`",  # type: ignore[index]
                 f"- Table kind: `{state['table_kind']}`",  # type: ignore[index]
                 f"- Table class: `{state['table_class']}`",  # type: ignore[index]
@@ -325,7 +378,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--table-kind",
-        choices=("graph-only", "used-face", "all"),
+        choices=("graph-only", "used-face", "target-completion", "all"),
         default="graph-only",
         help="Which local branch-table backend to extract.",
     )

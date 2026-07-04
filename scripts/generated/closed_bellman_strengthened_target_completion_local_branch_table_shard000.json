@@ -1,0 +1,31 @@
+{
+  "branch_count": 1,
+  "forbidden_coordinates": [
+    "sampled ranks",
+    "selected prefixes",
+    "accepted trace ids",
+    "exact affine RHS keys"
+  ],
+  "import_module": "BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke",
+  "input": "scripts/generated/closed_bellman_strengthened_target_completion_local_branch_table_shard000_input.json",
+  "lean_output": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
+  "mode": "closed-bellman-strengthened-local-branch-table-shard",
+  "namespace_suffix": "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000",
+  "proof_shape": "Each generated table is a StrengthenedTargetCompletionLocalBranchTable instance; localTransition is proved by the generic target-completion table theorem from transducer tail plus target-completion tail, not by rank/path enumeration.",
+  "shard": 0,
+  "state_count": 1,
+  "states": [
+    {
+      "branch_count": 1,
+      "branches": [
+        "zp -> graph 157, gain 114"
+      ],
+      "completion_state": "graph150TargetCompletionState",
+      "constructor": "prefix4TmpmZm",
+      "eval_state": "strengthenedClosedPrefix4TmpmZmEvalState",
+      "table": "strengthenedPrefix4Graph150TargetCompletionLocalBranchTable",
+      "table_kind": "target-completion"
+    }
+  ],
+  "table_kind": "target-completion"
+}

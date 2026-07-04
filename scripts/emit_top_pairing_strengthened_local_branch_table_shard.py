@@ -49,6 +49,7 @@ NS = (
 class ShardState:
     ctor: str
     eval_state: str
+    completion_state: str | None
     table_kind: str
     table: str
     branch_count: int
@@ -62,6 +63,7 @@ class TableConfig:
     namespace_suffix: str
     title: str
     eval_state_type: str
+    completion_state_type: str | None
     table_type: str
     next_fn: str
     next_state_type: str
@@ -80,6 +82,7 @@ TABLE_CONFIGS: dict[str, TableConfig] = {
         ),
         title="Generated strengthened local branch-table shard 000.",
         eval_state_type="StrengthenedClosedEvalState",
+        completion_state_type=None,
         table_type="StrengthenedLocalBranchTable",
         next_fn="strengthenedClosedEvalNext",
         next_state_type="StrengthenedClosedEvalState",
@@ -100,6 +103,7 @@ TABLE_CONFIGS: dict[str, TableConfig] = {
         ),
         title="Generated strengthened used-face local branch-table shard 000.",
         eval_state_type="TopPairingUsedFaceEvalState Nat",
+        completion_state_type=None,
         table_type="StrengthenedUsedFaceLocalBranchTable",
         next_fn="strengthenedClosedUsedEvalNext",
         next_state_type="TopPairingUsedFaceEvalState Nat",
@@ -112,6 +116,35 @@ TABLE_CONFIGS: dict[str, TableConfig] = {
             "Each generated table is a StrengthenedUsedFaceLocalBranchTable "
             "instance; localTransition is proved by the generic used-face "
             "table theorem, not by rank/path enumeration."
+        ),
+    ),
+    "target-completion": TableConfig(
+        kind="target-completion",
+        import_module="BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke",
+        namespace_suffix=(
+            "BellmanTopPairingClosedBellmanStrengthenedTargetCompletion"
+            "LocalBranchTableShard000"
+        ),
+        title=(
+            "Generated strengthened target-completion local branch-table "
+            "shard 000."
+        ),
+        eval_state_type="StrengthenedClosedEvalState",
+        completion_state_type="TopPairingTargetCompletionState",
+        table_type="StrengthenedTargetCompletionLocalBranchTable",
+        next_fn="strengthenedClosedEvalNext",
+        next_state_type="StrengthenedClosedEvalState",
+        next_graph_projection="nextState.graph",
+        transition_theorem=(
+            "StrengthenedTargetCompletionLocalBranchTable.localTransition"
+        ),
+        extra_transition_lines=(),
+        proof_shape=(
+            "Each generated table is a "
+            "StrengthenedTargetCompletionLocalBranchTable instance; "
+            "localTransition is proved by the generic target-completion table "
+            "theorem from transducer tail plus target-completion tail, not by "
+            "rank/path enumeration."
         ),
     ),
 }
@@ -132,6 +165,11 @@ def state_from_json(entry: dict[str, Any]) -> ShardState:
     return ShardState(
         ctor=str(entry["constructor"]),
         eval_state=str(entry["eval_state"]),
+        completion_state=(
+            None
+            if entry.get("completion_state") is None
+            else str(entry["completion_state"])
+        ),
         table_kind=str(entry.get("table_kind", "graph-only")),
         table=str(entry["table"]),
         branch_count=int(entry["branch_count"]),
@@ -150,6 +188,13 @@ def load_states(path: Path) -> tuple[ShardState, ...]:
     for state in states:
         if state.table_kind not in TABLE_CONFIGS:
             raise ValueError(f"{state.ctor}: unknown table_kind {state.table_kind!r}")
+        if (
+            state.table_kind == "target-completion"
+            and state.completion_state is None
+        ):
+            raise ValueError(
+                f"{state.ctor}: target-completion state missing completion_state"
+            )
         if state.branch_count != len(state.branches):
             raise ValueError(
                 f"{state.ctor}: branch_count {state.branch_count} "
@@ -221,22 +266,60 @@ def emit_lean(states: tuple[ShardState, ...], config: TableConfig) -> str:
     )
     for state in states:
         lines.append(f"  | .{state.ctor} => {state.eval_state}")
+    if config.completion_state_type is not None:
+        lines.extend(
+            [
+                "",
+                f"def completionState : ShardState -> {config.completion_state_type}",
+            ]
+        )
+        for state in states:
+            if state.completion_state is None:
+                raise ValueError(f"{state.ctor}: missing completion_state")
+            lines.append(f"  | .{state.ctor} => {state.completion_state}")
     lines.extend(
         [
             "",
             "def localBranchTable :",
             "    (state : ShardState) ->",
-            f"      {config.table_type} (evalState state)",
         ]
     )
+    if config.completion_state_type is None:
+        lines.append(f"      {config.table_type} (evalState state)")
+    else:
+        lines.extend(
+            [
+                f"      {config.table_type}",
+                "        (evalState state) (completionState state)",
+            ]
+        )
     for state in states:
         lines.append(f"  | .{state.ctor} => {state.table}")
+    transition_args = [
+        f"  {config.transition_theorem}",
+        "    (localBranchTable state) htail",
+    ]
+    if config.completion_state_type is not None:
+        transition_args[-1] += " hcompletion"
     lines.extend(
         [
             "",
             "theorem localTransition",
             "    {state : ShardState} {face : Face} {rest : List Face}",
             "    (htail : (evalState state).Tail (face :: rest)) :",
+        ]
+    )
+    if config.completion_state_type is not None:
+        lines[-1] = "    (htail : (evalState state).Tail (face :: rest))"
+        lines.append(
+            "    (hcompletion :"
+        )
+        lines.append(
+            "      TopPairingTargetCompletionTail "
+            "(completionState state) (face :: rest)) :"
+        )
+    lines.extend(
+        [
             "    ∃ branch : (localBranchTable state).Branch,",
             "      (localBranchTable state).face branch = face ∧",
             f"        ∃ nextState : {config.next_state_type},",
@@ -251,10 +334,9 @@ def emit_lean(states: tuple[ShardState, ...], config: TableConfig) -> str:
     if config.extra_transition_lines:
         lines.extend(config.extra_transition_lines)
         lines[-1] += " :="
+    lines.extend(transition_args)
     lines.extend(
         [
-            f"  {config.transition_theorem}",
-            "    (localBranchTable state) htail",
             "",
             "theorem shard000_builds : True := by",
             "  exact True.intro",
@@ -286,6 +368,7 @@ def payload(
             {
                 "constructor": state.ctor,
                 "eval_state": state.eval_state,
+                "completion_state": state.completion_state,
                 "table_kind": state.table_kind,
                 "table": state.table,
                 "branch_count": state.branch_count,
@@ -322,6 +405,7 @@ def emit_markdown(data: dict[str, object]) -> str:
                 f"### `{state['constructor']}`",  # type: ignore[index]
                 "",
                 f"- Eval state: `{state['eval_state']}`",  # type: ignore[index]
+                f"- Completion state: `{state['completion_state']}`",  # type: ignore[index]
                 f"- Table kind: `{state['table_kind']}`",  # type: ignore[index]
                 f"- Table: `{state['table']}`",  # type: ignore[index]
                 f"- Branch count: `{state['branch_count']}`",  # type: ignore[index]

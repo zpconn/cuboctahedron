@@ -11,14 +11,14 @@
     "4096",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean"
   ],
-  "elapsed_seconds": 2.008146948996,
+  "elapsed_seconds": 2.003100137008005,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 3661748,
-  "max_tree_rss_mib": 3575.92578125,
-  "min_available_seen_kib": 47399256,
-  "min_available_seen_mib": 46288.3359375,
+  "max_tree_rss_kib": 3671092,
+  "max_tree_rss_mib": 3585.05078125,
+  "min_available_seen_kib": 47388592,
+  "min_available_seen_mib": 46277.921875,
   "rss_cap_mib": 9000.0,
   "timeout_seconds": 180.0
 }
