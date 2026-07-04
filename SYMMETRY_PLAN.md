@@ -100566,3 +100566,105 @@ local tables.
   the remaining target-shadow letters.  If the fold proof is awkward, add a
   small generic lemma connecting `actedTriLettersFrom` to `targetCompletionStateAfter`
   before doing any generated family work.
+
+### 2026-07-04 graph183 completion-tail membership closed by cursor
+
+- Proved the graph183 target-cancellation tail from the target-shadow cursor,
+  then composed the adapters through to the original completion-tail family.
+  This is the first graph183 slice where the selected-prefix membership
+  problem is fully replaced by semantic deterministic state.
+- Updated
+  `Cuboctahedron/Generated/NonIdentity/Residual/`
+  `BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean`.
+- New theorem surface:
+
+  ```lean
+  theorem graph150_targetCancellationTail_of_triCursor :
+      TopPairingTriCursorFrom
+        graph150TargetCompletionState.triState.shadowLen
+        graph150TargetCompletionState.parity rest ->
+      Graph150TargetCancellationTail rest
+
+  theorem acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor :
+      AcceptedSequenceGraph183TargetCancellationTailFamily
+
+  theorem acceptedSequenceGraph183SemanticCompletionTailFamily_of_cursor :
+      AcceptedSequenceGraph183SemanticCompletionTailFamily
+
+  theorem acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor :
+      AcceptedSequenceGraph183CompletionTailFamily
+  ```
+
+- The key private lemma is:
+
+  ```lean
+  targetCompletionStateAfter_triState_eq_foldl_acted
+  ```
+
+  It proves that the target-completion state’s triangular cancellation state is
+  exactly the fold of `TriCancellationState.push` over
+  `actedTriLettersFrom state.parity rest`.  Combined with
+  `TopPairingTriCursorFrom.actedTriLetters_eq_drop`, the graph150 suffix folds
+  the remaining target-shadow letters and reaches `topPairingTargetSummary`.
+- Meaning: graph183 completion-tail membership no longer needs an observed
+  path, selected prefix, accepted trace id, exact affine key, or rank table.
+  The closed language supplies the target cursor; the cursor supplies target
+  cancellation; target cancellation plus schedule/square/used/length supplies
+  `Graph150TargetCompletionTail`.
+- Updated
+  `scripts/audit_top_pairing_semantic_evaluator_pivot.py` to require:
+  - `graph150_targetCancellationTail_of_triCursor`;
+  - `acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor`;
+  - `acceptedSequenceGraph183SemanticCompletionTailFamily_of_cursor`;
+  - `acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.
+- Verification commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_direct_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 lake env lean \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+
+  python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+  ```
+
+- Results:
+  - direct Lean check passed with `elapsed_seconds=4.01`,
+    `peak_tree_rss_mib=4173`, `min_available_mib=45723`;
+  - audit decision:
+    `semantic_evaluator_pivot_ready_for_membership_producer`;
+  - focused Lake build passed with `elapsed_seconds=5.01`,
+    `peak_tree_rss_mib=4226`, `min_available_mib=45696`.
+- Remaining graph183 blocker:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
+  ```
+
+  Completion-tail membership is now closed.  The only remaining graph183
+  accepted-branch component is the integer margin bound on the accepted
+  forced tail:
+
+  ```lean
+  Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+    (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)
+    -> scaledMargin rank <= graphConst + (194 + -542)
+  ```
+
+  If this margin proof wants exact affine RHS / solved start-point keys, switch
+  to the Bellman/cocycle quotient margin certificate rather than adding
+  per-rank data.

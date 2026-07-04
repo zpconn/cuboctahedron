@@ -949,6 +949,33 @@ theorem graph150_targetCompletionTail_of_semanticCore
     graph150_remaining_iff_not_prefix_used (by decide) hlen hschedule hgap
     hused hcancel
 
+private theorem targetCompletionStateAfter_triState_eq_foldl_acted
+    (state : TopPairingTargetCompletionState) (rest : List Face) :
+    (targetCompletionStateAfter state rest).triState =
+      (actedTriLettersFrom state.parity rest).foldl
+        TriCancellationState.push state.triState := by
+  induction rest generalizing state with
+  | nil =>
+      rfl
+  | cons face rest ih =>
+      cases face <;>
+        simp [targetCompletionStateAfter, TopPairingTargetCompletionState.next,
+          actedTriLettersFrom, triLetterOfFace?, pairOfFace,
+          TriLetter.ofPairId?, SqParity.applyPair, SqParity.toggleForPair, ih]
+
+theorem graph150_targetCancellationTail_of_triCursor
+    {rest : List Face}
+    (hcursor :
+      TopPairingTriCursorFrom
+        graph150TargetCompletionState.triState.shadowLen
+        graph150TargetCompletionState.parity rest) :
+    Graph150TargetCancellationTail rest := by
+  have hacted := TopPairingTriCursorFrom.actedTriLetters_eq_drop hcursor
+  unfold Graph150TargetCancellationTail
+  rw [targetCompletionStateAfter_triState_eq_foldl_acted]
+  rw [hacted]
+  rfl
+
 /--
 Used-face/cursor front door for the graph183 completion-tail producer.
 
@@ -1040,6 +1067,18 @@ theorem acceptedSequenceGraph183SemanticCompletionTailFamily_of_cancellation
       (hfamily.cancellationTail rank hstrengthened rest
         hschedule hgap hcursor hused hlen hprefix)
 
+theorem acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor :
+    AcceptedSequenceGraph183TargetCancellationTailFamily where
+  cancellationTail := by
+    intro _rank _hstrengthened _rest _hschedule _hgap hcursor _hused
+      _hlen _hprefix
+    exact graph150_targetCancellationTail_of_triCursor hcursor
+
+theorem acceptedSequenceGraph183SemanticCompletionTailFamily_of_cursor :
+    AcceptedSequenceGraph183SemanticCompletionTailFamily :=
+  acceptedSequenceGraph183SemanticCompletionTailFamily_of_cancellation
+    acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor
+
 theorem acceptedSequenceGraph183CursorUsedCompletionTailFamily_of_semantic
     (hfamily : AcceptedSequenceGraph183SemanticCompletionTailFamily) :
     AcceptedSequenceGraph183CursorUsedCompletionTailFamily where
@@ -1065,6 +1104,13 @@ theorem acceptedSequenceGraph183CompletionTailFamily_of_cursor
       (topPairingTriCursor_of_closed
         hstrengthened.toTopPairingClosedLanguageAtRank)
       rest hprefix
+
+theorem acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor :
+    AcceptedSequenceGraph183CompletionTailFamily :=
+  acceptedSequenceGraph183CompletionTailFamily_of_cursor
+    (acceptedSequenceGraph183CursorCompletionTailFamily_of_used
+      (acceptedSequenceGraph183CursorUsedCompletionTailFamily_of_semantic
+        acceptedSequenceGraph183SemanticCompletionTailFamily_of_cursor))
 
 /--
 Integer margin component of the graph183 accepted branch.
