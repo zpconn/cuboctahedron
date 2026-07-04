@@ -96887,3 +96887,115 @@ analogous to `BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000
 starting with graph `148`.  After the shard API checks, update the emitter-side
 design so next-frontier graph states can opt into used-face state when graph-only
 tables are too weak.
+
+Used-face local table shard checkpoint:
+
+```text
+New generated-style shard:
+  Cuboctahedron/Generated/NonIdentity/Residual/
+    BellmanTopPairingClosedBellmanStrengthenedUsedFaceLocalBranchTableShard000.lean
+
+Shard API:
+  inductive ShardState
+  def emittedShardStateCount
+  def emittedShardBranchCount
+  theorem emittedShardCount_audit
+  def evalState
+  def localBranchTable
+  theorem localTransition
+  theorem shard000_builds
+```
+
+The shard has one state:
+
+```text
+prefix4YpTmmm -> strengthenedClosedPrefix4YpTmmmUsedEvalState
+```
+
+and exposes the graph-148 used-face local table through a uniform generated
+API.  This gives the next-frontier emitter a concrete target shape for graph
+states whose branch completeness needs actual-face consumption.
+
+Build discipline note:
+
+```text
+lake build
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingClosedBellmanStrengthenedUsedFaceLocalBranchTableShard000
+```
+
+was intentionally stopped by the memory guard, not by the OS: Lake spawned
+multiple Lean workers and the process-tree RSS crossed the 8 GiB cap.  The
+safe route was to emit/check the needed imports serially with `lake env lean`,
+while using parallelism only for independent shard emissions whose individual
+guards stayed small.
+
+Guarded commands and results:
+
+```text
+serial:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/closed_bellman_strengthened_shard000_olean_guard.json \
+    --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+      -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard000.olean \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard000.lean
+
+result:
+  pass, elapsed 3.00s,
+  peak_tree_rss 3960 MiB,
+  min_available_seen 45276 MiB
+
+parallel independent shard emissions:
+  Shard001.lean -> pass, elapsed 3.00s, peak_tree_rss 3955 MiB
+  Shard002.lean -> pass, elapsed 4.00s, peak_tree_rss 3968 MiB
+  Shard003.lean -> pass, elapsed 3.00s, peak_tree_rss 3953 MiB
+  combined min_available_seen across the three guards: 44408 MiB
+
+serial:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+closed_bellman_strengthened_next_frontier_smoke_olean_guard.json \
+    --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+      -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.olean \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+result:
+  pass, elapsed 4.00s,
+  peak_tree_rss 4003 MiB,
+  min_available_seen 45264 MiB
+
+serial shard source check:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+closed_bellman_strengthened_used_face_local_branch_table_shard000_guard.json \
+    --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedUsedFaceLocalBranchTableShard000.lean
+
+result:
+  pass, elapsed 2.00s,
+  peak_tree_rss 3586 MiB,
+  min_available_seen 45407 MiB
+```
+
+Safety scans over the used-face core, next-frontier smoke, and new shard still
+report no forbidden constructs and no sampled/selected-prefix membership hooks.
+
+Next checkpoint: update the emitter/profiler design so next-frontier graph
+states can choose between graph-only local tables and used-face local tables.
+The no-go rule remains: if a graph needs exact affine RHS, solved start point,
+sampled prefix id, or rank-indexed object membership, stop and refine the
+semantic state instead.
