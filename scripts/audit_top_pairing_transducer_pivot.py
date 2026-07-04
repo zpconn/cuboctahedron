@@ -210,6 +210,10 @@ DIAGNOSTIC_JSON = {
     / "scripts/generated/bellman_target_pairing_closure_with_bad_face_1m.json",
     "state150_tppp_audit": ROOT
     / "scripts/generated/bellman_state150_tppp_explicit_transition_audit.json",
+    "closed_graph_acceptance_latest": ROOT
+    / "scripts/generated/top_pairing_closed_graph_acceptance_latest.json",
+    "trace_state_dag_latest": ROOT
+    / "scripts/generated/top_pairing_trace_state_dag_latest.json",
 }
 
 
@@ -272,6 +276,37 @@ def graph_summary(payload: dict[str, Any] | None) -> dict[str, Any]:
     }
 
 
+def closed_graph_summary(payload: dict[str, Any] | None) -> dict[str, Any]:
+    if payload is None:
+        return {"exists": False}
+    stats = payload.get("stats", {})
+    histograms = payload.get("histograms", {})
+    return {
+        "exists": True,
+        "decision": payload.get("decision"),
+        "closed_candidates": stats.get("closed_candidates"),
+        "accepted": stats.get("accepted"),
+        "rejected": stats.get("rejected"),
+        "prefix_graph_rejects": stats.get("prefix_graph_rejects"),
+        "top_reject_transitions": histograms.get("reject_by_transition", [])[:10],
+    }
+
+
+def trace_dag_summary(payload: dict[str, Any] | None) -> dict[str, Any]:
+    if payload is None:
+        return {"exists": False}
+    return {
+        "exists": True,
+        "decision": payload.get("decision"),
+        "states": payload.get("states"),
+        "edges": payload.get("edges"),
+        "depth_states": payload.get("depth_states"),
+        "terminal_histogram": payload.get("terminal_histogram"),
+        "terminal_path_histogram": payload.get("terminal_path_histogram"),
+        "state_key": payload.get("state_key"),
+    }
+
+
 def rel(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
 
@@ -293,6 +328,10 @@ def main() -> None:
     graph = graph_summary(diagnostics["graph_1m"])
     closure = diagnostics["closure_with_bad_face_1m"]
     state150 = diagnostics["state150_tppp_audit"]
+    closed_graph = diagnostics["closed_graph_acceptance_latest"]
+    trace_dag = diagnostics["trace_state_dag_latest"]
+    closed_graph_brief = closed_graph_summary(closed_graph)
+    trace_dag_brief = trace_dag_summary(trace_dag)
 
     rss_guard = guards["root_bridge_rss_cap"]
     rss_killed = bool(rss_guard and rss_guard.get("killed_reason"))
@@ -324,9 +363,20 @@ def main() -> None:
     strengthened_smoke_passed = bool(
         strengthened_smoke_guard and strengthened_smoke_guard.get("exit_code") == 0
     )
+    closed_graph_too_weak = bool(
+        closed_graph and closed_graph.get("decision") == "closed-components-too-weak"
+    )
+    trace_dag_candidate = bool(
+        trace_dag and trace_dag.get("decision") == "semantic-state-dag-candidate"
+    )
+    trace_dag_states = (trace_dag or {}).get("states")
+    trace_dag_edges = (trace_dag or {}).get("edges")
+    trace_dag_closed_paths = (
+        (trace_dag or {}).get("terminal_path_histogram", {}).get("closed")
+    )
 
     decision = (
-        "semantic-transducer-pivot-accepted-next-prove-graph-suffix-membership"
+        "semantic-transducer-pivot-accepted-next-emit-closed-language-state-dag-evaluator"
         if target_shadow_ready and eval_core_ready and semantic_gate_ready
         and target_cursor_core_ready and semantic_tail_core_ready
         and suffix_eval_core_ready and ranked_semantic_gate_core_ready
@@ -335,6 +385,7 @@ def main() -> None:
         and semantic_state_transition_support_ready
         and semantic_socket_core_ready and closure_closed
         and state150_socket_needed and strengthened_smoke_passed
+        and closed_graph_too_weak and trace_dag_candidate
         and selected_prefix_risk and not sampled_hits
         else "manual-review-transducer-pivot"
     )
@@ -348,6 +399,8 @@ def main() -> None:
             "graph_1m": graph,
             "closure_with_bad_face_1m": closure,
             "state150_tppp_audit": state150,
+            "closed_graph_acceptance_latest": closed_graph_brief,
+            "trace_state_dag_latest": trace_dag_brief,
         },
         "selected_prefix_root_bridge_rss_killed": rss_killed,
         "semantic_branch_checkpoint": {
@@ -371,10 +424,18 @@ def main() -> None:
             ],
             "closure_after_sequence_bad_face": closure_closed,
             "strengthened_local_smoke_passed": strengthened_smoke_passed,
+            "closed_graph_acceptance_decision": (
+                closed_graph.get("decision") if closed_graph else None
+            ),
+            "trace_state_dag_decision": trace_dag.get("decision") if trace_dag else None,
+            "trace_state_dag_states": trace_dag_states,
+            "trace_state_dag_edges": trace_dag_edges,
+            "trace_state_dag_closed_paths": trace_dag_closed_paths,
             "remaining_uncovered_branch_table": (
-                "not yet proved semantically; next checkpoint must prove "
-                "closed-language-to-GraphBranchTableSuffixOk membership, "
-                "or explain the missing semantic field"
+                "the previous sampled/10M graph does not accept every visible "
+                "closed-language candidate; next checkpoint must emit/prove a "
+                "closed-language state-DAG evaluator rather than force those "
+                "candidates into the old graph"
             ),
         },
         "production_rule": (
@@ -416,8 +477,8 @@ def main() -> None:
             "topPairingClosed_scaledMargin_nonpos",
         ],
         "next_profiler_experiments": [
-            "closed-language-to-graph-branch-suffix membership emitter",
-            "closed-language-to-state transition profiler across disjoint windows",
+            "closed-language state-DAG evaluator emitter",
+            "closed-language-to-state transition proof over the 5347-state DAG",
             "cocycle quotient profiler before adding exact affine state",
             "translation GoodDirection row-template/3-row circuit profiler",
         ],
@@ -466,17 +527,23 @@ def main() -> None:
         f"- semantic sockets accepted: `2`",
         f"- closure after sequence-bad-face filter: `{closure_closed}`",
         f"- strengthened local Lake smoke passed: `{strengthened_smoke_passed}`",
+        f"- closed graph-acceptance decision: `{closed_graph.get('decision') if closed_graph else 'missing'}`",
+        f"- trace state-DAG decision: `{trace_dag.get('decision') if trace_dag else 'missing'}`",
+        f"- trace state-DAG states: `{trace_dag_states}`",
+        f"- trace state-DAG edges: `{trace_dag_edges}`",
+        f"- trace state-DAG closed paths: `{trace_dag_closed_paths}`",
         "",
         "Known semantic sockets:",
         "",
         "- `state19/tmmp`: canonical-bad-face mismatch.",
         "- `state150/tppp`: target-pairing completion impossibility.",
         "",
-        "Next checkpoint: prove or generate the closed-language-to-graph-suffix",
-        "membership theorem.  The target is `GraphBranchTableSuffixOk rank",
-        "rootState (topPairingRankFaceLabels rank)`, consumed by",
-        "`GraphBranchTableSuffixAllFamily`.  Do not scale selected-prefix",
-        "coverage as the production proof surface.",
+        "Next checkpoint: emit/prove a closed-language state-DAG evaluator.",
+        "The old 10M graph is now diagnostic evidence only: the exact visible",
+        "closed-language audit found candidates that it rejects.  The current",
+        "small semantic state DAG is the next proof object to target, with",
+        "`GraphBranchTableSuffixOk` or a successor evaluator theorem produced",
+        "from closed-language state transitions rather than from sampled paths.",
         "",
         "## Guard Evidence",
         "",

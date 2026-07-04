@@ -94526,3 +94526,117 @@ classification, not raw branch-table facts.  If the producer of
 `Depth11Layer4SevenBranchMappedPortfolioAllFamily` requires sampled traces,
 selected-prefix coverage, exact affine RHS keys, or rank-by-rank constructors,
 reject it and move to the cancellation-tree/cocycle quotient fallback.
+
+### Holonomy/Bellman Pivot - closed-language state-DAG evaluator target
+
+GPT5.5's newest recommendation changes the next Bellman step again in a
+specific way.  Keep Bellman, but do not try to prove membership into the old
+sampled/10M graph.  Instead, make the production object a deterministic
+state-DAG evaluator for the closed top-pairing language itself.
+
+New/updated diagnostics:
+
+```text
+scripts/audit_top_pairing_closed_graph_acceptance.py
+scripts/profile_top_pairing_trace_state_dag.py
+scripts/audit_top_pairing_transducer_pivot.py
+scripts/generated/top_pairing_closed_graph_acceptance_latest.json
+scripts/generated/top_pairing_closed_graph_acceptance_latest.md
+scripts/generated/top_pairing_trace_state_dag_latest.json
+scripts/generated/top_pairing_trace_state_dag_latest.md
+scripts/generated/top_pairing_transducer_pivot.json
+scripts/generated/top_pairing_transducer_pivot.md
+```
+
+Exact diagnostic results:
+
+```text
+closed graph-acceptance audit:
+  decision: closed-components-too-weak
+  dfs_nodes: 11318
+  closed_candidates: 47
+  accepted by old graph: 37
+  rejected by old graph: 10
+  prefix_graph_rejects: 197
+
+trace state-DAG profile:
+  decision: semantic-state-dag-candidate
+  states: 5347
+  edges: 6089
+  closed paths: 47
+  cancellation-reject paths: 395
+```
+
+Interpretation:
+
+- The target-shadow/cancellation/schedule/square-gap/local-axis closed
+  language is already very small in this top-pairing slice.
+- The old sampled/10M graph is not the right production graph: it rejects
+  `10` of the `47` visible closed-language candidates.
+- Therefore the earlier target
+  `closed-language -> GraphBranchTableSuffixOk` should be treated as an
+  adapter option only if generated from the closed-language state DAG itself.
+  Do not force the closed language into the old graph.
+- The next production target is:
+
+  ```lean
+  theorem topPairingClosed_to_stateDAGEval
+      (rank : Fin numPairWords)
+      (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+      ∃ result,
+        evalLabelStepFn closedStateDAGNext closedStateDAGRoot
+          (topPairingBellmanLabelsAtRank rank) = some result ∧
+        0 <= closedStateDAGPotential result.1 ∧
+        scaledMargin rank <= (closedStateDAGConst : Int) + result.2
+  ```
+
+- The proof should be driven by `TopPairingTransducerTail.ofClosedRank`,
+  `TopPairingTransducerTail.cons`, the target-shadow cursor, remaining pair
+  counts, square-gap, exact local-axis linear state, and finite DAG state.
+- A generated state enum is acceptable if local soundness case-splits on
+  `(state, face)` and not on ranks, sampled paths, selected prefixes, accepted
+  trace ids, exact affine RHS, or solved start points.
+- The optional full state/edge graph dump
+  `scripts/generated/top_pairing_trace_state_dag_latest_graph.json` was not
+  retained because it is a 500k-line diagnostic artifact and is not needed for
+  this checkpoint.
+
+Commands:
+
+```bash
+python3 scripts/audit_top_pairing_closed_graph_acceptance.py \
+  --json scripts/generated/top_pairing_closed_graph_acceptance_latest.json \
+  --markdown scripts/generated/top_pairing_closed_graph_acceptance_latest.md
+
+python3 scripts/profile_top_pairing_trace_state_dag.py \
+  --json scripts/generated/top_pairing_trace_state_dag_latest.json \
+  --markdown scripts/generated/top_pairing_trace_state_dag_latest.md \
+  --graph-json scripts/generated/top_pairing_trace_state_dag_latest_graph.json
+
+python3 -m py_compile \
+  scripts/audit_top_pairing_transducer_pivot.py \
+  scripts/audit_top_pairing_closed_graph_acceptance.py \
+  scripts/profile_top_pairing_trace_state_dag.py
+
+python3 scripts/audit_top_pairing_transducer_pivot.py
+```
+
+Results:
+
+```text
+closed graph-acceptance audit: pass, decision closed-components-too-weak
+trace state-DAG profile: pass, decision semantic-state-dag-candidate
+py_compile: pass
+pivot audit: pass,
+  decision semantic-transducer-pivot-accepted-next-emit-closed-language-state-dag-evaluator
+```
+
+Next implementation move:
+
+1. Emit a tiny smoke module for a closed-language state-DAG evaluator over the
+   `5347`-state diagnostic DAG, using a bounded subset first if the full file
+   is large.
+2. The smoke must export an evaluator theorem, not a trace-membership theorem.
+3. If the local margin bound cannot be expressed without exact affine RHS or
+   exact solved start-point keys, pause Bellman and run the cocycle quotient
+   profiler before adding more state.

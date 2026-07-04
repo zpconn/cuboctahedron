@@ -1,0 +1,3004 @@
+{
+  "base": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraphEvalSplit10MSmoke/Base.lean",
+  "decision": "closed-components-too-weak",
+  "first_accepted": [
+    {
+      "final_state": 558,
+      "gain": -376,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "zm",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 558,
+      "gain": -376,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "yp",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 558,
+      "gain": -376,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "zm",
+        "zp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 559,
+      "gain": -596,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "tmmp",
+        "zm",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "final_state": 560,
+      "gain": -348,
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "yp",
+        "tmpp",
+        "zm",
+        "zp",
+        "tmmp",
+        "xp"
+      ]
+    }
+  ],
+  "first_rejections": [
+    {
+      "first_graph_reject": {
+        "face": "tpmm",
+        "label": 4,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "zp",
+          "tpmm"
+        ],
+        "semantic_state_before_reject": {
+          "linear": [
+            [
+              "7/27",
+              "26/27",
+              "-2/27"
+            ],
+            [
+              "-22/27",
+              "7/27",
+              "14/27"
+            ],
+            [
+              "14/27",
+              "-2/27",
+              "23/27"
+            ]
+          ],
+          "parity": "111",
+          "remaining_counts": {
+            "d111": 0,
+            "d11m": 1,
+            "d1m1": 1,
+            "dm11": 1,
+            "x": 0,
+            "y": 1,
+            "z": 1
+          },
+          "square_gap": 5,
+          "stack": {
+            "cancellations": [
+              [
+                "d11m",
+                3,
+                4
+              ]
+            ],
+            "shadow_len": 5,
+            "stack": [
+              [
+                "dm11",
+                0
+              ],
+              [
+                "d111",
+                1
+              ],
+              [
+                "d1m1",
+                2
+              ]
+            ]
+          }
+        },
+        "state": 851,
+        "step": 8
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "zp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "zp",
+        "tmmp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "zp",
+          "tmmp"
+        ],
+        "semantic_state_before_reject": {
+          "linear": [
+            [
+              "-49/81",
+              "8/81",
+              "64/81"
+            ],
+            [
+              "-8/81",
+              "79/81",
+              "-16/81"
+            ],
+            [
+              "64/81",
+              "16/81",
+              "47/81"
+            ]
+          ],
+          "parity": "111",
+          "remaining_counts": {
+            "d111": 1,
+            "d11m": 1,
+            "d1m1": 1,
+            "dm11": 1,
+            "x": 0,
+            "y": 1,
+            "z": 1
+          },
+          "square_gap": 4,
+          "stack": {
+            "cancellations": [],
+            "shadow_len": 4,
+            "stack": [
+              [
+                "dm11",
+                0
+              ],
+              [
+                "d111",
+                1
+              ],
+              [
+                "d1m1",
+                2
+              ],
+              [
+                "d11m",
+                3
+              ]
+            ]
+          }
+        },
+        "state": 777,
+        "step": 7
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "yp",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "zp",
+          "tmmp"
+        ],
+        "semantic_state_before_reject": {
+          "linear": [
+            [
+              "-49/81",
+              "8/81",
+              "64/81"
+            ],
+            [
+              "-8/81",
+              "79/81",
+              "-16/81"
+            ],
+            [
+              "64/81",
+              "16/81",
+              "47/81"
+            ]
+          ],
+          "parity": "111",
+          "remaining_counts": {
+            "d111": 1,
+            "d11m": 1,
+            "d1m1": 1,
+            "dm11": 1,
+            "x": 0,
+            "y": 1,
+            "z": 1
+          },
+          "square_gap": 4,
+          "stack": {
+            "cancellations": [],
+            "shadow_len": 4,
+            "stack": [
+              [
+                "dm11",
+                0
+              ],
+              [
+                "d111",
+                1
+              ],
+              [
+                "d1m1",
+                2
+              ],
+              [
+                "d11m",
+                3
+              ]
+            ]
+          }
+        },
+        "state": 777,
+        "step": 7
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "zp",
+        "yp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "zp",
+          "tmmp"
+        ],
+        "semantic_state_before_reject": {
+          "linear": [
+            [
+              "-49/81",
+              "8/81",
+              "64/81"
+            ],
+            [
+              "-8/81",
+              "79/81",
+              "-16/81"
+            ],
+            [
+              "64/81",
+              "16/81",
+              "47/81"
+            ]
+          ],
+          "parity": "111",
+          "remaining_counts": {
+            "d111": 1,
+            "d11m": 1,
+            "d1m1": 1,
+            "dm11": 1,
+            "x": 0,
+            "y": 1,
+            "z": 1
+          },
+          "square_gap": 4,
+          "stack": {
+            "cancellations": [],
+            "shadow_len": 4,
+            "stack": [
+              [
+                "dm11",
+                0
+              ],
+              [
+                "d111",
+                1
+              ],
+              [
+                "d1m1",
+                2
+              ],
+              [
+                "d11m",
+                3
+              ]
+            ]
+          }
+        },
+        "state": 777,
+        "step": 7
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "zp",
+        "tmmp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ]
+    },
+    {
+      "first_graph_reject": {
+        "face": "tmmp",
+        "label": 1,
+        "prefix": [
+          "xm",
+          "ym",
+          "tmpm",
+          "zm",
+          "zp",
+          "tppm",
+          "tpmm",
+          "tppp",
+          "tmmm",
+          "tpmp",
+          "tmmp"
+        ],
+        "semantic_state_before_reject": {
+          "linear": [
+            [
+              "55/81",
+              "44/81",
+              "40/81"
+            ],
+            [
+              "20/81",
+              "-65/81",
+              "44/81"
+            ],
+            [
+              "56/81",
+              "-20/81",
+              "-55/81"
+            ]
+          ],
+          "parity": "110",
+          "remaining_counts": {
+            "d111": 0,
+            "d11m": 1,
+            "d1m1": 0,
+            "dm11": 1,
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "square_gap": 6,
+          "stack": {
+            "cancellations": [
+              [
+                "d11m",
+                3,
+                4
+              ]
+            ],
+            "shadow_len": 6,
+            "stack": [
+              [
+                "dm11",
+                0
+              ],
+              [
+                "d111",
+                1
+              ],
+              [
+                "d1m1",
+                2
+              ],
+              [
+                "dm11",
+                5
+              ]
+            ]
+          }
+        },
+        "state": 81,
+        "step": 10
+      },
+      "labels": [
+        "xm",
+        "ym",
+        "tmpm",
+        "zm",
+        "zp",
+        "tppm",
+        "tpmm",
+        "tppp",
+        "tmmm",
+        "tpmp",
+        "tmmp",
+        "tmpp",
+        "yp",
+        "xp"
+      ]
+    }
+  ],
+  "histograms": {
+    "reject_by_stack_shape": [
+      {
+        "cancellations": [],
+        "count": 46,
+        "shadow_len": 3,
+        "stack": [
+          [
+            "dm11",
+            0
+          ],
+          [
+            "d111",
+            1
+          ],
+          [
+            "d1m1",
+            2
+          ]
+        ]
+      },
+      {
+        "cancellations": [],
+        "count": 38,
+        "shadow_len": 4,
+        "stack": [
+          [
+            "dm11",
+            0
+          ],
+          [
+            "d111",
+            1
+          ],
+          [
+            "d1m1",
+            2
+          ],
+          [
+            "d11m",
+            3
+          ]
+        ]
+      },
+      {
+        "cancellations": [],
+        "count": 30,
+        "shadow_len": 2,
+        "stack": [
+          [
+            "dm11",
+            0
+          ],
+          [
+            "d111",
+            1
+          ]
+        ]
+      },
+      {
+        "cancellations": [
+          [
+            "d11m",
+            3,
+            4
+          ]
+        ],
+        "count": 30,
+        "shadow_len": 5,
+        "stack": [
+          [
+            "dm11",
+            0
+          ],
+          [
+            "d111",
+            1
+          ],
+          [
+            "d1m1",
+            2
+          ]
+        ]
+      },
+      {
+        "cancellations": [],
+        "count": 29,
+        "shadow_len": 1,
+        "stack": [
+          [
+            "dm11",
+            0
+          ]
+        ]
+      },
+      {
+        "cancellations": [
+          [
+            "d11m",
+            3,
+            4
+          ]
+        ],
+        "count": 13,
+        "shadow_len": 6,
+        "stack": [
+          [
+            "dm11",
+            0
+          ],
+          [
+            "d111",
+            1
+          ],
+          [
+            "d1m1",
+            2
+          ],
+          [
+            "dm11",
+            5
+          ]
+        ]
+      },
+      {
+        "cancellations": [],
+        "count": 7,
+        "shadow_len": 0,
+        "stack": []
+      },
+      {
+        "cancellations": [
+          [
+            "d11m",
+            3,
+            4
+          ]
+        ],
+        "count": 4,
+        "shadow_len": 7,
+        "stack": [
+          [
+            "dm11",
+            0
+          ],
+          [
+            "d111",
+            1
+          ],
+          [
+            "d1m1",
+            2
+          ],
+          [
+            "dm11",
+            5
+          ],
+          [
+            "d111",
+            6
+          ]
+        ]
+      }
+    ],
+    "reject_by_state_face": [
+      {
+        "count": 3,
+        "face": "tmpm",
+        "state": 740
+      },
+      {
+        "count": 3,
+        "face": "tmmp",
+        "state": 814
+      },
+      {
+        "count": 3,
+        "face": "tmpp",
+        "state": 814
+      },
+      {
+        "count": 3,
+        "face": "tmmp",
+        "state": 34
+      },
+      {
+        "count": 3,
+        "face": "tmpp",
+        "state": 901
+      },
+      {
+        "count": 3,
+        "face": "tppp",
+        "state": 814
+      },
+      {
+        "count": 3,
+        "face": "tppp",
+        "state": 740
+      },
+      {
+        "count": 3,
+        "face": "tpmp",
+        "state": 683
+      },
+      {
+        "count": 3,
+        "face": "tppm",
+        "state": 683
+      },
+      {
+        "count": 3,
+        "face": "tppp",
+        "state": 683
+      },
+      {
+        "count": 3,
+        "face": "tppm",
+        "state": 646
+      },
+      {
+        "count": 2,
+        "face": "tmmp",
+        "state": 42
+      },
+      {
+        "count": 2,
+        "face": "tppm",
+        "state": 693
+      },
+      {
+        "count": 2,
+        "face": "tmpm",
+        "state": 749
+      },
+      {
+        "count": 2,
+        "face": "tmmm",
+        "state": 831
+      },
+      {
+        "count": 2,
+        "face": "tmmm",
+        "state": 920
+      },
+      {
+        "count": 2,
+        "face": "tmpm",
+        "state": 920
+      },
+      {
+        "count": 2,
+        "face": "zp",
+        "state": 186
+      },
+      {
+        "count": 2,
+        "face": "zm",
+        "state": 58
+      },
+      {
+        "count": 2,
+        "face": "zm",
+        "state": 920
+      },
+      {
+        "count": 2,
+        "face": "zm",
+        "state": 831
+      },
+      {
+        "count": 2,
+        "face": "tppm",
+        "state": 749
+      },
+      {
+        "count": 2,
+        "face": "zm",
+        "state": 749
+      },
+      {
+        "count": 2,
+        "face": "zm",
+        "state": 693
+      },
+      {
+        "count": 2,
+        "face": "tppm",
+        "state": 650
+      },
+      {
+        "count": 2,
+        "face": "tppp",
+        "state": 650
+      },
+      {
+        "count": 2,
+        "face": "zp",
+        "state": 650
+      },
+      {
+        "count": 2,
+        "face": "tppp",
+        "state": 625
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 635
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 667
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 779
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 947
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 856
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 942
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 851
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 931
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 716
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 777
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 777
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 777
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 932
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 845
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 845
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 845
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 714
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 714
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 714
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 769
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 769
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 933
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 846
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 846
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 846
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 664
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 664
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 704
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 770
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 770
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 934
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 847
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 847
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 847
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 704
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 631
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 631
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 657
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 705
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 771
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 771
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 935
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 81
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 848
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 848
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 848
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 705
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 657
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 762
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 839
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 839
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 44
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 912
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 912
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 27
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 762
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 829
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 829
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 28
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 895
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 699
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 755
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 755
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 755
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 809
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 809
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 29
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 896
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 809
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 654
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 689
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 689
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 737
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 810
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 810
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 30
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 897
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 810
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 737
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 627
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 685
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 742
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 904
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 48
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 48
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 904
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 817
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 742
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 742
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 685
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 648
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 648
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 738
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 812
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 812
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 32
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 899
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 812
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 738
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 682
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 682
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 682
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 615
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 632
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 662
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 713
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 713
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 852
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 945
+      },
+      {
+        "count": 1,
+        "face": "zp",
+        "state": 185
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 57
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 945
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 852
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 778
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 778
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 778
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 713
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 662
+      },
+      {
+        "count": 1,
+        "face": "zp",
+        "state": 632
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 658
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 706
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 772
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 772
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 936
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 850
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 850
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 850
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 706
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 658
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 628
+      }
+    ],
+    "reject_by_state_step_gap": [
+      {
+        "count": 9,
+        "square_gap": 3,
+        "state": 814,
+        "step": 8
+      },
+      {
+        "count": 9,
+        "square_gap": 1,
+        "state": 683,
+        "step": 6
+      },
+      {
+        "count": 6,
+        "square_gap": 3,
+        "state": 749,
+        "step": 7
+      },
+      {
+        "count": 6,
+        "square_gap": 5,
+        "state": 920,
+        "step": 9
+      },
+      {
+        "count": 6,
+        "square_gap": 1,
+        "state": 650,
+        "step": 5
+      },
+      {
+        "count": 6,
+        "square_gap": 2,
+        "state": 740,
+        "step": 7
+      },
+      {
+        "count": 4,
+        "square_gap": 2,
+        "state": 693,
+        "step": 6
+      },
+      {
+        "count": 4,
+        "square_gap": 4,
+        "state": 831,
+        "step": 8
+      },
+      {
+        "count": 3,
+        "square_gap": 4,
+        "state": 777,
+        "step": 7
+      },
+      {
+        "count": 3,
+        "square_gap": 4,
+        "state": 845,
+        "step": 8
+      },
+      {
+        "count": 3,
+        "square_gap": 3,
+        "state": 714,
+        "step": 6
+      },
+      {
+        "count": 3,
+        "square_gap": 4,
+        "state": 846,
+        "step": 8
+      },
+      {
+        "count": 3,
+        "square_gap": 4,
+        "state": 847,
+        "step": 8
+      },
+      {
+        "count": 3,
+        "square_gap": 4,
+        "state": 848,
+        "step": 8
+      },
+      {
+        "count": 3,
+        "square_gap": 3,
+        "state": 755,
+        "step": 7
+      },
+      {
+        "count": 3,
+        "square_gap": 3,
+        "state": 809,
+        "step": 8
+      },
+      {
+        "count": 3,
+        "square_gap": 3,
+        "state": 810,
+        "step": 8
+      },
+      {
+        "count": 3,
+        "square_gap": 3,
+        "state": 742,
+        "step": 7
+      },
+      {
+        "count": 3,
+        "square_gap": 3,
+        "state": 812,
+        "step": 8
+      },
+      {
+        "count": 3,
+        "square_gap": 1,
+        "state": 682,
+        "step": 6
+      },
+      {
+        "count": 3,
+        "square_gap": 5,
+        "state": 34,
+        "step": 10
+      },
+      {
+        "count": 3,
+        "square_gap": 4,
+        "state": 901,
+        "step": 9
+      },
+      {
+        "count": 3,
+        "square_gap": 0,
+        "state": 646,
+        "step": 5
+      },
+      {
+        "count": 3,
+        "square_gap": 3,
+        "state": 713,
+        "step": 6
+      },
+      {
+        "count": 3,
+        "square_gap": 4,
+        "state": 778,
+        "step": 7
+      },
+      {
+        "count": 3,
+        "square_gap": 4,
+        "state": 850,
+        "step": 8
+      },
+      {
+        "count": 2,
+        "square_gap": 6,
+        "state": 42,
+        "step": 10
+      },
+      {
+        "count": 2,
+        "square_gap": 3,
+        "state": 769,
+        "step": 7
+      },
+      {
+        "count": 2,
+        "square_gap": 2,
+        "state": 664,
+        "step": 5
+      },
+      {
+        "count": 2,
+        "square_gap": 2,
+        "state": 704,
+        "step": 6
+      },
+      {
+        "count": 2,
+        "square_gap": 3,
+        "state": 770,
+        "step": 7
+      },
+      {
+        "count": 2,
+        "square_gap": 1,
+        "state": 631,
+        "step": 4
+      },
+      {
+        "count": 2,
+        "square_gap": 1,
+        "state": 657,
+        "step": 5
+      },
+      {
+        "count": 2,
+        "square_gap": 2,
+        "state": 705,
+        "step": 6
+      },
+      {
+        "count": 2,
+        "square_gap": 3,
+        "state": 771,
+        "step": 7
+      },
+      {
+        "count": 2,
+        "square_gap": 4,
+        "state": 762,
+        "step": 7
+      },
+      {
+        "count": 2,
+        "square_gap": 5,
+        "state": 839,
+        "step": 8
+      },
+      {
+        "count": 2,
+        "square_gap": 5,
+        "state": 912,
+        "step": 9
+      },
+      {
+        "count": 2,
+        "square_gap": 4,
+        "state": 829,
+        "step": 8
+      },
+      {
+        "count": 2,
+        "square_gap": 2,
+        "state": 689,
+        "step": 6
+      },
+      {
+        "count": 2,
+        "square_gap": 2,
+        "state": 737,
+        "step": 7
+      },
+      {
+        "count": 2,
+        "square_gap": 2,
+        "state": 685,
+        "step": 6
+      },
+      {
+        "count": 2,
+        "square_gap": 5,
+        "state": 904,
+        "step": 9
+      },
+      {
+        "count": 2,
+        "square_gap": 6,
+        "state": 48,
+        "step": 10
+      },
+      {
+        "count": 2,
+        "square_gap": 1,
+        "state": 648,
+        "step": 5
+      },
+      {
+        "count": 2,
+        "square_gap": 2,
+        "state": 738,
+        "step": 7
+      },
+      {
+        "count": 2,
+        "square_gap": 7,
+        "state": 186,
+        "step": 11
+      },
+      {
+        "count": 2,
+        "square_gap": 6,
+        "state": 58,
+        "step": 10
+      },
+      {
+        "count": 2,
+        "square_gap": 0,
+        "state": 625,
+        "step": 4
+      },
+      {
+        "count": 2,
+        "square_gap": 1,
+        "state": 632,
+        "step": 4
+      },
+      {
+        "count": 2,
+        "square_gap": 2,
+        "state": 662,
+        "step": 5
+      },
+      {
+        "count": 2,
+        "square_gap": 5,
+        "state": 852,
+        "step": 8
+      },
+      {
+        "count": 2,
+        "square_gap": 6,
+        "state": 945,
+        "step": 9
+      },
+      {
+        "count": 2,
+        "square_gap": 1,
+        "state": 658,
+        "step": 5
+      },
+      {
+        "count": 2,
+        "square_gap": 2,
+        "state": 706,
+        "step": 6
+      },
+      {
+        "count": 2,
+        "square_gap": 3,
+        "state": 772,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "square_gap": 2,
+        "state": 635,
+        "step": 4
+      },
+      {
+        "count": 1,
+        "square_gap": 3,
+        "state": 667,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 779,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "square_gap": 7,
+        "state": 947,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 6,
+        "state": 856,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "square_gap": 6,
+        "state": 942,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 851,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 931,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 4,
+        "state": 716,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 932,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 933,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 934,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 935,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 6,
+        "state": 81,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "square_gap": 6,
+        "state": 44,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 27,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 28,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "square_gap": 4,
+        "state": 895,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 3,
+        "state": 699,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 29,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "square_gap": 4,
+        "state": 896,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 2,
+        "state": 654,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 30,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "square_gap": 4,
+        "state": 897,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 1,
+        "state": 627,
+        "step": 4
+      },
+      {
+        "count": 1,
+        "square_gap": 4,
+        "state": 817,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 32,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "square_gap": 4,
+        "state": 899,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 0,
+        "state": 615,
+        "step": 3
+      },
+      {
+        "count": 1,
+        "square_gap": 7,
+        "state": 185,
+        "step": 11
+      },
+      {
+        "count": 1,
+        "square_gap": 6,
+        "state": 57,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "square_gap": 5,
+        "state": 936,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "square_gap": 0,
+        "state": 628,
+        "step": 4
+      }
+    ],
+    "reject_by_transition": [
+      {
+        "count": 3,
+        "face": "tmpm",
+        "state": 740,
+        "step": 7
+      },
+      {
+        "count": 3,
+        "face": "tmmp",
+        "state": 814,
+        "step": 8
+      },
+      {
+        "count": 3,
+        "face": "tmpp",
+        "state": 814,
+        "step": 8
+      },
+      {
+        "count": 3,
+        "face": "tmmp",
+        "state": 34,
+        "step": 10
+      },
+      {
+        "count": 3,
+        "face": "tmpp",
+        "state": 901,
+        "step": 9
+      },
+      {
+        "count": 3,
+        "face": "tppp",
+        "state": 814,
+        "step": 8
+      },
+      {
+        "count": 3,
+        "face": "tppp",
+        "state": 740,
+        "step": 7
+      },
+      {
+        "count": 3,
+        "face": "tpmp",
+        "state": 683,
+        "step": 6
+      },
+      {
+        "count": 3,
+        "face": "tppm",
+        "state": 683,
+        "step": 6
+      },
+      {
+        "count": 3,
+        "face": "tppp",
+        "state": 683,
+        "step": 6
+      },
+      {
+        "count": 3,
+        "face": "tppm",
+        "state": 646,
+        "step": 5
+      },
+      {
+        "count": 2,
+        "face": "tmmp",
+        "state": 42,
+        "step": 10
+      },
+      {
+        "count": 2,
+        "face": "tppm",
+        "state": 693,
+        "step": 6
+      },
+      {
+        "count": 2,
+        "face": "tmpm",
+        "state": 749,
+        "step": 7
+      },
+      {
+        "count": 2,
+        "face": "tmmm",
+        "state": 831,
+        "step": 8
+      },
+      {
+        "count": 2,
+        "face": "tmmm",
+        "state": 920,
+        "step": 9
+      },
+      {
+        "count": 2,
+        "face": "tmpm",
+        "state": 920,
+        "step": 9
+      },
+      {
+        "count": 2,
+        "face": "zp",
+        "state": 186,
+        "step": 11
+      },
+      {
+        "count": 2,
+        "face": "zm",
+        "state": 58,
+        "step": 10
+      },
+      {
+        "count": 2,
+        "face": "zm",
+        "state": 920,
+        "step": 9
+      },
+      {
+        "count": 2,
+        "face": "zm",
+        "state": 831,
+        "step": 8
+      },
+      {
+        "count": 2,
+        "face": "tppm",
+        "state": 749,
+        "step": 7
+      },
+      {
+        "count": 2,
+        "face": "zm",
+        "state": 749,
+        "step": 7
+      },
+      {
+        "count": 2,
+        "face": "zm",
+        "state": 693,
+        "step": 6
+      },
+      {
+        "count": 2,
+        "face": "tppm",
+        "state": 650,
+        "step": 5
+      },
+      {
+        "count": 2,
+        "face": "tppp",
+        "state": 650,
+        "step": 5
+      },
+      {
+        "count": 2,
+        "face": "zp",
+        "state": 650,
+        "step": 5
+      },
+      {
+        "count": 2,
+        "face": "tppp",
+        "state": 625,
+        "step": 4
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 635,
+        "step": 4
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 667,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 779,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 947,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 856,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 942,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 851,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 931,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 716,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 777,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 777,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 777,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 932,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 845,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 845,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 845,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 714,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 714,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 714,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 769,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 769,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 933,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 846,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 846,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 846,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 664,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 664,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 704,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 770,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 770,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 934,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 847,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 847,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 847,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 704,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 631,
+        "step": 4
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 631,
+        "step": 4
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 657,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 705,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 771,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 771,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 935,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 81,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 848,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 848,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 848,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 705,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 657,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 762,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 839,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 839,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 44,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 912,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 912,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 27,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 762,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 829,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 829,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 28,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 895,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 699,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 755,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 755,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 755,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 809,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 809,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 29,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 896,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 809,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 654,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 689,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 689,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 737,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 810,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 810,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 30,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 897,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 810,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 737,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 627,
+        "step": 4
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 685,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 742,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 904,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 48,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 48,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 904,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 817,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 742,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 742,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 685,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 648,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 648,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 738,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 812,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 812,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 32,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 899,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 812,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 738,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 682,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 682,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 682,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tppm",
+        "state": 615,
+        "step": 3
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 632,
+        "step": 4
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 662,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 713,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 713,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 852,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 945,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "zp",
+        "state": 185,
+        "step": 11
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 57,
+        "step": 10
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 945,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 852,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpm",
+        "state": 778,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 778,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 778,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 713,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "zm",
+        "state": 662,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "zp",
+        "state": 632,
+        "step": 4
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 658,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "tmmm",
+        "state": 706,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 772,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 772,
+        "step": 7
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 936,
+        "step": 9
+      },
+      {
+        "count": 1,
+        "face": "tmmp",
+        "state": 850,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tmpp",
+        "state": 850,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 850,
+        "step": 8
+      },
+      {
+        "count": 1,
+        "face": "tpmp",
+        "state": 706,
+        "step": 6
+      },
+      {
+        "count": 1,
+        "face": "tppp",
+        "state": 658,
+        "step": 5
+      },
+      {
+        "count": 1,
+        "face": "tpmm",
+        "state": 628,
+        "step": 4
+      }
+    ]
+  },
+  "limits": {
+    "max_examples": 5,
+    "max_nodes": null
+  },
+  "stats": {
+    "accepted": 37,
+    "closed_candidates": 47,
+    "dfs_nodes": 11318,
+    "prefix_graph_rejects": 197,
+    "rejected": 10
+  }
+}

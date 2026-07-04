@@ -4,7 +4,7 @@ This is diagnostic-only evidence. It records the strategy pivot from
 selected-prefix/root-trace membership to a deterministic semantic
 closed-language transducer theorem.
 
-- decision: `semantic-transducer-pivot-accepted-next-prove-graph-suffix-membership`
+- decision: `semantic-transducer-pivot-accepted-next-emit-closed-language-state-dag-evaluator`
 - target-shadow surface mentions: `120`
 - closed-language field mentions: `226`
 - eval-core mentions: `94`
@@ -27,17 +27,23 @@ closed-language transducer theorem.
 - semantic sockets accepted: `2`
 - closure after sequence-bad-face filter: `True`
 - strengthened local Lake smoke passed: `True`
+- closed graph-acceptance decision: `closed-components-too-weak`
+- trace state-DAG decision: `semantic-state-dag-candidate`
+- trace state-DAG states: `5347`
+- trace state-DAG edges: `6089`
+- trace state-DAG closed paths: `47`
 
 Known semantic sockets:
 
 - `state19/tmmp`: canonical-bad-face mismatch.
 - `state150/tppp`: target-pairing completion impossibility.
 
-Next checkpoint: prove or generate the closed-language-to-graph-suffix
-membership theorem.  The target is `GraphBranchTableSuffixOk rank
-rootState (topPairingRankFaceLabels rank)`, consumed by
-`GraphBranchTableSuffixAllFamily`.  Do not scale selected-prefix
-coverage as the production proof surface.
+Next checkpoint: emit/prove a closed-language state-DAG evaluator.
+The old 10M graph is now diagnostic evidence only: the exact visible
+closed-language audit found candidates that it rejects.  The current
+small semantic state DAG is the next proof object to target, with
+`GraphBranchTableSuffixOk` or a successor evaluator theorem produced
+from closed-language state transitions rather than from sampled paths.
 
 ## Guard Evidence
 
@@ -120,7 +126,7 @@ theorem topPairingClosed_to_eval_gate
 
 ## Required Experiments
 
-- closed-language-to-graph-branch-suffix membership emitter
-- closed-language-to-state transition profiler across disjoint windows
+- closed-language state-DAG evaluator emitter
+- closed-language-to-state transition proof over the 5347-state DAG
 - cocycle quotient profiler before adding exact affine state
 - translation GoodDirection row-template/3-row circuit profiler
