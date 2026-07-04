@@ -1,0 +1,28 @@
+{
+  "cancellations": [],
+  "decision": "semantic-next-completion-matches-graph",
+  "extra_in_graph": [],
+  "graph_input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "graph_outgoing_faces": [
+    "zp"
+  ],
+  "legal_next_faces": [
+    "zp"
+  ],
+  "missing_in_graph": [],
+  "mode": "bellman-semantic-next-completion-audit",
+  "parity": "111",
+  "recommendation": "Promote the semantic completion state into the Lean suffix predicate: the graph-local next-face set is explained by target-pairing completion plus schedule/square-gap data.",
+  "rejected_face": "tppp",
+  "rejected_face_is_semantically_illegal": true,
+  "schedule_mode": "observed+square-gap",
+  "shadow_len": 1,
+  "stack": [
+    "dm11@0"
+  ],
+  "state": 150,
+  "state_audit_input": "scripts/generated/bellman_state150_tppp_explicit_transition_audit.json",
+  "state_key": "step=4|faces=1,0,1,0,1,0,1,1,0,1,1,1,1,1|par=111|stack=dm11|lin=-1/3,-2/3,-2/3;-2/3,-1/3,2/3;-2/3,2/3,-1/3|triSrc=2:d1m1->dm11@110",
+  "step": 4,
+  "target_pairing": "pairs=3-4:d11m;survivors=0:dm11|1:d111|2:d1m1|5:dm11|6:d111|7:d1m1"
+}

@@ -97498,3 +97498,77 @@ result:
 Next checkpoint: inspect the existing closed-language/cancellation source
 predicates and add the smallest deterministic state field that rules out the
 graph150 `tppp` splice.  Only then retry graph `150`.
+
+Graph-150 semantic completion pivot:
+
+The next GPT5.5 strategy update is now incorporated as the controlling rule for
+this frontier: keep Bellman, but replace selected-prefix membership with a
+deterministic semantic closed-language evaluator.  The relevant theorem is not
+another potential or graph smoke; it is a local version of:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  exists result,
+    evalLabelStepFn graphNext rootState
+      (topPairingRankFaceLabels rank) = some result /\
+    0 <= graphPotential result.1 /\
+    scaledMargin rank <= const + result.2
+```
+
+The graph-150 failure identified the first concrete missing local field.  A new
+exact diagnostic audit was added:
+
+```bash
+python3 scripts/audit_bellman_semantic_next_completion.py
+```
+
+Outputs:
+
+```text
+scripts/generated/bellman_state150_semantic_next_completion.json
+scripts/generated/bellman_state150_semantic_next_completion.md
+
+decision = semantic-next-completion-matches-graph
+state = 150
+rejected candidate = tppp
+semantic legal next faces = [zp]
+graph outgoing faces = [zp]
+rejected candidate semantically illegal = True
+```
+
+Interpretation:
+
+- `tppp` is not ruled out by used-face disjointness and not by the target-shadow
+  cursor alone.
+- It is ruled out by the deterministic target-completion state: remaining
+  actual-face counts, current square parity, current target cancellation stack,
+  triangular source/cancellation progress, and the existing step/square-gap
+  schedules.
+- Therefore graph `150` should be retried only after a Lean suffix predicate
+  carries this semantic completion state.  The next state should prove a
+  local theorem whose conclusion is essentially:
+
+  ```lean
+  theorem graph150_head_of_targetCompletionTail
+      {face : Face} {rest : List Face}
+      (htail : Graph150TargetCompletionTail (face :: rest)) :
+      face = Face.zp
+  ```
+
+  or the branch-table equivalent returning the single graph branch
+  `zp -> 157 (114)`.
+- The suffix predicate may depend on the rank through the existing ranked
+  semantic gate, but it must be semantic:
+  `TopPairingClosedLanguageAtRank` plus deterministic cancellation/remaining
+  state, not a sampled object, accepted trace id, selected prefix, rank list,
+  exact affine RHS, or solved start point.
+
+Next implementation target:
+
+1. Add a small hand-written or generated-constant Lean module for target
+   completion suffix state, analogous to `TopPairingUsedFaceTail` but carrying
+   remaining actual-face counts and cancellation-stack/source progress.
+2. Prove the graph-150 local branch theorem from that suffix state, with the
+   single legal branch `zp`.
+3. Guard-check the module directly with `lake env lean` under the hard memory
+   wrapper before adding it to any shard.
