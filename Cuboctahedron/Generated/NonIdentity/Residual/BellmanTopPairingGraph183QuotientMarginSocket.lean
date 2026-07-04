@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientSmoke
+import Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
 
 /-!
 Quotient-gain margin socket for the graph183 accepted branch.
@@ -25,6 +26,7 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183Cocyc
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
+open Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
 
 /--
 Graph183 accepted-branch margin target phrased against the checked cocycle
@@ -141,6 +143,54 @@ theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin
     (acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin
       hfamily)
     hstrengthened hprefix
+
+theorem scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)) :
+    scaledMargin rank <= 0 := by
+  have hmargin :=
+    hfamily.final_margin_yp_branch_quotient rank hstrengthened hprefix
+  have hbound :
+      graphConst + graph183AcceptedBranchRawGain <= 0 := by
+    rw [graph183AcceptedBranchRawGain_contract]
+    change (176 : Int) + ((194 : Int) + (-542 : Int)) <= 0
+    decide
+  exact le_trans hmargin hbound
+
+structure AcceptedSequenceGraph183TailQuotientStartViolationFamily
+    (scaledMargin : Fin numPairWords -> Int) : Type where
+  margin :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin
+  startViolation :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ObjectStartViolationMarginCert rank (scaledMargin rank)
+
+theorem nonIdentityRankKilled_of_acceptedSequenceGraph183TailQuotientStartViolation
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      AcceptedSequenceGraph183TailQuotientStartViolationFamily scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    (scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin
+      hfamily.margin hstrengthened hprefix)
+    (hfamily.startViolation rank hstrengthened)
 
 /--
 Graph183 final-margin family from the checked quotient-gain margin target.

@@ -101781,3 +101781,96 @@ local tables.
   hard one: derive that integer margin inequality from strengthened
   closed-language/cancellation/cocycle state, without exact affine RHS keys or
   selected-prefix/rank-path tables.
+
+### 2026-07-04 graph183 branch-local killed bridge
+
+- Extended the branch-local quotient socket one step further downstream.  The
+  graph183 accepted-tail quotient target now has Lean-checked consequences all
+  the way to the public semantic killed predicate, provided the matching
+  start-violation certificate family is supplied.
+
+- New theorem surfaces in
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean`:
+
+  ```lean
+  scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin ->
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+      (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      scaledMargin rank <= 0
+
+  AcceptedSequenceGraph183TailQuotientStartViolationFamily :
+    (Fin numPairWords -> Int) -> Type
+
+  nonIdentityRankKilled_of_acceptedSequenceGraph183TailQuotientStartViolation :
+    AcceptedSequenceGraph183TailQuotientStartViolationFamily scaledMargin ->
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+      (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+  ```
+
+- The first theorem uses only the checked equation
+  `graph183AcceptedBranchRawGain = 194 + -542` and the generated graph
+  constant `graphConst = 176`, so the local quotient bound implies
+  `scaledMargin rank <= -172`, hence nonpositive.  The second theorem combines
+  that nonpositive bound with `ObjectStartViolationMarginCert` through the
+  existing `nonIdentityRankKilled_of_nonpos_startViolationMarginCert`.
+
+- Important type-design note:
+  `AcceptedSequenceGraph183TailQuotientStartViolationFamily` is a `Type`, not
+  a `Prop`, because it carries `ObjectStartViolationMarginCert` data.  An
+  attempted `Prop` structure failed Lean projection generation, which was a
+  useful guardrail against smuggling proof-carrying data into an irrelevant
+  proposition.
+
+- Updated `scripts/audit_graph183_accepted_tail_margin_frontier.py` to require
+  the nonpositive and killed theorem surfaces as part of the graph183 quotient
+  socket audit.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 360 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_quotient_margin_socket_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183QuotientMarginSocket
+
+  python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  ```
+
+- Results:
+  - A first guarded build failed quickly because the combined family was
+    incorrectly declared as `Prop` while carrying certificate data.
+  - After changing that family to `Type`, the guarded build passed.
+  - Elapsed time: `3.00s`.
+  - Peak guarded tree RSS: `4054.43 MiB`.
+  - Minimum available memory observed: `45235.46 MiB`.
+  - Frontier audit regenerated and passed with decision
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+
+- Current accepted interpretation:
+  graph183's accepted `yp` tail now has a checked downstream chain:
+
+  ```text
+  branch-local quotient margin
+    + start-violation cert family
+    -> scaledMargin <= 0
+    -> NonIdentityRankKilled
+  ```
+
+  The remaining production problem is therefore sharply split:
+  (1) prove `AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily` from the
+  strengthened closed/cancellation/cocycle semantics, and
+  (2) provide a semantic start-violation certificate family for the same
+  branch without selected-prefix, trace-id, exact affine-RHS, or rank-path
+  tables.
