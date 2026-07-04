@@ -67,6 +67,12 @@
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph169ContinuationSocket.lean"
     },
+    "graph183_tail_table_socket": {
+      "exists": true,
+      "lines": 518,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean"
+    },
     "target_completion_local_branch_table_shard000": {
       "exists": true,
       "lines": 63,
@@ -265,6 +271,27 @@
       "rss_cap_mib": 12000.0,
       "timeout_seconds": 420.0
     },
+    "graph183_tail_table_socket_lake": {
+      "available_floor_mib": 30000.0,
+      "command": [
+        "env",
+        "LEAN_NUM_THREADS=1",
+        "LAKE_JOBS=1",
+        "lake",
+        "build",
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket"
+      ],
+      "elapsed_seconds": 4.003500427003019,
+      "exit_code": 0,
+      "hard_address_space_mib": null,
+      "killed_reason": null,
+      "max_tree_rss_kib": 4315500,
+      "max_tree_rss_mib": 4214.35546875,
+      "min_available_seen_kib": 45927704,
+      "min_available_seen_mib": 44851.2734375,
+      "rss_cap_mib": 12000.0,
+      "timeout_seconds": 420.0
+    },
     "target_completion_local_branch_table_shard000_lake": {
       "available_floor_mib": 30000.0,
       "command": [
@@ -310,5 +337,5 @@
   },
   "missing_symbols": [],
   "mode": "top_pairing_semantic_evaluator_pivot",
-  "next_production_target": "Depth11Layer4SevenBranchMappedPortfolioAllFamily scaledMargin"
+  "next_production_target": "StrengthenedGraph183TailFinalMarginFamily scaledMargin sequenceBadFace"
 }

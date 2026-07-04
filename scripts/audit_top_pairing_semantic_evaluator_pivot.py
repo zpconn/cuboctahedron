@@ -58,6 +58,9 @@ FILES = {
     "graph169_continuation_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph169ContinuationSocket.lean",
+    "graph183_tail_table_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean",
     "target_completion_local_branch_table_shard000": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
@@ -87,6 +90,8 @@ GUARDS = {
     / "scripts/generated/graph157_continuation_socket_lake_guard.json",
     "graph169_continuation_socket_lake": ROOT
     / "scripts/generated/graph169_continuation_socket_lake_guard.json",
+    "graph183_tail_table_socket_lake": ROOT
+    / "scripts/generated/graph183_tail_table_socket_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -169,6 +174,14 @@ REQUIRED_SYMBOLS = {
         "graphExactEvalGateAtRank_of_graph169AfterTpmm",
         "graph169DirectEvalSocket_builds",
     ],
+    "graph183_tail_table_socket": [
+        "graph183_tail_eq_forced_or_tmmp_branch",
+        "graph183BlockedTailHeadEval",
+        "StrengthenedGraph183TailFinalMarginFamily",
+        "graph169ContinuationFamily_of_graph183TailFinalMargin",
+        "graphExactEvalGateAtRank_of_graph183TailFinalMargin",
+        "graph183TailTableSocket_builds",
+    ],
     "target_completion_local_branch_table_shard000": [
         "ShardState",
         "completionState",
@@ -199,6 +212,7 @@ PRODUCTION_SCAN_FILES = [
     "graph150_direct_eval_socket",
     "graph157_continuation_socket",
     "graph169_continuation_socket",
+    "graph183_tail_table_socket",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
 ]
@@ -363,6 +377,15 @@ def render_markdown(report: dict[str, Any]) -> str:
             "generated finite local-state table rather than more hand-written",
             "one-step sockets.",
             "",
+            "The graph-183 tail-table socket records the first non-deterministic",
+            "target-completion point on this branch.  Target-completion allows",
+            "two tails: the `yp,tmpp,tmmp,xp` tail evaluates from graph `183`",
+            "to `(126, -542)`, while the `tmmp,tmpp,yp,xp` tail reaches graph",
+            "`19` with head `tmmp`, where `closedBellmanNext 19 Face.tmmp =",
+            "none`.  The production obligation is therefore a final-margin",
+            "proof for the accepted `yp` branch plus a semantic impossibility",
+            "proof for the blocked `tmmp` branch.",
+            "",
             "## Go/No-Go Gate",
             "",
             "Go only if the next producer proves the portfolio by local semantic",
@@ -413,7 +436,7 @@ def main() -> int:
         "missing_symbols": missing_symbols,
         "forbidden_hits": all_forbidden_hits,
         "next_production_target": (
-            "Depth11Layer4SevenBranchMappedPortfolioAllFamily scaledMargin"
+            "StrengthenedGraph183TailFinalMarginFamily scaledMargin sequenceBadFace"
         ),
     }
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)

@@ -99774,3 +99774,139 @@ local tables.
   plus a separate graph-exact margin-bound family.  Hand-writing each next
   deterministic edge would preserve correctness but would not be the
   architecture needed for full emission.
+
+### 2026-07-04 graph183 tail-table socket and first blocked branch
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean`.
+  This is the first point on the graph150/157/169 semantic-evaluator descent
+  where target-completion alone is not deterministic.
+- Exact target-completion table from graph `183`:
+
+  ```lean
+  theorem graph183_tail_eq_forced_or_tmmp_branch :
+      Graph183TargetCompletionTail rest ->
+      rest = graph183ForcedTail ∨
+        ∃ restTail,
+          rest =
+            Face.tppp :: Face.tmmm :: Face.tpmp :: Face.tmmp :: restTail ∧
+          TopPairingTargetCompletionTail
+            (graph19TargetCompletionState.next Face.tmmp) restTail
+  ```
+
+  where:
+
+  ```lean
+  def graph183ForcedTail : List Face :=
+    [Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp,
+      Face.tmmp, Face.xp]
+  ```
+
+- The accepted `yp` branch has exact evaluator result:
+
+  ```lean
+  evalLabelStepFn closedBellmanNext 183 graph183ForcedTail =
+    some (126, -542)
+  ```
+
+  and `0 <= graphPotential 126` is checked by `decide`.
+- The other semantic target-completion branch is real but blocked by the
+  Bellman graph:
+
+  ```lean
+  closedBellmanNext 19 Face.tmmp = none
+  ```
+
+  So the next production family must not pretend target-completion alone
+  proves evaluator membership.  It must prove:
+
+  ```lean
+  structure StrengthenedGraph183TailFinalMarginFamily
+      (scaledMargin : Fin numPairWords -> Int)
+      (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop
+  ```
+
+  with two fields beyond the inherited graph150 tail:
+
+  ```lean
+  final_margin_yp_branch :
+    ... ->
+    scaledMargin rank <= graphConst + ((194 : Int) + (-542 : Int))
+
+  tmmp_branch_absurd :
+    ... ->
+    TopPairingTargetCompletionTail
+      (graph19TargetCompletionState.next Face.tmmp) restTail ->
+    False
+  ```
+
+- New adapters:
+
+  ```lean
+  theorem graph169ContinuationFamily_of_graph183TailFinalMargin :
+      StrengthenedGraph183TailFinalMarginFamily
+        scaledMargin sequenceBadFace ->
+      StrengthenedGraph169AfterTpmmGraphExactContinuationFamily
+        scaledMargin sequenceBadFace
+
+  theorem graphExactEvalGateAtRank_of_graph183TailFinalMargin :
+      StrengthenedGraph183TailFinalMarginFamily
+        scaledMargin sequenceBadFace ->
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+      TopPairingGraphExactEvalGateAtRank
+        graphPotential closedBellmanNext (fun face : Face => face)
+        graphRoot graphConst scaledMargin rank Face.ym
+  ```
+
+- Focused guarded direct Lean check:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_direct_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 lake env lean \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+  ```
+
+  passed with `elapsed_seconds=3.00`, `peak_tree_rss_mib=4118.65`, and
+  `min_available_mib=44962.90`.
+- Focused guarded Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+  ```
+
+  passed with `elapsed_seconds=4.00`, `peak_tree_rss_mib=4214.36`, and
+  `min_available_mib=44851.27`.
+- Updated and reran:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The audit decision remains:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- Decision: graph183 is now an honest semantic-evaluator socket, not a
+  selected-prefix cover.  The next work should target the two real semantic
+  fields in `StrengthenedGraph183TailFinalMarginFamily`: prove the accepted
+  branch margin bound and rule out the blocked `tmmp` branch from strengthened
+  closed-language semantics.  If the blocked branch cannot be ruled out from
+  the existing fields, add a missing semantic state field or run the cocycle
+  quotient/cancellation-summary experiment before adding any exact affine key.

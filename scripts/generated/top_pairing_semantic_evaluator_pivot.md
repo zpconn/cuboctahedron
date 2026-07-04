@@ -25,6 +25,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph150_direct_eval_socket` | `127` | none |
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
+| `graph183_tail_table_socket` | `518` | none |
 | `target_completion_local_branch_table_shard000` | `63` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -40,6 +41,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph150_direct_eval_socket_lake`: exit `0`, elapsed `3.002738071998465`, peak RSS MiB `4050.12890625`
 - `graph157_continuation_socket_lake`: exit `0`, elapsed `5.004316574006225`, peak RSS MiB `4337.02734375`
 - `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
+- `graph183_tail_table_socket_lake`: exit `0`, elapsed `4.003500427003019`, peak RSS MiB `4214.35546875`
 
 ## Forbidden Production Hits
 
@@ -106,6 +108,15 @@ target-completion step.  After `zp,tppm`, target completion forces
 suffix is now small enough that the next scalable move should be a
 generated finite local-state table rather than more hand-written
 one-step sockets.
+
+The graph-183 tail-table socket records the first non-deterministic
+target-completion point on this branch.  Target-completion allows
+two tails: the `yp,tmpp,tmmp,xp` tail evaluates from graph `183`
+to `(126, -542)`, while the `tmmp,tmpp,yp,xp` tail reaches graph
+`19` with head `tmmp`, where `closedBellmanNext 19 Face.tmmp =
+none`.  The production obligation is therefore a final-margin
+proof for the accepted `yp` branch plus a semantic impossibility
+proof for the blocked `tmmp` branch.
 
 ## Go/No-Go Gate
 
