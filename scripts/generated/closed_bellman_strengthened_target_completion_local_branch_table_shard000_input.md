@@ -3,8 +3,8 @@
 - JSON output: `scripts/generated/closed_bellman_strengthened_target_completion_local_branch_table_shard000_input.json`
 - Decision: `source-derived-bounded-frontier-ready-for-emitter`
 - Source: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean`
-- State count: `1`
-- Branch count: `1`
+- State count: `2`
+- Branch count: `2`
 
 This input is a source-derived bounded frontier contract for generated StrengthenedLocalBranchTable shards. It is not rank coverage.
 
@@ -22,6 +22,19 @@ This input is a source-derived bounded frontier contract for generated Strengthe
 - Branch count: `1`
 
 - zp -> graph 157, gain 114
+
+### `prefix4ZmTmpp`
+
+- Eval state: `strengthenedClosedPrefix4ZmTmppEvalState`
+- Completion state: `graph151TargetCompletionState`
+- Graph state: `151`
+- Table kind: `target-completion`
+- Table class: `StrengthenedTargetCompletionLocalBranchTable`
+- Table: `strengthenedPrefix4Graph151TargetCompletionLocalBranchTable`
+- Branch type: `StrengthenedPrefix4Graph151Branch`
+- Branch count: `1`
+
+- tppp -> graph 159, gain 96
 
 ## Next Profiler Requirement
 

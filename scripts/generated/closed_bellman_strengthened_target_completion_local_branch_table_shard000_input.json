@@ -1,12 +1,12 @@
 {
-  "branch_count": 1,
+  "branch_count": 2,
   "decision": "source-derived-bounded-frontier-ready-for-emitter",
   "mode": "closed-bellman-strengthened-local-branch-table-frontier",
   "next_profiler_requirement": "Replace this static frontier with discovered reachable semantic states whose tables are proved by the same local-transition API.",
   "semantic_status": "This input is a source-derived bounded frontier contract for generated StrengthenedLocalBranchTable shards. It is not rank coverage.",
   "shard": 0,
   "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
-  "state_count": 1,
+  "state_count": 2,
   "states": [
     {
       "branch_count": 1,
@@ -28,6 +28,29 @@
       "eval_state": "strengthenedClosedPrefix4TmpmZmEvalState",
       "graph": 150,
       "table": "strengthenedPrefix4Graph150TargetCompletionLocalBranchTable",
+      "table_class": "StrengthenedTargetCompletionLocalBranchTable",
+      "table_kind": "target-completion"
+    },
+    {
+      "branch_count": 1,
+      "branch_details": [
+        {
+          "constructor": "tppp",
+          "description": "tppp -> graph 159, gain 96",
+          "face": "tppp",
+          "gain": 96,
+          "next_graph": 159
+        }
+      ],
+      "branch_type": "StrengthenedPrefix4Graph151Branch",
+      "branches": [
+        "tppp -> graph 159, gain 96"
+      ],
+      "completion_state": "graph151TargetCompletionState",
+      "constructor": "prefix4ZmTmpp",
+      "eval_state": "strengthenedClosedPrefix4ZmTmppEvalState",
+      "graph": 151,
+      "table": "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable",
       "table_class": "StrengthenedTargetCompletionLocalBranchTable",
       "table_kind": "target-completion"
     }

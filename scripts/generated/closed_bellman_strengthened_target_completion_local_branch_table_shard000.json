@@ -1,5 +1,5 @@
 {
-  "branch_count": 1,
+  "branch_count": 2,
   "forbidden_coordinates": [
     "sampled ranks",
     "selected prefixes",
@@ -13,7 +13,7 @@
   "namespace_suffix": "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000",
   "proof_shape": "Each generated table is a StrengthenedTargetCompletionLocalBranchTable instance; localTransition is proved by the generic target-completion table theorem from transducer tail plus target-completion tail, not by rank/path enumeration.",
   "shard": 0,
-  "state_count": 1,
+  "state_count": 2,
   "states": [
     {
       "branch_count": 1,
@@ -24,6 +24,17 @@
       "constructor": "prefix4TmpmZm",
       "eval_state": "strengthenedClosedPrefix4TmpmZmEvalState",
       "table": "strengthenedPrefix4Graph150TargetCompletionLocalBranchTable",
+      "table_kind": "target-completion"
+    },
+    {
+      "branch_count": 1,
+      "branches": [
+        "tppp -> graph 159, gain 96"
+      ],
+      "completion_state": "graph151TargetCompletionState",
+      "constructor": "prefix4ZmTmpp",
+      "eval_state": "strengthenedClosedPrefix4ZmTmppEvalState",
+      "table": "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable",
       "table_kind": "target-completion"
     }
   ],

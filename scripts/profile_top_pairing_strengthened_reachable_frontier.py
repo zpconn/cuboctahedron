@@ -80,7 +80,11 @@ class Edge:
 
 
 def rel(path: Path) -> str:
-    return path.relative_to(ROOT).as_posix()
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(ROOT).as_posix()
+    except ValueError:
+        return resolved.as_posix()
 
 
 def parse_edges(path: Path) -> list[Edge]:

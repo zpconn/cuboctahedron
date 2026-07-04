@@ -16,27 +16,31 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellman
 
 inductive ShardState where
   | prefix4TmpmZm
+  | prefix4ZmTmpp
   deriving DecidableEq, Repr
 
-def emittedShardStateCount : Nat := 1
-def emittedShardBranchCount : Nat := 1
+def emittedShardStateCount : Nat := 2
+def emittedShardBranchCount : Nat := 2
 
 theorem emittedShardCount_audit :
-    emittedShardStateCount = 1 /\
-      emittedShardBranchCount = 1 := by
+    emittedShardStateCount = 2 /\
+      emittedShardBranchCount = 2 := by
   decide
 
 def evalState : ShardState -> StrengthenedClosedEvalState
   | .prefix4TmpmZm => strengthenedClosedPrefix4TmpmZmEvalState
+  | .prefix4ZmTmpp => strengthenedClosedPrefix4ZmTmppEvalState
 
 def completionState : ShardState -> TopPairingTargetCompletionState
   | .prefix4TmpmZm => graph150TargetCompletionState
+  | .prefix4ZmTmpp => graph151TargetCompletionState
 
 def localBranchTable :
     (state : ShardState) ->
       StrengthenedTargetCompletionLocalBranchTable
         (evalState state) (completionState state)
   | .prefix4TmpmZm => strengthenedPrefix4Graph150TargetCompletionLocalBranchTable
+  | .prefix4ZmTmpp => strengthenedPrefix4Graph151TargetCompletionLocalBranchTable
 
 theorem localTransition
     {state : ShardState} {face : Face} {rest : List Face}

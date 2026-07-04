@@ -13,6 +13,7 @@ This input is a source-derived bounded frontier contract for generated Strengthe
 ### `prefix4YpZm`
 
 - Eval state: `strengthenedClosedPrefix4YpZmEvalState`
+- Completion state: `None`
 - Graph state: `147`
 - Table kind: `graph-only`
 - Table class: `StrengthenedLocalBranchTable`

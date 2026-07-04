@@ -98014,3 +98014,159 @@ yet a discovered semantic frontier over the full closed language.  Next
 required work is to replace this bounded source scan with exact discovered
 reachable semantic states whose table proofs are emitted through the same
 `target-completion` API.
+
+### Holonomy/Bellman Pivot - graph 151 target-completion accepted, graph 152 boundary found
+
+The next-frontier module now includes a second target-completion local branch
+table:
+
+```text
+graph 151
+eval_state = strengthenedClosedPrefix4ZmTmppEvalState
+completion_state = graph151TargetCompletionState
+table = strengthenedPrefix4Graph151TargetCompletionLocalBranchTable
+branch = tppp -> graph 159, gain 96
+```
+
+This is deliberately not a graph-only table.  An attempted graph-only proof
+for graph 151/152 exposed the expected membership-wall behavior: the plain
+`StrengthenedClosedEvalState.Tail` still admits non-edge heads.  The accepted
+graph 151 table therefore consumes:
+
+```lean
+TopPairingTargetCompletionTail graph151TargetCompletionState (face :: rest)
+```
+
+alongside the transducer tail.  This matches the revised strategy: add honest
+semantic completion/cursor state, not selected-prefix or sampled-rank evidence.
+
+Guarded direct check for the strengthened next-frontier module:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/next_frontier_smoke_after_graph151_guard.json \
+  --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+```
+
+Result:
+
+```text
+exit_code = 0
+elapsed_seconds = 37.06
+peak_tree_rss_mib = 4903
+hard_address_space_mib = none
+min_available_seen_mib = 45137
+```
+
+Focused Lake build for the same module:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/next_frontier_smoke_after_graph151_build_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke
+```
+
+Result:
+
+```text
+exit_code = 0
+elapsed_seconds = 24.07
+peak_tree_rss_mib = 5386
+hard_address_space_mib = none
+min_available_seen_mib = 44662
+```
+
+Regenerated target-completion shard input now has two states:
+
+```text
+state_count = 2
+branch_count = 2
+covered graphs = 150, 151
+```
+
+The regenerated shard checks and builds:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+target_completion_local_branch_table_shard000_after_graph151_guard.json \
+  --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean
+```
+
+```text
+exit_code = 0
+elapsed_seconds = 2.00
+peak_tree_rss_mib = 3585
+hard_address_space_mib = none
+min_available_seen_mib = 46290
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+target_completion_local_branch_table_shard000_after_graph151_build_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000
+```
+
+```text
+exit_code = 0
+elapsed_seconds = 3.00
+peak_tree_rss_mib = 4037
+hard_address_space_mib = none
+min_available_seen_mib = 46111
+```
+
+Reachable-frontier audit after adding graph 151:
+
+```bash
+python3 scripts/profile_top_pairing_strengthened_reachable_frontier.py \
+  --semantic-source Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean \
+  --input scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json \
+  --input scripts/generated/closed_bellman_strengthened_next_frontier_local_branch_table_shard001_input.json \
+  --input scripts/generated/closed_bellman_strengthened_used_face_local_branch_table_shard000_input.json \
+  --input scripts/generated/closed_bellman_strengthened_target_completion_local_branch_table_shard000_input.json \
+  --json scripts/generated/\
+closed_bellman_strengthened_reachable_frontier_after_graph151_target_completion.json \
+  --markdown scripts/generated/\
+closed_bellman_strengthened_reachable_frontier_after_graph151_target_completion.md
+```
+
+Result:
+
+```text
+covered graph states = 9
+mismatch count = 0
+next frontier = [152, 153, 154, 155, 156, 157, 158, 159]
+existing next-frontier semantic states = [152]
+missing next-frontier semantic states = [153, 154, 155, 156, 157, 158, 159]
+```
+
+Important boundary: graph 152 already has an eval state, but
+target-completion alone is insufficient.  In a failed bounded attempt,
+`Graph152TargetCompletionTail` could not definitionally rule out `yp` and
+`zm` continuations.  This is not a reason to return to selected prefixes.  It
+is the next state-design signal: graph 152 needs an additional compact semantic
+field, likely the production version of the profiler's `with-step-tri-source`
+or a small segment/cocycle quotient state, before it should get a local branch
+table.
