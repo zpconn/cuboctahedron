@@ -112,6 +112,103 @@ theorem strengthenedClosedPrefix4YpZm_eval_eq_zm_yp :
   · exact strengthenedClosedPrefix4YpZm_transducer_eq_zm_yp
   · rfl
 
+def strengthenedClosedPrefix4YpTmmmTransducerState :
+    TopPairingTransducerState where
+  step := strengthenedClosedPrefix3YpTransducerState.step + 1
+  gap := topPairingNextGap strengthenedClosedPrefix3YpTransducerState.gap
+    Face.tmmm
+  k := strengthenedClosedPrefix3YpTransducerState.k + 1
+  parity := strengthenedClosedPrefix3YpTransducerState.parity
+  linear := topPairingNextLinear
+    strengthenedClosedPrefix3YpTransducerState.linear Face.tmmm
+
+def strengthenedClosedPrefix4YpTmmmEvalState : StrengthenedClosedEvalState where
+  transducer := strengthenedClosedPrefix4YpTmmmTransducerState
+  graph := 148
+
+def strengthenedClosedPrefix4ZmZpTransducerState :
+    TopPairingTransducerState where
+  step := strengthenedClosedPrefix3ZmTransducerState.step + 1
+  gap := topPairingNextGap strengthenedClosedPrefix3ZmTransducerState.gap
+    Face.zp
+  k := strengthenedClosedPrefix3ZmTransducerState.k
+  parity := strengthenedClosedPrefix3ZmTransducerState.parity.applyPair
+    (pairOfFace Face.zp)
+  linear := topPairingNextLinear
+    strengthenedClosedPrefix3ZmTransducerState.linear Face.zp
+
+def strengthenedClosedPrefix4ZmZpEvalState : StrengthenedClosedEvalState where
+  transducer := strengthenedClosedPrefix4ZmZpTransducerState
+  graph := 149
+
+def strengthenedClosedPrefix4TmpmZmTransducerState :
+    TopPairingTransducerState where
+  step := strengthenedClosedPrefix3TmpmTransducerState.step + 1
+  gap := topPairingNextGap strengthenedClosedPrefix3TmpmTransducerState.gap
+    Face.zm
+  k := strengthenedClosedPrefix3TmpmTransducerState.k
+  parity := strengthenedClosedPrefix3TmpmTransducerState.parity.applyPair
+    (pairOfFace Face.zm)
+  linear := topPairingNextLinear
+    strengthenedClosedPrefix3TmpmTransducerState.linear Face.zm
+
+def strengthenedClosedPrefix4TmpmZmEvalState : StrengthenedClosedEvalState where
+  transducer := strengthenedClosedPrefix4TmpmZmTransducerState
+  graph := 150
+
+def strengthenedClosedPrefix4ZmTmppTransducerState :
+    TopPairingTransducerState where
+  step := strengthenedClosedPrefix3ZmTransducerState.step + 1
+  gap := topPairingNextGap strengthenedClosedPrefix3ZmTransducerState.gap
+    Face.tmpp
+  k := strengthenedClosedPrefix3ZmTransducerState.k + 1
+  parity := strengthenedClosedPrefix3ZmTransducerState.parity
+  linear := topPairingNextLinear
+    strengthenedClosedPrefix3ZmTransducerState.linear Face.tmpp
+
+def strengthenedClosedPrefix4ZmTmppEvalState : StrengthenedClosedEvalState where
+  transducer := strengthenedClosedPrefix4ZmTmppTransducerState
+  graph := 151
+
+def strengthenedClosedPrefix4TmpmTppmTransducerState :
+    TopPairingTransducerState where
+  step := strengthenedClosedPrefix3TmpmTransducerState.step + 1
+  gap := topPairingNextGap strengthenedClosedPrefix3TmpmTransducerState.gap
+    Face.tppm
+  k := strengthenedClosedPrefix3TmpmTransducerState.k + 1
+  parity := strengthenedClosedPrefix3TmpmTransducerState.parity
+  linear := topPairingNextLinear
+    strengthenedClosedPrefix3TmpmTransducerState.linear Face.tppm
+
+def strengthenedClosedPrefix4TmpmTppmEvalState : StrengthenedClosedEvalState where
+  transducer := strengthenedClosedPrefix4TmpmTppmTransducerState
+  graph := 152
+
+theorem strengthenedClosed_prefix4_yp_tmmm_next_from_prefix3Yp :
+    strengthenedClosedEvalNext strengthenedClosedPrefix3YpEvalState Face.tmmm =
+      some (strengthenedClosedPrefix4YpTmmmEvalState, (-124 : Int)) := by
+  rfl
+
+theorem strengthenedClosed_prefix4_zm_zp_next_from_prefix3Zm :
+    strengthenedClosedEvalNext strengthenedClosedPrefix3ZmEvalState Face.zp =
+      some (strengthenedClosedPrefix4ZmZpEvalState, (-10 : Int)) := by
+  rfl
+
+theorem strengthenedClosed_prefix4_tmpm_zm_next_from_prefix3Tmpm :
+    strengthenedClosedEvalNext strengthenedClosedPrefix3TmpmEvalState Face.zm =
+      some (strengthenedClosedPrefix4TmpmZmEvalState, (114 : Int)) := by
+  rfl
+
+theorem strengthenedClosed_prefix4_zm_tmpp_next_from_prefix3Zm :
+    strengthenedClosedEvalNext strengthenedClosedPrefix3ZmEvalState Face.tmpp =
+      some (strengthenedClosedPrefix4ZmTmppEvalState, (-124 : Int)) := by
+  rfl
+
+theorem strengthenedClosed_prefix4_tmpm_tppm_next_from_prefix3Tmpm :
+    strengthenedClosedEvalNext strengthenedClosedPrefix3TmpmEvalState Face.tppm =
+      some (strengthenedClosedPrefix4TmpmTppmEvalState, (96 : Int)) := by
+  rfl
+
 inductive StrengthenedPrefix4Graph147Branch where
   | zp | tmmp
   deriving DecidableEq, Repr

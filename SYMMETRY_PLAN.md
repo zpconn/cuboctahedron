@@ -96542,3 +96542,61 @@ teach the source-derived shard-input profiler to read this next-frontier smoke
 as an additional semantic source.  Keep each extension guarded and stop if a
 graph state fails semantic uniqueness, because that would require the emitter
 key to become `(graph, semantic transducer state)` rather than graph alone.
+
+Follow-up no-go gate for graph-only local tables:
+
+```text
+Added named semantic eval states and definitional evaluator-step theorems for:
+  graph 148 from [xm, ym, yp, tmmm]
+  graph 149 from [xm, ym, zm, zp]
+  graph 150 from [xm, ym, tmpm, zm]
+  graph 151 from [xm, ym, zm, tmpp]
+  graph 152 from [xm, ym, tmpm, tppm]
+```
+
+The bounded file still passes, but an attempted graph-148 local branch table was
+intentionally rejected.  Lean could not prove
+
+```text
+strengthenedClosedPrefix4YpTmmmEvalState.Tail (face :: rest)
+  -> face is either zm or tpmm
+```
+
+from the current transducer fields.  The failed proof left semantically
+possible heads such as `yp`, `zp`, `tmpm`, and `tppp`, while the checked
+Bellman graph at state `148` has only:
+
+```text
+zm   -> graph 154, gain 114, edge e0137_l12
+tpmm -> graph 156, gain  96, edge e0138_l04
+```
+
+This is a real strategy signal, not a Lean nuisance.  Graph id plus the current
+transducer tuple `(step, gap, k, parity, linear)` is not strong enough past the
+first confluence.  The next semantic state must add the missing discriminator
+that the strengthened profiler called `tri-source` / source-position progress
+(or an equivalent deterministic schedule/cancellation cursor), then retry graph
+`148` before emitting more tables.
+
+Additional guarded check after adding the named states:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+closed_bellman_strengthened_next_frontier_smoke_guard.json \
+    --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+result:
+  pass, elapsed 4.00s,
+  peak_tree_rss 3966.3 MiB,
+  min_available_seen 46160.8 MiB
+```
+
+Safety scans over the next-frontier smoke still report no forbidden constructs
+and no sampled/selected-prefix membership hooks.
