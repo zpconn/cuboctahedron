@@ -98171,6 +98171,59 @@ field, likely the production version of the profiler's `with-step-tri-source`
 or a small segment/cocycle quotient state, before it should get a local branch
 table.
 
+2026-07-04 follow-up probe:
+
+- Added and then removed an isolated graph-152 smoke module after a guarded
+  Lean check showed the exact weakness of the existing tail predicate.  The
+  diagnostic is recorded in
+  `scripts/generated/graph152_semantic_branch_probe.md` and
+  `scripts/generated/graph152_semantic_branch_smoke_guard.json`.
+- Command:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph152_semantic_branch_smoke_guard.json \
+    --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingGraph152SemanticBranchSmoke.lean
+  ```
+
+- Result:
+
+  ```text
+  exit_code = 1
+  elapsed_seconds = 5.00
+  peak_tree_rss_mib = 3944
+  killed_reason = None
+  ```
+
+- The attempted theorem was the graph-only local classifier:
+
+  ```lean
+  strengthenedClosedPrefix4TmpmTppmEvalState.Tail (face :: rest) ->
+    exists branch : StrengthenedPrefix4Graph152Branch, branch.face = face
+  ```
+
+- Real graph-152 branches are only:
+
+  ```text
+  zp   -> graph 160, gain -18
+  tpmm -> graph 161, gain -36
+  ```
+
+  but the existing tail predicate leaves `yp`, `zm`, `tmpm`, `tmpp`, and
+  `tppp` open.  This is a clean no-go for graph-only local branching at this
+  frontier.
+
+- Decision: the next implementation must route graph 152 through the
+  strengthened semantic suffix/socket surface.  In particular, use the
+  existing `sequenceBadFace`/canonical-bad-face or `with-step-tri-source`
+  strengthening consumed by `TopPairingStrengthenedClosedLanguageAtRank`, not
+  a selected-prefix, accepted-trace, sampled-rank, or exact-affine key.
+
 ### Holonomy/Bellman Pivot - graph 152 route is strengthened suffix/socket, not target-completion
 
 After graph 151, the immediate graph-152 experiment established that
