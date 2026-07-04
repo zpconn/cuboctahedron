@@ -18,7 +18,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `closed_final_margin_socket` | `432` | none |
 | `depth11_graph_exact_portfolio` | `177` | none |
 | `depth11_layer4_mapped_finish` | `1503` | none |
-| `depth11_layer4_mapped_branch_socket` | `148` | none |
+| `depth11_layer4_mapped_branch_socket` | `223` | none |
 | `depth11_closed_providers` | `1536` | none |
 
 ## Guard Measurements
@@ -49,6 +49,14 @@ existing `closedToEvalGate_of_layer4MappedPortfolio` and
 The branch socket lets that portfolio be emitted and checked as seven
 independent `Depth11Layer4MappedBranchPortfolioFamily` leaves before
 bundling them into the full portfolio.
+
+It also exposes a strengthened branch-local surface for the first
+production slice when actual-face omni or accepted bad-face evidence
+is needed:
+
+```lean
+StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+```
 
 ## Go/No-Go Gate
 

@@ -99079,3 +99079,79 @@ local tables.
   local semantic state to produce a checked `Depth11Layer4MappedClassCase`.
   If the proof needs selected-prefix or accepted-trace membership, do not
   scale it; add the missing semantic state or move to the cocycle quotient.
+
+2026-07-04 strengthened branch-local mapped portfolio surface:
+
+- Extended:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4MappedBranchSocket.lean
+  ```
+
+- New strengthened branch-local surface:
+
+  ```lean
+  structure StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+      (scaledMargin : Fin numPairWords -> Int)
+      (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+      (face₀ face₁ : Face) : Prop
+
+  theorem mappedEvalGateAtRank_of_strengthenedMappedBranchPortfolio :
+      StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+        scaledMargin sequenceBadFace face₀ face₁ ->
+      Depth11Layer4SemanticFrontierBranch face₀ face₁ ->
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank face₀ face₁ rest ->
+      Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank
+
+  theorem graphExactEvalGateAtRank_of_strengthenedMappedBranchPortfolio :
+      ... -> Split10MGraphExactEvalGateAtRank scaledMargin rank
+
+  theorem scaledMargin_nonpos_of_strengthenedMappedBranchPortfolio :
+      ... -> scaledMargin rank <= 0
+  ```
+
+- Rationale: the next true branch membership proof may need
+  `TopPairingActualFaceOmniAtRank` and the accepted bad-face predicate to
+  derive exact remaining suffix shapes.  The earlier closed-only branch socket
+  remains useful, but this strengthened socket is the safer first production
+  target because it does not pretend that `TopPairingClosedLanguageAtRank`
+  alone carries actual face uniqueness.
+- Focused guarded Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+  depth11_layer4_mapped_branch_socket_strengthened_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4MappedBranchSocket
+  ```
+
+  passed with `elapsed_seconds=3.00`, `peak_tree_rss_mib=4038`, and
+  `min_available_mib=45823`.
+- Updated and reran:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The decision remains:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- Next implementation target: emit a first strengthened branch family for one
+  concrete branch, probably starting with the branch whose suffix shape is
+  smallest under the current semantic constraints.  The proof should consume
+  `TopPairingStrengthenedClosedLanguageAtRank`, the branch prefix, and
+  semantic cursor/pair-count/actual-face facts to produce a
+  `Depth11Layer4MappedClassCase`.  It must not use selected-prefix ids,
+  accepted-trace ids, sampled ranks, exact affine RHS keys, or one constructor
+  per rank/path.

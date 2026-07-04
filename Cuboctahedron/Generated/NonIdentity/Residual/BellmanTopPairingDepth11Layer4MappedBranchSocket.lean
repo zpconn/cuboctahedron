@@ -79,6 +79,81 @@ theorem scaledMargin_nonpos_of_mappedBranchPortfolio
     (graphExactEvalGateAtRank_of_mappedBranchPortfolio
       hfamily hfrontier hclosed hprefix)
 
+/--
+Strengthened branch-local mapped portfolio target.
+
+This is the preferred first production slice when the branch proof needs
+`TopPairingActualFaceOmniAtRank` or the accepted sequence/bad-face predicate.
+It still proves only a semantic branch family: the proof is parameterized by a
+concrete first-four branch prefix, not by a sampled rank, selected prefix id, or
+accepted trace id.
+-/
+structure StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (face₀ face₁ : Face) : Prop where
+  classify :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank face₀ face₁ rest ->
+          Depth11Layer4MappedClassCase scaledMargin rank
+
+theorem mappedEvalGateAtRank_of_strengthenedMappedBranchPortfolio
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords}
+    {face₀ face₁ : Face} {rest : List Face}
+    (hfamily :
+      StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+        scaledMargin sequenceBadFace face₀ face₁)
+    (hfrontier : Depth11Layer4SemanticFrontierBranch face₀ face₁)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank face₀ face₁ rest) :
+    Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank :=
+  mappedLayer4Result_of_mappedClassCase hstrengthened.closed
+    (hfamily.classify rank hstrengthened rest hprefix)
+    hprefix hfrontier
+
+theorem graphExactEvalGateAtRank_of_strengthenedMappedBranchPortfolio
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords}
+    {face₀ face₁ : Face} {rest : List Face}
+    (hfamily :
+      StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+        scaledMargin sequenceBadFace face₀ face₁)
+    (hfrontier : Depth11Layer4SemanticFrontierBranch face₀ face₁)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank face₀ face₁ rest) :
+    Split10MGraphExactEvalGateAtRank scaledMargin rank :=
+  split10MGraphExactEvalGateAtRank_of_mappedLayer4Result
+    (mappedEvalGateAtRank_of_strengthenedMappedBranchPortfolio
+      hfamily hfrontier hstrengthened hprefix)
+
+theorem scaledMargin_nonpos_of_strengthenedMappedBranchPortfolio
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords}
+    {face₀ face₁ : Face} {rest : List Face}
+    (hfamily :
+      StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+        scaledMargin sequenceBadFace face₀ face₁)
+    (hfrontier : Depth11Layer4SemanticFrontierBranch face₀ face₁)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank face₀ face₁ rest) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_split10MGraphExactEvalGate
+    (graphExactEvalGateAtRank_of_strengthenedMappedBranchPortfolio
+      hfamily hfrontier hstrengthened hprefix)
+
 /-- Seven independently checkable branch families for the mapped portfolio. -/
 structure Depth11Layer4MappedBranchPortfolioBundle
     (scaledMargin : Fin numPairWords -> Int) : Prop where
