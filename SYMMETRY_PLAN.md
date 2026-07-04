@@ -98293,3 +98293,91 @@ strengthened branch-table/socket layer, then instantiate
 deterministic semantic-state-machine theorem requested by the GPT5.5 pivot.
 Do not spend more effort scaling selected-prefix membership or graph-only
 local tables.
+
+2026-07-04 strengthened branch-table socket checkpoint:
+
+- Implemented the production-shaped strengthened branch-table adapter in:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingBranchTableSemanticGateSocket.lean
+  ```
+
+- New theorem surfaces:
+
+  ```lean
+  structure Split10MStrengthenedBranchTableClosedEvalFamily
+      (scaledMargin : Fin numPairWords -> Int) : Prop
+
+  theorem split10MStrengthenedToEvalGate_of_branchTableClosedEvalFamily
+      {scaledMargin : Fin numPairWords -> Int}
+      (hfamily :
+        Split10MStrengthenedBranchTableClosedEvalFamily scaledMargin) :
+      Split10MStrengthenedToEvalGate
+        AcceptedSequenceBadFaceAtRank scaledMargin
+
+  theorem scaledMargin_nonpos_of_strengthenedBranchTableClosedEvalFamily
+      {scaledMargin : Fin numPairWords -> Int}
+      (hfamily :
+        Split10MStrengthenedBranchTableClosedEvalFamily scaledMargin)
+      (rank : Fin numPairWords)
+      (hstrengthened :
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym) :
+      scaledMargin rank <= 0
+  ```
+
+- This is the graph-152-facing socket: a producer can now use the compact
+  `AcceptedSequenceBadFaceAtRank` field carried by
+  `TopPairingStrengthenedClosedLanguageAtRank`, instead of trying to prove a
+  graph-only branch theorem from `TopPairingTransducerEvalState.Tail`.
+- Guarded focused direct check:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 240 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+  branch_table_semantic_gate_socket_strengthened_guard.json \
+    --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingBranchTableSemanticGateSocket.lean
+  ```
+
+  ```text
+  exit_code = 0
+  elapsed_seconds = 7.00
+  peak_tree_rss_mib = 3971
+  ```
+
+- Guarded focused Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 300 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+  branch_table_semantic_gate_socket_strengthened_build_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingBranchTableSemanticGateSocket
+  ```
+
+  ```text
+  exit_code = 0
+  elapsed_seconds = 17.03
+  peak_tree_rss_mib = 4733
+  ```
+
+- Forbidden-token scan over the touched Lean file found no matches for
+  `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+  `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`, or
+  `sampledSmokeNext`.
+- Next implementation target: generate/prove an instance of
+  `Split10MStrengthenedBranchTableClosedEvalFamily` for the current
+  strengthened graph route.  The suffix field must be proved from
+  `TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank`
+  and the branch table/socket classifiers, not from accepted trace ids or
+  selected-prefix rank membership.
