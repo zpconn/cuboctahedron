@@ -56,6 +56,12 @@ COCYCLE_QUOTIENT_1M = (
 
 REQUIRED_SOCKET_SYMBOLS = [
     "AcceptedSequenceGraph183AcceptedTailMarginFamily",
+    "AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily",
+    "graph183AcceptedBranchLabels",
+    "graph183AcceptedBranchLabels_eq_of_prefix",
+    "graph183AcceptedBranchEvalGateResult_of_labels",
+    "graph183AcceptedBranchEvalGateAtRank_of_labels",
+    "acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin",
     "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
     "acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor",
     "acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor",
@@ -348,7 +354,7 @@ def semantic_audit_checks(audit: dict[str, Any] | None) -> list[dict[str, Any]]:
         {
             "name": "semantic_audit_target_is_accepted_tail_margin",
             "passed": audit.get("next_production_target")
-            == "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin",
+            == "AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin",
             "detail": audit.get("next_production_target"),
         },
     ]
@@ -437,19 +443,23 @@ def render_markdown(report: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
-            "## Next Lean Target",
-            "",
-            "```lean",
-            "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin",
-            "```",
-            "",
-            "The graph183 completion-tail component is already available via",
-            "`acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.",
-            "The next Lean smoke should prove the integer accepted-tail margin",
-            "component.  The quotient profile is a fallback signal only: any",
-            "quotient/gauge equations must still become Lean-checked local facts.",
-            "",
-        ]
+        "## Next Lean Target",
+        "",
+        "```lean",
+        "AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin",
+        "```",
+        "",
+        "The graph183 completion-tail component is already available via",
+        "`acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.",
+        "The new label-margin surface adapts to",
+        "`AcceptedSequenceGraph183AcceptedTailMarginFamily` through",
+        "`acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin`.",
+        "The next Lean smoke should prove the integer accepted-branch label",
+        "margin component from semantic closed-language/evaluator state.  The",
+        "quotient profile is a fallback signal only: any quotient/gauge",
+        "equations must still become Lean-checked local facts.",
+        "",
+    ]
     )
     return "\n".join(lines)
 
@@ -506,7 +516,7 @@ def main() -> int:
             "cocycle_quotient_1m": quotient_metrics(quotient_1m),
         },
         "next_lean_target": (
-            "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
+            "AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin"
         ),
     }
 

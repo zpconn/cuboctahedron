@@ -58,6 +58,18 @@ abbrev Graph183TargetCompletionTail (labels : List Face) : Prop :=
 def graph183ForcedTail : List Face :=
   [Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp, Face.tmmp, Face.xp]
 
+def graph183AcceptedBranchLabels : List Face :=
+  [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.zp, Face.tppm,
+    Face.tpmm] ++ graph183ForcedTail
+
+theorem graph183AcceptedBranchLabels_eq_of_prefix
+    {rank : Fin numPairWords}
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)) :
+    topPairingRankFaceLabels rank = graph183AcceptedBranchLabels := by
+  simpa [Depth11Layer4PrefixAtRank, graph183AcceptedBranchLabels] using hprefix
+
 private theorem graph183_tmmp_canComplete_false :
     (graph183TargetCompletionState.next Face.tmmp).canComplete = false := by
   rfl
@@ -430,6 +442,11 @@ theorem graph183_tail_eq_forced_or_tmmp_branch
 private theorem graph183TailEval :
     evalLabelStepFn closedBellmanNext 183 graph183ForcedTail =
       some (126, (-542 : Int)) := by
+  rfl
+
+private theorem graph183AcceptedBranchEval :
+    evalLabelStepFn closedBellmanNext graphRoot graph183AcceptedBranchLabels =
+      some (126, ((194 : Int) + (-542 : Int))) := by
   rfl
 
 private theorem graph183BlockedTailHeadEval :
@@ -1129,6 +1146,71 @@ structure AcceptedSequenceGraph183AcceptedTailMarginFamily
       Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
         (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
       scaledMargin rank <= graphConst + ((194 : Int) + (-542 : Int))
+
+/--
+Accepted-branch margin target phrased as deterministic graph183 labels.
+
+This is a narrower production surface than the historical accepted-trace
+bridge.  The generated/theorem-producing route should prove this from the
+closed-language cursor/evaluator semantics, not by mentioning
+the old trace-id bridge, selected prefixes, sampled rank objects, or exact
+affine RHS keys.
+-/
+structure AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  final_margin_of_labels :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      topPairingRankFaceLabels rank = graph183AcceptedBranchLabels ->
+      scaledMargin rank <= graphConst + ((194 : Int) + (-542 : Int))
+
+theorem graph183AcceptedBranchEvalGateResult_of_labels
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hlabels : topPairingRankFaceLabels rank = graph183AcceptedBranchLabels)
+    (hmargin :
+      scaledMargin rank <= graphConst + ((194 : Int) + (-542 : Int))) :
+    TopPairingGraphExactEvalGateResult
+      graphPotential closedBellmanNext (fun face : Face => face)
+      graphRoot graphConst scaledMargin rank Face.ym
+      126 ((194 : Int) + (-542 : Int)) where
+  closed := hclosed
+  eval_eq := by
+    have heval :
+        evalLabelStepFn closedBellmanNext graphRoot
+            (topPairingRankFaceLabels rank) =
+          some (126, ((194 : Int) + (-542 : Int))) := by
+      rw [hlabels]
+      exact graph183AcceptedBranchEval
+    simpa [topPairingRankFaceLabels] using heval
+  final_nonneg := graph126Potential_nonneg
+  margin_bound := hmargin
+
+theorem graph183AcceptedBranchEvalGateAtRank_of_labels
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hlabels : topPairingRankFaceLabels rank = graph183AcceptedBranchLabels)
+    (hmargin :
+      scaledMargin rank <= graphConst + ((194 : Int) + (-542 : Int))) :
+    TopPairingGraphExactEvalGateAtRank
+      graphPotential closedBellmanNext (fun face : Face => face)
+      graphRoot graphConst scaledMargin rank Face.ym :=
+  ⟨126, ((194 : Int) + (-542 : Int)),
+    graph183AcceptedBranchEvalGateResult_of_labels
+      hclosed hlabels hmargin⟩
+
+theorem acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin where
+  final_margin_yp_branch := by
+    intro rank hstrengthened hprefix
+    exact hfamily.final_margin_of_labels rank hstrengthened
+      (graph183AcceptedBranchLabels_eq_of_prefix hprefix)
 
 theorem acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components
     {scaledMargin : Fin numPairWords -> Int}

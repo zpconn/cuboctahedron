@@ -12,6 +12,36 @@
       "passed": true
     },
     {
+      "detail": "AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily",
+      "name": "socket_symbol:AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily",
+      "passed": true
+    },
+    {
+      "detail": "graph183AcceptedBranchLabels",
+      "name": "socket_symbol:graph183AcceptedBranchLabels",
+      "passed": true
+    },
+    {
+      "detail": "graph183AcceptedBranchLabels_eq_of_prefix",
+      "name": "socket_symbol:graph183AcceptedBranchLabels_eq_of_prefix",
+      "passed": true
+    },
+    {
+      "detail": "graph183AcceptedBranchEvalGateResult_of_labels",
+      "name": "socket_symbol:graph183AcceptedBranchEvalGateResult_of_labels",
+      "passed": true
+    },
+    {
+      "detail": "graph183AcceptedBranchEvalGateAtRank_of_labels",
+      "name": "socket_symbol:graph183AcceptedBranchEvalGateAtRank_of_labels",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin",
+      "name": "socket_symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin",
+      "passed": true
+    },
+    {
       "detail": "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
       "name": "socket_symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
       "passed": true
@@ -227,7 +257,7 @@
       "passed": true
     },
     {
-      "detail": "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin",
+      "detail": "AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin",
       "name": "semantic_audit_target_is_accepted_tail_margin",
       "passed": true
     },
@@ -407,5 +437,5 @@
     }
   },
   "mode": "graph183_accepted_tail_margin_frontier",
-  "next_lean_target": "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
+  "next_lean_target": "AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin"
 }

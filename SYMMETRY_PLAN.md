@@ -101003,3 +101003,89 @@ local tables.
   needs exact affine RHS or solved start-point keys, use the observed
   `step-par` cocycle quotient (`43` states, `93` quotient edges on the 1M
   diagnostic graph) to generate Lean-checked quotient/gauge facts.
+
+### 2026-07-04 graph183 accepted branch gets deterministic label-margin socket
+
+- Pivoted the graph183 margin target one step closer to the GPT5.5
+  deterministic-evaluator recommendation.  Instead of asking the next producer
+  to prove only the looser accepted-tail inequality, the socket now exposes a
+  fixed graph183 accepted-branch label surface:
+
+  ```lean
+  def graph183AcceptedBranchLabels : List Face
+
+  theorem graph183AcceptedBranchLabels_eq_of_prefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      topPairingRankFaceLabels rank = graph183AcceptedBranchLabels
+
+  theorem graph183AcceptedBranchEvalGateResult_of_labels :
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+      topPairingRankFaceLabels rank = graph183AcceptedBranchLabels ->
+      scaledMargin rank <= graphConst + ((194 : Int) + (-542 : Int)) ->
+      TopPairingGraphExactEvalGateResult
+        graphPotential closedBellmanNext (fun face : Face => face)
+        graphRoot graphConst scaledMargin rank Face.ym
+        126 ((194 : Int) + (-542 : Int))
+
+  structure AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily
+      (scaledMargin : Fin numPairWords -> Int) : Prop
+
+  theorem acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin :
+      AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin ->
+      AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
+  ```
+
+- Meaning: the next graph183 producer should prove
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin
+  ```
+
+  from semantic closed-language/evaluator state and small integer margin facts.
+  The old accepted-tail family remains as the downstream adapter target, but
+  the production proof should not mention accepted trace ids, selected-prefix
+  membership, sampled rank objects, exact affine RHS keys, solved start-point
+  keys, or one branch per rank/path.
+
+- Updated:
+  - `scripts/audit_top_pairing_semantic_evaluator_pivot.py`
+  - `scripts/audit_graph183_accepted_tail_margin_frontier.py`
+
+  so the stricter label-margin target is required and the graph183 socket is
+  still checked for absence of sampled/trace/graphSmoke routes.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+
+  python3 -m py_compile \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py \
+    scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  ```
+
+- Results:
+  - Focused graph183 build passed in `5.01s`, peak tree RSS `4237 MiB`, min
+    available `45752 MiB`.
+  - Semantic evaluator pivot audit passed with
+    `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer`.
+  - Graph183 frontier audit passed with
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+
+- Next implementation target:
+  prove `AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin`.
+  If the proof cannot be expressed using the deterministic target cursor,
+  schedule/square/used/length state, and the `with-step-tri-source` Bellman
+  quotient, then the current state is still missing a semantic field.  Do not
+  scale any producer that falls back to selected-prefix or accepted-trace
+  membership.

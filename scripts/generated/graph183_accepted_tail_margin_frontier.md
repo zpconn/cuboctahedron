@@ -74,6 +74,12 @@ cocycle/coboundary quotient.
 | --- | --- | --- |
 | `graph183_socket_exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean` |
 | `socket_symbol:AcceptedSequenceGraph183AcceptedTailMarginFamily` | `True` | `AcceptedSequenceGraph183AcceptedTailMarginFamily` |
+| `socket_symbol:AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily` | `True` | `AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily` |
+| `socket_symbol:graph183AcceptedBranchLabels` | `True` | `graph183AcceptedBranchLabels` |
+| `socket_symbol:graph183AcceptedBranchLabels_eq_of_prefix` | `True` | `graph183AcceptedBranchLabels_eq_of_prefix` |
+| `socket_symbol:graph183AcceptedBranchEvalGateResult_of_labels` | `True` | `graph183AcceptedBranchEvalGateResult_of_labels` |
+| `socket_symbol:graph183AcceptedBranchEvalGateAtRank_of_labels` | `True` | `graph183AcceptedBranchEvalGateAtRank_of_labels` |
+| `socket_symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin` | `True` | `acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin` |
 | `socket_symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components` | `True` | `acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components` |
 | `socket_symbol:acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor` | `True` | `acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor` |
 | `socket_symbol:acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor` | `True` | `acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor` |
@@ -117,7 +123,7 @@ cocycle/coboundary quotient.
 | `bellman_object:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `bellman_object:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `semantic_audit_accepts_margin_target` | `True` | `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer` |
-| `semantic_audit_target_is_accepted_tail_margin` | `True` | `AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin` |
+| `semantic_audit_target_is_accepted_tail_margin` | `True` | `AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin` |
 | `profile_100k:offset_sum_mismatches_zero` | `True` | `0` |
 | `profile_100k:single_margin_family` | `True` | `1` |
 | `profile_100k:states_under_2000` | `True` | `94` |
@@ -148,11 +154,15 @@ cocycle/coboundary quotient.
 ## Next Lean Target
 
 ```lean
-AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
+AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin
 ```
 
 The graph183 completion-tail component is already available via
 `acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.
-The next Lean smoke should prove the integer accepted-tail margin
-component.  The quotient profile is a fallback signal only: any
-quotient/gauge equations must still become Lean-checked local facts.
+The new label-margin surface adapts to
+`AcceptedSequenceGraph183AcceptedTailMarginFamily` through
+`acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin`.
+The next Lean smoke should prove the integer accepted-branch label
+margin component from semantic closed-language/evaluator state.  The
+quotient profile is a fallback signal only: any quotient/gauge
+equations must still become Lean-checked local facts.
