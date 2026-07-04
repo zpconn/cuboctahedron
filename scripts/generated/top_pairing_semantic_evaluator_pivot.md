@@ -20,6 +20,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `depth11_layer4_mapped_finish` | `1503` | none |
 | `depth11_layer4_mapped_branch_socket` | `223` | none |
 | `depth11_layer4_target_completion_branch_socket` | `131` | none |
+| `target_completion_local_branch_table_shard000` | `63` | none |
 | `depth11_closed_providers` | `1536` | none |
 
 ## Guard Measurements
@@ -28,6 +29,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `depth11_closed_providers_lake`: exit `0`, elapsed `4.003515039003105`, peak RSS MiB `4088.734375`
 - `depth11_layer4_mapped_branch_socket_lake`: exit `0`, elapsed `28.024844848012435`, peak RSS MiB `4391.59765625`
 - `depth11_layer4_target_completion_branch_socket_lake`: exit `0`, elapsed `3.0264380170119694`, peak RSS MiB `4046.76171875`
+- `target_completion_local_branch_table_shard000_lake`: exit `0`, elapsed `1.0016190989990719`, peak RSS MiB `1.3125`
 
 ## Forbidden Production Hits
 
@@ -65,6 +67,11 @@ surface one step further through `TopPairingTargetCompletionTail`.
 That is the current production shape for the pivot: prove remaining
 suffix membership from semantic actual-face / target-cancellation
 state, then classify to a graph-exact mapped case.
+
+The first target-completion local branch-table shard is also
+tracked here.  It covers the graph-150/151 prefix-4 states by
+semantic `TopPairingTargetCompletionTail` transitions rather than
+observed traces.
 
 ## Go/No-Go Gate
 

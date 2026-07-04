@@ -99252,3 +99252,75 @@ local tables.
   affine RHS, or exact solved start point.  If no-go, add the missing semantic
   state field or run the cocycle quotient experiment before emitting broader
   families.
+
+2026-07-04 local target-completion branch-table evidence:
+
+- Existing semantic local-transition shard:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean
+  ```
+
+- The shard exposes:
+
+  ```lean
+  inductive ShardState
+    | prefix4TmpmZm
+    | prefix4ZmTmpp
+
+  def completionState : ShardState -> TopPairingTargetCompletionState
+
+  def localBranchTable :
+      (state : ShardState) ->
+        StrengthenedTargetCompletionLocalBranchTable
+          (evalState state) (completionState state)
+
+  theorem localTransition :
+      (evalState state).Tail (face :: rest) ->
+      TopPairingTargetCompletionTail (completionState state) (face :: rest) ->
+        ∃ branch, ...
+  ```
+
+- Interpretation: the first deterministic semantic transition table already
+  exists for the graph-150/151 prefix-4 states.  It proves the next Bellman
+  transition from `TopPairingTargetCompletionTail` state, not from an observed
+  trace id or rank sample.
+- Focused guarded Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+  target_completion_local_branch_table_shard000_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000
+  ```
+
+  passed with `elapsed_seconds=1.00`, `peak_tree_rss_mib=1`, and
+  `min_available_mib=46268`.  The tiny RSS is because this was a cached Lake
+  replay; the important fact is that no broad build or high-memory leaf was
+  triggered.
+- Updated and reran:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The decision remains:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- Next implementation target: add a composition theorem that uses the
+  `ShardState.prefix4TmpmZm` local transition (`graph150TargetCompletionState`
+  forces next face `zp`) to advance the branch proof one semantic step toward
+  a `Depth11Layer4MappedClassCase`.  This should become the first actual
+  `StrengthenedDepth11Layer4TargetCompletionBranchFamily` instance once the
+  suffix class and margin-bound fields are connected.  If this composition
+  demands trace ids or exact affine state, stop and add the missing semantic
+  quotient instead.
