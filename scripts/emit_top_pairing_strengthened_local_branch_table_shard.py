@@ -13,6 +13,7 @@ import argparse
 import json
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,6 +33,11 @@ OUT_MD = (
     / "scripts/generated/"
     / "closed_bellman_strengthened_local_branch_table_shard000.md"
 )
+DEFAULT_INPUT = (
+    ROOT
+    / "scripts/generated/"
+    / "closed_bellman_strengthened_local_branch_table_shard000_input.json"
+)
 
 NS = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
@@ -48,58 +54,42 @@ class ShardState:
     branches: tuple[str, ...]
 
 
-STATES: tuple[ShardState, ...] = (
-    ShardState(
-        ctor="prefix2",
-        eval_state="strengthenedClosedPrefix2EvalState",
-        table="strengthenedPrefix2LocalBranchTable",
-        branch_count=3,
-        branches=(
-            "tmpm -> graph 146, gain -124",
-            "yp -> graph 144, gain -73",
-            "zm -> graph 145, gain -10",
-        ),
-    ),
-    ShardState(
-        ctor="prefix3Tmpm",
-        eval_state="strengthenedClosedPrefix3TmpmEvalState",
-        table="strengthenedPrefix3TmpmLocalBranchTable",
-        branch_count=2,
-        branches=(
-            "zm -> graph 150, gain 114",
-            "tppm -> graph 152, gain 96",
-        ),
-    ),
-    ShardState(
-        ctor="prefix3Yp",
-        eval_state="strengthenedClosedPrefix3YpEvalState",
-        table="strengthenedPrefix3YpLocalBranchTable",
-        branch_count=2,
-        branches=(
-            "zm -> graph 147, gain -10",
-            "tmmm -> graph 148, gain -124",
-        ),
-    ),
-    ShardState(
-        ctor="prefix3Zm",
-        eval_state="strengthenedClosedPrefix3ZmEvalState",
-        table="strengthenedPrefix3ZmLocalBranchTable",
-        branch_count=3,
-        branches=(
-            "yp -> graph 147, gain -73",
-            "zp -> graph 149, gain -10",
-            "tmpp -> graph 151, gain -124",
-        ),
-    ),
-)
-
-
 def rel(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
 
 
-def emit_lean() -> str:
-    total_branches = sum(state.branch_count for state in STATES)
+def state_from_json(entry: dict[str, Any]) -> ShardState:
+    branches = entry.get("branches", [])
+    if not isinstance(branches, list):
+        raise TypeError("state branches must be a list")
+    return ShardState(
+        ctor=str(entry["constructor"]),
+        eval_state=str(entry["eval_state"]),
+        table=str(entry["table"]),
+        branch_count=int(entry["branch_count"]),
+        branches=tuple(str(branch) for branch in branches),
+    )
+
+
+def load_states(path: Path) -> tuple[ShardState, ...]:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    entries = data.get("states", [])
+    if not isinstance(entries, list):
+        raise TypeError("input states must be a list")
+    states = tuple(state_from_json(entry) for entry in entries)
+    if not states:
+        raise ValueError("input must contain at least one shard state")
+    for state in states:
+        if state.branch_count != len(state.branches):
+            raise ValueError(
+                f"{state.ctor}: branch_count {state.branch_count} "
+                f"does not match {len(state.branches)} branches"
+            )
+    return states
+
+
+def emit_lean(states: tuple[ShardState, ...]) -> str:
+    total_branches = sum(state.branch_count for state in states)
     lines: list[str] = [
         "import Cuboctahedron.Generated.NonIdentity.Residual."
         "BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke",
@@ -121,24 +111,24 @@ def emit_lean() -> str:
         "",
         "inductive ShardState where",
     ]
-    for state in STATES:
+    for state in states:
         lines.append(f"  | {state.ctor}")
     lines.extend(
         [
             "  deriving DecidableEq, Repr",
             "",
-            f"def emittedShardStateCount : Nat := {len(STATES)}",
+            f"def emittedShardStateCount : Nat := {len(states)}",
             f"def emittedShardBranchCount : Nat := {total_branches}",
             "",
             "theorem emittedShardCount_audit :",
-            f"    emittedShardStateCount = {len(STATES)} /\\",
+            f"    emittedShardStateCount = {len(states)} /\\",
             f"      emittedShardBranchCount = {total_branches} := by",
             "  decide",
             "",
             "def evalState : ShardState -> StrengthenedClosedEvalState",
         ]
     )
-    for state in STATES:
+    for state in states:
         lines.append(f"  | .{state.ctor} => {state.eval_state}")
     lines.extend(
         [
@@ -148,7 +138,7 @@ def emit_lean() -> str:
             "      StrengthenedLocalBranchTable (evalState state)",
         ]
     )
-    for state in STATES:
+    for state in states:
         lines.append(f"  | .{state.ctor} => {state.table}")
     lines.extend(
         [
@@ -176,13 +166,18 @@ def emit_lean() -> str:
     return "\n".join(lines)
 
 
-def payload() -> dict[str, object]:
+def payload(
+    states: tuple[ShardState, ...],
+    input_path: Path,
+    lean_out: Path,
+) -> dict[str, object]:
     return {
         "mode": "closed-bellman-strengthened-local-branch-table-shard",
         "shard": 0,
-        "lean_output": rel(OUT_LEAN),
-        "state_count": len(STATES),
-        "branch_count": sum(state.branch_count for state in STATES),
+        "input": rel(input_path),
+        "lean_output": rel(lean_out),
+        "state_count": len(states),
+        "branch_count": sum(state.branch_count for state in states),
         "states": [
             {
                 "constructor": state.ctor,
@@ -191,7 +186,7 @@ def payload() -> dict[str, object]:
                 "branch_count": state.branch_count,
                 "branches": list(state.branches),
             }
-            for state in STATES
+            for state in states
         ],
         "proof_shape": (
             "Each generated table is a StrengthenedLocalBranchTable instance; "
@@ -252,6 +247,7 @@ def emit_markdown(data: dict[str, object]) -> str:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
     parser.add_argument("--lean-out", type=Path, default=OUT_LEAN)
     parser.add_argument("--json-out", type=Path, default=OUT_JSON)
     parser.add_argument("--markdown-out", type=Path, default=OUT_MD)
@@ -260,11 +256,12 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    states = load_states(args.input)
     args.lean_out.parent.mkdir(parents=True, exist_ok=True)
     args.json_out.parent.mkdir(parents=True, exist_ok=True)
     args.markdown_out.parent.mkdir(parents=True, exist_ok=True)
-    data = payload()
-    args.lean_out.write_text(emit_lean(), encoding="utf-8")
+    data = payload(states, args.input, args.lean_out)
+    args.lean_out.write_text(emit_lean(states), encoding="utf-8")
     args.json_out.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
     args.markdown_out.write_text(emit_markdown(data), encoding="utf-8")
     print(f"wrote {rel(args.lean_out)}")

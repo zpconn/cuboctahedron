@@ -6,6 +6,7 @@
     "accepted trace ids",
     "exact affine RHS keys"
   ],
+  "input": "scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json",
   "lean_output": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean",
   "mode": "closed-bellman-strengthened-local-branch-table-shard",
   "proof_shape": "Each generated table is a StrengthenedLocalBranchTable instance; localTransition is proved by the generic table theorem, not by rank/path enumeration.",

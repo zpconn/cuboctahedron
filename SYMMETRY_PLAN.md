@@ -96100,3 +96100,109 @@ additional reachable semantic states, rather than hardcoding the four-state
 frontier in the script.  The target remains a shard forest of
 `StrengthenedLocalBranchTable` instances feeding the existing transducer eval
 bridge.
+
+#### Checkpoint: data-driven strengthened branch-table shard input
+
+Status: complete for the bounded four-state shard.  The emitter now consumes
+an explicit JSON input file instead of carrying the shard frontier as a
+hardcoded Python tuple.
+
+New/updated files:
+
+```text
+scripts/profile_top_pairing_strengthened_local_branch_table_shard.py
+scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json
+scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.md
+scripts/emit_top_pairing_strengthened_local_branch_table_shard.py
+scripts/generated/closed_bellman_strengthened_local_branch_table_shard000.json
+```
+
+The new input file records:
+
+```text
+state_count = 4
+branch_count = 10
+decision = bounded-frontier-ready-for-emitter
+```
+
+The generated Lean shard did not change semantically; the change is in the
+data contract around it.  This is the correct next production shape: an
+external exact semantic-state profiler should emit the same JSON structure for
+larger reachable frontiers, and the Lean emitter should remain a small
+translator from semantic table data to `StrengthenedLocalBranchTable` modules.
+
+Commands run:
+
+```text
+python3 scripts/profile_top_pairing_strengthened_local_branch_table_shard.py
+python3 -m py_compile \
+  scripts/profile_top_pairing_strengthened_local_branch_table_shard.py \
+  scripts/emit_top_pairing_strengthened_local_branch_table_shard.py
+python3 scripts/emit_top_pairing_strengthened_local_branch_table_shard.py
+```
+
+Results:
+
+```text
+profile input generation: pass
+py_compile: pass
+emitter: pass
+```
+
+Focused guarded checks:
+
+```text
+Dependency direct olean build:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 180 \
+      --max-tree-rss-mib 7000 \
+      --min-available-mib 30000 \
+      --json scripts/generated/\
+closed_bellman_strengthened_prefix_run_smoke_direct_olean_guard_for_shard000_input.json \
+      --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+        -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.olean \
+        Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+  result:
+    pass, elapsed 5.01s,
+    peak_tree_rss 4004 MiB,
+    min_available_seen 46048 MiB
+
+Generated shard:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 180 \
+      --max-tree-rss-mib 7000 \
+      --min-available-mib 30000 \
+      --json scripts/generated/\
+closed_bellman_strengthened_local_branch_table_shard000_input_guard.json \
+      --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+        Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean
+  result:
+    pass, elapsed 2.00s,
+    peak_tree_rss 3587 MiB,
+    min_available_seen 46200 MiB
+```
+
+Forbidden-token/sampled-membership scan:
+
+```text
+rg -n "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|\
+sampledContainsRank|sampledRankOf|AcceptedTraceId|acceptedTrace" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean \
+  scripts/emit_top_pairing_strengthened_local_branch_table_shard.py \
+  scripts/profile_top_pairing_strengthened_local_branch_table_shard.py \
+  scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json \
+  scripts/generated/closed_bellman_strengthened_local_branch_table_shard000.json
+
+result: no matches
+```
+
+Decision: accepted as the data-driven bounded branch-table emitter checkpoint.
+Next: replace the static frontier input producer with an actual exact
+reachable-semantic-state profiler, then emit the next bounded shard only if the
+guarded checks remain under the same RSS envelope.
