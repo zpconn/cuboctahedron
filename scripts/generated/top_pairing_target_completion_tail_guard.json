@@ -11,14 +11,14 @@
     "2048",
     "Cuboctahedron/Search/TopPairingTargetCompletionTail.lean"
   ],
-  "elapsed_seconds": 3.00272243800282,
+  "elapsed_seconds": 27.031937442006893,
   "exit_code": 0,
   "hard_address_space_mib": 8192.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 4060684,
-  "max_tree_rss_mib": 3965.51171875,
-  "min_available_seen_kib": 47317056,
-  "min_available_seen_mib": 46208.0625,
+  "max_tree_rss_kib": 5124236,
+  "max_tree_rss_mib": 5004.13671875,
+  "min_available_seen_kib": 46064276,
+  "min_available_seen_mib": 44984.64453125,
   "rss_cap_mib": 6500.0,
   "timeout_seconds": 180.0
 }

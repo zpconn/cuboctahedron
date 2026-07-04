@@ -1,4 +1,5 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
+import Cuboctahedron.Search.TopPairingTargetCompletionTail
 import Cuboctahedron.Search.TopPairingUsedFaceTail
 
 set_option linter.unusedSimpArgs false
@@ -385,6 +386,103 @@ theorem step (branch : StrengthenedPrefix4Graph149Branch) :
     | exact ClosedBellmanStep.e0140_l02
 
 end StrengthenedPrefix4Graph149Branch
+
+inductive StrengthenedPrefix4Graph150Branch where
+  | zp
+  deriving DecidableEq, Repr
+
+namespace StrengthenedPrefix4Graph150Branch
+
+def face : StrengthenedPrefix4Graph150Branch -> Face
+  | .zp => Face.zp
+
+def nextGraph : StrengthenedPrefix4Graph150Branch -> Nat
+  | .zp => 157
+
+def gain : StrengthenedPrefix4Graph150Branch -> Int
+  | .zp => 114
+
+theorem step (branch : StrengthenedPrefix4Graph150Branch) :
+    ClosedBellmanStep 150 branch.face branch.nextGraph branch.gain := by
+  cases branch
+  exact ClosedBellmanStep.e0141_l13
+
+end StrengthenedPrefix4Graph150Branch
+
+theorem strengthenedPrefix4Graph150Branch_of_tail_and_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (_htail :
+      strengthenedClosedPrefix4TmpmZmEvalState.Tail (face :: rest))
+    (hcompletion : Graph150TargetCompletionTail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix4Graph150Branch,
+      branch.face = face := by
+  have hz := graph150_head_of_targetCompletionTail hcompletion
+  subst face
+  exact ⟨StrengthenedPrefix4Graph150Branch.zp, rfl⟩
+
+structure StrengthenedTargetCompletionLocalBranchTable
+    (state : StrengthenedClosedEvalState)
+    (completionState : TopPairingTargetCompletionState) where
+  Branch : Type
+  face : Branch -> Face
+  nextGraph : Branch -> Nat
+  gain : Branch -> Int
+  step :
+    ∀ branch,
+      ClosedBellmanStep state.graph (face branch)
+        (nextGraph branch) (gain branch)
+  branch_of_tail :
+    ∀ {face0 : Face} {rest : List Face},
+      state.Tail (face0 :: rest) ->
+        TopPairingTargetCompletionTail completionState (face0 :: rest) ->
+          ∃ branch : Branch, face branch = face0
+
+namespace StrengthenedTargetCompletionLocalBranchTable
+
+theorem localTransition
+    {state : StrengthenedClosedEvalState}
+    {completionState : TopPairingTargetCompletionState}
+    (table : StrengthenedTargetCompletionLocalBranchTable state completionState)
+    {face0 : Face} {rest : List Face}
+    (htail : state.Tail (face0 :: rest))
+    (hcompletion :
+      TopPairingTargetCompletionTail completionState (face0 :: rest)) :
+    ∃ branch : table.Branch,
+      table.face branch = face0 ∧
+        ∃ nextState : StrengthenedClosedEvalState,
+          strengthenedClosedEvalNext state face0 =
+              some (nextState, table.gain branch) ∧
+            nextState.Tail rest ∧
+              nextState.graph = table.nextGraph branch := by
+  rcases table.branch_of_tail htail hcompletion with ⟨branch, hface⟩
+  subst face0
+  rcases strengthenedClosedEvalNext_of_closedBellmanStep
+      (state := state) (face := table.face branch) (rest := rest)
+      htail (table.step branch) with
+    ⟨nextState, hnext, htailNext, hgraphNext⟩
+  exact ⟨branch, rfl, nextState, hnext, htailNext, hgraphNext⟩
+
+end StrengthenedTargetCompletionLocalBranchTable
+
+def strengthenedPrefix4Graph150TargetCompletionLocalBranchTable :
+    StrengthenedTargetCompletionLocalBranchTable
+      strengthenedClosedPrefix4TmpmZmEvalState graph150TargetCompletionState where
+  Branch := StrengthenedPrefix4Graph150Branch
+  face := StrengthenedPrefix4Graph150Branch.face
+  nextGraph := StrengthenedPrefix4Graph150Branch.nextGraph
+  gain := StrengthenedPrefix4Graph150Branch.gain
+  step := by
+    intro branch
+    change ClosedBellmanStep 150
+      (StrengthenedPrefix4Graph150Branch.face branch)
+      (StrengthenedPrefix4Graph150Branch.nextGraph branch)
+      (StrengthenedPrefix4Graph150Branch.gain branch)
+    exact StrengthenedPrefix4Graph150Branch.step branch
+  branch_of_tail := by
+    intro face rest htail hcompletion
+    exact
+      strengthenedPrefix4Graph150Branch_of_tail_and_targetCompletionTail
+        htail hcompletion
 
 theorem strengthenedPrefix4Graph149Branch_of_tail_and_zm_used
     {face : Face} {rest : List Face}

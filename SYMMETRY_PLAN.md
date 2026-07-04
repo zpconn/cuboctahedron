@@ -97683,3 +97683,129 @@ Next implementation target: add a small cancellation-completion certificate or
 generated local decision proof over `TopPairingTargetCompletionTail` for graph
 `150`.  Its accepted public theorem should be the single-branch result above
 with `face = Face.zp`; if the proof starts replaying observed prefixes, stop.
+
+### Holonomy/Bellman Pivot - graph150 target-completion branch accepted
+
+GPT5.5's latest strategic gate is now reflected in the implementation: keep the
+Bellman graph and potential, but replace selected-prefix membership with a
+deterministic semantic completion/evaluator theorem.  The first concrete slice
+is graph `150`, where the old transducer tail admitted a spurious `tppp` head.
+
+Accepted theorem:
+
+```lean
+theorem graph150_head_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph150TargetCompletionTail (face :: rest)) :
+    face = Face.zp
+```
+
+Implementation details:
+
+- `TopPairingTargetCompletionState` now has a bounded semantic completion
+  checker:
+  `isFinal`, `headAllowed`, `canCompleteWithFuel`, and `canComplete`.
+- `TopPairingTargetCompletionTail.canComplete_of_tail` proves the checker is a
+  sound over-approximation for real semantic tails.
+- The graph150 bad-head proofs use only the semantic completion state:
+  `tmmp`, `tpmm`, and `tppp` all have `canComplete = false` after the step.
+- `BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean` now defines
+  `StrengthenedPrefix4Graph150Branch` with the single branch
+  `Face.zp -> 157` and gain `114`, plus
+  `StrengthenedTargetCompletionLocalBranchTable`.
+
+This checkpoint is not sampled-rank evidence.  It mentions no selected-prefix
+ids, accepted trace ids, exact affine RHS keys, solved start points, or rank
+tables.  The graph branch is recovered from a semantic suffix state carrying
+only step, square gap, square parity, remaining actual faces, and triangular
+cancellation/source progress.
+
+Guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_target_completion_tail_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTargetCompletionTail.lean
+```
+
+Result:
+
+```text
+exit_code = 0
+elapsed_seconds = 27.03
+peak_tree_rss_mib = 5004
+hard_address_space_mib = 8192
+min_available_seen_mib = 44984
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/closed_bellman_strengthened_next_frontier_smoke_guard.json \
+  --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+```
+
+Result:
+
+```text
+exit_code = 0
+elapsed_seconds = 5.00
+peak_tree_rss_mib = 4028
+hard_address_space_mib = none
+min_available_seen_mib = 46107
+```
+
+Focused Lake build note:
+
+- An unthrottled focused `lake build` spawned multiple Lean processes and was
+  guard-killed at `13175 MiB` tree RSS against a `9000 MiB` cap.  This was a
+  controlled stop, not an OOM.
+- Retrying with `LEAN_NUM_THREADS=1 LAKE_JOBS=1` passed:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/closed_bellman_strengthened_next_frontier_smoke_build_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke
+```
+
+Result:
+
+```text
+exit_code = 0
+elapsed_seconds = 18.03
+peak_tree_rss_mib = 4347
+hard_address_space_mib = none
+min_available_seen_mib = 45655
+```
+
+Build-discipline update: for these Bellman generated smokes, use
+`lake env lean` under `run_memory_guarded.py` for direct theorem checks, and use
+focused `lake build` only with `LEAN_NUM_THREADS=1 LAKE_JOBS=1`.  The current
+Lake version treats `-J` as JSON output for `lake query`, not as a build-worker
+limit.
+
+Next checkpoint: generalize graph150's completion-aware local table into a
+generated semantic evaluator pattern.  The generated theorem should combine:
+
+1. current strengthened transducer tail;
+2. target-completion tail;
+3. local `ClosedBellmanStep` branch table;
+4. evaluator progress via `strengthenedClosedEvalNext_of_closedBellmanStep`.
+
+If another frontier state again needs a field beyond target completion, add the
+smallest semantic cursor/cancellation-state field.  Do not add selected-prefix
+or sampled-rank membership.
