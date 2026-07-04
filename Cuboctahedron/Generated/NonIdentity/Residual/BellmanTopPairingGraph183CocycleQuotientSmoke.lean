@@ -1700,7 +1700,7 @@ private def acceptedEdge12 : Fin edgeCount := ⟨70, by decide⟩
 private def acceptedEdge13 : Fin edgeCount := ⟨108, by decide⟩
 
 private def acceptedBranchLabels : List Nat := [edgeLabel acceptedEdge0, edgeLabel acceptedEdge1, edgeLabel acceptedEdge2, edgeLabel acceptedEdge3, edgeLabel acceptedEdge4, edgeLabel acceptedEdge5, edgeLabel acceptedEdge6, edgeLabel acceptedEdge7, edgeLabel acceptedEdge8, edgeLabel acceptedEdge9, edgeLabel acceptedEdge10, edgeLabel acceptedEdge11, edgeLabel acceptedEdge12, edgeLabel acceptedEdge13]
-private def acceptedBranchRawGain : Int :=
+def graph183AcceptedBranchRawGain : Int :=
   rawGain acceptedEdge0 + (rawGain acceptedEdge1 + (rawGain acceptedEdge2 + (rawGain acceptedEdge3 + (rawGain acceptedEdge4 + (rawGain acceptedEdge5 + (rawGain acceptedEdge6 + (rawGain acceptedEdge7 + (rawGain acceptedEdge8 + (rawGain acceptedEdge9 + (rawGain acceptedEdge10 + (rawGain acceptedEdge11 + (rawGain acceptedEdge12 + (rawGain acceptedEdge13 + ((0 : Int)))))))))))))))
 
 private theorem acceptedStep0 :
@@ -1776,12 +1776,12 @@ private theorem acceptedStep13 :
 private theorem acceptedBranchFullRun :
     BellmanLabelStepRun FullStep
       (fullSrc acceptedEdge0) (fullDst acceptedEdge13)
-      acceptedBranchLabels acceptedBranchRawGain := by
-  unfold acceptedBranchLabels acceptedBranchRawGain
+      acceptedBranchLabels graph183AcceptedBranchRawGain := by
+  unfold acceptedBranchLabels graph183AcceptedBranchRawGain
   exact BellmanLabelStepRun.cons acceptedStep0 (BellmanLabelStepRun.cons acceptedStep1 (BellmanLabelStepRun.cons acceptedStep2 (BellmanLabelStepRun.cons acceptedStep3 (BellmanLabelStepRun.cons acceptedStep4 (BellmanLabelStepRun.cons acceptedStep5 (BellmanLabelStepRun.cons acceptedStep6 (BellmanLabelStepRun.cons acceptedStep7 (BellmanLabelStepRun.cons acceptedStep8 (BellmanLabelStepRun.cons acceptedStep9 (BellmanLabelStepRun.cons acceptedStep10 (BellmanLabelStepRun.cons acceptedStep11 (BellmanLabelStepRun.cons acceptedStep12 (BellmanLabelStepRun.cons acceptedStep13 (BellmanLabelStepRun.nil (fullDst acceptedEdge13)))))))))))))))
 
 theorem graph183AcceptedBranchRawGain_contract :
-    acceptedBranchRawGain = ((194 : Int) + (-542 : Int)) := by
+    graph183AcceptedBranchRawGain = ((194 : Int) + (-542 : Int)) := by
   decide
 
 theorem graph183QuotientAcceptedBranchSmoke :
@@ -1790,7 +1790,7 @@ theorem graph183QuotientAcceptedBranchSmoke :
         (q (fullSrc acceptedEdge0))
         (q (fullDst acceptedEdge13))
         acceptedBranchLabels smallGainValue /\
-      acceptedBranchRawGain =
+      graph183AcceptedBranchRawGain =
         smallGainValue + gauge (fullDst acceptedEdge13) -
           gauge (fullSrc acceptedEdge0) :=
   BellmanLabelStepRun.quotient_of_step_gain_eq

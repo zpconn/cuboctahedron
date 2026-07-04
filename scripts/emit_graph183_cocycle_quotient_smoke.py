@@ -318,7 +318,7 @@ def main() -> int:
     lines.extend(
         [
             f"private def acceptedBranchLabels : List Nat := [{labels_expr}]",
-            "private def acceptedBranchRawGain : Int :=",
+            "def graph183AcceptedBranchRawGain : Int :=",
             "  " + nested_int_sum([f"rawGain {edge}" for edge in accepted_edge_terms]),
             "",
         ]
@@ -343,12 +343,12 @@ def main() -> int:
             "private theorem acceptedBranchFullRun :",
             "    BellmanLabelStepRun FullStep",
             f"      (fullSrc {accepted_edge_terms[0]}) (fullDst {accepted_edge_terms[-1]})",
-            "      acceptedBranchLabels acceptedBranchRawGain := by",
-            "  unfold acceptedBranchLabels acceptedBranchRawGain",
+            "      acceptedBranchLabels graph183AcceptedBranchRawGain := by",
+            "  unfold acceptedBranchLabels graph183AcceptedBranchRawGain",
             f"  exact {run}",
             "",
             "theorem graph183AcceptedBranchRawGain_contract :",
-            "    acceptedBranchRawGain = ((194 : Int) + (-542 : Int)) := by",
+            "    graph183AcceptedBranchRawGain = ((194 : Int) + (-542 : Int)) := by",
             "  decide",
             "",
             "theorem graph183QuotientAcceptedBranchSmoke :",
@@ -357,7 +357,7 @@ def main() -> int:
             f"        (q (fullSrc {accepted_edge_terms[0]}))",
             f"        (q (fullDst {accepted_edge_terms[-1]}))",
             "        acceptedBranchLabels smallGainValue /\\",
-            "      acceptedBranchRawGain =",
+            "      graph183AcceptedBranchRawGain =",
             f"        smallGainValue + gauge (fullDst {accepted_edge_terms[-1]}) -",
             f"          gauge (fullSrc {accepted_edge_terms[0]}) :=",
             "  BellmanLabelStepRun.quotient_of_step_gain_eq",

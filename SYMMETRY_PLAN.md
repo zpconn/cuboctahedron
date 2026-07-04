@@ -101520,3 +101520,90 @@ local tables.
 
   and then remove/replace the explicit label premise by semantic target cursor
   plus local deterministic transducer closure where possible.
+
+### 2026-07-04 graph183 quotient-margin socket
+
+- Exposed the checked graph183 accepted-branch raw gain from the quotient smoke:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientSmoke.graph183AcceptedBranchRawGain
+
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientSmoke.graph183AcceptedBranchRawGain_contract :
+    graph183AcceptedBranchRawGain = ((194 : Int) + (-542 : Int))
+  ```
+
+- Added:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean
+  ```
+
+  This socket introduces the cleaner next margin target:
+
+  ```lean
+  structure AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily
+      (scaledMargin : Fin numPairWords -> Int) : Prop where
+    final_margin_of_quotient_gain :
+      ∀ rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym ->
+        topPairingRankFaceLabels rank = graph183AcceptedBranchLabels ->
+        scaledMargin rank <= graphConst + graph183AcceptedBranchRawGain
+  ```
+
+  and adapts it to the existing graph183 production sockets:
+
+  ```lean
+  acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin
+  acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin
+  acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin
+  ```
+
+- Why this matters:
+  future semantic margin producers no longer need to duplicate the evaluator
+  gain constant `194 + -542`.  They can prove the margin bound against the
+  Lean-checked quotient branch gain, and this adapter rewrites it into the
+  existing `AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily`.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 360 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_quotient_margin_socket_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183QuotientMarginSocket
+
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+
+  grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf\|selected-prefix\|selected prefix" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean \
+    scripts/emit_graph183_cocycle_quotient_smoke.py || true
+  ```
+
+- Results:
+  - Guarded build passed in `19.01s`.
+  - Peak guarded tree RSS: `4962.15 MiB`.
+  - Minimum available memory observed: `44928.34 MiB`.
+  - The new adapter module itself checked in about `1.6s` after dependencies.
+  - Frontier audit still passed with
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+  - Grep found only explanatory comments containing “selected-prefix”; it found
+    no `SampledRankIndex`, `sampledContainsRank`, or `sampledRankOf`.
+
+- Current graph183 frontier:
+  the deterministic tail/completion part is semantically handled by target
+  cursor and completion-tail sockets.  The remaining real proof obligation is
+  now sharply:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin
+  ```
+
+  from strengthened closed-language semantics, without exact affine RHS keys or
+  selected-prefix/rank-path tables.
