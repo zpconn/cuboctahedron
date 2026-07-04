@@ -1,9 +1,9 @@
 {
   "build_dir": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke",
-  "elapsed_seconds": 14.489044326997828,
+  "elapsed_seconds": 17.061340473999735,
   "exit_code": 0,
   "root": {
-    "elapsed_seconds": 1.6714710740052396,
+    "elapsed_seconds": 4.260845177996089,
     "exit_code": 0,
     "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/All.olean",
     "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/All.lean",
@@ -12,28 +12,28 @@
   "shard_count": 4,
   "shards": [
     {
-      "elapsed_seconds": 2.754956200005836,
+      "elapsed_seconds": 2.6961319580004783,
       "exit_code": 0,
       "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard000.olean",
       "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard000.lean",
       "stdout_tail": ""
     },
     {
-      "elapsed_seconds": 2.4683814349991735,
+      "elapsed_seconds": 2.584781680998276,
       "exit_code": 0,
       "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard001.olean",
       "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard001.lean",
       "stdout_tail": ""
     },
     {
-      "elapsed_seconds": 2.971486424008617,
+      "elapsed_seconds": 3.004870831995504,
       "exit_code": 0,
       "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard002.olean",
       "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard002.lean",
       "stdout_tail": ""
     },
     {
-      "elapsed_seconds": 2.3386700010014465,
+      "elapsed_seconds": 2.361912182997912,
       "exit_code": 0,
       "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard003.olean",
       "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Shard003.lean",
@@ -43,7 +43,7 @@
   "source_dir": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke",
   "support": [
     {
-      "elapsed_seconds": 2.282256086007692,
+      "elapsed_seconds": 2.151653096996597,
       "exit_code": 0,
       "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Potential.olean",
       "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Potential.lean",

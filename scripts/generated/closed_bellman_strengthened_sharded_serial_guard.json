@@ -10,14 +10,14 @@
     "--json",
     "scripts/generated/closed_bellman_strengthened_sharded_serial_build.json"
   ],
-  "elapsed_seconds": 15.061751467001159,
+  "elapsed_seconds": 18.009943417986506,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4050460,
-  "max_tree_rss_mib": 3955.52734375,
-  "min_available_seen_kib": 46724080,
-  "min_available_seen_mib": 45628.984375,
+  "max_tree_rss_kib": 4140308,
+  "max_tree_rss_mib": 4043.26953125,
+  "min_available_seen_kib": 46579692,
+  "min_available_seen_mib": 45487.98046875,
   "rss_cap_mib": 6500.0,
   "timeout_seconds": 300.0
 }

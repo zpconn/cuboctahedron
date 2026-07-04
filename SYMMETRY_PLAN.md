@@ -94907,7 +94907,11 @@ Added the first sharded real-gain Bellman smoke for the strengthened
 top-pairing closed-language subset.  This is the next support layer after the
 zero-gain structural DAG: it checks scaled integer Bellman potentials, scaled
 transition gains, root/final inequalities, and per-edge transition bounds for
-the small semantic graph that actually proves a nonpositive margin bound.
+the small semantic graph that actually proves a nonpositive margin bound.  The
+root also exports `ClosedBellmanStep`, `closedBellmanStep_next`, and
+`closedBellmanStep_valid`, so future semantic membership proofs can construct
+step runs directly instead of proving a brittle generic theorem about the
+`Nat` dispatcher.
 
 New/updated support:
 
@@ -94995,17 +94999,17 @@ closure graph export: pass,
 emitter: pass,
   emitted 4 shards, 229 edges, 223 states
 generated source size:
-  2392 total Lean lines, about 76 KiB
+  2635 total Lean lines, about 92 KiB
 serial `.olean` build: pass,
-  elapsed 15.06s,
-  peak_tree_rss 3955.53 MiB,
-  min_available_seen 45628.98 MiB,
-  support Potential.lean elapsed 2.28s,
+  elapsed 18.01s,
+  peak_tree_rss 4043.27 MiB,
+  min_available_seen 45487.98 MiB,
+  support Potential.lean elapsed 2.15s,
   shard min/avg/max elapsed 2.34s / 2.63s / 2.97s,
-  All.lean elapsed 1.67s
+  All.lean elapsed 4.26s
 post-serial root source check: pass,
-  elapsed 2.00s,
-  peak_tree_rss 3554.67 MiB,
+  elapsed 4.02s,
+  peak_tree_rss 4048.92 MiB,
   hard address-space cap 8192 MiB
 ```
 

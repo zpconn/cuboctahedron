@@ -186,6 +186,10 @@ def render_dispatch(shard_count: int, states_per_shard: int) -> list[str]:
     return lines
 
 
+def edge_ctor_name(edge: dict[str, Any], label_index: int) -> str:
+    return f"e{int(edge['index']):04d}_l{label_index:02d}"
+
+
 def render_root(
     namespace: str,
     graph: dict[str, Any],
@@ -224,6 +228,35 @@ def render_root(
         "",
         *render_dispatch(shard_count, states_per_shard),
         "",
+        "inductive ClosedBellmanStep : Nat -> Face -> Nat -> Int -> Prop",
+    ]
+    for edge in graph["edges"]:
+        for label_index in edge["label_indices"]:
+            face = lean_face(graph["labels"][label_index]["key"])
+            lines.append(
+                f"  | {edge_ctor_name(edge, label_index)} : "
+                f"ClosedBellmanStep {edge['src']} {face} "
+                f"{edge['dst']} ({edge['gain_scaled']} : Int)"
+            )
+    lines.extend(
+        [
+            "",
+            "theorem closedBellmanStep_next",
+            "    {state : Nat} {face : Face} {nextState : Nat} {gain : Int}",
+            "    (h : ClosedBellmanStep state face nextState gain) :",
+            "    closedBellmanNext state face = some (nextState, gain) := by",
+            "  cases h <;> rfl",
+            "",
+            "theorem closedBellmanStep_valid",
+            "    {state : Nat} {face : Face} {nextState : Nat} {gain : Int}",
+            "    (h : ClosedBellmanStep state face nextState gain) :",
+            "    gain + graphPotential nextState <= graphPotential state := by",
+            "  cases h <;> decide",
+            "",
+        ]
+    )
+    lines.extend(
+        [
         "inductive ClosedBellmanSuffixOk : Nat -> List Face -> Prop",
         "  | nil (state : Nat) : ClosedBellmanSuffixOk state []",
         "  | cons {state nextState : Nat} {face : Face} {gain : Int}",
@@ -246,7 +279,8 @@ def render_root(
         "      refine ⟨finish, gain + tailGain, ?_⟩",
         "      simp [evalLabelStepFn, hnext, htail]",
         "",
-    ]
+        ]
+    )
     candidate = graph["candidate_objects"][0]
     labels = [
         lean_face(graph["labels"][label_index]["key"])
