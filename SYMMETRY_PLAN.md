@@ -95572,3 +95572,112 @@ fixed two-step prefix to a local semantic transition theorem over reachable
 transducer/graph states.  The local theorem should case-split on semantic
 state and next face, not on rank, full prefix, sampled trace, exact affine RHS,
 or accepted path id.
+
+### Holonomy/Bellman Pivot - local semantic transition theorem
+
+Promoted the prefix smoke from a fixed eval prefix to the first local
+transition theorem over a reachable transducer/graph state.  The theorem
+matches the production pattern from the older split-10M branch-table work, but
+targets the strengthened closed Bellman graph directly.
+
+Added concrete strengthened prefix states:
+
+```lean
+def strengthenedClosedPrefix1TransducerState : TopPairingTransducerState
+def strengthenedClosedPrefix1EvalState : StrengthenedClosedEvalState
+
+def strengthenedClosedPrefix2TransducerState : TopPairingTransducerState
+def strengthenedClosedPrefix2EvalState : StrengthenedClosedEvalState
+
+theorem strengthenedClosed_prefix1_next :
+    strengthenedClosedEvalNext strengthenedClosedEvalStart Face.xm =
+      some (strengthenedClosedPrefix1EvalState, (103 : Int))
+
+theorem strengthenedClosed_prefix2_next_from_prefix1 :
+    strengthenedClosedEvalNext strengthenedClosedPrefix1EvalState Face.ym =
+      some (strengthenedClosedPrefix2EvalState, (-73 : Int))
+
+theorem strengthenedClosed_prefix2_eval_eq :
+    evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+      [Face.xm, Face.ym] =
+        some (strengthenedClosedPrefix2EvalState, (30 : Int))
+```
+
+Added the generic local graph-to-evaluator adapter:
+
+```lean
+theorem strengthenedClosedEvalNext_of_closedBellmanStep
+    (htail : state.Tail (face :: rest))
+    (hstep : ClosedBellmanStep state.graph face nextGraph gain) :
+    ∃ nextState : StrengthenedClosedEvalState,
+      strengthenedClosedEvalNext state face = some (nextState, gain) ∧
+        nextState.Tail rest ∧ nextState.graph = nextGraph
+```
+
+Added the first semantic branch theorem:
+
+```lean
+theorem strengthenedClosedPrefix2LocalTransition_of_tail
+    (htail :
+      strengthenedClosedPrefix2EvalState.Tail (face :: rest)) :
+    ∃ nextState : StrengthenedClosedEvalState, ∃ gain : Int,
+      strengthenedClosedEvalNext strengthenedClosedPrefix2EvalState face =
+          some (nextState, gain) ∧
+        nextState.Tail rest ∧
+          ((nextState.graph = 146 ∧ gain = (-124 : Int)) ∨
+            (nextState.graph = 144 ∧ gain = (-73 : Int)) ∨
+              (nextState.graph = 145 ∧ gain = (-10 : Int)))
+```
+
+The proof case-splits only on `TopPairingTransducerTail.cons` for the semantic
+prefix-2 state, deriving the legal next face alternatives
+`tmpm | yp | zm`.  It then uses local graph constructors
+`ClosedBellmanStep.e0127_l02`, `ClosedBellmanStep.e0125_l11`, and
+`ClosedBellmanStep.e0126_l12`.  It does not inspect rank-specific objects,
+sampled paths, exact affine RHS keys, or selected prefixes.
+
+Focused guarded check:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 120 \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 \
+    --json scripts/generated/closed_bellman_strengthened_local_transition_smoke_guard.json \
+    --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+
+result:
+  pass, elapsed 2.00s,
+  peak_tree_rss 3581 MiB,
+  min_available_seen 46007 MiB
+```
+
+Forbidden-token/sampled-membership scan:
+
+```text
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|\
+sampledContainsRank\|sampledRankOf\|AcceptedTraceId\|acceptedTrace" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean || true
+
+result: no matches
+```
+
+Decision: accepted.  The next slice should turn this single local theorem into
+a generated finite local-transition table for reachable strengthened
+transducer/graph states.  The required production surface is:
+
+```lean
+Inv state ->
+state.Tail (face :: rest) ->
+SuffixOk rank state (face :: rest) ->
+∃ nextState gain,
+  strengthenedClosedEvalNext state face = some (nextState, gain) ∧
+    nextState.Tail rest ∧ Inv nextState ∧
+      SuffixOk rank nextState rest
+```
+
+This should still be a semantic state/face table, not a rank/path table.

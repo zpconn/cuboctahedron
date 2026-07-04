@@ -36,6 +36,46 @@ def strengthenedClosedEvalNext :
       Option (StrengthenedClosedEvalState × Int) :=
   TopPairingTransducerEvalState.next? closedBellmanNext (fun face : Face => face)
 
+def strengthenedClosedPrefix1TransducerState : TopPairingTransducerState where
+  step := 1
+  gap := topPairingNextGap 0 Face.xm
+  k := 0
+  parity := SqParity.id.applyPair (pairOfFace Face.xm)
+  linear := topPairingNextLinear (matId : Mat3 Rat) Face.xm
+
+def strengthenedClosedPrefix1EvalState : StrengthenedClosedEvalState where
+  transducer := strengthenedClosedPrefix1TransducerState
+  graph := 142
+
+def strengthenedClosedPrefix2TransducerState : TopPairingTransducerState where
+  step := 2
+  gap := topPairingNextGap (topPairingNextGap 0 Face.xm) Face.ym
+  k := 0
+  parity := (SqParity.id.applyPair (pairOfFace Face.xm)).applyPair
+    (pairOfFace Face.ym)
+  linear := topPairingNextLinear
+    (topPairingNextLinear (matId : Mat3 Rat) Face.xm) Face.ym
+
+def strengthenedClosedPrefix2EvalState : StrengthenedClosedEvalState where
+  transducer := strengthenedClosedPrefix2TransducerState
+  graph := 143
+
+theorem strengthenedClosed_prefix1_next :
+    strengthenedClosedEvalNext strengthenedClosedEvalStart Face.xm =
+      some (strengthenedClosedPrefix1EvalState, (103 : Int)) := by
+  rfl
+
+theorem strengthenedClosed_prefix2_next_from_prefix1 :
+    strengthenedClosedEvalNext strengthenedClosedPrefix1EvalState Face.ym =
+      some (strengthenedClosedPrefix2EvalState, (-73 : Int)) := by
+  rfl
+
+theorem strengthenedClosed_prefix2_eval_eq :
+    evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+      [Face.xm, Face.ym] =
+        some (strengthenedClosedPrefix2EvalState, (30 : Int)) := by
+  rfl
+
 abbrev StrengthenedClosedPrefixTransducerEval
     (rank : Fin numPairWords) (finish : Nat)
     (pfx : List Face) (gain : Int) : Prop :=
@@ -45,6 +85,23 @@ abbrev StrengthenedClosedPrefixTransducerEval
         evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
           pfx = some (state, gain) /\
         state.graph = finish /\ state.Tail rest
+
+theorem strengthenedClosedEvalNext_of_closedBellmanStep
+    {state : StrengthenedClosedEvalState} {face : Face} {rest : List Face}
+    {nextGraph : Nat} {gain : Int}
+    (htail : state.Tail (face :: rest))
+    (hstep : ClosedBellmanStep state.graph face nextGraph gain) :
+    ∃ nextState : StrengthenedClosedEvalState,
+      strengthenedClosedEvalNext state face = some (nextState, gain) ∧
+        nextState.Tail rest ∧ nextState.graph = nextGraph := by
+  have hgraph :
+      closedBellmanNext state.graph face = some (nextGraph, gain) :=
+    closedBellmanStep_next hstep
+  rcases TopPairingTransducerEvalState.next?_tail
+      (next := closedBellmanNext) (labelOfFace := fun face : Face => face)
+      htail hgraph with
+    ⟨nextState, hnext, htailNext, hgraphNext⟩
+  exact ⟨nextState, hnext, htailNext, hgraphNext⟩
 
 private theorem closedScheduleLabels
     {rank : Fin numPairWords} {badFace : Face}
@@ -175,33 +232,83 @@ theorem strengthenedClosedPrefix2TransducerEval
         hstrengthened.toTopPairingClosedLanguageAtRank) with
     ⟨rest, hlabels⟩
   have htail0 :
-      strengthenedClosedEvalStart.Tail
-        (Face.xm :: Face.ym :: rest) := by
+      strengthenedClosedEvalStart.Tail (Face.xm :: Face.ym :: rest) := by
     simpa [hlabels] using strengthenedClosedStartTail hstrengthened
-  have hgraph0 :
-      closedBellmanNext strengthenedClosedEvalStart.graph Face.xm =
-        some (142, (103 : Int)) := by
-    change closedBellmanNext graphRoot Face.xm = some (142, (103 : Int))
-    exact closedBellmanStep_next ClosedBellmanStep.e0000_l08
-  rcases TopPairingTransducerEvalState.next?_tail
-      (next := closedBellmanNext) (labelOfFace := fun face : Face => face)
+  rcases strengthenedClosedEvalNext_of_closedBellmanStep
       (state := strengthenedClosedEvalStart)
       (face := Face.xm) (rest := Face.ym :: rest)
-      htail0 hgraph0 with
+      htail0 ClosedBellmanStep.e0000_l08 with
     ⟨state1, hnext1, htail1, hstate1Graph⟩
-  have hgraph1 :
-      closedBellmanNext state1.graph Face.ym = some (143, (-73 : Int)) := by
-    rw [hstate1Graph]
-    exact closedBellmanStep_next ClosedBellmanStep.e0124_l10
-  rcases TopPairingTransducerEvalState.next?_tail
-      (next := closedBellmanNext) (labelOfFace := fun face : Face => face)
-      (state := state1)
+  have hstate1 :
+      state1 = strengthenedClosedPrefix1EvalState := by
+    have hpair :=
+      Option.some.inj (hnext1.symm.trans strengthenedClosed_prefix1_next)
+    exact congrArg Prod.fst hpair
+  subst state1
+  rcases strengthenedClosedEvalNext_of_closedBellmanStep
+      (state := strengthenedClosedPrefix1EvalState)
       (face := Face.ym) (rest := rest)
-      htail1 hgraph1 with
+      htail1 ClosedBellmanStep.e0124_l10 with
     ⟨state2, hnext2, htail2, hstate2Graph⟩
-  refine ⟨rest, state2, ?_, ?_, hstate2Graph, htail2⟩
+  have hstate2 :
+      state2 = strengthenedClosedPrefix2EvalState := by
+    have hpair :=
+      Option.some.inj
+        (hnext2.symm.trans strengthenedClosed_prefix2_next_from_prefix1)
+    exact congrArg Prod.fst hpair
+  subst state2
+  refine ⟨rest, strengthenedClosedPrefix2EvalState, ?_, ?_, rfl, htail2⟩
   · simpa using hlabels
-  · simp [evalLabelStepFn, strengthenedClosedEvalNext, hnext1, hnext2]
+  · exact strengthenedClosed_prefix2_eval_eq
+
+theorem strengthenedClosedPrefix2LocalTransition_of_tail
+    {face : Face} {rest : List Face}
+    (htail :
+      strengthenedClosedPrefix2EvalState.Tail (face :: rest)) :
+    ∃ nextState : StrengthenedClosedEvalState, ∃ gain : Int,
+      strengthenedClosedEvalNext strengthenedClosedPrefix2EvalState face =
+          some (nextState, gain) ∧
+        nextState.Tail rest ∧
+          ((nextState.graph = 146 ∧ gain = (-124 : Int)) ∨
+            (nextState.graph = 144 ∧ gain = (-73 : Int)) ∨
+              (nextState.graph = 145 ∧ gain = (-10 : Int))) := by
+  have htailRaw :
+      TopPairingTransducerTail
+        strengthenedClosedPrefix2TransducerState.step
+        strengthenedClosedPrefix2TransducerState.gap
+        strengthenedClosedPrefix2TransducerState.k
+        strengthenedClosedPrefix2TransducerState.parity
+        strengthenedClosedPrefix2TransducerState.linear
+        (face :: rest) := by
+    simpa [TopPairingTransducerEvalState.Tail,
+      TopPairingTransducerState.Tail,
+      strengthenedClosedPrefix2EvalState] using htail
+  have hcons := TopPairingTransducerTail.cons htailRaw
+  have hface : face ∈ topPairingAllowedFacesAtStep 2 := by
+    simpa [strengthenedClosedPrefix2TransducerState] using hcons.1
+  simp [topPairingAllowedFacesAtStep] at hface
+  rcases hface with rfl | rfl | rfl
+  · rcases strengthenedClosedEvalNext_of_closedBellmanStep
+      (state := strengthenedClosedPrefix2EvalState)
+      (face := Face.tmpm) (rest := rest)
+      htail ClosedBellmanStep.e0127_l02 with
+      ⟨nextState, hnext, htailNext, hgraphNext⟩
+    exact ⟨nextState, (-124 : Int), hnext, htailNext,
+      Or.inl ⟨hgraphNext, rfl⟩⟩
+  · rcases strengthenedClosedEvalNext_of_closedBellmanStep
+      (state := strengthenedClosedPrefix2EvalState)
+      (face := Face.yp) (rest := rest)
+      htail ClosedBellmanStep.e0125_l11 with
+      ⟨nextState, hnext, htailNext, hgraphNext⟩
+    exact ⟨nextState, (-73 : Int), hnext, htailNext,
+      Or.inr (Or.inl ⟨hgraphNext, rfl⟩)⟩
+  · rcases strengthenedClosedEvalNext_of_closedBellmanStep
+      (state := strengthenedClosedPrefix2EvalState)
+      (face := Face.zm) (rest := rest)
+      htail ClosedBellmanStep.e0126_l12 with
+      ⟨nextState, hnext, htailNext, hgraphNext⟩
+    exact ⟨nextState, (-10 : Int), hnext, htailNext,
+      Or.inr (Or.inr ⟨hgraphNext, rfl⟩)⟩
 
 theorem closedPrefix3GraphRun_cases
     {rank : Fin numPairWords} {badFace : Face}
