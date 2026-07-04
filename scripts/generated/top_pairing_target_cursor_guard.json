@@ -1,18 +1,21 @@
 {
-  "available_floor_mib": 24576.0,
+  "available_floor_mib": 30000.0,
   "command": [
+    "env",
+    "LEAN_NUM_THREADS=1",
+    "LAKE_JOBS=1",
     "lake",
     "build",
     "Cuboctahedron.Search.TopPairingTargetCursor"
   ],
-  "elapsed_seconds": 3.002734990004683,
+  "elapsed_seconds": 5.004500940005528,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4151496,
-  "max_tree_rss_mib": 4054.1953125,
-  "min_available_seen_kib": 46923952,
-  "min_available_seen_mib": 45824.171875,
-  "rss_cap_mib": 7000.0,
-  "timeout_seconds": 120.0
+  "max_tree_rss_kib": 821588,
+  "max_tree_rss_mib": 802.33203125,
+  "min_available_seen_kib": 47382884,
+  "min_available_seen_mib": 46272.34765625,
+  "rss_cap_mib": 10000.0,
+  "timeout_seconds": 420.0
 }

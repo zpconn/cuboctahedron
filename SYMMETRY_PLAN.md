@@ -100854,3 +100854,107 @@ local tables.
     ```text
     diagnostic_supports_graph183_accepted_tail_margin_bellman_route
     ```
+
+### 2026-07-04 graph183 strategy pivot: closed language to deterministic eval
+
+- Incorporated the latest Bellman/state-DAG guidance into the active
+  graph183 route:
+  - keep Bellman;
+  - stop treating selected-prefix membership as production evidence;
+  - use the already Lean-checked target-shadow cursor and semantic Bellman
+    object bridge as the next theorem surface;
+  - require the next producer to prove a deterministic
+    `TopPairingClosedLanguageAtRank -> evalLabelStepFn` gate before it can
+    discharge the accepted-tail margin family.
+- Existing Lean surfaces verified:
+
+  ```lean
+  theorem topPairingTargetShadow_of_summary
+  theorem topPairingTriShadow_eq_target_of_closed
+  theorem topPairingTriCursor_of_closed
+  abbrev TopPairingTargetCursorAtRank
+  structure TopPairingStartMissSemanticLanguageAtRank
+
+  structure TopPairingBellmanObj
+  def topPairingClosedMembership
+  structure TopPairingBellmanEvalLanguageAtRank
+  def topPairingBellmanEvalObjectCoverOfClosedToEval
+  ```
+
+- Updated `scripts/audit_graph183_accepted_tail_margin_frontier.py` so the
+  frontier audit now checks:
+  - the graph183 socket still targets the accepted-tail margin family and does
+    not use sampled rank / selected prefix / accepted trace-id surfaces;
+  - `BellmanLabelStepRun.quotient_of_step_gain_eq` exists;
+  - the target-shadow cursor and semantic Bellman object files contain the
+    expected theorem surfaces and no sampled/selected-prefix tokens;
+  - the 100k and 1M exact graph183 profiles remain small and nonpositive;
+  - the new cocycle quotient diagnostic has a compact consistent candidate.
+- Added diagnostic profiler:
+
+  ```bash
+  python3 scripts/profile_graph183_cocycle_quotients.py \
+    --input scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json \
+    --json scripts/generated/graph183_cocycle_quotients_0_1M.json \
+    --markdown scripts/generated/graph183_cocycle_quotients_0_1M.md
+  ```
+
+- Result:
+
+  ```text
+  decision: cocycle_quotient_candidates_found
+  best: step-par states=43 edges=93
+  ```
+
+  This is not proof evidence.  It says only that the observed 1M graph183 edge
+  gains can factor through a much smaller quotient up to a telescoping gauge,
+  so `BellmanLabelStepRun.quotient_of_step_gain_eq` is a viable fallback if
+  the direct closed-to-eval margin gate demands too much state.
+- Verification commands:
+
+  ```bash
+  python3 -m py_compile \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py \
+    scripts/profile_graph183_cocycle_quotients.py
+
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/top_pairing_target_cursor_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Search.TopPairingTargetCursor
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/top_pairing_bellman_object_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Search.TopPairingBellmanObject
+  ```
+
+- Results:
+  - Python compile passed.
+  - Frontier audit passed with
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+  - `Cuboctahedron.Search.TopPairingTargetCursor` passed in `5.00s`, peak
+    RSS `802 MiB`, min available `46272 MiB`.
+  - `Cuboctahedron.Search.TopPairingBellmanObject` passed in `1.00s`; the
+    guard observed no meaningful RSS spike because it replayed from cache.
+- Current proof gap:
+
+  ```lean
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    TopPairingBellmanEvalLanguageAtRank ... rank Face.ym
+
+  AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
+  ```
+
+  This must be proved by a semantic deterministic evaluator/cursor argument,
+  not by sampled rank objects.  If the proof wants exact affine RHS, solved
+  start-point keys, accepted trace ids, or one branch per path, the next step
+  is to emit Lean-checked quotient/gauge local facts using the cocycle theorem
+  rather than scaling selected-prefix evidence.

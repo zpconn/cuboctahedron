@@ -33,6 +33,8 @@ GRAPH183_SOCKET = ROOT / (
     "BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean"
 )
 BELLMAN_POTENTIAL = ROOT / "Cuboctahedron/Search/BellmanPotential.lean"
+TOP_PAIRING_TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
+TOP_PAIRING_BELLMAN_OBJECT = ROOT / "Cuboctahedron/Search/TopPairingBellmanObject.lean"
 SEMANTIC_AUDIT = (
     ROOT / "scripts/generated/top_pairing_semantic_evaluator_pivot.json"
 )
@@ -47,6 +49,9 @@ GUARD_100K = (
 )
 GUARD_1M = (
     ROOT / "scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M_guard.json"
+)
+COCYCLE_QUOTIENT_1M = (
+    ROOT / "scripts/generated/graph183_cocycle_quotients_0_1M.json"
 )
 
 REQUIRED_SOCKET_SYMBOLS = [
@@ -72,6 +77,31 @@ FORBIDDEN_SOCKET_TOKENS = [
 
 REQUIRED_BELLMAN_SYMBOLS = [
     "quotient_of_step_gain_eq",
+]
+
+REQUIRED_TARGET_CURSOR_SYMBOLS = [
+    "topPairingTargetShadow_of_summary",
+    "topPairingTriShadow_eq_target_of_closed",
+    "TopPairingTriCursorFrom",
+    "topPairingTriCursor_of_closed",
+    "TopPairingTargetCursorAtRank",
+    "TopPairingStartMissSemanticLanguageAtRank",
+]
+
+REQUIRED_BELLMAN_OBJECT_SYMBOLS = [
+    "TopPairingBellmanObj",
+    "topPairingClosedMembership",
+    "TopPairingBellmanEvalLanguageAtRank",
+    "topPairingBellmanEvalObjectCoverOfClosedToEval",
+]
+
+FORBIDDEN_SEMANTIC_TOKENS = [
+    "SampledRankIndex",
+    "sampledContainsRank",
+    "sampledRankOf",
+    "SelectedPrefix",
+    "AcceptedTraceId",
+    "acceptedTraceOfId",
 ]
 
 
@@ -143,6 +173,73 @@ def bellman_core_checks() -> list[dict[str, Any]]:
             }
         )
     return checks
+
+
+def text_symbol_checks(
+    label: str,
+    path: Path,
+    required: list[str],
+    forbidden: list[str] | None = None,
+) -> list[dict[str, Any]]:
+    text = read_text(path)
+    checks: list[dict[str, Any]] = [
+        {
+            "name": f"{label}:exists",
+            "passed": path.exists(),
+            "detail": rel(path),
+        }
+    ]
+    for symbol in required:
+        checks.append(
+            {
+                "name": f"{label}:symbol:{symbol}",
+                "passed": symbol in text,
+                "detail": symbol,
+            }
+        )
+    for token in forbidden or []:
+        checks.append(
+            {
+                "name": f"{label}:forbidden_absent:{token}",
+                "passed": token not in text,
+                "detail": token,
+            }
+        )
+    return checks
+
+
+def quotient_checks(profile: dict[str, Any] | None) -> list[dict[str, Any]]:
+    if profile is None:
+        return [
+            {
+                "name": "cocycle_quotient_1m:profile_exists",
+                "passed": False,
+                "detail": "missing quotient profile json",
+            }
+        ]
+    best = profile.get("best_consistent")
+    return [
+        {
+            "name": "cocycle_quotient_1m:decision_candidate_found",
+            "passed": profile.get("decision") == "cocycle_quotient_candidates_found",
+            "detail": profile.get("decision"),
+        },
+        {
+            "name": "cocycle_quotient_1m:best_exists",
+            "passed": best is not None,
+            "detail": None if best is None else best.get("mode"),
+        },
+        {
+            "name": "cocycle_quotient_1m:best_states_under_100",
+            "passed": bool(best) and int(best.get("quotient_states", 10**9)) <= 100,
+            "detail": None if best is None else best.get("quotient_states"),
+        },
+        {
+            "name": "cocycle_quotient_1m:best_edges_under_150",
+            "passed": bool(best) and int(best.get("quotient_edges", 10**9)) <= 150,
+            "detail": None if best is None else best.get("quotient_edges"),
+        },
+    ]
 
 
 def guard_checks(name: str, guard: dict[str, Any] | None) -> list[dict[str, Any]]:
@@ -280,6 +377,20 @@ def metrics(profile: dict[str, Any] | None, guard: dict[str, Any] | None) -> dic
     return out
 
 
+def quotient_metrics(profile: dict[str, Any] | None) -> dict[str, Any]:
+    if profile is None:
+        return {}
+    best = profile.get("best_consistent") or {}
+    return {
+        "decision": profile.get("decision"),
+        "best_mode": best.get("mode"),
+        "best_quotient_states": best.get("quotient_states"),
+        "best_quotient_edges": best.get("quotient_edges"),
+        "best_state_ratio": (best.get("compression") or {}).get("state_ratio"),
+        "best_edge_ratio": (best.get("compression") or {}).get("edge_ratio"),
+    }
+
+
 def render_markdown(report: dict[str, Any]) -> str:
     lines = [
         "# Graph183 Accepted-Tail Margin Frontier",
@@ -293,12 +404,12 @@ def render_markdown(report: dict[str, Any]) -> str:
         "",
         "## Meaning",
         "",
-        "A passing decision means the exact profiler supports trying a small",
-        "`AcceptedSequenceGraph183AcceptedTailMarginFamily` Lean producer next.",
-        "It does not mean that producer exists.  If the producer needs sampled",
-        "ranks, selected prefixes, accepted trace ids, exact affine RHS keys, or",
-        "one branch per rank/path, the route must pivot to a cancellation-segment",
-        "or cocycle/coboundary quotient.",
+        "A passing decision means the exact profiler supports trying a",
+        "`closed -> eval` Lean producer next, using the target-shadow cursor and",
+        "semantic Bellman object cover.  It does not mean that producer exists.",
+        "If the producer needs sampled ranks, selected prefixes, accepted trace",
+        "ids, exact affine RHS keys, or one branch per rank/path, the route must",
+        "pivot to a cancellation-segment or cocycle/coboundary quotient.",
         "",
         "## Metrics",
         "",
@@ -326,12 +437,16 @@ def render_markdown(report: dict[str, Any]) -> str:
             "## Next Lean Target",
             "",
             "```lean",
+            "TopPairingClosedLanguageAtRank rank Face.ym ->",
+            "  TopPairingBellmanEvalLanguageAtRank ... rank Face.ym",
+            "",
             "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin",
             "```",
             "",
-            "The first Lean smoke should prove this for a semantic margin object or",
-            "introduce the cancellation/cocycle quotient theorem surface needed to",
-            "make the proof rank-free.",
+            "The first Lean smoke should prove the closed-language-to-evaluator",
+            "gate for a semantic margin object.  The quotient profile is a",
+            "fallback signal only: any quotient/gauge equations must still become",
+            "Lean-checked local facts.",
             "",
         ]
     )
@@ -344,15 +459,33 @@ def main() -> int:
     profile_1m = read_json(PROFILE_1M)
     guard_100k = read_json(GUARD_100K)
     guard_1m = read_json(GUARD_1M)
+    quotient_1m = read_json(COCYCLE_QUOTIENT_1M)
 
     checks: list[dict[str, Any]] = []
     checks.extend(socket_checks())
     checks.extend(bellman_core_checks())
+    checks.extend(
+        text_symbol_checks(
+            "target_cursor",
+            TOP_PAIRING_TARGET_CURSOR,
+            REQUIRED_TARGET_CURSOR_SYMBOLS,
+            FORBIDDEN_SEMANTIC_TOKENS,
+        )
+    )
+    checks.extend(
+        text_symbol_checks(
+            "bellman_object",
+            TOP_PAIRING_BELLMAN_OBJECT,
+            REQUIRED_BELLMAN_OBJECT_SYMBOLS,
+            FORBIDDEN_SEMANTIC_TOKENS,
+        )
+    )
     checks.extend(semantic_audit_checks(semantic))
     checks.extend(profile_checks("profile_100k", profile_100k))
     checks.extend(profile_checks("profile_1m", profile_1m))
     checks.extend(guard_checks("profile_100k", guard_100k))
     checks.extend(guard_checks("profile_1m", guard_1m))
+    checks.extend(quotient_checks(quotient_1m))
 
     failed = [row for row in checks if not row["passed"]]
     decision = (
@@ -369,9 +502,11 @@ def main() -> int:
         "metrics": {
             "profile_100k": metrics(profile_100k, guard_100k),
             "profile_1m": metrics(profile_1m, guard_1m),
+            "cocycle_quotient_1m": quotient_metrics(quotient_1m),
         },
         "next_lean_target": (
-            "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
+            "TopPairingClosedLanguageAtRank -> TopPairingBellmanEvalLanguageAtRank; "
+            "then AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
         ),
     }
 

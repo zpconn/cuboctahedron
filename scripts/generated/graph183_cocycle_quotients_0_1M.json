@@ -1,0 +1,195 @@
+{
+  "arithmetic": "exact rational diagnostic; not proof evidence",
+  "best_consistent": {
+    "compression": {
+      "edge_ratio": 0.40611353711790393,
+      "state_ratio": 0.19282511210762332
+    },
+    "consistent": true,
+    "equations": 229,
+    "full_edges": 229,
+    "full_states": 223,
+    "labels": 14,
+    "max_raw_gain_collision_width": 2,
+    "mode": "step-par",
+    "quotient_edges": 93,
+    "quotient_states": 43,
+    "raw_gain_collision_groups": 1,
+    "variables": 316
+  },
+  "decision": "cocycle_quotient_candidates_found",
+  "input": "scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json",
+  "mode": "graph183-cocycle-quotient-profile",
+  "quotients": [
+    {
+      "compression": {
+        "edge_ratio": 1.0,
+        "state_ratio": 1.0
+      },
+      "consistent": true,
+      "equations": 229,
+      "full_edges": 229,
+      "full_states": 223,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "full",
+      "quotient_edges": 229,
+      "quotient_states": 223,
+      "raw_gain_collision_groups": 0,
+      "variables": 452
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.5283842794759825,
+        "state_ratio": 0.4260089686098655
+      },
+      "consistent": true,
+      "equations": 229,
+      "full_edges": 229,
+      "full_states": 223,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-tri-src-no-pos",
+      "quotient_edges": 121,
+      "quotient_states": 95,
+      "raw_gain_collision_groups": 0,
+      "variables": 344
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.4410480349344978,
+        "state_ratio": 0.3273542600896861
+      },
+      "consistent": true,
+      "equations": 229,
+      "full_edges": 229,
+      "full_states": 223,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-tri-targets",
+      "quotient_edges": 101,
+      "quotient_states": 73,
+      "raw_gain_collision_groups": 0,
+      "variables": 324
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.4104803493449782,
+        "state_ratio": 0.24663677130044842
+      },
+      "consistent": true,
+      "equations": 229,
+      "full_edges": 229,
+      "full_states": 223,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-par-tri-targets",
+      "quotient_edges": 94,
+      "quotient_states": 55,
+      "raw_gain_collision_groups": 0,
+      "variables": 317
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.4410480349344978,
+        "state_ratio": 0.3273542600896861
+      },
+      "consistent": true,
+      "equations": 229,
+      "full_edges": 229,
+      "full_states": 223,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "no-tri-src",
+      "quotient_edges": 101,
+      "quotient_states": 73,
+      "raw_gain_collision_groups": 0,
+      "variables": 324
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.6157205240174672,
+        "state_ratio": 0.48878923766816146
+      },
+      "consistent": true,
+      "equations": 229,
+      "full_edges": 229,
+      "full_states": 223,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "no-rem",
+      "quotient_edges": 141,
+      "quotient_states": 109,
+      "raw_gain_collision_groups": 0,
+      "variables": 364
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.4104803493449782,
+        "state_ratio": 0.24663677130044842
+      },
+      "consistent": true,
+      "equations": 229,
+      "full_edges": 229,
+      "full_states": 223,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-par-stack",
+      "quotient_edges": 94,
+      "quotient_states": 55,
+      "raw_gain_collision_groups": 0,
+      "variables": 317
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.4410480349344978,
+        "state_ratio": 0.3273542600896861
+      },
+      "consistent": true,
+      "equations": 229,
+      "full_edges": 229,
+      "full_states": 223,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-rem-par",
+      "quotient_edges": 101,
+      "quotient_states": 73,
+      "raw_gain_collision_groups": 0,
+      "variables": 324
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.4104803493449782,
+        "state_ratio": 0.16591928251121077
+      },
+      "consistent": true,
+      "equations": 229,
+      "full_edges": 229,
+      "full_states": 223,
+      "labels": 14,
+      "max_raw_gain_collision_width": 1,
+      "mode": "step-stack",
+      "quotient_edges": 94,
+      "quotient_states": 37,
+      "raw_gain_collision_groups": 0,
+      "variables": 317
+    },
+    {
+      "compression": {
+        "edge_ratio": 0.40611353711790393,
+        "state_ratio": 0.19282511210762332
+      },
+      "consistent": true,
+      "equations": 229,
+      "full_edges": 229,
+      "full_states": 223,
+      "labels": 14,
+      "max_raw_gain_collision_width": 2,
+      "mode": "step-par",
+      "quotient_edges": 93,
+      "quotient_states": 43,
+      "raw_gain_collision_groups": 1,
+      "variables": 316
+    }
+  ]
+}

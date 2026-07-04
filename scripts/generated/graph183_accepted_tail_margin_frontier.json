@@ -92,6 +92,126 @@
       "passed": true
     },
     {
+      "detail": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
+      "name": "target_cursor:exists",
+      "passed": true
+    },
+    {
+      "detail": "topPairingTargetShadow_of_summary",
+      "name": "target_cursor:symbol:topPairingTargetShadow_of_summary",
+      "passed": true
+    },
+    {
+      "detail": "topPairingTriShadow_eq_target_of_closed",
+      "name": "target_cursor:symbol:topPairingTriShadow_eq_target_of_closed",
+      "passed": true
+    },
+    {
+      "detail": "TopPairingTriCursorFrom",
+      "name": "target_cursor:symbol:TopPairingTriCursorFrom",
+      "passed": true
+    },
+    {
+      "detail": "topPairingTriCursor_of_closed",
+      "name": "target_cursor:symbol:topPairingTriCursor_of_closed",
+      "passed": true
+    },
+    {
+      "detail": "TopPairingTargetCursorAtRank",
+      "name": "target_cursor:symbol:TopPairingTargetCursorAtRank",
+      "passed": true
+    },
+    {
+      "detail": "TopPairingStartMissSemanticLanguageAtRank",
+      "name": "target_cursor:symbol:TopPairingStartMissSemanticLanguageAtRank",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "target_cursor:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "target_cursor:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "target_cursor:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "target_cursor:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "target_cursor:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "target_cursor:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
+      "detail": "Cuboctahedron/Search/TopPairingBellmanObject.lean",
+      "name": "bellman_object:exists",
+      "passed": true
+    },
+    {
+      "detail": "TopPairingBellmanObj",
+      "name": "bellman_object:symbol:TopPairingBellmanObj",
+      "passed": true
+    },
+    {
+      "detail": "topPairingClosedMembership",
+      "name": "bellman_object:symbol:topPairingClosedMembership",
+      "passed": true
+    },
+    {
+      "detail": "TopPairingBellmanEvalLanguageAtRank",
+      "name": "bellman_object:symbol:TopPairingBellmanEvalLanguageAtRank",
+      "passed": true
+    },
+    {
+      "detail": "topPairingBellmanEvalObjectCoverOfClosedToEval",
+      "name": "bellman_object:symbol:topPairingBellmanEvalObjectCoverOfClosedToEval",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "bellman_object:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "bellman_object:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "bellman_object:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "bellman_object:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "bellman_object:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "bellman_object:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
       "detail": "semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer",
       "name": "semantic_audit_accepts_margin_target",
       "passed": true
@@ -210,11 +330,39 @@
       "detail": 46248.05078125,
       "name": "profile_1m:available_above_30000_mib",
       "passed": true
+    },
+    {
+      "detail": "cocycle_quotient_candidates_found",
+      "name": "cocycle_quotient_1m:decision_candidate_found",
+      "passed": true
+    },
+    {
+      "detail": "step-par",
+      "name": "cocycle_quotient_1m:best_exists",
+      "passed": true
+    },
+    {
+      "detail": 43,
+      "name": "cocycle_quotient_1m:best_states_under_100",
+      "passed": true
+    },
+    {
+      "detail": 93,
+      "name": "cocycle_quotient_1m:best_edges_under_150",
+      "passed": true
     }
   ],
   "decision": "diagnostic_supports_graph183_accepted_tail_margin_bellman_route",
   "failed_checks": [],
   "metrics": {
+    "cocycle_quotient_1m": {
+      "best_edge_ratio": 0.40611353711790393,
+      "best_mode": "step-par",
+      "best_quotient_edges": 93,
+      "best_quotient_states": 43,
+      "best_state_ratio": 0.19282511210762332,
+      "decision": "cocycle_quotient_candidates_found"
+    },
     "profile_100k": {
       "edges": 93,
       "elapsed_seconds": 36.14832109300187,
@@ -249,5 +397,5 @@
     }
   },
   "mode": "graph183_accepted_tail_margin_frontier",
-  "next_lean_target": "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
+  "next_lean_target": "TopPairingClosedLanguageAtRank -> TopPairingBellmanEvalLanguageAtRank; then AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
 }

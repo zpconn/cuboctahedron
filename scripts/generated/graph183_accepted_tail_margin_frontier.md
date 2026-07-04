@@ -9,12 +9,12 @@ family evidence.
 
 ## Meaning
 
-A passing decision means the exact profiler supports trying a small
-`AcceptedSequenceGraph183AcceptedTailMarginFamily` Lean producer next.
-It does not mean that producer exists.  If the producer needs sampled
-ranks, selected prefixes, accepted trace ids, exact affine RHS keys, or
-one branch per rank/path, the route must pivot to a cancellation-segment
-or cocycle/coboundary quotient.
+A passing decision means the exact profiler supports trying a
+`closed -> eval` Lean producer next, using the target-shadow cursor and
+semantic Bellman object cover.  It does not mean that producer exists.
+If the producer needs sampled ranks, selected prefixes, accepted trace
+ids, exact affine RHS keys, or one branch per rank/path, the route must
+pivot to a cancellation-segment or cocycle/coboundary quotient.
 
 ## Metrics
 
@@ -56,6 +56,17 @@ or cocycle/coboundary quotient.
 | `guard_peak_rss_mib` | `106.72265625` |
 | `guard_min_available_mib` | `46248.05078125` |
 
+### cocycle_quotient_1m
+
+| metric | value |
+| --- | ---: |
+| `decision` | `cocycle_quotient_candidates_found` |
+| `best_mode` | `step-par` |
+| `best_quotient_states` | `43` |
+| `best_quotient_edges` | `93` |
+| `best_state_ratio` | `0.19282511210762332` |
+| `best_edge_ratio` | `0.40611353711790393` |
+
 ## Checks
 
 | check | passed | detail |
@@ -78,6 +89,30 @@ or cocycle/coboundary quotient.
 | `socket_forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `bellman_potential_exists` | `True` | `Cuboctahedron/Search/BellmanPotential.lean` |
 | `bellman_symbol:quotient_of_step_gain_eq` | `True` | `quotient_of_step_gain_eq` |
+| `target_cursor:exists` | `True` | `Cuboctahedron/Search/TopPairingTargetCursor.lean` |
+| `target_cursor:symbol:topPairingTargetShadow_of_summary` | `True` | `topPairingTargetShadow_of_summary` |
+| `target_cursor:symbol:topPairingTriShadow_eq_target_of_closed` | `True` | `topPairingTriShadow_eq_target_of_closed` |
+| `target_cursor:symbol:TopPairingTriCursorFrom` | `True` | `TopPairingTriCursorFrom` |
+| `target_cursor:symbol:topPairingTriCursor_of_closed` | `True` | `topPairingTriCursor_of_closed` |
+| `target_cursor:symbol:TopPairingTargetCursorAtRank` | `True` | `TopPairingTargetCursorAtRank` |
+| `target_cursor:symbol:TopPairingStartMissSemanticLanguageAtRank` | `True` | `TopPairingStartMissSemanticLanguageAtRank` |
+| `target_cursor:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `target_cursor:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `target_cursor:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `target_cursor:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `target_cursor:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `target_cursor:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `bellman_object:exists` | `True` | `Cuboctahedron/Search/TopPairingBellmanObject.lean` |
+| `bellman_object:symbol:TopPairingBellmanObj` | `True` | `TopPairingBellmanObj` |
+| `bellman_object:symbol:topPairingClosedMembership` | `True` | `topPairingClosedMembership` |
+| `bellman_object:symbol:TopPairingBellmanEvalLanguageAtRank` | `True` | `TopPairingBellmanEvalLanguageAtRank` |
+| `bellman_object:symbol:topPairingBellmanEvalObjectCoverOfClosedToEval` | `True` | `topPairingBellmanEvalObjectCoverOfClosedToEval` |
+| `bellman_object:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `bellman_object:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `bellman_object:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `bellman_object:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `bellman_object:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `bellman_object:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `semantic_audit_accepts_margin_target` | `True` | `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer` |
 | `semantic_audit_target_is_accepted_tail_margin` | `True` | `AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin` |
 | `profile_100k:offset_sum_mismatches_zero` | `True` | `0` |
@@ -102,13 +137,21 @@ or cocycle/coboundary quotient.
 | `profile_1m:guard_exit_zero` | `True` | `0` |
 | `profile_1m:rss_under_512_mib` | `True` | `106.72265625` |
 | `profile_1m:available_above_30000_mib` | `True` | `46248.05078125` |
+| `cocycle_quotient_1m:decision_candidate_found` | `True` | `cocycle_quotient_candidates_found` |
+| `cocycle_quotient_1m:best_exists` | `True` | `step-par` |
+| `cocycle_quotient_1m:best_states_under_100` | `True` | `43` |
+| `cocycle_quotient_1m:best_edges_under_150` | `True` | `93` |
 
 ## Next Lean Target
 
 ```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  TopPairingBellmanEvalLanguageAtRank ... rank Face.ym
+
 AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
 ```
 
-The first Lean smoke should prove this for a semantic margin object or
-introduce the cancellation/cocycle quotient theorem surface needed to
-make the proof rank-free.
+The first Lean smoke should prove the closed-language-to-evaluator
+gate for a semantic margin object.  The quotient profile is a
+fallback signal only: any quotient/gauge equations must still become
+Lean-checked local facts.
