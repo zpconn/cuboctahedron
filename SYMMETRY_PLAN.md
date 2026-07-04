@@ -97572,3 +97572,82 @@ Next implementation target:
    single legal branch `zp`.
 3. Guard-check the module directly with `lake env lean` under the hard memory
    wrapper before adding it to any shard.
+
+Checkpoint: target-completion suffix-state interface accepted.
+
+Added:
+
+```text
+Cuboctahedron/Search/TopPairingTargetCompletionTail.lean
+scripts/generated/top_pairing_target_completion_tail_guard.json
+```
+
+The new Lean module defines the semantic state surface that graph `150` needs:
+
+```lean
+structure TopPairingTargetCompletionState where
+  step : Nat
+  gap : Nat
+  parity : SqParity
+  remaining : List Face
+  triState : TriCancellationState
+
+inductive TopPairingTargetCompletionTail :
+    TopPairingTargetCompletionState -> List Face -> Prop
+
+def graph150TargetCompletionState : TopPairingTargetCompletionState
+abbrev Graph150TargetCompletionTail (labels : List Face) : Prop
+```
+
+It also exposes the small inversion helpers:
+
+```lean
+TopPairingTargetCompletionTail.cons_inv
+TopPairingTargetCompletionTail.head_remaining
+TopPairingTargetCompletionTail.head_schedule
+TopPairingTargetCompletionTail.head_squareAllowed
+TopPairingTargetCompletionTail.tail_next
+```
+
+This is deliberately an interface, not final graph-150 coverage.  It stores
+only semantic completion information: step, square gap, square parity,
+remaining actual faces, and triangular cancellation stack/source progress.  It
+does not mention sampled ranks, selected prefixes, accepted traces, exact
+affine RHS values, or solved start points.
+
+Guarded direct Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_target_completion_tail_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTargetCompletionTail.lean
+```
+
+Result:
+
+```text
+exit_code = 0
+elapsed_seconds = 2.01
+peak_tree_rss_mib = 3587.49
+hard_address_space_mib = 8192
+min_available_seen_mib = 46294.69
+```
+
+Next checkpoint: prove the first generated/local branch theorem from this
+semantic state:
+
+```lean
+theorem graph150_head_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph150TargetCompletionTail (face :: rest)) :
+    face = Face.zp
+```
+
+If proving this theorem requires enumerating full traces or adding exact
+affine/margin data, stop and refine the completion state or add a small
+cancellation-DP certificate.  Do not fall back to selected-prefix membership.
