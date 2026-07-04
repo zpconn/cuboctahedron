@@ -95875,3 +95875,97 @@ strengthened graph and semantic-state descriptions and emits a bounded shard
 of `StrengthenedLocalBranchTable` instances.  The first emitted shard should
 cover the reachable states immediately after the prefix-2 branch, then build
 under the same memory guard before scaling.
+
+### Holonomy/Bellman Pivot - first multi-state branch-table shard
+
+Extended the local branch-table smoke from one state to the first bounded
+post-prefix shard.  The file now defines the three prefix-3 semantic
+transducer/graph states reached after the prefix-2 branch:
+
+```lean
+def strengthenedClosedPrefix3TmpmTransducerState : TopPairingTransducerState
+def strengthenedClosedPrefix3TmpmEvalState : StrengthenedClosedEvalState
+
+def strengthenedClosedPrefix3YpTransducerState : TopPairingTransducerState
+def strengthenedClosedPrefix3YpEvalState : StrengthenedClosedEvalState
+
+def strengthenedClosedPrefix3ZmTransducerState : TopPairingTransducerState
+def strengthenedClosedPrefix3ZmEvalState : StrengthenedClosedEvalState
+```
+
+and emits table instances:
+
+```lean
+def strengthenedPrefix3TmpmLocalBranchTable :
+    StrengthenedLocalBranchTable strengthenedClosedPrefix3TmpmEvalState
+
+def strengthenedPrefix3YpLocalBranchTable :
+    StrengthenedLocalBranchTable strengthenedClosedPrefix3YpEvalState
+
+def strengthenedPrefix3ZmLocalBranchTable :
+    StrengthenedLocalBranchTable strengthenedClosedPrefix3ZmEvalState
+```
+
+Branch coverage in this bounded shard:
+
+```text
+prefix2:
+  tmpm -> graph 146, gain -124, edge e0127_l02
+  yp   -> graph 144, gain  -73, edge e0125_l11
+  zm   -> graph 145, gain  -10, edge e0126_l12
+
+prefix3/tmpm:
+  zm   -> graph 150, gain 114, edge e0133_l12
+  tppm -> graph 152, gain  96, edge e0134_l06
+
+prefix3/yp:
+  zm   -> graph 147, gain  -10, edge e0128_l12
+  tmmm -> graph 148, gain -124, edge e0129_l00
+
+prefix3/zm:
+  yp   -> graph 147, gain  -73, edge e0130_l11
+  zp   -> graph 149, gain  -10, edge e0131_l13
+  tmpp -> graph 151, gain -124, edge e0132_l03
+```
+
+Each `branch_of_tail` proof consumes only the semantic
+`TopPairingTransducerTail.cons` facts for its state, then rules out invalid
+faces by schedule, square-gap, target-shadow cursor, or local-axis constraints.
+There is still no rank/path table, no sampled membership, no accepted-trace
+id, and no exact affine RHS key.
+
+Focused guarded check:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/closed_bellman_strengthened_prefix3_table_shard_guard.json \
+    --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+
+result:
+  pass, elapsed 4.00s,
+  peak_tree_rss 4019 MiB,
+  min_available_seen 45973 MiB
+```
+
+Forbidden-token/sampled-membership scan:
+
+```text
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|\
+sampledContainsRank\|sampledRankOf\|AcceptedTraceId\|acceptedTrace" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean || true
+
+result: no matches
+```
+
+Decision: accepted as the first multi-state semantic branch-table shard.
+Scaling risk is now visible and manageable: this shard added 3 states / 7
+new branches and still checked in 4 seconds under ~4.1 GiB RSS.  The next
+step should move the branch-table definitions into an emitter-generated shard
+module rather than continuing to hand-grow the smoke file.
