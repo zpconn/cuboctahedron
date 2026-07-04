@@ -195,9 +195,13 @@ def emit_lean(states: tuple[ShardState, ...], config: TableConfig) -> str:
         "open Cuboctahedron",
         "open Cuboctahedron.Generated.NonIdentity.Residual."
         "BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke",
-        "",
-        "inductive ShardState where",
     ]
+    lines.extend(
+        [
+            "",
+            "inductive ShardState where",
+        ]
+    )
     for state in states:
         lines.append(f"  | {state.ctor}")
     lines.extend(

@@ -13,14 +13,14 @@
     ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.olean",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean"
   ],
-  "elapsed_seconds": 4.002856412000256,
+  "elapsed_seconds": 4.003890943000442,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4099852,
-  "max_tree_rss_mib": 4003.76171875,
-  "min_available_seen_kib": 46350872,
-  "min_available_seen_mib": 45264.5234375,
+  "max_tree_rss_kib": 4107160,
+  "max_tree_rss_mib": 4010.8984375,
+  "min_available_seen_kib": 47227412,
+  "min_available_seen_mib": 46120.51953125,
   "rss_cap_mib": 7000.0,
   "timeout_seconds": 180.0
 }

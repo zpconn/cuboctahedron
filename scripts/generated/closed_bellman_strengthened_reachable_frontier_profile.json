@@ -41,6 +41,14 @@
       "table_kind": "used-face"
     },
     {
+      "constructor": "prefix4ZmZp",
+      "graph": 149,
+      "graph_branch_count": 2,
+      "input_branch_count": 2,
+      "matches_checked_graph": true,
+      "table_kind": "used-face"
+    },
+    {
       "constructor": "prefix4YpZm",
       "graph": 147,
       "graph_branch_count": 2,
@@ -55,9 +63,10 @@
     145,
     146,
     147,
-    148
+    148,
+    149
   ],
-  "covered_state_count": 6,
+  "covered_state_count": 7,
   "decision": "next-frontier-ready-for-semantic-state-emission",
   "graph_source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/All.lean",
   "input": [
@@ -69,26 +78,6 @@
   "mismatches": [],
   "mode": "closed-bellman-strengthened-reachable-frontier-profile",
   "next_frontier": [
-    {
-      "graph": 149,
-      "outgoing": [
-        {
-          "constructor": "e0140_l02",
-          "dst": 158,
-          "face": "tmpm",
-          "gain": -124,
-          "src": 149
-        },
-        {
-          "constructor": "e0139_l11",
-          "dst": 153,
-          "face": "yp",
-          "gain": -73,
-          "src": 149
-        }
-      ],
-      "outgoing_branch_count": 2
-    },
     {
       "graph": 150,
       "outgoing": [
@@ -200,29 +189,42 @@
         }
       ],
       "outgoing_branch_count": 2
+    },
+    {
+      "graph": 158,
+      "outgoing": [
+        {
+          "constructor": "e0152_l06",
+          "dst": 170,
+          "face": "tppm",
+          "gain": 96,
+          "src": 158
+        }
+      ],
+      "outgoing_branch_count": 1
     }
   ],
   "next_frontier_existing_semantic_graphs": [],
   "next_frontier_existing_semantic_state_count": 0,
   "next_frontier_graphs": [
-    149,
     150,
     151,
     152,
     153,
     154,
     155,
-    156
+    156,
+    158
   ],
   "next_frontier_missing_semantic_graphs": [
-    149,
     150,
     151,
     152,
     153,
     154,
     155,
-    156
+    156,
+    158
   ],
   "next_frontier_missing_semantic_state_count": 8,
   "next_frontier_state_count": 8,

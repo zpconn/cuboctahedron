@@ -97272,3 +97272,163 @@ constructs and no sampled-rank/selected-prefix hook names.
 Next checkpoint: attempt graph `149` or `150`.  Use the selector loop:
 profile a source-derived candidate, try graph-only first, and switch to
 used-face only when the checked branch proof needs actual-face disjointness.
+
+Graph-149 used-face shard checkpoint:
+
+The GPT5.5 Bellman guidance is now an explicit gate for this route:
+Bellman remains the active compression object, but selected-prefix or
+observed-trace membership is rejected.  The current bounded work therefore
+continues to extend only deterministic semantic local transition tables.  A
+local branch proof may use `TopPairingTransducerTail` fields and the
+actual-face used-tail invariant; it must not use sampled ranks, accepted trace
+ids, selected-prefix ids, exact affine RHS keys, or solved start-point keys.
+
+Graph `149` was tried graph-only first.  The guarded source check failed
+safely at `peak_tree_rss=4018 MiB`: the tail proof left `Face.zm` as a
+spurious possible head after prefix `[xm, ym, zm, zp]`.  This is exactly the
+expected selector signal that graph-only state is too weak.  The proof was
+then switched to the semantic used-face state, which rules out both already
+used square faces `zm` and `zp`.
+
+New checked definitions in
+`Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean`:
+
+```lean
+inductive StrengthenedPrefix4Graph149Branch
+
+theorem strengthenedPrefix4Graph149Branch_of_tail_and_zm_used
+
+def strengthenedClosedPrefix4ZmZpUsedFaces
+
+def strengthenedClosedPrefix4ZmZpUsedEvalState
+
+theorem strengthenedPrefix4Graph149Branch_of_tail_and_usedFaceTail
+
+theorem strengthenedPrefix4Graph149Branch_of_usedEvalTail
+
+def strengthenedPrefix4Graph149UsedFaceLocalBranchTable
+```
+
+Graph `149` branches:
+
+```text
+yp   -> graph 153, gain  -73
+tmpm -> graph 158, gain -124
+```
+
+Updated used-face shard input and generated shard:
+
+```text
+scripts/generated/
+  closed_bellman_strengthened_used_face_local_branch_table_shard000_input.json
+  closed_bellman_strengthened_used_face_local_branch_table_shard000_input.md
+  closed_bellman_strengthened_used_face_local_branch_table_shard000.json
+  closed_bellman_strengthened_used_face_local_branch_table_shard000.md
+
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingClosedBellmanStrengthenedUsedFaceLocalBranchTableShard000.lean
+```
+
+The used-face shard now covers two semantic states:
+
+```text
+graph 148 / prefix4YpTmmm / used-face
+  zm   -> graph 154, gain 114
+  tpmm -> graph 156, gain 96
+
+graph 149 / prefix4ZmZp / used-face
+  yp   -> graph 153, gain -73
+  tmpm -> graph 158, gain -124
+```
+
+Commands:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+closed_bellman_strengthened_next_frontier_smoke_guard.json \
+  --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+python3 scripts/profile_top_pairing_strengthened_local_branch_table_shard.py \
+  --source Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean \
+  --table-kind used-face \
+  --json-out scripts/generated/\
+closed_bellman_strengthened_used_face_local_branch_table_shard000_input.json \
+  --markdown-out scripts/generated/\
+closed_bellman_strengthened_used_face_local_branch_table_shard000_input.md
+
+python3 scripts/emit_top_pairing_strengthened_local_branch_table_shard.py \
+  --input scripts/generated/\
+closed_bellman_strengthened_used_face_local_branch_table_shard000_input.json \
+  --lean-out Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedUsedFaceLocalBranchTableShard000.lean \
+  --json-out scripts/generated/\
+closed_bellman_strengthened_used_face_local_branch_table_shard000.json \
+  --markdown-out scripts/generated/\
+closed_bellman_strengthened_used_face_local_branch_table_shard000.md \
+  --import-module BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke \
+  --namespace-suffix \
+BellmanTopPairingClosedBellmanStrengthenedUsedFaceLocalBranchTableShard000
+```
+
+Object-cache note: `lake build
+Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke` tried to replay a
+larger part of the package, crossed the `7000 MiB` guard cap at
+`peak_tree_rss=13390 MiB`, and was killed by the guard before available RAM
+became low.  The accepted workflow is direct `lake env lean -o` compilation of
+the few stale objects needed by downstream imports.
+
+Accepted guarded checks:
+
+```text
+Shard000.lean -> Shard000.olean:
+  pass, elapsed 3.00s, peak_tree_rss 3963 MiB
+
+Shard001.lean -> Shard001.olean:
+  pass, elapsed 3.01s, peak_tree_rss 3964 MiB
+
+Shard002.lean -> Shard002.olean:
+  pass, elapsed 3.00s, peak_tree_rss 3959 MiB
+
+Shard003.lean -> Shard003.olean:
+  pass, elapsed 3.00s, peak_tree_rss 3962 MiB
+
+BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/All.lean -> All.olean:
+  pass, elapsed 4.01s, peak_tree_rss 4073 MiB
+
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean -> olean:
+  pass, elapsed 4.00s, peak_tree_rss 4010 MiB
+
+BellmanTopPairingClosedBellmanStrengthenedUsedFaceLocalBranchTableShard000.lean:
+  pass, elapsed 2.00s, peak_tree_rss 3603 MiB
+```
+
+Updated reachable-frontier profile:
+
+```text
+covered graph states:
+  [143, 144, 145, 146, 147, 148, 149]
+
+mismatch count: 0
+
+next frontier graphs:
+  [150, 151, 152, 153, 154, 155, 156, 158]
+```
+
+Safety scans over the touched Lean files and emitter report no forbidden Lean
+constructs and no sampled-rank or selected-prefix hook names.
+
+Next checkpoint: attempt graph `150` first.  Its graph has one outgoing branch
+`zp -> 157 (114)`.  Use the same selector loop: try graph-only from the
+semantic tail, switch to used-face only if an already-used actual face remains
+as a spurious head.  If a future graph needs more than schedule, local-axis,
+target-shadow cursor, and used-face facts, pause and design the stronger
+closed-language evaluator state rather than adding selected-prefix evidence.

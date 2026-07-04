@@ -10,7 +10,7 @@ and local branch tables.
 - semantic source: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean`
 - checked graph edges: `229`
 - checked graph states with outgoing edges: `194`
-- covered graph states: `6`
+- covered graph states: `7`
 - mismatch count: `0`
 - next frontier states: `8`
 - next frontier terminal states: `0`
@@ -26,13 +26,13 @@ and local branch tables.
 | `prefix3Yp` | `graph-only` | `144` | `2` | `2` | `True` |
 | `prefix3Zm` | `graph-only` | `145` | `3` | `3` | `True` |
 | `prefix4YpTmmm` | `used-face` | `148` | `2` | `2` | `True` |
+| `prefix4ZmZp` | `used-face` | `149` | `2` | `2` | `True` |
 | `prefix4YpZm` | `graph-only` | `147` | `2` | `2` | `True` |
 
 ## Next Frontier
 
 | graph | outgoing branches | outgoing |
 | ---: | ---: | --- |
-| `149` | `2` | tmpm -> 158 (-124), yp -> 153 (-73) |
 | `150` | `1` | zp -> 157 (114) |
 | `151` | `1` | tppp -> 159 (96) |
 | `152` | `2` | tpmm -> 161 (-36), zp -> 160 (-18) |
@@ -40,11 +40,12 @@ and local branch tables.
 | `154` | `2` | tpmp -> 164 (96), zp -> 162 (114) |
 | `155` | `1` | tpmp -> 166 (96) |
 | `156` | `2` | tppm -> 167 (-36), zp -> 165 (-18) |
+| `158` | `1` | tppm -> 170 (96) |
 
 ## Semantic Eval-State Availability
 
 - existing next-frontier semantic graph states: `[]`
-- missing next-frontier semantic graph states: `[149, 150, 151, 152, 153, 154, 155, 156]`
+- missing next-frontier semantic graph states: `[150, 151, 152, 153, 154, 155, 156, 158]`
 
 ## Proof Status
 

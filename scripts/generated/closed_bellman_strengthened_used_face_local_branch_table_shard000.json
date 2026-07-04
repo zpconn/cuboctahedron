@@ -1,17 +1,19 @@
 {
-  "branch_count": 2,
+  "branch_count": 4,
   "forbidden_coordinates": [
     "sampled ranks",
     "selected prefixes",
     "accepted trace ids",
     "exact affine RHS keys"
   ],
+  "import_module": "BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke",
   "input": "scripts/generated/closed_bellman_strengthened_used_face_local_branch_table_shard000_input.json",
   "lean_output": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedUsedFaceLocalBranchTableShard000.lean",
   "mode": "closed-bellman-strengthened-local-branch-table-shard",
+  "namespace_suffix": "BellmanTopPairingClosedBellmanStrengthenedUsedFaceLocalBranchTableShard000",
   "proof_shape": "Each generated table is a StrengthenedUsedFaceLocalBranchTable instance; localTransition is proved by the generic used-face table theorem, not by rank/path enumeration.",
   "shard": 0,
-  "state_count": 1,
+  "state_count": 2,
   "states": [
     {
       "branch_count": 2,
@@ -22,6 +24,17 @@
       "constructor": "prefix4YpTmmm",
       "eval_state": "strengthenedClosedPrefix4YpTmmmUsedEvalState",
       "table": "strengthenedPrefix4Graph148UsedFaceLocalBranchTable",
+      "table_kind": "used-face"
+    },
+    {
+      "branch_count": 2,
+      "branches": [
+        "yp -> graph 153, gain -73",
+        "tmpm -> graph 158, gain -124"
+      ],
+      "constructor": "prefix4ZmZp",
+      "eval_state": "strengthenedClosedPrefix4ZmZpUsedEvalState",
+      "table": "strengthenedPrefix4Graph149UsedFaceLocalBranchTable",
       "table_kind": "used-face"
     }
   ],

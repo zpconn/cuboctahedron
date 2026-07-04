@@ -360,6 +360,120 @@ def strengthenedPrefix4Graph147LocalBranchTable :
     intro face rest htail
     exact strengthenedPrefix4Graph147Branch_of_tail htail
 
+inductive StrengthenedPrefix4Graph149Branch where
+  | yp | tmpm
+  deriving DecidableEq, Repr
+
+namespace StrengthenedPrefix4Graph149Branch
+
+def face : StrengthenedPrefix4Graph149Branch -> Face
+  | .yp => Face.yp
+  | .tmpm => Face.tmpm
+
+def nextGraph : StrengthenedPrefix4Graph149Branch -> Nat
+  | .yp => 153
+  | .tmpm => 158
+
+def gain : StrengthenedPrefix4Graph149Branch -> Int
+  | .yp => -73
+  | .tmpm => -124
+
+theorem step (branch : StrengthenedPrefix4Graph149Branch) :
+    ClosedBellmanStep 149 branch.face branch.nextGraph branch.gain := by
+  cases branch <;> first
+    | exact ClosedBellmanStep.e0139_l11
+    | exact ClosedBellmanStep.e0140_l02
+
+end StrengthenedPrefix4Graph149Branch
+
+theorem strengthenedPrefix4Graph149Branch_of_tail_and_zm_used
+    {face : Face} {rest : List Face}
+    (htail :
+      strengthenedClosedPrefix4ZmZpEvalState.Tail (face :: rest))
+    (hzmUsed : Face.zm ∉ face :: rest)
+    (hzpUsed : Face.zp ∉ face :: rest) :
+    ∃ branch : StrengthenedPrefix4Graph149Branch,
+      branch.face = face := by
+  have htailRaw :
+      TopPairingTransducerTail
+        strengthenedClosedPrefix4ZmZpTransducerState.step
+        strengthenedClosedPrefix4ZmZpTransducerState.gap
+        strengthenedClosedPrefix4ZmZpTransducerState.k
+        strengthenedClosedPrefix4ZmZpTransducerState.parity
+        strengthenedClosedPrefix4ZmZpTransducerState.linear
+        (face :: rest) := by
+    simpa [TopPairingTransducerEvalState.Tail,
+      TopPairingTransducerState.Tail,
+      strengthenedClosedPrefix4ZmZpEvalState] using htail
+  have hcons := TopPairingTransducerTail.cons htailRaw
+  cases face
+  · simp [strengthenedClosedPrefix4ZmZpEvalState,
+      strengthenedClosedPrefix4ZmZpTransducerState,
+      strengthenedClosedPrefix3ZmTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · simp [strengthenedClosedPrefix4ZmZpEvalState,
+      strengthenedClosedPrefix4ZmZpTransducerState,
+      strengthenedClosedPrefix3ZmTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · exact ⟨StrengthenedPrefix4Graph149Branch.yp, rfl⟩
+  · simp [strengthenedClosedPrefix4ZmZpEvalState,
+      strengthenedClosedPrefix4ZmZpTransducerState,
+      strengthenedClosedPrefix3ZmTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · exact False.elim (hzpUsed (by simp))
+  · exact False.elim (hzmUsed (by simp))
+  · simp [strengthenedClosedPrefix4ZmZpEvalState,
+      strengthenedClosedPrefix4ZmZpTransducerState,
+      strengthenedClosedPrefix3ZmTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · simp [strengthenedClosedPrefix4ZmZpEvalState,
+      strengthenedClosedPrefix4ZmZpTransducerState,
+      strengthenedClosedPrefix3ZmTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      triLetterOfFace?, TriLetter.act, TriLetter.ofPairId?,
+      TriLetter.ofSigns, TriLetter.yNeg, TriLetter.zNeg,
+      SqParity.applyPair, SqParity.toggleForPair, SqParity.toggleX,
+      SqParity.toggleY, SqParity.toggleZ, SqParity.xor, SqParity.id,
+      pairOfFace, topPairingTargetShadow] at hcons
+  · exact ⟨StrengthenedPrefix4Graph149Branch.tmpm, rfl⟩
+  · simp [strengthenedClosedPrefix4ZmZpEvalState,
+      strengthenedClosedPrefix4ZmZpTransducerState,
+      strengthenedClosedPrefix3ZmTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · simp [strengthenedClosedPrefix4ZmZpEvalState,
+      strengthenedClosedPrefix4ZmZpTransducerState,
+      strengthenedClosedPrefix3ZmTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      triLetterOfFace?, TriLetter.act, TriLetter.ofPairId?,
+      TriLetter.ofSigns, TriLetter.yNeg, TriLetter.zNeg,
+      SqParity.applyPair, SqParity.toggleForPair, SqParity.toggleX,
+      SqParity.toggleY, SqParity.toggleZ, SqParity.xor, SqParity.id,
+      pairOfFace, topPairingTargetShadow] at hcons
+  · simp [strengthenedClosedPrefix4ZmZpEvalState,
+      strengthenedClosedPrefix4ZmZpTransducerState,
+      strengthenedClosedPrefix3ZmTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · simp [strengthenedClosedPrefix4ZmZpEvalState,
+      strengthenedClosedPrefix4ZmZpTransducerState,
+      strengthenedClosedPrefix3ZmTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · simp [strengthenedClosedPrefix4ZmZpEvalState,
+      strengthenedClosedPrefix4ZmZpTransducerState,
+      strengthenedClosedPrefix3ZmTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      triLetterOfFace?, TriLetter.act, TriLetter.ofPairId?,
+      TriLetter.ofSigns, TriLetter.yNeg, TriLetter.zNeg,
+      SqParity.applyPair, SqParity.toggleForPair, SqParity.toggleX,
+      SqParity.toggleY, SqParity.toggleZ, SqParity.xor, SqParity.id,
+      pairOfFace, topPairingTargetShadow] at hcons
+
 inductive StrengthenedPrefix4Graph148Branch where
   | zm | tpmm
   deriving DecidableEq, Repr
@@ -520,6 +634,41 @@ theorem strengthenedPrefix4Graph148Branch_of_usedEvalTail
     (TopPairingUsedFaceEvalState.tail_eval htail)
     (TopPairingUsedFaceEvalState.tail_used htail)
 
+def strengthenedClosedPrefix4ZmZpUsedFaces : List Face :=
+  [Face.xm, Face.ym, Face.zm, Face.zp]
+
+def strengthenedClosedPrefix4ZmZpUsedEvalState :
+    TopPairingUsedFaceEvalState Nat where
+  eval := strengthenedClosedPrefix4ZmZpEvalState
+  used := strengthenedClosedPrefix4ZmZpUsedFaces
+
+theorem strengthenedPrefix4Graph149Branch_of_tail_and_usedFaceTail
+    {face : Face} {rest : List Face}
+    (htail :
+      strengthenedClosedPrefix4ZmZpEvalState.Tail (face :: rest))
+    (hused :
+      TopPairingUsedFaceTail strengthenedClosedPrefix4ZmZpUsedFaces
+        (face :: rest)) :
+    ∃ branch : StrengthenedPrefix4Graph149Branch,
+      branch.face = face := by
+  apply strengthenedPrefix4Graph149Branch_of_tail_and_zm_used htail
+  · intro hzm
+    exact hused.disjoint Face.zm hzm (by
+      simp [strengthenedClosedPrefix4ZmZpUsedFaces])
+  · intro hzp
+    exact hused.disjoint Face.zp hzp (by
+      simp [strengthenedClosedPrefix4ZmZpUsedFaces])
+
+theorem strengthenedPrefix4Graph149Branch_of_usedEvalTail
+    {face : Face} {rest : List Face}
+    (htail :
+      strengthenedClosedPrefix4ZmZpUsedEvalState.Tail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix4Graph149Branch,
+      branch.face = face :=
+  strengthenedPrefix4Graph149Branch_of_tail_and_usedFaceTail
+    (TopPairingUsedFaceEvalState.tail_eval htail)
+    (TopPairingUsedFaceEvalState.tail_used htail)
+
 structure StrengthenedUsedFaceLocalBranchTable
     (state : TopPairingUsedFaceEvalState Nat) where
   Branch : Type
@@ -581,5 +730,23 @@ def strengthenedPrefix4Graph148UsedFaceLocalBranchTable :
   branch_of_tail := by
     intro face rest htail
     exact strengthenedPrefix4Graph148Branch_of_usedEvalTail htail
+
+def strengthenedPrefix4Graph149UsedFaceLocalBranchTable :
+    StrengthenedUsedFaceLocalBranchTable
+      strengthenedClosedPrefix4ZmZpUsedEvalState where
+  Branch := StrengthenedPrefix4Graph149Branch
+  face := StrengthenedPrefix4Graph149Branch.face
+  nextGraph := StrengthenedPrefix4Graph149Branch.nextGraph
+  gain := StrengthenedPrefix4Graph149Branch.gain
+  step := by
+    intro branch
+    change ClosedBellmanStep 149
+      (StrengthenedPrefix4Graph149Branch.face branch)
+      (StrengthenedPrefix4Graph149Branch.nextGraph branch)
+      (StrengthenedPrefix4Graph149Branch.gain branch)
+    exact StrengthenedPrefix4Graph149Branch.step branch
+  branch_of_tail := by
+    intro face rest htail
+    exact strengthenedPrefix4Graph149Branch_of_usedEvalTail htail
 
 end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
