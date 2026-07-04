@@ -354,4 +354,132 @@ def strengthenedPrefix4Graph147LocalBranchTable :
     intro face rest htail
     exact strengthenedPrefix4Graph147Branch_of_tail htail
 
+inductive StrengthenedPrefix4Graph148Branch where
+  | zm | tpmm
+  deriving DecidableEq, Repr
+
+namespace StrengthenedPrefix4Graph148Branch
+
+def face : StrengthenedPrefix4Graph148Branch -> Face
+  | .zm => Face.zm
+  | .tpmm => Face.tpmm
+
+def nextGraph : StrengthenedPrefix4Graph148Branch -> Nat
+  | .zm => 154
+  | .tpmm => 156
+
+def gain : StrengthenedPrefix4Graph148Branch -> Int
+  | .zm => 114
+  | .tpmm => 96
+
+theorem step (branch : StrengthenedPrefix4Graph148Branch) :
+    ClosedBellmanStep 148 branch.face branch.nextGraph branch.gain := by
+  cases branch <;> first
+    | exact ClosedBellmanStep.e0137_l12
+    | exact ClosedBellmanStep.e0138_l04
+
+end StrengthenedPrefix4Graph148Branch
+
+theorem strengthenedPrefix4Graph148Branch_of_tail_and_yp_used
+    {face : Face} {rest : List Face}
+    (htail :
+      strengthenedClosedPrefix4YpTmmmEvalState.Tail (face :: rest))
+    (hypUsed : Face.yp ∉ face :: rest) :
+    ∃ branch : StrengthenedPrefix4Graph148Branch,
+      branch.face = face := by
+  have htailRaw :
+      TopPairingTransducerTail
+        strengthenedClosedPrefix4YpTmmmTransducerState.step
+        strengthenedClosedPrefix4YpTmmmTransducerState.gap
+        strengthenedClosedPrefix4YpTmmmTransducerState.k
+        strengthenedClosedPrefix4YpTmmmTransducerState.parity
+        strengthenedClosedPrefix4YpTmmmTransducerState.linear
+        (face :: rest) := by
+    simpa [TopPairingTransducerEvalState.Tail,
+      TopPairingTransducerState.Tail,
+      strengthenedClosedPrefix4YpTmmmEvalState] using htail
+  have hcons := TopPairingTransducerTail.cons htailRaw
+  cases face
+  · simp [strengthenedClosedPrefix4YpTmmmEvalState,
+      strengthenedClosedPrefix4YpTmmmTransducerState,
+      strengthenedClosedPrefix3YpTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · simp [strengthenedClosedPrefix4YpTmmmEvalState,
+      strengthenedClosedPrefix4YpTmmmTransducerState,
+      strengthenedClosedPrefix3YpTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · exact False.elim (hypUsed (by simp))
+  · simp [strengthenedClosedPrefix4YpTmmmEvalState,
+      strengthenedClosedPrefix4YpTmmmTransducerState,
+      strengthenedClosedPrefix3YpTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · have haxis := hcons.2.1
+    simp [strengthenedClosedPrefix4YpTmmmEvalState,
+      strengthenedClosedPrefix4YpTmmmTransducerState,
+      strengthenedClosedPrefix3YpTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      TopPairingLocalAxisAllows, topPairingNextLinear,
+      topPairingLocalAxis, normalQ, matVec, matMul, reflM, matSub,
+      scalarMat, outer, dot, matId] at haxis
+    norm_num at haxis
+  · exact ⟨StrengthenedPrefix4Graph148Branch.zm, rfl⟩
+  · simp [strengthenedClosedPrefix4YpTmmmEvalState,
+      strengthenedClosedPrefix4YpTmmmTransducerState,
+      strengthenedClosedPrefix3YpTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · simp [strengthenedClosedPrefix4YpTmmmEvalState,
+      strengthenedClosedPrefix4YpTmmmTransducerState,
+      strengthenedClosedPrefix3YpTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      triLetterOfFace?, TriLetter.act, TriLetter.ofPairId?,
+      TriLetter.ofSigns, TriLetter.yNeg, TriLetter.zNeg,
+      SqParity.applyPair, SqParity.toggleForPair, SqParity.toggleX,
+      SqParity.toggleY, SqParity.toggleZ, SqParity.xor, SqParity.id,
+      pairOfFace, topPairingTargetShadowLength,
+      topPairingTargetShadow] at hcons
+  · have haxis := hcons.2.1
+    simp [strengthenedClosedPrefix4YpTmmmEvalState,
+      strengthenedClosedPrefix4YpTmmmTransducerState,
+      strengthenedClosedPrefix3YpTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      TopPairingLocalAxisAllows, topPairingNextLinear,
+      topPairingLocalAxis, normalQ, matVec, matMul, reflM, matSub,
+      scalarMat, outer, dot, matId] at haxis
+    norm_num at haxis
+  · simp [strengthenedClosedPrefix4YpTmmmEvalState,
+      strengthenedClosedPrefix4YpTmmmTransducerState,
+      strengthenedClosedPrefix3YpTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · exact ⟨StrengthenedPrefix4Graph148Branch.tpmm, rfl⟩
+  · simp [strengthenedClosedPrefix4YpTmmmEvalState,
+      strengthenedClosedPrefix4YpTmmmTransducerState,
+      strengthenedClosedPrefix3YpTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      triLetterOfFace?, TriLetter.act, TriLetter.ofPairId?,
+      TriLetter.ofSigns, TriLetter.yNeg, TriLetter.zNeg,
+      SqParity.applyPair, SqParity.toggleForPair, SqParity.toggleX,
+      SqParity.toggleY, SqParity.toggleZ, SqParity.xor, SqParity.id,
+      pairOfFace, topPairingTargetShadowLength,
+      topPairingTargetShadow] at hcons
+  · simp [strengthenedClosedPrefix4YpTmmmEvalState,
+      strengthenedClosedPrefix4YpTmmmTransducerState,
+      strengthenedClosedPrefix3YpTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      topPairingAllowedFacesAtStep] at hcons
+  · simp [strengthenedClosedPrefix4YpTmmmEvalState,
+      strengthenedClosedPrefix4YpTmmmTransducerState,
+      strengthenedClosedPrefix3YpTransducerState,
+      strengthenedClosedPrefix2TransducerState,
+      triLetterOfFace?, TriLetter.act, TriLetter.ofPairId?,
+      TriLetter.ofSigns, TriLetter.yNeg, TriLetter.zNeg,
+      SqParity.applyPair, SqParity.toggleForPair, SqParity.toggleX,
+      SqParity.toggleY, SqParity.toggleZ, SqParity.xor, SqParity.id,
+      pairOfFace, topPairingTargetShadowLength,
+      topPairingTargetShadow] at hcons
+
 end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke

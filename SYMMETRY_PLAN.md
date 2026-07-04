@@ -96554,8 +96554,8 @@ Added named semantic eval states and definitional evaluator-step theorems for:
   graph 152 from [xm, ym, tmpm, tppm]
 ```
 
-The bounded file still passes, but an attempted graph-148 local branch table was
-intentionally rejected.  Lean could not prove
+The bounded file still passes.  A graph-148 local branch table could not be
+proved from the current tail alone:
 
 ```text
 strengthenedClosedPrefix4YpTmmmEvalState.Tail (face :: rest)
@@ -96564,8 +96564,11 @@ strengthenedClosedPrefix4YpTmmmEvalState.Tail (face :: rest)
 
 from the current transducer fields.  A first attempt left possible heads such
 as `yp`, `zp`, `tmpm`, and `tppp`.  Retrying with the local-axis contradiction
-eliminated `zp` and `tmpm`, but `yp` and `tppp` remained semantically possible
-under the current state.  The checked Bellman graph at state `148` has only:
+eliminated `zp` and `tmpm`; using the target-shadow cursor correctly also
+eliminated `tppp`.  The only remaining extra head is `yp`, which is already
+used in the prefix `[xm, ym, yp, tmmm]`.
+
+The checked Bellman graph at state `148` has only:
 
 ```text
 zm   -> graph 154, gain 114, edge e0137_l12
@@ -96574,22 +96577,24 @@ tpmm -> graph 156, gain  96, edge e0138_l04
 
 This is a real strategy signal, not a Lean nuisance.  Graph id plus the current
 transducer tuple `(step, gap, k, parity, linear)` is not strong enough past the
-first confluence.  The exact graph key for state `148` also carries remaining
-face counts and
+first confluence because it does not track used/remaining faces.  The exact
+graph key for state `148` carries remaining face counts and
 
 ```text
 triSrc=3:d111->dm11@100
 ```
 
-so the next semantic state must add:
+The new prototype theorem:
 
 ```text
-1. actual-face/remaining-face information, to rule out already-used `yp`;
-2. tri-source/source-position cancellation progress, to rule out `tppp`
-   while keeping `tpmm`.
+theorem strengthenedPrefix4Graph148Branch_of_tail_and_yp_used
 ```
 
-Then retry graph `148` before emitting more tables.
+proves the graph-148 branch split from the current tail plus the single extra
+assumption `Face.yp ∉ face :: rest`.  So the next semantic state extension
+should start with actual-face/remaining-face information.  Tri-source/source
+position remains important for later graph states, but graph `148` does not yet
+force adding it.
 
 Additional guarded check after adding the named states:
 
@@ -96607,8 +96612,8 @@ BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
 
 result:
   pass, elapsed 4.00s,
-  peak_tree_rss 3992.0 MiB,
-  min_available_seen 46133.0 MiB
+  peak_tree_rss 4008.0 MiB,
+  min_available_seen 46122.1 MiB
 ```
 
 Safety scans over the next-frontier smoke still report no forbidden constructs
