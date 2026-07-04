@@ -1,0 +1,23 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "python3",
+    "scripts/build_closed_state_dag_shards_serial.py",
+    "--source-dir",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke",
+    "--build-dir",
+    ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke",
+    "--json",
+    "scripts/generated/closed_bellman_strengthened_sharded_serial_build.json"
+  ],
+  "elapsed_seconds": 15.061751467001159,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4050460,
+  "max_tree_rss_mib": 3955.52734375,
+  "min_available_seen_kib": 46724080,
+  "min_available_seen_mib": 45628.984375,
+  "rss_cap_mib": 6500.0,
+  "timeout_seconds": 300.0
+}

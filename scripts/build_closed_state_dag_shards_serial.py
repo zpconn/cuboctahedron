@@ -77,13 +77,35 @@ def main() -> int:
 
     source_dir = args.source_dir if args.source_dir.is_absolute() else ROOT / args.source_dir
     build_dir = args.build_dir if args.build_dir.is_absolute() else ROOT / args.build_dir
+    support_files = sorted(
+        path
+        for path in source_dir.glob("*.lean")
+        if path.name != "All.lean" and not path.name.startswith("Shard")
+    )
     shards = sorted(source_dir.glob("Shard*.lean"))
     if not shards:
         raise RuntimeError(f"no shards found in {source_dir}")
 
+    support_rows: list[dict[str, Any]] = []
     rows: list[dict[str, Any]] = []
     start_all = time.perf_counter()
-    for shard in shards:
+    for support in support_files:
+        output = build_dir / f"{support.stem}.olean"
+        row = compile_file(support, output)
+        support_rows.append(row)
+        print(
+            f"{support.name}: exit={row['exit_code']} "
+            f"elapsed={row['elapsed_seconds']:.2f}s"
+        )
+        if row["exit_code"] != 0:
+            break
+
+    if all(row["exit_code"] == 0 for row in support_rows):
+        shard_inputs = shards
+    else:
+        shard_inputs = []
+
+    for shard in shard_inputs:
         output = build_dir / f"{shard.stem}.olean"
         row = compile_file(shard, output)
         rows.append(row)
@@ -95,7 +117,10 @@ def main() -> int:
             break
 
     root_row: dict[str, Any] | None = None
-    if all(row["exit_code"] == 0 for row in rows):
+    if (
+        all(row["exit_code"] == 0 for row in support_rows)
+        and all(row["exit_code"] == 0 for row in rows)
+    ):
         root_source = source_dir / "All.lean"
         root_output = build_dir / "All.olean"
         root_row = compile_file(root_source, root_output)
@@ -108,13 +133,17 @@ def main() -> int:
     report = {
         "source_dir": rel(source_dir),
         "build_dir": rel(build_dir),
+        "support_count": len(support_files),
         "shard_count": len(shards),
         "elapsed_seconds": elapsed_all,
+        "support": support_rows,
         "shards": rows,
         "root": root_row,
         "exit_code": (
             root_row["exit_code"]
             if root_row is not None
+            else support_rows[-1]["exit_code"]
+            if support_rows and any(row["exit_code"] != 0 for row in support_rows)
             else rows[-1]["exit_code"]
             if rows
             else 1

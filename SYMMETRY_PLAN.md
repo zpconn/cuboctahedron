@@ -94900,3 +94900,131 @@ Next implementation move:
    affine RHS, or solved start-point membership.
 5. Only after that gate is real should the sharded evaluator feed
    `TopPairingClosedToGraphExactEvalGate` / semantic killed sockets.
+
+### Holonomy/Bellman Pivot - strengthened real-gain Bellman smoke
+
+Added the first sharded real-gain Bellman smoke for the strengthened
+top-pairing closed-language subset.  This is the next support layer after the
+zero-gain structural DAG: it checks scaled integer Bellman potentials, scaled
+transition gains, root/final inequalities, and per-edge transition bounds for
+the small semantic graph that actually proves a nonpositive margin bound.
+
+New/updated support:
+
+```text
+scripts/audit_top_pairing_closed_bellman_closure.py
+scripts/emit_top_pairing_closed_bellman_strengthened_shards.py
+scripts/build_closed_state_dag_shards_serial.py
+scripts/generated/top_pairing_closed_bellman_closure_with_step_tri_source_graph_export.json
+scripts/generated/top_pairing_closed_bellman_closure_with_step_tri_source_graph_export.md
+scripts/generated/top_pairing_closed_bellman_closure_with_step_tri_source_graph_payload.json
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/
+scripts/generated/closed_bellman_strengthened_sharded_serial_guard.json
+scripts/generated/closed_bellman_strengthened_sharded_serial_build.json
+scripts/generated/closed_bellman_strengthened_sharded_all_after_serial_guard.json
+```
+
+The closure audit now exports graph payloads.  The plain closed graph is still
+too weak, while the strengthened semantic subset is nonpositive:
+
+```text
+plain closed graph:
+  candidates/classes: 47
+  states: 269
+  edges: 276
+  scale: 88
+  const_scaled: 176
+  max_margin_bound: 6/11
+  decision: too weak
+
+strengthened graph:
+  candidates/classes: 37
+  states: 223
+  edges: 229
+  scale: 88
+  const_scaled: 176
+  max_margin_bound: 0
+  decision: nonpositive
+```
+
+Commands:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_top_pairing_closed_bellman_closure.py \
+  scripts/emit_top_pairing_closed_bellman_strengthened_shards.py \
+  scripts/build_closed_state_dag_shards_serial.py
+
+python3 scripts/audit_top_pairing_closed_bellman_closure.py \
+  --json scripts/generated/top_pairing_closed_bellman_closure_with_step_tri_source_graph_export.json \
+  --markdown scripts/generated/top_pairing_closed_bellman_closure_with_step_tri_source_graph_export.md \
+  --graph-json scripts/generated/top_pairing_closed_bellman_closure_with_step_tri_source_graph_payload.json
+
+python3 scripts/emit_top_pairing_closed_bellman_strengthened_shards.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/closed_bellman_strengthened_sharded_serial_guard.json \
+  --verbose -- python3 scripts/build_closed_state_dag_shards_serial.py \
+    --source-dir Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedShardedSmoke \
+    --build-dir .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedShardedSmoke \
+    --json scripts/generated/closed_bellman_strengthened_sharded_serial_build.json
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 120 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/closed_bellman_strengthened_sharded_all_after_serial_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/All.lean
+```
+
+Results:
+
+```text
+py_compile: pass
+closure graph export: pass,
+  decision plain-too-weak-strengthened-nonpositive
+emitter: pass,
+  emitted 4 shards, 229 edges, 223 states
+generated source size:
+  2392 total Lean lines, about 76 KiB
+serial `.olean` build: pass,
+  elapsed 15.06s,
+  peak_tree_rss 3955.53 MiB,
+  min_available_seen 45628.98 MiB,
+  support Potential.lean elapsed 2.28s,
+  shard min/avg/max elapsed 2.34s / 2.63s / 2.97s,
+  All.lean elapsed 1.67s
+post-serial root source check: pass,
+  elapsed 2.00s,
+  peak_tree_rss 3554.67 MiB,
+  hard address-space cap 8192 MiB
+```
+
+Forbidden-token scans over the updated closure audit, strengthened emitter,
+serial builder, and generated strengthened smoke found no `sorry`, `admit`,
+`axiom`, `native_decide`, `unsafe`, sampled-rank names, sampled-next names, or
+accepted-trace-id names.
+
+Decision:
+
+- Accepted: the strengthened real-gain Bellman graph is Lean-checkable as a
+  small sharded support layer.
+- Still open: this does not prove
+  `TopPairingClosedLanguageAtRank rank Face.ym -> strengthened graph accepts`.
+  It proves that if the semantic strengthened graph/evaluator route is reached,
+  the integer Bellman potential part is cheap and memory-safe.
+- Next proof target: expose the strengthened semantic predicate explicitly and
+  prove it from closed-language fields plus the necessary actual-face-omni and
+  accepted-bad-face side conditions.  Then connect that strengthened predicate
+  to the sharded real-gain evaluator, without introducing selected-prefix,
+  sampled-rank, accepted-trace, exact affine RHS, or solved start-point
+  membership.

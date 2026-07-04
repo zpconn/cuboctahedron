@@ -330,6 +330,131 @@ def summarize_bellman_paths(paths: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def bellman_graph_payload(paths: list[dict[str, Any]]) -> dict[str, Any]:
+    edges: set[tuple[str, Fraction, str]] = set()
+    root_states: set[str] = set()
+    final_states: set[str] = set()
+    denominators = [1]
+    edge_label_sets: dict[tuple[str, str, str], set[str]] = defaultdict(set)
+    label_set: set[str] = set()
+
+    for path in paths:
+        if path["states"]:
+            root_states.add(path["states"][0])
+            final_states.add(path["states"][-1])
+        denominators.append(path["const"].denominator)
+        for edge, label in zip(path["edges"], path["edge_labels"]):
+            edges.add(edge)
+            key = edge_key(edge)
+            edge_label_sets[key].add(label)
+            label_set.add(label)
+            denominators.append(edge[1].denominator)
+
+    potential, bounded = solve_bellman(edges, final_states)
+    max_const = max((path["const"] for path in paths), default=Fraction(0))
+    scale = lcm(denominators + [value.denominator for value in potential.values()])
+    states_sorted = sorted(potential)
+    state_index = {state: idx for idx, state in enumerate(states_sorted)}
+    edge_tuples = sorted(
+        edges,
+        key=lambda edge: (state_index[edge[0]], state_index[edge[2]], edge[1]),
+    )
+    edge_index = {edge_key(edge): idx for idx, edge in enumerate(edge_tuples)}
+    labels_sorted = sorted(label_set)
+    label_index = {label: idx for idx, label in enumerate(labels_sorted)}
+
+    candidate_objects = []
+    for path in sorted(paths, key=lambda item: item["candidate"]):
+        candidate_objects.append(
+            {
+                "candidate": path["candidate"],
+                "final": state_index[path["states"][-1]],
+                "margin_scaled": int(Fraction(path["margin_value"]) * scale),
+                "edge_indices": [
+                    edge_index[edge_key(edge)] for edge in path["edges"]
+                ],
+                "label_indices": [
+                    label_index[label] for label in path["edge_labels"]
+                ],
+                "actual_face_omni": path["actual_face_omni"],
+                "accepted_sequence_bad_face": path["accepted_sequence_bad_face"],
+            }
+        )
+
+    class_map: dict[tuple[int, int, tuple[int, ...], tuple[int, ...]], dict[str, Any]] = {}
+    for obj in candidate_objects:
+        key = (
+            int(obj["final"]),
+            int(obj["margin_scaled"]),
+            tuple(int(edge_idx) for edge_idx in obj["edge_indices"]),
+            tuple(int(label_idx) for label_idx in obj["label_indices"]),
+        )
+        group = class_map.setdefault(
+            key,
+            {
+                "final": key[0],
+                "margin_scaled": key[1],
+                "edge_indices": list(key[2]),
+                "label_indices": list(key[3]),
+                "count": 0,
+                "candidate_sample": [],
+            },
+        )
+        group["count"] += 1
+        if len(group["candidate_sample"]) < 12:
+            group["candidate_sample"].append(obj["candidate"])
+
+    return {
+        "bounded_fixed_point": bounded,
+        "state_count": len(states_sorted),
+        "edge_count": len(edge_tuples),
+        "scale": scale,
+        "const_scaled": int(max_const * scale),
+        "root_indices": [state_index[state] for state in sorted(root_states)],
+        "final_indices": [state_index[state] for state in sorted(final_states)],
+        "states": [
+            {
+                "index": idx,
+                "key": state,
+                "potential_scaled": int(potential[state] * scale),
+            }
+            for idx, state in enumerate(states_sorted)
+        ],
+        "edges": [
+            {
+                "index": idx,
+                "src": state_index[src],
+                "dst": state_index[dst],
+                "gain_scaled": int(gain * scale),
+                "label_indices": [
+                    label_index[label]
+                    for label in sorted(edge_label_sets.get(edge_key((src, gain, dst)), set()))
+                ],
+            }
+            for idx, (src, gain, dst) in enumerate(edge_tuples)
+        ],
+        "labels": [
+            {"index": idx, "key": label}
+            for idx, label in enumerate(labels_sorted)
+        ],
+        "candidate_objects": candidate_objects,
+        "candidate_classes": [
+            {"class_index": idx, **group}
+            for idx, group in enumerate(
+                sorted(
+                    class_map.values(),
+                    key=lambda group: (
+                        group["edge_indices"],
+                        group["final"],
+                        group["margin_scaled"],
+                    ),
+                )
+            )
+        ],
+        "candidate_class_count": len(class_map),
+    }
+
+
 def build_payload(args: argparse.Namespace) -> dict[str, Any]:
     t0 = time.perf_counter()
     candidates, enum_stats = enumerate_closed_label_words(args.max_nodes)
@@ -454,7 +579,7 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
     elif all_summary["argmax_path"] is not None and not all_summary["argmax_path"]["is_observed_path"]:
         decision = "nonpositive-with-spurious-argmax"
 
-    return {
+    payload = {
         "schema_version": 1,
         "mode": "top-pairing-closed-bellman-closure-audit",
         "arithmetic": "exact Fraction/integer arithmetic; no floating point",
@@ -506,6 +631,12 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
             for path in paths[: args.max_examples]
         ],
     }
+    if args.graph_json is not None:
+        payload["graphs"] = {
+            "all": bellman_graph_payload(paths),
+            "strengthened": bellman_graph_payload(strengthened_paths),
+        }
+    return payload
 
 
 def write_markdown(payload: dict[str, Any], path: Path) -> None:
@@ -594,6 +725,7 @@ def main() -> None:
     parser.add_argument("--max-examples", type=int, default=5)
     parser.add_argument("--json", type=Path, required=True)
     parser.add_argument("--markdown", type=Path, required=True)
+    parser.add_argument("--graph-json", type=Path, default=None)
     args = parser.parse_args()
 
     payload = build_payload(args)
@@ -603,6 +735,19 @@ def main() -> None:
     write_markdown(payload, args.markdown)
     print(f"wrote {args.json.resolve().relative_to(ROOT)}")
     print(f"wrote {args.markdown.resolve().relative_to(ROOT)}")
+    if args.graph_json is not None:
+        args.graph_json.parent.mkdir(parents=True, exist_ok=True)
+        graph_payload = {
+            "schema_version": 1,
+            "mode": "top-pairing-closed-bellman-closure-graphs",
+            "decision": payload["decision"],
+            "state_key_mode": payload["state_key_mode"],
+            "bad_face": payload["bad_face"],
+            "target_margin_cancellation_pairing": payload["target_margin_cancellation_pairing"],
+            "graphs": payload["graphs"],
+        }
+        args.graph_json.write_text(json.dumps(graph_payload, indent=2, sort_keys=True) + "\n")
+        print(f"wrote {args.graph_json.resolve().relative_to(ROOT)}")
     print(f"decision: {payload['decision']}")
 
 
