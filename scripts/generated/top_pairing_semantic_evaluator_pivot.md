@@ -20,6 +20,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `depth11_layer4_mapped_finish` | `1503` | none |
 | `depth11_layer4_mapped_branch_socket` | `223` | none |
 | `depth11_layer4_target_completion_branch_socket` | `131` | none |
+| `target_completion_local_step_socket` | `140` | none |
 | `target_completion_local_branch_table_shard000` | `63` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -30,6 +31,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `depth11_layer4_mapped_branch_socket_lake`: exit `0`, elapsed `28.024844848012435`, peak RSS MiB `4391.59765625`
 - `depth11_layer4_target_completion_branch_socket_lake`: exit `0`, elapsed `3.0264380170119694`, peak RSS MiB `4046.76171875`
 - `target_completion_local_branch_table_shard000_lake`: exit `0`, elapsed `1.0016190989990719`, peak RSS MiB `1.3125`
+- `target_completion_local_step_socket_lake`: exit `0`, elapsed `3.0331940350006334`, peak RSS MiB `4050.24609375`
 
 ## Forbidden Production Hits
 
@@ -67,6 +69,10 @@ surface one step further through `TopPairingTargetCompletionTail`.
 That is the current production shape for the pivot: prove remaining
 suffix membership from semantic actual-face / target-cancellation
 state, then classify to a graph-exact mapped case.
+
+The local-step socket then turns a semantic local branch table into
+a reusable target-completion branch family by consuming one face and
+passing the smaller suffix to a continuation.
 
 The first target-completion local branch-table shard is also
 tracked here.  It covers the graph-150/151 prefix-4 states by

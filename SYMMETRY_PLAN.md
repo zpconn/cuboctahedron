@@ -99324,3 +99324,85 @@ local tables.
   suffix class and margin-bound fields are connected.  If this composition
   demands trace ids or exact affine state, stop and add the missing semantic
   quotient instead.
+
+2026-07-04 target-completion local-step composition socket:
+
+- Added:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4TargetCompletionLocalStepSocket.lean
+  ```
+
+- New theorem surface:
+
+  ```lean
+  structure StrengthenedDepth11Layer4TargetCompletionLocalStepFamily
+      (scaledMargin : Fin numPairWords -> Int)
+      (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+      (face₀ face₁ : Face)
+      (evalState : StrengthenedClosedEvalState)
+      (completionState : TopPairingTargetCompletionState)
+      (table :
+        StrengthenedTargetCompletionLocalBranchTable
+          evalState completionState) : Prop
+
+  theorem targetCompletionBranchFamily_of_localStepFamily :
+      StrengthenedDepth11Layer4TargetCompletionLocalStepFamily
+        scaledMargin sequenceBadFace face₀ face₁
+          evalState completionState table ->
+      StrengthenedDepth11Layer4TargetCompletionBranchFamily
+        scaledMargin sequenceBadFace face₀ face₁ completionState
+
+  theorem graph150_rest_nonempty_of_targetCompletionTail :
+      Graph150TargetCompletionTail rest ->
+        ∃ face restTail, rest = face :: restTail
+
+  theorem graph151_rest_nonempty_of_targetCompletionTail :
+      Graph151TargetCompletionTail rest ->
+        ∃ face restTail, rest = face :: restTail
+  ```
+
+- Meaning: this is the first reusable composition theorem for the current
+  Bellman pivot.  It takes a semantic local branch table, proves the suffix is
+  nonempty, consumes one actual face, advances both the Bellman eval tail and
+  the `TopPairingTargetCompletionTail`, and delegates the smaller suffix to a
+  continuation.  This is exactly the deterministic
+  closed-language-to-evaluator shape requested by the latest strategy review.
+  It still does not classify a full branch by itself; it removes one layer of
+  proof plumbing that would otherwise tempt a trace-table shortcut.
+- Focused guarded Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/target_completion_local_step_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4TargetCompletionLocalStepSocket
+  ```
+
+  passed with `elapsed_seconds=3.03`, `peak_tree_rss_mib=4050`, and
+  `min_available_mib=45748`.
+- Updated and reran:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The decision remains:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- Next implementation target: instantiate this local-step socket for
+  `ShardState.prefix4TmpmZm` / `graph150TargetCompletionState`.  The remaining
+  nontrivial continuation must connect the post-`zp` suffix to one of the
+  `Depth11Layer4MappedClassCase` constructors by semantic suffix class plus
+  margin bound.  If that continuation needs exact affine RHS, solved start
+  point, selected-prefix ids, or accepted-trace ids, this Bellman membership
+  attempt fails the current go/no-go gate and should move to a richer semantic
+  state or cocycle quotient.

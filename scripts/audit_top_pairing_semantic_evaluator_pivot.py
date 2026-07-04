@@ -43,6 +43,9 @@ FILES = {
     "depth11_layer4_target_completion_branch_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4TargetCompletionBranchSocket.lean",
+    "target_completion_local_step_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4TargetCompletionLocalStepSocket.lean",
     "target_completion_local_branch_table_shard000": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
@@ -62,6 +65,8 @@ GUARDS = {
     / "scripts/generated/depth11_layer4_target_completion_branch_socket_lake_guard.json",
     "target_completion_local_branch_table_shard000_lake": ROOT
     / "scripts/generated/target_completion_local_branch_table_shard000_lake_guard.json",
+    "target_completion_local_step_socket_lake": ROOT
+    / "scripts/generated/target_completion_local_step_socket_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -110,6 +115,12 @@ REQUIRED_SYMBOLS = {
         "graphExactEvalGateAtRank_of_targetCompletionBranchFamily",
         "scaledMargin_nonpos_of_targetCompletionBranchFamily",
     ],
+    "target_completion_local_step_socket": [
+        "StrengthenedDepth11Layer4TargetCompletionLocalStepFamily",
+        "targetCompletionBranchFamily_of_localStepFamily",
+        "graph150_rest_nonempty_of_targetCompletionTail",
+        "graph151_rest_nonempty_of_targetCompletionTail",
+    ],
     "target_completion_local_branch_table_shard000": [
         "ShardState",
         "completionState",
@@ -135,6 +146,7 @@ PRODUCTION_SCAN_FILES = [
     "depth11_layer4_mapped_finish",
     "depth11_layer4_mapped_branch_socket",
     "depth11_layer4_target_completion_branch_socket",
+    "target_completion_local_step_socket",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
 ]
@@ -269,6 +281,10 @@ def render_markdown(report: dict[str, Any]) -> str:
             "That is the current production shape for the pivot: prove remaining",
             "suffix membership from semantic actual-face / target-cancellation",
             "state, then classify to a graph-exact mapped case.",
+            "",
+            "The local-step socket then turns a semantic local branch table into",
+            "a reusable target-completion branch family by consuming one face and",
+            "passing the smaller suffix to a continuation.",
             "",
             "The first target-completion local branch-table shard is also",
             "tracked here.  It covers the graph-150/151 prefix-4 states by",
