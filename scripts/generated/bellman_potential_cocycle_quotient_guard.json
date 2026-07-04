@@ -1,0 +1,21 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "env",
+    "LEAN_NUM_THREADS=1",
+    "LAKE_JOBS=1",
+    "lake",
+    "build",
+    "Cuboctahedron.Search.BellmanPotential"
+  ],
+  "elapsed_seconds": 5.003950066995458,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 3964824,
+  "max_tree_rss_mib": 3871.8984375,
+  "min_available_seen_kib": 47067816,
+  "min_available_seen_mib": 45964.6640625,
+  "rss_cap_mib": 8000.0,
+  "timeout_seconds": 420.0
+}

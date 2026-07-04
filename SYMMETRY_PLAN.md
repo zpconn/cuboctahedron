@@ -100794,3 +100794,63 @@ local tables.
   It does not prove the family.  The next Lean slice must either prove this
   accepted-tail margin semantically, or introduce the cancellation-segment /
   cocycle quotient theorem surface needed to make that proof rank-free.
+
+### 2026-07-04 Bellman cocycle quotient core added
+
+- Added a small generic Lean theorem to `Cuboctahedron/Search/BellmanPotential.lean`:
+
+  ```lean
+  theorem BellmanLabelStepRun.quotient_of_step_gain_eq
+  ```
+
+- Purpose: if a full-state Bellman step gain equals a small-state gain plus a
+  telescoping gauge term,
+
+  ```text
+  rawGain = smallGain + gauge(nextFull) - gauge(currentFull),
+  ```
+
+  then any full-state `BellmanLabelStepRun` induces a small-state run over the
+  same labels, and the total raw gain equals the total small gain plus the
+  endpoint gauge difference.
+- This is the Lean-checked theorem surface needed by the graph183
+  accepted-tail margin fallback: if the direct margin producer wants exact
+  affine RHS or solved start-point keys, the next route is to prove that the
+  raw margin cocycle factors through a smaller semantic state plus this
+  telescoping gauge.
+- Verification commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 8000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/bellman_potential_cocycle_quotient_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Search.BellmanPotential
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+
+  python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  ```
+
+- Results:
+  - `Cuboctahedron.Search.BellmanPotential` passed in `5.00s`, peak RSS
+    `3871 MiB`, min available `45964 MiB`.
+  - Graph183 dependent focused build passed in `313.27s`, peak RSS `5515 MiB`,
+    min available `44266 MiB`.  This was a rebuild after changing the Bellman
+    core, so it replayed/rebuilt many downstream generated shards; memory
+    stayed well below the 12 GiB guard.
+  - Frontier audit still reports:
+
+    ```text
+    diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+    ```

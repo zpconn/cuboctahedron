@@ -82,6 +82,16 @@
       "passed": true
     },
     {
+      "detail": "Cuboctahedron/Search/BellmanPotential.lean",
+      "name": "bellman_potential_exists",
+      "passed": true
+    },
+    {
+      "detail": "quotient_of_step_gain_eq",
+      "name": "bellman_symbol:quotient_of_step_gain_eq",
+      "passed": true
+    },
+    {
       "detail": "semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer",
       "name": "semantic_audit_accepts_margin_target",
       "passed": true

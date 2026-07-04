@@ -76,6 +76,8 @@ or cocycle/coboundary quotient.
 | `socket_forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `socket_forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `socket_forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `bellman_potential_exists` | `True` | `Cuboctahedron/Search/BellmanPotential.lean` |
+| `bellman_symbol:quotient_of_step_gain_eq` | `True` | `quotient_of_step_gain_eq` |
 | `semantic_audit_accepts_margin_target` | `True` | `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer` |
 | `semantic_audit_target_is_accepted_tail_margin` | `True` | `AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin` |
 | `profile_100k:offset_sum_mismatches_zero` | `True` | `0` |

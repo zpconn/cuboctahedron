@@ -32,6 +32,7 @@ GRAPH183_SOCKET = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean"
 )
+BELLMAN_POTENTIAL = ROOT / "Cuboctahedron/Search/BellmanPotential.lean"
 SEMANTIC_AUDIT = (
     ROOT / "scripts/generated/top_pairing_semantic_evaluator_pivot.json"
 )
@@ -67,6 +68,10 @@ FORBIDDEN_SOCKET_TOKENS = [
     "SelectedPrefix",
     "AcceptedTraceId",
     "acceptedTraceOfId",
+]
+
+REQUIRED_BELLMAN_SYMBOLS = [
+    "quotient_of_step_gain_eq",
 ]
 
 
@@ -115,6 +120,26 @@ def socket_checks() -> list[dict[str, Any]]:
                 "name": f"socket_forbidden_absent:{token}",
                 "passed": token not in text,
                 "detail": token,
+            }
+        )
+    return checks
+
+
+def bellman_core_checks() -> list[dict[str, Any]]:
+    text = read_text(BELLMAN_POTENTIAL)
+    checks: list[dict[str, Any]] = [
+        {
+            "name": "bellman_potential_exists",
+            "passed": BELLMAN_POTENTIAL.exists(),
+            "detail": rel(BELLMAN_POTENTIAL),
+        }
+    ]
+    for symbol in REQUIRED_BELLMAN_SYMBOLS:
+        checks.append(
+            {
+                "name": f"bellman_symbol:{symbol}",
+                "passed": symbol in text,
+                "detail": symbol,
             }
         )
     return checks
@@ -322,6 +347,7 @@ def main() -> int:
 
     checks: list[dict[str, Any]] = []
     checks.extend(socket_checks())
+    checks.extend(bellman_core_checks())
     checks.extend(semantic_audit_checks(semantic))
     checks.extend(profile_checks("profile_100k", profile_100k))
     checks.extend(profile_checks("profile_1m", profile_1m))

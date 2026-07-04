@@ -150,6 +150,35 @@ theorem append
       simpa [List.cons_append, Int.add_assoc] using
         BellmanLabelStepRun.cons hstep (ih h₂)
 
+theorem quotient_of_step_gain_eq
+    {FullState SmallState Label : Type}
+    {FullStep : FullState -> Label -> FullState -> Int -> Prop}
+    {SmallStep : SmallState -> Label -> SmallState -> Int -> Prop}
+    {q : FullState -> SmallState}
+    {gauge : FullState -> Int}
+    {s t : FullState} {labels : List Label} {rawGain : Int}
+    (hstep :
+      forall {s label t gain},
+        FullStep s label t gain ->
+          exists smallGain,
+            SmallStep (q s) label (q t) smallGain /\
+              gain = smallGain + gauge t - gauge s)
+    (hrun : BellmanLabelStepRun FullStep s t labels rawGain) :
+    exists smallGain,
+      BellmanLabelStepRun SmallStep (q s) (q t) labels smallGain /\
+        rawGain = smallGain + gauge t - gauge s := by
+  induction hrun with
+  | nil s =>
+      refine ⟨0, BellmanLabelStepRun.nil (q s), ?_⟩
+      omega
+  | cons hfullStep _htail ih =>
+      rcases hstep hfullStep with
+        ⟨smallHeadGain, hsmallStep, hheadGain⟩
+      rcases ih with ⟨smallTailGain, hsmallTail, htailGain⟩
+      refine ⟨smallHeadGain + smallTailGain,
+        BellmanLabelStepRun.cons hsmallStep hsmallTail, ?_⟩
+      omega
+
 end BellmanLabelStepRun
 
 def evalLabelStepFn {State Label : Type}
