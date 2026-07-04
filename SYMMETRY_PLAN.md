@@ -94262,3 +94262,72 @@ Next implementation target is not simply "emit all transitions"; it is the
 semantic bridge that consumes these transition facts from
 `TopPairingClosedLanguageAtRank` fields.  Scale this emitter only as a
 supporting shard once the closed-language allowed-face theorem is real.
+
+### Holonomy/Bellman Pivot - full semantic transition table support shard
+
+The transition emitter was extended with an explicit `--namespace` option and
+the same recursion settings used by the graph base:
+
+```lean
+set_option maxHeartbeats 2000000
+set_option maxRecDepth 4096
+```
+
+This prevents full-table transition facts from colliding with the bounded
+smoke namespace and avoids the expected deep reduction through the 970-state
+`graphSmokeNext` dispatcher.
+
+New generated support module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateTransitions.lean
+```
+
+It contains all 1054 singleton-label graph transitions from the split-10M
+`with_step_tri_source` graph as `by rfl` facts.  It is still a support shard,
+not a membership proof: it does not mention ranks, sampled traces,
+selected-prefix paths, accepted trace ids, terminal trace shards, or exact
+affine keys.
+
+First full check, before adding `set_option maxRecDepth 4096`, failed safely:
+
+```text
+exit: 1
+elapsed: 28.01s
+peak_tree_rss: 4063 MiB
+failure: maximum recursion depth reached around line 2693
+kill reason: none
+```
+
+After adding the recursion option, the guarded check passed:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/semantic_state_transitions_full_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateTransitions.lean
+```
+
+Result:
+
+```text
+exit: 0
+elapsed: 40.03s
+peak_tree_rss: 4063.29 MiB
+min_available: 45831.59 MiB
+hard address-space cap: 8192 MiB
+kill reason: none
+```
+
+Decision: the full transition-fact layer is memory-safe as a single generated
+support shard.  The remaining hard work is the semantic proof that
+`TopPairingClosedLanguageAtRank` can only take these local transitions and that
+terminal/final margin facts follow from semantic fields.  Do not confuse this
+checked transition table with closed-language membership coverage.

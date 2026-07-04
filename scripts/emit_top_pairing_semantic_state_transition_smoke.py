@@ -72,9 +72,12 @@ def theorem_name(index: int, row: dict[str, Any]) -> str:
     return f"emitted_transition_{index:04d}_s{row['src']:04d}_{row['face']}"
 
 
-def emit(graph_path: Path, rows: list[dict[str, Any]]) -> str:
+def emit(graph_path: Path, rows: list[dict[str, Any]], namespace: str) -> str:
     lines: list[str] = [
         "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base",
+        "",
+        "set_option maxHeartbeats 2000000",
+        "set_option maxRecDepth 4096",
         "",
         "/-!",
         "Generated semantic state-transition emitter smoke.",
@@ -86,7 +89,7 @@ def emit(graph_path: Path, rows: list[dict[str, Any]]) -> str:
         "prefixes, accepted trace ids, or exact affine keys.",
         "-/",
         "",
-        f"namespace {OUT_NS}",
+        f"namespace {namespace}",
         "",
         "open Cuboctahedron",
         "open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base",
@@ -114,7 +117,7 @@ def emit(graph_path: Path, rows: list[dict[str, Any]]) -> str:
             "theorem semanticStateTransitionEmitterSmoke_builds : True := by",
             "  exact True.intro",
             "",
-            f"end {OUT_NS}",
+            f"end {namespace}",
             "",
         ]
     )
@@ -125,15 +128,18 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--graph", type=Path, default=DEFAULT_GRAPH)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--namespace", default=OUT_NS)
     parser.add_argument("--limit", type=int, default=32)
     args = parser.parse_args()
-    graph = load_graph(args.graph)
+    graph_path = args.graph if args.graph.is_absolute() else ROOT / args.graph
+    output_path = args.output if args.output.is_absolute() else ROOT / args.output
+    graph = load_graph(graph_path)
     rows = transition_rows(graph, args.limit)
     if len(rows) < args.limit:
         raise RuntimeError(f"only found {len(rows)} singleton-label edges")
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(emit(args.graph, rows), encoding="utf-8")
-    print(f"wrote {args.output.relative_to(ROOT)} with {len(rows)} transitions")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(emit(graph_path, rows, args.namespace), encoding="utf-8")
+    print(f"wrote {output_path.relative_to(ROOT)} with {len(rows)} transitions")
     return 0
 
 

@@ -1,5 +1,8 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
 
+set_option maxHeartbeats 2000000
+set_option maxRecDepth 4096
+
 /-!
 Generated semantic state-transition emitter smoke.
 
