@@ -98500,3 +98500,95 @@ local tables.
   delegate to graph-suffix/final-margin subproducers, but it must not encode
   ranks, selected prefixes, accepted traces, or exact affine keys as the
   membership coordinate.
+
+2026-07-04 class-035 strengthened semantic state-DAG adapter:
+
+- Advanced the deterministic semantic evaluator pivot by giving class 035 the
+  same strengthened all-family socket shape already checked for class 034.
+  This is useful because class 035 has two possible depth-11 graph states, so
+  it exercises a small semantic disjunction while staying away from selected
+  prefixes, sampled ranks, accepted trace ids, and exact affine keys.
+- Updated:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSemanticStateDAGClass035ProviderSmoke.lean
+  ```
+
+- New theorem surfaces:
+
+  ```lean
+  def Class035SequenceBadFace
+      (scaledMargin : Fin numPairWords -> Int)
+      (rank : Fin numPairWords) (badFace : Face) : Prop
+
+  theorem semanticStateDAGFamily_of_class035
+      {scaledMargin : Fin numPairWords -> Int}
+      {rank : Fin numPairWords}
+      (hstrengthened :
+        TopPairingStrengthenedClosedLanguageAtRank
+          (Class035SequenceBadFace scaledMargin) rank Face.ym) :
+      StrengthenedSemanticStateDAGFamily scaledMargin rank
+
+  theorem semanticStateDAGAllFamily_of_class035
+      {scaledMargin : Fin numPairWords -> Int}
+      (hclass :
+        ∀ rank,
+          TopPairingStrengthenedClosedLanguageAtRank
+            AcceptedSequenceBadFaceAtRank rank Face.ym ->
+          TopPairingStrengthenedClosedLanguageAtRank
+            (Class035SequenceBadFace scaledMargin) rank Face.ym) :
+      StrengthenedSemanticStateDAGAllFamily scaledMargin
+
+  theorem scaledMargin_nonpos_of_class035AllFamily
+      {scaledMargin : Fin numPairWords -> Int}
+      (hclass :
+        ∀ rank,
+          TopPairingStrengthenedClosedLanguageAtRank
+            AcceptedSequenceBadFaceAtRank rank Face.ym ->
+          TopPairingStrengthenedClosedLanguageAtRank
+            (Class035SequenceBadFace scaledMargin) rank Face.ym)
+      {rank : Fin numPairWords}
+      (hstrengthened :
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym) :
+      scaledMargin rank <= 0
+  ```
+
+- A direct guarded `lake env lean` check failed quickly because a generated
+  terminal classifier dependency had not yet been built:
+
+  ```text
+  missing .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+  TopPairingTraceClassifier/Terminal/Shard000.olean
+  ```
+
+  This is a dependency-cache issue, not a type error in the edited module.
+  Guard summary:
+  `scripts/generated/semantic_state_dag_class035_strengthened_guard.json`,
+  `exit_code=1`, `elapsed_seconds=2.00`, `peak_tree_rss_mib=834`.
+- Focused Lake build, single-job and memory-guarded:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 360 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/semantic_state_dag_class035_strengthened_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingSemanticStateDAGClass035ProviderSmoke
+  ```
+
+  passed with `elapsed_seconds=44.03`, `peak_tree_rss_mib=4170`, and
+  `min_available_mib=45726`.  The elapsed time includes building the missing
+  terminal classifier shards.
+- Forbidden-token scan over the touched Lean file found no matches for:
+  `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+  `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`,
+  `sampledSmokeNext`, `SelectedPrefix`, `acceptedTraceOfId`, or
+  `AcceptedTraceId`.
+- Next implementation target: factor the class-034/class-035 strengthened
+  adapter pattern into either an emitted family generator or a small shared
+  class-provider combinator, then add the next depth-11 class only if its
+  membership proof can be derived from semantic cursor/cancellation state.

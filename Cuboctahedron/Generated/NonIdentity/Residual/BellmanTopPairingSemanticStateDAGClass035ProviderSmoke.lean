@@ -1,5 +1,7 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedSplitSuffixProducerSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGProducerSocket
 
 /-!
 Closed-only semantic state-DAG class-035 provider smoke.
@@ -15,9 +17,12 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemantic
 
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphEvalSplit10MSmoke.Base
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedSuffixSplit10MBridge
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedSplitSuffixProducerSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGProducerSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.TopPairingTraceClassifier.Accepted
 
 /--
 Semantic class-035 suffix producer after the split-10M prefix/frontier split.
@@ -56,6 +61,67 @@ theorem split10MGraphSuffixProducer_of_class035
   · rcases hstate228 with ⟨hgraph₂Eq, hsuffixClass⟩
     subst graph₂
     exact graphBranchTableSuffixOk_class035_state0228 hsuffixClass
+
+/--
+Class-035 sequence/bad-face predicate for the strengthened state-DAG socket.
+
+This is the class-035 analogue of the class-034 strengthened provider: it
+keeps the public family semantic by carrying only the accepted bad-face fact,
+terminal classifier, compact graph-suffix producer, and final-margin producer.
+-/
+def Class035SequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  AcceptedSequenceBadFaceAtRank rank badFace ∧
+    TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧
+      Class035GraphSuffixProducer rank ∧
+        Split10MFinalMarginProducer scaledMargin rank
+
+theorem semanticStateDAGFamily_of_class035
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        (Class035SequenceBadFace scaledMargin) rank Face.ym) :
+    StrengthenedSemanticStateDAGFamily scaledMargin rank := by
+  rcases hstrengthened.sequenceBadFace_ok with
+    ⟨hbad, hterminal, hclass, hfinalMargin⟩
+  refine
+    { strengthened :=
+        TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+          hstrengthened.closed hstrengthened.actualFaceOmni hbad
+      terminalOk := hterminal
+      graphSuffix := split10MGraphSuffixProducer_of_class035 hclass
+      finalMargin := hfinalMargin }
+
+theorem semanticStateDAGAllFamily_of_class035
+    {scaledMargin : Fin numPairWords -> Int}
+    (hclass :
+      ∀ rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym ->
+        TopPairingStrengthenedClosedLanguageAtRank
+          (Class035SequenceBadFace scaledMargin) rank Face.ym) :
+    StrengthenedSemanticStateDAGAllFamily scaledMargin where
+  family := by
+    intro rank hstrengthened
+    exact semanticStateDAGFamily_of_class035 (hclass rank hstrengthened)
+
+theorem scaledMargin_nonpos_of_class035AllFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (hclass :
+      ∀ rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym ->
+        TopPairingStrengthenedClosedLanguageAtRank
+          (Class035SequenceBadFace scaledMargin) rank Face.ym)
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_semanticStateDAGAllFamily
+    (semanticStateDAGAllFamily_of_class035 hclass) hstrengthened
 
 /--
 Closed-only class-035 family predicate for the split-suffix socket.
