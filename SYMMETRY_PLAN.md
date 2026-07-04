@@ -102078,3 +102078,101 @@ local tables.
   `AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily`.  Keep it
   branch-local and semantic: no selected-prefix IDs, sampled paths, exact
   affine RHS keys, solved start points, or one constructor per rank.
+
+### 2026-07-04 graph183 branch exact-eval to quotient-margin adapter
+
+- Added a small branch-local producer socket between the semantic evaluator
+  route and the accepted-tail quotient-margin target.  The new surface is:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedTailExactEvalFamily :
+    (Fin numPairWords -> Int) -> Prop
+
+  acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval :
+    AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin ->
+    AcceptedSequenceGraph183AcceptedTailExactEvalFamily scaledMargin
+
+  acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailExactEval :
+    AcceptedSequenceGraph183AcceptedTailExactEvalFamily scaledMargin ->
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin
+  ```
+
+- Why this matters:
+  this socket gives the next generated/semantic state-DAG producer a local
+  target that is closer than the label-margin family.  It only needs to prove
+  the exact Bellman evaluator result on ranks in the accepted graph183 `yp`
+  branch:
+
+  ```lean
+  TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym
+  Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+    (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)
+  ```
+
+  The adapter then rewrites the checked cocycle quotient equation
+  `graph183AcceptedBranchRawGain = 194 + -542` and produces the existing
+  `AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily`.  No rank table,
+  selected-prefix object, accepted trace id, exact affine-RHS key, or solved
+  start-point key is introduced.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 360 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_quotient_margin_socket_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183QuotientMarginSocket
+
+  python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+
+  rg -n "AcceptedSequenceGraph183AcceptedTailExactEvalFamily|acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval|acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailExactEval" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py \
+    scripts/generated/graph183_accepted_tail_margin_frontier.md \
+    scripts/generated/graph183_accepted_tail_margin_frontier.json
+
+  rg -n "sorry|admit|native_decide|unsafe|axiom" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py
+
+  grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf\|SelectedPrefix\|AcceptedTraceId\|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean \
+    scripts/emit_graph183_cocycle_quotient_smoke.py
+  ```
+
+- Results:
+  - Guarded focused build passed.
+  - Elapsed time: `3.00s`.
+  - Peak guarded tree RSS: `4103.23 MiB`.
+  - Minimum available memory observed: `46012.74 MiB`.
+  - Frontier audit regenerated and passed with decision
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+  - Symbol scan found the three new adapter surfaces in Lean and in the
+    generated audit report.
+  - Forbidden-token and sampled/selected-prefix scans returned no hits in the
+    touched proof/generator path.
+
+- Current accepted interpretation:
+  graph183's accepted tail now has three increasingly local semantic sockets:
+
+  ```text
+  branch exact eval
+    -> branch quotient margin
+    -> scaledMargin <= 0
+    -> branch-local start-violation cert
+    -> NonIdentityRankKilled
+  ```
+
+  The next proof-producing step should instantiate
+  `AcceptedSequenceGraph183AcceptedTailExactEvalFamily` from the sharded
+  closed-language state-DAG evaluator/cocycle semantics.  If this still wants
+  exact affine RHS or sampled trace membership, the state-DAG needs more
+  semantic fields before proceeding.

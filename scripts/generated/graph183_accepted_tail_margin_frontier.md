@@ -76,9 +76,9 @@ cocycle/coboundary quotient.
 
 | metric | value |
 | --- | ---: |
-| `elapsed_seconds` | `3.002781237999443` |
-| `peak_rss_mib` | `4056.484375` |
-| `min_available_mib` | `45224.25390625` |
+| `elapsed_seconds` | `3.003043571006856` |
+| `peak_rss_mib` | `4103.23046875` |
+| `min_available_mib` | `46012.73828125` |
 
 ### graph183_scaling_contract
 
@@ -176,6 +176,9 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin` |
 | `graph183_quotient_socket:symbol:AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily` | `True` | `AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily` |
+| `graph183_quotient_socket:symbol:AcceptedSequenceGraph183AcceptedTailExactEvalFamily` | `True` | `AcceptedSequenceGraph183AcceptedTailExactEvalFamily` |
+| `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval` | `True` | `acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval` |
+| `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailExactEval` | `True` | `acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailExactEval` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin` | `True` | `acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin` |
 | `graph183_quotient_socket:symbol:graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin` | `True` | `graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin` |
@@ -232,8 +235,8 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
 | `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
 | `graph183_quotient_margin_socket:guard_exit_zero` | `True` | `0` |
-| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `4056.484375` |
-| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `45224.25390625` |
+| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `4103.23046875` |
+| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46012.73828125` |
 
 ## Next Lean Target
 

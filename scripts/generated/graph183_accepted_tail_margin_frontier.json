@@ -352,6 +352,21 @@
       "passed": true
     },
     {
+      "detail": "AcceptedSequenceGraph183AcceptedTailExactEvalFamily",
+      "name": "graph183_quotient_socket:symbol:AcceptedSequenceGraph183AcceptedTailExactEvalFamily",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval",
+      "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailExactEval",
+      "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailExactEval",
+      "passed": true
+    },
+    {
       "detail": "acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin",
       "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin",
       "passed": true
@@ -645,12 +660,12 @@
       "passed": true
     },
     {
-      "detail": 4056.484375,
+      "detail": 4103.23046875,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 45224.25390625,
+      "detail": 46012.73828125,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
       "passed": true
     }
@@ -671,9 +686,9 @@
       "solution_small_gain_count": 93
     },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 3.002781237999443,
-      "min_available_mib": 45224.25390625,
-      "peak_rss_mib": 4056.484375
+      "elapsed_seconds": 3.003043571006856,
+      "min_available_mib": 46012.73828125,
+      "peak_rss_mib": 4103.23046875
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,

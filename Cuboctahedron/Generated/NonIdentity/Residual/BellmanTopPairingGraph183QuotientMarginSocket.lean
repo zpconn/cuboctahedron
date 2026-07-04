@@ -96,6 +96,48 @@ structure AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily
         (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
       scaledMargin rank <= graphConst + graph183AcceptedBranchRawGain
 
+/--
+Branch-local exact-evaluator target for the graph183 accepted tail.
+
+This is the closest socket to the intended semantic state-DAG producer: it
+does not ask for a whole-label equality or a selected-prefix object.  It asks
+for the exact evaluator result only on the same `yp` tail branch consumed by
+`AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily`.
+-/
+structure AcceptedSequenceGraph183AcceptedTailExactEvalFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  exact_eval_yp_branch :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      TopPairingGraphExactEvalGateResult
+        graphPotential closedBellmanNext (fun face : Face => face)
+        graphRoot graphConst scaledMargin rank Face.ym
+        126 ((194 : Int) + (-542 : Int))
+
+theorem acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedTailExactEvalFamily scaledMargin where
+  exact_eval_yp_branch := by
+    intro rank hstrengthened hprefix
+    exact hfamily.exact_eval_of_labels rank hstrengthened
+      (graph183AcceptedBranchLabels_eq_of_prefix hprefix)
+
+theorem acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailExactEval
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedTailExactEvalFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin where
+  final_margin_yp_branch_quotient := by
+    intro rank hstrengthened hprefix
+    have hgate :=
+      hfamily.exact_eval_yp_branch rank hstrengthened hprefix
+    simpa [graph183AcceptedBranchRawGain_contract] using hgate.margin_bound
+
 theorem acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily :
