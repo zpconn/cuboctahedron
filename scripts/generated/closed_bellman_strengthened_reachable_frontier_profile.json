@@ -150,6 +150,8 @@
       "outgoing_branch_count": 2
     }
   ],
+  "next_frontier_existing_semantic_graphs": [],
+  "next_frontier_existing_semantic_state_count": 0,
   "next_frontier_graphs": [
     147,
     148,
@@ -158,10 +160,37 @@
     151,
     152
   ],
+  "next_frontier_missing_semantic_graphs": [
+    147,
+    148,
+    149,
+    150,
+    151,
+    152
+  ],
+  "next_frontier_missing_semantic_state_count": 6,
   "next_frontier_state_count": 6,
   "next_frontier_terminal_graphs": [],
   "next_frontier_terminal_state_count": 0,
   "proof_status": "Diagnostic only. The checked graph source gives local graph edges, but the next frontier still needs semantic eval-state definitions and Lean local branch tables.",
+  "semantic_eval_state_graphs": {
+    "142": [
+      "strengthenedClosedPrefix1EvalState"
+    ],
+    "143": [
+      "strengthenedClosedPrefix2EvalState"
+    ],
+    "144": [
+      "strengthenedClosedPrefix3YpEvalState"
+    ],
+    "145": [
+      "strengthenedClosedPrefix3ZmEvalState"
+    ],
+    "146": [
+      "strengthenedClosedPrefix3TmpmEvalState"
+    ]
+  },
+  "semantic_source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean",
   "total_checked_graph_edges": 229,
   "total_checked_graph_states_with_outgoing": 194
 }

@@ -30,6 +30,11 @@ DEFAULT_INPUT = (
     / "scripts/generated/"
     / "closed_bellman_strengthened_local_branch_table_shard000_input.json"
 )
+DEFAULT_SEMANTIC_SOURCE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean"
+)
 DEFAULT_JSON = (
     ROOT
     / "scripts/generated/"
@@ -45,6 +50,11 @@ EDGE_RE = re.compile(
     r"\|\s+(e[0-9]+_l[0-9]+)\s+:\s+ClosedBellmanStep\s+"
     r"([0-9]+)\s+Face\.([A-Za-z0-9]+)\s+([0-9]+)\s+"
     r"\(([-0-9]+)\s+:\s+Int\)"
+)
+EVAL_STATE_RE = re.compile(
+    r"def ([A-Za-z0-9_]+EvalState) : StrengthenedClosedEvalState where\n"
+    r"\s*transducer := [^\n]+\n"
+    r"\s*graph := ([0-9]+)"
 )
 
 
@@ -90,6 +100,14 @@ def parse_edges(path: Path) -> list[Edge]:
     return edges
 
 
+def parse_eval_state_graphs(path: Path) -> dict[int, list[str]]:
+    source = path.read_text(encoding="utf-8")
+    out: dict[int, list[str]] = defaultdict(list)
+    for match in EVAL_STATE_RE.finditer(source):
+        out[int(match.group(2))].append(match.group(1))
+    return dict(sorted(out.items()))
+
+
 def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -126,6 +144,7 @@ def branch_detail_key(detail: dict[str, Any]) -> tuple[str, int, int]:
 
 def build_payload(args: argparse.Namespace) -> dict[str, Any]:
     edges = parse_edges(args.graph_source)
+    eval_state_graphs = parse_eval_state_graphs(args.semantic_source)
     outgoing = outgoing_by_src(edges)
     input_data = read_json(args.input)
     covered_rows = covered_state_rows(input_data)
@@ -186,10 +205,16 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         for graph in next_graphs
     ]
     terminal_next = [row["graph"] for row in next_rows if row["outgoing_branch_count"] == 0]
+    existing_next_semantic = sorted(
+        graph for graph in next_graphs if graph in eval_state_graphs
+    )
+    missing_next_semantic = sorted(
+        graph for graph in next_graphs if graph not in eval_state_graphs
+    )
 
     decision = (
         "next-frontier-ready-for-semantic-state-emission"
-        if not mismatches and next_graphs
+        if not mismatches and missing_next_semantic
         else (
             "current-shard-covers-frontier"
             if not mismatches
@@ -202,8 +227,12 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         "decision": decision,
         "graph_source": rel(args.graph_source),
         "input": rel(args.input),
+        "semantic_source": rel(args.semantic_source),
         "total_checked_graph_edges": len(edges),
         "total_checked_graph_states_with_outgoing": len(outgoing),
+        "semantic_eval_state_graphs": {
+            str(graph): names for graph, names in eval_state_graphs.items()
+        },
         "covered_state_count": len(covered_graphs),
         "covered_graphs": covered_graphs,
         "covered_audit": covered_audit,
@@ -213,6 +242,10 @@ def build_payload(args: argparse.Namespace) -> dict[str, Any]:
         "next_frontier_graphs": next_graphs,
         "next_frontier_terminal_state_count": len(terminal_next),
         "next_frontier_terminal_graphs": terminal_next,
+        "next_frontier_existing_semantic_state_count": len(existing_next_semantic),
+        "next_frontier_existing_semantic_graphs": existing_next_semantic,
+        "next_frontier_missing_semantic_state_count": len(missing_next_semantic),
+        "next_frontier_missing_semantic_graphs": missing_next_semantic,
         "next_frontier": next_rows,
         "proof_status": (
             "Diagnostic only. The checked graph source gives local graph "
@@ -233,6 +266,7 @@ def emit_markdown(payload: dict[str, Any], path: Path) -> None:
         f"- decision: `{payload['decision']}`",
         f"- graph source: `{payload['graph_source']}`",
         f"- input: `{payload['input']}`",
+        f"- semantic source: `{payload['semantic_source']}`",
         f"- checked graph edges: `{payload['total_checked_graph_edges']}`",
         f"- checked graph states with outgoing edges: "
         f"`{payload['total_checked_graph_states_with_outgoing']}`",
@@ -241,6 +275,10 @@ def emit_markdown(payload: dict[str, Any], path: Path) -> None:
         f"- next frontier states: `{payload['next_frontier_state_count']}`",
         f"- next frontier terminal states: "
         f"`{payload['next_frontier_terminal_state_count']}`",
+        f"- next frontier states with existing semantic eval states: "
+        f"`{payload['next_frontier_existing_semantic_state_count']}`",
+        f"- next frontier states missing semantic eval states: "
+        f"`{payload['next_frontier_missing_semantic_state_count']}`",
         "",
         "## Covered State Audit",
         "",
@@ -276,6 +314,17 @@ def emit_markdown(payload: dict[str, Any], path: Path) -> None:
         lines.extend(["", "## Mismatches", ""])
         for mismatch in payload["mismatches"]:
             lines.append(f"- graph `{mismatch['graph']}`: `{mismatch}`")
+    lines.extend(
+        [
+            "",
+            "## Semantic Eval-State Availability",
+            "",
+            f"- existing next-frontier semantic graph states: "
+            f"`{payload['next_frontier_existing_semantic_graphs']}`",
+            f"- missing next-frontier semantic graph states: "
+            f"`{payload['next_frontier_missing_semantic_graphs']}`",
+        ]
+    )
     lines.extend(["", "## Proof Status", "", str(payload["proof_status"]), ""])
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines), encoding="utf-8")
@@ -285,6 +334,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--graph-source", type=Path, default=DEFAULT_GRAPH_SOURCE)
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--semantic-source", type=Path, default=DEFAULT_SEMANTIC_SOURCE)
     parser.add_argument("--json-out", type=Path, default=DEFAULT_JSON)
     parser.add_argument("--markdown-out", type=Path, default=DEFAULT_MD)
     return parser.parse_args()

@@ -7,12 +7,15 @@ and local branch tables.
 - decision: `next-frontier-ready-for-semantic-state-emission`
 - graph source: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/All.lean`
 - input: `scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json`
+- semantic source: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean`
 - checked graph edges: `229`
 - checked graph states with outgoing edges: `194`
 - covered graph states: `4`
 - mismatch count: `0`
 - next frontier states: `6`
 - next frontier terminal states: `0`
+- next frontier states with existing semantic eval states: `0`
+- next frontier states missing semantic eval states: `6`
 
 ## Covered State Audit
 
@@ -33,6 +36,11 @@ and local branch tables.
 | `150` | `1` | zp -> 157 (114) |
 | `151` | `1` | tppp -> 159 (96) |
 | `152` | `2` | tpmm -> 161 (-36), zp -> 160 (-18) |
+
+## Semantic Eval-State Availability
+
+- existing next-frontier semantic graph states: `[]`
+- missing next-frontier semantic graph states: `[147, 148, 149, 150, 151, 152]`
 
 ## Proof Status
 

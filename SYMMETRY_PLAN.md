@@ -96417,3 +96417,42 @@ Decision: accepted as the next-frontier diagnostic.  Next: emit a bounded Lean
 shard for graph states `147, 148, 149, 150, 151, 152` with semantic eval-state
 definitions and local branch tables, then re-run the guarded local shard check
 before attempting any broader root.
+
+Follow-up semantic-availability check:
+
+```text
+semantic source =
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+next frontier states with existing semantic eval states = 0
+next frontier states missing semantic eval states = 6
+missing semantic eval-state graph ids = [147, 148, 149, 150, 151, 152]
+```
+
+This clarifies the next task.  The checked strengthened graph already contains
+the outgoing graph transitions for the next frontier.  What is missing is not
+more graph evidence; it is generated semantic eval-state construction and
+local `StrengthenedLocalBranchTable` proofs for those graph states.  The next
+emitter should therefore extend the semantic prefix-run source, not merely
+copy graph-only suffix evidence.
+
+Additional commands run:
+
+```text
+python3 -m py_compile \
+  scripts/profile_top_pairing_strengthened_reachable_frontier.py
+python3 scripts/profile_top_pairing_strengthened_reachable_frontier.py
+rg -n "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|\
+sampledContainsRank|sampledRankOf|AcceptedTraceId|acceptedTrace" \
+  scripts/profile_top_pairing_strengthened_reachable_frontier.py \
+  scripts/generated/closed_bellman_strengthened_reachable_frontier_profile.json \
+  scripts/generated/closed_bellman_strengthened_reachable_frontier_profile.md
+```
+
+Results:
+
+```text
+py_compile: pass
+reachable-frontier semantic availability profile: pass
+forbidden-token/sampled-membership scan: no matches
+```
