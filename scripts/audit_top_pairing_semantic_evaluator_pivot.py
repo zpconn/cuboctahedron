@@ -186,6 +186,7 @@ REQUIRED_SYMBOLS = {
         "graph169ContinuationFamily_of_graph183TailFinalMargin",
         "graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedBranch",
         "graphExactEvalGateAtRank_of_graph183TailFinalMargin",
+        "graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch",
         "graph183TailTableSocket_builds",
     ],
     "target_completion_local_branch_table_shard000": [
@@ -403,6 +404,7 @@ def render_markdown(report: dict[str, Any]) -> str:
             "theorem graph183_blocked_branch_absurd_of_acceptedSequenceBadFace",
             "structure AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily",
             "theorem graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch",
+            "theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch",
             "```",
             "",
             "So the next producer for this branch should target only the",

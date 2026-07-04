@@ -25,7 +25,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph150_direct_eval_socket` | `127` | none |
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
-| `graph183_tail_table_socket` | `746` | none |
+| `graph183_tail_table_socket` | `762` | none |
 | `target_completion_local_branch_table_shard000` | `63` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -41,7 +41,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph150_direct_eval_socket_lake`: exit `0`, elapsed `3.002738071998465`, peak RSS MiB `4050.12890625`
 - `graph157_continuation_socket_lake`: exit `0`, elapsed `5.004316574006225`, peak RSS MiB `4337.02734375`
 - `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
-- `graph183_tail_table_socket_lake`: exit `0`, elapsed `4.0042921919957735`, peak RSS MiB `4224.3046875`
+- `graph183_tail_table_socket_lake`: exit `0`, elapsed `4.003752535994863`, peak RSS MiB `4212.8046875`
 
 ## Forbidden Production Hits
 
@@ -129,6 +129,7 @@ out:
 theorem graph183_blocked_branch_absurd_of_acceptedSequenceBadFace
 structure AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily
 theorem graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch
+theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch
 ```
 
 So the next producer for this branch should target only the

@@ -99962,6 +99962,15 @@ local tables.
       AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin ->
       StrengthenedGraph169AfterTpmmGraphExactContinuationFamily
         scaledMargin AcceptedSequenceBadFaceAtRank
+
+  theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch :
+      AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin ->
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+      TopPairingGraphExactEvalGateAtRank
+        graphPotential closedBellmanNext (fun face : Face => face)
+        graphRoot graphConst scaledMargin rank Face.ym
   ```
 
 - Meaning: the blocked `tmmp,tmpp,yp,xp` branch is now closed by semantic
@@ -99983,7 +99992,7 @@ local tables.
   BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
   ```
 
-  passed with `elapsed_seconds=3.00`, `peak_tree_rss_mib=4152`, and
+  passed with `elapsed_seconds=3.00`, `peak_tree_rss_mib=4153`, and
   `min_available_mib=45764`.
 - Focused guarded Lake build:
 
@@ -99998,8 +100007,8 @@ local tables.
   BellmanTopPairingDepth11Layer4Graph183TailTableSocket
   ```
 
-  passed with `elapsed_seconds=4.00`, `peak_tree_rss_mib=4203`, and
-  `min_available_mib=45694`.
+  passed with `elapsed_seconds=4.00`, `peak_tree_rss_mib=4212`, and
+  `min_available_mib=45680`.
 - Updated and reran:
 
   ```bash

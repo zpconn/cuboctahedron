@@ -740,6 +740,22 @@ theorem graphExactEvalGateAtRank_of_graph183TailFinalMargin
     (graph169ContinuationFamily_of_graph183TailFinalMargin hfamily)
     hstrengthened hprefix
 
+theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TopPairingGraphExactEvalGateAtRank
+      graphPotential closedBellmanNext (fun face : Face => face)
+      graphRoot graphConst scaledMargin rank Face.ym :=
+  graphExactEvalGateAtRank_of_graph183TailFinalMargin
+    (graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch hfamily)
+    hstrengthened hprefix
+
 theorem graph183TailTableSocket_builds : True := by
   exact True.intro
 
