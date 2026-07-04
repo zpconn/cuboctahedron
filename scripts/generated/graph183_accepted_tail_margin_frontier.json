@@ -347,6 +347,31 @@
       "passed": true
     },
     {
+      "detail": "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily",
+      "name": "graph183_quotient_socket:symbol:AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin",
+      "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin",
+      "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin",
+      "passed": true
+    },
+    {
+      "detail": "graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin",
+      "name": "graph183_quotient_socket:symbol:graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin",
+      "passed": true
+    },
+    {
+      "detail": "graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin",
+      "name": "graph183_quotient_socket:symbol:graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin",
+      "passed": true
+    },
+    {
       "detail": "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin",
       "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin",
       "passed": true
@@ -590,12 +615,12 @@
       "passed": true
     },
     {
-      "detail": 4094.24609375,
+      "detail": 3519.49609375,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 46069.546875,
+      "detail": 46057.875,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
       "passed": true
     }
@@ -616,9 +641,9 @@
       "solution_small_gain_count": 93
     },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 3.0032297620055033,
-      "min_available_mib": 46069.546875,
-      "peak_rss_mib": 4094.24609375
+      "elapsed_seconds": 9.006182805009303,
+      "min_available_mib": 46057.875,
+      "peak_rss_mib": 3519.49609375
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,
@@ -660,5 +685,5 @@
     }
   },
   "mode": "graph183_accepted_tail_margin_frontier",
-  "next_lean_target": "AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin"
+  "next_lean_target": "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin"
 }

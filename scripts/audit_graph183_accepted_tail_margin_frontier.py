@@ -6,8 +6,8 @@ coverage and it does not certify the Bellman margin theorem.  Its job is to
 keep the active frontier honest:
 
 * graph183 completion-tail membership is already semantic;
-* the remaining producer must target
-  `AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin`;
+* the remaining producer must target the branch-local quotient surface
+  `AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin`;
 * exact margin profiling should support a small Bellman/cocycle producer before
   any Lean emission is scaled.
 
@@ -130,6 +130,11 @@ REQUIRED_QUOTIENT_SOCKET_SYMBOLS = [
     "acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin",
     "acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin",
     "acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin",
+    "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily",
+    "acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin",
+    "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin",
+    "graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin",
+    "graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin",
     "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin",
     "graph169ContinuationFamily_of_acceptedSequenceGraph183QuotientMargin",
     "graphExactEvalGateAtRank_of_acceptedSequenceGraph183QuotientMargin",
@@ -617,17 +622,17 @@ def render_markdown(report: dict[str, Any]) -> str:
         "## Next Lean Target",
         "",
         "```lean",
-        "AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin",
+        "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin",
         "```",
         "",
         "The graph183 completion-tail component is already available via",
         "`acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.",
-        "The quotient-margin socket adapts this single family to the graph183",
-        "label-margin, exact-eval, tail-margin, and graph169 continuation",
-        "surfaces.  The next Lean smoke should prove the quotient margin from",
-        "semantic closed-language/evaluator state.  The profile remains",
-        "diagnostic only; quotient/gauge equations used by the proof must stay",
-        "Lean-checked local facts.",
+        "The quotient-margin socket now exposes the branch-local accepted-tail",
+        "surface first and adapts it to the graph183 final-margin and graph169",
+        "continuation surfaces.  The next Lean smoke should prove the quotient",
+        "margin from semantic closed-language/evaluator state on the `yp` tail",
+        "branch.  The profile remains diagnostic only; quotient/gauge equations",
+        "used by the proof must stay Lean-checked local facts.",
         "",
     ]
     )
@@ -720,7 +725,7 @@ def main() -> int:
             },
             "graph183_scaling_contract": contract_metrics(profile_1m),
         },
-        "next_lean_target": "AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin",
+        "next_lean_target": "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin",
     }
 
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)

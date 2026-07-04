@@ -101687,3 +101687,97 @@ local tables.
   evaluator plumbing.  It is the semantic proof of the quotient-margin
   inequality itself, without exact affine RHS keys or selected-prefix/rank-path
   tables.
+
+### 2026-07-04 graph183 branch-local quotient-margin target
+
+- Added a sharper graph183 accepted-tail quotient surface to
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean`:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily :
+    (Fin numPairWords -> Int) -> Prop
+
+  acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin ->
+      AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
+
+  acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin ->
+      AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin
+
+  graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin ->
+      StrengthenedGraph169AfterTpmmGraphExactContinuationFamily
+        scaledMargin AcceptedSequenceBadFaceAtRank
+
+  graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin ->
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+        TopPairingGraphExactEvalGateAtRank ...
+  ```
+
+- Why this is the better immediate target:
+  the previous quotient-margin family was keyed by
+  `topPairingRankFaceLabels rank = graph183AcceptedBranchLabels`.  The new
+  tail quotient family is keyed by the actual semantic graph183 accepted `yp`
+  branch prefix:
+
+  ```lean
+  Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+    (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)
+  ```
+
+  That matches the deterministic target-completion/tail table state and avoids
+  making the next producer's front door a full-label equality.  It still does
+  not prove the margin; it makes the remaining proof obligation more semantic
+  and branch-local.
+
+- Updated `scripts/audit_graph183_accepted_tail_margin_frontier.py` to require
+  the new tail quotient surface and adapters.  The audit's next Lean target is
+  now:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin
+  ```
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 360 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_quotient_margin_socket_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183QuotientMarginSocket
+
+  python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+
+  grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean \
+    scripts/emit_graph183_cocycle_quotient_smoke.py || true
+  ```
+
+- Results:
+  - Guarded quotient-margin socket build passed.
+  - Elapsed time: `9.01s`.
+  - Peak guarded tree RSS: `3519.50 MiB`.
+  - Minimum available memory observed: `46057.88 MiB`.
+  - Frontier audit regenerated and passed with decision
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+  - The sampled-rank grep returned no hits in the touched proof/generator
+    modules.
+
+- Current accepted interpretation:
+  the graph183 plumbing now lets a future producer prove the margin in the
+  local accepted-tail semantic context, against the Lean-checked quotient raw
+  gain `graph183AcceptedBranchRawGain`.  The next real proof step is still the
+  hard one: derive that integer margin inequality from strengthened
+  closed-language/cancellation/cocycle state, without exact affine RHS keys or
+  selected-prefix/rank-path tables.

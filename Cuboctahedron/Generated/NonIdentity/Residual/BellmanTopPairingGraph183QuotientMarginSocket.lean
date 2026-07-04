@@ -75,6 +75,74 @@ theorem acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin
       hfamily)
 
 /--
+Graph183 accepted-tail margin target phrased directly in the semantic branch
+where the `yp` tail is known.
+
+This is the sharper production-facing target for the next margin producer: it
+receives the strengthened closed-language proof plus the branch prefix used by
+the graph183 tail table, and proves the margin against the checked quotient
+raw gain.  It avoids making the producer prove a whole-label equality as its
+front door.
+-/
+structure AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  final_margin_yp_branch_quotient :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      scaledMargin rank <= graphConst + graph183AcceptedBranchRawGain
+
+theorem acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin where
+  final_margin_yp_branch := by
+    intro rank hstrengthened hprefix
+    have hmargin :=
+      hfamily.final_margin_yp_branch_quotient rank hstrengthened hprefix
+    simpa [graph183AcceptedBranchRawGain_contract] using hmargin
+
+theorem acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin :=
+  acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components
+    acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor
+    (acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin
+      hfamily)
+
+theorem graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin) :
+    StrengthenedGraph169AfterTpmmGraphExactContinuationFamily
+      scaledMargin AcceptedSequenceBadFaceAtRank :=
+  graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedBranch
+    (acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin
+      hfamily)
+
+theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TopPairingGraphExactEvalGateAtRank
+      graphPotential closedBellmanNext (fun face : Face => face)
+      graphRoot graphConst scaledMargin rank Face.ym :=
+  graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch
+    (acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin
+      hfamily)
+    hstrengthened hprefix
+
+/--
 Graph183 final-margin family from the checked quotient-gain margin target.
 
 The completion-tail component is already semantic

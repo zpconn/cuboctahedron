@@ -76,9 +76,9 @@ cocycle/coboundary quotient.
 
 | metric | value |
 | --- | ---: |
-| `elapsed_seconds` | `3.0032297620055033` |
-| `peak_rss_mib` | `4094.24609375` |
-| `min_available_mib` | `46069.546875` |
+| `elapsed_seconds` | `9.006182805009303` |
+| `peak_rss_mib` | `3519.49609375` |
+| `min_available_mib` | `46057.875` |
 
 ### graph183_scaling_contract
 
@@ -175,6 +175,11 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin` |
+| `graph183_quotient_socket:symbol:AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily` | `True` | `AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily` |
+| `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin` | `True` | `acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin` |
+| `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin` |
+| `graph183_quotient_socket:symbol:graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin` | `True` | `graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin` |
+| `graph183_quotient_socket:symbol:graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin` | `True` | `graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin` |
 | `graph183_quotient_socket:symbol:graph169ContinuationFamily_of_acceptedSequenceGraph183QuotientMargin` | `True` | `graph169ContinuationFamily_of_acceptedSequenceGraph183QuotientMargin` |
 | `graph183_quotient_socket:symbol:graphExactEvalGateAtRank_of_acceptedSequenceGraph183QuotientMargin` | `True` | `graphExactEvalGateAtRank_of_acceptedSequenceGraph183QuotientMargin` |
@@ -221,20 +226,20 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
 | `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
 | `graph183_quotient_margin_socket:guard_exit_zero` | `True` | `0` |
-| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `4094.24609375` |
-| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46069.546875` |
+| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3519.49609375` |
+| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46057.875` |
 
 ## Next Lean Target
 
 ```lean
-AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin
+AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin
 ```
 
 The graph183 completion-tail component is already available via
 `acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.
-The quotient-margin socket adapts this single family to the graph183
-label-margin, exact-eval, tail-margin, and graph169 continuation
-surfaces.  The next Lean smoke should prove the quotient margin from
-semantic closed-language/evaluator state.  The profile remains
-diagnostic only; quotient/gauge equations used by the proof must stay
-Lean-checked local facts.
+The quotient-margin socket now exposes the branch-local accepted-tail
+surface first and adapts it to the graph183 final-margin and graph169
+continuation surfaces.  The next Lean smoke should prove the quotient
+margin from semantic closed-language/evaluator state on the `yp` tail
+branch.  The profile remains diagnostic only; quotient/gauge equations
+used by the proof must stay Lean-checked local facts.
