@@ -186,6 +186,7 @@ REQUIRED_SYMBOLS = {
         "AcceptedSequenceGraph183CursorCompletionTailFamily",
         "acceptedSequenceGraph183CompletionTailFamily_of_cursor",
         "graph150_usedFaceTail_of_acceptedSequence_prefix",
+        "graph150_restLength_of_acceptedSequence_prefix",
         "graph150_stepScheduleTail_of_acceptedSequence_prefix",
         "graph150_squareGapTail_of_acceptedSequence_prefix",
         "graph150_triCursorTail_of_prefix",

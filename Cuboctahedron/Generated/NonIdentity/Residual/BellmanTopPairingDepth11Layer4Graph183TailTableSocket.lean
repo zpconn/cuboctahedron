@@ -732,6 +732,27 @@ theorem graph150_usedFaceTail_of_acceptedSequence_prefix
   rw [hprefix'] at hactual
   simpa [TopPairingActualFaceOmniLabels] using hactual
 
+theorem graph150_restLength_of_acceptedSequence_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    rest.length = graph150TargetCompletionState.remaining.length := by
+  have hprefix' :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  have hprefixLabels :
+      faceLabelsInContributionOrder (fun f : Face => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest := by
+    simpa [topPairingRankFaceLabels] using hprefix'
+  have hlen := hstrengthened.toTopPairingClosedLanguageAtRank.schedule.1
+  rw [hprefixLabels] at hlen
+  simpa [graph150TargetCompletionState] using hlen
+
 theorem graph150_stepScheduleTail_of_acceptedSequence_prefix
     {rank : Fin numPairWords} {rest : List Face}
     (hstrengthened :
@@ -867,6 +888,7 @@ structure AcceptedSequenceGraph183SemanticCompletionTailFamily : Prop where
           graph150TargetCompletionState.triState.shadowLen
           graph150TargetCompletionState.parity rest ->
         TopPairingUsedFaceTail [Face.xm, Face.ym, Face.tmpm, Face.zm] rest ->
+        rest.length = graph150TargetCompletionState.remaining.length ->
         Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
         Graph150TargetCompletionTail rest
 
@@ -881,7 +903,10 @@ theorem acceptedSequenceGraph183CursorUsedCompletionTailFamily_of_semantic
       (graph150_squareGapTail_of_acceptedSequence_prefix
         hstrengthened hprefix)
       (graph150_triCursorTail_of_prefix hcursor hprefix)
-      hused hprefix
+      hused
+      (graph150_restLength_of_acceptedSequence_prefix
+        hstrengthened hprefix)
+      hprefix
 
 theorem acceptedSequenceGraph183CompletionTailFamily_of_cursor
     (hfamily : AcceptedSequenceGraph183CursorCompletionTailFamily) :

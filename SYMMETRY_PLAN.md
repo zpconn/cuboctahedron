@@ -100390,3 +100390,81 @@ local tables.
   is the go/no-go test for whether the top-pairing Bellman route can stay
   semantic.  If it collapses into sampled paths, pivot to the
   cancellation-tree / cocycle quotient state rather than scaling this producer.
+
+### 2026-07-04 graph183 semantic suffix state adds length completeness
+
+- Added the next missing deterministic-state field for the graph183 Bellman
+  producer: suffix length / remaining-face cardinality.
+- Updated
+  `Cuboctahedron/Generated/NonIdentity/Residual/`
+  `BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean`.
+- New adapter theorem:
+
+  ```lean
+  theorem graph150_restLength_of_acceptedSequence_prefix :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+      rest.length = graph150TargetCompletionState.remaining.length
+  ```
+
+- Strengthened
+  `AcceptedSequenceGraph183SemanticCompletionTailFamily` so its
+  `completionTail` field now receives:
+
+  ```lean
+  rest.length = graph150TargetCompletionState.remaining.length
+  ```
+
+- Why this matters: `TopPairingUsedFaceTail` proves no actual face is reused,
+  but target completion also needs to know the suffix is complete, so that the
+  semantic remaining-face state reaches `[]` at the end.  The length fact is
+  derived from the closed schedule length and the layer-4 prefix, not from a
+  rank table or sampled trace.
+- Updated
+  `scripts/audit_top_pairing_semantic_evaluator_pivot.py` to require
+  `graph150_restLength_of_acceptedSequence_prefix`.
+- Verification commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_direct_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 lake env lean \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+
+  python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+  ```
+
+- Results:
+  - direct Lean check passed with `elapsed_seconds=3.00`,
+    `peak_tree_rss_mib=4153`, `min_available_mib=45771`;
+  - audit decision:
+    `semantic_evaluator_pivot_ready_for_membership_producer`;
+  - focused Lake build passed with `elapsed_seconds=4.00`,
+    `peak_tree_rss_mib=4203`, `min_available_mib=45707`.
+- Next target remains:
+
+  ```lean
+  AcceptedSequenceGraph183SemanticCompletionTailFamily
+  ```
+
+  The currently exposed semantic inputs are now schedule tail, square-gap tail,
+  target-shadow cursor tail, used-face tail, and suffix length.  The next
+  proof attempt should determine whether these suffice for the recursive
+  `Graph150TargetCompletionTail` theorem.  If the nil/summary case still lacks
+  information, add a target-cancellation-state invariant rather than falling
+  back to selected prefixes.
