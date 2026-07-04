@@ -46,6 +46,9 @@ FILES = {
     "target_completion_local_step_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4TargetCompletionLocalStepSocket.lean",
+    "graph150_continuation_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph150ContinuationSocket.lean",
     "target_completion_local_branch_table_shard000": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
@@ -67,6 +70,8 @@ GUARDS = {
     / "scripts/generated/target_completion_local_branch_table_shard000_lake_guard.json",
     "target_completion_local_step_socket_lake": ROOT
     / "scripts/generated/target_completion_local_step_socket_lake_guard.json",
+    "graph150_continuation_socket_lake": ROOT
+    / "scripts/generated/graph150_continuation_socket_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -121,6 +126,13 @@ REQUIRED_SYMBOLS = {
         "graph150_rest_nonempty_of_targetCompletionTail",
         "graph151_rest_nonempty_of_targetCompletionTail",
     ],
+    "graph150_continuation_socket": [
+        "StrengthenedGraph150AfterZpContinuationFamily",
+        "localStepFamily_of_graph150AfterZpContinuation",
+        "targetCompletionBranchFamily_of_graph150AfterZpContinuation",
+        "mappedEvalGateAtRank_of_graph150AfterZpContinuation",
+        "scaledMargin_nonpos_of_graph150AfterZpContinuation",
+    ],
     "target_completion_local_branch_table_shard000": [
         "ShardState",
         "completionState",
@@ -147,6 +159,7 @@ PRODUCTION_SCAN_FILES = [
     "depth11_layer4_mapped_branch_socket",
     "depth11_layer4_target_completion_branch_socket",
     "target_completion_local_step_socket",
+    "graph150_continuation_socket",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
 ]

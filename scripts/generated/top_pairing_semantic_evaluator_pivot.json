@@ -43,6 +43,12 @@
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4TargetCompletionBranchSocket.lean"
     },
+    "graph150_continuation_socket": {
+      "exists": true,
+      "lines": 155,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph150ContinuationSocket.lean"
+    },
     "target_completion_local_branch_table_shard000": {
       "exists": true,
       "lines": 63,
@@ -154,6 +160,27 @@
       "max_tree_rss_mib": 4046.76171875,
       "min_available_seen_kib": 46908872,
       "min_available_seen_mib": 45809.4453125,
+      "rss_cap_mib": 12000.0,
+      "timeout_seconds": 420.0
+    },
+    "graph150_continuation_socket_lake": {
+      "available_floor_mib": 30000.0,
+      "command": [
+        "env",
+        "LEAN_NUM_THREADS=1",
+        "LAKE_JOBS=1",
+        "lake",
+        "build",
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph150ContinuationSocket"
+      ],
+      "elapsed_seconds": 3.0029323759954423,
+      "exit_code": 0,
+      "hard_address_space_mib": null,
+      "killed_reason": null,
+      "max_tree_rss_kib": 4092576,
+      "max_tree_rss_mib": 3996.65625,
+      "min_available_seen_kib": 46188440,
+      "min_available_seen_mib": 45105.8984375,
       "rss_cap_mib": 12000.0,
       "timeout_seconds": 420.0
     },

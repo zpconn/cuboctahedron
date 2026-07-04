@@ -21,6 +21,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `depth11_layer4_mapped_branch_socket` | `223` | none |
 | `depth11_layer4_target_completion_branch_socket` | `131` | none |
 | `target_completion_local_step_socket` | `140` | none |
+| `graph150_continuation_socket` | `155` | none |
 | `target_completion_local_branch_table_shard000` | `63` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -32,6 +33,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `depth11_layer4_target_completion_branch_socket_lake`: exit `0`, elapsed `3.0264380170119694`, peak RSS MiB `4046.76171875`
 - `target_completion_local_branch_table_shard000_lake`: exit `0`, elapsed `1.0016190989990719`, peak RSS MiB `1.3125`
 - `target_completion_local_step_socket_lake`: exit `0`, elapsed `3.0331940350006334`, peak RSS MiB `4050.24609375`
+- `graph150_continuation_socket_lake`: exit `0`, elapsed `3.0029323759954423`, peak RSS MiB `3996.65625`
 
 ## Forbidden Production Hits
 

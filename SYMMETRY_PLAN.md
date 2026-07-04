@@ -99406,3 +99406,108 @@ local tables.
   point, selected-prefix ids, or accepted-trace ids, this Bellman membership
   attempt fails the current go/no-go gate and should move to a richer semantic
   state or cocycle quotient.
+
+2026-07-04 graph150 post-`zp` continuation socket:
+
+- Added:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4Graph150ContinuationSocket.lean
+  ```
+
+- New theorem surface:
+
+  ```lean
+  structure StrengthenedGraph150AfterZpContinuationFamily
+      (scaledMargin : Fin numPairWords -> Int)
+      (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop
+
+  theorem localStepFamily_of_graph150AfterZpContinuation :
+      StrengthenedGraph150AfterZpContinuationFamily
+        scaledMargin sequenceBadFace ->
+      StrengthenedDepth11Layer4TargetCompletionLocalStepFamily
+        scaledMargin sequenceBadFace Face.tmpm Face.zm
+        strengthenedClosedPrefix4TmpmZmEvalState
+        graph150TargetCompletionState
+        strengthenedPrefix4Graph150TargetCompletionLocalBranchTable
+
+  theorem targetCompletionBranchFamily_of_graph150AfterZpContinuation :
+      StrengthenedGraph150AfterZpContinuationFamily
+        scaledMargin sequenceBadFace ->
+      StrengthenedDepth11Layer4TargetCompletionBranchFamily
+        scaledMargin sequenceBadFace Face.tmpm Face.zm
+        graph150TargetCompletionState
+
+  theorem mappedEvalGateAtRank_of_graph150AfterZpContinuation :
+      StrengthenedGraph150AfterZpContinuationFamily
+        scaledMargin sequenceBadFace ->
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+      Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank
+
+  theorem scaledMargin_nonpos_of_graph150AfterZpContinuation :
+      StrengthenedGraph150AfterZpContinuationFamily
+        scaledMargin sequenceBadFace ->
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+      scaledMargin rank <= 0
+  ```
+
+- Meaning: graph150 is now specialized without a selected-prefix cover.  The
+  semantic target-completion tail proves the next face is `zp`, the local
+  table advances the strengthened evaluator to graph `157` with gain `114`,
+  and the only remaining continuation obligation is over the post-`zp` suffix:
+
+  ```lean
+  TopPairingTargetCompletionTail
+    (graph150TargetCompletionState.next Face.zp) restTail ->
+  Depth11Layer4MappedClassCase scaledMargin rank
+  ```
+
+  This is exactly the go/no-go seam from the latest GPT5.5 review.  A
+  production generator should prove that continuation from semantic suffix
+  class plus graph-exact margin data.  It must not introduce sampled ranks,
+  observed-prefix trace ids, exact affine RHS keys, solved start-point keys, or
+  raw path tables.
+- Focused guarded Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph150_continuation_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph150ContinuationSocket
+  ```
+
+  passed with `elapsed_seconds=3.00`, `peak_tree_rss_mib=3996`, and
+  `min_available_mib=45105`.
+- Updated and reran:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The decision remains:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- Next implementation target: prove the post-`zp` continuation for the graph150
+  branch.  Start with the smallest possible semantic theorem:
+
+  ```lean
+  Graph150PostZpSuffixFamily scaledMargin sequenceBadFace
+  ```
+
+  whose fields should be a graph-157/class037-or-other suffix predicate and a
+  graph-exact margin bound, both derived from target-cursor/schedule/square-gap
+  and local-axis data.  If the proof tries to key on exact rank, full prefix,
+  exact affine offset, or a sampled path id, stop and introduce a richer
+  semantic state or the cocycle-quotient experiment before proceeding.
