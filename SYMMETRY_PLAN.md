@@ -95032,3 +95032,111 @@ Decision:
   to the sharded real-gain evaluator, without introducing selected-prefix,
   sampled-rank, accepted-trace, exact affine RHS, or solved start-point
   membership.
+
+### Holonomy/Bellman Pivot - strengthened graph semantic socket
+
+New GPT5.5 strategic constraint: keep Bellman, but do not scale any
+selected-prefix producer.  The next proof object must be a deterministic
+semantic evaluator theorem from the strengthened closed language to the
+strengthened real-gain graph.
+
+Implemented the explicit socket for that target:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean
+scripts/generated/closed_bellman_strengthened_semantic_gate_socket_guard.json
+```
+
+The socket imports the sharded strengthened graph support and exposes:
+
+```lean
+abbrev ClosedBellmanEqStep :
+    Nat -> Face -> Nat -> Int -> Prop
+
+structure StrengthenedClosedBellmanEvalFamily
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop
+
+structure StrengthenedClosedBellmanGraphExactFamily
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop
+
+def evalFamily_of_graphExactFamily :
+    StrengthenedClosedBellmanGraphExactFamily sequenceBadFace scaledMargin ->
+      StrengthenedClosedBellmanEvalFamily sequenceBadFace scaledMargin
+
+def strengthenedClosedBellmanObjectCover_of_evalFamily :
+    StrengthenedClosedBellmanEvalFamily sequenceBadFace scaledMargin ->
+      BellmanAxisRankObjectCover ...
+
+theorem scaledMargin_nonpos_of_strengthenedClosedBellmanEvalFamily :
+    StrengthenedClosedBellmanEvalFamily sequenceBadFace scaledMargin ->
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        scaledMargin rank <= 0
+
+theorem scaledMargin_nonpos_of_strengthenedClosedBellmanGraphExactFamily :
+    StrengthenedClosedBellmanGraphExactFamily sequenceBadFace scaledMargin ->
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        scaledMargin rank <= 0
+```
+
+Important design choice: the object-cover proof uses the equality-step relation
+`closedBellmanNext state face = some (nextState, gain)` as the generic
+Bellman `Step`.  This avoids needing a large inverse theorem from
+`closedBellmanNext = some ...` back to the generated inductive
+`ClosedBellmanStep`.  Future generated membership can still construct
+`ClosedBellmanStep` runs if that is convenient, but the production socket only
+requires:
+
+1. a semantic eval gate from
+   `TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym`;
+2. the local graph inequality
+   `closedBellmanNext state face = some (nextState, gain) ->
+      gain + graphPotential nextState <= graphPotential state`.
+
+This keeps the final target semantic and graph-local.  It does not mention
+sampled ranks, selected prefixes, accepted trace ids, terminal trace tables,
+exact affine RHS keys, or solved start-point keys.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/closed_bellman_strengthened_semantic_gate_socket_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean
+```
+
+Result:
+
+```text
+pass, elapsed 4.00s,
+peak_tree_rss 3897 MiB,
+min_available_seen 45676 MiB,
+hard address-space cap 8192 MiB
+```
+
+Decision:
+
+- Accepted: the strengthened graph now has a small semantic production socket
+  that turns a future deterministic strengthened-language evaluator theorem
+  into `scaledMargin rank <= 0`.
+- Still open: prove an actual
+  `StrengthenedClosedBellmanGraphExactFamily` or
+  `StrengthenedClosedBellmanEvalFamily` instance from semantic fields.  The
+  proof should be driven by `TopPairingTransducerTail.cons`, the target-shadow
+  cursor, actual-face omni data, accepted-bad-face side conditions, and the
+  strengthened graph state.  If it wants sampled paths or exact affine RHS
+  fields, the state abstraction is still wrong.
+- Next implementation target: emit or prove the first small semantic family
+  instance for the strengthened socket.  Start with a bounded strengthened
+  family whose local transition proof case-splits on semantic state and next
+  face, not on full ranks or observed prefixes.
