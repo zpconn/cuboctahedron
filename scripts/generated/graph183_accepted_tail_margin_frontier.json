@@ -387,6 +387,21 @@
       "passed": true
     },
     {
+      "detail": "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
+      "name": "graph183_quotient_socket:symbol:AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_global",
+      "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_global",
+      "passed": true
+    },
+    {
+      "detail": "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
+      "name": "graph183_quotient_socket:symbol:nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
+      "passed": true
+    },
+    {
       "detail": "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin",
       "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin",
       "passed": true
@@ -630,12 +645,12 @@
       "passed": true
     },
     {
-      "detail": 4054.43359375,
+      "detail": 4056.484375,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 45235.4609375,
+      "detail": 45224.25390625,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
       "passed": true
     }
@@ -656,9 +671,9 @@
       "solution_small_gain_count": 93
     },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 3.002693343994906,
-      "min_available_mib": 45235.4609375,
-      "peak_rss_mib": 4054.43359375
+      "elapsed_seconds": 3.002781237999443,
+      "min_available_mib": 45224.25390625,
+      "peak_rss_mib": 4056.484375
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,

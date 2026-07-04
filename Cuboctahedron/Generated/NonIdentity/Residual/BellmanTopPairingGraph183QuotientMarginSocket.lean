@@ -175,6 +175,29 @@ structure AcceptedSequenceGraph183TailQuotientStartViolationFamily
         AcceptedSequenceBadFaceAtRank rank Face.ym ->
       ObjectStartViolationMarginCert rank (scaledMargin rank)
 
+structure AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily
+    (scaledMargin : Fin numPairWords -> Int) : Type where
+  margin :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin
+  startViolation_yp_branch :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      ObjectStartViolationMarginCert rank (scaledMargin rank)
+
+def acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_global
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183TailQuotientStartViolationFamily scaledMargin) :
+    AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily
+      scaledMargin where
+  margin := hfamily.margin
+  startViolation_yp_branch := by
+    intro rank hstrengthened _hprefix
+    exact hfamily.startViolation rank hstrengthened
+
 theorem nonIdentityRankKilled_of_acceptedSequenceGraph183TailQuotientStartViolation
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -191,6 +214,24 @@ theorem nonIdentityRankKilled_of_acceptedSequenceGraph183TailQuotientStartViolat
     (scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin
       hfamily.margin hstrengthened hprefix)
     (hfamily.startViolation rank hstrengthened)
+
+theorem nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily
+        scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    (scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin
+      hfamily.margin hstrengthened hprefix)
+    (hfamily.startViolation_yp_branch rank hstrengthened hprefix)
 
 /--
 Graph183 final-margin family from the checked quotient-gain margin target.

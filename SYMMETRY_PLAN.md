@@ -101874,3 +101874,113 @@ local tables.
   (2) provide a semantic start-violation certificate family for the same
   branch without selected-prefix, trace-id, exact affine-RHS, or rank-path
   tables.
+
+### 2026-07-04 graph183 branch-local start-violation target
+
+- Tightened the graph183 downstream socket so the start-violation producer can
+  be local to the same accepted `yp` tail branch as the quotient Bellman margin.
+  This directly reflects the current strategy pivot: keep Bellman, but prove
+  deterministic semantic closed-language membership for the branch instead of
+  broad selected-prefix or global rank objects.
+
+- New theorem surfaces in
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean`:
+
+  ```lean
+  AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily :
+    (Fin numPairWords -> Int) -> Type
+
+  acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_global :
+    AcceptedSequenceGraph183TailQuotientStartViolationFamily scaledMargin ->
+    AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily scaledMargin
+
+  nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation :
+    AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily scaledMargin ->
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+      (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+  ```
+
+- Why this matters:
+  the previous combined socket required a start-violation certificate for every
+  strengthened closed `ym` rank.  The new branch-local family asks only for the
+  certificate on ranks that also satisfy the accepted graph183 `yp` tail prefix:
+
+  ```text
+  Face.tmpm, Face.zm, Face.zp, Face.tppm, Face.tpmm, graph183ForcedTail
+  ```
+
+  That keeps the next producer aligned with the actual semantic branch and
+  avoids accidentally reintroducing an over-broad global membership obligation.
+
+- Updated `scripts/audit_graph183_accepted_tail_margin_frontier.py` to require
+  the branch-local family, the global-to-branch adapter, and the branch-local
+  killed theorem.  The generated frontier report now records those symbols and
+  keeps the next Lean target at:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin
+  ```
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 360 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_quotient_margin_socket_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183QuotientMarginSocket
+
+  python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+
+  rg -n "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily|acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_global|nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py \
+    scripts/generated/graph183_accepted_tail_margin_frontier.md \
+    scripts/generated/graph183_accepted_tail_margin_frontier.json
+
+  rg -n "sorry|admit|native_decide|unsafe|axiom" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py
+
+  grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean \
+    scripts/emit_graph183_cocycle_quotient_smoke.py
+  ```
+
+- Results:
+  - Guarded focused build passed.
+  - Elapsed time: `3.00s`.
+  - Peak guarded tree RSS: `4056.48 MiB`.
+  - Minimum available memory observed: `45224.25 MiB`.
+  - Frontier audit regenerated and passed with decision
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+  - The symbol scan found the expected branch-local theorem surfaces.
+  - The forbidden-token scan returned no hits in the touched proof/audit files.
+  - The sampled-rank grep returned no hits in the relevant generated
+    Bellman/cocycle path.
+
+- Current accepted interpretation:
+  graph183 now has both a global compatibility path and the narrower production
+  target:
+
+  ```text
+  accepted yp-tail quotient margin
+    + branch-local start-violation cert
+    -> scaledMargin <= 0
+    -> NonIdentityRankKilled
+  ```
+
+  The next real theorem should prove the branch-local quotient margin from the
+  strengthened closed-language evaluator/cocycle semantics, then prove the
+  matching branch-local start-violation certificate.  If either proof starts
+  requiring exact affine RHS keys, selected prefix IDs, or rank-path tables,
+  stop and strengthen the semantic cursor/state instead.
