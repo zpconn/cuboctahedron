@@ -17,6 +17,7 @@ open Cuboctahedron
 private def edgeCount : Nat := 229
 private def stateCount : Nat := 223
 private def quotientStateCount : Nat := 43
+private def acceptedEdgeCount : Nat := 14
 
 private def fullSrc : Fin edgeCount -> Nat
   | ⟨0, _⟩ => (0 : Nat)
@@ -1681,6 +1682,119 @@ theorem graph183QuotientOneStepSmoke :
         smallGainValue + gauge (fullDst firstEdge) - gauge (fullSrc firstEdge) :=
   BellmanLabelStepRun.quotient_of_step_gain_eq
     graph183QuotientStep firstFullRun
+
+/-- The bounded graph183 accepted branch from the diagnostic profile. -/
+private def acceptedEdge0 : Fin edgeCount := ⟨0, by decide⟩
+private def acceptedEdge1 : Fin edgeCount := ⟨124, by decide⟩
+private def acceptedEdge2 : Fin edgeCount := ⟨127, by decide⟩
+private def acceptedEdge3 : Fin edgeCount := ⟨133, by decide⟩
+private def acceptedEdge4 : Fin edgeCount := ⟨141, by decide⟩
+private def acceptedEdge5 : Fin edgeCount := ⟨151, by decide⟩
+private def acceptedEdge6 : Fin edgeCount := ⟨165, by decide⟩
+private def acceptedEdge7 : Fin edgeCount := ⟨181, by decide⟩
+private def acceptedEdge8 : Fin edgeCount := ⟨199, by decide⟩
+private def acceptedEdge9 : Fin edgeCount := ⟨222, by decide⟩
+private def acceptedEdge10 : Fin edgeCount := ⟨26, by decide⟩
+private def acceptedEdge11 : Fin edgeCount := ⟨37, by decide⟩
+private def acceptedEdge12 : Fin edgeCount := ⟨70, by decide⟩
+private def acceptedEdge13 : Fin edgeCount := ⟨108, by decide⟩
+
+private def acceptedBranchLabels : List Nat := [edgeLabel acceptedEdge0, edgeLabel acceptedEdge1, edgeLabel acceptedEdge2, edgeLabel acceptedEdge3, edgeLabel acceptedEdge4, edgeLabel acceptedEdge5, edgeLabel acceptedEdge6, edgeLabel acceptedEdge7, edgeLabel acceptedEdge8, edgeLabel acceptedEdge9, edgeLabel acceptedEdge10, edgeLabel acceptedEdge11, edgeLabel acceptedEdge12, edgeLabel acceptedEdge13]
+private def acceptedBranchRawGain : Int :=
+  rawGain acceptedEdge0 + (rawGain acceptedEdge1 + (rawGain acceptedEdge2 + (rawGain acceptedEdge3 + (rawGain acceptedEdge4 + (rawGain acceptedEdge5 + (rawGain acceptedEdge6 + (rawGain acceptedEdge7 + (rawGain acceptedEdge8 + (rawGain acceptedEdge9 + (rawGain acceptedEdge10 + (rawGain acceptedEdge11 + (rawGain acceptedEdge12 + (rawGain acceptedEdge13 + ((0 : Int)))))))))))))))
+
+private theorem acceptedStep0 :
+    FullStep (fullSrc acceptedEdge0) (edgeLabel acceptedEdge0)
+      (fullDst acceptedEdge0) (rawGain acceptedEdge0) :=
+  ⟨acceptedEdge0, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep1 :
+    FullStep (fullSrc acceptedEdge1) (edgeLabel acceptedEdge1)
+      (fullDst acceptedEdge1) (rawGain acceptedEdge1) :=
+  ⟨acceptedEdge1, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep2 :
+    FullStep (fullSrc acceptedEdge2) (edgeLabel acceptedEdge2)
+      (fullDst acceptedEdge2) (rawGain acceptedEdge2) :=
+  ⟨acceptedEdge2, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep3 :
+    FullStep (fullSrc acceptedEdge3) (edgeLabel acceptedEdge3)
+      (fullDst acceptedEdge3) (rawGain acceptedEdge3) :=
+  ⟨acceptedEdge3, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep4 :
+    FullStep (fullSrc acceptedEdge4) (edgeLabel acceptedEdge4)
+      (fullDst acceptedEdge4) (rawGain acceptedEdge4) :=
+  ⟨acceptedEdge4, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep5 :
+    FullStep (fullSrc acceptedEdge5) (edgeLabel acceptedEdge5)
+      (fullDst acceptedEdge5) (rawGain acceptedEdge5) :=
+  ⟨acceptedEdge5, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep6 :
+    FullStep (fullSrc acceptedEdge6) (edgeLabel acceptedEdge6)
+      (fullDst acceptedEdge6) (rawGain acceptedEdge6) :=
+  ⟨acceptedEdge6, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep7 :
+    FullStep (fullSrc acceptedEdge7) (edgeLabel acceptedEdge7)
+      (fullDst acceptedEdge7) (rawGain acceptedEdge7) :=
+  ⟨acceptedEdge7, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep8 :
+    FullStep (fullSrc acceptedEdge8) (edgeLabel acceptedEdge8)
+      (fullDst acceptedEdge8) (rawGain acceptedEdge8) :=
+  ⟨acceptedEdge8, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep9 :
+    FullStep (fullSrc acceptedEdge9) (edgeLabel acceptedEdge9)
+      (fullDst acceptedEdge9) (rawGain acceptedEdge9) :=
+  ⟨acceptedEdge9, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep10 :
+    FullStep (fullSrc acceptedEdge10) (edgeLabel acceptedEdge10)
+      (fullDst acceptedEdge10) (rawGain acceptedEdge10) :=
+  ⟨acceptedEdge10, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep11 :
+    FullStep (fullSrc acceptedEdge11) (edgeLabel acceptedEdge11)
+      (fullDst acceptedEdge11) (rawGain acceptedEdge11) :=
+  ⟨acceptedEdge11, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep12 :
+    FullStep (fullSrc acceptedEdge12) (edgeLabel acceptedEdge12)
+      (fullDst acceptedEdge12) (rawGain acceptedEdge12) :=
+  ⟨acceptedEdge12, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedStep13 :
+    FullStep (fullSrc acceptedEdge13) (edgeLabel acceptedEdge13)
+      (fullDst acceptedEdge13) (rawGain acceptedEdge13) :=
+  ⟨acceptedEdge13, rfl, rfl, rfl, rfl⟩
+
+private theorem acceptedBranchFullRun :
+    BellmanLabelStepRun FullStep
+      (fullSrc acceptedEdge0) (fullDst acceptedEdge13)
+      acceptedBranchLabels acceptedBranchRawGain := by
+  unfold acceptedBranchLabels acceptedBranchRawGain
+  exact BellmanLabelStepRun.cons acceptedStep0 (BellmanLabelStepRun.cons acceptedStep1 (BellmanLabelStepRun.cons acceptedStep2 (BellmanLabelStepRun.cons acceptedStep3 (BellmanLabelStepRun.cons acceptedStep4 (BellmanLabelStepRun.cons acceptedStep5 (BellmanLabelStepRun.cons acceptedStep6 (BellmanLabelStepRun.cons acceptedStep7 (BellmanLabelStepRun.cons acceptedStep8 (BellmanLabelStepRun.cons acceptedStep9 (BellmanLabelStepRun.cons acceptedStep10 (BellmanLabelStepRun.cons acceptedStep11 (BellmanLabelStepRun.cons acceptedStep12 (BellmanLabelStepRun.cons acceptedStep13 (BellmanLabelStepRun.nil (fullDst acceptedEdge13)))))))))))))))
+
+theorem graph183AcceptedBranchRawGain_contract :
+    acceptedBranchRawGain = ((194 : Int) + (-542 : Int)) := by
+  decide
+
+theorem graph183QuotientAcceptedBranchSmoke :
+    exists smallGainValue,
+      BellmanLabelStepRun SmallStep
+        (q (fullSrc acceptedEdge0))
+        (q (fullDst acceptedEdge13))
+        acceptedBranchLabels smallGainValue /\
+      acceptedBranchRawGain =
+        smallGainValue + gauge (fullDst acceptedEdge13) -
+          gauge (fullSrc acceptedEdge0) :=
+  BellmanLabelStepRun.quotient_of_step_gain_eq
+    graph183QuotientStep acceptedBranchFullRun
 
 theorem graph183LocalEquationsChecked : True := by
   have h := localEquation firstEdge

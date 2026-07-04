@@ -101439,3 +101439,84 @@ local tables.
   keys.  If the graph gain still needs more state, promote the new
   `step-par` quotient smoke from a one-edge diagnostic to a bounded semantic
   run theorem before adding any exact affine data.
+
+### 2026-07-04 graph183 accepted branch quotient run
+
+- Promoted the graph183 cocycle quotient smoke from a one-edge check to the
+  exact accepted-branch path used by
+  `BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean`.
+
+- The generator now finds the unique profile path class with labels matching
+  the Lean socket's
+
+  ```lean
+  graph183AcceptedBranchLabels
+  ```
+
+  namely:
+
+  ```text
+  xm, ym, tmpm, zm, zp, tppm, tpmm, tppp, tmmm, tpmp, yp, tmpp, tmmp, xp
+  ```
+
+  The matching profile class is class `19`, with final graph state `126` and
+  margin scaled `-172`.
+
+- Added theorem/checkpoints in
+  `Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientSmoke`:
+
+  ```lean
+  graph183AcceptedBranchRawGain_contract :
+    acceptedBranchRawGain = ((194 : Int) + (-542 : Int))
+
+  graph183QuotientAcceptedBranchSmoke :
+    ∃ smallGainValue,
+      BellmanLabelStepRun SmallStep ... acceptedBranchLabels smallGainValue ∧
+      acceptedBranchRawGain =
+        smallGainValue + gauge acceptedFinish - gauge acceptedStart
+  ```
+
+- Commands:
+
+  ```bash
+  python3 -m py_compile scripts/emit_graph183_cocycle_quotient_smoke.py
+  python3 scripts/emit_graph183_cocycle_quotient_smoke.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 300 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_cocycle_quotient_smoke_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientSmoke
+
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+
+  grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean \
+    scripts/emit_graph183_cocycle_quotient_smoke.py || true
+  ```
+
+- Results:
+  - Lean smoke passed in `13.01s`.
+  - Peak guarded tree RSS: `5116.91 MiB`.
+  - Minimum available memory observed: `44889.20 MiB`.
+  - Frontier audit still passed with
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+  - Sampled-rank grep returned no matches.
+
+- Interpretation:
+  the graph183 accepted branch now has a Lean-checked quotient/gauge run
+  witness, but still as a bounded diagnostic branch.  The next production
+  theorem must derive this branch from closed semantic state:
+
+  ```lean
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    topPairingRankFaceLabels rank = graph183AcceptedBranchLabels ->
+      TopPairingGraphExactEvalGateResult ...
+  ```
+
+  and then remove/replace the explicit label premise by semantic target cursor
+  plus local deterministic transducer closure where possible.

@@ -76,6 +76,60 @@ def load_expanded_edges(profile: dict) -> list[dict]:
     return edges
 
 
+def nested_int_sum(terms: list[str]) -> str:
+    total = "(0 : Int)"
+    for term in reversed(terms):
+        total = f"{term} + ({total})"
+    return total
+
+
+def find_graph183_accepted_path_class(profile: dict) -> dict:
+    """Find the profile path class matching the graph183 accepted branch.
+
+    The branch is the Lean socket's
+    `graph183AcceptedBranchLabels`:
+
+      [xm, ym, tmpm, zm, zp, tppm, tpmm,
+       tppp, tmmm, tpmp, yp, tmpp, tmmp, xp]
+    """
+
+    label_key_to_index = {
+        row["key"]: int(row["index"]) for row in profile["graph"]["labels"]
+    }
+    accepted_label_keys = [
+        "face=xm|pair=x",
+        "face=ym|pair=y",
+        "face=tmpm|pair=d1m1",
+        "face=zm|pair=z",
+        "face=zp|pair=z",
+        "face=tppm|pair=d11m",
+        "face=tpmm|pair=dm11",
+        "face=tppp|pair=d111",
+        "face=tmmm|pair=d111",
+        "face=tpmp|pair=d1m1",
+        "face=yp|pair=y",
+        "face=tmpp|pair=dm11",
+        "face=tmmp|pair=d11m",
+        "face=xp|pair=x",
+    ]
+    accepted_labels = [label_key_to_index[key] for key in accepted_label_keys]
+    matches = [
+        cls
+        for cls in profile["graph"]["path_classes"]
+        if cls["label_indices"] == accepted_labels
+    ]
+    if len(matches) != 1:
+        raise ValueError(
+            f"expected one graph183 accepted branch path class, found {len(matches)}"
+        )
+    match = matches[0]
+    if int(match["margin_scaled"]) != -172:
+        raise ValueError(
+            f"unexpected accepted branch margin: {match['margin_scaled']}"
+        )
+    return match
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -108,6 +162,16 @@ def main() -> int:
     edges = load_expanded_edges(profile)
     edge_count = len(edges)
     state_count = int(profile["graph"]["state_count"])
+    accepted_path_class = find_graph183_accepted_path_class(profile)
+    accepted_edge_indices = [int(idx) for idx in accepted_path_class["edge_indices"]]
+    accepted_label_indices = [int(idx) for idx in accepted_path_class["label_indices"]]
+    if len(accepted_edge_indices) != 14:
+        raise ValueError("expected a 14-edge graph183 accepted branch")
+    if sum(edges[idx]["raw_gain"] for idx in accepted_edge_indices) != -348:
+        raise ValueError("accepted branch raw gain should be 194 + -542 = -348")
+    for edge_idx, label_idx in zip(accepted_edge_indices, accepted_label_indices, strict=True):
+        if edges[edge_idx]["label"] != label_idx:
+            raise ValueError("accepted branch edge/label mismatch")
 
     gauges = {
         int(row["state"]): parse_int_fraction(row["value"])
@@ -173,6 +237,7 @@ def main() -> int:
             f"private def edgeCount : Nat := {edge_count}",
             f"private def stateCount : Nat := {state_count}",
             f"private def quotientStateCount : Nat := {len(quotient_keys)}",
+            "private def acceptedEdgeCount : Nat := 14",
             "",
         ]
     )
@@ -237,6 +302,66 @@ def main() -> int:
             "        smallGainValue + gauge (fullDst firstEdge) - gauge (fullSrc firstEdge) :=",
             "  BellmanLabelStepRun.quotient_of_step_gain_eq",
             "    graph183QuotientStep firstFullRun",
+            "",
+            "/-- The bounded graph183 accepted branch from the diagnostic profile. -/",
+        ]
+    )
+
+    for pos, edge_idx in enumerate(accepted_edge_indices):
+        lines.append(
+            f"private def acceptedEdge{pos} : Fin edgeCount := \u27e8{edge_idx}, by decide\u27e9"
+        )
+    lines.append("")
+
+    accepted_edge_terms = [f"acceptedEdge{idx}" for idx in range(len(accepted_edge_indices))]
+    labels_expr = ", ".join(f"edgeLabel {edge}" for edge in accepted_edge_terms)
+    lines.extend(
+        [
+            f"private def acceptedBranchLabels : List Nat := [{labels_expr}]",
+            "private def acceptedBranchRawGain : Int :=",
+            "  " + nested_int_sum([f"rawGain {edge}" for edge in accepted_edge_terms]),
+            "",
+        ]
+    )
+
+    for pos, edge in enumerate(accepted_edge_terms):
+        lines.extend(
+            [
+                f"private theorem acceptedStep{pos} :",
+                f"    FullStep (fullSrc {edge}) (edgeLabel {edge})",
+                f"      (fullDst {edge}) (rawGain {edge}) :=",
+                f"  \u27e8{edge}, rfl, rfl, rfl, rfl\u27e9",
+                "",
+            ]
+        )
+
+    run = f"BellmanLabelStepRun.nil (fullDst {accepted_edge_terms[-1]})"
+    for pos in reversed(range(len(accepted_edge_terms))):
+        run = f"BellmanLabelStepRun.cons acceptedStep{pos} ({run})"
+    lines.extend(
+        [
+            "private theorem acceptedBranchFullRun :",
+            "    BellmanLabelStepRun FullStep",
+            f"      (fullSrc {accepted_edge_terms[0]}) (fullDst {accepted_edge_terms[-1]})",
+            "      acceptedBranchLabels acceptedBranchRawGain := by",
+            "  unfold acceptedBranchLabels acceptedBranchRawGain",
+            f"  exact {run}",
+            "",
+            "theorem graph183AcceptedBranchRawGain_contract :",
+            "    acceptedBranchRawGain = ((194 : Int) + (-542 : Int)) := by",
+            "  decide",
+            "",
+            "theorem graph183QuotientAcceptedBranchSmoke :",
+            "    exists smallGainValue,",
+            "      BellmanLabelStepRun SmallStep",
+            f"        (q (fullSrc {accepted_edge_terms[0]}))",
+            f"        (q (fullDst {accepted_edge_terms[-1]}))",
+            "        acceptedBranchLabels smallGainValue /\\",
+            "      acceptedBranchRawGain =",
+            f"        smallGainValue + gauge (fullDst {accepted_edge_terms[-1]}) -",
+            f"          gauge (fullSrc {accepted_edge_terms[0]}) :=",
+            "  BellmanLabelStepRun.quotient_of_step_gain_eq",
+            "    graph183QuotientStep acceptedBranchFullRun",
             "",
             "theorem graph183LocalEquationsChecked : True := by",
             "  have h := localEquation firstEdge",

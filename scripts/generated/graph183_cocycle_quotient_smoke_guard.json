@@ -8,14 +8,14 @@
     "build",
     "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientSmoke"
   ],
-  "elapsed_seconds": 12.021140077005839,
+  "elapsed_seconds": 13.012298383007874,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 5190264,
-  "max_tree_rss_mib": 5068.6171875,
-  "min_available_seen_kib": 45975180,
-  "min_available_seen_mib": 44897.63671875,
+  "max_tree_rss_kib": 5239712,
+  "max_tree_rss_mib": 5116.90625,
+  "min_available_seen_kib": 45966536,
+  "min_available_seen_mib": 44889.1953125,
   "rss_cap_mib": 10000.0,
   "timeout_seconds": 300.0
 }
