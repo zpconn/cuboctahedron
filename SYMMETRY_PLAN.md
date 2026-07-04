@@ -95969,3 +95969,134 @@ Scaling risk is now visible and manageable: this shard added 3 states / 7
 new branches and still checked in 4 seconds under ~4.1 GiB RSS.  The next
 step should move the branch-table definitions into an emitter-generated shard
 module rather than continuing to hand-grow the smoke file.
+
+### Holonomy/Bellman Pivot - generated local branch-table shard 000
+
+Added a bounded emitter:
+
+```text
+scripts/emit_top_pairing_strengthened_local_branch_table_shard.py
+```
+
+The emitter produced the first generated local-transition shard:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean
+scripts/generated/closed_bellman_strengthened_local_branch_table_shard000.json
+scripts/generated/closed_bellman_strengthened_local_branch_table_shard000.md
+```
+
+Generated shard API:
+
+```lean
+inductive ShardState where
+  | prefix2
+  | prefix3Tmpm
+  | prefix3Yp
+  | prefix3Zm
+
+def emittedShardStateCount : Nat := 4
+def emittedShardBranchCount : Nat := 10
+
+theorem emittedShardCount_audit :
+    emittedShardStateCount = 4 /\
+      emittedShardBranchCount = 10
+
+def evalState : ShardState -> StrengthenedClosedEvalState
+
+def localBranchTable :
+    (state : ShardState) ->
+      StrengthenedLocalBranchTable (evalState state)
+
+theorem localTransition
+    (htail : (evalState state).Tail (face :: rest)) :
+    ∃ branch : (localBranchTable state).Branch,
+      (localBranchTable state).face branch = face ∧
+        ∃ nextState : StrengthenedClosedEvalState,
+          strengthenedClosedEvalNext (evalState state) face =
+              some (nextState, (localBranchTable state).gain branch) ∧
+            nextState.Tail rest ∧
+              nextState.graph = (localBranchTable state).nextGraph branch
+```
+
+The generated shard packages the four checked semantic states from the
+prefix-2/prefix-3 bounded shard behind a uniform API.  It does not enumerate
+ranks or paths and does not introduce selected-prefix, accepted-trace, or
+affine-RHS membership keys.  Its proof of `localTransition` is the generic
+`StrengthenedLocalBranchTable.localTransition`, applied to generated table
+instances.
+
+Emitter command:
+
+```text
+python3 scripts/emit_top_pairing_strengthened_local_branch_table_shard.py
+```
+
+Output:
+
+```text
+wrote Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean
+wrote scripts/generated/\
+closed_bellman_strengthened_local_branch_table_shard000.json
+wrote scripts/generated/\
+closed_bellman_strengthened_local_branch_table_shard000.md
+```
+
+Focused guarded checks:
+
+```text
+Dependency direct olean build:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 180 \
+      --max-tree-rss-mib 7000 \
+      --min-available-mib 30000 \
+      --json scripts/generated/\
+closed_bellman_strengthened_prefix_run_smoke_direct_olean_guard_for_shard000.json \
+      --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+        -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.olean \
+        Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+  result:
+    pass, elapsed 4.00s,
+    peak_tree_rss 4009 MiB,
+    min_available_seen 46022 MiB
+
+Generated shard:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 180 \
+      --max-tree-rss-mib 7000 \
+      --min-available-mib 30000 \
+      --json scripts/generated/\
+closed_bellman_strengthened_local_branch_table_shard000_guard.json \
+      --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+        Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean
+  result:
+    pass, elapsed 2.00s,
+    peak_tree_rss 3585 MiB,
+    min_available_seen 46170 MiB
+```
+
+Forbidden-token/sampled-membership scan:
+
+```text
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|\
+sampledContainsRank\|sampledRankOf\|AcceptedTraceId\|acceptedTrace" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean \
+  scripts/emit_top_pairing_strengthened_local_branch_table_shard.py || true
+
+result: no matches
+```
+
+Decision: accepted as the first emitter-generated local branch-table shard.
+The next step is to make the emitter consume a data file/profiler output for
+additional reachable semantic states, rather than hardcoding the four-state
+frontier in the script.  The target remains a shard forest of
+`StrengthenedLocalBranchTable` instances feeding the existing transducer eval
+bridge.

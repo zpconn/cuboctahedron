@@ -1,0 +1,58 @@
+{
+  "branch_count": 10,
+  "forbidden_coordinates": [
+    "sampled ranks",
+    "selected prefixes",
+    "accepted trace ids",
+    "exact affine RHS keys"
+  ],
+  "lean_output": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean",
+  "mode": "closed-bellman-strengthened-local-branch-table-shard",
+  "proof_shape": "Each generated table is a StrengthenedLocalBranchTable instance; localTransition is proved by the generic table theorem, not by rank/path enumeration.",
+  "shard": 0,
+  "state_count": 4,
+  "states": [
+    {
+      "branch_count": 3,
+      "branches": [
+        "tmpm -> graph 146, gain -124",
+        "yp -> graph 144, gain -73",
+        "zm -> graph 145, gain -10"
+      ],
+      "constructor": "prefix2",
+      "eval_state": "strengthenedClosedPrefix2EvalState",
+      "table": "strengthenedPrefix2LocalBranchTable"
+    },
+    {
+      "branch_count": 2,
+      "branches": [
+        "zm -> graph 150, gain 114",
+        "tppm -> graph 152, gain 96"
+      ],
+      "constructor": "prefix3Tmpm",
+      "eval_state": "strengthenedClosedPrefix3TmpmEvalState",
+      "table": "strengthenedPrefix3TmpmLocalBranchTable"
+    },
+    {
+      "branch_count": 2,
+      "branches": [
+        "zm -> graph 147, gain -10",
+        "tmmm -> graph 148, gain -124"
+      ],
+      "constructor": "prefix3Yp",
+      "eval_state": "strengthenedClosedPrefix3YpEvalState",
+      "table": "strengthenedPrefix3YpLocalBranchTable"
+    },
+    {
+      "branch_count": 3,
+      "branches": [
+        "yp -> graph 147, gain -73",
+        "zp -> graph 149, gain -10",
+        "tmpp -> graph 151, gain -124"
+      ],
+      "constructor": "prefix3Zm",
+      "eval_state": "strengthenedClosedPrefix3ZmEvalState",
+      "table": "strengthenedPrefix3ZmLocalBranchTable"
+    }
+  ]
+}
