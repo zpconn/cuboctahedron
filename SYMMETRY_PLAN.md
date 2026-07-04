@@ -102373,3 +102373,107 @@ local tables.
   `(semantic class, graph state)` obligations, still as bounded smoke first.
   The general emitter should output one compact semantic class/graph-state
   disjunction per class, not one constructor per rank or accepted trace.
+
+### 2026-07-04 all-class depth-11 graph-path provider smoke
+
+- Added a bounded emitter:
+
+  ```text
+  scripts/emit_top_pairing_depth11_graph_path_provider_smoke.py
+  ```
+
+  It reads the checked graph-state suffix socket and emits an all-class
+  graph-path provider smoke:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke
+  ```
+
+- The generated smoke covers the currently observed depth-11 provider frontier:
+
+  ```text
+  classes = 6
+  graph-state suffix alternatives = 30
+  ```
+
+- New generated theorem surfaces:
+
+  ```lean
+  depth11Observed_of_class034Depth11Suffix
+  depth11Observed_of_class035Depth11Suffix
+  depth11Observed_of_class036Depth11Suffix
+  depth11Observed_of_class037Depth11Suffix
+  depth11Observed_of_class038Depth11Suffix
+  depth11Observed_of_class039Depth11Suffix
+
+  split10MDepth11GraphPathProducer_of_class034
+  split10MDepth11GraphPathProducer_of_class035
+  split10MDepth11GraphPathProducer_of_class036
+  split10MDepth11GraphPathProducer_of_class037
+  split10MDepth11GraphPathProducer_of_class038
+  split10MDepth11GraphPathProducer_of_class039
+
+  Depth11GraphPathClassCase
+  split10MDepth11GraphPathProducer_of_depth11GraphPathClassCase
+  split10MGraphSuffixProducer_of_depth11GraphPathClassCase
+
+  ClosedDepth11GraphPathMarginFamily
+  closedSplit10MSuffixMarginFamily_of_depth11GraphPath
+  evalLanguageAtRank_of_closedDepth11GraphPathFamily
+  scaledMargin_nonpos_of_closedDepth11GraphPathFamily
+  ```
+
+- Meaning:
+  this generalizes the hand-written class-035 graph-path adapter over all six
+  currently exposed depth-11 semantic classes.  The premise is still a
+  class-local graph suffix producer, so this remains bounded smoke rather than
+  final coverage.  But the theorem boundary is now the right one: it carries
+  the Bellman graph state through `Depth11ObservedGraphStateSuffixOk`, then
+  feeds the graph-state-indexed `Split10MDepth11GraphPathProducer` socket.
+
+- Commands:
+
+  ```bash
+  python3 -m py_compile scripts/emit_top_pairing_depth11_graph_path_provider_smoke.py
+  python3 scripts/emit_top_pairing_depth11_graph_path_provider_smoke.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/depth11_graph_path_providers_smoke_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke
+
+  rg -n "sorry|admit|native_decide|unsafe|axiom" \
+    scripts/emit_top_pairing_depth11_graph_path_provider_smoke.py \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke.lean
+
+  grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf\|SelectedPrefix\|AcceptedTraceId\|acceptedTraceOfId" \
+    scripts/emit_top_pairing_depth11_graph_path_provider_smoke.py \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke.lean
+  ```
+
+- Results:
+  - First build attempt failed quickly because the generated module did not
+    open `BellmanTopPairingGraphAcceptedSuffixSplit10MBridge`, leaving
+    `Split10MGraphSuffixProducer` and `Split10MFinalMarginProducer` unresolved.
+    This was a namespace/import error, not a memory or proof-architecture
+    failure.
+  - After adding the missing bridge namespace to the emitter, the guarded
+    focused build passed in `3.00s`.
+  - Peak guarded tree RSS was `4109.36 MiB`.
+  - Minimum available memory observed was `46025.25 MiB`.
+  - Forbidden-token and selected-prefix/sample/accepted-trace scans returned
+    no hits.
+
+- Current promotion status:
+  accepted as a bounded graph-path-provider architecture smoke.  The remaining
+  production gap is stronger: prove one of these class-local graph suffix
+  producers from closed semantic state, instead of assuming it as a premise.
+  That proof should case-split on semantic state/frontier facts and graph state,
+  not on rank, selected prefix, accepted trace, exact affine RHS, or solved
+  start-point data.
