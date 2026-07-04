@@ -102293,3 +102293,83 @@ local tables.
   and prove a `Split10MDepth11GraphPathProducer`-style predicate.  It must not
   mention `SampledRankIndex`, selected-prefix IDs, accepted trace IDs, exact
   affine RHS keys, solved start points, or one constructor per rank.
+
+### 2026-07-04 class-035 graph-path provider smoke
+
+- Added the first tiny proof-shaped adapter into the new graph-state suffix
+  socket:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingSemanticStateDAGClass035GraphPathProviderSmoke
+  ```
+
+- New theorem surfaces:
+
+  ```lean
+  split10MDepth11GraphPathProducer_of_class035 :
+    Class035GraphSuffixProducer rank ->
+    Split10MDepth11GraphPathProducer rank
+
+  split10MGraphSuffixProducer_of_class035GraphPath :
+    Class035GraphSuffixProducer rank ->
+    Split10MGraphSuffixProducer rank
+
+  ClosedClass035GraphPathMarginFamily :
+    (Fin numPairWords -> Int) -> Fin numPairWords -> Prop
+
+  closedSplit10MSuffixMarginFamily_of_class035GraphPath :
+    ClosedClass035GraphPathMarginFamily scaledMargin rank ->
+    ClosedSplit10MSuffixMarginFamily scaledMargin rank
+
+  evalLanguageAtRank_of_closedClass035GraphPathFamily :
+    ClosedClass035GraphPathMarginFamily scaledMargin rank ->
+    TopPairingBellmanEvalLanguageAtRank
+      graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+      scaledMargin rank Face.ym
+
+  scaledMargin_nonpos_of_closedClass035GraphPathFamily :
+    ClosedClass035GraphPathMarginFamily scaledMargin rank ->
+    scaledMargin rank <= 0
+  ```
+
+- Meaning:
+  class 035 already reaches one of the checked depth-11 graph states directly
+  (`227` or `228`), so the graph path prefix is empty and the suffix is the
+  whole remaining tail.  This small module proves the production boundary is
+  usable: a future emitter can prove `Split10MDepth11GraphPathProducer` from
+  closed semantic fields and let the socket recover the existing evaluator
+  suffix proof.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 360 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/semantic_state_dag_class035_graph_path_provider_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGClass035GraphPathProviderSmoke
+
+  rg -n "sorry|admit|native_decide|unsafe|axiom" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGClass035GraphPathProviderSmoke.lean
+
+  grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf\|SelectedPrefix\|AcceptedTraceId\|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGClass035GraphPathProviderSmoke.lean
+  ```
+
+- Results:
+  - Guarded focused build passed in `3.00s`.
+  - Peak guarded tree RSS was `4106.98 MiB`.
+  - Minimum available memory observed was `46003.24 MiB`.
+  - Forbidden-token and selected-prefix/sample/accepted-trace scans returned
+    no hits.
+
+- Next implementation target:
+  generate this graph-path producer shape for all observed depth-11
+  `(semantic class, graph state)` obligations, still as bounded smoke first.
+  The general emitter should output one compact semantic class/graph-state
+  disjunction per class, not one constructor per rank or accepted trace.
