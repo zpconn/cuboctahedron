@@ -97809,3 +97809,93 @@ generated semantic evaluator pattern.  The generated theorem should combine:
 If another frontier state again needs a field beyond target completion, add the
 smallest semantic cursor/cancellation-state field.  Do not add selected-prefix
 or sampled-rank membership.
+
+### Holonomy/Bellman Pivot - target-completion shard API accepted
+
+Added the generated-style shard surface requested by the graph150 completion
+checkpoint:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean
+```
+
+It mirrors the earlier plain and used-face local-branch shards, but its
+`localTransition` theorem consumes both:
+
+```lean
+(evalState state).Tail (face :: rest)
+TopPairingTargetCompletionTail (completionState state) (face :: rest)
+```
+
+and returns the single graph150 branch through
+`StrengthenedTargetCompletionLocalBranchTable.localTransition`.
+
+Public shard surface:
+
+```lean
+inductive ShardState where
+  | prefix4TmpmZm
+
+def emittedShardStateCount : Nat := 1
+def emittedShardBranchCount : Nat := 1
+
+theorem emittedShardCount_audit :
+    emittedShardStateCount = 1 /\ emittedShardBranchCount = 1
+
+theorem localTransition
+    {state : ShardState} {face : Face} {rest : List Face}
+    (htail : (evalState state).Tail (face :: rest))
+    (hcompletion :
+      TopPairingTargetCompletionTail (completionState state) (face :: rest)) :
+    exists branch, ...
+```
+
+Guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/target_completion_local_branch_table_shard000_guard.json \
+  --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean
+```
+
+Result:
+
+```text
+exit_code = 0
+elapsed_seconds = 2.01
+peak_tree_rss_mib = 3575
+hard_address_space_mib = none
+min_available_seen_mib = 46288
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 9000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/target_completion_local_branch_table_shard000_build_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000
+```
+
+Result:
+
+```text
+exit_code = 0
+elapsed_seconds = 3.00
+peak_tree_rss_mib = 4003
+hard_address_space_mib = none
+min_available_seen_mib = 46114
+```
+
+Decision: accepted as the first generated-shaped semantic completion shard.
+The next emitter target should produce these target-completion shard states
+from exact semantic frontier data.  This remains a deterministic evaluator
+membership route, not selected-prefix or sampled-rank evidence.
