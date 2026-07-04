@@ -101984,3 +101984,97 @@ local tables.
   matching branch-local start-violation certificate.  If either proof starts
   requiring exact affine RHS keys, selected prefix IDs, or rank-path tables,
   stop and strengthen the semantic cursor/state instead.
+
+### 2026-07-04 semantic state-DAG evaluator pivot checkpoint
+
+- Reran the top-pairing transducer pivot audit after the branch-local graph183
+  socket work.  The audit decision is:
+
+  ```text
+  semantic-transducer-pivot-accepted-next-scale-closed-language-state-dag-evaluator
+  ```
+
+- Current interpretation:
+  the target-shadow cursor and transducer semantic gates are already present.
+  The selected-prefix/root-trace bridge remains useful diagnostic evidence, but
+  it is not the production membership surface: prior guarded attempts show the
+  RSS-capped selected-prefix bridge exceeded the `7 GiB` cap and was killed at
+  about `10.3 GiB` peak RSS.  The next production proof object should therefore
+  be a closed-language state-DAG evaluator built from semantic transitions,
+  branch suffix facts, and terminal margin facts.
+
+- Refreshed the existing sharded closed-state-DAG evaluator smoke:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingClosedStateDAGShardedSmoke.All
+  ```
+
+  The smoke has:
+
+  ```text
+  profile states: 5347
+  profile edges: 6089
+  emitted shards: 84
+  emitted edges: 6089
+  ```
+
+  It remains structural smoke evidence only: gains are zero and it does not
+  claim coverage.  Its value is architectural: it proves the large
+  closed-language transition table can be checked in shards without loading one
+  monolithic evaluator.
+
+- Commands:
+
+  ```bash
+  python3 -m py_compile scripts/audit_top_pairing_transducer_pivot.py
+  python3 scripts/audit_top_pairing_transducer_pivot.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 480 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/closed_state_dag_sharded_all_after_pivot_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedStateDAGShardedSmoke.All
+
+  rg -n "sorry|admit|native_decide|unsafe|axiom" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGEvaluatorSmoke.lean \
+    scripts/audit_top_pairing_transducer_pivot.py
+
+  grep -R "SampledRankIndex\|sampledContainsRank\|sampledRankOf" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGEvaluatorSmoke.lean
+  ```
+
+- Results:
+  - Transducer pivot audit regenerated and passed with the decision above.
+  - Guarded sharded evaluator build passed.
+  - Elapsed time: `112.09s`.
+  - Peak guarded tree RSS: `4049.34 MiB`.
+  - Minimum available memory observed: `46029.14 MiB`.
+  - Forbidden-token scan returned no hits in the checked proof/audit files.
+  - Sampled-rank scan returned no hits in the proof modules.
+
+- Next theorem target:
+  promote the sharded structural evaluator from smoke to a semantic producer
+  surface.  In Lean terms, that means producing a family/theorem with the shape:
+
+  ```lean
+  ∀ rank,
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+      (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+    -- deterministic evaluator accepts this semantic branch, and
+    -- the quotient/cocycle margin bound is graph183AcceptedBranchRawGain
+    scaledMargin rank <= graphConst + graph183AcceptedBranchRawGain
+  ```
+
+  This is exactly the missing constructor for
+  `AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily`.  Keep it
+  branch-local and semantic: no selected-prefix IDs, sampled paths, exact
+  affine RHS keys, solved start points, or one constructor per rank.

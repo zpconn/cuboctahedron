@@ -596,194 +596,194 @@
       "closed_state_dag_evaluator_smoke": [],
       "eval_core": [
         {
-          "line": 155,
+          "line": 184,
           "pattern": "evalLabelStepFn",
           "text": "def evalLabelStepFn {State Label : Type}"
         },
         {
-          "line": 163,
+          "line": 192,
           "pattern": "evalLabelStepFn",
           "text": "match evalLabelStepFn next t labels with"
         },
         {
-          "line": 167,
+          "line": 196,
           "pattern": "evalLabelStepFn",
           "text": "theorem evalLabelStepFn_append {State Label : Type}"
         },
         {
-          "line": 167,
+          "line": 196,
           "pattern": "evalLabelStepFn_append",
           "text": "theorem evalLabelStepFn_append {State Label : Type}"
         },
         {
-          "line": 172,
+          "line": 201,
           "pattern": "evalLabelStepFn",
           "text": "(h\u2081 : evalLabelStepFn next start labels\u2081 = some (mid, gain\u2081))"
         },
         {
-          "line": 173,
+          "line": 202,
           "pattern": "evalLabelStepFn",
           "text": "(h\u2082 : evalLabelStepFn next mid labels\u2082 = some (finish, gain\u2082)) :"
         },
         {
-          "line": 174,
+          "line": 203,
           "pattern": "evalLabelStepFn",
           "text": "evalLabelStepFn next start (labels\u2081 ++ labels\u2082) ="
         },
         {
-          "line": 178,
+          "line": 207,
           "pattern": "evalLabelStepFn",
           "text": "simp [evalLabelStepFn] at h\u2081"
         },
         {
-          "line": 182,
+          "line": 211,
           "pattern": "evalLabelStepFn",
           "text": "simp [evalLabelStepFn]"
         },
         {
-          "line": 183,
+          "line": 212,
           "pattern": "evalLabelStepFn",
           "text": "simp [evalLabelStepFn] at h\u2081"
         },
         {
-          "line": 191,
+          "line": 220,
           "pattern": "evalLabelStepFn",
           "text": "cases htail : evalLabelStepFn next nextState labels with"
         },
         {
-          "line": 208,
+          "line": 237,
           "pattern": "evalLabelStepFn",
           "text": "theorem bellmanLabelStepRun_of_evalLabelStepFn"
         },
         {
-          "line": 217,
+          "line": 246,
           "pattern": "evalLabelStepFn",
           "text": "evalLabelStepFn next start labels = some result) :"
         },
         {
-          "line": 221,
+          "line": 250,
           "pattern": "evalLabelStepFn",
           "text": "simp [evalLabelStepFn] at h"
         },
         {
-          "line": 225,
+          "line": 254,
           "pattern": "evalLabelStepFn",
           "text": "simp [evalLabelStepFn] at h"
         },
         {
-          "line": 233,
+          "line": 262,
           "pattern": "evalLabelStepFn",
           "text": "cases htail : evalLabelStepFn next mid labels with"
         },
         {
-          "line": 245,
+          "line": 274,
           "pattern": "evalLabelStepFn",
           "text": "theorem evalLabelStepFn_bound_of_next_invariant_aux"
         },
         {
-          "line": 245,
+          "line": 274,
           "pattern": "evalLabelStepFn_bound_of_next_invariant",
           "text": "theorem evalLabelStepFn_bound_of_next_invariant_aux"
         },
         {
-          "line": 257,
+          "line": 286,
           "pattern": "evalLabelStepFn",
           "text": "(heval : evalLabelStepFn next start labels = some (finish, totalGain)) :"
         },
         {
-          "line": 261,
+          "line": 290,
           "pattern": "evalLabelStepFn",
           "text": "simp [evalLabelStepFn] at heval"
         },
         {
-          "line": 265,
+          "line": 294,
           "pattern": "evalLabelStepFn",
           "text": "simp [evalLabelStepFn] at heval"
         },
         {
-          "line": 273,
+          "line": 302,
           "pattern": "evalLabelStepFn",
           "text": "cases htail : evalLabelStepFn next mid labels with"
         },
         {
-          "line": 291,
+          "line": 320,
           "pattern": "evalLabelStepFn",
           "text": "theorem evalLabelStepFn_bound_of_next_invariant"
         },
         {
-          "line": 291,
+          "line": 320,
           "pattern": "evalLabelStepFn_bound_of_next_invariant",
           "text": "theorem evalLabelStepFn_bound_of_next_invariant"
         },
         {
-          "line": 303,
+          "line": 332,
           "pattern": "evalLabelStepFn",
           "text": "(heval : evalLabelStepFn next start labels = some result) :"
         },
         {
-          "line": 306,
+          "line": 335,
           "pattern": "evalLabelStepFn",
           "text": "exact evalLabelStepFn_bound_of_next_invariant_aux"
         },
         {
-          "line": 306,
+          "line": 335,
           "pattern": "evalLabelStepFn_bound_of_next_invariant",
           "text": "exact evalLabelStepFn_bound_of_next_invariant_aux"
         },
         {
-          "line": 674,
+          "line": 703,
           "pattern": "evalLabelStepFn",
           "text": "evalLabelStepFn next start (wordOf obj) = some result /\\"
         },
         {
-          "line": 678,
+          "line": 707,
           "pattern": "evalLabelStepFn",
           "text": "theorem bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
         },
         {
-          "line": 678,
+          "line": 707,
           "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
           "text": "theorem bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
         },
         {
-          "line": 693,
+          "line": 722,
           "pattern": "evalLabelStepFn",
           "text": "evalLabelStepFn next start (wordOf obj) = some result /\\"
         },
         {
-          "line": 701,
+          "line": 730,
           "pattern": "evalLabelStepFn",
           "text": "bellmanLabelStepRun_of_evalLabelStepFn hsound hrunEval,"
         },
         {
-          "line": 705,
+          "line": 734,
           "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
           "text": "theorem bellmanLabelStepRunLanguageBound_of_evalAccepts"
         },
         {
-          "line": 723,
+          "line": 752,
           "pattern": "evalLabelStepFn",
           "text": "exact bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
         },
         {
-          "line": 723,
+          "line": 752,
           "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
           "text": "exact bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
         },
         {
-          "line": 778,
+          "line": 807,
           "pattern": "evalLabelStepFn",
           "text": "rcases evalLabelStepFn_bound_of_next_invariant"
         },
         {
-          "line": 778,
+          "line": 807,
           "pattern": "evalLabelStepFn_bound_of_next_invariant",
           "text": "rcases evalLabelStepFn_bound_of_next_invariant"
         }
       ],
       "exists": true,
       "forbidden_sampled_surface": [],
-      "lines": 787,
+      "lines": 816,
       "path": "Cuboctahedron/Search/BellmanPotential.lean",
       "ranked_semantic_gate_core": [],
       "selected_prefix_production_risk": [],
@@ -1001,144 +1001,149 @@
       "branch_table_graph_exact_socket": [],
       "branch_table_semantic_gate_socket": [
         {
-          "line": 35,
+          "line": 37,
           "pattern": "branchTable_of_closedPrefix2_tail",
           "text": "theorem branchTable_of_closedPrefix2_tail"
         },
         {
-          "line": 64,
+          "line": 66,
           "pattern": "branchTableSuffixOk_closedPrefix2_branch_of_tail",
           "text": "theorem branchTableSuffixOk_closedPrefix2_branch_of_tail"
         },
         {
-          "line": 76,
+          "line": 78,
           "pattern": "branchTable_of_closedPrefix2_tail",
           "text": "(branchTable_of_closedPrefix2_tail htail) ?_"
         },
         {
-          "line": 86,
+          "line": 88,
           "pattern": "branchTable_of_closedPrefix3_tmpm_tail",
           "text": "theorem branchTable_of_closedPrefix3_tmpm_tail"
         },
         {
-          "line": 149,
+          "line": 151,
           "pattern": "branchTable_of_closedPrefix3_yp_tail",
           "text": "theorem branchTable_of_closedPrefix3_yp_tail"
         },
         {
-          "line": 213,
+          "line": 215,
           "pattern": "branchTable_of_closedPrefix3_zm_tail",
           "text": "theorem branchTable_of_closedPrefix3_zm_tail"
         },
         {
-          "line": 270,
+          "line": 272,
           "pattern": "branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail",
           "text": "theorem branchTableSuffixOk_closedPrefix3_tmpm_branch_of_tail"
         },
         {
-          "line": 283,
+          "line": 285,
           "pattern": "branchTable_of_closedPrefix3_tmpm_tail",
           "text": "(branchTable_of_closedPrefix3_tmpm_tail htail) ?_"
         },
         {
-          "line": 290,
+          "line": 292,
           "pattern": "branchTableSuffixOk_closedPrefix3_yp_branch_of_tail",
           "text": "theorem branchTableSuffixOk_closedPrefix3_yp_branch_of_tail"
         },
         {
-          "line": 303,
+          "line": 305,
           "pattern": "branchTable_of_closedPrefix3_yp_tail",
           "text": "(branchTable_of_closedPrefix3_yp_tail htail) ?_"
         },
         {
-          "line": 310,
+          "line": 312,
           "pattern": "branchTableSuffixOk_closedPrefix3_zm_branch_of_tail",
           "text": "theorem branchTableSuffixOk_closedPrefix3_zm_branch_of_tail"
         },
         {
-          "line": 323,
+          "line": 325,
           "pattern": "branchTable_of_closedPrefix3_zm_tail",
           "text": "(branchTable_of_closedPrefix3_zm_tail htail) ?_"
         },
         {
-          "line": 336,
+          "line": 338,
           "pattern": "Split10MBranchTableClosedEvalFamily",
           "text": "structure Split10MBranchTableClosedEvalFamily"
         },
         {
-          "line": 357,
+          "line": 359,
           "pattern": "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
           "text": "theorem split10MClosedToEvalGate_of_branchTableClosedEvalFamily"
         },
         {
-          "line": 359,
+          "line": 361,
           "pattern": "Split10MBranchTableClosedEvalFamily",
           "text": "(hfamily : Split10MBranchTableClosedEvalFamily scaledMargin) :"
         },
         {
-          "line": 383,
+          "line": 385,
           "pattern": "scaledMargin_nonpos_of_branchTableClosedEvalFamily",
           "text": "theorem scaledMargin_nonpos_of_branchTableClosedEvalFamily"
         },
         {
-          "line": 385,
+          "line": 387,
           "pattern": "Split10MBranchTableClosedEvalFamily",
           "text": "(hfamily : Split10MBranchTableClosedEvalFamily scaledMargin)"
         },
         {
-          "line": 390,
+          "line": 392,
           "pattern": "split10MClosedToEvalGate_of_branchTableClosedEvalFamily",
           "text": "(split10MClosedToEvalGate_of_branchTableClosedEvalFamily hfamily)"
+        },
+        {
+          "line": 399,
+          "pattern": "Split10MBranchTableClosedEvalFamily",
+          "text": "`Split10MBranchTableClosedEvalFamily`: the suffix proof may use the compact"
         }
       ],
       "closed_language_fields": [
         {
-          "line": 8,
+          "line": 9,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "final-margin facts from `TopPairingClosedLanguageAtRank`, not from sampled"
         },
         {
-          "line": 108,
+          "line": 110,
           "pattern": "TopPairingSquareGap",
           "text": "topPairingNextGap, TopPairingSquareGapFrom,"
         },
         {
-          "line": 115,
+          "line": 117,
           "pattern": "TopPairingLocalAxis",
           "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
         },
         {
-          "line": 171,
+          "line": 173,
           "pattern": "TopPairingLocalAxis",
           "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
         },
         {
-          "line": 179,
+          "line": 181,
           "pattern": "TopPairingLocalAxis",
           "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
         },
         {
-          "line": 239,
+          "line": 241,
           "pattern": "TopPairingLocalAxis",
           "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
         },
         {
-          "line": 245,
+          "line": 247,
           "pattern": "TopPairingLocalAxis",
           "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
         },
         {
-          "line": 260,
+          "line": 262,
           "pattern": "TopPairingLocalAxis",
           "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
         },
         {
-          "line": 340,
+          "line": 342,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "TopPairingClosedLanguageAtRank rank Face.ym ->"
         },
         {
-          "line": 387,
+          "line": 389,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
         }
@@ -1146,18 +1151,23 @@
       "closed_state_dag_evaluator_smoke": [],
       "eval_core": [
         {
-          "line": 347,
+          "line": 349,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn faceEvalNext"
+        },
+        {
+          "line": 417,
           "pattern": "evalLabelStepFn",
           "text": "evalLabelStepFn faceEvalNext"
         }
       ],
       "exists": true,
       "forbidden_sampled_surface": [],
-      "lines": 396,
+      "lines": 472,
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingBranchTableSemanticGateSocket.lean",
       "ranked_semantic_gate_core": [
         {
-          "line": 361,
+          "line": 363,
           "pattern": "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
           "text": "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix"
         }
@@ -1167,12 +1177,22 @@
       "semantic_socket_core": [],
       "semantic_state_transition_support": [
         {
-          "line": 363,
+          "line": 365,
           "pattern": "graphSmokeNext",
           "text": "(next := graphSmokeNext)"
         },
         {
-          "line": 364,
+          "line": 366,
+          "pattern": "smokeLabelOfFace",
+          "text": "(labelOfFace := smokeLabelOfFace)"
+        },
+        {
+          "line": 435,
+          "pattern": "graphSmokeNext",
+          "text": "(next := graphSmokeNext)"
+        },
+        {
+          "line": 436,
           "pattern": "smokeLabelOfFace",
           "text": "(labelOfFace := smokeLabelOfFace)"
         }
@@ -1180,64 +1200,74 @@
       "semantic_tail_branch_emitter_smoke": [],
       "semantic_tail_core": [
         {
-          "line": 32,
+          "line": 34,
           "pattern": "TopPairingTransducerTail.cons",
           "text": "emitter: derive the table branch from `TopPairingTransducerTail.cons`, then"
         },
         {
-          "line": 51,
+          "line": 53,
           "pattern": "TopPairingTransducerTail.cons",
           "text": "have hlocal := TopPairingTransducerTail.cons htail'"
         },
         {
-          "line": 100,
+          "line": 102,
           "pattern": "TopPairingTransducerTail.cons",
           "text": "have hcons := TopPairingTransducerTail.cons htailRaw"
         },
         {
-          "line": 163,
+          "line": 165,
           "pattern": "TopPairingTransducerTail.cons",
           "text": "have hcons := TopPairingTransducerTail.cons htailRaw"
         },
         {
-          "line": 227,
+          "line": 229,
           "pattern": "TopPairingTransducerTail.cons",
           "text": "have hcons := TopPairingTransducerTail.cons htailRaw"
         },
         {
-          "line": 333,
+          "line": 335,
           "pattern": "TopPairingTransducerTail.cons",
           "text": "intended proof uses `TopPairingTransducerTail.cons` plus a finite state/face"
         }
       ],
       "suffix_eval_core": [
         {
-          "line": 48,
+          "line": 50,
           "pattern": "TopPairingTransducerEvalState",
           "text": "simpa [TopPairingTransducerEvalState.Tail,"
         },
         {
-          "line": 98,
+          "line": 100,
           "pattern": "TopPairingTransducerEvalState",
           "text": "simpa [TopPairingTransducerEvalState.Tail,"
         },
         {
-          "line": 161,
+          "line": 163,
           "pattern": "TopPairingTransducerEvalState",
           "text": "simpa [TopPairingTransducerEvalState.Tail,"
         },
         {
-          "line": 225,
+          "line": 227,
           "pattern": "TopPairingTransducerEvalState",
           "text": "simpa [TopPairingTransducerEvalState.Tail,"
         },
         {
-          "line": 342,
+          "line": 344,
           "pattern": "TopPairingTransducerEvalState",
           "text": "(TopPairingTransducerEvalState.start rootState)"
         },
         {
-          "line": 348,
+          "line": 350,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 412,
+          "pattern": "TopPairingTransducerEvalState",
+          "text": "(TopPairingTransducerEvalState.start rootState)"
+        },
+        {
+          "line": 418,
           "pattern": "TopPairingTransducerEvalState",
           "text": "(TopPairingTransducerEvalState.start rootState)"
         }
@@ -1245,22 +1275,22 @@
       "target_cursor_core": [],
       "target_shadow": [
         {
-          "line": 126,
+          "line": 128,
           "pattern": "topPairingTargetShadow",
           "text": "topPairingTargetShadow] at hcons"
         },
         {
-          "line": 137,
+          "line": 139,
           "pattern": "topPairingTargetShadow",
           "text": "topPairingTargetShadow] at hcons"
         },
         {
-          "line": 195,
+          "line": 197,
           "pattern": "topPairingTargetShadow",
           "text": "topPairingTargetShadow] at hcons"
         },
         {
-          "line": 206,
+          "line": 208,
           "pattern": "topPairingTargetShadow",
           "text": "topPairingTargetShadow] at hcons"
         }
@@ -2583,12 +2613,22 @@
           "text": "TopPairingClosedLanguageAtRank rank badFace ->"
         },
         {
-          "line": 168,
+          "line": 145,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "TopPairingClosedLanguageAtRank rank badFace ->"
+        },
+        {
+          "line": 216,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace)"
         },
         {
-          "line": 378,
+          "line": 349,
+          "pattern": "TopPairingClosedLanguageAtRank",
+          "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace) :"
+        },
+        {
+          "line": 479,
           "pattern": "TopPairingClosedLanguageAtRank",
           "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace) :"
         }
@@ -2601,14 +2641,14 @@
           "text": "evalLabelStepFn next start"
         },
         {
-          "line": 170,
+          "line": 218,
           "pattern": "evalLabelStepFn",
           "text": "evalLabelStepFn next start"
         }
       ],
       "exists": true,
       "forbidden_sampled_surface": [],
-      "lines": 419,
+      "lines": 520,
       "path": "Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean",
       "ranked_semantic_gate_core": [],
       "selected_prefix_production_risk": [],
@@ -2639,87 +2679,87 @@
           "text": "TopPairingBellmanEvalLanguageAtRank"
         },
         {
-          "line": 140,
-          "pattern": "TopPairingBellmanEvalLanguageAtRank",
-          "text": "TopPairingBellmanEvalLanguageAtRank"
-        },
-        {
-          "line": 175,
-          "pattern": "TopPairingBellmanEvalLanguageAtRank",
-          "text": "TopPairingBellmanEvalLanguageAtRank"
-        },
-        {
-          "line": 200,
+          "line": 188,
           "pattern": "TopPairingBellmanEvalLanguageAtRank",
           "text": "TopPairingBellmanEvalLanguageAtRank"
         },
         {
           "line": 223,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 248,
+          "pattern": "TopPairingBellmanEvalLanguageAtRank",
+          "text": "TopPairingBellmanEvalLanguageAtRank"
+        },
+        {
+          "line": 271,
           "pattern": "TopPairingClosedToEvalGate",
           "text": "TopPairingClosedToEvalGate"
         },
         {
-          "line": 241,
+          "line": 289,
           "pattern": "TopPairingStrengthenedToEvalGate",
           "text": "TopPairingStrengthenedToEvalGate"
-        },
-        {
-          "line": 257,
-          "pattern": "TopPairingClosedToEvalGate",
-          "text": "TopPairingClosedToEvalGate"
-        },
-        {
-          "line": 275,
-          "pattern": "TopPairingStrengthenedToEvalGate",
-          "text": "TopPairingStrengthenedToEvalGate"
-        },
-        {
-          "line": 299,
-          "pattern": "TopPairingClosedToEvalGate",
-          "text": "TopPairingClosedToEvalGate"
         },
         {
           "line": 305,
-          "pattern": "TopPairingBellmanEvalObj",
-          "text": "(TopPairingBellmanEvalObj"
-        },
-        {
-          "line": 308,
-          "pattern": "TopPairingBellmanEvalObj",
-          "text": "(TopPairingBellmanEvalObj.rankOf"
-        },
-        {
-          "line": 312,
-          "pattern": "TopPairingBellmanEvalObj",
-          "text": "(TopPairingBellmanEvalObj.Accepts"
-        },
-        {
-          "line": 336,
-          "pattern": "TopPairingStrengthenedToEvalGate",
-          "text": "TopPairingStrengthenedToEvalGate"
-        },
-        {
-          "line": 342,
-          "pattern": "TopPairingBellmanEvalObj",
-          "text": "(TopPairingBellmanEvalObj"
-        },
-        {
-          "line": 345,
-          "pattern": "TopPairingBellmanEvalObj",
-          "text": "(TopPairingBellmanEvalObj.rankOf"
-        },
-        {
-          "line": 349,
-          "pattern": "TopPairingBellmanEvalObj",
-          "text": "(TopPairingBellmanEvalObj.Accepts"
-        },
-        {
-          "line": 372,
           "pattern": "TopPairingClosedToEvalGate",
           "text": "TopPairingClosedToEvalGate"
         },
         {
-          "line": 402,
+          "line": 323,
+          "pattern": "TopPairingStrengthenedToEvalGate",
+          "text": "TopPairingStrengthenedToEvalGate"
+        },
+        {
+          "line": 400,
+          "pattern": "TopPairingClosedToEvalGate",
+          "text": "TopPairingClosedToEvalGate"
+        },
+        {
+          "line": 406,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 409,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.rankOf"
+        },
+        {
+          "line": 413,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.Accepts"
+        },
+        {
+          "line": 437,
+          "pattern": "TopPairingStrengthenedToEvalGate",
+          "text": "TopPairingStrengthenedToEvalGate"
+        },
+        {
+          "line": 443,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj"
+        },
+        {
+          "line": 446,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.rankOf"
+        },
+        {
+          "line": 450,
+          "pattern": "TopPairingBellmanEvalObj",
+          "text": "(TopPairingBellmanEvalObj.Accepts"
+        },
+        {
+          "line": 473,
+          "pattern": "TopPairingClosedToEvalGate",
+          "text": "TopPairingClosedToEvalGate"
+        },
+        {
+          "line": 503,
           "pattern": "TopPairingStrengthenedToEvalGate",
           "text": "TopPairingStrengthenedToEvalGate"
         }
@@ -22552,19 +22592,19 @@
   },
   "totals": {
     "branch_table_graph_exact_socket": 14,
-    "branch_table_semantic_gate_socket": 30,
-    "closed_language_fields": 226,
+    "branch_table_semantic_gate_socket": 31,
+    "closed_language_fields": 228,
     "closed_state_dag_evaluator_smoke": 76,
-    "eval_core": 99,
+    "eval_core": 100,
     "forbidden_sampled_surface": 0,
     "ranked_semantic_gate_core": 8,
     "selected_prefix_production_risk": 12,
     "semantic_eval_gate": 136,
     "semantic_socket_core": 26,
-    "semantic_state_transition_support": 3242,
+    "semantic_state_transition_support": 3244,
     "semantic_tail_branch_emitter_smoke": 10,
     "semantic_tail_core": 20,
-    "suffix_eval_core": 244,
+    "suffix_eval_core": 246,
     "target_cursor_core": 46,
     "target_shadow": 120
   }

@@ -6,16 +6,16 @@ closed-language transducer theorem.
 
 - decision: `semantic-transducer-pivot-accepted-next-scale-closed-language-state-dag-evaluator`
 - target-shadow surface mentions: `120`
-- closed-language field mentions: `226`
-- eval-core mentions: `99`
+- closed-language field mentions: `228`
+- eval-core mentions: `100`
 - semantic eval-gate mentions: `136`
 - target-cursor core mentions: `46`
 - semantic-tail core mentions: `20`
-- suffix-eval core mentions: `244`
+- suffix-eval core mentions: `246`
 - ranked semantic-gate core mentions: `8`
-- branch-table semantic-gate socket mentions: `30`
+- branch-table semantic-gate socket mentions: `31`
 - branch-table graph-exact socket mentions: `14`
-- full transition support mentions: `3242`
+- full transition support mentions: `3244`
 - closed state-DAG evaluator smoke mentions: `76`
 - semantic-socket core mentions: `26`
 - selected-prefix production-risk mentions: `12`
