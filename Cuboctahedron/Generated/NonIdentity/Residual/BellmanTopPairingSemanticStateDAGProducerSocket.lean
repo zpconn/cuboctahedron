@@ -46,6 +46,41 @@ structure StrengthenedSemanticStateDAGFamily
   finalMargin :
     Split10MFinalMarginProducer scaledMargin rank
 
+/--
+Generic adapter from a class-specific strengthened sequence/bad-face predicate
+to the standard semantic state-DAG family package.
+
+Generated class providers should use this theorem when their public predicate
+is a semantic bundle of the four facts consumed by the split-10M evaluator:
+accepted bad-face, terminal classification, graph suffix, and final margin.
+This keeps the class emitters from duplicating the same strengthened-language
+unpacking proof and keeps the production surface free of sampled ranks,
+selected prefixes, accepted trace ids, and exact affine keys.
+-/
+theorem semanticStateDAGFamily_of_strengthenedSequenceBadFace
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hextract :
+      sequenceBadFace rank Face.ym ->
+        AcceptedSequenceBadFaceAtRank rank Face.ym ∧
+          TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧
+            Split10MGraphSuffixProducer rank ∧
+              Split10MFinalMarginProducer scaledMargin rank)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    StrengthenedSemanticStateDAGFamily scaledMargin rank := by
+  rcases hextract hstrengthened.sequenceBadFace_ok with
+    ⟨hbad, hterminal, hsuffix, hfinal⟩
+  exact
+    { strengthened :=
+        TopPairingStrengthenedClosedLanguageAtRank.ofComponents
+          hstrengthened.closed hstrengthened.actualFaceOmni hbad
+      terminalOk := hterminal
+      graphSuffix := hsuffix
+      finalMargin := hfinal }
+
 theorem split10MGraphSuffixMarginFamily_of_semanticStateDAGFamily
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -88,6 +123,38 @@ structure StrengthenedSemanticStateDAGAllFamily
       TopPairingStrengthenedClosedLanguageAtRank
         AcceptedSequenceBadFaceAtRank rank Face.ym ->
         StrengthenedSemanticStateDAGFamily scaledMargin rank
+
+/--
+All-rank version of
+`semanticStateDAGFamily_of_strengthenedSequenceBadFace`.
+
+This is the intended shared combinator for generated semantic class emitters:
+prove a class-specific strengthened predicate from the base accepted predicate,
+then provide a small extractor from that predicate to the four evaluator facts.
+-/
+theorem semanticStateDAGAllFamily_of_strengthenedSequenceBadFace
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hclass :
+      ∀ rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym ->
+        TopPairingStrengthenedClosedLanguageAtRank
+          sequenceBadFace rank Face.ym)
+    (hextract :
+      ∀ {rank : Fin numPairWords},
+        sequenceBadFace rank Face.ym ->
+          AcceptedSequenceBadFaceAtRank rank Face.ym ∧
+            TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧
+              Split10MGraphSuffixProducer rank ∧
+                Split10MFinalMarginProducer scaledMargin rank) :
+    StrengthenedSemanticStateDAGAllFamily scaledMargin where
+  family := by
+    intro rank hstrengthened
+    exact semanticStateDAGFamily_of_strengthenedSequenceBadFace
+      (scaledMargin := scaledMargin)
+      (hextract := hextract)
+      (hclass rank hstrengthened)
 
 theorem strengthenedToEvalGate_of_semanticStateDAGAllFamily
     {scaledMargin : Fin numPairWords -> Int}

@@ -98592,3 +98592,94 @@ local tables.
   adapter pattern into either an emitted family generator or a small shared
   class-provider combinator, then add the next depth-11 class only if its
   membership proof can be derived from semantic cursor/cancellation state.
+
+2026-07-04 shared strengthened sequence/bad-face extractor:
+
+- Factored the repeated class-provider adapter pattern into the shared
+  semantic state-DAG producer socket:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSemanticStateDAGProducerSocket.lean
+  ```
+
+- New reusable theorem surfaces:
+
+  ```lean
+  theorem semanticStateDAGFamily_of_strengthenedSequenceBadFace
+      {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+      {scaledMargin : Fin numPairWords -> Int}
+      {rank : Fin numPairWords}
+      (hextract :
+        sequenceBadFace rank Face.ym ->
+          AcceptedSequenceBadFaceAtRank rank Face.ym ∧
+            TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧
+              Split10MGraphSuffixProducer rank ∧
+                Split10MFinalMarginProducer scaledMargin rank)
+      (hstrengthened :
+        TopPairingStrengthenedClosedLanguageAtRank
+          sequenceBadFace rank Face.ym) :
+      StrengthenedSemanticStateDAGFamily scaledMargin rank
+
+  theorem semanticStateDAGAllFamily_of_strengthenedSequenceBadFace
+      {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+      {scaledMargin : Fin numPairWords -> Int}
+      (hclass :
+        ∀ rank,
+          TopPairingStrengthenedClosedLanguageAtRank
+            AcceptedSequenceBadFaceAtRank rank Face.ym ->
+          TopPairingStrengthenedClosedLanguageAtRank
+            sequenceBadFace rank Face.ym)
+      (hextract :
+        ∀ {rank : Fin numPairWords},
+          sequenceBadFace rank Face.ym ->
+            AcceptedSequenceBadFaceAtRank rank Face.ym ∧
+              TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧
+                Split10MGraphSuffixProducer rank ∧
+                  Split10MFinalMarginProducer scaledMargin rank) :
+      StrengthenedSemanticStateDAGAllFamily scaledMargin
+  ```
+
+- This is the shared combinator future generated depth-11 class emitters should
+  target.  It enforces the desired production surface: a class predicate may be
+  semantic and class-specific, but it must unpack to accepted bad-face,
+  terminal-ok, graph-suffix, and final-margin facts.  It does not expose
+  selected prefixes, sampled ranks, accepted trace ids, exact affine RHS keys,
+  or solved start-point keys.
+- Focused checks:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 240 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/semantic_state_dag_producer_socket_sequence_extractor_guard.json \
+    --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSemanticStateDAGProducerSocket.lean
+  ```
+
+  passed with `elapsed_seconds=2.00`, `peak_tree_rss_mib=3057`, and
+  `min_available_mib=45484`.
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 300 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/semantic_state_dag_class035_after_sequence_extractor_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingSemanticStateDAGClass035ProviderSmoke
+  ```
+
+  passed with `elapsed_seconds=4.00`, `peak_tree_rss_mib=4036`, and
+  `min_available_mib=45276`.
+- Forbidden-token scan over the touched socket and class-035 file found no
+  matches for `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+  `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`,
+  `sampledSmokeNext`, `SelectedPrefix`, `acceptedTraceOfId`, or
+  `AcceptedTraceId`.
+- Next implementation target: update the class-034/class-035 smokes to use the
+  shared extractor where that makes the generated pattern clearer, then use the
+  same extractor for the next depth-11 semantic class.
