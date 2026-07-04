@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph169ContinuationSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
+import Cuboctahedron.Search.TopPairingUsedFaceTail
 
 set_option linter.unusedSimpArgs false
 
@@ -712,6 +713,54 @@ structure AcceptedSequenceGraph183CursorCompletionTailFamily : Prop where
       ∀ rest,
         Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
         Graph150TargetCompletionTail rest
+
+theorem graph150_usedFaceTail_of_acceptedSequence_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TopPairingUsedFaceTail [Face.xm, Face.ym, Face.tmpm, Face.zm] rest := by
+  apply TopPairingUsedFaceTail.of_actualFaceOmni_append
+  have hactual := hstrengthened.actualFaceOmni
+  change (topPairingRankFaceLabels rank).Nodup at hactual
+  have hprefix' :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  rw [hprefix'] at hactual
+  simpa [TopPairingActualFaceOmniLabels] using hactual
+
+/--
+Used-face/cursor front door for the graph183 completion-tail producer.
+
+This is the next semantic state refinement after the target cursor: the
+producer gets both the target-shadow cursor and the remaining actual-face
+invariant for the suffix after `[xm, ym, tmpm, zm]`.  The adapter derives the
+used-face invariant from strengthened closed-language actual-face
+omnihedrality, so no rank/path table is introduced.
+-/
+structure AcceptedSequenceGraph183CursorUsedCompletionTailFamily : Prop where
+  completionTail :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      TopPairingTargetCursorAtRank rank ->
+      ∀ rest,
+        TopPairingUsedFaceTail [Face.xm, Face.ym, Face.tmpm, Face.zm] rest ->
+        Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+        Graph150TargetCompletionTail rest
+
+theorem acceptedSequenceGraph183CursorCompletionTailFamily_of_used
+    (hfamily : AcceptedSequenceGraph183CursorUsedCompletionTailFamily) :
+    AcceptedSequenceGraph183CursorCompletionTailFamily where
+  completionTail := by
+    intro rank hstrengthened hcursor rest hprefix
+    exact hfamily.completionTail rank hstrengthened hcursor rest
+      (graph150_usedFaceTail_of_acceptedSequence_prefix
+        hstrengthened hprefix)
+      hprefix
 
 theorem acceptedSequenceGraph183CompletionTailFamily_of_cursor
     (hfamily : AcceptedSequenceGraph183CursorCompletionTailFamily) :

@@ -185,6 +185,9 @@ REQUIRED_SYMBOLS = {
         "AcceptedSequenceGraph183CompletionTailFamily",
         "AcceptedSequenceGraph183CursorCompletionTailFamily",
         "acceptedSequenceGraph183CompletionTailFamily_of_cursor",
+        "graph150_usedFaceTail_of_acceptedSequence_prefix",
+        "AcceptedSequenceGraph183CursorUsedCompletionTailFamily",
+        "acceptedSequenceGraph183CursorCompletionTailFamily_of_used",
         "AcceptedSequenceGraph183AcceptedTailMarginFamily",
         "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
         "graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch",
@@ -244,6 +247,7 @@ GRAPH_ALIGNMENT_GUARDS = {
             "closedBellmanNext",
             "AcceptedSequenceGraph183CompletionTailFamily",
             "AcceptedSequenceGraph183CursorCompletionTailFamily",
+            "AcceptedSequenceGraph183CursorUsedCompletionTailFamily",
             "AcceptedSequenceGraph183AcceptedTailMarginFamily",
             "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
         ],
@@ -478,6 +482,7 @@ def render_markdown(report: dict[str, Any]) -> str:
             "```lean",
             "AcceptedSequenceGraph183CompletionTailFamily",
             "AcceptedSequenceGraph183CursorCompletionTailFamily",
+            "AcceptedSequenceGraph183CursorUsedCompletionTailFamily",
             "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin",
             "```",
             "",
@@ -548,6 +553,7 @@ def main() -> int:
         "next_production_target": (
             "AcceptedSequenceGraph183CompletionTailFamily + "
             "AcceptedSequenceGraph183CursorCompletionTailFamily + "
+            "AcceptedSequenceGraph183CursorUsedCompletionTailFamily + "
             "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
         ),
     }

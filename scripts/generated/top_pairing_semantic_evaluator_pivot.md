@@ -26,7 +26,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph150_direct_eval_socket` | `127` | none |
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
-| `graph183_tail_table_socket` | `834` | none |
+| `graph183_tail_table_socket` | `883` | none |
 | `target_completion_local_branch_table_shard000` | `63` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -42,7 +42,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph150_direct_eval_socket_lake`: exit `0`, elapsed `3.002738071998465`, peak RSS MiB `4050.12890625`
 - `graph157_continuation_socket_lake`: exit `0`, elapsed `5.004316574006225`, peak RSS MiB `4337.02734375`
 - `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
-- `graph183_tail_table_socket_lake`: exit `0`, elapsed `4.007003156002611`, peak RSS MiB `4229.27734375`
+- `graph183_tail_table_socket_lake`: exit `0`, elapsed `4.0043911510001635`, peak RSS MiB `4219.85546875`
 
 ## Forbidden Production Hits
 
@@ -143,6 +143,7 @@ two explicit semantic components:
 ```lean
 AcceptedSequenceGraph183CompletionTailFamily
 AcceptedSequenceGraph183CursorCompletionTailFamily
+AcceptedSequenceGraph183CursorUsedCompletionTailFamily
 AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
 ```
 

@@ -100193,3 +100193,95 @@ local tables.
   local-axis / pair-count / cancellation state, do not patch around it with
   selected-prefix or accepted-trace membership.  Add the missing semantic state
   field or switch to the cancellation-tree / cocycle quotient experiment.
+
+### 2026-07-04 graph183 completion target adds used-face suffix state
+
+- Continued the graph183 semantic-evaluator pivot by adding the actual-face
+  remaining-state ingredient instead of trying to prove target completion from
+  cursor alone.
+- Updated
+  `Cuboctahedron/Generated/NonIdentity/Residual/`
+  `BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean`.
+- New theorem surface:
+
+  ```lean
+  theorem graph150_usedFaceTail_of_acceptedSequence_prefix :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+      TopPairingUsedFaceTail [Face.xm, Face.ym, Face.tmpm, Face.zm] rest
+
+  structure AcceptedSequenceGraph183CursorUsedCompletionTailFamily : Prop
+
+  theorem acceptedSequenceGraph183CursorCompletionTailFamily_of_used :
+      AcceptedSequenceGraph183CursorUsedCompletionTailFamily ->
+      AcceptedSequenceGraph183CursorCompletionTailFamily
+  ```
+
+- Meaning: the next completion-tail producer now gets both:
+  - `TopPairingTargetCursorAtRank rank`, derived from closed cancellation
+    semantics; and
+  - `TopPairingUsedFaceTail [xm, ym, tmpm, zm] rest`, derived from
+    strengthened actual-face omnihedrality and the layer-4 prefix.
+- This is a semantic state refinement, not a data-table fallback.  It exposes
+  the missing actual-face remaining invariant that `TopPairingTargetCompletionTail`
+  needs for its `remaining` field.
+- One initial direct Lean attempt failed because the actual-face `Nodup`
+  hypothesis did not rewrite through `Depth11Layer4PrefixAtRank` automatically:
+
+  ```text
+  expected:
+    Face.xm ∉ rest ∧ Face.ym ∉ rest ∧
+    Face.tmpm ∉ rest ∧ Face.zm ∉ rest ∧ rest.Nodup
+  ```
+
+  The final proof fixes this by explicitly rewriting
+  `topPairingRankFaceLabels rank` to
+  `[Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest` before applying
+  `TopPairingUsedFaceTail.of_actualFaceOmni_append`.
+- Updated
+  `scripts/audit_top_pairing_semantic_evaluator_pivot.py` so the used-face
+  graph183 surface is required and appears in the next production target.
+- Verification commands:
+
+  ```bash
+  python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_direct_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 lake env lean \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+  ```
+
+- Results:
+  - audit decision:
+    `semantic_evaluator_pivot_ready_for_membership_producer`;
+  - graph-alignment violations: `0`;
+  - direct Lean check passed with `elapsed_seconds=3.00`,
+    `peak_tree_rss_mib=4148.73`, `min_available_mib=45756.41`;
+  - focused Lake build passed with `elapsed_seconds=4.00`,
+    `peak_tree_rss_mib=4219.86`, `min_available_mib=45676.21`.
+- Next target:
+
+  ```lean
+  AcceptedSequenceGraph183CursorUsedCompletionTailFamily
+  ```
+
+  The proof should consume the cursor, used-face tail, schedule/square-gap,
+  local-axis, and target-cancellation state.  If this still needs exact
+  prefixes/accepted traces/rank tables, the semantic state is missing another
+  component and should be refined before any arithmetic margin work.
