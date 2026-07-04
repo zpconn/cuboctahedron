@@ -57,6 +57,8 @@ COCYCLE_QUOTIENT_1M = (
 REQUIRED_SOCKET_SYMBOLS = [
     "AcceptedSequenceGraph183AcceptedTailMarginFamily",
     "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
+    "acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor",
+    "acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor",
     "graph183ForcedTail",
     "graph183TailEval",
     "closedBellmanNext",
@@ -404,12 +406,13 @@ def render_markdown(report: dict[str, Any]) -> str:
         "",
         "## Meaning",
         "",
-        "A passing decision means the exact profiler supports trying a",
-        "`closed -> eval` Lean producer next, using the target-shadow cursor and",
-        "semantic Bellman object cover.  It does not mean that producer exists.",
-        "If the producer needs sampled ranks, selected prefixes, accepted trace",
-        "ids, exact affine RHS keys, or one branch per rank/path, the route must",
-        "pivot to a cancellation-segment or cocycle/coboundary quotient.",
+        "A passing decision means graph183 completion-tail membership is already",
+        "on the semantic target-shadow cursor route, and the exact profiler",
+        "supports trying the accepted-tail margin producer next.  It does not",
+        "mean that producer exists.  If the producer needs sampled ranks,",
+        "selected prefixes, accepted trace ids, exact affine RHS keys, or one",
+        "branch per rank/path, the route must pivot to a cancellation-segment or",
+        "cocycle/coboundary quotient.",
         "",
         "## Metrics",
         "",
@@ -437,16 +440,14 @@ def render_markdown(report: dict[str, Any]) -> str:
             "## Next Lean Target",
             "",
             "```lean",
-            "TopPairingClosedLanguageAtRank rank Face.ym ->",
-            "  TopPairingBellmanEvalLanguageAtRank ... rank Face.ym",
-            "",
             "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin",
             "```",
             "",
-            "The first Lean smoke should prove the closed-language-to-evaluator",
-            "gate for a semantic margin object.  The quotient profile is a",
-            "fallback signal only: any quotient/gauge equations must still become",
-            "Lean-checked local facts.",
+            "The graph183 completion-tail component is already available via",
+            "`acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.",
+            "The next Lean smoke should prove the integer accepted-tail margin",
+            "component.  The quotient profile is a fallback signal only: any",
+            "quotient/gauge equations must still become Lean-checked local facts.",
             "",
         ]
     )
@@ -505,8 +506,7 @@ def main() -> int:
             "cocycle_quotient_1m": quotient_metrics(quotient_1m),
         },
         "next_lean_target": (
-            "TopPairingClosedLanguageAtRank -> TopPairingBellmanEvalLanguageAtRank; "
-            "then AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
+            "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
         ),
     }
 

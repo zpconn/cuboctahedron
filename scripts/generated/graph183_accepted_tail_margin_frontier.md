@@ -9,12 +9,13 @@ family evidence.
 
 ## Meaning
 
-A passing decision means the exact profiler supports trying a
-`closed -> eval` Lean producer next, using the target-shadow cursor and
-semantic Bellman object cover.  It does not mean that producer exists.
-If the producer needs sampled ranks, selected prefixes, accepted trace
-ids, exact affine RHS keys, or one branch per rank/path, the route must
-pivot to a cancellation-segment or cocycle/coboundary quotient.
+A passing decision means graph183 completion-tail membership is already
+on the semantic target-shadow cursor route, and the exact profiler
+supports trying the accepted-tail margin producer next.  It does not
+mean that producer exists.  If the producer needs sampled ranks,
+selected prefixes, accepted trace ids, exact affine RHS keys, or one
+branch per rank/path, the route must pivot to a cancellation-segment or
+cocycle/coboundary quotient.
 
 ## Metrics
 
@@ -74,6 +75,8 @@ pivot to a cancellation-segment or cocycle/coboundary quotient.
 | `graph183_socket_exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean` |
 | `socket_symbol:AcceptedSequenceGraph183AcceptedTailMarginFamily` | `True` | `AcceptedSequenceGraph183AcceptedTailMarginFamily` |
 | `socket_symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components` | `True` | `acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components` |
+| `socket_symbol:acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor` | `True` | `acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor` |
+| `socket_symbol:acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor` | `True` | `acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor` |
 | `socket_symbol:graph183ForcedTail` | `True` | `graph183ForcedTail` |
 | `socket_symbol:graph183TailEval` | `True` | `graph183TailEval` |
 | `socket_symbol:closedBellmanNext` | `True` | `closedBellmanNext` |
@@ -145,13 +148,11 @@ pivot to a cancellation-segment or cocycle/coboundary quotient.
 ## Next Lean Target
 
 ```lean
-TopPairingClosedLanguageAtRank rank Face.ym ->
-  TopPairingBellmanEvalLanguageAtRank ... rank Face.ym
-
 AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
 ```
 
-The first Lean smoke should prove the closed-language-to-evaluator
-gate for a semantic margin object.  The quotient profile is a
-fallback signal only: any quotient/gauge equations must still become
-Lean-checked local facts.
+The graph183 completion-tail component is already available via
+`acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.
+The next Lean smoke should prove the integer accepted-tail margin
+component.  The quotient profile is a fallback signal only: any
+quotient/gauge equations must still become Lean-checked local facts.

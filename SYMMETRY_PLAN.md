@@ -100958,3 +100958,48 @@ local tables.
   start-point keys, accepted trace ids, or one branch per path, the next step
   is to emit Lean-checked quotient/gauge local facts using the cocycle theorem
   rather than scaling selected-prefix evidence.
+
+### 2026-07-04 graph183 inspection: completion solved, margin remains
+
+- Inspected
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean`
+  after the semantic pivot.  The graph183 completion-tail half is already on
+  the desired cursor route:
+
+  ```lean
+  theorem acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor
+  theorem acceptedSequenceGraph183SemanticCompletionTailFamily_of_cursor
+  theorem acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor
+  ```
+
+- The remaining graph183 proof gap is therefore narrower than a full
+  closed-language-to-evaluator theorem.  It is the integer accepted-tail
+  margin component:
+
+  ```lean
+  structure AcceptedSequenceGraph183AcceptedTailMarginFamily
+      (scaledMargin : Fin numPairWords -> Int) : Prop
+  ```
+
+- Updated the frontier audit to require the cursor-derived completion theorem
+  and to report this sharper next target.  Commands:
+
+  ```bash
+  python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  ```
+
+- Result:
+
+  ```text
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+  ```
+
+- Next implementation target:
+  prove `AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin` by a
+  semantic margin argument.  Do **not** discharge it via the older
+  `AcceptedTraceId` bridge or one of the per-trace start-violation providers
+  except as bounded regression/smoke evidence.  If the direct margin proof
+  needs exact affine RHS or solved start-point keys, use the observed
+  `step-par` cocycle quotient (`43` states, `93` quotient edges on the 1M
+  diagnostic graph) to generate Lean-checked quotient/gauge facts.

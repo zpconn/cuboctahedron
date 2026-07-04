@@ -17,6 +17,16 @@
       "passed": true
     },
     {
+      "detail": "acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor",
+      "name": "socket_symbol:acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor",
+      "name": "socket_symbol:acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor",
+      "passed": true
+    },
+    {
       "detail": "graph183ForcedTail",
       "name": "socket_symbol:graph183ForcedTail",
       "passed": true
@@ -397,5 +407,5 @@
     }
   },
   "mode": "graph183_accepted_tail_margin_frontier",
-  "next_lean_target": "TopPairingClosedLanguageAtRank -> TopPairingBellmanEvalLanguageAtRank; then AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
+  "next_lean_target": "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
 }
