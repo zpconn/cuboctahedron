@@ -133,4 +133,20 @@ single legal branch `zp -> 157 (114)`.
 abbrev Graph150TargetCompletionTail (labels : List Face) : Prop :=
   TopPairingTargetCompletionTail graph150TargetCompletionState labels
 
+theorem graph150_head_candidate_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph150TargetCompletionTail (face :: rest)) :
+    face = Face.tmmp ∨ face = Face.tpmm ∨ face = Face.tppp ∨
+      face = Face.zp := by
+  have hremaining :=
+    TopPairingTargetCompletionTail.head_remaining htail
+  have hschedule :=
+    TopPairingTargetCompletionTail.head_schedule htail
+  have hsquare :=
+    TopPairingTargetCompletionTail.head_squareAllowed htail
+  cases face <;>
+    simp [graph150TargetCompletionState, TopPairingTargetCompletionState.squareAllowed,
+      topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+      pairOfFace, isSquarePair] at hremaining hschedule hsquare ⊢
+
 end Cuboctahedron

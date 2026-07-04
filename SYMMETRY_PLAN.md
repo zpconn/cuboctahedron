@@ -97651,3 +97651,35 @@ theorem graph150_head_of_targetCompletionTail
 If proving this theorem requires enumerating full traces or adding exact
 affine/margin data, stop and refine the completion state or add a small
 cancellation-DP certificate.  Do not fall back to selected-prefix membership.
+
+Follow-up Lean sanity theorem accepted:
+
+```lean
+theorem graph150_head_candidate_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph150TargetCompletionTail (face :: rest)) :
+    face = Face.tmmp \/ face = Face.tpmm \/ face = Face.tppp \/
+      face = Face.zp
+```
+
+This theorem is intentionally weaker than the final graph-150 local branch
+theorem.  It proves that the new semantic state is already doing real pruning:
+remaining actual faces, the step schedule, and the square-gap schedule rule out
+all heads except the three triangular completion candidates and the true graph
+branch `zp`.  The remaining graph-150 work is therefore precisely the
+cancellation-completion proof that rules out `tmmp`, `tpmm`, and `tppp`.
+
+Updated guarded direct Lean check:
+
+```text
+exit_code = 0
+elapsed_seconds = 3.00
+peak_tree_rss_mib = 3965
+hard_address_space_mib = 8192
+min_available_seen_mib = 46208
+```
+
+Next implementation target: add a small cancellation-completion certificate or
+generated local decision proof over `TopPairingTargetCompletionTail` for graph
+`150`.  Its accepted public theorem should be the single-branch result above
+with `face = Face.zp`; if the proof starts replaying observed prefixes, stop.
