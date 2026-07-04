@@ -101218,3 +101218,51 @@ local tables.
   keys, use the observed `step-par` cocycle quotient to produce Lean-checked
   quotient/gauge local facts; do not add selected-prefix or rank/path
   membership.
+
+### 2026-07-04 graph183 scaled-margin contract clarified
+
+- Inspected the graph183 margin diagnostics against the Lean socket.  Important
+  distinction:
+  - the 1M diagnostic Bellman graph has `scale = 88`, `const_scaled = 176`,
+    and an observed argmax margin bound of `0`;
+  - the graph183 accepted branch is not that argmax path.  The accepted branch
+    socket proves/evaluates:
+
+    ```text
+    graphConst + (194 - 542) = 176 - 348 = -172
+    ```
+
+- Updated `scripts/audit_graph183_accepted_tail_margin_frontier.py` to check:
+  - `graphConst` parses from the Lean potential module;
+  - the graph183 accepted-branch evaluator gain parses as `194 - 542`;
+  - the accepted-branch bound is negative (`-172`);
+  - the profile's `const_scaled` agrees with Lean `graphConst`;
+  - the profile scale remains `88`.
+
+- Commands:
+
+  ```bash
+  python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+- Results:
+  - Graph183 frontier audit passed with
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+  - Semantic evaluator pivot audit passed with
+    `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer`.
+
+- Next implementation target:
+  the generated/semantic margin producer must prove the scaled accepted-branch
+  inequality:
+
+  ```lean
+  scaledMargin rank <= -172
+  ```
+
+  under `TopPairingStrengthenedClosedLanguageAtRank ... Face.ym` and
+  `topPairingRankFaceLabels rank = graph183AcceptedBranchLabels`, packaged as
+  `AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin`.
+  The displayed diagnostic argmax bound `0` is not the graph183 accepted-branch
+  target.

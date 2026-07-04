@@ -357,6 +357,34 @@
       "passed": true
     },
     {
+      "detail": 176,
+      "name": "graph183_contract:graphConst_parsed",
+      "passed": true
+    },
+    {
+      "detail": -348,
+      "name": "graph183_contract:accepted_gain_parsed",
+      "passed": true
+    },
+    {
+      "detail": -172,
+      "name": "graph183_contract:accepted_bound_negative",
+      "passed": true
+    },
+    {
+      "detail": {
+        "lean": 176,
+        "profile": 176
+      },
+      "name": "graph183_contract:profile_const_matches_lean",
+      "passed": true
+    },
+    {
+      "detail": 88,
+      "name": "graph183_contract:profile_scale_88",
+      "passed": true
+    },
+    {
       "detail": 0,
       "name": "profile_100k:guard_exit_zero",
       "passed": true
@@ -417,6 +445,12 @@
       "best_quotient_states": 43,
       "best_state_ratio": 0.19282511210762332,
       "decision": "cocycle_quotient_candidates_found"
+    },
+    "graph183_scaling_contract": {
+      "graph183_accepted_bound_scaled": -172,
+      "graph183_accepted_gain_scaled": -348,
+      "profile_const_scaled": 176,
+      "profile_scale": 88
     },
     "profile_100k": {
       "edges": 93,

@@ -21,6 +21,7 @@ from __future__ import annotations
 from fractions import Fraction
 import json
 from pathlib import Path
+import re
 from typing import Any
 
 
@@ -253,6 +254,57 @@ def quotient_checks(profile: dict[str, Any] | None) -> list[dict[str, Any]]:
     ]
 
 
+def graph183_contract_checks(profile: dict[str, Any] | None) -> list[dict[str, Any]]:
+    socket_text = read_text(GRAPH183_SOCKET)
+    potential_text = read_text(
+        ROOT
+        / "Cuboctahedron/Generated/NonIdentity/Residual/"
+        "BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/Potential.lean"
+    )
+    graph_const_match = re.search(r"def graphConst\s*:\s*Int\s*:=\s*(-?\d+)", potential_text)
+    lean_const = int(graph_const_match.group(1)) if graph_const_match else None
+    accepted_gain_match = re.search(
+        r"some\s*\(126,\s*\(\(194\s*:\s*Int\)\s*\+\s*\(-542\s*:\s*Int\)\)\)",
+        socket_text,
+    )
+    accepted_gain = 194 - 542 if accepted_gain_match else None
+    accepted_bound = (
+        lean_const + accepted_gain
+        if lean_const is not None and accepted_gain is not None
+        else None
+    )
+    graph = (profile or {}).get("graph", {})
+    scale = graph.get("scale")
+    const_scaled = graph.get("const_scaled")
+    return [
+        {
+            "name": "graph183_contract:graphConst_parsed",
+            "passed": lean_const is not None,
+            "detail": lean_const,
+        },
+        {
+            "name": "graph183_contract:accepted_gain_parsed",
+            "passed": accepted_gain is not None,
+            "detail": accepted_gain,
+        },
+        {
+            "name": "graph183_contract:accepted_bound_negative",
+            "passed": accepted_bound is not None and accepted_bound < 0,
+            "detail": accepted_bound,
+        },
+        {
+            "name": "graph183_contract:profile_const_matches_lean",
+            "passed": lean_const is not None and const_scaled == lean_const,
+            "detail": {"lean": lean_const, "profile": const_scaled},
+        },
+        {
+            "name": "graph183_contract:profile_scale_88",
+            "passed": scale == 88,
+            "detail": scale,
+        },
+    ]
+
+
 def guard_checks(name: str, guard: dict[str, Any] | None) -> list[dict[str, Any]]:
     if guard is None:
         return [
@@ -402,6 +454,16 @@ def quotient_metrics(profile: dict[str, Any] | None) -> dict[str, Any]:
     }
 
 
+def contract_metrics(profile: dict[str, Any] | None) -> dict[str, Any]:
+    graph = (profile or {}).get("graph", {})
+    return {
+        "profile_scale": graph.get("scale"),
+        "profile_const_scaled": graph.get("const_scaled"),
+        "graph183_accepted_gain_scaled": 194 - 542,
+        "graph183_accepted_bound_scaled": 176 + (194 - 542),
+    }
+
+
 def render_markdown(report: dict[str, Any]) -> str:
     lines = [
         "# Graph183 Accepted-Tail Margin Frontier",
@@ -434,6 +496,24 @@ def render_markdown(report: dict[str, Any]) -> str:
         for key, value in row.items():
             lines.append(f"| `{key}` | `{value}` |")
         lines.append("")
+
+    lines.extend(
+        [
+            "## Graph183 Scaling Contract",
+            "",
+            "The graph183-specific accepted branch is deliberately more negative",
+            "than the diagnostic Bellman argmax.  The socket expects the scaled",
+            "bound:",
+            "",
+            "```text",
+            "graphConst + (194 - 542) = -172",
+            "```",
+            "",
+            "The profile scale is diagnostic context only; final proof evidence",
+            "must still be Lean-checked through the graph183 family theorem.",
+            "",
+        ]
+    )
 
     lines.extend(["## Checks", "", "| check | passed | detail |", "| --- | --- | --- |"])
     for check in report["checks"]:
@@ -499,6 +579,7 @@ def main() -> int:
     checks.extend(semantic_audit_checks(semantic))
     checks.extend(profile_checks("profile_100k", profile_100k))
     checks.extend(profile_checks("profile_1m", profile_1m))
+    checks.extend(graph183_contract_checks(profile_1m))
     checks.extend(guard_checks("profile_100k", guard_100k))
     checks.extend(guard_checks("profile_1m", guard_1m))
     checks.extend(quotient_checks(quotient_1m))
@@ -519,6 +600,7 @@ def main() -> int:
             "profile_100k": metrics(profile_100k, guard_100k),
             "profile_1m": metrics(profile_1m, guard_1m),
             "cocycle_quotient_1m": quotient_metrics(quotient_1m),
+            "graph183_scaling_contract": contract_metrics(profile_1m),
         },
         "next_lean_target": (
             "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin"

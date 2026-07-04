@@ -68,6 +68,28 @@ cocycle/coboundary quotient.
 | `best_state_ratio` | `0.19282511210762332` |
 | `best_edge_ratio` | `0.40611353711790393` |
 
+### graph183_scaling_contract
+
+| metric | value |
+| --- | ---: |
+| `profile_scale` | `88` |
+| `profile_const_scaled` | `176` |
+| `graph183_accepted_gain_scaled` | `-348` |
+| `graph183_accepted_bound_scaled` | `-172` |
+
+## Graph183 Scaling Contract
+
+The graph183-specific accepted branch is deliberately more negative
+than the diagnostic Bellman argmax.  The socket expects the scaled
+bound:
+
+```text
+graphConst + (194 - 542) = -172
+```
+
+The profile scale is diagnostic context only; final proof evidence
+must still be Lean-checked through the graph183 family theorem.
+
 ## Checks
 
 | check | passed | detail |
@@ -143,6 +165,11 @@ cocycle/coboundary quotient.
 | `profile_1m:observed_nonpositive` | `True` | `0` |
 | `profile_1m:max_margin_bound_nonpositive` | `True` | `0` |
 | `profile_1m:with_step_tri_source_mode` | `True` | `with-step-tri-source` |
+| `graph183_contract:graphConst_parsed` | `True` | `176` |
+| `graph183_contract:accepted_gain_parsed` | `True` | `-348` |
+| `graph183_contract:accepted_bound_negative` | `True` | `-172` |
+| `graph183_contract:profile_const_matches_lean` | `True` | `{'lean': 176, 'profile': 176}` |
+| `graph183_contract:profile_scale_88` | `True` | `88` |
 | `profile_100k:guard_exit_zero` | `True` | `0` |
 | `profile_100k:rss_under_512_mib` | `True` | `25.3828125` |
 | `profile_100k:available_above_30000_mib` | `True` | `45027.44140625` |
