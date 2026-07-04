@@ -1,5 +1,5 @@
 {
-  "decision": "semantic_evaluator_pivot_ready_for_membership_producer",
+  "decision": "semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer",
   "files": {
     "closed_final_margin_socket": {
       "exists": true,

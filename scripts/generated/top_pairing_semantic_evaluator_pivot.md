@@ -4,7 +4,7 @@ This audit is diagnostic status evidence, not proof.  It records the
 current Lean theorem surfaces for the pivot away from selected-prefix
 membership and toward deterministic closed-language evaluator proofs.
 
-- decision: `semantic_evaluator_pivot_ready_for_membership_producer`
+- decision: `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer`
 - missing required symbols: `0`
 - forbidden production-token hits: `0`
 - graph-alignment violations: `0`
@@ -55,109 +55,45 @@ membership and toward deterministic closed-language evaluator proofs.
 ## Accepted Pivot
 
 Keep Bellman, but reject selected-prefix membership as a production
-route.  The next generated proof should construct:
+route.  For graph183 the semantic evaluator membership problem is
+now closed: target cursor supplies target cancellation, and
+schedule/square/used/length state supplies `Graph150TargetCompletionTail`.
 
-```lean
-Depth11Layer4SevenBranchMappedPortfolioAllFamily scaledMargin
-```
-
-from semantic closed-language state: target-shadow cursor, schedule,
-square-gap, local-axis, tri-source progress, graph suffix class, and
-graph-exact margin bound.  The final theorem should consume the
-existing `closedToEvalGate_of_layer4MappedPortfolio` and
-`scaledMargin_nonpos_of_layer4MappedPortfolio` surfaces.
-
-The branch socket lets that portfolio be emitted and checked as seven
-independent `Depth11Layer4MappedBranchPortfolioFamily` leaves before
-bundling them into the full portfolio.
-
-It also exposes a strengthened branch-local surface for the first
-production slice when actual-face omni or accepted bad-face evidence
-is needed:
-
-```lean
-StrengthenedDepth11Layer4MappedBranchPortfolioFamily
-```
-
-The target-completion branch socket factors that strengthened
-surface one step further through `TopPairingTargetCompletionTail`.
-That is the current production shape for the pivot: prove remaining
-suffix membership from semantic actual-face / target-cancellation
-state, then classify to a graph-exact mapped case.
-
-The local-step socket then turns a semantic local branch table into
-a reusable target-completion branch family by consuming one face and
-passing the smaller suffix to a continuation.
-
-The first target-completion local branch-table shard is also
-tracked here.  It covers the graph-150/151 prefix-4 states by
-semantic `TopPairingTargetCompletionTail` transitions rather than
-observed traces.
-
-The direct graph-150 eval socket exposes the same first concrete
-branch through `TopPairingGraphExactEvalGateAtRank`: semantic
-target-completion forces `zp`, the strengthened evaluator reaches
-graph `157`, and a semantic post-`zp` suffix continuation supplies
-the final evaluator result and margin bound.  This is the preferred
-surface for the closed-language-to-evaluator pivot.
-
-The graph-157 continuation socket consumes one more semantic
-target-completion step.  After graph `150` forces `zp`, target
-completion forces `tppm`, the strengthened graph reaches `169`,
-and the remaining proof obligation is a still-smaller graph-169
-semantic suffix continuation.
-
-The graph-169 continuation socket consumes a third deterministic
-target-completion step.  After `zp,tppm`, target completion forces
-`tpmm`, the strengthened graph reaches `183`, and the remaining
-suffix is now small enough that the next scalable move should be a
-generated finite local-state table rather than more hand-written
-one-step sockets.
-
-The graph-183 tail-table socket records the first non-deterministic
-target-completion point on this branch.  Target-completion allows
-two tails: the `yp,tmpp,tmmp,xp` tail evaluates from graph `183`
-to `(126, -542)`, while the `tmmp,tmpp,yp,xp` tail reaches graph
-`19` with head `tmmp`, where `closedBellmanNext 19 Face.tmmp =
-none`.  The production obligation is therefore a final-margin
-proof for the accepted `yp` branch plus a semantic impossibility
-proof for the blocked `tmmp` branch.
-
-The blocked `tmmp` branch is now discharged semantically for the
-generated accepted bad-face predicate.  The socket proves that the
-blocked target-completion tail is `[tmpp, yp, xp]`, hence the full
-rank label list is exactly `rejectedGraphTrace_004`, and then uses
-`AcceptedSequenceBadFaceAtRank` / `sequenceBadFace_ok` to rule it
-out:
-
-```lean
-theorem graph183_blocked_branch_absurd_of_acceptedSequenceBadFace
-structure AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily
-theorem graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch
-theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch
-```
-
-The completion-tail component is now closed semantically by the
-target cursor: the cursor gives the graph150 target-cancellation
-tail, and schedule/square/used/length state gives
-`Graph150TargetCompletionTail`.  The next producer for this branch
-should target only the remaining accepted-tail integer margin
-component:
+This audit therefore treats the graph183 completion-tail slice as a
+passed semantic-transducer checkpoint.  The next producer must target
+only the accepted forced-tail integer margin component:
 
 ```lean
 AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
 ```
 
-The component combiner is:
+The accepted branch still composes through:
 
 ```lean
 acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components
 ```
 
+The margin producer may use the closed-language proof and the fixed
+forced tail:
+
+```lean
+Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+  (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)
+```
+
+but it must prove the integer inequality semantically.  If the proof
+needs exact affine RHS keys, solved start-point keys, accepted trace
+ids, selected prefixes, or one branch per rank/path, the route is
+not production-safe.  The next pivot should then be a cancellation
+segment or cocycle/coboundary quotient for this margin form, followed
+by the same Bellman potential bound.
+
 ## Go/No-Go Gate
 
-Go only if the next producer proves the portfolio by local semantic
-state transitions.  No-go if the proof introduces sampled ranks,
-selected-prefix coverage, accepted-trace ids, exact affine RHS keys,
-or one branch per rank/path.  In that case, add a missing semantic
-state field or pivot to the cancellation-tree/cocycle quotient.
+Go only if the next producer proves
+`AcceptedSequenceGraph183AcceptedTailMarginFamily` from semantic
+closed-language state and small integer margin facts.  No-go if the
+proof introduces sampled ranks, selected-prefix coverage, accepted
+trace ids, exact affine RHS keys, or one branch per rank/path.  In
+that case, add a missing semantic state field or pivot to the
+cancellation-tree/cocycle quotient.

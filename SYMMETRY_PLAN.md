@@ -100668,3 +100668,58 @@ local tables.
   If this margin proof wants exact affine RHS / solved start-point keys, switch
   to the Bellman/cocycle quotient margin certificate rather than adding
   per-rank data.
+
+### 2026-07-04 semantic evaluator pivot tightened to accepted-tail margin
+
+- Incorporated the latest GPT5.5 strategic correction: keep Bellman, but treat
+  graph183 selected-prefix membership as rejected for production.  The graph183
+  completion-tail slice has now crossed the semantic membership gate; the
+  target cursor and target-cancellation theorem supply the deterministic
+  closed-language evaluator membership.
+- Updated `scripts/audit_top_pairing_semantic_evaluator_pivot.py` so the
+  decision is now:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer
+  ```
+
+- The audit now states that the next allowed graph183 producer is exactly:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
+  ```
+
+- This producer must prove the forced accepted-tail integer inequality:
+
+  ```lean
+  Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+    (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)
+      -> scaledMargin rank <= graphConst + (194 + -542)
+  ```
+
+  from semantic closed-language state and small integer margin facts.
+- No-go condition: if this proof needs sampled ranks, selected prefixes,
+  accepted-trace ids, exact affine RHS keys, solved start-point keys, or one
+  branch per rank/path, do not scale it.  Pivot the margin proof to a
+  cancellation-segment or cocycle/coboundary quotient and then reapply the
+  Bellman potential bound.
+- Lightweight verification:
+
+  ```bash
+  python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+  ```
+
+- Result:
+  `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer`.
+- Focused guarded Lake build result: passed with `elapsed_seconds=2.00`,
+  `peak_tree_rss_mib=806`, and `min_available_mib=46227`.
