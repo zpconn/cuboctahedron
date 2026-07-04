@@ -19,6 +19,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `depth11_graph_exact_portfolio` | `177` | none |
 | `depth11_layer4_mapped_finish` | `1503` | none |
 | `depth11_layer4_mapped_branch_socket` | `223` | none |
+| `depth11_layer4_target_completion_branch_socket` | `131` | none |
 | `depth11_closed_providers` | `1536` | none |
 
 ## Guard Measurements
@@ -26,6 +27,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `depth11_layer4_mapped_finish`: exit `0`, elapsed `18.009754205995705`, peak RSS MiB `4048.703125`
 - `depth11_closed_providers_lake`: exit `0`, elapsed `4.003515039003105`, peak RSS MiB `4088.734375`
 - `depth11_layer4_mapped_branch_socket_lake`: exit `0`, elapsed `28.024844848012435`, peak RSS MiB `4391.59765625`
+- `depth11_layer4_target_completion_branch_socket_lake`: exit `0`, elapsed `3.0264380170119694`, peak RSS MiB `4046.76171875`
 
 ## Forbidden Production Hits
 
@@ -57,6 +59,12 @@ is needed:
 ```lean
 StrengthenedDepth11Layer4MappedBranchPortfolioFamily
 ```
+
+The target-completion branch socket factors that strengthened
+surface one step further through `TopPairingTargetCompletionTail`.
+That is the current production shape for the pivot: prove remaining
+suffix membership from semantic actual-face / target-cancellation
+state, then classify to a graph-exact mapped case.
 
 ## Go/No-Go Gate
 

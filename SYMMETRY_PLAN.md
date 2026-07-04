@@ -99155,3 +99155,100 @@ local tables.
   `Depth11Layer4MappedClassCase`.  It must not use selected-prefix ids,
   accepted-trace ids, sampled ranks, exact affine RHS keys, or one constructor
   per rank/path.
+
+2026-07-04 target-completion branch socket and current pivot:
+
+- Revised strategy after the latest GPT-5.5 Pro review:
+  keep Bellman, but reject selected-prefix membership as a production
+  coverage mechanism.  The next proof obligation is not more Bellman data; it
+  is a semantic deterministic evaluator theorem:
+
+  ```lean
+  TopPairingClosedLanguageAtRank rank Face.ym
+    -- or a documented strengthened closed-language predicate
+    -> evalLabelStepFn graphNext rootState (labelsOfRank rank) = some result
+  ```
+
+  The proof must be driven by semantic state: target-shadow / cancellation
+  progress, schedule, square-gap, local-axis class, actual-face omni facts,
+  tri-source progress, and graph suffix state.  It must not introduce sampled
+  ranks, accepted-trace ids, selected-prefix covers, exact affine RHS keys, or
+  one proof branch per rank/path.
+
+- Added:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4TargetCompletionBranchSocket.lean
+  ```
+
+- New theorem surface:
+
+  ```lean
+  structure StrengthenedDepth11Layer4TargetCompletionBranchFamily
+      (scaledMargin : Fin numPairWords -> Int)
+      (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+      (face₀ face₁ : Face)
+      (state : TopPairingTargetCompletionState) : Prop
+
+  theorem strengthenedMappedBranchPortfolio_of_targetCompletionBranchFamily :
+      StrengthenedDepth11Layer4TargetCompletionBranchFamily
+        scaledMargin sequenceBadFace face₀ face₁ state ->
+      StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+        scaledMargin sequenceBadFace face₀ face₁
+
+  theorem mappedEvalGateAtRank_of_targetCompletionBranchFamily :
+      ... -> Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank
+
+  theorem graphExactEvalGateAtRank_of_targetCompletionBranchFamily :
+      ... -> Split10MGraphExactEvalGateAtRank scaledMargin rank
+
+  theorem scaledMargin_nonpos_of_targetCompletionBranchFamily :
+      ... -> scaledMargin rank <= 0
+  ```
+
+- Meaning: a generated branch proof can now be factored through
+  `TopPairingTargetCompletionTail state rest`, the existing semantic
+  remaining-face / target-cancellation state.  This is a narrower and safer
+  first production target than proving a whole branch directly from closed
+  language facts, and it is exactly where the semantic evaluator pivot should
+  succeed or fail.
+
+- Focused guarded Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+  depth11_layer4_target_completion_branch_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4TargetCompletionBranchSocket
+  ```
+
+  passed with `elapsed_seconds=3.03`, `peak_tree_rss_mib=4046`, and
+  `min_available_mib=45809`.
+
+- Updated and reran:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The decision remains:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- Go/no-go now: implement the first real
+  `StrengthenedDepth11Layer4TargetCompletionBranchFamily` instance for one
+  branch/state, preferably using `graph150TargetCompletionState` or the
+  smallest branch discovered by the semantic profiler.  Go only if the proof
+  uses local target-completion/evaluator transitions.  No-go if it needs an
+  observed trace table, sampled rank object, selected-prefix cover, exact
+  affine RHS, or exact solved start point.  If no-go, add the missing semantic
+  state field or run the cocycle quotient experiment before emitting broader
+  families.

@@ -40,6 +40,9 @@ FILES = {
     "depth11_layer4_mapped_branch_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4MappedBranchSocket.lean",
+    "depth11_layer4_target_completion_branch_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4TargetCompletionBranchSocket.lean",
     "depth11_closed_providers": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean",
@@ -52,6 +55,8 @@ GUARDS = {
     / "scripts/generated/depth11_closed_providers_strengthened_adapters_lake_guard.json",
     "depth11_layer4_mapped_branch_socket_lake": ROOT
     / "scripts/generated/depth11_layer4_mapped_branch_socket_lake_guard.json",
+    "depth11_layer4_target_completion_branch_socket_lake": ROOT
+    / "scripts/generated/depth11_layer4_target_completion_branch_socket_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -93,6 +98,13 @@ REQUIRED_SYMBOLS = {
         "mappedPortfolio_of_mappedBranchPortfolioBundle",
         "scaledMargin_nonpos_of_mappedBranchPortfolioBundle",
     ],
+    "depth11_layer4_target_completion_branch_socket": [
+        "StrengthenedDepth11Layer4TargetCompletionBranchFamily",
+        "strengthenedMappedBranchPortfolio_of_targetCompletionBranchFamily",
+        "mappedEvalGateAtRank_of_targetCompletionBranchFamily",
+        "graphExactEvalGateAtRank_of_targetCompletionBranchFamily",
+        "scaledMargin_nonpos_of_targetCompletionBranchFamily",
+    ],
     "depth11_closed_providers": [
         "semanticStateDAGAllFamily_of_class034",
         "semanticStateDAGAllFamily_of_class035",
@@ -111,6 +123,7 @@ PRODUCTION_SCAN_FILES = [
     "depth11_graph_exact_portfolio",
     "depth11_layer4_mapped_finish",
     "depth11_layer4_mapped_branch_socket",
+    "depth11_layer4_target_completion_branch_socket",
     "depth11_closed_providers",
 ]
 
@@ -238,6 +251,12 @@ def render_markdown(report: dict[str, Any]) -> str:
             "```lean",
             "StrengthenedDepth11Layer4MappedBranchPortfolioFamily",
             "```",
+            "",
+            "The target-completion branch socket factors that strengthened",
+            "surface one step further through `TopPairingTargetCompletionTail`.",
+            "That is the current production shape for the pivot: prove remaining",
+            "suffix membership from semantic actual-face / target-cancellation",
+            "state, then classify to a graph-exact mapped case.",
             "",
             "## Go/No-Go Gate",
             "",
