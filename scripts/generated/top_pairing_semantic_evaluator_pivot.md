@@ -22,6 +22,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `depth11_layer4_target_completion_branch_socket` | `131` | none |
 | `target_completion_local_step_socket` | `140` | none |
 | `graph150_continuation_socket` | `155` | none |
+| `graph150_direct_eval_socket` | `127` | none |
 | `target_completion_local_branch_table_shard000` | `63` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -34,6 +35,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `target_completion_local_branch_table_shard000_lake`: exit `0`, elapsed `1.0016190989990719`, peak RSS MiB `1.3125`
 - `target_completion_local_step_socket_lake`: exit `0`, elapsed `3.0331940350006334`, peak RSS MiB `4050.24609375`
 - `graph150_continuation_socket_lake`: exit `0`, elapsed `3.0029323759954423`, peak RSS MiB `3996.65625`
+- `graph150_direct_eval_socket_lake`: exit `0`, elapsed `3.002738071998465`, peak RSS MiB `4050.12890625`
 
 ## Forbidden Production Hits
 
@@ -80,6 +82,13 @@ The first target-completion local branch-table shard is also
 tracked here.  It covers the graph-150/151 prefix-4 states by
 semantic `TopPairingTargetCompletionTail` transitions rather than
 observed traces.
+
+The direct graph-150 eval socket exposes the same first concrete
+branch through `TopPairingGraphExactEvalGateAtRank`: semantic
+target-completion forces `zp`, the strengthened evaluator reaches
+graph `157`, and a semantic post-`zp` suffix continuation supplies
+the final evaluator result and margin bound.  This is the preferred
+surface for the closed-language-to-evaluator pivot.
 
 ## Go/No-Go Gate
 

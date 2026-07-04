@@ -99511,3 +99511,83 @@ local tables.
   and local-axis data.  If the proof tries to key on exact rank, full prefix,
   exact affine offset, or a sampled path id, stop and introduce a richer
   semantic state or the cocycle-quotient experiment before proceeding.
+
+### 2026-07-04 graph150 direct graph-exact eval socket
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph150DirectEvalSocket.lean`.
+  This is the cleaner version of the graph150 continuation for the new
+  GPT5.5 pivot: it avoids the older mapped-class portfolio surface and exposes
+  a rank-local exact Bellman evaluator gate directly.
+- New semantic continuation surface:
+
+  ```lean
+  structure StrengthenedGraph150AfterZpGraphExactContinuationFamily
+      (scaledMargin : Fin numPairWords -> Int)
+      (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop
+  ```
+
+  Its first field proves that strengthened closed top-pairing semantics plus
+  the `tmpm, zm` prefix has a `Graph150TargetCompletionTail`; its second field
+  proves the post-`zp` suffix from graph `157` with no sampled rank/path table.
+- New theorem:
+
+  ```lean
+  theorem graphExactEvalGateAtRank_of_graph150AfterZpGraphExactContinuation :
+      StrengthenedGraph150AfterZpGraphExactContinuationFamily
+        scaledMargin sequenceBadFace ->
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+      TopPairingGraphExactEvalGateAtRank
+        graphPotential closedBellmanNext (fun face : Face => face)
+        graphRoot graphConst scaledMargin rank Face.ym
+  ```
+
+- Meaning: semantic target completion forces the next label to be `zp`; the
+  deterministic strengthened graph evaluator has the fixed prefix evaluation
+
+  ```lean
+  evalLabelStepFn closedBellmanNext graphRoot
+    [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.zp]
+    = some (157, 134)
+  ```
+
+  and the only remaining production obligation is a semantic theorem for the
+  post-`zp` suffix.  This matches the latest strategic rule exactly: prove
+  `TopPairingClosedLanguageAtRank` / strengthened closed state drives
+  `evalLabelStepFn`; do not introduce selected-prefix membership, sampled
+  rank indices, exact affine RHS keys, solved start-point keys, or one branch
+  per observed trace.
+- Focused guarded Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph150_direct_eval_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph150DirectEvalSocket
+  ```
+
+  passed with `elapsed_seconds=3.00`, `peak_tree_rss_mib=4050`, and
+  `min_available_mib=45053`.
+- Updated and reran:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The decision remains:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- Next implementation target: prove the post-`zp` suffix continuation for
+  graph `157`, preferably from a target-shadow / tri-source cursor and
+  graph-suffix predicate.  If that proof needs observed trace IDs or sampled
+  membership, stop and add the missing semantic cursor/state field or run the
+  cocycle-quotient experiment.

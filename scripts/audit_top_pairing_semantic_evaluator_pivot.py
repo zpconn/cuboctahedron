@@ -49,6 +49,9 @@ FILES = {
     "graph150_continuation_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph150ContinuationSocket.lean",
+    "graph150_direct_eval_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph150DirectEvalSocket.lean",
     "target_completion_local_branch_table_shard000": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
@@ -72,6 +75,8 @@ GUARDS = {
     / "scripts/generated/target_completion_local_step_socket_lake_guard.json",
     "graph150_continuation_socket_lake": ROOT
     / "scripts/generated/graph150_continuation_socket_lake_guard.json",
+    "graph150_direct_eval_socket_lake": ROOT
+    / "scripts/generated/graph150_direct_eval_socket_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -133,6 +138,11 @@ REQUIRED_SYMBOLS = {
         "mappedEvalGateAtRank_of_graph150AfterZpContinuation",
         "scaledMargin_nonpos_of_graph150AfterZpContinuation",
     ],
+    "graph150_direct_eval_socket": [
+        "StrengthenedGraph150AfterZpGraphExactContinuationFamily",
+        "graphExactEvalGateAtRank_of_graph150AfterZpGraphExactContinuation",
+        "graph150DirectEvalSocket_builds",
+    ],
     "target_completion_local_branch_table_shard000": [
         "ShardState",
         "completionState",
@@ -160,6 +170,7 @@ PRODUCTION_SCAN_FILES = [
     "depth11_layer4_target_completion_branch_socket",
     "target_completion_local_step_socket",
     "graph150_continuation_socket",
+    "graph150_direct_eval_socket",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
 ]
@@ -303,6 +314,13 @@ def render_markdown(report: dict[str, Any]) -> str:
             "tracked here.  It covers the graph-150/151 prefix-4 states by",
             "semantic `TopPairingTargetCompletionTail` transitions rather than",
             "observed traces.",
+            "",
+            "The direct graph-150 eval socket exposes the same first concrete",
+            "branch through `TopPairingGraphExactEvalGateAtRank`: semantic",
+            "target-completion forces `zp`, the strengthened evaluator reaches",
+            "graph `157`, and a semantic post-`zp` suffix continuation supplies",
+            "the final evaluator result and margin bound.  This is the preferred",
+            "surface for the closed-language-to-evaluator pivot.",
             "",
             "## Go/No-Go Gate",
             "",
