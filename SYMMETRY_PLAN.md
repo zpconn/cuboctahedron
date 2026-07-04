@@ -94188,3 +94188,77 @@ Remaining open proof obligations:
 - if a future full-window audit finds linear collisions under the coarse key,
   add a semantic linear/gauge field or prove the needed margin quantity factors
   through the current key before scaling.
+
+### Holonomy/Bellman Pivot - semantic state-transition emitter smoke
+
+Added the first bounded graph-state transition emitter for the deterministic
+closed-language evaluator route:
+
+```text
+scripts/emit_top_pairing_semantic_state_transition_smoke.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateTransitionEmitterSmoke.lean
+scripts/generated/semantic_state_transition_emitter_smoke_guard.json
+```
+
+The emitter reads the audited split-10M graph JSON and emits checked
+`graphSmokeNext` transition facts.  The bounded smoke currently emits 32
+singleton-label transitions such as:
+
+```lean
+theorem emitted_transition_0000_s0000_xm :
+    graphSmokeNext (0 : State) (smokeLabelOfFace Face.xm) =
+      some ((608 : State), (103 : Int)) := by
+  rfl
+```
+
+This is intentionally only a local transition socket.  It does not prove
+closed-language membership, does not enumerate ranks, and does not import the
+terminal trace classifier or old final-margin provider path.  Its role is to
+validate the generated theorem shape that a later semantic transducer emitter
+can shard across the full 1054-transition table.
+
+Checks:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_semantic_state_transition_smoke.py
+
+python3 scripts/emit_top_pairing_semantic_state_transition_smoke.py
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|\
+sampledContainsRank|sampledRankOf|acceptedTrace|selected-prefix" \
+  scripts/emit_top_pairing_semantic_state_transition_smoke.py \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateTransitionEmitterSmoke.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/semantic_state_transition_emitter_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingSemanticStateTransitionEmitterSmoke.lean
+```
+
+Results:
+
+```text
+py_compile: pass
+emitter: pass, wrote 32 transitions
+forbidden-token scan over new script/file: no matches
+guarded Lean check: pass
+elapsed: 15.02s
+peak_tree_rss: 3890.67 MiB
+min_available: 45952.89 MiB
+hard address-space cap: 8192 MiB
+```
+
+Decision: accepted as a memory-safe generated transition-fact emitter smoke.
+Next implementation target is not simply "emit all transitions"; it is the
+semantic bridge that consumes these transition facts from
+`TopPairingClosedLanguageAtRank` fields.  Scale this emitter only as a
+supporting shard once the closed-language allowed-face theorem is real.
