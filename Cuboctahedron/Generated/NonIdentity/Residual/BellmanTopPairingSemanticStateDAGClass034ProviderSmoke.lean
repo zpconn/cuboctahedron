@@ -87,6 +87,19 @@ theorem split10MGraphSuffixProducer_of_class034
   subst graph₂
   exact graphBranchTableSuffixOk_class034 hsuffixClass
 
+theorem class034SequenceBadFace_extract
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclass :
+      Class034SequenceBadFace scaledMargin rank Face.ym) :
+    AcceptedSequenceBadFaceAtRank rank Face.ym ∧
+      TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧
+        Split10MGraphSuffixProducer rank ∧
+          Split10MFinalMarginProducer scaledMargin rank := by
+  rcases hclass with ⟨hbad, hterminal, hclass, hfinalMargin⟩
+  exact ⟨hbad, hterminal,
+    split10MGraphSuffixProducer_of_class034 hclass, hfinalMargin⟩
+
 theorem depth11Class034State0197Suffix_of_class034Suffix
     {rest : List Face}
     (hclass : Class034Suffix rest) :
@@ -121,15 +134,10 @@ theorem semanticStateDAGFamily_of_class034
       TopPairingStrengthenedClosedLanguageAtRank
         (Class034SequenceBadFace scaledMargin) rank Face.ym) :
     StrengthenedSemanticStateDAGFamily scaledMargin rank := by
-  rcases hstrengthened.sequenceBadFace_ok with
-    ⟨hbad, hterminal, hclass, hfinalMargin⟩
-  refine
-    { strengthened :=
-        TopPairingStrengthenedClosedLanguageAtRank.ofComponents
-          hstrengthened.closed hstrengthened.actualFaceOmni hbad
-      terminalOk := hterminal
-      graphSuffix := split10MGraphSuffixProducer_of_class034 hclass
-      finalMargin := hfinalMargin }
+  exact semanticStateDAGFamily_of_strengthenedSequenceBadFace
+    (scaledMargin := scaledMargin)
+    (hextract := class034SequenceBadFace_extract)
+    hstrengthened
 
 theorem closedTransducerProducer_of_class034
     {scaledMargin : Fin numPairWords -> Int}
@@ -185,10 +193,11 @@ theorem semanticStateDAGAllFamily_of_class034
           AcceptedSequenceBadFaceAtRank rank Face.ym ->
         TopPairingStrengthenedClosedLanguageAtRank
           (Class034SequenceBadFace scaledMargin) rank Face.ym) :
-    StrengthenedSemanticStateDAGAllFamily scaledMargin where
-  family := by
-    intro rank hstrengthened
-    exact semanticStateDAGFamily_of_class034 (hclass rank hstrengthened)
+    StrengthenedSemanticStateDAGAllFamily scaledMargin :=
+  semanticStateDAGAllFamily_of_strengthenedSequenceBadFace
+    (scaledMargin := scaledMargin)
+    hclass
+    (hextract := class034SequenceBadFace_extract)
 
 theorem scaledMargin_nonpos_of_class034AllFamily
     {scaledMargin : Fin numPairWords -> Int}

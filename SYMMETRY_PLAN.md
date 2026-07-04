@@ -98683,3 +98683,82 @@ local tables.
 - Next implementation target: update the class-034/class-035 smokes to use the
   shared extractor where that makes the generated pattern clearer, then use the
   same extractor for the next depth-11 semantic class.
+
+2026-07-04 class-034/class-035 shared-extractor refactor:
+
+- Updated the existing class-034 and class-035 semantic state-DAG provider
+  smokes to use
+  `semanticStateDAGFamily_of_strengthenedSequenceBadFace` and
+  `semanticStateDAGAllFamily_of_strengthenedSequenceBadFace` instead of
+  duplicating the strengthened-language unpacking proof.
+- Touched files:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSemanticStateDAGClass035ProviderSmoke.lean
+  ```
+
+- New extractor examples:
+
+  ```lean
+  theorem class034SequenceBadFace_extract
+      {scaledMargin : Fin numPairWords -> Int}
+      {rank : Fin numPairWords}
+      (hclass :
+        Class034SequenceBadFace scaledMargin rank Face.ym) :
+      AcceptedSequenceBadFaceAtRank rank Face.ym ∧
+        TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧
+          Split10MGraphSuffixProducer rank ∧
+            Split10MFinalMarginProducer scaledMargin rank
+
+  theorem class035SequenceBadFace_extract
+      {scaledMargin : Fin numPairWords -> Int}
+      {rank : Fin numPairWords}
+      (hclass :
+        Class035SequenceBadFace scaledMargin rank Face.ym) :
+      AcceptedSequenceBadFaceAtRank rank Face.ym ∧
+        TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧
+          Split10MGraphSuffixProducer rank ∧
+            Split10MFinalMarginProducer scaledMargin rank
+  ```
+
+- Focused guarded direct checks:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 240 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/semantic_state_dag_class034_shared_extractor_guard.json \
+    --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSemanticStateDAGClass034ProviderSmoke.lean
+  ```
+
+  passed with `elapsed_seconds=2.00`, `peak_tree_rss_mib=3610`, and
+  `min_available_mib=45442`.
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 240 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/semantic_state_dag_class035_shared_extractor_guard.json \
+    --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSemanticStateDAGClass035ProviderSmoke.lean
+  ```
+
+  passed with `elapsed_seconds=2.00`, `peak_tree_rss_mib=3609`, and
+  `min_available_mib=45492`.
+- Forbidden-token scan over both touched provider smokes found no matches for
+  `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+  `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`,
+  `sampledSmokeNext`, `SelectedPrefix`, `acceptedTraceOfId`, or
+  `AcceptedTraceId`.
+- Next implementation target: use the extractor pattern for the next depth-11
+  class provider.  The emitter should generate exactly two pieces per class:
+  a semantic `ClassNNNSequenceBadFace` extractor, and a theorem from the base
+  strengthened predicate to that class-specific strengthened predicate.
