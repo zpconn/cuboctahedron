@@ -1,0 +1,24 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "-M",
+    "6500",
+    "-j1",
+    "-s",
+    "2048",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean"
+  ],
+  "elapsed_seconds": 3.003222906991141,
+  "exit_code": 0,
+  "hard_address_space_mib": null,
+  "killed_reason": null,
+  "max_tree_rss_kib": 3657616,
+  "max_tree_rss_mib": 3571.890625,
+  "min_available_seen_kib": 47133036,
+  "min_available_seen_mib": 46028.35546875,
+  "rss_cap_mib": 6500.0,
+  "timeout_seconds": 120.0
+}

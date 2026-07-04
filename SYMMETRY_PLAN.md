@@ -95681,3 +95681,99 @@ SuffixOk rank state (face :: rest) ->
 ```
 
 This should still be a semantic state/face table, not a rank/path table.
+
+### Holonomy/Bellman Pivot - prefix-2 finite branch table
+
+Packaged the prefix-2 local theorem as an explicit finite semantic branch
+table.  This is the first miniature version of the production local-transition
+emitter: semantic tail data selects a branch from a small finite table, and the
+branch soundness theorem applies the corresponding graph edge.
+
+New theorem surface:
+
+```lean
+inductive StrengthenedPrefix2Branch where
+  | tmpm | yp | zm
+
+namespace StrengthenedPrefix2Branch
+
+def face : StrengthenedPrefix2Branch -> Face
+def nextGraph : StrengthenedPrefix2Branch -> Nat
+def gain : StrengthenedPrefix2Branch -> Int
+
+theorem step (branch : StrengthenedPrefix2Branch) :
+    ClosedBellmanStep 143 branch.face branch.nextGraph branch.gain
+
+end StrengthenedPrefix2Branch
+
+theorem strengthenedPrefix2Branch_of_tail
+    (htail :
+      strengthenedClosedPrefix2EvalState.Tail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix2Branch,
+      branch.face = face
+
+theorem strengthenedPrefix2Branch_sound
+    (htail :
+      strengthenedClosedPrefix2EvalState.Tail (branch.face :: rest)) :
+    ∃ nextState : StrengthenedClosedEvalState,
+      strengthenedClosedEvalNext strengthenedClosedPrefix2EvalState
+          branch.face = some (nextState, branch.gain) ∧
+        nextState.Tail rest ∧
+          nextState.graph = branch.nextGraph
+
+theorem strengthenedClosedPrefix2LocalTransition_table
+    (htail :
+      strengthenedClosedPrefix2EvalState.Tail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix2Branch,
+      branch.face = face ∧
+        ∃ nextState : StrengthenedClosedEvalState,
+          strengthenedClosedEvalNext strengthenedClosedPrefix2EvalState
+              face = some (nextState, branch.gain) ∧
+            nextState.Tail rest ∧
+              nextState.graph = branch.nextGraph
+```
+
+The branch classifier uses only `TopPairingTransducerTail.cons` for the
+semantic prefix-2 state.  The branch table itself is three constructors:
+
+```text
+tmpm -> graph 146, gain -124, edge e0127_l02
+yp   -> graph 144, gain  -73, edge e0125_l11
+zm   -> graph 145, gain  -10, edge e0126_l12
+```
+
+Focused guarded check:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 120 \
+    --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 \
+    --json scripts/generated/closed_bellman_strengthened_prefix2_table_smoke_guard.json \
+    --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+
+result:
+  pass, elapsed 3.00s,
+  peak_tree_rss 3571 MiB,
+  min_available_seen 46028 MiB
+```
+
+Forbidden-token/sampled-membership scan:
+
+```text
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|\
+sampledContainsRank\|sampledRankOf\|AcceptedTraceId\|acceptedTrace" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean || true
+
+result: no matches
+```
+
+Decision: accepted.  The production emitter should generalize this shape:
+emit one local branch table per reachable semantic transducer/graph state,
+prove `branch_of_tail` by semantic state constraints, prove `branch_sound` by
+local graph edges, and let the existing transducer eval bridge assemble the
+full evaluator theorem.

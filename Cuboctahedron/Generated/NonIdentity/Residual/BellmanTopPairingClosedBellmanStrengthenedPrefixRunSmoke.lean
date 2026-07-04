@@ -310,6 +310,92 @@ theorem strengthenedClosedPrefix2LocalTransition_of_tail
     exact ⟨nextState, (-10 : Int), hnext, htailNext,
       Or.inr (Or.inr ⟨hgraphNext, rfl⟩)⟩
 
+inductive StrengthenedPrefix2Branch where
+  | tmpm | yp | zm
+  deriving DecidableEq, Repr
+
+namespace StrengthenedPrefix2Branch
+
+def face : StrengthenedPrefix2Branch -> Face
+  | .tmpm => Face.tmpm
+  | .yp => Face.yp
+  | .zm => Face.zm
+
+def nextGraph : StrengthenedPrefix2Branch -> Nat
+  | .tmpm => 146
+  | .yp => 144
+  | .zm => 145
+
+def gain : StrengthenedPrefix2Branch -> Int
+  | .tmpm => -124
+  | .yp => -73
+  | .zm => -10
+
+theorem step (branch : StrengthenedPrefix2Branch) :
+    ClosedBellmanStep 143 branch.face branch.nextGraph branch.gain := by
+  cases branch <;> first
+    | exact ClosedBellmanStep.e0127_l02
+    | exact ClosedBellmanStep.e0125_l11
+    | exact ClosedBellmanStep.e0126_l12
+
+end StrengthenedPrefix2Branch
+
+theorem strengthenedPrefix2Branch_of_tail
+    {face : Face} {rest : List Face}
+    (htail :
+      strengthenedClosedPrefix2EvalState.Tail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix2Branch,
+      branch.face = face := by
+  have htailRaw :
+      TopPairingTransducerTail
+        strengthenedClosedPrefix2TransducerState.step
+        strengthenedClosedPrefix2TransducerState.gap
+        strengthenedClosedPrefix2TransducerState.k
+        strengthenedClosedPrefix2TransducerState.parity
+        strengthenedClosedPrefix2TransducerState.linear
+        (face :: rest) := by
+    simpa [TopPairingTransducerEvalState.Tail,
+      TopPairingTransducerState.Tail,
+      strengthenedClosedPrefix2EvalState] using htail
+  have hcons := TopPairingTransducerTail.cons htailRaw
+  have hface : face ∈ topPairingAllowedFacesAtStep 2 := by
+    simpa [strengthenedClosedPrefix2TransducerState] using hcons.1
+  simp [topPairingAllowedFacesAtStep] at hface
+  rcases hface with rfl | rfl | rfl
+  · exact ⟨StrengthenedPrefix2Branch.tmpm, rfl⟩
+  · exact ⟨StrengthenedPrefix2Branch.yp, rfl⟩
+  · exact ⟨StrengthenedPrefix2Branch.zm, rfl⟩
+
+theorem strengthenedPrefix2Branch_sound
+    {branch : StrengthenedPrefix2Branch} {rest : List Face}
+    (htail :
+      strengthenedClosedPrefix2EvalState.Tail (branch.face :: rest)) :
+    ∃ nextState : StrengthenedClosedEvalState,
+      strengthenedClosedEvalNext strengthenedClosedPrefix2EvalState
+          branch.face = some (nextState, branch.gain) ∧
+        nextState.Tail rest ∧
+          nextState.graph = branch.nextGraph := by
+  exact strengthenedClosedEvalNext_of_closedBellmanStep htail
+    (StrengthenedPrefix2Branch.step branch)
+
+theorem strengthenedClosedPrefix2LocalTransition_table
+    {face : Face} {rest : List Face}
+    (htail :
+      strengthenedClosedPrefix2EvalState.Tail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix2Branch,
+      branch.face = face ∧
+        ∃ nextState : StrengthenedClosedEvalState,
+          strengthenedClosedEvalNext strengthenedClosedPrefix2EvalState
+              face = some (nextState, branch.gain) ∧
+            nextState.Tail rest ∧
+              nextState.graph = branch.nextGraph := by
+  rcases strengthenedPrefix2Branch_of_tail htail with ⟨branch, hface⟩
+  subst face
+  rcases strengthenedPrefix2Branch_sound
+      (branch := branch) htail with
+    ⟨nextState, hnext, htailNext, hgraphNext⟩
+  exact ⟨branch, rfl, nextState, hnext, htailNext, hgraphNext⟩
+
 theorem closedPrefix3GraphRun_cases
     {rank : Fin numPairWords} {badFace : Face}
     (hclosed : TopPairingClosedLanguageAtRank rank badFace) :
