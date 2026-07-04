@@ -124,6 +124,54 @@ abbrev TopPairingStrengthenedToGraphExactEvalGate
       TopPairingGraphExactEvalGateAtRank
         V next labelOfFace start const scaledMargin rank badFace
 
+/--
+Closed-language semantic gate whose membership theorem constructs a Bellman
+label-step run directly.
+
+This is the preferred target when a generated deterministic graph already has
+a small inductive step relation with local potential inequalities.  It avoids
+proving a global inverse theorem for a generated `next` dispatcher.
+-/
+abbrev TopPairingClosedToStepRunGate
+    {State Label : Type}
+    (V : State -> Int)
+    (Step : State -> Label -> State -> Int -> Prop)
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (badFace : Face) : Prop :=
+  forall rank,
+    TopPairingClosedLanguageAtRank rank badFace ->
+      exists finish gain,
+        BellmanLabelStepRun Step start finish
+            (faceLabelsInContributionOrder labelOfFace
+              (canonicalSeqOfPairWord (unrankPairWord rank))) gain /\
+          0 <= V finish /\
+            scaledMargin rank <= const + gain
+
+/--
+Strengthened closed-language variant of `TopPairingClosedToStepRunGate`.
+-/
+abbrev TopPairingStrengthenedToStepRunGate
+    {State Label : Type}
+    (V : State -> Int)
+    (Step : State -> Label -> State -> Int -> Prop)
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (badFace : Face) : Prop :=
+  forall rank,
+    TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank badFace ->
+      exists finish gain,
+        BellmanLabelStepRun Step start finish
+            (faceLabelsInContributionOrder labelOfFace
+              (canonicalSeqOfPairWord (unrankPairWord rank))) gain /\
+          0 <= V finish /\
+            scaledMargin rank <= const + gain
+
 theorem evalLanguageAtRank_of_graphExactEvalGate
     {State Label : Type}
     {V : State -> Int}
@@ -281,6 +329,59 @@ theorem strengthenedToGraphExactEvalGate_of_evalGate
   intro rank hstrengthened
   exact graphExactEvalGateAtRank_of_evalLanguageAtRank
     (gate rank hstrengthened)
+
+theorem scaledMargin_nonpos_of_closedStepRunGate
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {badFace : Face}
+    (gate :
+      TopPairingClosedToStepRunGate
+        V Step labelOfFace start const scaledMargin badFace)
+    (step_valid :
+      forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (root_bound : const + V start <= 0)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank badFace) :
+    scaledMargin rank <= 0 := by
+  rcases gate rank hclosed with ⟨finish, gain, hrun, hfinal, hmargin⟩
+  have hconst : const + gain <= 0 :=
+    const_add_labelStepRunGain_nonpos
+      (V := V) (Step := Step) (const := const)
+      hrun step_valid hfinal root_bound
+  omega
+
+theorem scaledMargin_nonpos_of_strengthenedStepRunGate
+    {State Label : Type}
+    {V : State -> Int}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {labelOfFace : Face -> Label}
+    {start : State}
+    {const : Int}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {badFace : Face}
+    (gate :
+      TopPairingStrengthenedToStepRunGate
+        V Step labelOfFace start const scaledMargin sequenceBadFace badFace)
+    (step_valid :
+      forall s label t gain, Step s label t gain -> gain + V t <= V s)
+    (root_bound : const + V start <= 0)
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank badFace) :
+    scaledMargin rank <= 0 := by
+  rcases gate rank hstrengthened with ⟨finish, gain, hrun, hfinal, hmargin⟩
+  have hconst : const + gain <= 0 :=
+    const_add_labelStepRunGain_nonpos
+      (V := V) (Step := Step) (const := const)
+      hrun step_valid hfinal root_bound
+  omega
 
 def closedObjectCoverOfSemanticGate
     {badFace : Face}

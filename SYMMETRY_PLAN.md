@@ -95266,3 +95266,96 @@ Next implementation target:
   tiny graph-local facts with measured heartbeats/RSS.
 - Do not use sampled paths, selected prefixes, accepted trace ids, exact
   affine RHS keys, or solved start-point keys to construct the run.
+
+### Holonomy/Bellman Pivot - generic semantic step-run gate
+
+Promoted the step-run proof shape into the hand-written semantic Bellman layer:
+
+```text
+Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+scripts/generated/top_pairing_bellman_semantic_step_run_gate_guard.json
+scripts/generated/closed_bellman_strengthened_step_run_socket_after_core_guard.json
+```
+
+New generic theorem surfaces:
+
+```lean
+abbrev TopPairingClosedToStepRunGate
+    (V : State -> Int)
+    (Step : State -> Label -> State -> Int -> Prop)
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (badFace : Face) : Prop
+
+abbrev TopPairingStrengthenedToStepRunGate
+    (V : State -> Int)
+    (Step : State -> Label -> State -> Int -> Prop)
+    (labelOfFace : Face -> Label)
+    (start : State)
+    (const : Int)
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (badFace : Face) : Prop
+
+theorem scaledMargin_nonpos_of_closedStepRunGate :
+    TopPairingClosedToStepRunGate ... ->
+      (forall s label t gain, Step s label t gain -> gain + V t <= V s) ->
+      const + V start <= 0 ->
+      TopPairingClosedLanguageAtRank rank badFace ->
+      scaledMargin rank <= 0
+
+theorem scaledMargin_nonpos_of_strengthenedStepRunGate :
+    TopPairingStrengthenedToStepRunGate ... ->
+      (forall s label t gain, Step s label t gain -> gain + V t <= V s) ->
+      const + V start <= 0 ->
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank badFace ->
+      scaledMargin rank <= 0
+```
+
+This gives future generated families a graph-independent target: prove a
+semantic `BellmanLabelStepRun` plus final nonnegativity and margin bound.  The
+generic theorem handles the potential telescoping.
+
+Focused guarded checks:
+
+```text
+TopPairingBellmanSemanticGate.lean:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 180 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --hard-address-space-mib 8192 \
+      --json scripts/generated/top_pairing_bellman_semantic_step_run_gate_guard.json \
+      --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+        Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+  result:
+    pass, elapsed 2.00s,
+    peak_tree_rss 3532 MiB,
+    min_available_seen 45861 MiB,
+    hard address-space cap 8192 MiB
+
+BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 180 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --hard-address-space-mib 8192 \
+      --json scripts/generated/closed_bellman_strengthened_step_run_socket_after_core_guard.json \
+      --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+        Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean
+  result:
+    pass, elapsed 2.00s,
+    peak_tree_rss 3575 MiB,
+    min_available_seen 45839 MiB,
+    hard address-space cap 8192 MiB
+```
+
+Decision: accepted.  The production target should now prefer
+`TopPairingStrengthenedToStepRunGate` /
+`StrengthenedClosedBellmanStepRunFamily` over any total `next` inverse theorem.
