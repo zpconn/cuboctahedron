@@ -444,6 +444,59 @@ theorem scaledMargin_nonpos_of_depth11GraphPathSequenceBadFaceAll
     (closedTransducerProducerAll_of_depth11GraphPathSequenceBadFace hclass)
     hstrengthened
 
+/--
+Split producer portfolio for the remaining production gap.
+
+A production semantic state-DAG emitter should prove these three
+fields from closed target-cursor/schedule/square-gap/local-axis/
+tri-source state.  This surface deliberately keeps graph-path
+classification separate from terminal classification and final-margin
+evidence.
+-/
+structure Depth11GraphPathPortfolioAll
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  terminal :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      TerminalOkTraceLabels (topPairingRankFaceLabels rank)
+  classCase :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11GraphPathClassCase rank
+  finalMargin :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Split10MFinalMarginProducer scaledMargin rank
+
+theorem closedTransducerProducerAll_of_depth11GraphPathPortfolioAll
+    {scaledMargin : Fin numPairWords -> Int}
+    (hportfolio : Depth11GraphPathPortfolioAll scaledMargin) :
+    StrengthenedClosedTransducerProducerAll scaledMargin where
+  family := by
+    intro rank hstrengthened
+    exact
+      { strengthened := hstrengthened
+        terminalOk := hportfolio.terminal rank hstrengthened
+        depth11GraphPath :=
+          split10MDepth11GraphPathProducer_of_depth11GraphPathClassCase
+            (hportfolio.classCase rank hstrengthened)
+        finalMargin := hportfolio.finalMargin rank hstrengthened }
+
+theorem scaledMargin_nonpos_of_depth11GraphPathPortfolioAll
+    {scaledMargin : Fin numPairWords -> Int}
+    (hportfolio : Depth11GraphPathPortfolioAll scaledMargin)
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    scaledMargin rank <= 0 :=
+  scaledMargin_nonpos_of_closedTransducerProducerAll
+    (closedTransducerProducerAll_of_depth11GraphPathPortfolioAll hportfolio)
+    hstrengthened
+
 def depth11GraphPathProviderClassCount : Nat := 6
 def depth11GraphPathProviderStateCount : Nat := 30
 

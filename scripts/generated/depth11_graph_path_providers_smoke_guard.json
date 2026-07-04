@@ -8,14 +8,14 @@
     "build",
     "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke"
   ],
-  "elapsed_seconds": 7.016796476993477,
+  "elapsed_seconds": 3.0025875400024233,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4073140,
-  "max_tree_rss_mib": 3977.67578125,
-  "min_available_seen_kib": 47236464,
-  "min_available_seen_mib": 46129.359375,
+  "max_tree_rss_kib": 3790816,
+  "max_tree_rss_mib": 3701.96875,
+  "min_available_seen_kib": 46423548,
+  "min_available_seen_mib": 45335.49609375,
   "rss_cap_mib": 10000.0,
   "timeout_seconds": 420.0
 }

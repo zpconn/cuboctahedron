@@ -102428,6 +102428,10 @@ local tables.
   closedTransducerProducer_of_depth11GraphPathSequenceBadFace
   closedTransducerProducerAll_of_depth11GraphPathSequenceBadFace
   scaledMargin_nonpos_of_depth11GraphPathSequenceBadFaceAll
+
+  Depth11GraphPathPortfolioAll
+  closedTransducerProducerAll_of_depth11GraphPathPortfolioAll
+  scaledMargin_nonpos_of_depth11GraphPathPortfolioAll
   ```
 
 - Meaning:
@@ -102440,7 +102444,10 @@ local tables.
   The strengthened `Depth11GraphPathSequenceBadFace` surface also feeds the
   current `StrengthenedClosedTransducerProducer` socket, so downstream
   production modules can target the deterministic closed-language transducer
-  route directly.
+  route directly.  The later `Depth11GraphPathPortfolioAll` surface splits the
+  remaining production proof into three independent semantic producers:
+  terminal classification, graph-path class case, and final-margin evidence.
+  This is the clearest next target for generated closed-state-DAG emission.
 
 - Commands:
 
@@ -102477,15 +102484,19 @@ local tables.
     focused build passed in `3.00s`.
   - After adding the strengthened closed-transducer aggregate surfaces, the
     guarded focused build passed in `7.02s`.
-  - Peak guarded tree RSS for the latest build was `3977.68 MiB`.
-  - Minimum available memory observed was `46129.36 MiB`.
+  - After adding the split portfolio surface
+    `Depth11GraphPathPortfolioAll`, the guarded focused build passed in
+    `3.00s`.
+  - Peak guarded tree RSS for the latest build was `3701.97 MiB`.
+  - Minimum available memory observed was `45335.50 MiB`.
   - Forbidden-token and selected-prefix/sample/accepted-trace scans returned
     no hits.
 
 - Current promotion status:
   accepted as a bounded graph-path-provider architecture smoke.  The remaining
-  production gap is stronger: prove one of these class-local graph suffix
-  producers from closed semantic state, instead of assuming it as a premise.
-  That proof should case-split on semantic state/frontier facts and graph state,
-  not on rank, selected prefix, accepted trace, exact affine RHS, or solved
-  start-point data.
+  production gap is stronger: prove the three fields of
+  `Depth11GraphPathPortfolioAll` from closed semantic state, instead of
+  assuming class-local graph suffix producers as premises.  That proof should
+  case-split on semantic state/frontier facts and graph state, not on rank,
+  selected prefix, accepted trace, exact affine RHS, or solved start-point
+  data.
