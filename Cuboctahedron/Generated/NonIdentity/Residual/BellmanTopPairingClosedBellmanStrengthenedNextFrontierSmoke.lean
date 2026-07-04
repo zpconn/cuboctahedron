@@ -24,6 +24,11 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBe
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke
 
+def strengthenedClosedUsedEvalNext :
+    TopPairingUsedFaceEvalState Nat -> Face ->
+      Option (TopPairingUsedFaceEvalState Nat × Int) :=
+  TopPairingUsedFaceEvalState.next? closedBellmanNext (fun face : Face => face)
+
 def strengthenedClosedPrefix4YpZmTransducerState :
     TopPairingTransducerState where
   step := strengthenedClosedPrefix3YpTransducerState.step + 1
@@ -514,5 +519,67 @@ theorem strengthenedPrefix4Graph148Branch_of_usedEvalTail
   strengthenedPrefix4Graph148Branch_of_tail_and_usedFaceTail
     (TopPairingUsedFaceEvalState.tail_eval htail)
     (TopPairingUsedFaceEvalState.tail_used htail)
+
+structure StrengthenedUsedFaceLocalBranchTable
+    (state : TopPairingUsedFaceEvalState Nat) where
+  Branch : Type
+  face : Branch -> Face
+  nextGraph : Branch -> Nat
+  gain : Branch -> Int
+  step :
+    ∀ branch,
+      ClosedBellmanStep state.eval.graph (face branch)
+        (nextGraph branch) (gain branch)
+  branch_of_tail :
+    ∀ {face0 : Face} {rest : List Face},
+      state.Tail (face0 :: rest) ->
+        ∃ branch : Branch, face branch = face0
+
+namespace StrengthenedUsedFaceLocalBranchTable
+
+theorem localTransition
+    {state : TopPairingUsedFaceEvalState Nat}
+    (table : StrengthenedUsedFaceLocalBranchTable state)
+    {face0 : Face} {rest : List Face}
+    (htail : state.Tail (face0 :: rest)) :
+    ∃ branch : table.Branch,
+      table.face branch = face0 ∧
+        ∃ nextState : TopPairingUsedFaceEvalState Nat,
+          strengthenedClosedUsedEvalNext state face0 =
+              some (nextState, table.gain branch) ∧
+            nextState.Tail rest ∧
+              nextState.eval.graph = table.nextGraph branch ∧
+                nextState.used = face0 :: state.used := by
+  rcases table.branch_of_tail htail with ⟨branch, hface⟩
+  subst face0
+  have hgraph :
+      closedBellmanNext state.eval.graph (table.face branch) =
+        some (table.nextGraph branch, table.gain branch) :=
+    closedBellmanStep_next (table.step branch)
+  rcases TopPairingUsedFaceEvalState.next?_tail
+      (next := closedBellmanNext) (labelOfFace := fun face : Face => face)
+      htail hgraph with
+    ⟨nextState, hnext, htailNext, hgraphNext, husedNext⟩
+  exact ⟨branch, rfl, nextState, hnext, htailNext, hgraphNext, husedNext⟩
+
+end StrengthenedUsedFaceLocalBranchTable
+
+def strengthenedPrefix4Graph148UsedFaceLocalBranchTable :
+    StrengthenedUsedFaceLocalBranchTable
+      strengthenedClosedPrefix4YpTmmmUsedEvalState where
+  Branch := StrengthenedPrefix4Graph148Branch
+  face := StrengthenedPrefix4Graph148Branch.face
+  nextGraph := StrengthenedPrefix4Graph148Branch.nextGraph
+  gain := StrengthenedPrefix4Graph148Branch.gain
+  step := by
+    intro branch
+    change ClosedBellmanStep 148
+      (StrengthenedPrefix4Graph148Branch.face branch)
+      (StrengthenedPrefix4Graph148Branch.nextGraph branch)
+      (StrengthenedPrefix4Graph148Branch.gain branch)
+    exact StrengthenedPrefix4Graph148Branch.step branch
+  branch_of_tail := by
+    intro face rest htail
+    exact strengthenedPrefix4Graph148Branch_of_usedEvalTail htail
 
 end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke

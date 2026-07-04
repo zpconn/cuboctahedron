@@ -94,6 +94,18 @@ def Tail {State : Type} (state : TopPairingUsedFaceEvalState State)
     (labels : List Face) : Prop :=
   state.eval.Tail labels ∧ TopPairingUsedFaceTail state.used labels
 
+def next? {State Label : Type}
+    (next : State -> Label -> Option (State × Int))
+    (labelOfFace : Face -> Label)
+    (state : TopPairingUsedFaceEvalState State)
+    (face : Face) : Option (TopPairingUsedFaceEvalState State × Int) :=
+  match TopPairingTransducerEvalState.next? next labelOfFace state.eval face with
+  | none => none
+  | some (evalNext, gain) =>
+      some
+        ({ eval := evalNext
+           used := face :: state.used }, gain)
+
 theorem tail_eval
     {State : Type} {state : TopPairingUsedFaceEvalState State}
     {labels : List Face} (h : state.Tail labels) :
@@ -105,6 +117,28 @@ theorem tail_used
     {labels : List Face} (h : state.Tail labels) :
     TopPairingUsedFaceTail state.used labels :=
   h.2
+
+theorem next?_tail
+    {State Label : Type}
+    {next : State -> Label -> Option (State × Int)}
+    {labelOfFace : Face -> Label}
+    {state : TopPairingUsedFaceEvalState State}
+    {face : Face} {rest : List Face} {graphNext : State} {gain : Int}
+    (htail : state.Tail (face :: rest))
+    (hgraph : next state.eval.graph (labelOfFace face) = some (graphNext, gain)) :
+    ∃ nextState : TopPairingUsedFaceEvalState State,
+      next? next labelOfFace state face = some (nextState, gain) ∧
+        nextState.Tail rest ∧ nextState.eval.graph = graphNext ∧
+          nextState.used = face :: state.used := by
+  rcases TopPairingTransducerEvalState.next?_tail
+      (state := state.eval) (face := face) (rest := rest)
+      (graphNext := graphNext) (gain := gain)
+      (tail_eval htail) hgraph with
+    ⟨evalNext, hnext, htailNext, hgraphNext⟩
+  refine
+    ⟨{ eval := evalNext, used := face :: state.used }, ?_, ?_, hgraphNext, rfl⟩
+  · simp [next?, hnext]
+  · exact ⟨htailNext, TopPairingUsedFaceTail.cons_tail (tail_used htail)⟩
 
 end TopPairingUsedFaceEvalState
 

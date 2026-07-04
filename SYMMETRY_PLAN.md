@@ -96796,3 +96796,94 @@ to `StrengthenedLocalBranchTable`, then package graph `148` as a table over
 `strengthenedClosedPrefix4YpTmmmUsedEvalState`.  After that, the emitter should
 be taught to emit used-face eval states for all next-frontier graphs whose
 branch completeness depends on actual-face consumption.
+
+Used-face local table checkpoint:
+
+```text
+Extended core:
+  def TopPairingUsedFaceEvalState.next?
+  theorem TopPairingUsedFaceEvalState.next?_tail
+
+Generated smoke/table API:
+  def strengthenedClosedUsedEvalNext
+  structure StrengthenedUsedFaceLocalBranchTable
+  theorem StrengthenedUsedFaceLocalBranchTable.localTransition
+  def strengthenedPrefix4Graph148UsedFaceLocalBranchTable
+```
+
+The used-face eval state now has a real deterministic transition operation.
+When the underlying transducer/evaluator takes a face step, the combined state
+records:
+
+```text
+nextState.used = face :: state.used
+```
+
+and the suffix invariant advances by:
+
+```text
+TopPairingUsedFaceTail.cons_tail
+```
+
+The graph-148 table is now production-shaped over the combined state:
+
+```text
+StrengthenedUsedFaceLocalBranchTable
+  strengthenedClosedPrefix4YpTmmmUsedEvalState
+```
+
+Its local transition theorem returns the next combined state, preserves the
+remaining-tail proof, records the next graph, and records the updated used-face
+list.  This is a concrete step toward the GPT5.5 target:
+
+```text
+closed semantic language -> deterministic evaluator transition
+```
+
+rather than:
+
+```text
+selected prefix/rank -> sampled object membership
+```
+
+Focused guarded checks:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 5000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/top_pairing_used_face_tail_build_guard.json \
+    --verbose -- lake build Cuboctahedron.Search.TopPairingUsedFaceTail
+
+result:
+  pass, elapsed 3.00s,
+  peak_tree_rss 4022 MiB,
+  min_available_seen 45226 MiB
+
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+closed_bellman_strengthened_next_frontier_smoke_guard.json \
+    --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+result:
+  pass, elapsed 4.01s,
+  peak_tree_rss 3994 MiB,
+  min_available_seen 45269 MiB
+```
+
+Safety scans over the touched Lean files still report no forbidden constructs
+and no sampled/selected-prefix membership hooks.
+
+Next checkpoint: make a tiny generated shard API for used-face local tables,
+analogous to `BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000`,
+starting with graph `148`.  After the shard API checks, update the emitter-side
+design so next-frontier graph states can opt into used-face state when graph-only
+tables are too weak.
