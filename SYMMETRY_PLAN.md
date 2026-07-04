@@ -98381,3 +98381,122 @@ local tables.
   `TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank`
   and the branch table/socket classifiers, not from accepted trace ids or
   selected-prefix rank membership.
+
+2026-07-04 deterministic semantic evaluator pivot checkpoint:
+
+- Latest GPT5.5 guidance accepted: keep the Bellman graph/potential route, but
+  do not scale selected-prefix, sampled-rank, or accepted-trace membership.
+  The production membership theorem must be a deterministic semantic evaluator
+  theorem from the closed holonomy/cancellation language to `evalLabelStepFn`.
+- Repository inspection shows the correct front door is already present.  The
+  target-shadow cursor stack is implemented in:
+
+  ```text
+  Cuboctahedron/Search/TopPairingTargetCursor.lean
+  Cuboctahedron/Search/TopPairingTransducerTail.lean
+  Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+  ```
+
+  and the generated producer sockets already expose the production-shaped
+  theorem surfaces:
+
+  ```lean
+  theorem split10MStrengthenedGate_of_producers_viaSemanticSocket
+      {scaledMargin : Fin numPairWords -> Int}
+      (terminal :
+        ∀ rank,
+          TopPairingStrengthenedClosedLanguageAtRank
+            AcceptedSequenceBadFaceAtRank rank Face.ym ->
+          TerminalOkTraceLabels (topPairingRankFaceLabels rank))
+      (suffix :
+        ∀ rank,
+          TopPairingStrengthenedClosedLanguageAtRank
+            AcceptedSequenceBadFaceAtRank rank Face.ym ->
+          Split10MGraphSuffixProducer rank)
+      (finish :
+        ∀ rank,
+          TopPairingStrengthenedClosedLanguageAtRank
+            AcceptedSequenceBadFaceAtRank rank Face.ym ->
+          Split10MFinalMarginProducer scaledMargin rank) :
+      Split10MStrengthenedToEvalGate
+        AcceptedSequenceBadFaceAtRank scaledMargin
+  ```
+
+  in `BellmanTopPairingSplit10MSemanticProducerSocket.lean`, and:
+
+  ```lean
+  structure StrengthenedSemanticStateDAGAllFamily
+      (scaledMargin : Fin numPairWords -> Int) : Prop
+
+  theorem strengthenedToEvalGate_of_semanticStateDAGAllFamily
+      {scaledMargin : Fin numPairWords -> Int}
+      (hfamily : StrengthenedSemanticStateDAGAllFamily scaledMargin) :
+      TopPairingStrengthenedToEvalGate
+        graphPotential graphSmokeNext smokeLabelOfFace rootState (176 : Int)
+        scaledMargin AcceptedSequenceBadFaceAtRank Face.ym
+
+  theorem scaledMargin_nonpos_of_semanticStateDAGAllFamily
+      {scaledMargin : Fin numPairWords -> Int}
+      (hfamily : StrengthenedSemanticStateDAGAllFamily scaledMargin)
+      {rank : Fin numPairWords}
+      (hstrengthened :
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym) :
+      scaledMargin rank <= 0
+  ```
+
+  in `BellmanTopPairingSemanticStateDAGProducerSocket.lean`.
+- Strategic adjustment: the next generated/Lean work should target
+  `StrengthenedSemanticStateDAGAllFamily` directly.  A producer may use a
+  finite semantic state machine over target-shadow cursor, square-gap,
+  pair-count, local-axis/canonical-bad-face, and tri-source/cancellation
+  progress, but its public theorem should supply only:
+  `TopPairingStrengthenedClosedLanguageAtRank`, `TerminalOkTraceLabels`,
+  `Split10MGraphSuffixProducer`, and `Split10MFinalMarginProducer`.
+- The graph-152 lesson is now encoded as a rule: if graph state and
+  `TopPairingTransducerTail` alone leave spurious heads, add semantic fields
+  such as accepted sequence/bad-face or tri-source/cancellation progress.  Do
+  not add selected-prefix equality, accepted trace ids, exact affine RHS,
+  solved start point, or sampled rank/path membership.
+- Focused memory-guarded checks:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 240 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/split10m_semantic_producer_socket_pivot_guard.json \
+    --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSplit10MSemanticProducerSocket.lean
+  ```
+
+  passed with `elapsed_seconds=3.00`, `peak_tree_rss_mib=3436`, and
+  `min_available_mib=46336`.
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 240 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/semantic_state_dag_producer_socket_pivot_guard.json \
+    --verbose -- lake env lean -M 8500 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSemanticStateDAGProducerSocket.lean
+  ```
+
+  passed with `elapsed_seconds=2.00`, `peak_tree_rss_mib=3611`, and
+  `min_available_mib=46297`.
+- Next concrete implementation target:
+
+  ```lean
+  theorem currentTopPairingSemanticStateDAGAllFamily
+      {scaledMargin : Fin numPairWords -> Int} :
+      StrengthenedSemanticStateDAGAllFamily scaledMargin
+  ```
+
+  or an equivalently named generated family theorem for the current dominant
+  top-pairing residual.  Its proof must be local-state/cursor driven and may
+  delegate to graph-suffix/final-margin subproducers, but it must not encode
+  ranks, selected prefixes, accepted traces, or exact affine keys as the
+  membership coordinate.
