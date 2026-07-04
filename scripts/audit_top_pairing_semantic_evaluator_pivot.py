@@ -55,6 +55,9 @@ FILES = {
     "graph157_continuation_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph157ContinuationSocket.lean",
+    "graph169_continuation_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph169ContinuationSocket.lean",
     "target_completion_local_branch_table_shard000": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
@@ -82,6 +85,8 @@ GUARDS = {
     / "scripts/generated/graph150_direct_eval_socket_lake_guard.json",
     "graph157_continuation_socket_lake": ROOT
     / "scripts/generated/graph157_continuation_socket_lake_guard.json",
+    "graph169_continuation_socket_lake": ROOT
+    / "scripts/generated/graph169_continuation_socket_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -156,6 +161,14 @@ REQUIRED_SYMBOLS = {
         "graphExactEvalGateAtRank_of_graph157AfterTppm",
         "graph157DirectEvalSocket_builds",
     ],
+    "graph169_continuation_socket": [
+        "Graph169TargetCompletionTail",
+        "graph169_head_of_targetCompletionTail",
+        "StrengthenedGraph169AfterTpmmGraphExactContinuationFamily",
+        "graph157ContinuationFamily_of_graph169AfterTpmm",
+        "graphExactEvalGateAtRank_of_graph169AfterTpmm",
+        "graph169DirectEvalSocket_builds",
+    ],
     "target_completion_local_branch_table_shard000": [
         "ShardState",
         "completionState",
@@ -185,6 +198,7 @@ PRODUCTION_SCAN_FILES = [
     "graph150_continuation_socket",
     "graph150_direct_eval_socket",
     "graph157_continuation_socket",
+    "graph169_continuation_socket",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
 ]
@@ -341,6 +355,13 @@ def render_markdown(report: dict[str, Any]) -> str:
             "completion forces `tppm`, the strengthened graph reaches `169`,",
             "and the remaining proof obligation is a still-smaller graph-169",
             "semantic suffix continuation.",
+            "",
+            "The graph-169 continuation socket consumes a third deterministic",
+            "target-completion step.  After `zp,tppm`, target completion forces",
+            "`tpmm`, the strengthened graph reaches `183`, and the remaining",
+            "suffix is now small enough that the next scalable move should be a",
+            "generated finite local-state table rather than more hand-written",
+            "one-step sockets.",
             "",
             "## Go/No-Go Gate",
             "",

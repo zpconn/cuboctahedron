@@ -99683,3 +99683,94 @@ local tables.
   path tables.  If the graph169 suffix cannot be driven by
   target-completion/tri-source state alone, add the missing semantic state or
   test the cocycle quotient before proceeding.
+
+### 2026-07-04 graph169 third local-step continuation socket
+
+- Added
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph169ContinuationSocket.lean`.
+  This checks a third deterministic semantic local step on the same graph150
+  frontier.
+- New target-completion state and theorem surface:
+
+  ```lean
+  def graph183TargetCompletionState : TopPairingTargetCompletionState :=
+    graph169TargetCompletionState.next Face.tpmm
+
+  abbrev Graph169TargetCompletionTail (labels : List Face) : Prop :=
+    TopPairingTargetCompletionTail graph169TargetCompletionState labels
+
+  theorem graph169_head_of_targetCompletionTail :
+      Graph169TargetCompletionTail (face :: rest) ->
+      face = Face.tpmm
+  ```
+
+- New continuation structure:
+
+  ```lean
+  structure StrengthenedGraph169AfterTpmmGraphExactContinuationFamily
+      (scaledMargin : Fin numPairWords -> Int)
+      (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop
+  ```
+
+  It requires the graph150 target-completion tail and a post-`tpmm` suffix
+  proof from graph `183`.
+- New adapter theorem:
+
+  ```lean
+  theorem graph157ContinuationFamily_of_graph169AfterTpmm :
+      StrengthenedGraph169AfterTpmmGraphExactContinuationFamily
+        scaledMargin sequenceBadFace ->
+      StrengthenedGraph157AfterTppmGraphExactContinuationFamily
+        scaledMargin sequenceBadFace
+  ```
+
+  The proof wraps the graph183 suffix back through:
+
+  ```lean
+  closedBellmanNext 169 Face.tpmm = some (183, -36)
+  ```
+
+  so the accumulated direct evaluator prefix is:
+
+  ```lean
+  evalLabelStepFn closedBellmanNext graphRoot
+    [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.zp, Face.tppm,
+      Face.tpmm]
+    = some (183, 194)
+  ```
+
+- Focused guarded Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph169_continuation_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph169ContinuationSocket
+  ```
+
+  passed with `elapsed_seconds=4.00`, `peak_tree_rss_mib=4042`, and
+  `min_available_mib=45916`.
+- Updated and reran:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The decision remains:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- Decision: stop extending this path by hand after this checkpoint.  The three
+  sockets prove that target-completion local determinism composes cleanly with
+  the strengthened graph evaluator and stays around 4-4.4 GiB RSS under a
+  focused guarded build.  The next scalable implementation should be a
+  generated finite target-completion local-state table for the remaining tail,
+  plus a separate graph-exact margin-bound family.  Hand-writing each next
+  deterministic edge would preserve correctness but would not be the
+  architecture needed for full emission.

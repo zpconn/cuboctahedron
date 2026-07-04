@@ -24,6 +24,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph150_continuation_socket` | `155` | none |
 | `graph150_direct_eval_socket` | `127` | none |
 | `graph157_continuation_socket` | `224` | none |
+| `graph169_continuation_socket` | `224` | none |
 | `target_completion_local_branch_table_shard000` | `63` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -38,6 +39,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph150_continuation_socket_lake`: exit `0`, elapsed `3.0029323759954423`, peak RSS MiB `3996.65625`
 - `graph150_direct_eval_socket_lake`: exit `0`, elapsed `3.002738071998465`, peak RSS MiB `4050.12890625`
 - `graph157_continuation_socket_lake`: exit `0`, elapsed `5.004316574006225`, peak RSS MiB `4337.02734375`
+- `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
 
 ## Forbidden Production Hits
 
@@ -97,6 +99,13 @@ target-completion step.  After graph `150` forces `zp`, target
 completion forces `tppm`, the strengthened graph reaches `169`,
 and the remaining proof obligation is a still-smaller graph-169
 semantic suffix continuation.
+
+The graph-169 continuation socket consumes a third deterministic
+target-completion step.  After `zp,tppm`, target completion forces
+`tpmm`, the strengthened graph reaches `183`, and the remaining
+suffix is now small enough that the next scalable move should be a
+generated finite local-state table rather than more hand-written
+one-step sockets.
 
 ## Go/No-Go Gate
 
