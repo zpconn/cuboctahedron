@@ -95359,3 +95359,129 @@ BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean
 Decision: accepted.  The production target should now prefer
 `TopPairingStrengthenedToStepRunGate` /
 `StrengthenedClosedBellmanStepRunFamily` over any total `next` inverse theorem.
+
+### Holonomy/Bellman Pivot - semantic prefix step-run smoke
+
+Added the first concrete non-sampled membership slice for the strengthened
+closed top-pairing graph:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+```
+
+The module proves that semantic schedule fields from
+`TopPairingClosedLanguageAtRank` / `TopPairingStrengthenedClosedLanguageAtRank`
+drive the initial `ClosedBellmanStep` graph run:
+
+```lean
+abbrev StrengthenedClosedPrefixGraphRun
+    (rank : Fin numPairWords) (finish : Nat)
+    (pfx : List Face) (gain : Int) : Prop
+
+theorem graphStepRun_prefix2 :
+    BellmanLabelStepRun ClosedBellmanStep graphRoot 143
+      [Face.xm, Face.ym] (30 : Int)
+
+theorem graphStepRun_prefix3_tmpm :
+    BellmanLabelStepRun ClosedBellmanStep graphRoot 146
+      [Face.xm, Face.ym, Face.tmpm] (-94 : Int)
+
+theorem graphStepRun_prefix3_yp :
+    BellmanLabelStepRun ClosedBellmanStep graphRoot 144
+      [Face.xm, Face.ym, Face.yp] (-43 : Int)
+
+theorem graphStepRun_prefix3_zm :
+    BellmanLabelStepRun ClosedBellmanStep graphRoot 145
+      [Face.xm, Face.ym, Face.zm] (20 : Int)
+
+theorem strengthenedClosedPrefix2GraphRun :
+    TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank Face.ym ->
+    StrengthenedClosedPrefixGraphRun rank 143
+      [Face.xm, Face.ym] (30 : Int)
+
+theorem strengthenedClosedPrefix3GraphRun_cases :
+    TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank Face.ym ->
+    StrengthenedClosedPrefixGraphRun rank 146
+        [Face.xm, Face.ym, Face.tmpm] (-94 : Int) \/
+      StrengthenedClosedPrefixGraphRun rank 144
+          [Face.xm, Face.ym, Face.yp] (-43 : Int) \/
+        StrengthenedClosedPrefixGraphRun rank 145
+          [Face.xm, Face.ym, Face.zm] (20 : Int)
+```
+
+This is not full family coverage yet.  It is the accepted local shape for the
+next bridge: closed semantic language data should case-split on local semantic
+state/face choices and construct `BellmanLabelStepRun ClosedBellmanStep`,
+rather than proving membership through sampled ranks, selected prefixes, or
+accepted trace ids.
+
+Focused guarded checks:
+
+```text
+Socket dependency direct olean build:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 120 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --json scripts/generated/closed_bellman_strengthened_socket_direct_olean_guard.json \
+      --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+        -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.olean \
+        Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean
+  result:
+    pass, elapsed 6.01s,
+    peak_tree_rss 3615 MiB,
+    min_available_seen 45909 MiB
+
+Prefix-run smoke:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 120 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --json scripts/generated/closed_bellman_strengthened_prefix_run_smoke_guard.json \
+      --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+        Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+  result:
+    pass, elapsed 2.00s,
+    peak_tree_rss 3587 MiB,
+    min_available_seen 45910 MiB
+
+Lake socket build under hard address-space cap:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 180 \
+      --max-tree-rss-mib 7000 \
+      --min-available-mib 30000 \
+      --hard-address-space-mib 9000 \
+      --json scripts/generated/closed_bellman_strengthened_socket_lake_build_guard.json \
+      --verbose -- lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket
+  result:
+    failed before useful checking with `failed to create thread`,
+    elapsed 20.01s, peak_tree_rss 781 MiB.
+```
+
+Forbidden-token/sampled-membership scan on the new smoke file:
+
+```text
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe\|SampledRankIndex\|\
+sampledContainsRank\|sampledRankOf\|AcceptedTraceId\|acceptedTrace" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean || true
+
+result: no matches
+```
+
+Decision: accepted as a bounded proof-shape checkpoint.  Next, extend this
+from the first semantic fork to a real deterministic closed-language evaluator:
+use the target-shadow / tri-source cursor and local schedule fields to produce
+a full `StrengthenedClosedBellmanStepRunFamily` instance, still without
+sampled rank tables or exact affine RHS keys.
