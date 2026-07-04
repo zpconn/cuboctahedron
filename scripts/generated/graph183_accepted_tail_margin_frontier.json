@@ -37,6 +37,16 @@
       "passed": true
     },
     {
+      "detail": "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily",
+      "name": "socket_symbol:AcceptedSequenceGraph183AcceptedBranchExactEvalFamily",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval",
+      "name": "socket_symbol:acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval",
+      "passed": true
+    },
+    {
       "detail": "acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin",
       "name": "socket_symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin",
       "passed": true
@@ -257,7 +267,7 @@
       "passed": true
     },
     {
-      "detail": "AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin",
+      "detail": "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin",
       "name": "semantic_audit_target_is_accepted_tail_margin",
       "passed": true
     },
@@ -437,5 +447,5 @@
     }
   },
   "mode": "graph183_accepted_tail_margin_frontier",
-  "next_lean_target": "AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin"
+  "next_lean_target": "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin"
 }

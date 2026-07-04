@@ -101089,3 +101089,68 @@ local tables.
   quotient, then the current state is still missing a semantic field.  Do not
   scale any producer that falls back to selected-prefix or accepted-trace
   membership.
+
+### 2026-07-04 graph183 label margin promoted to exact eval family
+
+- Promoted the graph183 production surface again so the next producer proves a
+  deterministic evaluator gate, not just a naked label-margin inequality:
+
+  ```lean
+  structure AcceptedSequenceGraph183AcceptedBranchExactEvalFamily
+      (scaledMargin : Fin numPairWords -> Int) : Prop
+
+  theorem acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval :
+      AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin ->
+      AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin
+  ```
+
+- Meaning: the next Lean proof should establish the graph183 accepted-branch
+  evaluator result, final potential nonnegativity, and margin bound together
+  from semantic closed-language state.  The adapter chain is now:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedBranchExactEvalFamily
+    -> AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily
+    -> AcceptedSequenceGraph183AcceptedTailMarginFamily
+    -> AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily
+  ```
+
+- Updated the two audits so their `next_production_target` is now:
+
+  ```lean
+  AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin
+  ```
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+
+  python3 -m py_compile \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py \
+    scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  ```
+
+- Results:
+  - Focused graph183 build passed in `4.00s`, peak tree RSS `4235 MiB`, min
+    available `45764 MiB`.
+  - Semantic evaluator pivot audit passed with
+    `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer`.
+  - Graph183 frontier audit passed with
+    `diagnostic_supports_graph183_accepted_tail_margin_bellman_route`.
+
+- Next implementation target:
+  prove `AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin`.
+  If that proof cannot be obtained from target cursor plus the existing
+  semantic completion state, the next experiment should make the
+  `with-step-tri-source` cocycle quotient Lean-checkable rather than adding
+  rank/path membership.

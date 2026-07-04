@@ -1202,6 +1202,36 @@ theorem graph183AcceptedBranchEvalGateAtRank_of_labels
     graph183AcceptedBranchEvalGateResult_of_labels
       hclosed hlabels hmargin⟩
 
+/--
+Exact deterministic-evaluator target for the graph183 accepted branch.
+
+This is the closest graph183 socket to the intended production theorem:
+closed-language semantics should supply the fixed accepted labels, the graph
+evaluator result, terminal nonnegativity, and the integer margin bound.  The
+downstream label-margin and accepted-tail sockets are adapters from this
+semantic eval gate.
+-/
+structure AcceptedSequenceGraph183AcceptedBranchExactEvalFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  exact_eval_of_labels :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      topPairingRankFaceLabels rank = graph183AcceptedBranchLabels ->
+      TopPairingGraphExactEvalGateResult
+        graphPotential closedBellmanNext (fun face : Face => face)
+        graphRoot graphConst scaledMargin rank Face.ym
+        126 ((194 : Int) + (-542 : Int))
+
+theorem acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin where
+  final_margin_of_labels := by
+    intro rank hstrengthened hlabels
+    exact (hfamily.exact_eval_of_labels rank hstrengthened hlabels).margin_bound
+
 theorem acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily :

@@ -26,7 +26,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph150_direct_eval_socket` | `127` | none |
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
-| `graph183_tail_table_socket` | `1305` | none |
+| `graph183_tail_table_socket` | `1335` | none |
 | `target_completion_local_branch_table_shard000` | `63` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -42,7 +42,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph150_direct_eval_socket_lake`: exit `0`, elapsed `3.002738071998465`, peak RSS MiB `4050.12890625`
 - `graph157_continuation_socket_lake`: exit `0`, elapsed `5.004316574006225`, peak RSS MiB `4337.02734375`
 - `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
-- `graph183_tail_table_socket_lake`: exit `0`, elapsed `5.005159944004845`, peak RSS MiB `4237.20703125`
+- `graph183_tail_table_socket_lake`: exit `0`, elapsed `4.003880784002831`, peak RSS MiB `4235.46875`
 
 ## Forbidden Production Hits
 
@@ -61,16 +61,17 @@ schedule/square/used/length state supplies `Graph150TargetCompletionTail`.
 
 This audit therefore treats the graph183 completion-tail slice as a
 passed semantic-transducer checkpoint.  The next producer must target
-only the accepted forced-branch label margin component:
+only the accepted forced-branch exact evaluator component:
 
 ```lean
-AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin
+AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin
 ```
 
-That label-margin surface adapts to the accepted-tail margin socket
-and then composes through:
+That exact-eval surface adapts to the label-margin and accepted-tail
+margin sockets, then composes through:
 
 ```lean
+acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval
 acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin
 acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components
 ```
@@ -93,7 +94,7 @@ by the same Bellman potential bound.
 ## Go/No-Go Gate
 
 Go only if the next producer proves
-`AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily` from
+`AcceptedSequenceGraph183AcceptedBranchExactEvalFamily` from
 semantic closed-language state and small integer margin facts.  No-go if the
 proof introduces sampled ranks, selected-prefix coverage, accepted
 trace ids, exact affine RHS keys, or one branch per rank/path.  In
