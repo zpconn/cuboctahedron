@@ -55,6 +55,14 @@ SPLIT_SUFFIX_NS = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
     "BellmanTopPairingGraphAcceptedSuffixSplit10MBridge"
 )
+TRANSDUCER_NS = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingClosedTransducerProducerSocket"
+)
+ACCEPTED_NS = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "TopPairingTraceClassifier.Accepted"
+)
 
 
 def rel(path: Path) -> str:
@@ -161,6 +169,7 @@ def emit(classes: dict[str, list[dict[str, str]]]) -> str:
     lines: list[str] = [
         "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSocket",
         "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke",
+        "import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedTransducerProducerSocket",
         "",
         "/-!",
         "Generated all-class depth-11 graph-path provider smoke.",
@@ -187,7 +196,9 @@ def emit(classes: dict[str, list[dict[str, str]]]) -> str:
         f"open {SPLIT_SUFFIX_NS}",
         f"open {SOCKET_NS}",
         f"open {CLOSED_SUFFIX_NS}",
+        f"open {TRANSDUCER_NS}",
         f"open {PROVIDERS_NS}",
+        f"open {ACCEPTED_NS}",
         "",
     ]
 
@@ -267,6 +278,77 @@ def emit(classes: dict[str, list[dict[str, str]]]) -> str:
             "    scaledMargin rank <= 0 :=",
             "  scaledMargin_nonpos_of_closedSplit10MSuffixMarginFamily",
             "    (closedSplit10MSuffixMarginFamily_of_depth11GraphPath hfamily)",
+            "",
+            "/-- Strengthened sequence/bad-face package routed through graph-path cases. -/",
+            "def Depth11GraphPathSequenceBadFace",
+            "    (scaledMargin : Fin numPairWords -> Int)",
+            "    (rank : Fin numPairWords) (badFace : Face) : Prop :=",
+            "  AcceptedSequenceBadFaceAtRank rank badFace ∧",
+            "    TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧",
+            "      Depth11GraphPathClassCase rank ∧",
+            "        Split10MFinalMarginProducer scaledMargin rank",
+            "",
+            "theorem depth11GraphPathSequenceBadFace_extract",
+            "    {scaledMargin : Fin numPairWords -> Int}",
+            "    {rank : Fin numPairWords}",
+            "    (hcase : Depth11GraphPathSequenceBadFace scaledMargin rank Face.ym) :",
+            "    AcceptedSequenceBadFaceAtRank rank Face.ym ∧",
+            "      TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧",
+            "        Split10MGraphSuffixProducer rank ∧",
+            "          Split10MFinalMarginProducer scaledMargin rank := by",
+            "  rcases hcase with ⟨hbad, hterminal, hcase, hfinal⟩",
+            "  exact ⟨hbad, hterminal,",
+            "    split10MGraphSuffixProducer_of_depth11GraphPathClassCase hcase,",
+            "    hfinal⟩",
+            "",
+            "theorem closedTransducerProducer_of_depth11GraphPathSequenceBadFace",
+            "    {scaledMargin : Fin numPairWords -> Int}",
+            "    {rank : Fin numPairWords}",
+            "    (hstrengthened :",
+            "      TopPairingStrengthenedClosedLanguageAtRank",
+            "        (Depth11GraphPathSequenceBadFace scaledMargin) rank Face.ym) :",
+            "    StrengthenedClosedTransducerProducer scaledMargin rank := by",
+            "  rcases hstrengthened.sequenceBadFace_ok with",
+            "    ⟨hbad, hterminal, hcase, hfinal⟩",
+            "  exact",
+            "    { strengthened :=",
+            "        TopPairingStrengthenedClosedLanguageAtRank.ofComponents",
+            "          hstrengthened.closed hstrengthened.actualFaceOmni hbad",
+            "      terminalOk := hterminal",
+            "      depth11GraphPath :=",
+            "        split10MDepth11GraphPathProducer_of_depth11GraphPathClassCase hcase",
+            "      finalMargin := hfinal }",
+            "",
+            "theorem closedTransducerProducerAll_of_depth11GraphPathSequenceBadFace",
+            "    {scaledMargin : Fin numPairWords -> Int}",
+            "    (hclass :",
+            "      ∀ rank,",
+            "        TopPairingStrengthenedClosedLanguageAtRank",
+            "          AcceptedSequenceBadFaceAtRank rank Face.ym ->",
+            "        TopPairingStrengthenedClosedLanguageAtRank",
+            "          (Depth11GraphPathSequenceBadFace scaledMargin) rank Face.ym) :",
+            "    StrengthenedClosedTransducerProducerAll scaledMargin where",
+            "  family := by",
+            "    intro rank hstrengthened",
+            "    exact closedTransducerProducer_of_depth11GraphPathSequenceBadFace",
+            "      (hclass rank hstrengthened)",
+            "",
+            "theorem scaledMargin_nonpos_of_depth11GraphPathSequenceBadFaceAll",
+            "    {scaledMargin : Fin numPairWords -> Int}",
+            "    (hclass :",
+            "      ∀ rank,",
+            "        TopPairingStrengthenedClosedLanguageAtRank",
+            "          AcceptedSequenceBadFaceAtRank rank Face.ym ->",
+            "        TopPairingStrengthenedClosedLanguageAtRank",
+            "          (Depth11GraphPathSequenceBadFace scaledMargin) rank Face.ym)",
+            "    {rank : Fin numPairWords}",
+            "    (hstrengthened :",
+            "      TopPairingStrengthenedClosedLanguageAtRank",
+            "        AcceptedSequenceBadFaceAtRank rank Face.ym) :",
+            "    scaledMargin rank <= 0 :=",
+            "  scaledMargin_nonpos_of_closedTransducerProducerAll",
+            "    (closedTransducerProducerAll_of_depth11GraphPathSequenceBadFace hclass)",
+            "    hstrengthened",
             "",
             f"def depth11GraphPathProviderClassCount : Nat := {len(classes)}",
             "def depth11GraphPathProviderStateCount : Nat := "

@@ -102422,6 +102422,12 @@ local tables.
   closedSplit10MSuffixMarginFamily_of_depth11GraphPath
   evalLanguageAtRank_of_closedDepth11GraphPathFamily
   scaledMargin_nonpos_of_closedDepth11GraphPathFamily
+
+  Depth11GraphPathSequenceBadFace
+  depth11GraphPathSequenceBadFace_extract
+  closedTransducerProducer_of_depth11GraphPathSequenceBadFace
+  closedTransducerProducerAll_of_depth11GraphPathSequenceBadFace
+  scaledMargin_nonpos_of_depth11GraphPathSequenceBadFaceAll
   ```
 
 - Meaning:
@@ -102431,6 +102437,10 @@ local tables.
   final coverage.  But the theorem boundary is now the right one: it carries
   the Bellman graph state through `Depth11ObservedGraphStateSuffixOk`, then
   feeds the graph-state-indexed `Split10MDepth11GraphPathProducer` socket.
+  The strengthened `Depth11GraphPathSequenceBadFace` surface also feeds the
+  current `StrengthenedClosedTransducerProducer` socket, so downstream
+  production modules can target the deterministic closed-language transducer
+  route directly.
 
 - Commands:
 
@@ -102465,8 +102475,10 @@ local tables.
     failure.
   - After adding the missing bridge namespace to the emitter, the guarded
     focused build passed in `3.00s`.
-  - Peak guarded tree RSS was `4109.36 MiB`.
-  - Minimum available memory observed was `46025.25 MiB`.
+  - After adding the strengthened closed-transducer aggregate surfaces, the
+    guarded focused build passed in `7.02s`.
+  - Peak guarded tree RSS for the latest build was `3977.68 MiB`.
+  - Minimum available memory observed was `46129.36 MiB`.
   - Forbidden-token and selected-prefix/sample/accepted-trace scans returned
     no hits.
 
