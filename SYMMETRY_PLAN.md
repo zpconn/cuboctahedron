@@ -100468,3 +100468,101 @@ local tables.
   `Graph150TargetCompletionTail` theorem.  If the nil/summary case still lacks
   information, add a target-cancellation-state invariant rather than falling
   back to selected prefixes.
+
+### 2026-07-04 graph183 deterministic completion core isolates cancellation tail
+
+- Added a Lean-checked deterministic core theorem for graph150/graph183 target
+  completion.  This implements the next pivot from the latest GPT5.5 advice:
+  prove closed-language-to-state-machine facts from semantic state, and make
+  the remaining missing semantic component explicit.
+- Updated
+  `Cuboctahedron/Generated/NonIdentity/Residual/`
+  `BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean`.
+- New definitions/theorems:
+
+  ```lean
+  private def targetCompletionStateAfter :
+      TopPairingTargetCompletionState -> List Face ->
+        TopPairingTargetCompletionState
+
+  abbrev Graph150TargetCancellationTail (rest : List Face) : Prop
+
+  theorem graph150_targetCompletionTail_of_semanticCore :
+      TopPairingStepScheduleFrom graph150TargetCompletionState.step rest ->
+      TopPairingSquareGapFrom graph150TargetCompletionState.gap rest ->
+      TopPairingUsedFaceTail [Face.xm, Face.ym, Face.tmpm, Face.zm] rest ->
+      rest.length = graph150TargetCompletionState.remaining.length ->
+      Graph150TargetCancellationTail rest ->
+      Graph150TargetCompletionTail rest
+  ```
+
+- New production-facing target:
+
+  ```lean
+  structure AcceptedSequenceGraph183TargetCancellationTailFamily : Prop
+
+  theorem acceptedSequenceGraph183SemanticCompletionTailFamily_of_cancellation :
+      AcceptedSequenceGraph183TargetCancellationTailFamily ->
+      AcceptedSequenceGraph183SemanticCompletionTailFamily
+  ```
+
+- What this proves: schedule tail, square-gap tail, used-face tail, suffix
+  length, and target-cancellation final state are sufficient to construct the
+  recursive `TopPairingTargetCompletionTail`.  The proof carries the
+  remaining-list complement invariant and `Nodup` invariant through each
+  `erase` step.
+- What remains: prove `Graph150TargetCancellationTail rest` semantically,
+  preferably from `TopPairingTriCursorFrom` / target-shadow cursor progress.
+  This is now the exact next go/no-go theorem for the top-pairing Bellman
+  route.  If proving it requires sampled paths or accepted trace ids, the
+  state still lacks a semantic cancellation cursor and should be refined.
+- Updated
+  `scripts/audit_top_pairing_semantic_evaluator_pivot.py` so the graph183
+  audit requires:
+  - `Graph150TargetCancellationTail`;
+  - `graph150_targetCompletionTail_of_semanticCore`;
+  - `AcceptedSequenceGraph183TargetCancellationTailFamily`;
+  - `acceptedSequenceGraph183SemanticCompletionTailFamily_of_cancellation`.
+- Verification commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_direct_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 lake env lean \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+
+  python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+  ```
+
+- Results:
+  - direct Lean check passed with `elapsed_seconds=4.01`,
+    `peak_tree_rss_mib=4182`, `min_available_mib=45717`;
+  - audit decision:
+    `semantic_evaluator_pivot_ready_for_membership_producer`;
+  - focused Lake build passed with `elapsed_seconds=5.00`,
+    `peak_tree_rss_mib=4220`, `min_available_mib=45704`.
+- Next target:
+
+  ```lean
+  AcceptedSequenceGraph183TargetCancellationTailFamily
+  ```
+
+  First try to prove it from `TopPairingTriCursorFrom` by showing that
+  `targetCompletionStateAfter graph150TargetCompletionState rest` folds exactly
+  the remaining target-shadow letters.  If the fold proof is awkward, add a
+  small generic lemma connecting `actedTriLettersFrom` to `targetCompletionStateAfter`
+  before doing any generated family work.

@@ -836,6 +836,119 @@ theorem graph150_triCursorTail_of_prefix
     SqParity.xor, SqParity.toggleForPair, SqParity.toggleX, SqParity.toggleY,
     SqParity.toggleZ, pairOfFace] using htail4
 
+private def targetCompletionStateAfter :
+    TopPairingTargetCompletionState -> List Face ->
+      TopPairingTargetCompletionState
+  | state, [] => state
+  | state, face :: rest =>
+      targetCompletionStateAfter (state.next face) rest
+
+abbrev Graph150TargetCancellationTail (rest : List Face) : Prop :=
+  (targetCompletionStateAfter graph150TargetCompletionState rest).triState.summary =
+    topPairingTargetSummary
+
+private theorem graph150_remaining_iff_not_prefix_used (face : Face) :
+    face ∈ graph150TargetCompletionState.remaining ↔
+      face ∉ [Face.xm, Face.ym, Face.tmpm, Face.zm] := by
+  cases face <;> simp [graph150TargetCompletionState]
+
+private theorem targetCompletionTail_of_semanticCore :
+    ∀ {state : TopPairingTargetCompletionState} {used rest : List Face},
+      (∀ face : Face, face ∈ state.remaining ↔ face ∉ used) ->
+      state.remaining.Nodup ->
+      rest.length = state.remaining.length ->
+      TopPairingStepScheduleFrom state.step rest ->
+      TopPairingSquareGapFrom state.gap rest ->
+      TopPairingUsedFaceTail used rest ->
+      (targetCompletionStateAfter state rest).triState.summary =
+        topPairingTargetSummary ->
+      TopPairingTargetCompletionTail state rest
+  | state, used, [], hremaining, hnodup, hlen, _hschedule, _hgap, _hused,
+      hsummary => by
+      cases hremainingEq : state.remaining with
+      | nil =>
+          exact TopPairingTargetCompletionTail.nil hremainingEq hsummary
+      | cons face rest =>
+          simp [hremainingEq] at hlen
+  | state, used, face :: rest, hremaining, hnodup, hlen, hschedule, hgap, hused,
+      hsummary => by
+      unfold TopPairingStepScheduleFrom at hschedule
+      rcases hschedule with ⟨hfaceSchedule, hscheduleRest⟩
+      have hfaceRemaining : face ∈ state.remaining :=
+        (hremaining face).2 (TopPairingUsedFaceTail.head_not_used hused)
+      have hsquareAllowed : state.squareAllowed face := by
+        unfold TopPairingTargetCompletionState.squareAllowed
+        unfold TopPairingSquareGapFrom at hgap
+        by_cases hsquare : isSquarePair (pairOfFace face) = true
+        · rw [hsquare] at hgap
+          simp [hsquare, hgap.1]
+        · have hsquareFalse :
+            isSquarePair (pairOfFace face) = false := by
+              cases hpair : isSquarePair (pairOfFace face)
+              · rfl
+              · exact False.elim (hsquare hpair)
+          simp [hsquareFalse]
+      have hgapRest :
+          TopPairingSquareGapFrom (state.next face).gap rest := by
+        unfold TopPairingSquareGapFrom at hgap
+        unfold TopPairingTargetCompletionState.next topPairingNextGap
+        by_cases hsquare : isSquarePair (pairOfFace face) = true
+        · rw [hsquare] at hgap
+          simp [hsquare]
+          exact hgap.2
+        · have hsquareFalse :
+            isSquarePair (pairOfFace face) = false := by
+              cases hpair : isSquarePair (pairOfFace face)
+              · rfl
+              · exact False.elim (hsquare hpair)
+          rw [hsquareFalse] at hgap
+          simp [hsquareFalse]
+          exact hgap
+      have hremainingNext :
+          ∀ f : Face,
+            f ∈ (state.next face).remaining ↔ f ∉ face :: used := by
+        intro f
+        change f ∈ state.remaining.erase face ↔ f ∉ face :: used
+        rw [hnodup.erase_eq_filter]
+        simp [hremaining f, and_comm, and_left_comm, and_assoc]
+      have hlenNext :
+          rest.length = (state.next face).remaining.length := by
+        have herase :
+            (state.remaining.erase face).length + 1 =
+              state.remaining.length :=
+          List.length_erase_add_one hfaceRemaining
+        have hlenSucc : rest.length + 1 = state.remaining.length := by
+          simpa using hlen
+        simp [TopPairingTargetCompletionState.next]
+        omega
+      have htail :=
+        targetCompletionTail_of_semanticCore
+          (state := state.next face)
+          (used := face :: used)
+          (rest := rest)
+          hremainingNext (hnodup.erase face) hlenNext hscheduleRest hgapRest
+          (TopPairingUsedFaceTail.cons_tail hused) hsummary
+      exact TopPairingTargetCompletionTail.cons
+        hfaceRemaining hfaceSchedule hsquareAllowed htail
+
+theorem graph150_targetCompletionTail_of_semanticCore
+    {rest : List Face}
+    (hschedule :
+      TopPairingStepScheduleFrom graph150TargetCompletionState.step rest)
+    (hgap :
+      TopPairingSquareGapFrom graph150TargetCompletionState.gap rest)
+    (hused :
+      TopPairingUsedFaceTail [Face.xm, Face.ym, Face.tmpm, Face.zm] rest)
+    (hlen : rest.length = graph150TargetCompletionState.remaining.length)
+    (hcancel : Graph150TargetCancellationTail rest) :
+    Graph150TargetCompletionTail rest :=
+  targetCompletionTail_of_semanticCore
+    (state := graph150TargetCompletionState)
+    (used := [Face.xm, Face.ym, Face.tmpm, Face.zm])
+    (rest := rest)
+    graph150_remaining_iff_not_prefix_used (by decide) hlen hschedule hgap
+    hused hcancel
+
 /--
 Used-face/cursor front door for the graph183 completion-tail producer.
 
@@ -891,6 +1004,41 @@ structure AcceptedSequenceGraph183SemanticCompletionTailFamily : Prop where
         rest.length = graph150TargetCompletionState.remaining.length ->
         Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
         Graph150TargetCompletionTail rest
+
+/--
+Final missing semantic ingredient for graph183 target completion.
+
+The deterministic core above proves that schedule, square-gap, used-face, and
+length state are enough once the target-cancellation state is known.  This
+surface makes that remaining obligation explicit: prove that the suffix really
+finishes the target triangular cancellation state, preferably from the
+target-shadow cursor, not from selected-prefix or sampled-path evidence.
+-/
+structure AcceptedSequenceGraph183TargetCancellationTailFamily : Prop where
+  cancellationTail :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ∀ rest,
+        TopPairingStepScheduleFrom graph150TargetCompletionState.step rest ->
+        TopPairingSquareGapFrom graph150TargetCompletionState.gap rest ->
+        TopPairingTriCursorFrom
+          graph150TargetCompletionState.triState.shadowLen
+          graph150TargetCompletionState.parity rest ->
+        TopPairingUsedFaceTail [Face.xm, Face.ym, Face.tmpm, Face.zm] rest ->
+        rest.length = graph150TargetCompletionState.remaining.length ->
+        Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+        Graph150TargetCancellationTail rest
+
+theorem acceptedSequenceGraph183SemanticCompletionTailFamily_of_cancellation
+    (hfamily : AcceptedSequenceGraph183TargetCancellationTailFamily) :
+    AcceptedSequenceGraph183SemanticCompletionTailFamily where
+  completionTail := by
+    intro rank hstrengthened rest hschedule hgap hcursor hused hlen hprefix
+    exact graph150_targetCompletionTail_of_semanticCore
+      hschedule hgap hused hlen
+      (hfamily.cancellationTail rank hstrengthened rest
+        hschedule hgap hcursor hused hlen hprefix)
 
 theorem acceptedSequenceGraph183CursorUsedCompletionTailFamily_of_semantic
     (hfamily : AcceptedSequenceGraph183SemanticCompletionTailFamily) :
