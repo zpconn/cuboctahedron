@@ -486,6 +486,11 @@ theorem strengthenedPrefix4Graph148Branch_of_tail_and_yp_used
 def strengthenedClosedPrefix4YpTmmmUsedFaces : List Face :=
   [Face.xm, Face.ym, Face.yp, Face.tmmm]
 
+def strengthenedClosedPrefix4YpTmmmUsedEvalState :
+    TopPairingUsedFaceEvalState Nat where
+  eval := strengthenedClosedPrefix4YpTmmmEvalState
+  used := strengthenedClosedPrefix4YpTmmmUsedFaces
+
 theorem strengthenedPrefix4Graph148Branch_of_tail_and_usedFaceTail
     {face : Face} {rest : List Face}
     (htail :
@@ -499,5 +504,15 @@ theorem strengthenedPrefix4Graph148Branch_of_tail_and_usedFaceTail
   intro hyp
   exact hused.disjoint Face.yp hyp (by
     simp [strengthenedClosedPrefix4YpTmmmUsedFaces])
+
+theorem strengthenedPrefix4Graph148Branch_of_usedEvalTail
+    {face : Face} {rest : List Face}
+    (htail :
+      strengthenedClosedPrefix4YpTmmmUsedEvalState.Tail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix4Graph148Branch,
+      branch.face = face :=
+  strengthenedPrefix4Graph148Branch_of_tail_and_usedFaceTail
+    (TopPairingUsedFaceEvalState.tail_eval htail)
+    (TopPairingUsedFaceEvalState.tail_used htail)
 
 end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke

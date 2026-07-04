@@ -1,4 +1,4 @@
-import Cuboctahedron.Search.BellmanTopPairingLanguage
+import Cuboctahedron.Search.TopPairingTransducerEvalBridge
 
 /-!
 Used-face suffix state for strengthened top-pairing transducers.
@@ -83,5 +83,29 @@ theorem of_actualFaceOmni_append
   of_nodup_append h
 
 end TopPairingUsedFaceTail
+
+structure TopPairingUsedFaceEvalState (State : Type) where
+  eval : TopPairingTransducerEvalState State
+  used : List Face
+
+namespace TopPairingUsedFaceEvalState
+
+def Tail {State : Type} (state : TopPairingUsedFaceEvalState State)
+    (labels : List Face) : Prop :=
+  state.eval.Tail labels ∧ TopPairingUsedFaceTail state.used labels
+
+theorem tail_eval
+    {State : Type} {state : TopPairingUsedFaceEvalState State}
+    {labels : List Face} (h : state.Tail labels) :
+    state.eval.Tail labels :=
+  h.1
+
+theorem tail_used
+    {State : Type} {state : TopPairingUsedFaceEvalState State}
+    {labels : List Face} (h : state.Tail labels) :
+    TopPairingUsedFaceTail state.used labels :=
+  h.2
+
+end TopPairingUsedFaceEvalState
 
 end Cuboctahedron

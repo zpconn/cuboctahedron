@@ -96719,3 +96719,80 @@ retry the next frontier tables.  If a later graph needs more than used-face
 disjointness, add semantic fields in this order: target-shadow cursor state,
 tri-source progress, then local-axis class.  Do not add exact affine RHS,
 solved start points, sampled prefixes, or rank-indexed objects.
+
+Combined used-face eval-tail checkpoint:
+
+```text
+Extended core:
+  structure TopPairingUsedFaceEvalState
+  def TopPairingUsedFaceEvalState.Tail
+  theorem TopPairingUsedFaceEvalState.tail_eval
+  theorem TopPairingUsedFaceEvalState.tail_used
+
+Generated smoke hook:
+  def strengthenedClosedPrefix4YpTmmmUsedEvalState
+  theorem strengthenedPrefix4Graph148Branch_of_usedEvalTail
+```
+
+The new `TopPairingUsedFaceEvalState` packages the existing deterministic
+transducer/evaluator state together with a consumed-face list.  Its suffix
+predicate is:
+
+```text
+state.eval.Tail labels ∧ TopPairingUsedFaceTail state.used labels
+```
+
+For graph `148`, the branch split can now be stated directly from this combined
+state:
+
+```text
+strengthenedClosedPrefix4YpTmmmUsedEvalState.Tail (face :: rest)
+  -> face is one of {zm, tpmm}
+```
+
+This is closer to the intended production API than the earlier theorem with a
+separate `Face.yp ∉ face :: rest` premise.  It also keeps the membership proof
+semantic: the extra information is actual-face disjointness for the suffix,
+not an observed prefix id, sampled path, exact affine RHS, or rank object.
+
+Focused guarded checks:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 5000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/top_pairing_used_face_tail_build_guard.json \
+    --verbose -- lake build Cuboctahedron.Search.TopPairingUsedFaceTail
+
+result:
+  pass, elapsed 3.00s,
+  peak_tree_rss 4020 MiB,
+  min_available_seen 45226 MiB
+
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+closed_bellman_strengthened_next_frontier_smoke_guard.json \
+    --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+result:
+  pass, elapsed 4.00s,
+  peak_tree_rss 3994 MiB,
+  min_available_seen 45270 MiB
+```
+
+Safety scans over the used-face core and next-frontier smoke still report no
+forbidden constructs and no sampled/selected-prefix membership hooks.
+
+Next checkpoint: define a used-face-aware local branch-table wrapper analogous
+to `StrengthenedLocalBranchTable`, then package graph `148` as a table over
+`strengthenedClosedPrefix4YpTmmmUsedEvalState`.  After that, the emitter should
+be taught to emit used-face eval states for all next-frontier graphs whose
+branch completeness depends on actual-face consumption.
