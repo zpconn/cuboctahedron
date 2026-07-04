@@ -492,13 +492,14 @@ def render_markdown(report: dict[str, Any]) -> str:
             "theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch",
             "```",
             "",
-            "So the next producer for this branch should target only the",
-            "two explicit semantic components:",
+            "The completion-tail component is now closed semantically by the",
+            "target cursor: the cursor gives the graph150 target-cancellation",
+            "tail, and schedule/square/used/length state gives",
+            "`Graph150TargetCompletionTail`.  The next producer for this branch",
+            "should target only the remaining accepted-tail integer margin",
+            "component:",
             "",
             "```lean",
-            "AcceptedSequenceGraph183CompletionTailFamily",
-            "AcceptedSequenceGraph183CursorCompletionTailFamily",
-            "AcceptedSequenceGraph183CursorUsedCompletionTailFamily",
             "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin",
             "```",
             "",
@@ -567,9 +568,6 @@ def main() -> int:
         "forbidden_hits": all_forbidden_hits,
         "graph_alignment_violations": all_graph_alignment_violations,
         "next_production_target": (
-            "AcceptedSequenceGraph183CompletionTailFamily + "
-            "AcceptedSequenceGraph183CursorCompletionTailFamily + "
-            "AcceptedSequenceGraph183CursorUsedCompletionTailFamily + "
             "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
         ),
     }

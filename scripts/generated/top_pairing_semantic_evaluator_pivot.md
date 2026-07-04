@@ -42,7 +42,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph150_direct_eval_socket_lake`: exit `0`, elapsed `3.002738071998465`, peak RSS MiB `4050.12890625`
 - `graph157_continuation_socket_lake`: exit `0`, elapsed `5.004316574006225`, peak RSS MiB `4337.02734375`
 - `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
-- `graph183_tail_table_socket_lake`: exit `0`, elapsed `5.0041829319961835`, peak RSS MiB `4220.69921875`
+- `graph183_tail_table_socket_lake`: exit `0`, elapsed `5.00525775400456`, peak RSS MiB `4226.296875`
 
 ## Forbidden Production Hits
 
@@ -137,13 +137,14 @@ theorem graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch
 theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch
 ```
 
-So the next producer for this branch should target only the
-two explicit semantic components:
+The completion-tail component is now closed semantically by the
+target cursor: the cursor gives the graph150 target-cancellation
+tail, and schedule/square/used/length state gives
+`Graph150TargetCompletionTail`.  The next producer for this branch
+should target only the remaining accepted-tail integer margin
+component:
 
 ```lean
-AcceptedSequenceGraph183CompletionTailFamily
-AcceptedSequenceGraph183CursorCompletionTailFamily
-AcceptedSequenceGraph183CursorUsedCompletionTailFamily
 AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
 ```
 
