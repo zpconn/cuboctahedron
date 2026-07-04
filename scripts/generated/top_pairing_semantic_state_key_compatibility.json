@@ -1,0 +1,34 @@
+{
+  "decision": "semantic-state-key-transition-compatible",
+  "graph_path": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json",
+  "linear_graph_path": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "linear_projection": {
+    "fine_face_counts": {
+      "collision_count": 0,
+      "max_linear_values_per_projection": 1,
+      "projection_count": 223,
+      "top_collisions": []
+    },
+    "pair_remainders": {
+      "collision_count": 0,
+      "max_linear_values_per_projection": 1,
+      "projection_count": 223,
+      "top_collisions": []
+    },
+    "state_count": 223,
+    "states_without_lin": 0
+  },
+  "transition": {
+    "deterministic_conflict_count": 0,
+    "deterministic_conflicts": [],
+    "edge_count": 1054,
+    "multi_label_edges": 0,
+    "parse_error_count": 0,
+    "parse_errors": [],
+    "stack_mismatch_count": 0,
+    "stack_mismatches": [],
+    "state_count": 970,
+    "transition_mismatch_count": 0,
+    "transition_mismatches": []
+  }
+}

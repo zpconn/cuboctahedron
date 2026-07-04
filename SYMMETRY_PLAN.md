@@ -94103,3 +94103,88 @@ Promoted dependency rule: the next direct mapped layer-4 emitter must import
 socket.  It must not import `BellmanTopPairingDepth11GraphExactFinishSmoke`,
 `BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke`, or
 `BellmanTopPairingClosedFinalMarginSocket`.
+
+### Holonomy/Bellman Pivot - semantic state-key compatibility audit
+
+New GPT5.5 strategic constraint: keep Bellman, but stop treating selected
+prefixes, sampled traces, or accepted path classes as the production
+membership theorem.  The next proof target is a deterministic semantic
+closed-language evaluator:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  evalLabelStepFn graphNext rootState (topPairingBellmanLabelsAtRank rank)
+    = some result
+```
+
+The transition proof should be driven by the closed-language semantic fields:
+pair counts, target-shadow/cancellation cursor, square parity, square-gap or
+schedule constraints, local-axis/tri-source progress, and a finite Bellman
+state.  If the proof wants sampled ranks, selected-prefix equality, accepted
+trace ids, exact affine RHS keys, solved start points, or raw graph paths, the
+route is rejected.
+
+Added a lightweight diagnostic audit:
+
+```text
+scripts/audit_top_pairing_semantic_state_key_compatibility.py
+scripts/generated/top_pairing_semantic_state_key_compatibility.json
+scripts/generated/top_pairing_semantic_state_key_compatibility.md
+```
+
+It checks the existing split-10M `with_step_tri_source` graph against the
+finite-state update that a Lean deterministic transducer theorem would need:
+
+1. replay `triSrc` and verify it reconstructs the stored reduced `stack`;
+2. for every observed edge, locally advance `(rem, step, par, stack, triSrc)`
+   by the face label and compare the destination key;
+3. verify `(state, label)` has a unique destination and gain;
+4. compare the coarse pair-remainder key against the 1M graph that still
+   stores signed face counts and an exact `lin=` matrix.
+
+Audit command:
+
+```bash
+python3 scripts/audit_top_pairing_semantic_state_key_compatibility.py
+```
+
+Result:
+
+```text
+Decision: semantic-state-key-transition-compatible
+state_count: 970
+edge_count: 1054
+multi_label_edges: 0
+parse_error_count: 0
+stack_mismatch_count: 0
+transition_mismatch_count: 0
+deterministic_conflict_count: 0
+fine_face_counts linear collisions in 1M comparison graph: 0
+pair_remainders linear collisions in 1M comparison graph: 0
+```
+
+Interpretation: the split-10M semantic key is internally deterministic for the
+observed transition table, and the smaller linear comparison graph did not show
+any collision where pair remainders plus parity/stack/tri-source forgot the
+linear matrix.  This does not prove final membership and does not trust the
+graph as proof, but it removes a concrete blocker to generating a semantic
+state-transition emitter.
+
+Promoted next target: emit a deterministic semantic state-transition family
+from graph JSON.  The generated theorem should prove local transition facts
+from a semantic state plus next face into the Bellman evaluator, then compose
+those local facts with the existing closed-language cursor/evaluator bridge.
+It must remain a theorem about `TopPairingClosedLanguageAtRank` or a documented
+semantic strengthening, not a selected-prefix or accepted-trace membership
+table.
+
+Remaining open proof obligations:
+
+- prove or generate the closed-language allowed-face theorem that maps
+  `TopPairingClosedLanguageAtRank` fields into the finite state transition
+  table;
+- prove terminal/final margin facts from semantic fields, not from terminal
+  trace shards;
+- if a future full-window audit finds linear collisions under the coarse key,
+  add a semantic linear/gauge field or prove the needed margin quantity factors
+  through the current key before scaling.
