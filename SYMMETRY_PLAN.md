@@ -92,6 +92,12 @@ Immediate Bellman pivot after the latest GPT5.5 review:
   but only if they prove state-local `HeadSome`/progress facts from semantic
   closed-language fields.  They are rejected as production evidence if they
   grow into one branch per observed prefix or path.
+- The semantic state must include the Bellman graph state at suffix-provider
+  boundaries.  The current provider-gap audit shows that semantic class alone
+  is too coarse: depth-11 has only `6` semantic classes but `30` distinct
+  `(semantic class, graph state)` obligations.  Production emitters should
+  therefore target graph-state-indexed suffix sockets such as
+  `Split10MDepth11GraphPathProducer`, not class-only suffix producers.
 
 2026-07-03 checkpoint after the latest GPT5.5 pivot:
 
@@ -102176,3 +102182,114 @@ local tables.
   closed-language state-DAG evaluator/cocycle semantics.  If this still wants
   exact affine RHS or sampled trace membership, the state-DAG needs more
   semantic fields before proceeding.
+
+### 2026-07-04 provider-gap audit: graph-state-indexed suffixes required
+
+- Incorporated the newest GPT5.5 pivot into the production Bellman plan:
+  keep Bellman, but reject selected-prefix membership and class-only suffix
+  membership.  The next theorem must be a deterministic semantic transducer
+  theorem from closed holonomy/cancellation state to `evalLabelStepFn`, with
+  the Bellman graph state carried through the suffix boundary.
+
+- Reran the provider-gap audit:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_state_dag_provider_gap.py
+  ```
+
+  Results:
+
+  ```text
+  decision = provider-gap-audited-needs-graph-state-indexed-suffix-emitters
+  accepted_traces = 37
+  semantic_graph = 5347 states / 6089 edges / 98 terminals
+  minimized_classes = 1026
+  known class034 = semantic_class 34, graph_state 197, suffix [zm,zp,xp]
+  ```
+
+- Boundary audit:
+
+  ```text
+  depth  2: semantic_classes=1, graph_states=1,  class_graph_pairs=1,  suffix_obligations=37
+  depth  4: semantic_classes=6, graph_states=6,  class_graph_pairs=6,  suffix_obligations=35
+  depth  8: semantic_classes=8, graph_states=16, class_graph_pairs=16, suffix_obligations=34
+  depth 11: semantic_classes=6, graph_states=30, class_graph_pairs=30, suffix_obligations=32
+  depth 14: semantic_classes=1, graph_states=29, class_graph_pairs=29, suffix_obligations=29
+  ```
+
+- Interpretation:
+  semantic class is a good compression coordinate, but not a complete producer
+  key.  At depth 11 it collapses multiple distinct Bellman graph states.  A
+  production closed-language theorem must therefore prove a graph-state-indexed
+  path/suffix predicate, for example:
+
+  ```lean
+  Split10MDepth11GraphPathProducer rank
+  ```
+
+  from closed target-cursor/schedule/square-gap/local-axis/tri-source state,
+  then use:
+
+  ```lean
+  split10MGraphSuffixProducer_of_depth11GraphPathProducer
+  ```
+
+  to feed the existing split-10M evaluator socket.
+
+- Existing supporting files already match this direction:
+
+  ```text
+  scripts/emit_top_pairing_depth11_graph_state_suffix_smoke.py
+  scripts/emit_top_pairing_depth11_graph_state_suffix_socket.py
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphStateSuffixSmoke.lean
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphStateSuffixSocket.lean
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGClass035ProviderSmoke.lean
+  ```
+
+- Focused checks after the audit:
+
+  ```bash
+  python3 -m py_compile scripts/emit_top_pairing_depth11_graph_state_suffix_smoke.py
+  python3 -m py_compile scripts/emit_top_pairing_depth11_graph_state_suffix_socket.py
+  python3 -m py_compile scripts/audit_top_pairing_semantic_state_dag_provider_gap.py
+  python3 scripts/emit_top_pairing_depth11_graph_state_suffix_smoke.py
+  python3 scripts/emit_top_pairing_depth11_graph_state_suffix_socket.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 360 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/depth11_graph_state_suffix_socket_guard_after_provider_gap.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11GraphStateSuffixSocket
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 360 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/semantic_state_dag_class035_provider_after_provider_gap_guard.json \
+    --verbose -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGClass035ProviderSmoke
+  ```
+
+- Results:
+  - The first socket build attempt with `--hard-address-space-mib 8192` failed
+    before OOM because Lean/libc++ could not create a thread under that hard
+    address-space cap.  Peak RSS was only `3974 MiB`.
+  - Rerunning the same focused socket build with the RSS/available-memory guard
+    but without the hard address-space cap passed in `76.08s`, with
+    `peak_tree_rss=7114 MiB` and `min_available=42481 MiB`.
+  - The class-035 provider smoke passed in `31.03s`, with
+    `peak_tree_rss=4192 MiB` and `min_available=45901 MiB`.
+
+- Next implementation target:
+  promote the diagnostic graph-state suffix socket into a generated semantic
+  producer for one nontrivial class pair first, then generalize.  The first
+  production-shaped proof should consume only closed-language semantic fields
+  and prove a `Split10MDepth11GraphPathProducer`-style predicate.  It must not
+  mention `SampledRankIndex`, selected-prefix IDs, accepted trace IDs, exact
+  affine RHS keys, solved start points, or one constructor per rank.
