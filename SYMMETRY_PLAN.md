@@ -96206,3 +96206,89 @@ Decision: accepted as the data-driven bounded branch-table emitter checkpoint.
 Next: replace the static frontier input producer with an actual exact
 reachable-semantic-state profiler, then emit the next bounded shard only if the
 guarded checks remain under the same RSS envelope.
+
+#### Checkpoint: source-derived bounded branch-table input
+
+Status: complete for the same four-state bounded shard.  The input producer no
+longer duplicates the frontier manually.  It reads the checked Lean source
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+```
+
+and extracts each checked `StrengthenedLocalBranchTable` definition, its eval
+state, branch type, faces, next graph ids, and gains.  The emitted JSON now
+records:
+
+```text
+decision = source-derived-bounded-frontier-ready-for-emitter
+source = Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean
+state_count = 4
+branch_count = 10
+```
+
+This is still not the final reachable-state profiler.  It is the next safer
+step: the shard input is now derived from checked local-transition definitions,
+so the larger profiler can target the same JSON contract without the emitter
+depending on a hand-maintained second list.
+
+Commands run:
+
+```text
+python3 -m py_compile \
+  scripts/profile_top_pairing_strengthened_local_branch_table_shard.py \
+  scripts/emit_top_pairing_strengthened_local_branch_table_shard.py
+python3 scripts/profile_top_pairing_strengthened_local_branch_table_shard.py
+python3 scripts/emit_top_pairing_strengthened_local_branch_table_shard.py
+```
+
+Results:
+
+```text
+py_compile: pass
+source-derived input generation: pass
+emitter: pass
+generated Lean shard semantic diff: none
+```
+
+Focused guarded check:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+closed_bellman_strengthened_local_branch_table_shard000_source_input_guard.json \
+    --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean
+
+result:
+  pass, elapsed 5.00s,
+  peak_tree_rss 3679 MiB,
+  min_available_seen 46222 MiB
+```
+
+Forbidden-token/sampled-membership scan:
+
+```text
+rg -n "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|\
+sampledContainsRank|sampledRankOf|AcceptedTraceId|acceptedTrace" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean \
+  scripts/emit_top_pairing_strengthened_local_branch_table_shard.py \
+  scripts/profile_top_pairing_strengthened_local_branch_table_shard.py \
+  scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json \
+  scripts/generated/closed_bellman_strengthened_local_branch_table_shard000.json
+
+result: no matches
+```
+
+Decision: accepted as a source-derived bounded input checkpoint.  Next:
+replace source extraction from a smoke module with an exact reachable semantic
+state profiler that emits additional table definitions and the same input
+contract in bounded shards.

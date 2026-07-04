@@ -1,14 +1,16 @@
 {
   "branch_count": 10,
-  "decision": "bounded-frontier-ready-for-emitter",
+  "decision": "source-derived-bounded-frontier-ready-for-emitter",
   "mode": "closed-bellman-strengthened-local-branch-table-frontier",
   "next_profiler_requirement": "Replace this static frontier with discovered reachable semantic states whose tables are proved by the same local-transition API.",
-  "semantic_status": "This input is a bounded frontier contract for generated StrengthenedLocalBranchTable shards. It is not rank coverage.",
+  "semantic_status": "This input is a source-derived bounded frontier contract for generated StrengthenedLocalBranchTable shards. It is not rank coverage.",
   "shard": 0,
+  "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke.lean",
   "state_count": 4,
   "states": [
     {
       "branch_count": 3,
+      "branch_type": "StrengthenedPrefix2Branch",
       "branches": [
         "tmpm -> graph 146, gain -124",
         "yp -> graph 144, gain -73",
@@ -20,6 +22,7 @@
     },
     {
       "branch_count": 2,
+      "branch_type": "StrengthenedPrefix3TmpmBranch",
       "branches": [
         "zm -> graph 150, gain 114",
         "tppm -> graph 152, gain 96"
@@ -30,6 +33,7 @@
     },
     {
       "branch_count": 2,
+      "branch_type": "StrengthenedPrefix3YpBranch",
       "branches": [
         "zm -> graph 147, gain -10",
         "tmmm -> graph 148, gain -124"
@@ -40,6 +44,7 @@
     },
     {
       "branch_count": 3,
+      "branch_type": "StrengthenedPrefix3ZmBranch",
       "branches": [
         "yp -> graph 147, gain -73",
         "zp -> graph 149, gain -10",
