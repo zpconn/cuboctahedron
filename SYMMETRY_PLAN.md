@@ -96456,3 +96456,89 @@ py_compile: pass
 reachable-frontier semantic availability profile: pass
 forbidden-token/sampled-membership scan: no matches
 ```
+
+#### Checkpoint: strengthened next-frontier semantic confluence smoke
+
+Status: complete as a bounded Lean proof that the first convergent next-frontier
+graph state can still be represented by one semantic transducer state.
+
+New file:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+scripts/generated/closed_bellman_strengthened_next_frontier_smoke_guard.json
+```
+
+What was proved:
+
+```text
+theorem strengthenedClosed_prefix4_yp_zm_next_from_prefix3Yp
+theorem strengthenedClosed_prefix4_zm_yp_next_from_prefix3Zm
+theorem strengthenedClosedPrefix4YpZm_transducer_eq_zm_yp
+theorem strengthenedClosedPrefix4YpZm_eval_eq_zm_yp
+def strengthenedPrefix4Graph147LocalBranchTable :
+  StrengthenedLocalBranchTable strengthenedClosedPrefix4YpZmEvalState
+```
+
+Interpretation:
+
+```text
+graph 147 is reached by both semantic prefixes:
+  [xm, ym, yp, zm]
+  [xm, ym, zm, yp]
+
+The smoke proves these prefixes produce the same semantic transducer/eval
+state, so graph-state keyed emission is still sound for this first confluence.
+It then proves the graph-147 local branch table directly from semantic tail
+constraints:
+  zp   -> graph 153, gain  -10, edge e0135_l13
+  tmmp -> graph 155, gain -124, edge e0136_l01
+```
+
+This is still deliberately bounded.  It is not rank coverage and does not
+claim the whole next frontier is covered.  It is the first proof that the
+next-frontier emitter can absorb a repeated graph state without falling back to
+selected prefixes or sampled paths.
+
+Focused guarded check:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+closed_bellman_strengthened_next_frontier_smoke_guard.json \
+    --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+result:
+  pass, elapsed 4.00s,
+  peak_tree_rss 3964.7 MiB,
+  min_available_seen 45900.8 MiB
+```
+
+Safety scans:
+
+```text
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|\
+selected-prefix|SelectedPrefix" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+result: no matches
+```
+
+Decision: accepted as a semantic-confluence checkpoint.  Next: extend this
+bounded pattern to graph states `148`, `149`, `150`, `151`, and `152`; then
+teach the source-derived shard-input profiler to read this next-frontier smoke
+as an additional semantic source.  Keep each extension guarded and stop if a
+graph state fails semantic uniqueness, because that would require the emitter
+key to become `(graph, semantic transducer state)` rather than graph alone.
