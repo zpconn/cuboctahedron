@@ -732,6 +732,89 @@ theorem graph150_usedFaceTail_of_acceptedSequence_prefix
   rw [hprefix'] at hactual
   simpa [TopPairingActualFaceOmniLabels] using hactual
 
+theorem graph150_stepScheduleTail_of_acceptedSequence_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TopPairingStepScheduleFrom graph150TargetCompletionState.step rest := by
+  have hprefix' :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  have hprefixLabels :
+      faceLabelsInContributionOrder (fun f : Face => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest := by
+    simpa [topPairingRankFaceLabels] using hprefix'
+  have hschedule := hstrengthened.toTopPairingClosedLanguageAtRank.schedule.2
+  rw [hprefixLabels] at hschedule
+  have htail :=
+    topPairingStepScheduleFrom_append
+      (step := 0)
+      (pfx := [Face.xm, Face.ym, Face.tmpm, Face.zm])
+      (rest := rest) hschedule
+  simpa [graph150TargetCompletionState] using htail
+
+theorem graph150_squareGapTail_of_acceptedSequence_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TopPairingSquareGapFrom graph150TargetCompletionState.gap rest := by
+  have hprefix' :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  have hprefixLabels :
+      faceLabelsInContributionOrder (fun f : Face => f)
+          (canonicalSeqOfPairWord (unrankPairWord rank)) =
+        [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest := by
+    simpa [topPairingRankFaceLabels] using hprefix'
+  have hgap := hstrengthened.toTopPairingClosedLanguageAtRank.squareGap
+  rw [hprefixLabels] at hgap
+  have htail :=
+    topPairingSquareGapFrom_append
+      (gap := 0)
+      (pfx := [Face.xm, Face.ym, Face.tmpm, Face.zm])
+      (rest := rest) hgap
+  simpa [graph150TargetCompletionState, topPairingSquareGapAfter,
+    isSquarePair, pairOfFace] using htail
+
+theorem graph150_triCursorTail_of_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hcursor : TopPairingTargetCursorAtRank rank)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TopPairingTriCursorFrom graph150TargetCompletionState.triState.shadowLen
+      graph150TargetCompletionState.parity rest := by
+  have hprefix' :
+      topPairingRankFaceLabels rank =
+        [Face.xm, Face.ym, Face.tmpm, Face.zm] ++ rest := by
+    simpa [Depth11Layer4PrefixAtRank] using hprefix
+  unfold TopPairingTargetCursorAtRank at hcursor
+  rw [hprefix'] at hcursor
+  have htail1 :=
+    TopPairingTriCursorFrom.cons_square_tail
+      hcursor (by rfl : triLetterOfFace? Face.xm = none)
+  have htail2 :=
+    TopPairingTriCursorFrom.cons_square_tail
+      htail1 (by rfl : triLetterOfFace? Face.ym = none)
+  rcases
+      TopPairingTriCursorFrom.cons_tri_tail
+        htail2 (by rfl : triLetterOfFace? Face.tmpm = some TriLetter.d1m1)
+    with ⟨_hk, _hletter, htail3⟩
+  have htail4 :=
+    TopPairingTriCursorFrom.cons_square_tail
+      htail3 (by rfl : triLetterOfFace? Face.zm = none)
+  simpa [graph150TargetCompletionState, SqParity.id, SqParity.applyPair,
+    SqParity.xor, SqParity.toggleForPair, SqParity.toggleX, SqParity.toggleY,
+    SqParity.toggleZ, pairOfFace] using htail4
+
 /--
 Used-face/cursor front door for the graph183 completion-tail producer.
 
@@ -761,6 +844,44 @@ theorem acceptedSequenceGraph183CursorCompletionTailFamily_of_used
       (graph150_usedFaceTail_of_acceptedSequence_prefix
         hstrengthened hprefix)
       hprefix
+
+/--
+Semantic-state front door for the graph183 completion-tail producer.
+
+This is the deterministic transducer shape requested by the Bellman pivot:
+after the concrete layer-4 prefix, the producer receives the remaining
+schedule state, square-gap state, target-shadow cursor state, and actual-face
+tail state.  It still receives the strengthened closed-language proof for
+downstream compatibility, but it should not use selected prefixes, sampled
+paths, accepted trace ids, exact affine RHS keys, or solved start-point keys.
+-/
+structure AcceptedSequenceGraph183SemanticCompletionTailFamily : Prop where
+  completionTail :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ∀ rest,
+        TopPairingStepScheduleFrom graph150TargetCompletionState.step rest ->
+        TopPairingSquareGapFrom graph150TargetCompletionState.gap rest ->
+        TopPairingTriCursorFrom
+          graph150TargetCompletionState.triState.shadowLen
+          graph150TargetCompletionState.parity rest ->
+        TopPairingUsedFaceTail [Face.xm, Face.ym, Face.tmpm, Face.zm] rest ->
+        Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+        Graph150TargetCompletionTail rest
+
+theorem acceptedSequenceGraph183CursorUsedCompletionTailFamily_of_semantic
+    (hfamily : AcceptedSequenceGraph183SemanticCompletionTailFamily) :
+    AcceptedSequenceGraph183CursorUsedCompletionTailFamily where
+  completionTail := by
+    intro rank hstrengthened hcursor rest hused hprefix
+    exact hfamily.completionTail rank hstrengthened rest
+      (graph150_stepScheduleTail_of_acceptedSequence_prefix
+        hstrengthened hprefix)
+      (graph150_squareGapTail_of_acceptedSequence_prefix
+        hstrengthened hprefix)
+      (graph150_triCursorTail_of_prefix hcursor hprefix)
+      hused hprefix
 
 theorem acceptedSequenceGraph183CompletionTailFamily_of_cursor
     (hfamily : AcceptedSequenceGraph183CursorCompletionTailFamily) :

@@ -69,7 +69,7 @@
     },
     "graph183_tail_table_socket": {
       "exists": true,
-      "lines": 883,
+      "lines": 1004,
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean"
     },

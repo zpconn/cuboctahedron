@@ -100285,3 +100285,108 @@ local tables.
   local-axis, and target-cancellation state.  If this still needs exact
   prefixes/accepted traces/rank tables, the semantic state is missing another
   component and should be refined before any arithmetic margin work.
+
+### 2026-07-04 graph183 producer target split into deterministic suffix state
+
+- Pivoted the graph183 Bellman route further toward the GPT5.5
+  recommendation: keep Bellman, reject selected-prefix membership, and expose
+  the deterministic closed-language state needed to drive the evaluator.
+- Updated
+  `Cuboctahedron/Generated/NonIdentity/Residual/`
+  `BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean`.
+- New adapter theorems:
+
+  ```lean
+  theorem graph150_stepScheduleTail_of_acceptedSequence_prefix :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+      TopPairingStepScheduleFrom graph150TargetCompletionState.step rest
+
+  theorem graph150_squareGapTail_of_acceptedSequence_prefix :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+      TopPairingSquareGapFrom graph150TargetCompletionState.gap rest
+
+  theorem graph150_triCursorTail_of_prefix :
+      TopPairingTargetCursorAtRank rank ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+      TopPairingTriCursorFrom
+        graph150TargetCompletionState.triState.shadowLen
+        graph150TargetCompletionState.parity rest
+  ```
+
+- New production-facing semantic producer target:
+
+  ```lean
+  structure AcceptedSequenceGraph183SemanticCompletionTailFamily : Prop
+
+  theorem acceptedSequenceGraph183CursorUsedCompletionTailFamily_of_semantic :
+      AcceptedSequenceGraph183SemanticCompletionTailFamily ->
+      AcceptedSequenceGraph183CursorUsedCompletionTailFamily
+  ```
+
+- Meaning: the next graph183 completion-tail proof no longer receives just a
+  raw rank and prefix.  It receives the suffix schedule state, square-gap
+  state, target-shadow cursor state, and actual-face used-tail state.  This is
+  closer to a deterministic semantic transducer theorem:
+
+  ```text
+  closed top-pairing language + layer-4 prefix
+    -> graph150 semantic suffix state
+    -> graph183 completion tail / evaluator branch
+  ```
+
+- This still does not prove the full completion tail.  It narrows the remaining
+  target to one semantic state-machine theorem.  If that theorem needs an
+  accepted trace id, exact affine RHS, solved start point, sampled rank, or a
+  selected prefix table, stop and add the missing semantic component instead.
+- Updated
+  `scripts/audit_top_pairing_semantic_evaluator_pivot.py` to require the new
+  schedule/square/cursor-tail adapters and
+  `AcceptedSequenceGraph183SemanticCompletionTailFamily`.
+- Verification commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_direct_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 lake env lean \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+
+  python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+  ```
+
+- Results:
+  - direct Lean check passed with `elapsed_seconds=3.00`,
+    `peak_tree_rss_mib=4162`, `min_available_mib=45776`;
+  - audit decision:
+    `semantic_evaluator_pivot_ready_for_membership_producer`;
+  - graph-alignment violations: `0`;
+  - focused Lake build passed with `elapsed_seconds=4.00`,
+    `peak_tree_rss_mib=4229`, `min_available_mib=45692`.
+- Next target:
+
+  ```lean
+  AcceptedSequenceGraph183SemanticCompletionTailFamily
+  ```
+
+  Prove or generate the semantic state-machine theorem from schedule,
+  square-gap, cursor, used-face tail, and target-cancellation progress.  This
+  is the go/no-go test for whether the top-pairing Bellman route can stay
+  semantic.  If it collapses into sampled paths, pivot to the
+  cancellation-tree / cocycle quotient state rather than scaling this producer.
