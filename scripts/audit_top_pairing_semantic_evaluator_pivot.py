@@ -182,6 +182,9 @@ REQUIRED_SYMBOLS = {
         "graph183_blocked_branch_absurd_of_acceptedSequenceBadFace",
         "StrengthenedGraph183TailFinalMarginFamily",
         "AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily",
+        "AcceptedSequenceGraph183CompletionTailFamily",
+        "AcceptedSequenceGraph183AcceptedTailMarginFamily",
+        "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
         "graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch",
         "graph169ContinuationFamily_of_graph183TailFinalMargin",
         "graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedBranch",
@@ -233,6 +236,23 @@ FORBIDDEN_PRODUCTION_TOKENS = [
     "AcceptedTraceId",
 ]
 
+GRAPH_ALIGNMENT_GUARDS = {
+    "graph183_tail_table_socket": {
+        "must_contain": [
+            "closedBellmanNext",
+            "AcceptedSequenceGraph183CompletionTailFamily",
+            "AcceptedSequenceGraph183AcceptedTailMarginFamily",
+            "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
+        ],
+        "must_not_contain": [
+            "graphSmokeNext",
+            "Split10MGraphExactEvalGateAtRank",
+            "ExactGraphFinishMarginBound",
+            "Split10MExactGraphFinishFinalMarginProducer",
+        ],
+    }
+}
+
 
 def rel(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
@@ -274,6 +294,33 @@ def forbidden_hits(name: str, text: str) -> list[dict[str, Any]]:
     return hits
 
 
+def graph_alignment_violations(name: str, text: str) -> list[dict[str, Any]]:
+    guard = GRAPH_ALIGNMENT_GUARDS.get(name)
+    if guard is None:
+        return []
+
+    violations: list[dict[str, Any]] = []
+    for token in guard.get("must_contain", []):
+        if token not in text:
+            violations.append(
+                {
+                    "file": name,
+                    "kind": "missing-required-graph-token",
+                    "token": token,
+                }
+            )
+    for token in guard.get("must_not_contain", []):
+        if token in text:
+            violations.append(
+                {
+                    "file": name,
+                    "kind": "forbidden-graph-token",
+                    "token": token,
+                }
+            )
+    return violations
+
+
 def render_markdown(report: dict[str, Any]) -> str:
     lines = [
         "# Top-Pairing Semantic Evaluator Pivot",
@@ -285,6 +332,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- decision: `{report['decision']}`",
         f"- missing required symbols: `{len(report['missing_symbols'])}`",
         f"- forbidden production-token hits: `{len(report['forbidden_hits'])}`",
+        f"- graph-alignment violations: `{len(report['graph_alignment_violations'])}`",
         "",
         "## Required Surfaces",
         "",
@@ -318,6 +366,20 @@ def render_markdown(report: dict[str, Any]) -> str:
             )
     else:
         lines.append("- none")
+
+    lines.extend(["", "## Graph Alignment Guards", ""])
+    if report["graph_alignment_violations"]:
+        for violation in report["graph_alignment_violations"]:
+            lines.append(
+                f"- `{violation['file']}` `{violation['kind']}`: "
+                f"`{violation['token']}`"
+            )
+    else:
+        lines.append(
+            "- pass: graph183 stays on the strengthened `closedBellmanNext` "
+            "route and does not consume the split-10M graphSmokeNext finish "
+            "surfaces."
+        )
 
     lines.extend(
         [
@@ -408,10 +470,17 @@ def render_markdown(report: dict[str, Any]) -> str:
             "```",
             "",
             "So the next producer for this branch should target only the",
-            "accepted-tail margin field:",
+            "two explicit semantic components:",
             "",
             "```lean",
-            "AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin",
+            "AcceptedSequenceGraph183CompletionTailFamily",
+            "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin",
+            "```",
+            "",
+            "The component combiner is:",
+            "",
+            "```lean",
+            "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
             "```",
             "",
             "## Go/No-Go Gate",
@@ -431,6 +500,7 @@ def main() -> int:
     file_report: dict[str, Any] = {}
     missing_symbols: list[dict[str, str]] = []
     all_forbidden_hits: list[dict[str, Any]] = []
+    all_graph_alignment_violations: list[dict[str, Any]] = []
 
     for name, path in FILES.items():
         text = read(path)
@@ -443,6 +513,9 @@ def main() -> int:
             missing_symbols.append({"file": name, "symbol": symbol})
         if name in PRODUCTION_SCAN_FILES:
             all_forbidden_hits.extend(forbidden_hits(name, text))
+        all_graph_alignment_violations.extend(
+            graph_alignment_violations(name, text)
+        )
         file_report[name] = {
             "path": rel(path),
             "exists": path.exists(),
@@ -453,7 +526,11 @@ def main() -> int:
     guard_report = {name: load_json(path) for name, path in GUARDS.items()}
     decision = (
         "semantic_evaluator_pivot_ready_for_membership_producer"
-        if not missing_symbols and not all_forbidden_hits
+        if (
+            not missing_symbols
+            and not all_forbidden_hits
+            and not all_graph_alignment_violations
+        )
         else "blocked_audit_symbols_or_forbidden_hits"
     )
     report = {
@@ -463,8 +540,10 @@ def main() -> int:
         "guards": guard_report,
         "missing_symbols": missing_symbols,
         "forbidden_hits": all_forbidden_hits,
+        "graph_alignment_violations": all_graph_alignment_violations,
         "next_production_target": (
-            "AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin"
+            "AcceptedSequenceGraph183CompletionTailFamily + "
+            "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
         ),
     }
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)

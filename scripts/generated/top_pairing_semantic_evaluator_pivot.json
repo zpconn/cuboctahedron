@@ -69,7 +69,7 @@
     },
     "graph183_tail_table_socket": {
       "exists": true,
-      "lines": 762,
+      "lines": 806,
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean"
     },
@@ -99,6 +99,7 @@
     }
   },
   "forbidden_hits": [],
+  "graph_alignment_violations": [],
   "guards": {
     "depth11_closed_providers_lake": {
       "available_floor_mib": 30000.0,
@@ -281,14 +282,14 @@
         "build",
         "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket"
       ],
-      "elapsed_seconds": 4.003752535994863,
+      "elapsed_seconds": 4.004416958006914,
       "exit_code": 0,
       "hard_address_space_mib": null,
       "killed_reason": null,
-      "max_tree_rss_kib": 4313912,
-      "max_tree_rss_mib": 4212.8046875,
-      "min_available_seen_kib": 46777312,
-      "min_available_seen_mib": 45680.96875,
+      "max_tree_rss_kib": 4297372,
+      "max_tree_rss_mib": 4196.65234375,
+      "min_available_seen_kib": 46803284,
+      "min_available_seen_mib": 45706.33203125,
       "rss_cap_mib": 12000.0,
       "timeout_seconds": 420.0
     },
@@ -337,5 +338,5 @@
   },
   "missing_symbols": [],
   "mode": "top_pairing_semantic_evaluator_pivot",
-  "next_production_target": "AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin"
+  "next_production_target": "AcceptedSequenceGraph183CompletionTailFamily + AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
 }

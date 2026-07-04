@@ -7,6 +7,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - decision: `semantic_evaluator_pivot_ready_for_membership_producer`
 - missing required symbols: `0`
 - forbidden production-token hits: `0`
+- graph-alignment violations: `0`
 
 ## Required Surfaces
 
@@ -25,7 +26,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph150_direct_eval_socket` | `127` | none |
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
-| `graph183_tail_table_socket` | `762` | none |
+| `graph183_tail_table_socket` | `806` | none |
 | `target_completion_local_branch_table_shard000` | `63` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -41,11 +42,15 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph150_direct_eval_socket_lake`: exit `0`, elapsed `3.002738071998465`, peak RSS MiB `4050.12890625`
 - `graph157_continuation_socket_lake`: exit `0`, elapsed `5.004316574006225`, peak RSS MiB `4337.02734375`
 - `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
-- `graph183_tail_table_socket_lake`: exit `0`, elapsed `4.003752535994863`, peak RSS MiB `4212.8046875`
+- `graph183_tail_table_socket_lake`: exit `0`, elapsed `4.004416958006914`, peak RSS MiB `4196.65234375`
 
 ## Forbidden Production Hits
 
 - none
+
+## Graph Alignment Guards
+
+- pass: graph183 stays on the strengthened `closedBellmanNext` route and does not consume the split-10M graphSmokeNext finish surfaces.
 
 ## Accepted Pivot
 
@@ -133,10 +138,17 @@ theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch
 ```
 
 So the next producer for this branch should target only the
-accepted-tail margin field:
+two explicit semantic components:
 
 ```lean
-AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin
+AcceptedSequenceGraph183CompletionTailFamily
+AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
+```
+
+The component combiner is:
+
+```lean
+acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components
 ```
 
 ## Go/No-Go Gate

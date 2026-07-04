@@ -100031,3 +100031,92 @@ local tables.
   If proving its accepted-branch margin field requires exact affine RHS or
   one branch per rank/path, stop and run the cocycle quotient/cancellation
   segment experiment before adding more state.
+
+### 2026-07-04 graph183 accepted branch split into semantic components
+
+- Incorporated the latest GPT5.5 pivot more sharply: keep the Bellman graph,
+  but make the graph183 producer target a deterministic semantic evaluator
+  theorem, not a selected-prefix or observed-trace membership theorem.
+- Updated
+  `Cuboctahedron/Generated/NonIdentity/Residual/`
+  `BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean`.
+- New component theorem surface:
+
+  ```lean
+  structure AcceptedSequenceGraph183CompletionTailFamily : Prop
+
+  structure AcceptedSequenceGraph183AcceptedTailMarginFamily
+      (scaledMargin : Fin numPairWords -> Int) : Prop
+
+  theorem acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components :
+      AcceptedSequenceGraph183CompletionTailFamily ->
+      AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin ->
+      AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin
+  ```
+
+- Meaning:
+  - `AcceptedSequenceGraph183CompletionTailFamily` is the deterministic
+    target-completion / cursor side.  It should be proved from closed
+    semantic fields such as `TopPairingTargetCursorAtRank`, schedule,
+    square-gap, local-axis, pair-count progress, and target-completion state.
+  - `AcceptedSequenceGraph183AcceptedTailMarginFamily` is the single integer
+    margin side for the accepted `yp,tmpp,tmmp,xp` tail.
+  - The blocked `tmmp,tmpp,yp,xp` tail remains discharged by
+    `graph183_blocked_branch_absurd_of_acceptedSequenceBadFace`.
+  - Do not use the older split-10M `graphSmokeNext` / exact-finish-margin
+    surfaces for this graph183 socket unless a separate graph-alignment theorem
+    is proved.
+- Strengthened the diagnostic audit
+  `scripts/audit_top_pairing_semantic_evaluator_pivot.py`:
+  - it now requires the two graph183 component surfaces and their combiner;
+  - it adds graph-alignment guards requiring graph183 to stay on
+    `closedBellmanNext`;
+  - it forbids accidental use of `graphSmokeNext`,
+    `Split10MGraphExactEvalGateAtRank`, `ExactGraphFinishMarginBound`, or
+    `Split10MExactGraphFinishFinalMarginProducer` in the graph183 socket.
+- Verification commands:
+
+  ```bash
+  python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_direct_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 lake env lean \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+  ```
+
+- Results:
+  - audit decision:
+    `semantic_evaluator_pivot_ready_for_membership_producer`;
+  - graph-alignment violations: `0`;
+  - direct Lean check passed with `elapsed_seconds=3.00`,
+    `peak_tree_rss_mib=4154.04`, `min_available_mib=45756.83`;
+  - focused Lake build passed with `elapsed_seconds=4.00`,
+    `peak_tree_rss_mib=4196.65`, `min_available_mib=45706.33`.
+- Next target:
+
+  ```lean
+  AcceptedSequenceGraph183CompletionTailFamily
+  AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
+  ```
+
+  If the completion-tail proof wants selected-prefix or accepted-trace
+  membership, add the missing semantic cursor/cancellation state instead.  If
+  the margin proof wants exact affine RHS, solved start-point keys, or one
+  branch per rank/path, stop and run the cocycle quotient / cancellation
+  segment experiment before adding state.

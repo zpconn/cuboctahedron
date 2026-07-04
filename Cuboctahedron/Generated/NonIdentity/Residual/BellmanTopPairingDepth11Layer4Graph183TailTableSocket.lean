@@ -678,6 +678,50 @@ structure AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily
         (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
       scaledMargin rank <= graphConst + ((194 : Int) + (-542 : Int))
 
+/--
+Semantic target-completion component of the graph183 accepted branch.
+
+This is the deterministic-language part of the remaining producer.  It should
+be proved from closed top-pairing state fields such as target cursor,
+schedule, square gap, local axis, and pair-count progress, not from observed
+trace ids or selected-prefix membership.
+-/
+structure AcceptedSequenceGraph183CompletionTailFamily : Prop where
+  completionTail :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ∀ rest,
+        Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+        Graph150TargetCompletionTail rest
+
+/--
+Integer margin component of the graph183 accepted branch.
+
+This isolates the only arithmetic fact still needed on the `yp` tail.  If a
+future proof of this field wants exact affine RHS keys, solved start points, or
+one branch per rank/path, the strategy should pivot to a cancellation/cocycle
+semantic state rather than enlarging this surface.
+-/
+structure AcceptedSequenceGraph183AcceptedTailMarginFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  final_margin_yp_branch :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      scaledMargin rank <= graphConst + ((194 : Int) + (-542 : Int))
+
+theorem acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components
+    {scaledMargin : Fin numPairWords -> Int}
+    (hcompletion : AcceptedSequenceGraph183CompletionTailFamily)
+    (hmargin :
+      AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin where
+  completionTail := hcompletion.completionTail
+  final_margin_yp_branch := hmargin.final_margin_yp_branch
+
 theorem graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily :
