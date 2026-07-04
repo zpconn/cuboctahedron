@@ -48,6 +48,9 @@ FILES = {
     "semantic_state_transitions": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSemanticStateTransitions.lean",
+    "closed_state_dag_evaluator_smoke": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingClosedStateDAGEvaluatorSmoke.lean",
     "semantic_tail_branch_emitter_smoke": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSemanticTailBranchEmitterSmoke.lean",
@@ -146,6 +149,13 @@ PATTERNS = {
         "graphSmokeNext",
         "smokeLabelOfFace",
     ],
+    "closed_state_dag_evaluator_smoke": [
+        "closedDAGNext",
+        "ClosedDAGSuffixOk",
+        "evalLabelStepFn_exists_of_closedDAGSuffixOk",
+        "closedDAGPrefix4_eval",
+        "closedStateDAGEvaluatorSmoke_builds",
+    ],
     "semantic_tail_branch_emitter_smoke": [
         "emitted_branchTable_of_closedPrefix2_tail",
         "emitted_branchTable_of_closedPrefix3_tmpm_tail",
@@ -200,6 +210,8 @@ GUARD_FILES = {
     / "scripts/generated/semantic_tail_branch_emitter_smoke_guard.json",
     "semantic_state_transitions_full_direct": ROOT
     / "scripts/generated/semantic_state_transitions_full_guard.json",
+    "closed_state_dag_evaluator_smoke_direct": ROOT
+    / "scripts/generated/closed_state_dag_evaluator_smoke_guard.json",
 }
 
 DIAGNOSTIC_JSON = {
@@ -353,6 +365,9 @@ def main() -> None:
     semantic_state_transition_support_ready = (
         totals["semantic_state_transition_support"] >= 1000
     )
+    closed_state_dag_evaluator_smoke_ready = (
+        totals["closed_state_dag_evaluator_smoke"] >= 5
+    )
     semantic_socket_core_ready = totals["semantic_socket_core"] >= 4
     closure_closed = bool(closure and closure.get("closed_after_sequence_bad_face"))
     state150_socket_needed = bool(
@@ -362,6 +377,10 @@ def main() -> None:
     strengthened_smoke_guard = guards["strengthened_local_lake"]
     strengthened_smoke_passed = bool(
         strengthened_smoke_guard and strengthened_smoke_guard.get("exit_code") == 0
+    )
+    closed_state_dag_guard = guards["closed_state_dag_evaluator_smoke_direct"]
+    closed_state_dag_smoke_passed = bool(
+        closed_state_dag_guard and closed_state_dag_guard.get("exit_code") == 0
     )
     closed_graph_too_weak = bool(
         closed_graph and closed_graph.get("decision") == "closed-components-too-weak"
@@ -376,15 +395,17 @@ def main() -> None:
     )
 
     decision = (
-        "semantic-transducer-pivot-accepted-next-emit-closed-language-state-dag-evaluator"
+        "semantic-transducer-pivot-accepted-next-scale-closed-language-state-dag-evaluator"
         if target_shadow_ready and eval_core_ready and semantic_gate_ready
         and target_cursor_core_ready and semantic_tail_core_ready
         and suffix_eval_core_ready and ranked_semantic_gate_core_ready
         and branch_table_semantic_gate_socket_ready
         and branch_table_graph_exact_socket_ready
         and semantic_state_transition_support_ready
+        and closed_state_dag_evaluator_smoke_ready
         and semantic_socket_core_ready and closure_closed
         and state150_socket_needed and strengthened_smoke_passed
+        and closed_state_dag_smoke_passed
         and closed_graph_too_weak and trace_dag_candidate
         and selected_prefix_risk and not sampled_hits
         else "manual-review-transducer-pivot"
@@ -417,6 +438,10 @@ def main() -> None:
             "semantic_state_transition_support_ready": (
                 semantic_state_transition_support_ready
             ),
+            "closed_state_dag_evaluator_smoke_ready": (
+                closed_state_dag_evaluator_smoke_ready
+            ),
+            "closed_state_dag_smoke_passed": closed_state_dag_smoke_passed,
             "semantic_socket_branches": 2,
             "known_sockets": [
                 "state19/tmmp canonical-bad-face mismatch",
@@ -516,6 +541,7 @@ def main() -> None:
         f"- branch-table semantic-gate socket mentions: `{totals['branch_table_semantic_gate_socket']}`",
         f"- branch-table graph-exact socket mentions: `{totals['branch_table_graph_exact_socket']}`",
         f"- full transition support mentions: `{totals['semantic_state_transition_support']}`",
+        f"- closed state-DAG evaluator smoke mentions: `{totals['closed_state_dag_evaluator_smoke']}`",
         f"- semantic-socket core mentions: `{totals['semantic_socket_core']}`",
         f"- selected-prefix production-risk mentions: `{totals['selected_prefix_production_risk']}`",
         f"- forbidden sampled-surface mentions: `{totals['forbidden_sampled_surface']}`",
@@ -527,6 +553,7 @@ def main() -> None:
         f"- semantic sockets accepted: `2`",
         f"- closure after sequence-bad-face filter: `{closure_closed}`",
         f"- strengthened local Lake smoke passed: `{strengthened_smoke_passed}`",
+        f"- closed state-DAG evaluator smoke passed: `{closed_state_dag_smoke_passed}`",
         f"- closed graph-acceptance decision: `{closed_graph.get('decision') if closed_graph else 'missing'}`",
         f"- trace state-DAG decision: `{trace_dag.get('decision') if trace_dag else 'missing'}`",
         f"- trace state-DAG states: `{trace_dag_states}`",
@@ -538,10 +565,11 @@ def main() -> None:
         "- `state19/tmmp`: canonical-bad-face mismatch.",
         "- `state150/tppp`: target-pairing completion impossibility.",
         "",
-        "Next checkpoint: emit/prove a closed-language state-DAG evaluator.",
+        "Next checkpoint: scale/prove the closed-language state-DAG evaluator.",
         "The old 10M graph is now diagnostic evidence only: the exact visible",
         "closed-language audit found candidates that it rejects.  The current",
-        "small semantic state DAG is the next proof object to target, with",
+        "small semantic state DAG now has a bounded evaluator smoke.  It is the",
+        "next proof object to scale, with",
         "`GraphBranchTableSuffixOk` or a successor evaluator theorem produced",
         "from closed-language state transitions rather than from sampled paths.",
         "",

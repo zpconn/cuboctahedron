@@ -94640,3 +94640,86 @@ Next implementation move:
 3. If the local margin bound cannot be expressed without exact affine RHS or
    exact solved start-point keys, pause Bellman and run the cocycle quotient
    profiler before adding more state.
+
+### Holonomy/Bellman Pivot - closed state-DAG evaluator smoke
+
+Implemented the first bounded smoke for the new production object:
+
+```text
+scripts/emit_top_pairing_closed_state_dag_evaluator_smoke.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedStateDAGEvaluatorSmoke.lean
+scripts/generated/closed_state_dag_evaluator_smoke_guard.json
+```
+
+The emitter reuses the exact semantic state-DAG profile, emits a bounded
+`closedDAGNext : Nat -> Face -> Option (Nat × Int)` table, and proves:
+
+```lean
+inductive ClosedDAGSuffixOk : Nat -> List Face -> Prop
+
+theorem evalLabelStepFn_exists_of_closedDAGSuffixOk
+    {state : Nat} {labels : List Face}
+    (h : ClosedDAGSuffixOk state labels) :
+    ∃ finish gain,
+      evalLabelStepFn closedDAGNext state labels = some (finish, gain)
+
+theorem closedDAGPrefix4_eval :
+    evalLabelStepFn closedDAGNext 0
+      [Face.xm, Face.ym, Face.tmpm, Face.tppm] =
+      some (4, (0 : Int))
+```
+
+This is still a smoke, not coverage.  It uses zero gains and only `64` emitted
+edges from the `5347`-state / `6089`-edge diagnostic DAG.  Its purpose is to
+validate the evaluator theorem shape before attaching real Bellman gains,
+potentials, terminal predicates, and margin bounds.
+
+Commands:
+
+```bash
+python3 -m py_compile \
+  scripts/emit_top_pairing_closed_state_dag_evaluator_smoke.py
+
+python3 scripts/emit_top_pairing_closed_state_dag_evaluator_smoke.py --limit 64
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/closed_state_dag_evaluator_smoke_guard.json \
+  --verbose \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedStateDAGEvaluatorSmoke.lean
+
+python3 -m py_compile \
+  scripts/audit_top_pairing_transducer_pivot.py \
+  scripts/emit_top_pairing_closed_state_dag_evaluator_smoke.py
+
+python3 scripts/audit_top_pairing_transducer_pivot.py
+```
+
+Results:
+
+```text
+emitter py_compile: pass
+emitter: pass, emitted 64 edges from 5347 states / 6089 profiled edges
+closed state-DAG evaluator smoke: pass,
+  elapsed 3.00s,
+  peak_tree_rss 3932 MiB,
+  hard address-space cap 8192 MiB
+pivot audit: pass,
+  decision semantic-transducer-pivot-accepted-next-scale-closed-language-state-dag-evaluator
+```
+
+Decision: the evaluator theorem shape is memory-safe in a bounded generated
+module.  The next step is to scale this from a structural zero-gain smoke into
+a production family:
+
+1. emit the full closed-language state DAG in shards if needed;
+2. replace zero gains with the actual Bellman/margin gains or a cocycle-gauged
+   quotient if raw gains need too much state;
+3. prove terminal/final predicates from semantic fields;
+4. only then feed the result into the existing semantic Bellman gate.

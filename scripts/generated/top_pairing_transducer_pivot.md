@@ -4,10 +4,10 @@ This is diagnostic-only evidence. It records the strategy pivot from
 selected-prefix/root-trace membership to a deterministic semantic
 closed-language transducer theorem.
 
-- decision: `semantic-transducer-pivot-accepted-next-emit-closed-language-state-dag-evaluator`
+- decision: `semantic-transducer-pivot-accepted-next-scale-closed-language-state-dag-evaluator`
 - target-shadow surface mentions: `120`
 - closed-language field mentions: `226`
-- eval-core mentions: `94`
+- eval-core mentions: `99`
 - semantic eval-gate mentions: `136`
 - target-cursor core mentions: `46`
 - semantic-tail core mentions: `20`
@@ -16,6 +16,7 @@ closed-language transducer theorem.
 - branch-table semantic-gate socket mentions: `30`
 - branch-table graph-exact socket mentions: `14`
 - full transition support mentions: `3242`
+- closed state-DAG evaluator smoke mentions: `76`
 - semantic-socket core mentions: `26`
 - selected-prefix production-risk mentions: `12`
 - forbidden sampled-surface mentions: `0`
@@ -27,6 +28,7 @@ closed-language transducer theorem.
 - semantic sockets accepted: `2`
 - closure after sequence-bad-face filter: `True`
 - strengthened local Lake smoke passed: `True`
+- closed state-DAG evaluator smoke passed: `True`
 - closed graph-acceptance decision: `closed-components-too-weak`
 - trace state-DAG decision: `semantic-state-dag-candidate`
 - trace state-DAG states: `5347`
@@ -38,10 +40,11 @@ Known semantic sockets:
 - `state19/tmmp`: canonical-bad-face mismatch.
 - `state150/tppp`: target-pairing completion impossibility.
 
-Next checkpoint: emit/prove a closed-language state-DAG evaluator.
+Next checkpoint: scale/prove the closed-language state-DAG evaluator.
 The old 10M graph is now diagnostic evidence only: the exact visible
 closed-language audit found candidates that it rejects.  The current
-small semantic state DAG is the next proof object to target, with
+small semantic state DAG now has a bounded evaluator smoke.  It is the
+next proof object to scale, with
 `GraphBranchTableSuffixOk` or a successor evaluator theorem produced
 from closed-language state transitions rather than from sampled paths.
 
@@ -59,6 +62,7 @@ from closed-language state transitions rather than from sampled paths.
 - `branch_table_semantic_gate_socket_direct`: exit `0`, elapsed `9.01s`, peak RSS `4009 MiB`, hard AS `8192.0`, killed `None`
 - `semantic_tail_branch_emitter_smoke_direct`: exit `0`, elapsed `8.00s`, peak RSS `3960 MiB`, hard AS `8192.0`, killed `None`
 - `semantic_state_transitions_full_direct`: exit `0`, elapsed `40.03s`, peak RSS `4063 MiB`, hard AS `8192.0`, killed `None`
+- `closed_state_dag_evaluator_smoke_direct`: exit `0`, elapsed `3.00s`, peak RSS `3933 MiB`, hard AS `8192.0`, killed `None`
 
 Interpretation: the selected-prefix/root-trace bridge is useful as
 diagnostic or downstream comparison evidence, but the recent guarded

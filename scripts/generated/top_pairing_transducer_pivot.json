@@ -1,5 +1,5 @@
 {
-  "decision": "semantic-transducer-pivot-accepted-next-emit-closed-language-state-dag-evaluator",
+  "decision": "semantic-transducer-pivot-accepted-next-scale-closed-language-state-dag-evaluator",
   "diagnostics": {
     "closed_graph_acceptance_latest": {
       "accepted": 37,
@@ -210,6 +210,7 @@
           "text": "TopPairingClosedLanguageAtRank rank badFace ->"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [
         {
           "line": 108,
@@ -592,6 +593,7 @@
       "branch_table_graph_exact_socket": [],
       "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [
         {
           "line": 155,
@@ -910,6 +912,7 @@
           "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [
         {
           "line": 33,
@@ -1140,6 +1143,7 @@
           "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [
         {
           "line": 347,
@@ -1266,6 +1270,7 @@
       "branch_table_graph_exact_socket": [],
       "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [],
       "exists": true,
       "forbidden_sampled_surface": [],
@@ -1448,6 +1453,7 @@
           "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [],
       "exists": true,
       "forbidden_sampled_surface": [],
@@ -1691,6 +1697,434 @@
       "target_cursor_core": [],
       "target_shadow": []
     },
+    "closed_state_dag_evaluator_smoke": {
+      "branch_table_graph_exact_socket": [],
+      "branch_table_semantic_gate_socket": [],
+      "closed_language_fields": [],
+      "closed_state_dag_evaluator_smoke": [
+        {
+          "line": 28,
+          "pattern": "closedDAGNext",
+          "text": "def closedDAGNext : Nat -> Face -> Option (Nat \u00d7 Int)"
+        },
+        {
+          "line": 96,
+          "pattern": "ClosedDAGSuffixOk",
+          "text": "inductive ClosedDAGSuffixOk : Nat -> List Face -> Prop"
+        },
+        {
+          "line": 97,
+          "pattern": "ClosedDAGSuffixOk",
+          "text": "| nil (state : Nat) : ClosedDAGSuffixOk state []"
+        },
+        {
+          "line": 100,
+          "pattern": "closedDAGNext",
+          "text": "(hnext : closedDAGNext state face = some (nextState, gain))"
+        },
+        {
+          "line": 101,
+          "pattern": "ClosedDAGSuffixOk",
+          "text": "(hrest : ClosedDAGSuffixOk nextState rest) :"
+        },
+        {
+          "line": 102,
+          "pattern": "ClosedDAGSuffixOk",
+          "text": "ClosedDAGSuffixOk state (face :: rest)"
+        },
+        {
+          "line": 104,
+          "pattern": "evalLabelStepFn_exists_of_closedDAGSuffixOk",
+          "text": "theorem evalLabelStepFn_exists_of_closedDAGSuffixOk"
+        },
+        {
+          "line": 106,
+          "pattern": "ClosedDAGSuffixOk",
+          "text": "(h : ClosedDAGSuffixOk state labels) :"
+        },
+        {
+          "line": 108,
+          "pattern": "closedDAGNext",
+          "text": "evalLabelStepFn closedDAGNext state labels = some (finish, gain) := by"
+        },
+        {
+          "line": 119,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 0 Face.xm ="
+        },
+        {
+          "line": 124,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 1 Face.ym ="
+        },
+        {
+          "line": 129,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 2 Face.tmpm ="
+        },
+        {
+          "line": 134,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 2 Face.yp ="
+        },
+        {
+          "line": 139,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 2 Face.zm ="
+        },
+        {
+          "line": 144,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 3 Face.tppm ="
+        },
+        {
+          "line": 149,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 3 Face.zm ="
+        },
+        {
+          "line": 154,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 4 Face.tmmp ="
+        },
+        {
+          "line": 159,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 4 Face.tpmm ="
+        },
+        {
+          "line": 164,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 4 Face.zp ="
+        },
+        {
+          "line": 169,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 5 Face.tpmp ="
+        },
+        {
+          "line": 174,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 5 Face.tppp ="
+        },
+        {
+          "line": 179,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 5 Face.zm ="
+        },
+        {
+          "line": 184,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 6 Face.tmmm ="
+        },
+        {
+          "line": 189,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 6 Face.tpmm ="
+        },
+        {
+          "line": 194,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 6 Face.zm ="
+        },
+        {
+          "line": 199,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 7 Face.tpmm ="
+        },
+        {
+          "line": 204,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 7 Face.tppp ="
+        },
+        {
+          "line": 209,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 7 Face.zm ="
+        },
+        {
+          "line": 214,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 8 Face.tmpp ="
+        },
+        {
+          "line": 219,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 8 Face.tppp ="
+        },
+        {
+          "line": 224,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 8 Face.yp ="
+        },
+        {
+          "line": 229,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 8 Face.zm ="
+        },
+        {
+          "line": 234,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 9 Face.zm ="
+        },
+        {
+          "line": 239,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 10 Face.tppp ="
+        },
+        {
+          "line": 244,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 11 Face.zm ="
+        },
+        {
+          "line": 249,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 13 Face.tmpp ="
+        },
+        {
+          "line": 254,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 13 Face.zm ="
+        },
+        {
+          "line": 259,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 14 Face.yp ="
+        },
+        {
+          "line": 264,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 14 Face.zm ="
+        },
+        {
+          "line": 269,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 15 Face.zm ="
+        },
+        {
+          "line": 274,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 16 Face.zp ="
+        },
+        {
+          "line": 279,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 18 Face.yp ="
+        },
+        {
+          "line": 284,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 18 Face.zp ="
+        },
+        {
+          "line": 289,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 19 Face.yp ="
+        },
+        {
+          "line": 294,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 21 Face.tmmm ="
+        },
+        {
+          "line": 299,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 21 Face.zm ="
+        },
+        {
+          "line": 304,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 24 Face.tmpp ="
+        },
+        {
+          "line": 309,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 24 Face.yp ="
+        },
+        {
+          "line": 314,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 24 Face.zp ="
+        },
+        {
+          "line": 319,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 25 Face.tppp ="
+        },
+        {
+          "line": 324,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 25 Face.zm ="
+        },
+        {
+          "line": 329,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 26 Face.zm ="
+        },
+        {
+          "line": 334,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 29 Face.tppp ="
+        },
+        {
+          "line": 339,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 29 Face.yp ="
+        },
+        {
+          "line": 344,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 30 Face.tmpp ="
+        },
+        {
+          "line": 349,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 31 Face.tmmm ="
+        },
+        {
+          "line": 354,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 33 Face.tpmm ="
+        },
+        {
+          "line": 359,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 33 Face.yp ="
+        },
+        {
+          "line": 364,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 33 Face.zm ="
+        },
+        {
+          "line": 369,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 34 Face.tmpp ="
+        },
+        {
+          "line": 374,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 34 Face.zm ="
+        },
+        {
+          "line": 379,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 35 Face.yp ="
+        },
+        {
+          "line": 384,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 35 Face.zm ="
+        },
+        {
+          "line": 389,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 36 Face.zm ="
+        },
+        {
+          "line": 394,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 37 Face.zp ="
+        },
+        {
+          "line": 399,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 38 Face.xp ="
+        },
+        {
+          "line": 404,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 40 Face.yp ="
+        },
+        {
+          "line": 409,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 40 Face.zp ="
+        },
+        {
+          "line": 414,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 41 Face.yp ="
+        },
+        {
+          "line": 419,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 43 Face.zm ="
+        },
+        {
+          "line": 424,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 45 Face.tmpp ="
+        },
+        {
+          "line": 429,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 45 Face.yp ="
+        },
+        {
+          "line": 434,
+          "pattern": "closedDAGNext",
+          "text": "closedDAGNext 45 Face.zp ="
+        },
+        {
+          "line": 439,
+          "pattern": "closedDAGPrefix4_eval",
+          "text": "theorem closedDAGPrefix4_eval :"
+        },
+        {
+          "line": 440,
+          "pattern": "closedDAGNext",
+          "text": "evalLabelStepFn closedDAGNext 0 [Face.xm, Face.ym, Face.tmpm, Face.tppm] ="
+        },
+        {
+          "line": 444,
+          "pattern": "closedStateDAGEvaluatorSmoke_builds",
+          "text": "theorem closedStateDAGEvaluatorSmoke_builds : True := by"
+        }
+      ],
+      "eval_core": [
+        {
+          "line": 104,
+          "pattern": "evalLabelStepFn",
+          "text": "theorem evalLabelStepFn_exists_of_closedDAGSuffixOk"
+        },
+        {
+          "line": 108,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn closedDAGNext state labels = some (finish, gain) := by"
+        },
+        {
+          "line": 111,
+          "pattern": "evalLabelStepFn",
+          "text": "exact \u27e8state, 0, by simp [evalLabelStepFn]\u27e9"
+        },
+        {
+          "line": 116,
+          "pattern": "evalLabelStepFn",
+          "text": "simp [evalLabelStepFn, hnext, htail]"
+        },
+        {
+          "line": 440,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn closedDAGNext 0 [Face.xm, Face.ym, Face.tmpm, Face.tppm] ="
+        }
+      ],
+      "exists": true,
+      "forbidden_sampled_surface": [],
+      "lines": 447,
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGEvaluatorSmoke.lean",
+      "ranked_semantic_gate_core": [],
+      "selected_prefix_production_risk": [],
+      "semantic_eval_gate": [],
+      "semantic_socket_core": [],
+      "semantic_state_transition_support": [],
+      "semantic_tail_branch_emitter_smoke": [],
+      "semantic_tail_core": [],
+      "suffix_eval_core": [],
+      "target_cursor_core": [],
+      "target_shadow": []
+    },
     "missing_transition_socket": {
       "branch_table_graph_exact_socket": [],
       "branch_table_semantic_gate_socket": [],
@@ -1751,6 +2185,7 @@
           "text": "have hsquare : TopPairingSquareGapFrom 7 [f0, f1, Face.xp] := by"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [
         {
           "line": 54,
@@ -1984,6 +2419,7 @@
           "text": "\u2203 closed : TopPairingClosedLanguageAtRank rank Face.ym,"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [],
       "exists": true,
       "forbidden_sampled_surface": [],
@@ -2077,6 +2513,7 @@
       "branch_table_graph_exact_socket": [],
       "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [],
       "exists": true,
       "forbidden_sampled_surface": [],
@@ -2156,6 +2593,7 @@
           "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace) :"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [
         {
           "line": 66,
@@ -2298,6 +2736,7 @@
       "branch_table_graph_exact_socket": [],
       "branch_table_semantic_gate_socket": [],
       "closed_language_fields": [],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [],
       "exists": true,
       "forbidden_sampled_surface": [],
@@ -18226,6 +18665,7 @@
           "text": "TopPairingLocalAxisAllows, topPairingNextLinear, topPairingLocalAxis,"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [],
       "exists": true,
       "forbidden_sampled_surface": [],
@@ -18461,6 +18901,7 @@
           "text": "(hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [
         {
           "line": 820,
@@ -19188,6 +19629,7 @@
           "text": "(h : TopPairingClosedLanguageAtRank rank badFace) :"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [],
       "exists": true,
       "forbidden_sampled_surface": [],
@@ -20376,6 +20818,7 @@
           "text": "end TopPairingClosedLanguageForSeq"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [],
       "exists": true,
       "forbidden_sampled_surface": [],
@@ -20463,6 +20906,7 @@
           "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace)"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [
         {
           "line": 148,
@@ -20954,6 +21398,7 @@
           "text": "(hclosed : TopPairingClosedLanguageAtRank rank badFace) :"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [
         {
           "line": 48,
@@ -21664,6 +22109,7 @@
           "text": "TopPairingLocalAxisAllows linear face \u2227"
         }
       ],
+      "closed_state_dag_evaluator_smoke": [],
       "eval_core": [],
       "exists": true,
       "forbidden_sampled_surface": [],
@@ -21766,6 +22212,30 @@
       "max_tree_rss_mib": 4008.8046875,
       "min_available_seen_kib": 47247208,
       "min_available_seen_mib": 46139.8515625,
+      "rss_cap_mib": 6500.0,
+      "timeout_seconds": 240.0
+    },
+    "closed_state_dag_evaluator_smoke_direct": {
+      "available_floor_mib": 30000.0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6500",
+        "-j1",
+        "-s",
+        "2048",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGEvaluatorSmoke.lean"
+      ],
+      "elapsed_seconds": 3.0031895019928925,
+      "exit_code": 0,
+      "hard_address_space_mib": 8192.0,
+      "killed_reason": null,
+      "max_tree_rss_kib": 4027156,
+      "max_tree_rss_mib": 3932.76953125,
+      "min_available_seen_kib": 46887540,
+      "min_available_seen_mib": 45788.61328125,
       "rss_cap_mib": 6500.0,
       "timeout_seconds": 240.0
     },
@@ -22060,6 +22530,8 @@
     "branch_table_graph_exact_socket_ready": true,
     "branch_table_semantic_gate_socket_ready": true,
     "closed_graph_acceptance_decision": "closed-components-too-weak",
+    "closed_state_dag_evaluator_smoke_ready": true,
+    "closed_state_dag_smoke_passed": true,
     "closure_after_sequence_bad_face": true,
     "graph_states": 223,
     "known_sockets": [
@@ -22082,7 +22554,8 @@
     "branch_table_graph_exact_socket": 14,
     "branch_table_semantic_gate_socket": 30,
     "closed_language_fields": 226,
-    "eval_core": 94,
+    "closed_state_dag_evaluator_smoke": 76,
+    "eval_core": 99,
     "forbidden_sampled_surface": 0,
     "ranked_semantic_gate_core": 8,
     "selected_prefix_production_risk": 12,
