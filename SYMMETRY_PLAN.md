@@ -98876,3 +98876,108 @@ local tables.
   cursor/cancellation state.  If that implication needs selected-prefix,
   accepted-trace, sampled-rank, exact-affine, or solved-start-point data, stop
   and add a semantic state field instead.
+
+2026-07-04 semantic evaluator pivot audit:
+
+- Incorporated the latest GPT5.5 guidance as the active Bellman strategy:
+  keep Bellman, but reject selected-prefix membership as a production route.
+  The immediate target is no longer another graph smoke.  It is a deterministic
+  closed-language membership producer for:
+
+  ```lean
+  Depth11Layer4SevenBranchMappedPortfolioAllFamily scaledMargin
+  ```
+
+  This portfolio is the current clean theorem surface for proving that every
+  closed top-pairing rank drives the mapped layer-4/depth-11 evaluator into one
+  of the checked graph-exact suffix classes with an exact margin bound.
+- Added and ran:
+
+  ```text
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The audit is diagnostic only; it does not enumerate ranks and does not prove
+  coverage.  It verifies that the semantic front door and production sockets
+  exist, and scans the intended production modules for selected-prefix or
+  sampled-rank leakage.
+- New report files:
+
+  ```text
+  scripts/generated/top_pairing_semantic_evaluator_pivot.json
+  scripts/generated/top_pairing_semantic_evaluator_pivot.md
+  ```
+
+- Audit command:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  passed with decision:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- The audit confirmed the required theorem surfaces are present:
+
+  ```lean
+  topPairingTargetShadow_of_summary
+  topPairingTriShadow_eq_target_of_closed
+  topPairingTriCursor_of_closed
+  TopPairingTransducerTail.ofClosedRank
+  TopPairingTransducerTail.cons
+  StrengthenedClosedTransducerProducerAll
+  Split10MExactGraphFinishFinalMarginProducer
+  Depth11GraphExactPortfolioAllFamily
+  Depth11Layer4SevenBranchMappedPortfolioAllFamily
+  closedToEvalGate_of_layer4MappedPortfolio
+  scaledMargin_nonpos_of_layer4MappedPortfolio
+  ```
+
+- Forbidden production-token scan over the pivot modules found no hits for:
+
+  ```text
+  SampledRankIndex
+  sampledContainsRank
+  sampledRankOf
+  SelectedPrefix
+  acceptedTraceOfId
+  AcceptedTraceId
+  ```
+
+- Refreshed the existing layer-4 mapped portfolio gate audit:
+
+  ```bash
+  python3 scripts/audit_top_pairing_layer4_mapped_portfolio_gate.py
+  ```
+
+  which reported:
+
+  ```text
+  mapped-portfolio-gate-ready-next-prove-semantic-classification
+  ```
+
+- The pivot audit records the latest relevant guarded measurements already on
+  disk:
+
+  ```text
+  BellmanTopPairingDepth11Layer4MappedFinish.lean:
+    exit 0, elapsed 18.009754205995705s, peak RSS 4048.703125 MiB
+
+  BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke lake build:
+    exit 0, elapsed 4.003515039003105s, peak RSS 4088.734375 MiB
+  ```
+
+- Strategic consequence: the next generated proof must be a semantic
+  state-transition producer, not a trace enumerator.  It should derive each of
+  the seven mapped first-four branch fields from closed-language state:
+  target-shadow cursor, schedule, square-gap, local-axis, tri-source progress,
+  graph suffix class, and graph-exact margin bound.
+- Go/no-go gate: continue only if the producer proves the portfolio by local
+  semantic transitions.  Reject the route immediately if the proof introduces
+  sampled ranks, selected-prefix coverage, accepted-trace ids, exact affine RHS
+  keys, solved start-point keys, or one branch per rank/path.  If that happens,
+  add the missing semantic state field or pivot to the cancellation-tree /
+  cocycle-quotient fallback.

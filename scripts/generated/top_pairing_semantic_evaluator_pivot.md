@@ -1,0 +1,53 @@
+# Top-Pairing Semantic Evaluator Pivot
+
+This audit is diagnostic status evidence, not proof.  It records the
+current Lean theorem surfaces for the pivot away from selected-prefix
+membership and toward deterministic closed-language evaluator proofs.
+
+- decision: `semantic_evaluator_pivot_ready_for_membership_producer`
+- missing required symbols: `0`
+- forbidden production-token hits: `0`
+
+## Required Surfaces
+
+| file | lines | missing symbols |
+| --- | ---: | --- |
+| `target_cursor` | `387` | none |
+| `transducer_tail` | `97` | none |
+| `closed_transducer_socket` | `205` | none |
+| `closed_final_margin_socket` | `432` | none |
+| `depth11_graph_exact_portfolio` | `177` | none |
+| `depth11_layer4_mapped_finish` | `1503` | none |
+| `depth11_closed_providers` | `1536` | none |
+
+## Guard Measurements
+
+- `depth11_layer4_mapped_finish`: exit `0`, elapsed `18.009754205995705`, peak RSS MiB `4048.703125`
+- `depth11_closed_providers_lake`: exit `0`, elapsed `4.003515039003105`, peak RSS MiB `4088.734375`
+
+## Forbidden Production Hits
+
+- none
+
+## Accepted Pivot
+
+Keep Bellman, but reject selected-prefix membership as a production
+route.  The next generated proof should construct:
+
+```lean
+Depth11Layer4SevenBranchMappedPortfolioAllFamily scaledMargin
+```
+
+from semantic closed-language state: target-shadow cursor, schedule,
+square-gap, local-axis, tri-source progress, graph suffix class, and
+graph-exact margin bound.  The final theorem should consume the
+existing `closedToEvalGate_of_layer4MappedPortfolio` and
+`scaledMargin_nonpos_of_layer4MappedPortfolio` surfaces.
+
+## Go/No-Go Gate
+
+Go only if the next producer proves the portfolio by local semantic
+state transitions.  No-go if the proof introduces sampled ranks,
+selected-prefix coverage, accepted-trace ids, exact affine RHS keys,
+or one branch per rank/path.  In that case, add a missing semantic
+state field or pivot to the cancellation-tree/cocycle quotient.

@@ -1,0 +1,98 @@
+{
+  "decision": "semantic_evaluator_pivot_ready_for_membership_producer",
+  "files": {
+    "closed_final_margin_socket": {
+      "exists": true,
+      "lines": 432,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedFinalMarginSocket.lean"
+    },
+    "closed_transducer_socket": {
+      "exists": true,
+      "lines": 205,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedTransducerProducerSocket.lean"
+    },
+    "depth11_closed_providers": {
+      "exists": true,
+      "lines": 1536,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean"
+    },
+    "depth11_graph_exact_portfolio": {
+      "exists": true,
+      "lines": 177,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11GraphExactPortfolioSocket.lean"
+    },
+    "depth11_layer4_mapped_finish": {
+      "exists": true,
+      "lines": 1503,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4MappedFinish.lean"
+    },
+    "target_cursor": {
+      "exists": true,
+      "lines": 387,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Search/TopPairingTargetCursor.lean"
+    },
+    "transducer_tail": {
+      "exists": true,
+      "lines": 97,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Search/TopPairingTransducerTail.lean"
+    }
+  },
+  "forbidden_hits": [],
+  "guards": {
+    "depth11_closed_providers_lake": {
+      "available_floor_mib": 30000.0,
+      "command": [
+        "env",
+        "LEAN_NUM_THREADS=1",
+        "LAKE_JOBS=1",
+        "lake",
+        "build",
+        "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke"
+      ],
+      "elapsed_seconds": 4.003515039003105,
+      "exit_code": 0,
+      "hard_address_space_mib": null,
+      "killed_reason": null,
+      "max_tree_rss_kib": 4186864,
+      "max_tree_rss_mib": 4088.734375,
+      "min_available_seen_kib": 46131840,
+      "min_available_seen_mib": 45050.625,
+      "rss_cap_mib": 12000.0,
+      "timeout_seconds": 300.0
+    },
+    "depth11_layer4_mapped_finish": {
+      "available_floor_mib": 30000.0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6500",
+        "-j1",
+        "-s",
+        "2048",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4MappedFinish.lean"
+      ],
+      "elapsed_seconds": 18.009754205995705,
+      "exit_code": 0,
+      "hard_address_space_mib": 8192.0,
+      "killed_reason": null,
+      "max_tree_rss_kib": 4145872,
+      "max_tree_rss_mib": 4048.703125,
+      "min_available_seen_kib": 47057568,
+      "min_available_seen_mib": 45954.65625,
+      "rss_cap_mib": 6500.0,
+      "timeout_seconds": 360.0
+    }
+  },
+  "missing_symbols": [],
+  "mode": "top_pairing_semantic_evaluator_pivot",
+  "next_production_target": "Depth11Layer4SevenBranchMappedPortfolioAllFamily scaledMargin"
+}
