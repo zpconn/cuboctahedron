@@ -98762,3 +98762,117 @@ local tables.
   class provider.  The emitter should generate exactly two pieces per class:
   a semantic `ClassNNNSequenceBadFace` extractor, and a theorem from the base
   strengthened predicate to that class-specific strengthened predicate.
+
+2026-07-04 generated depth-11 strengthened adapter emission:
+
+- Promoted the class-034/class-035 strengthened adapter pattern into the
+  generator:
+
+  ```text
+  scripts/emit_top_pairing_depth11_closed_provider_smoke.py
+  ```
+
+- Regenerated:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean
+  ```
+
+- The generated provider now covers all six currently exposed depth-11
+  semantic suffix classes:
+
+  ```text
+  class 034, 035, 036, 037, 038, 039
+  ```
+
+  with `30` graph-state suffix alternatives total.  The file is `1536` lines.
+- New generated surfaces, one set per class:
+
+  ```lean
+  def ClassNNNSequenceBadFace
+      (scaledMargin : Fin numPairWords -> Int)
+      (rank : Fin numPairWords) (badFace : Face) : Prop
+
+  theorem classNNNSequenceBadFace_extract :
+      ClassNNNSequenceBadFace scaledMargin rank Face.ym ->
+        AcceptedSequenceBadFaceAtRank rank Face.ym ∧
+          TerminalOkTraceLabels (topPairingRankFaceLabels rank) ∧
+            Split10MGraphSuffixProducer rank ∧
+              Split10MFinalMarginProducer scaledMargin rank
+
+  theorem semanticStateDAGAllFamily_of_classNNN :
+      (∀ rank,
+        TopPairingStrengthenedClosedLanguageAtRank
+          AcceptedSequenceBadFaceAtRank rank Face.ym ->
+        TopPairingStrengthenedClosedLanguageAtRank
+          (ClassNNNSequenceBadFace scaledMargin) rank Face.ym) ->
+      StrengthenedSemanticStateDAGAllFamily scaledMargin
+
+  theorem scaledMargin_nonpos_of_classNNNAllFamily :
+      ... ->
+      scaledMargin rank <= 0
+  ```
+
+- This is accepted as a scalable theorem-surface improvement because it uses
+  the shared extractor socket and generates one semantic adapter per class,
+  not one theorem per rank, selected prefix, accepted trace, exact affine RHS,
+  or solved start point.  The remaining hard theorem for each class is still
+  honest: prove the class-specific strengthened predicate from the base
+  `TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank`
+  using semantic cursor/cancellation state.
+- Regeneration command:
+
+  ```bash
+  python3 scripts/emit_top_pairing_depth11_closed_provider_smoke.py
+  ```
+
+  output:
+
+  ```text
+  wrote Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean \
+  with 6 classes and 30 graph-state suffix alternatives
+  ```
+
+- Focused direct Lean check:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 300 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/depth11_closed_providers_strengthened_adapters_guard.json \
+    --verbose -- lake env lean -M 10000 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean
+  ```
+
+  passed with `elapsed_seconds=3.00`, `peak_tree_rss_mib=4015`, and
+  `min_available_mib=45144`.
+
+- Focused Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 300 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/depth11_closed_providers_strengthened_adapters_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke
+  ```
+
+  passed with `elapsed_seconds=4.00`, `peak_tree_rss_mib=4088`, and
+  `min_available_mib=45050`.
+- Forbidden-token scan over the generator and regenerated Lean module found no
+  matches for `sorry`, `admit`, `axiom`, `native_decide`, `unsafe`,
+  `SampledRankIndex`, `sampledContainsRank`, `sampledRankOf`,
+  `sampledSmokeNext`, `SelectedPrefix`, `acceptedTraceOfId`, or
+  `AcceptedTraceId`.
+- Next implementation target: generate/prove the first real class-specific
+  strengthened predicate implication for one of classes 036-039 from semantic
+  cursor/cancellation state.  If that implication needs selected-prefix,
+  accepted-trace, sampled-rank, exact-affine, or solved-start-point data, stop
+  and add a semantic state field instead.
