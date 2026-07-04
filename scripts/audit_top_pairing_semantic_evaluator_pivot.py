@@ -37,6 +37,9 @@ FILES = {
     "depth11_layer4_mapped_finish": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4MappedFinish.lean",
+    "depth11_layer4_mapped_branch_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4MappedBranchSocket.lean",
     "depth11_closed_providers": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingSemanticStateDAGDepth11ClosedProvidersSmoke.lean",
@@ -47,6 +50,8 @@ GUARDS = {
     / "scripts/generated/depth11_layer4_mapped_finish_latest_guard.json",
     "depth11_closed_providers_lake": ROOT
     / "scripts/generated/depth11_closed_providers_strengthened_adapters_lake_guard.json",
+    "depth11_layer4_mapped_branch_socket_lake": ROOT
+    / "scripts/generated/depth11_layer4_mapped_branch_socket_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -80,6 +85,12 @@ REQUIRED_SYMBOLS = {
         "closedToEvalGate_of_layer4MappedPortfolio",
         "scaledMargin_nonpos_of_layer4MappedPortfolio",
     ],
+    "depth11_layer4_mapped_branch_socket": [
+        "Depth11Layer4MappedBranchPortfolioFamily",
+        "Depth11Layer4MappedBranchPortfolioBundle",
+        "mappedPortfolio_of_mappedBranchPortfolioBundle",
+        "scaledMargin_nonpos_of_mappedBranchPortfolioBundle",
+    ],
     "depth11_closed_providers": [
         "semanticStateDAGAllFamily_of_class034",
         "semanticStateDAGAllFamily_of_class035",
@@ -97,6 +108,7 @@ PRODUCTION_SCAN_FILES = [
     "closed_final_margin_socket",
     "depth11_graph_exact_portfolio",
     "depth11_layer4_mapped_finish",
+    "depth11_layer4_mapped_branch_socket",
     "depth11_closed_providers",
 ]
 
@@ -212,6 +224,10 @@ def render_markdown(report: dict[str, Any]) -> str:
             "graph-exact margin bound.  The final theorem should consume the",
             "existing `closedToEvalGate_of_layer4MappedPortfolio` and",
             "`scaledMargin_nonpos_of_layer4MappedPortfolio` surfaces.",
+            "",
+            "The branch socket lets that portfolio be emitted and checked as seven",
+            "independent `Depth11Layer4MappedBranchPortfolioFamily` leaves before",
+            "bundling them into the full portfolio.",
             "",
             "## Go/No-Go Gate",
             "",

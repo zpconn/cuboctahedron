@@ -18,12 +18,14 @@ membership and toward deterministic closed-language evaluator proofs.
 | `closed_final_margin_socket` | `432` | none |
 | `depth11_graph_exact_portfolio` | `177` | none |
 | `depth11_layer4_mapped_finish` | `1503` | none |
+| `depth11_layer4_mapped_branch_socket` | `148` | none |
 | `depth11_closed_providers` | `1536` | none |
 
 ## Guard Measurements
 
 - `depth11_layer4_mapped_finish`: exit `0`, elapsed `18.009754205995705`, peak RSS MiB `4048.703125`
 - `depth11_closed_providers_lake`: exit `0`, elapsed `4.003515039003105`, peak RSS MiB `4088.734375`
+- `depth11_layer4_mapped_branch_socket_lake`: exit `0`, elapsed `28.024844848012435`, peak RSS MiB `4391.59765625`
 
 ## Forbidden Production Hits
 
@@ -43,6 +45,10 @@ square-gap, local-axis, tri-source progress, graph suffix class, and
 graph-exact margin bound.  The final theorem should consume the
 existing `closedToEvalGate_of_layer4MappedPortfolio` and
 `scaledMargin_nonpos_of_layer4MappedPortfolio` surfaces.
+
+The branch socket lets that portfolio be emitted and checked as seven
+independent `Depth11Layer4MappedBranchPortfolioFamily` leaves before
+bundling them into the full portfolio.
 
 ## Go/No-Go Gate
 

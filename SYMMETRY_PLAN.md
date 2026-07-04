@@ -98981,3 +98981,101 @@ local tables.
   keys, solved start-point keys, or one branch per rank/path.  If that happens,
   add the missing semantic state field or pivot to the cancellation-tree /
   cocycle-quotient fallback.
+
+2026-07-04 branch-level mapped portfolio socket:
+
+- Added:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4MappedBranchSocket.lean
+  ```
+
+- New theorem surface:
+
+  ```lean
+  structure Depth11Layer4MappedBranchPortfolioFamily
+      (scaledMargin : Fin numPairWords -> Int)
+      (face₀ face₁ : Face) : Prop
+
+  theorem mappedEvalGateAtRank_of_mappedBranchPortfolio :
+      Depth11Layer4MappedBranchPortfolioFamily scaledMargin face₀ face₁ ->
+      Depth11Layer4SemanticFrontierBranch face₀ face₁ ->
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank face₀ face₁ rest ->
+      Depth11Layer4MappedGraphExactEvalGateAtRank scaledMargin rank
+
+  theorem graphExactEvalGateAtRank_of_mappedBranchPortfolio :
+      ... -> Split10MGraphExactEvalGateAtRank scaledMargin rank
+
+  theorem scaledMargin_nonpos_of_mappedBranchPortfolio :
+      ... -> scaledMargin rank <= 0
+
+  structure Depth11Layer4MappedBranchPortfolioBundle
+      (scaledMargin : Fin numPairWords -> Int) : Prop
+
+  theorem mappedPortfolio_of_mappedBranchPortfolioBundle :
+      Depth11Layer4MappedBranchPortfolioBundle scaledMargin ->
+      Depth11Layer4SevenBranchMappedPortfolioAllFamily scaledMargin
+
+  theorem scaledMargin_nonpos_of_mappedBranchPortfolioBundle :
+      Depth11Layer4MappedBranchPortfolioBundle scaledMargin ->
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+      scaledMargin rank <= 0
+  ```
+
+- Purpose: future generated semantic membership leaves can now target one of
+  the seven first-four branches at a time, check that leaf independently, and
+  only then bundle them into the production
+  `Depth11Layer4SevenBranchMappedPortfolioAllFamily`.  This keeps the next
+  proof attempt memory-safe and makes failures local to a branch/state
+  abstraction instead of the whole top-pairing language.
+- First direct `lake env lean` command:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 300 \
+    --max-tree-rss-mib 9000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/depth11_layer4_mapped_branch_socket_guard.json \
+    --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4MappedBranchSocket.lean
+  ```
+
+  failed because the imported
+  `BellmanTopPairingDepth11Layer4MappedFinish.olean` did not exist yet.  This
+  was a missing-build-artifact failure, not a Lean type error.
+- Focused guarded Lake build:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/depth11_layer4_mapped_branch_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4MappedBranchSocket
+  ```
+
+  passed with `elapsed_seconds=28.02`, `peak_tree_rss_mib=4391`, and
+  `min_available_mib=45380`.
+- Updated and reran the semantic evaluator pivot audit:
+
+  ```bash
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  The decision remains:
+
+  ```text
+  semantic_evaluator_pivot_ready_for_membership_producer
+  ```
+
+- Next implementation target: generate or hand-prove the first actual
+  `Depth11Layer4MappedBranchPortfolioFamily` for one semantic branch.  The
+  preferred branch-level proof should use target cursor / transducer tail /
+  local semantic state to produce a checked `Depth11Layer4MappedClassCase`.
+  If the proof needs selected-prefix or accepted-trace membership, do not
+  scale it; add the missing semantic state or move to the cocycle quotient.
