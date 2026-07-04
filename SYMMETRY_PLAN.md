@@ -98170,3 +98170,73 @@ is the next state-design signal: graph 152 needs an additional compact semantic
 field, likely the production version of the profiler's `with-step-tri-source`
 or a small segment/cocycle quotient state, before it should get a local branch
 table.
+
+### Holonomy/Bellman Pivot - graph 152 route is strengthened suffix/socket, not target-completion
+
+After graph 151, the immediate graph-152 experiment established that
+`TopPairingTargetCompletionTail` is not the right standalone strengthening:
+the target-completion state still admits extra square heads (`yp`, `zm`) that
+are not real Bellman graph edges.  This matches the broader audit history:
+target pairing alone is an over-approximation, and the remaining false
+transitions are eliminated by the strengthened sequence/bad-face gate.
+
+Relevant existing Lean surface:
+
+```lean
+theorem strengthenedToEvalGate_of_transducerInvariantLocalWithSuffix
+
+theorem scaledMargin_nonpos_of_transducerStrengthenedGate
+```
+
+from:
+
+```text
+Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+```
+
+These theorems are already parameterized by:
+
+```lean
+sequenceBadFace : Fin numPairWords -> Face -> Prop
+```
+
+and are the correct production-shaped route for graph 152.  The next Lean
+object should be a strengthened suffix/socket table with semantic constructors
+for:
+
+```text
+ordinary graph transition
+target-completion impossible branch
+sequence/canonical-bad-face impossible branch
+```
+
+not a `StrengthenedLocalBranchTable` that pretends graph state alone is enough.
+
+Cheap diagnostic audit:
+
+```bash
+python3 scripts/audit_bellman_strengthened_branch_table.py \
+  --json scripts/generated/bellman_strengthened_branch_table_audit_after_graph151.json \
+  --markdown scripts/generated/bellman_strengthened_branch_table_audit_after_graph151.md
+```
+
+Result:
+
+```text
+decision = finite-branch-table-report-ready-for-lean-emitter
+states = 223
+real graph edges = 229
+final states = 29
+matched paths in diagnostic window = 37
+semantic socket branches = 2
+remaining uncovered audited branches = 0
+strengthened smoke guard passed = True
+strengthened smoke guard peak RSS MiB = 4338.109375
+```
+
+Interpretation: the next implementation should emit/check the finite
+strengthened branch-table/socket layer, then instantiate
+`strengthenedToEvalGate_of_transducerInvariantLocalWithSuffix`.  That is the
+deterministic semantic-state-machine theorem requested by the GPT5.5 pivot.
+Do not spend more effort scaling selected-prefix membership or graph-only
+local tables.

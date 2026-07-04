@@ -1,0 +1,49 @@
+{
+  "branch_table": {
+    "production_lean_table_emitted": false,
+    "real_graph_transition_branches": 229,
+    "remaining_uncovered_audited_branches": 0,
+    "semantic_socket_branches": 2,
+    "uncovered": []
+  },
+  "closure_input": "scripts/generated/bellman_target_pairing_closure_with_bad_face_1m.json",
+  "decision": "finite-branch-table-report-ready-for-lean-emitter",
+  "graph": {
+    "edges": 229,
+    "final_states": 29,
+    "matched_paths": 37,
+    "max_margin_bound": "0",
+    "root_bound": "-2",
+    "scale": 88,
+    "states": 223
+  },
+  "graph_input": "scripts/generated/nonid_margin_bellman_top_pairing_000000000_001000000_with_step_face_linear_tri_source_graph.json",
+  "mode": "bellman-strengthened-branch-table-audit",
+  "next_step": "Emit a finite Lean branch table from this classification.  The Lean table should use ordinary graph transitions for real edges and semantic socket constructors for the two accepted impossible branches; it must not introduce selected-prefix membership or one branch per rank/path.",
+  "sockets": [
+    {
+      "accepted": true,
+      "face": "tmmp",
+      "kind": "canonical-bad-face mismatch",
+      "name": "state19/tmmp",
+      "source": "scripts/generated/bellman_target_pairing_closure_with_bad_face_1m.json",
+      "state": 19
+    },
+    {
+      "accepted": true,
+      "face": "tppp",
+      "kind": "target-pairing completion impossibility",
+      "name": "state150/tppp",
+      "source": "scripts/generated/bellman_state150_tppp_explicit_transition_audit.json",
+      "state": 150
+    }
+  ],
+  "state150_input": "scripts/generated/bellman_state150_tppp_explicit_transition_audit.json",
+  "strengthened_guard_input": "scripts/generated/bellman_top_pairing_strengthened_local_1m_smoke_lake_guard.json",
+  "strengthened_lake_guard": {
+    "elapsed_seconds": 14.012564142991323,
+    "killed_reason": null,
+    "max_tree_rss_mib": 4338.109375,
+    "passed": true
+  }
+}
