@@ -1,0 +1,604 @@
+{
+  "build_dir": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke",
+  "elapsed_seconds": 152.76248208599281,
+  "exit_code": 0,
+  "root": {
+    "elapsed_seconds": 1.7512757660006173,
+    "exit_code": 0,
+    "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/All.olean",
+    "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/All.lean",
+    "stdout_tail": ""
+  },
+  "shard_count": 84,
+  "shards": [
+    {
+      "elapsed_seconds": 1.8129030580021208,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard000.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard000.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7427077340107644,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard001.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard001.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7606498620007187,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard002.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard002.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7420704620017204,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard003.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard003.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7230064140021568,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard004.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard004.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7303147810016526,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard005.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard005.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7537218990037218,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard006.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard006.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7378030480031157,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard007.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard007.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.724860055008321,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard008.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard008.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.722361052990891,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard009.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard009.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7228089039999759,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard010.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard010.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7370707969967043,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard011.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard011.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7175041300070006,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard012.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard012.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7352820090018213,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard013.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard013.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7369587319990387,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard014.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard014.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7234063990035793,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard015.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard015.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.6758647870010464,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard016.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard016.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.762745209998684,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard017.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard017.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7648081480001565,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard018.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard018.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.80491982800595,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard019.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard019.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7846300240053097,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard020.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard020.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7684212770109298,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard021.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard021.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.788916245001019,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard022.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard022.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8307514610060025,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard023.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard023.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.9132072309876094,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard024.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard024.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.873013093994814,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard025.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard025.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.857003375000204,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard026.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard026.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7876091439975426,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard027.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard027.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7820549580064835,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard028.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard028.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8573507800028892,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard029.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard029.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8078635379933985,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard030.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard030.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.833746689997497,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard031.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard031.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8171426159969997,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard032.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard032.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7900205999903847,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard033.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard033.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7524606340011815,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard034.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard034.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.747466806002194,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard035.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard035.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8122484589985106,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard036.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard036.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8027402559964685,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard037.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard037.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7997098609921522,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard038.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard038.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8137041779991705,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard039.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard039.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8021723159909016,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard040.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard040.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7917467500083148,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard041.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard041.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.9184748109983047,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard042.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard042.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8795902479905635,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard043.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard043.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8702494239987573,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard044.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard044.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8495097880077083,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard045.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard045.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8253529009962222,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard046.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard046.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.737457467999775,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard047.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard047.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7384241979889339,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard048.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard048.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7407773270097096,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard049.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard049.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7617271769995568,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard050.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard050.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7554770749993622,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard051.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard051.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7949191329971654,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard052.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard052.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8135642790002748,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard053.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard053.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8404118650068995,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard054.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard054.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8107741569983773,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard055.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard055.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.9045612669870025,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard056.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard056.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.924497184008942,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard057.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard057.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.9042448170075659,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard058.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard058.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.9118372840021038,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard059.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard059.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8678352620045189,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard060.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard060.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8785542679979699,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard061.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard061.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.865724520990625,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard062.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard062.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.887817091002944,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard063.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard063.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8921941519947723,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard064.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard064.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8988840069941944,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard065.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard065.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8626267429935979,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard066.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard066.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8808615210000426,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard067.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard067.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.860439153999323,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard068.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard068.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8102734989952296,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard069.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard069.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7330883780086879,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard070.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard070.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7895509319932899,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard071.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard071.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7864531689992873,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard072.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard072.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.787037464993773,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard073.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard073.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8020662939961767,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard074.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard074.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7867765080009121,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard075.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard075.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.8115585310006281,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard076.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard076.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7690462340106023,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard077.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard077.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7514242440083763,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard078.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard078.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7369766369956778,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard079.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard079.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7209629569988465,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard080.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard080.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7459446620050585,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard081.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard081.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.7562744970055064,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard082.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard082.lean",
+      "stdout_tail": ""
+    },
+    {
+      "elapsed_seconds": 1.6845817589928629,
+      "exit_code": 0,
+      "output": ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard083.olean",
+      "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke/Shard083.lean",
+      "stdout_tail": ""
+    }
+  ],
+  "source_dir": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedStateDAGShardedSmoke"
+}

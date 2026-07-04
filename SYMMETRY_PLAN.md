@@ -94723,3 +94723,180 @@ a production family:
    quotient if raw gains need too much state;
 3. prove terminal/final predicates from semantic fields;
 4. only then feed the result into the existing semantic Bellman gate.
+
+### Holonomy/Bellman Pivot - sharded closed state-DAG evaluator accepted
+
+Scaled the structural closed-language state-DAG evaluator over the full
+diagnostic DAG, but only after measuring and rejecting unsafe build shapes.
+
+New generated/support files:
+
+```text
+scripts/emit_top_pairing_closed_state_dag_evaluator_shards.py
+scripts/build_closed_state_dag_shards_serial.py
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedStateDAGShardedSmoke/
+scripts/generated/closed_state_dag_evaluator_full_smoke_guard.json
+scripts/generated/closed_state_dag_shard000_guard.json
+scripts/generated/closed_state_dag_sharded_lake_guard.json
+scripts/generated/closed_state_dag_sharded_lake_no_as_guard.json
+scripts/generated/closed_state_dag_sharded_serial_guard.json
+scripts/generated/closed_state_dag_sharded_serial_build.json
+scripts/generated/closed_state_dag_sharded_all_after_serial_guard.json
+```
+
+The sharded emitter reads the same exact state-DAG profile and emits 84 shard
+modules at 64 source states per shard, plus a small `All.lean` dispatcher.  The
+generated tree contains `6089` zero-gain transitions from `5347` states, across
+`8665` lines / about `500 KiB` of Lean source.  It is still structural smoke
+evidence, not coverage: it proves deterministic evaluator existence for the
+closed DAG skeleton and does not yet attach real Bellman potentials, terminal
+predicates, or start-violation/margin soundness.
+
+Unsafe shapes measured and rejected:
+
+```text
+monolithic full evaluator:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 600 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --hard-address-space-mib 8192 \
+      --json scripts/generated/closed_state_dag_evaluator_full_smoke_guard.json \
+      --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+        Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedStateDAGEvaluatorFullSmoke.lean
+  result:
+    failed with stack overflow, exit 134,
+    elapsed 14.01s, peak_tree_rss 4144 MiB.
+  decision:
+    reject monolithic 6089-edge pattern-match files.
+
+broad Lake root build with hard address-space cap:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 900 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --hard-address-space-mib 8192 \
+      --json scripts/generated/closed_state_dag_sharded_lake_guard.json \
+      --verbose -- lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedStateDAGShardedSmoke.All
+  result:
+    failed before useful checking because libc++ could not create a thread,
+    exit -6, elapsed 20.01s, peak_tree_rss 776 MiB.
+  decision:
+    do not combine Lake's scheduler with a hard `RLIMIT_AS` cap here.
+
+broad Lake root build without hard address-space cap:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 900 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --json scripts/generated/closed_state_dag_sharded_lake_no_as_guard.json \
+      --verbose -- lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingClosedStateDAGShardedSmoke.All
+  result:
+    guard-killed, exit -15,
+    elapsed 7.02s,
+    process-tree RSS 21589 MiB exceeded the 6500 MiB cap.
+  decision:
+    reject broad Lake scheduling for this generated-shard target unless a
+    future Lake/workflow layer can prove safe bounded parallelism.
+```
+
+Accepted safe build discipline:
+
+```text
+generation:
+  command:
+    python3 scripts/emit_top_pairing_closed_state_dag_evaluator_shards.py \
+      --states-per-shard 64
+  result:
+    pass, emitted 84 shards,
+    6089 edges, 5347 states.
+
+representative shard:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 240 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --hard-address-space-mib 8192 \
+      --json scripts/generated/closed_state_dag_shard000_guard.json \
+      --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+        Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedStateDAGShardedSmoke/Shard000.lean
+  result:
+    pass, elapsed 2.00s, peak_tree_rss 3544 MiB.
+
+serial `.olean` builder:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 900 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --json scripts/generated/closed_state_dag_sharded_serial_guard.json \
+      --verbose -- python3 scripts/build_closed_state_dag_shards_serial.py
+  result:
+    pass, exit 0,
+    elapsed 153.17s,
+    peak_tree_rss 3957.70 MiB,
+    min_available_seen 44351.39 MiB.
+
+serial build report:
+  shard_count: 84
+  shard min/avg/max elapsed: 1.68s / 1.80s / 1.92s
+  All.lean elapsed: 1.75s
+
+post-serial root source check:
+  command:
+    python3 scripts/run_memory_guarded.py \
+      --timeout-seconds 240 \
+      --max-tree-rss-mib 6500 \
+      --min-available-mib 30000 \
+      --hard-address-space-mib 8192 \
+      --json scripts/generated/closed_state_dag_sharded_all_after_serial_guard.json \
+      --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+        Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedStateDAGShardedSmoke/All.lean
+  result:
+    pass, exit 0,
+    elapsed 2.00s,
+    peak_tree_rss 3572 MiB,
+    hard address-space cap 8192 MiB.
+```
+
+Forbidden-token audit over the new shard emitter, serial builder, and generated
+sharded smoke returned no matches for `sorry`, `admit`, `axiom`,
+`native_decide`, `unsafe`, sampled-rank names, sampled-next names, or accepted
+trace-id names.
+
+Decision:
+
+- Accepted: the full closed-language state-DAG evaluator skeleton is
+  Lean-checkable and memory-safe when sharded at 64 source states and compiled
+  serially under the guard.
+- Rejected: monolithic generated evaluator modules and broad Lake scheduling
+  for this target.  This is a Lean-engineering constraint, not a mathematical
+  failure of the semantic state-DAG route.
+- Production roots for this style must either use this serial builder, a
+  future bounded-parallel builder that monitors process-tree RSS, or a shallow
+  group/import hierarchy whose memory profile is measured before broad Lake
+  use.
+
+Next implementation move:
+
+1. Keep the 64-state sharding discipline for structural/evaluator tables.
+2. Add real per-transition Bellman or cocycle-gauged gains to the same sharded
+   architecture.
+3. Generate small transition-bound/final-potential facts per shard.
+4. Prove the closed-language-to-evaluator gate from the semantic transducer
+   fields, still with no selected-prefix, sampled-rank, accepted-trace, exact
+   affine RHS, or solved start-point membership.
+5. Only after that gate is real should the sharded evaluator feed
+   `TopPairingClosedToGraphExactEvalGate` / semantic killed sockets.
