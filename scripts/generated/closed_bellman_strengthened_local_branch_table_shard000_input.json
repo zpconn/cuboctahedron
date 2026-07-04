@@ -10,6 +10,29 @@
   "states": [
     {
       "branch_count": 3,
+      "branch_details": [
+        {
+          "constructor": "tmpm",
+          "description": "tmpm -> graph 146, gain -124",
+          "face": "tmpm",
+          "gain": -124,
+          "next_graph": 146
+        },
+        {
+          "constructor": "yp",
+          "description": "yp -> graph 144, gain -73",
+          "face": "yp",
+          "gain": -73,
+          "next_graph": 144
+        },
+        {
+          "constructor": "zm",
+          "description": "zm -> graph 145, gain -10",
+          "face": "zm",
+          "gain": -10,
+          "next_graph": 145
+        }
+      ],
       "branch_type": "StrengthenedPrefix2Branch",
       "branches": [
         "tmpm -> graph 146, gain -124",
@@ -18,10 +41,27 @@
       ],
       "constructor": "prefix2",
       "eval_state": "strengthenedClosedPrefix2EvalState",
+      "graph": 143,
       "table": "strengthenedPrefix2LocalBranchTable"
     },
     {
       "branch_count": 2,
+      "branch_details": [
+        {
+          "constructor": "zm",
+          "description": "zm -> graph 150, gain 114",
+          "face": "zm",
+          "gain": 114,
+          "next_graph": 150
+        },
+        {
+          "constructor": "tppm",
+          "description": "tppm -> graph 152, gain 96",
+          "face": "tppm",
+          "gain": 96,
+          "next_graph": 152
+        }
+      ],
       "branch_type": "StrengthenedPrefix3TmpmBranch",
       "branches": [
         "zm -> graph 150, gain 114",
@@ -29,10 +69,27 @@
       ],
       "constructor": "prefix3Tmpm",
       "eval_state": "strengthenedClosedPrefix3TmpmEvalState",
+      "graph": 146,
       "table": "strengthenedPrefix3TmpmLocalBranchTable"
     },
     {
       "branch_count": 2,
+      "branch_details": [
+        {
+          "constructor": "zm",
+          "description": "zm -> graph 147, gain -10",
+          "face": "zm",
+          "gain": -10,
+          "next_graph": 147
+        },
+        {
+          "constructor": "tmmm",
+          "description": "tmmm -> graph 148, gain -124",
+          "face": "tmmm",
+          "gain": -124,
+          "next_graph": 148
+        }
+      ],
       "branch_type": "StrengthenedPrefix3YpBranch",
       "branches": [
         "zm -> graph 147, gain -10",
@@ -40,10 +97,34 @@
       ],
       "constructor": "prefix3Yp",
       "eval_state": "strengthenedClosedPrefix3YpEvalState",
+      "graph": 144,
       "table": "strengthenedPrefix3YpLocalBranchTable"
     },
     {
       "branch_count": 3,
+      "branch_details": [
+        {
+          "constructor": "yp",
+          "description": "yp -> graph 147, gain -73",
+          "face": "yp",
+          "gain": -73,
+          "next_graph": 147
+        },
+        {
+          "constructor": "zp",
+          "description": "zp -> graph 149, gain -10",
+          "face": "zp",
+          "gain": -10,
+          "next_graph": 149
+        },
+        {
+          "constructor": "tmpp",
+          "description": "tmpp -> graph 151, gain -124",
+          "face": "tmpp",
+          "gain": -124,
+          "next_graph": 151
+        }
+      ],
       "branch_type": "StrengthenedPrefix3ZmBranch",
       "branches": [
         "yp -> graph 147, gain -73",
@@ -52,6 +133,7 @@
       ],
       "constructor": "prefix3Zm",
       "eval_state": "strengthenedClosedPrefix3ZmEvalState",
+      "graph": 145,
       "table": "strengthenedPrefix3ZmLocalBranchTable"
     }
   ]

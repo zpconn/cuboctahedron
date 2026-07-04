@@ -47,9 +47,10 @@ TABLE_RE = re.compile(
 class FrontierState:
     constructor: str
     eval_state: str
+    graph: int
     table: str
     branch_type: str
-    branches: tuple[str, ...]
+    branches: tuple[dict[str, int | str], ...]
 
 
 def rel(path: Path) -> str:
@@ -75,6 +76,18 @@ def branch_namespace_block(source: str, branch_type: str) -> str:
     if end < 0:
         raise ValueError(f"missing namespace end for {branch_type}")
     return source[start:end]
+
+
+def eval_state_graph(source: str, eval_state: str) -> int:
+    pat = re.compile(
+        rf"def {re.escape(eval_state)} : StrengthenedClosedEvalState where\n"
+        r"\s*transducer := [^\n]+\n"
+        r"\s*graph := ([0-9]+)"
+    )
+    match = pat.search(source)
+    if match is None:
+        raise ValueError(f"missing graph field for {eval_state}")
+    return int(match.group(1))
 
 
 def branch_constructors(source: str, branch_type: str) -> tuple[str, ...]:
@@ -147,16 +160,25 @@ def extract_frontier(source_path: Path) -> tuple[FrontierState, ...]:
         faces = definition_cases(block, "face")
         graphs = definition_cases(block, "nextGraph")
         gains = definition_cases(block, "gain")
-        branches: list[str] = []
+        branches: list[dict[str, int | str]] = []
         for ctor in ctors:
             face = parse_face_value(faces[ctor])
             graph = parse_nat_literal(graphs[ctor])
             gain = parse_int_literal(gains[ctor])
-            branches.append(f"{face} -> graph {graph}, gain {gain}")
+            branches.append(
+                {
+                    "constructor": ctor,
+                    "face": face,
+                    "next_graph": graph,
+                    "gain": gain,
+                    "description": f"{face} -> graph {graph}, gain {gain}",
+                }
+            )
         states.append(
             FrontierState(
                 constructor=constructor_of_eval_state(eval_state),
                 eval_state=eval_state,
+                graph=eval_state_graph(source, eval_state),
                 table=table,
                 branch_type=branch_type,
                 branches=tuple(branches),
@@ -173,10 +195,12 @@ def payload(source_path: Path) -> dict[str, object]:
         {
             "constructor": state.constructor,
             "eval_state": state.eval_state,
+            "graph": state.graph,
             "table": state.table,
             "branch_type": state.branch_type,
             "branch_count": len(state.branches),
-            "branches": list(state.branches),
+            "branches": [str(branch["description"]) for branch in state.branches],
+            "branch_details": list(state.branches),
         }
         for state in frontier
     ]
@@ -221,6 +245,7 @@ def emit_markdown(data: dict[str, object], json_out: Path) -> str:
                 f"### `{state['constructor']}`",  # type: ignore[index]
                 "",
                 f"- Eval state: `{state['eval_state']}`",  # type: ignore[index]
+                f"- Graph state: `{state['graph']}`",  # type: ignore[index]
                 f"- Table: `{state['table']}`",  # type: ignore[index]
                 f"- Branch type: `{state['branch_type']}`",  # type: ignore[index]
                 f"- Branch count: `{state['branch_count']}`",  # type: ignore[index]

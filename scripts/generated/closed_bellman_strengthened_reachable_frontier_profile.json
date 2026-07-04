@@ -1,0 +1,167 @@
+{
+  "covered_audit": [
+    {
+      "constructor": "prefix2",
+      "graph": 143,
+      "graph_branch_count": 3,
+      "input_branch_count": 3,
+      "matches_checked_graph": true
+    },
+    {
+      "constructor": "prefix3Tmpm",
+      "graph": 146,
+      "graph_branch_count": 2,
+      "input_branch_count": 2,
+      "matches_checked_graph": true
+    },
+    {
+      "constructor": "prefix3Yp",
+      "graph": 144,
+      "graph_branch_count": 2,
+      "input_branch_count": 2,
+      "matches_checked_graph": true
+    },
+    {
+      "constructor": "prefix3Zm",
+      "graph": 145,
+      "graph_branch_count": 3,
+      "input_branch_count": 3,
+      "matches_checked_graph": true
+    }
+  ],
+  "covered_graphs": [
+    143,
+    144,
+    145,
+    146
+  ],
+  "covered_state_count": 4,
+  "decision": "next-frontier-ready-for-semantic-state-emission",
+  "graph_source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/All.lean",
+  "input": "scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json",
+  "mismatch_count": 0,
+  "mismatches": [],
+  "mode": "closed-bellman-strengthened-reachable-frontier-profile",
+  "next_frontier": [
+    {
+      "graph": 147,
+      "outgoing": [
+        {
+          "constructor": "e0136_l01",
+          "dst": 155,
+          "face": "tmmp",
+          "gain": -124,
+          "src": 147
+        },
+        {
+          "constructor": "e0135_l13",
+          "dst": 153,
+          "face": "zp",
+          "gain": -10,
+          "src": 147
+        }
+      ],
+      "outgoing_branch_count": 2
+    },
+    {
+      "graph": 148,
+      "outgoing": [
+        {
+          "constructor": "e0138_l04",
+          "dst": 156,
+          "face": "tpmm",
+          "gain": 96,
+          "src": 148
+        },
+        {
+          "constructor": "e0137_l12",
+          "dst": 154,
+          "face": "zm",
+          "gain": 114,
+          "src": 148
+        }
+      ],
+      "outgoing_branch_count": 2
+    },
+    {
+      "graph": 149,
+      "outgoing": [
+        {
+          "constructor": "e0140_l02",
+          "dst": 158,
+          "face": "tmpm",
+          "gain": -124,
+          "src": 149
+        },
+        {
+          "constructor": "e0139_l11",
+          "dst": 153,
+          "face": "yp",
+          "gain": -73,
+          "src": 149
+        }
+      ],
+      "outgoing_branch_count": 2
+    },
+    {
+      "graph": 150,
+      "outgoing": [
+        {
+          "constructor": "e0141_l13",
+          "dst": 157,
+          "face": "zp",
+          "gain": 114,
+          "src": 150
+        }
+      ],
+      "outgoing_branch_count": 1
+    },
+    {
+      "graph": 151,
+      "outgoing": [
+        {
+          "constructor": "e0142_l07",
+          "dst": 159,
+          "face": "tppp",
+          "gain": 96,
+          "src": 151
+        }
+      ],
+      "outgoing_branch_count": 1
+    },
+    {
+      "graph": 152,
+      "outgoing": [
+        {
+          "constructor": "e0144_l04",
+          "dst": 161,
+          "face": "tpmm",
+          "gain": -36,
+          "src": 152
+        },
+        {
+          "constructor": "e0143_l13",
+          "dst": 160,
+          "face": "zp",
+          "gain": -18,
+          "src": 152
+        }
+      ],
+      "outgoing_branch_count": 2
+    }
+  ],
+  "next_frontier_graphs": [
+    147,
+    148,
+    149,
+    150,
+    151,
+    152
+  ],
+  "next_frontier_state_count": 6,
+  "next_frontier_terminal_graphs": [],
+  "next_frontier_terminal_state_count": 0,
+  "proof_status": "Diagnostic only. The checked graph source gives local graph edges, but the next frontier still needs semantic eval-state definitions and Lean local branch tables.",
+  "total_checked_graph_edges": 229,
+  "total_checked_graph_states_with_outgoing": 194
+}

@@ -96292,3 +96292,128 @@ Decision: accepted as a source-derived bounded input checkpoint.  Next:
 replace source extraction from a smoke module with an exact reachable semantic
 state profiler that emits additional table definitions and the same input
 contract in bounded shards.
+
+#### Checkpoint: strengthened reachable frontier profile
+
+Status: complete as a diagnostic bridge from the checked strengthened Bellman
+graph to the next local branch-table emission target.
+
+New/updated files:
+
+```text
+scripts/profile_top_pairing_strengthened_reachable_frontier.py
+scripts/generated/closed_bellman_strengthened_reachable_frontier_profile.json
+scripts/generated/closed_bellman_strengthened_reachable_frontier_profile.md
+scripts/profile_top_pairing_strengthened_local_branch_table_shard.py
+scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json
+scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.md
+```
+
+The local shard input now includes graph ids and structured branch details.
+The reachable-frontier profiler reads:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedShardedSmoke/All.lean
+scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json
+```
+
+It parses the checked `ClosedBellmanStep` graph and verifies that the current
+four covered semantic eval states match all checked outgoing graph edges:
+
+```text
+covered graph 143: 3 input branches, 3 checked graph branches, match
+covered graph 146: 2 input branches, 2 checked graph branches, match
+covered graph 144: 2 input branches, 2 checked graph branches, match
+covered graph 145: 3 input branches, 3 checked graph branches, match
+mismatch_count = 0
+```
+
+The next bounded emission frontier is now concrete:
+
+```text
+graph 147: tmmp -> 155 (-124), zp -> 153 (-10)
+graph 148: tpmm -> 156 (96),  zm -> 154 (114)
+graph 149: tmpm -> 158 (-124), yp -> 153 (-73)
+graph 150: zp -> 157 (114)
+graph 151: tppp -> 159 (96)
+graph 152: tpmm -> 161 (-36), zp -> 160 (-18)
+```
+
+Summary:
+
+```text
+checked graph edges = 229
+checked graph states with outgoing edges = 194
+covered graph states = 4
+next frontier states = 6
+next frontier terminal states = 0
+decision = next-frontier-ready-for-semantic-state-emission
+```
+
+This remains diagnostic only.  The checked graph gives graph-local transitions;
+the next production step is to emit Lean semantic eval states and
+`StrengthenedLocalBranchTable` instances for graph states
+`147, 148, 149, 150, 151, 152`, then guarded-check those tables.
+
+Commands run:
+
+```text
+python3 -m py_compile \
+  scripts/profile_top_pairing_strengthened_local_branch_table_shard.py \
+  scripts/profile_top_pairing_strengthened_reachable_frontier.py \
+  scripts/emit_top_pairing_strengthened_local_branch_table_shard.py
+python3 scripts/profile_top_pairing_strengthened_local_branch_table_shard.py
+python3 scripts/emit_top_pairing_strengthened_local_branch_table_shard.py
+python3 scripts/profile_top_pairing_strengthened_reachable_frontier.py
+```
+
+Results:
+
+```text
+py_compile: pass
+source-derived structured input generation: pass
+emitter: pass
+reachable-frontier profile: pass
+generated Lean shard semantic diff: none
+```
+
+Focused guarded check:
+
+```text
+command:
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 \
+    --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/\
+closed_bellman_strengthened_local_branch_table_shard000_frontier_profile_guard.json \
+    --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean
+
+result:
+  pass, elapsed 6.01s,
+  peak_tree_rss 3688 MiB,
+  min_available_seen 46256 MiB
+```
+
+Forbidden-token/sampled-membership scan:
+
+```text
+rg -n "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|\
+sampledContainsRank|sampledRankOf|AcceptedTraceId|acceptedTrace" \
+  scripts/profile_top_pairing_strengthened_local_branch_table_shard.py \
+  scripts/profile_top_pairing_strengthened_reachable_frontier.py \
+  scripts/generated/closed_bellman_strengthened_local_branch_table_shard000_input.json \
+  scripts/generated/closed_bellman_strengthened_reachable_frontier_profile.json \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedLocalBranchTableShard000.lean
+
+result: no matches
+```
+
+Decision: accepted as the next-frontier diagnostic.  Next: emit a bounded Lean
+shard for graph states `147, 148, 149, 150, 151, 152` with semantic eval-state
+definitions and local branch tables, then re-run the guarded local shard check
+before attempting any broader root.
