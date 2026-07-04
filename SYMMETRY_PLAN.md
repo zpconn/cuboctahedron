@@ -100120,3 +100120,76 @@ local tables.
   the margin proof wants exact affine RHS, solved start-point keys, or one
   branch per rank/path, stop and run the cocycle quotient / cancellation
   segment experiment before adding state.
+
+### 2026-07-04 graph183 completion target gets explicit cursor front door
+
+- Extended the graph183 component split with a cursor-premised completion-tail
+  surface:
+
+  ```lean
+  structure AcceptedSequenceGraph183CursorCompletionTailFamily : Prop
+
+  theorem acceptedSequenceGraph183CompletionTailFamily_of_cursor :
+      AcceptedSequenceGraph183CursorCompletionTailFamily ->
+      AcceptedSequenceGraph183CompletionTailFamily
+  ```
+
+- Meaning: the next completion-tail proof should explicitly consume
+  `TopPairingTargetCursorAtRank rank`.  The adapter obtains that cursor from
+  the strengthened closed-language proof via:
+
+  ```lean
+  topPairingTriCursor_of_closed
+    hstrengthened.toTopPairingClosedLanguageAtRank
+  ```
+
+  This matches the current strategic pivot: prove deterministic graph
+  evaluation from closed holonomy/cancellation semantics, not from selected
+  prefixes, accepted traces, sampled ranks, or exact affine keys.
+- Updated
+  `scripts/audit_top_pairing_semantic_evaluator_pivot.py` so the cursor
+  front-door surface is a required graph183 symbol and part of the next
+  production target.
+- Verification commands:
+
+  ```bash
+  python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_direct_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 lake env lean \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 420 \
+    --max-tree-rss-mib 12000 \
+    --min-available-mib 30000 \
+    --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+    --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+  BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+  ```
+
+- Results:
+  - audit decision:
+    `semantic_evaluator_pivot_ready_for_membership_producer`;
+  - graph-alignment violations: `0`;
+  - direct Lean check passed with `elapsed_seconds=3.01`,
+    `peak_tree_rss_mib=4155.24`, `min_available_mib=45759.48`;
+  - focused Lake build passed with `elapsed_seconds=4.01`,
+    `peak_tree_rss_mib=4229.28`, `min_available_mib=45676.29`.
+- Next target:
+
+  ```lean
+  AcceptedSequenceGraph183CursorCompletionTailFamily
+  ```
+
+  If that proof cannot be driven by target cursor / schedule / square-gap /
+  local-axis / pair-count / cancellation state, do not patch around it with
+  selected-prefix or accepted-trace membership.  Add the missing semantic state
+  field or switch to the cancellation-tree / cocycle quotient experiment.

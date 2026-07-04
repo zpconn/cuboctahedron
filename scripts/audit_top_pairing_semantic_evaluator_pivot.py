@@ -183,6 +183,8 @@ REQUIRED_SYMBOLS = {
         "StrengthenedGraph183TailFinalMarginFamily",
         "AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily",
         "AcceptedSequenceGraph183CompletionTailFamily",
+        "AcceptedSequenceGraph183CursorCompletionTailFamily",
+        "acceptedSequenceGraph183CompletionTailFamily_of_cursor",
         "AcceptedSequenceGraph183AcceptedTailMarginFamily",
         "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
         "graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch",
@@ -241,6 +243,7 @@ GRAPH_ALIGNMENT_GUARDS = {
         "must_contain": [
             "closedBellmanNext",
             "AcceptedSequenceGraph183CompletionTailFamily",
+            "AcceptedSequenceGraph183CursorCompletionTailFamily",
             "AcceptedSequenceGraph183AcceptedTailMarginFamily",
             "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
         ],
@@ -474,6 +477,7 @@ def render_markdown(report: dict[str, Any]) -> str:
             "",
             "```lean",
             "AcceptedSequenceGraph183CompletionTailFamily",
+            "AcceptedSequenceGraph183CursorCompletionTailFamily",
             "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin",
             "```",
             "",
@@ -543,6 +547,7 @@ def main() -> int:
         "graph_alignment_violations": all_graph_alignment_violations,
         "next_production_target": (
             "AcceptedSequenceGraph183CompletionTailFamily + "
+            "AcceptedSequenceGraph183CursorCompletionTailFamily + "
             "AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin"
         ),
     }

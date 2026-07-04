@@ -696,6 +696,34 @@ structure AcceptedSequenceGraph183CompletionTailFamily : Prop where
         Graph150TargetCompletionTail rest
 
 /--
+Cursor-front-door version of `AcceptedSequenceGraph183CompletionTailFamily`.
+
+This is the preferred next proof target for the semantic transducer route: the
+producer may use the closed-language proof, but it should make the
+target-shadow cursor explicit.  The adapter below discharges that cursor from
+`topPairingTriCursor_of_closed`.
+-/
+structure AcceptedSequenceGraph183CursorCompletionTailFamily : Prop where
+  completionTail :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      TopPairingTargetCursorAtRank rank ->
+      ∀ rest,
+        Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+        Graph150TargetCompletionTail rest
+
+theorem acceptedSequenceGraph183CompletionTailFamily_of_cursor
+    (hfamily : AcceptedSequenceGraph183CursorCompletionTailFamily) :
+    AcceptedSequenceGraph183CompletionTailFamily where
+  completionTail := by
+    intro rank hstrengthened rest hprefix
+    exact hfamily.completionTail rank hstrengthened
+      (topPairingTriCursor_of_closed
+        hstrengthened.toTopPairingClosedLanguageAtRank)
+      rest hprefix
+
+/--
 Integer margin component of the graph183 accepted branch.
 
 This isolates the only arithmetic fact still needed on the `yp` tail.  If a
