@@ -97432,3 +97432,69 @@ semantic tail, switch to used-face only if an already-used actual face remains
 as a spurious head.  If a future graph needs more than schedule, local-axis,
 target-shadow cursor, and used-face facts, pause and design the stronger
 closed-language evaluator state rather than adding selected-prefix evidence.
+
+Graph-150 selector diagnostic:
+
+Graph `150` was attempted graph-only, following the selector loop.  The branch
+definition was not kept because the guarded Lean check exposed a real semantic
+state gap:
+
+```text
+graph 150 actual Bellman edge:
+  zp -> graph 157, gain 114
+
+guarded graph-only attempt:
+  failed safely, elapsed 6.00s,
+  peak_tree_rss 3999 MiB,
+  min_available_seen 46115 MiB
+
+unclosed spurious head:
+  Face.tppp
+```
+
+Unlike the graph `149` failure, this is not an already-used face and cannot be
+fixed by the used-face wrapper.  The current local state
+`TopPairingTransducerTail` contains schedule, square-gap/local-axis, target
+triangular cursor, parity, and linear state; those fields still allow
+`tppp` after the semantic prefix represented by graph `150`.  Therefore the
+next proof object must carry an additional closed-language semantic field,
+most likely cancellation/pair-count/tri-source progress, before graph `150`
+can be proved without selected-prefix evidence.
+
+Accepted response:
+
+- Do not commit a graph150 branch table yet.
+- Do not add a selected-prefix, observed-trace, sampled-rank, or exact-affine
+  membership workaround.
+- Design the next semantic evaluator state so its local `allowed_of_closed`
+  theorem can rule out the graph150 `tppp` splice by closed-language data.
+- Candidate state refinements, in order:
+  1. remaining actual-face or pair-count state beyond used-face disjointness;
+  2. target cancellation/source-position progress;
+  3. reduced-shadow/cancellation-stack cursor;
+  4. a cocycle/gauge quotient only if the obstruction is margin-gain rather
+     than language membership.
+
+After removing the failed graph150 code, the checked source returned to the
+accepted graph149 state:
+
+```text
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/\
+closed_bellman_strengthened_next_frontier_smoke_guard.json \
+  --verbose -- lake env lean -M 7000 -j1 -s 4096 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+
+result:
+  pass, elapsed 4.00s,
+  peak_tree_rss 4009 MiB,
+  min_available_seen 46119 MiB
+```
+
+Next checkpoint: inspect the existing closed-language/cancellation source
+predicates and add the smallest deterministic state field that rules out the
+graph150 `tppp` splice.  Only then retry graph `150`.
