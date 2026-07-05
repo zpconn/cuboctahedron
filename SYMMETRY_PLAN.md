@@ -105111,6 +105111,172 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 graph147 cocycle quotient edge shards accepted
+
+The graph147 margin route has been advanced from the two-branch cocycle smoke
+to a full observed-edge diagnostic for the 10M `with-step-tri-source` graph147
+profile.  This remains proof-shape evidence, not production coverage: it
+Lean-checks the local quotient equations for the observed graph edges, while
+the production theorem still needs a semantic closed-language-to-evaluator
+bridge from strengthened top-pairing hypotheses.
+
+New emitter:
+
+```text
+scripts/emit_graph147_cocycle_quotient_edge_shards.py
+```
+
+Inputs:
+
+```text
+scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json
+scripts/generated/graph147_cocycle_quotients_0_10M.json
+```
+
+Generated modules:
+
+```text
+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph147CocycleQuotientEdgeShard000
+...
+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph147CocycleQuotientEdgeShard008
+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph147CocycleQuotientEdgeShards
+```
+
+The generated shards cover:
+
+```text
+quotient mode = step-stack
+edge-label equations = 1054
+shard count = 9
+max shard size = 128
+max solution bit length = 10
+```
+
+Each shard keeps edge data private and proves only a tiny public theorem:
+
+```lean
+theorem graph147QuotientEdgeShardNNN_checked : True
+```
+
+The aggregate theorem is:
+
+```lean
+theorem graph147QuotientEdgeShards_checked : True
+```
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/emit_graph147_cocycle_quotient_edge_shards.py
+python3 scripts/emit_graph147_cocycle_quotient_edge_shards.py
+```
+
+Results:
+
+```text
+pass; wrote 9 shards and aggregate module
+edge_equations=1054 shard_size=128
+```
+
+Focused guarded shard build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_cocycle_quotient_edge_shard000_guard.json -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph147CocycleQuotientEdgeShard000
+```
+
+Result:
+
+```text
+pass; elapsed=13.01s; peak_tree_rss=4344 MiB; min_available=45705 MiB
+```
+
+Guarded aggregate build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_cocycle_quotient_edge_shards_guard.json -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph147CocycleQuotientEdgeShards
+```
+
+Result:
+
+```text
+pass; elapsed=37.02s; peak_tree_rss=4446 MiB; min_available=45694 MiB
+```
+
+Readiness audit:
+
+```bash
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+yp_zm.cocycle_edge_shards_status = diagnostic_full_edge_shards_passed
+zm_yp.cocycle_edge_shards_status = diagnostic_full_edge_shards_passed
+yp_zm.status = partial_graph147_direct_eval_socket
+zm_yp.status = partial_graph147_direct_eval_socket
+forbidden_hits = []
+```
+
+Interpretation:
+
+- This validates that the compact `step-stack` cocycle quotient can explain all
+  observed graph147 edge-label gains in the 10M profile with small integer
+  equations.
+- This does not prove graph147 coverage, because it does not yet show that
+  every rank satisfying the closed top-pairing language follows the generated
+  quotient/evaluator path.
+- Therefore the selected-prefix producer must not be scaled as production
+  evidence.
+
+The current graph147 production target is:
+
+```lean
+StrengthenedGraph147RootMarginBundle
+```
+
+but the acceptable implementation path has narrowed further.  It must be a
+deterministic semantic transducer theorem of the form:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym ->
+Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+Graph147TargetCompletionTail rest ->
+Graph147TargetCompletionTailRootMarginBound rest
+```
+
+or the symmetric `Face.zm Face.yp` branch, and its proof must be driven by:
+
+- target-shadow/cancellation cursor;
+- tri-source progress;
+- pair-count / actual-face state;
+- deterministic graph state;
+- cocycle quotient or segment algebra for the margin gain.
+
+Go/no-go update:
+
+- **Go:** the graph147 root margin producer is proved from closed-language
+  product-state/cursor semantics plus the Lean-checked cocycle quotient, with
+  no observed path table.
+- **No-go:** any proof that needs sampled ranks, selected-prefix ids,
+  accepted-trace ids, exact affine RHS keys, exact solved start points, or one
+  branch per observed path.  In that case, stop scaling graph147 and replace
+  the margin producer with a cancellation-tree segment algebra or a stronger
+  cocycle quotient state.
+
 ### 2026-07-05 graph147 deterministic target API accepted
 
 Strategy pivot incorporated:

@@ -41,6 +41,19 @@
         "graph147ZmYpBranchRawGain_contract": true,
         "graph147ZmYpQuotientBranchSmoke": true
       },
+      "cocycle_edge_shards_status": "diagnostic_full_edge_shards_passed",
+      "cocycle_edge_shards_symbols": {
+        "graph147QuotientEdgeShard000_checked": true,
+        "graph147QuotientEdgeShard001_checked": true,
+        "graph147QuotientEdgeShard002_checked": true,
+        "graph147QuotientEdgeShard003_checked": true,
+        "graph147QuotientEdgeShard004_checked": true,
+        "graph147QuotientEdgeShard005_checked": true,
+        "graph147QuotientEdgeShard006_checked": true,
+        "graph147QuotientEdgeShard007_checked": true,
+        "graph147QuotientEdgeShard008_checked": true,
+        "graph147QuotientEdgeShards_checked": true
+      },
       "deep_suffix_symbols": {
         "Graph163TargetCompletionTail": true,
         "Graph166TargetCompletionTail": true,
@@ -352,6 +365,19 @@
         "graph147ZmYpBranchMargin_contract": true,
         "graph147ZmYpBranchRawGain_contract": true,
         "graph147ZmYpQuotientBranchSmoke": true
+      },
+      "cocycle_edge_shards_status": "diagnostic_full_edge_shards_passed",
+      "cocycle_edge_shards_symbols": {
+        "graph147QuotientEdgeShard000_checked": true,
+        "graph147QuotientEdgeShard001_checked": true,
+        "graph147QuotientEdgeShard002_checked": true,
+        "graph147QuotientEdgeShard003_checked": true,
+        "graph147QuotientEdgeShard004_checked": true,
+        "graph147QuotientEdgeShard005_checked": true,
+        "graph147QuotientEdgeShard006_checked": true,
+        "graph147QuotientEdgeShard007_checked": true,
+        "graph147QuotientEdgeShard008_checked": true,
+        "graph147QuotientEdgeShards_checked": true
       },
       "deep_suffix_symbols": {
         "Graph163TargetCompletionTail": true,

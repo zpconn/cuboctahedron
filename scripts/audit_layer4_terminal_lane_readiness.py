@@ -53,6 +53,12 @@ GRAPH147_COCYCLE_BRANCH_SMOKE_FILE = (
     / "BellmanTopPairingGraph147CocycleQuotientBranchSmoke.lean"
 )
 
+GRAPH147_COCYCLE_EDGE_SHARDS_FILE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph147CocycleQuotientEdgeShards.lean"
+)
+
 GRAPH221_FILE = (
     ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
@@ -307,6 +313,19 @@ GRAPH147_COCYCLE_BRANCH_SMOKE_REQUIRED = [
     "graph147ZmYpQuotientBranchSmoke",
 ]
 
+GRAPH147_COCYCLE_EDGE_SHARDS_REQUIRED = [
+    "graph147QuotientEdgeShards_checked",
+    "graph147QuotientEdgeShard000_checked",
+    "graph147QuotientEdgeShard001_checked",
+    "graph147QuotientEdgeShard002_checked",
+    "graph147QuotientEdgeShard003_checked",
+    "graph147QuotientEdgeShard004_checked",
+    "graph147QuotientEdgeShard005_checked",
+    "graph147QuotientEdgeShard006_checked",
+    "graph147QuotientEdgeShard007_checked",
+    "graph147QuotientEdgeShard008_checked",
+]
+
 ZMTMPP_CHAIN_REQUIRED = [
     "strengthenedClosedPrefix5ZmTmppTpppEvalState",
     "strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp",
@@ -422,6 +441,11 @@ def main() -> int:
         if GRAPH147_COCYCLE_BRANCH_SMOKE_FILE.exists()
         else ""
     )
+    graph147_cocycle_edge_shards_text = (
+        GRAPH147_COCYCLE_EDGE_SHARDS_FILE.read_text()
+        if GRAPH147_COCYCLE_EDGE_SHARDS_FILE.exists()
+        else ""
+    )
     graph221_text = GRAPH221_FILE.read_text() if GRAPH221_FILE.exists() else ""
     graph183_ok, graph183_missing = contains_all(graph183_text, GRAPH183_REQUIRED)
     graph151_partial_ok, graph151_partial_missing = contains_all(
@@ -473,6 +497,12 @@ def main() -> int:
         contains_all(
             graph147_cocycle_branch_smoke_text,
             GRAPH147_COCYCLE_BRANCH_SMOKE_REQUIRED,
+        )
+    )
+    graph147_cocycle_edge_shards_ok, graph147_cocycle_edge_shards_missing = (
+        contains_all(
+            graph147_cocycle_edge_shards_text,
+            GRAPH147_COCYCLE_EDGE_SHARDS_REQUIRED,
         )
     )
     zm_tmpp_chain_ok, zm_tmpp_chain_missing = contains_all(
@@ -818,6 +848,15 @@ def main() -> int:
                     if graph147_cocycle_branch_smoke_ok
                     else "missing_diagnostic_branch_smoke"
                 ),
+                "cocycle_edge_shards_symbols": {
+                    symbol: symbol not in graph147_cocycle_edge_shards_missing
+                    for symbol in GRAPH147_COCYCLE_EDGE_SHARDS_REQUIRED
+                },
+                "cocycle_edge_shards_status": (
+                    "diagnostic_full_edge_shards_passed"
+                    if graph147_cocycle_edge_shards_ok
+                    else "missing_diagnostic_full_edge_shards"
+                ),
                 "forbidden_hits": [
                     token
                     for token in FORBIDDEN
@@ -825,6 +864,7 @@ def main() -> int:
                     or token in target_completion_shard000_text
                     or token in graph147_direct_eval_socket_text
                     or token in graph147_cocycle_branch_smoke_text
+                    or token in graph147_cocycle_edge_shards_text
                 ],
                 "remaining_gap": (
                     "graph147 now has a direct semantic eval socket for the "
