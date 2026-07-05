@@ -196,6 +196,35 @@ theorem terminalContainedEvalProgressGate_trans
     simpa [List.append_assoc] using hlabels₂
   · exact evalLabelStepFn_append heval₁ heval₂
 
+/--
+Compose a contained evaluator progress prefix with a contained terminal suffix.
+
+This is the generic frontier-to-terminal combinator needed by the deterministic
+terminal-machine route: generated code may first prove semantic progress to a
+compact frontier state, then separately prove that the frontier state reaches a
+terminal state.
+-/
+theorem terminalContainedEvalPrefixGate_trans_progress
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords}
+    {start middle : StateId}
+    (hfirst :
+      TerminalContainedEvalProgressGate machine start rank middle)
+    (hsecond :
+      TerminalContainedEvalPrefixGate machine middle rank) :
+    TerminalContainedEvalPrefixGate machine start rank := by
+  rcases hfirst with
+    ⟨labels₁, gain₁, _rest₁, hcontainsStart, _hlabels₁, heval₁⟩
+  rcases hsecond with
+    ⟨labels₂, finish, gain₂, rest₂, _hcontainsMiddle, hlabels₂, heval₂,
+      hterminal⟩
+  refine ⟨labels₁ ++ labels₂, finish, gain₁ + gain₂, rest₂,
+    hcontainsStart, ?_, ?_, hterminal⟩
+  · have hpfxMiddle := pfx_of_eval_prefix machine heval₁
+    rw [hpfxMiddle] at hlabels₂
+    simpa [List.append_assoc] using hlabels₂
+  · exact evalLabelStepFn_append heval₁ heval₂
+
 theorem contains_of_eval_suffix
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
     {rank : Fin numPairWords}

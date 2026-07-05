@@ -4,9 +4,10 @@
       "target-shadow inversion and cursor from closed language",
       "contained terminal-machine progress gates",
       "closed-transducer all-rank socket consuming a contained terminal gate",
-      "depth-11 graph-path portfolio wrapper consuming the machine socket"
+      "depth-11 graph-path portfolio wrapper consuming the machine socket",
+      "frontier-to-terminal composition from the compact layer-4 state"
     ],
-    "remaining_gap": "prove TerminalContainedEvalPrefixGate machine start rank, not just TerminalContainedEvalProgressGate to the layer-4 frontier, from TopPairingStrengthenedClosedLanguageAtRank"
+    "remaining_gap": "prove TerminalContainedEvalPrefixGate machine (Layer4State.s04 third fourth) rank for compact layer-4 frontier states; the start prefix is now supplied by the semantic layer-4 frontier theorem"
   },
   "files": {
     "closed_transducer_socket": {
@@ -43,6 +44,7 @@
         "TerminalContainedEvalPrefixGate": true,
         "TerminalContainedEvalProgressGate": true,
         "terminalContainedEvalPrefixGate_of_progress_terminal": true,
+        "terminalContainedEvalPrefixGate_trans_progress": true,
         "terminalTraceLabels_of_containedEvalPrefixGate": true
       }
     },
@@ -55,11 +57,13 @@
         "TerminalContainedEvalProgressGate": true,
         "layer4MachineFrontierGateAll": true,
         "layer4Prefix4FrontierCons2_exists_of_closed": true,
-        "layer4Progress_prefix4_exists_of_closed": true
+        "layer4Progress_prefix4_exists_of_closed": true,
+        "terminalContainedEvalPrefixGate_of_layer4MachineFrontierAll": true,
+        "terminalContainedEvalPrefixGate_of_layer4MachineFrontierGate": true
       }
     }
   },
   "forbidden_hits": [],
-  "next_recommended_slice": "extend the terminal frontier emitter from layer-4 progress to a terminal contained eval-prefix gate, or add a compositional frontier-to-terminal machine theorem if a full terminal gate is still too large",
+  "next_recommended_slice": "generate or prove terminal continuation gates from layer-4 frontier states, then compose them with terminalContainedEvalPrefixGate_of_layer4MachineFrontierAll",
   "status": "machine-pivot-surfaces-present"
 }

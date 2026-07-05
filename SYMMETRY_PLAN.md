@@ -102779,3 +102779,136 @@ local tables.
   compositional frontier-to-terminal theorem whose generated leaves can be
   checked in small shards.  Do not replace this with accepted terminal trace
   ids or selected-prefix membership.
+
+### 2026-07-04 layer-4 frontier-to-terminal composition accepted
+
+- Added a generic contained-progress-plus-terminal-suffix combinator to:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStatePartialMachineEvalSocket
+  ```
+
+- New generic theorem:
+
+  ```lean
+  terminalContainedEvalPrefixGate_trans_progress
+  ```
+
+  It composes:
+
+  ```lean
+  TerminalContainedEvalProgressGate machine start rank middle
+  TerminalContainedEvalPrefixGate machine middle rank
+  ```
+
+  into:
+
+  ```lean
+  TerminalContainedEvalPrefixGate machine start rank
+  ```
+
+  The proof uses `evalLabelStepFn_append` and the prefix equality extracted
+  from the first evaluator run.  This is the reusable deterministic-transducer
+  theorem requested by the latest Bellman pivot: generated continuation leaves
+  can start at a semantic frontier state instead of replaying the closed
+  language prefix.
+
+- Added all-rank layer-4 composition theorems to:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStateFrontierSmoke
+  ```
+
+- New theorem names:
+
+  ```lean
+  terminalContainedEvalPrefixGate_of_layer4MachineFrontierGate
+  terminalContainedEvalPrefixGate_of_layer4MachineFrontierAll
+  ```
+
+  Their production shape is:
+
+  ```lean
+  Layer4MachineFrontierGate rank ->
+  (∀ third fourth,
+    TerminalContainedEvalPrefixGate
+      layer4Machine (Layer4State.s04 third fourth) rank) ->
+  TerminalContainedEvalPrefixGate
+    layer4Machine Layer4State.s00 rank
+  ```
+
+  and the all-rank version gets the frontier gate from
+  `TopPairingClosedLanguageAtRank rank Face.ym` via
+  `Layer4MachineFrontierGateAll`.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+
+  rg -n "sorry|admit|axiom|native_decide|unsafe" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean \
+    scripts/audit_terminal_machine_pivot_surfaces.py
+
+  rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStatePartialMachineEvalSocket.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean \
+    scripts/generated/terminal_machine_pivot_surfaces.md \
+    scripts/generated/terminal_machine_pivot_surfaces.json
+  ```
+
+- Results:
+  - `BellmanTopPairingTerminalStatePartialMachineEvalSocket` passed under the
+    memory guard in `2.00s`, peak tree RSS `801 MiB`, minimum available memory
+    `46427 MiB`.
+  - `BellmanTopPairingTerminalStateFrontierSmoke` passed under the memory
+    guard in `2.00s`, peak tree RSS `819 MiB`, minimum available memory
+    `46418 MiB`.
+  - The terminal-machine pivot surface audit passed with
+    `status = machine-pivot-surfaces-present` and `forbidden_hits = 0`.
+  - Targeted forbidden-token and sampled/selected-name scans over the touched
+    Lean/audit artifacts returned no hits.
+
+- Updated audit boundary:
+
+  ```text
+  prove TerminalContainedEvalPrefixGate machine
+    (Layer4State.s04 third fourth) rank
+  for compact layer-4 frontier states; the start prefix is now supplied by the
+  semantic layer-4 frontier theorem
+  ```
+
+- Current promotion status:
+  the route now has a clean semantic handoff:
+
+  ```text
+  closed language
+    -> target cursor / layer-4 deterministic frontier
+    -> generated terminal continuation from Layer4State.s04 third fourth
+    -> TerminalContainedEvalPrefixGate from Layer4State.s00
+    -> closed transducer producer
+    -> depth-11 graph-path machine portfolio
+    -> scaled margin nonpositive
+  ```
+
+  The next implementation step is no longer another selected-prefix or
+  sampled-path proof.  It is to emit or prove compact terminal continuation
+  gates for the reachable layer-4 frontier states.

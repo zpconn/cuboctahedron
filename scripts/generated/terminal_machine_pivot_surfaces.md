@@ -18,5 +18,5 @@
 
 ## Boundary
 
-- remaining gap: prove TerminalContainedEvalPrefixGate machine start rank, not just TerminalContainedEvalProgressGate to the layer-4 frontier, from TopPairingStrengthenedClosedLanguageAtRank
-- next slice: extend the terminal frontier emitter from layer-4 progress to a terminal contained eval-prefix gate, or add a compositional frontier-to-terminal machine theorem if a full terminal gate is still too large
+- remaining gap: prove TerminalContainedEvalPrefixGate machine (Layer4State.s04 third fourth) rank for compact layer-4 frontier states; the start prefix is now supplied by the semantic layer-4 frontier theorem
+- next slice: generate or prove terminal continuation gates from layer-4 frontier states, then compose them with terminalContainedEvalPrefixGate_of_layer4MachineFrontierAll

@@ -1066,6 +1066,48 @@ def layer4MachineFrontierGateAll : Layer4MachineFrontierGateAll where
     intro rank hclosed
     exact layer4MachineFrontierGate_of_closed hclosed
 
+/--
+Compose the proved layer-4 semantic frontier with a generated terminal
+continuation from that frontier.
+
+This is the next production theorem shape: the future emitter only has to
+prove terminal contained eval-prefix gates for the compact layer-4 frontier
+states, and this theorem lifts them back to the initial terminal machine
+state.
+-/
+theorem terminalContainedEvalPrefixGate_of_layer4MachineFrontierGate
+    {rank : Fin numPairWords}
+    (hfrontier : Layer4MachineFrontierGate rank)
+    (hterminal :
+      ∀ third fourth,
+        TerminalContainedEvalPrefixGate
+          layer4Machine (Layer4State.s04 third fourth) rank) :
+    TerminalContainedEvalPrefixGate
+      layer4Machine Layer4State.s00 rank := by
+  rcases hfrontier with ⟨third, fourth, hprogress, _hgraphFrontier⟩
+  exact terminalContainedEvalPrefixGate_trans_progress
+    layer4Machine hprogress (hterminal third fourth)
+
+/--
+All-rank version of the layer-4 frontier-to-terminal handoff.  This theorem is
+still conditional on a generated continuation theorem from each layer-4
+frontier state, but it removes the need for that continuation theorem to
+re-prove the closed-language start prefix.
+-/
+theorem terminalContainedEvalPrefixGate_of_layer4MachineFrontierAll
+    {rank : Fin numPairWords}
+    (hfrontierAll : Layer4MachineFrontierGateAll)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hterminal :
+      ∀ third fourth,
+        TerminalContainedEvalPrefixGate
+          layer4Machine (Layer4State.s04 third fourth) rank) :
+    TerminalContainedEvalPrefixGate
+      layer4Machine Layer4State.s00 rank :=
+  terminalContainedEvalPrefixGate_of_layer4MachineFrontierGate
+    (hfrontierAll.family rank hclosed)
+    hterminal
+
 theorem terminalStateFrontierSmoke_builds : True := by
   exact True.intro
 

@@ -43,6 +43,7 @@ REQUIRED_SYMBOLS = {
     "terminal_eval_socket": [
         "TerminalContainedEvalPrefixGate",
         "TerminalContainedEvalProgressGate",
+        "terminalContainedEvalPrefixGate_trans_progress",
         "terminalContainedEvalPrefixGate_of_progress_terminal",
         "terminalTraceLabels_of_containedEvalPrefixGate",
     ],
@@ -52,6 +53,8 @@ REQUIRED_SYMBOLS = {
         "layer4Prefix4FrontierCons2_exists_of_closed",
         "layer4MachineFrontierGateAll",
         "layer4Progress_prefix4_exists_of_closed",
+        "terminalContainedEvalPrefixGate_of_layer4MachineFrontierGate",
+        "terminalContainedEvalPrefixGate_of_layer4MachineFrontierAll",
         "TerminalContainedEvalProgressGate",
     ],
     "closed_transducer_socket": [
@@ -116,17 +119,18 @@ def main() -> int:
                 "contained terminal-machine progress gates",
                 "closed-transducer all-rank socket consuming a contained terminal gate",
                 "depth-11 graph-path portfolio wrapper consuming the machine socket",
+                "frontier-to-terminal composition from the compact layer-4 state",
             ],
             "remaining_gap": (
-                "prove TerminalContainedEvalPrefixGate machine start rank, not just "
-                "TerminalContainedEvalProgressGate to the layer-4 frontier, from "
-                "TopPairingStrengthenedClosedLanguageAtRank"
+                "prove TerminalContainedEvalPrefixGate machine (Layer4State.s04 "
+                "third fourth) rank for compact layer-4 frontier states; the start "
+                "prefix is now supplied by the semantic layer-4 frontier theorem"
             ),
         },
         "next_recommended_slice": (
-            "extend the terminal frontier emitter from layer-4 progress to a terminal "
-            "contained eval-prefix gate, or add a compositional frontier-to-terminal "
-            "machine theorem if a full terminal gate is still too large"
+            "generate or prove terminal continuation gates from layer-4 frontier "
+            "states, then compose them with terminalContainedEvalPrefixGate_of_"
+            "layer4MachineFrontierAll"
         ),
     }
 
