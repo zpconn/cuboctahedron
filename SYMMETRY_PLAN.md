@@ -116952,4 +116952,113 @@ contract follows from closed holonomy/cancellation state, not from path-row
 indices.  If the proof cannot avoid observed edge rows, keep the smoke
 diagnostic and strengthen the semantic state/cancellation cursor first.
 ```
+
+#### 2026-07-05 graph221 direct start-violation bridge
+
+Status: focused semantic bridge accepted; this is stronger than the graph221
+margin socket for the three current suffixes.
+
+Added module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221DirectStartViolationBridge.lean
+```
+
+The bridge imports only the graph221 semantic terminal bridge plus the three
+trace-level start-violation providers for traces 029, 030, and 031.  It avoids
+the all-trace dispatcher and exposes:
+
+```lean
+def objectStartViolationMarginCert_of_graph221_branch029
+def objectStartViolationMarginCert_of_graph221_branch030
+def objectStartViolationMarginCert_of_graph221_branch031
+
+theorem nonIdentityRankKilled_of_graph221_branch029
+theorem nonIdentityRankKilled_of_graph221_branch030
+theorem nonIdentityRankKilled_of_graph221_branch031
+
+theorem nonIdentityRankKilled_of_graph221_zm_tmpp_semantic_direct
+```
+
+The final theorem proves `NonIdentityRankKilled rank` from:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  AcceptedSequenceBadFaceAtRank rank Face.ym
+Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest
+```
+
+It uses the already-proved semantic graph221 suffix split to case-split into
+the three deterministic tails, derives the exact trace-label equality for
+029/030/031, and applies the corresponding start-violation certificate.  It
+does not use sampled rank/path objects, selected-prefix ids, exact affine RHS
+keys, stored path tables, or the Bellman margin table.  This means the current
+graph221 `zm,tmpp` lane can be killed directly once a surrounding semantic
+coverage theorem supplies the strengthened closed-language and layer-4 prefix
+premises.
+
+Commands run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 600 --max-tree-rss-mib 24000 \
+  --min-available-mib 25000 \
+  --json scripts/generated/trace029_start_violation_provider_guard.json \
+  -- lake build +Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace029StartViolationProvider:olean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 600 --max-tree-rss-mib 16000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/trace030_start_violation_provider_guard.json \
+  -- lake build +Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace030StartViolationProvider:olean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 600 --max-tree-rss-mib 16000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/trace031_start_violation_provider_guard.json \
+  -- lake build +Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace031StartViolationProvider:olean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph221_direct_start_violation_bridge_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221DirectStartViolationBridge.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221DirectStartViolationBridge.lean
+```
+
+Results:
+
+```text
+trace029 provider: passed, elapsed 69.08s, peak RSS 23011 MiB,
+  min available 40989 MiB
+trace030 provider: passed, elapsed 61.06s, peak RSS 8996 MiB,
+  min available 40998 MiB
+trace031 provider: passed, elapsed 52.05s, peak RSS 7876 MiB,
+  min available 42142 MiB
+graph221 direct bridge: passed, elapsed 2.00s, peak RSS 3634 MiB,
+  min available 46347 MiB
+```
+
+Memory note:
+
+```text
+The first provider build needed a 24 GiB cap because Lake replayed shared
+dependencies and terminal-classifier shards; once those were available, the
+remaining provider builds stayed under 9 GiB.  Keep this route serial and
+guarded.  Do not import the all-trace dispatcher into broad roots unless a
+separate guarded root check shows it is safe.
+```
+
+Next implementation target:
+
+```text
+Use this direct graph221 theorem as the preferred consumer for the `zm,tmpp`
+lane.  The next coverage step is not another Bellman-margin producer for this
+lane; it is a semantic classifier theorem that routes the surrounding
+strengthened closed-language residual into
+`Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest` or the sibling
+layer-4 lanes.  For sibling lanes, first try the same direct start-violation
+pattern before falling back to Bellman margin/cocycle evidence.
+```
 ```
