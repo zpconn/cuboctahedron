@@ -1,12 +1,12 @@
 {
-  "branch_count": 8,
+  "branch_count": 10,
   "decision": "source-derived-bounded-frontier-ready-for-emitter",
   "mode": "closed-bellman-strengthened-local-branch-table-frontier",
   "next_profiler_requirement": "Replace this static frontier with discovered reachable semantic states whose tables are proved by the same local-transition API.",
   "semantic_status": "This input is a source-derived bounded frontier contract for generated StrengthenedLocalBranchTable shards. It is not rank coverage.",
   "shard": 0,
   "source": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
-  "state_count": 7,
+  "state_count": 9,
   "states": [
     {
       "branch_count": 2,
@@ -59,6 +59,52 @@
       "eval_state": "strengthenedClosedPrefix5YpZmZpEvalState",
       "graph": 153,
       "table": "strengthenedPrefix5Graph153TargetCompletionLocalBranchTable",
+      "table_class": "StrengthenedTargetCompletionLocalBranchTable",
+      "table_kind": "target-completion"
+    },
+    {
+      "branch_count": 1,
+      "branch_details": [
+        {
+          "constructor": "tppm",
+          "description": "tppm -> graph 191, gain -36",
+          "face": "tppm",
+          "gain": -36,
+          "next_graph": 191
+        }
+      ],
+      "branch_type": "StrengthenedPrefix7Graph176Branch",
+      "branches": [
+        "tppm -> graph 191, gain -36"
+      ],
+      "completion_state": "graph176TargetCompletionState",
+      "constructor": "prefix7YpZmZpTmmmTpmm",
+      "eval_state": "strengthenedClosedPrefix7YpZmZpTmmmTpmmEvalState",
+      "graph": 176,
+      "table": "strengthenedPrefix7Graph176TargetCompletionLocalBranchTable",
+      "table_class": "StrengthenedTargetCompletionLocalBranchTable",
+      "table_kind": "target-completion"
+    },
+    {
+      "branch_count": 1,
+      "branch_details": [
+        {
+          "constructor": "tpmm",
+          "description": "tpmm -> graph 194, gain -144",
+          "face": "tpmm",
+          "gain": -144,
+          "next_graph": 194
+        }
+      ],
+      "branch_type": "StrengthenedPrefix7Graph178Branch",
+      "branches": [
+        "tpmm -> graph 194, gain -144"
+      ],
+      "completion_state": "graph178TargetCompletionState",
+      "constructor": "prefix7YpZmTmmpTpmpTppp",
+      "eval_state": "strengthenedClosedPrefix7YpZmTmmpTpmpTpppEvalState",
+      "graph": 178,
+      "table": "strengthenedPrefix7Graph178TargetCompletionLocalBranchTable",
       "table_class": "StrengthenedTargetCompletionLocalBranchTable",
       "table_kind": "target-completion"
     },

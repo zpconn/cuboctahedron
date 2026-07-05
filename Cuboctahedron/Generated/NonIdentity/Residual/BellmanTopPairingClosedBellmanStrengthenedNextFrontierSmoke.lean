@@ -1275,6 +1275,317 @@ def strengthenedPrefix6Graph166TargetCompletionLocalBranchTable :
       strengthenedPrefix6Graph166Branch_of_tail_and_targetCompletionTail
         htail hcompletion
 
+def strengthenedClosedPrefix7YpZmZpTmmmTpmmEvalState :
+    StrengthenedClosedEvalState :=
+  match strengthenedClosedEvalNext strengthenedClosedPrefix6YpZmZpTmmmEvalState
+      Face.tpmm with
+  | some (state, _gain) => state
+  | none => strengthenedClosedPrefix6YpZmZpTmmmEvalState
+
+def strengthenedClosedPrefix7YpZmTmmpTpmpTpppEvalState :
+    StrengthenedClosedEvalState :=
+  match strengthenedClosedEvalNext strengthenedClosedPrefix6YpZmTmmpTpmpEvalState
+      Face.tppp with
+  | some (state, _gain) => state
+  | none => strengthenedClosedPrefix6YpZmTmmpTpmpEvalState
+
+theorem strengthenedClosed_prefix7_yp_zm_zp_tmmm_tpmm_next_from_graph163 :
+    strengthenedClosedEvalNext strengthenedClosedPrefix6YpZmZpTmmmEvalState
+        Face.tpmm =
+      some (strengthenedClosedPrefix7YpZmZpTmmmTpmmEvalState, (96 : Int)) := by
+  rfl
+
+theorem strengthenedClosed_prefix7_yp_zm_tmmp_tpmp_tppp_next_from_graph166 :
+    strengthenedClosedEvalNext strengthenedClosedPrefix6YpZmTmmpTpmpEvalState
+        Face.tppp =
+      some (strengthenedClosedPrefix7YpZmTmmpTpmpTpppEvalState, (-36 : Int)) := by
+  rfl
+
+def graph176TargetCompletionState : TopPairingTargetCompletionState :=
+  graph163TargetCompletionState.next Face.tpmm
+
+def graph178TargetCompletionState : TopPairingTargetCompletionState :=
+  graph166TargetCompletionState.next Face.tppp
+
+abbrev Graph176TargetCompletionTail (labels : List Face) : Prop :=
+  TopPairingTargetCompletionTail graph176TargetCompletionState labels
+
+abbrev Graph178TargetCompletionTail (labels : List Face) : Prop :=
+  TopPairingTargetCompletionTail graph178TargetCompletionState labels
+
+theorem graph176_head_candidate_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph176TargetCompletionTail (face :: rest)) :
+    face = Face.tmmp ∨ face = Face.tmpm ∨ face = Face.tpmp ∨
+      face = Face.tppm ∨ face = Face.tppp := by
+  have hremaining :=
+    TopPairingTargetCompletionTail.head_remaining htail
+  have hschedule :=
+    TopPairingTargetCompletionTail.head_schedule htail
+  have hsquare :=
+    TopPairingTargetCompletionTail.head_squareAllowed htail
+  cases face <;>
+    simp [Graph176TargetCompletionTail, graph176TargetCompletionState,
+      graph163TargetCompletionState, graph153TargetCompletionState,
+      graph147TargetCompletionState, TopPairingTargetCompletionState.next,
+      TopPairingTargetCompletionState.squareAllowed,
+      topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+      topPairingNextGap, pairOfFace, isSquarePair, triLetterOfFace?,
+      TriLetter.ofPairId?, TriLetter.act, SqParity.applyPair,
+      SqParity.toggleForPair, SqParity.toggleX, SqParity.toggleY,
+      SqParity.toggleZ, SqParity.xor] at hremaining hschedule hsquare ⊢
+
+private theorem graph176_tmmp_canComplete_false :
+    (graph176TargetCompletionState.next Face.tmmp).canComplete = false := by
+  rfl
+
+private theorem graph176_tmpm_canComplete_false :
+    (graph176TargetCompletionState.next Face.tmpm).canComplete = false := by
+  rfl
+
+private theorem graph176_tpmp_canComplete_false :
+    (graph176TargetCompletionState.next Face.tpmp).canComplete = false := by
+  rfl
+
+private theorem graph176_tppp_canComplete_false :
+    (graph176TargetCompletionState.next Face.tppp).canComplete = false := by
+  rfl
+
+private theorem no_tail_after_graph176_tmmp {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph176TargetCompletionState.next Face.tmmp) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph176_tmmp_canComplete_false h
+
+private theorem no_tail_after_graph176_tmpm {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph176TargetCompletionState.next Face.tmpm) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph176_tmpm_canComplete_false h
+
+private theorem no_tail_after_graph176_tpmp {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph176TargetCompletionState.next Face.tpmp) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph176_tpmp_canComplete_false h
+
+private theorem no_tail_after_graph176_tppp {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph176TargetCompletionState.next Face.tppp) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph176_tppp_canComplete_false h
+
+theorem graph176_head_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph176TargetCompletionTail (face :: rest)) :
+    face = Face.tppm := by
+  rcases graph176_head_candidate_of_targetCompletionTail htail with
+    htmmp | htmpm | htpmp | htppm | htppp
+  · subst face
+    exact False.elim
+      (no_tail_after_graph176_tmmp
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · subst face
+    exact False.elim
+      (no_tail_after_graph176_tmpm
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · subst face
+    exact False.elim
+      (no_tail_after_graph176_tpmp
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · exact htppm
+  · subst face
+    exact False.elim
+      (no_tail_after_graph176_tppp
+        (TopPairingTargetCompletionTail.tail_next htail))
+
+theorem graph178_head_candidate_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph178TargetCompletionTail (face :: rest)) :
+    face = Face.zp ∨ face = Face.tmpm ∨ face = Face.tpmm ∨
+      face = Face.tppm := by
+  have hremaining :=
+    TopPairingTargetCompletionTail.head_remaining htail
+  have hschedule :=
+    TopPairingTargetCompletionTail.head_schedule htail
+  have hsquare :=
+    TopPairingTargetCompletionTail.head_squareAllowed htail
+  cases face <;>
+    simp [Graph178TargetCompletionTail, graph178TargetCompletionState,
+      graph166TargetCompletionState, graph155TargetCompletionState,
+      graph147TargetCompletionState, TopPairingTargetCompletionState.next,
+      TopPairingTargetCompletionState.squareAllowed,
+      topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+      topPairingNextGap, pairOfFace, isSquarePair, triLetterOfFace?,
+      TriLetter.ofPairId?, TriLetter.act, SqParity.applyPair,
+      SqParity.toggleForPair, SqParity.toggleX, SqParity.toggleY,
+      SqParity.toggleZ, SqParity.xor] at hremaining hschedule hsquare ⊢
+
+private theorem graph178_zp_canComplete_false :
+    (graph178TargetCompletionState.next Face.zp).canComplete = false := by
+  rfl
+
+private theorem graph178_tmpm_canComplete_false :
+    (graph178TargetCompletionState.next Face.tmpm).canComplete = false := by
+  rfl
+
+private theorem graph178_tppm_canComplete_false :
+    (graph178TargetCompletionState.next Face.tppm).canComplete = false := by
+  rfl
+
+private theorem no_tail_after_graph178_zp {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph178TargetCompletionState.next Face.zp) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph178_zp_canComplete_false h
+
+private theorem no_tail_after_graph178_tmpm {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph178TargetCompletionState.next Face.tmpm) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph178_tmpm_canComplete_false h
+
+private theorem no_tail_after_graph178_tppm {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph178TargetCompletionState.next Face.tppm) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph178_tppm_canComplete_false h
+
+theorem graph178_head_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph178TargetCompletionTail (face :: rest)) :
+    face = Face.tpmm := by
+  rcases graph178_head_candidate_of_targetCompletionTail htail with
+    hzp | htmpm | htpmm | htppm
+  · subst face
+    exact False.elim
+      (no_tail_after_graph178_zp
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · subst face
+    exact False.elim
+      (no_tail_after_graph178_tmpm
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · exact htpmm
+  · subst face
+    exact False.elim
+      (no_tail_after_graph178_tppm
+        (TopPairingTargetCompletionTail.tail_next htail))
+
+inductive StrengthenedPrefix7Graph176Branch where
+  | tppm
+  deriving DecidableEq, Repr
+
+namespace StrengthenedPrefix7Graph176Branch
+
+def face : StrengthenedPrefix7Graph176Branch -> Face
+  | .tppm => Face.tppm
+
+def nextGraph : StrengthenedPrefix7Graph176Branch -> Nat
+  | .tppm => 191
+
+def gain : StrengthenedPrefix7Graph176Branch -> Int
+  | .tppm => -36
+
+theorem step (branch : StrengthenedPrefix7Graph176Branch) :
+    ClosedBellmanStep 176 branch.face branch.nextGraph branch.gain := by
+  cases branch
+  exact ClosedBellmanStep.e0173_l06
+
+end StrengthenedPrefix7Graph176Branch
+
+inductive StrengthenedPrefix7Graph178Branch where
+  | tpmm
+  deriving DecidableEq, Repr
+
+namespace StrengthenedPrefix7Graph178Branch
+
+def face : StrengthenedPrefix7Graph178Branch -> Face
+  | .tpmm => Face.tpmm
+
+def nextGraph : StrengthenedPrefix7Graph178Branch -> Nat
+  | .tpmm => 194
+
+def gain : StrengthenedPrefix7Graph178Branch -> Int
+  | .tpmm => -144
+
+theorem step (branch : StrengthenedPrefix7Graph178Branch) :
+    ClosedBellmanStep 178 branch.face branch.nextGraph branch.gain := by
+  cases branch
+  exact ClosedBellmanStep.e0175_l04
+
+end StrengthenedPrefix7Graph178Branch
+
+theorem strengthenedPrefix7Graph176Branch_of_tail_and_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (_htail :
+      strengthenedClosedPrefix7YpZmZpTmmmTpmmEvalState.Tail (face :: rest))
+    (hcompletion : Graph176TargetCompletionTail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix7Graph176Branch,
+      branch.face = face := by
+  have htppm := graph176_head_of_targetCompletionTail hcompletion
+  subst face
+  exact ⟨StrengthenedPrefix7Graph176Branch.tppm, rfl⟩
+
+theorem strengthenedPrefix7Graph178Branch_of_tail_and_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (_htail :
+      strengthenedClosedPrefix7YpZmTmmpTpmpTpppEvalState.Tail (face :: rest))
+    (hcompletion : Graph178TargetCompletionTail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix7Graph178Branch,
+      branch.face = face := by
+  have htpmm := graph178_head_of_targetCompletionTail hcompletion
+  subst face
+  exact ⟨StrengthenedPrefix7Graph178Branch.tpmm, rfl⟩
+
+def strengthenedPrefix7Graph176TargetCompletionLocalBranchTable :
+    StrengthenedTargetCompletionLocalBranchTable
+      strengthenedClosedPrefix7YpZmZpTmmmTpmmEvalState
+      graph176TargetCompletionState where
+  Branch := StrengthenedPrefix7Graph176Branch
+  face := StrengthenedPrefix7Graph176Branch.face
+  nextGraph := StrengthenedPrefix7Graph176Branch.nextGraph
+  gain := StrengthenedPrefix7Graph176Branch.gain
+  step := by
+    intro branch
+    change ClosedBellmanStep 176
+      (StrengthenedPrefix7Graph176Branch.face branch)
+      (StrengthenedPrefix7Graph176Branch.nextGraph branch)
+      (StrengthenedPrefix7Graph176Branch.gain branch)
+    exact StrengthenedPrefix7Graph176Branch.step branch
+  branch_of_tail := by
+    intro face rest htail hcompletion
+    exact
+      strengthenedPrefix7Graph176Branch_of_tail_and_targetCompletionTail
+        htail hcompletion
+
+def strengthenedPrefix7Graph178TargetCompletionLocalBranchTable :
+    StrengthenedTargetCompletionLocalBranchTable
+      strengthenedClosedPrefix7YpZmTmmpTpmpTpppEvalState
+      graph178TargetCompletionState where
+  Branch := StrengthenedPrefix7Graph178Branch
+  face := StrengthenedPrefix7Graph178Branch.face
+  nextGraph := StrengthenedPrefix7Graph178Branch.nextGraph
+  gain := StrengthenedPrefix7Graph178Branch.gain
+  step := by
+    intro branch
+    change ClosedBellmanStep 178
+      (StrengthenedPrefix7Graph178Branch.face branch)
+      (StrengthenedPrefix7Graph178Branch.nextGraph branch)
+      (StrengthenedPrefix7Graph178Branch.gain branch)
+    exact StrengthenedPrefix7Graph178Branch.step branch
+  branch_of_tail := by
+    intro face rest htail hcompletion
+    exact
+      strengthenedPrefix7Graph178Branch_of_tail_and_targetCompletionTail
+        htail hcompletion
+
 def graph151TargetCompletionState : TopPairingTargetCompletionState where
   step := 4
   gap := 1
