@@ -62,6 +62,10 @@ REQUIRED_SYMBOLS = {
         "terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate_fromContains",
         "Layer4ReachableTerminalContinuationFromContainsAll",
         "terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationFromContainsAll",
+        "Layer4ReachablePrefixMachine",
+        "layer4ReachablePrefixMachine",
+        "Layer4PrefixMachineContinuationFromContainsAll",
+        "terminalContainedEvalPrefixGate_of_layer4PrefixMachineContinuationFromContainsAll",
         "TerminalContainedEvalProgressGate",
     ],
     "closed_transducer_socket": [
@@ -130,19 +134,21 @@ def main() -> int:
                 "frontier-to-terminal composition from the compact layer-4 state",
                 "reachable-frontier continuation package for split-10M pairs",
                 "from-contains continuation package for layer-4 suffix leaves",
+                "generic full-machine layer-4 prefix socket",
             ],
             "remaining_gap": (
-                "prove TerminalContainedEvalPrefixGate machine (Layer4State.s04 "
-                "third fourth) rank for compact reachable layer-4 frontier states "
-                "satisfying Split10MPrefix4FrontierCons2; the start prefix is now "
-                "supplied by the semantic layer-4 frontier theorem"
+                "instantiate a full generated terminal machine with "
+                "Layer4ReachablePrefixMachine and prove terminal continuations "
+                "from its after4 third fourth states for reachable "
+                "Split10MPrefix4FrontierCons2 pairs"
             ),
         },
         "next_recommended_slice": (
             "generate or prove terminal continuation gates from layer-4 frontier "
-            "states satisfying Split10MPrefix4FrontierCons2, then compose them "
-            "with terminalContainedEvalPrefixGate_of_layer4ReachableTerminal"
-            "ContinuationFromContainsAll"
+            "states inside a full generated terminal machine satisfying "
+            "Layer4ReachablePrefixMachine, then compose them with "
+            "terminalContainedEvalPrefixGate_of_layer4PrefixMachineContinuation"
+            "FromContainsAll"
         ),
     }
 

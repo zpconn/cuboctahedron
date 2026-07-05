@@ -1218,6 +1218,86 @@ theorem terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationFr
     (fun third fourth hfrontier hcontains =>
       hcontinuation.terminal rank hclosed third fourth hfrontier hcontains)
 
+/--
+Generic first-four layer-4 prefix interface for a full generated terminal
+machine.
+
+Unlike `layer4Machine`, a production machine must continue after the layer-4
+frontier and eventually reach terminal producer states.  This structure records
+only the reusable semantic first-four prefix: every closed rank reaches one of
+the compact reachable layer-4 frontier states in the same machine.
+-/
+structure Layer4ReachablePrefixMachine
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId) where
+  start : StateId
+  after4 : ThirdBranch -> FourthBranch -> StateId
+  start_state : machine.stateOf start = TerminalStepState.initial
+  progress :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+        ∃ third : ThirdBranch, ∃ fourth : FourthBranch,
+          TerminalContainedEvalProgressGate
+            machine start rank (after4 third fourth) ∧
+            Split10MPrefix4FrontierCons2 third.face fourth.face
+
+def layer4ReachablePrefixMachine :
+    Layer4ReachablePrefixMachine layer4Machine where
+  start := Layer4State.s00
+  after4 := fun third fourth => Layer4State.s04 third fourth
+  start_state := layer4_start_state
+  progress := by
+    intro rank hclosed
+    exact layer4MachineFrontierGate_of_closed hclosed
+
+/--
+Continuation package for a full generated terminal machine whose first four
+steps satisfy `Layer4ReachablePrefixMachine`.
+
+Generated suffix leaves may assume the semantic containment of the layer-4
+frontier state.  The prefix machine supplies that containment from the checked
+progress gate, so leaves do not replay the closed-language prefix.
+-/
+structure Layer4PrefixMachineContinuationFromContainsAll
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (frontierPrefix : Layer4ReachablePrefixMachine machine) : Prop where
+  terminal :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+      ∀ third fourth,
+        Split10MPrefix4FrontierCons2 third.face fourth.face ->
+          TerminalStepState.Contains
+            (machine.stateOf (frontierPrefix.after4 third fourth)) rank ->
+          TerminalContainedEvalPrefixGate
+            machine (frontierPrefix.after4 third fourth) rank
+
+/--
+Compose a generic full-machine layer-4 prefix with reachable suffix
+continuations.
+
+This is the production-shaped theorem: the same generated machine supplies the
+first-four prefix, the suffix continuation, and the final terminal producer
+state.
+-/
+theorem terminalContainedEvalPrefixGate_of_layer4PrefixMachineContinuationFromContainsAll
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    (frontierPrefix : Layer4ReachablePrefixMachine machine)
+    (hcontinuation :
+      Layer4PrefixMachineContinuationFromContainsAll machine frontierPrefix)
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalPrefixGate machine frontierPrefix.start rank := by
+  rcases frontierPrefix.progress rank hclosed with
+    ⟨third, fourth, hprogress, hfrontier⟩
+  have hcontains :
+      TerminalStepState.Contains
+        (machine.stateOf (frontierPrefix.after4 third fourth)) rank :=
+    contains_of_containedEvalProgressGate machine hprogress
+  exact terminalContainedEvalPrefixGate_trans_progress
+    machine hprogress
+      (hcontinuation.terminal rank hclosed third fourth hfrontier hcontains)
+
 theorem terminalStateFrontierSmoke_builds : True := by
   exact True.intro
 

@@ -8,9 +8,10 @@
       "depth-11 graph-path portfolio wrapper consuming the machine socket",
       "frontier-to-terminal composition from the compact layer-4 state",
       "reachable-frontier continuation package for split-10M pairs",
-      "from-contains continuation package for layer-4 suffix leaves"
+      "from-contains continuation package for layer-4 suffix leaves",
+      "generic full-machine layer-4 prefix socket"
     ],
-    "remaining_gap": "prove TerminalContainedEvalPrefixGate machine (Layer4State.s04 third fourth) rank for compact reachable layer-4 frontier states satisfying Split10MPrefix4FrontierCons2; the start prefix is now supplied by the semantic layer-4 frontier theorem"
+    "remaining_gap": "instantiate a full generated terminal machine with Layer4ReachablePrefixMachine and prove terminal continuations from its after4 third fourth states for reachable Split10MPrefix4FrontierCons2 pairs"
   },
   "files": {
     "closed_transducer_socket": {
@@ -58,22 +59,26 @@
       "symbols": {
         "Layer4MachineFrontierGate": true,
         "Layer4MachineFrontierGateAll": true,
+        "Layer4PrefixMachineContinuationFromContainsAll": true,
+        "Layer4ReachablePrefixMachine": true,
         "Layer4ReachableTerminalContinuationAll": true,
         "Layer4ReachableTerminalContinuationFromContainsAll": true,
         "TerminalContainedEvalProgressGate": true,
         "layer4MachineFrontierGateAll": true,
         "layer4Prefix4FrontierCons2_exists_of_closed": true,
         "layer4Progress_prefix4_exists_of_closed": true,
+        "layer4ReachablePrefixMachine": true,
         "terminalContainedEvalPrefixGate_of_layer4MachineFrontierAll": true,
         "terminalContainedEvalPrefixGate_of_layer4MachineFrontierGate": true,
         "terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate": true,
         "terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate_fromContains": true,
+        "terminalContainedEvalPrefixGate_of_layer4PrefixMachineContinuationFromContainsAll": true,
         "terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationAll": true,
         "terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationFromContainsAll": true
       }
     }
   },
   "forbidden_hits": [],
-  "next_recommended_slice": "generate or prove terminal continuation gates from layer-4 frontier states satisfying Split10MPrefix4FrontierCons2, then compose them with terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationFromContainsAll",
+  "next_recommended_slice": "generate or prove terminal continuation gates from layer-4 frontier states inside a full generated terminal machine satisfying Layer4ReachablePrefixMachine, then compose them with terminalContainedEvalPrefixGate_of_layer4PrefixMachineContinuationFromContainsAll",
   "status": "machine-pivot-surfaces-present"
 }

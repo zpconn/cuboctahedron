@@ -103134,3 +103134,93 @@ local tables.
 
   and should finish by calling
   `terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationFromContainsAll`.
+
+### 2026-07-04 generic full-machine layer-4 prefix socket accepted
+
+- Corrected the continuation target after noticing an important limitation of
+  the concrete `layer4Machine`: its `Layer4State.s04` states are only a
+  frontier smoke and have no outgoing transitions or terminal states.  A real
+  terminal continuation must live in the same full generated machine that also
+  contains the first-four layer-4 prefix.
+
+- Added a generic full-machine layer-4 prefix socket in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStateFrontierSmoke
+  ```
+
+- New theorem/interface names:
+
+  ```lean
+  Layer4ReachablePrefixMachine
+  layer4ReachablePrefixMachine
+  Layer4PrefixMachineContinuationFromContainsAll
+  terminalContainedEvalPrefixGate_of_layer4PrefixMachineContinuationFromContainsAll
+  ```
+
+- Production-facing theorem shape:
+
+  ```lean
+  (frontierPrefix : Layer4ReachablePrefixMachine machine) ->
+  Layer4PrefixMachineContinuationFromContainsAll machine frontierPrefix ->
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+  TerminalContainedEvalPrefixGate machine frontierPrefix.start rank
+  ```
+
+  Here `frontierPrefix.progress` proves the semantic first-four progress to
+  `frontierPrefix.after4 third fourth` in the same machine, and the
+  continuation package proves terminal gates from those reachable after-four
+  states while assuming their semantic containment facts.
+
+- The concrete `layer4ReachablePrefixMachine` remains as a smoke
+  instantiation of this socket, but the production target is now a generated
+  full machine satisfying `Layer4ReachablePrefixMachine`, not a suffix proof
+  inside `layer4Machine`.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+  ```
+
+- Results:
+  - First guarded build failed quickly with parser errors because `prefix` was
+    used as an identifier.  Lean treats `prefix` as a keyword.  This was a
+    theorem-surface naming bug, not a memory problem.
+  - After renaming the argument to `frontierPrefix`, the guarded build passed
+    in `5.01s`.
+  - Peak tree RSS was `4213 MiB`; minimum available memory observed was
+    `45941 MiB`.
+  - The terminal-machine pivot surface audit passed with
+    `status = machine-pivot-surfaces-present` and `forbidden_hits = 0`.
+
+- Updated audit boundary:
+
+  ```text
+  instantiate a full generated terminal machine with
+  Layer4ReachablePrefixMachine and prove terminal continuations from its
+  after4 third fourth states for reachable Split10MPrefix4FrontierCons2 pairs
+  ```
+
+- Current promotion status:
+  this is the accepted next socket for terminal-machine production.  The next
+  generator should emit a full partial machine with:
+
+  ```text
+  start state
+  after4 third fourth states for the seven reachable split-10M pairs
+  suffix states and terminal producer states
+  ```
+
+  and then prove `Layer4PrefixMachineContinuationFromContainsAll` for that
+  machine.  This avoids the impossible requirement of continuing inside the
+  smoke-only `layer4Machine`.
