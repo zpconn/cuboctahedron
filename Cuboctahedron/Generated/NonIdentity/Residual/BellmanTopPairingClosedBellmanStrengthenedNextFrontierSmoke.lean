@@ -2139,6 +2139,290 @@ def strengthenedPrefix9Graph211TargetCompletionLocalBranchTable :
       strengthenedPrefix9Graph211Branch_of_tail_and_targetCompletionTail
         htail hcompletion
 
+def strengthenedClosedPrefix10YpZmZpTmmmTpmmTppmTpmpTmpmEvalState :
+    StrengthenedClosedEvalState :=
+  match strengthenedClosedEvalNext
+      strengthenedClosedPrefix9YpZmZpTmmmTpmmTppmTpmpEvalState Face.tmpm with
+  | some (state, _gain) => state
+  | none => strengthenedClosedPrefix9YpZmZpTmmmTpmmTppmTpmpEvalState
+
+def strengthenedClosedPrefix10YpZmTmmpTpmpTpppTpmmTmppTppmEvalState :
+    StrengthenedClosedEvalState :=
+  match strengthenedClosedEvalNext
+      strengthenedClosedPrefix9YpZmTmmpTpmpTpppTpmmTmppEvalState Face.tppm with
+  | some (state, _gain) => state
+  | none => strengthenedClosedPrefix9YpZmTmmpTpmpTpppTpmmTmppEvalState
+
+theorem strengthenedClosed_prefix10_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_next_from_graph208 :
+    strengthenedClosedEvalNext
+        strengthenedClosedPrefix9YpZmZpTmmmTpmmTppmTpmpEvalState Face.tmpm =
+      some
+        (strengthenedClosedPrefix10YpZmZpTmmmTpmmTppmTpmpTmpmEvalState, (-144 : Int)) := by
+  rfl
+
+theorem strengthenedClosed_prefix10_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_next_from_graph211 :
+    strengthenedClosedEvalNext
+        strengthenedClosedPrefix9YpZmTmmpTpmpTpppTpmmTmppEvalState Face.tppm =
+      some
+        (strengthenedClosedPrefix10YpZmTmmpTpmpTpppTpmmTmppTppmEvalState, (-36 : Int)) := by
+  rfl
+
+def graph6TargetCompletionState : TopPairingTargetCompletionState :=
+  graph208TargetCompletionState.next Face.tmpm
+
+def graph11TargetCompletionState : TopPairingTargetCompletionState :=
+  graph211TargetCompletionState.next Face.tppm
+
+abbrev Graph6TargetCompletionTail (labels : List Face) : Prop :=
+  TopPairingTargetCompletionTail graph6TargetCompletionState labels
+
+abbrev Graph11TargetCompletionTail (labels : List Face) : Prop :=
+  TopPairingTargetCompletionTail graph11TargetCompletionState labels
+
+theorem graph6_head_candidate_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph6TargetCompletionTail (face :: rest)) :
+    face = Face.xp ∨ face = Face.tmmp ∨ face = Face.tmpp ∨
+      face = Face.tppp := by
+  have hremaining :=
+    TopPairingTargetCompletionTail.head_remaining htail
+  cases face <;>
+    simp [Graph6TargetCompletionTail, graph6TargetCompletionState,
+      graph208TargetCompletionState, graph191TargetCompletionState,
+      graph176TargetCompletionState, graph163TargetCompletionState,
+      graph153TargetCompletionState, graph147TargetCompletionState,
+      TopPairingTargetCompletionState.next] at hremaining ⊢
+
+private theorem graph6_xp_canComplete_false :
+    (graph6TargetCompletionState.next Face.xp).canComplete = false := by
+  rfl
+
+private theorem graph6_tmmp_canComplete_false :
+    (graph6TargetCompletionState.next Face.tmmp).canComplete = false := by
+  rfl
+
+private theorem graph6_tmpp_canComplete_false :
+    (graph6TargetCompletionState.next Face.tmpp).canComplete = false := by
+  rfl
+
+private theorem no_tail_after_graph6_xp {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph6TargetCompletionState.next Face.xp) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph6_xp_canComplete_false h
+
+private theorem no_tail_after_graph6_tmmp {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph6TargetCompletionState.next Face.tmmp) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph6_tmmp_canComplete_false h
+
+private theorem no_tail_after_graph6_tmpp {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph6TargetCompletionState.next Face.tmpp) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph6_tmpp_canComplete_false h
+
+theorem graph6_head_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph6TargetCompletionTail (face :: rest)) :
+    face = Face.tppp := by
+  rcases graph6_head_candidate_of_targetCompletionTail htail with
+    hxp | htmmp | htmpp | htppp
+  · subst face
+    exact False.elim
+      (no_tail_after_graph6_xp
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · subst face
+    exact False.elim
+      (no_tail_after_graph6_tmmp
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · subst face
+    exact False.elim
+      (no_tail_after_graph6_tmpp
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · exact htppp
+
+theorem graph11_head_candidate_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph11TargetCompletionTail (face :: rest)) :
+    face = Face.zp ∨ face = Face.xp ∨ face = Face.tmmm ∨
+      face = Face.tmpm := by
+  have hremaining :=
+    TopPairingTargetCompletionTail.head_remaining htail
+  cases face <;>
+    simp [Graph11TargetCompletionTail, graph11TargetCompletionState,
+      graph211TargetCompletionState, graph194TargetCompletionState,
+      graph178TargetCompletionState, graph166TargetCompletionState,
+      graph155TargetCompletionState, graph147TargetCompletionState,
+      TopPairingTargetCompletionState.next] at hremaining ⊢
+
+private theorem graph11_zp_canComplete_false :
+    (graph11TargetCompletionState.next Face.zp).canComplete = false := by
+  rfl
+
+private theorem graph11_xp_canComplete_false :
+    (graph11TargetCompletionState.next Face.xp).canComplete = false := by
+  rfl
+
+private theorem graph11_tmmm_canComplete_false :
+    (graph11TargetCompletionState.next Face.tmmm).canComplete = false := by
+  rfl
+
+private theorem no_tail_after_graph11_zp {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph11TargetCompletionState.next Face.zp) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph11_zp_canComplete_false h
+
+private theorem no_tail_after_graph11_xp {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph11TargetCompletionState.next Face.xp) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph11_xp_canComplete_false h
+
+private theorem no_tail_after_graph11_tmmm {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph11TargetCompletionState.next Face.tmmm) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph11_tmmm_canComplete_false h
+
+theorem graph11_head_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph11TargetCompletionTail (face :: rest)) :
+    face = Face.tmpm := by
+  rcases graph11_head_candidate_of_targetCompletionTail htail with
+    hzp | hxp | htmmm | htmpm
+  · subst face
+    exact False.elim
+      (no_tail_after_graph11_zp
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · subst face
+    exact False.elim
+      (no_tail_after_graph11_xp
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · subst face
+    exact False.elim
+      (no_tail_after_graph11_tmmm
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · exact htmpm
+
+inductive StrengthenedPrefix10Graph6Branch where
+  | tppp
+  deriving DecidableEq, Repr
+
+namespace StrengthenedPrefix10Graph6Branch
+
+def face : StrengthenedPrefix10Graph6Branch -> Face
+  | .tppp => Face.tppp
+
+def nextGraph : StrengthenedPrefix10Graph6Branch -> Nat
+  | .tppp => 36
+
+def gain : StrengthenedPrefix10Graph6Branch -> Int
+  | .tppp => -36
+
+theorem step (branch : StrengthenedPrefix10Graph6Branch) :
+    ClosedBellmanStep 6 branch.face branch.nextGraph branch.gain := by
+  cases branch
+  exact ClosedBellmanStep.e0006_l07
+
+end StrengthenedPrefix10Graph6Branch
+
+inductive StrengthenedPrefix10Graph11Branch where
+  | tmpm
+  deriving DecidableEq, Repr
+
+namespace StrengthenedPrefix10Graph11Branch
+
+def face : StrengthenedPrefix10Graph11Branch -> Face
+  | .tmpm => Face.tmpm
+
+def nextGraph : StrengthenedPrefix10Graph11Branch -> Nat
+  | .tmpm => 41
+
+def gain : StrengthenedPrefix10Graph11Branch -> Int
+  | .tmpm => 96
+
+theorem step (branch : StrengthenedPrefix10Graph11Branch) :
+    ClosedBellmanStep 11 branch.face branch.nextGraph branch.gain := by
+  cases branch
+  exact ClosedBellmanStep.e0011_l02
+
+end StrengthenedPrefix10Graph11Branch
+
+theorem strengthenedPrefix10Graph6Branch_of_tail_and_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (_htail :
+      strengthenedClosedPrefix10YpZmZpTmmmTpmmTppmTpmpTmpmEvalState.Tail
+        (face :: rest))
+    (hcompletion : Graph6TargetCompletionTail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix10Graph6Branch,
+      branch.face = face := by
+  have htppp := graph6_head_of_targetCompletionTail hcompletion
+  subst face
+  exact ⟨StrengthenedPrefix10Graph6Branch.tppp, rfl⟩
+
+theorem strengthenedPrefix10Graph11Branch_of_tail_and_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (_htail :
+      strengthenedClosedPrefix10YpZmTmmpTpmpTpppTpmmTmppTppmEvalState.Tail
+        (face :: rest))
+    (hcompletion : Graph11TargetCompletionTail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix10Graph11Branch,
+      branch.face = face := by
+  have htmpm := graph11_head_of_targetCompletionTail hcompletion
+  subst face
+  exact ⟨StrengthenedPrefix10Graph11Branch.tmpm, rfl⟩
+
+def strengthenedPrefix10Graph6TargetCompletionLocalBranchTable :
+    StrengthenedTargetCompletionLocalBranchTable
+      strengthenedClosedPrefix10YpZmZpTmmmTpmmTppmTpmpTmpmEvalState
+      graph6TargetCompletionState where
+  Branch := StrengthenedPrefix10Graph6Branch
+  face := StrengthenedPrefix10Graph6Branch.face
+  nextGraph := StrengthenedPrefix10Graph6Branch.nextGraph
+  gain := StrengthenedPrefix10Graph6Branch.gain
+  step := by
+    intro branch
+    change ClosedBellmanStep 6
+      (StrengthenedPrefix10Graph6Branch.face branch)
+      (StrengthenedPrefix10Graph6Branch.nextGraph branch)
+      (StrengthenedPrefix10Graph6Branch.gain branch)
+    exact StrengthenedPrefix10Graph6Branch.step branch
+  branch_of_tail := by
+    intro face rest htail hcompletion
+    exact
+      strengthenedPrefix10Graph6Branch_of_tail_and_targetCompletionTail
+        htail hcompletion
+
+def strengthenedPrefix10Graph11TargetCompletionLocalBranchTable :
+    StrengthenedTargetCompletionLocalBranchTable
+      strengthenedClosedPrefix10YpZmTmmpTpmpTpppTpmmTmppTppmEvalState
+      graph11TargetCompletionState where
+  Branch := StrengthenedPrefix10Graph11Branch
+  face := StrengthenedPrefix10Graph11Branch.face
+  nextGraph := StrengthenedPrefix10Graph11Branch.nextGraph
+  gain := StrengthenedPrefix10Graph11Branch.gain
+  step := by
+    intro branch
+    change ClosedBellmanStep 11
+      (StrengthenedPrefix10Graph11Branch.face branch)
+      (StrengthenedPrefix10Graph11Branch.nextGraph branch)
+      (StrengthenedPrefix10Graph11Branch.gain branch)
+    exact StrengthenedPrefix10Graph11Branch.step branch
+  branch_of_tail := by
+    intro face rest htail hcompletion
+    exact
+      strengthenedPrefix10Graph11Branch_of_tail_and_targetCompletionTail
+        htail hcompletion
+
 def graph151TargetCompletionState : TopPairingTargetCompletionState where
   step := 4
   gap := 1
