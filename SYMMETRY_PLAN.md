@@ -105111,6 +105111,98 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 graph147 deterministic target API accepted
+
+Strategy pivot incorporated:
+
+- Keep Bellman as the nonidentity margin compression tool.
+- Stop treating selected prefixes or observed traces as a production coverage
+  surface.
+- Make the next proof target a deterministic semantic
+  closed-language-to-evaluator theorem.
+- Use compact target-completion/evaluator state, not sampled ranks, accepted
+  trace IDs, exact affine RHS keys, or one branch per observed path.
+
+Implemented a bounded deterministic target API for the graph147 shared lane in:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean
+```
+
+New theorem/data surface:
+
+```lean
+inductive ShardStepTarget
+def ShardStepTarget.graph
+def nextTarget?
+theorem nextTarget?_prefix4YpZm_zp
+theorem nextTarget?_prefix4YpZm_tmmp
+theorem nextTarget?_terminal_graph112
+theorem nextTarget?_terminal_graph109
+```
+
+The table records the deterministic semantic transition target for the 22
+already-generated target-completion local branches.  Internal graph147-lane
+transitions point to another shard state; the depth-13 transitions point to
+external graph targets `141` and `138`, which are terminal Bellman potential
+states for this lane.  Graph150/151 transitions are also marked as external
+graph targets rather than terminal states, keeping the API honest.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000
+```
+
+Result:
+
+```text
+pass; elapsed=3.00s; peak_tree_rss=4036 MiB; min_available=46110 MiB
+```
+
+The first build attempt failed safely under the same guard because the target
+constructor was named `state`, which collided with Lean pattern elaboration.
+It peaked at `3954 MiB` RSS and was fixed by renaming the constructor to
+`shard`.
+
+Readiness audit:
+
+```bash
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+yp_zm.status = partial_terminal_graph141_graph138_deterministic_target_api
+zm_yp.status = partial_terminal_graph141_graph138_deterministic_target_api
+forbidden_hits = []
+```
+
+Remaining formal boundary:
+
+```text
+prove a terminal semantic eval/margin gate that recurses over nextTarget?
+and turns TopPairingStrengthenedClosedLanguageAtRank /
+TopPairingClosedLanguageAtRank into the rank-parametric evaluator result and
+scaledMargin <= 176 + gain, without selected-prefix, sampled-rank,
+accepted-trace, exact-affine, or per-observed-path membership.
+```
+
+Go/no-go rule for the next slice:
+
+- **Go:** the proof case-splits only on semantic target/evaluator state and
+  local face transitions.
+- **No-go:** the proof needs sampled ranks, selected-prefix IDs, accepted trace
+  IDs, exact affine RHS keys, exact solved start points, or one branch per
+  observed path.  If that happens, stop graph147 scaling and run the
+  cocycle/cancellation-summary quotient experiment.
+
 ### 2026-07-05 graph221 promoted: target-completion excludes the blocked prefix
 
 The graph221 pivot produced a better result than expected.  The previously

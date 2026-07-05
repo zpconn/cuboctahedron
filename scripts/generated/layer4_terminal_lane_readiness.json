@@ -45,6 +45,15 @@
         "strengthenedPrefix6Graph163TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix6Graph166TargetCompletionLocalBranchTable": true
       },
+      "deterministic_target_shard_symbols": {
+        "ShardStepTarget": true,
+        "emittedShardExternalTargetCount": true,
+        "nextTarget?": true,
+        "nextTarget?_prefix4YpZm_tmmp": true,
+        "nextTarget?_prefix4YpZm_zp": true,
+        "nextTarget?_terminal_graph109": true,
+        "nextTarget?_terminal_graph112": true
+      },
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.zm",
@@ -146,7 +155,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 through deterministic target-completion/evaluator local tables.  The lane still needs the terminal semantic eval/margin gate that consumes these local tables and proves the closed-language-to-eval theorem without selected-prefix or sampled-rank membership.",
+      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  The lane still needs the terminal semantic eval/margin gate that recurses over this table and proves the rank-parametric closed-language-to-eval theorem without selected-prefix or sampled-rank membership.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -154,7 +163,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_terminal_graph141_graph138_local_table",
+      "status": "partial_terminal_graph141_graph138_deterministic_target_api",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,
@@ -279,6 +288,15 @@
         "strengthenedPrefix6Graph163TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix6Graph166TargetCompletionLocalBranchTable": true
       },
+      "deterministic_target_shard_symbols": {
+        "ShardStepTarget": true,
+        "emittedShardExternalTargetCount": true,
+        "nextTarget?": true,
+        "nextTarget?_prefix4YpZm_tmmp": true,
+        "nextTarget?_prefix4YpZm_zp": true,
+        "nextTarget?_terminal_graph109": true,
+        "nextTarget?_terminal_graph112": true
+      },
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.yp",
@@ -380,7 +398,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 through deterministic target-completion/evaluator local tables.  The lane still needs the terminal semantic eval/margin gate that consumes these local tables and proves the closed-language-to-eval theorem without selected-prefix or sampled-rank membership.",
+      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  The lane still needs the terminal semantic eval/margin gate that recurses over this table and proves the rank-parametric closed-language-to-eval theorem without selected-prefix or sampled-rank membership.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -388,7 +406,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_terminal_graph141_graph138_local_table",
+      "status": "partial_terminal_graph141_graph138_deterministic_target_api",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,

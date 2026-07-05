@@ -40,10 +40,12 @@ inductive ShardState where
 
 def emittedShardStateCount : Nat := 21
 def emittedShardBranchCount : Nat := 22
+def emittedShardExternalTargetCount : Nat := 4
 
 theorem emittedShardCount_audit :
     emittedShardStateCount = 21 /\
-      emittedShardBranchCount = 22 := by
+      emittedShardBranchCount = 22 /\
+      emittedShardExternalTargetCount = 4 := by
   decide
 
 def evalState : ShardState -> StrengthenedClosedEvalState
@@ -91,6 +93,108 @@ def completionState : ShardState -> TopPairingTargetCompletionState
   | .prefix5YpZmTmmp => graph155TargetCompletionState
   | .prefix4TmpmZm => graph150TargetCompletionState
   | .prefix4ZmTmpp => graph151TargetCompletionState
+
+/--
+Deterministic target for one generated local transition.
+
+Most local transitions remain inside this shard.  A few transitions leave this
+shard: the graph-147 lane reaches terminal Bellman graph states `141` and
+`138`, while the graph-150/151 lanes hand off to external graph states already
+handled by other terminal-machine experiments.
+-/
+inductive ShardStepTarget where
+  | shard (state : ShardState)
+  | externalGraph (graph : Nat)
+  deriving DecidableEq, Repr
+
+namespace ShardStepTarget
+
+def graph : ShardStepTarget -> Nat
+  | .shard state => (evalState state).graph
+  | .externalGraph graph => graph
+
+end ShardStepTarget
+
+/--
+Deterministic semantic transition table for shard 000.
+
+This table is not rank coverage and contains no sampled prefix data.  It is
+the compact recursion target for the next closed-language-to-evaluator gate:
+starting from the shared graph-147 layer-4 state, target-completion and the
+strengthened evaluator can follow this table until terminal graphs `141` or
+`138`.
+-/
+def nextTarget? : ShardState -> Face -> Option (ShardStepTarget × Int)
+  | .prefix4YpZm, Face.zp =>
+      some (.shard .prefix5YpZmZp, (-10 : Int))
+  | .prefix4YpZm, Face.tmmp =>
+      some (.shard .prefix5YpZmTmmp, (-124 : Int))
+  | .prefix5YpZmZp, Face.tmmm =>
+      some (.shard .prefix6YpZmZpTmmm, (-124 : Int))
+  | .prefix5YpZmTmmp, Face.tpmp =>
+      some (.shard .prefix6YpZmTmmpTpmp, (96 : Int))
+  | .prefix6YpZmZpTmmm, Face.tpmm =>
+      some (.shard .prefix7YpZmZpTmmmTpmm, (96 : Int))
+  | .prefix6YpZmTmmpTpmp, Face.tppp =>
+      some (.shard .prefix7YpZmTmmpTpmpTppp, (-36 : Int))
+  | .prefix7YpZmZpTmmmTpmm, Face.tppm =>
+      some (.shard .prefix8YpZmZpTmmmTpmmTppm, (-36 : Int))
+  | .prefix7YpZmTmmpTpmpTppp, Face.tpmm =>
+      some (.shard .prefix8YpZmTmmpTpmpTpppTpmm, (-144 : Int))
+  | .prefix8YpZmZpTmmmTpmmTppm, Face.tpmp =>
+      some (.shard .prefix9YpZmZpTmmmTpmmTppmTpmp, (-144 : Int))
+  | .prefix8YpZmTmmpTpmpTpppTpmm, Face.tmpp =>
+      some (.shard .prefix9YpZmTmmpTpmpTpppTpmmTmpp, (-144 : Int))
+  | .prefix9YpZmZpTmmmTpmmTppmTpmp, Face.tmpm =>
+      some (.shard .prefix10YpZmZpTmmmTpmmTppmTpmpTmpm, (-144 : Int))
+  | .prefix9YpZmTmmpTpmpTpppTpmmTmpp, Face.tppm =>
+      some (.shard .prefix10YpZmTmmpTpmpTpppTpmmTmppTppm, (-36 : Int))
+  | .prefix10YpZmZpTmmmTpmmTppmTpmpTmpm, Face.tppp =>
+      some (.shard .prefix11YpZmZpTmmmTpmmTppmTpmpTmpmTppp, (-36 : Int))
+  | .prefix10YpZmTmmpTpmpTpppTpmmTmppTppm, Face.tmpm =>
+      some (.shard .prefix11YpZmTmmpTpmpTpppTpmmTmppTppmTmpm, (96 : Int))
+  | .prefix11YpZmZpTmmmTpmmTppmTpmpTmpmTppp, Face.tmpp =>
+      some (.shard .prefix12YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmpp, (96 : Int))
+  | .prefix11YpZmTmmpTpmpTpppTpmmTmppTppmTmpm, Face.tmmm =>
+      some (.shard .prefix12YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmm,
+        (-124 : Int))
+  | .prefix12YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmpp, Face.tmmp =>
+      some (.shard .prefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmp,
+        (-124 : Int))
+  | .prefix12YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmm, Face.zp =>
+      some (.shard .prefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZp,
+        (-10 : Int))
+  | .prefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmp, Face.xp =>
+      some (.externalGraph 141, (-73 : Int))
+  | .prefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZp, Face.xp =>
+      some (.externalGraph 138, (-73 : Int))
+  | .prefix4TmpmZm, Face.zp =>
+      some (.externalGraph 157, (114 : Int))
+  | .prefix4ZmTmpp, Face.tppp =>
+      some (.externalGraph 159, (96 : Int))
+  | _, _ => none
+
+theorem nextTarget?_terminal_graph112 :
+    nextTarget?
+        .prefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmp Face.xp =
+      some (.externalGraph 141, (-73 : Int)) := by
+  rfl
+
+theorem nextTarget?_terminal_graph109 :
+    nextTarget?
+        .prefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZp Face.xp =
+      some (.externalGraph 138, (-73 : Int)) := by
+  rfl
+
+theorem nextTarget?_prefix4YpZm_zp :
+    nextTarget? .prefix4YpZm Face.zp =
+      some (.shard .prefix5YpZmZp, (-10 : Int)) := by
+  rfl
+
+theorem nextTarget?_prefix4YpZm_tmmp :
+    nextTarget? .prefix4YpZm Face.tmmp =
+      some (.shard .prefix5YpZmTmmp, (-124 : Int)) := by
+  rfl
 
 def localBranchTable :
     (state : ShardState) ->

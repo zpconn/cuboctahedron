@@ -35,6 +35,12 @@ NEXT_FRONTIER_FILE = (
     / "BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean"
 )
 
+TARGET_COMPLETION_SHARD000_FILE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean"
+)
+
 GRAPH221_FILE = (
     ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
@@ -209,6 +215,16 @@ GRAPH147_GRAPH112_109_REQUIRED = [
     "strengthenedPrefix13Graph109TargetCompletionLocalBranchTable",
 ]
 
+GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED = [
+    "ShardStepTarget",
+    "nextTarget?",
+    "nextTarget?_prefix4YpZm_zp",
+    "nextTarget?_prefix4YpZm_tmmp",
+    "nextTarget?_terminal_graph112",
+    "nextTarget?_terminal_graph109",
+    "emittedShardExternalTargetCount",
+]
+
 ZMTMPP_CHAIN_REQUIRED = [
     "strengthenedClosedPrefix5ZmTmppTpppEvalState",
     "strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp",
@@ -309,6 +325,11 @@ def contains_all(text: str, symbols: list[str]) -> tuple[bool, list[str]]:
 def main() -> int:
     graph183_text = GRAPH183_FILE.read_text()
     next_frontier_text = NEXT_FRONTIER_FILE.read_text()
+    target_completion_shard000_text = (
+        TARGET_COMPLETION_SHARD000_FILE.read_text()
+        if TARGET_COMPLETION_SHARD000_FILE.exists()
+        else ""
+    )
     graph221_text = GRAPH221_FILE.read_text() if GRAPH221_FILE.exists() else ""
     graph183_ok, graph183_missing = contains_all(graph183_text, GRAPH183_REQUIRED)
     graph151_partial_ok, graph151_partial_missing = contains_all(
@@ -343,6 +364,12 @@ def main() -> int:
     )
     graph147_graph112_109_ok, graph147_graph112_109_missing = contains_all(
         next_frontier_text, GRAPH147_GRAPH112_109_REQUIRED
+    )
+    graph147_deterministic_target_shard_ok, graph147_deterministic_target_shard_missing = (
+        contains_all(
+            target_completion_shard000_text,
+            GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED,
+        )
     )
     zm_tmpp_chain_ok, zm_tmpp_chain_missing = contains_all(
         next_frontier_text, ZMTMPP_CHAIN_REQUIRED
@@ -525,6 +552,20 @@ def main() -> int:
                 and graph147_graph36_41_ok
                 and graph147_graph69_75_ok
                 and graph147_graph112_109_ok
+                and graph147_deterministic_target_shard_ok
+            ):
+                partial_status = "partial_terminal_graph141_graph138_deterministic_target_api"
+            elif (
+                graph147_target_completion_ok
+                and graph147_suffix_ok
+                and graph147_deep_suffix_ok
+                and graph147_graph176_178_ok
+                and graph147_graph191_194_ok
+                and graph147_graph208_211_ok
+                and graph147_graph6_11_ok
+                and graph147_graph36_41_ok
+                and graph147_graph69_75_ok
+                and graph147_graph112_109_ok
             ):
                 partial_status = "partial_terminal_graph141_graph138_local_table"
             elif (
@@ -641,10 +682,27 @@ def main() -> int:
                     symbol: symbol not in graph147_graph112_109_missing
                     for symbol in GRAPH147_GRAPH112_109_REQUIRED
                 },
+                "deterministic_target_shard_symbols": {
+                    symbol: symbol not in graph147_deterministic_target_shard_missing
+                    for symbol in GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED
+                },
                 "forbidden_hits": [
-                    token for token in FORBIDDEN if token in next_frontier_text
+                    token
+                    for token in FORBIDDEN
+                    if token in next_frontier_text
+                    or token in target_completion_shard000_text
                 ],
                 "remaining_gap": (
+                    "graph147 now reaches terminal graph states 141 and 138 "
+                    "and the bounded shard exposes a deterministic "
+                    "nextTarget? API from semantic shard states to either the "
+                    "next shard state or an external graph target.  The lane "
+                    "still needs the terminal semantic eval/margin gate that "
+                    "recurses over this table and proves the rank-parametric "
+                    "closed-language-to-eval theorem without selected-prefix "
+                    "or sampled-rank membership."
+                    if graph147_deterministic_target_shard_ok
+                    else (
                     "graph147 now reaches terminal graph states 141 and 138 "
                     "through deterministic target-completion/evaluator local "
                     "tables.  The lane still needs the terminal semantic "
@@ -724,6 +782,7 @@ def main() -> int:
                         "and tmmp.  The lane still needs deterministic suffix "
                         "continuations from graph153 and graph155 before it "
                         "becomes a terminal semantic gate."
+                    )
                     )
                     )
                     )
