@@ -42,14 +42,22 @@
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.tmpp",
-      "remaining_gap": "graph151 target-completion semantics forces the next face tppp, but no graph151 post-tppp suffix/terminal continuation table analogous to graph183 is present",
+      "post_tppp_symbols": {
+        "Graph159TargetCompletionTail": true,
+        "graph159TargetCompletionState": true,
+        "graph159_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix5ZmTmppTpppEvalState": true,
+        "strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp": true,
+        "strengthenedPrefix5Graph159TargetCompletionLocalBranchTable": true
+      },
+      "remaining_gap": "graph151 now advances semantically through tppp to graph159 and graph159 forces tpmp, but no graph171 post-tpmp suffix/terminal continuation table analogous to graph183 is present",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
         "graph151_head_of_targetCompletionTail": true,
         "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_local_step_only_missing_post_tppp_suffix_table",
+      "status": "partial_two_local_steps_missing_post_tpmp_suffix_table",
       "third": "Face.zm"
     },
     "zm_yp": {
@@ -78,7 +86,7 @@
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "generate or prove the graph151 post-tppp suffix/terminal continuation for the partial zm_tmpp lane, then lift it through the same four-piece terminal-machine pattern validated by graph183",
+  "next_recommended_slice": "continue the zm_tmpp semantic continuation after graph159/tpmp by generating or proving the graph171 target-completion suffix/terminal continuation, then lift the lane through the same four-piece terminal-machine pattern validated by graph183",
   "partial_lane_count": 1,
   "partial_lanes": [
     "zm_tmpp"

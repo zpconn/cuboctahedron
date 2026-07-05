@@ -104331,3 +104331,95 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   an all-lane emitter.  If that graph151 continuation demands exact affine
   RHS, exact solved start-point data, or one branch per observed path, stop
   and run the cocycle/cancellation-summary quotient experiment first.
+
+### 2026-07-05 graph151 advances one more semantic step
+
+- Implemented the next narrow Bellman/transducer pivot slice for the partial
+  `zm,tmpp` lane in:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean
+  ```
+
+- New semantic frontier names:
+
+  ```lean
+  strengthenedClosedPrefix5ZmTmppTpppTransducerState
+  strengthenedClosedPrefix5ZmTmppTpppEvalState
+  strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp
+  graph159TargetCompletionState
+  Graph159TargetCompletionTail
+  graph159_head_of_targetCompletionTail
+  StrengthenedPrefix5Graph159Branch
+  strengthenedPrefix5Graph159TargetCompletionLocalBranchTable
+  ```
+
+- What changed:
+  graph151 was already known to force `Face.tppp`.  The new slice consumes
+  that forced target-completion step semantically, reaches Bellman graph
+  state `159`, proves the next target-completion head is `Face.tpmp`, and
+  exposes the graph159 local branch table:
+
+  ```lean
+  ClosedBellmanStep 159 Face.tpmp 171 (-36 : Int)
+  ```
+
+- This is still not rank coverage and still not a second completed lane.  It
+  is a deterministic semantic-transducer checkpoint: no sampled ranks, no
+  selected-prefix ids, no accepted-trace ids, and no exact affine RHS or
+  solved-start-point keys.
+
+- Updated the readiness audit:
+
+  ```text
+  scripts/audit_layer4_terminal_lane_readiness.py
+  scripts/generated/layer4_terminal_lane_readiness.json
+  ```
+
+  Current audit status:
+
+  ```text
+  validated_lanes = [tmpm_zm]
+  partial_lanes = [zm_tmpp]
+  zm_tmpp status = partial_two_local_steps_missing_post_tpmp_suffix_table
+  next_recommended_slice =
+    continue the zm_tmpp semantic continuation after graph159/tpmp by
+    generating or proving the graph171 target-completion suffix/terminal
+    continuation
+  ```
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke
+
+  python3 scripts/audit_layer4_terminal_lane_readiness.py
+
+  rg -n \
+    "SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean \
+    scripts/generated/layer4_terminal_lane_readiness.json
+  ```
+
+- Results:
+
+  | Check | Result | Elapsed | Peak Tree RSS | Min Available |
+  | --- | --- | ---: | ---: | ---: |
+  | focused graph151/159 frontier build | pass | `38.11s` | `5627 MiB` | `44380 MiB` |
+  | layer-4 readiness audit | pass | n/a | n/a | n/a |
+  | forbidden-token scan on touched proof surfaces | pass | n/a | n/a | n/a |
+
+- Next acceptance gate:
+  continue the same semantic continuation after graph159/`Face.tpmp`.  The
+  immediate target is graph171 and the post-`tpmp` target-completion state.
+  If that continuation can be generated as small local target-completion
+  branch tables and eventually reaches a terminal-machine suffix/prefix gate,
+  promote it to the second completed lane.  If it requires exact affine RHS,
+  solved start-point data, or one branch per observed path, stop and run the
+  cocycle/cancellation-summary quotient experiment before generating more
+  Lean.
