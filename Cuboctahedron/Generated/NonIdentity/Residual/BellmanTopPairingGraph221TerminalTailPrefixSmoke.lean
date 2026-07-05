@@ -93,6 +93,12 @@ theorem graph221YpTmpmStrengthenedEvalState_zp_none :
       none := by
   rfl
 
+theorem graph221YpTmpmZp_strengthenedEval_none (rest : List Face) :
+    evalLabelStepFn strengthenedClosedEvalNext graph221StrengthenedEvalState
+        (Face.yp :: Face.tmpm :: Face.zp :: rest) =
+      none := by
+  rfl
+
 private theorem no_tail_after
     {state : TopPairingTargetCompletionState} {rest : List Face}
     (hcomplete : state.canComplete = false)

@@ -104588,6 +104588,11 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   theorem graph221YpTmpmStrengthenedEvalState_zp_none :
       strengthenedClosedEvalNext graph221YpTmpmStrengthenedEvalState Face.zp =
         none
+
+  theorem graph221YpTmpmZp_strengthenedEval_none (rest : List Face) :
+      evalLabelStepFn strengthenedClosedEvalNext graph221StrengthenedEvalState
+          (Face.yp :: Face.tmpm :: Face.zp :: rest) =
+        none
   ```
 
   This is not the full suffix filter yet, but it validates the next theorem
@@ -104609,7 +104614,9 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   validated_lanes = [tmpm_zm]
   partial_lanes = [zm_tmpp]
   zm_tmpp status = partial_graph221_filtered_tail_prefix_continuation
-  graph221_filtered_symbols include graph221YpTmpmStrengthenedEvalState_zp_none
+  graph221_filtered_symbols include:
+    graph221YpTmpmStrengthenedEvalState_zp_none
+    graph221YpTmpmZp_strengthenedEval_none
   next_recommended_slice =
     derive the graph221 accepted-suffix filter from the strengthened product
     state with Bellman/tri-source constraints, then lift the zm_tmpp lane
@@ -104640,7 +104647,7 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
 
   | Check | Result | Elapsed | Peak Tree RSS | Min Available |
   | --- | --- | ---: | ---: | ---: |
-  | focused graph221 filtered continuation build | pass | `6.01s` | `4106 MiB` | `45998 MiB` |
+  | focused graph221 filtered continuation build | pass | `5.00s` | `4100 MiB` | `46014 MiB` |
   | layer-4 readiness audit | pass | n/a | n/a | n/a |
   | forbidden-token scan on touched proof surfaces | pass | n/a | n/a | n/a |
 
