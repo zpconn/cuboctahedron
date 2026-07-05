@@ -77,8 +77,18 @@
         "graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval": true,
         "graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail": true,
         "graph221FilteredTailPrefixContinuation": true,
+        "graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval": true,
+        "graph221Layer4AcceptedTailSuffixOk": true,
+        "graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval": true,
+        "graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval": true,
+        "graph221Layer4FilteredTailPrefixContinuation": true,
+        "graph221Layer4FilteredTailPrefixTerminal_of_graph151TargetCompletionTail_and_strengthenedEval": true,
         "graph221Layer4ForcedTailPrefixEval": true,
         "graph221Layer4ForcedTailPrefixLabels": true,
+        "graph221Layer4ForcedTerminalPrefixEval": true,
+        "graph221Layer4PrefixEval": true,
+        "graph221Layer4PrefixState_contains_of_strengthened_prefix": true,
+        "graph221Layer4ProgressGate_of_strengthened_prefix": true,
         "graph221StrengthenedEvalState_next": true,
         "graph221TailPrefix029Eval": true,
         "graph221TailPrefix030Eval": true,
@@ -91,14 +101,14 @@
         "graph221_head_of_targetCompletionTail": true,
         "graph221_yp_tmpm_head_of_targetCompletionTail": true
       },
-      "remaining_gap": "graph221 now has a rank-free filtered tail-prefix continuation for the three graph-accepted suffixes, a graph151-to-graph221 target-completion tail decomposition, plus a local theorem deriving that suffix filter from target-completion and the strengthened product-state evaluator, and a graph151-level theorem deriving the accepted graph221 suffix from graph151 target-completion plus strengthened eval success. This is not a full lane gate yet: the next proof must connect the strengthened closed-language rank/prefix hypotheses to this graph151 tail/evaluator premise and terminal continuation.",
+      "remaining_gap": "graph221 now has a rank-free filtered tail-prefix continuation for the three graph-accepted suffixes, a graph151-to-graph221 target-completion tail decomposition, a local theorem deriving the suffix filter from target-completion plus the strengthened product-state evaluator, and a lane-level terminal machine gate that starts from the initial state once the Graph151TargetCompletionTail and strengthened eval success premises are supplied. This is not a full lane gate yet: the next proof must derive those two premises directly from the strengthened closed-language rank/prefix hypotheses.",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
         "graph151_head_of_targetCompletionTail": true,
         "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph221_filtered_tail_prefix_continuation",
+      "status": "partial_graph221_layer4_gate_with_graph151_eval_premises",
       "third": "Face.zm"
     },
     "zm_yp": {

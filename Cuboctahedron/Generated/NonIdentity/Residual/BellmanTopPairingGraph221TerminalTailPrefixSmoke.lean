@@ -1,5 +1,7 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalGate
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
 
 set_option linter.unusedSimpArgs false
@@ -27,7 +29,9 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221
 
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalGate
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateProducerSocket
@@ -37,6 +41,9 @@ def graph221PrefixLabels : List Face :=
   [Face.xm, Face.ym, Face.zm, Face.tmpp, Face.tppp, Face.tpmp,
     Face.tppm, Face.tmmp, Face.tpmm]
 
+def graph221Layer4PrefixLabels : List Face :=
+  [Face.xm, Face.ym, Face.zm, Face.tmpp]
+
 def graph221Layer4ForcedTailPrefixLabels : List Face :=
   [Face.tppp, Face.tpmp, Face.tppm, Face.tmmp, Face.tpmm]
 
@@ -44,6 +51,10 @@ def graph221PrefixState : TerminalStepState :=
   (((((((((TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym).nextStep
     Face.zm).nextStep Face.tmpp).nextStep Face.tppp).nextStep
     Face.tpmp).nextStep Face.tppm).nextStep Face.tmmp).nextStep Face.tpmm)
+
+def graph221Layer4PrefixState : TerminalStepState :=
+  (((TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym).nextStep
+    Face.zm).nextStep Face.tmpp
 
 def graph221TargetCompletionState : TopPairingTargetCompletionState :=
   graph202TargetCompletionState.next Face.tpmm
@@ -70,6 +81,20 @@ theorem graph221Layer4ForcedTailPrefixEval :
         strengthenedClosedPrefix4ZmTmppEvalState
         graph221Layer4ForcedTailPrefixLabels =
       some (graph221StrengthenedEvalState, (-264 : Int)) := by
+  rfl
+
+theorem graph221Layer4PrefixEval :
+    evalLabelStepFn
+        (nextEval TerminalStepStatePartialMachine.semantic)
+        TerminalStepState.initial graph221Layer4PrefixLabels =
+      some (graph221Layer4PrefixState, 0) := by
+  rfl
+
+theorem graph221Layer4ForcedTerminalPrefixEval :
+    evalLabelStepFn
+        (nextEval TerminalStepStatePartialMachine.semantic)
+        graph221Layer4PrefixState graph221Layer4ForcedTailPrefixLabels =
+      some (graph221PrefixState, 0) := by
   rfl
 
 def graph221YpStrengthenedEvalState : StrengthenedClosedEvalState :=
@@ -771,6 +796,22 @@ theorem graph221AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengt
     graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval
       htail221 htailEval⟩
 
+def graph221Layer4AcceptedTailSuffixOk (rest : List Face) : Prop :=
+  ∃ tail,
+    rest = graph221Layer4ForcedTailPrefixLabels ++ tail ∧
+      graph221AcceptedTailSuffixOk tail
+
+theorem graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval
+    {rest : List Face} {finish : StrengthenedClosedEvalState} {gain : Int}
+    (htail : Graph151TargetCompletionTail rest)
+    (heval :
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4ZmTmppEvalState rest =
+        some (finish, gain)) :
+    graph221Layer4AcceptedTailSuffixOk rest :=
+  graph221AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval
+    htail heval
+
 theorem graph221Tail029_split :
     graph221Tail029 = graph221TailPrefix029 ++ graph221TailPrefixRemaining := by
   rfl
@@ -894,6 +935,200 @@ def graph221FilteredTailPrefixContinuation :
       exact ⟨graph221TailPrefix031, graph221FinishState031, 0,
         graph221TailPrefixRemaining, graph221Tail031_split,
         graph221TailPrefix031Eval, graph221FinishProducer031⟩
+
+def graph221Layer4FilteredTailPrefixContinuation :
+    TerminalTargetCompletionFilteredTailPrefixContinuation
+      TerminalStepStatePartialMachine.semantic
+      graph221Layer4PrefixState
+      graph151TargetCompletionState
+      graph221Layer4AcceptedTailSuffixOk where
+  terminal := by
+    intro rest htail hok
+    rcases hok with ⟨tail, hrest, hokTail⟩
+    rcases graph151TargetCompletionTail_decompose_to_graph221 htail with
+      ⟨tail', hrest', htail221⟩
+    subst rest
+    have htailEq : tail = tail' := by
+      exact List.append_cancel_left hrest'
+    subst tail'
+    rcases graph221FilteredTailPrefixContinuation.terminal
+        tail htail221 hokTail with
+      ⟨labels, finish, gain, remaining, htailSplit, heval, hterminal⟩
+    refine ⟨graph221Layer4ForcedTailPrefixLabels ++ labels, finish, gain,
+      remaining, ?_, ?_, hterminal⟩
+    · simpa [List.append_assoc] using
+        congrArg (fun xs => graph221Layer4ForcedTailPrefixLabels ++ xs)
+          htailSplit
+    · simpa using
+        evalLabelStepFn_append graph221Layer4ForcedTerminalPrefixEval heval
+
+theorem graph221Layer4PrefixState_contains_of_strengthened_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    TerminalStepState.Contains graph221Layer4PrefixState rank := by
+  have hclosed := hstrengthened.toTopPairingClosedLanguageAtRank
+  have h0 :
+      TerminalStepState.Contains TerminalStepState.initial rank :=
+    initial_contains_of_closed hclosed
+  have h1 :
+      TerminalStepState.Contains
+        (TerminalStepState.initial.nextStep Face.xm) rank := by
+    refine contains_nextStep
+      (rank := rank) (state := TerminalStepState.initial)
+      (face := Face.xm)
+      (rest := Face.ym :: Face.zm :: Face.tmpp :: rest)
+      h0 ?_
+    simpa [Depth11Layer4PrefixAtRank, TerminalStepState.initial] using
+      hprefix
+  have h2 :
+      TerminalStepState.Contains
+        ((TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym)
+        rank := by
+    refine contains_nextStep
+      (rank := rank)
+      (state := TerminalStepState.initial.nextStep Face.xm)
+      (face := Face.ym)
+      (rest := Face.zm :: Face.tmpp :: rest)
+      h1 ?_
+    simpa [Depth11Layer4PrefixAtRank, TerminalStepState.initial,
+      TerminalStepState.nextStep, TerminalStepState.squareStep,
+      triLetterOfFace?, pairOfFace, TriLetter.ofPairId?] using hprefix
+  have h3 :
+      TerminalStepState.Contains
+        (((TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym).nextStep
+          Face.zm)
+        rank := by
+    refine contains_nextStep
+      (rank := rank)
+      (state :=
+        (TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym)
+      (face := Face.zm)
+      (rest := Face.tmpp :: rest)
+      h2 ?_
+    simpa [Depth11Layer4PrefixAtRank, TerminalStepState.initial,
+      TerminalStepState.nextStep, TerminalStepState.squareStep,
+      TerminalStepState.triStep, triLetterOfFace?, pairOfFace,
+      TriLetter.ofPairId?] using hprefix
+  have h4 :
+      TerminalStepState.Contains graph221Layer4PrefixState rank := by
+    refine contains_nextStep
+      (rank := rank)
+      (state :=
+        ((TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym).nextStep
+          Face.zm)
+      (face := Face.tmpp)
+      (rest := rest)
+      h3 ?_
+    simpa [Depth11Layer4PrefixAtRank, graph221Layer4PrefixState,
+      TerminalStepState.initial, TerminalStepState.nextStep,
+      TerminalStepState.squareStep, TerminalStepState.triStep,
+      triLetterOfFace?, pairOfFace, TriLetter.ofPairId?] using hprefix
+  exact h4
+
+theorem graph221Layer4FilteredTailPrefixTerminal_of_graph151TargetCompletionTail_and_strengthenedEval
+    {rest : List Face} {finish : StrengthenedClosedEvalState} {gain : Int}
+    (htail : Graph151TargetCompletionTail rest)
+    (heval :
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4ZmTmppEvalState rest =
+        some (finish, gain)) :
+    ∃ labels terminalFinish terminalGain remaining,
+      rest = labels ++ remaining ∧
+        evalLabelStepFn
+            (nextEval TerminalStepStatePartialMachine.semantic)
+            graph221Layer4PrefixState labels =
+          some (terminalFinish, terminalGain) ∧
+          TerminalStepStatePartialMachine.semantic.IsTerminal terminalFinish :=
+  graph221Layer4FilteredTailPrefixContinuation.terminal rest htail
+    (graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval
+      htail heval)
+
+theorem graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval
+    {rank : Fin numPairWords} {rest : List Face}
+    {finish : StrengthenedClosedEvalState} {gain : Int}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+    (htail : Graph151TargetCompletionTail rest)
+    (heval :
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4ZmTmppEvalState rest =
+        some (finish, gain)) :
+    TerminalContainedEvalPrefixGate
+      TerminalStepStatePartialMachine.semantic graph221Layer4PrefixState
+      rank := by
+  have hcontains :=
+    graph221Layer4PrefixState_contains_of_strengthened_prefix
+      hstrengthened hprefix
+  rcases
+      graph221Layer4FilteredTailPrefixTerminal_of_graph151TargetCompletionTail_and_strengthenedEval
+        htail heval with
+    ⟨labels, terminalFinish, terminalGain, remaining, hrest, htermEval,
+      hterminal⟩
+  refine ⟨labels, terminalFinish, terminalGain, remaining, hcontains, ?_,
+    htermEval, hterminal⟩
+  subst rest
+  have hpfx :
+      (TerminalStepStatePartialMachine.semantic.stateOf
+        graph221Layer4PrefixState).pfx =
+          [Face.xm, Face.ym, Face.zm, Face.tmpp] := by
+    rfl
+  rw [hpfx]
+  simpa [Depth11Layer4PrefixAtRank, List.append_assoc] using hprefix
+
+theorem graph221Layer4ProgressGate_of_strengthened_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    TerminalContainedEvalProgressGate
+      TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank
+      graph221Layer4PrefixState := by
+  refine ⟨graph221Layer4PrefixLabels, 0, rest, ?_, ?_,
+    graph221Layer4PrefixEval⟩
+  · exact initial_contains_of_closed
+      hstrengthened.toTopPairingClosedLanguageAtRank
+  · have hlabels :
+      topPairingRankFaceLabels rank =
+        graph221Layer4PrefixLabels ++ rest := by
+      simpa [Depth11Layer4PrefixAtRank, graph221Layer4PrefixLabels] using
+        hprefix
+    have hpfx :
+        (TerminalStepStatePartialMachine.semantic.stateOf
+          TerminalStepState.initial).pfx = [] := by
+      rfl
+    rw [hpfx]
+    simpa using hlabels
+
+theorem graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval
+    {rank : Fin numPairWords} {rest : List Face}
+    {finish : StrengthenedClosedEvalState} {gain : Int}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+    (htail : Graph151TargetCompletionTail rest)
+    (heval :
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4ZmTmppEvalState rest =
+        some (finish, gain)) :
+    TerminalContainedEvalPrefixGate
+      TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank :=
+  terminalContainedEvalPrefixGate_trans_progress
+    TerminalStepStatePartialMachine.semantic
+    (graph221Layer4ProgressGate_of_strengthened_prefix
+      hstrengthened hprefix)
+    (graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval
+      hstrengthened hprefix htail heval)
 
 theorem graph221TerminalTailPrefixSmoke_builds : True := by
   exact True.intro

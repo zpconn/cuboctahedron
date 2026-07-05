@@ -104732,3 +104732,139 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   exact affine RHS, solved start-point data, selected traces, sampled ranks, or
   one branch per observed path, stop and run the cocycle/cancellation-summary
   quotient experiment before emitting more graph221 data.
+
+### 2026-07-05 checkpoint: graph221 initial gate with semantic premises
+
+Following the GPT5.5 Pro pivot, the Bellman route remains active only in the
+semantic-transducer form:
+
+```text
+closed top-pairing language
+  -> deterministic strengthened evaluator
+  -> target-completion / accepted suffix discriminator
+  -> terminal-machine contained eval-prefix gate
+```
+
+The selected-prefix route is not the production path.  The current graph221
+slice continues to avoid `SampledRankIndex`, sampled rank membership, selected
+prefix ids, exact affine RHS keys, solved start-point data, and one branch per
+rank/path.
+
+New theorem surfaces in
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean`:
+
+```lean
+def graph221Layer4PrefixLabels : List Face
+def graph221Layer4PrefixState : TerminalStepState
+
+theorem graph221Layer4PrefixEval :
+  evalLabelStepFn
+      (nextEval TerminalStepStatePartialMachine.semantic)
+      TerminalStepState.initial graph221Layer4PrefixLabels =
+    some (graph221Layer4PrefixState, 0)
+
+theorem graph221Layer4ForcedTerminalPrefixEval :
+  evalLabelStepFn
+      (nextEval TerminalStepStatePartialMachine.semantic)
+      graph221Layer4PrefixState graph221Layer4ForcedTailPrefixLabels =
+    some (graph221PrefixState, 0)
+
+def graph221Layer4AcceptedTailSuffixOk (rest : List Face) : Prop
+
+theorem graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval
+  (htail : Graph151TargetCompletionTail rest)
+  (heval :
+    evalLabelStepFn strengthenedClosedEvalNext
+        strengthenedClosedPrefix4ZmTmppEvalState rest =
+      some (finish, gain)) :
+  graph221Layer4AcceptedTailSuffixOk rest
+
+def graph221Layer4FilteredTailPrefixContinuation :
+  TerminalTargetCompletionFilteredTailPrefixContinuation
+    TerminalStepStatePartialMachine.semantic
+    graph221Layer4PrefixState
+    graph151TargetCompletionState
+    graph221Layer4AcceptedTailSuffixOk
+
+theorem graph221Layer4PrefixState_contains_of_strengthened_prefix
+  (hstrengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym)
+  (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+  TerminalStepState.Contains graph221Layer4PrefixState rank
+
+theorem graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval
+  (hstrengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym)
+  (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+  (htail : Graph151TargetCompletionTail rest)
+  (heval :
+    evalLabelStepFn strengthenedClosedEvalNext
+        strengthenedClosedPrefix4ZmTmppEvalState rest =
+      some (finish, gain)) :
+  TerminalContainedEvalPrefixGate
+    TerminalStepStatePartialMachine.semantic graph221Layer4PrefixState rank
+
+theorem graph221Layer4ProgressGate_of_strengthened_prefix
+  (hstrengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym)
+  (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+  TerminalContainedEvalProgressGate
+    TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank
+    graph221Layer4PrefixState
+
+theorem graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval
+  (hstrengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym)
+  (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+  (htail : Graph151TargetCompletionTail rest)
+  (heval :
+    evalLabelStepFn strengthenedClosedEvalNext
+        strengthenedClosedPrefix4ZmTmppEvalState rest =
+      some (finish, gain)) :
+  TerminalContainedEvalPrefixGate
+    TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank
+```
+
+This is still a partial lane theorem.  It packages the graph221 terminal-machine
+gate all the way from the initial terminal state, but it still takes two
+semantic premises:
+
+1. `Graph151TargetCompletionTail rest`;
+2. successful strengthened evaluator evaluation from
+   `strengthenedClosedPrefix4ZmTmppEvalState` across `rest`.
+
+The next proof must derive those premises from
+`TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank rank
+Face.ym` and the `Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest`
+prefix hypothesis.  If that derivation requires selected prefixes, sampled
+paths, exact affine RHS keys, or one branch per rank/path, the Bellman route
+fails the current go/no-go gate and we should switch to the cancellation-tree /
+cocycle quotient experiment before emitting more graph221 data.
+
+Readiness audit status is now:
+
+```text
+zm_tmpp status =
+  partial_graph221_layer4_gate_with_graph151_eval_premises
+```
+
+Focused build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221TerminalTailPrefixSmoke
+```
+
+Result:
+
+```text
+pass; elapsed=6.00s; peak_tree_rss=4189 MiB; min_available=45896 MiB
+```
