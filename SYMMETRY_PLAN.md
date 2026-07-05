@@ -111514,6 +111514,82 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 exact-eval sequenceBadFace carrier
+
+Added an evaluator-shaped sibling of the graph183 quotient-margin carrier:
+
+```lean
+Graph183TailExactEvalSequenceBadFace
+graph183TailExactEvalFamily_of_sequenceBadFace
+graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace
+graph183TailQuotientMarginFamily_of_exactEvalSequenceBadFace
+```
+
+This gives future production code two Lean-checked semantic entry points:
+
+1. prove the margin carrier directly:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+2. or prove deterministic graph183 exact-eval on the same branch:
+
+```lean
+Graph183TailExactEvalSequenceBadFace scaledMargin
+```
+
+and lower it to the margin carrier by the adapter above.
+
+This is accepted as an adapter only.  It does not make exact eval the preferred
+proof obligation, and it does not turn accepted traces or selected prefixes
+into production evidence.  Any upstream proof of either carrier must still be
+semantic over the closed language / deterministic transducer / quotient-gauge
+state.
+
+Focused guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 4.00s
+peak RSS = 3594 MiB
+min available = 46354 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile scripts/audit_latest_bellman_semantic_pivot.py
+python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+```
+
+Results:
+
+```text
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+```
+
 Focused guarded Lean checks:
 
 ```bash

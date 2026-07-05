@@ -382,6 +382,21 @@
       "passed": true
     },
     {
+      "detail": "Graph183TailExactEvalSequenceBadFace",
+      "name": "graph183_quotient_socket:symbol:Graph183TailExactEvalSequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailExactEvalFamily_of_sequenceBadFace",
+      "name": "graph183_quotient_socket:symbol:graph183TailExactEvalFamily_of_sequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace",
+      "name": "graph183_quotient_socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace",
+      "passed": true
+    },
+    {
       "detail": "graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult",
       "name": "graph183_quotient_socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult",
       "passed": true
@@ -389,6 +404,11 @@
     {
       "detail": "graph183TailQuotientMarginFamily_of_tailExactEval",
       "name": "graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_tailExactEval",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginFamily_of_exactEvalSequenceBadFace",
+      "name": "graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_exactEvalSequenceBadFace",
       "passed": true
     },
     {
@@ -730,12 +750,12 @@
       "passed": true
     },
     {
-      "detail": 3629.58203125,
+      "detail": 3594.21875,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 46332.94140625,
+      "detail": 46354.25,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
       "passed": true
     }
@@ -756,9 +776,9 @@
       "solution_small_gain_count": 93
     },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 5.003833865979686,
-      "min_available_mib": 46332.94140625,
-      "peak_rss_mib": 3629.58203125
+      "elapsed_seconds": 4.003732238983503,
+      "min_available_mib": 46354.25,
+      "peak_rss_mib": 3594.21875
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,

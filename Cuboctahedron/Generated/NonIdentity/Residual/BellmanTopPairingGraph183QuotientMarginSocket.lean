@@ -245,6 +245,38 @@ structure Graph183TailExactEvalFamily
         graphRoot graphConst scaledMargin rank Face.ym
         126 ((194 : Int) + (-542 : Int))
 
+/--
+Semantic `sequenceBadFace` carrier for graph183 branch-local deterministic
+exact-eval evidence.
+
+This is the evaluator-shaped sibling of
+`Graph183TailQuotientMarginSequenceBadFace`: an upstream semantic producer may
+prove the evaluator result first, then lower it to the quotient-margin carrier
+through the adapters below.  As with the margin carrier, sampled ranks,
+selected prefixes, accepted trace ids, and per-observed-path proofs are not
+production evidence for this predicate.
+-/
+def Graph183TailExactEvalSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  badFace = Face.ym ∧
+    (Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      TopPairingGraphExactEvalGateResult
+        graphPotential closedBellmanNext (fun face : Face => face)
+        graphRoot graphConst scaledMargin rank Face.ym
+        126 ((194 : Int) + (-542 : Int)))
+
+def graph183TailExactEvalFamily_of_sequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    Graph183TailExactEvalFamily
+      (Graph183TailExactEvalSequenceBadFace scaledMargin)
+      scaledMargin where
+  exact_eval_yp_branch := by
+    intro rank hstrengthened hprefix
+    rcases hstrengthened.sequenceBadFace_ok with ⟨_hbadFace, hgate⟩
+    exact hgate hprefix
+
 theorem acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_graph183TailExactEvalFamily
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily :
@@ -268,6 +300,18 @@ theorem graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult
   intro _hprefix
   simpa [graph183AcceptedBranchRawGain_contract] using hgate.margin_bound
 
+theorem graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hbad :
+      Graph183TailExactEvalSequenceBadFace scaledMargin rank Face.ym) :
+    Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym := by
+  rcases hbad with ⟨_hface, hgate⟩
+  refine ⟨rfl, ?_⟩
+  intro hprefix
+  have hresult := hgate hprefix
+  simpa [graph183AcceptedBranchRawGain_contract] using hresult.margin_bound
+
 theorem graph183TailQuotientMarginFamily_of_tailExactEval
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
     {scaledMargin : Fin numPairWords -> Int}
@@ -278,6 +322,14 @@ theorem graph183TailQuotientMarginFamily_of_tailExactEval
     intro rank hstrengthened hprefix
     have hgate := hfamily.exact_eval_yp_branch rank hstrengthened hprefix
     simpa [graph183AcceptedBranchRawGain_contract] using hgate.margin_bound
+
+def graph183TailQuotientMarginFamily_of_exactEvalSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    Graph183TailQuotientMarginFamily
+      (Graph183TailExactEvalSequenceBadFace scaledMargin)
+      scaledMargin :=
+  graph183TailQuotientMarginFamily_of_tailExactEval
+    (graph183TailExactEvalFamily_of_sequenceBadFace scaledMargin)
 
 theorem acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval
     {scaledMargin : Fin numPairWords -> Int}

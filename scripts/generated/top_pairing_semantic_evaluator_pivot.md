@@ -27,7 +27,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
 | `graph183_tail_table_socket` | `1346` | none |
-| `graph183_quotient_margin_socket` | `556` | none |
+| `graph183_quotient_margin_socket` | `608` | none |
 | `target_completion_local_branch_table_shard000` | `1403` | none |
 | `depth11_closed_providers` | `1536` | none |
 
