@@ -83,6 +83,9 @@ FILES = {
     "graph183_cocycle_quotient_potential": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraph183CocycleQuotientPotential.lean",
+    "graph183_cocycle_quotient_closed_bridge": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge.lean",
     "target_completion_local_branch_table_shard000": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
@@ -120,6 +123,8 @@ GUARDS = {
     / "scripts/generated/graph183_cocycle_quotient_potential_direct_guard.json",
     "graph183_cocycle_quotient_potential_lake": ROOT
     / "scripts/generated/graph183_cocycle_quotient_potential_lake_guard.json",
+    "graph183_cocycle_quotient_closed_bridge": ROOT
+    / "scripts/generated/graph183_cocycle_quotient_closed_bridge_direct_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -362,6 +367,13 @@ REQUIRED_SYMBOLS = {
         "graph183ProfileFinalGaugeBound",
         "graph183QuotientPotential_checked",
     ],
+    "graph183_cocycle_quotient_closed_bridge": [
+        "graph183FaceLabel",
+        "graph183FullStep_of_closedBellmanStep",
+        "graph183FullRun_of_closedBellmanRun",
+        "graph183QuotientRun_of_closedBellmanRun",
+        "graph183ClosedBellmanBridge_checked",
+    ],
     "target_completion_local_branch_table_shard000": [
         "ShardState",
         "completionState",
@@ -401,6 +413,7 @@ PRODUCTION_SCAN_FILES = [
     "graph183_cocycle_quotient_edge_core",
     "graph183_cocycle_quotient_edge_shards",
     "graph183_cocycle_quotient_potential",
+    "graph183_cocycle_quotient_closed_bridge",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
 ]

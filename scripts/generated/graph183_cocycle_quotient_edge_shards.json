@@ -1,6 +1,7 @@
 {
   "aggregate_module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShards",
   "arithmetic": "exact integer Lean equations generated from exact rational diagnostic solution",
+  "closed_bridge_module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge",
   "core_module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientCore",
   "edge_equations": 229,
   "final_state_count": 29,

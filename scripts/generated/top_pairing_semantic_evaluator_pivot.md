@@ -35,6 +35,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph183_cocycle_quotient_edge_core` | `470` | none |
 | `graph183_cocycle_quotient_edge_shards` | `111` | none |
 | `graph183_cocycle_quotient_potential` | `108` | none |
+| `graph183_cocycle_quotient_closed_bridge` | `534` | none |
 | `target_completion_local_branch_table_shard000` | `1403` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -54,6 +55,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `closed_bellman_strengthened_semantic_gate_socket`: exit `0`, elapsed `3.0027096020057797`, peak RSS MiB `3719.16015625`
 - `graph183_cocycle_quotient_potential_direct`: exit `0`, elapsed `2.00216292400728`, peak RSS MiB `3627.2265625`
 - `graph183_cocycle_quotient_potential_lake`: exit `0`, elapsed `7.008340544998646`, peak RSS MiB `23154.05078125`
+- `graph183_cocycle_quotient_closed_bridge`: exit `0`, elapsed `4.002917137026088`, peak RSS MiB `3975.34375`
 
 ## Forbidden Production Hits
 

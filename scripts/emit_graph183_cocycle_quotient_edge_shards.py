@@ -42,6 +42,10 @@ POTENTIAL_MODULE = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
     "BellmanTopPairingGraph183CocycleQuotientPotential"
 )
+CLOSED_BRIDGE_MODULE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge"
+)
 CORE_NAMESPACE = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
     "BellmanTopPairingGraph183CocycleQuotientCore"
@@ -61,6 +65,18 @@ GRAPH_POTENTIAL_MODULE = (
 GRAPH_POTENTIAL_NAMESPACE = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
     "BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential"
+)
+CLOSED_BRIDGE_NAMESPACE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge"
+)
+CLOSED_BELLMAN_MODULE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.All"
+)
+CLOSED_BELLMAN_NAMESPACE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingClosedBellmanStrengthenedShardedSmoke"
 )
 
 
@@ -479,6 +495,131 @@ def render_potential(profile: dict, quotient: dict) -> tuple[str, dict[str, int]
     return "\n".join(lines), metrics
 
 
+def face_name_from_label_key(label_key: str) -> str:
+    fields = dict(part.split("=", 1) for part in label_key.split("|"))
+    return fields["face"]
+
+
+def face_label_map(profile: dict) -> dict[str, int]:
+    return {
+        face_name_from_label_key(row["key"]): int(row["index"])
+        for row in profile["graph"]["labels"]
+    }
+
+
+def or_intro_for_shard(shard_index: int, shard_count: int, term: str) -> str:
+    if shard_index == shard_count - 1:
+        return "Or.inr (" * shard_index + term + ")" * shard_index
+    return "Or.inr (" * shard_index + f"Or.inl {term}" + ")" * shard_index
+
+
+def render_closed_bellman_bridge(
+    rows: list[dict],
+    profile: dict,
+    shard_size: int,
+    shard_count: int,
+) -> str:
+    fmap = face_label_map(profile)
+    face_cases = [
+        (name, fmap[name])
+        for name in [
+            "tmmm", "tmmp", "tmpm", "tmpp", "tpmm", "tpmp", "tppm",
+            "tppp", "xm", "xp", "ym", "yp", "zm", "zp",
+        ]
+    ]
+    proof_lines: list[str] = []
+    for row_index, row in enumerate(rows):
+        shard_index = int(row["edge_index"]) // shard_size
+        local_index = row_index % shard_size
+        shard_namespace = f"{NAMESPACE_PREFIX}{shard_index:03d}"
+        term = (
+            f"(by exact (⟨⟨{local_index}, by decide⟩, rfl, rfl, rfl, rfl⟩ : "
+            f"{shard_namespace}.FullStep "
+            f"{lean_nat(int(row['src']))} {lean_nat(int(row['label']))} "
+            f"{lean_nat(int(row['dst']))} {lean_int(int(row['raw_gain']))}))"
+        )
+        proof_lines.extend(
+            [
+                f"  · change FullStep {lean_nat(int(row['src']))} "
+                f"{lean_nat(int(row['label']))} {lean_nat(int(row['dst']))} "
+                f"{lean_int(int(row['raw_gain']))}",
+                f"    exact {or_intro_for_shard(shard_index, shard_count, term)}",
+            ]
+        )
+    return "\n".join(
+        [
+            f"import {EDGE_SHARDS_MODULE}",
+            f"import {CLOSED_BELLMAN_MODULE}",
+            "",
+            "/-!",
+            "Bridge from the strengthened closed Bellman graph to the sharded",
+            "graph183 cocycle quotient edge relation.",
+            "",
+            "This is graph-local proof-shape support, not rank coverage.  It",
+            "does not introduce sampled paths, selected prefixes, accepted trace",
+            "ids, exact affine RHS keys, or one-rank objects.  It only proves that",
+            "the deterministic `ClosedBellmanStep` relation uses the same local",
+            "edge-label equations as the sharded graph183 quotient relation after",
+            "the fixed Face-to-label encoding below.",
+            "-/",
+            "",
+            f"namespace {CLOSED_BRIDGE_NAMESPACE}",
+            "",
+            "open Cuboctahedron",
+            f"open {EDGE_SHARDS_NAMESPACE}",
+            f"open {CORE_NAMESPACE}",
+            f"open {CLOSED_BELLMAN_NAMESPACE}",
+            "",
+            "def graph183FaceLabel : Face -> Nat",
+            *[
+                f"  | Face.{face} => {lean_nat(label)}"
+                for face, label in face_cases
+            ],
+            "",
+            "theorem graph183FullStep_of_closedBellmanStep",
+            "    {state nextState : Nat} {face : Face} {gain : Int}",
+            "    (hstep : ClosedBellmanStep state face nextState gain) :",
+            "    FullStep state (graph183FaceLabel face) nextState gain := by",
+            "  cases hstep",
+            *proof_lines,
+            "",
+            "theorem graph183FullRun_of_closedBellmanRun",
+            "    {state finish : Nat} {labels : List Face} {rawGain : Int}",
+            "    (hrun : BellmanLabelStepRun ClosedBellmanStep state finish",
+            "        labels rawGain) :",
+            "    BellmanLabelStepRun FullStep state finish",
+            "        (labels.map graph183FaceLabel) rawGain := by",
+            "  induction hrun with",
+            "  | nil state =>",
+            "      simpa using",
+            "        (BellmanLabelStepRun.nil (Step := FullStep) state)",
+            "  | cons hstep _htail ih =>",
+            "      simpa [List.map_cons] using",
+            "        (BellmanLabelStepRun.cons",
+            "          (graph183FullStep_of_closedBellmanStep hstep) ih)",
+            "",
+            "theorem graph183QuotientRun_of_closedBellmanRun",
+            "    {state finish : Nat} {labels : List Face} {rawGain : Int}",
+            "    (hrun : BellmanLabelStepRun ClosedBellmanStep state finish",
+            "        labels rawGain) :",
+            "    exists smallGainValue,",
+            "      BellmanLabelStepRun SmallStep",
+            "          (graph183QuotientQ state) (graph183QuotientQ finish)",
+            "          (labels.map graph183FaceLabel) smallGainValue /\\",
+            "        rawGain = smallGainValue + graph183QuotientGauge finish -",
+            "          graph183QuotientGauge state :=",
+            "  graph183QuotientRun",
+            "    (graph183FullRun_of_closedBellmanRun hrun)",
+            "",
+            "theorem graph183ClosedBellmanBridge_checked : True := by",
+            "  exact True.intro",
+            "",
+            f"end {CLOSED_BRIDGE_NAMESPACE}",
+            "",
+        ]
+    )
+
+
 def render_markdown(payload: dict) -> str:
     return "\n".join(
         [
@@ -513,6 +654,13 @@ def render_markdown(payload: dict) -> str:
             "```text",
             "Cuboctahedron.Generated.NonIdentity.Residual.",
             "  BellmanTopPairingGraph183CocycleQuotientPotential",
+            "```",
+            "",
+            "The closed-Bellman-to-quotient bridge module is:",
+            "",
+            "```text",
+            "Cuboctahedron.Generated.NonIdentity.Residual.",
+            "  BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge",
             "```",
             "",
         ]
@@ -568,6 +716,13 @@ def main() -> int:
     potential_path = RESIDUAL / "BellmanTopPairingGraph183CocycleQuotientPotential.lean"
     potential_path.write_text(potential_text)
 
+    closed_bridge_path = (
+        RESIDUAL / "BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge.lean"
+    )
+    closed_bridge_path.write_text(
+        render_closed_bellman_bridge(rows, profile, args.shard_size, len(chunks))
+    )
+
     payload = {
         "mode": "graph183-cocycle-quotient-edge-shards",
         "profile": args.profile.as_posix(),
@@ -587,6 +742,7 @@ def main() -> int:
             "BellmanTopPairingGraph183CocycleQuotientCore"
         ),
         "potential_module": POTENTIAL_MODULE,
+        "closed_bridge_module": CLOSED_BRIDGE_MODULE,
         "quotient_potential": potential_metrics["quotient_potential"],
         "root_gauge": potential_metrics["root_gauge"],
         "root_bound_lhs": potential_metrics["root_lhs"],

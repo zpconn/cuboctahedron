@@ -53,6 +53,10 @@ GRAPH183_QUOTIENT_POTENTIAL = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183CocycleQuotientPotential.lean"
 )
+GRAPH183_CLOSED_BELLMAN_BRIDGE = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge.lean"
+)
 BELLMAN_POTENTIAL = ROOT / "Cuboctahedron/Search/BellmanPotential.lean"
 TOP_PAIRING_TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TOP_PAIRING_BELLMAN_OBJECT = ROOT / "Cuboctahedron/Search/TopPairingBellmanObject.lean"
@@ -86,6 +90,9 @@ GUARD_QUOTIENT_POTENTIAL_DIRECT = (
 )
 GUARD_QUOTIENT_POTENTIAL_LAKE = (
     ROOT / "scripts/generated/graph183_cocycle_quotient_potential_lake_guard.json"
+)
+GUARD_CLOSED_BELLMAN_BRIDGE = (
+    ROOT / "scripts/generated/graph183_cocycle_quotient_closed_bridge_direct_guard.json"
 )
 
 REQUIRED_SOCKET_SYMBOLS = [
@@ -165,6 +172,14 @@ REQUIRED_QUOTIENT_POTENTIAL_SYMBOLS = [
     "graph183QuotientRootBound",
     "graph183ProfileFinalGaugeBound",
     "graph183QuotientPotential_checked",
+]
+
+REQUIRED_CLOSED_BELLMAN_BRIDGE_SYMBOLS = [
+    "graph183FaceLabel",
+    "graph183FullStep_of_closedBellmanStep",
+    "graph183FullRun_of_closedBellmanRun",
+    "graph183QuotientRun_of_closedBellmanRun",
+    "graph183ClosedBellmanBridge_checked",
 ]
 
 REQUIRED_ACCEPTED_BRANCH_QUOTIENT_SYMBOLS = [
@@ -758,6 +773,12 @@ def render_markdown(report: dict[str, Any]) -> str:
         "local quotient facts are still not coverage: the missing theorem is",
         "the semantic closed-language / deterministic-evaluator producer for",
         "`Graph183TailQuotientMarginSequenceBadFace`.",
+        "The closed-Bellman-to-quotient bridge is now checked as part of this",
+        "frontier: it maps every `ClosedBellmanStep` through the fixed",
+        "Face-to-label encoding into the sharded quotient relation and lifts",
+        "closed Bellman runs to quotient runs.  The remaining gap is therefore",
+        "the closed-language evaluator theorem itself, not sampled membership",
+        "or raw quotient edge replay.",
         "",
     ]
     )
@@ -775,6 +796,7 @@ def main() -> int:
     guard_accepted_branch_quotient = read_json(GUARD_ACCEPTED_BRANCH_QUOTIENT)
     guard_quotient_potential_direct = read_json(GUARD_QUOTIENT_POTENTIAL_DIRECT)
     guard_quotient_potential_lake = read_json(GUARD_QUOTIENT_POTENTIAL_LAKE)
+    guard_closed_bellman_bridge = read_json(GUARD_CLOSED_BELLMAN_BRIDGE)
 
     checks: list[dict[str, Any]] = []
     checks.extend(socket_checks())
@@ -816,6 +838,14 @@ def main() -> int:
             "graph183_quotient_potential",
             GRAPH183_QUOTIENT_POTENTIAL,
             REQUIRED_QUOTIENT_POTENTIAL_SYMBOLS,
+            FORBIDDEN_SEMANTIC_TOKENS,
+        )
+    )
+    checks.extend(
+        text_symbol_checks(
+            "graph183_closed_bellman_bridge",
+            GRAPH183_CLOSED_BELLMAN_BRIDGE,
+            REQUIRED_CLOSED_BELLMAN_BRIDGE_SYMBOLS,
             FORBIDDEN_SEMANTIC_TOKENS,
         )
     )
@@ -866,6 +896,13 @@ def main() -> int:
             "graph183_quotient_potential_lake",
             guard_quotient_potential_lake,
             30000.0,
+        )
+    )
+    checks.extend(
+        lean_smoke_guard_checks(
+            "graph183_closed_bellman_bridge",
+            guard_closed_bellman_bridge,
+            6000.0,
         )
     )
 
@@ -928,6 +965,17 @@ def main() -> int:
                 "min_available_mib": None
                 if guard_quotient_potential_lake is None
                 else guard_quotient_potential_lake.get("min_available_seen_mib"),
+            },
+            "graph183_closed_bellman_bridge_guard": {
+                "elapsed_seconds": None
+                if guard_closed_bellman_bridge is None
+                else guard_closed_bellman_bridge.get("elapsed_seconds"),
+                "peak_rss_mib": None
+                if guard_closed_bellman_bridge is None
+                else guard_closed_bellman_bridge.get("max_tree_rss_mib"),
+                "min_available_mib": None
+                if guard_closed_bellman_bridge is None
+                else guard_closed_bellman_bridge.get("min_available_seen_mib"),
             },
             "graph183_scaling_contract": contract_metrics(profile_1m),
         },

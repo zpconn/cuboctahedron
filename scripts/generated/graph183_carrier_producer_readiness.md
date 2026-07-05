@@ -41,6 +41,12 @@ potential `86`, that the root gauge condition is nonpositive, and
 that all observed graph183 profile finals satisfy the final gauge
 bound.  This is still not coverage; it is the shared Bellman support
 that a semantic closed-language producer may consume.
+A graph-local closed-Bellman bridge is now also required.  It proves
+that every deterministic `ClosedBellmanStep` edge maps through the
+fixed Face-to-label encoding into the sharded quotient `FullStep`
+relation, and lifts closed Bellman runs to quotient runs.  This is
+the first checked bridge away from selected-prefix membership and
+toward the deterministic semantic transducer theorem.
 However, no production theorem currently proves
 `Graph183TailQuotientMarginSequenceBadFace` from closed-language,
 deterministic-evaluator, or cocycle/gauge semantics.
@@ -76,6 +82,8 @@ observed path remains a no-go.
 | `quotient_potential_direct_guard_peak_rss_mib` | `3627.2265625` |
 | `quotient_potential_lake_guard_elapsed_seconds` | `7.008340544998646` |
 | `quotient_potential_lake_guard_peak_rss_mib` | `23154.05078125` |
+| `closed_bellman_bridge_guard_elapsed_seconds` | `4.002917137026088` |
+| `closed_bellman_bridge_guard_peak_rss_mib` | `3975.34375` |
 | `guard_elapsed_seconds` | `8.005825212982018` |
 | `guard_peak_rss_mib` | `4002.796875` |
 | `guard_min_available_mib` | `46204.04296875` |
@@ -176,6 +184,12 @@ observed path remains a no-go.
 | `graph183_quotient_potential:symbol:graph183QuotientRootBound` | `True` | `graph183QuotientRootBound` |
 | `graph183_quotient_potential:symbol:graph183ProfileFinalGaugeBound` | `True` | `graph183ProfileFinalGaugeBound` |
 | `graph183_quotient_potential:symbol:graph183QuotientPotential_checked` | `True` | `graph183QuotientPotential_checked` |
+| `graph183_closed_bellman_bridge:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge.lean` |
+| `graph183_closed_bellman_bridge:symbol:graph183FaceLabel` | `True` | `graph183FaceLabel` |
+| `graph183_closed_bellman_bridge:symbol:graph183FullStep_of_closedBellmanStep` | `True` | `graph183FullStep_of_closedBellmanStep` |
+| `graph183_closed_bellman_bridge:symbol:graph183FullRun_of_closedBellmanRun` | `True` | `graph183FullRun_of_closedBellmanRun` |
+| `graph183_closed_bellman_bridge:symbol:graph183QuotientRun_of_closedBellmanRun` | `True` | `graph183QuotientRun_of_closedBellmanRun` |
+| `graph183_closed_bellman_bridge:symbol:graph183ClosedBellmanBridge_checked` | `True` | `graph183ClosedBellmanBridge_checked` |
 | `target_cursor:exists` | `True` | `Cuboctahedron/Search/TopPairingTargetCursor.lean` |
 | `target_cursor:symbol:topPairingTargetShadow_of_summary` | `True` | `topPairingTargetShadow_of_summary` |
 | `target_cursor:symbol:topPairingTriShadow_eq_target_of_closed` | `True` | `topPairingTriShadow_eq_target_of_closed` |
@@ -232,6 +246,12 @@ observed path remains a no-go.
 | `graph183_quotient_potential:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `graph183_quotient_potential:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `graph183_quotient_potential:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_closed_bellman_bridge:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_closed_bellman_bridge:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_closed_bellman_bridge:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_closed_bellman_bridge:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_closed_bellman_bridge:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_closed_bellman_bridge:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `target_cursor:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
 | `target_cursor:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
 | `target_cursor:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
@@ -285,6 +305,9 @@ observed path remains a no-go.
 | `graph183_quotient_potential_lake_guard:guard_exit_zero` | `True` | `0` |
 | `graph183_quotient_potential_lake_guard:rss_under_30000_mib` | `True` | `23154.05078125` |
 | `graph183_quotient_potential_lake_guard:available_above_30000_mib` | `True` | `43686.9609375` |
+| `graph183_closed_bellman_bridge_guard:guard_exit_zero` | `True` | `0` |
+| `graph183_closed_bellman_bridge_guard:rss_under_6500_mib` | `True` | `3975.34375` |
+| `graph183_closed_bellman_bridge_guard:available_above_30000_mib` | `True` | `46184.75390625` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
 | `socket_guard:rss_under_6500_mib` | `True` | `4002.796875` |
 | `socket_guard:available_above_30000_mib` | `True` | `46204.04296875` |

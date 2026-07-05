@@ -530,6 +530,110 @@ BellmanTopPairingGraph183QuotientMarginSocket.lean
     semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
   ```
 
+2026-07-05 graph183 closed-Bellman quotient bridge:
+
+- Added a generated graph-local bridge:
+
+  ```text
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge
+  ```
+
+  This is proof-shape support, not coverage.  It proves that the deterministic
+  closed Bellman graph and the sharded quotient graph use the same local
+  edge-label equations after a fixed `Face -> Nat` encoding.
+- Public theorem names now available:
+
+  ```lean
+  graph183FaceLabel : Face -> Nat
+
+  graph183FullStep_of_closedBellmanStep :
+    ClosedBellmanStep state face nextState gain ->
+      FullStep state (graph183FaceLabel face) nextState gain
+
+  graph183FullRun_of_closedBellmanRun :
+    BellmanLabelStepRun ClosedBellmanStep state finish labels rawGain ->
+      BellmanLabelStepRun FullStep state finish
+        (labels.map graph183FaceLabel) rawGain
+
+  graph183QuotientRun_of_closedBellmanRun :
+    BellmanLabelStepRun ClosedBellmanStep state finish labels rawGain ->
+      exists smallGainValue,
+        BellmanLabelStepRun SmallStep
+          (graph183QuotientQ state) (graph183QuotientQ finish)
+          (labels.map graph183FaceLabel) smallGainValue /\
+        rawGain =
+          smallGainValue + graph183QuotientGauge finish -
+            graph183QuotientGauge state
+
+  graph183ClosedBellmanBridge_checked : True
+  ```
+
+- The bridge deliberately does not introduce `SampledRankIndex`,
+  `sampledContainsRank`, `sampledRankOf`, selected-prefix coverage,
+  `AcceptedTraceId`, `acceptedTraceOfId`, exact affine RHS keys, solved
+  start-point keys, or one-rank objects.  It is a graph-local bridge from a
+  semantic deterministic step run to the quotient facts already checked in
+  shards.
+- Commands:
+
+  ```bash
+  python3 -m py_compile scripts/emit_graph183_cocycle_quotient_edge_shards.py
+  python3 scripts/emit_graph183_cocycle_quotient_edge_shards.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 --hard-address-space-mib 8192 \
+    --json scripts/generated/graph183_cocycle_quotient_closed_bridge_direct_guard.json \
+    -- lake env lean -M 6500 -j1 -s 8192 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge.lean
+
+  python3 -m py_compile \
+    scripts/emit_graph183_cocycle_quotient_edge_shards.py \
+    scripts/audit_graph183_carrier_producer_readiness.py \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py \
+    scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/audit_graph183_carrier_producer_readiness.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+- Results:
+
+  ```text
+  bridge direct check:
+    exit = 0
+    elapsed = 4.00s
+    peak RSS = 3975 MiB
+    hard address-space cap = 8192 MiB
+    min available = 46185 MiB
+
+  graph183 carrier readiness =
+    graph183_carrier_sockets_ready_but_producer_missing
+  graph183 accepted-tail margin frontier =
+    diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+  top-pairing semantic evaluator pivot =
+    semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+  ```
+
+- Interpretation: the local graph bridge is now memory-safe and Lean-checked.
+  The remaining graph183 proof target is narrower:
+
+  ```lean
+  TopPairingClosedLanguageAtRank rank Face.ym
+    -> BellmanLabelStepRun ClosedBellmanStep ... labels rawGain
+    -> real margin-to-gain bound for rank
+    -> Graph183ProfileFinalState finish
+    -> Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym
+  ```
+
+  In other words, the next theorem must produce the semantic closed-language
+  deterministic run and margin bound.  It should consume
+  `graph183QuotientRun_of_closedBellmanRun`, not replay quotient edges or
+  introduce sampled membership.
+
 2026-07-05 latest GPT5.5 pivot tightening:
 
 - Keep graph183 Bellman.  Do not scale the selected-prefix producer, accepted

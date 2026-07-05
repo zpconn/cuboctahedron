@@ -105,6 +105,14 @@ cocycle/coboundary quotient.
 | `peak_rss_mib` | `23154.05078125` |
 | `min_available_mib` | `43686.9609375` |
 
+### graph183_closed_bellman_bridge_guard
+
+| metric | value |
+| --- | ---: |
+| `elapsed_seconds` | `4.002917137026088` |
+| `peak_rss_mib` | `3975.34375` |
+| `min_available_mib` | `46184.75390625` |
+
 ### graph183_scaling_contract
 
 | metric | value |
@@ -223,6 +231,18 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_potential:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `graph183_quotient_potential:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `graph183_quotient_potential:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_closed_bellman_bridge:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge.lean` |
+| `graph183_closed_bellman_bridge:symbol:graph183FaceLabel` | `True` | `graph183FaceLabel` |
+| `graph183_closed_bellman_bridge:symbol:graph183FullStep_of_closedBellmanStep` | `True` | `graph183FullStep_of_closedBellmanStep` |
+| `graph183_closed_bellman_bridge:symbol:graph183FullRun_of_closedBellmanRun` | `True` | `graph183FullRun_of_closedBellmanRun` |
+| `graph183_closed_bellman_bridge:symbol:graph183QuotientRun_of_closedBellmanRun` | `True` | `graph183QuotientRun_of_closedBellmanRun` |
+| `graph183_closed_bellman_bridge:symbol:graph183ClosedBellmanBridge_checked` | `True` | `graph183ClosedBellmanBridge_checked` |
+| `graph183_closed_bellman_bridge:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_closed_bellman_bridge:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_closed_bellman_bridge:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_closed_bellman_bridge:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_closed_bellman_bridge:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_closed_bellman_bridge:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `graph183_accepted_branch_quotient:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean` |
 | `graph183_accepted_branch_quotient:symbol:acceptedLocalEquation` | `True` | `acceptedLocalEquation` |
 | `graph183_accepted_branch_quotient:symbol:graph183AcceptedBranchRawGain` | `True` | `graph183AcceptedBranchRawGain` |
@@ -358,6 +378,9 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_potential_lake:guard_exit_zero` | `True` | `0` |
 | `graph183_quotient_potential_lake:rss_under_30000_mib` | `True` | `23154.05078125` |
 | `graph183_quotient_potential_lake:available_above_30000_mib` | `True` | `43686.9609375` |
+| `graph183_closed_bellman_bridge:guard_exit_zero` | `True` | `0` |
+| `graph183_closed_bellman_bridge:rss_under_6000_mib` | `True` | `3975.34375` |
+| `graph183_closed_bellman_bridge:available_above_30000_mib` | `True` | `46184.75390625` |
 
 ## Next Lean Target
 
@@ -391,3 +414,9 @@ The companion potential module checks the constant quotient potential
 local quotient facts are still not coverage: the missing theorem is
 the semantic closed-language / deterministic-evaluator producer for
 `Graph183TailQuotientMarginSequenceBadFace`.
+The closed-Bellman-to-quotient bridge is now checked as part of this
+frontier: it maps every `ClosedBellmanStep` through the fixed
+Face-to-label encoding into the sharded quotient relation and lifts
+closed Bellman runs to quotient runs.  The remaining gap is therefore
+the closed-language evaluator theorem itself, not sampled membership
+or raw quotient edge replay.

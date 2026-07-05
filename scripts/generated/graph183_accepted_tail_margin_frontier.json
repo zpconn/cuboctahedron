@@ -462,6 +462,66 @@
       "passed": true
     },
     {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge.lean",
+      "name": "graph183_closed_bellman_bridge:exists",
+      "passed": true
+    },
+    {
+      "detail": "graph183FaceLabel",
+      "name": "graph183_closed_bellman_bridge:symbol:graph183FaceLabel",
+      "passed": true
+    },
+    {
+      "detail": "graph183FullStep_of_closedBellmanStep",
+      "name": "graph183_closed_bellman_bridge:symbol:graph183FullStep_of_closedBellmanStep",
+      "passed": true
+    },
+    {
+      "detail": "graph183FullRun_of_closedBellmanRun",
+      "name": "graph183_closed_bellman_bridge:symbol:graph183FullRun_of_closedBellmanRun",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientRun_of_closedBellmanRun",
+      "name": "graph183_closed_bellman_bridge:symbol:graph183QuotientRun_of_closedBellmanRun",
+      "passed": true
+    },
+    {
+      "detail": "graph183ClosedBellmanBridge_checked",
+      "name": "graph183_closed_bellman_bridge:symbol:graph183ClosedBellmanBridge_checked",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
       "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean",
       "name": "graph183_accepted_branch_quotient:exists",
       "passed": true
@@ -1148,6 +1208,21 @@
       "detail": 43686.9609375,
       "name": "graph183_quotient_potential_lake:available_above_30000_mib",
       "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "graph183_closed_bellman_bridge:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 3975.34375,
+      "name": "graph183_closed_bellman_bridge:rss_under_6000_mib",
+      "passed": true
+    },
+    {
+      "detail": 46184.75390625,
+      "name": "graph183_closed_bellman_bridge:available_above_30000_mib",
+      "passed": true
     }
   ],
   "decision": "diagnostic_supports_graph183_accepted_tail_margin_bellman_route",
@@ -1169,6 +1244,11 @@
       "elapsed_seconds": 5.0034252110053785,
       "min_available_mib": 46363.515625,
       "peak_rss_mib": 3410.734375
+    },
+    "graph183_closed_bellman_bridge_guard": {
+      "elapsed_seconds": 4.002917137026088,
+      "min_available_mib": 46184.75390625,
+      "peak_rss_mib": 3975.34375
     },
     "graph183_quotient_margin_socket_guard": {
       "elapsed_seconds": 8.005825212982018,

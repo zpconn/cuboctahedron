@@ -31,3 +31,10 @@ Cuboctahedron.Generated.NonIdentity.Residual.
   BellmanTopPairingGraph183CocycleQuotientPotential
 ```
 
+The closed-Bellman-to-quotient bridge module is:
+
+```text
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge
+```
+

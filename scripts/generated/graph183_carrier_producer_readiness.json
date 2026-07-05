@@ -376,6 +376,36 @@
       "passed": true
     },
     {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge.lean",
+      "name": "graph183_closed_bellman_bridge:exists",
+      "passed": true
+    },
+    {
+      "detail": "graph183FaceLabel",
+      "name": "graph183_closed_bellman_bridge:symbol:graph183FaceLabel",
+      "passed": true
+    },
+    {
+      "detail": "graph183FullStep_of_closedBellmanStep",
+      "name": "graph183_closed_bellman_bridge:symbol:graph183FullStep_of_closedBellmanStep",
+      "passed": true
+    },
+    {
+      "detail": "graph183FullRun_of_closedBellmanRun",
+      "name": "graph183_closed_bellman_bridge:symbol:graph183FullRun_of_closedBellmanRun",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientRun_of_closedBellmanRun",
+      "name": "graph183_closed_bellman_bridge:symbol:graph183QuotientRun_of_closedBellmanRun",
+      "passed": true
+    },
+    {
+      "detail": "graph183ClosedBellmanBridge_checked",
+      "name": "graph183_closed_bellman_bridge:symbol:graph183ClosedBellmanBridge_checked",
+      "passed": true
+    },
+    {
       "detail": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
       "name": "target_cursor:exists",
       "passed": true
@@ -657,6 +687,36 @@
     },
     {
       "detail": "SampledRankIndex",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "graph183_closed_bellman_bridge:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
       "name": "target_cursor:forbidden_absent:SampledRankIndex",
       "passed": true
     },
@@ -929,6 +989,21 @@
     },
     {
       "detail": 0,
+      "name": "graph183_closed_bellman_bridge_guard:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 3975.34375,
+      "name": "graph183_closed_bellman_bridge_guard:rss_under_6500_mib",
+      "passed": true
+    },
+    {
+      "detail": 46184.75390625,
+      "name": "graph183_closed_bellman_bridge_guard:available_above_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 0,
       "name": "socket_guard:guard_exit_zero",
       "passed": true
     },
@@ -1049,6 +1124,8 @@
     "accepted_branch_guard_elapsed_seconds": 5.0034252110053785,
     "accepted_branch_guard_min_available_mib": 46363.515625,
     "accepted_branch_guard_peak_rss_mib": 3410.734375,
+    "closed_bellman_bridge_guard_elapsed_seconds": 4.002917137026088,
+    "closed_bellman_bridge_guard_peak_rss_mib": 3975.34375,
     "closed_semantic_gate_guard_elapsed_seconds": 3.0027096020057797,
     "closed_semantic_gate_guard_min_available_mib": 46322.6328125,
     "closed_semantic_gate_guard_peak_rss_mib": 3719.16015625,

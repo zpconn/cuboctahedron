@@ -54,6 +54,10 @@ GRAPH183_QUOTIENT_POTENTIAL = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183CocycleQuotientPotential.lean"
 )
+GRAPH183_CLOSED_BELLMAN_BRIDGE = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183CocycleQuotientClosedBellmanBridge.lean"
+)
 TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_SEMANTIC_GATE = (
     ROOT / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean"
@@ -81,6 +85,9 @@ QUOTIENT_POTENTIAL_DIRECT_GUARD = (
 )
 QUOTIENT_POTENTIAL_LAKE_GUARD = (
     ROOT / "scripts/generated/graph183_cocycle_quotient_potential_lake_guard.json"
+)
+GRAPH183_CLOSED_BELLMAN_BRIDGE_GUARD = (
+    ROOT / "scripts/generated/graph183_cocycle_quotient_closed_bridge_direct_guard.json"
 )
 GRAPH183_START_PROVIDER_GUARD = (
     ROOT / "scripts/generated/graph183_start_violation_provider_guard.json"
@@ -193,6 +200,14 @@ REQUIRED_GRAPH183_QUOTIENT_POTENTIAL_SYMBOLS = [
     "graph183QuotientRootBound",
     "graph183ProfileFinalGaugeBound",
     "graph183QuotientPotential_checked",
+]
+
+REQUIRED_GRAPH183_CLOSED_BELLMAN_BRIDGE_SYMBOLS = [
+    "graph183FaceLabel",
+    "graph183FullStep_of_closedBellmanStep",
+    "graph183FullRun_of_closedBellmanRun",
+    "graph183QuotientRun_of_closedBellmanRun",
+    "graph183ClosedBellmanBridge_checked",
 ]
 
 REQUIRED_TARGET_CURSOR_SYMBOLS = [
@@ -538,6 +553,12 @@ def render_markdown(report: dict[str, Any]) -> str:
         "that all observed graph183 profile finals satisfy the final gauge",
         "bound.  This is still not coverage; it is the shared Bellman support",
         "that a semantic closed-language producer may consume.",
+        "A graph-local closed-Bellman bridge is now also required.  It proves",
+        "that every deterministic `ClosedBellmanStep` edge maps through the",
+        "fixed Face-to-label encoding into the sharded quotient `FullStep`",
+        "relation, and lifts closed Bellman runs to quotient runs.  This is",
+        "the first checked bridge away from selected-prefix membership and",
+        "toward the deterministic semantic transducer theorem.",
         "However, no production theorem currently proves",
         "`Graph183TailQuotientMarginSequenceBadFace` from closed-language,",
         "deterministic-evaluator, or cocycle/gauge semantics.",
@@ -568,6 +589,7 @@ def main() -> int:
     graph183_edge_shards_text = read_text(GRAPH183_EDGE_SHARDS)
     graph183_edge_shards_core_text = read_text(GRAPH183_EDGE_SHARDS_CORE)
     graph183_quotient_potential_text = read_text(GRAPH183_QUOTIENT_POTENTIAL)
+    graph183_closed_bellman_bridge_text = read_text(GRAPH183_CLOSED_BELLMAN_BRIDGE)
     target_cursor_text = read_text(TARGET_CURSOR)
     transducer_semantic_gate_text = read_text(TRANSDUCER_SEMANTIC_GATE)
     profile = read_json(PROFILE)
@@ -580,6 +602,9 @@ def main() -> int:
     edge_shard000_guard = read_json(EDGE_SHARD000_GUARD)
     quotient_potential_direct_guard = read_json(QUOTIENT_POTENTIAL_DIRECT_GUARD)
     quotient_potential_lake_guard = read_json(QUOTIENT_POTENTIAL_LAKE_GUARD)
+    graph183_closed_bellman_bridge_guard = read_json(
+        GRAPH183_CLOSED_BELLMAN_BRIDGE_GUARD
+    )
     graph183_start_provider_guard = read_json(GRAPH183_START_PROVIDER_GUARD)
     graph183_start_provider_source_guard = read_json(GRAPH183_START_PROVIDER_SOURCE_GUARD)
     trace_start_violation_bridge_guard = read_json(TRACE_START_VIOLATION_BRIDGE_GUARD)
@@ -634,6 +659,13 @@ def main() -> int:
     )
     checks.extend(
         symbol_checks(
+            "graph183_closed_bellman_bridge",
+            GRAPH183_CLOSED_BELLMAN_BRIDGE,
+            REQUIRED_GRAPH183_CLOSED_BELLMAN_BRIDGE_SYMBOLS,
+        )
+    )
+    checks.extend(
+        symbol_checks(
             "target_cursor",
             TARGET_CURSOR,
             REQUIRED_TARGET_CURSOR_SYMBOLS,
@@ -656,6 +688,9 @@ def main() -> int:
     )
     checks.extend(
         forbidden_checks("graph183_quotient_potential", GRAPH183_QUOTIENT_POTENTIAL)
+    )
+    checks.extend(
+        forbidden_checks("graph183_closed_bellman_bridge", GRAPH183_CLOSED_BELLMAN_BRIDGE)
     )
     checks.extend(forbidden_checks("target_cursor", TARGET_CURSOR))
     checks.extend(forbidden_checks("transducer_semantic_gate", TRANSDUCER_SEMANTIC_GATE))
@@ -734,6 +769,12 @@ def main() -> int:
             rss_limit_mib=30000.0,
         )
     )
+    checks.extend(
+        guard_checks(
+            "graph183_closed_bellman_bridge_guard",
+            graph183_closed_bellman_bridge_guard,
+        )
+    )
     checks.extend(guard_checks("socket_guard", guard))
     checks.extend(
         guard_checks(
@@ -772,6 +813,7 @@ def main() -> int:
         graph183_edge_shards_text,
         graph183_edge_shards_core_text,
         graph183_quotient_potential_text,
+        graph183_closed_bellman_bridge_text,
         target_cursor_text,
         transducer_semantic_gate_text,
     )
@@ -844,6 +886,12 @@ def main() -> int:
             "quotient_potential_lake_guard_peak_rss_mib": None
             if quotient_potential_lake_guard is None
             else quotient_potential_lake_guard.get("max_tree_rss_mib"),
+            "closed_bellman_bridge_guard_elapsed_seconds": None
+            if graph183_closed_bellman_bridge_guard is None
+            else graph183_closed_bellman_bridge_guard.get("elapsed_seconds"),
+            "closed_bellman_bridge_guard_peak_rss_mib": None
+            if graph183_closed_bellman_bridge_guard is None
+            else graph183_closed_bellman_bridge_guard.get("max_tree_rss_mib"),
             "guard_elapsed_seconds": guard_metrics.get("elapsed_seconds"),
             "guard_peak_rss_mib": guard_metrics.get("max_tree_rss_mib"),
             "guard_min_available_mib": guard_metrics.get("min_available_seen_mib"),
