@@ -522,6 +522,59 @@ theorem graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanGr
   graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate
     hfamily.gate hstrengthened
 
+def graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanStepRunFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      StrengthenedClosedBellmanStepRunFamily
+        sequenceBadFace scaledMargin) :
+    Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin where
+  final_margin_yp_branch_quotient := by
+    intro rank hstrengthened hprefix
+    rcases hfamily.run rank hstrengthened with
+      ⟨finish, gain, hrun, _hfinal, hmargin⟩
+    have heval :
+        evalLabelStepFn closedBellmanNext graphRoot
+            (topPairingRankFaceLabels rank) =
+          some (finish, gain) :=
+      evalLabelStepFn_of_bellmanLabelStepRun
+        (next := closedBellmanNext)
+        (hnext := by
+          intro state face nextState gain hstep
+          exact closedBellmanStep_next hstep)
+        hrun
+    have hbranch :
+        evalLabelStepFn closedBellmanNext graphRoot
+            (topPairingRankFaceLabels rank) =
+          some (126, ((194 : Int) + (-542 : Int))) :=
+      graph183AcceptedBranchEval_of_prefix hprefix
+    have hsame :
+        (finish, gain) = (126, ((194 : Int) + (-542 : Int))) := by
+      have hsome :
+          some (finish, gain) =
+            some (126, ((194 : Int) + (-542 : Int))) :=
+        heval.symm.trans hbranch
+      cases hsome
+      rfl
+    cases hsame
+    simpa [graph183AcceptedBranchRawGain_contract] using hmargin
+
+theorem graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanStepRunFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      StrengthenedClosedBellmanStepRunFamily
+        sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym :=
+  graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily
+    (graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanStepRunFamily
+      hfamily)
+    hstrengthened
+
 theorem graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}

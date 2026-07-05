@@ -271,6 +271,22 @@ theorem bellmanLabelStepRun_of_evalLabelStepFn
                         (hsound start label mid stepGain hnext)
                         (ih htail)
 
+theorem evalLabelStepFn_of_bellmanLabelStepRun
+    {State Label : Type}
+    {Step : State -> Label -> State -> Int -> Prop}
+    {next : State -> Label -> Option (State × Int)}
+    (hnext :
+      forall {s label t gain},
+        Step s label t gain -> next s label = some (t, gain))
+    {start finish : State} {labels : List Label} {gain : Int}
+    (hrun : BellmanLabelStepRun Step start finish labels gain) :
+    evalLabelStepFn next start labels = some (finish, gain) := by
+  induction hrun with
+  | nil s =>
+      simp [evalLabelStepFn]
+  | cons hstep _htail ih =>
+      simp [evalLabelStepFn, hnext hstep, ih]
+
 theorem evalLabelStepFn_bound_of_next_invariant_aux
     {State Label : Type}
     {V : State -> Int}

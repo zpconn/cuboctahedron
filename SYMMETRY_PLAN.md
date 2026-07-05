@@ -111640,6 +111640,136 @@ semantic evaluator decision =
   semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
 ```
 
+### 2026-07-05 step-run producer ingress for graph183
+
+Closed one more production-surface gap in the Bellman route.  The generic
+Bellman core now has the deterministic reverse direction for label-step runs:
+
+```lean
+evalLabelStepFn_of_bellmanLabelStepRun
+```
+
+This theorem says that if a semantic step relation maps into a deterministic
+`next` function, then any `BellmanLabelStepRun` evaluates to the same final
+state and gain.  It is the exact generic lemma needed by a
+closed-language/segment producer whose natural output is a semantic run rather
+than a precomputed evaluator result.
+
+Graph183 now accepts the step-run production surface directly:
+
+```lean
+graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanStepRunFamily
+graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanStepRunFamily
+```
+
+The proof shape is:
+
+1. a future producer proves
+   `StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin`;
+2. on the graph183 branch, the semantic run lowers to deterministic
+   `evalLabelStepFn closedBellmanNext graphRoot ...`;
+3. `graph183AcceptedBranchEval_of_prefix` fixes the branch result to state
+   `126` and gain `(194 + -542)`;
+4. the producer's margin bound becomes the graph183 quotient-margin carrier.
+
+This is closer to the current GPT5.5 recommendation than requiring every
+producer to build graph-exact evaluator evidence.  The preferred generator
+target can now be either:
+
+```lean
+StrengthenedClosedBellmanGraphExactFamily sequenceBadFace scaledMargin
+StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin
+```
+
+Both are semantic closed-language family surfaces.  Neither permits sampled
+rank objects, selected prefixes, accepted trace ids, exact affine RHS keys, or
+one branch per observed path as production evidence.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/bellman_potential_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/BellmanPotential.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 3.00s
+peak RSS = 3912 MiB
+min available = 46203 MiB
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 2.00s
+peak RSS = 3568 MiB
+min available = 46331 MiB
+```
+
+Focused guarded Lake target build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 300 \
+  --json scripts/generated/graph183_quotient_margin_socket_lake_guard.json \
+  -- env LEAN_NUM_THREADS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraph183QuotientMarginSocket
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 165.11s
+peak RSS = 6000 MiB
+min available = 43777 MiB
+```
+
+The first Lake attempt used a 180s timeout and was killed by the guard after
+`185.12s`, with `peak RSS = 4314 MiB` and `min available = 45756 MiB`.
+That was a timeout limit, not an OOM or Lean failure.  The longer guarded
+rerun completed successfully.  The extra wall time came from refreshing
+downstream `.olean`s after changing the generic Bellman core; direct socket
+checking remains small.
+
+Updated audits:
+
+```text
+carrier readiness decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+```
+
+Remaining required proof work is unchanged in scope: produce a semantic
+closed-language family instance, now preferably as a step-run or graph-exact
+family, that covers the Graph183 quotient-margin carrier without selected
+prefix membership.
+
 ### 2026-07-05 graph183 branch-prefix semantic eval bridge
 
 The newest GPT5.5 guidance says the next breakthrough is not more Bellman
