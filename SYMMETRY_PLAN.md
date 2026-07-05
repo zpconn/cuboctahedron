@@ -142,6 +142,93 @@ Immediate Bellman pivot after the latest GPT5.5 review:
   or one branch per observed rank/path, stop and strengthen the semantic
   state or split into smaller cocycle/segment certificates.
 
+2026-07-05 graph183 quotient equations sharded:
+
+- The full one-file `BellmanTopPairingGraph183CocycleQuotientSmoke.lean`
+  remains rejected as a production primitive because it timed out under the
+  180s guard.  However, the same exact local quotient equations can be checked
+  as small shards.
+- Added emitter:
+
+  ```text
+  scripts/emit_graph183_cocycle_quotient_edge_shards.py
+  ```
+
+  It reads the exact graph183 profile plus the exact `step-par` quotient
+  solution and emits `8` Lean shards covering all `229` edge-label equations:
+
+  ```lean
+  rawGain i = smallGain i + gauge (fullDst i) - gauge (fullSrc i)
+  ```
+
+  Each shard keeps generated edge data private and exports only a tiny
+  `..._checked : True` theorem.  The aggregate module is:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingGraph183CocycleQuotientEdgeShards
+  ```
+
+- Commands:
+
+  ```bash
+  python3 -m py_compile scripts/emit_graph183_cocycle_quotient_edge_shards.py
+  python3 scripts/emit_graph183_cocycle_quotient_edge_shards.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 --hard-address-space-mib 8192 \
+    --json scripts/generated/graph183_cocycle_quotient_edge_shard000_guard.json \
+    -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183CocycleQuotientEdgeShard000.lean
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 300 --max-tree-rss-mib 30000 \
+    --min-available-mib 10000 \
+    --json scripts/generated/graph183_cocycle_quotient_edge_shards_lake_guard.json \
+    -- lake build \
+      +Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraph183CocycleQuotientEdgeShards:olean
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 120 --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 --hard-address-space-mib 8192 \
+    --json scripts/generated/graph183_cocycle_quotient_edge_shards_direct_guard.json \
+    -- lake env lean -M 6500 -j1 -s 2048 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean
+  ```
+
+- Results:
+
+  ```text
+  shard000 source check:
+    exit = 0
+    elapsed = 9.01s
+    peak RSS = 3894 MiB
+    min available = 46223 MiB
+
+  aggregate Lake build:
+    exit = 0
+    elapsed = 5.01s
+    peak RSS = 22840 MiB
+    min available = 43574 MiB
+
+  aggregate direct check after .oleans:
+    exit = 0
+    elapsed = 2.00s
+    peak RSS = 3592 MiB
+    min available = 46362 MiB
+  ```
+
+- Interpretation: this is accepted as diagnostic proof-shape evidence for the
+  cocycle quotient local equations.  It is not generated coverage and still
+  does not prove `Graph183TailQuotientMarginSequenceBadFace`.  The next
+  production proof must connect these local quotient facts, or a still smaller
+  segment/cocycle certificate, to the target-shadow/ranked-transducer semantic
+  carrier without reintroducing observed traces or selected-prefix membership.
+
 2026-07-03 checkpoint after the latest GPT5.5 pivot:
 
 - Accepted: the Bellman graph and potential remain the right compression

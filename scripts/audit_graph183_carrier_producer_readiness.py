@@ -46,13 +46,29 @@ GRAPH183_START_PROVIDER = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183StartViolationProvider.lean"
 )
+GRAPH183_EDGE_SHARDS = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean"
+)
 TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_SEMANTIC_GATE = (
     ROOT / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean"
 )
 PROFILE = ROOT / "scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json"
 QUOTIENT = ROOT / "scripts/generated/graph183_cocycle_quotients_0_1M.json"
+EDGE_SHARDS_MANIFEST = (
+    ROOT / "scripts/generated/graph183_cocycle_quotient_edge_shards.json"
+)
 GUARD = ROOT / "scripts/generated/graph183_quotient_margin_socket_latest_guard.json"
+EDGE_SHARDS_LAKE_GUARD = (
+    ROOT / "scripts/generated/graph183_cocycle_quotient_edge_shards_lake_guard.json"
+)
+EDGE_SHARDS_DIRECT_GUARD = (
+    ROOT / "scripts/generated/graph183_cocycle_quotient_edge_shards_direct_guard.json"
+)
+EDGE_SHARD000_GUARD = (
+    ROOT / "scripts/generated/graph183_cocycle_quotient_edge_shard000_guard.json"
+)
 GRAPH183_START_PROVIDER_GUARD = (
     ROOT / "scripts/generated/graph183_start_violation_provider_guard.json"
 )
@@ -146,6 +162,10 @@ REQUIRED_SMOKE_SYMBOLS = [
 REQUIRED_GRAPH183_START_PROVIDER_SYMBOLS = [
     "graph183StartViolationLabels",
     "objectStartViolationMarginCert_of_graph183AcceptedBranchLabels",
+]
+
+REQUIRED_GRAPH183_EDGE_SHARDS_SYMBOLS = [
+    "graph183QuotientEdgeShards_checked",
 ]
 
 REQUIRED_TARGET_CURSOR_SYMBOLS = [
@@ -478,6 +498,10 @@ def render_markdown(report: dict[str, Any]) -> str:
         "accepted-trace membership.",
         "The 1M graph183 profile and quotient profile support the route as a",
         "diagnostic.  The full 229-edge quotient smoke remains diagnostic only.",
+        "The local quotient equations have also been split into edge shards,",
+        "which are accepted as diagnostic proof-shape evidence: they check the",
+        "same exact integer cocycle equations without the timed-out one-file",
+        "table proof.",
         "However, no production theorem currently proves",
         "`Graph183TailQuotientMarginSequenceBadFace` from closed-language,",
         "deterministic-evaluator, or cocycle/gauge semantics.",
@@ -506,11 +530,16 @@ def main() -> int:
     accepted_branch_text = read_text(ACCEPTED_BRANCH)
     smoke_text = read_text(SMOKE)
     graph183_start_provider_text = read_text(GRAPH183_START_PROVIDER)
+    graph183_edge_shards_text = read_text(GRAPH183_EDGE_SHARDS)
     target_cursor_text = read_text(TARGET_CURSOR)
     transducer_semantic_gate_text = read_text(TRANSDUCER_SEMANTIC_GATE)
     profile = read_json(PROFILE)
     quotient = read_json(QUOTIENT)
+    edge_shards_manifest = read_json(EDGE_SHARDS_MANIFEST)
     guard = read_json(GUARD)
+    edge_shards_lake_guard = read_json(EDGE_SHARDS_LAKE_GUARD)
+    edge_shards_direct_guard = read_json(EDGE_SHARDS_DIRECT_GUARD)
+    edge_shard000_guard = read_json(EDGE_SHARD000_GUARD)
     graph183_start_provider_guard = read_json(GRAPH183_START_PROVIDER_GUARD)
     graph183_start_provider_source_guard = read_json(GRAPH183_START_PROVIDER_SOURCE_GUARD)
     trace_start_violation_bridge_guard = read_json(TRACE_START_VIOLATION_BRIDGE_GUARD)
@@ -545,6 +574,13 @@ def main() -> int:
     )
     checks.extend(
         symbol_checks(
+            "graph183_edge_shards",
+            GRAPH183_EDGE_SHARDS,
+            REQUIRED_GRAPH183_EDGE_SHARDS_SYMBOLS,
+        )
+    )
+    checks.extend(
+        symbol_checks(
             "target_cursor",
             TARGET_CURSOR,
             REQUIRED_TARGET_CURSOR_SYMBOLS,
@@ -562,6 +598,7 @@ def main() -> int:
     checks.extend(forbidden_checks("accepted_branch_quotient", ACCEPTED_BRANCH))
     checks.extend(forbidden_checks("smoke", SMOKE))
     checks.extend(forbidden_checks("graph183_start_provider", GRAPH183_START_PROVIDER))
+    checks.extend(forbidden_checks("graph183_edge_shards", GRAPH183_EDGE_SHARDS))
     checks.extend(forbidden_checks("target_cursor", TARGET_CURSOR))
     checks.extend(forbidden_checks("transducer_semantic_gate", TRANSDUCER_SEMANTIC_GATE))
     checks.extend(
@@ -615,6 +652,25 @@ def main() -> int:
     )
     checks.extend(profile_checks(profile))
     checks.extend(quotient_checks(quotient))
+    checks.extend(
+        guard_checks(
+            "graph183_edge_shards_lake_guard",
+            edge_shards_lake_guard,
+            rss_limit_mib=30000.0,
+        )
+    )
+    checks.extend(
+        guard_checks(
+            "graph183_edge_shards_direct_guard",
+            edge_shards_direct_guard,
+        )
+    )
+    checks.extend(
+        guard_checks(
+            "graph183_edge_shard000_guard",
+            edge_shard000_guard,
+        )
+    )
     checks.extend(guard_checks("socket_guard", guard))
     checks.extend(
         guard_checks(
@@ -650,6 +706,7 @@ def main() -> int:
         socket_text,
         closed_semantic_gate_text,
         graph183_start_provider_text,
+        graph183_edge_shards_text,
         target_cursor_text,
         transducer_semantic_gate_text,
     )
@@ -680,6 +737,30 @@ def main() -> int:
             "quotient_states": best.get("quotient_states"),
             "quotient_edges": best.get("quotient_edges"),
             "quotient_max_bit_length": (best.get("solution") or {}).get("max_bit_length"),
+            "edge_shards_edge_equations": None
+            if edge_shards_manifest is None
+            else edge_shards_manifest.get("edge_equations"),
+            "edge_shards_shard_count": None
+            if edge_shards_manifest is None
+            else edge_shards_manifest.get("shard_count"),
+            "edge_shards_lake_guard_elapsed_seconds": None
+            if edge_shards_lake_guard is None
+            else edge_shards_lake_guard.get("elapsed_seconds"),
+            "edge_shards_lake_guard_peak_rss_mib": None
+            if edge_shards_lake_guard is None
+            else edge_shards_lake_guard.get("max_tree_rss_mib"),
+            "edge_shards_direct_guard_elapsed_seconds": None
+            if edge_shards_direct_guard is None
+            else edge_shards_direct_guard.get("elapsed_seconds"),
+            "edge_shards_direct_guard_peak_rss_mib": None
+            if edge_shards_direct_guard is None
+            else edge_shards_direct_guard.get("max_tree_rss_mib"),
+            "edge_shard000_guard_elapsed_seconds": None
+            if edge_shard000_guard is None
+            else edge_shard000_guard.get("elapsed_seconds"),
+            "edge_shard000_guard_peak_rss_mib": None
+            if edge_shard000_guard is None
+            else edge_shard000_guard.get("max_tree_rss_mib"),
             "guard_elapsed_seconds": guard_metrics.get("elapsed_seconds"),
             "guard_peak_rss_mib": guard_metrics.get("max_tree_rss_mib"),
             "guard_min_available_mib": guard_metrics.get("min_available_seen_mib"),

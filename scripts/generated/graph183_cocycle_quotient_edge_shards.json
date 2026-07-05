@@ -1,0 +1,13 @@
+{
+  "aggregate_module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShards",
+  "arithmetic": "exact integer Lean equations generated from exact rational diagnostic solution",
+  "edge_equations": 229,
+  "max_shard_size": 32,
+  "max_solution_bit_length": 9,
+  "mode": "graph183-cocycle-quotient-edge-shards",
+  "profile": "/home/zpconn/code/cuboctahedron/scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json",
+  "quotient": "/home/zpconn/code/cuboctahedron/scripts/generated/graph183_cocycle_quotients_0_1M.json",
+  "quotient_mode": "step-par",
+  "shard_count": 8,
+  "shard_size": 32
+}
