@@ -457,6 +457,79 @@ BellmanTopPairingGraph183CocycleQuotientPotential.lean
   ids, exact affine RHS keys, or one branch per observed path, the graph183
   route must pivot again to a stronger semantic state or segment algebra.
 
+2026-07-05 graph183 gauge-corrected eval socket specialized:
+
+- Added a graph183-specialized producer-facing alias in
+  `BellmanTopPairingGraph183QuotientMarginSocket.lean`:
+
+  ```lean
+  Graph183TailQuotientGaugeCorrectedEvalLanguageBound
+  graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound
+  ```
+
+  This fixes the generic `GaugeCorrectedQuotientEvalMarginLanguageBound`
+  parameters to the checked graph183 quotient maps and constant quotient
+  potential:
+
+  ```lean
+  closedBellmanNext
+  graph183QuotientQ
+  graph183QuotientGauge
+  graph183QuotientPotential
+  graphRoot
+  graphConst
+  ```
+
+- Interpretation: this is a socket simplification, not a coverage theorem.
+  A future producer must still prove deterministic evaluator success, the real
+  margin-to-gain inequality, and the final gauge bound for every semantic
+  graph183 object.  The accepted graph183 branch carrier still relies on the
+  deterministic evaluator result to obtain the sharper accepted-branch margin.
+- Focused guarded check:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 240 --max-tree-rss-mib 7000 \
+    --min-available-mib 30000 --hard-address-space-mib 8192 \
+    --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+    -- lake env lean -M 7000 -j1 -s 8192 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+  ```
+
+  Result:
+
+  ```text
+  exit = 0
+  elapsed = 8.01s
+  peak RSS = 4002 MiB
+  hard address-space cap = 8192 MiB
+  min available = 46204 MiB
+  ```
+
+- Audit commands:
+
+  ```bash
+  python3 -m py_compile \
+    scripts/audit_graph183_carrier_producer_readiness.py \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py \
+    scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_graph183_carrier_producer_readiness.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+  Results remain:
+
+  ```text
+  graph183 carrier readiness =
+    graph183_carrier_sockets_ready_but_producer_missing
+  graph183 accepted-tail margin frontier =
+    diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+  top-pairing semantic evaluator pivot =
+    semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+  ```
+
 2026-07-05 latest GPT5.5 pivot tightening:
 
 - Keep graph183 Bellman.  Do not scale the selected-prefix producer, accepted

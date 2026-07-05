@@ -76,9 +76,9 @@ observed path remains a no-go.
 | `quotient_potential_direct_guard_peak_rss_mib` | `3627.2265625` |
 | `quotient_potential_lake_guard_elapsed_seconds` | `7.008340544998646` |
 | `quotient_potential_lake_guard_peak_rss_mib` | `23154.05078125` |
-| `guard_elapsed_seconds` | `3.0028496980085038` |
-| `guard_peak_rss_mib` | `3911.828125` |
-| `guard_min_available_mib` | `46308.5` |
+| `guard_elapsed_seconds` | `8.005825212982018` |
+| `guard_peak_rss_mib` | `4002.796875` |
+| `guard_min_available_mib` | `46204.04296875` |
 | `closed_semantic_gate_guard_elapsed_seconds` | `3.0027096020057797` |
 | `closed_semantic_gate_guard_peak_rss_mib` | `3719.16015625` |
 | `closed_semantic_gate_guard_min_available_mib` | `46322.6328125` |
@@ -112,6 +112,8 @@ observed path remains a no-go.
 | `socket:symbol:graph183TailQuotientMarginEvalFamily_of_evalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_evalLanguageBound` |
 | `socket:symbol:graph183TailQuotientMarginEvalFamily_of_objectMarginBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_objectMarginBound` |
 | `socket:symbol:graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` |
+| `socket:symbol:Graph183TailQuotientGaugeCorrectedEvalLanguageBound` | `True` | `Graph183TailQuotientGaugeCorrectedEvalLanguageBound` |
+| `socket:symbol:graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound` |
 | `socket:symbol:Graph183TailExactEvalSequenceBadFace` | `True` | `Graph183TailExactEvalSequenceBadFace` |
 | `socket:symbol:graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate` | `True` | `graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate` |
 | `socket:symbol:acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin` |
@@ -284,8 +286,8 @@ observed path remains a no-go.
 | `graph183_quotient_potential_lake_guard:rss_under_30000_mib` | `True` | `23154.05078125` |
 | `graph183_quotient_potential_lake_guard:available_above_30000_mib` | `True` | `43686.9609375` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
-| `socket_guard:rss_under_6500_mib` | `True` | `3911.828125` |
-| `socket_guard:available_above_30000_mib` | `True` | `46308.5` |
+| `socket_guard:rss_under_6500_mib` | `True` | `4002.796875` |
+| `socket_guard:available_above_30000_mib` | `True` | `46204.04296875` |
 | `graph183_start_provider_guard:guard_exit_zero` | `True` | `0` |
 | `graph183_start_provider_guard:rss_under_7000_mib` | `True` | `6882.125` |
 | `graph183_start_provider_guard:available_above_30000_mib` | `True` | `43095.3046875` |

@@ -56,6 +56,16 @@
       "passed": true
     },
     {
+      "detail": "Graph183TailQuotientGaugeCorrectedEvalLanguageBound",
+      "name": "socket:symbol:Graph183TailQuotientGaugeCorrectedEvalLanguageBound",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound",
+      "name": "socket:symbol:graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound",
+      "passed": true
+    },
+    {
       "detail": "Graph183TailExactEvalSequenceBadFace",
       "name": "socket:symbol:Graph183TailExactEvalSequenceBadFace",
       "passed": true
@@ -923,12 +933,12 @@
       "passed": true
     },
     {
-      "detail": 3911.828125,
+      "detail": 4002.796875,
       "name": "socket_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46308.5,
+      "detail": 46204.04296875,
       "name": "socket_guard:available_above_30000_mib",
       "passed": true
     },
@@ -1057,9 +1067,9 @@
     "graph183_start_provider_guard_peak_rss_mib": 6882.125,
     "graph183_start_provider_source_guard_elapsed_seconds": 98.05047912499867,
     "graph183_start_provider_source_guard_peak_rss_mib": 6309.796875,
-    "guard_elapsed_seconds": 3.0028496980085038,
-    "guard_min_available_mib": 46308.5,
-    "guard_peak_rss_mib": 3911.828125,
+    "guard_elapsed_seconds": 8.005825212982018,
+    "guard_min_available_mib": 46204.04296875,
+    "guard_peak_rss_mib": 4002.796875,
     "profile_edges": 229,
     "profile_margin_families": 1,
     "profile_matched": 37,

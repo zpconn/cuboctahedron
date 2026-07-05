@@ -117,6 +117,8 @@ REQUIRED_SOCKET_SYMBOLS = [
     "graph183TailQuotientMarginEvalFamily_of_evalLanguageBound",
     "graph183TailQuotientMarginEvalFamily_of_objectMarginBound",
     "graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound",
+    "Graph183TailQuotientGaugeCorrectedEvalLanguageBound",
+    "graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound",
     "Graph183TailExactEvalSequenceBadFace",
     "graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate",
     "acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin",

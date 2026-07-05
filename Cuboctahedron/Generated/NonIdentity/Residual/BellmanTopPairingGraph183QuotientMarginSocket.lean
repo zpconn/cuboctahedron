@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183AcceptedBranchQuotient
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientPotential
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183StartViolationProvider
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket
 import Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
@@ -25,6 +26,8 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph169ContinuationSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183AcceptedBranchQuotient
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientCore
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientPotential
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential
@@ -412,6 +415,54 @@ def graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound
       rcases hbound obj True.intro with
         ⟨result, heval, hmargin, _hfinish⟩
       exact ⟨result, heval, hmargin⟩)
+
+/--
+Graph183-specialized gauge-corrected deterministic evaluator target.
+
+This is a producer-facing alias around the generic
+`GaugeCorrectedQuotientEvalMarginLanguageBound`, with all graph183 quotient
+maps and the checked constant quotient potential already fixed.  A future
+semantic producer still has to prove evaluator success, the real
+margin-to-gain inequality, and the final gauge bound for every semantic
+object.  This alias is only the small public socket that prevents the next
+producer from threading graph183 quotient parameters by hand.
+-/
+def Graph183TailQuotientGaugeCorrectedEvalLanguageBound
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop :=
+  GaugeCorrectedQuotientEvalMarginLanguageBound
+    closedBellmanNext
+    graph183QuotientQ
+    graph183QuotientGauge
+    graph183QuotientPotential
+    (Graph183TailQuotientMarginEvalObj.scaledMargin scaledMargin)
+    (Graph183TailQuotientMarginEvalObj.labels
+      (sequenceBadFace := sequenceBadFace))
+    graphRoot graphConst
+    (fun _obj : Graph183TailQuotientMarginEvalObj sequenceBadFace => True)
+
+/--
+Package the graph183-specialized gauge-corrected evaluator target as the
+existing graph183 eval-margin family.
+
+This deliberately projects only the evaluator result and margin bound.  The
+quotient potential facts are checked in
+`BellmanTopPairingGraph183CocycleQuotientPotential`; the accepted graph183
+branch carrier still needs the sharper accepted-branch margin supplied by the
+deterministic evaluator result.
+-/
+def graph183TailQuotientMarginEvalFamily_of_graph183GaugeCorrectedEvalLanguageBound
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hbound :
+      Graph183TailQuotientGaugeCorrectedEvalLanguageBound
+        sequenceBadFace scaledMargin) :
+    Graph183TailQuotientMarginEvalFamily sequenceBadFace scaledMargin :=
+  graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound
+    (q := graph183QuotientQ)
+    (gauge := graph183QuotientGauge)
+    (V := graph183QuotientPotential)
+    hbound
 
 /--
 Turn the deterministic-evaluator margin target into the graph183 quotient
