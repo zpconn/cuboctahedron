@@ -114946,3 +114946,149 @@ semantic evaluator decision =
 graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
+### 2026-07-05 graph183 accepted-sequence direct-kill pivot
+
+GPT5.5's latest Bellman guidance changed the graph183 accepted-branch target:
+keep the deterministic Bellman/cocycle artifacts as support, but do not require
+an accepted-branch margin producer when semantic completion-tail routing is
+enough to reach a checked start-violation theorem.
+
+Implemented the direct accepted-sequence route:
+
+```lean
+graph150_tail_eq_graph183_forced_or_tmmp_branch
+nonIdentityRankKilled_of_graph183AcceptedBranchPrefix
+nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail
+nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor
+```
+
+The new shape is:
+
+```text
+AcceptedSequence strengthened closed language
+  + Depth11Layer4PrefixAtRank rank tmpm zm rest
+  + acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor
+  -> graph150 tail split:
+       accepted forced graph183 trace
+       or blocked tmmp branch
+  -> accepted trace: ObjectStartViolationMarginCert
+  -> blocked trace: graph183_blocked_branch_absurd_of_acceptedSequenceBadFace
+  -> NonIdentityRankKilled
+```
+
+This supersedes the prior accepted-branch target
+`Graph183TailQuotientMarginSequenceBadFace scaledMargin`.  That carrier remains
+useful diagnostic/reusable Bellman support for branches that truly need a
+nonpositive-margin proof, but it is no longer the required production target
+for the graph183 accepted sequence.
+
+Files changed in this checkpoint:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean
+scripts/audit_graph183_accepted_tail_margin_frontier.py
+scripts/audit_graph183_carrier_producer_readiness.py
+scripts/audit_latest_bellman_semantic_pivot.py
+scripts/audit_top_pairing_semantic_evaluator_pivot.py
+scripts/generated/graph183_accepted_tail_margin_frontier.json
+scripts/generated/graph183_accepted_tail_margin_frontier.md
+scripts/generated/graph183_carrier_producer_readiness.json
+scripts/generated/graph183_carrier_producer_readiness.md
+scripts/generated/latest_bellman_semantic_pivot.json
+scripts/generated/latest_bellman_semantic_pivot.md
+scripts/generated/top_pairing_semantic_evaluator_pivot.json
+scripts/generated/top_pairing_semantic_evaluator_pivot.md
+scripts/generated/closed_bellman_strengthened_semantic_gate_socket_direct_guard.json
+scripts/generated/graph183_tail_table_socket_latest_guard.json
+scripts/generated/graph183_quotient_margin_socket_latest_guard.json
+```
+
+Focused checks run:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_graph183_accepted_tail_margin_frontier.py \
+  scripts/audit_graph183_carrier_producer_readiness.py \
+  scripts/audit_latest_bellman_semantic_pivot.py \
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py
+```
+
+Passed.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/closed_bellman_strengthened_semantic_gate_socket_direct_guard.json \
+  -- lake env lean -M 7000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean
+```
+
+Passed: elapsed `3.00s`, peak RSS `3920 MiB`, min available `46258 MiB`.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph183_tail_table_socket_latest_guard.json \
+  -- lake env lean -M 7000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+```
+
+Passed: elapsed `11.01s`, peak RSS `4025 MiB`, min available `46152 MiB`.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 7000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Passed: elapsed `3.00s`, peak RSS `3982 MiB`, min available `46233 MiB`.
+
+Lake-scheduler caveat observed:
+
+```bash
+env LEAN_NUM_THREADS=1 python3 scripts/run_memory_guarded.py ... \
+  -- lake build Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+```
+
+Failed before the touched module with Lean thread creation errors while
+rebuilding stale dependencies (`exit=1`, peak RSS about `3959 MiB`; an earlier
+tighter virtual-address run failed similarly at peak RSS about `779 MiB`).  The
+safe recipe for these local checkpoint builds is therefore direct
+`lake env lean -o ...` under the RSS guard, with any missing single dependency
+compiled directly first.  Do not use a broad Lake build for this graph183
+socket iteration until the import cache and scheduler settings are deliberately
+prepared.
+
+Audit decisions after regeneration:
+
+```text
+top_pairing_semantic_evaluator_pivot:
+  semantic_evaluator_pivot_ready_for_graph183_direct_kill_route
+latest_bellman_semantic_pivot:
+  latest-bellman-semantic-pivot-has-graph183-direct-kill-route
+graph183_accepted_tail_margin_frontier:
+  graph183_accepted_sequence_direct_kill_route_ready
+graph183_carrier_producer_readiness:
+  graph183_direct_kill_route_ready
+```
+
+Next Lean target:
+
+```text
+Route the surrounding layer-4 graph183 branch to
+nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor.
+```
+
+No sampled rank objects, selected prefixes, accepted trace ids, exact affine
+RHS keys, solved start-point keys, or one-branch-per-rank proof should be
+introduced.  If routing into this theorem demands such data, strengthen the
+semantic state instead of reviving selected-prefix coverage.

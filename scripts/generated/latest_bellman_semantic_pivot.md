@@ -1,6 +1,6 @@
 # Latest Bellman Semantic Pivot Audit
 
-- status: `latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier`
+- status: `latest-bellman-semantic-pivot-has-graph183-direct-kill-route`
 - files checked: `11`
 - forbidden hits: `0`
 
@@ -39,9 +39,10 @@ Accepted:
 - graph183 completion-tail membership is already semantic
 - graph183 accepted branch has a tiny Lean-checked quotient raw-gain module
 - the full graph183 quotient smoke is diagnostic, not a production import
-- graph183 now exposes a generic sequenceBadFace quotient-margin carrier
+- graph183 now exposes a direct semantic completion-tail killed route
+- the generic sequenceBadFace quotient-margin carrier remains available as support
 - strengthened closed Bellman now exposes step-run, graph-exact, and eval-family ingress surfaces
-- the next graph183 target is an upstream semantic proof of that carrier
+- the next graph183 target is layer-4 routing into the direct killed theorem
 
 Rejected:
 
@@ -55,4 +56,4 @@ Rejected:
 
 Next gate:
 
-Prove Graph183TailQuotientMarginSequenceBadFace scaledMargin semantically for the upstream strengthened language, then feed it through graph183TailQuotientMarginFamily_of_sequenceBadFace. Pair it with the generic branch-local start-violation surface. If that proof demands sampled ranks, selected prefixes, accepted trace ids, exact affine RHS, solved start-point keys, or one branch per rank/path, stop graph183 scaling and switch to the cancellation-segment or stronger cocycle quotient state.
+Route the layer-4 graph183 branch to nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor. If that proof demands sampled ranks, selected prefixes, accepted trace ids, exact affine RHS, solved start-point keys, or one branch per rank/path, stop graph183 scaling and strengthen the semantic state rather than reviving selected-prefix coverage.

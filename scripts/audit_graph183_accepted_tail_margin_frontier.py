@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
-"""Audit the graph183 accepted-tail margin frontier.
+"""Audit the graph183 accepted-tail/direct-kill frontier.
 
 This script is diagnostic status evidence only.  It does not prove generated
 coverage and it does not certify the Bellman margin theorem.  Its job is to
 keep the active frontier honest:
 
 * graph183 completion-tail membership is already semantic;
-* the remaining producer must target the branch-local generic quotient carrier
-  `Graph183TailQuotientMarginSequenceBadFace scaledMargin`;
+* the accepted branch now has a direct semantic completion-tail to killed
+  theorem, so its production target is routing, not margin production;
+* the quotient-margin carrier remains diagnostic and reusable for branches
+  where a Bellman nonpositive-margin proof is still required;
 * exact margin profiling should support a small Bellman/cocycle producer before
   any Lean emission is scaled.
 
 The audit deliberately distinguishes "diagnostic support" from proof.  A pass
-means the next Lean target is justified as a small semantic producer smoke; it
-does not mean the accepted-tail margin family has been proved.
+means the next Lean target is justified as a small semantic routing smoke; it
+does not mean full graph183 coverage has been integrated into the global root.
 """
 
 from __future__ import annotations
@@ -123,6 +125,7 @@ REQUIRED_SOCKET_SYMBOLS = [
     "graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedTailMargin",
     "acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor",
     "acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor",
+    "graph150_tail_eq_graph183_forced_or_tmmp_branch",
     "graph183ForcedTail",
     "graph183TailEval",
     "closedBellmanNext",
@@ -254,6 +257,7 @@ REQUIRED_QUOTIENT_SOCKET_SYMBOLS = [
     "strengthenedGraph183TailQuotientMargin_of_acceptedTailQuotientMarginFamily",
     "scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace",
     "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
+    "nonIdentityRankKilled_of_graph183AcceptedBranchPrefix",
     "Graph183TailExactEvalFamily",
     "Graph183TailExactEvalSequenceBadFace",
     "graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate",
@@ -283,6 +287,8 @@ REQUIRED_QUOTIENT_SOCKET_SYMBOLS = [
     "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
     "acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_global",
     "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
+    "nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail",
+    "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor",
     "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin",
     "graph169ContinuationFamily_of_acceptedSequenceGraph183QuotientMargin",
     "graphExactEvalGateAtRank_of_acceptedSequenceGraph183QuotientMargin",
@@ -637,15 +643,15 @@ def semantic_audit_checks(audit: dict[str, Any] | None) -> list[dict[str, Any]]:
         ]
     return [
         {
-            "name": "semantic_audit_accepts_sequencebadface_carrier_target",
+            "name": "semantic_audit_accepts_graph183_direct_kill_target",
             "passed": audit.get("decision")
-            == "semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier",
+            == "semantic_evaluator_pivot_ready_for_graph183_direct_kill_route",
             "detail": audit.get("decision"),
         },
         {
-            "name": "semantic_audit_target_is_graph183_sequencebadface_carrier",
+            "name": "semantic_audit_target_is_graph183_direct_kill",
             "passed": audit.get("next_production_target")
-            == "Graph183TailQuotientMarginSequenceBadFace scaledMargin",
+            == "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor",
             "detail": audit.get("next_production_target"),
         },
     ]
@@ -707,7 +713,7 @@ def contract_metrics(profile: dict[str, Any] | None) -> dict[str, Any]:
 
 def render_markdown(report: dict[str, Any]) -> str:
     lines = [
-        "# Graph183 Accepted-Tail Margin Frontier",
+        "# Graph183 Accepted-Tail Direct-Kill Frontier",
         "",
         "Diagnostic status evidence only.  This audit does not prove coverage,",
         "does not certify the margin theorem, and does not replace Lean-checked",
@@ -719,10 +725,11 @@ def render_markdown(report: dict[str, Any]) -> str:
         "## Meaning",
         "",
         "A passing decision means graph183 completion-tail membership is already",
-        "on the semantic target-shadow cursor route, and the exact profiler",
-        "supports trying the generic sequence-bad-face quotient-margin carrier",
-        "next.  It does not",
-        "mean that producer exists.  If the producer needs sampled ranks,",
+        "on the semantic target-shadow cursor route, and the accepted branch",
+        "has a Lean-checked route directly to `NonIdentityRankKilled`.",
+        "The quotient-margin carrier remains diagnostic/reusable, but it is no",
+        "longer the required production target for this accepted branch.  If the",
+        "next routing proof needs sampled ranks,",
         "selected prefixes, accepted trace ids, exact affine RHS keys, or one",
         "branch per rank/path, the route must pivot to a cancellation-segment or",
         "cocycle/coboundary quotient.",
@@ -771,23 +778,17 @@ def render_markdown(report: dict[str, Any]) -> str:
         "## Next Lean Target",
         "",
         "```lean",
-        "Graph183TailQuotientMarginSequenceBadFace scaledMargin",
+        "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor",
         "```",
         "",
         "The graph183 completion-tail component is already available via",
         "`acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.",
-        "The quotient-margin socket now exposes",
-        "`Graph183TailQuotientMarginSequenceBadFace` as the generic carrier for",
-        "the branch-local margin fact, then adapts that carrier back to the",
-        "older accepted-sequence surfaces.  It also proves that the generic",
-        "branch-local quotient margin plus a start-violation certificate yields",
-        "the public `NonIdentityRankKilled` predicate.  The next Lean smoke",
-        "should prove the carrier from semantic closed-language/evaluator state",
-        "on the `yp` tail branch.  The start-violation producer is also generic",
-        "through `Graph183TailBranchQuotientStartViolationFamily`.",
-        "The profile remains diagnostic only;",
-        "quotient/gauge equations used by the proof must stay Lean-checked",
-        "local facts.",
+        "The direct socket combines that completion tail with the checked",
+        "start-violation provider and the blocked-branch contradiction.  The",
+        "next Lean smoke should route the surrounding layer-4 branch to this",
+        "killed theorem, not reconstruct accepted-branch margin evidence.  The",
+        "quotient/gauge profile remains diagnostic and reusable for branches",
+        "where a Bellman nonpositive-margin proof is still necessary.",
         "",
         "The production socket depends on the small accepted-branch quotient",
         "module, not the full 229-edge quotient smoke.  The smoke remains",
@@ -964,12 +965,12 @@ def main() -> int:
 
     failed = [row for row in checks if not row["passed"]]
     decision = (
-        "diagnostic_supports_graph183_accepted_tail_margin_bellman_route"
+        "graph183_accepted_sequence_direct_kill_route_ready"
         if not failed
         else "blocked_graph183_accepted_tail_margin_frontier"
     )
     report = {
-        "mode": "graph183_accepted_tail_margin_frontier",
+        "mode": "graph183_accepted_tail_direct_kill_frontier",
         "arithmetic": "untrusted diagnostics only; final evidence must be Lean-checked",
         "decision": decision,
         "checks": checks,
@@ -1057,7 +1058,9 @@ def main() -> int:
             },
             "graph183_scaling_contract": contract_metrics(profile_1m),
         },
-        "next_lean_target": "Graph183TailQuotientMarginSequenceBadFace scaledMargin",
+        "next_lean_target": (
+            "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor"
+        ),
     }
 
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)

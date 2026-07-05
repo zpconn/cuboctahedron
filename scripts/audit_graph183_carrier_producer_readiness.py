@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit readiness for a graph183 semantic carrier producer.
+"""Audit readiness for graph183 semantic carrier/direct-kill production.
 
 This is a status audit, not proof evidence.  Its purpose is to keep the
 graph183 Bellman frontier honest:
@@ -8,11 +8,13 @@ graph183 Bellman frontier honest:
 * the accepted-branch quotient module is checked and production-sized;
 * the full cocycle quotient smoke is diagnostic only;
 * the 1M profiler supports the route but does not prove coverage;
-* the actual production theorem proving the carrier from closed-language
-  object-margin or semantic step-run semantics has not yet been emitted.
+* the accepted-sequence branch now has a direct semantic completion-tail to
+  `NonIdentityRankKilled` route;
+* the quotient-margin carrier remains optional support for branches that still
+  need Bellman nonpositive-margin evidence.
 
 The script exits successfully when this status is internally consistent.  It
-should not be read as completing graph183 coverage.
+should not be read as completing global graph183 coverage.
 """
 
 from __future__ import annotations
@@ -165,6 +167,9 @@ REQUIRED_SOCKET_SYMBOLS = [
     "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
     "graph183AcceptedBranchLabels_eq_startViolationLabels",
     "objectStartViolationMarginCert_of_graph183AcceptedBranchPrefix",
+    "nonIdentityRankKilled_of_graph183AcceptedBranchPrefix",
+    "nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail",
+    "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor",
     "graph183TailBranchQuotientStartViolationFamily_of_margin",
     "nonIdentityRankKilled_of_graph183TailQuotientMargin",
 ]
@@ -279,6 +284,8 @@ FORBIDDEN_GRAPH183_START_PROVIDER_IMPORT_FRAGMENTS = [
 ]
 
 PRODUCTION_CARRIER_CANDIDATES = [
+    "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor",
+    "nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail",
     "graph183TailQuotientMarginSequenceBadFace_of_targetCursorTransducer",
     "graph183TailQuotientMarginSequenceBadFace_of_rankedTransducerGate",
     "graph183TailQuotientMarginSequenceBadFace_of_closedLanguage",
@@ -598,15 +605,14 @@ def render_markdown(report: dict[str, Any]) -> str:
         "relation, and lifts closed Bellman runs to quotient runs.  This is",
         "the first checked bridge away from selected-prefix membership and",
         "toward the deterministic semantic transducer theorem.",
-        "However, no production theorem currently proves",
-        "`Graph183TailQuotientMarginSequenceBadFace` from closed-language,",
-        "deterministic-evaluator, or cocycle/gauge semantics.",
+        "For the accepted graph183 branch, the active production surface is now",
+        "the direct killed theorem from semantic completion-tail membership.",
+        "The quotient-margin route remains audited support for future branches",
+        "that still need a Bellman nonpositive-margin proof.",
         "",
-        "The next accepted implementation step is exactly one semantic",
-        "membership experiment for graph183: prove either",
-        "`Graph183TailQuotientObjectMarginBound` for the existing semantic",
-        "object, or prove a `StrengthenedClosedBellmanStepRunFamily` that",
-        "packages the same deterministic run and margin bound.  The object may",
+        "The next accepted implementation step is exactly one semantic routing",
+        "experiment for graph183: plug the direct killed theorem into the",
+        "surrounding layer-4 branch without sampled membership.  The object may",
         "be rank plus strengthened closed-language facts plus the graph183",
         "branch prefix; it must not store a sampled path.",
         "",
@@ -907,13 +913,12 @@ def main() -> int:
         transducer_semantic_gate_text,
     )
     failed = [row for row in checks if not row["passed"]]
-    decision = (
-        "graph183_carrier_sockets_ready_but_producer_missing"
-        if not failed and not status["producer_exists"]
-        else "graph183_carrier_producer_status_changed"
-        if not failed
-        else "graph183_carrier_readiness_blocked"
-    )
+    if failed:
+        decision = "graph183_carrier_readiness_blocked"
+    elif status["producer_exists"]:
+        decision = "graph183_direct_kill_route_ready"
+    else:
+        decision = "graph183_carrier_sockets_ready_but_producer_missing"
 
     counts = (profile or {}).get("counts", {})
     best = (quotient or {}).get("best_consistent") or {}
@@ -1049,10 +1054,9 @@ def main() -> int:
             else trace017_provider_source_guard.get("exit_code"),
         },
         "next_required_theorem": (
-            "Graph183TailQuotientMarginSequenceBadFace scaledMargin, proved "
-            "from target-shadow cursor + ranked deterministic transducer "
-            "semantics, or from an equivalently small checked cocycle/segment "
-            "certificate"
+            "Route the layer-4 graph183 branch to "
+            "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor "
+            "without sampled ranks, selected prefixes, or accepted trace ids"
         ),
     }
 

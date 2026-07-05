@@ -1276,6 +1276,66 @@ def objectStartViolationMarginCert_of_graph183AcceptedBranchPrefix
         rw [graph183AcceptedBranchLabels_eq_of_prefix hprefix]
         exact graph183AcceptedBranchLabels_eq_startViolationLabels)
 
+/--
+The graph183 accepted branch is killed directly by the start-violation
+certificate.
+
+This theorem does not use a Bellman nonpositive-margin proof: for this branch,
+the accepted prefix fixes the whole face-label sequence to the checked
+graph183 start-violation trace, and `ObjectStartViolationMarginCert` already
+rules out any compatible nonidentity axis witness.
+-/
+theorem nonIdentityRankKilled_of_graph183AcceptedBranchPrefix
+    {rank : Fin numPairWords}
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_startViolationMarginCert
+    (objectStartViolationMarginCert_of_graph183AcceptedBranchPrefix
+      (scaledMargin := fun _rank => (0 : Int)) hprefix)
+
+/--
+Direct killed surface for the graph183 accepted-sequence completion tail.
+
+This is the graph183 semantic-evaluator pivot in its smallest useful form:
+the completion-tail theorem routes every post-`tmpm,zm` suffix either to the
+accepted graph183 trace, which is killed by the checked start-violation
+certificate above, or to the `tmmp` branch, which is impossible under the
+generated accepted bad-face predicate.  No Bellman margin producer is needed
+for this accepted branch.
+-/
+theorem nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail
+    {rank : Fin numPairWords} {rest : List Face}
+    (hcompletion : AcceptedSequenceGraph183CompletionTailFamily)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank := by
+  have htail : Graph150TargetCompletionTail rest :=
+    hcompletion.completionTail rank hstrengthened rest hprefix
+  rcases graph150_tail_eq_graph183_forced_or_tmmp_branch htail with
+    hforced | hblocked
+  · subst rest
+    exact nonIdentityRankKilled_of_graph183AcceptedBranchPrefix hprefix
+  · rcases hblocked with ⟨blockedTail, hrest, hblockedTail⟩
+    subst rest
+    exact False.elim
+      (graph183_blocked_branch_absurd_of_acceptedSequenceBadFace
+        hstrengthened hprefix hblockedTail)
+
+theorem nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail
+    acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor
+    hstrengthened hprefix
+
 def graph183TailBranchQuotientStartViolationFamily_of_margin
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
     {scaledMargin : Fin numPairWords -> Int}

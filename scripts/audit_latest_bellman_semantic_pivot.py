@@ -9,9 +9,10 @@ current strategic boundary after the GPT5.5 review:
 * use the closed top-pairing language, target-shadow cursor, transducer tail,
   and deterministic evaluator gates as the production membership surface;
 * treat graph183 completion-tail membership as a validated semantic lane;
-* route graph183 production through a generic `sequenceBadFace` quotient-margin
-  carrier, not another selected-prefix/object cover or whole-label exact-eval
-  surface.
+* route graph183 production through the direct accepted-sequence killed surface
+  once semantic completion-tail membership is known;
+* keep the quotient-margin carrier as diagnostic/reusable support, not as the
+  required accepted-branch target.
 """
 
 from __future__ import annotations
@@ -92,6 +93,7 @@ REQUIRED = {
     ],
     "graph183_tail_socket": [
         "acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor",
+        "graph150_tail_eq_graph183_forced_or_tmmp_branch",
         "graph183AcceptedBranchLabels_eq_of_prefix",
         "graph183AcceptedBranchEval_of_prefix",
         "graph183AcceptedBranchEvalGateResult_of_labels",
@@ -139,6 +141,9 @@ REQUIRED = {
         "graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanStepRunFamily",
         "scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace",
         "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
+        "nonIdentityRankKilled_of_graph183AcceptedBranchPrefix",
+        "nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail",
+        "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor",
         "Graph183TailExactEvalFamily",
         "Graph183TailExactEvalSequenceBadFace",
         "graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate",
@@ -231,7 +236,7 @@ def main() -> int:
     ]
 
     status = (
-        "latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier"
+        "latest-bellman-semantic-pivot-has-graph183-direct-kill-route"
         if not missing and not forbidden_hits
         else "latest-bellman-semantic-pivot-gap"
     )
@@ -248,9 +253,10 @@ def main() -> int:
             "graph183 completion-tail membership is already semantic",
             "graph183 accepted branch has a tiny Lean-checked quotient raw-gain module",
             "the full graph183 quotient smoke is diagnostic, not a production import",
-            "graph183 now exposes a generic sequenceBadFace quotient-margin carrier",
+            "graph183 now exposes a direct semantic completion-tail killed route",
+            "the generic sequenceBadFace quotient-margin carrier remains available as support",
             "strengthened closed Bellman now exposes step-run, graph-exact, and eval-family ingress surfaces",
-            "the next graph183 target is an upstream semantic proof of that carrier",
+            "the next graph183 target is layer-4 routing into the direct killed theorem",
         ],
         "rejected": [
             "selected-prefix membership as production coverage",
@@ -262,17 +268,15 @@ def main() -> int:
             "whole-label exact-eval as the primary graph183 proof obligation",
         ],
         "next_gate": (
-            "Prove Graph183TailQuotientMarginSequenceBadFace scaledMargin "
-            "semantically for the upstream strengthened language, then feed it "
-            "through graph183TailQuotientMarginFamily_of_sequenceBadFace. Pair "
-            "it with the generic branch-local start-violation surface. If that "
-            "proof demands sampled ranks, selected prefixes, accepted trace ids, "
-            "exact affine RHS, solved start-point keys, or one branch per "
-            "rank/path, stop graph183 scaling and switch to the "
-            "cancellation-segment or stronger cocycle quotient state."
+            "Route the layer-4 graph183 branch to "
+            "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor. "
+            "If that proof demands sampled ranks, selected prefixes, accepted "
+            "trace ids, exact affine RHS, solved start-point keys, or one "
+            "branch per rank/path, stop graph183 scaling and strengthen the "
+            "semantic state rather than reviving selected-prefix coverage."
         ),
         "next_lean_target": (
-            "Graph183TailQuotientMarginSequenceBadFace scaledMargin"
+            "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor"
         ),
     }
 
@@ -317,7 +321,7 @@ def main() -> int:
 
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0 if status == (
-        "latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier"
+        "latest-bellman-semantic-pivot-has-graph183-direct-kill-route"
     ) else 1
 
 

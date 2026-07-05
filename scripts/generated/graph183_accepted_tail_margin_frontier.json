@@ -92,6 +92,11 @@
       "passed": true
     },
     {
+      "detail": "graph150_tail_eq_graph183_forced_or_tmmp_branch",
+      "name": "socket_symbol:graph150_tail_eq_graph183_forced_or_tmmp_branch",
+      "passed": true
+    },
+    {
       "detail": "graph183ForcedTail",
       "name": "socket_symbol:graph183ForcedTail",
       "passed": true
@@ -872,6 +877,11 @@
       "passed": true
     },
     {
+      "detail": "nonIdentityRankKilled_of_graph183AcceptedBranchPrefix",
+      "name": "graph183_quotient_socket:symbol:nonIdentityRankKilled_of_graph183AcceptedBranchPrefix",
+      "passed": true
+    },
+    {
       "detail": "Graph183TailExactEvalFamily",
       "name": "graph183_quotient_socket:symbol:Graph183TailExactEvalFamily",
       "passed": true
@@ -1017,6 +1027,16 @@
       "passed": true
     },
     {
+      "detail": "nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail",
+      "name": "graph183_quotient_socket:symbol:nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail",
+      "passed": true
+    },
+    {
+      "detail": "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor",
+      "name": "graph183_quotient_socket:symbol:nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor",
+      "passed": true
+    },
+    {
       "detail": "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin",
       "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_quotientMargin",
       "passed": true
@@ -1062,13 +1082,13 @@
       "passed": true
     },
     {
-      "detail": "semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier",
-      "name": "semantic_audit_accepts_sequencebadface_carrier_target",
+      "detail": "semantic_evaluator_pivot_ready_for_graph183_direct_kill_route",
+      "name": "semantic_audit_accepts_graph183_direct_kill_target",
       "passed": true
     },
     {
-      "detail": "Graph183TailQuotientMarginSequenceBadFace scaledMargin",
-      "name": "semantic_audit_target_is_graph183_sequencebadface_carrier",
+      "detail": "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor",
+      "name": "semantic_audit_target_is_graph183_direct_kill",
       "passed": true
     },
     {
@@ -1260,12 +1280,12 @@
       "passed": true
     },
     {
-      "detail": 3994.2578125,
+      "detail": 3981.8046875,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 46225.5546875,
+      "detail": 46233.14453125,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
       "passed": true
     },
@@ -1360,7 +1380,7 @@
       "passed": true
     }
   ],
-  "decision": "diagnostic_supports_graph183_accepted_tail_margin_bellman_route",
+  "decision": "graph183_accepted_sequence_direct_kill_route_ready",
   "failed_checks": [],
   "metrics": {
     "cocycle_quotient_1m": {
@@ -1396,9 +1416,9 @@
       "peak_rss_mib": 4696.0703125
     },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 5.003530981979566,
-      "min_available_mib": 46225.5546875,
-      "peak_rss_mib": 3994.2578125
+      "elapsed_seconds": 3.003599429008318,
+      "min_available_mib": 46233.14453125,
+      "peak_rss_mib": 3981.8046875
     },
     "graph183_quotient_potential_direct_guard": {
       "elapsed_seconds": 2.00216292400728,
@@ -1449,6 +1469,6 @@
       "states": 223
     }
   },
-  "mode": "graph183_accepted_tail_margin_frontier",
-  "next_lean_target": "Graph183TailQuotientMarginSequenceBadFace scaledMargin"
+  "mode": "graph183_accepted_tail_direct_kill_frontier",
+  "next_lean_target": "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor"
 }

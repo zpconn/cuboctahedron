@@ -3,9 +3,9 @@
 Status audit only.  This file is not proof evidence and does not certify
 generated coverage.
 
-- decision: `graph183_carrier_sockets_ready_but_producer_missing`
+- decision: `graph183_direct_kill_route_ready`
 - failed checks: `0`
-- production carrier producer exists: `False`
+- production carrier producer exists: `True`
 
 ## Meaning
 
@@ -53,15 +53,14 @@ fixed Face-to-label encoding into the sharded quotient `FullStep`
 relation, and lifts closed Bellman runs to quotient runs.  This is
 the first checked bridge away from selected-prefix membership and
 toward the deterministic semantic transducer theorem.
-However, no production theorem currently proves
-`Graph183TailQuotientMarginSequenceBadFace` from closed-language,
-deterministic-evaluator, or cocycle/gauge semantics.
+For the accepted graph183 branch, the active production surface is now
+the direct killed theorem from semantic completion-tail membership.
+The quotient-margin route remains audited support for future branches
+that still need a Bellman nonpositive-margin proof.
 
-The next accepted implementation step is exactly one semantic
-membership experiment for graph183: prove either
-`Graph183TailQuotientObjectMarginBound` for the existing semantic
-object, or prove a `StrengthenedClosedBellmanStepRunFamily` that
-packages the same deterministic run and margin bound.  The object may
+The next accepted implementation step is exactly one semantic routing
+experiment for graph183: plug the direct killed theorem into the
+surrounding layer-4 branch without sampled membership.  The object may
 be rank plus strengthened closed-language facts plus the graph183
 branch prefix; it must not store a sampled path.
 
@@ -103,9 +102,9 @@ field instead of scaling the selected-prefix route.
 | `closed_run_final_state_direct_guard_peak_rss_mib` | `4419.6796875` |
 | `closed_run_final_state_lake_guard_elapsed_seconds` | `9.00826031100587` |
 | `closed_run_final_state_lake_guard_peak_rss_mib` | `4696.0703125` |
-| `guard_elapsed_seconds` | `5.003530981979566` |
-| `guard_peak_rss_mib` | `3994.2578125` |
-| `guard_min_available_mib` | `46225.5546875` |
+| `guard_elapsed_seconds` | `3.003599429008318` |
+| `guard_peak_rss_mib` | `3981.8046875` |
+| `guard_min_available_mib` | `46233.14453125` |
 | `closed_semantic_gate_guard_elapsed_seconds` | `3.0027096020057797` |
 | `closed_semantic_gate_guard_peak_rss_mib` | `3719.16015625` |
 | `closed_semantic_gate_guard_min_available_mib` | `46322.6328125` |
@@ -170,6 +169,9 @@ field instead of scaling the selected-prefix route.
 | `socket:symbol:nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace` | `True` | `nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace` |
 | `socket:symbol:graph183AcceptedBranchLabels_eq_startViolationLabels` | `True` | `graph183AcceptedBranchLabels_eq_startViolationLabels` |
 | `socket:symbol:objectStartViolationMarginCert_of_graph183AcceptedBranchPrefix` | `True` | `objectStartViolationMarginCert_of_graph183AcceptedBranchPrefix` |
+| `socket:symbol:nonIdentityRankKilled_of_graph183AcceptedBranchPrefix` | `True` | `nonIdentityRankKilled_of_graph183AcceptedBranchPrefix` |
+| `socket:symbol:nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail` | `True` | `nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail` |
+| `socket:symbol:nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor` | `True` | `nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor` |
 | `socket:symbol:graph183TailBranchQuotientStartViolationFamily_of_margin` | `True` | `graph183TailBranchQuotientStartViolationFamily_of_margin` |
 | `socket:symbol:nonIdentityRankKilled_of_graph183TailQuotientMargin` | `True` | `nonIdentityRankKilled_of_graph183TailQuotientMargin` |
 | `closed_semantic_gate:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket.lean` |
@@ -356,8 +358,8 @@ field instead of scaling the selected-prefix route.
 | `graph183_closed_run_final_state_lake_guard:rss_under_30000_mib` | `True` | `4696.0703125` |
 | `graph183_closed_run_final_state_lake_guard:available_above_30000_mib` | `True` | `45345.89453125` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
-| `socket_guard:rss_under_6500_mib` | `True` | `3994.2578125` |
-| `socket_guard:available_above_30000_mib` | `True` | `46225.5546875` |
+| `socket_guard:rss_under_6500_mib` | `True` | `3981.8046875` |
+| `socket_guard:available_above_30000_mib` | `True` | `46233.14453125` |
 | `graph183_start_provider_guard:guard_exit_zero` | `True` | `0` |
 | `graph183_start_provider_guard:rss_under_7000_mib` | `True` | `6882.125` |
 | `graph183_start_provider_guard:available_above_30000_mib` | `True` | `43095.3046875` |

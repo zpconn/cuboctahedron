@@ -24,6 +24,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11L
 
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4TargetCompletionLocalStepSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph157ContinuationSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph169ContinuationSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke
@@ -438,6 +439,48 @@ theorem graph183_tail_eq_forced_or_tmmp_branch
                     exact Or.inr
                       ⟨rest4, rfl,
                         TopPairingTargetCompletionTail.tail_next htail3⟩
+
+theorem graph150_tail_eq_graph183_forced_or_tmmp_branch
+    {rest : List Face}
+    (htail : Graph150TargetCompletionTail rest) :
+    rest = Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail ∨
+      ∃ restTail,
+        rest =
+          Face.zp :: Face.tppm :: Face.tpmm :: Face.tppp ::
+            Face.tmmm :: Face.tpmp :: Face.tmmp :: restTail ∧
+        TopPairingTargetCompletionTail
+          (graph19TargetCompletionState.next Face.tmmp) restTail := by
+  rcases graph150_rest_nonempty_of_targetCompletionTail htail with
+    ⟨face, restTail, hrest⟩
+  subst rest
+  have hzp := graph150_head_of_targetCompletionTail htail
+  subst face
+  have htail157 : Graph157TargetCompletionTail restTail := by
+    simpa [Graph157TargetCompletionTail, graph157TargetCompletionState]
+      using TopPairingTargetCompletionTail.tail_next htail
+  rcases graph157_rest_nonempty_of_targetCompletionTail htail157 with
+    ⟨face, restTail2, hrestTail⟩
+  subst restTail
+  have htppm := graph157_head_of_targetCompletionTail htail157
+  subst face
+  have htail169 : Graph169TargetCompletionTail restTail2 := by
+    simpa [Graph169TargetCompletionTail, graph169TargetCompletionState]
+      using TopPairingTargetCompletionTail.tail_next htail157
+  rcases graph169_rest_nonempty_of_targetCompletionTail htail169 with
+    ⟨face, restTail3, hrestTail2⟩
+  subst restTail2
+  have htpmm := graph169_head_of_targetCompletionTail htail169
+  subst face
+  have htail183 : Graph183TargetCompletionTail restTail3 := by
+    simpa [Graph183TargetCompletionTail, graph183TargetCompletionState]
+      using TopPairingTargetCompletionTail.tail_next htail169
+  rcases graph183_tail_eq_forced_or_tmmp_branch htail183 with
+    hforced | hblocked
+  · subst restTail3
+    exact Or.inl rfl
+  · rcases hblocked with ⟨blockedTail, hrestTail3, hblockedTail⟩
+    subst restTail3
+    exact Or.inr ⟨blockedTail, rfl, hblockedTail⟩
 
 private theorem graph183TailEval :
     evalLabelStepFn closedBellmanNext 183 graph183ForcedTail =

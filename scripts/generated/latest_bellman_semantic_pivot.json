@@ -6,9 +6,10 @@
     "graph183 completion-tail membership is already semantic",
     "graph183 accepted branch has a tiny Lean-checked quotient raw-gain module",
     "the full graph183 quotient smoke is diagnostic, not a production import",
-    "graph183 now exposes a generic sequenceBadFace quotient-margin carrier",
+    "graph183 now exposes a direct semantic completion-tail killed route",
+    "the generic sequenceBadFace quotient-margin carrier remains available as support",
     "strengthened closed Bellman now exposes step-run, graph-exact, and eval-family ingress surfaces",
-    "the next graph183 target is an upstream semantic proof of that carrier"
+    "the next graph183 target is layer-4 routing into the direct killed theorem"
   ],
   "files": {
     "bellman_object": {
@@ -122,7 +123,10 @@
         "graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate": true,
         "graph183TailQuotientObjectMarginBound_of_sequenceBadFace": true,
         "graph183TailQuotientObjectMarginBound_of_strengthenedClosedBellmanStepRunFamily": true,
+        "nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail": true,
+        "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor": true,
         "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation": true,
+        "nonIdentityRankKilled_of_graph183AcceptedBranchPrefix": true,
         "nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation": true,
         "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace": true,
         "scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin": true,
@@ -140,6 +144,7 @@
         "AcceptedSequenceGraph183AcceptedTailMarginFamily": true,
         "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailMargin": true,
         "acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor": true,
+        "graph150_tail_eq_graph183_forced_or_tmmp_branch": true,
         "graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedTailMargin": true,
         "graph183AcceptedBranchEvalGateResult_of_labels": true,
         "graph183AcceptedBranchEval_of_prefix": true,
@@ -192,8 +197,8 @@
   },
   "forbidden_hits": [],
   "missing": {},
-  "next_gate": "Prove Graph183TailQuotientMarginSequenceBadFace scaledMargin semantically for the upstream strengthened language, then feed it through graph183TailQuotientMarginFamily_of_sequenceBadFace. Pair it with the generic branch-local start-violation surface. If that proof demands sampled ranks, selected prefixes, accepted trace ids, exact affine RHS, solved start-point keys, or one branch per rank/path, stop graph183 scaling and switch to the cancellation-segment or stronger cocycle quotient state.",
-  "next_lean_target": "Graph183TailQuotientMarginSequenceBadFace scaledMargin",
+  "next_gate": "Route the layer-4 graph183 branch to nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor. If that proof demands sampled ranks, selected prefixes, accepted trace ids, exact affine RHS, solved start-point keys, or one branch per rank/path, stop graph183 scaling and strengthen the semantic state rather than reviving selected-prefix coverage.",
+  "next_lean_target": "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor",
   "rejected": [
     "selected-prefix membership as production coverage",
     "sampled-rank/path object membership",
@@ -203,5 +208,5 @@
     "claiming graph183 alone proves all layer-4 coverage",
     "whole-label exact-eval as the primary graph183 proof obligation"
   ],
-  "status": "latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier"
+  "status": "latest-bellman-semantic-pivot-has-graph183-direct-kill-route"
 }

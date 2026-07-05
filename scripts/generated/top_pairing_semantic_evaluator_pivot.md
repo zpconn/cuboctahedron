@@ -4,7 +4,7 @@ This audit is diagnostic status evidence, not proof.  It records the
 current Lean theorem surfaces for the pivot away from selected-prefix
 membership and toward deterministic closed-language evaluator proofs.
 
-- decision: `semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier`
+- decision: `semantic_evaluator_pivot_ready_for_graph183_direct_kill_route`
 - missing required symbols: `0`
 - forbidden production-token hits: `0`
 - graph-alignment violations: `0`
@@ -28,8 +28,8 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph150_direct_eval_socket` | `127` | none |
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
-| `graph183_tail_table_socket` | `1392` | none |
-| `graph183_quotient_margin_socket` | `1357` | none |
+| `graph183_tail_table_socket` | `1435` | none |
+| `graph183_quotient_margin_socket` | `1417` | none |
 | `closed_bellman_strengthened_semantic_gate_socket` | `223` | none |
 | `graph183_accepted_branch_quotient` | `97` | none |
 | `graph183_cocycle_quotient_edge_core` | `470` | none |

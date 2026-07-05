@@ -228,6 +228,7 @@ REQUIRED_SYMBOLS = {
     ],
     "graph183_tail_table_socket": [
         "graph183_tail_eq_forced_or_tmmp_branch",
+        "graph150_tail_eq_graph183_forced_or_tmmp_branch",
         "graph183BlockedTailHeadEval",
         "graph183_blocked_restTail_eq",
         "graph183_blocked_branch_labels_eq_rejectedGraphTrace004",
@@ -307,6 +308,9 @@ REQUIRED_SYMBOLS = {
         "graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanStepRunFamily",
         "scaledMargin_nonpos_of_graph183TailQuotientMarginSequenceBadFace",
         "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
+        "nonIdentityRankKilled_of_graph183AcceptedBranchPrefix",
+        "nonIdentityRankKilled_of_acceptedSequenceGraph183CompletionTail",
+        "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor",
         "Graph183TailExactEvalFamily",
         "Graph183TailExactEvalSequenceBadFace",
         "graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate",
@@ -815,7 +819,7 @@ def main() -> int:
 
     guard_report = {name: load_json(path) for name, path in GUARDS.items()}
     decision = (
-        "semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier"
+        "semantic_evaluator_pivot_ready_for_graph183_direct_kill_route"
         if (
             not missing_symbols
             and not all_forbidden_hits
@@ -832,7 +836,7 @@ def main() -> int:
         "forbidden_hits": all_forbidden_hits,
         "graph_alignment_violations": all_graph_alignment_violations,
         "next_production_target": (
-            "Graph183TailQuotientMarginSequenceBadFace scaledMargin"
+            "nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor"
         ),
     }
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
