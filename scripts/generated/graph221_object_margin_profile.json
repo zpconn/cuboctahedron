@@ -1,0 +1,109 @@
+{
+  "all_classes_recognized": true,
+  "all_margins_equal_expected_bounds": true,
+  "all_margins_le_expected_bounds": true,
+  "classes": [
+    {
+      "class_index": 16,
+      "count": 1,
+      "expected_bound": -420,
+      "expected_gain": -596,
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "yp",
+        "tmpm",
+        "tmmm",
+        "zp",
+        "xp"
+      ],
+      "margin_eq_expected_bound": true,
+      "margin_le_expected_bound": true,
+      "margin_scaled": -420,
+      "rank_sample": [
+        312761
+      ]
+    },
+    {
+      "class_index": 17,
+      "count": 1,
+      "expected_bound": -200,
+      "expected_gain": -376,
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "yp",
+        "zp",
+        "xp"
+      ],
+      "margin_eq_expected_bound": true,
+      "margin_le_expected_bound": true,
+      "margin_scaled": -200,
+      "rank_sample": [
+        312772
+      ]
+    },
+    {
+      "class_index": 18,
+      "count": 1,
+      "expected_bound": -200,
+      "expected_gain": -376,
+      "faces": [
+        "xm",
+        "ym",
+        "zm",
+        "tmpp",
+        "tppp",
+        "tpmp",
+        "tppm",
+        "tmmp",
+        "tpmm",
+        "tmmm",
+        "tmpm",
+        "zp",
+        "yp",
+        "xp"
+      ],
+      "margin_eq_expected_bound": true,
+      "margin_le_expected_bound": true,
+      "margin_scaled": -200,
+      "rank_sample": [
+        312773
+      ]
+    }
+  ],
+  "graph221_class_count": 3,
+  "graph221_prefix": [
+    "face=xm|pair=x",
+    "face=ym|pair=y",
+    "face=zm|pair=z",
+    "face=tmpp|pair=dm11"
+  ],
+  "graph221_total_observed_count": 3,
+  "graph_path_class_count": 273,
+  "mode": "graph221-object-margin-profile-audit",
+  "next_producer_target": "Graph221ZmTmppSplit10MRootMarginObjectBound; prove the same margin inequalities semantically over closed graph221 objects, not by importing this diagnostic path-class table as evidence.",
+  "profile_range": [
+    0,
+    10000000
+  ],
+  "profile_state_key_mode": "with-step-tri-source",
+  "proof_relevance": "diagnostic only; no Lean evidence",
+  "schema_version": 1
+}

@@ -116583,3 +116583,88 @@ exists, build a bounded exact profiler/emitter for the graph221 object language
 that searches for a cocycle quotient over target-shadow/tri-source state.  Do
 not emit any rank/path table as proof evidence.
 ```
+
+#### 2026-07-05 graph221 object-margin diagnostic audit
+
+Status: diagnostic accepted; not proof evidence.
+
+There is no existing graph221 cocycle/quotient profile or emitted quotient
+module.  The only graph221 generated files before this checkpoint are the
+terminal-tail smoke and the semantic terminal bridge.  To avoid pretending a
+profile table is proof, I added a lightweight diagnostic audit:
+
+```text
+scripts/audit_graph221_object_margin_profile.py
+```
+
+It reads the existing 10M top-pairing Bellman graph profile:
+
+```text
+scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json
+```
+
+and extracts the `xm,ym,zm,tmpp` graph221 object-language classes.  Output:
+
+```text
+scripts/generated/graph221_object_margin_profile.json
+scripts/generated/graph221_object_margin_profile.md
+```
+
+Result:
+
+```text
+profile range: [0, 10,000,000)
+state key mode: with-step-tri-source
+total graph path classes: 273
+graph221 classes: 3
+graph221 observed count: 3
+all classes recognized: true
+all margins <= expected bounds: true
+all margins equal expected bounds: true
+```
+
+The three diagnostic classes are:
+
+| class | margin | evaluator gain | expected bound | face sequence |
+| ---: | ---: | ---: | ---: | --- |
+| 16 | -420 | -596 | -420 | `xm ym zm tmpp tppp tpmp tppm tmmp tpmm yp tmpm tmmm zp xp` |
+| 17 | -200 | -376 | -200 | `xm ym zm tmpp tppp tpmp tppm tmmp tpmm tmmm tmpm yp zp xp` |
+| 18 | -200 | -376 | -200 | `xm ym zm tmpp tppp tpmp tppm tmmp tpmm tmmm tmpm zp yp xp` |
+
+Interpretation:
+
+```text
+The graph221 object language appears to be a three-branch margin problem.
+The profile-scaled margins exactly match the deterministic evaluator bounds
+for the three semantic suffixes already recognized by the Lean graph221
+terminal bridge.  Therefore the next Lean-producing step should not build a
+large quotient table.  It should try a three-branch semantic
+Graph221ZmTmppSplit10MRootMarginObjectBound proof first.
+```
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/audit_graph221_object_margin_profile.py
+python3 scripts/audit_graph221_object_margin_profile.py
+```
+
+Both commands passed.
+
+Next implementation target:
+
+```text
+Build a small graph221 object-margin producer theorem for the three semantic
+suffixes:
+
+  graph221Tail029 -> margin <= -420
+  graph221Tail030 -> margin <= -200
+  graph221Tail031 -> margin <= -200
+
+The theorem must derive the branch from Graph221ZmTmppSplit10MRootMarginObj
+and the existing graph221 semantic suffix predicate, not from rank samples or
+path-class ids.  If the actual geometric scaledMargin cannot be related to
+those three branch constants without exact affine RHS keys or stored paths,
+then pivot immediately to the cocycle quotient profiler over the same
+graph221 object language.
+```
