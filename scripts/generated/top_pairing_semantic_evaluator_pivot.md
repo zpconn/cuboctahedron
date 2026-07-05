@@ -28,8 +28,8 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph150_direct_eval_socket` | `127` | none |
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
-| `graph183_tail_table_socket` | `1346` | none |
-| `graph183_quotient_margin_socket` | `737` | none |
+| `graph183_tail_table_socket` | `1357` | none |
+| `graph183_quotient_margin_socket` | `773` | none |
 | `graph183_accepted_branch_quotient` | `97` | none |
 | `graph183_cocycle_quotient_smoke` | `1803` | none |
 | `target_completion_local_branch_table_shard000` | `1403` | none |
@@ -47,7 +47,7 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph150_direct_eval_socket_lake`: exit `0`, elapsed `3.002738071998465`, peak RSS MiB `4050.12890625`
 - `graph157_continuation_socket_lake`: exit `0`, elapsed `5.004316574006225`, peak RSS MiB `4337.02734375`
 - `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
-- `graph183_tail_table_socket_lake`: exit `0`, elapsed `4.005158314001164`, peak RSS MiB `4253.10546875`
+- `graph183_tail_table_socket_lake`: exit `0`, elapsed `136.09755036400747`, peak RSS MiB `5875.578125`
 
 ## Forbidden Production Hits
 

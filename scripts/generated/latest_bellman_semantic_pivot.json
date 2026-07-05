@@ -78,6 +78,7 @@
         "graph183TailExactEvalFamily_of_quotientMarginSequenceBadFace": true,
         "graph183TailExactEvalFamily_of_sequenceBadFace": true,
         "graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace": true,
+        "graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate": true,
         "graph183TailQuotientMarginFamily_of_exactEvalSequenceBadFace": true,
         "graph183TailQuotientMarginFamily_of_sequenceBadFace": true,
         "graph183TailQuotientMarginFamily_of_tailExactEval": true,
@@ -102,6 +103,7 @@
         "AcceptedSequenceGraph183AcceptedTailMarginFamily": true,
         "acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor": true,
         "graph183AcceptedBranchEvalGateResult_of_labels": true,
+        "graph183AcceptedBranchEval_of_prefix": true,
         "graph183AcceptedBranchLabels_eq_of_prefix": true
       }
     },

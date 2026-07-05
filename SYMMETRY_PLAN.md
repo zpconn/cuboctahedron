@@ -111514,6 +111514,164 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 graph183 branch-prefix semantic eval bridge
+
+The newest GPT5.5 guidance says the next breakthrough is not more Bellman
+data; it is proving that the closed holonomy/cancellation language drives a
+deterministic evaluator.  This checkpoint adds the next small theorem surface
+for that route.
+
+New theorem/API surface:
+
+```lean
+-- in BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+graph183AcceptedBranchEval_of_prefix
+
+-- in BellmanTopPairingGraph183QuotientMarginSocket.lean
+graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate
+```
+
+`graph183AcceptedBranchEval_of_prefix` proves that the graph183 branch prefix
+
+```lean
+Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+  (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)
+```
+
+forces the deterministic evaluator on `topPairingRankFaceLabels rank` to the
+fixed branch result:
+
+```lean
+some (126, ((194 : Int) + (-542 : Int)))
+```
+
+`graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate` then
+turns any future semantic
+
+```lean
+TopPairingStrengthenedToGraphExactEvalGate
+  graphPotential closedBellmanNext (fun face : Face => face)
+  graphRoot graphConst scaledMargin sequenceBadFace Face.ym
+```
+
+into the graph183 branch-local exact-eval `sequenceBadFace` carrier.  This is
+still conditional, but it is the correct condition: a deterministic semantic
+evaluator gate, not selected-prefix membership, sampled ranks, accepted trace
+ids, exact affine RHS keys, solved start-point keys, or one branch per path.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 240 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+  -- env LEAN_NUM_THREADS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+```
+
+Result: failed before useful checking with `failed to create thread`; this is
+a tooling note, not a Lean failure.  Lake builds should use the RSS guard but
+not the hard address-space cap.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 240 \
+  --json scripts/generated/graph183_tail_table_socket_lake_guard.json \
+  -- env LEAN_NUM_THREADS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11Layer4Graph183TailTableSocket
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 136.10s
+peak RSS = 5875 MiB
+min available = 43862 MiB
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 2.00s
+peak RSS = 3488 MiB
+min available = 46336 MiB
+```
+
+Focused Lake build of the quotient-margin socket also passed after the
+dependency `.olean` was fresh:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/graph183_quotient_margin_socket_lake_guard.json \
+  -- env LEAN_NUM_THREADS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraph183QuotientMarginSocket
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 7.01s
+peak RSS = 3501 MiB
+min available = 46285 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_graph183_carrier_producer_readiness.py \
+  scripts/audit_graph183_accepted_tail_margin_frontier.py \
+  scripts/audit_latest_bellman_semantic_pivot.py \
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+```
+
+Results:
+
+```text
+graph183 carrier readiness =
+  graph183_carrier_sockets_ready_but_producer_missing
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+```
+
+Current next theorem remains:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+The new bridge means the next producer may equivalently prove a strengthened
+semantic graph-exact eval gate; on the graph183 forced branch, that gate now
+collapses to the exact-eval carrier and then to the quotient-margin carrier.
+
 ### 2026-07-05 semantic exact-eval to quotient-margin adapters
 
 The latest GPT5.5 review says to keep Bellman, reject selected-prefix

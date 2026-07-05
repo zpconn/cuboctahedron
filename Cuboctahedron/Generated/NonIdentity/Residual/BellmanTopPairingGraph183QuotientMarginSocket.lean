@@ -365,6 +365,42 @@ def Graph183TailExactEvalSequenceBadFace
         graphRoot graphConst scaledMargin rank Face.ym
         126 ((194 : Int) + (-542 : Int)))
 
+theorem graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hgate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        graphPotential closedBellmanNext (fun face : Face => face)
+        graphRoot graphConst scaledMargin sequenceBadFace Face.ym)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    Graph183TailExactEvalSequenceBadFace scaledMargin rank Face.ym := by
+  refine ⟨rfl, ?_⟩
+  intro hprefix
+  rcases hgate rank hstrengthened with ⟨finish, gain, hresult⟩
+  have hresultEval :
+      evalLabelStepFn closedBellmanNext graphRoot
+          (topPairingRankFaceLabels rank) =
+        some (finish, gain) := by
+    simpa [topPairingRankFaceLabels] using hresult.eval_eq
+  have hbranchEval :
+      evalLabelStepFn closedBellmanNext graphRoot
+          (topPairingRankFaceLabels rank) =
+        some (126, ((194 : Int) + (-542 : Int))) :=
+    graph183AcceptedBranchEval_of_prefix hprefix
+  have hsame :
+      (finish, gain) = (126, ((194 : Int) + (-542 : Int))) := by
+    have hsome :
+        some (finish, gain) =
+          some (126, ((194 : Int) + (-542 : Int))) :=
+      hresultEval.symm.trans hbranchEval
+    cases hsome
+    rfl
+  cases hsame
+  exact hresult
+
 def graph183TailExactEvalFamily_of_sequenceBadFace
     (scaledMargin : Fin numPairWords -> Int) :
     Graph183TailExactEvalFamily

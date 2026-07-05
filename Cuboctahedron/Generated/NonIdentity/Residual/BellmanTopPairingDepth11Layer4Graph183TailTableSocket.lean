@@ -449,6 +449,17 @@ private theorem graph183AcceptedBranchEval :
       some (126, ((194 : Int) + (-542 : Int))) := by
   rfl
 
+theorem graph183AcceptedBranchEval_of_prefix
+    {rank : Fin numPairWords}
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)) :
+    evalLabelStepFn closedBellmanNext graphRoot
+        (topPairingRankFaceLabels rank) =
+      some (126, ((194 : Int) + (-542 : Int))) := by
+  rw [graph183AcceptedBranchLabels_eq_of_prefix hprefix]
+  exact graph183AcceptedBranchEval
+
 private theorem graph183BlockedTailHeadEval :
     closedBellmanNext 19 Face.tmmp = none := by
   rfl

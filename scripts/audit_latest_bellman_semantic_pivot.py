@@ -90,6 +90,7 @@ REQUIRED = {
     "graph183_tail_socket": [
         "acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor",
         "graph183AcceptedBranchLabels_eq_of_prefix",
+        "graph183AcceptedBranchEval_of_prefix",
         "graph183AcceptedBranchEvalGateResult_of_labels",
         "AcceptedSequenceGraph183AcceptedTailMarginFamily",
     ],
@@ -118,6 +119,7 @@ REQUIRED = {
         "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
         "Graph183TailExactEvalFamily",
         "Graph183TailExactEvalSequenceBadFace",
+        "graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate",
         "graph183TailExactEvalFamily_of_sequenceBadFace",
         "graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace",
         "graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult",

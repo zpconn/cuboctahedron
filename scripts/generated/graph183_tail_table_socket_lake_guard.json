@@ -3,19 +3,18 @@
   "command": [
     "env",
     "LEAN_NUM_THREADS=1",
-    "LAKE_JOBS=1",
     "lake",
     "build",
     "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket"
   ],
-  "elapsed_seconds": 4.005158314001164,
+  "elapsed_seconds": 136.09755036400747,
   "exit_code": 0,
   "hard_address_space_mib": null,
   "killed_reason": null,
-  "max_tree_rss_kib": 4355180,
-  "max_tree_rss_mib": 4253.10546875,
-  "min_available_seen_kib": 46885688,
-  "min_available_seen_mib": 45786.8046875,
-  "rss_cap_mib": 10000.0,
-  "timeout_seconds": 420.0
+  "max_tree_rss_kib": 6016592,
+  "max_tree_rss_mib": 5875.578125,
+  "min_available_seen_kib": 44915556,
+  "min_available_seen_mib": 43862.84765625,
+  "rss_cap_mib": 6500.0,
+  "timeout_seconds": 240.0
 }
