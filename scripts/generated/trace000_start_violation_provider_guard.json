@@ -1,0 +1,26 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "-M",
+    "8000",
+    "-j1",
+    "-s",
+    "16384",
+    "-o",
+    ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace000StartViolationProvider.olean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace000StartViolationProvider.lean"
+  ],
+  "elapsed_seconds": 163.0875648620131,
+  "exit_code": -15,
+  "hard_address_space_mib": 16384.0,
+  "killed_reason": "process-tree RSS 8001 MiB exceeded 8000 MiB cap",
+  "max_tree_rss_kib": 8193812,
+  "max_tree_rss_mib": 8001.76953125,
+  "min_available_seen_kib": 43054200,
+  "min_available_seen_mib": 42045.1171875,
+  "rss_cap_mib": 8000.0,
+  "timeout_seconds": 360.0
+}

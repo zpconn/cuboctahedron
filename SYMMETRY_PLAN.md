@@ -115953,7 +115953,7 @@ with the deterministic transducer/cocycle fields instead.
 Status: semantic target-completion branch ingress added.
 
 The graph183-direct socket can now build the killed all-rank layer-4 family
-directly from target-completion branch families for the five non-graph147 /
+directly from target-completion branch families for the four non-graph147 /
 non-graph183 branches, plus the existing graph147 root-margin bundle:
 
 ```lean
@@ -115993,7 +115993,7 @@ target-completion branch family
 ```
 
 This gives the next generator a more precise theorem target: prove
-target-completion branch membership/classification facts for five named
+target-completion branch membership/classification facts for four named
 branches, prove the graph147 root-margin bundle, and provide the start-violation
 gate.  It does not require graph147 exact-eval nonpositive obligations, sampled
 ranks, selected-prefix IDs, accepted traces, exact affine RHS keys, or full
@@ -116020,7 +116020,7 @@ Next implementation target:
 
 ```text
 Build one representative target-completion branch family, preferably one of the
-five mapped branches above, and verify whether the semantic state is strong
+four mapped branches above, and verify whether the semantic state is strong
 enough to prove both tail membership and Depth11Layer4MappedClassCase without
 rank/path enumeration.
 ```
@@ -116028,3 +116028,102 @@ rank/path enumeration.
 If a representative branch proof needs observed traces or exact affine keys,
 strengthen the target-completion state with deterministic transducer/cocycle
 fields before attempting broad generation.
+
+### 2026-07-05 graph221 semantic terminal bridge for `zm,tmpp`
+
+Status: representative deterministic semantic branch accepted, with a direct-kill
+import kept out of the normal path.
+
+The latest GPT5.5 pivot says not to scale selected-prefix membership.  For the
+`Face.zm, Face.tmpp` representative branch, the repository now has the desired
+semantic chain:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank rank Face.ym
+Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest
+  -> graph151CompletionTail_of_strengthened_prefix
+  -> graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic
+  -> terminalTraceLabels_of_graph221_zm_tmpp_semantic
+```
+
+New checked bridge:
+
+```lean
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraph221SemanticTerminalBridge.lean
+```
+
+Exported theorem:
+
+```lean
+terminalTraceLabels_of_graph221_zm_tmpp_semantic
+```
+
+This is the deterministic closed-language-to-terminal-evaluator proof shape the
+pivot asked for: the object is just the rank plus strengthened closed semantics,
+the target-completion tail is derived from schedule, square-gap, used-face,
+length, and target cursor semantics, and the terminal machine gate is obtained
+without sampled ranks, selected-prefix IDs, accepted trace IDs, exact affine RHS
+keys, solved start-point keys, or stored Bellman paths.
+
+Important guard result: a first attempt to import the heavier direct-kill bridge
+pulled in `BellmanTopPairingTrace000StartViolationProvider`.  The memory guard
+terminated that provider at the configured 8 GiB RSS cap after `163.09s`
+(`8001.77 MiB` peak, `42045 MiB` minimum available).  That was not a machine
+OOM, but it is an explicit warning not to make the start-violation provider part
+of this new normal import path.  The bridge was therefore reduced to the
+lightweight terminal-trace theorem above.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/top_pairing_terminal_shard000_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Terminal/Shard000.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/TopPairingTraceClassifier/Terminal/Shard000.lean
+```
+
+Shard results:
+
+```text
+Shard000 passed: 6.00s, peak RSS 3940 MiB
+Shard001 passed: 4.00s, peak RSS 3996 MiB
+Shard002 passed: 3.00s, peak RSS 3967 MiB
+Shard003 passed: 3.00s, peak RSS 3967 MiB
+Shard004 passed: 3.00s, peak RSS 3967 MiB
+Shard005 passed: 3.00s, peak RSS 3967 MiB
+Shard006 passed: 2.00s, peak RSS 3584 MiB
+```
+
+Bridge check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph221_semantic_terminal_bridge_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean
+```
+
+Passed: elapsed `2.00s`, peak RSS `3629 MiB`, min available `46351 MiB`.
+
+Next implementation target:
+
+```text
+Extend the graph221 semantic terminal bridge to the production consumer without
+importing the heavy start-violation provider into normal generated coverage.
+Preferred routes:
+1. a lightweight terminal-trace -> killed bridge backed by already-sharded,
+   memory-safe start-violation families; or
+2. thread terminalTraceLabels_of_graph221_zm_tmpp_semantic into an existing
+   semantic terminal producer root that is known to build under guard.
+
+If either route pulls in monolithic trace providers above the guard limit, keep
+the terminal theorem as the branch membership result and split/replace the
+start-violation provider before broad assembly.
+```
