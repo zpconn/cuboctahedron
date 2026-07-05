@@ -118150,3 +118150,82 @@ Additional production-route audit markers:
 graph147_targetCompletionTail_cases
 Graph147TargetCompletionTail has exactly two semantic completions
 ```
+
+#### 2026-07-05 graph147 target-tail case socket added
+
+Status: Lean adapter socket added and focused-checked.  This does not prove the
+margin arithmetic; it reduces the next graph147 producer to four semantic
+object-tail bounds.
+
+New Lean module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseSocket.lean
+```
+
+New theorem/data names:
+
+```lean
+def Graph147YpZmRankedEvalTailCaseBound
+def Graph147ZmYpRankedEvalTailCaseBound
+
+structure StrengthenedGraph147RankedEvalTargetTailCaseFamily
+
+def rankedEvalTargetTailObjectFamily_of_tailCaseFamily
+def rankedEvalMarginBundle_of_tailCaseFamily
+def rootMarginBundle_of_tailCaseFamily
+```
+
+Producer chain:
+
+```text
+StrengthenedGraph147RankedEvalTargetTailCaseFamily
+  -> StrengthenedGraph147RankedEvalTargetTailObjectFamily
+  -> StrengthenedGraph147RankedEvalMarginBundle
+  -> StrengthenedGraph147RootMarginBundle
+```
+
+The four required fields are:
+
+```text
+yp_zm_zp    : yp,zm object bound for graph147TargetTailZp
+yp_zm_tmmp  : yp,zm object bound for graph147TargetTailTmmp
+zm_yp_zp    : zm,yp object bound for graph147TargetTailZp
+zm_yp_tmmp  : zm,yp object bound for graph147TargetTailTmmp
+```
+
+Focused check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/graph147_target_tail_case_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseSocket.lean
+```
+
+Result:
+
+```text
+passed, elapsed 2.00s, peak RSS 3564 MiB, hard address-space cap 24576 MiB,
+min available 46356 MiB
+```
+
+Updated immediate target:
+
+```text
+Prove or emit StrengthenedGraph147RankedEvalTargetTailCaseFamily.
+
+The proof must establish the four object-tail margin bounds from semantic
+closed-language/ranked-eval facts and the two concrete target-tail lists.  It
+must not use sampled ranks, selected-prefix ids, accepted traces, exact affine
+keys, or per-observed-path membership.
+```
+
+Additional production-route audit marker:
+
+```text
+StrengthenedGraph147RankedEvalTargetTailCaseFamily
+```
