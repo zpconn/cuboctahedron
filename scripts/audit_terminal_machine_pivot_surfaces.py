@@ -59,6 +59,9 @@ REQUIRED_SYMBOLS = {
         "terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate",
         "Layer4ReachableTerminalContinuationAll",
         "terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationAll",
+        "terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate_fromContains",
+        "Layer4ReachableTerminalContinuationFromContainsAll",
+        "terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationFromContainsAll",
         "TerminalContainedEvalProgressGate",
     ],
     "closed_transducer_socket": [
@@ -126,6 +129,7 @@ def main() -> int:
                 "depth-11 graph-path portfolio wrapper consuming the machine socket",
                 "frontier-to-terminal composition from the compact layer-4 state",
                 "reachable-frontier continuation package for split-10M pairs",
+                "from-contains continuation package for layer-4 suffix leaves",
             ],
             "remaining_gap": (
                 "prove TerminalContainedEvalPrefixGate machine (Layer4State.s04 "
@@ -138,7 +142,7 @@ def main() -> int:
             "generate or prove terminal continuation gates from layer-4 frontier "
             "states satisfying Split10MPrefix4FrontierCons2, then compose them "
             "with terminalContainedEvalPrefixGate_of_layer4ReachableTerminal"
-            "ContinuationAll"
+            "ContinuationFromContainsAll"
         ),
     }
 

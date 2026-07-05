@@ -103063,3 +103063,74 @@ local tables.
 
   The next generated continuation proof can therefore be a proper deterministic
   state recursion over reachable layer-4 frontier states.
+
+### 2026-07-04 layer-4 suffix continuation can assume containment
+
+- Tightened the reachable layer-4 continuation surface again in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStateFrontierSmoke
+  ```
+
+- New theorem/interface names:
+
+  ```lean
+  terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate_fromContains
+  Layer4ReachableTerminalContinuationFromContainsAll
+  terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationFromContainsAll
+  ```
+
+- Production-facing theorem shape:
+
+  ```lean
+  Layer4MachineFrontierGate rank ->
+  (∀ third fourth,
+    Split10MPrefix4FrontierCons2 third.face fourth.face ->
+      TerminalStepState.Contains
+        (layer4Machine.stateOf (Layer4State.s04 third fourth)) rank ->
+      TerminalContainedEvalPrefixGate
+        layer4Machine (Layer4State.s04 third fourth) rank) ->
+  TerminalContainedEvalPrefixGate
+    layer4Machine Layer4State.s00 rank
+  ```
+
+  The layer-4 frontier progress theorem already proves the containment fact,
+  so future suffix leaves do not need to reconstruct the first four labels or
+  the closed-language start prefix.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+  ```
+
+- Results:
+  - `BellmanTopPairingTerminalStateFrontierSmoke` passed under the memory
+    guard in `5.00s`.
+  - Peak tree RSS was `4262 MiB`; minimum available memory observed was
+    `45872 MiB`.
+  - The terminal-machine pivot surface audit passed with
+    `status = machine-pivot-surfaces-present` and `forbidden_hits = 0`.
+
+- Current promotion status:
+  the narrowest current continuation target is
+  `Layer4ReachableTerminalContinuationFromContainsAll`.  A generated suffix
+  emitter should prove that from:
+
+  ```text
+  closed rank
+  reachable split-10M layer-4 pair
+  semantic containment of Layer4State.s04 third fourth
+  ```
+
+  and should finish by calling
+  `terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationFromContainsAll`.

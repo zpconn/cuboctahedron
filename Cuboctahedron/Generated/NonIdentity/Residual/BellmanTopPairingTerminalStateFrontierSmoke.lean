@@ -1111,6 +1111,34 @@ theorem terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate
     layer4Machine hprogress (hterminal third fourth hgraphFrontier)
 
 /--
+Reachable-frontier continuation variant where the generated continuation may
+assume semantic containment of the layer-4 state.
+
+The containment proof is already produced by the layer-4 frontier progress
+gate, so continuation leaves should not reconstruct the first four labels.
+-/
+theorem terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate_fromContains
+    {rank : Fin numPairWords}
+    (hfrontier : Layer4MachineFrontierGate rank)
+    (hterminal :
+      ∀ third fourth,
+        Split10MPrefix4FrontierCons2 third.face fourth.face ->
+          TerminalStepState.Contains
+            (layer4Machine.stateOf (Layer4State.s04 third fourth)) rank ->
+          TerminalContainedEvalPrefixGate
+            layer4Machine (Layer4State.s04 third fourth) rank) :
+    TerminalContainedEvalPrefixGate
+      layer4Machine Layer4State.s00 rank := by
+  rcases hfrontier with ⟨third, fourth, hprogress, hgraphFrontier⟩
+  have hcontains :
+      TerminalStepState.Contains
+        (layer4Machine.stateOf (Layer4State.s04 third fourth)) rank :=
+    contains_of_containedEvalProgressGate layer4Machine hprogress
+  exact terminalContainedEvalPrefixGate_trans_progress
+    layer4Machine hprogress
+      (hterminal third fourth hgraphFrontier hcontains)
+
+/--
 All-rank version of the layer-4 frontier-to-terminal handoff.  This theorem is
 still conditional on a generated continuation theorem from each layer-4
 frontier state, but it removes the need for that continuation theorem to
@@ -1158,6 +1186,37 @@ theorem terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationAl
     (hfrontierAll.family rank hclosed)
     (fun third fourth hfrontier =>
       hcontinuation.terminal rank hclosed third fourth hfrontier)
+
+/--
+All-rank reachable-frontier continuation package where each generated leaf may
+assume the layer-4 state's semantic containment fact.
+
+This is the narrowest current continuation target: the closed-language prefix,
+the reachable split-10M frontier pair, and layer-4 containment are all supplied
+by reusable semantic theorems.
+-/
+structure Layer4ReachableTerminalContinuationFromContainsAll : Prop where
+  terminal :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+      ∀ third fourth,
+        Split10MPrefix4FrontierCons2 third.face fourth.face ->
+          TerminalStepState.Contains
+            (layer4Machine.stateOf (Layer4State.s04 third fourth)) rank ->
+          TerminalContainedEvalPrefixGate
+            layer4Machine (Layer4State.s04 third fourth) rank
+
+theorem terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationFromContainsAll
+    {rank : Fin numPairWords}
+    (hfrontierAll : Layer4MachineFrontierGateAll)
+    (hcontinuation : Layer4ReachableTerminalContinuationFromContainsAll)
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    TerminalContainedEvalPrefixGate
+      layer4Machine Layer4State.s00 rank :=
+  terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate_fromContains
+    (hfrontierAll.family rank hclosed)
+    (fun third fourth hfrontier hcontains =>
+      hcontinuation.terminal rank hclosed third fourth hfrontier hcontains)
 
 theorem terminalStateFrontierSmoke_builds : True := by
   exact True.intro
