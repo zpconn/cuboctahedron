@@ -80,6 +80,7 @@
 - `target-shadow cursor`: `true`
 - `No selected-prefix/root-trace scaling`: `true`
 - `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
+- `Selected-prefix diagnostics only`: `true`
 
 ## Semantic Inputs
 
@@ -143,6 +144,51 @@
 - symbol: `StrengthenedGraph147RankedShardMarginInvariantFamily`
 - present outside socket: `false`
 - interpretation: No production producer has been found yet; the current Lean surface is a socket plus adapters.  The next proof step is to instantiate this socket from semantic margin evidence, not to scale selected-prefix or sampled-rank traces.
+
+## Selected-Prefix Diagnostics
+
+- production allowed: `false`
+- interpretation: Selected-prefix, accepted-trace, and trace-margin artifacts may remain as discovery or smoke tools only.  They must not instantiate the graph147 production route; production must go through the semantic ranked transducer margin bundle or a checked semantic segment/cocycle quotient.
+
+### Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginSocket.lean
+
+- exists: `true`
+- `SelectedPrefixTraceMarginSequenceBadFace`: `true`
+- `selectedPrefixTraceMarginFamily_of_sequenceBadFace`: `true`
+- `SelectedPrefixCoverSequenceBadFace`: `false`
+- `GraphAcceptedTraceMargin`: `false`
+- `AcceptedTraceId`: `false`
+- `acceptedTraceOfId`: `false`
+
+### Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginCoverBridge.lean
+
+- exists: `true`
+- `SelectedPrefixTraceMarginSequenceBadFace`: `true`
+- `selectedPrefixTraceMarginFamily_of_sequenceBadFace`: `false`
+- `SelectedPrefixCoverSequenceBadFace`: `true`
+- `GraphAcceptedTraceMargin`: `false`
+- `AcceptedTraceId`: `false`
+- `acceptedTraceOfId`: `false`
+
+### Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean
+
+- exists: `true`
+- `SelectedPrefixTraceMarginSequenceBadFace`: `false`
+- `selectedPrefixTraceMarginFamily_of_sequenceBadFace`: `false`
+- `SelectedPrefixCoverSequenceBadFace`: `true`
+- `GraphAcceptedTraceMargin`: `true`
+- `AcceptedTraceId`: `true`
+- `acceptedTraceOfId`: `true`
+
+### Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixAcceptedPrefixEvalBridge.lean
+
+- exists: `true`
+- `SelectedPrefixTraceMarginSequenceBadFace`: `false`
+- `selectedPrefixTraceMarginFamily_of_sequenceBadFace`: `false`
+- `SelectedPrefixCoverSequenceBadFace`: `false`
+- `GraphAcceptedTraceMargin`: `false`
+- `AcceptedTraceId`: `false`
+- `acceptedTraceOfId`: `false`
 
 ## Remaining Producer Fields
 

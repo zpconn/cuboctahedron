@@ -111037,6 +111037,27 @@ Rejected inputs:
 - exact affine RHS keys or solved start-point keys;
 - a branch per observed path/prefix.
 
+Selected-prefix diagnostics only:
+
+```text
+Existing selected-prefix, accepted-trace, and trace-margin files may remain as
+discovery/smoke artifacts.  They must not instantiate graph147 production
+coverage.  Production must go through the semantic ranked-transducer margin
+bundle, or through a checked semantic segment/cocycle quotient if the direct
+margin invariant cannot be proved.
+```
+
+Audit status after adding this tripwire:
+
+```text
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+
+status = ready_for_ranked_eval_margin_bundle_producer
+selected_prefix_diagnostics.production_allowed = false
+direct_margin_inv_producer.present_outside_socket = false
+```
+
 Go/no-go decision:
 
 ```text

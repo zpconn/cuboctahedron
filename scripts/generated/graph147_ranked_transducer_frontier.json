@@ -37,6 +37,7 @@
     "meaning": "Graph147 production must be a deterministic closed-language to evaluator theorem.  Selected-prefix/root-trace coverage is diagnostic only unless it is replaced by semantic local transition and margin invariant evidence.",
     "plan_markers": {
       "No selected-prefix/root-trace scaling": true,
+      "Selected-prefix diagnostics only": true,
       "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
       "closed-language-to-eval theorem": true,
       "mandatory_graph147_semantic_transducer_pivot": true,
@@ -51,6 +52,7 @@
     "file": "SYMMETRY_PLAN.md",
     "pivot_markers": {
       "No selected-prefix/root-trace scaling": true,
+      "Selected-prefix diagnostics only": true,
       "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
       "closed-language-to-eval theorem": true,
       "mandatory_graph147_semantic_transducer_pivot": true,
@@ -139,6 +141,60 @@
       "meaning": "every accepted final state has nonnegative potential and proves the full-root margin bound.  The sharper ranked-eval invariant surface now separates this into a suffix margin invariant with local preservation plus a final empty-suffix margin theorem.  The ranked shard adapter additionally supplies the semantic suffix closure and final-potential facts, so the remaining hard part is to instantiate the margin-only invariant from closed target cursor, schedule, local-axis, and full graph147 state facts"
     }
   ],
+  "selected_prefix_diagnostics": {
+    "files": [
+      {
+        "exists": true,
+        "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginSocket.lean",
+        "symbols": {
+          "AcceptedTraceId": false,
+          "GraphAcceptedTraceMargin": false,
+          "SelectedPrefixCoverSequenceBadFace": false,
+          "SelectedPrefixTraceMarginSequenceBadFace": true,
+          "acceptedTraceOfId": false,
+          "selectedPrefixTraceMarginFamily_of_sequenceBadFace": true
+        }
+      },
+      {
+        "exists": true,
+        "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixTraceMarginCoverBridge.lean",
+        "symbols": {
+          "AcceptedTraceId": false,
+          "GraphAcceptedTraceMargin": false,
+          "SelectedPrefixCoverSequenceBadFace": true,
+          "SelectedPrefixTraceMarginSequenceBadFace": true,
+          "acceptedTraceOfId": false,
+          "selectedPrefixTraceMarginFamily_of_sequenceBadFace": false
+        }
+      },
+      {
+        "exists": true,
+        "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean",
+        "symbols": {
+          "AcceptedTraceId": true,
+          "GraphAcceptedTraceMargin": true,
+          "SelectedPrefixCoverSequenceBadFace": true,
+          "SelectedPrefixTraceMarginSequenceBadFace": false,
+          "acceptedTraceOfId": true,
+          "selectedPrefixTraceMarginFamily_of_sequenceBadFace": false
+        }
+      },
+      {
+        "exists": true,
+        "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSelectedPrefixAcceptedPrefixEvalBridge.lean",
+        "symbols": {
+          "AcceptedTraceId": false,
+          "GraphAcceptedTraceMargin": false,
+          "SelectedPrefixCoverSequenceBadFace": false,
+          "SelectedPrefixTraceMarginSequenceBadFace": false,
+          "acceptedTraceOfId": false,
+          "selectedPrefixTraceMarginFamily_of_sequenceBadFace": false
+        }
+      }
+    ],
+    "interpretation": "Selected-prefix, accepted-trace, and trace-margin artifacts may remain as discovery or smoke tools only.  They must not instantiate the graph147 production route; production must go through the semantic ranked transducer margin bundle or a checked semantic segment/cocycle quotient.",
+    "production_allowed": false
+  },
   "semantic_inputs": {
     "bellman_potential": {
       "file": "Cuboctahedron/Search/BellmanPotential.lean",

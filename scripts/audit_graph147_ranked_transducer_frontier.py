@@ -47,6 +47,21 @@ COCYCLE_QUOTIENT_AUDIT = (
     ROOT / "scripts/generated/graph147_cocycle_quotient_potential_0_10M.json"
 )
 
+SELECTED_PREFIX_DIAGNOSTIC_FILES = [
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSelectedPrefixTraceMarginSocket.lean",
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSelectedPrefixTraceMarginCoverBridge.lean",
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSelectedPrefixCoverMembershipBridge.lean",
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingSelectedPrefixAcceptedPrefixEvalBridge.lean",
+]
+
 SOCKET_SYMBOLS = [
     "StrengthenedGraph147RankedTransducerInvariantFamily",
     "graphExactEvalGate_of_rankedTransducerInvariantFamily",
@@ -204,6 +219,16 @@ PLAN_PIVOT_MARKERS = [
     "target-shadow cursor",
     "No selected-prefix/root-trace scaling",
     "StrengthenedGraph147RankedShardMarginInvariantFamily",
+    "Selected-prefix diagnostics only",
+]
+
+SELECTED_PREFIX_DIAGNOSTIC_SYMBOLS = [
+    "SelectedPrefixTraceMarginSequenceBadFace",
+    "selectedPrefixTraceMarginFamily_of_sequenceBadFace",
+    "SelectedPrefixCoverSequenceBadFace",
+    "GraphAcceptedTraceMargin",
+    "AcceptedTraceId",
+    "acceptedTraceOfId",
 ]
 
 
@@ -243,6 +268,23 @@ def read_json(path: Path) -> dict:
 
 def contains_all(text: str, symbols: list[str]) -> dict[str, bool]:
     return {symbol: symbol in text for symbol in symbols}
+
+
+def diagnostic_file_symbols() -> list[dict[str, object]]:
+    entries: list[dict[str, object]] = []
+    for path in SELECTED_PREFIX_DIAGNOSTIC_FILES:
+        text = read(path)
+        entries.append(
+            {
+                "file": str(path.relative_to(ROOT)),
+                "exists": path.exists(),
+                "symbols": {
+                    symbol: symbol in text
+                    for symbol in SELECTED_PREFIX_DIAGNOSTIC_SYMBOLS
+                },
+            }
+        )
+    return entries
 
 
 def tail_text(text: str, lines: int = 260) -> str:
@@ -288,6 +330,7 @@ def main() -> None:
         PRODUCTION_PRODUCER_SYMBOL
     )
     direct_margin_inv_producer_present = bool(producer_usages)
+    selected_prefix_diagnostics = diagnostic_file_symbols()
     forbidden_hits = [
         {
             "term": term,
@@ -391,6 +434,17 @@ def main() -> None:
                 else "A candidate producer usage exists outside the socket and must be audited."
             ),
         },
+        "selected_prefix_diagnostics": {
+            "production_allowed": False,
+            "interpretation": (
+                "Selected-prefix, accepted-trace, and trace-margin artifacts "
+                "may remain as discovery or smoke tools only.  They must not "
+                "instantiate the graph147 production route; production must "
+                "go through the semantic ranked transducer margin bundle or "
+                "a checked semantic segment/cocycle quotient."
+            ),
+            "files": selected_prefix_diagnostics,
+        },
         "remaining_fields": REMAINING_FIELDS,
         "production_route": PRODUCTION_ROUTE,
         "next_step": (
@@ -486,6 +540,23 @@ def main() -> None:
             "",
         ]
     )
+    lines.extend(
+        [
+            "## Selected-Prefix Diagnostics",
+            "",
+            "- production allowed: "
+            f"`{str(data['selected_prefix_diagnostics']['production_allowed']).lower()}`",
+            f"- interpretation: {data['selected_prefix_diagnostics']['interpretation']}",
+            "",
+        ]
+    )
+    for entry in data["selected_prefix_diagnostics"]["files"]:
+        lines.append(f"### {entry['file']}")
+        lines.append("")
+        lines.append(f"- exists: `{str(entry['exists']).lower()}`")
+        for symbol, present in entry["symbols"].items():
+            lines.append(f"- `{symbol}`: `{str(present).lower()}`")
+        lines.append("")
     lines.extend(["## Remaining Producer Fields", ""])
     for field in REMAINING_FIELDS:
         lines.append(f"- `{field['field']}`: {field['meaning']}")
