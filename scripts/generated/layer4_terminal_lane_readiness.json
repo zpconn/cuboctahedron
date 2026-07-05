@@ -68,14 +68,26 @@
         "strengthenedPrefix8Graph202TargetCompletionLocalBranchTable": true
       },
       "fourth": "Face.tmpp",
-      "remaining_gap": "graph151 now advances semantically through tppp to graph159, graph171, graph186, and graph202, reaching the graph221 branching frontier; no graph221 filtered suffix/terminal continuation table analogous to graph183 is present",
+      "graph221_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean",
+      "graph221_filtered_symbols": {
+        "Graph221TargetCompletionTail": true,
+        "graph221AcceptedTailSuffixOk": true,
+        "graph221FilteredTailPrefixContinuation": true,
+        "graph221TailPrefix029Eval": true,
+        "graph221TailPrefix030Eval": true,
+        "graph221TailPrefix031Eval": true,
+        "graph221TargetCompletionState": true,
+        "graph221_head_of_targetCompletionTail": true,
+        "graph221_yp_tmpm_head_of_targetCompletionTail": true
+      },
+      "remaining_gap": "graph221 now has a rank-free filtered tail-prefix continuation for the three graph-accepted suffixes.  This is not a full lane gate yet: target-completion alone permits at least one extra head after the yp,tmpm branch, so the next proof must derive the accepted suffix filter from the strengthened product state with Bellman/tri-source constraints.",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
         "graph151_head_of_targetCompletionTail": true,
         "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_forced_chain_reaches_graph221_branch",
+      "status": "partial_graph221_filtered_tail_prefix_continuation",
       "third": "Face.zm"
     },
     "zm_yp": {
@@ -104,7 +116,7 @@
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "continue the zm_tmpp semantic continuation at the graph221 branching frontier by generating or proving a filtered target-completion suffix/terminal continuation, then lift the lane through the same four-piece terminal-machine pattern validated by graph183",
+  "next_recommended_slice": "derive the graph221 accepted-suffix filter from the strengthened product state with Bellman/tri-source constraints, then lift the zm_tmpp lane through the same four-piece terminal-machine pattern validated by graph183",
   "partial_lane_count": 1,
   "partial_lanes": [
     "zm_tmpp"

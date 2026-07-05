@@ -104519,3 +104519,113 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   branch requires exact affine RHS, solved start-point data, or one branch per
   observed path, stop and run the cocycle/cancellation-summary quotient
   experiment before emitting more Lean.
+
+### 2026-07-05 graph221 filtered suffix continuation and membership boundary
+
+- Added the next narrow `zm,tmpp` lane slice:
+
+  ```text
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean
+  ```
+
+- New semantic names:
+
+  ```lean
+  graph221TargetCompletionState
+  Graph221TargetCompletionTail
+  graph221_head_of_targetCompletionTail
+  graph221_yp_tmpm_head_of_targetCompletionTail
+  graph221AcceptedTailSuffixOk
+  graph221TailPrefix029Eval
+  graph221TailPrefix030Eval
+  graph221TailPrefix031Eval
+  graph221FilteredTailPrefixContinuation
+  ```
+
+- What this proves:
+  after the forced chain reaches Bellman graph state `221`, the file provides
+  a rank-free filtered tail-prefix continuation for the three graph-accepted
+  suffixes:
+
+  ```lean
+  [tmmm, tmpm, yp, zp, xp]
+  [tmmm, tmpm, zp, yp, xp]
+  [yp, tmpm, tmmm, zp, xp]
+  ```
+
+  Each suffix is split into a four-face terminal prefix plus final schedule
+  `xp`, then discharged through the existing terminal-state producer socket.
+  This is still conditional on `graph221AcceptedTailSuffixOk`; it does not use
+  sampled ranks, selected-prefix ids, accepted-trace ids as membership keys,
+  exact affine RHS, or solved start-point data.
+
+- Important negative result:
+  an attempted stronger target-completion-only classifier was too strong.
+  Lean exposed that after the `yp,tmpm` branch, target-completion alone still
+  permits a `zp` head:
+
+  ```lean
+  theorem graph221_yp_tmpm_head_of_targetCompletionTail
+      ... :
+      face = Face.tmmm \/ face = Face.zp
+  ```
+
+  This is exactly the membership wall described in the latest GPT5.5 pivot.
+  The next proof must derive the accepted-suffix filter from the strengthened
+  product state with Bellman graph / tri-source constraints, not from
+  `TopPairingTargetCompletionTail` alone.
+
+- Updated readiness audit:
+
+  ```text
+  scripts/audit_layer4_terminal_lane_readiness.py
+  scripts/generated/layer4_terminal_lane_readiness.json
+  ```
+
+  Current audit status:
+
+  ```text
+  validated_lanes = [tmpm_zm]
+  partial_lanes = [zm_tmpp]
+  zm_tmpp status = partial_graph221_filtered_tail_prefix_continuation
+  next_recommended_slice =
+    derive the graph221 accepted-suffix filter from the strengthened product
+    state with Bellman/tri-source constraints, then lift the zm_tmpp lane
+    through the same four-piece terminal-machine pattern validated by graph183
+  ```
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221TerminalTailPrefixSmoke
+
+  python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+  python3 scripts/audit_layer4_terminal_lane_readiness.py
+
+  rg -n \
+    "SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean \
+    scripts/generated/layer4_terminal_lane_readiness.json
+  ```
+
+- Results:
+
+  | Check | Result | Elapsed | Peak Tree RSS | Min Available |
+  | --- | --- | ---: | ---: | ---: |
+  | focused graph221 filtered continuation build | pass | `4.00s` | `4136 MiB` | `46012 MiB` |
+  | layer-4 readiness audit | pass | n/a | n/a | n/a |
+  | forbidden-token scan on touched proof surfaces | pass | n/a | n/a | n/a |
+
+- Next acceptance gate:
+  implement a product-state local theorem at graph221 that consumes the
+  strengthened semantic state and proves `graph221AcceptedTailSuffixOk` for
+  any production tail.  If that theorem starts requiring exact affine RHS,
+  solved start-point data, selected traces, sampled ranks, or one branch per
+  observed path, stop and run the cocycle/cancellation-summary quotient
+  experiment before emitting more graph221 data.
