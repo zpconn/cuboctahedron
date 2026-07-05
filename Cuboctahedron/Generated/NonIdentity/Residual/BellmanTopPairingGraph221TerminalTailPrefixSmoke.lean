@@ -1371,6 +1371,44 @@ theorem graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_an
   rw [hpfx]
   simpa [Depth11Layer4PrefixAtRank, List.append_assoc] using hprefix
 
+/--
+Semantic-suffix version of the graph221 layer-4 gate.
+
+The older bridge above receives a strengthened-evaluator success equation and
+uses it only to derive `graph221Layer4AcceptedTailSuffixOk`.  This theorem
+makes the production target explicit: prove the product-state suffix predicate
+directly from closed semantic state, then the terminal-machine gate follows
+without selected-prefix membership or a rank/path table.
+-/
+theorem graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+    (htail : Graph151TargetCompletionTail rest)
+    (hok : graph221Layer4AcceptedTailSuffixOk rest) :
+    TerminalContainedEvalPrefixGate
+      TerminalStepStatePartialMachine.semantic graph221Layer4PrefixState
+      rank := by
+  have hcontains :=
+    graph221Layer4PrefixState_contains_of_strengthened_prefix
+      hstrengthened hprefix
+  rcases graph221Layer4FilteredTailPrefixContinuation.terminal rest htail hok with
+    ⟨labels, terminalFinish, terminalGain, remaining, hrest, htermEval,
+      hterminal⟩
+  refine ⟨labels, terminalFinish, terminalGain, remaining, hcontains, ?_,
+    htermEval, hterminal⟩
+  subst rest
+  have hpfx :
+      (TerminalStepStatePartialMachine.semantic.stateOf
+        graph221Layer4PrefixState).pfx =
+          [Face.xm, Face.ym, Face.zm, Face.tmpp] := by
+    rfl
+  rw [hpfx]
+  simpa [Depth11Layer4PrefixAtRank, List.append_assoc] using hprefix
+
 theorem graph221Layer4ProgressGate_of_strengthened_prefix
     {rank : Fin numPairWords} {rest : List Face}
     (hstrengthened :
@@ -1419,6 +1457,32 @@ theorem graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_a
     (graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_strengthenedEval
       hstrengthened hprefix htail heval)
 
+/--
+Layer-4 graph221 gate from a semantic suffix predicate.
+
+This is the non-circular bridge requested by the Bellman pivot: the remaining
+work is now to prove `graph221Layer4AcceptedTailSuffixOk rest` from the
+strengthened closed-language state, not to assume that the strengthened
+evaluator already succeeds.
+-/
+theorem graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+    (htail : Graph151TargetCompletionTail rest)
+    (hok : graph221Layer4AcceptedTailSuffixOk rest) :
+    TerminalContainedEvalPrefixGate
+      TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank :=
+  terminalContainedEvalPrefixGate_trans_progress
+    TerminalStepStatePartialMachine.semantic
+    (graph221Layer4ProgressGate_of_strengthened_prefix
+      hstrengthened hprefix)
+    (graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk
+      hstrengthened hprefix htail hok)
+
 theorem graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_eval
     {rank : Fin numPairWords} {rest : List Face}
     {finish : StrengthenedClosedEvalState} {gain : Int}
@@ -1437,6 +1501,41 @@ theorem graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_eval
     hstrengthened hprefix
     (graph151CompletionTail_of_strengthened_prefix hstrengthened hprefix)
     heval
+
+/--
+Emitter-facing graph221 semantic suffix target.
+
+Generated production code should try to prove this structure from the
+deterministic product-state/cancellation/tri-source language.  If proving this
+field requires selected prefixes, sampled ranks, accepted-trace ids, exact
+affine RHS keys, or one branch per observed path, the route should pivot to the
+cocycle/cancellation-summary quotient experiment instead.
+-/
+structure Graph221Layer4SemanticSuffixFamily : Prop where
+  suffixOk :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ∀ rest,
+        Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+        Graph151TargetCompletionTail rest ->
+        graph221Layer4AcceptedTailSuffixOk rest
+
+theorem graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily
+    (hfamily : Graph221Layer4SemanticSuffixFamily)
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    TerminalContainedEvalPrefixGate
+      TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank :=
+  graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk
+    hstrengthened hprefix
+    (graph151CompletionTail_of_strengthened_prefix hstrengthened hprefix)
+    (hfamily.suffixOk rank hstrengthened rest hprefix
+      (graph151CompletionTail_of_strengthened_prefix hstrengthened hprefix))
 
 theorem graph221TerminalTailPrefixSmoke_builds : True := by
   exact True.intro

@@ -105004,3 +105004,120 @@ peak_tree_rss=4211 MiB
 after backing out the failed theorem:
 pass; elapsed=5.01s; peak_tree_rss=4239 MiB; min_available=45850 MiB
 ```
+
+### 2026-07-05 pivot: graph221 now targets semantic suffix membership, not eval success
+
+The GPT5.5 Pro pivot was incorporated at the graph221 boundary: keep Bellman,
+but do not scale selected-prefix membership and do not make the next theorem
+assume the strengthened evaluator already succeeds.  The graph221 smoke now
+exposes a non-circular product-state suffix surface:
+
+```lean
+theorem graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk
+  (hstrengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym)
+  (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+  (htail : Graph151TargetCompletionTail rest)
+  (hok : graph221Layer4AcceptedTailSuffixOk rest) :
+  TerminalContainedEvalPrefixGate
+    TerminalStepStatePartialMachine.semantic graph221Layer4PrefixState rank
+
+theorem graph221InitialContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk
+  (hstrengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym)
+  (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+  (htail : Graph151TargetCompletionTail rest)
+  (hok : graph221Layer4AcceptedTailSuffixOk rest) :
+  TerminalContainedEvalPrefixGate
+    TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank
+```
+
+and an emitter-facing target:
+
+```lean
+structure Graph221Layer4SemanticSuffixFamily : Prop where
+  suffixOk :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ∀ rest,
+        Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+        Graph151TargetCompletionTail rest ->
+        graph221Layer4AcceptedTailSuffixOk rest
+
+theorem graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily
+  (hfamily : Graph221Layer4SemanticSuffixFamily)
+  (hstrengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym)
+  (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+  TerminalContainedEvalPrefixGate
+    TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank
+```
+
+This is the concrete “semantic object-cover” shape for the graph221 frontier.
+The remaining theorem is no longer phrased as:
+
+```lean
+evalLabelStepFn strengthenedClosedEvalNext
+  strengthenedClosedPrefix4ZmTmppEvalState rest = some (finish, gain)
+```
+
+Instead, generated/hand-written production work must prove the rank-free suffix
+predicate
+
+```lean
+graph221Layer4AcceptedTailSuffixOk rest
+```
+
+from the strengthened closed-language product state.  This predicate is still a
+small local graph221 suffix predicate, so the next implementation attempt must
+derive it from deterministic semantic fields such as graph state, target-shadow
+cursor, tri-source/cancellation progress, used-face tail, schedule, and
+square-gap.  If that proof wants selected-prefix ids, sampled ranks,
+accepted-trace ids, exact affine RHS keys, solved start points, or one branch per
+observed path, stop and run the cocycle/cancellation-summary quotient
+experiment before emitting more graph221 leaves.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221TerminalTailPrefixSmoke
+```
+
+Result:
+
+```text
+pass; elapsed=8.01s; peak_tree_rss=4246 MiB; min_available=45841 MiB
+```
+
+Narrow forbidden-token scan on the touched Lean file:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean
+```
+
+Result:
+
+```text
+pass; no matches
+```
+
+Current graph221 status:
+
+```text
+zm_tmpp status =
+  semantic_suffix_family_frontier
+remaining_gap =
+  prove Graph221Layer4SemanticSuffixFamily from product-state/cancellation
+  semantics; pivot to cocycle quotient if that requires observed-prefix
+  membership or exact affine keys
+```
