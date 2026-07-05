@@ -21,6 +21,14 @@
     }
   },
   "next_step": "Generate or prove the semantic graph147 margin theorem over the deterministic ranked evaluator result, then package it as StrengthenedGraph147RankedEvalMarginBundle.  The theorem must use target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.",
+  "plan_tail": {
+    "file": "SYMMETRY_PLAN.md",
+    "symbols": {
+      "StrengthenedGraph147RankedEvalMarginBundle": true,
+      "ready_for_ranked_eval_margin_bundle_producer": true,
+      "rootMarginBundle_of_rankedEvalMarginBundle": true
+    }
+  },
   "production_route": {
     "fallback": "If the invariant cannot be proved from target cursor, schedule, square-gap/local-axis tail, pair-count/used-face facts, and deterministic full-graph147 state semantics, stop graph147 scaling and switch to the certified segment/cocycle quotient experiment.",
     "keep": "Bellman/state-DAG via deterministic semantic transducer",

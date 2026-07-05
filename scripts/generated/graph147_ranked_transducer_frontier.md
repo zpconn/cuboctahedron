@@ -38,6 +38,13 @@
 - `rankedEvalMarginBundle_of_graphExactEvalGate`: `true`
 - `rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle`: `true`
 
+## Plan Tail Symbols
+
+- file: `SYMMETRY_PLAN.md`
+- `ready_for_ranked_eval_margin_bundle_producer`: `true`
+- `StrengthenedGraph147RankedEvalMarginBundle`: `true`
+- `rootMarginBundle_of_rankedEvalMarginBundle`: `true`
+
 ## Semantic Inputs
 
 ### target_cursor

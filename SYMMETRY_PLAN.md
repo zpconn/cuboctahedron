@@ -105155,6 +105155,108 @@ target cursor Lake build = pass; elapsed=3.00s; peak_tree_rss=769 MiB;
 min_available=46545 MiB
 ```
 
+### 2026-07-05 current graph147 frontier summary
+
+Current accepted graph147 target:
+
+```text
+StrengthenedGraph147RankedEvalMarginBundle
+  -> rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+The current socket also proves compatibility with the older full graph-exact
+gate:
+
+```text
+rankedEvalMarginBundle_of_graphExactEvalGate
+rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle
+```
+
+The remaining graph147 producer must prove the deterministic ranked-evaluator
+margin theorem:
+
+```lean
+∀ finish gain,
+  evalLabelStepFn graph147RankedEvalNext graph147RankedPrefix4EvalState rest =
+    some (finish, gain) ->
+  scaledMargin rank <= (176 : Int) + ((-53 : Int) + gain)
+```
+
+Accepted coordinates: target-shadow cursor, schedule/square-gap/local-axis
+tail, pair-count/used-face facts, full graph147 Bellman state semantics, or a
+checked segment/cocycle quotient.
+
+Rejected coordinates: sampled ranks, selected-prefix ids, accepted trace ids,
+exact affine RHS keys, solved start-point keys, one branch per observed path,
+and giant Boolean checkers.
+
+Current audit:
+
+```text
+status = ready_for_ranked_eval_margin_bundle_producer
+production_route.target =
+  StrengthenedGraph147RankedEvalMarginBundle,
+  then rootMarginBundle_of_rankedEvalMarginBundle
+ranked_eval_socket.forbidden_hits = []
+```
+
+### 2026-07-05 active frontier correction: graph147 ranked-eval margin bundle
+
+The final visible graph147 rule above is stale in one important name: the
+current accepted target is no longer the broader
+`StrengthenedGraph147RankedTransducerInvariantFamily`.  That invariant-family
+route remains a compatibility input, but the sharper production target is now:
+
+```text
+StrengthenedGraph147RankedEvalMarginBundle
+  -> rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+The graph147 ranked-eval socket currently provides:
+
+```text
+theorem graph147YpZm_rankedPrefix4Tail_of_strengthened_prefix
+theorem graph147ZmYp_rankedPrefix4Tail_of_strengthened_prefix
+structure StrengthenedGraph147YpZmRankedEvalMarginFamily
+structure StrengthenedGraph147ZmYpRankedEvalMarginFamily
+structure StrengthenedGraph147RankedEvalMarginBundle
+def rootMarginBundle_of_rankedEvalMarginBundle
+def rankedEvalMarginBundle_of_graphExactEvalGate
+def rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle
+```
+
+The remaining graph147 proof obligation is exactly the semantic margin theorem
+over the deterministic ranked suffix evaluator result:
+
+```lean
+∀ finish gain,
+  evalLabelStepFn graph147RankedEvalNext graph147RankedPrefix4EvalState rest =
+    some (finish, gain) ->
+  scaledMargin rank <= (176 : Int) + ((-53 : Int) + gain)
+```
+
+The proof may use target-shadow cursor, schedule/square-gap/local-axis tail,
+pair-count/used-face facts, full graph147 Bellman state semantics, or a checked
+segment/cocycle quotient.  It must not use sampled ranks, selected-prefix ids,
+accepted trace ids, exact affine RHS keys, solved start-point keys, one branch
+per observed path, or a giant Boolean checker.
+
+Current audit:
+
+```bash
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Result:
+
+```text
+status = ready_for_ranked_eval_margin_bundle_producer
+production_route.target =
+  StrengthenedGraph147RankedEvalMarginBundle,
+  then rootMarginBundle_of_rankedEvalMarginBundle
+ranked_eval_socket.forbidden_hits = []
+```
+
 Follow-up accepted for the same graph147 lane:
 
 ```text
@@ -108494,48 +108596,49 @@ Result:
 pass; no matches
 ```
 
-### 2026-07-05 latest graph147 production rule
+### 2026-07-05 current graph147 frontier summary
 
-Current rule after the latest GPT5.5 Pro review:
-
-- Keep Bellman/state-DAG for graph147.
-- Reject selected-prefix covers as production evidence.
-- The next accepted producer target is
-  `StrengthenedGraph147RankedTransducerInvariantFamily`, followed by
-  `rootMarginBundle_of_rankedTransducerInvariantFamily`.
-- The proof must be driven by deterministic semantic transducer state:
-  target cursor, schedule/square-gap/local-axis tail, pair-count/used-face
-  facts, and full graph147 Bellman state semantics.
-- If the proof asks for sampled ranks, selected prefixes, accepted trace ids,
-  exact affine RHS keys, solved start-point keys, or one branch per observed
-  path, stop graph147 scaling and switch to the segment/cocycle quotient
-  route.
-
-Checkpoint commands:
-
-```bash
-python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
-python3 scripts/audit_graph147_ranked_transducer_frontier.py
-python3 scripts/run_memory_guarded.py \
-  --timeout-seconds 240 \
-  --max-tree-rss-mib 8000 \
-  --min-available-mib 30000 \
-  --json scripts/generated/pivot_graph147_target_cursor_lake_guard.json \
-  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
-    lake build Cuboctahedron.Search.TopPairingTargetCursor
-```
-
-Results:
+Current accepted graph147 target:
 
 ```text
-frontier audit status = ready_for_ranked_transducer_invariant_producer
-production_route.keep = Bellman/state-DAG via deterministic semantic transducer
+StrengthenedGraph147RankedEvalMarginBundle
+  -> rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+The graph147 ranked-eval socket also proves compatibility with the older full
+graph-exact gate:
+
+```text
+rankedEvalMarginBundle_of_graphExactEvalGate
+rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle
+```
+
+The remaining graph147 producer must prove the deterministic ranked-evaluator
+margin theorem:
+
+```lean
+∀ finish gain,
+  evalLabelStepFn graph147RankedEvalNext graph147RankedPrefix4EvalState rest =
+    some (finish, gain) ->
+  scaledMargin rank <= (176 : Int) + ((-53 : Int) + gain)
+```
+
+Accepted coordinates: target-shadow cursor, schedule/square-gap/local-axis
+tail, pair-count/used-face facts, full graph147 Bellman state semantics, or a
+checked segment/cocycle quotient.
+
+Rejected coordinates: sampled ranks, selected-prefix ids, accepted trace ids,
+exact affine RHS keys, solved start-point keys, one branch per observed path,
+and giant Boolean checkers.
+
+Current audit:
+
+```text
+status = ready_for_ranked_eval_margin_bundle_producer
 production_route.target =
-  StrengthenedGraph147RankedTransducerInvariantFamily,
-  then rootMarginBundle_of_rankedTransducerInvariantFamily
-socket.forbidden_hits = []
-target cursor Lake build = pass; elapsed=3.00s; peak_tree_rss=769 MiB;
-min_available=46545 MiB
+  StrengthenedGraph147RankedEvalMarginBundle,
+  then rootMarginBundle_of_rankedEvalMarginBundle
+ranked_eval_socket.forbidden_hits = []
 ```
 
 ### 2026-07-05 controlling pivot after GPT5.5 transducer review
@@ -109950,46 +110053,47 @@ Result:
 pass; no matches
 ```
 
-### 2026-07-05 latest graph147 production rule
+### 2026-07-05 current graph147 frontier summary
 
-Current rule after the latest GPT5.5 Pro review:
-
-- Keep Bellman/state-DAG for graph147.
-- Reject selected-prefix covers as production evidence.
-- The next accepted producer target is
-  `StrengthenedGraph147RankedTransducerInvariantFamily`, followed by
-  `rootMarginBundle_of_rankedTransducerInvariantFamily`.
-- The proof must be driven by deterministic semantic transducer state:
-  target cursor, schedule/square-gap/local-axis tail, pair-count/used-face
-  facts, and full graph147 Bellman state semantics.
-- If the proof asks for sampled ranks, selected prefixes, accepted trace ids,
-  exact affine RHS keys, solved start-point keys, or one branch per observed
-  path, stop graph147 scaling and switch to the segment/cocycle quotient
-  route.
-
-Checkpoint commands:
-
-```bash
-python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
-python3 scripts/audit_graph147_ranked_transducer_frontier.py
-python3 scripts/run_memory_guarded.py \
-  --timeout-seconds 240 \
-  --max-tree-rss-mib 8000 \
-  --min-available-mib 30000 \
-  --json scripts/generated/pivot_graph147_target_cursor_lake_guard.json \
-  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
-    lake build Cuboctahedron.Search.TopPairingTargetCursor
-```
-
-Results:
+Current accepted graph147 target:
 
 ```text
-frontier audit status = ready_for_ranked_transducer_invariant_producer
-production_route.keep = Bellman/state-DAG via deterministic semantic transducer
+StrengthenedGraph147RankedEvalMarginBundle
+  -> rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+The graph147 ranked-eval socket also proves compatibility with the older full
+graph-exact gate:
+
+```text
+rankedEvalMarginBundle_of_graphExactEvalGate
+rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle
+```
+
+The remaining graph147 producer must prove the deterministic ranked-evaluator
+margin theorem:
+
+```lean
+∀ finish gain,
+  evalLabelStepFn graph147RankedEvalNext graph147RankedPrefix4EvalState rest =
+    some (finish, gain) ->
+  scaledMargin rank <= (176 : Int) + ((-53 : Int) + gain)
+```
+
+Accepted coordinates: target-shadow cursor, schedule/square-gap/local-axis
+tail, pair-count/used-face facts, full graph147 Bellman state semantics, or a
+checked segment/cocycle quotient.
+
+Rejected coordinates: sampled ranks, selected-prefix ids, accepted trace ids,
+exact affine RHS keys, solved start-point keys, one branch per observed path,
+and giant Boolean checkers.
+
+Current audit:
+
+```text
+status = ready_for_ranked_eval_margin_bundle_producer
 production_route.target =
-  StrengthenedGraph147RankedTransducerInvariantFamily,
-  then rootMarginBundle_of_rankedTransducerInvariantFamily
-socket.forbidden_hits = []
-target cursor Lake build = pass; elapsed=3.00s; peak_tree_rss=769 MiB;
-min_available=46545 MiB
+  StrengthenedGraph147RankedEvalMarginBundle,
+  then rootMarginBundle_of_rankedEvalMarginBundle
+ranked_eval_socket.forbidden_hits = []
 ```

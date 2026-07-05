@@ -25,6 +25,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OUT_JSON = ROOT / "scripts/generated/graph147_ranked_transducer_frontier.json"
 OUT_MD = ROOT / "scripts/generated/graph147_ranked_transducer_frontier.md"
+PLAN = ROOT / "SYMMETRY_PLAN.md"
 
 DIRECT_SOCKET = (
     ROOT
@@ -168,9 +169,14 @@ def contains_all(text: str, symbols: list[str]) -> dict[str, bool]:
     return {symbol: symbol in text for symbol in symbols}
 
 
+def tail_text(text: str, lines: int = 260) -> str:
+    return "\n".join(text.splitlines()[-lines:])
+
+
 def main() -> None:
     direct_text = read(DIRECT_SOCKET)
     ranked_eval_text = read(RANKED_EVAL_SOCKET)
+    plan_tail = tail_text(read(PLAN))
     semantic_files = {
         "target_cursor": read(TARGET_CURSOR),
         "transducer_tail": read(TRANSDUCER_TAIL),
@@ -204,16 +210,25 @@ def main() -> None:
         ]
         if term in text
     ]
+    plan_tail_symbols = contains_all(
+        plan_tail,
+        [
+            "ready_for_ranked_eval_margin_bundle_producer",
+            "StrengthenedGraph147RankedEvalMarginBundle",
+            "rootMarginBundle_of_rankedEvalMarginBundle",
+        ],
+    )
 
     all_socket = all(socket_symbols.values())
     all_ranked_eval = all(ranked_eval_symbols.values())
     all_semantic = all(
         all(symbols.values()) for symbols in semantic_symbols.values()
     )
+    all_plan_tail = all(plan_tail_symbols.values())
     status = (
         "ready_for_ranked_eval_margin_bundle_producer"
         if all_socket and all_ranked_eval and all_semantic and full_graph_only
-        and not forbidden_hits
+        and all_plan_tail and not forbidden_hits
         else "ranked_transducer_frontier_incomplete"
     )
 
@@ -227,6 +242,10 @@ def main() -> None:
         "ranked_eval_socket": {
             "file": str(RANKED_EVAL_SOCKET.relative_to(ROOT)),
             "symbols": ranked_eval_symbols,
+        },
+        "plan_tail": {
+            "file": str(PLAN.relative_to(ROOT)),
+            "symbols": plan_tail_symbols,
         },
         "semantic_inputs": {
             key: {
@@ -287,6 +306,10 @@ def main() -> None:
         lines.append(f"- `{symbol}`: `{str(present).lower()}`")
     lines.extend(["", "## Ranked Eval Socket Symbols", ""])
     for symbol, present in ranked_eval_symbols.items():
+        lines.append(f"- `{symbol}`: `{str(present).lower()}`")
+    lines.extend(["", "## Plan Tail Symbols", ""])
+    lines.append(f"- file: `{data['plan_tail']['file']}`")
+    for symbol, present in data["plan_tail"]["symbols"].items():
         lines.append(f"- `{symbol}`: `{str(present).lower()}`")
     lines.extend(["", "## Semantic Inputs", ""])
     for key, entry in data["semantic_inputs"].items():
