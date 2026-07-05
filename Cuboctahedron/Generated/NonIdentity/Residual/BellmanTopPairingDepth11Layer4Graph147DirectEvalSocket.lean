@@ -23,6 +23,7 @@ open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential
 
 /--
@@ -1533,6 +1534,28 @@ def stepRunBranchBundle_of_rootMarginBundle
     intro rank rest hstrengthened hprefix
     exact stepRunGateAtRank_of_zm_yp_rootMarginFamily
       hbundle.zm_yp hstrengthened hprefix
+
+theorem scaledMargin_nonpos_of_graph147RootStepRunGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {pfx labels : List Face}
+    (hgate :
+      Graph147TargetCompletionTailRootStepRunGate
+        scaledMargin rank pfx labels) :
+    scaledMargin rank <= 0 := by
+  rcases hgate with ⟨finish, totalGain, hrun, hfinal, hmargin⟩
+  have hconst :
+      graphConst + totalGain <= 0 :=
+    const_add_labelStepRunGain_nonpos
+      (V := graphPotential) (Step := ClosedBellmanStep)
+      (const := graphConst) hrun
+      (by
+        intro state face nextState gain hstep
+        exact closedBellmanStep_valid hstep)
+      hfinal strengthenedBellmanRootBound
+  have hconst176 :
+      (176 : Int) + totalGain <= 0 := by
+    simpa [graphConst] using hconst
+  omega
 
 theorem graph147DirectEvalSocket_builds : True := by
   exact True.intro

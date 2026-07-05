@@ -13,14 +13,14 @@
     ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.olean",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean"
   ],
-  "elapsed_seconds": 3.0025264299765695,
+  "elapsed_seconds": 3.002638803998707,
   "exit_code": 0,
   "hard_address_space_mib": 16384.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 4134964,
-  "max_tree_rss_mib": 4038.05078125,
-  "min_available_seen_kib": 47328128,
-  "min_available_seen_mib": 46218.875,
+  "max_tree_rss_kib": 4124052,
+  "max_tree_rss_mib": 4027.39453125,
+  "min_available_seen_kib": 47328332,
+  "min_available_seen_mib": 46219.07421875,
   "rss_cap_mib": 7500.0,
   "timeout_seconds": 300.0
 }

@@ -115782,3 +115782,101 @@ the existing graph147 nonpositive adapter.  It must stay semantic and local:
 closed-language branch predicates, target-completion tails, and margin families
 are allowed; sampled rank/path tables and selected-prefix memberships remain
 rejected.
+
+### 2026-07-05 graph183 portfolio consumes graph147 step-run gates
+
+Status: graph183-direct layer-4 portfolio now has a step-run graph147 route.
+
+The graph147 direct socket now exposes a local nonpositive theorem for a single
+root step-run gate:
+
+```lean
+scaledMargin_nonpos_of_graph147RootStepRunGate
+```
+
+This theorem consumes:
+
+```lean
+Graph147TargetCompletionTailRootStepRunGate scaledMargin rank pfx labels
+```
+
+and proves `scaledMargin rank <= 0` using only:
+
+```lean
+BellmanLabelStepRun ClosedBellmanStep ...
+0 <= graphPotential finish
+closedBellmanStep_valid
+strengthenedBellmanRootBound
+```
+
+The graph183-direct portfolio socket now preserves graph147 branch context
+until the step-run gate has been converted to nonpositive margin.  New surfaces:
+
+```lean
+AcceptedSequenceDepth11Layer4Graph183DirectStepRunPortfolioFamily
+AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank
+AcceptedSequenceDepth11Layer4SplitNonposOrKilledBranchGateFamily
+acceptedSequenceSplitNonposOrKilledBranchGateFamily_of_graph183DirectStepRunPortfolio
+AcceptedSequenceDepth11Layer4SplitNonposOrKilledAllFamily
+acceptedSequenceSplitNonposOrKilledAllFamily_of_branchGateFamily
+acceptedSequenceSplitNonposOrKilledAllFamily_of_graph183DirectStepRunPortfolio
+nonIdentityRankKilled_of_splitNonposOrKilledAtRank
+acceptedSequenceMixedKilledAllFamily_of_graph183DirectStepRunPortfolio
+```
+
+The important proof-shape change is:
+
+```text
+graph147 branch prefix + target-completion tail + root margin family
+  -> Graph147TargetCompletionTailRootStepRunGate
+  -> scaledMargin <= 0
+  -> start-violation killed theorem
+```
+
+The old exact-eval compatibility path remains available, but the new graph183
+portfolio no longer needs a global graph147 nonpositive theorem over opaque
+exact-eval gates.  This removes one more incentive to prove a heartbeat-heavy
+inverse theorem from unknown evaluator equalities back to graph edges.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 --max-tree-rss-mib 7500 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph147_direct_eval_socket_guard.json \
+  -- lake env lean -M 7500 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+Passed: elapsed `3.00s`, peak RSS `4027 MiB`, min available `46219 MiB`.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph183_direct_killed_portfolio_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.lean
+```
+
+Passed: elapsed `2.00s`, peak RSS `3641 MiB`, min available `46352 MiB`.
+
+Forbidden-token scan over the two touched Lean sockets found no `sorry`,
+`admit`, `axiom`, `native_decide`, or `unsafe`.
+
+Next implementation target:
+
+```text
+Move one layer upstream: produce or adapt a semantic branch family whose graph147
+field is StrengthenedGraph147StepRunBranchBundle, then connect it to the
+accepted-sequence layer-4 killed surface without graph-exact eval obligations.
+```
+
+If the upstream producer only has the old
+`StrengthenedGraph147RootMarginBundle`, use
+`stepRunBranchBundle_of_rootMarginBundle`.  The next proof should still be a
+semantic deterministic transducer proof over closed-language branch predicates,
+not a selected-prefix or sampled-path family.

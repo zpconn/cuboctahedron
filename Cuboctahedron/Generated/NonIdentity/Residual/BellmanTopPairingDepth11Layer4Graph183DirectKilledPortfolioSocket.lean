@@ -482,6 +482,302 @@ def acceptedSequenceMixedKilledAllFamily_of_graph183DirectPortfolio
     (acceptedSequenceMixedEvalOrKilledAllFamily_of_graph183DirectPortfolio
       hfamily)
 
+/--
+Graph183-direct layer-4 portfolio whose graph147 branches expose semantic
+step-run gates instead of graph-exact evaluator gates.
+
+This is the preferred carrier after the deterministic-transducer pivot because
+the graph147 branch context is preserved until the local step-run theorem is
+turned into `scaledMargin <= 0`.
+-/
+structure AcceptedSequenceDepth11Layer4Graph183DirectStepRunPortfolioFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  tmpm_tppm :
+    StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+      scaledMargin AcceptedSequenceBadFaceAtRank Face.tmpm Face.tppm
+  yp_tmmm :
+    StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+      scaledMargin AcceptedSequenceBadFaceAtRank Face.yp Face.tmmm
+  graph147 :
+    StrengthenedGraph147StepRunBranchBundle
+      scaledMargin AcceptedSequenceBadFaceAtRank
+  zm_tmpp :
+    StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+      scaledMargin AcceptedSequenceBadFaceAtRank Face.zm Face.tmpp
+  zm_zp :
+    StrengthenedDepth11Layer4MappedBranchPortfolioFamily
+      scaledMargin AcceptedSequenceBadFaceAtRank Face.zm Face.zp
+
+/--
+Rank-local result for the step-run graph147 portfolio.
+
+Graph147 branches are represented only by their nonpositive margin conclusion;
+split-10M branches remain exact-eval gates, and graph183 remains directly
+killed.
+-/
+inductive AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) : Prop
+  | split :
+      Split10MGraphExactEvalGateAtRank scaledMargin rank ->
+        AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank
+          scaledMargin rank
+  | nonpos :
+      scaledMargin rank <= 0 ->
+        AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank
+          scaledMargin rank
+  | killed :
+      Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank ->
+        AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank
+          scaledMargin rank
+
+structure AcceptedSequenceDepth11Layer4SplitNonposOrKilledBranchGateFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  tmpm_tppm :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.tppm rest ->
+      Split10MGraphExactEvalGateAtRank scaledMargin rank
+  tmpm_zm :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest ->
+      Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+  yp_tmmm :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.yp Face.tmmm rest ->
+      Split10MGraphExactEvalGateAtRank scaledMargin rank
+  yp_zm :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+      scaledMargin rank <= 0
+  zm_tmpp :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+      Split10MGraphExactEvalGateAtRank scaledMargin rank
+  zm_yp :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+      scaledMargin rank <= 0
+  zm_zp :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.zm Face.zp rest ->
+      Split10MGraphExactEvalGateAtRank scaledMargin rank
+
+def acceptedSequenceSplitNonposOrKilledBranchGateFamily_of_graph183DirectStepRunPortfolio
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceDepth11Layer4Graph183DirectStepRunPortfolioFamily
+        scaledMargin) :
+    AcceptedSequenceDepth11Layer4SplitNonposOrKilledBranchGateFamily
+      scaledMargin where
+  tmpm_tppm := by
+    intro rank rest hstrengthened hprefix
+    exact graphExactEvalGateAtRank_of_strengthenedMappedBranchPortfolio
+      hfamily.tmpm_tppm
+      (Or.inl ⟨rfl, Or.inl rfl⟩)
+      hstrengthened hprefix
+  tmpm_zm := by
+    intro rank rest hstrengthened hprefix
+    exact nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor
+      hstrengthened hprefix
+  yp_tmmm := by
+    intro rank rest hstrengthened hprefix
+    exact graphExactEvalGateAtRank_of_strengthenedMappedBranchPortfolio
+      hfamily.yp_tmmm
+      (Or.inr (Or.inl ⟨rfl, Or.inl rfl⟩))
+      hstrengthened hprefix
+  yp_zm := by
+    intro rank rest hstrengthened hprefix
+    exact scaledMargin_nonpos_of_graph147RootStepRunGate
+      (hfamily.graph147.yp_zm hstrengthened hprefix)
+  zm_tmpp := by
+    intro rank rest hstrengthened hprefix
+    exact graphExactEvalGateAtRank_of_strengthenedMappedBranchPortfolio
+      hfamily.zm_tmpp
+      (Or.inr (Or.inr ⟨rfl, Or.inl rfl⟩))
+      hstrengthened hprefix
+  zm_yp := by
+    intro rank rest hstrengthened hprefix
+    exact scaledMargin_nonpos_of_graph147RootStepRunGate
+      (hfamily.graph147.zm_yp hstrengthened hprefix)
+  zm_zp := by
+    intro rank rest hstrengthened hprefix
+    exact graphExactEvalGateAtRank_of_strengthenedMappedBranchPortfolio
+      hfamily.zm_zp
+      (Or.inr (Or.inr ⟨rfl, Or.inr (Or.inr rfl)⟩))
+      hstrengthened hprefix
+
+structure AcceptedSequenceDepth11Layer4SplitNonposOrKilledAllFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  family :
+    ∀ rank : Fin numPairWords,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+        AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank
+          scaledMargin rank
+
+theorem acceptedSequenceSplitNonposOrKilledAllFamily_of_branchGateFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceDepth11Layer4SplitNonposOrKilledBranchGateFamily
+        scaledMargin) :
+    AcceptedSequenceDepth11Layer4SplitNonposOrKilledAllFamily
+      scaledMargin where
+  family := by
+    intro rank hstrengthened
+    rcases topPairingStepScheduleLabels_prefix3
+        hstrengthened.closed.schedule with htmpm | hyp | hzm
+    · rcases htmpm with ⟨rest3, hlabels3⟩
+      cases rest3 with
+      | nil =>
+          have hlenRank :
+              (faceLabelsInContributionOrder (fun f => f)
+                (canonicalSeqOfPairWord (unrankPairWord rank))).length = 14 := by
+            simpa [topPairingRankFaceLabels] using
+              hstrengthened.closed.schedule.1
+          rw [hlabels3] at hlenRank
+          norm_num at hlenRank
+      | cons face₁ rest =>
+          have hprefix :
+              Depth11Layer4PrefixAtRank rank Face.tmpm face₁ rest := by
+            dsimp [Depth11Layer4PrefixAtRank]
+            simpa [topPairingRankFaceLabels] using hlabels3
+          have hfrontier :=
+            semanticFrontierBranch_of_closed_layer4_prefix
+              hstrengthened.closed hprefix
+          rcases hfrontier with htmpmBranch | hypBranch | hzmBranch
+          · rcases htmpmBranch with ⟨_hface₀, htppm | hzm⟩
+            · subst face₁
+              exact AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank.split
+                (hfamily.tmpm_tppm hstrengthened hprefix)
+            · subst face₁
+              exact AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank.killed
+                (hfamily.tmpm_zm hstrengthened hprefix)
+          · cases hypBranch.1
+          · cases hzmBranch.1
+    · rcases hyp with ⟨rest3, hlabels3⟩
+      cases rest3 with
+      | nil =>
+          have hlenRank :
+              (faceLabelsInContributionOrder (fun f => f)
+                (canonicalSeqOfPairWord (unrankPairWord rank))).length = 14 := by
+            simpa [topPairingRankFaceLabels] using
+              hstrengthened.closed.schedule.1
+          rw [hlabels3] at hlenRank
+          norm_num at hlenRank
+      | cons face₁ rest =>
+          have hprefix :
+              Depth11Layer4PrefixAtRank rank Face.yp face₁ rest := by
+            dsimp [Depth11Layer4PrefixAtRank]
+            simpa [topPairingRankFaceLabels] using hlabels3
+          have hfrontier :=
+            semanticFrontierBranch_of_closed_layer4_prefix
+              hstrengthened.closed hprefix
+          rcases hfrontier with htmpmBranch | hypBranch | hzmBranch
+          · cases htmpmBranch.1
+          · rcases hypBranch with ⟨_hface₀, htmmm | hzm⟩
+            · subst face₁
+              exact AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank.split
+                (hfamily.yp_tmmm hstrengthened hprefix)
+            · subst face₁
+              exact AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank.nonpos
+                (hfamily.yp_zm hstrengthened hprefix)
+          · cases hzmBranch.1
+    · rcases hzm with ⟨rest3, hlabels3⟩
+      cases rest3 with
+      | nil =>
+          have hlenRank :
+              (faceLabelsInContributionOrder (fun f => f)
+                (canonicalSeqOfPairWord (unrankPairWord rank))).length = 14 := by
+            simpa [topPairingRankFaceLabels] using
+              hstrengthened.closed.schedule.1
+          rw [hlabels3] at hlenRank
+          norm_num at hlenRank
+      | cons face₁ rest =>
+          have hprefix :
+              Depth11Layer4PrefixAtRank rank Face.zm face₁ rest := by
+            dsimp [Depth11Layer4PrefixAtRank]
+            simpa [topPairingRankFaceLabels] using hlabels3
+          have hfrontier :=
+            semanticFrontierBranch_of_closed_layer4_prefix
+              hstrengthened.closed hprefix
+          rcases hfrontier with htmpmBranch | hypBranch | hzmBranch
+          · cases htmpmBranch.1
+          · cases hypBranch.1
+          · rcases hzmBranch with ⟨_hface₀, htmpp | hyp | hzp⟩
+            · subst face₁
+              exact AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank.split
+                (hfamily.zm_tmpp hstrengthened hprefix)
+            · subst face₁
+              exact AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank.nonpos
+                (hfamily.zm_yp hstrengthened hprefix)
+            · subst face₁
+              exact AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank.split
+                (hfamily.zm_zp hstrengthened hprefix)
+
+def acceptedSequenceSplitNonposOrKilledAllFamily_of_graph183DirectStepRunPortfolio
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceDepth11Layer4Graph183DirectStepRunPortfolioFamily
+        scaledMargin) :
+    AcceptedSequenceDepth11Layer4SplitNonposOrKilledAllFamily
+      scaledMargin :=
+  acceptedSequenceSplitNonposOrKilledAllFamily_of_branchGateFamily
+    (acceptedSequenceSplitNonposOrKilledBranchGateFamily_of_graph183DirectStepRunPortfolio
+      hfamily)
+
+theorem nonIdentityRankKilled_of_splitNonposOrKilledAtRank
+    {scaledMargin : Fin numPairWords -> Int}
+    (startGate :
+      AcceptedSequenceDepth11Layer4StartViolationGate scaledMargin)
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hgate :
+      AcceptedSequenceDepth11Layer4SplitNonposOrKilledAtRank
+        scaledMargin rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank := by
+  cases hgate with
+  | killed hkilled =>
+      exact hkilled
+  | nonpos hnonpos =>
+      exact nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+        hnonpos (startGate rank hstrengthened)
+  | split heval =>
+      exact nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+        (scaledMargin_nonpos_of_split10MGraphExactEvalGate heval)
+        (startGate rank hstrengthened)
+
+def acceptedSequenceMixedKilledAllFamily_of_graph183DirectStepRunPortfolio
+    {scaledMargin : Fin numPairWords -> Int}
+    (startGate :
+      AcceptedSequenceDepth11Layer4StartViolationGate scaledMargin)
+    (hfamily :
+      AcceptedSequenceDepth11Layer4Graph183DirectStepRunPortfolioFamily
+        scaledMargin) :
+    AcceptedSequenceDepth11Layer4MixedKilledAllFamily
+      scaledMargin where
+  family := by
+    intro rank hstrengthened
+    exact nonIdentityRankKilled_of_splitNonposOrKilledAtRank
+      startGate hstrengthened
+      ((acceptedSequenceSplitNonposOrKilledAllFamily_of_graph183DirectStepRunPortfolio
+        hfamily).family rank hstrengthened)
+
 theorem graph183DirectKilledPortfolioSocket_builds : True := by
   exact True.intro
 
