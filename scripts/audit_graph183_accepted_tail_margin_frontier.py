@@ -49,6 +49,10 @@ GRAPH183_QUOTIENT_EDGE_CORE = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183CocycleQuotientCore.lean"
 )
+GRAPH183_QUOTIENT_POTENTIAL = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183CocycleQuotientPotential.lean"
+)
 BELLMAN_POTENTIAL = ROOT / "Cuboctahedron/Search/BellmanPotential.lean"
 TOP_PAIRING_TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TOP_PAIRING_BELLMAN_OBJECT = ROOT / "Cuboctahedron/Search/TopPairingBellmanObject.lean"
@@ -76,6 +80,12 @@ GUARD_QUOTIENT_SOCKET = (
 GUARD_ACCEPTED_BRANCH_QUOTIENT = (
     ROOT
     / "scripts/generated/graph183_accepted_branch_quotient_latest_guard.json"
+)
+GUARD_QUOTIENT_POTENTIAL_DIRECT = (
+    ROOT / "scripts/generated/graph183_cocycle_quotient_potential_direct_guard.json"
+)
+GUARD_QUOTIENT_POTENTIAL_LAKE = (
+    ROOT / "scripts/generated/graph183_cocycle_quotient_potential_lake_guard.json"
 )
 
 REQUIRED_SOCKET_SYMBOLS = [
@@ -146,6 +156,15 @@ REQUIRED_QUOTIENT_EDGE_CORE_SYMBOLS = [
     "graph183QuotientQ",
     "graph183QuotientGauge",
     "graph183QuotientCore_builds",
+]
+
+REQUIRED_QUOTIENT_POTENTIAL_SYMBOLS = [
+    "graph183QuotientPotential",
+    "Graph183ProfileFinalState",
+    "graph183SmallStep_valid",
+    "graph183QuotientRootBound",
+    "graph183ProfileFinalGaugeBound",
+    "graph183QuotientPotential_checked",
 ]
 
 REQUIRED_ACCEPTED_BRANCH_QUOTIENT_SYMBOLS = [
@@ -732,9 +751,11 @@ def render_markdown(report: dict[str, Any]) -> str:
         "edge-equation aggregate, which exposes `graph183QuotientStep` and the",
         "run-level theorem `graph183QuotientRun` over public finite maps",
         "`graph183QuotientQ` and `graph183QuotientGauge`.",
-        "Those local quotient facts are still not coverage: the missing theorem",
-        "is the semantic closed-language / deterministic-evaluator producer",
-        "for `Graph183TailQuotientMarginSequenceBadFace`.",
+        "The companion potential module checks the constant quotient potential",
+        "`86`, the root gauge bound, and profile-final gauge bounds.  Those",
+        "local quotient facts are still not coverage: the missing theorem is",
+        "the semantic closed-language / deterministic-evaluator producer for",
+        "`Graph183TailQuotientMarginSequenceBadFace`.",
         "",
     ]
     )
@@ -750,6 +771,8 @@ def main() -> int:
     quotient_1m = read_json(COCYCLE_QUOTIENT_1M)
     guard_quotient_socket = read_json(GUARD_QUOTIENT_SOCKET)
     guard_accepted_branch_quotient = read_json(GUARD_ACCEPTED_BRANCH_QUOTIENT)
+    guard_quotient_potential_direct = read_json(GUARD_QUOTIENT_POTENTIAL_DIRECT)
+    guard_quotient_potential_lake = read_json(GUARD_QUOTIENT_POTENTIAL_LAKE)
 
     checks: list[dict[str, Any]] = []
     checks.extend(socket_checks())
@@ -788,6 +811,14 @@ def main() -> int:
     )
     checks.extend(
         text_symbol_checks(
+            "graph183_quotient_potential",
+            GRAPH183_QUOTIENT_POTENTIAL,
+            REQUIRED_QUOTIENT_POTENTIAL_SYMBOLS,
+            FORBIDDEN_SEMANTIC_TOKENS,
+        )
+    )
+    checks.extend(
+        text_symbol_checks(
             "graph183_accepted_branch_quotient",
             GRAPH183_ACCEPTED_BRANCH_QUOTIENT,
             REQUIRED_ACCEPTED_BRANCH_QUOTIENT_SYMBOLS,
@@ -819,6 +850,20 @@ def main() -> int:
             "graph183_accepted_branch_quotient",
             guard_accepted_branch_quotient,
             6000.0,
+        )
+    )
+    checks.extend(
+        lean_smoke_guard_checks(
+            "graph183_quotient_potential_direct",
+            guard_quotient_potential_direct,
+            6000.0,
+        )
+    )
+    checks.extend(
+        lean_smoke_guard_checks(
+            "graph183_quotient_potential_lake",
+            guard_quotient_potential_lake,
+            30000.0,
         )
     )
 
@@ -859,6 +904,28 @@ def main() -> int:
                 "min_available_mib": None
                 if guard_accepted_branch_quotient is None
                 else guard_accepted_branch_quotient.get("min_available_seen_mib"),
+            },
+            "graph183_quotient_potential_direct_guard": {
+                "elapsed_seconds": None
+                if guard_quotient_potential_direct is None
+                else guard_quotient_potential_direct.get("elapsed_seconds"),
+                "peak_rss_mib": None
+                if guard_quotient_potential_direct is None
+                else guard_quotient_potential_direct.get("max_tree_rss_mib"),
+                "min_available_mib": None
+                if guard_quotient_potential_direct is None
+                else guard_quotient_potential_direct.get("min_available_seen_mib"),
+            },
+            "graph183_quotient_potential_lake_guard": {
+                "elapsed_seconds": None
+                if guard_quotient_potential_lake is None
+                else guard_quotient_potential_lake.get("elapsed_seconds"),
+                "peak_rss_mib": None
+                if guard_quotient_potential_lake is None
+                else guard_quotient_potential_lake.get("max_tree_rss_mib"),
+                "min_available_mib": None
+                if guard_quotient_potential_lake is None
+                else guard_quotient_potential_lake.get("min_available_seen_mib"),
             },
             "graph183_scaling_contract": contract_metrics(profile_1m),
         },

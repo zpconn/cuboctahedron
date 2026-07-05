@@ -397,6 +397,71 @@
       "passed": true
     },
     {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientPotential.lean",
+      "name": "graph183_quotient_potential:exists",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientPotential",
+      "name": "graph183_quotient_potential:symbol:graph183QuotientPotential",
+      "passed": true
+    },
+    {
+      "detail": "Graph183ProfileFinalState",
+      "name": "graph183_quotient_potential:symbol:Graph183ProfileFinalState",
+      "passed": true
+    },
+    {
+      "detail": "graph183SmallStep_valid",
+      "name": "graph183_quotient_potential:symbol:graph183SmallStep_valid",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientRootBound",
+      "name": "graph183_quotient_potential:symbol:graph183QuotientRootBound",
+      "passed": true
+    },
+    {
+      "detail": "graph183ProfileFinalGaugeBound",
+      "name": "graph183_quotient_potential:symbol:graph183ProfileFinalGaugeBound",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientPotential_checked",
+      "name": "graph183_quotient_potential:symbol:graph183QuotientPotential_checked",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "graph183_quotient_potential:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "graph183_quotient_potential:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "graph183_quotient_potential:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "graph183_quotient_potential:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "graph183_quotient_potential:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "graph183_quotient_potential:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
       "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean",
       "name": "graph183_accepted_branch_quotient:exists",
       "passed": true
@@ -1043,6 +1108,36 @@
       "detail": 46363.515625,
       "name": "graph183_accepted_branch_quotient:available_above_30000_mib",
       "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "graph183_quotient_potential_direct:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 3627.2265625,
+      "name": "graph183_quotient_potential_direct:rss_under_6000_mib",
+      "passed": true
+    },
+    {
+      "detail": 46337.8828125,
+      "name": "graph183_quotient_potential_direct:available_above_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "graph183_quotient_potential_lake:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 23154.05078125,
+      "name": "graph183_quotient_potential_lake:rss_under_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 43686.9609375,
+      "name": "graph183_quotient_potential_lake:available_above_30000_mib",
+      "passed": true
     }
   ],
   "decision": "diagnostic_supports_graph183_accepted_tail_margin_bellman_route",
@@ -1069,6 +1164,16 @@
       "elapsed_seconds": 3.0028496980085038,
       "min_available_mib": 46308.5,
       "peak_rss_mib": 3911.828125
+    },
+    "graph183_quotient_potential_direct_guard": {
+      "elapsed_seconds": 2.00216292400728,
+      "min_available_mib": 46337.8828125,
+      "peak_rss_mib": 3627.2265625
+    },
+    "graph183_quotient_potential_lake_guard": {
+      "elapsed_seconds": 7.008340544998646,
+      "min_available_mib": 43686.9609375,
+      "peak_rss_mib": 23154.05078125
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,

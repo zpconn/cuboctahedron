@@ -89,6 +89,22 @@ cocycle/coboundary quotient.
 | `peak_rss_mib` | `3410.734375` |
 | `min_available_mib` | `46363.515625` |
 
+### graph183_quotient_potential_direct_guard
+
+| metric | value |
+| --- | ---: |
+| `elapsed_seconds` | `2.00216292400728` |
+| `peak_rss_mib` | `3627.2265625` |
+| `min_available_mib` | `46337.8828125` |
+
+### graph183_quotient_potential_lake_guard
+
+| metric | value |
+| --- | ---: |
+| `elapsed_seconds` | `7.008340544998646` |
+| `peak_rss_mib` | `23154.05078125` |
+| `min_available_mib` | `43686.9609375` |
+
 ### graph183_scaling_contract
 
 | metric | value |
@@ -194,6 +210,19 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_edge_shards:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `graph183_quotient_edge_shards:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `graph183_quotient_edge_shards:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_quotient_potential:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientPotential.lean` |
+| `graph183_quotient_potential:symbol:graph183QuotientPotential` | `True` | `graph183QuotientPotential` |
+| `graph183_quotient_potential:symbol:Graph183ProfileFinalState` | `True` | `Graph183ProfileFinalState` |
+| `graph183_quotient_potential:symbol:graph183SmallStep_valid` | `True` | `graph183SmallStep_valid` |
+| `graph183_quotient_potential:symbol:graph183QuotientRootBound` | `True` | `graph183QuotientRootBound` |
+| `graph183_quotient_potential:symbol:graph183ProfileFinalGaugeBound` | `True` | `graph183ProfileFinalGaugeBound` |
+| `graph183_quotient_potential:symbol:graph183QuotientPotential_checked` | `True` | `graph183QuotientPotential_checked` |
+| `graph183_quotient_potential:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_quotient_potential:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_quotient_potential:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_quotient_potential:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_quotient_potential:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_quotient_potential:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `graph183_accepted_branch_quotient:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean` |
 | `graph183_accepted_branch_quotient:symbol:acceptedLocalEquation` | `True` | `acceptedLocalEquation` |
 | `graph183_accepted_branch_quotient:symbol:graph183AcceptedBranchRawGain` | `True` | `graph183AcceptedBranchRawGain` |
@@ -321,6 +350,12 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_accepted_branch_quotient:guard_exit_zero` | `True` | `0` |
 | `graph183_accepted_branch_quotient:rss_under_6000_mib` | `True` | `3410.734375` |
 | `graph183_accepted_branch_quotient:available_above_30000_mib` | `True` | `46363.515625` |
+| `graph183_quotient_potential_direct:guard_exit_zero` | `True` | `0` |
+| `graph183_quotient_potential_direct:rss_under_6000_mib` | `True` | `3627.2265625` |
+| `graph183_quotient_potential_direct:available_above_30000_mib` | `True` | `46337.8828125` |
+| `graph183_quotient_potential_lake:guard_exit_zero` | `True` | `0` |
+| `graph183_quotient_potential_lake:rss_under_30000_mib` | `True` | `23154.05078125` |
+| `graph183_quotient_potential_lake:available_above_30000_mib` | `True` | `43686.9609375` |
 
 ## Next Lean Target
 
@@ -349,6 +384,8 @@ diagnostic.  The active audited quotient primitive is now the sharded
 edge-equation aggregate, which exposes `graph183QuotientStep` and the
 run-level theorem `graph183QuotientRun` over public finite maps
 `graph183QuotientQ` and `graph183QuotientGauge`.
-Those local quotient facts are still not coverage: the missing theorem
-is the semantic closed-language / deterministic-evaluator producer
-for `Graph183TailQuotientMarginSequenceBadFace`.
+The companion potential module checks the constant quotient potential
+`86`, the root gauge bound, and profile-final gauge bounds.  Those
+local quotient facts are still not coverage: the missing theorem is
+the semantic closed-language / deterministic-evaluator producer for
+`Graph183TailQuotientMarginSequenceBadFace`.

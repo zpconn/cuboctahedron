@@ -221,6 +221,14 @@ theorem graph183QuotientStepShard004
   · exact ⟨i, rfl, rfl, rfl, rfl⟩
   · exact localEquation i
 
+theorem graph183SmallStepValidShard004
+    {s label t : Nat} {gain : Int}
+    (hstep : SmallStep s label t gain) :
+    gain + (86 : Int) <= (86 : Int) := by
+  rcases hstep with ⟨i, _hs, _hlabel, _ht, hgain⟩
+  subst gain
+  fin_cases i <;> decide
+
 theorem graph183QuotientEdgeShard004_checked : True := by
   exact True.intro
 

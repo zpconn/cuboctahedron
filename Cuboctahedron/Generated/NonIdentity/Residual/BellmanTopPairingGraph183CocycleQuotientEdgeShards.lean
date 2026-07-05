@@ -77,6 +77,26 @@ theorem graph183QuotientRun
   BellmanLabelStepRun.quotient_of_step_gain_eq
     graph183QuotientStep hrun
 
+theorem graph183SmallStep_valid
+    {s label t : Nat} {gain : Int}
+    (hstep : SmallStep s label t gain) :
+    gain + (86 : Int) <= (86 : Int) := by
+  rcases hstep with hstep | hstep
+  · exact Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard000.graph183SmallStepValidShard000 hstep
+  rcases hstep with hstep | hstep
+  · exact Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard001.graph183SmallStepValidShard001 hstep
+  rcases hstep with hstep | hstep
+  · exact Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard002.graph183SmallStepValidShard002 hstep
+  rcases hstep with hstep | hstep
+  · exact Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard003.graph183SmallStepValidShard003 hstep
+  rcases hstep with hstep | hstep
+  · exact Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard004.graph183SmallStepValidShard004 hstep
+  rcases hstep with hstep | hstep
+  · exact Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard005.graph183SmallStepValidShard005 hstep
+  rcases hstep with hstep | hstep
+  · exact Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard006.graph183SmallStepValidShard006 hstep
+  exact Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard007.graph183SmallStepValidShard007 hstep
+
 theorem graph183QuotientEdgeShards_checked : True := by
   have h000 := Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard000.graph183QuotientEdgeShard000_checked
   have h001 := Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard001.graph183QuotientEdgeShard001_checked

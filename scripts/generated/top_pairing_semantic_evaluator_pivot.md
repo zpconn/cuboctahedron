@@ -33,7 +33,8 @@ membership and toward deterministic closed-language evaluator proofs.
 | `closed_bellman_strengthened_semantic_gate_socket` | `223` | none |
 | `graph183_accepted_branch_quotient` | `97` | none |
 | `graph183_cocycle_quotient_edge_core` | `470` | none |
-| `graph183_cocycle_quotient_edge_shards` | `91` | none |
+| `graph183_cocycle_quotient_edge_shards` | `111` | none |
+| `graph183_cocycle_quotient_potential` | `108` | none |
 | `target_completion_local_branch_table_shard000` | `1403` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -51,6 +52,8 @@ membership and toward deterministic closed-language evaluator proofs.
 - `graph169_continuation_socket_lake`: exit `0`, elapsed `4.003211283998098`, peak RSS MiB `4042.34765625`
 - `graph183_tail_table_socket_lake`: exit `0`, elapsed `136.09755036400747`, peak RSS MiB `5875.578125`
 - `closed_bellman_strengthened_semantic_gate_socket`: exit `0`, elapsed `3.0027096020057797`, peak RSS MiB `3719.16015625`
+- `graph183_cocycle_quotient_potential_direct`: exit `0`, elapsed `2.00216292400728`, peak RSS MiB `3627.2265625`
+- `graph183_cocycle_quotient_potential_lake`: exit `0`, elapsed `7.008340544998646`, peak RSS MiB `23154.05078125`
 
 ## Forbidden Production Hits
 
@@ -117,12 +120,14 @@ sharded edge-equation aggregate, not the old one-file smoke.  The
 aggregate exposes public `FullStep`/`SmallStep` relations,
 `graph183QuotientStep`, and the run-level theorem
 `graph183QuotientRun` over `graph183QuotientQ` and
-`graph183QuotientGauge`.  These facts are still only local
-cocycle/quotient facts: production must connect them to the
-deterministic closed-language evaluator gate.  The production
-socket also imports the tiny accepted-branch quotient module,
-which checks only the 14 accepted-branch local equations and the
-branch raw-gain contract.
+`graph183QuotientGauge`.  The companion potential module checks
+the constant quotient potential `86`, root gauge bound, and
+profile-final gauge bounds.  These facts are still only
+cocycle/quotient Bellman support: production must connect them
+to the deterministic closed-language evaluator gate.  The
+production socket also imports the tiny accepted-branch quotient
+module, which checks only the 14 accepted-branch local equations
+and the branch raw-gain contract.
 
 ## Go/No-Go Gate
 

@@ -1,0 +1,24 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "-M",
+    "6500",
+    "-j1",
+    "-s",
+    "8192",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientPotential.lean"
+  ],
+  "elapsed_seconds": 2.00216292400728,
+  "exit_code": 0,
+  "hard_address_space_mib": 8192.0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 3714280,
+  "max_tree_rss_mib": 3627.2265625,
+  "min_available_seen_kib": 47449992,
+  "min_available_seen_mib": 46337.8828125,
+  "rss_cap_mib": 6500.0,
+  "timeout_seconds": 180.0
+}

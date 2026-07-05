@@ -87,9 +87,15 @@
     },
     "graph183_cocycle_quotient_edge_shards": {
       "exists": true,
-      "lines": 91,
+      "lines": 111,
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean"
+    },
+    "graph183_cocycle_quotient_potential": {
+      "exists": true,
+      "lines": 108,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientPotential.lean"
     },
     "graph183_quotient_margin_socket": {
       "exists": true,
@@ -337,6 +343,48 @@
       "min_available_seen_mib": 45916.78515625,
       "rss_cap_mib": 12000.0,
       "timeout_seconds": 420.0
+    },
+    "graph183_cocycle_quotient_potential_direct": {
+      "available_floor_mib": 30000.0,
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-M",
+        "6500",
+        "-j1",
+        "-s",
+        "8192",
+        "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientPotential.lean"
+      ],
+      "elapsed_seconds": 2.00216292400728,
+      "exit_code": 0,
+      "hard_address_space_mib": 8192.0,
+      "killed_reason": null,
+      "max_tree_rss_kib": 3714280,
+      "max_tree_rss_mib": 3627.2265625,
+      "min_available_seen_kib": 47449992,
+      "min_available_seen_mib": 46337.8828125,
+      "rss_cap_mib": 6500.0,
+      "timeout_seconds": 180.0
+    },
+    "graph183_cocycle_quotient_potential_lake": {
+      "available_floor_mib": 10000.0,
+      "command": [
+        "lake",
+        "build",
+        "+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientPotential:olean"
+      ],
+      "elapsed_seconds": 7.008340544998646,
+      "exit_code": 0,
+      "hard_address_space_mib": null,
+      "killed_reason": null,
+      "max_tree_rss_kib": 23709748,
+      "max_tree_rss_mib": 23154.05078125,
+      "min_available_seen_kib": 44735448,
+      "min_available_seen_mib": 43686.9609375,
+      "rss_cap_mib": 30000.0,
+      "timeout_seconds": 300.0
     },
     "graph183_tail_table_socket_lake": {
       "available_floor_mib": 30000.0,

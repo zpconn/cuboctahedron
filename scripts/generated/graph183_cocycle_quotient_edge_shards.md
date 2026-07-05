@@ -11,11 +11,23 @@ evidence for the local quotient equations; this manifest is diagnostic.
 - shard count: `8`
 - max shard size: `32`
 - max solution bit length: `9`
+- quotient potential: `86`
+- root gauge: `262`
+- root bound lhs: `0`
+- final states checked: `29`
+- max final gauge: `86`
 
 The aggregate module is:
 
 ```text
 Cuboctahedron.Generated.NonIdentity.Residual.
   BellmanTopPairingGraph183CocycleQuotientEdgeShards
+```
+
+The gauge-corrected small-potential module is:
+
+```text
+Cuboctahedron.Generated.NonIdentity.Residual.
+  BellmanTopPairingGraph183CocycleQuotientPotential
 ```
 

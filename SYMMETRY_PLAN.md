@@ -312,6 +312,151 @@ BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean
   segment/cocycle certificate, to the target-shadow/ranked-transducer semantic
   carrier without reintroducing observed traces or selected-prefix membership.
 
+2026-07-05 graph183 quotient potential support:
+
+- Added the gauge-corrected small-potential module:
+
+  ```text
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingGraph183CocycleQuotientPotential
+  ```
+
+  This is still not generated coverage.  It is the Lean-checked Bellman
+  support layer that a future semantic producer may consume after proving the
+  actual closed-language evaluator run and margin-to-gain bound.
+- The quotient profile showed that `fullPotential + gauge` is not constant on
+  quotient states, so the quotient cannot simply reuse the full graph
+  potential.  However, all small quotient edge gains are `0`, and the exact
+  gauge/root/final facts admit the constant quotient potential `86`:
+
+  ```lean
+  graph183QuotientPotential (_state : Nat) : Int := 86
+  Graph183ProfileFinalState : Nat -> Prop
+  graph183SmallStep_valid :
+    SmallStep s label t gain ->
+      gain + graph183QuotientPotential t <= graph183QuotientPotential s
+  graph183QuotientRootBound :
+    graphConst + graph183QuotientPotential (graph183QuotientQ graphRoot) -
+      graph183QuotientGauge graphRoot <= 0
+  graph183ProfileFinalGaugeBound :
+    Graph183ProfileFinalState finish ->
+      graph183QuotientGauge finish <=
+        graph183QuotientPotential (graph183QuotientQ finish)
+  graph183QuotientPotential_checked : True
+  ```
+
+- The edge shards also now export local small-step validity facts:
+
+  ```lean
+  graph183SmallStepValidShardNNN :
+    SmallStep s label t gain -> gain + (86 : Int) <= (86 : Int)
+  ```
+
+  and the aggregate `BellmanTopPairingGraph183CocycleQuotientEdgeShards`
+  exports the corresponding `graph183SmallStep_valid`.
+- Regenerated manifest facts:
+
+  ```text
+  quotient potential = 86
+  root gauge = 262
+  root bound lhs = 0
+  final states checked = 29
+  max final gauge = 86
+  total edge-label equations = 229
+  shard count = 8
+  ```
+
+- Commands:
+
+  ```bash
+  python3 -m py_compile \
+    scripts/emit_graph183_cocycle_quotient_edge_shards.py \
+    scripts/audit_graph183_carrier_producer_readiness.py \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py \
+    scripts/audit_top_pairing_semantic_evaluator_pivot.py
+
+  python3 scripts/emit_graph183_cocycle_quotient_edge_shards.py
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 300 --max-tree-rss-mib 30000 \
+    --min-available-mib 10000 \
+    --json scripts/generated/graph183_cocycle_quotient_potential_lake_guard.json \
+    -- lake build \
+      +Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraph183CocycleQuotientPotential:olean
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 --hard-address-space-mib 8192 \
+    --json scripts/generated/graph183_cocycle_quotient_edge_shards_direct_guard.json \
+    -- lake env lean -M 6500 -j1 -s 8192 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 180 --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 --hard-address-space-mib 8192 \
+    --json scripts/generated/graph183_cocycle_quotient_potential_direct_guard.json \
+    -- lake env lean -M 6500 -j1 -s 8192 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183CocycleQuotientPotential.lean
+
+  python3 scripts/audit_graph183_carrier_producer_readiness.py
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  ```
+
+- Results:
+
+  ```text
+  potential Lake build:
+    exit = 0
+    elapsed = 7.01s
+    peak RSS = 23154 MiB
+    min available = 43686 MiB
+
+  aggregate direct check after .oleans:
+    exit = 0
+    elapsed = 2.00s
+    peak RSS = 3609 MiB
+    hard address-space cap = 8192 MiB
+    min available = 46340 MiB
+
+  potential direct check:
+    exit = 0
+    elapsed = 2.00s
+    peak RSS = 3627 MiB
+    hard address-space cap = 8192 MiB
+    min available = 46337 MiB
+
+  graph183 carrier readiness:
+    decision = graph183_carrier_sockets_ready_but_producer_missing
+
+  graph183 accepted-tail margin frontier:
+    decision = diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+
+  top-pairing semantic evaluator pivot:
+    decision = semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+  ```
+
+- Interpretation: the quotient Bellman support is now memory-safe and
+  Lean-checked, and it reduces the graph183 quotient side to local
+  small-step validity plus root/final gauge facts.  The still-missing proof is
+  the semantic producer:
+
+  ```lean
+  TopPairingClosedLanguageAtRank rank Face.ym
+    -> deterministic evaluator result/run
+    -> graph183 margin-to-gain inequality
+    -> Graph183ProfileFinalState finish
+    -> Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym
+  ```
+
+  That producer must be target-shadow/tri-source/cocycle semantic.  If it
+  starts to require sampled rank objects, selected prefixes, accepted trace
+  ids, exact affine RHS keys, or one branch per observed path, the graph183
+  route must pivot again to a stronger semantic state or segment algebra.
+
 2026-07-05 latest GPT5.5 pivot tightening:
 
 - Keep graph183 Bellman.  Do not scale the selected-prefix producer, accepted

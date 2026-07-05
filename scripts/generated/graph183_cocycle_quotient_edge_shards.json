@@ -3,12 +3,18 @@
   "arithmetic": "exact integer Lean equations generated from exact rational diagnostic solution",
   "core_module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientCore",
   "edge_equations": 229,
+  "final_state_count": 29,
+  "max_final_gauge": 86,
   "max_shard_size": 32,
   "max_solution_bit_length": 9,
   "mode": "graph183-cocycle-quotient-edge-shards",
+  "potential_module": "Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientPotential",
   "profile": "/home/zpconn/code/cuboctahedron/scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json",
   "quotient": "/home/zpconn/code/cuboctahedron/scripts/generated/graph183_cocycle_quotients_0_1M.json",
   "quotient_mode": "step-par",
+  "quotient_potential": 86,
+  "root_bound_lhs": 0,
+  "root_gauge": 262,
   "shard_count": 8,
   "shard_size": 32
 }

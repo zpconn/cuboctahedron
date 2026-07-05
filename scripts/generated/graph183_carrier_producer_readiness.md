@@ -35,6 +35,12 @@ table proof.
 Those shards now expose a composable quotient-step theorem over the
 public generated `graph183QuotientQ` and `graph183QuotientGauge`
 finite maps, so the diagnostic is no longer just a `True` smoke.
+A tiny gauge-corrected quotient-potential module is also required:
+it checks that all small quotient gains are bounded by the constant
+potential `86`, that the root gauge condition is nonpositive, and
+that all observed graph183 profile finals satisfy the final gauge
+bound.  This is still not coverage; it is the shared Bellman support
+that a semantic closed-language producer may consume.
 However, no production theorem currently proves
 `Graph183TailQuotientMarginSequenceBadFace` from closed-language,
 deterministic-evaluator, or cocycle/gauge semantics.
@@ -62,10 +68,14 @@ observed path remains a no-go.
 | `edge_shards_lake_guard_peak_rss_mib` | `3778.296875` |
 | `edge_shards_core_guard_elapsed_seconds` | `2.0021651900024153` |
 | `edge_shards_core_guard_peak_rss_mib` | `3547.88671875` |
-| `edge_shards_direct_guard_elapsed_seconds` | `2.0024556159914937` |
-| `edge_shards_direct_guard_peak_rss_mib` | `3553.55078125` |
+| `edge_shards_direct_guard_elapsed_seconds` | `2.0022299340052996` |
+| `edge_shards_direct_guard_peak_rss_mib` | `3609.46875` |
 | `edge_shard000_guard_elapsed_seconds` | `2.0027364550041966` |
 | `edge_shard000_guard_peak_rss_mib` | `3547.828125` |
+| `quotient_potential_direct_guard_elapsed_seconds` | `2.00216292400728` |
+| `quotient_potential_direct_guard_peak_rss_mib` | `3627.2265625` |
+| `quotient_potential_lake_guard_elapsed_seconds` | `7.008340544998646` |
+| `quotient_potential_lake_guard_peak_rss_mib` | `23154.05078125` |
 | `guard_elapsed_seconds` | `3.0028496980085038` |
 | `guard_peak_rss_mib` | `3911.828125` |
 | `guard_min_available_mib` | `46308.5` |
@@ -157,6 +167,13 @@ observed path remains a no-go.
 | `graph183_edge_shards_core:symbol:graph183QuotientQ` | `True` | `graph183QuotientQ` |
 | `graph183_edge_shards_core:symbol:graph183QuotientGauge` | `True` | `graph183QuotientGauge` |
 | `graph183_edge_shards_core:symbol:graph183QuotientCore_builds` | `True` | `graph183QuotientCore_builds` |
+| `graph183_quotient_potential:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientPotential.lean` |
+| `graph183_quotient_potential:symbol:graph183QuotientPotential` | `True` | `graph183QuotientPotential` |
+| `graph183_quotient_potential:symbol:Graph183ProfileFinalState` | `True` | `Graph183ProfileFinalState` |
+| `graph183_quotient_potential:symbol:graph183SmallStep_valid` | `True` | `graph183SmallStep_valid` |
+| `graph183_quotient_potential:symbol:graph183QuotientRootBound` | `True` | `graph183QuotientRootBound` |
+| `graph183_quotient_potential:symbol:graph183ProfileFinalGaugeBound` | `True` | `graph183ProfileFinalGaugeBound` |
+| `graph183_quotient_potential:symbol:graph183QuotientPotential_checked` | `True` | `graph183QuotientPotential_checked` |
 | `target_cursor:exists` | `True` | `Cuboctahedron/Search/TopPairingTargetCursor.lean` |
 | `target_cursor:symbol:topPairingTargetShadow_of_summary` | `True` | `topPairingTargetShadow_of_summary` |
 | `target_cursor:symbol:topPairingTriShadow_eq_target_of_closed` | `True` | `topPairingTriShadow_eq_target_of_closed` |
@@ -207,6 +224,12 @@ observed path remains a no-go.
 | `graph183_edge_shards_core:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `graph183_edge_shards_core:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `graph183_edge_shards_core:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_quotient_potential:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_quotient_potential:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_quotient_potential:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_quotient_potential:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_quotient_potential:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_quotient_potential:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `target_cursor:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
 | `target_cursor:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
 | `target_cursor:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
@@ -249,11 +272,17 @@ observed path remains a no-go.
 | `graph183_edge_shards_core_guard:rss_under_6500_mib` | `True` | `3547.88671875` |
 | `graph183_edge_shards_core_guard:available_above_30000_mib` | `True` | `46364.0390625` |
 | `graph183_edge_shards_direct_guard:guard_exit_zero` | `True` | `0` |
-| `graph183_edge_shards_direct_guard:rss_under_6500_mib` | `True` | `3553.55078125` |
-| `graph183_edge_shards_direct_guard:available_above_30000_mib` | `True` | `46344.890625` |
+| `graph183_edge_shards_direct_guard:rss_under_6500_mib` | `True` | `3609.46875` |
+| `graph183_edge_shards_direct_guard:available_above_30000_mib` | `True` | `46340.40625` |
 | `graph183_edge_shard000_guard:guard_exit_zero` | `True` | `0` |
 | `graph183_edge_shard000_guard:rss_under_6500_mib` | `True` | `3547.828125` |
 | `graph183_edge_shard000_guard:available_above_30000_mib` | `True` | `46366.5234375` |
+| `graph183_quotient_potential_direct_guard:guard_exit_zero` | `True` | `0` |
+| `graph183_quotient_potential_direct_guard:rss_under_6500_mib` | `True` | `3627.2265625` |
+| `graph183_quotient_potential_direct_guard:available_above_30000_mib` | `True` | `46337.8828125` |
+| `graph183_quotient_potential_lake_guard:guard_exit_zero` | `True` | `0` |
+| `graph183_quotient_potential_lake_guard:rss_under_30000_mib` | `True` | `23154.05078125` |
+| `graph183_quotient_potential_lake_guard:available_above_30000_mib` | `True` | `43686.9609375` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
 | `socket_guard:rss_under_6500_mib` | `True` | `3911.828125` |
 | `socket_guard:available_above_30000_mib` | `True` | `46308.5` |

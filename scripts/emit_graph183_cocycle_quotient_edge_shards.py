@@ -34,9 +34,33 @@ CORE_MODULE = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
     "BellmanTopPairingGraph183CocycleQuotientCore"
 )
+EDGE_SHARDS_MODULE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingGraph183CocycleQuotientEdgeShards"
+)
+POTENTIAL_MODULE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingGraph183CocycleQuotientPotential"
+)
 CORE_NAMESPACE = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
     "BellmanTopPairingGraph183CocycleQuotientCore"
+)
+EDGE_SHARDS_NAMESPACE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingGraph183CocycleQuotientEdgeShards"
+)
+POTENTIAL_NAMESPACE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingGraph183CocycleQuotientPotential"
+)
+GRAPH_POTENTIAL_MODULE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential"
+)
+GRAPH_POTENTIAL_NAMESPACE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential"
 )
 
 
@@ -210,6 +234,14 @@ def render_shard_with_state_maps(
             "  · exact ⟨i, rfl, rfl, rfl, rfl⟩",
             "  · exact localEquation i",
             "",
+            f"theorem graph183SmallStepValidShard{suffix}",
+            "    {s label t : Nat} {gain : Int}",
+            "    (hstep : SmallStep s label t gain) :",
+            "    gain + (86 : Int) <= (86 : Int) := by",
+            "  rcases hstep with ⟨i, _hs, _hlabel, _ht, hgain⟩",
+            "  subst gain",
+            "  fin_cases i <;> decide",
+            "",
             f"theorem graph183QuotientEdgeShard{suffix}_checked : True := by",
             "  exact True.intro",
             "",
@@ -285,6 +317,17 @@ def render_all(shard_count: int) -> str:
             proof_lines.append(f"  rcases {NAMESPACE_PREFIX}{idx:03d}.graph183QuotientStepShard{idx:03d} hstep with ⟨smallGainValue, hsmall, heq⟩")
             proof_lines.append("  refine ⟨smallGainValue, ?_, heq⟩")
             proof_lines.append("  exact " + "Or.inr (" * idx + "hsmall" + ")" * idx)
+    small_valid_lines: list[str] = []
+    for idx in range(shard_count):
+        if idx < shard_count - 1:
+            small_valid_lines.append("  rcases hstep with hstep | hstep")
+            small_valid_lines.append(
+                f"  · exact {NAMESPACE_PREFIX}{idx:03d}.graph183SmallStepValidShard{idx:03d} hstep"
+            )
+        else:
+            small_valid_lines.append(
+                f"  exact {NAMESPACE_PREFIX}{idx:03d}.graph183SmallStepValidShard{idx:03d} hstep"
+            )
     return "\n".join(
         [
             *imports,
@@ -328,6 +371,12 @@ def render_all(shard_count: int) -> str:
             "  BellmanLabelStepRun.quotient_of_step_gain_eq",
             "    graph183QuotientStep hrun",
             "",
+            "theorem graph183SmallStep_valid",
+            "    {s label t : Nat} {gain : Int}",
+            "    (hstep : SmallStep s label t gain) :",
+            "    gain + (86 : Int) <= (86 : Int) := by",
+            *small_valid_lines,
+            "",
             "theorem graph183QuotientEdgeShards_checked : True := by",
             *theorem_refs,
             "  exact True.intro",
@@ -336,6 +385,98 @@ def render_all(shard_count: int) -> str:
             "",
         ]
     )
+
+
+def final_state_prop(finals: list[int]) -> str:
+    return " \\/ ".join([f"finish = {state}" for state in finals] + ["False"])
+
+
+def final_gauge_bound_proof(finals: list[int]) -> list[str]:
+    lines = ["  dsimp [Graph183ProfileFinalState] at hfinal"]
+    for _state in finals:
+        lines.append("  rcases hfinal with rfl | hfinal")
+        lines.append("  · decide")
+    lines.append("  cases hfinal")
+    return lines
+
+
+def render_potential(profile: dict, quotient: dict) -> tuple[str, dict[str, int]]:
+    graph = profile["graph"]
+    best = quotient["best_consistent"]
+    q_by_state, gauge, _small_gain_by_key, _quotient_key_by_state = quotient_solution(best)
+    rows = expanded_edges(profile, quotient)
+    small_gains = sorted({int(row["small_gain"]) for row in rows})
+    if small_gains != [0]:
+        raise ValueError(f"expected all graph183 small gains to be zero, got {small_gains}")
+    root = int(graph["root_indices"][0])
+    const = int(graph["const_scaled"])
+    finals = sorted({int(state) for state in graph["final_indices"]})
+    quotient_potential = max(gauge[state] for state in finals)
+    root_lhs = const + quotient_potential - gauge[root]
+    if root_lhs > 0:
+        raise ValueError("gauge-corrected quotient root bound fails")
+    if any(gauge[state] > quotient_potential for state in finals):
+        raise ValueError("gauge-corrected quotient final bound fails")
+    lines: list[str] = [
+        f"import {EDGE_SHARDS_MODULE}",
+        f"import {GRAPH_POTENTIAL_MODULE}",
+        "",
+        "/-!",
+        "Gauge-corrected small potential for the sharded graph183 quotient.",
+        "",
+        "This is diagnostic/proof-shape support, not generated coverage.  It",
+        "proves the local quotient graph has a tiny Bellman potential after",
+        "accounting for the full-state gauge.  A production theorem must still",
+        "prove the semantic closed-language run and the real margin-to-gain",
+        "inequality.",
+        "-/",
+        "",
+        f"namespace {POTENTIAL_NAMESPACE}",
+        "",
+        "open Cuboctahedron",
+        f"open {EDGE_SHARDS_NAMESPACE}",
+        f"open {CORE_NAMESPACE}",
+        f"open {GRAPH_POTENTIAL_NAMESPACE}",
+        "",
+        f"def graph183QuotientPotential (_state : Nat) : Int := {quotient_potential}",
+        "",
+        "def Graph183ProfileFinalState (finish : Nat) : Prop :=",
+        f"  {final_state_prop(finals)}",
+        "",
+        "theorem graph183SmallStep_valid",
+        "    {s label t : Nat} {gain : Int}",
+        "    (hstep : SmallStep s label t gain) :",
+        "    gain + graph183QuotientPotential t <=",
+        "      graph183QuotientPotential s := by",
+        "  simpa [graph183QuotientPotential] using",
+        "    BellmanTopPairingGraph183CocycleQuotientEdgeShards.graph183SmallStep_valid hstep",
+        "",
+        "theorem graph183QuotientRootBound :",
+        "    graphConst + graph183QuotientPotential (graph183QuotientQ graphRoot) -",
+        "      graph183QuotientGauge graphRoot <= 0 := by",
+        "  decide",
+        "",
+        "theorem graph183ProfileFinalGaugeBound",
+        "    {finish : Nat}",
+        "    (hfinal : Graph183ProfileFinalState finish) :",
+        "    graph183QuotientGauge finish <=",
+        "      graph183QuotientPotential (graph183QuotientQ finish) := by",
+        *final_gauge_bound_proof(finals),
+        "",
+        "theorem graph183QuotientPotential_checked : True := by",
+        "  exact True.intro",
+        "",
+        f"end {POTENTIAL_NAMESPACE}",
+        "",
+    ]
+    metrics = {
+        "quotient_potential": quotient_potential,
+        "root_gauge": gauge[root],
+        "root_lhs": root_lhs,
+        "final_count": len(finals),
+        "max_final_gauge": quotient_potential,
+    }
+    return "\n".join(lines), metrics
 
 
 def render_markdown(payload: dict) -> str:
@@ -354,12 +495,24 @@ def render_markdown(payload: dict) -> str:
             f"- shard count: `{payload['shard_count']}`",
             f"- max shard size: `{payload['max_shard_size']}`",
             f"- max solution bit length: `{payload['max_solution_bit_length']}`",
+            f"- quotient potential: `{payload['quotient_potential']}`",
+            f"- root gauge: `{payload['root_gauge']}`",
+            f"- root bound lhs: `{payload['root_bound_lhs']}`",
+            f"- final states checked: `{payload['final_state_count']}`",
+            f"- max final gauge: `{payload['max_final_gauge']}`",
             "",
             "The aggregate module is:",
             "",
             "```text",
             "Cuboctahedron.Generated.NonIdentity.Residual.",
             "  BellmanTopPairingGraph183CocycleQuotientEdgeShards",
+            "```",
+            "",
+            "The gauge-corrected small-potential module is:",
+            "",
+            "```text",
+            "Cuboctahedron.Generated.NonIdentity.Residual.",
+            "  BellmanTopPairingGraph183CocycleQuotientPotential",
             "```",
             "",
         ]
@@ -411,6 +564,10 @@ def main() -> int:
     all_path = RESIDUAL / "BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean"
     all_path.write_text(render_all(len(chunks)))
 
+    potential_text, potential_metrics = render_potential(profile, quotient)
+    potential_path = RESIDUAL / "BellmanTopPairingGraph183CocycleQuotientPotential.lean"
+    potential_path.write_text(potential_text)
+
     payload = {
         "mode": "graph183-cocycle-quotient-edge-shards",
         "profile": args.profile.as_posix(),
@@ -429,6 +586,12 @@ def main() -> int:
             "Cuboctahedron.Generated.NonIdentity.Residual."
             "BellmanTopPairingGraph183CocycleQuotientCore"
         ),
+        "potential_module": POTENTIAL_MODULE,
+        "quotient_potential": potential_metrics["quotient_potential"],
+        "root_gauge": potential_metrics["root_gauge"],
+        "root_bound_lhs": potential_metrics["root_lhs"],
+        "final_state_count": potential_metrics["final_count"],
+        "max_final_gauge": potential_metrics["max_final_gauge"],
         "arithmetic": "exact integer Lean equations generated from exact rational diagnostic solution",
     }
     args.manifest_json.parent.mkdir(parents=True, exist_ok=True)

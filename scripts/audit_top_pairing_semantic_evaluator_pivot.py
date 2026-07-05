@@ -80,6 +80,9 @@ FILES = {
     "graph183_cocycle_quotient_edge_shards": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean",
+    "graph183_cocycle_quotient_potential": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph183CocycleQuotientPotential.lean",
     "target_completion_local_branch_table_shard000": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
@@ -113,6 +116,10 @@ GUARDS = {
     / "scripts/generated/graph183_tail_table_socket_lake_guard.json",
     "closed_bellman_strengthened_semantic_gate_socket": ROOT
     / "scripts/generated/closed_bellman_strengthened_semantic_gate_socket_latest_guard.json",
+    "graph183_cocycle_quotient_potential_direct": ROOT
+    / "scripts/generated/graph183_cocycle_quotient_potential_direct_guard.json",
+    "graph183_cocycle_quotient_potential_lake": ROOT
+    / "scripts/generated/graph183_cocycle_quotient_potential_lake_guard.json",
 }
 
 REQUIRED_SYMBOLS = {
@@ -342,7 +349,16 @@ REQUIRED_SYMBOLS = {
         "def SmallStep",
         "graph183QuotientStep",
         "graph183QuotientRun",
+        "graph183SmallStep_valid",
         "graph183QuotientEdgeShards_checked",
+    ],
+    "graph183_cocycle_quotient_potential": [
+        "graph183QuotientPotential",
+        "Graph183ProfileFinalState",
+        "graph183SmallStep_valid",
+        "graph183QuotientRootBound",
+        "graph183ProfileFinalGaugeBound",
+        "graph183QuotientPotential_checked",
     ],
     "target_completion_local_branch_table_shard000": [
         "ShardState",
@@ -382,6 +398,7 @@ PRODUCTION_SCAN_FILES = [
     "graph183_accepted_branch_quotient",
     "graph183_cocycle_quotient_edge_core",
     "graph183_cocycle_quotient_edge_shards",
+    "graph183_cocycle_quotient_potential",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
 ]
@@ -674,12 +691,14 @@ def render_markdown(report: dict[str, Any]) -> str:
             "aggregate exposes public `FullStep`/`SmallStep` relations,",
             "`graph183QuotientStep`, and the run-level theorem",
             "`graph183QuotientRun` over `graph183QuotientQ` and",
-            "`graph183QuotientGauge`.  These facts are still only local",
-            "cocycle/quotient facts: production must connect them to the",
-            "deterministic closed-language evaluator gate.  The production",
-            "socket also imports the tiny accepted-branch quotient module,",
-            "which checks only the 14 accepted-branch local equations and the",
-            "branch raw-gain contract.",
+            "`graph183QuotientGauge`.  The companion potential module checks",
+            "the constant quotient potential `86`, root gauge bound, and",
+            "profile-final gauge bounds.  These facts are still only",
+            "cocycle/quotient Bellman support: production must connect them",
+            "to the deterministic closed-language evaluator gate.  The",
+            "production socket also imports the tiny accepted-branch quotient",
+            "module, which checks only the 14 accepted-branch local equations",
+            "and the branch raw-gain contract.",
             "",
             "## Go/No-Go Gate",
             "",
