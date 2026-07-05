@@ -57,6 +57,10 @@ CLOSED_SEMANTIC_GATE_GUARD = (
 REQUIRED_SOCKET_SYMBOLS = [
     "Graph183TailQuotientMarginSequenceBadFace",
     "Graph183TailQuotientMarginEvalFamily",
+    "Graph183TailQuotientMarginEvalObj",
+    "Graph183TailQuotientEvalMarginLanguageBound",
+    "graph183TailQuotientMarginEvalFamily_of_evalLanguageBound",
+    "graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound",
     "Graph183TailExactEvalSequenceBadFace",
     "graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate",
     "acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin",

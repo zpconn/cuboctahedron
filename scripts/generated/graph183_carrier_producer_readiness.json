@@ -16,6 +16,26 @@
       "passed": true
     },
     {
+      "detail": "Graph183TailQuotientMarginEvalObj",
+      "name": "socket:symbol:Graph183TailQuotientMarginEvalObj",
+      "passed": true
+    },
+    {
+      "detail": "Graph183TailQuotientEvalMarginLanguageBound",
+      "name": "socket:symbol:Graph183TailQuotientEvalMarginLanguageBound",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginEvalFamily_of_evalLanguageBound",
+      "name": "socket:symbol:graph183TailQuotientMarginEvalFamily_of_evalLanguageBound",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound",
+      "name": "socket:symbol:graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound",
+      "passed": true
+    },
+    {
       "detail": "Graph183TailExactEvalSequenceBadFace",
       "name": "socket:symbol:Graph183TailExactEvalSequenceBadFace",
       "passed": true
@@ -448,12 +468,12 @@
       "passed": true
     },
     {
-      "detail": 3866.640625,
+      "detail": 3581.33984375,
       "name": "socket_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46268.66796875,
+      "detail": 46338.9296875,
       "name": "socket_guard:available_above_30000_mib",
       "passed": true
     },
@@ -497,9 +517,9 @@
     "closed_semantic_gate_guard_elapsed_seconds": 3.0027096020057797,
     "closed_semantic_gate_guard_min_available_mib": 46322.6328125,
     "closed_semantic_gate_guard_peak_rss_mib": 3719.16015625,
-    "guard_elapsed_seconds": 7.004544878000161,
-    "guard_min_available_mib": 46268.66796875,
-    "guard_peak_rss_mib": 3866.640625,
+    "guard_elapsed_seconds": 3.002463420998538,
+    "guard_min_available_mib": 46338.9296875,
+    "guard_peak_rss_mib": 3581.33984375,
     "profile_edges": 229,
     "profile_margin_families": 1,
     "profile_matched": 37,

@@ -111514,6 +111514,110 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 graph183 semantic object-language eval-margin adapter
+
+The graph183 quotient-margin socket now has a semantic object-language target
+for the accepted-tail producer:
+
+```lean
+Graph183TailQuotientMarginEvalObj
+Graph183TailQuotientEvalMarginLanguageBound
+graph183TailQuotientMarginEvalFamily_of_evalLanguageBound
+graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound
+```
+
+`Graph183TailQuotientMarginEvalObj` contains only:
+
+```lean
+rank : Fin numPairWords
+strengthened :
+  TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym
+branchPrefix :
+  Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+    (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)
+```
+
+It is deliberately not a sampled rank index, selected-prefix id, accepted trace
+id, stored path, exact affine RHS key, or solved start-point key.  This gives
+the next producer two acceptable theorem targets:
+
+```lean
+Graph183TailQuotientEvalMarginLanguageBound sequenceBadFace scaledMargin
+```
+
+or, when using the generic cocycle theorem:
+
+```lean
+GaugeCorrectedQuotientEvalMarginLanguageBound
+  closedBellmanNext q gauge V
+  (Graph183TailQuotientMarginEvalObj.scaledMargin scaledMargin)
+  (Graph183TailQuotientMarginEvalObj.labels)
+  graphRoot graphConst
+  (fun _obj => True)
+```
+
+The second target now feeds directly into
+`Graph183TailQuotientMarginEvalFamily` through
+`graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound`.
+This is the cleanest current route for converting a semantic cocycle/gauge
+producer into the graph183 carrier without going through selected-prefix or
+trace membership.
+
+Focused guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 --min-available-mib 30000 \
+  --timeout-seconds 240 --hard-address-space-mib 7000 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 3.00s
+peak RSS = 3581 MiB
+min available = 46338 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_graph183_carrier_producer_readiness.py \
+  scripts/audit_latest_bellman_semantic_pivot.py \
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py \
+  scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+```
+
+Results:
+
+```text
+graph183 carrier decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+```
+
+Interpretation: the Lean bridge from a semantic/gauge-corrected eval-margin
+language theorem to the graph183 carrier is now checked and cheap.  The
+remaining missing piece is no longer a socket: it is the actual semantic
+producer proving that language theorem from target-shadow cursor, tri-source /
+cancellation progress, square-gap/local-axis facts, and checked cocycle/gauge
+margin equations.
+
 ### 2026-07-05 strengthened step-run to exact-eval gate
 
 GPT5.5's latest review tightened the Bellman go/no-go condition: keep

@@ -239,6 +239,111 @@ structure Graph183TailQuotientMarginEvalFamily
           scaledMargin rank <= graphConst + result.2
 
 /--
+Semantic object for the graph183 accepted-tail eval-margin producer.
+
+The object contains only the rank plus the closed-language facts that define
+the semantic graph183 branch.  It is not a sampled rank index, selected-prefix
+identifier, accepted trace id, or stored path.
+-/
+structure Graph183TailQuotientMarginEvalObj
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Type where
+  rank : Fin numPairWords
+  strengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank Face.ym
+  branchPrefix :
+    Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+      (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)
+
+namespace Graph183TailQuotientMarginEvalObj
+
+def labels
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (obj : Graph183TailQuotientMarginEvalObj sequenceBadFace) :
+    List Face :=
+  topPairingRankFaceLabels obj.rank
+
+def scaledMargin
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (rankScaledMargin : Fin numPairWords -> Int)
+    (obj : Graph183TailQuotientMarginEvalObj sequenceBadFace) : Int :=
+  rankScaledMargin obj.rank
+
+end Graph183TailQuotientMarginEvalObj
+
+/--
+Language-level deterministic eval-margin bound for graph183 accepted-tail
+objects.
+
+Future generated semantic producers may target this shape directly: for every
+semantic graph183 object, run the deterministic Bellman evaluator and prove
+the real scaled margin is bounded by `graphConst + evaluatorGain`.
+-/
+def Graph183TailQuotientEvalMarginLanguageBound
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop :=
+  forall obj : Graph183TailQuotientMarginEvalObj sequenceBadFace,
+    exists result : Nat × Int,
+      evalLabelStepFn closedBellmanNext graphRoot
+          (Graph183TailQuotientMarginEvalObj.labels obj) = some result ∧
+        Graph183TailQuotientMarginEvalObj.scaledMargin scaledMargin obj <=
+          graphConst + result.2
+
+/--
+Package a semantic object-language eval-margin theorem as the graph183
+eval-margin family consumed by the quotient-margin socket.
+-/
+def graph183TailQuotientMarginEvalFamily_of_evalLanguageBound
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hbound :
+      Graph183TailQuotientEvalMarginLanguageBound
+        sequenceBadFace scaledMargin) :
+    Graph183TailQuotientMarginEvalFamily sequenceBadFace scaledMargin where
+  eval_margin_yp_branch := by
+    intro rank hstrengthened hprefix
+    let obj : Graph183TailQuotientMarginEvalObj sequenceBadFace :=
+      { rank := rank
+        strengthened := hstrengthened
+        branchPrefix := hprefix }
+    rcases hbound obj with ⟨result, heval, hmargin⟩
+    refine ⟨result, ?_, ?_⟩
+    · simpa [obj, Graph183TailQuotientMarginEvalObj.labels] using heval
+    · simpa [obj, Graph183TailQuotientMarginEvalObj.scaledMargin] using hmargin
+
+/--
+Adapter from the generic gauge-corrected deterministic evaluator margin
+language bound in `BellmanPotential` to the graph183 eval-margin family.
+
+The gauge/final-potential component remains useful for a producer that wants
+to certify nonpositivity globally, but graph183 only needs the evaluator result
+and the margin-to-gain inequality; those are projected here.
+-/
+def graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {SmallState : Type}
+    {q : Nat -> SmallState}
+    {gauge : Nat -> Int}
+    {V : SmallState -> Int}
+    (hbound :
+      GaugeCorrectedQuotientEvalMarginLanguageBound
+        closedBellmanNext q gauge V
+        (Graph183TailQuotientMarginEvalObj.scaledMargin scaledMargin)
+        (Graph183TailQuotientMarginEvalObj.labels
+          (sequenceBadFace := sequenceBadFace))
+        graphRoot graphConst
+        (fun _obj : Graph183TailQuotientMarginEvalObj sequenceBadFace =>
+          True)) :
+    Graph183TailQuotientMarginEvalFamily sequenceBadFace scaledMargin :=
+  graph183TailQuotientMarginEvalFamily_of_evalLanguageBound
+    (by
+      intro obj
+      rcases hbound obj True.intro with
+        ⟨result, heval, hmargin, _hfinish⟩
+      exact ⟨result, heval, hmargin⟩)
+
+/--
 Turn the deterministic-evaluator margin target into the graph183 quotient
 margin family.
 
