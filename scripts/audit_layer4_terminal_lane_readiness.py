@@ -261,11 +261,13 @@ def main() -> int:
                     "accepted suffixes or the single blocked prefix "
                     "yp,tmpm,zp,..., and the semantic suffix family follows "
                     "from Graph221Layer4BlockedPrefixExcludedFamily.  The next "
-                    "proof must exclude that blocked prefix from deterministic "
-                    "product-state/cancellation semantics.  If that exclusion "
-                    "needs selected prefixes, sampled ranks, exact affine keys, "
-                    "or one branch per observed path, switch to the "
-                    "cocycle/cancellation-summary quotient experiment."
+                    "proof must be a deterministic closed-language-to-evaluator "
+                    "slice: use the target-shadow/cancellation cursor plus "
+                    "product-state semantics to exclude the blocked prefix, not "
+                    "a selected-prefix cover.  If that exclusion needs sampled "
+                    "ranks, exact affine keys, accepted trace ids, or one branch "
+                    "per observed path, switch to the cocycle/cancellation-summary "
+                    "quotient experiment."
                     if graph221_blocked_prefix_ok
                     else (
                     "graph221 now has a non-circular semantic suffix-family "
@@ -351,11 +353,12 @@ def main() -> int:
         "missing_lanes": missing,
         "lanes": lane_report,
         "next_recommended_slice": (
-            "prove Graph221Layer4BlockedPrefixExcludedFamily from deterministic "
-            "product-state/cancellation semantics for the zm_tmpp graph221 "
-            "frontier; if that proof wants selected-prefix or exact-affine "
-            "membership, stop and run the cocycle/cancellation-summary "
-            "quotient experiment"
+            "prove Graph221Layer4BlockedPrefixExcludedFamily as a deterministic "
+            "closed-language-to-evaluator theorem for the zm_tmpp graph221 "
+            "frontier, using target-shadow/cancellation cursor and product-state "
+            "semantics; if that proof wants selected-prefix, sampled-rank, "
+            "accepted-trace, exact-affine, or per-observed-path membership, stop "
+            "and run the cocycle/cancellation-summary quotient experiment"
             if graph221_blocked_prefix_ok
             else (
             "prove Graph221Layer4SemanticSuffixFamily from deterministic "

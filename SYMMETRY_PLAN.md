@@ -105262,3 +105262,161 @@ next_recommended_slice =
   if that proof wants selected-prefix or exact-affine membership, stop and run
   the cocycle/cancellation-summary quotient experiment
 ```
+
+### 2026-07-05 strategy pivot: graph221 must become a deterministic evaluator theorem
+
+The latest GPT5.5 Pro guidance has been incorporated into the active
+nonidentity Bellman route.  The Bellman/potential object remains accepted, but
+the selected-prefix producer is not production evidence.  The next graph221
+step must be a semantic deterministic transducer theorem:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym ->
+Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+Graph151TargetCompletionTail rest ->
+¬ ∃ tail,
+  rest =
+    graph221Layer4ForcedTailPrefixLabels ++
+      Face.yp :: Face.tmpm :: Face.zp :: tail
+```
+
+equivalently, a proof of:
+
+```lean
+Graph221Layer4BlockedPrefixExcludedFamily
+```
+
+This is the smallest current membership theorem that would promote the
+graph221 conditional gate to a semantic lane gate:
+
+```lean
+Graph221Layer4BlockedPrefixExcludedFamily
+  -> Graph221Layer4SemanticSuffixFamily
+  -> graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily
+```
+
+Important interpretation:
+
+- `Graph221TargetCompletionTail` is not enough.  It proves that the suffix is
+  one of the three accepted graph221 tails or the blocked prefix
+  `yp,tmpm,zp,...`; it does not exclude the blocked prefix.
+- `TopPairingLocalAxisLabels` is not enough.  The attempted contradiction
+  reduced to `h : True |- False`.
+- `AcceptedSequenceBadFaceAtRank` is not enough by itself.  Its current
+  rejected-trace hook excludes `rejectedGraphTrace_004`, while the graph221
+  blocked trace is a different shape.
+- Therefore the next proof must use the product state that the successful
+  Bellman evaluator already uses: target-shadow/cancellation cursor,
+  tri-source progress, remaining actual-face state, graph state, and the local
+  deterministic transition relation.
+
+The production proof shape should be one of these two forms:
+
+```lean
+theorem graph221_blockedPrefix_excluded_of_productState
+    (rank : Fin numPairWords)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (rest : List Face)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+    (htail : Graph151TargetCompletionTail rest) :
+    ¬ ∃ tail,
+      rest =
+        graph221Layer4ForcedTailPrefixLabels ++
+          Face.yp :: Face.tmpm :: Face.zp :: tail
+```
+
+or a deterministic evaluator gate:
+
+```lean
+theorem graph221_closed_to_eval_or_acceptedSuffix
+    (rank : Fin numPairWords)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (rest : List Face)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    graph221Layer4AcceptedTailSuffixOk rest
+```
+
+provided its proof is driven by local semantic state and not by observed
+prefixes.
+
+Go/no-go gate:
+
+- **Go:** the blocked prefix is excluded by a local deterministic
+  product-state theorem whose proof case-splits on semantic state/face
+  transitions and uses the target-shadow/cancellation cursor.
+- **No-go:** the proof needs sampled ranks, selected-prefix ids, accepted-trace
+  ids, exact affine RHS keys, exact solved start points, or one branch per
+  observed path.  In that case, stop graph221 scaling and run the
+  cocycle/cancellation-summary quotient experiment before adding any finer
+  membership key.
+
+The layer-4 readiness audit was updated to state this explicitly:
+
+```bash
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+The updated `next_recommended_slice` is:
+
+```text
+prove Graph221Layer4BlockedPrefixExcludedFamily as a deterministic
+closed-language-to-evaluator theorem for the zm_tmpp graph221 frontier, using
+target-shadow/cancellation cursor and product-state semantics; if that proof
+wants selected-prefix, sampled-rank, accepted-trace, exact-affine, or
+per-observed-path membership, stop and run the cocycle/cancellation-summary
+quotient experiment
+```
+
+Validation after this pivot update:
+
+```bash
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+status = one_lane_validated_remaining_lanes_missing
+validated_lanes = [tmpm_zm]
+partial_lanes = [zm_tmpp]
+zm_tmpp.status = partial_graph221_blocked_prefix_exclusion_frontier
+forbidden_hits = []
+```
+
+Focused guarded graph221 check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221TerminalTailPrefixSmoke
+```
+
+Result:
+
+```text
+pass; elapsed=3.00s; peak_tree_rss=795 MiB; min_available=46480 MiB
+```
+
+Narrow forbidden-token scan:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean \
+  Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+Result:
+
+```text
+pass; no matches
+```
