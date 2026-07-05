@@ -90,6 +90,20 @@
         "strengthenedPrefix9Graph208TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix9Graph211TargetCompletionLocalBranchTable": true
       },
+      "graph36_41_symbols": {
+        "Graph36TargetCompletionTail": true,
+        "Graph41TargetCompletionTail": true,
+        "graph36TargetCompletionState": true,
+        "graph36_head_of_targetCompletionTail": true,
+        "graph41TargetCompletionState": true,
+        "graph41_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix11YpZmTmmpTpmpTpppTpmmTmppTppmTmpmEvalState": true,
+        "strengthenedClosedPrefix11YpZmZpTmmmTpmmTppmTpmpTmpmTpppEvalState": true,
+        "strengthenedClosed_prefix11_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_next_from_graph11": true,
+        "strengthenedClosed_prefix11_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_next_from_graph6": true,
+        "strengthenedPrefix11Graph36TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix11Graph41TargetCompletionLocalBranchTable": true
+      },
       "graph6_11_symbols": {
         "Graph11TargetCompletionTail": true,
         "Graph6TargetCompletionTail": true,
@@ -104,7 +118,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now advances through graph6 and graph11.  The latest forced steps are graph6 to tppp/graph36 and graph11 to tmpm/graph41.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph36 and graph41 before it becomes a terminal semantic gate.",
+      "remaining_gap": "graph147 now advances through graph36 and graph41.  The latest forced steps are graph36 to tmpp/graph69 and graph41 to tmmm/graph75.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph69 and graph75 before it becomes a terminal semantic gate.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -112,7 +126,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph6_graph11_target_completion_local_table",
+      "status": "partial_graph36_graph41_target_completion_local_table",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,
@@ -282,6 +296,20 @@
         "strengthenedPrefix9Graph208TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix9Graph211TargetCompletionLocalBranchTable": true
       },
+      "graph36_41_symbols": {
+        "Graph36TargetCompletionTail": true,
+        "Graph41TargetCompletionTail": true,
+        "graph36TargetCompletionState": true,
+        "graph36_head_of_targetCompletionTail": true,
+        "graph41TargetCompletionState": true,
+        "graph41_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix11YpZmTmmpTpmpTpppTpmmTmppTppmTmpmEvalState": true,
+        "strengthenedClosedPrefix11YpZmZpTmmmTpmmTppmTpmpTmpmTpppEvalState": true,
+        "strengthenedClosed_prefix11_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_next_from_graph11": true,
+        "strengthenedClosed_prefix11_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_next_from_graph6": true,
+        "strengthenedPrefix11Graph36TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix11Graph41TargetCompletionLocalBranchTable": true
+      },
       "graph6_11_symbols": {
         "Graph11TargetCompletionTail": true,
         "Graph6TargetCompletionTail": true,
@@ -296,7 +324,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now advances through graph6 and graph11.  The latest forced steps are graph6 to tppp/graph36 and graph11 to tmpm/graph41.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph36 and graph41 before it becomes a terminal semantic gate.",
+      "remaining_gap": "graph147 now advances through graph36 and graph41.  The latest forced steps are graph36 to tmpp/graph69 and graph41 to tmmm/graph75.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph69 and graph75 before it becomes a terminal semantic gate.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -304,7 +332,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph6_graph11_target_completion_local_table",
+      "status": "partial_graph36_graph41_target_completion_local_table",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,

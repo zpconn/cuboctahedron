@@ -164,6 +164,21 @@ GRAPH147_GRAPH6_11_REQUIRED = [
     "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable",
 ]
 
+GRAPH147_GRAPH36_41_REQUIRED = [
+    "strengthenedClosedPrefix11YpZmZpTmmmTpmmTppmTpmpTmpmTpppEvalState",
+    "strengthenedClosed_prefix11_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_next_from_graph6",
+    "graph36TargetCompletionState",
+    "Graph36TargetCompletionTail",
+    "graph36_head_of_targetCompletionTail",
+    "strengthenedPrefix11Graph36TargetCompletionLocalBranchTable",
+    "strengthenedClosedPrefix11YpZmTmmpTpmpTpppTpmmTmppTppmTmpmEvalState",
+    "strengthenedClosed_prefix11_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_next_from_graph11",
+    "graph41TargetCompletionState",
+    "Graph41TargetCompletionTail",
+    "graph41_head_of_targetCompletionTail",
+    "strengthenedPrefix11Graph41TargetCompletionLocalBranchTable",
+]
+
 ZMTMPP_CHAIN_REQUIRED = [
     "strengthenedClosedPrefix5ZmTmppTpppEvalState",
     "strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp",
@@ -289,6 +304,9 @@ def main() -> int:
     )
     graph147_graph6_11_ok, graph147_graph6_11_missing = contains_all(
         next_frontier_text, GRAPH147_GRAPH6_11_REQUIRED
+    )
+    graph147_graph36_41_ok, graph147_graph36_41_missing = contains_all(
+        next_frontier_text, GRAPH147_GRAPH36_41_REQUIRED
     )
     zm_tmpp_chain_ok, zm_tmpp_chain_missing = contains_all(
         next_frontier_text, ZMTMPP_CHAIN_REQUIRED
@@ -468,6 +486,17 @@ def main() -> int:
                 and graph147_graph191_194_ok
                 and graph147_graph208_211_ok
                 and graph147_graph6_11_ok
+                and graph147_graph36_41_ok
+            ):
+                partial_status = "partial_graph36_graph41_target_completion_local_table"
+            elif (
+                graph147_target_completion_ok
+                and graph147_suffix_ok
+                and graph147_deep_suffix_ok
+                and graph147_graph176_178_ok
+                and graph147_graph191_194_ok
+                and graph147_graph208_211_ok
+                and graph147_graph6_11_ok
             ):
                 partial_status = "partial_graph6_graph11_target_completion_local_table"
             elif (
@@ -539,10 +568,22 @@ def main() -> int:
                     symbol: symbol not in graph147_graph6_11_missing
                     for symbol in GRAPH147_GRAPH6_11_REQUIRED
                 },
+                "graph36_41_symbols": {
+                    symbol: symbol not in graph147_graph36_41_missing
+                    for symbol in GRAPH147_GRAPH36_41_REQUIRED
+                },
                 "forbidden_hits": [
                     token for token in FORBIDDEN if token in next_frontier_text
                 ],
                 "remaining_gap": (
+                    "graph147 now advances through graph36 and graph41.  "
+                    "The latest forced steps are graph36 to tmpp/graph69 "
+                    "and graph41 to tmmm/graph75.  The lane still needs "
+                    "deterministic target-completion/evaluator suffix "
+                    "continuations from graph69 and graph75 before it becomes "
+                    "a terminal semantic gate."
+                    if graph147_graph36_41_ok
+                    else (
                     "graph147 now advances through graph6 and graph11.  "
                     "The latest forced steps are graph6 to tppp/graph36 "
                     "and graph11 to tmpm/graph41.  The lane still needs "
@@ -598,6 +639,7 @@ def main() -> int:
                         "and tmmp.  The lane still needs deterministic suffix "
                         "continuations from graph153 and graph155 before it "
                         "becomes a terminal semantic gate."
+                    )
                     )
                     )
                     )
