@@ -116173,3 +116173,89 @@ start-violation/killed consumer.  The current start-violation provider path is
 known to exceed the 8 GiB guard for `Trace000`; split or replace it before
 threading graph221 into public generated coverage.
 ```
+
+#### 2026-07-05 graph221 graph-exact margin socket addendum
+
+Status: accepted as the next production-facing graph221 surface.
+
+The latest GPT5.5 advice sharpened the target again: keep Bellman, but reject
+selected-prefix membership and make the graph221 branch a deterministic
+closed-language-to-evaluator theorem.  The graph221 bridge now exposes exactly
+that intermediate socket.  New theorem/definition surface in
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean`:
+
+```lean
+def Graph221Layer4Split10MRootMarginBound
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (rest : List Face) : Prop
+
+theorem graph221Layer4AcceptedTailSuffixOk_split10M_eval_exists_final_nonneg
+    (hok : graph221Layer4AcceptedTailSuffixOk rest) :
+    ∃ finish gain,
+      evalLabelStepFn graphSmokeNext rootState
+          (([Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest).map
+            smokeLabelOfFace) = some (finish, gain) ∧
+        0 <= graphPotential finish
+
+theorem split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_semantic_margin
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
+    (hmargin :
+      Graph221Layer4Split10MRootMarginBound scaledMargin rank rest) :
+    Split10MGraphExactEvalGateAtRank scaledMargin rank
+```
+
+Interpretation:
+
+```text
+strengthened closed language + zm/tmpp prefix
+  -> graph151 target-completion tail
+  -> graph221 semantic suffix ok
+  -> deterministic split-10M graph evaluator result with final V >= 0
+  -> rank-local Split10MGraphExactEvalGateAtRank, assuming only the root-margin bound
+```
+
+This is deliberately not an accepted-trace-id theorem.  The proof case-splits
+only on the three alternatives of the semantic
+`graph221Layer4AcceptedTailSuffixOk` predicate, and the public producer
+obligation is the deterministic evaluator margin inequality:
+
+```lean
+∀ result,
+  evalLabelStepFn graphSmokeNext rootState
+      (([Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest).map smokeLabelOfFace)
+    = some result ->
+  scaledMargin rank <= 176 + result.2
+```
+
+Focused guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph221_semantic_terminal_bridge_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean
+```
+
+Result: passed, elapsed `3.00s`, peak RSS `4023.12 MiB`, min available
+`46247.66 MiB`.
+
+Forbidden-token scan over the touched bridge found no `sorry`, `admit`,
+`axiom`, `native_decide`, or `unsafe`.
+
+Next implementation target:
+
+```text
+Prove Graph221Layer4Split10MRootMarginBound from a deterministic
+cocycle/Bellman or segment-summary margin producer over the graph221
+closed-language/cancellation state.  Do not route through AcceptedTraceId,
+selected-prefix IDs, sampled-rank objects, exact affine RHS keys, or stored
+paths.  If this margin theorem requires exact affine state, pivot to the
+cocycle quotient experiment before emitting additional graph221 leaves.
+```
