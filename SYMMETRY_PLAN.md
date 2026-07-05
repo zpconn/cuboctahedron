@@ -116057,6 +116057,11 @@ Exported theorem:
 
 ```lean
 terminalTraceLabels_of_graph221_zm_tmpp_semantic
+traceIdExistsClosedMarginFamily_of_graph221_zm_tmpp_semantic
+evalLanguage_of_graph221_zm_tmpp_semantic_marginBound
+scaledMargin_nonpos_of_graph221_zm_tmpp_semantic_marginBound
+scaledMargin_nonpos_of_graph221_semantic_evalLanguage
+scaledMargin_nonpos_of_graph221_semantic_graphExact
 ```
 
 This is the deterministic closed-language-to-terminal-evaluator proof shape the
@@ -116065,6 +116070,31 @@ the target-completion tail is derived from schedule, square-gap, used-face,
 length, and target cursor semantics, and the terminal machine gate is obtained
 without sampled ranks, selected-prefix IDs, accepted trace IDs, exact affine RHS
 keys, solved start-point keys, or stored Bellman paths.
+
+Follow-up bridge update: the same file now threads the semantic graph221
+terminal theorem into the lightweight margin-bounds socket.  Given a semantic
+margin-bound producer
+
+```lean
+forall traceId : AcceptedTraceId,
+  topPairingRankFaceLabels rank = acceptedTraceOfId traceId ->
+    scaledMargin rank <= (176 : Int) + acceptedTraceGain traceId
+```
+
+the branch proves both `TopPairingBellmanEvalLanguageAtRank ...` and
+`scaledMargin rank <= 0`.  This intentionally does not prove start-violation
+yet.  It fixes the production seam requested by the latest Bellman pivot:
+closed-language + deterministic terminal evaluator + semantic margin bound,
+with no sampled trace cover and no monolithic start-violation provider import.
+
+The bridge also exposes the cleaner production target directly:
+`scaledMargin_nonpos_of_graph221_semantic_evalLanguage` consumes a
+`TopPairingBellmanEvalLanguageAtRank` for the base graph, and
+`scaledMargin_nonpos_of_graph221_semantic_graphExact` consumes the graph-exact
+variant from `TopPairingBellmanSemanticGate`.  These two theorem surfaces avoid
+`AcceptedTraceId` entirely and should be preferred by the next deterministic
+closed-language evaluator producer.  The trace-id margin adapter is kept only as
+compatibility with the current margin socket.
 
 Important guard result: a first attempt to import the heavier direct-kill bridge
 pulled in `BellmanTopPairingTrace000StartViolationProvider`.  The memory guard
@@ -116110,20 +116140,36 @@ python3 scripts/run_memory_guarded.py \
     Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean
 ```
 
-Passed: elapsed `2.00s`, peak RSS `3629 MiB`, min available `46351 MiB`.
+Passed after the trace-id-free eval/graph-exact consumers were added: elapsed
+`4.00s`, peak RSS `3855 MiB`, min available `46333 MiB`.
+
+Additional focused guarded checks for the safe consumer path:
+
+```text
+BellmanTopPairingTerminalAcceptedObjectCover.lean:
+  passed, elapsed 4.00s, peak RSS 3995.88 MiB
+
+BellmanTopPairingTraceMarginBoundsSocket.lean:
+  passed, elapsed 3.00s, peak RSS 4053.91 MiB
+
+BellmanTopPairingTerminalProducerCoverageBridge.lean:
+  failed immediately because its old import path requires missing/heavy
+  start-violation provider `.olean`s; do not use it as the graph221 production
+  consumer until the provider layer is split or replaced.
+```
 
 Next implementation target:
 
 ```text
-Extend the graph221 semantic terminal bridge to the production consumer without
-importing the heavy start-violation provider into normal generated coverage.
-Preferred routes:
-1. a lightweight terminal-trace -> killed bridge backed by already-sharded,
-   memory-safe start-violation families; or
-2. thread terminalTraceLabels_of_graph221_zm_tmpp_semantic into an existing
-   semantic terminal producer root that is known to build under guard.
+Implement the deterministic semantic evaluator producer consumed by
+scaledMargin_nonpos_of_graph221_semantic_graphExact or
+scaledMargin_nonpos_of_graph221_semantic_evalLanguage.  Preferred shape:
+a closed-language/cocycle/Bellman theorem over the same graph221
+target-completion state, not an accepted-trace table, sampled rank/path object,
+selected-prefix cover, exact affine RHS key, or solved start-point key.
 
-If either route pulls in monolithic trace providers above the guard limit, keep
-the terminal theorem as the branch membership result and split/replace the
-start-violation provider before broad assembly.
+Only after the nonpositive margin bridge is populated should we add the final
+start-violation/killed consumer.  The current start-violation provider path is
+known to exceed the 8 GiB guard for `Trace000`; split or replace it before
+threading graph221 into public generated coverage.
 ```
