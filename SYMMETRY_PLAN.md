@@ -111586,3 +111586,105 @@ exact affine RHS keys, solved start-point keys, stored full Bellman paths, or
 one branch per rank/path, stop graph183 scaling and switch to the
 cancellation-segment algebra or a stronger cocycle/coboundary quotient state.
 ```
+
+### 2026-07-05 graph183 generic sequenceBadFace carrier
+
+GPT5.5's latest diagnosis sharpened the graph183 Bellman target again:
+Bellman remains the right margin-compression proof, but production coverage
+must not be phrased as an accepted-sequence or selected-prefix theorem.  The
+right object is a deterministic semantic carrier threaded through the
+`TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace` parameter.
+
+Implemented that carrier layer in:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+New theorem/API surface:
+
+```lean
+Graph183TailQuotientMarginFamily
+Graph183TailQuotientMarginSequenceBadFace
+graph183TailQuotientMarginFamily_of_sequenceBadFace
+acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily
+scaledMargin_nonpos_of_graph183TailQuotientMargin
+Graph183TailBranchQuotientStartViolationFamily
+acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_graph183TailBranch
+nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation
+```
+
+Meaning:
+
+```text
+Graph183TailQuotientMarginSequenceBadFace scaledMargin rank badFace
+```
+
+is now the production-facing semantic carrier.  It says `badFace = Face.ym`
+and, on the graph183 `yp` tail branch,
+
+```lean
+scaledMargin rank <= graphConst + graph183AcceptedBranchRawGain
+```
+
+The existing accepted-sequence socket remains available as a compatibility
+specialization, but it is no longer the preferred proof target.  Future
+production work should prove the generic carrier from the deterministic
+closed-language/evaluator/cocycle-quotient semantics, then feed it through
+`graph183TailQuotientMarginFamily_of_sequenceBadFace`.
+
+Focused guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 6.01s
+peak RSS = 3567 MiB
+min available = 46340 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+```
+
+Results:
+
+```text
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+forbidden hits = 0
+next Lean target =
+  Graph183TailQuotientMarginSequenceBadFace scaledMargin
+
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+```
+
+Current next theorem:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+must be proved semantically for the upstream strengthened language.  It may
+use deterministic closed-language evaluation, target-shadow/tri-source cursor
+state, and Lean-checked quotient/gauge integer facts.  It must not use sampled
+ranks, selected-prefix ids, accepted trace ids, exact affine RHS keys, solved
+start-point keys, stored full Bellman paths, or one branch per rank/path.

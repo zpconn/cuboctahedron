@@ -97,6 +97,73 @@ structure AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily
       scaledMargin rank <= graphConst + graph183AcceptedBranchRawGain
 
 /--
+Generic graph183 accepted-tail quotient-margin target, parameterized by the
+strengthened language's `sequenceBadFace` predicate.
+
+This is the production-safe surface for the current Bellman pivot: an upstream
+semantic language may choose a `sequenceBadFace` carrier that stores exactly the
+branch-local quotient-margin fact needed here.  The older
+`AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily` remains as a
+compatibility specialization to `AcceptedSequenceBadFaceAtRank`.
+-/
+structure Graph183TailQuotientMarginFamily
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  final_margin_yp_branch_quotient :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      scaledMargin rank <= graphConst + graph183AcceptedBranchRawGain
+
+theorem acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Graph183TailQuotientMarginFamily
+        AcceptedSequenceBadFaceAtRank scaledMargin) :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin where
+  final_margin_yp_branch_quotient := by
+    intro rank hstrengthened hprefix
+    exact hfamily.final_margin_yp_branch_quotient rank hstrengthened hprefix
+
+/--
+Semantic `sequenceBadFace` carrier for graph183 accepted-tail quotient-margin
+bounds.
+
+This predicate is intentionally a carrier, not proof evidence by itself.  A
+production upstream proof of this predicate must be semantic, for example from
+a deterministic closed-language evaluator or cocycle-quotient margin theorem.
+Selected prefixes, sampled ranks, accepted trace ids, exact affine RHS keys, or
+per-observed-path branches are not acceptable ways to prove this carrier.
+-/
+def Graph183TailQuotientMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  badFace = Face.ym ∧
+    (Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      scaledMargin rank <= graphConst + graph183AcceptedBranchRawGain)
+
+/--
+If the strengthened language already carries the graph183 quotient-margin
+sequence-bad-face predicate, the generic margin family is immediate.
+
+This theorem is the small semantic-membership socket the current strategy
+needs: it factors graph183 production through `sequenceBadFace_ok` instead of
+through sampled path membership.
+-/
+def graph183TailQuotientMarginFamily_of_sequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    Graph183TailQuotientMarginFamily
+      (Graph183TailQuotientMarginSequenceBadFace scaledMargin)
+      scaledMargin where
+  final_margin_yp_branch_quotient := by
+    intro rank hstrengthened hprefix
+    rcases hstrengthened.sequenceBadFace_ok with ⟨_hbadFace, hmargin⟩
+    exact hmargin hprefix
+
+/--
 Branch-local exact-evaluator target for the graph183 accepted tail.
 
 This is the closest socket to the intended semantic state-DAG producer: it
@@ -207,6 +274,28 @@ theorem scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin
     decide
   exact le_trans hmargin hbound
 
+theorem scaledMargin_nonpos_of_graph183TailQuotientMargin
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)) :
+    scaledMargin rank <= 0 := by
+  have hmargin :=
+    hfamily.final_margin_yp_branch_quotient rank hstrengthened hprefix
+  have hbound :
+      graphConst + graph183AcceptedBranchRawGain <= 0 := by
+    rw [graph183AcceptedBranchRawGain_contract]
+    change (176 : Int) + ((194 : Int) + (-542 : Int)) <= 0
+    decide
+  exact le_trans hmargin hbound
+
 structure AcceptedSequenceGraph183TailQuotientStartViolationFamily
     (scaledMargin : Fin numPairWords -> Int) : Type where
   margin :
@@ -272,6 +361,52 @@ theorem nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStart
     Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
   nonIdentityRankKilled_of_nonpos_startViolationMarginCert
     (scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin
+      hfamily.margin hstrengthened hprefix)
+    (hfamily.startViolation_yp_branch rank hstrengthened hprefix)
+
+structure Graph183TailBranchQuotientStartViolationFamily
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Type where
+  margin :
+    Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin
+  startViolation_yp_branch :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      ObjectStartViolationMarginCert rank (scaledMargin rank)
+
+def acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_graph183TailBranch
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Graph183TailBranchQuotientStartViolationFamily
+        AcceptedSequenceBadFaceAtRank scaledMargin) :
+    AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily
+      scaledMargin where
+  margin :=
+    acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily
+      hfamily.margin
+  startViolation_yp_branch := by
+    intro rank hstrengthened hprefix
+    exact hfamily.startViolation_yp_branch rank hstrengthened hprefix
+
+theorem nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      Graph183TailBranchQuotientStartViolationFamily
+        sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank :=
+  nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+    (scaledMargin_nonpos_of_graph183TailQuotientMargin
       hfamily.margin hstrengthened hprefix)
     (hfamily.startViolation_yp_branch rank hstrengthened hprefix)
 

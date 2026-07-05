@@ -6,8 +6,8 @@ coverage and it does not certify the Bellman margin theorem.  Its job is to
 keep the active frontier honest:
 
 * graph183 completion-tail membership is already semantic;
-* the remaining producer must target the branch-local quotient surface
-  `AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin`;
+* the remaining producer must target the branch-local generic quotient carrier
+  `Graph183TailQuotientMarginSequenceBadFace scaledMargin`;
 * exact margin profiling should support a small Bellman/cocycle producer before
   any Lean emission is scaled.
 
@@ -63,7 +63,7 @@ COCYCLE_QUOTIENT_1M = (
     ROOT / "scripts/generated/graph183_cocycle_quotients_0_1M.json"
 )
 GUARD_QUOTIENT_SOCKET = (
-    ROOT / "scripts/generated/graph183_quotient_margin_socket_guard.json"
+    ROOT / "scripts/generated/graph183_quotient_margin_socket_latest_guard.json"
 )
 
 REQUIRED_SOCKET_SYMBOLS = [
@@ -131,6 +131,10 @@ REQUIRED_QUOTIENT_SOCKET_SYMBOLS = [
     "acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin",
     "acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin",
     "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily",
+    "Graph183TailQuotientMarginFamily",
+    "Graph183TailQuotientMarginSequenceBadFace",
+    "graph183TailQuotientMarginFamily_of_sequenceBadFace",
+    "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily",
     "AcceptedSequenceGraph183AcceptedTailExactEvalFamily",
     "acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval",
     "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailExactEval",
@@ -138,7 +142,11 @@ REQUIRED_QUOTIENT_SOCKET_SYMBOLS = [
     "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin",
     "graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin",
     "graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin",
+    "scaledMargin_nonpos_of_graph183TailQuotientMargin",
     "scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin",
+    "Graph183TailBranchQuotientStartViolationFamily",
+    "acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_graph183TailBranch",
+    "nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation",
     "AcceptedSequenceGraph183TailQuotientStartViolationFamily",
     "nonIdentityRankKilled_of_acceptedSequenceGraph183TailQuotientStartViolation",
     "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
@@ -581,7 +589,8 @@ def render_markdown(report: dict[str, Any]) -> str:
         "",
         "A passing decision means graph183 completion-tail membership is already",
         "on the semantic target-shadow cursor route, and the exact profiler",
-        "supports trying the accepted-tail margin producer next.  It does not",
+        "supports trying the generic sequence-bad-face quotient-margin carrier",
+        "next.  It does not",
         "mean that producer exists.  If the producer needs sampled ranks,",
         "selected prefixes, accepted trace ids, exact affine RHS keys, or one",
         "branch per rank/path, the route must pivot to a cancellation-segment or",
@@ -631,20 +640,20 @@ def render_markdown(report: dict[str, Any]) -> str:
         "## Next Lean Target",
         "",
         "```lean",
-        "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin",
+        "Graph183TailQuotientMarginSequenceBadFace scaledMargin",
         "```",
         "",
         "The graph183 completion-tail component is already available via",
         "`acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.",
-        "The quotient-margin socket now exposes the branch-local accepted-tail",
-        "surface first and adapts it to the graph183 final-margin and graph169",
-        "continuation surfaces.  It also proves that this branch-local quotient",
-        "margin plus a start-violation certificate yields the public",
-        "`NonIdentityRankKilled` predicate.  The next Lean smoke should prove",
-        "the quotient margin from semantic closed-language/evaluator state on",
-        "the `yp` tail branch.  The start-violation producer is also now",
-        "branch-local through",
-        "`AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily`.",
+        "The quotient-margin socket now exposes",
+        "`Graph183TailQuotientMarginSequenceBadFace` as the generic carrier for",
+        "the branch-local margin fact, then adapts that carrier back to the",
+        "older accepted-sequence surfaces.  It also proves that the generic",
+        "branch-local quotient margin plus a start-violation certificate yields",
+        "the public `NonIdentityRankKilled` predicate.  The next Lean smoke",
+        "should prove the carrier from semantic closed-language/evaluator state",
+        "on the `yp` tail branch.  The start-violation producer is also generic",
+        "through `Graph183TailBranchQuotientStartViolationFamily`.",
         "The profile remains diagnostic only;",
         "quotient/gauge equations used by the proof must stay Lean-checked",
         "local facts.",
@@ -740,7 +749,7 @@ def main() -> int:
             },
             "graph183_scaling_contract": contract_metrics(profile_1m),
         },
-        "next_lean_target": "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin",
+        "next_lean_target": "Graph183TailQuotientMarginSequenceBadFace scaledMargin",
     }
 
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)

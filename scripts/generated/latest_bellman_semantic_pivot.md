@@ -1,6 +1,6 @@
 # Latest Bellman Semantic Pivot Audit
 
-- status: `latest-bellman-semantic-pivot-targets-graph183-tail-quotient-margin`
+- status: `latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier`
 - files checked: `9`
 - forbidden hits: `0`
 
@@ -34,7 +34,8 @@ Accepted:
 - target-shadow cursor and transducer tail are the membership front door
 - graph183 completion-tail membership is already semantic
 - graph183 accepted branch has a Lean-checked quotient raw-gain run
-- the next graph183 target is branch-local quotient margin
+- graph183 now exposes a generic sequenceBadFace quotient-margin carrier
+- the next graph183 target is an upstream semantic proof of that carrier
 
 Rejected:
 
@@ -48,4 +49,4 @@ Rejected:
 
 Next gate:
 
-Prove AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin from TopPairingStrengthenedClosedLanguageAtRank, the graph183 yp branch prefix, and Lean-checked quotient/gauge integer facts. Pair it with the branch-local start-violation surface. If that proof demands sampled ranks, selected prefixes, accepted trace ids, exact affine RHS, solved start-point keys, or one branch per rank/path, stop graph183 scaling and switch to the cancellation-segment or stronger cocycle quotient state.
+Prove Graph183TailQuotientMarginSequenceBadFace scaledMargin semantically for the upstream strengthened language, then feed it through graph183TailQuotientMarginFamily_of_sequenceBadFace. Pair it with the generic branch-local start-violation surface. If that proof demands sampled ranks, selected prefixes, accepted trace ids, exact affine RHS, solved start-point keys, or one branch per rank/path, stop graph183 scaling and switch to the cancellation-segment or stronger cocycle quotient state.

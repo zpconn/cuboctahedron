@@ -11,7 +11,8 @@ family evidence.
 
 A passing decision means graph183 completion-tail membership is already
 on the semantic target-shadow cursor route, and the exact profiler
-supports trying the accepted-tail margin producer next.  It does not
+supports trying the generic sequence-bad-face quotient-margin carrier
+next.  It does not
 mean that producer exists.  If the producer needs sampled ranks,
 selected prefixes, accepted trace ids, exact affine RHS keys, or one
 branch per rank/path, the route must pivot to a cancellation-segment or
@@ -76,9 +77,9 @@ cocycle/coboundary quotient.
 
 | metric | value |
 | --- | ---: |
-| `elapsed_seconds` | `3.003043571006856` |
-| `peak_rss_mib` | `4103.23046875` |
-| `min_available_mib` | `46012.73828125` |
+| `elapsed_seconds` | `6.0054499529942404` |
+| `peak_rss_mib` | `3567.59375` |
+| `min_available_mib` | `46340.85546875` |
 
 ### graph183_scaling_contract
 
@@ -176,6 +177,10 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin` |
 | `graph183_quotient_socket:symbol:AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily` | `True` | `AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily` |
+| `graph183_quotient_socket:symbol:Graph183TailQuotientMarginFamily` | `True` | `Graph183TailQuotientMarginFamily` |
+| `graph183_quotient_socket:symbol:Graph183TailQuotientMarginSequenceBadFace` | `True` | `Graph183TailQuotientMarginSequenceBadFace` |
+| `graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_sequenceBadFace` | `True` | `graph183TailQuotientMarginFamily_of_sequenceBadFace` |
+| `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily` | `True` | `acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily` |
 | `graph183_quotient_socket:symbol:AcceptedSequenceGraph183AcceptedTailExactEvalFamily` | `True` | `AcceptedSequenceGraph183AcceptedTailExactEvalFamily` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval` | `True` | `acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailExactEval` | `True` | `acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailExactEval` |
@@ -183,7 +188,11 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin` |
 | `graph183_quotient_socket:symbol:graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin` | `True` | `graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin` |
 | `graph183_quotient_socket:symbol:graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin` | `True` | `graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin` |
+| `graph183_quotient_socket:symbol:scaledMargin_nonpos_of_graph183TailQuotientMargin` | `True` | `scaledMargin_nonpos_of_graph183TailQuotientMargin` |
 | `graph183_quotient_socket:symbol:scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin` | `True` | `scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin` |
+| `graph183_quotient_socket:symbol:Graph183TailBranchQuotientStartViolationFamily` | `True` | `Graph183TailBranchQuotientStartViolationFamily` |
+| `graph183_quotient_socket:symbol:acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_graph183TailBranch` | `True` | `acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_graph183TailBranch` |
+| `graph183_quotient_socket:symbol:nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation` | `True` | `nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation` |
 | `graph183_quotient_socket:symbol:AcceptedSequenceGraph183TailQuotientStartViolationFamily` | `True` | `AcceptedSequenceGraph183TailQuotientStartViolationFamily` |
 | `graph183_quotient_socket:symbol:nonIdentityRankKilled_of_acceptedSequenceGraph183TailQuotientStartViolation` | `True` | `nonIdentityRankKilled_of_acceptedSequenceGraph183TailQuotientStartViolation` |
 | `graph183_quotient_socket:symbol:AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily` | `True` | `AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily` |
@@ -235,26 +244,26 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
 | `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
 | `graph183_quotient_margin_socket:guard_exit_zero` | `True` | `0` |
-| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `4103.23046875` |
-| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46012.73828125` |
+| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3567.59375` |
+| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46340.85546875` |
 
 ## Next Lean Target
 
 ```lean
-AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
 ```
 
 The graph183 completion-tail component is already available via
 `acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor`.
-The quotient-margin socket now exposes the branch-local accepted-tail
-surface first and adapts it to the graph183 final-margin and graph169
-continuation surfaces.  It also proves that this branch-local quotient
-margin plus a start-violation certificate yields the public
-`NonIdentityRankKilled` predicate.  The next Lean smoke should prove
-the quotient margin from semantic closed-language/evaluator state on
-the `yp` tail branch.  The start-violation producer is also now
-branch-local through
-`AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily`.
+The quotient-margin socket now exposes
+`Graph183TailQuotientMarginSequenceBadFace` as the generic carrier for
+the branch-local margin fact, then adapts that carrier back to the
+older accepted-sequence surfaces.  It also proves that the generic
+branch-local quotient margin plus a start-violation certificate yields
+the public `NonIdentityRankKilled` predicate.  The next Lean smoke
+should prove the carrier from semantic closed-language/evaluator state
+on the `yp` tail branch.  The start-violation producer is also generic
+through `Graph183TailBranchQuotientStartViolationFamily`.
 The profile remains diagnostic only;
 quotient/gauge equations used by the proof must stay Lean-checked
 local facts.

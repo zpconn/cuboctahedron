@@ -9,8 +9,8 @@ current strategic boundary after the GPT5.5 review:
 * use the closed top-pairing language, target-shadow cursor, transducer tail,
   and deterministic evaluator gates as the production membership surface;
 * treat graph183 completion-tail membership as a validated semantic lane;
-* make the next production target the branch-local graph183 quotient-margin
-  family, not another selected-prefix/object cover or whole-label exact-eval
+* route graph183 production through a generic `sequenceBadFace` quotient-margin
+  carrier, not another selected-prefix/object cover or whole-label exact-eval
   surface.
 """
 
@@ -97,10 +97,17 @@ REQUIRED = {
     ],
     "graph183_quotient_socket": [
         "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily",
+        "Graph183TailQuotientMarginFamily",
+        "Graph183TailQuotientMarginSequenceBadFace",
+        "graph183TailQuotientMarginFamily_of_sequenceBadFace",
+        "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily",
         "acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin",
         "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin",
         "graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin",
+        "scaledMargin_nonpos_of_graph183TailQuotientMargin",
         "scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin",
+        "Graph183TailBranchQuotientStartViolationFamily",
+        "nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation",
         "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
         "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
     ],
@@ -156,7 +163,7 @@ def main() -> int:
     ]
 
     status = (
-        "latest-bellman-semantic-pivot-targets-graph183-tail-quotient-margin"
+        "latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier"
         if not missing and not forbidden_hits
         else "latest-bellman-semantic-pivot-gap"
     )
@@ -172,7 +179,8 @@ def main() -> int:
             "target-shadow cursor and transducer tail are the membership front door",
             "graph183 completion-tail membership is already semantic",
             "graph183 accepted branch has a Lean-checked quotient raw-gain run",
-            "the next graph183 target is branch-local quotient margin",
+            "graph183 now exposes a generic sequenceBadFace quotient-margin carrier",
+            "the next graph183 target is an upstream semantic proof of that carrier",
         ],
         "rejected": [
             "selected-prefix membership as production coverage",
@@ -184,17 +192,17 @@ def main() -> int:
             "whole-label exact-eval as the primary graph183 proof obligation",
         ],
         "next_gate": (
-            "Prove AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily "
-            "scaledMargin from TopPairingStrengthenedClosedLanguageAtRank, the "
-            "graph183 yp branch prefix, and Lean-checked quotient/gauge "
-            "integer facts. Pair it with the branch-local start-violation "
-            "surface. If that proof demands sampled ranks, selected prefixes, "
-            "accepted trace ids, exact affine RHS, solved start-point keys, or "
-            "one branch per rank/path, stop graph183 scaling and switch to the "
+            "Prove Graph183TailQuotientMarginSequenceBadFace scaledMargin "
+            "semantically for the upstream strengthened language, then feed it "
+            "through graph183TailQuotientMarginFamily_of_sequenceBadFace. Pair "
+            "it with the generic branch-local start-violation surface. If that "
+            "proof demands sampled ranks, selected prefixes, accepted trace ids, "
+            "exact affine RHS, solved start-point keys, or one branch per "
+            "rank/path, stop graph183 scaling and switch to the "
             "cancellation-segment or stronger cocycle quotient state."
         ),
         "next_lean_target": (
-            "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin"
+            "Graph183TailQuotientMarginSequenceBadFace scaledMargin"
         ),
     }
 
@@ -239,7 +247,7 @@ def main() -> int:
 
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0 if status == (
-        "latest-bellman-semantic-pivot-targets-graph183-tail-quotient-margin"
+        "latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier"
     ) else 1
 
 
