@@ -1,0 +1,24 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "-M",
+    "6500",
+    "-j1",
+    "-s",
+    "2048",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientCore.lean"
+  ],
+  "elapsed_seconds": 185.10492925101425,
+  "exit_code": -15,
+  "hard_address_space_mib": 6500.0,
+  "killed_reason": "wall-clock runtime exceeded 180.00s timeout",
+  "max_tree_rss_kib": 4311052,
+  "max_tree_rss_mib": 4210.01171875,
+  "min_available_seen_kib": 46969708,
+  "min_available_seen_mib": 45868.85546875,
+  "rss_cap_mib": 6500.0,
+  "timeout_seconds": 180.0
+}

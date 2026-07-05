@@ -111771,6 +111771,73 @@ No-go signs are unchanged: sampled ranks, selected-prefix coverage, accepted
 trace ids, exact affine RHS keys, solved start-point keys, stored full Bellman
 paths, or one proof branch per rank/path.
 
+#### Rejected subroute: public/raw graph183 quotient core
+
+Tried to promote
+`BellmanTopPairingGraph183CocycleQuotientSmoke.lean` into a reusable public
+core by exposing the 229 edge tables and the local theorem
+
+```lean
+rawGain i = smallGain i + gauge (fullDst i) - gauge (fullSrc i)
+```
+
+as public data.  This is memory-safe but not time-safe.  Both the temporary
+public core and the existing private smoke timed out under the same 180s
+guard, with roughly 4.2 GiB peak RSS.  The unaccepted public core file was
+deleted, and the temporary `--public-core` emitter mode was removed; only the
+guard JSONs are retained as rejection evidence.
+
+Commands:
+
+```bash
+python3 scripts/emit_graph183_cocycle_quotient_smoke.py \
+  --public-core \
+  --namespace Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraph183CocycleQuotientCore \
+  --out Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183CocycleQuotientCore.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_cocycle_quotient_core_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183CocycleQuotientCore.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_cocycle_quotient_smoke_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183CocycleQuotientSmoke.lean
+```
+
+Results:
+
+```text
+public quotient core:
+  exit = -15
+  killed = wall-clock runtime exceeded 180.00s timeout
+  elapsed = 185.10s
+  peak RSS = 4210 MiB
+  min available = 45869 MiB
+
+private quotient smoke:
+  exit = -15
+  killed = wall-clock runtime exceeded 180.00s timeout
+  elapsed = 185.10s
+  peak RSS = 4208 MiB
+  min available = 45890 MiB
+```
+
+Decision: reject the one-file `fin_cases i <;> decide` quotient-table proof as
+a production primitive.  The next graph183 producer should emit smaller
+edge-local or transition-family facts, or avoid replaying all 229 quotient
+equations by using a cancellation-segment/cocycle certificate whose local
+checks are already split into memory- and time-safe leaves.
+
 ### 2026-07-05 exact-eval sequenceBadFace carrier
 
 Added an evaluator-shaped sibling of the graph183 quotient-margin carrier:

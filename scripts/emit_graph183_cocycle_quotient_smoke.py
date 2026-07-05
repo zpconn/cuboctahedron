@@ -374,7 +374,7 @@ def main() -> int:
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text("\n".join(lines))
-    print(f"wrote {args.out.relative_to(ROOT)}")
+    print(f"wrote {args.out.resolve().relative_to(ROOT)}")
     print(f"edges={edge_count} states={state_count} quotient_states={len(quotient_keys)}")
     return 0
 
