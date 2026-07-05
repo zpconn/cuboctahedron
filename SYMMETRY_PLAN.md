@@ -115532,3 +115532,66 @@ GoodDirection
 
 Walsh/subcube machinery may certify denominator signs, but it must not become
 the outer coverage coordinate.
+
+### 2026-07-05 graph147 step-run nonpos adapter
+
+Status: local bridge complete and guarded.
+
+The graph183-direct mixed portfolio socket now has an alternative way to supply
+the graph147 nonpositive bridge:
+
+```lean
+acceptedSequenceGraph147EvalNonposGate_of_strengthenedClosedBellmanStepRunFamily
+```
+
+The new adapter consumes:
+
+```lean
+StrengthenedClosedBellmanStepRunFamily
+  AcceptedSequenceBadFaceAtRank scaledMargin
+```
+
+and produces:
+
+```lean
+AcceptedSequenceGraph147EvalNonposGate scaledMargin
+```
+
+This is the preferred production route after the deterministic-transducer
+pivot.  It lets a branch-local semantic producer prove a
+`BellmanLabelStepRun ClosedBellmanStep ...` directly from closed-language /
+target-cursor / suffix invariants, then use the already checked
+`closedBellmanStep_valid` potential inequalities.  It avoids the rejected
+ordinary-build proof of `StrengthenedClosedEvalNextBound`, which tried to infer
+graph edge validity from unknown `strengthenedClosedEvalNext` equalities and
+hit the heartbeat wall.
+
+Focused check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph183_direct_killed_portfolio_socket_guard.json \
+  -- lake env lean -M 7000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.lean
+```
+
+Passed: elapsed `3.00s`, peak RSS `3883 MiB`, min available `46322 MiB`.
+
+Next implementation target:
+
+```text
+Build the first branch-local semantic step-run family:
+
+  StrengthenedClosedBellmanStepRunFamily
+    AcceptedSequenceBadFaceAtRank scaledMargin
+
+or a narrower graph147 branch family that can be lifted to that surface.
+```
+
+The producer must be deterministic and semantic.  It may use target-shadow
+cursor, transducer tail, branch-prefix, suffix, graph-state, and cocycle/gauge
+facts.  It must not use sampled ranks, selected-prefix IDs, accepted trace IDs,
+exact affine RHS keys, solved start-point keys, or one branch per observed path.

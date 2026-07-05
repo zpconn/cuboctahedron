@@ -364,6 +364,30 @@ def acceptedSequenceGraph147EvalNonposGate_of_strengthenedClosedEvalNextBound
           strengthenedBellmanRootBound)
       hevalLanguage.eval_accepts
 
+/--
+Alternative graph147 nonpositive bridge using the semantic step-run surface.
+
+This is the preferred production shape after the deterministic-transducer
+pivot: a branch-local producer should build a
+`StrengthenedClosedBellmanStepRunFamily` directly from closed-language /
+cursor / suffix invariants, avoiding the heartbeat-heavy inverse theorem from
+unknown `strengthenedClosedEvalNext` equalities back to graph edges.
+
+The exact-eval gate argument is intentionally unused; it remains in the
+consumer signature only because existing graph147 branch sockets expose that
+surface today.
+-/
+def acceptedSequenceGraph147EvalNonposGate_of_strengthenedClosedBellmanStepRunFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      StrengthenedClosedBellmanStepRunFamily
+        AcceptedSequenceBadFaceAtRank scaledMargin) :
+    AcceptedSequenceGraph147EvalNonposGate scaledMargin := by
+  intro rank hstrengthened _gate
+  exact
+    scaledMargin_nonpos_of_strengthenedClosedBellmanStepRunFamily
+      hfamily hstrengthened
+
 abbrev AcceptedSequenceDepth11Layer4StartViolationGate
     (scaledMargin : Fin numPairWords -> Int) : Type :=
   forall rank,
