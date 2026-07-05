@@ -32,6 +32,9 @@ The local quotient equations have also been split into edge shards,
 which are accepted as diagnostic proof-shape evidence: they check the
 same exact integer cocycle equations without the timed-out one-file
 table proof.
+Those shards now expose a composable quotient-step theorem over the
+public generated `graph183QuotientQ` and `graph183QuotientGauge`
+finite maps, so the diagnostic is no longer just a `True` smoke.
 However, no production theorem currently proves
 `Graph183TailQuotientMarginSequenceBadFace` from closed-language,
 deterministic-evaluator, or cocycle/gauge semantics.
@@ -55,12 +58,14 @@ observed path remains a no-go.
 | `quotient_max_bit_length` | `9` |
 | `edge_shards_edge_equations` | `229` |
 | `edge_shards_shard_count` | `8` |
-| `edge_shards_lake_guard_elapsed_seconds` | `5.007742641028017` |
-| `edge_shards_lake_guard_peak_rss_mib` | `22840.3046875` |
-| `edge_shards_direct_guard_elapsed_seconds` | `2.0022602880198974` |
-| `edge_shards_direct_guard_peak_rss_mib` | `3592.67578125` |
-| `edge_shard000_guard_elapsed_seconds` | `9.006317495019175` |
-| `edge_shard000_guard_peak_rss_mib` | `3894.59765625` |
+| `edge_shards_lake_guard_elapsed_seconds` | `5.007934146997286` |
+| `edge_shards_lake_guard_peak_rss_mib` | `24995.8046875` |
+| `edge_shards_core_guard_elapsed_seconds` | `2.0021651900024153` |
+| `edge_shards_core_guard_peak_rss_mib` | `3547.88671875` |
+| `edge_shards_direct_guard_elapsed_seconds` | `2.002471511019394` |
+| `edge_shards_direct_guard_peak_rss_mib` | `3594.60546875` |
+| `edge_shard000_guard_elapsed_seconds` | `2.0027364550041966` |
+| `edge_shard000_guard_peak_rss_mib` | `3547.828125` |
 | `guard_elapsed_seconds` | `3.0028496980085038` |
 | `guard_peak_rss_mib` | `3911.828125` |
 | `guard_min_available_mib` | `46308.5` |
@@ -148,7 +153,14 @@ observed path remains a no-go.
 | `graph183_start_provider:symbol:graph183StartViolationLabels` | `True` | `graph183StartViolationLabels` |
 | `graph183_start_provider:symbol:objectStartViolationMarginCert_of_graph183AcceptedBranchLabels` | `True` | `objectStartViolationMarginCert_of_graph183AcceptedBranchLabels` |
 | `graph183_edge_shards:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean` |
+| `graph183_edge_shards:symbol:FullStep` | `True` | `FullStep` |
+| `graph183_edge_shards:symbol:SmallStep` | `True` | `SmallStep` |
+| `graph183_edge_shards:symbol:graph183QuotientStep` | `True` | `graph183QuotientStep` |
 | `graph183_edge_shards:symbol:graph183QuotientEdgeShards_checked` | `True` | `graph183QuotientEdgeShards_checked` |
+| `graph183_edge_shards_core:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientCore.lean` |
+| `graph183_edge_shards_core:symbol:graph183QuotientQ` | `True` | `graph183QuotientQ` |
+| `graph183_edge_shards_core:symbol:graph183QuotientGauge` | `True` | `graph183QuotientGauge` |
+| `graph183_edge_shards_core:symbol:graph183QuotientCore_builds` | `True` | `graph183QuotientCore_builds` |
 | `target_cursor:exists` | `True` | `Cuboctahedron/Search/TopPairingTargetCursor.lean` |
 | `target_cursor:symbol:topPairingTargetShadow_of_summary` | `True` | `topPairingTargetShadow_of_summary` |
 | `target_cursor:symbol:topPairingTriShadow_eq_target_of_closed` | `True` | `topPairingTriShadow_eq_target_of_closed` |
@@ -199,6 +211,12 @@ observed path remains a no-go.
 | `graph183_edge_shards:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `graph183_edge_shards:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `graph183_edge_shards:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_edge_shards_core:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_edge_shards_core:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_edge_shards_core:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_edge_shards_core:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_edge_shards_core:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_edge_shards_core:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `target_cursor:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
 | `target_cursor:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
 | `target_cursor:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
@@ -237,14 +255,17 @@ observed path remains a no-go.
 | `quotient_1m:solution_exists` | `True` | `['gauge', 'gauge_count', 'max_bit_length', 'nonzero_values', 'small_gain_count', 'small_gains']` |
 | `quotient_1m:bit_length_under_16` | `True` | `9` |
 | `graph183_edge_shards_lake_guard:guard_exit_zero` | `True` | `0` |
-| `graph183_edge_shards_lake_guard:rss_under_30000_mib` | `True` | `22840.3046875` |
-| `graph183_edge_shards_lake_guard:available_above_30000_mib` | `True` | `43574.75390625` |
+| `graph183_edge_shards_lake_guard:rss_under_30000_mib` | `True` | `24995.8046875` |
+| `graph183_edge_shards_lake_guard:available_above_30000_mib` | `True` | `44109.2421875` |
+| `graph183_edge_shards_core_guard:guard_exit_zero` | `True` | `0` |
+| `graph183_edge_shards_core_guard:rss_under_6500_mib` | `True` | `3547.88671875` |
+| `graph183_edge_shards_core_guard:available_above_30000_mib` | `True` | `46364.0390625` |
 | `graph183_edge_shards_direct_guard:guard_exit_zero` | `True` | `0` |
-| `graph183_edge_shards_direct_guard:rss_under_6500_mib` | `True` | `3592.67578125` |
-| `graph183_edge_shards_direct_guard:available_above_30000_mib` | `True` | `46362.23046875` |
+| `graph183_edge_shards_direct_guard:rss_under_6500_mib` | `True` | `3594.60546875` |
+| `graph183_edge_shards_direct_guard:available_above_30000_mib` | `True` | `46362.328125` |
 | `graph183_edge_shard000_guard:guard_exit_zero` | `True` | `0` |
-| `graph183_edge_shard000_guard:rss_under_6500_mib` | `True` | `3894.59765625` |
-| `graph183_edge_shard000_guard:available_above_30000_mib` | `True` | `46223.6953125` |
+| `graph183_edge_shard000_guard:rss_under_6500_mib` | `True` | `3547.828125` |
+| `graph183_edge_shard000_guard:available_above_30000_mib` | `True` | `46366.5234375` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
 | `socket_guard:rss_under_6500_mib` | `True` | `3911.828125` |
 | `socket_guard:available_above_30000_mib` | `True` | `46308.5` |

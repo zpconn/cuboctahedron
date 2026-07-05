@@ -142,7 +142,7 @@ Immediate Bellman pivot after the latest GPT5.5 review:
   or one branch per observed rank/path, stop and strengthen the semantic
   state or split into smaller cocycle/segment certificates.
 
-2026-07-05 graph183 quotient equations sharded:
+2026-07-05 graph183 quotient equations sharded and composable:
 
 - The full one-file `BellmanTopPairingGraph183CocycleQuotientSmoke.lean`
   remains rejected as a production primitive because it timed out under the
@@ -155,19 +155,53 @@ Immediate Bellman pivot after the latest GPT5.5 review:
   ```
 
   It reads the exact graph183 profile plus the exact `step-par` quotient
-  solution and emits `8` Lean shards covering all `229` edge-label equations:
+  solution and emits a shared core plus `8` Lean shards covering all `229`
+  edge-label equations:
 
   ```lean
   rawGain i = smallGain i + gauge (fullDst i) - gauge (fullSrc i)
   ```
 
-  Each shard keeps generated edge data private and exports only a tiny
-  `..._checked : True` theorem.  The aggregate module is:
+  The shared core is:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingGraph183CocycleQuotientCore
+  ```
+
+  with public finite maps:
+
+  ```lean
+  graph183QuotientQ : Nat -> Nat
+  graph183QuotientGauge : Nat -> Int
+  graph183QuotientCore_builds : True
+  ```
+
+  Each shard keeps generated edge data private, but now exports a composable
+  theorem, not just a `True` smoke:
+
+  ```lean
+  FullStep : Nat -> Nat -> Nat -> Int -> Prop
+  SmallStep : Nat -> Nat -> Nat -> Int -> Prop
+  graph183QuotientStepShardNNN :
+    FullStep s label t gain ->
+      exists smallGainValue,
+        SmallStep (graph183QuotientQ s) label (graph183QuotientQ t)
+          smallGainValue /\
+        gain =
+          smallGainValue + graph183QuotientGauge t -
+            graph183QuotientGauge s
+  ```
+
+  The aggregate module is:
 
   ```lean
   Cuboctahedron.Generated.NonIdentity.Residual.
     BellmanTopPairingGraph183CocycleQuotientEdgeShards
   ```
+
+  and exports the combined `FullStep`, `SmallStep`, and
+  `graph183QuotientStep` theorem over all `229` local quotient equations.
 
 - Commands:
 
@@ -176,10 +210,18 @@ Immediate Bellman pivot after the latest GPT5.5 review:
   python3 scripts/emit_graph183_cocycle_quotient_edge_shards.py
 
   python3 scripts/run_memory_guarded.py \
-    --timeout-seconds 180 --max-tree-rss-mib 6500 \
+    --timeout-seconds 120 --max-tree-rss-mib 6500 \
+    --min-available-mib 30000 --hard-address-space-mib 8192 \
+    --json scripts/generated/graph183_cocycle_quotient_core_guard.json \
+    -- lake env lean -M 6500 -j1 -s 8192 \
+      Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183CocycleQuotientCore.lean
+
+  python3 scripts/run_memory_guarded.py \
+    --timeout-seconds 120 --max-tree-rss-mib 6500 \
     --min-available-mib 30000 --hard-address-space-mib 8192 \
     --json scripts/generated/graph183_cocycle_quotient_edge_shard000_guard.json \
-    -- lake env lean -M 6500 -j1 -s 2048 \
+    -- lake env lean -M 6500 -j1 -s 8192 \
       Cuboctahedron/Generated/NonIdentity/Residual/\
 BellmanTopPairingGraph183CocycleQuotientEdgeShard000.lean
 
@@ -195,37 +237,60 @@ BellmanTopPairingGraph183CocycleQuotientEdgeShards:olean
     --timeout-seconds 120 --max-tree-rss-mib 6500 \
     --min-available-mib 30000 --hard-address-space-mib 8192 \
     --json scripts/generated/graph183_cocycle_quotient_edge_shards_direct_guard.json \
-    -- lake env lean -M 6500 -j1 -s 2048 \
+    -- lake env lean -M 6500 -j1 -s 8192 \
       Cuboctahedron/Generated/NonIdentity/Residual/\
 BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean
+
+  python3 -m py_compile \
+    scripts/audit_graph183_carrier_producer_readiness.py \
+    scripts/emit_graph183_cocycle_quotient_edge_shards.py
+  python3 scripts/audit_graph183_carrier_producer_readiness.py
   ```
 
 - Results:
 
   ```text
+  core source check:
+    exit = 0
+    elapsed = 2.00s
+    peak RSS = 3548 MiB
+    min available = 46364 MiB
+
   shard000 source check:
     exit = 0
-    elapsed = 9.01s
-    peak RSS = 3894 MiB
-    min available = 46223 MiB
+    elapsed = 2.00s
+    peak RSS = 3548 MiB
+    min available = 46367 MiB
 
   aggregate Lake build:
     exit = 0
     elapsed = 5.01s
-    peak RSS = 22840 MiB
-    min available = 43574 MiB
+    peak RSS = 24996 MiB
+    min available = 44109 MiB
 
   aggregate direct check after .oleans:
     exit = 0
     elapsed = 2.00s
-    peak RSS = 3592 MiB
+    peak RSS = 3595 MiB
     min available = 46362 MiB
+
+  graph183 carrier readiness audit:
+    exit = 0
+    decision = graph183_carrier_sockets_ready_but_producer_missing
+    failed checks = 0
   ```
 
-- Interpretation: this is accepted as diagnostic proof-shape evidence for the
-  cocycle quotient local equations.  It is not generated coverage and still
-  does not prove `Graph183TailQuotientMarginSequenceBadFace`.  The next
-  production proof must connect these local quotient facts, or a still smaller
+- Notes:
+  - A direct source check with `-s 2048` hit Lean stack overflow on the shared
+    core; `-s 8192` fixed it without increasing RSS materially.
+  - A Lake build with a hard address-space cap is still avoided because earlier
+    Lake runs under `RLIMIT_AS` failed to create worker threads.  The accepted
+    Lake target used the process-tree RSS cap and available-memory floor.
+- Interpretation: this is accepted as stronger diagnostic proof-shape evidence
+  for the cocycle quotient local equations because it now exposes a reusable
+  quotient-step theorem.  It is not generated coverage and still does not
+  prove `Graph183TailQuotientMarginSequenceBadFace`.  The next production
+  proof must connect these local quotient facts, or a still smaller
   segment/cocycle certificate, to the target-shadow/ranked-transducer semantic
   carrier without reintroducing observed traces or selected-prefix membership.
 

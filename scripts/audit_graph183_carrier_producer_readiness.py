@@ -50,6 +50,10 @@ GRAPH183_EDGE_SHARDS = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean"
 )
+GRAPH183_EDGE_SHARDS_CORE = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183CocycleQuotientCore.lean"
+)
 TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_SEMANTIC_GATE = (
     ROOT / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean"
@@ -62,6 +66,9 @@ EDGE_SHARDS_MANIFEST = (
 GUARD = ROOT / "scripts/generated/graph183_quotient_margin_socket_latest_guard.json"
 EDGE_SHARDS_LAKE_GUARD = (
     ROOT / "scripts/generated/graph183_cocycle_quotient_edge_shards_lake_guard.json"
+)
+EDGE_SHARDS_CORE_GUARD = (
+    ROOT / "scripts/generated/graph183_cocycle_quotient_core_guard.json"
 )
 EDGE_SHARDS_DIRECT_GUARD = (
     ROOT / "scripts/generated/graph183_cocycle_quotient_edge_shards_direct_guard.json"
@@ -165,7 +172,16 @@ REQUIRED_GRAPH183_START_PROVIDER_SYMBOLS = [
 ]
 
 REQUIRED_GRAPH183_EDGE_SHARDS_SYMBOLS = [
+    "FullStep",
+    "SmallStep",
+    "graph183QuotientStep",
     "graph183QuotientEdgeShards_checked",
+]
+
+REQUIRED_GRAPH183_EDGE_SHARDS_CORE_SYMBOLS = [
+    "graph183QuotientQ",
+    "graph183QuotientGauge",
+    "graph183QuotientCore_builds",
 ]
 
 REQUIRED_TARGET_CURSOR_SYMBOLS = [
@@ -502,6 +518,9 @@ def render_markdown(report: dict[str, Any]) -> str:
         "which are accepted as diagnostic proof-shape evidence: they check the",
         "same exact integer cocycle equations without the timed-out one-file",
         "table proof.",
+        "Those shards now expose a composable quotient-step theorem over the",
+        "public generated `graph183QuotientQ` and `graph183QuotientGauge`",
+        "finite maps, so the diagnostic is no longer just a `True` smoke.",
         "However, no production theorem currently proves",
         "`Graph183TailQuotientMarginSequenceBadFace` from closed-language,",
         "deterministic-evaluator, or cocycle/gauge semantics.",
@@ -531,6 +550,7 @@ def main() -> int:
     smoke_text = read_text(SMOKE)
     graph183_start_provider_text = read_text(GRAPH183_START_PROVIDER)
     graph183_edge_shards_text = read_text(GRAPH183_EDGE_SHARDS)
+    graph183_edge_shards_core_text = read_text(GRAPH183_EDGE_SHARDS_CORE)
     target_cursor_text = read_text(TARGET_CURSOR)
     transducer_semantic_gate_text = read_text(TRANSDUCER_SEMANTIC_GATE)
     profile = read_json(PROFILE)
@@ -538,6 +558,7 @@ def main() -> int:
     edge_shards_manifest = read_json(EDGE_SHARDS_MANIFEST)
     guard = read_json(GUARD)
     edge_shards_lake_guard = read_json(EDGE_SHARDS_LAKE_GUARD)
+    edge_shards_core_guard = read_json(EDGE_SHARDS_CORE_GUARD)
     edge_shards_direct_guard = read_json(EDGE_SHARDS_DIRECT_GUARD)
     edge_shard000_guard = read_json(EDGE_SHARD000_GUARD)
     graph183_start_provider_guard = read_json(GRAPH183_START_PROVIDER_GUARD)
@@ -581,6 +602,13 @@ def main() -> int:
     )
     checks.extend(
         symbol_checks(
+            "graph183_edge_shards_core",
+            GRAPH183_EDGE_SHARDS_CORE,
+            REQUIRED_GRAPH183_EDGE_SHARDS_CORE_SYMBOLS,
+        )
+    )
+    checks.extend(
+        symbol_checks(
             "target_cursor",
             TARGET_CURSOR,
             REQUIRED_TARGET_CURSOR_SYMBOLS,
@@ -599,6 +627,9 @@ def main() -> int:
     checks.extend(forbidden_checks("smoke", SMOKE))
     checks.extend(forbidden_checks("graph183_start_provider", GRAPH183_START_PROVIDER))
     checks.extend(forbidden_checks("graph183_edge_shards", GRAPH183_EDGE_SHARDS))
+    checks.extend(
+        forbidden_checks("graph183_edge_shards_core", GRAPH183_EDGE_SHARDS_CORE)
+    )
     checks.extend(forbidden_checks("target_cursor", TARGET_CURSOR))
     checks.extend(forbidden_checks("transducer_semantic_gate", TRANSDUCER_SEMANTIC_GATE))
     checks.extend(
@@ -661,6 +692,12 @@ def main() -> int:
     )
     checks.extend(
         guard_checks(
+            "graph183_edge_shards_core_guard",
+            edge_shards_core_guard,
+        )
+    )
+    checks.extend(
+        guard_checks(
             "graph183_edge_shards_direct_guard",
             edge_shards_direct_guard,
         )
@@ -707,6 +744,7 @@ def main() -> int:
         closed_semantic_gate_text,
         graph183_start_provider_text,
         graph183_edge_shards_text,
+        graph183_edge_shards_core_text,
         target_cursor_text,
         transducer_semantic_gate_text,
     )
@@ -749,6 +787,12 @@ def main() -> int:
             "edge_shards_lake_guard_peak_rss_mib": None
             if edge_shards_lake_guard is None
             else edge_shards_lake_guard.get("max_tree_rss_mib"),
+            "edge_shards_core_guard_elapsed_seconds": None
+            if edge_shards_core_guard is None
+            else edge_shards_core_guard.get("elapsed_seconds"),
+            "edge_shards_core_guard_peak_rss_mib": None
+            if edge_shards_core_guard is None
+            else edge_shards_core_guard.get("max_tree_rss_mib"),
             "edge_shards_direct_guard_elapsed_seconds": None
             if edge_shards_direct_guard is None
             else edge_shards_direct_guard.get("elapsed_seconds"),

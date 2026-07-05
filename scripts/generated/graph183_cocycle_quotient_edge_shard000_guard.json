@@ -8,17 +8,17 @@
     "6500",
     "-j1",
     "-s",
-    "2048",
+    "8192",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientEdgeShard000.lean"
   ],
-  "elapsed_seconds": 9.006317495019175,
+  "elapsed_seconds": 2.0027364550041966,
   "exit_code": 0,
   "hard_address_space_mib": 8192.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 3988068,
-  "max_tree_rss_mib": 3894.59765625,
-  "min_available_seen_kib": 47333064,
-  "min_available_seen_mib": 46223.6953125,
+  "max_tree_rss_kib": 3632976,
+  "max_tree_rss_mib": 3547.828125,
+  "min_available_seen_kib": 47479320,
+  "min_available_seen_mib": 46366.5234375,
   "rss_cap_mib": 6500.0,
-  "timeout_seconds": 180.0
+  "timeout_seconds": 120.0
 }

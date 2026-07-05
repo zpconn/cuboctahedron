@@ -1,3 +1,4 @@
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientCore
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard000
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard001
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard002
@@ -16,6 +17,53 @@ production coverage.
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShards
 
 open Cuboctahedron
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientCore
+
+def FullStep (s label t : Nat) (gain : Int) : Prop :=
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard000.FullStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard001.FullStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard002.FullStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard003.FullStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard004.FullStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard005.FullStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard006.FullStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard007.FullStep s label t gain)))))))
+
+def SmallStep (s label t : Nat) (gain : Int) : Prop :=
+  Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard000.SmallStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard001.SmallStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard002.SmallStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard003.SmallStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard004.SmallStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard005.SmallStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard006.SmallStep s label t gain \/ (Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard007.SmallStep s label t gain)))))))
+
+theorem graph183QuotientStep
+    {s label t : Nat} {gain : Int}
+    (hstep : FullStep s label t gain) :
+    exists smallGainValue,
+      SmallStep (graph183QuotientQ s) label (graph183QuotientQ t)
+          smallGainValue /\
+        gain = smallGainValue + graph183QuotientGauge t -
+          graph183QuotientGauge s := by
+  rcases hstep with hstep | hstep
+  · rcases Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard000.graph183QuotientStepShard000 hstep with ⟨smallGainValue, hsmall, heq⟩
+    refine ⟨smallGainValue, ?_, heq⟩
+    exact Or.inl hsmall
+  rcases hstep with hstep | hstep
+  · rcases Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard001.graph183QuotientStepShard001 hstep with ⟨smallGainValue, hsmall, heq⟩
+    refine ⟨smallGainValue, ?_, heq⟩
+    exact Or.inr (Or.inl hsmall)
+  rcases hstep with hstep | hstep
+  · rcases Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard002.graph183QuotientStepShard002 hstep with ⟨smallGainValue, hsmall, heq⟩
+    refine ⟨smallGainValue, ?_, heq⟩
+    exact Or.inr (Or.inr (Or.inl hsmall))
+  rcases hstep with hstep | hstep
+  · rcases Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard003.graph183QuotientStepShard003 hstep with ⟨smallGainValue, hsmall, heq⟩
+    refine ⟨smallGainValue, ?_, heq⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inl hsmall)))
+  rcases hstep with hstep | hstep
+  · rcases Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard004.graph183QuotientStepShard004 hstep with ⟨smallGainValue, hsmall, heq⟩
+    refine ⟨smallGainValue, ?_, heq⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl hsmall))))
+  rcases hstep with hstep | hstep
+  · rcases Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard005.graph183QuotientStepShard005 hstep with ⟨smallGainValue, hsmall, heq⟩
+    refine ⟨smallGainValue, ?_, heq⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl hsmall)))))
+  rcases hstep with hstep | hstep
+  · rcases Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard006.graph183QuotientStepShard006 hstep with ⟨smallGainValue, hsmall, heq⟩
+    refine ⟨smallGainValue, ?_, heq⟩
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl hsmall))))))
+  rcases Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard007.graph183QuotientStepShard007 hstep with ⟨smallGainValue, hsmall, heq⟩
+  refine ⟨smallGainValue, ?_, heq⟩
+  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (hsmall)))))))
 
 theorem graph183QuotientEdgeShards_checked : True := by
   have h000 := Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard000.graph183QuotientEdgeShard000_checked

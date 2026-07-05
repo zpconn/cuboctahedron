@@ -311,8 +311,43 @@
       "passed": true
     },
     {
+      "detail": "FullStep",
+      "name": "graph183_edge_shards:symbol:FullStep",
+      "passed": true
+    },
+    {
+      "detail": "SmallStep",
+      "name": "graph183_edge_shards:symbol:SmallStep",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientStep",
+      "name": "graph183_edge_shards:symbol:graph183QuotientStep",
+      "passed": true
+    },
+    {
       "detail": "graph183QuotientEdgeShards_checked",
       "name": "graph183_edge_shards:symbol:graph183QuotientEdgeShards_checked",
+      "passed": true
+    },
+    {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientCore.lean",
+      "name": "graph183_edge_shards_core:exists",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientQ",
+      "name": "graph183_edge_shards_core:symbol:graph183QuotientQ",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientGauge",
+      "name": "graph183_edge_shards_core:symbol:graph183QuotientGauge",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientCore_builds",
+      "name": "graph183_edge_shards_core:symbol:graph183QuotientCore_builds",
       "passed": true
     },
     {
@@ -567,6 +602,36 @@
     },
     {
       "detail": "SampledRankIndex",
+      "name": "graph183_edge_shards_core:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "graph183_edge_shards_core:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "graph183_edge_shards_core:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "graph183_edge_shards_core:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "graph183_edge_shards_core:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "graph183_edge_shards_core:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
       "name": "target_cursor:forbidden_absent:SampledRankIndex",
       "passed": true
     },
@@ -763,13 +828,28 @@
       "passed": true
     },
     {
-      "detail": 22840.3046875,
+      "detail": 24995.8046875,
       "name": "graph183_edge_shards_lake_guard:rss_under_30000_mib",
       "passed": true
     },
     {
-      "detail": 43574.75390625,
+      "detail": 44109.2421875,
       "name": "graph183_edge_shards_lake_guard:available_above_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "graph183_edge_shards_core_guard:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 3547.88671875,
+      "name": "graph183_edge_shards_core_guard:rss_under_6500_mib",
+      "passed": true
+    },
+    {
+      "detail": 46364.0390625,
+      "name": "graph183_edge_shards_core_guard:available_above_30000_mib",
       "passed": true
     },
     {
@@ -778,12 +858,12 @@
       "passed": true
     },
     {
-      "detail": 3592.67578125,
+      "detail": 3594.60546875,
       "name": "graph183_edge_shards_direct_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46362.23046875,
+      "detail": 46362.328125,
       "name": "graph183_edge_shards_direct_guard:available_above_30000_mib",
       "passed": true
     },
@@ -793,12 +873,12 @@
       "passed": true
     },
     {
-      "detail": 3894.59765625,
+      "detail": 3547.828125,
       "name": "graph183_edge_shard000_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46223.6953125,
+      "detail": 46366.5234375,
       "name": "graph183_edge_shard000_guard:available_above_30000_mib",
       "passed": true
     },
@@ -927,13 +1007,15 @@
     "closed_semantic_gate_guard_elapsed_seconds": 3.0027096020057797,
     "closed_semantic_gate_guard_min_available_mib": 46322.6328125,
     "closed_semantic_gate_guard_peak_rss_mib": 3719.16015625,
-    "edge_shard000_guard_elapsed_seconds": 9.006317495019175,
-    "edge_shard000_guard_peak_rss_mib": 3894.59765625,
-    "edge_shards_direct_guard_elapsed_seconds": 2.0022602880198974,
-    "edge_shards_direct_guard_peak_rss_mib": 3592.67578125,
+    "edge_shard000_guard_elapsed_seconds": 2.0027364550041966,
+    "edge_shard000_guard_peak_rss_mib": 3547.828125,
+    "edge_shards_core_guard_elapsed_seconds": 2.0021651900024153,
+    "edge_shards_core_guard_peak_rss_mib": 3547.88671875,
+    "edge_shards_direct_guard_elapsed_seconds": 2.002471511019394,
+    "edge_shards_direct_guard_peak_rss_mib": 3594.60546875,
     "edge_shards_edge_equations": 229,
-    "edge_shards_lake_guard_elapsed_seconds": 5.007742641028017,
-    "edge_shards_lake_guard_peak_rss_mib": 22840.3046875,
+    "edge_shards_lake_guard_elapsed_seconds": 5.007934146997286,
+    "edge_shards_lake_guard_peak_rss_mib": 24995.8046875,
     "edge_shards_shard_count": 8,
     "graph183_start_provider_guard_elapsed_seconds": 45.05008524499135,
     "graph183_start_provider_guard_min_available_mib": 43095.3046875,

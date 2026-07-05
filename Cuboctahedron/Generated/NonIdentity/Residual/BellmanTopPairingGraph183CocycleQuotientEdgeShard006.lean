@@ -1,4 +1,4 @@
-import Cuboctahedron.Search.BellmanPotential
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientCore
 
 /-!
 Shard 006 of the graph183 cocycle quotient local-equation smoke.
@@ -10,6 +10,7 @@ private, and the public theorem surface is intentionally tiny.
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard006
 
 open Cuboctahedron
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientCore
 
 private def edgeCount : Nat := 32
 
@@ -188,114 +189,39 @@ private def smallGain : Fin edgeCount -> Int
   | ⟨31, _⟩ => (0 : Int)
   | _ => (0 : Int)
 
-private def q : Nat -> Nat
-  | 1 => (1 : Nat)
-  | 2 => (1 : Nat)
-  | 3 => (1 : Nat)
-  | 4 => (1 : Nat)
-  | 5 => (1 : Nat)
-  | 6 => (1 : Nat)
-  | 7 => (2 : Nat)
-  | 8 => (2 : Nat)
-  | 9 => (2 : Nat)
-  | 11 => (2 : Nat)
-  | 12 => (1 : Nat)
-  | 13 => (1 : Nat)
-  | 15 => (3 : Nat)
-  | 16 => (3 : Nat)
-  | 17 => (3 : Nat)
-  | 18 => (3 : Nat)
-  | 19 => (3 : Nat)
-  | 20 => (3 : Nat)
-  | 193 => (36 : Nat)
-  | 194 => (36 : Nat)
-  | 195 => (35 : Nat)
-  | 196 => (37 : Nat)
-  | 197 => (37 : Nat)
-  | 198 => (37 : Nat)
-  | 199 => (37 : Nat)
-  | 200 => (37 : Nat)
-  | 201 => (38 : Nat)
-  | 202 => (38 : Nat)
-  | 203 => (37 : Nat)
-  | 204 => (39 : Nat)
-  | 205 => (39 : Nat)
-  | 206 => (39 : Nat)
-  | 207 => (39 : Nat)
-  | 208 => (39 : Nat)
-  | 209 => (40 : Nat)
-  | 210 => (40 : Nat)
-  | 211 => (40 : Nat)
-  | 212 => (39 : Nat)
-  | 213 => (39 : Nat)
-  | 214 => (41 : Nat)
-  | 215 => (41 : Nat)
-  | 216 => (41 : Nat)
-  | 217 => (41 : Nat)
-  | 218 => (41 : Nat)
-  | 219 => (41 : Nat)
-  | 220 => (42 : Nat)
-  | 221 => (42 : Nat)
-  | 222 => (41 : Nat)
-  | _ => (0 : Nat)
+def FullStep (s label t : Nat) (gain : Int) : Prop :=
+  exists i : Fin edgeCount,
+    fullSrc i = s /\ edgeLabel i = label /\
+      fullDst i = t /\ rawGain i = gain
 
-private def gauge : Nat -> Int
-  | 1 => (-241 : Int)
-  | 2 => (47 : Int)
-  | 3 => (-241 : Int)
-  | 4 => (-169 : Int)
-  | 5 => (95 : Int)
-  | 6 => (-153 : Int)
-  | 7 => (-231 : Int)
-  | 8 => (-187 : Int)
-  | 9 => (-55 : Int)
-  | 11 => (-179 : Int)
-  | 12 => (-117 : Int)
-  | 13 => (-73 : Int)
-  | 15 => (-204 : Int)
-  | 16 => (84 : Int)
-  | 17 => (-204 : Int)
-  | 18 => (-132 : Int)
-  | 19 => (132 : Int)
-  | 20 => (-116 : Int)
-  | 193 => (101 : Int)
-  | 194 => (1 : Int)
-  | 195 => (-133 : Int)
-  | 196 => (264 : Int)
-  | 197 => (-24 : Int)
-  | 198 => (48 : Int)
-  | 199 => (312 : Int)
-  | 200 => (64 : Int)
-  | 201 => (-114 : Int)
-  | 202 => (-70 : Int)
-  | 203 => (-96 : Int)
-  | 204 => (191 : Int)
-  | 205 => (-97 : Int)
-  | 206 => (-25 : Int)
-  | 207 => (239 : Int)
-  | 208 => (-9 : Int)
-  | 209 => (-19 : Int)
-  | 210 => (-187 : Int)
-  | 211 => (-143 : Int)
-  | 212 => (-213 : Int)
-  | 213 => (-169 : Int)
-  | 214 => (-168 : Int)
-  | 215 => (120 : Int)
-  | 216 => (-168 : Int)
-  | 217 => (-96 : Int)
-  | 218 => (168 : Int)
-  | 219 => (-80 : Int)
-  | 220 => (-114 : Int)
-  | 221 => (-106 : Int)
-  | 222 => (0 : Int)
-  | _ => (0 : Int)
+def SmallStep (s label t : Nat) (gain : Int) : Prop :=
+  exists i : Fin edgeCount,
+    graph183QuotientQ (fullSrc i) = s /\ edgeLabel i = label /\
+      graph183QuotientQ (fullDst i) = t /\ smallGain i = gain
 
 private theorem localEquation (i : Fin edgeCount) :
-    rawGain i = smallGain i + gauge (fullDst i) - gauge (fullSrc i) := by
+    rawGain i = smallGain i + graph183QuotientGauge (fullDst i) -
+      graph183QuotientGauge (fullSrc i) := by
   fin_cases i <;> decide
 
+theorem graph183QuotientStepShard006
+    {s label t : Nat} {gain : Int}
+    (hstep : FullStep s label t gain) :
+    exists smallGainValue,
+      SmallStep (graph183QuotientQ s) label (graph183QuotientQ t)
+          smallGainValue /\
+        gain = smallGainValue + graph183QuotientGauge t -
+          graph183QuotientGauge s := by
+  rcases hstep with ⟨i, hs, hlabel, ht, hgain⟩
+  subst s
+  subst label
+  subst t
+  subst gain
+  refine ⟨smallGain i, ?_, ?_⟩
+  · exact ⟨i, rfl, rfl, rfl, rfl⟩
+  · exact localEquation i
+
 theorem graph183QuotientEdgeShard006_checked : True := by
-  have h := localEquation
   exact True.intro
 
 end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard006

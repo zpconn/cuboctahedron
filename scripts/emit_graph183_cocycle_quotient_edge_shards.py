@@ -30,6 +30,14 @@ NAMESPACE_PREFIX = (
     "Cuboctahedron.Generated.NonIdentity.Residual."
     "BellmanTopPairingGraph183CocycleQuotientEdgeShard"
 )
+CORE_MODULE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingGraph183CocycleQuotientCore"
+)
+CORE_NAMESPACE = (
+    "Cuboctahedron.Generated.NonIdentity.Residual."
+    "BellmanTopPairingGraph183CocycleQuotientCore"
+)
 
 
 def parse_int_fraction(text: str) -> int:
@@ -57,8 +65,15 @@ def cases_def(name: str, values: list[int], codomain: str) -> list[str]:
     return lines
 
 
-def nat_cases_def(name: str, values: dict[int, int], codomain: str) -> list[str]:
-    lines = [f"private def {name} : Nat -> {codomain}"]
+def nat_cases_def(
+    name: str,
+    values: dict[int, int],
+    codomain: str,
+    *,
+    private: bool = True,
+) -> list[str]:
+    prefix = "private " if private else ""
+    lines = [f"{prefix}def {name} : Nat -> {codomain}"]
     for key in sorted(values):
         rendered = lean_int(values[key]) if codomain == "Int" else lean_nat(values[key])
         lines.append(f"  | {key} => {rendered}")
@@ -137,12 +152,9 @@ def render_shard_with_state_maps(
     edge_label = [int(row["label"]) for row in rows]
     raw_gain = [int(row["raw_gain"]) for row in rows]
     small_gain = [int(row["small_gain"]) for row in rows]
-    used_states = sorted(set(full_src + full_dst))
-    q_used = {state: q_by_state[state] for state in used_states}
-    gauge_used = {state: gauge[state] for state in used_states}
 
     lines: list[str] = [
-        "import Cuboctahedron.Search.BellmanPotential",
+        f"import {CORE_MODULE}",
         "",
         "/-!",
         f"Shard {suffix} of the graph183 cocycle quotient local-equation smoke.",
@@ -154,6 +166,7 @@ def render_shard_with_state_maps(
         f"namespace {namespace}",
         "",
         "open Cuboctahedron",
+        f"open {CORE_NAMESPACE}",
         "",
         f"private def edgeCount : Nat := {len(rows)}",
         "",
@@ -163,16 +176,41 @@ def render_shard_with_state_maps(
     lines.extend(cases_def("edgeLabel", edge_label, "Nat"))
     lines.extend(cases_def("rawGain", raw_gain, "Int"))
     lines.extend(cases_def("smallGain", small_gain, "Int"))
-    lines.extend(nat_cases_def("q", q_used, "Nat"))
-    lines.extend(nat_cases_def("gauge", gauge_used, "Int"))
     lines.extend(
         [
+            "def FullStep (s label t : Nat) (gain : Int) : Prop :=",
+            "  exists i : Fin edgeCount,",
+            "    fullSrc i = s /\\ edgeLabel i = label /\\",
+            "      fullDst i = t /\\ rawGain i = gain",
+            "",
+            "def SmallStep (s label t : Nat) (gain : Int) : Prop :=",
+            "  exists i : Fin edgeCount,",
+            "    graph183QuotientQ (fullSrc i) = s /\\ edgeLabel i = label /\\",
+            "      graph183QuotientQ (fullDst i) = t /\\ smallGain i = gain",
+            "",
             "private theorem localEquation (i : Fin edgeCount) :",
-            "    rawGain i = smallGain i + gauge (fullDst i) - gauge (fullSrc i) := by",
+            "    rawGain i = smallGain i + graph183QuotientGauge (fullDst i) -",
+            "      graph183QuotientGauge (fullSrc i) := by",
             "  fin_cases i <;> decide",
             "",
+            f"theorem graph183QuotientStepShard{suffix}",
+            "    {s label t : Nat} {gain : Int}",
+            "    (hstep : FullStep s label t gain) :",
+            "    exists smallGainValue,",
+            "      SmallStep (graph183QuotientQ s) label (graph183QuotientQ t)",
+            "          smallGainValue /\\",
+            "        gain = smallGainValue + graph183QuotientGauge t -",
+            "          graph183QuotientGauge s := by",
+            "  rcases hstep with ⟨i, hs, hlabel, ht, hgain⟩",
+            "  subst s",
+            "  subst label",
+            "  subst t",
+            "  subst gain",
+            "  refine ⟨smallGain i, ?_, ?_⟩",
+            "  · exact ⟨i, rfl, rfl, rfl, rfl⟩",
+            "  · exact localEquation i",
+            "",
             f"theorem graph183QuotientEdgeShard{suffix}_checked : True := by",
-            "  have h := localEquation",
             "  exact True.intro",
             "",
             f"end {namespace}",
@@ -182,12 +220,71 @@ def render_shard_with_state_maps(
     return "\n".join(lines)
 
 
+def render_core(q_by_state: dict[int, int], gauge: dict[int, int]) -> str:
+    lines: list[str] = [
+        "import Cuboctahedron.Search.BellmanPotential",
+        "",
+        "/-!",
+        "Shared `q` and `gauge` maps for the sharded graph183 cocycle quotient.",
+        "",
+        "Diagnostic/proof-shape evidence only.  The functions are public so the",
+        "edge shards can expose a composable quotient-step theorem, but they are",
+        "small finite maps, not generated coverage.",
+        "-/",
+        "",
+        f"namespace {CORE_NAMESPACE}",
+        "",
+        "open Cuboctahedron",
+        "",
+    ]
+    lines.extend(nat_cases_def("graph183QuotientQ", q_by_state, "Nat", private=False))
+    lines.extend(nat_cases_def("graph183QuotientGauge", gauge, "Int", private=False))
+    lines.extend(
+        [
+            "theorem graph183QuotientCore_builds : True := by",
+            "  exact True.intro",
+            "",
+            f"end {CORE_NAMESPACE}",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
 def render_all(shard_count: int) -> str:
     imports = [f"import {MODULE_PREFIX}{idx:03d}" for idx in range(shard_count)]
+    imports.insert(0, f"import {CORE_MODULE}")
     theorem_refs = [
         f"  have h{idx:03d} := {NAMESPACE_PREFIX}{idx:03d}.graph183QuotientEdgeShard{idx:03d}_checked"
         for idx in range(shard_count)
     ]
+    full_step_alts = [
+        f"{NAMESPACE_PREFIX}{idx:03d}.FullStep s label t gain"
+        for idx in range(shard_count)
+    ]
+    small_step_alts = [
+        f"{NAMESPACE_PREFIX}{idx:03d}.SmallStep s label t gain"
+        for idx in range(shard_count)
+    ]
+    def or_chain(terms: list[str]) -> str:
+        out = terms[-1]
+        for term in reversed(terms[:-1]):
+            out = f"{term} \\/ ({out})"
+        return out
+    full_step_body = or_chain(full_step_alts)
+    small_step_body = or_chain(small_step_alts)
+    # Recursive proof over the right-nested disjunction used by `or_chain`.
+    proof_lines: list[str] = []
+    for idx in range(shard_count):
+        if idx < shard_count - 1:
+            proof_lines.append("  rcases hstep with hstep | hstep")
+            proof_lines.append(f"  · rcases {NAMESPACE_PREFIX}{idx:03d}.graph183QuotientStepShard{idx:03d} hstep with ⟨smallGainValue, hsmall, heq⟩")
+            proof_lines.append("    refine ⟨smallGainValue, ?_, heq⟩")
+            proof_lines.append("    " + ("exact Or.inl hsmall" if idx == 0 else "exact " + "Or.inr (" * idx + "Or.inl hsmall" + ")" * idx))
+        else:
+            proof_lines.append(f"  rcases {NAMESPACE_PREFIX}{idx:03d}.graph183QuotientStepShard{idx:03d} hstep with ⟨smallGainValue, hsmall, heq⟩")
+            proof_lines.append("  refine ⟨smallGainValue, ?_, heq⟩")
+            proof_lines.append("  exact " + "Or.inr (" * idx + "hsmall" + ")" * idx)
     return "\n".join(
         [
             *imports,
@@ -201,6 +298,23 @@ def render_all(shard_count: int) -> str:
             "namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShards",
             "",
             "open Cuboctahedron",
+            f"open {CORE_NAMESPACE}",
+            "",
+            "def FullStep (s label t : Nat) (gain : Int) : Prop :=",
+            f"  {full_step_body}",
+            "",
+            "def SmallStep (s label t : Nat) (gain : Int) : Prop :=",
+            f"  {small_step_body}",
+            "",
+            "theorem graph183QuotientStep",
+            "    {s label t : Nat} {gain : Int}",
+            "    (hstep : FullStep s label t gain) :",
+            "    exists smallGainValue,",
+            "      SmallStep (graph183QuotientQ s) label (graph183QuotientQ t)",
+            "          smallGainValue /\\",
+            "        gain = smallGainValue + graph183QuotientGauge t -",
+            "          graph183QuotientGauge s := by",
+            *proof_lines,
             "",
             "theorem graph183QuotientEdgeShards_checked : True := by",
             *theorem_refs,
@@ -279,6 +393,9 @@ def main() -> int:
         path = RESIDUAL / f"BellmanTopPairingGraph183CocycleQuotientEdgeShard{idx:03d}.lean"
         path.write_text(render_shard_with_state_maps(idx, chunk, q_by_state, gauge))
 
+    core_path = RESIDUAL / "BellmanTopPairingGraph183CocycleQuotientCore.lean"
+    core_path.write_text(render_core(q_by_state, gauge))
+
     all_path = RESIDUAL / "BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean"
     all_path.write_text(render_all(len(chunks)))
 
@@ -295,6 +412,10 @@ def main() -> int:
         "aggregate_module": (
             "Cuboctahedron.Generated.NonIdentity.Residual."
             "BellmanTopPairingGraph183CocycleQuotientEdgeShards"
+        ),
+        "core_module": (
+            "Cuboctahedron.Generated.NonIdentity.Residual."
+            "BellmanTopPairingGraph183CocycleQuotientCore"
         ),
         "arithmetic": "exact integer Lean equations generated from exact rational diagnostic solution",
     }
