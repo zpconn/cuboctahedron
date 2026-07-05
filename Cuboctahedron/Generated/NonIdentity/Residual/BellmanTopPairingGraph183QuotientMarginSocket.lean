@@ -67,6 +67,26 @@ theorem acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin
     (acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin
       hfamily)
 
+theorem acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin where
+  final_margin_of_quotient_gain := by
+    intro rank hstrengthened hlabels
+    have hmargin :=
+      hfamily.final_margin_of_labels rank hstrengthened hlabels
+    simpa [graph183AcceptedBranchRawGain_contract] using hmargin
+
+theorem acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_exactEval
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily scaledMargin :=
+  acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin
+    (acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval
+      hfamily)
+
 theorem acceptedSequenceGraph183AcceptedTailMarginFamily_of_quotientMargin
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily :
@@ -95,6 +115,35 @@ structure AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily
       Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
         (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
       scaledMargin rank <= graphConst + graph183AcceptedBranchRawGain
+
+theorem acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin where
+  final_margin_yp_branch_quotient := by
+    intro rank hstrengthened hprefix
+    have hmargin :=
+      hfamily.final_margin_yp_branch rank hstrengthened hprefix
+    simpa [graph183AcceptedBranchRawGain_contract] using hmargin
+
+theorem acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchLabelMarginFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin :=
+  acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailMargin
+    (acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin
+      hfamily)
+
+theorem acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_exactEval
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin :=
+  acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin
+    (acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval
+      hfamily)
 
 /--
 Generic graph183 accepted-tail quotient-margin target, parameterized by the

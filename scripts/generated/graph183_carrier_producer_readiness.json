@@ -16,6 +16,31 @@
       "passed": true
     },
     {
+      "detail": "acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin",
+      "name": "socket:symbol:acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_exactEval",
+      "name": "socket:symbol:acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_exactEval",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailMargin",
+      "name": "socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailMargin",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin",
+      "name": "socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_exactEval",
+      "name": "socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_exactEval",
+      "passed": true
+    },
+    {
       "detail": "graph183TailQuotientMarginFamily_of_sequenceBadFace",
       "name": "socket:symbol:graph183TailQuotientMarginFamily_of_sequenceBadFace",
       "passed": true
@@ -293,12 +318,12 @@
       "passed": true
     },
     {
-      "detail": 3614.2421875,
+      "detail": 3929.01171875,
       "name": "socket_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46321.0703125,
+      "detail": 46269.14453125,
       "name": "socket_guard:available_above_30000_mib",
       "passed": true
     },
@@ -324,9 +349,9 @@
     "accepted_branch_guard_elapsed_seconds": 5.0034252110053785,
     "accepted_branch_guard_min_available_mib": 46363.515625,
     "accepted_branch_guard_peak_rss_mib": 3410.734375,
-    "guard_elapsed_seconds": 2.00238187899231,
-    "guard_min_available_mib": 46321.0703125,
-    "guard_peak_rss_mib": 3614.2421875,
+    "guard_elapsed_seconds": 7.004718720010715,
+    "guard_min_available_mib": 46269.14453125,
+    "guard_peak_rss_mib": 3929.01171875,
     "profile_edges": 229,
     "profile_margin_families": 1,
     "profile_matched": 37,

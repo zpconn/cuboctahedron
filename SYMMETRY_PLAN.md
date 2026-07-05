@@ -111514,6 +111514,103 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 semantic exact-eval to quotient-margin adapters
+
+The latest GPT5.5 review says to keep Bellman, reject selected-prefix
+membership, and make the production object a deterministic closed-language
+evaluator theorem.  The repo already has the recommended core pieces:
+
+```lean
+TopPairingBellmanObj
+topPairingClosedMembership
+topPairingTargetShadow_of_summary
+topPairingTriCursor_of_closed
+closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+```
+
+This checkpoint adds the missing adapter direction in the graph183 socket:
+when a future semantic closed-language evaluator proves the exact-eval or
+label-margin branch fact, it can now feed the quotient-margin carrier directly
+through the checked accepted-branch raw-gain contract.
+
+New theorem/API surface in
+`BellmanTopPairingGraph183QuotientMarginSocket.lean`:
+
+```lean
+acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin
+acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_exactEval
+acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailMargin
+acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin
+acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_exactEval
+```
+
+This is not a coverage proof and does not make exact eval the preferred final
+obligation.  It is producer plumbing for the pivot: semantic deterministic
+evaluator gates can now move into the quotient-margin carrier without sampled
+ranks, selected prefixes, accepted trace ids, exact affine RHS keys, solved
+start-point keys, or one branch per path.
+
+Guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 7.00s
+peak RSS = 3929 MiB
+min available = 46269 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_graph183_carrier_producer_readiness.py \
+  scripts/audit_graph183_accepted_tail_margin_frontier.py \
+  scripts/audit_latest_bellman_semantic_pivot.py \
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+```
+
+Results:
+
+```text
+graph183 carrier readiness =
+  graph183_carrier_sockets_ready_but_producer_missing
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+```
+
+Current next theorem remains:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+It must be proved from closed top-pairing language, target-shadow/tri-source
+cursor state, deterministic evaluator state, and Lean-checked quotient/gauge
+integer facts.  If that proof asks for sampled ranks, selected prefixes,
+accepted trace ids, exact affine RHS keys, solved start-point keys, or one
+branch per full path, stop and strengthen the semantic state or switch to the
+cancellation-segment / cocycle-quotient route.
+
 ### 2026-07-05 graph183 carrier producer readiness audit
 
 Added an explicit readiness audit for the current graph183 frontier:

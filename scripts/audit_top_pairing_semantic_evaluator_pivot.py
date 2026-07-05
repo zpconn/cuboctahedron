@@ -247,6 +247,11 @@ REQUIRED_SYMBOLS = {
     ],
     "graph183_quotient_margin_socket": [
         "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily",
+        "acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin",
+        "acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_exactEval",
+        "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailMargin",
+        "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin",
+        "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_exactEval",
         "Graph183TailQuotientMarginFamily",
         "Graph183TailQuotientMarginSequenceBadFace",
         "graph183TailQuotientMarginFamily_of_sequenceBadFace",

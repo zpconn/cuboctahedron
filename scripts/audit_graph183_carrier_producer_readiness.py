@@ -49,6 +49,11 @@ ACCEPTED_BRANCH_GUARD = (
 REQUIRED_SOCKET_SYMBOLS = [
     "Graph183TailQuotientMarginSequenceBadFace",
     "Graph183TailExactEvalSequenceBadFace",
+    "acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_labelMargin",
+    "acceptedSequenceGraph183AcceptedBranchQuotientMarginFamily_of_exactEval",
+    "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_tailMargin",
+    "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_labelMargin",
+    "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_exactEval",
     "graph183TailQuotientMarginFamily_of_sequenceBadFace",
     "graph183TailQuotientMarginSequenceBadFace_of_graph183TailQuotientMarginFamily",
     "strengthenedGraph183TailQuotientMargin_of_graph183TailQuotientMarginFamily",
