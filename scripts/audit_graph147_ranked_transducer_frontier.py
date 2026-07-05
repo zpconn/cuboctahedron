@@ -41,6 +41,7 @@ SOCKET_SYMBOLS = [
     "rootMarginBundle_of_rankedTransducerInvariantFamily",
     "Graph147RankedShardSuffixOk",
     "graph147RankedShardSuffixOk_localStep",
+    "graph147RankedShardSuffixOk_finalPotential",
     "graph147RankedPrefix4EvalState",
     "graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix",
     "graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix",

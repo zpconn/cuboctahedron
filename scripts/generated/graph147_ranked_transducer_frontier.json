@@ -80,6 +80,7 @@
       "StrengthenedGraph147BranchSuffixStartBundle": true,
       "StrengthenedGraph147RankedTransducerInvariantFamily": true,
       "graph147RankedPrefix4EvalState": true,
+      "graph147RankedShardSuffixOk_finalPotential": true,
       "graph147RankedShardSuffixOk_localStep": true,
       "graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix": true,
       "graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix": true,

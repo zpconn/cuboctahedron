@@ -599,6 +599,24 @@ theorem graph147RankedShardSuffixOk_localStep
             exact TerminalExternalOk.final_nonneg TerminalExternalOk.graph138
   · cases hnil
 
+/--
+The graph-147 ranked shard suffix predicate already carries the final
+potential side of the `finish` obligation.
+
+This intentionally proves only the potential conjunct.  The full root-margin
+inequality still requires a separate Bellman/segment/cocycle margin theorem.
+-/
+theorem graph147RankedShardSuffixOk_finalPotential
+    {rank : Fin numPairWords}
+    {finish :
+      TopPairingTransducerEvalState StrengthenedClosedEvalState}
+    (hsuffix : Graph147RankedShardSuffixOk rank finish []) :
+    0 <= graphPotential finish.graph.graph := by
+  rcases hsuffix with
+    ⟨_shardState, _hgraphEq, _hlane, hsuffixShard⟩ | hterminal
+  · exact False.elim (ShardTargetSuffixOk.not_nil hsuffixShard)
+  · exact hterminal.2
+
 private theorem graph147YpZm_usedFaceTail_of_strengthened_prefix
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
     {rank : Fin numPairWords} {rest : List Face}

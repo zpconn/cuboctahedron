@@ -11,6 +11,7 @@
 - `rootMarginBundle_of_rankedTransducerInvariantFamily`: `true`
 - `Graph147RankedShardSuffixOk`: `true`
 - `graph147RankedShardSuffixOk_localStep`: `true`
+- `graph147RankedShardSuffixOk_finalPotential`: `true`
 - `graph147RankedPrefix4EvalState`: `true`
 - `graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix`: `true`
 - `graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix`: `true`

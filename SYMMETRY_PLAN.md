@@ -105221,6 +105221,60 @@ Next graph147 task:
    a finer key; run the certified segment/cocycle quotient route and make the
    missing semantic state explicit.
 
+Follow-up finish-side slice:
+
+```lean
+theorem graph147RankedShardSuffixOk_finalPotential
+```
+
+This theorem proves only the final-potential half of the ranked-transducer
+`finish` obligation:
+
+```lean
+Graph147RankedShardSuffixOk rank finish [] ->
+  0 <= graphPotential finish.graph.graph
+```
+
+It does not prove the margin inequality.  That is intentional: the remaining
+finish gap is exactly the semantic Bellman/segment/cocycle margin theorem
+showing
+
+```lean
+scaledMargin rank <= 176 + gain
+```
+
+from the deterministic full-label evaluator run and the closed-language
+product state.  Do not replace this with an exact affine RHS key.
+
+Focused hard-capped check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_suffix_final_potential_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+Result:
+
+```text
+pass; elapsed=7.00s; peak_tree_rss=3954 MiB; hard_as=8192 MiB;
+min_available=46203 MiB
+```
+
+Updated audit result:
+
+```text
+socket.graph147RankedShardSuffixOk_finalPotential = true
+status = ready_for_ranked_transducer_invariant_producer
+forbidden_hits = []
+```
+
 ### 2026-07-05 graph147 ranked transducer socket accepted
 
 GPT5.5's latest recommendation is now reflected in the graph147 route:
