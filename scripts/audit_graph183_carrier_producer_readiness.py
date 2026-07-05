@@ -38,10 +38,6 @@ ACCEPTED_BRANCH = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183AcceptedBranchQuotient.lean"
 )
-SMOKE = ROOT / (
-    "Cuboctahedron/Generated/NonIdentity/Residual/"
-    "BellmanTopPairingGraph183CocycleQuotientSmoke.lean"
-)
 GRAPH183_START_PROVIDER = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183StartViolationProvider.lean"
@@ -157,13 +153,6 @@ REQUIRED_ACCEPTED_BRANCH_SYMBOLS = [
     "graph183AcceptedBranchRawGain",
     "graph183AcceptedBranchRawGain_contract",
     "graph183AcceptedBranchLocalEquationsChecked",
-]
-
-REQUIRED_SMOKE_SYMBOLS = [
-    "graph183AcceptedBranchRawGain",
-    "graph183AcceptedBranchRawGain_contract",
-    "graph183QuotientStep",
-    "graph183QuotientAcceptedBranchSmoke",
 ]
 
 REQUIRED_GRAPH183_START_PROVIDER_SYMBOLS = [
@@ -548,7 +537,6 @@ def main() -> int:
     socket_text = read_text(SOCKET)
     closed_semantic_gate_text = read_text(CLOSED_SEMANTIC_GATE)
     accepted_branch_text = read_text(ACCEPTED_BRANCH)
-    smoke_text = read_text(SMOKE)
     graph183_start_provider_text = read_text(GRAPH183_START_PROVIDER)
     graph183_edge_shards_text = read_text(GRAPH183_EDGE_SHARDS)
     graph183_edge_shards_core_text = read_text(GRAPH183_EDGE_SHARDS_CORE)
@@ -586,7 +574,6 @@ def main() -> int:
             REQUIRED_ACCEPTED_BRANCH_SYMBOLS,
         )
     )
-    checks.extend(symbol_checks("smoke", SMOKE, REQUIRED_SMOKE_SYMBOLS))
     checks.extend(
         symbol_checks(
             "graph183_start_provider",
@@ -625,7 +612,6 @@ def main() -> int:
     checks.extend(forbidden_checks("socket", SOCKET))
     checks.extend(forbidden_checks("closed_semantic_gate", CLOSED_SEMANTIC_GATE))
     checks.extend(forbidden_checks("accepted_branch_quotient", ACCEPTED_BRANCH))
-    checks.extend(forbidden_checks("smoke", SMOKE))
     checks.extend(forbidden_checks("graph183_start_provider", GRAPH183_START_PROVIDER))
     checks.extend(forbidden_checks("graph183_edge_shards", GRAPH183_EDGE_SHARDS))
     checks.extend(
@@ -666,20 +652,6 @@ def main() -> int:
             "name": "accepted_branch:documents_not_coverage",
             "passed": "not coverage evidence by itself" in accepted_branch_text,
             "detail": "not coverage evidence by itself",
-        }
-    )
-    checks.append(
-        {
-            "name": "smoke:documents_diagnostic_not_coverage",
-            "passed": "diagnostic, not generated coverage" in smoke_text,
-            "detail": "diagnostic, not generated coverage",
-        }
-    )
-    checks.append(
-        {
-            "name": "smoke:documents_production_replacement_needed",
-            "passed": "Production should replace selected-prefix membership" in smoke_text,
-            "detail": "Production should replace selected-prefix membership",
         }
     )
     checks.extend(profile_checks(profile))

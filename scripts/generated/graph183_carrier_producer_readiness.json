@@ -266,31 +266,6 @@
       "passed": true
     },
     {
-      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean",
-      "name": "smoke:exists",
-      "passed": true
-    },
-    {
-      "detail": "graph183AcceptedBranchRawGain",
-      "name": "smoke:symbol:graph183AcceptedBranchRawGain",
-      "passed": true
-    },
-    {
-      "detail": "graph183AcceptedBranchRawGain_contract",
-      "name": "smoke:symbol:graph183AcceptedBranchRawGain_contract",
-      "passed": true
-    },
-    {
-      "detail": "graph183QuotientStep",
-      "name": "smoke:symbol:graph183QuotientStep",
-      "passed": true
-    },
-    {
-      "detail": "graph183QuotientAcceptedBranchSmoke",
-      "name": "smoke:symbol:graph183QuotientAcceptedBranchSmoke",
-      "passed": true
-    },
-    {
       "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183StartViolationProvider.lean",
       "name": "graph183_start_provider:exists",
       "passed": true
@@ -517,36 +492,6 @@
     },
     {
       "detail": "SampledRankIndex",
-      "name": "smoke:forbidden_absent:SampledRankIndex",
-      "passed": true
-    },
-    {
-      "detail": "sampledContainsRank",
-      "name": "smoke:forbidden_absent:sampledContainsRank",
-      "passed": true
-    },
-    {
-      "detail": "sampledRankOf",
-      "name": "smoke:forbidden_absent:sampledRankOf",
-      "passed": true
-    },
-    {
-      "detail": "SelectedPrefix",
-      "name": "smoke:forbidden_absent:SelectedPrefix",
-      "passed": true
-    },
-    {
-      "detail": "AcceptedTraceId",
-      "name": "smoke:forbidden_absent:AcceptedTraceId",
-      "passed": true
-    },
-    {
-      "detail": "acceptedTraceOfId",
-      "name": "smoke:forbidden_absent:acceptedTraceOfId",
-      "passed": true
-    },
-    {
-      "detail": "SampledRankIndex",
       "name": "graph183_start_provider:forbidden_absent:SampledRankIndex",
       "passed": true
     },
@@ -748,16 +693,6 @@
     {
       "detail": "not coverage evidence by itself",
       "name": "accepted_branch:documents_not_coverage",
-      "passed": true
-    },
-    {
-      "detail": "diagnostic, not generated coverage",
-      "name": "smoke:documents_diagnostic_not_coverage",
-      "passed": true
-    },
-    {
-      "detail": "Production should replace selected-prefix membership",
-      "name": "smoke:documents_production_replacement_needed",
       "passed": true
     },
     {

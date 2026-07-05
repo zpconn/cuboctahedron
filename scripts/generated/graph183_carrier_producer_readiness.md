@@ -144,11 +144,6 @@ observed path remains a no-go.
 | `accepted_branch_quotient:symbol:graph183AcceptedBranchRawGain` | `True` | `graph183AcceptedBranchRawGain` |
 | `accepted_branch_quotient:symbol:graph183AcceptedBranchRawGain_contract` | `True` | `graph183AcceptedBranchRawGain_contract` |
 | `accepted_branch_quotient:symbol:graph183AcceptedBranchLocalEquationsChecked` | `True` | `graph183AcceptedBranchLocalEquationsChecked` |
-| `smoke:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean` |
-| `smoke:symbol:graph183AcceptedBranchRawGain` | `True` | `graph183AcceptedBranchRawGain` |
-| `smoke:symbol:graph183AcceptedBranchRawGain_contract` | `True` | `graph183AcceptedBranchRawGain_contract` |
-| `smoke:symbol:graph183QuotientStep` | `True` | `graph183QuotientStep` |
-| `smoke:symbol:graph183QuotientAcceptedBranchSmoke` | `True` | `graph183QuotientAcceptedBranchSmoke` |
 | `graph183_start_provider:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183StartViolationProvider.lean` |
 | `graph183_start_provider:symbol:graph183StartViolationLabels` | `True` | `graph183StartViolationLabels` |
 | `graph183_start_provider:symbol:objectStartViolationMarginCert_of_graph183AcceptedBranchLabels` | `True` | `objectStartViolationMarginCert_of_graph183AcceptedBranchLabels` |
@@ -194,12 +189,6 @@ observed path remains a no-go.
 | `accepted_branch_quotient:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `accepted_branch_quotient:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `accepted_branch_quotient:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
-| `smoke:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
-| `smoke:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
-| `smoke:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
-| `smoke:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
-| `smoke:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
-| `smoke:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `graph183_start_provider:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
 | `graph183_start_provider:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
 | `graph183_start_provider:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
@@ -241,8 +230,6 @@ observed path remains a no-go.
 | `socket:imports_accepted_branch_quotient` | `True` | `BellmanTopPairingGraph183AcceptedBranchQuotient` |
 | `socket:does_not_import_full_smoke` | `True` | `BellmanTopPairingGraph183CocycleQuotientSmoke` |
 | `accepted_branch:documents_not_coverage` | `True` | `not coverage evidence by itself` |
-| `smoke:documents_diagnostic_not_coverage` | `True` | `diagnostic, not generated coverage` |
-| `smoke:documents_production_replacement_needed` | `True` | `Production should replace selected-prefix membership` |
 | `profile_1m:single_margin_family` | `True` | `1` |
 | `profile_1m:states_under_2000` | `True` | `223` |
 | `profile_1m:edges_under_5000` | `True` | `229` |

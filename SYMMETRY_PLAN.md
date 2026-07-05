@@ -396,7 +396,10 @@ BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean
   The first two audits no longer require the old one-file
   `BellmanTopPairingGraph183CocycleQuotientSmoke` as a production-oriented
   surface.  They now require the sharded quotient core/aggregate and the
-  exported `graph183QuotientRun` theorem.
+  exported `graph183QuotientRun` theorem.  The carrier-readiness audit was
+  also retargeted the same way: it still checks that the production socket
+  does not import the old smoke, but it no longer requires the smoke file or
+  its private accepted-branch diagnostic theorem to exist.
 
 2026-07-03 checkpoint after the latest GPT5.5 pivot:
 
