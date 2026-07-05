@@ -80,6 +80,7 @@
 - diagnostic language audit: `scripts/generated/graph147_target_tail_language.json`
 - case socket: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseSocket.lean`
 - margin socket: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseMarginSocket.lean`
+- label socket: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailLabels.lean`
 - tail count: `2`
 - unique tail count: `2`
 - first-face histogram: `{'tmmp': 1, 'zp': 1}`
@@ -107,6 +108,17 @@
 - `targetTailCaseFamily_of_scaledMarginFamily`: `true`
 - `rankedEvalMarginBundle_of_scaledMarginFamily`: `true`
 - `rootMarginBundle_of_scaledMarginFamily`: `true`
+
+### Label Socket Symbols
+
+- `graph147YpZmTargetTailZpLabels`: `true`
+- `graph147YpZmTargetTailTmmpLabels`: `true`
+- `graph147ZmYpTargetTailZpLabels`: `true`
+- `graph147ZmYpTargetTailTmmpLabels`: `true`
+- `graph147YpZm_labels_eq_targetTailZp`: `true`
+- `graph147YpZm_labels_eq_targetTailTmmp`: `true`
+- `graph147ZmYp_labels_eq_targetTailZp`: `true`
+- `graph147ZmYp_labels_eq_targetTailTmmp`: `true`
 
 ## Plan Tail Symbols
 
@@ -147,6 +159,7 @@
 - `rank plus closed-language proof object already exists`: `true`
 - `TopPairingBellmanObj`: `true`
 - `TopPairingGraphExactEvalGateAtRank`: `true`
+- `graph147 target-tail label equality socket`: `true`
 
 ## Semantic Inputs
 

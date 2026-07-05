@@ -118449,3 +118449,69 @@ status = ready_for_ranked_eval_margin_bundle_producer
 raw_evaluator_reduction.production_allowed = false
 semantic_inputs include TopPairingBellmanObj and TopPairingGraphExactEvalGateAtRank
 ```
+
+#### 2026-07-05 graph147 target-tail label equality socket added
+
+Status: the graph147 target-tail language now has a small semantic label
+socket.  This is the next piece of the deterministic transducer pivot: it
+turns a graph147 semantic object plus one of the two proved target tails into
+the exact full contribution-order face-label list, without sampled ranks,
+accepted trace ids, selected-prefix membership, exact affine RHS keys, stored
+paths, or raw evaluator reduction.
+
+New module:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147TargetTailLabels
+```
+
+Public label definitions and theorems:
+
+```lean
+graph147YpZmTargetTailZpLabels
+graph147YpZmTargetTailTmmpLabels
+graph147ZmYpTargetTailZpLabels
+graph147ZmYpTargetTailTmmpLabels
+
+graph147YpZm_labels_eq_targetTailZp
+graph147YpZm_labels_eq_targetTailTmmp
+graph147ZmYp_labels_eq_targetTailZp
+graph147ZmYp_labels_eq_targetTailTmmp
+```
+
+These theorems are intentionally modest.  They do not prove the margin bound
+and they do not kill graph147 by themselves.  Their job is to make the next
+producer semantic: a future start-violation or scaled-margin certificate can
+consume the closed-language-derived labels directly instead of entering
+through selected-prefix or accepted-trace tables.
+
+Focused check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/graph147_target_tail_labels_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailLabels.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailLabels.lean
+```
+
+Result:
+
+```text
+passed, elapsed 5.00s, peak RSS 3928 MiB, hard address-space cap 24576 MiB,
+min available 44620 MiB
+```
+
+Additional production-route audit marker:
+
+```text
+graph147 target-tail label equality socket
+```
+
+Remaining blocker: instantiate
+`StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily` or a direct
+semantic start-violation producer for these four label cases.  The next theorem
+must provide actual graph147 gain/margin/start-violation evidence; adding more
+object-cover adapters would only move the same blocker around.

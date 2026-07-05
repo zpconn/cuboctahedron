@@ -52,6 +52,11 @@ TARGET_TAIL_CASE_MARGIN_SOCKET = (
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph147TargetTailCaseMarginSocket.lean"
 )
+TARGET_TAIL_LABELS = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph147TargetTailLabels.lean"
+)
 TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_TAIL = ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean"
 TRANSDUCER_EVAL = ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean"
@@ -195,6 +200,17 @@ TARGET_TAIL_CASE_MARGIN_SOCKET_SYMBOLS = [
     "rootMarginBundle_of_scaledMarginFamily",
 ]
 
+TARGET_TAIL_LABEL_SYMBOLS = [
+    "graph147YpZmTargetTailZpLabels",
+    "graph147YpZmTargetTailTmmpLabels",
+    "graph147ZmYpTargetTailZpLabels",
+    "graph147ZmYpTargetTailTmmpLabels",
+    "graph147YpZm_labels_eq_targetTailZp",
+    "graph147YpZm_labels_eq_targetTailTmmp",
+    "graph147ZmYp_labels_eq_targetTailZp",
+    "graph147ZmYp_labels_eq_targetTailTmmp",
+]
+
 SEMANTIC_INPUT_SYMBOLS = {
     "target_cursor": [
         "topPairingTargetShadow_of_summary",
@@ -329,6 +345,7 @@ PLAN_PIVOT_MARKERS = [
     "rank plus closed-language proof object already exists",
     "TopPairingBellmanObj",
     "TopPairingGraphExactEvalGateAtRank",
+    "graph147 target-tail label equality socket",
 ]
 
 SELECTED_PREFIX_DIAGNOSTIC_SYMBOLS = [
@@ -417,6 +434,7 @@ def main() -> None:
     target_tail_cases_text = read(TARGET_TAIL_CASES)
     target_tail_case_socket_text = read(TARGET_TAIL_CASE_SOCKET)
     target_tail_case_margin_socket_text = read(TARGET_TAIL_CASE_MARGIN_SOCKET)
+    target_tail_labels_text = read(TARGET_TAIL_LABELS)
     plan_tail = read(PLAN)
     semantic_files = {
         "target_cursor": read(TARGET_CURSOR),
@@ -443,6 +461,10 @@ def main() -> None:
     target_tail_case_margin_socket_symbols = contains_all(
         target_tail_case_margin_socket_text,
         TARGET_TAIL_CASE_MARGIN_SOCKET_SYMBOLS,
+    )
+    target_tail_label_symbols = contains_all(
+        target_tail_labels_text,
+        TARGET_TAIL_LABEL_SYMBOLS,
     )
     gauge_data = read_json(GAUGE_AUDIT)
     cocycle_quotient_data = read_json(COCYCLE_QUOTIENT_AUDIT)
@@ -516,6 +538,7 @@ def main() -> None:
     all_target_tail_case_margin_socket = all(
         target_tail_case_margin_socket_symbols.values()
     )
+    all_target_tail_labels = all(target_tail_label_symbols.values())
     all_semantic = all(
         all(symbols.values()) for symbols in semantic_symbols.values()
     )
@@ -525,7 +548,7 @@ def main() -> None:
         "ready_for_ranked_eval_margin_bundle_producer"
         if all_socket and all_ranked_eval and all_target_tail_cases
         and all_target_tail_case_socket and all_target_tail_case_margin_socket
-        and all_semantic and full_graph_only
+        and all_target_tail_labels and all_semantic and full_graph_only
         and all_plan_tail and all_plan_pivot and not forbidden_hits
         else "ranked_transducer_frontier_incomplete"
     )
@@ -552,6 +575,8 @@ def main() -> None:
                 TARGET_TAIL_CASE_MARGIN_SOCKET.relative_to(ROOT)
             ),
             "margin_socket_symbols": target_tail_case_margin_socket_symbols,
+            "label_socket_file": str(TARGET_TAIL_LABELS.relative_to(ROOT)),
+            "label_socket_symbols": target_tail_label_symbols,
             "language_audit_file": str(
                 TARGET_TAIL_LANGUAGE_AUDIT.relative_to(ROOT)
             ),
@@ -752,6 +777,9 @@ def main() -> None:
     lines.append(
         f"- margin socket: `{data['target_tail_cases']['margin_socket_file']}`"
     )
+    lines.append(
+        f"- label socket: `{data['target_tail_cases']['label_socket_file']}`"
+    )
     lines.append(f"- tail count: `{data['target_tail_cases']['tail_count']}`")
     lines.append(
         f"- unique tail count: `{data['target_tail_cases']['unique_tail_count']}`"
@@ -770,6 +798,11 @@ def main() -> None:
     lines.append("### Margin Socket Symbols")
     lines.append("")
     for symbol, present in target_tail_case_margin_socket_symbols.items():
+        lines.append(f"- `{symbol}`: `{str(present).lower()}`")
+    lines.append("")
+    lines.append("### Label Socket Symbols")
+    lines.append("")
+    for symbol, present in target_tail_label_symbols.items():
         lines.append(f"- `{symbol}`: `{str(present).lower()}`")
     lines.extend(["", "## Plan Tail Symbols", ""])
     lines.append(f"- file: `{data['plan_tail']['file']}`")

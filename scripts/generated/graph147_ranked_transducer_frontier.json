@@ -47,6 +47,7 @@
       "TopPairingBellmanObj": true,
       "TopPairingGraphExactEvalGateAtRank": true,
       "closed-language-to-eval theorem": true,
+      "graph147 target-tail label equality socket": true,
       "graph147_targetCompletionTail_cases": true,
       "mandatory_graph147_semantic_transducer_pivot": true,
       "rank plus closed-language proof object already exists": true,
@@ -83,6 +84,7 @@
       "TopPairingBellmanObj": true,
       "TopPairingGraphExactEvalGateAtRank": true,
       "closed-language-to-eval theorem": true,
+      "graph147 target-tail label equality socket": true,
       "graph147_targetCompletionTail_cases": true,
       "mandatory_graph147_semantic_transducer_pivot": true,
       "rank plus closed-language proof object already exists": true,
@@ -397,6 +399,17 @@
     "first_face_histogram": {
       "tmmp": 1,
       "zp": 1
+    },
+    "label_socket_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailLabels.lean",
+    "label_socket_symbols": {
+      "graph147YpZmTargetTailTmmpLabels": true,
+      "graph147YpZmTargetTailZpLabels": true,
+      "graph147YpZm_labels_eq_targetTailTmmp": true,
+      "graph147YpZm_labels_eq_targetTailZp": true,
+      "graph147ZmYpTargetTailTmmpLabels": true,
+      "graph147ZmYpTargetTailZpLabels": true,
+      "graph147ZmYp_labels_eq_targetTailTmmp": true,
+      "graph147ZmYp_labels_eq_targetTailZp": true
     },
     "language_audit_file": "scripts/generated/graph147_target_tail_language.json",
     "margin_socket_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseMarginSocket.lean",
