@@ -35,6 +35,8 @@
 - `graph147ZmYpRootMarginBound_of_ranked_eval_margin`: `true`
 - `StrengthenedGraph147RankedEvalMarginBundle`: `true`
 - `rootMarginBundle_of_rankedEvalMarginBundle`: `true`
+- `rankedEvalMarginBundle_of_graphExactEvalGate`: `true`
+- `rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle`: `true`
 
 ## Semantic Inputs
 

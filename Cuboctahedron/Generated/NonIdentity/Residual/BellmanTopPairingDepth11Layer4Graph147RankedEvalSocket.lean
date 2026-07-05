@@ -490,6 +490,148 @@ def rootMarginBundle_of_rankedEvalMarginBundle
   yp_zm := rootMarginFamily_of_yp_zm_rankedEvalMargin hbundle.yp_zm
   zm_yp := rootMarginFamily_of_zm_yp_rankedEvalMargin hbundle.zm_yp
 
+def rankedEvalMarginFamily_of_yp_zm_graphExactEvalGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hgate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+        strengthenedClosedEvalNext
+        (fun face : Face => face)
+        strengthenedClosedEvalStart
+        (176 : Int)
+        scaledMargin
+        sequenceBadFace
+        Face.ym) :
+    StrengthenedGraph147YpZmRankedEvalMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened rest hprefix finish gain heval
+    rcases hgate rank hstrengthened with
+      ⟨fullFinish, fullGain, gate⟩
+    have hlabels :
+        topPairingRankFaceLabels rank =
+          [Face.xm, Face.ym, Face.yp, Face.zm] ++ rest := by
+      simpa [Depth11Layer4PrefixAtRank] using hprefix
+    have hgraphEval :
+        evalLabelStepFn strengthenedClosedEvalNext
+            strengthenedClosedPrefix4YpZmEvalState rest =
+          some (finish.graph, gain) := by
+      simpa [graph147RankedPrefix4EvalState] using
+        TopPairingTransducerEvalState.evalLabelStepFn_graph_of_faceEval
+          (next := strengthenedClosedEvalNext)
+          (labelOfFace := fun face : Face => face)
+          heval
+    have hfullFromSuffix :
+        evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+            (topPairingRankFaceLabels rank) =
+          some (finish.graph, (-53 : Int) + gain) := by
+      have happ :=
+        evalLabelStepFn_append strengthenedClosed_prefix4_yp_zm_eval_eq
+          hgraphEval
+      simpa [hlabels] using happ
+    have hfullFromGate :
+        evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+            (topPairingRankFaceLabels rank) =
+          some (fullFinish, fullGain) := by
+      simpa [topPairingRankFaceLabels] using gate.eval_eq
+    have hsame : (fullFinish, fullGain) =
+        (finish.graph, (-53 : Int) + gain) := by
+      rw [hfullFromGate] at hfullFromSuffix
+      exact Option.some.inj hfullFromSuffix
+    have hgain : fullGain = (-53 : Int) + gain :=
+      congrArg Prod.snd hsame
+    simpa [hgain] using gate.margin_bound
+
+def rankedEvalMarginFamily_of_zm_yp_graphExactEvalGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hgate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+        strengthenedClosedEvalNext
+        (fun face : Face => face)
+        strengthenedClosedEvalStart
+        (176 : Int)
+        scaledMargin
+        sequenceBadFace
+        Face.ym) :
+    StrengthenedGraph147ZmYpRankedEvalMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened rest hprefix finish gain heval
+    rcases hgate rank hstrengthened with
+      ⟨fullFinish, fullGain, gate⟩
+    have hlabels :
+        topPairingRankFaceLabels rank =
+          [Face.xm, Face.ym, Face.zm, Face.yp] ++ rest := by
+      simpa [Depth11Layer4PrefixAtRank] using hprefix
+    have hgraphEval :
+        evalLabelStepFn strengthenedClosedEvalNext
+            strengthenedClosedPrefix4YpZmEvalState rest =
+          some (finish.graph, gain) := by
+      simpa [graph147RankedPrefix4EvalState] using
+        TopPairingTransducerEvalState.evalLabelStepFn_graph_of_faceEval
+          (next := strengthenedClosedEvalNext)
+          (labelOfFace := fun face : Face => face)
+          heval
+    have hfullFromSuffix :
+        evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+            (topPairingRankFaceLabels rank) =
+          some (finish.graph, (-53 : Int) + gain) := by
+      have happ :=
+        evalLabelStepFn_append strengthenedClosed_prefix4_zm_yp_eval_eq
+          hgraphEval
+      simpa [hlabels] using happ
+    have hfullFromGate :
+        evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+            (topPairingRankFaceLabels rank) =
+          some (fullFinish, fullGain) := by
+      simpa [topPairingRankFaceLabels] using gate.eval_eq
+    have hsame : (fullFinish, fullGain) =
+        (finish.graph, (-53 : Int) + gain) := by
+      rw [hfullFromGate] at hfullFromSuffix
+      exact Option.some.inj hfullFromSuffix
+    have hgain : fullGain = (-53 : Int) + gain :=
+      congrArg Prod.snd hsame
+    simpa [hgain] using gate.margin_bound
+
+def rankedEvalMarginBundle_of_graphExactEvalGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hgate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+        strengthenedClosedEvalNext
+        (fun face : Face => face)
+        strengthenedClosedEvalStart
+        (176 : Int)
+        scaledMargin
+        sequenceBadFace
+        Face.ym) :
+    StrengthenedGraph147RankedEvalMarginBundle
+      scaledMargin sequenceBadFace where
+  yp_zm := rankedEvalMarginFamily_of_yp_zm_graphExactEvalGate hgate
+  zm_yp := rankedEvalMarginFamily_of_zm_yp_graphExactEvalGate hgate
+
+def rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hgate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+        strengthenedClosedEvalNext
+        (fun face : Face => face)
+        strengthenedClosedEvalStart
+        (176 : Int)
+        scaledMargin
+        sequenceBadFace
+        Face.ym) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin sequenceBadFace :=
+  rootMarginBundle_of_rankedEvalMarginBundle
+    (rankedEvalMarginBundle_of_graphExactEvalGate hgate)
+
 theorem graph147RankedEvalSocket_builds : True := by
   exact True.intro
 

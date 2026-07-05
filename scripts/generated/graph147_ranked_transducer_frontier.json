@@ -47,6 +47,8 @@
       "graph147ZmYpRootMarginBound_of_ranked_eval_margin": true,
       "graph147ZmYp_graph_eval_exists_finalPotential_of_strengthened_prefix": true,
       "graph147ZmYp_rankedPrefix4Tail_of_strengthened_prefix": true,
+      "rankedEvalMarginBundle_of_graphExactEvalGate": true,
+      "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle": true,
       "rootMarginBundle_of_rankedEvalMarginBundle": true
     }
   },

@@ -105211,6 +105211,53 @@ frontier audit status = ready_for_ranked_eval_margin_bundle_producer
 ranked_eval_socket.forbidden_hits = []
 ```
 
+Additional compatibility accepted:
+
+```text
+def rankedEvalMarginFamily_of_yp_zm_graphExactEvalGate
+def rankedEvalMarginFamily_of_zm_yp_graphExactEvalGate
+def rankedEvalMarginBundle_of_graphExactEvalGate
+def rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle
+```
+
+These adapters prove that any existing full graph-exact eval gate also
+satisfies the new ranked-eval margin bundle.  This is not the desired final
+producer by itself; it is a consistency bridge showing the new production
+target is equivalent to the old full-root semantic gate once the deterministic
+ranked suffix run is known.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_eval_graph_exact_adapter_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_eval_graph_exact_adapter_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket
+```
+
+Results:
+
+```text
+direct Lean = pass; elapsed=8.01s; peak_tree_rss=3981 MiB;
+  hard_as=8192 MiB; min_available=46222 MiB
+Lake module build = pass; elapsed=4.00s; peak_tree_rss=4046 MiB;
+  min_available=46150 MiB
+frontier audit status = ready_for_ranked_eval_margin_bundle_producer
+```
+
 ### 2026-07-05 graph147 ranked-eval margin bundle socket accepted
 
 The latest GPT5.5 Pro pivot has now been reflected in the graph147 socket:

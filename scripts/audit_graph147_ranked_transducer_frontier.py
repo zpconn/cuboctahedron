@@ -71,6 +71,8 @@ RANKED_EVAL_SYMBOLS = [
     "graph147ZmYpRootMarginBound_of_ranked_eval_margin",
     "StrengthenedGraph147RankedEvalMarginBundle",
     "rootMarginBundle_of_rankedEvalMarginBundle",
+    "rankedEvalMarginBundle_of_graphExactEvalGate",
+    "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle",
 ]
 
 SEMANTIC_INPUT_SYMBOLS = {
