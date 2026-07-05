@@ -47,6 +47,7 @@
       },
       "deterministic_target_shard_symbols": {
         "ShardStepTarget": true,
+        "ShardTargetSuffixOk": true,
         "emittedShardExternalTargetCount": true,
         "nextTarget?": true,
         "nextTarget?_graph_sound": true,
@@ -291,6 +292,7 @@
       },
       "deterministic_target_shard_symbols": {
         "ShardStepTarget": true,
+        "ShardTargetSuffixOk": true,
         "emittedShardExternalTargetCount": true,
         "nextTarget?": true,
         "nextTarget?_graph_sound": true,

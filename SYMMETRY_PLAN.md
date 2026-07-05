@@ -105133,9 +105133,11 @@ New theorem/data surface:
 
 ```lean
 inductive ShardStepTarget
+inductive ShardTargetSuffixOk
 def ShardStepTarget.graph
 def nextTarget?
 theorem nextTarget?_graph_sound
+theorem ShardTargetSuffixOk.first_step_graph_sound
 theorem nextTarget?_prefix4YpZm_zp
 theorem nextTarget?_prefix4YpZm_tmmp
 theorem nextTarget?_terminal_graph112
@@ -105156,6 +105158,14 @@ table entries and uses the existing generated `rfl` transition lemmas plus
 three new external-target evaluator-state witnesses.  This is the first local
 socket needed by the rank-parametric semantic eval/margin gate.
 
+The shard also now exposes `ShardTargetSuffixOk ExternalOk state labels`, a
+recursive semantic suffix predicate.  Internal steps follow `nextTarget?`; when
+the table exits the shard, it delegates to a caller-provided
+`ExternalOk graph rest`.  Its first-step theorem connects that semantic suffix
+predicate back to `strengthenedClosedEvalNext` through
+`nextTarget?_graph_sound`.  This gives the future graph147 membership theorem a
+compact recursive target instead of a selected-prefix or accepted-trace cover.
+
 Focused guarded build:
 
 ```bash
@@ -105170,7 +105180,7 @@ python3 scripts/run_memory_guarded.py \
 Result:
 
 ```text
-pass; elapsed=5.00s; peak_tree_rss=4077 MiB; min_available=46068 MiB
+pass; elapsed=4.01s; peak_tree_rss=3924 MiB; min_available=46061 MiB
 ```
 
 The first build attempt failed safely under the same guard because the target

@@ -348,6 +348,55 @@ theorem nextTarget?_graph_sound
       strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp,
       rfl⟩
 
+/--
+Recursive semantic suffix predicate for this bounded target shard.
+
+`ExternalOk graph rest` is the socket for graph targets outside this shard.
+Inside the shard, membership follows the deterministic `nextTarget?` table.
+This is the production-shaped object that the closed-language cursor theorem
+should prove for the graph147 lane; it contains no rank list, selected prefix,
+or sampled trace id.
+-/
+inductive ShardTargetSuffixOk
+    (ExternalOk : Nat -> List Face -> Prop) :
+    ShardState -> List Face -> Prop where
+  | shard_step
+      {state nextState : ShardState} {face : Face} {gain : Int}
+      {rest : List Face}
+      (hstep :
+        nextTarget? state face = some (.shard nextState, gain))
+      (hrest : ShardTargetSuffixOk ExternalOk nextState rest) :
+      ShardTargetSuffixOk ExternalOk state (face :: rest)
+  | external_step
+      {state : ShardState} {graph : Nat} {face : Face} {gain : Int}
+      {rest : List Face}
+      (hstep :
+        nextTarget? state face = some (.externalGraph graph, gain))
+      (hrest : ExternalOk graph rest) :
+      ShardTargetSuffixOk ExternalOk state (face :: rest)
+
+theorem ShardTargetSuffixOk.not_nil
+    {ExternalOk : Nat -> List Face -> Prop} {state : ShardState} :
+    ¬ ShardTargetSuffixOk ExternalOk state [] := by
+  intro h
+  cases h
+
+theorem ShardTargetSuffixOk.first_step_graph_sound
+    {ExternalOk : Nat -> List Face -> Prop}
+    {state : ShardState} {face : Face} {rest : List Face}
+    (hsuffix : ShardTargetSuffixOk ExternalOk state (face :: rest)) :
+    ∃ target gain,
+      nextTarget? state face = some (target, gain) ∧
+        ∃ nextState : StrengthenedClosedEvalState,
+          strengthenedClosedEvalNext (evalState state) face =
+              some (nextState, gain) ∧
+            nextState.graph = target.graph := by
+  cases hsuffix with
+  | shard_step hstep hrest =>
+      exact ⟨_, _, hstep, nextTarget?_graph_sound hstep⟩
+  | external_step hstep hrest =>
+      exact ⟨_, _, hstep, nextTarget?_graph_sound hstep⟩
+
 def localBranchTable :
     (state : ShardState) ->
       StrengthenedTargetCompletionLocalBranchTable

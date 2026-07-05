@@ -217,6 +217,7 @@ GRAPH147_GRAPH112_109_REQUIRED = [
 
 GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED = [
     "ShardStepTarget",
+    "ShardTargetSuffixOk",
     "nextTarget?",
     "nextTarget?_graph_sound",
     "nextTarget?_prefix4YpZm_zp",
