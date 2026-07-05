@@ -115164,3 +115164,72 @@ Do not collapse the new surface back into an eval-only theorem.  If downstream
 assembly demands a `scaledMargin <= 0` proof for the graph183 direct-killed
 branch, introduce an eval-or-killed consumer instead of reviving the rejected
 graph183 accepted-tail margin target.
+
+### 2026-07-05 graph183 layer-4 eval-or-killed consumer
+
+Status: complete for the local consumer socket.
+
+The graph183-direct layer-4 module now also exports the consumer that downstream
+assembly should use:
+
+```text
+nonIdentityRankKilled_of_mixedEvalOrKilledAtRank
+acceptedSequenceMixedKilledAllFamily_of_evalOrKilledAllFamily
+acceptedSequenceMixedKilledAllFamily_of_graph183DirectPortfolio
+```
+
+The consumer preserves the heterogeneous shape:
+
+```text
+eval branch:
+  split-10M gate -> scaledMargin_nonpos_of_split10MGraphExactEvalGate
+  graph147 gate  -> explicit AcceptedSequenceGraph147EvalNonposGate
+  startGate      -> ObjectStartViolationMarginCert
+  result         -> Coverage.NonIdentityRankKilled
+
+killed branch:
+  Coverage.NonIdentityRankKilled passes through directly
+```
+
+The important production consequence is that graph183 accepted-sequence ranks
+no longer need any fake or redundant `scaledMargin <= 0` target.  They enter
+the consumer through the `killed` constructor.
+
+Files changed in this checkpoint:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.lean
+scripts/generated/graph183_direct_killed_portfolio_socket_guard.json
+SYMMETRY_PLAN.md
+```
+
+Focused check run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph183_direct_killed_portfolio_socket_guard.json \
+  -- lake env lean -M 7000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.lean
+```
+
+Passed: elapsed `3.00s`, peak RSS `4019 MiB`, min available `46233 MiB`.
+
+Next Lean target:
+
+```text
+Supply or locate the graph147 nonpositive bridge:
+
+  AcceptedSequenceGraph147EvalNonposGate scaledMargin
+
+then use
+
+  acceptedSequenceMixedKilledAllFamily_of_graph183DirectPortfolio
+
+as the accepted-sequence layer-4 killed-family surface.
+```
+
+Keep this as a bridge obligation, not a reason to import graph147 transition
+internals into every downstream graph183 consumer.

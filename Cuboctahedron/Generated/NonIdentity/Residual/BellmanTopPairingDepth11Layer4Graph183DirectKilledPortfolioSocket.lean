@@ -30,6 +30,7 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183Quoti
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential
+open Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
 
 /--
 Root-facing result for the graph183-direct mixed layer-4 portfolio.
@@ -298,6 +299,120 @@ def acceptedSequenceMixedEvalOrKilledAllFamily_of_graph183DirectPortfolio
       scaledMargin :=
   acceptedSequenceMixedEvalOrKilledAllFamily_of_branchGateFamily
     (acceptedSequenceMixedEvalOrKilledBranchGateFamily_of_graph183DirectPortfolio
+      hfamily)
+
+/--
+The remaining nontrivial nonpositive-margin bridge for the heterogeneous
+layer-4 consumer.
+
+Split-10M branches already have a local nonpositive theorem; graph147 branches
+are kept as an explicit semantic bridge so this socket does not import or
+replay graph147 transition internals.
+-/
+abbrev AcceptedSequenceGraph147EvalNonposGate
+    (scaledMargin : Fin numPairWords -> Int) : Prop :=
+  forall {rank : Fin numPairWords},
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    TopPairingGraphExactEvalGateAtRank
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext (fun face : Face => face)
+      strengthenedClosedEvalStart (176 : Int)
+      scaledMargin rank Face.ym ->
+    scaledMargin rank <= 0
+
+abbrev AcceptedSequenceDepth11Layer4StartViolationGate
+    (scaledMargin : Fin numPairWords -> Int) : Type :=
+  forall rank,
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    ObjectStartViolationMarginCert rank (scaledMargin rank)
+
+theorem scaledMargin_nonpos_of_mixedEvalGateAtRank
+    {scaledMargin : Fin numPairWords -> Int}
+    (graph147Nonpos :
+      AcceptedSequenceGraph147EvalNonposGate scaledMargin)
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hgate :
+      StrengthenedDepth11Layer4MixedEvalGateAtRank scaledMargin rank) :
+    scaledMargin rank <= 0 := by
+  cases hgate with
+  | split10M gate =>
+      exact scaledMargin_nonpos_of_split10MGraphExactEvalGate gate
+  | graph147 gate =>
+      exact graph147Nonpos hstrengthened gate
+
+theorem nonIdentityRankKilled_of_mixedEvalOrKilledAtRank
+    {scaledMargin : Fin numPairWords -> Int}
+    (graph147Nonpos :
+      AcceptedSequenceGraph147EvalNonposGate scaledMargin)
+    (startGate :
+      AcceptedSequenceDepth11Layer4StartViolationGate scaledMargin)
+    {rank : Fin numPairWords}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hgate :
+      AcceptedSequenceDepth11Layer4MixedEvalOrKilledAtRank
+        scaledMargin rank) :
+    Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank := by
+  cases hgate with
+  | killed hkilled =>
+      exact hkilled
+  | eval heval =>
+      exact nonIdentityRankKilled_of_nonpos_startViolationMarginCert
+        (scaledMargin_nonpos_of_mixedEvalGateAtRank
+          graph147Nonpos hstrengthened heval)
+        (startGate rank hstrengthened)
+
+/--
+All-rank killed surface obtained from the heterogeneous layer-4 portfolio.
+
+This is the consumer that prevents downstream assembly from demanding a
+`scaledMargin <= 0` proof for graph183 ranks that are already killed directly.
+-/
+structure AcceptedSequenceDepth11Layer4MixedKilledAllFamily
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  family :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      Cuboctahedron.Generated.Coverage.NonIdentityRankKilled rank
+
+def acceptedSequenceMixedKilledAllFamily_of_evalOrKilledAllFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (graph147Nonpos :
+      AcceptedSequenceGraph147EvalNonposGate scaledMargin)
+    (startGate :
+      AcceptedSequenceDepth11Layer4StartViolationGate scaledMargin)
+    (hfamily :
+      AcceptedSequenceDepth11Layer4MixedEvalOrKilledAllFamily
+        scaledMargin) :
+    AcceptedSequenceDepth11Layer4MixedKilledAllFamily
+      scaledMargin where
+  family := by
+    intro rank hstrengthened
+    exact nonIdentityRankKilled_of_mixedEvalOrKilledAtRank
+      graph147Nonpos startGate hstrengthened
+      (hfamily.family rank hstrengthened)
+
+def acceptedSequenceMixedKilledAllFamily_of_graph183DirectPortfolio
+    {scaledMargin : Fin numPairWords -> Int}
+    (graph147Nonpos :
+      AcceptedSequenceGraph147EvalNonposGate scaledMargin)
+    (startGate :
+      AcceptedSequenceDepth11Layer4StartViolationGate scaledMargin)
+    (hfamily :
+      AcceptedSequenceDepth11Layer4Graph183DirectPortfolioFamily
+        scaledMargin) :
+    AcceptedSequenceDepth11Layer4MixedKilledAllFamily
+      scaledMargin :=
+  acceptedSequenceMixedKilledAllFamily_of_evalOrKilledAllFamily
+    graph147Nonpos startGate
+    (acceptedSequenceMixedEvalOrKilledAllFamily_of_graph183DirectPortfolio
       hfamily)
 
 theorem graph183DirectKilledPortfolioSocket_builds : True := by
