@@ -111364,3 +111364,76 @@ Do not use SelectedPrefixTraceMarginSequenceBadFace, accepted trace ids,
 sampled rank/path objects, or exact-path class membership as production
 coverage.  Those files may remain as comparison smokes only.
 ```
+
+### 2026-07-05 graph183 semantic-transducer quotient-margin target
+
+The latest GPT5.5 review sharpened the Bellman pivot again.  Keep the
+Bellman/state-DAG route, but do not scale any selected-prefix or exact-path
+membership proof.  For the graph183 accepted branch, the semantic evaluator
+membership part is now treated as closed:
+
+```text
+target-shadow cursor supplies target cancellation
+schedule/square/used/length state supplies Graph150TargetCompletionTail
+closedBellmanNext is the evaluator route
+selected-prefix, accepted-trace, and sampled-rank terms are absent from the
+  production surfaces scanned by the audit
+```
+
+Updated low-memory audits:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+```
+
+Results:
+
+```text
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+missing semantic evaluator symbols = 0
+forbidden production-token hits = 0
+graph-alignment violations = 0
+graph183 quotient socket guard = passed, 3.00s, 4103 MiB RSS
+graph183 1M diagnostic profile = 223 states, 229 edges, max margin bound 0
+graph183 cocycle quotient = step-par, 43 quotient states, 93 quotient edges,
+  max bit length 9
+```
+
+The preferred next Lean target is now the branch-local quotient-margin surface:
+
+```lean
+AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin
+```
+
+This is smaller and more semantic than the older whole-label exact-eval target.
+It adapts through the existing sockets:
+
+```lean
+acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin
+acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin
+graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin
+graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin
+nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation
+```
+
+Go/no-go:
+
+```text
+GO: prove AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily from
+semantic closed-language/evaluator state plus Lean-checked quotient/gauge
+integer facts for the yp tail branch.
+
+GO: keep AcceptedSequenceGraph183AcceptedBranchExactEvalFamily only as an
+adapter/checkpoint, not the primary proof obligation.
+
+NO-GO: if the proof asks for sampled ranks, selected-prefix ids,
+accepted-trace ids, exact affine RHS keys, solved start-point keys, or one
+branch per rank/path, stop the graph183 lane and switch to the
+cancellation-tree segment algebra or a stronger cocycle quotient state.
+```

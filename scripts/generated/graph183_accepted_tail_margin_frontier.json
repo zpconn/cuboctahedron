@@ -467,7 +467,7 @@
       "passed": true
     },
     {
-      "detail": "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin",
+      "detail": "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin",
       "name": "semantic_audit_target_is_accepted_tail_margin",
       "passed": true
     },

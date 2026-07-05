@@ -61,6 +61,9 @@ FILES = {
     "graph183_tail_table_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean",
+    "graph183_quotient_margin_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph183QuotientMarginSocket.lean",
     "target_completion_local_branch_table_shard000": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean",
@@ -220,6 +223,18 @@ REQUIRED_SYMBOLS = {
         "graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch",
         "graph183TailTableSocket_builds",
     ],
+    "graph183_quotient_margin_socket": [
+        "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily",
+        "acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin",
+        "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin",
+        "graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin",
+        "graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin",
+        "scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin",
+        "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
+        "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
+        "acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin",
+        "graph183QuotientMarginSocket_builds",
+    ],
     "target_completion_local_branch_table_shard000": [
         "ShardState",
         "completionState",
@@ -251,6 +266,7 @@ PRODUCTION_SCAN_FILES = [
     "graph157_continuation_socket",
     "graph169_continuation_socket",
     "graph183_tail_table_socket",
+    "graph183_quotient_margin_socket",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
 ]
@@ -288,7 +304,23 @@ GRAPH_ALIGNMENT_GUARDS = {
             "ExactGraphFinishMarginBound",
             "Split10MExactGraphFinishFinalMarginProducer",
         ],
-    }
+    },
+    "graph183_quotient_margin_socket": {
+        "must_contain": [
+            "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily",
+            "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
+            "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
+            "graph183AcceptedBranchRawGain",
+        ],
+        "must_not_contain": [
+            "SampledRankIndex",
+            "sampledContainsRank",
+            "sampledRankOf",
+            "SelectedPrefix",
+            "AcceptedTraceId",
+            "acceptedTraceOfId",
+        ],
+    },
 }
 
 
@@ -430,20 +462,22 @@ def render_markdown(report: dict[str, Any]) -> str:
             "schedule/square/used/length state supplies `Graph150TargetCompletionTail`.",
             "",
             "This audit therefore treats the graph183 completion-tail slice as a",
-            "passed semantic-transducer checkpoint.  The next producer must target",
-            "only the accepted forced-branch exact evaluator component:",
+            "passed semantic-transducer checkpoint.  The next producer should",
+            "target the branch-local quotient-margin surface:",
             "",
             "```lean",
-            "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin",
+            "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin",
             "```",
             "",
-            "That exact-eval surface adapts to the label-margin and accepted-tail",
-            "margin sockets, then composes through:",
+            "The quotient-margin surface adapts to the accepted-tail margin,",
+            "final-margin, graph169 continuation, graph-exact eval, and",
+            "`NonIdentityRankKilled` sockets.  The older exact-eval surface",
+            "remains an adapter/checkpoint, not the preferred proof obligation:",
             "",
             "```lean",
-            "acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_exactEval",
-            "acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin",
-            "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components",
+            "acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin",
+            "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin",
+            "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
             "```",
             "",
             "The margin producer may use the closed-language proof and the fixed",
@@ -464,12 +498,12 @@ def render_markdown(report: dict[str, Any]) -> str:
             "## Go/No-Go Gate",
             "",
             "Go only if the next producer proves",
-            "`AcceptedSequenceGraph183AcceptedBranchExactEvalFamily` from",
-            "semantic closed-language state and small integer margin facts.  No-go if the",
-            "proof introduces sampled ranks, selected-prefix coverage, accepted",
-            "trace ids, exact affine RHS keys, or one branch per rank/path.  In",
-            "that case, add a missing semantic state field or pivot to the",
-            "cancellation-tree/cocycle quotient.",
+            "`AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily` from",
+            "semantic closed-language state and Lean-checked quotient/gauge",
+            "integer facts.  No-go if the proof introduces sampled ranks,",
+            "selected-prefix coverage, accepted trace ids, exact affine RHS keys,",
+            "or one branch per rank/path.  In that case, add a missing semantic",
+            "state field or pivot to the cancellation-tree segment algebra.",
             "",
         ]
     )
@@ -522,7 +556,7 @@ def main() -> int:
         "forbidden_hits": all_forbidden_hits,
         "graph_alignment_violations": all_graph_alignment_violations,
         "next_production_target": (
-            "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin"
+            "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin"
         ),
     }
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)

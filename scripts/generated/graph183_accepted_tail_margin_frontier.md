@@ -199,7 +199,7 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_socket:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `graph183_quotient_socket:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `semantic_audit_accepts_margin_target` | `True` | `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer` |
-| `semantic_audit_target_is_accepted_tail_margin` | `True` | `AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin` |
+| `semantic_audit_target_is_accepted_tail_margin` | `True` | `AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin` |
 | `profile_100k:offset_sum_mismatches_zero` | `True` | `0` |
 | `profile_100k:single_margin_family` | `True` | `1` |
 | `profile_100k:states_under_2000` | `True` | `94` |

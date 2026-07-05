@@ -506,7 +506,7 @@ def semantic_audit_checks(audit: dict[str, Any] | None) -> list[dict[str, Any]]:
         {
             "name": "semantic_audit_target_is_accepted_tail_margin",
             "passed": audit.get("next_production_target")
-            == "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin",
+            == "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin",
             "detail": audit.get("next_production_target"),
         },
     ]

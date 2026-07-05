@@ -67,6 +67,12 @@
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph169ContinuationSocket.lean"
     },
+    "graph183_quotient_margin_socket": {
+      "exists": true,
+      "lines": 326,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean"
+    },
     "graph183_tail_table_socket": {
       "exists": true,
       "lines": 1346,
@@ -338,5 +344,5 @@
   },
   "missing_symbols": [],
   "mode": "top_pairing_semantic_evaluator_pivot",
-  "next_production_target": "AcceptedSequenceGraph183AcceptedBranchExactEvalFamily scaledMargin"
+  "next_production_target": "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin"
 }
