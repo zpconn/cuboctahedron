@@ -422,6 +422,26 @@ theorem terminalContainedEvalPrefixGate_of_progress_terminal
     ⟨labels, gain, rest, hcontains, hlabels, heval⟩
   exact ⟨labels, finish, gain, rest, hcontains, hlabels, heval, hterminal⟩
 
+/--
+Zero-length terminal base case for contained evaluator gates.
+
+Generated recursive terminal machines can use this as their leaf rule: once the
+current generated state is terminal and still semantically contains the rank,
+no further selected prefix, sampled rank, or trace identifier is needed.
+-/
+theorem terminalContainedEvalPrefixGate_of_terminal_state
+    {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
+    {rank : Fin numPairWords}
+    {state : StateId}
+    (hcontains :
+      TerminalStepState.Contains (machine.stateOf state) rank)
+    (hterminal : machine.IsTerminal state) :
+    TerminalContainedEvalPrefixGate machine state rank := by
+  rcases hcontains with ⟨rest, hlabels, htail⟩
+  refine ⟨[], state, 0, rest, ⟨rest, hlabels, htail⟩, ?_, ?_, hterminal⟩
+  · simpa using hlabels
+  · simp [evalLabelStepFn]
+
 theorem terminalEvalPrefixGate_of_containedEvalPrefixGate_from_initial
     {StateId : Type} (machine : TerminalStepStatePartialMachine StateId)
     {rank : Fin numPairWords}

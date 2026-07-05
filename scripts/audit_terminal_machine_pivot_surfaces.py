@@ -45,6 +45,7 @@ REQUIRED_SYMBOLS = {
         "TerminalContainedEvalProgressGate",
         "terminalContainedEvalPrefixGate_trans_progress",
         "terminalContainedEvalPrefixGate_of_progress_terminal",
+        "terminalContainedEvalPrefixGate_of_terminal_state",
         "terminalTraceLabels_of_containedEvalPrefixGate",
     ],
     "terminal_frontier": [
@@ -120,6 +121,7 @@ def main() -> int:
             "already_present": [
                 "target-shadow inversion and cursor from closed language",
                 "contained terminal-machine progress gates",
+                "zero-length terminal-machine leaf gate",
                 "closed-transducer all-rank socket consuming a contained terminal gate",
                 "depth-11 graph-path portfolio wrapper consuming the machine socket",
                 "frontier-to-terminal composition from the compact layer-4 state",

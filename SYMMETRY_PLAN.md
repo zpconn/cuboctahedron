@@ -103001,3 +103001,65 @@ local tables.
   `terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationAll`.
   This keeps the Bellman proof in semantic state-machine space and avoids
   selected-prefix or sampled-rank membership.
+
+### 2026-07-04 terminal-machine leaf gate accepted
+
+- Added the zero-length terminal base case to:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStatePartialMachineEvalSocket
+  ```
+
+- New theorem:
+
+  ```lean
+  terminalContainedEvalPrefixGate_of_terminal_state
+  ```
+
+  It proves:
+
+  ```lean
+  TerminalStepState.Contains (machine.stateOf state) rank ->
+  machine.IsTerminal state ->
+  TerminalContainedEvalPrefixGate machine state rank
+  ```
+
+  with an empty evaluator prefix.  This is the leaf rule for the recursive
+  terminal continuation emitter: once a generated state is terminal and still
+  semantically contains the rank, no sampled rank, selected prefix, accepted
+  trace id, or explicit path object is needed.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+  ```
+
+- Results:
+  - `BellmanTopPairingTerminalStatePartialMachineEvalSocket` passed under the
+    memory guard in `5.01s`.
+  - Peak tree RSS was `3862 MiB`; minimum available memory observed was
+    `46188 MiB`.
+  - The terminal-machine pivot surface audit passed with
+    `status = machine-pivot-surfaces-present` and `forbidden_hits = 0`.
+
+- Current promotion status:
+  the terminal-machine API now has the three necessary recursion combinators:
+
+  ```text
+  one semantic head step -> TerminalContainedEvalProgressGate
+  progress + continuation -> TerminalContainedEvalPrefixGate
+  terminal contained state -> TerminalContainedEvalPrefixGate
+  ```
+
+  The next generated continuation proof can therefore be a proper deterministic
+  state recursion over reachable layer-4 frontier states.
