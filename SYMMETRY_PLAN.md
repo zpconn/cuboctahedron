@@ -105289,6 +105289,115 @@ GoodDirection
   -> Walsh only as a denominator/sign subroutine, not as outer mask coverage
 ```
 
+### 2026-07-05 graph147 full-root margin bridge accepted
+
+The graph147 direct socket now contains a small bridge from a future full-root
+semantic evaluator theorem to the existing suffix/root-margin socket.  This is
+the exact adapter needed if the next generated transducer proves:
+
+```lean
+∀ result,
+  evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+      (pfx ++ labels) = some result ->
+  scaledMargin rank <= (176 : Int) + result.2
+```
+
+The new bridge converts that full-root margin theorem into:
+
+```lean
+Graph147TargetCompletionTailRootMarginBound
+  scaledMargin rank prefixGain labels
+```
+
+by composing the fixed prefix evaluator with the suffix evaluator using
+`evalLabelStepFn_append`.
+
+Added theorem names:
+
+```lean
+theorem graph147TargetCompletionTailRootMarginBound_of_fullEvalMargin
+theorem graph147YpZmRootMarginBound_of_fullEvalMargin
+theorem graph147ZmYpRootMarginBound_of_fullEvalMargin
+```
+
+This keeps the next production generator free to prove the natural full-root
+deterministic-transducer margin statement, rather than directly proving the
+older suffix-shaped socket.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_direct_eval_socket_full_margin_bridge_guard.json \
+  --verbose -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket
+```
+
+Result:
+
+```text
+timeout, not OOM; exit=-15/124; elapsed=185.12s; peak_tree_rss=4333 MiB; min_available=45736 MiB
+```
+
+The timeout occurred because changing the graph147 direct socket invalidated a
+large dependent split-smoke fanout.  Memory stayed stable and safe.  The check
+was rerun with a larger timeout:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 420 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_direct_eval_socket_full_margin_bridge_guard.json \
+  --verbose -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket
+```
+
+Result:
+
+```text
+pass; elapsed=129.10s; peak_tree_rss=6032 MiB; min_available=44002 MiB
+```
+
+Additional checks:
+
+```bash
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+
+python3 -c "import json, subprocess; data=json.loads(subprocess.check_output(['python3','scripts/audit_layer4_terminal_lane_readiness.py'])); syms=data['lanes']['yp_zm']['direct_eval_socket_symbols']; print(syms['graph147TargetCompletionTailRootMarginBound_of_fullEvalMargin']); print(syms['graph147YpZmRootMarginBound_of_fullEvalMargin']); print(syms['graph147ZmYpRootMarginBound_of_fullEvalMargin']); print(data['lanes']['yp_zm']['status']); print(data['lanes']['zm_yp']['status'])"
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean \
+  scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+py_compile: pass
+audit symbols: true, true, true
+yp_zm.status = partial_graph147_direct_eval_socket
+zm_yp.status = partial_graph147_direct_eval_socket
+forbidden-token scan: pass; no matches
+```
+
+Decision:
+
+- Accepted as a production-facing adapter.
+- Still not coverage: it does not prove the full-root margin theorem.
+- Next graph147 work should prove the full-root margin theorem from a
+  deterministic semantic state machine over the strengthened closed language.
+  If that theorem wants selected-prefix, sampled-rank, exact-affine, or
+  per-observed-path evidence, stop and switch to the segment/cocycle quotient
+  state experiment.
+
 ### 2026-07-05 graph147 gauge-corrected potential audit
 
 After the latest GPT5.5 Pro pivot, the graph147 Bellman route was re-audited

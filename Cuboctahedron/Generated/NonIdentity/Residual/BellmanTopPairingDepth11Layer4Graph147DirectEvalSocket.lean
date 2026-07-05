@@ -137,6 +137,57 @@ structure StrengthenedGraph147RootMarginBundle
     StrengthenedGraph147ZmYpRootMarginFamily
       scaledMargin sequenceBadFace
 
+theorem graph147TargetCompletionTailRootMarginBound_of_fullEvalMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {pfx labels : List Face}
+    {prefixGain : Int}
+    (hprefix :
+      evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+          pfx =
+        some (strengthenedClosedPrefix4YpZmEvalState, prefixGain))
+    (hfull :
+      ∀ result : StrengthenedClosedEvalState × Int,
+        evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+            (pfx ++ labels) =
+          some result ->
+        scaledMargin rank <= (176 : Int) + result.2) :
+    Graph147TargetCompletionTailRootMarginBound
+      scaledMargin rank prefixGain labels := by
+  intro result htail
+  exact hfull (result.1, prefixGain + result.2)
+    (evalLabelStepFn_append hprefix htail)
+
+theorem graph147YpZmRootMarginBound_of_fullEvalMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {labels : List Face}
+    (hfull :
+      ∀ result : StrengthenedClosedEvalState × Int,
+        evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+            ([Face.xm, Face.ym, Face.yp, Face.zm] ++ labels) =
+          some result ->
+        scaledMargin rank <= (176 : Int) + result.2) :
+    Graph147TargetCompletionTailRootMarginBound
+      scaledMargin rank (-53 : Int) labels :=
+  graph147TargetCompletionTailRootMarginBound_of_fullEvalMargin
+    strengthenedClosed_prefix4_yp_zm_eval_eq hfull
+
+theorem graph147ZmYpRootMarginBound_of_fullEvalMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    {labels : List Face}
+    (hfull :
+      ∀ result : StrengthenedClosedEvalState × Int,
+        evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+            ([Face.xm, Face.ym, Face.zm, Face.yp] ++ labels) =
+          some result ->
+        scaledMargin rank <= (176 : Int) + result.2) :
+    Graph147TargetCompletionTailRootMarginBound
+      scaledMargin rank (-53 : Int) labels :=
+  graph147TargetCompletionTailRootMarginBound_of_fullEvalMargin
+    strengthenedClosed_prefix4_zm_yp_eval_eq hfull
+
 private theorem graph147YpZm_usedFaceTail_of_strengthened_prefix
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
     {rank : Fin numPairWords} {rest : List Face}
