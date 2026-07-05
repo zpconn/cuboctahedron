@@ -111,6 +111,7 @@ REQUIRED_SYMBOLS = {
         "graph183Layer4ForcedTailSuffixOk_of_strengthened_prefix",
         "graph183Layer4FilteredTailPrefixContinuation",
         "graph183Layer4FilteredTailPrefixTerminal_of_strengthened_prefix",
+        "graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix",
         "graph183TerminalTailPrefixEval",
         "graph183TerminalFinishProducer",
         "graph183FilteredTailPrefixContinuation",

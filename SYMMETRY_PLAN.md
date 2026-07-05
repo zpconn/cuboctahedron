@@ -103949,3 +103949,62 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   `Layer4PrefixMachineTargetCompletionFilteredTailPrefixContinuationAll`
   lanes for the reachable frontier obligations, using this graph183 lane as
   the filtered blocked-branch example.
+
+### 2026-07-04 graph183 lane reaches contained eval-prefix gate
+
+- Added the final branch-local bridge from the semantic layer-4 prefix to the
+  actual terminal-machine gate surface:
+
+  ```lean
+  graph183Layer4PrefixState_contains_of_strengthened_prefix
+  graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix
+  ```
+
+- `graph183Layer4PrefixState_contains_of_strengthened_prefix` derives
+  `TerminalStepState.Contains graph183Layer4PrefixState rank` by consuming the
+  first four labels from the strengthened closed-language proof and the
+  `Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest` equality.  It uses
+  `contains_nextStep` repeatedly; it does not inspect a sampled path or an
+  accepted trace id.
+
+- `graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix` combines:
+  - semantic containment of the layer-4 `tmpm,zm` state;
+  - `Graph150TargetCompletionTail rest`;
+  - the graph150/157/169 deterministic target-completion heads;
+  - the graph183 blocked-branch contradiction from `AcceptedSequenceBadFace`;
+  - the layer-4 terminal tail-prefix evaluator;
+
+  and returns:
+
+  ```lean
+  TerminalContainedEvalPrefixGate
+    TerminalStepStatePartialMachine.semantic graph183Layer4PrefixState rank
+  ```
+
+- This is the closest graph183 local theorem yet to the full production
+  wrapper.  It proves the exact suffix evaluator gate from semantic
+  strengthened closed-language facts for the concrete `tmpm,zm` frontier lane,
+  while staying rank-free inside the suffix evaluator itself.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183TerminalTailPrefixSmoke
+  ```
+
+- Result:
+  focused graph183 smoke build passed under the memory guard in `3.00s`, with
+  peak tree RSS `4048 MiB` and minimum available memory `46146 MiB`.
+
+- Next implementation target:
+  make the generated full-machine wrapper consume this branch-local theorem.
+  The cleanest route is probably a one-lane adapter from a known layer-4
+  frontier branch to `Layer4PrefixMachineContinuationFromContainsAll` or a
+  generated all-lane family that uses this graph183 theorem for the `tmpm,zm`
+  case and analogous non-filtered lanes for the other reachable frontier
+  obligations.

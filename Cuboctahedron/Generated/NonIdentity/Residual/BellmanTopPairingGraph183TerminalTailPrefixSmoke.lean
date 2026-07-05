@@ -174,6 +174,74 @@ theorem graph183Layer4TailPrefixEval :
       some (graph183TerminalFinishState, 0) := by
   rfl
 
+theorem graph183Layer4PrefixState_contains_of_strengthened_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TerminalStepState.Contains graph183Layer4PrefixState rank := by
+  have hclosed := hstrengthened.toTopPairingClosedLanguageAtRank
+  have h0 :
+      TerminalStepState.Contains TerminalStepState.initial rank :=
+    initial_contains_of_closed hclosed
+  have h1 :
+      TerminalStepState.Contains
+        (TerminalStepState.initial.nextStep Face.xm) rank := by
+    refine contains_nextStep
+      (rank := rank) (state := TerminalStepState.initial)
+      (face := Face.xm)
+      (rest := Face.ym :: Face.tmpm :: Face.zm :: rest)
+      h0 ?_
+    simpa [Depth11Layer4PrefixAtRank, TerminalStepState.initial] using
+      hprefix
+  have h2 :
+      TerminalStepState.Contains
+        ((TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym)
+        rank := by
+    refine contains_nextStep
+      (rank := rank)
+      (state := TerminalStepState.initial.nextStep Face.xm)
+      (face := Face.ym)
+      (rest := Face.tmpm :: Face.zm :: rest)
+      h1 ?_
+    simpa [Depth11Layer4PrefixAtRank, TerminalStepState.initial,
+      TerminalStepState.nextStep, TerminalStepState.squareStep,
+      triLetterOfFace?, pairOfFace, TriLetter.ofPairId?] using hprefix
+  have h3 :
+      TerminalStepState.Contains
+        (((TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym).nextStep
+          Face.tmpm)
+        rank := by
+    refine contains_nextStep
+      (rank := rank)
+      (state :=
+        (TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym)
+      (face := Face.tmpm)
+      (rest := Face.zm :: rest)
+      h2 ?_
+    simpa [Depth11Layer4PrefixAtRank, TerminalStepState.initial,
+      TerminalStepState.nextStep, TerminalStepState.squareStep,
+      TerminalStepState.triStep, triLetterOfFace?, pairOfFace,
+      TriLetter.ofPairId?] using hprefix
+  have h4 :
+      TerminalStepState.Contains graph183Layer4PrefixState rank := by
+    refine contains_nextStep
+      (rank := rank)
+      (state :=
+        ((TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym).nextStep
+          Face.tmpm)
+      (face := Face.zm)
+      (rest := rest)
+      h3 ?_
+    simpa [Depth11Layer4PrefixAtRank, graph183Layer4PrefixState,
+      TerminalStepState.initial, TerminalStepState.nextStep,
+      TerminalStepState.squareStep, TerminalStepState.triStep,
+      triLetterOfFace?, pairOfFace, TriLetter.ofPairId?] using hprefix
+  exact h4
+
 def graph183FilteredTailPrefixContinuation :
     TerminalTargetCompletionFilteredTailPrefixContinuation
       TerminalStepStatePartialMachine.semantic
@@ -240,6 +308,34 @@ theorem graph183Layer4FilteredTailPrefixTerminal_of_strengthened_prefix
   graph183Layer4FilteredTailPrefixContinuation.terminal rest htail
     (graph183Layer4ForcedTailSuffixOk_of_strengthened_prefix
       hstrengthened hprefix htail)
+
+theorem graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest)
+    (htail : Graph150TargetCompletionTail rest) :
+    TerminalContainedEvalPrefixGate
+      TerminalStepStatePartialMachine.semantic graph183Layer4PrefixState
+      rank := by
+  have hcontains :=
+    graph183Layer4PrefixState_contains_of_strengthened_prefix
+      hstrengthened hprefix
+  rcases graph183Layer4FilteredTailPrefixTerminal_of_strengthened_prefix
+      hstrengthened hprefix htail with
+    ⟨labels, finish, gain, remaining, hrest, heval, hterminal⟩
+  refine ⟨labels, finish, gain, remaining, hcontains, ?_, heval, hterminal⟩
+  subst rest
+  have hpfx :
+      (TerminalStepStatePartialMachine.semantic.stateOf
+        graph183Layer4PrefixState).pfx =
+          [Face.xm, Face.ym, Face.tmpm, Face.zm] := by
+    rfl
+  rw [hpfx]
+  simpa [Depth11Layer4PrefixAtRank, List.append_assoc] using hprefix
 
 theorem graph183TerminalTailPrefixSmoke_builds : True := by
   exact True.intro
