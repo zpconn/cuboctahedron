@@ -181,8 +181,65 @@ structure AcceptedSequenceGraph183AcceptedTailExactEvalFamily
         (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
       TopPairingGraphExactEvalGateResult
         graphPotential closedBellmanNext (fun face : Face => face)
+      graphRoot graphConst scaledMargin rank Face.ym
+      126 ((194 : Int) + (-542 : Int))
+
+/--
+Generic graph183 accepted-tail exact-evaluator target, parameterized by the
+strengthened language's `sequenceBadFace` predicate.
+
+This is only an adapter surface: the preferred proof obligation remains the
+semantic carrier `Graph183TailQuotientMarginSequenceBadFace`, but any future
+deterministic closed-language evaluator theorem can pass through this family
+without hard-coding `AcceptedSequenceBadFaceAtRank`.
+-/
+structure Graph183TailExactEvalFamily
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  exact_eval_yp_branch :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail) ->
+      TopPairingGraphExactEvalGateResult
+        graphPotential closedBellmanNext (fun face : Face => face)
         graphRoot graphConst scaledMargin rank Face.ym
         126 ((194 : Int) + (-542 : Int))
+
+theorem acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_graph183TailExactEvalFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Graph183TailExactEvalFamily
+        AcceptedSequenceBadFaceAtRank scaledMargin) :
+    AcceptedSequenceGraph183AcceptedTailExactEvalFamily scaledMargin where
+  exact_eval_yp_branch := by
+    intro rank hstrengthened hprefix
+    exact hfamily.exact_eval_yp_branch rank hstrengthened hprefix
+
+theorem graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hgate :
+      TopPairingGraphExactEvalGateResult
+        graphPotential closedBellmanNext (fun face : Face => face)
+        graphRoot graphConst scaledMargin rank Face.ym
+        126 ((194 : Int) + (-542 : Int))) :
+    Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym := by
+  refine ⟨rfl, ?_⟩
+  intro _hprefix
+  simpa [graph183AcceptedBranchRawGain_contract] using hgate.margin_bound
+
+theorem graph183TailQuotientMarginFamily_of_tailExactEval
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Graph183TailExactEvalFamily sequenceBadFace scaledMargin) :
+    Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin where
+  final_margin_yp_branch_quotient := by
+    intro rank hstrengthened hprefix
+    have hgate := hfamily.exact_eval_yp_branch rank hstrengthened hprefix
+    simpa [graph183AcceptedBranchRawGain_contract] using hgate.margin_bound
 
 theorem acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval
     {scaledMargin : Fin numPairWords -> Int}

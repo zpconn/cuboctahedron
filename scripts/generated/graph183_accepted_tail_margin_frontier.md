@@ -77,9 +77,9 @@ cocycle/coboundary quotient.
 
 | metric | value |
 | --- | ---: |
-| `elapsed_seconds` | `6.0054499529942404` |
-| `peak_rss_mib` | `3567.59375` |
-| `min_available_mib` | `46340.85546875` |
+| `elapsed_seconds` | `6.004720269993413` |
+| `peak_rss_mib` | `3779.08984375` |
+| `min_available_mib` | `46330.27734375` |
 
 ### graph183_scaling_contract
 
@@ -180,6 +180,10 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_socket:symbol:Graph183TailQuotientMarginFamily` | `True` | `Graph183TailQuotientMarginFamily` |
 | `graph183_quotient_socket:symbol:Graph183TailQuotientMarginSequenceBadFace` | `True` | `Graph183TailQuotientMarginSequenceBadFace` |
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_sequenceBadFace` | `True` | `graph183TailQuotientMarginFamily_of_sequenceBadFace` |
+| `graph183_quotient_socket:symbol:Graph183TailExactEvalFamily` | `True` | `Graph183TailExactEvalFamily` |
+| `graph183_quotient_socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult` | `True` | `graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult` |
+| `graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_tailExactEval` | `True` | `graph183TailQuotientMarginFamily_of_tailExactEval` |
+| `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_graph183TailExactEvalFamily` | `True` | `acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_graph183TailExactEvalFamily` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily` | `True` | `acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily` |
 | `graph183_quotient_socket:symbol:AcceptedSequenceGraph183AcceptedTailExactEvalFamily` | `True` | `AcceptedSequenceGraph183AcceptedTailExactEvalFamily` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval` | `True` | `acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval` |
@@ -244,8 +248,8 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
 | `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
 | `graph183_quotient_margin_socket:guard_exit_zero` | `True` | `0` |
-| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3567.59375` |
-| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46340.85546875` |
+| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3779.08984375` |
+| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46330.27734375` |
 
 ## Next Lean Target
 

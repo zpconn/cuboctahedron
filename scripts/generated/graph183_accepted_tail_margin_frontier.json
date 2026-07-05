@@ -367,6 +367,26 @@
       "passed": true
     },
     {
+      "detail": "Graph183TailExactEvalFamily",
+      "name": "graph183_quotient_socket:symbol:Graph183TailExactEvalFamily",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult",
+      "name": "graph183_quotient_socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginFamily_of_tailExactEval",
+      "name": "graph183_quotient_socket:symbol:graph183TailQuotientMarginFamily_of_tailExactEval",
+      "passed": true
+    },
+    {
+      "detail": "acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_graph183TailExactEvalFamily",
+      "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_graph183TailExactEvalFamily",
+      "passed": true
+    },
+    {
       "detail": "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily",
       "name": "graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily",
       "passed": true
@@ -700,12 +720,12 @@
       "passed": true
     },
     {
-      "detail": 3567.59375,
+      "detail": 3779.08984375,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 46340.85546875,
+      "detail": 46330.27734375,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
       "passed": true
     }
@@ -726,9 +746,9 @@
       "solution_small_gain_count": 93
     },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 6.0054499529942404,
-      "min_available_mib": 46340.85546875,
-      "peak_rss_mib": 3567.59375
+      "elapsed_seconds": 6.004720269993413,
+      "min_available_mib": 46330.27734375,
+      "peak_rss_mib": 3779.08984375
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,
