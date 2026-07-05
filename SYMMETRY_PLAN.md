@@ -116657,9 +116657,9 @@ Next implementation target:
 Build a small graph221 object-margin producer theorem for the three semantic
 suffixes:
 
-  graph221Tail029 -> margin <= -420
+  graph221Tail029 -> margin <= -200
   graph221Tail030 -> margin <= -200
-  graph221Tail031 -> margin <= -200
+  graph221Tail031 -> margin <= -420
 
 The theorem must derive the branch from Graph221ZmTmppSplit10MRootMarginObj
 and the existing graph221 semantic suffix predicate, not from rank samples or
@@ -116667,4 +116667,124 @@ path-class ids.  If the actual geometric scaledMargin cannot be related to
 those three branch constants without exact affine RHS keys or stored paths,
 then pivot immediately to the cocycle quotient profiler over the same
 graph221 object language.
+
+#### 2026-07-05 graph221 three-branch margin socket
+
+Status: accepted as the next graph221 production socket.
+
+The graph221 semantic terminal bridge now exposes a three-branch margin family
+matching the exact object-margin diagnostic profile.  This is intentionally a
+small semantic target: the proof producer only has to prove one integer margin
+bound for each of the three closed suffixes, and the existing bridge derives
+the graph-exact evaluator gate from those bounds.
+
+New theorem surface in:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean
+```
+
+```lean
+structure Graph221ZmTmppSplit10MBranchMarginFamily
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  margin029 :
+    ∀ obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace,
+      obj.rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail029 ->
+        scaledMargin obj.rank <= (-200 : Int)
+  margin030 :
+    ∀ obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace,
+      obj.rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail030 ->
+        scaledMargin obj.rank <= (-200 : Int)
+  margin031 :
+    ∀ obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace,
+      obj.rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail031 ->
+        scaledMargin obj.rank <= (-420 : Int)
+```
+
+Branch adapters:
+
+```lean
+theorem graph221Layer4Split10MRootMarginBound_of_branchMargin029
+theorem graph221Layer4Split10MRootMarginBound_of_branchMargin030
+theorem graph221Layer4Split10MRootMarginBound_of_branchMargin031
+
+def graph221ZmTmppSplit10MRootMarginObjectBound_of_branchMarginFamily
+    (hfamily :
+      Graph221ZmTmppSplit10MBranchMarginFamily
+        sequenceBadFace scaledMargin) :
+    Graph221ZmTmppSplit10MRootMarginObjectBound
+      sequenceBadFace scaledMargin
+```
+
+The adapter first derives the accepted three-tail suffix predicate from the
+existing strengthened-prefix semantics, then applies the appropriate branch
+bound and the already-checked deterministic `graphSmokeNext` evaluations:
+
+```text
+tail029 -> eval gain -376 -> requires margin <= -200
+tail030 -> eval gain -376 -> requires margin <= -200
+tail031 -> eval gain -596 -> requires margin <= -420
+```
+
+This is not final margin evidence.  It is the socket that a future
+closed-language/cocycle/segment proof must fill.  Do not satisfy it by
+accepted trace ids, selected-prefix membership, sampled-rank objects, exact
+affine RHS keys, solved start-point keys, or stored path tables.
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph221_semantic_terminal_bridge_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean \
+  scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Results:
+
+```text
+py_compile: passed
+layer-4 readiness audit: passed and regenerated scripts/generated/layer4_terminal_lane_readiness.json
+guarded Lean check after branch-margin socket: passed, elapsed 9.01s,
+  peak RSS 4011.66 MiB, min available 46223.99 MiB
+forbidden-token scan on touched Lean bridge and audit script: no hits
+```
+
+Readiness audit update:
+
+```text
+validated_lanes = [tmpm_zm, zm_tmpp]
+missing_lanes = [tmpm_tppm, yp_tmmm, yp_zm, zm_yp, zm_zp]
+partial_lanes = [yp_zm, zm_yp]
+zm_tmpp graph221 root-margin socket =
+  accepted_root_margin_socket_pending_margin_producer
+next_recommended_slice =
+  prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a deterministic
+  graph221 object-margin producer over closed holonomy/cancellation state,
+  preferably targeting Graph221ZmTmppSplit10MBranchMarginFamily first
+```
+
+Next implementation target:
+
+```text
+Prove Graph221ZmTmppSplit10MBranchMarginFamily from a deterministic
+closed-language margin producer for the three graph221 suffixes.  First inspect
+whether the actual `scaledMargin` used by the final nonidentity start-violation
+bridge has a small existing branch/cocycle proof.  If the proof wants exact
+affine RHS, selected-prefix, accepted-trace, sampled-rank, or stored-path
+membership, stop and run the graph221 cocycle/cancellation-summary quotient
+experiment over these same three suffixes.
+```
 ```

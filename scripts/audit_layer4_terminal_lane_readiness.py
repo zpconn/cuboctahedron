@@ -470,6 +470,11 @@ GRAPH221_ROOT_MARGIN_SOCKET_REQUIRED = [
     "scaledMargin_nonpos_of_graph221_zm_tmpp_sequenceBadFace",
     "Graph221ZmTmppSplit10MRootMarginObj",
     "Graph221ZmTmppSplit10MRootMarginObjectBound",
+    "Graph221ZmTmppSplit10MBranchMarginFamily",
+    "graph221Layer4Split10MRootMarginBound_of_branchMargin029",
+    "graph221Layer4Split10MRootMarginBound_of_branchMargin030",
+    "graph221Layer4Split10MRootMarginBound_of_branchMargin031",
+    "graph221ZmTmppSplit10MRootMarginObjectBound_of_branchMarginFamily",
     "graph221ZmTmppSplit10MRootMarginFamily_of_objectBound",
     "graph221ZmTmppSplit10MRootMarginObjectBound_of_sequenceBadFace",
     "split10MGraphExactEvalGateAtRank_of_graph221_zm_tmpp_objectBound",
@@ -747,9 +752,11 @@ def main() -> int:
                         "zm_tmpp lane and exposes the graph-exact root-margin "
                         "socket plus the semantic object-margin target.  The "
                         "next graph221 work is to prove "
-                        "Graph221ZmTmppSplit10MRootMarginObjectBound from a "
-                        "deterministic margin producer over closed "
-                        "holonomy/cancellation state, then package it as "
+                        "Graph221ZmTmppSplit10MBranchMarginFamily from a "
+                        "deterministic three-branch margin producer over "
+                        "closed holonomy/cancellation state.  The Lean socket "
+                        "packages that into "
+                        "Graph221ZmTmppSplit10MRootMarginObjectBound and then "
                         "Graph221ZmTmppSplit10MRootMarginSequenceBadFace, "
                         "without accepted trace ids, selected-prefix tables, "
                         "sampled ranks, exact affine RHS keys, or stored paths."
@@ -1251,7 +1258,7 @@ def main() -> int:
                 "prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a "
                 "deterministic graph221 object-margin producer over closed "
                 "holonomy/cancellation state, preferably targeting "
-                "Graph221ZmTmppSplit10MRootMarginObjectBound first; if that "
+                "Graph221ZmTmppSplit10MBranchMarginFamily first; if that "
                 "proof wants exact affine RHS, selected-prefix, "
                 "accepted-trace, sampled-rank, or stored-path membership, "
                 "stop and run the cocycle/cancellation-summary quotient "

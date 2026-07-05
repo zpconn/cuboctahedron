@@ -400,14 +400,19 @@
       "graph221_root_margin_socket_symbols": {
         "AcceptedSequenceGraph221ZmTmppSplit10MRootMarginFamily": true,
         "Graph221Layer4Split10MRootMarginBound": true,
+        "Graph221ZmTmppSplit10MBranchMarginFamily": true,
         "Graph221ZmTmppSplit10MRootMarginFamily": true,
         "Graph221ZmTmppSplit10MRootMarginObj": true,
         "Graph221ZmTmppSplit10MRootMarginObjectBound": true,
         "Graph221ZmTmppSplit10MRootMarginSequenceBadFace": true,
         "graph151CompletionTail_of_strengthened_prefix_generic": true,
         "graph221Layer4AcceptedTailSuffixOk_split10M_eval_exists_final_nonneg": true,
+        "graph221Layer4Split10MRootMarginBound_of_branchMargin029": true,
+        "graph221Layer4Split10MRootMarginBound_of_branchMargin030": true,
+        "graph221Layer4Split10MRootMarginBound_of_branchMargin031": true,
         "graph221ZmTmppSplit10MRootMarginFamily_of_objectBound": true,
         "graph221ZmTmppSplit10MRootMarginFamily_of_sequenceBadFace": true,
+        "graph221ZmTmppSplit10MRootMarginObjectBound_of_branchMarginFamily": true,
         "graph221ZmTmppSplit10MRootMarginObjectBound_of_sequenceBadFace": true,
         "scaledMargin_nonpos_of_graph221_zm_tmpp_generic_rootMarginFamily": true,
         "scaledMargin_nonpos_of_graph221_zm_tmpp_objectBound": true,
@@ -426,7 +431,7 @@
         "graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk": true
       },
       "graph221_semantic_terminal_bridge_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean",
-      "remaining_gap": "graph221 is now a validated semantic gate for the zm_tmpp lane and exposes the graph-exact root-margin socket plus the semantic object-margin target.  The next graph221 work is to prove Graph221ZmTmppSplit10MRootMarginObjectBound from a deterministic margin producer over closed holonomy/cancellation state, then package it as Graph221ZmTmppSplit10MRootMarginSequenceBadFace, without accepted trace ids, selected-prefix tables, sampled ranks, exact affine RHS keys, or stored paths.",
+      "remaining_gap": "graph221 is now a validated semantic gate for the zm_tmpp lane and exposes the graph-exact root-margin socket plus the semantic object-margin target.  The next graph221 work is to prove Graph221ZmTmppSplit10MBranchMarginFamily from a deterministic three-branch margin producer over closed holonomy/cancellation state.  The Lean socket packages that into Graph221ZmTmppSplit10MRootMarginObjectBound and then Graph221ZmTmppSplit10MRootMarginSequenceBadFace, without accepted trace ids, selected-prefix tables, sampled ranks, exact affine RHS keys, or stored paths.",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
@@ -718,7 +723,7 @@
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a deterministic graph221 object-margin producer over closed holonomy/cancellation state, preferably targeting Graph221ZmTmppSplit10MRootMarginObjectBound first; if that proof wants exact affine RHS, selected-prefix, accepted-trace, sampled-rank, or stored-path membership, stop and run the cocycle/cancellation-summary quotient experiment",
+  "next_recommended_slice": "prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a deterministic graph221 object-margin producer over closed holonomy/cancellation state, preferably targeting Graph221ZmTmppSplit10MBranchMarginFamily first; if that proof wants exact affine RHS, selected-prefix, accepted-trace, sampled-rank, or stored-path membership, stop and run the cocycle/cancellation-summary quotient experiment",
   "partial_lane_count": 2,
   "partial_lanes": [
     "yp_zm",

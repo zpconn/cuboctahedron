@@ -549,6 +549,132 @@ def Graph221ZmTmppSplit10MRootMarginObjectBound
   ∀ obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace,
     Graph221ZmTmppSplit10MRootMarginObj.rootMarginBound scaledMargin obj
 
+/--
+Three-branch graph221 margin target.
+
+This is the current preferred production target for the graph221 object-margin
+producer.  The semantic graph221 lane already proves that every object tail is
+one of these three branches.  A future geometric/cocycle proof should provide
+the three branch-local integer inequalities below; this socket converts them
+to the evaluator-gain root-margin bound.
+-/
+structure Graph221ZmTmppSplit10MBranchMarginFamily
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop where
+  margin029 :
+    ∀ obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace,
+      obj.rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail029 ->
+        scaledMargin obj.rank <= (-200 : Int)
+  margin030 :
+    ∀ obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace,
+      obj.rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail030 ->
+        scaledMargin obj.rank <= (-200 : Int)
+  margin031 :
+    ∀ obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace,
+      obj.rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail031 ->
+        scaledMargin obj.rank <= (-420 : Int)
+
+theorem graph221Layer4Split10MRootMarginBound_of_branchMargin029
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace}
+    (hmargin :
+      scaledMargin obj.rank <= (-200 : Int))
+    (hrest :
+      obj.rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail029) :
+    Graph221ZmTmppSplit10MRootMarginObj.rootMarginBound scaledMargin obj := by
+  intro result heval
+  have heval029 :
+      evalLabelStepFn graphSmokeNext rootState
+          (([Face.xm, Face.ym, Face.zm, Face.tmpp] ++ obj.rest).map
+            smokeLabelOfFace) =
+        some ((601 : State), (-376 : Int)) := by
+    simpa [Graph221ZmTmppSplit10MRootMarginObj.rootMarginBound, hrest,
+      List.append_assoc] using graph221Tail029_split10M_eval
+  have hresult : result = ((601 : State), (-376 : Int)) := by
+    have hsome : some result = some ((601 : State), (-376 : Int)) :=
+      heval.symm.trans heval029
+    cases hsome
+    rfl
+  subst result
+  simpa using hmargin
+
+theorem graph221Layer4Split10MRootMarginBound_of_branchMargin030
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace}
+    (hmargin :
+      scaledMargin obj.rank <= (-200 : Int))
+    (hrest :
+      obj.rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail030) :
+    Graph221ZmTmppSplit10MRootMarginObj.rootMarginBound scaledMargin obj := by
+  intro result heval
+  have heval030 :
+      evalLabelStepFn graphSmokeNext rootState
+          (([Face.xm, Face.ym, Face.zm, Face.tmpp] ++ obj.rest).map
+            smokeLabelOfFace) =
+        some ((601 : State), (-376 : Int)) := by
+    simpa [Graph221ZmTmppSplit10MRootMarginObj.rootMarginBound, hrest,
+      List.append_assoc] using graph221Tail030_split10M_eval
+  have hresult : result = ((601 : State), (-376 : Int)) := by
+    have hsome : some result = some ((601 : State), (-376 : Int)) :=
+      heval.symm.trans heval030
+    cases hsome
+    rfl
+  subst result
+  simpa using hmargin
+
+theorem graph221Layer4Split10MRootMarginBound_of_branchMargin031
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {obj : Graph221ZmTmppSplit10MRootMarginObj sequenceBadFace}
+    (hmargin :
+      scaledMargin obj.rank <= (-420 : Int))
+    (hrest :
+      obj.rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail031) :
+    Graph221ZmTmppSplit10MRootMarginObj.rootMarginBound scaledMargin obj := by
+  intro result heval
+  have heval031 :
+      evalLabelStepFn graphSmokeNext rootState
+          (([Face.xm, Face.ym, Face.zm, Face.tmpp] ++ obj.rest).map
+            smokeLabelOfFace) =
+        some ((600 : State), (-596 : Int)) := by
+    simpa [Graph221ZmTmppSplit10MRootMarginObj.rootMarginBound, hrest,
+      List.append_assoc] using graph221Tail031_split10M_eval
+  have hresult : result = ((600 : State), (-596 : Int)) := by
+    have hsome : some result = some ((600 : State), (-596 : Int)) :=
+      heval.symm.trans heval031
+    cases hsome
+    rfl
+  subst result
+  simpa using hmargin
+
+def graph221ZmTmppSplit10MRootMarginObjectBound_of_branchMarginFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      Graph221ZmTmppSplit10MBranchMarginFamily
+        sequenceBadFace scaledMargin) :
+    Graph221ZmTmppSplit10MRootMarginObjectBound
+      sequenceBadFace scaledMargin := by
+  intro obj
+  have htail : Graph151TargetCompletionTail obj.rest :=
+    graph151CompletionTail_of_strengthened_prefix_generic
+      obj.strengthened obj.branchPrefix
+  have hok : graph221Layer4AcceptedTailSuffixOk obj.rest :=
+    graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail htail
+  rcases hok with ⟨tail, hrest, htailOk⟩
+  rcases htailOk with h029 | h030 | h031
+  · subst tail
+    exact graph221Layer4Split10MRootMarginBound_of_branchMargin029
+      (hfamily.margin029 obj hrest) hrest
+  · subst tail
+    exact graph221Layer4Split10MRootMarginBound_of_branchMargin030
+      (hfamily.margin030 obj hrest) hrest
+  · subst tail
+    exact graph221Layer4Split10MRootMarginBound_of_branchMargin031
+      (hfamily.margin031 obj hrest) hrest
+
 def graph221ZmTmppSplit10MRootMarginFamily_of_objectBound
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
     {scaledMargin : Fin numPairWords -> Int}
