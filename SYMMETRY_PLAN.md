@@ -105111,6 +105111,269 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 revised pivot: closed-language evaluator theorem first
+
+The newest GPT5.5 Pro guidance is now the controlling strategy for the
+nonidentity Bellman branch:
+
+> Keep Bellman.  Reject selected-prefix membership.  Prove a deterministic
+> semantic transducer theorem from the closed top-pairing language to
+> `evalLabelStepFn`.
+
+This is not only a plan; the repo already has the core interfaces needed for
+this route:
+
+```lean
+-- Cuboctahedron/Search/TopPairingTargetCursor.lean
+theorem topPairingTargetShadow_of_summary
+theorem topPairingTriShadow_eq_target_of_closed
+theorem topPairingActedTriLetters_eq_target_of_closed
+theorem topPairingTriCursor_of_closed
+
+-- Cuboctahedron/Search/TopPairingTransducerTail.lean
+structure TopPairingTransducerTail
+theorem TopPairingTransducerTail.ofClosedRank
+theorem TopPairingTransducerTail.cons
+
+-- Cuboctahedron/Search/TopPairingBellmanSemanticGate.lean
+abbrev TopPairingGraphExactEvalGateAtRank
+abbrev TopPairingClosedToGraphExactEvalGate
+abbrev TopPairingStrengthenedToGraphExactEvalGate
+
+-- Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+theorem closedToGraphExactEvalGate_of_transducerInvariantLocalWithSuffix
+theorem strengthenedToGraphExactEvalGate_of_transducerInvariantLocalWithSuffix
+theorem closedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+theorem strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+```
+
+The immediate production target is therefore not another selected-prefix or
+observed-path cover.  It is a graph-specific theorem of this shape:
+
+```lean
+theorem graph147_closed_to_eval_gate
+    (rank : Fin numPairWords)
+    (hclosed :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    TopPairingGraphExactEvalGateAtRank
+      graphPotential graphNext smokeLabelOfFace graphRoot graphConst
+      scaledMargin rank Face.ym
+```
+
+or, if the exact graph still needs the ranked suffix predicate:
+
+```lean
+theorem graph147_closed_to_eval_gate_of_rankedSuffixOk
+    (hlocal :
+      forall {state face rest},
+        Inv state ->
+        state.Tail (face :: rest) ->
+        RankedSuffixOk rank state (face :: rest) ->
+          exists nextState gain,
+            TopPairingTransducerEvalState.next? graphNext smokeLabelOfFace
+              state face = some (nextState, gain) /\
+            nextState.Tail rest /\
+            Inv nextState /\
+            RankedSuffixOk rank nextState rest)
+    (hfinish : ...)
+    (rank : Fin numPairWords)
+    (hclosed :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym) :
+    TopPairingGraphExactEvalGateAtRank
+      graphPotential graphNext smokeLabelOfFace graphRoot graphConst
+      scaledMargin rank Face.ym
+```
+
+This is the strict go/no-go rule:
+
+- **Go:** the proof case-splits on local semantic state and the next face, using
+  target-shadow cursor progress, schedule/square-gap, local-axis facts, graph
+  state, pair-count/used-face state, and deterministic Bellman transitions.
+- **No-go:** the proof introduces sampled ranks, selected-prefix ids,
+  accepted-trace ids, exact affine RHS keys, exact solved start points, or one
+  branch per observed path.
+
+The graph147 all-mode quotient potential sweep makes this stricter: no
+existing quotient mode is a complete margin certificate.  The current
+quotients are diagnostic edge/gauge facts only.  Before adding more quotient
+tables, the next graph147 experiment must decide whether the closed language
+drives the deterministic evaluator.
+
+#### Next implementation plan
+
+1. **Use the existing semantic object type, not sampled objects.**
+
+   The production object remains:
+
+   ```lean
+   structure TopPairingBellmanObj (badFace : Face) where
+     rank : Fin numPairWords
+     closed : TopPairingClosedLanguageAtRank rank badFace
+   ```
+
+   Do not add any `SampledRankIndex`, `sampledContainsRank`, sampled trace
+   table, selected-prefix id, or rank-to-path object.
+
+2. **Build one graph147 closed-to-eval socket.**
+
+   Target the already accepted gate adapters in
+   `TopPairingTransducerSemanticGate.lean`.  The generated/hand-written proof
+   should provide:
+
+   ```lean
+   Inv :
+     TopPairingTransducerEvalState GraphState -> Prop
+
+   SuffixOk :
+     Fin numPairWords ->
+       TopPairingTransducerEvalState GraphState -> List Face -> Prop
+
+   hstart :
+     Inv (TopPairingTransducerEvalState.start graphRoot)
+
+   hsuffixStart :
+     forall rank,
+       TopPairingStrengthenedClosedLanguageAtRank
+         AcceptedSequenceBadFaceAtRank rank Face.ym ->
+       SuffixOk rank
+         (TopPairingTransducerEvalState.start graphRoot)
+         (topPairingRankFaceLabels rank)
+
+   hlocal :
+     forall {rank state face rest},
+       Inv state ->
+       state.Tail (face :: rest) ->
+       SuffixOk rank state (face :: rest) ->
+         exists nextState gain,
+           TopPairingTransducerEvalState.next? graphNext smokeLabelOfFace
+             state face = some (nextState, gain) /\
+           nextState.Tail rest /\
+           Inv nextState /\
+           SuffixOk rank nextState rest
+   ```
+
+   The first ranked suffix predicate can be deliberately small, but it must be
+   semantic: target cursor, target-completion state, graph state, schedule,
+   square-gap, local-axis class, and any remaining actual-face/cancellation
+   facts that are already consequences of the closed language.
+
+3. **Retire local target-completion sharding if it stops proving the gate.**
+
+   The graph147/graph221 local tables are useful only insofar as they become
+   lemmas used by `hlocal`.  They are not coverage by themselves.  If a local
+   table extension requires observed-prefix membership, stop it immediately.
+
+4. **If the closed-to-eval proof needs more state, add semantic state only.**
+
+   Allowed refinements:
+
+   - target-shadow cursor position;
+   - tri-source/cancellation progress;
+   - square parity and square-gap;
+   - remaining pair/actual-face state;
+   - local-axis class;
+   - Bellman graph state;
+   - small quotient or segment state whose soundness is proved by a generic
+     theorem.
+
+   Forbidden refinements:
+
+   - exact affine RHS;
+   - exact solved `p0`;
+   - total affine map keys;
+   - selected observed prefixes;
+   - one constructor/lemma per path or rank.
+
+5. **Fallback is segment/cocycle algebra, not certificate packing.**
+
+   If the graph147 closed language cannot drive the evaluator with the allowed
+   state, switch to a certified segment algebra:
+
+   ```lean
+   structure CertifiedBellmanSegment
+       (Step : State -> Label -> State -> Int -> Prop)
+       (s t : State) (labels : List Label) (gain : Int) : Prop where
+     run :
+       BellmanLabelStepRun Step s t labels gain
+     potential_bound :
+       gain + graphPotential t <= graphPotential s
+   ```
+
+   and compose segments using `BellmanLabelStepRun.append`.  The segment
+   objects should correspond to semantic target-shadow gaps, triangular slots,
+   and cancellation-pair summaries, not observed prefixes.
+
+6. **Cocycle quotient remains a support route.**
+
+   The existing `rawGain_le_of_quotient_labelStepRun` and
+   `const_add_rawGain_nonpos_of_quotient_labelStepRun` theorems are accepted.
+   Future quotient experiments must include enough semantic state to make the
+   root/gauge bound nonpositive.  A quotient mode that passes local edge
+   equations but has positive worst bound is diagnostic only.
+
+7. **Translation remains separate.**
+
+   Keep the translation route as:
+
+   ```text
+   GoodDirection
+     -> source-indexed row templates
+     -> support <= 3 Helly/Farkas oriented circuits
+     -> Walsh only as a denominator/sign subroutine
+   ```
+
+   Do not use Walsh boxes or mask subcubes as the outer coverage coordinate,
+   and do not generate BadDirection masks as proof data.
+
+#### Immediate verification commands
+
+Before any new graph147 generated theorem is considered useful, run:
+
+```bash
+rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+  Cuboctahedron/Search Cuboctahedron/Generated/NonIdentity/Residual
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.TopPairingTransducerSemanticGate
+```
+
+and then build only the new focused graph147 gate module under the same guard.
+Do not run a broad `lake build` from this state.
+
+Validation of the pivot core after this update:
+
+```bash
+git diff --check
+python3 -m py_compile scripts/profile_graph147_quotient_potential.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  scripts/profile_graph147_quotient_potential.py \
+  Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean \
+  Cuboctahedron/Search/TopPairingTargetCursor.lean \
+  Cuboctahedron/Search/TopPairingTransducerTail.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_transducer_semantic_gate_guard.json -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.TopPairingTransducerSemanticGate
+```
+
+Result:
+
+```text
+diff check: pass
+Python compile: pass
+narrow forbidden-token scan: pass; no matches
+TopPairingTransducerSemanticGate build: pass
+elapsed=20.01s; peak_tree_rss=4074 MiB; min_available=46100 MiB
+```
+
 ### 2026-07-05 generic quotient-run Bellman bound accepted
 
 The graph147 cocycle quotient route now has a reusable Lean-checked core
@@ -105164,20 +105427,22 @@ Interpretation:
   keys, or one branch per observed path, reject it and switch to a
   cancellation-segment algebra or stronger quotient state.
 
-### 2026-07-05 graph147 step-stack quotient rejected as complete margin certificate
+### 2026-07-05 graph147 quotient modes rejected as complete margin certificates
 
-The generic quotient theorem is accepted, but the current graph147
-`step-stack` quotient is not strong enough to be the production margin
-certificate.  A new exact diagnostic profiler now checks the missing gate:
+The generic quotient theorem is accepted, but no currently implemented
+graph147 quotient mode is strong enough to be the production margin
+certificate.  The exact diagnostic profiler now checks the missing gate for
+every quotient mode:
 
 ```text
 scripts/profile_graph147_quotient_potential.py
 ```
 
 It reads the 10M graph147 Bellman profile plus
-`scripts/generated/graph147_cocycle_quotients_0_10M.json`, verifies the local
-edge equations, computes the least quotient Bellman potential with
-`W(final) = 0`, and checks the worst root/gauge margin bound required by
+`scripts/generated/graph147_cocycle_quotients_0_10M.json`, recomputes each
+quotient solution exactly, verifies the local edge equations, computes the
+least quotient Bellman potential with `W(final) = 0`, and checks the worst
+root/gauge margin bound required by
 `const_add_rawGain_nonpos_of_quotient_labelStepRun`.
 
 Command:
@@ -105190,31 +105455,36 @@ python3 scripts/profile_graph147_quotient_potential.py
 Result:
 
 ```text
-decision = edge_quotient_not_margin_complete
-full edge-label equations = 1054
-quotient states = 44
-quotient edge labels = 206
-quotient potential edge-valid = true
-root potential = 2016
-root gauge = 438
-final gauge range = -566 .. 878
-worst root/gauge bound = 2632
-U = fullPotential + gauge collision classes = 34
+decision = no_existing_quotient_margin_candidate
+accepted modes = []
+
+mode                     qstates  qedges  worst bound  decision
+full                         970    1054          468  edge_quotient_not_margin_complete
+step-tri-src-no-pos          254     379          800  edge_quotient_not_margin_complete
+step-tri-targets             173     289          800  edge_quotient_not_margin_complete
+step-par-tri-targets          98     226         1700  edge_quotient_not_margin_complete
+no-tri-src                   173     289          800  edge_quotient_not_margin_complete
+no-rem                       289     459         1700  edge_quotient_not_margin_complete
+step-par-stack                98     226         1700  edge_quotient_not_margin_complete
+step-rem-par                 173     289          800  edge_quotient_not_margin_complete
+step-stack                    44     206         2632  edge_quotient_not_margin_complete
+step-par                      68     n/a          n/a  inconsistent_edge_quotient
 ```
 
 Interpretation:
 
-- The `step-stack` quotient remains useful diagnostic compression: all local
-  edge equations are consistent, and a quotient potential validates all
-  quotient edges.
-- It is too coarse as a full margin certificate because the required
-  root/gauge bound is positive (`2632 > 0`).
-- Therefore the current quotient must not be promoted to
+- The quotient equation itself is not the bottleneck: every consistent mode has
+  edge-valid quotient potentials.
+- The existing quotient coordinates are too weak globally.  Even the full
+  970-state quotient has a positive worst root/gauge bound (`468`), while the
+  smallest diagnostic quotient (`step-stack`) has worst bound `2632`.
+- Therefore no current quotient mode may be promoted to
   `StrengthenedGraph147RootMarginBundle`.
-- The next graph147 experiment should either strengthen the quotient state
-  until the root/gauge bound is nonpositive, or switch to the
-  cancellation-tree / certified-segment algebra recommended in the pivot
-  notes.
+- The next graph147 route must either prove a stronger semantic
+  closed-language-to-evaluator theorem, or add cancellation/segment/cocycle
+  state that rules out the spurious positive margin paths without introducing
+  selected prefixes, accepted traces, sampled ranks, exact affine RHS keys, or
+  exact solved start points.
 
 Artifacts:
 
