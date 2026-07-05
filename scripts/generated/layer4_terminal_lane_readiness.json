@@ -92,6 +92,15 @@
         "strengthenedClosed_prefix4_yp_zm_eval_eq": true,
         "strengthenedClosed_prefix4_zm_yp_eval_eq": true
       },
+      "direct_eval_socket_symbols": {
+        "StrengthenedGraph147TargetCompletionBundle": true,
+        "StrengthenedGraph147YpZmTargetCompletionFamily": true,
+        "StrengthenedGraph147ZmYpTargetCompletionFamily": true,
+        "graphExactEvalGateAtRank_of_bundle_yp_zm": true,
+        "graphExactEvalGateAtRank_of_bundle_zm_yp": true,
+        "graphExactEvalGateAtRank_of_yp_zm_targetCompletionFamily": true,
+        "graphExactEvalGateAtRank_of_zm_yp_targetCompletionFamily": true
+      },
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.zm",
@@ -193,7 +202,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  It also proves that target-completion tails feed the recursive ShardTargetSuffixOk predicate and compose to evaluator existence under external graph sockets.  It now separates terminal graph states 141/138 from continuation graph states 157/159, with empty-tail evaluator/final-potential sockets only for the terminal exits.  The lane now exposes both the suffix-started margin socket Graph147TargetCompletionTailMarginBound and the root-gain socket Graph147TargetCompletionTailRootMarginBound, with BellmanEvalAccepts and TopPairingGraphExactEvalGateAtRank adapters for the yp,zm and zm,yp prefixes.  It still needs a semantic proof that the closed language supplies one of those prefix splits, the Graph147TargetCompletionTail, and the root-gain margin bound, without selected-prefix or sampled-rank membership.  The graph150/151 continuation states still need their own continuation-to-margin sockets outside this graph147 lane.",
+      "remaining_gap": "graph147 now has a direct semantic eval socket for the yp,zm and zm,yp layer-4 branches.  The future generated proof target is no longer a mapped class case: it must prove the branch-local Graph147TargetCompletionTail and Graph147TargetCompletionTailRootMarginBound from the strengthened closed language and Depth11Layer4PrefixAtRank. Those two semantic fields then produce TopPairingGraphExactEvalGateAtRank directly.  The lane is still partial until those tail and margin fields are proved without selected-prefix or sampled-rank membership.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -201,7 +210,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_terminal_graph141_graph138_deterministic_target_api",
+      "status": "partial_graph147_direct_eval_socket",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,
@@ -373,6 +382,15 @@
         "strengthenedClosed_prefix4_yp_zm_eval_eq": true,
         "strengthenedClosed_prefix4_zm_yp_eval_eq": true
       },
+      "direct_eval_socket_symbols": {
+        "StrengthenedGraph147TargetCompletionBundle": true,
+        "StrengthenedGraph147YpZmTargetCompletionFamily": true,
+        "StrengthenedGraph147ZmYpTargetCompletionFamily": true,
+        "graphExactEvalGateAtRank_of_bundle_yp_zm": true,
+        "graphExactEvalGateAtRank_of_bundle_zm_yp": true,
+        "graphExactEvalGateAtRank_of_yp_zm_targetCompletionFamily": true,
+        "graphExactEvalGateAtRank_of_zm_yp_targetCompletionFamily": true
+      },
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.yp",
@@ -474,7 +492,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  It also proves that target-completion tails feed the recursive ShardTargetSuffixOk predicate and compose to evaluator existence under external graph sockets.  It now separates terminal graph states 141/138 from continuation graph states 157/159, with empty-tail evaluator/final-potential sockets only for the terminal exits.  The lane now exposes both the suffix-started margin socket Graph147TargetCompletionTailMarginBound and the root-gain socket Graph147TargetCompletionTailRootMarginBound, with BellmanEvalAccepts and TopPairingGraphExactEvalGateAtRank adapters for the yp,zm and zm,yp prefixes.  It still needs a semantic proof that the closed language supplies one of those prefix splits, the Graph147TargetCompletionTail, and the root-gain margin bound, without selected-prefix or sampled-rank membership.  The graph150/151 continuation states still need their own continuation-to-margin sockets outside this graph147 lane.",
+      "remaining_gap": "graph147 now has a direct semantic eval socket for the yp,zm and zm,yp layer-4 branches.  The future generated proof target is no longer a mapped class case: it must prove the branch-local Graph147TargetCompletionTail and Graph147TargetCompletionTailRootMarginBound from the strengthened closed language and Depth11Layer4PrefixAtRank. Those two semantic fields then produce TopPairingGraphExactEvalGateAtRank directly.  The lane is still partial until those tail and margin fields are proved without selected-prefix or sampled-rank membership.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -482,7 +500,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_terminal_graph141_graph138_deterministic_target_api",
+      "status": "partial_graph147_direct_eval_socket",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,

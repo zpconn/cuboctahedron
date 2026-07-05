@@ -41,6 +41,12 @@ TARGET_COMPLETION_SHARD000_FILE = (
     / "BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean"
 )
 
+GRAPH147_DIRECT_EVAL_SOCKET_FILE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean"
+)
+
 GRAPH221_FILE = (
     ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
@@ -263,6 +269,16 @@ GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED = [
     "emittedShardExternalTargetCount",
 ]
 
+GRAPH147_DIRECT_EVAL_SOCKET_REQUIRED = [
+    "StrengthenedGraph147YpZmTargetCompletionFamily",
+    "StrengthenedGraph147ZmYpTargetCompletionFamily",
+    "StrengthenedGraph147TargetCompletionBundle",
+    "graphExactEvalGateAtRank_of_yp_zm_targetCompletionFamily",
+    "graphExactEvalGateAtRank_of_zm_yp_targetCompletionFamily",
+    "graphExactEvalGateAtRank_of_bundle_yp_zm",
+    "graphExactEvalGateAtRank_of_bundle_zm_yp",
+]
+
 ZMTMPP_CHAIN_REQUIRED = [
     "strengthenedClosedPrefix5ZmTmppTpppEvalState",
     "strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp",
@@ -368,6 +384,11 @@ def main() -> int:
         if TARGET_COMPLETION_SHARD000_FILE.exists()
         else ""
     )
+    graph147_direct_eval_socket_text = (
+        GRAPH147_DIRECT_EVAL_SOCKET_FILE.read_text()
+        if GRAPH147_DIRECT_EVAL_SOCKET_FILE.exists()
+        else ""
+    )
     graph221_text = GRAPH221_FILE.read_text() if GRAPH221_FILE.exists() else ""
     graph183_ok, graph183_missing = contains_all(graph183_text, GRAPH183_REQUIRED)
     graph151_partial_ok, graph151_partial_missing = contains_all(
@@ -407,6 +428,12 @@ def main() -> int:
         contains_all(
             target_completion_shard000_text,
             GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED,
+        )
+    )
+    graph147_direct_eval_socket_ok, graph147_direct_eval_socket_missing = (
+        contains_all(
+            graph147_direct_eval_socket_text,
+            GRAPH147_DIRECT_EVAL_SOCKET_REQUIRED,
         )
     )
     zm_tmpp_chain_ok, zm_tmpp_chain_missing = contains_all(
@@ -591,6 +618,21 @@ def main() -> int:
                 and graph147_graph69_75_ok
                 and graph147_graph112_109_ok
                 and graph147_deterministic_target_shard_ok
+                and graph147_direct_eval_socket_ok
+            ):
+                partial_status = "partial_graph147_direct_eval_socket"
+            elif (
+                graph147_target_completion_ok
+                and graph147_suffix_ok
+                and graph147_deep_suffix_ok
+                and graph147_graph176_178_ok
+                and graph147_graph191_194_ok
+                and graph147_graph208_211_ok
+                and graph147_graph6_11_ok
+                and graph147_graph36_41_ok
+                and graph147_graph69_75_ok
+                and graph147_graph112_109_ok
+                and graph147_deterministic_target_shard_ok
             ):
                 partial_status = "partial_terminal_graph141_graph138_deterministic_target_api"
             elif (
@@ -724,13 +766,30 @@ def main() -> int:
                     symbol: symbol not in graph147_deterministic_target_shard_missing
                     for symbol in GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED
                 },
+                "direct_eval_socket_symbols": {
+                    symbol: symbol not in graph147_direct_eval_socket_missing
+                    for symbol in GRAPH147_DIRECT_EVAL_SOCKET_REQUIRED
+                },
                 "forbidden_hits": [
                     token
                     for token in FORBIDDEN
                     if token in next_frontier_text
                     or token in target_completion_shard000_text
+                    or token in graph147_direct_eval_socket_text
                 ],
                 "remaining_gap": (
+                    "graph147 now has a direct semantic eval socket for the "
+                    "yp,zm and zm,yp layer-4 branches.  The future generated "
+                    "proof target is no longer a mapped class case: it must "
+                    "prove the branch-local Graph147TargetCompletionTail and "
+                    "Graph147TargetCompletionTailRootMarginBound from the "
+                    "strengthened closed language and Depth11Layer4PrefixAtRank. "
+                    "Those two semantic fields then produce "
+                    "TopPairingGraphExactEvalGateAtRank directly.  The lane is "
+                    "still partial until those tail and margin fields are "
+                    "proved without selected-prefix or sampled-rank membership."
+                    if graph147_direct_eval_socket_ok
+                    else (
                     "graph147 now reaches terminal graph states 141 and 138 "
                     "and the bounded shard exposes a deterministic "
                     "nextTarget? API from semantic shard states to either the "
@@ -834,6 +893,7 @@ def main() -> int:
                         "and tmmp.  The lane still needs deterministic suffix "
                         "continuations from graph153 and graph155 before it "
                         "becomes a terminal semantic gate."
+                    )
                     )
                     )
                     )

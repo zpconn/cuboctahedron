@@ -105710,6 +105710,124 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 graph147 direct eval socket accepted
+
+The latest GPT5.5 Pro guidance has been applied to the graph147 lane: keep the
+Bellman target-completion evaluator, but stop routing the `yp,zm` / `zm,yp`
+branches through mapped class cases.  The new direct socket is:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+It exposes the production-shaped semantic family target:
+
+```lean
+structure StrengthenedGraph147YpZmTargetCompletionFamily
+structure StrengthenedGraph147ZmYpTargetCompletionFamily
+structure StrengthenedGraph147TargetCompletionBundle
+
+theorem graphExactEvalGateAtRank_of_yp_zm_targetCompletionFamily
+theorem graphExactEvalGateAtRank_of_zm_yp_targetCompletionFamily
+theorem graphExactEvalGateAtRank_of_bundle_yp_zm
+theorem graphExactEvalGateAtRank_of_bundle_zm_yp
+```
+
+For each branch, a future generated or hand proof must provide exactly:
+
+```lean
+Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest
+-- or
+Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest
+
+Graph147TargetCompletionTail rest
+Graph147TargetCompletionTailRootMarginBound scaledMargin rank (-53) rest
+```
+
+from `TopPairingStrengthenedClosedLanguageAtRank`.  Those two semantic fields
+then produce:
+
+```lean
+TopPairingGraphExactEvalGateAtRank
+  (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+  strengthenedClosedEvalNext
+  (fun face : Face => face)
+  strengthenedClosedEvalStart
+  (176 : Int)
+  scaledMargin
+  rank
+  Face.ym
+```
+
+This is intentionally not a full lane proof yet.  It is the smallest honest
+non-sampled graph147 target: no selected-prefix ids, sampled ranks,
+accepted-trace ids, exact affine keys, or raw path tables.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket
+```
+
+Result:
+
+```text
+pass; elapsed=10.01s; peak_tree_rss=3987 MiB; min_available=46127 MiB
+```
+
+Narrow forbidden-token scan:
+
+```bash
+grep -nE "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+Result:
+
+```text
+pass; no matches
+```
+
+Readiness audit:
+
+```bash
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+yp_zm.status = partial_graph147_direct_eval_socket
+zm_yp.status = partial_graph147_direct_eval_socket
+direct_eval_socket_symbols.* = true
+forbidden_hits = []
+```
+
+Next graph147 step:
+
+```lean
+theorem graph147_tail_and_margin_of_strengthened_closed_yp_zm
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest) :
+    Graph147TargetCompletionTail rest ∧
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53) rest
+```
+
+and the analogous `zm,yp` theorem.  If either theorem needs sampled ranks,
+selected prefixes, accepted-trace ids, exact affine RHS keys, exact solved start
+points, or one branch per observed path, stop graph147 scaling and run the
+cocycle/cancellation-summary quotient experiment.
+
 ### 2026-07-05 graph153/155 through terminal graph141/138 local tables accepted
 
 The shared graph147 lane for `yp_zm` / `zm_yp` has advanced one more
