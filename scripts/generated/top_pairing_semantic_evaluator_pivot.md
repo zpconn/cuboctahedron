@@ -29,7 +29,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
 | `graph183_tail_table_socket` | `1392` | none |
-| `graph183_quotient_margin_socket` | `1063` | none |
+| `graph183_quotient_margin_socket` | `1132` | none |
 | `closed_bellman_strengthened_semantic_gate_socket` | `223` | none |
 | `graph183_accepted_branch_quotient` | `97` | none |
 | `graph183_cocycle_quotient_smoke` | `1803` | none |

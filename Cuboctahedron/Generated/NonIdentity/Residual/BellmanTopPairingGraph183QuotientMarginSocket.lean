@@ -290,6 +290,75 @@ def Graph183TailQuotientEvalMarginLanguageBound
           graphConst + result.2
 
 /--
+The graph183 semantic object already determines the deterministic evaluator
+result through its branch prefix.
+-/
+theorem graph183TailQuotientMarginEvalObj_eval
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (obj : Graph183TailQuotientMarginEvalObj sequenceBadFace) :
+    evalLabelStepFn closedBellmanNext graphRoot
+        (Graph183TailQuotientMarginEvalObj.labels obj) =
+      some (126, ((194 : Int) + (-542 : Int))) := by
+  simpa [Graph183TailQuotientMarginEvalObj.labels] using
+    graph183AcceptedBranchEval_of_prefix obj.branchPrefix
+
+/--
+The truly remaining graph183 accepted-tail producer target: prove the semantic
+scaled-margin inequality for every graph183 object.
+
+Evaluator membership is supplied by `graph183TailQuotientMarginEvalObj_eval`;
+this target isolates the geometric/cocycle margin proof.
+-/
+def Graph183TailQuotientObjectMarginBound
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop :=
+  forall obj : Graph183TailQuotientMarginEvalObj sequenceBadFace,
+    Graph183TailQuotientMarginEvalObj.scaledMargin scaledMargin obj <=
+      graphConst + graph183AcceptedBranchRawGain
+
+/--
+Package the object-margin theorem as a deterministic eval-margin language
+bound.
+-/
+def graph183TailQuotientEvalMarginLanguageBound_of_objectMarginBound
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hbound :
+      Graph183TailQuotientObjectMarginBound
+        sequenceBadFace scaledMargin) :
+    Graph183TailQuotientEvalMarginLanguageBound sequenceBadFace scaledMargin :=
+  by
+    intro obj
+    refine ⟨(126, ((194 : Int) + (-542 : Int))), ?_, ?_⟩
+    · exact graph183TailQuotientMarginEvalObj_eval obj
+    · have hmargin := hbound obj
+      simpa [Graph183TailQuotientMarginEvalObj.scaledMargin,
+        graph183AcceptedBranchRawGain_contract] using hmargin
+
+/--
+Package the object-margin theorem directly as the graph183 eval-margin family.
+-/
+def graph183TailQuotientMarginEvalFamily_of_objectMarginBound
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hbound :
+      Graph183TailQuotientObjectMarginBound
+        sequenceBadFace scaledMargin) :
+    Graph183TailQuotientMarginEvalFamily sequenceBadFace scaledMargin where
+  eval_margin_yp_branch := by
+    intro rank hstrengthened hprefix
+    let obj : Graph183TailQuotientMarginEvalObj sequenceBadFace :=
+      { rank := rank
+        strengthened := hstrengthened
+        branchPrefix := hprefix }
+    refine ⟨(126, ((194 : Int) + (-542 : Int))), ?_, ?_⟩
+    · simpa [obj, Graph183TailQuotientMarginEvalObj.labels] using
+        graph183TailQuotientMarginEvalObj_eval obj
+    · have hmargin := hbound obj
+      simpa [obj, Graph183TailQuotientMarginEvalObj.scaledMargin,
+        graph183AcceptedBranchRawGain_contract] using hmargin
+
+/--
 Package a semantic object-language eval-margin theorem as the graph183
 eval-margin family consumed by the quotient-margin socket.
 -/

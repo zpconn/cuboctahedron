@@ -111618,6 +111618,99 @@ producer proving that language theorem from target-shadow cursor, tri-source /
 cancellation progress, square-gap/local-axis facts, and checked cocycle/gauge
 margin equations.
 
+### 2026-07-05 graph183 object-margin target isolates the real producer
+
+The graph183 accepted-tail object now proves its own deterministic evaluator
+result from the branch prefix:
+
+```lean
+graph183TailQuotientMarginEvalObj_eval
+```
+
+and the socket exposes the truly remaining margin theorem:
+
+```lean
+Graph183TailQuotientObjectMarginBound sequenceBadFace scaledMargin
+```
+
+with adapters:
+
+```lean
+graph183TailQuotientEvalMarginLanguageBound_of_objectMarginBound
+graph183TailQuotientMarginEvalFamily_of_objectMarginBound
+```
+
+Interpretation:
+
+```text
+semantic graph183 object + branch prefix
+  -> deterministic closedBellmanNext eval result
+object-margin bound
+  -> eval-margin language bound
+  -> Graph183TailQuotientMarginEvalFamily
+  -> Graph183TailQuotientMarginFamily
+  -> Graph183TailQuotientMarginSequenceBadFace
+```
+
+Therefore the next producer should not prove evaluator membership again.  It
+should prove only:
+
+```lean
+forall obj : Graph183TailQuotientMarginEvalObj sequenceBadFace,
+  scaledMargin obj.rank <= graphConst + graph183AcceptedBranchRawGain
+```
+
+from semantic target-shadow / tri-source / cancellation progress and checked
+cocycle or segment margin equations.
+
+Focused guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 --min-available-mib 30000 \
+  --timeout-seconds 240 --hard-address-space-mib 7000 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 3.01s
+peak RSS = 3595 MiB
+min available = 46331 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_graph183_carrier_producer_readiness.py \
+  scripts/audit_latest_bellman_semantic_pivot.py \
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py \
+  scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+```
+
+Results:
+
+```text
+graph183 carrier decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+```
+
 ### 2026-07-05 strengthened step-run to exact-eval gate
 
 GPT5.5's latest review tightened the Bellman go/no-go condition: keep

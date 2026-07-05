@@ -39,9 +39,9 @@ observed path remains a no-go.
 | `quotient_states` | `43` |
 | `quotient_edges` | `93` |
 | `quotient_max_bit_length` | `9` |
-| `guard_elapsed_seconds` | `3.002463420998538` |
-| `guard_peak_rss_mib` | `3581.33984375` |
-| `guard_min_available_mib` | `46338.9296875` |
+| `guard_elapsed_seconds` | `3.0123432210239116` |
+| `guard_peak_rss_mib` | `3595.2265625` |
+| `guard_min_available_mib` | `46331.5625` |
 | `closed_semantic_gate_guard_elapsed_seconds` | `3.0027096020057797` |
 | `closed_semantic_gate_guard_peak_rss_mib` | `3719.16015625` |
 | `closed_semantic_gate_guard_min_available_mib` | `46322.6328125` |
@@ -58,7 +58,11 @@ observed path remains a no-go.
 | `socket:symbol:Graph183TailQuotientMarginEvalFamily` | `True` | `Graph183TailQuotientMarginEvalFamily` |
 | `socket:symbol:Graph183TailQuotientMarginEvalObj` | `True` | `Graph183TailQuotientMarginEvalObj` |
 | `socket:symbol:Graph183TailQuotientEvalMarginLanguageBound` | `True` | `Graph183TailQuotientEvalMarginLanguageBound` |
+| `socket:symbol:graph183TailQuotientMarginEvalObj_eval` | `True` | `graph183TailQuotientMarginEvalObj_eval` |
+| `socket:symbol:Graph183TailQuotientObjectMarginBound` | `True` | `Graph183TailQuotientObjectMarginBound` |
+| `socket:symbol:graph183TailQuotientEvalMarginLanguageBound_of_objectMarginBound` | `True` | `graph183TailQuotientEvalMarginLanguageBound_of_objectMarginBound` |
 | `socket:symbol:graph183TailQuotientMarginEvalFamily_of_evalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_evalLanguageBound` |
+| `socket:symbol:graph183TailQuotientMarginEvalFamily_of_objectMarginBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_objectMarginBound` |
 | `socket:symbol:graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` |
 | `socket:symbol:Graph183TailExactEvalSequenceBadFace` | `True` | `Graph183TailExactEvalSequenceBadFace` |
 | `socket:symbol:graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate` | `True` | `graph183TailExactEvalSequenceBadFace_of_strengthenedGraphExactEvalGate` |
@@ -145,8 +149,8 @@ observed path remains a no-go.
 | `quotient_1m:solution_exists` | `True` | `['gauge', 'gauge_count', 'max_bit_length', 'nonzero_values', 'small_gain_count', 'small_gains']` |
 | `quotient_1m:bit_length_under_16` | `True` | `9` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
-| `socket_guard:rss_under_6500_mib` | `True` | `3581.33984375` |
-| `socket_guard:available_above_30000_mib` | `True` | `46338.9296875` |
+| `socket_guard:rss_under_6500_mib` | `True` | `3595.2265625` |
+| `socket_guard:available_above_30000_mib` | `True` | `46331.5625` |
 | `closed_semantic_gate_guard:guard_exit_zero` | `True` | `0` |
 | `closed_semantic_gate_guard:rss_under_6500_mib` | `True` | `3719.16015625` |
 | `closed_semantic_gate_guard:available_above_30000_mib` | `True` | `46322.6328125` |
