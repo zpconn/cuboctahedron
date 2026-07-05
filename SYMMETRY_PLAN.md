@@ -105111,6 +105111,102 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 graph147 ranked transducer socket accepted
+
+GPT5.5's latest recommendation is now reflected in the graph147 route:
+keep Bellman, but stop treating selected-prefix membership as the production
+surface.  The accepted socket makes the next generated theorem a deterministic
+semantic transducer theorem over the strengthened closed language.
+
+New Lean surface in
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean`:
+
+```lean
+structure StrengthenedGraph147RankedTransducerInvariantFamily
+def graphExactEvalGate_of_rankedTransducerInvariantFamily
+def rootMarginBundle_of_rankedTransducerInvariantFamily
+```
+
+The shape is intentionally Prop-valued.  `Inv` and `SuffixOk` are parameters,
+not data fields, so future producers expose proof fields only:
+
+- start invariant;
+- strengthened-rank suffix start;
+- semantic local step closure;
+- final potential and root-margin bound.
+
+This avoids sampled ranks, selected-prefix ids, accepted trace ids, path
+tables, exact affine keys, and one-branch-per-observed-path membership.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_transducer_socket_guard.json \
+  --verbose -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket
+```
+
+Result:
+
+```text
+pass; elapsed=4.00s; peak_tree_rss=3708.6 MiB; min_available=46250.6 MiB
+```
+
+Audit and forbidden-token checks:
+
+```bash
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean \
+  scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+py_compile: pass
+forbidden-token scan: pass; no matches
+yp_zm.direct_eval_socket_symbols.StrengthenedGraph147RankedTransducerInvariantFamily = true
+yp_zm.direct_eval_socket_symbols.rootMarginBundle_of_rankedTransducerInvariantFamily = true
+yp_zm.status = partial_graph147_direct_eval_socket
+zm_yp.status = partial_graph147_direct_eval_socket
+overall audit status = validated_lanes_remaining_lanes_missing
+```
+
+Implementation note: the first compile attempt rejected a Prop-valued structure
+that stored `Inv` and `SuffixOk` as fields, and the second rejected the field
+name `local` because it is a Lean command keyword.  The accepted shape uses
+`Inv`/`SuffixOk` as parameters and the field name `localStep`.
+
+Current graph147 route:
+
+1. Prove
+   `StrengthenedGraph147RankedTransducerInvariantFamily Inv SuffixOk
+   scaledMargin sequenceBadFace` for the graph147 strengthened closed
+   language.
+2. Apply `graphExactEvalGate_of_rankedTransducerInvariantFamily`, which
+   instantiates
+   `strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix`.
+3. Apply `rootMarginBundle_of_rankedTransducerInvariantFamily`, which adapts
+   the graph-exact eval gate into the existing graph147 root-margin bundle.
+
+Remaining hard gap:
+
+- Build the actual `Inv`/ranked-`SuffixOk` local-step theorem from target-shadow
+  cursor, square-gap/schedule, local-axis, pair-count, and graph147 Bellman
+  state semantics.
+- The proof must case-split on semantic state/face transitions.  If it needs
+  sampled ranks, selected prefixes, accepted traces, exact affine RHS, or
+  observed path classes, stop and run the cocycle/cancellation-summary quotient
+  experiment before adding more membership keys.
+
 ### 2026-07-05 graph147 deterministic-transducer pivot and full-potential checkpoint
 
 The latest GPT5.5 Pro guidance has been folded into the active graph147 route.

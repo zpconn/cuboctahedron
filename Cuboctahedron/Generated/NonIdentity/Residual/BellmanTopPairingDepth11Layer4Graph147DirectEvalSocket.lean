@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000
+import Cuboctahedron.Search.TopPairingTransducerSemanticGate
 
 /-!
 Graph-147 direct semantic eval socket for the layer-4 Bellman route.
@@ -380,6 +381,129 @@ def rootMarginBundle_of_graphExactEvalGate
       scaledMargin sequenceBadFace :=
   rootMarginBundle_of_fullRootMarginBundle
     (fullRootMarginBundle_of_graphExactEvalGate hgate)
+
+/--
+Graph-147 ranked transducer invariant producer surface.
+
+This is the semantic replacement for selected-prefix membership.  A future
+generated module should prove the four fields below from the strengthened
+closed language:
+
+* the start state is in the invariant;
+* every strengthened rank starts with a rank-indexed suffix certificate;
+* every semantic head step advances the deterministic evaluator; and
+* every accepted final state gives the graph potential and root margin facts.
+
+The record contains no sampled ranks, accepted trace ids, path tables, exact
+affine keys, or selected-prefix disjunctions.
+-/
+structure StrengthenedGraph147RankedTransducerInvariantFamily
+    (Inv :
+      TopPairingTransducerEvalState StrengthenedClosedEvalState -> Prop)
+    (SuffixOk :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  start :
+    Inv (TopPairingTransducerEvalState.start strengthenedClosedEvalStart)
+  suffixStart :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        SuffixOk rank
+          (TopPairingTransducerEvalState.start strengthenedClosedEvalStart)
+          (topPairingRankFaceLabels rank)
+  localStep :
+    ∀ {rank : Fin numPairWords}
+      {state : TopPairingTransducerEvalState StrengthenedClosedEvalState}
+      {face : Face} {rest : List Face},
+      Inv state ->
+      state.Tail (face :: rest) ->
+      SuffixOk rank state (face :: rest) ->
+        ∃ nextState gain,
+          TopPairingTransducerEvalState.next?
+              strengthenedClosedEvalNext (fun face : Face => face)
+              state face =
+            some (nextState, gain) ∧
+          nextState.Tail rest ∧ Inv nextState ∧
+            SuffixOk rank nextState rest
+  finish :
+    ∀ {rank : Fin numPairWords}
+      {finish : TopPairingTransducerEvalState StrengthenedClosedEvalState}
+      {gain : Int},
+      evalLabelStepFn
+          (TopPairingTransducerEvalState.next?
+            strengthenedClosedEvalNext (fun face : Face => face))
+          (TopPairingTransducerEvalState.start strengthenedClosedEvalStart)
+          (topPairingRankFaceLabels rank) =
+        some (finish, gain) ->
+      finish.Tail [] ->
+      Inv finish ->
+      SuffixOk rank finish [] ->
+        0 <= graphPotential finish.graph.graph ∧
+          scaledMargin rank <= (176 : Int) + gain
+
+def graphExactEvalGate_of_rankedTransducerInvariantFamily
+    {Inv :
+      TopPairingTransducerEvalState StrengthenedClosedEvalState -> Prop}
+    {SuffixOk :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedTransducerInvariantFamily
+        Inv SuffixOk scaledMargin sequenceBadFace) :
+    TopPairingStrengthenedToGraphExactEvalGate
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      (fun face : Face => face)
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      sequenceBadFace
+      Face.ym :=
+  strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+    (State := StrengthenedClosedEvalState)
+    (Label := Face)
+    (V := fun state : StrengthenedClosedEvalState =>
+      graphPotential state.graph)
+    (next := strengthenedClosedEvalNext)
+    (labelOfFace := fun face : Face => face)
+    (graphStart := strengthenedClosedEvalStart)
+    (const := (176 : Int))
+    (scaledMargin := scaledMargin)
+    (sequenceBadFace := sequenceBadFace)
+    (badFace := Face.ym)
+    Inv SuffixOk hfamily.start hfamily.suffixStart
+    (by
+      intro rank state face rest hinv htail hsuffix
+      exact hfamily.localStep (rank := rank) (state := state)
+        (face := face) (rest := rest) hinv htail hsuffix)
+    (by
+      intro rank finish gain heval htail hinv hsuffix
+      exact hfamily.finish (rank := rank) (finish := finish)
+        (gain := gain) heval htail hinv hsuffix)
+
+def rootMarginBundle_of_rankedTransducerInvariantFamily
+    {Inv :
+      TopPairingTransducerEvalState StrengthenedClosedEvalState -> Prop}
+    {SuffixOk :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedTransducerInvariantFamily
+        Inv SuffixOk scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin sequenceBadFace :=
+  rootMarginBundle_of_graphExactEvalGate
+    (graphExactEvalGate_of_rankedTransducerInvariantFamily hfamily)
 
 private theorem graph147YpZm_usedFaceTail_of_strengthened_prefix
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
