@@ -1398,6 +1398,62 @@ theorem graphExactEvalGateAtRank_of_rootMarginBundle_zm_yp
   graphExactEvalGateAtRank_of_zm_yp_rootMarginFamily
     hbundle.zm_yp hstrengthened hprefix
 
+/--
+Graph-exact branch producer for the two graph-147 layer-4 lanes.
+
+This is the branch-level result a semantic margin producer should feed into the
+larger layer-4 portfolio.  It deliberately covers only the graph-147 branches;
+the other layer-4 lanes remain separate producer obligations.
+-/
+structure StrengthenedGraph147GraphExactBranchBundle
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  yp_zm :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+      TopPairingGraphExactEvalGateAtRank
+        (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+        strengthenedClosedEvalNext
+        (fun face : Face => face)
+        strengthenedClosedEvalStart
+        (176 : Int)
+        scaledMargin
+        rank
+        Face.ym
+  zm_yp :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+      TopPairingGraphExactEvalGateAtRank
+        (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+        strengthenedClosedEvalNext
+        (fun face : Face => face)
+        strengthenedClosedEvalStart
+        (176 : Int)
+        scaledMargin
+        rank
+        Face.ym
+
+def graphExactBranchBundle_of_rootMarginBundle
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hbundle :
+      StrengthenedGraph147RootMarginBundle
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147GraphExactBranchBundle
+      scaledMargin sequenceBadFace where
+  yp_zm := by
+    intro rank rest hstrengthened hprefix
+    exact graphExactEvalGateAtRank_of_rootMarginBundle_yp_zm
+      hbundle hstrengthened hprefix
+  zm_yp := by
+    intro rank rest hstrengthened hprefix
+    exact graphExactEvalGateAtRank_of_rootMarginBundle_zm_yp
+      hbundle hstrengthened hprefix
+
 theorem graph147DirectEvalSocket_builds : True := by
   exact True.intro
 

@@ -105275,6 +105275,70 @@ status = ready_for_ranked_transducer_invariant_producer
 forbidden_hits = []
 ```
 
+Follow-up graph-exact branch package:
+
+```lean
+structure StrengthenedGraph147GraphExactBranchBundle
+def graphExactBranchBundle_of_rootMarginBundle
+```
+
+This packages the two graph147 layer-4 lanes as graph-exact branch producers:
+
+```lean
+yp_zm :
+  TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym ->
+  Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+  TopPairingGraphExactEvalGateAtRank ... scaledMargin rank Face.ym
+
+zm_yp :
+  TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym ->
+  Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+  TopPairingGraphExactEvalGateAtRank ... scaledMargin rank Face.ym
+```
+
+and proves it from:
+
+```lean
+StrengthenedGraph147RootMarginBundle
+```
+
+Meaning: the graph147 production split is now explicit.  A future generated
+margin theorem should target `StrengthenedGraph147RootMarginBundle`; the
+checked adapters then provide the graph-exact gates for the two graph147
+branches.  The package still intentionally covers only `yp,zm` and `zm,yp`.
+The remaining five layer-4 branches need their own producers or a portfolio
+root that combines them.
+
+Focused hard-capped check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_graph_exact_branch_bundle_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+Result:
+
+```text
+pass; elapsed=5.00s; peak_tree_rss=3918 MiB; hard_as=8192 MiB;
+min_available=46233 MiB
+```
+
+Updated audit result:
+
+```text
+socket.StrengthenedGraph147GraphExactBranchBundle = true
+socket.graphExactBranchBundle_of_rootMarginBundle = true
+status = ready_for_ranked_transducer_invariant_producer
+forbidden_hits = []
+```
+
 ### 2026-07-05 graph147 ranked transducer socket accepted
 
 GPT5.5's latest recommendation is now reflected in the graph147 route:

@@ -17,6 +17,8 @@
 - `graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix`: `true`
 - `StrengthenedGraph147BranchSuffixStartBundle`: `true`
 - `strengthenedGraph147BranchSuffixStartBundle`: `true`
+- `StrengthenedGraph147GraphExactBranchBundle`: `true`
+- `graphExactBranchBundle_of_rootMarginBundle`: `true`
 
 ## Semantic Inputs
 
