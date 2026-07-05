@@ -105246,6 +105246,54 @@ Go/no-go rule for the next slice:
   observed path.  If that happens, stop graph147 scaling and run the
   cocycle/cancellation-summary quotient experiment.
 
+### 2026-07-05 target-shadow cursor core rechecked
+
+The GPT5.5 pivot asks for a deterministic semantic route from the closed
+top-pairing language to the Bellman evaluator, with target-shadow/cancellation
+cursor state replacing selected-prefix membership.  The core target-shadow
+inverse and cursor machinery is already implemented in:
+
+```text
+Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+Accepted theorem surface:
+
+```lean
+theorem topPairingTargetShadow_of_summary
+theorem topPairingTriShadow_eq_target
+theorem topPairingTriShadow_eq_target_of_closed
+theorem topPairingActedTriLetters_eq_target_of_closed
+inductive TopPairingTriCursorFrom
+abbrev TopPairingTargetCursorAtRank
+theorem topPairingTriCursor_of_closed
+structure TopPairingStartMissSemanticLanguageAtRank
+theorem topPairingStartMissSemanticLanguage_of_closed
+```
+
+This means the target summary is already inverted into the exact target shadow,
+and `TopPairingClosedLanguageAtRank` already supplies a compact
+`TopPairingTargetCursorAtRank rank`.  The remaining graph147 task is therefore
+not to prove a new target-shadow theorem, but to consume this cursor together
+with schedule/square-gap/local-axis fields to build the deterministic
+`ShardTargetSuffixOk`/`evalLabelStepFn` gate.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.TopPairingTargetCursor
+```
+
+Result:
+
+```text
+pass; elapsed=3.00s; peak_tree_rss=763 MiB; min_available=46497 MiB
+```
+
 ### 2026-07-05 graph221 promoted: target-completion excludes the blocked prefix
 
 The graph221 pivot produced a better result than expected.  The previously
