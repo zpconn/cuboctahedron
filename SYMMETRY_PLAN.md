@@ -105220,7 +105220,7 @@ Result:
 pass; no matches
 ```
 
-### 2026-07-05 graph153/155 through graph36/41 target-completion continuation accepted
+### 2026-07-05 graph153/155 through graph69/75 target-completion continuation accepted
 
 The shared graph147 lane for `yp_zm` / `zm_yp` has advanced one more
 deterministic semantic step without selected-prefix, sampled-rank,
@@ -105249,7 +105249,7 @@ def strengthenedPrefix5Graph155TargetCompletionLocalBranchTable :
 
 The refreshed generated target-completion shard now has five states and six
 branches before the graph163/166 extension.  The newest refreshed shard now
-has seventeen states and eighteen branches.  It packages:
+has nineteen states and twenty branches.  It packages:
 
 - graph147: `zp -> graph153`, `tmmp -> graph155`;
 - graph153: `tmmm -> graph163`;
@@ -105266,6 +105266,8 @@ has seventeen states and eighteen branches.  It packages:
 - graph11: `tmpm -> graph41`;
 - graph36: `tmpp -> graph69`;
 - graph41: `tmmm -> graph75`;
+- graph69: `tmmp -> graph112`;
+- graph75: `zp -> graph109`;
 - graph150 and graph151 as before.
 
 Focused guarded checks:
@@ -105348,6 +105350,14 @@ min_available=43926 MiB
 
 TargetCompletionLocalBranchTableShard000: pass; elapsed=3.00s;
 peak_tree_rss=4030 MiB; min_available=46117 MiB
+
+After the graph69/75 extension:
+
+NextFrontierSmoke: pass; elapsed=59.04s; peak_tree_rss=6047 MiB;
+min_available=43794 MiB
+
+TargetCompletionLocalBranchTableShard000: pass; elapsed=3.00s;
+peak_tree_rss=4028 MiB; min_available=46120 MiB
 ```
 
 Readiness audit:
@@ -105361,15 +105371,15 @@ Result:
 ```text
 validated_lanes = [tmpm_zm, zm_tmpp]
 partial_lanes = [yp_zm, zm_yp]
-yp_zm.status = partial_graph36_graph41_target_completion_local_table
-zm_yp.status = partial_graph36_graph41_target_completion_local_table
+yp_zm.status = partial_graph69_graph75_target_completion_local_table
+zm_yp.status = partial_graph69_graph75_target_completion_local_table
 forbidden_hits = []
 ```
 
 Next slice:
 
 1. Continue the same deterministic target-completion/evaluator pattern from
-   graph69 and graph75.
+   graph112 and graph109.
 2. Stop immediately if the proof wants selected prefixes, sampled ranks,
    accepted trace IDs, exact affine keys, or one branch per observed path.
 3. If target-completion alone stops being deterministic, add only semantic
