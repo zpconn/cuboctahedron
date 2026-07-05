@@ -96,6 +96,10 @@ ZMTMPP_CHAIN_REQUIRED = [
 GRAPH221_FILTERED_REQUIRED = [
     "graph221TargetCompletionState",
     "Graph221TargetCompletionTail",
+    "graph221StrengthenedEvalState_next",
+    "graph221YpStrengthenedEvalState_next",
+    "graph221YpTmpmStrengthenedEvalState_next",
+    "graph221YpTmpmStrengthenedEvalState_zp_none",
     "graph221_head_of_targetCompletionTail",
     "graph221_yp_tmpm_head_of_targetCompletionTail",
     "graph221AcceptedTailSuffixOk",

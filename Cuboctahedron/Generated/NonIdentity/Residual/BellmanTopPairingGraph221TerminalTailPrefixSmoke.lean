@@ -48,6 +48,51 @@ def graph221TargetCompletionState : TopPairingTargetCompletionState :=
 abbrev Graph221TargetCompletionTail (labels : List Face) : Prop :=
   TopPairingTargetCompletionTail graph221TargetCompletionState labels
 
+def graph221StrengthenedEvalState : StrengthenedClosedEvalState :=
+  match strengthenedClosedEvalNext
+      strengthenedClosedPrefix8ZmTmppTpppTpmpTppmTmmpEvalState
+      Face.tpmm with
+  | some (state, _gain) => state
+  | none => strengthenedClosedPrefix8ZmTmppTpppTpmpTppmTmmpEvalState
+
+theorem graph221StrengthenedEvalState_next :
+    strengthenedClosedEvalNext
+        strengthenedClosedPrefix8ZmTmppTpppTpmpTppmTmmpEvalState
+        Face.tpmm =
+      some (graph221StrengthenedEvalState, (-36 : Int)) := by
+  rfl
+
+def graph221YpStrengthenedEvalState : StrengthenedClosedEvalState :=
+  match strengthenedClosedEvalNext graph221StrengthenedEvalState Face.yp with
+  | some (state, _gain) => state
+  | none => graph221StrengthenedEvalState
+
+theorem graph221YpStrengthenedEvalState_next :
+    strengthenedClosedEvalNext graph221StrengthenedEvalState Face.yp =
+      some (graph221YpStrengthenedEvalState, (-117 : Int)) := by
+  rfl
+
+def graph221YpTmpmStrengthenedEvalState : StrengthenedClosedEvalState :=
+  match strengthenedClosedEvalNext graph221YpStrengthenedEvalState Face.tmpm with
+  | some (state, _gain) => state
+  | none => graph221YpStrengthenedEvalState
+
+theorem graph221YpTmpmStrengthenedEvalState_next :
+    strengthenedClosedEvalNext graph221YpStrengthenedEvalState Face.tmpm =
+      some (graph221YpTmpmStrengthenedEvalState, (96 : Int)) := by
+  rfl
+
+/--
+Product-state discriminator for the graph221 branch.
+
+Target-completion alone permits a `zp` head after `yp,tmpm`, but the
+strengthened evaluator has no such Bellman graph transition.
+-/
+theorem graph221YpTmpmStrengthenedEvalState_zp_none :
+    strengthenedClosedEvalNext graph221YpTmpmStrengthenedEvalState Face.zp =
+      none := by
+  rfl
+
 private theorem no_tail_after
     {state : TopPairingTargetCompletionState} {rest : List Face}
     (hcomplete : state.canComplete = false)

@@ -104575,6 +104575,27 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   product state with Bellman graph / tri-source constraints, not from
   `TopPairingTargetCompletionTail` alone.
 
+- Product-state discriminator now checked:
+  the same module defines the strengthened eval state reached at graph221 and
+  the local `yp,tmpm` product-state successor, then proves the extra
+  target-completion head is rejected by the Bellman evaluator:
+
+  ```lean
+  graph221StrengthenedEvalState_next
+  graph221YpStrengthenedEvalState_next
+  graph221YpTmpmStrengthenedEvalState_next
+
+  theorem graph221YpTmpmStrengthenedEvalState_zp_none :
+      strengthenedClosedEvalNext graph221YpTmpmStrengthenedEvalState Face.zp =
+        none
+  ```
+
+  This is not the full suffix filter yet, but it validates the next theorem
+  surface: `graph221AcceptedTailSuffixOk` must be derived by threading a
+  suffix predicate through the strengthened product-state evaluator, using
+  `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` or the
+  existing split-10M semantic gate sockets.
+
 - Updated readiness audit:
 
   ```text
@@ -104588,6 +104609,7 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   validated_lanes = [tmpm_zm]
   partial_lanes = [zm_tmpp]
   zm_tmpp status = partial_graph221_filtered_tail_prefix_continuation
+  graph221_filtered_symbols include graph221YpTmpmStrengthenedEvalState_zp_none
   next_recommended_slice =
     derive the graph221 accepted-suffix filter from the strengthened product
     state with Bellman/tri-source constraints, then lift the zm_tmpp lane
@@ -104618,7 +104640,7 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
 
   | Check | Result | Elapsed | Peak Tree RSS | Min Available |
   | --- | --- | ---: | ---: | ---: |
-  | focused graph221 filtered continuation build | pass | `4.00s` | `4136 MiB` | `46012 MiB` |
+  | focused graph221 filtered continuation build | pass | `6.01s` | `4106 MiB` | `45998 MiB` |
   | layer-4 readiness audit | pass | n/a | n/a | n/a |
   | forbidden-token scan on touched proof surfaces | pass | n/a | n/a | n/a |
 
