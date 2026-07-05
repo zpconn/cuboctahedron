@@ -326,6 +326,11 @@
       "passed": true
     },
     {
+      "detail": "graph183QuotientRun",
+      "name": "graph183_edge_shards:symbol:graph183QuotientRun",
+      "passed": true
+    },
+    {
       "detail": "graph183QuotientEdgeShards_checked",
       "name": "graph183_edge_shards:symbol:graph183QuotientEdgeShards_checked",
       "passed": true
@@ -828,12 +833,12 @@
       "passed": true
     },
     {
-      "detail": 24995.8046875,
+      "detail": 3778.296875,
       "name": "graph183_edge_shards_lake_guard:rss_under_30000_mib",
       "passed": true
     },
     {
-      "detail": 44109.2421875,
+      "detail": 46247.83203125,
       "name": "graph183_edge_shards_lake_guard:available_above_30000_mib",
       "passed": true
     },
@@ -1014,8 +1019,8 @@
     "edge_shards_direct_guard_elapsed_seconds": 2.002471511019394,
     "edge_shards_direct_guard_peak_rss_mib": 3594.60546875,
     "edge_shards_edge_equations": 229,
-    "edge_shards_lake_guard_elapsed_seconds": 5.007934146997286,
-    "edge_shards_lake_guard_peak_rss_mib": 24995.8046875,
+    "edge_shards_lake_guard_elapsed_seconds": 5.003928599006031,
+    "edge_shards_lake_guard_peak_rss_mib": 3778.296875,
     "edge_shards_shard_count": 8,
     "graph183_start_provider_guard_elapsed_seconds": 45.05008524499135,
     "graph183_start_provider_guard_min_available_mib": 43095.3046875,

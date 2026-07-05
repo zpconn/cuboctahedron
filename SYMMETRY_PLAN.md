@@ -202,6 +202,24 @@ Immediate Bellman pivot after the latest GPT5.5 review:
 
   and exports the combined `FullStep`, `SmallStep`, and
   `graph183QuotientStep` theorem over all `229` local quotient equations.
+  It also exports:
+
+  ```lean
+  graph183QuotientRun :
+    BellmanLabelStepRun FullStep s t labels rawGain ->
+      exists smallGainValue,
+        BellmanLabelStepRun SmallStep
+          (graph183QuotientQ s) (graph183QuotientQ t)
+          labels smallGainValue /\
+        rawGain =
+          smallGainValue + graph183QuotientGauge t -
+            graph183QuotientGauge s
+  ```
+
+  This is just the existing generic
+  `BellmanLabelStepRun.quotient_of_step_gain_eq` specialized to the sharded
+  graph183 edge relation.  It is the usable run-level surface for future
+  target-shadow/ranked-transducer producers.
 
 - Commands:
 
@@ -264,15 +282,15 @@ BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean
 
   aggregate Lake build:
     exit = 0
-    elapsed = 5.01s
-    peak RSS = 24996 MiB
-    min available = 44109 MiB
+    elapsed = 5.00s
+    peak RSS = 3778 MiB
+    min available = 46247 MiB
 
   aggregate direct check after .oleans:
     exit = 0
     elapsed = 2.00s
-    peak RSS = 3595 MiB
-    min available = 46362 MiB
+    peak RSS = 3553 MiB
+    min available = 46344 MiB
 
   graph183 carrier readiness audit:
     exit = 0

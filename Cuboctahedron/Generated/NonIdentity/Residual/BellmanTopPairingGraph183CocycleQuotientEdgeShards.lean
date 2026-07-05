@@ -65,6 +65,18 @@ theorem graph183QuotientStep
   refine ⟨smallGainValue, ?_, heq⟩
   exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (hsmall)))))))
 
+theorem graph183QuotientRun
+    {s t : Nat} {labels : List Nat} {rawGain : Int}
+    (hrun : BellmanLabelStepRun FullStep s t labels rawGain) :
+    exists smallGainValue,
+      BellmanLabelStepRun SmallStep
+          (graph183QuotientQ s) (graph183QuotientQ t)
+          labels smallGainValue /\
+        rawGain = smallGainValue + graph183QuotientGauge t -
+          graph183QuotientGauge s :=
+  BellmanLabelStepRun.quotient_of_step_gain_eq
+    graph183QuotientStep hrun
+
 theorem graph183QuotientEdgeShards_checked : True := by
   have h000 := Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard000.graph183QuotientEdgeShard000_checked
   have h001 := Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183CocycleQuotientEdgeShard001.graph183QuotientEdgeShard001_checked

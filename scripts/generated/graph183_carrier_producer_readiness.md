@@ -58,8 +58,8 @@ observed path remains a no-go.
 | `quotient_max_bit_length` | `9` |
 | `edge_shards_edge_equations` | `229` |
 | `edge_shards_shard_count` | `8` |
-| `edge_shards_lake_guard_elapsed_seconds` | `5.007934146997286` |
-| `edge_shards_lake_guard_peak_rss_mib` | `24995.8046875` |
+| `edge_shards_lake_guard_elapsed_seconds` | `5.003928599006031` |
+| `edge_shards_lake_guard_peak_rss_mib` | `3778.296875` |
 | `edge_shards_core_guard_elapsed_seconds` | `2.0021651900024153` |
 | `edge_shards_core_guard_peak_rss_mib` | `3547.88671875` |
 | `edge_shards_direct_guard_elapsed_seconds` | `2.002471511019394` |
@@ -156,6 +156,7 @@ observed path remains a no-go.
 | `graph183_edge_shards:symbol:FullStep` | `True` | `FullStep` |
 | `graph183_edge_shards:symbol:SmallStep` | `True` | `SmallStep` |
 | `graph183_edge_shards:symbol:graph183QuotientStep` | `True` | `graph183QuotientStep` |
+| `graph183_edge_shards:symbol:graph183QuotientRun` | `True` | `graph183QuotientRun` |
 | `graph183_edge_shards:symbol:graph183QuotientEdgeShards_checked` | `True` | `graph183QuotientEdgeShards_checked` |
 | `graph183_edge_shards_core:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientCore.lean` |
 | `graph183_edge_shards_core:symbol:graph183QuotientQ` | `True` | `graph183QuotientQ` |
@@ -255,8 +256,8 @@ observed path remains a no-go.
 | `quotient_1m:solution_exists` | `True` | `['gauge', 'gauge_count', 'max_bit_length', 'nonzero_values', 'small_gain_count', 'small_gains']` |
 | `quotient_1m:bit_length_under_16` | `True` | `9` |
 | `graph183_edge_shards_lake_guard:guard_exit_zero` | `True` | `0` |
-| `graph183_edge_shards_lake_guard:rss_under_30000_mib` | `True` | `24995.8046875` |
-| `graph183_edge_shards_lake_guard:available_above_30000_mib` | `True` | `44109.2421875` |
+| `graph183_edge_shards_lake_guard:rss_under_30000_mib` | `True` | `3778.296875` |
+| `graph183_edge_shards_lake_guard:available_above_30000_mib` | `True` | `46247.83203125` |
 | `graph183_edge_shards_core_guard:guard_exit_zero` | `True` | `0` |
 | `graph183_edge_shards_core_guard:rss_under_6500_mib` | `True` | `3547.88671875` |
 | `graph183_edge_shards_core_guard:available_above_30000_mib` | `True` | `46364.0390625` |

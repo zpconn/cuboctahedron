@@ -175,6 +175,7 @@ REQUIRED_GRAPH183_EDGE_SHARDS_SYMBOLS = [
     "FullStep",
     "SmallStep",
     "graph183QuotientStep",
+    "graph183QuotientRun",
     "graph183QuotientEdgeShards_checked",
 ]
 
