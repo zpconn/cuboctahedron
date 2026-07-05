@@ -42,6 +42,9 @@ TRANSDUCER_TAIL = ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean"
 TRANSDUCER_EVAL = ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean"
 TRANSDUCER_GATE = ROOT / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean"
 GAUGE_AUDIT = ROOT / "scripts/generated/graph147_gauge_corrected_potential_0_10M.json"
+COCYCLE_QUOTIENT_AUDIT = (
+    ROOT / "scripts/generated/graph147_cocycle_quotient_potential_0_10M.json"
+)
 
 SOCKET_SYMBOLS = [
     "StrengthenedGraph147RankedTransducerInvariantFamily",
@@ -170,6 +173,32 @@ PRODUCTION_ROUTE = {
     ),
 }
 
+PRODUCTION_PRODUCER_SYMBOL = "StrengthenedGraph147RankedShardMarginInvariantFamily"
+
+
+def lean_symbol_usages_outside_socket(symbol: str) -> list[dict[str, object]]:
+    usages: list[dict[str, object]] = []
+    root = ROOT / "Cuboctahedron"
+    if not root.exists():
+        return usages
+    for path in root.rglob("*.lean"):
+        if path == RANKED_EVAL_SOCKET:
+            continue
+        try:
+            with path.open() as handle:
+                for lineno, line in enumerate(handle, start=1):
+                    if symbol in line:
+                        usages.append(
+                            {
+                                "file": str(path.relative_to(ROOT)),
+                                "line": lineno,
+                                "text": line.strip(),
+                            }
+                        )
+        except UnicodeDecodeError:
+            continue
+    return usages
+
 
 def read(path: Path) -> str:
     return path.read_text() if path.exists() else ""
@@ -207,13 +236,26 @@ def main() -> None:
     socket_symbols = contains_all(direct_text, SOCKET_SYMBOLS)
     ranked_eval_symbols = contains_all(ranked_eval_text, RANKED_EVAL_SYMBOLS)
     gauge_data = read_json(GAUGE_AUDIT)
+    cocycle_quotient_data = read_json(COCYCLE_QUOTIENT_AUDIT)
     gauge_decision = gauge_data.get("decision")
     gauge_accepted_modes = gauge_data.get("accepted_modes", [])
+    cocycle_quotient_decision = cocycle_quotient_data.get("decision")
+    cocycle_quotient_accepted_modes = cocycle_quotient_data.get(
+        "accepted_modes", []
+    )
     graph = gauge_data.get("graph", {})
     full_graph_only = (
         gauge_decision == "full_graph_margin_candidate_only"
         and gauge_accepted_modes == ["full"]
     )
+    quotient_not_margin_complete = (
+        cocycle_quotient_decision == "no_existing_quotient_margin_candidate"
+        and cocycle_quotient_accepted_modes == []
+    )
+    producer_usages = lean_symbol_usages_outside_socket(
+        PRODUCTION_PRODUCER_SYMBOL
+    )
+    direct_margin_inv_producer_present = bool(producer_usages)
     forbidden_hits = [
         {
             "term": term,
@@ -294,17 +336,39 @@ def main() -> None:
                 "root_potential_bounds": graph.get("root_potential_bounds"),
             },
         },
+        "cocycle_quotient_audit": {
+            "file": str(COCYCLE_QUOTIENT_AUDIT.relative_to(ROOT)),
+            "decision": cocycle_quotient_decision,
+            "accepted_modes": cocycle_quotient_accepted_modes,
+            "quotient_not_margin_complete": quotient_not_margin_complete,
+        },
+        "direct_margin_inv_producer": {
+            "symbol": PRODUCTION_PRODUCER_SYMBOL,
+            "present_outside_socket": direct_margin_inv_producer_present,
+            "usages_outside_socket": producer_usages,
+            "interpretation": (
+                "No production producer has been found yet; the current Lean "
+                "surface is a socket plus adapters.  The next proof step is "
+                "to instantiate this socket from semantic margin evidence, "
+                "not to scale selected-prefix or sampled-rank traces."
+                if not direct_margin_inv_producer_present
+                else "A candidate producer usage exists outside the socket and must be audited."
+            ),
+        },
         "remaining_fields": REMAINING_FIELDS,
         "production_route": PRODUCTION_ROUTE,
         "next_step": (
-            "Generate or prove the semantic graph147 margin theorem over the "
-            "deterministic ranked evaluator result, then package it as "
-            "StrengthenedGraph147RankedEvalMarginBundle.  The theorem "
-            "must use target-shadow cursor, schedule/square-gap/local-axis "
-            "tail, pair-count/used-face facts, graph147 Bellman state "
-            "semantics, or a checked segment/cocycle quotient.  Do not use "
-            "sampled ranks, selected prefixes, accepted trace ids, exact "
-            "affine keys, or per-observed-path membership."
+            "Generate or prove the semantic graph147 margin invariant "
+            "producer.  The immediate target is an instance of "
+            "StrengthenedGraph147RankedShardMarginInvariantFamily, whose "
+            "MarginInv is driven by target-shadow cursor, schedule/"
+            "square-gap/local-axis tail, pair-count/used-face facts, "
+            "graph147 Bellman state semantics, or a checked segment/cocycle "
+            "quotient.  The existing gauge-corrected full graph is only a "
+            "diagnostic candidate; the existing quotient audit says no "
+            "coarser quotient is margin-complete yet.  Do not use sampled "
+            "ranks, selected prefixes, accepted trace ids, exact affine keys, "
+            "or per-observed-path membership."
         ),
     }
 
@@ -351,6 +415,25 @@ def main() -> None:
             f"- graph edges: `{data['gauge_audit']['graph']['edges']}`",
             f"- graph finals: `{data['gauge_audit']['graph']['finals']}`",
             f"- const scaled: `{data['gauge_audit']['graph']['const_scaled']}`",
+            "",
+        ]
+    )
+    lines.extend(
+        [
+            "## Cocycle Quotient Audit",
+            "",
+            f"- file: `{data['cocycle_quotient_audit']['file']}`",
+            f"- decision: `{data['cocycle_quotient_audit']['decision']}`",
+            f"- accepted modes: `{data['cocycle_quotient_audit']['accepted_modes']}`",
+            "- quotient not margin complete: "
+            f"`{str(data['cocycle_quotient_audit']['quotient_not_margin_complete']).lower()}`",
+            "",
+            "## Direct MarginInv Producer",
+            "",
+            f"- symbol: `{data['direct_margin_inv_producer']['symbol']}`",
+            "- present outside socket: "
+            f"`{str(data['direct_margin_inv_producer']['present_outside_socket']).lower()}`",
+            f"- interpretation: {data['direct_margin_inv_producer']['interpretation']}",
             "",
         ]
     )

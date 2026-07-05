@@ -1,4 +1,16 @@
 {
+  "cocycle_quotient_audit": {
+    "accepted_modes": [],
+    "decision": "no_existing_quotient_margin_candidate",
+    "file": "scripts/generated/graph147_cocycle_quotient_potential_0_10M.json",
+    "quotient_not_margin_complete": true
+  },
+  "direct_margin_inv_producer": {
+    "interpretation": "No production producer has been found yet; the current Lean surface is a socket plus adapters.  The next proof step is to instantiate this socket from semantic margin evidence, not to scale selected-prefix or sampled-rank traces.",
+    "present_outside_socket": false,
+    "symbol": "StrengthenedGraph147RankedShardMarginInvariantFamily",
+    "usages_outside_socket": []
+  },
   "gauge_audit": {
     "accepted_modes": [
       "full"
@@ -20,7 +32,7 @@
       "states": 970
     }
   },
-  "next_step": "Generate or prove the semantic graph147 margin theorem over the deterministic ranked evaluator result, then package it as StrengthenedGraph147RankedEvalMarginBundle.  The theorem must use target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.",
+  "next_step": "Generate or prove the semantic graph147 margin invariant producer.  The immediate target is an instance of StrengthenedGraph147RankedShardMarginInvariantFamily, whose MarginInv is driven by target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.",
   "plan_tail": {
     "file": "SYMMETRY_PLAN.md",
     "symbols": {

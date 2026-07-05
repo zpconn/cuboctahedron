@@ -110388,3 +110388,100 @@ Read-only follow-up inspection after adding the shard-margin interface:
   leaf, or a checked segment/cocycle quotient producer that derives such a
   `MarginInv`.  Existing diagnostic branch smokes are not sufficient by
   themselves.
+
+### 2026-07-05 semantic-transducer pivot from GPT5.5 review
+
+Latest strategy adjustment:
+
+```text
+Keep Bellman.
+Reject selected-prefix scaling.
+Make the graph147 proof a deterministic semantic transducer theorem.
+```
+
+The current evidence supports that pivot:
+
+- `topPairingTargetShadow_of_summary`,
+  `topPairingTriShadow_eq_target_of_closed`,
+  `topPairingTriCursor_of_closed`, and
+  `TopPairingTargetCursorAtRank` are already present in
+  `Cuboctahedron/Search/TopPairingTargetCursor.lean`.
+- `Graph147RankedShardSuffixOk`, `graph147RankedShardSuffixOk_localStep`,
+  and `graph147RankedShardSuffixOk_finalPotential` already prove the
+  deterministic suffix/evaluator side for graph147.
+- `StrengthenedGraph147RankedShardMarginInvariantFamily` is the right socket:
+  it asks only for a semantic margin invariant over the already-checked ranked
+  shard suffix language.
+- The gauge-corrected full graph diagnostic remains useful but not sufficient:
+  `scripts/generated/graph147_gauge_corrected_potential_0_10M.json` reports
+  `decision = full_graph_margin_candidate_only`, `states = 970`,
+  `edges = 1054`, `finals = 116`, and root bound `176 + (-176) = 0`.
+- The coarser cocycle quotient is not yet a production margin certificate:
+  `scripts/generated/graph147_cocycle_quotient_potential_0_10M.json` reports
+  `decision = no_existing_quotient_margin_candidate` and no accepted modes.
+- A source audit now confirms there is no production instance of
+  `StrengthenedGraph147RankedShardMarginInvariantFamily` outside the socket.
+
+Updated audit:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Result:
+
+```text
+status = ready_for_ranked_eval_margin_bundle_producer
+direct_margin_inv_producer.present_outside_socket = false
+cocycle_quotient_audit.decision = no_existing_quotient_margin_candidate
+gauge_audit.decision = full_graph_margin_candidate_only
+forbidden hits = none
+```
+
+The next proof step is therefore not another graph smoke, selected-prefix
+cover, sampled membership table, or exact-affine-key partition.  It is one of:
+
+1. instantiate `StrengthenedGraph147RankedShardMarginInvariantFamily` directly
+   for graph147 using a `MarginInv rank state suffix acc` derived from
+   target-shadow cursor, schedule/square-gap/local-axis tail,
+   pair-count/used-face facts, and deterministic full-graph147 state facts; or
+2. if direct `MarginInv` needs exact affine RHS, solved start-point keys, or
+   one branch per observed path, stop that route and build a checked
+   segment/cocycle quotient producer whose theorem derives the same
+   `MarginInv`.
+
+Concrete next implementation checkpoint:
+
+```text
+Create the smallest graph147 semantic-margin producer attempt.
+
+Inputs allowed:
+  - TopPairingTargetCursorAtRank / TopPairingTriCursorFrom;
+  - TopPairingTransducerTail and Graph147RankedShardSuffixOk;
+  - schedule, square-gap, local-axis, used-face/pair-count semantic facts;
+  - full graph147 Bellman state and potential facts;
+  - a checked segment/cocycle quotient if it is proved semantically.
+
+Inputs rejected:
+  - SampledRankIndex / sampledContainsRank / sampledRankOf;
+  - selected-prefix ids or accepted trace ids;
+  - exact affine RHS keys;
+  - solved start-point keys;
+  - per-observed-path or per-rank branches;
+  - giant Boolean checker loops.
+```
+
+Go/no-go:
+
+```text
+GO:
+  A representative producer instantiates
+  StrengthenedGraph147RankedShardMarginInvariantFamily, and a guarded Lean
+  build stays within the current 8 GiB per-process guard.
+
+NO-GO:
+  The proof of MarginInv cannot be expressed without sampled/selected-prefix
+  membership or exact affine keys.  In that case, pivot immediately to the
+  certified segment/cocycle quotient theorem, not to more graph data.
+```
