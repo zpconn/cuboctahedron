@@ -1,4 +1,19 @@
 {
+  "bellman_segment_core": {
+    "file": "Cuboctahedron/Search/BellmanPotential.lean",
+    "interpretation": "Certified segment composition and evaluator-to-segment adapters are available for future cancellation/segment margin producers.  This is a proof principle only, not coverage evidence.",
+    "required_symbols": {
+      "namespace CertifiedBellmanSegment": true,
+      "structure CertifiedBellmanSegment": true,
+      "theorem append": true,
+      "theorem const_add_gain_nonpos": true,
+      "theorem nil": true,
+      "theorem ofEvalLabelStepFn": true,
+      "theorem ofEvalLabelStepFnNextInvariant": true,
+      "theorem ofRun": true
+    },
+    "status": "accepted_certified_segment_core"
+  },
   "lanes": {
     "tmpm_tppm": {
       "file": null,

@@ -105523,6 +105523,47 @@ Next graph147 implementation rule:
 - If segment construction needs exact affine RHS, solved start-point keys, or
   observed prefix ids, reject that segment coordinate.
 
+### 2026-07-05 readiness audit tracks segment core
+
+The layer-4 readiness audit now records whether the generic certified segment
+proof principle is present, alongside the existing lane status.  This keeps the
+new cancellation/segment fallback visible as a checked core capability rather
+than an informal plan note.
+
+Updated script:
+
+```text
+scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Command:
+
+```bash
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Summary from `scripts/generated/layer4_terminal_lane_readiness.json`:
+
+```text
+status = validated_lanes_remaining_lanes_missing
+validated_lanes = [tmpm_zm, zm_tmpp]
+partial_lanes = [yp_zm, zm_yp]
+missing_lanes = [tmpm_tppm, yp_tmmm, yp_zm, zm_yp, zm_zp]
+bellman_segment_core.status = accepted_certified_segment_core
+bellman_segment_core.required_symbols all present = true
+```
+
+Interpretation:
+
+- The generic segment/evaluator bridge is now an audited support route.
+- The graph147 lanes remain partial because the margin producer
+  `StrengthenedGraph147RootMarginBundle` is still missing.
+- The next recommended slice remains deterministic semantic terminal-lane work:
+  use target-completion/evaluator product state, and stop if a lane requires
+  selected-prefix, sampled-rank, accepted-trace, exact-affine, or
+  per-observed-path membership.
+
 Interpretation:
 
 - The graph147 deterministic evaluator surface is still healthy after adding

@@ -65,6 +65,8 @@ GRAPH221_FILE = (
     / "BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean"
 )
 
+BELLMAN_POTENTIAL_FILE = ROOT / "Cuboctahedron/Search/BellmanPotential.lean"
+
 LANES = [
     ("tmpm_tppm", "Face.tmpm", "Face.tppm"),
     ("tmpm_zm", "Face.tmpm", "Face.zm"),
@@ -409,6 +411,17 @@ GRAPH221_DIRECT_SEMANTIC_REQUIRED = [
     "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic",
 ]
 
+BELLMAN_SEGMENT_CORE_REQUIRED = [
+    "structure CertifiedBellmanSegment",
+    "namespace CertifiedBellmanSegment",
+    "theorem ofRun",
+    "theorem ofEvalLabelStepFn",
+    "theorem ofEvalLabelStepFnNextInvariant",
+    "theorem nil",
+    "theorem append",
+    "theorem const_add_gain_nonpos",
+]
+
 FORBIDDEN = [
     "SampledRankIndex",
     "sampledContainsRank",
@@ -447,7 +460,11 @@ def main() -> int:
         else ""
     )
     graph221_text = GRAPH221_FILE.read_text() if GRAPH221_FILE.exists() else ""
+    bellman_potential_text = BELLMAN_POTENTIAL_FILE.read_text()
     graph183_ok, graph183_missing = contains_all(graph183_text, GRAPH183_REQUIRED)
+    bellman_segment_core_ok, bellman_segment_core_missing = contains_all(
+        bellman_potential_text, BELLMAN_SEGMENT_CORE_REQUIRED
+    )
     graph151_partial_ok, graph151_partial_missing = contains_all(
         next_frontier_text, GRAPH151_PARTIAL_REQUIRED
     )
@@ -1040,6 +1057,30 @@ def main() -> int:
         "validated_lanes": validated,
         "partial_lanes": partial,
         "missing_lanes": missing,
+        "bellman_segment_core": {
+            "status": (
+                "accepted_certified_segment_core"
+                if bellman_segment_core_ok
+                else "missing_certified_segment_core"
+            ),
+            "file": str(BELLMAN_POTENTIAL_FILE.relative_to(ROOT)),
+            "required_symbols": {
+                symbol: symbol not in bellman_segment_core_missing
+                for symbol in BELLMAN_SEGMENT_CORE_REQUIRED
+            },
+            "interpretation": (
+                "Certified segment composition and evaluator-to-segment "
+                "adapters are available for future cancellation/segment "
+                "margin producers.  This is a proof principle only, not "
+                "coverage evidence."
+                if bellman_segment_core_ok
+                else (
+                    "The cancellation/segment fallback does not yet have the "
+                    "generic theorem surface needed for production margin "
+                    "producers."
+                )
+            ),
+        },
         "lanes": lane_report,
         "next_recommended_slice": (
             "continue the deterministic semantic terminal-lane pattern on the "
