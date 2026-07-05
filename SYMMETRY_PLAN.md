@@ -111229,3 +111229,72 @@ exact_path_class_ratio = 1.0.  Therefore the next production step must prove a
 coarser semantic membership/margin theorem or a checked segment/cocycle
 quotient; it must not emit exact-path graph147 leaves.
 ```
+
+### 2026-07-05 semantic DAG route promoted for graph147
+
+GPT5.5's latest refinement changes the immediate graph147 work again in a
+useful way:
+
+```text
+Keep Bellman.
+Do not scale selected-prefix, accepted-trace, sampled-rank, or exact-path
+membership.
+Do not ask the existing graph147 state key to do more than it can: it contains
+only step, remaining pair counts, square parity, reduced triangular stack, and
+tri-source progress.
+Use the already-checked top-pairing semantic tail/DAG state, which also carries
+square-gap and local-axis matrix data, as the next producer coordinate.
+```
+
+Low-memory audits rerun:
+
+```bash
+python3 scripts/audit_top_pairing_semantic_state_dag_provider_gap.py
+python3 scripts/audit_top_pairing_semantic_state_key_compatibility.py
+python3 scripts/minimize_top_pairing_trace_state_dag.py \
+  --input scripts/generated/top_pairing_trace_state_dag_lean_aligned_graph.json \
+  --json scripts/generated/top_pairing_trace_state_dag_minimized.json \
+  --markdown scripts/generated/top_pairing_trace_state_dag_minimized.md \
+  --detailed-json scripts/generated/top_pairing_trace_state_dag_minimized_detailed.json
+```
+
+Results:
+
+```text
+semantic state-key compatibility = semantic-state-key-transition-compatible
+graph147 transition audit = 970 states, 1054 edges, deterministic, no parse or
+  transition mismatches
+provider-gap audit = provider-gap-audited-needs-graph-state-indexed-suffix-emitters
+accepted traces audited = 37
+semantic graph = 5347 states, 6089 edges
+minimized semantic DAG = 1026 classes, 2486 quotient edges
+depth-11 semantic classes = 6
+depth-11 class+graph pairs = 30
+known class-034 smoke covers only 1 of 3 graph states for that semantic
+  class+suffix, so semantic class alone is too coarse
+```
+
+Interpretation:
+
+```text
+The target-shadow cursor and deterministic transducer theorem are not the
+bottleneck.  The bottleneck is the graph-state-indexed suffix/margin provider.
+The semantic DAG is the first production-sized coordinate that is coarser than
+exact paths but still contains the missing square-gap/local-axis information.
+The next emitter should therefore target semantic-class + Bellman-graph-state
+suffix providers, beginning with the six depth-11 classes and 30 class+graph
+pairs reported by the provider-gap audit.
+```
+
+Go/no-go:
+
+```text
+GO: Emit a bounded graph-state-indexed suffix provider for one additional
+depth-11 semantic class+graph pair, using only TopPairingTransducerTail,
+target-shadow cursor, square-gap, local-axis, pair-count, and graph-state facts.
+
+NO-GO: If that provider needs sampled ranks, selected-prefix ids,
+accepted-trace ids, exact affine RHS, solved start-point keys, or one branch per
+observed trace/path, stop direct graph147 scaling and switch to the
+segment/cocycle quotient route.
+```

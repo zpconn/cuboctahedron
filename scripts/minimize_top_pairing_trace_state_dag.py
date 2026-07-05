@@ -29,6 +29,14 @@ DEFAULT_JSON = ROOT / "scripts/generated/top_pairing_trace_state_dag_minimized.j
 DEFAULT_MD = ROOT / "scripts/generated/top_pairing_trace_state_dag_minimized.md"
 
 
+def rel(path: Path) -> str:
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(ROOT).as_posix()
+    except ValueError:
+        return resolved.as_posix()
+
+
 def load_graph(path: Path) -> dict[str, Any]:
     data = json.loads(path.read_text())
     for key in ["states", "edges", "terminals"]:
@@ -183,7 +191,7 @@ def render_markdown(report: dict[str, Any], source: Path) -> str:
         "Lean-aligned semantic trace state DAG by terminal behavior and outgoing",
         "face-labelled transitions.",
         "",
-        f"- source: `{source.relative_to(ROOT).as_posix()}`",
+        f"- source: `{rel(source)}`",
         "",
         "## Counts",
         "",
@@ -274,10 +282,10 @@ def main() -> None:
         args.detailed_json.write_text(
             json.dumps(detailed_report, indent=2, sort_keys=True) + "\n"
         )
-    print(f"wrote {args.json.relative_to(ROOT)}")
-    print(f"wrote {args.markdown.relative_to(ROOT)}")
+    print(f"wrote {rel(args.json)}")
+    print(f"wrote {rel(args.markdown)}")
     if args.detailed_json is not None:
-        print(f"wrote {args.detailed_json.resolve().relative_to(ROOT)}")
+        print(f"wrote {rel(args.detailed_json)}")
     print(
         "raw_states={raw} minimized_states={mini} raw_edges={raw_e} "
         "minimized_edges={mini_e}".format(
