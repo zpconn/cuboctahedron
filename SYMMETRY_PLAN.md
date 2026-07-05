@@ -105220,6 +105220,124 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 graph147 target-completion local table accepted
+
+The strategy pivot from GPT5.5 Pro is now the active rule for the remaining
+layer-4 lanes: keep Bellman, but do not scale selected-prefix membership.
+Every new lane slice must be a deterministic semantic transducer fact over the
+closed language, target-completion state, target-shadow cursor, and Bellman
+local transitions.  If a slice asks for sampled ranks, selected-prefix ids,
+accepted-trace ids, exact affine RHS keys, or one branch per observed path, it
+is a no-go and should be replaced by the cocycle/cancellation-summary quotient
+experiment.
+
+New Lean progress:
+
+- Added `graph147TargetCompletionState` for the shared `yp,zm` / `zm,yp`
+  graph-147 frontier in
+  `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean`.
+- Proved target-completion narrows graph147's next face to exactly the Bellman
+  heads:
+
+```lean
+theorem graph147_head_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph147TargetCompletionTail (face :: rest)) :
+    face = Face.zp ∨ face = Face.tmmp
+```
+
+- Packaged this as the deterministic local table:
+
+```lean
+def strengthenedPrefix4Graph147TargetCompletionLocalBranchTable :
+    StrengthenedTargetCompletionLocalBranchTable
+      strengthenedClosedPrefix4YpZmEvalState graph147TargetCompletionState
+```
+
+- Regenerated the bounded target-completion local-branch shard so it now
+  exposes three semantic states / four branches:
+  `prefix4YpZm`, `prefix4TmpmZm`, and `prefix4ZmTmpp`.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke
+```
+
+Result:
+
+```text
+pass; elapsed=47.03s; peak_tree_rss=6233 MiB; min_available=43813 MiB
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000
+```
+
+Result:
+
+```text
+pass; elapsed=3.00s; peak_tree_rss=4051 MiB; min_available=46115 MiB
+```
+
+Narrow forbidden-token scan:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean \
+  Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+Result:
+
+```text
+pass; no matches
+```
+
+Readiness audit:
+
+```bash
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+validated_lanes = [tmpm_zm, zm_tmpp]
+partial_lanes = [yp_zm, zm_yp]
+yp_zm.status = partial_graph147_target_completion_local_table
+zm_yp.status = partial_graph147_target_completion_local_table
+```
+
+Interpretation:
+
+- `yp,zm` and `zm,yp` are no longer wholly missing.  They share the graph147
+  target-completion/evaluator local table.
+- They are not terminal semantic gates yet.  The remaining work is deterministic
+  suffix continuation from graph153 and graph155.
+- `tmpm,tppm`, `yp,tmmm`, and `zm,zp` remain missing at the terminal-lane level.
+
+Next implementation target:
+
+1. Build graph153 / graph155 target-completion states from the graph147
+   branches.
+2. Check whether target-completion plus the strengthened product state gives
+   small deterministic suffix continuations.
+3. If graph153/155 require exact observed prefixes or rank/path membership,
+   stop this lane and start the cocycle/cancellation-summary quotient
+   experiment rather than adding another selected-prefix layer.
+
 Next implementation target:
 
 - Apply the same deterministic semantic terminal-lane pattern to the remaining

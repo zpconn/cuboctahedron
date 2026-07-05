@@ -15,23 +15,26 @@ open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
 
 inductive ShardState where
+  | prefix4YpZm
   | prefix4TmpmZm
   | prefix4ZmTmpp
   deriving DecidableEq, Repr
 
-def emittedShardStateCount : Nat := 2
-def emittedShardBranchCount : Nat := 2
+def emittedShardStateCount : Nat := 3
+def emittedShardBranchCount : Nat := 4
 
 theorem emittedShardCount_audit :
-    emittedShardStateCount = 2 /\
-      emittedShardBranchCount = 2 := by
+    emittedShardStateCount = 3 /\
+      emittedShardBranchCount = 4 := by
   decide
 
 def evalState : ShardState -> StrengthenedClosedEvalState
+  | .prefix4YpZm => strengthenedClosedPrefix4YpZmEvalState
   | .prefix4TmpmZm => strengthenedClosedPrefix4TmpmZmEvalState
   | .prefix4ZmTmpp => strengthenedClosedPrefix4ZmTmppEvalState
 
 def completionState : ShardState -> TopPairingTargetCompletionState
+  | .prefix4YpZm => graph147TargetCompletionState
   | .prefix4TmpmZm => graph150TargetCompletionState
   | .prefix4ZmTmpp => graph151TargetCompletionState
 
@@ -39,6 +42,7 @@ def localBranchTable :
     (state : ShardState) ->
       StrengthenedTargetCompletionLocalBranchTable
         (evalState state) (completionState state)
+  | .prefix4YpZm => strengthenedPrefix4Graph147TargetCompletionLocalBranchTable
   | .prefix4TmpmZm => strengthenedPrefix4Graph150TargetCompletionLocalBranchTable
   | .prefix4ZmTmpp => strengthenedPrefix4Graph151TargetCompletionLocalBranchTable
 

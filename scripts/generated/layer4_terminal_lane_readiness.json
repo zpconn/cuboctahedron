@@ -31,11 +31,18 @@
       "third": "Face.yp"
     },
     "yp_zm": {
-      "file": null,
+      "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.zm",
-      "required_symbols": {},
-      "status": "missing_terminal_lane_semantic_gate",
+      "remaining_gap": "graph147 target-completion now restricts the shared yp_zm/zm_yp local frontier to the Bellman heads zp and tmmp.  The lane still needs deterministic suffix continuations from graph153 and graph155 before it becomes a terminal semantic gate.",
+      "required_symbols": {
+        "Graph147TargetCompletionTail": true,
+        "graph147TargetCompletionState": true,
+        "graph147_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
+        "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
+      },
+      "status": "partial_graph147_target_completion_local_table",
       "third": "Face.yp"
     },
     "zm_tmpp": {
@@ -132,11 +139,18 @@
       "third": "Face.zm"
     },
     "zm_yp": {
-      "file": null,
+      "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.yp",
-      "required_symbols": {},
-      "status": "missing_terminal_lane_semantic_gate",
+      "remaining_gap": "graph147 target-completion now restricts the shared yp_zm/zm_yp local frontier to the Bellman heads zp and tmmp.  The lane still needs deterministic suffix continuations from graph153 and graph155 before it becomes a terminal semantic gate.",
+      "required_symbols": {
+        "Graph147TargetCompletionTail": true,
+        "graph147TargetCompletionState": true,
+        "graph147_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
+        "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
+      },
+      "status": "partial_graph147_target_completion_local_table",
       "third": "Face.zm"
     },
     "zm_zp": {
@@ -157,8 +171,11 @@
     "zm_zp"
   ],
   "next_recommended_slice": "continue the deterministic semantic terminal-lane pattern on the remaining layer-4 lanes; use target-completion/evaluator product state and stop for the cocycle/cancellation-summary quotient experiment if a lane requires selected-prefix, sampled-rank, accepted-trace, exact-affine, or per-observed-path membership",
-  "partial_lane_count": 0,
-  "partial_lanes": [],
+  "partial_lane_count": 2,
+  "partial_lanes": [
+    "yp_zm",
+    "zm_yp"
+  ],
   "status": "validated_lanes_remaining_lanes_missing",
   "validated_lane_count": 2,
   "validated_lanes": [

@@ -532,6 +532,134 @@ def strengthenedPrefix4Graph150TargetCompletionLocalBranchTable :
       strengthenedPrefix4Graph150Branch_of_tail_and_targetCompletionTail
         htail hcompletion
 
+/--
+The exact semantic state for the shared graph-147 frontier after either
+contribution prefix `[xm, ym, yp, zm]` or `[xm, ym, zm, yp]`.
+
+The two prefixes have the same strengthened transducer state, and this
+target-completion state records the corresponding remaining-face, square-gap,
+parity, and cancellation cursor data.  It is a semantic deterministic state,
+not a sampled prefix table.
+-/
+def graph147TargetCompletionState : TopPairingTargetCompletionState where
+  step := 4
+  gap := 0
+  parity := { x := true, y := false, z := true }
+  remaining :=
+    [ Face.zp, Face.xp, Face.tmmm, Face.tmmp, Face.tmpm, Face.tmpp,
+      Face.tpmm, Face.tpmp, Face.tppm, Face.tppp ]
+  triState :=
+    { shadowLen := 0
+      stack := []
+      cancellationsRev := [] }
+
+abbrev Graph147TargetCompletionTail (labels : List Face) : Prop :=
+  TopPairingTargetCompletionTail graph147TargetCompletionState labels
+
+theorem graph147_head_candidate_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph147TargetCompletionTail (face :: rest)) :
+    face = Face.zp ∨ face = Face.tmmp ∨ face = Face.tmpm ∨
+      face = Face.tpmm ∨ face = Face.tppp := by
+  have hremaining :=
+    TopPairingTargetCompletionTail.head_remaining htail
+  have hschedule :=
+    TopPairingTargetCompletionTail.head_schedule htail
+  have hsquare :=
+    TopPairingTargetCompletionTail.head_squareAllowed htail
+  cases face <;>
+    simp [Graph147TargetCompletionTail, graph147TargetCompletionState,
+      TopPairingTargetCompletionState.squareAllowed,
+      topPairingAllowedFacesAtStep, topPairingAllowedSquareFacesAtGap,
+      pairOfFace, isSquarePair] at hremaining hschedule hsquare ⊢
+
+private theorem graph147_tmpm_canComplete_false :
+    (graph147TargetCompletionState.next Face.tmpm).canComplete = false := by
+  rfl
+
+private theorem graph147_tpmm_canComplete_false :
+    (graph147TargetCompletionState.next Face.tpmm).canComplete = false := by
+  rfl
+
+private theorem graph147_tppp_canComplete_false :
+    (graph147TargetCompletionState.next Face.tppp).canComplete = false := by
+  rfl
+
+private theorem no_tail_after_graph147_tmpm {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph147TargetCompletionState.next Face.tmpm) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph147_tmpm_canComplete_false h
+
+private theorem no_tail_after_graph147_tpmm {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph147TargetCompletionState.next Face.tpmm) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph147_tpmm_canComplete_false h
+
+private theorem no_tail_after_graph147_tppp {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail
+      (graph147TargetCompletionState.next Face.tppp) rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph147_tppp_canComplete_false h
+
+theorem graph147_head_of_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (htail : Graph147TargetCompletionTail (face :: rest)) :
+    face = Face.zp ∨ face = Face.tmmp := by
+  rcases graph147_head_candidate_of_targetCompletionTail htail with
+    hzp | htmmp | htmpm | htpmm | htppp
+  · exact Or.inl hzp
+  · exact Or.inr htmmp
+  · subst face
+    exact False.elim
+      (no_tail_after_graph147_tmpm
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · subst face
+    exact False.elim
+      (no_tail_after_graph147_tpmm
+        (TopPairingTargetCompletionTail.tail_next htail))
+  · subst face
+    exact False.elim
+      (no_tail_after_graph147_tppp
+        (TopPairingTargetCompletionTail.tail_next htail))
+
+theorem strengthenedPrefix4Graph147Branch_of_tail_and_targetCompletionTail
+    {face : Face} {rest : List Face}
+    (_htail :
+      strengthenedClosedPrefix4YpZmEvalState.Tail (face :: rest))
+    (hcompletion : Graph147TargetCompletionTail (face :: rest)) :
+    ∃ branch : StrengthenedPrefix4Graph147Branch,
+      branch.face = face := by
+  rcases graph147_head_of_targetCompletionTail hcompletion with hzp | htmmp
+  · subst face
+    exact ⟨StrengthenedPrefix4Graph147Branch.zp, rfl⟩
+  · subst face
+    exact ⟨StrengthenedPrefix4Graph147Branch.tmmp, rfl⟩
+
+def strengthenedPrefix4Graph147TargetCompletionLocalBranchTable :
+    StrengthenedTargetCompletionLocalBranchTable
+      strengthenedClosedPrefix4YpZmEvalState graph147TargetCompletionState where
+  Branch := StrengthenedPrefix4Graph147Branch
+  face := StrengthenedPrefix4Graph147Branch.face
+  nextGraph := StrengthenedPrefix4Graph147Branch.nextGraph
+  gain := StrengthenedPrefix4Graph147Branch.gain
+  step := by
+    intro branch
+    change ClosedBellmanStep 147
+      (StrengthenedPrefix4Graph147Branch.face branch)
+      (StrengthenedPrefix4Graph147Branch.nextGraph branch)
+      (StrengthenedPrefix4Graph147Branch.gain branch)
+    exact StrengthenedPrefix4Graph147Branch.step branch
+  branch_of_tail := by
+    intro face rest htail hcompletion
+    exact
+      strengthenedPrefix4Graph147Branch_of_tail_and_targetCompletionTail
+        htail hcompletion
+
 def graph151TargetCompletionState : TopPairingTargetCompletionState where
   step := 4
   gap := 1

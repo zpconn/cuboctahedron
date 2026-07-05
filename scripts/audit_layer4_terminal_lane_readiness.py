@@ -66,6 +66,14 @@ GRAPH151_PARTIAL_REQUIRED = [
     "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable",
 ]
 
+GRAPH147_TARGET_COMPLETION_REQUIRED = [
+    "graph147TargetCompletionState",
+    "Graph147TargetCompletionTail",
+    "graph147_head_of_targetCompletionTail",
+    "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable",
+    "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp",
+]
+
 ZMTMPP_CHAIN_REQUIRED = [
     "strengthenedClosedPrefix5ZmTmppTpppEvalState",
     "strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp",
@@ -170,6 +178,9 @@ def main() -> int:
     graph183_ok, graph183_missing = contains_all(graph183_text, GRAPH183_REQUIRED)
     graph151_partial_ok, graph151_partial_missing = contains_all(
         next_frontier_text, GRAPH151_PARTIAL_REQUIRED
+    )
+    graph147_target_completion_ok, graph147_target_completion_missing = (
+        contains_all(next_frontier_text, GRAPH147_TARGET_COMPLETION_REQUIRED)
     )
     zm_tmpp_chain_ok, zm_tmpp_chain_missing = contains_all(
         next_frontier_text, ZMTMPP_CHAIN_REQUIRED
@@ -338,6 +349,31 @@ def main() -> int:
                     )
                     )
                     )
+                ),
+            }
+        elif lane in {"yp_zm", "zm_yp"}:
+            lane_report[lane] = {
+                "third": third,
+                "fourth": fourth,
+                "status": (
+                    "partial_graph147_target_completion_local_table"
+                    if graph147_target_completion_ok
+                    else "missing_terminal_lane_semantic_gate"
+                ),
+                "file": str(NEXT_FRONTIER_FILE.relative_to(ROOT)),
+                "required_symbols": {
+                    symbol: symbol not in graph147_target_completion_missing
+                    for symbol in GRAPH147_TARGET_COMPLETION_REQUIRED
+                },
+                "forbidden_hits": [
+                    token for token in FORBIDDEN if token in next_frontier_text
+                ],
+                "remaining_gap": (
+                    "graph147 target-completion now restricts the shared "
+                    "yp_zm/zm_yp local frontier to the Bellman heads zp and "
+                    "tmmp.  The lane still needs deterministic suffix "
+                    "continuations from graph153 and graph155 before it "
+                    "becomes a terminal semantic gate."
                 ),
             }
         else:
