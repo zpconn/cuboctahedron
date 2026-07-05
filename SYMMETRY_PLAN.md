@@ -117061,4 +117061,104 @@ strengthened closed-language residual into
 layer-4 lanes.  For sibling lanes, first try the same direct start-violation
 pattern before falling back to Bellman margin/cocycle evidence.
 ```
+
+#### 2026-07-05 graph183 + graph221 direct layer-4 portfolio socket
+
+Status: focused socket accepted.
+
+Added module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183Graph221DirectPortfolioSocket.lean
+```
+
+This module preserves the graph183-direct layer-4 portfolio and additionally
+removes the graph221 `zm,tmpp` lane from the split-10M margin burden.  Its
+branch gate has this shape:
+
+```lean
+structure AcceptedSequenceDepth11Layer4Graph183Graph221DirectBranchGateFamily
+```
+
+with direct killed branches:
+
+```lean
+tmpm_zm : ... -> NonIdentityRankKilled rank
+zm_tmpp : ... -> NonIdentityRankKilled rank
+```
+
+and nonpositive/split branches:
+
+```lean
+yp_zm, zm_yp : ... -> scaledMargin rank <= 0
+tmpm_tppm, yp_tmmm, zm_zp : ... -> Split10MGraphExactEvalGateAtRank ...
+```
+
+The preferred producer surface is now:
+
+```lean
+structure AcceptedSequenceDepth11Layer4Graph183Graph221DirectStepRunPortfolioFamily
+```
+
+It requires only:
+
+```text
+tmpm,tppm mapped branch producer
+yp,tmmm mapped branch producer
+graph147 step-run bundle
+zm,zp mapped branch producer
+```
+
+It no longer requires a `zm,tmpp` mapped branch/root-margin producer.  The
+consumer:
+
+```lean
+def acceptedSequenceMixedKilledAllFamily_of_graph183Graph221DirectStepRunPortfolio
+```
+
+turns the portfolio plus the ordinary start-violation gate into:
+
+```lean
+AcceptedSequenceDepth11Layer4MixedKilledAllFamily scaledMargin
+```
+
+The target-completion ingress:
+
+```lean
+def acceptedSequenceMixedKilledAllFamily_of_graph183Graph221DirectTargetCompletionStepRunPortfolio
+```
+
+is the downstream-friendly socket after both direct-killed pivots.
+
+Command run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph183_graph221_direct_portfolio_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183Graph221DirectPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183Graph221DirectPortfolioSocket.lean
+```
+
+Result:
+
+```text
+guarded Lean check: passed, elapsed 3.00s, peak RSS 4036.75 MiB,
+  min available 46234.67 MiB
+```
+
+Focused forbidden-token scan over the two touched Lean sockets found no hits.
+
+Strategic effect:
+
+```text
+Layer-4 accepted-sequence assembly now has two direct killed lanes:
+`tmpm,zm` (graph183) and `zm,tmpp` (graph221).  The remaining hard margin
+work is concentrated in graph147 (`yp,zm` and `zm,yp`) plus three split-10M
+mapped branches (`tmpm,tppm`, `yp,tmmm`, `zm,zp`).  Continue trying direct
+start-violation/terminal routes for those remaining mapped branches before
+adding new Bellman margin evidence.
+```
 ```
