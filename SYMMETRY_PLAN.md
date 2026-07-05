@@ -103784,3 +103784,85 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   Once that filter is semantic rather than assumed, the same smoke can be
   lifted into the layer-4/full-machine wrapper as the first concrete
   graph183 filtered production lane.
+
+### 2026-07-04 graph183 tail filter derived from strengthened semantics
+
+- Strengthened the same graph183 terminal tail-prefix smoke so the filtered
+  suffix predicate is no longer an arbitrary assumption.  The new theorem:
+
+  ```lean
+  graph183ForcedTailSuffixOk_of_strengthened_prefix :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym ->
+    Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+      (Face.zp :: Face.tppm :: Face.tpmm :: rest) ->
+    Graph183TargetCompletionTail rest ->
+      graph183ForcedTailSuffixOk rest
+  ```
+
+  uses `graph183_tail_eq_forced_or_tmmp_branch` to split the target-completion
+  tail.  The accepted branch gives `rest = graph183ForcedTail`; the blocked
+  `tmmp` branch is eliminated by
+  `graph183_blocked_branch_absurd_of_acceptedSequenceBadFace`.
+
+- Added the direct terminal consequence:
+
+  ```lean
+  graph183FilteredTailPrefixTerminal_of_strengthened_prefix
+  ```
+
+  which applies `graph183FilteredTailPrefixContinuation.terminal` under the
+  semantic filter theorem and returns the tail-prefix evaluator witness:
+  consumed labels, terminal finish state, gain, remaining `[Face.xp]`, and the
+  terminal-machine proof.
+
+- Meaning:
+  for this concrete graph183 accepted branch, the tail-prefix lane now has the
+  exact semantic shape requested by the Bellman/transducer pivot:
+
+  ```text
+  strengthened closed language + depth-11/layer-4 prefix
+    -> target-completion tail
+    -> blocked branch impossible by bad-face semantics
+    -> forced tail-prefix evaluates to terminal producer
+  ```
+
+  This still does not prove all layer-4 reachability or rank coverage, but the
+  graph183 filtered branch no longer depends on a sampled trace id, selected
+  prefix table, exact affine RHS key, or manually assumed suffix filter.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183TerminalTailPrefixSmoke
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+
+  rg -n \
+    "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
+  ```
+
+- Results:
+  - Focused graph183 smoke build passed under the memory guard in `3.00s`,
+    with peak tree RSS `4119 MiB` and minimum available memory `46078 MiB`.
+  - The terminal-machine pivot audit passed with
+    `status = machine-pivot-surfaces-present` and `forbidden_hits = 0`; it now
+    requires `graph183ForcedTailSuffixOk_of_strengthened_prefix` and
+    `graph183FilteredTailPrefixTerminal_of_strengthened_prefix`.
+  - The forbidden-pattern `rg` scan returned no matches.
+
+- Next implementation target:
+  lift this concrete semantic-filtered graph183 lane into the existing
+  layer-4/full-machine wrapper.  The likely surface is a graph183-specific
+  `Layer4PrefixMachineTargetCompletionFilteredTailPrefixContinuationAll`
+  instance or a small adapter proving the wrapper's `suffixOk` premise from
+  `TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank`
+  and the depth-11/layer-4 prefix.

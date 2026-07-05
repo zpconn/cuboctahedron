@@ -107,9 +107,11 @@ REQUIRED_SYMBOLS = {
         "scaledMargin_nonpos_of_depth11GraphPathMachinePortfolioAll",
     ],
     "graph183_tail_prefix_smoke": [
+        "graph183ForcedTailSuffixOk_of_strengthened_prefix",
         "graph183TerminalTailPrefixEval",
         "graph183TerminalFinishProducer",
         "graph183FilteredTailPrefixContinuation",
+        "graph183FilteredTailPrefixTerminal_of_strengthened_prefix",
     ],
 }
 

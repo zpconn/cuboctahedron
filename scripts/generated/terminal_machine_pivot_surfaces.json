@@ -43,6 +43,8 @@
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean",
       "symbols": {
         "graph183FilteredTailPrefixContinuation": true,
+        "graph183FilteredTailPrefixTerminal_of_strengthened_prefix": true,
+        "graph183ForcedTailSuffixOk_of_strengthened_prefix": true,
         "graph183TerminalFinishProducer": true,
         "graph183TerminalTailPrefixEval": true
       }

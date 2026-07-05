@@ -20,8 +20,10 @@ sampled membership.  Instead, it checks the local graph183 branch shape:
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183TerminalTailPrefixSmoke
 
 open Cuboctahedron
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalGate
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateProducerSocket
@@ -48,6 +50,27 @@ def graph183TerminalFinishState : TerminalStepState :=
 
 def graph183ForcedTailSuffixOk (rest : List Face) : Prop :=
   rest = graph183ForcedTail
+
+theorem graph183ForcedTailSuffixOk_of_strengthened_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: rest))
+    (htail : Graph183TargetCompletionTail rest) :
+    graph183ForcedTailSuffixOk rest := by
+  unfold graph183ForcedTailSuffixOk
+  rcases graph183_tail_eq_forced_or_tmmp_branch htail with
+    hforced | hblocked
+  · exact hforced
+  · rcases hblocked with ⟨restTail, hrest, hblockedTail⟩
+    subst rest
+    exact False.elim
+      (graph183_blocked_branch_absurd_of_acceptedSequenceBadFace
+        hstrengthened hprefix hblockedTail)
 
 theorem graph183ForcedTail_split :
     graph183ForcedTail = graph183TailPrefixLabels ++ graph183TailPrefixRemaining := by
@@ -97,6 +120,27 @@ def graph183FilteredTailPrefixContinuation :
     exact ⟨graph183TailPrefixLabels, graph183TerminalFinishState, 0,
       graph183TailPrefixRemaining, graph183ForcedTail_split,
       graph183TerminalTailPrefixEval, graph183TerminalFinishProducer⟩
+
+theorem graph183FilteredTailPrefixTerminal_of_strengthened_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+        (Face.zp :: Face.tppm :: Face.tpmm :: rest))
+    (htail : Graph183TargetCompletionTail rest) :
+    ∃ labels finish gain remaining,
+      rest = labels ++ remaining ∧
+        evalLabelStepFn
+            (nextEval TerminalStepStatePartialMachine.semantic)
+            graph183TerminalPrefixState labels =
+          some (finish, gain) ∧
+          TerminalStepStatePartialMachine.semantic.IsTerminal finish :=
+  graph183FilteredTailPrefixContinuation.terminal rest htail
+    (graph183ForcedTailSuffixOk_of_strengthened_prefix
+      hstrengthened hprefix htail)
 
 theorem graph183TerminalTailPrefixSmoke_builds : True := by
   exact True.intro
