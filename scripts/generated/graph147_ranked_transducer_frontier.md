@@ -79,6 +79,7 @@
 - file: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCases.lean`
 - diagnostic language audit: `scripts/generated/graph147_target_tail_language.json`
 - case socket: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseSocket.lean`
+- margin socket: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseMarginSocket.lean`
 - tail count: `2`
 - unique tail count: `2`
 - first-face histogram: `{'tmmp': 1, 'zp': 1}`
@@ -95,6 +96,18 @@
 - `rankedEvalMarginBundle_of_tailCaseFamily`: `true`
 - `rootMarginBundle_of_tailCaseFamily`: `true`
 
+### Margin Socket Symbols
+
+- `Graph147RankedEvalTailGain`: `true`
+- `Graph147RankedEvalTargetTailZpGain`: `true`
+- `Graph147RankedEvalTargetTailTmmpGain`: `true`
+- `Graph147YpZmRankedEvalTailCaseScaledMarginBound`: `true`
+- `Graph147ZmYpRankedEvalTailCaseScaledMarginBound`: `true`
+- `StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily`: `true`
+- `targetTailCaseFamily_of_scaledMarginFamily`: `true`
+- `rankedEvalMarginBundle_of_scaledMarginFamily`: `true`
+- `rootMarginBundle_of_scaledMarginFamily`: `true`
+
 ## Plan Tail Symbols
 
 - file: `SYMMETRY_PLAN.md`
@@ -102,6 +115,7 @@
 - `graph147_targetCompletionTail_cases`: `true`
 - `Graph147TargetCompletionTail has exactly two semantic completions`: `true`
 - `StrengthenedGraph147RankedEvalTargetTailCaseFamily`: `true`
+- `StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily`: `true`
 - `StrengthenedGraph147RankedEvalTargetTailObjectFamily`: `true`
 - `StrengthenedGraph147RankedEvalMarginObjectFamily`: `true`
 - `StrengthenedGraph147RankedEvalMarginInvariantFamily`: `true`
@@ -124,6 +138,7 @@
 - `graph147_targetCompletionTail_cases`: `true`
 - `Graph147TargetCompletionTail has exactly two semantic completions`: `true`
 - `StrengthenedGraph147RankedEvalTargetTailCaseFamily`: `true`
+- `StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily`: `true`
 - `No selected-prefix/root-trace scaling`: `true`
 - `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
 - `Selected-prefix diagnostics only`: `true`
@@ -314,4 +329,4 @@ Rejected production coordinates:
 
 ## Next Step
 
-Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalTargetTailCaseFamily, whose four fields are the `yp,zm`/`zm,yp` object bounds for the two proved semantic target tails.  The case socket adapts those fields to StrengthenedGraph147RankedEvalTargetTailObjectFamily and then to the ranked-eval margin bundle.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.
+Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily, whose fields are the two target-tail evaluator-gain facts plus the four `scaledMargin obj.rank <= -376` facts for the `yp,zm`/`zm,yp` object bounds over the two proved semantic target tails.  The margin socket adapts those fields to StrengthenedGraph147RankedEvalTargetTailCaseFamily, then to the target-tail object family and ranked-eval margin bundle.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.

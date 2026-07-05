@@ -47,6 +47,11 @@ TARGET_TAIL_CASE_SOCKET = (
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph147TargetTailCaseSocket.lean"
 )
+TARGET_TAIL_CASE_MARGIN_SOCKET = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph147TargetTailCaseMarginSocket.lean"
+)
 TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_TAIL = ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean"
 TRANSDUCER_EVAL = ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean"
@@ -174,6 +179,18 @@ TARGET_TAIL_CASE_SOCKET_SYMBOLS = [
     "rootMarginBundle_of_tailCaseFamily",
 ]
 
+TARGET_TAIL_CASE_MARGIN_SOCKET_SYMBOLS = [
+    "Graph147RankedEvalTailGain",
+    "Graph147RankedEvalTargetTailZpGain",
+    "Graph147RankedEvalTargetTailTmmpGain",
+    "Graph147YpZmRankedEvalTailCaseScaledMarginBound",
+    "Graph147ZmYpRankedEvalTailCaseScaledMarginBound",
+    "StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily",
+    "targetTailCaseFamily_of_scaledMarginFamily",
+    "rankedEvalMarginBundle_of_scaledMarginFamily",
+    "rootMarginBundle_of_scaledMarginFamily",
+]
+
 SEMANTIC_INPUT_SYMBOLS = {
     "target_cursor": [
         "topPairingTargetShadow_of_summary",
@@ -280,6 +297,7 @@ PLAN_PIVOT_MARKERS = [
     "graph147_targetCompletionTail_cases",
     "Graph147TargetCompletionTail has exactly two semantic completions",
     "StrengthenedGraph147RankedEvalTargetTailCaseFamily",
+    "StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily",
     "No selected-prefix/root-trace scaling",
     "StrengthenedGraph147RankedShardMarginInvariantFamily",
     "Selected-prefix diagnostics only",
@@ -371,7 +389,8 @@ def main() -> None:
     ranked_eval_text = read(RANKED_EVAL_SOCKET)
     target_tail_cases_text = read(TARGET_TAIL_CASES)
     target_tail_case_socket_text = read(TARGET_TAIL_CASE_SOCKET)
-    plan_tail = tail_text(read(PLAN))
+    target_tail_case_margin_socket_text = read(TARGET_TAIL_CASE_MARGIN_SOCKET)
+    plan_tail = read(PLAN)
     semantic_files = {
         "target_cursor": read(TARGET_CURSOR),
         "transducer_tail": read(TRANSDUCER_TAIL),
@@ -391,6 +410,10 @@ def main() -> None:
     )
     target_tail_case_socket_symbols = contains_all(
         target_tail_case_socket_text, TARGET_TAIL_CASE_SOCKET_SYMBOLS
+    )
+    target_tail_case_margin_socket_symbols = contains_all(
+        target_tail_case_margin_socket_text,
+        TARGET_TAIL_CASE_MARGIN_SOCKET_SYMBOLS,
     )
     gauge_data = read_json(GAUGE_AUDIT)
     cocycle_quotient_data = read_json(COCYCLE_QUOTIENT_AUDIT)
@@ -442,6 +465,7 @@ def main() -> None:
             "graph147_targetCompletionTail_cases",
             "Graph147TargetCompletionTail has exactly two semantic completions",
             "StrengthenedGraph147RankedEvalTargetTailCaseFamily",
+            "StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily",
             "StrengthenedGraph147RankedEvalTargetTailObjectFamily",
             "StrengthenedGraph147RankedEvalMarginObjectFamily",
             "StrengthenedGraph147RankedEvalMarginInvariantFamily",
@@ -460,6 +484,9 @@ def main() -> None:
     all_ranked_eval = all(ranked_eval_symbols.values())
     all_target_tail_cases = all(target_tail_case_symbols.values())
     all_target_tail_case_socket = all(target_tail_case_socket_symbols.values())
+    all_target_tail_case_margin_socket = all(
+        target_tail_case_margin_socket_symbols.values()
+    )
     all_semantic = all(
         all(symbols.values()) for symbols in semantic_symbols.values()
     )
@@ -468,7 +495,8 @@ def main() -> None:
     status = (
         "ready_for_ranked_eval_margin_bundle_producer"
         if all_socket and all_ranked_eval and all_target_tail_cases
-        and all_target_tail_case_socket and all_semantic and full_graph_only
+        and all_target_tail_case_socket and all_target_tail_case_margin_socket
+        and all_semantic and full_graph_only
         and all_plan_tail and all_plan_pivot and not forbidden_hits
         else "ranked_transducer_frontier_incomplete"
     )
@@ -491,6 +519,10 @@ def main() -> None:
                 TARGET_TAIL_CASE_SOCKET.relative_to(ROOT)
             ),
             "case_socket_symbols": target_tail_case_socket_symbols,
+            "margin_socket_file": str(
+                TARGET_TAIL_CASE_MARGIN_SOCKET.relative_to(ROOT)
+            ),
+            "margin_socket_symbols": target_tail_case_margin_socket_symbols,
             "language_audit_file": str(
                 TARGET_TAIL_LANGUAGE_AUDIT.relative_to(ROOT)
             ),
@@ -612,11 +644,14 @@ def main() -> None:
         "next_step": (
             "Generate or prove the semantic graph147 margin invariant "
             "producer.  The immediate target is "
-            "StrengthenedGraph147RankedEvalTargetTailCaseFamily, whose four "
-            "fields are the `yp,zm`/`zm,yp` object bounds for the two proved "
-            "semantic target tails.  The case socket adapts those fields to "
-            "StrengthenedGraph147RankedEvalTargetTailObjectFamily and then to "
-            "the ranked-eval margin bundle.  If a local invariant is the "
+            "StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily, "
+            "whose fields are the two target-tail evaluator-gain facts plus "
+            "the four `scaledMargin obj.rank <= -376` facts for the "
+            "`yp,zm`/`zm,yp` object bounds over the two proved semantic "
+            "target tails.  The margin socket adapts those fields to "
+            "StrengthenedGraph147RankedEvalTargetTailCaseFamily, then to "
+            "the target-tail object family and ranked-eval margin bundle.  "
+            "If a local invariant is the "
             "better proof "
             "shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily "
             "from target-shadow cursor, schedule/square-gap/local-axis tail, "
@@ -666,6 +701,9 @@ def main() -> None:
     lines.append(
         f"- case socket: `{data['target_tail_cases']['case_socket_file']}`"
     )
+    lines.append(
+        f"- margin socket: `{data['target_tail_cases']['margin_socket_file']}`"
+    )
     lines.append(f"- tail count: `{data['target_tail_cases']['tail_count']}`")
     lines.append(
         f"- unique tail count: `{data['target_tail_cases']['unique_tail_count']}`"
@@ -679,6 +717,11 @@ def main() -> None:
     lines.append("### Case Socket Symbols")
     lines.append("")
     for symbol, present in target_tail_case_socket_symbols.items():
+        lines.append(f"- `{symbol}`: `{str(present).lower()}`")
+    lines.append("")
+    lines.append("### Margin Socket Symbols")
+    lines.append("")
+    for symbol, present in target_tail_case_margin_socket_symbols.items():
         lines.append(f"- `{symbol}`: `{str(present).lower()}`")
     lines.extend(["", "## Plan Tail Symbols", ""])
     lines.append(f"- file: `{data['plan_tail']['file']}`")

@@ -118229,3 +118229,97 @@ Additional production-route audit marker:
 ```text
 StrengthenedGraph147RankedEvalTargetTailCaseFamily
 ```
+
+#### 2026-07-05 graph147 target-tail case scaled-margin socket added
+
+Status: Lean adapter socket added and focused-checked.  This still does not
+prove the geometric margin inequality, but it narrows the next producer to the
+actual proof-carrying facts needed for the two semantic tails.
+
+New Lean module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseMarginSocket.lean
+```
+
+New theorem/data names:
+
+```lean
+def Graph147RankedEvalTailGain
+def Graph147RankedEvalTargetTailZpGain
+def Graph147RankedEvalTargetTailTmmpGain
+
+def Graph147YpZmRankedEvalTailCaseScaledMarginBound
+def Graph147ZmYpRankedEvalTailCaseScaledMarginBound
+
+structure StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily
+
+def targetTailCaseFamily_of_scaledMarginFamily
+def rankedEvalTargetTailObjectFamily_of_scaledMarginFamily
+def rankedEvalMarginBundle_of_scaledMarginFamily
+def rootMarginBundle_of_scaledMarginFamily
+```
+
+Producer chain:
+
+```text
+StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily
+  -> StrengthenedGraph147RankedEvalTargetTailCaseFamily
+  -> StrengthenedGraph147RankedEvalTargetTailObjectFamily
+  -> StrengthenedGraph147RankedEvalMarginBundle
+  -> StrengthenedGraph147RootMarginBundle
+```
+
+The remaining proof fields are now explicit:
+
+```text
+tailZpGain    : graph147TargetTailZp evaluator gain is -499
+tailTmmpGain  : graph147TargetTailTmmp evaluator gain is -499
+
+yp_zm_zp      : yp,zm + graph147TargetTailZp    -> scaledMargin rank <= -376
+yp_zm_tmmp    : yp,zm + graph147TargetTailTmmp  -> scaledMargin rank <= -376
+zm_yp_zp      : zm,yp + graph147TargetTailZp    -> scaledMargin rank <= -376
+zm_yp_tmmp    : zm,yp + graph147TargetTailTmmp  -> scaledMargin rank <= -376
+```
+
+The two gain facts are deliberately proof-carrying fields rather than a hidden
+large evaluator reduction in this adapter.  A future producer may prove them by
+small generated step lemmas or a tiny deterministic-eval theorem.
+
+Focused check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/graph147_target_tail_case_margin_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseMarginSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCaseMarginSocket.lean
+```
+
+Result:
+
+```text
+passed, elapsed 3.00s, peak RSS 3845 MiB, hard address-space cap 24576 MiB,
+min available 46310 MiB
+```
+
+Updated immediate target:
+
+```text
+Prove or emit StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily.
+
+The proof must establish the two deterministic tail-gain facts and the four
+semantic scaled-margin facts.  If the scaled-margin facts cannot be proved from
+the current object fields, the next move is to add a small semantic margin
+certificate/field to the object language, not to fall back to sampled ranks,
+selected-prefix ids, accepted traces, exact affine keys, or per-observed-path
+membership.
+```
+
+Additional production-route audit marker:
+
+```text
+StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily
+```
