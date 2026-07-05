@@ -110372,3 +110372,19 @@ affine RHS, solved start-point keys, sampled ranks, selected prefixes, or one
 branch per observed path, stop direct graph147 scaling and switch to the
 certified segment/cocycle quotient experiment.
 ```
+
+Read-only follow-up inspection after adding the shard-margin interface:
+
+- `BellmanTopPairingGraph147CocycleQuotientBranchSmoke.lean` remains
+  diagnostic.  It checks two concrete branch gain contracts and the
+  gauge-corrected quotient algebra for those branches, but it does not provide
+  a rank-parametric `MarginInv rank state suffix acc`.
+- `BellmanTopPairingGraph147FullPotentialShards.lean` proves the 970-state
+  full-graph potential/root/final obligations, but it is still only the
+  Bellman-potential side.  It does not identify `scaledMargin rank` with the
+  ranked evaluator gain.
+- Therefore the next implementation must create real semantic margin evidence:
+  either a generated `StrengthenedGraph147RankedShardMarginInvariantFamily`
+  leaf, or a checked segment/cocycle quotient producer that derives such a
+  `MarginInv`.  Existing diagnostic branch smokes are not sufficient by
+  themselves.
