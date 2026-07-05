@@ -31,6 +31,11 @@ DIRECT_SOCKET = (
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean"
 )
+RANKED_EVAL_SOCKET = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean"
+)
 TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_TAIL = ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean"
 TRANSDUCER_EVAL = ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean"
@@ -51,6 +56,17 @@ SOCKET_SYMBOLS = [
     "strengthenedGraph147BranchSuffixStartBundle",
     "StrengthenedGraph147GraphExactBranchBundle",
     "graphExactBranchBundle_of_rootMarginBundle",
+]
+
+RANKED_EVAL_SYMBOLS = [
+    "graph147RankedEvalNext",
+    "graph147RankedShardSuffixOk_eval_exists_finalPotential",
+    "graph147RankedShardSuffixOk_graph_eval_exists_finalPotential",
+    "graph147YpZm_graph_eval_exists_finalPotential_of_strengthened_prefix",
+    "graph147ZmYp_graph_eval_exists_finalPotential_of_strengthened_prefix",
+    "graph147TargetCompletionTailRootMarginBound_of_ranked_eval_margin",
+    "graph147YpZmRootMarginBound_of_ranked_eval_margin",
+    "graph147ZmYpRootMarginBound_of_ranked_eval_margin",
 ]
 
 SEMANTIC_INPUT_SYMBOLS = {
@@ -101,7 +117,12 @@ REMAINING_FIELDS = [
     },
     {
         "field": "finish",
-        "meaning": "every accepted final state has nonnegative potential and proves the full-root margin bound",
+        "meaning": (
+            "every accepted final state has nonnegative potential and proves "
+            "the full-root margin bound; the potential/eval adapter is now "
+            "proved, so the remaining hard part is the semantic margin theorem "
+            "over the deterministic ranked evaluator result"
+        ),
     },
 ]
 
@@ -143,6 +164,7 @@ def contains_all(text: str, symbols: list[str]) -> dict[str, bool]:
 
 def main() -> None:
     direct_text = read(DIRECT_SOCKET)
+    ranked_eval_text = read(RANKED_EVAL_SOCKET)
     semantic_files = {
         "target_cursor": read(TARGET_CURSOR),
         "transducer_tail": read(TRANSDUCER_TAIL),
@@ -155,6 +177,7 @@ def main() -> None:
         for key, symbols in SEMANTIC_INPUT_SYMBOLS.items()
     }
     socket_symbols = contains_all(direct_text, SOCKET_SYMBOLS)
+    ranked_eval_symbols = contains_all(ranked_eval_text, RANKED_EVAL_SYMBOLS)
     gauge_data = read_json(GAUGE_AUDIT)
     gauge_decision = gauge_data.get("decision")
     gauge_accepted_modes = gauge_data.get("accepted_modes", [])
@@ -164,16 +187,26 @@ def main() -> None:
         and gauge_accepted_modes == ["full"]
     )
     forbidden_hits = [
-        term for term in FORBIDDEN_TERMS if term in direct_text
+        {
+            "term": term,
+            "file": str(path.relative_to(ROOT)),
+        }
+        for term in FORBIDDEN_TERMS
+        for path, text in [
+            (DIRECT_SOCKET, direct_text),
+            (RANKED_EVAL_SOCKET, ranked_eval_text),
+        ]
+        if term in text
     ]
 
     all_socket = all(socket_symbols.values())
+    all_ranked_eval = all(ranked_eval_symbols.values())
     all_semantic = all(
         all(symbols.values()) for symbols in semantic_symbols.values()
     )
     status = (
         "ready_for_ranked_transducer_invariant_producer"
-        if all_socket and all_semantic and full_graph_only
+        if all_socket and all_ranked_eval and all_semantic and full_graph_only
         and not forbidden_hits
         else "ranked_transducer_frontier_incomplete"
     )
@@ -184,6 +217,10 @@ def main() -> None:
             "file": str(DIRECT_SOCKET.relative_to(ROOT)),
             "symbols": socket_symbols,
             "forbidden_hits": forbidden_hits,
+        },
+        "ranked_eval_socket": {
+            "file": str(RANKED_EVAL_SOCKET.relative_to(ROOT)),
+            "symbols": ranked_eval_symbols,
         },
         "semantic_inputs": {
             key: {
@@ -215,13 +252,14 @@ def main() -> None:
         "remaining_fields": REMAINING_FIELDS,
         "production_route": PRODUCTION_ROUTE,
         "next_step": (
-            "Generate or prove StrengthenedGraph147RankedTransducerInvariantFamily "
-            "from target-shadow cursor, schedule/square-gap/local-axis tail, "
-            "pair-count/used-face facts, and deterministic full-graph147 "
-            "Bellman state semantics.  Do not use sampled ranks, selected "
-            "prefixes, accepted trace ids, exact affine keys, or "
-            "per-observed-path membership.  If the proof needs those, stop and "
-            "switch to a segment/cocycle quotient experiment."
+            "Generate or prove the semantic graph147 margin theorem over the "
+            "deterministic ranked evaluator result, then package it as "
+            "StrengthenedGraph147RankedTransducerInvariantFamily.  The theorem "
+            "must use target-shadow cursor, schedule/square-gap/local-axis "
+            "tail, pair-count/used-face facts, graph147 Bellman state "
+            "semantics, or a checked segment/cocycle quotient.  Do not use "
+            "sampled ranks, selected prefixes, accepted trace ids, exact "
+            "affine keys, or per-observed-path membership."
         ),
     }
 
@@ -233,12 +271,16 @@ def main() -> None:
         "",
         f"- status: `{status}`",
         f"- socket file: `{data['socket']['file']}`",
-        f"- forbidden hits: `{', '.join(forbidden_hits) if forbidden_hits else 'none'}`",
+        f"- ranked eval socket: `{data['ranked_eval_socket']['file']}`",
+        f"- forbidden hits: `{forbidden_hits if forbidden_hits else 'none'}`",
         "",
         "## Socket Symbols",
         "",
     ]
     for symbol, present in socket_symbols.items():
+        lines.append(f"- `{symbol}`: `{str(present).lower()}`")
+    lines.extend(["", "## Ranked Eval Socket Symbols", ""])
+    for symbol, present in ranked_eval_symbols.items():
         lines.append(f"- `{symbol}`: `{str(present).lower()}`")
     lines.extend(["", "## Semantic Inputs", ""])
     for key, entry in data["semantic_inputs"].items():

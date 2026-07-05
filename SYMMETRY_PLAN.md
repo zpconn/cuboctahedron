@@ -105304,6 +105304,37 @@ Current graph147 proof boundary is now precise:
   `scaledMargin rank <= 176 + (-53 + gain)` over the graph147 ranked evaluator
   result.
 
+The graph147 frontier audit now checks both the original direct socket and the
+new ranked-eval socket:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Result:
+
+```text
+status = ready_for_ranked_transducer_invariant_producer
+ranked_eval_socket symbols = all present
+forbidden_hits = []
+gauge_audit.decision = full_graph_margin_candidate_only
+gauge_audit.accepted_modes = [full]
+graph states = 970
+graph edges = 1054
+graph finals = 116
+```
+
+Interpretation:
+
+- The existing coarser quotient modes still do not certify the graph147 margin;
+  the only accepted diagnostic margin candidate is the full 970-state graph.
+- The next implementation target is therefore a semantic margin theorem over
+  the deterministic ranked evaluator result, probably using the full graph147
+  Bellman state first.  A coarser segment/cocycle quotient remains the fallback
+  only if the full-state theorem tries to reintroduce selected-prefix or
+  exact-affine membership.
+
 ### 2026-07-05 graph147 ranked suffix evaluator accepted
 
 Added a small semantic evaluator socket:
