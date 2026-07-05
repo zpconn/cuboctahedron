@@ -75,6 +75,10 @@ RANKED_EVAL_SYMBOLS = [
     "StrengthenedGraph147RankedEvalMarginInvariantFamily",
     "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily",
     "rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle",
+    "StrengthenedGraph147RankedShardMarginInvariantFamily",
+    "rankedEvalMarginInvariantFamily_of_rankedShardMarginInvariantFamily",
+    "rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily",
+    "rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle",
     "rootMarginBundle_of_rankedEvalMarginBundle",
     "rankedEvalMarginBundle_of_graphExactEvalGate",
     "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle",
@@ -134,9 +138,11 @@ REMAINING_FIELDS = [
             "every accepted final state has nonnegative potential and proves "
             "the full-root margin bound.  The sharper ranked-eval invariant "
             "surface now separates this into a suffix margin invariant with "
-            "local preservation plus a final empty-suffix margin theorem; the "
-            "remaining hard part is to instantiate that invariant from closed "
-            "target cursor, schedule, local-axis, and full graph147 state facts"
+            "local preservation plus a final empty-suffix margin theorem.  The "
+            "ranked shard adapter additionally supplies the semantic suffix "
+            "closure and final-potential facts, so the remaining hard part is "
+            "to instantiate the margin-only invariant from closed target "
+            "cursor, schedule, local-axis, and full graph147 state facts"
         ),
     },
 ]
@@ -151,6 +157,7 @@ PRODUCTION_ROUTE = {
         "one generated branch per observed path",
     ],
     "target": (
+        "StrengthenedGraph147RankedShardMarginInvariantFamily -> "
         "StrengthenedGraph147RankedEvalMarginInvariantFamily -> "
         "StrengthenedGraph147RankedEvalMarginBundle -> "
         "rootMarginBundle_of_rankedEvalMarginBundle"
@@ -224,7 +231,9 @@ def main() -> None:
         [
             "ready_for_ranked_eval_margin_bundle_producer",
             "StrengthenedGraph147RankedEvalMarginInvariantFamily",
+            "StrengthenedGraph147RankedShardMarginInvariantFamily",
             "StrengthenedGraph147RankedEvalMarginBundle",
+            "rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily",
             "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily",
             "rootMarginBundle_of_rankedEvalMarginBundle",
         ],

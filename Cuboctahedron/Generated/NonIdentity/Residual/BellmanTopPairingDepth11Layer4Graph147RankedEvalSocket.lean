@@ -706,6 +706,143 @@ def rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBund
   rootMarginBundle_of_rankedEvalMarginBundle
     (rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily hfamily)
 
+/--
+Margin-only producer surface over the already-checked graph-147 ranked shard
+suffix language.
+
+`Graph147RankedShardSuffixOk` already proves the deterministic suffix evaluator
+is locally closed and reaches a final nonnegative-potential state.  Therefore
+the next generated producer should only have to prove a margin invariant over
+that semantic suffix language.  The local margin step is allowed to use the
+current suffix proof and transducer tail, but it still cannot use sampled
+ranks, accepted trace ids, selected prefixes, or affine keys.
+-/
+structure StrengthenedGraph147RankedShardMarginInvariantFamily
+    (MarginInv :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Int -> Prop)
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  yp_zm_start :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+            MarginInv rank graph147RankedPrefix4EvalState rest (-53 : Int)
+  zm_yp_start :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+        ∀ rest,
+          Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+            MarginInv rank graph147RankedPrefix4EvalState rest (-53 : Int)
+  localStep :
+    ∀ {rank : Fin numPairWords}
+      {state :
+        TopPairingTransducerEvalState StrengthenedClosedEvalState}
+      {face : Face} {rest : List Face} {acc : Int}
+      {nextState :
+        TopPairingTransducerEvalState StrengthenedClosedEvalState}
+      {stepGain : Int},
+      MarginInv rank state (face :: rest) acc ->
+      Graph147RankedShardSuffixOk rank state (face :: rest) ->
+      state.Tail (face :: rest) ->
+      graph147RankedEvalNext state face = some (nextState, stepGain) ->
+        MarginInv rank nextState rest (acc + stepGain)
+  finish :
+    ∀ {rank : Fin numPairWords}
+      {finish :
+        TopPairingTransducerEvalState StrengthenedClosedEvalState}
+      {acc : Int},
+      MarginInv rank finish [] acc ->
+      Graph147RankedShardSuffixOk rank finish [] ->
+        scaledMargin rank <= (176 : Int) + acc
+
+def rankedEvalMarginInvariantFamily_of_rankedShardMarginInvariantFamily
+    {MarginInv :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Int -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedShardMarginInvariantFamily
+        MarginInv scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RankedEvalMarginInvariantFamily
+      (fun rank state labels acc =>
+        state.Tail labels ∧
+          Graph147RankedShardSuffixOk rank state labels ∧
+            MarginInv rank state labels acc)
+      scaledMargin sequenceBadFace where
+  yp_zm_start := by
+    intro rank hstrengthened rest hprefix
+    refine ⟨?_, ?_, ?_⟩
+    · exact graph147YpZm_rankedPrefix4Tail_of_strengthened_prefix
+        hstrengthened hprefix
+    · exact graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix
+        hstrengthened hprefix
+    · exact hfamily.yp_zm_start rank hstrengthened rest hprefix
+  zm_yp_start := by
+    intro rank hstrengthened rest hprefix
+    refine ⟨?_, ?_, ?_⟩
+    · exact graph147ZmYp_rankedPrefix4Tail_of_strengthened_prefix
+        hstrengthened hprefix
+    · exact graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix
+        hstrengthened hprefix
+    · exact hfamily.zm_yp_start rank hstrengthened rest hprefix
+  localStep := by
+    intro rank state face rest acc nextState stepGain hinv hnext
+    rcases hinv with ⟨htail, hsuffix, hmargin⟩
+    rcases graph147RankedShardSuffixOk_localStep htail hsuffix with
+      ⟨nextState', stepGain', hnext', htailNext, hsuffixNext⟩
+    have hnext0 :
+        TopPairingTransducerEvalState.next?
+            strengthenedClosedEvalNext (fun face : Face => face)
+            state face =
+          some (nextState, stepGain) := by
+      simpa [graph147RankedEvalNext] using hnext
+    rw [hnext0] at hnext'
+    rcases Option.some.inj hnext' with ⟨rfl, rfl⟩
+    exact
+      ⟨htailNext, hsuffixNext,
+        hfamily.localStep hmargin hsuffix htail hnext⟩
+  finish := by
+    intro rank finish acc hinv
+    exact hfamily.finish hinv.2.2 hinv.2.1
+
+def rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily
+    {MarginInv :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Int -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedShardMarginInvariantFamily
+        MarginInv scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RankedEvalMarginBundle
+      scaledMargin sequenceBadFace :=
+  rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily
+    (rankedEvalMarginInvariantFamily_of_rankedShardMarginInvariantFamily
+      hfamily)
+
+def rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle
+    {MarginInv :
+      Fin numPairWords ->
+        TopPairingTransducerEvalState StrengthenedClosedEvalState ->
+          List Face -> Int -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedShardMarginInvariantFamily
+        MarginInv scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin sequenceBadFace :=
+  rootMarginBundle_of_rankedEvalMarginBundle
+    (rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily hfamily)
+
 def rankedEvalMarginFamily_of_yp_zm_graphExactEvalGate
     {scaledMargin : Fin numPairWords -> Int}
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}

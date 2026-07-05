@@ -26,7 +26,9 @@
     "symbols": {
       "StrengthenedGraph147RankedEvalMarginBundle": true,
       "StrengthenedGraph147RankedEvalMarginInvariantFamily": true,
+      "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
       "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily": true,
+      "rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily": true,
       "ready_for_ranked_eval_margin_bundle_producer": true,
       "rootMarginBundle_of_rankedEvalMarginBundle": true
     }
@@ -41,13 +43,14 @@
       "exact affine RHS keys",
       "one generated branch per observed path"
     ],
-    "target": "StrengthenedGraph147RankedEvalMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginBundle -> rootMarginBundle_of_rankedEvalMarginBundle"
+    "target": "StrengthenedGraph147RankedShardMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginBundle -> rootMarginBundle_of_rankedEvalMarginBundle"
   },
   "ranked_eval_socket": {
     "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean",
     "symbols": {
       "StrengthenedGraph147RankedEvalMarginBundle": true,
       "StrengthenedGraph147RankedEvalMarginInvariantFamily": true,
+      "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
       "graph147RankedEvalNext": true,
       "graph147RankedEval_margin_of_suffixInvariant": true,
       "graph147RankedShardSuffixOk_eval_exists_finalPotential": true,
@@ -61,10 +64,13 @@
       "graph147ZmYp_rankedPrefix4Tail_of_strengthened_prefix": true,
       "rankedEvalMarginBundle_of_graphExactEvalGate": true,
       "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily": true,
+      "rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily": true,
       "rankedEvalMarginBundle_of_rankedTransducerInvariantFamily": true,
+      "rankedEvalMarginInvariantFamily_of_rankedShardMarginInvariantFamily": true,
       "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle": true,
       "rootMarginBundle_of_rankedEvalMarginBundle": true,
       "rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle": true,
+      "rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle": true,
       "rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle": true
     }
   },
@@ -83,7 +89,7 @@
     },
     {
       "field": "finish",
-      "meaning": "every accepted final state has nonnegative potential and proves the full-root margin bound.  The sharper ranked-eval invariant surface now separates this into a suffix margin invariant with local preservation plus a final empty-suffix margin theorem; the remaining hard part is to instantiate that invariant from closed target cursor, schedule, local-axis, and full graph147 state facts"
+      "meaning": "every accepted final state has nonnegative potential and proves the full-root margin bound.  The sharper ranked-eval invariant surface now separates this into a suffix margin invariant with local preservation plus a final empty-suffix margin theorem.  The ranked shard adapter additionally supplies the semantic suffix closure and final-potential facts, so the remaining hard part is to instantiate the margin-only invariant from closed target cursor, schedule, local-axis, and full graph147 state facts"
     }
   ],
   "semantic_inputs": {

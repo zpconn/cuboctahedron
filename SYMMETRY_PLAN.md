@@ -110269,3 +110269,106 @@ affine RHS, solved start-point keys, sampled rank membership, selected-prefix
 membership, or one branch per observed path, reject the graph147 direct route
 and switch to the certified segment/cocycle quotient experiment.
 ```
+
+### 2026-07-05 graph147 shard-margin invariant refinement
+
+The previous section made the ranked evaluator margin induction explicit.  The
+next refinement separates the suffix/evaluator proof from the margin proof even
+more cleanly.
+
+`Graph147RankedShardSuffixOk` already supplies:
+
+```lean
+theorem graph147RankedShardSuffixOk_localStep
+theorem graph147RankedShardSuffixOk_finalPotential
+```
+
+so a production generator should not reprove suffix closure while proving the
+margin.  The ranked socket now exposes a margin-only surface over that shard
+suffix language:
+
+```lean
+structure StrengthenedGraph147RankedShardMarginInvariantFamily
+
+def rankedEvalMarginInvariantFamily_of_rankedShardMarginInvariantFamily
+
+def rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily
+
+def rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle
+```
+
+Accepted production route, sharpened:
+
+```text
+StrengthenedGraph147RankedShardMarginInvariantFamily
+  -> StrengthenedGraph147RankedEvalMarginInvariantFamily
+  -> StrengthenedGraph147RankedEvalMarginBundle
+  -> rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+The future generated producer now only needs a margin invariant:
+
+```lean
+MarginInv rank state suffix acc
+localStep :
+  MarginInv rank state (face :: rest) acc ->
+  Graph147RankedShardSuffixOk rank state (face :: rest) ->
+  state.Tail (face :: rest) ->
+  graph147RankedEvalNext state face = some (nextState, stepGain) ->
+  MarginInv rank nextState rest (acc + stepGain)
+finish :
+  MarginInv rank finish [] acc ->
+  Graph147RankedShardSuffixOk rank finish [] ->
+  scaledMargin rank <= (176 : Int) + acc
+```
+
+This is closer to the GPT5.5 target: deterministic semantic transducer
+membership is already provided by the shard suffix predicate; the remaining
+producer is specifically the semantic margin accumulator.  Accepted inputs are
+still target-shadow cursor, schedule/square-gap/local-axis tail,
+pair-count/used-face facts, full graph147 Bellman-state semantics, or a
+checked segment/cocycle quotient.  Rejected inputs remain sampled ranks,
+selected-prefix ids, accepted trace ids, exact affine RHS keys, solved
+start-point keys, one branch per observed path, and giant Boolean checkers.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_shard_margin_invariant_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_shard_margin_invariant_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket
+```
+
+Results:
+
+```text
+direct Lean = pass; elapsed=3.00s; peak_tree_rss=4006 MiB;
+  hard_as=8192 MiB; min_available=46215 MiB
+Lake module build = pass; elapsed=4.00s; peak_tree_rss=3822 MiB;
+  min_available=46259 MiB
+```
+
+Next exact step:
+
+```text
+try to instantiate StrengthenedGraph147RankedShardMarginInvariantFamily for a
+small representative graph147 shard-margin producer.  If the local margin step
+cannot be proved from accepted semantic coordinates and insists on exact
+affine RHS, solved start-point keys, sampled ranks, selected prefixes, or one
+branch per observed path, stop direct graph147 scaling and switch to the
+certified segment/cocycle quotient experiment.
+```

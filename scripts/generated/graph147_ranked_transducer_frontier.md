@@ -38,6 +38,10 @@
 - `StrengthenedGraph147RankedEvalMarginInvariantFamily`: `true`
 - `rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily`: `true`
 - `rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle`: `true`
+- `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
+- `rankedEvalMarginInvariantFamily_of_rankedShardMarginInvariantFamily`: `true`
+- `rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily`: `true`
+- `rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle`: `true`
 - `rootMarginBundle_of_rankedEvalMarginBundle`: `true`
 - `rankedEvalMarginBundle_of_graphExactEvalGate`: `true`
 - `rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle`: `true`
@@ -49,7 +53,9 @@
 - file: `SYMMETRY_PLAN.md`
 - `ready_for_ranked_eval_margin_bundle_producer`: `true`
 - `StrengthenedGraph147RankedEvalMarginInvariantFamily`: `true`
+- `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
 - `StrengthenedGraph147RankedEvalMarginBundle`: `true`
+- `rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily`: `true`
 - `rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily`: `true`
 - `rootMarginBundle_of_rankedEvalMarginBundle`: `true`
 
@@ -98,12 +104,12 @@
 - `start`: the generated invariant holds at the strengthened closed evaluator start
 - `suffixStart`: every strengthened closed graph147 rank starts with the rank-indexed suffix certificate
 - `localStep`: every semantic state/face head transition advances the deterministic evaluator and preserves the invariant and suffix certificate
-- `finish`: every accepted final state has nonnegative potential and proves the full-root margin bound.  The sharper ranked-eval invariant surface now separates this into a suffix margin invariant with local preservation plus a final empty-suffix margin theorem; the remaining hard part is to instantiate that invariant from closed target cursor, schedule, local-axis, and full graph147 state facts
+- `finish`: every accepted final state has nonnegative potential and proves the full-root margin bound.  The sharper ranked-eval invariant surface now separates this into a suffix margin invariant with local preservation plus a final empty-suffix margin theorem.  The ranked shard adapter additionally supplies the semantic suffix closure and final-potential facts, so the remaining hard part is to instantiate the margin-only invariant from closed target cursor, schedule, local-axis, and full graph147 state facts
 
 ## Production Route
 
 - keep: `Bellman/state-DAG via deterministic semantic transducer`
-- target: `StrengthenedGraph147RankedEvalMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginBundle -> rootMarginBundle_of_rankedEvalMarginBundle`
+- target: `StrengthenedGraph147RankedShardMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginBundle -> rootMarginBundle_of_rankedEvalMarginBundle`
 - fallback: If the invariant cannot be proved from target cursor, schedule, square-gap/local-axis tail, pair-count/used-face facts, and deterministic full-graph147 state semantics, stop graph147 scaling and switch to the certified segment/cocycle quotient experiment.
 
 Rejected production coordinates:
