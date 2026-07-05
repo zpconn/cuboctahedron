@@ -110766,3 +110766,84 @@ under 6 GiB RSS and above 43 GiB available memory.  This validates the socket
 surface, not the missing margin producer.  The next accepted work remains the
 representative StrengthenedGraph147RankedShardMarginInvariantFamily producer.
 ```
+
+### 2026-07-05 graph147 suffix-eval margin invariant adapter accepted
+
+The next graph147 slice makes the producer frontier sharper.  The ranked eval
+socket now exposes a semantic invariant normal form:
+
+```lean
+def Graph147RankedSuffixEvalMarginInv
+
+def rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle
+
+def rootMarginBundle_of_rankedEvalMarginBundle_via_suffixEvalMarginInv
+```
+
+`Graph147RankedSuffixEvalMarginInv scaledMargin rank state labels acc` says:
+
+```lean
+∀ finish gain,
+  evalLabelStepFn graph147RankedEvalNext state labels = some (finish, gain) ->
+    scaledMargin rank <= 176 + (acc + gain)
+```
+
+The adapter proves that once the two branch start-margin theorems are known,
+the preferred `StrengthenedGraph147RankedShardMarginInvariantFamily` follows
+with no further membership machinery.  Its `localStep` and `finish` fields are
+pure evaluator algebra.  Therefore the remaining graph147 proof obligation is
+now exactly:
+
+```text
+For the `yp,zm` and `zm,yp` graph147 prefix-4 branches, prove
+Graph147RankedSuffixEvalMarginInv at graph147RankedPrefix4EvalState with
+acc = -53, using semantic closed-language fields and no selected-prefix,
+sampled-rank, accepted-trace, exact-affine, or per-path evidence.
+```
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_suffix_eval_margin_inv_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_suffix_eval_margin_inv_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket
+```
+
+Result:
+
+```text
+direct Graph147RankedEvalSocket recheck = pass
+elapsed = 3.00s
+peak_tree_rss = 3623 MiB
+min_available = 46330 MiB
+hard_as = 8192 MiB
+Lake Graph147RankedEvalSocket warm build = pass
+elapsed = 3.00s
+peak_tree_rss = 4110 MiB
+min_available = 46097 MiB
+```
+
+Interpretation:
+
+```text
+This is not a proof of graph147 coverage yet.  It is the accepted reducer from
+branch-level ranked-eval margin bounds to the preferred shard-margin socket.
+If the next producer cannot prove these two branch start-margin facts from
+semantic closed-language state, graph147 direct scaling fails the current
+go/no-go rule and the route must switch to a checked segment/cocycle quotient.
+```

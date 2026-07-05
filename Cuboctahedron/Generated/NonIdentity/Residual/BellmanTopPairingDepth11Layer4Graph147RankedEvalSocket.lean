@@ -760,6 +760,68 @@ structure StrengthenedGraph147RankedShardMarginInvariantFamily
       Graph147RankedShardSuffixOk rank finish [] ->
         scaledMargin rank <= (176 : Int) + acc
 
+/--
+Tautological suffix-evaluator margin invariant for graph-147.
+
+This invariant is intentionally semantic: it talks only about the deterministic
+ranked evaluator from the current state and suffix.  It contains no sampled
+ranks, selected-prefix ids, accepted trace ids, affine keys, or path table.  It
+is useful as a producer-normal form because local preservation and finish are
+pure evaluator algebra; the only remaining mathematical work is the branch
+start theorem.
+-/
+def Graph147RankedSuffixEvalMarginInv
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords)
+    (state :
+      TopPairingTransducerEvalState StrengthenedClosedEvalState)
+    (labels : List Face) (acc : Int) : Prop :=
+  ∀ finish gain,
+    evalLabelStepFn graph147RankedEvalNext state labels =
+        some (finish, gain) ->
+      scaledMargin rank <= (176 : Int) + (acc + gain)
+
+/--
+A branch-level ranked-evaluator margin bundle is exactly enough to instantiate
+the shard-margin invariant socket using
+`Graph147RankedSuffixEvalMarginInv`.
+
+This adapter is a checkpoint for the semantic-transducer pivot.  It proves that
+future generated work does not need to invent another membership layer: after
+the two branch start-margin theorems are available, local-step preservation and
+the empty-suffix finish theorem are discharged generically.
+-/
+def rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hbundle :
+      StrengthenedGraph147RankedEvalMarginBundle
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RankedShardMarginInvariantFamily
+      (Graph147RankedSuffixEvalMarginInv scaledMargin)
+      scaledMargin sequenceBadFace where
+  yp_zm_start := by
+    intro rank hstrengthened rest hprefix finish gain heval
+    exact hbundle.yp_zm.margin rank hstrengthened rest hprefix finish gain
+      heval
+  zm_yp_start := by
+    intro rank hstrengthened rest hprefix finish gain heval
+    exact hbundle.zm_yp.margin rank hstrengthened rest hprefix finish gain
+      heval
+  localStep := by
+    intro rank state face rest acc nextState stepGain hmargin _hsuffix _htail
+      hnext finish gain hevalTail
+    have heval :
+        evalLabelStepFn graph147RankedEvalNext state (face :: rest) =
+          some (finish, stepGain + gain) := by
+      simp [evalLabelStepFn, hnext, hevalTail]
+    have hbound := hmargin finish (stepGain + gain) heval
+    simpa [Int.add_assoc] using hbound
+  finish := by
+    intro rank finish acc hmargin _hsuffix
+    have hbound := hmargin finish 0 (by rfl)
+    simpa using hbound
+
 def rankedEvalMarginInvariantFamily_of_rankedShardMarginInvariantFamily
     {MarginInv :
       Fin numPairWords ->
@@ -842,6 +904,17 @@ def rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBun
       scaledMargin sequenceBadFace :=
   rootMarginBundle_of_rankedEvalMarginBundle
     (rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily hfamily)
+
+def rootMarginBundle_of_rankedEvalMarginBundle_via_suffixEvalMarginInv
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hbundle :
+      StrengthenedGraph147RankedEvalMarginBundle
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin sequenceBadFace :=
+  rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle
+    (rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle hbundle)
 
 def rankedEvalMarginFamily_of_yp_zm_graphExactEvalGate
     {scaledMargin : Fin numPairWords -> Int}

@@ -39,6 +39,9 @@
 - `rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily`: `true`
 - `rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle`: `true`
 - `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
+- `Graph147RankedSuffixEvalMarginInv`: `true`
+- `rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle`: `true`
+- `rootMarginBundle_of_rankedEvalMarginBundle_via_suffixEvalMarginInv`: `true`
 - `rankedEvalMarginInvariantFamily_of_rankedShardMarginInvariantFamily`: `true`
 - `rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily`: `true`
 - `rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle`: `true`

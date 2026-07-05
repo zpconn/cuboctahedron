@@ -78,6 +78,7 @@
   "ranked_eval_socket": {
     "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean",
     "symbols": {
+      "Graph147RankedSuffixEvalMarginInv": true,
       "StrengthenedGraph147RankedEvalMarginBundle": true,
       "StrengthenedGraph147RankedEvalMarginInvariantFamily": true,
       "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
@@ -97,8 +98,10 @@
       "rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily": true,
       "rankedEvalMarginBundle_of_rankedTransducerInvariantFamily": true,
       "rankedEvalMarginInvariantFamily_of_rankedShardMarginInvariantFamily": true,
+      "rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle": true,
       "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle": true,
       "rootMarginBundle_of_rankedEvalMarginBundle": true,
+      "rootMarginBundle_of_rankedEvalMarginBundle_via_suffixEvalMarginInv": true,
       "rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle": true,
       "rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle": true,
       "rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle": true
