@@ -102705,3 +102705,77 @@ local tables.
   large.  This should remain a semantic state-machine proof over the closed
   language; it must not reintroduce selected prefixes, sampled ranks, accepted
   trace ids, exact affine RHS keys, or per-rank path objects.
+
+### 2026-07-04 all-rank layer-4 terminal-machine frontier package
+
+- Added a small packaged layer-4 frontier surface to:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStateFrontierSmoke
+  ```
+
+- New theorem/object names:
+
+  ```lean
+  Layer4MachineFrontierGate
+  layer4MachineFrontierGate_of_closed
+  Layer4MachineFrontierGateAll
+  layer4MachineFrontierGateAll
+  ```
+
+- Meaning:
+  this packages the strongest terminal-machine fact currently proved from the
+  closed top-pairing language without sampled ranks or selected prefixes:
+  every closed rank reaches one of the compact layer-4 machine states, and the
+  same proof carries the `Split10MPrefix4FrontierCons2` graph-prefix frontier
+  fact.  This is still not a terminal gate; it is the explicit all-rank
+  handoff for the next emitter/proof step.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+
+  rg -n "sorry|admit|axiom|native_decide|unsafe" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean \
+    scripts/audit_terminal_machine_pivot_surfaces.py \
+    scripts/generated/terminal_machine_pivot_surfaces.json \
+    scripts/generated/terminal_machine_pivot_surfaces.md
+
+  rg -n "SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean \
+    scripts/generated/terminal_machine_pivot_surfaces.json \
+    scripts/generated/terminal_machine_pivot_surfaces.md
+  ```
+
+- Results:
+  - First guarded build attempt failed quickly because
+    `Layer4MachineFrontierGate` was introduced as a `Prop`-valued structure
+    with data fields `ThirdBranch` and `FourthBranch`.  Lean rejected the
+    projection generation.  This was a theorem-shape error, not a memory
+    failure.
+  - After changing `Layer4MachineFrontierGate` to an existential `Prop`, the
+    guarded focused build passed in `5.02s`.
+  - Peak guarded tree RSS was `4226 MiB`; minimum available memory observed
+    was `45900 MiB`.
+  - The terminal-machine pivot surface audit passed with
+    `status = machine-pivot-surfaces-present`.
+  - Targeted forbidden-token and sampled/selected-name scans over the touched
+    Lean/audit artifacts returned no hits.
+
+- Current promotion status:
+  accepted as the semantic layer-4 terminal-machine frontier.  The next
+  production step remains to extend this frontier to a full
+  `TerminalContainedEvalPrefixGate` ending in a terminal state, or to add a
+  compositional frontier-to-terminal theorem whose generated leaves can be
+  checked in small shards.  Do not replace this with accepted terminal trace
+  ids or selected-prefix membership.

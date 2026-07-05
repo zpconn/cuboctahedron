@@ -1025,6 +1025,47 @@ theorem layer4Progress_prefix4_exists_of_closed
         (layer4Progress_prefix3_of_head hclosed hhead3)
         (layer4Progress_step4_of_head hhead4)⟩
 
+/--
+Packaged semantic layer-4 terminal-machine frontier.
+
+This is the current deterministic terminal-machine handoff: every closed
+top-pairing rank reaches one of the compact layer-4 generated machine states,
+and the same proof supplies the split-10M graph prefix frontier fact used by
+the Bellman graph suffix route.  It is intentionally a progress gate rather
+than a terminal gate; the remaining production task is to continue this
+machine proof from the layer-4 frontier to a terminal state.
+-/
+def Layer4MachineFrontierGate (rank : Fin numPairWords) : Prop :=
+  ∃ third : ThirdBranch, ∃ fourth : FourthBranch,
+    TerminalContainedEvalProgressGate
+      layer4Machine Layer4State.s00 rank
+        (Layer4State.s04 third fourth) ∧
+      Split10MPrefix4FrontierCons2 third.face fourth.face
+
+theorem layer4MachineFrontierGate_of_closed
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym) :
+    Layer4MachineFrontierGate rank := by
+  rcases layer4Prefix4FrontierCons2_exists_of_closed hclosed with
+    ⟨third, fourth, hprogress, hfrontier⟩
+  exact ⟨third, fourth, hprogress, hfrontier⟩
+
+/--
+All-rank layer-4 frontier producer for the deterministic terminal-machine
+pivot.  This is the strongest terminal-machine fact currently proved from the
+closed language without using selected-prefix or accepted-trace membership.
+-/
+structure Layer4MachineFrontierGateAll : Prop where
+  family :
+    ∀ rank,
+      TopPairingClosedLanguageAtRank rank Face.ym ->
+      Layer4MachineFrontierGate rank
+
+def layer4MachineFrontierGateAll : Layer4MachineFrontierGateAll where
+  family := by
+    intro rank hclosed
+    exact layer4MachineFrontierGate_of_closed hclosed
+
 theorem terminalStateFrontierSmoke_builds : True := by
   exact True.intro
 

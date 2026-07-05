@@ -47,7 +47,10 @@ REQUIRED_SYMBOLS = {
         "terminalTraceLabels_of_containedEvalPrefixGate",
     ],
     "terminal_frontier": [
+        "Layer4MachineFrontierGate",
+        "Layer4MachineFrontierGateAll",
         "layer4Prefix4FrontierCons2_exists_of_closed",
+        "layer4MachineFrontierGateAll",
         "layer4Progress_prefix4_exists_of_closed",
         "TerminalContainedEvalProgressGate",
     ],

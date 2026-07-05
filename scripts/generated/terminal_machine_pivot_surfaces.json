@@ -50,7 +50,10 @@
       "missing": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateFrontierSmoke.lean",
       "symbols": {
+        "Layer4MachineFrontierGate": true,
+        "Layer4MachineFrontierGateAll": true,
         "TerminalContainedEvalProgressGate": true,
+        "layer4MachineFrontierGateAll": true,
         "layer4Prefix4FrontierCons2_exists_of_closed": true,
         "layer4Progress_prefix4_exists_of_closed": true
       }
