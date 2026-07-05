@@ -54,6 +54,9 @@ def graph183Layer4TailPrefixLabels : List Face :=
 def graph183TailPrefixRemaining : List Face :=
   [Face.xp]
 
+def graph183FullTailPrefixLabels : List Face :=
+  graph183TerminalPrefixLabels ++ graph183TailPrefixLabels
+
 def graph183TerminalFinishState : TerminalStepState :=
   ((((((graph183TerminalPrefixState.nextStep Face.tppp).nextStep
     Face.tmmm).nextStep Face.tpmp).nextStep Face.yp).nextStep Face.tmpp).nextStep
@@ -135,6 +138,12 @@ theorem graph183Layer4ForcedTail_split :
       graph183Layer4TailPrefixLabels ++ graph183TailPrefixRemaining := by
   rfl
 
+theorem graph183InitialForcedTail_split :
+    Face.xm :: Face.ym :: Face.tmpm :: Face.zm ::
+        Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail =
+      graph183FullTailPrefixLabels ++ graph183TailPrefixRemaining := by
+  rfl
+
 theorem graph183TerminalFinish_prefix_length :
     graph183TerminalFinishState.pfx.length = 13 := by
   rfl
@@ -171,6 +180,13 @@ theorem graph183Layer4TailPrefixEval :
     evalLabelStepFn
         (nextEval TerminalStepStatePartialMachine.semantic)
         graph183Layer4PrefixState graph183Layer4TailPrefixLabels =
+      some (graph183TerminalFinishState, 0) := by
+  rfl
+
+theorem graph183FullTailPrefixEval :
+    evalLabelStepFn
+        (nextEval TerminalStepStatePartialMachine.semantic)
+        TerminalStepState.initial graph183FullTailPrefixLabels =
       some (graph183TerminalFinishState, 0) := by
   rfl
 
@@ -364,6 +380,42 @@ theorem graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix_semantic
     hstrengthened hprefix
     (graph183Layer4CompletionTail_of_strengthened_prefix
       hstrengthened hprefix)
+
+theorem graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TerminalContainedEvalPrefixGate
+      TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank := by
+  have htail :=
+    graph183Layer4CompletionTail_of_strengthened_prefix
+      hstrengthened hprefix
+  have hok :=
+    graph183Layer4ForcedTailSuffixOk_of_strengthened_prefix
+      hstrengthened hprefix htail
+  refine ⟨graph183FullTailPrefixLabels, graph183TerminalFinishState, 0,
+    graph183TailPrefixRemaining, ?_, ?_, graph183FullTailPrefixEval,
+    graph183TerminalFinishProducer⟩
+  · exact initial_contains_of_closed
+      hstrengthened.toTopPairingClosedLanguageAtRank
+  · unfold graph183Layer4ForcedTailSuffixOk at hok
+    subst rest
+    have hlabels :
+        topPairingRankFaceLabels rank =
+          Face.xm :: Face.ym :: Face.tmpm :: Face.zm ::
+            Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail := by
+      simpa [Depth11Layer4PrefixAtRank] using hprefix
+    rw [graph183InitialForcedTail_split] at hlabels
+    have hpfx :
+        (TerminalStepStatePartialMachine.semantic.stateOf
+          TerminalStepState.initial).pfx = [] := by
+      rfl
+    rw [hpfx]
+    simpa using hlabels
 
 theorem graph183TerminalTailPrefixSmoke_builds : True := by
   exact True.intro

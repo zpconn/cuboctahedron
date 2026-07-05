@@ -104056,3 +104056,60 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   generalize the adapter so generated all-lane suffix packages can feed
   `Layer4PrefixMachineContinuationFromContainsAll` without replaying prefix
   membership.
+
+### 2026-07-05 graph183 semantic lane reaches initial machine state
+
+- Added the initial-state graph183 terminal-machine adapter:
+
+  ```lean
+  graph183FullTailPrefixLabels
+  graph183InitialForcedTail_split
+  graph183FullTailPrefixEval
+  graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic
+  ```
+
+- The theorem
+  `graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic`
+  composes the semantic layer-4 prefix, graph183 semantic target-completion
+  tail, blocked-branch rejection, and terminal tail-prefix evaluator into:
+
+  ```lean
+  TerminalContainedEvalPrefixGate
+    TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank
+  ```
+
+  from only:
+
+  ```lean
+  TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym
+  Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest
+  ```
+
+- This is now a complete one-lane deterministic semantic evaluator theorem
+  from the semantic machine's initial state.  It still covers only the
+  `tmpm,zm` graph183 lane, but it no longer needs an explicit
+  target-completion-tail premise and it does not mention sampled membership,
+  selected prefixes, accepted trace IDs, exact affine RHS keys, or solved
+  start-point keys.
+
+- Command:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183TerminalTailPrefixSmoke
+  ```
+
+- Result:
+  focused graph183 smoke build passed under the memory guard in `3.00s`, with
+  peak tree RSS `4128 MiB` and minimum available memory `46072 MiB`.
+
+- Next implementation target:
+  abstract this successful branch-local pattern into a reusable one-lane
+  adapter surface, then decide whether the production wrapper should assemble
+  all seven layer-4 lanes through `Layer4PrefixMachineContinuationFromContainsAll`
+  or through a generated family of initial-state contained gates.
