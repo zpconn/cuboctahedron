@@ -15,6 +15,8 @@
   - required symbols: present
 - `depth11_graph_path`: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke.lean`
   - required symbols: present
+- `graph183_tail_prefix_smoke`: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean`
+  - required symbols: present
 
 ## Boundary
 

@@ -14,7 +14,8 @@
       "rank-free target-completion suffix evaluator socket",
       "filtered target-completion suffix evaluator socket",
       "target-completion tail-prefix evaluator socket",
-      "filtered target-completion tail-prefix evaluator socket"
+      "filtered target-completion tail-prefix evaluator socket",
+      "graph183 filtered tail-prefix smoke over the semantic terminal machine"
     ],
     "remaining_gap": "instantiate a full generated terminal machine with Layer4ReachablePrefixMachine and prove rank-free or filtered target-completion tail-prefix continuations from its after4 third fourth states for reachable Split10MPrefix4FrontierCons2 pairs"
   },
@@ -35,6 +36,15 @@
         "Depth11GraphPathMachinePortfolioAll": true,
         "machineProducerAll_of_depth11GraphPathMachinePortfolioAll": true,
         "scaledMargin_nonpos_of_depth11GraphPathMachinePortfolioAll": true
+      }
+    },
+    "graph183_tail_prefix_smoke": {
+      "missing": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean",
+      "symbols": {
+        "graph183FilteredTailPrefixContinuation": true,
+        "graph183TerminalFinishProducer": true,
+        "graph183TerminalTailPrefixEval": true
       }
     },
     "target_cursor": {

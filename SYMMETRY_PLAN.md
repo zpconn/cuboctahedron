@@ -103686,3 +103686,101 @@ local tables.
     -> blocked target-completion tail contradicts closed bad-face semantics
     -> final xp is left to the generic terminal trace bridge
   ```
+
+### 2026-07-04 graph183 filtered tail-prefix smoke accepted
+
+- Instantiated the filtered tail-prefix production shape for the concrete
+  graph183 accepted branch in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingGraph183TerminalTailPrefixSmoke
+  ```
+
+- The smoke fixes the semantic terminal-machine start state after the graph183
+  prefix
+
+  ```lean
+  [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.zp, Face.tppm, Face.tpmm]
+  ```
+
+  and proves that the forced accepted tail-prefix
+
+  ```lean
+  [Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp, Face.tmmp]
+  ```
+
+  evaluates through `TerminalStepStatePartialMachine.semantic` to a
+  `TerminalStepStateProducer` with a length-13 prefix.  The final `[Face.xp]`
+  remains in the `remaining` field for the generic schedule/terminal trace
+  bridge.
+
+- New theorem/interface names:
+
+  ```lean
+  graph183TerminalTailPrefixEval
+  graph183TerminalFinishProducer
+  graph183FilteredTailPrefixContinuation
+  graph183TerminalTailPrefixSmoke_builds
+  ```
+
+- The terminal proof avoids accepted trace ids by proving
+  `GraphAcceptedTraceLabels` directly from the concrete accepted face trace:
+
+  ```lean
+  graph183TerminalFinish_completed_trace :
+    graph183TerminalFinishState.pfx ++ [Face.xp] = acceptedFaceTrace_017
+  ```
+
+  The audit forbids `acceptedTraceOfId`, sampled-rank objects, selected-prefix
+  tokens, `sorry`, `admit`, `axiom`, `native_decide`, and `unsafe`; the new
+  smoke passes that scan.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183TerminalTailPrefixSmoke
+
+  rg -n \
+    "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+  git diff --check
+  ```
+
+- Results:
+  - Focused graph183 smoke build passed under the memory guard in `5.00s`,
+    with peak tree RSS `3229 MiB` and minimum available memory `46284 MiB`.
+  - The forbidden-pattern `rg` scan returned no matches.
+  - `scripts/audit_terminal_machine_pivot_surfaces.py` passed with
+    `status = machine-pivot-surfaces-present` and `forbidden_hits = 0`.
+  - `git diff --check` passed.
+
+- What this proves:
+  the graph183 accepted tail-prefix can be consumed by the semantic terminal
+  machine using the new filtered tail-prefix continuation socket, without a
+  sampled rank/path object and without accepted trace ids.
+
+- What this does not prove yet:
+  rank coverage, full layer-4 reachability, or the closed-language derivation
+  of the filter predicate.  The next graph183 theorem should derive
+  `graph183ForcedTailSuffixOk rest` from the closed bad-face branch, using the
+  already available target-completion tail split and blocked-branch absurdity
+  facts:
+
+  ```text
+  graph183_tail_eq_forced_or_tmmp_branch
+  graph183_blocked_branch_absurd_of_acceptedSequenceBadFace
+  ```
+
+  Once that filter is semantic rather than assumed, the same smoke can be
+  lifted into the layer-4/full-machine wrapper as the first concrete
+  graph183 filtered production lane.

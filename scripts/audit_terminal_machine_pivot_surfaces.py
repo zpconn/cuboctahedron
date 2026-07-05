@@ -31,6 +31,9 @@ FILES = {
     "depth11_graph_path": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingSemanticStateDAGDepth11GraphPathProvidersSmoke.lean",
+    "graph183_tail_prefix_smoke": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean",
 }
 
 
@@ -103,6 +106,11 @@ REQUIRED_SYMBOLS = {
         "machineProducerAll_of_depth11GraphPathMachinePortfolioAll",
         "scaledMargin_nonpos_of_depth11GraphPathMachinePortfolioAll",
     ],
+    "graph183_tail_prefix_smoke": [
+        "graph183TerminalTailPrefixEval",
+        "graph183TerminalFinishProducer",
+        "graph183FilteredTailPrefixContinuation",
+    ],
 }
 
 
@@ -165,6 +173,7 @@ def main() -> int:
                 "filtered target-completion suffix evaluator socket",
                 "target-completion tail-prefix evaluator socket",
                 "filtered target-completion tail-prefix evaluator socket",
+                "graph183 filtered tail-prefix smoke over the semantic terminal machine",
             ],
             "remaining_gap": (
                 "instantiate a full generated terminal machine with "
