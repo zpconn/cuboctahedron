@@ -965,12 +965,12 @@
       "passed": true
     },
     {
-      "detail": 3595.2265625,
+      "detail": 3992.40625,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 46331.5625,
+      "detail": 46222.859375,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
       "passed": true
     },
@@ -1011,9 +1011,9 @@
       "peak_rss_mib": 3410.734375
     },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 3.0123432210239116,
-      "min_available_mib": 46331.5625,
-      "peak_rss_mib": 3595.2265625
+      "elapsed_seconds": 5.003691438003443,
+      "min_available_mib": 46222.859375,
+      "peak_rss_mib": 3992.40625
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,

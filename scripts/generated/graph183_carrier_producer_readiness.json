@@ -488,12 +488,12 @@
       "passed": true
     },
     {
-      "detail": 3595.2265625,
+      "detail": 3992.40625,
       "name": "socket_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46331.5625,
+      "detail": 46222.859375,
       "name": "socket_guard:available_above_30000_mib",
       "passed": true
     },
@@ -537,9 +537,9 @@
     "closed_semantic_gate_guard_elapsed_seconds": 3.0027096020057797,
     "closed_semantic_gate_guard_min_available_mib": 46322.6328125,
     "closed_semantic_gate_guard_peak_rss_mib": 3719.16015625,
-    "guard_elapsed_seconds": 3.0123432210239116,
-    "guard_min_available_mib": 46331.5625,
-    "guard_peak_rss_mib": 3595.2265625,
+    "guard_elapsed_seconds": 5.003691438003443,
+    "guard_min_available_mib": 46222.859375,
+    "guard_peak_rss_mib": 3992.40625,
     "profile_edges": 229,
     "profile_margin_families": 1,
     "profile_matched": 37,

@@ -39,9 +39,9 @@ observed path remains a no-go.
 | `quotient_states` | `43` |
 | `quotient_edges` | `93` |
 | `quotient_max_bit_length` | `9` |
-| `guard_elapsed_seconds` | `3.0123432210239116` |
-| `guard_peak_rss_mib` | `3595.2265625` |
-| `guard_min_available_mib` | `46331.5625` |
+| `guard_elapsed_seconds` | `5.003691438003443` |
+| `guard_peak_rss_mib` | `3992.40625` |
+| `guard_min_available_mib` | `46222.859375` |
 | `closed_semantic_gate_guard_elapsed_seconds` | `3.0027096020057797` |
 | `closed_semantic_gate_guard_peak_rss_mib` | `3719.16015625` |
 | `closed_semantic_gate_guard_min_available_mib` | `46322.6328125` |
@@ -149,8 +149,8 @@ observed path remains a no-go.
 | `quotient_1m:solution_exists` | `True` | `['gauge', 'gauge_count', 'max_bit_length', 'nonzero_values', 'small_gain_count', 'small_gains']` |
 | `quotient_1m:bit_length_under_16` | `True` | `9` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
-| `socket_guard:rss_under_6500_mib` | `True` | `3595.2265625` |
-| `socket_guard:available_above_30000_mib` | `True` | `46331.5625` |
+| `socket_guard:rss_under_6500_mib` | `True` | `3992.40625` |
+| `socket_guard:available_above_30000_mib` | `True` | `46222.859375` |
 | `closed_semantic_gate_guard:guard_exit_zero` | `True` | `0` |
 | `closed_semantic_gate_guard:rss_under_6500_mib` | `True` | `3719.16015625` |
 | `closed_semantic_gate_guard:available_above_30000_mib` | `True` | `46322.6328125` |

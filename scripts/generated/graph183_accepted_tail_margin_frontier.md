@@ -77,9 +77,9 @@ cocycle/coboundary quotient.
 
 | metric | value |
 | --- | ---: |
-| `elapsed_seconds` | `3.0123432210239116` |
-| `peak_rss_mib` | `3595.2265625` |
-| `min_available_mib` | `46331.5625` |
+| `elapsed_seconds` | `5.003691438003443` |
+| `peak_rss_mib` | `3992.40625` |
+| `min_available_mib` | `46222.859375` |
 
 ### graph183_accepted_branch_quotient_guard
 
@@ -305,8 +305,8 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
 | `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
 | `graph183_quotient_margin_socket:guard_exit_zero` | `True` | `0` |
-| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3595.2265625` |
-| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46331.5625` |
+| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3992.40625` |
+| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46222.859375` |
 | `graph183_accepted_branch_quotient:guard_exit_zero` | `True` | `0` |
 | `graph183_accepted_branch_quotient:rss_under_6000_mib` | `True` | `3410.734375` |
 | `graph183_accepted_branch_quotient:available_above_30000_mib` | `True` | `46363.515625` |

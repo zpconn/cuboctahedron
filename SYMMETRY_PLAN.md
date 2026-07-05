@@ -111611,6 +111611,106 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 graph183 start-violation import no-go
+
+The latest GPT5.5 guidance sharpened the Bellman pivot one more time:
+the next breakthrough is a deterministic closed-language-to-evaluator theorem
+plus semantic start-violation evidence, not another selected-prefix or trace-id
+membership cover.
+
+Current graph183 status:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym
+Graph183TailQuotientMarginEvalFamily sequenceBadFace scaledMargin
+Graph183TailQuotientObjectMarginBound sequenceBadFace scaledMargin
+Graph183TailBranchQuotientStartViolationFamily sequenceBadFace scaledMargin
+nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation
+```
+
+The graph183 accepted branch labels are definitionally the fixed accepted
+trace `t017`, but importing the generated t017 start-violation provider into
+the core graph183 quotient socket is rejected for production architecture.
+The experiment:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 --min-available-mib 30000 \
+  --timeout-seconds 300 \
+  --json scripts/generated/trace017_start_violation_provider_guard.json \
+  -- lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingTrace017StartViolationProvider
+```
+
+was killed by the guard after Lake replayed a broad dependency slice:
+
+```text
+wrapper exit = 137
+guard JSON child exit = -15
+elapsed = 7.01s
+peak RSS = 12731 MiB
+min available = 45046 MiB
+```
+
+A direct source check of the provider also showed the missing dependency root:
+
+```text
+BellmanTopPairingTrace017StartViolationProvider.lean:1:0:
+error: object file ... TopPairingTraceClassifier/Terminal/Shard000.olean
+does not exist
+```
+
+Decision:
+
+- Keep `BellmanTopPairingGraph183QuotientMarginSocket.lean` lightweight.
+- Do not import trace-provider leaves, terminal trace classifier shards, or
+  accepted-trace dispatchers into the graph183 core quotient/margin socket.
+- Use the existing branch-local start-violation surface as the production
+  target:
+
+  ```lean
+  Graph183TailBranchQuotientStartViolationFamily sequenceBadFace scaledMargin
+  ```
+
+- The next producer must prove:
+
+  1. the graph183 quotient margin carrier from semantic closed-language state;
+  2. the branch-local `ObjectStartViolationMarginCert` from the same semantic
+     prefix/state facts;
+  3. no sampled ranks, selected-prefix ids, accepted trace-id membership,
+     exact affine RHS keys, solved start-point keys, stored full Bellman paths,
+     or one branch per rank/path.
+
+The focused core socket remains memory-safe after rejecting the heavy import:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 --min-available-mib 30000 \
+  --timeout-seconds 240 --hard-address-space-mib 7000 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 5.00s
+peak RSS = 3992 MiB
+min available = 46222 MiB
+```
+
+Latest strategy statement:
+
+Keep Bellman.
+Reject selected-prefix and accepted-trace membership as production coverage.
+Do not pack trace-provider leaves into the public graph183 route.
+Prove graph183 by a deterministic semantic transducer theorem plus a semantic
+branch-local start-violation producer.
+
 Interpretation: the Lean bridge from a semantic/gauge-corrected eval-margin
 language theorem to the graph183 carrier is now checked and cheap.  The
 remaining missing piece is no longer a socket: it is the actual semantic
