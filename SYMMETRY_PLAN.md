@@ -104940,3 +104940,67 @@ Result:
 ```text
 pass; elapsed=5.01s; peak_tree_rss=4246 MiB; min_available=45847 MiB
 ```
+
+### 2026-07-05 no-go: current local-axis field does not prove graph221 evaluator success
+
+After the graph151 target-completion tail was discharged semantically, the next
+attempt was to derive the remaining graph221 strengthened-evaluator success
+premise from the existing strengthened closed-language fields:
+
+```text
+accepted-face Nodup
+schedule
+square-gap
+target-shadow/cancellation cursor
+local-axis
+sequence-bad-face predicate
+```
+
+The intended proof split `Graph221TargetCompletionTail tail` into the three
+accepted graph221 suffixes or the blocked prefix
+
+```text
+yp, tmpm, zp, ...
+```
+
+and tried to rule out the blocked prefix using
+`TopPairingLocalAxisLabels`.  Lean rejected the contradiction: the local theorem
+reduced the needed `TopPairingLocalAxisAllows ... Face.zp` obligation to `True`.
+So the blocked graph221 branch is not excluded by the current local-axis field.
+
+This is an important go/no-go result for the GPT5.5 Bellman pivot.  The remaining
+evaluator theorem cannot be proved from
+`TopPairingStrengthenedClosedLanguageAtRank` as currently shaped by merely adding
+more local-axis/schedule/cursor lemmas.  The next step must add a genuinely
+stronger semantic suffix invariant, such as:
+
+- a deterministic product-state suffix predicate for `strengthenedClosedEvalNext`
+  that carries the Bellman graph state and proves the `yp,tmpm,zp` transition is
+  impossible before asking for an evaluator equation;
+- a cancellation-tree / tri-source progress invariant that explains why the
+  blocked target-completion branch is outside the accepted Bellman language;
+- or the cocycle/gauge quotient experiment recommended in the pivot notes if the
+  required invariant starts smuggling exact prefixes, exact affine RHS, solved
+  start points, sampled ranks, or one branch per observed path.
+
+Focused guarded experiment:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221TerminalTailPrefixSmoke
+```
+
+Results:
+
+```text
+failed experimental local-axis theorem safely;
+error shape: h : True |- False;
+peak_tree_rss=4211 MiB
+
+after backing out the failed theorem:
+pass; elapsed=5.01s; peak_tree_rss=4239 MiB; min_available=45850 MiB
+```
