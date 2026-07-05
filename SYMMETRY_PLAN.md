@@ -115595,3 +115595,88 @@ The producer must be deterministic and semantic.  It may use target-shadow
 cursor, transducer tail, branch-prefix, suffix, graph-state, and cocycle/gauge
 facts.  It must not use sampled ranks, selected-prefix IDs, accepted trace IDs,
 exact affine RHS keys, solved start-point keys, or one branch per observed path.
+
+### 2026-07-05 graph147 target-completion step-run surface
+
+Status: local graph147 suffix step-run surface complete and guarded.
+
+The graph147 target-completion shard now exposes the step-run route needed by
+the deterministic-transducer pivot:
+
+```lean
+nextTarget?_closedBellmanStep_sound
+ShardTargetSuffixOk.labelStepRun_final_nonneg_of_graph147Lane
+labelStepRun_final_nonneg_of_graph147TargetCompletionTail
+```
+
+These theorems convert the compact local `nextTarget?` target-completion table
+into actual `ClosedBellmanStep` evidence, then recursively turn graph147
+target-completion suffix membership into:
+
+```lean
+exists finish totalGain,
+  BellmanLabelStepRun ClosedBellmanStep
+    (evalState ShardState.prefix4YpZm).graph finish labels totalGain /\
+  0 <= graphPotential finish
+```
+
+This is the right production direction:
+
+```text
+semantic target-completion suffix
+  -> BellmanLabelStepRun ClosedBellmanStep
+  -> closedBellmanStep_valid
+  -> nonpositive Bellman margin
+```
+
+It avoids the rejected route:
+
+```text
+evalLabelStepFn equality
+  -> infer edge relation by reducing unknown closedBellmanNext
+  -> heartbeat failure
+```
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph147_target_completion_shard000_guard.json \
+  -- lake env lean -M 7000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean
+```
+
+Passed: elapsed `6.00s`, peak RSS `4104 MiB`, min available `46096 MiB`.
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 --max-tree-rss-mib 7500 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph147_direct_eval_socket_guard.json \
+  -- lake env lean -M 7500 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+Passed: elapsed `3.00s`, peak RSS `4038 MiB`, min available `46204 MiB`.
+
+Next implementation target:
+
+```text
+Add the root-prefix step-run and margin composition for the two graph147
+layer-4 lanes:
+
+  [xm, ym, yp, zm] and [xm, ym, zm, yp]
+
+Both have prefix gain `-53`.  The new suffix step-run theorem plus the existing
+Graph147TargetCompletionTailRootMarginBound should assemble a
+StrengthenedClosedBellmanStepRunFamily-compatible branch theorem without using
+StrengthenedClosedEvalNextBound.
+```
+
+If that assembly needs an eval equality only to feed the existing margin-bound
+surface, keep it local and derive it from `BellmanLabelStepRun` using
+`closedBellmanStep_next`; do not use unknown-state inverse reduction.

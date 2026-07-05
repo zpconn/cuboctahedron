@@ -1,0 +1,26 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "-M",
+    "7500",
+    "-j1",
+    "-s",
+    "16384",
+    "-o",
+    ".lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.olean",
+    "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean"
+  ],
+  "elapsed_seconds": 3.0031816580158193,
+  "exit_code": 0,
+  "hard_address_space_mib": 16384.0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4135056,
+  "max_tree_rss_mib": 4038.140625,
+  "min_available_seen_kib": 47313688,
+  "min_available_seen_mib": 46204.7734375,
+  "rss_cap_mib": 7500.0,
+  "timeout_seconds": 300.0
+}

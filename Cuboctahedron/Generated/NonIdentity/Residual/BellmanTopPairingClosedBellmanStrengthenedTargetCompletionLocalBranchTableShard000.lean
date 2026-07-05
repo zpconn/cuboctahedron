@@ -13,6 +13,7 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBe
 
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential
 
 inductive ShardState where
@@ -348,6 +349,67 @@ theorem nextTarget?_graph_sound
     exact ⟨strengthenedClosedPrefix5ZmTmppTpppEvalState,
       strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp,
       rfl⟩
+
+/--
+The compact target table is also a genuine `ClosedBellmanStep` table.
+
+This is the step-run companion to `nextTarget?_graph_sound`: it lets
+branch-local semantic suffix proofs build `BellmanLabelStepRun
+ClosedBellmanStep` directly, avoiding the rejected inverse proof from unknown
+`closedBellmanNext` equalities.
+-/
+theorem nextTarget?_closedBellmanStep_sound
+    {state : ShardState} {face : Face}
+    {target : ShardStepTarget} {gain : Int}
+    (hnext : nextTarget? state face = some (target, gain)) :
+    ClosedBellmanStep (evalState state).graph face target.graph gain := by
+  cases state <;> cases face <;>
+    simp [nextTarget?] at hnext
+  all_goals rcases hnext with ⟨rfl, rfl⟩
+  case prefix4YpZm.zp =>
+    exact ClosedBellmanStep.e0135_l13
+  case prefix4YpZm.tmmp =>
+    exact ClosedBellmanStep.e0136_l01
+  case prefix5YpZmZp.tmmm =>
+    exact ClosedBellmanStep.e0145_l00
+  case prefix12YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmpp.tmmp =>
+    exact ClosedBellmanStep.e0080_l01
+  case prefix12YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmm.zp =>
+    exact ClosedBellmanStep.e0086_l13
+  case prefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmp.xp =>
+    exact ClosedBellmanStep.e0123_l09
+  case prefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZp.xp =>
+    exact ClosedBellmanStep.e0120_l09
+  case prefix9YpZmZpTmmmTpmmTppmTpmp.tmpm =>
+    exact ClosedBellmanStep.e0210_l02
+  case prefix11YpZmZpTmmmTpmmTppmTpmpTmpmTppp.tmpp =>
+    exact ClosedBellmanStep.e0045_l03
+  case prefix11YpZmTmmpTpmpTpppTpmmTmppTppmTmpm.tmmm =>
+    exact ClosedBellmanStep.e0050_l00
+  case prefix9YpZmTmmpTpmpTpppTpmmTmpp.tppm =>
+    exact ClosedBellmanStep.e0213_l06
+  case prefix10YpZmZpTmmmTpmmTppmTpmpTmpm.tppp =>
+    exact ClosedBellmanStep.e0006_l07
+  case prefix10YpZmTmmpTpmpTpppTpmmTmppTppm.tmpm =>
+    exact ClosedBellmanStep.e0011_l02
+  case prefix8YpZmZpTmmmTpmmTppm.tpmp =>
+    exact ClosedBellmanStep.e0190_l05
+  case prefix8YpZmTmmpTpmpTpppTpmm.tmpp =>
+    exact ClosedBellmanStep.e0193_l03
+  case prefix7YpZmZpTmmmTpmm.tppm =>
+    exact ClosedBellmanStep.e0173_l06
+  case prefix7YpZmTmmpTpmpTppp.tpmm =>
+    exact ClosedBellmanStep.e0175_l04
+  case prefix6YpZmZpTmmm.tpmm =>
+    exact ClosedBellmanStep.e0158_l04
+  case prefix6YpZmTmmpTpmp.tppp =>
+    exact ClosedBellmanStep.e0161_l07
+  case prefix5YpZmTmmp.tpmp =>
+    exact ClosedBellmanStep.e0148_l05
+  case prefix4TmpmZm.zp =>
+    exact ClosedBellmanStep.e0141_l13
+  case prefix4ZmTmpp.tppp =>
+    exact ClosedBellmanStep.e0142_l07
 
 theorem nextTarget?_shard_sound
     {state nextState : ShardState} {face : Face} {gain : Int}
@@ -998,6 +1060,49 @@ theorem ShardTargetSuffixOk.eval_exists_final_nonneg_of_graph147Lane
       · rw [hgraph]
         exact TerminalExternalOk.final_nonneg hterminal
 
+/--
+Step-run version of `eval_exists_final_nonneg_of_graph147Lane`.
+
+This is the production-oriented surface for the deterministic-transducer
+pivot: the suffix predicate produces a real `BellmanLabelStepRun
+ClosedBellmanStep`, so downstream nonpositive-margin consumers can use
+`closedBellmanStep_valid` directly instead of proving an inverse theorem for
+unknown `closedBellmanNext` or `strengthenedClosedEvalNext` equalities.
+-/
+theorem ShardTargetSuffixOk.labelStepRun_final_nonneg_of_graph147Lane
+    {state : ShardState} {labels : List Face}
+    (hlane : ShardState.inGraph147Lane state)
+    (hsuffix : ShardTargetSuffixOk ShardExternalTailOk state labels) :
+    ∃ finish totalGain,
+      BellmanLabelStepRun ClosedBellmanStep (evalState state).graph finish
+          labels totalGain ∧
+        0 <= graphPotential finish := by
+  induction hsuffix with
+  | shard_step hstep _hrest ih =>
+      rename_i _currentState nextShard face stepGain rest
+      have hlaneNext :
+          ShardState.inGraph147Lane nextShard :=
+        ShardState.inGraph147Lane_of_nextTarget?_shard hlane hstep
+      rcases ih hlaneNext with ⟨finish, tailGain, hrun, hfinal⟩
+      refine ⟨finish, stepGain + tailGain, ?_, hfinal⟩
+      exact BellmanLabelStepRun.cons
+        (nextTarget?_closedBellmanStep_sound hstep) hrun
+  | external_step hstep hrest =>
+      rename_i currentState graph face stepGain rest
+      have hterminal :
+          TerminalExternalOk graph rest :=
+        ShardExternalTailOk.terminal_of_graph147Lane
+          hlane hstep hrest
+      refine ⟨graph, stepGain + 0, ?_, ?_⟩
+      · cases hterminal
+        · exact BellmanLabelStepRun.cons
+            (nextTarget?_closedBellmanStep_sound hstep)
+            (BellmanLabelStepRun.nil 141)
+        · exact BellmanLabelStepRun.cons
+            (nextTarget?_closedBellmanStep_sound hstep)
+            (BellmanLabelStepRun.nil 138)
+      · exact TerminalExternalOk.final_nonneg hterminal
+
 theorem eval_exists_final_nonneg_of_graph147TargetCompletionTail
     {labels : List Face}
     (htail : Graph147TargetCompletionTail labels) :
@@ -1012,6 +1117,20 @@ theorem eval_exists_final_nonneg_of_graph147TargetCompletionTail
       (ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk
         (state := .prefix4YpZm)
         (by simpa [Graph147TargetCompletionTail, completionState] using htail))
+
+theorem labelStepRun_final_nonneg_of_graph147TargetCompletionTail
+    {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels) :
+    ∃ finish totalGain,
+      BellmanLabelStepRun ClosedBellmanStep
+          (evalState ShardState.prefix4YpZm).graph finish labels
+          totalGain ∧
+        0 <= graphPotential finish :=
+  ShardTargetSuffixOk.labelStepRun_final_nonneg_of_graph147Lane
+    ShardState.inGraph147Lane_prefix4YpZm
+    (ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk
+      (state := .prefix4YpZm)
+      (by simpa [Graph147TargetCompletionTail, completionState] using htail))
 
 /--
 Semantic margin socket for the graph-147 target-completion lane.
