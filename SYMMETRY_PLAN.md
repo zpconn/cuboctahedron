@@ -115297,3 +115297,80 @@ graph potential inequalities.
 If the proof requires a finite inverse theorem from `closedBellmanNext` equality
 to `ClosedBellmanStep`, keep that theorem graph-local and generated/state-based;
 do not push rank-specific evidence into the layer-4 consumer.
+
+### 2026-07-05 strengthened next-bound packaging audit
+
+Status: current proof shape rejected for ordinary build packaging; theorem
+surface remains desirable.
+
+Target audited:
+
+```text
+StrengthenedClosedEvalNextBound
+
+forall state face nextState gain,
+  strengthenedClosedEvalNext state face = some (nextState, gain) ->
+    gain + graphPotential nextState.graph <= graphPotential state.graph
+```
+
+What worked:
+
+* A direct local-shard proof of the graph-local bound succeeds when Lean is run
+  with command-line `-DmaxHeartbeats=0`.
+* The proof is memory-safe in the current environment: the successful prototype
+  ran in about `42s` and peaked at about `4284 MiB` RSS under the guard.
+* The proof uses only exact generated graph transitions and integer potential
+  inequalities; it introduces no rank data, sampled traces, affine keys, or
+  unchecked computation.
+
+What failed:
+
+* The same theorem shape does not pass the ordinary direct-lean command used for
+  local checkpoint builds.
+* Even with file-level `set_option maxHeartbeats 0`, Lean reports the default
+  `200000` heartbeat limit while elaborating/reducing theorem bodies involving
+  unknown-state applications of the generated shard `next` functions.
+* A range-bounded variant with `state < graphStateCount` still times out under
+  the ordinary command because theorem statements or proof bodies that mention
+  unknown `closedBellmanNext state face = ...` force expensive reduction.
+
+Rejected command shape:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/strengthened_next_bound_socket_guard.json \
+  -- lake env lean -M 7000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextBoundSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextBoundSocket.lean
+```
+
+Result: failed by heartbeat, not memory.  The guard recorded elapsed `19.01s`,
+peak RSS `4113 MiB`, min available `46088 MiB`.
+
+Decision:
+
+```text
+Do not commit/import the experimental StrengthenedNextBound socket in this
+form.  Keep AcceptedSequenceGraph147EvalNonposGate as the current bridge
+obligation.
+```
+
+Next acceptable route:
+
+```text
+Generate a lower-heartbeat graph-local inverse/bound surface, preferably
+per-shard:
+
+  ShardNNN.nextBoundLowHeartbeat
+    -- theorem statement should avoid unknown-state applications of the huge
+    -- shard matcher when possible
+
+or emit a finite edge-dispatch theorem whose public statement is over a compact
+edge relation rather than `closedBellmanNext state face = ...`.
+```
+
+The key constraint is that the graph147 nonpositive bridge must remain
+graph-local.  A workaround requiring rank/path membership, selected prefixes,
+sampled traces, or affine data is rejected.
