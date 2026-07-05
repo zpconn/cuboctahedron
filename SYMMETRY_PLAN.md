@@ -111688,3 +111688,46 @@ use deterministic closed-language evaluation, target-shadow/tri-source cursor
 state, and Lean-checked quotient/gauge integer facts.  It must not use sampled
 ranks, selected-prefix ids, accepted trace ids, exact affine RHS keys, solved
 start-point keys, stored full Bellman paths, or one branch per rank/path.
+
+### 2026-07-05 semantic-evaluator audits retargeted
+
+The older top-pairing semantic-evaluator audit still reported the previous
+accepted-tail quotient-margin family as the next target.  Retargeted it to the
+generic graph183 carrier so all active audits agree:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+Updated files:
+
+```text
+scripts/audit_top_pairing_semantic_evaluator_pivot.py
+scripts/audit_graph183_accepted_tail_margin_frontier.py
+scripts/generated/top_pairing_semantic_evaluator_pivot.json
+scripts/generated/top_pairing_semantic_evaluator_pivot.md
+scripts/generated/graph183_accepted_tail_margin_frontier.json
+scripts/generated/graph183_accepted_tail_margin_frontier.md
+```
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+```
+
+Results:
+
+```text
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+```
+
+This is still a strategy/progress audit, not proof evidence.  The proof work is
+now sharply focused on deriving the carrier semantically from the closed
+language, deterministic evaluator state, and quotient/gauge margin facts.

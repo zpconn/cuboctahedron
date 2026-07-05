@@ -225,11 +225,19 @@ REQUIRED_SYMBOLS = {
     ],
     "graph183_quotient_margin_socket": [
         "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily",
+        "Graph183TailQuotientMarginFamily",
+        "Graph183TailQuotientMarginSequenceBadFace",
+        "graph183TailQuotientMarginFamily_of_sequenceBadFace",
+        "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily",
         "acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin",
         "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin",
         "graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin",
         "graphExactEvalGateAtRank_of_acceptedSequenceGraph183TailQuotientMargin",
+        "scaledMargin_nonpos_of_graph183TailQuotientMargin",
         "scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin",
+        "Graph183TailBranchQuotientStartViolationFamily",
+        "acceptedSequenceGraph183TailBranchQuotientStartViolationFamily_of_graph183TailBranch",
+        "nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation",
         "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
         "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
         "acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin",
@@ -307,8 +315,12 @@ GRAPH_ALIGNMENT_GUARDS = {
     },
     "graph183_quotient_margin_socket": {
         "must_contain": [
+            "Graph183TailQuotientMarginSequenceBadFace",
+            "graph183TailQuotientMarginFamily_of_sequenceBadFace",
             "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily",
             "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
+            "Graph183TailBranchQuotientStartViolationFamily",
+            "nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation",
             "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
             "graph183AcceptedBranchRawGain",
         ],
@@ -463,20 +475,26 @@ def render_markdown(report: dict[str, Any]) -> str:
             "",
             "This audit therefore treats the graph183 completion-tail slice as a",
             "passed semantic-transducer checkpoint.  The next producer should",
-            "target the branch-local quotient-margin surface:",
+            "target the generic sequence-bad-face quotient-margin carrier:",
             "",
             "```lean",
-            "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin",
+            "Graph183TailQuotientMarginSequenceBadFace scaledMargin",
             "```",
             "",
-            "The quotient-margin surface adapts to the accepted-tail margin,",
-            "final-margin, graph169 continuation, graph-exact eval, and",
-            "`NonIdentityRankKilled` sockets.  The older exact-eval surface",
-            "remains an adapter/checkpoint, not the preferred proof obligation:",
+            "The generic carrier feeds `Graph183TailQuotientMarginFamily` via",
+            "`graph183TailQuotientMarginFamily_of_sequenceBadFace`, and the",
+            "socket adapts that generic family back to the older accepted-tail",
+            "margin, final-margin, graph169 continuation, graph-exact eval, and",
+            "`NonIdentityRankKilled` surfaces.  The older exact-eval surface",
+            "remains an adapter/checkpoint, not the preferred proof obligation.",
+            "Compatibility adapters include:",
             "",
             "```lean",
+            "graph183TailQuotientMarginFamily_of_sequenceBadFace",
+            "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily",
             "acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin",
             "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin",
+            "nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation",
             "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
             "```",
             "",
@@ -498,12 +516,12 @@ def render_markdown(report: dict[str, Any]) -> str:
             "## Go/No-Go Gate",
             "",
             "Go only if the next producer proves",
-            "`AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily` from",
-            "semantic closed-language state and Lean-checked quotient/gauge",
-            "integer facts.  No-go if the proof introduces sampled ranks,",
-            "selected-prefix coverage, accepted trace ids, exact affine RHS keys,",
-            "or one branch per rank/path.  In that case, add a missing semantic",
-            "state field or pivot to the cancellation-tree segment algebra.",
+            "`Graph183TailQuotientMarginSequenceBadFace` from semantic",
+            "closed-language state and Lean-checked quotient/gauge integer",
+            "facts.  No-go if the proof introduces sampled ranks, selected-prefix",
+            "coverage, accepted trace ids, exact affine RHS keys, or one branch",
+            "per rank/path.  In that case, add a missing semantic state field or",
+            "pivot to the cancellation-tree segment algebra.",
             "",
         ]
     )
@@ -539,7 +557,7 @@ def main() -> int:
 
     guard_report = {name: load_json(path) for name, path in GUARDS.items()}
     decision = (
-        "semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer"
+        "semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier"
         if (
             not missing_symbols
             and not all_forbidden_hits
@@ -556,7 +574,7 @@ def main() -> int:
         "forbidden_hits": all_forbidden_hits,
         "graph_alignment_violations": all_graph_alignment_violations,
         "next_production_target": (
-            "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin"
+            "Graph183TailQuotientMarginSequenceBadFace scaledMargin"
         ),
     }
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)

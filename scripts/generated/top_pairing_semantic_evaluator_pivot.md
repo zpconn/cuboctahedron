@@ -4,7 +4,7 @@ This audit is diagnostic status evidence, not proof.  It records the
 current Lean theorem surfaces for the pivot away from selected-prefix
 membership and toward deterministic closed-language evaluator proofs.
 
-- decision: `semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer`
+- decision: `semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier`
 - missing required symbols: `0`
 - forbidden production-token hits: `0`
 - graph-alignment violations: `0`
@@ -27,7 +27,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
 | `graph183_tail_table_socket` | `1346` | none |
-| `graph183_quotient_margin_socket` | `326` | none |
+| `graph183_quotient_margin_socket` | `461` | none |
 | `target_completion_local_branch_table_shard000` | `1403` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -62,20 +62,26 @@ schedule/square/used/length state supplies `Graph150TargetCompletionTail`.
 
 This audit therefore treats the graph183 completion-tail slice as a
 passed semantic-transducer checkpoint.  The next producer should
-target the branch-local quotient-margin surface:
+target the generic sequence-bad-face quotient-margin carrier:
 
 ```lean
-AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
 ```
 
-The quotient-margin surface adapts to the accepted-tail margin,
-final-margin, graph169 continuation, graph-exact eval, and
-`NonIdentityRankKilled` sockets.  The older exact-eval surface
-remains an adapter/checkpoint, not the preferred proof obligation:
+The generic carrier feeds `Graph183TailQuotientMarginFamily` via
+`graph183TailQuotientMarginFamily_of_sequenceBadFace`, and the
+socket adapts that generic family back to the older accepted-tail
+margin, final-margin, graph169 continuation, graph-exact eval, and
+`NonIdentityRankKilled` surfaces.  The older exact-eval surface
+remains an adapter/checkpoint, not the preferred proof obligation.
+Compatibility adapters include:
 
 ```lean
+graph183TailQuotientMarginFamily_of_sequenceBadFace
+acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily
 acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin
 acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin
+nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation
 nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation
 ```
 
@@ -97,9 +103,9 @@ by the same Bellman potential bound.
 ## Go/No-Go Gate
 
 Go only if the next producer proves
-`AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily` from
-semantic closed-language state and Lean-checked quotient/gauge
-integer facts.  No-go if the proof introduces sampled ranks,
-selected-prefix coverage, accepted trace ids, exact affine RHS keys,
-or one branch per rank/path.  In that case, add a missing semantic
-state field or pivot to the cancellation-tree segment algebra.
+`Graph183TailQuotientMarginSequenceBadFace` from semantic
+closed-language state and Lean-checked quotient/gauge integer
+facts.  No-go if the proof introduces sampled ranks, selected-prefix
+coverage, accepted trace ids, exact affine RHS keys, or one branch
+per rank/path.  In that case, add a missing semantic state field or
+pivot to the cancellation-tree segment algebra.

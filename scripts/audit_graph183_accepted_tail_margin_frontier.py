@@ -506,15 +506,15 @@ def semantic_audit_checks(audit: dict[str, Any] | None) -> list[dict[str, Any]]:
         ]
     return [
         {
-            "name": "semantic_audit_accepts_margin_target",
+            "name": "semantic_audit_accepts_sequencebadface_carrier_target",
             "passed": audit.get("decision")
-            == "semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer",
+            == "semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier",
             "detail": audit.get("decision"),
         },
         {
-            "name": "semantic_audit_target_is_accepted_tail_margin",
+            "name": "semantic_audit_target_is_graph183_sequencebadface_carrier",
             "passed": audit.get("next_production_target")
-            == "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin",
+            == "Graph183TailQuotientMarginSequenceBadFace scaledMargin",
             "detail": audit.get("next_production_target"),
         },
     ]
