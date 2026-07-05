@@ -115092,3 +115092,75 @@ No sampled rank objects, selected prefixes, accepted trace ids, exact affine
 RHS keys, solved start-point keys, or one-branch-per-rank proof should be
 introduced.  If routing into this theorem demands such data, strengthen the
 semantic state instead of reviving selected-prefix coverage.
+
+### 2026-07-05 graph183 layer-4 eval-or-killed socket
+
+Status: complete for the next small semantic-routing slice.
+
+The surrounding layer-4 graph183 branch now has a production-facing socket that
+does not force the `tmpm,zm` branch back through a Bellman margin/evaluator
+obligation.  The new module exposes a heterogeneous branch result:
+
+```text
+AcceptedSequenceDepth11Layer4MixedEvalOrKilledAtRank scaledMargin rank
+  | eval   : existing mixed eval gate
+  | killed : Coverage.NonIdentityRankKilled rank
+```
+
+The accepted-sequence layer-4 portfolio omits the old `tmpm,zm` mapped-margin
+producer and routes that branch directly through:
+
+```text
+nonIdentityRankKilled_of_acceptedSequenceGraph183SemanticCursor
+```
+
+All other layer-4 branches keep the existing split-10M / graph147 evaluator
+surfaces.  This is the intended pivot from "selected-prefix cover plus margin
+producer" to "semantic deterministic routing, with direct killed branches when
+the start-violation theorem is already strong enough."
+
+Files changed in this checkpoint:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.lean
+scripts/generated/graph183_direct_killed_portfolio_socket_guard.json
+```
+
+Focused check run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph183_direct_killed_portfolio_socket_guard.json \
+  -- lake env lean -M 7000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.lean
+```
+
+Passed: elapsed `2.00s`, peak RSS `3609 MiB`, min available `46349 MiB`.
+
+Lightweight hygiene:
+
+```bash
+git diff --check
+grep -R "sorry\|admit\|axiom\|native_decide\|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.lean
+```
+
+Passed (`grep` returned no matches).
+
+Next Lean target:
+
+```text
+Consume AcceptedSequenceDepth11Layer4MixedEvalOrKilledAllFamily in the next
+residual assembly layer, preserving the heterogeneous shape:
+
+  eval branch   -> existing nonpositive-margin / killed bridge
+  killed branch -> already has Coverage.NonIdentityRankKilled
+```
+
+Do not collapse the new surface back into an eval-only theorem.  If downstream
+assembly demands a `scaledMargin <= 0` proof for the graph183 direct-killed
+branch, introduce an eval-or-killed consumer instead of reviving the rejected
+graph183 accepted-tail margin target.
