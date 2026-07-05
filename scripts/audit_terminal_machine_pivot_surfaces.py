@@ -108,6 +108,9 @@ REQUIRED_SYMBOLS = {
     ],
     "graph183_tail_prefix_smoke": [
         "graph183ForcedTailSuffixOk_of_strengthened_prefix",
+        "graph183Layer4ForcedTailSuffixOk_of_strengthened_prefix",
+        "graph183Layer4FilteredTailPrefixContinuation",
+        "graph183Layer4FilteredTailPrefixTerminal_of_strengthened_prefix",
         "graph183TerminalTailPrefixEval",
         "graph183TerminalFinishProducer",
         "graph183FilteredTailPrefixContinuation",
@@ -176,6 +179,7 @@ def main() -> int:
                 "target-completion tail-prefix evaluator socket",
                 "filtered target-completion tail-prefix evaluator socket",
                 "graph183 filtered tail-prefix smoke over the semantic terminal machine",
+                "graph183 layer-4 filtered tail-prefix smoke over the semantic terminal machine",
             ],
             "remaining_gap": (
                 "instantiate a full generated terminal machine with "

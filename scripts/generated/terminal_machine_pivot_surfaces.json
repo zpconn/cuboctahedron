@@ -15,7 +15,8 @@
       "filtered target-completion suffix evaluator socket",
       "target-completion tail-prefix evaluator socket",
       "filtered target-completion tail-prefix evaluator socket",
-      "graph183 filtered tail-prefix smoke over the semantic terminal machine"
+      "graph183 filtered tail-prefix smoke over the semantic terminal machine",
+      "graph183 layer-4 filtered tail-prefix smoke over the semantic terminal machine"
     ],
     "remaining_gap": "instantiate a full generated terminal machine with Layer4ReachablePrefixMachine and prove rank-free or filtered target-completion tail-prefix continuations from its after4 third fourth states for reachable Split10MPrefix4FrontierCons2 pairs"
   },
@@ -45,6 +46,9 @@
         "graph183FilteredTailPrefixContinuation": true,
         "graph183FilteredTailPrefixTerminal_of_strengthened_prefix": true,
         "graph183ForcedTailSuffixOk_of_strengthened_prefix": true,
+        "graph183Layer4FilteredTailPrefixContinuation": true,
+        "graph183Layer4FilteredTailPrefixTerminal_of_strengthened_prefix": true,
+        "graph183Layer4ForcedTailSuffixOk_of_strengthened_prefix": true,
         "graph183TerminalFinishProducer": true,
         "graph183TerminalTailPrefixEval": true
       }

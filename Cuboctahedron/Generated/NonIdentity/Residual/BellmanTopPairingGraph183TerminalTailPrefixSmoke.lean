@@ -21,6 +21,10 @@ namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183
 
 open Cuboctahedron
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4ClassifierSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4TargetCompletionLocalStepSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph157ContinuationSocket
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph169ContinuationSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalGate
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
@@ -37,8 +41,15 @@ def graph183TerminalPrefixState : TerminalStepState :=
     Face.tmpm).nextStep Face.zm).nextStep Face.zp).nextStep Face.tppm).nextStep
     Face.tpmm)
 
+def graph183Layer4PrefixState : TerminalStepState :=
+  (((TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym).nextStep
+    Face.tmpm).nextStep Face.zm
+
 def graph183TailPrefixLabels : List Face :=
   [Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp, Face.tmmp]
+
+def graph183Layer4TailPrefixLabels : List Face :=
+  [Face.zp, Face.tppm, Face.tpmm] ++ graph183TailPrefixLabels
 
 def graph183TailPrefixRemaining : List Face :=
   [Face.xp]
@@ -50,6 +61,9 @@ def graph183TerminalFinishState : TerminalStepState :=
 
 def graph183ForcedTailSuffixOk (rest : List Face) : Prop :=
   rest = graph183ForcedTail
+
+def graph183Layer4ForcedTailSuffixOk (rest : List Face) : Prop :=
+  rest = Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail
 
 theorem graph183ForcedTailSuffixOk_of_strengthened_prefix
     {rank : Fin numPairWords} {rest : List Face}
@@ -72,8 +86,53 @@ theorem graph183ForcedTailSuffixOk_of_strengthened_prefix
       (graph183_blocked_branch_absurd_of_acceptedSequenceBadFace
         hstrengthened hprefix hblockedTail)
 
+theorem graph183Layer4ForcedTailSuffixOk_of_strengthened_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest)
+    (htail : Graph150TargetCompletionTail rest) :
+    graph183Layer4ForcedTailSuffixOk rest := by
+  unfold graph183Layer4ForcedTailSuffixOk
+  rcases graph150_rest_nonempty_of_targetCompletionTail htail with
+    ⟨face0, rest0, hrest0⟩
+  subst rest
+  have hzp := graph150_head_of_targetCompletionTail htail
+  subst face0
+  have htail157 : Graph157TargetCompletionTail rest0 := by
+    simpa [Graph157TargetCompletionTail, graph157TargetCompletionState] using
+      (TopPairingTargetCompletionTail.tail_next htail)
+  rcases graph157_rest_nonempty_of_targetCompletionTail htail157 with
+    ⟨face1, rest1, hrest1⟩
+  subst rest0
+  have htppm := graph157_head_of_targetCompletionTail htail157
+  subst face1
+  have htail169 : Graph169TargetCompletionTail rest1 := by
+    simpa [Graph169TargetCompletionTail, graph169TargetCompletionState] using
+      (TopPairingTargetCompletionTail.tail_next htail157)
+  rcases graph169_rest_nonempty_of_targetCompletionTail htail169 with
+    ⟨face2, rest2, hrest2⟩
+  subst rest1
+  have htpmm := graph169_head_of_targetCompletionTail htail169
+  subst face2
+  have htail183 : Graph183TargetCompletionTail rest2 := by
+    simpa [Graph183TargetCompletionTail, graph183TargetCompletionState] using
+      (TopPairingTargetCompletionTail.tail_next htail169)
+  have hok :=
+    graph183ForcedTailSuffixOk_of_strengthened_prefix
+      hstrengthened hprefix htail183
+  simpa [graph183ForcedTailSuffixOk] using hok
+
 theorem graph183ForcedTail_split :
     graph183ForcedTail = graph183TailPrefixLabels ++ graph183TailPrefixRemaining := by
+  rfl
+
+theorem graph183Layer4ForcedTail_split :
+    Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail =
+      graph183Layer4TailPrefixLabels ++ graph183TailPrefixRemaining := by
   rfl
 
 theorem graph183TerminalFinish_prefix_length :
@@ -108,6 +167,13 @@ theorem graph183TerminalTailPrefixEval :
       some (graph183TerminalFinishState, 0) := by
   rfl
 
+theorem graph183Layer4TailPrefixEval :
+    evalLabelStepFn
+        (nextEval TerminalStepStatePartialMachine.semantic)
+        graph183Layer4PrefixState graph183Layer4TailPrefixLabels =
+      some (graph183TerminalFinishState, 0) := by
+  rfl
+
 def graph183FilteredTailPrefixContinuation :
     TerminalTargetCompletionFilteredTailPrefixContinuation
       TerminalStepStatePartialMachine.semantic
@@ -120,6 +186,19 @@ def graph183FilteredTailPrefixContinuation :
     exact ⟨graph183TailPrefixLabels, graph183TerminalFinishState, 0,
       graph183TailPrefixRemaining, graph183ForcedTail_split,
       graph183TerminalTailPrefixEval, graph183TerminalFinishProducer⟩
+
+def graph183Layer4FilteredTailPrefixContinuation :
+    TerminalTargetCompletionFilteredTailPrefixContinuation
+      TerminalStepStatePartialMachine.semantic
+      graph183Layer4PrefixState
+      graph150TargetCompletionState
+      graph183Layer4ForcedTailSuffixOk where
+  terminal := by
+    intro rest _htail hok
+    subst rest
+    exact ⟨graph183Layer4TailPrefixLabels, graph183TerminalFinishState, 0,
+      graph183TailPrefixRemaining, graph183Layer4ForcedTail_split,
+      graph183Layer4TailPrefixEval, graph183TerminalFinishProducer⟩
 
 theorem graph183FilteredTailPrefixTerminal_of_strengthened_prefix
     {rank : Fin numPairWords} {rest : List Face}
@@ -140,6 +219,26 @@ theorem graph183FilteredTailPrefixTerminal_of_strengthened_prefix
           TerminalStepStatePartialMachine.semantic.IsTerminal finish :=
   graph183FilteredTailPrefixContinuation.terminal rest htail
     (graph183ForcedTailSuffixOk_of_strengthened_prefix
+      hstrengthened hprefix htail)
+
+theorem graph183Layer4FilteredTailPrefixTerminal_of_strengthened_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest)
+    (htail : Graph150TargetCompletionTail rest) :
+    ∃ labels finish gain remaining,
+      rest = labels ++ remaining ∧
+        evalLabelStepFn
+            (nextEval TerminalStepStatePartialMachine.semantic)
+            graph183Layer4PrefixState labels =
+          some (finish, gain) ∧
+          TerminalStepStatePartialMachine.semantic.IsTerminal finish :=
+  graph183Layer4FilteredTailPrefixContinuation.terminal rest htail
+    (graph183Layer4ForcedTailSuffixOk_of_strengthened_prefix
       hstrengthened hprefix htail)
 
 theorem graph183TerminalTailPrefixSmoke_builds : True := by

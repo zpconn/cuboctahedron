@@ -103866,3 +103866,86 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   instance or a small adapter proving the wrapper's `suffixOk` premise from
   `TopPairingStrengthenedClosedLanguageAtRank AcceptedSequenceBadFaceAtRank`
   and the depth-11/layer-4 prefix.
+
+### 2026-07-04 graph183 lane lifted to layer-4 tail-prefix start
+
+- Added the graph183 layer-4-start filtered tail-prefix lane to
+  `BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean`.  This is the same
+  semantic lane as the previous checkpoint, but it now starts from the
+  layer-4 `tmpm, zm` state and `graph150TargetCompletionState`, not from the
+  post-`zp,tppm,tpmm` graph183 state.
+
+- New definitions/theorems:
+
+  ```lean
+  graph183Layer4PrefixState
+  graph183Layer4TailPrefixLabels
+  graph183Layer4ForcedTailSuffixOk
+  graph183Layer4ForcedTailSuffixOk_of_strengthened_prefix
+  graph183Layer4ForcedTail_split
+  graph183Layer4TailPrefixEval
+  graph183Layer4FilteredTailPrefixContinuation
+  graph183Layer4FilteredTailPrefixTerminal_of_strengthened_prefix
+  ```
+
+- The semantic filter theorem composes the existing deterministic local
+  target-completion heads:
+
+  ```text
+  graph150TargetCompletionState forces zp
+  graph157TargetCompletionState forces tppm
+  graph169TargetCompletionState forces tpmm
+  graph183TargetCompletionState splits into forced tail or blocked tmmp branch
+  blocked branch contradicts AcceptedSequenceBadFaceAtRank
+  ```
+
+  Therefore the layer-4 remainder is proved to be:
+
+  ```lean
+  Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail
+  ```
+
+  and the semantic terminal machine consumes:
+
+  ```lean
+  [Face.zp, Face.tppm, Face.tpmm,
+   Face.tppp, Face.tmmm, Face.tpmp, Face.yp, Face.tmpp, Face.tmmp]
+  ```
+
+  leaving `[Face.xp]` to the generic terminal trace/schedule bridge.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183TerminalTailPrefixSmoke
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+
+  rg -n \
+    "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
+  ```
+
+- Results:
+  - Focused graph183 smoke build passed under the memory guard in `3.00s`,
+    with peak tree RSS `3895 MiB` and minimum available memory `46227 MiB`.
+  - The terminal-machine pivot audit passed with
+    `status = machine-pivot-surfaces-present` and `forbidden_hits = 0`; it now
+    requires the graph183 layer-4 filtered tail-prefix theorem names.
+  - The forbidden-pattern `rg` scan returned no matches.
+
+- Meaning:
+  the graph183 branch is now ready to be plugged into a generated
+  layer-4/full-machine `suffixOk` field for the concrete `tmpm,zm`
+  frontier lane.  The remaining generalization is still not rank enumeration:
+  the next emitter should produce analogous graph-state-indexed
+  `Layer4PrefixMachineTargetCompletionFilteredTailPrefixContinuationAll`
+  lanes for the reachable frontier obligations, using this graph183 lane as
+  the filtered blocked-branch example.
