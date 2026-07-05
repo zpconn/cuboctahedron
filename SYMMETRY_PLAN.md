@@ -112222,6 +112222,77 @@ Follow-up audit alignment:
   the actual semantic object-margin/step-run producer has not been emitted or
   proved.
 
+### 2026-07-05 graph183 sequenceBadFace-to-object-margin adapter
+
+Added a small compositional adapter to
+`BellmanTopPairingGraph183QuotientMarginSocket.lean`:
+
+```lean
+graph183TailQuotientObjectMarginBound_of_sequenceBadFace
+graph183TailQuotientMarginEvalFamily_of_sequenceBadFace
+```
+
+This does **not** prove the missing carrier from closed-language semantics.
+It only says that if a future strengthened language already carries:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+then the existing semantic object
+`Graph183TailQuotientMarginEvalObj` also satisfies the object-margin target,
+and the deterministic eval-margin family follows.  This keeps the next
+producer free to target either the `sequenceBadFace` carrier or the
+object-margin theorem without rebuilding graph183 objects by hand.
+
+Focused guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 8192 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 7000 -j1 -s 8192 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 10.01s
+peak RSS = 3967 MiB
+min available = 46229 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_graph183_carrier_producer_readiness.py \
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py \
+  scripts/audit_graph183_accepted_tail_margin_frontier.py \
+  scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+```
+
+Results:
+
+```text
+graph183 carrier readiness =
+  graph183_carrier_sockets_ready_but_producer_missing
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+```
+
 ### 2026-07-05 graph183 branch-local start-violation provider
 
 The accepted-trace provider path was too heavy because it imported accepted

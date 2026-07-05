@@ -323,6 +323,25 @@ def Graph183TailQuotientObjectMarginBound
       graphConst + graph183AcceptedBranchRawGain
 
 /--
+If the strengthened language already carries the graph183 quotient-margin
+sequence-bad-face predicate, it also gives the object-margin target directly.
+
+This is only an adapter: it does not prove the carrier from closed-language
+semantics.  It keeps future semantic producers free to target either the
+`sequenceBadFace` carrier or the object-margin shape without rebuilding the
+graph183 branch object by hand.
+-/
+def graph183TailQuotientObjectMarginBound_of_sequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    Graph183TailQuotientObjectMarginBound
+      (Graph183TailQuotientMarginSequenceBadFace scaledMargin)
+      scaledMargin := by
+  intro obj
+  rcases obj.strengthened.sequenceBadFace_ok with ⟨_hface, hmargin⟩
+  simpa [Graph183TailQuotientMarginEvalObj.scaledMargin] using
+    hmargin obj.branchPrefix
+
+/--
 Package the object-margin theorem as a deterministic eval-margin language
 bound.
 -/
@@ -363,6 +382,18 @@ def graph183TailQuotientMarginEvalFamily_of_objectMarginBound
     · have hmargin := hbound obj
       simpa [obj, Graph183TailQuotientMarginEvalObj.scaledMargin,
         graph183AcceptedBranchRawGain_contract] using hmargin
+
+/--
+Self-carried sequence-bad-face evidence also packages as the deterministic
+eval-margin family through the object-margin adapter above.
+-/
+def graph183TailQuotientMarginEvalFamily_of_sequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    Graph183TailQuotientMarginEvalFamily
+      (Graph183TailQuotientMarginSequenceBadFace scaledMargin)
+      scaledMargin :=
+  graph183TailQuotientMarginEvalFamily_of_objectMarginBound
+    (graph183TailQuotientObjectMarginBound_of_sequenceBadFace scaledMargin)
 
 /--
 Package a semantic object-language eval-margin theorem as the graph183

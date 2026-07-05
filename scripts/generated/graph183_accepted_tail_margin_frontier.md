@@ -77,9 +77,9 @@ cocycle/coboundary quotient.
 
 | metric | value |
 | --- | ---: |
-| `elapsed_seconds` | `3.002727565995883` |
-| `peak_rss_mib` | `4016.484375` |
-| `min_available_mib` | `46192.7890625` |
+| `elapsed_seconds` | `10.006319696985884` |
+| `peak_rss_mib` | `3967.44140625` |
+| `min_available_mib` | `46229.96875` |
 
 ### graph183_accepted_branch_quotient_guard
 
@@ -306,6 +306,8 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginEvalObj_eval` | `True` | `graph183TailQuotientMarginEvalObj_eval` |
 | `graph183_quotient_socket:symbol:Graph183TailQuotientObjectMarginBound` | `True` | `Graph183TailQuotientObjectMarginBound` |
 | `graph183_quotient_socket:symbol:graph183TailQuotientEvalMarginLanguageBound_of_objectMarginBound` | `True` | `graph183TailQuotientEvalMarginLanguageBound_of_objectMarginBound` |
+| `graph183_quotient_socket:symbol:graph183TailQuotientObjectMarginBound_of_sequenceBadFace` | `True` | `graph183TailQuotientObjectMarginBound_of_sequenceBadFace` |
+| `graph183_quotient_socket:symbol:graph183TailQuotientMarginEvalFamily_of_sequenceBadFace` | `True` | `graph183TailQuotientMarginEvalFamily_of_sequenceBadFace` |
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginEvalFamily_of_evalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_evalLanguageBound` |
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginEvalFamily_of_objectMarginBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_objectMarginBound` |
 | `graph183_quotient_socket:symbol:graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` |
@@ -401,8 +403,8 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
 | `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
 | `graph183_quotient_margin_socket:guard_exit_zero` | `True` | `0` |
-| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `4016.484375` |
-| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46192.7890625` |
+| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3967.44140625` |
+| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46229.96875` |
 | `graph183_accepted_branch_quotient:guard_exit_zero` | `True` | `0` |
 | `graph183_accepted_branch_quotient:rss_under_6000_mib` | `True` | `3410.734375` |
 | `graph183_accepted_branch_quotient:available_above_30000_mib` | `True` | `46363.515625` |

@@ -41,6 +41,16 @@
       "passed": true
     },
     {
+      "detail": "graph183TailQuotientObjectMarginBound_of_sequenceBadFace",
+      "name": "socket:symbol:graph183TailQuotientObjectMarginBound_of_sequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginEvalFamily_of_sequenceBadFace",
+      "name": "socket:symbol:graph183TailQuotientMarginEvalFamily_of_sequenceBadFace",
+      "passed": true
+    },
+    {
       "detail": "graph183TailQuotientMarginEvalFamily_of_evalLanguageBound",
       "name": "socket:symbol:graph183TailQuotientMarginEvalFamily_of_evalLanguageBound",
       "passed": true
@@ -1133,12 +1143,12 @@
       "passed": true
     },
     {
-      "detail": 4016.484375,
+      "detail": 3967.44140625,
       "name": "socket_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46192.7890625,
+      "detail": 46229.96875,
       "name": "socket_guard:available_above_30000_mib",
       "passed": true
     },
@@ -1273,9 +1283,9 @@
     "graph183_start_provider_guard_peak_rss_mib": 6882.125,
     "graph183_start_provider_source_guard_elapsed_seconds": 98.05047912499867,
     "graph183_start_provider_source_guard_peak_rss_mib": 6309.796875,
-    "guard_elapsed_seconds": 3.002727565995883,
-    "guard_min_available_mib": 46192.7890625,
-    "guard_peak_rss_mib": 4016.484375,
+    "guard_elapsed_seconds": 10.006319696985884,
+    "guard_min_available_mib": 46229.96875,
+    "guard_peak_rss_mib": 3967.44140625,
     "profile_edges": 229,
     "profile_margin_families": 1,
     "profile_matched": 37,
