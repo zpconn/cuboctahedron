@@ -931,6 +931,88 @@ theorem eval_exists_of_targetCompletionTail_externalTailOk
     (ShardExternalTailOk.eval_exists hgraph157 hgraph159)
     htail
 
+def ShardState.inGraph147Lane : ShardState -> Prop
+  | .prefix4TmpmZm => False
+  | .prefix4ZmTmpp => False
+  | _ => True
+
+theorem ShardState.inGraph147Lane_prefix4YpZm :
+    ShardState.inGraph147Lane .prefix4YpZm := by
+  trivial
+
+theorem ShardState.inGraph147Lane_of_nextTarget?_shard
+    {state nextState : ShardState} {face : Face} {gain : Int}
+    (hlane : ShardState.inGraph147Lane state)
+    (hstep : nextTarget? state face = some (.shard nextState, gain)) :
+    ShardState.inGraph147Lane nextState := by
+  cases state <;> cases face <;>
+    simp [ShardState.inGraph147Lane, nextTarget?] at hlane hstep ⊢
+  all_goals rcases hstep with ⟨rfl, rfl⟩
+  all_goals trivial
+
+theorem ShardExternalTailOk.terminal_of_graph147Lane
+    {state : ShardState} {graph : Nat} {face : Face} {gain : Int}
+    {rest : List Face}
+    (hlane : ShardState.inGraph147Lane state)
+    (hstep : nextTarget? state face = some (.externalGraph graph, gain))
+    (hok : ShardExternalTailOk graph rest) :
+    TerminalExternalOk graph rest := by
+  cases hok with
+  | terminal hterminal =>
+      exact hterminal
+  | graph157 _htail =>
+      cases state <;> cases face <;>
+        simp [ShardState.inGraph147Lane, nextTarget?] at hlane hstep
+  | graph159 _htail =>
+      cases state <;> cases face <;>
+        simp [ShardState.inGraph147Lane, nextTarget?] at hlane hstep
+
+theorem ShardTargetSuffixOk.eval_exists_final_nonneg_of_graph147Lane
+    {state : ShardState} {labels : List Face}
+    (hlane : ShardState.inGraph147Lane state)
+    (hsuffix : ShardTargetSuffixOk ShardExternalTailOk state labels) :
+    ∃ finish totalGain,
+      evalLabelStepFn strengthenedClosedEvalNext (evalState state) labels =
+          some (finish, totalGain) ∧
+        0 <= graphPotential finish.graph := by
+  induction hsuffix with
+  | shard_step hstep _hrest ih =>
+      rename_i _currentState nextShard _face stepGain _rest
+      have hlaneNext :
+          ShardState.inGraph147Lane nextShard :=
+        ShardState.inGraph147Lane_of_nextTarget?_shard hlane hstep
+      rcases ih hlaneNext with ⟨finish, tailGain, htail, hfinal⟩
+      refine ⟨finish, stepGain + tailGain, ?_, hfinal⟩
+      exact evalLabelStepFn_cons_some (nextTarget?_shard_sound hstep) htail
+  | external_step hstep hrest =>
+      rename_i currentState graph face stepGain rest
+      have hterminal :
+          TerminalExternalOk graph rest :=
+        ShardExternalTailOk.terminal_of_graph147Lane
+          hlane hstep hrest
+      rcases nextTarget?_graph_sound hstep with
+        ⟨nextState, hnext, hgraph⟩
+      refine ⟨nextState, stepGain + 0, ?_, ?_⟩
+      · cases hterminal <;>
+          exact evalLabelStepFn_cons_some hnext (by simp [evalLabelStepFn])
+      · rw [hgraph]
+        exact TerminalExternalOk.final_nonneg hterminal
+
+theorem eval_exists_final_nonneg_of_graph147TargetCompletionTail
+    {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels) :
+    ∃ finish totalGain,
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4YpZmEvalState labels =
+        some (finish, totalGain) ∧
+      0 <= graphPotential finish.graph := by
+  exact
+    ShardTargetSuffixOk.eval_exists_final_nonneg_of_graph147Lane
+      ShardState.inGraph147Lane_prefix4YpZm
+      (ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk
+        (state := .prefix4YpZm)
+        (by simpa [Graph147TargetCompletionTail, completionState] using htail))
+
 def localBranchTable :
     (state : ShardState) ->
       StrengthenedTargetCompletionLocalBranchTable

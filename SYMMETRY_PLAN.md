@@ -105232,6 +105232,39 @@ graph147 target-completion proof with caller-provided evaluator obligations
 for graph157/159.  This keeps graph150/151 honest: they are continuation
 obligations, not fake terminal states.
 
+Sixth follow-up accepted in the same shard: the graph147 lane now has a
+lane-restricted evaluator/final-potential theorem that does not require the
+graph157/159 continuation obligations:
+
+```lean
+def ShardState.inGraph147Lane
+theorem ShardState.inGraph147Lane_of_nextTarget?_shard
+theorem ShardExternalTailOk.terminal_of_graph147Lane
+theorem ShardTargetSuffixOk.eval_exists_final_nonneg_of_graph147Lane
+theorem eval_exists_final_nonneg_of_graph147TargetCompletionTail
+```
+
+This theorem is deliberately weaker and more honest than an unconditional
+target-completion evaluator theorem.  It applies only to shard states in the
+graph147 lane, where the internal target-completion path exits through terminal
+graphs `141` or `138`.  It explicitly excludes the graph150/151 states, whose
+external exits lead to continuation graphs `157` and `159` and therefore need
+their own strengthened-family continuation-to-margin sockets.  The resulting
+graph147 theorem gives:
+
+```lean
+Graph147TargetCompletionTail labels ->
+  ∃ finish totalGain,
+    evalLabelStepFn strengthenedClosedEvalNext
+      strengthenedClosedPrefix4YpZmEvalState labels =
+        some (finish, totalGain) ∧
+    0 <= graphPotential finish.graph
+```
+
+It still does not prove the graph147 integer margin bound
+`scaledMargin rank <= 176 + totalGain`; that remains the terminal margin socket
+for this lane.
+
 Focused guarded build:
 
 ```bash
@@ -105246,8 +105279,19 @@ python3 scripts/run_memory_guarded.py \
 Result:
 
 ```text
-pass; elapsed=4.00s; peak_tree_rss=4011 MiB; min_available=46046 MiB
+pass; elapsed=5.00s; peak_tree_rss=4139 MiB; min_available=46011 MiB
 ```
+
+The first graph147-lane final-nonnegative attempt failed safely under the same
+guard in `14.01s` with `4148 MiB` peak tree RSS.  It failed on proof-shape
+details only: `decide` was inappropriate for the Prop-valued lane predicate,
+the `nextTarget?` equality needed explicit substitution, and terminal empty-tail
+evaluation needed the existential gain left as `stepGain + 0`.  The accepted
+version fixes those without broad simplification.
+
+The previous focused build after the continuation-aware external-tail socket
+passed under the same guard in `4.00s` with `4011 MiB` peak tree RSS and
+`46046 MiB` minimum available memory.
 
 The first continuation-aware external-tail attempt failed safely under the
 same guard in `9.01s` with `3982 MiB` peak tree RSS.  It failed because the
@@ -105317,20 +105361,25 @@ deterministic_target_shard_symbols.ShardExternalTailOk.of_external_targetComplet
 deterministic_target_shard_symbols.ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk = true
 deterministic_target_shard_symbols.ShardExternalTailOk.eval_exists = true
 deterministic_target_shard_symbols.eval_exists_of_targetCompletionTail_externalTailOk = true
+deterministic_target_shard_symbols.ShardState.inGraph147Lane = true
+deterministic_target_shard_symbols.ShardState.inGraph147Lane_of_nextTarget?_shard = true
+deterministic_target_shard_symbols.ShardExternalTailOk.terminal_of_graph147Lane = true
+deterministic_target_shard_symbols.ShardTargetSuffixOk.eval_exists_final_nonneg_of_graph147Lane = true
+deterministic_target_shard_symbols.eval_exists_final_nonneg_of_graph147TargetCompletionTail = true
 forbidden_hits = []
 ```
 
 Remaining formal boundary:
 
 ```text
-prove graph157/159 evaluator continuation obligations, graph150/151
-continuation-to-margin sockets, the terminal margin socket, and the
-rank-parametric closed-language-to-eval theorem that recurses over nextTarget?
-and turns TopPairingStrengthenedClosedLanguageAtRank /
-TopPairingClosedLanguageAtRank into the evaluator result and
-scaledMargin <= 176 + gain, using the target-completion-to-suffix theorem plus
-the terminal/external graph sockets, without selected-prefix, sampled-rank,
-accepted-trace, exact-affine, or per-observed-path membership.
+prove the graph147 terminal margin socket and the rank-parametric
+closed-language-to-eval theorem that turns
+TopPairingStrengthenedClosedLanguageAtRank / TopPairingClosedLanguageAtRank
+into the evaluator result and `scaledMargin <= 176 + gain` for this lane.
+Separately, prove graph150/151 continuation-to-margin sockets for the other
+two shard states, where target-completion hands off to graph157/159.  All of
+this must remain free of selected-prefix, sampled-rank, accepted-trace,
+exact-affine, or per-observed-path membership.
 ```
 
 Go/no-go rule for the next slice:
