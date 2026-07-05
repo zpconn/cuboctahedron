@@ -69,6 +69,35 @@ theorem graph147RankedShardSuffixOk_eval_exists_finalPotential
       simp [evalLabelStepFn, graph147RankedEvalNext, hnext, hevalTail]
 
 /--
+Graph-only projection of
+`graph147RankedShardSuffixOk_eval_exists_finalPotential`.
+
+This is the bridge needed by future margin producers: the semantic combined
+transducer/evaluator run projects to the ordinary strengthened Bellman graph
+run used by `Graph147TargetCompletionTailRootMarginBound`.
+-/
+theorem graph147RankedShardSuffixOk_graph_eval_exists_finalPotential
+    {rank : Fin numPairWords}
+    {state :
+      TopPairingTransducerEvalState StrengthenedClosedEvalState}
+    {labels : List Face}
+    (htail : state.Tail labels)
+    (hsuffix : Graph147RankedShardSuffixOk rank state labels) :
+    ∃ finish gain,
+      evalLabelStepFn strengthenedClosedEvalNext state.graph labels =
+          some (finish, gain) ∧
+        0 <= graphPotential finish.graph := by
+  rcases graph147RankedShardSuffixOk_eval_exists_finalPotential
+      htail hsuffix with
+    ⟨finish, gain, heval, _hfinishTail, _hsuffixFinish, hfinalPotential⟩
+  refine ⟨finish.graph, gain, ?_, hfinalPotential⟩
+  simpa using
+    TopPairingTransducerEvalState.evalLabelStepFn_graph_of_faceEval
+      (next := strengthenedClosedEvalNext)
+      (labelOfFace := fun face : Face => face)
+      heval
+
+/--
 Branch-local graph-147 evaluator consequence for the `yp, zm` lane.
 
 The caller still supplies the transducer-tail fact for the shared prefix-4
@@ -93,6 +122,30 @@ theorem graph147YpZm_eval_exists_finalPotential_of_strengthened_prefix
       hstrengthened hprefix)
 
 /--
+Graph-only projection for the `yp, zm` lane, starting from the shared
+graph-147 prefix-4 Bellman graph state.
+-/
+theorem graph147YpZm_graph_eval_exists_finalPotential_of_strengthened_prefix
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest)
+    (htail : graph147RankedPrefix4EvalState.Tail rest) :
+    ∃ finish gain,
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4YpZmEvalState rest =
+          some (finish, gain) ∧
+        0 <= graphPotential finish.graph := by
+  simpa [graph147RankedPrefix4EvalState] using
+    graph147RankedShardSuffixOk_graph_eval_exists_finalPotential
+      (state := graph147RankedPrefix4EvalState)
+      htail
+      (graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix
+        hstrengthened hprefix)
+
+/--
 Branch-local graph-147 evaluator consequence for the `zm, yp` lane.
 -/
 theorem graph147ZmYp_eval_exists_finalPotential_of_strengthened_prefix
@@ -112,6 +165,30 @@ theorem graph147ZmYp_eval_exists_finalPotential_of_strengthened_prefix
   graph147RankedShardSuffixOk_eval_exists_finalPotential htail
     (graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix
       hstrengthened hprefix)
+
+/--
+Graph-only projection for the `zm, yp` lane, starting from the shared
+graph-147 prefix-4 Bellman graph state.
+-/
+theorem graph147ZmYp_graph_eval_exists_finalPotential_of_strengthened_prefix
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest)
+    (htail : graph147RankedPrefix4EvalState.Tail rest) :
+    ∃ finish gain,
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4YpZmEvalState rest =
+          some (finish, gain) ∧
+        0 <= graphPotential finish.graph := by
+  simpa [graph147RankedPrefix4EvalState] using
+    graph147RankedShardSuffixOk_graph_eval_exists_finalPotential
+      (state := graph147RankedPrefix4EvalState)
+      htail
+      (graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix
+        hstrengthened hprefix)
 
 theorem graph147RankedEvalSocket_builds : True := by
   exact True.intro

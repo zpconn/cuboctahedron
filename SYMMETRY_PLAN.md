@@ -105155,6 +105155,78 @@ target cursor Lake build = pass; elapsed=3.00s; peak_tree_rss=769 MiB;
 min_available=46545 MiB
 ```
 
+### 2026-07-05 graph147 ranked evaluator graph projection accepted
+
+Implemented the next small graph147 production socket in
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean`.
+The file already proved that a semantic
+`Graph147RankedShardSuffixOk` certificate plus a transducer `Tail` drives the
+combined strengthened evaluator to a final state with nonnegative graph
+potential.  This checkpoint adds the graph-only projection needed by the
+existing target-completion margin APIs:
+
+```lean
+theorem graph147RankedShardSuffixOk_graph_eval_exists_finalPotential
+theorem graph147YpZm_graph_eval_exists_finalPotential_of_strengthened_prefix
+theorem graph147ZmYp_graph_eval_exists_finalPotential_of_strengthened_prefix
+```
+
+These theorem statements project the deterministic combined evaluator run to:
+
+```lean
+evalLabelStepFn strengthenedClosedEvalNext state.graph labels =
+  some (finish, gain)
+```
+
+with `0 <= graphPotential finish.graph`.  This keeps the production route on
+the semantic transducer side: no sampled ranks, selected-prefix ids,
+accepted-trace ids, exact affine RHS keys, solved start-point keys, or
+per-observed-path branches were introduced.
+
+Guarded validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_eval_projection_socket_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_eval_projection_socket_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket
+```
+
+Results:
+
+```text
+direct Lean check: pass; elapsed=3.00s; peak_tree_rss=3970 MiB;
+min_available=46229 MiB; hard_as=8192 MiB
+Lake module build: pass; elapsed=5.00s; peak_tree_rss=1796 MiB;
+min_available=46371 MiB
+focused forbidden/sampled-token scan: pass; no matches
+```
+
+Current graph147 remaining gap:
+
+- The deterministic evaluator side now reaches the graph-only API consumed by
+  `Graph147TargetCompletionTailRootMarginBound`.
+- The unresolved production theorem is still the root-margin inequality:
+  `scaledMargin rank <= 176 + gain` for the semantic graph147 family.
+- Next accepted slice: connect the ranked transducer invariant to either the
+  existing full-eval margin bundle or a small segment/cocycle quotient theorem.
+  If that proof wants sampled ranks, selected prefixes, accepted trace ids, or
+  exact affine keys, stop and use the segment/cocycle route before adding any
+  finer membership surface.
+
 ### 2026-07-05 graph147 ranked suffix evaluator accepted
 
 Added a small semantic evaluator socket:
