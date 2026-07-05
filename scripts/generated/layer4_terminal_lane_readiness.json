@@ -48,6 +48,8 @@
       "deterministic_target_shard_symbols": {
         "Graph147TargetCompletionTailEvalGate": true,
         "Graph147TargetCompletionTailMarginBound": true,
+        "Graph147TargetCompletionTailRootEvalGate": true,
+        "Graph147TargetCompletionTailRootMarginBound": true,
         "Graph157ExternalTargetCompletionTail": true,
         "ShardExternalTailOk": true,
         "ShardExternalTailOk.eval_exists": true,
@@ -65,10 +67,15 @@
         "TerminalExternalOk.eval_exists": true,
         "TerminalExternalOk.final_nonneg": true,
         "bellmanEvalAccepts_of_graph147TargetCompletionTail_margin": true,
+        "bellmanEvalAccepts_of_graph147YpZmRoot_margin": true,
+        "bellmanEvalAccepts_of_graph147ZmYpRoot_margin": true,
         "emittedShardExternalTargetCount": true,
         "eval_exists_final_nonneg_of_graph147TargetCompletionTail": true,
         "eval_exists_of_targetCompletionTail": true,
         "eval_exists_of_targetCompletionTail_externalTailOk": true,
+        "graph147RootEvalGate_of_prefix_tail_margin": true,
+        "graph147YpZmRootEvalGate_of_tail_margin": true,
+        "graph147ZmYpRootEvalGate_of_tail_margin": true,
         "graph157ExternalTargetCompletionState": true,
         "nextTarget?": true,
         "nextTarget?_graph_sound": true,
@@ -76,7 +83,9 @@
         "nextTarget?_prefix4YpZm_zp": true,
         "nextTarget?_shard_sound": true,
         "nextTarget?_terminal_graph109": true,
-        "nextTarget?_terminal_graph112": true
+        "nextTarget?_terminal_graph112": true,
+        "strengthenedClosed_prefix4_yp_zm_eval_eq": true,
+        "strengthenedClosed_prefix4_zm_yp_eval_eq": true
       },
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
@@ -179,7 +188,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  It also proves that target-completion tails feed the recursive ShardTargetSuffixOk predicate and compose to evaluator existence under external graph sockets.  It now separates terminal graph states 141/138 from continuation graph states 157/159, with empty-tail evaluator/final-potential sockets only for the terminal exits.  The lane now exposes the graph147 margin socket as Graph147TargetCompletionTailMarginBound, and still needs a semantic proof of that margin bound plus the rank-parametric closed-language-to-eval theorem without selected-prefix or sampled-rank membership.  The graph150/151 continuation states still need their own continuation-to-margin sockets outside this graph147 lane.",
+      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  It also proves that target-completion tails feed the recursive ShardTargetSuffixOk predicate and compose to evaluator existence under external graph sockets.  It now separates terminal graph states 141/138 from continuation graph states 157/159, with empty-tail evaluator/final-potential sockets only for the terminal exits.  The lane now exposes both the suffix-started margin socket Graph147TargetCompletionTailMarginBound and the root-gain socket Graph147TargetCompletionTailRootMarginBound, with BellmanEvalAccepts adapters for the yp,zm and zm,yp prefixes.  It still needs a semantic proof of the root-gain margin bound plus the rank-parametric closed-language-to-eval theorem without selected-prefix or sampled-rank membership.  The graph150/151 continuation states still need their own continuation-to-margin sockets outside this graph147 lane.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -315,6 +324,8 @@
       "deterministic_target_shard_symbols": {
         "Graph147TargetCompletionTailEvalGate": true,
         "Graph147TargetCompletionTailMarginBound": true,
+        "Graph147TargetCompletionTailRootEvalGate": true,
+        "Graph147TargetCompletionTailRootMarginBound": true,
         "Graph157ExternalTargetCompletionTail": true,
         "ShardExternalTailOk": true,
         "ShardExternalTailOk.eval_exists": true,
@@ -332,10 +343,15 @@
         "TerminalExternalOk.eval_exists": true,
         "TerminalExternalOk.final_nonneg": true,
         "bellmanEvalAccepts_of_graph147TargetCompletionTail_margin": true,
+        "bellmanEvalAccepts_of_graph147YpZmRoot_margin": true,
+        "bellmanEvalAccepts_of_graph147ZmYpRoot_margin": true,
         "emittedShardExternalTargetCount": true,
         "eval_exists_final_nonneg_of_graph147TargetCompletionTail": true,
         "eval_exists_of_targetCompletionTail": true,
         "eval_exists_of_targetCompletionTail_externalTailOk": true,
+        "graph147RootEvalGate_of_prefix_tail_margin": true,
+        "graph147YpZmRootEvalGate_of_tail_margin": true,
+        "graph147ZmYpRootEvalGate_of_tail_margin": true,
         "graph157ExternalTargetCompletionState": true,
         "nextTarget?": true,
         "nextTarget?_graph_sound": true,
@@ -343,7 +359,9 @@
         "nextTarget?_prefix4YpZm_zp": true,
         "nextTarget?_shard_sound": true,
         "nextTarget?_terminal_graph109": true,
-        "nextTarget?_terminal_graph112": true
+        "nextTarget?_terminal_graph112": true,
+        "strengthenedClosed_prefix4_yp_zm_eval_eq": true,
+        "strengthenedClosed_prefix4_zm_yp_eval_eq": true
       },
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
@@ -446,7 +464,7 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  It also proves that target-completion tails feed the recursive ShardTargetSuffixOk predicate and compose to evaluator existence under external graph sockets.  It now separates terminal graph states 141/138 from continuation graph states 157/159, with empty-tail evaluator/final-potential sockets only for the terminal exits.  The lane now exposes the graph147 margin socket as Graph147TargetCompletionTailMarginBound, and still needs a semantic proof of that margin bound plus the rank-parametric closed-language-to-eval theorem without selected-prefix or sampled-rank membership.  The graph150/151 continuation states still need their own continuation-to-margin sockets outside this graph147 lane.",
+      "remaining_gap": "graph147 now reaches terminal graph states 141 and 138 and the bounded shard exposes a deterministic nextTarget? API from semantic shard states to either the next shard state or an external graph target.  It also proves that target-completion tails feed the recursive ShardTargetSuffixOk predicate and compose to evaluator existence under external graph sockets.  It now separates terminal graph states 141/138 from continuation graph states 157/159, with empty-tail evaluator/final-potential sockets only for the terminal exits.  The lane now exposes both the suffix-started margin socket Graph147TargetCompletionTailMarginBound and the root-gain socket Graph147TargetCompletionTailRootMarginBound, with BellmanEvalAccepts adapters for the yp,zm and zm,yp prefixes.  It still needs a semantic proof of the root-gain margin bound plus the rank-parametric closed-language-to-eval theorem without selected-prefix or sampled-rank membership.  The graph150/151 continuation states still need their own continuation-to-margin sockets outside this graph147 lane.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,

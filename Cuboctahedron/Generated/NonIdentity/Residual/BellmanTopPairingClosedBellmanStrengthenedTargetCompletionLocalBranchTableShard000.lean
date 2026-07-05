@@ -1082,6 +1082,143 @@ theorem bellmanEvalAccepts_of_graph147TargetCompletionTail_margin
   bellmanEvalAccepts_of_graph147TargetCompletionTailEvalGate
     (graph147TargetCompletionTailEvalGate_of_tail_margin htail hmargin)
 
+theorem strengthenedClosed_prefix4_yp_zm_eval_eq :
+    evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+        [Face.xm, Face.ym, Face.yp, Face.zm] =
+      some (strengthenedClosedPrefix4YpZmEvalState, (-53 : Int)) := by
+  rfl
+
+theorem strengthenedClosed_prefix4_zm_yp_eval_eq :
+    evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+        [Face.xm, Face.ym, Face.zm, Face.yp] =
+      some (strengthenedClosedPrefix4YpZmEvalState, (-53 : Int)) := by
+  rw [strengthenedClosedPrefix4YpZm_eval_eq_zm_yp]
+  rfl
+
+/-!
+The previous graph-147 socket starts at the shared graph-147 eval state.  The
+production root gate must also pay the root-to-graph-147 prefix gain.  These
+definitions keep that stronger obligation explicit so a future rank-parametric
+membership theorem cannot accidentally reuse the weaker suffix-only margin
+bound as a full-root proof.
+-/
+
+def Graph147TargetCompletionTailRootMarginBound
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (prefixGain : Int)
+    (labels : List Face) : Prop :=
+  ∀ result : StrengthenedClosedEvalState × Int,
+    evalLabelStepFn strengthenedClosedEvalNext
+        strengthenedClosedPrefix4YpZmEvalState labels = some result ->
+      scaledMargin rank <= (176 : Int) + (prefixGain + result.2)
+
+def Graph147TargetCompletionTailRootEvalGate
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (pfx labels : List Face) : Prop :=
+  ∃ result : StrengthenedClosedEvalState × Int,
+    evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+        (pfx ++ labels) = some result ∧
+      0 <= graphPotential result.1.graph ∧
+        scaledMargin rank <= (176 : Int) + result.2
+
+theorem graph147RootEvalGate_of_prefix_tail_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {pfx labels : List Face}
+    {prefixGain : Int}
+    (hprefix :
+      evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+          pfx =
+        some (strengthenedClosedPrefix4YpZmEvalState, prefixGain))
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank prefixGain labels) :
+    Graph147TargetCompletionTailRootEvalGate
+      scaledMargin rank pfx labels := by
+  rcases eval_exists_final_nonneg_of_graph147TargetCompletionTail htail with
+    ⟨finish, tailGain, heval, hfinal⟩
+  refine ⟨(finish, prefixGain + tailGain), ?_, hfinal, ?_⟩
+  · exact evalLabelStepFn_append hprefix heval
+  · exact hmargin (finish, tailGain) heval
+
+theorem graph147YpZmRootEvalGate_of_tail_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53 : Int) labels) :
+    Graph147TargetCompletionTailRootEvalGate
+      scaledMargin rank [Face.xm, Face.ym, Face.yp, Face.zm] labels :=
+  graph147RootEvalGate_of_prefix_tail_margin
+    strengthenedClosed_prefix4_yp_zm_eval_eq htail hmargin
+
+theorem graph147ZmYpRootEvalGate_of_tail_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53 : Int) labels) :
+    Graph147TargetCompletionTailRootEvalGate
+      scaledMargin rank [Face.xm, Face.ym, Face.zm, Face.yp] labels :=
+  graph147RootEvalGate_of_prefix_tail_margin
+    strengthenedClosed_prefix4_zm_yp_eval_eq htail hmargin
+
+theorem bellmanEvalAccepts_of_graph147RootEvalGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {pfx labels : List Face}
+    (hgate :
+      Graph147TargetCompletionTailRootEvalGate
+        scaledMargin rank pfx labels) :
+    BellmanEvalAccepts
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      (fun _rank : Fin numPairWords => pfx ++ labels)
+      rank := by
+  exact hgate
+
+theorem bellmanEvalAccepts_of_graph147YpZmRoot_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53 : Int) labels) :
+    BellmanEvalAccepts
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      (fun _rank : Fin numPairWords =>
+        [Face.xm, Face.ym, Face.yp, Face.zm] ++ labels)
+      rank :=
+  bellmanEvalAccepts_of_graph147RootEvalGate
+    (graph147YpZmRootEvalGate_of_tail_margin htail hmargin)
+
+theorem bellmanEvalAccepts_of_graph147ZmYpRoot_margin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels)
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53 : Int) labels) :
+    BellmanEvalAccepts
+      (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+      strengthenedClosedEvalNext
+      strengthenedClosedEvalStart
+      (176 : Int)
+      scaledMargin
+      (fun _rank : Fin numPairWords =>
+        [Face.xm, Face.ym, Face.zm, Face.yp] ++ labels)
+      rank :=
+  bellmanEvalAccepts_of_graph147RootEvalGate
+    (graph147ZmYpRootEvalGate_of_tail_margin htail hmargin)
+
 def localBranchTable :
     (state : ShardState) ->
       StrengthenedTargetCompletionLocalBranchTable

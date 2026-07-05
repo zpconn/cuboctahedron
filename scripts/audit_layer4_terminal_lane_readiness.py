@@ -242,6 +242,15 @@ GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED = [
     "Graph147TargetCompletionTailMarginBound",
     "Graph147TargetCompletionTailEvalGate",
     "bellmanEvalAccepts_of_graph147TargetCompletionTail_margin",
+    "strengthenedClosed_prefix4_yp_zm_eval_eq",
+    "strengthenedClosed_prefix4_zm_yp_eval_eq",
+    "Graph147TargetCompletionTailRootMarginBound",
+    "Graph147TargetCompletionTailRootEvalGate",
+    "graph147RootEvalGate_of_prefix_tail_margin",
+    "graph147YpZmRootEvalGate_of_tail_margin",
+    "graph147ZmYpRootEvalGate_of_tail_margin",
+    "bellmanEvalAccepts_of_graph147YpZmRoot_margin",
+    "bellmanEvalAccepts_of_graph147ZmYpRoot_margin",
     "nextTarget?_prefix4YpZm_zp",
     "nextTarget?_prefix4YpZm_tmmp",
     "nextTarget?_terminal_graph112",
@@ -727,11 +736,14 @@ def main() -> int:
                     "terminal graph states 141/138 from continuation graph "
                     "states 157/159, with empty-tail evaluator/final-potential "
                     "sockets only for the terminal exits.  The lane now exposes "
-                    "the graph147 margin socket as "
-                    "Graph147TargetCompletionTailMarginBound, and still needs "
-                    "a semantic proof of that margin bound plus the "
-                    "rank-parametric closed-language-to-eval theorem without "
-                    "selected-prefix or sampled-rank membership.  The "
+                    "both the suffix-started margin socket "
+                    "Graph147TargetCompletionTailMarginBound and the root-gain "
+                    "socket Graph147TargetCompletionTailRootMarginBound, with "
+                    "BellmanEvalAccepts adapters for the yp,zm and zm,yp "
+                    "prefixes.  It still needs a semantic proof of the "
+                    "root-gain margin bound plus the rank-parametric "
+                    "closed-language-to-eval theorem without selected-prefix "
+                    "or sampled-rank membership.  The "
                     "graph150/151 continuation "
                     "states still need their own continuation-to-margin sockets "
                     "outside this graph147 lane."

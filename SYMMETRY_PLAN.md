@@ -105293,6 +105293,45 @@ the next proof goal at the right abstraction boundary: target-completion plus
 semantic margin, not selected-prefix, sampled-rank, accepted-trace, exact-affine,
 or per-observed-path membership.
 
+Eighth follow-up accepted in the same shard after the latest GPT5.5 Pro
+semantic-transducer pivot: the graph147 lane now distinguishes the suffix
+Bellman socket from the full root socket.  The suffix gate starts at
+`strengthenedClosedPrefix4YpZmEvalState`; the production proof must start at
+`strengthenedClosedEvalStart` and include the shared prefix gain `-53` for both
+semantic layer-4 entries `[xm, ym, yp, zm]` and `[xm, ym, zm, yp]`.
+
+New theorem surface:
+
+```lean
+theorem strengthenedClosed_prefix4_yp_zm_eval_eq
+theorem strengthenedClosed_prefix4_zm_yp_eval_eq
+
+def Graph147TargetCompletionTailRootMarginBound
+def Graph147TargetCompletionTailRootEvalGate
+
+theorem graph147RootEvalGate_of_prefix_tail_margin
+theorem graph147YpZmRootEvalGate_of_tail_margin
+theorem graph147ZmYpRootEvalGate_of_tail_margin
+
+theorem bellmanEvalAccepts_of_graph147RootEvalGate
+theorem bellmanEvalAccepts_of_graph147YpZmRoot_margin
+theorem bellmanEvalAccepts_of_graph147ZmYpRoot_margin
+```
+
+The important new obligation is deliberately stronger than the suffix-only
+socket:
+
+```lean
+Graph147TargetCompletionTailRootMarginBound
+  scaledMargin rank (-53) labels
+```
+
+means that, for the deterministic graph147 suffix evaluator result
+`tailGain`, the semantic family producer must prove
+`scaledMargin rank <= 176 + (-53 + tailGain)`.  This prevents the root theorem
+from accidentally using the weaker suffix-only inequality
+`scaledMargin rank <= 176 + tailGain`.
+
 Focused guarded build:
 
 ```bash
@@ -105305,6 +105344,17 @@ python3 scripts/run_memory_guarded.py \
 ```
 
 Result:
+
+```text
+pass; elapsed=5.00s; peak_tree_rss=4135 MiB; min_available=46004 MiB
+```
+
+The first root-socket attempt failed safely under the same guard in `13.01s`
+with `4086 MiB` peak tree RSS.  It failed only because a local binder was named
+`prefix`, which Lean parses as a token; the accepted version renames that
+binder to `pfx`.
+
+Previous eval-gate build result:
 
 ```text
 pass; elapsed=5.00s; peak_tree_rss=4191 MiB; min_available=45935 MiB
@@ -105407,17 +105457,24 @@ deterministic_target_shard_symbols.eval_exists_final_nonneg_of_graph147TargetCom
 deterministic_target_shard_symbols.Graph147TargetCompletionTailMarginBound = true
 deterministic_target_shard_symbols.Graph147TargetCompletionTailEvalGate = true
 deterministic_target_shard_symbols.bellmanEvalAccepts_of_graph147TargetCompletionTail_margin = true
+deterministic_target_shard_symbols.Graph147TargetCompletionTailRootMarginBound = true
+deterministic_target_shard_symbols.Graph147TargetCompletionTailRootEvalGate = true
+deterministic_target_shard_symbols.graph147RootEvalGate_of_prefix_tail_margin = true
+deterministic_target_shard_symbols.graph147YpZmRootEvalGate_of_tail_margin = true
+deterministic_target_shard_symbols.graph147ZmYpRootEvalGate_of_tail_margin = true
+deterministic_target_shard_symbols.bellmanEvalAccepts_of_graph147YpZmRoot_margin = true
+deterministic_target_shard_symbols.bellmanEvalAccepts_of_graph147ZmYpRoot_margin = true
 forbidden_hits = []
 ```
 
 Remaining formal boundary:
 
 ```text
-prove the graph147 semantic margin theorem behind
-Graph147TargetCompletionTailMarginBound and the rank-parametric
+prove the graph147 semantic margin theorem behind the stronger
+Graph147TargetCompletionTailRootMarginBound and the rank-parametric
 closed-language-to-eval theorem that turns
 TopPairingStrengthenedClosedLanguageAtRank / TopPairingClosedLanguageAtRank
-into the evaluator result and `scaledMargin <= 176 + gain` for this lane.
+into the root evaluator result and `scaledMargin <= 176 + gain` for this lane.
 Separately, prove graph150/151 continuation-to-margin sockets for the other
 two shard states, where target-completion hands off to graph157/159.  All of
 this must remain free of selected-prefix, sampled-rank, accepted-trace,
