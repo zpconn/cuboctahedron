@@ -34,6 +34,13 @@
 - `graph147YpZmRootMarginBound_of_ranked_eval_margin`: `true`
 - `graph147ZmYpRootMarginBound_of_ranked_eval_margin`: `true`
 - `StrengthenedGraph147RankedEvalMarginBundle`: `true`
+- `Graph147YpZmRankedEvalMarginObj`: `true`
+- `Graph147ZmYpRankedEvalMarginObj`: `true`
+- `Graph147YpZmRankedEvalMarginObjectBound`: `true`
+- `Graph147ZmYpRankedEvalMarginObjectBound`: `true`
+- `StrengthenedGraph147RankedEvalMarginObjectFamily`: `true`
+- `rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily`: `true`
+- `rootMarginBundle_of_rankedEvalMarginObjectFamily`: `true`
 - `graph147RankedEval_margin_of_suffixInvariant`: `true`
 - `StrengthenedGraph147RankedEvalMarginInvariantFamily`: `true`
 - `rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily`: `true`
@@ -65,9 +72,11 @@
 
 - file: `SYMMETRY_PLAN.md`
 - `ready_for_ranked_eval_margin_bundle_producer`: `true`
+- `StrengthenedGraph147RankedEvalMarginObjectFamily`: `true`
 - `StrengthenedGraph147RankedEvalMarginInvariantFamily`: `true`
 - `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
 - `StrengthenedGraph147RankedEvalMarginBundle`: `true`
+- `rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily`: `true`
 - `rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily`: `true`
 - `rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily`: `true`
 - `rootMarginBundle_of_rankedEvalMarginBundle`: `true`
@@ -238,7 +247,7 @@
 ## Production Route
 
 - keep: `Bellman/state-DAG via deterministic semantic transducer`
-- target: `StrengthenedGraph147RankedShardMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginBundle -> rootMarginBundle_of_rankedEvalMarginBundle`
+- target: `StrengthenedGraph147RankedEvalMarginObjectFamily or StrengthenedGraph147RankedShardMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginBundle -> rootMarginBundle_of_rankedEvalMarginBundle`
 - fallback: If the invariant cannot be proved from target cursor, schedule, square-gap/local-axis tail, pair-count/used-face facts, and deterministic full-graph147 state semantics, stop graph147 scaling and switch to the certified segment/cocycle quotient experiment.
 
 Rejected production coordinates:
@@ -257,4 +266,4 @@ Rejected production coordinates:
 
 ## Next Step
 
-Generate or prove the semantic graph147 margin invariant producer.  The immediate target is an instance of StrengthenedGraph147RankedShardMarginInvariantFamily, whose MarginInv is driven by target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.
+Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalMarginObjectFamily, whose objects are rank plus strengthened closed-language proof plus the branch prefix/rest decomposition.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.

@@ -102,6 +102,13 @@ RANKED_EVAL_SYMBOLS = [
     "graph147YpZmRootMarginBound_of_ranked_eval_margin",
     "graph147ZmYpRootMarginBound_of_ranked_eval_margin",
     "StrengthenedGraph147RankedEvalMarginBundle",
+    "Graph147YpZmRankedEvalMarginObj",
+    "Graph147ZmYpRankedEvalMarginObj",
+    "Graph147YpZmRankedEvalMarginObjectBound",
+    "Graph147ZmYpRankedEvalMarginObjectBound",
+    "StrengthenedGraph147RankedEvalMarginObjectFamily",
+    "rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily",
+    "rootMarginBundle_of_rankedEvalMarginObjectFamily",
     "graph147RankedEval_margin_of_suffixInvariant",
     "StrengthenedGraph147RankedEvalMarginInvariantFamily",
     "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily",
@@ -209,6 +216,7 @@ PRODUCTION_ROUTE = {
         "one generated branch per observed path",
     ],
     "target": (
+        "StrengthenedGraph147RankedEvalMarginObjectFamily or "
         "StrengthenedGraph147RankedShardMarginInvariantFamily -> "
         "StrengthenedGraph147RankedEvalMarginInvariantFamily -> "
         "StrengthenedGraph147RankedEvalMarginBundle -> "
@@ -380,9 +388,11 @@ def main() -> None:
         plan_tail,
         [
             "ready_for_ranked_eval_margin_bundle_producer",
+            "StrengthenedGraph147RankedEvalMarginObjectFamily",
             "StrengthenedGraph147RankedEvalMarginInvariantFamily",
             "StrengthenedGraph147RankedShardMarginInvariantFamily",
             "StrengthenedGraph147RankedEvalMarginBundle",
+            "rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily",
             "rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily",
             "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily",
             "rootMarginBundle_of_rankedEvalMarginBundle",
@@ -493,16 +503,18 @@ def main() -> None:
         "production_route": PRODUCTION_ROUTE,
         "next_step": (
             "Generate or prove the semantic graph147 margin invariant "
-            "producer.  The immediate target is an instance of "
-            "StrengthenedGraph147RankedShardMarginInvariantFamily, whose "
-            "MarginInv is driven by target-shadow cursor, schedule/"
-            "square-gap/local-axis tail, pair-count/used-face facts, "
-            "graph147 Bellman state semantics, or a checked segment/cocycle "
-            "quotient.  The existing gauge-corrected full graph is only a "
-            "diagnostic candidate; the existing quotient audit says no "
-            "coarser quotient is margin-complete yet.  Do not use sampled "
-            "ranks, selected prefixes, accepted trace ids, exact affine keys, "
-            "or per-observed-path membership."
+            "producer.  The immediate target is "
+            "StrengthenedGraph147RankedEvalMarginObjectFamily, whose objects "
+            "are rank plus strengthened closed-language proof plus the branch "
+            "prefix/rest decomposition.  If a local invariant is the better "
+            "proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily "
+            "from target-shadow cursor, schedule/square-gap/local-axis tail, "
+            "pair-count/used-face facts, graph147 Bellman state semantics, or "
+            "a checked segment/cocycle quotient.  The existing gauge-corrected "
+            "full graph is only a diagnostic candidate; the existing quotient "
+            "audit says no coarser quotient is margin-complete yet.  Do not "
+            "use sampled ranks, selected prefixes, accepted trace ids, exact "
+            "affine keys, or per-observed-path membership."
         ),
         "mandatory_pivot": {
             "marker": "mandatory_graph147_semantic_transducer_pivot",

@@ -117784,3 +117784,110 @@ acceptedTraceOfId, selected prefixes, sampled rank/path objects, or stored
 trace tables, reject the attempt and strengthen the semantic state or quotient
 instead.
 ```
+
+#### 2026-07-05 graph147 semantic object-bound surface exposed
+
+Status: accepted as a production-socket refinement; still not a margin proof.
+
+The latest GPT5.5 guidance says the next Bellman step should be a compact
+semantic object-cover theorem, not selected-prefix membership.  The graph147
+ranked-eval socket now exposes that object-level producer contract directly:
+
+```lean
+structure Graph147YpZmRankedEvalMarginObj
+structure Graph147ZmYpRankedEvalMarginObj
+def Graph147YpZmRankedEvalMarginObjectBound
+def Graph147ZmYpRankedEvalMarginObjectBound
+structure StrengthenedGraph147RankedEvalMarginObjectFamily
+def rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily
+def rootMarginBundle_of_rankedEvalMarginObjectFamily
+```
+
+Interpretation:
+
+```text
+StrengthenedGraph147RankedEvalMarginObjectFamily
+  -> StrengthenedGraph147RankedEvalMarginBundle
+  -> StrengthenedGraph147RootMarginBundle
+```
+
+Each graph147 margin object contains only:
+
+```text
+rank
+rest
+TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym
+Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest
+  or
+Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest
+```
+
+and the object-level obligation is the deterministic ranked-evaluator margin
+bound:
+
+```lean
+evalLabelStepFn graph147RankedEvalNext
+    graph147RankedPrefix4EvalState obj.rest = some (finish, gain) →
+  scaledMargin obj.rank ≤ 176 + (-53 + gain)
+```
+
+This is now the preferred immediate producer target.  The older compatible
+surfaces remain available:
+
+```lean
+def Graph147RankedEvalMarginSequenceBadFace
+structure StrengthenedGraph147RankedShardMarginInvariantFamily
+```
+
+but the object family is the cleanest answer to the semantic-membership pivot:
+rank plus closed-language/prefix proof, with the evaluator run computed rather
+than stored.  The proof must still be semantic; a proof of this object family
+from `SampledRankIndex`, selected prefixes, accepted trace ids, exact affine
+RHS keys, solved start points, or stored path/rank tables is not production
+evidence.
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/graph147_ranked_eval_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 -m py_compile \
+  scripts/audit_graph147_ranked_transducer_frontier.py \
+  scripts/audit_layer4_terminal_lane_readiness.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Results:
+
+```text
+graph147 ranked-eval socket: passed, elapsed 7.01s, peak RSS 3917 MiB,
+  hard address-space cap 24576 MiB, min available 46238 MiB
+frontier audit: passed; next_step now targets
+  StrengthenedGraph147RankedEvalMarginObjectFamily first
+layer-4 audit: passed; graph147 ranked-eval socket still accepted and now
+  records the object-family target
+```
+
+Next implementation target:
+
+```text
+Prove or emit the first semantic graph147 object-level branch margin producer:
+
+  StrengthenedGraph147RankedEvalMarginObjectFamily
+
+using target-cursor progress, schedule/square-gap/local-axis facts,
+pair-count/used-face facts, deterministic graph147 Bellman state semantics, or
+a checked semantic segment/cocycle quotient.  If this proof wants sampled
+ranks, selected prefixes, acceptedTraceOfId, exact affine RHS, solved starts,
+or stored trace tables, reject the attempt and strengthen the semantic state or
+quotient instead.
+```

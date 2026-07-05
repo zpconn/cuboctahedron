@@ -448,6 +448,156 @@ structure StrengthenedGraph147RankedEvalMarginBundle
       scaledMargin sequenceBadFace
 
 /--
+Semantic object for the graph-147 `yp, zm` ranked-evaluator margin producer.
+
+The object contains only the rank, its strengthened closed-language proof, and
+the branch prefix/rest decomposition.  It is the graph147 analogue of the
+graph221 root-margin object surface, specialized to the ranked evaluator.  The
+object stores no trace table, sampled path, selected-prefix id, affine key, or
+solved start point.
+-/
+structure Graph147YpZmRankedEvalMarginObj
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Type where
+  rank : Fin numPairWords
+  rest : List Face
+  strengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank Face.ym
+  branchPrefix :
+    Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest
+
+/--
+Semantic object for the graph-147 `zm, yp` ranked-evaluator margin producer.
+-/
+structure Graph147ZmYpRankedEvalMarginObj
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Type where
+  rank : Fin numPairWords
+  rest : List Face
+  strengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      sequenceBadFace rank Face.ym
+  branchPrefix :
+    Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest
+
+namespace Graph147YpZmRankedEvalMarginObj
+
+def labels
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (obj : Graph147YpZmRankedEvalMarginObj sequenceBadFace) :
+    List Face :=
+  topPairingRankFaceLabels obj.rank
+
+def marginBound
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (scaledMargin : Fin numPairWords -> Int)
+    (obj : Graph147YpZmRankedEvalMarginObj sequenceBadFace) : Prop :=
+  ∀ finish gain,
+    evalLabelStepFn graph147RankedEvalNext
+        graph147RankedPrefix4EvalState obj.rest =
+        some (finish, gain) ->
+      scaledMargin obj.rank <= (176 : Int) + ((-53 : Int) + gain)
+
+end Graph147YpZmRankedEvalMarginObj
+
+namespace Graph147ZmYpRankedEvalMarginObj
+
+def labels
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (obj : Graph147ZmYpRankedEvalMarginObj sequenceBadFace) :
+    List Face :=
+  topPairingRankFaceLabels obj.rank
+
+def marginBound
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (scaledMargin : Fin numPairWords -> Int)
+    (obj : Graph147ZmYpRankedEvalMarginObj sequenceBadFace) : Prop :=
+  ∀ finish gain,
+    evalLabelStepFn graph147RankedEvalNext
+        graph147RankedPrefix4EvalState obj.rest =
+        some (finish, gain) ->
+      scaledMargin obj.rank <= (176 : Int) + ((-53 : Int) + gain)
+
+end Graph147ZmYpRankedEvalMarginObj
+
+/--
+Object-level target for the graph-147 `yp, zm` margin producer.
+
+This is the next clean emitter contract: prove the deterministic evaluator-gain
+margin bound for every semantic object in the branch.  The socket converts that
+object-level theorem to the ranked-evaluator margin family consumed downstream.
+-/
+def Graph147YpZmRankedEvalMarginObjectBound
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop :=
+  ∀ obj : Graph147YpZmRankedEvalMarginObj sequenceBadFace,
+    Graph147YpZmRankedEvalMarginObj.marginBound scaledMargin obj
+
+/-- Object-level target for the graph-147 `zm, yp` margin producer. -/
+def Graph147ZmYpRankedEvalMarginObjectBound
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop)
+    (scaledMargin : Fin numPairWords -> Int) : Prop :=
+  ∀ obj : Graph147ZmYpRankedEvalMarginObj sequenceBadFace,
+    Graph147ZmYpRankedEvalMarginObj.marginBound scaledMargin obj
+
+/--
+Both graph-147 ranked-evaluator branch objects packaged together.
+-/
+structure StrengthenedGraph147RankedEvalMarginObjectFamily
+    (scaledMargin : Fin numPairWords -> Int)
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  yp_zm :
+    Graph147YpZmRankedEvalMarginObjectBound
+      sequenceBadFace scaledMargin
+  zm_yp :
+    Graph147ZmYpRankedEvalMarginObjectBound
+      sequenceBadFace scaledMargin
+
+def yp_zm_rankedEvalMarginFamily_of_objectBound
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hbound :
+      Graph147YpZmRankedEvalMarginObjectBound
+        sequenceBadFace scaledMargin) :
+    StrengthenedGraph147YpZmRankedEvalMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened rest hprefix finish gain heval
+    exact hbound
+      { rank := rank
+        rest := rest
+        strengthened := hstrengthened
+        branchPrefix := hprefix }
+      finish gain heval
+
+def zm_yp_rankedEvalMarginFamily_of_objectBound
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hbound :
+      Graph147ZmYpRankedEvalMarginObjectBound
+        sequenceBadFace scaledMargin) :
+    StrengthenedGraph147ZmYpRankedEvalMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened rest hprefix finish gain heval
+    exact hbound
+      { rank := rank
+        rest := rest
+        strengthened := hstrengthened
+        branchPrefix := hprefix }
+      finish gain heval
+
+def rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedEvalMarginObjectFamily
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RankedEvalMarginBundle
+      scaledMargin sequenceBadFace where
+  yp_zm := yp_zm_rankedEvalMarginFamily_of_objectBound hfamily.yp_zm
+  zm_yp := zm_yp_rankedEvalMarginFamily_of_objectBound hfamily.zm_yp
+
+/--
 Deterministic suffix-margin induction for the graph-147 ranked evaluator.
 
 This is the next production-facing margin surface after the semantic
@@ -690,6 +840,17 @@ def rootMarginBundle_of_rankedEvalMarginBundle
       scaledMargin sequenceBadFace where
   yp_zm := rootMarginFamily_of_yp_zm_rankedEvalMargin hbundle.yp_zm
   zm_yp := rootMarginFamily_of_zm_yp_rankedEvalMargin hbundle.zm_yp
+
+def rootMarginBundle_of_rankedEvalMarginObjectFamily
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hfamily :
+      StrengthenedGraph147RankedEvalMarginObjectFamily
+        scaledMargin sequenceBadFace) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin sequenceBadFace :=
+  rootMarginBundle_of_rankedEvalMarginBundle
+    (rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily hfamily)
 
 def rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle
     {Inv :

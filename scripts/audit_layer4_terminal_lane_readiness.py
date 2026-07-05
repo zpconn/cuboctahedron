@@ -390,6 +390,13 @@ GRAPH147_RANKED_EVAL_SOCKET_REQUIRED = [
     "StrengthenedGraph147YpZmRankedEvalMarginFamily",
     "StrengthenedGraph147ZmYpRankedEvalMarginFamily",
     "StrengthenedGraph147RankedEvalMarginBundle",
+    "Graph147YpZmRankedEvalMarginObj",
+    "Graph147ZmYpRankedEvalMarginObj",
+    "Graph147YpZmRankedEvalMarginObjectBound",
+    "Graph147ZmYpRankedEvalMarginObjectBound",
+    "StrengthenedGraph147RankedEvalMarginObjectFamily",
+    "rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily",
+    "rootMarginBundle_of_rankedEvalMarginObjectFamily",
     "graph147RankedEval_margin_of_suffixInvariant",
     "StrengthenedGraph147RankedEvalMarginInvariantFamily",
     "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily",
@@ -1363,9 +1370,11 @@ def main() -> int:
                     "not a mapped class case or selected-prefix membership."
                     "  The ranked-eval socket goes one step further: it proves "
                     "the suffix evaluator induction and reduces production to "
-                    "a semantic branch start-margin predicate such as "
-                    "`Graph147RankedEvalMarginSequenceBadFace` or a "
-                    "`StrengthenedGraph147RankedShardMarginInvariantFamily`."
+                    "a semantic object-level branch start-margin family such "
+                    "as `StrengthenedGraph147RankedEvalMarginObjectFamily`; "
+                    "`Graph147RankedEvalMarginSequenceBadFace` and "
+                    "`StrengthenedGraph147RankedShardMarginInvariantFamily` "
+                    "remain compatible lower-level socket targets."
                     if graph147_direct_eval_socket_ok
                     else (
                     "graph147 now reaches terminal graph states 141 and 138 "
@@ -1706,9 +1715,11 @@ def main() -> int:
                 "semantic induction.  It proves evaluator existence/final "
                 "potential from Graph147RankedShardSuffixOk and reduces the "
                 "remaining production work to branch start-margin facts over "
-                "the target-cursor/transducer language, preferably "
-                "Graph147RankedEvalMarginSequenceBadFace or "
-                "StrengthenedGraph147RankedShardMarginInvariantFamily.  "
+                "the target-cursor/transducer language, preferably through "
+                "StrengthenedGraph147RankedEvalMarginObjectFamily; "
+                "Graph147RankedEvalMarginSequenceBadFace and "
+                "StrengthenedGraph147RankedShardMarginInvariantFamily remain "
+                "compatible lower-level socket targets.  "
                 "Diagnostic branch/cocycle smokes must not be treated as "
                 "coverage unless they are lifted through this semantic socket."
                 if graph147_ranked_eval_socket_ok
@@ -1849,11 +1860,14 @@ def main() -> int:
                 (
                     (
                         "use the accepted graph147 ranked-eval socket as the "
-                        "next theorem target: prove semantic branch start-margin "
-                        "facts for Graph147RankedEvalMarginSequenceBadFace, or "
-                        "instantiate StrengthenedGraph147RankedShardMarginInvariantFamily "
-                        "with a real margin invariant.  The suffix evaluator "
-                        "induction and final-potential side are already packaged; "
+                        "next theorem target: prove the semantic object-level "
+                        "branch margin producer "
+                        "StrengthenedGraph147RankedEvalMarginObjectFamily, or "
+                        "fall back to Graph147RankedEvalMarginSequenceBadFace / "
+                        "StrengthenedGraph147RankedShardMarginInvariantFamily "
+                        "with a real semantic margin invariant.  The suffix "
+                        "evaluator induction and final-potential side are already "
+                        "packaged; "
                         "do not fall back to mapped class cases, selected-prefix "
                         "covers, sampled ranks, accepted traces, exact affine "
                         "keys, or stored path membership"
