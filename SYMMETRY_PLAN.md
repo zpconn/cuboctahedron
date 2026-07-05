@@ -105139,6 +105139,7 @@ def nextTarget?
 theorem nextTarget?_graph_sound
 theorem nextTarget?_shard_sound
 theorem ShardTargetSuffixOk.first_step_graph_sound
+theorem ShardTargetSuffixOk.of_targetCompletionTail
 theorem ShardTargetSuffixOk.eval_exists_of_external
 theorem nextTarget?_prefix4YpZm_zp
 theorem nextTarget?_prefix4YpZm_tmmp
@@ -105177,6 +105178,16 @@ small one-step evaluator lemma and induction over the semantic suffix predicate;
 it does not introduce sampled ranks, selected-prefix IDs, accepted trace IDs,
 exact affine keys, or per-observed-path membership.
 
+Second follow-up accepted in the same shard:
+`ShardTargetSuffixOk.of_targetCompletionTail` proves that any
+`TopPairingTargetCompletionTail (completionState state) labels` recursively
+feeds the shard suffix predicate.  Internal transitions recurse through
+`nextTarget?`; the four exits delegate to the caller-provided external graph
+socket.  The proof is explicit over semantic shard state and existing
+`graph*_head_of_targetCompletionTail` lemmas.  It is therefore a real
+closed-language/target-completion-to-suffix theorem for this bounded shard, not
+an observed-prefix or sampled-rank cover.
+
 Focused guarded build:
 
 ```bash
@@ -105191,7 +105202,7 @@ python3 scripts/run_memory_guarded.py \
 Result:
 
 ```text
-pass; elapsed=4.00s; peak_tree_rss=3927 MiB; min_available=46105 MiB
+pass; elapsed=4.00s; peak_tree_rss=4070 MiB; min_available=46026 MiB
 ```
 
 The first build attempt failed safely under the same guard because the target
@@ -105211,6 +105222,11 @@ memory pressure.  The accepted version replaces that with a local
 `evalLabelStepFn_cons_some` lemma that unfolds the evaluator exactly one
 constructor at a time.
 
+The first `ShardTargetSuffixOk.of_targetCompletionTail` attempt failed safely
+under the same guard (`peak_tree_rss=3997 MiB`) because Lean could not infer the
+external shard state/face/gain arguments for the four handoff exits.  The
+accepted version makes those external arguments explicit.
+
 Readiness audit:
 
 ```bash
@@ -105223,6 +105239,7 @@ Result:
 yp_zm.status = partial_terminal_graph141_graph138_deterministic_target_api
 zm_yp.status = partial_terminal_graph141_graph138_deterministic_target_api
 deterministic_target_shard_symbols.nextTarget?_shard_sound = true
+deterministic_target_shard_symbols.ShardTargetSuffixOk.of_targetCompletionTail = true
 deterministic_target_shard_symbols.ShardTargetSuffixOk.eval_exists_of_external = true
 forbidden_hits = []
 ```
@@ -105233,7 +105250,8 @@ Remaining formal boundary:
 prove a terminal semantic eval/margin gate that recurses over nextTarget?
 and turns TopPairingStrengthenedClosedLanguageAtRank /
 TopPairingClosedLanguageAtRank into the rank-parametric evaluator result and
-scaledMargin <= 176 + gain, without selected-prefix, sampled-rank,
+scaledMargin <= 176 + gain, using the new target-completion-to-suffix theorem
+plus external graph sockets, without selected-prefix, sampled-rank,
 accepted-trace, exact-affine, or per-observed-path membership.
 ```
 

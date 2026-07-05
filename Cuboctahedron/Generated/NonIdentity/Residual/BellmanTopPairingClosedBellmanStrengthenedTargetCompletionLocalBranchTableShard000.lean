@@ -439,6 +439,246 @@ theorem ShardTargetSuffixOk.not_nil
   intro h
   cases h
 
+private theorem completionState_remaining_ne_nil (state : ShardState) :
+    (completionState state).remaining ≠ [] := by
+  cases state <;> decide
+
+theorem ShardTargetSuffixOk.of_targetCompletionTail
+    {ExternalOk : Nat -> List Face -> Prop}
+    (hexternal :
+      ∀ {state : ShardState} {graph : Nat} {face : Face} {gain : Int}
+          {rest : List Face},
+        nextTarget? state face = some (.externalGraph graph, gain) ->
+        TopPairingTargetCompletionTail
+          ((completionState state).next face) rest ->
+          ExternalOk graph rest)
+    {state : ShardState} {labels : List Face}
+    (htail :
+      TopPairingTargetCompletionTail (completionState state) labels) :
+    ShardTargetSuffixOk ExternalOk state labels := by
+  induction labels generalizing state with
+  | nil =>
+      cases htail with
+      | nil hremaining _hsummary =>
+          exact False.elim
+            (completionState_remaining_ne_nil state hremaining)
+  | cons face rest ih =>
+      have htailNext :=
+        TopPairingTargetCompletionTail.tail_next htail
+      cases state with
+      | prefix4YpZm =>
+          rcases graph147_head_of_targetCompletionTail
+              (by simpa [completionState] using htail) with hzp | htmmp
+          · subst face
+            exact ShardTargetSuffixOk.shard_step
+              (by rfl)
+              (ih (state := .prefix5YpZmZp)
+                (by simpa [completionState, graph153TargetCompletionState]
+                  using htailNext))
+          · subst face
+            exact ShardTargetSuffixOk.shard_step
+              (by rfl)
+              (ih (state := .prefix5YpZmTmmp)
+                (by simpa [completionState, graph155TargetCompletionState]
+                  using htailNext))
+      | prefix5YpZmZp =>
+          have hface := graph153_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix6YpZmZpTmmm)
+              (by simpa [completionState, graph163TargetCompletionState]
+                using htailNext))
+      | prefix12YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmpp =>
+          have hface := graph69_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih
+              (state :=
+                .prefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmp)
+              (by simpa [completionState, graph112TargetCompletionState]
+                using htailNext))
+      | prefix12YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmm =>
+          have hface := graph75_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih
+              (state :=
+                .prefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZp)
+              (by simpa [completionState, graph109TargetCompletionState]
+                using htailNext))
+      | prefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmp =>
+          have hface := graph112_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.external_step
+            (by rfl)
+            (hexternal
+              (state :=
+                .prefix13YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmppTmmp)
+              (graph := 141) (face := Face.xp) (gain := (-73 : Int))
+              (rest := rest) (by rfl)
+              (by simpa [completionState] using htailNext))
+      | prefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZp =>
+          have hface := graph109_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.external_step
+            (by rfl)
+            (hexternal
+              (state :=
+                .prefix13YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmmZp)
+              (graph := 138) (face := Face.xp) (gain := (-73 : Int))
+              (rest := rest) (by rfl)
+              (by simpa [completionState] using htailNext))
+      | prefix9YpZmZpTmmmTpmmTppmTpmp =>
+          have hface := graph208_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix10YpZmZpTmmmTpmmTppmTpmpTmpm)
+              (by simpa [completionState, graph6TargetCompletionState]
+                using htailNext))
+      | prefix11YpZmZpTmmmTpmmTppmTpmpTmpmTppp =>
+          have hface := graph36_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih
+              (state := .prefix12YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmpp)
+              (by simpa [completionState, graph69TargetCompletionState]
+                using htailNext))
+      | prefix11YpZmTmmpTpmpTpppTpmmTmppTppmTmpm =>
+          have hface := graph41_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih
+              (state :=
+                .prefix12YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmm)
+              (by simpa [completionState, graph75TargetCompletionState]
+                using htailNext))
+      | prefix9YpZmTmmpTpmpTpppTpmmTmpp =>
+          have hface := graph211_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix10YpZmTmmpTpmpTpppTpmmTmppTppm)
+              (by simpa [completionState, graph11TargetCompletionState]
+                using htailNext))
+      | prefix10YpZmZpTmmmTpmmTppmTpmpTmpm =>
+          have hface := graph6_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix11YpZmZpTmmmTpmmTppmTpmpTmpmTppp)
+              (by simpa [completionState, graph36TargetCompletionState]
+                using htailNext))
+      | prefix10YpZmTmmpTpmpTpppTpmmTmppTppm =>
+          have hface := graph11_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix11YpZmTmmpTpmpTpppTpmmTmppTppmTmpm)
+              (by simpa [completionState, graph41TargetCompletionState]
+                using htailNext))
+      | prefix8YpZmZpTmmmTpmmTppm =>
+          have hface := graph191_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix9YpZmZpTmmmTpmmTppmTpmp)
+              (by simpa [completionState, graph208TargetCompletionState]
+                using htailNext))
+      | prefix8YpZmTmmpTpmpTpppTpmm =>
+          have hface := graph194_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix9YpZmTmmpTpmpTpppTpmmTmpp)
+              (by simpa [completionState, graph211TargetCompletionState]
+                using htailNext))
+      | prefix7YpZmZpTmmmTpmm =>
+          have hface := graph176_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix8YpZmZpTmmmTpmmTppm)
+              (by simpa [completionState, graph191TargetCompletionState]
+                using htailNext))
+      | prefix7YpZmTmmpTpmpTppp =>
+          have hface := graph178_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix8YpZmTmmpTpmpTpppTpmm)
+              (by simpa [completionState, graph194TargetCompletionState]
+                using htailNext))
+      | prefix6YpZmZpTmmm =>
+          have hface := graph163_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix7YpZmZpTmmmTpmm)
+              (by simpa [completionState, graph176TargetCompletionState]
+                using htailNext))
+      | prefix6YpZmTmmpTpmp =>
+          have hface := graph166_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix7YpZmTmmpTpmpTppp)
+              (by simpa [completionState, graph178TargetCompletionState]
+                using htailNext))
+      | prefix5YpZmTmmp =>
+          have hface := graph155_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.shard_step
+            (by rfl)
+            (ih (state := .prefix6YpZmTmmpTpmp)
+              (by simpa [completionState, graph166TargetCompletionState]
+                using htailNext))
+      | prefix4TmpmZm =>
+          have hface := graph150_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.external_step
+            (by rfl)
+            (hexternal
+              (state := .prefix4TmpmZm)
+              (graph := 157) (face := Face.zp) (gain := (114 : Int))
+              (rest := rest) (by rfl)
+              (by simpa [completionState] using htailNext))
+      | prefix4ZmTmpp =>
+          have hface := graph151_head_of_targetCompletionTail
+            (by simpa [completionState] using htail)
+          subst face
+          exact ShardTargetSuffixOk.external_step
+            (by rfl)
+            (hexternal
+              (state := .prefix4ZmTmpp)
+              (graph := 159) (face := Face.tppp) (gain := (96 : Int))
+              (rest := rest) (by rfl)
+              (by simpa [completionState] using htailNext))
+
 theorem ShardTargetSuffixOk.first_step_graph_sound
     {ExternalOk : Nat -> List Face -> Prop}
     {state : ShardState} {face : Face} {rest : List Face}
