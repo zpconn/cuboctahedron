@@ -105342,6 +105342,25 @@ Go/no-go rule for the next slice:
   observed path.  If that happens, stop graph147 scaling and run the
   cocycle/cancellation-summary quotient experiment.
 
+Follow-up strategy note after inspecting the existing graph157/169/183 sockets:
+do not try to prove an unconditional theorem of the form
+
+```lean
+Graph157ExternalTargetCompletionTail rest ->
+  ∃ result, evalLabelStepFn strengthenedClosedEvalNext graph157State rest = some result
+```
+
+Target-completion alone is still too broad at the downstream graph183 boundary:
+`Graph183TargetCompletionTail` has a blocked branch that is excluded only by
+the stronger accepted-sequence / strengthened closed-language semantics.  The
+correct continuation obligation for graph157/159 must therefore be a
+family-strengthened evaluator/margin socket, reusing the existing
+`StrengthenedGraph157AfterTppmGraphExactContinuationFamily`,
+`StrengthenedGraph169AfterTpmmGraphExactContinuationFamily`, and
+graph183 accepted-branch/final-margin components.  This keeps the proof honest:
+target-completion is the compact cursor, while evaluator success and margin
+nonpositivity belong to the strengthened semantic family.
+
 ### 2026-07-05 target-shadow cursor core rechecked
 
 The GPT5.5 pivot asks for a deterministic semantic route from the closed
