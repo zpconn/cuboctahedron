@@ -112488,6 +112488,29 @@ semantic field and the next move is to strengthen the target-shadow,
 tri-source, square-gap, or cancellation-segment state rather than scaling the
 producer.
 
+Rejected follow-up experiment:
+
+- Tried to extend the generated final-state support with a global inverse
+  theorem for `closedBellmanNext`, aiming to prove profile-final membership
+  directly from `evalLabelStepFn closedBellmanNext graphRoot labels`.
+- The memory guard showed this was not an RSS/OOM issue, but the theorem shape
+  produced repeated `isDefEq` heartbeat timeouts while unfolding the dispatcher
+  over known states and faces.  One capped run failed to create a Lean thread
+  under hard virtual-memory caps at about `4540 MiB` RSS; the no-address-cap
+  guarded run failed with deterministic heartbeat timeouts at about `4568 MiB`
+  RSS.
+- The change was reverted and not committed.  Do not pursue a monolithic
+  dispatcher-inverse theorem in the graph183 final-state module.
+
+Updated route:
+
+- Prefer producing a semantic
+  `StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin`, since
+  the checked graph183 adapter already consumes that shape.
+- If a future producer really needs an evaluator-only bridge, shard the inverse
+  by depth/state or prove it as part of the same semantic transducer local-step
+  theorem.  Do not add a one-file global inverse over `closedBellmanNext`.
+
 ### 2026-07-05 graph183 start-violation import no-go
 
 The latest GPT5.5 guidance sharpened the Bellman pivot one more time:
