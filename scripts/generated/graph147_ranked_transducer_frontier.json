@@ -105,6 +105,14 @@
     }
   ],
   "semantic_inputs": {
+    "bellman_potential": {
+      "file": "Cuboctahedron/Search/BellmanPotential.lean",
+      "symbols": {
+        "def GaugeCorrectedQuotientMarginLanguageBound": true,
+        "theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_language": true,
+        "theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_margin": true
+      }
+    },
     "target_cursor": {
       "file": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
       "symbols": {

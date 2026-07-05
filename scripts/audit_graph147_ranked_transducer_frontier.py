@@ -41,6 +41,7 @@ TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_TAIL = ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean"
 TRANSDUCER_EVAL = ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean"
 TRANSDUCER_GATE = ROOT / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean"
+BELLMAN_POTENTIAL = ROOT / "Cuboctahedron/Search/BellmanPotential.lean"
 GAUGE_AUDIT = ROOT / "scripts/generated/graph147_gauge_corrected_potential_0_10M.json"
 COCYCLE_QUOTIENT_AUDIT = (
     ROOT / "scripts/generated/graph147_cocycle_quotient_potential_0_10M.json"
@@ -108,6 +109,11 @@ SEMANTIC_INPUT_SYMBOLS = {
     ],
     "transducer_gate": [
         "strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+    ],
+    "bellman_potential": [
+        "theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_margin",
+        "def GaugeCorrectedQuotientMarginLanguageBound",
+        "theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_language",
     ],
 }
 
@@ -227,6 +233,7 @@ def main() -> None:
         "transducer_tail": read(TRANSDUCER_TAIL),
         "transducer_eval": read(TRANSDUCER_EVAL),
         "transducer_gate": read(TRANSDUCER_GATE),
+        "bellman_potential": read(BELLMAN_POTENTIAL),
     }
 
     semantic_symbols = {
@@ -318,6 +325,7 @@ def main() -> None:
                         "transducer_tail": TRANSDUCER_TAIL,
                         "transducer_eval": TRANSDUCER_EVAL,
                         "transducer_gate": TRANSDUCER_GATE,
+                        "bellman_potential": BELLMAN_POTENTIAL,
                     }[key].relative_to(ROOT)
                 ),
             }

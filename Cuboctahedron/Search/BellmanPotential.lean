@@ -724,6 +724,102 @@ theorem const_add_rawGain_nonpos_of_gaugeCorrected_quotient_labelStepRun
       hstep hrun hvalid hfinish
   linarith
 
+/--
+Gauge-corrected quotient margin bound for one semantic object.
+
+This is the production-facing theorem shape for cocycle/segment margin
+producers.  The generated producer must still prove the real geometric margin
+contract `scaledMargin obj <= const + rawGain`; the quotient proof only shows
+that the certified raw gain is nonpositive enough.  This keeps diagnostics
+separate from proof evidence: a potential table alone is not enough.
+-/
+theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_margin
+    {FullState SmallState Label Obj : Type}
+    {FullStep : FullState -> Label -> FullState -> Int -> Prop}
+    {SmallStep : SmallState -> Label -> SmallState -> Int -> Prop}
+    {q : FullState -> SmallState}
+    {gauge : FullState -> Int}
+    {V : SmallState -> Int}
+    {start finish : FullState} {labels : List Label}
+    {rawGain const : Int}
+    {scaledMargin : Obj -> Int} {obj : Obj}
+    (hstep :
+      forall {s label t gain},
+        FullStep s label t gain ->
+          exists smallGain,
+            SmallStep (q s) label (q t) smallGain /\
+              gain = smallGain + gauge t - gauge s)
+    (hrun : BellmanLabelStepRun FullStep start finish labels rawGain)
+    (hvalid :
+      forall s label t gain,
+        SmallStep s label t gain -> gain + V t <= V s)
+    (hfinish : gauge finish <= V (q finish))
+    (hroot : const + V (q start) - gauge start <= 0)
+    (hmargin : scaledMargin obj <= const + rawGain) :
+    scaledMargin obj <= 0 := by
+  have hraw :=
+    const_add_rawGain_nonpos_of_gaugeCorrected_quotient_labelStepRun
+      (q := q) (gauge := gauge) (V := V)
+      hstep hrun hvalid hfinish hroot
+  linarith
+
+/--
+Language-level gauge-corrected quotient margin bound.
+
+The accepted-language witness contains the semantic full-state run and the
+actual margin-to-raw-gain inequality.  The quotient step equations, quotient
+potential inequalities, and root/final gauge facts are shared family data.
+-/
+def GaugeCorrectedQuotientMarginLanguageBound
+    {FullState SmallState Label Obj : Type}
+    (FullStep : FullState -> Label -> FullState -> Int -> Prop)
+    (q : FullState -> SmallState)
+    (gauge : FullState -> Int)
+    (V : SmallState -> Int)
+    (scaledMargin : Obj -> Int)
+    (wordOf : Obj -> List Label)
+    (start : FullState)
+    (const : Int)
+    (Accepts : Obj -> Prop) : Prop :=
+  forall obj, Accepts obj -> exists finish rawGain,
+    BellmanLabelStepRun FullStep start finish (wordOf obj) rawGain /\
+      scaledMargin obj <= const + rawGain /\
+        gauge finish <= V (q finish)
+
+theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_language
+    {FullState SmallState Label Obj : Type}
+    {FullStep : FullState -> Label -> FullState -> Int -> Prop}
+    {SmallStep : SmallState -> Label -> SmallState -> Int -> Prop}
+    {q : FullState -> SmallState}
+    {gauge : FullState -> Int}
+    {V : SmallState -> Int}
+    {scaledMargin : Obj -> Int}
+    {wordOf : Obj -> List Label}
+    {start : FullState}
+    {const : Int}
+    {Accepts : Obj -> Prop}
+    (hstep :
+      forall {s label t gain},
+        FullStep s label t gain ->
+          exists smallGain,
+            SmallStep (q s) label (q t) smallGain /\
+              gain = smallGain + gauge t - gauge s)
+    (hvalid :
+      forall s label t gain,
+        SmallStep s label t gain -> gain + V t <= V s)
+    (hroot : const + V (q start) - gauge start <= 0)
+    (htrace :
+      GaugeCorrectedQuotientMarginLanguageBound
+        FullStep q gauge V scaledMargin wordOf start const Accepts) :
+    forall obj, Accepts obj -> scaledMargin obj <= 0 := by
+  intro obj hobj
+  rcases htrace obj hobj with
+    ⟨finish, rawGain, hrun, hmargin, hfinish⟩
+  exact scaledMargin_nonpos_of_gaugeCorrected_quotient_margin
+    (q := q) (gauge := gauge) (V := V)
+    (obj := obj) hstep hrun hvalid
+    hfinish hroot hmargin
+
 def BellmanTraceBound
     {State Obj : Type}
     (V : State -> Int)

@@ -88,6 +88,13 @@
 - file: `Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean`
 - `strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix`: `true`
 
+### bellman_potential
+
+- file: `Cuboctahedron/Search/BellmanPotential.lean`
+- `theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_margin`: `true`
+- `def GaugeCorrectedQuotientMarginLanguageBound`: `true`
+- `theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_language`: `true`
+
 ## Gauge Audit
 
 - file: `scripts/generated/graph147_gauge_corrected_potential_0_10M.json`

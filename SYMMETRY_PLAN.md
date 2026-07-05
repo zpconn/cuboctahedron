@@ -110485,3 +110485,103 @@ NO-GO:
   membership or exact affine keys.  In that case, pivot immediately to the
   certified segment/cocycle quotient theorem, not to more graph data.
 ```
+
+### 2026-07-05 checked gauge-corrected quotient margin surface
+
+The direct graph147 `MarginInv` socket remains the first target, but the
+fallback is now a checked theorem surface rather than only a plan item.
+
+`Cuboctahedron/Search/BellmanPotential.lean` now exposes:
+
+```lean
+theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_margin
+
+def GaugeCorrectedQuotientMarginLanguageBound
+
+theorem scaledMargin_nonpos_of_gaugeCorrected_quotient_language
+```
+
+These theorems combine four ingredients:
+
+1. a semantic full-state label-step run;
+2. the real geometric margin contract
+   `scaledMargin obj <= const + rawGain`;
+3. cocycle/gauge quotient equations
+   `rawGain = smallGain + gauge finish - gauge start`;
+4. quotient potential inequalities plus root/final gauge bounds.
+
+This is intentionally stricter than the graph147 diagnostic potential.  A
+potential table alone does not prove the margin theorem; a producer must also
+prove the margin-to-raw-gain contract over the semantic accepted language.
+
+Validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/bellman_potential_gauge_margin_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/BellmanPotential.lean
+
+rg -n "scaledMargin_nonpos_of_gaugeCorrected_quotient_margin|\
+GaugeCorrectedQuotientMarginLanguageBound|\
+scaledMargin_nonpos_of_gaugeCorrected_quotient_language" \
+  Cuboctahedron/Search/BellmanPotential.lean
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Search/BellmanPotential.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/bellman_potential_gauge_margin_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.BellmanPotential
+```
+
+Results:
+
+```text
+direct Lean check = pass
+direct Lean elapsed = 10.01s
+direct Lean peak_tree_rss = 3902 MiB
+direct Lean min_available = 46223 MiB
+direct Lean hard_address_space = 8192 MiB
+Lake module build = pass
+Lake elapsed = 6.00s
+Lake peak_tree_rss = 4055 MiB
+Lake min_available = 46049 MiB
+forbidden-token scan = no hits
+```
+
+Updated graph147 fallback target:
+
+```text
+If direct StrengthenedGraph147RankedShardMarginInvariantFamily cannot be
+instantiated from semantic closed-language coordinates, emit a segment/cocycle
+producer whose language witness fits
+GaugeCorrectedQuotientMarginLanguageBound.  The witness must still be semantic:
+no sampled ranks, selected-prefix ids, accepted trace ids, exact affine RHS
+keys, or per-observed-path branches.
+```
+
+The direct graph147 route remains:
+
+```text
+StrengthenedGraph147RankedShardMarginInvariantFamily
+  -> rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily
+  -> StrengthenedGraph147RankedEvalMarginBundle
+  -> rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+and the older invariant-family adapter remains available:
+
+```text
+StrengthenedGraph147RankedEvalMarginInvariantFamily
+  -> rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily
+  -> StrengthenedGraph147RankedEvalMarginBundle
+```
