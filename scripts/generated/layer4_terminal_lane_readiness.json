@@ -34,7 +34,7 @@
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.zm",
-      "remaining_gap": "graph147 target-completion now restricts the shared yp_zm/zm_yp local frontier to the Bellman heads zp and tmmp.  The lane still needs deterministic suffix continuations from graph153 and graph155 before it becomes a terminal semantic gate.",
+      "remaining_gap": "graph147 now advances semantically through both target completion heads: zp reaches graph153 and is forced next to tmmm/graph163, while tmmp reaches graph155 and is forced next to tpmp/graph166.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph163 and graph166 before it becomes a terminal semantic gate.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -42,7 +42,21 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph147_target_completion_local_table",
+      "status": "partial_graph153_graph155_target_completion_local_table",
+      "suffix_symbols": {
+        "Graph153TargetCompletionTail": true,
+        "Graph155TargetCompletionTail": true,
+        "graph153TargetCompletionState": true,
+        "graph153_head_of_targetCompletionTail": true,
+        "graph155TargetCompletionState": true,
+        "graph155_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix5YpZmTmmpEvalState": true,
+        "strengthenedClosedPrefix5YpZmZpEvalState": true,
+        "strengthenedClosed_prefix5_yp_zm_tmmp_next_from_graph147": true,
+        "strengthenedClosed_prefix5_yp_zm_zp_next_from_graph147": true,
+        "strengthenedPrefix5Graph153TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix5Graph155TargetCompletionLocalBranchTable": true
+      },
       "third": "Face.yp"
     },
     "zm_tmpp": {
@@ -142,7 +156,7 @@
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.yp",
-      "remaining_gap": "graph147 target-completion now restricts the shared yp_zm/zm_yp local frontier to the Bellman heads zp and tmmp.  The lane still needs deterministic suffix continuations from graph153 and graph155 before it becomes a terminal semantic gate.",
+      "remaining_gap": "graph147 now advances semantically through both target completion heads: zp reaches graph153 and is forced next to tmmm/graph163, while tmmp reaches graph155 and is forced next to tpmp/graph166.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph163 and graph166 before it becomes a terminal semantic gate.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -150,7 +164,21 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph147_target_completion_local_table",
+      "status": "partial_graph153_graph155_target_completion_local_table",
+      "suffix_symbols": {
+        "Graph153TargetCompletionTail": true,
+        "Graph155TargetCompletionTail": true,
+        "graph153TargetCompletionState": true,
+        "graph153_head_of_targetCompletionTail": true,
+        "graph155TargetCompletionState": true,
+        "graph155_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix5YpZmTmmpEvalState": true,
+        "strengthenedClosedPrefix5YpZmZpEvalState": true,
+        "strengthenedClosed_prefix5_yp_zm_tmmp_next_from_graph147": true,
+        "strengthenedClosed_prefix5_yp_zm_zp_next_from_graph147": true,
+        "strengthenedPrefix5Graph153TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix5Graph155TargetCompletionLocalBranchTable": true
+      },
       "third": "Face.zm"
     },
     "zm_zp": {

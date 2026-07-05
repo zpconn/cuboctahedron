@@ -105220,6 +105220,99 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 graph153/graph155 target-completion continuation accepted
+
+The shared graph147 lane for `yp_zm` / `zm_yp` has advanced one more
+deterministic semantic step without selected-prefix, sampled-rank,
+accepted-trace, exact-affine, or per-observed-path membership.
+
+New semantic states and local branch tables:
+
+```lean
+def graph153TargetCompletionState : TopPairingTargetCompletionState
+def graph155TargetCompletionState : TopPairingTargetCompletionState
+
+theorem graph153_head_of_targetCompletionTail :
+  Graph153TargetCompletionTail (face :: rest) -> face = Face.tmmm
+
+theorem graph155_head_of_targetCompletionTail :
+  Graph155TargetCompletionTail (face :: rest) -> face = Face.tpmp
+
+def strengthenedPrefix5Graph153TargetCompletionLocalBranchTable :
+  StrengthenedTargetCompletionLocalBranchTable
+    strengthenedClosedPrefix5YpZmZpEvalState graph153TargetCompletionState
+
+def strengthenedPrefix5Graph155TargetCompletionLocalBranchTable :
+  StrengthenedTargetCompletionLocalBranchTable
+    strengthenedClosedPrefix5YpZmTmmpEvalState graph155TargetCompletionState
+```
+
+The refreshed generated target-completion shard now has five states and six
+branches.  It packages:
+
+- graph147: `zp -> graph153`, `tmmp -> graph155`;
+- graph153: `tmmm -> graph163`;
+- graph155: `tpmp -> graph166`;
+- graph150 and graph151 as before.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke
+```
+
+Result:
+
+```text
+pass; elapsed=2.01s; peak_tree_rss=804 MiB; min_available=46502 MiB
+```
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000
+```
+
+Result:
+
+```text
+pass; elapsed=3.00s; peak_tree_rss=4043 MiB; min_available=46128 MiB
+```
+
+Readiness audit:
+
+```bash
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+validated_lanes = [tmpm_zm, zm_tmpp]
+partial_lanes = [yp_zm, zm_yp]
+yp_zm.status = partial_graph153_graph155_target_completion_local_table
+zm_yp.status = partial_graph153_graph155_target_completion_local_table
+forbidden_hits = []
+```
+
+Next slice:
+
+1. Continue the same deterministic target-completion/evaluator pattern from
+   graph163 and graph166.
+2. Stop immediately if the proof wants selected prefixes, sampled ranks,
+   accepted trace IDs, exact affine keys, or one branch per observed path.
+3. If target-completion alone stops being deterministic, add only semantic
+   product-state fields first, or switch to the cocycle/cancellation-summary
+   quotient experiment.
+
 ### 2026-07-05 graph147 target-completion local table accepted
 
 The strategy pivot from GPT5.5 Pro is now the active rule for the remaining

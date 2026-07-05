@@ -74,6 +74,21 @@ GRAPH147_TARGET_COMPLETION_REQUIRED = [
     "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp",
 ]
 
+GRAPH147_SUFFIX_REQUIRED = [
+    "strengthenedClosedPrefix5YpZmZpEvalState",
+    "strengthenedClosed_prefix5_yp_zm_zp_next_from_graph147",
+    "graph153TargetCompletionState",
+    "Graph153TargetCompletionTail",
+    "graph153_head_of_targetCompletionTail",
+    "strengthenedPrefix5Graph153TargetCompletionLocalBranchTable",
+    "strengthenedClosedPrefix5YpZmTmmpEvalState",
+    "strengthenedClosed_prefix5_yp_zm_tmmp_next_from_graph147",
+    "graph155TargetCompletionState",
+    "Graph155TargetCompletionTail",
+    "graph155_head_of_targetCompletionTail",
+    "strengthenedPrefix5Graph155TargetCompletionLocalBranchTable",
+]
+
 ZMTMPP_CHAIN_REQUIRED = [
     "strengthenedClosedPrefix5ZmTmppTpppEvalState",
     "strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp",
@@ -181,6 +196,9 @@ def main() -> int:
     )
     graph147_target_completion_ok, graph147_target_completion_missing = (
         contains_all(next_frontier_text, GRAPH147_TARGET_COMPLETION_REQUIRED)
+    )
+    graph147_suffix_ok, graph147_suffix_missing = contains_all(
+        next_frontier_text, GRAPH147_SUFFIX_REQUIRED
     )
     zm_tmpp_chain_ok, zm_tmpp_chain_missing = contains_all(
         next_frontier_text, ZMTMPP_CHAIN_REQUIRED
@@ -352,28 +370,44 @@ def main() -> int:
                 ),
             }
         elif lane in {"yp_zm", "zm_yp"}:
+            if graph147_target_completion_ok and graph147_suffix_ok:
+                partial_status = "partial_graph153_graph155_target_completion_local_table"
+            elif graph147_target_completion_ok:
+                partial_status = "partial_graph147_target_completion_local_table"
+            else:
+                partial_status = "missing_terminal_lane_semantic_gate"
             lane_report[lane] = {
                 "third": third,
                 "fourth": fourth,
-                "status": (
-                    "partial_graph147_target_completion_local_table"
-                    if graph147_target_completion_ok
-                    else "missing_terminal_lane_semantic_gate"
-                ),
+                "status": partial_status,
                 "file": str(NEXT_FRONTIER_FILE.relative_to(ROOT)),
                 "required_symbols": {
                     symbol: symbol not in graph147_target_completion_missing
                     for symbol in GRAPH147_TARGET_COMPLETION_REQUIRED
                 },
+                "suffix_symbols": {
+                    symbol: symbol not in graph147_suffix_missing
+                    for symbol in GRAPH147_SUFFIX_REQUIRED
+                },
                 "forbidden_hits": [
                     token for token in FORBIDDEN if token in next_frontier_text
                 ],
                 "remaining_gap": (
-                    "graph147 target-completion now restricts the shared "
-                    "yp_zm/zm_yp local frontier to the Bellman heads zp and "
-                    "tmmp.  The lane still needs deterministic suffix "
-                    "continuations from graph153 and graph155 before it "
+                    "graph147 now advances semantically through both target "
+                    "completion heads: zp reaches graph153 and is forced next "
+                    "to tmmm/graph163, while tmmp reaches graph155 and is "
+                    "forced next to tpmp/graph166.  The lane still needs "
+                    "deterministic target-completion/evaluator suffix "
+                    "continuations from graph163 and graph166 before it "
                     "becomes a terminal semantic gate."
+                    if graph147_suffix_ok
+                    else (
+                        "graph147 target-completion now restricts the shared "
+                        "yp_zm/zm_yp local frontier to the Bellman heads zp "
+                        "and tmmp.  The lane still needs deterministic suffix "
+                        "continuations from graph153 and graph155 before it "
+                        "becomes a terminal semantic gate."
+                    )
                 ),
             }
         else:
