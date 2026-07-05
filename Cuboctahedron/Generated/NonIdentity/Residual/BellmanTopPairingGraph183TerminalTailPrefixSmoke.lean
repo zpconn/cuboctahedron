@@ -337,6 +337,34 @@ theorem graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix
   rw [hpfx]
   simpa [Depth11Layer4PrefixAtRank, List.append_assoc] using hprefix
 
+theorem graph183Layer4CompletionTail_of_strengthened_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    Graph150TargetCompletionTail rest :=
+  acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor.completionTail
+    rank hstrengthened rest hprefix
+
+theorem graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix_semantic
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TerminalContainedEvalPrefixGate
+      TerminalStepStatePartialMachine.semantic graph183Layer4PrefixState
+      rank :=
+  graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix
+    hstrengthened hprefix
+    (graph183Layer4CompletionTail_of_strengthened_prefix
+      hstrengthened hprefix)
+
 theorem graph183TerminalTailPrefixSmoke_builds : True := by
   exact True.intro
 

@@ -104008,3 +104008,51 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   generated all-lane family that uses this graph183 theorem for the `tmpm,zm`
   case and analogous non-filtered lanes for the other reachable frontier
   obligations.
+
+### 2026-07-05 graph183 gate derives its target-completion tail semantically
+
+- Added the graph183 semantic-tail adapter:
+
+  ```lean
+  graph183Layer4CompletionTail_of_strengthened_prefix
+  graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix_semantic
+  ```
+
+- `graph183Layer4CompletionTail_of_strengthened_prefix` packages the existing
+  cursor/used-face/schedule/square-gap semantic producer:
+
+  ```lean
+  acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor
+  ```
+
+  into the exact `Graph150TargetCompletionTail rest` premise needed by the
+  graph183 layer-4 evaluator gate.
+
+- `graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix_semantic`
+  removes the explicit target-completion tail premise from the branch-local
+  gate.  Its inputs are now only:
+
+  ```lean
+  TopPairingStrengthenedClosedLanguageAtRank
+    AcceptedSequenceBadFaceAtRank rank Face.ym
+  Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest
+  ```
+
+  and it returns:
+
+  ```lean
+  TerminalContainedEvalPrefixGate
+    TerminalStepStatePartialMachine.semantic graph183Layer4PrefixState rank
+  ```
+
+- This is the graph183 instance of the desired membership pivot:
+  semantic closed-language fields plus the deterministic layer-4 prefix now
+  drive the terminal-machine evaluator, without selected prefixes, sampled
+  rank objects, accepted trace IDs, or an explicit target-completion-tail
+  hypothesis.
+
+- Next implementation target:
+  lift this one-lane theorem into a branch-local full-machine adapter, then
+  generalize the adapter so generated all-lane suffix packages can feed
+  `Layer4PrefixMachineContinuationFromContainsAll` without replaying prefix
+  membership.
