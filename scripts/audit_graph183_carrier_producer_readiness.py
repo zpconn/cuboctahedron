@@ -46,6 +46,10 @@ GRAPH183_START_PROVIDER = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183StartViolationProvider.lean"
 )
+TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
+TRANSDUCER_SEMANTIC_GATE = (
+    ROOT / "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean"
+)
 PROFILE = ROOT / "scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json"
 QUOTIENT = ROOT / "scripts/generated/graph183_cocycle_quotients_0_1M.json"
 GUARD = ROOT / "scripts/generated/graph183_quotient_margin_socket_latest_guard.json"
@@ -144,6 +148,24 @@ REQUIRED_GRAPH183_START_PROVIDER_SYMBOLS = [
     "objectStartViolationMarginCert_of_graph183AcceptedBranchLabels",
 ]
 
+REQUIRED_TARGET_CURSOR_SYMBOLS = [
+    "topPairingTargetShadow_of_summary",
+    "topPairingTriShadow_eq_target_of_closed",
+    "TopPairingTriCursorFrom",
+    "TopPairingTargetCursorAtRank",
+    "topPairingTriCursor_of_closed",
+    "TopPairingStartMissSemanticLanguageAtRank",
+]
+
+REQUIRED_TRANSDUCER_SEMANTIC_GATE_SYMBOLS = [
+    "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+    "strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+    "closedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+    "strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+    "scaledMargin_nonpos_of_rankedTransducerClosedGate",
+    "scaledMargin_nonpos_of_rankedTransducerStrengthenedGate",
+]
+
 FORBIDDEN_PRODUCER_TOKENS = [
     "SampledRankIndex",
     "sampledContainsRank",
@@ -168,9 +190,12 @@ FORBIDDEN_GRAPH183_START_PROVIDER_IMPORT_FRAGMENTS = [
 ]
 
 PRODUCTION_CARRIER_CANDIDATES = [
+    "graph183TailQuotientMarginSequenceBadFace_of_targetCursorTransducer",
+    "graph183TailQuotientMarginSequenceBadFace_of_rankedTransducerGate",
     "graph183TailQuotientMarginSequenceBadFace_of_closedLanguage",
     "graph183TailQuotientMarginSequenceBadFace_of_quotientEval",
     "graph183TailQuotientMarginSequenceBadFace_of_cocycleQuotient",
+    "graph183TailQuotientObjectMarginBound_of_cocycleQuotient",
     "graph183TailQuotientMarginSequenceBadFaceProducer",
     "Graph183TailQuotientMarginCarrierProducer",
 ]
@@ -446,6 +471,11 @@ def render_markdown(report: dict[str, Any]) -> str:
         "The graph183 branch-local start-violation provider is now a separate",
         "fixed-template leaf that imports only the lightweight trace",
         "start-violation bridge, not accepted-trace ids or terminal classifiers.",
+        "The target-shadow cursor and ranked transducer semantic gate are",
+        "present and are now required by this audit.  The production path must",
+        "flow through those semantic surfaces or through an equivalently small",
+        "cocycle/segment certificate; it must not revive selected-prefix or",
+        "accepted-trace membership.",
         "The 1M graph183 profile and quotient profile support the route as a",
         "diagnostic.  The full 229-edge quotient smoke remains diagnostic only.",
         "However, no production theorem currently proves",
@@ -476,6 +506,8 @@ def main() -> int:
     accepted_branch_text = read_text(ACCEPTED_BRANCH)
     smoke_text = read_text(SMOKE)
     graph183_start_provider_text = read_text(GRAPH183_START_PROVIDER)
+    target_cursor_text = read_text(TARGET_CURSOR)
+    transducer_semantic_gate_text = read_text(TRANSDUCER_SEMANTIC_GATE)
     profile = read_json(PROFILE)
     quotient = read_json(QUOTIENT)
     guard = read_json(GUARD)
@@ -511,11 +543,27 @@ def main() -> int:
             REQUIRED_GRAPH183_START_PROVIDER_SYMBOLS,
         )
     )
+    checks.extend(
+        symbol_checks(
+            "target_cursor",
+            TARGET_CURSOR,
+            REQUIRED_TARGET_CURSOR_SYMBOLS,
+        )
+    )
+    checks.extend(
+        symbol_checks(
+            "transducer_semantic_gate",
+            TRANSDUCER_SEMANTIC_GATE,
+            REQUIRED_TRANSDUCER_SEMANTIC_GATE_SYMBOLS,
+        )
+    )
     checks.extend(forbidden_checks("socket", SOCKET))
     checks.extend(forbidden_checks("closed_semantic_gate", CLOSED_SEMANTIC_GATE))
     checks.extend(forbidden_checks("accepted_branch_quotient", ACCEPTED_BRANCH))
     checks.extend(forbidden_checks("smoke", SMOKE))
     checks.extend(forbidden_checks("graph183_start_provider", GRAPH183_START_PROVIDER))
+    checks.extend(forbidden_checks("target_cursor", TARGET_CURSOR))
+    checks.extend(forbidden_checks("transducer_semantic_gate", TRANSDUCER_SEMANTIC_GATE))
     checks.extend(
         forbidden_import_checks(
             "socket",
@@ -602,6 +650,8 @@ def main() -> int:
         socket_text,
         closed_semantic_gate_text,
         graph183_start_provider_text,
+        target_cursor_text,
+        transducer_semantic_gate_text,
     )
     failed = [row for row in checks if not row["passed"]]
     decision = (
@@ -687,8 +737,9 @@ def main() -> int:
         },
         "next_required_theorem": (
             "Graph183TailQuotientMarginSequenceBadFace scaledMargin, proved "
-            "from semantic closed-language / deterministic evaluator / "
-            "cocycle-gauge state"
+            "from target-shadow cursor + ranked deterministic transducer "
+            "semantics, or from an equivalently small checked cocycle/segment "
+            "certificate"
         ),
     }
 

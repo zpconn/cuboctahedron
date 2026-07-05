@@ -21,6 +21,11 @@ start-violation provider leaves or terminal trace-classifier shards.
 The graph183 branch-local start-violation provider is now a separate
 fixed-template leaf that imports only the lightweight trace
 start-violation bridge, not accepted-trace ids or terminal classifiers.
+The target-shadow cursor and ranked transducer semantic gate are
+present and are now required by this audit.  The production path must
+flow through those semantic surfaces or through an equivalently small
+cocycle/segment certificate; it must not revive selected-prefix or
+accepted-trace membership.
 The 1M graph183 profile and quotient profile support the route as a
 diagnostic.  The full 229-edge quotient smoke remains diagnostic only.
 However, no production theorem currently proves
@@ -44,9 +49,9 @@ observed path remains a no-go.
 | `quotient_states` | `43` |
 | `quotient_edges` | `93` |
 | `quotient_max_bit_length` | `9` |
-| `guard_elapsed_seconds` | `3.002610948984511` |
-| `guard_peak_rss_mib` | `3630.02734375` |
-| `guard_min_available_mib` | `46357.453125` |
+| `guard_elapsed_seconds` | `3.0028496980085038` |
+| `guard_peak_rss_mib` | `3911.828125` |
+| `guard_min_available_mib` | `46308.5` |
 | `closed_semantic_gate_guard_elapsed_seconds` | `3.0027096020057797` |
 | `closed_semantic_gate_guard_peak_rss_mib` | `3719.16015625` |
 | `closed_semantic_gate_guard_min_available_mib` | `46322.6328125` |
@@ -130,6 +135,20 @@ observed path remains a no-go.
 | `graph183_start_provider:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183StartViolationProvider.lean` |
 | `graph183_start_provider:symbol:graph183StartViolationLabels` | `True` | `graph183StartViolationLabels` |
 | `graph183_start_provider:symbol:objectStartViolationMarginCert_of_graph183AcceptedBranchLabels` | `True` | `objectStartViolationMarginCert_of_graph183AcceptedBranchLabels` |
+| `target_cursor:exists` | `True` | `Cuboctahedron/Search/TopPairingTargetCursor.lean` |
+| `target_cursor:symbol:topPairingTargetShadow_of_summary` | `True` | `topPairingTargetShadow_of_summary` |
+| `target_cursor:symbol:topPairingTriShadow_eq_target_of_closed` | `True` | `topPairingTriShadow_eq_target_of_closed` |
+| `target_cursor:symbol:TopPairingTriCursorFrom` | `True` | `TopPairingTriCursorFrom` |
+| `target_cursor:symbol:TopPairingTargetCursorAtRank` | `True` | `TopPairingTargetCursorAtRank` |
+| `target_cursor:symbol:topPairingTriCursor_of_closed` | `True` | `topPairingTriCursor_of_closed` |
+| `target_cursor:symbol:TopPairingStartMissSemanticLanguageAtRank` | `True` | `TopPairingStartMissSemanticLanguageAtRank` |
+| `transducer_semantic_gate:exists` | `True` | `Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean` |
+| `transducer_semantic_gate:symbol:closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix` | `True` | `closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix` |
+| `transducer_semantic_gate:symbol:strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix` | `True` | `strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix` |
+| `transducer_semantic_gate:symbol:closedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix` | `True` | `closedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix` |
+| `transducer_semantic_gate:symbol:strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix` | `True` | `strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix` |
+| `transducer_semantic_gate:symbol:scaledMargin_nonpos_of_rankedTransducerClosedGate` | `True` | `scaledMargin_nonpos_of_rankedTransducerClosedGate` |
+| `transducer_semantic_gate:symbol:scaledMargin_nonpos_of_rankedTransducerStrengthenedGate` | `True` | `scaledMargin_nonpos_of_rankedTransducerStrengthenedGate` |
 | `socket:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
 | `socket:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
 | `socket:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
@@ -160,6 +179,18 @@ observed path remains a no-go.
 | `graph183_start_provider:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `graph183_start_provider:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `graph183_start_provider:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `target_cursor:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `target_cursor:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `target_cursor:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `target_cursor:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `target_cursor:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `target_cursor:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `transducer_semantic_gate:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `transducer_semantic_gate:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `transducer_semantic_gate:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `transducer_semantic_gate:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `transducer_semantic_gate:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `transducer_semantic_gate:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `socket:forbidden_import_absent:BellmanTopPairingTrace017StartViolationProvider` | `True` | `[]` |
 | `socket:forbidden_import_absent:BellmanTopPairingTraceStartViolationProviders` | `True` | `[]` |
 | `socket:forbidden_import_absent:BellmanTopPairingTraceStartViolationDirectKilledBridge` | `True` | `[]` |
@@ -186,8 +217,8 @@ observed path remains a no-go.
 | `quotient_1m:solution_exists` | `True` | `['gauge', 'gauge_count', 'max_bit_length', 'nonzero_values', 'small_gain_count', 'small_gains']` |
 | `quotient_1m:bit_length_under_16` | `True` | `9` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
-| `socket_guard:rss_under_6500_mib` | `True` | `3630.02734375` |
-| `socket_guard:available_above_30000_mib` | `True` | `46357.453125` |
+| `socket_guard:rss_under_6500_mib` | `True` | `3911.828125` |
+| `socket_guard:available_above_30000_mib` | `True` | `46308.5` |
 | `graph183_start_provider_guard:guard_exit_zero` | `True` | `0` |
 | `graph183_start_provider_guard:rss_under_7000_mib` | `True` | `6882.125` |
 | `graph183_start_provider_guard:available_above_30000_mib` | `True` | `43095.3046875` |

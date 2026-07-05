@@ -306,6 +306,76 @@
       "passed": true
     },
     {
+      "detail": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
+      "name": "target_cursor:exists",
+      "passed": true
+    },
+    {
+      "detail": "topPairingTargetShadow_of_summary",
+      "name": "target_cursor:symbol:topPairingTargetShadow_of_summary",
+      "passed": true
+    },
+    {
+      "detail": "topPairingTriShadow_eq_target_of_closed",
+      "name": "target_cursor:symbol:topPairingTriShadow_eq_target_of_closed",
+      "passed": true
+    },
+    {
+      "detail": "TopPairingTriCursorFrom",
+      "name": "target_cursor:symbol:TopPairingTriCursorFrom",
+      "passed": true
+    },
+    {
+      "detail": "TopPairingTargetCursorAtRank",
+      "name": "target_cursor:symbol:TopPairingTargetCursorAtRank",
+      "passed": true
+    },
+    {
+      "detail": "topPairingTriCursor_of_closed",
+      "name": "target_cursor:symbol:topPairingTriCursor_of_closed",
+      "passed": true
+    },
+    {
+      "detail": "TopPairingStartMissSemanticLanguageAtRank",
+      "name": "target_cursor:symbol:TopPairingStartMissSemanticLanguageAtRank",
+      "passed": true
+    },
+    {
+      "detail": "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean",
+      "name": "transducer_semantic_gate:exists",
+      "passed": true
+    },
+    {
+      "detail": "closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+      "name": "transducer_semantic_gate:symbol:closedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+      "passed": true
+    },
+    {
+      "detail": "strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+      "name": "transducer_semantic_gate:symbol:strengthenedToEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+      "passed": true
+    },
+    {
+      "detail": "closedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+      "name": "transducer_semantic_gate:symbol:closedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+      "passed": true
+    },
+    {
+      "detail": "strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+      "name": "transducer_semantic_gate:symbol:strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix",
+      "passed": true
+    },
+    {
+      "detail": "scaledMargin_nonpos_of_rankedTransducerClosedGate",
+      "name": "transducer_semantic_gate:symbol:scaledMargin_nonpos_of_rankedTransducerClosedGate",
+      "passed": true
+    },
+    {
+      "detail": "scaledMargin_nonpos_of_rankedTransducerStrengthenedGate",
+      "name": "transducer_semantic_gate:symbol:scaledMargin_nonpos_of_rankedTransducerStrengthenedGate",
+      "passed": true
+    },
+    {
       "detail": "SampledRankIndex",
       "name": "socket:forbidden_absent:SampledRankIndex",
       "passed": true
@@ -456,6 +526,66 @@
       "passed": true
     },
     {
+      "detail": "SampledRankIndex",
+      "name": "target_cursor:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "target_cursor:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "target_cursor:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "target_cursor:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "target_cursor:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "target_cursor:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "transducer_semantic_gate:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "transducer_semantic_gate:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "transducer_semantic_gate:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "transducer_semantic_gate:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "transducer_semantic_gate:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "transducer_semantic_gate:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
       "detail": [],
       "name": "socket:forbidden_import_absent:BellmanTopPairingTrace017StartViolationProvider",
       "passed": true
@@ -593,12 +723,12 @@
       "passed": true
     },
     {
-      "detail": 3630.02734375,
+      "detail": 3911.828125,
       "name": "socket_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46357.453125,
+      "detail": 46308.5,
       "name": "socket_guard:available_above_30000_mib",
       "passed": true
     },
@@ -717,9 +847,9 @@
     "graph183_start_provider_guard_peak_rss_mib": 6882.125,
     "graph183_start_provider_source_guard_elapsed_seconds": 98.05047912499867,
     "graph183_start_provider_source_guard_peak_rss_mib": 6309.796875,
-    "guard_elapsed_seconds": 3.002610948984511,
-    "guard_min_available_mib": 46357.453125,
-    "guard_peak_rss_mib": 3630.02734375,
+    "guard_elapsed_seconds": 3.0028496980085038,
+    "guard_min_available_mib": 46308.5,
+    "guard_peak_rss_mib": 3911.828125,
     "profile_edges": 229,
     "profile_margin_families": 1,
     "profile_matched": 37,
@@ -736,12 +866,15 @@
     "trace_start_violation_bridge_guard_peak_rss_mib": 3617.1171875
   },
   "mode": "graph183_carrier_producer_readiness",
-  "next_required_theorem": "Graph183TailQuotientMarginSequenceBadFace scaledMargin, proved from semantic closed-language / deterministic evaluator / cocycle-gauge state",
+  "next_required_theorem": "Graph183TailQuotientMarginSequenceBadFace scaledMargin, proved from target-shadow cursor + ranked deterministic transducer semantics, or from an equivalently small checked cocycle/segment certificate",
   "production_status": {
     "candidate_names_checked": [
+      "graph183TailQuotientMarginSequenceBadFace_of_targetCursorTransducer",
+      "graph183TailQuotientMarginSequenceBadFace_of_rankedTransducerGate",
       "graph183TailQuotientMarginSequenceBadFace_of_closedLanguage",
       "graph183TailQuotientMarginSequenceBadFace_of_quotientEval",
       "graph183TailQuotientMarginSequenceBadFace_of_cocycleQuotient",
+      "graph183TailQuotientObjectMarginBound_of_cocycleQuotient",
       "graph183TailQuotientMarginSequenceBadFaceProducer",
       "Graph183TailQuotientMarginCarrierProducer"
     ],
