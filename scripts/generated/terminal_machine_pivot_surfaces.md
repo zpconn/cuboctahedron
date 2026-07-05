@@ -18,5 +18,5 @@
 
 ## Boundary
 
-- remaining gap: instantiate a full generated terminal machine with Layer4ReachablePrefixMachine and prove rank-free or filtered target-completion suffix continuations from its after4 third fourth states for reachable Split10MPrefix4FrontierCons2 pairs
-- next slice: generate or prove target-completion suffix evaluator gates from layer-4 frontier states inside a full generated terminal machine satisfying Layer4ReachablePrefixMachine; use the rank-free socket where target-completion alone is complete and the filtered socket where closed-language fields rule out blocked tails
+- remaining gap: instantiate a full generated terminal machine with Layer4ReachablePrefixMachine and prove rank-free or filtered target-completion tail-prefix continuations from its after4 third fourth states for reachable Split10MPrefix4FrontierCons2 pairs
+- next slice: generate or prove target-completion tail-prefix evaluator gates from layer-4 frontier states inside a full generated terminal machine satisfying Layer4ReachablePrefixMachine; use the rank-free socket where target-completion alone is complete and the filtered socket where closed-language fields rule out blocked tails, leaving the final schedule-forced xp as needed

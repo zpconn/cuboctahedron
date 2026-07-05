@@ -12,9 +12,11 @@
       "generic full-machine layer-4 prefix socket",
       "target-completion continuation socket for layer-4 suffix leaves",
       "rank-free target-completion suffix evaluator socket",
-      "filtered target-completion suffix evaluator socket"
+      "filtered target-completion suffix evaluator socket",
+      "target-completion tail-prefix evaluator socket",
+      "filtered target-completion tail-prefix evaluator socket"
     ],
-    "remaining_gap": "instantiate a full generated terminal machine with Layer4ReachablePrefixMachine and prove rank-free or filtered target-completion suffix continuations from its after4 third fourth states for reachable Split10MPrefix4FrontierCons2 pairs"
+    "remaining_gap": "instantiate a full generated terminal machine with Layer4ReachablePrefixMachine and prove rank-free or filtered target-completion tail-prefix continuations from its after4 third fourth states for reachable Split10MPrefix4FrontierCons2 pairs"
   },
   "files": {
     "closed_transducer_socket": {
@@ -51,12 +53,21 @@
         "TerminalContainedEvalPrefixGate": true,
         "TerminalContainedEvalProgressGate": true,
         "TerminalTargetCompletionContinuation": true,
+        "TerminalTargetCompletionFilteredSuffixContinuation": true,
+        "TerminalTargetCompletionFilteredTailPrefixContinuation": true,
         "TerminalTargetCompletionSuffixContinuation": true,
+        "TerminalTargetCompletionTailPrefixContinuation": true,
         "terminalContainedEvalPrefixGate_of_progress_terminal": true,
         "terminalContainedEvalPrefixGate_of_targetCompletionContinuation": true,
         "terminalContainedEvalPrefixGate_of_terminal_state": true,
         "terminalContainedEvalPrefixGate_trans_progress": true,
+        "terminalTargetCompletionContinuation_of_filteredSuffixContinuation": true,
+        "terminalTargetCompletionContinuation_of_filteredTailPrefixContinuation": true,
         "terminalTargetCompletionContinuation_of_suffixContinuation": true,
+        "terminalTargetCompletionContinuation_of_tailPrefixContinuation": true,
+        "terminalTargetCompletionFilteredSuffixContinuation_of_suffixContinuation": true,
+        "terminalTargetCompletionFilteredTailPrefixContinuation_of_filteredSuffixContinuation": true,
+        "terminalTargetCompletionTailPrefixContinuation_of_suffixContinuation": true,
         "terminalTraceLabels_of_containedEvalPrefixGate": true
       }
     },
@@ -69,7 +80,9 @@
         "Layer4PrefixMachineContinuationFromContainsAll": true,
         "Layer4PrefixMachineTargetCompletionContinuationAll": true,
         "Layer4PrefixMachineTargetCompletionFilteredSuffixContinuationAll": true,
+        "Layer4PrefixMachineTargetCompletionFilteredTailPrefixContinuationAll": true,
         "Layer4PrefixMachineTargetCompletionSuffixContinuationAll": true,
+        "Layer4PrefixMachineTargetCompletionTailPrefixContinuationAll": true,
         "Layer4ReachablePrefixMachine": true,
         "Layer4ReachableTerminalContinuationAll": true,
         "Layer4ReachableTerminalContinuationFromContainsAll": true,
@@ -79,6 +92,7 @@
         "layer4Progress_prefix4_exists_of_closed": true,
         "layer4ReachablePrefixMachine": true,
         "targetCompletionContinuationAll_of_suffixContinuationAll": true,
+        "targetCompletionContinuationAll_of_tailPrefixContinuationAll": true,
         "terminalContainedEvalPrefixGate_of_layer4MachineFrontierAll": true,
         "terminalContainedEvalPrefixGate_of_layer4MachineFrontierGate": true,
         "terminalContainedEvalPrefixGate_of_layer4MachineReachableFrontierGate": true,
@@ -86,13 +100,15 @@
         "terminalContainedEvalPrefixGate_of_layer4PrefixMachineContinuationFromContainsAll": true,
         "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionContinuationAll": true,
         "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionFilteredSuffixContinuationAll": true,
+        "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionFilteredTailPrefixContinuationAll": true,
         "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionSuffixContinuationAll": true,
+        "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionTailPrefixContinuationAll": true,
         "terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationAll": true,
         "terminalContainedEvalPrefixGate_of_layer4ReachableTerminalContinuationFromContainsAll": true
       }
     }
   },
   "forbidden_hits": [],
-  "next_recommended_slice": "generate or prove target-completion suffix evaluator gates from layer-4 frontier states inside a full generated terminal machine satisfying Layer4ReachablePrefixMachine; use the rank-free socket where target-completion alone is complete and the filtered socket where closed-language fields rule out blocked tails",
+  "next_recommended_slice": "generate or prove target-completion tail-prefix evaluator gates from layer-4 frontier states inside a full generated terminal machine satisfying Layer4ReachablePrefixMachine; use the rank-free socket where target-completion alone is complete and the filtered socket where closed-language fields rule out blocked tails, leaving the final schedule-forced xp as needed",
   "status": "machine-pivot-surfaces-present"
 }

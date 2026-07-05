@@ -103574,3 +103574,115 @@ local tables.
   blocked-tail pattern as the filtered example.  It must still avoid sampled
   ranks, selected-prefix trace ids, exact affine RHS keys, and accepted trace
   tables as production membership evidence.
+
+### 2026-07-04 target-completion tail-prefix evaluator accepted
+
+- Corrected the suffix boundary after checking it against
+  `TerminalStepStateProducer`.  Terminal producer states stop after a
+  length-13 prefix and let the closed schedule force the final `xp`; therefore
+  a production suffix leaf often should not consume the full
+  `TopPairingTargetCompletionTail`.  The graph183 forced tail ends in `xp`, so
+  the correct generic object is a tail-prefix evaluator.
+
+- Added rank-free tail-prefix continuation surfaces in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStatePartialMachineEvalSocket
+  ```
+
+- New generic theorem/interface names:
+
+  ```lean
+  TerminalTargetCompletionTailPrefixContinuation
+  TerminalTargetCompletionFilteredTailPrefixContinuation
+  terminalTargetCompletionTailPrefixContinuation_of_suffixContinuation
+  terminalTargetCompletionFilteredTailPrefixContinuation_of_filteredSuffixContinuation
+  terminalTargetCompletionContinuation_of_tailPrefixContinuation
+  terminalTargetCompletionContinuation_of_filteredTailPrefixContinuation
+  ```
+
+- Added layer-4/full-machine wrappers in:
+
+  ```lean
+  Cuboctahedron.Generated.NonIdentity.Residual.
+    BellmanTopPairingTerminalStateFrontierSmoke
+  ```
+
+- New layer-4 theorem/interface names:
+
+  ```lean
+  Layer4PrefixMachineTargetCompletionTailPrefixContinuationAll
+  Layer4PrefixMachineTargetCompletionFilteredTailPrefixContinuationAll
+  targetCompletionContinuationAll_of_tailPrefixContinuationAll
+  terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionTailPrefixContinuationAll
+  terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionFilteredTailPrefixContinuationAll
+  ```
+
+- Production-facing evaluator shape:
+
+  ```lean
+  TopPairingTargetCompletionTail completionState rest ->
+  suffixOk rest ->
+    exists labels finish gain remaining,
+      rest = labels ++ remaining /\
+      evalLabelStepFn (nextEval machine) after4State labels =
+        some (finish, gain) /\
+      machine.IsTerminal finish
+  ```
+
+  This keeps generated suffix proofs deterministic and rank-free while allowing
+  the generic terminal trace bridge to handle the schedule-forced remainder.
+
+- Commands:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStatePartialMachineEvalSocket
+
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalStateFrontierSmoke
+
+  python3 -m py_compile scripts/audit_terminal_machine_pivot_surfaces.py
+  python3 scripts/audit_terminal_machine_pivot_surfaces.py
+  ```
+
+- Results:
+  - `BellmanTopPairingTerminalStatePartialMachineEvalSocket` passed under the
+    memory guard in `8.01s`, with peak tree RSS `4049 MiB` and minimum
+    available memory `46078 MiB`.
+  - `BellmanTopPairingTerminalStateFrontierSmoke` passed under the memory
+    guard in `5.00s`, with peak tree RSS `4223 MiB` and minimum available
+    memory `45937 MiB`.
+  - The terminal-machine pivot surface audit passed with
+    `status = machine-pivot-surfaces-present` and `forbidden_hits = 0`.
+
+- Updated audit boundary:
+
+  ```text
+  instantiate a full generated terminal machine with
+  Layer4ReachablePrefixMachine and prove rank-free or filtered
+  target-completion tail-prefix continuations from its after4 third fourth
+  states for reachable Split10MPrefix4FrontierCons2 pairs
+  ```
+
+- Current promotion status:
+  tail-prefix continuations supersede full-tail suffix continuations as the
+  preferred production boundary.  Full-tail suffix continuations remain useful
+  as a special case via the conversion lemmas.  The next generated smoke should
+  instantiate the graph183 filtered branch as:
+
+  ```text
+  target-completion tail
+    -> accepted forced prefix evaluates to a terminal producer
+    -> blocked target-completion tail contradicts closed bad-face semantics
+    -> final xp is left to the generic terminal trace bridge
+  ```

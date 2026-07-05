@@ -166,6 +166,52 @@ structure TerminalTargetCompletionFilteredSuffixContinuation
                 some (finish, gain) ∧
               machine.IsTerminal finish
 
+/--
+Rank-free target-completion tail-prefix evaluator.
+
+Terminal producers stop after a length-13 prefix and let the closed schedule
+force the final `xp`.  Some target-completion tails therefore should not be
+consumed in full by the generated evaluator.  This continuation allows a suffix
+leaf to consume a checked prefix of the target-completion tail and leave a
+remaining tail for `TerminalContainedEvalPrefixGate`.
+-/
+structure TerminalTargetCompletionTailPrefixContinuation
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (start : StateId)
+    (completionState : TopPairingTargetCompletionState) : Prop where
+  terminal :
+    ∀ rest,
+      TopPairingTargetCompletionTail completionState rest ->
+        ∃ labels finish gain remaining,
+          rest = labels ++ remaining ∧
+            evalLabelStepFn (nextEval machine) start labels =
+                some (finish, gain) ∧
+              machine.IsTerminal finish
+
+/--
+Filtered rank-free target-completion tail-prefix evaluator.
+
+This is the most flexible production suffix socket: target-completion supplies
+the finite semantic tail, `suffixOk` removes blocked target-completion branches,
+and the evaluator consumes the prefix needed to reach a terminal producer.
+-/
+structure TerminalTargetCompletionFilteredTailPrefixContinuation
+    {StateId : Type}
+    (machine : TerminalStepStatePartialMachine StateId)
+    (start : StateId)
+    (completionState : TopPairingTargetCompletionState)
+    (suffixOk : List Face -> Prop) : Prop where
+  terminal :
+    ∀ rest,
+      TopPairingTargetCompletionTail completionState rest ->
+        suffixOk rest ->
+          ∃ labels finish gain remaining,
+            rest = labels ++ remaining ∧
+              evalLabelStepFn (nextEval machine) start labels =
+                  some (finish, gain) ∧
+                machine.IsTerminal finish
+
 theorem terminalTargetCompletionFilteredSuffixContinuation_of_suffixContinuation
     {StateId : Type}
     {machine : TerminalStepStatePartialMachine StateId}
@@ -179,6 +225,39 @@ theorem terminalTargetCompletionFilteredSuffixContinuation_of_suffixContinuation
   terminal := by
     intro rest htail _hok
     exact hsuffix.terminal rest htail
+
+theorem terminalTargetCompletionTailPrefixContinuation_of_suffixContinuation
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    {completionState : TopPairingTargetCompletionState}
+    (hsuffix :
+      TerminalTargetCompletionSuffixContinuation
+        machine start completionState) :
+    TerminalTargetCompletionTailPrefixContinuation
+      machine start completionState where
+  terminal := by
+    intro rest htail
+    rcases hsuffix.terminal rest htail with
+      ⟨finish, gain, heval, hterminal⟩
+    exact ⟨rest, finish, gain, [], by simp, heval, hterminal⟩
+
+theorem terminalTargetCompletionFilteredTailPrefixContinuation_of_filteredSuffixContinuation
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    {completionState : TopPairingTargetCompletionState}
+    {suffixOk : List Face -> Prop}
+    (hsuffix :
+      TerminalTargetCompletionFilteredSuffixContinuation
+        machine start completionState suffixOk) :
+    TerminalTargetCompletionFilteredTailPrefixContinuation
+      machine start completionState suffixOk where
+  terminal := by
+    intro rest htail hok
+    rcases hsuffix.terminal rest htail hok with
+      ⟨finish, gain, heval, hterminal⟩
+    exact ⟨rest, finish, gain, [], by simp, heval, hterminal⟩
 
 theorem terminalTargetCompletionContinuation_of_suffixContinuation
     {StateId : Type}
@@ -221,6 +300,50 @@ theorem terminalTargetCompletionContinuation_of_filteredSuffixContinuation
       ⟨finish, gain, heval, hterminal⟩
     refine ⟨rest, finish, gain, [], hcontains, ?_, heval, hterminal⟩
     simpa using hlabels
+
+theorem terminalTargetCompletionContinuation_of_tailPrefixContinuation
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    {completionState : TopPairingTargetCompletionState}
+    (hprefix :
+      TerminalTargetCompletionTailPrefixContinuation
+        machine start completionState) :
+    TerminalTargetCompletionContinuation machine start completionState where
+  terminal := by
+    intro rank hcontains rest hlabels htail
+    rcases hprefix.terminal rest htail with
+      ⟨labels, finish, gain, remaining, hrest, heval, hterminal⟩
+    subst rest
+    refine ⟨labels, finish, gain, remaining, hcontains, ?_, heval, hterminal⟩
+    simpa [List.append_assoc] using hlabels
+
+theorem terminalTargetCompletionContinuation_of_filteredTailPrefixContinuation
+    {StateId : Type}
+    {machine : TerminalStepStatePartialMachine StateId}
+    {start : StateId}
+    {completionState : TopPairingTargetCompletionState}
+    {suffixOk : List Face -> Prop}
+    (hprefix :
+      TerminalTargetCompletionFilteredTailPrefixContinuation
+        machine start completionState suffixOk)
+    (hok :
+      ∀ rank,
+        TerminalStepState.Contains (machine.stateOf start) rank ->
+          ∀ rest,
+            topPairingRankFaceLabels rank =
+                (machine.stateOf start).pfx ++ rest ->
+              TopPairingTargetCompletionTail completionState rest ->
+                suffixOk rest) :
+    TerminalTargetCompletionContinuation machine start completionState where
+  terminal := by
+    intro rank hcontains rest hlabels htail
+    rcases hprefix.terminal rest htail
+        (hok rank hcontains rest hlabels htail) with
+      ⟨labels, finish, gain, remaining, hrest, heval, hterminal⟩
+    subst rest
+    refine ⟨labels, finish, gain, remaining, hcontains, ?_, heval, hterminal⟩
+    simpa [List.append_assoc] using hlabels
 
 theorem terminalContainedEvalPrefixGate_of_targetCompletionContinuation
     {StateId : Type}

@@ -45,7 +45,16 @@ REQUIRED_SYMBOLS = {
         "TerminalContainedEvalProgressGate",
         "TerminalTargetCompletionContinuation",
         "TerminalTargetCompletionSuffixContinuation",
+        "TerminalTargetCompletionFilteredSuffixContinuation",
+        "TerminalTargetCompletionTailPrefixContinuation",
+        "TerminalTargetCompletionFilteredTailPrefixContinuation",
         "terminalTargetCompletionContinuation_of_suffixContinuation",
+        "terminalTargetCompletionFilteredSuffixContinuation_of_suffixContinuation",
+        "terminalTargetCompletionTailPrefixContinuation_of_suffixContinuation",
+        "terminalTargetCompletionFilteredTailPrefixContinuation_of_filteredSuffixContinuation",
+        "terminalTargetCompletionContinuation_of_filteredSuffixContinuation",
+        "terminalTargetCompletionContinuation_of_tailPrefixContinuation",
+        "terminalTargetCompletionContinuation_of_filteredTailPrefixContinuation",
         "terminalContainedEvalPrefixGate_of_targetCompletionContinuation",
         "terminalContainedEvalPrefixGate_trans_progress",
         "terminalContainedEvalPrefixGate_of_progress_terminal",
@@ -74,9 +83,14 @@ REQUIRED_SYMBOLS = {
         "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionContinuationAll",
         "Layer4PrefixMachineTargetCompletionSuffixContinuationAll",
         "Layer4PrefixMachineTargetCompletionFilteredSuffixContinuationAll",
+        "Layer4PrefixMachineTargetCompletionTailPrefixContinuationAll",
+        "Layer4PrefixMachineTargetCompletionFilteredTailPrefixContinuationAll",
         "targetCompletionContinuationAll_of_suffixContinuationAll",
+        "targetCompletionContinuationAll_of_tailPrefixContinuationAll",
         "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionSuffixContinuationAll",
         "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionFilteredSuffixContinuationAll",
+        "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionTailPrefixContinuationAll",
+        "terminalContainedEvalPrefixGate_of_layer4PrefixMachineTargetCompletionFilteredTailPrefixContinuationAll",
         "TerminalContainedEvalProgressGate",
     ],
     "closed_transducer_socket": [
@@ -149,22 +163,24 @@ def main() -> int:
                 "target-completion continuation socket for layer-4 suffix leaves",
                 "rank-free target-completion suffix evaluator socket",
                 "filtered target-completion suffix evaluator socket",
+                "target-completion tail-prefix evaluator socket",
+                "filtered target-completion tail-prefix evaluator socket",
             ],
             "remaining_gap": (
                 "instantiate a full generated terminal machine with "
                 "Layer4ReachablePrefixMachine and prove rank-free or "
-                "filtered target-completion suffix continuations from its "
-                "after4 third fourth states for reachable "
+                "filtered target-completion tail-prefix continuations from "
+                "its after4 third fourth states for reachable "
                 "Split10MPrefix4FrontierCons2 pairs"
             ),
         },
         "next_recommended_slice": (
-            "generate or prove target-completion suffix evaluator gates from "
-            "layer-4 frontier states inside a full generated terminal machine "
-            "satisfying Layer4ReachablePrefixMachine; use the rank-free "
-            "socket where target-completion alone is complete and the "
-            "filtered socket where closed-language fields rule out blocked "
-            "tails"
+            "generate or prove target-completion tail-prefix evaluator gates "
+            "from layer-4 frontier states inside a full generated terminal "
+            "machine satisfying Layer4ReachablePrefixMachine; use the "
+            "rank-free socket where target-completion alone is complete and "
+            "the filtered socket where closed-language fields rule out "
+            "blocked tails, leaving the final schedule-forced xp as needed"
         ),
     }
 
