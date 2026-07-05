@@ -117279,3 +117279,135 @@ and terminal-step state.  If that proof wants trace ids, exact affine RHS, or a
 rank/path table, stop and run the graph221 cocycle/cancellation-summary quotient
 experiment instead.
 ```
+
+#### 2026-07-05 graph221 direct-label start-violation bridge
+
+Status: accepted; supersedes the diagnostic graph221 trace-id note above.
+
+The trace-id dependency in the graph221 direct bridge has been removed.  The
+three trace-level start-violation providers now expose direct-label entry
+points:
+
+```lean
+def trace029StartViolationLabels : List Face
+def objectStartViolationMarginCert_of_trace029_labels
+
+def trace030StartViolationLabels : List Face
+def objectStartViolationMarginCert_of_trace030_labels
+
+def trace031StartViolationLabels : List Face
+def objectStartViolationMarginCert_of_trace031_labels
+```
+
+The old `objectStartViolationMarginCert_of_trace029/030/031` theorems remain
+for compatibility, but the graph221 production bridge no longer calls them.
+Instead it proves:
+
+```lean
+topPairingRankFaceLabels rank =
+  BellmanTopPairingTrace029StartViolationProvider.trace029StartViolationLabels
+```
+
+and similarly for branches 030 and 031, directly from:
+
+```lean
+Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest
+rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail0NN
+```
+
+Then:
+
+```lean
+theorem nonIdentityRankKilled_of_graph221_zm_tmpp_semantic_direct
+```
+
+uses the graph221 semantic three-way suffix split and the direct-label provider
+entry points.  A focused scan of:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221DirectStartViolationBridge.lean
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183Graph221DirectPortfolioSocket.lean
+```
+
+found no `acceptedTraceOfId`, `SelectedPrefix`, `SampledRankIndex`,
+`sampledContainsRank`, or `sampledRankOf` hits.
+
+The layer-4 readiness audit now reports:
+
+```text
+validated_lanes = [tmpm_zm, zm_tmpp]
+diagnostic_lanes = []
+direct_killed_layer4_portfolio.status =
+  accepted_graph183_graph221_direct_portfolio_socket
+```
+
+Commands run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 24000 \
+  --min-available-mib 12000 --hard-address-space-mib 32768 \
+  --json scripts/generated/trace029_start_violation_provider_direct_labels_guard.json \
+  -- lake env lean -M 8000 -j1 -s 32768 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace029StartViolationProvider.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace029StartViolationProvider.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 24000 \
+  --min-available-mib 12000 --hard-address-space-mib 32768 \
+  --json scripts/generated/trace030_start_violation_provider_direct_labels_guard.json \
+  -- lake env lean -M 8000 -j1 -s 32768 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace030StartViolationProvider.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace030StartViolationProvider.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 24000 \
+  --min-available-mib 12000 --hard-address-space-mib 32768 \
+  --json scripts/generated/trace031_start_violation_provider_direct_labels_guard.json \
+  -- lake env lean -M 8000 -j1 -s 32768 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace031StartViolationProvider.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTrace031StartViolationProvider.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/graph221_direct_start_violation_bridge_direct_labels_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221DirectStartViolationBridge.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221DirectStartViolationBridge.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/graph183_graph221_direct_portfolio_socket_direct_labels_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183Graph221DirectPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183Graph221DirectPortfolioSocket.lean
+
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Results:
+
+```text
+Trace029 provider: passed, elapsed 176.09s, peak RSS 8314 MiB,
+  min available 41654 MiB
+Trace030 provider: passed, elapsed 173.09s, peak RSS 8331 MiB,
+  min available 41662 MiB
+Trace031 provider: passed, elapsed 132.06s, peak RSS 7235 MiB,
+  min available 42781 MiB
+Graph221 direct-label bridge: passed, elapsed 2.01s, peak RSS 3613 MiB,
+  min available 46340 MiB
+Graph183+Graph221 direct-label portfolio: passed, elapsed 2.00s,
+  peak RSS 3628 MiB, min available 46339 MiB
+```
+
+Next implementation target:
+
+```text
+Keep graph221 in the direct-killed portfolio.  Attack one remaining layer-4
+obligation semantically, preferably by looking for another direct
+start-violation/terminal route before adding new Bellman margin evidence.  The
+remaining branches are tmpm,tppm; yp,tmmm; yp,zm; zm,yp; and zm,zp.
+```

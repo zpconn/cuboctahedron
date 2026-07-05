@@ -14,11 +14,10 @@ providers, without importing the all-trace dispatcher and without introducing
 sampled rank/path objects, selected-prefix ids, exact affine RHS keys, or stored
 path tables.
 
-Under the stricter semantic-transducer production policy this is diagnostic,
-not final coverage: the private bridge lemmas still use `acceptedTraceOfId` to
-enter the trace providers.  The production replacement should prove the same
-start-violation conclusion directly from the graph221 closed-language suffix
-split or from a deterministic evaluator/cocycle theorem.
+This bridge now enters the trace providers through their direct-label theorem
+surfaces, not through the trace-id table.  It is still a small graph221-specific
+bridge rather than full layer-4 coverage: the surrounding proof must still route
+the closed residual into this `zm,tmpp` lane semantically.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221DirectStartViolationBridge
@@ -29,16 +28,15 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221SemanticTerminalBridge
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221TerminalTailPrefixSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
-open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedTraceMarginBridge
 
-private theorem graph221_trace029_of_prefix_rest
+private theorem graph221_trace029_labels_of_prefix_rest
     {rank : Fin numPairWords} {rest : List Face}
     (hprefix :
       Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
     (hrest :
       rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail029) :
     topPairingRankFaceLabels rank =
-      acceptedTraceOfId AcceptedTraceId.t029 := by
+      BellmanTopPairingTrace029StartViolationProvider.trace029StartViolationLabels := by
   have hlabels :
       topPairingRankFaceLabels rank =
         [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
@@ -46,14 +44,14 @@ private theorem graph221_trace029_of_prefix_rest
   rw [hlabels, hrest]
   rfl
 
-private theorem graph221_trace030_of_prefix_rest
+private theorem graph221_trace030_labels_of_prefix_rest
     {rank : Fin numPairWords} {rest : List Face}
     (hprefix :
       Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
     (hrest :
       rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail030) :
     topPairingRankFaceLabels rank =
-      acceptedTraceOfId AcceptedTraceId.t030 := by
+      BellmanTopPairingTrace030StartViolationProvider.trace030StartViolationLabels := by
   have hlabels :
       topPairingRankFaceLabels rank =
         [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
@@ -61,14 +59,14 @@ private theorem graph221_trace030_of_prefix_rest
   rw [hlabels, hrest]
   rfl
 
-private theorem graph221_trace031_of_prefix_rest
+private theorem graph221_trace031_labels_of_prefix_rest
     {rank : Fin numPairWords} {rest : List Face}
     (hprefix :
       Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest)
     (hrest :
       rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail031) :
     topPairingRankFaceLabels rank =
-      acceptedTraceOfId AcceptedTraceId.t031 := by
+      BellmanTopPairingTrace031StartViolationProvider.trace031StartViolationLabels := by
   have hlabels :
       topPairingRankFaceLabels rank =
         [Face.xm, Face.ym, Face.zm, Face.tmpp] ++ rest := by
@@ -84,8 +82,8 @@ def objectStartViolationMarginCert_of_graph221_branch029
     (hrest :
       rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail029) :
     ObjectStartViolationMarginCert rank (scaledMargin rank) :=
-  BellmanTopPairingTrace029StartViolationProvider.objectStartViolationMarginCert_of_trace029
-    (graph221_trace029_of_prefix_rest hprefix hrest)
+  BellmanTopPairingTrace029StartViolationProvider.objectStartViolationMarginCert_of_trace029_labels
+    (graph221_trace029_labels_of_prefix_rest hprefix hrest)
 
 def objectStartViolationMarginCert_of_graph221_branch030
     {scaledMargin : Fin numPairWords -> Int}
@@ -95,8 +93,8 @@ def objectStartViolationMarginCert_of_graph221_branch030
     (hrest :
       rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail030) :
     ObjectStartViolationMarginCert rank (scaledMargin rank) :=
-  BellmanTopPairingTrace030StartViolationProvider.objectStartViolationMarginCert_of_trace030
-    (graph221_trace030_of_prefix_rest hprefix hrest)
+  BellmanTopPairingTrace030StartViolationProvider.objectStartViolationMarginCert_of_trace030_labels
+    (graph221_trace030_labels_of_prefix_rest hprefix hrest)
 
 def objectStartViolationMarginCert_of_graph221_branch031
     {scaledMargin : Fin numPairWords -> Int}
@@ -106,8 +104,8 @@ def objectStartViolationMarginCert_of_graph221_branch031
     (hrest :
       rest = graph221Layer4ForcedTailPrefixLabels ++ graph221Tail031) :
     ObjectStartViolationMarginCert rank (scaledMargin rank) :=
-  BellmanTopPairingTrace031StartViolationProvider.objectStartViolationMarginCert_of_trace031
-    (graph221_trace031_of_prefix_rest hprefix hrest)
+  BellmanTopPairingTrace031StartViolationProvider.objectStartViolationMarginCert_of_trace031_labels
+    (graph221_trace031_labels_of_prefix_rest hprefix hrest)
 
 theorem nonIdentityRankKilled_of_graph221_branch029
     {rank : Fin numPairWords} {rest : List Face}

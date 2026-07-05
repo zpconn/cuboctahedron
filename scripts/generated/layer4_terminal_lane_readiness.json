@@ -23,18 +23,16 @@
     },
     "status": "accepted_certified_segment_core"
   },
-  "diagnostic_lane_count": 1,
-  "diagnostic_lanes": [
-    "zm_tmpp"
-  ],
+  "diagnostic_lane_count": 0,
+  "diagnostic_lanes": [],
   "direct_killed_layer4_portfolio": {
-    "covered_direct_lanes": [],
-    "diagnostic_direct_lanes": [
+    "covered_direct_lanes": [
       "tmpm_zm",
       "zm_tmpp"
     ],
+    "diagnostic_direct_lanes": [],
     "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183Graph221DirectPortfolioSocket.lean",
-    "interpretation": "The combined graph183+graph221 direct portfolio builds as a useful diagnostic, but the graph221 half still depends on acceptedTraceOfId through its direct bridge. It is not production coverage under the semantic transducer pivot.",
+    "interpretation": "Layer-4 assembly now has direct killed routes for graph183 tmpm_zm and graph221 zm_tmpp.  The remaining branches should be attacked with the same semantic transducer/direct-killed discipline before adding any new selected-prefix or sampled membership route.",
     "remaining_layer4_obligations": [
       "tmpm_tppm",
       "yp_tmmm",
@@ -52,7 +50,7 @@
       "acceptedSequenceSplitNonposOrKilledAllFamily_of_graph183Graph221DirectBranchGateFamily": true,
       "acceptedSequenceSplitNonposOrKilledAllFamily_of_graph183Graph221DirectStepRunPortfolio": true
     },
-    "status": "diagnostic_graph183_graph221_direct_portfolio_uses_accepted_trace"
+    "status": "accepted_graph183_graph221_direct_portfolio_socket"
   },
   "lanes": {
     "tmpm_tppm": {
@@ -352,9 +350,7 @@
     },
     "zm_tmpp": {
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
-      "forbidden_hits": [
-        "acceptedTraceOfId"
-      ],
+      "forbidden_hits": [],
       "forced_chain_symbols": {
         "Graph159TargetCompletionTail": true,
         "Graph171TargetCompletionTail": true,
@@ -395,10 +391,8 @@
         "graph221_yp_tmpm_zp_canComplete_false": true
       },
       "graph221_direct_start_violation_bridge_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221DirectStartViolationBridge.lean",
-      "graph221_direct_start_violation_forbidden_hits": [
-        "acceptedTraceOfId"
-      ],
-      "graph221_direct_start_violation_status": "diagnostic_direct_start_violation_uses_accepted_trace",
+      "graph221_direct_start_violation_forbidden_hits": [],
+      "graph221_direct_start_violation_status": "accepted_direct_start_violation_killed_lane",
       "graph221_direct_start_violation_symbols": {
         "nonIdentityRankKilled_of_graph221_branch029": true,
         "nonIdentityRankKilled_of_graph221_branch030": true,
@@ -481,14 +475,14 @@
         "graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk": true
       },
       "graph221_semantic_terminal_bridge_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean",
-      "remaining_gap": "graph221 has a useful diagnostic direct-killed bridge for zm_tmpp, but it still enters the trace providers through acceptedTraceOfId.  Under the current semantic-transducer policy this is not production coverage.  Replace it with a deterministic closed-language-to-evaluator/start-violation theorem over the graph221 suffix split, or fall back to a cocycle/cancellation-summary quotient if that proof needs trace ids.",
+      "remaining_gap": "graph221 is now a validated direct-killed semantic lane for zm_tmpp: the closed target-completion split feeds three exact start-violation providers and proves NonIdentityRankKilled without selected-prefix or sampled-rank membership.  The next coverage step is to prove similarly semantic direct or evaluator routes for the remaining layer-4 lanes, not to build a graph221 margin producer.",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
         "graph151_head_of_targetCompletionTail": true,
         "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable": true
       },
-      "status": "diagnostic_graph221_direct_start_violation_uses_accepted_trace",
+      "status": "validated_graph221_direct_start_violation_killed",
       "third": "Face.zm"
     },
     "zm_yp": {
@@ -765,16 +759,15 @@
       "third": "Face.zm"
     }
   },
-  "missing_lane_count": 6,
+  "missing_lane_count": 5,
   "missing_lanes": [
     "tmpm_tppm",
     "yp_tmmm",
     "yp_zm",
-    "zm_tmpp",
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "use the accepted closed-language transducer boundary and the diagnostic graph221 bridge to replace acceptedTraceOfId with a deterministic closed-language-to-evaluator or direct start-violation theorem.  Do not scale the combined graph183+graph221 portfolio until this trace-id dependency is gone",
+  "next_recommended_slice": "use the accepted closed-language transducer boundary and the graph183+graph221 direct portfolio to attack one remaining layer-4 obligation semantically.  Prefer a direct start-violation/terminal route if one exists; otherwise prove a deterministic closed-language-to-evaluator/margin theorem. Stop immediately if the proof needs selected-prefix, sampled-rank, accepted-trace, exact-affine, or stored-path membership",
   "partial_lane_count": 2,
   "partial_lanes": [
     "yp_zm",
@@ -836,8 +829,9 @@
     }
   },
   "status": "validated_lanes_remaining_lanes_missing",
-  "validated_lane_count": 1,
+  "validated_lane_count": 2,
   "validated_lanes": [
-    "tmpm_zm"
+    "tmpm_zm",
+    "zm_tmpp"
   ]
 }

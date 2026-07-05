@@ -893,6 +893,21 @@ private def trace030StartViolationCert (margin : Int) :
   badFace_ne_xp := trace030_badFace_ne_xp
   badFace_violation := trace030_badFace_violation
 
+def trace030StartViolationLabels : List Face :=
+  faceLabelsInContributionOrder (fun f : Face => f) trace030Seq
+
+def objectStartViolationMarginCert_of_trace030_labels
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hlabels :
+      topPairingRankFaceLabels rank =
+        trace030StartViolationLabels) :
+    ObjectStartViolationMarginCert rank (scaledMargin rank) :=
+  objectStartViolationMarginCert_of_traceCert
+    (trace030StartViolationCert (scaledMargin rank))
+    (by
+      simpa [trace030StartViolationLabels] using hlabels)
+
 def objectStartViolationMarginCert_of_trace030
     {scaledMargin : Fin numPairWords -> Int}
     {rank : Fin numPairWords}
@@ -900,9 +915,9 @@ def objectStartViolationMarginCert_of_trace030
       topPairingRankFaceLabels rank =
         acceptedTraceOfId AcceptedTraceId.t030) :
     ObjectStartViolationMarginCert rank (scaledMargin rank) :=
-  objectStartViolationMarginCert_of_traceCert
-    (trace030StartViolationCert (scaledMargin rank))
+  objectStartViolationMarginCert_of_trace030_labels
     (by
+      unfold trace030StartViolationLabels
       rw [trace030_contribution_labels]
       exact htrace)
 end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTrace030StartViolationProvider
