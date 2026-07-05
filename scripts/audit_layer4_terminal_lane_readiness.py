@@ -29,6 +29,12 @@ GRAPH183_FILE = (
     / "BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean"
 )
 
+NEXT_FRONTIER_FILE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean"
+)
+
 LANES = [
     ("tmpm_tppm", "Face.tmpm", "Face.tppm"),
     ("tmpm_zm", "Face.tmpm", "Face.zm"),
@@ -47,6 +53,13 @@ GRAPH183_REQUIRED = [
     "graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic",
 ]
 
+GRAPH151_PARTIAL_REQUIRED = [
+    "graph151TargetCompletionState",
+    "Graph151TargetCompletionTail",
+    "graph151_head_of_targetCompletionTail",
+    "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable",
+]
+
 FORBIDDEN = [
     "SampledRankIndex",
     "sampledContainsRank",
@@ -63,7 +76,11 @@ def contains_all(text: str, symbols: list[str]) -> tuple[bool, list[str]]:
 
 def main() -> int:
     graph183_text = GRAPH183_FILE.read_text()
+    next_frontier_text = NEXT_FRONTIER_FILE.read_text()
     graph183_ok, graph183_missing = contains_all(graph183_text, GRAPH183_REQUIRED)
+    graph151_partial_ok, graph151_partial_missing = contains_all(
+        next_frontier_text, GRAPH151_PARTIAL_REQUIRED
+    )
     forbidden_hits = [
         token for token in FORBIDDEN if token in graph183_text
     ]
@@ -86,6 +103,29 @@ def main() -> int:
                 },
                 "forbidden_hits": forbidden_hits,
             }
+        elif lane == "zm_tmpp":
+            lane_report[lane] = {
+                "third": third,
+                "fourth": fourth,
+                "status": (
+                    "partial_local_step_only_missing_post_tppp_suffix_table"
+                    if graph151_partial_ok
+                    else "missing_terminal_lane_semantic_gate"
+                ),
+                "file": str(NEXT_FRONTIER_FILE.relative_to(ROOT)),
+                "required_symbols": {
+                    symbol: symbol not in graph151_partial_missing
+                    for symbol in GRAPH151_PARTIAL_REQUIRED
+                },
+                "forbidden_hits": [
+                    token for token in FORBIDDEN if token in next_frontier_text
+                ],
+                "remaining_gap": (
+                    "graph151 target-completion semantics forces the next "
+                    "face tppp, but no graph151 post-tppp suffix/terminal "
+                    "continuation table analogous to graph183 is present"
+                ),
+            }
         else:
             lane_report[lane] = {
                 "third": third,
@@ -106,6 +146,11 @@ def main() -> int:
         for lane, data in lane_report.items()
         if data["status"] != "validated_one_lane_semantic_gate"
     ]
+    partial = [
+        lane
+        for lane, data in lane_report.items()
+        if data["status"].startswith("partial_")
+    ]
 
     payload = {
         "status": (
@@ -114,14 +159,17 @@ def main() -> int:
             else "no_validated_terminal_lanes"
         ),
         "validated_lane_count": len(validated),
+        "partial_lane_count": len(partial),
         "missing_lane_count": len(missing),
         "validated_lanes": validated,
+        "partial_lanes": partial,
         "missing_lanes": missing,
         "lanes": lane_report,
         "next_recommended_slice": (
-            "instantiate the graph183 four-piece semantic terminal-machine "
-            "pattern for one additional layer-4 lane before promoting an "
-            "all-lane emitter"
+            "generate or prove the graph151 post-tppp suffix/terminal "
+            "continuation for the partial zm_tmpp lane, then lift it through "
+            "the same four-piece terminal-machine pattern validated by "
+            "graph183"
         ),
     }
 

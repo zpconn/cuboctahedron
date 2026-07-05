@@ -104188,6 +104188,8 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   ```text
   validated_lane_count = 1
   validated_lanes = [tmpm_zm]
+  partial_lane_count = 1
+  partial_lanes = [zm_tmpp]
   missing_lane_count = 6
   missing_lanes =
     [tmpm_tppm, yp_tmmm, yp_zm, zm_tmpp, zm_yp, zm_zp]
@@ -104204,9 +104206,14 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
 - Accepted implication:
   the graph183 `tmpm,zm` lane is validated as a semantic terminal-machine
   architecture slice, but the terminal-machine route is not yet an accepted
-  all-lane coverage backend.  The next acceptance gate is to instantiate the
-  graph183 four-piece pattern for one additional layer-4 lane before promoting
-  any all-lane emitter or build-time projection.
+  all-lane coverage backend.  The nearest second-lane candidate is
+  `zm,tmpp`: the graph151 target-completion state and local branch table are
+  present and force the next face `tppp`, but no graph151 post-`tppp`
+  suffix/terminal continuation table analogous to graph183 is present yet.
+  The next acceptance gate is therefore to generate or prove that graph151
+  post-`tppp` continuation, then lift `zm,tmpp` through the graph183
+  four-piece pattern before promoting any all-lane emitter or build-time
+  projection.
 
 - Rejected implication:
   the graph183 lane alone does not prove enough coverage, does not justify a
@@ -104315,7 +104322,12 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
 
 - Next acceptance gate:
   instantiate the graph183 four-piece terminal-machine pattern for one
-  additional layer-4 lane, or make the emitter produce that same
-  progress/completion/suffix/eval surface for all seven lanes.  Only after a
+  additional layer-4 lane.  Static reconnaissance now points to `zm,tmpp` as
+  the best next candidate: graph151 already has a semantic target-completion
+  state, `Graph151TargetCompletionTail`, `graph151_head_of_targetCompletionTail`,
+  and `strengthenedPrefix4Graph151TargetCompletionLocalBranchTable`, but it
+  still needs a post-`tppp` suffix/terminal continuation table.  Only after a
   second lane checks cheaply should the terminal-machine route be promoted to
-  an all-lane emitter.
+  an all-lane emitter.  If that graph151 continuation demands exact affine
+  RHS, exact solved start-point data, or one branch per observed path, stop
+  and run the cocycle/cancellation-summary quotient experiment first.

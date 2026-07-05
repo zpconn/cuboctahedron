@@ -39,11 +39,17 @@
       "third": "Face.yp"
     },
     "zm_tmpp": {
-      "file": null,
+      "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.tmpp",
-      "required_symbols": {},
-      "status": "missing_terminal_lane_semantic_gate",
+      "remaining_gap": "graph151 target-completion semantics forces the next face tppp, but no graph151 post-tppp suffix/terminal continuation table analogous to graph183 is present",
+      "required_symbols": {
+        "Graph151TargetCompletionTail": true,
+        "graph151TargetCompletionState": true,
+        "graph151_head_of_targetCompletionTail": true,
+        "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable": true
+      },
+      "status": "partial_local_step_only_missing_post_tppp_suffix_table",
       "third": "Face.zm"
     },
     "zm_yp": {
@@ -72,7 +78,11 @@
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "instantiate the graph183 four-piece semantic terminal-machine pattern for one additional layer-4 lane before promoting an all-lane emitter",
+  "next_recommended_slice": "generate or prove the graph151 post-tppp suffix/terminal continuation for the partial zm_tmpp lane, then lift it through the same four-piece terminal-machine pattern validated by graph183",
+  "partial_lane_count": 1,
+  "partial_lanes": [
+    "zm_tmpp"
+  ],
   "status": "one_lane_validated_remaining_lanes_missing",
   "validated_lane_count": 1,
   "validated_lanes": [
