@@ -940,6 +940,109 @@ def Graph147RankedEvalMarginSequenceBadFace
           graph147RankedPrefix4EvalState rest (-53 : Int))
 
 /--
+The older target-completion root-margin socket implies the newer ranked suffix
+margin invariant.
+
+This adapter keeps the production surfaces compatible: a future semantic
+producer may still target `Graph147TargetCompletionTailRootMarginBound`, and
+the ranked evaluator projection supplies the exact `Graph147RankedSuffix...`
+statement needed by the current graph147 carrier.
+-/
+theorem graph147RankedSuffixEvalMarginInv_of_targetCompletionRootMarginBound
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {labels : List Face}
+    (hmargin :
+      Graph147TargetCompletionTailRootMarginBound
+        scaledMargin rank (-53 : Int) labels) :
+    Graph147RankedSuffixEvalMarginInv scaledMargin rank
+      graph147RankedPrefix4EvalState labels (-53 : Int) := by
+  intro finish gain heval
+  have hgraph :
+      evalLabelStepFn strengthenedClosedEvalNext
+          strengthenedClosedPrefix4YpZmEvalState labels =
+        some (finish.graph, gain) := by
+    simpa [graph147RankedPrefix4EvalState] using
+      TopPairingTransducerEvalState.evalLabelStepFn_graph_of_faceEval
+        (next := strengthenedClosedEvalNext)
+        (labelOfFace := fun face : Face => face)
+        heval
+  exact hmargin (finish.graph, gain) hgraph
+
+/--
+Semantic `sequenceBadFace` carrier for graph-147 target-completion
+root-margin bounds.
+
+This is an equivalent, older-facing carrier.  It is useful because several
+existing graph147 sockets are stated in terms of
+`Graph147TargetCompletionTailRootMarginBound`.  As with
+`Graph147RankedEvalMarginSequenceBadFace`, this predicate is production-safe
+only if the upstream proof is semantic rather than selected-prefix or
+sampled-path evidence.
+-/
+def Graph147TargetCompletionRootMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int)
+    (rank : Fin numPairWords) (badFace : Face) : Prop :=
+  badFace = Face.ym ∧
+    (∀ rest,
+      Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+        Graph147TargetCompletionTailRootMarginBound
+          scaledMargin rank (-53 : Int) rest) ∧
+    (∀ rest,
+      Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+        Graph147TargetCompletionTailRootMarginBound
+          scaledMargin rank (-53 : Int) rest)
+
+theorem graph147RankedEvalMarginSequenceBadFace_of_targetCompletionRootMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {badFace : Face}
+    (h :
+      Graph147TargetCompletionRootMarginSequenceBadFace
+        scaledMargin rank badFace) :
+    Graph147RankedEvalMarginSequenceBadFace
+      scaledMargin rank badFace := by
+  rcases h with ⟨hface, hyp_zm, hzm_yp⟩
+  exact ⟨hface,
+    (by
+      intro rest hprefix
+      exact
+        graph147RankedSuffixEvalMarginInv_of_targetCompletionRootMarginBound
+          (hyp_zm rest hprefix)),
+    (by
+      intro rest hprefix
+      exact
+        graph147RankedSuffixEvalMarginInv_of_targetCompletionRootMarginBound
+          (hzm_yp rest hprefix))⟩
+
+def rankedEvalMarginBundle_of_graph147TargetCompletionRootMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    StrengthenedGraph147RankedEvalMarginBundle
+      scaledMargin
+      (Graph147TargetCompletionRootMarginSequenceBadFace scaledMargin) where
+  yp_zm := by
+    refine ⟨?_⟩
+    intro rank hstrengthened rest hprefix finish gain heval
+    have hseq :=
+      graph147RankedEvalMarginSequenceBadFace_of_targetCompletionRootMargin
+        hstrengthened.sequenceBadFace_ok
+    exact hseq.2.1 rest hprefix finish gain heval
+  zm_yp := by
+    refine ⟨?_⟩
+    intro rank hstrengthened rest hprefix finish gain heval
+    have hseq :=
+      graph147RankedEvalMarginSequenceBadFace_of_targetCompletionRootMargin
+        hstrengthened.sequenceBadFace_ok
+    exact hseq.2.2 rest hprefix finish gain heval
+
+def rootMarginBundle_of_graph147TargetCompletionRootMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin
+      (Graph147TargetCompletionRootMarginSequenceBadFace scaledMargin) :=
+  rootMarginBundle_of_rankedEvalMarginBundle_via_suffixEvalMarginInv
+    (rankedEvalMarginBundle_of_graph147TargetCompletionRootMarginSequenceBadFace
+      scaledMargin)
+
+/--
 If `sequenceBadFace_ok` carries the semantic graph-147 branch start-margin
 facts, the ranked-evaluator margin bundle is immediate.
 

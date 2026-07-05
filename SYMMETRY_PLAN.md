@@ -110592,6 +110592,74 @@ Lake Eval min_available = 46239 MiB
 forbidden-token scan = no hits
 ```
 
+### 2026-07-05 graph147 target-completion margin carrier compatibility
+
+The graph147 ranked eval socket now also accepts the older target-completion
+root-margin surface:
+
+```lean
+theorem graph147RankedSuffixEvalMarginInv_of_targetCompletionRootMarginBound
+
+def Graph147TargetCompletionRootMarginSequenceBadFace
+
+theorem graph147RankedEvalMarginSequenceBadFace_of_targetCompletionRootMargin
+
+def rankedEvalMarginBundle_of_graph147TargetCompletionRootMarginSequenceBadFace
+
+def rootMarginBundle_of_graph147TargetCompletionRootMarginSequenceBadFace
+```
+
+This bridge says:
+
+```text
+Graph147TargetCompletionTailRootMarginBound scaledMargin rank (-53) rest
+  -> Graph147RankedSuffixEvalMarginInv
+       scaledMargin rank graph147RankedPrefix4EvalState rest (-53)
+```
+
+Interpretation:
+
+```text
+The next producer may target either the new ranked-suffix margin carrier or the
+older target-completion root-margin carrier.  Both are now compatible with the
+same graph147 root-margin bundle.  The hard proof is unchanged: the upstream
+proof of the chosen carrier must be semantic, not selected-prefix or
+sampled-path membership.
+```
+
+Focused validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_target_completion_margin_carrier_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+
+rg -n "sorry|admit|axiom|native_decide|unsafe|selectedPrefix|SelectedPrefix|SampledRankIndex|acceptedTrace|AcceptedTrace|exactAffine|affineRhs|mapSequenceBadFace" \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+```
+
+Result:
+
+```text
+direct Graph147RankedEvalSocket = pass
+elapsed = 6.00s
+peak_tree_rss = 3951 MiB
+min_available = 46238 MiB
+hard_as = 8192 MiB
+audit status = ready_for_ranked_eval_margin_bundle_producer
+forbidden-token scan = no hits
+```
+
 Updated graph147 fallback target:
 
 ```text
