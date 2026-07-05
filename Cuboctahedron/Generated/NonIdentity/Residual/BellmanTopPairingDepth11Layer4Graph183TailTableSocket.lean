@@ -1273,6 +1273,14 @@ theorem acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components
   completionTail := hcompletion.completionTail
   final_margin_yp_branch := hmargin.final_margin_yp_branch
 
+theorem acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hmargin :
+      AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin) :
+    AcceptedSequenceGraph183AcceptedBranchFinalMarginFamily scaledMargin :=
+  acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components
+    acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor hmargin
+
 theorem graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily :
@@ -1317,6 +1325,16 @@ theorem graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedBranch
   graph169ContinuationFamily_of_graph183TailFinalMargin
     (graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch hfamily)
 
+theorem graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedTailMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    (hmargin :
+      AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin) :
+    StrengthenedGraph169AfterTpmmGraphExactContinuationFamily
+      scaledMargin AcceptedSequenceBadFaceAtRank :=
+  graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedBranch
+    (acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailMargin
+      hmargin)
+
 theorem graphExactEvalGateAtRank_of_graph183TailFinalMargin
     {scaledMargin : Fin numPairWords -> Int}
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
@@ -1349,6 +1367,23 @@ theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch
       graphRoot graphConst scaledMargin rank Face.ym :=
   graphExactEvalGateAtRank_of_graph183TailFinalMargin
     (graph183TailFinalMarginFamily_of_acceptedSequenceAcceptedBranch hfamily)
+    hstrengthened hprefix
+
+theorem graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedTailMargin
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hmargin :
+      AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TopPairingGraphExactEvalGateAtRank
+      graphPotential closedBellmanNext (fun face : Face => face)
+      graphRoot graphConst scaledMargin rank Face.ym :=
+  graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedBranch
+    (acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailMargin
+      hmargin)
     hstrengthened hprefix
 
 theorem graph183TailTableSocket_builds : True := by

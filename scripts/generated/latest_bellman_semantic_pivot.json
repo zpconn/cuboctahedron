@@ -124,10 +124,13 @@
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean",
       "required_symbols": {
         "AcceptedSequenceGraph183AcceptedTailMarginFamily": true,
+        "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailMargin": true,
         "acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor": true,
+        "graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedTailMargin": true,
         "graph183AcceptedBranchEvalGateResult_of_labels": true,
         "graph183AcceptedBranchEval_of_prefix": true,
-        "graph183AcceptedBranchLabels_eq_of_prefix": true
+        "graph183AcceptedBranchLabels_eq_of_prefix": true,
+        "graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedTailMargin": true
       }
     },
     "target_cursor": {

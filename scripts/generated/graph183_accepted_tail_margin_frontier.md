@@ -128,6 +128,9 @@ must still be Lean-checked through the graph183 family theorem.
 | `socket_symbol:acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_labelMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_labelMargin` |
 | `socket_symbol:acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin` | `True` | `acceptedSequenceGraph183AcceptedTailMarginFamily_of_labelMargin` |
 | `socket_symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components` | `True` | `acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_components` |
+| `socket_symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailMargin` |
+| `socket_symbol:graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedTailMargin` | `True` | `graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedTailMargin` |
+| `socket_symbol:graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedTailMargin` | `True` | `graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedTailMargin` |
 | `socket_symbol:acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor` | `True` | `acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor` |
 | `socket_symbol:acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor` | `True` | `acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor` |
 | `socket_symbol:graph183ForcedTail` | `True` | `graph183ForcedTail` |

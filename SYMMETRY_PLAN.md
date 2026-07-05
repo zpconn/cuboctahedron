@@ -113351,3 +113351,88 @@ Graph183TailQuotientMarginSequenceBadFace scaledMargin
 
 proved from semantic closed-language / deterministic evaluator /
 cocycle-gauge state, not by path sampling.
+
+### 2026-07-05 graph183 accepted-tail margin-only adapters
+
+The graph183 tail-table socket now exposes direct adapters from the accepted
+tail margin family to the existing branch, graph169 continuation, and exact
+eval gate surfaces:
+
+```lean
+acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailMargin
+graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedTailMargin
+graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedTailMargin
+```
+
+This is the intended pivot boundary.  The completion-tail side is already
+semantic through:
+
+```lean
+acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor
+```
+
+so graph183 production should not build another selected-prefix or sampled-path
+cover.  The remaining graph183 proof target is now explicitly margin-only:
+
+```lean
+AcceptedSequenceGraph183AcceptedTailMarginFamily scaledMargin
+```
+
+or the quotient carrier:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+Those should be proved from a deterministic closed-language evaluator,
+target-shadow / tri-source cursor state, or cocycle-gauge quotient.  If the
+proof asks for sampled rank objects, selected prefixes, accepted trace ids,
+exact affine RHS keys, or one generated branch per rank/path, that is a no-go
+signal and the state must be strengthened semantically before scaling.
+
+Focused guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 7000 --min-available-mib 30000 \
+  --timeout-seconds 240 --hard-address-space-mib 7000 \
+  --json scripts/generated/graph183_tail_table_socket_latest_guard.json \
+  -- lake env lean -M 7000 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 18.01s
+peak RSS = 4004 MiB
+min available = 46133 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_latest_bellman_semantic_pivot.py \
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py \
+  scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+```
+
+Results:
+
+```text
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+graph183 carrier decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+```

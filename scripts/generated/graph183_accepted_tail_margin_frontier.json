@@ -67,6 +67,21 @@
       "passed": true
     },
     {
+      "detail": "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailMargin",
+      "name": "socket_symbol:acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailMargin",
+      "passed": true
+    },
+    {
+      "detail": "graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedTailMargin",
+      "name": "socket_symbol:graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedTailMargin",
+      "passed": true
+    },
+    {
+      "detail": "graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedTailMargin",
+      "name": "socket_symbol:graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedTailMargin",
+      "passed": true
+    },
+    {
       "detail": "acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor",
       "name": "socket_symbol:acceptedSequenceGraph183TargetCancellationTailFamily_of_cursor",
       "passed": true

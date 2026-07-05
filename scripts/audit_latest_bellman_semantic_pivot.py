@@ -96,6 +96,9 @@ REQUIRED = {
         "graph183AcceptedBranchEval_of_prefix",
         "graph183AcceptedBranchEvalGateResult_of_labels",
         "AcceptedSequenceGraph183AcceptedTailMarginFamily",
+        "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailMargin",
+        "graph169ContinuationFamily_of_acceptedSequenceGraph183AcceptedTailMargin",
+        "graphExactEvalGateAtRank_of_acceptedSequenceGraph183AcceptedTailMargin",
     ],
     "graph183_accepted_branch_quotient": [
         "acceptedLocalEquation",
