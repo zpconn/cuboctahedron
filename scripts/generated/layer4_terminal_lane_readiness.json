@@ -31,10 +31,24 @@
       "third": "Face.yp"
     },
     "yp_zm": {
+      "deep_suffix_symbols": {
+        "Graph163TargetCompletionTail": true,
+        "Graph166TargetCompletionTail": true,
+        "graph163TargetCompletionState": true,
+        "graph163_head_of_targetCompletionTail": true,
+        "graph166TargetCompletionState": true,
+        "graph166_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix6YpZmTmmpTpmpEvalState": true,
+        "strengthenedClosedPrefix6YpZmZpTmmmEvalState": true,
+        "strengthenedClosed_prefix6_yp_zm_tmmp_tpmp_next_from_graph155": true,
+        "strengthenedClosed_prefix6_yp_zm_zp_tmmm_next_from_graph153": true,
+        "strengthenedPrefix6Graph163TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix6Graph166TargetCompletionLocalBranchTable": true
+      },
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.zm",
-      "remaining_gap": "graph147 now advances semantically through both target completion heads: zp reaches graph153 and is forced next to tmmm/graph163, while tmmp reaches graph155 and is forced next to tpmp/graph166.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph163 and graph166 before it becomes a terminal semantic gate.",
+      "remaining_gap": "graph147 now advances through graph153 and graph155, and those continuations advance deterministically again: graph163 forces tpmm/graph176 while graph166 forces tppp/graph178.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph176 and graph178 before it becomes a terminal semantic gate.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -42,7 +56,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph153_graph155_target_completion_local_table",
+      "status": "partial_graph163_graph166_target_completion_local_table",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,
@@ -153,10 +167,24 @@
       "third": "Face.zm"
     },
     "zm_yp": {
+      "deep_suffix_symbols": {
+        "Graph163TargetCompletionTail": true,
+        "Graph166TargetCompletionTail": true,
+        "graph163TargetCompletionState": true,
+        "graph163_head_of_targetCompletionTail": true,
+        "graph166TargetCompletionState": true,
+        "graph166_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix6YpZmTmmpTpmpEvalState": true,
+        "strengthenedClosedPrefix6YpZmZpTmmmEvalState": true,
+        "strengthenedClosed_prefix6_yp_zm_tmmp_tpmp_next_from_graph155": true,
+        "strengthenedClosed_prefix6_yp_zm_zp_tmmm_next_from_graph153": true,
+        "strengthenedPrefix6Graph163TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix6Graph166TargetCompletionLocalBranchTable": true
+      },
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
       "forbidden_hits": [],
       "fourth": "Face.yp",
-      "remaining_gap": "graph147 now advances semantically through both target completion heads: zp reaches graph153 and is forced next to tmmm/graph163, while tmmp reaches graph155 and is forced next to tpmp/graph166.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph163 and graph166 before it becomes a terminal semantic gate.",
+      "remaining_gap": "graph147 now advances through graph153 and graph155, and those continuations advance deterministically again: graph163 forces tpmm/graph176 while graph166 forces tppp/graph178.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph176 and graph178 before it becomes a terminal semantic gate.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -164,7 +192,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph153_graph155_target_completion_local_table",
+      "status": "partial_graph163_graph166_target_completion_local_table",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,

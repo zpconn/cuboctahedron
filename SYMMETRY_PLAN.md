@@ -105220,7 +105220,7 @@ Result:
 pass; no matches
 ```
 
-### 2026-07-05 graph153/graph155 target-completion continuation accepted
+### 2026-07-05 graph153/155 and graph163/166 target-completion continuation accepted
 
 The shared graph147 lane for `yp_zm` / `zm_yp` has advanced one more
 deterministic semantic step without selected-prefix, sampled-rank,
@@ -105248,11 +105248,14 @@ def strengthenedPrefix5Graph155TargetCompletionLocalBranchTable :
 ```
 
 The refreshed generated target-completion shard now has five states and six
-branches.  It packages:
+branches before the graph163/166 extension.  The newest refreshed shard now
+has seven states and eight branches.  It packages:
 
 - graph147: `zp -> graph153`, `tmmp -> graph155`;
 - graph153: `tmmm -> graph163`;
 - graph155: `tpmp -> graph166`;
+- graph163: `tpmm -> graph176`;
+- graph166: `tppp -> graph178`;
 - graph150 and graph151 as before.
 
 Focused guarded checks:
@@ -105287,6 +105290,16 @@ Result:
 pass; elapsed=3.00s; peak_tree_rss=4043 MiB; min_available=46128 MiB
 ```
 
+Additional focused guarded checks after the graph163/166 extension:
+
+```text
+NextFrontierSmoke: pass; elapsed=55.04s; peak_tree_rss=5657 MiB;
+min_available=44118 MiB
+
+TargetCompletionLocalBranchTableShard000: pass; elapsed=3.00s;
+peak_tree_rss=3273 MiB; min_available=46306 MiB
+```
+
 Readiness audit:
 
 ```bash
@@ -105298,15 +105311,15 @@ Result:
 ```text
 validated_lanes = [tmpm_zm, zm_tmpp]
 partial_lanes = [yp_zm, zm_yp]
-yp_zm.status = partial_graph153_graph155_target_completion_local_table
-zm_yp.status = partial_graph153_graph155_target_completion_local_table
+yp_zm.status = partial_graph163_graph166_target_completion_local_table
+zm_yp.status = partial_graph163_graph166_target_completion_local_table
 forbidden_hits = []
 ```
 
 Next slice:
 
 1. Continue the same deterministic target-completion/evaluator pattern from
-   graph163 and graph166.
+   graph176 and graph178.
 2. Stop immediately if the proof wants selected prefixes, sampled ranks,
    accepted trace IDs, exact affine keys, or one branch per observed path.
 3. If target-completion alone stops being deterministic, add only semantic
