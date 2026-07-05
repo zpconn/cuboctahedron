@@ -1,0 +1,249 @@
+{
+  "checks": [
+    {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean",
+      "name": "socket:exists",
+      "passed": true
+    },
+    {
+      "detail": "Graph183TailQuotientMarginSequenceBadFace",
+      "name": "socket:symbol:Graph183TailQuotientMarginSequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "Graph183TailExactEvalSequenceBadFace",
+      "name": "socket:symbol:Graph183TailExactEvalSequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginFamily_of_sequenceBadFace",
+      "name": "socket:symbol:graph183TailQuotientMarginFamily_of_sequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailExactEvalFamily_of_sequenceBadFace",
+      "name": "socket:symbol:graph183TailExactEvalFamily_of_sequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace",
+      "name": "socket:symbol:graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace",
+      "name": "socket:symbol:graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
+      "name": "socket:symbol:nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
+      "passed": true
+    },
+    {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean",
+      "name": "smoke:exists",
+      "passed": true
+    },
+    {
+      "detail": "graph183AcceptedBranchRawGain",
+      "name": "smoke:symbol:graph183AcceptedBranchRawGain",
+      "passed": true
+    },
+    {
+      "detail": "graph183AcceptedBranchRawGain_contract",
+      "name": "smoke:symbol:graph183AcceptedBranchRawGain_contract",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientStep",
+      "name": "smoke:symbol:graph183QuotientStep",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientAcceptedBranchSmoke",
+      "name": "smoke:symbol:graph183QuotientAcceptedBranchSmoke",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "socket:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "socket:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "socket:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "socket:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "socket:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "socket:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "smoke:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "smoke:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "smoke:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "smoke:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "smoke:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "smoke:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
+      "detail": "diagnostic, not generated coverage",
+      "name": "smoke:documents_diagnostic_not_coverage",
+      "passed": true
+    },
+    {
+      "detail": "Production should replace selected-prefix membership",
+      "name": "smoke:documents_production_replacement_needed",
+      "passed": true
+    },
+    {
+      "detail": 1,
+      "name": "profile_1m:single_margin_family",
+      "passed": true
+    },
+    {
+      "detail": 223,
+      "name": "profile_1m:states_under_2000",
+      "passed": true
+    },
+    {
+      "detail": 229,
+      "name": "profile_1m:edges_under_5000",
+      "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "profile_1m:offset_sum_mismatches_zero",
+      "passed": true
+    },
+    {
+      "detail": "0",
+      "name": "profile_1m:bellman_observed_nonpositive",
+      "passed": true
+    },
+    {
+      "detail": "with-step-tri-source",
+      "name": "profile_1m:with_step_tri_source",
+      "passed": true
+    },
+    {
+      "detail": "cocycle_quotient_candidates_found",
+      "name": "quotient_1m:candidate_found",
+      "passed": true
+    },
+    {
+      "detail": "step-par",
+      "name": "quotient_1m:mode_step_par",
+      "passed": true
+    },
+    {
+      "detail": 43,
+      "name": "quotient_1m:quotient_states_under_100",
+      "passed": true
+    },
+    {
+      "detail": 93,
+      "name": "quotient_1m:quotient_edges_under_150",
+      "passed": true
+    },
+    {
+      "detail": [
+        "gauge",
+        "gauge_count",
+        "max_bit_length",
+        "nonzero_values",
+        "small_gain_count",
+        "small_gains"
+      ],
+      "name": "quotient_1m:solution_exists",
+      "passed": true
+    },
+    {
+      "detail": 9,
+      "name": "quotient_1m:bit_length_under_16",
+      "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "socket_guard:exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 3956.23046875,
+      "name": "socket_guard:rss_under_6500_mib",
+      "passed": true
+    },
+    {
+      "detail": 46237.83984375,
+      "name": "socket_guard:available_above_30000_mib",
+      "passed": true
+    }
+  ],
+  "decision": "graph183_carrier_sockets_ready_but_producer_missing",
+  "failed_checks": [],
+  "metrics": {
+    "guard_elapsed_seconds": 5.003310744999908,
+    "guard_min_available_mib": 46237.83984375,
+    "guard_peak_rss_mib": 3956.23046875,
+    "profile_edges": 229,
+    "profile_margin_families": 1,
+    "profile_matched": 37,
+    "profile_states": 223,
+    "quotient_edges": 93,
+    "quotient_max_bit_length": 9,
+    "quotient_mode": "step-par",
+    "quotient_states": 43
+  },
+  "mode": "graph183_carrier_producer_readiness",
+  "next_required_theorem": "Graph183TailQuotientMarginSequenceBadFace scaledMargin, proved from semantic closed-language / deterministic evaluator / cocycle-gauge state",
+  "production_status": {
+    "candidate_names_checked": [
+      "graph183TailQuotientMarginSequenceBadFace_of_closedLanguage",
+      "graph183TailQuotientMarginSequenceBadFace_of_quotientEval",
+      "graph183TailQuotientMarginSequenceBadFace_of_cocycleQuotient",
+      "graph183TailQuotientMarginSequenceBadFaceProducer",
+      "Graph183TailQuotientMarginCarrierProducer"
+    ],
+    "found": [],
+    "producer_exists": false
+  }
+}

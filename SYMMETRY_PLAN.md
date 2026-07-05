@@ -111514,6 +111514,79 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 graph183 carrier producer readiness audit
+
+Added an explicit readiness audit for the current graph183 frontier:
+
+```text
+scripts/audit_graph183_carrier_producer_readiness.py
+scripts/generated/graph183_carrier_producer_readiness.json
+scripts/generated/graph183_carrier_producer_readiness.md
+```
+
+This audit is intentionally conservative.  It verifies that:
+
+- the graph183 Lean carrier sockets exist;
+- the graph183 quotient smoke contains the checked local quotient equations;
+- the quotient smoke is documented as diagnostic, not coverage;
+- forbidden sampled/selected-prefix/accepted-trace tokens are absent from the
+  carrier socket and quotient smoke;
+- the 1M graph183 profile and quotient profile still support the route as
+  diagnostics;
+- the guarded Lean build of the carrier socket stays memory-safe.
+
+It also verifies the negative fact we must not blur:
+
+```text
+production carrier producer exists = False
+```
+
+Result:
+
+```text
+decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+failed checks = 0
+```
+
+Metrics:
+
+```text
+profile matched ranks = 37
+profile states = 223
+profile edges = 229
+profile margin families = 1
+quotient mode = step-par
+quotient states = 43
+quotient edges = 93
+quotient max bit length = 9
+guard elapsed = 5.00s
+guard peak RSS = 3956 MiB
+guard min available = 46238 MiB
+```
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+```
+
+Interpretation:
+
+This is not proof evidence.  It is a guardrail against overclaiming.  The next
+accepted implementation step is to emit or prove:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+from semantic closed-language / deterministic-evaluator / cocycle-gauge state.
+If that proof requires sampled ranks, selected prefixes, accepted trace ids,
+exact affine RHS keys, solved start-point keys, or one branch per observed
+path, then graph183 scaling must pivot to a stronger semantic state or a
+cancellation-segment algebra before broad emission.
+
 ### 2026-07-05 quotient carrier to exact-eval carrier bridge
 
 Added the reverse adapter on the graph183 forced branch: once the quotient
