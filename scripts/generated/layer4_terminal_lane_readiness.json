@@ -52,6 +52,36 @@
     },
     "status": "accepted_graph183_graph221_direct_portfolio_socket"
   },
+  "graph147_ranked_eval_socket": {
+    "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean",
+    "forbidden_hits": [],
+    "interpretation": "Graph147 ranked suffix evaluation is already packaged as a semantic induction.  It proves evaluator existence/final potential from Graph147RankedShardSuffixOk and reduces the remaining production work to branch start-margin facts, preferably Graph147RankedEvalMarginSequenceBadFace or StrengthenedGraph147RankedShardMarginInvariantFamily.",
+    "required_symbols": {
+      "Graph147RankedEvalMarginSequenceBadFace": true,
+      "Graph147RankedSuffixEvalMarginInv": true,
+      "Graph147TargetCompletionRootMarginSequenceBadFace": true,
+      "StrengthenedGraph147RankedEvalMarginBundle": true,
+      "StrengthenedGraph147RankedEvalMarginInvariantFamily": true,
+      "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
+      "StrengthenedGraph147YpZmRankedEvalMarginFamily": true,
+      "StrengthenedGraph147ZmYpRankedEvalMarginFamily": true,
+      "graph147RankedEvalNext": true,
+      "graph147RankedEval_margin_of_suffixInvariant": true,
+      "graph147RankedShardSuffixOk_eval_exists_finalPotential": true,
+      "graph147RankedShardSuffixOk_graph_eval_exists_finalPotential": true,
+      "graph147TargetCompletionTailRootMarginBound_of_ranked_eval_margin": true,
+      "graph147YpZmRootMarginBound_of_ranked_eval_margin": true,
+      "graph147ZmYpRootMarginBound_of_ranked_eval_margin": true,
+      "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily": true,
+      "rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle": true,
+      "rootMarginBundle_of_graph147RankedEvalMarginSequenceBadFace": true,
+      "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle": true,
+      "rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle": true,
+      "rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle": true,
+      "rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle": true
+    },
+    "status": "accepted_graph147_ranked_eval_socket"
+  },
   "graph147_ranked_transducer_target": {
     "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean",
     "forbidden_hits": [],
@@ -341,6 +371,31 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
+      "ranked_eval_socket_status": "accepted_graph147_ranked_eval_socket",
+      "ranked_eval_socket_symbols": {
+        "Graph147RankedEvalMarginSequenceBadFace": true,
+        "Graph147RankedSuffixEvalMarginInv": true,
+        "Graph147TargetCompletionRootMarginSequenceBadFace": true,
+        "StrengthenedGraph147RankedEvalMarginBundle": true,
+        "StrengthenedGraph147RankedEvalMarginInvariantFamily": true,
+        "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
+        "StrengthenedGraph147YpZmRankedEvalMarginFamily": true,
+        "StrengthenedGraph147ZmYpRankedEvalMarginFamily": true,
+        "graph147RankedEvalNext": true,
+        "graph147RankedEval_margin_of_suffixInvariant": true,
+        "graph147RankedShardSuffixOk_eval_exists_finalPotential": true,
+        "graph147RankedShardSuffixOk_graph_eval_exists_finalPotential": true,
+        "graph147TargetCompletionTailRootMarginBound_of_ranked_eval_margin": true,
+        "graph147YpZmRootMarginBound_of_ranked_eval_margin": true,
+        "graph147ZmYpRootMarginBound_of_ranked_eval_margin": true,
+        "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily": true,
+        "rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle": true,
+        "rootMarginBundle_of_graph147RankedEvalMarginSequenceBadFace": true,
+        "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle": true,
+        "rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle": true,
+        "rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle": true,
+        "rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle": true
+      },
       "ranked_transducer_target_status": "accepted_graph147_ranked_transducer_boundary",
       "ranked_transducer_target_symbols": {
         "Graph147RankedShardSuffixOk": true,
@@ -354,7 +409,7 @@
         "rootMarginBundle_of_rankedTransducerInvariantFamily": true,
         "strengthenedGraph147BranchSuffixStartBundle": true
       },
-      "remaining_gap": "graph147 now has a direct semantic eval socket for the yp,zm and zm,yp layer-4 branches, and the branch-local Graph147TargetCompletionTail fields are proved directly from TopPairingStrengthenedClosedLanguageAtRank plus Depth11Layer4PrefixAtRank.  The future generated proof target is now the margin-only StrengthenedGraph147RootMarginBundle, not a mapped class case: it must prove the remaining Graph147TargetCompletionTailRootMarginBound fields.  The Lean socket derives the tail and adapts the margin-only bundle to the compatibility tail-plus-margin family.  A bounded cocycle quotient branch smoke supports this route diagnostically but is not coverage evidence.  Tail plus margin then produce TopPairingGraphExactEvalGateAtRank directly.  The lane is still partial until those margin fields are proved.  The sharper preferred route is now the ranked-transducer boundary in this file: prove a finish/root-margin theorem for `StrengthenedGraph147RankedTransducerInvariantFamily`, using `Graph147RankedShardSuffixOk` for suffix closure, not a mapped class case or selected-prefix membership.",
+      "remaining_gap": "graph147 now has a direct semantic eval socket for the yp,zm and zm,yp layer-4 branches, and the branch-local Graph147TargetCompletionTail fields are proved directly from TopPairingStrengthenedClosedLanguageAtRank plus Depth11Layer4PrefixAtRank.  The future generated proof target is now the margin-only StrengthenedGraph147RootMarginBundle, not a mapped class case: it must prove the remaining Graph147TargetCompletionTailRootMarginBound fields.  The Lean socket derives the tail and adapts the margin-only bundle to the compatibility tail-plus-margin family.  A bounded cocycle quotient branch smoke supports this route diagnostically but is not coverage evidence.  Tail plus margin then produce TopPairingGraphExactEvalGateAtRank directly.  The lane is still partial until those margin fields are proved.  The sharper preferred route is now the ranked-transducer boundary in this file: prove a finish/root-margin theorem for `StrengthenedGraph147RankedTransducerInvariantFamily`, using `Graph147RankedShardSuffixOk` for suffix closure, not a mapped class case or selected-prefix membership.  The ranked-eval socket goes one step further: it proves the suffix evaluator induction and reduces production to a semantic branch start-margin predicate such as `Graph147RankedEvalMarginSequenceBadFace` or a `StrengthenedGraph147RankedShardMarginInvariantFamily`.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -756,6 +811,31 @@
         "strengthenedPrefix10Graph11TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix10Graph6TargetCompletionLocalBranchTable": true
       },
+      "ranked_eval_socket_status": "accepted_graph147_ranked_eval_socket",
+      "ranked_eval_socket_symbols": {
+        "Graph147RankedEvalMarginSequenceBadFace": true,
+        "Graph147RankedSuffixEvalMarginInv": true,
+        "Graph147TargetCompletionRootMarginSequenceBadFace": true,
+        "StrengthenedGraph147RankedEvalMarginBundle": true,
+        "StrengthenedGraph147RankedEvalMarginInvariantFamily": true,
+        "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
+        "StrengthenedGraph147YpZmRankedEvalMarginFamily": true,
+        "StrengthenedGraph147ZmYpRankedEvalMarginFamily": true,
+        "graph147RankedEvalNext": true,
+        "graph147RankedEval_margin_of_suffixInvariant": true,
+        "graph147RankedShardSuffixOk_eval_exists_finalPotential": true,
+        "graph147RankedShardSuffixOk_graph_eval_exists_finalPotential": true,
+        "graph147TargetCompletionTailRootMarginBound_of_ranked_eval_margin": true,
+        "graph147YpZmRootMarginBound_of_ranked_eval_margin": true,
+        "graph147ZmYpRootMarginBound_of_ranked_eval_margin": true,
+        "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily": true,
+        "rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle": true,
+        "rootMarginBundle_of_graph147RankedEvalMarginSequenceBadFace": true,
+        "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle": true,
+        "rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle": true,
+        "rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle": true,
+        "rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle": true
+      },
       "ranked_transducer_target_status": "accepted_graph147_ranked_transducer_boundary",
       "ranked_transducer_target_symbols": {
         "Graph147RankedShardSuffixOk": true,
@@ -769,7 +849,7 @@
         "rootMarginBundle_of_rankedTransducerInvariantFamily": true,
         "strengthenedGraph147BranchSuffixStartBundle": true
       },
-      "remaining_gap": "graph147 now has a direct semantic eval socket for the yp,zm and zm,yp layer-4 branches, and the branch-local Graph147TargetCompletionTail fields are proved directly from TopPairingStrengthenedClosedLanguageAtRank plus Depth11Layer4PrefixAtRank.  The future generated proof target is now the margin-only StrengthenedGraph147RootMarginBundle, not a mapped class case: it must prove the remaining Graph147TargetCompletionTailRootMarginBound fields.  The Lean socket derives the tail and adapts the margin-only bundle to the compatibility tail-plus-margin family.  A bounded cocycle quotient branch smoke supports this route diagnostically but is not coverage evidence.  Tail plus margin then produce TopPairingGraphExactEvalGateAtRank directly.  The lane is still partial until those margin fields are proved.  The sharper preferred route is now the ranked-transducer boundary in this file: prove a finish/root-margin theorem for `StrengthenedGraph147RankedTransducerInvariantFamily`, using `Graph147RankedShardSuffixOk` for suffix closure, not a mapped class case or selected-prefix membership.",
+      "remaining_gap": "graph147 now has a direct semantic eval socket for the yp,zm and zm,yp layer-4 branches, and the branch-local Graph147TargetCompletionTail fields are proved directly from TopPairingStrengthenedClosedLanguageAtRank plus Depth11Layer4PrefixAtRank.  The future generated proof target is now the margin-only StrengthenedGraph147RootMarginBundle, not a mapped class case: it must prove the remaining Graph147TargetCompletionTailRootMarginBound fields.  The Lean socket derives the tail and adapts the margin-only bundle to the compatibility tail-plus-margin family.  A bounded cocycle quotient branch smoke supports this route diagnostically but is not coverage evidence.  Tail plus margin then produce TopPairingGraphExactEvalGateAtRank directly.  The lane is still partial until those margin fields are proved.  The sharper preferred route is now the ranked-transducer boundary in this file: prove a finish/root-margin theorem for `StrengthenedGraph147RankedTransducerInvariantFamily`, using `Graph147RankedShardSuffixOk` for suffix closure, not a mapped class case or selected-prefix membership.  The ranked-eval socket goes one step further: it proves the suffix evaluator induction and reduces production to a semantic branch start-margin predicate such as `Graph147RankedEvalMarginSequenceBadFace` or a `StrengthenedGraph147RankedShardMarginInvariantFamily`.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -811,7 +891,7 @@
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "use the accepted graph147 ranked-transducer boundary as the next theorem target: prove the finish/root-margin field needed by StrengthenedGraph147RankedTransducerInvariantFamily for the yp_zm and zm_yp lanes.  The suffix-start and local-step theorem surfaces are already semantic; do not fall back to mapped class cases, selected-prefix covers, sampled ranks, accepted traces, exact affine keys, or stored path membership",
+  "next_recommended_slice": "use the accepted graph147 ranked-eval socket as the next theorem target: prove semantic branch start-margin facts for Graph147RankedEvalMarginSequenceBadFace, or instantiate StrengthenedGraph147RankedShardMarginInvariantFamily with a real margin invariant.  The suffix evaluator induction and final-potential side are already packaged; do not fall back to mapped class cases, selected-prefix covers, sampled ranks, accepted traces, exact affine keys, or stored path membership",
   "partial_lane_count": 2,
   "partial_lanes": [
     "yp_zm",

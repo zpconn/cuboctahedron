@@ -47,6 +47,12 @@ GRAPH147_DIRECT_EVAL_SOCKET_FILE = (
     / "BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean"
 )
 
+GRAPH147_RANKED_EVAL_SOCKET_FILE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean"
+)
+
 GRAPH147_COCYCLE_BRANCH_SMOKE_FILE = (
     ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
@@ -374,6 +380,31 @@ GRAPH147_RANKED_TRANSDUCER_TARGET_REQUIRED = [
     "graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix",
 ]
 
+GRAPH147_RANKED_EVAL_SOCKET_REQUIRED = [
+    "graph147RankedEvalNext",
+    "graph147RankedShardSuffixOk_eval_exists_finalPotential",
+    "graph147RankedShardSuffixOk_graph_eval_exists_finalPotential",
+    "graph147TargetCompletionTailRootMarginBound_of_ranked_eval_margin",
+    "graph147YpZmRootMarginBound_of_ranked_eval_margin",
+    "graph147ZmYpRootMarginBound_of_ranked_eval_margin",
+    "StrengthenedGraph147YpZmRankedEvalMarginFamily",
+    "StrengthenedGraph147ZmYpRankedEvalMarginFamily",
+    "StrengthenedGraph147RankedEvalMarginBundle",
+    "graph147RankedEval_margin_of_suffixInvariant",
+    "StrengthenedGraph147RankedEvalMarginInvariantFamily",
+    "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily",
+    "rootMarginBundle_of_rankedEvalMarginInvariantFamily_via_rankedEvalMarginBundle",
+    "StrengthenedGraph147RankedShardMarginInvariantFamily",
+    "Graph147RankedSuffixEvalMarginInv",
+    "rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle",
+    "rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle",
+    "Graph147RankedEvalMarginSequenceBadFace",
+    "Graph147TargetCompletionRootMarginSequenceBadFace",
+    "rootMarginBundle_of_graph147RankedEvalMarginSequenceBadFace",
+    "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle",
+    "rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle",
+]
+
 GRAPH147_COCYCLE_BRANCH_SMOKE_REQUIRED = [
     "graph147QuotientStep",
     "graph147YpZmBranchRawGain_contract",
@@ -627,6 +658,11 @@ def main() -> int:
         if GRAPH147_DIRECT_EVAL_SOCKET_FILE.exists()
         else ""
     )
+    graph147_ranked_eval_socket_text = (
+        GRAPH147_RANKED_EVAL_SOCKET_FILE.read_text()
+        if GRAPH147_RANKED_EVAL_SOCKET_FILE.exists()
+        else ""
+    )
     graph147_cocycle_branch_smoke_text = (
         GRAPH147_COCYCLE_BRANCH_SMOKE_FILE.read_text()
         if GRAPH147_COCYCLE_BRANCH_SMOKE_FILE.exists()
@@ -738,6 +774,12 @@ def main() -> int:
         contains_all(
             graph147_direct_eval_socket_text,
             GRAPH147_RANKED_TRANSDUCER_TARGET_REQUIRED,
+        )
+    )
+    graph147_ranked_eval_socket_ok, graph147_ranked_eval_socket_missing = (
+        contains_all(
+            graph147_ranked_eval_socket_text,
+            GRAPH147_RANKED_EVAL_SOCKET_REQUIRED,
         )
     )
     graph147_cocycle_branch_smoke_ok, graph147_cocycle_branch_smoke_missing = (
@@ -1248,6 +1290,15 @@ def main() -> int:
                     if graph147_ranked_transducer_target_ok
                     else "missing_graph147_ranked_transducer_boundary"
                 ),
+                "ranked_eval_socket_symbols": {
+                    symbol: symbol not in graph147_ranked_eval_socket_missing
+                    for symbol in GRAPH147_RANKED_EVAL_SOCKET_REQUIRED
+                },
+                "ranked_eval_socket_status": (
+                    "accepted_graph147_ranked_eval_socket"
+                    if graph147_ranked_eval_socket_ok
+                    else "missing_graph147_ranked_eval_socket"
+                ),
                 "cocycle_branch_smoke_symbols": {
                     symbol: symbol not in graph147_cocycle_branch_smoke_missing
                     for symbol in GRAPH147_COCYCLE_BRANCH_SMOKE_REQUIRED
@@ -1281,6 +1332,7 @@ def main() -> int:
                     if token in next_frontier_text
                     or token in target_completion_shard000_text
                     or token in graph147_direct_eval_socket_text
+                    or token in graph147_ranked_eval_socket_text
                     or token in graph147_cocycle_branch_smoke_text
                     or token in graph147_cocycle_edge_shards_text
                     or token in graph147_full_potential_shards_text
@@ -1307,6 +1359,11 @@ def main() -> int:
                     "for `StrengthenedGraph147RankedTransducerInvariantFamily`, "
                     "using `Graph147RankedShardSuffixOk` for suffix closure, "
                     "not a mapped class case or selected-prefix membership."
+                    "  The ranked-eval socket goes one step further: it proves "
+                    "the suffix evaluator induction and reduces production to "
+                    "a semantic branch start-margin predicate such as "
+                    "`Graph147RankedEvalMarginSequenceBadFace` or a "
+                    "`StrengthenedGraph147RankedShardMarginInvariantFamily`."
                     if graph147_direct_eval_socket_ok
                     else (
                     "graph147 now reaches terminal graph states 141 and 138 "
@@ -1627,6 +1684,41 @@ def main() -> int:
                 if token in graph147_direct_eval_socket_text
             ],
         },
+        "graph147_ranked_eval_socket": {
+            "status": (
+                "accepted_graph147_ranked_eval_socket"
+                if graph147_ranked_eval_socket_ok
+                else "missing_graph147_ranked_eval_socket"
+            ),
+            "file": (
+                str(GRAPH147_RANKED_EVAL_SOCKET_FILE.relative_to(ROOT))
+                if GRAPH147_RANKED_EVAL_SOCKET_FILE.exists()
+                else None
+            ),
+            "required_symbols": {
+                symbol: symbol not in graph147_ranked_eval_socket_missing
+                for symbol in GRAPH147_RANKED_EVAL_SOCKET_REQUIRED
+            },
+            "interpretation": (
+                "Graph147 ranked suffix evaluation is already packaged as a "
+                "semantic induction.  It proves evaluator existence/final "
+                "potential from Graph147RankedShardSuffixOk and reduces the "
+                "remaining production work to branch start-margin facts, "
+                "preferably Graph147RankedEvalMarginSequenceBadFace or "
+                "StrengthenedGraph147RankedShardMarginInvariantFamily."
+                if graph147_ranked_eval_socket_ok
+                else (
+                    "Graph147 has a ranked-transducer boundary, but the "
+                    "ranked suffix-eval/margin adapter socket is not yet "
+                    "visible to the audit."
+                )
+            ),
+            "forbidden_hits": [
+                token
+                for token in FORBIDDEN
+                if token in graph147_ranked_eval_socket_text
+            ],
+        },
         "direct_killed_layer4_portfolio": {
             "status": (
                 "accepted_graph183_graph221_direct_portfolio_socket"
@@ -1698,14 +1790,27 @@ def main() -> int:
                 )
                 else
                 (
-                    "use the accepted graph147 ranked-transducer boundary as "
-                    "the next theorem target: prove the finish/root-margin "
-                    "field needed by StrengthenedGraph147RankedTransducerInvariantFamily "
-                    "for the yp_zm and zm_yp lanes.  The suffix-start and "
-                    "local-step theorem surfaces are already semantic; do not "
-                    "fall back to mapped class cases, selected-prefix covers, "
-                    "sampled ranks, accepted traces, exact affine keys, or "
-                    "stored path membership"
+                    (
+                        "use the accepted graph147 ranked-eval socket as the "
+                        "next theorem target: prove semantic branch start-margin "
+                        "facts for Graph147RankedEvalMarginSequenceBadFace, or "
+                        "instantiate StrengthenedGraph147RankedShardMarginInvariantFamily "
+                        "with a real margin invariant.  The suffix evaluator "
+                        "induction and final-potential side are already packaged; "
+                        "do not fall back to mapped class cases, selected-prefix "
+                        "covers, sampled ranks, accepted traces, exact affine "
+                        "keys, or stored path membership"
+                        if graph147_ranked_eval_socket_ok
+                        else
+                        "use the accepted graph147 ranked-transducer boundary as "
+                        "the next theorem target: prove the finish/root-margin "
+                        "field needed by StrengthenedGraph147RankedTransducerInvariantFamily "
+                        "for the yp_zm and zm_yp lanes.  The suffix-start and "
+                        "local-step theorem surfaces are already semantic; do not "
+                        "fall back to mapped class cases, selected-prefix covers, "
+                        "sampled ranks, accepted traces, exact affine keys, or "
+                        "stored path membership"
+                    )
                     if graph147_ranked_transducer_target_ok
                     else
                     "use the accepted closed-language transducer boundary and "

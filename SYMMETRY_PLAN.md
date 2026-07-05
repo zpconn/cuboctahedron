@@ -117500,3 +117500,88 @@ branch or a branch-symmetric bundle.  Stop immediately if the proof wants a
 selected-prefix id, sampled rank/path, AcceptedTraceId, exact affine RHS,
 solved start point, or mapped-class case as the production membership witness.
 ```
+
+#### 2026-07-05 graph147 ranked-eval socket audit
+
+Status: accepted as the sharper current graph147 frontier.
+
+Follow-up inspection found that the graph147 ranked-transducer target had
+already been split further into:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+```
+
+That socket proves the deterministic suffix evaluator induction and packages
+the margin adapters around it.  The audit now records:
+
+```text
+graph147_ranked_eval_socket.status =
+  accepted_graph147_ranked_eval_socket
+```
+
+Key theorem surfaces:
+
+```lean
+theorem graph147RankedShardSuffixOk_eval_exists_finalPotential
+theorem graph147RankedShardSuffixOk_graph_eval_exists_finalPotential
+theorem graph147TargetCompletionTailRootMarginBound_of_ranked_eval_margin
+theorem graph147RankedEval_margin_of_suffixInvariant
+structure StrengthenedGraph147RankedEvalMarginInvariantFamily
+structure StrengthenedGraph147RankedShardMarginInvariantFamily
+def Graph147RankedSuffixEvalMarginInv
+def Graph147RankedEvalMarginSequenceBadFace
+def Graph147TargetCompletionRootMarginSequenceBadFace
+def rootMarginBundle_of_graph147RankedEvalMarginSequenceBadFace
+def rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle
+```
+
+Interpretation:
+
+```text
+The suffix evaluator existence and final-potential side are no longer the
+graph147 blocker.  Production should now prove semantic branch start-margin
+facts, preferably as `Graph147RankedEvalMarginSequenceBadFace`, or instantiate
+`StrengthenedGraph147RankedShardMarginInvariantFamily` with a real semantic
+margin invariant.  Do not go back to mapped class cases, selected-prefix
+covers, sampled ranks, accepted traces, exact affine keys, or stored path
+membership.
+```
+
+Commands run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/graph147_ranked_eval_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Results:
+
+```text
+graph147 ranked-eval socket: passed, elapsed 4.00s, peak RSS 3971 MiB,
+  min available 46223 MiB
+audit: passed; next_recommended_slice now targets
+  Graph147RankedEvalMarginSequenceBadFace or
+  StrengthenedGraph147RankedShardMarginInvariantFamily.
+```
+
+Next implementation target:
+
+```text
+Attempt the smallest real semantic branch start-margin theorem for graph147.
+First inspect whether the existing graph147 cocycle quotient diagnostics can
+instantiate `StrengthenedGraph147RankedShardMarginInvariantFamily`; if not,
+define a narrow `Graph147RankedEvalMarginSequenceBadFace` producer for one
+branch and prove it from closed holonomy/cancellation state.  Stop if the proof
+requires selected-prefix, sampled-rank/path, AcceptedTraceId,
+acceptedTraceOfId, exact affine RHS, solved start point, or stored-path
+membership.
+```
