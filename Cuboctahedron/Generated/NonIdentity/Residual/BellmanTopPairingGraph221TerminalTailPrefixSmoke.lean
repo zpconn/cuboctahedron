@@ -342,6 +342,108 @@ private theorem graph221_after_xp_tail_nil
       have hmem := TopPairingTargetCompletionTail.head_remaining htail
       simp [hremaining] at hmem
 
+private theorem graph221_tmmm_tmpm_yp_zp_tail_eq_xp
+    {rest : List Face}
+    (htail :
+      TopPairingTargetCompletionTail graph221TmmmTmpmYpZpState rest) :
+    rest = [Face.xp] := by
+  cases rest with
+  | nil =>
+      cases htail with
+      | nil hremaining _hsummary =>
+          simp [graph221TmmmTmpmYpZpState, graph221TmmmTmpmYpState,
+            graph221TmmmTmpmState, graph221TmmmState,
+            graph221TargetCompletionState, graph202TargetCompletionState,
+            graph186TargetCompletionState, graph171TargetCompletionState,
+            graph159TargetCompletionState, graph151TargetCompletionState,
+            TopPairingTargetCompletionState.next] at hremaining
+  | cons face tail =>
+      have hremaining := TopPairingTargetCompletionTail.head_remaining htail
+      have hface : face = Face.xp := by
+        cases face <;>
+          simp [graph221TmmmTmpmYpZpState, graph221TmmmTmpmYpState,
+            graph221TmmmTmpmState, graph221TmmmState,
+            graph221TargetCompletionState, graph202TargetCompletionState,
+            graph186TargetCompletionState, graph171TargetCompletionState,
+            graph159TargetCompletionState, graph151TargetCompletionState,
+            TopPairingTargetCompletionState.next] at hremaining ⊢
+      subst face
+      have htailNext := TopPairingTargetCompletionTail.tail_next htail
+      have htailNil :
+          tail = [] :=
+        graph221_after_xp_tail_nil (state := graph221TmmmTmpmYpZpState)
+          (by rfl) htailNext
+      subst tail
+      rfl
+
+private theorem graph221_tmmm_tmpm_zp_yp_tail_eq_xp
+    {rest : List Face}
+    (htail :
+      TopPairingTargetCompletionTail graph221TmmmTmpmZpYpState rest) :
+    rest = [Face.xp] := by
+  cases rest with
+  | nil =>
+      cases htail with
+      | nil hremaining _hsummary =>
+          simp [graph221TmmmTmpmZpYpState, graph221TmmmTmpmZpState,
+            graph221TmmmTmpmState, graph221TmmmState,
+            graph221TargetCompletionState, graph202TargetCompletionState,
+            graph186TargetCompletionState, graph171TargetCompletionState,
+            graph159TargetCompletionState, graph151TargetCompletionState,
+            TopPairingTargetCompletionState.next] at hremaining
+  | cons face tail =>
+      have hremaining := TopPairingTargetCompletionTail.head_remaining htail
+      have hface : face = Face.xp := by
+        cases face <;>
+          simp [graph221TmmmTmpmZpYpState, graph221TmmmTmpmZpState,
+            graph221TmmmTmpmState, graph221TmmmState,
+            graph221TargetCompletionState, graph202TargetCompletionState,
+            graph186TargetCompletionState, graph171TargetCompletionState,
+            graph159TargetCompletionState, graph151TargetCompletionState,
+            TopPairingTargetCompletionState.next] at hremaining ⊢
+      subst face
+      have htailNext := TopPairingTargetCompletionTail.tail_next htail
+      have htailNil :
+          tail = [] :=
+        graph221_after_xp_tail_nil (state := graph221TmmmTmpmZpYpState)
+          (by rfl) htailNext
+      subst tail
+      rfl
+
+private theorem graph221_yp_tmpm_tmmm_zp_tail_eq_xp
+    {rest : List Face}
+    (htail :
+      TopPairingTargetCompletionTail graph221YpTmpmTmmmZpState rest) :
+    rest = [Face.xp] := by
+  cases rest with
+  | nil =>
+      cases htail with
+      | nil hremaining _hsummary =>
+          simp [graph221YpTmpmTmmmZpState, graph221YpTmpmTmmmState,
+            graph221YpTmpmState, graph221YpState,
+            graph221TargetCompletionState, graph202TargetCompletionState,
+            graph186TargetCompletionState, graph171TargetCompletionState,
+            graph159TargetCompletionState, graph151TargetCompletionState,
+            TopPairingTargetCompletionState.next] at hremaining
+  | cons face tail =>
+      have hremaining := TopPairingTargetCompletionTail.head_remaining htail
+      have hface : face = Face.xp := by
+        cases face <;>
+          simp [graph221YpTmpmTmmmZpState, graph221YpTmpmTmmmState,
+            graph221YpTmpmState, graph221YpState,
+            graph221TargetCompletionState, graph202TargetCompletionState,
+            graph186TargetCompletionState, graph171TargetCompletionState,
+            graph159TargetCompletionState, graph151TargetCompletionState,
+            TopPairingTargetCompletionState.next] at hremaining ⊢
+      subst face
+      have htailNext := TopPairingTargetCompletionTail.tail_next htail
+      have htailNil :
+          tail = [] :=
+        graph221_after_xp_tail_nil (state := graph221YpTmpmTmmmZpState)
+          (by rfl) htailNext
+      subst tail
+      rfl
+
 def graph221Tail029 : List Face :=
   [Face.tmmm, Face.tmpm, Face.yp, Face.zp, Face.xp]
 
@@ -377,6 +479,173 @@ def graph221FinishState031 : TerminalStepState :=
 
 def graph221AcceptedTailSuffixOk (rest : List Face) : Prop :=
   rest = graph221Tail029 ∨ rest = graph221Tail030 ∨ rest = graph221Tail031
+
+theorem graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
+    {rest : List Face}
+    (htail : Graph221TargetCompletionTail rest) :
+    graph221AcceptedTailSuffixOk rest ∨
+      ∃ tail, rest = Face.yp :: Face.tmpm :: Face.zp :: tail := by
+  cases rest with
+  | nil =>
+      cases htail with
+      | nil hremaining _hsummary =>
+          simp [Graph221TargetCompletionTail, graph221TargetCompletionState,
+            graph202TargetCompletionState, graph186TargetCompletionState,
+            graph171TargetCompletionState, graph159TargetCompletionState,
+            graph151TargetCompletionState, TopPairingTargetCompletionState.next]
+            at hremaining
+  | cons face1 rest1 =>
+      rcases graph221_head_of_targetCompletionTail htail with hface1 | hface1
+      · subst face1
+        have htail1 := TopPairingTargetCompletionTail.tail_next htail
+        cases rest1 with
+        | nil =>
+            cases htail1 with
+            | nil hremaining _hsummary =>
+                simp [graph221TmmmState, graph221TargetCompletionState,
+                  graph202TargetCompletionState, graph186TargetCompletionState,
+                  graph171TargetCompletionState, graph159TargetCompletionState,
+                  graph151TargetCompletionState, TopPairingTargetCompletionState.next]
+                  at hremaining
+        | cons face2 rest2 =>
+            have hface2 := graph221_tmmm_head_of_targetCompletionTail htail1
+            subst face2
+            have htail2 := TopPairingTargetCompletionTail.tail_next htail1
+            cases rest2 with
+            | nil =>
+                cases htail2 with
+                | nil hremaining _hsummary =>
+                    simp [graph221TmmmTmpmState, graph221TmmmState,
+                      graph221TargetCompletionState, graph202TargetCompletionState,
+                      graph186TargetCompletionState, graph171TargetCompletionState,
+                      graph159TargetCompletionState, graph151TargetCompletionState,
+                      TopPairingTargetCompletionState.next] at hremaining
+            | cons face3 rest3 =>
+                rcases graph221_tmmm_tmpm_head_of_targetCompletionTail htail2 with
+                  hface3 | hface3
+                · subst face3
+                  have htail3 := TopPairingTargetCompletionTail.tail_next htail2
+                  cases rest3 with
+                  | nil =>
+                      cases htail3 with
+                      | nil hremaining _hsummary =>
+                          simp [graph221TmmmTmpmYpState,
+                            graph221TmmmTmpmState, graph221TmmmState,
+                            graph221TargetCompletionState,
+                            graph202TargetCompletionState,
+                            graph186TargetCompletionState,
+                            graph171TargetCompletionState,
+                            graph159TargetCompletionState,
+                            graph151TargetCompletionState,
+                            TopPairingTargetCompletionState.next] at hremaining
+                  | cons face4 rest4 =>
+                      have hface4 :=
+                        graph221_tmmm_tmpm_yp_head_of_targetCompletionTail
+                          htail3
+                      subst face4
+                      have htail4 :=
+                        TopPairingTargetCompletionTail.tail_next htail3
+                      have hrest4 :=
+                        graph221_tmmm_tmpm_yp_zp_tail_eq_xp htail4
+                      subst rest4
+                      exact Or.inl (Or.inl rfl)
+                · subst face3
+                  have htail3 := TopPairingTargetCompletionTail.tail_next htail2
+                  cases rest3 with
+                  | nil =>
+                      cases htail3 with
+                      | nil hremaining _hsummary =>
+                          simp [graph221TmmmTmpmZpState,
+                            graph221TmmmTmpmState, graph221TmmmState,
+                            graph221TargetCompletionState,
+                            graph202TargetCompletionState,
+                            graph186TargetCompletionState,
+                            graph171TargetCompletionState,
+                            graph159TargetCompletionState,
+                            graph151TargetCompletionState,
+                            TopPairingTargetCompletionState.next] at hremaining
+                  | cons face4 rest4 =>
+                      have hface4 :=
+                        graph221_tmmm_tmpm_zp_head_of_targetCompletionTail
+                          htail3
+                      subst face4
+                      have htail4 :=
+                        TopPairingTargetCompletionTail.tail_next htail3
+                      have hrest4 :=
+                        graph221_tmmm_tmpm_zp_yp_tail_eq_xp htail4
+                      subst rest4
+                      exact Or.inl (Or.inr (Or.inl rfl))
+      · subst face1
+        have htail1 := TopPairingTargetCompletionTail.tail_next htail
+        cases rest1 with
+        | nil =>
+            cases htail1 with
+            | nil hremaining _hsummary =>
+                simp [graph221YpState, graph221TargetCompletionState,
+                  graph202TargetCompletionState, graph186TargetCompletionState,
+                  graph171TargetCompletionState, graph159TargetCompletionState,
+                  graph151TargetCompletionState, TopPairingTargetCompletionState.next]
+                  at hremaining
+        | cons face2 rest2 =>
+            have hface2 := graph221_yp_head_of_targetCompletionTail htail1
+            subst face2
+            have htail2 := TopPairingTargetCompletionTail.tail_next htail1
+            cases rest2 with
+            | nil =>
+                cases htail2 with
+                | nil hremaining _hsummary =>
+                    simp [graph221YpTmpmState, graph221YpState,
+                      graph221TargetCompletionState, graph202TargetCompletionState,
+                      graph186TargetCompletionState, graph171TargetCompletionState,
+                      graph159TargetCompletionState, graph151TargetCompletionState,
+                      TopPairingTargetCompletionState.next] at hremaining
+            | cons face3 rest3 =>
+                rcases graph221_yp_tmpm_head_of_targetCompletionTail htail2 with
+                  hface3 | hface3
+                · subst face3
+                  have htail3 := TopPairingTargetCompletionTail.tail_next htail2
+                  cases rest3 with
+                  | nil =>
+                      cases htail3 with
+                      | nil hremaining _hsummary =>
+                          simp [graph221YpTmpmTmmmState,
+                            graph221YpTmpmState, graph221YpState,
+                            graph221TargetCompletionState,
+                            graph202TargetCompletionState,
+                            graph186TargetCompletionState,
+                            graph171TargetCompletionState,
+                            graph159TargetCompletionState,
+                            graph151TargetCompletionState,
+                            TopPairingTargetCompletionState.next] at hremaining
+                  | cons face4 rest4 =>
+                      have hface4 :=
+                        graph221_yp_tmpm_tmmm_head_of_targetCompletionTail
+                          htail3
+                      subst face4
+                      have htail4 :=
+                        TopPairingTargetCompletionTail.tail_next htail3
+                      have hrest4 :=
+                        graph221_yp_tmpm_tmmm_zp_tail_eq_xp htail4
+                      subst rest4
+                      exact Or.inl (Or.inr (Or.inr rfl))
+                · subst face3
+                  exact Or.inr ⟨rest3, rfl⟩
+
+theorem graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval
+    {rest : List Face} {finish : StrengthenedClosedEvalState} {gain : Int}
+    (htail : Graph221TargetCompletionTail rest)
+    (heval :
+      evalLabelStepFn strengthenedClosedEvalNext graph221StrengthenedEvalState
+          rest =
+        some (finish, gain)) :
+    graph221AcceptedTailSuffixOk rest := by
+  rcases graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
+      htail with hok | hblocked
+  · exact hok
+  · rcases hblocked with ⟨tail, hrest⟩
+    subst rest
+    rw [graph221YpTmpmZp_strengthenedEval_none tail] at heval
+    contradiction
 
 theorem graph221Tail029_split :
     graph221Tail029 = graph221TailPrefix029 ++ graph221TailPrefixRemaining := by

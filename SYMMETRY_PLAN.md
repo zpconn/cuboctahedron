@@ -104535,6 +104535,8 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   Graph221TargetCompletionTail
   graph221_head_of_targetCompletionTail
   graph221_yp_tmpm_head_of_targetCompletionTail
+  graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
+  graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval
   graph221AcceptedTailSuffixOk
   graph221TailPrefix029Eval
   graph221TailPrefix030Eval
@@ -104555,9 +104557,11 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
 
   Each suffix is split into a four-face terminal prefix plus final schedule
   `xp`, then discharged through the existing terminal-state producer socket.
-  This is still conditional on `graph221AcceptedTailSuffixOk`; it does not use
-  sampled ranks, selected-prefix ids, accepted-trace ids as membership keys,
-  exact affine RHS, or solved start-point data.
+  The continuation itself is filtered by `graph221AcceptedTailSuffixOk`.  That
+  filter is now derived locally from target-completion plus a successful
+  strengthened product-state evaluator run; it does not use sampled ranks,
+  selected-prefix ids, accepted-trace ids as membership keys, exact affine RHS,
+  or solved start-point data.
 
 - Important negative result:
   an attempted stronger target-completion-only classifier was too strong.
@@ -104595,11 +104599,29 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
         none
   ```
 
-  This is not the full suffix filter yet, but it validates the next theorem
-  surface: `graph221AcceptedTailSuffixOk` must be derived by threading a
-  suffix predicate through the strengthened product-state evaluator, using
-  `evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix` or the
-  existing split-10M semantic gate sockets.
+  The local suffix filter is now checked:
+
+  ```lean
+  theorem graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
+      (htail : Graph221TargetCompletionTail rest) :
+      graph221AcceptedTailSuffixOk rest \/
+        exists tail, rest = Face.yp :: Face.tmpm :: Face.zp :: tail
+
+  theorem graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval
+      (htail : Graph221TargetCompletionTail rest)
+      (heval :
+        evalLabelStepFn strengthenedClosedEvalNext graph221StrengthenedEvalState
+            rest =
+          some (finish, gain)) :
+      graph221AcceptedTailSuffixOk rest
+  ```
+
+  This is the desired product-state discriminator shape for the graph221
+  boundary: target-completion supplies the finite semantic alternatives, and
+  the strengthened evaluator rejects the spurious `yp,tmpm,zp,...` alternative.
+  The next theorem surface is no longer the local suffix filter; it is the
+  lane-level bridge that supplies the `heval` premise from
+  `TopPairingStrengthenedClosedLanguageAtRank` and the `zm,tmpp` prefix.
 
 - Updated readiness audit:
 
@@ -104617,10 +104639,13 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   graph221_filtered_symbols include:
     graph221YpTmpmStrengthenedEvalState_zp_none
     graph221YpTmpmZp_strengthenedEval_none
+    graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
+    graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval
   next_recommended_slice =
-    derive the graph221 accepted-suffix filter from the strengthened product
-    state with Bellman/tri-source constraints, then lift the zm_tmpp lane
-    through the same four-piece terminal-machine pattern validated by graph183
+    lift the zm_tmpp lane through graph221 by deriving the strengthened
+    evaluator premise from the strengthened closed-language prefix, then feed
+    the resulting accepted suffix into the same four-piece terminal-machine
+    pattern validated by graph183
   ```
 
 - Commands:
@@ -104647,14 +104672,19 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
 
   | Check | Result | Elapsed | Peak Tree RSS | Min Available |
   | --- | --- | ---: | ---: | ---: |
-  | focused graph221 filtered continuation build | pass | `5.00s` | `4100 MiB` | `46014 MiB` |
+  | focused graph221 filtered continuation build | pass | `6.03s` | `4145 MiB` | `45964 MiB` |
   | layer-4 readiness audit | pass | n/a | n/a | n/a |
   | forbidden-token scan on touched proof surfaces | pass | n/a | n/a | n/a |
 
 - Next acceptance gate:
-  implement a product-state local theorem at graph221 that consumes the
-  strengthened semantic state and proves `graph221AcceptedTailSuffixOk` for
-  any production tail.  If that theorem starts requiring exact affine RHS,
-  solved start-point data, selected traces, sampled ranks, or one branch per
-  observed path, stop and run the cocycle/cancellation-summary quotient
-  experiment before emitting more graph221 data.
+  implement the lane-level graph221 bridge: from
+  `TopPairingStrengthenedClosedLanguageAtRank
+  AcceptedSequenceBadFaceAtRank rank Face.ym` plus the already proved
+  `zm,tmpp` forced-prefix chain, produce the strengthened evaluator success
+  premise required by
+  `graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval`,
+  then feed the resulting accepted suffix to
+  `graph221FilteredTailPrefixContinuation`.  If that theorem starts requiring
+  exact affine RHS, solved start-point data, selected traces, sampled ranks, or
+  one branch per observed path, stop and run the cocycle/cancellation-summary
+  quotient experiment before emitting more graph221 data.

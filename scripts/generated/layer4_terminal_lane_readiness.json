@@ -72,6 +72,8 @@
       "graph221_filtered_symbols": {
         "Graph221TargetCompletionTail": true,
         "graph221AcceptedTailSuffixOk": true,
+        "graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval": true,
+        "graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail": true,
         "graph221FilteredTailPrefixContinuation": true,
         "graph221StrengthenedEvalState_next": true,
         "graph221TailPrefix029Eval": true,
@@ -85,7 +87,7 @@
         "graph221_head_of_targetCompletionTail": true,
         "graph221_yp_tmpm_head_of_targetCompletionTail": true
       },
-      "remaining_gap": "graph221 now has a rank-free filtered tail-prefix continuation for the three graph-accepted suffixes.  This is not a full lane gate yet: target-completion alone permits at least one extra head after the yp,tmpm branch, so the next proof must derive the accepted suffix filter from the strengthened product state with Bellman/tri-source constraints.",
+      "remaining_gap": "graph221 now has a rank-free filtered tail-prefix continuation for the three graph-accepted suffixes, plus a local theorem deriving that suffix filter from target-completion and the strengthened product-state evaluator. This is not a full lane gate yet: the next proof must connect the strengthened closed-language rank/prefix hypotheses to this graph221 evaluator premise and terminal continuation.",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
@@ -121,7 +123,7 @@
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "derive the graph221 accepted-suffix filter from the strengthened product state with Bellman/tri-source constraints, then lift the zm_tmpp lane through the same four-piece terminal-machine pattern validated by graph183",
+  "next_recommended_slice": "lift the zm_tmpp lane through graph221 by deriving the strengthened evaluator premise from the strengthened closed-language prefix, then feed the resulting accepted suffix into the same four-piece terminal-machine pattern validated by graph183",
   "partial_lane_count": 1,
   "partial_lanes": [
     "zm_tmpp"

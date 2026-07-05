@@ -103,6 +103,8 @@ GRAPH221_FILTERED_REQUIRED = [
     "graph221YpTmpmZp_strengthenedEval_none",
     "graph221_head_of_targetCompletionTail",
     "graph221_yp_tmpm_head_of_targetCompletionTail",
+    "graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail",
+    "graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval",
     "graph221AcceptedTailSuffixOk",
     "graph221TailPrefix029Eval",
     "graph221TailPrefix030Eval",
@@ -198,12 +200,13 @@ def main() -> int:
                 ],
                 "remaining_gap": (
                     "graph221 now has a rank-free filtered tail-prefix "
-                    "continuation for the three graph-accepted suffixes.  "
-                    "This is not a full lane gate yet: target-completion "
-                    "alone permits at least one extra head after the "
-                    "yp,tmpm branch, so the next proof must derive the "
-                    "accepted suffix filter from the strengthened product "
-                    "state with Bellman/tri-source constraints."
+                    "continuation for the three graph-accepted suffixes, "
+                    "plus a local theorem deriving that suffix filter from "
+                    "target-completion and the strengthened product-state "
+                    "evaluator. This is not a full lane gate yet: the next "
+                    "proof must connect the strengthened closed-language "
+                    "rank/prefix hypotheses to this graph221 evaluator "
+                    "premise and terminal continuation."
                     if graph221_filtered_ok
                     else (
                     "graph151 now advances semantically through tppp to "
@@ -260,10 +263,11 @@ def main() -> int:
         "missing_lanes": missing,
         "lanes": lane_report,
         "next_recommended_slice": (
-            "derive the graph221 accepted-suffix filter from the strengthened "
-            "product state with Bellman/tri-source constraints, then lift the "
-            "zm_tmpp lane through the same four-piece terminal-machine pattern "
-            "validated by graph183"
+            "lift the zm_tmpp lane through graph221 by deriving the "
+            "strengthened evaluator premise from the strengthened "
+            "closed-language prefix, then feed the resulting accepted suffix "
+            "into the same four-piece terminal-machine pattern validated by "
+            "graph183"
             if graph221_filtered_ok
             else (
                 "continue the zm_tmpp semantic continuation at the graph221 "
