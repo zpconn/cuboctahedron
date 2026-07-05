@@ -1048,6 +1048,48 @@ theorem graph147ZmYp_targetCompletionTail_of_strengthened_prefix
     (graph147_targetCancellationTail_of_triCursor
       (graph147ZmYp_triCursorTail_of_prefix hcursor hprefix))
 
+/-- The combined transducer/evaluator state at the shared graph-147 prefix. -/
+def graph147RankedPrefix4EvalState :
+    TopPairingTransducerEvalState StrengthenedClosedEvalState where
+  transducer := strengthenedClosedPrefix4YpZmTransducerState
+  graph := strengthenedClosedPrefix4YpZmEvalState
+
+theorem graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest) :
+    Graph147RankedShardSuffixOk rank graph147RankedPrefix4EvalState rest := by
+  refine Or.inl ⟨.prefix4YpZm, rfl,
+    ShardState.inGraph147Lane_prefix4YpZm, ?_⟩
+  exact
+    ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk
+      (state := .prefix4YpZm)
+      (by
+        simpa [Graph147TargetCompletionTail, completionState] using
+          graph147YpZm_targetCompletionTail_of_strengthened_prefix
+            hstrengthened hprefix)
+
+theorem graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym)
+    (hprefix : Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest) :
+    Graph147RankedShardSuffixOk rank graph147RankedPrefix4EvalState rest := by
+  refine Or.inl ⟨.prefix4YpZm, rfl,
+    ShardState.inGraph147Lane_prefix4YpZm, ?_⟩
+  exact
+    ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk
+      (state := .prefix4YpZm)
+      (by
+        simpa [Graph147TargetCompletionTail, completionState] using
+          graph147ZmYp_targetCompletionTail_of_strengthened_prefix
+            hstrengthened hprefix)
+
 /--
 Turn the intended margin-only `yp, zm` producer into the compatibility
 tail-plus-margin family.  The target-completion tail is supplied by the

@@ -107626,6 +107626,60 @@ field wants observed-path membership or exact affine keys, stop this lane and
 move to the certified segment/cocycle quotient route before emitting broader
 Lean.
 
+Follow-up suffix-start slice:
+
+```lean
+def graph147RankedPrefix4EvalState
+theorem graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix
+theorem graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix
+```
+
+These theorems prove that once a strengthened closed rank is known to be in
+one of the two graph147 layer-4 branches, the suffix after the fixed four-face
+prefix satisfies `Graph147RankedShardSuffixOk` at the shared graph147 prefix
+state.  They reuse the already checked semantic target-completion tail proofs:
+
+```lean
+graph147YpZm_targetCompletionTail_of_strengthened_prefix
+graph147ZmYp_targetCompletionTail_of_strengthened_prefix
+ShardTargetSuffixOk.of_targetCompletionTail_externalTailOk
+```
+
+Focused hard-capped check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_suffix_start_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+Result:
+
+```text
+pass; elapsed=3.00s; peak_tree_rss=3988 MiB; hard_as=8192 MiB;
+min_available=46190 MiB
+```
+
+Updated frontier audit result:
+
+```text
+status = ready_for_ranked_transducer_invariant_producer
+socket.graph147RankedPrefix4EvalState = true
+socket.graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix = true
+socket.graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix = true
+```
+
+Interpretation: the graph147 branch-local `suffixStart` shape is now checked.
+The whole-root `suffixStart` field still needs a branch classifier that routes
+strengthened closed ranks into `yp,zm` or `zm,yp` graph147 lanes before applying
+these theorems.  The `finish` margin field remains the main mathematical gap.
+
 ### 2026-07-05 current strategy after the graph147 quotient pivot
 
 The latest GPT5.5 Pro guidance has been adopted as the active rule for the
