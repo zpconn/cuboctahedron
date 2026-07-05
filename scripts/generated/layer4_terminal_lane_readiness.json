@@ -62,7 +62,21 @@
         "strengthenedPrefix7Graph176TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix7Graph178TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now advances through graph153/155, graph163/166, and graph176/178.  The latest forced steps are graph176 to tppm/graph191 and graph178 to tpmm/graph194.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph191 and graph194 before it becomes a terminal semantic gate.",
+      "graph191_194_symbols": {
+        "Graph191TargetCompletionTail": true,
+        "Graph194TargetCompletionTail": true,
+        "graph191TargetCompletionState": true,
+        "graph191_head_of_targetCompletionTail": true,
+        "graph194TargetCompletionState": true,
+        "graph194_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix8YpZmTmmpTpmpTpppTpmmEvalState": true,
+        "strengthenedClosedPrefix8YpZmZpTmmmTpmmTppmEvalState": true,
+        "strengthenedClosed_prefix8_yp_zm_tmmp_tpmp_tppp_tpmm_next_from_graph178": true,
+        "strengthenedClosed_prefix8_yp_zm_zp_tmmm_tpmm_tppm_next_from_graph176": true,
+        "strengthenedPrefix8Graph191TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix8Graph194TargetCompletionLocalBranchTable": true
+      },
+      "remaining_gap": "graph147 now advances through graph191 and graph194.  The latest forced steps are graph191 to tpmp/graph208 and graph194 to tmpp/graph211.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph208 and graph211 before it becomes a terminal semantic gate.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -70,7 +84,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph176_graph178_target_completion_local_table",
+      "status": "partial_graph191_graph194_target_completion_local_table",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,
@@ -212,7 +226,21 @@
         "strengthenedPrefix7Graph176TargetCompletionLocalBranchTable": true,
         "strengthenedPrefix7Graph178TargetCompletionLocalBranchTable": true
       },
-      "remaining_gap": "graph147 now advances through graph153/155, graph163/166, and graph176/178.  The latest forced steps are graph176 to tppm/graph191 and graph178 to tpmm/graph194.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph191 and graph194 before it becomes a terminal semantic gate.",
+      "graph191_194_symbols": {
+        "Graph191TargetCompletionTail": true,
+        "Graph194TargetCompletionTail": true,
+        "graph191TargetCompletionState": true,
+        "graph191_head_of_targetCompletionTail": true,
+        "graph194TargetCompletionState": true,
+        "graph194_head_of_targetCompletionTail": true,
+        "strengthenedClosedPrefix8YpZmTmmpTpmpTpppTpmmEvalState": true,
+        "strengthenedClosedPrefix8YpZmZpTmmmTpmmTppmEvalState": true,
+        "strengthenedClosed_prefix8_yp_zm_tmmp_tpmp_tppp_tpmm_next_from_graph178": true,
+        "strengthenedClosed_prefix8_yp_zm_zp_tmmm_tpmm_tppm_next_from_graph176": true,
+        "strengthenedPrefix8Graph191TargetCompletionLocalBranchTable": true,
+        "strengthenedPrefix8Graph194TargetCompletionLocalBranchTable": true
+      },
+      "remaining_gap": "graph147 now advances through graph191 and graph194.  The latest forced steps are graph191 to tpmp/graph208 and graph194 to tmpp/graph211.  The lane still needs deterministic target-completion/evaluator suffix continuations from graph208 and graph211 before it becomes a terminal semantic gate.",
       "required_symbols": {
         "Graph147TargetCompletionTail": true,
         "graph147TargetCompletionState": true,
@@ -220,7 +248,7 @@
         "strengthenedClosedPrefix4YpZm_eval_eq_zm_yp": true,
         "strengthenedPrefix4Graph147TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph176_graph178_target_completion_local_table",
+      "status": "partial_graph191_graph194_target_completion_local_table",
       "suffix_symbols": {
         "Graph153TargetCompletionTail": true,
         "Graph155TargetCompletionTail": true,

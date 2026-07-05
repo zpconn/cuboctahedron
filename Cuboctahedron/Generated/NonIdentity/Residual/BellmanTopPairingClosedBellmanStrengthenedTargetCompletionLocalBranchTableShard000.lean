@@ -17,6 +17,8 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellman
 inductive ShardState where
   | prefix4YpZm
   | prefix5YpZmZp
+  | prefix8YpZmZpTmmmTpmmTppm
+  | prefix8YpZmTmmpTpmpTpppTpmm
   | prefix7YpZmZpTmmmTpmm
   | prefix7YpZmTmmpTpmpTppp
   | prefix6YpZmZpTmmm
@@ -26,17 +28,19 @@ inductive ShardState where
   | prefix4ZmTmpp
   deriving DecidableEq, Repr
 
-def emittedShardStateCount : Nat := 9
-def emittedShardBranchCount : Nat := 10
+def emittedShardStateCount : Nat := 11
+def emittedShardBranchCount : Nat := 12
 
 theorem emittedShardCount_audit :
-    emittedShardStateCount = 9 /\
-      emittedShardBranchCount = 10 := by
+    emittedShardStateCount = 11 /\
+      emittedShardBranchCount = 12 := by
   decide
 
 def evalState : ShardState -> StrengthenedClosedEvalState
   | .prefix4YpZm => strengthenedClosedPrefix4YpZmEvalState
   | .prefix5YpZmZp => strengthenedClosedPrefix5YpZmZpEvalState
+  | .prefix8YpZmZpTmmmTpmmTppm => strengthenedClosedPrefix8YpZmZpTmmmTpmmTppmEvalState
+  | .prefix8YpZmTmmpTpmpTpppTpmm => strengthenedClosedPrefix8YpZmTmmpTpmpTpppTpmmEvalState
   | .prefix7YpZmZpTmmmTpmm => strengthenedClosedPrefix7YpZmZpTmmmTpmmEvalState
   | .prefix7YpZmTmmpTpmpTppp => strengthenedClosedPrefix7YpZmTmmpTpmpTpppEvalState
   | .prefix6YpZmZpTmmm => strengthenedClosedPrefix6YpZmZpTmmmEvalState
@@ -48,6 +52,8 @@ def evalState : ShardState -> StrengthenedClosedEvalState
 def completionState : ShardState -> TopPairingTargetCompletionState
   | .prefix4YpZm => graph147TargetCompletionState
   | .prefix5YpZmZp => graph153TargetCompletionState
+  | .prefix8YpZmZpTmmmTpmmTppm => graph191TargetCompletionState
+  | .prefix8YpZmTmmpTpmpTpppTpmm => graph194TargetCompletionState
   | .prefix7YpZmZpTmmmTpmm => graph176TargetCompletionState
   | .prefix7YpZmTmmpTpmpTppp => graph178TargetCompletionState
   | .prefix6YpZmZpTmmm => graph163TargetCompletionState
@@ -62,6 +68,8 @@ def localBranchTable :
         (evalState state) (completionState state)
   | .prefix4YpZm => strengthenedPrefix4Graph147TargetCompletionLocalBranchTable
   | .prefix5YpZmZp => strengthenedPrefix5Graph153TargetCompletionLocalBranchTable
+  | .prefix8YpZmZpTmmmTpmmTppm => strengthenedPrefix8Graph191TargetCompletionLocalBranchTable
+  | .prefix8YpZmTmmpTpmpTpppTpmm => strengthenedPrefix8Graph194TargetCompletionLocalBranchTable
   | .prefix7YpZmZpTmmmTpmm => strengthenedPrefix7Graph176TargetCompletionLocalBranchTable
   | .prefix7YpZmTmmpTpmpTppp => strengthenedPrefix7Graph178TargetCompletionLocalBranchTable
   | .prefix6YpZmZpTmmm => strengthenedPrefix6Graph163TargetCompletionLocalBranchTable
