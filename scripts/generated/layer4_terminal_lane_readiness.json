@@ -1,0 +1,81 @@
+{
+  "lanes": {
+    "tmpm_tppm": {
+      "file": null,
+      "forbidden_hits": [],
+      "fourth": "Face.tppm",
+      "required_symbols": {},
+      "status": "missing_terminal_lane_semantic_gate",
+      "third": "Face.tmpm"
+    },
+    "tmpm_zm": {
+      "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean",
+      "forbidden_hits": [],
+      "fourth": "Face.zm",
+      "required_symbols": {
+        "graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic": true,
+        "graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_via_progress": true,
+        "graph183Layer4CompletionTail_of_strengthened_prefix": true,
+        "graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix_semantic": true,
+        "graph183Layer4ProgressGate_of_strengthened_prefix": true
+      },
+      "status": "validated_one_lane_semantic_gate",
+      "third": "Face.tmpm"
+    },
+    "yp_tmmm": {
+      "file": null,
+      "forbidden_hits": [],
+      "fourth": "Face.tmmm",
+      "required_symbols": {},
+      "status": "missing_terminal_lane_semantic_gate",
+      "third": "Face.yp"
+    },
+    "yp_zm": {
+      "file": null,
+      "forbidden_hits": [],
+      "fourth": "Face.zm",
+      "required_symbols": {},
+      "status": "missing_terminal_lane_semantic_gate",
+      "third": "Face.yp"
+    },
+    "zm_tmpp": {
+      "file": null,
+      "forbidden_hits": [],
+      "fourth": "Face.tmpp",
+      "required_symbols": {},
+      "status": "missing_terminal_lane_semantic_gate",
+      "third": "Face.zm"
+    },
+    "zm_yp": {
+      "file": null,
+      "forbidden_hits": [],
+      "fourth": "Face.yp",
+      "required_symbols": {},
+      "status": "missing_terminal_lane_semantic_gate",
+      "third": "Face.zm"
+    },
+    "zm_zp": {
+      "file": null,
+      "forbidden_hits": [],
+      "fourth": "Face.zp",
+      "required_symbols": {},
+      "status": "missing_terminal_lane_semantic_gate",
+      "third": "Face.zm"
+    }
+  },
+  "missing_lane_count": 6,
+  "missing_lanes": [
+    "tmpm_tppm",
+    "yp_tmmm",
+    "yp_zm",
+    "zm_tmpp",
+    "zm_yp",
+    "zm_zp"
+  ],
+  "next_recommended_slice": "instantiate the graph183 four-piece semantic terminal-machine pattern for one additional layer-4 lane before promoting an all-lane emitter",
+  "status": "one_lane_validated_remaining_lanes_missing",
+  "validated_lane_count": 1,
+  "validated_lanes": [
+    "tmpm_zm"
+  ]
+}

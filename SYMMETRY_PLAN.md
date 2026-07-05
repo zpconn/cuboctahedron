@@ -104163,3 +104163,52 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   either factor this into a generic branch-local structure in the terminal
   frontier socket, or instantiate the same four-piece pattern for another
   layer-4 lane to test whether the abstraction remains small.
+
+### 2026-07-05 layer-4 terminal lane readiness audit
+
+- Added:
+
+  ```text
+  scripts/audit_layer4_terminal_lane_readiness.py
+  scripts/generated/layer4_terminal_lane_readiness.json
+  ```
+
+- This is a planning audit, not proof evidence.  It statically checks which of
+  the seven layer-4 frontier lanes currently expose the same semantic
+  terminal-machine gate surface validated by graph183:
+
+  - first-four `TerminalContainedEvalProgressGate`;
+  - semantic target-completion tail from closed-language fields;
+  - filtered/terminal suffix evaluator;
+  - initial-state `TerminalContainedEvalPrefixGate`;
+  - no sampled rank/path/selected-prefix names.
+
+- Result:
+
+  ```text
+  validated_lane_count = 1
+  validated_lanes = [tmpm_zm]
+  missing_lane_count = 6
+  missing_lanes =
+    [tmpm_tppm, yp_tmmm, yp_zm, zm_tmpp, zm_yp, zm_zp]
+  status = one_lane_validated_remaining_lanes_missing
+  ```
+
+- Commands:
+
+  ```bash
+  python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+  python3 scripts/audit_layer4_terminal_lane_readiness.py
+  ```
+
+- Accepted implication:
+  the graph183 `tmpm,zm` lane is validated as a semantic terminal-machine
+  architecture slice, but the terminal-machine route is not yet an accepted
+  all-lane coverage backend.  The next acceptance gate is to instantiate the
+  graph183 four-piece pattern for one additional layer-4 lane before promoting
+  any all-lane emitter or build-time projection.
+
+- Rejected implication:
+  the graph183 lane alone does not prove enough coverage, does not justify a
+  full build-time projection, and does not replace the existing mapped
+  portfolio coverage sockets.
