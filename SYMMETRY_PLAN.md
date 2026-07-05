@@ -105207,6 +105207,77 @@ Remaining hard gap:
   observed path classes, stop and run the cocycle/cancellation-summary quotient
   experiment before adding more membership keys.
 
+### 2026-07-05 graph147 ranked transducer frontier audit accepted
+
+Added:
+
+```text
+scripts/audit_graph147_ranked_transducer_frontier.py
+scripts/generated/graph147_ranked_transducer_frontier.json
+scripts/generated/graph147_ranked_transducer_frontier.md
+```
+
+Purpose: keep the next graph147 task pinned to the semantic deterministic
+transducer theorem, not another selected-prefix or sampled-rank layer.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Result:
+
+```text
+status = ready_for_ranked_transducer_invariant_producer
+socket forbidden hits = none
+```
+
+Confirmed socket symbols:
+
+```lean
+StrengthenedGraph147RankedTransducerInvariantFamily
+graphExactEvalGate_of_rankedTransducerInvariantFamily
+rootMarginBundle_of_rankedTransducerInvariantFamily
+```
+
+Confirmed reusable semantic inputs:
+
+```lean
+topPairingTargetShadow_of_summary
+topPairingTriShadow_eq_target_of_closed
+topPairingTriCursor_of_closed
+TopPairingTargetCursorAtRank
+TopPairingTransducerTail
+TopPairingTransducerTail.ofClosedRank
+TopPairingTransducerTail.cons
+TopPairingTransducerState.start_tail_of_closed
+TopPairingTransducerState.next?_tail
+evalLabelStepFn_exists_of_tail_and_invariantLocalWithSuffix
+strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+```
+
+The audit now identifies the exact remaining producer fields:
+
+- `start`: generated invariant holds at `strengthenedClosedEvalStart`;
+- `suffixStart`: every strengthened closed graph147 rank starts with the
+  rank-indexed suffix certificate;
+- `localStep`: every semantic state/face head transition advances
+  `strengthenedClosedEvalNext` and preserves the invariant and suffix
+  certificate;
+- `finish`: every accepted final state has nonnegative graph potential and
+  proves the full-root margin bound.
+
+Next implementation target:
+
+Generate/prove `StrengthenedGraph147RankedTransducerInvariantFamily` from the
+target-shadow cursor, schedule/square-gap/local-axis tail, pair-count or
+used-face facts, and graph147 Bellman state semantics.  The proof must split on
+semantic state/face transitions.  If this requires sampled ranks, selected
+prefixes, accepted traces, exact affine keys, or per-observed-path membership,
+stop and switch to the cocycle/cancellation-summary quotient experiment.
+
 ### 2026-07-05 graph147 deterministic-transducer pivot and full-potential checkpoint
 
 The latest GPT5.5 Pro guidance has been folded into the active graph147 route.
