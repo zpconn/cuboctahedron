@@ -105339,6 +105339,122 @@ status = ready_for_ranked_transducer_invariant_producer
 forbidden_hits = []
 ```
 
+### 2026-07-05 layer-4 mixed graph147/mapped portfolio socket accepted
+
+Added a branch-local mixed portfolio socket:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11Layer4MixedPortfolioSocket
+```
+
+Main theorem surfaces:
+
+```lean
+structure StrengthenedDepth11Layer4Graph147GraphExactBranchFamily
+def graph147GraphExactBranchFamily_of_rootMarginBundle
+
+structure StrengthenedDepth11Layer4MixedGraphExactPortfolioFamily
+structure StrengthenedDepth11Layer4MixedBranchGateFamily
+theorem mixedBranchGateFamily_of_mixedPortfolio
+```
+
+This records the correct production boundary for layer-4:
+
+- `tmpm,tppm`, `tmpm,zm`, `yp,tmmm`, `zm,tmpp`, and `zm,zp` still use the
+  strengthened mapped-branch portfolio and produce
+  `Split10MGraphExactEvalGateAtRank`;
+- `yp,zm` and `zm,yp` use the graph147 direct root-margin route and produce
+  the strengthened graph147 `TopPairingGraphExactEvalGateAtRank`;
+- the two evaluator states are intentionally not unified in this socket.
+
+This matters because an attempted uniform seven-branch graph-exact family was
+the wrong abstraction: the mapped branches target the split-10M graph, while
+graph147 targets the strengthened closed evaluator
+`TopPairingTransducerEvalState Nat`.  The accepted mixed socket keeps that
+distinction explicit so a later root theorem can combine branches at the
+semantic nonpos/killed layer, or via a deliberately proved adapter, rather
+than pretending the graph states are identical.
+
+Focused checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_direct_socket_lake_build_for_mixed_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket
+```
+
+Result:
+
+```text
+pass; elapsed=7.01s; peak_tree_rss=4046 MiB; hard_as=none;
+min_available=46088 MiB
+```
+
+The earlier same build with `--hard-address-space-mib 8192` failed with
+Lean's `failed to create thread` exception while RSS remained below `4 GiB`.
+For Lake compilation of this target, the memory-safe setting is therefore the
+RSS/free-memory guard plus `LEAN_NUM_THREADS=1 LAKE_JOBS=1`, not a hard virtual
+address-space cap.
+
+Mixed socket isolated check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/layer4_mixed_portfolio_socket_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4MixedPortfolioSocket.lean
+```
+
+Result:
+
+```text
+pass; elapsed=4.00s; peak_tree_rss=3570 MiB; hard_as=8192 MiB;
+min_available=46344 MiB
+```
+
+Focused Lake build of the new mixed module:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/layer4_mixed_portfolio_socket_lake_build_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11Layer4MixedPortfolioSocket
+```
+
+Result:
+
+```text
+pass; elapsed=21.02s; peak_tree_rss=4213 MiB; hard_as=none;
+min_available=45905 MiB
+```
+
+Next layer-4 portfolio gap:
+
+1. Prove the semantic root classifier that routes a strengthened closed rank
+   into one of the seven mixed branches using closed-language state.
+2. For graph147 branches, prove the remaining `StrengthenedGraph147RootMarginBundle`
+   margin theorem; for the five mapped branches, keep the mapped branch
+   producers only if their membership proofs remain semantic and do not
+   collapse into selected-prefix / accepted-trace tables.
+3. Combine the heterogeneous branch gates at the semantic nonpos/killed layer.
+
 ### 2026-07-05 graph147 ranked transducer socket accepted
 
 GPT5.5's latest recommendation is now reflected in the graph147 route:
