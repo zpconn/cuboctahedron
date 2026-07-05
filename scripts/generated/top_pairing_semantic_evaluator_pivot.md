@@ -15,7 +15,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | --- | ---: | --- |
 | `target_cursor` | `387` | none |
 | `transducer_tail` | `97` | none |
-| `closed_transducer_socket` | `205` | none |
+| `closed_transducer_socket` | `274` | none |
 | `closed_final_margin_socket` | `432` | none |
 | `depth11_graph_exact_portfolio` | `177` | none |
 | `depth11_layer4_mapped_finish` | `1503` | none |
@@ -27,7 +27,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph157_continuation_socket` | `224` | none |
 | `graph169_continuation_socket` | `224` | none |
 | `graph183_tail_table_socket` | `1346` | none |
-| `target_completion_local_branch_table_shard000` | `63` | none |
+| `target_completion_local_branch_table_shard000` | `1403` | none |
 | `depth11_closed_providers` | `1536` | none |
 
 ## Guard Measurements

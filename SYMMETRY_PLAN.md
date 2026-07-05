@@ -111068,6 +111068,44 @@ root_trace_diagnostics.production_allowed = false
 direct_margin_inv_producer.present_outside_socket = false
 ```
 
+Graph147 production-gate audit:
+
+```bash
+python3 scripts/audit_bellman_production_gates.py \
+  --input scripts/generated/\
+nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json \
+  --json scripts/generated/graph147_bellman_production_gate_10M.json \
+  --markdown scripts/generated/graph147_bellman_production_gate_10M.md
+```
+
+Result:
+
+```text
+decision = candidate-needs-coarser-membership
+matched paths = 273
+states = 970
+edges = 1054
+final states = 116
+max_margin_bound = 0
+root_bound = -2
+scaled bit length = 10
+fraction bit length = 9
+exact_path_class_ratio = 1.0
+```
+
+Interpretation:
+
+```text
+The observed graph147 Bellman graph is small enough and arithmetically cheap
+enough for Lean emission, but it is not an accepted production family
+coordinate: every observed path is its own exact path class.  Therefore direct
+graph147 emission remains blocked on a coarser semantic membership theorem.
+Do not emit exact-path graph147 leaves.  The next accepted experiment is either
+a coarser target-shadow/cancellation membership proof for the same graph, or a
+checked segment/cocycle quotient that proves the same ranked suffix margin
+invariant without path classes.
+```
+
 Go/no-go decision:
 
 ```text
@@ -111161,4 +111199,33 @@ min_available = 46296 MiB
 hard_as = 8192 MiB
 audit status = ready_for_ranked_eval_margin_bundle_producer
 forbidden-token scan = no hits
+```
+
+### 2026-07-05 current graph147 audit marker block
+
+Machine-audit markers for the current graph147 frontier:
+
+```text
+mandatory_graph147_semantic_transducer_pivot
+reject_selected_prefix_membership_scaling
+semantic_branch_start_margin_or_cocycle_quotient
+sequenceBadFace_ok is only a carrier
+closed-language-to-eval theorem
+target-shadow cursor
+No selected-prefix/root-trace scaling
+Selected-prefix diagnostics only
+Root-trace diagnostics only
+StrengthenedGraph147RankedShardMarginInvariantFamily
+ready_for_ranked_eval_margin_bundle_producer
+```
+
+Current state:
+
+```text
+The graph147 evaluator/membership sockets are ready for a ranked eval margin
+bundle producer, but graph147 direct emission is not accepted.  The 10M
+production-gate audit passes graph-size and arithmetic gates, yet reports
+exact_path_class_ratio = 1.0.  Therefore the next production step must prove a
+coarser semantic membership/margin theorem or a checked segment/cocycle
+quotient; it must not emit exact-path graph147 leaves.
 ```

@@ -9,7 +9,7 @@
     },
     "closed_transducer_socket": {
       "exists": true,
-      "lines": 205,
+      "lines": 274,
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedTransducerProducerSocket.lean"
     },
@@ -75,7 +75,7 @@
     },
     "target_completion_local_branch_table_shard000": {
       "exists": true,
-      "lines": 63,
+      "lines": 1403,
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedTargetCompletionLocalBranchTableShard000.lean"
     },
