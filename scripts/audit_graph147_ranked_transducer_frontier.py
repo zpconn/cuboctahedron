@@ -44,6 +44,8 @@ SOCKET_SYMBOLS = [
     "graph147RankedPrefix4EvalState",
     "graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix",
     "graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix",
+    "StrengthenedGraph147BranchSuffixStartBundle",
+    "strengthenedGraph147BranchSuffixStartBundle",
 ]
 
 SEMANTIC_INPUT_SYMBOLS = {

@@ -1091,6 +1091,43 @@ theorem graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix
             hstrengthened hprefix)
 
 /--
+Branch-local suffix-start package for the graph-147 ranked-transducer route.
+
+This is deliberately not the whole `suffixStart` field of
+`StrengthenedGraph147RankedTransducerInvariantFamily`: a future classifier
+still has to route strengthened closed ranks into one of these graph-147
+layer-4 lanes.  The package records the semantic lane obligations already
+proved without introducing sampled ranks, selected prefixes, accepted trace
+ids, or affine keys.
+-/
+structure StrengthenedGraph147BranchSuffixStartBundle
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) : Prop where
+  yp_zm :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.yp Face.zm rest ->
+      Graph147RankedShardSuffixOk rank graph147RankedPrefix4EvalState rest
+  zm_yp :
+    ∀ {rank : Fin numPairWords} {rest : List Face},
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym ->
+      Depth11Layer4PrefixAtRank rank Face.zm Face.yp rest ->
+      Graph147RankedShardSuffixOk rank graph147RankedPrefix4EvalState rest
+
+def strengthenedGraph147BranchSuffixStartBundle
+    (sequenceBadFace : Fin numPairWords -> Face -> Prop) :
+    StrengthenedGraph147BranchSuffixStartBundle sequenceBadFace where
+  yp_zm := by
+    intro rank rest hstrengthened hprefix
+    exact graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix
+      hstrengthened hprefix
+  zm_yp := by
+    intro rank rest hstrengthened hprefix
+    exact graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix
+      hstrengthened hprefix
+
+/--
 Turn the intended margin-only `yp, zm` producer into the compatibility
 tail-plus-margin family.  The target-completion tail is supplied by the
 semantic closed-language theorem in this file.

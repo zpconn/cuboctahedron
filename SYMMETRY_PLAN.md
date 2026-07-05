@@ -105111,6 +105111,116 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 graph147 deterministic transducer pivot hardened
+
+Latest strategy rule from GPT5.5 Pro:
+
+> Keep Bellman.  Reject selected-prefix membership.  Prove a deterministic
+> semantic closed-language state machine from the closed holonomy/cancellation
+> language to `evalLabelStepFn`.
+
+This is now the controlling rule for graph147.  The selected-prefix producer
+and accepted-trace cover remain diagnostic only.  Production graph147 evidence
+must be a theorem from semantic state:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym
+  -> evalLabelStepFn graphNext rootState (topPairingRankFaceLabels rank)
+       = some result
+  -> 0 <= graphPotential result.1
+  -> scaledMargin rank <= 176 + result.2
+```
+
+or the equivalent `StrengthenedGraph147RankedTransducerInvariantFamily`
+adapter already exposed in
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean`.
+
+The intended proof must use deterministic semantic coordinates:
+
+- target-shadow / triangular cursor;
+- schedule and square-gap state;
+- used-face / pair-count state;
+- local-axis and canonical bad-face compatibility;
+- graph147 Bellman state;
+- if needed, a certified segment/cocycle quotient state.
+
+It must not use sampled ranks, selected-prefix ids, accepted-trace ids, exact
+affine RHS keys, solved `p0` keys, or one branch per observed path.  If the
+closed-language-to-evaluator proof wants any of those, stop graph147 scaling
+and switch to the segment/cocycle quotient experiment.
+
+Implemented checkpoint:
+
+```lean
+structure StrengthenedGraph147BranchSuffixStartBundle
+def strengthenedGraph147BranchSuffixStartBundle
+```
+
+This packages the two branch-local suffix-start theorems:
+
+```lean
+graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix
+graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix
+```
+
+Meaning: once a strengthened closed rank has already been routed into the
+graph147 layer-4 lanes `yp,zm` or `zm,yp`, the suffix after the fixed four-face
+prefix satisfies `Graph147RankedShardSuffixOk` at the shared graph147 prefix
+state.  This is still not whole-root `suffixStart`: a semantic branch
+classifier must route ranks into those lanes first.
+
+Focused hard-capped check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_branch_suffix_bundle_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+Result:
+
+```text
+pass; elapsed=7.01s; peak_tree_rss=3949 MiB; hard_as=8192 MiB;
+min_available=46210 MiB
+```
+
+Audit update:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Result:
+
+```text
+status = ready_for_ranked_transducer_invariant_producer
+socket.StrengthenedGraph147BranchSuffixStartBundle = true
+socket.strengthenedGraph147BranchSuffixStartBundle = true
+forbidden_hits = []
+gauge_audit.decision = full_graph_margin_candidate_only
+gauge_audit.graph.states = 970
+gauge_audit.graph.edges = 1054
+gauge_audit.graph.finals = 116
+```
+
+Next graph147 task:
+
+1. Prove or generate the semantic branch classifier that turns the strengthened
+   closed-language product state into the `yp,zm` / `zm,yp` graph147 branch
+   premises without selected-prefix or accepted-trace membership.
+2. Prove the `finish` field: every accepted final state supplies final
+   nonnegative potential and the full-root margin inequality.
+3. If either proof wants exact affine keys or path/rank membership, do not add
+   a finer key; run the certified segment/cocycle quotient route and make the
+   missing semantic state explicit.
+
 ### 2026-07-05 graph147 ranked transducer socket accepted
 
 GPT5.5's latest recommendation is now reflected in the graph147 route:

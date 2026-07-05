@@ -14,6 +14,8 @@
 - `graph147RankedPrefix4EvalState`: `true`
 - `graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix`: `true`
 - `graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix`: `true`
+- `StrengthenedGraph147BranchSuffixStartBundle`: `true`
+- `strengthenedGraph147BranchSuffixStartBundle`: `true`
 
 ## Semantic Inputs
 

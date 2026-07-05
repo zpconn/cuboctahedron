@@ -77,13 +77,15 @@
     "forbidden_hits": [],
     "symbols": {
       "Graph147RankedShardSuffixOk": true,
+      "StrengthenedGraph147BranchSuffixStartBundle": true,
       "StrengthenedGraph147RankedTransducerInvariantFamily": true,
       "graph147RankedPrefix4EvalState": true,
       "graph147RankedShardSuffixOk_localStep": true,
       "graph147YpZm_rankedShardSuffixOk_of_strengthened_prefix": true,
       "graph147ZmYp_rankedShardSuffixOk_of_strengthened_prefix": true,
       "graphExactEvalGate_of_rankedTransducerInvariantFamily": true,
-      "rootMarginBundle_of_rankedTransducerInvariantFamily": true
+      "rootMarginBundle_of_rankedTransducerInvariantFamily": true,
+      "strengthenedGraph147BranchSuffixStartBundle": true
     }
   },
   "status": "ready_for_ranked_transducer_invariant_producer"
