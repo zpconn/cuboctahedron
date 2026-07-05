@@ -115233,3 +115233,67 @@ as the accepted-sequence layer-4 killed-family surface.
 
 Keep this as a bridge obligation, not a reason to import graph147 transition
 internals into every downstream graph183 consumer.
+
+### 2026-07-05 graph147 nonpos adapter for eval-or-killed consumer
+
+Status: complete for the graph147 bridge socket.
+
+The graph183-direct layer-4 module now names the graph-local obligation needed
+to turn graph147 exact-eval gates into nonpositive-margin facts:
+
+```text
+StrengthenedClosedEvalNextBound
+```
+
+and packages it as:
+
+```text
+acceptedSequenceGraph147EvalNonposGate_of_strengthenedClosedEvalNextBound
+```
+
+This keeps the residual assembly dependency clean:
+
+```text
+StrengthenedClosedEvalNextBound
+  -> AcceptedSequenceGraph147EvalNonposGate scaledMargin
+  -> acceptedSequenceMixedKilledAllFamily_of_graph183DirectPortfolio
+  -> AcceptedSequenceDepth11Layer4MixedKilledAllFamily scaledMargin
+```
+
+The new local bound is graph-only:
+
+```text
+forall state face nextState gain,
+  strengthenedClosedEvalNext state face = some (nextState, gain) ->
+    gain + graphPotential nextState.graph <= graphPotential state.graph
+```
+
+It mentions no rank, sampled prefix, selected trace id, affine RHS, solved
+start point, or accepted-path object.
+
+Focused check run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph183_direct_killed_portfolio_socket_guard.json \
+  -- lake env lean -M 7000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183DirectKilledPortfolioSocket.lean
+```
+
+Passed: elapsed `3.00s`, peak RSS `4019 MiB`, min available `46245 MiB`.
+
+Next Lean target:
+
+```text
+Prove StrengthenedClosedEvalNextBound once, preferably in a small socket near
+the strengthened closed Bellman graph, by projecting successful
+strengthenedClosedEvalNext steps to closedBellmanNext and using the checked
+graph potential inequalities.
+```
+
+If the proof requires a finite inverse theorem from `closedBellmanNext` equality
+to `ClosedBellmanStep`, keep that theorem graph-local and generated/state-based;
+do not push rank-specific evidence into the layer-4 consumer.

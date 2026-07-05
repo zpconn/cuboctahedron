@@ -28,7 +28,9 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4MixedPortfolioSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183QuotientMarginSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedPrefixRunSmoke
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential
 open Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
 
@@ -320,6 +322,47 @@ abbrev AcceptedSequenceGraph147EvalNonposGate
       strengthenedClosedEvalStart (176 : Int)
       scaledMargin rank Face.ym ->
     scaledMargin rank <= 0
+
+/--
+Graph-local potential bound for the strengthened closed evaluator.
+
+This is the small finite-graph theorem needed to turn graph147 exact-eval gates
+into nonpositive-margin facts.  It is deliberately graph-local: no rank,
+selected prefix, sampled trace, or affine key appears in the statement.
+-/
+abbrev StrengthenedClosedEvalNextBound : Prop :=
+  forall state face nextState gain,
+    strengthenedClosedEvalNext state face = some (nextState, gain) ->
+      gain + graphPotential nextState.graph <= graphPotential state.graph
+
+def acceptedSequenceGraph147EvalNonposGate_of_strengthenedClosedEvalNextBound
+    {scaledMargin : Fin numPairWords -> Int}
+    (hnext : StrengthenedClosedEvalNextBound) :
+    AcceptedSequenceGraph147EvalNonposGate scaledMargin := by
+  intro rank _hstrengthened gate
+  have hevalLanguage :=
+    evalLanguageAtRank_of_graphExactEvalGate gate
+  exact
+    scaledMargin_nonpos_of_bellmanEvalAccepts_invariant
+      (V := fun state : StrengthenedClosedEvalState =>
+        graphPotential state.graph)
+      (next := strengthenedClosedEvalNext)
+      (InRange := fun _state : StrengthenedClosedEvalState => True)
+      (start := strengthenedClosedEvalStart)
+      (const := (176 : Int))
+      (scaledMargin := scaledMargin)
+      (wordOf := fun rank : Fin numPairWords =>
+        faceLabelsInContributionOrder (fun face : Face => face)
+          (canonicalSeqOfPairWord (unrankPairWord rank)))
+      (hnext := by
+        intro state face nextState gain _hrange hnextEq
+        exact ⟨True.intro, hnext state face nextState gain hnextEq⟩)
+      (hstart := True.intro)
+      (hroot := by
+        simpa [strengthenedClosedEvalStart, TopPairingTransducerEvalState.start,
+          graphConst] using
+          strengthenedBellmanRootBound)
+      hevalLanguage.eval_accepts
 
 abbrev AcceptedSequenceDepth11Layer4StartViolationGate
     (scaledMargin : Fin numPairWords -> Int) : Type :=
