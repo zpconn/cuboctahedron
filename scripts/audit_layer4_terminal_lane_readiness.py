@@ -77,6 +77,34 @@ GRAPH221_SEMANTIC_TERMINAL_BRIDGE_FILE = (
     / "BellmanTopPairingGraph221SemanticTerminalBridge.lean"
 )
 
+GRAPH221_DIRECT_START_VIOLATION_BRIDGE_FILE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph221DirectStartViolationBridge.lean"
+)
+
+GRAPH183_GRAPH221_DIRECT_PORTFOLIO_SOCKET_FILE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph183Graph221DirectPortfolioSocket.lean"
+)
+
+TARGET_CURSOR_FILE = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
+
+TRANSDUCER_TAIL_FILE = ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean"
+
+TERMINAL_STATE_STEP_SOCKET_FILE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingTerminalStateStepSocket.lean"
+)
+
+CLOSED_TRANSDUCER_PRODUCER_SOCKET_FILE = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingClosedTransducerProducerSocket.lean"
+)
+
 BELLMAN_POTENTIAL_FILE = ROOT / "Cuboctahedron/Search/BellmanPotential.lean"
 
 LANES = [
@@ -484,6 +512,65 @@ GRAPH221_ROOT_MARGIN_SOCKET_REQUIRED = [
     "scaledMargin_nonpos_of_graph221_zm_tmpp_rootMarginFamily",
 ]
 
+GRAPH221_DIRECT_START_VIOLATION_REQUIRED = [
+    "objectStartViolationMarginCert_of_graph221_branch029",
+    "objectStartViolationMarginCert_of_graph221_branch030",
+    "objectStartViolationMarginCert_of_graph221_branch031",
+    "nonIdentityRankKilled_of_graph221_branch029",
+    "nonIdentityRankKilled_of_graph221_branch030",
+    "nonIdentityRankKilled_of_graph221_branch031",
+    "nonIdentityRankKilled_of_graph221_zm_tmpp_semantic_direct",
+]
+
+GRAPH183_GRAPH221_DIRECT_PORTFOLIO_REQUIRED = [
+    "AcceptedSequenceDepth11Layer4Graph183Graph221DirectBranchGateFamily",
+    "AcceptedSequenceDepth11Layer4Graph183Graph221DirectStepRunPortfolioFamily",
+    "acceptedSequenceGraph183Graph221DirectBranchGateFamily_of_stepRunPortfolio",
+    "acceptedSequenceSplitNonposOrKilledAllFamily_of_graph183Graph221DirectBranchGateFamily",
+    "acceptedSequenceSplitNonposOrKilledAllFamily_of_graph183Graph221DirectStepRunPortfolio",
+    "acceptedSequenceMixedKilledAllFamily_of_graph183Graph221DirectStepRunPortfolio",
+    "acceptedSequenceGraph183Graph221DirectStepRunPortfolioFamily_of_rootMarginBundle",
+    "acceptedSequenceMixedKilledAllFamily_of_graph183Graph221DirectTargetCompletionStepRunPortfolio",
+]
+
+TARGET_CURSOR_REQUIRED = [
+    "topPairingTargetShadow_of_summary",
+    "topPairingTriShadow_eq_target_of_closed",
+    "topPairingTriCursor_of_closed",
+    "TopPairingTargetCursorAtRank",
+    "TopPairingStartMissSemanticLanguageAtRank",
+    "topPairingStartMissSemanticLanguage_of_closed",
+]
+
+TRANSDUCER_TAIL_REQUIRED = [
+    "structure TopPairingTransducerTail",
+    "theorem ofClosedRank",
+    "theorem ofClosedObj",
+    "theorem cons_square_tail",
+    "theorem cons_tri_tail",
+    "theorem cons",
+]
+
+TERMINAL_STATE_STEP_SOCKET_REQUIRED = [
+    "structure TerminalStepState",
+    "def Contains",
+    "def nextStep",
+    "theorem initial_contains_of_closed",
+    "theorem contains_nextStep",
+    "structure Head",
+    "theorem Head.transducer_cons",
+]
+
+CLOSED_TRANSDUCER_PRODUCER_SOCKET_REQUIRED = [
+    "structure StrengthenedClosedTransducerProducer",
+    "theorem closedTransducerProducer_of_terminalContainedEvalPrefixGate",
+    "theorem evalLanguageAtRank_of_closedTransducerProducer",
+    "theorem scaledMargin_nonpos_of_closedTransducerProducer",
+    "structure StrengthenedClosedTransducerMachineProducerAll",
+    "theorem closedTransducerProducerAll_of_machineProducerAll",
+    "theorem scaledMargin_nonpos_of_machineProducerAll",
+]
+
 BELLMAN_SEGMENT_CORE_REQUIRED = [
     "structure CertifiedBellmanSegment",
     "namespace CertifiedBellmanSegment",
@@ -546,6 +633,36 @@ def main() -> int:
     graph221_semantic_terminal_bridge_text = (
         GRAPH221_SEMANTIC_TERMINAL_BRIDGE_FILE.read_text()
         if GRAPH221_SEMANTIC_TERMINAL_BRIDGE_FILE.exists()
+        else ""
+    )
+    graph221_direct_start_violation_bridge_text = (
+        GRAPH221_DIRECT_START_VIOLATION_BRIDGE_FILE.read_text()
+        if GRAPH221_DIRECT_START_VIOLATION_BRIDGE_FILE.exists()
+        else ""
+    )
+    graph183_graph221_direct_portfolio_socket_text = (
+        GRAPH183_GRAPH221_DIRECT_PORTFOLIO_SOCKET_FILE.read_text()
+        if GRAPH183_GRAPH221_DIRECT_PORTFOLIO_SOCKET_FILE.exists()
+        else ""
+    )
+    target_cursor_text = (
+        TARGET_CURSOR_FILE.read_text()
+        if TARGET_CURSOR_FILE.exists()
+        else ""
+    )
+    transducer_tail_text = (
+        TRANSDUCER_TAIL_FILE.read_text()
+        if TRANSDUCER_TAIL_FILE.exists()
+        else ""
+    )
+    terminal_state_step_socket_text = (
+        TERMINAL_STATE_STEP_SOCKET_FILE.read_text()
+        if TERMINAL_STATE_STEP_SOCKET_FILE.exists()
+        else ""
+    )
+    closed_transducer_producer_socket_text = (
+        CLOSED_TRANSDUCER_PRODUCER_SOCKET_FILE.read_text()
+        if CLOSED_TRANSDUCER_PRODUCER_SOCKET_FILE.exists()
         else ""
     )
     bellman_potential_text = BELLMAN_POTENTIAL_FILE.read_text()
@@ -643,6 +760,53 @@ def main() -> int:
             GRAPH221_ROOT_MARGIN_SOCKET_REQUIRED,
         )
     )
+    graph221_direct_start_violation_ok, graph221_direct_start_violation_missing = (
+        contains_all(
+            graph221_direct_start_violation_bridge_text,
+            GRAPH221_DIRECT_START_VIOLATION_REQUIRED,
+        )
+    )
+    graph183_graph221_direct_portfolio_ok, graph183_graph221_direct_portfolio_missing = (
+        contains_all(
+            graph183_graph221_direct_portfolio_socket_text,
+            GRAPH183_GRAPH221_DIRECT_PORTFOLIO_REQUIRED,
+        )
+    )
+    target_cursor_ok, target_cursor_missing = contains_all(
+        target_cursor_text, TARGET_CURSOR_REQUIRED
+    )
+    transducer_tail_ok, transducer_tail_missing = contains_all(
+        transducer_tail_text, TRANSDUCER_TAIL_REQUIRED
+    )
+    terminal_state_step_socket_ok, terminal_state_step_socket_missing = contains_all(
+        terminal_state_step_socket_text, TERMINAL_STATE_STEP_SOCKET_REQUIRED
+    )
+    closed_transducer_producer_socket_ok, closed_transducer_producer_socket_missing = (
+        contains_all(
+            closed_transducer_producer_socket_text,
+            CLOSED_TRANSDUCER_PRODUCER_SOCKET_REQUIRED,
+        )
+    )
+    graph221_root_margin_socket_forbidden_hits = [
+        token for token in FORBIDDEN if token in graph221_semantic_terminal_bridge_text
+    ]
+    graph221_direct_start_violation_forbidden_hits = [
+        token
+        for token in FORBIDDEN
+        if token in graph221_direct_start_violation_bridge_text
+    ]
+    graph221_root_margin_socket_production_ok = (
+        graph221_root_margin_socket_ok
+        and not graph221_root_margin_socket_forbidden_hits
+    )
+    graph221_direct_start_violation_production_ok = (
+        graph221_direct_start_violation_ok
+        and not graph221_direct_start_violation_forbidden_hits
+    )
+    graph183_graph221_direct_portfolio_production_ok = (
+        graph183_graph221_direct_portfolio_ok
+        and graph221_direct_start_violation_production_ok
+    )
     forbidden_hits = [
         token for token in FORBIDDEN if token in graph183_text
     ]
@@ -666,10 +830,16 @@ def main() -> int:
                 "forbidden_hits": forbidden_hits,
             }
         elif lane == "zm_tmpp":
-            if graph221_direct_semantic_ok and graph221_root_margin_socket_ok:
+            if graph221_direct_start_violation_production_ok:
+                partial_status = "validated_graph221_direct_start_violation_killed"
+            elif graph221_direct_start_violation_ok:
+                partial_status = "diagnostic_graph221_direct_start_violation_uses_accepted_trace"
+            elif graph221_direct_semantic_ok and graph221_root_margin_socket_production_ok:
                 partial_status = "validated_graph221_semantic_gate_root_margin_socket_ready"
+            elif graph221_direct_semantic_ok and graph221_root_margin_socket_ok:
+                partial_status = "diagnostic_graph221_root_margin_socket_uses_accepted_trace"
             elif graph221_direct_semantic_ok:
-                partial_status = "validated_graph221_semantic_gate"
+                partial_status = "partial_graph221_semantic_gate"
             elif (
                 graph151_partial_ok
                 and zm_tmpp_chain_ok
@@ -708,6 +878,11 @@ def main() -> int:
                     if GRAPH221_SEMANTIC_TERMINAL_BRIDGE_FILE.exists()
                     else None
                 ),
+                "graph221_direct_start_violation_bridge_file": (
+                    str(GRAPH221_DIRECT_START_VIOLATION_BRIDGE_FILE.relative_to(ROOT))
+                    if GRAPH221_DIRECT_START_VIOLATION_BRIDGE_FILE.exists()
+                    else None
+                ),
                 "required_symbols": {
                     symbol: symbol not in graph151_partial_missing
                     for symbol in GRAPH151_PARTIAL_REQUIRED
@@ -738,16 +913,59 @@ def main() -> int:
                 },
                 "graph221_root_margin_socket_status": (
                     "accepted_root_margin_socket_pending_margin_producer"
+                    if graph221_root_margin_socket_production_ok
+                    else "diagnostic_root_margin_socket_uses_accepted_trace"
                     if graph221_root_margin_socket_ok
                     else "missing_root_margin_socket"
+                ),
+                "graph221_root_margin_socket_forbidden_hits": (
+                    graph221_root_margin_socket_forbidden_hits
+                ),
+                "graph221_direct_start_violation_symbols": {
+                    symbol: symbol not in graph221_direct_start_violation_missing
+                    for symbol in GRAPH221_DIRECT_START_VIOLATION_REQUIRED
+                },
+                "graph221_direct_start_violation_status": (
+                    "accepted_direct_start_violation_killed_lane"
+                    if graph221_direct_start_violation_production_ok
+                    else "diagnostic_direct_start_violation_uses_accepted_trace"
+                    if graph221_direct_start_violation_ok
+                    else "missing_direct_start_violation_killed_lane"
+                ),
+                "graph221_direct_start_violation_forbidden_hits": (
+                    graph221_direct_start_violation_forbidden_hits
                 ),
                 "forbidden_hits": [
                     token
                     for token in FORBIDDEN
-                    if token in next_frontier_text or token in graph221_text
+                    if token in next_frontier_text
+                    or token in graph221_text
+                    or token in graph221_direct_start_violation_bridge_text
                 ],
                 "remaining_gap": (
                     (
+                        "graph221 is now a validated direct-killed semantic "
+                        "lane for zm_tmpp: the closed target-completion split "
+                        "feeds three exact start-violation providers and "
+                        "proves NonIdentityRankKilled without selected-prefix "
+                        "or sampled-rank membership.  The next coverage step "
+                        "is to prove similarly semantic direct or evaluator "
+                        "routes for the remaining layer-4 lanes, not to build "
+                        "a graph221 margin producer."
+                        if graph221_direct_start_violation_production_ok
+                        else
+                        "graph221 has a useful diagnostic direct-killed bridge "
+                        "for zm_tmpp, but it still enters the trace providers "
+                        "through acceptedTraceOfId.  Under the current "
+                        "semantic-transducer policy this is not production "
+                        "coverage.  Replace it with a deterministic "
+                        "closed-language-to-evaluator/start-violation theorem "
+                        "over the graph221 suffix split, or fall back to a "
+                        "cocycle/cancellation-summary quotient if that proof "
+                        "needs trace ids."
+                        if graph221_direct_start_violation_ok
+                        else
+                        (
                         "graph221 is now a validated semantic gate for the "
                         "zm_tmpp lane and exposes the graph-exact root-margin "
                         "socket plus the semantic object-margin target.  The "
@@ -760,6 +978,13 @@ def main() -> int:
                         "Graph221ZmTmppSplit10MRootMarginSequenceBadFace, "
                         "without accepted trace ids, selected-prefix tables, "
                         "sampled ranks, exact affine RHS keys, or stored paths."
+                        if graph221_root_margin_socket_production_ok
+                        else
+                        "graph221 has a diagnostic graph-exact root-margin "
+                        "socket, but it still routes through acceptedTraceOfId. "
+                        "The production replacement must be a deterministic "
+                        "closed-language-to-evaluator/margin theorem over the "
+                        "same semantic suffix split."
                         if graph221_root_margin_socket_ok
                         else
                         "graph221 is now a validated semantic gate for the "
@@ -769,6 +994,7 @@ def main() -> int:
                         "the same deterministic target-completion/evaluator "
                         "pattern to the remaining layer-4 lanes without "
                         "selected-prefix or sampled-rank membership."
+                        )
                     )
                     if graph221_direct_semantic_ok
                     else (
@@ -1192,6 +1418,11 @@ def main() -> int:
         for lane, data in lane_report.items()
         if data["status"].startswith("partial_")
     ]
+    diagnostic = [
+        lane
+        for lane, data in lane_report.items()
+        if data["status"].startswith("diagnostic_")
+    ]
 
     payload = {
         "status": (
@@ -1201,9 +1432,11 @@ def main() -> int:
         ),
         "validated_lane_count": len(validated),
         "partial_lane_count": len(partial),
+        "diagnostic_lane_count": len(diagnostic),
         "missing_lane_count": len(missing),
         "validated_lanes": validated,
         "partial_lanes": partial,
+        "diagnostic_lanes": diagnostic,
         "missing_lanes": missing,
         "bellman_segment_core": {
             "status": (
@@ -1252,9 +1485,161 @@ def main() -> int:
                 )
             ),
         },
+        "semantic_transducer_pivot": {
+            "status": (
+                "accepted_closed_language_transducer_boundary"
+                if (
+                    target_cursor_ok
+                    and transducer_tail_ok
+                    and terminal_state_step_socket_ok
+                    and closed_transducer_producer_socket_ok
+                )
+                else "missing_closed_language_transducer_boundary"
+            ),
+            "policy": (
+                "Production Bellman membership must be proved by deterministic "
+                "closed-language target-cursor/transducer machines.  Selected "
+                "prefixes, sampled ranks, accepted-trace ids, exact affine RHS "
+                "keys, and stored paths are diagnostic-only and must not be the "
+                "public coverage surface."
+            ),
+            "target_cursor": {
+                "status": (
+                    "accepted_target_shadow_cursor"
+                    if target_cursor_ok
+                    else "missing_target_shadow_cursor"
+                ),
+                "file": str(TARGET_CURSOR_FILE.relative_to(ROOT)),
+                "required_symbols": {
+                    symbol: symbol not in target_cursor_missing
+                    for symbol in TARGET_CURSOR_REQUIRED
+                },
+            },
+            "transducer_tail": {
+                "status": (
+                    "accepted_transducer_tail"
+                    if transducer_tail_ok
+                    else "missing_transducer_tail"
+                ),
+                "file": str(TRANSDUCER_TAIL_FILE.relative_to(ROOT)),
+                "required_symbols": {
+                    symbol: symbol not in transducer_tail_missing
+                    for symbol in TRANSDUCER_TAIL_REQUIRED
+                },
+            },
+            "terminal_state_step_socket": {
+                "status": (
+                    "accepted_terminal_state_step_socket"
+                    if terminal_state_step_socket_ok
+                    else "missing_terminal_state_step_socket"
+                ),
+                "file": str(TERMINAL_STATE_STEP_SOCKET_FILE.relative_to(ROOT)),
+                "required_symbols": {
+                    symbol: symbol not in terminal_state_step_socket_missing
+                    for symbol in TERMINAL_STATE_STEP_SOCKET_REQUIRED
+                },
+            },
+            "closed_transducer_producer_socket": {
+                "status": (
+                    "accepted_closed_transducer_producer_socket"
+                    if closed_transducer_producer_socket_ok
+                    else "missing_closed_transducer_producer_socket"
+                ),
+                "file": str(CLOSED_TRANSDUCER_PRODUCER_SOCKET_FILE.relative_to(ROOT)),
+                "required_symbols": {
+                    symbol: symbol not in closed_transducer_producer_socket_missing
+                    for symbol in CLOSED_TRANSDUCER_PRODUCER_SOCKET_REQUIRED
+                },
+            },
+            "forbidden_hits": [
+                token
+                for token in FORBIDDEN
+                if token in target_cursor_text
+                or token in transducer_tail_text
+                or token in terminal_state_step_socket_text
+                or token in closed_transducer_producer_socket_text
+            ],
+        },
+        "direct_killed_layer4_portfolio": {
+            "status": (
+                "accepted_graph183_graph221_direct_portfolio_socket"
+                if graph183_graph221_direct_portfolio_production_ok
+                else "diagnostic_graph183_graph221_direct_portfolio_uses_accepted_trace"
+                if graph183_graph221_direct_portfolio_ok
+                else "missing_graph183_graph221_direct_portfolio_socket"
+            ),
+            "file": (
+                str(GRAPH183_GRAPH221_DIRECT_PORTFOLIO_SOCKET_FILE.relative_to(ROOT))
+                if GRAPH183_GRAPH221_DIRECT_PORTFOLIO_SOCKET_FILE.exists()
+                else None
+            ),
+            "required_symbols": {
+                symbol: symbol not in graph183_graph221_direct_portfolio_missing
+                for symbol in GRAPH183_GRAPH221_DIRECT_PORTFOLIO_REQUIRED
+            },
+            "covered_direct_lanes": [
+                "tmpm_zm",
+                "zm_tmpp",
+            ] if graph183_graph221_direct_portfolio_production_ok else [],
+            "diagnostic_direct_lanes": [
+                "tmpm_zm",
+                "zm_tmpp",
+            ] if (
+                graph183_graph221_direct_portfolio_ok
+                and not graph183_graph221_direct_portfolio_production_ok
+            ) else [],
+            "remaining_layer4_obligations": [
+                "tmpm_tppm",
+                "yp_tmmm",
+                "yp_zm",
+                "zm_yp",
+                "zm_zp",
+            ],
+            "interpretation": (
+                "Layer-4 assembly now has direct killed routes for graph183 "
+                "tmpm_zm and graph221 zm_tmpp.  The remaining branches should "
+                "be attacked with the same semantic transducer/direct-killed "
+                "discipline before adding any new selected-prefix or sampled "
+                "membership route."
+                if graph183_graph221_direct_portfolio_production_ok
+                else (
+                    "The combined graph183+graph221 direct portfolio builds "
+                    "as a useful diagnostic, but the graph221 half still "
+                    "depends on acceptedTraceOfId through its direct bridge. "
+                    "It is not production coverage under the semantic "
+                    "transducer pivot."
+                )
+                if graph183_graph221_direct_portfolio_ok
+                else (
+                    "The direct graph183+graph221 layer-4 portfolio socket is "
+                    "not yet visible to the audit."
+                )
+            ),
+        },
         "lanes": lane_report,
         "next_recommended_slice": (
             (
+                "use the accepted closed-language transducer boundary and the "
+                "diagnostic graph221 bridge to replace acceptedTraceOfId with "
+                "a deterministic closed-language-to-evaluator or direct "
+                "start-violation theorem.  Do not scale the combined "
+                "graph183+graph221 portfolio until this trace-id dependency is "
+                "gone"
+                if (
+                    graph221_direct_start_violation_ok
+                    and not graph221_direct_start_violation_production_ok
+                )
+                else
+                "use the accepted closed-language transducer boundary and the "
+                "graph183+graph221 direct portfolio to attack one remaining "
+                "layer-4 obligation semantically.  Prefer a direct "
+                "start-violation/terminal route if one exists; otherwise prove "
+                "a deterministic closed-language-to-evaluator/margin theorem. "
+                "Stop immediately if the proof needs selected-prefix, "
+                "sampled-rank, accepted-trace, exact-affine, or stored-path "
+                "membership"
+                if graph221_direct_start_violation_production_ok
+                else (
                 "prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a "
                 "deterministic graph221 object-margin producer over closed "
                 "holonomy/cancellation state, preferably targeting "
@@ -1271,6 +1656,7 @@ def main() -> int:
                 "quotient experiment if a lane requires selected-prefix, "
                 "sampled-rank, accepted-trace, exact-affine, or "
                 "per-observed-path membership"
+                )
             )
             if graph221_direct_semantic_ok
             else (

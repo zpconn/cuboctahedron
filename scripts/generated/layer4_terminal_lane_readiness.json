@@ -23,6 +23,37 @@
     },
     "status": "accepted_certified_segment_core"
   },
+  "diagnostic_lane_count": 1,
+  "diagnostic_lanes": [
+    "zm_tmpp"
+  ],
+  "direct_killed_layer4_portfolio": {
+    "covered_direct_lanes": [],
+    "diagnostic_direct_lanes": [
+      "tmpm_zm",
+      "zm_tmpp"
+    ],
+    "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183Graph221DirectPortfolioSocket.lean",
+    "interpretation": "The combined graph183+graph221 direct portfolio builds as a useful diagnostic, but the graph221 half still depends on acceptedTraceOfId through its direct bridge. It is not production coverage under the semantic transducer pivot.",
+    "remaining_layer4_obligations": [
+      "tmpm_tppm",
+      "yp_tmmm",
+      "yp_zm",
+      "zm_yp",
+      "zm_zp"
+    ],
+    "required_symbols": {
+      "AcceptedSequenceDepth11Layer4Graph183Graph221DirectBranchGateFamily": true,
+      "AcceptedSequenceDepth11Layer4Graph183Graph221DirectStepRunPortfolioFamily": true,
+      "acceptedSequenceGraph183Graph221DirectBranchGateFamily_of_stepRunPortfolio": true,
+      "acceptedSequenceGraph183Graph221DirectStepRunPortfolioFamily_of_rootMarginBundle": true,
+      "acceptedSequenceMixedKilledAllFamily_of_graph183Graph221DirectStepRunPortfolio": true,
+      "acceptedSequenceMixedKilledAllFamily_of_graph183Graph221DirectTargetCompletionStepRunPortfolio": true,
+      "acceptedSequenceSplitNonposOrKilledAllFamily_of_graph183Graph221DirectBranchGateFamily": true,
+      "acceptedSequenceSplitNonposOrKilledAllFamily_of_graph183Graph221DirectStepRunPortfolio": true
+    },
+    "status": "diagnostic_graph183_graph221_direct_portfolio_uses_accepted_trace"
+  },
   "lanes": {
     "tmpm_tppm": {
       "file": null,
@@ -321,7 +352,9 @@
     },
     "zm_tmpp": {
       "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedBellmanStrengthenedNextFrontierSmoke.lean",
-      "forbidden_hits": [],
+      "forbidden_hits": [
+        "acceptedTraceOfId"
+      ],
       "forced_chain_symbols": {
         "Graph159TargetCompletionTail": true,
         "Graph171TargetCompletionTail": true,
@@ -361,6 +394,20 @@
         "graph221Layer4SemanticSuffixFamily_targetCompletion": true,
         "graph221_yp_tmpm_zp_canComplete_false": true
       },
+      "graph221_direct_start_violation_bridge_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221DirectStartViolationBridge.lean",
+      "graph221_direct_start_violation_forbidden_hits": [
+        "acceptedTraceOfId"
+      ],
+      "graph221_direct_start_violation_status": "diagnostic_direct_start_violation_uses_accepted_trace",
+      "graph221_direct_start_violation_symbols": {
+        "nonIdentityRankKilled_of_graph221_branch029": true,
+        "nonIdentityRankKilled_of_graph221_branch030": true,
+        "nonIdentityRankKilled_of_graph221_branch031": true,
+        "nonIdentityRankKilled_of_graph221_zm_tmpp_semantic_direct": true,
+        "objectStartViolationMarginCert_of_graph221_branch029": true,
+        "objectStartViolationMarginCert_of_graph221_branch030": true,
+        "objectStartViolationMarginCert_of_graph221_branch031": true
+      },
       "graph221_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean",
       "graph221_filtered_symbols": {
         "Graph221TargetCompletionTail": true,
@@ -396,7 +443,10 @@
         "graph221_head_of_targetCompletionTail": true,
         "graph221_yp_tmpm_head_of_targetCompletionTail": true
       },
-      "graph221_root_margin_socket_status": "accepted_root_margin_socket_pending_margin_producer",
+      "graph221_root_margin_socket_forbidden_hits": [
+        "acceptedTraceOfId"
+      ],
+      "graph221_root_margin_socket_status": "diagnostic_root_margin_socket_uses_accepted_trace",
       "graph221_root_margin_socket_symbols": {
         "AcceptedSequenceGraph221ZmTmppSplit10MRootMarginFamily": true,
         "Graph221Layer4Split10MRootMarginBound": true,
@@ -431,14 +481,14 @@
         "graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk": true
       },
       "graph221_semantic_terminal_bridge_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221SemanticTerminalBridge.lean",
-      "remaining_gap": "graph221 is now a validated semantic gate for the zm_tmpp lane and exposes the graph-exact root-margin socket plus the semantic object-margin target.  The next graph221 work is to prove Graph221ZmTmppSplit10MBranchMarginFamily from a deterministic three-branch margin producer over closed holonomy/cancellation state.  The Lean socket packages that into Graph221ZmTmppSplit10MRootMarginObjectBound and then Graph221ZmTmppSplit10MRootMarginSequenceBadFace, without accepted trace ids, selected-prefix tables, sampled ranks, exact affine RHS keys, or stored paths.",
+      "remaining_gap": "graph221 has a useful diagnostic direct-killed bridge for zm_tmpp, but it still enters the trace providers through acceptedTraceOfId.  Under the current semantic-transducer policy this is not production coverage.  Replace it with a deterministic closed-language-to-evaluator/start-violation theorem over the graph221 suffix split, or fall back to a cocycle/cancellation-summary quotient if that proof needs trace ids.",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
         "graph151_head_of_targetCompletionTail": true,
         "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable": true
       },
-      "status": "validated_graph221_semantic_gate_root_margin_socket_ready",
+      "status": "diagnostic_graph221_direct_start_violation_uses_accepted_trace",
       "third": "Face.zm"
     },
     "zm_yp": {
@@ -715,24 +765,79 @@
       "third": "Face.zm"
     }
   },
-  "missing_lane_count": 5,
+  "missing_lane_count": 6,
   "missing_lanes": [
     "tmpm_tppm",
     "yp_tmmm",
     "yp_zm",
+    "zm_tmpp",
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "prove Graph221ZmTmppSplit10MRootMarginSequenceBadFace from a deterministic graph221 object-margin producer over closed holonomy/cancellation state, preferably targeting Graph221ZmTmppSplit10MBranchMarginFamily first; if that proof wants exact affine RHS, selected-prefix, accepted-trace, sampled-rank, or stored-path membership, stop and run the cocycle/cancellation-summary quotient experiment",
+  "next_recommended_slice": "use the accepted closed-language transducer boundary and the diagnostic graph221 bridge to replace acceptedTraceOfId with a deterministic closed-language-to-evaluator or direct start-violation theorem.  Do not scale the combined graph183+graph221 portfolio until this trace-id dependency is gone",
   "partial_lane_count": 2,
   "partial_lanes": [
     "yp_zm",
     "zm_yp"
   ],
+  "semantic_transducer_pivot": {
+    "closed_transducer_producer_socket": {
+      "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedTransducerProducerSocket.lean",
+      "required_symbols": {
+        "structure StrengthenedClosedTransducerMachineProducerAll": true,
+        "structure StrengthenedClosedTransducerProducer": true,
+        "theorem closedTransducerProducerAll_of_machineProducerAll": true,
+        "theorem closedTransducerProducer_of_terminalContainedEvalPrefixGate": true,
+        "theorem evalLanguageAtRank_of_closedTransducerProducer": true,
+        "theorem scaledMargin_nonpos_of_closedTransducerProducer": true,
+        "theorem scaledMargin_nonpos_of_machineProducerAll": true
+      },
+      "status": "accepted_closed_transducer_producer_socket"
+    },
+    "forbidden_hits": [],
+    "policy": "Production Bellman membership must be proved by deterministic closed-language target-cursor/transducer machines.  Selected prefixes, sampled ranks, accepted-trace ids, exact affine RHS keys, and stored paths are diagnostic-only and must not be the public coverage surface.",
+    "status": "accepted_closed_language_transducer_boundary",
+    "target_cursor": {
+      "file": "Cuboctahedron/Search/TopPairingTargetCursor.lean",
+      "required_symbols": {
+        "TopPairingStartMissSemanticLanguageAtRank": true,
+        "TopPairingTargetCursorAtRank": true,
+        "topPairingStartMissSemanticLanguage_of_closed": true,
+        "topPairingTargetShadow_of_summary": true,
+        "topPairingTriCursor_of_closed": true,
+        "topPairingTriShadow_eq_target_of_closed": true
+      },
+      "status": "accepted_target_shadow_cursor"
+    },
+    "terminal_state_step_socket": {
+      "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingTerminalStateStepSocket.lean",
+      "required_symbols": {
+        "def Contains": true,
+        "def nextStep": true,
+        "structure Head": true,
+        "structure TerminalStepState": true,
+        "theorem Head.transducer_cons": true,
+        "theorem contains_nextStep": true,
+        "theorem initial_contains_of_closed": true
+      },
+      "status": "accepted_terminal_state_step_socket"
+    },
+    "transducer_tail": {
+      "file": "Cuboctahedron/Search/TopPairingTransducerTail.lean",
+      "required_symbols": {
+        "structure TopPairingTransducerTail": true,
+        "theorem cons": true,
+        "theorem cons_square_tail": true,
+        "theorem cons_tri_tail": true,
+        "theorem ofClosedObj": true,
+        "theorem ofClosedRank": true
+      },
+      "status": "accepted_transducer_tail"
+    }
+  },
   "status": "validated_lanes_remaining_lanes_missing",
-  "validated_lane_count": 2,
+  "validated_lane_count": 1,
   "validated_lanes": [
-    "tmpm_zm",
-    "zm_tmpp"
+    "tmpm_zm"
   ]
 }

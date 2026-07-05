@@ -13,6 +13,12 @@ file connects that semantic fact directly to the trace start-violation
 providers, without importing the all-trace dispatcher and without introducing
 sampled rank/path objects, selected-prefix ids, exact affine RHS keys, or stored
 path tables.
+
+Under the stricter semantic-transducer production policy this is diagnostic,
+not final coverage: the private bridge lemmas still use `acceptedTraceOfId` to
+enter the trace providers.  The production replacement should prove the same
+start-violation conclusion directly from the graph221 closed-language suffix
+split or from a deterministic evaluator/cocycle theorem.
 -/
 
 namespace Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221DirectStartViolationBridge

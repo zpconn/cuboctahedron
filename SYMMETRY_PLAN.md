@@ -117161,4 +117161,121 @@ mapped branches (`tmpm,tppm`, `yp,tmmm`, `zm,zp`).  Continue trying direct
 start-violation/terminal routes for those remaining mapped branches before
 adding new Bellman margin evidence.
 ```
+
+#### 2026-07-05 stricter semantic-transducer pivot audit
+
+Status: strategy corrected; graph221 direct bridge is diagnostic, not
+production coverage.
+
+The latest GPT5.5 guidance tightens the acceptance rule: a production
+nonidentity Bellman/direct route must be a deterministic semantic transducer
+theorem from closed holonomy/cancellation language to evaluator or
+start-violation, not a selected-prefix, sampled-rank, accepted-trace-id, exact
+affine RHS, or stored-path carrier.
+
+The repository already has the core trace-free semantic boundary:
+
+```lean
+theorem topPairingTargetShadow_of_summary
+theorem topPairingTriShadow_eq_target_of_closed
+theorem topPairingTriCursor_of_closed
+structure TopPairingTransducerTail
+structure TerminalStepState
+structure StrengthenedClosedTransducerMachineProducerAll
+theorem scaledMargin_nonpos_of_machineProducerAll
+```
+
+I updated the layer-4 readiness audit to check this boundary explicitly:
+
+```text
+semantic_transducer_pivot.status =
+  accepted_closed_language_transducer_boundary
+```
+
+The same audit now applies the stricter production rule to graph221.  The
+existing graph221 direct start-violation bridge remains useful as a diagnostic,
+but it still enters the trace providers through private `acceptedTraceOfId`
+lemmas.  Therefore it is not production coverage under the current plan:
+
+```text
+zm_tmpp status =
+  diagnostic_graph221_direct_start_violation_uses_accepted_trace
+
+direct_killed_layer4_portfolio.status =
+  diagnostic_graph183_graph221_direct_portfolio_uses_accepted_trace
+```
+
+Current lane accounting after the stricter audit:
+
+```text
+validated_lanes = [tmpm_zm]
+partial_lanes = [yp_zm, zm_yp]
+diagnostic_lanes = [zm_tmpp]
+missing_lanes = [tmpm_tppm, yp_tmmm, yp_zm, zm_tmpp, zm_yp, zm_zp]
+```
+
+This supersedes the previous graph183+graph221 portfolio status.  The
+graph183 `tmpm,zm` lane remains production-clean.  The graph221 `zm,tmpp`
+lane should not be scaled through the combined portfolio until its
+`acceptedTraceOfId` dependency is replaced by one of:
+
+```text
+1. a deterministic closed-language-to-evaluator/start-violation theorem over
+   the graph221 semantic suffix split; or
+2. a cocycle/cancellation-summary quotient theorem if the direct theorem needs
+   trace ids or exact affine data.
+```
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/top_pairing_target_cursor_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Search/TopPairingTargetCursor.olean \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/closed_transducer_producer_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedTransducerProducerSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingClosedTransducerProducerSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph221_direct_start_violation_bridge_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221DirectStartViolationBridge.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221DirectStartViolationBridge.lean
+```
+
+Results:
+
+```text
+TopPairingTargetCursor: passed, elapsed 12.01s, peak RSS 3775 MiB,
+  min available 45486 MiB
+ClosedTransducerProducerSocket: passed, elapsed 11.01s, peak RSS 3853 MiB,
+  min available 45425 MiB
+Graph221DirectStartViolationBridge: passed, elapsed 11.01s, peak RSS 3891 MiB,
+  min available 45365 MiB
+```
+
+Next implementation target:
+
+```text
+Replace the graph221 acceptedTraceOfId bridge with a deterministic semantic
+object theorem.  Start from the existing graph221 semantic suffix split and
+prove the start-violation or evaluator gate directly from
+TopPairingClosedLanguageAtRank/Depth11Layer4PrefixAtRank plus target cursor
+and terminal-step state.  If that proof wants trace ids, exact affine RHS, or a
+rank/path table, stop and run the graph221 cocycle/cancellation-summary quotient
+experiment instead.
 ```
