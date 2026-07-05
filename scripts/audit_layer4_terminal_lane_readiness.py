@@ -310,9 +310,11 @@ GRAPH147_COCYCLE_BRANCH_SMOKE_REQUIRED = [
     "graph147YpZmBranchRawGain_contract",
     "graph147YpZmBranchMargin_contract",
     "graph147YpZmQuotientBranchSmoke",
+    "graph147YpZmGaugeCorrectedBranchSmoke",
     "graph147ZmYpBranchRawGain_contract",
     "graph147ZmYpBranchMargin_contract",
     "graph147ZmYpQuotientBranchSmoke",
+    "graph147ZmYpGaugeCorrectedBranchSmoke",
 ]
 
 GRAPH147_COCYCLE_EDGE_SHARDS_REQUIRED = [

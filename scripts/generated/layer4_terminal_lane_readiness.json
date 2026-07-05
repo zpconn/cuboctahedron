@@ -60,9 +60,11 @@
         "graph147QuotientStep": true,
         "graph147YpZmBranchMargin_contract": true,
         "graph147YpZmBranchRawGain_contract": true,
+        "graph147YpZmGaugeCorrectedBranchSmoke": true,
         "graph147YpZmQuotientBranchSmoke": true,
         "graph147ZmYpBranchMargin_contract": true,
         "graph147ZmYpBranchRawGain_contract": true,
+        "graph147ZmYpGaugeCorrectedBranchSmoke": true,
         "graph147ZmYpQuotientBranchSmoke": true
       },
       "cocycle_edge_shards_status": "diagnostic_full_edge_shards_passed",
@@ -385,9 +387,11 @@
         "graph147QuotientStep": true,
         "graph147YpZmBranchMargin_contract": true,
         "graph147YpZmBranchRawGain_contract": true,
+        "graph147YpZmGaugeCorrectedBranchSmoke": true,
         "graph147YpZmQuotientBranchSmoke": true,
         "graph147ZmYpBranchMargin_contract": true,
         "graph147ZmYpBranchRawGain_contract": true,
+        "graph147ZmYpGaugeCorrectedBranchSmoke": true,
         "graph147ZmYpQuotientBranchSmoke": true
       },
       "cocycle_edge_shards_status": "diagnostic_full_edge_shards_passed",

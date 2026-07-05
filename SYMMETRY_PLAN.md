@@ -105286,6 +105286,134 @@ Next graph147 rule:
   branch per observed path, stop and add a stronger semantic quotient/segment
   state instead.
 
+### 2026-07-05 gauge-corrected branch smoke accepted
+
+The bounded graph147 cocycle quotient branch smoke now consumes the new
+gauge-corrected theorem directly.  Updated:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraph147CocycleQuotientBranchSmoke.lean
+```
+
+New generated-style diagnostic theorems:
+
+```lean
+theorem graph147YpZmGaugeCorrectedBranchSmoke :
+    (176 : Int) + graph147YpZmBranchRawGain <= 0
+
+theorem graph147ZmYpGaugeCorrectedBranchSmoke :
+    (176 : Int) + graph147ZmYpBranchRawGain <= 0
+```
+
+These use:
+
+```lean
+const_add_rawGain_nonpos_of_gaugeCorrected_quotient_labelStepRun
+```
+
+with the existing branch full-run witness, the quotient step theorem, a small
+constant branch potential, final gauge domination, and root gauge-corrected
+bound.  This is still bounded diagnostic evidence, not graph147 coverage, but
+it proves that generated graph147-style data can use the new trusted theorem
+surface.
+
+Commands and outcomes:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_cocycle_quotient_branch_smoke_gauge_corrected_guard.json \
+  --verbose -- \
+  lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147CocycleQuotientBranchSmoke.lean
+```
+
+Result:
+
+```text
+failed safely; peak_tree_rss=3954 MiB.
+Reason: direct Lean import saw a stale compiled BellmanPotential `.olean`, so
+the new gauge-corrected theorem name was unknown.
+```
+
+Rebuilt the dependency under serialized Lake settings.  The first attempt with
+the hard address-space cap failed before real work with `failed to create
+thread`, so the successful run kept the RSS guard and removed only the hard
+AS cap:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/bellman_potential_gauge_corrected_lake_guard.json \
+  --verbose -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.BellmanPotential
+```
+
+Result:
+
+```text
+pass; elapsed=5.00s; peak_tree_rss=3713 MiB; min_available=46252 MiB
+```
+
+Then the branch smoke built:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_cocycle_quotient_branch_smoke_gauge_corrected_guard.json \
+  --verbose -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph147CocycleQuotientBranchSmoke
+```
+
+Result:
+
+```text
+pass; elapsed=3.00s; peak_tree_rss=3957 MiB; min_available=46186 MiB
+```
+
+Narrow forbidden-token scan:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph147CocycleQuotientBranchSmoke.lean \
+  Cuboctahedron/Search/BellmanPotential.lean \
+  scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+pass; no matches
+```
+
+The readiness audit now requires and finds:
+
+```text
+graph147YpZmGaugeCorrectedBranchSmoke = true
+graph147ZmYpGaugeCorrectedBranchSmoke = true
+```
+
+Decision:
+
+- Promote the gauge-corrected theorem surface from "core only" to "usable by
+  generated-style graph147 branch data".
+- Keep the scope bounded: this branch smoke covers only two representative
+  branches.  It does not prove `StrengthenedGraph147RootMarginBundle`.
+- Next graph147 production work must still prove the semantic full-graph
+  root-margin producer, or find a stronger semantic quotient/segment state
+  with zero corrected edge failures.
+
 ### 2026-07-05 revised pivot: closed-language evaluator theorem first
 
 The newest GPT5.5 Pro guidance is now the controlling strategy for the

@@ -218,6 +218,19 @@ private def SmallStep (s label t : Nat) (gain : Int) : Prop :=
     q (fullSrc i) = s /\ edgeLabel i = label /\
       q (fullDst i) = t /\ smallGain i = gain
 
+private def branchPotential (_state : Nat) : Int :=
+  30
+
+private theorem smallStep_branchPotential_valid :
+    forall s label t gain,
+      SmallStep s label t gain ->
+        gain + branchPotential t <= branchPotential s := by
+  intro s label t gain hstep
+  rcases hstep with ⟨i, _hs, _hlabel, _ht, hgain⟩
+  rw [← hgain]
+  simp [branchPotential]
+  fin_cases i <;> decide
+
 private theorem localEquation (i : Fin edgeCount) :
     rawGain i = smallGain i + gauge (fullDst i) - gauge (fullSrc i) := by
   fin_cases i <;> decide
@@ -354,6 +367,16 @@ theorem graph147YpZmQuotientBranchSmoke :
   BellmanLabelStepRun.quotient_of_step_gain_eq
     graph147QuotientStep YpZmBranchFullRun
 
+theorem graph147YpZmGaugeCorrectedBranchSmoke :
+    (176 : Int) + graph147YpZmBranchRawGain <= 0 :=
+  const_add_rawGain_nonpos_of_gaugeCorrected_quotient_labelStepRun
+    (q := q) (gauge := gauge) (V := branchPotential)
+    graph147QuotientStep
+    YpZmBranchFullRun
+    smallStep_branchPotential_valid
+    (by decide)
+    (by decide)
+
 private def ZmYpEdge0 : Fin edgeCount := ⟨14, by decide⟩
 private def ZmYpEdge1 : Fin edgeCount := ⟨15, by decide⟩
 private def ZmYpEdge2 : Fin edgeCount := ⟨16, by decide⟩
@@ -471,9 +494,21 @@ theorem graph147ZmYpQuotientBranchSmoke :
   BellmanLabelStepRun.quotient_of_step_gain_eq
     graph147QuotientStep ZmYpBranchFullRun
 
+theorem graph147ZmYpGaugeCorrectedBranchSmoke :
+    (176 : Int) + graph147ZmYpBranchRawGain <= 0 :=
+  const_add_rawGain_nonpos_of_gaugeCorrected_quotient_labelStepRun
+    (q := q) (gauge := gauge) (V := branchPotential)
+    graph147QuotientStep
+    ZmYpBranchFullRun
+    smallStep_branchPotential_valid
+    (by decide)
+    (by decide)
+
 theorem graph147CocycleQuotientBranchSmoke_builds : True := by
   have h0 := graph147YpZmBranchMargin_contract
   have h1 := graph147ZmYpBranchMargin_contract
+  have h2 := graph147YpZmGaugeCorrectedBranchSmoke
+  have h3 := graph147ZmYpGaugeCorrectedBranchSmoke
   exact True.intro
 
 end Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph147CocycleQuotientBranchSmoke
