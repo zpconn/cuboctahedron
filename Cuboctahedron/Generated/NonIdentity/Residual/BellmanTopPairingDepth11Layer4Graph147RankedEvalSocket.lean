@@ -1042,6 +1042,16 @@ def rootMarginBundle_of_graph147TargetCompletionRootMarginSequenceBadFace
     (rankedEvalMarginBundle_of_graph147TargetCompletionRootMarginSequenceBadFace
       scaledMargin)
 
+def rankedShardMarginInvariantFamily_of_graph147TargetCompletionRootMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    StrengthenedGraph147RankedShardMarginInvariantFamily
+      (Graph147RankedSuffixEvalMarginInv scaledMargin)
+      scaledMargin
+      (Graph147TargetCompletionRootMarginSequenceBadFace scaledMargin) :=
+  rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle
+    (rankedEvalMarginBundle_of_graph147TargetCompletionRootMarginSequenceBadFace
+      scaledMargin)
+
 /--
 If `sequenceBadFace_ok` carries the semantic graph-147 branch start-margin
 facts, the ranked-evaluator margin bundle is immediate.
@@ -1065,6 +1075,16 @@ def rankedEvalMarginBundle_of_graph147RankedEvalMarginSequenceBadFace
     intro rank hstrengthened rest hprefix finish gain heval
     rcases hstrengthened.sequenceBadFace_ok with ⟨_hbadFace, _hyp_zm, hzm_yp⟩
     exact hzm_yp rest hprefix finish gain heval
+
+def rankedShardMarginInvariantFamily_of_graph147RankedEvalMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    StrengthenedGraph147RankedShardMarginInvariantFamily
+      (Graph147RankedSuffixEvalMarginInv scaledMargin)
+      scaledMargin
+      (Graph147RankedEvalMarginSequenceBadFace scaledMargin) :=
+  rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle
+    (rankedEvalMarginBundle_of_graph147RankedEvalMarginSequenceBadFace
+      scaledMargin)
 
 def rootMarginBundle_of_graph147RankedEvalMarginSequenceBadFace
     (scaledMargin : Fin numPairWords -> Int) :

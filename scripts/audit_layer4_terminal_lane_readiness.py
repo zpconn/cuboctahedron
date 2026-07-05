@@ -400,6 +400,8 @@ GRAPH147_RANKED_EVAL_SOCKET_REQUIRED = [
     "rootMarginBundle_of_rankedShardMarginInvariantFamily_via_rankedEvalMarginBundle",
     "Graph147RankedEvalMarginSequenceBadFace",
     "Graph147TargetCompletionRootMarginSequenceBadFace",
+    "rankedShardMarginInvariantFamily_of_graph147RankedEvalMarginSequenceBadFace",
+    "rankedShardMarginInvariantFamily_of_graph147TargetCompletionRootMarginSequenceBadFace",
     "rootMarginBundle_of_graph147RankedEvalMarginSequenceBadFace",
     "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle",
     "rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle",

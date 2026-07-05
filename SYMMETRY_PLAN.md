@@ -117716,3 +117716,71 @@ So a `Graph147RankedEvalMarginSequenceBadFace` theorem is production-safe only
 when its margin evidence is derived from the semantic deterministic language,
 not from `SampledRankIndex`, selected prefixes, accepted trace ids, exact
 affine RHS keys, solved start points, or stored path membership.
+
+#### 2026-07-05 graph147 direct shard-margin adapter exposed
+
+Status: accepted as a small production-socket refinement; not margin proof.
+
+The graph147 ranked-eval socket now exposes the carrier-to-shard-invariant
+adapters directly:
+
+```lean
+def rankedShardMarginInvariantFamily_of_graph147RankedEvalMarginSequenceBadFace
+def rankedShardMarginInvariantFamily_of_graph147TargetCompletionRootMarginSequenceBadFace
+```
+
+This tightens the path requested by the semantic-transducer pivot:
+
+```text
+Graph147RankedEvalMarginSequenceBadFace
+  -> StrengthenedGraph147RankedShardMarginInvariantFamily
+  -> StrengthenedGraph147RankedEvalMarginInvariantFamily
+  -> StrengthenedGraph147RankedEvalMarginBundle
+  -> rootMarginBundle_of_rankedEvalMarginBundle
+```
+
+The theorem still does not prove the missing branch start-margin facts.  It
+only makes the exact socket target explicit, so a future producer can feed the
+ranked shard invariant without detouring through selected-prefix or
+root-trace diagnostics.
+
+Commands run:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/graph147_ranked_eval_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 -m py_compile \
+  scripts/audit_graph147_ranked_transducer_frontier.py \
+  scripts/audit_layer4_terminal_lane_readiness.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Results:
+
+```text
+graph147 ranked-eval socket: passed, elapsed 12.01s, peak RSS 3978 MiB,
+  min available 46202 MiB
+frontier audit: passed; status = ready_for_ranked_eval_margin_bundle_producer
+layer-4 audit: passed; graph147 ranked-eval socket still accepted
+```
+
+Next implementation target:
+
+```text
+Prove the first real semantic branch start-margin producer:
+  Graph147RankedEvalMarginSequenceBadFace
+or instantiate:
+  StrengthenedGraph147RankedShardMarginInvariantFamily
+from target-cursor / ranked-suffix / graph147 Bellman state / checked
+segment-cocycle facts.  If that proof needs exact affine RHS, solved starts,
+acceptedTraceOfId, selected prefixes, sampled rank/path objects, or stored
+trace tables, reject the attempt and strengthen the semantic state or quotient
+instead.
+```

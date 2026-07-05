@@ -114,6 +114,8 @@
       "rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily": true,
       "rankedEvalMarginBundle_of_rankedTransducerInvariantFamily": true,
       "rankedEvalMarginInvariantFamily_of_rankedShardMarginInvariantFamily": true,
+      "rankedShardMarginInvariantFamily_of_graph147RankedEvalMarginSequenceBadFace": true,
+      "rankedShardMarginInvariantFamily_of_graph147TargetCompletionRootMarginSequenceBadFace": true,
       "rankedShardMarginInvariantFamily_of_rankedEvalMarginBundle": true,
       "rootMarginBundle_of_graph147RankedEvalMarginSequenceBadFace": true,
       "rootMarginBundle_of_graph147TargetCompletionRootMarginSequenceBadFace": true,
