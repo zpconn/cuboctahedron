@@ -287,6 +287,100 @@ def rootMarginBundle_of_fullRootMarginBundle
   yp_zm := rootMarginFamily_of_yp_zm_fullRootMargin hbundle.yp_zm
   zm_yp := rootMarginFamily_of_zm_yp_fullRootMargin hbundle.zm_yp
 
+def fullRootMarginFamily_of_yp_zm_graphExactEvalGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hgate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+        strengthenedClosedEvalNext
+        (fun face : Face => face)
+        strengthenedClosedEvalStart
+        (176 : Int)
+        scaledMargin
+        sequenceBadFace
+        Face.ym) :
+    StrengthenedGraph147YpZmFullRootMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened _rest _hprefix result heval
+    rcases hgate rank hstrengthened with ⟨finish, gain, gate⟩
+    have heval' :
+        evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+            (topPairingRankFaceLabels rank) =
+          some (finish, gain) := by
+      simpa [topPairingRankFaceLabels] using gate.eval_eq
+    have hresult : result = (finish, gain) := by
+      rw [heval] at heval'
+      exact Option.some.inj heval'
+    rw [hresult]
+    exact gate.margin_bound
+
+def fullRootMarginFamily_of_zm_yp_graphExactEvalGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hgate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+        strengthenedClosedEvalNext
+        (fun face : Face => face)
+        strengthenedClosedEvalStart
+        (176 : Int)
+        scaledMargin
+        sequenceBadFace
+        Face.ym) :
+    StrengthenedGraph147ZmYpFullRootMarginFamily
+      scaledMargin sequenceBadFace where
+  margin := by
+    intro rank hstrengthened _rest _hprefix result heval
+    rcases hgate rank hstrengthened with ⟨finish, gain, gate⟩
+    have heval' :
+        evalLabelStepFn strengthenedClosedEvalNext strengthenedClosedEvalStart
+            (topPairingRankFaceLabels rank) =
+          some (finish, gain) := by
+      simpa [topPairingRankFaceLabels] using gate.eval_eq
+    have hresult : result = (finish, gain) := by
+      rw [heval] at heval'
+      exact Option.some.inj heval'
+    rw [hresult]
+    exact gate.margin_bound
+
+def fullRootMarginBundle_of_graphExactEvalGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hgate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+        strengthenedClosedEvalNext
+        (fun face : Face => face)
+        strengthenedClosedEvalStart
+        (176 : Int)
+        scaledMargin
+        sequenceBadFace
+        Face.ym) :
+    StrengthenedGraph147FullRootMarginBundle
+      scaledMargin sequenceBadFace where
+  yp_zm := fullRootMarginFamily_of_yp_zm_graphExactEvalGate hgate
+  zm_yp := fullRootMarginFamily_of_zm_yp_graphExactEvalGate hgate
+
+def rootMarginBundle_of_graphExactEvalGate
+    {scaledMargin : Fin numPairWords -> Int}
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    (hgate :
+      TopPairingStrengthenedToGraphExactEvalGate
+        (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+        strengthenedClosedEvalNext
+        (fun face : Face => face)
+        strengthenedClosedEvalStart
+        (176 : Int)
+        scaledMargin
+        sequenceBadFace
+        Face.ym) :
+    StrengthenedGraph147RootMarginBundle
+      scaledMargin sequenceBadFace :=
+  rootMarginBundle_of_fullRootMarginBundle
+    (fullRootMarginBundle_of_graphExactEvalGate hgate)
+
 private theorem graph147YpZm_usedFaceTail_of_strengthened_prefix
     {sequenceBadFace : Fin numPairWords -> Face -> Prop}
     {rank : Fin numPairWords} {rest : List Face}

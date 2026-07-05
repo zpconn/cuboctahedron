@@ -105483,6 +105483,105 @@ The go/no-go rule remains unchanged: no selected-prefix ids, sampled ranks,
 accepted-trace ids, exact affine RHS keys, solved start points, or
 per-observed-path proof branches.
 
+### 2026-07-05 graph147 graph-exact gate to margin bundle adapter accepted
+
+The graph147 direct socket now also accepts the most general existing
+semantic-gate output:
+
+```lean
+TopPairingStrengthenedToGraphExactEvalGate
+  (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+  strengthenedClosedEvalNext
+  (fun face : Face => face)
+  strengthenedClosedEvalStart
+  (176 : Int)
+  scaledMargin
+  sequenceBadFace
+  Face.ym
+```
+
+and packages it into the graph147 full-root/root-margin bundle surfaces.
+This is important because the generic transducer theorem already produces this
+shape:
+
+```lean
+strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix
+```
+
+The graph147 producer can now instantiate that generic theorem and hand the
+result directly to:
+
+```lean
+def fullRootMarginBundle_of_graphExactEvalGate
+def rootMarginBundle_of_graphExactEvalGate
+```
+
+Added names:
+
+```lean
+def fullRootMarginFamily_of_yp_zm_graphExactEvalGate
+def fullRootMarginFamily_of_zm_yp_graphExactEvalGate
+def fullRootMarginBundle_of_graphExactEvalGate
+def rootMarginBundle_of_graphExactEvalGate
+```
+
+Focused guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_graph_exact_to_margin_bundle_adapter_guard.json \
+  --verbose -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket
+```
+
+Result:
+
+```text
+pass; elapsed=6.00s; peak_tree_rss=4055 MiB; min_available=46109 MiB
+```
+
+Audit/forbidden-token checks:
+
+```bash
+python3 -m py_compile scripts/audit_layer4_terminal_lane_readiness.py
+
+python3 -c "import json, subprocess; data=json.loads(subprocess.check_output(['python3','scripts/audit_layer4_terminal_lane_readiness.py'])); syms=data['lanes']['yp_zm']['direct_eval_socket_symbols']; print(syms['fullRootMarginBundle_of_graphExactEvalGate']); print(syms['rootMarginBundle_of_graphExactEvalGate']); print(data['lanes']['yp_zm']['status']); print(data['lanes']['zm_yp']['status'])"
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean \
+  scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+py_compile: pass
+audit symbols: true, true
+yp_zm.status = partial_graph147_direct_eval_socket
+zm_yp.status = partial_graph147_direct_eval_socket
+forbidden-token scan: pass; no matches
+```
+
+Current graph147 production route:
+
+1. Prove a ranked semantic local invariant for the graph147 strengthened
+   closed language, using target-shadow/cancellation cursor, tri-source
+   progress, square gap, remaining-face state, and graph147 Bellman state.
+2. Instantiate
+   `strengthenedToGraphExactEvalGate_of_rankedTransducerInvariantLocalWithSuffix`.
+3. Convert the resulting graph-exact gate into
+   `StrengthenedGraph147RootMarginBundle` using
+   `rootMarginBundle_of_graphExactEvalGate`.
+
+Remaining hard gap: the actual graph147 ranked local invariant and finish
+margin theorem.  The sockets are now aligned with the intended semantic
+transducer route; no sampled-rank or selected-prefix API is needed.
+
 ### 2026-07-05 graph147 gauge-corrected potential audit
 
 After the latest GPT5.5 Pro pivot, the graph147 Bellman route was re-audited
