@@ -105111,6 +105111,115 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 latest graph147 production rule
+
+Current rule after the latest GPT5.5 Pro review:
+
+- Keep Bellman/state-DAG for graph147.
+- Reject selected-prefix covers as production evidence.
+- The next accepted producer target is
+  `StrengthenedGraph147RankedTransducerInvariantFamily`, followed by
+  `rootMarginBundle_of_rankedTransducerInvariantFamily`.
+- The proof must be driven by deterministic semantic transducer state:
+  target cursor, schedule/square-gap/local-axis tail, pair-count/used-face
+  facts, and full graph147 Bellman state semantics.
+- If the proof asks for sampled ranks, selected prefixes, accepted trace ids,
+  exact affine RHS keys, solved start-point keys, or one branch per observed
+  path, stop graph147 scaling and switch to the segment/cocycle quotient
+  route.
+
+Checkpoint commands:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/pivot_graph147_target_cursor_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.TopPairingTargetCursor
+```
+
+Results:
+
+```text
+frontier audit status = ready_for_ranked_transducer_invariant_producer
+production_route.keep = Bellman/state-DAG via deterministic semantic transducer
+production_route.target =
+  StrengthenedGraph147RankedTransducerInvariantFamily,
+  then rootMarginBundle_of_rankedTransducerInvariantFamily
+socket.forbidden_hits = []
+target cursor Lake build = pass; elapsed=3.00s; peak_tree_rss=769 MiB;
+min_available=46545 MiB
+```
+
+### 2026-07-05 graph147 selected-prefix route rejected for production
+
+The newest GPT5.5 Pro review has been adopted as a hard production rule:
+Bellman remains the right nonidentity residual shape, but graph147 must be
+proved as a deterministic semantic transducer theorem.  The selected-prefix
+producer is now explicitly treated as a discovery/smoke tool only, not as a
+production coverage coordinate.
+
+The desired graph147 production route is:
+
+```text
+TopPairingStrengthenedClosedLanguageAtRank
+  -> target-shadow / schedule / square-gap / local-axis / used-face state
+  -> StrengthenedGraph147RankedTransducerInvariantFamily
+  -> graphExactEvalGate_of_rankedTransducerInvariantFamily
+  -> rootMarginBundle_of_rankedTransducerInvariantFamily
+```
+
+The audit script now records this route directly and rejects the wrong
+coordinates:
+
+```text
+selected-prefix cover
+sampled rank/path membership
+accepted trace id membership
+exact affine RHS keys
+one generated branch per observed path
+```
+
+Updated audit command:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+```
+
+Result:
+
+```text
+status = ready_for_ranked_transducer_invariant_producer
+production_route.keep = Bellman/state-DAG via deterministic semantic transducer
+production_route.target =
+  StrengthenedGraph147RankedTransducerInvariantFamily,
+  then rootMarginBundle_of_rankedTransducerInvariantFamily
+gauge_audit.decision = full_graph_margin_candidate_only
+gauge_audit.accepted_modes = [full]
+gauge_audit.graph.states = 970
+gauge_audit.graph.edges = 1054
+gauge_audit.graph.finals = 116
+socket.forbidden_hits = []
+```
+
+Interpretation:
+
+- The target-shadow cursor requested by the review is already implemented in
+  `Cuboctahedron/Search/TopPairingTargetCursor.lean`.
+- The graph147 direct socket already exposes the ranked transducer family
+  target and branch-local suffix-start/local-step pieces.
+- The next useful proof is the actual semantic invariant producer.  It must
+  fill `start`, whole-root `suffixStart`, `localStep`, and especially
+  `finish` from closed-language product-state facts.
+- If that proof asks for sampled/selected/trace/exact-affine data, stop
+  graph147 scaling and switch to the certified segment/cocycle quotient
+  experiment before emitting more Lean.
+
 ### 2026-07-05 graph147 deterministic transducer pivot hardened
 
 Latest strategy rule from GPT5.5 Pro:
@@ -107933,6 +108042,50 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 latest graph147 production rule
+
+Current rule after the latest GPT5.5 Pro review:
+
+- Keep Bellman/state-DAG for graph147.
+- Reject selected-prefix covers as production evidence.
+- The next accepted producer target is
+  `StrengthenedGraph147RankedTransducerInvariantFamily`, followed by
+  `rootMarginBundle_of_rankedTransducerInvariantFamily`.
+- The proof must be driven by deterministic semantic transducer state:
+  target cursor, schedule/square-gap/local-axis tail, pair-count/used-face
+  facts, and full graph147 Bellman state semantics.
+- If the proof asks for sampled ranks, selected prefixes, accepted trace ids,
+  exact affine RHS keys, solved start-point keys, or one branch per observed
+  path, stop graph147 scaling and switch to the segment/cocycle quotient
+  route.
+
+Checkpoint commands:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/pivot_graph147_target_cursor_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.TopPairingTargetCursor
+```
+
+Results:
+
+```text
+frontier audit status = ready_for_ranked_transducer_invariant_producer
+production_route.keep = Bellman/state-DAG via deterministic semantic transducer
+production_route.target =
+  StrengthenedGraph147RankedTransducerInvariantFamily,
+  then rootMarginBundle_of_rankedTransducerInvariantFamily
+socket.forbidden_hits = []
+target cursor Lake build = pass; elapsed=3.00s; peak_tree_rss=769 MiB;
+min_available=46545 MiB
+```
+
 ### 2026-07-05 controlling pivot after GPT5.5 transducer review
 
 This is the current rule for the next Bellman work.  Keep the Bellman/state-DAG
@@ -109343,4 +109496,48 @@ Result:
 
 ```text
 pass; no matches
+```
+
+### 2026-07-05 latest graph147 production rule
+
+Current rule after the latest GPT5.5 Pro review:
+
+- Keep Bellman/state-DAG for graph147.
+- Reject selected-prefix covers as production evidence.
+- The next accepted producer target is
+  `StrengthenedGraph147RankedTransducerInvariantFamily`, followed by
+  `rootMarginBundle_of_rankedTransducerInvariantFamily`.
+- The proof must be driven by deterministic semantic transducer state:
+  target cursor, schedule/square-gap/local-axis tail, pair-count/used-face
+  facts, and full graph147 Bellman state semantics.
+- If the proof asks for sampled ranks, selected prefixes, accepted trace ids,
+  exact affine RHS keys, solved start-point keys, or one branch per observed
+  path, stop graph147 scaling and switch to the segment/cocycle quotient
+  route.
+
+Checkpoint commands:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/pivot_graph147_target_cursor_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.TopPairingTargetCursor
+```
+
+Results:
+
+```text
+frontier audit status = ready_for_ranked_transducer_invariant_producer
+production_route.keep = Bellman/state-DAG via deterministic semantic transducer
+production_route.target =
+  StrengthenedGraph147RankedTransducerInvariantFamily,
+  then rootMarginBundle_of_rankedTransducerInvariantFamily
+socket.forbidden_hits = []
+target cursor Lake build = pass; elapsed=3.00s; peak_tree_rss=769 MiB;
+min_available=46545 MiB
 ```

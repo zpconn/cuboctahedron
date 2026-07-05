@@ -21,6 +21,18 @@
     }
   },
   "next_step": "Generate or prove StrengthenedGraph147RankedTransducerInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, and deterministic full-graph147 Bellman state semantics.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.  If the proof needs those, stop and switch to a segment/cocycle quotient experiment.",
+  "production_route": {
+    "fallback": "If the invariant cannot be proved from target cursor, schedule, square-gap/local-axis tail, pair-count/used-face facts, and deterministic full-graph147 state semantics, stop graph147 scaling and switch to the certified segment/cocycle quotient experiment.",
+    "keep": "Bellman/state-DAG via deterministic semantic transducer",
+    "reject": [
+      "selected-prefix cover",
+      "sampled rank/path membership",
+      "accepted trace id membership",
+      "exact affine RHS keys",
+      "one generated branch per observed path"
+    ],
+    "target": "StrengthenedGraph147RankedTransducerInvariantFamily, then rootMarginBundle_of_rankedTransducerInvariantFamily"
+  },
   "remaining_fields": [
     {
       "field": "start",

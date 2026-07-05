@@ -11,7 +11,9 @@ surface now matches the intended semantic Bellman route:
 
 The remaining proof must provide the invariant fields semantically.  This
 script keeps that obligation explicit and checks that the current socket does
-not mention sampled/selected-prefix machinery.
+not mention sampled/selected-prefix machinery.  The selected-prefix producer
+may remain as a discovery/smoke tool, but it is not an acceptable production
+coverage coordinate for graph147.
 """
 
 from __future__ import annotations
@@ -103,6 +105,27 @@ REMAINING_FIELDS = [
     },
 ]
 
+PRODUCTION_ROUTE = {
+    "keep": "Bellman/state-DAG via deterministic semantic transducer",
+    "reject": [
+        "selected-prefix cover",
+        "sampled rank/path membership",
+        "accepted trace id membership",
+        "exact affine RHS keys",
+        "one generated branch per observed path",
+    ],
+    "target": (
+        "StrengthenedGraph147RankedTransducerInvariantFamily, then "
+        "rootMarginBundle_of_rankedTransducerInvariantFamily"
+    ),
+    "fallback": (
+        "If the invariant cannot be proved from target cursor, schedule, "
+        "square-gap/local-axis tail, pair-count/used-face facts, and "
+        "deterministic full-graph147 state semantics, stop graph147 scaling "
+        "and switch to the certified segment/cocycle quotient experiment."
+    ),
+}
+
 
 def read(path: Path) -> str:
     return path.read_text() if path.exists() else ""
@@ -190,6 +213,7 @@ def main() -> None:
             },
         },
         "remaining_fields": REMAINING_FIELDS,
+        "production_route": PRODUCTION_ROUTE,
         "next_step": (
             "Generate or prove StrengthenedGraph147RankedTransducerInvariantFamily "
             "from target-shadow cursor, schedule/square-gap/local-axis tail, "
@@ -242,6 +266,21 @@ def main() -> None:
     lines.extend(["## Remaining Producer Fields", ""])
     for field in REMAINING_FIELDS:
         lines.append(f"- `{field['field']}`: {field['meaning']}")
+    lines.extend(
+        [
+            "",
+            "## Production Route",
+            "",
+            f"- keep: `{PRODUCTION_ROUTE['keep']}`",
+            f"- target: `{PRODUCTION_ROUTE['target']}`",
+            f"- fallback: {PRODUCTION_ROUTE['fallback']}",
+            "",
+            "Rejected production coordinates:",
+            "",
+        ]
+    )
+    for item in PRODUCTION_ROUTE["reject"]:
+        lines.append(f"- {item}")
     lines.extend(["", "## Next Step", "", data["next_step"], ""])
     OUT_MD.write_text("\n".join(lines))
 

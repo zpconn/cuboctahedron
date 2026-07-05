@@ -67,6 +67,20 @@
 - `localStep`: every semantic state/face head transition advances the deterministic evaluator and preserves the invariant and suffix certificate
 - `finish`: every accepted final state has nonnegative potential and proves the full-root margin bound
 
+## Production Route
+
+- keep: `Bellman/state-DAG via deterministic semantic transducer`
+- target: `StrengthenedGraph147RankedTransducerInvariantFamily, then rootMarginBundle_of_rankedTransducerInvariantFamily`
+- fallback: If the invariant cannot be proved from target cursor, schedule, square-gap/local-axis tail, pair-count/used-face facts, and deterministic full-graph147 state semantics, stop graph147 scaling and switch to the certified segment/cocycle quotient experiment.
+
+Rejected production coordinates:
+
+- selected-prefix cover
+- sampled rank/path membership
+- accepted trace id membership
+- exact affine RHS keys
+- one generated branch per observed path
+
 ## Next Step
 
 Generate or prove StrengthenedGraph147RankedTransducerInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, and deterministic full-graph147 Bellman state semantics.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.  If the proof needs those, stop and switch to a segment/cocycle quotient experiment.
