@@ -111666,6 +111666,134 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 graph183 accepted-branch quotient split
+
+The attempt to promote the full 229-edge graph183 quotient smoke into a
+public reusable core was rejected: guarded source checks of both the temporary
+public core and the private smoke timed out at 180 seconds while sitting around
+4.2 GiB RSS.  That route was too close to a raw graph table to be a production
+dependency.
+
+The accepted replacement is a tiny branch-local quotient module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/
+  BellmanTopPairingGraph183AcceptedBranchQuotient.lean
+```
+
+New theorem/API surface:
+
+```lean
+acceptedLocalEquation
+graph183AcceptedBranchRawGain
+graph183AcceptedBranchRawGain_contract
+graph183AcceptedBranchLocalEquationsChecked
+```
+
+This module checks only the 14 accepted-branch edge equations and the branch
+raw-gain contract:
+
+```lean
+graph183AcceptedBranchRawGain = ((194 : Int) + (-542 : Int))
+```
+
+The graph183 quotient-margin socket now imports this small module instead of
+`BellmanTopPairingGraph183CocycleQuotientSmoke.lean`.  The full smoke remains
+diagnostic; it is not a production import and it is not coverage evidence.
+
+Focused guarded checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_accepted_branch_quotient_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183AcceptedBranchQuotient.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/graph183_accepted_branch_quotient_lake_latest_guard.json \
+  -- env LEAN_NUM_THREADS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraph183AcceptedBranchQuotient
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Results:
+
+```text
+accepted branch direct Lean:
+  exit = 0
+  elapsed = 8.01s
+  peak RSS = 3867 MiB
+  min available = 46253 MiB
+
+accepted branch focused Lake build:
+  exit = 0
+  elapsed = 6.01s
+  peak RSS = 3946 MiB
+  min available = 46153 MiB
+
+quotient-margin socket direct Lean:
+  exit = 0
+  elapsed = 3.00s
+  peak RSS = 3243 MiB
+  min available = 46383 MiB
+```
+
+One focused Lake build attempt with a hard address-space cap failed with a
+thread-creation error before doing useful work.  For Lake invocations, use the
+RSS/min-available guard and `LEAN_NUM_THREADS=1`; keep hard address-space caps
+for direct `lake env lean` source checks.
+
+Updated audits:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 -m py_compile scripts/audit_latest_bellman_semantic_pivot.py
+python3 -m py_compile scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+```
+
+Results:
+
+```text
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+carrier readiness decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+```
+
+Current remaining proof target is unchanged:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+It must be proved from the closed-language / deterministic-evaluator /
+cocycle-gauge semantics.  If that proof tries to reintroduce sampled ranks,
+selected prefixes, accepted trace ids, exact affine RHS keys, solved
+start-point keys, or one branch per rank/path, reject the route and strengthen
+the semantic state or switch to the cancellation-segment quotient.
+
 ### 2026-07-05 deterministic transducer pivot sharpened
 
 GPT5.5 Pro's latest recommendation is now the active graph183 strategy:

@@ -40,6 +40,9 @@ FILES = {
     "graph183_tail_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean",
+    "graph183_accepted_branch_quotient": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph183AcceptedBranchQuotient.lean",
     "graph183_quotient_smoke": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraph183CocycleQuotientSmoke.lean",
@@ -89,6 +92,12 @@ REQUIRED = {
         "graph183AcceptedBranchLabels_eq_of_prefix",
         "graph183AcceptedBranchEvalGateResult_of_labels",
         "AcceptedSequenceGraph183AcceptedTailMarginFamily",
+    ],
+    "graph183_accepted_branch_quotient": [
+        "acceptedLocalEquation",
+        "graph183AcceptedBranchRawGain",
+        "graph183AcceptedBranchRawGain_contract",
+        "graph183AcceptedBranchLocalEquationsChecked",
     ],
     "graph183_quotient_smoke": [
         "graph183AcceptedBranchRawGain",
@@ -190,7 +199,8 @@ def main() -> int:
             "rank objects are semantic closed-language subtypes",
             "target-shadow cursor and transducer tail are the membership front door",
             "graph183 completion-tail membership is already semantic",
-            "graph183 accepted branch has a Lean-checked quotient raw-gain run",
+            "graph183 accepted branch has a tiny Lean-checked quotient raw-gain module",
+            "the full graph183 quotient smoke is diagnostic, not a production import",
             "graph183 now exposes a generic sequenceBadFace quotient-margin carrier",
             "the next graph183 target is an upstream semantic proof of that carrier",
         ],

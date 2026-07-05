@@ -37,6 +37,10 @@ GRAPH183_QUOTIENT_SOCKET = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183QuotientMarginSocket.lean"
 )
+GRAPH183_ACCEPTED_BRANCH_QUOTIENT = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183AcceptedBranchQuotient.lean"
+)
 GRAPH183_QUOTIENT_SMOKE = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183CocycleQuotientSmoke.lean"
@@ -64,6 +68,10 @@ COCYCLE_QUOTIENT_1M = (
 )
 GUARD_QUOTIENT_SOCKET = (
     ROOT / "scripts/generated/graph183_quotient_margin_socket_latest_guard.json"
+)
+GUARD_ACCEPTED_BRANCH_QUOTIENT = (
+    ROOT
+    / "scripts/generated/graph183_accepted_branch_quotient_latest_guard.json"
 )
 
 REQUIRED_SOCKET_SYMBOLS = [
@@ -123,6 +131,13 @@ REQUIRED_QUOTIENT_SMOKE_SYMBOLS = [
     "graph183AcceptedBranchRawGain_contract",
     "graph183QuotientAcceptedBranchSmoke",
     "graph183QuotientStep",
+]
+
+REQUIRED_ACCEPTED_BRANCH_QUOTIENT_SYMBOLS = [
+    "acceptedLocalEquation",
+    "graph183AcceptedBranchRawGain",
+    "graph183AcceptedBranchRawGain_contract",
+    "graph183AcceptedBranchLocalEquationsChecked",
 ]
 
 REQUIRED_QUOTIENT_SOCKET_SYMBOLS = [
@@ -670,6 +685,11 @@ def render_markdown(report: dict[str, Any]) -> str:
         "quotient/gauge equations used by the proof must stay Lean-checked",
         "local facts.",
         "",
+        "The production socket depends on the small accepted-branch quotient",
+        "module, not the full 229-edge quotient smoke.  The smoke remains",
+        "diagnostic; the accepted-branch module checks the 14 local equations",
+        "and raw-gain contract that this socket needs.",
+        "",
     ]
     )
     return "\n".join(lines)
@@ -683,6 +703,7 @@ def main() -> int:
     guard_1m = read_json(GUARD_1M)
     quotient_1m = read_json(COCYCLE_QUOTIENT_1M)
     guard_quotient_socket = read_json(GUARD_QUOTIENT_SOCKET)
+    guard_accepted_branch_quotient = read_json(GUARD_ACCEPTED_BRANCH_QUOTIENT)
 
     checks: list[dict[str, Any]] = []
     checks.extend(socket_checks())
@@ -713,6 +734,14 @@ def main() -> int:
     )
     checks.extend(
         text_symbol_checks(
+            "graph183_accepted_branch_quotient",
+            GRAPH183_ACCEPTED_BRANCH_QUOTIENT,
+            REQUIRED_ACCEPTED_BRANCH_QUOTIENT_SYMBOLS,
+            FORBIDDEN_SEMANTIC_TOKENS,
+        )
+    )
+    checks.extend(
+        text_symbol_checks(
             "graph183_quotient_socket",
             GRAPH183_QUOTIENT_SOCKET,
             REQUIRED_QUOTIENT_SOCKET_SYMBOLS,
@@ -729,6 +758,13 @@ def main() -> int:
     checks.extend(
         lean_smoke_guard_checks(
             "graph183_quotient_margin_socket", guard_quotient_socket, 6000.0
+        )
+    )
+    checks.extend(
+        lean_smoke_guard_checks(
+            "graph183_accepted_branch_quotient",
+            guard_accepted_branch_quotient,
+            6000.0,
         )
     )
 
@@ -758,6 +794,17 @@ def main() -> int:
                 "min_available_mib": None
                 if guard_quotient_socket is None
                 else guard_quotient_socket.get("min_available_seen_mib"),
+            },
+            "graph183_accepted_branch_quotient_guard": {
+                "elapsed_seconds": None
+                if guard_accepted_branch_quotient is None
+                else guard_accepted_branch_quotient.get("elapsed_seconds"),
+                "peak_rss_mib": None
+                if guard_accepted_branch_quotient is None
+                else guard_accepted_branch_quotient.get("max_tree_rss_mib"),
+                "min_available_mib": None
+                if guard_accepted_branch_quotient is None
+                else guard_accepted_branch_quotient.get("min_available_seen_mib"),
             },
             "graph183_scaling_contract": contract_metrics(profile_1m),
         },

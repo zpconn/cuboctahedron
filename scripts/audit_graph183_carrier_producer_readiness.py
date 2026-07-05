@@ -5,7 +5,8 @@ This is a status audit, not proof evidence.  Its purpose is to keep the
 graph183 Bellman frontier honest:
 
 * the Lean carrier sockets are now in place;
-* the cocycle quotient smoke is checked but diagnostic;
+* the accepted-branch quotient module is checked and production-sized;
+* the full cocycle quotient smoke is diagnostic only;
 * the 1M profiler supports the route but does not prove coverage;
 * the actual production theorem proving the carrier from closed-language /
   quotient-gauge semantics has not yet been emitted.
@@ -29,6 +30,10 @@ SOCKET = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183QuotientMarginSocket.lean"
 )
+ACCEPTED_BRANCH = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183AcceptedBranchQuotient.lean"
+)
 SMOKE = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183CocycleQuotientSmoke.lean"
@@ -36,6 +41,10 @@ SMOKE = ROOT / (
 PROFILE = ROOT / "scripts/generated/nonid_margin_bellman_graph183_frontier_0_1M.json"
 QUOTIENT = ROOT / "scripts/generated/graph183_cocycle_quotients_0_1M.json"
 GUARD = ROOT / "scripts/generated/graph183_quotient_margin_socket_latest_guard.json"
+ACCEPTED_BRANCH_GUARD = (
+    ROOT
+    / "scripts/generated/graph183_accepted_branch_quotient_latest_guard.json"
+)
 
 REQUIRED_SOCKET_SYMBOLS = [
     "Graph183TailQuotientMarginSequenceBadFace",
@@ -45,6 +54,13 @@ REQUIRED_SOCKET_SYMBOLS = [
     "graph183TailQuotientMarginSequenceBadFace_of_exactEvalSequenceBadFace",
     "graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace",
     "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace",
+]
+
+REQUIRED_ACCEPTED_BRANCH_SYMBOLS = [
+    "acceptedLocalEquation",
+    "graph183AcceptedBranchRawGain",
+    "graph183AcceptedBranchRawGain_contract",
+    "graph183AcceptedBranchLocalEquationsChecked",
 ]
 
 REQUIRED_SMOKE_SYMBOLS = [
@@ -208,28 +224,28 @@ def quotient_checks(quotient: dict[str, Any] | None) -> list[dict[str, Any]]:
     ]
 
 
-def guard_checks(guard: dict[str, Any] | None) -> list[dict[str, Any]]:
+def guard_checks(label: str, guard: dict[str, Any] | None) -> list[dict[str, Any]]:
     if guard is None:
         return [
             {
-                "name": "socket_guard:exists",
+                "name": f"{label}:guard_exists",
                 "passed": False,
-                "detail": "missing graph183 socket guard",
+                "detail": f"missing {label} guard",
             }
         ]
     return [
         {
-            "name": "socket_guard:exit_zero",
+            "name": f"{label}:guard_exit_zero",
             "passed": guard.get("exit_code") == 0,
             "detail": guard.get("exit_code"),
         },
         {
-            "name": "socket_guard:rss_under_6500_mib",
+            "name": f"{label}:rss_under_6500_mib",
             "passed": float(guard.get("max_tree_rss_mib", 10**9)) <= 6500.0,
             "detail": guard.get("max_tree_rss_mib"),
         },
         {
-            "name": "socket_guard:available_above_30000_mib",
+            "name": f"{label}:available_above_30000_mib",
             "passed": float(guard.get("min_available_seen_mib", 0)) >= 30000.0,
             "detail": guard.get("min_available_seen_mib"),
         },
@@ -259,8 +275,12 @@ def render_markdown(report: dict[str, Any]) -> str:
         "## Meaning",
         "",
         "The Lean carrier sockets are present and build under a memory guard.",
+        "The production socket now imports a tiny accepted-branch quotient",
+        "module that checks the 14 local equations and accepted raw-gain",
+        "contract it needs.",
         "The 1M graph183 profile and quotient profile support the route as a",
-        "diagnostic.  However, no production theorem currently proves",
+        "diagnostic.  The full 229-edge quotient smoke remains diagnostic only.",
+        "However, no production theorem currently proves",
         "`Graph183TailQuotientMarginSequenceBadFace` from closed-language,",
         "deterministic-evaluator, or cocycle/gauge semantics.",
         "",
@@ -284,16 +304,47 @@ def render_markdown(report: dict[str, Any]) -> str:
 
 def main() -> int:
     socket_text = read_text(SOCKET)
+    accepted_branch_text = read_text(ACCEPTED_BRANCH)
     smoke_text = read_text(SMOKE)
     profile = read_json(PROFILE)
     quotient = read_json(QUOTIENT)
     guard = read_json(GUARD)
+    accepted_branch_guard = read_json(ACCEPTED_BRANCH_GUARD)
 
     checks: list[dict[str, Any]] = []
     checks.extend(symbol_checks("socket", SOCKET, REQUIRED_SOCKET_SYMBOLS))
+    checks.extend(
+        symbol_checks(
+            "accepted_branch_quotient",
+            ACCEPTED_BRANCH,
+            REQUIRED_ACCEPTED_BRANCH_SYMBOLS,
+        )
+    )
     checks.extend(symbol_checks("smoke", SMOKE, REQUIRED_SMOKE_SYMBOLS))
     checks.extend(forbidden_checks("socket", SOCKET))
+    checks.extend(forbidden_checks("accepted_branch_quotient", ACCEPTED_BRANCH))
     checks.extend(forbidden_checks("smoke", SMOKE))
+    checks.append(
+        {
+            "name": "socket:imports_accepted_branch_quotient",
+            "passed": "BellmanTopPairingGraph183AcceptedBranchQuotient" in socket_text,
+            "detail": "BellmanTopPairingGraph183AcceptedBranchQuotient",
+        }
+    )
+    checks.append(
+        {
+            "name": "socket:does_not_import_full_smoke",
+            "passed": "BellmanTopPairingGraph183CocycleQuotientSmoke" not in socket_text,
+            "detail": "BellmanTopPairingGraph183CocycleQuotientSmoke",
+        }
+    )
+    checks.append(
+        {
+            "name": "accepted_branch:documents_not_coverage",
+            "passed": "not coverage evidence by itself" in accepted_branch_text,
+            "detail": "not coverage evidence by itself",
+        }
+    )
     checks.append(
         {
             "name": "smoke:documents_diagnostic_not_coverage",
@@ -310,7 +361,8 @@ def main() -> int:
     )
     checks.extend(profile_checks(profile))
     checks.extend(quotient_checks(quotient))
-    checks.extend(guard_checks(guard))
+    checks.extend(guard_checks("socket_guard", guard))
+    checks.extend(guard_checks("accepted_branch_guard", accepted_branch_guard))
 
     status = production_status(socket_text)
     failed = [row for row in checks if not row["passed"]]
@@ -343,6 +395,15 @@ def main() -> int:
             "guard_elapsed_seconds": guard_metrics.get("elapsed_seconds"),
             "guard_peak_rss_mib": guard_metrics.get("max_tree_rss_mib"),
             "guard_min_available_mib": guard_metrics.get("min_available_seen_mib"),
+            "accepted_branch_guard_elapsed_seconds": None
+            if accepted_branch_guard is None
+            else accepted_branch_guard.get("elapsed_seconds"),
+            "accepted_branch_guard_peak_rss_mib": None
+            if accepted_branch_guard is None
+            else accepted_branch_guard.get("max_tree_rss_mib"),
+            "accepted_branch_guard_min_available_mib": None
+            if accepted_branch_guard is None
+            else accepted_branch_guard.get("min_available_seen_mib"),
         },
         "next_required_theorem": (
             "Graph183TailQuotientMarginSequenceBadFace scaledMargin, proved "

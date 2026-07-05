@@ -4,7 +4,8 @@
     "rank objects are semantic closed-language subtypes",
     "target-shadow cursor and transducer tail are the membership front door",
     "graph183 completion-tail membership is already semantic",
-    "graph183 accepted branch has a Lean-checked quotient raw-gain run",
+    "graph183 accepted branch has a tiny Lean-checked quotient raw-gain module",
+    "the full graph183 quotient smoke is diagnostic, not a production import",
     "graph183 now exposes a generic sequenceBadFace quotient-margin carrier",
     "the next graph183 target is an upstream semantic proof of that carrier"
   ],
@@ -18,6 +19,17 @@
         "objectCoverOfEvalAccepts": true,
         "structure TopPairingBellmanObj": true,
         "topPairingClosedMembership": true
+      }
+    },
+    "graph183_accepted_branch_quotient": {
+      "forbidden_hits": [],
+      "missing": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean",
+      "required_symbols": {
+        "acceptedLocalEquation": true,
+        "graph183AcceptedBranchLocalEquationsChecked": true,
+        "graph183AcceptedBranchRawGain": true,
+        "graph183AcceptedBranchRawGain_contract": true
       }
     },
     "graph183_lane": {

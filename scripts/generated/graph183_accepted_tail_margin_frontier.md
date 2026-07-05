@@ -77,9 +77,17 @@ cocycle/coboundary quotient.
 
 | metric | value |
 | --- | ---: |
-| `elapsed_seconds` | `5.003310744999908` |
-| `peak_rss_mib` | `3956.23046875` |
-| `min_available_mib` | `46237.83984375` |
+| `elapsed_seconds` | `3.0027022400172427` |
+| `peak_rss_mib` | `3242.82421875` |
+| `min_available_mib` | `46383.1328125` |
+
+### graph183_accepted_branch_quotient_guard
+
+| metric | value |
+| --- | ---: |
+| `elapsed_seconds` | `8.005478353006765` |
+| `peak_rss_mib` | `3867.47265625` |
+| `min_available_mib` | `46252.8984375` |
 
 ### graph183_scaling_contract
 
@@ -171,6 +179,17 @@ must still be Lean-checked through the graph183 family theorem.
 | `graph183_quotient_smoke:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `graph183_quotient_smoke:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `graph183_quotient_smoke:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_accepted_branch_quotient:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean` |
+| `graph183_accepted_branch_quotient:symbol:acceptedLocalEquation` | `True` | `acceptedLocalEquation` |
+| `graph183_accepted_branch_quotient:symbol:graph183AcceptedBranchRawGain` | `True` | `graph183AcceptedBranchRawGain` |
+| `graph183_accepted_branch_quotient:symbol:graph183AcceptedBranchRawGain_contract` | `True` | `graph183AcceptedBranchRawGain_contract` |
+| `graph183_accepted_branch_quotient:symbol:graph183AcceptedBranchLocalEquationsChecked` | `True` | `graph183AcceptedBranchLocalEquationsChecked` |
+| `graph183_accepted_branch_quotient:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_accepted_branch_quotient:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_accepted_branch_quotient:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_accepted_branch_quotient:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_accepted_branch_quotient:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_accepted_branch_quotient:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `graph183_quotient_socket:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean` |
 | `graph183_quotient_socket:symbol:AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily` | `True` | `AcceptedSequenceGraph183AcceptedBranchQuotientMarginFamily` |
 | `graph183_quotient_socket:symbol:acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin` | `True` | `acceptedSequenceGraph183AcceptedBranchLabelMarginFamily_of_quotientMargin` |
@@ -256,8 +275,11 @@ must still be Lean-checked through the graph183 family theorem.
 | `cocycle_quotient_1m:solution_bit_length_under_16` | `True` | `9` |
 | `cocycle_quotient_1m:solution_small_gains_match_edges` | `True` | `{'small_gain_count': 93, 'quotient_edges': 93}` |
 | `graph183_quotient_margin_socket:guard_exit_zero` | `True` | `0` |
-| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3956.23046875` |
-| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46237.83984375` |
+| `graph183_quotient_margin_socket:rss_under_6000_mib` | `True` | `3242.82421875` |
+| `graph183_quotient_margin_socket:available_above_30000_mib` | `True` | `46383.1328125` |
+| `graph183_accepted_branch_quotient:guard_exit_zero` | `True` | `0` |
+| `graph183_accepted_branch_quotient:rss_under_6000_mib` | `True` | `3867.47265625` |
+| `graph183_accepted_branch_quotient:available_above_30000_mib` | `True` | `46252.8984375` |
 
 ## Next Lean Target
 
@@ -279,3 +301,8 @@ through `Graph183TailBranchQuotientStartViolationFamily`.
 The profile remains diagnostic only;
 quotient/gauge equations used by the proof must stay Lean-checked
 local facts.
+
+The production socket depends on the small accepted-branch quotient
+module, not the full 229-edge quotient smoke.  The smoke remains
+diagnostic; the accepted-branch module checks the 14 local equations
+and raw-gain contract that this socket needs.

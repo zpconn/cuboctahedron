@@ -1,7 +1,7 @@
 # Latest Bellman Semantic Pivot Audit
 
 - status: `latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier`
-- files checked: `9`
+- files checked: `10`
 - forbidden hits: `0`
 
 ## Checked Surfaces
@@ -20,6 +20,8 @@
   - required symbols: present
 - `graph183_tail_socket`: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean`
   - required symbols: present
+- `graph183_accepted_branch_quotient`: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean`
+  - required symbols: present
 - `graph183_quotient_smoke`: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean`
   - required symbols: present
 - `graph183_quotient_socket`: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean`
@@ -33,7 +35,8 @@ Accepted:
 - rank objects are semantic closed-language subtypes
 - target-shadow cursor and transducer tail are the membership front door
 - graph183 completion-tail membership is already semantic
-- graph183 accepted branch has a Lean-checked quotient raw-gain run
+- graph183 accepted branch has a tiny Lean-checked quotient raw-gain module
+- the full graph183 quotient smoke is diagnostic, not a production import
 - graph183 now exposes a generic sequenceBadFace quotient-margin carrier
 - the next graph183 target is an upstream semantic proof of that carrier
 

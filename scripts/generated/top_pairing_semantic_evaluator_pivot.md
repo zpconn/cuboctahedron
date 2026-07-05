@@ -30,6 +30,7 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph169_continuation_socket` | `224` | none |
 | `graph183_tail_table_socket` | `1346` | none |
 | `graph183_quotient_margin_socket` | `639` | none |
+| `graph183_accepted_branch_quotient` | `96` | none |
 | `graph183_cocycle_quotient_smoke` | `1803` | none |
 | `target_completion_local_branch_table_shard000` | `1403` | none |
 | `depth11_closed_providers` | `1536` | none |
@@ -89,6 +90,8 @@ acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin
 acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin
 nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation
 nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation
+graph183AcceptedBranchRawGain
+graph183AcceptedBranchRawGain_contract
 ```
 
 The margin producer may use the closed-language proof and the fixed
@@ -113,6 +116,10 @@ branch, but its `FullStep`/`SmallStep` tables are private and it
 does not prove closed-language membership.  Production must expose
 or regenerate those quotient/gauge facts through the deterministic
 closed-language evaluator gate, not import the smoke as coverage.
+The production socket now imports the tiny accepted-branch quotient
+module instead of the full 229-edge smoke; that module checks only
+the 14 accepted-branch local equations and the branch raw-gain
+contract.
 
 ## Go/No-Go Gate
 

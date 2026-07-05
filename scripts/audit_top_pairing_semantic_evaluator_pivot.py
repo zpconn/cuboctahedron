@@ -68,6 +68,9 @@ FILES = {
     "graph183_quotient_margin_socket": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraph183QuotientMarginSocket.lean",
+    "graph183_accepted_branch_quotient": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph183AcceptedBranchQuotient.lean",
     "graph183_cocycle_quotient_smoke": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraph183CocycleQuotientSmoke.lean",
@@ -274,6 +277,12 @@ REQUIRED_SYMBOLS = {
         "acceptedSequenceGraph183AcceptedBranchExactEvalFamily_of_quotientMargin",
         "graph183QuotientMarginSocket_builds",
     ],
+    "graph183_accepted_branch_quotient": [
+        "acceptedLocalEquation",
+        "graph183AcceptedBranchRawGain",
+        "graph183AcceptedBranchRawGain_contract",
+        "graph183AcceptedBranchLocalEquationsChecked",
+    ],
     "graph183_cocycle_quotient_smoke": [
         "private def FullStep",
         "private def SmallStep",
@@ -314,6 +323,7 @@ PRODUCTION_SCAN_FILES = [
     "graph169_continuation_socket",
     "graph183_tail_table_socket",
     "graph183_quotient_margin_socket",
+    "graph183_accepted_branch_quotient",
     "target_completion_local_branch_table_shard000",
     "depth11_closed_providers",
 ]
@@ -368,6 +378,7 @@ GRAPH_ALIGNMENT_GUARDS = {
             "nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation",
             "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
             "graph183AcceptedBranchRawGain",
+            "graph183AcceptedBranchRawGain_contract",
         ],
         "must_not_contain": [
             "SampledRankIndex",
@@ -544,6 +555,8 @@ def render_markdown(report: dict[str, Any]) -> str:
             "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin",
             "nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation",
             "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
+            "graph183AcceptedBranchRawGain",
+            "graph183AcceptedBranchRawGain_contract",
             "```",
             "",
             "The margin producer may use the closed-language proof and the fixed",
@@ -568,6 +581,10 @@ def render_markdown(report: dict[str, Any]) -> str:
             "does not prove closed-language membership.  Production must expose",
             "or regenerate those quotient/gauge facts through the deterministic",
             "closed-language evaluator gate, not import the smoke as coverage.",
+            "The production socket now imports the tiny accepted-branch quotient",
+            "module instead of the full 229-edge smoke; that module checks only",
+            "the 14 accepted-branch local equations and the branch raw-gain",
+            "contract.",
             "",
             "## Go/No-Go Gate",
             "",

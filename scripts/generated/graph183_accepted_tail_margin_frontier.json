@@ -322,6 +322,61 @@
       "passed": true
     },
     {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean",
+      "name": "graph183_accepted_branch_quotient:exists",
+      "passed": true
+    },
+    {
+      "detail": "acceptedLocalEquation",
+      "name": "graph183_accepted_branch_quotient:symbol:acceptedLocalEquation",
+      "passed": true
+    },
+    {
+      "detail": "graph183AcceptedBranchRawGain",
+      "name": "graph183_accepted_branch_quotient:symbol:graph183AcceptedBranchRawGain",
+      "passed": true
+    },
+    {
+      "detail": "graph183AcceptedBranchRawGain_contract",
+      "name": "graph183_accepted_branch_quotient:symbol:graph183AcceptedBranchRawGain_contract",
+      "passed": true
+    },
+    {
+      "detail": "graph183AcceptedBranchLocalEquationsChecked",
+      "name": "graph183_accepted_branch_quotient:symbol:graph183AcceptedBranchLocalEquationsChecked",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "graph183_accepted_branch_quotient:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "graph183_accepted_branch_quotient:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "graph183_accepted_branch_quotient:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "graph183_accepted_branch_quotient:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "graph183_accepted_branch_quotient:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "graph183_accepted_branch_quotient:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
       "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean",
       "name": "graph183_quotient_socket:exists",
       "passed": true
@@ -760,13 +815,28 @@
       "passed": true
     },
     {
-      "detail": 3956.23046875,
+      "detail": 3242.82421875,
       "name": "graph183_quotient_margin_socket:rss_under_6000_mib",
       "passed": true
     },
     {
-      "detail": 46237.83984375,
+      "detail": 46383.1328125,
       "name": "graph183_quotient_margin_socket:available_above_30000_mib",
+      "passed": true
+    },
+    {
+      "detail": 0,
+      "name": "graph183_accepted_branch_quotient:guard_exit_zero",
+      "passed": true
+    },
+    {
+      "detail": 3867.47265625,
+      "name": "graph183_accepted_branch_quotient:rss_under_6000_mib",
+      "passed": true
+    },
+    {
+      "detail": 46252.8984375,
+      "name": "graph183_accepted_branch_quotient:available_above_30000_mib",
       "passed": true
     }
   ],
@@ -785,10 +855,15 @@
       "solution_nonzero_values": 222,
       "solution_small_gain_count": 93
     },
+    "graph183_accepted_branch_quotient_guard": {
+      "elapsed_seconds": 8.005478353006765,
+      "min_available_mib": 46252.8984375,
+      "peak_rss_mib": 3867.47265625
+    },
     "graph183_quotient_margin_socket_guard": {
-      "elapsed_seconds": 5.003310744999908,
-      "min_available_mib": 46237.83984375,
-      "peak_rss_mib": 3956.23046875
+      "elapsed_seconds": 3.0027022400172427,
+      "min_available_mib": 46383.1328125,
+      "peak_rss_mib": 3242.82421875
     },
     "graph183_scaling_contract": {
       "graph183_accepted_bound_scaled": -172,
