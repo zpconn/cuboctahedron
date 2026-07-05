@@ -111514,6 +111514,132 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 strengthened family-to-graph183 carrier pivot
+
+The next Bellman step is now explicitly framed as a deterministic semantic
+transducer theorem, not a selected-prefix cover.  The important production
+surface is:
+
+```lean
+StrengthenedClosedBellmanGraphExactFamily sequenceBadFace scaledMargin
+```
+
+feeding the branch-local carrier:
+
+```lean
+Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin
+Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym
+```
+
+New adapter surface:
+
+```lean
+graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanGraphExactFamily
+graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanGraphExactFamily
+```
+
+This is the concrete form of the current pivot:
+
+1. Keep the Bellman/cocycle route.
+2. Reject selected-prefix or sampled-rank membership as a production surface.
+3. Make the generated/semantic producer prove a strengthened closed-language
+   graph-exact evaluator family.
+4. Let the Graph183 quotient-margin socket consume that family directly.
+
+The remaining required producer theorem is still semantic and unsolved:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+```
+
+or equivalently a generated instance of:
+
+```lean
+StrengthenedClosedBellmanGraphExactFamily sequenceBadFace scaledMargin
+```
+
+It must be derived from closed-language fields such as the target-shadow /
+tri-source cursor, square-gap schedule, local-axis class, and any necessary
+cocycle/gauge margin facts.  It must not use `SampledRankIndex`,
+`sampledContainsRank`, `sampledRankOf`, selected-prefix OR tables, exact affine
+RHS keys, solved start-point keys, or trace-id membership as the outer proof
+coordinate.
+
+Focused guarded direct Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 5.00s
+peak RSS = 3965 MiB
+min available = 46219 MiB
+```
+
+Focused guarded Lake target build, without a hard address-space cap:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 \
+  --json scripts/generated/graph183_quotient_margin_socket_lake_guard.json \
+  -- env LEAN_NUM_THREADS=1 lake build \
+    Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingGraph183QuotientMarginSocket
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 3.00s
+peak RSS = 4059 MiB
+min available = 46119 MiB
+```
+
+Audit lists were tightened so the Graph183 readiness/frontier checks now
+require the strengthened-family adapters above.  This is an audit-policy
+change, not proof completion: future producer work should target the generic
+closed-language graph-exact family surface and then pass through these adapters
+to the Graph183 carrier.
+
+Updated audit commands:
+
+```bash
+python3 -m py_compile \
+  scripts/audit_graph183_carrier_producer_readiness.py \
+  scripts/audit_graph183_accepted_tail_margin_frontier.py \
+  scripts/audit_latest_bellman_semantic_pivot.py \
+  scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_carrier_producer_readiness.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+```
+
+Results:
+
+```text
+carrier readiness decision =
+  graph183_carrier_sockets_ready_but_producer_missing
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+```
+
 ### 2026-07-05 graph183 branch-prefix semantic eval bridge
 
 The newest GPT5.5 guidance says the next breakthrough is not more Bellman

@@ -1,5 +1,6 @@
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
 import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183AcceptedBranchQuotient
+import Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket
 import Cuboctahedron.Generated.NonIdentity.BellmanKilledBridge
 
 /-!
@@ -23,6 +24,7 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph169ContinuationSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph183TailTableSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183AcceptedBranchQuotient
+open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedSemanticGateSocket
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellmanStrengthenedShardedSmoke.Potential
 open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraphAcceptedEvalLanguage
@@ -495,6 +497,30 @@ def graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate
       graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate
         hgate hstrengthened
     exact hcarrier.2 hprefix
+
+def graph183TailQuotientMarginFamily_of_strengthenedClosedBellmanGraphExactFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      StrengthenedClosedBellmanGraphExactFamily
+        sequenceBadFace scaledMargin) :
+    Graph183TailQuotientMarginFamily sequenceBadFace scaledMargin :=
+  graph183TailQuotientMarginFamily_of_strengthenedGraphExactEvalGate
+    hfamily.gate
+
+theorem graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanGraphExactFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hfamily :
+      StrengthenedClosedBellmanGraphExactFamily
+        sequenceBadFace scaledMargin)
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        sequenceBadFace rank Face.ym) :
+    Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym :=
+  graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate
+    hfamily.gate hstrengthened
 
 theorem graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace
     {scaledMargin : Fin numPairWords -> Int}

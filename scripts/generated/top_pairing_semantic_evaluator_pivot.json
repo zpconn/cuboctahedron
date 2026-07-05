@@ -81,7 +81,7 @@
     },
     "graph183_quotient_margin_socket": {
       "exists": true,
-      "lines": 804,
+      "lines": 830,
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean"
     },

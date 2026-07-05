@@ -11,14 +11,14 @@
     "2048",
     "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183QuotientMarginSocket.lean"
   ],
-  "elapsed_seconds": 5.003890568012139,
+  "elapsed_seconds": 5.004831861995626,
   "exit_code": 0,
   "hard_address_space_mib": 6500.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 3636860,
-  "max_tree_rss_mib": 3551.62109375,
-  "min_available_seen_kib": 47450716,
-  "min_available_seen_mib": 46338.58984375,
+  "max_tree_rss_kib": 4060228,
+  "max_tree_rss_mib": 3965.06640625,
+  "min_available_seen_kib": 47329008,
+  "min_available_seen_mib": 46219.734375,
   "rss_cap_mib": 6500.0,
   "timeout_seconds": 180.0
 }
