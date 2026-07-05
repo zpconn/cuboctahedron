@@ -118070,3 +118070,83 @@ rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily
 rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily
 rootMarginBundle_of_rankedEvalMarginBundle
 ```
+
+#### 2026-07-05 graph147 semantic target-tail cases proved
+
+Status: Lean target-tail language case split added and focused-checked.  This
+is proof-relevant semantic evidence, not a sampled-prefix or rank/path table.
+
+New Lean module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCases.lean
+```
+
+New theorem/data names:
+
+```lean
+def graph147TargetTailZp
+def graph147TargetTailTmmp
+
+theorem graph147_targetCompletionTail_cases
+    {labels : List Face}
+    (htail : Graph147TargetCompletionTail labels) :
+    labels = graph147TargetTailZp ∨
+      labels = graph147TargetTailTmmp
+```
+
+This proves that the semantic `Graph147TargetCompletionTail` machine itself has
+exactly the two target completions:
+
+```text
+[zp, tmmm, tpmm, tppm, tpmp, tmpm, tppp, tmpp, tmmp, xp]
+[tmmp, tpmp, tppp, tpmm, tmpp, tppm, tmpm, tmmm, zp, xp]
+```
+
+The separate exact Python audit remains diagnostic only:
+
+```text
+tail_count = 2
+unique_tail_count = 2
+first_face_histogram = {zp: 1, tmmp: 1}
+```
+
+Focused check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/graph147_target_tail_cases_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCases.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCases.lean
+```
+
+Result:
+
+```text
+passed, elapsed 9.01s, peak RSS 3940 MiB, hard address-space cap 24576 MiB,
+min available 46233 MiB
+```
+
+Updated immediate target:
+
+```text
+Use graph147_targetCompletionTail_cases to instantiate:
+
+  StrengthenedGraph147RankedEvalTargetTailObjectFamily
+
+The next proof should establish the ranked-eval target-tail object margin bound
+by a two-branch semantic argument over the proved target tails, or by a local
+semantic invariant if that is cleaner.  It still must not use sampled ranks,
+selected-prefix ids, accepted traces, exact affine keys, or per-observed-path
+membership.
+```
+
+Additional production-route audit markers:
+
+```text
+graph147_targetCompletionTail_cases
+Graph147TargetCompletionTail has exactly two semantic completions
+```

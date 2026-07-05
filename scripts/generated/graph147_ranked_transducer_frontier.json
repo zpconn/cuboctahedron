@@ -36,11 +36,13 @@
     "marker": "mandatory_graph147_semantic_transducer_pivot",
     "meaning": "Graph147 production must be a deterministic closed-language to evaluator theorem.  Selected-prefix/root-trace coverage is diagnostic only unless it is replaced by semantic local transition and margin invariant evidence.",
     "plan_markers": {
+      "Graph147TargetCompletionTail has exactly two semantic completions": true,
       "No selected-prefix/root-trace scaling": true,
       "Root-trace diagnostics only": true,
       "Selected-prefix diagnostics only": true,
       "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
       "closed-language-to-eval theorem": true,
+      "graph147_targetCompletionTail_cases": true,
       "mandatory_graph147_semantic_transducer_pivot": true,
       "reject_selected_prefix_membership_scaling": true,
       "semantic_branch_start_margin_or_cocycle_quotient": true,
@@ -48,7 +50,7 @@
       "target-shadow cursor": true
     }
   },
-  "next_step": "Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalTargetTailObjectFamily, whose objects are rank plus strengthened closed-language proof plus the branch prefix/rest decomposition, together with the semantic Graph147TargetCompletionTail fact already derived from the target-cursor machine.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.",
+  "next_step": "Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalTargetTailObjectFamily, whose objects are rank plus strengthened closed-language proof plus the branch prefix/rest decomposition, together with the semantic Graph147TargetCompletionTail fact and graph147_targetCompletionTail_cases theorem, which proves the target-tail language has exactly two semantic completions.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.",
   "object_margin_profile": {
     "all_margins_equal_expected_bounds": true,
     "all_margins_le_expected_bounds": true,
@@ -64,11 +66,13 @@
   "plan_tail": {
     "file": "SYMMETRY_PLAN.md",
     "pivot_markers": {
+      "Graph147TargetCompletionTail has exactly two semantic completions": true,
       "No selected-prefix/root-trace scaling": true,
       "Root-trace diagnostics only": true,
       "Selected-prefix diagnostics only": true,
       "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
       "closed-language-to-eval theorem": true,
+      "graph147_targetCompletionTail_cases": true,
       "mandatory_graph147_semantic_transducer_pivot": true,
       "reject_selected_prefix_membership_scaling": true,
       "semantic_branch_start_margin_or_cocycle_quotient": true,
@@ -76,11 +80,13 @@
       "target-shadow cursor": true
     },
     "symbols": {
+      "Graph147TargetCompletionTail has exactly two semantic completions": true,
       "StrengthenedGraph147RankedEvalMarginBundle": true,
       "StrengthenedGraph147RankedEvalMarginInvariantFamily": true,
       "StrengthenedGraph147RankedEvalMarginObjectFamily": true,
       "StrengthenedGraph147RankedEvalTargetTailObjectFamily": true,
       "StrengthenedGraph147RankedShardMarginInvariantFamily": true,
+      "graph147_targetCompletionTail_cases": true,
       "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily": true,
       "rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily": true,
       "rankedEvalMarginBundle_of_rankedEvalTargetTailObjectFamily": true,
@@ -333,5 +339,21 @@
       "strengthenedGraph147BranchSuffixStartBundle": true
     }
   },
-  "status": "ready_for_ranked_eval_margin_bundle_producer"
+  "status": "ready_for_ranked_eval_margin_bundle_producer",
+  "target_tail_cases": {
+    "file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCases.lean",
+    "first_face_histogram": {
+      "tmmp": 1,
+      "zp": 1
+    },
+    "language_audit_file": "scripts/generated/graph147_target_tail_language.json",
+    "proof_relevance": "Lean theorem is proof-relevant semantic tail-case evidence; JSON is diagnostic only.",
+    "symbols": {
+      "graph147TargetTailTmmp": true,
+      "graph147TargetTailZp": true,
+      "graph147_targetCompletionTail_cases": true
+    },
+    "tail_count": 2,
+    "unique_tail_count": 2
+  }
 }

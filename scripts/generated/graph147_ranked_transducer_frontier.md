@@ -74,10 +74,23 @@
 - `rankedEvalMarginBundle_of_rankedTransducerInvariantFamily`: `true`
 - `rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle`: `true`
 
+## Target-Tail Cases
+
+- file: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147TargetTailCases.lean`
+- diagnostic language audit: `scripts/generated/graph147_target_tail_language.json`
+- tail count: `2`
+- unique tail count: `2`
+- first-face histogram: `{'tmmp': 1, 'zp': 1}`
+- `graph147TargetTailZp`: `true`
+- `graph147TargetTailTmmp`: `true`
+- `graph147_targetCompletionTail_cases`: `true`
+
 ## Plan Tail Symbols
 
 - file: `SYMMETRY_PLAN.md`
 - `ready_for_ranked_eval_margin_bundle_producer`: `true`
+- `graph147_targetCompletionTail_cases`: `true`
+- `Graph147TargetCompletionTail has exactly two semantic completions`: `true`
 - `StrengthenedGraph147RankedEvalTargetTailObjectFamily`: `true`
 - `StrengthenedGraph147RankedEvalMarginObjectFamily`: `true`
 - `StrengthenedGraph147RankedEvalMarginInvariantFamily`: `true`
@@ -97,6 +110,8 @@
 - `sequenceBadFace_ok is only a carrier`: `true`
 - `closed-language-to-eval theorem`: `true`
 - `target-shadow cursor`: `true`
+- `graph147_targetCompletionTail_cases`: `true`
+- `Graph147TargetCompletionTail has exactly two semantic completions`: `true`
 - `No selected-prefix/root-trace scaling`: `true`
 - `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
 - `Selected-prefix diagnostics only`: `true`
@@ -287,4 +302,4 @@ Rejected production coordinates:
 
 ## Next Step
 
-Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalTargetTailObjectFamily, whose objects are rank plus strengthened closed-language proof plus the branch prefix/rest decomposition, together with the semantic Graph147TargetCompletionTail fact already derived from the target-cursor machine.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.
+Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalTargetTailObjectFamily, whose objects are rank plus strengthened closed-language proof plus the branch prefix/rest decomposition, together with the semantic Graph147TargetCompletionTail fact and graph147_targetCompletionTail_cases theorem, which proves the target-tail language has exactly two semantic completions.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.

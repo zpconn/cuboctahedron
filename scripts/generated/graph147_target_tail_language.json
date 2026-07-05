@@ -1,0 +1,20 @@
+{
+  "first_face_histogram": {
+    "tmmp": 1,
+    "zp": 1
+  },
+  "interpretation": "If tail_count is small, a semantic target-tail split may be a good next proof target.  If it is large, prefer a margin invariant over TopPairingTargetCompletionTail states.",
+  "mode": "graph147-target-tail-language-audit",
+  "proof_relevance": "diagnostic only; no Lean evidence",
+  "schema_version": 1,
+  "suffix_after_first_count": 2,
+  "tail_count": 2,
+  "tail_length_histogram": {
+    "10": 2
+  },
+  "tails": [
+    "zp tmmm tpmm tppm tpmp tmpm tppp tmpp tmmp xp",
+    "tmmp tpmp tppp tpmm tmpp tppm tmpm tmmm zp xp"
+  ],
+  "unique_tail_count": 2
+}

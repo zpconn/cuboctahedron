@@ -37,6 +37,11 @@ RANKED_EVAL_SOCKET = (
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean"
 )
+TARGET_TAIL_CASES = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph147TargetTailCases.lean"
+)
 TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_TAIL = ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean"
 TRANSDUCER_EVAL = ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean"
@@ -48,6 +53,9 @@ COCYCLE_QUOTIENT_AUDIT = (
 )
 OBJECT_MARGIN_PROFILE = (
     ROOT / "scripts/generated/graph147_object_margin_profile.json"
+)
+TARGET_TAIL_LANGUAGE_AUDIT = (
+    ROOT / "scripts/generated/graph147_target_tail_language.json"
 )
 
 SELECTED_PREFIX_DIAGNOSTIC_FILES = [
@@ -144,6 +152,12 @@ RANKED_EVAL_SYMBOLS = [
     "rootMarginBundle_of_graphExactEvalGate_via_rankedEvalMarginBundle",
     "rankedEvalMarginBundle_of_rankedTransducerInvariantFamily",
     "rootMarginBundle_of_rankedTransducerInvariantFamily_via_rankedEvalMarginBundle",
+]
+
+TARGET_TAIL_CASE_SYMBOLS = [
+    "graph147TargetTailZp",
+    "graph147TargetTailTmmp",
+    "graph147_targetCompletionTail_cases",
 ]
 
 SEMANTIC_INPUT_SYMBOLS = {
@@ -249,6 +263,8 @@ PLAN_PIVOT_MARKERS = [
     "sequenceBadFace_ok is only a carrier",
     "closed-language-to-eval theorem",
     "target-shadow cursor",
+    "graph147_targetCompletionTail_cases",
+    "Graph147TargetCompletionTail has exactly two semantic completions",
     "No selected-prefix/root-trace scaling",
     "StrengthenedGraph147RankedShardMarginInvariantFamily",
     "Selected-prefix diagnostics only",
@@ -338,6 +354,7 @@ def tail_text(text: str, lines: int = 260) -> str:
 def main() -> None:
     direct_text = read(DIRECT_SOCKET)
     ranked_eval_text = read(RANKED_EVAL_SOCKET)
+    target_tail_cases_text = read(TARGET_TAIL_CASES)
     plan_tail = tail_text(read(PLAN))
     semantic_files = {
         "target_cursor": read(TARGET_CURSOR),
@@ -353,9 +370,13 @@ def main() -> None:
     }
     socket_symbols = contains_all(direct_text, SOCKET_SYMBOLS)
     ranked_eval_symbols = contains_all(ranked_eval_text, RANKED_EVAL_SYMBOLS)
+    target_tail_case_symbols = contains_all(
+        target_tail_cases_text, TARGET_TAIL_CASE_SYMBOLS
+    )
     gauge_data = read_json(GAUGE_AUDIT)
     cocycle_quotient_data = read_json(COCYCLE_QUOTIENT_AUDIT)
     object_margin_profile = read_json(OBJECT_MARGIN_PROFILE)
+    target_tail_language = read_json(TARGET_TAIL_LANGUAGE_AUDIT)
     gauge_decision = gauge_data.get("decision")
     gauge_accepted_modes = gauge_data.get("accepted_modes", [])
     cocycle_quotient_decision = cocycle_quotient_data.get("decision")
@@ -399,6 +420,8 @@ def main() -> None:
         plan_tail,
         [
             "ready_for_ranked_eval_margin_bundle_producer",
+            "graph147_targetCompletionTail_cases",
+            "Graph147TargetCompletionTail has exactly two semantic completions",
             "StrengthenedGraph147RankedEvalTargetTailObjectFamily",
             "StrengthenedGraph147RankedEvalMarginObjectFamily",
             "StrengthenedGraph147RankedEvalMarginInvariantFamily",
@@ -415,6 +438,7 @@ def main() -> None:
 
     all_socket = all(socket_symbols.values())
     all_ranked_eval = all(ranked_eval_symbols.values())
+    all_target_tail_cases = all(target_tail_case_symbols.values())
     all_semantic = all(
         all(symbols.values()) for symbols in semantic_symbols.values()
     )
@@ -422,7 +446,8 @@ def main() -> None:
     all_plan_pivot = all(plan_pivot_markers.values())
     status = (
         "ready_for_ranked_eval_margin_bundle_producer"
-        if all_socket and all_ranked_eval and all_semantic and full_graph_only
+        if all_socket and all_ranked_eval and all_target_tail_cases
+        and all_semantic and full_graph_only
         and all_plan_tail and all_plan_pivot and not forbidden_hits
         else "ranked_transducer_frontier_incomplete"
     )
@@ -437,6 +462,22 @@ def main() -> None:
         "ranked_eval_socket": {
             "file": str(RANKED_EVAL_SOCKET.relative_to(ROOT)),
             "symbols": ranked_eval_symbols,
+        },
+        "target_tail_cases": {
+            "file": str(TARGET_TAIL_CASES.relative_to(ROOT)),
+            "symbols": target_tail_case_symbols,
+            "language_audit_file": str(
+                TARGET_TAIL_LANGUAGE_AUDIT.relative_to(ROOT)
+            ),
+            "tail_count": target_tail_language.get("tail_count"),
+            "unique_tail_count": target_tail_language.get("unique_tail_count"),
+            "first_face_histogram": target_tail_language.get(
+                "first_face_histogram"
+            ),
+            "proof_relevance": (
+                "Lean theorem is proof-relevant semantic tail-case evidence; "
+                "JSON is diagnostic only."
+            ),
         },
         "plan_tail": {
             "file": str(PLAN.relative_to(ROOT)),
@@ -549,8 +590,10 @@ def main() -> None:
             "StrengthenedGraph147RankedEvalTargetTailObjectFamily, whose "
             "objects are rank plus strengthened closed-language proof plus "
             "the branch prefix/rest decomposition, together with the semantic "
-            "Graph147TargetCompletionTail fact already derived from the "
-            "target-cursor machine.  If a local invariant is the better proof "
+            "Graph147TargetCompletionTail fact and "
+            "graph147_targetCompletionTail_cases theorem, which proves the "
+            "target-tail language has exactly two semantic completions.  If a "
+            "local invariant is the better proof "
             "shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily "
             "from target-shadow cursor, schedule/square-gap/local-axis tail, "
             "pair-count/used-face facts, graph147 Bellman state semantics, or "
@@ -590,6 +633,20 @@ def main() -> None:
         lines.append(f"- `{symbol}`: `{str(present).lower()}`")
     lines.extend(["", "## Ranked Eval Socket Symbols", ""])
     for symbol, present in ranked_eval_symbols.items():
+        lines.append(f"- `{symbol}`: `{str(present).lower()}`")
+    lines.extend(["", "## Target-Tail Cases", ""])
+    lines.append(f"- file: `{data['target_tail_cases']['file']}`")
+    lines.append(
+        f"- diagnostic language audit: `{data['target_tail_cases']['language_audit_file']}`"
+    )
+    lines.append(f"- tail count: `{data['target_tail_cases']['tail_count']}`")
+    lines.append(
+        f"- unique tail count: `{data['target_tail_cases']['unique_tail_count']}`"
+    )
+    lines.append(
+        f"- first-face histogram: `{data['target_tail_cases']['first_face_histogram']}`"
+    )
+    for symbol, present in target_tail_case_symbols.items():
         lines.append(f"- `{symbol}`: `{str(present).lower()}`")
     lines.extend(["", "## Plan Tail Symbols", ""])
     lines.append(f"- file: `{data['plan_tail']['file']}`")
