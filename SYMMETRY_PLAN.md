@@ -105565,6 +105565,79 @@ Remaining mixed-portfolio gap:
    at the semantic nonpos/killed layer, rather than coercing graph147 into the
    split-10M graph.
 
+### 2026-07-05 graph147 nonpos/root-margin bridge audit
+
+After the mixed all-rank classifier was accepted, inspected whether the
+graph147 branch gates could already be consumed at the nonpositive-margin layer.
+
+Findings:
+
+- The split-10M branch has an existing theorem:
+
+  ```lean
+  scaledMargin_nonpos_of_split10MGraphExactEvalGate
+  ```
+
+- The graph147 branch gate is a generic strengthened evaluator gate:
+
+  ```lean
+  TopPairingGraphExactEvalGateAtRank
+    (fun state : StrengthenedClosedEvalState => graphPotential state.graph)
+    strengthenedClosedEvalNext (fun face : Face => face)
+    strengthenedClosedEvalStart (176 : Int)
+    scaledMargin rank Face.ym
+  ```
+
+- That gate packages evaluator success, terminal nonnegative potential, and a
+  rank-local margin bound.  To turn it into `scaledMargin rank <= 0`, Lean also
+  needs a Bellman telescoping inequality for `strengthenedClosedEvalNext`.
+
+- The repo has local table proofs producing `ClosedBellmanStep` evidence, e.g.
+  `StrengthenedUsedFaceLocalBranchTable.localTransition`, but there is no cheap
+  exported global theorem of the form:
+
+  ```lean
+  theorem strengthenedClosedEvalNext_bound :
+    strengthenedClosedEvalNext state face = some (nextState, gain) ->
+      gain + graphPotential nextState.graph <= graphPotential state.graph
+  ```
+
+- The graph147 cocycle quotient smoke proves two fixed representative branch
+  paths have nonpositive root-adjusted gain:
+
+  ```lean
+  theorem graph147YpZmGaugeCorrectedBranchSmoke :
+    (176 : Int) + graph147YpZmBranchRawGain <= 0
+
+  theorem graph147ZmYpGaugeCorrectedBranchSmoke :
+    (176 : Int) + graph147ZmYpBranchRawGain <= 0
+  ```
+
+  but this smoke is not production coverage.  `Graph147TargetCompletionTail` is
+  a semantic target-completion language, not merely those two observed paths.
+  Therefore the smoke must not be promoted to
+  `StrengthenedGraph147RootMarginBundle` without a semantic proof that every
+  accepted graph147 tail is covered by the quotient/run theorem.
+
+Decision:
+
+- Keep the mixed classifier result as a heterogeneous gate family.
+- Do not coerce graph147 gates into split-10M gates.
+- Next graph147 production step should be one of:
+
+  1. prove/export a bounded `strengthenedClosedEvalNext` next-bound theorem and
+     then add a generic strengthened-evaluator nonpos adapter; or
+  2. prove `StrengthenedGraph147RootMarginBundle` directly via the ranked
+     deterministic transducer/cocycle-quotient route:
+
+     ```lean
+     StrengthenedGraph147RankedTransducerInvariantFamily
+       -> StrengthenedGraph147RootMarginBundle
+     ```
+
+  The second path is still preferred by the GPT5.5 pivot because it keeps the
+  proof semantic and avoids scaling selected-prefix/observed-trace membership.
+
 ### 2026-07-05 graph147 ranked transducer socket accepted
 
 GPT5.5's latest recommendation is now reflected in the graph147 route:
