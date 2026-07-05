@@ -350,7 +350,7 @@
   "graph147_total_observed_count": 4,
   "graph_path_class_count": 273,
   "mode": "graph147-object-margin-profile-audit",
-  "next_producer_target": "StrengthenedGraph147RankedEvalMarginObjectFamily; prove the same suffix-gain margin inequalities semantically over Graph147YpZmRankedEvalMarginObj and Graph147ZmYpRankedEvalMarginObj, not by importing this diagnostic path-class table.",
+  "next_producer_target": "StrengthenedGraph147RankedEvalTargetTailObjectFamily; prove the same suffix-gain margin inequalities semantically over Graph147YpZmRankedEvalMarginObj and Graph147ZmYpRankedEvalMarginObj using the derived Graph147TargetCompletionTail fact, not by importing this diagnostic path-class table.",
   "prefix_gain": -53,
   "prefix_len": 4,
   "profile_range": [

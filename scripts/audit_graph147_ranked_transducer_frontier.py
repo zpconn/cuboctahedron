@@ -110,8 +110,14 @@ RANKED_EVAL_SYMBOLS = [
     "Graph147YpZmRankedEvalMarginObjectBound",
     "Graph147ZmYpRankedEvalMarginObjectBound",
     "StrengthenedGraph147RankedEvalMarginObjectFamily",
+    "Graph147YpZmRankedEvalTargetTailObjectBound",
+    "Graph147ZmYpRankedEvalTargetTailObjectBound",
+    "StrengthenedGraph147RankedEvalTargetTailObjectFamily",
+    "rankedEvalMarginObjectFamily_of_targetTailObjectFamily",
     "rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily",
+    "rankedEvalMarginBundle_of_rankedEvalTargetTailObjectFamily",
     "rootMarginBundle_of_rankedEvalMarginObjectFamily",
+    "rootMarginBundle_of_rankedEvalTargetTailObjectFamily",
     "graph147RankedEval_margin_of_suffixInvariant",
     "StrengthenedGraph147RankedEvalMarginInvariantFamily",
     "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily",
@@ -219,6 +225,7 @@ PRODUCTION_ROUTE = {
         "one generated branch per observed path",
     ],
     "target": (
+        "StrengthenedGraph147RankedEvalTargetTailObjectFamily -> "
         "StrengthenedGraph147RankedEvalMarginObjectFamily or "
         "StrengthenedGraph147RankedShardMarginInvariantFamily -> "
         "StrengthenedGraph147RankedEvalMarginInvariantFamily -> "
@@ -392,10 +399,12 @@ def main() -> None:
         plan_tail,
         [
             "ready_for_ranked_eval_margin_bundle_producer",
+            "StrengthenedGraph147RankedEvalTargetTailObjectFamily",
             "StrengthenedGraph147RankedEvalMarginObjectFamily",
             "StrengthenedGraph147RankedEvalMarginInvariantFamily",
             "StrengthenedGraph147RankedShardMarginInvariantFamily",
             "StrengthenedGraph147RankedEvalMarginBundle",
+            "rankedEvalMarginBundle_of_rankedEvalTargetTailObjectFamily",
             "rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily",
             "rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily",
             "rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily",
@@ -537,10 +546,12 @@ def main() -> None:
         "next_step": (
             "Generate or prove the semantic graph147 margin invariant "
             "producer.  The immediate target is "
-            "StrengthenedGraph147RankedEvalMarginObjectFamily, whose objects "
-            "are rank plus strengthened closed-language proof plus the branch "
-            "prefix/rest decomposition.  If a local invariant is the better "
-            "proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily "
+            "StrengthenedGraph147RankedEvalTargetTailObjectFamily, whose "
+            "objects are rank plus strengthened closed-language proof plus "
+            "the branch prefix/rest decomposition, together with the semantic "
+            "Graph147TargetCompletionTail fact already derived from the "
+            "target-cursor machine.  If a local invariant is the better proof "
+            "shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily "
             "from target-shadow cursor, schedule/square-gap/local-axis tail, "
             "pair-count/used-face facts, graph147 Bellman state semantics, or "
             "a checked segment/cocycle quotient.  The existing gauge-corrected "

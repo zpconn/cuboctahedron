@@ -29,4 +29,4 @@ Untrusted diagnostic audit.  This file is not Lean proof evidence.
 
 ## Next Target
 
-StrengthenedGraph147RankedEvalMarginObjectFamily; prove the same suffix-gain margin inequalities semantically over Graph147YpZmRankedEvalMarginObj and Graph147ZmYpRankedEvalMarginObj, not by importing this diagnostic path-class table.
+StrengthenedGraph147RankedEvalTargetTailObjectFamily; prove the same suffix-gain margin inequalities semantically over Graph147YpZmRankedEvalMarginObj and Graph147ZmYpRankedEvalMarginObj using the derived Graph147TargetCompletionTail fact, not by importing this diagnostic path-class table.

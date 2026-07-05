@@ -117974,3 +117974,99 @@ over path-class ids.  If that theorem cannot be proved from the current
 object fields, promote the missing suffix-shape/cancellation facts into the
 semantic object state rather than falling back to sampled traces.
 ```
+
+#### 2026-07-05 graph147 target-tail object producer surface added
+
+Status: Lean socket added and focused-checked; this is a semantic producer
+surface, not the final margin proof.
+
+The ranked-eval graph147 socket now exposes a tail-refined object family:
+
+```lean
+def Graph147YpZmRankedEvalTargetTailObjectBound
+def Graph147ZmYpRankedEvalTargetTailObjectBound
+structure StrengthenedGraph147RankedEvalTargetTailObjectFamily
+
+def rankedEvalMarginObjectFamily_of_targetTailObjectFamily
+def rankedEvalMarginBundle_of_rankedEvalTargetTailObjectFamily
+def rootMarginBundle_of_rankedEvalTargetTailObjectFamily
+```
+
+This is stricter than the previous object target in the right way:
+
+```text
+Graph147YpZmRankedEvalMarginObj / Graph147ZmYpRankedEvalMarginObj
+  + Graph147TargetCompletionTail obj.rest
+  -> ranked-eval object margin bound
+```
+
+The adapter obtains `Graph147TargetCompletionTail obj.rest` from the existing
+semantic theorem:
+
+```lean
+graph147YpZm_targetCompletionTail_of_strengthened_prefix
+graph147ZmYp_targetCompletionTail_of_strengthened_prefix
+```
+
+So the next proof-producing layer can reason over the deterministic target
+completion tail machine instead of sampled prefixes, selected-prefix ids,
+accepted traces, exact affine keys, or stored paths.
+
+Focused check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 360 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 24576 \
+  --json scripts/generated/graph147_ranked_eval_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 24576 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+```
+
+Result:
+
+```text
+passed, elapsed 3.00s, peak RSS 4003 MiB, hard address-space cap 24576 MiB,
+min available 46226 MiB
+```
+
+Updated immediate target:
+
+```text
+Prove or emit:
+
+  StrengthenedGraph147RankedEvalTargetTailObjectFamily
+
+The producer should prove the suffix-gain margin inequality from the semantic
+`Graph147TargetCompletionTail` machine.  If it needs more state, add semantic
+target-completion fields or a checked segment/cocycle quotient; do not fall
+back to the four diagnostic path classes from the 10M profile.
+```
+
+Production-route markers for audits:
+
+```text
+ready_for_ranked_eval_margin_bundle_producer
+mandatory_graph147_semantic_transducer_pivot
+reject_selected_prefix_membership_scaling
+closed-language-to-eval theorem
+target-shadow cursor
+semantic_branch_start_margin_or_cocycle_quotient
+sequenceBadFace_ok is only a carrier
+No selected-prefix/root-trace scaling
+Selected-prefix diagnostics only
+Root-trace diagnostics only
+
+StrengthenedGraph147RankedEvalTargetTailObjectFamily
+StrengthenedGraph147RankedEvalMarginObjectFamily
+StrengthenedGraph147RankedEvalMarginInvariantFamily
+StrengthenedGraph147RankedShardMarginInvariantFamily
+StrengthenedGraph147RankedEvalMarginBundle
+
+rankedEvalMarginBundle_of_rankedEvalTargetTailObjectFamily
+rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily
+rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily
+rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily
+rootMarginBundle_of_rankedEvalMarginBundle
+```

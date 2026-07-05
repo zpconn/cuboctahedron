@@ -1,6 +1,6 @@
 # Graph147 Ranked Transducer Frontier
 
-- status: `ranked_transducer_frontier_incomplete`
+- status: `ready_for_ranked_eval_margin_bundle_producer`
 - socket file: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean`
 - ranked eval socket: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean`
 - forbidden hits: `none`
@@ -39,8 +39,14 @@
 - `Graph147YpZmRankedEvalMarginObjectBound`: `true`
 - `Graph147ZmYpRankedEvalMarginObjectBound`: `true`
 - `StrengthenedGraph147RankedEvalMarginObjectFamily`: `true`
+- `Graph147YpZmRankedEvalTargetTailObjectBound`: `true`
+- `Graph147ZmYpRankedEvalTargetTailObjectBound`: `true`
+- `StrengthenedGraph147RankedEvalTargetTailObjectFamily`: `true`
+- `rankedEvalMarginObjectFamily_of_targetTailObjectFamily`: `true`
 - `rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily`: `true`
+- `rankedEvalMarginBundle_of_rankedEvalTargetTailObjectFamily`: `true`
 - `rootMarginBundle_of_rankedEvalMarginObjectFamily`: `true`
+- `rootMarginBundle_of_rankedEvalTargetTailObjectFamily`: `true`
 - `graph147RankedEval_margin_of_suffixInvariant`: `true`
 - `StrengthenedGraph147RankedEvalMarginInvariantFamily`: `true`
 - `rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily`: `true`
@@ -72,27 +78,29 @@
 
 - file: `SYMMETRY_PLAN.md`
 - `ready_for_ranked_eval_margin_bundle_producer`: `true`
+- `StrengthenedGraph147RankedEvalTargetTailObjectFamily`: `true`
 - `StrengthenedGraph147RankedEvalMarginObjectFamily`: `true`
 - `StrengthenedGraph147RankedEvalMarginInvariantFamily`: `true`
 - `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
 - `StrengthenedGraph147RankedEvalMarginBundle`: `true`
+- `rankedEvalMarginBundle_of_rankedEvalTargetTailObjectFamily`: `true`
 - `rankedEvalMarginBundle_of_rankedEvalMarginObjectFamily`: `true`
-- `rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily`: `false`
-- `rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily`: `false`
+- `rankedEvalMarginBundle_of_rankedShardMarginInvariantFamily`: `true`
+- `rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily`: `true`
 - `rootMarginBundle_of_rankedEvalMarginBundle`: `true`
 
 ## Mandatory Pivot Markers
 
-- `mandatory_graph147_semantic_transducer_pivot`: `false`
-- `reject_selected_prefix_membership_scaling`: `false`
-- `semantic_branch_start_margin_or_cocycle_quotient`: `false`
-- `sequenceBadFace_ok is only a carrier`: `false`
-- `closed-language-to-eval theorem`: `false`
-- `target-shadow cursor`: `false`
-- `No selected-prefix/root-trace scaling`: `false`
+- `mandatory_graph147_semantic_transducer_pivot`: `true`
+- `reject_selected_prefix_membership_scaling`: `true`
+- `semantic_branch_start_margin_or_cocycle_quotient`: `true`
+- `sequenceBadFace_ok is only a carrier`: `true`
+- `closed-language-to-eval theorem`: `true`
+- `target-shadow cursor`: `true`
+- `No selected-prefix/root-trace scaling`: `true`
 - `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
-- `Selected-prefix diagnostics only`: `false`
-- `Root-trace diagnostics only`: `false`
+- `Selected-prefix diagnostics only`: `true`
+- `Root-trace diagnostics only`: `true`
 
 ## Semantic Inputs
 
@@ -162,7 +170,7 @@
 - margins <= expected bounds: `true`
 - margins equal expected bounds: `true`
 - interpretation: Diagnostic only: the existing 10M profile has four graph147 object classes, two per branch, whose margins exactly match the ranked-eval object bound.  The production theorem must prove the same bound semantically for graph147 objects.
-- next producer target: StrengthenedGraph147RankedEvalMarginObjectFamily; prove the same suffix-gain margin inequalities semantically over Graph147YpZmRankedEvalMarginObj and Graph147ZmYpRankedEvalMarginObj, not by importing this diagnostic path-class table.
+- next producer target: StrengthenedGraph147RankedEvalTargetTailObjectFamily; prove the same suffix-gain margin inequalities semantically over Graph147YpZmRankedEvalMarginObj and Graph147ZmYpRankedEvalMarginObj using the derived Graph147TargetCompletionTail fact, not by importing this diagnostic path-class table.
 
 ## Direct MarginInv Producer
 
@@ -260,7 +268,7 @@
 ## Production Route
 
 - keep: `Bellman/state-DAG via deterministic semantic transducer`
-- target: `StrengthenedGraph147RankedEvalMarginObjectFamily or StrengthenedGraph147RankedShardMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginBundle -> rootMarginBundle_of_rankedEvalMarginBundle`
+- target: `StrengthenedGraph147RankedEvalTargetTailObjectFamily -> StrengthenedGraph147RankedEvalMarginObjectFamily or StrengthenedGraph147RankedShardMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginInvariantFamily -> StrengthenedGraph147RankedEvalMarginBundle -> rootMarginBundle_of_rankedEvalMarginBundle`
 - fallback: If the invariant cannot be proved from target cursor, schedule, square-gap/local-axis tail, pair-count/used-face facts, and deterministic full-graph147 state semantics, stop graph147 scaling and switch to the certified segment/cocycle quotient experiment.
 
 Rejected production coordinates:
@@ -279,4 +287,4 @@ Rejected production coordinates:
 
 ## Next Step
 
-Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalMarginObjectFamily, whose objects are rank plus strengthened closed-language proof plus the branch prefix/rest decomposition.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.
+Generate or prove the semantic graph147 margin invariant producer.  The immediate target is StrengthenedGraph147RankedEvalTargetTailObjectFamily, whose objects are rank plus strengthened closed-language proof plus the branch prefix/rest decomposition, together with the semantic Graph147TargetCompletionTail fact already derived from the target-cursor machine.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, or per-observed-path membership.

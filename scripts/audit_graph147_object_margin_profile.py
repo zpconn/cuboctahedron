@@ -141,10 +141,11 @@ def audit(profile: dict[str, Any]) -> dict[str, Any]:
         "by_branch": by_branch,
         "classes": classes,
         "next_producer_target": (
-            "StrengthenedGraph147RankedEvalMarginObjectFamily; prove the "
-            "same suffix-gain margin inequalities semantically over "
-            "Graph147YpZmRankedEvalMarginObj and Graph147ZmYpRankedEvalMarginObj, "
-            "not by importing this diagnostic path-class table."
+            "StrengthenedGraph147RankedEvalTargetTailObjectFamily; prove "
+            "the same suffix-gain margin inequalities semantically over "
+            "Graph147YpZmRankedEvalMarginObj and Graph147ZmYpRankedEvalMarginObj "
+            "using the derived Graph147TargetCompletionTail fact, not by "
+            "importing this diagnostic path-class table."
         ),
     }
 
