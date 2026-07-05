@@ -62,6 +62,11 @@ DIRECT_START_VIOLATION_BRIDGE = (
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingDepth11Layer4Graph147DirectStartViolationBridge.lean"
 )
+DIRECT_KILLED_PORTFOLIO_SOCKET = (
+    ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph147DirectKilledPortfolioSocket.lean"
+)
 TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
 TRANSDUCER_TAIL = ROOT / "Cuboctahedron/Search/TopPairingTransducerTail.lean"
 TRANSDUCER_EVAL = ROOT / "Cuboctahedron/Search/TopPairingTransducerEvalBridge.lean"
@@ -229,6 +234,16 @@ DIRECT_START_VIOLATION_SYMBOLS = [
     "nonIdentityRankKilled_of_graph147_zm_yp_semantic_direct",
 ]
 
+DIRECT_KILLED_PORTFOLIO_SYMBOLS = [
+    "AcceptedSequenceDepth11Layer4Graph147DirectMappedPortfolioFamily",
+    "AcceptedSequenceDepth11Layer4Graph147DirectBranchGateFamily",
+    "acceptedSequenceGraph147DirectBranchGateFamily_of_mappedPortfolio",
+    "acceptedSequenceSplitNonposOrKilledAllFamily_of_graph147DirectBranchGateFamily",
+    "acceptedSequenceMixedKilledAllFamily_of_graph147DirectMappedPortfolio",
+    "acceptedSequenceMixedKilledAllFamily_of_graph147DirectTargetCompletionPortfolio",
+    "graph147_direct_killed_portfolio_socket_builds",
+]
+
 SEMANTIC_INPUT_SYMBOLS = {
     "target_cursor": [
         "topPairingTargetShadow_of_summary",
@@ -366,6 +381,7 @@ PLAN_PIVOT_MARKERS = [
     "TopPairingGraphExactEvalGateAtRank",
     "graph147 target-tail label equality socket",
     "graph147 direct start-violation bridge",
+    "graph147 direct-killed layer-4 portfolio socket",
 ]
 
 SELECTED_PREFIX_DIAGNOSTIC_SYMBOLS = [
@@ -456,6 +472,7 @@ def main() -> None:
     target_tail_case_margin_socket_text = read(TARGET_TAIL_CASE_MARGIN_SOCKET)
     target_tail_labels_text = read(TARGET_TAIL_LABELS)
     direct_start_violation_text = read(DIRECT_START_VIOLATION_BRIDGE)
+    direct_killed_portfolio_text = read(DIRECT_KILLED_PORTFOLIO_SOCKET)
     plan_tail = read(PLAN)
     semantic_files = {
         "target_cursor": read(TARGET_CURSOR),
@@ -490,6 +507,10 @@ def main() -> None:
     direct_start_violation_symbols = contains_all(
         direct_start_violation_text,
         DIRECT_START_VIOLATION_SYMBOLS,
+    )
+    direct_killed_portfolio_symbols = contains_all(
+        direct_killed_portfolio_text,
+        DIRECT_KILLED_PORTFOLIO_SYMBOLS,
     )
     gauge_data = read_json(GAUGE_AUDIT)
     cocycle_quotient_data = read_json(COCYCLE_QUOTIENT_AUDIT)
@@ -567,12 +588,22 @@ def main() -> None:
     all_direct_start_violation = all(
         direct_start_violation_symbols.values()
     )
+    all_direct_killed_portfolio = all(
+        direct_killed_portfolio_symbols.values()
+    )
     all_semantic = all(
         all(symbols.values()) for symbols in semantic_symbols.values()
     )
     all_plan_tail = all(plan_tail_symbols.values())
     all_plan_pivot = all(plan_pivot_markers.values())
     status = (
+        "graph147_direct_killed_layer4_portfolio_ready"
+        if all_socket and all_ranked_eval and all_target_tail_cases
+        and all_target_tail_case_socket and all_target_tail_case_margin_socket
+        and all_target_tail_labels and all_direct_start_violation
+        and all_direct_killed_portfolio and all_semantic and full_graph_only
+        and all_plan_tail and all_plan_pivot and not forbidden_hits
+        else
         "graph147_target_tail_direct_start_violation_ready"
         if all_socket and all_ranked_eval and all_target_tail_cases
         and all_target_tail_case_socket and all_target_tail_case_margin_socket
@@ -616,6 +647,11 @@ def main() -> None:
             ),
             "direct_start_violation_symbols":
                 direct_start_violation_symbols,
+            "direct_killed_portfolio_socket_file": str(
+                DIRECT_KILLED_PORTFOLIO_SOCKET.relative_to(ROOT)
+            ),
+            "direct_killed_portfolio_symbols":
+                direct_killed_portfolio_symbols,
             "language_audit_file": str(
                 TARGET_TAIL_LANGUAGE_AUDIT.relative_to(ROOT)
             ),
@@ -704,6 +740,14 @@ def main() -> None:
             "present_outside_socket": direct_margin_inv_producer_present,
             "usages_outside_socket": producer_usages,
             "interpretation": (
+                "The graph147 direct-killed layer-4 portfolio socket is now "
+                "available.  The next proof step is to route an upstream "
+                "layer-4/root consumer through "
+                "`acceptedSequenceMixedKilledAllFamily_of_graph147DirectTargetCompletionPortfolio`; "
+                "the graph147 `yp,zm` and `zm,yp` branches no longer need "
+                "nonpositive-margin producers on this route."
+                if all_direct_killed_portfolio
+                else
                 "A direct start-violation bridge now kills the graph147 "
                 "target-tail cases semantically.  The next proof step is to "
                 "route the surrounding graph147 layer-4 portfolio/root through "
@@ -754,6 +798,21 @@ def main() -> None:
         "remaining_fields": REMAINING_FIELDS,
         "production_route": PRODUCTION_ROUTE,
         "next_step": (
+            "Use the graph147 direct-killed layer-4 portfolio socket as the "
+            "preferred ingress.  It consumes mapped/target-completion "
+            "producers only for `tmpm,tppm`, `yp,tmmm`, and `zm,zp`, while "
+            "graph183 `tmpm,zm`, graph221 `zm,tmpp`, and graph147 `yp,zm`/"
+            "`zm,yp` are direct `NonIdentityRankKilled` lanes.  The next "
+            "integration step is to route the next upstream layer-4/root "
+            "consumer through "
+            "`acceptedSequenceMixedKilledAllFamily_of_graph147DirectTargetCompletionPortfolio`.  "
+            "Keep the graph147 ranked-eval margin sockets as fallback only "
+            "for graph147 cases not covered by target-tail direct "
+            "start-violation.  Do not use sampled ranks, selected prefixes, "
+            "accepted trace ids, exact affine keys, per-observed-path "
+            "membership, or raw evaluator unfolding as a hidden checker."
+            if all_direct_killed_portfolio
+            else
             "Prefer the new graph147 direct start-violation bridge for the "
             "four target-tail cases.  It maps semantic `yp,zm`/`zm,yp` "
             "branches plus the two proved target tails to accepted traces "
@@ -763,25 +822,10 @@ def main() -> None:
             "`nonIdentityRankKilled_of_graph147_yp_zm_semantic_direct` and "
             "`nonIdentityRankKilled_of_graph147_zm_yp_semantic_direct`.  "
             "Keep `StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily` "
-            "as the fallback margin socket: it needs the two target-tail "
-            "evaluator-gain facts plus the four `scaledMargin obj.rank <= -376` "
-            "facts if direct start-violation stops applying.  "
-            "TopPairingBellmanObj and the graph-exact semantic gate already "
-            "provide the rank-plus-closed-object and closed-language-to-eval "
-            "public surfaces, so the next theorem must fill the graph147 "
-            "producer fields semantically rather than adding another "
-            "object-cover adapter.  "
-            "If a local invariant is the "
-            "better proof "
-            "shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily "
-            "from target-shadow cursor, schedule/square-gap/local-axis tail, "
-            "pair-count/used-face facts, graph147 Bellman state semantics, or "
-            "a checked segment/cocycle quotient.  The existing gauge-corrected "
-            "full graph is only a diagnostic candidate; the existing quotient "
-            "audit says no coarser quotient is margin-complete yet.  Do not "
-            "use sampled ranks, selected prefixes, accepted trace ids, exact "
-            "affine keys, per-observed-path membership, or raw evaluator "
-            "unfolding as a hidden checker."
+            "as the fallback margin socket.  Do not use sampled ranks, "
+            "selected prefixes, accepted trace ids, exact affine keys, "
+            "per-observed-path membership, or raw evaluator unfolding as a "
+            "hidden checker."
         ),
         "mandatory_pivot": {
             "marker": "mandatory_graph147_semantic_transducer_pivot",
@@ -863,6 +907,15 @@ def main() -> None:
         f"`{data['target_tail_cases']['direct_start_violation_bridge_file']}`"
     )
     for symbol, present in direct_start_violation_symbols.items():
+        lines.append(f"- `{symbol}`: `{str(present).lower()}`")
+    lines.append("")
+    lines.append("### Direct-Killed Portfolio Socket Symbols")
+    lines.append("")
+    lines.append(
+        "- file: "
+        f"`{data['target_tail_cases']['direct_killed_portfolio_socket_file']}`"
+    )
+    for symbol, present in direct_killed_portfolio_symbols.items():
         lines.append(f"- `{symbol}`: `{str(present).lower()}`")
     lines.extend(["", "## Plan Tail Symbols", ""])
     lines.append(f"- file: `{data['plan_tail']['file']}`")

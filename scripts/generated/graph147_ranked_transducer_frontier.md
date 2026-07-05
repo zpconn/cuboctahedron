@@ -1,6 +1,6 @@
 # Graph147 Ranked Transducer Frontier
 
-- status: `graph147_target_tail_direct_start_violation_ready`
+- status: `graph147_direct_killed_layer4_portfolio_ready`
 - socket file: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean`
 - ranked eval socket: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean`
 - forbidden hits: `none`
@@ -134,6 +134,17 @@
 - `nonIdentityRankKilled_of_graph147_yp_zm_semantic_direct`: `true`
 - `nonIdentityRankKilled_of_graph147_zm_yp_semantic_direct`: `true`
 
+### Direct-Killed Portfolio Socket Symbols
+
+- file: `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectKilledPortfolioSocket.lean`
+- `AcceptedSequenceDepth11Layer4Graph147DirectMappedPortfolioFamily`: `true`
+- `AcceptedSequenceDepth11Layer4Graph147DirectBranchGateFamily`: `true`
+- `acceptedSequenceGraph147DirectBranchGateFamily_of_mappedPortfolio`: `true`
+- `acceptedSequenceSplitNonposOrKilledAllFamily_of_graph147DirectBranchGateFamily`: `true`
+- `acceptedSequenceMixedKilledAllFamily_of_graph147DirectMappedPortfolio`: `true`
+- `acceptedSequenceMixedKilledAllFamily_of_graph147DirectTargetCompletionPortfolio`: `true`
+- `graph147_direct_killed_portfolio_socket_builds`: `true`
+
 ## Plan Tail Symbols
 
 - file: `SYMMETRY_PLAN.md`
@@ -175,6 +186,7 @@
 - `TopPairingGraphExactEvalGateAtRank`: `true`
 - `graph147 target-tail label equality socket`: `true`
 - `graph147 direct start-violation bridge`: `true`
+- `graph147 direct-killed layer-4 portfolio socket`: `true`
 
 ## Semantic Inputs
 
@@ -272,7 +284,7 @@
 
 - symbol: `StrengthenedGraph147RankedShardMarginInvariantFamily`
 - present outside socket: `false`
-- interpretation: A direct start-violation bridge now kills the graph147 target-tail cases semantically.  The next proof step is to route the surrounding graph147 layer-4 portfolio/root through that direct bridge, or use the margin socket only for cases not covered by direct start-violation.
+- interpretation: The graph147 direct-killed layer-4 portfolio socket is now available.  The next proof step is to route an upstream layer-4/root consumer through `acceptedSequenceMixedKilledAllFamily_of_graph147DirectTargetCompletionPortfolio`; the graph147 `yp,zm` and `zm,yp` branches no longer need nonpositive-margin producers on this route.
 
 ## Selected-Prefix Diagnostics
 
@@ -389,4 +401,4 @@ Rejected production coordinates:
 
 ## Next Step
 
-Prefer the new graph147 direct start-violation bridge for the four target-tail cases.  It maps semantic `yp,zm`/`zm,yp` branches plus the two proved target tails to accepted traces 027/028/032/033 and then to `NonIdentityRankKilled`, without selected-prefix membership.  The next integration step is to route the surrounding layer-4 graph147 portfolio/root through `nonIdentityRankKilled_of_graph147_yp_zm_semantic_direct` and `nonIdentityRankKilled_of_graph147_zm_yp_semantic_direct`.  Keep `StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily` as the fallback margin socket: it needs the two target-tail evaluator-gain facts plus the four `scaledMargin obj.rank <= -376` facts if direct start-violation stops applying.  TopPairingBellmanObj and the graph-exact semantic gate already provide the rank-plus-closed-object and closed-language-to-eval public surfaces, so the next theorem must fill the graph147 producer fields semantically rather than adding another object-cover adapter.  If a local invariant is the better proof shape, instantiate StrengthenedGraph147RankedShardMarginInvariantFamily from target-shadow cursor, schedule/square-gap/local-axis tail, pair-count/used-face facts, graph147 Bellman state semantics, or a checked segment/cocycle quotient.  The existing gauge-corrected full graph is only a diagnostic candidate; the existing quotient audit says no coarser quotient is margin-complete yet.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, per-observed-path membership, or raw evaluator unfolding as a hidden checker.
+Use the graph147 direct-killed layer-4 portfolio socket as the preferred ingress.  It consumes mapped/target-completion producers only for `tmpm,tppm`, `yp,tmmm`, and `zm,zp`, while graph183 `tmpm,zm`, graph221 `zm,tmpp`, and graph147 `yp,zm`/`zm,yp` are direct `NonIdentityRankKilled` lanes.  The next integration step is to route the next upstream layer-4/root consumer through `acceptedSequenceMixedKilledAllFamily_of_graph147DirectTargetCompletionPortfolio`.  Keep the graph147 ranked-eval margin sockets as fallback only for graph147 cases not covered by target-tail direct start-violation.  Do not use sampled ranks, selected prefixes, accepted trace ids, exact affine keys, per-observed-path membership, or raw evaluator unfolding as a hidden checker.

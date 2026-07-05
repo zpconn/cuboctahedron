@@ -118596,3 +118596,72 @@ Updated next step: route the surrounding graph147 layer-4 portfolio/root through
 `StrengthenedGraph147RankedEvalTargetTailCaseScaledMarginFamily` as fallback
 for graph147 subfamilies where direct start-violation does not apply, not as
 the first integration route for these four target-tail cases.
+
+#### 2026-07-05 graph147 direct-killed layer-4 portfolio socket added
+
+Status: the graph147 direct start-violation bridge is now consumed by a layer-4
+mixed portfolio socket instead of remaining a standalone branch theorem.  The
+new module is:
+
+```lean
+Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectKilledPortfolioSocket
+```
+
+It exports the direct-killed portfolio surfaces:
+
+```lean
+AcceptedSequenceDepth11Layer4Graph147DirectMappedPortfolioFamily
+AcceptedSequenceDepth11Layer4Graph147DirectBranchGateFamily
+acceptedSequenceGraph147DirectBranchGateFamily_of_mappedPortfolio
+acceptedSequenceSplitNonposOrKilledAllFamily_of_graph147DirectBranchGateFamily
+acceptedSequenceMixedKilledAllFamily_of_graph147DirectMappedPortfolio
+acceptedSequenceMixedKilledAllFamily_of_graph147DirectTargetCompletionPortfolio
+graph147_direct_killed_portfolio_socket_builds
+```
+
+The route now has only three mapped/target-completion producer obligations:
+
+```text
+tmpm,tppm
+yp,tmmm
+zm,zp
+```
+
+The other layer-4 lanes are direct kills:
+
+```text
+tmpm,zm  -> graph183 semantic cursor direct kill
+zm,tmpp  -> graph221 direct start-violation kill
+yp,zm    -> graph147 direct start-violation kill
+zm,yp    -> graph147 direct start-violation kill
+```
+
+Focused check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 600 --max-tree-rss-mib 12000 \
+  --min-available-mib 20000 --hard-address-space-mib 32768 \
+  --json scripts/generated/graph147_direct_killed_portfolio_socket_guard.json \
+  -- lake env lean -M 8000 -j1 -s 32768 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectKilledPortfolioSocket.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectKilledPortfolioSocket.lean
+```
+
+Result:
+
+```text
+passed, elapsed 2.00s, peak RSS 3621 MiB, hard address-space cap 32768 MiB,
+min available 45913 MiB
+```
+
+Additional production-route audit marker:
+
+```text
+graph147 direct-killed layer-4 portfolio socket
+```
+
+Updated next step: route the next upstream layer-4/root consumer through
+`acceptedSequenceMixedKilledAllFamily_of_graph147DirectTargetCompletionPortfolio`.
+This keeps the selected-prefix/root-trace artifacts diagnostic only and moves
+the graph147 target-tail cases onto semantic `NonIdentityRankKilled` evidence.
