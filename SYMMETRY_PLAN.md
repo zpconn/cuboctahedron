@@ -105220,7 +105220,7 @@ Result:
 pass; no matches
 ```
 
-### 2026-07-05 graph153/155 through graph191/194 target-completion continuation accepted
+### 2026-07-05 graph153/155 through graph208/211 target-completion continuation accepted
 
 The shared graph147 lane for `yp_zm` / `zm_yp` has advanced one more
 deterministic semantic step without selected-prefix, sampled-rank,
@@ -105249,7 +105249,7 @@ def strengthenedPrefix5Graph155TargetCompletionLocalBranchTable :
 
 The refreshed generated target-completion shard now has five states and six
 branches before the graph163/166 extension.  The newest refreshed shard now
-has eleven states and twelve branches.  It packages:
+has thirteen states and fourteen branches.  It packages:
 
 - graph147: `zp -> graph153`, `tmmp -> graph155`;
 - graph153: `tmmm -> graph163`;
@@ -105260,6 +105260,8 @@ has eleven states and twelve branches.  It packages:
 - graph178: `tpmm -> graph194`;
 - graph191: `tpmp -> graph208`;
 - graph194: `tmpp -> graph211`;
+- graph208: `tmpm -> graph6`;
+- graph211: `tppm -> graph11`;
 - graph150 and graph151 as before.
 
 Focused guarded checks:
@@ -105318,6 +105320,14 @@ min_available=44058 MiB
 
 TargetCompletionLocalBranchTableShard000: pass; elapsed=4.00s;
 peak_tree_rss=3450 MiB; min_available=46309 MiB
+
+After the graph208/211 extension:
+
+NextFrontierSmoke: pass; elapsed=59.04s; peak_tree_rss=6051 MiB;
+min_available=44051 MiB
+
+TargetCompletionLocalBranchTableShard000: pass; elapsed=3.00s;
+peak_tree_rss=4024 MiB; min_available=46124 MiB
 ```
 
 Readiness audit:
@@ -105331,20 +105341,67 @@ Result:
 ```text
 validated_lanes = [tmpm_zm, zm_tmpp]
 partial_lanes = [yp_zm, zm_yp]
-yp_zm.status = partial_graph191_graph194_target_completion_local_table
-zm_yp.status = partial_graph191_graph194_target_completion_local_table
+yp_zm.status = partial_graph208_graph211_target_completion_local_table
+zm_yp.status = partial_graph208_graph211_target_completion_local_table
 forbidden_hits = []
 ```
 
 Next slice:
 
 1. Continue the same deterministic target-completion/evaluator pattern from
-   graph208 and graph211.
+   graph6 and graph11.
 2. Stop immediately if the proof wants selected prefixes, sampled ranks,
    accepted trace IDs, exact affine keys, or one branch per observed path.
 3. If target-completion alone stops being deterministic, add only semantic
    product-state fields first, or switch to the cocycle/cancellation-summary
    quotient experiment.
+
+### 2026-07-05 semantic deterministic transducer pivot is now mandatory
+
+The GPT5.5 Pro review changes the next work priority.  Bellman remains the
+right compression shape, but selected-prefix coverage is no longer an
+acceptable production route.  The next breakthrough must be a closed-language
+to deterministic evaluator theorem:
+
+```lean
+TopPairingClosedLanguageAtRank rank Face.ym ->
+  exists result,
+    evalLabelStepFn graphNext rootState
+      (topPairingBellmanLabelsAtRank rank) = some result /\
+    0 <= graphPotential result.1 /\
+    scaledMargin rank <= graphConst + result.2
+```
+
+The core semantic cursor support is already in
+`Cuboctahedron/Search/TopPairingTargetCursor.lean`:
+
+```lean
+theorem topPairingTargetShadow_of_summary
+theorem topPairingTriShadow_eq_target_of_closed
+theorem topPairingActedTriLetters_eq_target_of_closed
+theorem topPairingTriCursor_of_closed
+```
+
+That means the current target-completion lane work should be treated as a
+small implementation probe for this theorem, not as a scalable selected-prefix
+producer.  A production family leaf must consume closed-language facts,
+target-shadow cursor progress, square-gap/schedule/local-axis constraints, and
+Bellman local transitions.  It must not consume sampled rank objects, selected
+prefix ids, accepted trace ids, exact affine RHS keys, solved start points, or
+one branch per observed path.
+
+Immediate implementation rule:
+
+1. Finish the graph6/graph11 suffix only if it remains a deterministic
+   target-completion/evaluator fact.
+2. If graph6 or graph11 requires enumerating observed paths, stop the lane.
+3. The fallback is not another certificate-packing layer.  It is the
+   cocycle/cancellation-summary quotient experiment, with the quotient state
+   allowed to add only semantic fields such as target-shadow cursor,
+   tri-source progress, square gap, pair-count remainder, and local-axis class.
+4. Translation work remains on the GoodDirection plus bounded-support
+   row-template/Farkas-circuit route; Walsh is only a sign subroutine, not the
+   outer coverage coordinate.
 
 ### 2026-07-05 graph147 target-completion local table accepted
 

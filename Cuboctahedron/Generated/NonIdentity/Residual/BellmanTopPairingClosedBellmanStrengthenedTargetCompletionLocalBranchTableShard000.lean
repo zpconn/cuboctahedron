@@ -17,6 +17,8 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingClosedBellman
 inductive ShardState where
   | prefix4YpZm
   | prefix5YpZmZp
+  | prefix9YpZmZpTmmmTpmmTppmTpmp
+  | prefix9YpZmTmmpTpmpTpppTpmmTmpp
   | prefix8YpZmZpTmmmTpmmTppm
   | prefix8YpZmTmmpTpmpTpppTpmm
   | prefix7YpZmZpTmmmTpmm
@@ -28,17 +30,19 @@ inductive ShardState where
   | prefix4ZmTmpp
   deriving DecidableEq, Repr
 
-def emittedShardStateCount : Nat := 11
-def emittedShardBranchCount : Nat := 12
+def emittedShardStateCount : Nat := 13
+def emittedShardBranchCount : Nat := 14
 
 theorem emittedShardCount_audit :
-    emittedShardStateCount = 11 /\
-      emittedShardBranchCount = 12 := by
+    emittedShardStateCount = 13 /\
+      emittedShardBranchCount = 14 := by
   decide
 
 def evalState : ShardState -> StrengthenedClosedEvalState
   | .prefix4YpZm => strengthenedClosedPrefix4YpZmEvalState
   | .prefix5YpZmZp => strengthenedClosedPrefix5YpZmZpEvalState
+  | .prefix9YpZmZpTmmmTpmmTppmTpmp => strengthenedClosedPrefix9YpZmZpTmmmTpmmTppmTpmpEvalState
+  | .prefix9YpZmTmmpTpmpTpppTpmmTmpp => strengthenedClosedPrefix9YpZmTmmpTpmpTpppTpmmTmppEvalState
   | .prefix8YpZmZpTmmmTpmmTppm => strengthenedClosedPrefix8YpZmZpTmmmTpmmTppmEvalState
   | .prefix8YpZmTmmpTpmpTpppTpmm => strengthenedClosedPrefix8YpZmTmmpTpmpTpppTpmmEvalState
   | .prefix7YpZmZpTmmmTpmm => strengthenedClosedPrefix7YpZmZpTmmmTpmmEvalState
@@ -52,6 +56,8 @@ def evalState : ShardState -> StrengthenedClosedEvalState
 def completionState : ShardState -> TopPairingTargetCompletionState
   | .prefix4YpZm => graph147TargetCompletionState
   | .prefix5YpZmZp => graph153TargetCompletionState
+  | .prefix9YpZmZpTmmmTpmmTppmTpmp => graph208TargetCompletionState
+  | .prefix9YpZmTmmpTpmpTpppTpmmTmpp => graph211TargetCompletionState
   | .prefix8YpZmZpTmmmTpmmTppm => graph191TargetCompletionState
   | .prefix8YpZmTmmpTpmpTpppTpmm => graph194TargetCompletionState
   | .prefix7YpZmZpTmmmTpmm => graph176TargetCompletionState
@@ -68,6 +74,8 @@ def localBranchTable :
         (evalState state) (completionState state)
   | .prefix4YpZm => strengthenedPrefix4Graph147TargetCompletionLocalBranchTable
   | .prefix5YpZmZp => strengthenedPrefix5Graph153TargetCompletionLocalBranchTable
+  | .prefix9YpZmZpTmmmTpmmTppmTpmp => strengthenedPrefix9Graph208TargetCompletionLocalBranchTable
+  | .prefix9YpZmTmmpTpmpTpppTpmmTmpp => strengthenedPrefix9Graph211TargetCompletionLocalBranchTable
   | .prefix8YpZmZpTmmmTpmmTppm => strengthenedPrefix8Graph191TargetCompletionLocalBranchTable
   | .prefix8YpZmTmmpTpmpTpppTpmm => strengthenedPrefix8Graph194TargetCompletionLocalBranchTable
   | .prefix7YpZmZpTmmmTpmm => strengthenedPrefix7Graph176TargetCompletionLocalBranchTable
