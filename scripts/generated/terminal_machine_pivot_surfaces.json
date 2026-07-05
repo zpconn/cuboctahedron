@@ -47,12 +47,14 @@
         "graph183FilteredTailPrefixTerminal_of_strengthened_prefix": true,
         "graph183ForcedTailSuffixOk_of_strengthened_prefix": true,
         "graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic": true,
+        "graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_via_progress": true,
         "graph183Layer4CompletionTail_of_strengthened_prefix": true,
         "graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix": true,
         "graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix_semantic": true,
         "graph183Layer4FilteredTailPrefixContinuation": true,
         "graph183Layer4FilteredTailPrefixTerminal_of_strengthened_prefix": true,
         "graph183Layer4ForcedTailSuffixOk_of_strengthened_prefix": true,
+        "graph183Layer4ProgressGate_of_strengthened_prefix": true,
         "graph183TerminalFinishProducer": true,
         "graph183TerminalTailPrefixEval": true
       }

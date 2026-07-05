@@ -36,6 +36,9 @@ open Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingTerminalState
 def graph183TerminalPrefixLabels : List Face :=
   [Face.xm, Face.ym, Face.tmpm, Face.zm, Face.zp, Face.tppm, Face.tpmm]
 
+def graph183Layer4PrefixLabels : List Face :=
+  [Face.xm, Face.ym, Face.tmpm, Face.zm]
+
 def graph183TerminalPrefixState : TerminalStepState :=
   (((((((TerminalStepState.initial.nextStep Face.xm).nextStep Face.ym).nextStep
     Face.tmpm).nextStep Face.zm).nextStep Face.zp).nextStep Face.tppm).nextStep
@@ -188,6 +191,13 @@ theorem graph183FullTailPrefixEval :
         (nextEval TerminalStepStatePartialMachine.semantic)
         TerminalStepState.initial graph183FullTailPrefixLabels =
       some (graph183TerminalFinishState, 0) := by
+  rfl
+
+theorem graph183Layer4PrefixEval :
+    evalLabelStepFn
+        (nextEval TerminalStepStatePartialMachine.semantic)
+        TerminalStepState.initial graph183Layer4PrefixLabels =
+      some (graph183Layer4PrefixState, 0) := by
   rfl
 
 theorem graph183Layer4PrefixState_contains_of_strengthened_prefix
@@ -378,7 +388,51 @@ theorem graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix_semantic
       rank :=
   graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix
     hstrengthened hprefix
-    (graph183Layer4CompletionTail_of_strengthened_prefix
+      (graph183Layer4CompletionTail_of_strengthened_prefix
+        hstrengthened hprefix)
+
+theorem graph183Layer4ProgressGate_of_strengthened_prefix
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TerminalContainedEvalProgressGate
+      TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank
+      graph183Layer4PrefixState := by
+  refine ⟨graph183Layer4PrefixLabels, 0, rest, ?_, ?_,
+    graph183Layer4PrefixEval⟩
+  · exact initial_contains_of_closed
+      hstrengthened.toTopPairingClosedLanguageAtRank
+  · have hlabels :
+        topPairingRankFaceLabels rank =
+          graph183Layer4PrefixLabels ++ rest := by
+      simpa [Depth11Layer4PrefixAtRank, graph183Layer4PrefixLabels] using
+        hprefix
+    have hpfx :
+        (TerminalStepStatePartialMachine.semantic.stateOf
+          TerminalStepState.initial).pfx = [] := by
+      rfl
+    rw [hpfx]
+    simpa using hlabels
+
+theorem graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_via_progress
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        BellmanTopPairingGraphAcceptedEvalLanguage.AcceptedSequenceBadFaceAtRank
+        rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm rest) :
+    TerminalContainedEvalPrefixGate
+      TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank :=
+  terminalContainedEvalPrefixGate_trans_progress
+    TerminalStepStatePartialMachine.semantic
+    (graph183Layer4ProgressGate_of_strengthened_prefix
+      hstrengthened hprefix)
+    (graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix_semantic
       hstrengthened hprefix)
 
 theorem graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic

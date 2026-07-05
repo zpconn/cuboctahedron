@@ -104113,3 +104113,53 @@ BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean
   adapter surface, then decide whether the production wrapper should assemble
   all seven layer-4 lanes through `Layer4PrefixMachineContinuationFromContainsAll`
   or through a generated family of initial-state contained gates.
+
+### 2026-07-05 graph183 one-lane adapter factors through progress
+
+- Added the explicit reusable graph183 one-lane composition shape:
+
+  ```lean
+  graph183Layer4PrefixLabels
+  graph183Layer4PrefixEval
+  graph183Layer4ProgressGate_of_strengthened_prefix
+  graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_via_progress
+  ```
+
+- `graph183Layer4ProgressGate_of_strengthened_prefix` proves the first-four
+  semantic transition from `TerminalStepState.initial` to
+  `graph183Layer4PrefixState` as a `TerminalContainedEvalProgressGate`.
+
+- `graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_via_progress`
+  then composes that progress gate with
+  `graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix_semantic` via
+  the generic theorem:
+
+  ```lean
+  terminalContainedEvalPrefixGate_trans_progress
+  ```
+
+- This is the reusable one-lane template we want for the remaining layer-4
+  branches: keep prefix membership, target-completion membership, suffix
+  filtering, and terminal evaluation as separate semantic gates, then compose
+  them through the existing terminal-machine socket.  It also gives a cleaner
+  route to an all-lane package than the direct initial-state graph183 theorem.
+
+- Command:
+
+  ```bash
+  python3 scripts/run_memory_guarded.py \
+    --max-tree-rss-mib 10000 \
+    --min-available-mib 30000 -- \
+    env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+      lake build \
+        Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph183TerminalTailPrefixSmoke
+  ```
+
+- Result:
+  focused graph183 smoke build passed under the memory guard in `7.02s`, with
+  peak tree RSS `3671 MiB` and minimum available memory `46251 MiB`.
+
+- Next implementation target:
+  either factor this into a generic branch-local structure in the terminal
+  frontier socket, or instantiate the same four-piece pattern for another
+  layer-4 lane to test whether the abstraction remains small.
