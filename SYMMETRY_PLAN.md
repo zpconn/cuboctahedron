@@ -105828,6 +105828,87 @@ selected prefixes, accepted-trace ids, exact affine RHS keys, exact solved start
 points, or one branch per observed path, stop graph147 scaling and run the
 cocycle/cancellation-summary quotient experiment.
 
+### 2026-07-05 graph147 semantic target tails accepted
+
+The first half of the graph147 direct socket has now been discharged
+semantically.  The `yp,zm` and `zm,yp` branches no longer ask a future producer
+to provide `Graph147TargetCompletionTail rest` as an opaque field.  The socket
+derives those tails directly from the strengthened closed language and the
+layer-4 prefix predicate:
+
+```lean
+theorem graph147YpZm_targetCompletionTail_of_strengthened_prefix
+theorem graph147ZmYp_targetCompletionTail_of_strengthened_prefix
+```
+
+The proof uses the target-shadow/tri-cursor route recommended by GPT5.5 Pro:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  -> TopPairingClosedLanguageAtRank
+  -> topPairingTriCursor_of_closed
+  -> Graph147TargetCancellationTail rest
+  -> Graph147TargetCompletionTail rest
+```
+
+together with semantic schedule, square-gap, used-face, remaining-face, and
+length facts derived from `Depth11Layer4PrefixAtRank`.  It does not introduce
+sampled ranks, selected-prefix ids, accepted traces, exact affine RHS keys, or
+raw path tables.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket
+```
+
+Latest result:
+
+```text
+pass; elapsed=2.00s; peak_tree_rss=820 MiB; min_available=46480 MiB
+```
+
+The low RSS reflects cached replay on the latest check; earlier uncached checks
+of this target remained below the 10 GiB guard.
+
+Forbidden-token scan on the touched socket:
+
+```bash
+grep -nE "sorry|admit|axiom|native_decide|unsafe|SampledRankIndex|sampledContainsRank|sampledRankOf|SelectedPrefix|acceptedTraceOfId" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147DirectEvalSocket.lean
+```
+
+Result:
+
+```text
+pass; no matches
+```
+
+Readiness audit now records these direct tail symbols:
+
+```text
+direct_eval_socket_symbols.graph147YpZm_targetCompletionTail_of_strengthened_prefix = true
+direct_eval_socket_symbols.graph147ZmYp_targetCompletionTail_of_strengthened_prefix = true
+yp_zm.status = partial_graph147_direct_eval_socket
+zm_yp.status = partial_graph147_direct_eval_socket
+forbidden_hits = []
+```
+
+The remaining graph147 obligation is now narrower and sharper:
+
+```lean
+Graph147TargetCompletionTailRootMarginBound
+  scaledMargin rank (-53) rest
+```
+
+for both branch orders.  Tail plus this margin bound already feed the direct
+`TopPairingGraphExactEvalGateAtRank` socket.
+
 ### 2026-07-05 graph153/155 through terminal graph141/138 local tables accepted
 
 The shared graph147 lane for `yp_zm` / `zm_yp` has advanced one more

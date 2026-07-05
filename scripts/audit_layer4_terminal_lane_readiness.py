@@ -273,6 +273,8 @@ GRAPH147_DIRECT_EVAL_SOCKET_REQUIRED = [
     "StrengthenedGraph147YpZmTargetCompletionFamily",
     "StrengthenedGraph147ZmYpTargetCompletionFamily",
     "StrengthenedGraph147TargetCompletionBundle",
+    "graph147YpZm_targetCompletionTail_of_strengthened_prefix",
+    "graph147ZmYp_targetCompletionTail_of_strengthened_prefix",
     "graphExactEvalGateAtRank_of_yp_zm_targetCompletionFamily",
     "graphExactEvalGateAtRank_of_zm_yp_targetCompletionFamily",
     "graphExactEvalGateAtRank_of_bundle_yp_zm",
@@ -779,15 +781,16 @@ def main() -> int:
                 ],
                 "remaining_gap": (
                     "graph147 now has a direct semantic eval socket for the "
-                    "yp,zm and zm,yp layer-4 branches.  The future generated "
-                    "proof target is no longer a mapped class case: it must "
-                    "prove the branch-local Graph147TargetCompletionTail and "
-                    "Graph147TargetCompletionTailRootMarginBound from the "
-                    "strengthened closed language and Depth11Layer4PrefixAtRank. "
-                    "Those two semantic fields then produce "
-                    "TopPairingGraphExactEvalGateAtRank directly.  The lane is "
-                    "still partial until those tail and margin fields are "
-                    "proved without selected-prefix or sampled-rank membership."
+                    "yp,zm and zm,yp layer-4 branches, and the branch-local "
+                    "Graph147TargetCompletionTail fields are proved directly "
+                    "from TopPairingStrengthenedClosedLanguageAtRank plus "
+                    "Depth11Layer4PrefixAtRank.  The future generated proof "
+                    "target is no longer a mapped class case: it must prove "
+                    "the remaining Graph147TargetCompletionTailRootMarginBound "
+                    "fields.  Tail plus margin then produce "
+                    "TopPairingGraphExactEvalGateAtRank directly.  The lane "
+                    "is still partial until those margin fields are proved "
+                    "without selected-prefix or sampled-rank membership."
                     if graph147_direct_eval_socket_ok
                     else (
                     "graph147 now reaches terminal graph states 141 and 138 "
