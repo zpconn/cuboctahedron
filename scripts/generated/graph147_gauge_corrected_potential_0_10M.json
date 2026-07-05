@@ -1,0 +1,306 @@
+{
+  "accepted_modes": [
+    "full"
+  ],
+  "arithmetic": "exact integer/rational diagnostic; not proof evidence",
+  "decision": "full_graph_margin_candidate_only",
+  "graph": {
+    "const_scaled": 176,
+    "edges": 1054,
+    "final_potential_max": 0,
+    "final_potential_min": 0,
+    "finals": 116,
+    "root_potential_bounds": [
+      {
+        "const_plus_potential": 0,
+        "potential": -176,
+        "root": 0
+      }
+    ],
+    "roots": 1,
+    "states": 970
+  },
+  "interpretation": "The observed graph147 Bellman potential plus gauge certifies the full 970-state graph, but no coarser existing quotient is a valid margin certificate.  The production path should target semantic closed-language membership into the deterministic full graph, or discover a stronger quotient/segment state.",
+  "mode": "graph147-gauge-corrected-potential-audit",
+  "modes": [
+    {
+      "consistent": true,
+      "corrected_potential_max": 530,
+      "corrected_potential_min": -422,
+      "decision": "gauge_corrected_margin_candidate",
+      "edge_failure_count": 0,
+      "final_failure_count": 0,
+      "first_edge_failure": null,
+      "interpretation": "This quotient validates the gauge-corrected Bellman margin bound on the observed graph.  It is still diagnostic until Lean proves semantic closed-language membership into the same graph.",
+      "mode": "full",
+      "quotient_edge_labels": 1054,
+      "quotient_states": 970,
+      "root_bounds": [
+        {
+          "bound": 0,
+          "corrected_potential": 262,
+          "gauge": 438,
+          "qroot": "step=0|rem=2,2,2,2,2,2,2|par=000|stack=<empty>|triSrc=",
+          "root": 0
+        }
+      ],
+      "worst_root_bound": 0
+    },
+    {
+      "consistent": true,
+      "corrected_potential_max": 486,
+      "corrected_potential_min": -422,
+      "decision": "gauge_corrected_edges_invalid",
+      "edge_failure_count": 241,
+      "final_failure_count": 0,
+      "first_edge_failure": {
+        "dst": 115,
+        "label": 12,
+        "lhs": 442,
+        "qdst": "step=11|rem=1,0,0,0,1,0,1|par=100|stack=dm11 d111 d1m1 dm11|triSrc=d111->dm11@100",
+        "qsrc": "step=10|rem=1,0,1,0,1,0,1|par=101|stack=dm11 d111 d1m1 dm11|triSrc=d111->dm11@100",
+        "rhs": 46,
+        "src": 35
+      },
+      "interpretation": "The quotient raw-gain equations are consistent, but the observed `V + gauge` potential does not validate all small quotient edges.",
+      "mode": "step-tri-src-no-pos",
+      "quotient_edge_labels": 379,
+      "quotient_states": 254,
+      "root_bounds": [
+        {
+          "bound": 0,
+          "corrected_potential": 262,
+          "gauge": 438,
+          "qroot": "step=0|rem=2,2,2,2,2,2,2|par=000|stack=<empty>|triSrc=",
+          "root": 0
+        }
+      ],
+      "worst_root_bound": 0
+    },
+    {
+      "consistent": true,
+      "corrected_potential_max": 486,
+      "corrected_potential_min": -378,
+      "decision": "gauge_corrected_edges_invalid",
+      "edge_failure_count": 305,
+      "final_failure_count": 0,
+      "first_edge_failure": {
+        "dst": 115,
+        "label": 12,
+        "lhs": 442,
+        "qdst": "step=11|rem=1,0,0,0,1,0,1|par=100|stack=dm11 d111 d1m1 dm11|triTargets=dm11",
+        "qsrc": "step=10|rem=1,0,1,0,1,0,1|par=101|stack=dm11 d111 d1m1 dm11|triTargets=dm11",
+        "rhs": 46,
+        "src": 35
+      },
+      "interpretation": "The quotient raw-gain equations are consistent, but the observed `V + gauge` potential does not validate all small quotient edges.",
+      "mode": "step-tri-targets",
+      "quotient_edge_labels": 289,
+      "quotient_states": 173,
+      "root_bounds": [
+        {
+          "bound": 0,
+          "corrected_potential": 262,
+          "gauge": 438,
+          "qroot": "step=0|rem=2,2,2,2,2,2,2|par=000|stack=<empty>|triTargets=",
+          "root": 0
+        }
+      ],
+      "worst_root_bound": 0
+    },
+    {
+      "consistent": true,
+      "corrected_potential_max": 550,
+      "corrected_potential_min": -290,
+      "decision": "gauge_corrected_edges_invalid",
+      "edge_failure_count": 342,
+      "final_failure_count": 0,
+      "first_edge_failure": {
+        "dst": 115,
+        "label": 12,
+        "lhs": 442,
+        "qdst": "step=11|par=100|stack=dm11 d111 d1m1 dm11|triTargets=dm11",
+        "qsrc": "step=10|par=101|stack=dm11 d111 d1m1 dm11|triTargets=dm11",
+        "rhs": 194,
+        "src": 35
+      },
+      "interpretation": "The quotient raw-gain equations are consistent, but the observed `V + gauge` potential does not validate all small quotient edges.",
+      "mode": "step-par-tri-targets",
+      "quotient_edge_labels": 226,
+      "quotient_states": 98,
+      "root_bounds": [
+        {
+          "bound": 0,
+          "corrected_potential": 262,
+          "gauge": 438,
+          "qroot": "step=0|par=000|stack=<empty>|triTargets=",
+          "root": 0
+        }
+      ],
+      "worst_root_bound": 0
+    },
+    {
+      "consistent": true,
+      "corrected_potential_max": 486,
+      "corrected_potential_min": -378,
+      "decision": "gauge_corrected_edges_invalid",
+      "edge_failure_count": 305,
+      "final_failure_count": 0,
+      "first_edge_failure": {
+        "dst": 115,
+        "label": 12,
+        "lhs": 442,
+        "qdst": "step=11|rem=1,0,0,0,1,0,1|par=100|stack=dm11 d111 d1m1 dm11",
+        "qsrc": "step=10|rem=1,0,1,0,1,0,1|par=101|stack=dm11 d111 d1m1 dm11",
+        "rhs": 46,
+        "src": 35
+      },
+      "interpretation": "The quotient raw-gain equations are consistent, but the observed `V + gauge` potential does not validate all small quotient edges.",
+      "mode": "no-tri-src",
+      "quotient_edge_labels": 289,
+      "quotient_states": 173,
+      "root_bounds": [
+        {
+          "bound": 0,
+          "corrected_potential": 262,
+          "gauge": 438,
+          "qroot": "step=0|rem=2,2,2,2,2,2,2|par=000|stack=<empty>",
+          "root": 0
+        }
+      ],
+      "worst_root_bound": 0
+    },
+    {
+      "consistent": true,
+      "corrected_potential_max": 550,
+      "corrected_potential_min": -422,
+      "decision": "gauge_corrected_edges_invalid",
+      "edge_failure_count": 254,
+      "final_failure_count": 0,
+      "first_edge_failure": {
+        "dst": 115,
+        "label": 12,
+        "lhs": 442,
+        "qdst": "step=11|par=100|stack=dm11 d111 d1m1 dm11|triSrc=1:d111->dm11@100",
+        "qsrc": "step=10|par=101|stack=dm11 d111 d1m1 dm11|triSrc=1:d111->dm11@100",
+        "rhs": 178,
+        "src": 35
+      },
+      "interpretation": "The quotient raw-gain equations are consistent, but the observed `V + gauge` potential does not validate all small quotient edges.",
+      "mode": "no-rem",
+      "quotient_edge_labels": 459,
+      "quotient_states": 289,
+      "root_bounds": [
+        {
+          "bound": 0,
+          "corrected_potential": 262,
+          "gauge": 438,
+          "qroot": "step=0|par=000|stack=<empty>|triSrc=",
+          "root": 0
+        }
+      ],
+      "worst_root_bound": 0
+    },
+    {
+      "consistent": true,
+      "corrected_potential_max": 550,
+      "corrected_potential_min": -290,
+      "decision": "gauge_corrected_edges_invalid",
+      "edge_failure_count": 342,
+      "final_failure_count": 0,
+      "first_edge_failure": {
+        "dst": 115,
+        "label": 12,
+        "lhs": 442,
+        "qdst": "step=11|par=100|stack=dm11 d111 d1m1 dm11",
+        "qsrc": "step=10|par=101|stack=dm11 d111 d1m1 dm11",
+        "rhs": 194,
+        "src": 35
+      },
+      "interpretation": "The quotient raw-gain equations are consistent, but the observed `V + gauge` potential does not validate all small quotient edges.",
+      "mode": "step-par-stack",
+      "quotient_edge_labels": 226,
+      "quotient_states": 98,
+      "root_bounds": [
+        {
+          "bound": 0,
+          "corrected_potential": 262,
+          "gauge": 438,
+          "qroot": "step=0|par=000|stack=<empty>",
+          "root": 0
+        }
+      ],
+      "worst_root_bound": 0
+    },
+    {
+      "consistent": true,
+      "corrected_potential_max": 486,
+      "corrected_potential_min": -378,
+      "decision": "gauge_corrected_edges_invalid",
+      "edge_failure_count": 305,
+      "final_failure_count": 0,
+      "first_edge_failure": {
+        "dst": 115,
+        "label": 12,
+        "lhs": 442,
+        "qdst": "step=11|rem=1,0,0,0,1,0,1|par=100",
+        "qsrc": "step=10|rem=1,0,1,0,1,0,1|par=101",
+        "rhs": 46,
+        "src": 35
+      },
+      "interpretation": "The quotient raw-gain equations are consistent, but the observed `V + gauge` potential does not validate all small quotient edges.",
+      "mode": "step-rem-par",
+      "quotient_edge_labels": 289,
+      "quotient_states": 173,
+      "root_bounds": [
+        {
+          "bound": 0,
+          "corrected_potential": 262,
+          "gauge": 438,
+          "qroot": "step=0|rem=2,2,2,2,2,2,2|par=000",
+          "root": 0
+        }
+      ],
+      "worst_root_bound": 0
+    },
+    {
+      "consistent": true,
+      "corrected_potential_max": 878,
+      "corrected_potential_min": 30,
+      "decision": "gauge_corrected_edges_invalid",
+      "edge_failure_count": 291,
+      "final_failure_count": 0,
+      "first_edge_failure": {
+        "dst": 164,
+        "label": 12,
+        "lhs": 442,
+        "qdst": "step=11|stack=dm11 d111 d1m1 dm11 d111",
+        "qsrc": "step=10|stack=dm11 d111 d1m1 dm11 d111",
+        "rhs": 382,
+        "src": 59
+      },
+      "interpretation": "The quotient raw-gain equations are consistent, but the observed `V + gauge` potential does not validate all small quotient edges.",
+      "mode": "step-stack",
+      "quotient_edge_labels": 206,
+      "quotient_states": 44,
+      "root_bounds": [
+        {
+          "bound": 0,
+          "corrected_potential": 262,
+          "gauge": 438,
+          "qroot": "step=0|stack=<empty>",
+          "root": 0
+        }
+      ],
+      "worst_root_bound": 0
+    },
+    {
+      "consistent": false,
+      "decision": "inconsistent_edge_quotient",
+      "interpretation": "Raw gains do not factor through this quotient.",
+      "mode": "step-par",
+      "quotient_states": 68
+    }
+  ],
+  "profile": "/home/zpconn/code/cuboctahedron/scripts/generated/nonid_margin_bellman_top_pairing_000000000_010000000_with_step_tri_source_graph.json"
+}

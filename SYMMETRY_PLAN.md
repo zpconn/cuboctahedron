@@ -105111,6 +105111,100 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 graph147 gauge-corrected potential audit
+
+After the latest GPT5.5 Pro pivot, the graph147 Bellman route was re-audited
+under the stricter rule:
+
+- keep Bellman;
+- reject selected-prefix / sampled-rank / accepted-trace membership as
+  production evidence;
+- prove a deterministic semantic closed-language-to-evaluator theorem; and
+- if the margin needs a quotient, use a real cocycle/gauge margin theorem
+  rather than another observed-prefix cover.
+
+Added a diagnostic-only script:
+
+```text
+scripts/audit_graph147_gauge_corrected_potential.py
+```
+
+This script checks the natural gauge-corrected Bellman condition for each
+existing graph147 cocycle quotient.  For a quotient equation
+
+```text
+raw = small + gauge(dst) - gauge(src)
+```
+
+it tests the certificate shape:
+
+```text
+small + U(dst) <= U(src)
+gauge(final) <= U(final)
+const + U(root) - gauge(root) <= 0
+```
+
+using the observed full graph potential as
+`U(q) = max { V(s) + gauge(s) | q(s) = q }`.  This is still only a diagnostic;
+it emits no Lean evidence.
+
+Commands:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_gauge_corrected_potential.py
+python3 scripts/audit_graph147_gauge_corrected_potential.py
+```
+
+Result:
+
+```text
+decision = full_graph_margin_candidate_only
+accepted_modes = [full]
+graph states = 970
+graph edges = 1054
+graph roots = 1
+graph finals = 116
+const_scaled = 176
+root potential = -176
+const + root potential = 0
+final potential range = 0 .. 0
+```
+
+Mode-level interpretation:
+
+- `full` is a gauge-corrected margin candidate for the observed graph:
+  corrected edge failures `0`, final failures `0`, worst root bound `0`.
+- Every coarser existing quotient still fails corrected local edge bounds.
+  Examples:
+  - `step-tri-src-no-pos`: `254` quotient states, `241` corrected edge
+    failures;
+  - `step-tri-targets`: `173` quotient states, `305` corrected edge failures;
+  - `step-stack`: `44` quotient states, `291` corrected edge failures;
+  - `step-par`: inconsistent raw-gain quotient.
+
+Decision:
+
+- The graph147 observed Bellman graph itself has the right margin algebra.
+  The obstruction is not the Bellman potential.
+- The current coarser quotient coordinates are not strong enough to replace
+  the full graph in a production margin bundle.
+- The next accepted graph147 proof slice should target one of:
+  1. a deterministic semantic theorem from
+     `TopPairingClosedLanguageAtRank rank Face.ym` into the full graph147
+     evaluator/root-margin gate; or
+  2. a stronger semantic quotient/segment state whose corrected edge failures
+     are zero.
+- Do not scale selected-prefix membership, sampled rank objects, accepted trace
+  ids, exact affine RHS keys, exact solved start-point keys, or one branch per
+  observed path.
+
+Artifacts:
+
+```text
+scripts/generated/graph147_gauge_corrected_potential_0_10M.json
+scripts/generated/graph147_gauge_corrected_potential_0_10M.md
+```
+
 ### 2026-07-05 revised pivot: closed-language evaluator theorem first
 
 The newest GPT5.5 Pro guidance is now the controlling strategy for the
