@@ -141,6 +141,14 @@ GRAPH221_BLOCKED_PREFIX_REQUIRED = [
     "graph221Layer4SemanticSuffixFamily_of_blockedPrefixExcluded",
 ]
 
+GRAPH221_DIRECT_SEMANTIC_REQUIRED = [
+    "graph221_yp_tmpm_zp_canComplete_false",
+    "graph221AcceptedTailSuffixOk_of_targetCompletionTail",
+    "graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail",
+    "graph221Layer4SemanticSuffixFamily_targetCompletion",
+    "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic",
+]
+
 FORBIDDEN = [
     "SampledRankIndex",
     "sampledContainsRank",
@@ -175,6 +183,9 @@ def main() -> int:
     graph221_blocked_prefix_ok, graph221_blocked_prefix_missing = contains_all(
         graph221_text, GRAPH221_BLOCKED_PREFIX_REQUIRED
     )
+    graph221_direct_semantic_ok, graph221_direct_semantic_missing = contains_all(
+        graph221_text, GRAPH221_DIRECT_SEMANTIC_REQUIRED
+    )
     forbidden_hits = [
         token for token in FORBIDDEN if token in graph183_text
     ]
@@ -198,7 +209,9 @@ def main() -> int:
                 "forbidden_hits": forbidden_hits,
             }
         elif lane == "zm_tmpp":
-            if (
+            if graph221_direct_semantic_ok:
+                partial_status = "validated_graph221_semantic_gate"
+            elif (
                 graph151_partial_ok
                 and zm_tmpp_chain_ok
                 and graph221_filtered_ok
@@ -251,12 +264,25 @@ def main() -> int:
                     symbol: symbol not in graph221_blocked_prefix_missing
                     for symbol in GRAPH221_BLOCKED_PREFIX_REQUIRED
                 },
+                "graph221_direct_semantic_symbols": {
+                    symbol: symbol not in graph221_direct_semantic_missing
+                    for symbol in GRAPH221_DIRECT_SEMANTIC_REQUIRED
+                },
                 "forbidden_hits": [
                     token
                     for token in FORBIDDEN
                     if token in next_frontier_text or token in graph221_text
                 ],
                 "remaining_gap": (
+                    "graph221 is now a validated semantic gate for the zm_tmpp "
+                    "lane: target-completion itself excludes the yp,tmpm,zp "
+                    "branch because the post-yp,tmpm,zp state has "
+                    "canComplete = false.  The next work is to apply the same "
+                    "deterministic target-completion/evaluator pattern to the "
+                    "remaining layer-4 lanes without selected-prefix or "
+                    "sampled-rank membership."
+                    if graph221_direct_semantic_ok
+                    else (
                     "graph221 target-completion now reduces the frontier to "
                     "accepted suffixes or the single blocked prefix "
                     "yp,tmpm,zp,..., and the semantic suffix family follows "
@@ -311,6 +337,7 @@ def main() -> int:
                     )
                     )
                     )
+                    )
                 ),
             }
         else:
@@ -326,12 +353,12 @@ def main() -> int:
     validated = [
         lane
         for lane, data in lane_report.items()
-        if data["status"] == "validated_one_lane_semantic_gate"
+        if data["status"].startswith("validated")
     ]
     missing = [
         lane
         for lane, data in lane_report.items()
-        if data["status"] != "validated_one_lane_semantic_gate"
+        if not data["status"].startswith("validated")
     ]
     partial = [
         lane
@@ -341,7 +368,7 @@ def main() -> int:
 
     payload = {
         "status": (
-            "one_lane_validated_remaining_lanes_missing"
+            "validated_lanes_remaining_lanes_missing"
             if validated and missing
             else "no_validated_terminal_lanes"
         ),
@@ -353,6 +380,13 @@ def main() -> int:
         "missing_lanes": missing,
         "lanes": lane_report,
         "next_recommended_slice": (
+            "continue the deterministic semantic terminal-lane pattern on the "
+            "remaining layer-4 lanes; use target-completion/evaluator product "
+            "state and stop for the cocycle/cancellation-summary quotient "
+            "experiment if a lane requires selected-prefix, sampled-rank, "
+            "accepted-trace, exact-affine, or per-observed-path membership"
+            if graph221_direct_semantic_ok
+            else (
             "prove Graph221Layer4BlockedPrefixExcludedFamily as a deterministic "
             "closed-language-to-evaluator theorem for the zm_tmpp graph221 "
             "frontier, using target-shadow/cancellation cursor and product-state "
@@ -386,6 +420,7 @@ def main() -> int:
                     "continuation for the partial zm_tmpp lane, then lift it "
                     "through the same four-piece terminal-machine pattern "
                     "validated by graph183"
+                )
                 )
             )
             )

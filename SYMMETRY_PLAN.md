@@ -105111,6 +105111,127 @@ Result:
 pass; no matches
 ```
 
+### 2026-07-05 graph221 promoted: target-completion excludes the blocked prefix
+
+The graph221 pivot produced a better result than expected.  The previously
+identified blocked branch
+
+```text
+yp, tmpm, zp, ...
+```
+
+does not require a new product-state membership theorem: after the local
+`yp,tmpm,zp` prefix, the target-completion state itself has no completion.
+The Lean module now exposes this as a checked semantic theorem surface.
+
+New definitions/theorems in
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean`:
+
+```lean
+def graph221YpTmpmZpState : TopPairingTargetCompletionState
+
+private theorem graph221_yp_tmpm_zp_canComplete_false :
+  graph221YpTmpmZpState.canComplete = false
+
+theorem graph221AcceptedTailSuffixOk_of_targetCompletionTail
+  (htail : Graph221TargetCompletionTail rest) :
+  graph221AcceptedTailSuffixOk rest
+
+theorem graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail
+  (htail : Graph151TargetCompletionTail rest) :
+  graph221Layer4AcceptedTailSuffixOk rest
+
+def graph221Layer4SemanticSuffixFamily_targetCompletion :
+  Graph221Layer4SemanticSuffixFamily
+
+theorem graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic
+  (hstrengthened :
+    TopPairingStrengthenedClosedLanguageAtRank
+      AcceptedSequenceBadFaceAtRank rank Face.ym)
+  (hprefix :
+    Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+  TerminalContainedEvalPrefixGate
+    TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank
+```
+
+Interpretation:
+
+- `Graph221TargetCompletionTail` first reduces the suffix to the three accepted
+  graph221 tails or the branch `yp,tmpm,zp,...`.
+- The new `graph221_yp_tmpm_zp_canComplete_false` proof shows that the latter
+  branch has no target-completion tail.
+- Therefore the graph221 lane no longer needs the old evaluator-success
+  premise, nor the provisional `Graph221Layer4BlockedPrefixExcludedFamily`
+  target, for this specific frontier.
+- The result still follows the GPT5.5 rule: the proof is deterministic
+  target-completion state, not selected prefixes, sampled ranks, accepted-trace
+  ids, exact affine RHS keys, or per-observed-path membership.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221TerminalTailPrefixSmoke
+```
+
+Result:
+
+```text
+pass; elapsed=5.00s; peak_tree_rss=4244 MiB; min_available=45853 MiB
+```
+
+Lightweight audit:
+
+```bash
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+status = validated_lanes_remaining_lanes_missing
+validated_lanes = [tmpm_zm, zm_tmpp]
+validated_lane_count = 2
+partial_lanes = []
+missing_lanes = [tmpm_tppm, yp_tmmm, yp_zm, zm_yp, zm_zp]
+next_recommended_slice =
+  continue the deterministic semantic terminal-lane pattern on the remaining
+  layer-4 lanes; use target-completion/evaluator product state and stop for
+  the cocycle/cancellation-summary quotient experiment if a lane requires
+  selected-prefix, sampled-rank, accepted-trace, exact-affine, or
+  per-observed-path membership
+```
+
+Narrow forbidden-token scan:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean \
+  Cuboctahedron/Search/TopPairingTargetCursor.lean
+```
+
+Result:
+
+```text
+pass; no matches
+```
+
+Next implementation target:
+
+- Apply the same deterministic semantic terminal-lane pattern to the remaining
+  five layer-4 lanes.
+- Prefer target-completion/canComplete refinements first, since graph221 showed
+  that a branch that looked blocked at a coarse theorem boundary may already be
+  impossible one target-completion step later.
+- If any remaining lane requires selected prefixes, sampled ranks,
+  accepted-trace ids, exact affine keys, solved start points, or one branch per
+  observed path, stop and run the cocycle/cancellation-summary quotient
+  experiment before emitting more lane-specific data.
+
 Current graph221 status:
 
 ```text

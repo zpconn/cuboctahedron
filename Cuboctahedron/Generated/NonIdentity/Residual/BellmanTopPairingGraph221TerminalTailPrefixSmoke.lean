@@ -171,12 +171,19 @@ def graph221YpTmpmTmmmState : TopPairingTargetCompletionState :=
 def graph221YpTmpmTmmmZpState : TopPairingTargetCompletionState :=
   graph221YpTmpmTmmmState.next Face.zp
 
+def graph221YpTmpmZpState : TopPairingTargetCompletionState :=
+  graph221YpTmpmState.next Face.zp
+
 private theorem graph221_tmpm_canComplete_false :
     (graph221TargetCompletionState.next Face.tmpm).canComplete = false := by
   rfl
 
 private theorem graph221_zp_canComplete_false :
     (graph221TargetCompletionState.next Face.zp).canComplete = false := by
+  rfl
+
+private theorem graph221_yp_tmpm_zp_canComplete_false :
+    graph221YpTmpmZpState.canComplete = false := by
   rfl
 
 private theorem graph221_head_candidate_of_targetCompletionTail
@@ -555,6 +562,12 @@ private theorem graph221_yp_tmpm_tmmm_zp_tail_eq_xp
       subst tail
       rfl
 
+private theorem no_tail_after_graph221_yp_tmpm_zp {rest : List Face} :
+    ¬ TopPairingTargetCompletionTail graph221YpTmpmZpState rest := by
+  intro h
+  exact TopPairingTargetCompletionTail.false_of_canComplete_eq_false
+    graph221_yp_tmpm_zp_canComplete_false h
+
 def graph221Tail029 : List Face :=
   [Face.tmmm, Face.tmpm, Face.yp, Face.zp, Face.xp]
 
@@ -740,23 +753,33 @@ theorem graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
                       subst rest4
                       exact Or.inl (Or.inr (Or.inr rfl))
                 · subst face3
-                  exact Or.inr ⟨rest3, rfl⟩
+                  exact False.elim
+                    (no_tail_after_graph221_yp_tmpm_zp
+                      (TopPairingTargetCompletionTail.tail_next htail2))
 
-theorem graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval
-    {rest : List Face} {finish : StrengthenedClosedEvalState} {gain : Int}
-    (htail : Graph221TargetCompletionTail rest)
-    (heval :
-      evalLabelStepFn strengthenedClosedEvalNext graph221StrengthenedEvalState
-          rest =
-        some (finish, gain)) :
+theorem graph221AcceptedTailSuffixOk_of_targetCompletionTail
+    {rest : List Face}
+    (htail : Graph221TargetCompletionTail rest) :
     graph221AcceptedTailSuffixOk rest := by
   rcases graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
       htail with hok | hblocked
   · exact hok
   · rcases hblocked with ⟨tail, hrest⟩
     subst rest
-    rw [graph221YpTmpmZp_strengthenedEval_none tail] at heval
-    contradiction
+    have htail1 := TopPairingTargetCompletionTail.tail_next htail
+    have htail2 := TopPairingTargetCompletionTail.tail_next htail1
+    have htail3 := TopPairingTargetCompletionTail.tail_next htail2
+    exact False.elim (no_tail_after_graph221_yp_tmpm_zp htail3)
+
+theorem graph221AcceptedTailSuffixOk_of_targetCompletionTail_and_strengthenedEval
+    {rest : List Face} {finish : StrengthenedClosedEvalState} {gain : Int}
+    (htail : Graph221TargetCompletionTail rest)
+    (_heval :
+      evalLabelStepFn strengthenedClosedEvalNext graph221StrengthenedEvalState
+          rest =
+        some (finish, gain)) :
+    graph221AcceptedTailSuffixOk rest := by
+  exact graph221AcceptedTailSuffixOk_of_targetCompletionTail htail
 
 theorem graph221AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval
     {rest : List Face} {finish : StrengthenedClosedEvalState} {gain : Int}
@@ -800,6 +823,14 @@ def graph221Layer4AcceptedTailSuffixOk (rest : List Face) : Prop :=
   ∃ tail,
     rest = graph221Layer4ForcedTailPrefixLabels ++ tail ∧
       graph221AcceptedTailSuffixOk tail
+
+theorem graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail
+    {rest : List Face}
+    (htail : Graph151TargetCompletionTail rest) :
+    graph221Layer4AcceptedTailSuffixOk rest := by
+  rcases graph151TargetCompletionTail_decompose_to_graph221 htail with
+    ⟨tail, hrest, htail221⟩
+  exact ⟨tail, hrest, graph221AcceptedTailSuffixOk_of_targetCompletionTail htail221⟩
 
 theorem graph221Layer4AcceptedTailSuffixOk_or_blockedPrefix_of_graph151TargetCompletionTail
     {rest : List Face}
@@ -1539,6 +1570,12 @@ structure Graph221Layer4SemanticSuffixFamily : Prop where
         Graph151TargetCompletionTail rest ->
         graph221Layer4AcceptedTailSuffixOk rest
 
+def graph221Layer4SemanticSuffixFamily_targetCompletion :
+    Graph221Layer4SemanticSuffixFamily where
+  suffixOk := by
+    intro _rank _hstrengthened rest _hprefix htail
+    exact graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail htail
+
 /--
 Sharper graph221 production target.
 
@@ -1588,6 +1625,18 @@ theorem graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffix
     (graph151CompletionTail_of_strengthened_prefix hstrengthened hprefix)
     (hfamily.suffixOk rank hstrengthened rest hprefix
       (graph151CompletionTail_of_strengthened_prefix hstrengthened hprefix))
+
+theorem graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic
+    {rank : Fin numPairWords} {rest : List Face}
+    (hstrengthened :
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym)
+    (hprefix :
+      Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest) :
+    TerminalContainedEvalPrefixGate
+      TerminalStepStatePartialMachine.semantic TerminalStepState.initial rank :=
+  graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily
+    graph221Layer4SemanticSuffixFamily_targetCompletion hstrengthened hprefix
 
 theorem graph221TerminalTailPrefixSmoke_builds : True := by
   exact True.intro

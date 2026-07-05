@@ -73,6 +73,13 @@
         "graph221Layer4AcceptedTailSuffixOk_or_blockedPrefix_of_graph151TargetCompletionTail": true,
         "graph221Layer4SemanticSuffixFamily_of_blockedPrefixExcluded": true
       },
+      "graph221_direct_semantic_symbols": {
+        "graph221AcceptedTailSuffixOk_of_targetCompletionTail": true,
+        "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_semantic": true,
+        "graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail": true,
+        "graph221Layer4SemanticSuffixFamily_targetCompletion": true,
+        "graph221_yp_tmpm_zp_canComplete_false": true
+      },
       "graph221_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean",
       "graph221_filtered_symbols": {
         "Graph221TargetCompletionTail": true,
@@ -114,14 +121,14 @@
         "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily": true,
         "graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk": true
       },
-      "remaining_gap": "graph221 target-completion now reduces the frontier to accepted suffixes or the single blocked prefix yp,tmpm,zp,..., and the semantic suffix family follows from Graph221Layer4BlockedPrefixExcludedFamily.  The next proof must be a deterministic closed-language-to-evaluator slice: use the target-shadow/cancellation cursor plus product-state semantics to exclude the blocked prefix, not a selected-prefix cover.  If that exclusion needs sampled ranks, exact affine keys, accepted trace ids, or one branch per observed path, switch to the cocycle/cancellation-summary quotient experiment.",
+      "remaining_gap": "graph221 is now a validated semantic gate for the zm_tmpp lane: target-completion itself excludes the yp,tmpm,zp branch because the post-yp,tmpm,zp state has canComplete = false.  The next work is to apply the same deterministic target-completion/evaluator pattern to the remaining layer-4 lanes without selected-prefix or sampled-rank membership.",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
         "graph151_head_of_targetCompletionTail": true,
         "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph221_blocked_prefix_exclusion_frontier",
+      "status": "validated_graph221_semantic_gate",
       "third": "Face.zm"
     },
     "zm_yp": {
@@ -141,23 +148,21 @@
       "third": "Face.zm"
     }
   },
-  "missing_lane_count": 6,
+  "missing_lane_count": 5,
   "missing_lanes": [
     "tmpm_tppm",
     "yp_tmmm",
     "yp_zm",
-    "zm_tmpp",
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "prove Graph221Layer4BlockedPrefixExcludedFamily as a deterministic closed-language-to-evaluator theorem for the zm_tmpp graph221 frontier, using target-shadow/cancellation cursor and product-state semantics; if that proof wants selected-prefix, sampled-rank, accepted-trace, exact-affine, or per-observed-path membership, stop and run the cocycle/cancellation-summary quotient experiment",
-  "partial_lane_count": 1,
-  "partial_lanes": [
-    "zm_tmpp"
-  ],
-  "status": "one_lane_validated_remaining_lanes_missing",
-  "validated_lane_count": 1,
+  "next_recommended_slice": "continue the deterministic semantic terminal-lane pattern on the remaining layer-4 lanes; use target-completion/evaluator product state and stop for the cocycle/cancellation-summary quotient experiment if a lane requires selected-prefix, sampled-rank, accepted-trace, exact-affine, or per-observed-path membership",
+  "partial_lane_count": 0,
+  "partial_lanes": [],
+  "status": "validated_lanes_remaining_lanes_missing",
+  "validated_lane_count": 2,
   "validated_lanes": [
-    "tmpm_zm"
+    "tmpm_zm",
+    "zm_tmpp"
   ]
 }
