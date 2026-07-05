@@ -135,6 +135,12 @@ GRAPH221_SEMANTIC_SUFFIX_REQUIRED = [
     "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily",
 ]
 
+GRAPH221_BLOCKED_PREFIX_REQUIRED = [
+    "graph221Layer4AcceptedTailSuffixOk_or_blockedPrefix_of_graph151TargetCompletionTail",
+    "Graph221Layer4BlockedPrefixExcludedFamily",
+    "graph221Layer4SemanticSuffixFamily_of_blockedPrefixExcluded",
+]
+
 FORBIDDEN = [
     "SampledRankIndex",
     "sampledContainsRank",
@@ -166,6 +172,9 @@ def main() -> int:
     graph221_semantic_suffix_ok, graph221_semantic_suffix_missing = contains_all(
         graph221_text, GRAPH221_SEMANTIC_SUFFIX_REQUIRED
     )
+    graph221_blocked_prefix_ok, graph221_blocked_prefix_missing = contains_all(
+        graph221_text, GRAPH221_BLOCKED_PREFIX_REQUIRED
+    )
     forbidden_hits = [
         token for token in FORBIDDEN if token in graph183_text
     ]
@@ -190,6 +199,14 @@ def main() -> int:
             }
         elif lane == "zm_tmpp":
             if (
+                graph151_partial_ok
+                and zm_tmpp_chain_ok
+                and graph221_filtered_ok
+                and graph221_semantic_suffix_ok
+                and graph221_blocked_prefix_ok
+            ):
+                partial_status = "partial_graph221_blocked_prefix_exclusion_frontier"
+            elif (
                 graph151_partial_ok
                 and zm_tmpp_chain_ok
                 and graph221_filtered_ok
@@ -230,12 +247,27 @@ def main() -> int:
                     symbol: symbol not in graph221_semantic_suffix_missing
                     for symbol in GRAPH221_SEMANTIC_SUFFIX_REQUIRED
                 },
+                "graph221_blocked_prefix_symbols": {
+                    symbol: symbol not in graph221_blocked_prefix_missing
+                    for symbol in GRAPH221_BLOCKED_PREFIX_REQUIRED
+                },
                 "forbidden_hits": [
                     token
                     for token in FORBIDDEN
                     if token in next_frontier_text or token in graph221_text
                 ],
                 "remaining_gap": (
+                    "graph221 target-completion now reduces the frontier to "
+                    "accepted suffixes or the single blocked prefix "
+                    "yp,tmpm,zp,..., and the semantic suffix family follows "
+                    "from Graph221Layer4BlockedPrefixExcludedFamily.  The next "
+                    "proof must exclude that blocked prefix from deterministic "
+                    "product-state/cancellation semantics.  If that exclusion "
+                    "needs selected prefixes, sampled ranks, exact affine keys, "
+                    "or one branch per observed path, switch to the "
+                    "cocycle/cancellation-summary quotient experiment."
+                    if graph221_blocked_prefix_ok
+                    else (
                     "graph221 now has a non-circular semantic suffix-family "
                     "frontier: once a production theorem proves "
                     "graph221Layer4AcceptedTailSuffixOk from strengthened "
@@ -273,6 +305,7 @@ def main() -> int:
                         "graph151 target-completion semantics forces the next "
                         "face tppp, but no graph151 post-tppp suffix/terminal "
                         "continuation table analogous to graph183 is present"
+                    )
                     )
                     )
                     )
@@ -318,6 +351,13 @@ def main() -> int:
         "missing_lanes": missing,
         "lanes": lane_report,
         "next_recommended_slice": (
+            "prove Graph221Layer4BlockedPrefixExcludedFamily from deterministic "
+            "product-state/cancellation semantics for the zm_tmpp graph221 "
+            "frontier; if that proof wants selected-prefix or exact-affine "
+            "membership, stop and run the cocycle/cancellation-summary "
+            "quotient experiment"
+            if graph221_blocked_prefix_ok
+            else (
             "prove Graph221Layer4SemanticSuffixFamily from deterministic "
             "product-state/cancellation semantics for the zm_tmpp graph221 "
             "frontier; if that proof wants selected-prefix or exact-affine "
@@ -344,6 +384,7 @@ def main() -> int:
                     "through the same four-piece terminal-machine pattern "
                     "validated by graph183"
                 )
+            )
             )
             )
         ),

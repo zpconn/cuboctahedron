@@ -801,6 +801,24 @@ def graph221Layer4AcceptedTailSuffixOk (rest : List Face) : Prop :=
     rest = graph221Layer4ForcedTailPrefixLabels ++ tail ∧
       graph221AcceptedTailSuffixOk tail
 
+theorem graph221Layer4AcceptedTailSuffixOk_or_blockedPrefix_of_graph151TargetCompletionTail
+    {rest : List Face}
+    (htail : Graph151TargetCompletionTail rest) :
+    graph221Layer4AcceptedTailSuffixOk rest ∨
+      ∃ tail,
+        rest =
+          graph221Layer4ForcedTailPrefixLabels ++
+            Face.yp :: Face.tmpm :: Face.zp :: tail := by
+  rcases graph151TargetCompletionTail_decompose_to_graph221 htail with
+    ⟨tail, hrest, htail221⟩
+  rcases graph221AcceptedTailSuffixOk_or_blockedPrefix_of_targetCompletionTail
+      htail221 with hok | hblocked
+  · exact Or.inl ⟨tail, hrest, hok⟩
+  · rcases hblocked with ⟨blockedTail, htailEq⟩
+    subst rest
+    subst tail
+    exact Or.inr ⟨blockedTail, by simp [List.append_assoc]⟩
+
 theorem graph221Layer4AcceptedTailSuffixOk_of_graph151TargetCompletionTail_and_strengthenedEval
     {rest : List Face} {finish : StrengthenedClosedEvalState} {gain : Int}
     (htail : Graph151TargetCompletionTail rest)
@@ -1520,6 +1538,40 @@ structure Graph221Layer4SemanticSuffixFamily : Prop where
         Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
         Graph151TargetCompletionTail rest ->
         graph221Layer4AcceptedTailSuffixOk rest
+
+/--
+Sharper graph221 production target.
+
+Target-completion reduces the graph221 frontier to the three accepted suffixes
+or the single blocked prefix `yp,tmpm,zp,...`.  Production code can therefore
+prove the semantic suffix family by excluding that blocked prefix from the
+strengthened product-state/cancellation language.  This keeps the remaining
+obligation small and avoids assuming an evaluator-success equation.
+-/
+structure Graph221Layer4BlockedPrefixExcludedFamily : Prop where
+  noBlocked :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ∀ rest,
+        Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+        Graph151TargetCompletionTail rest ->
+        ¬ ∃ tail,
+          rest =
+            graph221Layer4ForcedTailPrefixLabels ++
+              Face.yp :: Face.tmpm :: Face.zp :: tail
+
+theorem graph221Layer4SemanticSuffixFamily_of_blockedPrefixExcluded
+    (hfamily : Graph221Layer4BlockedPrefixExcludedFamily) :
+    Graph221Layer4SemanticSuffixFamily where
+  suffixOk := by
+    intro rank hstrengthened rest hprefix htail
+    rcases
+        graph221Layer4AcceptedTailSuffixOk_or_blockedPrefix_of_graph151TargetCompletionTail
+          htail with hok | hblocked
+    · exact hok
+    · exact False.elim
+        ((hfamily.noBlocked rank hstrengthened rest hprefix htail) hblocked)
 
 theorem graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily
     (hfamily : Graph221Layer4SemanticSuffixFamily)

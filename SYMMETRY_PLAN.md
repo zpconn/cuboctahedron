@@ -105161,3 +105161,104 @@ Files updated:
 scripts/audit_layer4_terminal_lane_readiness.py
 scripts/generated/layer4_terminal_lane_readiness.json
 ```
+
+### 2026-07-05 graph221 frontier narrowed to blocked-prefix exclusion
+
+The graph221 target-completion/suffix surface was sharpened again.  Instead of
+asking production code to prove the whole suffix predicate directly, the Lean
+module now proves that graph221 target-completion leaves only two possibilities:
+one of the accepted suffixes, or the single blocked product-state prefix
+
+```text
+yp, tmpm, zp, ...
+```
+
+New theorem surface:
+
+```lean
+theorem graph221Layer4AcceptedTailSuffixOk_or_blockedPrefix_of_graph151TargetCompletionTail
+  (htail : Graph151TargetCompletionTail rest) :
+  graph221Layer4AcceptedTailSuffixOk rest ∨
+    ∃ tail,
+      rest =
+        graph221Layer4ForcedTailPrefixLabels ++
+          Face.yp :: Face.tmpm :: Face.zp :: tail
+
+structure Graph221Layer4BlockedPrefixExcludedFamily : Prop where
+  noBlocked :
+    ∀ rank,
+      TopPairingStrengthenedClosedLanguageAtRank
+        AcceptedSequenceBadFaceAtRank rank Face.ym ->
+      ∀ rest,
+        Depth11Layer4PrefixAtRank rank Face.zm Face.tmpp rest ->
+        Graph151TargetCompletionTail rest ->
+        ¬ ∃ tail,
+          rest =
+            graph221Layer4ForcedTailPrefixLabels ++
+              Face.yp :: Face.tmpm :: Face.zp :: tail
+
+theorem graph221Layer4SemanticSuffixFamily_of_blockedPrefixExcluded
+  (hfamily : Graph221Layer4BlockedPrefixExcludedFamily) :
+  Graph221Layer4SemanticSuffixFamily
+```
+
+This is now the smallest honest graph221 production target.  The existing
+closed-language fields do not rule out the blocked prefix: the previous
+local-axis experiment reduced the contradiction to `h : True |- False`, and the
+blocked full trace is not the special `rejectedGraphTrace_004` excluded by
+`SequenceBadFaceLabels`.  Therefore the next proof must add a real
+product-state/cancellation/tri-source invariant that proves
+`Graph221Layer4BlockedPrefixExcludedFamily`.  If that proof needs
+selected-prefix ids, sampled ranks, accepted-trace ids, exact affine RHS keys,
+or one branch per observed path, the route should stop and use the
+cocycle/cancellation-summary quotient experiment instead.
+
+Focused guarded build:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 10000 \
+  --min-available-mib 30000 -- \
+  env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingGraph221TerminalTailPrefixSmoke
+```
+
+Result:
+
+```text
+pass; elapsed=8.01s; peak_tree_rss=4225 MiB; min_available=45859 MiB
+```
+
+Narrow forbidden-token scan:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean
+```
+
+Result:
+
+```text
+pass; no matches
+```
+
+Readiness audit:
+
+```bash
+python3 scripts/audit_layer4_terminal_lane_readiness.py
+```
+
+Result:
+
+```text
+status = one_lane_validated_remaining_lanes_missing
+validated_lanes = [tmpm_zm]
+partial_lanes = [zm_tmpp]
+zm_tmpp.status = partial_graph221_blocked_prefix_exclusion_frontier
+next_recommended_slice =
+  prove Graph221Layer4BlockedPrefixExcludedFamily from deterministic
+  product-state/cancellation semantics for the zm_tmpp graph221 frontier;
+  if that proof wants selected-prefix or exact-affine membership, stop and run
+  the cocycle/cancellation-summary quotient experiment
+```

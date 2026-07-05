@@ -68,6 +68,11 @@
         "strengthenedPrefix8Graph202TargetCompletionLocalBranchTable": true
       },
       "fourth": "Face.tmpp",
+      "graph221_blocked_prefix_symbols": {
+        "Graph221Layer4BlockedPrefixExcludedFamily": true,
+        "graph221Layer4AcceptedTailSuffixOk_or_blockedPrefix_of_graph151TargetCompletionTail": true,
+        "graph221Layer4SemanticSuffixFamily_of_blockedPrefixExcluded": true
+      },
       "graph221_file": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221TerminalTailPrefixSmoke.lean",
       "graph221_filtered_symbols": {
         "Graph221TargetCompletionTail": true,
@@ -109,14 +114,14 @@
         "graph221InitialContainedEvalPrefixGate_of_strengthened_prefix_and_suffixFamily": true,
         "graph221Layer4ContainedEvalPrefixGate_of_graph151TargetCompletionTail_and_suffixOk": true
       },
-      "remaining_gap": "graph221 now has a non-circular semantic suffix-family frontier: once a production theorem proves graph221Layer4AcceptedTailSuffixOk from strengthened closed-language product-state semantics, the terminal machine gate follows without assuming strengthened evaluator success.  The next proof must target Graph221Layer4SemanticSuffixFamily.  If that target needs selected prefixes, sampled ranks, exact affine keys, or one branch per observed path, switch to the cocycle/cancellation-summary quotient experiment.",
+      "remaining_gap": "graph221 target-completion now reduces the frontier to accepted suffixes or the single blocked prefix yp,tmpm,zp,..., and the semantic suffix family follows from Graph221Layer4BlockedPrefixExcludedFamily.  The next proof must exclude that blocked prefix from deterministic product-state/cancellation semantics.  If that exclusion needs selected prefixes, sampled ranks, exact affine keys, or one branch per observed path, switch to the cocycle/cancellation-summary quotient experiment.",
       "required_symbols": {
         "Graph151TargetCompletionTail": true,
         "graph151TargetCompletionState": true,
         "graph151_head_of_targetCompletionTail": true,
         "strengthenedPrefix4Graph151TargetCompletionLocalBranchTable": true
       },
-      "status": "partial_graph221_semantic_suffix_family_frontier",
+      "status": "partial_graph221_blocked_prefix_exclusion_frontier",
       "third": "Face.zm"
     },
     "zm_yp": {
@@ -145,7 +150,7 @@
     "zm_yp",
     "zm_zp"
   ],
-  "next_recommended_slice": "prove Graph221Layer4SemanticSuffixFamily from deterministic product-state/cancellation semantics for the zm_tmpp graph221 frontier; if that proof wants selected-prefix or exact-affine membership, stop and run the cocycle/cancellation-summary quotient experiment",
+  "next_recommended_slice": "prove Graph221Layer4BlockedPrefixExcludedFamily from deterministic product-state/cancellation semantics for the zm_tmpp graph221 frontier; if that proof wants selected-prefix or exact-affine membership, stop and run the cocycle/cancellation-summary quotient experiment",
   "partial_lane_count": 1,
   "partial_lanes": [
     "zm_tmpp"
