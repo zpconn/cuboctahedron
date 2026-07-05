@@ -110619,3 +110619,150 @@ StrengthenedGraph147RankedEvalMarginInvariantFamily
   -> rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily
   -> StrengthenedGraph147RankedEvalMarginBundle
 ```
+
+### 2026-07-05 mandatory graph147 semantic-transducer pivot
+
+Marker for audits: `mandatory_graph147_semantic_transducer_pivot`.
+
+Latest GPT5.5 Pro review sharpens the current graph147 strategy rather than
+replacing it:
+
+```text
+Keep Bellman.
+Make graph147 production a closed-language-to-eval theorem.
+No selected-prefix/root-trace scaling.
+```
+
+The graph147 potential and ranked-eval sockets are now useful only if the next
+producer proves deterministic semantic evaluator membership from the closed
+top-pairing language.  The theorem target is exactly:
+
+```text
+TopPairingStrengthenedClosedLanguageAtRank sequenceBadFace rank Face.ym
+  -> Depth11Layer4PrefixAtRank rank branchFaceA branchFaceB rest
+  -> evalLabelStepFn graph147RankedEvalNext
+       graph147RankedPrefix4EvalState rest = some result
+  -> semantic margin invariant / margin bundle
+```
+
+Equivalently, the producer should instantiate:
+
+```lean
+StrengthenedGraph147RankedShardMarginInvariantFamily
+```
+
+using a `MarginInv rank state suffix acc` whose local preservation is driven
+by:
+
+- the target-shadow cursor;
+- `TopPairingTransducerTail`;
+- schedule, square-gap, local-axis, pair-count, and used-face facts;
+- `Graph147RankedShardSuffixOk` and the deterministic graph147 evaluator; or
+- a checked segment/cocycle quotient theorem if direct margin preservation is
+  not derivable.
+
+The proof is **not** allowed to use:
+
+- selected-prefix ids;
+- root-trace ids;
+- accepted-trace ids;
+- sampled rank/path objects;
+- exact affine RHS keys or solved start-point keys;
+- one generated branch per observed path.
+
+Go/no-go:
+
+```text
+GO:
+  A representative graph147 producer instantiates
+  StrengthenedGraph147RankedShardMarginInvariantFamily and checks under the
+  8 GiB guarded single-process build rule.
+
+NO-GO:
+  If the producer needs selected-prefix/root-trace membership, exact affine
+  keys, or per-path enumeration, stop graph147 scaling immediately.  The next
+  experiment becomes the segment/cocycle quotient route targeting
+  GaugeCorrectedQuotientEvalMarginLanguageBound.
+```
+
+The ranked-transducer audit now enforces this plan marker.  If the plan tail
+drifts away from the closed-language-to-eval theorem and back toward
+selected-prefix/root-trace scaling, the audit reports the graph147 frontier as
+incomplete.
+
+Focused validation after this pivot:
+
+```bash
+python3 -m py_compile scripts/audit_graph147_ranked_transducer_frontier.py
+python3 scripts/audit_graph147_ranked_transducer_frontier.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/top_pairing_transducer_semantic_gate_pivot_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_eval_socket_pivot_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/top_pairing_transducer_semantic_gate_pivot_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Search.TopPairingTransducerSemanticGate
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 300 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_eval_socket_pivot_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build Cuboctahedron.Generated.NonIdentity.Residual.\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean \
+  Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+```
+
+Results:
+
+```text
+audit status = ready_for_ranked_eval_margin_bundle_producer
+mandatory pivot markers = all present
+direct TopPairingTransducerSemanticGate = pass
+  elapsed = 7.00s; peak_tree_rss = 3698 MiB; min_available = 46324 MiB;
+  hard_as = 8192 MiB
+direct Graph147RankedEvalSocket = pass
+  elapsed = 3.00s; peak_tree_rss = 4011 MiB; min_available = 46203 MiB;
+  hard_as = 8192 MiB
+Lake TopPairingTransducerSemanticGate = pass
+  elapsed = 10.01s; peak_tree_rss = 4039 MiB; min_available = 46126 MiB
+Lake Graph147RankedEvalSocket = pass
+  elapsed = 297.20s; peak_tree_rss = 5992 MiB; min_available = 43925 MiB
+forbidden-token scan = no hits
+```
+
+Interpretation:
+
+```text
+The reusable semantic-transducer gate and graph147 ranked eval socket are
+memory-safe under the current serial guard.  The generated socket Lake target
+is heavier because it replays graph-eval smoke dependencies, but it still stays
+under 6 GiB RSS and above 43 GiB available memory.  This validates the socket
+surface, not the missing margin producer.  The next accepted work remains the
+representative StrengthenedGraph147RankedShardMarginInvariantFamily producer.
+```

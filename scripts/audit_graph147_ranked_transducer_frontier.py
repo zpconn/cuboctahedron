@@ -184,6 +184,14 @@ PRODUCTION_ROUTE = {
 
 PRODUCTION_PRODUCER_SYMBOL = "StrengthenedGraph147RankedShardMarginInvariantFamily"
 
+PLAN_PIVOT_MARKERS = [
+    "mandatory_graph147_semantic_transducer_pivot",
+    "closed-language-to-eval theorem",
+    "target-shadow cursor",
+    "No selected-prefix/root-trace scaling",
+    "StrengthenedGraph147RankedShardMarginInvariantFamily",
+]
+
 
 def lean_symbol_usages_outside_socket(symbol: str) -> list[dict[str, object]]:
     usages: list[dict[str, object]] = []
@@ -290,6 +298,7 @@ def main() -> None:
             "rootMarginBundle_of_rankedEvalMarginBundle",
         ],
     )
+    plan_pivot_markers = contains_all(plan_tail, PLAN_PIVOT_MARKERS)
 
     all_socket = all(socket_symbols.values())
     all_ranked_eval = all(ranked_eval_symbols.values())
@@ -297,10 +306,11 @@ def main() -> None:
         all(symbols.values()) for symbols in semantic_symbols.values()
     )
     all_plan_tail = all(plan_tail_symbols.values())
+    all_plan_pivot = all(plan_pivot_markers.values())
     status = (
         "ready_for_ranked_eval_margin_bundle_producer"
         if all_socket and all_ranked_eval and all_semantic and full_graph_only
-        and all_plan_tail and not forbidden_hits
+        and all_plan_tail and all_plan_pivot and not forbidden_hits
         else "ranked_transducer_frontier_incomplete"
     )
 
@@ -318,6 +328,7 @@ def main() -> None:
         "plan_tail": {
             "file": str(PLAN.relative_to(ROOT)),
             "symbols": plan_tail_symbols,
+            "pivot_markers": plan_pivot_markers,
         },
         "semantic_inputs": {
             key: {
@@ -381,6 +392,16 @@ def main() -> None:
             "ranks, selected prefixes, accepted trace ids, exact affine keys, "
             "or per-observed-path membership."
         ),
+        "mandatory_pivot": {
+            "marker": "mandatory_graph147_semantic_transducer_pivot",
+            "meaning": (
+                "Graph147 production must be a deterministic closed-language "
+                "to evaluator theorem.  Selected-prefix/root-trace coverage "
+                "is diagnostic only unless it is replaced by semantic local "
+                "transition and margin invariant evidence."
+            ),
+            "plan_markers": plan_pivot_markers,
+        },
     }
 
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
@@ -405,6 +426,9 @@ def main() -> None:
     lines.extend(["", "## Plan Tail Symbols", ""])
     lines.append(f"- file: `{data['plan_tail']['file']}`")
     for symbol, present in data["plan_tail"]["symbols"].items():
+        lines.append(f"- `{symbol}`: `{str(present).lower()}`")
+    lines.extend(["", "## Mandatory Pivot Markers", ""])
+    for symbol, present in data["plan_tail"]["pivot_markers"].items():
         lines.append(f"- `{symbol}`: `{str(present).lower()}`")
     lines.extend(["", "## Semantic Inputs", ""])
     for key, entry in data["semantic_inputs"].items():
@@ -466,6 +490,16 @@ def main() -> None:
     )
     for item in PRODUCTION_ROUTE["reject"]:
         lines.append(f"- {item}")
+    lines.extend(
+        [
+            "",
+            "## Mandatory Pivot",
+            "",
+            f"- marker: `{data['mandatory_pivot']['marker']}`",
+            f"- meaning: {data['mandatory_pivot']['meaning']}",
+            "",
+        ]
+    )
     lines.extend(["", "## Next Step", "", data["next_step"], ""])
     OUT_MD.write_text("\n".join(lines))
 

@@ -731,59 +731,104 @@
           "text": "exact evalLabelStepFn_bound_of_next_invariant_aux"
         },
         {
-          "line": 703,
+          "line": 520,
+          "pattern": "evalLabelStepFn",
+          "text": "(heval : evalLabelStepFn next start labels = some (finish, gain)) :"
+        },
+        {
+          "line": 524,
+          "pattern": "evalLabelStepFn",
+          "text": "(bellmanLabelStepRun_of_evalLabelStepFn"
+        },
+        {
+          "line": 544,
+          "pattern": "evalLabelStepFn",
+          "text": "(heval : evalLabelStepFn next start labels = some (finish, gain)) :"
+        },
+        {
+          "line": 550,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn_bound_of_next_invariant"
+        },
+        {
+          "line": 550,
+          "pattern": "evalLabelStepFn_bound_of_next_invariant",
+          "text": "evalLabelStepFn_bound_of_next_invariant"
+        },
+        {
+          "line": 556,
+          "pattern": "evalLabelStepFn",
+          "text": "bellmanLabelStepRun_of_evalLabelStepFn"
+        },
+        {
+          "line": 582,
+          "pattern": "BellmanLabelStepRun.append",
+          "text": "run := BellmanLabelStepRun.append a.run b.run"
+        },
+        {
+          "line": 843,
           "pattern": "evalLabelStepFn",
           "text": "evalLabelStepFn next start (wordOf obj) = some result /\\"
         },
         {
-          "line": 707,
+          "line": 870,
+          "pattern": "evalLabelStepFn",
+          "text": "exact bellmanLabelStepRun_of_evalLabelStepFn"
+        },
+        {
+          "line": 1139,
+          "pattern": "evalLabelStepFn",
+          "text": "evalLabelStepFn next start (wordOf obj) = some result /\\"
+        },
+        {
+          "line": 1143,
           "pattern": "evalLabelStepFn",
           "text": "theorem bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
         },
         {
-          "line": 707,
+          "line": 1143,
           "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
           "text": "theorem bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
         },
         {
-          "line": 722,
+          "line": 1158,
           "pattern": "evalLabelStepFn",
           "text": "evalLabelStepFn next start (wordOf obj) = some result /\\"
         },
         {
-          "line": 730,
+          "line": 1166,
           "pattern": "evalLabelStepFn",
           "text": "bellmanLabelStepRun_of_evalLabelStepFn hsound hrunEval,"
         },
         {
-          "line": 734,
+          "line": 1170,
           "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
           "text": "theorem bellmanLabelStepRunLanguageBound_of_evalAccepts"
         },
         {
-          "line": 752,
+          "line": 1188,
           "pattern": "evalLabelStepFn",
           "text": "exact bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
         },
         {
-          "line": 752,
+          "line": 1188,
           "pattern": "bellmanLabelStepRunLanguageBound_of_eval",
           "text": "exact bellmanLabelStepRunLanguageBound_of_evalLabelStepFn"
         },
         {
-          "line": 807,
+          "line": 1243,
           "pattern": "evalLabelStepFn",
           "text": "rcases evalLabelStepFn_bound_of_next_invariant"
         },
         {
-          "line": 807,
+          "line": 1243,
           "pattern": "evalLabelStepFn_bound_of_next_invariant",
           "text": "rcases evalLabelStepFn_bound_of_next_invariant"
         }
       ],
       "exists": true,
       "forbidden_sampled_surface": [],
-      "lines": 816,
+      "lines": 1252,
       "path": "Cuboctahedron/Search/BellmanPotential.lean",
       "ranked_semantic_gate_core": [],
       "selected_prefix_production_risk": [],
@@ -22595,7 +22640,7 @@
     "branch_table_semantic_gate_socket": 31,
     "closed_language_fields": 228,
     "closed_state_dag_evaluator_smoke": 76,
-    "eval_core": 100,
+    "eval_core": 109,
     "forbidden_sampled_surface": 0,
     "ranked_semantic_gate_core": 8,
     "selected_prefix_production_risk": 12,

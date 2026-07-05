@@ -59,6 +59,14 @@
 - `rankedEvalMarginBundle_of_rankedEvalMarginInvariantFamily`: `true`
 - `rootMarginBundle_of_rankedEvalMarginBundle`: `true`
 
+## Mandatory Pivot Markers
+
+- `mandatory_graph147_semantic_transducer_pivot`: `true`
+- `closed-language-to-eval theorem`: `true`
+- `target-shadow cursor`: `true`
+- `No selected-prefix/root-trace scaling`: `true`
+- `StrengthenedGraph147RankedShardMarginInvariantFamily`: `true`
+
 ## Semantic Inputs
 
 ### target_cursor
@@ -142,6 +150,12 @@ Rejected production coordinates:
 - accepted trace id membership
 - exact affine RHS keys
 - one generated branch per observed path
+
+## Mandatory Pivot
+
+- marker: `mandatory_graph147_semantic_transducer_pivot`
+- meaning: Graph147 production must be a deterministic closed-language to evaluator theorem.  Selected-prefix/root-trace coverage is diagnostic only unless it is replaced by semantic local transition and margin invariant evidence.
+
 
 ## Next Step
 

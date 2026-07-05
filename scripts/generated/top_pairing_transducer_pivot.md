@@ -7,7 +7,7 @@ closed-language transducer theorem.
 - decision: `semantic-transducer-pivot-accepted-next-scale-closed-language-state-dag-evaluator`
 - target-shadow surface mentions: `120`
 - closed-language field mentions: `228`
-- eval-core mentions: `100`
+- eval-core mentions: `109`
 - semantic eval-gate mentions: `136`
 - target-cursor core mentions: `46`
 - semantic-tail core mentions: `20`

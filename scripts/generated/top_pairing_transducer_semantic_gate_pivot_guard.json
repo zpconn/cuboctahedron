@@ -11,14 +11,14 @@
     "2048",
     "Cuboctahedron/Search/TopPairingTransducerSemanticGate.lean"
   ],
-  "elapsed_seconds": 8.004022487992188,
+  "elapsed_seconds": 7.004402308986755,
   "exit_code": 0,
-  "hard_address_space_mib": null,
+  "hard_address_space_mib": 8192.0,
   "killed_reason": null,
-  "max_tree_rss_kib": 3814964,
-  "max_tree_rss_mib": 3725.55078125,
-  "min_available_seen_kib": 46857508,
-  "min_available_seen_mib": 45759.28515625,
-  "rss_cap_mib": 6500.0,
-  "timeout_seconds": 360.0
+  "max_tree_rss_kib": 3786956,
+  "max_tree_rss_mib": 3698.19921875,
+  "min_available_seen_kib": 47435900,
+  "min_available_seen_mib": 46324.12109375,
+  "rss_cap_mib": 8000.0,
+  "timeout_seconds": 180.0
 }
