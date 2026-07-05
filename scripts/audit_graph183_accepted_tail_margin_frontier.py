@@ -143,6 +143,8 @@ REQUIRED_QUOTIENT_SOCKET_SYMBOLS = [
     "graph183TailQuotientMarginSequenceBadFace_of_exactEvalGateResult",
     "graph183TailQuotientMarginFamily_of_tailExactEval",
     "graph183TailQuotientMarginFamily_of_exactEvalSequenceBadFace",
+    "graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace",
+    "graph183TailExactEvalFamily_of_quotientMarginSequenceBadFace",
     "acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_graph183TailExactEvalFamily",
     "acceptedSequenceGraph183AcceptedTailQuotientMarginFamily_of_graph183TailQuotientMarginFamily",
     "AcceptedSequenceGraph183AcceptedTailExactEvalFamily",

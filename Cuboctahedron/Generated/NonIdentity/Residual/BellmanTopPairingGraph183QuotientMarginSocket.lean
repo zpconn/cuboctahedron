@@ -331,6 +331,37 @@ def graph183TailQuotientMarginFamily_of_exactEvalSequenceBadFace
   graph183TailQuotientMarginFamily_of_tailExactEval
     (graph183TailExactEvalFamily_of_sequenceBadFace scaledMargin)
 
+theorem graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace
+    {scaledMargin : Fin numPairWords -> Int}
+    {rank : Fin numPairWords}
+    (hclosed : TopPairingClosedLanguageAtRank rank Face.ym)
+    (hmargin :
+      Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym) :
+    Graph183TailExactEvalSequenceBadFace scaledMargin rank Face.ym := by
+  refine ⟨rfl, ?_⟩
+  intro hprefix
+  rcases hmargin with ⟨_hface, hmarginTail⟩
+  have hmarginChecked :
+      scaledMargin rank <= graphConst + ((194 : Int) + (-542 : Int)) := by
+    simpa [graph183AcceptedBranchRawGain_contract] using
+      hmarginTail hprefix
+  exact graph183AcceptedBranchEvalGateResult_of_labels
+    hclosed (graph183AcceptedBranchLabels_eq_of_prefix hprefix)
+    hmarginChecked
+
+theorem graph183TailExactEvalFamily_of_quotientMarginSequenceBadFace
+    (scaledMargin : Fin numPairWords -> Int) :
+    Graph183TailExactEvalFamily
+      (Graph183TailQuotientMarginSequenceBadFace scaledMargin)
+      scaledMargin where
+  exact_eval_yp_branch := by
+    intro rank hstrengthened hprefix
+    have hseq :=
+      graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace
+        hstrengthened.toTopPairingClosedLanguageAtRank
+        hstrengthened.sequenceBadFace_ok
+    exact hseq.2 hprefix
+
 theorem acceptedSequenceGraph183AcceptedTailExactEvalFamily_of_branchExactEval
     {scaledMargin : Fin numPairWords -> Int}
     (hfamily :

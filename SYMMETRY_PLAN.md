@@ -111514,6 +111514,85 @@ graph183 frontier decision =
   diagnostic_supports_graph183_accepted_tail_margin_bellman_route
 ```
 
+### 2026-07-05 quotient carrier to exact-eval carrier bridge
+
+Added the reverse adapter on the graph183 forced branch: once the quotient
+margin carrier is available, the fixed branch prefix also supplies the exact
+graph183 evaluator result.
+
+New theorem/API surface:
+
+```lean
+graph183TailExactEvalSequenceBadFace_of_quotientMarginSequenceBadFace
+graph183TailExactEvalFamily_of_quotientMarginSequenceBadFace
+```
+
+The proof uses:
+
+```lean
+graph183AcceptedBranchLabels_eq_of_prefix
+graph183AcceptedBranchEvalGateResult_of_labels
+graph183AcceptedBranchRawGain_contract
+```
+
+This is useful because the accepted graph183 branch now has two equivalent
+semantic production targets on the forced branch:
+
+```lean
+Graph183TailQuotientMarginSequenceBadFace scaledMargin
+Graph183TailExactEvalSequenceBadFace scaledMargin
+```
+
+The preferred upstream proof remains the margin carrier if the quotient/gauge
+margin theorem is the natural output.  If a deterministic closed-language
+evaluator proof is easier to emit, the exact-eval carrier lowers to the margin
+carrier.  If the margin carrier is emitted first, it raises back to the
+exact-eval carrier using the fixed branch labels.  Neither direction uses
+selected prefixes, accepted trace ids, or sampled-rank membership.
+
+Focused guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 5.00s
+peak RSS = 3956 MiB
+min available = 46237 MiB
+```
+
+Updated audits:
+
+```bash
+python3 -m py_compile scripts/audit_latest_bellman_semantic_pivot.py
+python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+```
+
+Results:
+
+```text
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+```
+
 ### 2026-07-05 exact-eval sequenceBadFace carrier
 
 Added an evaluator-shaped sibling of the graph183 quotient-margin carrier:
