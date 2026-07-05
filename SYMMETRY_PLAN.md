@@ -116863,4 +116863,93 @@ three suffixes.  The first proof-bearing target should expose the quotient
 equations and branch constants, then a later theorem must replace observed
 path membership with `Graph221ZmTmppSplit10MRootMarginObj` semantics.
 ```
+
+#### 2026-07-05 graph221 object cocycle quotient Lean smoke
+
+Status: diagnostic Lean smoke accepted; not coverage evidence.
+
+Added emitter:
+
+```text
+scripts/emit_graph221_object_cocycle_quotient_smoke.py
+```
+
+Generated module:
+
+```text
+Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221ObjectCocycleQuotientSmoke.lean
+```
+
+The module imports only `Cuboctahedron.Search.BellmanPotential`, keeps the
+finite quotient table private, and checks:
+
+```lean
+theorem graph221QuotientStep
+theorem graph221Branch029RawGain_contract
+theorem graph221Branch029MarginBound_contract
+theorem graph221QuotientBranch029Smoke
+theorem graph221Branch030RawGain_contract
+theorem graph221Branch030MarginBound_contract
+theorem graph221QuotientBranch030Smoke
+theorem graph221Branch031RawGain_contract
+theorem graph221Branch031MarginBound_contract
+theorem graph221QuotientBranch031Smoke
+theorem graph221LocalEquationsChecked
+```
+
+Branch constants:
+
+```text
+branch029 raw gain = -376, 176 + gain = -200
+branch030 raw gain = -376, 176 + gain = -200
+branch031 raw gain = -596, 176 + gain = -420
+```
+
+The quotient smoke proves the observed 21 edge-label equations and composes
+the three observed branches through `BellmanLabelStepRun.quotient_of_step_gain_eq`.
+It deliberately does **not** prove `Graph221ZmTmppSplit10MBranchMarginFamily`,
+because it still relies on observed path rows.  The next proof-bearing step is
+to replace those observed runs with semantic
+`Graph221ZmTmppSplit10MRootMarginObj` membership.
+
+Commands run:
+
+```bash
+python3 -m py_compile scripts/emit_graph221_object_cocycle_quotient_smoke.py
+python3 scripts/emit_graph221_object_cocycle_quotient_smoke.py
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 --hard-address-space-mib 16384 \
+  --json scripts/generated/graph221_object_cocycle_quotient_smoke_guard.json \
+  -- lake env lean -M 8000 -j1 -s 16384 \
+    -o .lake/build/lib/lean/Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221ObjectCocycleQuotientSmoke.olean \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221ObjectCocycleQuotientSmoke.lean
+
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph221ObjectCocycleQuotientSmoke.lean \
+  scripts/emit_graph221_object_cocycle_quotient_smoke.py \
+  scripts/profile_graph221_object_cocycle_quotient.py
+```
+
+Results:
+
+```text
+py_compile: passed
+emitter: passed, emitted 21 edges / 21 states / 17 quotient states
+guarded Lean check: passed, elapsed 10.01s, peak RSS 3906.67 MiB,
+  min available 46206.84 MiB
+forbidden-token scan on touched graph221 quotient smoke files: no hits
+```
+
+Next implementation target:
+
+```text
+Promote this smoke shape from observed paths to semantic graph221 objects:
+prove a theorem that every `Graph221ZmTmppSplit10MRootMarginObj` belongs to
+one of the three suffix branches and that the corresponding branch run/margin
+contract follows from closed holonomy/cancellation state, not from path-row
+indices.  If the proof cannot avoid observed edge rows, keep the smoke
+diagnostic and strengthen the semantic state/cancellation cursor first.
+```
 ```
