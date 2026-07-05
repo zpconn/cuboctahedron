@@ -112293,6 +112293,70 @@ latest Bellman status =
   latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
 ```
 
+### 2026-07-05 graph183 step-run to object-margin adapter
+
+Added the direct adapter:
+
+```lean
+graph183TailQuotientObjectMarginBound_of_strengthenedClosedBellmanStepRunFamily
+```
+
+to `BellmanTopPairingGraph183QuotientMarginSocket.lean`.
+
+This makes the two accepted graph183 semantic producer targets interoperate:
+if a future producer proves:
+
+```lean
+StrengthenedClosedBellmanStepRunFamily sequenceBadFace scaledMargin
+```
+
+then it now directly yields:
+
+```lean
+Graph183TailQuotientObjectMarginBound sequenceBadFace scaledMargin
+```
+
+for graph183 branch objects.  The proof uses the semantic step run's
+`BellmanLabelStepRun`, converts it to deterministic `closedBellmanNext`
+evaluation, and compares that result with the branch-prefix theorem
+`graph183TailQuotientMarginEvalObj_eval`.  This is still adapter plumbing, not
+the missing semantic producer, but it removes ambiguity about which target a
+future target-cursor/cocycle transducer should emit.
+
+Focused guarded Lean check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 --max-tree-rss-mib 7000 \
+  --min-available-mib 30000 --hard-address-space-mib 8192 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 7000 -j1 -s 8192 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Result:
+
+```text
+exit = 0
+elapsed = 5.00s
+peak RSS = 3994 MiB
+min available = 46225 MiB
+```
+
+Audits still report the same proof frontier:
+
+```text
+graph183 carrier readiness =
+  graph183_carrier_sockets_ready_but_producer_missing
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+latest Bellman status =
+  latest-bellman-semantic-pivot-has-graph183-sequencebadface-carrier
+```
+
 ### 2026-07-05 graph183 branch-local start-violation provider
 
 The accepted-trace provider path was too heavy because it imported accepted

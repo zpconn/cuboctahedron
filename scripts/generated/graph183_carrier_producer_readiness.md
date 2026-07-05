@@ -103,9 +103,9 @@ field instead of scaling the selected-prefix route.
 | `closed_run_final_state_direct_guard_peak_rss_mib` | `4419.6796875` |
 | `closed_run_final_state_lake_guard_elapsed_seconds` | `9.00826031100587` |
 | `closed_run_final_state_lake_guard_peak_rss_mib` | `4696.0703125` |
-| `guard_elapsed_seconds` | `10.006319696985884` |
-| `guard_peak_rss_mib` | `3967.44140625` |
-| `guard_min_available_mib` | `46229.96875` |
+| `guard_elapsed_seconds` | `5.003530981979566` |
+| `guard_peak_rss_mib` | `3994.2578125` |
+| `guard_min_available_mib` | `46225.5546875` |
 | `closed_semantic_gate_guard_elapsed_seconds` | `3.0027096020057797` |
 | `closed_semantic_gate_guard_peak_rss_mib` | `3719.16015625` |
 | `closed_semantic_gate_guard_min_available_mib` | `46322.6328125` |
@@ -138,6 +138,7 @@ field instead of scaling the selected-prefix route.
 | `socket:symbol:graph183TailQuotientEvalMarginLanguageBound_of_objectMarginBound` | `True` | `graph183TailQuotientEvalMarginLanguageBound_of_objectMarginBound` |
 | `socket:symbol:graph183TailQuotientObjectMarginBound_of_sequenceBadFace` | `True` | `graph183TailQuotientObjectMarginBound_of_sequenceBadFace` |
 | `socket:symbol:graph183TailQuotientMarginEvalFamily_of_sequenceBadFace` | `True` | `graph183TailQuotientMarginEvalFamily_of_sequenceBadFace` |
+| `socket:symbol:graph183TailQuotientObjectMarginBound_of_strengthenedClosedBellmanStepRunFamily` | `True` | `graph183TailQuotientObjectMarginBound_of_strengthenedClosedBellmanStepRunFamily` |
 | `socket:symbol:graph183TailQuotientMarginEvalFamily_of_evalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_evalLanguageBound` |
 | `socket:symbol:graph183TailQuotientMarginEvalFamily_of_objectMarginBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_objectMarginBound` |
 | `socket:symbol:graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` | `True` | `graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound` |
@@ -355,8 +356,8 @@ field instead of scaling the selected-prefix route.
 | `graph183_closed_run_final_state_lake_guard:rss_under_30000_mib` | `True` | `4696.0703125` |
 | `graph183_closed_run_final_state_lake_guard:available_above_30000_mib` | `True` | `45345.89453125` |
 | `socket_guard:guard_exit_zero` | `True` | `0` |
-| `socket_guard:rss_under_6500_mib` | `True` | `3967.44140625` |
-| `socket_guard:available_above_30000_mib` | `True` | `46229.96875` |
+| `socket_guard:rss_under_6500_mib` | `True` | `3994.2578125` |
+| `socket_guard:available_above_30000_mib` | `True` | `46225.5546875` |
 | `graph183_start_provider_guard:guard_exit_zero` | `True` | `0` |
 | `graph183_start_provider_guard:rss_under_7000_mib` | `True` | `6882.125` |
 | `graph183_start_provider_guard:available_above_30000_mib` | `True` | `43095.3046875` |

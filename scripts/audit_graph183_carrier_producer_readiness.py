@@ -133,6 +133,7 @@ REQUIRED_SOCKET_SYMBOLS = [
     "graph183TailQuotientEvalMarginLanguageBound_of_objectMarginBound",
     "graph183TailQuotientObjectMarginBound_of_sequenceBadFace",
     "graph183TailQuotientMarginEvalFamily_of_sequenceBadFace",
+    "graph183TailQuotientObjectMarginBound_of_strengthenedClosedBellmanStepRunFamily",
     "graph183TailQuotientMarginEvalFamily_of_evalLanguageBound",
     "graph183TailQuotientMarginEvalFamily_of_objectMarginBound",
     "graph183TailQuotientMarginEvalFamily_of_gaugeCorrectedEvalLanguageBound",

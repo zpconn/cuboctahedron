@@ -121,6 +121,7 @@
         "graph183TailQuotientMarginSequenceBadFace_of_strengthenedClosedBellmanStepRunFamily": true,
         "graph183TailQuotientMarginSequenceBadFace_of_strengthenedGraphExactEvalGate": true,
         "graph183TailQuotientObjectMarginBound_of_sequenceBadFace": true,
+        "graph183TailQuotientObjectMarginBound_of_strengthenedClosedBellmanStepRunFamily": true,
         "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation": true,
         "nonIdentityRankKilled_of_graph183TailBranchQuotientStartViolation": true,
         "nonIdentityRankKilled_of_graph183TailQuotientMarginSequenceBadFace": true,

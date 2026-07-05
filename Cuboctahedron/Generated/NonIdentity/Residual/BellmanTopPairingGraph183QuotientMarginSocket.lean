@@ -396,6 +396,56 @@ def graph183TailQuotientMarginEvalFamily_of_sequenceBadFace
     (graph183TailQuotientObjectMarginBound_of_sequenceBadFace scaledMargin)
 
 /--
+Package a semantic strengthened closed-Bellman step-run family directly as the
+graph183 object-margin target.
+
+The step-run family supplies a run and a margin bound against that run's gain.
+For graph183 branch objects, the branch prefix independently fixes the
+deterministic evaluator result to the accepted graph183 branch, so the run gain
+is the checked `graph183AcceptedBranchRawGain`.  This keeps
+`StrengthenedClosedBellmanStepRunFamily` and
+`Graph183TailQuotientObjectMarginBound` interchangeable production targets
+without introducing sampled traces or selected-prefix membership.
+-/
+def graph183TailQuotientObjectMarginBound_of_strengthenedClosedBellmanStepRunFamily
+    {sequenceBadFace : Fin numPairWords -> Face -> Prop}
+    {scaledMargin : Fin numPairWords -> Int}
+    (hfamily :
+      StrengthenedClosedBellmanStepRunFamily
+        sequenceBadFace scaledMargin) :
+    Graph183TailQuotientObjectMarginBound sequenceBadFace scaledMargin := by
+  intro obj
+  rcases hfamily.run obj.rank obj.strengthened with
+    ⟨finish, gain, hrun, _hfinal, hmargin⟩
+  have heval :
+      evalLabelStepFn closedBellmanNext graphRoot
+          (Graph183TailQuotientMarginEvalObj.labels obj) =
+        some (finish, gain) := by
+    simpa [Graph183TailQuotientMarginEvalObj.labels] using
+      (evalLabelStepFn_of_bellmanLabelStepRun
+        (next := closedBellmanNext)
+        (hnext := by
+          intro state face nextState gain hstep
+          exact closedBellmanStep_next hstep)
+        hrun)
+  have hbranch :
+      evalLabelStepFn closedBellmanNext graphRoot
+          (Graph183TailQuotientMarginEvalObj.labels obj) =
+        some (126, ((194 : Int) + (-542 : Int))) :=
+    graph183TailQuotientMarginEvalObj_eval obj
+  have hsame :
+      (finish, gain) = (126, ((194 : Int) + (-542 : Int))) := by
+    have hsome :
+        some (finish, gain) =
+          some (126, ((194 : Int) + (-542 : Int))) :=
+      heval.symm.trans hbranch
+    cases hsome
+    rfl
+  cases hsame
+  simpa [Graph183TailQuotientMarginEvalObj.scaledMargin,
+    graph183AcceptedBranchRawGain_contract] using hmargin
+
+/--
 Package a semantic object-language eval-margin theorem as the graph183
 eval-margin family consumed by the quotient-margin socket.
 -/
