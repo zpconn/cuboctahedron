@@ -105137,7 +105137,9 @@ inductive ShardTargetSuffixOk
 def ShardStepTarget.graph
 def nextTarget?
 theorem nextTarget?_graph_sound
+theorem nextTarget?_shard_sound
 theorem ShardTargetSuffixOk.first_step_graph_sound
+theorem ShardTargetSuffixOk.eval_exists_of_external
 theorem nextTarget?_prefix4YpZm_zp
 theorem nextTarget?_prefix4YpZm_tmmp
 theorem nextTarget?_terminal_graph112
@@ -105166,6 +105168,15 @@ predicate back to `strengthenedClosedEvalNext` through
 `nextTarget?_graph_sound`.  This gives the future graph147 membership theorem a
 compact recursive target instead of a selected-prefix or accepted-trace cover.
 
+Follow-up accepted in the same shard: `nextTarget?_shard_sound` specializes the
+target soundness theorem for internal shard-to-shard transitions, and
+`ShardTargetSuffixOk.eval_exists_of_external` proves recursive evaluator
+existence for every `ShardTargetSuffixOk ExternalOk state labels`, assuming only
+a caller-provided evaluator theorem for external graph exits.  The proof uses a
+small one-step evaluator lemma and induction over the semantic suffix predicate;
+it does not introduce sampled ranks, selected-prefix IDs, accepted trace IDs,
+exact affine keys, or per-observed-path membership.
+
 Focused guarded build:
 
 ```bash
@@ -105180,7 +105191,7 @@ python3 scripts/run_memory_guarded.py \
 Result:
 
 ```text
-pass; elapsed=4.01s; peak_tree_rss=3924 MiB; min_available=46061 MiB
+pass; elapsed=4.00s; peak_tree_rss=3927 MiB; min_available=46105 MiB
 ```
 
 The first build attempt failed safely under the same guard because the target
@@ -105194,6 +105205,12 @@ It peaked at `4066 MiB` RSS.  The accepted version avoids broad reduction by
 case-splitting on the compact table and applying named local transition
 lemmas.
 
+A first recursive evaluator proof attempted `simp [evalLabelStepFn.eq_def]`,
+which failed safely under the guard by recursive simplification rather than
+memory pressure.  The accepted version replaces that with a local
+`evalLabelStepFn_cons_some` lemma that unfolds the evaluator exactly one
+constructor at a time.
+
 Readiness audit:
 
 ```bash
@@ -105205,6 +105222,8 @@ Result:
 ```text
 yp_zm.status = partial_terminal_graph141_graph138_deterministic_target_api
 zm_yp.status = partial_terminal_graph141_graph138_deterministic_target_api
+deterministic_target_shard_symbols.nextTarget?_shard_sound = true
+deterministic_target_shard_symbols.ShardTargetSuffixOk.eval_exists_of_external = true
 forbidden_hits = []
 ```
 

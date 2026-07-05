@@ -348,6 +348,64 @@ theorem nextTarget?_graph_sound
       strengthenedClosed_prefix5_zm_tmpp_tppp_next_from_prefix4ZmTmpp,
       rfl⟩
 
+theorem nextTarget?_shard_sound
+    {state nextState : ShardState} {face : Face} {gain : Int}
+    (hnext : nextTarget? state face = some (.shard nextState, gain)) :
+    strengthenedClosedEvalNext (evalState state) face =
+      some (evalState nextState, gain) := by
+  cases state <;> cases face <;>
+    simp [nextTarget?] at hnext
+  all_goals rcases hnext with ⟨rfl, rfl⟩
+  case prefix4YpZm.zp =>
+    exact strengthenedClosed_prefix5_yp_zm_zp_next_from_graph147
+  case prefix4YpZm.tmmp =>
+    exact strengthenedClosed_prefix5_yp_zm_tmmp_next_from_graph147
+  case prefix5YpZmZp.tmmm =>
+    exact strengthenedClosed_prefix6_yp_zm_zp_tmmm_next_from_graph153
+  case prefix12YpZmZpTmmmTpmmTppmTpmpTmpmTpppTmpp.tmmp =>
+    exact strengthenedClosed_prefix13_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_tmpp_tmmp_next_from_graph69
+  case prefix12YpZmTmmpTpmpTpppTpmmTmppTppmTmpmTmmm.zp =>
+    exact strengthenedClosed_prefix13_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_tmmm_zp_next_from_graph75
+  case prefix9YpZmZpTmmmTpmmTppmTpmp.tmpm =>
+    exact strengthenedClosed_prefix10_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_next_from_graph208
+  case prefix11YpZmZpTmmmTpmmTppmTpmpTmpmTppp.tmpp =>
+    exact strengthenedClosed_prefix12_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_tmpp_next_from_graph36
+  case prefix11YpZmTmmpTpmpTpppTpmmTmppTppmTmpm.tmmm =>
+    exact strengthenedClosed_prefix12_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_tmmm_next_from_graph41
+  case prefix9YpZmTmmpTpmpTpppTpmmTmpp.tppm =>
+    exact strengthenedClosed_prefix10_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_next_from_graph211
+  case prefix10YpZmZpTmmmTpmmTppmTpmpTmpm.tppp =>
+    exact strengthenedClosed_prefix11_yp_zm_zp_tmmm_tpmm_tppm_tpmp_tmpm_tppp_next_from_graph6
+  case prefix10YpZmTmmpTpmpTpppTpmmTmppTppm.tmpm =>
+    exact strengthenedClosed_prefix11_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_tppm_tmpm_next_from_graph11
+  case prefix8YpZmZpTmmmTpmmTppm.tpmp =>
+    exact strengthenedClosed_prefix9_yp_zm_zp_tmmm_tpmm_tppm_tpmp_next_from_graph191
+  case prefix8YpZmTmmpTpmpTpppTpmm.tmpp =>
+    exact strengthenedClosed_prefix9_yp_zm_tmmp_tpmp_tppp_tpmm_tmpp_next_from_graph194
+  case prefix7YpZmZpTmmmTpmm.tppm =>
+    exact strengthenedClosed_prefix8_yp_zm_zp_tmmm_tpmm_tppm_next_from_graph176
+  case prefix7YpZmTmmpTpmpTppp.tpmm =>
+    exact strengthenedClosed_prefix8_yp_zm_tmmp_tpmp_tppp_tpmm_next_from_graph178
+  case prefix6YpZmZpTmmm.tpmm =>
+    exact strengthenedClosed_prefix7_yp_zm_zp_tmmm_tpmm_next_from_graph163
+  case prefix6YpZmTmmpTpmp.tppp =>
+    exact strengthenedClosed_prefix7_yp_zm_tmmp_tpmp_tppp_next_from_graph166
+  case prefix5YpZmTmmp.tpmp =>
+    exact strengthenedClosed_prefix6_yp_zm_tmmp_tpmp_next_from_graph155
+
+private theorem evalLabelStepFn_cons_some
+    {State Label : Type}
+    {next : State -> Label -> Option (State × Int)}
+    {start mid finish : State} {label : Label} {labels : List Label}
+    {gain tailGain : Int}
+    (hnext : next start label = some (mid, gain))
+    (htail : evalLabelStepFn next mid labels = some (finish, tailGain)) :
+    evalLabelStepFn next start (label :: labels) =
+      some (finish, gain + tailGain) := by
+  unfold evalLabelStepFn
+  rw [hnext]
+  simp [htail]
+
 /--
 Recursive semantic suffix predicate for this bounded target shard.
 
@@ -396,6 +454,36 @@ theorem ShardTargetSuffixOk.first_step_graph_sound
       exact ⟨_, _, hstep, nextTarget?_graph_sound hstep⟩
   | external_step hstep hrest =>
       exact ⟨_, _, hstep, nextTarget?_graph_sound hstep⟩
+
+theorem ShardTargetSuffixOk.eval_exists_of_external
+    {ExternalOk : Nat -> List Face -> Prop}
+    (hexternal :
+      ∀ {state : ShardState} {graph : Nat} {face : Face} {gain : Int}
+          {rest : List Face},
+        nextTarget? state face = some (.externalGraph graph, gain) ->
+        ExternalOk graph rest ->
+          ∃ nextState finish tailGain,
+            strengthenedClosedEvalNext (evalState state) face =
+                some (nextState, gain) ∧
+              evalLabelStepFn strengthenedClosedEvalNext nextState rest =
+                some (finish, tailGain))
+    {state : ShardState} {labels : List Face}
+    (hsuffix : ShardTargetSuffixOk ExternalOk state labels) :
+    ∃ finish totalGain,
+      evalLabelStepFn strengthenedClosedEvalNext (evalState state) labels =
+        some (finish, totalGain) := by
+  induction hsuffix with
+  | shard_step hstep _hrest ih =>
+      rename_i _currentState _nextShard _face stepGain _rest
+      rcases ih with ⟨finish, tailGain, htail⟩
+      refine ⟨finish, stepGain + tailGain, ?_⟩
+      exact evalLabelStepFn_cons_some (nextTarget?_shard_sound hstep) htail
+  | external_step hstep hrest =>
+      rename_i _currentState _graph _face stepGain _rest
+      rcases hexternal hstep hrest with
+        ⟨nextState, finish, tailGain, hnextEval, htail⟩
+      refine ⟨finish, stepGain + tailGain, ?_⟩
+      exact evalLabelStepFn_cons_some hnextEval htail
 
 def localBranchTable :
     (state : ShardState) ->

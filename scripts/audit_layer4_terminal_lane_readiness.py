@@ -220,6 +220,8 @@ GRAPH147_DETERMINISTIC_TARGET_SHARD_REQUIRED = [
     "ShardTargetSuffixOk",
     "nextTarget?",
     "nextTarget?_graph_sound",
+    "nextTarget?_shard_sound",
+    "ShardTargetSuffixOk.eval_exists_of_external",
     "nextTarget?_prefix4YpZm_zp",
     "nextTarget?_prefix4YpZm_tmmp",
     "nextTarget?_terminal_graph112",

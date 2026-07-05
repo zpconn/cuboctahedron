@@ -48,11 +48,13 @@
       "deterministic_target_shard_symbols": {
         "ShardStepTarget": true,
         "ShardTargetSuffixOk": true,
+        "ShardTargetSuffixOk.eval_exists_of_external": true,
         "emittedShardExternalTargetCount": true,
         "nextTarget?": true,
         "nextTarget?_graph_sound": true,
         "nextTarget?_prefix4YpZm_tmmp": true,
         "nextTarget?_prefix4YpZm_zp": true,
+        "nextTarget?_shard_sound": true,
         "nextTarget?_terminal_graph109": true,
         "nextTarget?_terminal_graph112": true
       },
@@ -293,11 +295,13 @@
       "deterministic_target_shard_symbols": {
         "ShardStepTarget": true,
         "ShardTargetSuffixOk": true,
+        "ShardTargetSuffixOk.eval_exists_of_external": true,
         "emittedShardExternalTargetCount": true,
         "nextTarget?": true,
         "nextTarget?_graph_sound": true,
         "nextTarget?_prefix4YpZm_tmmp": true,
         "nextTarget?_prefix4YpZm_zp": true,
+        "nextTarget?_shard_sound": true,
         "nextTarget?_terminal_graph109": true,
         "nextTarget?_terminal_graph112": true
       },
