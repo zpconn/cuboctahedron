@@ -105227,6 +105227,83 @@ Current graph147 remaining gap:
   exact affine keys, stop and use the segment/cocycle route before adding any
   finer membership surface.
 
+### 2026-07-05 graph147 ranked margin adapter accepted
+
+Extended
+`Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean`
+with a second adapter layer:
+
+```lean
+theorem graph147TargetCompletionTailRootMarginBound_of_ranked_eval_margin
+theorem graph147YpZmRootMarginBound_of_ranked_eval_margin
+theorem graph147ZmYpRootMarginBound_of_ranked_eval_margin
+```
+
+This does not prove the margin bound itself.  It proves the correct socket for
+the next producer: if a semantic theorem can prove
+
+```lean
+∀ finish gain,
+  evalLabelStepFn graph147RankedEvalNext graph147RankedPrefix4EvalState rest =
+    some (finish, gain) ->
+  scaledMargin rank <= 176 + (-53 + gain)
+```
+
+then the older graph-only target-completion API follows:
+
+```lean
+Graph147TargetCompletionTailRootMarginBound
+  scaledMargin rank (-53) rest
+```
+
+The proof uses determinism of `evalLabelStepFn` plus the graph-only projection
+from the previous checkpoint.  It does not introduce sampled ranks,
+selected-prefix ids, accepted trace ids, exact affine RHS keys, solved
+start-point keys, or per-observed-path branches.
+
+Guarded validation:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/graph147_ranked_eval_margin_adapter_guard.json \
+  --verbose -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket.lean
+
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 240 \
+  --max-tree-rss-mib 8000 \
+  --min-available-mib 30000 \
+  --json scripts/generated/graph147_ranked_eval_margin_adapter_lake_guard.json \
+  --verbose -- env LEAN_NUM_THREADS=1 LAKE_JOBS=1 \
+    lake build \
+      Cuboctahedron.Generated.NonIdentity.Residual.BellmanTopPairingDepth11Layer4Graph147RankedEvalSocket
+```
+
+Results:
+
+```text
+direct Lean check: pass; elapsed=2.00s; peak_tree_rss=3610 MiB;
+min_available=46342 MiB; hard_as=8192 MiB
+Lake module build: pass; elapsed=4.00s; peak_tree_rss=4073 MiB;
+min_available=46112 MiB
+focused forbidden/sampled-token scan: pass; no matches
+```
+
+Current graph147 proof boundary is now precise:
+
+- Semantic suffix membership and deterministic evaluator execution are proved.
+- Projection from the combined evaluator to the graph-only API is proved.
+- Conversion from a deterministic combined-evaluator margin theorem to
+  `Graph147TargetCompletionTailRootMarginBound` is proved.
+- Remaining hard theorem: a segment/cocycle or direct semantic margin producer
+  for
+  `scaledMargin rank <= 176 + (-53 + gain)` over the graph147 ranked evaluator
+  result.
+
 ### 2026-07-05 graph147 ranked suffix evaluator accepted
 
 Added a small semantic evaluator socket:
