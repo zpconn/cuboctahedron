@@ -1,4 +1,13 @@
 {
+  "bellman_gauge_corrected_core": {
+    "file": "Cuboctahedron/Search/BellmanPotential.lean",
+    "interpretation": "Gauge-corrected cocycle quotient runs can now be converted to raw margin bounds using final gauge domination and a root gauge-corrected bound.  This is a proof principle only, not graph147 coverage evidence.",
+    "required_symbols": {
+      "const_add_rawGain_nonpos_of_gaugeCorrected_quotient_labelStepRun": true,
+      "rawGain_le_of_gaugeCorrected_quotient_labelStepRun": true
+    },
+    "status": "accepted_gauge_corrected_quotient_core"
+  },
   "bellman_segment_core": {
     "file": "Cuboctahedron/Search/BellmanPotential.lean",
     "interpretation": "Certified segment composition and evaluator-to-segment adapters are available for future cancellation/segment margin producers.  This is a proof principle only, not coverage evidence.",

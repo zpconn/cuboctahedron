@@ -105205,6 +105205,87 @@ scripts/generated/graph147_gauge_corrected_potential_0_10M.json
 scripts/generated/graph147_gauge_corrected_potential_0_10M.md
 ```
 
+### 2026-07-05 gauge-corrected quotient core theorem accepted
+
+The graph147 gauge-corrected audit needed a generic Lean theorem with final
+condition `gauge finish <= V (q finish)`, not the older simpler condition
+`0 <= V (q finish)`.  Added this proof principle to
+`Cuboctahedron/Search/BellmanPotential.lean`:
+
+```lean
+theorem rawGain_le_of_gaugeCorrected_quotient_labelStepRun
+theorem const_add_rawGain_nonpos_of_gaugeCorrected_quotient_labelStepRun
+```
+
+The theorem shape is:
+
+```text
+full raw step = small quotient step + gauge(dst) - gauge(src)
+smallGain + V(q dst) <= V(q src)
+gauge(finish) <= V(q finish)
+const + V(q start) - gauge(start) <= 0
+------------------------------------------------------------
+const + rawGain <= 0
+```
+
+This exactly matches the corrected graph147 audit.  It is a support theorem
+only; it does not prove graph147 coverage or produce
+`StrengthenedGraph147RootMarginBundle`.
+
+Focused guarded check:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --timeout-seconds 180 \
+  --max-tree-rss-mib 6500 \
+  --min-available-mib 30000 \
+  --hard-address-space-mib 8192 \
+  --json scripts/generated/bellman_potential_gauge_corrected_guard.json \
+  --verbose -- \
+  lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/BellmanPotential.lean
+```
+
+Result:
+
+```text
+pass; elapsed=9.01s; peak_tree_rss=3968.55 MiB;
+min_available=46162.88 MiB; hard_address_space=8192 MiB
+```
+
+Narrow forbidden-token scan:
+
+```bash
+rg -n "sorry|admit|axiom|native_decide|unsafe" \
+  Cuboctahedron/Search/BellmanPotential.lean \
+  scripts/audit_graph147_gauge_corrected_potential.py
+```
+
+Result:
+
+```text
+pass; no matches
+```
+
+The layer-4 readiness audit now records:
+
+```text
+bellman_gauge_corrected_core.status =
+  accepted_gauge_corrected_quotient_core
+```
+
+Next graph147 rule:
+
+- A future full-graph root-margin producer may cite this theorem if it proves
+  the semantic closed-language run, quotient step equation, corrected edge
+  bounds, final gauge domination, and root gauge-corrected bound.
+- The current coarser quotient modes remain rejected because their corrected
+  local edge failures are nonzero.
+- If proving the full graph semantic run requires selected prefixes, sampled
+  ranks, accepted traces, exact affine RHS keys, solved start points, or one
+  branch per observed path, stop and add a stronger semantic quotient/segment
+  state instead.
+
 ### 2026-07-05 revised pivot: closed-language evaluator theorem first
 
 The newest GPT5.5 Pro guidance is now the controlling strategy for the

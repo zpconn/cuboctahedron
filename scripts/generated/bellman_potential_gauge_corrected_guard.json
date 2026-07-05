@@ -1,0 +1,24 @@
+{
+  "available_floor_mib": 30000.0,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "-M",
+    "6500",
+    "-j1",
+    "-s",
+    "2048",
+    "Cuboctahedron/Search/BellmanPotential.lean"
+  ],
+  "elapsed_seconds": 9.005790544004412,
+  "exit_code": 0,
+  "hard_address_space_mib": 8192.0,
+  "killed_reason": null,
+  "max_tree_rss_kib": 4063796,
+  "max_tree_rss_mib": 3968.55078125,
+  "min_available_seen_kib": 47270792,
+  "min_available_seen_mib": 46162.8828125,
+  "rss_cap_mib": 6500.0,
+  "timeout_seconds": 180.0
+}

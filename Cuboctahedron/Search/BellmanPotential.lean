@@ -655,6 +655,75 @@ theorem const_add_rawGain_nonpos_of_quotient_labelStepRun
       hstep hrun hvalid hfinish
   linarith
 
+/--
+Gauge-corrected quotient Bellman bound.
+
+If a raw full-state gain factors as
+`smallGain + gauge finish - gauge start`, then a small-state potential `V`
+does not need to make final states nonnegative.  It is enough for the potential
+to dominate the final gauge.  This is the theorem shape used by cocycle/gauge
+margin certificates such as the graph147 diagnostic:
+
+* every quotient step satisfies `smallGain + V next <= V current`;
+* the accepted final state satisfies `gauge finish <= V (q finish)`;
+* the root satisfies `const + V (q start) - gauge start <= 0`.
+-/
+theorem rawGain_le_of_gaugeCorrected_quotient_labelStepRun
+    {FullState SmallState Label : Type}
+    {FullStep : FullState -> Label -> FullState -> Int -> Prop}
+    {SmallStep : SmallState -> Label -> SmallState -> Int -> Prop}
+    {q : FullState -> SmallState}
+    {gauge : FullState -> Int}
+    {V : SmallState -> Int}
+    {start finish : FullState} {labels : List Label} {rawGain : Int}
+    (hstep :
+      forall {s label t gain},
+        FullStep s label t gain ->
+          exists smallGain,
+            SmallStep (q s) label (q t) smallGain /\
+              gain = smallGain + gauge t - gauge s)
+    (hrun : BellmanLabelStepRun FullStep start finish labels rawGain)
+    (hvalid :
+      forall s label t gain,
+        SmallStep s label t gain -> gain + V t <= V s)
+    (hfinish : gauge finish <= V (q finish)) :
+    rawGain <= V (q start) - gauge start := by
+  rcases BellmanLabelStepRun.quotient_of_step_gain_eq
+      (q := q) (gauge := gauge) hstep hrun with
+    ⟨smallGain, hsmallRun, hrawGain⟩
+  have hsmallGain :
+      smallGain + V (q finish) <= V (q start) :=
+    labelStepRunGain_add_finalPotential_le_startPotential
+      (V := V) hsmallRun hvalid
+  linarith
+
+theorem const_add_rawGain_nonpos_of_gaugeCorrected_quotient_labelStepRun
+    {FullState SmallState Label : Type}
+    {FullStep : FullState -> Label -> FullState -> Int -> Prop}
+    {SmallStep : SmallState -> Label -> SmallState -> Int -> Prop}
+    {q : FullState -> SmallState}
+    {gauge : FullState -> Int}
+    {V : SmallState -> Int}
+    {start finish : FullState} {labels : List Label} {rawGain const : Int}
+    (hstep :
+      forall {s label t gain},
+        FullStep s label t gain ->
+          exists smallGain,
+            SmallStep (q s) label (q t) smallGain /\
+              gain = smallGain + gauge t - gauge s)
+    (hrun : BellmanLabelStepRun FullStep start finish labels rawGain)
+    (hvalid :
+      forall s label t gain,
+        SmallStep s label t gain -> gain + V t <= V s)
+    (hfinish : gauge finish <= V (q finish))
+    (hroot : const + V (q start) - gauge start <= 0) :
+    const + rawGain <= 0 := by
+  have hrawGain :=
+    rawGain_le_of_gaugeCorrected_quotient_labelStepRun
+      (q := q) (gauge := gauge) (V := V)
+      hstep hrun hvalid hfinish
+  linarith
+
 def BellmanTraceBound
     {State Obj : Type}
     (V : State -> Int)

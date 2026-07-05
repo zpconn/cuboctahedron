@@ -422,6 +422,11 @@ BELLMAN_SEGMENT_CORE_REQUIRED = [
     "theorem const_add_gain_nonpos",
 ]
 
+BELLMAN_GAUGE_CORRECTED_CORE_REQUIRED = [
+    "rawGain_le_of_gaugeCorrected_quotient_labelStepRun",
+    "const_add_rawGain_nonpos_of_gaugeCorrected_quotient_labelStepRun",
+]
+
 FORBIDDEN = [
     "SampledRankIndex",
     "sampledContainsRank",
@@ -464,6 +469,12 @@ def main() -> int:
     graph183_ok, graph183_missing = contains_all(graph183_text, GRAPH183_REQUIRED)
     bellman_segment_core_ok, bellman_segment_core_missing = contains_all(
         bellman_potential_text, BELLMAN_SEGMENT_CORE_REQUIRED
+    )
+    bellman_gauge_corrected_core_ok, bellman_gauge_corrected_core_missing = (
+        contains_all(
+            bellman_potential_text,
+            BELLMAN_GAUGE_CORRECTED_CORE_REQUIRED,
+        )
     )
     graph151_partial_ok, graph151_partial_missing = contains_all(
         next_frontier_text, GRAPH151_PARTIAL_REQUIRED
@@ -1078,6 +1089,29 @@ def main() -> int:
                     "The cancellation/segment fallback does not yet have the "
                     "generic theorem surface needed for production margin "
                     "producers."
+                )
+            ),
+        },
+        "bellman_gauge_corrected_core": {
+            "status": (
+                "accepted_gauge_corrected_quotient_core"
+                if bellman_gauge_corrected_core_ok
+                else "missing_gauge_corrected_quotient_core"
+            ),
+            "file": str(BELLMAN_POTENTIAL_FILE.relative_to(ROOT)),
+            "required_symbols": {
+                symbol: symbol not in bellman_gauge_corrected_core_missing
+                for symbol in BELLMAN_GAUGE_CORRECTED_CORE_REQUIRED
+            },
+            "interpretation": (
+                "Gauge-corrected cocycle quotient runs can now be converted "
+                "to raw margin bounds using final gauge domination and a "
+                "root gauge-corrected bound.  This is a proof principle only, "
+                "not graph147 coverage evidence."
+                if bellman_gauge_corrected_core_ok
+                else (
+                    "The graph147 gauge-corrected margin candidate still lacks "
+                    "a generic Lean theorem surface."
                 )
             ),
         },
