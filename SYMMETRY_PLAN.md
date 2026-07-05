@@ -312,6 +312,92 @@ BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean
   segment/cocycle certificate, to the target-shadow/ranked-transducer semantic
   carrier without reintroducing observed traces or selected-prefix membership.
 
+2026-07-05 latest GPT5.5 pivot tightening:
+
+- Keep graph183 Bellman.  Do not scale the selected-prefix producer, accepted
+  trace ids, or any sampled path/rank object.  The graph183 evidence has to
+  become a deterministic semantic transducer theorem.
+- The active proof obligation is now explicitly:
+
+  ```lean
+  TopPairingClosedLanguageAtRank rank Face.ym ->
+    exists result,
+      evalLabelStepFn graphNext root
+        (topPairingRankFaceLabels rank).map labelOfFace = some result /\
+      0 <= V result.1 /\
+      scaledMargin rank <= const + result.2
+  ```
+
+  followed by the existing graph183 quotient-margin socket to obtain
+  `Graph183TailQuotientMarginSequenceBadFace scaledMargin rank Face.ym`.
+- The front-door compact state is the target-shadow / tri-source cursor:
+  `topPairingTargetShadow_of_summary`,
+  `topPairingTriShadow_eq_target_of_closed`, and
+  `topPairingTriCursor_of_closed`.  The local proof should advance this cursor
+  through the face labels; it should never prove membership by observed prefix
+  traces.
+- The sharded quotient edge aggregate is now the audited local cocycle
+  primitive:
+
+  ```lean
+  graph183QuotientQ
+  graph183QuotientGauge
+  graph183QuotientStep
+  graph183QuotientRun
+  ```
+
+  The older one-file `BellmanTopPairingGraph183CocycleQuotientSmoke` remains
+  a diagnostic artifact only and should not be required by production-oriented
+  audits.
+- If the deterministic evaluator proof cannot be derived from the closed
+  language plus target cursor, schedule/square-gap/local-axis, tri-source
+  progress, and checked quotient/gauge facts, the next pivot is not to
+  reintroduce rank/path enumeration.  Instead add the missing semantic state
+  field or move to a cancellation-segment / cocycle-coboundary quotient whose
+  Lean theorem composes `BellmanLabelStepRun.append` or
+  `BellmanLabelStepRun.quotient_of_step_gain_eq`.
+- Updated audits to enforce that pivot:
+
+  ```bash
+  python3 -m py_compile \
+    scripts/audit_graph183_accepted_tail_margin_frontier.py \
+    scripts/audit_top_pairing_semantic_evaluator_pivot.py \
+    scripts/audit_graph183_carrier_producer_readiness.py
+
+  python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+  python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+  python3 scripts/audit_graph183_carrier_producer_readiness.py
+  ```
+
+  Results:
+
+  ```text
+  py_compile:
+    exit = 0
+
+  graph183 accepted-tail margin frontier:
+    exit = 0
+    decision = diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+    failed checks = 0
+
+  top-pairing semantic evaluator pivot:
+    exit = 0
+    decision = semantic_evaluator_pivot_ready_for_graph183_sequencebadface_carrier
+    missing required symbols = 0
+    forbidden production-token hits = 0
+    graph-alignment violations = 0
+
+  graph183 carrier producer readiness:
+    exit = 0
+    decision = graph183_carrier_sockets_ready_but_producer_missing
+    failed checks = 0
+  ```
+
+  The first two audits no longer require the old one-file
+  `BellmanTopPairingGraph183CocycleQuotientSmoke` as a production-oriented
+  surface.  They now require the sharded quotient core/aggregate and the
+  exported `graph183QuotientRun` theorem.
+
 2026-07-03 checkpoint after the latest GPT5.5 pivot:
 
 - Accepted: the Bellman graph and potential remain the right compression

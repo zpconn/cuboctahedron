@@ -32,7 +32,8 @@ membership and toward deterministic closed-language evaluator proofs.
 | `graph183_quotient_margin_socket` | `1181` | none |
 | `closed_bellman_strengthened_semantic_gate_socket` | `223` | none |
 | `graph183_accepted_branch_quotient` | `97` | none |
-| `graph183_cocycle_quotient_smoke` | `1803` | none |
+| `graph183_cocycle_quotient_edge_core` | `470` | none |
+| `graph183_cocycle_quotient_edge_shards` | `91` | none |
 | `target_completion_local_branch_table_shard000` | `1403` | none |
 | `depth11_closed_providers` | `1536` | none |
 
@@ -111,25 +112,26 @@ not production-safe.  The next pivot should then be a cancellation
 segment or cocycle/coboundary quotient for this margin form, followed
 by the same Bellman potential bound.
 
-The graph183 cocycle quotient smoke is explicitly diagnostic.  It
-checks the local relation
-`rawGain = smallGain + gauge(dst) - gauge(src)` and one accepted
-branch, but its `FullStep`/`SmallStep` tables are private and it
-does not prove closed-language membership.  Production must expose
-or regenerate those quotient/gauge facts through the deterministic
-closed-language evaluator gate, not import the smoke as coverage.
-The production socket now imports the tiny accepted-branch quotient
-module instead of the full 229-edge smoke; that module checks only
-the 14 accepted-branch local equations and the branch raw-gain
-contract.
+The graph183 cocycle quotient evidence is now checked through the
+sharded edge-equation aggregate, not the old one-file smoke.  The
+aggregate exposes public `FullStep`/`SmallStep` relations,
+`graph183QuotientStep`, and the run-level theorem
+`graph183QuotientRun` over `graph183QuotientQ` and
+`graph183QuotientGauge`.  These facts are still only local
+cocycle/quotient facts: production must connect them to the
+deterministic closed-language evaluator gate.  The production
+socket also imports the tiny accepted-branch quotient module,
+which checks only the 14 accepted-branch local equations and the
+branch raw-gain contract.
 
 ## Go/No-Go Gate
 
 Go only if the next producer proves
 `Graph183TailQuotientMarginSequenceBadFace` from semantic
 closed-language state plus Lean-checked quotient/gauge integer
-facts, via the suffix-local transducer gate.  No-go if the proof
-introduces sampled ranks, selected-prefix coverage, accepted trace
-ids, exact affine RHS keys, or one branch per rank/path.  In that
+facts, via the target-shadow cursor and suffix-local deterministic
+transducer gate.  No-go if the proof introduces sampled ranks,
+selected-prefix coverage, accepted trace ids, exact affine RHS
+keys, solved start points, or one branch per rank/path.  In that
 case, add a missing semantic state field or pivot to the
-cancellation-tree segment algebra.
+cancellation-tree segment algebra/cocycle quotient.

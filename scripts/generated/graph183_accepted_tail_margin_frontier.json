@@ -287,58 +287,113 @@
       "passed": true
     },
     {
-      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean",
-      "name": "graph183_quotient_smoke:exists",
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientCore.lean",
+      "name": "graph183_quotient_edge_core:exists",
       "passed": true
     },
     {
-      "detail": "graph183AcceptedBranchRawGain",
-      "name": "graph183_quotient_smoke:symbol:graph183AcceptedBranchRawGain",
+      "detail": "graph183QuotientQ",
+      "name": "graph183_quotient_edge_core:symbol:graph183QuotientQ",
       "passed": true
     },
     {
-      "detail": "graph183AcceptedBranchRawGain_contract",
-      "name": "graph183_quotient_smoke:symbol:graph183AcceptedBranchRawGain_contract",
+      "detail": "graph183QuotientGauge",
+      "name": "graph183_quotient_edge_core:symbol:graph183QuotientGauge",
       "passed": true
     },
     {
-      "detail": "graph183QuotientAcceptedBranchSmoke",
-      "name": "graph183_quotient_smoke:symbol:graph183QuotientAcceptedBranchSmoke",
-      "passed": true
-    },
-    {
-      "detail": "graph183QuotientStep",
-      "name": "graph183_quotient_smoke:symbol:graph183QuotientStep",
+      "detail": "graph183QuotientCore_builds",
+      "name": "graph183_quotient_edge_core:symbol:graph183QuotientCore_builds",
       "passed": true
     },
     {
       "detail": "SampledRankIndex",
-      "name": "graph183_quotient_smoke:forbidden_absent:SampledRankIndex",
+      "name": "graph183_quotient_edge_core:forbidden_absent:SampledRankIndex",
       "passed": true
     },
     {
       "detail": "sampledContainsRank",
-      "name": "graph183_quotient_smoke:forbidden_absent:sampledContainsRank",
+      "name": "graph183_quotient_edge_core:forbidden_absent:sampledContainsRank",
       "passed": true
     },
     {
       "detail": "sampledRankOf",
-      "name": "graph183_quotient_smoke:forbidden_absent:sampledRankOf",
+      "name": "graph183_quotient_edge_core:forbidden_absent:sampledRankOf",
       "passed": true
     },
     {
       "detail": "SelectedPrefix",
-      "name": "graph183_quotient_smoke:forbidden_absent:SelectedPrefix",
+      "name": "graph183_quotient_edge_core:forbidden_absent:SelectedPrefix",
       "passed": true
     },
     {
       "detail": "AcceptedTraceId",
-      "name": "graph183_quotient_smoke:forbidden_absent:AcceptedTraceId",
+      "name": "graph183_quotient_edge_core:forbidden_absent:AcceptedTraceId",
       "passed": true
     },
     {
       "detail": "acceptedTraceOfId",
-      "name": "graph183_quotient_smoke:forbidden_absent:acceptedTraceOfId",
+      "name": "graph183_quotient_edge_core:forbidden_absent:acceptedTraceOfId",
+      "passed": true
+    },
+    {
+      "detail": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean",
+      "name": "graph183_quotient_edge_shards:exists",
+      "passed": true
+    },
+    {
+      "detail": "FullStep",
+      "name": "graph183_quotient_edge_shards:symbol:FullStep",
+      "passed": true
+    },
+    {
+      "detail": "SmallStep",
+      "name": "graph183_quotient_edge_shards:symbol:SmallStep",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientStep",
+      "name": "graph183_quotient_edge_shards:symbol:graph183QuotientStep",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientRun",
+      "name": "graph183_quotient_edge_shards:symbol:graph183QuotientRun",
+      "passed": true
+    },
+    {
+      "detail": "graph183QuotientEdgeShards_checked",
+      "name": "graph183_quotient_edge_shards:symbol:graph183QuotientEdgeShards_checked",
+      "passed": true
+    },
+    {
+      "detail": "SampledRankIndex",
+      "name": "graph183_quotient_edge_shards:forbidden_absent:SampledRankIndex",
+      "passed": true
+    },
+    {
+      "detail": "sampledContainsRank",
+      "name": "graph183_quotient_edge_shards:forbidden_absent:sampledContainsRank",
+      "passed": true
+    },
+    {
+      "detail": "sampledRankOf",
+      "name": "graph183_quotient_edge_shards:forbidden_absent:sampledRankOf",
+      "passed": true
+    },
+    {
+      "detail": "SelectedPrefix",
+      "name": "graph183_quotient_edge_shards:forbidden_absent:SelectedPrefix",
+      "passed": true
+    },
+    {
+      "detail": "AcceptedTraceId",
+      "name": "graph183_quotient_edge_shards:forbidden_absent:AcceptedTraceId",
+      "passed": true
+    },
+    {
+      "detail": "acceptedTraceOfId",
+      "name": "graph183_quotient_edge_shards:forbidden_absent:acceptedTraceOfId",
       "passed": true
     },
     {

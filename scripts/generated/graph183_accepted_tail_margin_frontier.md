@@ -172,17 +172,28 @@ must still be Lean-checked through the graph183 family theorem.
 | `bellman_object:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
 | `bellman_object:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
 | `bellman_object:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
-| `graph183_quotient_smoke:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean` |
-| `graph183_quotient_smoke:symbol:graph183AcceptedBranchRawGain` | `True` | `graph183AcceptedBranchRawGain` |
-| `graph183_quotient_smoke:symbol:graph183AcceptedBranchRawGain_contract` | `True` | `graph183AcceptedBranchRawGain_contract` |
-| `graph183_quotient_smoke:symbol:graph183QuotientAcceptedBranchSmoke` | `True` | `graph183QuotientAcceptedBranchSmoke` |
-| `graph183_quotient_smoke:symbol:graph183QuotientStep` | `True` | `graph183QuotientStep` |
-| `graph183_quotient_smoke:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
-| `graph183_quotient_smoke:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
-| `graph183_quotient_smoke:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
-| `graph183_quotient_smoke:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
-| `graph183_quotient_smoke:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
-| `graph183_quotient_smoke:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_quotient_edge_core:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientCore.lean` |
+| `graph183_quotient_edge_core:symbol:graph183QuotientQ` | `True` | `graph183QuotientQ` |
+| `graph183_quotient_edge_core:symbol:graph183QuotientGauge` | `True` | `graph183QuotientGauge` |
+| `graph183_quotient_edge_core:symbol:graph183QuotientCore_builds` | `True` | `graph183QuotientCore_builds` |
+| `graph183_quotient_edge_core:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_quotient_edge_core:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_quotient_edge_core:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_quotient_edge_core:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_quotient_edge_core:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_quotient_edge_core:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
+| `graph183_quotient_edge_shards:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean` |
+| `graph183_quotient_edge_shards:symbol:FullStep` | `True` | `FullStep` |
+| `graph183_quotient_edge_shards:symbol:SmallStep` | `True` | `SmallStep` |
+| `graph183_quotient_edge_shards:symbol:graph183QuotientStep` | `True` | `graph183QuotientStep` |
+| `graph183_quotient_edge_shards:symbol:graph183QuotientRun` | `True` | `graph183QuotientRun` |
+| `graph183_quotient_edge_shards:symbol:graph183QuotientEdgeShards_checked` | `True` | `graph183QuotientEdgeShards_checked` |
+| `graph183_quotient_edge_shards:forbidden_absent:SampledRankIndex` | `True` | `SampledRankIndex` |
+| `graph183_quotient_edge_shards:forbidden_absent:sampledContainsRank` | `True` | `sampledContainsRank` |
+| `graph183_quotient_edge_shards:forbidden_absent:sampledRankOf` | `True` | `sampledRankOf` |
+| `graph183_quotient_edge_shards:forbidden_absent:SelectedPrefix` | `True` | `SelectedPrefix` |
+| `graph183_quotient_edge_shards:forbidden_absent:AcceptedTraceId` | `True` | `AcceptedTraceId` |
+| `graph183_quotient_edge_shards:forbidden_absent:acceptedTraceOfId` | `True` | `acceptedTraceOfId` |
 | `graph183_accepted_branch_quotient:exists` | `True` | `Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean` |
 | `graph183_accepted_branch_quotient:symbol:acceptedLocalEquation` | `True` | `acceptedLocalEquation` |
 | `graph183_accepted_branch_quotient:symbol:graph183AcceptedBranchRawGain` | `True` | `graph183AcceptedBranchRawGain` |
@@ -334,5 +345,10 @@ local facts.
 
 The production socket depends on the small accepted-branch quotient
 module, not the full 229-edge quotient smoke.  The smoke remains
-diagnostic; the accepted-branch module checks the 14 local equations
-and raw-gain contract that this socket needs.
+diagnostic.  The active audited quotient primitive is now the sharded
+edge-equation aggregate, which exposes `graph183QuotientStep` and the
+run-level theorem `graph183QuotientRun` over public finite maps
+`graph183QuotientQ` and `graph183QuotientGauge`.
+Those local quotient facts are still not coverage: the missing theorem
+is the semantic closed-language / deterministic-evaluator producer
+for `Graph183TailQuotientMarginSequenceBadFace`.

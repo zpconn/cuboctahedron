@@ -79,11 +79,17 @@
       "missing_symbols": [],
       "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183AcceptedBranchQuotient.lean"
     },
-    "graph183_cocycle_quotient_smoke": {
+    "graph183_cocycle_quotient_edge_core": {
       "exists": true,
-      "lines": 1803,
+      "lines": 470,
       "missing_symbols": [],
-      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientSmoke.lean"
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientCore.lean"
+    },
+    "graph183_cocycle_quotient_edge_shards": {
+      "exists": true,
+      "lines": 91,
+      "missing_symbols": [],
+      "path": "Cuboctahedron/Generated/NonIdentity/Residual/BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean"
     },
     "graph183_quotient_margin_socket": {
       "exists": true,

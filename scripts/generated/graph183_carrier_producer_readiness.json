@@ -863,12 +863,12 @@
       "passed": true
     },
     {
-      "detail": 3594.60546875,
+      "detail": 3553.55078125,
       "name": "graph183_edge_shards_direct_guard:rss_under_6500_mib",
       "passed": true
     },
     {
-      "detail": 46362.328125,
+      "detail": 46344.890625,
       "name": "graph183_edge_shards_direct_guard:available_above_30000_mib",
       "passed": true
     },
@@ -1016,8 +1016,8 @@
     "edge_shard000_guard_peak_rss_mib": 3547.828125,
     "edge_shards_core_guard_elapsed_seconds": 2.0021651900024153,
     "edge_shards_core_guard_peak_rss_mib": 3547.88671875,
-    "edge_shards_direct_guard_elapsed_seconds": 2.002471511019394,
-    "edge_shards_direct_guard_peak_rss_mib": 3594.60546875,
+    "edge_shards_direct_guard_elapsed_seconds": 2.0024556159914937,
+    "edge_shards_direct_guard_peak_rss_mib": 3553.55078125,
     "edge_shards_edge_equations": 229,
     "edge_shards_lake_guard_elapsed_seconds": 5.003928599006031,
     "edge_shards_lake_guard_peak_rss_mib": 3778.296875,

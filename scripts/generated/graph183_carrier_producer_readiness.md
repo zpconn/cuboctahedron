@@ -62,8 +62,8 @@ observed path remains a no-go.
 | `edge_shards_lake_guard_peak_rss_mib` | `3778.296875` |
 | `edge_shards_core_guard_elapsed_seconds` | `2.0021651900024153` |
 | `edge_shards_core_guard_peak_rss_mib` | `3547.88671875` |
-| `edge_shards_direct_guard_elapsed_seconds` | `2.002471511019394` |
-| `edge_shards_direct_guard_peak_rss_mib` | `3594.60546875` |
+| `edge_shards_direct_guard_elapsed_seconds` | `2.0024556159914937` |
+| `edge_shards_direct_guard_peak_rss_mib` | `3553.55078125` |
 | `edge_shard000_guard_elapsed_seconds` | `2.0027364550041966` |
 | `edge_shard000_guard_peak_rss_mib` | `3547.828125` |
 | `guard_elapsed_seconds` | `3.0028496980085038` |
@@ -262,8 +262,8 @@ observed path remains a no-go.
 | `graph183_edge_shards_core_guard:rss_under_6500_mib` | `True` | `3547.88671875` |
 | `graph183_edge_shards_core_guard:available_above_30000_mib` | `True` | `46364.0390625` |
 | `graph183_edge_shards_direct_guard:guard_exit_zero` | `True` | `0` |
-| `graph183_edge_shards_direct_guard:rss_under_6500_mib` | `True` | `3594.60546875` |
-| `graph183_edge_shards_direct_guard:available_above_30000_mib` | `True` | `46362.328125` |
+| `graph183_edge_shards_direct_guard:rss_under_6500_mib` | `True` | `3553.55078125` |
+| `graph183_edge_shards_direct_guard:available_above_30000_mib` | `True` | `46344.890625` |
 | `graph183_edge_shard000_guard:guard_exit_zero` | `True` | `0` |
 | `graph183_edge_shard000_guard:rss_under_6500_mib` | `True` | `3547.828125` |
 | `graph183_edge_shard000_guard:available_above_30000_mib` | `True` | `46366.5234375` |

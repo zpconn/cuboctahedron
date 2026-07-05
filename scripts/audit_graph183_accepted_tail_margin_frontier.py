@@ -41,9 +41,13 @@ GRAPH183_ACCEPTED_BRANCH_QUOTIENT = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
     "BellmanTopPairingGraph183AcceptedBranchQuotient.lean"
 )
-GRAPH183_QUOTIENT_SMOKE = ROOT / (
+GRAPH183_QUOTIENT_EDGE_SHARDS = ROOT / (
     "Cuboctahedron/Generated/NonIdentity/Residual/"
-    "BellmanTopPairingGraph183CocycleQuotientSmoke.lean"
+    "BellmanTopPairingGraph183CocycleQuotientEdgeShards.lean"
+)
+GRAPH183_QUOTIENT_EDGE_CORE = ROOT / (
+    "Cuboctahedron/Generated/NonIdentity/Residual/"
+    "BellmanTopPairingGraph183CocycleQuotientCore.lean"
 )
 BELLMAN_POTENTIAL = ROOT / "Cuboctahedron/Search/BellmanPotential.lean"
 TOP_PAIRING_TARGET_CURSOR = ROOT / "Cuboctahedron/Search/TopPairingTargetCursor.lean"
@@ -130,11 +134,18 @@ REQUIRED_BELLMAN_OBJECT_SYMBOLS = [
     "topPairingBellmanEvalObjectCoverOfClosedToEval",
 ]
 
-REQUIRED_QUOTIENT_SMOKE_SYMBOLS = [
-    "graph183AcceptedBranchRawGain",
-    "graph183AcceptedBranchRawGain_contract",
-    "graph183QuotientAcceptedBranchSmoke",
+REQUIRED_QUOTIENT_EDGE_SHARD_SYMBOLS = [
+    "FullStep",
+    "SmallStep",
     "graph183QuotientStep",
+    "graph183QuotientRun",
+    "graph183QuotientEdgeShards_checked",
+]
+
+REQUIRED_QUOTIENT_EDGE_CORE_SYMBOLS = [
+    "graph183QuotientQ",
+    "graph183QuotientGauge",
+    "graph183QuotientCore_builds",
 ]
 
 REQUIRED_ACCEPTED_BRANCH_QUOTIENT_SYMBOLS = [
@@ -717,8 +728,13 @@ def render_markdown(report: dict[str, Any]) -> str:
         "",
         "The production socket depends on the small accepted-branch quotient",
         "module, not the full 229-edge quotient smoke.  The smoke remains",
-        "diagnostic; the accepted-branch module checks the 14 local equations",
-        "and raw-gain contract that this socket needs.",
+        "diagnostic.  The active audited quotient primitive is now the sharded",
+        "edge-equation aggregate, which exposes `graph183QuotientStep` and the",
+        "run-level theorem `graph183QuotientRun` over public finite maps",
+        "`graph183QuotientQ` and `graph183QuotientGauge`.",
+        "Those local quotient facts are still not coverage: the missing theorem",
+        "is the semantic closed-language / deterministic-evaluator producer",
+        "for `Graph183TailQuotientMarginSequenceBadFace`.",
         "",
     ]
     )
@@ -756,9 +772,17 @@ def main() -> int:
     )
     checks.extend(
         text_symbol_checks(
-            "graph183_quotient_smoke",
-            GRAPH183_QUOTIENT_SMOKE,
-            REQUIRED_QUOTIENT_SMOKE_SYMBOLS,
+            "graph183_quotient_edge_core",
+            GRAPH183_QUOTIENT_EDGE_CORE,
+            REQUIRED_QUOTIENT_EDGE_CORE_SYMBOLS,
+            FORBIDDEN_SEMANTIC_TOKENS,
+        )
+    )
+    checks.extend(
+        text_symbol_checks(
+            "graph183_quotient_edge_shards",
+            GRAPH183_QUOTIENT_EDGE_SHARDS,
+            REQUIRED_QUOTIENT_EDGE_SHARD_SYMBOLS,
             FORBIDDEN_SEMANTIC_TOKENS,
         )
     )
