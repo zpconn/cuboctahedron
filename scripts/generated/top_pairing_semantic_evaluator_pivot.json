@@ -93,7 +93,7 @@
     },
     "target_cursor": {
       "exists": true,
-      "lines": 387,
+      "lines": 388,
       "missing_symbols": [],
       "path": "Cuboctahedron/Search/TopPairingTargetCursor.lean"
     },

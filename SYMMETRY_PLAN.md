@@ -111437,3 +111437,152 @@ accepted-trace ids, exact affine RHS keys, solved start-point keys, or one
 branch per rank/path, stop the graph183 lane and switch to the
 cancellation-tree segment algebra or a stronger cocycle quotient state.
 ```
+
+### 2026-07-05 latest graph183 Bellman pivot hardened
+
+Incorporated the newest GPT5.5 guidance as the current graph183 rule:
+
+```text
+Keep Bellman.
+Reject selected-prefix membership.
+Do not scale selected-prefix, sampled-rank, accepted-trace, or exact-path
+membership.
+Prove the deterministic semantic evaluator/margin theorem from closed
+top-pairing state, target-shadow cursor, and Lean-checked quotient/gauge facts.
+```
+
+Repository status after the audit:
+
+```text
+TopPairingTargetCursor already proves:
+  topPairingTargetShadow_of_summary
+  topPairingTriShadow_eq_target_of_closed
+  topPairingTriCursor_of_closed
+
+TopPairingBellmanObject already provides semantic closed-language rank objects:
+  TopPairingBellmanObj
+  topPairingClosedMembership
+  TopPairingBellmanEvalLanguageAtRank
+  topPairingBellmanEvalObjectCoverOfClosedToEval
+
+Graph183 completion-tail membership is already semantic through:
+  acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor
+
+Graph183 accepted branch has a checked quotient raw-gain run through:
+  graph183AcceptedBranchRawGain
+  graph183AcceptedBranchRawGain_contract
+  graph183QuotientAcceptedBranchSmoke
+```
+
+The `TopPairingTargetCursor.lean` module comment was corrected to match the
+current proof state: the closed-language-to-cursor theorem is no longer future
+work; it is the existing `topPairingTriCursor_of_closed`.
+
+Updated machine audit:
+
+```bash
+python3 -m py_compile scripts/audit_latest_bellman_semantic_pivot.py
+python3 scripts/audit_latest_bellman_semantic_pivot.py
+```
+
+Result:
+
+```text
+status =
+  latest-bellman-semantic-pivot-targets-graph183-tail-quotient-margin
+files checked = 9
+forbidden hits = 0
+next Lean target =
+  AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin
+```
+
+Regenerated supporting audits:
+
+```bash
+python3 -m py_compile scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 -m py_compile scripts/audit_graph183_accepted_tail_margin_frontier.py
+python3 scripts/audit_top_pairing_semantic_evaluator_pivot.py
+python3 scripts/audit_graph183_accepted_tail_margin_frontier.py
+```
+
+Results:
+
+```text
+semantic evaluator decision =
+  semantic_evaluator_pivot_ready_for_accepted_tail_margin_producer
+graph183 frontier decision =
+  diagnostic_supports_graph183_accepted_tail_margin_bellman_route
+```
+
+Focused guarded Lean checks:
+
+```bash
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 120 --hard-address-space-mib 6500 \
+  --json scripts/generated/top_pairing_target_cursor_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Search/TopPairingTargetCursor.lean
+
+python3 scripts/run_memory_guarded.py \
+  --max-tree-rss-mib 6500 --min-available-mib 30000 \
+  --timeout-seconds 180 --hard-address-space-mib 6500 \
+  --json scripts/generated/graph183_quotient_margin_socket_latest_guard.json \
+  -- lake env lean -M 6500 -j1 -s 2048 \
+    Cuboctahedron/Generated/NonIdentity/Residual/\
+BellmanTopPairingGraph183QuotientMarginSocket.lean
+```
+
+Results:
+
+```text
+TopPairingTargetCursor.lean:
+  exit = 0
+  elapsed = 13.01s
+  peak RSS = 3848 MiB
+  min available = 45810 MiB
+
+BellmanTopPairingGraph183QuotientMarginSocket.lean:
+  exit = 0
+  elapsed = 13.01s
+  peak RSS = 3929 MiB
+  min available = 45799 MiB
+```
+
+Current accepted next theorem:
+
+```lean
+AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin
+```
+
+It must be proved from:
+
+```lean
+TopPairingStrengthenedClosedLanguageAtRank
+  AcceptedSequenceBadFaceAtRank rank Face.ym
+
+Depth11Layer4PrefixAtRank rank Face.tmpm Face.zm
+  (Face.zp :: Face.tppm :: Face.tpmm :: graph183ForcedTail)
+```
+
+and Lean-checked quotient/gauge integer facts, yielding:
+
+```lean
+scaledMargin rank <= graphConst + graph183AcceptedBranchRawGain
+```
+
+Then compose with the existing branch-local start-violation surface:
+
+```lean
+AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily
+nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation
+```
+
+No-go:
+
+```text
+If this proof needs sampled ranks, selected-prefix ids, accepted trace ids,
+exact affine RHS keys, solved start-point keys, stored full Bellman paths, or
+one branch per rank/path, stop graph183 scaling and switch to the
+cancellation-segment algebra or a stronger cocycle/coboundary quotient state.
+```

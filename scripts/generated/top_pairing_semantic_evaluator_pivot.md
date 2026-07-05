@@ -13,7 +13,7 @@ membership and toward deterministic closed-language evaluator proofs.
 
 | file | lines | missing symbols |
 | --- | ---: | --- |
-| `target_cursor` | `387` | none |
+| `target_cursor` | `388` | none |
 | `transducer_tail` | `97` | none |
 | `closed_transducer_socket` | `274` | none |
 | `closed_final_margin_socket` | `432` | none |

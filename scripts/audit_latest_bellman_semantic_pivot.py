@@ -8,8 +8,10 @@ current strategic boundary after the GPT5.5 review:
 * reject selected-prefix or sampled-rank membership as production coverage;
 * use the closed top-pairing language, target-shadow cursor, transducer tail,
   and deterministic evaluator gates as the production membership surface;
-* treat graph183 as one validated semantic terminal-machine lane, not as
-  all-lane coverage.
+* treat graph183 completion-tail membership as a validated semantic lane;
+* make the next production target the branch-local graph183 quotient-margin
+  family, not another selected-prefix/object cover or whole-label exact-eval
+  surface.
 """
 
 from __future__ import annotations
@@ -35,6 +37,15 @@ FILES = {
     "graph183_lane": ROOT
     / "Cuboctahedron/Generated/NonIdentity/Residual/"
     / "BellmanTopPairingGraph183TerminalTailPrefixSmoke.lean",
+    "graph183_tail_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingDepth11Layer4Graph183TailTableSocket.lean",
+    "graph183_quotient_smoke": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph183CocycleQuotientSmoke.lean",
+    "graph183_quotient_socket": ROOT
+    / "Cuboctahedron/Generated/NonIdentity/Residual/"
+    / "BellmanTopPairingGraph183QuotientMarginSocket.lean",
 }
 
 
@@ -72,6 +83,26 @@ REQUIRED = {
         "graph183Layer4CompletionTail_of_strengthened_prefix",
         "graph183Layer4ContainedEvalPrefixGate_of_strengthened_prefix_semantic",
         "graph183InitialContainedEvalPrefixGate_of_strengthened_prefix_via_progress",
+    ],
+    "graph183_tail_socket": [
+        "acceptedSequenceGraph183CompletionTailFamily_of_semanticCursor",
+        "graph183AcceptedBranchLabels_eq_of_prefix",
+        "graph183AcceptedBranchEvalGateResult_of_labels",
+        "AcceptedSequenceGraph183AcceptedTailMarginFamily",
+    ],
+    "graph183_quotient_smoke": [
+        "graph183AcceptedBranchRawGain",
+        "graph183AcceptedBranchRawGain_contract",
+        "graph183QuotientAcceptedBranchSmoke",
+    ],
+    "graph183_quotient_socket": [
+        "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily",
+        "acceptedSequenceGraph183AcceptedTailMarginFamily_of_tailQuotientMargin",
+        "acceptedSequenceGraph183AcceptedBranchFinalMarginFamily_of_tailQuotientMargin",
+        "graph169ContinuationFamily_of_acceptedSequenceGraph183TailQuotientMargin",
+        "scaledMargin_nonpos_of_acceptedSequenceGraph183TailQuotientMargin",
+        "AcceptedSequenceGraph183TailBranchQuotientStartViolationFamily",
+        "nonIdentityRankKilled_of_acceptedSequenceGraph183TailBranchQuotientStartViolation",
     ],
 }
 
@@ -125,7 +156,7 @@ def main() -> int:
     ]
 
     status = (
-        "latest-bellman-semantic-pivot-one-lane-validated"
+        "latest-bellman-semantic-pivot-targets-graph183-tail-quotient-margin"
         if not missing and not forbidden_hits
         else "latest-bellman-semantic-pivot-gap"
     )
@@ -139,21 +170,31 @@ def main() -> int:
             "Bellman/potential remains the margin certificate route",
             "rank objects are semantic closed-language subtypes",
             "target-shadow cursor and transducer tail are the membership front door",
-            "graph183 tmpm_zm is one validated semantic terminal-machine lane",
+            "graph183 completion-tail membership is already semantic",
+            "graph183 accepted branch has a Lean-checked quotient raw-gain run",
+            "the next graph183 target is branch-local quotient margin",
         ],
         "rejected": [
             "selected-prefix membership as production coverage",
             "sampled-rank/path object membership",
+            "accepted trace ids as production membership",
             "one branch per rank/path",
             "exact affine RHS or solved start-point keys as membership state",
             "claiming graph183 alone proves all layer-4 coverage",
+            "whole-label exact-eval as the primary graph183 proof obligation",
         ],
         "next_gate": (
-            "Instantiate the graph183 four-piece terminal-machine pattern for "
-            "one additional layer-4 lane, or make the generator emit the same "
-            "semantic progress/completion/suffix/eval surface for all seven "
-            "lanes. If that demands exact affine data, stop and run the "
-            "cocycle/cancellation-summary quotient experiment first."
+            "Prove AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily "
+            "scaledMargin from TopPairingStrengthenedClosedLanguageAtRank, the "
+            "graph183 yp branch prefix, and Lean-checked quotient/gauge "
+            "integer facts. Pair it with the branch-local start-violation "
+            "surface. If that proof demands sampled ranks, selected prefixes, "
+            "accepted trace ids, exact affine RHS, solved start-point keys, or "
+            "one branch per rank/path, stop graph183 scaling and switch to the "
+            "cancellation-segment or stronger cocycle quotient state."
+        ),
+        "next_lean_target": (
+            "AcceptedSequenceGraph183AcceptedTailQuotientMarginFamily scaledMargin"
         ),
     }
 
@@ -197,7 +238,9 @@ def main() -> int:
     OUT_MD.write_text("\n".join(lines))
 
     print(json.dumps(report, indent=2, sort_keys=True))
-    return 0 if status == "latest-bellman-semantic-pivot-one-lane-validated" else 1
+    return 0 if status == (
+        "latest-bellman-semantic-pivot-targets-graph183-tail-quotient-margin"
+    ) else 1
 
 
 if __name__ == "__main__":

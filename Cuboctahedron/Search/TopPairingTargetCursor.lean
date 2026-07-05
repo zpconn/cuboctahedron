@@ -8,9 +8,10 @@ or sampled paths.  This module starts the smaller semantic route: a closed
 top-pairing word should drive a deterministic cursor through the fixed
 triangular target shadow, while square faces update only square parity.
 
-The hard theorem from `TopPairingClosedLanguageAtRank` to this cursor is still
-future work; the definitions here provide the compact theorem surface for that
-proof and for generated deterministic transducer leaves.
+The closed-language-to-cursor theorem is now proved in this module:
+`topPairingTriCursor_of_closed` turns the closed top-pairing language into the
+deterministic target-shadow cursor used by generated transducer leaves.  This is
+the semantic replacement for selected-prefix or sampled-path membership.
 -/
 
 namespace Cuboctahedron
